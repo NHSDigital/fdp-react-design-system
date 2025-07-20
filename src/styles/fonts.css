@@ -1,0 +1,47 @@
+/**
+ * NHS Frutiger Font Loading
+ * 
+ * NHS uses the Frutiger font. To use the font you must have a licence.
+ * NHS England has a licence for the Frutiger webfont which all NHS organisations in England can use.
+ * NHS organisations can register here: https://service-manual.nhs.uk/design-system/styles/use-frutiger-font/
+ * 
+ * For development purposes, we provide fallback fonts that closely match Frutiger.
+ * Production deployments should use the official NHS Frutiger fonts.
+ */
+
+/* Frutiger W01 Normal Weight (400) */
+@font-face {
+  font-display: swap;
+  font-family: "Frutiger W01";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.eot?#iefix") format("eot"),
+       url("https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.woff2") format("woff2"),
+       url("https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.woff") format("woff"),
+       url("https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.ttf") format("truetype");
+  /* Fallback for older browsers */
+  src: url("https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.eot");
+}
+
+/* Frutiger W01 Bold Weight (600) */
+@font-face {
+  font-display: swap;
+  font-family: "Frutiger W01";
+  font-style: normal;
+  font-weight: 600;
+  src: url("https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.eot?#iefix") format("eot"),
+       url("https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.woff2") format("woff2"),
+       url("https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.woff") format("woff"),
+       url("https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.ttf") format("truetype");
+  /* Fallback for older browsers */
+  src: url("https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.eot");
+}
+
+/* Print styles */
+@media print {
+  html,
+  body,
+  .nhs-typography {
+    font-family: sans-serif !important;
+  }
+}

@@ -7,7 +7,7 @@
         "$description": "Primary NHS font family"
       },
       "fallback": {
-        "$value": "arial, sans-serif",
+        "$value": "Arial, Helvetica, sans-serif",
         "$description": "Fallback fonts if Frutiger fails to load"
       },
       "print": {

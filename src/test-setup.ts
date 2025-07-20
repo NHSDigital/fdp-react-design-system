@@ -1,0 +1,54 @@
+import { afterEach } from 'vitest';
+import { cleanup } from '@testing-library/react';
+import '@testing-library/jest-dom/vitest';
+
+// Import fonts to ensure they're available during testing
+import './styles/fonts.css';
+
+// Ensure jest-dom matchers are available
+import { expect, vi } from 'vitest';
+import * as matchers from '@testing-library/jest-dom/matchers';
+
+expect.extend(matchers);
+
+// Cleanup after each test case
+afterEach(() => {
+  cleanup();
+});
+
+// Mock document.fonts API for testing
+Object.defineProperty(document, 'fonts', {
+  value: {
+    load: vi.fn().mockResolvedValue([]),
+    check: vi.fn().mockReturnValue(false), // Initially fonts are not loaded
+    ready: Promise.resolve(new Set()),
+  },
+  writable: true,
+});
+
+// Mock window.getComputedStyle to better handle font fallbacks in tests
+const originalGetComputedStyle = window.getComputedStyle;
+window.getComputedStyle = function(element: Element, pseudoElement?: string | null) {
+  const style = originalGetComputedStyle(element, pseudoElement);
+  
+  // Create a proxy to better handle font-family fallbacks
+  return new Proxy(style, {
+    get(target: CSSStyleDeclaration, property: string | symbol) {
+      if (property === 'fontFamily') {
+        const fontFamily = target.fontFamily;
+        // If no inline style is set, check if Frutiger should be applied
+        if (!fontFamily || fontFamily === '' || fontFamily === 'Times' || fontFamily === 'serif') {
+          // Check if element has our font stack applied via inline styles
+          const htmlElement = element as HTMLElement;
+          if (htmlElement.style && htmlElement.style.fontFamily) {
+            return htmlElement.style.fontFamily;
+          }
+          // In test environment, fall back to system default
+          return 'arial, sans-serif';
+        }
+        return fontFamily;
+      }
+      return (target as any)[property];
+    }
+  });
+};

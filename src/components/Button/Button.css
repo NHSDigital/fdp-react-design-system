@@ -1,0 +1,110 @@
+/* NHS Button CSS - Generated from design tokens */
+
+.nhs-button {
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  border: 2px solid transparent;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.nhs-button:focus {
+  outline: 4px solid #ffeb3b;
+  outline-offset: 0px;
+  box-shadow: 0 0 0 3px #ffeb3b;
+}
+
+/* Primary button styles */
+.nhs-button--primary:hover:not(:disabled) {
+  background-color: #006530;
+}
+
+.nhs-button--primary:active:not(:disabled) {
+  background-color: #004021;
+  box-shadow: none;
+  top: 4px;
+}
+
+/* Secondary button styles */
+.nhs-button--secondary:hover:not(:disabled) {
+  background-color: #d9e5f2;
+}
+
+.nhs-button--secondary:active:not(:disabled) {
+  background-color: #c7daf0;
+  box-shadow: none;
+  top: 4px;
+}
+
+/* Reverse button styles */
+.nhs-button--reverse:hover:not(:disabled) {
+  background-color: #d9dde0;
+}
+
+.nhs-button--reverse:active:not(:disabled) {
+  background-color: #b3bcc2;
+  box-shadow: none;
+  top: 4px;
+}
+
+/* Warning button styles */
+.nhs-button--warning:hover:not(:disabled) {
+  background-color: #aa2016;
+}
+
+.nhs-button--warning:active:not(:disabled) {
+  background-color: #6a140e;
+  box-shadow: none;
+  top: 4px;
+}
+
+/* Login button styles */
+.nhs-button--login:hover:not(:disabled) {
+  background-color: #004b93;
+}
+
+.nhs-button--login:active:not(:disabled) {
+  background-color: #002f5c;
+  box-shadow: none;
+  top: 4px;
+}
+
+/* Disabled state */
+.nhs-button:disabled,
+.nhs-button--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Full width */
+.nhs-button--full-width {
+  width: 100%;
+}
+
+/* Size modifiers */
+.nhs-button--small {
+  font-size: 14px;
+  padding: 4px 16px;
+}
+
+.nhs-button--large {
+  font-size: 19px;
+  padding: 24px 32px;
+}
+
+@media (min-width: 768px) {
+  .nhs-button--small {
+    font-size: 16px;
+  }
+  
+  .nhs-button--large {
+    font-size: 22px;
+  }
+}

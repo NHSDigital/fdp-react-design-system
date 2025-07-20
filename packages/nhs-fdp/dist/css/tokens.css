@@ -266,7 +266,7 @@
   --spacing-responsive-9-mobile: 56px;
   --spacing-responsive-9-tablet: 64px;
   --font-family-base: 'Frutiger W01'; /** Primary NHS font family */
-  --font-family-fallback: arial, sans-serif; /** Fallback fonts if Frutiger fails to load */
+  --font-family-fallback: Arial, Helvetica, sans-serif; /** Fallback fonts if Frutiger fails to load */
   --font-family-print: sans-serif; /** Font family for print styles */
   --font-weight-normal: 400; /** Normal font weight */
   --font-weight-bold: 600; /** Bold font weight */

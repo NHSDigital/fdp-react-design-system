@@ -166,7 +166,7 @@ internal struct StyleDictionaryStruct {
     internal static let focusShadowButton = 0 0 0 3px UIColor(red: 1.000, green: 0.922, blue: 0.231, alpha: 1) /** Focus shadow for buttons */
     internal static let focusShadowInput = 0 0 0 3px UIColor(red: 1.000, green: 0.922, blue: 0.231, alpha: 1) /** Focus shadow for input elements */
     internal static let fontFamilyBase = Frutiger W01 /** Primary NHS font family */
-    internal static let fontFamilyFallback = arial, sans-serif /** Fallback fonts if Frutiger fails to load */
+    internal static let fontFamilyFallback = Arial, Helvetica, sans-serif /** Fallback fonts if Frutiger fails to load */
     internal static let fontFamilyPrint = sans-serif /** Font family for print styles */
     internal static let fontLineHeightBase = 24px /** Base line height */
     internal static let fontSize14Mobile = CGFloat(192.00)

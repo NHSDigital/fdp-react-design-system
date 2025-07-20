@@ -3,7 +3,7 @@
  */
 
 export const FontFamilyBase = "Frutiger W01"; // Primary NHS font family
-export const FontFamilyFallback = "arial, sans-serif"; // Fallback fonts if Frutiger fails to load
+export const FontFamilyFallback = "Arial, Helvetica, sans-serif"; // Fallback fonts if Frutiger fails to load
 export const FontFamilyPrint = "sans-serif"; // Font family for print styles
 export const FontWeightNormal = "400"; // Normal font weight
 export const FontWeightBold = "600"; // Bold font weight

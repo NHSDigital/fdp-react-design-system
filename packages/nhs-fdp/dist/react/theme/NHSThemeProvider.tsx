@@ -678,7 +678,7 @@ export const nhsTheme: NHSTheme = {
   },
   font: {
     FontFamilyBase: 'Frutiger W01',
-    FontFamilyFallback: 'arial, sans-serif',
+    FontFamilyFallback: 'Arial, Helvetica, sans-serif',
     FontFamilyPrint: 'sans-serif',
     FontWeightNormal: '400',
     FontWeightBold: '600',

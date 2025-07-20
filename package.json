@@ -1,0 +1,29 @@
+{
+	"name": "nhs-fdp-design-system",
+	"version": "0.0.1",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"storybook": "storybook dev -p 6006",
+		"build-storybook": "storybook build",
+		"test:ui": "vitest run --threads"
+	},
+	"keywords": [],
+	"author": "Fergus Bisset",
+	"license": "ISC",
+	"type": "commonjs",
+	"devDependencies": {
+		"@storybook/addon-vitest": "^9.0.17",
+		"@storybook/nextjs": "^9.0.17",
+		"chromatic": "^13.1.2",
+		"eslint": "^9.31.0",
+		"prettier": "^3.6.2",
+		"typescript": "^5.8.3",
+		"vite": "^7.0.5",
+		"vitest": "^3.2.4"
+	},
+	"dependencies": {
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0"
+	}
+}

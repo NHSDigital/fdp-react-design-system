@@ -1,0 +1,128 @@
+{
+  "spacing": {
+    "$type": "spacing",
+    "0": {
+      "$value": "0",
+      "$description": "No spacing"
+    },
+    "1": {
+      "$value": "4px",
+      "$description": "Extra small spacing"
+    },
+    "2": {
+      "$value": "8px",
+      "$description": "Small spacing"
+    },
+    "3": {
+      "$value": "16px",
+      "$description": "Medium spacing"
+    },
+    "4": {
+      "$value": "24px",
+      "$description": "Large spacing"
+    },
+    "5": {
+      "$value": "32px",
+      "$description": "Large spacing"
+    },
+    "6": {
+      "$value": "40px",
+      "$description": "2XL spacing"
+    },
+    "7": {
+      "$value": "48px",
+      "$description": "3XL spacing"
+    },
+    "8": {
+      "$value": "56px",
+      "$description": "4XL spacing"
+    },
+    "9": {
+      "$value": "64px",
+      "$description": "5XL spacing"
+    }
+  },
+  "spacing-responsive": {
+    "$type": "spacing",
+    "0": {
+      "mobile": {
+        "$value": "0"
+      },
+      "tablet": {
+        "$value": "0"
+      }
+    },
+    "1": {
+      "mobile": {
+        "$value": "4px"
+      },
+      "tablet": {
+        "$value": "4px"
+      }
+    },
+    "2": {
+      "mobile": {
+        "$value": "8px"
+      },
+      "tablet": {
+        "$value": "8px"
+      }
+    },
+    "3": {
+      "mobile": {
+        "$value": "8px"
+      },
+      "tablet": {
+        "$value": "16px"
+      }
+    },
+    "4": {
+      "mobile": {
+        "$value": "16px"
+      },
+      "tablet": {
+        "$value": "24px"
+      }
+    },
+    "5": {
+      "mobile": {
+        "$value": "24px"
+      },
+      "tablet": {
+        "$value": "32px"
+      }
+    },
+    "6": {
+      "mobile": {
+        "$value": "32px"
+      },
+      "tablet": {
+        "$value": "40px"
+      }
+    },
+    "7": {
+      "mobile": {
+        "$value": "40px"
+      },
+      "tablet": {
+        "$value": "48px"
+      }
+    },
+    "8": {
+      "mobile": {
+        "$value": "48px"
+      },
+      "tablet": {
+        "$value": "56px"
+      }
+    },
+    "9": {
+      "mobile": {
+        "$value": "56px"
+      },
+      "tablet": {
+        "$value": "64px"
+      }
+    }
+  }
+}

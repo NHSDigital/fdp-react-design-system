@@ -1,0 +1,307 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --animation-duration-fast: 150ms; /** Fast animation duration for micro-interactions */
+  --animation-duration-normal: 300ms; /** Normal animation duration for most transitions */
+  --animation-duration-slow: 500ms; /** Slow animation duration for complex transitions */
+  --animation-easing-ease-in: cubic-bezier(0.4, 0, 1, 1); /** Ease in timing function */
+  --animation-easing-ease-out: cubic-bezier(0, 0, 0.2, 1); /** Ease out timing function */
+  --animation-easing-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1); /** Ease in-out timing function */
+  --animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55); /** Bounce timing function */
+  --transition-button-default: background-color 300ms cubic-bezier(0, 0, 0.2, 1); /** Default button transition */
+  --transition-button-shadow: box-shadow 150ms cubic-bezier(0, 0, 0.2, 1); /** Button shadow transition */
+  --transition-input-focus: border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1); /** Input focus transition */
+  --transition-card-hover: border-color 300ms cubic-bezier(0, 0, 0.2, 1); /** Card hover transition */
+  --border-width-default: 1px; /** Default border width for general use */
+  --border-width-form-element: 2px; /** Border width for form elements like inputs and buttons */
+  --border-width-form-element-error: 4px; /** Border width for form elements in error state */
+  --border-width-card-bottom: 4px; /** Bottom border width for clickable cards */
+  --border-width-panel: 4px; /** Border width for panel components */
+  --border-width-table-header: 2px; /** Table header border width */
+  --border-width-table-cell: 1px; /** Table cell border width */
+  --border-radius-none: 0px; /** No border radius */
+  --border-radius-small: 4px; /** Small border radius for buttons and form elements */
+  --border-radius-medium: 8px; /** Medium border radius */
+  --border-radius-large: 12px; /** Large border radius */
+  --border-color-default: #d8dde0; /** Default border color */
+  --border-color-form: #4c6272; /** Border color for form elements */
+  --border-color-card: #d8dde0; /** Border color for cards */
+  --border-color-card-hover: #aeb7bd; /** Border color for cards on hover */
+  --border-color-error: #d5281b; /** Border color for error states */
+  --color-primary-blue: #005eb8; /** NHS Blue - Primary brand color */
+  --color-primary-white: #ffffff; /** NHS White */
+  --color-primary-black: #212b32; /** NHS Black */
+  --color-primary-green: #007f3b; /** NHS Green */
+  --color-primary-purple: #330072; /** NHS Purple */
+  --color-primary-dark-pink: #7c2855; /** NHS Dark Pink */
+  --color-primary-red: #d5281b; /** NHS Red */
+  --color-primary-yellow: #ffeb3b; /** NHS Yellow */
+  --color-secondary-pale-yellow: #fff9c4; /** NHS Pale Yellow */
+  --color-secondary-warm-yellow: #ffb81c; /** NHS Warm Yellow */
+  --color-secondary-orange: #ed8b00; /** NHS Orange */
+  --color-secondary-aqua-green: #00a499; /** NHS Aqua Green */
+  --color-secondary-pink: #ae2573; /** NHS Pink */
+  --color-grey-1: #4c6272; /** NHS Grey 1 - Darkest grey */
+  --color-grey-2: #768692; /** NHS Grey 2 - Darker grey */
+  --color-grey-3: #aeb7bd; /** NHS Grey 3 - Medium grey */
+  --color-grey-4: #d8dde0; /** NHS Grey 4 - Light grey */
+  --color-grey-5: #f0f4f5; /** NHS Grey 5 - Lightest grey */
+  --color-text-primary: #212b32; /** Primary text color */
+  --color-text-secondary: #4c6272; /** Secondary text color */
+  --color-text-reverse: #ffffff; /** Reverse/inverted text color */
+  --color-text-print: #212b32; /** Print text color */
+  --color-link-default: #005eb8; /** Default link color */
+  --color-link-hover: #7c2855; /** Link hover color */
+  --color-link-active: #003087; /** Link active color (50% shade of blue) */
+  --color-link-visited: #330072; /** Visited link color */
+  --color-focus-background: #ffeb3b; /** Focus background color */
+  --color-focus-text: #212b32; /** Focus text color */
+  --color-border-default: #d8dde0; /** Default border color */
+  --color-border-secondary: rgba(255, 255, 255, 0.2); /** Secondary border color */
+  --color-error: #d5281b; /** Error color */
+  --color-form-border: #4c6272; /** Form border color */
+  --color-form-background: #ffffff; /** Form background color */
+  --color-button-primary-background: #007f3b;
+  --color-button-primary-text: #ffffff;
+  --color-button-primary-hover: #006530; /** 20% shade of green */
+  --color-button-primary-active: #004021; /** 50% shade of green */
+  --color-button-primary-shadow: #004021; /** 50% shade of green */
+  --color-button-secondary-background: rgba(0, 0, 0, 0);
+  --color-button-secondary-background-solid: #ffffff;
+  --color-button-secondary-border: #005eb8;
+  --color-button-secondary-text: #005eb8;
+  --color-button-secondary-hover: #d9e5f2; /** 85% tint of blue */
+  --color-button-secondary-active: #c7daf0; /** 78% tint of blue */
+  --color-button-secondary-shadow: #005eb8;
+  --color-button-reverse-background: #ffffff;
+  --color-button-reverse-text: #212b32;
+  --color-button-reverse-hover: #d9dde0; /** 15% shade of white */
+  --color-button-reverse-active: #b3bcc2; /** 30% shade of white */
+  --color-button-reverse-shadow: #b3bcc2;
+  --color-button-warning-background: #d5281b;
+  --color-button-warning-hover: #aa2016; /** 20% shade of red */
+  --color-button-warning-active: #6a140e; /** 50% shade of red */
+  --color-button-warning-shadow: #6a140e;
+  --color-button-login-background: #005eb8;
+  --color-button-login-hover: #004b93; /** 20% shade of blue */
+  --color-button-login-active: #002f5c; /** 50% shade of blue */
+  --color-button-login-shadow: #002f5c;
+  --component-button-padding-mobile-vertical: 8px; /** Button vertical padding on mobile */
+  --component-button-padding-mobile-horizontal: 16px; /** Button horizontal padding on mobile */
+  --component-button-padding-desktop-vertical: 12px; /** Button vertical padding on desktop */
+  --component-button-padding-desktop-horizontal: 16px; /** Button horizontal padding on desktop */
+  --component-button-shadow-size: 4px; /** Button shadow size */
+  --component-form-input-min-height: 40px; /** Minimum height for input fields */
+  --component-form-input-padding: 4px; /** Internal padding for input fields */
+  --component-form-checkbox-size: 40px; /** Size of checkbox and radio button controls */
+  --component-form-checkbox-label-padding: 12px; /** Left and right padding for checkbox labels */
+  --component-card-padding-mobile: 16px; /** Card content padding on mobile */
+  --component-card-padding-desktop: 32px; /** Card content padding on desktop */
+  --component-card-heading-margin: 16px; /** Margin below card headings */
+  --component-panel-padding-mobile: 20px; /** Panel padding on mobile (24px - 4px border) */
+  --component-panel-padding-desktop: 28px; /** Panel padding on desktop (32px - 4px border) */
+  --component-breadcrumb-chevron-margin-left: 9px; /** Left margin for breadcrumb chevron */
+  --component-breadcrumb-chevron-margin-right: 2px; /** Right margin for breadcrumb chevron */
+  --component-breadcrumb-padding-top-mobile: 16px; /** Top padding for breadcrumb on mobile */
+  --component-breadcrumb-padding-top-desktop: 24px; /** Top padding for breadcrumb on desktop */
+  --component-summary-list-cell-padding-vertical: 8px; /** Top and bottom padding for summary list cells */
+  --component-summary-list-cell-padding-horizontal: 24px; /** Right padding for summary list cells */
+  --component-summary-list-row-margin: 16px; /** Bottom margin for summary list rows on mobile */
+  --component-spread: 4px; /** Default shadow spread */
+  --component-blur: 4px; /** Default shadow blur */
+  --component-link: 4px; /** Link shadow spread */
+  --component-details: 8px; /** Details component shadow */
+  --component-expander: 4px; /** Expander shadow */
+  --component-pagination: 16px; /** Pagination shadow */
+  --button-primary-background-default: #007f3b; /** Primary button background color */
+  --button-primary-background-hover: #006530; /** Primary button hover background color */
+  --button-primary-background-active: #004021; /** Primary button active background color */
+  --button-primary-background-disabled: #d8dde0; /** Primary button disabled background color */
+  --button-primary-text-default: #ffffff; /** Primary button text color */
+  --button-primary-text-disabled: #768692; /** Primary button disabled text color */
+  --button-primary-border-default: rgba(0, 0, 0, 0); /** Primary button border color */
+  --button-primary-border-focus: #ffeb3b; /** Primary button focus border color */
+  --button-secondary-background-default: rgba(0, 0, 0, 0); /** Secondary button background color */
+  --button-secondary-background-solid: #ffffff; /** Secondary button solid background color */
+  --button-secondary-background-hover: #d9e5f2; /** Secondary button hover background color */
+  --button-secondary-background-active: #c7daf0; /** Secondary button active background color */
+  --button-secondary-text-default: #005eb8; /** Secondary button text color */
+  --button-secondary-border-default: #005eb8; /** Secondary button border color */
+  --button-spacing-padding-vertical-mobile: 8px; /** Button vertical padding on mobile */
+  --button-spacing-padding-horizontal-mobile: 16px; /** Button horizontal padding on mobile */
+  --button-spacing-padding-vertical-desktop: 12px; /** Button vertical padding on desktop */
+  --button-spacing-padding-horizontal-desktop: 16px; /** Button horizontal padding on desktop */
+  --button-border-width: 2px; /** Button border width */
+  --button-border-radius: 4px; /** Button border radius */
+  --button-shadow-size: 4px; /** Button shadow size */
+  --button-typography-weight: 600; /** Button font weight */
+  --card-background-default: #ffffff; /** Default card background color */
+  --card-border-default: #d8dde0; /** Default card border color */
+  --card-border-hover: #aeb7bd; /** Card border color on hover */
+  --card-border-bottom: #f0f4f5; /** Card image bottom border color */
+  --card-text-heading: #212b32; /** Card heading text color */
+  --card-text-description: #212b32; /** Card description text color */
+  --card-text-link: #005eb8; /** Card link text color */
+  --card-spacing-padding-mobile: 16px; /** Card content padding on mobile */
+  --card-spacing-padding-desktop: 32px; /** Card content padding on desktop */
+  --card-spacing-heading-margin: 16px; /** Margin below card headings */
+  --card-border-width-default: 1px; /** Default card border width */
+  --card-border-width-bottom: 4px; /** Card bottom border width for clickable cards */
+  --card-shadow-default: none; /** Default card shadow */
+  --card-shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.1); /** Card shadow on hover */
+  --form-input-background-default: #ffffff; /** Default input background color */
+  --form-input-background-focus: #ffffff; /** Input background color when focused */
+  --form-input-background-disabled: #d8dde0; /** Input background color when disabled */
+  --form-input-background-error: #ffffff; /** Input background color in error state */
+  --form-input-border-default: #4c6272; /** Default input border color */
+  --form-input-border-focus: #ffeb3b; /** Input border color when focused */
+  --form-input-border-error: #d5281b; /** Input border color in error state */
+  --form-input-border-disabled: #aeb7bd; /** Input border color when disabled */
+  --form-input-text-default: #212b32; /** Default input text color */
+  --form-input-text-placeholder: #4c6272; /** Input placeholder text color */
+  --form-input-text-disabled: #768692; /** Input text color when disabled */
+  --form-label-text-default: #212b32; /** Form label text color */
+  --form-label-text-required: #ffffff; /** Required form label indicator color */
+  --form-label-typography-weight: 600; /** Form label font weight */
+  --form-error-text-default: #d5281b; /** Form error message text color */
+  --form-error-typography-weight: 600; /** Form error message font weight */
+  --form-hint-text-default: #4c6272; /** Form hint text color */
+  --form-spacing-input-padding: 4px; /** Internal padding for input fields */
+  --form-spacing-input-min-height: 40px; /** Minimum height for input fields */
+  --form-spacing-checkbox-size: 40px; /** Size of checkbox controls */
+  --form-spacing-checkbox-label-padding: 12px; /** Padding for checkbox labels */
+  --form-border-width-default: 2px; /** Default form element border width */
+  --form-border-width-error: 4px; /** Form element border width in error state */
+  --form-border-radius: 0px; /** Form element border radius */
+  --size-icon-small: 16px; /** Small icon size */
+  --size-icon-medium: 18px; /** Medium icon size (breadcrumb chevrons) */
+  --size-icon-large: 24px; /** Large icon size (back links) */
+  --size-icon-extra-large: 32px; /** Extra large icon size */
+  --size-icon-nhs-default: 34px; /** Default NHS icon size */
+  --size-form-control-small: 32px; /** Small form control size */
+  --size-form-control-medium: 40px; /** Medium form control size (default) */
+  --size-form-control-large: 48px; /** Large form control size */
+  --size-form-input-width-xs: 5.4ex; /** Extra small input width (2 characters) */
+  --size-form-input-width-sm: 7.2ex; /** Small input width (3 characters) */
+  --size-form-input-width-md: 9ex; /** Medium input width (4 characters) */
+  --size-form-input-width-lg: 10.8ex; /** Large input width (5 characters) */
+  --size-form-input-width-xl: 20ex; /** Extra large input width (10 characters) */
+  --size-form-input-width-2xl: 38ex; /** 2XL input width (20 characters) */
+  --size-form-input-width-3xl: 56ex; /** 3XL input width (30 characters) */
+  --size-button-min-height-mobile: 44px; /** Minimum button height on mobile for touch targets */
+  --size-button-min-height-desktop: 40px; /** Minimum button height on desktop */
+  --layout-container-max-width: 1020px; /** Maximum container width */
+  --layout-column-full: 100%; /** Full width column */
+  --layout-column-half: 50%; /** Half width column */
+  --layout-column-third: 33.333%; /** One third width column */
+  --layout-column-quarter: 25%; /** Quarter width column */
+  --layout-column-actions: 20%; /** Actions column width in summary lists */
+  --breakpoint-mobile: 320px; /** Mobile breakpoint */
+  --breakpoint-tablet: 641px; /** Tablet breakpoint */
+  --breakpoint-desktop: 1025px; /** Desktop breakpoint */
+  --breakpoint-large-desktop: 1280px; /** Large desktop breakpoint */
+  --grid-page-width: 960px; /** Maximum page width */
+  --grid-gutter: 32px; /** Grid gutter width */
+  --grid-gutter-half: 16px; /** Half grid gutter width */
+  --state-error-background: #d5281b; /** Error state background color */
+  --state-error-border: #d5281b; /** Error state border color */
+  --state-error-text: #ffffff; /** Error state text color */
+  --state-success-background: #007f3b; /** Success state background color */
+  --state-success-border: #007f3b; /** Success state border color */
+  --state-success-text: #ffffff; /** Success state text color */
+  --state-warning-background: #ffeb3b; /** Warning state background color */
+  --state-warning-border: #ffeb3b; /** Warning state border color */
+  --state-warning-text: #212b32; /** Warning state text color */
+  --state-info-background: #005eb8; /** Info state background color */
+  --state-info-border: #005eb8; /** Info state border color */
+  --state-info-text: #ffffff; /** Info state text color */
+  --state-disabled-background: #d8dde0; /** Disabled state background color */
+  --state-disabled-border: #aeb7bd; /** Disabled state border color */
+  --state-disabled-text: #768692; /** Disabled state text color */
+  --shadow-button-default: 0 4px 0 #004021; /** Default button shadow */
+  --shadow-button-secondary: 0 4px 0 #005eb8; /** Secondary button shadow */
+  --shadow-button-warning: 0 4px 0 #6a140e; /** Warning button shadow */
+  --shadow-button-focus: 0 4px 0 #ffeb3b; /** Button shadow when focused */
+  --shadow-card-default: none; /** Default card shadow (none for NHS style) */
+  --shadow-card-hover: 0 2px 4px rgba(0, 0, 0, 0.1); /** Card shadow on hover (if needed) */
+  --focus-outline-width: 4px; /** Focus outline width */
+  --focus-outline-offset: 0px; /** Focus outline offset */
+  --focus-outline-style: solid; /** Focus outline style */
+  --focus-shadow-input: 0 0 0 3px #ffeb3b; /** Focus shadow for input elements */
+  --focus-shadow-button: 0 0 0 3px #ffeb3b; /** Focus shadow for buttons */
+  --elevation-none: none; /** No elevation */
+  --elevation-low: 0 1px 3px rgba(0, 0, 0, 0.12); /** Low elevation shadow */
+  --elevation-medium: 0 2px 6px rgba(0, 0, 0, 0.16); /** Medium elevation shadow */
+  --elevation-high: 0 4px 12px rgba(0, 0, 0, 0.20); /** High elevation shadow */
+  --spacing-0: 0; /** No spacing */
+  --spacing-1: 4px; /** Extra small spacing */
+  --spacing-2: 8px; /** Small spacing */
+  --spacing-3: 16px; /** Medium spacing */
+  --spacing-4: 24px; /** Large spacing */
+  --spacing-5: 32px; /** Large spacing */
+  --spacing-6: 40px; /** 2XL spacing */
+  --spacing-7: 48px; /** 3XL spacing */
+  --spacing-8: 56px; /** 4XL spacing */
+  --spacing-9: 64px; /** 5XL spacing */
+  --spacing-responsive-0-mobile: 0;
+  --spacing-responsive-0-tablet: 0;
+  --spacing-responsive-1-mobile: 4px;
+  --spacing-responsive-1-tablet: 4px;
+  --spacing-responsive-2-mobile: 8px;
+  --spacing-responsive-2-tablet: 8px;
+  --spacing-responsive-3-mobile: 8px;
+  --spacing-responsive-3-tablet: 16px;
+  --spacing-responsive-4-mobile: 16px;
+  --spacing-responsive-4-tablet: 24px;
+  --spacing-responsive-5-mobile: 24px;
+  --spacing-responsive-5-tablet: 32px;
+  --spacing-responsive-6-mobile: 32px;
+  --spacing-responsive-6-tablet: 40px;
+  --spacing-responsive-7-mobile: 40px;
+  --spacing-responsive-7-tablet: 48px;
+  --spacing-responsive-8-mobile: 48px;
+  --spacing-responsive-8-tablet: 56px;
+  --spacing-responsive-9-mobile: 56px;
+  --spacing-responsive-9-tablet: 64px;
+  --font-family-base: 'Frutiger W01'; /** Primary NHS font family */
+  --font-family-fallback: arial, sans-serif; /** Fallback fonts if Frutiger fails to load */
+  --font-family-print: sans-serif; /** Font family for print styles */
+  --font-weight-normal: 400; /** Normal font weight */
+  --font-weight-bold: 600; /** Bold font weight */
+  --font-weight-light: 400; /** Light font weight (same as normal) */
+  --font-size-14-mobile: 12px;
+  --font-size-14-tablet: 14px;
+  --font-size-14-print: 12pt;
+  --font-size-16-mobile: 14px;
+  --font-size-16-tablet: 16px;
+  --font-size-16-print: 12pt;
+  --font-size-19-mobile: 16px;
+  --font-size-19-tablet: 19px;
+  --font-size-19-print: 13pt;
+  --font-size-22-mobile: 19px;
+  --font-size-22-tablet: 22px;
+  --font-size-22-print: 15pt;
+  --font-size-26-mobile: 22px;
+  --font-size-26-tablet: 26px;
+  --font-size-26-print: 17pt;
+  --font-size-36-mobile: 27px;
+  --font-size-36-tablet: 36px;
+  --font-size-36-print: 20pt;
+  --font-size-48-mobile: 33px;
+  --font-size-48-tablet: 48px;
+  --font-size-48-print: 24pt;
+  --font-size-base: 16px; /** Base font size */
+  --font-line-height-base: 24px; /** Base line height */
+  --headings-nhsuk-heading-xl: [object Object]; /** Extra large heading style (h1 equivalent) */
+  --headings-nhsuk-heading-l: [object Object]; /** Large heading style (h2 equivalent) */
+  --headings-nhsuk-heading-m: [object Object]; /** Medium heading style (h3 equivalent) */
+  --headings-nhsuk-heading-s: [object Object]; /** Small heading style (h4 equivalent) */
+  --headings-nhsuk-heading-xs: [object Object]; /** Extra small heading style (h5 equivalent) */
+  --paragraphs-body: [object Object]; /** Default paragraph text style (nhsuk-body-m) */
+  --paragraphs-body-large: [object Object]; /** Large body text style (nhsuk-body-l) */
+  --paragraphs-body-small: [object Object]; /** Small body text style (nhsuk-body-s) */
+  --paragraphs-lede-text: [object Object]; /** Lead paragraph style (nhsuk-lede-text) */
+  --paragraphs-lede-text-small: [object Object]; /** Small lead paragraph style (nhsuk-lede-text--small) */
+}

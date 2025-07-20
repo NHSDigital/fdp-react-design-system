@@ -1,0 +1,85 @@
+{
+  "color": {
+	"primary": {
+	  "$type": "color",
+	  "blue": {
+		"$value": "#005eb8",
+		"$description": "NHS Blue - Primary brand color"
+	  },
+	  "white": {
+		"$value": "#ffffff",
+		"$description": "NHS White"
+	  },
+	  "black": {
+		"$value": "#212b32",
+		"$description": "NHS Black"
+	  },
+	  "green": {
+		"$value": "#007f3b",
+		"$description": "NHS Green"
+	  },
+	  "purple": {
+		"$value": "#330072",
+		"$description": "NHS Purple"
+	  },
+	  "dark-pink": {
+		"$value": "#7c2855",
+		"$description": "NHS Dark Pink"
+	  },
+	  "red": {
+		"$value": "#d5281b",
+		"$description": "NHS Red"
+	  },
+	  "yellow": {
+		"$value": "#ffeb3b",
+		"$description": "NHS Yellow"
+	  }
+	},
+	"secondary": {
+	  "$type": "color",
+	  "pale-yellow": {
+		"$value": "#fff9c4",
+		"$description": "NHS Pale Yellow"
+	  },
+	  "warm-yellow": {
+		"$value": "#ffb81c",
+		"$description": "NHS Warm Yellow"
+	  },
+	  "orange": {
+		"$value": "#ed8b00",
+		"$description": "NHS Orange"
+	  },
+	  "aqua-green": {
+		"$value": "#00a499",
+		"$description": "NHS Aqua Green"
+	  },
+	  "pink": {
+		"$value": "#ae2573",
+		"$description": "NHS Pink"
+	  }
+	},
+	"grey": {
+	  "$type": "color",
+	  "1": {
+		"$value": "#4c6272",
+		"$description": "NHS Grey 1 - Darkest grey"
+	  },
+	  "2": {
+		"$value": "#768692",
+		"$description": "NHS Grey 2 - Darker grey"
+	  },
+	  "3": {
+		"$value": "#aeb7bd",
+		"$description": "NHS Grey 3 - Medium grey"
+	  },
+	  "4": {
+		"$value": "#d8dde0",
+		"$description": "NHS Grey 4 - Light grey"
+	  },
+	  "5": {
+		"$value": "#f0f4f5",
+		"$description": "NHS Grey 5 - Lightest grey"
+	  }
+	}
+  }
+}

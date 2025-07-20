@@ -1,0 +1,56 @@
+{
+  "form": {
+    "input": {
+      "background": {
+        "default": "#ffffff",
+        "focus": "#ffffff",
+        "disabled": "#d8dde0",
+        "error": "#ffffff"
+      },
+      "border": {
+        "default": "#4c6272",
+        "focus": "#ffeb3b",
+        "error": "#d5281b",
+        "disabled": "#aeb7bd"
+      },
+      "text": {
+        "default": "#212b32",
+        "placeholder": "#4c6272",
+        "disabled": "#768692"
+      }
+    },
+    "label": {
+      "text": {
+        "default": "#212b32",
+        "required": "#ffffff"
+      },
+      "typography": {
+        "weight": "600"
+      }
+    },
+    "error": {
+      "text": {
+        "default": "#d5281b"
+      },
+      "typography": {
+        "weight": "600"
+      }
+    },
+    "hint": {
+      "text": {
+        "default": "#4c6272"
+      }
+    },
+    "spacing": {
+      "input-padding": "4px",
+      "input-min-height": "40px",
+      "checkbox-size": "40px",
+      "checkbox-label-padding": "12px"
+    },
+    "border": {
+      "width-default": "2px",
+      "width-error": "4px",
+      "radius": "0px"
+    }
+  }
+}

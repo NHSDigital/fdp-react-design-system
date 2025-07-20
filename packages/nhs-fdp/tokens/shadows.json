@@ -1,0 +1,106 @@
+{
+  "shadow": {
+    "button": {
+      "$type": "boxShadow",
+      "default": {
+        "$value": "0 4px 0 {color.button.primary.shadow}",
+        "$description": "Default button shadow"
+      },
+      "secondary": {
+        "$value": "0 4px 0 {color.button.secondary.shadow}",
+        "$description": "Secondary button shadow"
+      },
+      "warning": {
+        "$value": "0 4px 0 {color.button.warning.shadow}",
+        "$description": "Warning button shadow"
+      },
+      "focus": {
+        "$value": "0 4px 0 {color.focus.background}",
+        "$description": "Button shadow when focused"
+      }
+    },
+    "card": {
+      "$type": "boxShadow",
+      "default": {
+        "$value": "none",
+        "$description": "Default card shadow (none for NHS style)"
+      },
+      "hover": {
+        "$value": "0 2px 4px rgba(0, 0, 0, 0.1)",
+        "$description": "Card shadow on hover (if needed)"
+      }
+    }
+  },
+  "focus-outline": {
+    "$type": "dimension",
+    "width": {
+      "$value": "4px",
+      "$description": "Focus outline width"
+    },
+    "offset": {
+      "$value": "0px", 
+      "$description": "Focus outline offset"
+    },
+    "style": {
+      "$value": "solid",
+      "$description": "Focus outline style"
+    }
+  },
+  "focus-shadow": {
+    "$type": "boxShadow",
+    "input": {
+      "$value": "0 0 0 3px {color.focus.background}",
+      "$description": "Focus shadow for input elements"
+    },
+    "button": {
+      "$value": "0 0 0 3px {color.focus.background}",
+      "$description": "Focus shadow for buttons"
+    }
+  },
+  "elevation": {
+    "$type": "boxShadow",
+    "none": {
+      "$value": "none",
+      "$description": "No elevation"
+    },
+    "low": {
+      "$value": "0 1px 3px rgba(0, 0, 0, 0.12)",
+      "$description": "Low elevation shadow"
+    },
+    "medium": {
+      "$value": "0 2px 6px rgba(0, 0, 0, 0.16)",
+      "$description": "Medium elevation shadow"
+    },
+    "high": {
+      "$value": "0 4px 12px rgba(0, 0, 0, 0.20)",
+      "$description": "High elevation shadow"
+    }
+  },
+  "component": {
+    "$type": "dimension",
+    "spread": {
+      "$value": "4px",
+      "$description": "Default shadow spread"
+    },
+    "blur": {
+      "$value": "4px", 
+      "$description": "Default shadow blur"
+    },
+    "link": {
+      "$value": "4px",
+      "$description": "Link shadow spread"
+    },
+    "details": {
+      "$value": "8px",
+      "$description": "Details component shadow"
+    },
+    "expander": {
+      "$value": "4px", 
+      "$description": "Expander shadow"
+    },
+    "pagination": {
+      "$value": "16px",
+      "$description": "Pagination shadow"
+    }
+  }
+}

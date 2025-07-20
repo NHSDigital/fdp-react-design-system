@@ -1,0 +1,36 @@
+{
+  "breakpoint": {
+    "$type": "breakpoint",
+    "mobile": {
+      "$value": "320px",
+      "$description": "Mobile breakpoint"
+    },
+    "tablet": {
+      "$value": "641px",
+      "$description": "Tablet breakpoint"
+    },
+    "desktop": {
+      "$value": "1025px",
+      "$description": "Desktop breakpoint"
+    },
+    "large-desktop": {
+      "$value": "1280px",
+      "$description": "Large desktop breakpoint"
+    }
+  },
+  "grid": {
+    "$type": "dimension",
+    "page-width": {
+      "$value": "960px",
+      "$description": "Maximum page width"
+    },
+    "gutter": {
+      "$value": "32px",
+      "$description": "Grid gutter width"
+    },
+    "gutter-half": {
+      "$value": "16px",
+      "$description": "Half grid gutter width"
+    }
+  }
+}

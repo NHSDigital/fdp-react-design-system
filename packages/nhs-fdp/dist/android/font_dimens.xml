@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Do not edit directly, this file was auto-generated.
+-->
+<resources>
+  <dimen name="font_size_14_mobile">192.00sp</dimen>
+  <dimen name="font_size_14_tablet">224.00sp</dimen>
+  <dimen name="font_size_14_print">192.00sp</dimen>
+  <dimen name="font_size_16_mobile">224.00sp</dimen>
+  <dimen name="font_size_16_tablet">256.00sp</dimen>
+  <dimen name="font_size_16_print">192.00sp</dimen>
+  <dimen name="font_size_19_mobile">256.00sp</dimen>
+  <dimen name="font_size_19_tablet">304.00sp</dimen>
+  <dimen name="font_size_19_print">208.00sp</dimen>
+  <dimen name="font_size_22_mobile">304.00sp</dimen>
+  <dimen name="font_size_22_tablet">352.00sp</dimen>
+  <dimen name="font_size_22_print">240.00sp</dimen>
+  <dimen name="font_size_26_mobile">352.00sp</dimen>
+  <dimen name="font_size_26_tablet">416.00sp</dimen>
+  <dimen name="font_size_26_print">272.00sp</dimen>
+  <dimen name="font_size_36_mobile">432.00sp</dimen>
+  <dimen name="font_size_36_tablet">576.00sp</dimen>
+  <dimen name="font_size_36_print">320.00sp</dimen>
+  <dimen name="font_size_48_mobile">528.00sp</dimen>
+  <dimen name="font_size_48_tablet">768.00sp</dimen>
+  <dimen name="font_size_48_print">384.00sp</dimen>
+  <dimen name="font_size_base">256.00sp</dimen>
+</resources>

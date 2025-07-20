@@ -1,0 +1,50 @@
+{
+  "button": {
+    "primary": {
+      "background": {
+        "default": "#007f3b",
+        "hover": "#006530",
+        "active": "#004021",
+        "disabled": "#d8dde0"
+      },
+      "text": {
+        "default": "#ffffff",
+        "disabled": "#768692"
+      },
+      "border": {
+        "default": "#00000000",
+        "focus": "#ffeb3b"
+      }
+    },
+    "secondary": {
+      "background": {
+        "default": "#00000000",
+        "solid": "#ffffff",
+        "hover": "#d9e5f2",
+        "active": "#c7daf0"
+      },
+      "text": {
+        "default": "#005eb8"
+      },
+      "border": {
+        "default": "#005eb8"
+      }
+    },
+    "spacing": {
+      "padding-vertical-mobile": "8px",
+      "padding-horizontal-mobile": "16px",
+      "padding-vertical-desktop": "12px",
+      "padding-horizontal-desktop": "16px"
+    },
+    "border": {
+      "width": "2px",
+      "radius": "4px"
+    },
+    "shadow": {
+      "size": "4px"
+    },
+    "typography": {
+      "weight": "600"
+    }
+  }
+}

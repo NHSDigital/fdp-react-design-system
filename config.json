@@ -1,0 +1,959 @@
+{
+  "source": ["packages/**/tokens/**/*.json"],
+  "platforms": {
+	"scss": {
+		"transformGroup": "scss",
+		"prefix": "nhs-fdp",
+		"buildPath": "packages/nhs-fdp/dist/scss/",
+		"files": [
+			{
+				"destination": "_colors.scss",
+				"format": "scss/variables",
+				"filter": {
+					"$type": "color"
+				},
+				"options": {
+					"showFileHeader": true,
+					"outputReferences": false
+				}
+			},
+			{
+				"destination": "_spacing.scss",
+				"format": "scss/variables",
+				"filter": {
+					"$type": "spacing"
+				}
+			},
+			{
+				"destination": "_typography.scss", 
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "font"
+					}
+				}
+			},
+			{
+				"destination": "_borders.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "border"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "_shadows.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "shadow"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "_animations.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "animation"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "_dimensions.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "size"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "_component-spacing.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "component"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "_tokens.scss",
+				"format": "scss/variables",
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_button.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "button"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_link.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "color",
+						"type": "link"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_form.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "form"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_text.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "color",
+						"type": "text"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_focus.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "color",
+						"type": "focus"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_border.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "color",
+						"type": "border"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			}
+		]
+	},
+	"js": {
+		"transformGroup": "js",
+		"buildPath": "packages/nhs-fdp/dist/js/",
+		"files": [
+			{
+				"destination": "tokens.js",
+				"format": "javascript/es6",
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "tokens.json",
+				"format": "json/nested"
+			},
+			{
+				"destination": "components/button.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "button"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/link.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "color",
+						"type": "link"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/form.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "form"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/text.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "color",
+						"type": "text"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/focus.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "color",
+						"type": "focus"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/border.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "color",
+						"type": "border"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/button.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "button"
+					}
+				}
+			},
+			{
+				"destination": "components/link.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "color",
+						"type": "link"
+					}
+				}
+			},
+			{
+				"destination": "components/form.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "form"
+					}
+				}
+			},
+			{
+				"destination": "components/text.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "color",
+						"type": "text"
+					}
+				}
+			},
+			{
+				"destination": "components/focus.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "color",
+						"type": "focus"
+					}
+				}
+			},
+			{
+				"destination": "components/border.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "color",
+						"type": "border"
+					}
+				}
+			},
+			{
+				"destination": "components/button-enhanced.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "button"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/form-enhanced.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "form"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/card-enhanced.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "card"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "tokens/borders.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "border"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "tokens/shadows.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "shadow"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "tokens/animations.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "animation"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "tokens/dimensions.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "size"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			}
+		]
+	},
+    "css": {
+      "transformGroup": "css",
+      "buildPath": "packages/nhs-fdp/dist/css/",
+      "files": [
+        {
+          "destination": "tokens.css",
+          "format": "css/variables",
+          "options": {
+            "showFileHeader": true,
+            "selector": ":root"
+          }
+        }
+      ]
+    },
+    "android": {
+      "transformGroup": "android",
+      "buildPath": "packages/nhs-fdp/dist/android/",
+      "files": [
+        {
+          "destination": "font_dimens.xml",
+          "format": "android/fontDimens"
+        },
+        {
+          "destination": "colors.xml",
+          "format": "android/colors"
+        }
+      ]
+    },
+    "ios-swift": {
+      "transformGroup": "ios-swift",
+      "buildPath": "packages/nhs-fdp/dist/ios-swift/",
+      "files": [
+        {
+          "destination": "StyleDictionary+Class.swift",
+          "format": "ios-swift/class.swift",
+          "options": {
+            "className": "StyleDictionaryClass"
+          }
+        },
+        {
+          "destination": "StyleDictionary+Enum.swift",
+          "format": "ios-swift/enum.swift",
+          "options": {
+            "className": "StyleDictionaryEnum"
+          }
+        },
+        {
+          "destination": "StyleDictionary+Struct.swift",
+          "format": "ios-swift/any.swift",
+          "options": {
+            "className": "StyleDictionaryStruct",
+            "imports": "SwiftUI",
+            "objectType": "struct",
+            "accessControl": "internal"
+          }
+        }
+      ]
+    },
+    "ios-swift-separate-enums": {
+      "transformGroup": "ios-swift-separate",
+      "buildPath": "packages/nhs-fdp/dist/ios-swift/",
+      "files": [
+        {
+          "destination": "StyleDictionaryColor.swift",
+          "format": "ios-swift/enum.swift",
+          "options": {
+            "className": "StyleDictionaryColor"
+          },
+          "filter": {
+            "$type": "color"
+          }
+        },
+        {
+          "destination": "StyleDictionarySize.swift",
+          "format": "ios-swift/enum.swift",
+          "options": {
+            "className": "StyleDictionarySize"
+          },
+          "filter": {
+            "$type": "dimension"
+          }
+        }
+      ]
+    },
+    "typescript": {
+      "transformGroup": "js",
+      "buildPath": "packages/nhs-fdp/dist/typescript/",
+      "files": [
+        {
+          "destination": "index.ts",
+          "format": "javascript/es6",
+          "options": {
+            "showFileHeader": true
+          }
+        },
+        {
+          "destination": "tokens.d.ts",
+          "format": "typescript/es6-declarations",
+          "options": {
+            "showFileHeader": true
+          }
+        },
+        {
+          "destination": "tokens.ts",
+          "format": "javascript/es6",
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "colors.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "$type": "color"
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "spacing.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "$type": "spacing"
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "typography.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "font"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "borders.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "border"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "shadows.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "shadow"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "animations.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "animation"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "dimensions.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "size"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "component-spacing.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "component"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/button.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "button"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/form.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "form"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/link.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "color",
+              "type": "link"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/text.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "color",
+              "type": "text"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/focus.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "color",
+              "type": "focus"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/border.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "color",
+              "type": "border"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/button-enhanced.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "button"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/form-enhanced.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "form"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/card-enhanced.ts",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "card"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        }
+      ]
+    },
+    "react": {
+      "transformGroup": "js",
+      "buildPath": "packages/nhs-fdp/dist/react/",
+      "files": [
+        {
+          "destination": "index.tsx",
+          "format": "javascript/es6",
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "tokens.tsx",
+          "format": "javascript/es6",
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "theme/tokens.js",
+          "format": "javascript/es6",
+          "options": {
+            "showFileHeader": true
+          }
+        },
+        {
+          "destination": "theme/colors.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "$type": "color"
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "theme/spacing.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "$type": "spacing"
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "theme/typography.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "font"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "theme/borders.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "border"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "theme/shadows.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "shadow"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "theme/animations.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "animation"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "theme/dimensions.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "size"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/Button/tokens.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "button"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/Form/tokens.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "form"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/Link/tokens.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "color",
+              "type": "link"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/Text/tokens.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "color",
+              "type": "text"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/Button/enhanced.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "button"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/Form/enhanced.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "form"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        },
+        {
+          "destination": "components/Card/enhanced.tsx",
+          "format": "javascript/es6",
+          "filter": {
+            "attributes": {
+              "category": "card"
+            }
+          },
+          "options": {
+            "showFileHeader": true,
+            "outputReferences": true
+          }
+        }
+      ]
+    }
+  }
+}

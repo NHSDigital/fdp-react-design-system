@@ -1,0 +1,224 @@
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+
+.nhs-aria-button {
+	// Base button styles
+	box-sizing: border-box;
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	border: 2px solid transparent;
+	border-radius: 4px;
+	padding: 8px 16px;
+	font-family: "Frutiger W01", Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.5;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-button-primary-shadow;
+	
+	// Prevent text selection
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	
+	// Ensure consistent baseline
+	vertical-align: top;
+
+	// Focus styles (React Aria provides focus-visible state)
+	&[data-focus-visible] {
+		outline: 4px solid tokens.$nhs-fdp-color-primary-yellow;
+		outline-offset: 2px;
+		box-shadow: 0 0 0 4px tokens.$nhs-fdp-color-primary-yellow;
+	}
+
+	// Hover styles (React Aria provides hovered state)
+	&[data-hovered] {
+		//transform: translateY(-2px);
+		box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-button-primary-shadow;
+	}
+
+	// Press/Active styles (React Aria provides pressed state)
+	&[data-pressed] {
+		transform: translateY(4px);
+		box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-button-primary-shadow;
+	}
+
+	// Disabled styles
+	&[data-disabled] {
+		opacity: 0.5;
+		cursor: not-allowed;
+		transform: none;
+		box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-button-primary-shadow;
+	}
+
+	// Default size (explicit for clarity)
+	// Also covers .nhs-aria-button--default case
+	&,
+	&--default {
+		padding: 8px 16px;
+		font-size: 16px;
+		min-height: 44px;
+	}
+
+	// Primary variant
+	&--primary {
+		background-color: tokens.$nhs-fdp-color-button-primary-background;
+		color: tokens.$nhs-fdp-color-primary-white;
+		border-color: tokens.$nhs-fdp-color-button-primary-background;
+
+		&:not([data-disabled]) {
+			&[data-hovered] {
+				background-color: tokens.$nhs-fdp-color-button-primary-hover;
+				border-color: tokens.$nhs-fdp-color-button-primary-hover;
+				box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-button-primary-shadow;
+			}
+			&[data-pressed] {
+				background-color: tokens.$nhs-fdp-color-button-primary-active;
+				border-color: tokens.$nhs-fdp-color-button-primary-active;
+			}
+		}
+	}
+
+	// Secondary variant
+	&--secondary {
+		background-color: tokens.$nhs-fdp-color-primary-white;
+		color: tokens.$nhs-fdp-color-primary-blue;
+		border-color: tokens.$nhs-fdp-color-primary-blue;
+		box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-primary-blue;
+
+		&:not([data-disabled]) {
+			&[data-hovered] {
+				background-color: tokens.$nhs-fdp-color-button-secondary-hover;
+				border-color: tokens.$nhs-fdp-color-button-login-hover;
+				color: tokens.$nhs-fdp-color-button-login-hover;
+			}
+			&[data-pressed] {
+				background-color: tokens.$nhs-fdp-color-button-secondary-active;
+				border-color: tokens.$nhs-fdp-color-button-login-hover;
+				box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-primary-white;
+			}
+		}
+	}
+
+	// Reverse variant (for dark backgrounds)
+	&--reverse {
+		background-color: tokens.$nhs-fdp-color-primary-white;
+		color: tokens.$nhs-fdp-color-button-reverse-text;
+		border-color: tokens.$nhs-fdp-color-primary-white;
+
+		&:not([data-disabled]) {
+			&[data-hovered] {
+				background-color: tokens.$nhs-fdp-color-button-reverse-hover;
+				color: tokens.$nhs-fdp-color-button-reverse-text;
+				border-color: tokens.$nhs-fdp-color-button-reverse-hover;
+			}
+			&[data-pressed] {
+				background-color: tokens.$nhs-fdp-color-button-reverse-active;
+				border-color: tokens.$nhs-fdp-color-button-reverse-active;
+				box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-primary-white;
+			}
+		}
+	}
+
+	// Warning variant
+	&--warning {
+		background-color: tokens.$nhs-fdp-state-error-border;
+		color: tokens.$nhs-fdp-color-primary-white;
+		border-color: tokens.$nhs-fdp-state-error-border;
+		box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-shadow-button-warning;
+
+		&:not([data-disabled]) {
+			&[data-hovered] {
+				background-color: tokens.$nhs-fdp-color-button-warning-hover;
+				border-color: tokens.$nhs-fdp-color-button-warning-hover;
+			}
+			&[data-pressed] {
+				background-color: tokens.$nhs-fdp-color-button-warning-active;
+				border-color: tokens.$nhs-fdp-color-button-warning-active;
+				box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-button-warning-active;
+			}
+		}
+	}
+
+	// Login variant
+	&--login {
+		background-color: tokens.$nhs-fdp-color-primary-blue;
+		color: tokens.$nhs-fdp-color-primary-white;
+		border-color: tokens.$nhs-fdp-color-primary-blue;
+
+		&:not([data-disabled]) {
+			&[data-hovered] {
+				background-color: tokens.$nhs-fdp-color-primary-blue;
+				border-color: tokens.$nhs-fdp-color-primary-blue;
+			}
+			&[data-pressed] {
+				background-color: tokens.$nhs-fdp-color-button-login-active;
+				border-color: tokens.$nhs-fdp-color-button-login-active;
+			}
+		}
+	}
+
+	// Size variants
+	&--small {
+		padding: 6px 12px;
+		font-size: 14px;
+		min-height: 32px;
+	}
+	
+	&--large {
+		padding: 12px 24px;
+		font-size: 18px;
+		min-height: 56px;
+	}
+
+	// Full width variant
+	&--full-width {
+		width: 100%;
+		display: flex;
+	}
+
+	// Loading state
+	&--loading {
+		position: relative;
+		color: transparent;
+
+		&::after {
+			content: "";
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 16px;
+			height: 16px;
+			margin: -8px 0 0 -8px;
+			border: 2px solid transparent;
+			border-top-color: currentColor;
+			border-radius: 50%;
+			animation: nhs-button-spin 0.6s linear infinite;
+		}
+	}
+
+	// Responsive adjustments
+	@media (max-width: 768px) {
+		width: 100%;
+		margin-bottom: 16px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+// Keyframes for loading spinner
+@keyframes nhs-button-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}

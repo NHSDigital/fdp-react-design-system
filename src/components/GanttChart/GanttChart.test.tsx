@@ -3,10 +3,6 @@ import userEvent from '@testing-library/user-event';
 import { describe, test, expect, beforeEach, vi } from 'vitest';
 import { GanttChart } from './GanttChart';
 import { Resource, Task } from './TaskBar';
-import { Resource, Task } from	'./TaskBar'	// First task should be focused and selected
-		
-const firstTask = screen.getByLabelText(/^Selected: Task 1:/);
-expect(firstTask).toHaveFocus();
 
 // Mock ResizeObserver for testing environment
 Object.defineProperty(window, 'ResizeObserver', {

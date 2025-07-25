@@ -39,7 +39,7 @@
 import { scaleTime } from 'd3-scale';
 import { useMemo, useRef, useState, useEffect } from 'react';
 import { TaskBar, Resource, Task } from './TaskBar';
-import './GanttChart.css';
+import './GanttChart.scss';
 
 export interface GanttChartProps {
 	resources: Resource[];

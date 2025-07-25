@@ -12,6 +12,7 @@ export interface Task {
 	start: Date;
 	end: Date;
 	priority?: 'high' | 'medium' | 'low';
+	type?: 'development' | 'design' | 'testing' | 'review' | 'deployment';
 	color?: string;
 	progress?: number; // 0-100
 }
@@ -98,23 +99,35 @@ export function TaskBar({
 		setIsFocused(false);
 	};
 
+	// Build CSS classes including task type for styling
+	const taskClasses = [
+		'gantt-task-bar',
+		isPressed && 'gantt-task-bar--pressed',
+		(isFocused || isSelected) && 'gantt-task-bar--focused',
+		task.priority && `gantt-task-bar--priority-${task.priority}`,
+		isSelected && 'gantt-task-bar--selected',
+		// Add task type class if available for color variants
+		task.type && `gantt-task-bar--type-${task.type}`
+	].filter(Boolean).join(' ');
+
+	// CSS custom properties for positioning
+	const taskStyle = {
+		'--task-left': `${leftPosition}px`,
+		'--task-width': `${width}px`,
+		'--task-color': getTaskColor(),
+		left: `${leftPosition}px`,
+		width: `${width}px`,
+		backgroundColor: getTaskColor()
+	} as React.CSSProperties;
+
 	return (
 		<div
 			role="button"
 			tabIndex={tabIndex} // Use provided tabIndex
 			ref={ref}
 			data-task-index={taskIndex} // For keyboard navigation
-			className={`gantt-task-bar ${isPressed ? 'gantt-task-bar--pressed' : ''} ${isFocused || isSelected ? 'gantt-task-bar--focused' : ''} ${task.priority ? `gantt-task-bar--priority-${task.priority}` : ''} ${isSelected ? 'gantt-task-bar--selected' : ''}`}
-			style={{
-				left: `${leftPosition}px`,
-				width: `${width}px`,
-				top: '14px', // Center in 48px row height
-				backgroundColor: getTaskColor(),
-				...(isSelected && {
-					outline: '2px solid #005eb8', // NHS Blue focus outline
-					outlineOffset: '2px'
-				})
-			}}
+			className={taskClasses}
+			style={taskStyle}
 			onClick={handleClick}
 			onDoubleClick={handleDoubleClick}
 			onKeyDown={handleKeyDown}
@@ -134,9 +147,7 @@ export function TaskBar({
 			{task.progress !== undefined && (
 				<div
 					className="task-progress"
-					style={{
-						width: `${progressWidth}px`,
-					}}
+					style={{ width: `${progressWidth}px` }}
 				/>
 			)}
 			

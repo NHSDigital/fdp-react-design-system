@@ -1,12 +1,14 @@
-/* NHS Gantt Chart Component Styles */
+// NHS Gantt Chart Component Styles - Uses compiled design tokens
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as nhs;
 
+/* NHS Gantt Chart Component */
 .gantt-chart {
   width: 100%;
   height: 400px;
-  border: 1px solid #d8dde0;
+  border: 1px solid nhs.$nhs-fdp-border-color-default;
   border-radius: 4px;
-  background: white;
-  font-family: "Frutiger W01", Arial, Helvetica, sans-serif;
+  background: nhs.$nhs-fdp-color-primary-white;
+  font-family: "#{nhs.$nhs-fdp-font-family-base}", #{nhs.$nhs-fdp-font-family-fallback};
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -14,32 +16,32 @@
 
 /* ARIA Grid focus management */
 .gantt-chart:focus {
-  outline: 2px solid #005eb8;
+  outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
   outline-offset: 2px;
 }
 
 .gantt-chart[role="grid"] [role="gridcell"]:focus,
 .gantt-chart[role="grid"] [role="columnheader"]:focus {
-  outline: 2px solid #005eb8;
+  outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
   outline-offset: -2px;
-  background-color: #e8f4fd;
+  background-color: #e8f4fd; // Light blue background for focused cells
 }
 
 /* Header Styles */
 .gantt-header {
   display: flex;
-  border-bottom: 2px solid #005eb8;
-  background: #f8f9fa;
+  border-bottom: 2px solid nhs.$nhs-fdp-color-primary-blue;
+  background: nhs.$nhs-fdp-color-grey-5;
   flex-shrink: 0;
 }
 
 .gantt-header .header-resource {
   width: 200px;
-  padding: 12px;
+  padding: nhs.$nhs-fdp-spacing-3;
   font-weight: 600;
-  border-right: 1px solid #d8dde0;
-  background: white;
-  color: #212b32;
+  border-right: 1px solid nhs.$nhs-fdp-border-color-default;
+  background: nhs.$nhs-fdp-color-primary-white;
+  color: nhs.$nhs-fdp-color-text-primary;
 }
 
 .gantt-header .header-timeline {
@@ -47,11 +49,11 @@
   display: flex;
   overflow-x: auto;
   position: relative;
-  background: #f8f9fa;
+  background: nhs.$nhs-fdp-color-grey-5;
 }
 
 .gantt-header .header-timeline:focus {
-  outline: 3px solid #005eb8;
+  outline: 3px solid nhs.$nhs-fdp-color-primary-blue;
   outline-offset: -3px;
   background: #e8f4fd;
 }
@@ -59,88 +61,64 @@
 .gantt-header .header-timeline .date-column {
   flex: 1;
   min-width: 80px;
-  padding: 8px 4px;
+  padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-1;
   text-align: center;
-  font-size: 12px;
+  font-size: nhs.$nhs-fdp-font-size-16-mobile;
   font-weight: 500;
   border-right: 1px solid #e5e5e5;
   color: #425563;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  
+  @media (min-width: 768px) {
+    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+  }
 }
 
 .gantt-header .header-timeline .date-column:hover {
-  background-color: #f0f4f5;
+  background-color: nhs.$nhs-fdp-color-grey-5;
 }
 
 .gantt-header .header-timeline .date-column:focus {
-  outline: 3px solid #005eb8;
+  outline: 3px solid nhs.$nhs-fdp-color-primary-blue;
   outline-offset: -3px;
-  background-color: #005eb8;
-  color: white;
+  background-color: nhs.$nhs-fdp-color-primary-blue;
+  color: nhs.$nhs-fdp-color-primary-white;
   z-index: 10;
   position: relative;
 }
 
 .gantt-header .header-timeline .date-column.focused {
-  background-color: #005eb8;
-  color: white;
-  outline: 3px solid #005eb8;
+  background-color: nhs.$nhs-fdp-color-primary-blue;
+  color: nhs.$nhs-fdp-color-primary-white;
+  outline: 3px solid nhs.$nhs-fdp-color-primary-blue;
   outline-offset: -3px;
   z-index: 10;
   position: relative;
 }
 
 .gantt-header .header-timeline .date-column.today {
-  background-color: #fff2cc;
+  background-color: nhs.$nhs-fdp-color-secondary-pale-yellow;
   font-weight: 600;
-  color: #212b32;
+  color: nhs.$nhs-fdp-color-text-primary;
 }
 
 .gantt-header .header-timeline .date-column.today.focused,
 .gantt-header .header-timeline .date-column.today:focus {
-  background-color: #005eb8;
-  color: white;
+  background-color: nhs.$nhs-fdp-color-primary-blue;
+  color: nhs.$nhs-fdp-color-primary-white;
 }
 
 /* Grid Area */
 .gantt-grid {
   flex: 1;
   overflow: auto;
-  background: white;
+  background: nhs.$nhs-fdp-color-primary-white;
 }
 
 .gantt-grid:focus {
-  outline: 2px solid #005eb8;
+  outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
   outline-offset: -2px;
-}
-
-/* Timeline containers within rows should also be focusable if they overflow */
-.timeline-container {
-  flex: 1;
-  position: relative;
-  min-height: 48px;
-  background: white;
-  overflow-x: auto;
-  overflow-y: hidden;
-  transition: background-color 0.2s ease, border 0.2s ease;
-}
-
-.timeline-container:focus {
-  outline: 2px solid #005eb8;
-  outline-offset: -2px;
-}
-
-.timeline-container.timeline-active {
-  background-color: #e8f4fd;
-  border: 2px solid #005eb8;
-  border-radius: 4px;
-}
-
-.timeline-container.timeline-active:focus {
-  outline: 3px solid #005eb8;
-  outline-offset: 2px;
-  background-color: #d1e7ff;
 }
 
 /* Row Styles */
@@ -148,27 +126,27 @@
   display: flex;
   align-items: stretch;
   min-height: 48px;
-  border-bottom: 1px solid #f0f4f5;
+  border-bottom: 1px solid nhs.$nhs-fdp-color-grey-5;
   position: relative;
 }
 
 .gantt-row:hover {
-  background-color: #f8f9fa;
+  background-color: nhs.$nhs-fdp-color-grey-5;
 }
 
 .gantt-row:focus-within {
   background-color: #e8f4fd;
-  outline: 2px solid #005eb8;
+  outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
   outline-offset: -2px;
 }
 
 .gantt-row .resource-label {
   width: 200px;
-  padding: 12px;
-  background: white;
-  border-right: 1px solid #d8dde0;
+  padding: nhs.$nhs-fdp-spacing-3;
+  background: nhs.$nhs-fdp-color-primary-white;
+  border-right: 1px solid nhs.$nhs-fdp-border-color-default;
   font-weight: 600;
-  color: #212b32;
+  color: nhs.$nhs-fdp-color-text-primary;
   display: flex;
   align-items: center;
   position: sticky;
@@ -177,11 +155,32 @@
   box-sizing: border-box;
 }
 
-.gantt-row .timeline-container {
+/* Timeline containers within rows */
+.timeline-container {
   flex: 1;
   position: relative;
   min-height: 48px;
-  background: white;
+  background: nhs.$nhs-fdp-color-primary-white;
+  overflow-x: auto;
+  overflow-y: hidden;
+  transition: background-color 0.2s ease, border 0.2s ease;
+}
+
+.timeline-container:focus {
+  outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
+  outline-offset: -2px;
+}
+
+.timeline-container.timeline-active {
+  background-color: #e8f4fd;
+  border: 2px solid nhs.$nhs-fdp-color-primary-blue;
+  border-radius: 4px;
+}
+
+.timeline-container.timeline-active:focus {
+  outline: 3px solid nhs.$nhs-fdp-color-primary-blue;
+  outline-offset: 2px;
+  background-color: #d1e7ff;
 }
 
 /* Task Bar Styles */
@@ -191,14 +190,17 @@
   border-radius: 3px;
   display: flex;
   align-items: center;
-  padding: 0 8px;
+  padding: 0 nhs.$nhs-fdp-spacing-2;
   font-size: 11px;
   font-weight: 500;
-  color: white;
+  color: nhs.$nhs-fdp-color-primary-white;
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
   box-sizing: border-box;
+  // Default positioning - will be overridden by inline styles for left/width
+  top: 14px; // Center in 48px row height
+  background-color: nhs.$nhs-fdp-color-primary-blue;
 }
 
 .gantt-task-bar:hover {
@@ -207,7 +209,7 @@
 }
 
 .gantt-task-bar:focus {
-  outline: 2px solid #ffeb3b;
+  outline: 2px solid nhs.$nhs-fdp-color-primary-yellow;
   outline-offset: 2px;
 }
 
@@ -224,12 +226,14 @@
   z-index: 15;
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 94, 184, 0.3);
-  border: 2px solid #005eb8;
+  border: 2px solid nhs.$nhs-fdp-color-primary-blue;
+  outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
+  outline-offset: 2px;
 }
 
 /* Priority indicators */
 .gantt-task-bar--priority-high {
-  border-left: 4px solid #ffffff;
+  border-left: 4px solid nhs.$nhs-fdp-color-primary-white;
 }
 
 .gantt-task-bar--priority-medium {
@@ -257,6 +261,27 @@
   border-radius: 0 0 3px 3px;
 }
 
+/* Color variants for different task types */
+.gantt-task-bar--type-development {
+  background-color: nhs.$nhs-fdp-color-primary-blue;
+}
+
+.gantt-task-bar--type-design {
+  background-color: nhs.$nhs-fdp-color-primary-purple;
+}
+
+.gantt-task-bar--type-testing {
+  background-color: nhs.$nhs-fdp-color-primary-green;
+}
+
+.gantt-task-bar--type-review {
+  background-color: nhs.$nhs-fdp-color-secondary-orange;
+}
+
+.gantt-task-bar--type-deployment {
+  background-color: nhs.$nhs-fdp-color-primary-red;
+}
+
 /* Screen reader only content */
 .sr-only {
   position: absolute;
@@ -273,7 +298,7 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .gantt-chart {
-    font-size: 14px;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
   }
   
   .gantt-row {
@@ -282,26 +307,26 @@
   
   .gantt-row .resource-label {
     width: 150px;
-    padding: 8px;
-    font-size: 14px;
+    padding: nhs.$nhs-fdp-spacing-2;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
   }
   
   .gantt-header .header-resource {
     width: 150px;
-    padding: 10px 8px;
-    font-size: 14px;
+    padding: nhs.$nhs-fdp-spacing-2;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
   }
   
   .gantt-header .header-timeline .date-column {
     min-width: 60px;
     font-size: 11px;
-    padding: 6px 2px;
+    padding: nhs.$nhs-fdp-spacing-1 2px;
   }
   
   .gantt-task-bar {
     height: 18px;
     font-size: 10px;
-    padding: 0 6px;
+    padding: 0 nhs.$nhs-fdp-spacing-1;
   }
 }
 

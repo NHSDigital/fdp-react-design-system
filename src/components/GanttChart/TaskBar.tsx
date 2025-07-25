@@ -21,9 +21,24 @@ export interface TaskBarProps {
 	scale: (date: Date) => number;
 	onTaskClick?: (task: Task) => void;
 	onTaskDoubleClick?: (task: Task) => void;
+	isSelected?: boolean;
+	taskIndex?: number;
+	tabIndex?: number;
+	onFocus?: () => void;
+	'aria-label'?: string;
 }
 
-export function TaskBar({ task, scale, onTaskClick, onTaskDoubleClick }: TaskBarProps) {
+export function TaskBar({ 
+	task, 
+	scale, 
+	onTaskClick, 
+	onTaskDoubleClick, 
+	isSelected = false, 
+	taskIndex,
+	tabIndex = -1,
+	onFocus,
+	'aria-label': ariaLabel
+}: TaskBarProps) {
 	const ref = useRef<HTMLDivElement>(null);
 	const [isPressed, setIsPressed] = useState(false);
 	const [isFocused, setIsFocused] = useState(false);
@@ -41,7 +56,7 @@ export function TaskBar({ task, scale, onTaskClick, onTaskDoubleClick }: TaskBar
 			case 'high': return '#d5281b'; // NHS Red
 			case 'medium': return '#005eb8'; // NHS Blue  
 			case 'low': return '#007f3b'; // NHS Green
-			default: return '#005eb8';
+			default: return '#005eb8'; 
 		}
 	};
 
@@ -57,9 +72,12 @@ export function TaskBar({ task, scale, onTaskClick, onTaskDoubleClick }: TaskBar
 	};
 
 	const handleKeyDown = (event: React.KeyboardEvent) => {
-		if (event.key === 'Enter' || event.key === ' ') {
+		if (event.key === 'Enter') {
 			event.preventDefault();
 			handleClick();
+		} else if (event.key === ' ') {
+			event.preventDefault();
+			handleDoubleClick();
 		}
 	};
 
@@ -73,6 +91,7 @@ export function TaskBar({ task, scale, onTaskClick, onTaskDoubleClick }: TaskBar
 
 	const handleFocus = () => {
 		setIsFocused(true);
+		onFocus?.(); // Call parent focus handler
 	};
 
 	const handleBlur = () => {
@@ -82,14 +101,19 @@ export function TaskBar({ task, scale, onTaskClick, onTaskDoubleClick }: TaskBar
 	return (
 		<div
 			role="button"
-			tabIndex={0}
+			tabIndex={tabIndex} // Use provided tabIndex
 			ref={ref}
-			className={`gantt-task-bar ${isPressed ? 'gantt-task-bar--pressed' : ''} ${isFocused ? 'gantt-task-bar--focused' : ''} ${task.priority ? `gantt-task-bar--priority-${task.priority}` : ''}`}
+			data-task-index={taskIndex} // For keyboard navigation
+			className={`gantt-task-bar ${isPressed ? 'gantt-task-bar--pressed' : ''} ${isFocused || isSelected ? 'gantt-task-bar--focused' : ''} ${task.priority ? `gantt-task-bar--priority-${task.priority}` : ''} ${isSelected ? 'gantt-task-bar--selected' : ''}`}
 			style={{
 				left: `${leftPosition}px`,
 				width: `${width}px`,
 				top: '14px', // Center in 48px row height
 				backgroundColor: getTaskColor(),
+				...(isSelected && {
+					outline: '2px solid #005eb8', // NHS Blue focus outline
+					outlineOffset: '2px'
+				})
 			}}
 			onClick={handleClick}
 			onDoubleClick={handleDoubleClick}
@@ -98,7 +122,8 @@ export function TaskBar({ task, scale, onTaskClick, onTaskDoubleClick }: TaskBar
 			onMouseUp={handleMouseUp}
 			onFocus={handleFocus}
 			onBlur={handleBlur}
-			title={`${task.title} (${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()})${task.progress ? ` - ${task.progress}% complete` : ''}`}
+			aria-label={ariaLabel || `${isSelected ? 'Selected: ' : ''}${task.title}: ${task.start.toLocaleDateString()} to ${task.end.toLocaleDateString()}${task.priority ? `, priority ${task.priority}` : ''}${task.progress ? `, ${task.progress}% complete` : ''}`}
+			aria-describedby={`task-${task.id}-details`}
 		>
 			{/* Task title */}
 			<span className="task-title">
@@ -115,8 +140,8 @@ export function TaskBar({ task, scale, onTaskClick, onTaskDoubleClick }: TaskBar
 				/>
 			)}
 			
-			{/* Screen reader content */}
-			<span className="sr-only">
+			{/* Screen reader content with proper ID for aria-describedby */}
+			<span id={`task-${task.id}-details`} className="sr-only">
 				{`Task: ${task.title}, from ${task.start.toLocaleDateString()} to ${task.end.toLocaleDateString()}${task.progress ? `, ${task.progress}% complete` : ''}${task.priority ? `, priority: ${task.priority}` : ''}`}
 			</span>
 		</div>

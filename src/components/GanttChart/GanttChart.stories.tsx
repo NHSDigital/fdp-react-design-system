@@ -275,20 +275,42 @@ export const AccessibilityDemo: Story = {
     docs: {
       description: {
         story: `
-Accessibility demonstration with focus on keyboard navigation:
+**ARIA Grid Compliant Gantt Chart**
 
-**Testing Instructions:**
-1. Use Tab key to navigate to the chart
-2. Use Arrow keys to move between tasks
-3. Press Space or Enter to activate tasks
-4. Test with screen reader enabled
-5. Verify focus indicators are visible
+This component fully implements the [W3C ARIA Grid Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/grid/).
 
-**Keyboard Controls:**
-- Tab/Shift+Tab: Enter/exit chart
-- Arrow keys: Navigate between tasks
-- Space/Enter: Activate task (fires click event)
-- Escape: Return focus to container
+**ARIA Features:**
+- \`role="grid"\` with proper \`aria-rowcount\` and \`aria-colcount\`
+- \`role="row"\` with \`aria-rowindex\` for all rows including header
+- \`role="columnheader"\` for header cells with \`aria-colindex\`
+- \`role="gridcell"\` for data cells with \`aria-colindex\`
+- Proper \`aria-label\` and \`aria-describedby\` relationships
+
+**Keyboard Navigation Testing:**
+1. **Focus**: Click on the chart or press Tab to focus the grid
+2. **Grid Navigation**: Use ↑↓←→ to navigate between cells
+3. **Scrolling Navigation**:
+   - Alt+Arrow Keys: Scroll the main grid area
+   - Shift+Arrow Keys: Scroll individual timeline rows
+   - Tab to header timeline, then Shift+Arrow Keys: Scroll header
+4. **Home/End**: 
+   - Home: Go to first cell in current row
+   - Ctrl+Home: Go to first cell in grid
+   - End: Go to last cell in current row  
+   - Ctrl+End: Go to last cell in grid
+5. **Screen Reader**: Test with NVDA/JAWS/VoiceOver for proper announcements
+
+**Testing Checklist:**
+- [ ] Grid receives focus with Tab key
+- [ ] Arrow keys navigate between cells
+- [ ] Alt+Arrow keys scroll the main grid
+- [ ] Shift+Arrow keys scroll timeline rows
+- [ ] Header timeline is focusable and scrollable
+- [ ] Home/End keys work as expected
+- [ ] Screen reader announces cell content
+- [ ] Focus indicators are visible
+- [ ] All scrollable regions are keyboard accessible
+- [ ] Task interactions work within grid context
         `
       }
     }

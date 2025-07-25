@@ -12,6 +12,19 @@
   overflow: hidden;
 }
 
+/* ARIA Grid focus management */
+.gantt-chart:focus {
+  outline: 2px solid #005eb8;
+  outline-offset: 2px;
+}
+
+.gantt-chart[role="grid"] [role="gridcell"]:focus,
+.gantt-chart[role="grid"] [role="columnheader"]:focus {
+  outline: 2px solid #005eb8;
+  outline-offset: -2px;
+  background-color: #e8f4fd;
+}
+
 /* Header Styles */
 .gantt-header {
   display: flex;
@@ -33,6 +46,14 @@
   flex: 1;
   display: flex;
   overflow-x: auto;
+  position: relative;
+  background: #f8f9fa;
+}
+
+.gantt-header .header-timeline:focus {
+  outline: 3px solid #005eb8;
+  outline-offset: -3px;
+  background: #e8f4fd;
 }
 
 .gantt-header .header-timeline .date-column {
@@ -44,6 +65,30 @@
   font-weight: 500;
   border-right: 1px solid #e5e5e5;
   color: #425563;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.gantt-header .header-timeline .date-column:hover {
+  background-color: #f0f4f5;
+}
+
+.gantt-header .header-timeline .date-column:focus {
+  outline: 3px solid #005eb8;
+  outline-offset: -3px;
+  background-color: #005eb8;
+  color: white;
+  z-index: 10;
+  position: relative;
+}
+
+.gantt-header .header-timeline .date-column.focused {
+  background-color: #005eb8;
+  color: white;
+  outline: 3px solid #005eb8;
+  outline-offset: -3px;
+  z-index: 10;
+  position: relative;
 }
 
 .gantt-header .header-timeline .date-column.today {
@@ -52,11 +97,50 @@
   color: #212b32;
 }
 
+.gantt-header .header-timeline .date-column.today.focused,
+.gantt-header .header-timeline .date-column.today:focus {
+  background-color: #005eb8;
+  color: white;
+}
+
 /* Grid Area */
 .gantt-grid {
   flex: 1;
   overflow: auto;
   background: white;
+}
+
+.gantt-grid:focus {
+  outline: 2px solid #005eb8;
+  outline-offset: -2px;
+}
+
+/* Timeline containers within rows should also be focusable if they overflow */
+.timeline-container {
+  flex: 1;
+  position: relative;
+  min-height: 48px;
+  background: white;
+  overflow-x: auto;
+  overflow-y: hidden;
+  transition: background-color 0.2s ease, border 0.2s ease;
+}
+
+.timeline-container:focus {
+  outline: 2px solid #005eb8;
+  outline-offset: -2px;
+}
+
+.timeline-container.timeline-active {
+  background-color: #e8f4fd;
+  border: 2px solid #005eb8;
+  border-radius: 4px;
+}
+
+.timeline-container.timeline-active:focus {
+  outline: 3px solid #005eb8;
+  outline-offset: 2px;
+  background-color: #d1e7ff;
 }
 
 /* Row Styles */
@@ -134,6 +218,13 @@
 
 .gantt-task-bar--focused {
   z-index: 10;
+}
+
+.gantt-task-bar--selected {
+  z-index: 15;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 94, 184, 0.3);
+  border: 2px solid #005eb8;
 }
 
 /* Priority indicators */

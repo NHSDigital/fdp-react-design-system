@@ -37,7 +37,7 @@
  */
 
 import { scaleTime } from 'd3-scale';
-import { useMemo, useRef, useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { TaskBar, Resource, Task } from './TaskBar';
 import './GanttChart.scss';
 
@@ -197,6 +197,17 @@ function GanttRow({ resource, tasks, scale, onTaskClick, onTaskDoubleClick, rowI
 	const [selectedTaskIndex, setSelectedTaskIndex] = useState<number>(-1);
 	const timelineRef = useRef<HTMLDivElement>(null);
 
+	// Effect to handle task focus when timeline becomes active
+	useEffect(() => {
+		if (isTimelineActive && selectedTaskIndex >= 0 && tasks.length > 0) {
+			// Use a small timeout to ensure the DOM has updated with the new aria-labels
+			setTimeout(() => {
+				const selectedTask = timelineRef.current?.querySelector(`[data-task-index="${selectedTaskIndex}"]`) as HTMLElement;
+				selectedTask?.focus();
+			}, 0);
+		}
+	}, [isTimelineActive, selectedTaskIndex, tasks.length]);
+
 	const handleTimelineKeyDown = (e: React.KeyboardEvent) => {
 		// Handle scrolling
 		if (e.key === 'ArrowLeft' && e.shiftKey) {
@@ -237,8 +248,7 @@ function GanttRow({ resource, tasks, scale, onTaskClick, onTaskDoubleClick, rowI
 						e.preventDefault();
 						setIsTimelineActive(true);
 						setSelectedTaskIndex(0);
-						const firstTask = timelineRef.current?.querySelector('[data-task-index="0"]') as HTMLElement;
-						firstTask?.focus();
+						// Focus will be handled by useEffect
 					}
 					break;
 			}

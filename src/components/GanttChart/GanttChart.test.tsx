@@ -247,7 +247,7 @@ describe('GanttChart ARIA and Keyboard Navigation', () => {
 			expect(firstRowTimeline).toHaveClass('timeline-active');
 
 			// First task should be focused and selected
-			const firstTask = screen.getByLabelText(/Task: Task 1/);
+			const firstTask = screen.getByLabelText(/Selected: Task 1/);
 			expect(firstTask).toHaveFocus();
 			expect(firstTask).toHaveAttribute('aria-label', expect.stringContaining('Selected:'));
 		});

@@ -16,15 +16,17 @@
 
 /* ARIA Grid focus management */
 .gantt-chart:focus {
-  outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
-  outline-offset: 2px;
+  outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+  outline-offset: nhs.$nhs-fdp-focus-outline-offset;
 }
 
 .gantt-chart[role="grid"] [role="gridcell"]:focus,
 .gantt-chart[role="grid"] [role="columnheader"]:focus {
-  outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
-  outline-offset: -2px;
-  background-color: #e8f4fd; // Light blue background for focused cells
+  outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+  outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+  background-color: nhs.$nhs-fdp-color-focus-background;
+  color: nhs.$nhs-fdp-color-focus-text;
+  box-shadow: nhs.$nhs-fdp-focus-shadow-input;
 }
 
 /* Header Styles */
@@ -37,11 +39,15 @@
 
 .gantt-header .header-resource {
   width: 200px;
-  padding: nhs.$nhs-fdp-spacing-3;
+  padding: nhs.$nhs-fdp-button-spacing-padding-vertical-mobile nhs.$nhs-fdp-button-spacing-padding-horizontal-mobile;
   font-weight: 600;
   border-right: 1px solid nhs.$nhs-fdp-border-color-default;
   background: nhs.$nhs-fdp-color-primary-white;
   color: nhs.$nhs-fdp-color-text-primary;
+  
+  @media (min-width: 768px) {
+    padding: nhs.$nhs-fdp-button-spacing-padding-vertical-desktop nhs.$nhs-fdp-button-spacing-padding-horizontal-desktop;
+  }
 }
 
 .gantt-header .header-timeline {
@@ -53,9 +59,11 @@
 }
 
 .gantt-header .header-timeline:focus {
-  outline: 3px solid nhs.$nhs-fdp-color-primary-blue;
-  outline-offset: -3px;
-  background: #e8f4fd;
+  outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+  outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+  background-color: nhs.$nhs-fdp-color-focus-background;
+  color: nhs.$nhs-fdp-color-focus-text;
+  box-shadow: nhs.$nhs-fdp-focus-shadow-input;
 }
 
 .gantt-header .header-timeline .date-column {
@@ -80,19 +88,21 @@
 }
 
 .gantt-header .header-timeline .date-column:focus {
-  outline: 3px solid nhs.$nhs-fdp-color-primary-blue;
-  outline-offset: -3px;
-  background-color: nhs.$nhs-fdp-color-primary-blue;
-  color: nhs.$nhs-fdp-color-primary-white;
+  outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+  outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+  background-color: nhs.$nhs-fdp-color-focus-background;
+  color: nhs.$nhs-fdp-color-focus-text;
+  box-shadow: nhs.$nhs-fdp-focus-shadow-input;
   z-index: 10;
   position: relative;
 }
 
 .gantt-header .header-timeline .date-column.focused {
-  background-color: nhs.$nhs-fdp-color-primary-blue;
-  color: nhs.$nhs-fdp-color-primary-white;
-  outline: 3px solid nhs.$nhs-fdp-color-primary-blue;
-  outline-offset: -3px;
+  background-color: nhs.$nhs-fdp-color-focus-background;
+  color: nhs.$nhs-fdp-color-focus-text;
+  outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+  outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+  box-shadow: nhs.$nhs-fdp-focus-shadow-input;
   z-index: 10;
   position: relative;
 }
@@ -105,8 +115,8 @@
 
 .gantt-header .header-timeline .date-column.today.focused,
 .gantt-header .header-timeline .date-column.today:focus {
-  background-color: nhs.$nhs-fdp-color-primary-blue;
-  color: nhs.$nhs-fdp-color-primary-white;
+  background-color: nhs.$nhs-fdp-color-focus-background;
+  color: nhs.$nhs-fdp-color-focus-text;
 }
 
 /* Grid Area */
@@ -117,8 +127,8 @@
 }
 
 .gantt-grid:focus {
-  outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
-  outline-offset: -2px;
+  outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+  outline-offset: nhs.$nhs-fdp-focus-outline-offset;
 }
 
 /* Row Styles */
@@ -135,14 +145,15 @@
 }
 
 .gantt-row:focus-within {
-  background-color: #e8f4fd;
-  outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
-  outline-offset: -2px;
+  background-color: nhs.$nhs-fdp-color-focus-background;
+  outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+  outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+  color: nhs.$nhs-fdp-color-focus-text;
 }
 
 .gantt-row .resource-label {
   width: 200px;
-  padding: nhs.$nhs-fdp-spacing-3;
+  padding: nhs.$nhs-fdp-button-spacing-padding-vertical-mobile nhs.$nhs-fdp-button-spacing-padding-horizontal-mobile;
   background: nhs.$nhs-fdp-color-primary-white;
   border-right: 1px solid nhs.$nhs-fdp-border-color-default;
   font-weight: 600;
@@ -153,6 +164,10 @@
   left: 0;
   z-index: 2;
   box-sizing: border-box;
+  
+  @media (min-width: 768px) {
+    padding: nhs.$nhs-fdp-button-spacing-padding-vertical-desktop nhs.$nhs-fdp-button-spacing-padding-horizontal-desktop;
+  }
 }
 
 /* Timeline containers within rows */
@@ -167,8 +182,11 @@
 }
 
 .timeline-container:focus {
-  outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
-  outline-offset: -2px;
+  outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+  outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+  background-color: nhs.$nhs-fdp-color-focus-background;
+  color: nhs.$nhs-fdp-color-focus-text;
+  box-shadow: nhs.$nhs-fdp-focus-shadow-input;
 }
 
 .timeline-container.timeline-active {
@@ -178,9 +196,11 @@
 }
 
 .timeline-container.timeline-active:focus {
-  outline: 3px solid nhs.$nhs-fdp-color-primary-blue;
+  outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
   outline-offset: 2px;
-  background-color: #d1e7ff;
+  background-color: nhs.$nhs-fdp-color-focus-background;
+  color: nhs.$nhs-fdp-color-focus-text;
+  box-shadow: nhs.$nhs-fdp-focus-shadow-input;
 }
 
 /* Task Bar Styles */
@@ -190,7 +210,7 @@
   border-radius: 3px;
   display: flex;
   align-items: center;
-  padding: 0 nhs.$nhs-fdp-spacing-2;
+  padding: 0 nhs.$nhs-fdp-button-spacing-padding-horizontal-mobile;
   font-size: 11px;
   font-weight: 500;
   color: nhs.$nhs-fdp-color-primary-white;
@@ -201,6 +221,10 @@
   // Default positioning - will be overridden by inline styles for left/width
   top: 14px; // Center in 48px row height
   background-color: nhs.$nhs-fdp-color-primary-blue;
+  
+  @media (min-width: 768px) {
+    padding: 0 nhs.$nhs-fdp-button-spacing-padding-horizontal-desktop;
+  }
 }
 
 .gantt-task-bar:hover {
@@ -209,8 +233,10 @@
 }
 
 .gantt-task-bar:focus {
-  outline: 2px solid nhs.$nhs-fdp-color-primary-yellow;
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: nhs.$nhs-fdp-shadow-button-focus;
+  background-color: nhs.$nhs-fdp-color-focus-background;
+  color: nhs.$nhs-fdp-color-focus-text;
 }
 
 .gantt-task-bar--pressed {
@@ -224,11 +250,11 @@
 
 .gantt-task-bar--selected {
   z-index: 15;
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 94, 184, 0.3);
-  border: 2px solid nhs.$nhs-fdp-color-primary-blue;
-  outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
-  outline-offset: 2px;
+  transform: scale(1.02);
+  box-shadow: nhs.$nhs-fdp-shadow-button-focus;
+  background-color: nhs.$nhs-fdp-color-focus-background;
+  color: nhs.$nhs-fdp-color-focus-text;
+  border: 2px solid nhs.$nhs-fdp-color-focus-background;
 }
 
 /* Priority indicators */
@@ -307,13 +333,13 @@
   
   .gantt-row .resource-label {
     width: 150px;
-    padding: nhs.$nhs-fdp-spacing-2;
+    padding: nhs.$nhs-fdp-button-spacing-padding-vertical-mobile nhs.$nhs-fdp-button-spacing-padding-horizontal-mobile;
     font-size: nhs.$nhs-fdp-font-size-16-mobile;
   }
   
   .gantt-header .header-resource {
     width: 150px;
-    padding: nhs.$nhs-fdp-spacing-2;
+    padding: nhs.$nhs-fdp-button-spacing-padding-vertical-mobile nhs.$nhs-fdp-button-spacing-padding-horizontal-mobile;
     font-size: nhs.$nhs-fdp-font-size-16-mobile;
   }
   
@@ -326,7 +352,7 @@
   .gantt-task-bar {
     height: 18px;
     font-size: 10px;
-    padding: 0 nhs.$nhs-fdp-spacing-1;
+    padding: 0 nhs.$nhs-fdp-button-spacing-padding-horizontal-mobile;
   }
 }
 

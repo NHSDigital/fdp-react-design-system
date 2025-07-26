@@ -531,4 +531,35 @@ describe('GanttChart ARIA and Keyboard Navigation', () => {
 			expect(secondTask).toBeInTheDocument();
 		});
 	});
+
+	describe('Header Focus Behavior', () => {
+		test('should focus first date column when timeline header receives focus', async () => {
+			const user = userEvent.setup();
+			render(<GanttChart {...defaultProps} />);
+
+			const timelineHeader = screen.getByRole('columnheader', { name: /Timeline from/ });
+			
+			// Focus the timeline header
+			await user.click(timelineHeader);
+			
+			// The first date column should be focused
+			const firstDateColumn = screen.getByLabelText(/Wednesday, 1 January 2025/);
+			expect(firstDateColumn).toHaveFocus();
+		});
+
+		test('should navigate to first date when using arrow keys from unfocused state', async () => {
+			const user = userEvent.setup();
+			render(<GanttChart {...defaultProps} />);
+
+			const timelineHeader = screen.getByRole('columnheader', { name: /Timeline from/ });
+			
+			// Focus the timeline header and press right arrow
+			await user.click(timelineHeader);
+			await user.keyboard('{ArrowRight}');
+			
+			// Should focus first date (index 0), then move to second date (index 1)
+			const secondDateColumn = screen.getByLabelText(/Thursday, 2 January 2025/);
+			expect(secondDateColumn).toHaveFocus();
+		});
+	});
 });

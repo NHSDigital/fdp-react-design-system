@@ -38,6 +38,8 @@
 
 import { scaleTime } from 'd3-scale';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { useKeyboard } from '@react-aria/interactions';
+import type { KeyboardEvent } from '@react-types/shared';
 import { TaskBar, Resource, Task } from './TaskBar';
 import './GanttChart.scss';
 
@@ -70,51 +72,78 @@ function GanttHeader({ viewStart, viewEnd, dateCount }: GanttHeaderProps) {
 	const [focusedDateIndex, setFocusedDateIndex] = useState<number>(-1);
 	const headerRef = useRef<HTMLDivElement>(null);
 
-	const handleKeyDown = (e: React.KeyboardEvent) => {
-		if (e.key === 'ArrowLeft') {
-			e.preventDefault();
-			const newIndex = Math.max(0, focusedDateIndex === -1 ? dates.length - 1 : focusedDateIndex - 1);
-			setFocusedDateIndex(newIndex);
-			focusDateColumn(newIndex);
-		} else if (e.key === 'ArrowRight') {
-			e.preventDefault();
-			const newIndex = Math.min(dates.length - 1, focusedDateIndex === -1 ? 0 : focusedDateIndex + 1);
-			setFocusedDateIndex(newIndex);
-			focusDateColumn(newIndex);
-		} else if (e.key === 'ArrowDown') {
-			e.preventDefault();
-			// Navigate to first row's timeline
-			const firstRowTimeline = document.querySelector('.gantt-row .timeline-container') as HTMLElement;
-			if (firstRowTimeline) {
-				firstRowTimeline.focus();
-			}
-		} else if (e.key === 'Home') {
-			e.preventDefault();
-			setFocusedDateIndex(0);
-			focusDateColumn(0);
-		} else if (e.key === 'End') {
-			e.preventDefault();
-			const lastIndex = dates.length - 1;
-			setFocusedDateIndex(lastIndex);
-			focusDateColumn(lastIndex);
+	const handleTimelineKeyDown = (e: KeyboardEvent) => {
+		switch (e.key) {
+			case 'ArrowLeft':
+				e.preventDefault();
+				const newLeftIndex = Math.max(0, focusedDateIndex === -1 ? 0 : focusedDateIndex - 1);
+				setFocusedDateIndex(newLeftIndex);
+				focusDateColumn(newLeftIndex);
+				break;
+			case 'ArrowRight':
+				e.preventDefault();
+				const newRightIndex = Math.min(dates.length - 1, focusedDateIndex === -1 ? 0 : focusedDateIndex + 1);
+				setFocusedDateIndex(newRightIndex);
+				focusDateColumn(newRightIndex);
+				break;
+			case 'ArrowDown':
+				e.preventDefault();
+				// Navigate to first row's timeline
+				const firstRowTimeline = document.querySelector('.gantt-row .timeline-container') as HTMLElement;
+				if (firstRowTimeline) {
+					firstRowTimeline.focus();
+				}
+				break;
+			case 'Home':
+				e.preventDefault();
+				setFocusedDateIndex(0);
+				focusDateColumn(0);
+				break;
+			case 'End':
+				e.preventDefault();
+				const lastIndex = dates.length - 1;
+				setFocusedDateIndex(lastIndex);
+				focusDateColumn(lastIndex);
+				break;
 		}
 	};
 
-	const handleResourceHeaderKeyDown = (e: React.KeyboardEvent) => {
-		if (e.key === 'ArrowDown') {
-			e.preventDefault();
-			// Navigate to first row's resource label
-			const firstRowResource = document.querySelector('.gantt-row .resource-label') as HTMLElement;
-			if (firstRowResource) {
-				firstRowResource.focus();
-			}
-		} else if (e.key === 'ArrowRight') {
-			e.preventDefault();
-			// Navigate to timeline header
-			const timelineHeader = headerRef.current;
-			if (timelineHeader) {
-				timelineHeader.focus();
-			}
+	const handleResourceKeyDown = (e: KeyboardEvent) => {
+		switch (e.key) {
+			case 'ArrowDown':
+				e.preventDefault();
+				// Navigate to first row's resource label
+				const firstRowResource = document.querySelector('.gantt-row .resource-label') as HTMLElement;
+				if (firstRowResource) {
+					firstRowResource.focus();
+				}
+				break;
+			case 'ArrowRight':
+				e.preventDefault();
+				// Navigate to timeline header
+				const timelineHeader = headerRef.current;
+				if (timelineHeader) {
+					timelineHeader.focus();
+				}
+				break;
+		}
+	};
+
+	// React Aria keyboard hooks provide better event handling and accessibility
+	const { keyboardProps: timelineKeyboardProps } = useKeyboard({
+		onKeyDown: handleTimelineKeyDown
+	});
+
+	const { keyboardProps: resourceKeyboardProps } = useKeyboard({
+		onKeyDown: handleResourceKeyDown
+	});
+
+	const handleTimelineFocus = () => {
+		// When the timeline header receives focus, automatically focus the first date
+		if (focusedDateIndex === -1) {
+			setFocusedDateIndex(0);
+			// Use setTimeout to ensure the state update has been processed
+			setTimeout(() => focusDateColumn(0), 0);
 		}
 	};
 
@@ -137,7 +166,7 @@ function GanttHeader({ viewStart, viewEnd, dateCount }: GanttHeaderProps) {
 				aria-colindex={1}
 				tabIndex={0}
 				aria-label="Resource column header"
-				onKeyDown={handleResourceHeaderKeyDown}
+				{...resourceKeyboardProps}
 			>
 				Resources
 			</div>
@@ -149,11 +178,13 @@ function GanttHeader({ viewStart, viewEnd, dateCount }: GanttHeaderProps) {
 				aria-colspan={dateCount}
 				aria-label={`Timeline from ${viewStart.toLocaleDateString()} to ${viewEnd.toLocaleDateString()}. Use arrow keys to navigate between dates`}
 				tabIndex={0}
-				onKeyDown={handleKeyDown}
+				onFocus={handleTimelineFocus}
+				{...timelineKeyboardProps}
 			>
 				{dates.map((date, idx) => {
 					const isToday = date.getTime() === today.getTime();
 					const isFocused = focusedDateIndex === idx;
+
 					return (
 						<div 
 							key={idx} 
@@ -168,7 +199,7 @@ function GanttHeader({ viewStart, viewEnd, dateCount }: GanttHeaderProps) {
 								year: 'numeric'
 							})}${isToday ? ' (Today)' : ''}`}
 							onFocus={() => setFocusedDateIndex(idx)}
-							onKeyDown={handleKeyDown}
+							onKeyDown={(e) => handleTimelineKeyDown(e as any)}
 						>
 							{date.toLocaleDateString('en-GB', { 
 								day: 'numeric', 

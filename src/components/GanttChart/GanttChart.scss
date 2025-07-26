@@ -108,9 +108,10 @@
 .gantt-header .header-timeline .date-column.focused {
 	background-color: nhs.$nhs-fdp-color-focus-background;
 	color: nhs.$nhs-fdp-color-focus-text;
-	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
-	outline-offset: nhs.$nhs-fdp-focus-outline-offset;
-	box-shadow: nhs.$nhs-fdp-focus-shadow-input;
+	outline : 0;
+	//outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+	//outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+	//box-shadow: nhs.$nhs-fdp-focus-shadow-input;
 	z-index: 10;
 	position: relative;
 }

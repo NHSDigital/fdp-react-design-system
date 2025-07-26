@@ -44,8 +44,8 @@ import './GanttChart.scss';
 export interface GanttChartProps {
 	resources: Resource[];
 	tasks?: Task[];
-	viewStart: Date;
-	viewEnd: Date;
+	viewStart: Date | string | number;
+	viewEnd: Date | string | number;
 	onTaskClick?: (task: Task) => void;
 	onTaskDoubleClick?: (task: Task) => void;
 }
@@ -385,11 +385,44 @@ export function GanttChart({
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [timelineWidth, setTimelineWidth] = useState(800);
 
+	// Ensure dates are proper Date objects with validation
+	const startDate = useMemo(() => {
+		if (viewStart instanceof Date) {
+			if (isNaN(viewStart.getTime())) {
+				console.warn('GanttChart: Invalid viewStart date provided, using current date');
+				return new Date();
+			}
+			return viewStart;
+		}
+		const parsed = new Date(viewStart);
+		if (isNaN(parsed.getTime())) {
+			console.warn('GanttChart: Invalid viewStart date provided, using current date');
+			return new Date();
+		}
+		return parsed;
+	}, [viewStart]);
+
+	const endDate = useMemo(() => {
+		if (viewEnd instanceof Date) {
+			if (isNaN(viewEnd.getTime())) {
+				console.warn('GanttChart: Invalid viewEnd date provided, using date 7 days from now');
+				return new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+			}
+			return viewEnd;
+		}
+		const parsed = new Date(viewEnd);
+		if (isNaN(parsed.getTime())) {
+			console.warn('GanttChart: Invalid viewEnd date provided, using date 7 days from now');
+			return new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+		}
+		return parsed;
+	}, [viewEnd]);
+
 	// Calculate date count for ARIA attributes
 	const dateCount = useMemo(() => {
 		const MS_PER_DAY = 86_400_000;
-		return Math.ceil((viewEnd.getTime() - viewStart.getTime()) / MS_PER_DAY) + 1;
-	}, [viewStart, viewEnd]);
+		return Math.ceil((endDate.getTime() - startDate.getTime()) / MS_PER_DAY) + 1;
+	}, [startDate, endDate]);
 
 	// Update timeline width when container resizes
 	useEffect(() => {
@@ -409,9 +442,9 @@ export function GanttChart({
 
 	const timeScale = useMemo(() =>
 		scaleTime()
-		.domain([viewStart, viewEnd])
+		.domain([startDate, endDate])
 		.range([0, timelineWidth]),
-		[viewStart, viewEnd, timelineWidth]
+		[startDate, endDate, timelineWidth]
 	);
 
 	// Group tasks by resource
@@ -464,7 +497,7 @@ export function GanttChart({
 			onKeyDown={handleKeyDown}
 		>
 			{/* Header with date columns */}
-			<GanttHeader viewStart={viewStart} viewEnd={viewEnd} dateCount={dateCount} />
+			<GanttHeader viewStart={startDate} viewEnd={endDate} dateCount={dateCount} />
 			
 			{/* Main grid area - contains data rows */}
 			<div 

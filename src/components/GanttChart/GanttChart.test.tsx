@@ -54,6 +54,69 @@ const defaultProps = {
 	onTaskDoubleClick: vi.fn(),
 };
 
+describe('GanttChart Date Handling', () => {
+	test('should handle string dates without throwing errors', () => {
+		expect(() => {
+			render(
+				<GanttChart
+					{...defaultProps}
+					viewStart="2025-01-01"
+					viewEnd="2025-01-07"
+				/>
+			);
+		}).not.toThrow();
+	});
+
+	test('should handle timestamp dates without throwing errors', () => {
+		expect(() => {
+			render(
+				<GanttChart
+					{...defaultProps}
+					viewStart={new Date('2025-01-01').getTime()}
+					viewEnd={new Date('2025-01-07').getTime()}
+				/>
+			);
+		}).not.toThrow();
+	});
+
+	test('should render correctly with mixed date formats', () => {
+		render(
+			<GanttChart
+				resources={mockResources}
+				tasks={mockTasks}
+				viewStart="2025-01-01"
+				viewEnd={new Date('2025-01-07').getTime()}
+			/>
+		);
+
+		expect(screen.getByRole('grid')).toBeInTheDocument();
+		expect(screen.getByText('Resources')).toBeInTheDocument();
+	});
+
+	test('should handle invalid dates gracefully', () => {
+		const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		
+		render(
+			<GanttChart
+				resources={mockResources}
+				tasks={mockTasks}
+				viewStart="invalid-date"
+				viewEnd="also-invalid"
+			/>
+		);
+
+		expect(screen.getByRole('grid')).toBeInTheDocument();
+		expect(consoleSpy).toHaveBeenCalledWith(
+			expect.stringContaining('GanttChart: Invalid viewStart date provided')
+		);
+		expect(consoleSpy).toHaveBeenCalledWith(
+			expect.stringContaining('GanttChart: Invalid viewEnd date provided')
+		);
+		
+		consoleSpy.mockRestore();
+	});
+});
+
 describe('GanttChart ARIA and Keyboard Navigation', () => {
 	beforeEach(() => {
 		vi.clearAllMocks();

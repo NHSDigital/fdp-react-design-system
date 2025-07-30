@@ -1,50 +1,43 @@
 {
-  "button": {
-    "primary": {
-      "background": {
-        "default": "#007f3b",
-        "hover": "#006530",
-        "active": "#004021",
-        "disabled": "#d8dde0"
-      },
-      "text": {
-        "default": "#ffffff",
-        "disabled": "#768692"
-      },
-      "border": {
-        "default": "#00000000",
-        "focus": "#ffeb3b"
+  "semantic": {
+    "color": {
+      "button": {
+        "primary": {
+          "background": "#007f3b",
+          "text": "#ffffff",
+          "hover": "#006530",
+          "active": "#00401e",
+          "shadow": "#00401e"
+        },
+        "secondary": {
+          "background": "#00000000",
+          "background-solid": "#ffffff",
+          "border": "#005eb8",
+          "text": "#005eb8",
+          "hover": "#d9e5f2",
+          "active": "#c7daf0",
+          "shadow": "#005eb8"
+        },
+        "reverse": {
+          "background": "#ffffff",
+          "text": "#212b32",
+          "hover": "#d9dde0",
+          "active": "#b3bcc2",
+          "shadow": "#b3bcc2"
+        },
+        "warning": {
+          "background": "#d5281b",
+          "hover": "#aa2016",
+          "active": "#6a140e",
+          "shadow": "#6a140e"
+        },
+        "login": {
+          "background": "#005eb8",
+          "hover": "#004b93",
+          "active": "#002f5c",
+          "shadow": "#002f5c"
+        }
       }
-    },
-    "secondary": {
-      "background": {
-        "default": "#00000000",
-        "solid": "#ffffff",
-        "hover": "#d9e5f2",
-        "active": "#c7daf0"
-      },
-      "text": {
-        "default": "#005eb8"
-      },
-      "border": {
-        "default": "#005eb8"
-      }
-    },
-    "spacing": {
-      "padding-vertical-mobile": "8px",
-      "padding-horizontal-mobile": "16px",
-      "padding-vertical-desktop": "12px",
-      "padding-horizontal-desktop": "16px"
-    },
-    "border": {
-      "width": "2px",
-      "radius": "4px"
-    },
-    "shadow": {
-      "size": "4px"
-    },
-    "typography": {
-      "weight": "600"
     }
   }
 }

@@ -1,35 +1,35 @@
 import React from 'react';
-import { AriaButton } from './AriaButton';
+import { Button } from './Button';
 
 /**
- * Examples demonstrating various AriaButton usage patterns
+ * Examples demonstrating various Button usage patterns
  */
-export const AriaButtonExamples: React.FC = () => {
+export const ButtonExamples: React.FC = () => {
   return (
     <div style={{ padding: '2rem', maxWidth: '600px' }}>
-      <h2>AriaButton Examples</h2>
+      <h2>Button Examples</h2>
       
       <section style={{ marginBottom: '2rem' }}>
         <h3>Basic Usage</h3>
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-          <AriaButton variant="primary">
+          <Button variant="primary">
             Continue
-          </AriaButton>
-          <AriaButton variant="secondary">
+          </Button>
+          <Button variant="secondary">
             Find out more
-          </AriaButton>
+          </Button>
         </div>
       </section>
 
       <section style={{ marginBottom: '2rem' }}>
         <h3>All Variants</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-start' }}>
-          <AriaButton variant="primary">Primary Action</AriaButton>
-          <AriaButton variant="secondary">Secondary Action</AriaButton>
-          <AriaButton variant="login">Login Button</AriaButton>
-          <AriaButton variant="warning">Delete Item</AriaButton>
+          <Button variant="primary">Primary Action</Button>
+          <Button variant="secondary">Secondary Action</Button>
+          <Button variant="login">Login Button</Button>
+          <Button variant="warning">Delete Item</Button>
           <div style={{ background: '#005eb8', padding: '0.5rem', borderRadius: '4px' }}>
-            <AriaButton variant="reverse">Reverse Button</AriaButton>
+            <Button variant="reverse">Reverse Button</Button>
           </div>
         </div>
       </section>
@@ -37,43 +37,43 @@ export const AriaButtonExamples: React.FC = () => {
       <section style={{ marginBottom: '2rem' }}>
         <h3>Sizes</h3>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <AriaButton variant="primary" size="small">Small</AriaButton>
-          <AriaButton variant="primary" size="default">Default</AriaButton>
-          <AriaButton variant="primary" size="large">Large</AriaButton>
+          <Button variant="primary" size="small">Small</Button>
+          <Button variant="primary" size="default">Default</Button>
+          <Button variant="primary" size="large">Large</Button>
         </div>
       </section>
 
       <section style={{ marginBottom: '2rem' }}>
         <h3>States</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-start' }}>
-          <AriaButton 
+          <Button 
             variant="primary"
             onPress={() => alert('Button pressed!')}
           >
             Interactive Button
-          </AriaButton>
-          <AriaButton variant="primary" isDisabled>
+          </Button>
+          <Button variant="primary" isDisabled>
             Disabled Button
-          </AriaButton>
-          <AriaButton variant="primary" fullWidth>
+          </Button>
+          <Button variant="primary" fullWidth>
             Full Width Button
-          </AriaButton>
+          </Button>
         </div>
       </section>
 
       <section style={{ marginBottom: '2rem' }}>
         <h3>Advanced Usage</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-start' }}>
-          <AriaButton 
+          <Button 
             variant="primary"
             onPress={() => console.log('Form submitted')}
             type="submit"
             aria-label="Submit the form"
           >
             Submit Form
-          </AriaButton>
+          </Button>
           
-          <AriaButton 
+          <Button 
             variant="warning"
             onPress={() => {
               if (confirm('Are you sure you want to delete this item?')) {
@@ -82,7 +82,7 @@ export const AriaButtonExamples: React.FC = () => {
             }}
           >
             Delete with Confirmation
-          </AriaButton>
+          </Button>
         </div>
       </section>
 
@@ -99,30 +99,30 @@ export const AriaButtonExamples: React.FC = () => {
         </ul>
         
         <div style={{ display: 'flex', gap: '1rem' }}>
-          <AriaButton 
+          <Button 
             variant="primary"
             onPress={() => console.log('First button')}
           >
             First Button
-          </AriaButton>
-          <AriaButton 
+          </Button>
+          <Button 
             variant="secondary"
             onPress={() => console.log('Second button')}
           >
             Second Button
-          </AriaButton>
-          <AriaButton 
+          </Button>
+          <Button 
             variant="primary"
             isDisabled
           >
             Disabled (Skipped)
-          </AriaButton>
-          <AriaButton 
+          </Button>
+          <Button 
             variant="warning"
             onPress={() => console.log('Last button')}
           >
             Last Button
-          </AriaButton>
+          </Button>
         </div>
       </section>
     </div>

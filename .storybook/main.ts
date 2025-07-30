@@ -40,6 +40,10 @@ const config: StorybookConfig = {
       ];
     }
     
+    // Configure server for font CORS if running locally
+    config.server = config.server || {};
+    config.server.cors = true;
+    
     return config;
   },
 };

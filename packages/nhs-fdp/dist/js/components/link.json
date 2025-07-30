@@ -1,10 +1,12 @@
 {
-  "color": {
-    "link": {
-      "default": "#005eb8",
-      "hover": "#7c2855",
-      "active": "#003087",
-      "visited": "#330072"
+  "semantic": {
+    "color": {
+      "link": {
+        "default": "#005eb8",
+        "hover": "#7c2855",
+        "active": "#003087",
+        "visited": "#330072"
+      }
     }
   }
 }

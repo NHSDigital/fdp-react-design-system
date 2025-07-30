@@ -1,25 +1,28 @@
 
 // Do not edit directly, this file was auto-generated.
 
-$nhs-fdp-button-primary-background-default: #007f3b; // Primary button background color
-$nhs-fdp-button-primary-background-hover: #006530; // Primary button hover background color
-$nhs-fdp-button-primary-background-active: #004021; // Primary button active background color
-$nhs-fdp-button-primary-background-disabled: #d8dde0; // Primary button disabled background color
-$nhs-fdp-button-primary-text-default: #ffffff; // Primary button text color
-$nhs-fdp-button-primary-text-disabled: #768692; // Primary button disabled text color
-$nhs-fdp-button-primary-border-default: rgba(0, 0, 0, 0); // Primary button border color
-$nhs-fdp-button-primary-border-focus: #ffeb3b; // Primary button focus border color
-$nhs-fdp-button-secondary-background-default: rgba(0, 0, 0, 0); // Secondary button background color
-$nhs-fdp-button-secondary-background-solid: #ffffff; // Secondary button solid background color
-$nhs-fdp-button-secondary-background-hover: #d9e5f2; // Secondary button hover background color
-$nhs-fdp-button-secondary-background-active: #c7daf0; // Secondary button active background color
-$nhs-fdp-button-secondary-text-default: #005eb8; // Secondary button text color
-$nhs-fdp-button-secondary-border-default: #005eb8; // Secondary button border color
-$nhs-fdp-button-spacing-padding-vertical-mobile: 8px; // Button vertical padding on mobile
-$nhs-fdp-button-spacing-padding-horizontal-mobile: 16px; // Button horizontal padding on mobile
-$nhs-fdp-button-spacing-padding-vertical-desktop: 12px; // Button vertical padding on desktop
-$nhs-fdp-button-spacing-padding-horizontal-desktop: 16px; // Button horizontal padding on desktop
-$nhs-fdp-button-border-width: 2px; // Button border width
-$nhs-fdp-button-border-radius: 4px; // Button border radius
-$nhs-fdp-button-shadow-size: 4px; // Button shadow size
-$nhs-fdp-button-typography-weight: 600; // Button font weight
+$nhs-fdp-semantic-color-button-primary-background: #007f3b;
+$nhs-fdp-semantic-color-button-primary-text: #ffffff;
+$nhs-fdp-semantic-color-button-primary-hover: #006530; // 20% shade of green
+$nhs-fdp-semantic-color-button-primary-active: #00401e; // 50% shade of green
+$nhs-fdp-semantic-color-button-primary-shadow: #00401e; // 50% shade of green
+$nhs-fdp-semantic-color-button-secondary-background: rgba(0, 0, 0, 0);
+$nhs-fdp-semantic-color-button-secondary-background-solid: #ffffff;
+$nhs-fdp-semantic-color-button-secondary-border: #005eb8;
+$nhs-fdp-semantic-color-button-secondary-text: #005eb8;
+$nhs-fdp-semantic-color-button-secondary-hover: #d9e5f2; // 85% tint of blue
+$nhs-fdp-semantic-color-button-secondary-active: #c7daf0; // 78% tint of blue
+$nhs-fdp-semantic-color-button-secondary-shadow: #005eb8;
+$nhs-fdp-semantic-color-button-reverse-background: #ffffff;
+$nhs-fdp-semantic-color-button-reverse-text: #212b32;
+$nhs-fdp-semantic-color-button-reverse-hover: #d9dde0; // 15% shade of white
+$nhs-fdp-semantic-color-button-reverse-active: #b3bcc2; // 30% shade of white
+$nhs-fdp-semantic-color-button-reverse-shadow: #b3bcc2;
+$nhs-fdp-semantic-color-button-warning-background: #d5281b;
+$nhs-fdp-semantic-color-button-warning-hover: #aa2016; // 20% shade of red
+$nhs-fdp-semantic-color-button-warning-active: #6a140e; // 50% shade of red
+$nhs-fdp-semantic-color-button-warning-shadow: #6a140e;
+$nhs-fdp-semantic-color-button-login-background: #005eb8;
+$nhs-fdp-semantic-color-button-login-hover: #004b93; // 20% shade of blue
+$nhs-fdp-semantic-color-button-login-active: #002f5c; // 50% shade of blue
+$nhs-fdp-semantic-color-button-login-shadow: #002f5c;

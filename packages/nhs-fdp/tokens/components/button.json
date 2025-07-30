@@ -4,30 +4,30 @@
       "background": {
         "$type": "color",
         "default": {
-          "$value": "{color.button.primary.background}",
+          "$value": "{semantic.color.button.primary.background}",
           "$description": "Primary button background color"
         },
         "hover": {
-          "$value": "{color.button.primary.hover}",
+          "$value": "{semantic.color.button.primary.hover}",
           "$description": "Primary button hover background color"
         },
         "active": {
-          "$value": "{color.button.primary.active}",
+          "$value": "{semantic.color.button.primary.active}",
           "$description": "Primary button active background color"
         },
         "disabled": {
-          "$value": "{state.disabled.background}",
+          "$value": "{color.grey.4}",
           "$description": "Primary button disabled background color"
         }
       },
       "text": {
         "$type": "color",
         "default": {
-          "$value": "{color.button.primary.text}",
+          "$value": "{semantic.color.button.primary.text}",
           "$description": "Primary button text color"
         },
         "disabled": {
-          "$value": "{state.disabled.text}",
+          "$value": "{color.grey.2}",
           "$description": "Primary button disabled text color"
         }
       },
@@ -38,7 +38,7 @@
           "$description": "Primary button border color"
         },
         "focus": {
-          "$value": "{color.focus.background}",
+          "$value": "{semantic.color.focus.background}",
           "$description": "Primary button focus border color"
         }
       }
@@ -47,33 +47,33 @@
       "background": {
         "$type": "color", 
         "default": {
-          "$value": "{color.button.secondary.background}",
+          "$value": "{semantic.color.button.secondary.background}",
           "$description": "Secondary button background color"
         },
         "solid": {
-          "$value": "{color.button.secondary.background-solid}",
+          "$value": "{semantic.color.button.secondary.background-solid}",
           "$description": "Secondary button solid background color"
         },
         "hover": {
-          "$value": "{color.button.secondary.hover}",
+          "$value": "{semantic.color.button.secondary.hover}",
           "$description": "Secondary button hover background color"
         },
         "active": {
-          "$value": "{color.button.secondary.active}",
+          "$value": "{semantic.color.button.secondary.active}",
           "$description": "Secondary button active background color"
         }
       },
       "text": {
         "$type": "color",
         "default": {
-          "$value": "{color.button.secondary.text}",
+          "$value": "{semantic.color.button.secondary.text}",
           "$description": "Secondary button text color"
         }
       },
       "border": {
         "$type": "color",
         "default": {
-          "$value": "{color.button.secondary.border}",
+          "$value": "{semantic.color.button.secondary.border}",
           "$description": "Secondary button border color"
         }
       }

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NHS Button Test</title>
+  <link rel="stylesheet" href="dist/nhs-design-system.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background: #f0f4f5;
+    }
+    .test-section {
+      margin-bottom: 40px;
+      padding: 20px;
+      background: white;
+      border-radius: 4px;
+    }
+    h1, h2 {
+      color: #212b32;
+      margin-bottom: 20px;
+    }
+    .button-row {
+      margin-bottom: 20px;
+    }
+    .button-row > * {
+      margin-right: 16px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>NHS Design System Button Test</h1>
+  
+  <div class="test-section">
+    <h2>Primary Buttons</h2>
+    <div class="button-row">
+      <button class="nhs-button nhs-button--primary">Primary Button</button>
+      <button class="nhs-button nhs-button--primary nhs-button--small">Small Primary</button>
+      <button class="nhs-button nhs-button--primary nhs-button--large">Large Primary</button>
+    </div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Secondary Buttons</h2>
+    <div class="button-row">
+      <button class="nhs-button nhs-button--secondary">Secondary Button</button>
+      <button class="nhs-button nhs-button--secondary nhs-button--small">Small Secondary</button>
+      <button class="nhs-button nhs-button--secondary nhs-button--large">Large Secondary</button>
+    </div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Warning Button</h2>
+    <div class="button-row">
+      <button class="nhs-button nhs-button--warning">Warning Button</button>
+      <button class="nhs-button nhs-button--warning nhs-button--disabled">Disabled Warning</button>
+    </div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Full Width Button</h2>
+    <div class="button-row">
+      <button class="nhs-button nhs-button--primary nhs-button--full-width">Full Width Primary</button>
+    </div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Font & Color Tests</h2>
+    <div class="button-row">
+      <button class="nhs-button nhs-button--primary">Check Font Family</button>
+    </div>
+    <p><strong>Expected:</strong> Frutiger W01 font family, proper font sizes, NHS blue backgrounds</p>
+    <p><strong>Font Variables Used:</strong></p>
+    <ul>
+      <li><code>--nhs-font-family-base</code>: <span id="font-family-value"></span></li>
+      <li><code>--nhs-font-size-19-tablet</code>: <span id="font-size-value"></span></li>
+      <li><code>--nhs-color-primary-blue</code>: <span id="color-blue-value"></span></li>
+    </ul>
+  </div>
+  
+  <script>
+    // Display the actual CSS variable values
+    const root = document.documentElement;
+    const style = getComputedStyle(root);
+    
+    document.getElementById('font-family-value').textContent = 
+      style.getPropertyValue('--nhs-font-family-base') || 'NOT FOUND';
+    document.getElementById('font-size-value').textContent = 
+      style.getPropertyValue('--nhs-font-size-19-tablet') || 'NOT FOUND';
+    document.getElementById('color-blue-value').textContent = 
+      style.getPropertyValue('--nhs-color-primary-blue') || 'NOT FOUND';
+  </script>
+</body>
+</html>

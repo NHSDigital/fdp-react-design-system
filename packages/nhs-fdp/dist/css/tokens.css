@@ -48,46 +48,6 @@
   --color-grey-3: #aeb7bd; /** NHS Grey 3 - Medium grey */
   --color-grey-4: #d8dde0; /** NHS Grey 4 - Light grey */
   --color-grey-5: #f0f4f5; /** NHS Grey 5 - Lightest grey */
-  --color-text-primary: #212b32; /** Primary text color */
-  --color-text-secondary: #4c6272; /** Secondary text color */
-  --color-text-reverse: #ffffff; /** Reverse/inverted text color */
-  --color-text-print: #212b32; /** Print text color */
-  --color-link-default: #005eb8; /** Default link color */
-  --color-link-hover: #7c2855; /** Link hover color */
-  --color-link-active: #003087; /** Link active color (50% shade of blue) */
-  --color-link-visited: #330072; /** Visited link color */
-  --color-focus-background: #ffeb3b; /** Focus background color */
-  --color-focus-text: #212b32; /** Focus text color */
-  --color-border-default: #d8dde0; /** Default border color */
-  --color-border-secondary: rgba(255, 255, 255, 0.2); /** Secondary border color */
-  --color-error: #d5281b; /** Error color */
-  --color-form-border: #4c6272; /** Form border color */
-  --color-form-background: #ffffff; /** Form background color */
-  --color-button-primary-background: #007f3b;
-  --color-button-primary-text: #ffffff;
-  --color-button-primary-hover: #006530; /** 20% shade of green */
-  --color-button-primary-active: #004021; /** 50% shade of green */
-  --color-button-primary-shadow: #004021; /** 50% shade of green */
-  --color-button-secondary-background: rgba(0, 0, 0, 0);
-  --color-button-secondary-background-solid: #ffffff;
-  --color-button-secondary-border: #005eb8;
-  --color-button-secondary-text: #005eb8;
-  --color-button-secondary-hover: #d9e5f2; /** 85% tint of blue */
-  --color-button-secondary-active: #c7daf0; /** 78% tint of blue */
-  --color-button-secondary-shadow: #005eb8;
-  --color-button-reverse-background: #ffffff;
-  --color-button-reverse-text: #212b32;
-  --color-button-reverse-hover: #d9dde0; /** 15% shade of white */
-  --color-button-reverse-active: #b3bcc2; /** 30% shade of white */
-  --color-button-reverse-shadow: #b3bcc2;
-  --color-button-warning-background: #d5281b;
-  --color-button-warning-hover: #aa2016; /** 20% shade of red */
-  --color-button-warning-active: #6a140e; /** 50% shade of red */
-  --color-button-warning-shadow: #6a140e;
-  --color-button-login-background: #005eb8;
-  --color-button-login-hover: #004b93; /** 20% shade of blue */
-  --color-button-login-active: #002f5c; /** 50% shade of blue */
-  --color-button-login-shadow: #002f5c;
   --component-button-padding-mobile-vertical: 8px; /** Button vertical padding on mobile */
   --component-button-padding-mobile-horizontal: 16px; /** Button horizontal padding on mobile */
   --component-button-padding-desktop-vertical: 12px; /** Button vertical padding on desktop */
@@ -117,7 +77,7 @@
   --component-pagination: 16px; /** Pagination shadow */
   --button-primary-background-default: #007f3b; /** Primary button background color */
   --button-primary-background-hover: #006530; /** Primary button hover background color */
-  --button-primary-background-active: #004021; /** Primary button active background color */
+  --button-primary-background-active: #00401e; /** Primary button active background color */
   --button-primary-background-disabled: #d8dde0; /** Primary button disabled background color */
   --button-primary-text-default: #ffffff; /** Primary button text color */
   --button-primary-text-disabled: #768692; /** Primary button disabled text color */
@@ -153,7 +113,7 @@
   --card-shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.1); /** Card shadow on hover */
   --form-input-background-default: #ffffff; /** Default input background color */
   --form-input-background-focus: #ffffff; /** Input background color when focused */
-  --form-input-background-disabled: #d8dde0; /** Input background color when disabled */
+  --form-input-background-disabled: #f0f4f5; /** Input background color when disabled */
   --form-input-background-error: #ffffff; /** Input background color in error state */
   --form-input-border-default: #4c6272; /** Default input border color */
   --form-input-border-focus: #ffeb3b; /** Input border color when focused */
@@ -163,7 +123,7 @@
   --form-input-text-placeholder: #4c6272; /** Input placeholder text color */
   --form-input-text-disabled: #768692; /** Input text color when disabled */
   --form-label-text-default: #212b32; /** Form label text color */
-  --form-label-text-required: #ffffff; /** Required form label indicator color */
+  --form-label-text-required: #d5281b; /** Required form label indicator color */
   --form-label-typography-weight: 600; /** Form label font weight */
   --form-error-text-default: #d5281b; /** Form error message text color */
   --form-error-typography-weight: 600; /** Form error message font weight */
@@ -205,22 +165,47 @@
   --grid-page-width: 960px; /** Maximum page width */
   --grid-gutter: 32px; /** Grid gutter width */
   --grid-gutter-half: 16px; /** Half grid gutter width */
-  --state-error-background: #d5281b; /** Error state background color */
-  --state-error-border: #d5281b; /** Error state border color */
-  --state-error-text: #ffffff; /** Error state text color */
-  --state-success-background: #007f3b; /** Success state background color */
-  --state-success-border: #007f3b; /** Success state border color */
-  --state-success-text: #ffffff; /** Success state text color */
-  --state-warning-background: #ffeb3b; /** Warning state background color */
-  --state-warning-border: #ffeb3b; /** Warning state border color */
-  --state-warning-text: #212b32; /** Warning state text color */
-  --state-info-background: #005eb8; /** Info state background color */
-  --state-info-border: #005eb8; /** Info state border color */
-  --state-info-text: #ffffff; /** Info state text color */
-  --state-disabled-background: #d8dde0; /** Disabled state background color */
-  --state-disabled-border: #aeb7bd; /** Disabled state border color */
-  --state-disabled-text: #768692; /** Disabled state text color */
-  --shadow-button-default: 0 4px 0 #004021; /** Default button shadow */
+  --semantic-color-text-primary: #212b32; /** Primary text color */
+  --semantic-color-text-secondary: #4c6272; /** Secondary text color */
+  --semantic-color-text-reverse: #ffffff; /** Reverse/inverted text color */
+  --semantic-color-text-print: #212b32; /** Print text color */
+  --semantic-color-link-default: #005eb8; /** Default link color */
+  --semantic-color-link-hover: #7c2855; /** Link hover color */
+  --semantic-color-link-active: #003087; /** Link active color (50% shade of blue) */
+  --semantic-color-link-visited: #330072; /** Visited link color */
+  --semantic-color-focus-background: #ffeb3b; /** Focus background color */
+  --semantic-color-focus-text: #212b32; /** Focus text color */
+  --semantic-color-border-default: #d8dde0; /** Default border color */
+  --semantic-color-border-secondary: rgba(255, 255, 255, 0.2); /** Secondary border color */
+  --semantic-color-error: #d5281b; /** Error color */
+  --semantic-color-form-border: #4c6272; /** Form border color */
+  --semantic-color-form-background: #ffffff; /** Form background color */
+  --semantic-color-button-primary-background: #007f3b;
+  --semantic-color-button-primary-text: #ffffff;
+  --semantic-color-button-primary-hover: #006530; /** 20% shade of green */
+  --semantic-color-button-primary-active: #00401e; /** 50% shade of green */
+  --semantic-color-button-primary-shadow: #00401e; /** 50% shade of green */
+  --semantic-color-button-secondary-background: rgba(0, 0, 0, 0);
+  --semantic-color-button-secondary-background-solid: #ffffff;
+  --semantic-color-button-secondary-border: #005eb8;
+  --semantic-color-button-secondary-text: #005eb8;
+  --semantic-color-button-secondary-hover: #d9e5f2; /** 85% tint of blue */
+  --semantic-color-button-secondary-active: #c7daf0; /** 78% tint of blue */
+  --semantic-color-button-secondary-shadow: #005eb8;
+  --semantic-color-button-reverse-background: #ffffff;
+  --semantic-color-button-reverse-text: #212b32;
+  --semantic-color-button-reverse-hover: #d9dde0; /** 15% shade of white */
+  --semantic-color-button-reverse-active: #b3bcc2; /** 30% shade of white */
+  --semantic-color-button-reverse-shadow: #b3bcc2;
+  --semantic-color-button-warning-background: #d5281b;
+  --semantic-color-button-warning-hover: #aa2016; /** 20% shade of red */
+  --semantic-color-button-warning-active: #6a140e; /** 50% shade of red */
+  --semantic-color-button-warning-shadow: #6a140e;
+  --semantic-color-button-login-background: #005eb8;
+  --semantic-color-button-login-hover: #004b93; /** 20% shade of blue */
+  --semantic-color-button-login-active: #002f5c; /** 50% shade of blue */
+  --semantic-color-button-login-shadow: #002f5c;
+  --shadow-button-default: 0 4px 0 #00401e; /** Default button shadow */
   --shadow-button-secondary: 0 4px 0 #005eb8; /** Secondary button shadow */
   --shadow-button-warning: 0 4px 0 #6a140e; /** Warning button shadow */
   --shadow-button-focus: 0 4px 0 #ffeb3b; /** Button shadow when focused */
@@ -265,8 +250,8 @@
   --spacing-responsive-8-tablet: 56px;
   --spacing-responsive-9-mobile: 56px;
   --spacing-responsive-9-tablet: 64px;
-  --font-family-base: 'Frutiger W01'; /** Primary NHS font family */
-  --font-family-fallback: Arial, Helvetica, sans-serif; /** Fallback fonts if Frutiger fails to load */
+  --font-family-base: '"Frutiger W01"'; /** Primary NHS font family */
+  --font-family-fallback: arial, sans-serif; /** Fallback fonts if Frutiger fails to load */
   --font-family-print: sans-serif; /** Font family for print styles */
   --font-weight-normal: 400; /** Normal font weight */
   --font-weight-bold: 600; /** Bold font weight */
@@ -294,14 +279,4 @@
   --font-size-48-print: 24pt;
   --font-size-base: 16px; /** Base font size */
   --font-line-height-base: 24px; /** Base line height */
-  --headings-nhsuk-heading-xl: [object Object]; /** Extra large heading style (h1 equivalent) */
-  --headings-nhsuk-heading-l: [object Object]; /** Large heading style (h2 equivalent) */
-  --headings-nhsuk-heading-m: [object Object]; /** Medium heading style (h3 equivalent) */
-  --headings-nhsuk-heading-s: [object Object]; /** Small heading style (h4 equivalent) */
-  --headings-nhsuk-heading-xs: [object Object]; /** Extra small heading style (h5 equivalent) */
-  --paragraphs-body: [object Object]; /** Default paragraph text style (nhsuk-body-m) */
-  --paragraphs-body-large: [object Object]; /** Large body text style (nhsuk-body-l) */
-  --paragraphs-body-small: [object Object]; /** Small body text style (nhsuk-body-s) */
-  --paragraphs-lede-text: [object Object]; /** Lead paragraph style (nhsuk-lede-text) */
-  --paragraphs-lede-text-small: [object Object]; /** Small lead paragraph style (nhsuk-lede-text--small) */
 }

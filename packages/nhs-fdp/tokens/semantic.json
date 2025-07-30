@@ -1,5 +1,6 @@
 {
-   "color": {
+  "semantic": {
+    "color": {
       "$type": "color",
       "text": {
         "primary": {
@@ -84,11 +85,11 @@
             "$description": "20% shade of green"
           },
           "active": {
-            "$value": "#004021",
+            "$value": "#00401e",
             "$description": "50% shade of green"
           },
           "shadow": {
-            "$value": "#004021",
+            "$value": "#00401e",
             "$description": "50% shade of green"
           }
         },
@@ -168,78 +169,6 @@
             "$value": "#002f5c"
           }
         }
-      }
-    },
-  "state": {
-    "$type": "color",
-    "error": {
-      "background": {
-        "$value": "{color.primary.red}",
-        "$description": "Error state background color"
-      },
-      "border": {
-        "$value": "{color.primary.red}",
-        "$description": "Error state border color"
-      },
-      "text": {
-        "$value": "{color.primary.white}",
-        "$description": "Error state text color"
-      }
-    },
-    "success": {
-      "background": {
-        "$value": "{color.primary.green}",
-        "$description": "Success state background color"
-      },
-      "border": {
-        "$value": "{color.primary.green}",
-        "$description": "Success state border color" 
-      },
-      "text": {
-        "$value": "{color.primary.white}",
-        "$description": "Success state text color"
-      }
-    },
-    "warning": {
-      "background": {
-        "$value": "{color.primary.yellow}",
-        "$description": "Warning state background color"
-      },
-      "border": {
-        "$value": "{color.primary.yellow}",
-        "$description": "Warning state border color"
-      },
-      "text": {
-        "$value": "{color.primary.black}",
-        "$description": "Warning state text color"
-      }
-    },
-    "info": {
-      "background": {
-        "$value": "{color.primary.blue}",
-        "$description": "Info state background color"
-      },
-      "border": {
-        "$value": "{color.primary.blue}",
-        "$description": "Info state border color"
-      },
-      "text": {
-        "$value": "{color.primary.white}",
-        "$description": "Info state text color"
-      }
-    },
-    "disabled": {
-      "background": {
-        "$value": "{color.grey.4}",
-        "$description": "Disabled state background color"
-      },
-      "border": {
-        "$value": "{color.grey.3}",
-        "$description": "Disabled state border color"
-      },
-      "text": {
-        "$value": "{color.grey.2}",
-        "$description": "Disabled state text color"
       }
     }
   }

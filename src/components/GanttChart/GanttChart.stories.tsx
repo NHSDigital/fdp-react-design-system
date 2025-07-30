@@ -139,61 +139,6 @@ export const CurrentWeek: Story = {
   }
 };
 
-export const SurgicalSchedule: Story = {
-  args: {
-    resources: [
-      { id: 'or-1', label: 'Operating Room 1' },
-      { id: 'or-2', label: 'Operating Room 2' },
-      { id: 'or-3', label: 'Operating Room 3' },
-      { id: 'recovery', label: 'Recovery Bay' }
-    ],
-    tasks: [
-      { id: 'or1-morning', title: 'Appendectomy', resourceId: 'or-1', start: createDate(0), end: createDate(0), priority: 'high', progress: 100 },
-      { id: 'or1-afternoon', title: 'Gallbladder Surgery', resourceId: 'or-1', start: createDate(0), end: createDate(0), priority: 'medium', progress: 0 },
-      { id: 'or2-emergency', title: 'Emergency Surgery', resourceId: 'or-2', start: createDate(0), end: createDate(0), priority: 'high', progress: 50 },
-      { id: 'or3-elective', title: 'Hip Replacement', resourceId: 'or-3', start: createDate(1), end: createDate(1), priority: 'medium', progress: 0 },
-      { id: 'recovery-1', title: 'Post-op Monitoring', resourceId: 'recovery', start: createDate(0), end: createDate(2), priority: 'high', progress: 75 }
-    ],
-    viewStart: createDate(-1),
-    viewEnd: createDate(3)
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Surgical scheduling view focusing on operating rooms and recovery management.'
-      }
-    }
-  }
-};
-
-export const EmergencyDepartment: Story = {
-  args: {
-    resources: [
-      { id: 'triage', label: 'Triage' },
-      { id: 'minors', label: 'Minors Unit' },
-      { id: 'majors', label: 'Majors Unit' },
-      { id: 'resus', label: 'Resuscitation' },
-      { id: 'observation', label: 'Observation Ward' }
-    ],
-    tasks: [
-      { id: 'triage-1', title: 'Patient Assessment', resourceId: 'triage', start: createDate(0), end: createDate(0), priority: 'high', progress: 100 },
-      { id: 'minors-1', title: 'Minor Injury Treatment', resourceId: 'minors', start: createDate(0), end: createDate(0), priority: 'low', progress: 80 },
-      { id: 'majors-1', title: 'Chest Pain Investigation', resourceId: 'majors', start: createDate(0), end: createDate(1), priority: 'high', progress: 60 },
-      { id: 'resus-1', title: 'Cardiac Arrest', resourceId: 'resus', start: createDate(0), end: createDate(0), priority: 'high', progress: 100 },
-      { id: 'obs-1', title: '24hr Observation', resourceId: 'observation', start: createDate(0), end: createDate(1), priority: 'medium', progress: 40 }
-    ],
-    viewStart: createDate(-1),
-    viewEnd: createDate(2)
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Emergency department workflow showing patient flow through different treatment areas.'
-      }
-    }
-  }
-};
-
 export const LongTermCare: Story = {
   args: {
     resources: [
@@ -233,25 +178,6 @@ export const EmptySchedule: Story = {
     docs: {
       description: {
         story: 'Empty schedule view showing how the component handles no tasks.'
-      }
-    }
-  }
-};
-
-export const SingleDay: Story = {
-  args: {
-    resources: nhsResources.slice(0, 3),
-    tasks: nhsTasks.filter(task => {
-      const today = createDate(0);
-      return task.start <= today && task.end >= today;
-    }),
-    viewStart: createDate(0),
-    viewEnd: createDate(0)
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Single day view focusing on today\'s activities only.'
       }
     }
   }

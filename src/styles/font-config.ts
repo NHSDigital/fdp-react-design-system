@@ -137,33 +137,5 @@ export async function checkFrutigerLoaded(): Promise<boolean> {
   }
 }
 
-/**
- * Hook for React applications to manage font loading state
- */
-export function useFrutigerFonts(config: Partial<FontConfig> = {}) {
-  const [fontsLoaded, setFontsLoaded] = React.useState(false);
-  const [fontsError, setFontsError] = React.useState(false);
-  
-  React.useEffect(() => {
-    // Preload fonts
-    preloadFrutigerFonts(config);
-    
-    // Check if fonts are loaded
-    checkFrutigerLoaded()
-      .then(loaded => {
-        setFontsLoaded(loaded);
-        if (!loaded) {
-          console.warn('NHS Frutiger fonts not loaded. Using fallback fonts.');
-        }
-      })
-      .catch(() => {
-        setFontsError(true);
-        console.warn('Error checking NHS Frutiger font loading. Using fallback fonts.');
-      });
-  }, []);
-  
-  return { fontsLoaded, fontsError };
-}
-
-// React import (will be resolved by bundler)
-declare const React: any;
+// Note: React hook implementation moved to src/hooks/useFrutigerFonts.ts
+// This avoids React import issues in this utility file

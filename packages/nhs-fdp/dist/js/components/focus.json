@@ -1,8 +1,10 @@
 {
-  "color": {
-    "focus": {
-      "background": "#ffeb3b",
-      "text": "#212b32"
+  "semantic": {
+    "color": {
+      "focus": {
+        "background": "#ffeb3b",
+        "text": "#212b32"
+      }
     }
   }
 }

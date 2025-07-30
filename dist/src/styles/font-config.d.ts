@@ -52,10 +52,3 @@ export declare const NHS_FALLBACK_FONT_STACK = "Arial, Helvetica, sans-serif";
  * Check if Frutiger fonts are loaded
  */
 export declare function checkFrutigerLoaded(): Promise<boolean>;
-/**
- * Hook for React applications to manage font loading state
- */
-export declare function useFrutigerFonts(config?: Partial<FontConfig>): {
-    fontsLoaded: any;
-    fontsError: any;
-};

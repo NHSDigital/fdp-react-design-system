@@ -25,15 +25,15 @@
     "text": {
       "$type": "color",
       "heading": {
-        "$value": "{color.text.primary}",
+        "$value": "{semantic.color.text.primary}",
         "$description": "Card heading text color"
       },
       "description": {
-        "$value": "{color.text.primary}",
+        "$value": "{semantic.color.text.primary}",
         "$description": "Card description text color"
       },
       "link": {
-        "$value": "{color.link.default}",
+        "$value": "{semantic.color.link.default}",
         "$description": "Card link text color"
       }
     },

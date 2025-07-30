@@ -3,19 +3,19 @@
     "button": {
       "$type": "boxShadow",
       "default": {
-        "$value": "0 4px 0 {color.button.primary.shadow}",
+        "$value": "0 4px 0 {semantic.color.button.primary.shadow}",
         "$description": "Default button shadow"
       },
       "secondary": {
-        "$value": "0 4px 0 {color.button.secondary.shadow}",
+        "$value": "0 4px 0 {semantic.color.button.secondary.shadow}",
         "$description": "Secondary button shadow"
       },
       "warning": {
-        "$value": "0 4px 0 {color.button.warning.shadow}",
+        "$value": "0 4px 0 {semantic.color.button.warning.shadow}",
         "$description": "Warning button shadow"
       },
       "focus": {
-        "$value": "0 4px 0 {color.focus.background}",
+        "$value": "0 4px 0 {semantic.color.focus.background}",
         "$description": "Button shadow when focused"
       }
     },
@@ -49,11 +49,11 @@
   "focus-shadow": {
     "$type": "boxShadow",
     "input": {
-      "$value": "0 0 0 3px {color.focus.background}",
+      "$value": "0 0 0 3px {semantic.color.focus.background}",
       "$description": "Focus shadow for input elements"
     },
     "button": {
-      "$value": "0 0 0 3px {color.focus.background}",
+      "$value": "0 0 0 3px {semantic.color.focus.background}",
       "$description": "Focus shadow for buttons"
     }
   },

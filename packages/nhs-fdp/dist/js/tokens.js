@@ -51,46 +51,6 @@ export const ColorGrey2 = "#768692"; // NHS Grey 2 - Darker grey
 export const ColorGrey3 = "#aeb7bd"; // NHS Grey 3 - Medium grey
 export const ColorGrey4 = "#d8dde0"; // NHS Grey 4 - Light grey
 export const ColorGrey5 = "#f0f4f5"; // NHS Grey 5 - Lightest grey
-export const ColorTextPrimary = "#212b32"; // Primary text color
-export const ColorTextSecondary = "#4c6272"; // Secondary text color
-export const ColorTextReverse = "#ffffff"; // Reverse/inverted text color
-export const ColorTextPrint = "#212b32"; // Print text color
-export const ColorLinkDefault = "#005eb8"; // Default link color
-export const ColorLinkHover = "#7c2855"; // Link hover color
-export const ColorLinkActive = "#003087"; // Link active color (50% shade of blue)
-export const ColorLinkVisited = "#330072"; // Visited link color
-export const ColorFocusBackground = "#ffeb3b"; // Focus background color
-export const ColorFocusText = "#212b32"; // Focus text color
-export const ColorBorderDefault = "#d8dde0"; // Default border color
-export const ColorBorderSecondary = "#ffffff33"; // Secondary border color
-export const ColorError = "#d5281b"; // Error color
-export const ColorFormBorder = "#4c6272"; // Form border color
-export const ColorFormBackground = "#ffffff"; // Form background color
-export const ColorButtonPrimaryBackground = "#007f3b";
-export const ColorButtonPrimaryText = "#ffffff";
-export const ColorButtonPrimaryHover = "#006530"; // 20% shade of green
-export const ColorButtonPrimaryActive = "#004021"; // 50% shade of green
-export const ColorButtonPrimaryShadow = "#004021"; // 50% shade of green
-export const ColorButtonSecondaryBackground = "#00000000";
-export const ColorButtonSecondaryBackgroundSolid = "#ffffff";
-export const ColorButtonSecondaryBorder = "#005eb8";
-export const ColorButtonSecondaryText = "#005eb8";
-export const ColorButtonSecondaryHover = "#d9e5f2"; // 85% tint of blue
-export const ColorButtonSecondaryActive = "#c7daf0"; // 78% tint of blue
-export const ColorButtonSecondaryShadow = "#005eb8";
-export const ColorButtonReverseBackground = "#ffffff";
-export const ColorButtonReverseText = "#212b32";
-export const ColorButtonReverseHover = "#d9dde0"; // 15% shade of white
-export const ColorButtonReverseActive = "#b3bcc2"; // 30% shade of white
-export const ColorButtonReverseShadow = "#b3bcc2";
-export const ColorButtonWarningBackground = "#d5281b";
-export const ColorButtonWarningHover = "#aa2016"; // 20% shade of red
-export const ColorButtonWarningActive = "#6a140e"; // 50% shade of red
-export const ColorButtonWarningShadow = "#6a140e";
-export const ColorButtonLoginBackground = "#005eb8";
-export const ColorButtonLoginHover = "#004b93"; // 20% shade of blue
-export const ColorButtonLoginActive = "#002f5c"; // 50% shade of blue
-export const ColorButtonLoginShadow = "#002f5c";
 export const ComponentButtonPaddingMobileVertical = "8px"; // Button vertical padding on mobile
 export const ComponentButtonPaddingMobileHorizontal = "16px"; // Button horizontal padding on mobile
 export const ComponentButtonPaddingDesktopVertical = "12px"; // Button vertical padding on desktop
@@ -120,7 +80,7 @@ export const ComponentExpander = "4px"; // Expander shadow
 export const ComponentPagination = "16px"; // Pagination shadow
 export const ButtonPrimaryBackgroundDefault = "#007f3b"; // Primary button background color
 export const ButtonPrimaryBackgroundHover = "#006530"; // Primary button hover background color
-export const ButtonPrimaryBackgroundActive = "#004021"; // Primary button active background color
+export const ButtonPrimaryBackgroundActive = "#00401e"; // Primary button active background color
 export const ButtonPrimaryBackgroundDisabled = "#d8dde0"; // Primary button disabled background color
 export const ButtonPrimaryTextDefault = "#ffffff"; // Primary button text color
 export const ButtonPrimaryTextDisabled = "#768692"; // Primary button disabled text color
@@ -156,7 +116,7 @@ export const CardShadowDefault = "none"; // Default card shadow
 export const CardShadowHover = "0 2px 4px rgba(0, 0, 0, 0.1)"; // Card shadow on hover
 export const FormInputBackgroundDefault = "#ffffff"; // Default input background color
 export const FormInputBackgroundFocus = "#ffffff"; // Input background color when focused
-export const FormInputBackgroundDisabled = "#d8dde0"; // Input background color when disabled
+export const FormInputBackgroundDisabled = "#f0f4f5"; // Input background color when disabled
 export const FormInputBackgroundError = "#ffffff"; // Input background color in error state
 export const FormInputBorderDefault = "#4c6272"; // Default input border color
 export const FormInputBorderFocus = "#ffeb3b"; // Input border color when focused
@@ -166,7 +126,7 @@ export const FormInputTextDefault = "#212b32"; // Default input text color
 export const FormInputTextPlaceholder = "#4c6272"; // Input placeholder text color
 export const FormInputTextDisabled = "#768692"; // Input text color when disabled
 export const FormLabelTextDefault = "#212b32"; // Form label text color
-export const FormLabelTextRequired = "#ffffff"; // Required form label indicator color
+export const FormLabelTextRequired = "#d5281b"; // Required form label indicator color
 export const FormLabelTypographyWeight = "600"; // Form label font weight
 export const FormErrorTextDefault = "#d5281b"; // Form error message text color
 export const FormErrorTypographyWeight = "600"; // Form error message font weight
@@ -208,22 +168,47 @@ export const BreakpointLargeDesktop = "1280px"; // Large desktop breakpoint
 export const GridPageWidth = "960px"; // Maximum page width
 export const GridGutter = "32px"; // Grid gutter width
 export const GridGutterHalf = "16px"; // Half grid gutter width
-export const StateErrorBackground = "#d5281b"; // Error state background color
-export const StateErrorBorder = "#d5281b"; // Error state border color
-export const StateErrorText = "#ffffff"; // Error state text color
-export const StateSuccessBackground = "#007f3b"; // Success state background color
-export const StateSuccessBorder = "#007f3b"; // Success state border color
-export const StateSuccessText = "#ffffff"; // Success state text color
-export const StateWarningBackground = "#ffeb3b"; // Warning state background color
-export const StateWarningBorder = "#ffeb3b"; // Warning state border color
-export const StateWarningText = "#212b32"; // Warning state text color
-export const StateInfoBackground = "#005eb8"; // Info state background color
-export const StateInfoBorder = "#005eb8"; // Info state border color
-export const StateInfoText = "#ffffff"; // Info state text color
-export const StateDisabledBackground = "#d8dde0"; // Disabled state background color
-export const StateDisabledBorder = "#aeb7bd"; // Disabled state border color
-export const StateDisabledText = "#768692"; // Disabled state text color
-export const ShadowButtonDefault = "0 4px 0 #004021"; // Default button shadow
+export const SemanticColorTextPrimary = "#212b32"; // Primary text color
+export const SemanticColorTextSecondary = "#4c6272"; // Secondary text color
+export const SemanticColorTextReverse = "#ffffff"; // Reverse/inverted text color
+export const SemanticColorTextPrint = "#212b32"; // Print text color
+export const SemanticColorLinkDefault = "#005eb8"; // Default link color
+export const SemanticColorLinkHover = "#7c2855"; // Link hover color
+export const SemanticColorLinkActive = "#003087"; // Link active color (50% shade of blue)
+export const SemanticColorLinkVisited = "#330072"; // Visited link color
+export const SemanticColorFocusBackground = "#ffeb3b"; // Focus background color
+export const SemanticColorFocusText = "#212b32"; // Focus text color
+export const SemanticColorBorderDefault = "#d8dde0"; // Default border color
+export const SemanticColorBorderSecondary = "#ffffff33"; // Secondary border color
+export const SemanticColorError = "#d5281b"; // Error color
+export const SemanticColorFormBorder = "#4c6272"; // Form border color
+export const SemanticColorFormBackground = "#ffffff"; // Form background color
+export const SemanticColorButtonPrimaryBackground = "#007f3b";
+export const SemanticColorButtonPrimaryText = "#ffffff";
+export const SemanticColorButtonPrimaryHover = "#006530"; // 20% shade of green
+export const SemanticColorButtonPrimaryActive = "#00401e"; // 50% shade of green
+export const SemanticColorButtonPrimaryShadow = "#00401e"; // 50% shade of green
+export const SemanticColorButtonSecondaryBackground = "#00000000";
+export const SemanticColorButtonSecondaryBackgroundSolid = "#ffffff";
+export const SemanticColorButtonSecondaryBorder = "#005eb8";
+export const SemanticColorButtonSecondaryText = "#005eb8";
+export const SemanticColorButtonSecondaryHover = "#d9e5f2"; // 85% tint of blue
+export const SemanticColorButtonSecondaryActive = "#c7daf0"; // 78% tint of blue
+export const SemanticColorButtonSecondaryShadow = "#005eb8";
+export const SemanticColorButtonReverseBackground = "#ffffff";
+export const SemanticColorButtonReverseText = "#212b32";
+export const SemanticColorButtonReverseHover = "#d9dde0"; // 15% shade of white
+export const SemanticColorButtonReverseActive = "#b3bcc2"; // 30% shade of white
+export const SemanticColorButtonReverseShadow = "#b3bcc2";
+export const SemanticColorButtonWarningBackground = "#d5281b";
+export const SemanticColorButtonWarningHover = "#aa2016"; // 20% shade of red
+export const SemanticColorButtonWarningActive = "#6a140e"; // 50% shade of red
+export const SemanticColorButtonWarningShadow = "#6a140e";
+export const SemanticColorButtonLoginBackground = "#005eb8";
+export const SemanticColorButtonLoginHover = "#004b93"; // 20% shade of blue
+export const SemanticColorButtonLoginActive = "#002f5c"; // 50% shade of blue
+export const SemanticColorButtonLoginShadow = "#002f5c";
+export const ShadowButtonDefault = "0 4px 0 #00401e"; // Default button shadow
 export const ShadowButtonSecondary = "0 4px 0 #005eb8"; // Secondary button shadow
 export const ShadowButtonWarning = "0 4px 0 #6a140e"; // Warning button shadow
 export const ShadowButtonFocus = "0 4px 0 #ffeb3b"; // Button shadow when focused
@@ -268,8 +253,8 @@ export const SpacingResponsive8Mobile = "48px";
 export const SpacingResponsive8Tablet = "56px";
 export const SpacingResponsive9Mobile = "56px";
 export const SpacingResponsive9Tablet = "64px";
-export const FontFamilyBase = "Frutiger W01"; // Primary NHS font family
-export const FontFamilyFallback = "Arial, Helvetica, sans-serif"; // Fallback fonts if Frutiger fails to load
+export const FontFamilyBase = '"Frutiger W01"'; // Primary NHS font family
+export const FontFamilyFallback = "arial, sans-serif"; // Fallback fonts if Frutiger fails to load
 export const FontFamilyPrint = "sans-serif"; // Font family for print styles
 export const FontWeightNormal = "400"; // Normal font weight
 export const FontWeightBold = "600"; // Bold font weight
@@ -297,83 +282,3 @@ export const FontSize48Tablet = "48px";
 export const FontSize48Print = "24pt";
 export const FontSizeBase = "16px"; // Base font size
 export const FontLineHeightBase = "24px"; // Base line height
-export const HeadingsNhsukHeadingXl = {
-  fontFamily: "Frutiger W01",
-  fontWeight: "600",
-  fontSize: { mobile: "33px", tablet: "48px", print: "24pt" },
-  lineHeight: "1.09",
-  marginTop: "0",
-  marginBottom: { mobile: "40px", tablet: "48px" },
-}; // Extra large heading style (h1 equivalent)
-export const HeadingsNhsukHeadingL = {
-  fontFamily: "Frutiger W01",
-  fontWeight: "600",
-  fontSize: { mobile: "27px", tablet: "36px", print: "20pt" },
-  lineHeight: "1.11",
-  marginTop: "0",
-  marginBottom: { mobile: "16px", tablet: "24px" },
-}; // Large heading style (h2 equivalent)
-export const HeadingsNhsukHeadingM = {
-  fontFamily: "Frutiger W01",
-  fontWeight: "600",
-  fontSize: { mobile: "22px", tablet: "26px", print: "17pt" },
-  lineHeight: "1.15",
-  marginTop: "0",
-  marginBottom: { mobile: "16px", tablet: "24px" },
-}; // Medium heading style (h3 equivalent)
-export const HeadingsNhsukHeadingS = {
-  fontFamily: "Frutiger W01",
-  fontWeight: "600",
-  fontSize: { mobile: "19px", tablet: "22px", print: "15pt" },
-  lineHeight: "1.18",
-  marginTop: "0",
-  marginBottom: { mobile: "16px", tablet: "24px" },
-}; // Small heading style (h4 equivalent)
-export const HeadingsNhsukHeadingXs = {
-  fontFamily: "Frutiger W01",
-  fontWeight: "600",
-  fontSize: { mobile: "16px", tablet: "19px", print: "13pt" },
-  lineHeight: "1.26",
-  marginTop: "0",
-  marginBottom: { mobile: "16px", tablet: "24px" },
-}; // Extra small heading style (h5 equivalent)
-export const ParagraphsBody = {
-  fontFamily: "Frutiger W01",
-  fontWeight: "400",
-  fontSize: { mobile: "16px", tablet: "19px", print: "13pt" },
-  lineHeight: "1.47",
-  marginTop: "0",
-  marginBottom: { mobile: "16px", tablet: "24px" },
-}; // Default paragraph text style (nhsuk-body-m)
-export const ParagraphsBodyLarge = {
-  fontFamily: "Frutiger W01",
-  fontWeight: "400",
-  fontSize: { mobile: "22px", tablet: "26px", print: "17pt" },
-  lineHeight: "1.38",
-  marginTop: "0",
-  marginBottom: { mobile: "24px", tablet: "32px" },
-}; // Large body text style (nhsuk-body-l)
-export const ParagraphsBodySmall = {
-  fontFamily: "Frutiger W01",
-  fontWeight: "400",
-  fontSize: { mobile: "14px", tablet: "16px", print: "12pt" },
-  lineHeight: "1.5",
-  marginTop: "0",
-  marginBottom: { mobile: "16px", tablet: "24px" },
-}; // Small body text style (nhsuk-body-s)
-export const ParagraphsLedeText = {
-  fontFamily: "Frutiger W01",
-  fontWeight: "400",
-  fontSize: { mobile: "22px", tablet: "26px", print: "17pt" },
-  lineHeight: "1.38",
-  marginTop: "0",
-  marginBottom: { mobile: "40px", tablet: "48px" },
-}; // Lead paragraph style (nhsuk-lede-text)
-export const ParagraphsLedeTextSmall = {
-  fontFamily: "Frutiger W01",
-  fontWeight: "400",
-  fontSize: { mobile: "16px", tablet: "19px", print: "13pt" },
-  lineHeight: "1.47",
-  marginTop: "0",
-  marginBottom: { mobile: "24px", tablet: "32px" },
-}; // Small lead paragraph style (nhsuk-lede-text--small)

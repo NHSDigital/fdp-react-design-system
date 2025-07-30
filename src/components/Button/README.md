@@ -1,4 +1,4 @@
-# AriaButton Component
+# Button Component
 
 A React Aria-powered button component that provides excellent accessibility support while following NHS design guidelines.
 
@@ -19,25 +19,25 @@ npm install react-aria-components
 ## Usage
 
 ```tsx
-import { AriaButton } from '@nhs-fdp/design-system';
+import { Button } from '@nhs-fdp/design-system';
 
 // Basic usage
-<AriaButton variant="primary">Continue</AriaButton>
+<Button variant="primary">Continue</Button>
 
 // With all features
-<AriaButton 
+<Button 
   variant="secondary"
   size="large"
   fullWidth
   onPress={() => console.log('Pressed!')}
 >
   Find out more
-</AriaButton>
+</Button>
 
 // Disabled state
-<AriaButton variant="warning" isDisabled>
+<Button variant="warning" isDisabled>
   Cannot delete
-</AriaButton>
+</Button>
 ```
 
 ## Props
@@ -59,36 +59,36 @@ All other props from React Aria's `ButtonProps` are supported.
 ### Primary
 Green button for main actions (NHS Green)
 ```tsx
-<AriaButton variant="primary">Continue</AriaButton>
+<Button variant="primary">Continue</Button>
 ```
 
 ### Secondary  
 Blue outlined button for secondary actions
 ```tsx
-<AriaButton variant="secondary">Find out more</AriaButton>
+<Button variant="secondary">Find out more</Button>
 ```
 
 ### Reverse
 White button for dark backgrounds (NHS Blue, etc.)
 ```tsx
-<AriaButton variant="reverse">Start now</AriaButton>
+<Button variant="reverse">Start now</Button>
 ```
 
 ### Warning
 Red button for destructive actions
 ```tsx
-<AriaButton variant="warning">Delete item</AriaButton>
+<Button variant="warning">Delete item</Button>
 ```
 
 ### Login
 Blue button specifically for authentication
 ```tsx
-<AriaButton variant="login">Sign in</AriaButton>
+<Button variant="login">Sign in</Button>
 ```
 
 ## Accessibility Features
 
-The AriaButton component provides superior accessibility out of the box:
+The Button component provides superior accessibility out of the box:
 
 ### Keyboard Navigation
 - **Tab**: Navigate to button
@@ -112,7 +112,7 @@ The AriaButton component provides superior accessibility out of the box:
 
 ## Comparison with Standard Button
 
-| Feature | Standard Button | AriaButton |
+| Feature | Standard Button | Button |
 |---------|----------------|------------|
 | Accessibility | Manual implementation | Automatic with React Aria |
 | Keyboard Handling | Custom event handlers | Built-in keyboard support |
@@ -155,7 +155,7 @@ The component includes comprehensive tests covering:
 
 Run tests:
 ```bash
-npm test AriaButton
+npm test Button
 ```
 
 ## Examples

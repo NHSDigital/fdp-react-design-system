@@ -1,7 +1,7 @@
 import React, { forwardRef, useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { useNHSTheme } from '../NHSThemeProvider';
-import { CheckboxItem, CheckboxesProps } from './Checkboxes.types';
+import { CheckboxesProps } from './Checkboxes.types';
 import {
   getFieldsetStyles,
   getLegendStyles,

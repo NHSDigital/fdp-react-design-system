@@ -2,6 +2,33 @@ import type { Preview } from '@storybook/react';
 import React from 'react';
 import { NHSThemeProvider } from '../src/components/NHSThemeProvider';
 import '../src/styles/fonts.css';
+import '../src/styles/font-debug.css';
+
+// Import font loading utilities
+import { injectFontCSS, preloadFrutigerFonts } from '../src/styles/font-loader';
+
+// Ensure fonts are loaded when Storybook starts
+if (typeof document !== 'undefined') {
+  // Inject font CSS immediately
+  injectFontCSS();
+  
+  // Add loading indicator
+  document.body.classList.add('font-loading-debug');
+  
+  // Start preloading fonts
+  preloadFrutigerFonts().then(result => {
+    if (!result.isLoaded) {
+      console.warn('NHS Frutiger fonts not loaded in Storybook:', result.error);
+    } else {
+      console.log('NHS Frutiger fonts successfully loaded in Storybook');
+      // Add class to indicate fonts are loaded
+      document.body.classList.add('fonts-loaded');
+    }
+    
+    // Remove loading indicator
+    document.body.classList.remove('font-loading-debug');
+  });
+}
 
 const preview: Preview = {
   parameters: {

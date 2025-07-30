@@ -16,17 +16,17 @@
 
 /* ARIA Grid focus management */
 .gantt-chart:focus {
-	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
 	outline-offset: nhs.$nhs-fdp-focus-outline-offset;
 }
 
 .gantt-chart[role="grid"] [role="gridcell"]:focus,
 .gantt-chart[role="grid"] [role="columnheader"]:focus {
 	outline: none;
-	//outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+	//outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
 	outline-offset: nhs.$nhs-fdp-focus-outline-offset;
-	background-color: nhs.$nhs-fdp-color-focus-background;
-	color: nhs.$nhs-fdp-color-focus-text;
+	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	color: nhs.$nhs-fdp-semantic-color-focus-text;
 	//box-shadow: nhs.$nhs-fdp-focus-shadow-input;
 	&:focus-visible {
 		// outline: 4px solid nhs.$nhs-fdp-color-primary-black;
@@ -51,7 +51,7 @@
 	font-weight: 600;
 	border-right: 1px solid nhs.$nhs-fdp-border-color-default;
 	background: nhs.$nhs-fdp-color-primary-white;
-	color: nhs.$nhs-fdp-color-text-primary;
+	color: nhs.$nhs-fdp-semantic-color-text-primary;
 	
 	@media (min-width: 768px) {
 	padding: nhs.$nhs-fdp-button-spacing-padding-vertical-desktop nhs.$nhs-fdp-button-spacing-padding-horizontal-desktop;
@@ -67,10 +67,10 @@
 }
 
 .gantt-header .header-timeline:focus {
-	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
 	outline-offset: nhs.$nhs-fdp-focus-outline-offset;
-	background-color: nhs.$nhs-fdp-color-focus-background;
-	color: nhs.$nhs-fdp-color-focus-text;
+	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	color: nhs.$nhs-fdp-semantic-color-focus-text;
 	box-shadow: nhs.$nhs-fdp-focus-shadow-input;
 }
 
@@ -96,20 +96,20 @@
 }
 
 .gantt-header .header-timeline .date-column:focus {
-	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
 	outline-offset: nhs.$nhs-fdp-focus-outline-offset;
-	background-color: nhs.$nhs-fdp-color-focus-background;
-	color: nhs.$nhs-fdp-color-focus-text;
+	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	color: nhs.$nhs-fdp-semantic-color-focus-text;
 	box-shadow: nhs.$nhs-fdp-focus-shadow-input;
 	z-index: 10;
 	position: relative;
 }
 
 .gantt-header .header-timeline .date-column.focused {
-	background-color: nhs.$nhs-fdp-color-focus-background;
-	color: nhs.$nhs-fdp-color-focus-text;
+	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	color: nhs.$nhs-fdp-semantic-color-focus-text;
 	outline : 0;
-	//outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+	//outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
 	//outline-offset: nhs.$nhs-fdp-focus-outline-offset;
 	//box-shadow: nhs.$nhs-fdp-focus-shadow-input;
 	z-index: 10;
@@ -117,15 +117,15 @@
 }
 
 .gantt-header .header-timeline .date-column.today {
-	background-color: nhs.$nhs-fdp-color-secondary-pale-yellow;
+	background-color: nhs.$nhs-fdp-semantic-color-secondary-pale-yellow;
 	font-weight: 600;
-	color: nhs.$nhs-fdp-color-text-primary;
+	color: nhs.$nhs-fdp-semantic-color-text-primary;
 }
 
 .gantt-header .header-timeline .date-column.today.focused,
 .gantt-header .header-timeline .date-column.today:focus {
-	background-color: nhs.$nhs-fdp-color-focus-background;
-	color: nhs.$nhs-fdp-color-focus-text;
+	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	color: nhs.$nhs-fdp-semantic-color-focus-text;
 }
 
 /* Grid Area */
@@ -136,7 +136,7 @@
 }
 
 .gantt-grid:focus {
-	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
 	outline-offset: nhs.$nhs-fdp-focus-outline-offset;
 }
 
@@ -154,10 +154,10 @@
 }
 
 .gantt-row:focus-within {
-	background-color: nhs.$nhs-fdp-color-focus-background;
-	//outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	//outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
 	outline-offset: nhs.$nhs-fdp-focus-outline-offset;
-	color: nhs.$nhs-fdp-color-focus-text;
+	color: nhs.$nhs-fdp-semantic-color-focus-text;
 }
 
 /* Black border when row contains selected TaskBars */
@@ -173,7 +173,7 @@
 	background: nhs.$nhs-fdp-color-primary-white;
 	border-right: 1px solid nhs.$nhs-fdp-border-color-default;
 	font-weight: 600;
-	color: nhs.$nhs-fdp-color-text-primary;
+	color: nhs.$nhs-fdp-semantic-color-text-primary;
 	display: flex;
 	align-items: center;
 	position: sticky;
@@ -198,10 +198,10 @@
 }
 
 .timeline-container:focus {
-	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
 	outline-offset: nhs.$nhs-fdp-focus-outline-offset;
-	background-color: nhs.$nhs-fdp-color-focus-background;
-	color: nhs.$nhs-fdp-color-focus-text;
+	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	color: nhs.$nhs-fdp-semantic-color-focus-text;
 	//box-shadow: nhs.$nhs-fdp-focus-shadow-input;
 }
 
@@ -211,10 +211,10 @@
 }
 
 .timeline-container.timeline-active:focus {
-	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-color-focus-background;
+	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
 	outline-offset: 2px;
-	background-color: nhs.$nhs-fdp-color-focus-background;
-	color: nhs.$nhs-fdp-color-focus-text;
+	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	color: nhs.$nhs-fdp-semantic-color-focus-text;
 	box-shadow: nhs.$nhs-fdp-focus-shadow-input;
 }
 
@@ -250,8 +250,8 @@
 .gantt-task-bar:focus {
 	outline: none;
 	box-shadow: nhs.$nhs-fdp-shadow-button-focus;
-	background-color: nhs.$nhs-fdp-color-focus-background;
-	color: nhs.$nhs-fdp-color-focus-text;
+	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	color: nhs.$nhs-fdp-semantic-color-button-primary-text;
 }
 
 .gantt-task-bar--pressed {
@@ -267,9 +267,9 @@
 	z-index: 15;
 	transform: scale(1.02);
 	box-shadow: nhs.$nhs-fdp-shadow-button-focus;
-	background-color: nhs.$nhs-fdp-color-focus-background;
-	color: nhs.$nhs-fdp-color-focus-text;
-	border: 2px solid nhs.$nhs-fdp-color-focus-background;
+	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	color: nhs.$nhs-fdp-semantic-color-focus-text;
+	border: 2px solid nhs.$nhs-fdp-semantic-color-focus-background;
 }
 
 /* Priority indicators */
@@ -308,19 +308,19 @@
 }
 
 .gantt-task-bar--type-design {
-	background-color: nhs.$nhs-fdp-color-primary-purple;
+	background-color: nhs.$nhs-fdp-semantic-color-primary-purple;
 }
 
 .gantt-task-bar--type-testing {
-	background-color: nhs.$nhs-fdp-color-primary-green;
+	background-color: nhs.$nhs-fdp-semantic-color-primary-green;
 }
 
 .gantt-task-bar--type-review {
-	background-color: nhs.$nhs-fdp-color-secondary-orange;
+	background-color: nhs.$nhs-fdp-semantic-color-secondary-orange;
 }
 
 .gantt-task-bar--type-deployment {
-	background-color: nhs.$nhs-fdp-color-primary-red;
+	background-color: nhs.$nhs-fdp-semantic-color-primary-red;
 }
 
 /* Screen reader only content */

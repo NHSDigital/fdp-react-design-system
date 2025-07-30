@@ -1,0 +1,45 @@
+/* Additional CSS for testing font loading in Storybook */
+
+/* Ensure the body has the correct font stack */
+body {
+  font-family: "Frutiger W01", Arial, Helvetica, sans-serif;
+}
+
+/* Test class for debugging font application */
+.nhs-font-test {
+  font-family: "Frutiger W01", Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.nhs-font-test--bold {
+  font-weight: 600;
+}
+
+/* Ensure font-display swap is working */
+.nhs-font-loading {
+  font-display: swap;
+}
+
+/* Debugging styles to see font loading states */
+.font-loading-debug {
+  position: relative;
+}
+
+.font-loading-debug::before {
+  content: "Loading fonts...";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 0, 0.8);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-family: monospace;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Hide the loading indicator when fonts are loaded */
+.fonts-loaded .font-loading-debug::before {
+  display: none;
+}

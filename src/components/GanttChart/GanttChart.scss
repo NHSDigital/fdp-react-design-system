@@ -8,7 +8,7 @@
 	border: 1px solid nhs.$nhs-fdp-border-color-default;
 	border-radius: 4px;
 	background: nhs.$nhs-fdp-color-primary-white;
-	font-family: "#{nhs.$nhs-fdp-font-family-base}", #{nhs.$nhs-fdp-font-family-fallback};
+	font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;

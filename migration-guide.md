@@ -229,22 +229,89 @@ const primaryButton = {
 ## 📋 Migration Checklist
 
 ### Phase 1: High Priority Components
-- [ ] **Buttons** - Replace padding, border, shadow values
-- [ ] **Form inputs** - Replace border widths, heights, padding
-- [ ] **Cards** - Replace padding, border values
-- [ ] **Focus states** - Replace outline/shadow values
+- [x] **Buttons** - Replace padding, border, shadow values ✅
+- [x] **Form inputs** - Replace border widths, heights, padding ✅
+- [x] **Checkboxes** - Replace border and spacing values ✅
+- [x] **Textarea** - Replace padding, border, resize values ✅
+- [x] **Select** - Replace arrow styling and border values ✅
+- [x] **Radios** - Replace border, spacing, and focus values ✅
+- [x] **Label** - Replace typography and size variants ✅
+- [x] **Hint** - Replace text color and spacing ✅
+- [x] **ErrorMessage** - Replace error color and styling ✅
+- [ ] **DateInput** - Replace component structure
+- [ ] **CharacterCount** - Replace counter styling
+- [ ] **Fieldset** - Replace group styling
+- [ ] **ErrorSummary** - Replace summary styling
 
 ### Phase 2: Medium Priority Components  
-- [ ] **Navigation** - Replace spacing values
+- [ ] **Header** - Replace navigation spacing and styling
+- [ ] **Footer** - Replace layout and link styling
+- [ ] **Breadcrumb** - Replace navigation styling
+- [ ] **BackLink** - Replace link styling
+- [ ] **SkipLink** - Replace accessibility styling
+- [ ] **Pagination** - Replace navigation styling
+- [ ] **Tabs** - Replace tab styling and interactions
 - [ ] **Tables** - Replace border and spacing values
-- [ ] **Panels** - Replace padding and border values
-- [ ] **Typography** - Verify font tokens are used
+- [ ] **Card** - Replace padding and border values
+- [ ] **Panel** - Replace padding and border values
+- [ ] **InsetText** - Replace background and border styling
+- [ ] **WarningCallout** - Replace warning styling
+- [ ] **DoAndDontList** - Replace list styling
 
 ### Phase 3: Final Polish
-- [ ] **Animations** - Replace transition timing
-- [ ] **Icons** - Replace hardcoded sizes
-- [ ] **Layout** - Replace container and column values
-- [ ] **Shadows** - Replace any remaining box-shadow values
+- [ ] **Details** - Replace accordion styling
+- [ ] **Tag** - Replace tag styling
+- [ ] **SummaryList** - Replace definition list styling
+- [ ] **ContentsList** - Replace list navigation styling
+- [ ] **Hero** - Replace hero section styling
+- [ ] **Images** - Replace responsive image styling
+- [ ] **TaskList** - Replace task status styling
+
+## 📖 Storybook Story Creation
+
+All migrated components now include comprehensive Storybook stories that follow NHS design patterns:
+
+### Story Structure
+Each component includes:
+- **Default story**: Basic usage example
+- **Variant stories**: Different states (error, disabled, etc.)
+- **Real-world examples**: Medical/healthcare context examples
+- **Accessibility documentation**: ARIA patterns and keyboard navigation
+- **Usage guidelines**: When and how to use the component
+
+### Automated Story Generation
+The component generator script automatically creates story templates:
+
+```bash
+# Generate a new component with stories
+node scripts/generate-component.js NewComponent
+```
+
+### Story Features
+- **Documentation**: Comprehensive component documentation
+- **Controls**: Interactive property controls for testing
+- **Accessibility info**: Built-in accessibility guidance
+- **Design token usage**: Examples of token integration
+- **Medical context**: Healthcare-specific examples
+
+### Available Component Stories
+- ✅ **Button** - 8 variants including accessibility demo
+- ✅ **Input** - 12 variants including width and type examples
+- ✅ **Checkboxes** - 10 variants including conditional content
+- ✅ **Textarea** - 11 variants including resize controls
+- ✅ **Select** - 9 variants including healthcare examples
+- ✅ **Radios** - 11 variants including inline and conditional
+- ✅ **Label** - 10 variants including size examples
+- ✅ **Hint** - 10 variants including format guidance
+- ✅ **ErrorMessage** - 12 variants including validation examples
+- ✅ **GanttChart** - 5 variants including accessibility demo
+
+### Viewing Stories
+1. Start Storybook: `npm run storybook`
+2. Navigate to http://localhost:6006
+3. Browse components in the sidebar
+4. Use Controls panel to interact with props
+5. Check Docs tab for usage guidelines
 
 ## 🎨 SCSS Import Structure
 

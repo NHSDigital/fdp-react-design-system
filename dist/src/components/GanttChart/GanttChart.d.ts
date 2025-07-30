@@ -2,8 +2,8 @@ import { Resource, Task } from './TaskBar';
 export interface GanttChartProps {
     resources: Resource[];
     tasks?: Task[];
-    viewStart: Date;
-    viewEnd: Date;
+    viewStart: Date | string | number;
+    viewEnd: Date | string | number;
     onTaskClick?: (task: Task) => void;
     onTaskDoubleClick?: (task: Task) => void;
 }

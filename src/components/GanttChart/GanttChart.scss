@@ -117,7 +117,7 @@
 }
 
 .gantt-header .header-timeline .date-column.today {
-	background-color: nhs.$nhs-fdp-semantic-color-secondary-pale-yellow;
+	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
 	font-weight: 600;
 	color: nhs.$nhs-fdp-semantic-color-text-primary;
 }
@@ -308,19 +308,19 @@
 }
 
 .gantt-task-bar--type-design {
-	background-color: nhs.$nhs-fdp-semantic-color-primary-purple;
+	background-color: nhs.$nhs-fdp-color-primary-purple;
 }
 
 .gantt-task-bar--type-testing {
-	background-color: nhs.$nhs-fdp-semantic-color-primary-green;
+	background-color: nhs.$nhs-fdp-color-primary-green;
 }
 
 .gantt-task-bar--type-review {
-	background-color: nhs.$nhs-fdp-semantic-color-secondary-orange;
+	background-color: nhs.$nhs-fdp-color-secondary-orange;
 }
 
 .gantt-task-bar--type-deployment {
-	background-color: nhs.$nhs-fdp-semantic-color-primary-red;
+	background-color: nhs.$nhs-fdp-color-primary-red;
 }
 
 /* Screen reader only content */

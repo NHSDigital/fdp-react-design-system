@@ -66,7 +66,7 @@ describe('Input', () => {
   });
 
   it('calls onChange when value changes', () => {
-    const handleChange = jest.fn();
+    const handleChange = vi.fn();
     render(<Input id="test-input" name="test" onChange={handleChange} />);
     const input = screen.getByRole('textbox');
     
@@ -75,7 +75,7 @@ describe('Input', () => {
   });
 
   it('calls onFocus when input is focused', () => {
-    const handleFocus = jest.fn();
+    const handleFocus = vi.fn();
     render(<Input id="test-input" name="test" onFocus={handleFocus} />);
     const input = screen.getByRole('textbox');
     
@@ -84,7 +84,7 @@ describe('Input', () => {
   });
 
   it('calls onBlur when input loses focus', () => {
-    const handleBlur = jest.fn();
+    const handleBlur = vi.fn();
     render(<Input id="test-input" name="test" onBlur={handleBlur} />);
     const input = screen.getByRole('textbox');
     

@@ -1,0 +1,194 @@
+// NHS Radios SCSS - Uses compiled design tokens
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as nhs;
+
+// Radio component variables
+$radios-size: nhs.$nhs-fdp-form-spacing-checkbox-size;
+$radios-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
+
+.nhsuk-radios {
+  &__item {
+    clear: left;
+    display: block;
+    margin-bottom: nhs.$nhs-fdp-spacing-2;
+    min-height: $radios-size;
+    padding: 0 0 0 $radios-size;
+    position: relative;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+    font-size: nhs.$nhs-fdp-font-size-19-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-normal;
+    line-height: nhs.$nhs-fdp-font-line-height-base;
+
+    @media (min-width: 768px) {
+      font-size: nhs.$nhs-fdp-font-size-19-tablet;
+    }
+
+    &:last-child,
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  &__input {
+    cursor: pointer;
+    height: $radios-size;
+    left: 0;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: $radios-size;
+    z-index: 1;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    // Focus state
+    &:focus + .nhsuk-radios__label::before {
+      outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: 0;
+      box-shadow: inset 0 0 0 nhs.$nhs-fdp-border-width-form-element nhs.$nhs-fdp-semantic-color-focus-text;
+    }
+
+    // Checked state
+    &:checked + .nhsuk-radios__label::after {
+      opacity: 1;
+    }
+
+    // Disabled state
+    &:disabled {
+      cursor: default;
+
+      + .nhsuk-radios__label {
+        cursor: default;
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &__label {
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 0;
+    padding: nhs.$nhs-fdp-spacing-2 $radios-label-padding nhs.$nhs-fdp-spacing-1;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+
+    // Radio circle styling
+    &::before {
+      background: nhs.$nhs-fdp-color-primary-white;
+      border: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-grey-3;
+      border-radius: 50%;
+      box-sizing: border-box;
+      content: "";
+      height: $radios-size;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: $radios-size;
+    }
+
+    // Radio inner dot styling
+    &::after {
+      background: nhs.$nhs-fdp-color-primary-black;
+      border-radius: 50%;
+      content: "";
+      height: 16px;
+      left: 12px;
+      opacity: 0;
+      position: absolute;
+      top: 12px;
+      width: 16px;
+      box-sizing: border-box;
+    }
+  }
+
+  &__hint {
+    display: block;
+    padding-left: $radios-label-padding;
+    padding-right: $radios-label-padding;
+    color: nhs.$nhs-fdp-semantic-color-text-secondary;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    margin-bottom: nhs.$nhs-fdp-spacing-1;
+
+    @media (min-width: 768px) {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    }
+  }
+
+  &__conditional {
+    $conditional-border-width: nhs.$nhs-fdp-border-width-form-element;
+    $conditional-border-padding: calc(#{$radios-size} / 2 - #{$conditional-border-width} / 2);
+    $conditional-margin-left: $conditional-border-padding;
+    $conditional-padding-left: calc(#{$conditional-border-padding} + #{$radios-label-padding});
+
+    border-left: $conditional-border-width solid nhs.$nhs-fdp-color-grey-3;
+    margin-left: $conditional-margin-left;
+    padding-left: $conditional-padding-left;
+    margin-bottom: nhs.$nhs-fdp-spacing-4;
+
+    & > :last-child {
+      margin-bottom: 0;
+    }
+
+    // Hidden conditional content
+    &--hidden {
+      display: none !important;
+    }
+  }
+
+  // Inline variant
+  &--inline {
+    .nhsuk-radios__item {
+      clear: none;
+      display: inline-block;
+      margin-right: nhs.$nhs-fdp-spacing-4;
+      margin-bottom: 0;
+      vertical-align: top;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  // Small variant
+  &--small {
+    .nhsuk-radios__item {
+      min-height: nhs.$nhs-fdp-spacing-6;
+      padding-left: nhs.$nhs-fdp-spacing-6;
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+
+      @media (min-width: 768px) {
+        font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      }
+    }
+
+    .nhsuk-radios__input {
+      height: nhs.$nhs-fdp-spacing-6;
+      width: nhs.$nhs-fdp-spacing-6;
+    }
+
+    .nhsuk-radios__label {
+      &::before {
+        height: nhs.$nhs-fdp-spacing-6;
+        width: nhs.$nhs-fdp-spacing-6;
+      }
+
+      &::after {
+        height: 10px;
+        left: 8px;
+        top: 8px;
+        width: 10px;
+      }
+    }
+  }
+}
+
+// Error state styles
+.nhsuk-radios--error {
+  .nhsuk-radios__input + .nhsuk-radios__label::before {
+    border-color: nhs.$nhs-fdp-border-color-error;
+    border-width: nhs.$nhs-fdp-border-width-form-element-error;
+  }
+}

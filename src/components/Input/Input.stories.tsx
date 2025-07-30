@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Input } from './Input';
 
-const meta = {
+const meta: Meta<typeof Input> = {
   title: 'Components/Input',
   component: Input,
   parameters: {
@@ -29,10 +29,10 @@ const meta = {
       control: 'boolean',
     },
   },
-} satisfies Meta<typeof Input>;
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Input>;
 
 export const Default: Story = {
   args: {

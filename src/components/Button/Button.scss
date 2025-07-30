@@ -11,7 +11,7 @@
 	border: 2px solid transparent;
 	border-radius: 4px;
 	padding: 8px 16px;
-	font-family: "Frutiger W01", Arial, Helvetica, sans-serif;
+	font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
 	font-size: 16px;
 	font-weight: 600;
 	line-height: 1.5;
@@ -43,6 +43,7 @@
 	&[data-hovered] {
 		//transform: translateY(-2px);
 		box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-semantic-color-button-primary-shadow;
+		color: tokens.$nhs-fdp-color-primary-white;
 	}
 
 	// Press/Active styles (React Aria provides pressed state)
@@ -50,6 +51,7 @@
 		transform: translateY(4px);
 		//box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-semantic-color-button-primary-shadow;
 		box-shadow: 0;
+		color: tokens.$nhs-fdp-color-primary-white;
 	}
 
 	// Disabled styles
@@ -95,6 +97,7 @@
 				background-color: tokens.$nhs-fdp-semantic-color-button-primary-shadow;
 				border-color: tokens.$nhs-fdp-semantic-color-button-primary-active;
 				box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-primary-white;
+				color: tokens.$nhs-fdp-color-primary-white;
 			}
 
 			// &[data-disabled] {
@@ -163,6 +166,7 @@
 				background-color: tokens.$nhs-fdp-semantic-color-button-warning-active;
 				border-color: tokens.$nhs-fdp-semantic-color-button-warning-active;
 				box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-primary-white;
+				color: tokens.$nhs-fdp-color-primary-white;
 			}
 		}
 	}

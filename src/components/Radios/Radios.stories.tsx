@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Radios } from './Radios';
+import { Input } from '../Input';
+import { Label } from '../Label';
 
 const meta: Meta<typeof Radios> = {
   title: 'NHS/Components/Radios',
@@ -124,6 +126,57 @@ const appointmentOptions = [
   },
 ];
 
+const contactPreferenceOptions = [
+  { 
+    value: 'email', 
+    text: 'Email',
+    conditional: (
+      <div style={{ marginTop: '16px' }}>
+        <Label htmlFor="email-address">Email address</Label>
+        <Input
+          id="email-address"
+          name="email-address"
+          type="email"
+          placeholder="Enter your email address"
+          autoComplete="email"
+        />
+      </div>
+    )
+  },
+  { 
+    value: 'phone', 
+    text: 'Phone',
+    conditional: (
+      <div style={{ marginTop: '16px' }}>
+        <Label htmlFor="phone-number">Phone number</Label>
+        <Input
+          id="phone-number"
+          name="phone-number"
+          type="tel"
+          placeholder="Enter your phone number"
+          autoComplete="tel"
+        />
+      </div>
+    )
+  },
+  { 
+    value: 'text', 
+    text: 'Text message',
+    conditional: (
+      <div style={{ marginTop: '16px' }}>
+        <Label htmlFor="mobile-number">Mobile number</Label>
+        <Input
+          id="mobile-number"
+          name="mobile-number"
+          type="tel"
+          placeholder="Enter your mobile number"
+          autoComplete="tel"
+        />
+      </div>
+    )
+  },
+];
+
 const urgencyOptions = [
   { value: 'urgent', text: 'Urgent - within 24 hours' },
   { value: 'soon', text: 'Soon - within a week' },
@@ -161,13 +214,34 @@ export const YesNo: Story = {
 
 export const WithConditionalContent: Story = {
   args: {
+    name: 'contact-preference',
+    options: contactPreferenceOptions,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Radio buttons with conditional Input components that appear when an option is selected. 
+        
+This example demonstrates how to collect contact preferences with the appropriate input fields for each method:
+- **Email**: Shows an email input field
+- **Phone**: Shows a phone number input field  
+- **Text message**: Shows a mobile number input field
+
+The conditional content includes proper form labels and input types for accessibility and user experience.`,
+      },
+    },
+  },
+};
+
+export const AppointmentTypes: Story = {
+  args: {
     name: 'appointment-type',
     options: appointmentOptions,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Radio buttons with conditional content that appears when an option is selected.',
+        story: 'Radio buttons with text-based conditional content for appointment type selection.',
       },
     },
   },

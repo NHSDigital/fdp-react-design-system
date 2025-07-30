@@ -77,7 +77,7 @@ $radios-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     // Radio circle styling
     &::before {
       background: nhs.$nhs-fdp-color-primary-white;
-      border: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-grey-3;
+      border: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-semantic-color-form-border;
       border-radius: 50%;
       box-sizing: border-box;
       content: "";
@@ -117,15 +117,14 @@ $radios-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
   }
 
   &__conditional {
-    $conditional-border-width: nhs.$nhs-fdp-border-width-form-element;
-    $conditional-border-padding: calc(#{$radios-size} / 2 - #{$conditional-border-width} / 2);
-    $conditional-margin-left: $conditional-border-padding;
-    $conditional-padding-left: calc(#{$conditional-border-padding} + #{$radios-label-padding});
-
-    border-left: $conditional-border-width solid nhs.$nhs-fdp-color-grey-3;
-    margin-left: $conditional-margin-left;
-    padding-left: $conditional-padding-left;
+    $conditional-border-width: 4px; // Thicker border for better visual connection
+    // Position conditional content to align with the radio button's left edge
+    // Center the border line with the radio button center and adjust for border width
+    margin-left: calc(-#{$radios-size} / 2 - #{$conditional-border-width} / 2);
+    padding-left: calc(#{$radios-size} / 2 + #{nhs.$nhs-fdp-spacing-3});
+    border-left: $conditional-border-width solid nhs.$nhs-fdp-semantic-color-form-border;
     margin-bottom: nhs.$nhs-fdp-spacing-4;
+    margin-top: nhs.$nhs-fdp-spacing-2;
 
     & > :last-child {
       margin-bottom: 0;

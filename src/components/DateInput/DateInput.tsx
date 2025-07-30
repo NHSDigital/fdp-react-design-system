@@ -272,7 +272,7 @@ export const DateInput: React.FC<DateInputProps> = ({
         ) : null
       )}
 
-      <div className={dateInputClasses} id={id} {...props}>
+      <div className={dateInputClasses} id={id} data-testid="date-input" {...props}>
         {dateInputItems.map((item) => {
           const inputId = item.id || `${id}-${item.name}`;
           const inputName = namePrefix ? `${namePrefix}[${item.name}]` : item.name;

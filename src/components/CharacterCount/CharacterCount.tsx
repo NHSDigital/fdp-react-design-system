@@ -108,6 +108,7 @@ export const CharacterCount: React.FC<CharacterCountProps> = ({
       data-maxlength={maxLength}
       data-maxwords={maxWords}
       data-threshold={threshold}
+      data-testid="character-count"
     >
       <Textarea
         id={id}

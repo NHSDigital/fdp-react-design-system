@@ -15,7 +15,7 @@ import {
   getCheckboxItemHintStyles,
   getConditionalContentStyles,
 } from './Checkboxes.styles';
-import './Checkboxes.css';
+import './Checkboxes.scss';
 
 /**
  * Generate CSS for checkbox pseudo-elements using design tokens

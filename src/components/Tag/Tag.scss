@@ -1,0 +1,91 @@
+// NHS Tag SCSS - Uses compiled design tokens
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as nhs;
+@use '../../../packages/nhs-fdp/dist/scss/components/tag' as tag;
+
+.nhsuk-tag {
+  // Default: Uses dedicated tag component design tokens
+  background-color: tag.$nhs-fdp-tag-default-background;
+  border: 1px solid tag.$nhs-fdp-tag-default-border;
+  color: tag.$nhs-fdp-tag-default-text;
+  display: inline-block;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2;
+  text-decoration: none;
+  
+  // Typography
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  font-size: nhs.$nhs-fdp-font-size-16-mobile;
+  font-weight: nhs.$nhs-fdp-font-weight-bold;
+  line-height: 1;
+
+  @media (min-width: 768px) {
+    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+  }
+}
+
+// Color variants - Using dedicated tag component design tokens
+.nhsuk-tag--white {
+  background-color: tag.$nhs-fdp-tag-white-background;
+  border-color: tag.$nhs-fdp-tag-white-border;
+  color: tag.$nhs-fdp-tag-white-text;
+}
+
+.nhsuk-tag--grey {
+  background-color: tag.$nhs-fdp-tag-grey-background;
+  border-color: tag.$nhs-fdp-tag-grey-border;
+  color: tag.$nhs-fdp-tag-grey-text;
+}
+
+.nhsuk-tag--green {
+  background-color: tag.$nhs-fdp-tag-green-background;
+  border-color: tag.$nhs-fdp-tag-green-border;
+  color: tag.$nhs-fdp-tag-green-text;
+}
+
+.nhsuk-tag--aqua-green {
+  background-color: tag.$nhs-fdp-tag-aqua-green-background;
+  border-color: tag.$nhs-fdp-tag-aqua-green-border;
+  color: tag.$nhs-fdp-tag-aqua-green-text;
+}
+
+.nhsuk-tag--blue {
+  background-color: tag.$nhs-fdp-tag-blue-background;
+  border-color: tag.$nhs-fdp-tag-blue-border;
+  color: tag.$nhs-fdp-tag-blue-text;
+}
+
+.nhsuk-tag--purple {
+  background-color: tag.$nhs-fdp-tag-purple-background;
+  border-color: tag.$nhs-fdp-tag-purple-border;
+  color: tag.$nhs-fdp-tag-purple-text;
+}
+
+.nhsuk-tag--pink {
+  background-color: tag.$nhs-fdp-tag-pink-background;
+  border-color: tag.$nhs-fdp-tag-pink-border;
+  color: tag.$nhs-fdp-tag-pink-text;
+}
+
+.nhsuk-tag--red {
+  background-color: tag.$nhs-fdp-tag-red-background;
+  border-color: tag.$nhs-fdp-tag-red-border;
+  color: tag.$nhs-fdp-tag-red-text;
+}
+
+.nhsuk-tag--orange {
+  background-color: tag.$nhs-fdp-tag-orange-background;
+  border-color: tag.$nhs-fdp-tag-orange-border;
+  color: tag.$nhs-fdp-tag-orange-text;
+}
+
+.nhsuk-tag--yellow {
+  background-color: tag.$nhs-fdp-tag-yellow-background;
+  border-color: tag.$nhs-fdp-tag-yellow-border;
+  color: tag.$nhs-fdp-tag-yellow-text;
+}
+
+// Remove border variant
+.nhsuk-tag--no-border {
+  border: 0;
+}

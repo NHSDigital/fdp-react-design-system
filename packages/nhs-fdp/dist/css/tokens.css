@@ -135,6 +135,39 @@
   --form-border-width-default: 2px; /** Default form element border width */
   --form-border-width-error: 4px; /** Form element border width in error state */
   --form-border-radius: 0px; /** Form element border radius */
+  --tag-default-background: #004c96; /** Default tag background (10% shade of NHS blue) */
+  --tag-default-border: #004c96; /** Default tag border (10% shade of NHS blue) */
+  --tag-default-text: #ffffff; /** Default tag text color */
+  --tag-white-background: #ffffff; /** White tag background */
+  --tag-white-border: #212b32; /** White tag border */
+  --tag-white-text: #212b32; /** White tag text color */
+  --tag-grey-background: #dbe0e3; /** Grey tag background (80% tint of grey-1) */
+  --tag-grey-border: #354550; /** Grey tag border (30% shade of grey-1) */
+  --tag-grey-text: #354550; /** Grey tag text color (30% shade of grey-1) */
+  --tag-green-background: #cce5d8; /** Green tag background (80% tint of NHS green) */
+  --tag-green-border: #004c23; /** Green tag border (40% shade of NHS green) */
+  --tag-green-text: #004c23; /** Green tag text color (40% shade of NHS green) */
+  --tag-aqua-green-background: #ccedeb; /** Aqua green tag background (80% tint of NHS aqua green) */
+  --tag-aqua-green-border: #00524d; /** Aqua green tag border (50% shade of NHS aqua green) */
+  --tag-aqua-green-text: #00524d; /** Aqua green tag text color (50% shade of NHS aqua green) */
+  --tag-blue-background: #ccdff1; /** Blue tag background (80% tint of NHS blue) */
+  --tag-blue-border: #004281; /** Blue tag border (30% shade of NHS blue) */
+  --tag-blue-text: #004281; /** Blue tag text color (30% shade of NHS blue) */
+  --tag-purple-background: #d6cce3; /** Purple tag background (80% tint of NHS purple) */
+  --tag-purple-border: #240050; /** Purple tag border (30% shade of NHS purple) */
+  --tag-purple-text: #240050; /** Purple tag text color (30% shade of NHS purple) */
+  --tag-pink-background: #efd3e3; /** Pink tag background (80% tint of NHS pink) */
+  --tag-pink-border: #57133a; /** Pink tag border (50% shade of NHS pink) */
+  --tag-pink-text: #57133a; /** Pink tag text color (50% shade of NHS pink) */
+  --tag-red-background: #f7d4d1; /** Red tag background (80% tint of NHS red) */
+  --tag-red-border: #6b140e; /** Red tag border (50% shade of NHS red) */
+  --tag-red-text: #6b140e; /** Red tag text color (50% shade of NHS red) */
+  --tag-orange-background: #ffdc8e; /** Orange tag background (50% tint of NHS warm yellow) */
+  --tag-orange-border: #4d3708; /** Orange tag border (70% shade of NHS warm yellow) */
+  --tag-orange-text: #4d3708; /** Orange tag text color (70% shade of NHS warm yellow) */
+  --tag-yellow-background: #fff59d; /** Yellow tag background (50% tint of NHS yellow) */
+  --tag-yellow-border: #4d4712; /** Yellow tag border (70% shade of NHS yellow) */
+  --tag-yellow-text: #4d4712; /** Yellow tag text color (70% shade of NHS yellow) */
   --size-icon-small: 16px; /** Small icon size */
   --size-icon-medium: 18px; /** Medium icon size (breadcrumb chevrons) */
   --size-icon-large: 24px; /** Large icon size (back links) */

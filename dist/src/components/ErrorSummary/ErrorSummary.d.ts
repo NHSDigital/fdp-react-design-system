@@ -1,0 +1,3 @@
+import { default as React } from 'react';
+import { ErrorSummaryProps } from './ErrorSummary.types';
+export declare const ErrorSummary: React.FC<ErrorSummaryProps>;

@@ -1,0 +1,90 @@
+// NHS ErrorSummary SCSS - Uses compiled design tokens
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as nhs;
+
+.nhsuk-error-summary {
+  // Not using responsive spacing as we want smaller margin on mobile
+  margin-bottom: nhs.$nhs-fdp-spacing-5;
+  
+  border: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-semantic-color-error;
+  padding: nhs.$nhs-fdp-spacing-4;
+
+  @media (min-width: 768px) {
+    margin-bottom: nhs.$nhs-fdp-spacing-7;
+    border: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-semantic-color-error;
+  }
+
+  &:focus {
+    border: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-semantic-color-focus-text;
+    box-shadow: 0 0 0 nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-semantic-color-focus-background;
+    outline: nhs.$nhs-fdp-focus-outline-width solid transparent;
+  }
+}
+
+.nhsuk-error-summary__title {
+  margin-top: 0;
+  margin-bottom: nhs.$nhs-fdp-spacing-4;
+  
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  font-size: nhs.$nhs-fdp-font-size-26-mobile;
+  font-weight: nhs.$nhs-fdp-font-weight-bold;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
+  color: nhs.$nhs-fdp-semantic-color-text-primary;
+
+  @media (min-width: 768px) {
+    font-size: nhs.$nhs-fdp-font-size-26-tablet;
+  }
+}
+
+.nhsuk-error-summary__body {
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  font-size: nhs.$nhs-fdp-font-size-19-mobile;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
+  color: nhs.$nhs-fdp-semantic-color-text-primary;
+
+  @media (min-width: 768px) {
+    font-size: nhs.$nhs-fdp-font-size-19-tablet;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: nhs.$nhs-fdp-spacing-4;
+  }
+}
+
+.nhsuk-error-summary__list {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-left: 0;
+  list-style-type: disc;
+
+  li {
+    margin-bottom: nhs.$nhs-fdp-spacing-1;
+	list-style: none;
+  }
+}
+
+.nhsuk-error-summary__list a {
+  font-weight: nhs.$nhs-fdp-font-weight-bold;
+  color: nhs.$nhs-fdp-semantic-color-error;
+  text-decoration: underline;
+
+  &:link,
+  &:visited,
+  &:hover,
+  &:active {
+    color: nhs.$nhs-fdp-semantic-color-error;
+  }
+
+  &:focus {
+    outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 nhs.$nhs-fdp-border-width-form-element nhs.$nhs-fdp-semantic-color-focus-text;
+    color: nhs.$nhs-fdp-semantic-color-focus-text;
+    background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+    text-decoration: none;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}

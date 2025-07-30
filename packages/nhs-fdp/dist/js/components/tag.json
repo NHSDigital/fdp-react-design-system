@@ -1,0 +1,59 @@
+{
+  "tag": {
+    "default": {
+      "background": "#004c96",
+      "border": "#004c96",
+      "text": "#ffffff"
+    },
+    "white": {
+      "background": "#ffffff",
+      "border": "#212b32",
+      "text": "#212b32"
+    },
+    "grey": {
+      "background": "#dbe0e3",
+      "border": "#354550",
+      "text": "#354550"
+    },
+    "green": {
+      "background": "#cce5d8",
+      "border": "#004c23",
+      "text": "#004c23"
+    },
+    "aqua-green": {
+      "background": "#ccedeb",
+      "border": "#00524d",
+      "text": "#00524d"
+    },
+    "blue": {
+      "background": "#ccdff1",
+      "border": "#004281",
+      "text": "#004281"
+    },
+    "purple": {
+      "background": "#d6cce3",
+      "border": "#240050",
+      "text": "#240050"
+    },
+    "pink": {
+      "background": "#efd3e3",
+      "border": "#57133a",
+      "text": "#57133a"
+    },
+    "red": {
+      "background": "#f7d4d1",
+      "border": "#6b140e",
+      "text": "#6b140e"
+    },
+    "orange": {
+      "background": "#ffdc8e",
+      "border": "#4d3708",
+      "text": "#4d3708"
+    },
+    "yellow": {
+      "background": "#fff59d",
+      "border": "#4d4712",
+      "text": "#4d4712"
+    }
+  }
+}

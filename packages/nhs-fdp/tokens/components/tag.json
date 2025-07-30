@@ -1,0 +1,159 @@
+{
+  "tag": {
+    "$type": "color",
+    "default": {
+      "background": {
+        "$value": "#004c96",
+        "$description": "Default tag background (10% shade of NHS blue)"
+      },
+      "border": {
+        "$value": "#004c96",
+        "$description": "Default tag border (10% shade of NHS blue)"
+      },
+      "text": {
+        "$value": "{color.primary.white}",
+        "$description": "Default tag text color"
+      }
+    },
+    "white": {
+      "background": {
+        "$value": "{color.primary.white}",
+        "$description": "White tag background"
+      },
+      "border": {
+        "$value": "#212b32",
+        "$description": "White tag border"
+      },
+      "text": {
+        "$value": "#212b32",
+        "$description": "White tag text color"
+      }
+    },
+    "grey": {
+      "background": {
+        "$value": "#dbe0e3",
+        "$description": "Grey tag background (80% tint of grey-1)"
+      },
+      "border": {
+        "$value": "#354550",
+        "$description": "Grey tag border (30% shade of grey-1)"
+      },
+      "text": {
+        "$value": "#354550",
+        "$description": "Grey tag text color (30% shade of grey-1)"
+      }
+    },
+    "green": {
+      "background": {
+        "$value": "#cce5d8",
+        "$description": "Green tag background (80% tint of NHS green)"
+      },
+      "border": {
+        "$value": "#004c23",
+        "$description": "Green tag border (40% shade of NHS green)"
+      },
+      "text": {
+        "$value": "#004c23",
+        "$description": "Green tag text color (40% shade of NHS green)"
+      }
+    },
+    "aqua-green": {
+      "background": {
+        "$value": "#ccedeb",
+        "$description": "Aqua green tag background (80% tint of NHS aqua green)"
+      },
+      "border": {
+        "$value": "#00524d",
+        "$description": "Aqua green tag border (50% shade of NHS aqua green)"
+      },
+      "text": {
+        "$value": "#00524d",
+        "$description": "Aqua green tag text color (50% shade of NHS aqua green)"
+      }
+    },
+    "blue": {
+      "background": {
+        "$value": "#ccdff1",
+        "$description": "Blue tag background (80% tint of NHS blue)"
+      },
+      "border": {
+        "$value": "#004281",
+        "$description": "Blue tag border (30% shade of NHS blue)"
+      },
+      "text": {
+        "$value": "#004281",
+        "$description": "Blue tag text color (30% shade of NHS blue)"
+      }
+    },
+    "purple": {
+      "background": {
+        "$value": "#d6cce3",
+        "$description": "Purple tag background (80% tint of NHS purple)"
+      },
+      "border": {
+        "$value": "#240050",
+        "$description": "Purple tag border (30% shade of NHS purple)"
+      },
+      "text": {
+        "$value": "#240050",
+        "$description": "Purple tag text color (30% shade of NHS purple)"
+      }
+    },
+    "pink": {
+      "background": {
+        "$value": "#efd3e3",
+        "$description": "Pink tag background (80% tint of NHS pink)"
+      },
+      "border": {
+        "$value": "#57133a",
+        "$description": "Pink tag border (50% shade of NHS pink)"
+      },
+      "text": {
+        "$value": "#57133a",
+        "$description": "Pink tag text color (50% shade of NHS pink)"
+      }
+    },
+    "red": {
+      "background": {
+        "$value": "#f7d4d1",
+        "$description": "Red tag background (80% tint of NHS red)"
+      },
+      "border": {
+        "$value": "#6b140e",
+        "$description": "Red tag border (50% shade of NHS red)"
+      },
+      "text": {
+        "$value": "#6b140e",
+        "$description": "Red tag text color (50% shade of NHS red)"
+      }
+    },
+    "orange": {
+      "background": {
+        "$value": "#ffdc8e",
+        "$description": "Orange tag background (50% tint of NHS warm yellow)"
+      },
+      "border": {
+        "$value": "#4d3708",
+        "$description": "Orange tag border (70% shade of NHS warm yellow)"
+      },
+      "text": {
+        "$value": "#4d3708",
+        "$description": "Orange tag text color (70% shade of NHS warm yellow)"
+      }
+    },
+    "yellow": {
+      "background": {
+        "$value": "#fff59d",
+        "$description": "Yellow tag background (50% tint of NHS yellow)"
+      },
+      "border": {
+        "$value": "#4d4712",
+        "$description": "Yellow tag border (70% shade of NHS yellow)"
+      },
+      "text": {
+        "$value": "#4d4712",
+        "$description": "Yellow tag text color (70% shade of NHS yellow)"
+      }
+    }
+  }
+}

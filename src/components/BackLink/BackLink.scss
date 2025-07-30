@@ -1,0 +1,94 @@
+// NHS BackLink SCSS - Uses compiled design tokens
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as nhs;
+
+.nhsuk-back-link {
+  padding-top: nhs.$nhs-fdp-spacing-3;
+  line-height: 1; // Same height as breadcrumb
+
+  @media (min-width: 768px) {
+    padding-top: nhs.$nhs-fdp-spacing-4;
+  }
+}
+
+.nhsuk-back-link__link {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 0 0 16px; // Allow space for the arrow
+  position: relative;
+  
+  // Typography
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  font-size: nhs.$nhs-fdp-font-size-16-mobile;
+  font-weight: nhs.$nhs-fdp-font-weight-normal;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
+  
+  // Link styling
+  color: nhs.$nhs-fdp-semantic-color-link-default;
+  text-decoration: none;
+  text-decoration-thickness: max(1px, 0.0625rem);
+  text-underline-offset: 0.1578em;
+  
+  @media (min-width: 768px) {
+    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+  }
+
+  // Hover state
+  &:hover {
+    color: nhs.$nhs-fdp-semantic-color-link-hover;
+  }
+
+  // Focus state
+  &:focus {
+    outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+    outline-offset: 0;
+    color: nhs.$nhs-fdp-semantic-color-focus-text;
+    background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+    box-shadow: 0 -2px nhs.$nhs-fdp-semantic-color-focus-background, 0 4px nhs.$nhs-fdp-semantic-color-focus-text;
+    text-decoration: none;
+  }
+
+  // Active state
+  &:active {
+    color: nhs.$nhs-fdp-semantic-color-link-active;
+  }
+
+  // Button-specific styles
+  &[type="button"] {
+    font-family: inherit;
+  }
+
+  // Icon positioning
+  .nhsuk-icon__chevron-left {
+    height: 24px;
+    left: -8px; // Align the icon with the start of the back link
+    position: absolute;
+    top: -1px; // Align the icon with the middle of the text
+    width: 24px;
+    fill: currentColor;
+
+    @media (min-width: 768px) {
+      top: 0; // Align the icon with the middle of the text on tablet
+    }
+  }
+}
+
+// Reverse variant (white text on dark backgrounds)
+.nhsuk-back-link--reverse {
+  .nhsuk-back-link__link {
+    color: nhs.$nhs-fdp-color-primary-white;
+    
+    &:hover {
+      color: nhs.$nhs-fdp-color-grey-5;
+    }
+    
+    &:focus {
+      color: nhs.$nhs-fdp-semantic-color-focus-text;
+    }
+    
+    &:active {
+      color: nhs.$nhs-fdp-color-grey-4;
+    }
+  }
+}

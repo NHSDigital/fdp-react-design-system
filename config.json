@@ -132,6 +132,18 @@
 				"options": {
 					"showFileHeader": true
 				}
+			},
+			{
+				"destination": "components/_tag.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "tag"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
 			}
 		]
 	},
@@ -235,6 +247,18 @@
 				}
 			},
 			{
+				"destination": "components/tag.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "tag"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
 				"destination": "components/button.json",
 				"format": "json/nested",
 				"filter": {
@@ -297,6 +321,15 @@
 						"category": "semantic",
 						"type": "color",
 						"item": "border"
+					}
+				}
+			},
+			{
+				"destination": "components/tag.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "tag"
 					}
 				}
 			}

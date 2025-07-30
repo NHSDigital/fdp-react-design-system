@@ -6,7 +6,7 @@ import './styles/fonts.css';
 
 // Components
 export { Button } from './components/Button';
-export type { ButtonProps, ButtonVariant, ButtonSize } from './components/Button';
+export type { NHSButtonProps, ButtonVariant, ButtonSize } from './components/Button';
 
 // Theme Provider and hooks - Use our enhanced theme provider
 export { 

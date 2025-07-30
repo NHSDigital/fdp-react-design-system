@@ -4,7 +4,7 @@ import { CheckboxesCSS } from './CheckboxesCSS';
 import { CheckboxItem } from './Checkboxes.types';
 
 const meta: Meta<typeof Checkboxes> = {
-  title: 'Components/Checkboxes/Comparison',
+  title: 'NHS/Components/Checkboxes/Comparison',
   parameters: {
     layout: 'padded',
     docs: {

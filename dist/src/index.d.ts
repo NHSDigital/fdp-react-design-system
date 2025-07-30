@@ -1,5 +1,5 @@
 export { Button } from './components/Button';
-export type { ButtonProps, ButtonVariant, ButtonSize } from './components/Button';
+export type { NHSButtonProps, ButtonVariant, ButtonSize } from './components/Button';
 export { NHSThemeProvider, useNHSTheme } from './components/NHSThemeProvider';
 export type { NHSTheme, NHSHeadingStyle, NHSParagraphStyle, ResponsiveProperty } from '../packages/nhs-fdp/dist/react/theme/NHSThemeProvider';
 export * from '../packages/nhs-fdp/dist/react/index';

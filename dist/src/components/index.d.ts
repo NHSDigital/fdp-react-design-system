@@ -16,5 +16,7 @@ export { Hint } from './Hint';
 export type { HintProps } from './Hint';
 export { ErrorMessage } from './ErrorMessage';
 export type { ErrorMessageProps } from './ErrorMessage';
+export { DateInput } from './DateInput';
+export type { DateInputProps, DateInputItem } from './DateInput';
 export { NHSThemeProvider, useNHSTheme } from './NHSThemeProvider';
 export type { ThemeProviderProps } from './NHSThemeProvider';

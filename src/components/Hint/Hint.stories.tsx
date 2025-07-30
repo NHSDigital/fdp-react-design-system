@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Hint } from './Hint';
 
 const meta: Meta<typeof Hint> = {
-  title: 'Components/Hint',
+  title: 'NHS/Components/Hint',
   component: Hint,
   parameters: {
     layout: 'padded',

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Button as ReactButton, ButtonProps as ReactButtonProps } from 'react-aria-components';
-import { ButtonVariant, ButtonSize } from '../Button/Button.types';
+import { ButtonVariant, ButtonSize } from './Button.types';
 import './Button.scss';
 
 /**

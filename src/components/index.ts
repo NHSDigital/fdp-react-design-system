@@ -30,3 +30,5 @@ export { Fieldset } from './Fieldset';
 export type { FieldsetProps, FieldsetLegendProps } from './Fieldset';
 export { NHSThemeProvider, useNHSTheme } from './NHSThemeProvider';
 export type { ThemeProviderProps } from './NHSThemeProvider';
+export { Header } from './Header';
+export type { HeaderProps, AccountItem, NavigationItem } from './Header';

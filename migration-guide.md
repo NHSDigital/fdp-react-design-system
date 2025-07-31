@@ -238,13 +238,14 @@ const primaryButton = {
 - [x] **Label** - Replace typography and size variants ✅
 - [x] **Hint** - Replace text color and spacing ✅
 - [x] **ErrorMessage** - Replace error color and styling ✅
-- [ ] **DateInput** - Replace component structure
-- [ ] **CharacterCount** - Replace counter styling
-- [ ] **Fieldset** - Replace group styling
-- [ ] **ErrorSummary** - Replace summary styling
+- [x] **DateInput** - Replace component structure ✅
+- [x] **CharacterCount** - Replace counter styling ✅
+- [x] **Fieldset** - Replace group styling ✅
+- [x] **ErrorSummary** - Replace summary styling ✅
 
-### Phase 2: Medium Priority Components  
-- [ ] **Header** - Replace navigation spacing and styling
+### Phase 2: Medium Priority Components
+
+- [x] **Header** - Replace navigation spacing and styling ✅
 - [ ] **Footer** - Replace layout and link styling
 - [ ] **Breadcrumb** - Replace navigation styling
 - [ ] **BackLink** - Replace link styling

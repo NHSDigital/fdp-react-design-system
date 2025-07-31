@@ -4,6 +4,9 @@
 // Font loading - Import fonts first
 import './styles/fonts.css';
 
+// Import utilities CSS for global utility classes
+import './styles/utilities.scss';
+
 // Components
 export { Button } from './components/Button';
 export type { NHSButtonProps, ButtonVariant, ButtonSize } from './components/Button';

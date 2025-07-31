@@ -3,6 +3,7 @@ import React from 'react';
 import { NHSThemeProvider } from '../src/components/NHSThemeProvider';
 import '../src/styles/fonts.css';
 import '../src/styles/font-debug.css';
+import '../src/styles/utilities.scss';
 
 // Import font loading utilities
 import { injectFontCSS, preloadFrutigerFonts } from '../src/styles/font-loader';

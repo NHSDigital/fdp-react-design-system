@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Header } from './Header';
 
 const meta = {
-  title: 'Components/Header/Navigation Overflow Testing',
+  title: 'NHS/Components/Header/Navigation Overflow',
   component: Header,
   parameters: {
     layout: 'fullscreen',

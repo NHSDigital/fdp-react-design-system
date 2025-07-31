@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Checkboxes } from './Checkboxes';
-import { CheckboxesCSS } from './CheckboxesCSS';
 import { CheckboxItem } from './Checkboxes.types';
 
 const meta: Meta<typeof Checkboxes> = {
-  title: 'NHS/Components/Checkboxes/Comparison',
+  title: 'NHS/Components/Checkboxes',
   parameters: {
     layout: 'padded',
     docs: {
@@ -53,7 +52,7 @@ export const CSSBased: Story = {
   render: () => (
     <div>
       <h2 style={{ marginBottom: '24px', color: '#005eb8' }}>CSS-Based (New Approach)</h2>
-      <CheckboxesCSS
+      <Checkboxes
         name="contact-css"
         legend="How would you like to be contacted?"
         hint="Select all options that apply to you"
@@ -106,7 +105,7 @@ export const SideBySideComparison: Story = {
           borderRadius: '4px',
           marginBottom: '16px'
         }}>
-          <CheckboxesCSS
+          <Checkboxes
             name="contact-css-compare"
             legend="How would you like to be contacted?"
             hint="Select all options that apply to you"
@@ -153,7 +152,7 @@ export const PerformanceTest: Story = {
         </div>
         <div>
           <h3 style={{ marginBottom: '16px', color: '#005eb8' }}>CSS-Based (20 items)</h3>
-          <CheckboxesCSS
+          <Checkboxes
             name="performance-css"
             legend="Performance test with many items"
             items={manyItems}

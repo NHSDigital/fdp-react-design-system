@@ -239,15 +239,3 @@ export const getCheckboxItemHintStyles = (
     paddingLeft: size === 'small' ? 34 : 50,
   };
 };
-
-/**
- * Get conditional content styles using NHS design tokens
- */
-export const getConditionalContentStyles = (
-  theme: NHSTheme
-): CSSProperties => ({
-  marginTop: theme.spacing.Spacing3,
-  marginBottom: theme.spacing.Spacing3,
-  paddingLeft: theme.spacing.Spacing4,
-  borderLeft: `${theme.border.BorderWidthFormElement} solid ${theme.color.ColorBorderDefault}`,
-});

@@ -1,6 +1,7 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useState, ReactNode } from 'react';
 import clsx from 'clsx';
-import { CheckboxesProps } from './Checkboxes.types';
+import { CheckboxesProps, CheckboxConditionalProps } from './Checkboxes.types';
+import { Input } from '../Input/Input';
 
 // Import the compiled CSS
 //import '../../../dist/nhs-design-system.css';
@@ -136,7 +137,15 @@ export const CheckboxesCSS = forwardRef<HTMLFieldSetElement, CheckboxesProps>(
                 )}
                 id={conditionalId}
               >
-                {item.conditional}
+                {typeof item.conditional === 'object' && 
+                 item.conditional !== null && 
+                 'label' in item.conditional && 
+                 'id' in item.conditional && 
+                 'name' in item.conditional ? (
+                  <Input {...(item.conditional as CheckboxConditionalProps)} />
+                ) : (
+                  item.conditional as ReactNode
+                )}
               </div>
             )}
           </React.Fragment>

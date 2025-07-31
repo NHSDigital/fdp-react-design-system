@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 import classNames from 'classnames';
+import { RadiosProps, RadioConditionalProps } from './Radios.types';
+import { Input } from '../Input/Input';
+import { Label } from '../Label/Label';
 import './Radios.scss';
-import { RadiosProps } from './Radios.types';
 
 export const Radios: React.FC<RadiosProps> = ({
   name,
@@ -75,7 +77,22 @@ export const Radios: React.FC<RadiosProps> = ({
                 })}
                 id={conditionalId}
               >
-                {option.conditional}
+                {typeof option.conditional === 'object' && 
+                 option.conditional !== null && 
+                 'label' in option.conditional && 
+                 'id' in option.conditional && 
+                 'name' in option.conditional ? (
+                  <div style={{ marginTop: '16px' }}>
+                    {(option.conditional as RadioConditionalProps).label && (
+                      <Label htmlFor={(option.conditional as RadioConditionalProps).id}>
+                        {(option.conditional as RadioConditionalProps).label}
+                      </Label>
+                    )}
+                    <Input {...(option.conditional as RadioConditionalProps)} />
+                  </div>
+                ) : (
+                  option.conditional as ReactNode
+                )}
               </div>
             )}
           </div>

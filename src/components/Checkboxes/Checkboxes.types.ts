@@ -1,5 +1,24 @@
 import { ReactNode } from 'react';
 
+export interface CheckboxConditionalProps {
+  /** The label for the conditional input */
+  label: string;
+  /** The id for the conditional input */
+  id: string;
+  /** The name for the conditional input */
+  name: string;
+  /** The type of input (text, email, tel, etc.) */
+  type?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'search' | 'number';
+  /** Placeholder text for the conditional input */
+  placeholder?: string;
+  /** Default value for the conditional input */
+  defaultValue?: string;
+  /** Width of the conditional input */
+  width?: 'full' | '20' | '10' | '5' | '4' | '3' | '2';
+  /** Additional attributes for the conditional input */
+  inputAttributes?: React.InputHTMLAttributes<HTMLInputElement>;
+}
+
 export interface CheckboxItem {
   /** The value of the checkbox */
   value: string;
@@ -11,8 +30,8 @@ export interface CheckboxItem {
   checked?: boolean;
   /** Whether the checkbox is disabled */
   disabled?: boolean;
-  /** Conditional content to show when this checkbox is selected */
-  conditional?: ReactNode;
+  /** Conditional content to show when this checkbox is selected - can be custom ReactNode or structured input props */
+  conditional?: ReactNode | CheckboxConditionalProps;
   /** Additional attributes to pass to the input element */
   attributes?: React.InputHTMLAttributes<HTMLInputElement>;
 }

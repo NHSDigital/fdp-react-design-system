@@ -1,0 +1,128 @@
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as nhs;
+
+.nhsuk-pagination {
+  margin-top: nhs.$nhs-fdp-spacing-8;
+  margin-bottom: nhs.$nhs-fdp-spacing-8;
+  
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: nhs.$nhs-fdp-spacing-9;
+  margin-top: nhs.$nhs-fdp-spacing-6;
+  margin-bottom: nhs.$nhs-fdp-spacing-9;
+  }
+}
+
+.nhsuk-pagination__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nhsuk-pagination-item--previous {
+  text-align: left;
+  flex: 0 1 auto;
+  
+  .nhsuk-icon {
+    left: -6px;
+  }
+  
+  .nhsuk-pagination__title {
+    padding-left: nhs.$nhs-fdp-spacing-6;
+  }
+}
+
+.nhsuk-pagination-item--next {
+  text-align: right;
+  flex: 0 1 auto;
+  margin-left: auto;
+  
+  .nhsuk-icon {
+    right: -6px;
+  }
+  
+  .nhsuk-pagination__title {
+    padding-right: nhs.$nhs-fdp-spacing-6;
+  }
+}
+
+.nhsuk-pagination__link {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  width: 100%;
+  color: nhs.$nhs-fdp-semantic-color-link-default;
+  
+  &:visited {
+    color: nhs.$nhs-fdp-semantic-color-link-default;
+  }
+  
+  &:hover {
+    color: nhs.$nhs-fdp-semantic-color-link-hover;
+    
+    .nhsuk-pagination__page {
+      text-decoration: none;
+    }
+  }
+  
+  &:focus {
+    background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+    box-shadow: 0 -2px nhs.$nhs-fdp-semantic-color-focus-background,
+                0 4px nhs.$nhs-fdp-semantic-color-text-primary;
+    outline: 3px solid transparent;
+    
+    .nhsuk-pagination__page {
+      text-decoration: none;
+    }
+  }
+  
+  @media print {
+    color: nhs.$nhs-fdp-color-primary-black;
+  }
+  
+  .nhsuk-icon {
+    position: absolute;
+    top: -2px;
+    
+    @media print {
+      color: nhs.$nhs-fdp-color-primary-black;
+      margin-top: 0;
+    }
+  }
+}
+
+.nhsuk-pagination__title {
+  display: block;
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  font-size: nhs.$nhs-fdp-font-size-19-mobile;
+  font-weight: nhs.$nhs-fdp-font-weight-bold;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
+  
+  @media print {
+    &::after {
+      content: " page";
+    }
+  }
+}
+
+.nhsuk-pagination__page {
+  display: block;
+  text-decoration: underline;
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  font-size: nhs.$nhs-fdp-font-size-19-mobile;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
+}
+
+.nhsuk-u-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

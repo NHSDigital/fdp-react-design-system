@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties } from '../../../node_modules/react';
 import { NHSTheme } from '../../../packages/nhs-fdp/dist/react/theme/NHSThemeProvider';
 import { CheckboxStyleProps } from './Checkboxes.types';
 /**
@@ -45,7 +45,3 @@ export declare const getCheckboxFocusStyles: (theme: NHSTheme) => CSSProperties;
  * Get checkbox item hint styles using NHS design tokens
  */
 export declare const getCheckboxItemHintStyles: (theme: NHSTheme, size: "default" | "small") => CSSProperties;
-/**
- * Get conditional content styles using NHS design tokens
- */
-export declare const getConditionalContentStyles: (theme: NHSTheme) => CSSProperties;

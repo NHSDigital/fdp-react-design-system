@@ -64,7 +64,7 @@ const VisuallyHiddenTest = () => {
 };
 
 const meta = {
-  title: 'Components/Header/Visually Hidden Test',
+  title: 'NHS/Utilities/Visually Hidden',
   component: VisuallyHiddenTest,
   parameters: {
     layout: 'padded',

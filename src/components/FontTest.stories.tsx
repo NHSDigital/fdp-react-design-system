@@ -45,7 +45,7 @@ const FontTest: React.FC = () => {
 };
 
 const meta: Meta<typeof FontTest> = {
-  title: 'Development/Font Test',
+  title: 'NHS/Components/components',
   component: FontTest,
   parameters: {
     layout: 'fullscreen',

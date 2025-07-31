@@ -1,5 +1,7 @@
 export { Button } from './components/Button';
 export type { NHSButtonProps, ButtonVariant, ButtonSize } from './components/Button';
+export { Breadcrumb } from './components/Breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
 export { NHSThemeProvider, useNHSTheme } from './components/NHSThemeProvider';
 export type { NHSTheme, NHSHeadingStyle, NHSParagraphStyle, ResponsiveProperty } from '../packages/nhs-fdp/dist/react/theme/NHSThemeProvider';
 export * from '../packages/nhs-fdp/dist/react/index';

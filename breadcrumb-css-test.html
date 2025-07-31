@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breadcrumb CSS Test</title>
+    <style>
+        /* Import the compiled CSS directly to test */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            border: 2px solid #ccc;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .viewport-info {
+            background: #f0f0f0;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+    </style>
+    <!-- Include the breadcrumb CSS -->
+    <link rel="stylesheet" href="./src/components/Breadcrumb/Breadcrumb.scss">
+</head>
+<body>
+    <h1>Breadcrumb CSS Diagnostic Test</h1>
+    
+    <div class="viewport-info">
+        Current viewport width: <span id="viewport-width"></span>px
+    </div>
+    
+    <div class="test-container">
+        <h2>Breadcrumb Component Test</h2>
+        
+        <nav class="nhsuk-breadcrumb" aria-label="Breadcrumb">
+            <ol class="nhsuk-breadcrumb__list">
+                <li class="nhsuk-breadcrumb__item">
+                    <a class="nhsuk-breadcrumb__link" href="#">Home</a>
+                </li>
+                <li class="nhsuk-breadcrumb__item">
+                    <a class="nhsuk-breadcrumb__link" href="#">Health A-Z</a>
+                </li>
+                <li class="nhsuk-breadcrumb__item">
+                    Mental health
+                </li>
+            </ol>
+            
+            <p class="nhsuk-breadcrumb__back">
+                <a class="nhsuk-breadcrumb__backlink" href="#">
+                    <span class="nhsuk-u-visually-hidden">Back to &nbsp;</span>
+                    Mental health
+                </a>
+            </p>
+        </nav>
+    </div>
+    
+    <div class="test-container">
+        <h2>CSS Debug Info</h2>
+        <div id="css-debug"></div>
+    </div>
+    
+    <script>
+        function updateViewportInfo() {
+            document.getElementById('viewport-width').textContent = window.innerWidth;
+        }
+        
+        function debugCSS() {
+            const breadcrumbList = document.querySelector('.nhsuk-breadcrumb__list');
+            const breadcrumbBack = document.querySelector('.nhsuk-breadcrumb__back');
+            
+            const listStyles = window.getComputedStyle(breadcrumbList);
+            const backStyles = window.getComputedStyle(breadcrumbBack);
+            
+            const debugInfo = `
+                <h3>Breadcrumb List (.nhsuk-breadcrumb__list)</h3>
+                <p><strong>Display:</strong> ${listStyles.display}</p>
+                <p><strong>Visibility:</strong> ${listStyles.visibility}</p>
+                <p><strong>Height:</strong> ${breadcrumbList.offsetHeight}px</p>
+                
+                <h3>Breadcrumb Back (.nhsuk-breadcrumb__back)</h3>
+                <p><strong>Display:</strong> ${backStyles.display}</p>
+                <p><strong>Visibility:</strong> ${backStyles.visibility}</p>
+                <p><strong>Height:</strong> ${breadcrumbBack.offsetHeight}px</p>
+                
+                <h3>Media Query Test</h3>
+                <p><strong>Viewport >= 641px:</strong> ${window.innerWidth >= 641 ? 'YES' : 'NO'}</p>
+            `;
+            
+            document.getElementById('css-debug').innerHTML = debugInfo;
+        }
+        
+        updateViewportInfo();
+        window.addEventListener('resize', () => {
+            updateViewportInfo();
+            debugCSS();
+        });
+        
+        // Initial debug
+        setTimeout(debugCSS, 100);
+        
+        // Refresh debug every second
+        setInterval(debugCSS, 1000);
+    </script>
+</body>
+</html>

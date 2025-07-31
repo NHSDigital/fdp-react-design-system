@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Debug Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f0f4f5;
+        }
+        
+        .debug-info {
+            background: yellow;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid red;
+        }
+        
+        .test-button {
+            background: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-info">
+        DEBUG: This should be visible with yellow background and red border
+    </div>
+    
+    <h1>Button Test Page</h1>
+    
+    <p>This is a test to see what's visible.</p>
+    
+    <button class="test-button">Test Button (Red)</button>
+    
+    <iframe src="/button/button-default.html" width="100%" height="300" style="border: 2px solid blue;">
+        <p>Iframe not supported</p>
+    </iframe>
+    
+    <h2>Direct Button Include Test</h2>
+    <div style="background: white; padding: 20px; border: 2px solid green;">
+        <button class="nhsuk-button" data-module="nhsuk-button" type="submit">Save and continue</button>
+    </div>
+    
+    <script>
+        console.log('Debug page loaded');
+        
+        // Log what elements we can find
+        const buttons = document.querySelectorAll('button');
+        console.log('Found buttons:', buttons.length);
+        
+        buttons.forEach((btn, index) => {
+            console.log(`Button ${index}:`, {
+                text: btn.textContent,
+                classes: btn.className,
+                visible: btn.offsetWidth > 0 && btn.offsetHeight > 0
+            });
+        });
+        
+        // Check if NHS UK button CSS is being loaded
+        const testBtn = document.querySelector('.nhsuk-button');
+        if (testBtn) {
+            const styles = window.getComputedStyle(testBtn);
+            console.log('NHS Button styles:', {
+                backgroundColor: styles.backgroundColor,
+                color: styles.color,
+                padding: styles.padding,
+                display: styles.display
+            });
+        }
+    </script>
+</body>
+</html>

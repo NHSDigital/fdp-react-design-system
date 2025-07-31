@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Header } from './Header';
 
 const meta = {
-  title: 'Components/Header/Responsive Navigation',
+  title: 'NHS/Components/Header/Responsive Navigation',
   component: Header,
   parameters: {
     layout: 'fullscreen',

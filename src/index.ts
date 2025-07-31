@@ -11,6 +11,9 @@ import './styles/utilities.scss';
 export { Button } from './components/Button';
 export type { NHSButtonProps, ButtonVariant, ButtonSize } from './components/Button';
 
+export { Breadcrumb } from './components/Breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
+
 // Theme Provider and hooks - Use our enhanced theme provider
 export { 
   NHSThemeProvider, 

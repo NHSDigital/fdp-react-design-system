@@ -1,4 +1,4 @@
-import { default as React } from 'react';
+import { default as React } from '../../../node_modules/react';
 import { CheckboxesProps } from './Checkboxes.types';
 /**
  * NHS Checkboxes Component
@@ -19,5 +19,5 @@ import { CheckboxesProps } from './Checkboxes.types';
  * />
  * ```
  */
-export declare const Checkboxes: React.ForwardRefExoticComponent<CheckboxesProps & React.RefAttributes<HTMLFieldSetElement>>;
+export declare const Checkboxes: React.FC<CheckboxesProps>;
 export default Checkboxes;

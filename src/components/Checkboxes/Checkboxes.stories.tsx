@@ -203,3 +203,101 @@ export const WithError: Story = {
   },
 };
 
+// With conditional Input component
+export const WithConditionalInput: Story = {
+  args: {
+    name: 'contact-details',
+    legend: 'How would you like to be contacted?',
+    hint: 'Select all preferred contact methods and provide details.',
+    items: [
+      { 
+        value: 'email', 
+        text: 'Email',
+        conditional: {
+          id: 'contact-email',
+          name: 'contact-email',
+          label: 'Email address',
+          type: 'email',
+          placeholder: 'Enter your email address',
+          width: 'full'
+        }
+      },
+      { 
+        value: 'phone', 
+        text: 'Phone',
+        conditional: {
+          id: 'contact-phone',
+          name: 'contact-phone',
+          label: 'Phone number',
+          type: 'tel',
+          placeholder: 'Enter your phone number',
+          width: 'full'
+        }
+      },
+      { 
+        value: 'post', 
+        text: 'Post',
+        conditional: {
+          id: 'contact-address',
+          name: 'contact-address',
+          label: 'Postal address',
+          type: 'text',
+          placeholder: 'Enter your postal address',
+          width: 'full'
+        }
+      },
+    ],
+  },
+};
+
+// Mixed conditional content (ReactNode and Input component)
+export const WithMixedConditional: Story = {
+  args: {
+    name: 'contact-mixed',
+    legend: 'How would you like us to contact you?',
+    items: [
+      { 
+        value: 'email', 
+        text: 'Email',
+        conditional: {
+          id: 'contact-email-mixed',
+          name: 'contact-email-mixed',
+          label: 'Email address',
+          type: 'email',
+          placeholder: 'your@email.com',
+          width: 'full'
+        }
+      },
+      { 
+        value: 'phone', 
+        text: 'Phone',
+        conditional: (
+          <div>
+            <p style={{ marginBottom: '16px', color: '#212b32' }}>
+              We'll call you during business hours (9am to 5pm, Monday to Friday).
+            </p>
+            <label htmlFor="custom-phone" style={{ display: 'block', marginBottom: '8px', fontWeight: 600 }}>
+              Phone number
+            </label>
+            <input 
+              type="tel" 
+              id="custom-phone" 
+              name="custom-phone"
+              placeholder="Enter phone number"
+              style={{ 
+                padding: '8px 12px', 
+                border: '2px solid #d8dde0', 
+                borderRadius: '4px',
+                width: '100%',
+                fontSize: '19px',
+                fontFamily: 'inherit'
+              }}
+            />
+          </div>
+        )
+      },
+      { value: 'post', text: 'Post' },
+    ],
+  },
+};
+

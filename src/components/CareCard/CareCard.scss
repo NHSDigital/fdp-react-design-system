@@ -7,6 +7,7 @@
 .nhsuk-care-card {
   margin-top: tokens.$nhs-fdp-spacing-7; // 32px
   position: relative;
+  font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
 
   @media (min-width: 641px) {
     margin-top: tokens.$nhs-fdp-spacing-7;
@@ -83,6 +84,8 @@
 
 .nhsuk-care-card__content {
   padding: tokens.$nhs-fdp-spacing-5; // 24px
+  font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
+  line-height: tokens.$nhs-fdp-font-line-height-base;
 
   @media (min-width: 641px) {
     padding: tokens.$nhs-fdp-spacing-5;
@@ -95,6 +98,38 @@
 
   > *:last-child {
     margin-bottom: 0;
+  }
+
+  // Ensure all content elements use the NHS font family
+  p, ul, ol, li, div, span {
+    font-family: inherit;
+  }
+
+  // Universal selector to ensure all elements inherit font
+  * {
+    font-family: inherit;
+  }
+
+  // Specific styling for lists
+  ul, ol {
+    font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
+    line-height: tokens.$nhs-fdp-font-line-height-base;
+    
+    // Mobile typography
+    font-size: tokens.$nhs-fdp-font-size-19-mobile; // 16px
+    
+    @media (min-width: 641px) {
+      font-size: tokens.$nhs-fdp-font-size-19-tablet; // 19px
+    }
+  }
+
+  li {
+    font-family: inherit;
+    margin-bottom: tokens.$nhs-fdp-spacing-2; // 8px
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 

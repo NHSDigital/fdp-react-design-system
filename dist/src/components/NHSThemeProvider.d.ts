@@ -1,4 +1,4 @@
-import { default as React } from '../../node_modules/react';
+import { default as React } from 'react';
 import { ThemeProviderProps } from '../../packages/nhs-fdp/dist/react/theme/NHSThemeProvider';
 /**
  * Enhanced NHS Theme Provider that ensures fonts are loaded

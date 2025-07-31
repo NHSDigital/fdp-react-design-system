@@ -42,3 +42,7 @@ export { Pagination } from './Pagination';
 export type { PaginationProps } from './Pagination';
 export { ContentsList } from './ContentsList';
 export type { ContentsListProps, ContentsListItem } from './ContentsList';
+export { Card, CardGroup, CardGroupItem } from './Card';
+export type { CardProps, CardGroupProps, CardGroupItemProps } from './Card';
+export { CareCard } from './CareCard';
+export type { CareCardProps } from './CareCard';

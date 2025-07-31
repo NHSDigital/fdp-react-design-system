@@ -1,4 +1,4 @@
-import { CSSProperties } from '../../../node_modules/react';
+import { CSSProperties } from 'react';
 import { NHSTheme } from '../../../packages/nhs-fdp/dist/react/theme/NHSThemeProvider';
 import { CheckboxStyleProps } from './Checkboxes.types';
 /**

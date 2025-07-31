@@ -1,0 +1,248 @@
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+
+// CareCard component SCSS with design tokens
+// Based on NHS UK care card component styles
+// Care cards help users identify and understand the care they need
+
+.nhsuk-care-card {
+  margin-top: tokens.$nhs-fdp-spacing-7; // 32px
+  position: relative;
+
+  @media (min-width: 641px) {
+    margin-top: tokens.$nhs-fdp-spacing-7;
+  }
+
+  @media print {
+    color: tokens.$nhs-fdp-color-primary-black !important;
+  }
+}
+
+.nhsuk-care-card__heading-container {
+  padding-bottom: tokens.$nhs-fdp-spacing-3; // 12px
+  padding-top: tokens.$nhs-fdp-spacing-3; // 12px
+  position: relative;
+  padding-left: tokens.$nhs-fdp-spacing-5; // 24px
+  padding-right: tokens.$nhs-fdp-spacing-5; // 24px
+
+  @media (min-width: 641px) {
+    padding-left: tokens.$nhs-fdp-spacing-5;
+    padding-right: tokens.$nhs-fdp-spacing-5;
+  }
+}
+
+.nhsuk-care-card__heading {
+  margin: 0;
+  padding-top: 0;
+  font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
+  font-weight: tokens.$nhs-fdp-font-weight-bold;
+  color: tokens.$nhs-fdp-color-primary-white;
+  line-height: tokens.$nhs-fdp-font-line-height-base;
+
+  // Mobile typography
+  font-size: tokens.$nhs-fdp-font-size-22-mobile; // 19px
+  
+  @media (min-width: 641px) {
+    font-size: tokens.$nhs-fdp-font-size-22-tablet; // 22px
+  }
+
+  @media print {
+    color: tokens.$nhs-fdp-color-primary-black !important;
+  }
+}
+
+.nhsuk-care-card__arrow {
+  bottom: -10px;
+  display: block;
+  height: 20px;
+  left: 30px;
+  overflow: hidden;
+  position: absolute;
+  transform: rotate(45deg);
+  width: 20px;
+
+  @media print {
+    display: none;
+  }
+
+  @media (min-width: 641px) {
+    left: 38px;
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    height: 0;
+    position: absolute;
+    top: 0;
+    transform: rotate(45deg);
+    width: 0;
+    border: solid 32px;
+  }
+}
+
+.nhsuk-care-card__content {
+  padding: tokens.$nhs-fdp-spacing-5; // 24px
+
+  @media (min-width: 641px) {
+    padding: tokens.$nhs-fdp-spacing-5;
+  }
+
+  // Remove top/bottom padding from first/last child elements
+  > *:first-child {
+    margin-top: 0;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.nhsuk-care-card__text {
+  margin-bottom: 0;
+  font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
+  line-height: tokens.$nhs-fdp-font-line-height-base;
+
+  // Mobile typography
+  font-size: tokens.$nhs-fdp-font-size-19-mobile; // 16px
+  
+  @media (min-width: 641px) {
+    font-size: tokens.$nhs-fdp-font-size-19-tablet; // 19px
+  }
+}
+
+// Non-urgent care card (blue)
+.nhsuk-care-card--non-urgent {
+  background-color: tokens.$nhs-fdp-color-primary-blue;
+  border: 4px solid tokens.$nhs-fdp-color-primary-blue;
+
+  .nhsuk-care-card__arrow {
+    &::before,
+    &::after {
+      border-color: tokens.$nhs-fdp-color-primary-blue;
+    }
+  }
+
+  .nhsuk-care-card__content {
+    background-color: tokens.$nhs-fdp-color-primary-white;
+    color: tokens.$nhs-fdp-color-primary-black;
+
+    a {
+      color: tokens.$nhs-fdp-card-text-link;
+      
+      &:hover {
+        color: tokens.$nhs-fdp-card-text-link;
+        text-decoration: underline;
+      }
+      
+      &:focus {
+        color: tokens.$nhs-fdp-color-primary-black;
+        background-color: tokens.$nhs-fdp-color-primary-yellow;
+        outline: tokens.$nhs-fdp-focus-outline-width solid tokens.$nhs-fdp-color-primary-black;
+        outline-offset: 0;
+        box-shadow: inset 0 0 0 2px;
+      }
+    }
+  }
+
+  @media print {
+    border-width: 4px;
+  }
+}
+
+// Urgent care card (red)
+.nhsuk-care-card--urgent {
+  background-color: tokens.$nhs-fdp-color-primary-red;
+  border: 6px solid tokens.$nhs-fdp-color-primary-red;
+
+  .nhsuk-care-card__arrow {
+    &::before,
+    &::after {
+      border-color: tokens.$nhs-fdp-color-primary-red;
+    }
+  }
+
+  .nhsuk-care-card__content {
+    background-color: tokens.$nhs-fdp-color-primary-white;
+    color: tokens.$nhs-fdp-color-primary-black;
+
+    a {
+      color: tokens.$nhs-fdp-card-text-link;
+      
+      &:hover {
+        color: tokens.$nhs-fdp-card-text-link;
+        text-decoration: underline;
+      }
+      
+      &:focus {
+        color: tokens.$nhs-fdp-color-primary-black;
+        background-color: tokens.$nhs-fdp-color-primary-yellow;
+        outline: tokens.$nhs-fdp-focus-outline-width solid tokens.$nhs-fdp-color-primary-black;
+        outline-offset: 0;
+        box-shadow: inset 0 0 0 2px;
+      }
+    }
+  }
+
+  @media print {
+    border-width: 6px;
+  }
+}
+
+// Emergency care card (red with black content)
+.nhsuk-care-card--emergency {
+  background-color: tokens.$nhs-fdp-color-primary-red;
+  border: 8px solid tokens.$nhs-fdp-color-primary-red;
+
+  .nhsuk-care-card__arrow {
+    &::before,
+    &::after {
+      border-color: tokens.$nhs-fdp-color-primary-red;
+    }
+  }
+
+  .nhsuk-care-card__content {
+    background-color: tokens.$nhs-fdp-color-primary-black;
+    color: tokens.$nhs-fdp-color-primary-white;
+
+    a {
+      color: tokens.$nhs-fdp-color-primary-white;
+      
+      &:hover {
+        color: tokens.$nhs-fdp-color-primary-white;
+        text-decoration: underline;
+      }
+      
+      &:focus {
+        background-color: tokens.$nhs-fdp-color-primary-yellow;
+        color: tokens.$nhs-fdp-color-primary-black;
+        outline: tokens.$nhs-fdp-focus-outline-width solid tokens.$nhs-fdp-color-primary-black;
+        outline-offset: 0;
+        box-shadow: inset 0 0 0 2px;
+      }
+    }
+
+    @media print {
+      background-color: tokens.$nhs-fdp-color-primary-white;
+      color: tokens.$nhs-fdp-color-primary-black !important;
+    }
+  }
+
+  @media print {
+    border-width: 8px;
+  }
+}
+
+// Visually hidden utility for screen readers
+.nhsuk-u-visually-hidden {
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  white-space: nowrap !important;
+  width: 1px !important;
+}

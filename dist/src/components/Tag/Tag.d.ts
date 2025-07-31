@@ -1,3 +1,3 @@
-import { default as React } from '../../../node_modules/react';
+import { default as React } from 'react';
 import { TagProps } from './Tag.types';
 export declare const Tag: React.FC<TagProps>;

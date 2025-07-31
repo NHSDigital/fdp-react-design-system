@@ -42,7 +42,8 @@ describe('ActionLink', () => {
 
   it('includes arrow icon', () => {
     render(<ActionLink text="Test" href="/test" />);
-    const icon = screen.getByRole('img', { hidden: true });
+    const icon = document.querySelector('.nhsuk-icon__arrow-right-circle');
+    expect(icon).toBeInTheDocument();
     expect(icon).toHaveClass('nhsuk-icon__arrow-right-circle');
     expect(icon).toHaveAttribute('aria-hidden', 'true');
   });

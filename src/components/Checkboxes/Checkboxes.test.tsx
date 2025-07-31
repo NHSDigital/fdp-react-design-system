@@ -373,7 +373,7 @@ describe('Checkboxes Component', () => {
         />
       );
 
-      expect(document.querySelector('.nhsuk-checkboxes--conditional')).toBeInTheDocument();
+      expect(document.querySelector('.nhsuk-checkboxes__conditional')).toBeInTheDocument();
     });
   });
 

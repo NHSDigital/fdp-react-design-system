@@ -282,6 +282,13 @@ describe('Header', () => {
   });
 
   it('handles menu toggle functionality', () => {
+    // Mock mobile screen size to trigger mobile menu
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 767,
+    });
+
     const props: HeaderProps = {
       navigation: {
         items: [
@@ -295,8 +302,11 @@ describe('Header', () => {
 
     render(<Header {...props} />);
     
-    // The menu button is hidden by default with the hidden attribute, so we need to select it directly
-    const menuButton = document.querySelector('[id="toggle-menu"]') as HTMLButtonElement;
+    // Trigger resize event to update isMobile state
+    fireEvent(window, new Event('resize'));
+    
+    // The menu button has mobile-specific ID
+    const menuButton = document.querySelector('[id="toggle-menu-mobile"]') as HTMLButtonElement;
     expect(menuButton).toBeInTheDocument();
     expect(menuButton).toHaveAttribute('aria-expanded', 'false');
     

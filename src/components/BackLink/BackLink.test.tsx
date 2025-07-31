@@ -42,7 +42,8 @@ describe('BackLink', () => {
 
   it('includes chevron icon', () => {
     render(<BackLink />);
-    const icon = screen.getByRole('img', { hidden: true });
+    const icon = document.querySelector('.nhsuk-icon__chevron-left');
+    expect(icon).toBeInTheDocument();
     expect(icon).toHaveClass('nhsuk-icon__chevron-left');
     expect(icon).toHaveAttribute('aria-hidden', 'true');
   });

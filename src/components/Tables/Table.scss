@@ -1,0 +1,190 @@
+// ==========================================================================
+// COMPONENTS / #TABLE
+// ==========================================================================
+
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as *;
+
+.nhsuk-table-container {
+  overflow-x: auto;
+}
+
+.nhsuk-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+
+  &__caption {
+    font-family: $nhs-fdp-font-family-base, $nhs-fdp-font-family-fallback;
+    font-size: $nhs-fdp-font-size-16-tablet;
+    font-weight: $nhs-fdp-font-weight-bold;
+    color: $nhs-fdp-semantic-color-text-primary;
+    display: table-caption;
+    padding-bottom: $nhs-fdp-spacing-3;
+    text-align: left;
+
+    @media (max-width: 768px) {
+      font-size: $nhs-fdp-font-size-16-mobile;
+    }
+
+    &--xl {
+      font-size: $nhs-fdp-font-size-36-tablet;
+      font-weight: $nhs-fdp-font-weight-bold;
+      margin-bottom: $nhs-fdp-spacing-2;
+
+      @media (max-width: 768px) {
+        font-size: $nhs-fdp-font-size-36-mobile;
+      }
+    }
+
+    &--l {
+      font-size: $nhs-fdp-font-size-26-tablet;
+      font-weight: $nhs-fdp-font-weight-bold;
+      margin-bottom: $nhs-fdp-spacing-2;
+
+      @media (max-width: 768px) {
+        font-size: $nhs-fdp-font-size-26-mobile;
+      }
+    }
+
+    &--m {
+      font-size: $nhs-fdp-font-size-22-tablet;
+      font-weight: $nhs-fdp-font-weight-bold;
+
+      @media (max-width: 768px) {
+        font-size: $nhs-fdp-font-size-22-mobile;
+      }
+    }
+
+    &--s {
+      font-size: $nhs-fdp-font-size-16-tablet;
+      font-weight: $nhs-fdp-font-weight-bold;
+
+      @media (max-width: 768px) {
+        font-size: $nhs-fdp-font-size-16-mobile;
+      }
+    }
+  }
+
+  &__head {
+    border-bottom: 1px solid $nhs-fdp-semantic-color-border-default;
+  }
+
+  &__header {
+    font-family: $nhs-fdp-font-family-base, $nhs-fdp-font-family-fallback;
+    font-size: $nhs-fdp-font-size-16-tablet;
+    font-weight: $nhs-fdp-font-weight-bold;
+    border-bottom: 2px solid $nhs-fdp-semantic-color-border-default;
+    color: $nhs-fdp-semantic-color-text-primary;
+    padding: $nhs-fdp-spacing-2 $nhs-fdp-spacing-3 $nhs-fdp-spacing-2 0;
+    text-align: left;
+    vertical-align: top;
+
+    @media (max-width: 768px) {
+      font-size: $nhs-fdp-font-size-16-mobile;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+
+  &__cell {
+    font-family: $nhs-fdp-font-family-base, $nhs-fdp-font-family-fallback;
+    font-size: $nhs-fdp-font-size-16-tablet;
+    border-bottom: 1px solid $nhs-fdp-semantic-color-border-default;
+    color: $nhs-fdp-semantic-color-text-primary;
+    padding: $nhs-fdp-spacing-2 $nhs-fdp-spacing-3 $nhs-fdp-spacing-2 0;
+    text-align: left;
+    vertical-align: top;
+
+    @media (max-width: 768px) {
+      font-size: $nhs-fdp-font-size-16-mobile;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+
+    &--numeric {
+      text-align: right;
+    }
+  }
+
+  &__body {
+    &__cell {
+      &--header {
+        font-family: $nhs-fdp-font-family-base, $nhs-fdp-font-family-fallback;
+        font-size: $nhs-fdp-font-size-16-tablet;
+        font-weight: $nhs-fdp-font-weight-bold;
+
+        @media (max-width: 768px) {
+          font-size: $nhs-fdp-font-size-16-mobile;
+        }
+      }
+    }
+  }
+
+  // Panel styling
+  &--panel {
+    border: $nhs-fdp-border-width-default solid $nhs-fdp-border-color-default;
+    padding: $nhs-fdp-spacing-3;
+
+    .nhsuk-table__caption {
+      margin-top: 0;
+      padding-bottom: $nhs-fdp-spacing-3;
+    }
+  }
+
+  // Responsive table
+  &--responsive {
+    @media (max-width: 768px) {
+      border: 0;
+
+      .nhsuk-table__caption {
+        border-bottom: 1px solid $nhs-fdp-semantic-color-border-default;
+        display: block;
+        font-size: inherit;
+        font-weight: normal;
+        padding: $nhs-fdp-spacing-3 0;
+      }
+
+      .nhsuk-table__head {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+      }
+
+      .nhsuk-table__row {
+        border-bottom: 3px solid $nhs-fdp-semantic-color-border-default;
+        display: block;
+        margin-bottom: $nhs-fdp-spacing-3;
+        padding: $nhs-fdp-spacing-3 0;
+      }
+
+      .nhsuk-table__header,
+      .nhsuk-table__cell {
+        border: 0;
+        border-bottom: 1px solid $nhs-fdp-semantic-color-border-default;
+        display: block;
+        padding: $nhs-fdp-spacing-2 0;
+        text-align: right;
+
+        &:last-child {
+          border-bottom: 0;
+        }
+
+        &::before {
+          content: attr(data-label) ': ';
+          display: inline-block;
+          font-weight: $nhs-fdp-font-weight-bold;
+          margin-right: $nhs-fdp-spacing-2;
+        }
+      }
+    }
+  }
+}

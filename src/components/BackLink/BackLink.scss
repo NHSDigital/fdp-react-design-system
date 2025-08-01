@@ -21,13 +21,13 @@
   // Typography
   font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
   
-  @include nhs.nhs-fdp-font-size(16); // Matches NHS UK @include nhsuk-font-size(16)
-  
   // Link styling
   color: nhs.$nhs-fdp-semantic-color-link-default;
   text-decoration: none;
   text-decoration-thickness: max(1px, 0.0625rem);
   text-underline-offset: 0.1578em;
+  
+  @include nhs.nhs-fdp-font-size(16); // Matches NHS UK @include nhsuk-font-size(16)
 
   // Hover state
   &:hover {

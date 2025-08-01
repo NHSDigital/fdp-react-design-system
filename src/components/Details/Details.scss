@@ -21,12 +21,12 @@
 ////
 
 .nhsuk-details {
-  @include nhs.nhs-fdp-font-size(19);
-  
   color: nhs.$nhs-fdp-semantic-color-text-primary;
   display: block;
   font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
   margin-bottom: nhs.$nhs-fdp-spacing-6;
+  
+  @include nhs.nhs-fdp-font-size(19);
 }
 
 .nhsuk-details__summary {

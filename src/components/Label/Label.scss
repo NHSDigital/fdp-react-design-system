@@ -11,26 +11,30 @@
 
   // Size variants with proper NHS UK typography
   &--xl {
-    @include nhs.nhs-fdp-font(48, bold); // Matches NHS UK @include nhsuk-font-size(48) with bold
     margin-bottom: nhs.$nhs-fdp-spacing-3;
     margin-top: 0;
+    
+    @include nhs.nhs-fdp-font(48, bold); // Matches NHS UK @include nhsuk-font-size(48) with bold
   }
 
   &--l {
-    @include nhs.nhs-fdp-font(36, bold); // Matches NHS UK @include nhsuk-font-size(36) with bold
     margin-bottom: nhs.$nhs-fdp-spacing-3;
     margin-top: 0;
+    
+    @include nhs.nhs-fdp-font(36, bold); // Matches NHS UK @include nhsuk-font-size(36) with bold
   }
 
   &--m {
-    @include nhs.nhs-fdp-font(26, bold); // Matches NHS UK @include nhsuk-font-size(26) with bold
     margin-bottom: nhs.$nhs-fdp-spacing-3;
     margin-top: 0;
+    
+    @include nhs.nhs-fdp-font(26, bold); // Matches NHS UK @include nhsuk-font-size(26) with bold
   }
 
   &--s {
-    @include nhs.nhs-fdp-font(19, bold); // Matches NHS UK @include nhsuk-font-size(19) with bold
     margin-top: 0;
+    
+    @include nhs.nhs-fdp-font(19, bold); // Matches NHS UK @include nhsuk-font-size(19) with bold
   }
 
   // Page heading variant

@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import { Heading } from './Heading';
+import { describe, it, expect } from 'vitest';
 
 describe('Heading', () => {
   describe('level prop precedence', () => {

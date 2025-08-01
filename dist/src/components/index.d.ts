@@ -54,3 +54,5 @@ export { InsetText } from './InsetText';
 export type { InsetTextProps } from './InsetText';
 export { SummaryList } from './SummaryList';
 export type { SummaryListProps, SummaryListItem } from './SummaryList';
+export { Table } from './Tables';
+export type { TableProps, TableCellData, TableHeaderCell } from './Tables';

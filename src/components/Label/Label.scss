@@ -1,49 +1,36 @@
-// NHS Label SCSS - Uses compiled design tokens
-@use '../../../packages/nhs-fdp/dist/scss/tokens' as nhs;
+// NHS Label SCSS - Uses compiled design tokens and semantic mixins
+@use '../../../packages/nhs-fdp/scss' as nhs;
 
 .nhsuk-label {
   color: nhs.$nhs-fdp-semantic-color-text-primary;
   display: block;
   font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
-  font-weight: nhs.$nhs-fdp-font-weight-bold;
   margin-bottom: nhs.$nhs-fdp-spacing-1;
 
-  // Default medium size
-  font-size: nhs.$nhs-fdp-font-size-19-mobile;
-  line-height: nhs.$nhs-fdp-font-line-height-base;
+  @include nhs.nhs-fdp-font(19); // Matches NHS UK @include nhsuk-font(19)
 
-  @media (min-width: 768px) {
-    font-size: nhs.$nhs-fdp-font-size-19-tablet;
-  }
-
-  // Size variants
+  // Size variants with proper NHS UK typography
   &--xl {
-    font-size: nhs.$nhs-fdp-font-size-48-mobile;
-    line-height: nhs.$nhs-fdp-font-line-height-base;
+    @include nhs.nhs-fdp-font(48, bold); // Matches NHS UK @include nhsuk-font-size(48) with bold
     margin-bottom: nhs.$nhs-fdp-spacing-3;
-
-    @media (min-width: 768px) {
-      font-size: nhs.$nhs-fdp-font-size-48-tablet;
-    }
+    margin-top: 0;
   }
 
   &--l {
-    font-size: nhs.$nhs-fdp-font-size-36-mobile;
-    line-height: nhs.$nhs-fdp-font-line-height-base;
-    margin-bottom: nhs.$nhs-fdp-spacing-2;
+    @include nhs.nhs-fdp-font(36, bold); // Matches NHS UK @include nhsuk-font-size(36) with bold
+    margin-bottom: nhs.$nhs-fdp-spacing-3;
+    margin-top: 0;
+  }
 
-    @media (min-width: 768px) {
-      font-size: nhs.$nhs-fdp-font-size-36-tablet;
-    }
+  &--m {
+    @include nhs.nhs-fdp-font(26, bold); // Matches NHS UK @include nhsuk-font-size(26) with bold
+    margin-bottom: nhs.$nhs-fdp-spacing-3;
+    margin-top: 0;
   }
 
   &--s {
-    font-size: nhs.$nhs-fdp-font-size-16-mobile;
-    line-height: nhs.$nhs-fdp-font-line-height-base;
-
-    @media (min-width: 768px) {
-      font-size: nhs.$nhs-fdp-font-size-16-tablet;
-    }
+    @include nhs.nhs-fdp-font(19, bold); // Matches NHS UK @include nhsuk-font-size(19) with bold
+    margin-top: 0;
   }
 
   // Page heading variant

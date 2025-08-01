@@ -1,28 +1,28 @@
-@use '../../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+@use '../../../packages/nhs-fdp/scss' as nhs;
 
 // Card component SCSS with design tokens
 // Based on NHS UK card component styles
 
 // Card variables using design tokens
 $card-border-width: 1px;
-$card-border-bottom-width: tokens.$nhs-fdp-spacing-1; // 4px
-$card-border-color: tokens.$nhs-fdp-card-border-default;
-$card-border-hover-color: tokens.$nhs-fdp-card-border-hover;
+$card-border-bottom-width: nhs.$nhs-fdp-spacing-1; // 4px
+$card-border-color: nhs.$nhs-fdp-card-border-default;
+$card-border-hover-color: nhs.$nhs-fdp-card-border-hover;
 
 .nhsuk-card {
-  background: tokens.$nhs-fdp-card-background-default;
+  background: nhs.$nhs-fdp-card-background-default;
   border: $card-border-width solid $card-border-color;
   position: relative; // Needed for the :active top positioning and invisible clickable overlay
   width: 100%;
-  margin-bottom: tokens.$nhs-fdp-spacing-7; // 32px
+  margin-bottom: nhs.$nhs-fdp-spacing-7; // 32px
 
   @media (max-width: 641px) {
-    margin-bottom: tokens.$nhs-fdp-spacing-7;
+    margin-bottom: nhs.$nhs-fdp-spacing-7;
   }
 }
 
 .nhsuk-card__img {
-  border-bottom: $card-border-width solid tokens.$nhs-fdp-card-border-bottom;
+  border-bottom: $card-border-width solid nhs.$nhs-fdp-card-border-bottom;
   display: block;
   width: 100%;
 
@@ -32,10 +32,10 @@ $card-border-hover-color: tokens.$nhs-fdp-card-border-hover;
 }
 
 .nhsuk-card__content {
-  padding: tokens.$nhs-fdp-spacing-5; // 24px
+  padding: nhs.$nhs-fdp-spacing-5; // 24px
 
   @media (min-width: 641px) {
-    padding: tokens.$nhs-fdp-spacing-5;
+    padding: nhs.$nhs-fdp-spacing-5;
   }
 
   // Remove top/bottom padding from first/last child elements
@@ -49,17 +49,17 @@ $card-border-hover-color: tokens.$nhs-fdp-card-border-hover;
 }
 
 .nhsuk-card__heading {
-  margin-bottom: tokens.$nhs-fdp-spacing-3; // 12px
-  font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
-  font-weight: tokens.$nhs-fdp-font-weight-bold;
-  line-height: tokens.$nhs-fdp-font-line-height-base;
-  color: tokens.$nhs-fdp-card-text-heading;
+  margin-bottom: nhs.$nhs-fdp-spacing-3; // 12px
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  font-weight: nhs.$nhs-fdp-font-weight-bold;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
+  color: nhs.$nhs-fdp-card-text-heading;
 
   // Mobile typography
-  font-size: tokens.$nhs-fdp-font-size-26-mobile; // 22px
+  font-size: nhs.$nhs-fdp-font-size-26-mobile; // 22px
   
   @media (min-width: 641px) {
-    font-size: tokens.$nhs-fdp-font-size-26-tablet; // 26px
+    font-size: nhs.$nhs-fdp-font-size-26-tablet; // 26px
   }
 
   &:has(+ .nhsuk-icon) {
@@ -69,15 +69,15 @@ $card-border-hover-color: tokens.$nhs-fdp-card-border-hover;
 
 .nhsuk-card__description {
   margin-bottom: 0;
-  font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
-  color: tokens.$nhs-fdp-card-text-description;
-  line-height: tokens.$nhs-fdp-font-line-height-base;
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  color: nhs.$nhs-fdp-card-text-description;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
 
   // Mobile typography
-  font-size: tokens.$nhs-fdp-font-size-19-mobile; // 16px
+  font-size: nhs.$nhs-fdp-font-size-19-mobile; // 16px
   
   @media (min-width: 641px) {
-    font-size: tokens.$nhs-fdp-font-size-19-tablet; // 19px
+    font-size: nhs.$nhs-fdp-font-size-19-tablet; // 19px
   }
 }
 
@@ -88,17 +88,17 @@ $card-border-hover-color: tokens.$nhs-fdp-card-border-hover;
   .nhsuk-card__heading a,
   .nhsuk-card__link {
     text-decoration: none;
-    color: tokens.$nhs-fdp-card-text-link;
+    color: nhs.$nhs-fdp-card-text-link;
 
     &:hover {
-      color: tokens.$nhs-fdp-card-text-link;
+      color: nhs.$nhs-fdp-card-text-link;
       text-decoration: underline;
     }
 
     &:focus {
-      color: tokens.$nhs-fdp-color-primary-black;
-      background-color: tokens.$nhs-fdp-color-primary-yellow;
-      outline: tokens.$nhs-fdp-focus-outline-width solid tokens.$nhs-fdp-color-primary-black;
+      color: nhs.$nhs-fdp-color-primary-black;
+      background-color: nhs.$nhs-fdp-color-primary-yellow;
+      outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-color-primary-black;
       outline-offset: 0;
       box-shadow: inset 0 0 0 2px;
     }
@@ -124,14 +124,14 @@ $card-border-hover-color: tokens.$nhs-fdp-card-border-hover;
 
 // Card group for displaying multiple cards in a flex layout
 .nhsuk-card-group {
-  margin-bottom: tokens.$nhs-fdp-spacing-3; // 12px
+  margin-bottom: nhs.$nhs-fdp-spacing-3; // 12px
   padding: 0;
   display: flex;
   flex-wrap: wrap;
   list-style: none;
 
   @media (max-width: 1023px) {
-    margin-bottom: tokens.$nhs-fdp-spacing-6; // 24px
+    margin-bottom: nhs.$nhs-fdp-spacing-6; // 24px
   }
 
   // Remove padding-top from headings directly after the card group
@@ -149,12 +149,12 @@ $card-border-hover-color: tokens.$nhs-fdp-card-border-hover;
   flex: 1 1 0%;
 
   .nhsuk-card {
-    margin-bottom: tokens.$nhs-fdp-spacing-5; // 20px
+    margin-bottom: nhs.$nhs-fdp-spacing-5; // 20px
   }
 
   @media (max-width: 1023px) {
     .nhsuk-card {
-      margin-bottom: tokens.$nhs-fdp-spacing-3; // 12px
+      margin-bottom: nhs.$nhs-fdp-spacing-3; // 12px
     }
 
     &:last-child .nhsuk-card {
@@ -165,29 +165,29 @@ $card-border-hover-color: tokens.$nhs-fdp-card-border-hover;
 
 // Feature card variant
 .nhsuk-card--feature {
-  margin-top: tokens.$nhs-fdp-spacing-7; // 32px
+  margin-top: nhs.$nhs-fdp-spacing-7; // 32px
 
   @media (min-width: 641px) {
-    margin-top: tokens.$nhs-fdp-spacing-7;
+    margin-top: nhs.$nhs-fdp-spacing-7;
   }
 }
 
 .nhsuk-card__heading--feature {
-  background: tokens.$nhs-fdp-color-primary-blue;
-  color: tokens.$nhs-fdp-color-primary-white;
+  background: nhs.$nhs-fdp-color-primary-blue;
+  color: nhs.$nhs-fdp-color-primary-white;
   display: inline-block;
-  left: -(tokens.$nhs-fdp-spacing-4 + $card-border-width); // Include border width for alignment
-  margin-bottom: tokens.$nhs-fdp-spacing-2; // 8px
-  margin-right: -(tokens.$nhs-fdp-spacing-4); // Stop heading from spanning full width
-  padding: tokens.$nhs-fdp-spacing-2 tokens.$nhs-fdp-spacing-4; // 8px 16px
+  left: -(nhs.$nhs-fdp-spacing-4 + $card-border-width); // Include border width for alignment
+  margin-bottom: nhs.$nhs-fdp-spacing-2; // 8px
+  margin-right: -(nhs.$nhs-fdp-spacing-4); // Stop heading from spanning full width
+  padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-4; // 8px 16px
   position: relative;
-  top: -(tokens.$nhs-fdp-spacing-2); // 8px
+  top: -(nhs.$nhs-fdp-spacing-2); // 8px
 
   @media (min-width: 641px) {
-    left: -(tokens.$nhs-fdp-spacing-5 + $card-border-width);
-    margin-right: -(tokens.$nhs-fdp-spacing-5);
-    padding: tokens.$nhs-fdp-spacing-2 tokens.$nhs-fdp-spacing-5; // 8px 24px
-    top: -(tokens.$nhs-fdp-spacing-3); // 12px
+    left: -(nhs.$nhs-fdp-spacing-5 + $card-border-width);
+    margin-right: -(nhs.$nhs-fdp-spacing-5);
+    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-5; // 8px 24px
+    top: -(nhs.$nhs-fdp-spacing-3); // 12px
   }
 }
 
@@ -202,10 +202,10 @@ $card-border-hover-color: tokens.$nhs-fdp-card-border-hover;
   $icon-width: 27px;
   $icon-height: 27px;
   border-bottom: $card-border-bottom-width solid $card-border-color;
-  padding-right: calc(#{tokens.$nhs-fdp-spacing-5} + #{$icon-width} + #{tokens.$nhs-fdp-spacing-4}); // Adjust for icon
+  padding-right: calc(#{nhs.$nhs-fdp-spacing-5} + #{$icon-width} + #{nhs.$nhs-fdp-spacing-4}); // Adjust for icon
 
   @media (min-width: 641px) {
-    padding-right: calc(#{tokens.$nhs-fdp-spacing-5} + #{$icon-width} + #{tokens.$nhs-fdp-spacing-4});
+    padding-right: calc(#{nhs.$nhs-fdp-spacing-5} + #{$icon-width} + #{nhs.$nhs-fdp-spacing-4});
   }
 
   @media (min-width: 1024px) {
@@ -220,11 +220,11 @@ $card-border-hover-color: tokens.$nhs-fdp-card-border-hover;
     pointer-events: none;
     position: absolute;
     top: 50%;
-    right: tokens.$nhs-fdp-spacing-5;
-    fill: tokens.$nhs-fdp-color-primary-blue;
+    right: nhs.$nhs-fdp-spacing-5;
+    fill: nhs.$nhs-fdp-color-primary-blue;
 
     @media (min-width: 641px) {
-      right: tokens.$nhs-fdp-spacing-5;
+      right: nhs.$nhs-fdp-spacing-5;
     }
   }
 }

@@ -1,4 +1,4 @@
-import { ReactNode, HTMLAttributes } from 'react';
+import { ReactNode, HTMLAttributes } from '../../../node_modules/react';
 export interface SummaryListItem {
     /** The term or label for this summary item */
     key: {

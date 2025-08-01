@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 import { Breadcrumb } from './Breadcrumb';
 import { BreadcrumbItem } from './Breadcrumb.types';
 

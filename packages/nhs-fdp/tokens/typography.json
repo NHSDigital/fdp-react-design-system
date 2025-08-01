@@ -7,7 +7,7 @@
         "$description": "Primary NHS font family"
       },
       "fallback": {
-        "$value": "arial, sans-serif",
+        "$value": "Arial, sans-serif",
         "$description": "Fallback fonts if Frutiger fails to load"
       },
       "print": {
@@ -119,6 +119,83 @@
       "base": {
         "$value": "24px",
         "$description": "Base line height"
+      },
+      "14": {
+        "mobile": {
+          "$value": "20px"
+        },
+        "tablet": {
+          "$value": "24px"
+        },
+        "print": {
+          "$value": "1.3"
+        }
+      },
+      "16": {
+        "mobile": {
+          "$value": "24px"
+        },
+        "tablet": {
+          "$value": "24px"
+        },
+        "print": {
+          "$value": "1.3"
+        }
+      },
+      "19": {
+        "mobile": {
+          "$value": "24px"
+        },
+        "tablet": {
+          "$value": "28px"
+        },
+        "print": {
+          "$value": "1.25"
+        }
+      },
+      "22": {
+        "mobile": {
+          "$value": "27px"
+        },
+        "tablet": {
+          "$value": "30px"
+        },
+        "print": {
+          "$value": "1.25"
+        }
+      },
+      "26": {
+        "mobile": {
+          "$value": "29px"
+        },
+        "tablet": {
+          "$value": "32px"
+        },
+        "print": {
+          "$value": "1.25"
+        }
+      },
+      "36": {
+        "mobile": {
+          "$value": "33px"
+        },
+        "tablet": {
+          "$value": "42px"
+        },
+        "print": {
+          "$value": "1.2"
+        }
+      },
+      "48": {
+        "mobile": {
+          "$value": "38px"
+        },
+        "tablet": {
+          "$value": "54px"
+        },
+        "print": {
+          "$value": "1.15"
+        }
       }
     }
   }

@@ -1,4 +1,4 @@
-import { default as React } from 'react';
+import { default as React } from '../../../node_modules/react';
 import { HeadingProps } from './Heading.types';
 /**
  * A reusable Heading component that abstracts heading level logic and provides consistent styling.

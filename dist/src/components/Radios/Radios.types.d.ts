@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode } from '../../../node_modules/react';
 export interface RadioConditionalProps {
     /** The label for the conditional input */
     label: string;

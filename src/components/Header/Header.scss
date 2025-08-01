@@ -1,5 +1,5 @@
 // NHS Header SCSS - Uses compiled design tokens
-@use '../../../packages/nhs-fdp/dist/scss/tokens' as nhs;
+@use '../../../packages/nhs-fdp/scss' as nhs;
 
 // Header variables
 $header-item-padding: nhs.$nhs-fdp-spacing-3;

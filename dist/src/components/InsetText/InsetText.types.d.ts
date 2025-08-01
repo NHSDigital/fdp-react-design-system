@@ -1,4 +1,4 @@
-import { ReactNode, HTMLAttributes } from 'react';
+import { ReactNode, HTMLAttributes } from '../../../node_modules/react';
 export interface InsetTextProps extends HTMLAttributes<HTMLDivElement> {
     /** Plain text content for the inset text */
     text?: string;

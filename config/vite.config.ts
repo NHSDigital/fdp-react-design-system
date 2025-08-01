@@ -7,15 +7,16 @@ import dts from 'vite-plugin-dts';
 export default defineConfig({
   plugins: [
     react(),
-    dts({
-      include: ['src/**/*'],
-      exclude: ['**/*.test.*', '**/*.stories.*'],
-      outDir: 'dist',
-    }),
+    // dts({
+    //   include: ['../src/**/*'],
+    //   exclude: ['**/*.test.*', '**/*.stories.*'],
+    //   outDir: '../dist',
+    //   tsconfigPath: '../tsconfig.json',
+    // }),
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: resolve(__dirname, '../src/index.ts'),
       name: 'NHSFDPDesignSystem',
       formats: ['es', 'umd'],
       fileName: (format) => `index.${format === 'es' ? 'esm' : format}.js`,
@@ -31,17 +32,18 @@ export default defineConfig({
     },
     sourcemap: true,
     copyPublicDir: false,
+    outDir: '../dist',
   },
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./src/test-setup.ts'],
+    setupFiles: ['../src/test-setup.ts'],
     css: true,
-    include: ['src/**/*.test.{ts,tsx}'],
+    include: ['../src/**/*.test.{ts,tsx}'],
     typecheck: {
       tsconfig: './tsconfig.json',
-      include: ['src/**/*.test.{ts,tsx}']
+      include: ['../src/**/*.test.{ts,tsx}']
     },
-    exclude: ['**/*.stories.*', 'node_modules/**', 'dist/**'],
+    exclude: ['**/*.stories.*', '../node_modules/**', '../dist/**'],
   },
 });

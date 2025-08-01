@@ -2,6 +2,12 @@ import { afterEach } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 
+// Import React globally for JSX in tests
+import React from 'react';
+
+// Make React available globally for tests that don't import it explicitly
+(globalThis as any).React = React;
+
 // Import fonts to ensure they're available during testing
 import './styles/fonts.css';
 

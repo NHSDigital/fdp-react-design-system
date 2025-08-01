@@ -2,7 +2,7 @@
 // COMPONENTS / #TABLE
 // ==========================================================================
 
-@use '../../../packages/nhs-fdp/dist/scss/tokens' as *;
+@use '../../../packages/nhs-fdp/scss' as nhs;
 
 .nhsuk-table-container {
   overflow-x: auto;
@@ -14,73 +14,73 @@
   width: 100%;
 
   &__caption {
-    font-family: $nhs-fdp-font-family-base, $nhs-fdp-font-family-fallback;
-    font-size: $nhs-fdp-font-size-16-tablet;
-    font-weight: $nhs-fdp-font-weight-bold;
-    color: $nhs-fdp-semantic-color-text-primary;
+    font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
     display: table-caption;
-    padding-bottom: $nhs-fdp-spacing-3;
+    padding-bottom: nhs.$nhs-fdp-spacing-3;
     text-align: left;
 
     @media (max-width: 768px) {
-      font-size: $nhs-fdp-font-size-16-mobile;
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
     }
 
     &--xl {
-      font-size: $nhs-fdp-font-size-36-tablet;
-      font-weight: $nhs-fdp-font-weight-bold;
-      margin-bottom: $nhs-fdp-spacing-2;
+      font-size: nhs.$nhs-fdp-font-size-36-tablet;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      margin-bottom: nhs.$nhs-fdp-spacing-2;
 
       @media (max-width: 768px) {
-        font-size: $nhs-fdp-font-size-36-mobile;
+        font-size: nhs.$nhs-fdp-font-size-36-mobile;
       }
     }
 
     &--l {
-      font-size: $nhs-fdp-font-size-26-tablet;
-      font-weight: $nhs-fdp-font-weight-bold;
-      margin-bottom: $nhs-fdp-spacing-2;
+      font-size: nhs.$nhs-fdp-font-size-26-tablet;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      margin-bottom: nhs.$nhs-fdp-spacing-2;
 
       @media (max-width: 768px) {
-        font-size: $nhs-fdp-font-size-26-mobile;
+        font-size: nhs.$nhs-fdp-font-size-26-mobile;
       }
     }
 
     &--m {
-      font-size: $nhs-fdp-font-size-22-tablet;
-      font-weight: $nhs-fdp-font-weight-bold;
+      font-size: nhs.$nhs-fdp-font-size-22-tablet;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
 
       @media (max-width: 768px) {
-        font-size: $nhs-fdp-font-size-22-mobile;
+        font-size: nhs.$nhs-fdp-font-size-22-mobile;
       }
     }
 
     &--s {
-      font-size: $nhs-fdp-font-size-16-tablet;
-      font-weight: $nhs-fdp-font-weight-bold;
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
 
       @media (max-width: 768px) {
-        font-size: $nhs-fdp-font-size-16-mobile;
+        font-size: nhs.$nhs-fdp-font-size-16-mobile;
       }
     }
   }
 
   &__head {
-    border-bottom: 1px solid $nhs-fdp-semantic-color-border-default;
+    border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
   }
 
   &__header {
-    font-family: $nhs-fdp-font-family-base, $nhs-fdp-font-family-fallback;
-    font-size: $nhs-fdp-font-size-16-tablet;
-    font-weight: $nhs-fdp-font-weight-bold;
-    border-bottom: 2px solid $nhs-fdp-semantic-color-border-default;
-    color: $nhs-fdp-semantic-color-text-primary;
-    padding: $nhs-fdp-spacing-2 $nhs-fdp-spacing-3 $nhs-fdp-spacing-2 0;
+    font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    border-bottom: 2px solid nhs.$nhs-fdp-semantic-color-border-default;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2 0;
     text-align: left;
     vertical-align: top;
 
     @media (max-width: 768px) {
-      font-size: $nhs-fdp-font-size-16-mobile;
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
     }
 
     &:last-child {
@@ -89,16 +89,16 @@
   }
 
   &__cell {
-    font-family: $nhs-fdp-font-family-base, $nhs-fdp-font-family-fallback;
-    font-size: $nhs-fdp-font-size-16-tablet;
-    border-bottom: 1px solid $nhs-fdp-semantic-color-border-default;
-    color: $nhs-fdp-semantic-color-text-primary;
-    padding: $nhs-fdp-spacing-2 $nhs-fdp-spacing-3 $nhs-fdp-spacing-2 0;
+    font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2 0;
     text-align: left;
     vertical-align: top;
 
     @media (max-width: 768px) {
-      font-size: $nhs-fdp-font-size-16-mobile;
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
     }
 
     &:last-child {
@@ -113,12 +113,12 @@
   &__body {
     &__cell {
       &--header {
-        font-family: $nhs-fdp-font-family-base, $nhs-fdp-font-family-fallback;
-        font-size: $nhs-fdp-font-size-16-tablet;
-        font-weight: $nhs-fdp-font-weight-bold;
+        font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+        font-size: nhs.$nhs-fdp-font-size-16-tablet;
+        font-weight: nhs.$nhs-fdp-font-weight-bold;
 
         @media (max-width: 768px) {
-          font-size: $nhs-fdp-font-size-16-mobile;
+          font-size: nhs.$nhs-fdp-font-size-16-mobile;
         }
       }
     }
@@ -126,12 +126,12 @@
 
   // Panel styling
   &--panel {
-    border: $nhs-fdp-border-width-default solid $nhs-fdp-border-color-default;
-    padding: $nhs-fdp-spacing-3;
+    border: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-border-color-default;
+    padding: nhs.$nhs-fdp-spacing-3;
 
     .nhsuk-table__caption {
       margin-top: 0;
-      padding-bottom: $nhs-fdp-spacing-3;
+      padding-bottom: nhs.$nhs-fdp-spacing-3;
     }
   }
 
@@ -141,11 +141,11 @@
       border: 0;
 
       .nhsuk-table__caption {
-        border-bottom: 1px solid $nhs-fdp-semantic-color-border-default;
+        border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
         display: block;
         font-size: inherit;
         font-weight: normal;
-        padding: $nhs-fdp-spacing-3 0;
+        padding: nhs.$nhs-fdp-spacing-3 0;
       }
 
       .nhsuk-table__head {
@@ -160,18 +160,18 @@
       }
 
       .nhsuk-table__row {
-        border-bottom: 3px solid $nhs-fdp-semantic-color-border-default;
+        border-bottom: 3px solid nhs.$nhs-fdp-semantic-color-border-default;
         display: block;
-        margin-bottom: $nhs-fdp-spacing-3;
-        padding: $nhs-fdp-spacing-3 0;
+        margin-bottom: nhs.$nhs-fdp-spacing-3;
+        padding: nhs.$nhs-fdp-spacing-3 0;
       }
 
       .nhsuk-table__header,
       .nhsuk-table__cell {
         border: 0;
-        border-bottom: 1px solid $nhs-fdp-semantic-color-border-default;
+        border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
         display: block;
-        padding: $nhs-fdp-spacing-2 0;
+        padding: nhs.$nhs-fdp-spacing-2 0;
         text-align: right;
 
         &:last-child {
@@ -181,8 +181,8 @@
         &::before {
           content: attr(data-label) ': ';
           display: inline-block;
-          font-weight: $nhs-fdp-font-weight-bold;
-          margin-right: $nhs-fdp-spacing-2;
+          font-weight: nhs.$nhs-fdp-font-weight-bold;
+          margin-right: nhs.$nhs-fdp-spacing-2;
         }
       }
     }

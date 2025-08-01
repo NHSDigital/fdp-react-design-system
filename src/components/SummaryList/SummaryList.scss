@@ -1,38 +1,38 @@
-@use '../../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+@use '../../../packages/nhs-fdp/scss' as nhs;
 
 .nhsuk-summary-list-container {
-  background-color: tokens.$nhs-fdp-color-grey-5;
-  padding: tokens.$nhs-fdp-spacing-3; // 16px on mobile
+  background-color: nhs.$nhs-fdp-color-grey-5;
+  padding: nhs.$nhs-fdp-spacing-3; // 16px on mobile
   
-  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
-    padding: tokens.$nhs-fdp-spacing-5; // 32px on desktop
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    padding: nhs.$nhs-fdp-spacing-5; // 32px on desktop
   }
 }
 
 .nhsuk-summary-list {
   margin: 0;
   width: 100%;
-  font-family: tokens.$nhs-fdp-font-family-base, tokens.$nhs-fdp-font-family-fallback;
-  font-size: tokens.$nhs-fdp-font-size-16-mobile;
-  line-height: tokens.$nhs-fdp-font-line-height-base;
+  font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+  font-size: nhs.$nhs-fdp-font-size-16-mobile;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
   
-  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
-    margin-bottom: tokens.$nhs-fdp-spacing-6;
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    margin-bottom: nhs.$nhs-fdp-spacing-6;
     border-collapse: collapse;
     display: table;
     table-layout: fixed;
-    font-size: tokens.$nhs-fdp-font-size-19-tablet;
+    font-size: nhs.$nhs-fdp-font-size-19-tablet;
   }
 }
 
 .nhsuk-summary-list__row {
-  border-bottom: 1px solid tokens.$nhs-fdp-semantic-color-border-default;
+  border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
 
-  @media (max-width: tokens.$nhs-fdp-breakpoint-tablet) {
-    margin-bottom: tokens.$nhs-fdp-spacing-3;
+  @media (max-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    margin-bottom: nhs.$nhs-fdp-spacing-3;
   }
   
-  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
     display: table-row;
   }
 }
@@ -45,7 +45,7 @@
 // Provide an empty 'cell' for rows that don't have actions – otherwise the
 // bottom border is not drawn for that part of the row in some browsers.
 .nhsuk-summary-list__row--no-actions {
-  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
     &::after {
       content: "";
       display: table-cell;
@@ -60,11 +60,11 @@
   }
   
   // Increase padding by 1px to compensate for 'missing' border
-  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
     .nhsuk-summary-list__key,
     .nhsuk-summary-list__value,
     .nhsuk-summary-list__actions {
-      padding-bottom: calc(tokens.$nhs-fdp-spacing-2 + 1px);
+      padding-bottom: calc(nhs.$nhs-fdp-spacing-2 + 1px);
     }
   }
 }
@@ -75,29 +75,29 @@
   margin: 0;
   vertical-align: top;
 
-  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
     display: table-cell;
-    padding-bottom: tokens.$nhs-fdp-spacing-2;
-    padding-right: tokens.$nhs-fdp-spacing-4;
-    padding-top: tokens.$nhs-fdp-spacing-2;
+    padding-bottom: nhs.$nhs-fdp-spacing-2;
+    padding-right: nhs.$nhs-fdp-spacing-4;
+    padding-top: nhs.$nhs-fdp-spacing-2;
   }
 }
 
 .nhsuk-summary-list__key {
   word-wrap: break-word;
   overflow-wrap: break-word;
-  margin-bottom: tokens.$nhs-fdp-spacing-1;
+  margin-bottom: nhs.$nhs-fdp-spacing-1;
   
   // Typography
-  font-family: tokens.$nhs-fdp-font-family-base, tokens.$nhs-fdp-font-family-fallback;
-  font-size: tokens.$nhs-fdp-font-size-16-mobile;
-  line-height: tokens.$nhs-fdp-font-line-height-base;
-  color: tokens.$nhs-fdp-semantic-color-text-primary;
-  font-weight: tokens.$nhs-fdp-font-weight-bold; // Make keys bold
+  font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+  font-size: nhs.$nhs-fdp-font-size-16-mobile;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
+  color: nhs.$nhs-fdp-semantic-color-text-primary;
+  font-weight: nhs.$nhs-fdp-font-weight-bold; // Make keys bold
 
-  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
     width: 30%;
-    font-size: tokens.$nhs-fdp-font-size-19-tablet;
+    font-size: nhs.$nhs-fdp-font-size-19-tablet;
   }
 }
 
@@ -106,22 +106,22 @@
   overflow-wrap: break-word;
   
   // Typography
-  font-family: tokens.$nhs-fdp-font-family-base, tokens.$nhs-fdp-font-family-fallback;
-  font-size: tokens.$nhs-fdp-font-size-16-mobile;
-  line-height: tokens.$nhs-fdp-font-line-height-base;
-  color: tokens.$nhs-fdp-semantic-color-text-primary;
+  font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+  font-size: nhs.$nhs-fdp-font-size-16-mobile;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
+  color: nhs.$nhs-fdp-semantic-color-text-primary;
 
-  @media (max-width: tokens.$nhs-fdp-breakpoint-tablet) {
-    margin-bottom: tokens.$nhs-fdp-spacing-3;
+  @media (max-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    margin-bottom: nhs.$nhs-fdp-spacing-3;
   }
 
-  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
-    font-size: tokens.$nhs-fdp-font-size-19-tablet;
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    font-size: nhs.$nhs-fdp-font-size-19-tablet;
   }
 
   // Paragraph spacing within values
   p {
-    margin: 0 0 tokens.$nhs-fdp-spacing-3 0;
+    margin: 0 0 nhs.$nhs-fdp-spacing-3 0;
     
     &:last-child {
       margin-bottom: 0;
@@ -136,15 +136,15 @@
   // List styling within values
   ul,
   ol {
-    margin: 0 0 tokens.$nhs-fdp-spacing-3 0;
-    padding-left: tokens.$nhs-fdp-spacing-4;
+    margin: 0 0 nhs.$nhs-fdp-spacing-3 0;
+    padding-left: nhs.$nhs-fdp-spacing-4;
     
     &:last-child {
       margin-bottom: 0;
     }
     
     li {
-      margin-bottom: tokens.$nhs-fdp-spacing-2;
+      margin-bottom: nhs.$nhs-fdp-spacing-2;
       
       &:last-child {
         margin-bottom: 0;
@@ -154,45 +154,45 @@
 
   // Links within values
   a {
-    color: tokens.$nhs-fdp-semantic-color-link-default !important;
+    color: nhs.$nhs-fdp-semantic-color-link-default !important;
     text-decoration: underline;
-    text-decoration-color: tokens.$nhs-fdp-semantic-color-link-default;
+    text-decoration-color: nhs.$nhs-fdp-semantic-color-link-default;
     
     &:link {
-      color: tokens.$nhs-fdp-semantic-color-link-default !important;
-      text-decoration-color: tokens.$nhs-fdp-semantic-color-link-default;
+      color: nhs.$nhs-fdp-semantic-color-link-default !important;
+      text-decoration-color: nhs.$nhs-fdp-semantic-color-link-default;
     }
     
     &:visited {
-      color: tokens.$nhs-fdp-semantic-color-link-visited !important;
-      text-decoration-color: tokens.$nhs-fdp-semantic-color-link-visited;
+      color: nhs.$nhs-fdp-semantic-color-link-visited !important;
+      text-decoration-color: nhs.$nhs-fdp-semantic-color-link-visited;
     }
     
     &:hover {
-      	color: tokens.$nhs-fdp-semantic-color-link-hover !important;
-      	text-decoration-color: tokens.$nhs-fdp-semantic-color-link-hover;
+      	color: nhs.$nhs-fdp-semantic-color-link-hover !important;
+      	text-decoration-color: nhs.$nhs-fdp-semantic-color-link-hover;
 		text-decoration: none;
     }
     
     &:active {
-      color: tokens.$nhs-fdp-semantic-color-link-active !important;
-      text-decoration-color: tokens.$nhs-fdp-semantic-color-link-active;
+      color: nhs.$nhs-fdp-semantic-color-link-active !important;
+      text-decoration-color: nhs.$nhs-fdp-semantic-color-link-active;
     }
     
     &:focus {
-      outline: tokens.$nhs-fdp-focus-outline-width solid tokens.$nhs-fdp-semantic-color-focus-background;
-      outline-offset: tokens.$nhs-fdp-focus-outline-offset;
-      background-color: tokens.$nhs-fdp-semantic-color-focus-background;
-      color: tokens.$nhs-fdp-semantic-color-focus-text !important;
+      outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+      background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      color: nhs.$nhs-fdp-semantic-color-focus-text !important;
       text-decoration: none;
     }
   }
 }
 
 .nhsuk-summary-list__actions {
-  margin-bottom: tokens.$nhs-fdp-spacing-3;
+  margin-bottom: nhs.$nhs-fdp-spacing-3;
 
-  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
     text-align: right;
     width: 20%;
   }
@@ -207,10 +207,10 @@
 .nhsuk-summary-list__actions-list-item {
   display: inline-block;
   
-  @media (max-width: tokens.$nhs-fdp-breakpoint-tablet) {
-    border-right: 1px solid tokens.$nhs-fdp-semantic-color-border-default;
-    margin-right: tokens.$nhs-fdp-spacing-2;
-    padding-right: tokens.$nhs-fdp-spacing-2;
+  @media (max-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    border-right: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+    margin-right: nhs.$nhs-fdp-spacing-2;
+    padding-right: nhs.$nhs-fdp-spacing-2;
 
     &:last-child {
       border: 0;
@@ -219,9 +219,9 @@
     }
   }
 
-  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
-    margin-left: tokens.$nhs-fdp-spacing-2;
-    padding-left: tokens.$nhs-fdp-spacing-2;
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    margin-left: nhs.$nhs-fdp-spacing-2;
+    padding-left: nhs.$nhs-fdp-spacing-2;
 
     &:first-child {
       border: 0;
@@ -230,42 +230,42 @@
     }
 
     &:not(:first-child) {
-      border-left: 1px solid tokens.$nhs-fdp-semantic-color-border-default;
+      border-left: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
     }
   }
   
   // Action link styling
   a {
-    color: tokens.$nhs-fdp-semantic-color-link-default !important;
+    color: nhs.$nhs-fdp-semantic-color-link-default !important;
     text-decoration: underline;
-    text-decoration-color: tokens.$nhs-fdp-semantic-color-link-default;
+    text-decoration-color: nhs.$nhs-fdp-semantic-color-link-default;
     
     &:link {
-      color: tokens.$nhs-fdp-semantic-color-link-default !important;
-      text-decoration-color: tokens.$nhs-fdp-semantic-color-link-default;
+      color: nhs.$nhs-fdp-semantic-color-link-default !important;
+      text-decoration-color: nhs.$nhs-fdp-semantic-color-link-default;
     }
     
     &:visited {
-      color: tokens.$nhs-fdp-semantic-color-link-visited !important;
-      text-decoration-color: tokens.$nhs-fdp-semantic-color-link-visited;
+      color: nhs.$nhs-fdp-semantic-color-link-visited !important;
+      text-decoration-color: nhs.$nhs-fdp-semantic-color-link-visited;
     }
     
     &:hover {
-      color: tokens.$nhs-fdp-semantic-color-link-hover !important;
-      text-decoration-color: tokens.$nhs-fdp-semantic-color-link-hover;
+      color: nhs.$nhs-fdp-semantic-color-link-hover !important;
+      text-decoration-color: nhs.$nhs-fdp-semantic-color-link-hover;
 	  text-decoration: none;
     }
     
     &:active {
-      color: tokens.$nhs-fdp-semantic-color-link-active !important;
-      text-decoration-color: tokens.$nhs-fdp-semantic-color-link-active;
+      color: nhs.$nhs-fdp-semantic-color-link-active !important;
+      text-decoration-color: nhs.$nhs-fdp-semantic-color-link-active;
     }
     
     &:focus {
-      outline: tokens.$nhs-fdp-focus-outline-width solid tokens.$nhs-fdp-semantic-color-focus-background;
-      outline-offset: tokens.$nhs-fdp-focus-outline-offset;
-      background-color: tokens.$nhs-fdp-semantic-color-focus-background;
-      color: tokens.$nhs-fdp-semantic-color-focus-text !important;
+      outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+      background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      color: nhs.$nhs-fdp-semantic-color-focus-text !important;
       text-decoration: none;
     }
   }
@@ -285,11 +285,11 @@
   border: 0;
 
   // Increase padding by 1px to compensate for 'missing' border
-  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
     .nhsuk-summary-list__key,
     .nhsuk-summary-list__value,
     .nhsuk-summary-list__actions {
-      padding-bottom: calc(tokens.$nhs-fdp-spacing-2 + 1px);
+      padding-bottom: calc(nhs.$nhs-fdp-spacing-2 + 1px);
     }
   }
 }
@@ -297,16 +297,16 @@
 // Print styles
 @media print {
   .nhsuk-summary-list {
-    font-size: tokens.$nhs-fdp-font-size-14-print;
+    font-size: nhs.$nhs-fdp-font-size-14-print;
     
     .nhsuk-summary-list__row {
-      border-bottom-color: tokens.$nhs-fdp-semantic-color-text-primary;
+      border-bottom-color: nhs.$nhs-fdp-semantic-color-text-primary;
       break-inside: avoid;
     }
     
     .nhsuk-summary-list__key,
     .nhsuk-summary-list__value {
-      color: tokens.$nhs-fdp-semantic-color-text-primary;
+      color: nhs.$nhs-fdp-semantic-color-text-primary;
     }
     
     .nhsuk-summary-list__actions {

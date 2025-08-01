@@ -1,8 +1,8 @@
 
 // Do not edit directly, this file was auto-generated.
 
-$nhs-fdp-font-family-base: '"Frutiger W01"'; // Primary NHS font family
-$nhs-fdp-font-family-fallback: arial, sans-serif; // Fallback fonts if Frutiger fails to load
+$nhs-fdp-font-family-base: 'Frutiger W01'; // Primary NHS font family
+$nhs-fdp-font-family-fallback: Arial, sans-serif; // Fallback fonts if Frutiger fails to load
 $nhs-fdp-font-family-print: sans-serif; // Font family for print styles
 $nhs-fdp-font-weight-normal: 400; // Normal font weight
 $nhs-fdp-font-weight-bold: 600; // Bold font weight
@@ -29,4 +29,25 @@ $nhs-fdp-font-size-48-mobile: 33px;
 $nhs-fdp-font-size-48-tablet: 48px;
 $nhs-fdp-font-size-48-print: 24pt;
 $nhs-fdp-font-size-base: 16px; // Base font size
+$nhs-fdp-font-line-height-14-mobile: 20px;
+$nhs-fdp-font-line-height-14-tablet: 24px;
+$nhs-fdp-font-line-height-14-print: 1.3;
+$nhs-fdp-font-line-height-16-mobile: 24px;
+$nhs-fdp-font-line-height-16-tablet: 24px;
+$nhs-fdp-font-line-height-16-print: 1.3;
+$nhs-fdp-font-line-height-19-mobile: 24px;
+$nhs-fdp-font-line-height-19-tablet: 28px;
+$nhs-fdp-font-line-height-19-print: 1.25;
+$nhs-fdp-font-line-height-22-mobile: 27px;
+$nhs-fdp-font-line-height-22-tablet: 30px;
+$nhs-fdp-font-line-height-22-print: 1.25;
+$nhs-fdp-font-line-height-26-mobile: 29px;
+$nhs-fdp-font-line-height-26-tablet: 32px;
+$nhs-fdp-font-line-height-26-print: 1.25;
+$nhs-fdp-font-line-height-36-mobile: 33px;
+$nhs-fdp-font-line-height-36-tablet: 42px;
+$nhs-fdp-font-line-height-36-print: 1.2;
+$nhs-fdp-font-line-height-48-mobile: 38px;
+$nhs-fdp-font-line-height-48-tablet: 54px;
+$nhs-fdp-font-line-height-48-print: 1.15;
 $nhs-fdp-font-line-height-base: 24px; // Base line height

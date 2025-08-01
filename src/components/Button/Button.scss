@@ -1,4 +1,4 @@
-@use '../../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+@use '../../../packages/nhs-fdp/scss' as nhs;
 
 .nhs-aria-button {
 	// Base button styles
@@ -11,10 +11,7 @@
 	border: 2px solid transparent;
 	border-radius: 4px;
 	padding: 8px 16px;
-	font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
-	font-size: 16px;
-	font-weight: 600;
-	line-height: 1.5;
+	font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
 	text-align: center;
 	text-decoration: none;
 	cursor: pointer;
@@ -22,7 +19,7 @@
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-	box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-semantic-color-button-primary-shadow;
+	box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
 	
 	// Prevent text selection
 	-webkit-user-select: none;
@@ -32,26 +29,28 @@
 	// Ensure consistent baseline
 	vertical-align: top;
 
+	@include nhs.nhs-fdp-font(19, bold); // Matches NHS UK @include nhsuk-font(19, $weight: bold)
+
 	// Focus styles (React Aria provides focus-visible state)
 	&[data-focus-visible] {
-		outline: 4px solid tokens.$nhs-fdp-semantic-color-focus-background;
+		outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background;
 		outline-offset: 2px;
-		box-shadow: 0 0 0 4px tokens.$nhs-fdp-semantic-color-focus-background;
+		box-shadow: 0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background;
 	}
 
 	// Hover styles (React Aria provides hovered state)
 	&[data-hovered] {
 		//transform: translateY(-2px);
-		box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-semantic-color-button-primary-shadow;
-		color: tokens.$nhs-fdp-color-primary-white;
+		box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
+		color: nhs.$nhs-fdp-color-primary-white;
 	}
 
 	// Press/Active styles (React Aria provides pressed state)
 	&[data-pressed] {
 		transform: translateY(4px);
-		//box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-semantic-color-button-primary-shadow;
+		//box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
 		box-shadow: 0;
-		color: tokens.$nhs-fdp-color-primary-white;
+		color: nhs.$nhs-fdp-color-primary-white;
 	}
 
 	// Disabled styles
@@ -59,7 +58,7 @@
 		opacity: 0.5;
 		cursor: not-allowed;
 		transform: none;
-		box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-semantic-color-button-primary-shadow;
+		box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
 	}
 
 	// Default size (explicit for clarity)
@@ -72,32 +71,32 @@
 	}
 
 	&[data-focused] {
-		background-color: tokens.$nhs-fdp-semantic-color-focus-background;
-		color: tokens.$nhs-fdp-semantic-color-focus-text;
-		box-shadow: 0 4px 0 tokens.$nhs-fdp-semantic-color-focus-text;
-		border-color: tokens.$nhs-fdp-semantic-color-focus-background;
+		background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+		color: nhs.$nhs-fdp-semantic-color-focus-text;
+		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+		border-color: nhs.$nhs-fdp-semantic-color-focus-background;
 	}
 
 	// Primary variant
 	&--primary {
-		background-color: tokens.$nhs-fdp-semantic-color-button-primary-background;
-		color: tokens.$nhs-fdp-color-primary-white;
-		border-color: tokens.$nhs-fdp-semantic-color-button-primary-background;
+		background-color: nhs.$nhs-fdp-semantic-color-button-primary-background;
+		color: nhs.$nhs-fdp-color-primary-white;
+		border-color: nhs.$nhs-fdp-semantic-color-button-primary-background;
 
 		&:not([data-disabled]) {
 
 			&[data-hovered] {
-				background-color: tokens.$nhs-fdp-semantic-color-button-primary-hover;
-				border-color: tokens.$nhs-fdp-semantic-color-button-primary-hover;
-				box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-semantic-color-button-primary-shadow;
+				background-color: nhs.$nhs-fdp-semantic-color-button-primary-hover;
+				border-color: nhs.$nhs-fdp-semantic-color-button-primary-hover;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
 			}
 			
 			&[data-pressed] {
 				// This handles the press/active state
-				background-color: tokens.$nhs-fdp-semantic-color-button-primary-shadow;
-				border-color: tokens.$nhs-fdp-semantic-color-button-primary-active;
-				box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-primary-white;
-				color: tokens.$nhs-fdp-color-primary-white;
+				background-color: nhs.$nhs-fdp-semantic-color-button-primary-shadow;
+				border-color: nhs.$nhs-fdp-semantic-color-button-primary-active;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
+				color: nhs.$nhs-fdp-color-primary-white;
 			}
 
 			// &[data-disabled]
@@ -111,82 +110,82 @@
 
 	// Secondary variant
 	&--secondary {
-		background-color: tokens.$nhs-fdp-color-primary-white;
-		color: tokens.$nhs-fdp-color-primary-blue;
-		border-color: tokens.$nhs-fdp-color-primary-blue;
-		box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-primary-blue;
+		background-color: nhs.$nhs-fdp-color-primary-white;
+		color: nhs.$nhs-fdp-color-primary-blue;
+		border-color: nhs.$nhs-fdp-color-primary-blue;
+		box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-blue;
 
 		&:not([data-disabled]) {
 			&[data-hovered] {
-				background-color: tokens.$nhs-fdp-semantic-color-button-secondary-hover;
-				border-color: tokens.$nhs-fdp-semantic-color-button-login-hover;
-				color: tokens.$nhs-fdp-semantic-color-button-login-hover;
+				background-color: nhs.$nhs-fdp-semantic-color-button-secondary-hover;
+				border-color: nhs.$nhs-fdp-semantic-color-button-login-hover;
+				color: nhs.$nhs-fdp-semantic-color-button-login-hover;
 			}
 			&[data-pressed] {
-				background-color: tokens.$nhs-fdp-semantic-color-button-secondary-active;
-				border-color: tokens.$nhs-fdp-semantic-color-button-login-hover;
-				box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-primary-white;
+				background-color: nhs.$nhs-fdp-semantic-color-button-secondary-active;
+				border-color: nhs.$nhs-fdp-semantic-color-button-login-hover;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
 			}
 		}
 	}
 
 	// Reverse variant (for dark backgrounds)
 	&--reverse {
-		background-color: tokens.$nhs-fdp-color-primary-white;
-		color: tokens.$nhs-fdp-semantic-color-button-reverse-text;
-		border-color: tokens.$nhs-fdp-color-primary-white;
+		background-color: nhs.$nhs-fdp-color-primary-white;
+		color: nhs.$nhs-fdp-semantic-color-button-reverse-text;
+		border-color: nhs.$nhs-fdp-color-primary-white;
 
 		&:not([data-disabled]) {
 			&[data-hovered] {
-				background-color: tokens.$nhs-fdp-semantic-color-button-reverse-hover;
-				color: tokens.$nhs-fdp-semantic-color-button-reverse-text;
-				border-color: tokens.$nhs-fdp-semantic-color-button-reverse-hover;
+				background-color: nhs.$nhs-fdp-semantic-color-button-reverse-hover;
+				color: nhs.$nhs-fdp-semantic-color-button-reverse-text;
+				border-color: nhs.$nhs-fdp-semantic-color-button-reverse-hover;
 			}
 			&[data-pressed] {
-				background-color: tokens.$nhs-fdp-semantic-color-button-reverse-active;
-				border-color: tokens.$nhs-fdp-semantic-color-button-reverse-active;
-				box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-primary-white;
+				background-color: nhs.$nhs-fdp-semantic-color-button-reverse-active;
+				border-color: nhs.$nhs-fdp-semantic-color-button-reverse-active;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
 			}
 		}
 	}
 
 	// Warning variant
 	&--warning {
-		background-color: tokens.$nhs-fdp-semantic-color-error;
-		color: tokens.$nhs-fdp-color-primary-white;
-		border-color: tokens.$nhs-fdp-semantic-color-error;
-		box-shadow: tokens.$nhs-fdp-shadow-button-warning;
+		background-color: nhs.$nhs-fdp-semantic-color-error;
+		color: nhs.$nhs-fdp-color-primary-white;
+		border-color: nhs.$nhs-fdp-semantic-color-error;
+		box-shadow: nhs.$nhs-fdp-shadow-button-warning;
 
 		&:not([data-disabled]) {
 			&[data-hovered] {
-				background-color: tokens.$nhs-fdp-semantic-color-button-warning-hover;
-				border-color: tokens.$nhs-fdp-semantic-color-button-warning-hover;
+				background-color: nhs.$nhs-fdp-semantic-color-button-warning-hover;
+				border-color: nhs.$nhs-fdp-semantic-color-button-warning-hover;
 			}
 			&[data-pressed] {
-				background-color: tokens.$nhs-fdp-semantic-color-button-warning-active;
-				border-color: tokens.$nhs-fdp-semantic-color-button-warning-active;
-				box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-primary-white;
-				color: tokens.$nhs-fdp-color-primary-white;
+				background-color: nhs.$nhs-fdp-semantic-color-button-warning-active;
+				border-color: nhs.$nhs-fdp-semantic-color-button-warning-active;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
+				color: nhs.$nhs-fdp-color-primary-white;
 			}
 		}
 	}
 
 	// Login variant
 	&--login {
-		background-color: tokens.$nhs-fdp-color-primary-blue;
-		color: tokens.$nhs-fdp-color-primary-white;
-		border-color: tokens.$nhs-fdp-color-primary-blue;
+		background-color: nhs.$nhs-fdp-color-primary-blue;
+		color: nhs.$nhs-fdp-color-primary-white;
+		border-color: nhs.$nhs-fdp-color-primary-blue;
 
 		&:not([data-disabled]) {
 			&[data-hovered] {
-				background-color: tokens.$nhs-fdp-color-primary-blue;
-				border-color: tokens.$nhs-fdp-color-primary-blue;
+				background-color: nhs.$nhs-fdp-color-primary-blue;
+				border-color: nhs.$nhs-fdp-color-primary-blue;
 			}
 			&[data-pressed] {
-				background-color: tokens.$nhs-fdp-semantic-color-button-login-active;
-				border-color: tokens.$nhs-fdp-semantic-color-button-login-active;
-				box-shadow: 0 tokens.$nhs-fdp-button-shadow-size 0 tokens.$nhs-fdp-color-primary-white;
-				color: tokens.$nhs-fdp-color-primary-white;
+				background-color: nhs.$nhs-fdp-semantic-color-button-login-active;
+				border-color: nhs.$nhs-fdp-semantic-color-button-login-active;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
+				color: nhs.$nhs-fdp-color-primary-white;
 			}
 		}
 	}

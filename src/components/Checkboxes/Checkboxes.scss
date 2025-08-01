@@ -1,5 +1,5 @@
 // NHS Checkboxes SCSS - Uses compiled design tokens
-@use '../../../packages/nhs-fdp/dist/scss/tokens' as nhs;
+@use '../../../packages/nhs-fdp/scss' as nhs;
 
 // Checkbox component variables
 $checkboxes-size: nhs.$nhs-fdp-form-spacing-checkbox-size;

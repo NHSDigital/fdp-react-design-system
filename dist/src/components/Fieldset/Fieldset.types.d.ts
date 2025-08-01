@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode } from '../../../node_modules/react';
 export type FieldsetLegendSize = 'xl' | 'l' | 'm' | 's';
 export interface FieldsetLegendProps {
     /** Text content for the legend */

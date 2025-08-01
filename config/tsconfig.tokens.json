@@ -16,7 +16,7 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "baseUrl": ".",
+    "baseUrl": "..",
     "paths": {
       "@nhs-fdp/tokens": ["./packages/nhs-fdp/dist/typescript/index.ts"],
       "@nhs-fdp/tokens/*": ["./packages/nhs-fdp/dist/typescript/*"],
@@ -25,8 +25,8 @@
     }
   },
   "include": [
-    "packages/nhs-fdp/dist/typescript/**/*",
-    "packages/nhs-fdp/dist/react/**/*"
+    "../packages/nhs-fdp/dist/typescript/**/*",
+    "../packages/nhs-fdp/dist/react/**/*"
   ],
   "exclude": [
     "node_modules"

@@ -1,41 +1,43 @@
 // NHS Panel SCSS - Confirmation/Success component with green background and white text
-@use '../../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+@use '../../../packages/nhs-fdp/scss' as nhs;
 
 .nhsuk-panel {
   // NHS Panel: Green background with white text for confirmation/success states
-  background: tokens.$nhs-fdp-color-primary-green;
-  border: tokens.$nhs-fdp-spacing-1 solid transparent; /* Transparent border for high contrast mode */
+  background: nhs.$nhs-fdp-color-primary-green;
+  border: nhs.$nhs-fdp-spacing-1 solid transparent; /* Transparent border for high contrast mode */
   box-sizing: border-box;
-  color: tokens.$nhs-fdp-semantic-color-text-reverse;
-  font-family: #{tokens.$nhs-fdp-font-family-base}, tokens.$nhs-fdp-font-family-fallback;
-  padding: calc(#{tokens.$nhs-fdp-spacing-5} - #{tokens.$nhs-fdp-spacing-1}); /* Subtract border width */
-  font-size: tokens.$nhs-fdp-font-size-26-mobile;
-  margin-bottom: tokens.$nhs-fdp-spacing-4;
+  color: nhs.$nhs-fdp-semantic-color-text-reverse;
+  font-family: #{nhs.$nhs-fdp-font-family-base}, nhs.$nhs-fdp-font-family-fallback;
+  padding: calc(#{nhs.$nhs-fdp-spacing-5} - #{nhs.$nhs-fdp-spacing-1}); /* Subtract border width */
+  margin-bottom: nhs.$nhs-fdp-spacing-4;
+  
+  @include nhs.nhs-fdp-font-size(26); // Matches NHS UK @include nhsuk-font-size(26)
   
   // Define responsive margin for panel headings
-  --panel-heading-margin: #{tokens.$nhs-fdp-spacing-responsive-5-mobile};
+  --panel-heading-margin: #{nhs.$nhs-fdp-spacing-responsive-5-mobile};
   
-  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
-    --panel-heading-margin: #{tokens.$nhs-fdp-spacing-responsive-5-tablet};
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    --panel-heading-margin: #{nhs.$nhs-fdp-spacing-responsive-5-tablet};
   }
   
   // Responsive padding
-  @media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-tablet} - 1px)) {
-    padding: calc(#{tokens.$nhs-fdp-spacing-4} - #{tokens.$nhs-fdp-spacing-1}); /* Smaller padding on mobile */
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-tablet} - 1px)) {
+    padding: calc(#{nhs.$nhs-fdp-spacing-4} - #{nhs.$nhs-fdp-spacing-1}); /* Smaller padding on mobile */
     word-break: break-word; /* Prevent text overflow on narrow screens */
   }
 
   // Print styles
   @media print {
     border-color: currentcolor;
-    color: tokens.$nhs-fdp-semantic-color-text-print;
+    color: nhs.$nhs-fdp-semantic-color-text-print;
     background: none;
   }
 
   &__title {
     margin-top: 0;
-    font-size: tokens.$nhs-fdp-font-size-48-tablet;
     margin-bottom: var(--panel-heading-margin, 24px);
+    
+    @include nhs.nhs-fdp-font-size(48); // Matches NHS UK @include nhsuk-font-size(48)
     
     &:last-child {
       margin-bottom: 0;
@@ -43,13 +45,12 @@
   }
 
   &__heading {
-    // Panel heading styles with large title font
-    color: tokens.$nhs-fdp-semantic-color-text-reverse;
-    font-family: #{tokens.$nhs-fdp-font-family-base}, tokens.$nhs-fdp-font-family-fallback;
-    font-weight: tokens.$nhs-fdp-font-weight-bold;
-    font-size: tokens.$nhs-fdp-font-size-48-tablet;
-    line-height: tokens.$nhs-fdp-font-line-height-base;
+    // Panel heading styles with large title font - using NHS UK font-size(48) equivalent
+    color: nhs.$nhs-fdp-semantic-color-text-reverse;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, nhs.$nhs-fdp-font-family-fallback;
     margin-top: 0;
+    
+    @include nhs.nhs-fdp-font(48, bold); // Matches NHS UK @include nhsuk-font-size(48) with bold weight
     
     &:last-child {
       margin-bottom: 0 !important;
@@ -57,11 +58,11 @@
   }
 
   &__body {
-    // Panel body content with white text
-    color: tokens.$nhs-fdp-semantic-color-text-reverse;
-    font-family: #{tokens.$nhs-fdp-font-family-base}, tokens.$nhs-fdp-font-family-fallback;
-    font-size: tokens.$nhs-fdp-font-size-26-mobile;
-    line-height: tokens.$nhs-fdp-font-line-height-base;
+    // Panel body content with white text - using NHS UK font-size(26) equivalent
+    color: nhs.$nhs-fdp-semantic-color-text-reverse;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, nhs.$nhs-fdp-font-family-fallback;
+    
+    @include nhs.nhs-fdp-font-size(26); // Matches NHS UK @include nhsuk-font-size(26)
     
     // Remove margins from last child
     > *:last-child {
@@ -71,7 +72,7 @@
     // Style paragraphs within panel body
     p {
       margin-top: 0;
-      margin-bottom: tokens.$nhs-fdp-spacing-3;
+      margin-bottom: nhs.$nhs-fdp-spacing-3;
       
       &:last-child {
         margin-bottom: 0;
@@ -81,8 +82,8 @@
     // Style lists within panel body
     ul, ol {
       margin-top: 0;
-      margin-bottom: tokens.$nhs-fdp-spacing-3;
-      padding-left: tokens.$nhs-fdp-spacing-4;
+      margin-bottom: nhs.$nhs-fdp-spacing-3;
+      padding-left: nhs.$nhs-fdp-spacing-4;
       
       &:last-child {
         margin-bottom: 0;
@@ -90,7 +91,7 @@
     }
 
     li {
-      margin-bottom: tokens.$nhs-fdp-spacing-1;
+      margin-bottom: nhs.$nhs-fdp-spacing-1;
       
       &:last-child {
         margin-bottom: 0;
@@ -99,24 +100,24 @@
 
     // Links within panel body (should be white/light colored on green background)
     a {
-      color: tokens.$nhs-fdp-semantic-color-text-reverse;
+      color: nhs.$nhs-fdp-semantic-color-text-reverse;
       text-decoration: underline;
       
       &:hover {
-        color: tokens.$nhs-fdp-semantic-color-text-reverse;
+        color: nhs.$nhs-fdp-semantic-color-text-reverse;
         text-decoration: none;
       }
       
       &:focus {
-        outline: tokens.$nhs-fdp-focus-outline-width solid tokens.$nhs-fdp-semantic-color-focus-background;
-        outline-offset: tokens.$nhs-fdp-focus-outline-offset;
-        background-color: tokens.$nhs-fdp-semantic-color-focus-background;
-        color: tokens.$nhs-fdp-semantic-color-focus-text;
+        outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-semantic-color-focus-background;
+        outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+        background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+        color: nhs.$nhs-fdp-semantic-color-focus-text;
         text-decoration: none;
       }
       
       &:visited {
-        color: tokens.$nhs-fdp-semantic-color-text-reverse;
+        color: nhs.$nhs-fdp-semantic-color-text-reverse;
       }
     }
   }

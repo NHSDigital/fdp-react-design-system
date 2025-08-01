@@ -1,4 +1,4 @@
-import { default as React } from 'react';
+import { default as React } from '../../../node_modules/react';
 import { ButtonProps as ReactButtonProps } from 'react-aria-components';
 import { ButtonVariant, ButtonSize } from './Button.types';
 /**

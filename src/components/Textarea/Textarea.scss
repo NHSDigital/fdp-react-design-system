@@ -1,5 +1,5 @@
 // NHS Textarea SCSS - Uses compiled design tokens
-@use '../../../packages/nhs-fdp/dist/scss/tokens' as nhs;
+@use '../../../packages/nhs-fdp/scss' as nhs;
 
 .nhsuk-textarea {
   -moz-appearance: none;

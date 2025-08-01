@@ -1,5 +1,5 @@
 // NHS Tag SCSS - Uses compiled design tokens
-@use '../../../packages/nhs-fdp/dist/scss/tokens' as nhs;
+@use '../../../packages/nhs-fdp/scss' as nhs;
 @use '../../../packages/nhs-fdp/dist/scss/components/tag' as tag;
 
 .nhsuk-tag {

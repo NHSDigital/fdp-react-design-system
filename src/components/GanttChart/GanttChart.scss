@@ -1,5 +1,5 @@
 // NHS Gantt Chart Component Styles - Uses compiled design tokens
-@use '../../../packages/nhs-fdp/dist/scss/tokens' as nhs;
+@use '../../../packages/nhs-fdp/scss' as nhs;
 
 /* NHS Gantt Chart Component */
 .gantt-chart {

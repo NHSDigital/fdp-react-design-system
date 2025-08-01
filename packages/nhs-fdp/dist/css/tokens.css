@@ -18,7 +18,7 @@
   --border-width-form-element: 2px; /** Border width for form elements like inputs and buttons */
   --border-width-form-element-error: 4px; /** Border width for form elements in error state */
   --border-width-card-bottom: 4px; /** Bottom border width for clickable cards */
-  --border-width-panel: 4px; /** Border width for panel components */
+  --border-width-panel: 8px; /** Border width for panel components */
   --border-width-table-header: 2px; /** Table header border width */
   --border-width-table-cell: 1px; /** Table cell border width */
   --border-radius-none: 0px; /** No border radius */
@@ -283,8 +283,8 @@
   --spacing-responsive-8-tablet: 56px;
   --spacing-responsive-9-mobile: 56px;
   --spacing-responsive-9-tablet: 64px;
-  --font-family-base: '"Frutiger W01"'; /** Primary NHS font family */
-  --font-family-fallback: arial, sans-serif; /** Fallback fonts if Frutiger fails to load */
+  --font-family-base: 'Frutiger W01'; /** Primary NHS font family */
+  --font-family-fallback: Arial, sans-serif; /** Fallback fonts if Frutiger fails to load */
   --font-family-print: sans-serif; /** Font family for print styles */
   --font-weight-normal: 400; /** Normal font weight */
   --font-weight-bold: 600; /** Bold font weight */
@@ -311,5 +311,26 @@
   --font-size-48-tablet: 48px;
   --font-size-48-print: 24pt;
   --font-size-base: 16px; /** Base font size */
+  --font-line-height-14-mobile: 20px;
+  --font-line-height-14-tablet: 24px;
+  --font-line-height-14-print: 1.3;
+  --font-line-height-16-mobile: 24px;
+  --font-line-height-16-tablet: 24px;
+  --font-line-height-16-print: 1.3;
+  --font-line-height-19-mobile: 24px;
+  --font-line-height-19-tablet: 28px;
+  --font-line-height-19-print: 1.25;
+  --font-line-height-22-mobile: 27px;
+  --font-line-height-22-tablet: 30px;
+  --font-line-height-22-print: 1.25;
+  --font-line-height-26-mobile: 29px;
+  --font-line-height-26-tablet: 32px;
+  --font-line-height-26-print: 1.25;
+  --font-line-height-36-mobile: 33px;
+  --font-line-height-36-tablet: 42px;
+  --font-line-height-36-print: 1.2;
+  --font-line-height-48-mobile: 38px;
+  --font-line-height-48-tablet: 54px;
+  --font-line-height-48-print: 1.15;
   --font-line-height-base: 24px; /** Base line height */
 }

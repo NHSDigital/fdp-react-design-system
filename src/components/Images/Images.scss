@@ -1,0 +1,55 @@
+// NHS Images SCSS - Uses compiled design tokens
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+.nhsuk-image {
+  background-color: nhs.$nhs-fdp-color-primary-white;
+  border-bottom: 1px solid nhs.$nhs-fdp-color-grey-4;
+  
+  // Base margins - matching NHS UK responsive margin pattern
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: nhs.$nhs-fdp-spacing-6;
+  margin-top: nhs.$nhs-fdp-spacing-6;
+  
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    margin-bottom: nhs.$nhs-fdp-spacing-7;
+    margin-top: nhs.$nhs-fdp-spacing-7;
+  }
+  
+  // Desktop sizing - 2/3 width of container
+  @media (min-width: nhs.$nhs-fdp-breakpoint-desktop) {
+    width: 66.666%; // 2/3 width
+  }
+  
+  // Print styling - half width to avoid full page width
+  @media print {
+    width: 50%;
+  }
+  
+  // Remove top margin from subsequent images
+  & + .nhsuk-image {
+    margin-top: 0;
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+      margin-top: 0;
+    }
+  }
+}
+
+.nhsuk-image__img {
+  display: block;
+  width: 100%;
+  height: auto; // Maintain aspect ratio
+}
+
+.nhsuk-image__caption {
+  padding: nhs.$nhs-fdp-spacing-3;
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  font-size: nhs.$nhs-fdp-font-size-16-mobile;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
+  color: nhs.$nhs-fdp-semantic-color-text-primary;
+  
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+  }
+}

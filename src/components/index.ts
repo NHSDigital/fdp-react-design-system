@@ -66,3 +66,7 @@ export { Expander } from './Expander';
 export type { ExpanderProps } from './Expander';
 export { TaskList } from './TaskList';
 export type { TaskListProps, TaskListItem } from './TaskList';
+export { WarningCallout } from './WarningCallout';
+export type { WarningCalloutProps } from './WarningCallout';
+export { Images } from './Images';
+export type { ImagesProps } from './Images';

@@ -15,6 +15,7 @@ This component eliminates the need for repetitive switch statements across compo
 ### Key Benefits
 - **Semantic Flexibility**: Use appropriate heading levels (h1-h6) for document structure
 - **Visual Consistency**: Apply size variants independent of semantic level
+- **Automatic Level Mapping**: When level is not specified, it's automatically determined from size (xxl/xl→h1, l→h2, m→h3, s→h4, xs→h5)
 - **Reduced Code Duplication**: Eliminates repetitive heading logic across components
 - **Better Architecture**: Single source of truth for heading rendering
 
@@ -23,6 +24,7 @@ This component eliminates the need for repetitive switch statements across compo
 - To maintain proper semantic heading hierarchy while controlling visual size
 - In place of manual heading switch statements in other components
 - When you want to separate content structure from visual presentation
+- For quick heading creation using only the size prop (level will be auto-assigned)
 
 ### Design System Benefits
 This component addresses the architectural concern about repetitive heading logic found in components like Panel.
@@ -35,12 +37,12 @@ Instead of switch statements in every component, use this abstraction for cleane
     level: {
       control: { type: 'select' },
       options: [1, 2, 3, 4, 5, 6],
-      description: 'The semantic heading level (h1-h6) for proper document structure',
+      description: 'The semantic heading level (h1-h6) for proper document structure. If not provided, will be automatically determined from size prop.',
     },
     size: {
       control: { type: 'select' },
       options: ['xs', 's', 'm', 'l', 'xl', 'xxl'],
-      description: 'Visual size variant independent of semantic level',
+      description: 'Visual size variant independent of semantic level. When level is not specified: xxl/xl→h1, l→h2, m→h3, s→h4, xs→h5',
     },
     text: {
       control: 'text',
@@ -121,6 +123,45 @@ export const WithChildren: Story = {
     <Heading level={2} size="xl">
       Heading with <span style={{ color: '#007f3b' }}>colored</span> children
     </Heading>
+  ),
+};
+
+/**
+ * Demonstrates automatic level mapping from size when level is not provided
+ */
+export const AutomaticLevelMapping: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div style={{ marginBottom: '16px' }}>
+        <h3>Automatic Level Assignment from Size</h3>
+        <p style={{ fontSize: '14px', color: '#666', marginBottom: '16px' }}>
+          When <code>level</code> is not specified, it's automatically determined from the <code>size</code> prop
+          following NHS design system guidelines:
+        </p>
+        <ul style={{ fontSize: '14px', color: '#666', marginLeft: '20px' }}>
+          <li><strong>xxl/xl</strong> → h1 (main page headings)</li>
+          <li><strong>l</strong> → h2 (major sections)</li>
+          <li><strong>m</strong> → h3 (subsections)</li>
+          <li><strong>s</strong> → h4 (sub-subsections)</li>
+          <li><strong>xs</strong> → h5 (minor headings)</li>
+        </ul>
+      </div>
+      
+      <div style={{ border: '1px solid #d8dde0', padding: '16px', borderRadius: '4px' }}>
+        <Heading size="xxl" text="XXL Size → Auto H1" />
+        <Heading size="xl" text="XL Size → Auto H1" />
+        <Heading size="l" text="L Size → Auto H2" />
+        <Heading size="m" text="M Size → Auto H3" />
+        <Heading size="s" text="S Size → Auto H4" />
+        <Heading size="xs" text="XS Size → Auto H5" />
+      </div>
+      
+      <div style={{ marginTop: '16px', padding: '12px', background: '#f0f4f5', borderRadius: '4px' }}>
+        <p style={{ fontSize: '14px', margin: 0 }}>
+          <strong>Note:</strong> Explicit <code>level</code> prop always takes precedence over automatic mapping.
+        </p>
+      </div>
+    </div>
   ),
 };
 

@@ -44,12 +44,12 @@
     outline: 3px solid transparent;
     box-shadow: 0 2px 0 nhs.$nhs-fdp-semantic-color-text-primary;
     
+    // Ensure it appears above other content
+    z-index: 9999;
+    
     @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
       font-size: nhs.$nhs-fdp-font-size-16-tablet;
     }
-    
-    // Ensure it appears above other content
-    z-index: 9999;
   }
 }
 

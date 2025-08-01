@@ -3,6 +3,19 @@ import classNames from 'classnames';
 import './SkipLink.scss';
 import { SkipLinkProps } from './SkipLink.types';
 
+/**
+ * SkipLink component for bypassing navigation to main content
+ * 
+ * IMPORTANT: This component should only be used at the page level,
+ * typically as the first focusable element on a page. It should NOT
+ * be included in individual UI components.
+ * 
+ * Best practices:
+ * - Place at the very top of your page layout
+ * - Target the main content area (e.g., <main id="maincontent">)
+ * - Only use one skip link per page in most cases
+ * - Visually hidden by default, visible on focus
+ */
 export const SkipLink: React.FC<SkipLinkProps> = ({
   text = 'Skip to main content',
   href = '#maincontent',
@@ -17,15 +30,25 @@ export const SkipLink: React.FC<SkipLinkProps> = ({
       if (targetId && targetId.startsWith('#')) {
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
-          // Set focus on the target element and add the focused class
-          targetElement.setAttribute('tabindex', '-1');
-          targetElement.classList.add('nhsuk-skip-link-focused-element');
+          // Ensure the target element can receive focus
+          if (!targetElement.hasAttribute('tabindex')) {
+            targetElement.setAttribute('tabindex', '-1');
+          }
+          
+          // Focus the target element
           (targetElement as HTMLElement).focus();
           
-          // Remove the tabindex after a short delay to restore natural tab order
+          // Add visual indicator for focused content
+          targetElement.classList.add('nhsuk-skip-link-focused-element');
+          
+          // Clean up after a short delay
           setTimeout(() => {
-            targetElement.removeAttribute('tabindex');
-          }, 100);
+            targetElement.classList.remove('nhsuk-skip-link-focused-element');
+            // Only remove tabindex if we added it
+            if (targetElement.getAttribute('tabindex') === '-1') {
+              targetElement.removeAttribute('tabindex');
+            }
+          }, 3000);
         }
       }
     };
@@ -50,7 +73,6 @@ export const SkipLink: React.FC<SkipLinkProps> = ({
     <a
       className={skipLinkClasses}
       href={href}
-      data-module="nhsuk-skip-link"
       {...attributes}
     >
       {text}

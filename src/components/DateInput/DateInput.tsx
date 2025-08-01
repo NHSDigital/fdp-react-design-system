@@ -6,6 +6,7 @@ import { Input } from '../Input';
 import { Hint } from '../Hint';
 import { ErrorMessage } from '../ErrorMessage';
 import { Label } from '../Label';
+import { Fieldset } from '../Fieldset/Fieldset';
 
 export const DateInput: React.FC<DateInputProps> = ({
   id,
@@ -322,18 +323,13 @@ export const DateInput: React.FC<DateInputProps> = ({
   return (
     <div className={formGroupClasses}>
       {fieldset ? (
-        <fieldset 
-          className={classNames('nhsuk-fieldset', fieldset.classes)}
-          role="group"
-          aria-describedby={describedBy || undefined}
+        <Fieldset 
+          className={fieldset.classes}
+          legend={fieldset.legend ? { text: fieldset.legend } : undefined}
+          describedBy={describedBy || undefined}
         >
-          {fieldset.legend && (
-            <legend className="nhsuk-fieldset__legend">
-              {fieldset.legend}
-            </legend>
-          )}
           {renderInputs()}
-        </fieldset>
+        </Fieldset>
       ) : (
         renderInputs()
       )}

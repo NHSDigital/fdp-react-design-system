@@ -1,6 +1,6 @@
 // NHS FDP Design System - Utilities
 // Common utility classes used across components
-@use '../../packages/nhs-fdp/dist/scss/tokens' as nhs;
+@use '../../packages/nhs-fdp/dist/scss/tokens' as tokens;
 
 // Visually hidden utility - for screen reader only content
 .nhsuk-u-visually-hidden {
@@ -36,15 +36,15 @@ span.nhsuk-u-visually-hidden {
 // Width container utility - for consistent max-width and padding
 .nhsuk-width-container {
   margin: 0 auto;
-  padding: 0 nhs.$nhs-fdp-spacing-4;
+  padding: 0 tokens.$nhs-fdp-spacing-4;
   max-width: 1020px;
 
   @media (min-width: 768px) {
-    padding: 0 nhs.$nhs-fdp-spacing-5;
+    padding: 0 tokens.$nhs-fdp-spacing-5;
   }
 
   @media (min-width: 1020px) {
-    padding: 0 nhs.$nhs-fdp-spacing-6;
+    padding: 0 tokens.$nhs-fdp-spacing-6;
   }
 }
 

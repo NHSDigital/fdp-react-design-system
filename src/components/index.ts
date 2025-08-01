@@ -56,3 +56,5 @@ export { SummaryList } from './SummaryList';
 export type { SummaryListProps, SummaryListItem } from './SummaryList';
 export { Table } from './Tables';
 export type { TableProps, TableCellData, TableHeaderCell } from './Tables';
+export { Tabs } from './Tabs';
+export type { TabsProps, TabItem } from './Tabs';

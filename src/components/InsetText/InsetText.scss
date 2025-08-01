@@ -1,0 +1,116 @@
+// NHS InsetText SCSS - Uses compiled design tokens
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+
+.nhsuk-inset-text {
+  background-color: tokens.$nhs-fdp-color-grey-5;
+  border-left: tokens.$nhs-fdp-border-width-panel solid tokens.$nhs-fdp-color-primary-blue;
+  padding: tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-4;
+  margin: tokens.$nhs-fdp-spacing-5 0;
+  position: relative;
+
+  // Typography
+  p {
+    margin: 0;
+    color: tokens.$nhs-fdp-color-primary-black;
+    font-family: tokens.$nhs-fdp-font-family-base, tokens.$nhs-fdp-font-family-fallback;
+    font-size: tokens.$nhs-fdp-font-size-16-mobile;
+    line-height: tokens.$nhs-fdp-font-line-height-base;
+    
+    @media (min-width: 768px) {
+      font-size: tokens.$nhs-fdp-font-size-19-tablet;
+    }
+  }
+
+  // Multiple paragraphs
+  p + p {
+    margin-top: tokens.$nhs-fdp-spacing-3;
+  }
+
+  // Lists within inset text
+  ul,
+  ol {
+    margin: tokens.$nhs-fdp-spacing-3 0 0 0;
+    padding-left: tokens.$nhs-fdp-spacing-4;
+    
+    li {
+      margin-bottom: tokens.$nhs-fdp-spacing-2;
+      color: tokens.$nhs-fdp-color-primary-black;
+      font-family: tokens.$nhs-fdp-font-family-base, tokens.$nhs-fdp-font-family-fallback;
+      font-size: tokens.$nhs-fdp-font-size-16-mobile;
+      line-height: tokens.$nhs-fdp-font-line-height-base;
+      
+      @media (min-width: 768px) {
+        font-size: tokens.$nhs-fdp-font-size-19-tablet;
+      }
+    }
+    
+    li:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Links within inset text
+  a {
+    color: tokens.$nhs-fdp-card-text-link;
+    text-decoration: underline;
+    
+    &:hover {
+      color: tokens.$nhs-fdp-color-primary-blue;
+      text-decoration-thickness: 2px;
+    }
+    
+    &:focus {
+      outline: 3px solid tokens.$nhs-fdp-color-primary-yellow;
+      outline-offset: 0;
+      background-color: tokens.$nhs-fdp-color-primary-yellow;
+      color: tokens.$nhs-fdp-color-primary-black;
+      text-decoration: none;
+    }
+    
+    &:visited {
+      color: tokens.$nhs-fdp-color-primary-purple;
+    }
+  }
+
+  // Strong text within inset text
+  strong,
+  b {
+    font-weight: tokens.$nhs-fdp-font-weight-bold;
+  }
+
+  // Emphasis text within inset text
+  em,
+  i {
+    font-style: italic;
+  }
+
+  // Remove top margin from first child
+  > *:first-child {
+    margin-top: 0;
+  }
+
+  // Remove bottom margin from last child
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  // Responsive spacing
+  @media (min-width: 768px) {
+    padding: tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-5;
+    margin: tokens.$nhs-fdp-spacing-6 0;
+  }
+
+  // Print styles
+  @media print {
+    background-color: transparent;
+    border-left-color: tokens.$nhs-fdp-color-primary-black;
+    color: tokens.$nhs-fdp-color-primary-black;
+    font-family: tokens.$nhs-fdp-font-family-print;
+    
+    p,
+    li {
+      color: tokens.$nhs-fdp-color-primary-black;
+      font-family: tokens.$nhs-fdp-font-family-print;
+    }
+  }
+}

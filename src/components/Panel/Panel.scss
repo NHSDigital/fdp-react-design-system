@@ -1,0 +1,116 @@
+// NHS Panel SCSS - Confirmation/Success component with green background and white text
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+
+.nhsuk-panel {
+  // NHS Panel: Green background with white text for confirmation/success states
+  background: tokens.$nhs-fdp-color-primary-green;
+  border: tokens.$nhs-fdp-spacing-1 solid transparent; /* Transparent border for high contrast mode */
+  box-sizing: border-box;
+  color: tokens.$nhs-fdp-semantic-color-text-reverse;
+  padding: calc(#{tokens.$nhs-fdp-spacing-5} - #{tokens.$nhs-fdp-spacing-1}); /* Subtract border width */
+  font-size: tokens.$nhs-fdp-font-size-26-mobile;
+  margin-bottom: tokens.$nhs-fdp-spacing-4;
+  
+  // Responsive padding
+  @media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-tablet} - 1px)) {
+    padding: calc(#{tokens.$nhs-fdp-spacing-4} - #{tokens.$nhs-fdp-spacing-1}); /* Smaller padding on mobile */
+    word-break: break-word; /* Prevent text overflow on narrow screens */
+  }
+
+  // Print styles
+  @media print {
+    border-color: currentcolor;
+    color: tokens.$nhs-fdp-semantic-color-text-print;
+    background: none;
+  }
+
+  &__title {
+    margin-top: 0;
+    font-size: tokens.$nhs-fdp-font-size-48-tablet;
+    margin-bottom: tokens.$nhs-fdp-spacing-5;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__heading {
+    // Panel heading styles with large title font
+    color: tokens.$nhs-fdp-semantic-color-text-reverse;
+    font-family: tokens.$nhs-fdp-font-family-base, tokens.$nhs-fdp-font-family-fallback;
+    font-weight: tokens.$nhs-fdp-font-weight-bold;
+    font-size: tokens.$nhs-fdp-font-size-48-tablet;
+    line-height: tokens.$nhs-fdp-font-line-height-base;
+    margin-top: 0;
+    margin-bottom: tokens.$nhs-fdp-spacing-5;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__body {
+    // Panel body content with white text
+    color: tokens.$nhs-fdp-semantic-color-text-reverse;
+    font-family: tokens.$nhs-fdp-font-family-base, tokens.$nhs-fdp-font-family-fallback;
+    font-size: tokens.$nhs-fdp-font-size-26-mobile;
+    line-height: tokens.$nhs-fdp-font-line-height-base;
+    
+    // Remove margins from last child
+    > *:last-child {
+      margin-bottom: 0;
+    }
+
+    // Style paragraphs within panel body
+    p {
+      margin-top: 0;
+      margin-bottom: tokens.$nhs-fdp-spacing-3;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    // Style lists within panel body
+    ul, ol {
+      margin-top: 0;
+      margin-bottom: tokens.$nhs-fdp-spacing-3;
+      padding-left: tokens.$nhs-fdp-spacing-4;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    li {
+      margin-bottom: tokens.$nhs-fdp-spacing-1;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    // Links within panel body (should be white/light colored on green background)
+    a {
+      color: tokens.$nhs-fdp-semantic-color-text-reverse;
+      text-decoration: underline;
+      
+      &:hover {
+        color: tokens.$nhs-fdp-semantic-color-text-reverse;
+        text-decoration: none;
+      }
+      
+      &:focus {
+        outline: tokens.$nhs-fdp-focus-outline-width solid tokens.$nhs-fdp-semantic-color-focus-background;
+        outline-offset: tokens.$nhs-fdp-focus-outline-offset;
+        background-color: tokens.$nhs-fdp-semantic-color-focus-background;
+        color: tokens.$nhs-fdp-semantic-color-focus-text;
+        text-decoration: none;
+      }
+      
+      &:visited {
+        color: tokens.$nhs-fdp-semantic-color-text-reverse;
+      }
+    }
+  }
+}

@@ -58,3 +58,7 @@ export { Table } from './Tables';
 export type { TableProps, TableCellData, TableHeaderCell } from './Tables';
 export { Tabs } from './Tabs';
 export type { TabsProps, TabItem } from './Tabs';
+export { Details } from './Details';
+export type { DetailsProps } from './Details';
+export { Expander } from './Expander';
+export type { ExpanderProps } from './Expander';

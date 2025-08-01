@@ -1,0 +1,162 @@
+// ==========================================================================
+// COMPONENTS / #EXPANDER
+// ==========================================================================
+
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+/// Expander variation.
+///
+/// 1. !important used because the icon is populated
+///    by the JavaScript polyfill
+/// 2. Remove the default hover, focus and active
+///    styles for this component.
+/// 3. -2px left margin to align the icon to the content.
+/// 4. When a group of expanders is used reduce the
+///    margin between them so they sit together.
+
+$expander-border-width: 1px;
+$expander-border-bottom-width: nhs.$nhs-fdp-spacing-1;
+$expander-border-color: nhs.$nhs-fdp-color-grey-4;
+$expander-border-hover-color: nhs.$nhs-fdp-color-grey-3;
+
+.nhsuk-expander {
+  @include nhs.nhs-fdp-font-size(19);
+  
+  background-color: nhs.$nhs-fdp-color-primary-white;
+  border: $expander-border-width solid $expander-border-color;
+  color: nhs.$nhs-fdp-semantic-color-text-primary;
+  display: block;
+  font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+  margin-bottom: nhs.$nhs-fdp-spacing-6;
+
+  .nhsuk-details__summary {
+    background-color: nhs.$nhs-fdp-color-primary-white;
+    border-top: nhs.$nhs-fdp-focus-outline-width solid transparent;
+    display: block;
+    padding: calc(nhs.$nhs-fdp-spacing-5 - nhs.$nhs-fdp-focus-outline-width) nhs.$nhs-fdp-spacing-5 0;
+    width: auto; // [2]
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+      padding: calc(nhs.$nhs-fdp-spacing-6 - nhs.$nhs-fdp-focus-outline-width) nhs.$nhs-fdp-spacing-6 0;
+    }
+  }
+
+  .nhsuk-details__text {
+    border-left: 0;
+    margin-left: 0;
+    margin-top: 0;
+    padding: 0 nhs.$nhs-fdp-spacing-6 nhs.$nhs-fdp-spacing-6 nhs.$nhs-fdp-spacing-6;
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+      padding: 0 nhs.$nhs-fdp-spacing-6 nhs.$nhs-fdp-spacing-6 nhs.$nhs-fdp-spacing-6;
+    }
+  }
+
+  // Hack to support Internet Explorer 11
+  @media screen\0 {
+    margin-top: 0;
+    padding: 0;
+
+    .nhsuk-details__summary-text {
+      @include nhs.nhs-fdp-font-size(26);
+      
+      display: block;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      margin-bottom: nhs.$nhs-fdp-spacing-6;
+    }
+  }
+
+  @supports not (-ms-ime-align: auto) {
+    border-bottom-width: $expander-border-bottom-width;
+
+    &:hover {
+      border-color: $expander-border-hover-color;
+    }
+
+    .nhsuk-details__summary {
+      padding-bottom: nhs.$nhs-fdp-spacing-5;
+    }
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+      .nhsuk-details__summary {
+        padding-bottom: nhs.$nhs-fdp-spacing-6;
+      }
+    }
+
+    .nhsuk-details__summary::before {
+      // stylelint-disable-next-line declaration-no-important
+      display: none !important; // [1]
+    }
+
+    .nhsuk-details__summary:focus {
+      box-shadow: none;
+    }
+
+    .nhsuk-details__summary-text {
+      color: nhs.$nhs-fdp-color-primary-blue;
+      cursor: pointer;
+      display: inline-block;
+      padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-1 38px;
+      position: relative;
+    }
+
+    .nhsuk-details__summary:hover .nhsuk-details__summary-text {
+      color: nhs.$nhs-fdp-semantic-color-link-hover;
+    }
+
+    .nhsuk-details__summary:focus .nhsuk-details__summary-text {
+      background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      box-shadow: 0 -2px nhs.$nhs-fdp-semantic-color-focus-background, 0 4px nhs.$nhs-fdp-semantic-color-text-primary;
+      color: nhs.$nhs-fdp-semantic-color-focus-text;
+      outline: nhs.$nhs-fdp-focus-outline-width solid transparent;
+      text-decoration: none;
+    }
+
+    .nhsuk-details__summary-text::before {
+      background: url("data:image/svg+xml,%3Csvg class='nhsuk-icon nhsuk-icon__plus' xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' aria-hidden='true'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23005eb8'%3E%3C/circle%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M12 8v8M8 12h8'%3E%3C/path%3E%3C/svg%3E%0A")
+        left -2px center no-repeat;
+      content: "";
+      display: inline-block;
+      height: 32px;
+      left: 0;
+      position: absolute;
+      top: calc(50% - 16px);
+      width: 32px;
+    }
+
+    .nhsuk-details__summary:focus .nhsuk-details__summary-text::before {
+      background: nhs.$nhs-fdp-semantic-color-focus-background
+        url("data:image/svg+xml,%3Csvg class='nhsuk-icon nhsuk-icon__plus' xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' aria-hidden='true'%3E%3Ccircle cx='12' cy='12' r='10' fill='002f5c'%3E%3C/circle%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M12 8v8M8 12h8'%3E%3C/path%3E%3C/svg%3E%0A")
+        left -2px center no-repeat;
+    }
+
+    &[open] {
+      border-bottom-width: $expander-border-width;
+    }
+
+    &[open] .nhsuk-details__summary-text::before {
+      background: url("data:image/svg+xml,%3Csvg class='nhsuk-icon nhsuk-icon__minus' xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' aria-hidden='true'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23005eb8'%3E%3C/circle%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M8 12h8'%3E%3C/path%3E%3C/svg%3E%0A")
+        left -2px center no-repeat; // [3]
+    }
+
+    &[open] .nhsuk-details__summary:focus .nhsuk-details__summary-text::before {
+      background: nhs.$nhs-fdp-semantic-color-focus-background
+        url("data:image/svg+xml,%3Csvg class='nhsuk-icon nhsuk-icon__minus' xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' aria-hidden='true'%3E%3Ccircle cx='12' cy='12' r='10' fill='002f5c'%3E%3C/circle%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M8 12h8'%3E%3C/path%3E%3C/svg%3E%0A")
+        left -2px center no-repeat; // [3]
+    }
+  }
+}
+
+.nhsuk-expander-group {
+  // [4]
+  margin-bottom: nhs.$nhs-fdp-spacing-6;
+
+  > .nhsuk-expander {
+    margin-bottom: nhs.$nhs-fdp-spacing-3;
+  }
+}
+
+.nhsuk-expander + h2,
+.nhsuk-expander + .nhsuk-heading-l {
+  padding-top: nhs.$nhs-fdp-spacing-6;
+}

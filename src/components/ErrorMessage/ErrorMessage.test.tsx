@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { ErrorMessage } from './ErrorMessage';
+import '@testing-library/jest-dom';
 
 describe('ErrorMessage', () => {
   it('renders basic error message correctly', () => {

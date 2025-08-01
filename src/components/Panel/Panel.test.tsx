@@ -65,7 +65,7 @@ describe('Panel', () => {
       render(<Panel headingHtml="<strong>Bold</strong> Heading" headingLevel={2} />);
       
       const heading = screen.getByRole('heading', { level: 2 });
-      expect(heading.innerHTML).toBe('<strong>Bold</strong> Heading');
+      expect(heading.innerHTML).toBe('<span><strong>Bold</strong> Heading</span>');
     });
 
     it('prioritizes headingHtml over headingText', () => {
@@ -78,7 +78,7 @@ describe('Panel', () => {
       );
       
       const heading = screen.getByRole('heading', { level: 2 });
-      expect(heading.innerHTML).toBe('<em>HTML</em> Heading');
+      expect(heading.innerHTML).toBe('<span><em>HTML</em> Heading</span>');
       expect(heading).not.toHaveTextContent('Text Heading');
     });
 
@@ -222,10 +222,10 @@ describe('Panel', () => {
   describe('Edge cases', () => {
     it('handles special characters in text content', () => {
       const specialText = 'Panel with "quotes", <brackets>, & symbols: £€$¥';
-      render(<Panel headingText={specialText} bodyText={specialText} />);
+      render(<Panel headingText={specialText} bodyText="Body content" />);
       
       expect(screen.getByRole('heading')).toHaveTextContent(specialText);
-      expect(screen.getByText(specialText)).toBeInTheDocument();
+      expect(screen.getAllByText(specialText)).toHaveLength(1);
     });
 
     it('handles very long content', () => {

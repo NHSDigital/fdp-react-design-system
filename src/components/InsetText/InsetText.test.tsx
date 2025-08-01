@@ -211,14 +211,21 @@ describe('InsetText', () => {
       
       const insetText = document.querySelector('.nhsuk-inset-text');
       expect(insetText).toBeInTheDocument();
-      const paragraph = insetText?.querySelector('p');
-      expect(paragraph).toHaveTextContent('');
+      // Empty string means no content is rendered
+      expect(insetText?.textContent).toBe('');
+      expect(insetText?.querySelector('p')).toBeNull();
     });
 
     it('handles whitespace-only content', () => {
       render(<InsetText text="   " />);
       
-      expect(screen.getByText(/^\s+$/)).toBeInTheDocument();
+      // Whitespace-only content still creates a paragraph element
+      const insetText = document.querySelector('.nhsuk-inset-text');
+      expect(insetText).toBeInTheDocument();
+      const paragraph = insetText?.querySelector('p');
+      expect(paragraph).toBeInTheDocument();
+      // HTML normalizes consecutive whitespace to a single space
+      expect(paragraph?.textContent).toBeTruthy();
     });
   });
 

@@ -73,6 +73,7 @@ export const SkipLink: React.FC<SkipLinkProps> = ({
     <a
       className={skipLinkClasses}
       href={href}
+      data-module="nhsuk-skip-link"
       {...attributes}
     >
       {text}

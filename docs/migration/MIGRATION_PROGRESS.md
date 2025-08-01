@@ -163,7 +163,7 @@
 - ARIA navigation structure
 - In-page navigation
 
-## **Priority 3: Content Components (90% Complete - 9/10)**
+## **Priority 3: Content Components (100% Complete - 10/10) ✅**
 
 #### 20. **Card Component** ✅ (Complete)
 - Multiple card variants
@@ -237,17 +237,36 @@
 - Complete Storybook documentation with medical examples
 - NHS UK styling accuracy (Frutiger font, focus indicators, selected state)
 
-#### 29. **Details Component** (Ready for development)
+#### 29. **Details Component** ✅ (Complete)
 
-## **Priority 4: Interactive & Feedback (43% Complete)**
+- Progressive disclosure widget for showing/hiding content
+- Clean component focused on standard details pattern
+- HTML/text content support with children override
+- Accessibility compliant with proper ARIA structure
+- **Comprehensive test suite (20 tests)**
+- Complete Storybook documentation with medical examples
+- NHS UK styling accuracy with focus indicators
+- Proper font family integration
 
-#### 30. **Hero Component** ✅ (Complete)
+#### 30. **Expander Component** ✅ (Complete)
+
+- Card-style progressive disclosure variant with plus/minus icons
+- Separated from Details for better component architecture
+- HTML/text content support with children override  
+- Accessibility compliant with proper ARIA structure
+- **Comprehensive test suite (21 tests)**
+- Complete Storybook documentation
+- NHS UK card styling with design token integration
+
+## **Priority 4: Interactive & Feedback (50% Complete)**
+
+#### 31. **Hero Component** ✅ (Complete)
 - Page hero sections
 - Image background support
 - Content overlays
 - Responsive design
 
-#### 31. **CharacterCount Component** ✅ (Complete)
+#### 32. **CharacterCount Component** ✅ (Complete)
 - Text input character counting
 - Real-time count updates
 - Error state when limit exceeded
@@ -255,11 +274,11 @@
 - Complete Storybook documentation
 - Accessibility compliant
 
-#### 32. TaskList Component (Ready for development)
-#### 33. DoDontList Component (Ready for development)
-#### 34. WarningCallout Component (Ready for development)
-#### 35. Images Component (Ready for development)
-#### 36. GanttChart Component (Custom addition)
+#### 33. TaskList Component (Ready for development)
+#### 34. DoDontList Component (Ready for development)
+#### 35. WarningCallout Component (Ready for development)
+#### 36. Images Component (Ready for development)
+#### 37. GanttChart Component (Custom addition)
 
 ## 📁 **Folder Structure Created**
 
@@ -291,7 +310,7 @@
 ✅ ContentsList/   (Complete with table of contents)
 ```
 
-### Priority 3 - Content Components (90% Complete - 9/10)
+### Priority 3 - Content Components (100% Complete - 10/10) ✅
 ```
 ✅ Card/           (Complete with multiple variants)
 ✅ CareCard/       (Complete with healthcare types)
@@ -388,7 +407,7 @@ node scripts/generate-component.js ComponentName
 ### **Priority Breakdown**
 - **Priority 1 Form Components**: 12/12 complete (100%) ✅
 - **Priority 2 Navigation & Layout**: 7/7 complete (100%) ✅
-- **Priority 3 Content Components**: 9/10 complete (90%)
+- **Priority 3 Content Components**: 10/10 complete (100%) ✅
 - **Priority 4 Interactive & Feedback**: 3/7 complete (43%)
 
 ### **Quality Assurance Status**

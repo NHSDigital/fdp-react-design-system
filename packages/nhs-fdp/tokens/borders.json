@@ -19,7 +19,7 @@
         "$description": "Bottom border width for clickable cards"
       },
       "panel": {
-        "$value": "4px",
+        "$value": "8px",
         "$description": "Border width for panel components"
       },
       "table-header": {

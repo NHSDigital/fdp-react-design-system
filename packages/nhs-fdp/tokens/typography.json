@@ -3,7 +3,7 @@
     "family": {
       "$type": "fontFamily",
       "base": {
-        "$value": "\"Frutiger W01\"",
+        "$value": "Frutiger W01",
         "$description": "Primary NHS font family"
       },
       "fallback": {

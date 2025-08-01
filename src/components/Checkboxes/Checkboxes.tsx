@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { CheckboxesProps, CheckboxConditionalProps } from './Checkboxes.types';
 import { Input } from '../Input/Input';
 import { Label } from '../Label/Label';
+import { Fieldset } from '../Fieldset/Fieldset';
 import './Checkboxes.scss';
 
 /**
@@ -36,6 +37,8 @@ export const Checkboxes: React.FC<CheckboxesProps> = ({
   className = '',
   small = false,
   onChange,
+  fieldsetAttributes,
+  attributes,
   ...props
 }) => {
   const [selectedValues, setSelectedValues] = useState<string[]>(
@@ -86,6 +89,7 @@ export const Checkboxes: React.FC<CheckboxesProps> = ({
               'aria-controls': conditionalId,
               'aria-expanded': isChecked ? 'true' : 'false'
             })}
+            {...item.attributes}
           />
           <label className="nhsuk-checkboxes__label" htmlFor={itemId}>
             {item.text}
@@ -138,21 +142,16 @@ export const Checkboxes: React.FC<CheckboxesProps> = ({
   });
 
   return (
-    <div className={formGroupClasses} {...props}>
-      <fieldset className="nhsuk-fieldset" aria-describedby={describedBy}>
-        {legend && (
-          <legend
-            className={classNames('nhsuk-fieldset__legend', {
-              'nhsuk-fieldset__legend--xl': legendSize === 'xl',
-              'nhsuk-fieldset__legend--l': legendSize === 'l',
-              'nhsuk-fieldset__legend--m': legendSize === 'm',
-              'nhsuk-fieldset__legend--s': legendSize === 's',
-            })}
-          >
-            {isPageHeading ? <h1>{legend}</h1> : legend}
-          </legend>
-        )}
-        
+    <div className={formGroupClasses} {...attributes} {...props}>
+      <Fieldset
+        legend={legend ? {
+          text: legend,
+          isPageHeading,
+          size: legendSize
+        } : undefined}
+        describedBy={describedBy}
+        {...fieldsetAttributes}
+      >
         {hint && (
           <div id={hintId} className="nhsuk-hint">
             {hint}
@@ -168,7 +167,7 @@ export const Checkboxes: React.FC<CheckboxesProps> = ({
         <div className={checkboxesClasses}>
           {renderItems()}
         </div>
-      </fieldset>
+      </Fieldset>
     </div>
   );
 };

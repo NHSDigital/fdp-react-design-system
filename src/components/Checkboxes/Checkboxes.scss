@@ -87,12 +87,12 @@ $checkboxes-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
       width: $checkboxes-size;
     }
 
-    // Checkbox tick mark styling - matches NHS UK exactly
+    // Checkbox tick mark styling - matches NHS UK exactly with 4px border
     &::after {
       background: transparent;
       border: solid;
       border-top-color: transparent;
-      border-width: 0 0 nhs.$nhs-fdp-border-width-form-element nhs.$nhs-fdp-border-width-form-element;
+      border-width: 0 0 4px 4px;
       border-color: nhs.$nhs-fdp-color-primary-black;
       content: "";
       height: 10px;

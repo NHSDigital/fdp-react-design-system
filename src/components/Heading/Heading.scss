@@ -1,0 +1,59 @@
+// NHS Heading SCSS - Reusable heading component with size variants
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+
+.nhsuk-heading {
+  font-family: tokens.$nhs-fdp-font-family-base, tokens.$nhs-fdp-font-family-fallback;
+  font-weight: tokens.$nhs-fdp-font-weight-bold;
+  line-height: tokens.$nhs-fdp-font-line-height-base;
+  margin-top: 0;
+  margin-bottom: tokens.$nhs-fdp-spacing-3;
+
+  // Size variants (independent of semantic level)
+  &--xs {
+    font-size: tokens.$nhs-fdp-font-size-16-mobile;
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+      font-size: tokens.$nhs-fdp-font-size-19-tablet;
+    }
+  }
+
+  &--s {
+    font-size: tokens.$nhs-fdp-font-size-19-mobile;
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+      font-size: tokens.$nhs-fdp-font-size-22-tablet;
+    }
+  }
+
+  &--m {
+    font-size: tokens.$nhs-fdp-font-size-22-mobile;
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+      font-size: tokens.$nhs-fdp-font-size-26-tablet;
+    }
+  }
+
+  &--l {
+    font-size: tokens.$nhs-fdp-font-size-26-mobile;
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+      font-size: tokens.$nhs-fdp-font-size-36-tablet;
+    }
+  }
+
+  &--xl {
+    font-size: tokens.$nhs-fdp-font-size-36-mobile;
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+      font-size: tokens.$nhs-fdp-font-size-48-tablet;
+    }
+  }
+
+  &--xxl {
+    font-size: tokens.$nhs-fdp-font-size-48-mobile;
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+      font-size: tokens.$nhs-fdp-font-size-48-tablet;
+    }
+  }
+}

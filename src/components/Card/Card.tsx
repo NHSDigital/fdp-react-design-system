@@ -1,5 +1,6 @@
 import React from 'react';
 import { CardProps, CardGroupProps, CardGroupItemProps } from './Card.types';
+import { Heading } from '../Heading';
 import './Card.scss';
 
 /**
@@ -95,11 +96,14 @@ export const Card: React.FC<CardProps> = ({
       return heading;
     };
 
-    // Dynamically create heading element based on headingLevel
-    return React.createElement(
-      `h${headingLevel}`,
-      { className: headingClassList },
-      headingContent()
+    // Use the new Heading component instead of React.createElement
+    return (
+      <Heading
+        level={headingLevel}
+        className={headingClassList}
+      >
+        {headingContent()}
+      </Heading>
     );
   };
 

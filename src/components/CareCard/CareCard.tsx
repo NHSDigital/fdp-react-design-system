@@ -1,5 +1,6 @@
 import React from 'react';
 import { CareCardProps } from './CareCard.types';
+import { Heading } from '../Heading';
 import './CareCard.scss';
 
 /**
@@ -89,11 +90,14 @@ export const CareCard: React.FC<CareCardProps> = ({
       </span>
     );
 
-    // Dynamically create heading element based on headingLevel
-    return React.createElement(
-      `h${headingLevel}`,
-      { className: headingClassList },
-      headingContent
+    // Use the new Heading component instead of React.createElement
+    return (
+      <Heading
+        level={headingLevel}
+        className={headingClassList}
+      >
+        {headingContent}
+      </Heading>
     );
   };
 

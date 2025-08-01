@@ -65,6 +65,19 @@ Care cards are specifically designed for medical guidance scenarios where users 
 export default meta;
 type Story = StoryObj<typeof CareCard>;
 
+/**
+ * Default CareCard showing the most basic usage - a non-urgent care card with simple text.
+ * This is the most commonly used variant for general medical advice.
+ */
+export const Default: Story = {
+  args: {
+    type: 'non-urgent',
+    heading: 'Speak to a GP if:',
+    description: 'You think you have symptoms of a condition and you\'re not sure what to do',
+    headingLevel: 2,
+  },
+};
+
 // Non-urgent care card stories
 export const NonUrgent: Story = {
   args: {

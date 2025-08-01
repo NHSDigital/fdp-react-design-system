@@ -29,7 +29,7 @@
   // Lists within inset text
   ul,
   ol {
-    margin: tokens.$nhs-fdp-spacing-3 0 0 0;
+    margin: tokens.$nhs-fdp-spacing-3 0 tokens.$nhs-fdp-spacing-3 0;
     padding-left: tokens.$nhs-fdp-spacing-4;
     
     li {

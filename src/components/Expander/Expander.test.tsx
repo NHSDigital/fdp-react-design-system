@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Expander } from '../Details/Expander';
+import { Expander } from '../Expander';
 import { describe, it, expect } from 'vitest';
 
 describe('Expander', () => {

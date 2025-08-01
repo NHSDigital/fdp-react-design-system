@@ -1,0 +1,247 @@
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// Do and Don't list component
+//
+// Do and Don't lists help users understand more easily what they should
+// and shouldn't do.
+//
+// Uses panel-with-label and heading-label patterns from NHS UK design system
+
+// NHS font family (since tokens aren't available, define directly)
+// NHS font family tokens are available, use them
+$nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+
+.nhsuk-do-dont-list {
+  border: 1px solid nhs.$nhs-fdp-card-border-default;
+  margin-bottom: nhs.$nhs-fdp-spacing-6;
+  padding: 0;
+  background-color: nhs.$nhs-fdp-color-primary-white;
+  position: relative;
+  font-family: $nhs-font-family;
+
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    margin-bottom: nhs.$nhs-fdp-spacing-8;
+  }
+
+  @media print {
+    border: 2px solid nhs.$nhs-fdp-semantic-color-form-border;
+    margin-bottom: nhs.$nhs-fdp-spacing-4;
+  }
+}
+
+.nhsuk-do-dont-list__label {
+  background-color: nhs.$nhs-fdp-color-primary-blue;
+  border: 0;
+  color: nhs.$nhs-fdp-color-primary-white;
+  display: inline-block;
+  font-family: $nhs-font-family;
+  font-size: nhs.$nhs-fdp-font-size-19-mobile;
+  font-weight: nhs.$nhs-fdp-font-weight-bold;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
+  margin: 0;
+  margin-bottom: nhs.$nhs-fdp-spacing-2;
+  margin-right: -(nhs.$nhs-fdp-spacing-4);
+  padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-4;
+  position: relative;
+  left: -(nhs.$nhs-fdp-spacing-4 + nhs.$nhs-fdp-border-width-form-element);
+  top: -(nhs.$nhs-fdp-spacing-2);
+
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    font-size: nhs.$nhs-fdp-font-size-22-tablet;
+    left: -(nhs.$nhs-fdp-spacing-5 + nhs.$nhs-fdp-border-width-form-element);
+    margin-right: -(nhs.$nhs-fdp-spacing-5);
+    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-5;
+    top: -(nhs.$nhs-fdp-spacing-3);
+  }
+
+  @media print {
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+    background: none;
+    font-size: nhs.$nhs-fdp-font-size-19-mobile;
+    position: static;
+    left: auto;
+    top: auto;
+    margin: 0;
+  }
+}
+
+// List styles for do/don't items
+.nhsuk-do-dont-list .nhsuk-list {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 0 nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-4;
+  font-family: $nhs-font-family;
+
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    padding: 0 nhs.$nhs-fdp-spacing-5 nhs.$nhs-fdp-spacing-5 nhs.$nhs-fdp-spacing-5;
+  }
+
+  @media print {
+    padding: nhs.$nhs-fdp-spacing-3;
+  }
+}
+
+// Special content padding when using feature heading
+.nhsuk-do-dont-list__content--feature {
+  padding-top: 0 !important;
+}
+
+.nhsuk-do-dont-list .nhsuk-list > li {
+  font-size: nhs.$nhs-fdp-font-size-19-mobile;
+  font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
+  margin-bottom: nhs.$nhs-fdp-spacing-3;
+  position: relative;
+  padding-left: 40px;
+
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    font-size: nhs.$nhs-fdp-font-size-19-tablet;
+    margin-bottom: nhs.$nhs-fdp-spacing-4;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  // Icon positioning
+  .nhsuk-icon {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 34px;
+    height: 34px;
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+      top: -4px;
+    }
+  }
+
+  // Icon visibility for print
+  @media print {
+    .nhsuk-icon {
+      display: none;
+    }
+    
+    // Add text indicators for print
+    &::before {
+      content: "✓ ";
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: nhs.$nhs-fdp-semantic-color-text-primary;
+      position: absolute;
+      left: 0;
+    }
+  }
+}
+
+// Don't list specific styles
+.nhsuk-do-dont-list .nhsuk-list--cross > li {
+  @media print {
+    &::before {
+      content: "✗ ";
+    }
+  }
+}
+
+// Ensure proper contrast for high contrast mode
+@media (prefers-contrast: high) {
+  .nhsuk-do-dont-list {
+    border-width: 2px;
+  }
+
+  .nhsuk-do-dont-list__label {
+    border: 2px solid;
+  }
+}
+
+// Focus management for interactive elements within lists
+.nhsuk-do-dont-list .nhsuk-list a {
+  &:focus {
+    background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+    outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-semantic-color-focus-background;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 2px nhs.$nhs-fdp-semantic-color-text-primary;
+  }
+}
+
+// Ensure list semantics are preserved
+.nhsuk-do-dont-list .nhsuk-list {
+  list-style: none;
+}
+
+// Base list styles for tick and cross lists
+.nhsuk-list--tick,
+.nhsuk-list--cross {
+  list-style: none;
+  margin-top: 0;
+  padding-left: 0;
+  position: relative;
+
+  // Base styles for SVG icons
+  svg {
+    fill: none;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+      top: 0;
+    }
+  }
+}
+
+// Specific styles for tick icons
+.nhsuk-list--tick svg {
+  stroke: nhs.$nhs-fdp-color-primary-green;
+}
+
+// Specific styles for cross icons  
+.nhsuk-list--cross svg {
+  fill: nhs.$nhs-fdp-color-primary-red;
+}
+
+// High contrast mode adjustments for icons
+@media (prefers-contrast: high) {
+  .nhsuk-list--tick svg {
+    stroke: currentColor;
+  }
+  
+  .nhsuk-list--cross svg {
+    fill: currentColor;
+  }
+}
+
+// Ensure proper spacing in different contexts
+.nhsuk-do-dont-list + .nhsuk-do-dont-list {
+  margin-top: nhs.$nhs-fdp-spacing-5;
+
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    margin-top: nhs.$nhs-fdp-spacing-6;
+  }
+}
+
+// Responsive adjustments for smaller screens
+@media (max-width: nhs.$nhs-fdp-breakpoint-mobile) {
+  .nhsuk-do-dont-list {
+    margin-bottom: nhs.$nhs-fdp-spacing-4;
+  }
+
+  .nhsuk-do-dont-list__label {
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+  }
+
+  .nhsuk-do-dont-list .nhsuk-list {
+    padding: nhs.$nhs-fdp-spacing-3;
+  }
+
+  .nhsuk-do-dont-list .nhsuk-list > li {
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    margin-bottom: nhs.$nhs-fdp-spacing-2;
+    padding-left: 32px;
+
+    .nhsuk-icon {
+      width: 28px;
+      height: 28px;
+    }
+  }
+}

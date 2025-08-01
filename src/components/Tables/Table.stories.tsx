@@ -149,12 +149,7 @@ export const PatientList: Story = {
 
 export const ResponsiveTable: Story = {
   args: {
-    rows: patientData.slice(1).map(row => 
-      row.map((cell, index) => ({
-        ...cell,
-        header: patientData[0][index].text
-      }))
-    ),
+    rows: patientData.slice(1),
     head: patientData[0].map(cell => ({ ...cell })),
     caption: 'Responsive patient list',
     responsive: true,

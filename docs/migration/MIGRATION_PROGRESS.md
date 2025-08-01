@@ -163,7 +163,7 @@
 - ARIA navigation structure
 - In-page navigation
 
-## **Priority 3: Content Components (70% Complete)**
+## **Priority 3: Content Components (90% Complete - 9/10)**
 
 #### 20. **Card Component** ✅ (Complete)
 - Multiple card variants
@@ -216,9 +216,28 @@
 - Complete Storybook documentation
 - Semantic dl/dt/dd markup
 
-#### 27. Tables Component (Ready for development)
-#### 28. Tabs Component (Ready for development)
-#### 29. Details Component (Ready for development)
+#### 27. **Tables Component** ✅ (Complete)
+
+- Data table with design token integration
+- Sortable headers with arrow indicators
+- Caption and responsive features
+- Responsive panel layout for mobile
+- **Comprehensive test suite (65 tests)**
+- Complete Storybook documentation
+- ARIA accessibility patterns
+
+#### 28. **Tabs Component** ✅ (Complete)
+
+- Tabbed content organization
+- Responsive design (mobile accordion, desktop tabs)
+- Keyboard navigation (arrow keys, Home, End)
+- ARIA compliance and screen reader support
+- Controlled and uncontrolled modes
+- **Comprehensive test suite (23 tests)**
+- Complete Storybook documentation with medical examples
+- NHS UK styling accuracy (Frutiger font, focus indicators, selected state)
+
+#### 29. **Details Component** (Ready for development)
 
 ## **Priority 4: Interactive & Feedback (43% Complete)**
 
@@ -272,7 +291,7 @@
 ✅ ContentsList/   (Complete with table of contents)
 ```
 
-### Priority 3 - Content Components (70% Complete)
+### Priority 3 - Content Components (90% Complete - 9/10)
 ```
 ✅ Card/           (Complete with multiple variants)
 ✅ CareCard/       (Complete with healthcare types)
@@ -369,7 +388,7 @@ node scripts/generate-component.js ComponentName
 ### **Priority Breakdown**
 - **Priority 1 Form Components**: 12/12 complete (100%) ✅
 - **Priority 2 Navigation & Layout**: 7/7 complete (100%) ✅
-- **Priority 3 Content Components**: 7/10 complete (70%)
+- **Priority 3 Content Components**: 9/10 complete (90%)
 - **Priority 4 Interactive & Feedback**: 3/7 complete (43%)
 
 ### **Quality Assurance Status**

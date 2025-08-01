@@ -29,6 +29,7 @@ export const Panel: React.FC<PanelProps> = ({
           level={headingLevel}
           className="nhsuk-panel__heading"
           html={headingHtml}
+          marginBottom="var(--panel-heading-margin, 24px)"
         />
       );
     }
@@ -39,6 +40,7 @@ export const Panel: React.FC<PanelProps> = ({
           level={headingLevel}
           className="nhsuk-panel__heading"
           text={headingText}
+          marginBottom="var(--panel-heading-margin, 24px)"
         />
       );
     }

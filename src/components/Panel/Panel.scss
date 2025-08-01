@@ -7,9 +7,17 @@
   border: tokens.$nhs-fdp-spacing-1 solid transparent; /* Transparent border for high contrast mode */
   box-sizing: border-box;
   color: tokens.$nhs-fdp-semantic-color-text-reverse;
+  font-family: #{tokens.$nhs-fdp-font-family-base}, tokens.$nhs-fdp-font-family-fallback;
   padding: calc(#{tokens.$nhs-fdp-spacing-5} - #{tokens.$nhs-fdp-spacing-1}); /* Subtract border width */
   font-size: tokens.$nhs-fdp-font-size-26-mobile;
   margin-bottom: tokens.$nhs-fdp-spacing-4;
+  
+  // Define responsive margin for panel headings
+  --panel-heading-margin: #{tokens.$nhs-fdp-spacing-responsive-5-mobile};
+  
+  @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+    --panel-heading-margin: #{tokens.$nhs-fdp-spacing-responsive-5-tablet};
+  }
   
   // Responsive padding
   @media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-tablet} - 1px)) {
@@ -27,7 +35,7 @@
   &__title {
     margin-top: 0;
     font-size: tokens.$nhs-fdp-font-size-48-tablet;
-    margin-bottom: tokens.$nhs-fdp-spacing-5;
+    margin-bottom: var(--panel-heading-margin, 24px);
     
     &:last-child {
       margin-bottom: 0;
@@ -37,22 +45,21 @@
   &__heading {
     // Panel heading styles with large title font
     color: tokens.$nhs-fdp-semantic-color-text-reverse;
-    font-family: tokens.$nhs-fdp-font-family-base, tokens.$nhs-fdp-font-family-fallback;
+    font-family: #{tokens.$nhs-fdp-font-family-base}, tokens.$nhs-fdp-font-family-fallback;
     font-weight: tokens.$nhs-fdp-font-weight-bold;
     font-size: tokens.$nhs-fdp-font-size-48-tablet;
     line-height: tokens.$nhs-fdp-font-line-height-base;
     margin-top: 0;
-    margin-bottom: tokens.$nhs-fdp-spacing-5;
     
     &:last-child {
-      margin-bottom: 0;
+      margin-bottom: 0 !important;
     }
   }
 
   &__body {
     // Panel body content with white text
     color: tokens.$nhs-fdp-semantic-color-text-reverse;
-    font-family: tokens.$nhs-fdp-font-family-base, tokens.$nhs-fdp-font-family-fallback;
+    font-family: #{tokens.$nhs-fdp-font-family-base}, tokens.$nhs-fdp-font-family-fallback;
     font-size: tokens.$nhs-fdp-font-size-26-mobile;
     line-height: tokens.$nhs-fdp-font-line-height-base;
     

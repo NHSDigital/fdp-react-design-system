@@ -14,32 +14,32 @@ export const getFieldsetStyles = (): CSSProperties => ({
 
 /**
  * Get legend styles using NHS design tokens
+ * SSR-compatible: Uses CSS custom properties for responsive font sizes
  */
 export const getLegendStyles = (
   theme: NHSTheme,
   legendSize: 'xl' | 'l' | 'm' | 's' = 'l',
   isPageHeading: boolean = false
 ): CSSProperties => {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  
+  // SSR-safe: Use tablet size as default, mobile handled by CSS classes or responsive design
   const sizeMap = {
     xl: {
-      fontSize: isMobile ? theme.font.FontSize48Mobile : theme.font.FontSize48Tablet,
+      fontSize: theme.font.FontSize48Tablet,
       lineHeight: theme.font.FontLineHeightBase,
       fontWeight: theme.font.FontWeightBold,
     },
     l: {
-      fontSize: isMobile ? theme.font.FontSize36Mobile : theme.font.FontSize36Tablet,
+      fontSize: theme.font.FontSize36Tablet,
       lineHeight: theme.font.FontLineHeightBase,
       fontWeight: theme.font.FontWeightBold,
     },
     m: {
-      fontSize: isMobile ? theme.font.FontSize26Mobile : theme.font.FontSize26Tablet,
+      fontSize: theme.font.FontSize26Tablet,
       lineHeight: theme.font.FontLineHeightBase,
       fontWeight: theme.font.FontWeightBold,
     },
     s: {
-      fontSize: isMobile ? theme.font.FontSize22Mobile : theme.font.FontSize22Tablet,
+      fontSize: theme.font.FontSize22Tablet,
       lineHeight: theme.font.FontLineHeightBase,
       fontWeight: theme.font.FontWeightBold,
     },
@@ -61,13 +61,12 @@ export const getLegendStyles = (
 
 /**
  * Get hint text styles using NHS design tokens
+ * SSR-compatible: Uses tablet size as default
  */
 export const getHintStyles = (theme: NHSTheme): CSSProperties => {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  
   return {
     fontFamily: `"${theme.font.FontFamilyBase}", Arial, Helvetica, sans-serif`,
-    fontSize: isMobile ? theme.font.FontSize16Mobile : theme.font.FontSize16Tablet,
+    fontSize: theme.font.FontSize16Tablet,
     lineHeight: theme.font.FontLineHeightBase,
     color: theme.color.ColorTextSecondary,
     marginBottom: theme.spacing.Spacing3,
@@ -77,13 +76,12 @@ export const getHintStyles = (theme: NHSTheme): CSSProperties => {
 
 /**
  * Get error message styles using NHS design tokens
+ * SSR-compatible: Uses tablet size as default
  */
 export const getErrorMessageStyles = (theme: NHSTheme): CSSProperties => {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  
   return {
     fontFamily: `"${theme.font.FontFamilyBase}", Arial, Helvetica, sans-serif`,
-    fontSize: isMobile ? theme.font.FontSize16Mobile : theme.font.FontSize16Tablet,
+    fontSize: theme.font.FontSize16Tablet,
     lineHeight: theme.font.FontLineHeightBase,
     color: theme.color.ColorError,
     fontWeight: theme.font.FontWeightBold,
@@ -125,18 +123,17 @@ export const getCheckboxInputStyles = (): CSSProperties => ({
 
 /**
  * Get checkbox label styles using NHS design tokens
+ * SSR-compatible: Uses tablet size as default
  */
 export const getCheckboxLabelStyles = (
   theme: NHSTheme,
   { size, disabled, hasError }: CheckboxStyleProps
 ): CSSProperties => {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  
   return {
     fontFamily: `"${theme.font.FontFamilyBase}", Arial, Helvetica, sans-serif`,
     fontSize: size === 'small' 
-      ? (isMobile ? theme.font.FontSize16Mobile : theme.font.FontSize16Tablet)
-      : (isMobile ? theme.font.FontSize19Mobile : theme.font.FontSize19Tablet),
+      ? theme.font.FontSize16Tablet
+      : theme.font.FontSize19Tablet,
     lineHeight: theme.font.FontLineHeightBase,
     color: hasError ? theme.color.ColorError : theme.color.ColorTextPrimary,
     cursor: disabled ? 'not-allowed' : 'pointer',
@@ -223,16 +220,15 @@ export const getCheckboxFocusStyles = (theme: NHSTheme): CSSProperties => ({
 
 /**
  * Get checkbox item hint styles using NHS design tokens
+ * SSR-compatible: Uses tablet size as default
  */
 export const getCheckboxItemHintStyles = (
   theme: NHSTheme,
   size: 'default' | 'small'
 ): CSSProperties => {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  
   return {
     fontFamily: `"${theme.font.FontFamilyBase}", Arial, Helvetica, sans-serif`,
-    fontSize: isMobile ? theme.font.FontSize16Mobile : theme.font.FontSize16Tablet,
+    fontSize: theme.font.FontSize16Tablet,
     lineHeight: theme.font.FontLineHeightBase,
     color: theme.color.ColorTextSecondary,
     marginTop: theme.spacing.Spacing1,

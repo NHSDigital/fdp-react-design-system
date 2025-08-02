@@ -124,5 +124,28 @@
         "$value": "64px"
       }
     }
+  },
+  "layout": {
+    "$type": "spacing",
+    "margin": {
+      "negative-thin": {
+        "$value": "-1px",
+        "$description": "Negative margin for border compensation"
+      },
+      "negative-standard": {
+        "$value": "-2px",
+        "$description": "Standard negative margin for visual alignment"
+      }
+    },
+    "gap": {
+      "minimal": {
+        "$value": "1px",
+        "$description": "Minimal gap between elements"
+      },
+      "small": {
+        "$value": "6px",
+        "$description": "Small gap for tight layouts"
+      }
+    }
   }
 }

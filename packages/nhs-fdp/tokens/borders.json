@@ -29,6 +29,20 @@
       "table-cell": {
         "$value": "1px",
         "$description": "Table cell border width"
+      },
+      "semantic": {
+        "thin": {
+          "$value": "1px",
+          "$description": "Thin border width for subtle separations"
+        },
+        "standard": {
+          "$value": "2px", 
+          "$description": "Standard border width for most components"
+        },
+        "thick": {
+          "$value": "4px",
+          "$description": "Thick border width for emphasis"
+        }
       }
     },
     "radius": {

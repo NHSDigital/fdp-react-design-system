@@ -232,6 +232,65 @@
         "$value": "2px",
         "$description": "Visual balance adjustment for tag padding"
       }
+    },
+    "tabs": {
+      "$type": "spacing",
+      "border-width": {
+        "$value": "1px",
+        "$description": "Standard border width for tab elements"
+      },
+      "border-compensation": {
+        "$value": "1px",
+        "$description": "Border compensation for visual alignment"
+      },
+      "padding-multiplier": {
+        "$value": "1.5",
+        "$description": "Padding multiplier for selected tab visual enhancement"
+      }
+    },
+    "details": {
+      "$type": "spacing",
+      "arrow": {
+        "border-width-horizontal": {
+          "$value": "7px",
+          "$description": "Horizontal border width for details arrow"
+        },
+        "border-width-vertical": {
+          "$value": "12.124px",
+          "$description": "Vertical border width for details arrow"
+        }
+      }
+    },
+    "navigation": {
+      "$type": "spacing",
+      "dropdown": {
+        "item-padding": {
+          "$value": "6px",
+          "$description": "Standard padding for dropdown navigation items"
+        },
+        "logo-margin": {
+          "$value": "32px",
+          "$description": "Standard spacing for logo area in navigation"
+        }
+      }
+    },
+    "expander": {
+      "$type": "spacing",
+      "border-width": {
+        "$value": "1px",
+        "$description": "Standard border width for expander components"
+      }
+    },
+    "print": {
+      "$type": "spacing",
+      "icon-adjustment": {
+        "$value": "4px",
+        "$description": "Icon position adjustment for print media"
+      },
+      "logo-height": {
+        "$value": "32px",
+        "$description": "Logo height for print layouts"
+      }
     }
   }
 }

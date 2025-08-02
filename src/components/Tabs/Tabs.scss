@@ -77,7 +77,7 @@
   
   &--selected {
     @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
-      $border-width: 1px;
+      $border-width: nhs.$nhs-fdp-component-tabs-border-width;
       background-color: nhs.$nhs-fdp-color-primary-white;
       border: $border-width solid nhs.$nhs-fdp-semantic-color-border-default;
       border-bottom: 0;

@@ -96,7 +96,7 @@
     &::before {
       border-color: transparent transparent transparent nhs.$nhs-fdp-semantic-color-text-primary;
       border-style: solid;
-      border-width: 7px 0 7px 12.124px;
+      border-width: nhs.$nhs-fdp-component-details-arrow-border-width-horizontal 0 nhs.$nhs-fdp-component-details-arrow-border-width-horizontal nhs.$nhs-fdp-component-details-arrow-border-width-vertical;
       bottom: 0;
       content: "";
       height: 0;
@@ -110,7 +110,7 @@
     .nhsuk-details[open] > & {
       &::before {
         border-color: nhs.$nhs-fdp-semantic-color-text-primary transparent transparent transparent;
-        border-width: 12.124px 7px 0 7px;
+        border-width: nhs.$nhs-fdp-component-details-arrow-border-width-vertical nhs.$nhs-fdp-component-details-arrow-border-width-horizontal 0 nhs.$nhs-fdp-component-details-arrow-border-width-horizontal;
       }
     }
   }

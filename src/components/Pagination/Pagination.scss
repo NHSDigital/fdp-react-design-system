@@ -26,7 +26,7 @@
   flex: 0 1 auto;
   
   .nhsuk-icon {
-    left: -6px;
+    left: -#{nhs.$nhs-fdp-component-navigation-dropdown-item-padding};
   }
   
   .nhsuk-pagination__title {
@@ -40,7 +40,7 @@
   margin-left: auto;
   
   .nhsuk-icon {
-    right: -6px;
+    right: -#{nhs.$nhs-fdp-component-navigation-dropdown-item-padding};
   }
   
   .nhsuk-pagination__title {

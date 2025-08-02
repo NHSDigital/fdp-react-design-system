@@ -25,6 +25,10 @@
     "desktop-large": {
       "$value": "1280px",
       "$description": "Large desktop breakpoint"
+    },
+    "desktop-xl": {
+      "$value": "1200px",
+      "$description": "Extra large desktop breakpoint used in components"
     }
   },
   "grid": {

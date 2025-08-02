@@ -21,6 +21,9 @@
   --border-width-panel: 8px; /** Border width for panel components */
   --border-width-table-header: 2px; /** Table header border width */
   --border-width-table-cell: 1px; /** Table cell border width */
+  --border-width-semantic-thin: 1px; /** Thin border width for subtle separations */
+  --border-width-semantic-standard: 2px; /** Standard border width for most components */
+  --border-width-semantic-thick: 4px; /** Thick border width for emphasis */
   --border-radius-none: 0px; /** No border radius */
   --border-radius-small: 4px; /** Small border radius for buttons and form elements */
   --border-radius-medium: 8px; /** Medium border radius */
@@ -91,11 +94,18 @@
   --component-header-menu-icon-size: 28px; /** Size of mobile menu icons */
   --component-task-padding-adjustment: 4px; /** Visual balance adjustment for task list item padding */
   --component-tag-padding-adjustment: 2px; /** Visual balance adjustment for tag padding */
+  --component-tabs-border-width: 1px; /** Standard border width for tab elements */
+  --component-tabs-border-compensation: 1px; /** Border compensation for visual alignment */
+  --component-tabs-padding-multiplier: 1.5; /** Padding multiplier for selected tab visual enhancement */
+  --component-details: 8px; /** Details component shadow */
+  --component-navigation-dropdown-item-padding: 6px; /** Standard padding for dropdown navigation items */
+  --component-navigation-dropdown-logo-margin: 32px; /** Standard spacing for logo area in navigation */
+  --component-expander: 4px; /** Expander shadow */
+  --component-print-icon-adjustment: 4px; /** Icon position adjustment for print media */
+  --component-print-logo-height: 32px; /** Logo height for print layouts */
   --component-spread: 4px; /** Default shadow spread */
   --component-blur: 4px; /** Default shadow blur */
   --component-link: 4px; /** Link shadow spread */
-  --component-details: 8px; /** Details component shadow */
-  --component-expander: 4px; /** Expander shadow */
   --component-pagination: 16px; /** Pagination shadow */
   --button-primary-background-default: #007f3b; /** Primary button background color */
   --button-primary-background-hover: #006530; /** Primary button hover background color */
@@ -213,12 +223,17 @@
   --layout-column-third: 33.333%; /** One third width column */
   --layout-column-quarter: 25%; /** Quarter width column */
   --layout-column-actions: 20%; /** Actions column width in summary lists */
+  --layout-margin-negative-thin: -1px; /** Negative margin for border compensation */
+  --layout-margin-negative-standard: -2px; /** Standard negative margin for visual alignment */
+  --layout-gap-minimal: 1px; /** Minimal gap between elements */
+  --layout-gap-small: 6px; /** Small gap for tight layouts */
   --breakpoint-mobile: 320px; /** Mobile breakpoint */
   --breakpoint-mobile-max: 767px; /** Maximum mobile breakpoint */
   --breakpoint-tablet: 641px; /** Tablet breakpoint */
   --breakpoint-tablet-standard: 768px; /** Standard tablet breakpoint used in components */
   --breakpoint-desktop: 1025px; /** Desktop breakpoint */
   --breakpoint-desktop-large: 1280px; /** Large desktop breakpoint */
+  --breakpoint-desktop-xl: 1200px; /** Extra large desktop breakpoint used in components */
   --grid-page-width: 960px; /** Maximum page width */
   --grid-gutter: 32px; /** Grid gutter width */
   --grid-gutter-half: 16px; /** Half grid gutter width */

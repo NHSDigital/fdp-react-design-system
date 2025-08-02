@@ -40,14 +40,14 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 
 // Mobile menu toggle in header container (main positioning)
 .nhsuk-header__mobile-menu {
-  @media (max-width: 767px) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-mobile-max})) {
 	display: flex;
 	align-items: center;
 	margin-left: auto; // Push to right side of header
 	order: 999;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet-standard) {
 	display: none;
   }
 
@@ -133,7 +133,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 
 // Service logo and name
 .nhsuk-header__logo {
-  min-width: 100px;
+  min-width: nhs.$nhs-fdp-component-header-logo-min-width;
 }
 
 .nhsuk-header__service,
@@ -192,10 +192,10 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	content: "";
 	border-bottom: 0.1rem solid currentcolor;
 	display: inline;
-	height: 40px;
+	height: nhs.$nhs-fdp-component-header-logo-height;
 	position: absolute;
 	top: 0.2rem;
-	width: 100px;
+	width: nhs.$nhs-fdp-component-header-logo-min-width;
   }
 }
 
@@ -221,14 +221,14 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 
   .nhsuk-icon__user {
 	fill: currentcolor;
-	height: 24px;
-	width: 24px;
+	height: nhs.$nhs-fdp-component-header-search-icon-size;
+	width: nhs.$nhs-fdp-component-header-search-icon-size;
 	flex-shrink: 0;
   }
 
   @media (min-width: 768px) {
 	align-self: start;
-	margin: -1px;
+	margin: nhs.$nhs-fdp-layout-margin-negative-thin;
   }
 }
 
@@ -236,7 +236,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 1px;
+  gap: nhs.$nhs-fdp-layout-gap-minimal;
   list-style: none;
   margin: 0;
   overflow: hidden;

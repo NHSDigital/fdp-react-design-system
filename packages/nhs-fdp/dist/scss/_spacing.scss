@@ -44,6 +44,15 @@ $nhs-fdp-component-header-search-icon-size: 24px; // Size of search icon
 $nhs-fdp-component-header-menu-icon-size: 28px; // Size of mobile menu icons
 $nhs-fdp-component-task-padding-adjustment: 4px; // Visual balance adjustment for task list item padding
 $nhs-fdp-component-tag-padding-adjustment: 2px; // Visual balance adjustment for tag padding
+$nhs-fdp-component-tabs-border-width: 1px; // Standard border width for tab elements
+$nhs-fdp-component-tabs-border-compensation: 1px; // Border compensation for visual alignment
+$nhs-fdp-component-tabs-padding-multiplier: 1.5; // Padding multiplier for selected tab visual enhancement
+$nhs-fdp-component-details: 8px; // Details component shadow
+$nhs-fdp-component-navigation-dropdown-item-padding: 6px; // Standard padding for dropdown navigation items
+$nhs-fdp-component-navigation-dropdown-logo-margin: 32px; // Standard spacing for logo area in navigation
+$nhs-fdp-component-expander: 4px; // Expander shadow
+$nhs-fdp-component-print-icon-adjustment: 4px; // Icon position adjustment for print media
+$nhs-fdp-component-print-logo-height: 32px; // Logo height for print layouts
 $nhs-fdp-button-spacing-padding-vertical-mobile: 8px; // Button vertical padding on mobile
 $nhs-fdp-button-spacing-padding-horizontal-mobile: 16px; // Button horizontal padding on mobile
 $nhs-fdp-button-spacing-padding-vertical-desktop: 12px; // Button vertical padding on desktop
@@ -55,6 +64,10 @@ $nhs-fdp-form-spacing-input-padding: 4px; // Internal padding for input fields
 $nhs-fdp-form-spacing-input-min-height: 40px; // Minimum height for input fields
 $nhs-fdp-form-spacing-checkbox-size: 40px; // Size of checkbox controls
 $nhs-fdp-form-spacing-checkbox-label-padding: 12px; // Padding for checkbox labels
+$nhs-fdp-layout-margin-negative-thin: -1px; // Negative margin for border compensation
+$nhs-fdp-layout-margin-negative-standard: -2px; // Standard negative margin for visual alignment
+$nhs-fdp-layout-gap-minimal: 1px; // Minimal gap between elements
+$nhs-fdp-layout-gap-small: 6px; // Small gap for tight layouts
 $nhs-fdp-spacing-0: 0; // No spacing
 $nhs-fdp-spacing-1: 4px; // Extra small spacing
 $nhs-fdp-spacing-2: 8px; // Small spacing

@@ -10,8 +10,6 @@ import UIKit
 
 public enum StyleDictionarySize {
     public static let componentBlur = CGFloat(64.00) /** Default shadow blur */
-    public static let componentDetails = CGFloat(128.00) /** Details component shadow */
-    public static let componentExpander = CGFloat(64.00) /** Expander shadow */
     public static let componentLink = CGFloat(64.00) /** Link shadow spread */
     public static let componentPagination = CGFloat(256.00) /** Pagination shadow */
     public static let componentSpread = CGFloat(64.00) /** Default shadow spread */

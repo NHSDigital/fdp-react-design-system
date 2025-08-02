@@ -4,7 +4,7 @@
 // Based on NHS UK card component styles
 
 // Card variables using design tokens
-$card-border-width: 1px;
+$card-border-width: nhs.$nhs-fdp-border-width-semantic-thin;
 $card-border-bottom-width: nhs.$nhs-fdp-spacing-1; // 4px
 $card-border-color: nhs.$nhs-fdp-card-border-default;
 $card-border-hover-color: nhs.$nhs-fdp-card-border-hover;
@@ -16,7 +16,7 @@ $card-border-hover-color: nhs.$nhs-fdp-card-border-hover;
   width: 100%;
   margin-bottom: nhs.$nhs-fdp-spacing-7; // 32px
 
-  @media (max-width: 641px) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-tablet} - 1px)) {
     margin-bottom: nhs.$nhs-fdp-spacing-7;
   }
 }
@@ -34,7 +34,7 @@ $card-border-hover-color: nhs.$nhs-fdp-card-border-hover;
 .nhsuk-card__content {
   padding: nhs.$nhs-fdp-spacing-5; // 24px
 
-  @media (min-width: 641px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
     padding: nhs.$nhs-fdp-spacing-5;
   }
 

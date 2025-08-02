@@ -145,7 +145,7 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
 // Ensure proper contrast for high contrast mode
 @media (prefers-contrast: high) {
   .nhsuk-do-dont-list {
-    border-width: 2px;
+    border-width: nhs.$nhs-fdp-border-width-semantic-standard;
   }
 
   .nhsuk-do-dont-list__label {

@@ -2,10 +2,10 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import jsonData from './patients_with_ews.json';
 import { PatientData, SortConfig, tabColumns } from './patient';
 import { bedIcon, completeIcon, transportStatusIcon, booleanIcon } from './icons';
-import { tabs, tabStyles, srOnlyStyles, getEWSColor, NHS_FOCUS_COLOR, type FocusArea } from './constants';
+import { tabs, tabStyles, NHS_FOCUS_COLOR, type FocusArea } from './constants';
 import { formatHeader, parseDate } from './utils';
 import classNames from 'classnames';
-import './tabs.scss';
+import './SortableDataTable.scss';
 
 type PatientList = PatientData[];
 
@@ -314,7 +314,11 @@ const SortableDataTable: React.FC = () => {
 	// Use imported tabStyles configuration
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: '0px', width: '100%' }}>
+		<div 
+			className="sortable-data-table" 
+			data-focus-area={focusArea}
+			style={{ display: 'flex', flexDirection: 'column', gap: '0px', width: '100%' }}
+		>
 			<div 
 				className="nhsuk-tabs" 
 				data-module="nhsuk-tabs" 
@@ -376,7 +380,7 @@ const SortableDataTable: React.FC = () => {
 								{tab.name.charAt(0).toUpperCase() + tab.name.slice(1)}
 								<span 
 									id={`${tab.name}-description`}
-									style={srOnlyStyles}
+									className="sr-only"
 								>
 									View {tab.name} data for patients
 								</span>
@@ -454,7 +458,7 @@ const SortableDataTable: React.FC = () => {
 										</span>
 										<span 
 											id={`${key}-sort-description`}
-											style={srOnlyStyles}
+											className="sr-only"
 										>
 											{isSorted 
 												? `Column ${headerLabel} is sorted in ${sortDirection === 'asc' ? 'ascending' : 'descending'} order. This is sort level ${sortConfig.findIndex(config => config.key === key) + 1} of ${sortConfig.length}. Press Enter to cycle to ${sortDirection === 'desc' ? 'ascending' : 'remove sort'}.`
@@ -464,27 +468,10 @@ const SortableDataTable: React.FC = () => {
 										{ isSorted && (
 											<span
 												aria-hidden="true"
-												style={{
-													color: '#555',
-													display: 'flex',
-													justifyContent: 'center',
-													alignItems: 'center',
-													gap: '4px'
-												}}
+												className="sort-indicator"
 											>
 												{sortConfig.length > 1 && (
-													<span style={{
-														fontSize: '12px',
-														fontWeight: 'bold',
-														background: '#005eb8',
-														color: 'white',
-														borderRadius: '50%',
-														width: '16px',
-														height: '16px',
-														display: 'flex',
-														alignItems: 'center',
-														justifyContent: 'center'
-													}}>
+													<span className="sort-priority">
 														{sortConfig.findIndex(config => config.key === key) + 1}
 													</span>
 												)}
@@ -540,6 +527,7 @@ const SortableDataTable: React.FC = () => {
 								
 								// Apply color coding for EWS score
 								if ( key === 'ews_score' && typeof value === 'number' ) {
+									const ewsClass = value <= 3 ? 'ews-low' : value <= 6 ? 'ews-medium' : 'ews-high';
 									return (
 										<td
 											key={key}
@@ -549,12 +537,9 @@ const SortableDataTable: React.FC = () => {
 											style={{
 												paddingLeft: colIndex === 0 ? 16 : 8,
 												textAlign: 'center',
-												color: getEWSColor(value),
-												fontWeight: 'bold',
-												fontSize: 18,
 												outline: isFocused && focusArea === 'table' ? '2px solid #005eb8' : 'none',
 											}}
-											className="nhsuk-table__cell"
+											className={classNames("nhsuk-table__cell", "ews-score", ewsClass)}
 										>
 											{value}
 										</td>
@@ -573,7 +558,7 @@ const SortableDataTable: React.FC = () => {
 										className="nhsuk-table__cell" 
 									>
 										{renderCompleteIcon(value)}
-										<span style={srOnlyStyles}>{String(parsedValue ?? '')}</span>
+										<span className="sr-only">{String(parsedValue ?? '')}</span>
 									</td>;
 								} else if (key === "bed_type" && typeof value === 'string') { 
 									return <td 
@@ -589,7 +574,7 @@ const SortableDataTable: React.FC = () => {
 										className="nhsuk-table__cell" 
 									>
 										{renderBedIcon(value)}
-										<span style={srOnlyStyles}>{String(parsedValue ?? '')}</span>
+										<span className="sr-only">{String(parsedValue ?? '')}</span>
 									</td>;
 								} else if (key === "transport_status" && typeof value === 'string') { 
 									return <td 
@@ -605,7 +590,7 @@ const SortableDataTable: React.FC = () => {
 										className="nhsuk-table__cell" 
 									>
 										{renderTransportIcon(value)}
-										<span style={srOnlyStyles}>{String(parsedValue ?? '')}</span>
+										<span className="sr-only">{String(parsedValue ?? '')}</span>
 									</td>;
 								}
 								
@@ -624,7 +609,7 @@ const SortableDataTable: React.FC = () => {
 									{typeof value === 'boolean' ? (
 										<>
 											{renderBooleanIcon(value)}
-											<span style={srOnlyStyles}>{value ? 'Yes' : 'No'}</span>
+											<span className="sr-only">{value ? 'Yes' : 'No'}</span>
 										</>
 									) : String(parsedValue ?? '')}
 								</td>;

@@ -10,6 +10,8 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
+  timeout: process.env.CI ? 60 * 1000 : 30 * 1000, // Longer timeout per test in CI
+  globalTimeout: process.env.CI ? 20 * 60 * 1000 : 10 * 60 * 1000, // 20 min in CI, 10 min locally
   reporter: [
     ['html', { outputFolder: 'tests/visual/reports/html' }],
     ['json', { outputFile: 'tests/visual/reports/results.json' }],
@@ -71,17 +73,19 @@ export default defineConfig({
   webServer: [
     // Start Storybook for React components
     {
-      command: 'npm run storybook',
+      command: process.env.CI 
+        ? 'npx http-server storybook-static -p 6006 --cors'
+        : 'npm run storybook',
       url: 'http://localhost:6006',
       reuseExistingServer: !process.env.CI,
-      timeout: 120 * 1000,
+      timeout: process.env.CI ? 60 * 1000 : 180 * 1000, // Longer timeout for dev, shorter for CI
     },
     // Start static server for NHS UK reference components
     {
       command: 'npx http-server tests/visual/reference -p 3002 --cors',
       url: 'http://localhost:3002',
       reuseExistingServer: !process.env.CI,
-      timeout: 30 * 1000,
+      timeout: 60 * 1000,
     }
   ],
 

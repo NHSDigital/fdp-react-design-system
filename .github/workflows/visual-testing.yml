@@ -33,13 +33,24 @@ jobs:
     - name: Generate visual reference files
       run: npm run visual:generate
 
+    - name: Verify reference files
+      run: |
+        ls -la tests/visual/reference/ || echo "Reference directory not found, creating..."
+        mkdir -p tests/visual/reference
+
     - name: Build Storybook
       run: npm run build-storybook
+
+    - name: Verify Storybook build
+      run: |
+        ls -la storybook-static/
+        echo "Storybook static files are ready"
 
     - name: Run visual tests
       run: npm run visual:test
       env:
         CI: true
+        DEBUG: pw:webserver
 
     - name: Upload test results
       uses: actions/upload-artifact@v4

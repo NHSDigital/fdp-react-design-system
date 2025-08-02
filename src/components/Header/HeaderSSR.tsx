@@ -42,7 +42,6 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
   // Refs for progressive enhancement
   const navigationRef = useRef<HTMLUListElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // SSR-safe client detection
@@ -83,7 +82,7 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
     navigation?.className
   );
 
-  // Progressive enhancement: responsive overflow handling
+  // Progressive enhancement: simplified responsive overflow handling
   const calculateOverflow = useCallback(() => {
     if (!isClient || !isEnhanced || !navigationRef.current || !containerRef.current || !navigation?.items) {
       return;
@@ -95,33 +94,42 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
       const containerWidth = container.offsetWidth;
       const navItems = nav.querySelectorAll('.nhsuk-header__navigation-item:not(.nhsuk-header__navigation-item--more)');
       
-      if (navItems.length === 0) return;
+      if (navItems.length === 0 || containerWidth === 0) return;
 
-      // Calculate total width needed
-      let totalWidth = 0;
-      const itemWidths: number[] = [];
+      // Account for NHS width-container margins (gutters) - simplified version
+      const mobile = window.innerWidth < 768;
+      const gutterSize = mobile ? 16 : 32; // Half gutter on mobile, full gutter on desktop
+      const totalGutters = gutterSize * 2; // Left and right gutters
+      const availableContainerWidth = containerWidth - totalGutters;
+
+      // Calculate item widths
+      const measurements = Array.from(navItems).map(item => (item as HTMLElement).offsetWidth);
+      const totalWidth = measurements.reduce((sum, width) => sum + width, 0);
+      const moreButtonWidth = mobile ? 80 : 100;
       
-      navItems.forEach((item) => {
-        const width = (item as HTMLElement).offsetWidth;
-        itemWidths.push(width);
-        totalWidth += width;
+      console.log('SSR Header overflow check:', {
+        containerWidth,
+        availableContainerWidth,
+        totalGutters,
+        totalWidth,
+        mobile,
+        itemCount: measurements.length
       });
-
-      const moreButtonWidth = 100; // Approximate width of "More" button
       
-      if (totalWidth <= containerWidth) {
+      if (totalWidth <= availableContainerWidth) {
         // All items fit
         setShowMoreButton(false);
         setVisibleItems(navigation.items.length);
       } else {
         // Need overflow handling
-        const availableWidth = containerWidth - moreButtonWidth;
+        const availableWidth = availableContainerWidth - moreButtonWidth;
         let itemsToShow = 0;
         let runningWidth = 0;
         
-        for (let i = 0; i < itemWidths.length; i++) {
-          if (runningWidth + itemWidths[i] <= availableWidth) {
-            runningWidth += itemWidths[i];
+        for (let i = 0; i < measurements.length; i++) {
+          const newWidth = runningWidth + measurements[i];
+          if (newWidth <= availableWidth) {
+            runningWidth = newWidth;
             itemsToShow = i + 1;
           } else {
             break;
@@ -134,46 +142,56 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
         setVisibleItems(itemsToShow);
       }
     } catch (error) {
-      console.warn('Overflow calculation error:', error);
+      console.warn('SSR Header overflow calculation error:', error);
       // Fallback: show all items
       setShowMoreButton(false);
       setVisibleItems(navigation?.items?.length || 0);
     }
   }, [isClient, isEnhanced, navigation?.items]);
 
-  // Enhanced resize handling (client-side only)
+  // Separate effect for initial calculation
+  useEffect(() => {
+    if (!isClient || !isEnhanced || !navigation?.items) return;
+    
+    const timer = setTimeout(() => {
+      calculateOverflow();
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [isClient, isEnhanced, navigation?.items, calculateOverflow]);
+
+  // Resize handling for SSR component
   useEffect(() => {
     if (!isClient || !isEnhanced) return;
 
     const handleResize = () => {
+      // Close menu on resize
+      if (menuOpen) {
+        setMenuOpen(false);
+        setDropdownVisible(false);
+      }
+      
+      // Simple debounced overflow check
       if (resizeTimeoutRef.current) {
         clearTimeout(resizeTimeoutRef.current);
       }
-      resizeTimeoutRef.current = setTimeout(calculateOverflow, 150);
+      resizeTimeoutRef.current = setTimeout(() => {
+        if (navigation?.items && !menuOpen) { // Don't recalculate if menu is open
+          calculateOverflow();
+        }
+      }, 250);
     };
 
-    // Initial calculation
-    calculateOverflow();
-
-    // Set up resize handling
-    if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
-      resizeObserverRef.current = new ResizeObserver(handleResize);
-      resizeObserverRef.current.observe(containerRef.current);
-    } else {
-      window.addEventListener('resize', handleResize);
-    }
+    // Basic window resize listener (simpler than ResizeObserver for SSR fallback)
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      if (resizeObserverRef.current) {
-        resizeObserverRef.current.disconnect();
-      } else {
-        window.removeEventListener('resize', handleResize);
-      }
+      window.removeEventListener('resize', handleResize);
       if (resizeTimeoutRef.current) {
         clearTimeout(resizeTimeoutRef.current);
       }
     };
-  }, [isClient, isEnhanced, calculateOverflow]);
+  }, [isClient, isEnhanced, menuOpen, calculateOverflow, navigation?.items]);
 
   // Enhanced keyboard and click handling (client-side only)
   useEffect(() => {
@@ -188,7 +206,10 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
 
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
-      if (navigationRef.current && !navigationRef.current.contains(target)) {
+      const isInsideNavigation = navigationRef.current?.contains(target);
+      
+      // Handle menu click-outside
+      if (menuOpen && !isInsideNavigation) {
         setMenuOpen(false);
         setDropdownVisible(false);
       }
@@ -221,24 +242,6 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
       setDropdownVisible(false);
     }
   }, [isClient, menuOpen]);
-
-  // Determine which items to show based on enhancement state
-  const getVisibleNavigationItems = () => {
-    if (!navigation?.items) return [];
-    
-    if (!isClient || !isEnhanced) {
-      // SSR/pre-enhancement: show all items with responsive hiding via CSS
-      return navigation.items;
-    }
-    
-    // Enhanced: show calculated visible items
-    return navigation.items.slice(0, visibleItems);
-  };
-
-  const getOverflowNavigationItems = () => {
-    if (!navigation?.items || !isClient || !isEnhanced) return [];
-    return navigation.items.slice(visibleItems);
-  };
 
   // Render navigation item content
   const renderNavigationLinkContent = (item: NavigationItem) => {
@@ -306,10 +309,9 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
       xmlns="http://www.w3.org/2000/svg" 
       viewBox="0 0 24 24" 
       aria-hidden="true" 
-      width="24" 
-      height="24"
+      focusable="false"
     >
-      <path d="m15.5 13.5 4-4c.2-.2.2-.6 0-.8l-.8-.8c-.2-.2-.6-.2-.8 0l-3.5 3.5L10.9 8c-.2-.2-.6-.2-.8 0l-.8.8c-.2.2-.2.6 0 .8l4 4c.2.2.6.2.8 0z" />
+      <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" />
     </svg>
   );
 
@@ -437,7 +439,7 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
           >
             <ul className="nhsuk-header__navigation-list" ref={navigationRef}>
               {/* Navigation items - SSR shows all, enhanced shows calculated visible items */}
-              {getVisibleNavigationItems().map((item, index) => (
+              {(!isClient || !isEnhanced ? navigation.items : navigation.items.slice(0, visibleItems)).map((item, index) => (
                 <li 
                   key={index}
                   className={classNames(
@@ -483,10 +485,11 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
       )}
 
       {/* Dropdown menu - only show when enhanced and open */}
-      {isEnhanced && menuOpen && dropdownVisible && getOverflowNavigationItems().length > 0 && (
+      {isEnhanced && navigation && navigation.items && navigation.items.length > 0 && menuOpen && dropdownVisible && (
         <div className="nhsuk-header__dropdown-menu">
           <ul className="nhsuk-header__dropdown-list">
-            {getOverflowNavigationItems().map((item, index) => (
+            {/* Show overflow items (items beyond visibleItems) */}
+            {navigation.items.slice(visibleItems).map((item, index) => (
               <li 
                 key={`overflow-${visibleItems + index}`}
                 className={classNames(

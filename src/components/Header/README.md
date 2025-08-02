@@ -1,17 +1,105 @@
-# Header Component
+# Header Components
 
 ## Overview
 
-The Header component provides navigation and branding for NHS services. It's a fully-featured navigation component that supports logos, service names, search functionality, account management, and main navigation with responsive behavior.
+This directory contains three different header implementations, each designed for specific use cases and SSR compatibility levels:
 
-## Features
+- **HeaderStatic**: True SSR-compatible with CSS-only responsive behavior
+- **HeaderSSR**: SSR-safe with progressive enhancement 
+- **Header**: Full client-side with complex responsive logic
+
+## Component Comparison
+
+| Component | SSR Compatible | JavaScript Required | Responsive Method | Use Case |
+|-----------|----------------|-------------------|------------------|----------|
+| **HeaderStatic** | ✅ True SSR | ❌ None | CSS-only | True SSR, high performance |
+| **HeaderSSR** | ⚠️ SSR-safe | ✅ Progressive | Client-side detection | SSR with enhancement |
+| **Header** | ❌ Client-only | ✅ Required | Complex JS logic | Client-side apps |
+
+## HeaderStatic (True SSR)
+
+**Perfect for**: True SSR applications, static sites, high-performance scenarios
+
+### Key Features:
+- ✅ Zero React hooks (useState, useRef, useEffect, useCallback)
+- ✅ Works without JavaScript  
+- ✅ CSS-only responsive behavior using media queries
+- ✅ Native HTML `<details>` element for dropdown
+- ✅ No hydration mismatches possible
+- ✅ Print-optimized styles included
+- ✅ Full accessibility without JavaScript
+
+### Usage:
+```tsx
+import { HeaderStatic } from '@nhs-fdp/design-system';
+
+<HeaderStatic
+  maxVisibleItems={5} // Controls when "More" dropdown appears
+  service={{ text: 'NHS App', href: '/' }}
+  navigation={{
+    items: [
+      { href: '/', text: 'Home', current: true },
+      { href: '/appointments', text: 'Appointments' },
+      // ... more items
+    ]
+  }}
+/>
+```
+
+## HeaderSSR (SSR-Safe with Progressive Enhancement)
+
+**Perfect for**: SSR applications that need client-side enhancements
+
+### Key Features:
+- ⚠️ Uses React hooks but in SSR-safe pattern
+- ✅ Server renders functional fallback
+- ✅ Client enhances with JavaScript
+- ✅ Progressive enhancement approach
+- ⚠️ Requires proper hydration matching
+
+## Header (Full Client-Side)
+
+**Perfect for**: Client-side React applications with complex needs
+
+### Key Features:
+- ❌ Not SSR compatible
+- ✅ Advanced responsive logic with ResizeObserver
+- ✅ Complex overflow detection
+- ✅ Media query listeners
+- ✅ Performance optimizations
+
+## When to Use Each Component
+
+### Use HeaderStatic when:
+- Building SSR applications (Next.js, Remix, etc.)
+- Performance is critical (zero JavaScript overhead)
+- JavaScript should be optional
+- SEO is important
+- Building static sites
+- Need guaranteed accessibility
+
+### Use HeaderSSR when:  
+- Need SSR but want client-side enhancements
+- Progressive enhancement is required
+- Some JavaScript functionality is beneficial
+- Bridging SSR and client-side needs
+
+### Use Header when:
+- Building client-side only apps (CRA, Vite)
+- Need complex responsive behavior
+- JavaScript is always available
+- Advanced interactive features required
+
+## Shared Features
+
+All header components provide:
 
 - **NHS Branding**: Official NHS logo with proper branding guidelines
 - **Flexible Navigation**: Support for main navigation items with current page indicators
 - **Search Integration**: Built-in search functionality with accessibility support
 - **Account Management**: User account navigation with icons and actions
 - **Organisation Support**: Special variant for NHS trusts and health organizations
-- **Responsive Design**: Mobile-first design with collapsible navigation
+- **Responsive Design**: Mobile-first design with appropriate navigation
 - **Accessibility**: Full ARIA support, keyboard navigation, and screen reader compatibility
 - **Design Tokens**: Complete integration with NHS design token system
 

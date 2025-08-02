@@ -1,0 +1,305 @@
+/* HeaderStatic.scss - True SSR-Compatible Header Styles
+ * 
+ * This stylesheet provides CSS-only responsive behavior for the HeaderStatic component.
+ * Key features:
+ * 1. No JavaScript required for responsive behavior
+ * 2. CSS-only dropdown using <details> element
+ * 3. Media query based responsive navigation
+ * 4. Works without any client-side hydration
+ * 5. Full integration with NHS FDP design tokens
+ */
+
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// HeaderStatic-specific variables using NHS design tokens
+$header-static-padding: nhs.$nhs-fdp-spacing-3;
+$header-static-border-radius: nhs.$nhs-fdp-border-radius-small;
+$header-static-dropdown-min-width: 200px;
+$header-static-dropdown-z-index: 1000;
+
+.nhsuk-header--static {
+  // Static header identifier for debugging
+  position: relative; // Ensure proper stacking context
+  
+  // Ensure consistent font family
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+}
+
+.nhsuk-header__navigation--static {
+  // Static navigation container
+  .nhsuk-header__navigation-container--static {
+    position: relative; // Ensure proper positioning for dropdowns
+  }
+
+  // Primary navigation list - always visible items
+  .nhsuk-header__navigation-list--primary {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    gap: nhs.$nhs-fdp-spacing-2;
+    
+    @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+  }
+
+  // Primary navigation items
+  .nhsuk-header__navigation-item--primary {
+    flex-shrink: 0;
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      &:last-child:not(.nhsuk-header__navigation-item--more) {
+        margin-right: 0;
+      }
+    }
+    
+    @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
+      border-bottom: 1px solid nhs.$nhs-fdp-color-grey-3;
+      
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  // Navigation links styling
+    // Navigation links base styles
+    .nhsuk-header__navigation-link {
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: nhs.$nhs-fdp-color-primary-white;
+
+      @include tools.mq($from: tablet) {
+        font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      }  // Current/active navigation item
+  .nhsuk-header__navigation-item--primary.nhsuk-header__navigation-item--current .nhsuk-header__navigation-link {
+    background-color: nhs.$nhs-fdp-semantic-color-active-header-link;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+  }
+
+  // "More" dropdown item - CSS-only implementation
+  .nhsuk-header__navigation-item--more {
+    position: relative;
+    margin-left: auto; // Push to the right
+    
+    // Hide on mobile - show all items instead
+    @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
+      display: none;
+    }
+  }
+
+  // CSS-only dropdown using <details> element
+  .nhsuk-header__navigation-details {
+    position: relative;
+    
+    // Summary styling (the "More" button)
+    .nhsuk-header__navigation-summary {
+      display: flex;
+      align-items: center;
+      padding: $header-static-padding;
+      background: transparent;
+      border: none;
+      color: nhs.$nhs-fdp-color-primary-white;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+      line-height: 1.1;
+      cursor: pointer;
+      list-style: none; // Remove default details arrow
+      transition: background-color 0.2s ease;
+      
+      @include tools.mq($from: tablet) {
+        font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      }
+      
+      &::-webkit-details-marker {
+        display: none; // Remove webkit default arrow
+      }
+      
+      &:hover {
+        background-color: nhs.$nhs-fdp-semantic-color-hover-header-link;
+      }
+      
+      &:focus {
+        outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+        outline-offset: -#{nhs.$nhs-fdp-focus-outline-width};
+        background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+        color: nhs.$nhs-fdp-semantic-color-focus-text;
+        box-shadow: inset 0 -#{nhs.$nhs-fdp-focus-outline-width} nhs.$nhs-fdp-semantic-color-focus-text;
+      }
+      
+      // Chevron icon
+      .nhsuk-icon__chevron-down {
+        width: nhs.$nhs-fdp-component-header-search-icon-size;
+        height: nhs.$nhs-fdp-component-header-search-icon-size;
+        margin-left: nhs.$nhs-fdp-spacing-1;
+        transition: transform 0.2s ease;
+      }
+    }
+    
+    // Rotate chevron when open
+    &[open] .nhsuk-header__navigation-summary .nhsuk-icon__chevron-down {
+      transform: rotate(180deg);
+    }
+    
+    // Dropdown menu
+    .nhsuk-header__navigation-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      min-width: $header-static-dropdown-min-width;
+      background: nhs.$nhs-fdp-color-primary-white;
+      border: 1px solid nhs.$nhs-fdp-color-grey-3;
+      border-radius: $header-static-border-radius;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin: 0;
+      margin-top: nhs.$nhs-fdp-spacing-1;
+      padding: 0;
+      list-style: none;
+      z-index: $header-static-dropdown-z-index;
+      
+      // Hide by default (details will handle showing)
+      display: block;
+      
+      // Dropdown items
+      .nhsuk-header__navigation-dropdown-item {
+        border-bottom: 1px solid nhs.$nhs-fdp-color-grey-3;
+        
+        &:last-child {
+          border-bottom: none;
+        }
+        
+        // Current item styling
+        &.nhsuk-header__navigation-dropdown-item--current {
+          background-color: nhs.$nhs-fdp-semantic-color-link-default;
+          
+          .nhsuk-header__navigation-dropdown-link {
+            color: nhs.$nhs-fdp-color-primary-white;
+            font-weight: nhs.$nhs-fdp-font-weight-bold;
+          }
+        }
+      }
+      
+      // Dropdown links
+      .nhsuk-header__navigation-dropdown-link {
+        display: block;
+        padding: $header-static-padding;
+        color: nhs.$nhs-fdp-semantic-color-link-default;
+        text-decoration: none;
+        font-weight: nhs.$nhs-fdp-font-weight-bold;
+        font-size: nhs.$nhs-fdp-font-size-16-mobile;
+        line-height: 1.1;
+        transition: background-color 0.2s ease;
+        
+        @include tools.mq($from: tablet) {
+          font-size: nhs.$nhs-fdp-font-size-16-tablet;
+        }
+        
+        &:hover {
+          background-color: nhs.$nhs-fdp-color-grey-5;
+          color: nhs.$nhs-fdp-semantic-color-link-default;
+        }
+        
+        &:focus {
+          outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+          outline-offset: -#{nhs.$nhs-fdp-focus-outline-width};
+          background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+          color: nhs.$nhs-fdp-semantic-color-focus-text;
+          box-shadow: inset 0 -#{nhs.$nhs-fdp-focus-outline-width} nhs.$nhs-fdp-semantic-color-focus-text;
+        }
+        
+        &:active {
+          background-color: nhs.$nhs-fdp-color-grey-3;
+        }
+      }
+    }
+  }
+}
+
+// Mobile-first responsive behavior
+@media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
+  .nhsuk-header__navigation--static {
+    // On mobile, show all navigation items without "More" dropdown
+    .nhsuk-header__navigation-item--more {
+      display: none; // Hide the "More" button
+    }
+    
+    // Show all items in a vertical list
+    .nhsuk-header__navigation-list--primary {
+      flex-direction: column;
+      
+      .nhsuk-header__navigation-item--primary {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Desktop responsive behavior
+@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+  .nhsuk-header__navigation--static {
+    // On desktop, use horizontal layout with overflow handling
+    .nhsuk-header__navigation-list--primary {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow: hidden; // Prevent horizontal scroll
+      
+      // Ensure primary items don't wrap
+      .nhsuk-header__navigation-item--primary {
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+      
+      // Show "More" button when there are overflow items
+      .nhsuk-header__navigation-item--more {
+        display: flex;
+      }
+    }
+  }
+}
+
+// Fallback for no-JavaScript scenario
+.no-js {
+  .nhsuk-header__navigation--static {
+    // Without JavaScript, show all items in a simple list
+    .nhsuk-header__navigation-item--more {
+      display: none;
+    }
+    
+    .nhsuk-header__navigation-list--primary {
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+        flex-wrap: wrap; // Allow wrapping if needed
+        gap: nhs.$nhs-fdp-spacing-1;
+      }
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .nhsuk-header__navigation--static {
+    .nhsuk-header__navigation-item--more {
+      display: none;
+    }
+    
+    .nhsuk-header__navigation-dropdown {
+      display: none;
+    }
+    
+    // Ensure all navigation items are visible in print
+    .nhsuk-header__navigation-list--primary {
+      flex-wrap: wrap;
+      
+      .nhsuk-header__navigation-item--primary {
+        .nhsuk-header__navigation-link {
+          color: nhs.$nhs-fdp-color-grey-1 !important;
+          background-color: transparent !important;
+        }
+      }
+    }
+  }
+}

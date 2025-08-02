@@ -45,6 +45,8 @@ export interface HeaderProps {
   containerClasses?: string;
   /** Header variant */
   variant?: 'default' | 'white' | 'organisation';
+  /** Maximum visible navigation items before showing "More" (for HeaderStatic) */
+  maxVisibleItems?: number;
   /** Additional HTML attributes */
   attributes?: Record<string, any>;
 }

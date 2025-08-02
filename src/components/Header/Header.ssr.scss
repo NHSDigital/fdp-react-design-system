@@ -64,7 +64,7 @@
       flex-shrink: 1;
       
       .nhsuk-header__navigation-link {
-        padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3; // 8px 16px using design tokens
+        padding: #{nhs.$nhs-fdp-spacing-2}+1 nhs.$nhs-fdp-spacing-3; // 8px 16px using design tokens
         font-size: nhs.$nhs-fdp-font-size-16-mobile;
         
         @media (min-width: nhs.$nhs-fdp-breakpoint-large) {

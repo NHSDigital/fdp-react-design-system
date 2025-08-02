@@ -113,7 +113,8 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 
 .nhsuk-header__container {
   // Mobile-first: Start with smallest screen styles
-  padding: nhs.$nhs-fdp-spacing-3 0;
+  // Ensure padding is ALWAYS set, never falls back to 0
+  padding: nhs.$nhs-fdp-spacing-3 0; // Default mobile padding: 16px top/bottom
   margin: 0 nhs.$nhs-fdp-spacing-2;
   display: flex;
   flex-direction: row;
@@ -125,11 +126,13 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-small} + 1px)) {
 	margin: 0 nhs.$nhs-fdp-spacing-4;
 	gap: nhs.$nhs-fdp-spacing-3; // Slightly larger gap
+	// Explicitly maintain mobile padding for this range
+	padding: nhs.$nhs-fdp-spacing-3 0; // 16px top/bottom
   }
   
-  // Medium devices and up (tablets and desktops) - allow wrapping until larger screens
+  // Medium devices and up (tablets and desktops) - increase padding
   @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	padding: nhs.$nhs-fdp-spacing-4 0;
+	padding: nhs.$nhs-fdp-spacing-4 0; // Larger padding: 24px top/bottom
 	margin: 0 nhs.$nhs-fdp-spacing-7;
 	gap: nhs.$nhs-fdp-spacing-4; // Full gap on larger screens
 	// Keep flex-wrap: wrap to allow wrapping on medium screens with tight layouts
@@ -139,9 +142,20 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   // Use xlarge breakpoint + spacing to determine when to center
   @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-xlarge} + #{nhs.$nhs-fdp-spacing-7} * 2)) {
 	max-width: nhs.$nhs-fdp-breakpoint-xlarge; // Constrain width to 1200px
-	padding: nhs.$nhs-fdp-spacing-4 0;
+	padding: nhs.$nhs-fdp-spacing-4 0; // Maintain larger padding: 24px top/bottom
 	margin: 0 auto; // Center the container
 	flex-wrap: nowrap;
+  }
+  
+  // Defensive CSS: Ensure padding never gets reset by external stylesheets
+  &.nhsuk-header__container {
+    padding-top: nhs.$nhs-fdp-spacing-3;
+    padding-bottom: nhs.$nhs-fdp-spacing-3;
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      padding-top: nhs.$nhs-fdp-spacing-4;
+      padding-bottom: nhs.$nhs-fdp-spacing-4;
+    }
   }
 }
 
@@ -385,6 +399,17 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 
   &:focus {
 	z-index: 10;
+	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+	outline-offset: 0;
+	background-color: nhs.$nhs-fdp-color-primary-white;
+	color: nhs.$nhs-fdp-semantic-color-focus-text;
+	border-color: nhs.$nhs-fdp-semantic-color-focus-text;
+	box-shadow: inset 0 0 0 2px nhs.$nhs-fdp-semantic-color-focus-text;
+  }
+
+  &:active {
+	border-color: nhs.$nhs-fdp-semantic-color-focus-text;
+	box-shadow: inset 0 0 0 2px nhs.$nhs-fdp-semantic-color-focus-text;
   }
 
   &::placeholder {
@@ -448,6 +473,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   max-width: nhs.$nhs-fdp-breakpoint-xlarge; // Constrain width to 1200px
   // Add proper vertical padding and match container margins
   margin: 0 nhs.$nhs-fdp-spacing-2;
+  overflow: hidden;
   
   // Small devices
   @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-small} + 1px)) {
@@ -758,9 +784,16 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   box-shadow: 0 -0.25px 0 0 nhs.$nhs-fdp-border-color-default;
   //position: relative;
 
-  // Hide navigation during initialization to prevent flash
+  // Prevent layout shift during initialization with subtle opacity transition
   &--initializing {
-    visibility: hidden;
+    opacity: 0.3;
+    transition: opacity #{nhs.$nhs-fdp-animation-duration-fast} ease-in-out;
+  }
+  
+  // Ensure smooth transition when initialization completes
+  &:not(&--initializing) {
+    opacity: 1;
+    transition: opacity #{nhs.$nhs-fdp-animation-duration-fast} ease-in-out;
   }
 
   @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {

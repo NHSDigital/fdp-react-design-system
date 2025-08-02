@@ -206,30 +206,54 @@ export const FullFeatured: Story = {
       ariaLabel: 'App navigation',
       items: [
         {
-          href: '/',
-          text: 'Home'
-        },
-        {
-          href: '#',
-          text: 'Your health',
-          current: true
-        },
-        {
-          href: '#',
-          text: 'Appointments'
-        },
-        {
-          href: '#',
-          text: 'Prescriptions'
-        },
-        {
-          href: '#',
-          text: 'Messages'
-        },
-        {
-          href: '#',
-          text: 'More'
-        }
+				href: '/',
+				text: 'Home',
+				current: true
+		},
+		{
+				href: '/services',
+				text: 'Services'
+		},
+		{
+				href: '/appointments',
+				text: 'Appointments'
+		},
+		{
+				href: '/prescriptions',
+				text: 'Prescriptions'
+		},
+		{
+				href: '/health-records',
+				text: 'Health records'
+		},
+		{
+				href: '/messages',
+				text: 'Messages'
+		},
+		{
+				href: '/symptoms',
+				text: 'Check symptoms'
+		},
+		{
+				href: '/conditions',
+				text: 'Health A-Z'
+		},
+		{
+				href: '/medicines',
+				text: 'Medicines A-Z'
+		},
+		{
+				href: '/live-well',
+				text: 'Live Well'
+		},
+		{
+				href: '/mental-health',
+				text: 'Mental health'
+		},
+		{
+				href: '/social-care',
+				text: 'Care and support'
+		}
       ]
     }
   },

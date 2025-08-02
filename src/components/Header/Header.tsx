@@ -1,8 +1,17 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import classNames from 'classnames';
 import './Header.scss';
+import './Header.ssr.scss'; // SSR fallback styles
 import { HeaderProps, AccountItem, NavigationItem } from './Header.types';
 
+/**
+ * SSR-compatible Header Component with Progressive Enhancement
+ * 
+ * This component is designed to work with Next.js SSR by:
+ * 1. Rendering a functional header on the server
+ * 2. Progressively enhancing with responsive overflow handling on the client
+ * 3. Providing fallback navigation that works without JavaScript
+ */
 export const Header: React.FC<HeaderProps> = ({
   className,
   logo = {},
@@ -16,22 +25,44 @@ export const Header: React.FC<HeaderProps> = ({
   attributes = {},
   ...props
 }) => {
+  // SSR-safe state initialization
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showMoreButton, setShowMoreButton] = useState(false); // Start with no More button
-  const [visibleItems, setVisibleItems] = useState<number>(navigation?.items?.length || 0); // Start with all items visible
-  const [isInitialized, setIsInitialized] = useState(false); // Track if overflow calculation is complete
-  const [isCalculating, setIsCalculating] = useState(false); // Prevent rapid recalculations
-  const [dropdownVisible, setDropdownVisible] = useState(false); // Separate state for dropdown visibility
+  const [showMoreButton, setShowMoreButton] = useState(false);
+  const [visibleItems, setVisibleItems] = useState<number>(navigation?.items?.length || 0);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [isClient, setIsClient] = useState(false); // Track if we're on client side
   
   const navigationRef = useRef<HTMLUListElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const overflowCheckRef = useRef<boolean>(false);
   const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const resizeObserverRef = useRef<ResizeObserver | null>(null);
-  const itemWidthsRef = useRef<number[]>([]);
-  const lastContainerWidthRef = useRef<number>(0);
-  const lastMobileStateRef = useRef<boolean>(false);
-  const moreButtonWidthRef = useRef<number>(0);
+  const navigationItemsRef = useRef<NavigationItem[]>([]);
+  const lastBreakpointRef = useRef<boolean | null>(null); // Track breakpoint changes
+
+  // Simple initialization effect - runs once
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    setIsClient(true);
+    setIsInitialized(true); // Just mark as initialized immediately
+  }, []); // Run once on mount
+
+  // Simple effect to run overflow check when client loads and navigation changes
+  useEffect(() => {
+    if (!isClient || !navigation?.items?.length) return;
+    
+    navigationItemsRef.current = navigation.items;
+    
+    // Simple timeout to run overflow check
+    const timer = setTimeout(() => {
+      if (navigationRef.current && containerRef.current) {
+        checkOverflow();
+      }
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [isClient, navigation?.items]);
 
   // Determine if logo and service name should be combined into single link
   // Following NHS.UK logic exactly
@@ -45,6 +76,7 @@ export const Header: React.FC<HeaderProps> = ({
     'nhsuk-header',
     {
       'nhsuk-header--organisation': variant === 'organisation' || organisation,
+      'nhsuk-header--white': variant === 'white',
     },
     className
   );
@@ -57,150 +89,62 @@ export const Header: React.FC<HeaderProps> = ({
 
   const navigationClasses = classNames(
     'nhsuk-header__navigation',
+    {
+      'nhsuk-header__navigation--white': navigation?.white,
+      'nhsuk-header__navigation--justified': navigation?.justified,
+    },
     navigation?.className
   );
 
-  // Handle escape key to close menu
-  useEffect(() => {
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && menuOpen) {
-        setMenuOpen(false);
-      }
-    };
-
-    if (menuOpen) {
-      document.addEventListener('keydown', handleEscapeKey);
-      return () => document.removeEventListener('keydown', handleEscapeKey);
-    }
-  }, [menuOpen]);
-
-  // Mobile detection and overflow detection
+  // Simple overflow detection function
   const checkOverflow = useCallback(() => {
-    if (overflowCheckRef.current || !navigation?.items || isCalculating) {
-      return;
-    }
-
-    // Wait for refs to be available
-    if (!navigationRef.current || !containerRef.current) {
-      // Retry after a short delay if refs aren't ready
-      setTimeout(() => checkOverflow(), 10);
-      return;
-    }
+    if (typeof window === 'undefined' || overflowCheckRef.current) return;
+    if (!navigationRef.current || !containerRef.current || !navigationItemsRef.current.length) return;
 
     overflowCheckRef.current = true;
-    setIsCalculating(true);
 
     try {
-      const nav = navigationRef.current;
       const container = containerRef.current;
-      
-      if (!nav || !container || !navigation?.items) {
-        overflowCheckRef.current = false;
-        return;
-      }
-
-      // Get container width
+      const nav = navigationRef.current;
       const containerWidth = container.offsetWidth;
-      const mobile = window.innerWidth < 768;
-      
-      // Skip expensive calculations if container width hasn't changed significantly
-      // Use container width for width difference, not window width
-      const widthDifference = Math.abs(containerWidth - (lastContainerWidthRef.current || 0));
-      const hasItemsChanged = itemWidthsRef.current.length !== navigation.items.length;
-      
-      // Force recalculation on mobile to desktop transitions (or vice versa)
-      // Use dedicated mobile state tracking
-      const breakpointChanged = mobile !== lastMobileStateRef.current;
-      
-      // Use a smaller tolerance during active resizing for better responsiveness
-      const tolerance = isInitialized ? 15 : 5; // Increased tolerance for container width changes
-      
-      if (!hasItemsChanged && !breakpointChanged && widthDifference < tolerance && itemWidthsRef.current.length > 0 && isInitialized) {
-        // Use cached measurements for performance
-        const cachedItemWidths = itemWidthsRef.current;
-        const totalWidth = cachedItemWidths.reduce((sum, width) => sum + width, 0);
-        const moreButtonWidth = moreButtonWidthRef.current || (mobile ? 80 : 100);
-        
-        if (totalWidth <= containerWidth) {
-          setShowMoreButton(false);
-          setVisibleItems(navigation.items.length);
-          setIsInitialized(true);
-        } else {
-          const availableWidth = containerWidth - moreButtonWidth;
-          let itemsToShow = 0;
-          let runningWidth = 0;
-          
-          for (let i = 0; i < cachedItemWidths.length; i++) {
-            const newWidth = runningWidth + cachedItemWidths[i];
-            if (newWidth <= availableWidth) {
-              runningWidth = newWidth;
-              itemsToShow = i + 1;
-            } else {
-              break;
-            }
-          }
-          
-          itemsToShow = mobile ? Math.max(0, itemsToShow) : Math.max(1, itemsToShow);
-          setShowMoreButton(true);
-          setVisibleItems(itemsToShow);
-          setIsInitialized(true);
-        }
-        
-        overflowCheckRef.current = false;
-        setIsCalculating(false);
-        return;
-      }
-      
-      // Update cached container width and mobile state
-      lastContainerWidthRef.current = containerWidth;
-      lastMobileStateRef.current = mobile;
-      
-      // Use ResizeObserver if available for more efficient measurements
-      if (window.ResizeObserver && !hasItemsChanged && itemWidthsRef.current.length > 0) {
-        // Skip expensive DOM queries if we have cached measurements
-        overflowCheckRef.current = false;
-        return;
-      }
-      
-      // Only do expensive DOM measurements when necessary
       const navItems = nav.querySelectorAll('.nhsuk-header__navigation-item:not(.nhsuk-header__navigation-item--more)');
       
-      if (navItems.length === 0) {
+      if (navItems.length === 0 || containerWidth === 0) {
         overflowCheckRef.current = false;
         return;
       }
 
-      // Batch DOM reads to avoid layout thrashing
-      const measurements = Array.from(navItems).map((item) => {
-        const itemElement = item as HTMLElement;
-        return itemElement.offsetWidth;
+      // Account for NHS width-container margins (gutters)
+      const mobile = window.innerWidth < 768;
+      const gutterSize = mobile ? 16 : 32; // Half gutter on mobile, full gutter on desktop
+      const totalGutters = gutterSize * 2; // Left and right gutters
+      const availableContainerWidth = containerWidth - totalGutters;
+
+      const measurements = Array.from(navItems).map(item => (item as HTMLElement).offsetWidth);
+      const totalWidth = measurements.reduce((sum, width) => sum + width, 0);
+      const moreButtonWidth = mobile ? 80 : 100;
+      
+      // Check if breakpoint changed
+      const breakpointChanged = lastBreakpointRef.current !== null && lastBreakpointRef.current !== mobile;
+      lastBreakpointRef.current = mobile;
+      
+      console.log('Overflow check:', {
+        containerWidth,
+        availableContainerWidth,
+        totalGutters,
+        gutterSize,
+        totalWidth,
+        mobile,
+        breakpointChanged,
+        itemCount: measurements.length,
+        measurements
       });
       
-      // Cache the measurements
-      itemWidthsRef.current = measurements;
-      const totalWidth = measurements.reduce((sum, width) => sum + width, 0);
-      
-      // Measure More button width only once per breakpoint
-      if (!moreButtonWidthRef.current || breakpointChanged) {
-        moreButtonWidthRef.current = mobile ? 80 : 100;
-      }
-      const moreButtonWidth = moreButtonWidthRef.current;
-      
-      // Perform calculations without triggering reflows
-      if (totalWidth <= containerWidth) {
-        // All items fit, no More button needed
-        // Batch state updates
-        requestAnimationFrame(() => {
-          setShowMoreButton(false);
-          setVisibleItems(navigation.items?.length || 0);
-          setIsInitialized(true);
-          setIsCalculating(false);
-        });
+      if (totalWidth <= availableContainerWidth) {
+        setShowMoreButton(false);
+        setVisibleItems(navigationItemsRef.current.length);
       } else {
-        // Items overflow, need More button
-        const availableWidth = containerWidth - moreButtonWidth;
-        
-        // Find how many items can fit
+        const availableWidth = availableContainerWidth - moreButtonWidth;
         let itemsToShow = 0;
         let runningWidth = 0;
         
@@ -213,198 +157,111 @@ export const Header: React.FC<HeaderProps> = ({
             break;
           }
         }
-
-        // On mobile with very narrow screens, force More button if we have multiple items
-        if (mobile && containerWidth < 400 && navigation.items.length > 1) {
-          itemsToShow = Math.min(1, itemsToShow);
-        }
         
-        // Always show at least 1 item on desktop, allow 0 on mobile if needed
-        itemsToShow = mobile ? Math.max(0, itemsToShow) : Math.max(1, itemsToShow);
+        itemsToShow = Math.max(1, itemsToShow);
+        const shouldShowMore = itemsToShow < measurements.length;
         
-        // Batch state updates
-        requestAnimationFrame(() => {
-          setShowMoreButton(true);
-          setVisibleItems(itemsToShow);
-          setIsInitialized(true);
-          setIsCalculating(false);
-        });
+        setShowMoreButton(shouldShowMore);
+        setVisibleItems(itemsToShow);
       }
       
       overflowCheckRef.current = false;
-      setIsCalculating(false);
       
     } catch (error) {
-      console.warn('Overflow detection error:', error);
-      // Fallback: show all items without More button
-      requestAnimationFrame(() => {
-        setShowMoreButton(false);
-        setVisibleItems(navigation?.items?.length || 0);
-        setIsInitialized(true);
-        setIsCalculating(false);
-      });
+      console.error('Overflow detection error:', error);
+      setShowMoreButton(false);
+      setVisibleItems(navigationItemsRef.current.length);
       overflowCheckRef.current = false;
     }
-  }, [navigation?.items, isInitialized, isCalculating]);
+  }, []); // Stable function
 
-  const checkLayout = useCallback(() => {
-    // Close menu on resize to prevent issues
-    if (menuOpen) {
-      setMenuOpen(false);
-      setDropdownVisible(false);
-    }
-
-    // Check overflow on both mobile and desktop
-    if (navigation?.items && navigation.items.length > 0) {
-      checkOverflow();
-    }
-  }, [menuOpen, navigation?.items, checkOverflow]);
-
+  // SSR-safe escape key handler
   useEffect(() => {
-    // Prevent rapid re-execution
-    if (isCalculating) {
-      return;
-    }
-
-    // Initial check - run immediately for better performance
-    if (navigation?.items && navigation.items.length > 0) {
-      // Use multiple strategies to ensure DOM is ready
-      const runInitialCheck = () => {
-        if (navigationRef.current && containerRef.current && !isCalculating) {
-          checkLayout();
-        } else if (!isCalculating) {
-          // Retry if refs aren't ready
-          setTimeout(runInitialCheck, 10);
-        }
-      };
-      
-      // Try immediate execution
-      runInitialCheck();
-      
-      // Also try with requestAnimationFrame
-      requestAnimationFrame(() => {
-        runInitialCheck();
-      });
-      
-      // And a fallback with timeout
-      setTimeout(() => {
-        runInitialCheck();
-      }, 100);
-    }
+    // Only run on client side
+    if (typeof document === 'undefined') return;
     
-    // Enhanced resize handling with multiple strategies
-    const handleResize = (immediate = false) => {
-      // Clear existing timeout if setting a new one
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && menuOpen) {
+        setMenuOpen(false);
+      }
+    };
+
+    if (menuOpen) {
+      document.addEventListener('keydown', handleEscapeKey);
+      return () => document.removeEventListener('keydown', handleEscapeKey);
+    }
+  }, [menuOpen]);
+
+  // Enhanced resize handling with breakpoint detection
+  useEffect(() => {
+    if (typeof window === 'undefined' || !isClient) return;
+    
+    const handleResize = () => {
+      // Close menu on resize
+      if (menuOpen) {
+        setMenuOpen(false);
+        setDropdownVisible(false);
+      }
+      
+      // Simple debounced overflow check
       if (resizeTimeoutRef.current) {
         clearTimeout(resizeTimeoutRef.current);
       }
-
-      if (immediate) {
-        // For critical resizes (like orientation change), run immediately
-        checkLayout();
-      } else {
-        // Use different debounce times based on the situation
-        const debounceTime = menuOpen ? 50 : 150; // Faster when menu is open
-        resizeTimeoutRef.current = setTimeout(checkLayout, debounceTime);
-      }
+      
+      resizeTimeoutRef.current = setTimeout(() => {
+        if (navigationItemsRef.current.length > 0) {
+          checkOverflow();
+        }
+      }, 250);
     };
 
-    // Window resize listener for general viewport changes
-    const handleWindowResize = () => {
-      handleResize(false);
-    };
-
-    // Orientation change should trigger immediate resize
-    const handleOrientationChange = () => {
-      // Wait for orientation change to complete
-      setTimeout(() => handleResize(true), 100);
-    };
-
-    // Set up ResizeObserver for more efficient container monitoring
-    const setupResizeObserver = () => {
-      if (typeof ResizeObserver !== 'undefined' && containerRef.current && !resizeObserverRef.current) {
-        resizeObserverRef.current = new ResizeObserver((entries) => {
-          for (const entry of entries) {
-            // Check if the container width actually changed significantly
-            const newWidth = entry.contentRect.width;
-            const currentWidth = lastContainerWidthRef.current || 0;
-            const widthDifference = Math.abs(newWidth - currentWidth);
-            
-            if (widthDifference > 5) { // Only respond to meaningful changes
-              handleResize(false);
-            }
-          }
-        });
-        
-        resizeObserverRef.current.observe(containerRef.current);
-      }
-    };
-
-    // Try to set up ResizeObserver immediately and also after a delay
-    setupResizeObserver();
-    setTimeout(setupResizeObserver, 100);
-
-    // Fallback window resize listeners
-    window.addEventListener('resize', handleWindowResize);
-    window.addEventListener('orientationchange', handleOrientationChange);
-    
-    // Listen for page visibility changes (user switching tabs, etc.)
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        // Page became visible, check if layout needs updating
-        setTimeout(() => handleResize(true), 50);
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    
-    // Listen for CSS media query changes (mobile/desktop transitions)
+    // Handle breakpoint changes using media query
     let mediaQueryList: MediaQueryList | null = null;
-    let handleMediaQueryChange: (() => void) | null = null;
+    let handleBreakpointChange: (() => void) | null = null;
     
     if (window.matchMedia) {
       mediaQueryList = window.matchMedia('(max-width: 767px)');
-      handleMediaQueryChange = () => {
-        // Breakpoint change should trigger immediate recalculation
-        handleResize(true);
+      handleBreakpointChange = () => {
+        console.log('Breakpoint changed:', mediaQueryList?.matches ? 'mobile' : 'desktop');
+        // Immediate check on breakpoint change
+        if (navigationItemsRef.current.length > 0) {
+          // Small delay to let layout settle
+          setTimeout(() => checkOverflow(), 50);
+        }
       };
       
-      // Use the newer addEventListener if available, fallback to addListener
       if (mediaQueryList.addEventListener) {
-        mediaQueryList.addEventListener('change', handleMediaQueryChange);
+        mediaQueryList.addEventListener('change', handleBreakpointChange);
       } else {
-        mediaQueryList.addListener(handleMediaQueryChange);
+        mediaQueryList.addListener(handleBreakpointChange);
       }
     }
+
+    window.addEventListener('resize', handleResize);
+    
     return () => {
-      // Cleanup resize observer
-      if (resizeObserverRef.current) {
-        resizeObserverRef.current.disconnect();
-        resizeObserverRef.current = null;
-      }
-      
-      // Cleanup window listeners
-      window.removeEventListener('resize', handleWindowResize);
-      window.removeEventListener('orientationchange', handleOrientationChange);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('resize', handleResize);
       
       // Cleanup media query listener
-      if (mediaQueryList && handleMediaQueryChange) {
+      if (mediaQueryList && handleBreakpointChange) {
         if (mediaQueryList.removeEventListener) {
-          mediaQueryList.removeEventListener('change', handleMediaQueryChange);
+          mediaQueryList.removeEventListener('change', handleBreakpointChange);
         } else {
-          mediaQueryList.removeListener(handleMediaQueryChange);
+          mediaQueryList.removeListener(handleBreakpointChange);
         }
       }
       
-      // Cleanup timeout
       if (resizeTimeoutRef.current) {
         clearTimeout(resizeTimeoutRef.current);
       }
     };
-  }, [navigation?.items, isCalculating]); // Add isCalculating to prevent rapid re-runs
+  }, [isClient, menuOpen, checkOverflow]);
 
-  // Close menu when clicking outside
+  // SSR-safe click outside handler
   useEffect(() => {
+    // Only run on client side
+    if (typeof document === 'undefined') return;
+    
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
       const isInsideNavigation = navigationRef.current?.contains(target);
@@ -415,118 +272,11 @@ export const Header: React.FC<HeaderProps> = ({
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [menuOpen]);
-
-  // Separate useEffect for resize handling to prevent re-render loops
-  useEffect(() => {
-    // Enhanced resize handling with multiple strategies
-    const handleResize = (immediate = false) => {
-      // Don't resize if already calculating
-      if (isCalculating) return;
-      
-      // Clear existing timeout if setting a new one
-      if (resizeTimeoutRef.current) {
-        clearTimeout(resizeTimeoutRef.current);
-      }
-
-      if (immediate) {
-        // For critical resizes (like orientation change), run immediately
-        checkLayout();
-      } else {
-        // Use different debounce times based on the situation
-        const debounceTime = menuOpen ? 50 : 300; // Slower debounce to prevent flashing
-        resizeTimeoutRef.current = setTimeout(checkLayout, debounceTime);
-      }
-    };
-
-    // Window resize listener for general viewport changes
-    const handleWindowResize = () => {
-      handleResize(false);
-    };
-
-    // Orientation change should trigger immediate resize
-    const handleOrientationChange = () => {
-      // Wait for orientation change to complete
-      setTimeout(() => handleResize(true), 100);
-    };
-
-    // Set up ResizeObserver for more efficient container monitoring
-    const setupResizeObserver = () => {
-      if (typeof ResizeObserver !== 'undefined' && containerRef.current && !resizeObserverRef.current) {
-        resizeObserverRef.current = new ResizeObserver((entries) => {
-          for (const entry of entries) {
-            // Check if the container width actually changed significantly
-            const newWidth = entry.contentRect.width;
-            const currentWidth = lastContainerWidthRef.current || 0;
-            const widthDifference = Math.abs(newWidth - currentWidth);
-            
-            if (widthDifference > 15 && !isCalculating) { // Larger threshold and check if calculating
-              handleResize(false);
-            }
-          }
-        });
-        
-        resizeObserverRef.current.observe(containerRef.current);
-      }
-    };
-
-    // Try to set up ResizeObserver immediately and also after a delay
-    setupResizeObserver();
-    setTimeout(setupResizeObserver, 100);
-
-    // Fallback window resize listeners
-    window.addEventListener('resize', handleWindowResize);
-    window.addEventListener('orientationchange', handleOrientationChange);
-    
-    // Listen for CSS media query changes (mobile/desktop transitions)
-    let mediaQueryList: MediaQueryList | null = null;
-    let handleMediaQueryChange: (() => void) | null = null;
-    
-    if (window.matchMedia) {
-      mediaQueryList = window.matchMedia('(max-width: 767px)');
-      handleMediaQueryChange = () => {
-        // Breakpoint change should trigger immediate recalculation
-        if (!isCalculating) {
-          handleResize(true);
-        }
-      };
-      
-      // Use the newer addEventListener if available, fallback to addListener
-      if (mediaQueryList.addEventListener) {
-        mediaQueryList.addEventListener('change', handleMediaQueryChange);
-      } else {
-        mediaQueryList.addListener(handleMediaQueryChange);
-      }
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
     }
-
-    return () => {
-      // Cleanup resize observer
-      if (resizeObserverRef.current) {
-        resizeObserverRef.current.disconnect();
-        resizeObserverRef.current = null;
-      }
-      
-      // Cleanup window listeners
-      window.removeEventListener('resize', handleWindowResize);
-      window.removeEventListener('orientationchange', handleOrientationChange);
-      
-      // Cleanup media query listener
-      if (mediaQueryList && handleMediaQueryChange) {
-        if (mediaQueryList.removeEventListener) {
-          mediaQueryList.removeEventListener('change', handleMediaQueryChange);
-        } else {
-          mediaQueryList.removeListener(handleMediaQueryChange);
-        }
-      }
-      
-      // Cleanup timeout
-      if (resizeTimeoutRef.current) {
-        clearTimeout(resizeTimeoutRef.current);
-      }
-    };
-  }, [checkLayout, isCalculating, menuOpen]); // Include necessary dependencies
+  }, [menuOpen]);
 
   const toggleMenu = (event?: React.MouseEvent) => {
     if (event) {
@@ -661,9 +411,13 @@ export const Header: React.FC<HeaderProps> = ({
           action={item.action} 
           method={item.method || "post"}
         >
-          <a className="nhsuk-header__account-button">
+          <button 
+            className="nhsuk-header__account-button"
+            type="submit"
+            role="button"
+          >
             {content}
-          </a>
+          </button>
         </form>
       );
     }
@@ -806,8 +560,8 @@ export const Header: React.FC<HeaderProps> = ({
         )}
       </div>
 
-      {/* Navigation - following NHS.UK structure with overflow functionality */}
-      {navigation && navigation.items && navigation.items.length > 0 && (
+      {/* Navigation - SSR-safe with progressive enhancement */}
+      { navigation && navigation.items && navigation.items.length > 0 && (
         <nav 
           className={navigationClasses} 
           aria-label={navigation.ariaLabel || "Menu"}
@@ -817,21 +571,23 @@ export const Header: React.FC<HeaderProps> = ({
               'nhsuk-header__navigation-container', 
               'nhsuk-width-container',
               {
-                'nhsuk-header__navigation-container--initializing': !isInitialized
+                'nhsuk-header__navigation-container--initializing': !isInitialized && isClient,
+                'nhsuk-header__navigation-container--ssr': !isClient
               },
               containerClasses
             )}
             ref={containerRef}
           >
             <ul className="nhsuk-header__navigation-list" ref={navigationRef}>
-              {/* Visible navigation items (responsive based on available space) */}
-              {navigation.items.slice(0, visibleItems).map((item, index) => (
+              {/* SSR Fallback: Show all navigation items on server, enhance on client */}
+              {(!isClient ? navigation.items : navigation.items.slice(0, visibleItems)).map((item, index) => (
                 <li 
                   key={index}
                   className={classNames(
                     'nhsuk-header__navigation-item',
                     {
                       'nhsuk-header__navigation-item--current': item.active || item.current,
+                      'nhsuk-header__navigation-item--ssr-fallback': !isClient && index >= 4 // Mark items that would be hidden on client
                     },
                     item.className
                   )}
@@ -849,21 +605,20 @@ export const Header: React.FC<HeaderProps> = ({
                 </li>
               ))}
               
-              {/* More button for overflow items (both mobile and desktop) */}
-              {showMoreButton && visibleItems < navigation.items.length && (
+              {/* More button - only show on client after overflow calculation */}
+              {isClient && showMoreButton && visibleItems < navigation.items.length && (
                 <li 
                   className="nhsuk-header__navigation-item nhsuk-header__navigation-item--more"
                 >
-                  <button
+                  <a
                     className="nhsuk-header__navigation-button"
                     id="toggle-more-menu"
-                    aria-expanded={menuOpen}
                     onClick={toggleMenu}
                     type="button"
                   >
                     <span>More</span>
                     {renderChevronIcon()}
-                  </button>
+                  </a>
                 </li>
               )}
             </ul>
@@ -871,8 +626,8 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
       )}
 
-      {/* Full-width dropdown menu - positioned outside navigation container for true full-width */}
-      {navigation && navigation.items && navigation.items.length > 0 && menuOpen && dropdownVisible && (
+      {/* Full-width dropdown menu - only show on client with JavaScript */}
+      {isClient && navigation && navigation.items && navigation.items.length > 0 && menuOpen && dropdownVisible && (
         <div 
           className="nhsuk-header__dropdown-menu" 
           hidden={!dropdownVisible}

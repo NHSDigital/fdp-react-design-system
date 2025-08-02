@@ -1,0 +1,118 @@
+/**
+ * NHS Header SSR Support Styles
+ * 
+ * These styles provide progressive enhancement for SSR scenarios:
+ * 1. Server-side: Show all navigation items in a simple layout
+ * 2. Client-side: Hide overflow items and show responsive behavior
+ */
+
+// Import NHS FDP design tokens
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+/* SSR Fallback Navigation Container */
+.nhsuk-header__navigation-container--ssr {
+  /* On server-side, show a simple horizontal layout */
+  .nhsuk-header__navigation-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: nhs.$nhs-fdp-spacing-2; // 8px gap using design token
+    
+    /* On narrow screens, show items vertically */
+    @media (max-width: nhs.$nhs-fdp-breakpoint-medium) {
+      flex-direction: column;
+      max-width: 100%;
+    }
+  }
+}
+
+/* SSR Fallback Navigation Items */
+.nhsuk-header__navigation-item--ssr-fallback {
+  /* Hide items that would typically be in overflow on smaller screens */
+  @media (max-width: nhs.$nhs-fdp-breakpoint-large) {
+    display: none;
+  }
+  
+  /* Show with reduced priority styling */
+  .nhsuk-header__navigation-link {
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    opacity: 0.9;
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    }
+  }
+}
+
+/* Progressive Enhancement Indicator */
+.nhsuk-header__navigation-container--initializing {
+  /* Subtle loading state while JavaScript calculates overflow */
+  opacity: 0.95;
+  transition: opacity nhs.$nhs-fdp-animation-duration-fast ease-in-out;
+}
+
+/* No-JS Fallback Styles */
+.no-js {
+  .nhsuk-header__navigation-container {
+    /* Ensure all navigation items are visible without JavaScript */
+    .nhsuk-header__navigation-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: nhs.$nhs-fdp-spacing-1; // 4px gap using design token
+    }
+    
+    .nhsuk-header__navigation-item {
+      flex-shrink: 1;
+      
+      .nhsuk-header__navigation-link {
+        padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3; // 8px 16px using design tokens
+        font-size: nhs.$nhs-fdp-font-size-16-mobile;
+        
+        @media (min-width: nhs.$nhs-fdp-breakpoint-large) {
+          padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4; // 16px 24px for larger screens
+          font-size: nhs.$nhs-fdp-font-size-16-tablet;
+          display: block;
+          width: 100%;
+        }
+      }
+    }
+    
+    /* Hide interactive elements that require JavaScript */
+    .nhsuk-header__navigation-item--more,
+    .nhsuk-header__dropdown-menu {
+      display: none !important;
+    }
+  }
+}
+
+/* Enhanced Responsive Design for SSR */
+@media (max-width: 960px) {
+  .nhsuk-header__navigation-container--ssr {
+    .nhsuk-header__navigation-item--ssr-fallback:nth-child(n+4) {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .nhsuk-header__navigation-container--ssr {
+    .nhsuk-header__navigation-list {
+      flex-direction: column;
+    }
+    
+    .nhsuk-header__navigation-item--ssr-fallback:nth-child(n+3) {
+      display: none;
+    }
+  }
+}
+
+/* Print Styles - Show all navigation for accessibility */
+@media print {
+  .nhsuk-header__navigation-item--ssr-fallback {
+    display: block !important;
+  }
+  
+  .nhsuk-header__navigation-item--more,
+  .nhsuk-header__dropdown-menu {
+    display: none !important;
+  }
+}

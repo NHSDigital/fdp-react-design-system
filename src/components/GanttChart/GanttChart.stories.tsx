@@ -3,7 +3,7 @@ import { GanttChart } from './GanttChart';
 import { Resource, Task } from './TaskBar';
 
 const meta: Meta<typeof GanttChart> = {
-  title: 'NHS/Components/GanttChart',
+  title: 'NHS/Data/GanttChart',
   component: GanttChart,
   parameters: {
     layout: 'fullscreen',

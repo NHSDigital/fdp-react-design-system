@@ -32,10 +32,10 @@ $card-border-hover-color: nhs.$nhs-fdp-card-border-hover;
 }
 
 .nhsuk-card__content {
-  padding: nhs.$nhs-fdp-spacing-5; // 24px
+  padding: nhs.$nhs-fdp-component-card-padding-mobile;
 
   @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-    padding: nhs.$nhs-fdp-spacing-5;
+    padding: nhs.$nhs-fdp-component-card-padding-desktop;
   }
 
   // Remove top/bottom padding from first/last child elements
@@ -49,7 +49,7 @@ $card-border-hover-color: nhs.$nhs-fdp-card-border-hover;
 }
 
 .nhsuk-card__heading {
-  margin-bottom: nhs.$nhs-fdp-spacing-3; // 12px
+  margin-bottom: nhs.$nhs-fdp-component-card-heading-margin;
   font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
   font-weight: nhs.$nhs-fdp-font-weight-bold;
   line-height: nhs.$nhs-fdp-font-line-height-base;

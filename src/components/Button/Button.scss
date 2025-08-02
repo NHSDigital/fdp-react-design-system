@@ -65,9 +65,13 @@
 	// Also covers .nhs-aria-button--default case
 	&,
 	&--default {
-		padding: 8px 16px;
+		padding: nhs.$nhs-fdp-component-button-padding-mobile-vertical nhs.$nhs-fdp-component-button-padding-mobile-horizontal;
 		font-size: 16px;
 		min-height: 44px;
+
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			padding: nhs.$nhs-fdp-component-button-padding-desktop-vertical nhs.$nhs-fdp-component-button-padding-desktop-horizontal;
+		}
 	}
 
 	&[data-focused] {

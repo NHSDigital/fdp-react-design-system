@@ -96,7 +96,7 @@
     &::before {
       border-color: transparent transparent transparent nhs.$nhs-fdp-semantic-color-text-primary;
       border-style: solid;
-      border-width: nhs.$nhs-fdp-border-width-form-element 0 nhs.$nhs-fdp-border-width-form-element nhs.$nhs-fdp-border-width-form-element;
+      border-width: nhs.$nhs-fdp-border-radius-medium 0 nhs.$nhs-fdp-border-radius-medium nhs.$nhs-fdp-border-radius-large;
       bottom: 0;
       content: "";
       height: 0;
@@ -110,7 +110,7 @@
     .nhsuk-details[open] > & {
       &::before {
         border-color: nhs.$nhs-fdp-semantic-color-text-primary transparent transparent transparent;
-        border-width: nhs.$nhs-fdp-border-width-form-element nhs.$nhs-fdp-border-width-form-element 0 nhs.$nhs-fdp-border-width-form-element;
+        border-width: nhs.$nhs-fdp-border-radius-large nhs.$nhs-fdp-border-radius-medium 0 nhs.$nhs-fdp-border-radius-medium; // [4]
       }
     }
   }

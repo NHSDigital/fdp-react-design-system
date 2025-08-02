@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { DoDontList } from '.';
 
 const meta: Meta<typeof DoDontList> = {
-  title: 'Components/Interactive/DoDontList',
+  title: 'NHS/Content/DoDontList',
   component: DoDontList,
   parameters: {
     docs: {

@@ -148,7 +148,7 @@
 			&[data-pressed] {
 				background-color: nhs.$nhs-fdp-semantic-color-button-reverse-active;
 				border-color: nhs.$nhs-fdp-semantic-color-button-reverse-active;
-				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 transparent;
 			}
 		}
 	}

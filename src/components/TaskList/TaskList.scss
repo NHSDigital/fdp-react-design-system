@@ -2,7 +2,7 @@
 
 // NHS pages have a grey background, so we need a slightly darker colour for the hover
 // This produces 1.1:1 contrast, the same as NHS UK's
-$task-list-hover-color: #e8edee; // Calculated from NHS grey-5 with adjusted lightness
+$task-list-hover-color: nhs.$nhs-fdp-semantic-color-hover-subtle; // Calculated from NHS grey-5 with adjusted lightness
 
 .nhsuk-task-list {
   margin-top: 0;
@@ -28,9 +28,9 @@ $task-list-hover-color: #e8edee; // Calculated from NHS grey-5 with adjusted lig
   position: relative;
   width: 100%;
   margin-bottom: 0;
-  // Add padding with spacing tokens plus 4px for visual balance
-  padding-top: calc(#{nhs.$nhs-fdp-spacing-2} + 4px);
-  padding-bottom: calc(#{nhs.$nhs-fdp-spacing-2} + 4px);
+  // Add padding with spacing tokens plus adjustment for visual balance
+  padding-top: calc(#{nhs.$nhs-fdp-spacing-2} + #{nhs.$nhs-fdp-component-task-padding-adjustment});
+  padding-bottom: calc(#{nhs.$nhs-fdp-spacing-2} + #{nhs.$nhs-fdp-component-task-padding-adjustment});
   border-bottom: 1px solid nhs.$nhs-fdp-border-color-default;
 }
 
@@ -67,7 +67,7 @@ $task-list-hover-color: #e8edee; // Calculated from NHS grey-5 with adjusted lig
   padding-bottom: nhs.$nhs-fdp-spacing-1;
   padding-left: nhs.$nhs-fdp-spacing-2;
   // Add padding to match tag spacing
-  padding-top: calc(#{nhs.$nhs-fdp-spacing-1} + 2px);
+  padding-top: calc(#{nhs.$nhs-fdp-spacing-1} + #{nhs.$nhs-fdp-component-tag-padding-adjustment});
   text-decoration: none;
   font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
   font-size: nhs.$nhs-fdp-font-size-16-mobile;

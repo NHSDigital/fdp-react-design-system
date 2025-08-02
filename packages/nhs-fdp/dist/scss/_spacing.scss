@@ -22,6 +22,28 @@ $nhs-fdp-component-breadcrumb-padding-top-desktop: 24px; // Top padding for brea
 $nhs-fdp-component-summary-list-cell-padding-vertical: 8px; // Top and bottom padding for summary list cells
 $nhs-fdp-component-summary-list-cell-padding-horizontal: 24px; // Right padding for summary list cells
 $nhs-fdp-component-summary-list-row-margin: 16px; // Bottom margin for summary list rows on mobile
+$nhs-fdp-component-disclosure-icon-offset: 20px; // Standard spacing for disclosure component icon offset
+$nhs-fdp-component-disclosure-icon-size: 32px; // Standard size for disclosure component icons
+$nhs-fdp-component-disclosure-icon-position-offset: 16px; // Half icon size for centering calculations
+$nhs-fdp-component-icon-text-gap: 38px; // Standard spacing between icons and adjacent text content
+$nhs-fdp-component-icon-text-gap-small: 26px; // Reduced spacing for smaller screens
+$nhs-fdp-component-warning-icon-offset: 33px; // Warning callout icon positioning offset
+$nhs-fdp-component-warning-icon-offset-mobile: 25px; // Warning callout icon positioning offset on mobile
+$nhs-fdp-component-warning-icon-top: 16px; // Warning callout icon top position
+$nhs-fdp-component-warning-icon-top-mobile: 8px; // Warning callout icon top position on mobile
+$nhs-fdp-component-guidance-icon-size: 34px; // Do/Don't list icon size
+$nhs-fdp-component-guidance-icon-position-top: 2px; // Do/Don't list icon top position
+$nhs-fdp-component-guidance-icon-position-top-print: 4px; // Do/Don't list icon top position adjustment for print
+$nhs-fdp-component-guidance-content-padding: 40px; // Do/Don't list content left padding
+$nhs-fdp-component-guidance-content-padding-small: 32px; // Do/Don't list content left padding on smaller screens
+$nhs-fdp-component-guidance-tick-size: 28px; // Do/Don't list tick mark size
+$nhs-fdp-component-header-logo-min-width: 100px; // Minimum width for header logo
+$nhs-fdp-component-header-logo-height: 40px; // Standard height for header logo
+$nhs-fdp-component-header-search-button-width: 44px; // Width of header search button
+$nhs-fdp-component-header-search-icon-size: 24px; // Size of search icon
+$nhs-fdp-component-header-menu-icon-size: 28px; // Size of mobile menu icons
+$nhs-fdp-component-task-padding-adjustment: 4px; // Visual balance adjustment for task list item padding
+$nhs-fdp-component-tag-padding-adjustment: 2px; // Visual balance adjustment for tag padding
 $nhs-fdp-button-spacing-padding-vertical-mobile: 8px; // Button vertical padding on mobile
 $nhs-fdp-button-spacing-padding-horizontal-mobile: 16px; // Button horizontal padding on mobile
 $nhs-fdp-button-spacing-padding-vertical-desktop: 12px; // Button vertical padding on desktop

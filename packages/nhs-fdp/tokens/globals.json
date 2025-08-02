@@ -5,15 +5,24 @@
       "$value": "320px",
       "$description": "Mobile breakpoint"
     },
+    "mobile-max": {
+      "$value": "767px",
+      "$description": "Maximum mobile breakpoint"
+    },
     "tablet": {
       "$value": "641px",
       "$description": "Tablet breakpoint"
+    },
+    "tablet-standard": {
+      "$value": "768px",
+      "$description": "Standard tablet breakpoint used in components"
     },
     "desktop": {
       "$value": "1025px",
       "$description": "Desktop breakpoint"
     },
-    "large-desktop": {
+
+    "desktop-large": {
       "$value": "1280px",
       "$description": "Large desktop breakpoint"
     }

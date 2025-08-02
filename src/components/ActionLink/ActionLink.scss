@@ -11,7 +11,7 @@
 
 .nhsuk-action-link__link {
   display: inline-block; // Respects top and bottom margins/paddings
-  padding-left: 38px; // Space for the arrow icon
+  padding-left: nhs.$nhs-fdp-component-icon-text-gap; // Space for the arrow icon
   position: relative; // Allow absolute positioning of arrow icon
   text-decoration: none; // Override default <a> styling
   
@@ -27,7 +27,7 @@
   }
 
   @media (max-width: 767px) {
-    padding-left: 26px; // Reduced space for smaller screens
+    padding-left: nhs.$nhs-fdp-component-icon-text-gap-small; // Reduced space for smaller screens
   }
 
   // Hover state

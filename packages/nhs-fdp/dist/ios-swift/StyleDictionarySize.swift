@@ -15,6 +15,8 @@ public enum StyleDictionarySize {
     public static let componentLink = CGFloat(64.00) /** Link shadow spread */
     public static let componentPagination = CGFloat(256.00) /** Pagination shadow */
     public static let componentSpread = CGFloat(64.00) /** Default shadow spread */
+    public static let focusBoxShadowOffsetBottom = CGFloat(64.00) /** Bottom offset for focus box shadow */
+    public static let focusBoxShadowOffsetTop = CGFloat(-32.00) /** Top offset for focus box shadow */
     public static let focusOutlineOffset = CGFloat(0.00) /** Focus outline offset */
     public static let focusOutlineWidth = CGFloat(64.00) /** Focus outline width */
     public static let gridGutter = CGFloat(512.00) /** Grid gutter width */

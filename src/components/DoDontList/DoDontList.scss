@@ -92,7 +92,7 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
   line-height: nhs.$nhs-fdp-font-line-height-base;
   margin-bottom: nhs.$nhs-fdp-spacing-3;
   position: relative;
-  padding-left: 40px;
+  padding-left: nhs.$nhs-fdp-component-guidance-content-padding;
 
   @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
     font-size: nhs.$nhs-fdp-font-size-19-tablet;
@@ -107,12 +107,12 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
   .nhsuk-icon {
     position: absolute;
     left: 0;
-    top: 2px;
-    width: 34px;
-    height: 34px;
+    top: nhs.$nhs-fdp-component-guidance-icon-position-top;
+    width: nhs.$nhs-fdp-component-guidance-icon-size;
+    height: nhs.$nhs-fdp-component-guidance-icon-size;
     
     @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
-      top: -4px;
+      top: #{-1 * nhs.$nhs-fdp-component-guidance-icon-position-top-print};
     }
   }
 
@@ -181,7 +181,7 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
     fill: none;
     position: absolute;
     left: 0;
-    top: 2px;
+    top: nhs.$nhs-fdp-component-guidance-icon-position-top;
     
     @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
       top: 0;
@@ -237,11 +237,11 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
   .nhsuk-do-dont-list .nhsuk-list > li {
     font-size: nhs.$nhs-fdp-font-size-16-mobile;
     margin-bottom: nhs.$nhs-fdp-spacing-2;
-    padding-left: 32px;
+    padding-left: nhs.$nhs-fdp-component-guidance-content-padding-small;
 
     .nhsuk-icon {
-      width: 28px;
-      height: 28px;
+      width: nhs.$nhs-fdp-component-guidance-tick-size;
+      height: nhs.$nhs-fdp-component-guidance-tick-size;
     }
   }
 }

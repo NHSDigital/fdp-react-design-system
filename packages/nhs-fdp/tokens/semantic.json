@@ -72,6 +72,22 @@
           "$description": "Form background color"
         }
       },
+      "hover": {
+        "subtle": {
+          "$value": "#e8edee",
+          "$description": "Subtle background hover for interactive list items"
+        },
+        "header-link": {
+          "$value": "#3a71a6",
+          "$description": "Header link hover color (slightly lighter than NHS Blue)"
+        }
+      },
+      "active": {
+        "header-link": {
+          "$value": "#002c5c",
+          "$description": "Header link active color (darker than NHS Blue)"
+        }
+      },
       "button": {
         "primary": {
           "background": {

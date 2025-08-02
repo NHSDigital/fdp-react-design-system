@@ -68,6 +68,7 @@ public enum StyleDictionaryColor {
     public static let formInputTextPlaceholder = UIColor(red: 0.298, green: 0.384, blue: 0.447, alpha: 1) /** Input placeholder text color */
     public static let formLabelTextDefault = UIColor(red: 0.129, green: 0.169, blue: 0.196, alpha: 1) /** Form label text color */
     public static let formLabelTextRequired = UIColor(red: 0.835, green: 0.157, blue: 0.106, alpha: 1) /** Required form label indicator color */
+    public static let semanticColorActiveHeaderLink = UIColor(red: 0.000, green: 0.173, blue: 0.361, alpha: 1) /** Header link active color (darker than NHS Blue) */
     public static let semanticColorBorderDefault = UIColor(red: 0.847, green: 0.867, blue: 0.878, alpha: 1) /** Default border color */
     public static let semanticColorBorderSecondary = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 0.2) /** Secondary border color */
     public static let semanticColorButtonLoginActive = UIColor(red: 0.000, green: 0.184, blue: 0.361, alpha: 1) /** 50% shade of blue */
@@ -100,6 +101,8 @@ public enum StyleDictionaryColor {
     public static let semanticColorFocusText = UIColor(red: 0.129, green: 0.169, blue: 0.196, alpha: 1) /** Focus text color */
     public static let semanticColorFormBackground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1) /** Form background color */
     public static let semanticColorFormBorder = UIColor(red: 0.298, green: 0.384, blue: 0.447, alpha: 1) /** Form border color */
+    public static let semanticColorHoverHeaderLink = UIColor(red: 0.227, green: 0.443, blue: 0.651, alpha: 1) /** Header link hover color (slightly lighter than NHS Blue) */
+    public static let semanticColorHoverSubtle = UIColor(red: 0.910, green: 0.929, blue: 0.933, alpha: 1) /** Subtle background hover for interactive list items */
     public static let semanticColorLinkActive = UIColor(red: 0.000, green: 0.188, blue: 0.529, alpha: 1) /** Link active color (50% shade of blue) */
     public static let semanticColorLinkDefault = UIColor(red: 0.000, green: 0.369, blue: 0.722, alpha: 1) /** Default link color */
     public static let semanticColorLinkHover = UIColor(red: 0.486, green: 0.157, blue: 0.333, alpha: 1) /** Link hover color */

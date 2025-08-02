@@ -67,6 +67,28 @@ $nhs-fdp-component-breadcrumb-padding-top-desktop: 24px; // Top padding for brea
 $nhs-fdp-component-summary-list-cell-padding-vertical: 8px; // Top and bottom padding for summary list cells
 $nhs-fdp-component-summary-list-cell-padding-horizontal: 24px; // Right padding for summary list cells
 $nhs-fdp-component-summary-list-row-margin: 16px; // Bottom margin for summary list rows on mobile
+$nhs-fdp-component-disclosure-icon-offset: 20px; // Standard spacing for disclosure component icon offset
+$nhs-fdp-component-disclosure-icon-size: 32px; // Standard size for disclosure component icons
+$nhs-fdp-component-disclosure-icon-position-offset: 16px; // Half icon size for centering calculations
+$nhs-fdp-component-icon-text-gap: 38px; // Standard spacing between icons and adjacent text content
+$nhs-fdp-component-icon-text-gap-small: 26px; // Reduced spacing for smaller screens
+$nhs-fdp-component-warning-icon-offset: 33px; // Warning callout icon positioning offset
+$nhs-fdp-component-warning-icon-offset-mobile: 25px; // Warning callout icon positioning offset on mobile
+$nhs-fdp-component-warning-icon-top: 16px; // Warning callout icon top position
+$nhs-fdp-component-warning-icon-top-mobile: 8px; // Warning callout icon top position on mobile
+$nhs-fdp-component-guidance-icon-size: 34px; // Do/Don't list icon size
+$nhs-fdp-component-guidance-icon-position-top: 2px; // Do/Don't list icon top position
+$nhs-fdp-component-guidance-icon-position-top-print: 4px; // Do/Don't list icon top position adjustment for print
+$nhs-fdp-component-guidance-content-padding: 40px; // Do/Don't list content left padding
+$nhs-fdp-component-guidance-content-padding-small: 32px; // Do/Don't list content left padding on smaller screens
+$nhs-fdp-component-guidance-tick-size: 28px; // Do/Don't list tick mark size
+$nhs-fdp-component-header-logo-min-width: 100px; // Minimum width for header logo
+$nhs-fdp-component-header-logo-height: 40px; // Standard height for header logo
+$nhs-fdp-component-header-search-button-width: 44px; // Width of header search button
+$nhs-fdp-component-header-search-icon-size: 24px; // Size of search icon
+$nhs-fdp-component-header-menu-icon-size: 28px; // Size of mobile menu icons
+$nhs-fdp-component-task-padding-adjustment: 4px; // Visual balance adjustment for task list item padding
+$nhs-fdp-component-tag-padding-adjustment: 2px; // Visual balance adjustment for tag padding
 $nhs-fdp-component-spread: 4px; // Default shadow spread
 $nhs-fdp-component-blur: 4px; // Default shadow blur
 $nhs-fdp-component-link: 4px; // Link shadow spread
@@ -190,9 +212,11 @@ $nhs-fdp-layout-column-third: 33.333%; // One third width column
 $nhs-fdp-layout-column-quarter: 25%; // Quarter width column
 $nhs-fdp-layout-column-actions: 20%; // Actions column width in summary lists
 $nhs-fdp-breakpoint-mobile: 320px; // Mobile breakpoint
+$nhs-fdp-breakpoint-mobile-max: 767px; // Maximum mobile breakpoint
 $nhs-fdp-breakpoint-tablet: 641px; // Tablet breakpoint
+$nhs-fdp-breakpoint-tablet-standard: 768px; // Standard tablet breakpoint used in components
 $nhs-fdp-breakpoint-desktop: 1025px; // Desktop breakpoint
-$nhs-fdp-breakpoint-large-desktop: 1280px; // Large desktop breakpoint
+$nhs-fdp-breakpoint-desktop-large: 1280px; // Large desktop breakpoint
 $nhs-fdp-grid-page-width: 960px; // Maximum page width
 $nhs-fdp-grid-gutter: 32px; // Grid gutter width
 $nhs-fdp-grid-gutter-half: 16px; // Half grid gutter width
@@ -211,6 +235,9 @@ $nhs-fdp-semantic-color-border-secondary: rgba(255, 255, 255, 0.2); // Secondary
 $nhs-fdp-semantic-color-error: #d5281b; // Error color
 $nhs-fdp-semantic-color-form-border: #4c6272; // Form border color
 $nhs-fdp-semantic-color-form-background: #ffffff; // Form background color
+$nhs-fdp-semantic-color-hover-subtle: #e8edee; // Subtle background hover for interactive list items
+$nhs-fdp-semantic-color-hover-header-link: #3a71a6; // Header link hover color (slightly lighter than NHS Blue)
+$nhs-fdp-semantic-color-active-header-link: #002c5c; // Header link active color (darker than NHS Blue)
 $nhs-fdp-semantic-color-button-primary-background: #007f3b;
 $nhs-fdp-semantic-color-button-primary-text: #ffffff;
 $nhs-fdp-semantic-color-button-primary-hover: #006530; // 20% shade of green
@@ -247,6 +274,9 @@ $nhs-fdp-focus-outline-offset: 0px; // Focus outline offset
 $nhs-fdp-focus-outline-style: solid; // Focus outline style
 $nhs-fdp-focus-shadow-input: 0 0 0 3px #ffeb3b; // Focus shadow for input elements
 $nhs-fdp-focus-shadow-button: 0 0 0 3px #ffeb3b; // Focus shadow for buttons
+$nhs-fdp-focus-shadow-link-pattern: 0 -2px #ffeb3b, 0 4px #212b32; // Standard link focus shadow pattern
+$nhs-fdp-focus-box-shadow-offset-top: -2px; // Top offset for focus box shadow
+$nhs-fdp-focus-box-shadow-offset-bottom: 4px; // Bottom offset for focus box shadow
 $nhs-fdp-elevation-none: none; // No elevation
 $nhs-fdp-elevation-low: 0 1px 3px rgba(0, 0, 0, 0.12); // Low elevation shadow
 $nhs-fdp-elevation-medium: 0 2px 6px rgba(0, 0, 0, 0.16); // Medium elevation shadow

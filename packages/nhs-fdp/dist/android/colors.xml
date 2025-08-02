@@ -111,6 +111,9 @@
   <color name="semantic_color_error">#ffd5281b</color>
   <color name="semantic_color_form_border">#ff4c6272</color>
   <color name="semantic_color_form_background">#ffffffff</color>
+  <color name="semantic_color_hover_subtle">#ffe8edee</color>
+  <color name="semantic_color_hover_header_link">#ff3a71a6</color>
+  <color name="semantic_color_active_header_link">#ff002c5c</color>
   <color name="semantic_color_button_primary_background">#ff007f3b</color>
   <color name="semantic_color_button_primary_text">#ffffffff</color>
   <color name="semantic_color_button_primary_hover">#ff006530</color>

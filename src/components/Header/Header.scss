@@ -4,8 +4,8 @@
 // Header variables
 $header-item-padding: nhs.$nhs-fdp-spacing-3;
 $header-link-padding: nhs.$nhs-fdp-spacing-1;
-$header-item-hover-color: #3a71a6; // Slightly lighter than NHS Blue
-$header-item-active-color: #002c5c; // Darker than NHS Blue
+$header-item-hover-color: nhs.$nhs-fdp-semantic-color-hover-header-link; // Slightly lighter than NHS Blue
+$header-item-active-color: nhs.$nhs-fdp-semantic-color-active-header-link; // Darker than NHS Blue
 $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 
 // Header link styling mixin

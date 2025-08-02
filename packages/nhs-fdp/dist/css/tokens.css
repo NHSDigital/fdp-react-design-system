@@ -69,6 +69,28 @@
   --component-summary-list-cell-padding-vertical: 8px; /** Top and bottom padding for summary list cells */
   --component-summary-list-cell-padding-horizontal: 24px; /** Right padding for summary list cells */
   --component-summary-list-row-margin: 16px; /** Bottom margin for summary list rows on mobile */
+  --component-disclosure-icon-offset: 20px; /** Standard spacing for disclosure component icon offset */
+  --component-disclosure-icon-size: 32px; /** Standard size for disclosure component icons */
+  --component-disclosure-icon-position-offset: 16px; /** Half icon size for centering calculations */
+  --component-icon-text-gap: 38px; /** Standard spacing between icons and adjacent text content */
+  --component-icon-text-gap-small: 26px; /** Reduced spacing for smaller screens */
+  --component-warning-icon-offset: 33px; /** Warning callout icon positioning offset */
+  --component-warning-icon-offset-mobile: 25px; /** Warning callout icon positioning offset on mobile */
+  --component-warning-icon-top: 16px; /** Warning callout icon top position */
+  --component-warning-icon-top-mobile: 8px; /** Warning callout icon top position on mobile */
+  --component-guidance-icon-size: 34px; /** Do/Don't list icon size */
+  --component-guidance-icon-position-top: 2px; /** Do/Don't list icon top position */
+  --component-guidance-icon-position-top-print: 4px; /** Do/Don't list icon top position adjustment for print */
+  --component-guidance-content-padding: 40px; /** Do/Don't list content left padding */
+  --component-guidance-content-padding-small: 32px; /** Do/Don't list content left padding on smaller screens */
+  --component-guidance-tick-size: 28px; /** Do/Don't list tick mark size */
+  --component-header-logo-min-width: 100px; /** Minimum width for header logo */
+  --component-header-logo-height: 40px; /** Standard height for header logo */
+  --component-header-search-button-width: 44px; /** Width of header search button */
+  --component-header-search-icon-size: 24px; /** Size of search icon */
+  --component-header-menu-icon-size: 28px; /** Size of mobile menu icons */
+  --component-task-padding-adjustment: 4px; /** Visual balance adjustment for task list item padding */
+  --component-tag-padding-adjustment: 2px; /** Visual balance adjustment for tag padding */
   --component-spread: 4px; /** Default shadow spread */
   --component-blur: 4px; /** Default shadow blur */
   --component-link: 4px; /** Link shadow spread */
@@ -192,9 +214,11 @@
   --layout-column-quarter: 25%; /** Quarter width column */
   --layout-column-actions: 20%; /** Actions column width in summary lists */
   --breakpoint-mobile: 320px; /** Mobile breakpoint */
+  --breakpoint-mobile-max: 767px; /** Maximum mobile breakpoint */
   --breakpoint-tablet: 641px; /** Tablet breakpoint */
+  --breakpoint-tablet-standard: 768px; /** Standard tablet breakpoint used in components */
   --breakpoint-desktop: 1025px; /** Desktop breakpoint */
-  --breakpoint-large-desktop: 1280px; /** Large desktop breakpoint */
+  --breakpoint-desktop-large: 1280px; /** Large desktop breakpoint */
   --grid-page-width: 960px; /** Maximum page width */
   --grid-gutter: 32px; /** Grid gutter width */
   --grid-gutter-half: 16px; /** Half grid gutter width */
@@ -213,6 +237,9 @@
   --semantic-color-error: #d5281b; /** Error color */
   --semantic-color-form-border: #4c6272; /** Form border color */
   --semantic-color-form-background: #ffffff; /** Form background color */
+  --semantic-color-hover-subtle: #e8edee; /** Subtle background hover for interactive list items */
+  --semantic-color-hover-header-link: #3a71a6; /** Header link hover color (slightly lighter than NHS Blue) */
+  --semantic-color-active-header-link: #002c5c; /** Header link active color (darker than NHS Blue) */
   --semantic-color-button-primary-background: #007f3b;
   --semantic-color-button-primary-text: #ffffff;
   --semantic-color-button-primary-hover: #006530; /** 20% shade of green */
@@ -249,6 +276,9 @@
   --focus-outline-style: solid; /** Focus outline style */
   --focus-shadow-input: 0 0 0 3px #ffeb3b; /** Focus shadow for input elements */
   --focus-shadow-button: 0 0 0 3px #ffeb3b; /** Focus shadow for buttons */
+  --focus-shadow-link-pattern: 0 -2px #ffeb3b, 0 4px #212b32; /** Standard link focus shadow pattern */
+  --focus-box-shadow-offset-top: -2px; /** Top offset for focus box shadow */
+  --focus-box-shadow-offset-bottom: 4px; /** Bottom offset for focus box shadow */
   --elevation-none: none; /** No elevation */
   --elevation-low: 0 1px 3px rgba(0, 0, 0, 0.12); /** Low elevation shadow */
   --elevation-medium: 0 2px 6px rgba(0, 0, 0, 0.16); /** Medium elevation shadow */

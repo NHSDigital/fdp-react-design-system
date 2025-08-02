@@ -55,6 +55,21 @@
     "button": {
       "$value": "0 0 0 3px {semantic.color.focus.background}",
       "$description": "Focus shadow for buttons"
+    },
+    "link-pattern": {
+      "$value": "0 -2px {semantic.color.focus.background}, 0 4px {semantic.color.focus.text}",
+      "$description": "Standard link focus shadow pattern"
+    }
+  },
+  "focus-box-shadow": {
+    "$type": "dimension",
+    "offset-top": {
+      "$value": "-2px",
+      "$description": "Top offset for focus box shadow"
+    },
+    "offset-bottom": {
+      "$value": "4px",
+      "$description": "Bottom offset for focus box shadow"
     }
   },
   "elevation": {

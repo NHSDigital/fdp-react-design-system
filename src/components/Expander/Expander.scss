@@ -96,7 +96,7 @@ $expander-border-hover-color: nhs.$nhs-fdp-color-grey-3;
       color: nhs.$nhs-fdp-color-primary-blue;
       cursor: pointer;
       display: inline-block;
-      padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-1 38px;
+      padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-component-icon-text-gap;
       position: relative;
     }
 
@@ -117,11 +117,11 @@ $expander-border-hover-color: nhs.$nhs-fdp-color-grey-3;
         left -2px center no-repeat;
       content: "";
       display: inline-block;
-      height: 32px;
+      height: nhs.$nhs-fdp-component-disclosure-icon-size;
       left: 0;
       position: absolute;
-      top: calc(50% - 16px);
-      width: 32px;
+      top: calc(50% - #{nhs.$nhs-fdp-component-disclosure-icon-position-offset});
+      width: nhs.$nhs-fdp-component-disclosure-icon-size;
     }
 
     .nhsuk-details__summary:focus .nhsuk-details__summary-text::before {

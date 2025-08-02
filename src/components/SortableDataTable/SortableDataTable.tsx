@@ -9,7 +9,7 @@ import './tabs.scss';
 
 type PatientList = PatientData[];
 
-const BoardRoundDataTable: React.FC = () => {
+const SortableDataTable: React.FC = () => {
 
 	const [data] = useState<PatientList>(jsonData as unknown as PatientList);
 	const [sortConfig, setSortConfig] = useState<SortConfig[]>([]);
@@ -638,9 +638,7 @@ const BoardRoundDataTable: React.FC = () => {
 	);
 };
 
-// Use imported srOnlyStyles from constants
-
 // Add display name for better debugging in React DevTools
-BoardRoundDataTable.displayName = 'BoardRoundDataTable';
+SortableDataTable.displayName = 'SortableDataTable';
 
-export default BoardRoundDataTable;
+export default SortableDataTable;

@@ -16,12 +16,12 @@
   
   @include nhs.nhs-fdp-font-size(26); // Matches NHS UK @include nhsuk-font-size(26)
   
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     --panel-heading-margin: #{nhs.$nhs-fdp-spacing-responsive-5-tablet};
   }
   
   // Responsive padding
-  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-tablet} - 1px)) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
     padding: calc(#{nhs.$nhs-fdp-spacing-4} - #{nhs.$nhs-fdp-spacing-1}); /* Smaller padding on mobile */
     word-break: break-word; /* Prevent text overflow on narrow screens */
   }

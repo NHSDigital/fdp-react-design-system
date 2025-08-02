@@ -227,13 +227,12 @@
   --layout-margin-negative-standard: -2px; /** Standard negative margin for visual alignment */
   --layout-gap-minimal: 1px; /** Minimal gap between elements */
   --layout-gap-small: 6px; /** Small gap for tight layouts */
-  --breakpoint-mobile: 320px; /** Mobile breakpoint */
-  --breakpoint-mobile-max: 767px; /** Maximum mobile breakpoint */
-  --breakpoint-tablet: 641px; /** Tablet breakpoint */
-  --breakpoint-tablet-standard: 768px; /** Standard tablet breakpoint used in components */
-  --breakpoint-desktop: 1025px; /** Desktop breakpoint */
-  --breakpoint-desktop-large: 1280px; /** Large desktop breakpoint */
-  --breakpoint-desktop-xl: 1200px; /** Extra large desktop breakpoint used in components */
+  --breakpoint-small: 320px; /** Small devices (mobile phones) */
+  --breakpoint-small-max: 767px; /** Maximum width for small devices */
+  --breakpoint-medium: 768px; /** Medium devices (tablets and small laptops) */
+  --breakpoint-large: 1025px; /** Large devices (desktops) */
+  --breakpoint-xlarge: 1200px; /** Extra large devices (large desktops) */
+  --breakpoint-xxlarge: 1440px; /** Extra extra large devices (ultra-wide screens) */
   --grid-page-width: 960px; /** Maximum page width */
   --grid-gutter: 32px; /** Grid gutter width */
   --grid-gutter-half: 16px; /** Half grid gutter width */

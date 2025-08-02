@@ -16,7 +16,7 @@ $card-border-hover-color: nhs.$nhs-fdp-card-border-hover;
   width: 100%;
   margin-bottom: nhs.$nhs-fdp-spacing-7; // 32px
 
-  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-tablet} - 1px)) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
     margin-bottom: nhs.$nhs-fdp-spacing-7;
   }
 }
@@ -34,7 +34,7 @@ $card-border-hover-color: nhs.$nhs-fdp-card-border-hover;
 .nhsuk-card__content {
   padding: nhs.$nhs-fdp-spacing-5; // 24px
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     padding: nhs.$nhs-fdp-spacing-5;
   }
 

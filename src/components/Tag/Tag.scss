@@ -19,7 +19,7 @@
   font-weight: nhs.$nhs-fdp-font-weight-bold;
   line-height: 1;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-16-tablet;
   }
 }

@@ -30,7 +30,7 @@
       line-height: tokens.$nhs-fdp-font-line-height-14-mobile $important-suffix;
     }
     
-    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
       font-size: tokens.$nhs-fdp-font-size-14-tablet $important-suffix;
       @if $line-height {
         line-height: tokens.$nhs-fdp-font-line-height-14-tablet $important-suffix;
@@ -42,7 +42,7 @@
       line-height: tokens.$nhs-fdp-font-line-height-16-mobile $important-suffix;
     }
     
-    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
       font-size: tokens.$nhs-fdp-font-size-16-tablet $important-suffix;
       @if $line-height {
         line-height: tokens.$nhs-fdp-font-line-height-16-tablet $important-suffix;
@@ -54,7 +54,7 @@
       line-height: tokens.$nhs-fdp-font-line-height-19-mobile $important-suffix;
     }
     
-    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
       font-size: tokens.$nhs-fdp-font-size-19-tablet $important-suffix;
       @if $line-height {
         line-height: tokens.$nhs-fdp-font-line-height-19-tablet $important-suffix;
@@ -66,7 +66,7 @@
       line-height: tokens.$nhs-fdp-font-line-height-22-mobile $important-suffix;
     }
     
-    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
       font-size: tokens.$nhs-fdp-font-size-22-tablet $important-suffix;
       @if $line-height {
         line-height: tokens.$nhs-fdp-font-line-height-22-tablet $important-suffix;
@@ -78,7 +78,7 @@
       line-height: tokens.$nhs-fdp-font-line-height-26-mobile $important-suffix;
     }
     
-    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
       font-size: tokens.$nhs-fdp-font-size-26-tablet $important-suffix;
       @if $line-height {
         line-height: tokens.$nhs-fdp-font-line-height-26-tablet $important-suffix;
@@ -90,7 +90,7 @@
       line-height: tokens.$nhs-fdp-font-line-height-36-mobile $important-suffix;
     }
     
-    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
       font-size: tokens.$nhs-fdp-font-size-36-tablet $important-suffix;
       @if $line-height {
         line-height: tokens.$nhs-fdp-font-line-height-36-tablet $important-suffix;
@@ -102,7 +102,7 @@
       line-height: tokens.$nhs-fdp-font-line-height-48-mobile $important-suffix;
     }
     
-    @media (min-width: tokens.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
       font-size: tokens.$nhs-fdp-font-size-48-tablet $important-suffix;
       @if $line-height {
         line-height: tokens.$nhs-fdp-font-line-height-48-tablet $important-suffix;

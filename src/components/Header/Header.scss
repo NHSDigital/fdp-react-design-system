@@ -40,14 +40,14 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 
 // Mobile menu toggle in header container (main positioning)
 .nhsuk-header__mobile-menu {
-  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-mobile-max})) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
 	display: flex;
 	align-items: center;
 	margin-left: auto; // Push to right side of header
 	order: 999;
   }
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet-standard) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	display: none;
   }
 
@@ -65,7 +65,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	font-weight: nhs.$nhs-fdp-font-weight-normal;
 	padding: nhs.$nhs-fdp-spacing-2 0;
 
-	@media (min-width: 768px) {
+	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	  font-size: nhs.$nhs-fdp-font-size-16-tablet;
 	}
 
@@ -115,7 +115,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   padding: nhs.$nhs-fdp-spacing-4 0;
   margin: 0 nhs.$nhs-fdp-spacing-7;
   
-  @media (max-width: 767px) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 	margin: 0 nhs.$nhs-fdp-spacing-4;
 	padding: nhs.$nhs-fdp-spacing-3 0;
 	display: flex;
@@ -124,7 +124,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	gap: nhs.$nhs-fdp-spacing-4;
   }
   
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	display: flex;
 	flex-flow: row wrap;
 	gap: nhs.$nhs-fdp-spacing-4;
@@ -145,7 +145,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 .nhsuk-header__service {
   display: flex;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	flex-grow: 999;
   }
 }
@@ -162,11 +162,11 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   font-weight: nhs.$nhs-fdp-font-weight-normal;
   line-height: 1.1;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	font-size: nhs.$nhs-fdp-font-size-19-tablet;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 	max-width: 14ch;
   }
 
@@ -226,7 +226,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	flex-shrink: 0;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	align-self: start;
 	margin: nhs.$nhs-fdp-layout-margin-negative-thin;
   }
@@ -254,7 +254,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   font-size: nhs.$nhs-fdp-font-size-16-mobile;
   font-weight: nhs.$nhs-fdp-font-weight-normal;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	font-size: nhs.$nhs-fdp-font-size-16-tablet;
   }
 
@@ -285,7 +285,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   font-size: nhs.$nhs-fdp-font-size-16-mobile;
   font-weight: nhs.$nhs-fdp-font-weight-normal;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	font-size: nhs.$nhs-fdp-font-size-16-tablet;
   }
 }
@@ -297,7 +297,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   position: relative;
   z-index: 10;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	margin: 0;
   }
 
@@ -325,7 +325,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   font-size: nhs.$nhs-fdp-font-size-16-mobile;
   font-weight: nhs.$nhs-fdp-font-weight-normal;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	font-size: nhs.$nhs-fdp-font-size-16-tablet;
   }
 
@@ -388,7 +388,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   color: nhs.$nhs-fdp-color-primary-white;
   margin: 0 nhs.$nhs-fdp-spacing-7;
 
-  @media (max-width: 767px) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 	margin: 0 nhs.$nhs-fdp-spacing-4;
 	
 	// On mobile, hide the main navigation list by default
@@ -412,13 +412,13 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   padding: 0;
   width: calc(100% + #{nhs.$nhs-fdp-spacing-4});
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	width: calc(100% + #{nhs.$nhs-fdp-spacing-6});
 	margin: 0 -#{nhs.$nhs-fdp-spacing-3};
   }
 
   .nhsuk-header__navigation--justified & {
-	@media (min-width: 1200px) {
+	@media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
 	  justify-content: space-between;
 	}
   }
@@ -426,7 +426,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   .nhsuk-frontend-supported & {
 	flex-wrap: nowrap;
 
-	@media (max-width: 767px) {
+	@media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 	  flex-wrap: wrap;
 	}
   }
@@ -436,7 +436,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   margin-bottom: 0;
   padding: 0 nhs.$nhs-fdp-spacing-2;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	padding: 0 nhs.$nhs-fdp-spacing-3;
   }
 }
@@ -459,7 +459,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	$link-active-color: nhs.$nhs-fdp-color-primary-white
   );
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	font-size: nhs.$nhs-fdp-font-size-16-tablet;
   }
 
@@ -490,11 +490,11 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	display: none;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	padding: 0 nhs.$nhs-fdp-spacing-3;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 	// On mobile, always show the menu toggle if there are nav items
 	display: block !important;
 	order: 999; // Push to end of container
@@ -525,7 +525,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   font-weight: nhs.$nhs-fdp-font-weight-normal;
   padding: nhs.$nhs-fdp-spacing-4 $header-link-padding;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	font-size: nhs.$nhs-fdp-font-size-16-tablet;
   }
 
@@ -554,7 +554,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	font-size: nhs.$nhs-fdp-font-size-16-mobile;
 	font-weight: nhs.$nhs-fdp-font-weight-normal;
 
-	@media (min-width: 768px) {
+	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	  font-size: nhs.$nhs-fdp-font-size-16-tablet;
 	}
   }
@@ -597,7 +597,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   background-color: nhs.$nhs-fdp-color-primary-white;
   z-index: 100;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	margin: 0 nhs.$nhs-fdp-spacing-3;
   }
 
@@ -605,7 +605,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	display: none;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 	// Mobile styles for dropdown menu - position absolute to navigation container
 	position: absolute;
 	top: 100%;
@@ -625,7 +625,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   .nhsuk-header__navigation-link {
 	@include header-link-style;
 
-	@media (max-width: 767px) {
+	@media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 	  padding: nhs.$nhs-fdp-spacing-4 0;
 	  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 	  display: block;
@@ -642,11 +642,11 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	  border-left-width: $header-item-active-size;
 	  border-bottom-width: 0;
 
-	  @media (min-width: 1200px) {
+	  @media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
 		left: -#{nhs.$nhs-fdp-spacing-4};
 	  }
 
-	  @media (max-width: 767px) {
+	  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 		left: -#{nhs.$nhs-fdp-spacing-4};
 		border-left-width: $header-item-active-size;
 	  }
@@ -657,7 +657,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	padding: 0;
 	border-bottom: 1px solid nhs.$nhs-fdp-color-grey-5;
 
-	@media (max-width: 767px) {
+	@media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 	  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 	}
 
@@ -686,7 +686,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   box-shadow: 0 -0.25px 0 0 nhs.$nhs-fdp-border-color-default;
   position: relative;
 
-  @media (max-width: 767px) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 	// On mobile, remove box shadow and add better spacing
 	box-shadow: none;
 	margin-top: 0;
@@ -704,7 +704,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 
   &,
   .nhsuk-header--white .nhsuk-header__navigation--white & {
-	@media (max-width: 767px) {
+	@media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 	  box-shadow: none;
 	  margin-top: -#{nhs.$nhs-fdp-spacing-3};
 	}
@@ -768,7 +768,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	min-width: auto;
 	width: 60px;
 
-	@media (min-width: 768px) {
+	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	  height: 32px;
 	  width: 80px;
 	}
@@ -782,7 +782,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	  height: 24px;
 	  width: 60px;
 
-	  @media (min-width: 768px) {
+	  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 		height: 32px;
 		width: 80px;
 	  }
@@ -796,7 +796,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   font-weight: nhs.$nhs-fdp-font-weight-bold;
   line-height: 1.1;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	font-size: nhs.$nhs-fdp-font-size-22-tablet;
   }
 }
@@ -810,7 +810,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   font-size: nhs.$nhs-fdp-font-size-14-mobile;
   font-weight: nhs.$nhs-fdp-font-weight-bold;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 	font-size: nhs.$nhs-fdp-font-size-14-tablet;
   }
 }
@@ -854,7 +854,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 .nhsuk-header__navigation-item--more {
   position: relative;
 
-  @media (max-width: 767px) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 	display: none; // Hide on mobile as all items show in mobile menu
   }
 }
@@ -905,7 +905,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	transform: rotate(270deg); // Point up when open
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
 			font-size: nhs.$nhs-fdp-font-size-16-tablet;
 	}
 }
@@ -924,7 +924,7 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   padding: 0;
   z-index: 1000;
 
-  @media (max-width: 767px) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
 	display: none; // Hide on mobile as all items show in mobile menu
   }
 }

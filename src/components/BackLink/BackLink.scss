@@ -5,7 +5,7 @@
   padding-top: nhs.$nhs-fdp-spacing-3;
   line-height: 1; // Same height as breadcrumb
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     padding-top: nhs.$nhs-fdp-spacing-4;
   }
 }
@@ -63,7 +63,7 @@
     width: 24px;
     fill: currentColor;
 
-    @media (min-width: 768px) {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       top: 0; // Align the icon with the middle of the text on tablet
     }
   }

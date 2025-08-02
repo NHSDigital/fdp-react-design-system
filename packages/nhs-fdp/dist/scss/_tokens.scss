@@ -225,13 +225,12 @@ $nhs-fdp-layout-margin-negative-thin: -1px; // Negative margin for border compen
 $nhs-fdp-layout-margin-negative-standard: -2px; // Standard negative margin for visual alignment
 $nhs-fdp-layout-gap-minimal: 1px; // Minimal gap between elements
 $nhs-fdp-layout-gap-small: 6px; // Small gap for tight layouts
-$nhs-fdp-breakpoint-mobile: 320px; // Mobile breakpoint
-$nhs-fdp-breakpoint-mobile-max: 767px; // Maximum mobile breakpoint
-$nhs-fdp-breakpoint-tablet: 641px; // Tablet breakpoint
-$nhs-fdp-breakpoint-tablet-standard: 768px; // Standard tablet breakpoint used in components
-$nhs-fdp-breakpoint-desktop: 1025px; // Desktop breakpoint
-$nhs-fdp-breakpoint-desktop-large: 1280px; // Large desktop breakpoint
-$nhs-fdp-breakpoint-desktop-xl: 1200px; // Extra large desktop breakpoint used in components
+$nhs-fdp-breakpoint-small: 320px; // Small devices (mobile phones)
+$nhs-fdp-breakpoint-small-max: 767px; // Maximum width for small devices
+$nhs-fdp-breakpoint-medium: 768px; // Medium devices (tablets and small laptops)
+$nhs-fdp-breakpoint-large: 1025px; // Large devices (desktops)
+$nhs-fdp-breakpoint-xlarge: 1200px; // Extra large devices (large desktops)
+$nhs-fdp-breakpoint-xxlarge: 1440px; // Extra extra large devices (ultra-wide screens)
 $nhs-fdp-grid-page-width: 960px; // Maximum page width
 $nhs-fdp-grid-gutter: 32px; // Grid gutter width
 $nhs-fdp-grid-gutter-half: 16px; // Half grid gutter width

@@ -19,7 +19,7 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
   position: relative;
   font-family: $nhs-font-family;
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     margin-bottom: nhs.$nhs-fdp-spacing-8;
   }
 
@@ -46,7 +46,7 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
   left: -(nhs.$nhs-fdp-spacing-4 + nhs.$nhs-fdp-border-width-form-element);
   top: -(nhs.$nhs-fdp-spacing-2);
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-22-tablet;
     left: -(nhs.$nhs-fdp-spacing-5 + nhs.$nhs-fdp-border-width-form-element);
     margin-right: -(nhs.$nhs-fdp-spacing-5);
@@ -72,7 +72,7 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
   padding: 0 nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-4;
   font-family: $nhs-font-family;
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     padding: 0 nhs.$nhs-fdp-spacing-5 nhs.$nhs-fdp-spacing-5 nhs.$nhs-fdp-spacing-5;
   }
 
@@ -94,7 +94,7 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
   position: relative;
   padding-left: nhs.$nhs-fdp-component-guidance-content-padding;
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-19-tablet;
     margin-bottom: nhs.$nhs-fdp-spacing-4;
   }
@@ -107,11 +107,11 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
   .nhsuk-icon {
     position: absolute;
     left: 0;
-    top: nhs.$nhs-fdp-component-guidance-icon-position-top;
+    top: -#{nhs.$nhs-fdp-component-guidance-icon-position-top};
     width: nhs.$nhs-fdp-component-guidance-icon-size;
     height: nhs.$nhs-fdp-component-guidance-icon-size;
     
-    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       top: #{-1 * nhs.$nhs-fdp-component-guidance-icon-position-top-print};
     }
   }
@@ -183,7 +183,7 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
     left: 0;
     top: nhs.$nhs-fdp-component-guidance-icon-position-top;
     
-    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       top: 0;
     }
   }
@@ -214,13 +214,13 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
 .nhsuk-do-dont-list + .nhsuk-do-dont-list {
   margin-top: nhs.$nhs-fdp-spacing-5;
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     margin-top: nhs.$nhs-fdp-spacing-6;
   }
 }
 
 // Responsive adjustments for smaller screens
-@media (max-width: nhs.$nhs-fdp-breakpoint-mobile) {
+@media (max-width: nhs.$nhs-fdp-breakpoint-small) {
   .nhsuk-do-dont-list {
     margin-bottom: nhs.$nhs-fdp-spacing-4;
   }

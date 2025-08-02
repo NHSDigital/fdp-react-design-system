@@ -4,7 +4,7 @@
 .nhsuk-action-link {
   margin-bottom: nhs.$nhs-fdp-spacing-6;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     margin-bottom: nhs.$nhs-fdp-spacing-6;
   }
 }
@@ -22,11 +22,11 @@
   line-height: nhs.$nhs-fdp-font-line-height-base;
   color: nhs.$nhs-fdp-semantic-color-link-default;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-22-tablet;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
     padding-left: nhs.$nhs-fdp-component-icon-text-gap-small; // Reduced space for smaller screens
   }
 
@@ -61,7 +61,7 @@
     top: -3px;
     width: 36px;
 
-    @media (max-width: 767px) {
+    @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
       height: 24px;
       left: -2px;
       margin-bottom: 0;

@@ -12,7 +12,7 @@
   &--xs {
     font-size: nhs.$nhs-fdp-font-size-16-mobile;
     
-    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       font-size: nhs.$nhs-fdp-font-size-19-tablet;
     }
   }
@@ -20,7 +20,7 @@
   &--s {
     font-size: nhs.$nhs-fdp-font-size-19-mobile;
     
-    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       font-size: nhs.$nhs-fdp-font-size-22-tablet;
     }
   }
@@ -28,7 +28,7 @@
   &--m {
     font-size: nhs.$nhs-fdp-font-size-22-mobile;
     
-    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       font-size: nhs.$nhs-fdp-font-size-26-tablet;
     }
   }
@@ -36,7 +36,7 @@
   &--l {
     font-size: nhs.$nhs-fdp-font-size-26-mobile;
     
-    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       font-size: nhs.$nhs-fdp-font-size-36-tablet;
     }
   }
@@ -44,7 +44,7 @@
   &--xl {
     font-size: nhs.$nhs-fdp-font-size-36-mobile;
     
-    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       font-size: nhs.$nhs-fdp-font-size-48-tablet;
     }
   }
@@ -52,7 +52,7 @@
   &--xxl {
     font-size: nhs.$nhs-fdp-font-size-48-mobile;
     
-    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       font-size: nhs.$nhs-fdp-font-size-48-tablet;
     }
   }

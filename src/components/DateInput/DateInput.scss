@@ -31,7 +31,7 @@
   margin-bottom: nhs.$nhs-fdp-spacing-1;
   color: nhs.$nhs-fdp-semantic-color-text-primary;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-16-tablet;
   }
 }

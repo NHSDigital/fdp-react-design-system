@@ -13,7 +13,7 @@ $task-list-hover-color: nhs.$nhs-fdp-semantic-color-hover-subtle; // Calculated 
   line-height: nhs.$nhs-fdp-font-line-height-base;
   margin-bottom: nhs.$nhs-fdp-spacing-5;
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-19-tablet;
   }
 }
@@ -74,7 +74,7 @@ $task-list-hover-color: nhs.$nhs-fdp-semantic-color-hover-subtle; // Calculated 
   font-weight: nhs.$nhs-fdp-font-weight-normal;
   line-height: 1;
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-16-tablet;
   }
 }
@@ -134,7 +134,7 @@ $task-list-hover-color: nhs.$nhs-fdp-semantic-color-hover-subtle; // Calculated 
   font-size: nhs.$nhs-fdp-font-size-16-mobile;
   line-height: nhs.$nhs-fdp-font-line-height-base;
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-16-tablet;
   }
 }

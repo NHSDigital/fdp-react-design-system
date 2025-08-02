@@ -11,13 +11,13 @@
   margin-bottom: nhs.$nhs-fdp-spacing-6;
   margin-top: nhs.$nhs-fdp-spacing-6;
   
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     margin-bottom: nhs.$nhs-fdp-spacing-7;
     margin-top: nhs.$nhs-fdp-spacing-7;
   }
   
   // Desktop sizing - 2/3 width of container
-  @media (min-width: nhs.$nhs-fdp-breakpoint-desktop) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-large) {
     width: 66.666%; // 2/3 width
   }
   
@@ -30,7 +30,7 @@
   & + .nhsuk-image {
     margin-top: 0;
     
-    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       margin-top: 0;
     }
   }
@@ -49,7 +49,7 @@
   line-height: nhs.$nhs-fdp-font-line-height-base;
   color: nhs.$nhs-fdp-semantic-color-text-primary;
   
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-16-tablet;
   }
 }

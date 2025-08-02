@@ -1,34 +1,29 @@
 {
   "breakpoint": {
     "$type": "breakpoint",
-    "mobile": {
+    "small": {
       "$value": "320px",
-      "$description": "Mobile breakpoint"
+      "$description": "Small devices (mobile phones)"
     },
-    "mobile-max": {
+    "small-max": {
       "$value": "767px",
-      "$description": "Maximum mobile breakpoint"
+      "$description": "Maximum width for small devices"
     },
-    "tablet": {
-      "$value": "641px",
-      "$description": "Tablet breakpoint"
-    },
-    "tablet-standard": {
+    "medium": {
       "$value": "768px",
-      "$description": "Standard tablet breakpoint used in components"
+      "$description": "Medium devices (tablets and small laptops)"
     },
-    "desktop": {
+    "large": {
       "$value": "1025px",
-      "$description": "Desktop breakpoint"
+      "$description": "Large devices (desktops)"
     },
-
-    "desktop-large": {
-      "$value": "1280px",
-      "$description": "Large desktop breakpoint"
-    },
-    "desktop-xl": {
+    "xlarge": {
       "$value": "1200px",
-      "$description": "Extra large desktop breakpoint used in components"
+      "$description": "Extra large devices (large desktops)"
+    },
+    "xxlarge": {
+      "$value": "1440px",
+      "$description": "Extra extra large devices (ultra-wide screens)"
     }
   },
   "grid": {

@@ -3,7 +3,7 @@
 .nhsuk-contents-list {
   margin-bottom: nhs.$nhs-fdp-spacing-8;
   
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     margin-bottom: nhs.$nhs-fdp-spacing-9;
   }
 }
@@ -33,7 +33,7 @@
     background-repeat: no-repeat;
   }
   
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     &::before {
       left: 14px;
       width: 16px;
@@ -50,7 +50,7 @@
   font-size: nhs.$nhs-fdp-font-size-16-mobile;
   line-height: nhs.$nhs-fdp-font-line-height-base;
   
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-16-tablet;
   }
   
@@ -77,7 +77,7 @@
   line-height: nhs.$nhs-fdp-font-line-height-base;
   color: nhs.$nhs-fdp-semantic-color-text-primary;
   
-  @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-16-tablet;
   }
 }

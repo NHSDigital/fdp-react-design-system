@@ -26,7 +26,7 @@
   line-height: nhs.$nhs-fdp-font-line-height-base;
   color: nhs.$nhs-fdp-semantic-color-text-primary;
 
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-19-tablet;
   }
 

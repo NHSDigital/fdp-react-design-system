@@ -47,7 +47,7 @@
     // Ensure it appears above other content
     z-index: 9999;
     
-    @media (min-width: nhs.$nhs-fdp-breakpoint-tablet) {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       font-size: nhs.$nhs-fdp-font-size-16-tablet;
     }
   }

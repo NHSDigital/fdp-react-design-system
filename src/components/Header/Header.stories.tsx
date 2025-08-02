@@ -343,39 +343,6 @@ export const CustomLogo: Story = {
   }
 };
 
-export const JustifiedNavigation: Story = {
-  args: {
-    service: {
-      text: 'NHS Service'
-    },
-    navigation: {
-      justified: true,
-      items: [
-        {
-          href: '#',
-          text: 'Patients'
-        },
-        {
-          href: '#',
-          text: 'Professionals',
-          current: true
-        },
-        {
-          href: '#',
-          text: 'Researchers'
-        }
-      ]
-    }
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Navigation with justified spacing that distributes items evenly across the available width on larger screens.'
-      }
-    }
-  }
-};
-
 export const MobileExample: Story = {
   args: {
     service: {
@@ -387,7 +354,7 @@ export const MobileExample: Story = {
     navigation: {
       items: [
         {
-          href: '/',
+          href: '#',
           text: 'Home',
           current: true
         },
@@ -421,6 +388,75 @@ export const MobileExample: Story = {
     docs: {
       description: {
         story: 'Header optimized for mobile viewing. Navigation automatically collapses into a menu button when space is limited.'
+      }
+    }
+  }
+};
+
+export const WithManyNavigationItems: Story = {
+  args: {
+    service: {
+      text: 'NHS Digital Services'
+    },
+    navigation: {
+      ariaLabel: 'Main navigation',
+      items: [
+        {
+          href: '/',
+          text: 'Home',
+          current: true
+        },
+        {
+          href: '/services',
+          text: 'Services'
+        },
+        {
+          href: '/appointments',
+          text: 'Appointments'
+        },
+        {
+          href: '/prescriptions',
+          text: 'Prescriptions'
+        },
+        {
+          href: '/health-records',
+          text: 'Health records'
+        },
+        {
+          href: '/messages',
+          text: 'Messages'
+        },
+        {
+          href: '/symptoms',
+          text: 'Check symptoms'
+        },
+        {
+          href: '/conditions',
+          text: 'Health A-Z'
+        },
+        {
+          href: '/medicines',
+          text: 'Medicines A-Z'
+        },
+        {
+          href: '/live-well',
+          text: 'Live Well'
+        },
+        {
+          href: '/mental-health',
+          text: 'Mental health'
+        },
+        {
+          href: '/social-care',
+          text: 'Care and support'
+        }
+      ]
+    }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Header with many navigation items to demonstrate the overflow behavior. When there are too many items to fit in the available space, excess items will move to a "More" dropdown menu on desktop, or all items will be available in the mobile menu.'
       }
     }
   }

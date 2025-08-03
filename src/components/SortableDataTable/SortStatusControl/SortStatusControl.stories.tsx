@@ -4,7 +4,7 @@ import { SortStatusControl } from './SortStatusControl';
 import { SortConfig } from '../AriaDataGridTypes';
 
 const meta: Meta<typeof SortStatusControl> = {
-  title: 'Components/SortStatusControl',
+  title: 'NHS/Data/SortableDataTable/SortStatusControl',
   component: SortStatusControl,
   parameters: {
     layout: 'padded',

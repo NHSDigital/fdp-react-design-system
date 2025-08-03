@@ -4,8 +4,8 @@ import {
   HealthcareFilter,
   TabPanelConfig
 } from './AriaTabsDataGridTypes';
-import { booleanIcon } from './icons';
 import React from 'react';
+import { booleanIcon } from './icons';
 
 /**
  * Healthcare-specific data comparison function
@@ -71,11 +71,18 @@ export const healthcareFilterFunction = (data: EWSPatientData[], filters?: Healt
 };
 
 /**
- * NHS-compliant boolean rendering function
+ * NHS-compliant boolean rendering function with SVG icons
  */
-export const nhsBooleanRenderer = (value: boolean): React.ReactNode => {
+export const nhsBooleanRenderer = (value: boolean | string): React.ReactNode => {
+  // For boolean values, use the imported NHS SVG icons
+  if (typeof value === 'boolean') {
+    const iconEntry = booleanIcon.find(icon => icon.value === value);
+    return iconEntry ? iconEntry.icon : null;
+  }
+
+  // Handle other value types (alert, voice, pain, unresponsive)
   const iconEntry = booleanIcon.find(icon => icon.value === value);
-  return iconEntry ? iconEntry.icon : null;
+  return iconEntry ? iconEntry.icon : String(value);
 };
 
 /**

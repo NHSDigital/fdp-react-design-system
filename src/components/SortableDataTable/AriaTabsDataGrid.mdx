@@ -1,0 +1,574 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="NHS/Data/AriaTabsDataGrid/Documentation" />
+
+# AriaTabsDataGrid Component
+
+The `AriaTabsDataGrid` is a fully accessible data grid component that combines tabbed navigation with sortable data tables. Originally designed for NHS healthcare workflows, it has been generified to support any domain while maintaining specialised healthcare functionality.
+
+## 🌟 Key Features
+
+- **Full ARIA Compliance**: Complete accessibility support with screen reader compatibility
+- **Hierarchical Keyboard Navigation**: Arrow key navigation between tabs, headers, and cells
+- **Global Multi-Column Sorting**: Drag-and-drop sort configuration with visual priority indicators
+- **Domain Flexibility**: Generic core with specialized plugins for healthcare, e-commerce, and finance
+- **NHS Design System Compliant**: Full integration with NHS design tokens and patterns
+- **Responsive Design**: Mobile-first approach with proper scaling across devices
+
+---
+
+## 🚀 Quick Start
+
+### Basic Usage
+
+```tsx
+import { AriaTabsDataGrid } from './AriaTabsDataGrid';
+import { createGenericTabsConfig } from './AriaTabsDataGridFactory';
+
+const MyComponent = () => {
+  const tabPanels = createGenericTabsConfig(data, [
+    {
+      id: 'all',
+      label: 'All Items',
+      columns: [
+        { key: 'name', label: 'Name' },
+        { key: 'status', label: 'Status' }
+      ]
+    }
+  ]);
+
+  return (
+    <AriaTabsDataGrid
+      tabPanels={tabPanels}
+      ariaLabel="Data Management Interface"
+    />
+  );
+};
+```
+
+### Healthcare Usage (NHS)
+
+```tsx
+import { healthcareDataConfig, createHealthcareTabsConfig } from './AriaTabsDataGridHealthcare';
+import patientsData from './patients_with_ews.json';
+
+const HealthcareDemo = () => {
+  const healthcareTabs = createHealthcareTabsConfig(patientsData);
+
+  return (
+    <AriaTabsDataGrid
+      dataConfig={healthcareDataConfig}
+      tabPanels={healthcareTabs}
+      ariaLabel="NHS Patient Management System"
+      onGlobalRowSelectionChange={(patient) => {
+        console.log('Selected patient:', patient);
+      }}
+    />
+  );
+};
+```
+
+---
+
+## 📋 API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `tabPanels` | `TabPanelConfig[]` | Required | Array of tab configurations with data and columns |
+| `dataConfig` | `DataOperationConfig` | `{}` | Configuration for data operations (comparison, filtering, rendering) |
+| `selectedIndex` | `number` | `undefined` | Controlled selected tab index |
+| `onTabChange` | `(index: number) => void` | `undefined` | Callback when tab selection changes |
+| `onGlobalRowSelectionChange` | `(data: any) => void` | `undefined` | Callback for row selection across tabs |
+| `ariaLabel` | `string` | Required | Accessible label for the component |
+| `ariaDescription` | `string` | `undefined` | Additional accessible description |
+| `className` | `string` | `''` | Additional CSS classes |
+| `disabled` | `boolean` | `false` | Disable the entire component |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Tab orientation |
+| `id` | `string` | `undefined` | Component ID |
+| `isLoading` | `boolean` | `false` | Show loading state |
+| `error` | `string` | `null` | Error message to display |
+
+### Data Configuration
+
+The `DataOperationConfig` interface allows you to customise how data is compared, filtered, and rendered:
+
+```tsx
+interface DataOperationConfig<T> {
+  dataComparator?: (a: T, b: T) => boolean;
+  filterFunction?: (data: T[], filters?: any) => T[];
+  booleanRenderer?: (value: any) => React.ReactNode;
+  getDataId?: (data: T) => string;
+}
+```
+
+---
+
+## 🏗️ Setup & Configuration
+
+### 1. Basic Setup
+
+For generic data, use the factory helpers:
+
+```tsx
+import { 
+  AriaTabsDataGrid,
+  createGenericTabsConfig,
+  dataComparators,
+  filterFunctions,
+  booleanRenderers
+} from './AriaTabsDataGrid';
+
+// Define your data structure
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  inStock: boolean;
+  category: string;
+}
+
+const products: Product[] = [
+  { id: '1', name: 'Widget A', price: 29.99, inStock: true, category: 'Tools' },
+  // ... more products
+];
+
+// Create tab configuration
+const tabDefinitions = [
+  {
+    id: 'all',
+    label: 'All Products',
+    columns: [
+      { key: 'name', label: 'Product Name' },
+      { key: 'price', label: 'Price', render: (item) => `£${item.price}` },
+      { key: 'inStock', label: 'In Stock' },
+      { key: 'category', label: 'Category' }
+    ]
+  },
+  {
+    id: 'tools',
+    label: 'Tools',
+    data: products.filter(p => p.category === 'Tools'),
+    columns: [
+      { key: 'name', label: 'Tool Name' },
+      { key: 'price', label: 'Price', render: (item) => `£${item.price}` }
+    ]
+  }
+];
+
+const tabPanels = createGenericTabsConfig(products, tabDefinitions);
+```
+
+### 2. Custom Data Operations
+
+```tsx
+const customConfig: DataOperationConfig<Product> = {
+  // How to compare two data items for equality
+  dataComparator: (a, b) => a.id === b.id,
+  
+  // How to filter data (optional)
+  filterFunction: (data, filters) => {
+    if (!filters) return data;
+    return data.filter(item => 
+      item.name.toLowerCase().includes(filters.search?.toLowerCase() || '')
+    );
+  },
+  
+  // How to render boolean values
+  booleanRenderer: (value) => value ? '✅ Available' : '❌ Out of Stock',
+  
+  // How to generate unique IDs for data items
+  getDataId: (item) => item.id
+};
+```
+
+### 3. Using Pre-built Configurations
+
+The component comes with several pre-built configurations:
+
+#### Healthcare Configuration
+```tsx
+import { healthcareDataConfig, createHealthcareTabsConfig } from './AriaTabsDataGridHealthcare';
+
+const healthcareTabs = createHealthcareTabsConfig(patientData);
+```
+
+#### E-commerce Configuration
+```tsx
+import { createPluginDataGrid } from './AriaTabsDataGridPlugins';
+
+const ecommerceGrid = createPluginDataGrid('ecommerce', products);
+```
+
+#### Financial Configuration
+```tsx
+const financialGrid = createPluginDataGrid('financial', transactions);
+```
+
+---
+
+## 🎨 Customization
+
+### Styling
+
+The component uses NHS design tokens and can be customized via CSS:
+
+```scss
+.aria-tabs-datagrid {
+  // Custom container styles
+  
+  &__tab {
+    // Custom tab styles
+  }
+  
+  &__grid {
+    // Custom table styles
+  }
+  
+  .data-row--selected {
+    // Custom selected row styles
+    background-color: var(--nhs-color-highlight);
+  }
+}
+```
+
+### Custom Column Rendering
+
+```tsx
+const columns = [
+  {
+    key: 'status',
+    label: 'Status',
+    render: (item) => (
+      <span className={`status status--${item.status.toLowerCase()}`}>
+        {item.status}
+      </span>
+    )
+  },
+  {
+    key: 'date',
+    label: 'Date',
+    render: (item) => new Date(item.date).toLocaleDateString('en-GB')
+  }
+];
+```
+
+### Custom Boolean Rendering
+
+```tsx
+const customBooleanRenderer = (value: boolean) => (
+  <span className={`boolean-indicator ${value ? 'positive' : 'negative'}`}>
+    {value ? (
+      <>
+        <span aria-hidden="true">🟢</span>
+        <span className="sr-only">Active</span>
+      </>
+    ) : (
+      <>
+        <span aria-hidden="true">🔴</span>
+        <span className="sr-only">Inactive</span>
+      </>
+    )}
+  </span>
+);
+```
+
+---
+
+## ⌨️ Keyboard Navigation
+
+The component supports comprehensive keyboard navigation:
+
+### Tab Navigation
+- `Tab` / `Shift+Tab`: Move between tabs
+- `Arrow Left/Right`: Navigate between tabs
+- `Home/End`: Jump to first/last tab
+- `Enter/Space`: Activate tab
+- `Arrow Down`: Move from tabs to table headers
+
+### Table Header Navigation
+- `Arrow Left/Right`: Navigate between column headers
+- `Arrow Up`: Return to tabs
+- `Arrow Down`: Move to table body
+- `Enter/Space`: Sort by column
+- `Home/End`: Jump to first/last header
+
+### Table Cell Navigation
+- `Arrow Keys`: Navigate between cells
+- `Home/End`: Navigate to row start/end
+- `Ctrl+Home/End`: Navigate to table start/end
+- `Enter/Space`: Select/deselect row
+
+---
+
+## 🔧 Advanced Features
+
+### Global Row Selection
+
+The component supports global row selection that persists across tabs:
+
+```tsx
+const [selectedPatient, setSelectedPatient] = useState(null);
+
+<AriaTabsDataGrid
+  tabPanels={healthcareTabs}
+  onGlobalRowSelectionChange={(patient) => {
+    setSelectedPatient(patient);
+    // Selection persists when switching tabs
+  }}
+/>
+```
+
+### Multi-Column Sorting
+
+Supports drag-and-drop multi-column sorting with visual priority indicators:
+
+```tsx
+// Sorting is managed automatically
+// Users can:
+// 1. Click column headers to sort
+// 2. Drag sort tags to reorder priority
+// 3. Click sort tags to toggle asc/desc
+// 4. Click X on sort tags to remove sorts
+```
+
+### Imperative API
+
+Access component methods via ref:
+
+```tsx
+const gridRef = useRef<AriaTabsDataGridRef>(null);
+
+// Programmatic control
+gridRef.current?.selectTab(2);
+gridRef.current?.clearSelection();
+gridRef.current?.applyFilters({ search: 'query' });
+const data = gridRef.current?.exportData();
+```
+
+---
+
+## 🏥 Healthcare Specialization
+
+### EWS Patient Data Structure
+
+```tsx
+interface EWSPatientData {
+  name: string;
+  age: number;
+  bed_name: string;
+  ward: string;
+  ews_data: {
+    respiratory_rate_bpm: number;
+    sp02: number;
+    temperature: number;
+    systolic_bp: number;
+    heart_rate: number;
+    avpu: 'alert' | 'voice' | 'pain' | 'unresponsive';
+  };
+  total_score: number;
+  risk_level: 'low' | 'medium' | 'high';
+  last_updated: string;
+}
+```
+
+### Healthcare Views
+
+The healthcare configuration provides specialized views:
+
+- **Patient Overview**: Demographics and basic EWS scores
+- **Critical Care**: High-risk patients requiring immediate attention
+- **Ward Management**: Organized by ward with bed assignments
+- **Discharge Planning**: Patients ready for discharge
+
+---
+
+## 🧪 Testing
+
+### Unit Testing
+
+```tsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import { AriaTabsDataGrid } from './AriaTabsDataGrid';
+
+test('should navigate tabs with keyboard', async () => {
+  render(<AriaTabsDataGrid tabPanels={mockTabs} />);
+  
+  const firstTab = screen.getByRole('tab', { name: 'Tab 1' });
+  firstTab.focus();
+  
+  fireEvent.keyDown(firstTab, { key: 'ArrowRight' });
+  
+  expect(screen.getByRole('tab', { name: 'Tab 2' })).toHaveFocus();
+});
+```
+
+### Accessibility Testing
+
+```tsx
+import { axe, toHaveNoViolations } from 'jest-axe';
+
+test('should have no accessibility violations', async () => {
+  const { container } = render(<AriaTabsDataGrid tabPanels={mockTabs} />);
+  const results = await axe(container);
+  expect(results).toHaveNoViolations();
+});
+```
+
+---
+
+## 📱 Responsive Design
+
+The component is fully responsive and adapts to different screen sizes:
+
+```scss
+// Mobile-first responsive design
+@media (max-width: 768px) {
+  .aria-tabs-datagrid__tabs {
+    flex-direction: column;
+  }
+  
+  .aria-tabs-datagrid__grid {
+    font-size: 0.875rem;
+  }
+}
+```
+
+---
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+1. **Sort configuration not persisting**: Ensure you're not resetting `sortConfig` in effects
+2. **Data not updating**: Check `dataComparator` function for proper equality checking
+3. **Keyboard navigation not working**: Verify ARIA attributes and focus management
+4. **Boolean values not rendering**: Check `booleanRenderer` configuration
+
+### Performance Optimization
+
+```tsx
+// Memoize large datasets
+const memoizedData = useMemo(() => expensiveDataTransformation(rawData), [rawData]);
+
+// Use stable column definitions
+const columns = useMemo(() => [
+  { key: 'name', label: 'Name' },
+  // ... other columns
+], []);
+```
+
+---
+
+## 📚 Examples
+
+### Complete E-commerce Example
+
+```tsx
+import React, { useState } from 'react';
+import { AriaTabsDataGrid, createGenericTabsConfig } from './AriaTabsDataGrid';
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  inStock: boolean;
+  rating: number;
+}
+
+const products: Product[] = [
+  { id: '1', name: 'Laptop Pro', price: 1299.99, category: 'Electronics', inStock: true, rating: 4.5 },
+  { id: '2', name: 'Office Chair', price: 299.99, category: 'Furniture', inStock: false, rating: 4.2 },
+  // ... more products
+];
+
+const EcommerceDemo = () => {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const tabDefinitions = [
+    {
+      id: 'all',
+      label: 'All Products',
+      columns: [
+        { key: 'name', label: 'Product Name' },
+        { key: 'category', label: 'Category' },
+        { key: 'price', label: 'Price', render: (item: Product) => `£${item.price.toFixed(2)}` },
+        { key: 'inStock', label: 'Available' },
+        { key: 'rating', label: 'Rating', render: (item: Product) => `⭐ ${item.rating}` }
+      ]
+    },
+    {
+      id: 'electronics',
+      label: 'Electronics',
+      data: products.filter(p => p.category === 'Electronics'),
+      columns: [
+        { key: 'name', label: 'Product Name' },
+        { key: 'price', label: 'Price', render: (item: Product) => `£${item.price.toFixed(2)}` },
+        { key: 'rating', label: 'Customer Rating' }
+      ]
+    }
+  ];
+
+  const customConfig = {
+    dataComparator: (a: Product, b: Product) => a.id === b.id,
+    booleanRenderer: (value: boolean) => value ? '✅ In Stock' : '❌ Out of Stock'
+  };
+
+  const tabPanels = createGenericTabsConfig(products, tabDefinitions);
+
+  return (
+    <div>
+      <AriaTabsDataGrid
+        dataConfig={customConfig}
+        tabPanels={tabPanels}
+        ariaLabel="Product Catalog"
+        onGlobalRowSelectionChange={setSelectedProduct}
+      />
+      
+      {selectedProduct && (
+        <div className="selected-product-details">
+          <h3>Selected: {selectedProduct.name}</h3>
+          <p>Price: £{selectedProduct.price.toFixed(2)}</p>
+          <p>Category: {selectedProduct.category}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default EcommerceDemo;
+```
+
+---
+
+## 🤝 Contributing
+
+When extending the component:
+
+1. **Maintain accessibility**: All new features must be ARIA compliant
+2. **Follow NHS design patterns**: Use design tokens and established patterns
+3. **Test thoroughly**: Include unit tests and accessibility tests
+4. **Document changes**: Update this documentation for any API changes
+
+---
+
+## 📖 Related Components
+
+- **Tag**: Used in the sort status control for draggable sort indicators
+- **Button**: NHS-compliant buttons used throughout the interface
+- **Tabs**: Base tab component extended for data grid integration
+
+---
+
+## 🎯 Roadmap
+
+Future enhancements planned:
+
+- [ ] Virtual scrolling for large datasets
+- [ ] Column resizing and reordering
+- [ ] Export functionality (CSV, Excel)
+- [ ] Advanced filtering UI
+- [ ] Real-time data updates
+- [ ] Bulk selection operations

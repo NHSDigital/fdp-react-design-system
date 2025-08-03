@@ -168,8 +168,8 @@ export interface AriaTabsDataGridState {
   tabLoadingStates: boolean[];
   /** Error state for each tab */
   tabErrors: (string | null)[];
-  /** Current sort configuration for each tab */
-  tabSortConfigs: SortConfig[][];
+  /** Global sort configuration that applies across all tabs */
+  sortConfig: SortConfig[];
   /** Selected row indices for each tab */
   selectedRows: number[][];
   /** Filter states for healthcare tabs */
@@ -183,7 +183,7 @@ export type AriaTabsDataGridAction =
   | { type: 'SET_SELECTED_INDEX'; payload: number }
   | { type: 'SET_TAB_LOADING'; payload: { tabIndex: number; isLoading: boolean } }
   | { type: 'SET_TAB_ERROR'; payload: { tabIndex: number; error: string | null } }
-  | { type: 'SET_TAB_SORT'; payload: { tabIndex: number; sortConfig: SortConfig[] } }
+  | { type: 'SET_SORT'; payload: SortConfig[] }
   | { type: 'SET_SELECTED_ROWS'; payload: { tabIndex: number; rowIndices: number[] } }
   | { type: 'SET_FILTERS'; payload: HealthcareFilter }
   | { type: 'RESET_STATE' };

@@ -1,5 +1,5 @@
 import { ColumnDefinition, SortConfig } from './AriaDataGridTypes';
-import React from 'react';
+import * as React from 'react';
 
 /**
  * Configuration for each tab panel containing a data grid

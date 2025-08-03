@@ -669,13 +669,13 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
             {getCurrentSortDescription()}
           </div>
           { state.sortConfig?.length > 0 && (
-			<Button
-				variant="secondary"
-				onClick={handleResetSorts}
-				aria-label="Reset all sorting"
-			>
-				Clear All Sorts
-			</Button>
+            <Button
+              variant="secondary"
+              onClick={handleResetSorts}
+              aria-label="Reset all sorting"
+            >
+              Clear All Sorts
+            </Button>
           )}
         </div>
 

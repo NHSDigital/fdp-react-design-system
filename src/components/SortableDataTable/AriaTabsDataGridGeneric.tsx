@@ -3,7 +3,8 @@ import {
   AriaTabsDataGridProps, 
   TabPanelConfig, 
   AriaTabsDataGridState, 
-  AriaTabsDataGridAction
+  AriaTabsDataGridAction,
+  DataOperationConfig
 } from './AriaTabsDataGridTypes';
 import { SortConfig } from './AriaDataGridTypes';
 import './AriaTabsDataGrid.scss';
@@ -24,20 +25,6 @@ interface NavigationState {
   focusedRowIndex: number;
   focusedColumnIndex: number;
   isGridActive: boolean;
-}
-
-/**
- * Generic configuration for data operations
- */
-export interface DataOperationConfig<T> {
-  /** Custom function to compare two data objects for equality */
-  dataComparator?: (a: T, b: T) => boolean;
-  /** Custom function to filter data based on provided filters */
-  filterFunction?: (data: T[], filters: any) => T[];
-  /** Custom function to render boolean values */
-  booleanRenderer?: (value: boolean) => React.ReactNode;
-  /** Custom function to get a unique identifier for a data object */
-  getDataId?: (data: T) => string | number;
 }
 
 /**
@@ -65,10 +52,10 @@ export interface GenericAriaTabsDataGridProps<T> extends Omit<AriaTabsDataGridPr
 /**
  * Reducer function for the generic tabs data grid state
  */
-function genericTabsDataGridReducer<T>(
-  state: AriaTabsDataGridState<T>, 
-  action: AriaTabsDataGridAction<T>
-): AriaTabsDataGridState<T> {
+function genericTabsDataGridReducer(
+  state: AriaTabsDataGridState, 
+  action: AriaTabsDataGridAction
+): AriaTabsDataGridState {
   switch (action.type) {
     case 'SET_SELECTED_INDEX':
       return { ...state, selectedIndex: action.payload };
@@ -116,7 +103,7 @@ function genericTabsDataGridReducer<T>(
 /**
  * Default data comparison function using JSON stringification
  */
-const defaultDataComparator = <T>(data1: T, data2: T): boolean => {
+const defaultDataComparator = <T,>(data1: T, data2: T): boolean => {
   if (!data1 || !data2) return data1 === data2;
   return JSON.stringify(data1) === JSON.stringify(data2);
 };
@@ -124,7 +111,7 @@ const defaultDataComparator = <T>(data1: T, data2: T): boolean => {
 /**
  * Default filter function (no filtering)
  */
-const defaultFilterFunction = <T>(data: T[], _filters?: any): T[] => data;
+const defaultFilterFunction = <T,>(data: T[], _filters?: any): T[] => data;
 
 /**
  * Default boolean renderer
@@ -136,7 +123,7 @@ const defaultBooleanRenderer = (value: boolean): React.ReactNode => {
 /**
  * Default data ID function
  */
-const defaultGetDataId = <T>(data: T): string => {
+const defaultGetDataId = <T,>(data: T): string => {
   return JSON.stringify(data);
 };
 
@@ -146,7 +133,7 @@ const defaultGetDataId = <T>(data: T): string => {
 export const GenericAriaTabsDataGrid = forwardRef<
   GenericAriaTabsDataGridRef<any>, 
   GenericAriaTabsDataGridProps<any>
->(function GenericAriaTabsDataGrid<T>(props: GenericAriaTabsDataGridProps<T>, ref: any) {
+>(function GenericAriaTabsDataGrid<T,>(props: GenericAriaTabsDataGridProps<T>, ref: any) {
   const {
     tabPanels,
     selectedIndex: selectedIndexProp,
@@ -189,7 +176,7 @@ export const GenericAriaTabsDataGrid = forwardRef<
   });
 
   // Initialize state with global sort configuration
-  const initialState: AriaTabsDataGridState<T> = useMemo(() => {
+  const initialState: AriaTabsDataGridState = useMemo(() => {
     // Combine all initial sort configs from all panels into one global config
     const allSortConfigs = tabPanels.flatMap(panel => panel.sortConfig || []);
     // Remove duplicates while preserving order
@@ -208,7 +195,7 @@ export const GenericAriaTabsDataGrid = forwardRef<
     };
   }, [tabPanels, selectedIndex]);
 
-  const [state, dispatch] = useReducer(genericTabsDataGridReducer<T>, initialState);
+  const [state, dispatch] = useReducer(genericTabsDataGridReducer, initialState);
 
   // Controlled component support - sync selectedIndex when it changes externally
   useEffect(() => {
@@ -256,7 +243,7 @@ export const GenericAriaTabsDataGrid = forwardRef<
 /**
  * Generic factory function to create tabs configuration
  */
-export const createGenericTabsConfig = <T>(
+export const createGenericTabsConfig = <T,>(
   data: T[],
   tabDefinitions: Array<{
     id: string;

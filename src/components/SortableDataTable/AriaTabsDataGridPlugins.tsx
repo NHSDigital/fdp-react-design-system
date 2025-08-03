@@ -348,7 +348,7 @@ export const dataGridPlugins = {
 /**
  * Helper function to create a data grid with a specific plugin
  */
-export const createPluginDataGrid = <T>(
+export const createPluginDataGrid = <T,>(
   pluginName: keyof typeof dataGridPlugins,
   data: T[]
 ) => {

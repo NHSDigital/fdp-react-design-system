@@ -31,7 +31,7 @@ export interface GenericTabDefinition<T = any> {
 /**
  * Generic factory function to create tabs configuration
  */
-export const createGenericTabsConfig = <T>(
+export const createGenericTabsConfig = <T,>(
   data: T[],
   tabDefinitions: GenericTabDefinition<T>[]
 ): TabPanelConfig<T>[] => {
@@ -53,7 +53,7 @@ export const createGenericTabsConfig = <T>(
 /**
  * Helper function to create simple data views
  */
-export const createSimpleDataView = <T>(
+export const createSimpleDataView = <T,>(
   data: T[],
   config: {
     id: string;
@@ -159,19 +159,19 @@ export const createBusinessDataTabs = <T extends Record<string, any>>(
  */
 export const dataComparators = {
   /** JSON-based comparison (safe but slower) */
-  json: <T>(a: T, b: T): boolean => JSON.stringify(a) === JSON.stringify(b),
+  json: <T,>(a: T, b: T): boolean => JSON.stringify(a) === JSON.stringify(b),
   
   /** ID-based comparison */
-  id: <T extends { id: string | number }>(a: T, b: T): boolean => a.id === b.id,
+  id: <T extends { id: string | number },>(a: T, b: T): boolean => a.id === b.id,
   
   /** Name-based comparison */
-  name: <T extends { name: string }>(a: T, b: T): boolean => a.name === b.name,
+  name: <T extends { name: string },>(a: T, b: T): boolean => a.name === b.name,
   
   /** Custom field comparison */
-  field: <T>(fieldName: keyof T) => (a: T, b: T): boolean => a[fieldName] === b[fieldName],
+  field: <T,>(fieldName: keyof T) => (a: T, b: T): boolean => a[fieldName] === b[fieldName],
   
   /** Multi-field comparison */
-  multiField: <T>(fields: Array<keyof T>) => (a: T, b: T): boolean => 
+  multiField: <T,>(fields: Array<keyof T>) => (a: T, b: T): boolean => 
     fields.every(field => a[field] === b[field])
 };
 
@@ -180,10 +180,10 @@ export const dataComparators = {
  */
 export const filterFunctions = {
   /** No filtering */
-  none: <T>(data: T[], _filters?: any): T[] => data,
+  none: <T,>(data: T[], _filters?: any): T[] => data,
   
   /** Simple object property matching */
-  simple: <T>(data: T[], filters?: Record<string, any>): T[] => {
+  simple: <T,>(data: T[], filters?: Record<string, any>): T[] => {
     if (!filters) return data;
     
     return data.filter(item => {
@@ -202,7 +202,7 @@ export const filterFunctions = {
   },
   
   /** Text search across multiple fields */
-  textSearch: <T>(searchFields: Array<keyof T>) => (data: T[], filters?: { search?: string }): T[] => {
+  textSearch: <T,>(searchFields: Array<keyof T>) => (data: T[], filters?: { search?: string }): T[] => {
     if (!filters?.search) return data;
     
     const searchTerm = filters.search.toLowerCase();

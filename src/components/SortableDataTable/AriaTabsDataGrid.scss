@@ -359,6 +359,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
       tbody {
         tr {
           //transition: $transition-default;
+          border-bottom: 1px solid nhs.$nhs-fdp-color-grey-4;
           
           &:hover {
             background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02);

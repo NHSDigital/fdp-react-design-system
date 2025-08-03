@@ -1,15 +1,10 @@
 import { useReducer, useCallback, useMemo, useRef, useImperativeHandle, forwardRef, useEffect, useState } from 'react';
 import { 
   AriaTabsDataGridProps, 
-  TabPanelConfig, 
   AriaTabsDataGridState, 
-  AriaTabsDataGridAction,
-  EWSPatientData,
-  HealthcareViewConfig,
-  HealthcareFilter 
+  AriaTabsDataGridAction
 } from './AriaTabsDataGridTypes';
 import { SortConfig } from './AriaDataGridTypes';
-import { booleanIcon } from './icons';
 import './AriaTabsDataGrid.scss';
 import { Button } from "../Button/Button";
 /**
@@ -78,52 +73,6 @@ function tabsDataGridReducer(
 }
 
 /**
- * Healthcare column configurations for EWS patient data
- */
-const createHealthcareViewConfig = (): HealthcareViewConfig => ({
-  overview: [
-    { key: 'name', label: 'Patient Name' },
-    { key: 'age', label: 'Age' },
-    { key: 'ward_name', label: 'Ward' },
-    { key: 'bed_name', label: 'Bed' },
-    { key: 'ews_score', label: 'EWS Score' },
-    { key: 'speciality', label: 'Specialty' },
-    { key: 'consultant', label: 'Consultant' }
-  ],
-  vitals: [
-    { key: 'name', label: 'Patient Name' },
-    { key: 'ews_score', label: 'EWS Score' },
-    { key: 'respiratory_rate_bpm', label: 'Respiratory Rate', render: (data: EWSPatientData) => data.ews_data.respiratory_rate_bpm },
-    { key: 'sp02', label: 'SpO2 %', render: (data: EWSPatientData) => data.ews_data.sp02 },
-    { key: 'temperature', label: 'Temperature °C', render: (data: EWSPatientData) => data.ews_data.temperature },
-    { key: 'systolic_bp', label: 'Systolic BP', render: (data: EWSPatientData) => data.ews_data.systolic_bp },
-    { key: 'heart_rate', label: 'Heart Rate', render: (data: EWSPatientData) => data.ews_data.heart_rate },
-    { key: 'avpu', label: 'AVPU', render: (data: EWSPatientData) => data.ews_data.avpu.toUpperCase() }
-  ],
-  discharge: [
-    { key: 'name', label: 'Patient Name' },
-    { key: 'anticipated_discharge_date', label: 'Anticipated Discharge', render: (data: EWSPatientData) => new Date(data.anticipated_discharge_date).toLocaleDateString() },
-    { key: 'early_discharge_notification', label: 'Discharge Status' },
-    { key: 'medically_optimised', label: 'Medically Optimised' },
-    { key: 'criteria_to_reside', label: 'Criteria to Reside' },
-    { key: 'fast_track', label: 'Fast Track' },
-    { key: 'transport_status', label: 'Transport Status' },
-    { key: 'pathway', label: 'Pathway' }
-  ],
-  logistics: [
-    { key: 'name', label: 'Patient Name' },
-    { key: 'ward_name', label: 'Ward' },
-    { key: 'room_name', label: 'Room' },
-    { key: 'bed_name', label: 'Bed' },
-    { key: 'bed_type', label: 'Bed Type' },
-    { key: 'transport_booking', label: 'Transport Booked' },
-    { key: 'transport_mobility', label: 'Transport Type' },
-    { key: 'district_nurse_referral', label: 'District Nurse' },
-    { key: 'equipment', label: 'Equipment' }
-  ]
-});
-
-/**
  * Component reference interface for imperative actions
  */
 export interface AriaTabsDataGridRef {
@@ -132,7 +81,7 @@ export interface AriaTabsDataGridRef {
   exportData: (tabIndex?: number) => any[];
   getSelectedRows: (tabIndex?: number) => number[];
   clearSelection: (tabIndex?: number) => void;
-  applyFilters: (filters: HealthcareFilter) => void;
+  applyFilters: (filters: any) => void;
 }
 
 /**
@@ -380,10 +329,9 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
       return `Sorted by: ${sortText}`;
     }, [state.sortConfig, tabPanels]);
 
-    // NHS-compliant boolean rendering function
+    // Generic boolean rendering function
     const renderBooleanIcon = useCallback((value: boolean) => {
-      const iconEntry = booleanIcon.find(icon => icon.value === value);
-      return iconEntry ? iconEntry.icon : null;
+      return value ? '✓' : '✗';
     }, []);
 
     const focusGridCell = useCallback((rowIndex: number, colIndex: number) => {
@@ -553,48 +501,24 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
       }
     }, [tabPanels, state.selectedIndex, dispatch, setNavigationState, focusGridHeader, focusGridCell]);
 
-    // Filter healthcare data based on current filters
-    const getFilteredData = useCallback((data: EWSPatientData[], filters?: HealthcareFilter): EWSPatientData[] => {
+    // Generic filter function - can be overridden by specific implementations
+    const getFilteredData = useCallback((data: any[], filters?: any): any[] => {
       if (!filters) return data;
-
-      return data.filter(patient => {
-        // EWS Score range filter
-        if (filters.ewsScoreRange) {
-          const [min, max] = filters.ewsScoreRange;
-          if (patient.ews_score < min || patient.ews_score > max) return false;
-        }
-
-        // Ward filter
-        if (filters.wards && filters.wards.length > 0) {
-          if (!filters.wards.includes(patient.ward_name)) return false;
-        }
-
-        // Specialty filter
-        if (filters.specialties && filters.specialties.length > 0) {
-          if (!filters.specialties.includes(patient.speciality)) return false;
-        }
-
-        // Discharge status filter
-        if (filters.dischargeStatuses && filters.dischargeStatuses.length > 0) {
-          if (!filters.dischargeStatuses.includes(patient.early_discharge_notification)) return false;
-        }
-
-        // AVPU filter
-        if (filters.avpuLevels && filters.avpuLevels.length > 0) {
-          if (!filters.avpuLevels.includes(patient.ews_data.avpu)) return false;
-        }
-
-        // Medical optimization filter
-        if (filters.medicallyOptimised !== null && filters.medicallyOptimised !== undefined) {
-          if (patient.medically_optimised !== filters.medicallyOptimised) return false;
-        }
-
-        // Fast track filter
-        if (filters.fastTrack !== null && filters.fastTrack !== undefined) {
-          if (patient.fast_track !== filters.fastTrack) return false;
-        }
-
-        return true;
+      
+      // Basic filtering - specific implementations can override this
+      return data.filter(item => {
+        // Simple object property matching
+        return Object.keys(filters).every(key => {
+          const filterValue = filters[key];
+          const itemValue = item[key];
+          
+          if (filterValue === null || filterValue === undefined) return true;
+          if (Array.isArray(filterValue)) {
+            return filterValue.includes(itemValue);
+          }
+          
+          return itemValue === filterValue;
+        });
       });
     }, []);
 
@@ -629,7 +553,7 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
           payload: null
         });
       },
-      applyFilters: (filters: HealthcareFilter) => {
+      applyFilters: (filters: any) => {
         dispatch({ type: 'SET_FILTERS', payload: filters });
       }
     }), [state.selectedIndex, state.selectedRows, tabPanels, onTabChange]);
@@ -756,9 +680,9 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
             >
               {isSelected && (
                 (() => {
-                  // Get filtered data for healthcare tabs
+                  // Get filtered data - check if it has healthcare structure
                   const displayData = panel.data.some((item: any) => 'ews_data' in item) 
-                    ? getFilteredData(panel.data as EWSPatientData[], state.filters)
+                    ? getFilteredData(panel.data, state.filters)
                     : panel.data;
 
                   // Sort the data based on the global sort configuration
@@ -939,54 +863,4 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
   }
 );
 
-/**
- * Factory function to create healthcare-specific tabs configuration
- */
-export const createHealthcareTabsConfig = (patients: EWSPatientData[]): TabPanelConfig<EWSPatientData>[] => {
-  const viewConfig = createHealthcareViewConfig();
-  
-  return [
-    {
-      id: 'overview',
-      label: 'Patient Overview',
-      data: patients,
-      columns: viewConfig.overview,
-      ariaLabel: 'Patient Overview Data Grid',
-      ariaDescription: 'Overview of all patients with basic information'
-    },
-    {
-      id: 'vitals',
-      label: 'Vital Signs & EWS',
-      data: patients,
-      columns: viewConfig.vitals,
-      sortConfig: [
-        { key: 'ews_score', direction: 'desc' },
-        { key: 'name', direction: 'asc' },
-        { key: 'ward_name', direction: 'asc' }
-      ],
-      ariaLabel: 'Patient Vital Signs Data Grid',
-      ariaDescription: 'Patient vital signs and Early Warning Scores'
-    },
-    {
-      id: 'discharge',
-      label: 'Discharge Planning',
-      data: patients.filter(p => p.anticipated_discharge_date),
-      columns: viewConfig.discharge,
-      sortConfig: [
-        { key: 'anticipated_discharge_date', direction: 'asc' },
-        { key: 'discharge_status', direction: 'desc' }
-      ],
-      ariaLabel: 'Discharge Planning Data Grid',
-      ariaDescription: 'Patient discharge planning and status information'
-    },
-    {
-      id: 'logistics',
-      label: 'Bed Management',
-      data: patients,
-      columns: viewConfig.logistics,
-      sortConfig: [{ key: 'ward_name', direction: 'asc' }],
-      ariaLabel: 'Bed Management Data Grid',
-      ariaDescription: 'Patient location and logistics information'
-    }
-  ];
-}
+

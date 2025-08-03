@@ -460,20 +460,28 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
         />
       );
 
-      // Switch to vitals tab (has initial sort by EWS score)
+      // Switch to vitals tab
       const vitalsTab = screen.getByRole('tab', { name: 'Vital Signs & EWS' });
       await user.click(vitalsTab);
 
-      // Check EWS Score column has descending sort
-      const ewsHeader = screen.getByRole('columnheader', { name: 'EWS Score 1' });
+      // Check EWS Score column starts with no sort (clean slate)
+      const ewsHeader = screen.getByRole('columnheader', { name: /EWS Score/i });
+      expect(ewsHeader.getAttribute('aria-sort')).toBe('none');
+
+      // Click to sort by EWS Score
+      await user.click(ewsHeader);
+      expect(ewsHeader.getAttribute('aria-sort')).toBe('ascending');
+
+      // Click again to get descending
+      await user.click(ewsHeader);
       expect(ewsHeader.getAttribute('aria-sort')).toBe('descending');
 
       // Click to sort by patient name
-      const nameHeader = screen.getByRole('columnheader', { name: 'Patient Name 2' });
+      const nameHeader = screen.getByRole('columnheader', { name: /Patient Name/i });
       await user.click(nameHeader);
 
-      // Verify sort indicator updated - Patient Name was ascending (priority 2), clicking toggles to descending
-      expect(nameHeader.getAttribute('aria-sort')).toBe('descending');
+      // Verify sort indicator updated
+      expect(nameHeader.getAttribute('aria-sort')).toBe('ascending');
     });
 
     it('maintains separate sort states for different tabs', async () => {
@@ -488,26 +496,29 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
       );
 
       // Sort in overview tab
-      const overviewNameHeader = screen.getByRole('columnheader', { name: 'Patient Name 2' });
+      const overviewNameHeader = screen.getByRole('columnheader', { name: /Patient Name/i });
       await user.click(overviewNameHeader);
-      // Patient Name was ascending (priority 2), clicking toggles to descending
-      expect(overviewNameHeader.getAttribute('aria-sort')).toBe('descending');
+      expect(overviewNameHeader.getAttribute('aria-sort')).toBe('ascending');
 
       // Switch to vitals tab
       const vitalsTab = screen.getByRole('tab', { name: 'Vital Signs & EWS' });
       await user.click(vitalsTab);
 
-      // Check vitals tab has its own sort state
-      const vitalsEWSHeader = screen.getByRole('columnheader', { name: 'EWS Score 1' });
-      expect(vitalsEWSHeader.getAttribute('aria-sort')).toBe('descending');
+      // Check vitals tab has its own clean sort state (no inherited sorts)
+      const vitalsEWSHeader = screen.getByRole('columnheader', { name: /EWS Score/i });
+      expect(vitalsEWSHeader.getAttribute('aria-sort')).toBe('none');
+      
+      // Apply a sort in vitals tab
+      await user.click(vitalsEWSHeader);
+      expect(vitalsEWSHeader.getAttribute('aria-sort')).toBe('ascending');
 
       // Switch back to overview
       const overviewTab = screen.getByRole('tab', { name: 'Patient Overview' });
       await user.click(overviewTab);
 
-      // Verify overview sort state is preserved - should now be descending
-      const overviewNameHeaderAgain = screen.getByRole('columnheader', { name: 'Patient Name 2' });
-      expect(overviewNameHeaderAgain.getAttribute('aria-sort')).toBe('descending');
+      // Verify overview sort state is preserved
+      const overviewNameHeaderAgain = screen.getByRole('columnheader', { name: /Patient Name/i });
+      expect(overviewNameHeaderAgain.getAttribute('aria-sort')).toBe('ascending');
     });
 
     it('supports custom column render functions', async () => {

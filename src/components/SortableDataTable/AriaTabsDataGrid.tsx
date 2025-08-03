@@ -56,6 +56,26 @@ function tabsDataGridReducer(
     case 'SET_FILTERS':
       return { ...state, filters: action.payload };
     
+    case 'ADJUST_ARRAYS':
+      const { newLength } = action.payload;
+      const adjustedLoadingStates = new Array(newLength).fill(false);
+      const adjustedErrors = new Array(newLength).fill(null);
+      const adjustedSelectedRows = new Array(newLength).fill([]);
+      
+      // Copy existing states up to the minimum length
+      for (let i = 0; i < Math.min(state.tabLoadingStates.length, newLength); i++) {
+        adjustedLoadingStates[i] = state.tabLoadingStates[i];
+        adjustedErrors[i] = state.tabErrors[i];
+        adjustedSelectedRows[i] = state.selectedRows[i];
+      }
+      
+      return {
+        ...state,
+        tabLoadingStates: adjustedLoadingStates,
+        tabErrors: adjustedErrors,
+        selectedRows: adjustedSelectedRows
+      };
+    
     case 'RESET_STATE':
       return {
         selectedIndex: 0,
@@ -127,27 +147,33 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
       isGridActive: false
     });
 
-    // Initialize state with global sort configuration
+    // Initialize state with empty sort configuration to avoid contamination
     const initialState: AriaTabsDataGridState = useMemo(() => {
-      // Combine all initial sort configs from all panels into one global config
-      const allSortConfigs = tabPanels.flatMap(panel => panel.sortConfig || []);
-      // Remove duplicates while preserving order
-      const uniqueSortConfigs = allSortConfigs.filter((config, index, arr) => 
-        arr.findIndex(c => c.key === config.key) === index
-      );
-      
+      // Don't combine initial sort configs - let users build their own sorting
+      // This prevents "mega-filter" effects and state reset issues
       return {
         selectedIndex,
         tabLoadingStates: new Array(tabPanels.length).fill(false),
         tabErrors: new Array(tabPanels.length).fill(null),
-        sortConfig: uniqueSortConfigs,
+        sortConfig: [], // Start with empty sort config
         selectedRows: new Array(tabPanels.length).fill([]),
         globalSelectedRowData: null,
         filters: undefined
       };
-    }, [tabPanels, selectedIndex]);
+    }, [selectedIndex]); // Remove tabPanels dependency to prevent state resets
 
     const [state, dispatch] = useReducer(tabsDataGridReducer, initialState);
+
+    // Handle tabPanels length changes without resetting sort configuration
+    useEffect(() => {
+      const currentLength = state.tabLoadingStates.length;
+      const newLength = tabPanels.length;
+      
+      if (currentLength !== newLength) {
+        // Adjust array lengths while preserving existing sort configuration
+        dispatch({ type: 'ADJUST_ARRAYS', payload: { newLength } });
+      }
+    }, [tabPanels.length]);
 
     // Controlled component support - sync selectedIndex when it changes externally
     useEffect(() => {

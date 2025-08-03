@@ -207,6 +207,7 @@ export type AriaTabsDataGridAction =
   | { type: 'SET_SELECTED_ROWS'; payload: { tabIndex: number; rowIndices: number[] } }
   | { type: 'SET_GLOBAL_SELECTED_ROW_DATA'; payload: any | null }
   | { type: 'SET_FILTERS'; payload: HealthcareFilter }
+  | { type: 'ADJUST_ARRAYS'; payload: { newLength: number } }
   | { type: 'RESET_STATE' };
 
 /**

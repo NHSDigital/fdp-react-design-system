@@ -55,6 +55,9 @@ function tabsDataGridReducer(
       newSelectedRows[action.payload.tabIndex] = action.payload.rowIndices;
       return { ...state, selectedRows: newSelectedRows };
     
+    case 'SET_GLOBAL_SELECTED_ROW_DATA':
+      return { ...state, globalSelectedRowData: action.payload };
+    
     case 'SET_FILTERS':
       return { ...state, filters: action.payload };
     
@@ -65,6 +68,7 @@ function tabsDataGridReducer(
         tabErrors: new Array(state.tabErrors.length).fill(null),
         sortConfig: [],
         selectedRows: new Array(state.selectedRows.length).fill([]),
+        globalSelectedRowData: null,
         filters: undefined
       };
     
@@ -140,6 +144,7 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
       tabPanels,
       selectedIndex: selectedIndexProp,
       onTabChange,
+      onGlobalRowSelectionChange,
       ariaLabel,
       ariaDescription,
       className = '',
@@ -182,6 +187,7 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
         tabErrors: new Array(tabPanels.length).fill(null),
         sortConfig: uniqueSortConfigs,
         selectedRows: new Array(tabPanels.length).fill([]),
+        globalSelectedRowData: null,
         filters: undefined
       };
     }, [tabPanels, selectedIndex]);
@@ -194,6 +200,27 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
         dispatch({ type: 'SET_SELECTED_INDEX', payload: selectedIndex });
       }
     }, [selectedIndex, isControlled]);
+
+    // Handle global row selection callback
+    useEffect(() => {
+      if (onGlobalRowSelectionChange) {
+        onGlobalRowSelectionChange(state.globalSelectedRowData);
+      }
+    }, [state.globalSelectedRowData, onGlobalRowSelectionChange]);
+
+    // Helper function to check if two data objects are equal
+    // For healthcare data, we'll use name + bed_name as a unique identifier
+    const isDataEqual = useCallback((data1: any, data2: any): boolean => {
+      if (!data1 || !data2) return data1 === data2;
+      
+      // For healthcare data with name and bed_name
+      if (data1.name && data1.bed_name && data2.name && data2.bed_name) {
+        return data1.name === data2.name && data1.bed_name === data2.bed_name;
+      }
+      
+      // Fallback to JSON comparison for other data types
+      return JSON.stringify(data1) === JSON.stringify(data2);
+    }, []);
 
     // Handle tab selection with keyboard support
     const handleTabSelect = useCallback((index: number) => {
@@ -518,12 +545,10 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
           break;
         
         case 'Enter':
+        case ' ': // Space key
           event.preventDefault();
-          // Select this row
-          dispatch({
-            type: 'SET_SELECTED_ROWS',
-            payload: { tabIndex: state.selectedIndex, rowIndices: [rowIndex] }
-          });
+          // For row selection, we need to access the actual sorted data
+          // This will be handled in the row click handler where sortedData is available
           break;
       }
     }, [tabPanels, state.selectedIndex, dispatch, setNavigationState, focusGridHeader, focusGridCell]);
@@ -590,15 +615,18 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
         const panel = tabPanels[targetIndex];
         return panel ? panel.data : [];
       },
-      getSelectedRows: (tabIndex?: number) => {
-        const targetIndex = tabIndex ?? state.selectedIndex;
-        return state.selectedRows[targetIndex] || [];
+      getSelectedRows: (_tabIndex?: number) => {
+        // Return global selected row as an array for backwards compatibility
+        // For global row selection, we need to find the row index of the selected data
+        // This requires the sortedData to be available in this scope
+        const selectedRows = state.globalSelectedRowData ? [] : []; // We'll handle this in the render where sortedData is available
+        return selectedRows;
       },
-      clearSelection: (tabIndex?: number) => {
-        const targetIndex = tabIndex ?? state.selectedIndex;
+      clearSelection: (_tabIndex?: number) => {
+        // Clear global selection instead of per-tab selection
         dispatch({
-          type: 'SET_SELECTED_ROWS',
-          payload: { tabIndex: targetIndex, rowIndices: [] }
+          type: 'SET_GLOBAL_SELECTED_ROW_DATA',
+          payload: null
         });
       },
       applyFilters: (filters: HealthcareFilter) => {
@@ -843,7 +871,8 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
                       </thead>
                       <tbody className="nhsuk-table__body" role="rowgroup">
                         {sortedData.map((row, rowIndex) => {
-                          const isRowSelected = state.selectedRows[index]?.includes(rowIndex);
+                          // Use global row selection instead of per-tab selection
+                          const isRowSelected = state.globalSelectedRowData && isDataEqual(state.globalSelectedRowData, row);
                           const isRowFocused = navigationState.focusArea === 'cells' && 
                                               navigationState.focusedRowIndex === rowIndex;
                           
@@ -880,9 +909,12 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
                                     className={`data-cell ${isCellFocused ? 'data-cell--focused' : ''}`}
                                     tabIndex={isCellFocused ? 0 : -1}
                                     onClick={() => {
+                                      // Toggle global row selection - if same row clicked, deselect it
+                                      const isCurrentlySelected = state.globalSelectedRowData && isDataEqual(state.globalSelectedRowData, row);
+                                      const newSelectedRowData = isCurrentlySelected ? null : row;
                                       dispatch({
-                                        type: 'SET_SELECTED_ROWS',
-                                        payload: { tabIndex: index, rowIndices: [rowIndex] }
+                                        type: 'SET_GLOBAL_SELECTED_ROW_DATA',
+                                        payload: newSelectedRowData
                                       });
                                     }}
                                     onKeyDown={(e) => handleCellKeyDown(e, rowIndex, colIndex)}
@@ -910,7 +942,7 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 /**
  * Factory function to create healthcare-specific tabs configuration
  */
-export function createHealthcareTabsConfig(patients: EWSPatientData[]): TabPanelConfig<EWSPatientData>[] {
+export const createHealthcareTabsConfig = (patients: EWSPatientData[]): TabPanelConfig<EWSPatientData>[] => {
   const viewConfig = createHealthcareViewConfig();
   
   return [

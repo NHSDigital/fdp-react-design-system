@@ -77,6 +77,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
     padding: 0;
     list-style: none;
     overflow-x: auto;
+
   }
 
   // Individual Tab
@@ -98,6 +99,11 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
     position: relative;
     min-height: nhs.$nhs-fdp-form-spacing-input-min-height + nhs.$nhs-fdp-spacing-2;
 
+    // Remove right border from the last tab to avoid double border with container
+    // &:last-child {
+    //   border-right: none;
+    // }
+
     &:hover:not(&--disabled) {
       background: nhs.$nhs-fdp-color-grey-3; // Lighter grey for better visual progression
       color: $color-primary;
@@ -107,6 +113,9 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
       outline: nhs.$nhs-fdp-border-width-card-bottom solid $color-focus;
       outline-offset: -(nhs.$nhs-fdp-border-width-card-bottom);
       background: nhs.$nhs-fdp-color-grey-3; // Match the hover state
+      border-top-color: $color-focus; // Focus border
+      border-left-color: $color-focus;
+      border-right-color: $color-focus;
       z-index: 10;
       position: relative;
     }
@@ -114,11 +123,14 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
     &--selected {
       background: nhs.$nhs-fdp-color-grey-5;
       color: $color-primary;
-	  border-top: 2px solid $color-primary;
-	  border-left: 2px solid $color-primary;
-	  border-right: 2px solid $color-primary;
-	  border-bottom: 0;	
+      border-top: 2px solid $color-primary;
+      border-left: 2px solid $color-primary;
+      border-right: 2px solid $color-primary;
+      border-bottom: 2px solid nhs.$nhs-fdp-color-grey-5; // Match the tab background to hide the border underneath
       font-weight: 700;
+      margin-bottom: -1px; // Extend down to cover the gap between tab and panel
+      position: relative;
+      z-index: 1; // Ensure it appears above the container border
     }
 
     &--disabled {
@@ -167,6 +179,10 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 		min-height: 400px; // Component-specific height, kept local
 		border-radius: 0 0 $border-radius $border-radius; // Rounded bottom corners only
 		outline: none; // Reset outline
+		border-left: 2px solid $color-primary;
+		border-right: 2px solid transparent;
+		border-bottom: 2px solid $color-primary;
+		margin-top: -2px; // Connect seamlessly with the tab
 
 		&:focus {
 				outline: nhs.$nhs-fdp-border-width-form-element solid $color-primary;
@@ -187,6 +203,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
       margin-bottom: 0;
 	  border-collapse: collapse;
       border-spacing: 0;
+	  border-right: 2px solid $color-primary;
       // Consistent table cell padding using design tokens
       th,
       td {
@@ -209,7 +226,8 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
           font-size: nhs.$nhs-fdp-font-size-16-tablet;
           color: $color-text;
           position: relative;
-          border-bottom: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-grey-1; // Darker grey for better separation
+		  border-top: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-primary-blue;
+          border-bottom: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-grey-4; // Darker grey for better separation
           
           // Sortable header styling
           &.sortable-header {
@@ -305,6 +323,21 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
                 outline: 2px solid $color-focus;
                 outline-offset: 2px;
               }
+              
+              // Mobile-specific adjustments
+              @media (max-width: 768px) {
+                min-width: 18px;
+                height: 18px;
+                font-size: 10px;
+                
+                &::before {
+                  width: 14px;
+                  height: 14px;
+                  font-size: 9px;
+                  top: -7px;
+                  right: -7px;
+                }
+              }
             }
             
             // Sort arrow styling
@@ -312,7 +345,8 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
               color: $color-text;
               flex-shrink: 0; // Prevent shrinking in flex container
               transition: $transition-default;
-              padding-left: 4px;;
+              padding-left: 4px;
+              
               &:hover {
                 color: $color-primary;
               }
@@ -324,7 +358,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
       // Data row styling with increased specificity
       tbody {
         tr {
-          transition: $transition-default;
+          //transition: $transition-default;
           
           &:hover {
             background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02);
@@ -506,6 +540,12 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
     gap: nhs.$nhs-fdp-spacing-1;
     margin-left: nhs.$nhs-fdp-spacing-2;
     
+    // Mobile-specific adjustments
+    @media (max-width: 768px) {
+      gap: calc(nhs.$nhs-fdp-spacing-1 / 2);
+      margin-left: nhs.$nhs-fdp-spacing-1;
+    }
+    
     .sort-priority {
       &--small {
         min-width: 16px;
@@ -563,7 +603,6 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
   // Selected row styles
   &--selected {
     background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.15); // Lighter blue tint
-    //border-left: nhs.$nhs-fdp-border-width-card-bottom solid $color-primary;
 
     &:hover {
       background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.25); // Darker on hover
@@ -573,22 +612,13 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
       background-color: inherit;
       border-color: $color-primary;
     }
-
-    // .data-cell--focused {
-    //   background-color: $color-primary;
-    //   color: nhs.$nhs-fdp-color-primary-white;
-	//   //border: nhs.$nhs-fdp-border-width-card-bottom solid nhs.$nhs-fdp-color-primary-black;
-    //   z-index: 5;
-	//   border-radius: 0 !important; // Ensure no border radius is applied
-    // }
   }
 
   // Focused row styles for keyboard navigation
   &--focused {
     background-color: $color-secondary;
-    //border-left: nhs.$nhs-fdp-spacing-1 + 1px solid $color-highlight; // 5px
     outline: nhs.$nhs-fdp-spacing-1 solid $color-highlight; // 5px total
-	outline-offset: 0px;
+    outline-offset: 0px;
 
     td {
       background-color: inherit;
@@ -630,17 +660,6 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
   }
 }
 
-// Accessibility enhancements
-.aria-tabs-datagrid__tab:focus-visible {
-  outline: nhs.$nhs-fdp-border-width-card-bottom solid $color-focus;
-  outline-offset: -(nhs.$nhs-fdp-border-width-card-bottom);
-}
-
-.aria-tabs-datagrid__panel:focus-visible {
-  outline: nhs.$nhs-fdp-border-width-form-element solid $color-primary;
-  outline-offset: nhs.$nhs-fdp-spacing-1;
-}
-
 // Screen reader only content
 .nhsuk-u-visually-hidden {
   position: absolute;
@@ -677,30 +696,6 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
       }
     }
   }
-  
-  // Mobile-specific sort priority adjustments
-  .sortable-header {
-    .sort-priority {
-      min-width: 18px;
-      height: 18px;
-      font-size: 10px;
-      
-      &::before {
-        width: 14px;
-        height: 14px;
-        font-size: 9px;
-        top: -7px;
-        right: -7px;
-      }
-    }
-  }
-  
-  .sortable-table-header {
-    .sort-priority-container {
-      gap: calc(nhs.$nhs-fdp-spacing-1 / 2);
-      margin-left: nhs.$nhs-fdp-spacing-1;
-    }
-  }
 }
 
 // High Contrast Mode Support
@@ -711,10 +706,6 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
     &--selected {
       background: Highlight;
       color: HighlightText;
-    }
-    
-    &:focus {
-      outline: nhs.$nhs-fdp-border-width-form-element solid Highlight;
     }
   }
   

@@ -39,6 +39,8 @@ export interface AriaTabsDataGridProps<T = any> {
   selectedIndex?: number;
   /** Handler for tab selection changes */
   onTabChange?: (index: number) => void;
+  /** Handler for global row selection changes */
+  onGlobalRowSelectionChange?: (rowData: T | null) => void;
   /** ARIA label for the entire tabs component */
   ariaLabel: string;
   /** Optional description for the tabs component */
@@ -172,6 +174,8 @@ export interface AriaTabsDataGridState {
   sortConfig: SortConfig[];
   /** Selected row indices for each tab */
   selectedRows: number[][];
+  /** Global selected row data that persists across tabs */
+  globalSelectedRowData: any | null;
   /** Filter states for healthcare tabs */
   filters?: HealthcareFilter;
 }
@@ -185,6 +189,7 @@ export type AriaTabsDataGridAction =
   | { type: 'SET_TAB_ERROR'; payload: { tabIndex: number; error: string | null } }
   | { type: 'SET_SORT'; payload: SortConfig[] }
   | { type: 'SET_SELECTED_ROWS'; payload: { tabIndex: number; rowIndices: number[] } }
+  | { type: 'SET_GLOBAL_SELECTED_ROW_DATA'; payload: any | null }
   | { type: 'SET_FILTERS'; payload: HealthcareFilter }
   | { type: 'RESET_STATE' };
 

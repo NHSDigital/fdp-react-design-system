@@ -117,7 +117,7 @@ const SortableDataTable: React.FC = () => {
 		return iconEntry ? iconEntry.icon : null;
 	};
 
-	// Focus a specific cell and scroll it into view
+	// Focus a specific cell
 	const focusCell = useCallback((rowIndex: number, colIndex: number) => {
 		setTimeout(() => {
 			const targetCell = tableRef.current?.querySelector(
@@ -125,30 +125,16 @@ const SortableDataTable: React.FC = () => {
 			);
 			if (targetCell) {
 				(targetCell as HTMLElement).focus();
-				
-				// Scroll the cell into view smoothly
-				targetCell.scrollIntoView({
-					behavior: 'smooth',
-					block: 'center',
-					inline: 'nearest'
-				});
 			}
 		}, 0);
 	}, []);
 
-	// Focus a specific header and scroll it into view
+	// Focus a specific header
 	const focusHeader = useCallback((colIndex: number) => {
 		setTimeout(() => {
 			const headerCell = tableRef.current?.querySelector(`th:nth-child(${colIndex + 1})`);
 			if (headerCell) {
 				(headerCell as HTMLElement).focus();
-				
-				// Scroll the header into view smoothly
-				headerCell.scrollIntoView({
-					behavior: 'smooth',
-					block: 'center',
-					inline: 'nearest'
-				});
 			}
 		}, 0);
 	}, []);

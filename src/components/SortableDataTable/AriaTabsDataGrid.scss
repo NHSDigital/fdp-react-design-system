@@ -165,7 +165,6 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	&__panel {
 		background: $color-white;
 		min-height: 400px; // Component-specific height, kept local
-		border: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-primary-blue; // Use border instead of outline
 		border-radius: 0 0 $border-radius $border-radius; // Rounded bottom corners only
 		outline: none; // Reset outline
 
@@ -186,17 +185,13 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 
     &.nhsuk-table {
       margin-bottom: 0;
-	  border-collapse: unset;
+	  border-collapse: collapse;
       border-spacing: 0;
       // Consistent table cell padding using design tokens
       th,
       td {
         padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2; // 12px vertical, 8px horizontal
 		vertical-align: middle;
-		// Use box-shadow to reserve space without visible effects
-		box-shadow: 
-				inset 0 0 0 nhs.$nhs-fdp-border-width-card-bottom transparent, // Inner black border space
-				0 0 0 calc(nhs.$nhs-fdp-spacing-1 + 1px) transparent; // Outer yellow outline space
 		// Border styling handled by specific row/header sections
 		
 		// Disable default browser focus-visible styling
@@ -207,9 +202,6 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
       
       // Header row specific styling
       thead {
-		tr {
-			border-bottom: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-grey-2;
-		}
         th {
           padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-2; // 16px vertical, 8px horizontal
           background-color: nhs.$nhs-fdp-color-grey-5;
@@ -217,6 +209,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
           font-size: nhs.$nhs-fdp-font-size-16-tablet;
           color: $color-text;
           position: relative;
+          border-bottom: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-grey-1; // Darker grey for better separation
           
           // Sortable header styling
           &.sortable-header {
@@ -342,7 +335,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
             
             // Consistent cell content spacing
             &:first-child {
-              padding-left: nhs.$nhs-fdp-spacing-3; // 12px
+              padding-left: nhs.$nhs-fdp-spacing-3; // 12px - restored to standard padding
             }
             
             &:last-child {
@@ -452,20 +445,20 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	// Use layered box-shadow for NHS focus conventions - with !important to override base styling
 	box-shadow: 
 			inset 0 0 0 nhs.$nhs-fdp-border-width-card-bottom nhs.$nhs-fdp-color-primary-black, // Black inner border
-			0 0 0 calc(nhs.$nhs-fdp-spacing-1 + 1px) $color-highlight !important; // Yellow outer outline (5px total)
+			0 0 0 2px $color-highlight !important; // Yellow outer outline (5px total)
 	position: relative;
 	z-index: 5;
 
 	.header-label {
-			color: $color-white;
+		color: $color-white;
 	}
 
 	.sort-indicator {
-			color: $color-white;
+		color: $color-white;
 	}
 
 	.sort-arrow {
-			color: $color-white;
+		color: $color-white;
 	}
     
     // Enhanced sort priority when focused - inherit the base styles but with white text
@@ -497,9 +490,8 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
     background-color: $color-primary;
 	color: nhs.$nhs-fdp-semantic-color-text-primary;
 	// Use layered box-shadow to show both black border and yellow outline - with !important to override base styling
-	box-shadow: 
-			inset 0 0 0 nhs.$nhs-fdp-border-width-card-bottom nhs.$nhs-fdp-color-primary-black, // Black inner border
-			0 0 0 calc(nhs.$nhs-fdp-spacing-1 + 1px) $color-highlight !important; // Yellow outer outline (5px total)
+	box-shadow: inset 0 0 0 nhs.$nhs-fdp-border-width-card-bottom nhs.$nhs-fdp-color-primary-black, // Black inner border
+			0 0 0 5px $color-highlight !important; // Yellow outer outline (5px total)
 	border-radius: 0 !important; // Ensure no border radius is applied
 	position: relative;
 	z-index: 10;
@@ -571,7 +563,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
   // Selected row styles
   &--selected {
     background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.15); // Lighter blue tint
-    border-left: nhs.$nhs-fdp-border-width-card-bottom solid $color-primary;
+    //border-left: nhs.$nhs-fdp-border-width-card-bottom solid $color-primary;
 
     &:hover {
       background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.25); // Darker on hover
@@ -582,20 +574,20 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
       border-color: $color-primary;
     }
 
-    .data-cell--focused {
-      background-color: $color-primary;
-      color: nhs.$nhs-fdp-color-primary-white;
-	  //border: nhs.$nhs-fdp-border-width-card-bottom solid nhs.$nhs-fdp-color-primary-black;
-      z-index: 5;
-	  border-radius: 0 !important; // Ensure no border radius is applied
-    }
+    // .data-cell--focused {
+    //   background-color: $color-primary;
+    //   color: nhs.$nhs-fdp-color-primary-white;
+	//   //border: nhs.$nhs-fdp-border-width-card-bottom solid nhs.$nhs-fdp-color-primary-black;
+    //   z-index: 5;
+	//   border-radius: 0 !important; // Ensure no border radius is applied
+    // }
   }
 
   // Focused row styles for keyboard navigation
   &--focused {
     background-color: $color-secondary;
-    border-left: nhs.$nhs-fdp-spacing-1 + 1px solid $color-highlight; // 5px
-    outline: nhs.$nhs-fdp-spacing-1 + 1px solid $color-highlight; // 5px total
+    //border-left: nhs.$nhs-fdp-spacing-1 + 1px solid $color-highlight; // 5px
+    outline: nhs.$nhs-fdp-spacing-1 solid $color-highlight; // 5px total
 	outline-offset: 0px;
 
     td {
@@ -604,8 +596,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 
     // Combined selected and focused state
     &.data-row--selected {
-      background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.25);
-      border-left: nhs.$nhs-fdp-border-width-card-bottom solid $color-primary;
+      background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.4);
       outline: nhs.$nhs-fdp-spacing-1 + 1px solid $color-highlight; // 5px
     }
   }

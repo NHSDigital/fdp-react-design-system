@@ -1,4 +1,4 @@
-import { useReducer, useCallback, useMemo, useRef, useImperativeHandle, forwardRef, useEffect, useState } from 'react';
+import React, { useReducer, useCallback, useMemo, useRef, useImperativeHandle, forwardRef, useEffect, useState } from 'react';
 import { 
   AriaTabsDataGridProps, 
   AriaTabsDataGridState, 
@@ -6,7 +6,8 @@ import {
 } from './AriaTabsDataGridTypes';
 import { SortConfig } from './AriaDataGridTypes';
 import './AriaTabsDataGrid.scss';
-import { Button } from "../Button/Button";
+import { SortStatusControl } from "./SortStatusControl/SortStatusControl";
+
 /**
  * Navigation focus areas for hierarchical keyboard navigation
  */
@@ -307,50 +308,50 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
     }, [state.selectedIndex]);
 
     // Reset all global sorts
-    const handleResetSorts = useCallback(() => {
-      dispatch({ 
-        type: 'SET_SORT', 
-        payload: []
-      });
-    }, []);
+    // const handleResetSorts = useCallback(() => {
+    //   dispatch({ 
+    //     type: 'SET_SORT', 
+    //     payload: []
+    //   });
+    // }, []);
 
     // Generate sort description text showing all global sorts
-    const getCurrentSortDescription = useCallback(() => {
-      const currentSorts = state.sortConfig || [];
-      
-      if (currentSorts.length === 0) {
-        return 'No sorting applied';
-      }
+    // const getCurrentSortDescription = useCallback(() => {
+    //   const currentSorts = state.sortConfig || [];
+    //   
+    //   if (currentSorts.length === 0) {
+    //     return 'No sorting applied';
+    //   }
 
-      // Show all global sorts with column labels where available
-      const sortDescriptions = currentSorts.map((sort: SortConfig, index: number) => {
-        // Find the column definition across all tabs
-        let columnLabel = sort.key;
-        for (const panel of tabPanels) {
-          const column = panel.columns.find(col => col.key === sort.key);
-          if (column) {
-            columnLabel = column.label;
-            break;
-          }
-        }
-        
-        const direction = sort.direction === 'asc' ? 'ascending' : 'descending';
-        return `${index + 1}. ${columnLabel} (${direction})`;
-      });
+    //   // Show all global sorts with column labels where available
+    //   const sortDescriptions = currentSorts.map((sort: SortConfig, index: number) => {
+    //     // Find the column definition across all tabs
+    //     let columnLabel = sort.key;
+    //     for (const panel of tabPanels) {
+    //       const column = panel.columns.find(col => col.key === sort.key);
+    //       if (column) {
+    //         columnLabel = column.label;
+    //         break;
+    //       }
+    //     }
+    //     
+    //     const direction = sort.direction === 'asc' ? 'ascending' : 'descending';
+    //     return `${index + 1}. ${columnLabel} (${direction})`;
+    //   });
 
-      // Join with proper grammar: commas and 'and' before the last item
-      let sortText: string;
-      if (sortDescriptions.length === 1) {
-        sortText = sortDescriptions[0];
-      } else if (sortDescriptions.length === 2) {
-        sortText = sortDescriptions.join(' and ');
-      } else {
-        const lastItem = sortDescriptions.pop();
-        sortText = sortDescriptions.join(', ') + ', and ' + lastItem;
-      }
+    //   // Join with proper grammar: commas and 'and' before the last item
+    //   let sortText: string;
+    //   if (sortDescriptions.length === 1) {
+    //     sortText = sortDescriptions[0];
+    //   } else if (sortDescriptions.length === 2) {
+    //     sortText = sortDescriptions.join(' and ');
+    //   } else {
+    //     const lastItem = sortDescriptions.pop();
+    //     sortText = sortDescriptions.join(', ') + ', and ' + lastItem;
+    //   }
 
-      return `Sorted by: ${sortText}`;
-    }, [state.sortConfig, tabPanels]);
+    //   return `Sorted by: ${sortText}`;
+    // }, [state.sortConfig, tabPanels]);
 
     // Configurable boolean rendering function
     const renderBooleanIcon = useCallback((value: boolean) => {
@@ -660,24 +661,18 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
           Arrow Down from headers moves to table cells. Use Arrow keys to navigate between cells.
         </div>
 
-        {/* Sort Status and Reset Controls */}
-        <div className="aria-tabs-datagrid__sort-status">
-          <div 
-            className={`aria-tabs-datagrid__sort-description ${state.sortConfig?.length > 0 ? 'aria-tabs-datagrid__sort-description--active' : ''}`}
-            aria-live="polite"
-          >
-            {getCurrentSortDescription()}
-          </div>
-          { state.sortConfig?.length > 0 && (
-            <Button
-              variant="secondary"
-              onClick={handleResetSorts}
-              aria-label="Reset all sorting"
-            >
-              Clear All Sorts
-            </Button>
+        <SortStatusControl
+          sortConfig={state.sortConfig || []}
+          columns={tabPanels.flatMap(panel => 
+            panel.columns.map(col => ({ key: col.key, label: col.label }))
+          ).filter((col, index, arr) => 
+            arr.findIndex(c => c.key === col.key) === index // Remove duplicates
           )}
-        </div>
+          onSortChange={(newSortConfig) => {
+            dispatch({ type: 'SET_SORT', payload: newSortConfig });
+          }}
+          ariaLabel="Data grid sort configuration"
+        />
 
         {/* Tab List with Manual ARIA Implementation */}
         <div 
@@ -817,7 +812,7 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
                                   <span className="header-label">
                                     {column.label}
                                   </span>
-                                  <div className="sort-indicator-container">
+                                  <div className={`sort-indicator-container ${isSorted ? `sort-indicator--${sortInfo?.direction}` : ''}`}>
                                     {/* Show sort priority when any sort is configured and this column is sorted */}
                                     {state.sortConfig && state.sortConfig.length > 0 && 
                                      state.sortConfig.findIndex((config: SortConfig) => config.key === column.key) !== -1 && (
@@ -832,18 +827,13 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
                                     {/* Show sort arrow only when column is actually sorted */}
                                     {isSorted && (
                                       <svg
-                                        width="12"
-                                        height="12"
-                                        viewBox="0 0 12 12"
-                                        fill="currentColor"
-                                        className="sort-arrow"
-                                        aria-hidden="true"
+                                        className={`nhsuk-icon sort-arrow sort-arrow--${sortInfo?.direction}`}
+                                        xmlns="http://www.w3.org/2000/svg" 
+                                        viewBox="0 0 24 24" 
+                                        aria-hidden="true" 
+                                        focusable="false"
                                       >
-                                        {sortInfo?.direction === 'asc' ? (
-                                          <path d="M6 2L2 8h8L6 2z" />
-                                        ) : (
-                                          <path d="M6 10L2 4h8L6 10z" />
-                                        )}
+                                        <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" />
                                       </svg>
                                     )}
                                   </div>

@@ -6,8 +6,12 @@ import { TagProps } from './Tag.types';
 export const Tag: React.FC<TagProps> = ({
   text,
   html,
+  children,
   color = 'default',
   noBorder = false,
+  closable = false,
+  onClose,
+  disabled = false,
   className,
   ...props
 }) => {
@@ -16,16 +20,43 @@ export const Tag: React.FC<TagProps> = ({
     {
       [`nhsuk-tag--${color}`]: color !== 'default',
       'nhsuk-tag--no-border': noBorder,
+      'nhsuk-tag--closable': closable,
+      'nhsuk-tag--disabled': disabled,
     },
     className
   );
 
+  const handleClose = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!disabled && onClose) {
+      onClose();
+    }
+  };
+
   return (
     <strong className={tagClasses} {...props}>
-      {html ? (
+      {/* Content - children take precedence, then html, then text */}
+      {children ? (
+        children
+      ) : html ? (
         <span dangerouslySetInnerHTML={{ __html: html }} />
       ) : (
         text
+      )}
+      
+      {/* Close button */}
+      {closable && (
+        <button
+          type="button"
+          className="nhsuk-tag__close"
+          onClick={handleClose}
+          disabled={disabled}
+          aria-label="Remove"
+          title="Remove"
+        >
+          ×
+        </button>
       )}
     </strong>
   );

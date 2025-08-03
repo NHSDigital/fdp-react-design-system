@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // NHS FDP Design System - Utilities
 // Common utility classes used across components
 @use '../../packages/nhs-fdp/dist/scss/tokens' as tokens;
@@ -37,7 +39,7 @@ span.nhsuk-u-visually-hidden {
 .nhsuk-width-container {
   margin: 0 auto;
   padding: 0 tokens.$nhs-fdp-spacing-4;
-  max-width: 1020px;
+  max-width: tokens.$nhs-fdp-breakpoint-xlarge;
 
   @media (min-width: 768px) {
     padding: 0 tokens.$nhs-fdp-spacing-5;

@@ -233,6 +233,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
           &.sortable-header {
             cursor: pointer;
             user-select: none;
+			//border-right: 1px solid nhs.$nhs-fdp-color-grey-3;
             
             // Disable default browser focus-visible styling
             &:focus-visible {
@@ -261,11 +262,11 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
             .sort-indicator-container {
               display: inline-flex;
               align-items: center;
-              gap: nhs.$nhs-fdp-spacing-1;
+              justify-content: center; // Center the priority indicator
               margin-left: nhs.$nhs-fdp-spacing-2;
-              min-width: 44px; // Reserve space for priority indicator (20px) + arrow (12px) + gaps
-              min-height: 20px; // Match the priority indicator height
-              justify-content: flex-end; // Align indicators to the right
+              min-width: 44px; // Reserve space for priority indicator (20px) + arrow (20px) + gaps
+              min-height: 44px; // Increased height for vertical stacking
+              position: relative; // For absolute positioning of chevron
             }
             
             // Always visible sort priority styling (not just when focused)
@@ -345,7 +346,21 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
               color: $color-text;
               flex-shrink: 0; // Prevent shrinking in flex container
               transition: $transition-default;
-              padding-left: 4px;
+              width: 30px; // Increased from 16px
+              height: 30px; // Increased from 16px
+              position: absolute; // Position relative to container
+              left: 50%; // Center horizontally
+              transform: translateX(-50%); // Center horizontally
+              
+              &.sort-arrow--asc {
+                top: -20px; // Position further above the priority indicator
+                transform: translateX(-50%) rotate(-90deg); // Center and rotate
+              }
+              
+              &.sort-arrow--desc {
+                bottom: -20px; // Position further below the priority indicator
+                transform: translateX(-50%) rotate(90deg); // Center and rotate
+              }
               
               &:hover {
                 color: $color-primary;
@@ -494,6 +509,15 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 
 	.sort-arrow {
 		color: $color-white;
+		fill: $color-white;
+		
+		&.sort-arrow--asc {
+			transform: rotate(-90deg);
+		}
+		
+		&.sort-arrow--desc {
+			transform: rotate(90deg);
+		}
 	}
     
     // Enhanced sort priority when focused - inherit the base styles but with white text
@@ -501,13 +525,18 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
       // Color adjustments for focused state while maintaining base styling
       &--priority-1,
       &--priority-2,
-      &--priority-3,
       &--priority-4,
       &--priority-5 {
         // Maintain the background colors but ensure visibility on focused header
         box-shadow: nhs.$nhs-fdp-shadow-card-hover;
         transform: scale(1.05);
       }
+	  &--priority-3 {
+		// Maintain the background colors but ensure visibility on focused header
+		//box-shadow: 0 2px 4px nhs.$nhs-fdp-color-primary-white;
+		background: nhs.$nhs-fdp-color-primary-white !important; // Ensure white background for visibility
+		color: nhs.$nhs-fdp-color-primary-blue !important;
+	  }
       
       &::before {
         // Make sure the priority number is still visible on focused headers

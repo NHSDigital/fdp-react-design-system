@@ -1,7 +1,10 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, forwardRef, useImperativeHandle } from 'react';
 import classNames from 'classnames';
-import { TabsProps, TabItemId } from './Tabs.types';
+import { TabsProps, TabItemId, TabsHandle, TabItem } from './Tabs.types';
 import './Tabs.scss';
+
+// Export TabsHandle type for external use
+export type { TabsHandle } from './Tabs.types';
 
 /**
  * NHS Tabs Component
@@ -12,16 +15,20 @@ import './Tabs.scss';
  * @param props - Tabs component props
  * @returns JSX element
  */
-export const Tabs: React.FC<TabsProps> = ({
+export const Tabs = forwardRef<TabsHandle, TabsProps>(({
   items,
   defaultActiveTab,
   activeTab: controlledActiveTab,
   onTabChange,
+  onTabFocus,
+  onTabListBlur,
+  onEscape,
+  autoActivate = true,
   className,
   id,
   'data-testid': testId,
   ...props
-}) => {
+}, ref) => {
   // Determine if component is controlled or uncontrolled
   const isControlled = controlledActiveTab !== undefined;
   
@@ -45,9 +52,17 @@ export const Tabs: React.FC<TabsProps> = ({
     onTabChange?.(tabId);
   }, [isControlled, onTabChange]);
   
+  // Handle tab focus
+  const handleTabFocus = useCallback((tabId: TabItemId) => {
+    onTabFocus?.(tabId);
+    if (autoActivate) {
+      handleTabClick(tabId);
+    }
+  }, [onTabFocus, autoActivate, handleTabClick]);
+  
   // Keyboard navigation
   const handleKeyDown = useCallback((event: React.KeyboardEvent, tabId: TabItemId) => {
-    const tabIds = items.filter(item => !item.disabled).map(item => item.id);
+    const tabIds = items.filter((item: TabItem) => !item.disabled).map((item: TabItem) => item.id);
     const currentIndex = tabIds.indexOf(tabId);
     
     let newIndex: number | null = null;
@@ -65,6 +80,10 @@ export const Tabs: React.FC<TabsProps> = ({
       case 'End':
         newIndex = tabIds.length - 1;
         break;
+      case 'Escape':
+        event.preventDefault();
+        onEscape?.();
+        return;
       default:
         return;
     }
@@ -75,10 +94,10 @@ export const Tabs: React.FC<TabsProps> = ({
       const newTabRef = tabRefs.current.get(newTabId);
       if (newTabRef) {
         newTabRef.focus();
-        handleTabClick(newTabId);
+        handleTabFocus(newTabId);
       }
     }
-  }, [items, handleTabClick]);
+  }, [items, handleTabFocus, onEscape]);
   
   // Set tab ref
   const setTabRef = useCallback((tabId: TabItemId, element: HTMLButtonElement | null) => {
@@ -88,6 +107,30 @@ export const Tabs: React.FC<TabsProps> = ({
       tabRefs.current.delete(tabId);
     }
   }, []);
+  
+  // Focus a specific tab (for external control)
+  const focusTab = useCallback((tabId: TabItemId) => {
+    const tabRef = tabRefs.current.get(tabId);
+    if (tabRef) {
+      tabRef.focus();
+    }
+  }, []);
+  
+  // Expose ref methods
+  useImperativeHandle(ref, () => ({
+    focusTab,
+    getActiveTab: () => activeTab,
+    getTabListElement: () => tabListRef.current,
+  }), [focusTab, activeTab]);
+  
+  // Handle blur from tablist
+  const handleTabListBlur = useCallback((event: React.FocusEvent) => {
+    // Check if focus is moving outside the tablist
+    const relatedTarget = event.relatedTarget as Element;
+    if (!tabListRef.current?.contains(relatedTarget)) {
+      onTabListBlur?.();
+    }
+  }, [onTabListBlur]);
   
   // Build CSS classes
   const tabsClasses = classNames('nhsuk-tabs', className);
@@ -103,11 +146,14 @@ export const Tabs: React.FC<TabsProps> = ({
       
       <div 
         className="nhsuk-tabs__list-container"
-        role="tablist"
         ref={tabListRef}
       >
-        <ul className="nhsuk-tabs__list">
-          {items.map((item) => {
+        <ul 
+          className="nhsuk-tabs__list"
+          role="tablist"
+          onBlur={handleTabListBlur}
+        >
+          {items.map((item: TabItem) => {
             const isActive = item.id === activeTab;
             const isDisabled = item.disabled;
             
@@ -129,6 +175,7 @@ export const Tabs: React.FC<TabsProps> = ({
                   disabled={isDisabled}
                   onClick={() => !isDisabled && handleTabClick(item.id)}
                   onKeyDown={(event) => !isDisabled && handleKeyDown(event, item.id)}
+                  onFocus={() => !isDisabled && handleTabFocus(item.id)}
                   {...item.attributes}
                 >
                   {item.label}
@@ -139,7 +186,7 @@ export const Tabs: React.FC<TabsProps> = ({
         </ul>
       </div>
       
-      {items.map((item) => {
+      {items.map((item: TabItem) => {
         const isActive = item.id === activeTab;
         
         return (
@@ -157,4 +204,4 @@ export const Tabs: React.FC<TabsProps> = ({
       })}
     </div>
   );
-};
+});

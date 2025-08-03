@@ -22,12 +22,29 @@ export interface TabsProps {
   activeTab?: TabItemId;
   /** Callback when tab changes */
   onTabChange?: (tabId: TabItemId) => void;
+  /** Callback when a tab gains focus */
+  onTabFocus?: (tabId: TabItemId) => void;
+  /** Callback when the tablist loses focus */
+  onTabListBlur?: () => void;
+  /** Callback when escape is pressed */
+  onEscape?: () => void;
   /** Additional CSS classes for the tabs container */
   className?: string;
   /** HTML id attribute for the tabs */
   id?: string;
   /** Test identifier */
   'data-testid'?: string;
+  /** Whether the tabs should auto-activate on focus */
+  autoActivate?: boolean;
   /** Additional HTML attributes */
   [key: string]: any;
+}
+
+export interface TabsHandle {
+  /** Focus a specific tab */
+  focusTab: (tabId: TabItemId) => void;
+  /** Get the currently active tab */
+  getActiveTab: () => TabItemId;
+  /** Get the tab list element */
+  getTabListElement: () => HTMLDivElement | null;
 }

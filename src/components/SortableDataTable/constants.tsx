@@ -1,7 +1,7 @@
-import React from 'react';
+// NHS FDP Design System Colors and Focus Area types
 
 // Focus area types for better type safety
-export type FocusArea = 'tabs' | 'headers' | 'table';
+export type FocusArea = 'tabs' | 'headers' | 'table' | 'cells';
 
 // Screen reader only styles
 export const srOnlyStyles = {

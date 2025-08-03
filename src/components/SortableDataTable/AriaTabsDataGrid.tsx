@@ -90,6 +90,7 @@ export interface AriaTabsDataGridRef {
 export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGridProps>(
   function AriaTabsDataGrid(props, ref) {
     const {
+      dataConfig = {},
       tabPanels,
       selectedIndex: selectedIndexProp,
       onTabChange,
@@ -107,7 +108,12 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
       'data-testid': dataTestId
     } = props;
 
-    // Determine if component is controlled
+    // Extract data operation functions with defaults
+  const {
+    dataComparator = (a: any, b: any) => JSON.stringify(a) === JSON.stringify(b),
+    filterFunction = (data: any[]) => data,
+    booleanRenderer = (value: any) => value ? '✓' : '✗'
+  } = dataConfig || {};    // Determine if component is controlled
     const isControlled = selectedIndexProp !== undefined;
     const selectedIndex = selectedIndexProp ?? 0;
 
@@ -157,19 +163,10 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
       }
     }, [state.globalSelectedRowData, onGlobalRowSelectionChange]);
 
-    // Helper function to check if two data objects are equal
-    // For healthcare data, we'll use name + bed_name as a unique identifier
+    // Generic data equality check using provided or default comparator
     const isDataEqual = useCallback((data1: any, data2: any): boolean => {
-      if (!data1 || !data2) return data1 === data2;
-      
-      // For healthcare data with name and bed_name
-      if (data1.name && data1.bed_name && data2.name && data2.bed_name) {
-        return data1.name === data2.name && data1.bed_name === data2.bed_name;
-      }
-      
-      // Fallback to JSON comparison for other data types
-      return JSON.stringify(data1) === JSON.stringify(data2);
-    }, []);
+      return dataComparator(data1, data2);
+    }, [dataComparator]);
 
     // Handle tab selection with keyboard support
     const handleTabSelect = useCallback((index: number) => {
@@ -329,10 +326,10 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
       return `Sorted by: ${sortText}`;
     }, [state.sortConfig, tabPanels]);
 
-    // Generic boolean rendering function
+    // Configurable boolean rendering function
     const renderBooleanIcon = useCallback((value: boolean) => {
-      return value ? '✓' : '✗';
-    }, []);
+      return booleanRenderer(value);
+    }, [booleanRenderer]);
 
     const focusGridCell = useCallback((rowIndex: number, colIndex: number) => {
       setTimeout(() => {
@@ -495,32 +492,69 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
         case 'Enter':
         case ' ': // Space key
           event.preventDefault();
-          // For row selection, we need to access the actual sorted data
-          // This will be handled in the row click handler where sortedData is available
+          // Handle row selection - we'll get the row data from currentPanel.data
+          if (currentPanel && currentPanel.data[rowIndex]) {
+            // Get filtered data
+            const displayData = currentPanel.data.some((item: any) => 'ews_data' in item) 
+              ? filterFunction(currentPanel.data, state.filters)
+              : currentPanel.data;
+
+            // Sort the data based on the global sort configuration
+            const sortConfig = state.sortConfig;
+            let sortedData = displayData;
+            if (sortConfig && sortConfig.length > 0) {
+              sortedData = [...displayData].sort((a: any, b: any) => {
+                // Apply each sort configuration in order
+                for (const { key, direction } of sortConfig) {
+                  let aValue = a[key];
+                  let bValue = b[key];
+
+                  // Handle rendered values
+                  const column = currentPanel.columns.find(col => col.key === key);
+                  if (column?.render) {
+                    aValue = column.render(a);
+                    bValue = column.render(b);
+                  }
+
+                  // Handle null/undefined values
+                  if (aValue == null && bValue == null) continue;
+                  if (aValue == null) return direction === 'asc' ? -1 : 1;
+                  if (bValue == null) return direction === 'asc' ? 1 : -1;
+
+                  // Type-specific comparison
+                  let result = 0;
+                  if (typeof aValue === 'number' && typeof bValue === 'number') {
+                    result = aValue - bValue;
+                  } else {
+                    result = String(aValue).localeCompare(String(bValue), undefined, { numeric: true, sensitivity: 'base' });
+                  }
+
+                  if (result !== 0) {
+                    return direction === 'asc' ? result : -result;
+                  }
+                }
+                return 0;
+              });
+            }
+            
+            if (sortedData[rowIndex]) {
+              const row = sortedData[rowIndex];
+              const isCurrentlySelected = state.globalSelectedRowData && isDataEqual(state.globalSelectedRowData, row);
+              const newSelectedRowData = isCurrentlySelected ? null : row;
+              dispatch({
+                type: 'SET_GLOBAL_SELECTED_ROW_DATA',
+                payload: newSelectedRowData
+              });
+            }
+          }
           break;
       }
-    }, [tabPanels, state.selectedIndex, dispatch, setNavigationState, focusGridHeader, focusGridCell]);
+    }, [tabPanels, state.selectedIndex, state.filters, state.sortConfig, filterFunction, isDataEqual, dispatch, setNavigationState, focusGridHeader, focusGridCell]);
 
-    // Generic filter function - can be overridden by specific implementations
+    // Configurable filter function
     const getFilteredData = useCallback((data: any[], filters?: any): any[] => {
-      if (!filters) return data;
-      
-      // Basic filtering - specific implementations can override this
-      return data.filter(item => {
-        // Simple object property matching
-        return Object.keys(filters).every(key => {
-          const filterValue = filters[key];
-          const itemValue = item[key];
-          
-          if (filterValue === null || filterValue === undefined) return true;
-          if (Array.isArray(filterValue)) {
-            return filterValue.includes(itemValue);
-          }
-          
-          return itemValue === filterValue;
-        });
-      });
-    }, []);
+      return filterFunction(data, filters);
+    }, [filterFunction]);
 
     // Imperative API
     useImperativeHandle(ref, () => ({

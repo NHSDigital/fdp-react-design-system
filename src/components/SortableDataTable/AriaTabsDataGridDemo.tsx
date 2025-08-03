@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { AriaTabsDataGrid, AriaTabsDataGridRef } from './AriaTabsDataGrid';
-import { createHealthcareTabsConfig } from './AriaTabsDataGridHealthcare';
+import { createHealthcareTabsConfig, healthcareDataConfig } from './AriaTabsDataGridHealthcare';
 import { EWSPatientData } from './AriaTabsDataGridTypes';
 import patientsData from './patients_with_ews.json';
 import './AriaTabsDataGrid.scss';
@@ -45,6 +45,7 @@ export function AriaTabsDataGridDemo() {
       {/* Main Tabs Component */}
       <AriaTabsDataGrid
         ref={tabsRef}
+        dataConfig={healthcareDataConfig}
         tabPanels={healthcareTabs}
         selectedIndex={selectedTabIndex}
         onTabChange={handleTabChange}

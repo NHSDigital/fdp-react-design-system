@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { AriaTabsDataGridDemo } from './AriaTabsDataGridDemo';
+import { AriaTabsDataGridComprehensiveDemo } from './AriaTabsDataGridComprehensiveDemo';
 
 const meta: Meta<typeof AriaTabsDataGridDemo> = {
   title: 'NHS/Data/SortableDataTable',
@@ -430,6 +431,52 @@ The component emits events for:
 
 This flexibility makes the component suitable for diverse NHS Digital environments
 while maintaining consistent user experience and accessibility standards.
+        `,
+      },
+    },
+  },
+};
+
+/**
+ * Comprehensive demo showcasing all plugins (Healthcare, E-commerce, Financial)
+ * with proper SVG icon rendering for boolean values.
+ */
+export const ComprehensivePluginDemo: Story = {
+  render: () => <AriaTabsDataGridComprehensiveDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: `
+This story demonstrates the comprehensive plugin system with all domain configurations:
+Healthcare, E-commerce, and Financial data grids. This is where you can see the 
+SVG tick and cross icons working properly.
+
+### Plugin System Features
+
+**Healthcare Mode**
+- Patient management with EWS scores
+- Boolean values for discharge status, medical optimization
+- SVG icons for clinical indicators
+
+**E-commerce Mode** 
+- Product catalogs with inventory management
+- Boolean "inStock" field with SVG tick/cross icons
+- Price comparisons and ratings
+
+**Financial Mode**
+- Transaction history and categorization  
+- Boolean "pending" field with SVG tick/cross icons
+- Credit/debit transaction types
+
+### SVG Icon Testing
+
+Switch between modes to see SVG icons in action:
+1. E-commerce: "Availability" column shows SVG ticks for in-stock items
+2. Financial: "Status" column shows SVG icons for pending/complete transactions
+3. Healthcare: Various boolean fields with clinical indicators
+
+The icons should render as proper SVG elements with NHS-compliant styling,
+not as text characters.
         `,
       },
     },

@@ -30,9 +30,25 @@ export interface TabPanelConfig<T = any> {
 }
 
 /**
- * Props for the integrated AriaTabsDataGrid component
+ * Configuration for data operations - makes the component fully generic
+ */
+export interface DataOperationConfig<T> {
+  /** Custom function to compare two data objects for equality */
+  dataComparator?: (a: T, b: T) => boolean;
+  /** Custom function to filter data based on provided filters */
+  filterFunction?: (data: T[], filters: any) => T[];
+  /** Custom function to render boolean values */
+  booleanRenderer?: (value: boolean) => React.ReactNode;
+  /** Custom function to get a unique identifier for a data object */
+  getDataId?: (data: T) => string;
+}
+
+/**
+ * Props for the AriaTabsDataGrid component with optional data operation configuration
  */
 export interface AriaTabsDataGridProps<T = any> {
+  /** Configuration for data operations */
+  dataConfig?: DataOperationConfig<T>;
   /** Array of tab panel configurations */
   tabPanels: TabPanelConfig<T>[];
   /** Currently selected tab index */

@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { AriaTabsDataGrid, createHealthcareTabsConfig } from './AriaTabsDataGrid';
+import { AriaTabsDataGrid } from './AriaTabsDataGrid';
+import { createHealthcareTabsConfig, healthcareDataConfig } from './AriaTabsDataGridHealthcare';
 import { TabPanelConfig, EWSPatientData } from './AriaTabsDataGridTypes';
 
 // Mock EWS patient data
@@ -337,6 +338,7 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
       
       render(
         <AriaTabsDataGrid
+          dataConfig={healthcareDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />
@@ -359,6 +361,7 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
       
       render(
         <AriaTabsDataGrid
+          dataConfig={healthcareDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />
@@ -376,9 +379,9 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
       expect(screen.getByText('AVPU')).toBeTruthy();
 
       // Check EWS scores are displayed
-      expect(screen.getByText('2')).toBeTruthy(); // John's EWS score
-      expect(screen.getByText('8')).toBeTruthy(); // Sarah's EWS score
-      expect(screen.getByText('0')).toBeTruthy(); // Michael's EWS score
+      expect(screen.getByRole('gridcell', { name: '2' })).toBeTruthy(); // John's EWS score
+      expect(screen.getByRole('gridcell', { name: '8' })).toBeTruthy(); // Sarah's EWS score
+      expect(screen.getByRole('gridcell', { name: '0' })).toBeTruthy(); // Michael's EWS score
 
       // Check vitals tab properly displays table structure
       expect(screen.getByRole('grid')).toBeTruthy();
@@ -389,6 +392,7 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
       
       render(
         <AriaTabsDataGrid
+          dataConfig={healthcareDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />
@@ -415,6 +419,7 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
       
       render(
         <AriaTabsDataGrid
+          dataConfig={healthcareDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />
@@ -449,6 +454,7 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
       
       render(
         <AriaTabsDataGrid
+          dataConfig={healthcareDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />
@@ -459,15 +465,15 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
       await user.click(vitalsTab);
 
       // Check EWS Score column has descending sort
-      const ewsHeader = screen.getByRole('columnheader', { name: 'EWS Score' });
+      const ewsHeader = screen.getByRole('columnheader', { name: 'EWS Score 1' });
       expect(ewsHeader.getAttribute('aria-sort')).toBe('descending');
 
       // Click to sort by patient name
-      const nameHeader = screen.getByRole('columnheader', { name: 'Patient Name' });
+      const nameHeader = screen.getByRole('columnheader', { name: 'Patient Name 2' });
       await user.click(nameHeader);
 
-      // Verify sort indicator updated
-      expect(nameHeader.getAttribute('aria-sort')).toBe('ascending');
+      // Verify sort indicator updated - Patient Name was ascending (priority 2), clicking toggles to descending
+      expect(nameHeader.getAttribute('aria-sort')).toBe('descending');
     });
 
     it('maintains separate sort states for different tabs', async () => {
@@ -475,31 +481,33 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
       
       render(
         <AriaTabsDataGrid
+          dataConfig={healthcareDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />
       );
 
       // Sort in overview tab
-      const overviewNameHeader = screen.getByRole('columnheader', { name: 'Patient Name' });
+      const overviewNameHeader = screen.getByRole('columnheader', { name: 'Patient Name 2' });
       await user.click(overviewNameHeader);
-      expect(overviewNameHeader.getAttribute('aria-sort')).toBe('ascending');
+      // Patient Name was ascending (priority 2), clicking toggles to descending
+      expect(overviewNameHeader.getAttribute('aria-sort')).toBe('descending');
 
       // Switch to vitals tab
       const vitalsTab = screen.getByRole('tab', { name: 'Vital Signs & EWS' });
       await user.click(vitalsTab);
 
       // Check vitals tab has its own sort state
-      const vitalsEWSHeader = screen.getByRole('columnheader', { name: 'EWS Score' });
+      const vitalsEWSHeader = screen.getByRole('columnheader', { name: 'EWS Score 1' });
       expect(vitalsEWSHeader.getAttribute('aria-sort')).toBe('descending');
 
       // Switch back to overview
       const overviewTab = screen.getByRole('tab', { name: 'Patient Overview' });
       await user.click(overviewTab);
 
-      // Verify overview sort state is preserved
-      const overviewNameHeaderAgain = screen.getByRole('columnheader', { name: 'Patient Name' });
-      expect(overviewNameHeaderAgain.getAttribute('aria-sort')).toBe('ascending');
+      // Verify overview sort state is preserved - should now be descending
+      const overviewNameHeaderAgain = screen.getByRole('columnheader', { name: 'Patient Name 2' });
+      expect(overviewNameHeaderAgain.getAttribute('aria-sort')).toBe('descending');
     });
 
     it('supports custom column render functions', async () => {
@@ -507,6 +515,7 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
       
       render(
         <AriaTabsDataGrid
+          dataConfig={healthcareDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />

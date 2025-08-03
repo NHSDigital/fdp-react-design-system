@@ -241,7 +241,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
             }
             
             &:hover {
-              background-color: nhs.$nhs-fdp-semantic-surface-interactive-hover;
+              background-color: nhs.$nhs-fdp-card-border-bottom;
             }
             
             // Header content layout - prevents text jumping

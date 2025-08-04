@@ -51,7 +51,7 @@
 
   // Button-specific styles
   &[type="button"] {
-    font-family: inherit;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
   }
 
   // Icon positioning

@@ -41,15 +41,6 @@ export const Default: Story = {
   },
 };
 
-export const SimpleNavigation: Story = {
-  args: {
-    items: [
-      { text: 'Home', href: '/' },
-      { text: 'Services', href: '/services' },
-    ],
-  },
-};
-
 export const DeepNavigation: Story = {
   args: {
     items: [

@@ -104,48 +104,6 @@ export const CustomText: Story = {
   },
 };
 
-export const PatientRecords: Story = {
-  args: {
-    text: 'Back to patient records',
-    href: '/patients',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Healthcare context example - returning to patient records.',
-      },
-    },
-  },
-};
-
-export const AppointmentBooking: Story = {
-  args: {
-    text: 'Back to appointment selection',
-    href: '/appointments/select',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Healthcare context example - returning to appointment booking.',
-      },
-    },
-  },
-};
-
-export const MedicalHistory: Story = {
-  args: {
-    text: 'Back to medical history',
-    href: '/patient/medical-history',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Healthcare context example - returning to medical history.',
-      },
-    },
-  },
-};
-
 export const AsButton: Story = {
   args: {
     element: 'button',
@@ -190,20 +148,6 @@ export const WithHTMLContent: Story = {
   },
 };
 
-export const ServiceSelection: Story = {
-  args: {
-    text: 'Back to service selection',
-    href: '/services',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'NHS service context - returning to service selection.',
-      },
-    },
-  },
-};
-
 export const WithCustomClass: Story = {
   args: {
     text: 'Back to dashboard',
@@ -214,34 +158,6 @@ export const WithCustomClass: Story = {
     docs: {
       description: {
         story: 'Back link with custom CSS class for additional styling.',
-      },
-    },
-  },
-};
-
-export const GPPracticeSearch: Story = {
-  args: {
-    text: 'Back to GP practice search',
-    href: '/find-gp',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'NHS service context - returning to GP practice search.',
-      },
-    },
-  },
-};
-
-export const PrescriptionOrder: Story = {
-  args: {
-    text: 'Back to prescription orders',
-    href: '/prescriptions',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'NHS digital service context - returning to prescription management.',
       },
     },
   },

@@ -45,7 +45,7 @@ export const BackLink: React.FC<BackLinkProps> = ({
 
   return (
     <div className={containerClasses}>
-      {element === 'button' ? (
+      { element === 'button' ? (
         <button
           className={linkClasses}
           onClick={onClick}

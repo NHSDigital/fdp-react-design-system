@@ -12,24 +12,30 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
   reverse = false,
   attributes = {},
 }) => {
-  // Determine the last item for the back link
-  const getLastItem = () => {
-    // If href and text are provided directly, use them
+  // Create breadcrumb items - either from items prop or from href/text props
+  const getBreadcrumbItems = () => {
+    // If href and text are provided directly, create a single item
     if (href && text) {
-      return { href, text };
+      return [{ href, text }];
     }
     
-    // Otherwise, use the last item from the items array
-    const validItems = items.filter(item => item.href);
+    // Otherwise, use the items array
+    return items.filter(item => item.href);
+  };
+
+  // Determine the last item for the back link
+  const getLastItem = () => {
+    const breadcrumbItems = getBreadcrumbItems();
     
-    if (validItems.length > 0) {
-      const lastItem = validItems[validItems.length - 1];
+    if (breadcrumbItems.length > 0) {
+      const lastItem = breadcrumbItems[breadcrumbItems.length - 1];
       return { href: lastItem.href, text: lastItem.text };
     }
     
     return { text: 'Home' };
   };
 
+  const breadcrumbItems = getBreadcrumbItems();
   const lastItem = getLastItem();
   
   const breadcrumbClasses = classNames(
@@ -43,7 +49,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
   return (
     <nav className={breadcrumbClasses} aria-label={labelText} {...attributes}>
       <ol className="nhsuk-breadcrumb__list">
-        {items.filter(item => item.href).map((item, index) => (
+        {breadcrumbItems.map((item, index) => (
           <li key={index} className="nhsuk-breadcrumb__item">
             <a
               className="nhsuk-breadcrumb__link"

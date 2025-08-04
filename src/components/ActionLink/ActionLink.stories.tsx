@@ -86,48 +86,6 @@ export const Default: Story = {
   },
 };
 
-export const BookAppointment: Story = {
-  args: {
-    text: 'Book an appointment',
-    href: '/book-appointment',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Action link for booking NHS appointments.',
-      },
-    },
-  },
-};
-
-export const ViewMedicalRecords: Story = {
-  args: {
-    text: 'View your medical records',
-    href: '/medical-records',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Action link for accessing patient medical records.',
-      },
-    },
-  },
-};
-
-export const OrderPrescription: Story = {
-  args: {
-    text: 'Order repeat prescription',
-    href: '/prescriptions/order',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Action link for ordering repeat prescriptions online.',
-      },
-    },
-  },
-};
-
 export const ExternalLink: Story = {
   args: {
     text: 'NHS App - Get health advice',
@@ -143,77 +101,6 @@ export const ExternalLink: Story = {
   },
 };
 
-export const HealthAdvice: Story = {
-  args: {
-    text: 'Get health advice and support',
-    href: '/health-advice',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Action link for accessing NHS health advice and support.',
-      },
-    },
-  },
-};
-
-export const VaccineBooking: Story = {
-  args: {
-    text: 'Book a vaccination',
-    href: '/vaccinations/book',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Action link for booking NHS vaccinations.',
-      },
-    },
-  },
-};
-
-export const OnlineServices: Story = {
-  args: {
-    text: 'Access NHS online services',
-    href: 'https://www.nhs.uk/using-the-nhs/nhs-services/online-services/',
-    openInNewWindow: true,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Action link to NHS online services portal.',
-      },
-    },
-  },
-};
-
-export const EmergencyAdvice: Story = {
-  args: {
-    text: 'Get urgent medical help',
-    href: '/urgent-care',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Action link for urgent medical care information.',
-      },
-    },
-  },
-};
-
-export const MentalHealth: Story = {
-  args: {
-    text: 'Access mental health support',
-    href: '/mental-health',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Action link for NHS mental health resources.',
-      },
-    },
-  },
-};
-
 export const WithCustomClass: Story = {
   args: {
     text: 'Custom styled action link',
@@ -224,21 +111,6 @@ export const WithCustomClass: Story = {
     docs: {
       description: {
         story: 'Action link with custom CSS class for additional styling.',
-      },
-    },
-  },
-};
-
-export const DigitalServices: Story = {
-  args: {
-    text: 'Explore NHS digital services',
-    href: 'https://digital.nhs.uk/',
-    openInNewWindow: true,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Action link to NHS digital services and innovations.',
       },
     },
   },

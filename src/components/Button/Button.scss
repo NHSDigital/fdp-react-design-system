@@ -15,7 +15,6 @@
 	text-align: center;
 	text-decoration: none;
 	cursor: pointer;
-	transition: all 0.2s ease-in-out;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -79,6 +78,50 @@
 		color: nhs.$nhs-fdp-semantic-color-focus-text;
 		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
 		border-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	}
+
+	// Base focus (always works - accessibility baseline)
+	&:focus {
+		outline: none;
+		outline-offset: 2px;
+	}
+
+	// Enhanced focus-visible (modern browsers)
+	&:focus-visible {
+		outline: none;
+		outline-offset: 2px;
+		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+	}
+
+	// React Aria enhancement (when available)
+	&[data-focus-visible] {
+		outline: none;
+		outline-offset: 2px;
+		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+	}
+
+	// Special focused state (React Aria managed)
+	&[data-focused] {
+		background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+		color: nhs.$nhs-fdp-semantic-color-focus-text;
+		border-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	}
+
+	// Remove default outline when React Aria is handling focus
+	&[data-focus-visible]:focus {
+		outline: none;
+	}
+
+	// Remove outline on mouse focus when focus-visible is supported
+	&:focus:not(:focus-visible) {
+		outline: none;
+	}
+
+	&:focus:not(:active) {
+		background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+		color: nhs.$nhs-fdp-semantic-color-focus-text;
+		border-color: nhs.$nhs-fdp-semantic-color-focus-background;
+		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
 	}
 
 	// Primary variant

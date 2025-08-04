@@ -94,6 +94,24 @@ span.nhsuk-u-visually-hidden {
   margin-top: 0 !important;
 }
 
+// Icon utilities - Base icon styles for NHS FDP Design System
+// This provides the single source of truth for icon sizing behavior
+.nhsuk-icon {
+  // Set width to auto to allow natural scaling based on SVG viewBox
+  width: auto !important;
+  // Height should be set by context-specific tokens or inherit from font-size
+  height: 2em; // Default to current font size for inline icons
+  // Ensure proper inline alignment
+  vertical-align: text-bottom;
+  // Flexbox friendly defaults
+  flex-shrink: 0;
+}
+
+// Component-specific icon size overrides can use NHS FDP tokens:
+// Examples:
+// .component .nhsuk-icon { height: tokens.$nhs-fdp-component-guidance-icon-size; }
+// .component .nhsuk-icon { height: tokens.$nhs-fdp-component-disclosure-icon-size; }
+
 // Padding utilities
 .nhsuk-u-padding-0 {
   padding: 0 !important;

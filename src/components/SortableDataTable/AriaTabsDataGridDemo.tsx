@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from 'react';
 import { AriaTabsDataGrid, AriaTabsDataGridRef } from './AriaTabsDataGrid';
 import { createHealthcareTabsConfig, healthcareDataConfig } from './AriaTabsDataGridHealthcare';
 import { EWSPatientData } from './AriaTabsDataGridTypes';
+import { Details } from '../Details';
 import patientsData from './patients_with_ews.json';
 import './AriaTabsDataGrid.scss';
 import './AriaTabsDataGridDemo.scss';
@@ -41,7 +42,7 @@ export function AriaTabsDataGridDemo() {
       <div className="demo-header">
         <h1>NHS Patient Management System</h1>
         <p>Comprehensive patient data with Early Warning Scores (EWS) and discharge planning</p>
-      </div>
+	  </div>
 
       {/* Main Tabs Component */}
       <AriaTabsDataGrid
@@ -68,41 +69,42 @@ export function AriaTabsDataGridDemo() {
           
           {/* Selected Patient Information */}
           {selectedPatient && (
-            <div className="selected-patient-info" style={{ 
-              marginTop: '16px', 
-              padding: '16px', 
-              backgroundColor: '#f0f4f8', 
-              borderRadius: '8px',
-              border: '2px solid #005eb8'
-            }}>
-              <h4 style={{ margin: '0 0 8px 0', color: '#005eb8' }}>
+            <div className="selected-patient-info">
+              <h4>
                 Selected Patient: {selectedPatient.name}
               </h4>
-              <p style={{ margin: '0', fontSize: '14px' }}>
+              <p>
                 <strong>Age:</strong> {selectedPatient.age} | 
                 <strong> Ward:</strong> {selectedPatient.ward_name} | 
                 <strong> Bed:</strong> {selectedPatient.bed_name} | 
                 <strong> EWS Score:</strong> {selectedPatient.ews_score} |
                 <strong> Specialty:</strong> {selectedPatient.speciality}
               </p>
-              <p style={{ margin: '4px 0 0 0', fontSize: '12px', fontStyle: 'italic' }}>
-                ✨ This selection persists when switching between tabs
+              <p>
+                This selection persists when switching between tabs
               </p>
             </div>
           )}
         </div>
-        
+
         <div className="demo-footer__help">
-          <h4>Navigation Help:</h4>
-          <ul>
-            <li><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> - Navigate between interactive elements</li>
-            <li><kbd>←</kbd> / <kbd>→</kbd> - Switch between tabs</li>
-            <li><kbd>Home</kbd> / <kbd>End</kbd> - Go to first/last tab</li>
-            <li><kbd>Enter</kbd> / <kbd>Space</kbd> - Activate focused tab</li>
-            <li><kbd>↑</kbd> / <kbd>↓</kbd> - Navigate table rows</li>
-            <li>Click column headers to sort data</li>
-          </ul>
+          <Details 
+            summaryText="Keyboard Navigation Help"
+            className="demo-navigation-help"
+          >
+            <ul>
+              <li><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> - Navigate between interactive elements</li>
+              <li><kbd>←</kbd> / <kbd>→</kbd> - Switch between tabs</li>
+              <li><kbd>Home</kbd> / <kbd>End</kbd> - Go to first/last tab</li>
+              <li><kbd>Enter</kbd> / <kbd>Space</kbd> - Activate focused tab</li>
+              <li><kbd>↑</kbd> / <kbd>↓</kbd> - Navigate table rows</li>
+              <li>Click column headers to sort data</li>
+              <li><strong>Click rows to select patients</strong></li>
+              <li><strong>Backspace/Delete:</strong> Clear selection</li>
+            </ul>
+          </Details>
         </div>
+
       </div>
     </div>
   );

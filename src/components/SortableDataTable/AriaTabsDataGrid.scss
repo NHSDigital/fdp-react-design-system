@@ -24,6 +24,9 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
   background: $color-white;
   border-radius: $border-radius;
   box-shadow: nhs.$nhs-fdp-shadow-card-hover;
+  width: 100%; // Ensure full width utilization
+  max-width: 100%; // Prevent overflow
+  overflow: hidden; // Contain child overflow
 
   // Loading and Error States
   &--loading,
@@ -77,7 +80,26 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
     padding: 0;
     list-style: none;
     overflow-x: auto;
-
+    scrollbar-width: thin; // Firefox
+    -webkit-overflow-scrolling: touch; // iOS smooth scrolling
+    
+    // Custom scrollbar for webkit browsers
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: nhs.$nhs-fdp-color-grey-3;
+      border-radius: 2px;
+      
+      &:hover {
+        background: nhs.$nhs-fdp-color-grey-2;
+      }
+    }
   }
 
   // Individual Tab
@@ -96,6 +118,8 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
     gap: nhs.$nhs-fdp-spacing-2;
     transition: $transition-default;
     border-bottom: 2px solid $color-primary;
+    flex-shrink: 0; // Prevent tabs from shrinking too much
+    min-width: max-content; // Ensure tab content is fully visible
     position: relative;
     min-height: nhs.$nhs-fdp-form-spacing-input-min-height + nhs.$nhs-fdp-spacing-2;
 
@@ -173,48 +197,77 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
   }
 
   // Tab Panels
-  // Update the panel styling around line 167
-	&__panel {
-		background: $color-white;
-		min-height: 400px; // Component-specific height, kept local
-		border-radius: 0 0 $border-radius $border-radius; // Rounded bottom corners only
-		outline: none; // Reset outline
-		border-left: 2px solid $color-primary;
-		border-right: 2px solid transparent;
-		border-bottom: 2px solid $color-primary;
-		margin-top: -2px; // Connect seamlessly with the tab
+  &__panel {
+    background: $color-white;
+    min-height: 400px; // Component-specific height, kept local
+    border-radius: 0 0 $border-radius $border-radius; // Rounded bottom corners only
+    outline: none; // Reset outline
+    border-left: 2px solid $color-primary;
+    border-right: 2px solid transparent;
+    border-bottom: 2px solid $color-primary;
+    margin-top: -2px; // Connect seamlessly with the tab
+    overflow-x: auto; // Allow horizontal scrolling for wide content
+    overflow-y: visible; // Allow vertical content to flow naturally
+    
+    // Enhanced scrollbar styling
+    scrollbar-width: thin; // Firefox
+    -webkit-overflow-scrolling: touch; // iOS smooth scrolling
+    
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: nhs.$nhs-fdp-color-grey-5;
+      border-radius: nhs.$nhs-fdp-border-radius-small;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: nhs.$nhs-fdp-color-grey-3;
+      border-radius: nhs.$nhs-fdp-border-radius-small;
+      
+      &:hover {
+        background: nhs.$nhs-fdp-color-grey-2;
+      }
+    }
 
-		&:focus {
-				outline: nhs.$nhs-fdp-border-width-form-element solid $color-primary;
-				outline-offset: nhs.$nhs-fdp-spacing-1;
-		}
+    &:focus {
+      outline: nhs.$nhs-fdp-border-width-form-element solid $color-primary;
+      outline-offset: nhs.$nhs-fdp-spacing-1;
+    }
 
-		&[hidden] {
-				display: none;
-		}
-	}
+    &[hidden] {
+      display: none;
+    }
+  }
 
   // Data Grid within Panels with increased specificity
   &__grid {
     border: none;
     box-shadow: none;
+    width: 100%; // Ensure full width utilization
+    max-width: 100%; // Prevent overflow
 
     &.nhsuk-table {
       margin-bottom: 0;
-	  border-collapse: collapse;
+      border-collapse: collapse;
       border-spacing: 0;
-	  border-right: 2px solid $color-primary;
+      border-right: 2px solid $color-primary;
+      table-layout: auto; // Allow flexible column widths based on content
+      
       // Consistent table cell padding using design tokens
       th,
       td {
         padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2; // 12px vertical, 8px horizontal
-		vertical-align: middle;
-		// Border styling handled by specific row/header sections
-		
-		// Disable default browser focus-visible styling
-		&:focus-visible {
-			outline: none;
-		}
+        vertical-align: middle;
+        min-width: 0; // Allow content to wrap and shrink
+        word-break: break-word; // Handle long content gracefully
+        // Border styling handled by specific row/header sections
+        
+        // Disable default browser focus-visible styling
+        &:focus-visible {
+          outline: none;
+        }
       }
       
       // Header row specific styling
@@ -400,6 +453,45 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
     &.grid-navigation-active {
       background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.05);
       border: nhs.$nhs-fdp-border-width-form-element solid $color-primary;
+    }
+    
+    // Adaptive column width utilities for responsive tables
+    .col-narrow { 
+      width: 8%; 
+      min-width: 60px; // Ensure minimum usable width
+    }
+    
+    .col-medium { 
+      width: 15%; 
+      min-width: 100px;
+    }
+    
+    .col-wide { 
+      width: 25%; 
+      min-width: 150px;
+    }
+    
+    .col-flexible { 
+      width: auto; 
+      min-width: 120px;
+    }
+    
+    // Priority-based column visibility for responsive design
+    .col-priority-high {
+      // Always visible - no special rules needed
+      display: table-cell;
+    }
+    
+    .col-priority-medium {
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+    
+    .col-priority-low {
+      @media (max-width: 1024px) {
+        display: none;
+      }
     }
   }
 

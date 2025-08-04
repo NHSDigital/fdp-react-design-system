@@ -6,16 +6,6 @@ A comprehensive design system for NHS digital services built with React, TypeScr
 
 The NHS FDP Design System provides a complete set of reusable components, design tokens, and guidelines to help teams build consistent, accessible NHS digital services.
 
-### Features
-
-- **50+ React Components** - Pre-built, accessible components following NHS design patterns
-- **Design Token System** - Consistent visual properties managed through Style Dictionary
-- **Accessibility First** - WCAG 2.1 AA compliance built-in
-- **Responsive Design** - Mobile-first responsive components
-- **TypeScript Support** - Full type safety and IntelliSense
-- **Storybook Integration** - Interactive component documentation
-- **Testing Suite** - Comprehensive unit and visual regression tests
-
 ## Quick Start
 
 ### Installation

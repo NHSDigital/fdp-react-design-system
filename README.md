@@ -33,7 +33,7 @@ import '@nhs-fdp/design-system/dist/index.css';
 function App() {
   return (
     <Panel>
-      <Heading level={1}>Welcome to NHS Digital</Heading>
+      <Heading level={1}>Welcome to NHS FDP Design System</Heading>
       <Button variant="primary">Get Started</Button>
     </Panel>
   );
@@ -108,7 +108,7 @@ npm run type-check    # Run TypeScript type checking
 
 ### Design Token System
 
-Built with [Style Dictionary](https://amzn.github.io/style-dictionary/), our design tokens provide:
+Built with [Style Dictionary](https://amn.github.io/style-dictionary/), our design tokens provide:
 
 - **Semantic tokens** for consistent theming
 - **Component tokens** for specific component styling  
@@ -126,7 +126,7 @@ Built with [Style Dictionary](https://amzn.github.io/style-dictionary/), our des
 We welcome contributions! Please see our contributing guidelines:
 
 1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+2. **Create** a feature branch (`git checkout -b feature/amaing-feature`)
 3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
 4. **Push** to the branch (`git push origin feature/amazing-feature`)
 5. **Open** a Pull Request

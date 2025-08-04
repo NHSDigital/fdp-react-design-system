@@ -24,7 +24,7 @@ const defaultProps: AriaDataGridProps = {
   columns: mockColumns,
   sortConfig: [],
   onSort: vi.fn(),
-  'aria-label': 'Test data grid',
+  ariaLabel: 'Test data grid',
 };
 
 describe('AriaDataGrid - ARIA Compliance and Keyboard Navigation Tests', () => {

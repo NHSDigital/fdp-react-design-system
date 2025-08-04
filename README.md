@@ -2,21 +2,21 @@
 
 A comprehensive design system for NHS digital services built with React, TypeScript, and design tokens.
 
-## 🎯 Overview
+## Overview
 
 The NHS FDP Design System provides a complete set of reusable components, design tokens, and guidelines to help teams build consistent, accessible NHS digital services.
 
-### ✨ Features
+### Features
 
-- **🧩 50+ React Components** - Pre-built, accessible components following NHS design patterns
-- **🎨 Design Token System** - Consistent visual properties managed through Style Dictionary
-- **♿ Accessibility First** - WCAG 2.1 AA compliance built-in
-- **📱 Responsive Design** - Mobile-first responsive components
-- **🔍 TypeScript Support** - Full type safety and IntelliSense
-- **📚 Storybook Integration** - Interactive component documentation
-- **🧪 Testing Suite** - Comprehensive unit and visual regression tests
+- **50+ React Components** - Pre-built, accessible components following NHS design patterns
+- **Design Token System** - Consistent visual properties managed through Style Dictionary
+- **Accessibility First** - WCAG 2.1 AA compliance built-in
+- **Responsive Design** - Mobile-first responsive components
+- **TypeScript Support** - Full type safety and IntelliSense
+- **Storybook Integration** - Interactive component documentation
+- **Testing Suite** - Comprehensive unit and visual regression tests
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 
@@ -40,39 +40,39 @@ function App() {
 }
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 nhs-fdp-design-system/
-├── docs/                    # 📚 Documentation
+├── docs/                    # Documentation
 │   ├── components/          # Component guides
 │   ├── migration/           # Migration documentation
 │   ├── tokens/              # Design token documentation
 │   ├── testing/             # Testing guides
 │   └── guides/              # Development guides
-├── src/                     # 💻 Source code
+├── src/                     # Source code
 │   ├── components/          # React components
 │   ├── styles/              # Global styles
 │   └── tokens/              # Design token definitions
-├── examples/                # 🎮 Usage examples
-├── config/                  # ⚙️ Configuration files
-├── tests/                   # 🧪 Test suites
-└── storybook/               # 📖 Storybook configuration
+├── examples/                # Usage examples
+├── config/                  # Configuration files
+├── tests/                   # Test suites
+└── storybook/               # Storybook configuration
 ```
 
-## 📖 Documentation
+## Documentation
 
-- **[📚 Full Documentation](./docs/README.md)** - Comprehensive guides and references
-- **[🚀 Migration Guide](./docs/migration/migration-guide.md)** - Upgrade from legacy systems
-- **[🎨 Design Tokens](./docs/tokens/NHS-COMPOSITE-TOKENS-GUIDE.md)** - Token system overview
-- **[🧪 Testing Guide](./docs/testing/VISUAL_TESTING_GUIDE.md)** - Testing strategies
-- **[🧩 Component Library](http://localhost:6006)** - Interactive Storybook
+- **[Full Documentation](./docs/README.md)** - Comprehensive guides and references
+- **[Migration Guide](./docs/migration/migration-guide.md)** - Upgrade from legacy systems
+- **[Design Tokens](./docs/tokens/NHS-COMPOSITE-TOKENS-GUIDE.md)** - Token system overview
+- **[Testing Guide](./docs/testing/VISUAL_TESTING_GUIDE.md)** - Testing strategies
+- **[Component Library](http://localhost:6006)** - Interactive Storybook
 
 ## 🛠️ Development
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm 9+
 
 ### Setup
@@ -104,7 +104,7 @@ npm run lint          # Run ESLint
 npm run type-check    # Run TypeScript type checking
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 ### Design Token System
 
@@ -121,7 +121,7 @@ Built with [Style Dictionary](https://amzn.github.io/style-dictionary/), our des
 - **Polymorphic components** for semantic flexibility
 - **CSS Modules** with design token integration
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please see our contributing guidelines:
 
@@ -138,22 +138,15 @@ We welcome contributions! Please see our contributing guidelines:
 3. **Tests**: Write unit and visual regression tests
 4. **Tokens**: Update design tokens in `packages/nhs-fdp/tokens/`
 
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🔗 Related Projects
+## Related Projects
 
 - [NHS Design System](https://service-manual.nhs.uk/design-system) - Official NHS design guidance
 - [NHS.UK Frontend](https://github.com/nhsuk/nhsuk-frontend) - Original NHS.UK frontend library
 - [Style Dictionary](https://amzn.github.io/style-dictionary/) - Design token build system
 
-## 💬 Support
+## Support
 
 - **Issues**: [GitHub Issues](https://github.com/fergusbisset/nhs-fdp-design-system/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/fergusbisset/nhs-fdp-design-system/discussions)
 - **Documentation**: [Project Documentation](./docs/README.md)
 
----
-
-Built with ❤️ for the NHS digital community.

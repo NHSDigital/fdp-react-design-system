@@ -1,5 +1,7 @@
 {
-  "source": ["packages/nhs-fdp/tokens/**/*.json"],
+  "source": [
+    "packages/nhs-fdp/tokens/**/*.json"
+  ],
   "platforms": {
 	"scss": {
 		"transformGroup": "scss",
@@ -415,6 +417,19 @@
           },
           "filter": {
             "$type": "dimension"
+          }
+        }
+      ]
+    },
+    "responsive-css": {
+      "transformGroup": "css",
+      "buildPath": "packages/nhs-fdp/dist/css/",
+      "files": [
+        {
+          "destination": "_responsive.css",
+          "format": "responsive/css",
+          "options": {
+            "showFileHeader": true
           }
         }
       ]

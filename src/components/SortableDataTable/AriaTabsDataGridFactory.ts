@@ -21,11 +21,13 @@ export interface GenericColumnDefinition<T> {
 export interface GenericTabDefinition<T = any> {
   id: string;
   label: string;
-  columns: AriaDataGridColumn[];
+  columns: GenericColumnDefinition<T>[];
   filter?: (data: T[]) => T[];
   sortConfig?: SortConfig[];
   ariaLabel?: string;
   ariaDescription?: string;
+  className?: string;
+  disabled?: boolean;
 }
 
 /**
@@ -45,8 +47,10 @@ export const createGenericTabsConfig = <T,>(
       render: col.render
     })),
     sortConfig: def.sortConfig,
-    ariaLabel: def.ariaLabel || `${def.label} Table`,
-    ariaDescription: def.ariaDescription || `Data table for ${def.label.toLowerCase()}`
+    ariaLabel: def.ariaLabel || `${def.label} Data Grid`,
+    ariaDescription: def.ariaDescription || `Data grid showing ${def.label.toLowerCase()}`,
+    className: def.className,
+    disabled: def.disabled
   }));
 };
 
@@ -68,6 +72,8 @@ export const createSimpleDataView = <T,>(
       direction: 'asc' | 'desc';
     };
     ariaLabel?: string;
+    className?: string;
+    disabled?: boolean;
   }
 ): TabPanelConfig<T> => {
   return {
@@ -83,7 +89,9 @@ export const createSimpleDataView = <T,>(
       ? [{ key: config.defaultSort.key as string, direction: config.defaultSort.direction }]
       : undefined,
     ariaLabel: config.ariaLabel || `${config.label} Data Grid`,
-    ariaDescription: `Data grid showing ${config.label.toLowerCase()}`
+    ariaDescription: `Data grid showing ${config.label.toLowerCase()}`,
+    className: config.className,
+    disabled: config.disabled
   };
 };
 
@@ -171,8 +179,7 @@ export const dataComparators = {
   field: <T,>(fieldName: keyof T) => (a: T, b: T): boolean => a[fieldName] === b[fieldName],
   
   /** Multi-field comparison */
-  multiField: <T,>(fields: Array<keyof T>) => (a: T, b: T): boolean => 
-    fields.every(field => a[field] === b[field])
+  multiField: <T,>(fields: Array<keyof T>) => (a: T, b: T): boolean => fields.every(field => a[field] === b[field])
 };
 
 /**

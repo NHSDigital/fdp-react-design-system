@@ -9,7 +9,6 @@ import React, { useCallback, useMemo } from 'react';
 import { Button } from '../Button/Button';
 import { Tag } from '../Tag/Tag';
 import { 
-  SortConfig, 
   SortStatusControlProps, 
   DEFAULT_DIRECTION_LABELS,
   sortByPriority,
@@ -27,7 +26,6 @@ export const SortStatusControl: React.FC<SortStatusControlProps> = ({
   activeDescription,
   showReset = true,
   showHelp = true,
-  maxSorts = 5,
   disabled = false,
   ariaLabel = 'Sort configuration',
   ariaDescribedBy

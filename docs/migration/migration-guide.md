@@ -2,7 +2,7 @@
 
 This guide shows how to replace hardcoded values in your components with the new tokens from the NHS FDP Design System.
 
-## 🎯 Quick Reference
+## Quick Reference
 
 ### Before and After Examples
 
@@ -101,7 +101,7 @@ This guide shows how to replace hardcoded values in your components with the new
 }
 ```
 
-## 📁 Token Categories
+## Token Categories
 
 ### 1. Border Tokens (`_borders.scss`)
 Replace hardcoded border widths and radius values:
@@ -190,7 +190,7 @@ $nhs-fdp-state-disabled-background: #d8dde0;
 $nhs-fdp-state-disabled-text: #aeb7bd;
 ```
 
-## 🔧 JavaScript Usage
+## JavaScript Usage
 
 ### ES6 Imports
 ```javascript
@@ -239,7 +239,7 @@ const primaryButton = {
 4. Use Controls panel to interact with props
 5. Check Docs tab for usage guidelines
 
-## 🎨 SCSS Import Structure
+## SCSS Import Structure
 
 Update your main SCSS file to import all token categories:
 
@@ -273,7 +273,7 @@ Update your main SCSS file to import all token categories:
 
 4. **Backwards Compatibility**: Keep old hardcoded values commented for reference during transition.
 
-## 🚀 Benefits After Migration
+## Benefits After Migration
 
 - **Consistency**: All components use the same spacing/color/border values
 - **Maintainability**: Change one token to update all components

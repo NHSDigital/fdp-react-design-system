@@ -5,6 +5,7 @@ import { createGenericTabsConfig, dataComparators, filterFunctions, booleanRende
 import { EWSPatientData } from './AriaTabsDataGridTypes';
 import patientsData from './patients_with_ews.json';
 import './AriaTabsDataGrid.scss';
+import './AriaTabsDataGridDemo.scss';
 
 // Example generic data for demonstration
 interface Product {

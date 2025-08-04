@@ -186,33 +186,15 @@ export const SortStatusControl: React.FC<SortStatusControlProps> = ({
   // If no sorts active, show empty state
   if (sortConfig.length === 0) {
     return (
-      <div className={`sort-status-control sort-status-control--empty ${className}`}>
-        
-        {/* Empty tags container to maintain height */}
-        <div className="sort-status-control__tags sort-status-control__tags--empty">
-          <div className="sort-status-control__tags-label">
-            Current sorting:
-          </div>
-          <div className="sort-status-control__empty-state">
-            No active sorts
-          </div>
+      <div className={`sort-status-control ${className}`}>
+        {/* Screen reader description */}
+        <div 
+          className="sort-status-control__description"
+          id="sort-description"
+          aria-live="polite"
+        >
+          {emptyDescription}
         </div>
-        
-        {/* Reset button placeholder to maintain layout */}
-        {showReset && (
-          <div className="sort-status-control__actions sort-status-control__actions--hidden">
-            <Button
-              variant="secondary"
-              onClick={handleReset}
-              isDisabled={true}
-              aria-label="Reset all sorting"
-              className="sort-status-control__reset-button"
-              style={{ visibility: 'hidden' }}
-            >
-              Clear All Sorts
-            </Button>
-          </div>
-        )}
         
         {/* Help text */}
         {showHelp && (
@@ -234,105 +216,101 @@ export const SortStatusControl: React.FC<SortStatusControlProps> = ({
         id="sort-description"
         aria-live="polite"
       >
-        {getSortDescription()}
+        { getSortDescription() }
       </div>
+		  <div className="sort-status-container">
+			{/* Sort tags container */}
+			<div 
+				ref={containerRef}
+				className="sort-status-control__tags"
+				role="list"
+				aria-label={ariaLabel}
+				aria-describedby={describedBy}
+			>
+				{ sortConfig.map((config, index) => (
+					<div
+						key={config.key}
+						className="sort-status-control__tag-container"
+						role="listitem"
+						draggable={!disabled}
+						onDragStart={(e) => handleDragStart(e, config.key)}
+						onDragOver={(e) => handleDragOver(e, config.key)}
+						onDrop={(e) => handleDrop(e, config.key)}
+						onDragEnd={handleDragEnd}
+						onClick={() => handleDirectionToggle(config.key)}
+						style={{ cursor: disabled ? 'default' : 'pointer' }}
+						title={disabled ? '' : `Click to toggle sort direction. Currently ${config.direction === 'asc' ? 'ascending' : 'descending'}`}
+						data-key={config.key}
+					>
+						<Tag
+							color={getPriorityColor(index)}
+							className="sort-status-control__tag"
+							closable
+							onClose={() => handleRemove(config.key)}
+							disabled={disabled}
+						>
+							<div className="sort-status-control__tag-content">
+								{/* Drag handle */}
+								<div className="sort-status-control__drag-handle" title="Drag to reorder">
+										⋮⋮
+								</div>
 
-      {/* Sort tags container */}
-      <div 
-        ref={containerRef}
-        className="sort-status-control__tags"
-        role="list"
-        aria-label={ariaLabel}
-        aria-describedby={describedBy}
-      >
-        <div className="sort-status-control__tags-label">
-          Current sorting:
-        </div>
-        
-        {sortConfig.map((config, index) => (
-          <div
-            key={config.key}
-            className="sort-status-control__tag-container"
-            role="listitem"
-            draggable={!disabled}
-            onDragStart={(e) => handleDragStart(e, config.key)}
-            onDragOver={(e) => handleDragOver(e, config.key)}
-            onDrop={(e) => handleDrop(e, config.key)}
-            onDragEnd={handleDragEnd}
-            onClick={() => handleDirectionToggle(config.key)}
-            style={{ cursor: disabled ? 'default' : 'pointer' }}
-            title={disabled ? '' : `Click to toggle sort direction. Currently ${config.direction === 'asc' ? 'ascending' : 'descending'}`}
-            data-key={config.key}
-          >
-            <Tag
-              color={getPriorityColor(index)}
-              className="sort-status-control__tag"
-              closable
-              onClose={() => handleRemove(config.key)}
-              disabled={disabled}
-            >
-              <div className="sort-status-control__tag-content">
-                {/* Drag handle */}
-                <div className="sort-status-control__drag-handle" title="Drag to reorder">
-                  ⋮⋮
-                </div>
-                
-                {/* Priority number */}
-                <div className={`sort-status-control__priority-badge sort-priority sort-priority--priority-${index + 1}`}>
-                  {index + 1}
-                </div>
-                
-                {/* Column label */}
-                <span className="sort-status-control__tag-label">
-                  {getColumnLabel(config.key)}
-                </span>
-                
-                {/* Direction toggle button */}
-                <button
-                  type="button"
-                  className="sort-status-control__direction-button"
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent tag click handler from firing
-                    handleDirectionToggle(config.key);
-                  }}
-                  disabled={disabled}
-                  aria-label={`Toggle sort direction for ${getColumnLabel(config.key)}. Currently ${config.direction === 'asc' ? 'ascending' : 'descending'}`}
-                  title="Click to toggle between ascending and descending"
-                >
-                  <span className={`sort-status-control__direction-icon sort-status-control__direction-icon--${config.direction}`}>
-                    <svg 
-                      className={`nhsuk-icon sort-status-control__chevron sort-status-control__chevron--${config.direction}`}
-                      xmlns="http://www.w3.org/2000/svg" 
-                      viewBox="0 0 24 24" 
-                      aria-hidden="true" 
-                      focusable="false"
-                    >
-                      <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" />
-                    </svg>
-                  </span>
-                </button>
-              </div>
-            </Tag>
-          </div>
-        ))}
-      </div>
+								{/* Priority number */}
+								<div className={`sort-status-control__priority-badge sort-priority sort-priority--priority-${index + 1}`}>
+										{index + 1}
+								</div>
 
-      {/* Reset button */}
-      {showReset && (
-        <div className="sort-status-control__actions">
-          <Button
-            variant="secondary"
-            onClick={handleReset}
-            isDisabled={disabled}
-            aria-label="Reset all sorting"
-            className="sort-status-control__reset-button"
-          >
-            Clear All Sorts
-          </Button>
-        </div>
-      )}
+								{/* Column label */}
+								<span className="sort-status-control__tag-label">
+										{getColumnLabel(config.key)}
+								</span>
 
-            {/* Instructions for users */}
+								{/* Direction toggle button */}
+								<button
+									type="button"
+									className="sort-status-control__direction-button"
+									onClick={(e) => {
+										e.stopPropagation(); // Prevent tag click handler from firing
+										handleDirectionToggle(config.key);
+									}}
+									disabled={disabled}
+									aria-label={`Toggle sort direction for ${getColumnLabel(config.key)}. Currently ${config.direction === 'asc' ? 'ascending' : 'descending'}`}
+									title="Click to toggle between ascending and descending"
+								>
+									<span className={`sort-status-control__direction-icon sort-status-control__direction-icon--${config.direction}`}>
+										<svg 
+											className={`nhsuk-icon sort-status-control__chevron sort-status-control__chevron--${config.direction}`}
+											xmlns="http://www.w3.org/2000/svg" 
+											viewBox="0 0 24 24" 
+											aria-hidden="true" 
+											focusable="false"
+										>
+											<path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" />
+										</svg>
+									</span>
+								</button>
+							</div>
+						</Tag>
+					</div>
+				))}
+			</div>
+			{/* Reset button */}
+			{showReset && (
+				<div className="sort-status-control__actions">
+					<Button
+						variant="secondary"
+						onClick={handleReset}
+						isDisabled={disabled}
+						aria-label="Reset all sorting"
+						className="sort-status-control__reset-button"
+					>
+						Clear All Sorts
+					</Button>
+				</div>
+			)}
+	  </div>
+
+      {/* Instructions for users */}
       {showHelp && (
         <div className="sort-status-control__help" id="sort-help">
           <small>

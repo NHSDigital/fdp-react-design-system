@@ -4,6 +4,7 @@ import { createHealthcareTabsConfig, healthcareDataConfig } from './AriaTabsData
 import { EWSPatientData } from './AriaTabsDataGridTypes';
 import patientsData from './patients_with_ews.json';
 import './AriaTabsDataGrid.scss';
+import './AriaTabsDataGridDemo.scss';
 
 /**
  * Demo component showcasing the AriaTabsDataGrid with real NHS patient data

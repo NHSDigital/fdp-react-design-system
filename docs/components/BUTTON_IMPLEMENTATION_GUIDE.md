@@ -2,7 +2,7 @@
 
 ## Overview
 
-You've successfully created the first component in your NHS design system! Here's a complete walkthrough of what we've built and how to use it.
+Here's a complete walkthrough of what we've built and how to use it.
 
 ## What We've Created
 

@@ -3,7 +3,7 @@
 ## 🎯 **Completed Work**
 
 ### ✅ **Analysis & Planning**
-- **Analyzed all 29 NHS UK Frontend components** and categorized by priority
+- **Analysed all 29 NHS UK Frontend components** and categorised by priority
 - **Created comprehensive migration plan** with 4-phase approach
 - **Established component structure patterns** based on Button and Checkboxes examples
 - **Set up folder structure** for all planned components
@@ -13,7 +13,7 @@
 - **Built component generator script** (`scripts/generate-component.js`) for automated scaffold creation
 - **Established design token integration patterns** using SCSS
 - **Set up testing and Storybook patterns**
-- **TypeScript & React token integration** complete with 5 specialized hooks
+- **TypeScript & React token integration** complete with 5 specialised hooks
 
 ### ✅ **Component Migration (20+ Components Active Development)**
 
@@ -37,11 +37,11 @@
 - **Comprehensive test suite (89 tests)**
 - Complete Storybook documentation
 - Number input spinner removal
-- Mobile keyboard optimizations
+- Mobile keyboard optimisations
 
 #### 3. **Textarea Component** ✅ (Complete)
 - Multi-line text input with design tokens
-- Resize variants (none, both, horizontal, vertical)
+- Resise variants (none, both, horizontal, vertical)
 - All standard form states and error handling
 - Responsive typography and focus management
 - **Comprehensive test suite (44 tests)**
@@ -106,7 +106,7 @@
 - Accessibility-first error collection
 - Auto-focus functionality
 - Navigation to error fields
-- Screen reader optimized
+- Screen reader optimised
 - Multiple error handling
 
 #### 12. **DateInput Component** ✅ (Complete)
@@ -142,7 +142,7 @@
 #### 16. **SkipLink Component** ✅ (Complete)
 - Accessibility-first navigation aid
 - Focus management
-- Screen reader optimized
+- Screen reader optimised
 - Hidden until focused
 
 #### 17. **BackLink Component** ✅ (Complete)
@@ -176,7 +176,7 @@
 - Healthcare-specific card variant
 - Urgent/emergency/immediate types
 - Color-coded severity levels
-- Heading level customization
+- Heading level customisation
 
 #### 22. **ActionLink Component** ✅ (Complete)
 - Enhanced link component
@@ -185,7 +185,7 @@
 - Accessibility attributes
 
 #### 23. **Tag Component** ✅ (Complete)
-- Status and categorization tags
+- Status and categorisation tags
 - Multiple color variants
 - Responsive sizing
 - ARIA labeling
@@ -204,7 +204,7 @@
 - Complex nested content handling
 - **Comprehensive test suite (51 tests)**
 - Complete Storybook documentation
-- Print-optimized styling
+- Print-optimised styling
 
 #### 26. **SummaryList Component** ✅ (Complete)
 - Key-value pair display
@@ -228,7 +228,7 @@
 
 #### 28. **Tabs Component** ✅ (Complete)
 
-- Tabbed content organization
+- Tabbed content organisation
 - Responsive design (mobile accordion, desktop tabs)
 - Keyboard navigation (arrow keys, Home, End)
 - ARIA compliance and screen reader support
@@ -344,12 +344,12 @@
 ✅ CareCard/       (Complete with healthcare types)
 ✅ ActionLink/     (Complete with arrow icons)
 ✅ Tag/            (Complete with color variants)
-✅ Panel/          (Complete with comprehensive tests)
-✅ InsetText/      (Complete with comprehensive tests)
-✅ SummaryList/    (Complete with comprehensive tests)
-📁 Tables/         (Ready for development)
-📁 Tabs/           (Ready for development)
-📁 Details/        (Ready for development)
+✅ Panel/          (Complete with tests)
+✅ InsetText/      (Complete with tests)
+✅ SummaryList/    (Complete with tests)
+✅ Tables/         (Complete with tests)
+✅ Tabs/           (Complete with tests)
+✅ Details/        (Complete with tests)
 ```
 
 ### Priority 4 - Interactive & Feedback (100% Complete - 6/6) ✅
@@ -366,6 +366,7 @@
 ### Additional Components
 ```
 ✅ GanttChart/     (Custom addition - Complete)
+✅ SortableDataTable/     (Custom addition - Complete)
 ```
 
 ## 🛠 **Development Tools Created**
@@ -430,8 +431,6 @@ node scripts/generate-component.js ComponentName
 ### **Component Implementation Status**
 - **Total Components Planned**: 36 (expanded from original 29)
 - **Components Fully Complete**: 36 (100%) ✅
-- **Components In Development**: 0 (0%)
-- **Folders Created**: 36 (100%)
 
 ### **Priority Breakdown**
 - **Priority 1 Form Components**: 12/12 complete (100%) ✅
@@ -465,7 +464,7 @@ node scripts/generate-component.js ComponentName
 - **Development Tools**: Complete
 - **Component Generator Script**: Complete and enhanced
 - **Design Token Integration**: Established pattern
-- **TypeScript & React Integration**: Complete with 5 specialized hooks
+- **TypeScript & React Integration**: Complete with 5 specialised hooks
 
 ## 🚀 **Migration Complete - Next Steps**
 
@@ -480,10 +479,10 @@ node scripts/generate-component.js ComponentName
 5. **SCSS Compilation**: All components compile without errors
 6. **Quality Assurance**: TypeScript strict mode compliance and accessibility standards met
 
-### **Post-Migration Optimization Opportunities**
+### **Post-Migration Optimisation Opportunities**
 
-1. **Performance Optimization**:
-   - Bundle size analysis and optimization
+1. **Performance Optimisation**:
+   - Bundle size analysis and optimisation
    - Tree-shaking validation
    - Component lazy loading patterns
 
@@ -504,7 +503,7 @@ node scripts/generate-component.js ComponentName
 - **Community Feedback**: Gather feedback from NHS development teams
 - **Continuous Integration**: Automated testing and deployment pipelines
 
-## 🎉 **Migration Complete - Key Achievements**
+## 🎉 **Migration Complete**
 
 1. **100% NHS UK Frontend Parity**: Successfully migrated all 36 components with full feature parity
 2. **Comprehensive Testing**: 741+ tests passing across all components with accessibility validation

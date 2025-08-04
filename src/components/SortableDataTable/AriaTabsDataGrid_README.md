@@ -76,7 +76,7 @@ const healthcareTabs = createHealthcareTabsConfig(patientsData);
 
 <AriaTabsDataGrid
   tabPanels={healthcareTabs}
-  ariaLabel="NHS Patient Management System"
+  ariaLabel="Timely Care Data Table Concept"
   selectedIndex={0}
   onTabChange={(index) => console.log('Tab changed to:', index)}
 />

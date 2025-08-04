@@ -108,7 +108,7 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
     position: absolute;
     left: 0;
     top: -#{nhs.$nhs-fdp-component-guidance-icon-position-top};
-    width: nhs.$nhs-fdp-component-guidance-icon-size;
+    // width inherits auto from base utility (utilities.scss)
     height: nhs.$nhs-fdp-component-guidance-icon-size;
     
     @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
@@ -240,7 +240,7 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
     padding-left: nhs.$nhs-fdp-component-guidance-content-padding-small;
 
     .nhsuk-icon {
-      width: nhs.$nhs-fdp-component-guidance-tick-size;
+      // width inherits auto from base utility (utilities.scss)
       height: nhs.$nhs-fdp-component-guidance-tick-size;
     }
   }

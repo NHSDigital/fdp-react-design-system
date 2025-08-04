@@ -40,7 +40,7 @@ export function AriaTabsDataGridDemo() {
   return (
     <div className="aria-tabs-datagrid-demo">
       <div className="demo-header">
-        <h1>NHS Patient Management System</h1>
+        <h1>Timely Care Data Table Concept</h1>
         <p>Comprehensive patient data with Early Warning Scores (EWS) and discharge planning</p>
 	  </div>
 
@@ -52,7 +52,7 @@ export function AriaTabsDataGridDemo() {
         selectedIndex={selectedTabIndex}
         onTabChange={handleTabChange}
         onGlobalRowSelectionChange={handleGlobalRowSelection}
-        ariaLabel="NHS Patient Management System"
+        ariaLabel="Timely Care Data Table Concept"
         ariaDescription="Comprehensive patient data management with multiple views"
         className="demo-tabs"
         orientation="horizontal"

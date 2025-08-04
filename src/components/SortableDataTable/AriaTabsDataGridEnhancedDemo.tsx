@@ -159,7 +159,7 @@ export function AriaTabsDataGridEnhancedDemo() {
             onTabChange={handleTabChange}
             onGlobalRowSelectionChange={handleHealthcareSelection}
             dataConfig={healthcareDataConfig}
-            ariaLabel="NHS Patient Management System"
+            ariaLabel="Timely Care Data Table Concept"
             ariaDescription="Healthcare data with EWS scores and patient information"
             className="demo-tabs healthcare-demo"
             orientation="horizontal"

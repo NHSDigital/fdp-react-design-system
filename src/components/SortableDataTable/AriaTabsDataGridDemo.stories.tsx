@@ -34,7 +34,7 @@ const HealthcareDemo = () => {
     <AriaTabsDataGrid
       dataConfig={healthcareDataConfig}
       tabPanels={healthcareTabs}
-      ariaLabel="NHS Patient Management System"
+      ariaLabel="Timely Care Data Table Concept"
     />
   );
 };
@@ -84,7 +84,7 @@ const healthcareTabs = createHealthcareTabsConfig(patientsData);
 <AriaTabsDataGrid
   dataConfig={healthcareDataConfig}  // Provides column mapping & rendering
   tabPanels={healthcareTabs}         // Provides tab structure & data
-  ariaLabel="NHS Patient Management System"
+  ariaLabel="Timely Care Data Table Concept"
 />
 \`\`\`
 
@@ -475,7 +475,7 @@ const MyCustomHealthcareDemo = () => {
       dataConfig={customDataConfig}
       tabPanels={customTabs}
       filterPresets={customFilterPresets}
-      ariaLabel="Custom NHS Patient Management System"
+      ariaLabel="Custom Timely Care Data Table Concept"
       onTabChange={(index) => console.log('Tab changed to:', index)}
       onGlobalRowSelectionChange={(patient) => console.log('Patient selected:', patient.patient_id)}
     />

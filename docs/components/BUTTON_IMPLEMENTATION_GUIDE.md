@@ -6,7 +6,7 @@ Here's a complete walkthrough of what we've built and how to use it.
 
 ## What We've Created
 
-### 🎯 **NHS Button Component**
+### **NHS Button Component**
 - **Location**: `src/components/Button/`
 - **Features**: 
   - 5 variants (primary, secondary, reverse, warning, login)
@@ -16,12 +16,12 @@ Here's a complete walkthrough of what we've built and how to use it.
   - Responsive design
   - TypeScript support
 
-### 📚 **Storybook Stories**
+### **Storybook Stories**
 - **File**: `Button.stories.tsx`
 - **Coverage**: All variants, sizes, states, and interactive examples
 - **Documentation**: Built-in docs with usage guidelines
 
-### 🧪 **Comprehensive Tests**
+### **Comprehensive Tests**
 - **File**: `Button.test.tsx` 
 - **Coverage**: 
   - Rendering tests
@@ -190,7 +190,3 @@ What you've built provides:
 3. **Theme Customization**: Allow theme overrides for different NHS organizations
 4. **Performance**: Use React.memo() for expensive components
 5. **Bundle Size**: Tree-shake unused tokens and components
-
----
-
-You've successfully created a production-ready NHS Button component with full testing, documentation, and design token integration! 🎉

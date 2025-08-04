@@ -55,7 +55,6 @@ nhs-fdp-design-system/
 - **[Full Documentation](./docs/README.md)** - Comprehensive guides and references
 - **[Migration Guide](./docs/migration/migration-guide.md)** - Upgrade from legacy systems
 - **[Design Tokens](./docs/tokens/NHS-COMPOSITE-TOKENS-GUIDE.md)** - Token system overview
-- **[Testing Guide](./docs/testing/VISUAL_TESTING_GUIDE.md)** - Testing strategies
 - **[Component Library](http://localhost:6006)** - Interactive Storybook
 
 ## 🛠️ Development

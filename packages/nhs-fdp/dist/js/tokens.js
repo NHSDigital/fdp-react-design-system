@@ -239,6 +239,93 @@ export const BreakpointXxlarge = "1440px"; // Extra extra large devices (ultra-w
 export const GridPageWidth = "960px"; // Maximum page width
 export const GridGutter = "32px"; // Grid gutter width
 export const GridGutterHalf = "16px"; // Half grid gutter width
+export const SemanticIntentPrimary = "#007f3b"; // Primary intent color - NHS Green for main actions and success states
+export const SemanticIntentSecondary = "#005eb8"; // Secondary intent color - NHS Blue for secondary actions and information
+export const SemanticIntentWarning = "#d5281b"; // Warning intent color - NHS Red for errors and dangerous actions
+export const SemanticIntentSuccess = "#007f3b"; // Success intent color - derived from primary for consistency
+export const SemanticIntentNeutral = "#aeb7bd"; // Neutral intent color - for disabled states and subtle actions
+export const SemanticIntentInfo = "#005eb8"; // Information intent color - for informational content
+export const SemanticIntentHoverPrimary = "darken(#007f3b, 10%)"; // Primary intent hover state - darker NHS Green
+export const SemanticIntentHoverSecondary = "darken(#005eb8, 10%)"; // Secondary intent hover state - darker NHS Blue
+export const SemanticIntentHoverWarning = "darken(#d5281b, 10%)"; // Warning intent hover state - darker NHS Red
+export const SemanticIntentActivePrimary = "darken(#007f3b, 20%)"; // Primary intent active state - much darker NHS Green
+export const SemanticIntentActiveSecondary = "darken(#005eb8, 20%)"; // Secondary intent active state - much darker NHS Blue
+export const SemanticIntentActiveWarning = "darken(#d5281b, 20%)"; // Warning intent active state - much darker NHS Red
+export const SemanticIntentLightPrimary = "lighten(#007f3b, 40%)"; // Light primary intent - for backgrounds and subtle states
+export const SemanticIntentLightSecondary = "lighten(#005eb8, 40%)"; // Light secondary intent - for backgrounds and subtle states
+export const SemanticIntentLightWarning = "lighten(#d5281b, 40%)"; // Light warning intent - for backgrounds and subtle states
+export const SemanticContextFormBorderDefault = "#4c6272"; // Default form border color - calm and accessible
+export const SemanticContextFormBorderFocus = "#005eb8"; // Form focus border - uses secondary intent for consistency
+export const SemanticContextFormBorderError = "#d5281b"; // Form error border - uses warning intent
+export const SemanticContextFormBorderSuccess = "#007f3b"; // Form success border - uses success intent
+export const SemanticContextFormBackgroundDefault = "#ffffff"; // Default form background
+export const SemanticContextFormBackgroundDisabled = "#f0f4f5"; // Disabled form background
+export const SemanticContextFormBackgroundReadonly = "#d8dde0"; // Read-only form background
+export const SemanticContextFormBackgroundError = "lighten(#d5281b, 40%)"; // Error form background - uses light warning intent
+export const SemanticContextFormBackgroundSuccess = "lighten(#007f3b, 40%)"; // Success form background - uses light primary intent
+export const SemanticContextFormTextDefault = "#212b32"; // Default form text color - high contrast
+export const SemanticContextFormTextPlaceholder = "#768692"; // Form placeholder text - reduced contrast but readable
+export const SemanticContextFormTextDisabled = "#768692"; // Disabled form text
+export const SemanticContextFormTextError = "#d5281b"; // Form error text color
+export const SemanticContextNavigationBackgroundHeader = "#005eb8"; // Header navigation background - NHS Blue
+export const SemanticContextNavigationBackgroundFooter = "#005eb8"; // Footer navigation background - consistent with header
+export const SemanticContextNavigationBackgroundSidebar = "#ffffff"; // Sidebar navigation background
+export const SemanticContextNavigationTextPrimary = "#ffffff"; // Primary navigation text - high contrast on blue
+export const SemanticContextNavigationTextSecondary = "#ffffffcc"; // Secondary navigation text - slightly transparent
+export const SemanticContextNavigationTextActive = "#ffeb3b"; // Active navigation text - NHS Yellow for visibility
+export const SemanticContextNavigationAccentHover = "#ffffff1a"; // Navigation hover accent - subtle overlay
+export const SemanticContextNavigationAccentActive = "#ffffff33"; // Navigation active accent - stronger overlay
+export const SemanticContextNavigationAccentBorder = "#ffeb3b"; // Navigation accent border - NHS Yellow
+export const SemanticContextContentBackgroundPrimary = "#ffffff"; // Primary content background
+export const SemanticContextContentBackgroundSecondary = "#f0f4f5"; // Secondary content background - for panels and asides
+export const SemanticContextContentBackgroundElevated = "#ffffff"; // Elevated content background - for cards and modals
+export const SemanticContextContentTextPrimary = "#212b32"; // Primary content text - maximum readability
+export const SemanticContextContentTextSecondary = "#4c6272"; // Secondary content text - for supporting information
+export const SemanticContextContentTextTertiary = "#768692"; // Tertiary content text - for captions and metadata
+export const SemanticContextContentAccentLink = "#005eb8"; // Content link color - uses secondary intent
+export const SemanticContextContentAccentHighlight = "#ffeb3b"; // Content highlight color - NHS Yellow
+export const SemanticContextContentAccentBorder = "#d8dde0"; // Content border color - subtle separation
+export const SemanticSurfaceElevation0 = "#ffffff"; // Base surface - no elevation
+export const SemanticSurfaceElevation1 = "#ffffff"; // Low elevation surface - cards
+export const SemanticSurfaceElevation2 = "#ffffff"; // Medium elevation surface - dialogs
+export const SemanticSurfaceElevation3 = "#ffffff"; // High elevation surface - tooltips
+export const SemanticSurfaceInteractiveDefault = "#ffffff"; // Default interactive surface
+export const SemanticSurfaceInteractiveHover = "#f0f4f5"; // Hover interactive surface - subtle change
+export const SemanticSurfaceInteractiveActive = "#d8dde0"; // Active interactive surface - more pronounced
+export const SemanticSurfaceInteractiveSelected = "#005eb81a"; // Selected interactive surface - NHS Blue tint
+export const SemanticRelationshipParentChildCardBackground = "#ffffff"; // Card background - base elevation
+export const SemanticRelationshipParentChildCardContentBackground =
+  "calculated-lighten(#ffffff, 2%)"; // Card content background - slightly lighter than parent
+export const SemanticRelationshipParentChildCardContentText =
+  "auto-contrast(calculated-lighten(#ffffff, 2%))"; // Card content text - auto-calculated contrast
+export const SemanticRelationshipParentChildCardHeaderBackground =
+  "calculated-darken(#ffffff, 3%)"; // Card header background - slightly darker than parent
+export const SemanticRelationshipParentChildCardHeaderText =
+  "auto-contrast(calculated-darken(#ffffff, 3%))"; // Card header text - auto-calculated contrast
+export const SemanticRelationshipParentChildPanelBackground = "#ffffff"; // Panel background - base elevation
+export const SemanticRelationshipParentChildPanelBorder =
+  "calculated-darken(#ffffff, 15%)"; // Panel border - darker than background for definition
+export const SemanticRelationshipParentChildPanelContentText =
+  "auto-contrast(#ffffff)"; // Panel content text - optimal contrast
+export const SemanticRelationshipStatePropagationInteractiveDefault = "#007f3b"; // Default interactive state
+export const SemanticRelationshipStatePropagationInteractiveHover =
+  "calculated-darken(#007f3b, 10%)"; // Hover state - automatically 10% darker
+export const SemanticRelationshipStatePropagationInteractiveActive =
+  "calculated-darken(#007f3b, 20%)"; // Active state - automatically 20% darker
+export const SemanticRelationshipStatePropagationInteractiveDisabled =
+  "calculated-fade(#007f3b, 40%)"; // Disabled state - automatically 40% opacity
+export const SemanticRelationshipStatePropagationButtonPrimaryBackground =
+  "#007f3b"; // Primary button background
+export const SemanticRelationshipStatePropagationButtonPrimaryHover =
+  "calculated-darken(#007f3b, 10%)"; // Primary button hover - 10% darker
+export const SemanticRelationshipStatePropagationButtonPrimaryActive =
+  "calculated-darken(#007f3b, 20%)"; // Primary button active - 20% darker
+export const SemanticRelationshipStatePropagationButtonSecondaryBackground =
+  "#00000000"; // Secondary button background
+export const SemanticRelationshipStatePropagationButtonSecondaryBorder =
+  "#005eb8"; // Secondary button border
+export const SemanticRelationshipStatePropagationButtonSecondaryHover =
+  "calculated-tint(#005eb8, 90%)"; // Secondary button hover - light tint
 export const SemanticColorTextPrimary = "#212b32"; // Primary text color
 export const SemanticColorTextSecondary = "#4c6272"; // Secondary text color
 export const SemanticColorTextReverse = "#ffffff"; // Reverse/inverted text color
@@ -330,6 +417,40 @@ export const SpacingResponsive8Mobile = "48px";
 export const SpacingResponsive8Tablet = "56px";
 export const SpacingResponsive9Mobile = "56px";
 export const SpacingResponsive9Tablet = "64px";
+export const ThemeLightSemanticIntentPrimary = "#007f3b"; // Light theme primary - NHS Green
+export const ThemeLightSemanticIntentSecondary = "#005eb8"; // Light theme secondary - NHS Blue
+export const ThemeLightSemanticIntentWarning = "#d5281b"; // Light theme warning - NHS Red
+export const ThemeLightSemanticIntentSuccess = "#007f3b"; // Light theme success - NHS Green
+export const ThemeLightSemanticIntentNeutral = "#4c6272"; // Light theme neutral - Dark grey
+export const ThemeLightSemanticIntentInfo = "#005eb8"; // Light theme info - NHS Blue
+export const ThemeLightSemanticSurfaceBackgroundPrimary = "#ffffff"; // Light theme primary background
+export const ThemeLightSemanticSurfaceBackgroundSecondary = "#f0f4f5"; // Light theme secondary background
+export const ThemeLightSemanticSurfaceBackgroundElevated = "#ffffff"; // Light theme elevated surface (cards, modals)
+export const ThemeLightSemanticSurfaceTextPrimary = "#212b32"; // Light theme primary text - high contrast
+export const ThemeLightSemanticSurfaceTextSecondary = "#4c6272"; // Light theme secondary text
+export const ThemeLightSemanticSurfaceTextTertiary = "#768692"; // Light theme tertiary text - captions
+export const ThemeLightSemanticSurfaceTextInverse = "#ffffff"; // Light theme inverse text - for dark backgrounds
+export const ThemeLightSemanticSurfaceBorderDefault = "#d8dde0"; // Light theme default border
+export const ThemeLightSemanticSurfaceBorderSubtle = "#f0f4f5"; // Light theme subtle border
+export const ThemeLightSemanticSurfaceBorderStrong = "#768692"; // Light theme strong border
+export const ThemeDarkSemanticIntentPrimary = "lighten(#007f3b, 20%)"; // Dark theme primary - lighter NHS Green for contrast
+export const ThemeDarkSemanticIntentSecondary = "lighten(#005eb8, 25%)"; // Dark theme secondary - lighter NHS Blue for contrast
+export const ThemeDarkSemanticIntentWarning = "lighten(#d5281b, 15%)"; // Dark theme warning - lighter NHS Red for contrast
+export const ThemeDarkSemanticIntentSuccess = "lighten(#007f3b, 20%)"; // Dark theme success - lighter NHS Green
+export const ThemeDarkSemanticIntentNeutral = "#aeb7bd"; // Dark theme neutral - Medium grey for contrast
+export const ThemeDarkSemanticIntentInfo = "lighten(#005eb8, 25%)"; // Dark theme info - lighter NHS Blue
+export const ThemeDarkSemanticSurfaceBackgroundPrimary = "darken(#212b32, 5%)"; // Dark theme primary background - very dark
+export const ThemeDarkSemanticSurfaceBackgroundSecondary =
+  "lighten(#212b32, 8%)"; // Dark theme secondary background - slightly lighter
+export const ThemeDarkSemanticSurfaceBackgroundElevated =
+  "lighten(#212b32, 12%)"; // Dark theme elevated surface - cards, modals
+export const ThemeDarkSemanticSurfaceTextPrimary = "fade(#ffffff, 95%)"; // Dark theme primary text - high contrast white
+export const ThemeDarkSemanticSurfaceTextSecondary = "fade(#ffffff, 80%)"; // Dark theme secondary text - medium contrast
+export const ThemeDarkSemanticSurfaceTextTertiary = "fade(#ffffff, 60%)"; // Dark theme tertiary text - low contrast
+export const ThemeDarkSemanticSurfaceTextInverse = "#212b32"; // Dark theme inverse text - for light backgrounds
+export const ThemeDarkSemanticSurfaceBorderDefault = "fade(#ffffff, 20%)"; // Dark theme default border - subtle white
+export const ThemeDarkSemanticSurfaceBorderSubtle = "fade(#ffffff, 10%)"; // Dark theme subtle border - very light white
+export const ThemeDarkSemanticSurfaceBorderStrong = "fade(#ffffff, 40%)"; // Dark theme strong border - more visible white
 export const FontFamilyBase = "Frutiger W01"; // Primary NHS font family
 export const FontFamilyFallback = "Arial, sans-serif"; // Fallback fonts if Frutiger fails to load
 export const FontFamilyPrint = "sans-serif"; // Font family for print styles

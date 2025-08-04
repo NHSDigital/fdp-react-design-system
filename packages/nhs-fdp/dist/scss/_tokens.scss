@@ -1,4 +1,6 @@
 
+@use 'sass:color';
+
 // Do not edit directly, this file was auto-generated.
 
 $nhs-fdp-animation-duration-fast: 150ms; // Fast animation duration for micro-interactions
@@ -111,9 +113,9 @@ $nhs-fdp-button-primary-background-active: #00401e; // Primary button active bac
 $nhs-fdp-button-primary-background-disabled: #d8dde0; // Primary button disabled background color
 $nhs-fdp-button-primary-text-default: #ffffff; // Primary button text color
 $nhs-fdp-button-primary-text-disabled: #768692; // Primary button disabled text color
-$nhs-fdp-button-primary-border-default: rgba(0, 0, 0, 0); // Primary button border color
+$nhs-fdp-button-primary-border-default: #00000000; // Primary button border color
 $nhs-fdp-button-primary-border-focus: #ffeb3b; // Primary button focus border color
-$nhs-fdp-button-secondary-background-default: rgba(0, 0, 0, 0); // Secondary button background color
+$nhs-fdp-button-secondary-background-default: #00000000; // Secondary button background color
 $nhs-fdp-button-secondary-background-solid: #ffffff; // Secondary button solid background color
 $nhs-fdp-button-secondary-background-hover: #d9e5f2; // Secondary button hover background color
 $nhs-fdp-button-secondary-background-active: #c7daf0; // Secondary button active background color
@@ -234,6 +236,78 @@ $nhs-fdp-breakpoint-xxlarge: 1440px; // Extra extra large devices (ultra-wide sc
 $nhs-fdp-grid-page-width: 960px; // Maximum page width
 $nhs-fdp-grid-gutter: 32px; // Grid gutter width
 $nhs-fdp-grid-gutter-half: 16px; // Half grid gutter width
+$nhs-fdp-semantic-intent-primary: #007f3b; // Primary intent color - NHS Green for main actions and success states
+$nhs-fdp-semantic-intent-secondary: #005eb8; // Secondary intent color - NHS Blue for secondary actions and information
+$nhs-fdp-semantic-intent-warning: #d5281b; // Warning intent color - NHS Red for errors and dangerous actions
+$nhs-fdp-semantic-intent-success: #007f3b; // Success intent color - derived from primary for consistency
+$nhs-fdp-semantic-intent-neutral: #aeb7bd; // Neutral intent color - for disabled states and subtle actions
+$nhs-fdp-semantic-intent-info: #005eb8; // Information intent color - for informational content
+$nhs-fdp-semantic-intent-hover-primary: color.adjust(#007f3b, $lightness: -10%); // Primary intent hover state - darker NHS Green
+$nhs-fdp-semantic-intent-hover-secondary: color.adjust(#005eb8, $lightness: -10%); // Secondary intent hover state - darker NHS Blue
+$nhs-fdp-semantic-intent-hover-warning: color.adjust(#d5281b, $lightness: -10%); // Warning intent hover state - darker NHS Red
+$nhs-fdp-semantic-intent-active-primary: color.adjust(#007f3b, $lightness: -20%); // Primary intent active state - much darker NHS Green
+$nhs-fdp-semantic-intent-active-secondary: color.adjust(#005eb8, $lightness: -20%); // Secondary intent active state - much darker NHS Blue
+$nhs-fdp-semantic-intent-active-warning: color.adjust(#d5281b, $lightness: -20%); // Warning intent active state - much darker NHS Red
+$nhs-fdp-semantic-intent-light-primary: color.adjust(#007f3b, $lightness: +40%); // Light primary intent - for backgrounds and subtle states
+$nhs-fdp-semantic-intent-light-secondary: color.adjust(#005eb8, $lightness: +40%); // Light secondary intent - for backgrounds and subtle states
+$nhs-fdp-semantic-intent-light-warning: color.adjust(#d5281b, $lightness: +40%); // Light warning intent - for backgrounds and subtle states
+$nhs-fdp-semantic-context-form-border-default: #4c6272; // Default form border color - calm and accessible
+$nhs-fdp-semantic-context-form-border-focus: #005eb8; // Form focus border - uses secondary intent for consistency
+$nhs-fdp-semantic-context-form-border-error: #d5281b; // Form error border - uses warning intent
+$nhs-fdp-semantic-context-form-border-success: #007f3b; // Form success border - uses success intent
+$nhs-fdp-semantic-context-form-background-default: #ffffff; // Default form background
+$nhs-fdp-semantic-context-form-background-disabled: #f0f4f5; // Disabled form background
+$nhs-fdp-semantic-context-form-background-readonly: #d8dde0; // Read-only form background
+$nhs-fdp-semantic-context-form-background-error: color.adjust(#d5281b, $lightness: +40%); // Error form background - uses light warning intent
+$nhs-fdp-semantic-context-form-background-success: color.adjust(#007f3b, $lightness: +40%); // Success form background - uses light primary intent
+$nhs-fdp-semantic-context-form-text-default: #212b32; // Default form text color - high contrast
+$nhs-fdp-semantic-context-form-text-placeholder: #768692; // Form placeholder text - reduced contrast but readable
+$nhs-fdp-semantic-context-form-text-disabled: #768692; // Disabled form text
+$nhs-fdp-semantic-context-form-text-error: #d5281b; // Form error text color
+$nhs-fdp-semantic-context-navigation-background-header: #005eb8; // Header navigation background - NHS Blue
+$nhs-fdp-semantic-context-navigation-background-footer: #005eb8; // Footer navigation background - consistent with header
+$nhs-fdp-semantic-context-navigation-background-sidebar: #ffffff; // Sidebar navigation background
+$nhs-fdp-semantic-context-navigation-text-primary: #ffffff; // Primary navigation text - high contrast on blue
+$nhs-fdp-semantic-context-navigation-text-secondary: #ffffffcc; // Secondary navigation text - slightly transparent
+$nhs-fdp-semantic-context-navigation-text-active: #ffeb3b; // Active navigation text - NHS Yellow for visibility
+$nhs-fdp-semantic-context-navigation-accent-hover: #ffffff1a; // Navigation hover accent - subtle overlay
+$nhs-fdp-semantic-context-navigation-accent-active: #ffffff33; // Navigation active accent - stronger overlay
+$nhs-fdp-semantic-context-navigation-accent-border: #ffeb3b; // Navigation accent border - NHS Yellow
+$nhs-fdp-semantic-context-content-background-primary: #ffffff; // Primary content background
+$nhs-fdp-semantic-context-content-background-secondary: #f0f4f5; // Secondary content background - for panels and asides
+$nhs-fdp-semantic-context-content-background-elevated: #ffffff; // Elevated content background - for cards and modals
+$nhs-fdp-semantic-context-content-text-primary: #212b32; // Primary content text - maximum readability
+$nhs-fdp-semantic-context-content-text-secondary: #4c6272; // Secondary content text - for supporting information
+$nhs-fdp-semantic-context-content-text-tertiary: #768692; // Tertiary content text - for captions and metadata
+$nhs-fdp-semantic-context-content-accent-link: #005eb8; // Content link color - uses secondary intent
+$nhs-fdp-semantic-context-content-accent-highlight: #ffeb3b; // Content highlight color - NHS Yellow
+$nhs-fdp-semantic-context-content-accent-border: #d8dde0; // Content border color - subtle separation
+$nhs-fdp-semantic-surface-elevation-0: #ffffff; // Base surface - no elevation
+$nhs-fdp-semantic-surface-elevation-1: #ffffff; // Low elevation surface - cards
+$nhs-fdp-semantic-surface-elevation-2: #ffffff; // Medium elevation surface - dialogs
+$nhs-fdp-semantic-surface-elevation-3: #ffffff; // High elevation surface - tooltips
+$nhs-fdp-semantic-surface-interactive-default: #ffffff; // Default interactive surface
+$nhs-fdp-semantic-surface-interactive-hover: #f0f4f5; // Hover interactive surface - subtle change
+$nhs-fdp-semantic-surface-interactive-active: #d8dde0; // Active interactive surface - more pronounced
+$nhs-fdp-semantic-surface-interactive-selected: #005eb81a; // Selected interactive surface - NHS Blue tint
+$nhs-fdp-semantic-relationship-parent-child-card-background: #ffffff; // Card background - base elevation
+$nhs-fdp-semantic-relationship-parent-child-card-content-background: color.adjust(#ffffff, $lightness: +2%); // Card content background - slightly lighter than parent
+$nhs-fdp-semantic-relationship-parent-child-card-content-text: auto-contrast(color.adjust(#ffffff, $lightness: +2%)); // Card content text - auto-calculated contrast
+$nhs-fdp-semantic-relationship-parent-child-card-header-background: color.adjust(#ffffff, $lightness: -3%); // Card header background - slightly darker than parent
+$nhs-fdp-semantic-relationship-parent-child-card-header-text: auto-contrast(color.adjust(#ffffff, $lightness: -3%)); // Card header text - auto-calculated contrast
+$nhs-fdp-semantic-relationship-parent-child-panel-background: #ffffff; // Panel background - base elevation
+$nhs-fdp-semantic-relationship-parent-child-panel-border: color.adjust(#ffffff, $lightness: -15%); // Panel border - darker than background for definition
+$nhs-fdp-semantic-relationship-parent-child-panel-content-text: auto-contrast(#ffffff); // Panel content text - optimal contrast
+$nhs-fdp-semantic-relationship-state-propagation-interactive-default: #007f3b; // Default interactive state
+$nhs-fdp-semantic-relationship-state-propagation-interactive-hover: color.adjust(#007f3b, $lightness: -10%); // Hover state - automatically 10% darker
+$nhs-fdp-semantic-relationship-state-propagation-interactive-active: color.adjust(#007f3b, $lightness: -20%); // Active state - automatically 20% darker
+$nhs-fdp-semantic-relationship-state-propagation-interactive-disabled: calculated-fade(#007f3b, 40%); // Disabled state - automatically 40% opacity
+$nhs-fdp-semantic-relationship-state-propagation-button-primary-background: #007f3b; // Primary button background
+$nhs-fdp-semantic-relationship-state-propagation-button-primary-hover: color.adjust(#007f3b, $lightness: -10%); // Primary button hover - 10% darker
+$nhs-fdp-semantic-relationship-state-propagation-button-primary-active: color.adjust(#007f3b, $lightness: -20%); // Primary button active - 20% darker
+$nhs-fdp-semantic-relationship-state-propagation-button-secondary-background: #00000000; // Secondary button background
+$nhs-fdp-semantic-relationship-state-propagation-button-secondary-border: #005eb8; // Secondary button border
+$nhs-fdp-semantic-relationship-state-propagation-button-secondary-hover: calculated-tint(#005eb8, 90%); // Secondary button hover - light tint
 $nhs-fdp-semantic-color-text-primary: #212b32; // Primary text color
 $nhs-fdp-semantic-color-text-secondary: #4c6272; // Secondary text color
 $nhs-fdp-semantic-color-text-reverse: #ffffff; // Reverse/inverted text color
@@ -245,7 +319,7 @@ $nhs-fdp-semantic-color-link-visited: #330072; // Visited link color
 $nhs-fdp-semantic-color-focus-background: #ffeb3b; // Focus background color
 $nhs-fdp-semantic-color-focus-text: #212b32; // Focus text color
 $nhs-fdp-semantic-color-border-default: #d8dde0; // Default border color
-$nhs-fdp-semantic-color-border-secondary: rgba(255, 255, 255, 0.2); // Secondary border color
+$nhs-fdp-semantic-color-border-secondary: #ffffff33; // Secondary border color
 $nhs-fdp-semantic-color-error: #d5281b; // Error color
 $nhs-fdp-semantic-color-form-border: #4c6272; // Form border color
 $nhs-fdp-semantic-color-form-background: #ffffff; // Form background color
@@ -257,7 +331,7 @@ $nhs-fdp-semantic-color-button-primary-text: #ffffff;
 $nhs-fdp-semantic-color-button-primary-hover: #006530; // 20% shade of green
 $nhs-fdp-semantic-color-button-primary-active: #00401e; // 50% shade of green
 $nhs-fdp-semantic-color-button-primary-shadow: #00401e; // 50% shade of green
-$nhs-fdp-semantic-color-button-secondary-background: rgba(0, 0, 0, 0);
+$nhs-fdp-semantic-color-button-secondary-background: #00000000;
 $nhs-fdp-semantic-color-button-secondary-background-solid: #ffffff;
 $nhs-fdp-semantic-color-button-secondary-border: #005eb8;
 $nhs-fdp-semantic-color-button-secondary-text: #005eb8;
@@ -325,7 +399,39 @@ $nhs-fdp-spacing-responsive-8-mobile: 48px;
 $nhs-fdp-spacing-responsive-8-tablet: 56px;
 $nhs-fdp-spacing-responsive-9-mobile: 56px;
 $nhs-fdp-spacing-responsive-9-tablet: 64px;
-$nhs-fdp-font-family-base: 'Frutiger W01'; // Primary NHS font family
+$nhs-fdp-theme-light-semantic-intent-primary: #007f3b; // Light theme primary - NHS Green
+$nhs-fdp-theme-light-semantic-intent-secondary: #005eb8; // Light theme secondary - NHS Blue
+$nhs-fdp-theme-light-semantic-intent-warning: #d5281b; // Light theme warning - NHS Red
+$nhs-fdp-theme-light-semantic-intent-success: #007f3b; // Light theme success - NHS Green
+$nhs-fdp-theme-light-semantic-intent-neutral: #4c6272; // Light theme neutral - Dark grey
+$nhs-fdp-theme-light-semantic-intent-info: #005eb8; // Light theme info - NHS Blue
+$nhs-fdp-theme-light-semantic-surface-background-primary: #ffffff; // Light theme primary background
+$nhs-fdp-theme-light-semantic-surface-background-secondary: #f0f4f5; // Light theme secondary background
+$nhs-fdp-theme-light-semantic-surface-background-elevated: #ffffff; // Light theme elevated surface (cards, modals)
+$nhs-fdp-theme-light-semantic-surface-text-primary: #212b32; // Light theme primary text - high contrast
+$nhs-fdp-theme-light-semantic-surface-text-secondary: #4c6272; // Light theme secondary text
+$nhs-fdp-theme-light-semantic-surface-text-tertiary: #768692; // Light theme tertiary text - captions
+$nhs-fdp-theme-light-semantic-surface-text-inverse: #ffffff; // Light theme inverse text - for dark backgrounds
+$nhs-fdp-theme-light-semantic-surface-border-default: #d8dde0; // Light theme default border
+$nhs-fdp-theme-light-semantic-surface-border-subtle: #f0f4f5; // Light theme subtle border
+$nhs-fdp-theme-light-semantic-surface-border-strong: #768692; // Light theme strong border
+$nhs-fdp-theme-dark-semantic-intent-primary: color.adjust(#007f3b, $lightness: +20%); // Dark theme primary - lighter NHS Green for contrast
+$nhs-fdp-theme-dark-semantic-intent-secondary: color.adjust(#005eb8, $lightness: +25%); // Dark theme secondary - lighter NHS Blue for contrast
+$nhs-fdp-theme-dark-semantic-intent-warning: color.adjust(#d5281b, $lightness: +15%); // Dark theme warning - lighter NHS Red for contrast
+$nhs-fdp-theme-dark-semantic-intent-success: color.adjust(#007f3b, $lightness: +20%); // Dark theme success - lighter NHS Green
+$nhs-fdp-theme-dark-semantic-intent-neutral: #aeb7bd; // Dark theme neutral - Medium grey for contrast
+$nhs-fdp-theme-dark-semantic-intent-info: color.adjust(#005eb8, $lightness: +25%); // Dark theme info - lighter NHS Blue
+$nhs-fdp-theme-dark-semantic-surface-background-primary: color.adjust(#212b32, $lightness: -5%); // Dark theme primary background - very dark
+$nhs-fdp-theme-dark-semantic-surface-background-secondary: color.adjust(#212b32, $lightness: +8%); // Dark theme secondary background - slightly lighter
+$nhs-fdp-theme-dark-semantic-surface-background-elevated: color.adjust(#212b32, $lightness: +12%); // Dark theme elevated surface - cards, modals
+$nhs-fdp-theme-dark-semantic-surface-text-primary: fade(#ffffff, 95%); // Dark theme primary text - high contrast white
+$nhs-fdp-theme-dark-semantic-surface-text-secondary: fade(#ffffff, 80%); // Dark theme secondary text - medium contrast
+$nhs-fdp-theme-dark-semantic-surface-text-tertiary: fade(#ffffff, 60%); // Dark theme tertiary text - low contrast
+$nhs-fdp-theme-dark-semantic-surface-text-inverse: #212b32; // Dark theme inverse text - for light backgrounds
+$nhs-fdp-theme-dark-semantic-surface-border-default: fade(#ffffff, 20%); // Dark theme default border - subtle white
+$nhs-fdp-theme-dark-semantic-surface-border-subtle: fade(#ffffff, 10%); // Dark theme subtle border - very light white
+$nhs-fdp-theme-dark-semantic-surface-border-strong: fade(#ffffff, 40%); // Dark theme strong border - more visible white
+$nhs-fdp-font-family-base: Frutiger W01; // Primary NHS font family
 $nhs-fdp-font-family-fallback: Arial, sans-serif; // Fallback fonts if Frutiger fails to load
 $nhs-fdp-font-family-print: sans-serif; // Font family for print styles
 $nhs-fdp-font-weight-normal: 400; // Normal font weight

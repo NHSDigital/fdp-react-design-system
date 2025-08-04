@@ -1362,6 +1362,24 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
   }
 }
 
+// Small Desktop/Large Tablet Bridge (1025px - 1200px) - Prevent flex-wrap issues
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .aria-tabs-datagrid {
+    &__tabs {
+      flex-wrap: nowrap; // Explicitly prevent wrapping in small desktop range
+      overflow-x: auto; // Allow horizontal scrolling if needed instead of wrapping
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    &__tab {
+      flex-shrink: 0; // Prevent tabs from shrinking too much
+      min-width: max-content; // Ensure tab content is fully visible
+      white-space: nowrap; // Prevent text wrapping within tabs
+    }
+  }
+}
+
 // Tablet Portrait Optimization (768px - 834px)
 @media (min-width: 768px) and (max-width: 834px) and (orientation: portrait) {
   .aria-tabs-datagrid {

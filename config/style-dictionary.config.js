@@ -6,6 +6,266 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+// Register calculated color transforms for modern Sass color functions
+StyleDictionary.registerTransform({
+  name: 'color/darken',
+  type: 'value',
+  transitive: true,
+  filter: (token) => {
+    return typeof token.$value === 'string' && token.$value.includes('darken(');
+  },
+  transform: (token) => {
+    const match = token.$value.match(/darken\(([^,]+),\s*(\d+)%\)/);
+    if (match) {
+      const colorRef = match[1];
+      const percentage = parseInt(match[2]);
+      // Use modern Sass color.adjust() instead of deprecated darken()
+      return `color.adjust(${colorRef}, $lightness: -${percentage}%)`;
+    }
+    return token.$value;
+  }
+});
+
+StyleDictionary.registerTransform({
+  name: 'color/lighten',
+  type: 'value',
+  transitive: true,
+  filter: (token) => {
+    return typeof token.$value === 'string' && token.$value.includes('lighten(');
+  },
+  transform: (token) => {
+    const match = token.$value.match(/lighten\(([^,]+),\s*(\d+)%\)/);
+    if (match) {
+      const colorRef = match[1];
+      const percentage = parseInt(match[2]);
+      // Use modern Sass color.adjust() instead of deprecated lighten()
+      return `color.adjust(${colorRef}, $lightness: +${percentage}%)`;
+    }
+    return token.$value;
+  }
+});
+
+// Register a custom SCSS format that includes sass:color import
+StyleDictionary.registerFormat({
+  name: 'scss/variables-with-color-import',
+  format: ({ dictionary }) => {
+    const vars = dictionary.allTokens
+      .map(token => {
+        const comment = token.comment ? ` // ${token.comment}` : ''
+        return `$${token.name}: ${token.value};${comment}`
+      })
+      .join('\n')
+    
+    return `@use 'sass:color';
+
+// Do not edit directly, this file was auto-generated.
+
+${vars}
+`
+  }
+});
+
+// Register custom fileHeader that includes sass:color import
+StyleDictionary.registerFileHeader({
+  name: 'scss-with-color-import',
+  fileHeader: () => [
+    '@use \'sass:color\';',
+    '',
+    'Do not edit directly, this file was auto-generated.'
+  ]
+});
+
+// Register a custom transform group that includes the modern color functions
+StyleDictionary.registerTransformGroup({
+  name: 'scss/modern',
+  transforms: [
+    'attribute/cti',
+    'name/kebab',
+    'time/seconds',
+    'html/icon',
+    'size/rem',
+    'color/hex',
+    'color/darken',
+    'color/lighten'
+  ]
+});
+
+// Register responsive transform for breakpoint-aware tokens
+StyleDictionary.registerTransform({
+  name: 'responsive/css-variables',
+  type: 'value',
+  filter: (token) => {
+    return token.value && typeof token.value === 'object' && 
+           (token.value.mobile || token.value.tablet || token.value.desktop);
+  },
+  transform: (token) => {
+    const { mobile, tablet, desktop } = token.value;
+    return {
+      mobile: mobile?.value || mobile,
+      tablet: tablet?.value || tablet,
+      desktop: desktop?.value || desktop
+    };
+  }
+});
+
+// Register density transform for dynamic spacing
+StyleDictionary.registerTransform({
+  name: 'density/css-variables',
+  type: 'value',
+  filter: (token) => {
+    return token.path && token.path.includes('density');
+  },
+  transform: (token) => {
+    return token.value;
+  }
+});
+
+// Register brand transform for organization variants
+StyleDictionary.registerTransform({
+  name: 'brand/css-variables',
+  type: 'value',
+  filter: (token) => {
+    return token.path && token.path.includes('brand');
+  },
+  transform: (token) => {
+    return token.value;
+  }
+});
+
+// Register responsive CSS format for dynamic tokens
+StyleDictionary.registerFormat({
+  name: 'responsive/css',
+  format: ({ dictionary, options }) => {
+    let css = `/* Responsive Design Tokens - Auto-generated */\n\n`;
+    
+    // Helper function to get clean token name
+    const getTokenName = (token) => {
+      // Remove redundant 'nhs' prefix if it exists in the path
+      const cleanName = token.name.replace(/^nhs-/, '');
+      return `--nhs-${cleanName}`;
+    };
+    
+    // Helper function to resolve value
+    const resolveValue = (value) => {
+      if (typeof value === 'string' && value.startsWith('{') && value.endsWith('}')) {
+        // This is a reference, but we'll output it as-is for now
+        return value;
+      }
+      return value;
+    };
+    
+    // Filter tokens for responsive variants only
+    const responsiveTokens = dictionary.allTokens.filter(token => 
+      token.path && (
+        token.path.includes('responsive') || 
+        token.path.includes('density') ||
+        token.path.includes('accessibility') ||
+        token.path.includes('brand')
+      )
+    );
+    
+    // Base responsive tokens and mobile values
+    css += `:root {\n`;
+    
+    responsiveTokens.forEach(token => {
+      const name = getTokenName(token);
+      
+      if (token.value && typeof token.value === 'object') {
+        const { mobile, tablet, desktop } = token.value;
+        if (mobile) {
+          css += `  ${name}: ${resolveValue(mobile)};\n`;
+        }
+      } else if (token.path && token.path.includes('responsive') && !token.path.includes('tablet') && !token.path.includes('desktop')) {
+        // Base responsive token
+        css += `  ${name}: ${resolveValue(token.value)};\n`;
+      } else if (!token.path.includes('density') && !token.path.includes('accessibility') && !token.path.includes('brand')) {
+        // Regular non-responsive token
+        css += `  ${name}: ${resolveValue(token.value)};\n`;
+      }
+    });
+    
+    css += `}\n\n`;
+    
+    // Tablet breakpoint
+    css += `@media (min-width: 768px) {\n`;
+    css += `  :root {\n`;
+    
+    responsiveTokens.forEach(token => {
+      const name = getTokenName(token);
+      
+      if (token.value && typeof token.value === 'object' && token.value.tablet) {
+        css += `    ${name}: ${resolveValue(token.value.tablet)};\n`;
+      } else if (token.path && token.path.includes('tablet')) {
+        css += `    ${name}: ${resolveValue(token.value)};\n`;
+      }
+    });
+    
+    css += `  }\n}\n\n`;
+    
+    // Desktop breakpoint
+    css += `@media (min-width: 1024px) {\n`;
+    css += `  :root {\n`;
+    
+    responsiveTokens.forEach(token => {
+      const name = getTokenName(token);
+      
+      if (token.value && typeof token.value === 'object' && token.value.desktop) {
+        css += `    ${name}: ${resolveValue(token.value.desktop)};\n`;
+      } else if (token.path && token.path.includes('desktop')) {
+        css += `    ${name}: ${resolveValue(token.value)};\n`;
+      }
+    });
+    
+    css += `  }\n}\n\n`;
+    
+    // Density modes
+    css += `/* Density Modes */\n`;
+    css += `[data-density="compact"] {\n`;
+    dictionary.allTokens.forEach(token => {
+      if (token.path && token.path.includes('density') && token.path.includes('compact')) {
+        const name = `--nhs-${token.name.replace('density-compact-', '')}`;
+        css += `  ${name}: ${token.value};\n`;
+      }
+    });
+    css += `}\n\n`;
+    
+    css += `[data-density="spacious"] {\n`;
+    dictionary.allTokens.forEach(token => {
+      if (token.path && token.path.includes('density') && token.path.includes('spacious')) {
+        const name = `--nhs-${token.name.replace('density-spacious-', '')}`;
+        css += `  ${name}: ${token.value};\n`;
+      }
+    });
+    css += `}\n\n`;
+    
+    // High contrast mode
+    css += `/* High Contrast Mode */\n`;
+    css += `@media (prefers-contrast: high), [data-contrast="high"] {\n`;
+    css += `  :root {\n`;
+    dictionary.allTokens.forEach(token => {
+      if (token.path && token.path.includes('accessibility') && token.path.includes('high-contrast')) {
+        const name = `--nhs-${token.name.replace('accessibility-high-contrast-', '')}`;
+        css += `    ${name}: ${token.value};\n`;
+      }
+    });
+    css += `  }\n}\n\n`;
+    
+    // Reduced motion
+    css += `/* Motion Preferences */\n`;
+    css += `@media (prefers-reduced-motion: reduce), [data-motion="reduced"] {\n`;
+    css += `  :root {\n`;
+    dictionary.allTokens.forEach(token => {
+      if (token.path && token.path.includes('accessibility') && token.path.includes('motion-reduced')) {
+        const name = `--nhs-${token.name.replace('accessibility-motion-reduced-', '')}`;
+        css += `    ${name}: ${token.value};\n`;
+      }
+    });
+    css += `  }\n}\n`;
+    
+    return css;
+  }
+});
+
 // // Custom format for TypeScript declarations
 // StyleDictionary.registerFormat({
 // 	name: 'typescript/es6-declarations',
@@ -782,6 +1042,11 @@ StyleDictionary.registerFormat({
 const configPath = path.join(__dirname, 'config.json')
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'))
 
+// Update SCSS platform to use modern color functions
+if (config.platforms && config.platforms.scss) {
+  config.platforms.scss.transformGroup = 'scss/modern'
+}
+
 // Enhance the React platform with custom formats
 if (config.platforms && config.platforms.react) {
 	config.platforms.react.files.push(
@@ -817,3 +1082,7 @@ if (config.platforms && config.platforms.react) {
 }
 
 export default config
+
+// Note: Responsive tokens will be built separately
+// The responsive CSS file should be generated by importing and building
+// the responsive configuration in a separate process

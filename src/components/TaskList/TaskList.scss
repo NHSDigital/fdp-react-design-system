@@ -16,125 +16,130 @@ $task-list-hover-color: nhs.$nhs-fdp-semantic-color-hover-subtle; // Calculated 
   @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     font-size: nhs.$nhs-fdp-font-size-19-tablet;
   }
-}
 
-// This uses table layout so that the task name and status always appear side-by-side, with the width of
-// each 'column' being flexible depending upon the length of the task names and statuses.
-//
-// The position is set to 'relative' so than an absolutely-positioned transparent element box
-// can be added within the link so that the whole row can be clickable.
-.nhsuk-task-list__item {
-  display: table;
-  position: relative;
-  width: 100%;
-  margin-bottom: 0;
-  // Add padding with spacing tokens plus adjustment for visual balance
-  padding-top: calc(#{nhs.$nhs-fdp-spacing-2} + #{nhs.$nhs-fdp-component-task-padding-adjustment});
-  padding-bottom: calc(#{nhs.$nhs-fdp-spacing-2} + #{nhs.$nhs-fdp-component-task-padding-adjustment});
-  border-bottom: 1px solid nhs.$nhs-fdp-border-color-default;
-}
+  // Task list items
+  // This uses table layout so that the task name and status always appear side-by-side, with the width of
+  // each 'column' being flexible depending upon the length of the task names and statuses.
+  //
+  // The position is set to 'relative' so than an absolutely-positioned transparent element box
+  // can be added within the link so that the whole row can be clickable.
+  &__item {
+    display: table;
+    position: relative;
+    width: 100%;
+    margin-bottom: 0;
+    // Add padding with spacing tokens plus adjustment for visual balance
+    padding-top: calc(#{nhs.$nhs-fdp-spacing-2} + #{nhs.$nhs-fdp-component-task-padding-adjustment});
+    padding-bottom: calc(#{nhs.$nhs-fdp-spacing-2} + #{nhs.$nhs-fdp-component-task-padding-adjustment});
+    border-bottom: 1px solid nhs.$nhs-fdp-border-color-default;
 
-.nhsuk-task-list__item:first-child {
-  border-top: 1px solid nhs.$nhs-fdp-border-color-default;
-}
+    &:first-child {
+      border-top: 1px solid nhs.$nhs-fdp-border-color-default;
+    }
 
-// This class is added to the <li> elements where the task name is a link.
-// The background hover colour is added to help indicate that the whole row is clickable, rather
-// than just the visible link text.
-.nhsuk-task-list__item--with-link:hover {
-  background: $task-list-hover-color;
-}
-
-.nhsuk-task-list__name-and-hint {
-  display: table-cell;
-  vertical-align: top;
-  color: nhs.$nhs-fdp-semantic-color-text-primary;
-}
-
-.nhsuk-task-list__status {
-  display: table-cell;
-  padding-left: nhs.$nhs-fdp-spacing-2;
-  text-align: right;
-  vertical-align: top;
-  color: nhs.$nhs-fdp-semantic-color-text-primary;
-}
-
-// This replicates some of the styling and spacing of tags so that these non-tag
-// statuses don't look out of place with them. Longer term we may want to look to
-// adjusting the tag styles to be closer to body text.
-.nhsuk-task-list__status--completed,
-.nhsuk-task-list__status--cannot-start-yet {
-  padding-bottom: nhs.$nhs-fdp-spacing-1;
-  padding-left: nhs.$nhs-fdp-spacing-2;
-  // Add padding to match tag spacing
-  padding-top: calc(#{nhs.$nhs-fdp-spacing-1} + #{nhs.$nhs-fdp-component-tag-padding-adjustment});
-  text-decoration: none;
-  font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
-  font-size: nhs.$nhs-fdp-font-size-16-mobile;
-  font-weight: nhs.$nhs-fdp-font-weight-normal;
-  line-height: 1;
-
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-    font-size: nhs.$nhs-fdp-font-size-16-tablet;
-  }
-}
-
-.nhsuk-task-list__status--cannot-start-yet {
-  color: nhs.$nhs-fdp-semantic-color-text-secondary;
-}
-
-// This adds an empty transparent box covering the whole row, including the task status and
-// any hint text. Because this is generated within the link element, this allows the whole area
-// to be clickable.
-.nhsuk-task-list__link::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.nhsuk-task-list__link {
-  color: nhs.$nhs-fdp-semantic-color-link-default;
-  text-decoration: underline;
-  text-decoration-thickness: max(1px, 0.0625rem);
-  text-underline-offset: 0.1578em;
-
-  &:visited {
-    color: nhs.$nhs-fdp-semantic-color-link-visited;
-    text-decoration-color: nhs.$nhs-fdp-semantic-color-link-visited;
+    // This class is added to the <li> elements where the task name is a link.
+    // The background hover colour is added to help indicate that the whole row is clickable, rather
+    // than just the visible link text.
+    &--with-link:hover {
+      background: $task-list-hover-color;
+    }
   }
 
-  &:hover {
-    color: nhs.$nhs-fdp-semantic-color-link-hover;
-    text-decoration-color: nhs.$nhs-fdp-semantic-color-link-hover;
-    text-decoration: none;
+  // Task name and hint container
+  &__name-and-hint {
+    display: table-cell;
+    vertical-align: top;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
   }
 
-  &:active {
-    color: nhs.$nhs-fdp-semantic-color-link-active;
-    text-decoration-color: nhs.$nhs-fdp-semantic-color-link-active;
+  // Task status display
+  &__status {
+    display: table-cell;
+    padding-left: nhs.$nhs-fdp-spacing-2;
+    text-align: right;
+    vertical-align: top;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+
+    // This replicates some of the styling and spacing of tags so that these non-tag
+    // statuses don't look out of place with them. Longer term we may want to look to
+    // adjusting the tag styles to be closer to body text.
+    &--completed,
+    &--cannot-start-yet {
+      padding-bottom: nhs.$nhs-fdp-spacing-1;
+      padding-left: nhs.$nhs-fdp-spacing-2;
+      // Add padding to match tag spacing
+      padding-top: calc(#{nhs.$nhs-fdp-spacing-1} + #{nhs.$nhs-fdp-component-tag-padding-adjustment});
+      text-decoration: none;
+      font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+      font-weight: nhs.$nhs-fdp-font-weight-normal;
+      line-height: 1;
+
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+        font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      }
+    }
+
+    &--cannot-start-yet {
+      color: nhs.$nhs-fdp-semantic-color-text-secondary;
+    }
   }
 
-  &:focus {
-    outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-semantic-color-focus-background;
-    outline-offset: nhs.$nhs-fdp-focus-outline-offset;
-    background-color: nhs.$nhs-fdp-semantic-color-focus-background;
-    color: nhs.$nhs-fdp-semantic-color-focus-text;
-    text-decoration: none;
+  // Task links
+  &__link {
+    color: nhs.$nhs-fdp-semantic-color-link-default;
+    text-decoration: underline;
+    text-decoration-thickness: max(1px, 0.0625rem);
+    text-underline-offset: 0.1578em;
+
+    &:visited {
+      color: nhs.$nhs-fdp-semantic-color-link-visited;
+      text-decoration-color: nhs.$nhs-fdp-semantic-color-link-visited;
+    }
+
+    &:hover {
+      color: nhs.$nhs-fdp-semantic-color-link-hover;
+      text-decoration-color: nhs.$nhs-fdp-semantic-color-link-hover;
+      text-decoration: none;
+    }
+
+    &:active {
+      color: nhs.$nhs-fdp-semantic-color-link-active;
+      text-decoration-color: nhs.$nhs-fdp-semantic-color-link-active;
+    }
+
+    &:focus {
+      outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+      background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      color: nhs.$nhs-fdp-semantic-color-focus-text;
+      text-decoration: none;
+    }
+
+    // This adds an empty transparent box covering the whole row, including the task status and
+    // any hint text. Because this is generated within the link element, this allows the whole area
+    // to be clickable.
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
   }
-}
 
-.nhsuk-task-list__hint {
-  margin-top: nhs.$nhs-fdp-spacing-1;
-  color: nhs.$nhs-fdp-semantic-color-text-secondary;
-  font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
-  font-size: nhs.$nhs-fdp-font-size-16-mobile;
-  line-height: nhs.$nhs-fdp-font-line-height-base;
+  // Task hint text
+  &__hint {
+    margin-top: nhs.$nhs-fdp-spacing-1;
+    color: nhs.$nhs-fdp-semantic-color-text-secondary;
+    font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    line-height: nhs.$nhs-fdp-font-line-height-base;
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    }
   }
 }

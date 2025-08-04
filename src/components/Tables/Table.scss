@@ -13,6 +13,7 @@
   border-spacing: 0;
   width: 100%;
 
+  // Table caption
   &__caption {
     font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
     font-size: nhs.$nhs-fdp-font-size-16-tablet;
@@ -26,6 +27,7 @@
       font-size: nhs.$nhs-fdp-font-size-16-mobile;
     }
 
+    // Caption size variants
     &--xl {
       font-size: nhs.$nhs-fdp-font-size-36-tablet;
       font-weight: nhs.$nhs-fdp-font-weight-bold;
@@ -65,10 +67,12 @@
     }
   }
 
+  // Table head
   &__head {
     border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
   }
 
+  // Table header cell
   &__header {
     font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
     font-size: nhs.$nhs-fdp-font-size-16-tablet;
@@ -88,6 +92,23 @@
     }
   }
 
+  // Table body
+  &__body {
+    // Body cell header variant
+    &__cell {
+      &--header {
+        font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+        font-size: nhs.$nhs-fdp-font-size-16-tablet;
+        font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+        @media (max-width: 768px) {
+          font-size: nhs.$nhs-fdp-font-size-16-mobile;
+        }
+      }
+    }
+  }
+
+  // Table data cell
   &__cell {
     font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
     font-size: nhs.$nhs-fdp-font-size-16-tablet;
@@ -105,26 +126,13 @@
       padding-right: 0;
     }
 
+    // Numeric cell variant
     &--numeric {
       text-align: right;
     }
   }
 
-  &__body {
-    &__cell {
-      &--header {
-        font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
-        font-size: nhs.$nhs-fdp-font-size-16-tablet;
-        font-weight: nhs.$nhs-fdp-font-weight-bold;
-
-        @media (max-width: 768px) {
-          font-size: nhs.$nhs-fdp-font-size-16-mobile;
-        }
-      }
-    }
-  }
-
-  // Panel styling
+  // Table variants
   &--panel {
     border: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-border-color-default;
     padding: nhs.$nhs-fdp-spacing-3;
@@ -135,7 +143,6 @@
     }
   }
 
-  // Responsive table
   &--responsive {
     @media (max-width: 768px) {
       border: 0;

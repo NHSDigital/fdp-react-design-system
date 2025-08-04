@@ -141,7 +141,7 @@ const createHealthcareViewConfig = (): HealthcareViewConfig => ({
 /**
  * Factory function to create healthcare-specific tabs configuration
  */
-export const createHealthcareTabsConfig = (patients: EWSPatientData[]): TabPanelConfig<EWSPatientData>[] => {
+export const createTCHTabsConfig = (patients: EWSPatientData[]): TabPanelConfig<EWSPatientData>[] => {
   const viewConfig = createHealthcareViewConfig();
   
   return [
@@ -193,7 +193,7 @@ export const createHealthcareTabsConfig = (patients: EWSPatientData[]): TabPanel
 /**
  * Healthcare-specific data operation configuration
  */
-export const healthcareDataConfig = {
+export const tchDataConfig = {
   dataComparator: healthcareDataComparator,
   filterFunction: healthcareFilterFunction,
   booleanRenderer: nhsBooleanRenderer,

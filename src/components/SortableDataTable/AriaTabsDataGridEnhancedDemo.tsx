@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { AriaTabsDataGrid, AriaTabsDataGridRef } from './AriaTabsDataGrid';
-import { createHealthcareTabsConfig, healthcareDataConfig } from './AriaTabsDataGridHealthcare';
+import { createTCHTabsConfig, tchDataConfig } from './AriaTabsDataGridHealthcare';
 import { createGenericTabsConfig, dataComparators, filterFunctions, booleanRenderers } from './AriaTabsDataGridFactory';
 import { EWSPatientData } from './AriaTabsDataGridTypes';
 import patientsData from './patients_with_ews.json';
@@ -42,7 +42,7 @@ export function AriaTabsDataGridEnhancedDemo() {
   const genericTabsRef = useRef<AriaTabsDataGridRef>(null);
 
   // Healthcare tabs configuration
-  const healthcareTabs = createHealthcareTabsConfig(patients);
+  const healthcareTabs = createTCHTabsConfig(patients);
 
   // Generic tabs configuration for products
   const productTabs = createGenericTabsConfig(sampleProducts, [
@@ -158,7 +158,7 @@ export function AriaTabsDataGridEnhancedDemo() {
             selectedIndex={selectedTabIndex}
             onTabChange={handleTabChange}
             onGlobalRowSelectionChange={handleHealthcareSelection}
-            dataConfig={healthcareDataConfig}
+            dataConfig={tchDataConfig}
             ariaLabel="Timely Care Data Table Concept"
             ariaDescription="Healthcare data with EWS scores and patient information"
             className="demo-tabs healthcare-demo"

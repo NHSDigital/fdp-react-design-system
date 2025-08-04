@@ -1,10 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Tabs } from './Tabs';
 import { TabItem } from './Tabs.types';
+import { useFrutigerFonts } from '../../hooks/useFrutigerFonts';
 
 const meta: Meta<typeof Tabs> = {
   title: 'NHS/Content/Tabs',
   component: Tabs,
+  decorators: [
+    (Story) => {
+      const { fontFamily } = useFrutigerFonts();
+      return (
+        <div style={{ fontFamily }}>
+          <Story />
+        </div>
+      );
+    },
+  ],
   parameters: {
     layout: 'padded',
     docs: {

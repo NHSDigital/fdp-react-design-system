@@ -34,543 +34,565 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
   }
 
   &:focus:visited {
-	color: nhs.$nhs-fdp-semantic-color-focus-text;
+    color: nhs.$nhs-fdp-semantic-color-focus-text;
   }
 }
 
-// Mobile menu toggle in header container (main positioning)
-.nhsuk-header__mobile-menu {
-  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
-	display: flex;
-	align-items: center;
-	flex: 0 0 auto;
-	order: 2; // Place after service/logo, before account and search
-  }
-
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	display: none;
-  }
-
-  .nhsuk-header__menu-toggle {
-	background: transparent;
-	border: 0;
-	border-radius: 0;
-	color: nhs.$nhs-fdp-color-primary-white;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	gap: nhs.$nhs-fdp-spacing-2;
-	font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
-	font-size: nhs.$nhs-fdp-font-size-16-mobile;
-	font-weight: nhs.$nhs-fdp-font-weight-normal;
-	padding: nhs.$nhs-fdp-spacing-2 0;
-
-	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	  font-size: nhs.$nhs-fdp-font-size-16-tablet;
-	}
-
-	&:focus {
-	  outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
-	  outline-offset: 0;
-	  background-color: nhs.$nhs-fdp-semantic-color-focus-background;
-	  color: nhs.$nhs-fdp-semantic-color-focus-text;
-	}
-
-	&:hover {
-	  color: nhs.$nhs-fdp-color-primary-white;
-	  text-decoration: underline;
-	}
-
-	.nhsuk-header__menu-toggle-text {
-	  display: inline-block;
-	}
-
-	.nhsuk-header__menu-toggle-icon {
-	  display: flex;
-	  align-items: center;
-	}
-
-	.nhsuk-icon__menu,
-	.nhsuk-icon__close {
-	  width: nhs.$nhs-fdp-spacing-6;
-	  height: nhs.$nhs-fdp-spacing-6;
-	  fill: currentColor;
-	}
-  }
-}
-
-// Main header component
+// Main header component with hierarchical structure
 .nhsuk-header {
   background-color: nhs.$nhs-fdp-color-primary-blue;
   color: nhs.$nhs-fdp-color-primary-white;
   font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
   position: relative; // Add positioning context for dropdown menu
+  
   // Add shadow to bottom of header when menu is open
   &:has(.nhsuk-header__menu-list:not([hidden])) {
-	border-bottom: nhs.$nhs-fdp-spacing-2 solid nhs.$nhs-fdp-color-grey-4;
+    border-bottom: nhs.$nhs-fdp-spacing-2 solid nhs.$nhs-fdp-color-grey-4;
   }
-}
 
-.nhsuk-header__container {
-  // Mobile-first: Start with smallest screen styles
-  // Ensure padding is ALWAYS set, never falls back to 0
-  padding: nhs.$nhs-fdp-spacing-3 0; // Default mobile padding: 16px top/bottom
-  margin: 0 nhs.$nhs-fdp-spacing-2;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: nhs.$nhs-fdp-spacing-2; // Smaller gap on mobile to prevent overflow
-  flex-wrap: wrap;
-  
-  // Small devices (mobile phones above 320px)
-  @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-small} + 1px)) {
-	margin: 0 nhs.$nhs-fdp-spacing-4;
-	gap: nhs.$nhs-fdp-spacing-3; // Slightly larger gap
-	// Explicitly maintain mobile padding for this range
-	padding: nhs.$nhs-fdp-spacing-3 0; // 16px top/bottom
-  }
-  
-  // Medium devices and up (tablets and desktops) - increase padding
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	padding: nhs.$nhs-fdp-spacing-4 0; // Larger padding: 24px top/bottom
-	margin: 0 nhs.$nhs-fdp-spacing-7;
-	gap: nhs.$nhs-fdp-spacing-4; // Full gap on larger screens
-	// Keep flex-wrap: wrap to allow wrapping on medium screens with tight layouts
-  }
-  
-  // Center content when viewport is wide enough (follows NHS.UK pattern)
-  // Use xlarge breakpoint + spacing to determine when to center
-  @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-xlarge} + #{nhs.$nhs-fdp-spacing-7} * 2)) {
-	max-width: nhs.$nhs-fdp-breakpoint-xlarge; // Constrain width to 1200px
-	padding: nhs.$nhs-fdp-spacing-4 0; // Maintain larger padding: 24px top/bottom
-	margin: 0 auto; // Center the container
-	flex-wrap: nowrap;
-  }
-  
-  // Defensive CSS: Ensure padding never gets reset by external stylesheets
-  &.nhsuk-header__container {
-    padding-top: nhs.$nhs-fdp-spacing-3;
-    padding-bottom: nhs.$nhs-fdp-spacing-3;
+  // Container
+  &__container {
+    // Mobile-first: Start with smallest screen styles
+    // Ensure padding is ALWAYS set, never falls back to 0
+    padding: nhs.$nhs-fdp-spacing-3 0; // Default mobile padding: 16px top/bottom
+    margin: 0 nhs.$nhs-fdp-spacing-2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: nhs.$nhs-fdp-spacing-2; // Smaller gap on mobile to prevent overflow
+    flex-wrap: wrap;
     
+    // Small devices (mobile phones above 320px)
+    @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-small} + 1px)) {
+      margin: 0 nhs.$nhs-fdp-spacing-4;
+      gap: nhs.$nhs-fdp-spacing-3; // Slightly larger gap
+      // Explicitly maintain mobile padding for this range
+      padding: nhs.$nhs-fdp-spacing-3 0; // 16px top/bottom
+    }
+    
+    // Medium devices and up (tablets and desktops) - increase padding
     @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-      padding-top: nhs.$nhs-fdp-spacing-4;
-      padding-bottom: nhs.$nhs-fdp-spacing-4;
+      padding: nhs.$nhs-fdp-spacing-4 0; // Larger padding: 24px top/bottom
+      margin: 0 nhs.$nhs-fdp-spacing-7;
+      gap: nhs.$nhs-fdp-spacing-4; // Full gap on larger screens
+      // Keep flex-wrap: wrap to allow wrapping on medium screens with tight layouts
+    }
+    
+    // Center content when viewport is wide enough (follows NHS.UK pattern)
+    // Use xlarge breakpoint + spacing to determine when to center
+    @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-xlarge} + #{nhs.$nhs-fdp-spacing-7} * 2)) {
+      max-width: nhs.$nhs-fdp-breakpoint-xlarge; // Constrain width to 1200px
+      padding: nhs.$nhs-fdp-spacing-4 0; // Maintain larger padding: 24px top/bottom
+      margin: 0 auto; // Center the container
+      flex-wrap: nowrap;
+    }
+    
+    // Defensive CSS: Ensure padding never gets reset by external stylesheets
+    &.nhsuk-header__container {
+      padding-top: nhs.$nhs-fdp-spacing-3;
+      padding-bottom: nhs.$nhs-fdp-spacing-3;
+      
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+        padding-top: nhs.$nhs-fdp-spacing-4;
+        padding-bottom: nhs.$nhs-fdp-spacing-4;
+      }
     }
   }
-}
 
-// Service logo and name
-.nhsuk-header__logo {
-  min-width: nhs.$nhs-fdp-component-header-logo-min-width;
-}
+  // Mobile menu section
+  &__mobile-menu {
+    @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+      order: 2; // Place after service/logo, before account and search
+    }
 
-.nhsuk-header__service {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex: 0 0 auto; // Fixed size, don't grow or shrink
-  width: 300px; // Fixed width for complete stability
-  
-  // On very small screens, use smaller fixed width
-  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small} - 1px)) {
-	width: 200px;
-  }
-  
-  // On medium+ screens, allow slightly larger fixed width
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	width: 350px;
-  }
-}
-
-.nhsuk-header__service-name {
-  display: inline-flex;
-  flex-direction: column;
-  flex: 0 0 auto; // Fixed size, no growing or shrinking
-  justify-content: center;
-  text-wrap: balance;
-  min-width: 0; // Allow text to wrap/truncate
-  font-size: nhs.$nhs-fdp-font-size-19-mobile;
-  font-weight: nhs.$nhs-fdp-font-weight-normal;
-  line-height: 1.1;
-  padding-left: nhs.$nhs-fdp-spacing-3;
-  overflow-wrap: break-word; // Ensure long words break properly
-  
-  // Calculate width as container width minus logo width and margin
-  // Very small: 200px - 64px - 16px = 120px
-  width: calc(200px - 64px - #{nhs.$nhs-fdp-spacing-3});
-  
-  @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-small})) {
-	// Medium: 300px - 64px - 16px = 220px
-	width: calc(300px - 64px - #{nhs.$nhs-fdp-spacing-3});
-  }
-  
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	font-size: nhs.$nhs-fdp-font-size-19-tablet;
-	// Large: 350px - 64px - 16px = 270px
-	width: calc(350px - 64px - #{nhs.$nhs-fdp-spacing-3});
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      display: none;
+    }
   }
 
-  &:only-child {
-	display: block;
-	// When alone, use full container width
-	width: 200px;
-	
-	@media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-small})) {
-	  width: 300px;
-	}
-	
-	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	  width: 350px;
-	}
-  }
-}
+  &__menu-toggle {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    color: nhs.$nhs-fdp-color-primary-white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: nhs.$nhs-fdp-spacing-2;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-normal;
+    padding: nhs.$nhs-fdp-spacing-2 0;
 
-.nhsuk-header__service-logo {
-  position: relative;
-  display: inline-flex;
-  flex: 0 0 auto; // Fixed size
-  width: 64px; // Fixed width for NHS logo consistency
-  line-height: 0;
-  margin-right: nhs.$nhs-fdp-spacing-3; // Consistent spacing to service name
-  text-decoration: none;
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    }
 
-  &:only-child {
-	display: flex;
-	margin-right: 0; // No margin when logo is alone
-  }
+    &:focus {
+      outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: 0;
+      background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      color: nhs.$nhs-fdp-semantic-color-focus-text;
+    }
 
-  // Add SVG logo underline on hover
-  &:has(svg):not(:focus):hover::before {
-	content: "";
-	border-bottom: 0.1rem solid currentcolor;
-	display: inline;
-	height: nhs.$nhs-fdp-component-header-logo-height;
-	position: absolute;
-	top: 0.2rem;
-	width: nhs.$nhs-fdp-component-header-logo-min-width;
-  }
-}
+    &:hover {
+      color: nhs.$nhs-fdp-color-primary-white;
+      text-decoration: underline;
+    }
 
-.nhsuk-header__service-logo,
-.nhsuk-header__service-name[href],
-.nhsuk-header__account-button,
-.nhsuk-header__account-link {
-  @include header-link-style(
-	$link-color: nhs.$nhs-fdp-color-primary-white,
-	$link-hover-color: nhs.$nhs-fdp-color-primary-white,
-	$link-active-color: nhs.$nhs-fdp-color-primary-white
-  );
-}
+    // Menu toggle elements
+    &-text {
+      display: inline-block;
+    }
 
-// Account section
-.nhsuk-header__account {
-  background-color: #3a71a6; // Slightly lighter blue for contrast
-  border: 1px solid #3a71a6;
-  border-radius: nhs.$nhs-fdp-border-radius-small;
-  flex: 1 1 auto; // Fill remaining width
-  max-height: 40px;
-  min-width: 120px; // Reasonable minimum for account content
-  
-  // On mobile screens, fill available width (after service section)
-  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
-	flex: 1 1 auto; // Fill remaining width
-	min-width: 100px;
-	max-width: none; // Remove max-width constraint
+    &-icon {
+      display: flex;
+      align-items: center;
+    }
+
+    .nhsuk-icon__menu,
+    .nhsuk-icon__close {
+      width: nhs.$nhs-fdp-spacing-6;
+      height: nhs.$nhs-fdp-spacing-6;
+      fill: currentColor;
+    }
   }
 
-  .nhsuk-icon__user {
-	fill: currentcolor;
-	height: nhs.$nhs-fdp-component-header-search-icon-size;
-	width: nhs.$nhs-fdp-component-header-search-icon-size;
-	flex-shrink: 0;
-  }
-}
-
-.nhsuk-header__account-list {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  gap: nhs.$nhs-fdp-layout-gap-minimal;
-  list-style: none;
-  margin: 0;
-  overflow: hidden;
-  padding: 0;
-}
-
-.nhsuk-header__account-item {
-  display: flex;
-  flex-grow: 1;
-  gap: nhs.$nhs-fdp-spacing-3;
-  margin: 0;
-  outline: 1px solid nhs.$nhs-fdp-color-primary-blue;
-  overflow-wrap: anywhere;
-  padding: nhs.$nhs-fdp-spacing-2 $header-item-padding;
-  font-size: nhs.$nhs-fdp-font-size-16-mobile;
-  font-weight: nhs.$nhs-fdp-font-weight-normal;
-  align-items: center;
-
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	font-size: nhs.$nhs-fdp-font-size-16-tablet;
+  // Logo section
+  &__logo {
+    min-width: nhs.$nhs-fdp-component-header-logo-min-width;
   }
 
-  &:nth-last-child(2) {
-	margin-right: auto;
+  // Service section
+  &__service {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 0 0 auto; // Fixed size, don't grow or shrink
+    width: 300px; // Fixed width for complete stability
+    
+    // On very small screens, use smaller fixed width
+    @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small} - 1px)) {
+      width: 200px;
+    }
+    
+    // On medium+ screens, allow slightly larger fixed width
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      width: 350px;
+    }
   }
 
-  &:last-child {
-	flex-grow: 0;
-  }
-}
+  &__service-name {
+    display: inline-flex;
+    flex-direction: column;
+    flex: 0 0 auto; // Fixed size, no growing or shrinking
+    justify-content: center;
+    text-wrap: balance;
+    min-width: 0; // Allow text to wrap/truncate
+    font-size: nhs.$nhs-fdp-font-size-19-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-normal;
+    line-height: 1.1;
+    padding-left: nhs.$nhs-fdp-spacing-3;
+    overflow-wrap: break-word; // Ensure long words break properly
+    
+    // Calculate width as container width minus logo width and margin
+    // Very small: 200px - 64px - 16px = 120px
+    width: calc(200px - 64px - #{nhs.$nhs-fdp-spacing-3});
+    
+    @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-small})) {
+      // Medium: 300px - 64px - 16px = 220px
+      width: calc(300px - 64px - #{nhs.$nhs-fdp-spacing-3});
+    }
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      font-size: nhs.$nhs-fdp-font-size-19-tablet;
+      // Large: 350px - 64px - 16px = 270px
+      width: calc(350px - 64px - #{nhs.$nhs-fdp-spacing-3});
+    }
 
-.nhsuk-header__account-button,
-.nhsuk-header__account-link {
-  display: flex;
-  gap: nhs.$nhs-fdp-spacing-3;
-  margin: -#{nhs.$nhs-fdp-spacing-3} -#{$header-item-padding};
-  padding: nhs.$nhs-fdp-spacing-3 $header-item-padding;
-  overflow-wrap: anywhere;
-  align-items: center;
-}
+    &:only-child {
+      display: block;
+      // When alone, use full container width
+      width: 200px;
+      
+      @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-small})) {
+        width: 300px;
+      }
+      
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+        width: 350px;
+      }
+    }
 
-.nhsuk-header__account-button {
-  background: none;
-  border: 0;
-  cursor: pointer;
-  text-decoration: underline;
-  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
-  font-size: nhs.$nhs-fdp-font-size-16-mobile;
-  font-weight: nhs.$nhs-fdp-font-weight-normal;
+    // Link styling for service name when it's a link
+    &[href] {
+      @include header-link-style(
+        $link-color: nhs.$nhs-fdp-color-primary-white,
+        $link-hover-color: nhs.$nhs-fdp-color-primary-white,
+        $link-active-color: nhs.$nhs-fdp-color-primary-white
+      );
+      text-decoration: none;
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	font-size: nhs.$nhs-fdp-font-size-16-tablet;
-  }
-}
-
-// Search section
-.nhsuk-header__search {
-  flex: 1 1 auto; // Allow to grow and shrink based on available space
-  position: relative;
-  margin-right: auto;
-  z-index: 10;
-  min-width: 150px; // Reduced minimum width for better wrapping
-
-//   // Full width on very small screens when wrapped
-//   @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small} - 1px)) {
-// 	flex: 1 1 auto; // Fill remaining width
-// 	order: 10;
-// 	min-width: 0; // Remove min-width constraint on very small screens
-// 	max-width: none; // Remove max-width constraint on very small screens
-//   }
-
-  // Better handling at tablet/medium breakpoints to prevent overflow
-//   @media (min-width: nhs.$nhs-fdp-breakpoint-small) {
-// 	flex: 1 1 auto; // Fill remaining width
-// 	min-width: 120px; // Smaller minimum for tight layouts
-// 	max-width: 300px; // Reduced maximum to prevent overflow
-//   }
-
-  .nhsuk-icon__search {
-	height: 28px;
-	width: 28px;
-	margin: 0 -2px -2px 0;
-  }
-}
-
-.nhsuk-header__search-form {
-  display: flex;
-  height: 100%;
-  overflow: visible;
-}
-
-.nhsuk-header__search-input.nhsuk-input {
-  border-color: transparent;
-  border-radius: nhs.$nhs-fdp-border-radius-small 0 0 nhs.$nhs-fdp-border-radius-small;
-  height: 40px;
-  margin-right: -#{nhs.$nhs-fdp-border-width-form-element};
-  padding-right: $header-item-padding;
-  padding-left: $header-item-padding - nhs.$nhs-fdp-border-width-form-element;
-  width: 100%;
-  font-size: nhs.$nhs-fdp-font-size-16-mobile;
-  font-weight: nhs.$nhs-fdp-font-weight-normal;
-
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      &:not(:focus):hover {
+        text-decoration: underline;
+      }
+    }
   }
 
-  &:focus {
-	z-index: 10;
-	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
-	outline-offset: 0;
-	background-color: nhs.$nhs-fdp-color-primary-white;
-	color: nhs.$nhs-fdp-semantic-color-focus-text;
-	border-color: nhs.$nhs-fdp-semantic-color-focus-text;
-	box-shadow: inset 0 0 0 2px nhs.$nhs-fdp-semantic-color-focus-text;
+  &__service-logo {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto; // Fixed size
+    width: 64px; // Fixed width for NHS logo consistency
+    line-height: 0;
+    margin-right: nhs.$nhs-fdp-spacing-3; // Consistent spacing to service name
+    text-decoration: none;
+
+    @include header-link-style(
+      $link-color: nhs.$nhs-fdp-color-primary-white,
+      $link-hover-color: nhs.$nhs-fdp-color-primary-white,
+      $link-active-color: nhs.$nhs-fdp-color-primary-white
+    );
+
+    &:only-child {
+      display: flex;
+      margin-right: 0; // No margin when logo is alone
+    }
+
+    // Add SVG logo underline on hover
+    &:has(svg):not(:focus):hover::before {
+      content: "";
+      border-bottom: 0.1rem solid currentcolor;
+      display: inline;
+      height: nhs.$nhs-fdp-component-header-logo-height;
+      position: absolute;
+      top: 0.2rem;
+      width: nhs.$nhs-fdp-component-header-logo-min-width;
+    }
+
+    &:not(:focus):hover {
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: 0;
+      background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      color: nhs.$nhs-fdp-semantic-color-focus-text;
+    }
   }
 
-  &:active {
-	border-color: nhs.$nhs-fdp-semantic-color-focus-text;
-	box-shadow: inset 0 0 0 2px nhs.$nhs-fdp-semantic-color-focus-text;
+
+
+  // Account section
+  &__account {
+    background-color: #3a71a6; // Slightly lighter blue for contrast
+    border: 1px solid #3a71a6;
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+    flex: 1 1 auto; // Fill remaining width
+    max-height: 40px;
+    min-width: 120px; // Reasonable minimum for account content
+    
+    // On mobile screens, fill available width (after service section)
+    @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
+      flex: 1 1 auto; // Fill remaining width
+      min-width: 100px;
+      max-width: none; // Remove max-width constraint
+    }
+
+    .nhsuk-icon__user {
+      fill: currentcolor;
+      height: nhs.$nhs-fdp-component-header-search-icon-size;
+      width: nhs.$nhs-fdp-component-header-search-icon-size;
+      flex-shrink: 0;
+    }
   }
 
-  &::placeholder {
-	color: nhs.$nhs-fdp-color-grey-1;
-	opacity: 1;
+  &__account-list {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: nhs.$nhs-fdp-layout-gap-minimal;
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
   }
 
-  // Hide search input clear button (IE)
-  &::-ms-clear {
-	display: none;
+  &__account-item {
+    display: flex;
+    flex-grow: 1;
+    gap: nhs.$nhs-fdp-spacing-3;
+    margin: 0;
+    outline: 1px solid nhs.$nhs-fdp-color-primary-blue;
+    overflow-wrap: anywhere;
+    padding: nhs.$nhs-fdp-spacing-2 $header-item-padding;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-normal;
+    align-items: center;
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    }
+
+    &:nth-last-child(2) {
+      margin-right: auto;
+    }
+
+    &:last-child {
+      flex-grow: 0;
+    }
   }
 
-  // Hide search input icon and cancel button (WebKit, Blink)
-  &::-webkit-search-decoration,
-  &::-webkit-search-cancel-button {
-	appearance: none;
-  }
-}
+  &__account-button,
+  &__account-link {
+    display: flex;
+    gap: nhs.$nhs-fdp-spacing-3;
+    margin: -#{nhs.$nhs-fdp-spacing-3} -#{$header-item-padding};
+    padding: nhs.$nhs-fdp-spacing-3 $header-item-padding;
+    overflow-wrap: anywhere;
+    align-items: center;
 
-.nhsuk-header__search-submit {
-  background-color: nhs.$nhs-fdp-color-grey-5;
-  border: 0;
-  border-radius: 0 nhs.$nhs-fdp-border-radius-small nhs.$nhs-fdp-border-radius-small 0;
-  color: nhs.$nhs-fdp-color-primary-blue;
-  fill: nhs.$nhs-fdp-color-primary-blue;
-  flex-shrink: 0;
-  height: 40px; // Match input field height exactly
-  line-height: 1;
-  margin: 0;
-  width: 44px;
-  cursor: pointer;
-
-  &:hover,
-  &:active {
-	background-color: $header-item-hover-color;
-	box-shadow: inset 0 0 0 1px nhs.$nhs-fdp-color-primary-white;
-	color: nhs.$nhs-fdp-color-primary-white;
-	fill: nhs.$nhs-fdp-color-primary-white;
-	transition: background-color #{nhs.$nhs-fdp-animation-duration-fast} #{nhs.$nhs-fdp-animation-easing-ease-out}, 
-	            color #{nhs.$nhs-fdp-animation-duration-fast} #{nhs.$nhs-fdp-animation-easing-ease-out}, 
-	            fill #{nhs.$nhs-fdp-animation-duration-fast} #{nhs.$nhs-fdp-animation-easing-ease-out};
+    @include header-link-style(
+      $link-color: nhs.$nhs-fdp-color-primary-white,
+      $link-hover-color: nhs.$nhs-fdp-color-primary-white,
+      $link-active-color: nhs.$nhs-fdp-color-primary-white
+    );
   }
 
-  &:active {
-	background-color: $header-item-active-color;
+  &__account-button {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-normal;
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    }
   }
 
-  &:focus {
-	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
-	outline-offset: 0;
-	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
-	color: nhs.$nhs-fdp-semantic-color-focus-text;
-  }
-}
+  // Search section
+  &__search {
+    flex: 1 1 auto; // Allow to grow and shrink based on available space
+    position: relative;
+    margin-right: auto;
+    z-index: 10;
+    min-width: 150px; // Reduced minimum width for better wrapping
 
-// Navigation
-.nhsuk-header__navigation {
-  background-color: nhs.$nhs-fdp-color-primary-blue;
-  border: 0 solid nhs.$nhs-fdp-color-primary-white;
-  color: nhs.$nhs-fdp-color-primary-white;
-  max-width: nhs.$nhs-fdp-breakpoint-xlarge; // Constrain width to 1200px
-  // Add proper vertical padding and match container margins
-  margin: 0 nhs.$nhs-fdp-spacing-2;
-  overflow: hidden;
-  
-  // Small devices
-  @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-small} + 1px)) {
-	margin: 0 nhs.$nhs-fdp-spacing-4;
-  }
-  
-  // Medium devices and up
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	//padding: nhs.$nhs-fdp-spacing-3 0;
-	margin: 0 nhs.$nhs-fdp-spacing-7;
-  }
-  
-  // Center content when viewport is wide enough (follows NHS.UK pattern)
-  // Use xlarge breakpoint + spacing to determine when to center
-  @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-xlarge} + #{nhs.$nhs-fdp-spacing-7} * 2)) {
-	
-	margin: 0 auto; // Center the navigation to match header container
-  }
-}
-
-.nhsuk-header__navigation-list {
-  position: relative;
-  display: flex;
-  flex-wrap: nowrap;
-  list-style: none;
-  margin: 0 -#{nhs.$nhs-fdp-spacing-2};
-  padding: 0;
-  width: calc(100% + #{nhs.$nhs-fdp-spacing-4});
-
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	width: calc(100% + #{nhs.$nhs-fdp-spacing-6});
-	margin: 0 -#{nhs.$nhs-fdp-spacing-3};
+    .nhsuk-icon__search {
+      height: 28px;
+      width: 28px;
+      margin: 0 -2px -2px 0;
+    }
   }
 
-  .nhsuk-header__navigation--justified & {
-	@media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
-	  justify-content: space-between;
-	}
+  &__search-form {
+    display: flex;
+    height: 100%;
+    overflow: visible;
   }
 
-  .nhsuk-frontend-supported & {
-	flex-wrap: nowrap;
+  &__search-input {
+    &.nhsuk-input {
+      border-color: transparent;
+      border-radius: nhs.$nhs-fdp-border-radius-small 0 0 nhs.$nhs-fdp-border-radius-small;
+      height: 40px;
+      margin-right: -#{nhs.$nhs-fdp-border-width-form-element};
+      padding-right: $header-item-padding;
+      padding-left: $header-item-padding - nhs.$nhs-fdp-border-width-form-element;
+      width: 100%;
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+      font-weight: nhs.$nhs-fdp-font-weight-normal;
 
-	@media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
-	  flex-wrap: wrap;
-	}
-  }
-}
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+        font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      }
 
-.nhsuk-header__navigation-item {
-  margin-bottom: 0;
-  padding: 0 nhs.$nhs-fdp-spacing-2;
+      &:focus {
+        z-index: 10;
+        outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+        outline-offset: 0;
+        background-color: nhs.$nhs-fdp-color-primary-white;
+        color: nhs.$nhs-fdp-semantic-color-focus-text;
+        border-color: nhs.$nhs-fdp-semantic-color-focus-text;
+        box-shadow: inset 0 0 0 2px nhs.$nhs-fdp-semantic-color-focus-text;
+      }
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	padding: 0 nhs.$nhs-fdp-spacing-3;
-  }
-}
+      &:active {
+        border-color: nhs.$nhs-fdp-semantic-color-focus-text;
+        box-shadow: inset 0 0 0 2px nhs.$nhs-fdp-semantic-color-focus-text;
+      }
 
-.nhsuk-header__navigation-item-current-fallback {
-  font-weight: inherit;
-}
+      &::placeholder {
+        color: nhs.$nhs-fdp-color-grey-1;
+        opacity: 1;
+      }
 
-.nhsuk-header__navigation-link {
-  display: block;
-  padding: nhs.$nhs-fdp-spacing-4 $header-link-padding;
-  position: relative;
-  white-space: nowrap;
-  font-size: nhs.$nhs-fdp-font-size-16-mobile;
-  font-weight: nhs.$nhs-fdp-font-weight-normal;
+      // Hide search input clear button (IE)
+      &::-ms-clear {
+        display: none;
+      }
 
-  @include header-link-style(
-	$link-color: nhs.$nhs-fdp-color-primary-white,
-	$link-hover-color: nhs.$nhs-fdp-color-primary-white,
-	$link-active-color: nhs.$nhs-fdp-color-primary-white
-  );
-
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	font-size: nhs.$nhs-fdp-font-size-16-tablet;
-  }
-
-  // Visual indicator for navigation item uses a border on bottom edge
-  &::before {
-	content: "";
-	display: block;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	border: 0 solid currentcolor;
+      // Hide search input icon and cancel button (WebKit, Blink)
+      &::-webkit-search-decoration,
+      &::-webkit-search-cancel-button {
+        appearance: none;
+      }
+    }
   }
 
-  // Visual indicator for current navigation
-  &[aria-current="page"]::before,
-  &[aria-current="true"]::before {
-	border-bottom-width: $header-item-active-size;
+  &__search-submit {
+    background-color: nhs.$nhs-fdp-color-grey-5;
+    border: 0;
+    border-radius: 0 nhs.$nhs-fdp-border-radius-small nhs.$nhs-fdp-border-radius-small 0;
+    color: nhs.$nhs-fdp-color-primary-blue;
+    fill: nhs.$nhs-fdp-color-primary-blue;
+    flex-shrink: 0;
+    height: 40px; // Match input field height exactly
+    line-height: 1;
+    margin: 0;
+    width: 44px;
+    cursor: pointer;
+
+    &:hover,
+    &:active {
+      background-color: $header-item-hover-color;
+      box-shadow: inset 0 0 0 1px nhs.$nhs-fdp-color-primary-white;
+      color: nhs.$nhs-fdp-color-primary-white;
+      fill: nhs.$nhs-fdp-color-primary-white;
+      transition: background-color #{nhs.$nhs-fdp-animation-duration-fast} #{nhs.$nhs-fdp-animation-easing-ease-out}, 
+                  color #{nhs.$nhs-fdp-animation-duration-fast} #{nhs.$nhs-fdp-animation-easing-ease-out}, 
+                  fill #{nhs.$nhs-fdp-animation-duration-fast} #{nhs.$nhs-fdp-animation-easing-ease-out};
+    }
+
+    &:active {
+      background-color: $header-item-active-color;
+    }
+
+    &:focus {
+      outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: 0;
+      background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      color: nhs.$nhs-fdp-semantic-color-focus-text;
+    }
   }
-}
+
+  // Navigation section
+  &__navigation {
+    background-color: nhs.$nhs-fdp-color-primary-blue;
+    border: 0 solid nhs.$nhs-fdp-color-primary-white;
+    color: nhs.$nhs-fdp-color-primary-white;
+    max-width: nhs.$nhs-fdp-breakpoint-xlarge; // Constrain width to 1200px
+    // Add proper vertical padding and match container margins
+    margin: 0 nhs.$nhs-fdp-spacing-2;
+    overflow: hidden;
+    
+    // Small devices
+    @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-small} + 1px)) {
+      margin: 0 nhs.$nhs-fdp-spacing-4;
+    }
+    
+    // Medium devices and up
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      margin: 0 nhs.$nhs-fdp-spacing-7;
+    }
+    
+    // Center content when viewport is wide enough (follows NHS.UK pattern)
+    // Use xlarge breakpoint + spacing to determine when to center
+    @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-xlarge} + #{nhs.$nhs-fdp-spacing-7} * 2)) {
+      margin: 0 auto; // Center the navigation to match header container
+    }
+  }
+
+  &__navigation-list {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    list-style: none;
+    margin: 0 -#{nhs.$nhs-fdp-spacing-2};
+    padding: 0;
+    width: calc(100% + #{nhs.$nhs-fdp-spacing-4});
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      width: calc(100% + #{nhs.$nhs-fdp-spacing-6});
+      margin: 0 -#{nhs.$nhs-fdp-spacing-3};
+    }
+
+    .nhsuk-header__navigation--justified & {
+      @media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
+        justify-content: space-between;
+      }
+    }
+
+    .nhsuk-frontend-supported & {
+      flex-wrap: nowrap;
+
+      @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  &__navigation-item {
+    margin-bottom: 0;
+    padding: 0 nhs.$nhs-fdp-spacing-2;
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      padding: 0 nhs.$nhs-fdp-spacing-3;
+    }
+
+    &-current-fallback {
+      font-weight: inherit;
+    }
+
+    // More button functionality
+    &--more {
+      position: relative;
+      // More button now works responsively at all breakpoints
+    }
+  }
+
+  &__navigation-link {
+    display: block;
+    padding: nhs.$nhs-fdp-spacing-4 $header-link-padding;
+    position: relative;
+    white-space: nowrap;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-normal;
+
+    @include header-link-style(
+      $link-color: nhs.$nhs-fdp-color-primary-white,
+      $link-hover-color: nhs.$nhs-fdp-color-primary-white,
+      $link-active-color: nhs.$nhs-fdp-color-primary-white
+    );
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    }
+
+    // Visual indicator for navigation item uses a border on bottom edge
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border: 0 solid currentcolor;
+    }
+
+    // Visual indicator for current navigation
+    &[aria-current="page"]::before,
+    &[aria-current="true"]::before {
+      border-bottom-width: $header-item-active-size;
+    }
+  }
 
 // Menu (responsive dropdown)
 .nhsuk-header__menu {
@@ -1149,7 +1171,26 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 	left: 0;
 	right: auto;
 	border-left-width: nhs.$nhs-fdp-focus-outline-width;
-	border-bottom-width: 0;
-	background-color: nhs.$nhs-fdp-color-primary-blue;
+    border-bottom-width: 0;
+    background-color: nhs.$nhs-fdp-color-primary-blue;
+  }
+}
+
+// Close the main .nhsuk-header block - temporary fix
+}
+
+// Menu (responsive dropdown) - these need to be moved inside the header block
+.nhsuk-header__menu {
+  align-self: center;
+  padding: 0 nhs.$nhs-fdp-spacing-2;
+
+  &[hidden] {
+    display: none;
+  }
+
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+    padding: 0 nhs.$nhs-fdp-spacing-3;
+    // Hide mobile menu on desktop
+    display: none !important;
   }
 }

@@ -5,8 +5,8 @@
 import React, { useState, useMemo } from 'react';
 import { AriaTabsDataGrid } from './AriaTabsDataGrid';
 import { 
-  healthcareDataConfig, 
-  createHealthcareTabsConfig 
+  tchDataConfig, 
+  createTCHTabsConfig 
 } from './AriaTabsDataGridHealthcare';
 import { 
   createPluginDataGrid,
@@ -319,8 +319,8 @@ export const AriaTabsDataGridComprehensiveDemo: React.FC = () => {
     healthcare: {
       title: 'Healthcare Patient Management',
       description: 'NHS Early Warning System with patient monitoring',
-      dataConfig: healthcareDataConfig,
-      tabPanels: createHealthcareTabsConfig(samplePatients),
+      dataConfig: tchDataConfig,
+      tabPanels: createTCHTabsConfig(samplePatients),
       data: samplePatients
     },
     ecommerce: {

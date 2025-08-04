@@ -69,10 +69,10 @@ const basicTabs = [
 
 ### Healthcare Configuration
 ```tsx
-import { AriaTabsDataGrid, createHealthcareTabsConfig } from './AriaTabsDataGrid';
+import { AriaTabsDataGrid, createTCHTabsConfig } from './AriaTabsDataGrid';
 import patientsData from './patients_with_ews.json';
 
-const healthcareTabs = createHealthcareTabsConfig(patientsData);
+const healthcareTabs = createTCHTabsConfig(patientsData);
 
 <AriaTabsDataGrid
   tabPanels={healthcareTabs}

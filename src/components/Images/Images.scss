@@ -34,22 +34,22 @@
       margin-top: 0;
     }
   }
-}
 
-.nhsuk-image__img {
-  display: block;
-  width: 100%;
-  height: auto; // Maintain aspect ratio
-}
+  &__img {
+    display: block;
+    width: 100%;
+    height: auto; // Maintain aspect ratio
+  }
 
-.nhsuk-image__caption {
-  padding: nhs.$nhs-fdp-spacing-3;
-  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
-  font-size: nhs.$nhs-fdp-font-size-16-mobile;
-  line-height: nhs.$nhs-fdp-font-line-height-base;
-  color: nhs.$nhs-fdp-semantic-color-text-primary;
-  
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+  &__caption {
+    padding: nhs.$nhs-fdp-spacing-3;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    line-height: nhs.$nhs-fdp-font-line-height-base;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    }
   }
 }

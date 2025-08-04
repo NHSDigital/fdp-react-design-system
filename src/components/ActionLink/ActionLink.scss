@@ -7,79 +7,80 @@
   @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     margin-bottom: nhs.$nhs-fdp-spacing-6;
   }
-}
 
-.nhsuk-action-link__link {
-  display: inline-block; // Respects top and bottom margins/paddings
-  padding-left: nhs.$nhs-fdp-component-icon-text-gap; // Space for the arrow icon
-  position: relative; // Allow absolute positioning of arrow icon
-  text-decoration: none; // Override default <a> styling
-  
-  // Typography using design tokens
-  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
-  font-size: nhs.$nhs-fdp-font-size-22-mobile;
-  font-weight: nhs.$nhs-fdp-font-weight-bold;
-  line-height: nhs.$nhs-fdp-font-line-height-22-tablet;
-  color: nhs.$nhs-fdp-semantic-color-link-default;
+  // Action link
+  &__link {
+    display: inline-block; // Respects top and bottom margins/paddings
+    padding-left: nhs.$nhs-fdp-component-icon-text-gap; // Space for the arrow icon
+    position: relative; // Allow absolute positioning of arrow icon
+    text-decoration: none; // Override default <a> styling
+    
+    // Typography using design tokens
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+    font-size: nhs.$nhs-fdp-font-size-22-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    line-height: nhs.$nhs-fdp-font-line-height-22-tablet;
+    color: nhs.$nhs-fdp-semantic-color-link-default;
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-    font-size: nhs.$nhs-fdp-font-size-22-tablet;
-  }
-
-  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
-    padding-left: nhs.$nhs-fdp-component-icon-text-gap-small; // Reduced space for smaller screens
-  }
-
-  // Hover state
-  &:not(:focus):hover {
-    .nhsuk-action-link__text {
-      text-decoration: underline; // Underline text on hover
-      text-decoration-thickness: max(1px, 0.0625rem);
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      font-size: nhs.$nhs-fdp-font-size-22-tablet;
     }
-  }
-
-  // Focus state
-  &:focus {
-    outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
-    outline-offset: 0;
-    color: nhs.$nhs-fdp-semantic-color-focus-text;
-    background-color: nhs.$nhs-fdp-semantic-color-focus-background;
-    box-shadow: 0 -2px nhs.$nhs-fdp-semantic-color-focus-background, 0 4px nhs.$nhs-fdp-semantic-color-focus-text;
-    text-decoration: none;
-
-    .nhsuk-icon__arrow-right-circle {
-      fill: nhs.$nhs-fdp-semantic-color-focus-text;
-    }
-  }
-
-  // Arrow icon styling
-  .nhsuk-icon__arrow-right-circle {
-    fill: nhs.$nhs-fdp-color-primary-green;
-    height: 36px;
-    left: -3px;
-    position: absolute;
-    top: -3px;
-    width: 36px;
 
     @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
-      height: 24px;
-      left: -2px;
-      margin-bottom: 0;
-      top: 1px;
-      width: 24px;
-    }
-  }
-
-  // Print styles
-  @media print {
-    color: nhs.$nhs-fdp-color-primary-black;
-
-    &:visited {
-      color: nhs.$nhs-fdp-color-primary-black;
+      padding-left: nhs.$nhs-fdp-component-icon-text-gap-small; // Reduced space for smaller screens
     }
 
+    // Hover state
+    &:not(:focus):hover {
+      .nhsuk-action-link__text {
+        text-decoration: underline; // Underline text on hover
+        text-decoration-thickness: max(1px, 0.0625rem);
+      }
+    }
+
+    // Focus state
+    &:focus {
+      outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: 0;
+      color: nhs.$nhs-fdp-semantic-color-focus-text;
+      background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      box-shadow: 0 -2px nhs.$nhs-fdp-semantic-color-focus-background, 0 4px nhs.$nhs-fdp-semantic-color-focus-text;
+      text-decoration: none;
+
+      .nhsuk-icon__arrow-right-circle {
+        fill: nhs.$nhs-fdp-semantic-color-focus-text;
+      }
+    }
+
+    // Arrow icon styling
     .nhsuk-icon__arrow-right-circle {
-      fill: nhs.$nhs-fdp-color-primary-black;
+      fill: nhs.$nhs-fdp-color-primary-green;
+      height: 36px;
+      left: -3px;
+      position: absolute;
+      top: -3px;
+      width: 36px;
+
+      @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+        height: 24px;
+        left: -2px;
+        margin-bottom: 0;
+        top: 1px;
+        width: 24px;
+      }
+    }
+
+    // Print styles
+    @media print {
+      color: nhs.$nhs-fdp-color-primary-black;
+
+      &:visited {
+        color: nhs.$nhs-fdp-color-primary-black;
+      }
+
+      .nhsuk-icon__arrow-right-circle {
+        fill: nhs.$nhs-fdp-color-primary-black;
+      }
     }
   }
 }

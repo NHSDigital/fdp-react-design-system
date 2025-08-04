@@ -6,6 +6,7 @@ $checkboxes-size: nhs.$nhs-fdp-form-spacing-checkbox-size;
 $checkboxes-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
 
 .nhsuk-checkboxes {
+  // Individual checkbox item
   &__item {
     clear: left;
     display: block;
@@ -28,6 +29,7 @@ $checkboxes-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     }
   }
 
+  // Hidden checkbox input
   &__input {
     cursor: pointer;
     height: $checkboxes-size;
@@ -65,6 +67,7 @@ $checkboxes-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     }
   }
 
+  // Checkbox label
   &__label {
     cursor: pointer;
     display: inline-block;
@@ -108,6 +111,7 @@ $checkboxes-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     }
   }
 
+  // Checkbox hint text
   &__hint {
     display: block;
     padding-left: $checkboxes-label-padding;
@@ -121,6 +125,7 @@ $checkboxes-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     }
   }
 
+  // Checkbox divider
   &__divider {
     color: nhs.$nhs-fdp-semantic-color-text-primary;
     margin-bottom: nhs.$nhs-fdp-spacing-2;
@@ -136,15 +141,16 @@ $checkboxes-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     }
   }
 
+  // Conditional content
   &__conditional {
     $conditional-border-width: 4px; // Thicker border for better visual connection
-	// Position conditional content to align with the radio button's left edge
-	// Center the border line with the radio button center and adjust for border width
-	margin-left: calc(-#{$checkboxes-size} / 2 - #{$conditional-border-width} / 2);
-	padding-left: calc(#{$checkboxes-size} / 2 + #{nhs.$nhs-fdp-spacing-3});
-	border-left: $conditional-border-width solid nhs.$nhs-fdp-semantic-color-form-border;
-	margin-bottom: nhs.$nhs-fdp-spacing-4;
-	margin-top: nhs.$nhs-fdp-spacing-2;
+    // Position conditional content to align with the radio button's left edge
+    // Center the border line with the radio button center and adjust for border width
+    margin-left: calc(-#{$checkboxes-size} / 2 - #{$conditional-border-width} / 2);
+    padding-left: calc(#{$checkboxes-size} / 2 + #{nhs.$nhs-fdp-spacing-3});
+    border-left: $conditional-border-width solid nhs.$nhs-fdp-semantic-color-form-border;
+    margin-bottom: nhs.$nhs-fdp-spacing-4;
+    margin-top: nhs.$nhs-fdp-spacing-2;
 
     & > :last-child {
       margin-bottom: 0;
@@ -155,44 +161,44 @@ $checkboxes-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
       display: none !important;
     }
   }
-}
 
-// Error state styles
-.nhsuk-checkboxes--error {
-  .nhsuk-checkboxes__input + .nhsuk-checkboxes__label::before {
-    border-color: nhs.$nhs-fdp-border-color-error;
-    border-width: nhs.$nhs-fdp-border-width-form-element-error;
-  }
-}
-
-// Small variant
-.nhsuk-checkboxes--small {
-  .nhsuk-checkboxes__item {
-    min-height: nhs.$nhs-fdp-spacing-6;
-    padding-left: nhs.$nhs-fdp-spacing-6;
-    font-size: nhs.$nhs-fdp-font-size-16-mobile;
-
-    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+  // Error state styles
+  &--error {
+    .nhsuk-checkboxes__input + .nhsuk-checkboxes__label::before {
+      border-color: nhs.$nhs-fdp-border-color-error;
+      border-width: nhs.$nhs-fdp-border-width-form-element-error;
     }
   }
 
-  .nhsuk-checkboxes__input {
-    height: nhs.$nhs-fdp-spacing-6;
-    width: nhs.$nhs-fdp-spacing-6;
-  }
+  // Small variant
+  &--small {
+    .nhsuk-checkboxes__item {
+      min-height: nhs.$nhs-fdp-spacing-6;
+      padding-left: nhs.$nhs-fdp-spacing-6;
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
 
-  .nhsuk-checkboxes__label {
-    &::before {
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+        font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      }
+    }
+
+    .nhsuk-checkboxes__input {
       height: nhs.$nhs-fdp-spacing-6;
       width: nhs.$nhs-fdp-spacing-6;
     }
 
-    &::after {
-      height: 6px;
-      left: 6px;
-      top: 9px;
-      width: 14px;
+    .nhsuk-checkboxes__label {
+      &::before {
+        height: nhs.$nhs-fdp-spacing-6;
+        width: nhs.$nhs-fdp-spacing-6;
+      }
+
+      &::after {
+        height: 6px;
+        left: 6px;
+        top: 9px;
+        width: 14px;
+      }
     }
   }
 }

@@ -80,20 +80,6 @@ export const Default: Story = {
   },
 };
 
-export const WithImportantInHeading: Story = {
-  args: {
-    heading: 'Important deadline approaching',
-    text: 'Your application must be submitted by 31 March 2024. Late submissions will not be accepted.',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'When the heading already contains "Important", no prefix is added and a colon is appended.',
-      },
-    },
-  },
-};
-
 export const WithHTMLContent: Story = {
   args: {
     heading: 'Legal consequences',
@@ -141,81 +127,6 @@ export const WithReactChildren: Story = {
   },
 };
 
-export const DifferentHeadingLevels: Story = {
-  args: {
-    heading: 'Complete all required fields',
-    headingLevel: 2,
-    text: 'Some fields marked with an asterisk (*) are required. Your application cannot be processed without them.',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Warning callout with a custom heading level for proper document structure.',
-      },
-    },
-  },
-};
-
-export const LegalConsequences: Story = {
-  args: {
-    heading: 'Penalty for late submission',
-    text: 'If you submit your tax return after the deadline, you may have to pay a penalty. The penalty is usually £100, but it can be more if your return is very late.',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Example of a warning callout informing users about legal or financial consequences.',
-      },
-    },
-  },
-};
-
-export const HealthAndSafety: Story = {
-  args: {
-    heading: 'Take precautions when handling chemicals',
-    html: `
-      <p>Always wear appropriate protective equipment:</p>
-      <ul>
-        <li>Safety goggles</li>
-        <li>Gloves</li>
-        <li>Lab coat</li>
-      </ul>
-      <p><strong>Failure to follow safety procedures may result in injury.</strong></p>
-    `,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Health and safety warning with emphasized consequences.',
-      },
-    },
-  },
-};
-
-export const ProcessDeadline: Story = {
-  args: {
-    heading: 'Appeal deadline',
-    children: (
-      <>
-        <p>You have <strong>28 days</strong> from the date of this letter to appeal this decision.</p>
-        <p>If you do not appeal within this time, the decision will become final and you will not be able to challenge it later.</p>
-        <p>
-          <a href="/appeal-form" className="nhsuk-link">
-            Submit your appeal online
-          </a>
-        </p>
-      </>
-    ),
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Time-sensitive process warning with action link.',
-      },
-    },
-  },
-};
-
 export const WithCustomClass: Story = {
   args: {
     heading: 'Data protection notice',
@@ -234,42 +145,3 @@ export const WithCustomClass: Story = {
   },
 };
 
-// Multiple warning callouts to show heading hierarchy
-export const MultipleWarnings: Story = {
-  render: () => (
-    <div>
-      <h1>Application Form</h1>
-      
-      <WarningCallout 
-        heading="Check eligibility requirements"
-        headingLevel={2}
-        text="Before starting your application, make sure you meet all eligibility criteria. Ineligible applications will be rejected."
-      />
-      
-      <h2>Personal Details</h2>
-      <p>Enter your personal information below.</p>
-      
-      <WarningCallout 
-        heading="Important: Provide accurate information"
-        headingLevel={3}
-        text="All information must be accurate and up to date. Providing false information is a criminal offense."
-      />
-      
-      <h2>Supporting Documents</h2>
-      <p>Upload the required documents to support your application.</p>
-      
-      <WarningCallout 
-        heading="Document requirements"
-        headingLevel={3}
-        html="<p>Documents must be:</p><ul><li>Clear and legible</li><li>In English or with certified translation</li><li>Less than 6 months old</li></ul>"
-      />
-    </div>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Multiple warning callouts showing proper heading hierarchy and different content types.',
-      },
-    },
-  },
-};

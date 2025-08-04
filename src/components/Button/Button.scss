@@ -60,19 +60,7 @@
 		box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
 	}
 
-	// Default size (explicit for clarity)
-	// Also covers .nhs-aria-button--default case
-	&,
-	&--default {
-		padding: nhs.$nhs-fdp-component-button-padding-mobile-vertical nhs.$nhs-fdp-component-button-padding-mobile-horizontal;
-		font-size: 16px;
-		min-height: 44px;
-
-		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-			padding: nhs.$nhs-fdp-component-button-padding-desktop-vertical nhs.$nhs-fdp-component-button-padding-desktop-horizontal;
-		}
-	}
-
+	// Focused state styles
 	&[data-focused] {
 		background-color: nhs.$nhs-fdp-semantic-color-focus-background;
 		color: nhs.$nhs-fdp-semantic-color-focus-text;
@@ -84,6 +72,18 @@
 	&:focus {
 		outline: none;
 		outline-offset: 2px;
+		
+		&:not(:active) {
+			background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+			color: nhs.$nhs-fdp-semantic-color-focus-text;
+			border-color: nhs.$nhs-fdp-semantic-color-focus-background;
+			box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+		}
+
+		// Remove outline on mouse focus when focus-visible is supported
+		&:not(:focus-visible) {
+			outline: none;
+		}
 	}
 
 	// Enhanced focus-visible (modern browsers)
@@ -93,45 +93,50 @@
 		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
 	}
 
-	// React Aria enhancement (when available)
-	&[data-focus-visible] {
-		outline: none;
-		outline-offset: 2px;
-		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
-	}
-
-	// Special focused state (React Aria managed)
-	&[data-focused] {
-		background-color: nhs.$nhs-fdp-semantic-color-focus-background;
-		color: nhs.$nhs-fdp-semantic-color-focus-text;
-		border-color: nhs.$nhs-fdp-semantic-color-focus-background;
-	}
-
 	// Remove default outline when React Aria is handling focus
 	&[data-focus-visible]:focus {
 		outline: none;
-	}
-
-	// Remove outline on mouse focus when focus-visible is supported
-	&:focus:not(:focus-visible) {
-		outline: none;
-	}
-
-	&:focus:not(:active) {
-		background-color: nhs.$nhs-fdp-semantic-color-focus-background;
-		color: nhs.$nhs-fdp-semantic-color-focus-text;
-		border-color: nhs.$nhs-fdp-semantic-color-focus-background;
 		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
 	}
 
-	// Primary variant
+	// Size variants
+	&--default,
+	& {
+		// Default size (explicit for clarity)
+		padding: nhs.$nhs-fdp-component-button-padding-mobile-vertical nhs.$nhs-fdp-component-button-padding-mobile-horizontal;
+		font-size: 16px;
+		min-height: 44px;
+
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			padding: nhs.$nhs-fdp-component-button-padding-desktop-vertical nhs.$nhs-fdp-component-button-padding-desktop-horizontal;
+		}
+	}
+
+	&--small {
+		padding: 6px 12px;
+		font-size: 14px;
+		min-height: 32px;
+	}
+	
+	&--large {
+		padding: 12px 24px;
+		font-size: 18px;
+		min-height: 56px;
+	}
+
+	// Width variants
+	&--full-width {
+		width: 100%;
+		display: flex;
+	}
+
+	// Color variants
 	&--primary {
 		background-color: nhs.$nhs-fdp-semantic-color-button-primary-background;
 		color: nhs.$nhs-fdp-color-primary-white;
 		border-color: nhs.$nhs-fdp-semantic-color-button-primary-background;
 
 		&:not([data-disabled]) {
-
 			&[data-hovered] {
 				background-color: nhs.$nhs-fdp-semantic-color-button-primary-hover;
 				border-color: nhs.$nhs-fdp-semantic-color-button-primary-hover;
@@ -145,17 +150,9 @@
 				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
 				color: nhs.$nhs-fdp-color-primary-white;
 			}
-
-			// &[data-disabled]
-			// &[data-selected]
-			// &[data-loading]
-			// &[data-pending]
-			// &[data-invalid]
-			// &[data-required]
 		}
 	}
 
-	// Secondary variant
 	&--secondary {
 		background-color: nhs.$nhs-fdp-color-primary-white;
 		color: nhs.$nhs-fdp-color-primary-blue;
@@ -168,6 +165,7 @@
 				border-color: nhs.$nhs-fdp-semantic-color-button-login-hover;
 				color: nhs.$nhs-fdp-semantic-color-button-login-hover;
 			}
+			
 			&[data-pressed] {
 				background-color: nhs.$nhs-fdp-semantic-color-button-secondary-active;
 				border-color: nhs.$nhs-fdp-semantic-color-button-login-hover;
@@ -176,8 +174,8 @@
 		}
 	}
 
-	// Reverse variant (for dark backgrounds)
 	&--reverse {
+		// For dark backgrounds
 		background-color: nhs.$nhs-fdp-color-primary-white;
 		color: nhs.$nhs-fdp-semantic-color-button-reverse-text;
 		border-color: nhs.$nhs-fdp-color-primary-white;
@@ -188,6 +186,7 @@
 				color: nhs.$nhs-fdp-semantic-color-button-reverse-text;
 				border-color: nhs.$nhs-fdp-semantic-color-button-reverse-hover;
 			}
+			
 			&[data-pressed] {
 				background-color: nhs.$nhs-fdp-semantic-color-button-reverse-active;
 				border-color: nhs.$nhs-fdp-semantic-color-button-reverse-active;
@@ -196,7 +195,6 @@
 		}
 	}
 
-	// Warning variant
 	&--warning {
 		background-color: nhs.$nhs-fdp-semantic-color-error;
 		color: nhs.$nhs-fdp-color-primary-white;
@@ -208,6 +206,7 @@
 				background-color: nhs.$nhs-fdp-semantic-color-button-warning-hover;
 				border-color: nhs.$nhs-fdp-semantic-color-button-warning-hover;
 			}
+			
 			&[data-pressed] {
 				background-color: nhs.$nhs-fdp-semantic-color-button-warning-active;
 				border-color: nhs.$nhs-fdp-semantic-color-button-warning-active;
@@ -217,7 +216,6 @@
 		}
 	}
 
-	// Login variant
 	&--login {
 		background-color: nhs.$nhs-fdp-color-primary-blue;
 		color: nhs.$nhs-fdp-color-primary-white;
@@ -228,6 +226,7 @@
 				background-color: nhs.$nhs-fdp-color-primary-blue;
 				border-color: nhs.$nhs-fdp-color-primary-blue;
 			}
+			
 			&[data-pressed] {
 				background-color: nhs.$nhs-fdp-semantic-color-button-login-active;
 				border-color: nhs.$nhs-fdp-semantic-color-button-login-active;
@@ -237,26 +236,7 @@
 		}
 	}
 
-	// Size variants
-	&--small {
-		padding: 6px 12px;
-		font-size: 14px;
-		min-height: 32px;
-	}
-	
-	&--large {
-		padding: 12px 24px;
-		font-size: 18px;
-		min-height: 56px;
-	}
-
-	// Full width variant
-	&--full-width {
-		width: 100%;
-		display: flex;
-	}
-
-	// Loading state
+	// State variants
 	&--loading {
 		position: relative;
 		color: transparent;

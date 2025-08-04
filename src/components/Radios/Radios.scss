@@ -6,6 +6,7 @@ $radios-size: nhs.$nhs-fdp-form-spacing-checkbox-size;
 $radios-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
 
 .nhsuk-radios {
+  // Individual radio item
   &__item {
     clear: left;
     display: block;
@@ -28,6 +29,7 @@ $radios-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     }
   }
 
+  // Hidden radio input
   &__input {
     cursor: pointer;
     height: $radios-size;
@@ -65,6 +67,7 @@ $radios-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     }
   }
 
+  // Radio label
   &__label {
     cursor: pointer;
     display: inline-block;
@@ -103,6 +106,7 @@ $radios-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     }
   }
 
+  // Radio hint text
   &__hint {
     display: block;
     padding-left: $radios-label-padding;
@@ -116,6 +120,7 @@ $radios-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     }
   }
 
+  // Conditional content
   &__conditional {
     $conditional-border-width: 4px; // Thicker border for better visual connection
     // Position conditional content to align with the radio button's left edge
@@ -136,7 +141,7 @@ $radios-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     }
   }
 
-  // Inline variant
+  // Radios variants
   &--inline {
     .nhsuk-radios__item {
       clear: none;
@@ -151,7 +156,6 @@ $radios-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     }
   }
 
-  // Small variant
   &--small {
     .nhsuk-radios__item {
       min-height: nhs.$nhs-fdp-spacing-6;
@@ -182,12 +186,11 @@ $radios-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
       }
     }
   }
-}
 
-// Error state styles
-.nhsuk-radios--error {
-  .nhsuk-radios__input + .nhsuk-radios__label::before {
-    border-color: nhs.$nhs-fdp-border-color-error;
-    border-width: nhs.$nhs-fdp-border-width-form-element-error;
+  &--error {
+    .nhsuk-radios__input + .nhsuk-radios__label::before {
+      border-color: nhs.$nhs-fdp-border-color-error;
+      border-width: nhs.$nhs-fdp-border-width-form-element-error;
+    }
   }
 }

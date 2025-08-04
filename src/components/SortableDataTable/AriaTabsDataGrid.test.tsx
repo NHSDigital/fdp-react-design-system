@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AriaTabsDataGrid } from './AriaTabsDataGrid';
-import { createHealthcareTabsConfig, healthcareDataConfig } from './AriaTabsDataGridHealthcare';
+import { createTCHTabsConfig, tchDataConfig } from './AriaTabsDataGridHealthcare';
 import { TabPanelConfig, EWSPatientData } from './AriaTabsDataGridTypes';
 
 // Mock EWS patient data
@@ -321,7 +321,7 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
 
   describe('Healthcare EWS Integration', () => {
     it('creates healthcare tabs configuration correctly', () => {
-      const healthcareTabs = createHealthcareTabsConfig(mockEWSPatients);
+      const healthcareTabs = createTCHTabsConfig(mockEWSPatients);
 
       expect(healthcareTabs).toHaveLength(4);
       expect(healthcareTabs[0].id).toBe('overview');
@@ -334,11 +334,11 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
     });
 
     it('renders healthcare tabs with EWS patient data', () => {
-      const healthcareTabs = createHealthcareTabsConfig(mockEWSPatients);
+      const healthcareTabs = createTCHTabsConfig(mockEWSPatients);
       
       render(
         <AriaTabsDataGrid
-          dataConfig={healthcareDataConfig}
+          dataConfig={tchDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />
@@ -357,11 +357,11 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
     });
 
     it('switches to vitals tab and shows EWS data', async () => {
-      const healthcareTabs = createHealthcareTabsConfig(mockEWSPatients);
+      const healthcareTabs = createTCHTabsConfig(mockEWSPatients);
       
       render(
         <AriaTabsDataGrid
-          dataConfig={healthcareDataConfig}
+          dataConfig={tchDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />
@@ -388,11 +388,11 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
     });
 
     it('shows discharge planning information in discharge tab', async () => {
-      const healthcareTabs = createHealthcareTabsConfig(mockEWSPatients);
+      const healthcareTabs = createTCHTabsConfig(mockEWSPatients);
       
       render(
         <AriaTabsDataGrid
-          dataConfig={healthcareDataConfig}
+          dataConfig={tchDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />
@@ -415,11 +415,11 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
     });
 
     it('displays bed management information in logistics tab', async () => {
-      const healthcareTabs = createHealthcareTabsConfig(mockEWSPatients);
+      const healthcareTabs = createTCHTabsConfig(mockEWSPatients);
       
       render(
         <AriaTabsDataGrid
-          dataConfig={healthcareDataConfig}
+          dataConfig={tchDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />
@@ -450,11 +450,11 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
 
   describe('Data Grid Integration', () => {
     it('supports sorting within tabs', async () => {
-      const healthcareTabs = createHealthcareTabsConfig(mockEWSPatients);
+      const healthcareTabs = createTCHTabsConfig(mockEWSPatients);
       
       render(
         <AriaTabsDataGrid
-          dataConfig={healthcareDataConfig}
+          dataConfig={tchDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />
@@ -485,11 +485,11 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
     });
 
     it('maintains separate sort states for different tabs', async () => {
-      const healthcareTabs = createHealthcareTabsConfig(mockEWSPatients);
+      const healthcareTabs = createTCHTabsConfig(mockEWSPatients);
       
       render(
         <AriaTabsDataGrid
-          dataConfig={healthcareDataConfig}
+          dataConfig={tchDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />
@@ -522,11 +522,11 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
     });
 
     it('supports custom column render functions', async () => {
-      const healthcareTabs = createHealthcareTabsConfig(mockEWSPatients);
+      const healthcareTabs = createTCHTabsConfig(mockEWSPatients);
       
       render(
         <AriaTabsDataGrid
-          dataConfig={healthcareDataConfig}
+          dataConfig={tchDataConfig}
           tabPanels={healthcareTabs}
           ariaLabel="Healthcare Patient Management"
         />

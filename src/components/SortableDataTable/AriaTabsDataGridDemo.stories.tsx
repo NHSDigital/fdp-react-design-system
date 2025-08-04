@@ -11,28 +11,27 @@ const meta: Meta<typeof AriaTabsDataGridDemo> = {
     docs: {
       description: {
         component: `
-The AriaTabsDataGridDemo showcases the integrated tabs and data grid component designed for NHS patient care workflows. This component combines tabbed navigation with sortable data grids, providing a comprehensive interface for healthcare data management.
+The AriaTabsDataGridDemo demonstrates the integrated tabs and data grid component developed as a proof of concept initially for Timely Care Hub workflows, but also as a proof of concept for a sortable data table as part of a FDP Design System more generally. This component combines tabbed navigation with sortable data grids, providing an interface for healthcare data management.
 
-## 🌟 Key Features
+## Key Features
 
-- **Full ARIA Compliance**: Complete accessibility support with screen reader compatibility
+- **ARIA Compliance**: Complete accessibility support with screen reader compatibility
 - **Hierarchical Keyboard Navigation**: Arrow key navigation between tabs, headers, and cells  
 - **Global Multi-Column Sorting**: Drag-and-drop sort configuration with visual priority indicators
-- **Domain Flexibility**: Generic core with specialized plugins for healthcare, e-commerce, and finance
+- **Domain Flexibility**: Generic core with specialised plugins for mapping different datasets to tabs, and the respective data columns to each tab.
 - **NHS Design System Compliant**: Full integration with NHS design tokens and patterns
-- **Responsive Design**: Mobile-first approach with proper scaling across devices
 
-## 🚀 Quick Start
+## Quick Start
 
-### Healthcare Usage (NHS)
+### Current TCH Usage 
 \`\`\`tsx
-import { healthcareDataConfig, createHealthcareTabsConfig } from './AriaTabsDataGridHealthcare';
+import { tchDataConfig, createTCHTabsConfig } from './AriaTabsDataGridHealthcare';
 
 const HealthcareDemo = () => {
-  const healthcareTabs = createHealthcareTabsConfig(patientsData);
+  const healthcareTabs = createTCHTabsConfig(patientsData);
   return (
     <AriaTabsDataGrid
-      dataConfig={healthcareDataConfig}
+      dataConfig={tchDataConfig}
       tabPanels={healthcareTabs}
       ariaLabel="Timely Care Data Table Concept"
     />
@@ -40,20 +39,20 @@ const HealthcareDemo = () => {
 };
 \`\`\`
 
-### Understanding createHealthcareTabsConfig
+### Understanding createTCHTabsConfig
 
-The \`createHealthcareTabsConfig\` function is a specialized factory that transforms raw NHS patient data into a structured tab configuration optimized for healthcare workflows. It serves as the bridge between your raw EWS patient data and the AriaTabsDataGrid component.
+The \`createTCHTabsConfig\` function is a specialised helper that transforms the raw NHS patient data into a structured tab configuration optimized for healthcare workflows. It serves as the bridge between the raw EWS patient data and the AriaTabsDataGrid component. Obviously for this demo which is primarily focussed on the UI concept we don't handle loading or paging that data, but the function is designed to be flexible and extensible for real-world applications.
 
 #### 🔄 Data Flow Architecture
 
 \`\`\`tsx
-Raw Patient Data → createHealthcareTabsConfig() → Tab Panels Configuration → AriaTabsDataGrid
+Raw Patient Data → createTCHTabsConfig() → Tab Panels Configuration → AriaTabsDataGrid
 \`\`\`
 
-The function works in conjunction with the \`healthcareDataConfig\` to provide intelligent column mapping and data transformation:
+The function works in conjunction with the \`tchDataConfig\` to provide the column mapping and data transformation:
 
 \`\`\`tsx
-// 1. Raw EWS patient data (your input)
+// 1. Raw EWS patient data (the demo input)
 const patientsData = [
   {
     name: "Sarah Johnson",
@@ -77,20 +76,20 @@ const patientsData = [
   // ... more patients
 ];
 
-// 2. Apply healthcare configuration
-const healthcareTabs = createHealthcareTabsConfig(patientsData);
+// 2. Apply TCH configuration
+const healthcareTabs = createTCHTabsConfig(patientsData);
 
 // 3. Use with data grid
 <AriaTabsDataGrid
-  dataConfig={healthcareDataConfig}  // Provides column mapping & rendering
-  tabPanels={healthcareTabs}         // Provides tab structure & data
+  dataConfig={tchDataConfig}  // Provides column mapping & rendering
+  tabPanels={healthcareTabs}  // Provides tab structure & data
   ariaLabel="Timely Care Data Table Concept"
 />
 \`\`\`
 
-#### 📊 Column Mapping & Data Transformation
+#### Column Mapping & Data Transformation
 
-The function automatically maps your raw data fields to display-ready columns using the \`healthcareDataConfig\`:
+The function automatically maps the raw data fields to display-ready columns using the \`tchDataConfig\`:
 
 **Data Field → Display Column Mapping:**
 
@@ -98,15 +97,15 @@ The function automatically maps your raw data fields to display-ready columns us
 |----------------|----------------|------------------------|
 | \`name\` | Patient Name | Direct mapping with ARIA labels |
 | \`age\` | Age | Formatted with "years" suffix |
-| \`total_score\` | EWS Score | Color-coded by risk level (🟢🟡🔴) |
+| \`total_score\` | EWS Score | |
 | \`ews_data.temperature\` | Temperature | Formatted as "36.8°C" with fever alerts |
 | \`ews_data.sp02\` | SpO₂ | Percentage with normal/abnormal indicators |
-| \`ews_data.systolic_bp\` | Blood Pressure | Combined systolic/diastolic display |
-| \`medically_optimised\` | Med Optimized | Boolean → ✅/❌ with SVG icons |
+| \`ews_data.systolic_bp\` | Blood Pressure |
+| \`medically_optimised\` | Medically Optimised | Boolean → ✅/❌ with SVG icons |
 | \`criteria_to_reside\` | CTR Status | Boolean → ✅/❌ with clinical context |
 | \`risk_level\` | Risk Category | Text + color coding (Low/Medium/High) |
 
-#### 🏗️ What the Function Creates
+#### What the Function Creates
 
 **4 Pre-configured Healthcare Tabs:**
 
@@ -126,7 +125,7 @@ The function automatically maps your raw data fields to display-ready columns us
    - **Purpose**: Patient flow and discharge coordination
    - **Columns**: Name, Anticipated Discharge, Med Optimized, CTR Status, Discharge Ready, Ward
    - **Data Source**: Patients with discharge planning data
-   - **Use Case**: Bed management, discharge coordination, flow optimization
+   - **Use Case**: Bed management, discharge coordination, flow optimisation
 
 4. **Bed Management Tab** (\`beds\`)
    - **Purpose**: Logistics and capacity management
@@ -134,9 +133,9 @@ The function automatically maps your raw data fields to display-ready columns us
    - **Data Source**: All patients with location and timing data
    - **Use Case**: Capacity planning, bed allocation, logistics coordination
 
-#### 🎨 Column Rendering & Data Configuration
+#### Column Rendering & Data Configuration
 
-The \`healthcareDataConfig\` provides specialized rendering for healthcare data:
+The \`tchDataConfig\` provides specialised rendering for healthcare data:
 
 **Boolean Renderers:**
 \`\`\`tsx
@@ -146,30 +145,30 @@ criteria_to_reside: false → ❌ (Red cross SVG)
 discharge_ready: true     → ✅ (Green checkmark SVG)
 \`\`\`
 
-**Clinical Value Formatting:**
+** TODO: Clinical Value Formatting:**
 \`\`\`tsx
 // Temperature with clinical context
 36.8 → "36.8°C" (normal)
 38.5 → "38.5°C ⚠️" (fever alert)
 
-// SpO2 with range indicators  
+// TODO: SpO2 with range indicators  
 96 → "96%" (normal)
 88 → "88% ⚠️" (low oxygen)
 
-// EWS Score with risk stratification
+// TODO: EWS Score with risk stratification
 2 → "2 🟢" (Low Risk - Green)
 5 → "5 🟡" (Medium Risk - Amber) 
 8 → "8 🔴" (High Risk - Red)
 \`\`\`
 
-#### 🔧 Key Transformations Applied
+#### Key Transformations Applied
 
-**1. Risk Stratification:**
+**1. TODO: Risk Stratification:**
 - Applies NHS EWS thresholds for color coding
 - Sorts high-risk patients to top of lists automatically
 - Adds visual risk indicators throughout the interface
 
-**2. Clinical Formatting:**
+**2. TODO: Clinical Formatting:**
 - Formats vital signs according to NHS clinical standards
 - Adds appropriate units and clinical context
 - Provides abnormal value alerts and warnings
@@ -179,31 +178,20 @@ discharge_ready: true     → ✅ (Green checkmark SVG)
 - Uses healthcare-appropriate icons (✅/❌ for clinical status)
 - Provides accessible labels for screen readers
 
-**4. Filter Preset Generation:**
+**4. TODO: Filter Preset Generation:**
 - Creates healthcare-specific filter presets automatically
 - High Risk Patients (EWS ≥ 7) for emergency response
 - Ready for Discharge for bed management workflows
-- Fast Track Discharge for flow optimization
+- Fast Track Discharge for flow optimisation
 - ICU Patients for critical care monitoring
-
-#### 💡 Benefits Over Manual Configuration
-
-**Instead of manually defining 4 tabs × 6-8 columns each:**
-- ✅ **Instant Setup**: Single function call creates complete healthcare interface
-- ✅ **NHS Compliance**: Pre-built to meet NHS Digital standards and clinical workflows
-- ✅ **Automatic Formatting**: Clinical values formatted correctly without custom renderers
-- ✅ **Risk Intelligence**: EWS color coding and risk stratification built-in
-- ✅ **Workflow Optimization**: Tabs organized for common nursing and medical workflows
-- ✅ **Accessibility**: Full ARIA compliance and screen reader support included
-- ✅ **Maintenance**: Single source of truth for healthcare column definitions
 
 #### 🔄 Extending the Configuration
 
-To customize or extend the healthcare configuration:
+To customise or extend the TCH configuration:
 
 \`\`\`tsx
 // Custom column additions
-const customHealthcareTabs = createHealthcareTabsConfig(patientsData, {
+const customHealthcareTabs = createTCHTabsConfig( patientsData, {
   additionalColumns: [
     { key: 'custom_field', label: 'Custom Data', render: (patient) => patient.custom_field }
   ],
@@ -213,13 +201,11 @@ const customHealthcareTabs = createHealthcareTabsConfig(patientsData, {
 });
 \`\`\`
 
-This architecture ensures that healthcare teams can focus on patient care rather than configuring data grids, while maintaining the flexibility to extend and customize as needed.
+#### Creating Custom Data Mapping
 
-#### 🛠️ Creating Custom Data Mapping
+For organisations with specific data structures or requirements, you can create custom data mappings using the patient data as a foundation. Here's a step-by-step guide:
 
-For organizations with specific data structures or requirements, you can create custom data mappings using the patient data as a foundation. Here's a step-by-step guide:
-
-**Step 1: Analyze Your Patient Data Structure**
+**Step 1: Analyse Your Patient Data Structure**
 
 \`\`\`tsx
 // Example: Your custom patient data structure
@@ -282,9 +268,9 @@ const customDataConfig = {
   // Custom boolean renderer for your specific fields
   booleanRenderer: (value: boolean, fieldName?: string) => {
     const iconMap = {
-      medical_clearance: value ? '🏥✅' : '🏥❌',
-      social_clearance: value ? '🏠✅' : '🏠❌',
-      transport_arranged: value ? '🚐✅' : '🚐❌'
+      medical_clearance: value ? '✅' : '❌',
+      social_clearance: value ? '✅' : '❌',
+      transport_arranged: value ? '✅' : '❌'
     };
     
     const defaultIcon = value ? '✅' : '❌';
@@ -487,16 +473,12 @@ const MyCustomHealthcareDemo = () => {
 
 1. **Nested Data Access**: Use dot notation in column keys (\`'location.ward_name'\`) for nested object properties
 2. **Custom Renderers**: Transform raw data into display-friendly formats with clinical context
-3. **Boolean Fields**: Map boolean values to healthcare-appropriate visual indicators
-4. **Risk Stratification**: Apply clinical logic for color coding and prioritization
+3. **Boolean Fields**: Map boolean values to healthcare-appropriate and NHS style visual indicators
+4. **Risk Stratification**: Apply clinical logic for color coding and prioritisation
 5. **Date Formatting**: Convert ISO dates to user-friendly display formats
 6. **Enumeration Mapping**: Transform coded values (like \`responds_to_voice\`) into readable text
 
 This approach gives you complete control over how your specific patient data structure is displayed while maintaining the powerful features of the AriaTabsDataGrid component.
-
-## 📚 Complete Documentation
-
-For comprehensive setup guides, complete API reference, troubleshooting, and advanced examples, see the **AriaTabsDataGrid.mdx** file in the same directory.
         `,
       },
     },
@@ -530,153 +512,9 @@ across four specialized healthcare views:
 - **Filter Presets**: Use the filter buttons to apply common healthcare filters
 - **Statistics Display**: View patient statistics and counts for each category
 - **Row Selection**: Click rows to select patients for further action
-
-### EWS Color Coding
-
-Early Warning Scores use NHS-approved color coding:
-- **🟢 Low Risk (0-3)**: Green indicators for stable patients
-- **🟡 Medium Risk (4-6)**: Amber indicators requiring monitoring
-- **🔴 High Risk (7+)**: Red indicators for urgent clinical review
         `,
       },
     },
   },
 };
 
-export const WithFilters: Story = {
-  args: {},
-  parameters: {
-    docs: {
-      description: {
-        story: `
-This story demonstrates the powerful filtering capabilities of the AriaTabsDataGrid.
-The component includes healthcare-specific filter presets that support common clinical workflows.
-
-### Available Filter Presets
-
-1. **High Risk Patients** (EWS ≥ 7) - Shows patients requiring immediate clinical attention
-2. **Ready for Discharge** (Medically optimized) - Displays patients who are medically ready to leave
-3. **Fast Track Discharge** - Shows patients eligible for expedited discharge
-4. **ICU Patients** - Filters to show intensive care unit patients
-
-### How to Use Filters
-
-1. Click any filter preset button to apply the filter
-2. The data grid automatically updates to show filtered results
-3. Patient statistics update to reflect the filtered data
-4. Switch between tabs to see the filtered data in different views
-5. Click "Clear Filters" to return to the complete dataset
-        `,
-      },
-    },
-  },
-};
-
-export const ResponsiveLayout: Story = {
-  args: {},
-  decorators: [
-    (Story) => (
-      <div style={{ 
-        width: '900px', 
-        height: '700px', 
-        border: '2px solid #d8dde0', 
-        borderRadius: '4px',
-        overflow: 'auto',
-        padding: '16px',
-        backgroundColor: '#f0f4f5'
-      }}>
-        <h3 style={{ margin: '0 0 16px 0', color: '#212b32' }}>
-          Constrained Container Demo
-        </h3>
-        <Story />
-      </div>
-    ),
-  ],
-  parameters: {
-    docs: {
-      description: {
-        story: `
-This story demonstrates how the AriaTabsDataGrid adapts to different container sizes
-and maintains functionality in responsive layouts.
-
-### Responsive Features
-
-1. **Flexible Tab Layout**: Tabs adjust to available width while maintaining readability
-2. **Data Grid Scrolling**: Tables provide horizontal scrolling when columns exceed container width
-3. **Sticky Headers**: Column headers remain visible during vertical scrolling
-4. **Filter Controls**: Filter buttons wrap appropriately on smaller screens
-5. **Statistics Panel**: Patient statistics adapt to available space
-        `,
-      },
-    },
-  },
-};
-
-export const AccessibilityDemo: Story = {
-  args: {},
-  parameters: {
-    docs: {
-      description: {
-        story: `
-This story highlights the comprehensive accessibility features built into the AriaTabsDataGrid
-component, demonstrating WCAG 2.1 AA compliance and NHS accessibility standards.
-
-### Keyboard Navigation
-
-**Tab-Level Navigation:**
-- Tab/Shift+Tab: Move between tabs
-- Arrow Left/Right: Navigate between tabs  
-- Home/End: Jump to first/last tab
-- Enter/Space: Activate tab
-
-**Data Grid Navigation:**
-- Arrow Keys: Navigate between cells
-- Home/End: Navigate to row start/end
-- Enter/Space: Select/deselect row
-
-### Screen Reader Support
-
-- **Semantic Structure**: Proper heading hierarchy and landmark roles
-- **Table Semantics**: Column headers, row headers, and cell relationships
-- **Sort Announcements**: Sort state changes are announced clearly
-- **Filter Status**: Current filter state is communicated
-
-This component meets NHS Digital accessibility standards and WCAG 2.1 AA requirements.
-        `,
-      },
-    },
-  },
-};
-
-export const ComprehensivePluginDemo: Story = {
-  render: () => <AriaTabsDataGridComprehensiveDemo />,
-  parameters: {
-    docs: {
-      description: {
-        story: `
-This story demonstrates the comprehensive plugin system with all domain configurations:
-Healthcare, E-commerce, and Financial data grids.
-
-### Plugin System Features
-
-**Healthcare Mode**
-- Patient management with EWS scores
-- Boolean values for discharge status, medical optimization
-- SVG icons for clinical indicators
-
-**E-commerce Mode** 
-- Product catalogs with inventory management
-- Boolean "inStock" field with SVG tick/cross icons
-- Price comparisons and ratings
-
-**Financial Mode**
-- Transaction history and categorization  
-- Boolean "pending" field with SVG tick/cross icons
-- Credit/debit transaction types
-
-Switch between modes to see SVG icons and domain-specific features in action.
-        `,
-      },
-    },
-  },
-};

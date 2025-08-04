@@ -19,11 +19,11 @@
     @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       font-size: nhs.$nhs-fdp-font-size-19-tablet;
     }
-  }
 
-  // Multiple paragraphs
-  p + p {
-    margin-top: nhs.$nhs-fdp-spacing-3;
+    // Multiple paragraphs
+    + p {
+      margin-top: nhs.$nhs-fdp-spacing-3;
+    }
   }
 
   // Lists within inset text
@@ -42,10 +42,10 @@
       @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
         font-size: nhs.$nhs-fdp-font-size-19-tablet;
       }
-    }
-    
-    li:last-child {
-      margin-bottom: 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 

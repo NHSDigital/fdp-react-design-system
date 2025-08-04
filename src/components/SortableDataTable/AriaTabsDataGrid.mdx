@@ -49,15 +49,15 @@ const MyComponent = () => {
 ### Healthcare Usage (NHS)
 
 ```tsx
-import { healthcareDataConfig, createHealthcareTabsConfig } from './AriaTabsDataGridHealthcare';
+import { tchDataConfig, createTCHTabsConfig } from './AriaTabsDataGridHealthcare';
 import patientsData from './patients_with_ews.json';
 
 const HealthcareDemo = () => {
-  const healthcareTabs = createHealthcareTabsConfig(patientsData);
+  const healthcareTabs = createTCHTabsConfig(patientsData);
 
   return (
     <AriaTabsDataGrid
-      dataConfig={healthcareDataConfig}
+      dataConfig={tchDataConfig}
       tabPanels={healthcareTabs}
       ariaLabel="Timely Care Data Table Concept"
       onGlobalRowSelectionChange={(patient) => {
@@ -189,9 +189,9 @@ The component comes with several pre-built configurations:
 
 #### Healthcare Configuration
 ```tsx
-import { healthcareDataConfig, createHealthcareTabsConfig } from './AriaTabsDataGridHealthcare';
+import { tchDataConfig, createTCHTabsConfig } from './AriaTabsDataGridHealthcare';
 
-const healthcareTabs = createHealthcareTabsConfig(patientData);
+const healthcareTabs = createTCHTabsConfig(patientData);
 ```
 
 #### E-commerce Configuration

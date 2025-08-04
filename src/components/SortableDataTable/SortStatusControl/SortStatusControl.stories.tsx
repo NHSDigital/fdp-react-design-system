@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { SortStatusControl } from './SortStatusControl';
 import { SortConfig } from '../AriaDataGridTypes';
+import { useFrutigerFonts } from '../../../hooks/useFrutigerFonts';
 
 const meta: Meta<typeof SortStatusControl> = {
   title: 'NHS/Data/SortableDataTable/SortStatusControl',
@@ -42,18 +43,21 @@ const sampleColumns = [
 // Interactive story with state management
 const SortStatusControlWithState = (args: any) => {
   const [sortConfig, setSortConfig] = useState<SortConfig[]>(args.sortConfig || []);
+  const { fontFamily } = useFrutigerFonts();
 
   const handleSortChange = (newSortConfig: SortConfig[]) => {
     setSortConfig(newSortConfig);
   };
 
   return (
-    <SortStatusControl
-      {...args}
-      sortConfig={sortConfig}
-      onSortChange={handleSortChange}
-      columns={sampleColumns}
-    />
+    <div style={{ fontFamily }}>
+      <SortStatusControl
+        {...args}
+        sortConfig={sortConfig}
+        onSortChange={handleSortChange}
+        columns={sampleColumns}
+      />
+    </div>
   );
 };
 
@@ -65,13 +69,6 @@ export const Default: Story = {
       { key: 'date', direction: 'desc' },
       { key: 'status', direction: 'asc' }
     ]
-  }
-};
-
-export const Empty: Story = {
-  render: SortStatusControlWithState,
-  args: {
-    sortConfig: []
   }
 };
 
@@ -96,27 +93,6 @@ export const WithCustomDescriptions: Story = {
   }
 };
 
-export const NoResetButton: Story = {
-  render: SortStatusControlWithState,
-  args: {
-    sortConfig: [
-      { key: 'code', direction: 'asc' },
-      { key: 'ward', direction: 'asc' }
-    ],
-    showReset: false
-  }
-};
-
-export const NoHelp: Story = {
-  render: SortStatusControlWithState,
-  args: {
-    sortConfig: [
-      { key: 'appointment', direction: 'asc' }
-    ],
-    showHelp: false
-  }
-};
-
 export const Disabled: Story = {
   render: SortStatusControlWithState,
   args: {
@@ -128,15 +104,3 @@ export const Disabled: Story = {
   }
 };
 
-export const ManyColumns: Story = {
-  render: SortStatusControlWithState,
-  args: {
-    sortConfig: [
-      { key: 'surname', direction: 'asc' },
-      { key: 'forename', direction: 'asc' },
-      { key: 'dob', direction: 'desc' },
-      { key: 'postcode', direction: 'asc' },
-      { key: 'gp', direction: 'asc' }
-    ]
-  }
-};

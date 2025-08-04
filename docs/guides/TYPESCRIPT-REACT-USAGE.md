@@ -2,9 +2,9 @@
 
 ## Overview
 
-Your NHS FDP Design System now supports **TypeScript** and **React** token exports, following the same component hierarchy you've established. This guide shows you how to use these tokens in your applications.
+Your NHS FDP Design System now supports **TypeScript** and **React** token exports, following the same component hierarchy. This guide shows you how to use these tokens in your applications.
 
-## 🎯 **File Structure**
+## **File Structure**
 
 ```
 packages/nhs-fdp/dist/
@@ -42,7 +42,7 @@ packages/nhs-fdp/dist/
 │       └── Card/
 ```
 
-## 📦 **Installation & Import**
+## **Installation & Import**
 
 ### TypeScript Usage
 
@@ -81,7 +81,7 @@ import * as ButtonTokens from './packages/nhs-fdp/dist/react/components/Button/t
 import { useColors, useSpacing, useTypography } from './packages/nhs-fdp/dist/react/hooks/useTokens'
 ```
 
-## 🎨 **Usage Examples**
+## **Usage Examples**
 
 ### 1. TypeScript Components
 
@@ -236,7 +236,7 @@ const MyButton = () => (
 )
 ```
 
-## 🔧 **Component-Specific Tokens**
+## **Component-Specific Tokens**
 
 ### Button Component Example
 
@@ -268,7 +268,7 @@ const SecondaryButton = () => (
 )
 ```
 
-## 📝 **Available Token Categories**
+## **Available Token Categories**
 
 
 ### Core Tokens
@@ -288,15 +288,14 @@ const SecondaryButton = () => (
 - **Card**: `CardSpacingPadding*`, `CardSpacingHeadingMargin`
 - **Responsive**: `SpacingResponsive*Mobile/Tablet` for breakpoint-specific values
 
-
-## 🚀 **Next Steps**
+## **Next Steps**
 
 1. **Add to package.json**: Set up path aliases in your TypeScript config
 2. **Create components**: Use these tokens to build your NHS component library
 3. **Theme provider**: Implement the React theme provider for global access
 4. **Type safety**: Leverage TypeScript for better development experience
 
-## 📚 **Benefits**
+## **Benefits**
 
 ✅ **Type Safety**: Full TypeScript support with IntelliSense  
 ✅ **Tree Shaking**: Import only the tokens you need  

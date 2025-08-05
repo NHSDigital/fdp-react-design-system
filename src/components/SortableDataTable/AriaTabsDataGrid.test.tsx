@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AriaTabsDataGrid } from './AriaTabsDataGrid';
-import { createTCHTabsConfig, tchDataConfig } from './AriaTabsDataGridHealthcare';
+import { createTCHTabsConfig, tchDataConfig } from './AriaTabsDataGridTCH';
 import { TabPanelConfig, EWSPatientData } from './AriaTabsDataGridTypes';
 
 // Mock EWS patient data

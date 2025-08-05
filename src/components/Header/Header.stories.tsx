@@ -367,56 +367,6 @@ export const CustomLogo: Story = {
   }
 };
 
-export const MobileExample: Story = {
-  args: {
-    service: {
-      text: 'NHS Mobile App'
-    },
-    search: {
-      placeholder: 'Search'
-    },
-    navigation: {
-      items: [
-        {
-          href: '#',
-          text: 'Home',
-          current: true
-        },
-        {
-          href: '#',
-          text: 'Appointments'
-        },
-        {
-          href: '#',
-          text: 'Prescriptions'
-        },
-        {
-          href: '#',
-          text: 'Health records'
-        },
-        {
-          href: '#',
-          text: 'Messages'
-        },
-        {
-          href: '#',
-          text: 'More services'
-        }
-      ]
-    }
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile1'
-    },
-    docs: {
-      description: {
-        story: 'Header optimized for mobile viewing. Navigation automatically collapses into a menu button when space is limited.'
-      }
-    }
-  }
-};
-
 export const WithManyNavigationItems: Story = {
   args: {
     service: {

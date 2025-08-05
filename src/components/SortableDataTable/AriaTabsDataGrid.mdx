@@ -1,23 +1,22 @@
-import { Meta } from '@storybook/addon-docs';
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="NHS/Data/AriaTabsDataGrid/Documentation" />
+<Meta title="NHS/Data/SortableDataTable/Documentation" />
 
 # AriaTabsDataGrid Component
 
-The `AriaTabsDataGrid` is a fully accessible data grid component that combines tabbed navigation with sortable data tables. Originally designed for NHS healthcare workflows, it has been generified to support any domain while maintaining specialised healthcare functionality.
+The `AriaTabsDataGrid` is intended to be a proof of concept fully accessible data grid component that combines tabbed navigation with sortable data tables. Originally designed for FDP Timely Care Hub workflows, it has been refactored and generified with the intention of supporting any domain.
 
-## 🌟 Key Features
+## Key Features
 
 - **Full ARIA Compliance**: Complete accessibility support with screen reader compatibility
 - **Hierarchical Keyboard Navigation**: Arrow key navigation between tabs, headers, and cells
-- **Global Multi-Column Sorting**: Drag-and-drop sort configuration with visual priority indicators
-- **Domain Flexibility**: Generic core with specialized plugins for healthcare, e-commerce, and finance
+- **Global Multi-Column Sorting**: Supporting ``SortStatusControl`` component with drag-and-drop sort configuration with visual priority indicators
 - **NHS Design System Compliant**: Full integration with NHS design tokens and patterns
-- **Responsive Design**: Mobile-first approach with proper scaling across devices
+- **TODO: Responsive Design**: Mobile-first approach with proper scaling across devices
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Basic Usage
 
@@ -46,10 +45,10 @@ const MyComponent = () => {
 };
 ```
 
-### Healthcare Usage (NHS)
+### Timely Care Hub (Demo) Usage
 
 ```tsx
-import { tchDataConfig, createTCHTabsConfig } from './AriaTabsDataGridHealthcare';
+import { tchDataConfig, createTCHTabsConfig } from './AriaTabsDataGridTCH';
 import patientsData from './patients_with_ews.json';
 
 const HealthcareDemo = () => {
@@ -70,7 +69,7 @@ const HealthcareDemo = () => {
 
 ---
 
-## 📋 API Reference
+## API Reference
 
 ### Props
 
@@ -105,7 +104,7 @@ interface DataOperationConfig<T> {
 
 ---
 
-## 🏗️ Setup & Configuration
+## Setup & Configuration
 
 ### 1. Basic Setup
 
@@ -189,30 +188,30 @@ The component comes with several pre-built configurations:
 
 #### Healthcare Configuration
 ```tsx
-import { tchDataConfig, createTCHTabsConfig } from './AriaTabsDataGridHealthcare';
+import { tchDataConfig, createTCHTabsConfig } from './AriaTabsDataGridTCH';
 
 const healthcareTabs = createTCHTabsConfig(patientData);
 ```
 
-#### E-commerce Configuration
+#### E-commerce Demo/Test Configuration
 ```tsx
 import { createPluginDataGrid } from './AriaTabsDataGridPlugins';
 
 const ecommerceGrid = createPluginDataGrid('ecommerce', products);
 ```
 
-#### Financial Configuration
+#### Financial Demo/Test Configuration
 ```tsx
 const financialGrid = createPluginDataGrid('financial', transactions);
 ```
 
 ---
 
-## 🎨 Customization
+## Customisation
 
 ### Styling
 
-The component uses NHS design tokens and can be customized via CSS:
+The component uses NHS design tokens and can be customised via CSS:
 
 ```scss
 .aria-tabs-datagrid {
@@ -276,7 +275,7 @@ const customBooleanRenderer = (value: boolean) => (
 
 ---
 
-## ⌨️ Keyboard Navigation
+## Keyboard Navigation
 
 The component supports comprehensive keyboard navigation:
 
@@ -302,7 +301,7 @@ The component supports comprehensive keyboard navigation:
 
 ---
 
-## 🔧 Advanced Features
+## Advanced Features
 
 ### Global Row Selection
 
@@ -349,7 +348,7 @@ const data = gridRef.current?.exportData();
 
 ---
 
-## 🏥 Healthcare Specialization
+## Healthcare Specialisation
 
 ### EWS Patient Data Structure
 
@@ -375,16 +374,16 @@ interface EWSPatientData {
 
 ### Healthcare Views
 
-The healthcare configuration provides specialized views:
+The healthcare configuration provides specialised views:
 
 - **Patient Overview**: Demographics and basic EWS scores
 - **Critical Care**: High-risk patients requiring immediate attention
-- **Ward Management**: Organized by ward with bed assignments
+- **Ward Management**: Organised by ward with bed assignments
 - **Discharge Planning**: Patients ready for discharge
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ### Unit Testing
 
@@ -418,7 +417,7 @@ test('should have no accessibility violations', async () => {
 
 ---
 
-## 📱 Responsive Design
+## Responsive Design
 
 The component is fully responsive and adapts to different screen sizes:
 
@@ -437,7 +436,7 @@ The component is fully responsive and adapts to different screen sizes:
 
 ---
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -446,7 +445,7 @@ The component is fully responsive and adapts to different screen sizes:
 3. **Keyboard navigation not working**: Verify ARIA attributes and focus management
 4. **Boolean values not rendering**: Check `booleanRenderer` configuration
 
-### Performance Optimization
+### Performance Optimisation
 
 ```tsx
 // Memoize large datasets
@@ -461,7 +460,7 @@ const columns = useMemo(() => [
 
 ---
 
-## 📚 Examples
+## Examples
 
 ### Complete E-commerce Example
 
@@ -543,7 +542,7 @@ export default EcommerceDemo;
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 When extending the component:
 
@@ -554,7 +553,7 @@ When extending the component:
 
 ---
 
-## 📖 Related Components
+## Related Components
 
 - **Tag**: Used in the sort status control for draggable sort indicators
 - **Button**: NHS-compliant buttons used throughout the interface
@@ -562,13 +561,13 @@ When extending the component:
 
 ---
 
-## 🎯 Roadmap
+## Roadmap
 
 Future enhancements planned:
 
-- [ ] Virtual scrolling for large datasets
+- [ ] Paging for large datasets
 - [ ] Column resizing and reordering
-- [ ] Export functionality (CSV, Excel)
+- [ ] Export functionality (CSV, Excel)?
 - [ ] Advanced filtering UI
-- [ ] Real-time data updates
+- [ ] Dynamic data updates
 - [ ] Bulk selection operations

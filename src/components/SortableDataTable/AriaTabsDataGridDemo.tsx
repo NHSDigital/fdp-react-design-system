@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { AriaTabsDataGrid, AriaTabsDataGridRef } from './AriaTabsDataGrid';
-import { createTCHTabsConfig, tchDataConfig } from './AriaTabsDataGridHealthcare';
+import { createTCHTabsConfig, tchDataConfig } from './AriaTabsDataGridTCH';
 import { EWSPatientData } from './AriaTabsDataGridTypes';
 import { Details } from '../Details';
 import patientsData from './patients_with_ews.json';

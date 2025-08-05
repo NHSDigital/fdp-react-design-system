@@ -7,7 +7,7 @@ import { AriaTabsDataGrid } from './AriaTabsDataGrid';
 import { 
   tchDataConfig, 
   createTCHTabsConfig 
-} from './AriaTabsDataGridHealthcare';
+} from './AriaTabsDataGridTCH';
 import { 
   createPluginDataGrid,
   type EcommerceProduct,

@@ -8,7 +8,7 @@ The NHS FDP Design System provides a complete set of reusable components, design
 
 ## Quick Start
 
-### Installation
+### TODO (setup as npm package): Installation
 
 ```bash
 npm install @nhs-fdp/design-system

@@ -8,6 +8,23 @@ $header-item-hover-color: nhs.$nhs-fdp-semantic-color-hover-header-link; // Slig
 $header-item-active-color: nhs.$nhs-fdp-semantic-color-active-header-link; // Darker than NHS Blue
 $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 
+// Shared icon styles mixin
+@mixin header-icon-base {
+  fill: currentColor;
+}
+
+@mixin header-icon-medium {
+  @include header-icon-base;
+  width: nhs.$nhs-fdp-spacing-6;
+  height: nhs.$nhs-fdp-spacing-6;
+}
+
+@mixin header-icon-small {
+  @include header-icon-base;
+  width: nhs.$nhs-fdp-spacing-4;
+  height: nhs.$nhs-fdp-spacing-4;
+}
+
 // Header link styling mixin
 @mixin header-link-style(
   $link-color: nhs.$nhs-fdp-semantic-color-link-default,
@@ -151,13 +168,13 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
     &-icon {
       display: flex;
       align-items: center;
-    }
-
-    .nhsuk-icon__menu,
-    .nhsuk-icon__close {
-      width: nhs.$nhs-fdp-spacing-6;
-      height: nhs.$nhs-fdp-spacing-6;
-      fill: currentColor;
+      
+      .nhsuk-icon {
+        &__menu,
+        &__close {
+          @include header-icon-medium;
+        }
+      }
     }
   }
 
@@ -304,11 +321,13 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
       max-width: none; // Remove max-width constraint
     }
 
-    .nhsuk-icon__user {
-      fill: currentcolor;
-      height: nhs.$nhs-fdp-component-header-search-icon-size;
-      width: nhs.$nhs-fdp-component-header-search-icon-size;
-      flex-shrink: 0;
+    .nhsuk-icon {
+      &__user {
+        @include header-icon-base;
+        height: nhs.$nhs-fdp-component-header-search-icon-size;
+        width: nhs.$nhs-fdp-component-header-search-icon-size;
+        flex-shrink: 0;
+      }
     }
   }
 
@@ -386,10 +405,13 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
     z-index: 10;
     min-width: 150px; // Reduced minimum width for better wrapping
 
-    .nhsuk-icon__search {
-      height: 28px;
-      width: 28px;
-      margin: 0 -2px -2px 0;
+    .nhsuk-icon {
+      &__search {
+        @include header-icon-base;
+        height: 28px;
+        width: 28px;
+        margin: 0 -2px -2px 0;
+      }
     }
   }
 
@@ -595,194 +617,197 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
     }
   }
 
-// Menu (responsive dropdown)
-.nhsuk-header__menu {
-  align-self: center;
-  padding: 0 nhs.$nhs-fdp-spacing-2;
+  // Menu (responsive dropdown) - hierarchical structure
+  &__menu {
+    align-self: center;
+    padding: 0 nhs.$nhs-fdp-spacing-2;
 
-  &[hidden] {
-	display: none;
+    &[hidden] {
+      display: none;
+    }
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      padding: 0 nhs.$nhs-fdp-spacing-3;
+      // Hide mobile menu on desktop
+      display: none !important;
+    }
+
+    // Menu toggle - now nested under menu
+    &-toggle {
+      align-items: center;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-sizing: border-box;
+      cursor: pointer;
+      display: flex;
+      margin: 0;
+      text-align: center;
+      vertical-align: top;
+      color: nhs.$nhs-fdp-color-primary-white;
+      gap: nhs.$nhs-fdp-spacing-2;
+      font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+      font-weight: nhs.$nhs-fdp-font-weight-normal;
+      padding: nhs.$nhs-fdp-spacing-4 $header-link-padding;
+
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+        font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      }
+
+      &[hidden] {
+        display: none;
+      }
+
+      &:focus {
+        outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+        outline-offset: 0;
+        background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+        color: nhs.$nhs-fdp-semantic-color-focus-text;
+        box-shadow: inset 0 -#{nhs.$nhs-fdp-focus-outline-width} nhs.$nhs-fdp-semantic-color-focus-text;
+      }
+
+      &:hover {
+        color: nhs.$nhs-fdp-color-primary-white;
+        text-decoration: none;
+      }
+
+      &:active {
+        color: nhs.$nhs-fdp-color-primary-white;
+      }
+
+      // Menu toggle text - hierarchical nesting
+      &-text {
+        font-size: nhs.$nhs-fdp-font-size-16-mobile;
+        font-weight: nhs.$nhs-fdp-font-weight-normal;
+
+        @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+          font-size: nhs.$nhs-fdp-font-size-16-tablet;
+        }
+      }
+
+      // Menu toggle icon - hierarchical nesting
+      &-icon {
+        display: flex;
+        align-items: center;
+      }
+
+      // Icons used in menu toggle
+      .nhsuk-icon {
+        &__menu,
+        &__close {
+          @include header-icon-medium;
+        }
+
+        &__chevron-down {
+          @include header-icon-small;
+          transform: rotate(90deg);
+          // Move icon to align with edge of button, offsetting 8px of empty
+          // SVG view box but keeping the same 2px padding used by text links
+          margin-right: -8px + $header-link-padding;
+        }
+      }
+
+      &[aria-expanded="true"] .nhsuk-icon__chevron-down {
+        transform: rotate(270deg);
+      }
+    }
   }
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	padding: 0 nhs.$nhs-fdp-spacing-3;
-	// Hide mobile menu on desktop
-	display: none !important;
+// Menu list - made hierarchical
+  &__menu-list {
+    list-style: none;
+    margin: 0 nhs.$nhs-fdp-spacing-2;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    left: 0;
+    background-color: nhs.$nhs-fdp-color-primary-white;
+    z-index: 100;
+    width: 100%;
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      margin: 0 nhs.$nhs-fdp-spacing-3;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+
+    // Mobile menu styling (when inside .nhsuk-header__menu)
+    .nhsuk-header__menu & {
+      @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+        // Mobile styles for dropdown menu - position absolute to navigation container
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin: 0;
+        width: 100%;
+        // Extend to full width of viewport
+        margin-left: -#{nhs.$nhs-fdp-spacing-4};
+        margin-right: -#{nhs.$nhs-fdp-spacing-4};
+        padding-left: nhs.$nhs-fdp-spacing-4;
+        padding-right: nhs.$nhs-fdp-spacing-4;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: nhs.$nhs-fdp-color-primary-white; // Keep white background even on mobile
+
+        .nhsuk-header__navigation-link {
+          @include header-link-style(
+            $link-color: nhs.$nhs-fdp-color-primary-blue,
+            $link-hover-color: nhs.$nhs-fdp-color-primary-blue,
+            $link-active-color: nhs.$nhs-fdp-color-primary-blue
+          );
+          padding: nhs.$nhs-fdp-spacing-4 0;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+          display: block;
+          
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+        }
+      }
+    }
+
+    .nhsuk-header__navigation-link {
+      @include header-link-style;
+
+      // Visual indicator for navigation item uses a border on left edge in dropdown
+      &[aria-current="page"]::before,
+      &[aria-current="true"]::before {
+        width: 0;
+        top: 0;
+        bottom: 0;
+        left: -#{nhs.$nhs-fdp-spacing-3};
+        right: auto;
+        border-left-width: $header-item-active-size;
+        border-bottom-width: 0;
+
+        @media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
+          left: -#{nhs.$nhs-fdp-spacing-4};
+        }
+
+        @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+          left: -#{nhs.$nhs-fdp-spacing-4};
+          border-left-width: $header-item-active-size;
+        }
+      }
+    }
+
+    .nhsuk-header__navigation-item {
+      padding: 0;
+      border-bottom: 1px solid nhs.$nhs-fdp-color-grey-5;
+
+      @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      &:last-child {
+        border: 0;
+      }
+    }
   }
-}
-
-.nhsuk-header__menu-toggle {
-  align-items: center;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  box-sizing: border-box;
-  cursor: pointer;
-  display: flex;
-  margin: 0;
-  text-align: center;
-  vertical-align: top;
-  color: nhs.$nhs-fdp-color-primary-white;
-  gap: nhs.$nhs-fdp-spacing-2;
-  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
-  font-size: nhs.$nhs-fdp-font-size-16-mobile;
-  font-weight: nhs.$nhs-fdp-font-weight-normal;
-  padding: nhs.$nhs-fdp-spacing-4 $header-link-padding;
-
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	font-size: nhs.$nhs-fdp-font-size-16-tablet;
-  }
-
-  &[hidden] {
-	display: none;
-  }
-
-  &:focus {
-	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
-	outline-offset: 0;
-	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
-	color: nhs.$nhs-fdp-semantic-color-focus-text;
-	box-shadow: inset 0 -#{nhs.$nhs-fdp-focus-outline-width} nhs.$nhs-fdp-semantic-color-focus-text;
-  }
-
-  &:hover {
-	color: nhs.$nhs-fdp-color-primary-white;
-	text-decoration: none;
-  }
-
-  &:active {
-	color: nhs.$nhs-fdp-color-primary-white;
-  }
-
-  .nhsuk-header__menu-toggle-text {
-	font-size: nhs.$nhs-fdp-font-size-16-mobile;
-	font-weight: nhs.$nhs-fdp-font-weight-normal;
-
-	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	  font-size: nhs.$nhs-fdp-font-size-16-tablet;
-	}
-  }
-
-  .nhsuk-header__menu-toggle-icon {
-	display: flex;
-	align-items: center;
-  }
-
-  .nhsuk-icon__menu,
-  .nhsuk-icon__close {
-	width: nhs.$nhs-fdp-spacing-6;
-	height: nhs.$nhs-fdp-spacing-6;
-	fill: currentColor;
-  }
-
-  .nhsuk-icon__chevron-down {
-	width: nhs.$nhs-fdp-spacing-4;
-	height: nhs.$nhs-fdp-spacing-4;
-	transform: rotate(90deg);
-	fill: currentColor;
-	// Move icon to align with edge of button, offsetting 8px of empty
-	// SVG view box but keeping the same 2px padding used by text links
-	margin-right: -8px + $header-link-padding;
-  }
-
-  &[aria-expanded="true"] .nhsuk-icon__chevron-down {
-	transform: rotate(270deg);
-  }
-}
-
-.nhsuk-header__menu-list {
-  list-style: none;
-  margin: 0 nhs.$nhs-fdp-spacing-2;
-  padding: 0;
-  position: absolute;
-  right: 0;
-  top: 100%;
-  left: 0;
-  background-color: nhs.$nhs-fdp-color-primary-white;
-  z-index: 100;
-  width: 100%;
-
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	margin: 0 nhs.$nhs-fdp-spacing-3;
-  }
-
-  &[hidden] {
-	display: none;
-  }
-
-  // Mobile menu styling (when inside .nhsuk-header__menu)
-  .nhsuk-header__menu & {
-	@media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
-	  // Mobile styles for dropdown menu - position absolute to navigation container
-	  position: absolute;
-	  top: 100%;
-	  left: 0;
-	  right: 0;
-	  margin: 0;
-	  width: 100%;
-	  // Extend to full width of viewport
-	  margin-left: -#{nhs.$nhs-fdp-spacing-4};
-	  margin-right: -#{nhs.$nhs-fdp-spacing-4};
-	  padding-left: nhs.$nhs-fdp-spacing-4;
-	  padding-right: nhs.$nhs-fdp-spacing-4;
-	  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	  background-color: nhs.$nhs-fdp-color-primary-white; // Keep white background even on mobile
-
-	  .nhsuk-header__navigation-link {
-		@include header-link-style(
-		  $link-color: nhs.$nhs-fdp-color-primary-blue,
-		  $link-hover-color: nhs.$nhs-fdp-color-primary-blue,
-		  $link-active-color: nhs.$nhs-fdp-color-primary-blue
-		);
-		padding: nhs.$nhs-fdp-spacing-4 0;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-		display: block;
-		
-		&:hover {
-		  background-color: rgba(0, 0, 0, 0.05);
-		}
-	  }
-	}
-  }
-
-  .nhsuk-header__navigation-link {
-	@include header-link-style;
-
-	// Visual indicator for navigation item uses a border on left edge in dropdown
-	&[aria-current="page"]::before,
-	&[aria-current="true"]::before {
-	  width: 0;
-	  top: 0;
-	  bottom: 0;
-	  left: -#{nhs.$nhs-fdp-spacing-3};
-	  right: auto;
-	  border-left-width: $header-item-active-size;
-	  border-bottom-width: 0;
-
-	  @media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
-		left: -#{nhs.$nhs-fdp-spacing-4};
-	  }
-
-	  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
-		left: -#{nhs.$nhs-fdp-spacing-4};
-		border-left-width: $header-item-active-size;
-	  }
-	}
-  }
-
-  .nhsuk-header__navigation-item {
-	padding: 0;
-	border-bottom: 1px solid nhs.$nhs-fdp-color-grey-5;
-
-	@media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
-	  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-	}
-
-	&:last-child {
-	  border: 0;
-	}
-  }
-}
 
 // White header navigation variant
 .nhsuk-header__navigation--white {
@@ -898,9 +923,11 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
       .nhsuk-header__menu-toggle {
         color: nhs.$nhs-fdp-color-primary-blue;
 
-        .nhsuk-icon__menu,
-        .nhsuk-icon__close {
-          fill: nhs.$nhs-fdp-color-primary-blue;
+        .nhsuk-icon {
+          &__menu,
+          &__close {
+            fill: nhs.$nhs-fdp-color-primary-blue;
+          }
         }
 
         &:hover {
@@ -913,10 +940,12 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
     .nhsuk-header__menu-toggle {
       color: nhs.$nhs-fdp-color-primary-blue;
 
-      .nhsuk-icon__menu,
-      .nhsuk-icon__close,
-      .nhsuk-icon__chevron-down {
-        fill: nhs.$nhs-fdp-color-primary-blue;
+      .nhsuk-icon {
+        &__menu,
+        &__close,
+        &__chevron-down {
+          fill: nhs.$nhs-fdp-color-primary-blue;
+        }
       }
 
       &:hover {
@@ -932,8 +961,10 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
     .nhsuk-header__navigation-button {
       color: nhs.$nhs-fdp-color-primary-blue;
 
-      .nhsuk-icon__chevron-down {
-        fill: nhs.$nhs-fdp-color-primary-blue;
+      .nhsuk-icon {
+        &__chevron-down {
+          fill: nhs.$nhs-fdp-color-primary-blue;
+        }
       }
 
       &:hover {
@@ -1040,158 +1071,141 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
 }
 
 // Overflow navigation styles - More button functionality
-.nhsuk-header__navigation-item--more {
-  position: relative;
-  // More button now works responsively at all breakpoints
-}
-
-.nhsuk-header__navigation-button {
-  @include header-link-style(
-	$link-color: nhs.$nhs-fdp-color-primary-white,
-	$link-hover-color: nhs.$nhs-fdp-color-primary-white,
-	$link-active-color: nhs.$nhs-fdp-color-primary-white
-  );
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 21px $header-link-padding;
-  font-family: inherit;
-  font-size: nhs.$nhs-fdp-font-size-16-mobile;
-  font-weight: nhs.$nhs-fdp-font-weight-normal;
-  line-height: inherit;
-  display: flex;
-  align-items: center;
-  gap: nhs.$nhs-fdp-spacing-1;
-  white-space: nowrap;
-  color: nhs.$nhs-fdp-color-primary-white;
-  text-decoration: none;
-
-  &:hover {
-	color: nhs.$nhs-fdp-color-primary-white;
-	text-decoration: none;
+  &__navigation-item--more {
+    position: relative;
+    // More button now works responsively at all breakpoints
   }
 
-  &:focus {
-	outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
-	outline-offset: 0;
-	background-color: nhs.$nhs-fdp-semantic-color-focus-background;
-	color: nhs.$nhs-fdp-semantic-color-focus-text;
-	box-shadow: inset 0 -#{nhs.$nhs-fdp-focus-outline-width} nhs.$nhs-fdp-semantic-color-focus-text;
+  &__navigation-button {
+    @include header-link-style(
+      $link-color: nhs.$nhs-fdp-color-primary-white,
+      $link-hover-color: nhs.$nhs-fdp-color-primary-white,
+      $link-active-color: nhs.$nhs-fdp-color-primary-white
+    );
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 21px $header-link-padding;
+    font-family: inherit;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-normal;
+    line-height: inherit;
+    display: flex;
+    align-items: center;
+    gap: nhs.$nhs-fdp-spacing-1;
+    white-space: nowrap;
+    color: nhs.$nhs-fdp-color-primary-white;
+    text-decoration: none;
+
+    &:hover {
+      color: nhs.$nhs-fdp-color-primary-white;
+      text-decoration: none;
+    }
+
+    &:focus {
+      outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: 0;
+      background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      color: nhs.$nhs-fdp-semantic-color-focus-text;
+      box-shadow: inset 0 -#{nhs.$nhs-fdp-focus-outline-width} nhs.$nhs-fdp-semantic-color-focus-text;
+    }
+
+    .nhsuk-icon {
+      &__chevron-down {
+        @include header-icon-small;
+        transform: rotate(90deg); // Point down initially
+        transition: transform #{nhs.$nhs-fdp-animation-duration-fast} #{nhs.$nhs-fdp-animation-easing-ease-out};
+      }
+    }
+
+    &[aria-expanded="true"] .nhsuk-icon__chevron-down {
+      transform: rotate(270deg); // Point up when open
+    }
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    }
   }
 
-  .nhsuk-icon__chevron-down {
-	width: nhs.$nhs-fdp-spacing-4;
-	height: nhs.$nhs-fdp-spacing-4;
-	transform: rotate(90deg); // Point down initially
-	fill: currentColor;
-	transition: transform #{nhs.$nhs-fdp-animation-duration-fast} #{nhs.$nhs-fdp-animation-easing-ease-out};
+  // Dropdown menu - hierarchical structure
+  &__dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: nhs.$nhs-fdp-color-primary-white;
+    border-top: 1px solid nhs.$nhs-fdp-color-grey-5;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &[hidden] {
+      display: none;
+    }
   }
 
-  &[aria-expanded="true"] .nhsuk-icon__chevron-down {
-	transform: rotate(270deg); // Point up when open
+  &__dropdown-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-			font-size: nhs.$nhs-fdp-font-size-16-tablet;
-	}
-}
-
-.nhsuk-header__dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  width: 100%;
-  background-color: nhs.$nhs-fdp-color-primary-white;
-  border-top: 1px solid nhs.$nhs-fdp-color-grey-5;
-  z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  &[hidden] {
-	display: none;
-  }
-}
-
-.nhsuk-header__dropdown-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.nhsuk-header__dropdown-item {
-  margin: 0;
-  position: relative;
-  
-  &:last-child .nhsuk-header__dropdown-link {
-	border-bottom: none;
-  }
-}
-
-.nhsuk-header__dropdown-link {
-  @include header-link-style(
-	$link-color: nhs.$nhs-fdp-color-primary-blue,
-	$link-hover-color: nhs.$nhs-fdp-color-primary-blue,
-	$link-active-color: nhs.$nhs-fdp-color-primary-blue
-  );
-  display: block;
-  padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-2;
-  border-bottom: 1px solid nhs.$nhs-fdp-color-grey-5;
-  white-space: nowrap;
-  position: relative;
-  
-  @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-small} + 1px)) {
-	padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-4;
-  }
-  
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-	padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-7;
-  }
-  
-  &:hover {
-	background-color: rgba(0, 0, 0, 0.05);
+  &__dropdown-item {
+    margin: 0;
+    position: relative;
+    
+    &:last-child .nhsuk-header__dropdown-link {
+      border-bottom: none;
+    }
   }
 
-  // Visual indicator for navigation item uses a border on left edge
-  &::before {
-	content: "";
-	display: block;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	top: 0;
-	border: 0 solid currentcolor;
-  }
+  &__dropdown-link {
+    @include header-link-style(
+      $link-color: nhs.$nhs-fdp-color-primary-blue,
+      $link-hover-color: nhs.$nhs-fdp-color-primary-blue,
+      $link-active-color: nhs.$nhs-fdp-color-primary-blue
+    );
+    display: block;
+    padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-2;
+    border-bottom: 1px solid nhs.$nhs-fdp-color-grey-5;
+    white-space: nowrap;
+    position: relative;
+    
+    @media (min-width: calc(#{nhs.$nhs-fdp-breakpoint-small} + 1px)) {
+      padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-4;
+    }
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-7;
+    }
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
 
-  // Active/current state styling for dropdown items
-  &[aria-current="page"]::before,
-  &[aria-current="true"]::before {
-	width: 0;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: auto;
-	border-left-width: nhs.$nhs-fdp-focus-outline-width;
-    border-bottom-width: 0;
-    background-color: nhs.$nhs-fdp-color-primary-blue;
-  }
-}
+    // Visual indicator for navigation item uses a border on left edge
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      border: 0 solid currentcolor;
+    }
 
-// Close the main .nhsuk-header block - temporary fix
-}
-
-// Menu (responsive dropdown) - these need to be moved inside the header block
-.nhsuk-header__menu {
-  align-self: center;
-  padding: 0 nhs.$nhs-fdp-spacing-2;
-
-  &[hidden] {
-    display: none;
-  }
-
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-    padding: 0 nhs.$nhs-fdp-spacing-3;
-    // Hide mobile menu on desktop
-    display: none !important;
+    // Active/current state styling for dropdown items
+    &[aria-current="page"]::before,
+    &[aria-current="true"]::before {
+      width: 0;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: auto;
+      border-left-width: nhs.$nhs-fdp-focus-outline-width;
+      border-bottom-width: 0;
+      background-color: nhs.$nhs-fdp-color-primary-blue;
+    }
   }
 }

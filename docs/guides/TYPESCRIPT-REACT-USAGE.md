@@ -2,11 +2,7 @@
 
 ## Overview
 
-<<<<<<< Updated upstream
-Your NHS FDP Design System now supports **TypeScript** and **React** token exports, following the same component hierarchy. This guide shows you how to use these tokens in your applications.
-=======
 The NHS FDP Design System now supports **TypeScript** and **React** token exports, following the same component hierarchy you've established. This guide shows you how to use these tokens in your applications.
->>>>>>> Stashed changes
 
 ## **File Structure**
 
@@ -273,10 +269,6 @@ const SecondaryButton = () => (
 ```
 
 ## **Available Token Categories**
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 
 ### Core Tokens
 

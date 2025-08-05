@@ -57,7 +57,7 @@ nhs-fdp-design-system/
 - **[Design Tokens](./docs/tokens/NHS-COMPOSITE-TOKENS-GUIDE.md)** - Token system overview
 - **[Component Library](http://localhost:6006)** - Interactive Storybook
 
-## 🛠️ Development
+## Development
 
 ### Prerequisites
 

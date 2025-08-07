@@ -4,7 +4,7 @@
   "description": "NHS FDP Frontend Development Platform Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "files": [
     "dist",
     "packages/nhs-fdp/dist"
@@ -13,7 +13,7 @@
     "dev": "vite",
     "build": "npm run build:tokens && npm run build:lib && npm run build:types",
     "build:lib": "vite build --config config/vite.config.ts",
-    "build:types": "tsc --project tsconfig.json --declaration --emitDeclarationOnly --outDir dist",
+    "build:types": "tsc --project tsconfig.build.json",
     "build:tokens": "npx style-dictionary build --config config/style-dictionary.config.js && node scripts/build-responsive-tokens.js && node scripts/add-use-directives.js",
     "build:tokens:responsive": "node scripts/build-responsive-tokens.js",
     "build:tokens:standard": "npx style-dictionary build --config config/style-dictionary.config.js",

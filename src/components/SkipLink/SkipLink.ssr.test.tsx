@@ -4,6 +4,29 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import '@testing-library/jest-dom';
 import { SkipLink } from './SkipLink';
 
+// Enhanced SSR-safe environment setup
+const setupSSREnvironment = () => {
+  // Ensure document and window are available for jsdom
+  if (typeof document === 'undefined') {
+    const { JSDOM } = require('jsdom');
+    const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
+      url: 'http://localhost:3000',
+      pretendToBeVisual: true,
+      resources: 'usable'
+    });
+    
+    global.document = dom.window.document;
+    global.window = dom.window as any;
+    global.navigator = dom.window.navigator;
+  }
+  
+  // Mock querySelector if not available
+  if (!document.querySelector) {
+    document.querySelector = vi.fn().mockReturnValue(null);
+    document.querySelectorAll = vi.fn().mockReturnValue([]);
+  }
+};
+
 /**
  * SSR Compatibility Tests for SkipLink Component
  * 
@@ -13,8 +36,30 @@ import { SkipLink } from './SkipLink';
 
 describe('SkipLink SSR Compatibility', () => {
   beforeEach(() => {
+    // Setup SSR-safe environment
+    setupSSREnvironment();
+    
     // Clear any previous mocks
     vi.clearAllMocks();
+    
+    // Mock window and document if not available
+    if (typeof window === 'undefined') {
+      global.window = {
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        setTimeout: vi.fn(),
+        clearTimeout: vi.fn(),
+      } as any;
+    }
+    
+    if (typeof document === 'undefined') {
+      global.document = {
+        querySelector: vi.fn().mockReturnValue(null),
+        querySelectorAll: vi.fn().mockReturnValue([]),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      } as any;
+    }
   });
   
   afterEach(() => {

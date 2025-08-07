@@ -25,6 +25,7 @@
     "test": "vitest run --config config/vitest.components.config.ts",
     "test:watch": "vitest --config config/vitest.components.config.ts",
     "test:components": "vitest run --config config/vitest.components.config.ts",
+    "test:ssr-components": "vitest run --config config/vitest.ssr.config.ts",
     "test:storybook": "vitest",
     "test:ui": "vitest run --threads",
     "test:coverage": "vitest run --coverage",

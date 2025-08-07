@@ -13,7 +13,12 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-      - run: npm test
+      - name: Run component tests
+        run: npm run test:components
+      - name: Run SSR compatibility tests
+        run: npm run test:ssr-components
+        env:
+          NODE_ENV: test
 
   publish-gpr:
     needs: build

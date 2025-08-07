@@ -36,8 +36,11 @@ export const SkipLink: React.FC<SkipLinkProps> = ({
   }, []);
 
   useEffect(() => {
-    // SSR guard: only run on client side
-    if (typeof window === 'undefined' || typeof document === 'undefined') {
+    // SSR guard: only run on client side with comprehensive checks
+    if (typeof window === 'undefined' || 
+        typeof document === 'undefined' || 
+        !document.querySelector ||
+        !document.querySelectorAll) {
       return;
     }
 
@@ -59,30 +62,49 @@ export const SkipLink: React.FC<SkipLinkProps> = ({
           // Add visual indicator for focused content
           targetElement.classList.add('nhsuk-skip-link-focused-element');
           
-          // Clean up after a short delay
-          setTimeout(() => {
+          // Clean up after a short delay - use window.setTimeout to ensure availability
+          const timeoutId = window.setTimeout(() => {
             targetElement.classList.remove('nhsuk-skip-link-focused-element');
             // Only remove tabindex if we added it
             if (targetElement.getAttribute('tabindex') === '-1') {
               targetElement.removeAttribute('tabindex');
             }
           }, 3000);
+          
+          // Store timeout ID for cleanup
+          (target as any).__nhsSkipLinkTimeout = timeoutId;
         }
       }
     };
 
-    // Add click handler to all skip links
-    const skipLinks = document.querySelectorAll('.nhsuk-skip-link');
-    skipLinks.forEach(link => {
-      link.addEventListener('click', handleSkipLinkClick);
-    });
-
-    // Cleanup
-    return () => {
+    // Add click handler to all skip links with error handling
+    try {
+      const skipLinks = document.querySelectorAll('.nhsuk-skip-link');
       skipLinks.forEach(link => {
-        link.removeEventListener('click', handleSkipLinkClick);
+        link.addEventListener('click', handleSkipLinkClick);
       });
-    };
+
+      // Cleanup
+      return () => {
+        try {
+          skipLinks.forEach(link => {
+            link.removeEventListener('click', handleSkipLinkClick);
+            // Clear any pending timeouts
+            const timeoutId = (link as any).__nhsSkipLinkTimeout;
+            if (timeoutId && window.clearTimeout) {
+              window.clearTimeout(timeoutId);
+            }
+          });
+        } catch (error) {
+          // Silently handle cleanup errors in SSR environments
+          console.warn('SkipLink cleanup error:', error);
+        }
+      };
+    } catch (error) {
+      // Silently handle initialization errors in SSR environments
+      console.warn('SkipLink initialization error:', error);
+      return () => {}; // Return empty cleanup function
+    }
   }, [isClient]); // Re-run when client detection changes
 
   const skipLinkClasses = classNames('nhsuk-skip-link', classes);

@@ -36,6 +36,8 @@ export { NHSThemeProvider, useNHSTheme } from './NHSThemeProvider';
 export type { ThemeProviderProps } from './NHSThemeProvider';
 export { Header } from './Header';
 export type { HeaderProps, AccountItem, NavigationItem } from './Header';
+export { Hero } from './Hero';
+export type { HeroProps } from './Hero';
 export { Footer } from './Footer';
 export type { FooterProps, FooterLinkItem } from './Footer';
 export { GanttChart } from './GanttChart';

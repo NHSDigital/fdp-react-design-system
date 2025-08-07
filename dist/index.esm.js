@@ -3748,6 +3748,7 @@ const pp = ({ children: e, theme: t }) => (ae(() => {
     {
       className: d,
       style: s ? { backgroundImage: `url('${s}')` } : void 0,
+      role: "banner",
       ...f,
       children: [
         s && /* @__PURE__ */ o.jsx("div", { className: "nhsuk-hero__overlay", children: b && /* @__PURE__ */ o.jsx("div", { className: p, children: /* @__PURE__ */ o.jsx("div", { className: "nhsuk-grid-row", children: /* @__PURE__ */ o.jsx("div", { className: "nhsuk-grid-column-two-thirds", children: /* @__PURE__ */ o.jsxs("div", { className: "nhsuk-hero-content", children: [

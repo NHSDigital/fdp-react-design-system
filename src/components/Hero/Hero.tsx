@@ -84,6 +84,7 @@ export const Hero: React.FC<HeroProps> = ({
     <section 
       className={heroClasses}
       style={imageURL ? { backgroundImage: `url('${imageURL}')` } : undefined}
+      role="banner"
       {...attributes}
     >
       {imageURL && (

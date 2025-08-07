@@ -31,943 +31,960 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
   // Loading and Error States
   &--loading,
   &--error {
-    padding: nhs.$nhs-fdp-component-card-padding-desktop;
-    text-align: center;
+	padding: nhs.$nhs-fdp-component-card-padding-desktop;
+	text-align: center;
   }
 
   &--vertical {
-    .aria-tabs-datagrid__tabs {
-      flex-direction: column;
-      border-right: nhs.$nhs-fdp-border-width-form-element solid $color-primary;
-      border-bottom: none;
-      width: 200px;
-      min-width: 200px;
-    }
+	.aria-tabs-datagrid__tabs {
+	  flex-direction: column;
+	  border-right: nhs.$nhs-fdp-border-width-form-element solid $color-primary;
+	  border-bottom: none;
+	  width: 200px;
+	  min-width: 200px;
+	}
 
-    .aria-tabs-datagrid__tab {
-      border-bottom: none;
-      border-right: nhs.$nhs-fdp-border-width-card-bottom solid transparent;
-      justify-content: flex-start;
+	.aria-tabs-datagrid__tab {
+	  border-bottom: none;
+	  border-right: nhs.$nhs-fdp-border-width-card-bottom solid transparent;
+	  justify-content: flex-start;
 
-      &--selected {
-        border-right-color: $color-primary;
-      }
-    }
+	  &--selected {
+		border-right-color: $color-primary;
+	  }
+	}
   }
 
   // Loading component
   &__loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: nhs.$nhs-fdp-spacing-4;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: nhs.$nhs-fdp-spacing-4;
   }
 
   // Error component
   &__error {
-    color: $color-error;
-    border: nhs.$nhs-fdp-border-width-form-element solid $color-error;
-    border-radius: $border-radius;
-    padding: nhs.$nhs-fdp-spacing-4;
+	color: $color-error;
+	border: nhs.$nhs-fdp-border-width-form-element solid $color-error;
+	border-radius: $border-radius;
+	padding: nhs.$nhs-fdp-spacing-4;
   }
 
   // Tab List
   &__tabs {
-    display: flex;
-    background: $color-secondary;
-    gap: 0;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    overflow-x: auto;
-    scrollbar-width: thin; // Firefox
-    -webkit-overflow-scrolling: touch; // iOS smooth scrolling
-    
-    // Custom scrollbar for webkit browsers
-    &::-webkit-scrollbar {
-      height: 4px;
-    }
-    
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background: nhs.$nhs-fdp-color-grey-3;
-      border-radius: 2px;
-      
-      &:hover {
-        background: nhs.$nhs-fdp-color-grey-2;
-      }
-    }
+	display: flex;
+	background: $color-secondary;
+	gap: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow-x: auto;
+	scrollbar-width: thin; // Firefox
+	-webkit-overflow-scrolling: touch; // iOS smooth scrolling
+	
+	// Custom scrollbar for webkit browsers
+	&::-webkit-scrollbar {
+	  height: 4px;
+	}
+	
+	&::-webkit-scrollbar-track {
+	  background: transparent;
+	}
+	
+	&::-webkit-scrollbar-thumb {
+	  background: nhs.$nhs-fdp-color-grey-3;
+	  border-radius: 2px;
+	  
+	  &:hover {
+		background: nhs.$nhs-fdp-color-grey-2;
+	  }
+	}
   }
 
   // Individual Tab
   &__tab {
-    background: nhs.$nhs-fdp-color-grey-4; // Darker grey for non-selected tabs
-    border: none;
-    padding: nhs.$nhs-fdp-button-spacing-padding-vertical-desktop nhs.$nhs-fdp-spacing-3;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: nhs.$nhs-fdp-font-size-16-tablet;
-    font-weight: nhs.$nhs-fdp-font-weight-bold;
-    color: $color-text;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: nhs.$nhs-fdp-spacing-2;
-    transition: $transition-default;
-    border-bottom: 2px solid $color-primary;
-    flex-shrink: 0; // Prevent tabs from shrinking too much
-    min-width: max-content; // Ensure tab content is fully visible
-    position: relative;
-    min-height: nhs.$nhs-fdp-form-spacing-input-min-height + nhs.$nhs-fdp-spacing-2;
+	background: nhs.$nhs-fdp-color-grey-4; // Darker grey for non-selected tabs
+	border: none;
+	padding: nhs.$nhs-fdp-button-spacing-padding-vertical-desktop nhs.$nhs-fdp-spacing-3;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: nhs.$nhs-fdp-font-size-16-tablet;
+	font-weight: nhs.$nhs-fdp-font-weight-bold;
+	color: $color-text;
+	white-space: nowrap;
+	display: flex;
+	align-items: center;
+	gap: nhs.$nhs-fdp-spacing-2;
+	transition: $transition-default;
+	border-bottom: 2px solid $color-primary;
+	flex-shrink: 0; // Prevent tabs from shrinking too much
+	min-width: max-content; // Ensure tab content is fully visible
+	position: relative;
+	min-height: nhs.$nhs-fdp-form-spacing-input-min-height + nhs.$nhs-fdp-spacing-2;
 
-    // Remove right border from the last tab to avoid double border with container
-    // &:last-child {
-    //   border-right: none;
-    // }
+	// Remove right border from the last tab to avoid double border with container
+	// &:last-child {
+	//   border-right: none;
+	// }
 
-    &:hover:not(&--disabled) {
-      background: nhs.$nhs-fdp-color-grey-3; // Lighter grey for better visual progression
-      color: $color-primary;
-    }
+	&:hover:not(&--disabled) {
+	  background: nhs.$nhs-fdp-color-grey-3; // Lighter grey for better visual progression
+	  color: $color-primary;
+	}
 
-    &:focus {
-      outline: nhs.$nhs-fdp-border-width-card-bottom solid $color-focus;
-      outline-offset: -(nhs.$nhs-fdp-border-width-card-bottom);
-      background: nhs.$nhs-fdp-color-grey-3; // Match the hover state
-      border-top-color: $color-focus; // Focus border
-      border-left-color: $color-focus;
-      border-right-color: $color-focus;
-      z-index: 10;
-      position: relative;
-    }
+	&:focus {
+	  outline: nhs.$nhs-fdp-border-width-card-bottom solid $color-focus;
+	  outline-offset: -(nhs.$nhs-fdp-border-width-card-bottom);
+	  background: nhs.$nhs-fdp-color-grey-3; // Match the hover state
+	  border-top-color: $color-focus; // Focus border
+	  border-left-color: $color-focus;
+	  border-right-color: $color-focus;
+	  z-index: 10;
+	  position: relative;
+	}
 
-    &--selected {
-      background: nhs.$nhs-fdp-color-grey-5;
-      color: $color-primary;
-      border-top: 2px solid $color-primary;
-      border-left: 2px solid $color-primary;
-      border-right: 2px solid $color-primary;
-      border-bottom: 2px solid nhs.$nhs-fdp-color-grey-5; // Match the tab background to hide the border underneath
-      font-weight: 700;
-      margin-bottom: -1px; // Extend down to cover the gap between tab and panel
-      position: relative;
-      z-index: 1; // Ensure it appears above the container border
-    }
+	&--selected {
+	  background: nhs.$nhs-fdp-color-grey-5;
+	  color: $color-primary;
+	  border-top: 2px solid $color-primary;
+	  border-left: 2px solid $color-primary;
+	  border-right: 2px solid $color-primary;
+	  border-bottom: 2px solid nhs.$nhs-fdp-color-grey-5; // Match the tab background to hide the border underneath
+	  font-weight: 700;
+	  margin-bottom: -1px; // Extend down to cover the gap between tab and panel
+	  position: relative;
+	  z-index: 1; // Ensure it appears above the container border
+	}
 
-    &--disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      color: $color-disabled;
-    }
+	&--disabled {
+	  opacity: 0.6;
+	  cursor: not-allowed;
+	  color: $color-disabled;
+	}
 
   // Healthcare-specific tablet optimizations - updated to align with systematic breakpoints
 @media (min-width: 769px) and (max-width: 1024px) {
   .aria-tabs-datagrid {
-    // Clinical workflow enhancements for bedside/mobile cart usage
-    // Only apply healthcare-specific styling, avoid layout changes
-    &__tab {
-      // Healthcare-specific tab styling with enhanced touch feedback
-      // Remove any border-radius or padding changes that interfere with base tab design
-      &--vitals {
-        border-left: 4px solid $color-warning; // More prominent for tablet visibility
-        
-        &:hover,
-        &:focus {
-          box-shadow: 0 0 0 2px $color-warning;
-        }
-      }
+	// Clinical workflow enhancements for bedside/mobile cart usage
+	// Only apply healthcare-specific styling, avoid layout changes
+	&__tab {
+	  // Healthcare-specific tab styling with enhanced touch feedback
+	  // Remove any border-radius or padding changes that interfere with base tab design
+	  &--vitals {
+		border-left: 4px solid $color-warning; // More prominent for tablet visibility
+		
+		&:hover,
+		&:focus {
+		  box-shadow: 0 0 0 2px $color-warning;
+		}
+	  }
 
-      &--discharge {
-        border-left: 4px solid $color-success;
-        
-        &:hover,
-        &:focus {
-          box-shadow: 0 0 0 2px $color-success;
-        }
-      }
+	  &--discharge {
+		border-left: 4px solid $color-success;
+		
+		&:hover,
+		&:focus {
+		  box-shadow: 0 0 0 2px $color-success;
+		}
+	  }
 
-      &--logistics {
-        border-left: 4px solid nhs.$nhs-fdp-color-primary-dark-pink;
-        
-        &:hover,
-        &:focus {
-          box-shadow: 0 0 0 2px nhs.$nhs-fdp-color-primary-dark-pink;
-        }
-      }
+	  &--logistics {
+		border-left: 4px solid nhs.$nhs-fdp-color-primary-dark-pink;
+		
+		&:hover,
+		&:focus {
+		  box-shadow: 0 0 0 2px nhs.$nhs-fdp-color-primary-dark-pink;
+		}
+	  }
 
-      &--overview {
-        border-left: 4px solid $color-primary;
-        
-        &:hover,
-        &:focus {
-          box-shadow: 0 0 0 2px $color-primary;
-        }
-      }
-    }
-    
-    // Enhanced data presentation for clinical context
-    &__grid.nhsuk-table {
-      // Critical information highlighting for healthcare professionals
-      tbody tr {
-        // Enhanced patient data row styling
-        &[data-priority="high"] {
-          border-left: 4px solid $color-error;
-          background-color: rgba(nhs.$nhs-fdp-color-primary-red, 0.02);
-          
-          &:hover {
-            background-color: rgba(nhs.$nhs-fdp-color-primary-red, 0.05);
-          }
-        }
-        
-        &[data-priority="urgent"] {
-          border-left: 4px solid $color-warning;
-          background-color: rgba(nhs.$nhs-fdp-color-secondary-orange, 0.02);
-          
-          &:hover {
-            background-color: rgba(nhs.$nhs-fdp-color-secondary-orange, 0.05);
-          }
-        }
-        
-        // Touch-friendly row selection for patient records
-        &.data-row--selected {
-          background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.15);
-          border-left: 6px solid $color-primary; // Thicker border for tablet visibility
-          
-          &::before {
-            content: "✓";
-            position: absolute;
-            left: nhs.$nhs-fdp-spacing-2;
-            color: $color-primary;
-            font-weight: bold;
-            font-size: 18px;
-          }
-        }
-      }
-      
-      // Enhanced cell content for tablet readability
-      td {
-        // Minimum height for touch interaction
-        min-height: 44px;
-        
-        // Critical data highlighting
-        &[data-critical="true"] {
-          font-weight: nhs.$nhs-fdp-font-weight-bold;
-          color: $color-error;
-          position: relative;
-          
-          &::after {
-            content: "!";
-            position: absolute;
-            right: nhs.$nhs-fdp-spacing-1;
-            top: 50%;
-            transform: translateY(-50%);
-            color: $color-error;
-            font-weight: bold;
-            width: 16px;
-            height: 16px;
-            background: rgba(nhs.$nhs-fdp-color-primary-red, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-          }
-        }
-        
-        // Medication data styling
-        &[data-type="medication"] {
-          background-color: rgba(nhs.$nhs-fdp-color-secondary-aqua-green, 0.02);
-          border-left: 2px solid $color-success;
-        }
-        
-        // Time-sensitive data styling
-        &[data-time-sensitive="true"] {
-          background-color: rgba(nhs.$nhs-fdp-color-secondary-orange, 0.02);
-          border-left: 2px solid $color-warning;
-        }
-      }
-    }
-    
-    // Quick action buttons for healthcare workflows
-    &__quick-actions {
-      display: flex;
-      gap: nhs.$nhs-fdp-spacing-2;
-      padding: nhs.$nhs-fdp-spacing-3;
-      background: nhs.$nhs-fdp-color-grey-5;
-      border-radius: nhs.$nhs-fdp-border-radius-medium;
-      margin-bottom: nhs.$nhs-fdp-spacing-3;
-      
-      .quick-action-btn {
-        flex: 1;
-        min-height: 48px; // Large touch target
-        padding: nhs.$nhs-fdp-spacing-3;
-        background: $color-white;
-        border: 2px solid $color-primary;
-        border-radius: nhs.$nhs-fdp-border-radius-small;
-        color: $color-primary;
-        font-weight: nhs.$nhs-fdp-font-weight-bold;
-        font-size: nhs.$nhs-fdp-font-size-14-tablet;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        
-        &:hover,
-        &:active {
-          background: $color-primary;
-          color: $color-white;
-          transform: translateY(-1px);
-          box-shadow: nhs.$nhs-fdp-shadow-card-hover;
-        }
-        
-        &:focus {
-          outline: 3px solid $color-focus;
-          outline-offset: 2px;
-        }
-        
-        // Healthcare-specific action styling
-        &--emergency {
-          border-color: $color-error;
-          color: $color-error;
-          
-          &:hover,
-          &:active {
-            background: $color-error;
-            color: $color-white;
-          }
-        }
-        
-        &--medication {
-          border-color: $color-success;
-          color: $color-success;
-          
-          &:hover,
-          &:active {
-            background: $color-success;
-            color: $color-white;
-          }
-        }
-        
-        &--notes {
-          border-color: $color-warning;
-          color: $color-warning;
-          
-          &:hover,
-          &:active {
-            background: $color-warning;
-            color: $color-white;
-          }
-        }
-      }
-    }
-    
-    // Enhanced table header optimization for tablet viewing
-    &__grid.nhsuk-table {
-      th {
-        // Improve header readability on smaller screens
-        font-size: nhs.$nhs-fdp-font-size-14-tablet;
-        padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-1;
-        
-        // Better touch targets for sortable headers
-        &[role="columnheader"] {
-          min-height: 48px;
-          
-          button {
-            min-height: 44px;
-            padding: nhs.$nhs-fdp-spacing-2;
-            
-            // Ensure header text doesn't get truncated
-            .header-content {
-              padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2;
-              
-              .header-label {
-                font-size: nhs.$nhs-fdp-font-size-14-tablet;
-                line-height: 1.3;
-                white-space: normal; // Allow wrapping on tablet
-                word-break: break-word;
-              }
-            }
-          }
-        }
-      }
-    }
+	  &--overview {
+		border-left: 4px solid $color-primary;
+		
+		&:hover,
+		&:focus {
+		  box-shadow: 0 0 0 2px $color-primary;
+		}
+	  }
+	}
+	
+	// Enhanced data presentation for clinical context
+	&__grid.nhsuk-table {
+	  // Critical information highlighting for healthcare professionals
+	  tbody tr {
+		// Enhanced patient data row styling
+		&[data-priority="high"] {
+		  border-left: 4px solid $color-error;
+		  background-color: rgba(nhs.$nhs-fdp-color-primary-red, 0.02);
+		  
+		  &:hover {
+			background-color: rgba(nhs.$nhs-fdp-color-primary-red, 0.05);
+		  }
+		}
+		
+		&[data-priority="urgent"] {
+		  border-left: 4px solid $color-warning;
+		  background-color: rgba(nhs.$nhs-fdp-color-secondary-orange, 0.02);
+		  
+		  &:hover {
+			background-color: rgba(nhs.$nhs-fdp-color-secondary-orange, 0.05);
+		  }
+		}
+		
+		// Touch-friendly row selection for patient records
+		&.data-row--selected {
+		  background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.15);
+		  border-left: 6px solid $color-primary; // Thicker border for tablet visibility
+		  
+		  &::before {
+			content: "✓";
+			position: absolute;
+			left: nhs.$nhs-fdp-spacing-2;
+			color: $color-primary;
+			font-weight: bold;
+			font-size: 18px;
+		  }
+		}
+	  }
+	  
+	  // Enhanced cell content for tablet readability
+	  td {
+		// Minimum height for touch interaction
+		min-height: 44px;
+		
+		// Critical data highlighting
+		&[data-critical="true"] {
+		  font-weight: nhs.$nhs-fdp-font-weight-bold;
+		  color: $color-error;
+		  position: relative;
+		  
+		  &::after {
+			content: "!";
+			position: absolute;
+			right: nhs.$nhs-fdp-spacing-1;
+			top: 50%;
+			transform: translateY(-50%);
+			color: $color-error;
+			font-weight: bold;
+			width: 16px;
+			height: 16px;
+			background: rgba(nhs.$nhs-fdp-color-primary-red, 0.1);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 12px;
+		  }
+		}
+		
+		// Medication data styling
+		&[data-type="medication"] {
+		  background-color: rgba(nhs.$nhs-fdp-color-secondary-aqua-green, 0.02);
+		  border-left: 2px solid $color-success;
+		}
+		
+		// Time-sensitive data styling
+		&[data-time-sensitive="true"] {
+		  background-color: rgba(nhs.$nhs-fdp-color-secondary-orange, 0.02);
+		  border-left: 2px solid $color-warning;
+		}
+	  }
+	}
+	
+	// Quick action buttons for healthcare workflows
+	&__quick-actions {
+	  display: flex;
+	  gap: nhs.$nhs-fdp-spacing-2;
+	  padding: nhs.$nhs-fdp-spacing-3;
+	  background: nhs.$nhs-fdp-color-grey-5;
+	  border-radius: nhs.$nhs-fdp-border-radius-medium;
+	  margin-bottom: nhs.$nhs-fdp-spacing-3;
+	  
+	  .quick-action-btn {
+		flex: 1;
+		min-height: 48px; // Large touch target
+		padding: nhs.$nhs-fdp-spacing-3;
+		background: $color-white;
+		border: 2px solid $color-primary;
+		border-radius: nhs.$nhs-fdp-border-radius-small;
+		color: $color-primary;
+		font-weight: nhs.$nhs-fdp-font-weight-bold;
+		font-size: nhs.$nhs-fdp-font-size-14-tablet;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		
+		&:hover,
+		&:active {
+		  background: $color-primary;
+		  color: $color-white;
+		  transform: translateY(-1px);
+		  box-shadow: nhs.$nhs-fdp-shadow-card-hover;
+		}
+		
+		&:focus {
+		  outline: 3px solid $color-focus;
+		  outline-offset: 2px;
+		}
+		
+		// Healthcare-specific action styling
+		&--emergency {
+		  border-color: $color-error;
+		  color: $color-error;
+		  
+		  &:hover,
+		  &:active {
+			background: $color-error;
+			color: $color-white;
+		  }
+		}
+		
+		&--medication {
+		  border-color: $color-success;
+		  color: $color-success;
+		  
+		  &:hover,
+		  &:active {
+			background: $color-success;
+			color: $color-white;
+		  }
+		}
+		
+		&--notes {
+		  border-color: $color-warning;
+		  color: $color-warning;
+		  
+		  &:hover,
+		  &:active {
+			background: $color-warning;
+			color: $color-white;
+		  }
+		}
+	  }
+	}
+	
+	// Enhanced table header optimization for tablet viewing
+	&__grid.nhsuk-table {
+	  th {
+		// Improve header readability on smaller screens
+		font-size: nhs.$nhs-fdp-font-size-14-tablet;
+		padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-1;
+		
+		// Better touch targets for sortable headers
+		&[role="columnheader"] {
+		  min-height: 48px;
+		  
+		  button {
+			min-height: 44px;
+			padding: nhs.$nhs-fdp-spacing-2;
+			
+			// Ensure header text doesn't get truncated
+			.header-content {
+			  padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2;
+			  
+			  .header-label {
+				font-size: nhs.$nhs-fdp-font-size-14-tablet;
+				line-height: 1.3;
+				white-space: normal; // Allow wrapping on tablet
+				word-break: break-word;
+			  }
+			}
+		  }
+		}
+	  }
+	}
   }
 }
 
 // Small tablet/large phone range (481px-768px) - specific fix for squishing issues
 @media (min-width: 481px) and (max-width: 768px) {
   .aria-tabs-datagrid {
-    // Enhanced table header optimization for cramped tablet viewing
-    &__grid.nhsuk-table {
-      th {
-        // Optimized for the problematic range
-        font-size: nhs.$nhs-fdp-font-size-14-tablet;
-        padding: nhs.$nhs-fdp-spacing-1 4px; // Tighter horizontal padding
-        
-        // Better touch targets for sortable headers
-        &[role="columnheader"] {
-          min-height: 44px; // Slightly smaller than large tablets
-          
-          button {
-            min-height: 40px;
-            padding: nhs.$nhs-fdp-spacing-1 4px; // Compact padding
-            
-            // Optimized header content for this range
-            .header-content {
-              padding: 4px 2px;
-              flex-wrap: wrap;
-              align-items: flex-start;
-              
-              .header-label {
-                font-size: nhs.$nhs-fdp-font-size-14-tablet;
-                line-height: 1.2; // Tight line height
-                white-space: normal;
-                word-break: break-word;
-                overflow-wrap: break-word;
-                hyphens: auto;
-                max-width: 100%;
-                
-                // Handle very long header text
-                &[data-long-text] {
-                  font-size: 13px; // Slightly smaller for long headers
-                }
-              }
-              
-              // Sort indicator positioning
-              .sort-indicator {
-                margin-left: 2px; // Reduce spacing
-                min-width: 16px; // Smaller indicator area
-              }
-            }
-          }
-        }
-      }
-      
-      // Optimize cell content for this range
-      td {
-        padding: nhs.$nhs-fdp-spacing-1 4px;
-        font-size: nhs.$nhs-fdp-font-size-14-tablet;
-        line-height: 1.3;
-      }
-    }
+	// Enhanced table header optimization for cramped tablet viewing
+	&__grid.nhsuk-table {
+	  th {
+		// Optimized for the problematic range
+		font-size: nhs.$nhs-fdp-font-size-14-tablet;
+		padding: nhs.$nhs-fdp-spacing-1 4px; // Tighter horizontal padding
+		
+		// Better touch targets for sortable headers
+		&[role="columnheader"] {
+		  min-height: 44px; // Slightly smaller than large tablets
+		  
+		  button {
+			min-height: 40px;
+			padding: nhs.$nhs-fdp-spacing-1 4px; // Compact padding
+			
+			// Optimized header content for this range
+			.header-content {
+			  padding: 4px 2px;
+			  flex-wrap: wrap;
+			  align-items: flex-start;
+			  
+			  .header-label {
+				font-size: nhs.$nhs-fdp-font-size-14-tablet;
+				line-height: 1.2; // Tight line height
+				white-space: normal;
+				word-break: break-word;
+				overflow-wrap: break-word;
+				hyphens: auto;
+				max-width: 100%;
+				
+				// Handle very long header text
+				&[data-long-text] {
+				  font-size: 13px; // Slightly smaller for long headers
+				}
+			  }
+			  
+			  // Sort indicator positioning
+			  .sort-indicator {
+				margin-left: 2px; // Reduce spacing
+				min-width: 16px; // Smaller indicator area
+			  }
+			}
+		  }
+		}
+	  }
+	  
+	  // Optimize cell content for this range
+	  td {
+		padding: nhs.$nhs-fdp-spacing-1 4px;
+		font-size: nhs.$nhs-fdp-font-size-14-tablet;
+		line-height: 1.3;
+	  }
+	}
   }
 }
 
 // Tablet landscape specific optimizations - updated to align with systematic breakpoints
 @media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
   .aria-tabs-datagrid {
-    // Optimize for landscape tablet viewing (medical carts, bedside tablets)
-    &__panel {
-      min-height: 500px; // Better use of landscape space
-    }
-    
-    &__grid {
-      // Show more columns in landscape mode
-      .col-priority-medium {
-        display: table-cell;
-      }
-      
-      // Adjust column distribution for landscape
-      .col-narrow { width: 8%; }
-      .col-medium { width: 15%; }
-      .col-wide { width: 22%; }
-      .col-flexible { width: auto; }
-    }
-    
-    // Side-by-side layout for clinical efficiency
-    &__content-layout {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: nhs.$nhs-fdp-spacing-4;
-      
-      .main-data {
-        grid-column: 1;
-      }
-      
-      .patient-summary {
-        grid-column: 2;
-        background: nhs.$nhs-fdp-color-grey-5;
-        padding: nhs.$nhs-fdp-spacing-4;
-        border-radius: nhs.$nhs-fdp-border-radius-medium;
-        
-        h3 {
-          margin-top: 0;
-          color: $color-primary;
-          font-size: nhs.$nhs-fdp-font-size-19-tablet;
-        }
-        
-        .summary-item {
-          display: flex;
-          justify-content: space-between;
-          padding: nhs.$nhs-fdp-spacing-2 0;
-          border-bottom: 1px solid nhs.$nhs-fdp-color-grey-4;
-          
-          &:last-child {
-            border-bottom: none;
-          }
-          
-          .label {
-            font-weight: nhs.$nhs-fdp-font-weight-bold;
-            color: $color-text-secondary;
-          }
-          
-          .value {
-            color: $color-text;
-            
-            &--critical {
-              color: $color-error;
-              font-weight: nhs.$nhs-fdp-font-weight-bold;
-            }
-            
-            &--warning {
-              color: $color-warning;
-              font-weight: nhs.$nhs-fdp-font-weight-bold;
-            }
-          }
-        }
-      }
-    }
+	// Optimize for landscape tablet viewing (medical carts, bedside tablets)
+	&__panel {
+	  min-height: 500px; // Better use of landscape space
+	}
+	
+	&__grid {
+	  // Show more columns in landscape mode
+	  .col-priority-medium {
+		display: table-cell;
+	  }
+	  
+	  // Adjust column distribution for landscape
+	  .col-narrow { width: 8%; }
+	  .col-medium { width: 15%; }
+	  .col-wide { width: 22%; }
+	  .col-flexible { width: auto; }
+	}
+	
+	// Side-by-side layout for clinical efficiency
+	&__content-layout {
+	  display: grid;
+	  grid-template-columns: 2fr 1fr;
+	  gap: nhs.$nhs-fdp-spacing-4;
+	  
+	  .main-data {
+		grid-column: 1;
+	  }
+	  
+	  .patient-summary {
+		grid-column: 2;
+		background: nhs.$nhs-fdp-color-grey-5;
+		padding: nhs.$nhs-fdp-spacing-4;
+		border-radius: nhs.$nhs-fdp-border-radius-medium;
+		
+		h3 {
+		  margin-top: 0;
+		  color: $color-primary;
+		  font-size: nhs.$nhs-fdp-font-size-19-tablet;
+		}
+		
+		.summary-item {
+		  display: flex;
+		  justify-content: space-between;
+		  padding: nhs.$nhs-fdp-spacing-2 0;
+		  border-bottom: 1px solid nhs.$nhs-fdp-color-grey-4;
+		  
+		  &:last-child {
+			border-bottom: none;
+		  }
+		  
+		  .label {
+			font-weight: nhs.$nhs-fdp-font-weight-bold;
+			color: $color-text-secondary;
+		  }
+		  
+		  .value {
+			color: $color-text;
+			
+			&--critical {
+			  color: $color-error;
+			  font-weight: nhs.$nhs-fdp-font-weight-bold;
+			}
+			
+			&--warning {
+			  color: $color-warning;
+			  font-weight: nhs.$nhs-fdp-font-weight-bold;
+			}
+		  }
+		}
+	  }
+	}
   }
 }
   }
 
   // Tab content elements
   &__tab-label {
-    flex: 1;
+	flex: 1;
   }
 
   &__tab-loading,
   &__tab-error {
-    font-size: nhs.$nhs-fdp-font-size-14-tablet;
-    margin-left: nhs.$nhs-fdp-spacing-1;
+	font-size: nhs.$nhs-fdp-font-size-14-tablet;
+	margin-left: nhs.$nhs-fdp-spacing-1;
   }
 
   &__tab-error {
-    color: $color-error;
+	color: $color-error;
   }
 
   // Tab Panels
   &__panel {
-    background: $color-white;
-    min-height: 400px; // Component-specific height, kept local
-    border-radius: 0 0 $border-radius $border-radius; // Rounded bottom corners only
-    outline: none; // Reset outline
-    border-left: 2px solid $color-primary;
-    border-right: 2px solid transparent;
-    border-bottom: 2px solid $color-primary;
-    margin-top: -2px; // Connect seamlessly with the tab
-    overflow-x: auto; // Allow horizontal scrolling for wide content
-    overflow-y: visible; // Allow vertical content to flow naturally
-    
-    // Enhanced scrollbar styling
-    scrollbar-width: thin; // Firefox
-    -webkit-overflow-scrolling: touch; // iOS smooth scrolling
-    
-    &::-webkit-scrollbar {
-      height: 8px;
-    }
-    
-    &::-webkit-scrollbar-track {
-      background: nhs.$nhs-fdp-color-grey-5;
-      border-radius: nhs.$nhs-fdp-border-radius-small;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background: nhs.$nhs-fdp-color-grey-3;
-      border-radius: nhs.$nhs-fdp-border-radius-small;
-      
-      &:hover {
-        background: nhs.$nhs-fdp-color-grey-2;
-      }
-    }
+	background: $color-white;
+	min-height: 400px; // Component-specific height, kept local
+	border-radius: 0 0 $border-radius $border-radius; // Rounded bottom corners only
+	outline: none; // Reset outline
+	border-left: 2px solid $color-primary;
+	border-right: 2px solid transparent;
+	border-bottom: 2px solid $color-primary;
+	margin-top: -2px; // Connect seamlessly with the tab
+	overflow-x: auto; // Allow horizontal scrolling for wide content
+	overflow-y: visible; // Allow vertical content to flow naturally
+	
+	// Enhanced scrollbar styling
+	scrollbar-width: thin; // Firefox
+	-webkit-overflow-scrolling: touch; // iOS smooth scrolling
+	
+	&::-webkit-scrollbar {
+	  height: 8px;
+	}
+	
+	&::-webkit-scrollbar-track {
+	  background: nhs.$nhs-fdp-color-grey-5;
+	  border-radius: nhs.$nhs-fdp-border-radius-small;
+	}
+	
+	&::-webkit-scrollbar-thumb {
+	  background: nhs.$nhs-fdp-color-grey-3;
+	  border-radius: nhs.$nhs-fdp-border-radius-small;
+	  
+	  &:hover {
+		background: nhs.$nhs-fdp-color-grey-2;
+	  }
+	}
 
-    &:focus {
-      outline: nhs.$nhs-fdp-border-width-form-element solid $color-primary;
-      outline-offset: nhs.$nhs-fdp-spacing-1;
-    }
+	&:focus {
+	  outline: nhs.$nhs-fdp-border-width-form-element solid $color-primary;
+	  outline-offset: nhs.$nhs-fdp-spacing-1;
+	}
 
-    &[hidden] {
-      display: none;
-    }
+	&[hidden] {
+	  display: none;
+	}
   }
 
   // Data Grid within Panels with increased specificity
   &__grid {
-    border: none;
-    box-shadow: none;
-    width: 100%; // Ensure full width utilization
-    max-width: 100%; // Prevent overflow
+	border: none;
+	box-shadow: none;
+	width: 100%; // Ensure full width utilization
+	max-width: 100%; // Prevent overflow
 
-    &.nhsuk-table {
-      margin-bottom: 0;
-      border-collapse: collapse;
-      border-spacing: 0;
-      border-right: 2px solid $color-primary;
-      table-layout: auto; // Allow flexible column widths based on content
-      
-      // Consistent table cell padding using design tokens
-      th,
-      td {
-        padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2; // 12px vertical, 8px horizontal
-        vertical-align: middle;
-        min-width: 0; // Allow content to wrap and shrink
-        word-break: break-word; // Handle long content gracefully
-        // Border styling handled by specific row/header sections
-        
-        // Disable default browser focus-visible styling
-        &:focus-visible {
-          outline: none;
-        }
-      }
-      
-      // Header row specific styling
-      thead {
-        th {
-          padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-2; // 16px vertical, 8px horizontal
-          background-color: nhs.$nhs-fdp-color-grey-5;
-          font-weight: nhs.$nhs-fdp-font-weight-bold;
-          font-size: nhs.$nhs-fdp-font-size-16-tablet;
-          color: $color-text;
-          position: relative;
+	&.nhsuk-table {
+	  margin-bottom: 0;
+	  border-collapse: collapse;
+	  border-spacing: 0;
+	  border-right: 2px solid $color-primary;
+	  table-layout: auto; // Allow flexible column widths based on content
+	  
+	  // Consistent table cell padding using design tokens
+	  th,
+	  td {
+		padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2; // 12px vertical, 8px horizontal
+		vertical-align: middle;
+		min-width: 0; // Allow content to wrap and shrink
+		word-break: break-word; // Handle long content gracefully
+		// Border styling handled by specific row/header sections
+		
+		// Disable default browser focus-visible styling
+		&:focus-visible {
+		  outline: none;
+		}
+	  }
+	  
+	  // Header row specific styling
+	  thead {
+		th {
+		  padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-2; // 16px vertical, 8px horizontal
+		  background-color: nhs.$nhs-fdp-color-grey-5;
+		  font-weight: nhs.$nhs-fdp-font-weight-bold;
+		  font-size: nhs.$nhs-fdp-font-size-16-tablet;
+		  color: $color-text;
+		  position: relative;
 		  border-top: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-primary-blue;
-          border-bottom: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-grey-4; // Darker grey for better separation
-          
-          // Sortable header styling
-          &.sortable-header {
-            cursor: pointer;
-            user-select: none;
+		  border-bottom: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-grey-4; // Darker grey for better separation
+		  
+		  // Sortable header styling
+		  &.sortable-header {
+			cursor: pointer;
+			user-select: none;
 			//border-right: 1px solid nhs.$nhs-fdp-color-grey-3;
-            
-            // Disable default browser focus-visible styling
-            &:focus-visible {
-              outline: none;
-            }
-            
-            &:hover {
-              background-color: nhs.$nhs-fdp-card-border-bottom;
-            }
-            
-            // Header content layout - prevents text jumping
-            .header-content {
-              display: flex;
-              align-items: center;
-              justify-content: flex-start; // Left-align the content
-			  padding-left: nhs.$nhs-fdp-spacing-1;
-              min-height: 24px; // Consistent minimum height for header content
-              
-              // Apply vertical stacking for all constrained layouts (up to 1024px)
-              @media (max-width: 1024px) {
-                flex-direction: column; // Stack vertically for better space utilization
-                align-items: flex-start;
-                min-height: 32px;
-                padding: nhs.$nhs-fdp-spacing-2;
-                gap: nhs.$nhs-fdp-spacing-3;
-              }
-            }
-            
-            .header-label {
-              flex: 1;
-              text-align: left; // Explicitly left-align the text
-              font-size: inherit;
-              
-              // Consistent mobile-friendly typography for constrained layouts
-              @media (max-width: 1024px) {
-                font-size: nhs.$nhs-fdp-font-size-14-tablet;
-                width: 100%; // Full width when stacked vertically
-                margin-bottom: nhs.$nhs-fdp-spacing-1;
-                line-height: 1.2;
-                word-break: break-word;
-                hyphens: auto;
-              }
-              
-              // Extra small screens get even smaller font
-              @media (max-width: 480px) {
-                font-size: nhs.$nhs-fdp-font-size-14-mobile;
-              }
-            }
-            
-            // Sort indicator container - fixed space to prevent jumping
-            .sort-indicator-container {
-              display: inline-flex;
-              align-items: center;
-              justify-content: center; // Center the priority indicator
-              margin-left: nhs.$nhs-fdp-spacing-2;
-              min-width: 44px; // Reserve space for priority indicator (20px) + arrow (20px) + gaps
-              min-height: 44px; // Increased height for vertical stacking
-              position: relative; // For absolute positioning of chevron
-              
-              // Optimize for vertical layout on constrained screens
-              @media (max-width: 1024px) {
-                margin-left: 0; // Remove left margin when stacked vertically
-                margin-top: nhs.$nhs-fdp-spacing-1;
-                align-self: flex-start; // Align to start when vertically stacked
-                min-width: 40px; // Slightly smaller for constrained layouts
-                min-height: 40px;
-              }
-            }
-            
-            // Always visible sort priority styling (not just when focused)
-            .sort-priority {
-				background: nhs.$nhs-fdp-color-grey-2;
-              font-weight: nhs.$nhs-fdp-font-weight-bold;
-              color: $color-white;
-              border-radius: 50%;
-              min-width: 20px;
-              height: 20px;
-              display: inline-flex;
-              align-items: center;
-              justify-content: center;
-              font-size: nhs.$nhs-fdp-font-size-14-mobile; // 12px
-              line-height: 1;
-              transition: $transition-default;
-              position: relative;
-              flex-shrink: 0; // Prevent shrinking in flex container
-              
-              // Priority level styling with NHS colors
-              &--priority-1 {
-                background: nhs.$nhs-fdp-color-primary-red;
-                border: 2px solid nhs.$nhs-fdp-color-primary-red;
-                animation: pulse-priority 2s infinite;
-              }
-              
-              &--priority-2 {
-                background: nhs.$nhs-fdp-color-secondary-orange;
-                border: 2px solid nhs.$nhs-fdp-color-secondary-orange;
-              }
-              
-              &--priority-3 {
-                background: nhs.$nhs-fdp-color-primary-blue;
-                border: 2px solid nhs.$nhs-fdp-color-primary-blue;
-              }
-              
-              &--priority-4 {
-                background: nhs.$nhs-fdp-color-secondary-aqua-green;
-                border: 2px solid nhs.$nhs-fdp-color-secondary-aqua-green;
-              }
-              
-              &--priority-5 {
-                background: nhs.$nhs-fdp-color-grey-2;
-                border: 2px solid nhs.$nhs-fdp-color-grey-2;
-              }
-              
-              // Hover effects
-              &:hover {
-                transform: scale(1.1);
-                box-shadow: nhs.$nhs-fdp-shadow-card-hover;
-              }
-              
-              // Focus styles for accessibility
-              &:focus-visible {
-                outline: 2px solid $color-focus;
-                outline-offset: 2px;
-              }
-              
-              // Mobile-specific adjustments
-              @media (max-width: 768px) {
-                min-width: 18px;
-                height: 18px;
-                font-size: 10px;
-                
-                &::before {
-                  width: 14px;
-                  height: 14px;
-                  font-size: 9px;
-                  top: -7px;
-                  right: -7px;
-                }
-              }
-            }
-            
-            // Sort arrow styling
-            .sort-arrow {
-              color: $color-text;
-              flex-shrink: 0; // Prevent shrinking in flex container
-              transition: $transition-default;
-              width: 30px; // Increased from 16px
-              height: 30px; // Increased from 16px
-              position: absolute; // Position relative to container
-              left: 50%; // Center horizontally
-              transform: translateX(-50%); // Center horizontally
-              
-              &.sort-arrow--asc {
-                top: -20px; // Position further above the priority indicator
-                transform: translateX(-50%) rotate(-90deg); // Center and rotate
-              }
-              
-              &.sort-arrow--desc {
-                bottom: -20px; // Position further below the priority indicator
-                transform: translateX(-50%) rotate(90deg); // Center and rotate
-              }
-              
-              &:hover {
-                color: $color-primary;
-              }
-            }
-          }
-        }
-      }
-      
-      // Data row styling with increased specificity
-      tbody {
-        tr {
-          //transition: $transition-default;
-          border-bottom: 1px solid nhs.$nhs-fdp-color-grey-4;
-          
-          &:hover {
-            background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02);
-          }
-          
-          td {
-            font-size: nhs.$nhs-fdp-font-size-16-tablet;
-            
-            // Consistent cell content spacing
-            &:first-child {
-              padding-left: nhs.$nhs-fdp-spacing-3; // 12px - restored to standard padding
-            }
-            
-            &:last-child {
-              padding-right: nhs.$nhs-fdp-spacing-3; // 12px
-            }
-          }
-        }
-      }
-    }
+			&:hover {
+				background-color: nhs.$nhs-fdp-card-border-bottom;
+			}
 
-    // Visual indicator for active grid navigation (component-specific)
-    &.grid-navigation-active {
-      background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.05);
-      border: nhs.$nhs-fdp-border-width-form-element solid $color-primary;
-    }
-    
-    // Adaptive column width utilities for responsive tables
-    .col-narrow { 
-      width: 8%; 
-      min-width: 60px; // Ensure minimum usable width
-    }
-    
-    .col-medium { 
-      width: 15%; 
-      min-width: 100px;
-    }
-    
-    .col-wide { 
-      width: 25%; 
-      min-width: 150px;
-    }
-    
-    .col-flexible { 
-      width: auto; 
-      min-width: 120px;
-    }
-    
-    // Priority-based column visibility for responsive design
-    .col-priority-high {
-      // Always visible - no special rules needed
-      display: table-cell;
-    }
-    
-    .col-priority-medium {
-      @media (max-width: 768px) {
-        display: none;
-      }
-    }
-    
-    .col-priority-low {
-      @media (max-width: 1024px) {
-        display: none;
-      }
-    }
+			// Handle long text and word wrapping in header content
+			word-wrap: break-word;
+			overflow-wrap: break-word;
+			hyphens: auto;
+			white-space: normal;
+
+			// Ensure text doesn't overflow the container
+			text-overflow: ellipsis;
+			max-width: 100%;
+
+			// Disable default browser focus-visible styling
+			&:focus-visible {
+			  outline: none;
+			}
+			
+			&:hover {
+			  background-color: nhs.$nhs-fdp-card-border-bottom;
+			}
+			
+			// Header content layout - prevents text jumping
+			.header-content {
+			  display: flex;
+			  align-items: center;
+			  justify-content: flex-start; // Left-align the content
+			  padding-left: nhs.$nhs-fdp-spacing-1;
+			  min-height: 24px; // Consistent minimum height for header content
+			  
+			  // Apply vertical stacking for all constrained layouts (up to 1024px)
+			  @media (max-width: 1024px) {
+				flex-direction: column; // Stack vertically for better space utilization
+				align-items: flex-start;
+				min-height: 32px;
+				padding: nhs.$nhs-fdp-spacing-2;
+				gap: nhs.$nhs-fdp-spacing-3;
+			  }
+			}
+			
+			.header-label {
+			  flex: 1;
+			  text-align: left; // Explicitly left-align the text
+			  font-size: inherit;
+			  word-break: break-word;
+			  overflow-wrap: anywhere;
+					line-height: 1.3;
+					white-space: normal;
+			  
+			  // Consistent mobile-friendly typography for constrained layouts
+			  @media (max-width: 1024px) {
+				font-size: nhs.$nhs-fdp-font-size-14-tablet;
+				width: 100%; // Full width when stacked vertically
+				margin-bottom: nhs.$nhs-fdp-spacing-1;
+				line-height: 1.2;
+				word-break: break-word;
+				hyphens: auto;
+			  }
+			  
+			  // Extra small screens get even smaller font
+			  @media (max-width: 480px) {
+				font-size: nhs.$nhs-fdp-font-size-14-mobile;
+			  }
+			}
+			
+			// Sort indicator container - fixed space to prevent jumping
+			.sort-indicator-container {
+			  display: inline-flex;
+			  align-items: center;
+			  justify-content: center; // Center the priority indicator
+			  margin-left: nhs.$nhs-fdp-spacing-2;
+			  min-width: 44px; // Reserve space for priority indicator (20px) + arrow (20px) + gaps
+			  min-height: 44px; // Increased height for vertical stacking
+			  position: relative; // For absolute positioning of chevron
+			  
+			  // Optimize for vertical layout on constrained screens
+			  @media (max-width: 1024px) {
+				margin-left: 0; // Remove left margin when stacked vertically
+				margin-top: nhs.$nhs-fdp-spacing-1;
+				align-self: flex-start; // Align to start when vertically stacked
+				min-width: 40px; // Slightly smaller for constrained layouts
+				min-height: 40px;
+			  }
+			}
+			
+			// Always visible sort priority styling (not just when focused)
+			.sort-priority {
+				background: nhs.$nhs-fdp-color-grey-2;
+			  font-weight: nhs.$nhs-fdp-font-weight-bold;
+			  color: $color-white;
+			  border-radius: 50%;
+			  min-width: 20px;
+			  height: 20px;
+			  display: inline-flex;
+			  align-items: center;
+			  justify-content: center;
+			  font-size: nhs.$nhs-fdp-font-size-14-mobile; // 12px
+			  line-height: 1;
+			  transition: $transition-default;
+			  position: relative;
+			  flex-shrink: 0; // Prevent shrinking in flex container
+			  
+			  // Priority level styling with NHS colors
+			  &--priority-1 {
+				background: nhs.$nhs-fdp-color-primary-red;
+				border: 2px solid nhs.$nhs-fdp-color-primary-red;
+				animation: pulse-priority 2s infinite;
+			  }
+			  
+			  &--priority-2 {
+				background: nhs.$nhs-fdp-color-secondary-orange;
+				border: 2px solid nhs.$nhs-fdp-color-secondary-orange;
+			  }
+			  
+			  &--priority-3 {
+				background: nhs.$nhs-fdp-color-primary-blue;
+				border: 2px solid nhs.$nhs-fdp-color-primary-blue;
+			  }
+			  
+			  &--priority-4 {
+				background: nhs.$nhs-fdp-color-secondary-aqua-green;
+				border: 2px solid nhs.$nhs-fdp-color-secondary-aqua-green;
+			  }
+			  
+			  &--priority-5 {
+				background: nhs.$nhs-fdp-color-grey-2;
+				border: 2px solid nhs.$nhs-fdp-color-grey-2;
+			  }
+			  
+			  // Hover effects
+			  &:hover {
+				transform: scale(1.1);
+				box-shadow: nhs.$nhs-fdp-shadow-card-hover;
+			  }
+			  
+			  // Focus styles for accessibility
+			  &:focus-visible {
+				outline: 2px solid $color-focus;
+				outline-offset: 2px;
+			  }
+			  
+			  // Mobile-specific adjustments
+			  @media (max-width: 768px) {
+				min-width: 18px;
+				height: 18px;
+				font-size: 10px;
+				
+				&::before {
+				  width: 14px;
+				  height: 14px;
+				  font-size: 9px;
+				  top: -7px;
+				  right: -7px;
+				}
+			  }
+			}
+			
+			// Sort arrow styling
+			.sort-arrow {
+			  color: $color-text;
+			  flex-shrink: 0; // Prevent shrinking in flex container
+			  transition: $transition-default;
+			  width: 30px; // Increased from 16px
+			  height: 30px; // Increased from 16px
+			  position: absolute; // Position relative to container
+			  left: 50%; // Center horizontally
+			  transform: translateX(-50%); // Center horizontally
+			  
+			  &.sort-arrow--asc {
+				top: -20px; // Position further above the priority indicator
+				transform: translateX(-50%) rotate(-90deg); // Center and rotate
+			  }
+			  
+			  &.sort-arrow--desc {
+				bottom: -20px; // Position further below the priority indicator
+				transform: translateX(-50%) rotate(90deg); // Center and rotate
+			  }
+			  
+			  &:hover {
+				color: $color-primary;
+			  }
+			}
+		  }
+		}
+	  }
+	  
+	  // Data row styling with increased specificity
+	  tbody {
+		tr {
+		  //transition: $transition-default;
+		  border-bottom: 1px solid nhs.$nhs-fdp-color-grey-4;
+		  
+		  &:hover {
+			background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02);
+		  }
+		  
+		  td {
+			font-size: nhs.$nhs-fdp-font-size-16-tablet;
+			
+			// Consistent cell content spacing
+			&:first-child {
+			  padding-left: nhs.$nhs-fdp-spacing-3; // 12px - restored to standard padding
+			}
+			
+			&:last-child {
+			  padding-right: nhs.$nhs-fdp-spacing-3; // 12px
+			}
+		  }
+		}
+	  }
+	}
+
+	// Visual indicator for active grid navigation (component-specific)
+	&.grid-navigation-active {
+	  background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.05);
+	  border: nhs.$nhs-fdp-border-width-form-element solid $color-primary;
+	}
+	
+	// Adaptive column width utilities for responsive tables
+	.col-narrow { 
+	  width: 8%; 
+	  min-width: 60px; // Ensure minimum usable width
+	}
+	
+	.col-medium { 
+	  width: 15%; 
+	  min-width: 100px;
+	}
+	
+	.col-wide { 
+	  width: 25%; 
+	  min-width: 150px;
+	}
+	
+	.col-flexible { 
+	  width: auto; 
+	  min-width: 120px;
+	}
+	
+	// Priority-based column visibility for responsive design
+	.col-priority-high {
+	  // Always visible - no special rules needed
+	  display: table-cell;
+	}
+	
+	.col-priority-medium {
+	  @media (max-width: 768px) {
+		display: none;
+	  }
+	}
+	
+	.col-priority-low {
+	  @media (max-width: 1024px) {
+		display: none;
+	  }
+	}
   }
 
   // Keyboard navigation help text
   &__navigation-help {
-    font-size: nhs.$nhs-fdp-font-size-14-tablet;
-    color: $color-text-secondary;
-    margin-top: nhs.$nhs-fdp-spacing-2;
-    padding: nhs.$nhs-fdp-spacing-2;
-    background-color: $color-secondary;
-    border-radius: $border-radius;
+	font-size: nhs.$nhs-fdp-font-size-14-tablet;
+	color: $color-text-secondary;
+	margin-top: nhs.$nhs-fdp-spacing-2;
+	padding: nhs.$nhs-fdp-spacing-2;
+	background-color: $color-secondary;
+	border-radius: $border-radius;
 
-    &.sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
+	&.sr-only {
+	  position: absolute;
+	  width: 1px;
+	  height: 1px;
+	  padding: 0;
+	  margin: -1px;
+	  overflow: hidden;
+	  clip: rect(0, 0, 0, 0);
+	  white-space: nowrap;
+	  border: 0;
+	}
   }
 
   // Sort status and reset controls
   &__sort-status {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: nhs.$nhs-fdp-spacing-3;
-    padding: nhs.$nhs-fdp-spacing-3;
-    background: nhs.$nhs-fdp-color-grey-5;
-    border: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-color-grey-4;
-    border-radius: $border-radius;
-    margin-bottom: nhs.$nhs-fdp-spacing-3;
-    font-size: nhs.$nhs-fdp-font-size-14-tablet;
-    color: $color-text-secondary;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: nhs.$nhs-fdp-spacing-3;
+	padding: nhs.$nhs-fdp-spacing-3;
+	background: nhs.$nhs-fdp-color-grey-5;
+	border: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-color-grey-4;
+	border-radius: $border-radius;
+	margin-bottom: nhs.$nhs-fdp-spacing-3;
+	font-size: nhs.$nhs-fdp-font-size-14-tablet;
+	color: $color-text-secondary;
 
-    @media (max-width: 768px) {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: nhs.$nhs-fdp-spacing-2;
-    }
+	@media (max-width: 768px) {
+	  flex-direction: column;
+	  align-items: flex-start;
+	  gap: nhs.$nhs-fdp-spacing-2;
+	}
   }
 
   &__sort-description {
-    flex: 1;
-    font-weight: normal;
-    
-    // Active state class applied when sorts are present
-    &--active {
-      color: $color-text;
-      font-weight: nhs.$nhs-fdp-font-weight-bold;
-    }
+	flex: 1;
+	font-weight: normal;
+	
+	// Active state class applied when sorts are present
+	&--active {
+	  color: $color-text;
+	  font-weight: nhs.$nhs-fdp-font-weight-bold;
+	}
   }
 
   &__reset-sorts {
-    background: $color-white;
-    border: nhs.$nhs-fdp-border-width-default solid $color-primary;
-    color: $color-primary;
-    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
-    border-radius: $border-radius;
-    font-size: nhs.$nhs-fdp-font-size-14-tablet;
-    font-weight: nhs.$nhs-fdp-font-weight-bold;
-    cursor: pointer;
-    transition: $transition-default;
-    white-space: nowrap;
+	background: $color-white;
+	border: nhs.$nhs-fdp-border-width-default solid $color-primary;
+	color: $color-primary;
+	padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+	border-radius: $border-radius;
+	font-size: nhs.$nhs-fdp-font-size-14-tablet;
+	font-weight: nhs.$nhs-fdp-font-weight-bold;
+	cursor: pointer;
+	transition: $transition-default;
+	white-space: nowrap;
 
-    &:hover {
-      background: $color-primary;
-      color: $color-white;
-      box-shadow: nhs.$nhs-fdp-shadow-button-default;
-    }
+	&:hover {
+	  background: $color-primary;
+	  color: $color-white;
+	  box-shadow: nhs.$nhs-fdp-shadow-button-default;
+	}
 
-    &:focus-visible {
-      outline: nhs.$nhs-fdp-border-width-form-element solid $color-focus;
-      outline-offset: 2px;
-    }
+	&:focus-visible {
+	  outline: nhs.$nhs-fdp-border-width-form-element solid $color-focus;
+	  outline-offset: 2px;
+	}
 
-    &:active {
-      transform: translateY(1px);
-      box-shadow: none;
-    }
+	&:active {
+	  transform: translateY(1px);
+	  box-shadow: none;
+	}
   }
 }
 
 // Enhanced Focus Styles for Hierarchical Navigation (component-specific styles)
 .sortable-header {
   &--focused {
-    background-color: $color-primary !important;
+	background-color: $color-primary !important;
 	color: $color-white !important;
 	// Use layered box-shadow for NHS focus conventions - with !important to override base styling
 	box-shadow: 
@@ -996,39 +1013,39 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 			transform: rotate(90deg);
 		}
 	}
-    
-    // Enhanced sort priority when focused - inherit the base styles but with white text
-    .sort-priority {
-      // Color adjustments for focused state while maintaining base styling
-      &--priority-1,
-      &--priority-2,
-      &--priority-4,
-      &--priority-5 {
-        // Maintain the background colors but ensure visibility on focused header
-        box-shadow: nhs.$nhs-fdp-shadow-card-hover;
-        transform: scale(1.05);
-      }
+	
+	// Enhanced sort priority when focused - inherit the base styles but with white text
+	.sort-priority {
+	  // Color adjustments for focused state while maintaining base styling
+	  &--priority-1,
+	  &--priority-2,
+	  &--priority-4,
+	  &--priority-5 {
+		// Maintain the background colors but ensure visibility on focused header
+		box-shadow: nhs.$nhs-fdp-shadow-card-hover;
+		transform: scale(1.05);
+	  }
 	  &--priority-3 {
 		// Maintain the background colors but ensure visibility on focused header
 		//box-shadow: 0 2px 4px nhs.$nhs-fdp-color-primary-white;
 		background: nhs.$nhs-fdp-color-primary-white !important; // Ensure white background for visibility
 		color: nhs.$nhs-fdp-color-primary-blue !important;
 	  }
-      
-      &::before {
-        // Make sure the priority number is still visible on focused headers
-        background: $color-white;
-        color: $color-text;
-        border: 1px solid $color-primary;
-      }
-    }
+	  
+	  &::before {
+		// Make sure the priority number is still visible on focused headers
+		background: $color-white;
+		color: $color-text;
+		border: 1px solid $color-primary;
+	  }
+	}
   }
 }
 
 // Data cell focus styles (component-specific)
 .data-cell {
   &--focused {
-    background-color: $color-primary;
+	background-color: $color-primary;
 	color: nhs.$nhs-fdp-semantic-color-text-primary;
 	// Use layered box-shadow to show both black border and yellow outline - with !important to override base styling
 	box-shadow: inset 0 0 0 nhs.$nhs-fdp-border-width-card-bottom nhs.$nhs-fdp-color-primary-black, // Black inner border
@@ -1042,66 +1059,66 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 // Enhanced sort priority in table headers
 .sortable-table-header {
   .sort-priority-container {
-    display: inline-flex;
-    align-items: center;
-    gap: nhs.$nhs-fdp-spacing-1;
-    margin-left: nhs.$nhs-fdp-spacing-2;
-    
-    // Mobile-specific adjustments
-    @media (max-width: 768px) {
-      gap: calc(nhs.$nhs-fdp-spacing-1 / 2);
-      margin-left: nhs.$nhs-fdp-spacing-1;
-    }
-    
-    .sort-priority {
-      &--small {
-        min-width: 16px;
-        height: 16px;
-        font-size: 10px;
-        
-        &::before {
-          width: 12px;
-          height: 12px;
-          font-size: 8px;
-          top: -6px;
-          right: -6px;
-        }
-      }
-      
-      &--large {
-        min-width: 24px;
-        height: 24px;
-        font-size: nhs.$nhs-fdp-font-size-14-tablet;
-        
-        &::before {
-          width: 18px;
-          height: 18px;
-          font-size: 11px;
-          top: -9px;
-          right: -9px;
-        }
-      }
-      
-      // Multiple sort indicator with connecting lines
-      &--connected {
-        position: relative;
-        
-        &::after {
-          content: '';
-          position: absolute;
-          left: 100%;
-          top: 50%;
-          width: nhs.$nhs-fdp-spacing-2;
-          height: 2px;
-          background: nhs.$nhs-fdp-color-grey-3;
-          transform: translateY(-50%);
-        }
-        
-        &:last-child::after {
-          display: none;
-        }
-      }
-    }
+	display: inline-flex;
+	align-items: center;
+	gap: nhs.$nhs-fdp-spacing-1;
+	margin-left: nhs.$nhs-fdp-spacing-2;
+	
+	// Mobile-specific adjustments
+	@media (max-width: 768px) {
+	  gap: calc(nhs.$nhs-fdp-spacing-1 / 2);
+	  margin-left: nhs.$nhs-fdp-spacing-1;
+	}
+	
+	.sort-priority {
+	  &--small {
+		min-width: 16px;
+		height: 16px;
+		font-size: 10px;
+		
+		&::before {
+		  width: 12px;
+		  height: 12px;
+		  font-size: 8px;
+		  top: -6px;
+		  right: -6px;
+		}
+	  }
+	  
+	  &--large {
+		min-width: 24px;
+		height: 24px;
+		font-size: nhs.$nhs-fdp-font-size-14-tablet;
+		
+		&::before {
+		  width: 18px;
+		  height: 18px;
+		  font-size: 11px;
+		  top: -9px;
+		  right: -9px;
+		}
+	  }
+	  
+	  // Multiple sort indicator with connecting lines
+	  &--connected {
+		position: relative;
+		
+		&::after {
+		  content: '';
+		  position: absolute;
+		  left: 100%;
+		  top: 50%;
+		  width: nhs.$nhs-fdp-spacing-2;
+		  height: 2px;
+		  background: nhs.$nhs-fdp-color-grey-3;
+		  transform: translateY(-50%);
+		}
+		
+		&:last-child::after {
+		  display: none;
+		}
+	  }
+	}
   }
 }
 
@@ -1109,33 +1126,33 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 .data-row {
   // Selected row styles
   &--selected {
-    background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.15); // Lighter blue tint
+	background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.15); // Lighter blue tint
 
-    &:hover {
-      background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.25); // Darker on hover
-    }
+	&:hover {
+	  background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.25); // Darker on hover
+	}
 
-    td {
-      background-color: inherit;
-      border-color: $color-primary;
-    }
+	td {
+	  background-color: inherit;
+	  border-color: $color-primary;
+	}
   }
 
   // Focused row styles for keyboard navigation
   &--focused {
-    background-color: $color-secondary;
-    outline: nhs.$nhs-fdp-spacing-1 solid $color-highlight; // 5px total
-    outline-offset: 0px;
+	background-color: $color-secondary;
+	outline: nhs.$nhs-fdp-spacing-1 solid $color-highlight; // 5px total
+	outline-offset: 0px;
 
-    td {
-      background-color: inherit;
-    }
+	td {
+	  background-color: inherit;
+	}
 
-    // Combined selected and focused state
-    &.data-row--selected {
-      background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.4);
-      outline: nhs.$nhs-fdp-spacing-1 + 1px solid $color-highlight; // 5px
-    }
+	// Combined selected and focused state
+	&.data-row--selected {
+	  background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.4);
+	  outline: nhs.$nhs-fdp-spacing-1 + 1px solid $color-highlight; // 5px
+	}
   }
 }
 
@@ -1158,12 +1175,12 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 // Priority pulse animation for high-priority sorts
 @keyframes pulse-priority {
   0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(213, 40, 27, 0.4);
+	transform: scale(1);
+	box-shadow: 0 0 0 0 rgba(213, 40, 27, 0.4);
   }
   50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 6px rgba(213, 40, 27, 0.1);
+	transform: scale(1.05);
+	box-shadow: 0 0 0 6px rgba(213, 40, 27, 0.1);
   }
 }
 
@@ -1183,347 +1200,347 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 // Responsive Design - Phase 2: Enhanced Tablet Experience - updated for systematic breakpoints
 @media (min-width: 769px) and (max-width: 1024px) {
   .aria-tabs-datagrid {
-    
-    &__tab {
-      // Enhanced touch targets - minimum 44px as per accessibility guidelines
-      min-height: 44px;
-      padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4; // Increased padding for touch
-      font-size: nhs.$nhs-fdp-font-size-16-tablet;
-      // REMOVED: border-radius that was causing tab appearance issues
-      
-      // Touch-friendly active/hover states
-      &:hover,
-      &:active {
-        transform: translateY(-1px); // Subtle lift effect for touch feedback
-        box-shadow: nhs.$nhs-fdp-shadow-button-default;
-        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
-      }
-      
-      // Enhanced focus states for tablet navigation
-      &:focus {
-        outline: 3px solid $color-focus;
-        outline-offset: 2px;
-        z-index: 15; // Higher than mobile to ensure visibility
-      }
-    }
-    
-    &__panel {
-      // Optimized panel spacing for tablet viewing
-      border-radius: 0 0 nhs.$nhs-fdp-border-radius-medium nhs.$nhs-fdp-border-radius-medium;
-      
-      // Enhanced scrolling for tablet touch gestures
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      
-      // Improved scrollbar for tablet interaction
-      &::-webkit-scrollbar {
-        height: 12px; // Larger for easier touch interaction
-      }
-      
-      &::-webkit-scrollbar-track {
-        background: nhs.$nhs-fdp-color-grey-5;
-        border-radius: 6px;
-      }
-      
-      &::-webkit-scrollbar-thumb {
-        background: nhs.$nhs-fdp-color-grey-2;
-        border-radius: 6px;
-        border: 2px solid nhs.$nhs-fdp-color-grey-5; // Create visual separation
-        
-        &:hover {
-          background: nhs.$nhs-fdp-color-grey-1;
-        }
-      }
-    }
-    
-    &__grid {
-      // Tablet-optimized table layout
-      &.nhsuk-table {
-        th, td {
-          padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-3; // Increased padding for touch
-          font-size: nhs.$nhs-fdp-font-size-16-tablet; // Optimal reading size for tablets
-        }
-        
-        thead th {
-          // Enhanced sortable headers for tablet interaction
-          &.sortable-header {
-            min-height: 56px; // Larger touch target for sorting
-            
-            &:hover,
-            &:active {
-              background-color: nhs.$nhs-fdp-color-grey-4;
-              transform: none; // Remove transform for table headers
-            }
-            
-            // Enhanced sort indicator spacing for tablet
-            .sort-indicator-container {
-              min-width: 48px; // Larger touch target
-              min-height: 48px;
-            }
-            
-            .sort-priority {
-              min-width: 24px; // Larger for tablet interaction
-              height: 24px;
-              font-size: nhs.$nhs-fdp-font-size-14-tablet;
-              
-              // Enhanced hover states for tablet
-              &:hover {
-                transform: scale(1.15); // More pronounced for tablet
-                box-shadow: nhs.$nhs-fdp-shadow-card-hover;
-              }
-            }
-            
-            .sort-arrow {
-              width: 24px; // Larger arrows for tablet visibility
-              height: 24px;
-            }
-          }
-        }
-        
-        tbody tr {
-          // Enhanced row interaction for tablet
-          &:hover {
-            background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.05);
-            cursor: pointer; // Indicate interactivity
-          }
-          
-          // Touch-friendly row selection feedback
-          &.data-row--selected {
-            background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.12);
-            border-left: 4px solid $color-primary; // Visual selection indicator
-          }
-        }
-      }
-      
-      // Optimized column widths for tablet landscape
-      .col-narrow { 
-        width: 10%; 
-        min-width: 80px;
-      }
-      
-      .col-medium { 
-        width: 18%; 
-        min-width: 120px;
-      }
-      
-      .col-wide { 
-        width: 28%; 
-        min-width: 180px;
-      }
-      
-      .col-flexible { 
-        width: auto; 
-        min-width: 140px; // Slightly larger for tablet
-      }
-    }
-    
-    // Enhanced sort status for tablet
-    &__sort-status {
-      padding: nhs.$nhs-fdp-spacing-4;
-      font-size: nhs.$nhs-fdp-font-size-16-tablet;
-      border-radius: nhs.$nhs-fdp-border-radius-medium;
-    }
-    
-    &__reset-sorts {
-      padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4; // Larger touch target
-      font-size: nhs.$nhs-fdp-font-size-16-tablet;
-      min-height: 44px; // Accessibility guideline compliance
-      
-      &:hover {
-        transform: translateY(-1px);
-        box-shadow: nhs.$nhs-fdp-shadow-card-hover;
-      }
-      
-      &:active {
-        transform: translateY(0);
-      }
-    }
+	
+	&__tab {
+	  // Enhanced touch targets - minimum 44px as per accessibility guidelines
+	  min-height: 44px;
+	  padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4; // Increased padding for touch
+	  font-size: nhs.$nhs-fdp-font-size-16-tablet;
+	  // REMOVED: border-radius that was causing tab appearance issues
+	  
+	  // Touch-friendly active/hover states
+	  &:hover,
+	  &:active {
+		transform: translateY(-1px); // Subtle lift effect for touch feedback
+		box-shadow: nhs.$nhs-fdp-shadow-button-default;
+		transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+	  }
+	  
+	  // Enhanced focus states for tablet navigation
+	  &:focus {
+		outline: 3px solid $color-focus;
+		outline-offset: 2px;
+		z-index: 15; // Higher than mobile to ensure visibility
+	  }
+	}
+	
+	&__panel {
+	  // Optimized panel spacing for tablet viewing
+	  border-radius: 0 0 nhs.$nhs-fdp-border-radius-medium nhs.$nhs-fdp-border-radius-medium;
+	  
+	  // Enhanced scrolling for tablet touch gestures
+	  scroll-behavior: smooth;
+	  -webkit-overflow-scrolling: touch;
+	  
+	  // Improved scrollbar for tablet interaction
+	  &::-webkit-scrollbar {
+		height: 12px; // Larger for easier touch interaction
+	  }
+	  
+	  &::-webkit-scrollbar-track {
+		background: nhs.$nhs-fdp-color-grey-5;
+		border-radius: 6px;
+	  }
+	  
+	  &::-webkit-scrollbar-thumb {
+		background: nhs.$nhs-fdp-color-grey-2;
+		border-radius: 6px;
+		border: 2px solid nhs.$nhs-fdp-color-grey-5; // Create visual separation
+		
+		&:hover {
+		  background: nhs.$nhs-fdp-color-grey-1;
+		}
+	  }
+	}
+	
+	&__grid {
+	  // Tablet-optimized table layout
+	  &.nhsuk-table {
+		th, td {
+		  padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-3; // Increased padding for touch
+		  font-size: nhs.$nhs-fdp-font-size-16-tablet; // Optimal reading size for tablets
+		}
+		
+		thead th {
+		  // Enhanced sortable headers for tablet interaction
+		  &.sortable-header {
+			min-height: 56px; // Larger touch target for sorting
+			
+			&:hover,
+			&:active {
+			  background-color: nhs.$nhs-fdp-color-grey-4;
+			  transform: none; // Remove transform for table headers
+			}
+			
+			// Enhanced sort indicator spacing for tablet
+			.sort-indicator-container {
+			  min-width: 48px; // Larger touch target
+			  min-height: 48px;
+			}
+			
+			.sort-priority {
+			  min-width: 24px; // Larger for tablet interaction
+			  height: 24px;
+			  font-size: nhs.$nhs-fdp-font-size-14-tablet;
+			  
+			  // Enhanced hover states for tablet
+			  &:hover {
+				transform: scale(1.15); // More pronounced for tablet
+				box-shadow: nhs.$nhs-fdp-shadow-card-hover;
+			  }
+			}
+			
+			.sort-arrow {
+			  width: 24px; // Larger arrows for tablet visibility
+			  height: 24px;
+			}
+		  }
+		}
+		
+		tbody tr {
+		  // Enhanced row interaction for tablet
+		  &:hover {
+			background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.05);
+			cursor: pointer; // Indicate interactivity
+		  }
+		  
+		  // Touch-friendly row selection feedback
+		  &.data-row--selected {
+			background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.12);
+			border-left: 4px solid $color-primary; // Visual selection indicator
+		  }
+		}
+	  }
+	  
+	  // Optimized column widths for tablet landscape
+	  .col-narrow { 
+		width: 10%; 
+		min-width: 80px;
+	  }
+	  
+	  .col-medium { 
+		width: 18%; 
+		min-width: 120px;
+	  }
+	  
+	  .col-wide { 
+		width: 28%; 
+		min-width: 180px;
+	  }
+	  
+	  .col-flexible { 
+		width: auto; 
+		min-width: 140px; // Slightly larger for tablet
+	  }
+	}
+	
+	// Enhanced sort status for tablet
+	&__sort-status {
+	  padding: nhs.$nhs-fdp-spacing-4;
+	  font-size: nhs.$nhs-fdp-font-size-16-tablet;
+	  border-radius: nhs.$nhs-fdp-border-radius-medium;
+	}
+	
+	&__reset-sorts {
+	  padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4; // Larger touch target
+	  font-size: nhs.$nhs-fdp-font-size-16-tablet;
+	  min-height: 44px; // Accessibility guideline compliance
+	  
+	  &:hover {
+		transform: translateY(-1px);
+		box-shadow: nhs.$nhs-fdp-shadow-card-hover;
+	  }
+	  
+	  &:active {
+		transform: translateY(0);
+	  }
+	}
   }
   
   // Enhanced focus styles for tablet navigation
   .sortable-header {
-    &--focused {
-      // More prominent focus for tablet users
-      box-shadow: 
-        inset 0 0 0 3px nhs.$nhs-fdp-color-primary-black,
-        0 0 0 3px $color-highlight !important;
-      transform: scale(1.02); // Subtle scale for tablet feedback
-    }
+	&--focused {
+	  // More prominent focus for tablet users
+	  box-shadow: 
+		inset 0 0 0 3px nhs.$nhs-fdp-color-primary-black,
+		0 0 0 3px $color-highlight !important;
+	  transform: scale(1.02); // Subtle scale for tablet feedback
+	}
   }
   
   .data-cell {
-    &--focused {
-      // Enhanced cell focus for tablet precision
-      box-shadow: 
-        inset 0 0 0 3px nhs.$nhs-fdp-color-primary-black,
-        0 0 0 4px $color-highlight !important;
-      transform: scale(1.02);
-    }
+	&--focused {
+	  // Enhanced cell focus for tablet precision
+	  box-shadow: 
+		inset 0 0 0 3px nhs.$nhs-fdp-color-primary-black,
+		0 0 0 4px $color-highlight !important;
+	  transform: scale(1.02);
+	}
   }
 }
 
 // Tablet Portrait Optimization (768px - 834px)
 @media (min-width: 768px) and (max-width: 834px) and (orientation: portrait) {
   .aria-tabs-datagrid {
-    &__tabs {
-      flex-wrap: wrap; // Allow tab wrapping in portrait mode
-      justify-content: center; // Center tabs for better visual balance
-    }
-    
-    &__tab {
-      flex: 1 1 auto; // Flexible tab sizing
-      max-width: 200px; // Prevent tabs from becoming too wide
-      text-align: center;
-    }
-    
-    &__grid {
-      // Hide lower priority columns in portrait tablet mode
-      .col-priority-low {
-        display: none;
-      }
-      
-      // Adjust remaining columns for portrait layout
-      .col-medium { 
-        width: 25%; 
-      }
-      
-      .col-wide { 
-        width: 35%; 
-      }
-    }
+	&__tabs {
+	  flex-wrap: wrap; // Allow tab wrapping in portrait mode
+	  justify-content: center; // Center tabs for better visual balance
+	}
+	
+	&__tab {
+	  flex: 1 1 auto; // Flexible tab sizing
+	  max-width: 200px; // Prevent tabs from becoming too wide
+	  text-align: center;
+	}
+	
+	&__grid {
+	  // Hide lower priority columns in portrait tablet mode
+	  .col-priority-low {
+		display: none;
+	  }
+	  
+	  // Adjust remaining columns for portrait layout
+	  .col-medium { 
+		width: 25%; 
+	  }
+	  
+	  .col-wide { 
+		width: 35%; 
+	  }
+	}
   }
 }
 
 @media (max-width: 480px) {
   .aria-tabs-datagrid {
-    
-    &__tab {
-      padding: nhs.$nhs-fdp-button-spacing-padding-vertical-mobile nhs.$nhs-fdp-button-spacing-padding-horizontal-mobile;
-      font-size: nhs.$nhs-fdp-font-size-14-mobile;
-      min-width: 120px; // Component-specific minimum width
-    }
-    
-    // Enhanced table header optimization for mobile viewing
-    &__grid.nhsuk-table {
-      th {
-        // Mobile-specific header styling
-        font-size: nhs.$nhs-fdp-font-size-14-mobile;
-        padding: nhs.$nhs-fdp-spacing-1;
-        
-        &[role="columnheader"] {
-          min-height: 44px; // Maintain touch targets
-          
-          button {
-            min-height: 40px;
-            padding: nhs.$nhs-fdp-spacing-1;
-            
-            // Mobile header content optimization (consistent with our unified approach)
-            // The mobile styling is now handled by the unified @media (max-width: 1024px) rule above
-            // This ensures consistency across all constrained layouts
-          }
-        }
-      }
-      
-      // Prevent horizontal scrolling issues
-      td {
-        min-width: 0;
-        word-break: break-word;
-        hyphens: auto;
-      }
-    }
-    
-    &--vertical {
-      flex-direction: column;
+	
+	&__tab {
+	  padding: nhs.$nhs-fdp-button-spacing-padding-vertical-mobile nhs.$nhs-fdp-button-spacing-padding-horizontal-mobile;
+	  font-size: nhs.$nhs-fdp-font-size-14-mobile;
+	  min-width: 120px; // Component-specific minimum width
+	}
+	
+	// Enhanced table header optimization for mobile viewing
+	&__grid.nhsuk-table {
+	  th {
+		// Mobile-specific header styling
+		font-size: nhs.$nhs-fdp-font-size-14-mobile;
+		padding: nhs.$nhs-fdp-spacing-1;
+		
+		&[role="columnheader"] {
+		  min-height: 44px; // Maintain touch targets
+		  
+		  button {
+			min-height: 40px;
+			padding: nhs.$nhs-fdp-spacing-1;
+			
+			// Mobile header content optimization (consistent with our unified approach)
+			// The mobile styling is now handled by the unified @media (max-width: 1024px) rule above
+			// This ensures consistency across all constrained layouts
+		  }
+		}
+	  }
+	  
+	  // Prevent horizontal scrolling issues
+	  td {
+		min-width: 0;
+		word-break: break-word;
+		hyphens: auto;
+	  }
+	}
+	
+	&--vertical {
+	  flex-direction: column;
 
-      .aria-tabs-datagrid__tabs {
-        width: 100%;
-        flex-direction: row;
-        border-right: none;
-      }
-    }
+	  .aria-tabs-datagrid__tabs {
+		width: 100%;
+		flex-direction: row;
+		border-right: none;
+	  }
+	}
   }
 }
 
 // Extra small screens (narrow phones) - additional optimizations beyond the unified approach
 @media (max-width: 480px) {
   .aria-tabs-datagrid {
-    &__grid.nhsuk-table {
-      th {
-        &[role="columnheader"] {
-          button {
-            .header-content {
-              padding: 4px 2px; // Tighter padding for very small screens
-              
-              .header-label {
-                font-size: 12px; // Even smaller font for very constrained space
-                line-height: 1.1;
-                
-                // Abbreviate long headers on very small screens
-                &[data-full-text] {
-                  &::after {
-                    content: "...";
-                    opacity: 0.7;
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+	&__grid.nhsuk-table {
+	  th {
+		&[role="columnheader"] {
+		  button {
+			.header-content {
+			  padding: 4px 2px; // Tighter padding for very small screens
+			  
+			  .header-label {
+				font-size: 12px; // Even smaller font for very constrained space
+				line-height: 1.1;
+				
+				// Abbreviate long headers on very small screens
+				&[data-full-text] {
+				  &::after {
+					content: "...";
+					opacity: 0.7;
+				  }
+				}
+			  }
+			}
+		  }
+		}
+	  }
+	}
   }
 }
 
 // High Contrast Mode Support
 @media (forced-colors: active) {
   .aria-tabs-datagrid__tab {
-    border: nhs.$nhs-fdp-border-width-default solid ButtonText;
-    
-    &--selected {
-      background: Highlight;
-      color: HighlightText;
-    }
+	border: nhs.$nhs-fdp-border-width-default solid ButtonText;
+	
+	&--selected {
+	  background: Highlight;
+	  color: HighlightText;
+	}
   }
   
   // High contrast support for sort priorities
   .sort-priority {
-    background: ButtonText !important;
-    color: ButtonFace !important;
-    border: 2px solid ButtonText !important;
-    
-    &::before {
-      background: ButtonFace !important;
-      color: ButtonText !important;
-      border: 1px solid ButtonText !important;
-    }
-    
-    &--priority-1 {
-      // Use system highlight for highest priority in high contrast
-      background: Highlight !important;
-      color: HighlightText !important;
-    }
+	background: ButtonText !important;
+	color: ButtonFace !important;
+	border: 2px solid ButtonText !important;
+	
+	&::before {
+	  background: ButtonFace !important;
+	  color: ButtonText !important;
+	  border: 1px solid ButtonText !important;
+	}
+	
+	&--priority-1 {
+	  // Use system highlight for highest priority in high contrast
+	  background: Highlight !important;
+	  color: HighlightText !important;
+	}
   }
   
   .sortable-table-header .sort-priority {
-    &--connected::after {
-      background: ButtonText !important;
-    }
+	&--connected::after {
+	  background: ButtonText !important;
+	}
   }
 }
 
 // Print Styles
 @media print {
   .aria-tabs-datagrid {
-    &__tabs {
-      display: none;
-    }
-    
-    &__panel {
-      &[hidden] {
-        display: block;
-      }
-      
-      page-break-inside: avoid;
-    }
+	&__tabs {
+	  display: none;
+	}
+	
+	&__panel {
+	  &[hidden] {
+		display: block;
+	  }
+	  
+	  page-break-inside: avoid;
+	}
   }
 }

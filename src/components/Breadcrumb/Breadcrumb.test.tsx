@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
+import '@testing-library/jest-dom';
 import { Breadcrumb } from './Breadcrumb';
 import { BreadcrumbItem } from './Breadcrumb.types';
 
@@ -54,8 +55,16 @@ describe('Breadcrumb', () => {
   it('renders with direct href and text', () => {
     render(<Breadcrumb href="/direct-link" text="Direct Page" />);
     
-    const directLink = screen.getByText('Direct Page').closest('a');
-    expect(directLink).toHaveAttribute('href', '/direct-link');
+    // Should find both the breadcrumb link and the mobile back link
+    const directLinks = screen.getAllByText('Direct Page');
+    expect(directLinks).toHaveLength(2);
+    
+    // Check the breadcrumb link specifically
+    const breadcrumbLink = directLinks.find(link => 
+      link.closest('a')?.classList.contains('nhsuk-breadcrumb__link')
+    );
+    expect(breadcrumbLink).toBeDefined();
+    expect(breadcrumbLink!.closest('a')).toHaveAttribute('href', '/direct-link');
   });
 
   it('applies reverse modifier class', () => {

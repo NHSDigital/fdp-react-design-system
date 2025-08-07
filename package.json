@@ -1,7 +1,7 @@
 {
-  "name": "nhs-fdp-design-system",
+  "name": "@fergusbisset/nhs-fdp-design-system",
   "version": "0.0.1",
-  "description": "NHS Frontend Development Platform Design System - A comprehensive React component library built with design tokens",
+  "description": "NHS FDP Frontend Development Platform Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import classNames from 'classnames';
 import { AriaDataGridProps } from './AriaDataGridTypes';
-import './SortableDataTable.scss';
+import './AriaTabsDataGrid.scss';
 
 type NavigationMode = 'browse' | 'navigate';
 type FocusArea = 'headers' | 'cells';
@@ -84,11 +84,14 @@ export const AriaDataGrid = React.forwardRef<HTMLTableElement, AriaDataGridProps
       );
       if (targetCell) {
         (targetCell as HTMLElement).focus();
-        targetCell.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-          inline: 'nearest'
-        });
+        // Check if scrollIntoView is available (may not be in test environments)
+        if (typeof targetCell.scrollIntoView === 'function') {
+          targetCell.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'nearest'
+          });
+        }
       }
     }, 0);
   }, []);
@@ -99,11 +102,14 @@ export const AriaDataGrid = React.forwardRef<HTMLTableElement, AriaDataGridProps
       const headerCell = tableRef.current?.querySelector(`th:nth-child(${colIndex + 1})`);
       if (headerCell) {
         (headerCell as HTMLElement).focus();
-        headerCell.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-          inline: 'nearest'
-        });
+        // Check if scrollIntoView is available (may not be in test environments)
+        if (typeof headerCell.scrollIntoView === 'function') {
+          headerCell.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'nearest'
+          });
+        }
       }
     }, 0);
   }, []);

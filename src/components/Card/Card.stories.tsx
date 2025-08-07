@@ -76,7 +76,7 @@ export const WithImage: Story = {
   args: {
     heading: 'Card with Image',
     description: 'This card includes an image at the top',
-    imgURL: 'https://via.placeholder.com/300x200?text=NHS+Card+Image',
+    imgURL: '',
     imgAlt: 'NHS card example image'
   }
 };
@@ -114,7 +114,7 @@ export const ClickableWithImage: Story = {
     heading: 'Clickable Card with Image',
     description: 'This clickable card includes an image',
     href: '#',
-    imgURL: 'https://via.placeholder.com/300x200?text=Clickable+Card',
+    imgURL: '',
     imgAlt: 'Clickable card example'
   }
 };
@@ -189,7 +189,7 @@ export const CardGroupWithImages: Story = {
           heading="Health A-Z"
           description="Comprehensive health information and advice"
           href="#"
-          imgURL="https://via.placeholder.com/300x150?text=Health+A-Z"
+          imgURL=""
           imgAlt="Health A-Z illustration"
         />
       </CardGroupItem>
@@ -199,7 +199,7 @@ export const CardGroupWithImages: Story = {
           heading="Live Well"
           description="Advice to help you live a healthier lifestyle"
           href="#"
-          imgURL="https://via.placeholder.com/300x150?text=Live+Well"
+          imgURL=""
           imgAlt="Live Well illustration"
         />
       </CardGroupItem>
@@ -209,7 +209,7 @@ export const CardGroupWithImages: Story = {
           heading="Mental Health"
           description="Support and information about mental health"
           href="#"
-          imgURL="https://via.placeholder.com/300x150?text=Mental+Health"
+          imgURL=""
           imgAlt="Mental Health illustration"
         />
       </CardGroupItem>

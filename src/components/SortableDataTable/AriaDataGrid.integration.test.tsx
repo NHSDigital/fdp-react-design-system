@@ -67,13 +67,13 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
           data={mockPatients}
           columns={patientColumns}
           sortConfig={[]}
-          aria-label="Patient Information Grid"
-          aria-describedby="patient-grid-description"
+          ariaLabel="Patient Information Grid"
+          ariaDescribedby="patient-grid-description"
         />
       );
 
       // Verify table structure
-      const table = screen.getByRole('table');
+      const table = screen.getByRole('grid');
       expect(table.getAttribute('aria-label')).toBe('Patient Information Grid');
       expect(table.getAttribute('aria-describedby')).toBe('patient-grid-description');
 
@@ -121,7 +121,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
           data={complexMedicalData}
           columns={complexColumns}
           sortConfig={[]}
-          aria-label="Complex Medical Data Grid"
+          ariaLabel="Complex Medical Data Grid"
         />
       );
 
@@ -159,7 +159,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
           data={urgentCareData}
           columns={urgentColumns}
           sortConfig={[]}
-          aria-label="Urgent Care Patient Grid"
+          ariaLabel="Urgent Care Patient Grid"
           className="urgent-care-table"
         />
       );
@@ -170,7 +170,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
       expect(urgentYes).toHaveLength(2); // isUrgent and allergies are true
       expect(urgentNo).toHaveLength(1); // requiresIsolation is false
 
-      const table = screen.getByRole('table');
+      const table = screen.getByRole('grid');
       expect(table.className).toContain('urgent-care-table');
     });
   });
@@ -187,7 +187,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
             { key: 'score', direction: 'desc' }
           ]}
           onSort={onSort}
-          aria-label="Multi-Sort Patient Grid"
+          ariaLabel="Multi-Sort Patient Grid"
         />
       );
 
@@ -218,27 +218,32 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
           columns={patientColumns}
           sortConfig={[]}
           selectedRowIndex={1}
-          aria-label="Navigable Patient Grid"
+          ariaLabel="Navigable Patient Grid"
         />
       );
 
       const headers = screen.getAllByRole('columnheader');
       const cells = screen.getAllByRole('gridcell');
+      const table = screen.getByRole('grid');
 
-      // Navigate through headers
-      await user.tab();
-      expect(headers[0]).toHaveFocus();
+      // Navigate through headers using grid navigation pattern
+      await user.tab(); // Focus the grid
+      expect(table).toHaveFocus();
+      
+      // Use arrow keys to navigate within the grid
+      await user.keyboard('{ArrowRight}');
+      expect(headers[1]).toHaveClass('sortable-header--focused');
 
-      await user.tab();
-      expect(headers[1]).toHaveFocus();
-
-      // Continue to cells
+      // Continue navigation - navigate through remaining headers
       for (let i = 2; i < headers.length; i++) {
-        await user.tab();
+        await user.keyboard('{ArrowRight}');
+        expect(headers[i]).toHaveClass('sortable-header--focused');
       }
 
-      await user.tab();
-      expect(cells[0]).toHaveFocus();
+      // Move down to cells using arrow down
+      await user.keyboard('{ArrowDown}');
+      // First cell in first data row should be focused
+      expect(cells[0]).toHaveClass('data-cell');
 
       // Verify selected row
       const rows = screen.getAllByRole('row');
@@ -254,7 +259,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
           data={initialData}
           columns={patientColumns}
           sortConfig={[]}
-          aria-label="Dynamic Patient Grid"
+          ariaLabel="Dynamic Patient Grid"
         />
       );
 
@@ -268,7 +273,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
           data={mockPatients}
           columns={patientColumns}
           sortConfig={[]}
-          aria-label="Dynamic Patient Grid"
+          ariaLabel="Dynamic Patient Grid"
         />
       );
 
@@ -277,7 +282,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
       expect(rows).toHaveLength(4); // Header + 3 data rows
 
       // Accessibility structure remains intact
-      const table = screen.getByRole('table');
+      const table = screen.getByRole('grid');
       expect(table.getAttribute('aria-label')).toBe('Dynamic Patient Grid');
 
       const headers = screen.getAllByRole('columnheader');
@@ -318,7 +323,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
           data={largeCensus}
           columns={censusColumns}
           sortConfig={[{ key: 'riskScore', direction: 'desc' }]}
-          aria-label="Hospital Patient Census"
+          ariaLabel="Hospital Patient Census"
         />
       );
       const endTime = performance.now();
@@ -331,7 +336,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
       expect(rows).toHaveLength(500);
 
       // Verify accessibility maintained
-      const table = screen.getByRole('table');
+      const table = screen.getByRole('grid');
       expect(table.getAttribute('aria-label')).toBe('Hospital Patient Census');
 
       // Check sorting indicator
@@ -358,7 +363,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
           data={getUpdatedData()}
           columns={dynamicColumns}
           sortConfig={[]}
-          aria-label="Real-time Patient Monitoring"
+          ariaLabel="Real-time Patient Monitoring"
         />
       );
 
@@ -372,7 +377,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
             data={getUpdatedData()}
             columns={dynamicColumns}
             sortConfig={[]}
-            aria-label="Real-time Patient Monitoring"
+            ariaLabel="Real-time Patient Monitoring"
           />
         );
         
@@ -389,7 +394,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
       expect(finalUpdateElements.length).toBeGreaterThan(0);
       
       // Accessibility maintained
-      const table = screen.getByRole('table');
+      const table = screen.getByRole('grid');
       expect(table.getAttribute('aria-label')).toBe('Real-time Patient Monitoring');
     });
   });
@@ -401,30 +406,33 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
           data={mockPatients}
           columns={patientColumns}
           sortConfig={[]}
-          aria-label="NHS Compliant Patient Grid"
-          aria-describedby="grid-help-text"
+          ariaLabel="NHS Compliant Patient Grid"
+          ariaDescribedby="grid-help-text"
         />
       );
 
-      const table = screen.getByRole('table');
+      const table = screen.getByRole('grid');
       
       // Required ARIA attributes
-      expect(table.getAttribute('role')).toBe('table');
+      expect(table.getAttribute('role')).toBe('grid');
       expect(table.getAttribute('aria-label')).toBe('NHS Compliant Patient Grid');
       expect(table.getAttribute('aria-describedby')).toBe('grid-help-text');
 
       // NHS styling compliance
       expect(table.className).toContain('nhsuk-table');
 
-      // Keyboard accessibility
+      // Keyboard accessibility - proper ARIA grid pattern
       const headers = screen.getAllByRole('columnheader');
-      headers.forEach(header => {
-        expect(header.getAttribute('tabIndex')).toBe('0');
+      headers.forEach((header, index) => {
+        // Only the first header should have tabIndex="0", others should have tabIndex="-1"
+        expect(header.getAttribute('tabIndex')).toBe(index === 0 ? '0' : '-1');
       });
 
       const cells = screen.getAllByRole('gridcell');
       cells.forEach(cell => {
-        expect(cell.getAttribute('tabIndex')).toBe('0');
+        // In proper ARIA grid navigation, all cells should have tabIndex="-1"
+        // Only the currently focused cell gets tabIndex="0" during navigation
+        expect(cell.getAttribute('tabIndex')).toBe('-1');
       });
 
       // Screen reader support for boolean values
@@ -444,7 +452,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
           data={anonymizedData}
           columns={patientColumns}
           sortConfig={[]}
-          aria-label="Anonymized Patient Data"
+          ariaLabel="Anonymized Patient Data"
         />
       );
 

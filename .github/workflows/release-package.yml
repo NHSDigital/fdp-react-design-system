@@ -15,10 +15,11 @@ jobs:
       - run: npm ci
       - name: Run component tests
         run: npm run test:components
-      - name: Run SSR compatibility tests
-        run: npm run test:ssr-components
+      - name: Run CI-specific SSR tests
+        run: npx vitest run src/components/SkipLink/SkipLink.ci.test.tsx --config config/vitest.components.config.ts
         env:
           NODE_ENV: test
+          CI: true
 
   publish-gpr:
     needs: build

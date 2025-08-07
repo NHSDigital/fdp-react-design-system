@@ -22,39 +22,56 @@ afterEach(() => {
   cleanup();
 });
 
-// Mock document.fonts API for testing
-Object.defineProperty(document, 'fonts', {
-  value: {
-    load: vi.fn().mockResolvedValue([]),
-    check: vi.fn().mockReturnValue(false), // Initially fonts are not loaded
-    ready: Promise.resolve(new Set()),
-  },
-  writable: true,
-});
-
-// Mock window.getComputedStyle to better handle font fallbacks in tests
-const originalGetComputedStyle = window.getComputedStyle;
-window.getComputedStyle = function(element: Element, pseudoElement?: string | null) {
-  const style = originalGetComputedStyle(element, pseudoElement);
+// Enhanced DOM environment setup for CI/CD environments
+// This addresses issues where jsdom may not be fully initialized
+if (typeof global !== 'undefined') {
+  // Ensure window and document are available
+  if (typeof window === 'undefined') {
+    // This should not happen with jsdom, but provides a fallback
+    console.warn('Warning: window not available in test environment');
+  }
   
-  // Create a proxy to better handle font-family fallbacks
-  return new Proxy(style, {
-    get(target: CSSStyleDeclaration, property: string | symbol) {
-      if (property === 'fontFamily') {
-        const fontFamily = target.fontFamily;
-        // If no inline style is set, check if Frutiger should be applied
-        if (!fontFamily || fontFamily === '' || fontFamily === 'Times' || fontFamily === 'serif') {
-          // Check if element has our font stack applied via inline styles
-          const htmlElement = element as HTMLElement;
-          if (htmlElement.style && htmlElement.style.fontFamily) {
-            return htmlElement.style.fontFamily;
-          }
-          // In test environment, fall back to system default
-          return 'arial, sans-serif';
-        }
-        return fontFamily;
-      }
-      return (target as any)[property];
-    }
+  if (typeof document === 'undefined') {
+    // This should not happen with jsdom, but provides a fallback
+    console.warn('Warning: document not available in test environment');
+  }
+}
+
+// Mock document.fonts API for testing
+if (typeof document !== 'undefined') {
+  Object.defineProperty(document, 'fonts', {
+    value: {
+      load: vi.fn().mockResolvedValue([]),
+      check: vi.fn().mockReturnValue(false), // Initially fonts are not loaded
+      ready: Promise.resolve(new Set()),
+    },
+    writable: true,
   });
-};
+
+  // Mock window.getComputedStyle to better handle font fallbacks in tests
+  const originalGetComputedStyle = window.getComputedStyle;
+  window.getComputedStyle = function(element: Element, pseudoElement?: string | null) {
+    const style = originalGetComputedStyle(element, pseudoElement);
+    
+    // Create a proxy to better handle font-family fallbacks
+    return new Proxy(style, {
+      get(target: CSSStyleDeclaration, property: string | symbol) {
+        if (property === 'fontFamily') {
+          const fontFamily = target.fontFamily;
+          // If no inline style is set, check if Frutiger should be applied
+          if (!fontFamily || fontFamily === '' || fontFamily === 'Times' || fontFamily === 'serif') {
+            // Check if element has our font stack applied via inline styles
+            const htmlElement = element as HTMLElement;
+            if (htmlElement.style && htmlElement.style.fontFamily) {
+              return htmlElement.style.fontFamily;
+            }
+            // In test environment, fall back to system default
+            return 'arial, sans-serif';
+          }
+          return fontFamily;
+        }
+        return (target as any)[property];
+      }
+    });
+  };
+}

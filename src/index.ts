@@ -7,25 +7,8 @@ import './styles/fonts.css';
 // Import utilities CSS for global utility classes
 import './styles/utilities.scss';
 
-// Components
-export { Button } from './components/Button';
-export type { NHSButtonProps, ButtonVariant, ButtonSize } from './components/Button';
-
-export { Breadcrumb } from './components/Breadcrumb';
-export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
-
-// Theme Provider and hooks - Use our enhanced theme provider
-export { 
-  NHSThemeProvider, 
-  useNHSTheme 
-} from './components/NHSThemeProvider';
-
-export type { 
-  NHSTheme, 
-  NHSHeadingStyle, 
-  NHSParagraphStyle,
-  ResponsiveProperty 
-} from '../packages/nhs-fdp/dist/react/theme/NHSThemeProvider';
+// Re-export all components and types from components index
+export * from './components';
 
 // Design tokens (re-export)
 export * from '../packages/nhs-fdp/dist/react/index';

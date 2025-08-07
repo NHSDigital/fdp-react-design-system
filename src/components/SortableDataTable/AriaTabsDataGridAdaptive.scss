@@ -1,0 +1,429 @@
+// AriaTabsDataGridAdaptive - Mobile-First Card Layout
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// Mobile-first approach: Start with cards, enhance to table
+.aria-tabs-datagrid-adaptive {
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  width: 100%;
+
+  // ==========================================================================
+  // MOBILE-FIRST: Card Layout (Default)
+  // ==========================================================================
+  
+  &__tabs {
+    display: flex;
+    gap: nhs.$nhs-fdp-spacing-2;
+    margin-bottom: nhs.$nhs-fdp-spacing-4;
+    overflow-x: auto;
+    padding: nhs.$nhs-fdp-spacing-2 0;
+    
+    // Mobile scrollable tabs
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+    
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: nhs.$nhs-fdp-color-grey-3;
+      border-radius: 2px;
+    }
+  }
+
+  &__tab {
+    background: nhs.$nhs-fdp-color-grey-5;
+    border: 2px solid nhs.$nhs-fdp-color-grey-4;
+    padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4;
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-color-primary-black;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 44px; // Touch target
+    
+    &:hover {
+      background: nhs.$nhs-fdp-color-grey-4;
+    }
+    
+    &:focus {
+      outline: 3px solid nhs.$nhs-fdp-color-primary-yellow;
+      outline-offset: 2px;
+    }
+    
+    &--selected {
+      background: nhs.$nhs-fdp-color-primary-blue;
+      color: nhs.$nhs-fdp-color-primary-white;
+      border-color: nhs.$nhs-fdp-color-primary-blue;
+    }
+  }
+
+  // Card Grid Layout
+  &__cards {
+    display: grid;
+    gap: nhs.$nhs-fdp-spacing-4;
+    grid-template-columns: 1fr; // Single column on mobile
+    
+    // Auto-fit for larger mobile screens
+    @media (min-width: 480px) {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+  }
+
+  // Individual Card Styling
+  &__card {
+    background: nhs.$nhs-fdp-color-primary-white;
+    border: 2px solid nhs.$nhs-fdp-color-grey-4;
+    border-radius: nhs.$nhs-fdp-border-radius-medium;
+    padding: nhs.$nhs-fdp-component-card-padding-mobile;
+    box-shadow: nhs.$nhs-fdp-shadow-card-default;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    
+    &:hover {
+      box-shadow: nhs.$nhs-fdp-shadow-card-hover;
+      transform: translateY(-2px);
+    }
+    
+    &:focus {
+      outline: 3px solid nhs.$nhs-fdp-color-primary-yellow;
+      outline-offset: 2px;
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+    
+    // Selected state
+    &--selected {
+      border-color: nhs.$nhs-fdp-color-primary-blue;
+      background: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02);
+    }
+  }
+
+  // Card Header
+  &__card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: nhs.$nhs-fdp-spacing-3;
+    padding-bottom: nhs.$nhs-fdp-spacing-2;
+    border-bottom: 1px solid nhs.$nhs-fdp-color-grey-4;
+  }
+
+  &__card-title {
+    margin: 0;
+    font-size: nhs.$nhs-fdp-font-size-19-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-color-primary-black;
+    line-height: 1.3;
+    flex: 1;
+    margin-right: nhs.$nhs-fdp-spacing-2;
+  }
+
+  &__card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: nhs.$nhs-fdp-spacing-1;
+    align-items: flex-start;
+  }
+
+  &__card-badge {
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2;
+    
+    // Healthcare-specific badge colors
+    &--urgent {
+      background: nhs.$nhs-fdp-color-primary-red;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+    
+    &--warning {
+      background: nhs.$nhs-fdp-color-secondary-orange;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+    
+    &--success {
+      background: nhs.$nhs-fdp-color-secondary-aqua-green;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+  }
+
+  // Card Body - Key-Value Pairs
+  &__card-body {
+    margin-bottom: nhs.$nhs-fdp-spacing-3;
+  }
+
+  &__card-field {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: nhs.$nhs-fdp-spacing-2;
+    margin-bottom: nhs.$nhs-fdp-spacing-2;
+    align-items: baseline;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    // Stack vertically for long labels
+    @media (max-width: 360px) {
+      grid-template-columns: 1fr;
+      gap: nhs.$nhs-fdp-spacing-1;
+    }
+  }
+
+  &__card-field-label {
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-color-grey-1;
+    margin: 0;
+  }
+
+  &__card-field-value {
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    color: nhs.$nhs-fdp-color-primary-black;
+    margin: 0;
+    word-break: break-word;
+    
+    // Boolean value styling
+    &--boolean {
+      font-family: 'Courier New', monospace;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      
+      &[data-value="true"] {
+        color: nhs.$nhs-fdp-color-secondary-aqua-green;
+      }
+      
+      &[data-value="false"] {
+        color: nhs.$nhs-fdp-color-grey-2;
+      }
+    }
+  }
+
+  // Card Actions
+  &__card-actions {
+    display: flex;
+    gap: nhs.$nhs-fdp-spacing-2;
+    justify-content: flex-end;
+    margin-top: nhs.$nhs-fdp-spacing-3;
+    padding-top: nhs.$nhs-fdp-spacing-2;
+    border-top: 1px solid nhs.$nhs-fdp-color-grey-4;
+    
+    .nhsuk-button {
+      font-size: nhs.$nhs-fdp-font-size-14-mobile;
+      padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+      min-height: 44px;
+    }
+  }
+
+  // ==========================================================================
+  // TABLET: Hybrid Layout Enhancement
+  // ==========================================================================
+  
+  &--hybrid {
+    @media (min-width: 768px) {
+      .aria-tabs-datagrid-adaptive__cards {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: nhs.$nhs-fdp-spacing-3;
+      }
+      
+      .aria-tabs-datagrid-adaptive__card {
+        padding: nhs.$nhs-fdp-component-card-padding-desktop;
+      }
+      
+      .aria-tabs-datagrid-adaptive__card-title {
+        font-size: nhs.$nhs-fdp-font-size-19-tablet;
+      }
+      
+      .aria-tabs-datagrid-adaptive__card-field-label {
+        font-size: nhs.$nhs-fdp-font-size-14-tablet;
+      }
+      
+      .aria-tabs-datagrid-adaptive__card-field-value {
+        font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      }
+    }
+  }
+
+  // Enhanced table mode for hybrid view
+  &__table--hybrid {
+    .aria-tabs-datagrid__grid {
+      border-radius: nhs.$nhs-fdp-border-radius-medium;
+      overflow: hidden;
+      box-shadow: nhs.$nhs-fdp-shadow-card-default;
+      
+      th, td {
+        padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2;
+      }
+      
+      tbody tr {
+        &:hover {
+          background: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02);
+        }
+      }
+    }
+  }
+
+  // ==========================================================================
+  // DESKTOP: Full Table Layout
+  // ==========================================================================
+  
+  @media (min-width: 1200px) {
+    // Cards become less prominent, table takes precedence
+    &__cards {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: nhs.$nhs-fdp-spacing-2;
+    }
+    
+    &__card {
+      padding: nhs.$nhs-fdp-component-card-padding-desktop;
+    }
+    
+    &__card-title {
+      font-size: nhs.$nhs-fdp-font-size-22-tablet;
+    }
+    
+    &__card-field-label {
+      font-size: nhs.$nhs-fdp-font-size-14-tablet;
+    }
+    
+    &__card-field-value {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    }
+    
+    // Desktop tabs can be larger
+    &__tab {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-5;
+    }
+  }
+
+  // ==========================================================================
+  // ACCESSIBILITY & FOCUS MANAGEMENT
+  // ==========================================================================
+  
+  // Screen reader enhancements for cards
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  // High contrast mode support
+  @media (forced-colors: active) {
+    &__card {
+      border: 2px solid ButtonText;
+    }
+    
+    &__tab--selected {
+      background: Highlight;
+      color: HighlightText;
+    }
+  }
+  
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    &__card {
+      transition: none;
+      
+      &:hover {
+        transform: none;
+      }
+    }
+    
+    &__tab {
+      transition: none;
+    }
+  }
+  
+  // Print styles
+  @media print {
+    &__card {
+      break-inside: avoid;
+      box-shadow: none;
+      border: 1px solid black;
+      margin-bottom: nhs.$nhs-fdp-spacing-3;
+    }
+    
+    &__card-actions {
+      display: none;
+    }
+  }
+
+  // ==========================================================================
+  // LOADING & ERROR STATES
+  // ==========================================================================
+  
+  &--loading {
+    .aria-tabs-datagrid-adaptive__cards {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+    }
+  }
+  
+  &__loading-card {
+    background: nhs.$nhs-fdp-color-grey-5;
+    border-radius: nhs.$nhs-fdp-border-radius-medium;
+    padding: nhs.$nhs-fdp-spacing-4;
+    text-align: center;
+    
+    .nhsuk-spinner {
+      margin-bottom: nhs.$nhs-fdp-spacing-2;
+    }
+  }
+  
+  &--error {
+    .aria-tabs-datagrid-adaptive__cards {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  &__error-card {
+    background: rgba(nhs.$nhs-fdp-color-primary-red, 0.02);
+    border: 2px solid nhs.$nhs-fdp-color-primary-red;
+    border-radius: nhs.$nhs-fdp-border-radius-medium;
+    padding: nhs.$nhs-fdp-spacing-4;
+    text-align: center;
+    color: nhs.$nhs-fdp-color-primary-red;
+  }
+}
+
+// ==========================================================================
+// ANIMATION UTILITIES (Experimental)
+// ==========================================================================
+
+.aria-tabs-datagrid-adaptive {
+  &--animated {
+    .aria-tabs-datagrid-adaptive__card {
+      animation: cardSlideIn 0.3s ease-out;
+    }
+    
+    @keyframes cardSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+  
+  // Layout transition animations
+  &--transitioning {
+    .aria-tabs-datagrid-adaptive__cards {
+      transition: all 0.3s ease;
+    }
+  }
+}

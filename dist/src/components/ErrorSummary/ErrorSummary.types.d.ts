@@ -1,4 +1,4 @@
-import { ReactNode } from '../../../node_modules/react';
+import { ReactNode } from 'react';
 export interface ErrorSummaryItem {
     /** Text content for the error item */
     text?: string;

@@ -1,5 +1,6 @@
-import { default as React } from '../../../node_modules/react';
+import React from 'react';
 import { CareCardProps } from './CareCard.types';
+import './CareCard.scss';
 /**
  * NHS CareCard Component
  *

@@ -1,6 +1,7 @@
-import { default as React } from '../../../node_modules/react';
+import * as React from 'react';
 import { ButtonProps as ReactButtonProps } from 'react-aria-components';
 import { ButtonVariant, ButtonSize } from './Button.types';
+import './Button.scss';
 /**
  * Props for the NHS Button component built with React Aria
  */

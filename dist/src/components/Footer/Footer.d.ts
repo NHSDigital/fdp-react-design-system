@@ -1,3 +1,4 @@
-import { default as React } from '../../../node_modules/react';
+import React from 'react';
+import './Footer.scss';
 import { FooterProps } from './Footer.types';
 export declare const Footer: React.FC<FooterProps>;

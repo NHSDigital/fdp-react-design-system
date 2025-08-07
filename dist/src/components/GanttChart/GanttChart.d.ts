@@ -1,4 +1,5 @@
 import { Resource, Task } from './TaskBar';
+import './GanttChart.scss';
 export interface GanttChartProps {
     resources: Resource[];
     tasks?: Task[];

@@ -1,4 +1,4 @@
-import { CSSProperties } from '../../../node_modules/react';
+import { CSSProperties } from 'react';
 import { NHSTheme } from '../../../packages/nhs-fdp/dist/react/theme/NHSThemeProvider';
 import { CheckboxStyleProps } from './Checkboxes.types';
 /**
@@ -7,14 +7,17 @@ import { CheckboxStyleProps } from './Checkboxes.types';
 export declare const getFieldsetStyles: () => CSSProperties;
 /**
  * Get legend styles using NHS design tokens
+ * SSR-compatible: Uses CSS custom properties for responsive font sizes
  */
 export declare const getLegendStyles: (theme: NHSTheme, legendSize?: "xl" | "l" | "m" | "s", isPageHeading?: boolean) => CSSProperties;
 /**
  * Get hint text styles using NHS design tokens
+ * SSR-compatible: Uses tablet size as default
  */
 export declare const getHintStyles: (theme: NHSTheme) => CSSProperties;
 /**
  * Get error message styles using NHS design tokens
+ * SSR-compatible: Uses tablet size as default
  */
 export declare const getErrorMessageStyles: (theme: NHSTheme) => CSSProperties;
 /**
@@ -27,6 +30,7 @@ export declare const getCheckboxItemStyles: (_theme: NHSTheme, { disabled }: Pic
 export declare const getCheckboxInputStyles: () => CSSProperties;
 /**
  * Get checkbox label styles using NHS design tokens
+ * SSR-compatible: Uses tablet size as default
  */
 export declare const getCheckboxLabelStyles: (theme: NHSTheme, { size, disabled, hasError }: CheckboxStyleProps) => CSSProperties;
 /**
@@ -43,5 +47,6 @@ export declare const getCheckboxLabelAfterStyles: (theme: NHSTheme, { size, hasE
 export declare const getCheckboxFocusStyles: (theme: NHSTheme) => CSSProperties;
 /**
  * Get checkbox item hint styles using NHS design tokens
+ * SSR-compatible: Uses tablet size as default
  */
 export declare const getCheckboxItemHintStyles: (theme: NHSTheme, size: "default" | "small") => CSSProperties;

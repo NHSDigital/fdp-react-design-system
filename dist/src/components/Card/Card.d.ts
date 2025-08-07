@@ -1,5 +1,6 @@
-import { default as React } from '../../../node_modules/react';
+import React from 'react';
 import { CardProps, CardGroupProps, CardGroupItemProps } from './Card.types';
+import './Card.scss';
 /**
  * NHS Card Component
  *

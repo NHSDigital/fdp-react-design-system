@@ -1,4 +1,4 @@
-import { default as React } from '../../node_modules/react';
+import React from 'react';
 /**
  * Component to help debug font loading in Storybook
  */

@@ -9,9 +9,10 @@ export default defineConfig({
     react(),
     // dts({
     //   include: ['../src/**/*'],
-    //   exclude: ['**/*.test.*', '**/*.stories.*'],
+    //   exclude: ['**/*.test.*', '**/*.stories.*', '**/test-setup.ts', '**/vitest-env.d.ts'],
     //   outDir: '../dist',
-    //   tsconfigPath: '../tsconfig.json',
+    //   tsconfigPath: resolve(__dirname, '../tsconfig.build.json'),
+    //   rollupTypes: false,
     // }),
   ],
   build: {
@@ -32,7 +33,7 @@ export default defineConfig({
     },
     sourcemap: true,
     copyPublicDir: false,
-    outDir: '../dist',
+    outDir: resolve(__dirname, '../dist'),
   },
   test: {
     globals: true,

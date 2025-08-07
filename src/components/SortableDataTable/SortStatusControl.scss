@@ -1,7 +1,7 @@
 /**
  * Sort Status Control Component Styles
  */
-@use '../../../../packages/nhs-fdp/scss' as nhs;
+@use '../../../packages/nhs-fdp/dist/scss/_tokens.scss' as nhs;
 
 .sort-status-control {
   padding: nhs.$nhs-fdp-spacing-3;

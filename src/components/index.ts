@@ -8,6 +8,8 @@ export { Tag } from './Tag';
 export type { TagColor, TagProps } from './Tag';
 export { Checkboxes } from './Checkboxes';
 export type { CheckboxesProps, CheckboxItem } from './Checkboxes';
+export { CharacterCount } from './CharacterCount';
+export type { CharacterCountProps } from './CharacterCount';
 export { Input } from './Input';
 export type { InputProps } from './Input';
 export { Textarea } from './Textarea';
@@ -36,6 +38,8 @@ export { Header } from './Header';
 export type { HeaderProps, AccountItem, NavigationItem } from './Header';
 export { Footer } from './Footer';
 export type { FooterProps, FooterLinkItem } from './Footer';
+export { GanttChart } from './GanttChart';
+export type { GanttChartProps } from './GanttChart';
 export { Breadcrumb } from './Breadcrumb';
 export type { BreadcrumbProps, BreadcrumbItem } from './Breadcrumb';
 export { SkipLink } from './SkipLink';
@@ -70,3 +74,20 @@ export { WarningCallout } from './WarningCallout';
 export type { WarningCalloutProps } from './WarningCallout';
 export { Images } from './Images';
 export type { ImagesProps } from './Images';
+
+// Advanced Data Grid Components
+export { 
+  AriaDataGrid, 
+  AriaTabsDataGrid, 
+  AriaTabsDataGridAdaptive, 
+  SortStatusControl 
+} from './SortableDataTable';
+export type { 
+  AriaDataGridProps, 
+  AriaTabsDataGridProps, 
+  AriaTabsDataGridRef, 
+  AriaTabsDataGridAdaptiveProps, 
+  TabPanelConfig, 
+  LayoutMode, 
+  SortStatusControlProps 
+} from './SortableDataTable';

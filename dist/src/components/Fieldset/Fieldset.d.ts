@@ -1,3 +1,4 @@
-import { default as React } from '../../../node_modules/react';
+import React from 'react';
+import './Fieldset.scss';
 import { FieldsetProps } from './Fieldset.types';
 export declare const Fieldset: React.FC<FieldsetProps>;

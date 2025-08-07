@@ -1,3 +1,4 @@
-import { default as React } from '../../../node_modules/react';
+import React from 'react';
 import { RadiosProps } from './Radios.types';
+import './Radios.scss';
 export declare const Radios: React.FC<RadiosProps>;

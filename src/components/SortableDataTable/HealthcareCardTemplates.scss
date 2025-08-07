@@ -1,0 +1,562 @@
+// Healthcare Card Templates - NHS Design System Compliant
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// ==========================================================================
+// HEALTHCARE CARD BASE STYLES
+// ==========================================================================
+
+.healthcare-card {
+  background: nhs.$nhs-fdp-color-primary-white;
+  border: 2px solid nhs.$nhs-fdp-color-grey-4;
+  border-radius: nhs.$nhs-fdp-border-radius-medium;
+  padding: nhs.$nhs-fdp-component-card-padding-mobile;
+  margin-bottom: nhs.$nhs-fdp-spacing-3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  // Base hover and focus states
+  &:hover {
+    box-shadow: nhs.$nhs-fdp-shadow-card-hover;
+    transform: translateY(-1px);
+    border-color: nhs.$nhs-fdp-color-primary-blue;
+  }
+
+  &:focus {
+    outline: 3px solid nhs.$nhs-fdp-color-primary-yellow;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  // Priority-based styling
+  &--high {
+    border-left: 6px solid nhs.$nhs-fdp-color-primary-red;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, 
+        nhs.$nhs-fdp-color-primary-red 0%, 
+        rgba(nhs.$nhs-fdp-color-primary-red, 0.1) 100%);
+    }
+  }
+
+  &--medium {
+    border-left: 4px solid nhs.$nhs-fdp-color-secondary-orange;
+  }
+
+  &--low {
+    border-left: 2px solid nhs.$nhs-fdp-color-grey-3;
+  }
+
+  // Status-based styling
+  &--active {
+    background: nhs.$nhs-fdp-color-primary-white;
+  }
+
+  &--pending {
+    background: rgba(nhs.$nhs-fdp-color-secondary-orange, 0.02);
+  }
+
+  &--completed {
+    background: rgba(nhs.$nhs-fdp-color-secondary-aqua-green, 0.02);
+    opacity: 0.8;
+  }
+
+  &--cancelled {
+    background: rgba(nhs.$nhs-fdp-color-grey-3, 0.02);
+    opacity: 0.6;
+  }
+
+  // Tablet enhancements
+  @media (min-width: 768px) {
+    padding: nhs.$nhs-fdp-component-card-padding-desktop;
+    margin-bottom: nhs.$nhs-fdp-spacing-4;
+  }
+
+  // Desktop enhancements
+  @media (min-width: 1200px) {
+    padding: nhs.$nhs-fdp-component-card-padding-desktop;
+  }
+}
+
+// ==========================================================================
+// CARD HEADER STYLES
+// ==========================================================================
+
+.healthcare-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: nhs.$nhs-fdp-spacing-3;
+  padding-bottom: nhs.$nhs-fdp-spacing-2;
+  border-bottom: 1px solid nhs.$nhs-fdp-color-grey-4;
+}
+
+.healthcare-card__identity,
+.healthcare-card__time-info,
+.healthcare-card__medication-info,
+.healthcare-card__vitals-summary {
+  flex: 1;
+  margin-right: nhs.$nhs-fdp-spacing-2;
+}
+
+.healthcare-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: nhs.$nhs-fdp-spacing-1;
+  align-items: flex-start;
+}
+
+// ==========================================================================
+// PATIENT CARD SPECIFIC STYLES
+// ==========================================================================
+
+.healthcare-card--patient {
+  .healthcare-card__patient-name {
+    margin: 0 0 nhs.$nhs-fdp-spacing-1 0;
+    font-size: nhs.$nhs-fdp-font-size-19-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-color-primary-black;
+    line-height: 1.3;
+
+    @media (min-width: 768px) {
+      font-size: nhs.$nhs-fdp-font-size-19-tablet;
+    }
+
+    @media (min-width: 1200px) {
+      font-size: nhs.$nhs-fdp-font-size-22-tablet;
+    }
+  }
+
+  .healthcare-card__nhs-number {
+    margin: 0;
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    color: nhs.$nhs-fdp-color-grey-1;
+    font-family: 'Courier New', monospace;
+
+    .healthcare-card__label {
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      margin-right: nhs.$nhs-fdp-spacing-1;
+    }
+
+    .healthcare-card__value {
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .healthcare-card__alert {
+    &--critical {
+      background: nhs.$nhs-fdp-color-primary-red;
+      color: nhs.$nhs-fdp-color-primary-white;
+      animation: pulse-critical 2s infinite;
+    }
+
+    &--high {
+      background: nhs.$nhs-fdp-color-secondary-orange;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+
+    &--medium {
+      background: nhs.$nhs-fdp-color-primary-yellow;
+      color: nhs.$nhs-fdp-color-primary-black;
+    }
+
+    &--low {
+      background: nhs.$nhs-fdp-color-grey-3;
+      color: nhs.$nhs-fdp-color-primary-black;
+    }
+  }
+
+  .healthcare-card__priority {
+    &--high {
+      background: nhs.$nhs-fdp-color-primary-red;
+      color: nhs.$nhs-fdp-color-primary-white;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+    }
+  }
+}
+
+// ==========================================================================
+// APPOINTMENT CARD SPECIFIC STYLES
+// ==========================================================================
+
+.healthcare-card--appointment {
+  .healthcare-card__time {
+    margin: 0;
+    font-size: nhs.$nhs-fdp-font-size-22-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-color-primary-blue;
+    font-variant-numeric: tabular-nums;
+
+    @media (min-width: 768px) {
+      font-size: nhs.$nhs-fdp-font-size-22-tablet;
+    }
+  }
+
+  .healthcare-card__type {
+    margin: nhs.$nhs-fdp-spacing-1 0 0 0;
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    color: nhs.$nhs-fdp-color-grey-1;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+  }
+
+  .healthcare-card__status {
+    &--pending {
+      background: nhs.$nhs-fdp-color-secondary-orange;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+
+    &--active {
+      background: nhs.$nhs-fdp-color-primary-blue;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+
+    &--completed {
+      background: nhs.$nhs-fdp-color-secondary-aqua-green;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+
+    &--cancelled {
+      background: nhs.$nhs-fdp-color-grey-2;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+  }
+
+  .healthcare-card__duration {
+    background: nhs.$nhs-fdp-color-grey-4;
+    color: nhs.$nhs-fdp-color-primary-black;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// ==========================================================================
+// MEDICATION CARD SPECIFIC STYLES
+// ==========================================================================
+
+.healthcare-card--medication {
+  .healthcare-card__medication-name {
+    margin: 0;
+    font-size: nhs.$nhs-fdp-font-size-19-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-color-primary-black;
+    line-height: 1.3;
+
+    @media (min-width: 768px) {
+      font-size: nhs.$nhs-fdp-font-size-19-tablet;
+    }
+  }
+
+  .healthcare-card__dose {
+    margin: nhs.$nhs-fdp-spacing-1 0 0 0;
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    color: nhs.$nhs-fdp-color-grey-1;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .healthcare-card__route {
+    background: nhs.$nhs-fdp-color-primary-blue;
+    color: nhs.$nhs-fdp-color-primary-white;
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .healthcare-card__warning {
+    background: nhs.$nhs-fdp-color-primary-red;
+    color: nhs.$nhs-fdp-color-primary-white;
+    animation: pulse-warning 1.5s infinite;
+  }
+}
+
+// ==========================================================================
+// VITALS CARD SPECIFIC STYLES
+// ==========================================================================
+
+.healthcare-card--vitals {
+  .healthcare-card__timestamp {
+    margin: 0;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-color-primary-black;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .healthcare-card__ews-score {
+    margin: nhs.$nhs-fdp-spacing-1 0 0 0;
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2;
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
+
+    &--critical {
+      background: nhs.$nhs-fdp-color-primary-red;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+
+    &--high {
+      background: nhs.$nhs-fdp-color-secondary-orange;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+
+    &--medium {
+      background: nhs.$nhs-fdp-color-primary-yellow;
+      color: nhs.$nhs-fdp-color-primary-black;
+    }
+
+    &--low {
+      background: nhs.$nhs-fdp-color-secondary-aqua-green;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+  }
+
+  .healthcare-card__vitals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: nhs.$nhs-fdp-spacing-2;
+    margin-top: nhs.$nhs-fdp-spacing-2;
+
+    @media (min-width: 480px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .healthcare-card__vital {
+    text-align: center;
+    padding: nhs.$nhs-fdp-spacing-2;
+    background: nhs.$nhs-fdp-color-grey-5;
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+  }
+
+  .healthcare-card__vital-label {
+    display: block;
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-color-grey-1;
+    margin-bottom: nhs.$nhs-fdp-spacing-1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .healthcare-card__vital-value {
+    display: block;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-color-primary-black;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// ==========================================================================
+// CARD BODY AND DETAILS STYLES
+// ==========================================================================
+
+.healthcare-card__body {
+  margin-bottom: nhs.$nhs-fdp-spacing-3;
+}
+
+.healthcare-card__details {
+  margin: 0;
+}
+
+.healthcare-card__detail {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: nhs.$nhs-fdp-spacing-2;
+  margin-bottom: nhs.$nhs-fdp-spacing-2;
+  align-items: baseline;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  // Prominent detail styling
+  &--prominent {
+    padding: nhs.$nhs-fdp-spacing-2;
+    background: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02);
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+    border-left: 3px solid nhs.$nhs-fdp-color-primary-blue;
+  }
+
+  // Urgent detail styling
+  &--urgent {
+    padding: nhs.$nhs-fdp-spacing-2;
+    background: rgba(nhs.$nhs-fdp-color-primary-red, 0.02);
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+    border-left: 3px solid nhs.$nhs-fdp-color-primary-red;
+    
+    dd {
+      color: nhs.$nhs-fdp-color-primary-red;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+    }
+  }
+
+  // Stack vertically on very small screens
+  @media (max-width: 360px) {
+    grid-template-columns: 1fr;
+    gap: nhs.$nhs-fdp-spacing-1;
+  }
+
+  dt {
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-color-grey-1;
+    margin: 0;
+  }
+
+  dd {
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    color: nhs.$nhs-fdp-color-primary-black;
+    margin: 0;
+    word-break: break-word;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// ==========================================================================
+// CARD ACTIONS STYLES
+// ==========================================================================
+
+.healthcare-card__actions {
+  display: flex;
+  gap: nhs.$nhs-fdp-spacing-2;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-top: nhs.$nhs-fdp-spacing-3;
+  padding-top: nhs.$nhs-fdp-spacing-2;
+  border-top: 1px solid nhs.$nhs-fdp-color-grey-4;
+}
+
+.healthcare-card__action {
+  font-size: nhs.$nhs-fdp-font-size-14-mobile;
+  padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+  min-height: 40px;
+  border-radius: nhs.$nhs-fdp-border-radius-small;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 0 0 auto;
+
+  &--primary {
+    background: nhs.$nhs-fdp-color-primary-blue;
+    color: nhs.$nhs-fdp-color-primary-white;
+    border: 2px solid nhs.$nhs-fdp-color-primary-blue;
+
+    &:hover {
+      background: darken(nhs.$nhs-fdp-color-primary-blue, 10%);
+      border-color: darken(nhs.$nhs-fdp-color-primary-blue, 10%);
+    }
+  }
+
+  // Touch-friendly sizing on mobile
+  @media (max-width: 480px) {
+    min-height: 44px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  @media (min-width: 768px) {
+    font-size: nhs.$nhs-fdp-font-size-14-tablet;
+  }
+}
+
+// ==========================================================================
+// ANIMATIONS
+// ==========================================================================
+
+@keyframes pulse-critical {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(nhs.$nhs-fdp-color-primary-red, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(nhs.$nhs-fdp-color-primary-red, 0.1);
+  }
+}
+
+@keyframes pulse-warning {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+// ==========================================================================
+// ACCESSIBILITY ENHANCEMENTS
+// ==========================================================================
+
+// High contrast mode support
+@media (forced-colors: active) {
+  .healthcare-card {
+    border: 2px solid ButtonText;
+    
+    &--high {
+      border-left: 6px solid Highlight;
+    }
+  }
+  
+  .healthcare-card__alert,
+  .healthcare-card__priority,
+  .healthcare-card__status {
+    background: ButtonText !important;
+    color: ButtonFace !important;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .healthcare-card {
+    transition: none;
+    
+    &:hover {
+      transform: none;
+    }
+  }
+  
+  .healthcare-card__alert--critical,
+  .healthcare-card__warning {
+    animation: none;
+  }
+}
+
+// Print styles
+@media print {
+  .healthcare-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid black;
+    margin-bottom: nhs.$nhs-fdp-spacing-3;
+    
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+  
+  .healthcare-card__actions {
+    display: none;
+  }
+  
+  .healthcare-card__alert,
+  .healthcare-card__priority,
+  .healthcare-card__status {
+    background: none !important;
+    color: black !important;
+    border: 1px solid black;
+  }
+}

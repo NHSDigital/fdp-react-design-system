@@ -1,3 +1,4 @@
-import { default as React } from '../../../node_modules/react';
+import React from 'react';
+import './Pagination.scss';
 import { PaginationProps } from './Pagination.types';
 export declare const Pagination: React.FC<PaginationProps>;

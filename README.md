@@ -11,13 +11,13 @@ The NHS FDP Design System provides a complete set of reusable components, design
 ### **TODO:** (setup as npm package): Installation
 
 ```bash
-npm install @nhs-fdp/design-system
+npm install @fergusbisset/nhs-fdp-design-system
 ```
 
 ### Basic Usage
 
 ```tsx
-import { Button, Panel, Heading } from '@nhs-fdp/design-system';
+import { Button, Panel, Heading } from '@fergusbisset/nhs-fdp-design-system';
 import '@nhs-fdp/design-system/dist/index.css';
 
 function App() {

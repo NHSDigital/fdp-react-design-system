@@ -1098,6 +1098,15 @@ $header-item-active-size: nhs.$nhs-fdp-focus-outline-width;
       }
     }
 
+    // Navigation link styling for white header
+    .nhsuk-header__navigation-link {
+      @include header-link-style(
+        $link-color: nhs.$nhs-fdp-color-primary-blue,
+        $link-hover-color: nhs.$nhs-fdp-color-primary-blue,
+        $link-active-color: nhs.$nhs-fdp-color-primary-blue
+      );
+    }
+
     // Navigation button styling for white header
     #{&}__navigation-button {
       color: nhs.$nhs-fdp-color-primary-blue;

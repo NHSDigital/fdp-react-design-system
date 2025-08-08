@@ -782,7 +782,7 @@ const me = ({
   ({
     variant: h = "primary",
     size: l = "default",
-    isBlock: a = !1,
+    fullWidth: a = !1,
     className: s,
     children: t,
     disabled: c,
@@ -790,12 +790,12 @@ const me = ({
     ...u
   }, d) => {
     const m = k(
-      "nhsuk-button",
+      "nhs-aria-button",
+      `nhs-aria-button--${h}`,
       {
-        [`nhsuk-button--${h}`]: h !== "primary",
-        [`nhsuk-button--${l}`]: l !== "default",
-        "nhsuk-button--block": a,
-        "nhsuk-button--disabled": c
+        [`nhs-aria-button--${l}`]: l !== "default",
+        "nhs-aria-button--full-width": a,
+        "nhs-aria-button--disabled": c
       },
       s
     );

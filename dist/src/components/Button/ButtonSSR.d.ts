@@ -20,9 +20,9 @@ export interface ButtonSSRProps extends Omit<React.ButtonHTMLAttributes<HTMLButt
      */
     size?: ButtonSize;
     /**
-     * Whether the button should be displayed as a block element
+     * Whether the button should take the full width of its container
      */
-    isBlock?: boolean;
+    fullWidth?: boolean;
     /**
      * Additional CSS classes to apply
      */

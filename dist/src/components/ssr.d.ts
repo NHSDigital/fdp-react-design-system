@@ -18,13 +18,8 @@ export { HeaderStatic } from './Header/HeaderStatic';
 export type { HeaderProps, AccountItem, NavigationItem } from './Header/Header.types';
 export { ActionLink } from './ActionLink';
 export type { ActionLinkProps } from './ActionLink';
-<<<<<<< HEAD
-export { Button } from './Button';
-export type { NHSButtonProps } from './Button';
-=======
 export { ButtonSSR as Button } from './Button/ButtonSSR';
 export type { ButtonSSRProps as ButtonProps } from './Button/ButtonSSR';
->>>>>>> d35bb29 (More SSR build script fixes.)
 export { BackLink } from './BackLink';
 export type { BackLinkProps } from './BackLink';
 export { Tag } from './Tag';
@@ -39,16 +34,3 @@ export { ErrorMessage } from './ErrorMessage';
 export type { ErrorMessageProps } from './ErrorMessage';
 export { SkipLink } from './SkipLink';
 export type { SkipLinkProps } from './SkipLink';
-<<<<<<< HEAD
-export { Input } from './Input';
-export type { InputProps } from './Input';
-export { Textarea } from './Textarea';
-export type { TextareaProps } from './Textarea';
-export { Select } from './Select';
-export type { SelectProps, SelectOption } from './Select';
-export { Checkboxes } from './Checkboxes';
-export type { CheckboxesProps, CheckboxItem } from './Checkboxes';
-export { Radios } from './Radios';
-export type { RadiosProps, RadioOption } from './Radios';
-=======
->>>>>>> d35bb29 (More SSR build script fixes.)

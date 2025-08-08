@@ -1,22 +1,24 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React from 'react';
 import classNames from 'classnames';
-import './Header.scss';
-import './Header.ssr.scss';
-import { HeaderProps, NavigationItem } from './Header.types';
+import { HeaderProps, NavigationItem, AccountItem } from './Header.types';
 
 /**
- * SSR-Compatible Header Component with Progressive Enhancement
+ * True SSR-Compatible Header Component
  * 
  * This component provides:
  * 1. Full SSR compatibility - no browser APIs called during render
- * 2. Progressive enhancement - basic functionality without JavaScript
- * 3. Enhanced responsive behavior when JavaScript is available
- * 4. Graceful fallback for all navigation items
+ * 2. Zero React hooks - works in Next.js App Router and other SSR environments
+ * 3. Progressive enhancement - basic functionality without JavaScript
+ * 4. Enhanced responsive behavior when JavaScript is available via data attributes
+ * 5. Graceful fallback for all navigation items
  * 
  * SSR Strategy:
  * - Server: Renders all navigation items in a simple layout
- * - Client: Enhances with responsive overflow handling and dropdowns
+ * - Client: Can be enhanced with external JavaScript for responsive behavior
  * - No-JS: Fully functional navigation without JavaScript
+ * 
+ * IMPORTANT: This component uses NO React hooks and NO client-side APIs
+ * to ensure full compatibility with Next.js App Router and other SSR environments.
  */
 export const HeaderSSR: React.FC<HeaderProps> = ({
   className,
@@ -31,29 +33,6 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
   attributes = {},
   ...props
 }) => {
-  // Client-side enhancement state
-  const [isClient, setIsClient] = useState(false);
-  const [isEnhanced, setIsEnhanced] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [showMoreButton, setShowMoreButton] = useState(false);
-  const [visibleItems, setVisibleItems] = useState<number>(navigation?.items?.length || 0);
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  
-  // Refs for progressive enhancement
-  const navigationRef = useRef<HTMLUListElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // SSR-safe client detection
-  useEffect(() => {
-    setIsClient(true);
-    // Add a small delay to prevent hydration mismatches
-    const timer = setTimeout(() => {
-      setIsEnhanced(true);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, []);
-
   // Determine if logo and service name should be combined
   const combineLogoAndServiceNameLinks = 
     (service.href && !logo.href) || 
@@ -63,10 +42,10 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
   // CSS classes
   const headerClasses = classNames(
     'nhsuk-header',
+    'nhsuk-header--ssr', // SSR version identifier
     {
       'nhsuk-header--organisation': variant === 'organisation' || organisation,
-      'nhsuk-header--enhanced': isEnhanced,
-      'nhsuk-header--ssr': !isClient,
+      'nhsuk-header--white': variant === 'white',
     },
     className
   );
@@ -81,190 +60,6 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
     'nhsuk-header__navigation',
     navigation?.className
   );
-
-  // Progressive enhancement: simplified responsive overflow handling
-  const calculateOverflow = useCallback(() => {
-    if (!isClient || !isEnhanced || !navigationRef.current || !containerRef.current || !navigation?.items) {
-      return;
-    }
-
-    try {
-      const container = containerRef.current;
-      const nav = navigationRef.current;
-      const containerWidth = container.offsetWidth;
-      const navItems = nav.querySelectorAll('.nhsuk-header__navigation-item:not(.nhsuk-header__navigation-item--more)');
-      
-      if (navItems.length === 0 || containerWidth === 0) return;
-
-      // Account for NHS width-container margins (gutters) - simplified version
-      const mobile = window.innerWidth < 768;
-      const gutterSize = mobile ? 16 : 32; // Half gutter on mobile, full gutter on desktop
-      const totalGutters = gutterSize * 2; // Left and right gutters
-      const availableContainerWidth = containerWidth - totalGutters;
-
-      // Calculate item widths
-      const measurements = Array.from(navItems).map(item => (item as HTMLElement).offsetWidth);
-      const totalWidth = measurements.reduce((sum, width) => sum + width, 0);
-      const moreButtonWidth = mobile ? 80 : 100;
-      
-      console.log('SSR Header overflow check:', {
-        containerWidth,
-        availableContainerWidth,
-        totalGutters,
-        totalWidth,
-        mobile,
-        itemCount: measurements.length
-      });
-      
-      if (totalWidth <= availableContainerWidth) {
-        // All items fit
-        setShowMoreButton(false);
-        setVisibleItems(navigation.items.length);
-      } else {
-        // Need overflow handling
-        const availableWidth = availableContainerWidth - moreButtonWidth;
-        let itemsToShow = 0;
-        let runningWidth = 0;
-        
-        for (let i = 0; i < measurements.length; i++) {
-          const newWidth = runningWidth + measurements[i];
-          if (newWidth <= availableWidth) {
-            runningWidth = newWidth;
-            itemsToShow = i + 1;
-          } else {
-            break;
-          }
-        }
-        
-        // Always show at least 1 item
-        itemsToShow = Math.max(1, itemsToShow);
-        setShowMoreButton(true);
-        setVisibleItems(itemsToShow);
-      }
-    } catch (error) {
-      console.warn('SSR Header overflow calculation error:', error);
-      // Fallback: show all items
-      setShowMoreButton(false);
-      setVisibleItems(navigation?.items?.length || 0);
-    }
-  }, [isClient, isEnhanced, navigation?.items]);
-
-  // Separate effect for initial calculation
-  useEffect(() => {
-    if (!isClient || !isEnhanced || !navigation?.items) return;
-    
-    const timer = setTimeout(() => {
-      calculateOverflow();
-    }, 100);
-    
-    return () => clearTimeout(timer);
-  }, [isClient, isEnhanced, navigation?.items, calculateOverflow]);
-
-  // Resize handling for SSR component
-  useEffect(() => {
-    if (!isClient || !isEnhanced) return;
-
-    const handleResize = () => {
-      // Close menu on resize
-      if (menuOpen) {
-        setMenuOpen(false);
-        setDropdownVisible(false);
-      }
-      
-      // Simple debounced overflow check
-      if (resizeTimeoutRef.current) {
-        clearTimeout(resizeTimeoutRef.current);
-      }
-      resizeTimeoutRef.current = setTimeout(() => {
-        if (navigation?.items && !menuOpen) { // Don't recalculate if menu is open
-          calculateOverflow();
-        }
-      }, 250);
-    };
-
-    // Basic window resize listener (simpler than ResizeObserver for SSR fallback)
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (resizeTimeoutRef.current) {
-        clearTimeout(resizeTimeoutRef.current);
-      }
-    };
-  }, [isClient, isEnhanced, menuOpen, calculateOverflow, navigation?.items]);
-
-  // Enhanced keyboard and click handling (client-side only)
-  useEffect(() => {
-    if (!isClient || !menuOpen) return;
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setMenuOpen(false);
-        setDropdownVisible(false);
-      }
-    };
-
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      const isInsideNavigation = navigationRef.current?.contains(target);
-      
-      // Handle menu click-outside
-      if (menuOpen && !isInsideNavigation) {
-        setMenuOpen(false);
-        setDropdownVisible(false);
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isClient, menuOpen]);
-
-  // Menu toggle handler
-  const toggleMenu = useCallback((event?: React.MouseEvent) => {
-    if (!isClient) return; // No-op on server
-    
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    
-    const newMenuState = !menuOpen;
-    setMenuOpen(newMenuState);
-    
-    if (newMenuState) {
-      setTimeout(() => setDropdownVisible(true), 50);
-    } else {
-      setDropdownVisible(false);
-    }
-  }, [isClient, menuOpen]);
-
-  // Render navigation item content
-  const renderNavigationLinkContent = (item: NavigationItem) => {
-    if (item.active || item.current) {
-      const content = item.html ? (
-        <span dangerouslySetInnerHTML={{ __html: item.html }} />
-      ) : (
-        item.text
-      );
-      
-      return (
-        <strong className="nhsuk-header__navigation-item-current-fallback">
-          {content}
-        </strong>
-      );
-    }
-
-    return item.html ? (
-      <span dangerouslySetInnerHTML={{ __html: item.html }} />
-    ) : (
-      item.text
-    );
-  };
 
   // Render NHS Logo
   const renderNHSLogo = () => (
@@ -286,236 +81,214 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
     </svg>
   );
 
-  // Render service logo
+  // Render service logo (NHS logo or custom image)
   const renderServiceLogo = () => {
     if (logo.src) {
       return (
         <img 
-          className="nhsuk-header__logo" 
+          className="nhsuk-header__organisation-logo" 
           src={logo.src} 
-          alt={logo.ariaLabel || ""} 
-          width="100" 
-          height="40" 
+          width="280" 
+          alt={logo.ariaLabel || "NHS"} 
         />
       );
     }
     return renderNHSLogo();
   };
 
-  // Render chevron icon for more button
-  const renderChevronIcon = () => (
-    <svg 
-      className="nhsuk-icon nhsuk-icon__chevron-down" 
-      xmlns="http://www.w3.org/2000/svg" 
-      viewBox="0 0 24 24" 
-      aria-hidden="true" 
-      focusable="false"
-    >
-      <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" />
-    </svg>
-  );
+  // Render organisation name
+  const renderOrganisationName = () => {
+    if (!organisation) return null;
+    
+    return (
+      <>
+        <span className="nhsuk-header__organisation-name">
+          {organisation.name}
+          {organisation.split && (
+            <span className="nhsuk-header__organisation-name-split">
+              {' '}{organisation.split}
+            </span>
+          )}
+        </span>
+        {organisation.descriptor && (
+          <span className="nhsuk-header__organisation-name-descriptor">
+            {organisation.descriptor}
+          </span>
+        )}
+      </>
+    );
+  };
+
+  // Render service name
+  const renderServiceName = (text?: string, href?: string) => {
+    if (!text) return null;
+    
+    if (href) {
+      return (
+        <a className="nhsuk-header__service-name" href={href}>
+          {text}
+        </a>
+      );
+    }
+    return <span className="nhsuk-header__service-name">{text}</span>;
+  };
+
+  // Render navigation items (all visible for SSR)
+  const renderNavigationItems = () => {
+    if (!navigation?.items || navigation.items.length === 0) return null;
+
+    return navigation.items.map((item: NavigationItem, index: number) => (
+      <li 
+        key={item.href || index} 
+        className="nhsuk-header__navigation-item"
+        data-navigation-item="true"
+      >
+        <a 
+          className="nhsuk-header__navigation-link" 
+          href={item.href}
+          {...(item.attributes || {})}
+        >
+          {item.text}
+        </a>
+      </li>
+    ));
+  };
+
+  // Render account items
+  const renderAccountItems = () => {
+    if (!account?.items || account.items.length === 0) return null;
+
+    return account.items.map((item: AccountItem, index: number) => (
+      <li key={item.href || index} className="nhsuk-header__account-item">
+        <a 
+          className="nhsuk-header__account-link" 
+          href={item.href}
+        >
+          {item.text}
+        </a>
+      </li>
+    ));
+  };
+
+  // Render search form
+  const renderSearch = () => {
+    if (!search) return null;
+
+    return (
+      <div className="nhsuk-header__search">
+        <div className="nhsuk-header__search-wrap" id="wrap-search">
+          <form 
+            className="nhsuk-header__search-form" 
+            role="search" 
+            action={search.action || '/search'}
+            method="get"
+          >
+            <label className="nhsuk-u-visually-hidden" htmlFor="search-field">
+              {search.visuallyHiddenLabel || 'Search the NHS website'}
+            </label>
+            <input 
+              className="nhsuk-header__search-input nhsuk-input" 
+              id="search-field" 
+              name={search.name || 'q'}
+              type="search" 
+              placeholder={search.placeholder || 'Search'}
+              autoComplete="off"
+            />
+            <button className="nhsuk-header__search-submit" type="submit">
+              <svg className="nhsuk-icon nhsuk-icon__search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="m19.71 18.29-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
+              </svg>
+              <span className="nhsuk-u-visually-hidden">
+                {search.visuallyHiddenButton || 'Search'}
+              </span>
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <header 
       className={headerClasses} 
-      role="banner" 
-      data-module="nhsuk-header"
+      role="banner"
+      data-progressive-enhancement="true"
+      data-navigation-items-count={navigation?.items?.length || 0}
       {...attributes}
       {...props}
     >
       <div className={containerClass}>
-        {/* Service section */}
+        {/* Service section - logo, organisation, service name */}
         <div className="nhsuk-header__service">
           {logoHref ? (
             <a className="nhsuk-header__service-logo" href={logoHref}>
               {renderServiceLogo()}
-              {organisation && (
-                <span className="nhsuk-header__service-name">
-                  {organisation.name}
-                </span>
-              )}
-              {combineLogoAndServiceNameLinks && service.text && (
-                <span className="nhsuk-header__service-name">
-                  {service.text}
-                </span>
-              )}
+              {renderOrganisationName()}
+              {combineLogoAndServiceNameLinks && renderServiceName(service.text)}
             </a>
           ) : (
             <>
               {renderServiceLogo()}
-              {organisation && (
-                <span className="nhsuk-header__service-name">
-                  {organisation.name}
-                </span>
-              )}
-              {combineLogoAndServiceNameLinks && service.text && (
-                <span className="nhsuk-header__service-name">
-                  {service.text}
-                </span>
-              )}
+              {renderOrganisationName()}
+              {combineLogoAndServiceNameLinks && renderServiceName(service.text)}
             </>
           )}
           
-          {service.text && !combineLogoAndServiceNameLinks && (
-            <a className="nhsuk-header__service-name" href={service.href}>
-              {service.text}
-            </a>
-          )}
+          {service.text && !combineLogoAndServiceNameLinks && 
+            renderServiceName(service.text, service.href)
+          }
         </div>
 
-        {/* Search */}
-        {search && (
-          <search className="nhsuk-header__search">
-            <form 
-              className="nhsuk-header__search-form" 
-              id="search" 
-              action={search.action || "https://www.nhs.uk/search/"} 
-              method="get"
-            >
-              <label 
-                className="nhsuk-u-visually-hidden" 
-                htmlFor="search-field"
-              >
-                {search.visuallyHiddenLabel || "Search the NHS website"}
-              </label>
-              <input 
-                className="nhsuk-header__search-input nhsuk-input" 
-                id="search-field" 
-                name={search.name || "q"} 
-                type="search" 
-                placeholder={search.placeholder || "Search"} 
-                autoComplete="off" 
-              />
-              <button className="nhsuk-header__search-submit" type="submit">
-                <span className="nhsuk-u-visually-hidden">
-                  {search.visuallyHiddenButton || "Search"}
+        {/* Content area for organisation/white variants */}
+        {(variant === 'organisation' || organisation) && (
+          <div className="nhsuk-header__content" id="content-header">
+            {organisation && (
+              <div className="nhsuk-header__organisation">
+                <span className="nhsuk-header__organisation-name">
+                  {organisation.name}
                 </span>
-              </button>
-            </form>
-          </search>
+                {organisation.descriptor && (
+                  <span className="nhsuk-header__organisation-descriptor">
+                    {organisation.descriptor}
+                  </span>
+                )}
+              </div>
+            )}
+            {renderSearch()}
+          </div>
         )}
 
-        {/* Account */}
-        {account && account.items && account.items.length > 0 && (
-          <nav 
-            className={classNames('nhsuk-header__account', account.className)} 
-            aria-label={account.ariaLabel || "Account"}
-          >
+        {/* Search for non-organisation variants */}
+        {variant !== 'organisation' && !organisation && renderSearch()}
+
+        {/* Account section */}
+        {account && (
+          <div className="nhsuk-header__account">
             <ul className="nhsuk-header__account-list">
-              {account.items.map((item, index) => (
-                item && (
-                  <li 
-                    key={index} 
-                    className={classNames('nhsuk-header__account-item', item.className)}
-                  >
-                    <a href={item.href} className="nhsuk-header__account-link">
-                      {item.text}
-                    </a>
-                  </li>
-                )
-              ))}
+              {renderAccountItems()}
             </ul>
-          </nav>
+          </div>
         )}
       </div>
 
-      {/* Navigation with SSR fallback */}
+      {/* Navigation */}
       {navigation && navigation.items && navigation.items.length > 0 && (
         <nav 
           className={navigationClasses} 
-          aria-label={navigation.ariaLabel || "Menu"}
+          id="header-navigation" 
+          role="navigation" 
+          aria-label={navigation.ariaLabel || 'Primary navigation'}
+          data-navigation-enhanced="false"
         >
-          <div 
-            className={classNames(
-              'nhsuk-header__navigation-container', 
-              'nhsuk-width-container',
-              {
-                'nhsuk-header__navigation-container--ssr': !isClient,
-                'nhsuk-header__navigation-container--enhanced': isEnhanced,
-              },
-              containerClasses
-            )}
-            ref={containerRef}
-          >
-            <ul className="nhsuk-header__navigation-list" ref={navigationRef}>
-              {/* Navigation items - SSR shows all, enhanced shows calculated visible items */}
-              {(!isClient || !isEnhanced ? navigation.items : navigation.items.slice(0, visibleItems)).map((item, index) => (
-                <li 
-                  key={index}
-                  className={classNames(
-                    'nhsuk-header__navigation-item',
-                    {
-                      'nhsuk-header__navigation-item--current': item.active || item.current,
-                      'nhsuk-header__navigation-item--ssr-fallback': !isClient && index >= 4,
-                    },
-                    item.className
-                  )}
-                  {...(item.attributes || {})}
-                >
-                  <a 
-                    className="nhsuk-header__navigation-link" 
-                    href={item.href}
-                    {...(item.active || item.current ? {
-                      'aria-current': item.current ? "page" : "true"
-                    } : {})}
-                  >
-                    {renderNavigationLinkContent(item)}
-                  </a>
-                </li>
-              ))}
-              
-              {/* More button - only show when enhanced and needed */}
-              {isEnhanced && showMoreButton && visibleItems < navigation.items.length && (
-                <li className="nhsuk-header__navigation-item nhsuk-header__navigation-item--more">
-                  <button
-                    className="nhsuk-header__navigation-button"
-                    id="toggle-more-menu"
-                    aria-expanded={menuOpen}
-                    onClick={toggleMenu}
-                    type="button"
-                  >
-                    <span>More</span>
-                    {renderChevronIcon()}
-                  </button>
-                </li>
-              )}
+          <div className="nhsuk-width-container">
+            <ul 
+              className="nhsuk-header__navigation-list"
+              data-navigation-list="true"
+            >
+              {renderNavigationItems()}
             </ul>
           </div>
         </nav>
-      )}
-
-      {/* Dropdown menu - only show when enhanced and open */}
-      {isEnhanced && navigation && navigation.items && navigation.items.length > 0 && menuOpen && dropdownVisible && (
-        <div className="nhsuk-header__dropdown-menu">
-          <ul className="nhsuk-header__dropdown-list">
-            {/* Show overflow items (items beyond visibleItems) */}
-            {navigation.items.slice(visibleItems).map((item, index) => (
-              <li 
-                key={`overflow-${visibleItems + index}`}
-                className={classNames(
-                  'nhsuk-header__dropdown-item',
-                  {
-                    'nhsuk-header__dropdown-item--current': item.active || item.current,
-                  }
-                )}
-              >
-                <a 
-                  className="nhsuk-header__dropdown-link" 
-                  href={item.href}
-                  {...(item.active || item.current ? {
-                    'aria-current': item.current ? "page" : "true"
-                  } : {})}
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setDropdownVisible(false);
-                  }}
-                >
-                  {renderNavigationLinkContent(item)}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
       )}
     </header>
   );

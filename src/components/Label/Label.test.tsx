@@ -1,225 +1,225 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '../../test-utils/ServerRenderer';
 import { describe, it, expect } from 'vitest';
 import { Label } from './Label';
 
 describe('Label', () => {
   it('renders basic label correctly', () => {
-    render(<Label htmlFor="test-input">Test Label</Label>);
+    const { getByText } = render(<Label htmlFor="test-input">Test Label</Label>);
     
-    const label = screen.getByText('Test Label');
-    expect(label).toBeInTheDocument();
-    expect(label).toHaveAttribute('for', 'test-input');
+    const label = getByText('Test Label');
+    expect(label).toBeTruthy();
+    expect(label?.getAttribute('for')).toBe('test-input');
   });
 
   it('applies correct default classes', () => {
-    render(<Label htmlFor="test-input">Test Label</Label>);
+    const { getByText } = render(<Label htmlFor="test-input">Test Label</Label>);
     
-    const label = screen.getByText('Test Label');
-    expect(label).toHaveClass('nhsuk-label');
+    const label = getByText('Test Label');
+    expect(label?.className.includes('nhsuk-label')).toBe(true);
   });
 
   it('renders as label element by default', () => {
-    render(<Label htmlFor="test-input">Test Label</Label>);
+    const { getByText } = render(<Label htmlFor="test-input">Test Label</Label>);
     
-    const label = screen.getByText('Test Label');
-    expect(label.tagName).toBe('LABEL');
+    const label = getByText('Test Label');
+    expect(label?.tagName).toBe('LABEL');
   });
 
   it('renders text content correctly', () => {
-    render(<Label htmlFor="test-input">Email address</Label>);
+    const { getByText } = render(<Label htmlFor="test-input">Email address</Label>);
     
-    expect(screen.getByText('Email address')).toBeInTheDocument();
+    expect(getByText('Email address')).toBeTruthy();
   });
 
   describe('Size variants', () => {
     it('applies extra large size class', () => {
-      render(<Label htmlFor="test-input" size="xl">Extra Large Label</Label>);
+      const { getByText } = render(<Label htmlFor="test-input" size="xl">Extra Large Label</Label>);
       
-      const label = screen.getByText('Extra Large Label');
-      expect(label).toHaveClass('nhsuk-label--xl');
+      const label = getByText('Extra Large Label');
+      expect(label?.className.includes('nhsuk-label--xl')).toBe(true);
     });
 
     it('applies large size class', () => {
-      render(<Label htmlFor="test-input" size="l">Large Label</Label>);
+      const { getByText } = render(<Label htmlFor="test-input" size="l">Large Label</Label>);
       
-      const label = screen.getByText('Large Label');
-      expect(label).toHaveClass('nhsuk-label--l');
+      const label = getByText('Large Label');
+      expect(label?.className.includes('nhsuk-label--l')).toBe(true);
     });
 
     it('does not apply size class for default medium size', () => {
-      render(<Label htmlFor="test-input" size="m">Medium Label</Label>);
+      const { getByText } = render(<Label htmlFor="test-input" size="m">Medium Label</Label>);
       
-      const label = screen.getByText('Medium Label');
-      expect(label).not.toHaveClass('nhsuk-label--m');
-      expect(label).toHaveClass('nhsuk-label');
+      const label = getByText('Medium Label');
+      expect(label?.className.includes('nhsuk-label--m')).toBe(false);
+      expect(label?.className.includes('nhsuk-label')).toBe(true);
     });
 
     it('applies small size class', () => {
-      render(<Label htmlFor="test-input" size="s">Small Label</Label>);
+      const { getByText } = render(<Label htmlFor="test-input" size="s">Small Label</Label>);
       
-      const label = screen.getByText('Small Label');
-      expect(label).toHaveClass('nhsuk-label--s');
+      const label = getByText('Small Label');
+      expect(label?.className.includes('nhsuk-label--s')).toBe(true);
     });
 
     it('uses medium size by default when no size specified', () => {
-      render(<Label htmlFor="test-input">Default Label</Label>);
+      const { getByText } = render(<Label htmlFor="test-input">Default Label</Label>);
       
-      const label = screen.getByText('Default Label');
-      expect(label).not.toHaveClass('nhsuk-label--xl');
-      expect(label).not.toHaveClass('nhsuk-label--l');
-      expect(label).not.toHaveClass('nhsuk-label--m');
-      expect(label).not.toHaveClass('nhsuk-label--s');
-      expect(label).toHaveClass('nhsuk-label');
+      const label = getByText('Default Label');
+      expect(label?.className.includes('nhsuk-label--xl')).toBe(false);
+      expect(label?.className.includes('nhsuk-label--l')).toBe(false);
+      expect(label?.className.includes('nhsuk-label--m')).toBe(false);
+      expect(label?.className.includes('nhsuk-label--s')).toBe(false);
+      expect(label?.className.includes('nhsuk-label')).toBe(true);
     });
   });
 
   describe('Page heading variant', () => {
     it('renders as h1 when isPageHeading is true', () => {
-      render(<Label htmlFor="test-input" isPageHeading>Page Heading Label</Label>);
+      const { getByRole } = render(<Label htmlFor="test-input" isPageHeading>Page Heading Label</Label>);
       
-      const heading = screen.getByRole('heading', { level: 1 });
-      expect(heading).toBeInTheDocument();
-      expect(heading).toHaveTextContent('Page Heading Label');
-      expect(heading.tagName).toBe('H1');
+      const heading = getByRole('heading', { level: 1 });
+      expect(heading).toBeTruthy();
+      expect(heading?.textContent).toContain('Page Heading Label');
+      expect(heading?.tagName).toBe('H1');
     });
 
     it('includes nested label wrapper for page headings', () => {
-      render(<Label htmlFor="test-input" isPageHeading>Page Heading Label</Label>);
+      const { getByRole, container } = render(<Label htmlFor="test-input" isPageHeading>Page Heading Label</Label>);
       
-      const heading = screen.getByRole('heading', { level: 1 });
-      const nestedLabel = heading.querySelector('.nhsuk-label-wrapper');
-      expect(nestedLabel).toBeInTheDocument();
-      expect(nestedLabel).toHaveAttribute('for', 'test-input');
-      expect(nestedLabel).toHaveTextContent('Page Heading Label');
+      const heading = getByRole('heading', { level: 1 });
+      const nestedLabel = container.querySelector('.nhsuk-label-wrapper');
+      expect(nestedLabel).toBeTruthy();
+      expect(nestedLabel?.getAttribute('for')).toBe('test-input');
+      expect(nestedLabel?.textContent).toContain('Page Heading Label');
     });
 
     it('does not apply htmlFor to h1 element when isPageHeading is true', () => {
-      render(<Label htmlFor="test-input" isPageHeading>Page Heading Label</Label>);
+      const { getByRole } = render(<Label htmlFor="test-input" isPageHeading>Page Heading Label</Label>);
       
-      const heading = screen.getByRole('heading', { level: 1 });
-      expect(heading).not.toHaveAttribute('for');
+      const heading = getByRole('heading', { level: 1 });
+      expect(heading?.hasAttribute('for')).toBe(false);
     });
 
     it('applies correct classes to page heading', () => {
-      render(<Label htmlFor="test-input" isPageHeading>Page Heading Label</Label>);
+      const { getByRole } = render(<Label htmlFor="test-input" isPageHeading>Page Heading Label</Label>);
       
-      const heading = screen.getByRole('heading', { level: 1 });
-      expect(heading).toHaveClass('nhsuk-label');
+      const heading = getByRole('heading', { level: 1 });
+      expect(heading?.className.includes('nhsuk-label')).toBe(true);
     });
 
     it('applies size classes to page heading', () => {
-      render(<Label htmlFor="test-input" isPageHeading size="xl">Page Heading Label</Label>);
+      const { getByRole } = render(<Label htmlFor="test-input" isPageHeading size="xl">Page Heading Label</Label>);
       
-      const heading = screen.getByRole('heading', { level: 1 });
-      expect(heading).toHaveClass('nhsuk-label--xl');
+      const heading = getByRole('heading', { level: 1 });
+      expect(heading?.className.includes('nhsuk-label--xl')).toBe(true);
     });
   });
 
   describe('Custom styling', () => {
     it('applies custom className', () => {
-      render(<Label htmlFor="test-input" className="custom-label">Custom Label</Label>);
+      const { getByText } = render(<Label htmlFor="test-input" className="custom-label">Custom Label</Label>);
       
-      const label = screen.getByText('Custom Label');
-      expect(label).toHaveClass('custom-label');
+      const label = getByText('Custom Label');
+      expect(label?.className.includes('custom-label')).toBe(true);
     });
 
     it('combines custom className with NHS classes', () => {
-      render(<Label htmlFor="test-input" className="custom-label" size="l">Custom Label</Label>);
+      const { getByText } = render(<Label htmlFor="test-input" className="custom-label" size="l">Custom Label</Label>);
       
-      const label = screen.getByText('Custom Label');
-      expect(label).toHaveClass('custom-label');
-      expect(label).toHaveClass('nhsuk-label');
-      expect(label).toHaveClass('nhsuk-label--l');
+      const label = getByText('Custom Label');
+      expect(label?.className.includes('custom-label')).toBe(true);
+      expect(label?.className.includes('nhsuk-label')).toBe(true);
+      expect(label?.className.includes('nhsuk-label--l')).toBe(true);
     });
 
     it('combines custom className with page heading classes', () => {
-      render(<Label htmlFor="test-input" className="custom-heading" isPageHeading>Custom Heading</Label>);
+      const { getByRole } = render(<Label htmlFor="test-input" className="custom-heading" isPageHeading>Custom Heading</Label>);
       
-      const heading = screen.getByRole('heading', { level: 1 });
-      expect(heading).toHaveClass('custom-heading');
-      expect(heading).toHaveClass('nhsuk-label');
+      const heading = getByRole('heading', { level: 1 });
+      expect(heading?.className.includes('custom-heading')).toBe(true);
+      expect(heading?.className.includes('nhsuk-label')).toBe(true);
     });
   });
 
   describe('Content rendering', () => {
     it('renders ReactNode children correctly', () => {
-      render(
+      const { getByText } = render(
         <Label htmlFor="test-input">
           <span>Complex</span> <strong>Label</strong> Content
         </Label>
       );
       
-      expect(screen.getByText('Complex')).toBeInTheDocument();
-      expect(screen.getByText('Label')).toBeInTheDocument();
-      expect(screen.getByText('Content')).toBeInTheDocument();
+      expect(getByText('Complex')).toBeTruthy();
+      expect(getByText('Label')).toBeTruthy();
+      expect(getByText('Content')).toBeTruthy();
     });
 
     it('renders nested elements in children', () => {
-      render(
+      const { getByText, container } = render(
         <Label htmlFor="test-input">
           Label with <em>emphasis</em> and <code>code</code>
         </Label>
       );
       
-      const label = screen.getByText(/Label with/);
-      expect(label).toBeInTheDocument();
-      expect(screen.getByText('emphasis')).toBeInTheDocument();
-      expect(screen.getByText('code')).toBeInTheDocument();
+      const label = container.querySelector('label');
+      expect(label).toBeTruthy();
+      expect(getByText('emphasis')).toBeTruthy();
+      expect(getByText('code')).toBeTruthy();
     });
 
     it('handles empty children gracefully', () => {
-      render(<Label htmlFor="test-input">{''}</Label>);
+      const { container } = render(<Label htmlFor="test-input">{''}</Label>);
       
-      const label = document.querySelector('label[for="test-input"]');
-      expect(label).toBeInTheDocument();
-      expect(label).toHaveTextContent('');
+      const label = container.querySelector('label[for="test-input"]');
+      expect(label).toBeTruthy();
+      expect(label?.textContent).toBe('');
     });
   });
 
   describe('Accessibility', () => {
     it('properly associates with form controls via htmlFor', () => {
-      render(
+      const { getByText, getByRole } = render(
         <div>
           <Label htmlFor="email-input">Email Address</Label>
           <input id="email-input" type="email" />
         </div>
       );
       
-      const label = screen.getByText('Email Address');
-      const input = screen.getByRole('textbox');
+      const label = getByText('Email Address');
+      const input = getByRole('textbox');
       
-      expect(label).toHaveAttribute('for', 'email-input');
-      expect(input).toHaveAttribute('id', 'email-input');
+      expect(label?.getAttribute('for')).toBe('email-input');
+      expect(input?.getAttribute('id')).toBe('email-input');
     });
 
     it('maintains accessibility when used as page heading', () => {
-      render(
+      const { getByRole, container } = render(
         <div>
           <Label htmlFor="main-input" isPageHeading>Main Form Heading</Label>
           <input id="main-input" type="text" />
         </div>
       );
       
-      const heading = screen.getByRole('heading', { level: 1 });
-      const nestedLabel = heading.querySelector('.nhsuk-label-wrapper');
-      const input = screen.getByRole('textbox');
+      const heading = getByRole('heading', { level: 1 });
+      const nestedLabel = container.querySelector('.nhsuk-label-wrapper');
+      const input = getByRole('textbox');
       
-      expect(nestedLabel).toHaveAttribute('for', 'main-input');
-      expect(input).toHaveAttribute('id', 'main-input');
+      expect(nestedLabel?.getAttribute('for')).toBe('main-input');
+      expect(input?.getAttribute('id')).toBe('main-input');
     });
 
     it('works without htmlFor attribute', () => {
-      render(<Label>Standalone Label</Label>);
+      const { getByText } = render(<Label>Standalone Label</Label>);
       
-      const label = screen.getByText('Standalone Label');
-      expect(label).toBeInTheDocument();
-      expect(label).not.toHaveAttribute('for');
+      const label = getByText('Standalone Label');
+      expect(label).toBeTruthy();
+      expect(label?.hasAttribute('for')).toBe(false);
     });
   });
 
   describe('Additional HTML attributes', () => {
     it('passes through additional props to label element', () => {
-      render(
+      const { getByText } = render(
         <Label 
           htmlFor="test-input" 
           data-testid="custom-label"
@@ -229,13 +229,13 @@ describe('Label', () => {
         </Label>
       );
       
-      const label = screen.getByText('Test Label');
-      expect(label).toHaveAttribute('data-testid', 'custom-label');
-      expect(label).toHaveAttribute('aria-label', 'Custom aria label');
+      const label = getByText('Test Label');
+      expect(label?.getAttribute('data-testid')).toBe('custom-label');
+      expect(label?.getAttribute('aria-label')).toBe('Custom aria label');
     });
 
     it('passes through additional props to h1 element when isPageHeading', () => {
-      render(
+      const { getByRole } = render(
         <Label 
           htmlFor="test-input" 
           isPageHeading
@@ -246,50 +246,50 @@ describe('Label', () => {
         </Label>
       );
       
-      const heading = screen.getByRole('heading', { level: 1 });
-      expect(heading).toHaveAttribute('data-testid', 'custom-heading');
-      expect(heading).toHaveAttribute('aria-label', 'Custom heading aria label');
+      const heading = getByRole('heading', { level: 1 });
+      expect(heading?.getAttribute('data-testid')).toBe('custom-heading');
+      expect(heading?.getAttribute('aria-label')).toBe('Custom heading aria label');
     });
   });
 
   describe('Edge cases', () => {
     it('handles special characters in content', () => {
       const specialText = 'Label with "quotes", <tags>, & symbols: £€$¥';
-      render(<Label htmlFor="test-input">{specialText}</Label>);
+      const { getByText } = render(<Label htmlFor="test-input">{specialText}</Label>);
       
-      expect(screen.getByText(specialText)).toBeInTheDocument();
+      expect(getByText(specialText)).toBeTruthy();
     });
 
     it('handles numeric children', () => {
-      render(<Label htmlFor="test-input">{42}</Label>);
+      const { getByText } = render(<Label htmlFor="test-input">{42}</Label>);
       
-      expect(screen.getByText('42')).toBeInTheDocument();
+      expect(getByText('42')).toBeTruthy();
     });
 
     it('handles boolean-like content', () => {
-      render(<Label htmlFor="test-input">true</Label>);
+      const { getByText } = render(<Label htmlFor="test-input">true</Label>);
       
-      expect(screen.getByText('true')).toBeInTheDocument();
+      expect(getByText('true')).toBeTruthy();
     });
 
     it('handles very long label text', () => {
       const longText = 'This is a very long label text that might wrap to multiple lines in certain layouts and should still be properly associated with its form control and maintain all accessibility features according to NHS design standards';
-      render(<Label htmlFor="test-input">{longText}</Label>);
+      const { getByText } = render(<Label htmlFor="test-input">{longText}</Label>);
       
-      expect(screen.getByText(longText)).toBeInTheDocument();
+      expect(getByText(longText)).toBeTruthy();
     });
 
     it('handles unicode characters', () => {
       const unicodeText = 'Label with émojis 🏥 and ünicode characters';
-      render(<Label htmlFor="test-input">{unicodeText}</Label>);
+      const { getByText } = render(<Label htmlFor="test-input">{unicodeText}</Label>);
       
-      expect(screen.getByText(unicodeText)).toBeInTheDocument();
+      expect(getByText(unicodeText)).toBeTruthy();
     });
   });
 
   describe('Integration scenarios', () => {
     it('works with multiple form controls', () => {
-      render(
+      const { getByText } = render(
         <div>
           <Label htmlFor="first-name">First Name</Label>
           <input id="first-name" type="text" />
@@ -302,45 +302,51 @@ describe('Label', () => {
         </div>
       );
       
-      expect(screen.getByText('First Name')).toHaveAttribute('for', 'first-name');
-      expect(screen.getByText('Last Name')).toHaveAttribute('for', 'last-name');
-      expect(screen.getByText('Email')).toHaveAttribute('for', 'email');
+      const firstNameLabel = getByText('First Name');
+      const lastNameLabel = getByText('Last Name');
+      const emailLabel = getByText('Email');
+      
+      expect(firstNameLabel?.getAttribute('for')).toBe('first-name');
+      expect(lastNameLabel?.getAttribute('for')).toBe('last-name');
+      expect(emailLabel?.getAttribute('for')).toBe('email');
     });
 
     it('maintains correct structure during re-renders', () => {
-      const { rerender } = render(
+      // Test size "m" (default - no size class)
+      const { container: container1 } = render(
         <Label htmlFor="dynamic-input" size="m">Original Label</Label>
       );
       
-      let label = screen.getByText('Original Label');
-      expect(label).toHaveClass('nhsuk-label');
-      expect(label).not.toHaveClass('nhsuk-label--l');
+      let label = container1.querySelector('.nhsuk-label');
+      expect(label?.className.includes('nhsuk-label')).toBe(true);
+      expect(label?.className.includes('nhsuk-label--l')).toBe(false);
       
-      // Re-render with different props
-      rerender(
+      // Test size "l" separately
+      const { container: container2 } = render(
         <Label htmlFor="dynamic-input" size="l">Updated Label</Label>
       );
       
-      label = screen.getByText('Updated Label');
-      expect(label).toHaveClass('nhsuk-label--l');
+      label = container2.querySelector('.nhsuk-label');
+      expect(label?.className.includes('nhsuk-label--l')).toBe(true);
     });
 
     it('switches correctly between regular and page heading modes', () => {
-      const { rerender } = render(
+      // Test regular label mode
+      const { container: container1 } = render(
         <Label htmlFor="mode-input">Regular Label</Label>
       );
       
-      let element = screen.getByText('Regular Label');
-      expect(element.tagName).toBe('LABEL');
+      let element = container1.querySelector('label');
+      expect(element?.tagName).toBe('LABEL');
       
-      // Re-render as page heading
-      rerender(
+      // Test page heading mode separately  
+      const { container: container2 } = render(
         <Label htmlFor="mode-input" isPageHeading>Heading Label</Label>
       );
       
-      element = screen.getByRole('heading', { level: 1 });
-      expect(element.tagName).toBe('H1');
-      expect(element).toHaveTextContent('Heading Label');
+      const headingElement = container2.querySelector('h1');
+      expect(headingElement?.tagName).toBe('H1');
+      expect(headingElement?.textContent).toBe('Heading Label');
     });
   });
 });

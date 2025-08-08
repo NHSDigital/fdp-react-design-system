@@ -1,10 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '../../test-utils/ServerRenderer';
 import { describe, it, expect } from 'vitest';
 import { Card, CardGroup, CardGroupItem } from './Card';
 
 describe('Card Component', () => {
   it('renders a basic card with heading and description', () => {
-    render(
+    const { getByRole, getByText, container } = render(
       <Card 
         heading="Test Card"
         description="This is a test card"
@@ -12,13 +12,13 @@ describe('Card Component', () => {
       />
     );
 
-    expect(screen.getByTestId('test-card')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('Test Card');
-    expect(screen.getByText('This is a test card')).toBeInTheDocument();
+    expect(container.querySelector('[data-testid="test-card"]')).toBeTruthy();
+    expect(getByRole('heading', { level: 2 })!.textContent).toBe('Test Card');
+    expect(getByText('This is a test card')).toBeTruthy();
   });
 
   it('renders with custom heading level', () => {
-    render(
+    const { getByRole } = render(
       <Card 
         heading="Test Card"
         headingLevel={3}
@@ -26,11 +26,11 @@ describe('Card Component', () => {
       />
     );
 
-    expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent('Test Card');
+    expect(getByRole('heading', { level: 3 })!.textContent).toBe('Test Card');
   });
 
   it('renders clickable card with link', () => {
-    render(
+    const { getByTestId, getByRole } = render(
       <Card 
         variant="clickable"
         heading="Clickable Card"
@@ -39,16 +39,16 @@ describe('Card Component', () => {
       />
     );
 
-    const card = screen.getByTestId('test-card');
-    expect(card).toHaveClass('nhsuk-card--clickable');
+    const card = getByTestId('test-card');
+    expect(card!.className.includes('nhsuk-card--clickable')).toBe(true);
     
-    const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '/test-link');
-    expect(link).toHaveTextContent('Clickable Card');
+    const link = getByRole('link');
+    expect(link!.getAttribute('href')).toBe('/test-link');
+    expect(link!.textContent).toBe('Clickable Card');
   });
 
   it('renders feature card variant', () => {
-    render(
+    const { getByTestId, getByRole } = render(
       <Card 
         variant="feature"
         heading="Feature Card"
@@ -56,15 +56,15 @@ describe('Card Component', () => {
       />
     );
 
-    const card = screen.getByTestId('test-card');
-    expect(card).toHaveClass('nhsuk-card--feature');
+    const card = getByTestId('test-card');
+    expect(card!.className.includes('nhsuk-card--feature')).toBe(true);
     
-    const heading = screen.getByRole('heading');
-    expect(heading).toHaveClass('nhsuk-card__heading--feature');
+    const heading = getByRole('heading');
+    expect(heading!.className.includes('nhsuk-card__heading--feature')).toBe(true);
   });
 
   it('renders card with image', () => {
-    render(
+    const { container } = render(
       <Card 
         heading="Card with Image"
         imgURL="/test-image.jpg"
@@ -73,14 +73,14 @@ describe('Card Component', () => {
       />
     );
 
-    const image = screen.getByRole('img');
-    expect(image).toHaveAttribute('src', '/test-image.jpg');
-    expect(image).toHaveAttribute('alt', 'Test image');
-    expect(image).toHaveClass('nhsuk-card__img');
+    const image = container.querySelector('img');
+    expect(image!.getAttribute('src')).toBe('/test-image.jpg');
+    expect(image!.getAttribute('alt')).toBe('Test image');
+    expect(image!.className.includes('nhsuk-card__img')).toBe(true);
   });
 
   it('renders primary card with icon', () => {
-    render(
+    const { getByTestId } = render(
       <Card 
         variant="primary"
         heading="Primary Card"
@@ -88,13 +88,13 @@ describe('Card Component', () => {
       />
     );
 
-    const card = screen.getByTestId('test-card');
-    expect(card.querySelector('.nhsuk-card__content--primary')).toBeInTheDocument();
-    expect(card.querySelector('.nhsuk-icon')).toBeInTheDocument();
+    const card = getByTestId('test-card');
+    expect(card!.querySelector('.nhsuk-card__content--primary')).toBeTruthy();
+    expect(card!.querySelector('.nhsuk-icon')).toBeTruthy();
   });
 
   it('renders secondary card variant', () => {
-    render(
+    const { getByTestId } = render(
       <Card 
         variant="secondary"
         heading="Secondary Card"
@@ -102,15 +102,15 @@ describe('Card Component', () => {
       />
     );
 
-    const card = screen.getByTestId('test-card');
-    expect(card).toHaveClass('nhsuk-card--secondary');
-    expect(card.querySelector('.nhsuk-card__content--secondary')).toBeInTheDocument();
+    const card = getByTestId('test-card');
+    expect(card!.className.includes('nhsuk-card--secondary')).toBe(true);
+    expect(card!.querySelector('.nhsuk-card__content--secondary')).toBeTruthy();
   });
 
   it('renders with custom HTML content', () => {
     const customDescription = '<p>Custom <strong>HTML</strong> content</p>';
     
-    render(
+    const { getByText } = render(
       <Card 
         heading="Card with HTML"
         descriptionHtml={customDescription}
@@ -118,13 +118,13 @@ describe('Card Component', () => {
       />
     );
 
-    expect(screen.getByText(/Custom/)).toBeInTheDocument();
-    expect(screen.getByText('HTML')).toBeInTheDocument();
-    expect(screen.getByText(/content/)).toBeInTheDocument();
+    expect(getByText('Custom')).toBeTruthy();
+    expect(getByText('HTML')).toBeTruthy();
+    expect(getByText('content')).toBeTruthy();
   });
 
   it('renders with children content', () => {
-    render(
+    const { getByText, getByRole } = render(
       <Card 
         heading="Card with Children"
         data-testid="test-card"
@@ -134,12 +134,12 @@ describe('Card Component', () => {
       </Card>
     );
 
-    expect(screen.getByText('Custom child content')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Action Button' })).toBeInTheDocument();
+    expect(getByText('Custom child content')).toBeTruthy();
+    expect(getByText('Action Button')).toBeTruthy();
   });
 
   it('applies custom CSS classes', () => {
-    render(
+    const { getByTestId, getByRole } = render(
       <Card 
         heading="Custom Class Card"
         className="custom-card-class"
@@ -148,15 +148,15 @@ describe('Card Component', () => {
       />
     );
 
-    const card = screen.getByTestId('test-card');
-    expect(card).toHaveClass('custom-card-class');
+    const card = getByTestId('test-card');
+    expect(card!.className.includes('custom-card-class')).toBe(true);
     
-    const heading = screen.getByRole('heading');
-    expect(heading).toHaveClass('custom-heading-class');
+    const heading = getByRole('heading');
+    expect(heading!.className.includes('custom-heading-class')).toBe(true);
   });
 
   it('supports accessibility attributes', () => {
-    render(
+    const { getByTestId } = render(
       <Card 
         heading="Accessible Card"
         aria-label="Accessible card label"
@@ -165,15 +165,15 @@ describe('Card Component', () => {
       />
     );
 
-    const card = screen.getByTestId('test-card');
-    expect(card).toHaveAttribute('aria-label', 'Accessible card label');
-    expect(card).toHaveAttribute('aria-describedby', 'description-id');
+    const card = getByTestId('test-card');
+    expect(card!.getAttribute('aria-label')).toBe('Accessible card label');
+    expect(card!.getAttribute('aria-describedby')).toBe('description-id');
   });
 });
 
 describe('CardGroup Component', () => {
   it('renders card group with multiple cards', () => {
-    render(
+    const { getByTestId, getByText } = render(
       <CardGroup data-testid="card-group">
         <CardGroupItem>
           <Card heading="Card 1" />
@@ -184,16 +184,16 @@ describe('CardGroup Component', () => {
       </CardGroup>
     );
 
-    const cardGroup = screen.getByTestId('card-group');
-    expect(cardGroup).toHaveClass('nhsuk-card-group');
-    expect(cardGroup.tagName).toBe('UL');
+    const cardGroup = getByTestId('card-group');
+    expect(cardGroup!.className.includes('nhsuk-card-group')).toBe(true);
+    expect(cardGroup!.tagName).toBe('UL');
     
-    expect(screen.getByText('Card 1')).toBeInTheDocument();
-    expect(screen.getByText('Card 2')).toBeInTheDocument();
+    expect(getByText('Card 1')).toBeTruthy();
+    expect(getByText('Card 2')).toBeTruthy();
   });
 
   it('applies custom CSS classes to card group', () => {
-    render(
+    const { getByTestId } = render(
       <CardGroup className="custom-group-class" data-testid="card-group">
         <CardGroupItem>
           <Card heading="Card 1" />
@@ -201,14 +201,14 @@ describe('CardGroup Component', () => {
       </CardGroup>
     );
 
-    const cardGroup = screen.getByTestId('card-group');
-    expect(cardGroup).toHaveClass('custom-group-class');
+    const cardGroup = getByTestId('card-group');
+    expect(cardGroup!.className.includes('custom-group-class')).toBe(true);
   });
 });
 
 describe('CardGroupItem Component', () => {
   it('renders card group item with correct markup', () => {
-    render(
+    const { getByTestId } = render(
       <CardGroup>
         <CardGroupItem data-testid="card-item">
           <Card heading="Test Card" />
@@ -216,13 +216,13 @@ describe('CardGroupItem Component', () => {
       </CardGroup>
     );
 
-    const cardItem = screen.getByTestId('card-item');
-    expect(cardItem).toHaveClass('nhsuk-card-group__item');
-    expect(cardItem.tagName).toBe('LI');
+    const cardItem = getByTestId('card-item');
+    expect(cardItem!.className.includes('nhsuk-card-group__item')).toBe(true);
+    expect(cardItem!.tagName).toBe('LI');
   });
 
   it('applies custom CSS classes to card group item', () => {
-    render(
+    const { getByTestId } = render(
       <CardGroup>
         <CardGroupItem className="custom-item-class" data-testid="card-item">
           <Card heading="Test Card" />
@@ -230,7 +230,7 @@ describe('CardGroupItem Component', () => {
       </CardGroup>
     );
 
-    const cardItem = screen.getByTestId('card-item');
-    expect(cardItem).toHaveClass('custom-item-class');
+    const cardItem = getByTestId('card-item');
+    expect(cardItem!.className.includes('custom-item-class')).toBe(true);
   });
 });

@@ -35,6 +35,25 @@ if (typeof global !== 'undefined') {
     // This should not happen with jsdom, but provides a fallback
     console.warn('Warning: document not available in test environment');
   }
+
+  // Ensure document is available globally for @testing-library/react
+  // This fixes "document is not defined" errors in React 19 with @testing-library/react
+  if (typeof globalThis !== 'undefined' && typeof document !== 'undefined') {
+    globalThis.document = document;
+    globalThis.window = window;
+  }
+}
+
+// Fix React 19 compatibility issue with concurrent features
+// React 19 tries to access window.event in resolveUpdatePriority but it's undefined in test environment
+if (typeof window !== 'undefined') {
+  // Set up a minimal event object to prevent "Cannot read properties of undefined (reading 'event')" error
+  Object.defineProperty(window, 'event', {
+    get() {
+      return null; // Return null instead of undefined to prevent the error
+    },
+    configurable: true,
+  });
 }
 
 // Mock document.fonts API for testing

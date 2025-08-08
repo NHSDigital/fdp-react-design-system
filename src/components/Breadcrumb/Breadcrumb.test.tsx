@@ -1,6 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '../../test-utils/ServerRenderer';
 import { describe, it, expect } from 'vitest';
-import '@testing-library/jest-dom';
 import { Breadcrumb } from './Breadcrumb';
 import { BreadcrumbItem } from './Breadcrumb.types';
 
@@ -12,51 +11,51 @@ describe('Breadcrumb', () => {
   ];
 
   it('renders with default props', () => {
-    render(<Breadcrumb />);
+    const { getByRole, getByText, getAllByText, getByLabelText, queryByText, getByTestId, container } = render(<Breadcrumb />);
     
-    expect(screen.getByRole('navigation')).toBeInTheDocument();
-    expect(screen.getByLabelText('Breadcrumb')).toBeInTheDocument();
+    expect(getByRole('navigation')).toBeTruthy();
+    expect(getByLabelText('Breadcrumb')).toBeTruthy();
   });
 
   it('renders breadcrumb items correctly', () => {
-    render(<Breadcrumb items={defaultItems} />);
+    const { getByRole, getByText, getAllByText, getByLabelText, queryByText, getByTestId, container } = render(<Breadcrumb items={defaultItems} />);
     
     // Use more specific selectors for breadcrumb links
-    const homeLink = screen.getByText('Home').closest('a');
-    expect(homeLink).toHaveAttribute('href', '/');
-    expect(homeLink).toHaveClass('nhsuk-breadcrumb__link');
+    const homeLink = getByText('Home').closest('a');
+    expect(homeLink?.getAttribute('href')).toEqual('/');
+    expect(homeLink?.className?.includes('nhsuk-breadcrumb__link')).toBeTruthy();
     
-    const healthLink = screen.getByText('Health A-Z').closest('a');
-    expect(healthLink).toHaveAttribute('href', '/conditions');
+    const healthLink = getByText('Health A-Z').closest('a');
+    expect(healthLink?.getAttribute('href')).toEqual('/conditions');
     
-    const mentalHealthLink = screen.getAllByText('Mental health')[0].closest('a');
-    expect(mentalHealthLink).toHaveAttribute('href', '/mental-health');
+    const mentalHealthLink = getAllByText('Mental health')[0].closest('a');
+    expect(mentalHealthLink?.getAttribute('href')).toEqual('/mental-health');
   });
 
   it('renders back link for mobile', () => {
-    render(<Breadcrumb items={defaultItems} />);
+    const { getByRole, getByText, getAllByText, getByLabelText, queryByText, getByTestId, container } = render(<Breadcrumb items={defaultItems} />);
     
     // Count all Mental health links (one in breadcrumb list, one in back link)
-    const mentalHealthLinks = screen.getAllByText('Mental health');
+    const mentalHealthLinks = getAllByText('Mental health');
     expect(mentalHealthLinks).toHaveLength(2);
     
     // Check the back link has the visually hidden text
-    const backLink = screen.getByText(/Back to/).closest('a');
-    expect(backLink).toHaveClass('nhsuk-breadcrumb__backlink');
-    expect(screen.getByText('Back to')).toBeInTheDocument();
+    const backLink = getByText('Back to').closest('a');
+    expect(backLink?.className?.includes('nhsuk-breadcrumb__backlink')).toBeTruthy();
+    expect(getByText('Back to')).toBeTruthy();
   });
 
   it('renders with custom label text', () => {
-    render(<Breadcrumb labelText="Custom Navigation" />);
+    const { getByRole, getByText, getAllByText, getByLabelText, queryByText, getByTestId, container } = render(<Breadcrumb labelText="Custom Navigation" />);
     
-    expect(screen.getByLabelText('Custom Navigation')).toBeInTheDocument();
+    expect(getByLabelText('Custom Navigation')).toBeTruthy();
   });
 
   it('renders with direct href and text', () => {
-    render(<Breadcrumb href="/direct-link" text="Direct Page" />);
+    const { getByRole, getByText, getAllByText, getByLabelText, queryByText, getByTestId, container } = render(<Breadcrumb href="/direct-link" text="Direct Page" />);
     
     // Should find both the breadcrumb link and the mobile back link
-    const directLinks = screen.getAllByText('Direct Page');
+    const directLinks = getAllByText('Direct Page');
     expect(directLinks).toHaveLength(2);
     
     // Check the breadcrumb link specifically
@@ -64,25 +63,25 @@ describe('Breadcrumb', () => {
       link.closest('a')?.classList.contains('nhsuk-breadcrumb__link')
     );
     expect(breadcrumbLink).toBeDefined();
-    expect(breadcrumbLink!.closest('a')).toHaveAttribute('href', '/direct-link');
+    expect(breadcrumbLink!.closest('a')?.getAttribute('href')).toEqual('/direct-link');
   });
 
   it('applies reverse modifier class', () => {
-    const { container } = render(<Breadcrumb reverse />);
+    const { getByRole, getByText, getAllByText, getByLabelText, queryByText, getByTestId, container } = render(<Breadcrumb reverse />);
     
-    expect(container.querySelector('.nhsuk-breadcrumb')).toHaveClass('nhsuk-breadcrumb--reverse');
+    expect(container.querySelector('.nhsuk-breadcrumb')?.className?.includes('nhsuk-breadcrumb--reverse')).toBeTruthy();
   });
 
   it('applies custom CSS classes', () => {
-    const { container } = render(<Breadcrumb classes="custom-breadcrumb" />);
+    const { getByRole, getByText, getAllByText, getByLabelText, queryByText, getByTestId, container } = render(<Breadcrumb classes="custom-breadcrumb" />);
     
-    expect(container.querySelector('.nhsuk-breadcrumb')).toHaveClass('custom-breadcrumb');
+    expect(container.querySelector('.nhsuk-breadcrumb')?.className?.includes('custom-breadcrumb')).toBeTruthy();
   });
 
   it('passes through additional attributes', () => {
-    render(<Breadcrumb attributes={{ 'data-testid': 'custom-breadcrumb' }} />);
+    const { getByRole, getByText, getAllByText, getByLabelText, queryByText, getByTestId, container } = render(<Breadcrumb attributes={{ 'data-testid': 'custom-breadcrumb' }} />);
     
-    expect(screen.getByTestId('custom-breadcrumb')).toBeInTheDocument();
+    expect(getByTestId('custom-breadcrumb')).toBeTruthy();
   });
 
   it('handles items without href (filters them out)', () => {
@@ -92,21 +91,21 @@ describe('Breadcrumb', () => {
       { text: 'Valid Link', href: '/valid' },
     ];
     
-    render(<Breadcrumb items={itemsWithoutHref} />);
+    const { getByRole, getByText, getAllByText, getByLabelText, queryByText, getByTestId, container } = render(<Breadcrumb items={itemsWithoutHref} />);
     
-    const homeLink = screen.getByText('Home').closest('a');
-    expect(homeLink).toBeInTheDocument();
-    const validLink = screen.getAllByText('Valid Link')[0].closest('a');
-    expect(validLink).toBeInTheDocument();
-    expect(screen.queryByText('No Link')).not.toBeInTheDocument();
+    const homeLink = getByText('Home').closest('a');
+    expect(homeLink).toBeTruthy();
+    const validLink = getAllByText('Valid Link')[0].closest('a');
+    expect(validLink).toBeTruthy();
+    expect(queryByText('No Link')).not.toBeTruthy();
   });
 
   it('handles empty items array', () => {
-    render(<Breadcrumb items={[]} />);
+    const { getByRole, getByText, getAllByText, getByLabelText, queryByText, getByTestId, container } = render(<Breadcrumb items={[]} />);
     
-    expect(screen.getByRole('navigation')).toBeInTheDocument();
+    expect(getByRole('navigation')).toBeTruthy();
     // Should not render back link if no items
-    expect(screen.queryByText('Back to')).not.toBeInTheDocument();
+    expect(queryByText('Back to')).not.toBeTruthy();
   });
 
   it('passes item attributes to links', () => {
@@ -114,9 +113,9 @@ describe('Breadcrumb', () => {
       { text: 'Home', href: '/', attributes: { 'data-test': 'home-link' } },
     ];
     
-    render(<Breadcrumb items={itemsWithAttributes} />);
+    const { getByRole, getByText, getAllByText, getByLabelText, queryByText, getByTestId, container } = render(<Breadcrumb items={itemsWithAttributes} />);
     
-    const homeLink = screen.getAllByText('Home')[0].closest('a');
-    expect(homeLink).toHaveAttribute('data-test', 'home-link');
+    const homeLink = getAllByText('Home')[0].closest('a');
+    expect(homeLink?.getAttribute('data-test')).toEqual('home-link');
   });
 });

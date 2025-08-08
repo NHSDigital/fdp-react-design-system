@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render } from '../../test-utils/ServerRenderer';
 import { Heading } from './Heading';
 import { describe, it, expect } from 'vitest';
 
@@ -10,8 +10,8 @@ describe('Heading', () => {
       );
       
       const heading = container.querySelector('h3');
-      expect(heading).toBeInTheDocument();
-      expect(heading).toHaveClass('nhsuk-heading--xl');
+      expect(heading).toBeTruthy();
+      expect(heading?.className).toContain('nhsuk-heading--xl');
     });
 
     it('should derive level from size when level is not provided', () => {
@@ -20,8 +20,8 @@ describe('Heading', () => {
       );
       
       const heading = container.querySelector('h1');
-      expect(heading).toBeInTheDocument();
-      expect(heading).toHaveClass('nhsuk-heading--xl');
+      expect(heading).toBeTruthy();
+      expect(heading?.className).toContain('nhsuk-heading--xl');
     });
   });
 
@@ -31,7 +31,7 @@ describe('Heading', () => {
         <Heading size="xxl" text="XXL Heading" />
       );
       
-      expect(container.querySelector('h1')).toBeInTheDocument();
+      expect(container.querySelector('h1')).toBeTruthy();
     });
 
     it('should map xl size to h1', () => {
@@ -39,7 +39,7 @@ describe('Heading', () => {
         <Heading size="xl" text="XL Heading" />
       );
       
-      expect(container.querySelector('h1')).toBeInTheDocument();
+      expect(container.querySelector('h1')).toBeTruthy();
     });
 
     it('should map l size to h2', () => {
@@ -47,7 +47,7 @@ describe('Heading', () => {
         <Heading size="l" text="L Heading" />
       );
       
-      expect(container.querySelector('h2')).toBeInTheDocument();
+      expect(container.querySelector('h2')).toBeTruthy();
     });
 
     it('should map m size to h3', () => {
@@ -55,7 +55,7 @@ describe('Heading', () => {
         <Heading size="m" text="M Heading" />
       );
       
-      expect(container.querySelector('h3')).toBeInTheDocument();
+      expect(container.querySelector('h3')).toBeTruthy();
     });
 
     it('should map s size to h4', () => {
@@ -63,7 +63,7 @@ describe('Heading', () => {
         <Heading size="s" text="S Heading" />
       );
       
-      expect(container.querySelector('h4')).toBeInTheDocument();
+      expect(container.querySelector('h4')).toBeTruthy();
     });
 
     it('should map xs size to h5', () => {
@@ -71,7 +71,7 @@ describe('Heading', () => {
         <Heading size="xs" text="XS Heading" />
       );
       
-      expect(container.querySelector('h5')).toBeInTheDocument();
+      expect(container.querySelector('h5')).toBeTruthy();
     });
   });
 
@@ -81,7 +81,7 @@ describe('Heading', () => {
         <Heading text="Default Heading" />
       );
       
-      expect(container.querySelector('h2')).toBeInTheDocument();
+      expect(container.querySelector('h2')).toBeTruthy();
     });
 
     it('should default to h2 when size is undefined', () => {
@@ -89,7 +89,7 @@ describe('Heading', () => {
         <Heading size={undefined} text="Undefined Size Heading" />
       );
       
-      expect(container.querySelector('h2')).toBeInTheDocument();
+      expect(container.querySelector('h2')).toBeTruthy();
     });
   });
 
@@ -109,9 +109,9 @@ describe('Heading', () => {
       );
       
       const heading = container.querySelector('h3');
-      expect(heading).toHaveClass('nhsuk-heading');
-      expect(heading).toHaveClass('nhsuk-heading--m');
-      expect(heading).toHaveClass('custom-class');
+      expect(heading?.className).toContain('nhsuk-heading');
+      expect(heading?.className).toContain('nhsuk-heading--m');
+      expect(heading?.className).toContain('custom-class');
     });
   });
 });

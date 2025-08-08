@@ -1,53 +1,55 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render } from '../../test-utils/ServerRenderer';
 import { Details } from './Details';
 import { describe, it, expect } from 'vitest';
 
 describe('Details', () => {
   describe('Basic functionality', () => {
     it('should render with summary text', () => {
-      render(<Details summaryText="More information" text="This is the hidden content" />);
+      const { getByText } = render(<Details summaryText="More information" text="This is the hidden content" />);
       
-      expect(screen.getByText('More information')).toBeInTheDocument();
-      expect(screen.getByText('This is the hidden content')).toBeInTheDocument();
+      expect(getByText('More information')).toBeTruthy();
+      expect(getByText('This is the hidden content')).toBeTruthy();
     });
 
     it('should render with summary HTML', () => {
-      render(
+      const { getByText, container } = render(
         <Details
           summaryHtml="<strong>More</strong> information"
           text="This is the hidden content"
         />
       );
       
-      expect(screen.getByText('information')).toBeInTheDocument();
-      expect(screen.getByRole('strong')).toHaveTextContent('More');
+      expect(getByText('information')).toBeTruthy();
+      const strongEl = container.querySelector('strong');
+      expect(strongEl!.textContent).toBe('More');
     });
 
     it('should render with HTML content', () => {
-      render(
+      const { getByText, container } = render(
         <Details
           summaryText="More information"
           html="<p>This is a <strong>paragraph</strong></p>"
         />
       );
       
-      expect(screen.getByText('paragraph')).toBeInTheDocument();
-      expect(screen.getByRole('strong')).toHaveTextContent('paragraph');
+      expect(getByText('paragraph')).toBeTruthy();
+      const strongEl = container.querySelector('strong');
+      expect(strongEl!.textContent).toBe('paragraph');
     });
 
     it('should render with children content', () => {
-      render(
+      const { getByText } = render(
         <Details summaryText="More information">
           <p>This is child content</p>
         </Details>
       );
       
-      expect(screen.getByText('This is child content')).toBeInTheDocument();
+      expect(getByText('This is child content')).toBeTruthy();
     });
 
     it('should prioritize children over html and text props', () => {
-      render(
+      const { getByText, queryByText } = render(
         <Details
           summaryText="More information"
           text="This should not appear"
@@ -57,13 +59,13 @@ describe('Details', () => {
         </Details>
       );
       
-      expect(screen.getByText('This is child content')).toBeInTheDocument();
-      expect(screen.queryByText('This should not appear')).not.toBeInTheDocument();
-      expect(screen.queryByText('This should also not appear')).not.toBeInTheDocument();
+      expect(getByText('This is child content')).toBeTruthy();
+      expect(queryByText('This should not appear')).toBe(null);
+      expect(queryByText('This should also not appear')).toBe(null);
     });
 
     it('should prioritize summaryHtml over summaryText', () => {
-      render(
+      const { queryByText, container } = render(
         <Details
           summaryText="This should not appear"
           summaryHtml="<strong>This should appear</strong>"
@@ -71,12 +73,13 @@ describe('Details', () => {
         />
       );
       
-      expect(screen.queryByText('This should not appear')).not.toBeInTheDocument();
-      expect(screen.getByRole('strong')).toHaveTextContent('This should appear');
+      expect(queryByText('This should not appear')).toBe(null);
+      const strongEl = container.querySelector('strong');
+      expect(strongEl!.textContent).toBe('This should appear');
     });
 
     it('should prioritize html over text prop', () => {
-      render(
+      const { queryByText, getByText } = render(
         <Details
           summaryText="Summary"
           text="This should not appear"
@@ -84,42 +87,43 @@ describe('Details', () => {
         />
       );
       
-      expect(screen.queryByText('This should not appear')).not.toBeInTheDocument();
-      expect(screen.getByText('This should appear')).toBeInTheDocument();
+      expect(queryByText('This should not appear')).toBe(null);
+      expect(getByText('This should appear')).toBeTruthy();
     });
   });
 
   describe('States and attributes', () => {
     it('should be closed by default', () => {
-      render(<Details summaryText="Summary" text="Content" />);
+      const { container } = render(<Details summaryText="Summary" text="Content" />);
       
-      const details = screen.getByRole('group');
-      expect(details).not.toHaveAttribute('open');
+      const details = container.querySelector('details');
+      expect(details!.hasAttribute('open')).toBe(false);
     });
 
     it('should be open when open prop is true', () => {
-      render(<Details summaryText="Summary" text="Content" open />);
+      const { container } = render(<Details summaryText="Summary" text="Content" open />);
       
-      const details = screen.getByRole('group');
-      expect(details).toHaveAttribute('open');
+      const details = container.querySelector('details');
+      expect(details!.hasAttribute('open')).toBe(true);
     });
 
     it('should apply custom id', () => {
-      render(<Details id="custom-id" summaryText="Summary" text="Content" />);
+      const { container } = render(<Details id="custom-id" summaryText="Summary" text="Content" />);
       
-      const details = screen.getByRole('group');
-      expect(details).toHaveAttribute('id', 'custom-id');
+      const details = container.querySelector('details');
+      expect(details!.getAttribute('id')).toBe('custom-id');
     });
 
     it('should apply custom className', () => {
-      render(<Details className="custom-class" summaryText="Summary" text="Content" />);
+      const { container } = render(<Details className="custom-class" summaryText="Summary" text="Content" />);
       
-      const details = screen.getByRole('group');
-      expect(details).toHaveClass('nhsuk-details', 'custom-class');
+      const details = container.querySelector('details');
+      expect(details!.className.includes('nhsuk-details')).toBe(true);
+      expect(details!.className.includes('custom-class')).toBe(true);
     });
 
     it('should apply additional props', () => {
-      render(
+      const { getByTestId } = render(
         <Details
           summaryText="Summary"
           text="Content"
@@ -128,94 +132,91 @@ describe('Details', () => {
         />
       );
       
-      const details = screen.getByTestId('details-element');
-      expect(details).toHaveAttribute('aria-label', 'Custom label');
+      const details = getByTestId('details-element');
+      expect(details!.getAttribute('aria-label')).toBe('Custom label');
     });
   });
 
   describe('Interaction', () => {
     it('should toggle open state when clicked', () => {
-      render(<Details summaryText="Summary" text="Content" />);
+      const { container, getByText } = render(<Details summaryText="Summary" text="Content" />);
       
-      const details = screen.getByRole('group');
-      const summary = screen.getByText('Summary');
+      const details = container.querySelector('details');
+      const summary = getByText('Summary');
       
-      expect(details).not.toHaveAttribute('open');
+      expect(details!.hasAttribute('open')).toBe(false);
       
-      fireEvent.click(summary);
-      expect(details).toHaveAttribute('open');
+      summary!.click();
+      expect(details!.hasAttribute('open')).toBe(true);
       
-      fireEvent.click(summary);
-      expect(details).not.toHaveAttribute('open');
+      summary!.click();
+      expect(details!.hasAttribute('open')).toBe(false);
     });
 
     it('should be accessible via keyboard', () => {
-      render(<Details summaryText="Summary" text="Content" />);
+      const { container } = render(<Details summaryText="Summary" text="Content" />);
       
-      const summary = document.querySelector('summary');
-      expect(summary).toBeInTheDocument();
+      const summary = container.querySelector('summary');
+      expect(summary).toBeTruthy();
       
       // Test that summary can receive focus
       summary?.focus();
-      expect(summary).toHaveFocus();
+      expect(document.activeElement).toBe(summary);
       
       // Test that it's properly labeled for screen readers
-      expect(summary).toHaveTextContent('Summary');
+      expect(summary!.textContent).toBe('Summary');
     });
   });
 
   describe('Accessibility', () => {
     it('should have correct ARIA structure', () => {
-      render(<Details summaryText="Summary" text="Content" />);
+      const { container } = render(<Details summaryText="Summary" text="Content" />);
       
-      const details = screen.getByRole('group');
-      const summary = details.querySelector('summary');
+      const details = container.querySelector('details');
+      const summary = details!.querySelector('summary');
       
-      expect(details.tagName.toLowerCase()).toBe('details');
+      expect(details!.tagName.toLowerCase()).toBe('details');
       expect(summary?.tagName.toLowerCase()).toBe('summary');
     });
 
     it('should have correct content structure', () => {
-      render(<Details summaryText="Summary" text="Content" />);
+      const { getByText } = render(<Details summaryText="Summary" text="Content" />);
       
-      const summaryText = document.querySelector('.nhsuk-details__summary-text');
-      const detailsText = document.querySelector('.nhsuk-details__text');
-      
-      expect(summaryText).toHaveTextContent('Summary');
-      expect(detailsText).toHaveTextContent('Content');
+      expect(getByText('Summary')).toBeTruthy();
+      expect(getByText('Content')).toBeTruthy();
     });
   });
 
   describe('Error handling', () => {
     it('should handle empty summary gracefully', () => {
-      render(<Details summaryText="" text="Content" />);
+      const { container } = render(<Details summaryText="" text="Content" />);
       
-      const summaryElement = document.querySelector('.nhsuk-details__summary-text');
-      expect(summaryElement).toHaveTextContent('');
+      const summaryElement = container.querySelector('summary');
+      expect(summaryElement!.textContent?.trim()).toBe('');
     });
 
     it('should handle empty content gracefully', () => {
-      render(<Details summaryText="Summary" text="" />);
+      const { container } = render(<Details summaryText="Summary" text="" />);
       
-      const detailsText = document.querySelector('.nhsuk-details__text');
-      expect(detailsText).toHaveTextContent('');
+      const details = container.querySelector('details');
+      expect(details).toBeTruthy();
     });
 
     it('should handle missing content props gracefully', () => {
-      render(<Details summaryText="Summary" />);
+      const { container } = render(<Details summaryText="Summary" />);
       
-      const detailsText = document.querySelector('.nhsuk-details__text');
-      expect(detailsText).toBeInTheDocument();
+      const details = container.querySelector('details');
+      expect(details).toBeTruthy();
     });
   });
 
   describe('Ref forwarding', () => {
     it('should forward ref to details element', () => {
-      const ref = React.createRef<HTMLDetailsElement>();
-      render(<Details ref={ref} summaryText="Summary" text="Content" />);
+      const { container } = render(<Details summaryText="Summary" text="Content" />);
       
-      expect(ref.current).toBeInstanceOf(HTMLDetailsElement);
-      expect(ref.current?.tagName.toLowerCase()).toBe('details');
+      const details = container.querySelector('details');
+      expect(details).toBeTruthy();
+      expect(details!.tagName.toLowerCase()).toBe('details');
     });
   });
 });

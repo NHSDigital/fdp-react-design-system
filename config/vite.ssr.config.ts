@@ -4,7 +4,12 @@ import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      // Explicit JSX runtime configuration for React 19 compatibility
+      jsxRuntime: 'automatic',
+    })
+  ],
   build: {
     lib: {
       entry: resolve(__dirname, '../src/ssr.ts'),

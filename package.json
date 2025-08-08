@@ -5,6 +5,28 @@
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
   "types": "dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.umd.js"
+    },
+    "./ssr": {
+      "types": "./dist/src/ssr.d.ts",
+      "import": "./dist/src/ssr.js",
+      "require": "./dist/src/ssr.js"
+    },
+    "./components/Header/HeaderSSR": {
+      "types": "./dist/src/components/Header/HeaderSSR.d.ts",
+      "import": "./dist/src/components/Header/HeaderSSR.js",
+      "require": "./dist/src/components/Header/HeaderSSR.js"
+    },
+    "./components/Header/HeaderStatic": {
+      "types": "./dist/src/components/Header/HeaderStatic.d.ts",
+      "import": "./dist/src/components/Header/HeaderStatic.js",
+      "require": "./dist/src/components/Header/HeaderStatic.js"
+    }
+  },
   "files": [
     "dist",
     "packages/nhs-fdp/dist"

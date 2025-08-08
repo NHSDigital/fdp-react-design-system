@@ -35,6 +35,8 @@ export type { FieldsetProps, FieldsetLegendProps } from './Fieldset';
 export { NHSThemeProvider, useNHSTheme } from './NHSThemeProvider';
 export type { ThemeProviderProps } from './NHSThemeProvider';
 export { Header } from './Header';
+export { HeaderSSR } from './Header';
+export { HeaderStatic } from './Header';
 export type { HeaderProps, AccountItem, NavigationItem } from './Header';
 export { Hero } from './Hero';
 export type { HeroProps } from './Hero';

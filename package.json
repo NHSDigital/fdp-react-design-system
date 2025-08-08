@@ -1,10 +1,10 @@
 {
   "name": "@fergusbisset/nhs-fdp-design-system",
-  "version": "0.0.5d-alpha",
+  "version": "0.0.6-alpha",
   "description": "NHS FDP Frontend Development Platform Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "files": [
     "dist",
     "packages/nhs-fdp/dist"

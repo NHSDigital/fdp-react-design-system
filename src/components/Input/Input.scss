@@ -86,7 +86,8 @@
 
 .nhsuk-input-range-labels {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: nhs.$nhs-fdp-spacing-3;
   margin-bottom: nhs.$nhs-fdp-spacing-2;
 }
 
@@ -94,8 +95,19 @@
   color: nhs.$nhs-fdp-semantic-color-text-secondary;
   font-weight: 400;
   font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  flex-shrink: 0;
+  min-width: 2rem;
+  text-align: center;
   
   @include nhs.nhs-fdp-font(19);
+  
+  &--min {
+    text-align: left;
+  }
+  
+  &--max {
+    text-align: right;
+  }
 }
 
 .nhsuk-input-range-current-value {
@@ -120,7 +132,7 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width: 100%;
+  flex: 1;
   height: nhs.$nhs-fdp-spacing-4; // 16px
   border-radius: nhs.$nhs-fdp-border-radius-small;
   background: nhs.$nhs-fdp-color-grey-4;
@@ -128,7 +140,7 @@
   cursor: pointer;
   border: none;
   padding: 0;
-  margin: nhs.$nhs-fdp-spacing-2 0;
+  margin: 0;
 
   // Webkit (Chrome, Safari, Edge)
   &::-webkit-slider-thumb {

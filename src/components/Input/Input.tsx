@@ -66,37 +66,65 @@ export const Input: React.FC<InputProps> = ({
           <span className="nhsuk-input-range-label nhsuk-input-range-label--min">
             {valueLabels?.min || min || '0'}
           </span>
+          <input
+            className={inputClasses}
+            id={id}
+            name={name}
+            type={type}
+            value={currentValue}
+            defaultValue={defaultValue}
+            placeholder={placeholder}
+            disabled={disabled}
+            readOnly={readOnly}
+            required={required}
+            aria-describedby={describedBy}
+            inputMode={inputMode}
+            autoComplete={autoComplete}
+            maxLength={maxLength}
+            minLength={minLength}
+            pattern={pattern}
+            step={step}
+            min={min}
+            max={max}
+            onChange={handleChange}
+            onBlur={onBlur}
+            onFocus={onFocus}
+            onKeyDown={onKeyDown}
+            {...props}
+          />
           <span className="nhsuk-input-range-label nhsuk-input-range-label--max">
             {valueLabels?.max || max || '100'}
           </span>
         </div>
       )}
-      <input
-        className={inputClasses}
-        id={id}
-        name={name}
-        type={type}
-        value={currentValue}
-        defaultValue={defaultValue}
-        placeholder={placeholder}
-        disabled={disabled}
-        readOnly={readOnly}
-        required={required}
-        aria-describedby={describedBy}
-        inputMode={inputMode}
-        autoComplete={autoComplete}
-        maxLength={maxLength}
-        minLength={minLength}
-        pattern={pattern}
-        step={step}
-        min={min}
-        max={max}
-        onChange={handleChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        onKeyDown={onKeyDown}
-        {...props}
-      />
+      {!showValueLabels && (
+        <input
+          className={inputClasses}
+          id={id}
+          name={name}
+          type={type}
+          value={currentValue}
+          defaultValue={defaultValue}
+          placeholder={placeholder}
+          disabled={disabled}
+          readOnly={readOnly}
+          required={required}
+          aria-describedby={describedBy}
+          inputMode={inputMode}
+          autoComplete={autoComplete}
+          maxLength={maxLength}
+          minLength={minLength}
+          pattern={pattern}
+          step={step}
+          min={min}
+          max={max}
+          onChange={handleChange}
+          onBlur={onBlur}
+          onFocus={onFocus}
+          onKeyDown={onKeyDown}
+          {...props}
+        />
+      )}
       {showCurrentValue && (
         <div className="nhsuk-input-range-current-value">
           <span className="nhsuk-input-range-current-label">

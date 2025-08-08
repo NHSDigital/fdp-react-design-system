@@ -78,3 +78,180 @@
 .nhsuk-input[type="number"] {
   appearance: textfield;
 }
+
+// Range input (slider) styles
+.nhsuk-input-range-wrapper {
+  width: 100%;
+}
+
+.nhsuk-input-range-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: nhs.$nhs-fdp-spacing-2;
+}
+
+.nhsuk-input-range-label {
+  color: nhs.$nhs-fdp-semantic-color-text-secondary;
+  font-weight: 400;
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  
+  @include nhs.nhs-fdp-font(19);
+}
+
+.nhsuk-input-range-current-value {
+  margin-top: nhs.$nhs-fdp-spacing-2;
+  text-align: center;
+}
+
+.nhsuk-input-range-current-label {
+  color: nhs.$nhs-fdp-semantic-color-text-primary;
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  
+  @include nhs.nhs-fdp-font(19);
+  
+  strong {
+    font-weight: 600;
+    color: nhs.$nhs-fdp-semantic-color-link-default;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  }
+}
+
+.nhsuk-input--range {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: nhs.$nhs-fdp-spacing-4; // 16px
+  border-radius: nhs.$nhs-fdp-border-radius-small;
+  background: nhs.$nhs-fdp-color-grey-4;
+  outline: none;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  margin: nhs.$nhs-fdp-spacing-2 0;
+
+  // Webkit (Chrome, Safari, Edge)
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: nhs.$nhs-fdp-spacing-6; // 24px
+    height: nhs.$nhs-fdp-spacing-6; // 24px
+    border-radius: 50%;
+    background: nhs.$nhs-fdp-semantic-color-link-default;
+    border: 2px solid nhs.$nhs-fdp-color-primary-white;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: nhs.$nhs-fdp-semantic-color-link-hover;
+      transform: scale(1.1);
+    }
+
+    &:active {
+      background: nhs.$nhs-fdp-semantic-color-link-active;
+      transform: scale(1.2);
+    }
+  }
+
+  // Firefox
+  &::-moz-range-thumb {
+    width: nhs.$nhs-fdp-spacing-6; // 24px
+    height: nhs.$nhs-fdp-spacing-6; // 24px
+    border-radius: 50%;
+    background: nhs.$nhs-fdp-semantic-color-link-default;
+    border: 2px solid nhs.$nhs-fdp-color-primary-white;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: nhs.$nhs-fdp-semantic-color-link-hover;
+      transform: scale(1.1);
+    }
+
+    &:active {
+      background: nhs.$nhs-fdp-semantic-color-link-active;
+      transform: scale(1.2);
+    }
+  }
+
+  &::-moz-range-track {
+    width: 100%;
+    height: nhs.$nhs-fdp-spacing-4; // 16px
+    cursor: pointer;
+    background: nhs.$nhs-fdp-color-grey-4;
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+    border: none;
+  }
+
+  // Focus state for accessibility
+  &:focus {
+    outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+    outline-offset: 2px;
+
+    &::-webkit-slider-thumb {
+      box-shadow: 
+        0 0 0 nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-semantic-color-focus-background,
+        0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    &::-moz-range-thumb {
+      box-shadow: 
+        0 0 0 nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-semantic-color-focus-background,
+        0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  // Disabled state
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: nhs.$nhs-fdp-color-grey-5;
+
+    &::-webkit-slider-thumb {
+      background: nhs.$nhs-fdp-color-grey-3;
+      cursor: not-allowed;
+      
+      &:hover,
+      &:active {
+        background: nhs.$nhs-fdp-color-grey-3;
+        transform: none;
+      }
+    }
+
+    &::-moz-range-thumb {
+      background: nhs.$nhs-fdp-color-grey-3;
+      cursor: not-allowed;
+      
+      &:hover,
+      &:active {
+        background: nhs.$nhs-fdp-color-grey-3;
+        transform: none;
+      }
+    }
+  }
+
+  // Error state
+  &.nhsuk-input--error {
+    background: nhs.$nhs-fdp-color-grey-4;
+    
+    &::-webkit-slider-thumb {
+      background: nhs.$nhs-fdp-semantic-color-error;
+      border-color: nhs.$nhs-fdp-semantic-color-error;
+      
+      &:hover {
+        background: nhs.$nhs-fdp-semantic-color-error;
+      }
+    }
+
+    &::-moz-range-thumb {
+      background: nhs.$nhs-fdp-semantic-color-error;
+      border-color: nhs.$nhs-fdp-semantic-color-error;
+      
+      &:hover {
+        background: nhs.$nhs-fdp-semantic-color-error;
+      }
+    }
+  }
+}

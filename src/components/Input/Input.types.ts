@@ -4,7 +4,7 @@ export interface InputProps {
   /** The name attribute for the input */
   name: string;
   /** The type of input (text, email, password, etc.) */
-  type?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'search' | 'number';
+  type?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'search' | 'number' | 'range';
   /** The value of the input */
   value?: string;
   /** Default value for uncontrolled inputs */
@@ -41,6 +41,12 @@ export interface InputProps {
   min?: string | number;
   /** Maximum value for number inputs */
   max?: string | number;
+  /** Show value labels for range inputs */
+  showValueLabels?: boolean;
+  /** Show current value for range inputs */
+  showCurrentValue?: boolean;
+  /** Custom labels for range input values */
+  valueLabels?: { min?: string; max?: string; current?: string };
   /** Change event handler */
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   /** Blur event handler */

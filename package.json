@@ -33,8 +33,9 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:tokens && npm run build:lib && npm run build:types",
+    "build": "npm run build:tokens && npm run build:lib && npm run build:ssr && npm run build:types",
     "build:lib": "vite build --config config/vite.config.ts",
+    "build:ssr": "vite build --config config/vite.ssr.config.ts",
     "build:types": "tsc --project tsconfig.build.json",
     "build:tokens": "npx style-dictionary build --config config/style-dictionary.config.js && node scripts/build-responsive-tokens.js && node scripts/add-use-directives.js",
     "build:tokens:responsive": "node scripts/build-responsive-tokens.js",

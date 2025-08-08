@@ -1,7 +1,7 @@
-import * as se from "react";
-import ae, { createElement as te, useState as le, useEffect as X } from "react";
-import k from "classnames";
-var $ = { exports: {} }, I = {};
+import o from "classnames";
+import * as B from "react";
+import { createElement as F, useState as Z, useEffect as R } from "react";
+var M = { exports: {} }, w = {};
 /**
  * @license React
  * react-jsx-runtime.production.js
@@ -11,306 +11,63 @@ var $ = { exports: {} }, I = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var Q;
-function ce() {
-  if (Q) return I;
-  Q = 1;
-  var h = Symbol.for("react.transitional.element"), l = Symbol.for("react.fragment");
-  function a(s, t, c) {
-    var i = null;
-    if (c !== void 0 && (i = "" + c), t.key !== void 0 && (i = "" + t.key), "key" in t) {
-      c = {};
-      for (var u in t)
-        u !== "key" && (c[u] = t[u]);
-    } else c = t;
-    return t = c.ref, {
-      $$typeof: h,
-      type: s,
-      key: i,
-      ref: t !== void 0 ? t : null,
-      props: c
+var A;
+function q() {
+  if (A) return w;
+  A = 1;
+  var c = Symbol.for("react.transitional.element"), t = Symbol.for("react.fragment");
+  function n(a, r, l) {
+    var h = null;
+    if (l !== void 0 && (h = "" + l), r.key !== void 0 && (h = "" + r.key), "key" in r) {
+      l = {};
+      for (var i in r)
+        i !== "key" && (l[i] = r[i]);
+    } else l = r;
+    return r = l.ref, {
+      $$typeof: c,
+      type: a,
+      key: h,
+      ref: r !== void 0 ? r : null,
+      props: l
     };
   }
-  return I.Fragment = l, I.jsx = a, I.jsxs = a, I;
+  return w.Fragment = t, w.jsx = n, w.jsxs = n, w;
 }
-var F = {};
-/**
- * @license React
- * react-jsx-runtime.development.js
- *
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-var K;
-function ie() {
-  return K || (K = 1, process.env.NODE_ENV !== "production" && function() {
-    function h(r) {
-      if (r == null) return null;
-      if (typeof r == "function")
-        return r.$$typeof === Y ? null : r.displayName || r.name || null;
-      if (typeof r == "string") return r;
-      switch (r) {
-        case y:
-          return "Fragment";
-        case C:
-          return "Profiler";
-        case P:
-          return "StrictMode";
-        case M:
-          return "Suspense";
-        case O:
-          return "SuspenseList";
-        case b:
-          return "Activity";
-      }
-      if (typeof r == "object")
-        switch (typeof r.tag == "number" && console.error(
-          "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
-        ), r.$$typeof) {
-          case R:
-            return "Portal";
-          case S:
-            return (r.displayName || "Context") + ".Provider";
-          case T:
-            return (r._context.displayName || "Context") + ".Consumer";
-          case L:
-            var o = r.render;
-            return r = r.displayName, r || (r = o.displayName || o.name || "", r = r !== "" ? "ForwardRef(" + r + ")" : "ForwardRef"), r;
-          case v:
-            return o = r.displayName || null, o !== null ? o : h(r.type) || "Memo";
-          case n:
-            o = r._payload, r = r._init;
-            try {
-              return h(r(o));
-            } catch {
-            }
-        }
-      return null;
-    }
-    function l(r) {
-      return "" + r;
-    }
-    function a(r) {
-      try {
-        l(r);
-        var o = !1;
-      } catch {
-        o = !0;
-      }
-      if (o) {
-        o = console;
-        var f = o.error, j = typeof Symbol == "function" && Symbol.toStringTag && r[Symbol.toStringTag] || r.constructor.name || "Object";
-        return f.call(
-          o,
-          "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
-          j
-        ), l(r);
-      }
-    }
-    function s(r) {
-      if (r === y) return "<>";
-      if (typeof r == "object" && r !== null && r.$$typeof === n)
-        return "<...>";
-      try {
-        var o = h(r);
-        return o ? "<" + o + ">" : "<...>";
-      } catch {
-        return "<...>";
-      }
-    }
-    function t() {
-      var r = A.A;
-      return r === null ? null : r.getOwner();
-    }
-    function c() {
-      return Error("react-stack-top-frame");
-    }
-    function i(r) {
-      if (Z.call(r, "key")) {
-        var o = Object.getOwnPropertyDescriptor(r, "key").get;
-        if (o && o.isReactWarning) return !1;
-      }
-      return r.key !== void 0;
-    }
-    function u(r, o) {
-      function f() {
-        W || (W = !0, console.error(
-          "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
-          o
-        ));
-      }
-      f.isReactWarning = !0, Object.defineProperty(r, "key", {
-        get: f,
-        configurable: !0
-      });
-    }
-    function d() {
-      var r = h(this.type);
-      return U[r] || (U[r] = !0, console.error(
-        "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
-      )), r = this.props.ref, r !== void 0 ? r : null;
-    }
-    function m(r, o, f, j, E, g, D, q) {
-      return f = g.ref, r = {
-        $$typeof: w,
-        type: r,
-        key: o,
-        props: g,
-        _owner: E
-      }, (f !== void 0 ? f : null) !== null ? Object.defineProperty(r, "ref", {
-        enumerable: !1,
-        get: d
-      }) : Object.defineProperty(r, "ref", { enumerable: !1, value: null }), r._store = {}, Object.defineProperty(r._store, "validated", {
-        configurable: !1,
-        enumerable: !1,
-        writable: !0,
-        value: 0
-      }), Object.defineProperty(r, "_debugInfo", {
-        configurable: !1,
-        enumerable: !1,
-        writable: !0,
-        value: null
-      }), Object.defineProperty(r, "_debugStack", {
-        configurable: !1,
-        enumerable: !1,
-        writable: !0,
-        value: D
-      }), Object.defineProperty(r, "_debugTask", {
-        configurable: !1,
-        enumerable: !1,
-        writable: !0,
-        value: q
-      }), Object.freeze && (Object.freeze(r.props), Object.freeze(r)), r;
-    }
-    function x(r, o, f, j, E, g, D, q) {
-      var N = o.children;
-      if (N !== void 0)
-        if (j)
-          if (re(N)) {
-            for (j = 0; j < N.length; j++)
-              _(N[j]);
-            Object.freeze && Object.freeze(N);
-          } else
-            console.error(
-              "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
-            );
-        else _(N);
-      if (Z.call(o, "key")) {
-        N = h(r);
-        var H = Object.keys(o).filter(function(ne) {
-          return ne !== "key";
-        });
-        j = 0 < H.length ? "{key: someKey, " + H.join(": ..., ") + ": ...}" : "{key: someKey}", G[N + j] || (H = 0 < H.length ? "{" + H.join(": ..., ") + ": ...}" : "{}", console.error(
-          `A props object containing a "key" prop is being spread into JSX:
-  let props = %s;
-  <%s {...props} />
-React keys must be passed directly to JSX without using spread:
-  let props = %s;
-  <%s key={someKey} {...props} />`,
-          j,
-          N,
-          H,
-          N
-        ), G[N + j] = !0);
-      }
-      if (N = null, f !== void 0 && (a(f), N = "" + f), i(o) && (a(o.key), N = "" + o.key), "key" in o) {
-        f = {};
-        for (var z in o)
-          z !== "key" && (f[z] = o[z]);
-      } else f = o;
-      return N && u(
-        f,
-        typeof r == "function" ? r.displayName || r.name || "Unknown" : r
-      ), m(
-        r,
-        N,
-        g,
-        E,
-        t(),
-        f,
-        D,
-        q
-      );
-    }
-    function _(r) {
-      typeof r == "object" && r !== null && r.$$typeof === w && r._store && (r._store.validated = 1);
-    }
-    var p = ae, w = Symbol.for("react.transitional.element"), R = Symbol.for("react.portal"), y = Symbol.for("react.fragment"), P = Symbol.for("react.strict_mode"), C = Symbol.for("react.profiler"), T = Symbol.for("react.consumer"), S = Symbol.for("react.context"), L = Symbol.for("react.forward_ref"), M = Symbol.for("react.suspense"), O = Symbol.for("react.suspense_list"), v = Symbol.for("react.memo"), n = Symbol.for("react.lazy"), b = Symbol.for("react.activity"), Y = Symbol.for("react.client.reference"), A = p.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, Z = Object.prototype.hasOwnProperty, re = Array.isArray, B = console.createTask ? console.createTask : function() {
-      return null;
-    };
-    p = {
-      "react-stack-bottom-frame": function(r) {
-        return r();
-      }
-    };
-    var W, U = {}, J = p["react-stack-bottom-frame"].bind(
-      p,
-      c
-    )(), V = B(s(c)), G = {};
-    F.Fragment = y, F.jsx = function(r, o, f, j, E) {
-      var g = 1e4 > A.recentlyCreatedOwnerStacks++;
-      return x(
-        r,
-        o,
-        f,
-        !1,
-        j,
-        E,
-        g ? Error("react-stack-top-frame") : J,
-        g ? B(s(r)) : V
-      );
-    }, F.jsxs = function(r, o, f, j, E) {
-      var g = 1e4 > A.recentlyCreatedOwnerStacks++;
-      return x(
-        r,
-        o,
-        f,
-        !0,
-        j,
-        E,
-        g ? Error("react-stack-top-frame") : J,
-        g ? B(s(r)) : V
-      );
-    };
-  }()), F;
+var E;
+function I() {
+  return E || (E = 1, M.exports = q()), M.exports;
 }
-var ee;
-function oe() {
-  return ee || (ee = 1, process.env.NODE_ENV === "production" ? $.exports = ce() : $.exports = ie()), $.exports;
-}
-var e = oe();
-const me = ({
-  className: h,
-  logo: l = {},
-  service: a = {},
-  organisation: s,
-  search: t,
-  account: c,
-  navigation: i,
-  containerClasses: u,
+var e = I();
+const D = ({
+  className: c,
+  logo: t = {},
+  service: n = {},
+  organisation: a,
+  search: r,
+  account: l,
+  navigation: h,
+  containerClasses: i,
   variant: d = "default",
-  attributes: m = {},
-  ...x
+  attributes: u = {},
+  ...k
 }) => {
-  const _ = a.href && !l.href || a.href && a.href === l.href, p = _ ? a.href : l.href, w = k(
+  const m = n.href && !t.href || n.href && n.href === t.href, x = m ? n.href : t.href, p = o(
     "nhsuk-header",
     "nhsuk-header--ssr",
     // SSR version identifier
     {
-      "nhsuk-header--organisation": d === "organisation" || s,
+      "nhsuk-header--organisation": d === "organisation" || a,
       "nhsuk-header--white": d === "white"
     },
-    h
-  ), R = k(
+    c
+  ), N = o(
     "nhsuk-header__container",
     "nhsuk-width-container",
-    u
-  ), y = k(
+    i
+  ), S = o(
     "nhsuk-header__navigation",
-    i?.className
-  ), P = () => /* @__PURE__ */ e.jsxs(
+    h?.className
+  ), y = () => /* @__PURE__ */ e.jsxs(
     "svg",
     {
       className: "nhsuk-header__logo",
@@ -320,9 +77,9 @@ const me = ({
       width: "100",
       focusable: "false",
       role: "img",
-      "aria-label": l.ariaLabel || "NHS",
+      "aria-label": t.ariaLabel || "NHS",
       children: [
-        /* @__PURE__ */ e.jsx("title", { children: l.ariaLabel || "NHS" }),
+        /* @__PURE__ */ e.jsx("title", { children: t.ariaLabel || "NHS" }),
         /* @__PURE__ */ e.jsx(
           "path",
           {
@@ -332,24 +89,24 @@ const me = ({
         )
       ]
     }
-  ), C = () => l.src ? /* @__PURE__ */ e.jsx(
+  ), b = () => t.src ? /* @__PURE__ */ e.jsx(
     "img",
     {
       className: "nhsuk-header__organisation-logo",
-      src: l.src,
+      src: t.src,
       width: "280",
-      alt: l.ariaLabel || "NHS"
+      alt: t.ariaLabel || "NHS"
     }
-  ) : P(), T = () => s ? /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+  ) : y(), v = () => a ? /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
     /* @__PURE__ */ e.jsxs("span", { className: "nhsuk-header__organisation-name", children: [
-      s.name,
-      s.split && /* @__PURE__ */ e.jsxs("span", { className: "nhsuk-header__organisation-name-split", children: [
+      a.name,
+      a.split && /* @__PURE__ */ e.jsxs("span", { className: "nhsuk-header__organisation-name-split", children: [
         " ",
-        s.split
+        a.split
       ] })
     ] }),
-    s.descriptor && /* @__PURE__ */ e.jsx("span", { className: "nhsuk-header__organisation-name-descriptor", children: s.descriptor })
-  ] }) : null, S = (v, n) => v ? n ? /* @__PURE__ */ e.jsx("a", { className: "nhsuk-header__service-name", href: n, children: v }) : /* @__PURE__ */ e.jsx("span", { className: "nhsuk-header__service-name", children: v }) : null, L = () => !i?.items || i.items.length === 0 ? null : i.items.map((v, n) => /* @__PURE__ */ e.jsx(
+    a.descriptor && /* @__PURE__ */ e.jsx("span", { className: "nhsuk-header__organisation-name-descriptor", children: a.descriptor })
+  ] }) : null, j = (_, s) => _ ? s ? /* @__PURE__ */ e.jsx("a", { className: "nhsuk-header__service-name", href: s, children: _ }) : /* @__PURE__ */ e.jsx("span", { className: "nhsuk-header__service-name", children: _ }) : null, g = () => !h?.items || h.items.length === 0 ? null : h.items.map((_, s) => /* @__PURE__ */ e.jsx(
     "li",
     {
       className: "nhsuk-header__navigation-item",
@@ -358,43 +115,43 @@ const me = ({
         "a",
         {
           className: "nhsuk-header__navigation-link",
-          href: v.href,
-          ...v.attributes || {},
-          children: v.text
+          href: _.href,
+          ..._.attributes || {},
+          children: _.text
         }
       )
     },
-    v.href || n
-  )), M = () => !c?.items || c.items.length === 0 ? null : c.items.map((v, n) => /* @__PURE__ */ e.jsx("li", { className: "nhsuk-header__account-item", children: /* @__PURE__ */ e.jsx(
+    _.href || s
+  )), H = () => !l?.items || l.items.length === 0 ? null : l.items.map((_, s) => /* @__PURE__ */ e.jsx("li", { className: "nhsuk-header__account-item", children: /* @__PURE__ */ e.jsx(
     "a",
     {
       className: "nhsuk-header__account-link",
-      href: v.href,
-      children: v.text
+      href: _.href,
+      children: _.text
     }
-  ) }, v.href || n)), O = () => t ? /* @__PURE__ */ e.jsx("div", { className: "nhsuk-header__search", children: /* @__PURE__ */ e.jsx("div", { className: "nhsuk-header__search-wrap", id: "wrap-search", children: /* @__PURE__ */ e.jsxs(
+  ) }, _.href || s)), L = () => r ? /* @__PURE__ */ e.jsx("div", { className: "nhsuk-header__search", children: /* @__PURE__ */ e.jsx("div", { className: "nhsuk-header__search-wrap", id: "wrap-search", children: /* @__PURE__ */ e.jsxs(
     "form",
     {
       className: "nhsuk-header__search-form",
       role: "search",
-      action: t.action || "/search",
+      action: r.action || "/search",
       method: "get",
       children: [
-        /* @__PURE__ */ e.jsx("label", { className: "nhsuk-u-visually-hidden", htmlFor: "search-field", children: t.visuallyHiddenLabel || "Search the NHS website" }),
+        /* @__PURE__ */ e.jsx("label", { className: "nhsuk-u-visually-hidden", htmlFor: "search-field", children: r.visuallyHiddenLabel || "Search the NHS website" }),
         /* @__PURE__ */ e.jsx(
           "input",
           {
             className: "nhsuk-header__search-input nhsuk-input",
             id: "search-field",
-            name: t.name || "q",
+            name: r.name || "q",
             type: "search",
-            placeholder: t.placeholder || "Search",
+            placeholder: r.placeholder || "Search",
             autoComplete: "off"
           }
         ),
         /* @__PURE__ */ e.jsxs("button", { className: "nhsuk-header__search-submit", type: "submit", children: [
           /* @__PURE__ */ e.jsx("svg", { className: "nhsuk-icon nhsuk-icon__search", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ e.jsx("path", { d: "m19.71 18.29-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z" }) }),
-          /* @__PURE__ */ e.jsx("span", { className: "nhsuk-u-visually-hidden", children: t.visuallyHiddenButton || "Search" })
+          /* @__PURE__ */ e.jsx("span", { className: "nhsuk-u-visually-hidden", children: r.visuallyHiddenButton || "Search" })
         ] })
       ]
     }
@@ -402,50 +159,50 @@ const me = ({
   return /* @__PURE__ */ e.jsxs(
     "header",
     {
-      className: w,
+      className: p,
       role: "banner",
       "data-progressive-enhancement": "true",
-      "data-navigation-items-count": i?.items?.length || 0,
-      ...m,
-      ...x,
+      "data-navigation-items-count": h?.items?.length || 0,
+      ...u,
+      ...k,
       children: [
-        /* @__PURE__ */ e.jsxs("div", { className: R, children: [
+        /* @__PURE__ */ e.jsxs("div", { className: N, children: [
           /* @__PURE__ */ e.jsxs("div", { className: "nhsuk-header__service", children: [
-            p ? /* @__PURE__ */ e.jsxs("a", { className: "nhsuk-header__service-logo", href: p, children: [
-              C(),
-              T(),
-              _ && S(a.text)
+            x ? /* @__PURE__ */ e.jsxs("a", { className: "nhsuk-header__service-logo", href: x, children: [
+              b(),
+              v(),
+              m && j(n.text)
             ] }) : /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-              C(),
-              T(),
-              _ && S(a.text)
+              b(),
+              v(),
+              m && j(n.text)
             ] }),
-            a.text && !_ && S(a.text, a.href)
+            n.text && !m && j(n.text, n.href)
           ] }),
-          (d === "organisation" || s) && /* @__PURE__ */ e.jsxs("div", { className: "nhsuk-header__content", id: "content-header", children: [
-            s && /* @__PURE__ */ e.jsxs("div", { className: "nhsuk-header__organisation", children: [
-              /* @__PURE__ */ e.jsx("span", { className: "nhsuk-header__organisation-name", children: s.name }),
-              s.descriptor && /* @__PURE__ */ e.jsx("span", { className: "nhsuk-header__organisation-descriptor", children: s.descriptor })
+          (d === "organisation" || a) && /* @__PURE__ */ e.jsxs("div", { className: "nhsuk-header__content", id: "content-header", children: [
+            a && /* @__PURE__ */ e.jsxs("div", { className: "nhsuk-header__organisation", children: [
+              /* @__PURE__ */ e.jsx("span", { className: "nhsuk-header__organisation-name", children: a.name }),
+              a.descriptor && /* @__PURE__ */ e.jsx("span", { className: "nhsuk-header__organisation-descriptor", children: a.descriptor })
             ] }),
-            O()
+            L()
           ] }),
-          d !== "organisation" && !s && O(),
-          c && /* @__PURE__ */ e.jsx("div", { className: "nhsuk-header__account", children: /* @__PURE__ */ e.jsx("ul", { className: "nhsuk-header__account-list", children: M() }) })
+          d !== "organisation" && !a && L(),
+          l && /* @__PURE__ */ e.jsx("div", { className: "nhsuk-header__account", children: /* @__PURE__ */ e.jsx("ul", { className: "nhsuk-header__account-list", children: H() }) })
         ] }),
-        i && i.items && i.items.length > 0 && /* @__PURE__ */ e.jsx(
+        h && h.items && h.items.length > 0 && /* @__PURE__ */ e.jsx(
           "nav",
           {
-            className: y,
+            className: S,
             id: "header-navigation",
             role: "navigation",
-            "aria-label": i.ariaLabel || "Primary navigation",
+            "aria-label": h.ariaLabel || "Primary navigation",
             "data-navigation-enhanced": "false",
             children: /* @__PURE__ */ e.jsx("div", { className: "nhsuk-width-container", children: /* @__PURE__ */ e.jsx(
               "ul",
               {
                 className: "nhsuk-header__navigation-list",
                 "data-navigation-list": "true",
-                children: L()
+                children: g()
               }
             ) })
           }
@@ -453,44 +210,44 @@ const me = ({
       ]
     }
   );
-}, fe = ({
-  className: h,
-  logo: l = {},
-  service: a = {},
-  organisation: s,
-  search: t,
-  account: c,
-  navigation: i,
-  containerClasses: u,
+}, P = ({
+  className: c,
+  logo: t = {},
+  service: n = {},
+  organisation: a,
+  search: r,
+  account: l,
+  navigation: h,
+  containerClasses: i,
   variant: d = "default",
-  attributes: m = {},
-  maxVisibleItems: x = 5,
+  attributes: u = {},
+  maxVisibleItems: k = 5,
   // New prop to control CSS-based overflow
-  ..._
+  ...m
 }) => {
-  const p = a.href && !l.href || a.href && a.href === l.href, w = p ? a.href : l.href, R = k(
+  const x = n.href && !t.href || n.href && n.href === t.href, p = x ? n.href : t.href, N = o(
     "nhsuk-header",
     "nhsuk-header--static",
     // Static version identifier
     {
-      "nhsuk-header--organisation": d === "organisation" || s,
+      "nhsuk-header--organisation": d === "organisation" || a,
       "nhsuk-header--white": d === "white"
     },
-    h
-  ), y = k(
+    c
+  ), S = o(
     "nhsuk-header__container",
     "nhsuk-width-container",
-    u
-  ), P = k(
+    i
+  ), y = o(
     "nhsuk-header__navigation",
     "nhsuk-header__navigation--static",
     // Static navigation identifier
     {
-      "nhsuk-header__navigation--white": i?.white,
-      "nhsuk-header__navigation--justified": i?.justified
+      "nhsuk-header__navigation--white": h?.white,
+      "nhsuk-header__navigation--justified": h?.justified
     },
-    i?.className
-  ), C = () => /* @__PURE__ */ e.jsxs(
+    h?.className
+  ), b = () => /* @__PURE__ */ e.jsxs(
     "svg",
     {
       className: "nhsuk-header__logo",
@@ -500,9 +257,9 @@ const me = ({
       width: "100",
       focusable: "false",
       role: "img",
-      "aria-label": l.ariaLabel || "NHS",
+      "aria-label": t.ariaLabel || "NHS",
       children: [
-        /* @__PURE__ */ e.jsx("title", { children: l.ariaLabel || "NHS" }),
+        /* @__PURE__ */ e.jsx("title", { children: t.ariaLabel || "NHS" }),
         /* @__PURE__ */ e.jsx(
           "path",
           {
@@ -512,26 +269,26 @@ const me = ({
         )
       ]
     }
-  ), T = () => l.src ? /* @__PURE__ */ e.jsx(
+  ), v = () => t.src ? /* @__PURE__ */ e.jsx(
     "img",
     {
       className: "nhsuk-header__logo",
-      src: l.src,
-      alt: l.ariaLabel || "",
+      src: t.src,
+      alt: t.ariaLabel || "",
       width: "100",
       height: "40"
     }
-  ) : C(), S = () => s ? /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+  ) : b(), j = () => a ? /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
     /* @__PURE__ */ e.jsxs("span", { className: "nhsuk-header__organisation-name", children: [
-      s.name,
-      s.split && /* @__PURE__ */ e.jsxs("span", { className: "nhsuk-header__organisation-name-split", children: [
+      a.name,
+      a.split && /* @__PURE__ */ e.jsxs("span", { className: "nhsuk-header__organisation-name-split", children: [
         " ",
-        s.split
+        a.split
       ] })
     ] }),
-    s.descriptor && /* @__PURE__ */ e.jsx("span", { className: "nhsuk-header__organisation-name-descriptor", children: s.descriptor })
-  ] }) : null, L = (n, b) => n ? b ? /* @__PURE__ */ e.jsx("a", { className: "nhsuk-header__service-name", href: b, children: n }) : /* @__PURE__ */ e.jsx("span", { className: "nhsuk-header__service-name", children: n }) : null, M = (n) => {
-    const b = n.icon ? /* @__PURE__ */ e.jsx(
+    a.descriptor && /* @__PURE__ */ e.jsx("span", { className: "nhsuk-header__organisation-name-descriptor", children: a.descriptor })
+  ] }) : null, g = (s, f) => s ? f ? /* @__PURE__ */ e.jsx("a", { className: "nhsuk-header__service-name", href: f, children: s }) : /* @__PURE__ */ e.jsx("span", { className: "nhsuk-header__service-name", children: s }) : null, H = (s) => {
+    const f = s.icon ? /* @__PURE__ */ e.jsx(
       "svg",
       {
         className: "nhsuk-icon nhsuk-icon__user",
@@ -541,28 +298,28 @@ const me = ({
         focusable: "false",
         children: /* @__PURE__ */ e.jsx("path", { d: "M12 1a11 11 0 1 1 0 22 11 11 0 0 1 0-22Zm0 2a9 9 0 0 0-5 16.5V18a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1.5A9 9 0 0 0 12 3Zm0 3a3.5 3.5 0 1 1-3.5 3.5A3.4 3.4 0 0 1 12 6Z" })
       }
-    ) : null, Y = n.html ? /* @__PURE__ */ e.jsx("span", { dangerouslySetInnerHTML: { __html: n.html } }) : n.text, A = /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-      b,
-      Y
+    ) : null, T = s.html ? /* @__PURE__ */ e.jsx("span", { dangerouslySetInnerHTML: { __html: s.html } }) : s.text, C = /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+      f,
+      T
     ] });
-    return n.href ? /* @__PURE__ */ e.jsx("a", { className: "nhsuk-header__account-link", href: n.href, children: A }) : n.action ? /* @__PURE__ */ e.jsx(
+    return s.href ? /* @__PURE__ */ e.jsx("a", { className: "nhsuk-header__account-link", href: s.href, children: C }) : s.action ? /* @__PURE__ */ e.jsx(
       "form",
       {
         className: "nhsuk-header__account-form",
-        action: n.action,
-        method: n.method || "post",
+        action: s.action,
+        method: s.method || "post",
         children: /* @__PURE__ */ e.jsx(
           "button",
           {
             className: "nhsuk-header__account-button",
             type: "submit",
             role: "button",
-            children: A
+            children: C
           }
         )
       }
-    ) : A;
-  }, O = () => /* @__PURE__ */ e.jsx(
+    ) : C;
+  }, L = () => /* @__PURE__ */ e.jsx(
     "svg",
     {
       className: "nhsuk-icon nhsuk-icon__search",
@@ -572,41 +329,41 @@ const me = ({
       focusable: "false",
       children: /* @__PURE__ */ e.jsx("path", { d: "M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z" })
     }
-  ), v = (n) => {
-    if (n.active || n.current) {
-      const b = n.html ? /* @__PURE__ */ e.jsx("span", { dangerouslySetInnerHTML: { __html: n.html } }) : n.text;
-      return /* @__PURE__ */ e.jsx("strong", { className: "nhsuk-header__navigation-item-current-fallback", children: b });
+  ), _ = (s) => {
+    if (s.active || s.current) {
+      const f = s.html ? /* @__PURE__ */ e.jsx("span", { dangerouslySetInnerHTML: { __html: s.html } }) : s.text;
+      return /* @__PURE__ */ e.jsx("strong", { className: "nhsuk-header__navigation-item-current-fallback", children: f });
     }
-    return n.html ? /* @__PURE__ */ e.jsx("span", { dangerouslySetInnerHTML: { __html: n.html } }) : n.text;
+    return s.html ? /* @__PURE__ */ e.jsx("span", { dangerouslySetInnerHTML: { __html: s.html } }) : s.text;
   };
   return /* @__PURE__ */ e.jsxs(
     "header",
     {
-      className: R,
+      className: N,
       role: "banner",
       "data-module": "nhsuk-header-static",
+      ...u,
       ...m,
-      ..._,
       children: [
-        /* @__PURE__ */ e.jsxs("div", { className: y, children: [
+        /* @__PURE__ */ e.jsxs("div", { className: S, children: [
           /* @__PURE__ */ e.jsxs("div", { className: "nhsuk-header__service", children: [
-            w ? /* @__PURE__ */ e.jsxs("a", { className: "nhsuk-header__service-logo", href: w, children: [
-              T(),
-              S(),
-              p && L(a.text)
+            p ? /* @__PURE__ */ e.jsxs("a", { className: "nhsuk-header__service-logo", href: p, children: [
+              v(),
+              j(),
+              x && g(n.text)
             ] }) : /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-              T(),
-              S(),
-              p && L(a.text)
+              v(),
+              j(),
+              x && g(n.text)
             ] }),
-            a.text && !p && L(a.text, a.href)
+            n.text && !x && g(n.text, n.href)
           ] }),
-          t && /* @__PURE__ */ e.jsx("search", { className: "nhsuk-header__search", children: /* @__PURE__ */ e.jsxs(
+          r && /* @__PURE__ */ e.jsx("search", { className: "nhsuk-header__search", children: /* @__PURE__ */ e.jsxs(
             "form",
             {
               className: "nhsuk-header__search-form",
               id: "search",
-              action: t.action || "https://www.nhs.uk/search/",
+              action: r.action || "https://www.nhs.uk/search/",
               method: "get",
               children: [
                 /* @__PURE__ */ e.jsx(
@@ -614,7 +371,7 @@ const me = ({
                   {
                     className: "nhsuk-u-visually-hidden",
                     htmlFor: "search-field",
-                    children: t.visuallyHiddenLabel || "Search the NHS website"
+                    children: r.visuallyHiddenLabel || "Search the NHS website"
                   }
                 ),
                 /* @__PURE__ */ e.jsx(
@@ -622,77 +379,77 @@ const me = ({
                   {
                     className: "nhsuk-header__search-input nhsuk-input",
                     id: "search-field",
-                    name: t.name || "q",
+                    name: r.name || "q",
                     type: "search",
-                    placeholder: t.placeholder || "Search",
+                    placeholder: r.placeholder || "Search",
                     autoComplete: "off"
                   }
                 ),
                 /* @__PURE__ */ e.jsxs("button", { className: "nhsuk-header__search-submit", type: "submit", children: [
-                  O(),
-                  /* @__PURE__ */ e.jsx("span", { className: "nhsuk-u-visually-hidden", children: t.visuallyHiddenButton || "Search" })
+                  L(),
+                  /* @__PURE__ */ e.jsx("span", { className: "nhsuk-u-visually-hidden", children: r.visuallyHiddenButton || "Search" })
                 ] })
               ]
             }
           ) }),
-          c && c.items && c.items.length > 0 && /* @__PURE__ */ e.jsx(
+          l && l.items && l.items.length > 0 && /* @__PURE__ */ e.jsx(
             "nav",
             {
-              className: k("nhsuk-header__account", c.className),
-              "aria-label": c.ariaLabel || "Account",
-              children: /* @__PURE__ */ e.jsx("ul", { className: "nhsuk-header__account-list", children: c.items.map((n, b) => n && /* @__PURE__ */ e.jsx(
+              className: o("nhsuk-header__account", l.className),
+              "aria-label": l.ariaLabel || "Account",
+              children: /* @__PURE__ */ e.jsx("ul", { className: "nhsuk-header__account-list", children: l.items.map((s, f) => s && /* @__PURE__ */ e.jsx(
                 "li",
                 {
-                  className: k("nhsuk-header__account-item", n.className),
-                  children: M(n)
+                  className: o("nhsuk-header__account-item", s.className),
+                  children: H(s)
                 },
-                b
+                f
               )) })
             }
           )
         ] }),
-        i && i.items && i.items.length > 0 && /* @__PURE__ */ e.jsx(
+        h && h.items && h.items.length > 0 && /* @__PURE__ */ e.jsx(
           "nav",
           {
-            className: P,
-            "aria-label": i.ariaLabel || "Menu",
+            className: y,
+            "aria-label": h.ariaLabel || "Menu",
             children: /* @__PURE__ */ e.jsx(
               "div",
               {
-                className: k(
+                className: o(
                   "nhsuk-header__navigation-container",
                   "nhsuk-width-container",
                   "nhsuk-header__navigation-container--static",
-                  u
+                  i
                 ),
                 children: /* @__PURE__ */ e.jsxs("ul", { className: "nhsuk-header__navigation-list nhsuk-header__navigation-list--primary", children: [
-                  i.items.slice(0, x).map((n, b) => /* @__PURE__ */ e.jsx(
+                  h.items.slice(0, k).map((s, f) => /* @__PURE__ */ e.jsx(
                     "li",
                     {
-                      className: k(
+                      className: o(
                         "nhsuk-header__navigation-item",
                         "nhsuk-header__navigation-item--primary",
                         {
-                          "nhsuk-header__navigation-item--current": n.active || n.current
+                          "nhsuk-header__navigation-item--current": s.active || s.current
                         },
-                        n.className
+                        s.className
                       ),
-                      ...n.attributes || {},
+                      ...s.attributes || {},
                       children: /* @__PURE__ */ e.jsx(
                         "a",
                         {
                           className: "nhsuk-header__navigation-link",
-                          href: n.href,
-                          ...n.active || n.current ? {
-                            "aria-current": n.current ? "page" : "true"
+                          href: s.href,
+                          ...s.active || s.current ? {
+                            "aria-current": s.current ? "page" : "true"
                           } : {},
-                          children: v(n)
+                          children: _(s)
                         }
                       )
                     },
-                    b
+                    f
                   )),
-                  i.items.length > x && /* @__PURE__ */ e.jsx("li", { className: "nhsuk-header__navigation-item nhsuk-header__navigation-item--more nhsuk-header__navigation-item--static", children: /* @__PURE__ */ e.jsxs("details", { className: "nhsuk-header__navigation-details", children: [
+                  h.items.length > k && /* @__PURE__ */ e.jsx("li", { className: "nhsuk-header__navigation-item nhsuk-header__navigation-item--more nhsuk-header__navigation-item--static", children: /* @__PURE__ */ e.jsxs("details", { className: "nhsuk-header__navigation-details", children: [
                     /* @__PURE__ */ e.jsxs("summary", { className: "nhsuk-header__navigation-summary", children: [
                       /* @__PURE__ */ e.jsx("span", { children: "More" }),
                       /* @__PURE__ */ e.jsx(
@@ -707,28 +464,28 @@ const me = ({
                         }
                       )
                     ] }),
-                    /* @__PURE__ */ e.jsx("ul", { className: "nhsuk-header__navigation-dropdown", children: i.items.slice(x).map((n, b) => /* @__PURE__ */ e.jsx(
+                    /* @__PURE__ */ e.jsx("ul", { className: "nhsuk-header__navigation-dropdown", children: h.items.slice(k).map((s, f) => /* @__PURE__ */ e.jsx(
                       "li",
                       {
-                        className: k(
+                        className: o(
                           "nhsuk-header__navigation-dropdown-item",
                           {
-                            "nhsuk-header__navigation-dropdown-item--current": n.active || n.current
+                            "nhsuk-header__navigation-dropdown-item--current": s.active || s.current
                           }
                         ),
                         children: /* @__PURE__ */ e.jsx(
                           "a",
                           {
                             className: "nhsuk-header__navigation-dropdown-link",
-                            href: n.href,
-                            ...n.active || n.current ? {
-                              "aria-current": n.current ? "page" : "true"
+                            href: s.href,
+                            ...s.active || s.current ? {
+                              "aria-current": s.current ? "page" : "true"
                             } : {},
-                            children: v(n)
+                            children: _(s)
                           }
                         )
                       },
-                      `overflow-${x + b}`
+                      `overflow-${k + f}`
                     )) })
                   ] }) })
                 ] })
@@ -739,25 +496,25 @@ const me = ({
       ]
     }
   );
-}, _e = ({
-  text: h,
-  href: l,
-  openInNewWindow: a = !1,
-  className: s,
-  ...t
+}, O = ({
+  text: c,
+  href: t,
+  openInNewWindow: n = !1,
+  className: a,
+  ...r
 }) => {
-  const c = k(
+  const l = o(
     "nhsuk-action-link__link",
-    s
+    a
   );
   return /* @__PURE__ */ e.jsx("div", { className: "nhsuk-action-link", children: /* @__PURE__ */ e.jsxs(
     "a",
     {
-      className: c,
-      href: l,
-      target: a ? "_blank" : void 0,
-      rel: a ? "noopener noreferrer" : void 0,
-      ...t,
+      className: l,
+      href: t,
+      target: n ? "_blank" : void 0,
+      rel: n ? "noopener noreferrer" : void 0,
+      ...r,
       children: [
         /* @__PURE__ */ e.jsxs(
           "svg",
@@ -774,60 +531,60 @@ const me = ({
             ]
           }
         ),
-        /* @__PURE__ */ e.jsx("span", { className: "nhsuk-action-link__text", children: h })
+        /* @__PURE__ */ e.jsx("span", { className: "nhsuk-action-link__text", children: c })
       ]
     }
   ) });
-}, he = se.forwardRef(
+}, $ = B.forwardRef(
   ({
-    variant: h = "primary",
-    size: l = "default",
-    fullWidth: a = !1,
-    className: s,
-    children: t,
-    disabled: c,
-    type: i = "button",
-    ...u
+    variant: c = "primary",
+    size: t = "default",
+    fullWidth: n = !1,
+    className: a,
+    children: r,
+    disabled: l,
+    type: h = "button",
+    ...i
   }, d) => {
-    const m = k(
+    const u = o(
       "nhs-aria-button",
-      `nhs-aria-button--${h}`,
+      `nhs-aria-button--${c}`,
       {
-        [`nhs-aria-button--${l}`]: l !== "default",
-        "nhs-aria-button--full-width": a,
-        "nhs-aria-button--disabled": c
+        [`nhs-aria-button--${t}`]: t !== "default",
+        "nhs-aria-button--full-width": n,
+        "nhs-aria-button--disabled": l
       },
-      s
+      a
     );
     return /* @__PURE__ */ e.jsx(
       "button",
       {
         ref: d,
-        type: i,
-        className: m,
-        disabled: c,
-        ...u,
-        children: t
+        type: h,
+        className: u,
+        disabled: l,
+        ...i,
+        children: r
       }
     );
   }
 );
-he.displayName = "ButtonSSR";
-const ke = ({
-  text: h = "Back",
-  html: l,
-  href: a = "#",
-  className: s,
-  element: t = "a",
-  onClick: c,
-  ...i
+$.displayName = "ButtonSSR";
+const Y = ({
+  text: c = "Back",
+  html: t,
+  href: n = "#",
+  className: a,
+  element: r = "a",
+  onClick: l,
+  ...h
 }) => {
-  const u = k(
+  const i = o(
     "nhsuk-back-link",
-    s
-  ), d = k(
+    a
+  ), d = o(
     "nhsuk-back-link__link"
-  ), m = () => /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+  ), u = () => /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
     /* @__PURE__ */ e.jsx(
       "svg",
       {
@@ -840,101 +597,101 @@ const ke = ({
         children: /* @__PURE__ */ e.jsx("path", { d: "M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z" })
       }
     ),
-    l ? /* @__PURE__ */ e.jsx("span", { dangerouslySetInnerHTML: { __html: l } }) : h
+    t ? /* @__PURE__ */ e.jsx("span", { dangerouslySetInnerHTML: { __html: t } }) : c
   ] });
-  return /* @__PURE__ */ e.jsx("div", { className: u, children: t === "button" ? /* @__PURE__ */ e.jsx(
+  return /* @__PURE__ */ e.jsx("div", { className: i, children: r === "button" ? /* @__PURE__ */ e.jsx(
     "button",
     {
       className: d,
-      onClick: c,
+      onClick: l,
       type: "button",
-      ...i,
-      children: m()
+      ...h,
+      children: u()
     }
   ) : /* @__PURE__ */ e.jsx(
     "a",
     {
       className: d,
-      href: a,
-      ...i,
-      children: m()
+      href: n,
+      ...h,
+      children: u()
     }
   ) });
-}, xe = ({
-  text: h,
-  html: l,
-  children: a,
-  color: s = "default",
-  noBorder: t = !1,
-  closable: c = !1,
-  onClose: i,
-  disabled: u = !1,
+}, G = ({
+  text: c,
+  html: t,
+  children: n,
+  color: a = "default",
+  noBorder: r = !1,
+  closable: l = !1,
+  onClose: h,
+  disabled: i = !1,
   className: d,
-  ...m
+  ...u
 }) => {
-  const x = k(
+  const k = o(
     "nhsuk-tag",
     {
-      [`nhsuk-tag--${s}`]: s !== "default",
-      "nhsuk-tag--no-border": t,
-      "nhsuk-tag--closable": c,
-      "nhsuk-tag--disabled": u
+      [`nhsuk-tag--${a}`]: a !== "default",
+      "nhsuk-tag--no-border": r,
+      "nhsuk-tag--closable": l,
+      "nhsuk-tag--disabled": i
     },
     d
-  ), _ = (p) => {
-    p.preventDefault(), p.stopPropagation(), !u && i && i();
+  ), m = (x) => {
+    x.preventDefault(), x.stopPropagation(), !i && h && h();
   };
-  return /* @__PURE__ */ e.jsxs("strong", { className: x, ...m, children: [
-    a || (l ? /* @__PURE__ */ e.jsx("span", { dangerouslySetInnerHTML: { __html: l } }) : h),
-    c && /* @__PURE__ */ e.jsx(
+  return /* @__PURE__ */ e.jsxs("strong", { className: k, ...u, children: [
+    n || (t ? /* @__PURE__ */ e.jsx("span", { dangerouslySetInnerHTML: { __html: t } }) : c),
+    l && /* @__PURE__ */ e.jsx(
       "button",
       {
         type: "button",
         className: "nhsuk-tag__close",
-        onClick: _,
-        disabled: u,
+        onClick: m,
+        disabled: i,
         "aria-label": "Remove",
         title: "Remove",
         children: "×"
       }
     )
   ] });
-}, pe = ({
-  htmlFor: h,
-  className: l,
-  isPageHeading: a = !1,
-  size: s = "m",
-  children: t,
-  ...c
+}, Q = ({
+  htmlFor: c,
+  className: t,
+  isPageHeading: n = !1,
+  size: a = "m",
+  children: r,
+  ...l
 }) => {
-  const i = k(
+  const h = o(
     "nhsuk-label",
     {
-      [`nhsuk-label--${s}`]: s !== "m"
+      [`nhsuk-label--${a}`]: a !== "m"
     },
-    l
-  ), u = a ? "h1" : "label";
+    t
+  ), i = n ? "h1" : "label";
   return /* @__PURE__ */ e.jsx(
-    u,
+    i,
     {
-      className: i,
-      htmlFor: a ? void 0 : h,
-      ...c,
-      children: a ? /* @__PURE__ */ e.jsx("label", { className: "nhsuk-label-wrapper", htmlFor: h, children: t }) : t
+      className: h,
+      htmlFor: n ? void 0 : c,
+      ...l,
+      children: n ? /* @__PURE__ */ e.jsx("label", { className: "nhsuk-label-wrapper", htmlFor: c, children: r }) : r
     }
   );
-}, ve = ({
-  level: h,
-  className: l,
-  text: a,
-  html: s,
-  children: t,
-  size: c,
-  marginBottom: i,
-  ...u
+}, U = ({
+  level: c,
+  className: t,
+  text: n,
+  html: a,
+  children: r,
+  size: l,
+  marginBottom: h,
+  ...i
 }) => {
-  const m = h ?? ((R) => {
-    switch (R) {
+  const u = c ?? ((N) => {
+    switch (N) {
       case "xxl":
       case "xl":
         return 1;
@@ -949,110 +706,110 @@ const ke = ({
       default:
         return 2;
     }
-  })(c), x = k(
+  })(l), k = o(
     "nhsuk-heading",
     {
-      [`nhsuk-heading--${c}`]: c
+      [`nhsuk-heading--${l}`]: l
     },
-    l
-  ), _ = t || (s ? /* @__PURE__ */ e.jsx("span", { dangerouslySetInnerHTML: { __html: s } }) : a), p = `h${m}`, w = i ? { ...u.style, marginBottom: i } : u.style;
-  return te(
-    p,
-    { className: x, ...u, style: w },
-    _
+    t
+  ), m = r || (a ? /* @__PURE__ */ e.jsx("span", { dangerouslySetInnerHTML: { __html: a } }) : n), x = `h${u}`, p = h ? { ...i.style, marginBottom: h } : i.style;
+  return F(
+    x,
+    { className: k, ...i, style: p },
+    m
   );
-}, je = ({
-  id: h,
-  className: l,
+}, V = ({
+  id: c,
+  className: t,
+  children: n,
+  ...a
+}) => {
+  const r = o("nhsuk-hint", t);
+  return /* @__PURE__ */ e.jsx("div", { className: r, id: c, ...a, children: n });
+}, W = ({
+  id: c,
+  className: t,
+  visuallyHiddenText: n = "Error:",
   children: a,
-  ...s
+  ...r
 }) => {
-  const t = k("nhsuk-hint", l);
-  return /* @__PURE__ */ e.jsx("div", { className: t, id: h, ...s, children: a });
-}, Ne = ({
-  id: h,
-  className: l,
-  visuallyHiddenText: a = "Error:",
-  children: s,
-  ...t
-}) => {
-  const c = k("nhsuk-error-message", l);
-  return /* @__PURE__ */ e.jsxs("span", { className: c, id: h, ...t, children: [
+  const l = o("nhsuk-error-message", t);
+  return /* @__PURE__ */ e.jsxs("span", { className: l, id: c, ...r, children: [
     /* @__PURE__ */ e.jsxs("span", { className: "nhsuk-u-visually-hidden", children: [
-      a,
+      n,
       " "
     ] }),
-    s
+    a
   ] });
-}, be = ({
-  text: h = "Skip to main content",
-  href: l = "#maincontent",
-  classes: a,
-  attributes: s = {}
+}, X = ({
+  text: c = "Skip to main content",
+  href: t = "#maincontent",
+  classes: n,
+  attributes: a = {}
 }) => {
-  const [t, c] = le(!1);
-  X(() => {
-    c(!0);
-  }, []), X(() => {
+  const [r, l] = Z(!1);
+  R(() => {
+    l(!0);
+  }, []), R(() => {
     if (typeof window > "u" || typeof document > "u" || !document.querySelector || !document.querySelectorAll)
       return;
-    const u = (d) => {
-      const m = d.target, x = m.getAttribute("href");
-      if (x && x.startsWith("#")) {
-        const _ = document.querySelector(x);
-        if (_) {
-          _.hasAttribute("tabindex") || _.setAttribute("tabindex", "-1"), _.focus(), _.classList.add("nhsuk-skip-link-focused-element");
-          const p = window.setTimeout(() => {
-            _.classList.remove("nhsuk-skip-link-focused-element"), _.getAttribute("tabindex") === "-1" && _.removeAttribute("tabindex");
+    const i = (d) => {
+      const u = d.target, k = u.getAttribute("href");
+      if (k && k.startsWith("#")) {
+        const m = document.querySelector(k);
+        if (m) {
+          m.hasAttribute("tabindex") || m.setAttribute("tabindex", "-1"), m.focus(), m.classList.add("nhsuk-skip-link-focused-element");
+          const x = window.setTimeout(() => {
+            m.classList.remove("nhsuk-skip-link-focused-element"), m.getAttribute("tabindex") === "-1" && m.removeAttribute("tabindex");
           }, 3e3);
-          m.__nhsSkipLinkTimeout = p;
+          u.__nhsSkipLinkTimeout = x;
         }
       }
     };
     try {
       const d = document.querySelectorAll(".nhsuk-skip-link");
-      return d.forEach((m) => {
-        m.addEventListener("click", u);
+      return d.forEach((u) => {
+        u.addEventListener("click", i);
       }), () => {
         try {
-          d.forEach((m) => {
-            m.removeEventListener("click", u);
-            const x = m.__nhsSkipLinkTimeout;
-            x && window.clearTimeout && window.clearTimeout(x);
+          d.forEach((u) => {
+            u.removeEventListener("click", i);
+            const k = u.__nhsSkipLinkTimeout;
+            k && window.clearTimeout && window.clearTimeout(k);
           });
-        } catch (m) {
-          console.warn("SkipLink cleanup error:", m);
+        } catch (u) {
+          console.warn("SkipLink cleanup error:", u);
         }
       };
     } catch (d) {
       return console.warn("SkipLink initialization error:", d), () => {
       };
     }
-  }, [t]);
-  const i = k("nhsuk-skip-link", a);
+  }, [r]);
+  const h = o("nhsuk-skip-link", n);
   return /* @__PURE__ */ e.jsx(
     "a",
     {
-      className: i,
-      href: l,
+      className: h,
+      href: t,
       "data-module": "nhsuk-skip-link",
-      "data-enhanced": t ? "true" : "false",
-      ...s,
-      children: h
+      "data-enhanced": r ? "true" : "false",
+      ...a,
+      children: c
     }
   );
 };
 export {
-  _e as ActionLink,
-  ke as BackLink,
-  he as Button,
-  Ne as ErrorMessage,
-  me as HeaderSSR,
-  fe as HeaderStatic,
-  ve as Heading,
-  je as Hint,
-  pe as Label,
-  be as SkipLink,
-  xe as Tag
+  O as ActionLink,
+  Y as BackLink,
+  $ as Button,
+  W as ErrorMessage,
+  D as HeaderSSR,
+  P as HeaderStatic,
+  U as Heading,
+  V as Hint,
+  Q as Label,
+  X as SkipLink,
+  G as Tag
 };
 //# sourceMappingURL=ssr.js.map

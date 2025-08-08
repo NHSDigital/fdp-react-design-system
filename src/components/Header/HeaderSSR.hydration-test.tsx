@@ -6,20 +6,16 @@ import type { HeaderProps } from './Header.types';
  * Test component to demonstrate HeaderSSR hydration states
  */
 export const HeaderSSRHydrationTest: React.FC = () => {
-  const [cssLoaded, setCssLoaded] = useState(false);
-  const [jsLoaded, setJsLoaded] = useState(false);
   const [currentState, setCurrentState] = useState<'ssr' | 'html' | 'css' | 'js'>('ssr');
 
   useEffect(() => {
     // Simulate CSS loading after 1 second
     const cssTimer = setTimeout(() => {
-      setCssLoaded(true);
       setCurrentState('css');
     }, 1000);
 
     // Simulate JS hydration after 2 seconds
     const jsTimer = setTimeout(() => {
-      setJsLoaded(true);
       setCurrentState('js');
     }, 2000);
 

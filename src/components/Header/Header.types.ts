@@ -1,4 +1,5 @@
 import { AccountProps } from '../Account/Account.types';
+import { HeaderSearchProps } from '../HeaderSearch/HeaderSearch.types';
 
 // Core header props
 export interface HeaderProps {
@@ -22,13 +23,7 @@ export interface HeaderProps {
     descriptor?: string;
   };
   /** Search configuration */
-  search?: {
-    action?: string;
-    name?: string;
-    placeholder?: string;
-    visuallyHiddenButton?: string;
-    visuallyHiddenLabel?: string;
-  };
+  search?: HeaderSearchProps;
   /** Account configuration */
   account?: Pick<AccountProps, 'ariaLabel' | 'items' | 'className'>;
   /** Navigation configuration */

@@ -17,8 +17,11 @@
 // SSR-Safe Header Components (zero hooks, pure React components)
 export { HeaderSSR } from './Header/HeaderSSR';
 export { HeaderStatic } from './Header/HeaderStatic';
+export { HeaderSearch } from './HeaderSearch';
+export { Account } from './Account';
 export type { HeaderProps, NavigationItem } from './Header/Header.types';
-export type { AccountItem } from './Account/Account.types';
+export type { HeaderSearchProps } from './HeaderSearch';
+export type { AccountProps, AccountItem } from './Account/Account.types';
 
 // SSR-Safe Basic Components (verified to have no hooks or context usage)
 export { ActionLink } from './ActionLink';

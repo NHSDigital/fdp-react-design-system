@@ -1,0 +1,181 @@
+/* HeaderSearch.scss - Header Search Component Styles
+ * 
+ * This stylesheet provides the NHS Header search form styling.
+ * Based on the NHS.UK design system header search patterns.
+ */
+
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// Import header item padding for consistency
+$header-item-padding: nhs.$nhs-fdp-spacing-3;
+
+.nhsuk-header {
+  &__search {
+    // Use flexbox to fill available space, especially important on mobile
+    flex: 1 1 auto; // Allow to grow and shrink based on available space
+    position: relative;
+    z-index: 10;
+    min-width: 150px; // Reduced minimum width for better mobile layout
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+    
+    // On mobile, remove right margin to use all available space
+    @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
+      margin: 0;
+      min-width: 120px; // Even smaller minimum on very small screens
+    }
+    
+    // On tablet and up, add right margin and increase minimum width
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      margin-right: nhs.$nhs-fdp-spacing-3;
+      min-width: 200px;
+    }
+
+    // Search form container
+    &-form {
+      display: flex;
+      height: 100%;
+      overflow: visible;
+      
+      // Mobile responsive adjustments
+      @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
+        // On very small screens, ensure form doesn't get too narrow
+        min-width: 120px;
+        width: 100%; // Use full available width
+      }
+      
+      // Medium screens - restore normal spacing
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+        min-width: 200px;
+      }
+    }
+
+    // Search input field - matching NHS.UK exactly
+    &-input {
+      &.nhsuk-input {
+        border-color: transparent;
+        border-radius: nhs.$nhs-fdp-border-radius-small 0 0 nhs.$nhs-fdp-border-radius-small;
+        height: 40px;
+        margin-right: -#{nhs.$nhs-fdp-border-width-form-element};
+        padding-right: $header-item-padding;
+        padding-left: $header-item-padding - nhs.$nhs-fdp-border-width-form-element;
+        width: 100%;
+        font-size: nhs.$nhs-fdp-font-size-16-mobile;
+        font-weight: nhs.$nhs-fdp-font-weight-normal;
+
+        @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+          font-size: nhs.$nhs-fdp-font-size-16-tablet;
+        }
+
+        &:focus {
+          z-index: 10;
+          outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+          outline-offset: 0;
+          background-color: nhs.$nhs-fdp-color-primary-white;
+          color: nhs.$nhs-fdp-semantic-color-focus-text;
+          border-color: nhs.$nhs-fdp-semantic-color-focus-text;
+          box-shadow: inset 0 0 0 2px nhs.$nhs-fdp-semantic-color-focus-text;
+        }
+
+        &:active {
+          border-color: nhs.$nhs-fdp-semantic-color-focus-text;
+          box-shadow: inset 0 0 0 2px nhs.$nhs-fdp-semantic-color-focus-text;
+        }
+
+        &::placeholder {
+          color: nhs.$nhs-fdp-color-grey-1;
+          opacity: 1; // Fixes low contrast of placeholder text in firefox
+        }
+
+        // Hide search input clear button (IE)
+        &::-ms-clear {
+          display: none;
+        }
+
+        // Hide search input icon and cancel button (WebKit, Blink)
+        &::-webkit-search-decoration,
+        &::-webkit-search-cancel-button {
+          appearance: none;
+        }
+
+        @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
+          font-size: inherit; // Use inherited font size on mobile for consistency
+          // Adjust padding for mobile to maximize input space
+          padding-left: calc(#{$header-item-padding} - #{nhs.$nhs-fdp-border-width-form-element});
+          padding-right: $header-item-padding;
+          // Ensure input uses full width on mobile
+          width: 100%;
+          // Slightly reduce padding on very small screens if needed
+          padding-left: nhs.$nhs-fdp-spacing-2;
+          padding-right: nhs.$nhs-fdp-spacing-2;
+        }
+      }
+    }
+
+    // Search submit button
+    &-submit {
+      background-color: nhs.$nhs-fdp-color-grey-5;
+      border: 0;
+      border-radius: 0 nhs.$nhs-fdp-border-radius-small nhs.$nhs-fdp-border-radius-small 0;
+      color: nhs.$nhs-fdp-color-primary-blue;
+      fill: nhs.$nhs-fdp-color-primary-blue;
+      flex-shrink: 0;
+      height: 40px; // Match input field height exactly
+      line-height: 1;
+      margin: 0;
+      width: 44px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover,
+      &:active {
+        background-color: nhs.$nhs-fdp-semantic-color-hover-header-link;
+        box-shadow: inset 0 0 0 1px nhs.$nhs-fdp-color-primary-white;
+        color: nhs.$nhs-fdp-color-primary-white;
+        fill: nhs.$nhs-fdp-color-primary-white;
+        
+        .nhsuk-icon__search {
+          fill: nhs.$nhs-fdp-color-primary-white;
+        }
+      }
+
+      &:active {
+        background-color: nhs.$nhs-fdp-semantic-color-active-header-link;
+      }
+
+      &:focus {
+        outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+        outline-offset: 0;
+        background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+        color: nhs.$nhs-fdp-semantic-color-focus-text;
+        
+        .nhsuk-icon__search {
+          fill: nhs.$nhs-fdp-semantic-color-focus-text;
+        }
+      }
+    }
+  }
+}
+
+// Search icon styling
+.nhsuk-icon {
+  &__search {
+    width: 28px;
+    height: 28px;
+    fill: nhs.$nhs-fdp-color-primary-blue;
+    
+    // Adjust optical alignment due to the handle appearing
+    // to push the magnifying glass circle to the top left
+    margin: 0 -2px -2px 0;
+  }
+}
+
+// Print styles
+@media print {
+  .nhsuk-header {
+    &__search {
+      display: none;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import './styles/fonts.css';
-import './styles/utilities.scss';
+import './styles/main.scss';
 export * from './components';
 export * from '../packages/nhs-fdp/dist/react/index';
 export * from '../packages/nhs-fdp/dist/react/components/NHSTypography';

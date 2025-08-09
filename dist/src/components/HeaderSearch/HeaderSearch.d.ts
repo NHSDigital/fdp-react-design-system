@@ -2,12 +2,30 @@ import React from 'react';
 import { HeaderSearchProps } from './HeaderSearch.types';
 import './HeaderSearch.scss';
 /**
- * HeaderSearch Component
+ * HeaderSearch Component - Flexible Search Implementation
  *
- * A reusable search component for NHS headers that provides:
- * - Search form with proper NHS styling
- * - Accessible labels and ARIA attributes
- * - SVG search icon
- * - Configurable action URL and form attributes
+ * Supports three modes:
+ * 1. 'form' - Traditional form submission (SSR-friendly, default)
+ * 2. 'controlled' - Full React controlled component with callbacks
+ * 3. 'hybrid' - Form submission with optional client-side enhancement
+ *
+ * Examples:
+ *
+ * // SSR/Traditional form (default)
+ * <HeaderSearch action="/search" />
+ *
+ * // Controlled React component
+ * <HeaderSearch
+ *   mode="controlled"
+ *   value={searchQuery}
+ *   callbacks={{ onChange: setSearchQuery, onSearch: handleSearch }}
+ * />
+ *
+ * // Progressive enhancement
+ * <HeaderSearch
+ *   mode="hybrid"
+ *   action="/search"
+ *   callbacks={{ onSearch: handleClientSearch }}
+ * />
  */
 export declare const HeaderSearch: React.FC<HeaderSearchProps>;

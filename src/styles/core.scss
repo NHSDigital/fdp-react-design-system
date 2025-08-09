@@ -1,0 +1,17 @@
+// NHS FDP Design System - Core Stylesheet
+// Essential layout and utility styles that should be imported globally
+
+// Import fonts first
+@import './fonts.css';
+
+// Import base tokens and utilities
+@import './utilities.scss';
+
+// Core layout components that are typically used globally
+@import '../components/Grid/Grid.scss';
+@import '../components/MainWrapper/MainWrapper.scss';
+@import '../components/WidthUtilities/WidthUtilities.scss';
+@import '../components/SpacingUtilities/SpacingUtilities.scss';
+
+// Skip link for accessibility (should be global)
+@import '../components/SkipLink/SkipLink.scss';

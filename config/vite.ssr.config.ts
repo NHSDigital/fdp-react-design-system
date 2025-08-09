@@ -31,6 +31,7 @@ export default defineConfig({
           'react-dom': 'ReactDOM',
           classnames: 'classNames',
         },
+        assetFileNames: 'nhs-fdp-design-system-ssr.css', // Different CSS filename to avoid conflict
       },
     },
     sourcemap: true,

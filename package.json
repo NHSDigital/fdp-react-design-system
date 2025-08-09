@@ -16,8 +16,14 @@
       "import": "./dist/src/ssr.js",
       "require": "./dist/src/ssr.js"
     },
+    "./core": {
+      "types": "./dist/src/core.d.ts",
+      "import": "./dist/src/core.js",
+      "require": "./dist/src/core.js"
+    },
     "./dist/nhs-fdp-design-system.css": "./dist/nhs-fdp-design-system.css",
     "./css": "./dist/nhs-fdp-design-system.css",
+    "./core/css": "./dist/nhs-fdp-design-system-core.css",
     "./components/Header/HeaderSSR": {
       "types": "./dist/src/components/Header/HeaderSSR.d.ts",
       "import": "./dist/src/components/Header/HeaderSSR.js",
@@ -27,6 +33,16 @@
       "types": "./dist/src/components/Header/HeaderStatic.d.ts",
       "import": "./dist/src/components/Header/HeaderStatic.js",
       "require": "./dist/src/components/Header/HeaderStatic.js"
+    },
+    "./components/Button": {
+      "types": "./dist/src/components/Button/index.d.ts",
+      "import": "./dist/src/components/Button/index.js",
+      "require": "./dist/src/components/Button/index.js"
+    },
+    "./components/Grid": {
+      "types": "./dist/src/components/Grid/index.d.ts",
+      "import": "./dist/src/components/Grid/index.js",
+      "require": "./dist/src/components/Grid/index.js"
     }
   },
   "files": [
@@ -35,8 +51,9 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:tokens && npm run build:lib && npm run build:ssr && npm run build:types",
+    "build": "npm run build:tokens && npm run build:lib && npm run build:core && npm run build:ssr && npm run build:types",
     "build:lib": "vite build --config config/vite.config.ts",
+    "build:core": "vite build --config config/vite.core.config.ts",
     "build:ssr": "vite build --config config/vite.ssr.config.ts",
     "build:types": "tsc --project tsconfig.build.json",
     "build:tokens": "npx style-dictionary build --config config/style-dictionary.config.js && node scripts/add-use-directives.js",

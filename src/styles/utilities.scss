@@ -4,35 +4,111 @@
 // Common utility classes used across components
 @use '../../packages/nhs-fdp/dist/scss/tokens' as tokens;
 
-// Visually hidden utility - for screen reader only content
-.nhsuk-u-visually-hidden {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
+// NHS utility namespace
+.nhsuk-u {
+  // Visually hidden utility - for screen reader only content
+  &-visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  // Display utilities
+  &-hidden {
+    display: none !important;
+  }
+
+  &-show {
+    display: block !important;
+  }
+
+  // Text alignment utilities
+  &-text {
+    &-left {
+      text-align: left !important;
+    }
+
+    &-center {
+      text-align: center !important;
+    }
+
+    &-right {
+      text-align: right !important;
+    }
+  }
+
+  // Margin utilities
+  &-margin {
+    &-0 {
+      margin: 0 !important;
+    }
+
+    &-bottom {
+      &-0 {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    &-top {
+      &-0 {
+        margin-top: 0 !important;
+      }
+    }
+  }
+
+  // Padding utilities
+  &-padding {
+    &-0 {
+      padding: 0 !important;
+    }
+
+    &-bottom {
+      &-0 {
+        padding-bottom: 0 !important;
+      }
+    }
+
+    &-top {
+      &-0 {
+        padding-top: 0 !important;
+      }
+    }
+  }
+
+  // Clearfix utility
+  &-clearfix {
+    &::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  }
 }
 
 // High specificity version to ensure it overrides any conflicts
-.nhsuk-header .nhsuk-u-visually-hidden,
-.nhsuk-header__search .nhsuk-u-visually-hidden,
-label.nhsuk-u-visually-hidden,
-span.nhsuk-u-visually-hidden {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  -webkit-clip-path: inset(50%) !important;
-  clip-path: inset(50%) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
+.nhsuk-header,
+.nhsuk-header__search,
+label,
+span {
+  .nhsuk-u-visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
 }
 
 // Width container utility - for consistent max-width and padding
@@ -50,50 +126,6 @@ span.nhsuk-u-visually-hidden {
   }
 }
 
-// Clearfix utility
-.nhsuk-u-clearfix {
-  &::after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-}
-
-// Text alignment utilities
-.nhsuk-u-text-left {
-  text-align: left !important;
-}
-
-.nhsuk-u-text-center {
-  text-align: center !important;
-}
-
-.nhsuk-u-text-right {
-  text-align: right !important;
-}
-
-// Display utilities
-.nhsuk-u-hidden {
-  display: none !important;
-}
-
-.nhsuk-u-show {
-  display: block !important;
-}
-
-// Margin utilities
-.nhsuk-u-margin-0 {
-  margin: 0 !important;
-}
-
-.nhsuk-u-margin-bottom-0 {
-  margin-bottom: 0 !important;
-}
-
-.nhsuk-u-margin-top-0 {
-  margin-top: 0 !important;
-}
-
 // Icon utilities - Base icon styles for NHS FDP Design System
 // This provides the single source of truth for icon sizing behavior
 .nhsuk-icon {
@@ -105,22 +137,9 @@ span.nhsuk-u-visually-hidden {
   vertical-align: text-bottom;
   // Flexbox friendly defaults
   flex-shrink: 0;
-}
 
-// Component-specific icon size overrides can use NHS FDP tokens:
-// Examples:
-// .component .nhsuk-icon { height: tokens.$nhs-fdp-component-guidance-icon-size; }
-// .component .nhsuk-icon { height: tokens.$nhs-fdp-component-disclosure-icon-size; }
-
-// Padding utilities
-.nhsuk-u-padding-0 {
-  padding: 0 !important;
-}
-
-.nhsuk-u-padding-bottom-0 {
-  padding-bottom: 0 !important;
-}
-
-.nhsuk-u-padding-top-0 {
-  padding-top: 0 !important;
+  // Component-specific icon size overrides can use NHS FDP tokens:
+  // Examples:
+  // .component & { height: tokens.$nhs-fdp-component-guidance-icon-size; }
+  // .component & { height: tokens.$nhs-fdp-component-disclosure-icon-size; }
 }

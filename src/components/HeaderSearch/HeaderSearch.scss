@@ -262,30 +262,22 @@ $header-item-padding: nhs.$nhs-fdp-spacing-3;
     }
     
     // Mode-specific styling
-    &--controlled {
-      .nhsuk-header__search-input-wrapper {
-        position: relative;
-      }
+    &--controlled &-input-wrapper {
+      position: relative;
     }
     
-    &--loading {
-      .nhsuk-header__search-submit {
-        cursor: not-allowed;
-        opacity: 0.7;
-      }
+    &--loading &-submit {
+      cursor: not-allowed;
+      opacity: 0.7;
     }
     
-    &--focused {
-      .nhsuk-header__search-input {
-        border-color: nhs.$nhs-fdp-semantic-color-focus-background;
-        box-shadow: 0 0 0 nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-semantic-color-focus-background;
-      }
+    &--focused &-input {
+      border-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      box-shadow: 0 0 0 nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-semantic-color-focus-background;
     }
     
-    &--has-results {
-      .nhsuk-header__search-form {
-        border-radius: nhs.$nhs-fdp-border-radius-small nhs.$nhs-fdp-border-radius-small 0 0;
-      }
+    &--has-results &-form {
+      border-radius: nhs.$nhs-fdp-border-radius-small nhs.$nhs-fdp-border-radius-small 0 0;
     }
   }
 }

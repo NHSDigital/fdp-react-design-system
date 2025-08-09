@@ -325,6 +325,7 @@ $header-static-dropdown-z-index: 1000;
 @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-small-max})) {
   .nhsuk-header {
     &__navigation {
+    &__navigation {
       &--static {
         // On mobile, show all navigation items without "More" dropdown
         .nhsuk-header__navigation-item--more {
@@ -341,12 +342,14 @@ $header-static-dropdown-z-index: 1000;
         }
       }
     }
+    }
   }
 }
 
 // Desktop responsive behavior
 @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
   .nhsuk-header {
+    &__navigation {
     &__navigation {
       &--static {
         // On desktop, use horizontal layout with overflow handling
@@ -367,6 +370,7 @@ $header-static-dropdown-z-index: 1000;
           }
         }
       }
+    }
     }
   }
 }

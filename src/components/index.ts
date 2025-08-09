@@ -1,5 +1,7 @@
 export { ActionLink } from './ActionLink';
 export type { ActionLinkProps } from './ActionLink';
+export { Account } from './Account';
+export type { AccountProps, AccountItem } from './Account';
 export { Button } from './Button';
 export type { NHSButtonProps } from './Button';
 export { BackLink } from './BackLink';
@@ -55,7 +57,7 @@ export type { ThemeProviderProps } from './NHSThemeProvider';
 export { Header } from './Header';
 export { HeaderSSR } from './Header/HeaderSSR';
 export { HeaderStatic } from './Header/HeaderStatic';
-export type { HeaderProps, AccountItem, NavigationItem } from './Header/Header.types';
+export type { HeaderProps, NavigationItem } from './Header/Header.types';
 export { Hero } from './Hero';
 export type { HeroProps } from './Hero';
 export { Footer } from './Footer';
@@ -97,6 +99,12 @@ export type { WarningCalloutProps } from './WarningCallout';
 export { Images } from './Images';
 export type { ImagesProps } from './Images';
 
+// Data Visualization Components
+export { SummaryCard } from './SummaryCard';
+export type { SummaryCardProps } from './SummaryCard';
+export { DashboardSummaryGrid } from './DashboardSummaryGrid';
+export type { DashboardSummaryGridProps } from './DashboardSummaryGrid';
+
 // Advanced Data Grid Components
 export { 
   AriaDataGrid, 
@@ -113,3 +121,10 @@ export type {
   LayoutMode, 
   SortStatusControlProps 
 } from './SortableDataTable';
+
+// Layout Components
+export { WidthContainer } from './WidthContainer';
+export { PageTemplate } from './PageTemplate';
+export type { PageTemplateProps } from './PageTemplate';
+export { TransactionalPageTemplate } from './TransactionalPageTemplate';
+export type { TransactionalPageTemplateProps } from './TransactionalPageTemplate';

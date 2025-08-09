@@ -37,6 +37,9 @@
         "$description": "Base font size"
       },
       "14": {
+		"desktop": {
+			"$value": "14px"
+		},
         "mobile": {
           "$value": "12px"
         },
@@ -48,6 +51,9 @@
         }
       },
       "16": {
+		"desktop": {
+		  "$value": "16px"
+		},
         "mobile": {
           "$value": "14px"
         },
@@ -59,6 +65,9 @@
         }
       },
       "19": {
+		"desktop": {
+		  "$value": "19px"
+		},
         "mobile": {
           "$value": "16px"
         },
@@ -70,6 +79,9 @@
         }
       },
       "22": {
+		"desktop": {
+		  "$value": "22px"
+		},
         "mobile": {
           "$value": "19px"
         },
@@ -81,6 +93,9 @@
         }
       },
       "26": {
+		"desktop": {
+		  "$value": "26px"
+		},
         "mobile": {
           "$value": "22px"
         },
@@ -92,6 +107,9 @@
         }
       },
       "36": {
+		"desktop": {
+		  "$value": "36px"
+		},
         "mobile": {
           "$value": "27px"
         },
@@ -103,6 +121,9 @@
         }
       },
       "48": {
+		"desktop": {
+		  "$value": "48px"
+		},
         "mobile": {
           "$value": "33px"
         },
@@ -121,6 +142,9 @@
         "$description": "Base line height"
       },
       "14": {
+		"desktop": {
+		  "$value": "24px"
+		},
         "mobile": {
           "$value": "20px"
         },
@@ -132,6 +156,9 @@
         }
       },
       "16": {
+		"desktop": {
+		  "$value": "24px"
+		},
         "mobile": {
           "$value": "24px"
         },
@@ -143,6 +170,9 @@
         }
       },
       "19": {
+		"desktop": {
+		  "$value": "24px"
+		},
         "mobile": {
           "$value": "24px"
         },
@@ -154,6 +184,9 @@
         }
       },
       "22": {
+		"desktop": {
+		  "$value": "30px"
+		},
         "mobile": {
           "$value": "27px"
         },
@@ -165,6 +198,9 @@
         }
       },
       "26": {
+		"desktop": {
+		  "$value": "32px"
+		},
         "mobile": {
           "$value": "29px"
         },
@@ -176,6 +212,9 @@
         }
       },
       "36": {
+		"desktop": {
+		  "$value": "42px"
+		},
         "mobile": {
           "$value": "33px"
         },
@@ -187,6 +226,9 @@
         }
       },
       "48": {
+		"desktop": {
+		  "$value": "54px"
+		},
         "mobile": {
           "$value": "38px"
         },

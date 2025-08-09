@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { HeaderProps, NavigationItem, AccountItem } from './Header.types';
+import { HeaderProps, NavigationItem } from './Header.types';
+import { AccountItem } from '../Account/Account.types';
 import './Header.scss';
 import './Header.ssr.scss';
 

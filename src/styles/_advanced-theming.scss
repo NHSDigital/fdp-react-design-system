@@ -1,0 +1,243 @@
+@use 'sass:color';
+
+// NHS FDP Advanced Theming System
+// This SCSS system works with the ThemeManager to provide seamless theme switching
+
+// Import the generated theme tokens
+@import 'themes';
+
+// CSS Custom Properties for light theme (default)
+:root,
+:root[data-theme="light"] {
+  // Intent tokens
+  --nhs-intent-primary: #{$theme-light-semantic-intent-primary};
+  --nhs-intent-secondary: #{$theme-light-semantic-intent-secondary};
+  --nhs-intent-warning: #{$theme-light-semantic-intent-warning};
+  --nhs-intent-success: #{$theme-light-semantic-intent-success};
+  --nhs-intent-neutral: #{$theme-light-semantic-intent-neutral};
+  --nhs-intent-info: #{$theme-light-semantic-intent-info};
+
+  // Surface background tokens
+  --nhs-surface-bg-primary: #{$theme-light-semantic-surface-background-primary};
+  --nhs-surface-bg-secondary: #{$theme-light-semantic-surface-background-secondary};
+  --nhs-surface-bg-elevated: #{$theme-light-semantic-surface-background-elevated};
+
+  // Surface text tokens
+  --nhs-surface-text-primary: #{$theme-light-semantic-surface-text-primary};
+  --nhs-surface-text-secondary: #{$theme-light-semantic-surface-text-secondary};
+  --nhs-surface-text-tertiary: #{$theme-light-semantic-surface-text-tertiary};
+  --nhs-surface-text-inverse: #{$theme-light-semantic-surface-text-inverse};
+
+  // Surface border tokens
+  --nhs-surface-border-default: #{$theme-light-semantic-surface-border-default};
+  --nhs-surface-border-subtle: #{$theme-light-semantic-surface-border-subtle};
+  --nhs-surface-border-strong: #{$theme-light-semantic-surface-border-strong};
+}
+
+// CSS Custom Properties for dark theme
+:root[data-theme="dark"] {
+  // Intent tokens - calculated lighter colors for dark backgrounds
+  --nhs-intent-primary: #{$theme-dark-semantic-intent-primary};
+  --nhs-intent-secondary: #{$theme-dark-semantic-intent-secondary};
+  --nhs-intent-warning: #{$theme-dark-semantic-intent-warning};
+  --nhs-intent-success: #{$theme-dark-semantic-intent-success};
+  --nhs-intent-neutral: #{$theme-dark-semantic-intent-neutral};
+  --nhs-intent-info: #{$theme-dark-semantic-intent-info};
+
+  // Surface background tokens - darker variants
+  --nhs-surface-bg-primary: #{$theme-dark-semantic-surface-background-primary};
+  --nhs-surface-bg-secondary: #{$theme-dark-semantic-surface-background-secondary};
+  --nhs-surface-bg-elevated: #{$theme-dark-semantic-surface-background-elevated};
+
+  // Surface text tokens - light colors with opacity for dark backgrounds
+  --nhs-surface-text-primary: #{$theme-dark-semantic-surface-text-primary};
+  --nhs-surface-text-secondary: #{$theme-dark-semantic-surface-text-secondary};
+  --nhs-surface-text-tertiary: #{$theme-dark-semantic-surface-text-tertiary};
+  --nhs-surface-text-inverse: #{$theme-dark-semantic-surface-text-inverse};
+
+  // Surface border tokens - subtle white overlays
+  --nhs-surface-border-default: #{$theme-dark-semantic-surface-border-default};
+  --nhs-surface-border-subtle: #{$theme-dark-semantic-surface-border-subtle};
+  --nhs-surface-border-strong: #{$theme-dark-semantic-surface-border-strong};
+}
+
+// Theme transition animation
+:root {
+  transition: 
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+// Utility functions for theme-aware styling
+
+// Function to get intent colors
+@function intent($type: primary) {
+  @return var(--nhs-intent-#{$type});
+}
+
+// Function to get surface background colors
+@function surface-bg($variant: primary) {
+  @return var(--nhs-surface-bg-#{$variant});
+}
+
+// Function to get surface text colors
+@function surface-text($variant: primary) {
+  @return var(--nhs-surface-text-#{$variant});
+}
+
+// Function to get surface border colors
+@function surface-border($variant: default) {
+  @return var(--nhs-surface-border-#{$variant});
+}
+
+// Mixins for common theme-aware patterns
+
+// Apply theme-aware button styling
+@mixin themed-button($intent: primary, $variant: solid) {
+  @if $variant == solid {
+    background-color: intent($intent);
+    color: surface-text(inverse);
+    border: 2px solid intent($intent);
+    
+    &:hover {
+      background-color: color.adjust(intent($intent), $lightness: -10%);
+      border-color: color.adjust(intent($intent), $lightness: -10%);
+    }
+    
+    &:active {
+      background-color: color.adjust(intent($intent), $lightness: -20%);
+      border-color: color.adjust(intent($intent), $lightness: -20%);
+    }
+  } @else if $variant == outline {
+    background-color: transparent;
+    color: intent($intent);
+    border: 2px solid intent($intent);
+    
+    &:hover {
+      background-color: intent($intent);
+      color: surface-text(inverse);
+    }
+  }
+}
+
+// Apply theme-aware card styling
+@mixin themed-card($elevated: true) {
+  @if $elevated {
+    background-color: surface-bg(elevated);
+  } @else {
+    background-color: surface-bg(secondary);
+  }
+  
+  color: surface-text(primary);
+  border: 1px solid surface-border(default);
+  
+  // Add subtle shadow for light theme, border for dark theme
+  :root[data-theme="light"] & {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  :root[data-theme="dark"] & {
+    border-color: surface-border(strong);
+  }
+}
+
+// Apply theme-aware form input styling
+@mixin themed-input($state: default) {
+  background-color: surface-bg(primary);
+  color: surface-text(primary);
+  border: 2px solid surface-border(default);
+  
+  &::placeholder {
+    color: surface-text(tertiary);
+  }
+  
+  @if $state == focus {
+    border-color: intent(secondary);
+    outline: 2px solid fade(intent(secondary), 20%);
+  } @else if $state == error {
+    border-color: intent(warning);
+    outline: 2px solid fade(intent(warning), 20%);
+  } @else if $state == success {
+    border-color: intent(success);
+    outline: 2px solid fade(intent(success), 20%);
+  }
+  
+  &:disabled {
+    background-color: surface-bg(secondary);
+    color: surface-text(tertiary);
+    border-color: surface-border(subtle);
+    cursor: not-allowed;
+  }
+}
+
+// Apply theme-aware text styling
+@mixin themed-text($variant: primary) {
+  color: surface-text($variant);
+}
+
+// Base theme styles for the application
+.nhs-fdp-app {
+  background-color: surface-bg(primary);
+  color: surface-text(primary);
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Theme toggle button styles
+.theme-toggle {
+  @include themed-button(neutral, outline);
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.1);
+  }
+  
+  // Icons for theme toggle
+  .light-icon {
+    display: block;
+    
+    :root[data-theme="dark"] & {
+      display: none;
+    }
+  }
+  
+  .dark-icon {
+    display: none;
+    
+    :root[data-theme="dark"] & {
+      display: block;
+    }
+  }
+}
+
+// Ensure system preference is respected
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    // Apply dark theme properties when system prefers dark and no explicit theme is set
+    --nhs-intent-primary: #{$theme-dark-semantic-intent-primary};
+    --nhs-intent-secondary: #{$theme-dark-semantic-intent-secondary};
+    --nhs-intent-warning: #{$theme-dark-semantic-intent-warning};
+    --nhs-intent-success: #{$theme-dark-semantic-intent-success};
+    --nhs-intent-neutral: #{$theme-dark-semantic-intent-neutral};
+    --nhs-intent-info: #{$theme-dark-semantic-intent-info};
+    --nhs-surface-bg-primary: #{$theme-dark-semantic-surface-background-primary};
+    --nhs-surface-bg-secondary: #{$theme-dark-semantic-surface-background-secondary};
+    --nhs-surface-bg-elevated: #{$theme-dark-semantic-surface-background-elevated};
+    --nhs-surface-text-primary: #{$theme-dark-semantic-surface-text-primary};
+    --nhs-surface-text-secondary: #{$theme-dark-semantic-surface-text-secondary};
+    --nhs-surface-text-tertiary: #{$theme-dark-semantic-surface-text-tertiary};
+    --nhs-surface-text-inverse: #{$theme-dark-semantic-surface-text-inverse};
+    --nhs-surface-border-default: #{$theme-dark-semantic-surface-border-default};
+    --nhs-surface-border-subtle: #{$theme-dark-semantic-surface-border-subtle};
+    --nhs-surface-border-strong: #{$theme-dark-semantic-surface-border-strong};
+  }
+}

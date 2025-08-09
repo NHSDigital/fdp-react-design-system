@@ -1,0 +1,137 @@
+{
+  "density": {
+    "compact": {
+      "spacing": {
+        "unit": { "value": "0.25rem" },
+        "xs": { "value": "0.25rem" },
+        "sm": { "value": "0.5rem" },
+        "md": { "value": "0.75rem" },
+        "lg": { "value": "1rem" },
+        "xl": { "value": "1.25rem" },
+        "2xl": { "value": "1.5rem" }
+      },
+      "component": {
+        "button": {
+          "height": { "value": "2rem" },
+          "padding": { "value": "0.25rem 0.75rem" },
+          "font-size": { "value": "0.875rem" }
+        },
+        "input": {
+          "height": { "value": "1.75rem" },
+          "padding": { "value": "0.25rem 0.5rem" },
+          "font-size": { "value": "0.875rem" }
+        }
+      }
+    },
+    "comfortable": {
+      "spacing": {
+        "unit": { "value": "0.5rem" },
+        "xs": { "value": "0.5rem" },
+        "sm": { "value": "0.75rem" },
+        "md": { "value": "1rem" },
+        "lg": { "value": "1.5rem" },
+        "xl": { "value": "2rem" },
+        "2xl": { "value": "2.5rem" }
+      },
+      "component": {
+        "button": {
+          "height": { "value": "2.75rem" },
+          "padding": { "value": "0.75rem 1rem" },
+          "font-size": { "value": "1rem" }
+        },
+        "input": {
+          "height": { "value": "2.5rem" },
+          "padding": { "value": "0.5rem 0.75rem" },
+          "font-size": { "value": "1rem" }
+        }
+      }
+    },
+    "spacious": {
+      "spacing": {
+        "unit": { "value": "0.75rem" },
+        "xs": { "value": "0.75rem" },
+        "sm": { "value": "1rem" },
+        "md": { "value": "1.5rem" },
+        "lg": { "value": "2rem" },
+        "xl": { "value": "3rem" },
+        "2xl": { "value": "4rem" }
+      },
+      "component": {
+        "button": {
+          "height": { "value": "3.5rem" },
+          "padding": { "value": "1rem 1.5rem" },
+          "font-size": { "value": "1.125rem" }
+        },
+        "input": {
+          "height": { "value": "3rem" },
+          "padding": { "value": "0.75rem 1rem" },
+          "font-size": { "value": "1.125rem" }
+        }
+      }
+    }
+  },
+  "accessibility": {
+    "high-contrast": {
+      "surface": {
+        "bg": {
+          "primary": { "value": "#000000" },
+          "secondary": { "value": "#1a1a1a" },
+          "elevated": { "value": "#2d2d2d" }
+        },
+        "text": {
+          "primary": { "value": "#ffffff" },
+          "secondary": { "value": "#e0e0e0" },
+          "inverse": { "value": "#000000" }
+        },
+        "border": {
+          "default": { "value": "#ffffff" },
+          "strong": { "value": "#ffff00" },
+          "focus": { "value": "#ffff00" }
+        }
+      },
+      "intent": {
+        "primary": { "value": "#00ff00" },
+        "secondary": { "value": "#00ffff" },
+        "warning": { "value": "#ffff00" },
+        "success": { "value": "#00ff00" },
+        "danger": { "value": "#ff0000" },
+        "info": { "value": "#00ffff" }
+      }
+    },
+    "motion-reduced": {
+      "transition": {
+        "duration": { "value": "0s" },
+        "easing": { "value": "linear" }
+      },
+      "animation": {
+        "duration": { "value": "0s" }
+      }
+    },
+    "motion-enhanced": {
+      "transition": {
+        "duration": { "value": "0.3s" },
+        "easing": { "value": "cubic-bezier(0.4, 0, 0.2, 1)" }
+      },
+      "animation": {
+        "duration": { "value": "0.5s" }
+      }
+    }
+  },
+  "brand": {
+    "nhs-england": {
+      "primary": { "value": "#007f3b" },
+      "secondary": { "value": "#005eb8" },
+      "logo": { "value": "nhs-england-logo.svg" }
+    },
+    "nhs-scotland": {
+      "primary": { "value": "#0078d4" },
+      "secondary": { "value": "#005eb8" },
+      "logo": { "value": "nhs-scotland-logo.svg" }
+    },
+    "nhs-wales": {
+      "primary": { "value": "#d5281b" },
+      "secondary": { "value": "#005eb8" },
+      "logo": { "value": "nhs-wales-logo.svg" }
+    }
+  }
+}

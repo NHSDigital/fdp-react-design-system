@@ -2,7 +2,8 @@
 @use '../../../packages/nhs-fdp/scss' as nhs;
 
 .nhsuk-back-link {
-  padding-top: nhs.$nhs-fdp-spacing-3;
+  padding-top: nhs.$nhs-fdp-spacing-4;
+  padding-bottom: nhs.$nhs-fdp-spacing-4;
   line-height: 1; // Same height as breadcrumb
 
   @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {

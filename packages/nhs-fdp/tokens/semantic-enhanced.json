@@ -1,0 +1,318 @@
+{
+  "semantic": {
+    "intent": {
+      "$type": "color",
+      "primary": {
+        "$value": "{color.primary.green}",
+        "$description": "Primary intent color - NHS Green for main actions and success states"
+      },
+      "secondary": {
+        "$value": "{color.primary.blue}",
+        "$description": "Secondary intent color - NHS Blue for secondary actions and information"
+      },
+      "warning": {
+        "$value": "{color.primary.red}",
+        "$description": "Warning intent color - NHS Red for errors and dangerous actions"
+      },
+      "success": {
+        "$value": "{color.primary.green}",
+        "$description": "Success intent color - derived from primary for consistency"
+      },
+      "neutral": {
+        "$value": "{color.grey.3}",
+        "$description": "Neutral intent color - for disabled states and subtle actions"
+      },
+      "info": {
+        "$value": "{color.primary.blue}",
+        "$description": "Information intent color - for informational content"
+      }
+    },
+    
+    "context": {
+      "$type": "color",
+      "form": {
+        "border": {
+          "default": {
+            "$value": "{color.grey.1}",
+            "$description": "Default form border color - calm and accessible"
+          },
+          "focus": {
+            "$value": "{semantic.intent.secondary}",
+            "$description": "Form focus border - uses secondary intent for consistency"
+          },
+          "error": {
+            "$value": "{semantic.intent.warning}",
+            "$description": "Form error border - uses warning intent"
+          },
+          "success": {
+            "$value": "{semantic.intent.success}",
+            "$description": "Form success border - uses success intent"
+          }
+        },
+        "background": {
+          "default": {
+            "$value": "{color.primary.white}",
+            "$description": "Default form background"
+          },
+          "disabled": {
+            "$value": "{color.grey.5}",
+            "$description": "Disabled form background"
+          },
+          "readonly": {
+            "$value": "{color.grey.4}",
+            "$description": "Read-only form background"
+          }
+        },
+        "text": {
+          "default": {
+            "$value": "{color.primary.black}",
+            "$description": "Default form text color - high contrast"
+          },
+          "placeholder": {
+            "$value": "{color.grey.2}",
+            "$description": "Form placeholder text - reduced contrast but readable"
+          },
+          "disabled": {
+            "$value": "{color.grey.2}",
+            "$description": "Disabled form text"
+          },
+          "error": {
+            "$value": "{semantic.intent.warning}",
+            "$description": "Form error text color"
+          }
+        }
+      },
+      
+      "navigation": {
+        "background": {
+          "header": {
+            "$value": "{color.primary.blue}",
+            "$description": "Header navigation background - NHS Blue"
+          },
+          "footer": {
+            "$value": "{color.primary.blue}",
+            "$description": "Footer navigation background - consistent with header"
+          },
+          "sidebar": {
+            "$value": "{color.primary.white}",
+            "$description": "Sidebar navigation background"
+          }
+        },
+        "text": {
+          "primary": {
+            "$value": "{color.primary.white}",
+            "$description": "Primary navigation text - high contrast on blue"
+          },
+          "secondary": {
+            "$value": "rgba(255, 255, 255, 0.8)",
+            "$description": "Secondary navigation text - slightly transparent"
+          },
+          "active": {
+            "$value": "{color.primary.yellow}",
+            "$description": "Active navigation text - NHS Yellow for visibility"
+          }
+        },
+        "accent": {
+          "hover": {
+            "$value": "rgba(255, 255, 255, 0.1)",
+            "$description": "Navigation hover accent - subtle overlay"
+          },
+          "active": {
+            "$value": "rgba(255, 255, 255, 0.2)",
+            "$description": "Navigation active accent - stronger overlay"
+          },
+          "border": {
+            "$value": "{color.primary.yellow}",
+            "$description": "Navigation accent border - NHS Yellow"
+          }
+        }
+      },
+      
+      "content": {
+        "background": {
+          "primary": {
+            "$value": "{color.primary.white}",
+            "$description": "Primary content background"
+          },
+          "secondary": {
+            "$value": "{color.grey.5}",
+            "$description": "Secondary content background - for panels and asides"
+          },
+          "elevated": {
+            "$value": "{color.primary.white}",
+            "$description": "Elevated content background - for cards and modals"
+          }
+        },
+        "text": {
+          "primary": {
+            "$value": "{color.primary.black}",
+            "$description": "Primary content text - maximum readability"
+          },
+          "secondary": {
+            "$value": "{color.grey.1}",
+            "$description": "Secondary content text - for supporting information"
+          },
+          "tertiary": {
+            "$value": "{color.grey.2}",
+            "$description": "Tertiary content text - for captions and metadata"
+          }
+        },
+        "accent": {
+          "link": {
+            "$value": "{semantic.intent.secondary}",
+            "$description": "Content link color - uses secondary intent"
+          },
+          "highlight": {
+            "$value": "{color.primary.yellow}",
+            "$description": "Content highlight color - NHS Yellow"
+          },
+          "border": {
+            "$value": "{color.grey.4}",
+            "$description": "Content border color - subtle separation"
+          }
+        }
+      }
+    },
+    
+    "surface": {
+      "$type": "color",
+      "elevation": {
+        "0": {
+          "$value": "{color.primary.white}",
+          "$description": "Base surface - no elevation"
+        },
+        "1": {
+          "$value": "{color.primary.white}",
+          "$description": "Low elevation surface - cards"
+        },
+        "2": {
+          "$value": "{color.primary.white}",
+          "$description": "Medium elevation surface - dialogs"
+        },
+        "3": {
+          "$value": "{color.primary.white}",
+          "$description": "High elevation surface - tooltips"
+        }
+      },
+      "interactive": {
+        "default": {
+          "$value": "{color.primary.white}",
+          "$description": "Default interactive surface"
+        },
+        "hover": {
+          "$value": "{color.grey.5}",
+          "$description": "Hover interactive surface - subtle change"
+        },
+        "active": {
+          "$value": "{color.grey.4}",
+          "$description": "Active interactive surface - more pronounced"
+        },
+        "selected": {
+          "$value": "rgba(0, 94, 184, 0.1)",
+          "$description": "Selected interactive surface - NHS Blue tint"
+        }
+      }
+    },
+    
+    "relationship": {
+      "$type": "color",
+      "parent-child": {
+        "card": {
+          "background": {
+            "$value": "{semantic.surface.elevation.1}",
+            "$description": "Card background - base elevation"
+          },
+          "content": {
+            "background": {
+              "$value": "calculated-lighten({semantic.relationship.parent-child.card.background}, 2%)",
+              "$description": "Card content background - slightly lighter than parent"
+            },
+            "text": {
+              "$value": "auto-contrast({semantic.relationship.parent-child.card.content.background})",
+              "$description": "Card content text - auto-calculated contrast"
+            }
+          },
+          "header": {
+            "background": {
+              "$value": "calculated-darken({semantic.relationship.parent-child.card.background}, 3%)",
+              "$description": "Card header background - slightly darker than parent"
+            },
+            "text": {
+              "$value": "auto-contrast({semantic.relationship.parent-child.card.header.background})",
+              "$description": "Card header text - auto-calculated contrast"
+            }
+          }
+        },
+        
+        "panel": {
+          "background": {
+            "$value": "{semantic.surface.elevation.1}",
+            "$description": "Panel background - base elevation"
+          },
+          "border": {
+            "$value": "calculated-darken({semantic.relationship.parent-child.panel.background}, 15%)",
+            "$description": "Panel border - darker than background for definition"
+          },
+          "content": {
+            "text": {
+              "$value": "auto-contrast({semantic.relationship.parent-child.panel.background})",
+              "$description": "Panel content text - optimal contrast"
+            }
+          }
+        }
+      },
+      
+      "state-propagation": {
+        "interactive": {
+          "default": {
+            "$value": "{semantic.intent.primary}",
+            "$description": "Default interactive state"
+          },
+          "hover": {
+            "$value": "calculated-darken({semantic.relationship.state-propagation.interactive.default}, 10%)",
+            "$description": "Hover state - automatically 10% darker"
+          },
+          "active": {
+            "$value": "calculated-darken({semantic.relationship.state-propagation.interactive.default}, 20%)",
+            "$description": "Active state - automatically 20% darker"
+          },
+          "disabled": {
+            "$value": "calculated-fade({semantic.relationship.state-propagation.interactive.default}, 40%)",
+            "$description": "Disabled state - automatically 40% opacity"
+          }
+        },
+        
+        "button": {
+          "primary": {
+            "background": {
+              "$value": "{semantic.intent.primary}",
+              "$description": "Primary button background"
+            },
+            "hover": {
+              "$value": "calculated-darken({semantic.relationship.state-propagation.button.primary.background}, 10%)",
+              "$description": "Primary button hover - 10% darker"
+            },
+            "active": {
+              "$value": "calculated-darken({semantic.relationship.state-propagation.button.primary.background}, 20%)",
+              "$description": "Primary button active - 20% darker"
+            }
+          },
+          "secondary": {
+            "background": {
+              "$value": "transparent",
+              "$description": "Secondary button background"
+            },
+            "border": {
+              "$value": "{semantic.intent.secondary}",
+              "$description": "Secondary button border"
+            },
+            "hover": {
+              "$value": "calculated-tint({semantic.intent.secondary}, 90%)",
+              "$description": "Secondary button hover - light tint"
+            }
+          }
+        }
+      }
+    }
+  }
+}

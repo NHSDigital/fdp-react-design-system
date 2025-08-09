@@ -15,7 +15,8 @@
  */
 export { HeaderSSR } from './Header/HeaderSSR';
 export { HeaderStatic } from './Header/HeaderStatic';
-export type { HeaderProps, AccountItem, NavigationItem } from './Header/Header.types';
+export type { HeaderProps, NavigationItem } from './Header/Header.types';
+export type { AccountItem } from './Account/Account.types';
 export { ActionLink } from './ActionLink';
 export type { ActionLinkProps } from './ActionLink';
 export { ButtonSSR as Button } from './Button/ButtonSSR';

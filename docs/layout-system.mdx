@@ -1,0 +1,457 @@
+# NHS FDP Layout System
+
+The NHS FDP Design System provides a comprehensive set of layout components and utilities that enable easy adoption of NHS UK layout conventions while maintaining consistency with the NHS FDP design token system.
+
+## Overview
+
+The layout system consists of four main components:
+
+1. **Grid System** - Modern CSS Grid-based responsive layout
+2. **Spacing Utilities** - Comprehensive spacing utility classes
+3. **Width Utilities** - Width constraint utilities independent of grid
+4. **Main Wrapper** - Consistent content area padding
+
+All components are built with:
+- ✅ **NHS FDP Design Token Integration**
+- ✅ **TypeScript Support** 
+- ✅ **Responsive Design**
+- ✅ **Semantic HTML**
+- ✅ **Accessibility**
+
+## Grid System
+
+The Grid system provides a modern CSS Grid-based 12-column responsive layout that replaces traditional float-based grids.
+
+### Components
+
+- `Container` - Main content container with responsive max-width
+- `Row` - Grid row with responsive gap
+- `Column` - Individual grid columns with span control
+- `Grid` - Low-level grid wrapper
+
+### Features
+
+- 12-column responsive grid
+- Modern CSS Grid implementation
+- Typography inheritance (Frutiger font family)
+- Responsive breakpoints (mobile-first)
+- Flexible column spanning
+
+### Usage
+
+```tsx
+import { Container, Row, Column, Grid } from '@fergusbisset/nhs-fdp-design-system';
+
+// Basic layout
+<Container>
+  <Row>
+    <Column span={8}>
+      <h1>Main Content</h1>
+    </Column>
+    <Column span={4}>
+      <aside>Sidebar</aside>
+    </Column>
+  </Row>
+</Container>
+
+// Advanced grid
+<Grid columns={12} gap="large">
+  <Column span={6} offset={3}>
+    Centered content
+  </Column>
+</Grid>
+```
+
+### Responsive Behavior
+
+- **Mobile**: Single column layout
+- **Tablet+**: Full grid system activated
+- **Desktop**: Optimal column widths and spacing
+
+## Spacing Utilities
+
+Comprehensive spacing utility classes using NHS FDP design tokens for consistent margin and padding.
+
+### Features
+
+- Static spacing scale (0-9)
+- Responsive spacing variants
+- All directions (top, right, bottom, left, x-axis, y-axis, all)
+- Debug mode with visual indicators
+
+### Class Naming Convention
+
+```
+nhs-fdp-{property}-{direction}-{scale}
+nhs-fdp-{property}-responsive-{direction}-{scale}
+```
+
+Where:
+- **property**: `margin` or `padding`
+- **direction**: `top`, `right`, `bottom`, `left`, `x`, `y`, `all`
+- **scale**: `0` through `9`
+
+### Usage
+
+```tsx
+// Static spacing
+<div className="nhs-fdp-margin-top-4 nhs-fdp-padding-all-3">
+  Content with fixed spacing
+</div>
+
+// Responsive spacing (different mobile/tablet values)
+<div className="nhs-fdp-margin-responsive-y-2 nhs-fdp-padding-responsive-all-4">
+  Content with responsive spacing
+</div>
+
+// Combine utilities
+<div className="nhs-fdp-margin-bottom-6 nhs-fdp-padding-x-3">
+  Multiple spacing utilities
+</div>
+```
+
+### Spacing Scale
+
+| Scale | Static Value | Responsive Mobile | Responsive Tablet+ |
+|-------|-------------|------------------|-------------------|
+| 0     | 0           | 0                | 0                 |
+| 1     | 4px         | 4px              | 4px               |
+| 2     | 8px         | 8px              | 8px               |
+| 3     | 12px        | 8px              | 12px              |
+| 4     | 16px        | 12px             | 16px              |
+| 5     | 20px        | 16px             | 20px              |
+| 6     | 24px        | 16px             | 24px              |
+| 7     | 28px        | 20px             | 28px              |
+| 8     | 32px        | 24px             | 32px              |
+| 9     | 40px        | 32px             | 40px              |
+
+### Debug Mode
+
+Enable visual spacing indicators:
+
+```tsx
+import { SpacingUtilities } from '@fergusbisset/nhs-fdp-design-system';
+
+<SpacingUtilities debug={true}>
+  <div className="nhs-fdp-padding-all-4">
+    Spacing is visually highlighted
+  </div>
+</SpacingUtilities>
+```
+
+## Width Utilities
+
+Width constraint utilities that work independently of the grid system for flexible content sizing.
+
+### Features
+
+- Fractional widths (1/4, 1/3, 1/2, 2/3, 3/4, full)
+- Tablet-specific variants
+- Reading width for optimal content readability
+- Responsive behavior
+
+### Available Widths
+
+```tsx
+// Fractional widths
+<div className="nhs-fdp-width-full">100% width</div>
+<div className="nhs-fdp-width-three-quarters">75% width</div>
+<div className="nhs-fdp-width-two-thirds">66.666% width</div>
+<div className="nhs-fdp-width-one-half">50% width</div>
+<div className="nhs-fdp-width-one-third">33.333% width</div>
+<div className="nhs-fdp-width-one-quarter">25% width</div>
+
+// Tablet-specific variants
+<div className="nhs-fdp-width-tablet-full">100% on tablet+</div>
+<div className="nhs-fdp-width-tablet-two-thirds">66.666% on tablet+</div>
+
+// Reading width (optimal for text content)
+<div className="nhs-fdp-width-reading">Optimal reading width</div>
+```
+
+### Usage Patterns
+
+```tsx
+// Content sections
+<article className="nhs-fdp-width-two-thirds">
+  <h1>Article Title</h1>
+  <p>Main article content...</p>
+</article>
+
+// Responsive content
+<div className="nhs-fdp-width-tablet-two-thirds">
+  <p>Full width on mobile, 2/3 width on tablet+</p>
+</div>
+
+// Reading-optimised content
+<div className="nhs-fdp-width-reading">
+  <p>Long-form text content optimised for readability</p>
+</div>
+```
+
+## Main Wrapper
+
+Provides consistent padding around main content areas following NHS UK spacing conventions.
+
+### Features
+
+- Responsive padding (different mobile/tablet+ values)
+- Three size variants (small, default, large)
+- Semantic HTML support (main, section, div)
+- Design token integration
+
+### Size Variants
+
+| Size    | Mobile Padding | Tablet+ Padding | Use Case           |
+|---------|---------------|----------------|-------------------|
+| small   | 8px           | 16px           | Compact layouts    |
+| default | 16px          | 24px           | Standard layouts   |
+| large   | 24px          | 32px           | Spacious layouts   |
+
+### Usage
+
+```tsx
+import { MainWrapper, Container } from '@fergusbisset/nhs-fdp-design-system';
+
+// Basic usage
+<Container>
+  <MainWrapper>
+    <h1>Page Title</h1>
+    <p>Main content goes here...</p>
+  </MainWrapper>
+</Container>
+
+// Size variants
+<MainWrapper size="large">
+  Spacious layout with extra padding
+</MainWrapper>
+
+<MainWrapper size="small">
+  Compact layout with minimal padding
+</MainWrapper>
+
+// Custom element
+<MainWrapper as="section">
+  Section content with proper semantics
+</MainWrapper>
+```
+
+### Typical Page Layout
+
+```tsx
+// Complete page structure
+<div>
+  {/* Header/Breadcrumbs */}
+  <div style={{ background: '#f0f4f8', padding: '16px 0' }}>
+    <Container>
+      <Breadcrumb items={breadcrumbItems} />
+    </Container>
+  </div>
+
+  {/* Main content */}
+  <Container>
+    <MainWrapper>
+      <h1>Page Title</h1>
+      <p>Page content...</p>
+    </MainWrapper>
+  </Container>
+
+  {/* Footer */}
+  <footer style={{ background: '#425563', color: 'white', padding: '24px 0' }}>
+    <Container>
+      <p>Footer content</p>
+    </Container>
+  </footer>
+</div>
+```
+
+## Layout Patterns
+
+### Two-Column Layout
+
+```tsx
+<Container>
+  <MainWrapper>
+    <div style={{ display: 'grid', gap: '32px', gridTemplateColumns: '1fr 300px' }}>
+      <main className="nhs-fdp-padding-right-4">
+        <h1>Main Content</h1>
+        <p>Primary content area...</p>
+      </main>
+      
+      <aside className="nhs-fdp-padding-left-4">
+        <h3>Sidebar</h3>
+        <nav>Navigation links...</nav>
+      </aside>
+    </div>
+  </MainWrapper>
+</Container>
+```
+
+### Card Grid Layout
+
+```tsx
+<Container>
+  <MainWrapper>
+    <div className="nhs-fdp-margin-bottom-6">
+      <h1>Services</h1>
+    </div>
+    
+    <div style={{ 
+      display: 'grid', 
+      gap: '24px', 
+      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' 
+    }}>
+      <div className="nhs-fdp-padding-all-4" style={{ border: '1px solid #ddd' }}>
+        <h3 className="nhs-fdp-margin-bottom-3">Book Appointment</h3>
+        <p>Schedule your next appointment online</p>
+      </div>
+      
+      <div className="nhs-fdp-padding-all-4" style={{ border: '1px solid #ddd' }}>
+        <h3 className="nhs-fdp-margin-bottom-3">Test Results</h3>
+        <p>View your latest test results</p>
+      </div>
+    </div>
+  </MainWrapper>
+</Container>
+```
+
+### Form Layout
+
+```tsx
+<Container>
+  <MainWrapper>
+    <div className="nhs-fdp-width-two-thirds">
+      <form>
+        <div className="nhs-fdp-margin-bottom-5">
+          <label className="nhs-fdp-margin-bottom-2">Name</label>
+          <input className="nhs-fdp-padding-all-2 nhs-fdp-width-full" />
+        </div>
+        
+        <div className="nhs-fdp-margin-bottom-5">
+          <label className="nhs-fdp-margin-bottom-2">Email</label>
+          <input className="nhs-fdp-padding-all-2 nhs-fdp-width-full" />
+        </div>
+        
+        <button className="nhs-fdp-padding-x-4 nhs-fdp-padding-y-2">
+          Submit
+        </button>
+      </form>
+    </div>
+  </MainWrapper>
+</Container>
+```
+
+## Responsive Design
+
+All layout components follow a mobile-first approach:
+
+### Breakpoints
+
+- **Mobile**: < 768px (base styles)
+- **Tablet**: ≥ 768px (enhanced spacing and layout)
+- **Desktop**: ≥ 1024px (optimal viewing experience)
+
+### Best Practices
+
+1. **Start Mobile-First**: Design for mobile, enhance for larger screens
+2. **Use Responsive Spacing**: Prefer `nhs-fdp-spacing-responsive-*` for better mobile experience
+3. **Combine Utilities**: Mix spacing, width, and grid components as needed
+4. **Semantic HTML**: Use appropriate HTML elements with the `as` prop
+5. **Test Across Devices**: Verify layouts work at all breakpoints
+
+## Design Token Integration
+
+All layout components use NHS FDP design tokens:
+
+```scss
+// Spacing tokens from tokens/spacing.json
+$spacing-responsive-3: 8px;  // mobile
+$spacing-responsive-3-tablet: 12px;  // tablet+
+
+$spacing-static-4: 16px;  // all screens
+
+// Used in components
+.nhs-fdp-padding-responsive-all-3 {
+  padding: $spacing-responsive-3;
+  
+  @media (min-width: 768px) {
+    padding: $spacing-responsive-3-tablet;
+  }
+}
+```
+
+## Migration from Legacy Systems
+
+### From Float-Based Grids
+
+```tsx
+// Old float-based approach
+<div className="row">
+  <div className="col-md-8">Main</div>
+  <div className="col-md-4">Sidebar</div>
+</div>
+
+// New CSS Grid approach
+<Row>
+  <Column span={8}>Main</Column>
+  <Column span={4}>Sidebar</Column>
+</Row>
+```
+
+### From Custom Spacing
+
+```tsx
+// Old custom styles
+<div style={{ marginTop: '20px', paddingLeft: '16px' }}>
+  Content
+</div>
+
+// New utility classes
+<div className="nhs-fdp-margin-top-5 nhs-fdp-padding-left-4">
+  Content
+</div>
+```
+
+## Accessibility
+
+All layout components include accessibility features:
+
+- **Semantic HTML**: Proper element usage (main, section, article)
+- **Keyboard Navigation**: Focus management and keyboard accessibility
+- **Screen Reader Support**: Appropriate ARIA labels and structure
+- **Color Contrast**: High contrast ratios for all text
+- **Responsive Text**: Scalable fonts that work with zoom
+
+## Performance
+
+The layout system is optimized for performance:
+
+- **CSS Bundle**: ~183kB total (includes all utilities)
+- **Tree Shaking**: Only import components you use
+- **Modern CSS**: Uses CSS Grid and Flexbox for optimal rendering
+- **Minimal JavaScript**: Layout utilities are pure CSS
+
+## Browser Support
+
+- **Modern Browsers**: Full support (Chrome, Firefox, Safari, Edge)
+- **CSS Grid**: Required for grid components
+- **Flexbox**: Required for some utility behaviors
+- **CSS Custom Properties**: Used for design token implementation
+
+## Contributing
+
+When adding new layout components:
+
+1. Follow the existing naming conventions
+2. Use NHS FDP design tokens
+3. Include TypeScript types
+4. Add comprehensive Storybook stories
+5. Document responsive behavior
+6. Test across all supported breakpoints
+
+## Resources
+
+- [NHS UK Frontend Patterns](https://service-manual.nhs.uk/design-system)
+- [CSS Grid Guide](https://css-tricks.com/snippets/css/complete-guide-grid/)
+- [NHS FDP Design Tokens](./design-tokens.md)
+- [Component API Reference](./api-reference.md)

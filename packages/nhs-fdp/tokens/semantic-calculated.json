@@ -1,0 +1,143 @@
+{
+  "semantic": {
+    "intent": {
+      "$type": "color",
+      "primary": {
+        "$value": "{color.primary.green}",
+        "$description": "Primary intent color - NHS Green for main actions and success states"
+      },
+      "secondary": {
+        "$value": "{color.primary.blue}",
+        "$description": "Secondary intent color - NHS Blue for secondary actions and information"
+      },
+      "warning": {
+        "$value": "{color.primary.red}",
+        "$description": "Warning intent color - NHS Red for errors and dangerous actions"
+      },
+      "success": {
+        "$value": "{color.primary.green}",
+        "$description": "Success intent color - derived from primary for consistency"
+      },
+      "neutral": {
+        "$value": "{color.grey.1}",
+        "$description": "Neutral intent color - for disabled states and subtle actions"
+      },
+      "info": {
+        "$value": "{color.primary.blue}",
+        "$description": "Information intent color - for informational content"
+      }
+    },
+    
+    "intent-hover": {
+      "$type": "color",
+      "primary": {
+        "$value": "darken({semantic.intent.primary}, 10%)",
+        "$description": "Primary intent hover state - darker NHS Green"
+      },
+      "secondary": {
+        "$value": "darken({semantic.intent.secondary}, 10%)",
+        "$description": "Secondary intent hover state - darker NHS Blue"
+      },
+      "warning": {
+        "$value": "darken({semantic.intent.warning}, 10%)",
+        "$description": "Warning intent hover state - darker NHS Red"
+      }
+    },
+    
+    "intent-active": {
+      "$type": "color",
+      "primary": {
+        "$value": "darken({semantic.intent.primary}, 20%)",
+        "$description": "Primary intent active state - much darker NHS Green"
+      },
+      "secondary": {
+        "$value": "darken({semantic.intent.secondary}, 20%)",
+        "$description": "Secondary intent active state - much darker NHS Blue"
+      },
+      "warning": {
+        "$value": "darken({semantic.intent.warning}, 20%)",
+        "$description": "Warning intent active state - much darker NHS Red"
+      }
+    },
+    
+    "intent-light": {
+      "$type": "color",
+      "primary": {
+        "$value": "lighten({semantic.intent.primary}, 40%)",
+        "$description": "Light primary intent - for backgrounds and subtle states"
+      },
+      "secondary": {
+        "$value": "lighten({semantic.intent.secondary}, 40%)",
+        "$description": "Light secondary intent - for backgrounds and subtle states"
+      },
+      "warning": {
+        "$value": "lighten({semantic.intent.warning}, 40%)",
+        "$description": "Light warning intent - for backgrounds and subtle states"
+      }
+    },
+    
+    "context": {
+      "$type": "color",
+      "form": {
+        "border": {
+          "default": {
+            "$value": "{color.grey.1}",
+            "$description": "Default form border color - uses neutral intent"
+          },
+          "focus": {
+            "$value": "{semantic.intent.secondary}",
+            "$description": "Form focus border - uses secondary intent for consistency"
+          },
+          "error": {
+            "$value": "{semantic.intent.warning}",
+            "$description": "Form error border - uses warning intent"
+          },
+          "success": {
+            "$value": "{semantic.intent.success}",
+            "$description": "Form success border - uses success intent"
+          }
+        },
+        "background": {
+          "default": {
+            "$value": "{color.primary.white}",
+            "$description": "Default form background"
+          },
+          "disabled": {
+            "$value": "{color.grey.4}",
+            "$description": "Disabled form background"
+          },
+          "readonly": {
+            "$value": "lighten({color.grey.4}, 20%)",
+            "$description": "Read-only form background - lighter than disabled"
+          },
+          "error": {
+            "$value": "{semantic.intent-light.warning}",
+            "$description": "Error form background - uses light warning intent"
+          },
+          "success": {
+            "$value": "{semantic.intent-light.primary}",
+            "$description": "Success form background - uses light primary intent"
+          }
+        },
+        "text": {
+          "default": {
+            "$value": "{color.primary.black}",
+            "$description": "Default form text color - high contrast"
+          },
+          "placeholder": {
+            "$value": "fade({color.primary.black}, 60%)",
+            "$description": "Form placeholder text - 60% opacity for readability"
+          },
+          "disabled": {
+            "$value": "fade({color.primary.black}, 50%)",
+            "$description": "Disabled form text - 50% opacity"
+          },
+          "error": {
+            "$value": "{semantic.intent.warning}",
+            "$description": "Form error text color"
+          }
+        }
+      }
+    }
+  }
+}

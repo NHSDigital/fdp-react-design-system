@@ -1,3 +1,5 @@
+import { AccountProps } from '../Account/Account.types';
+
 // Core header props
 export interface HeaderProps {
   /** Additional CSS classes */
@@ -28,11 +30,7 @@ export interface HeaderProps {
     visuallyHiddenLabel?: string;
   };
   /** Account configuration */
-  account?: {
-    ariaLabel?: string;
-    items?: Array<AccountItem>;
-    className?: string;
-  };
+  account?: Pick<AccountProps, 'ariaLabel' | 'items' | 'className'>;
   /** Navigation configuration */
   navigation?: {
     ariaLabel?: string;
@@ -49,23 +47,6 @@ export interface HeaderProps {
   maxVisibleItems?: number;
   /** Additional HTML attributes */
   attributes?: Record<string, any>;
-}
-
-export interface AccountItem {
-  /** Link URL */
-  href?: string;
-  /** Form action URL */
-  action?: string;
-  /** Form method */
-  method?: 'get' | 'post';
-  /** Display text */
-  text?: string;
-  /** HTML content (overrides text) */
-  html?: string;
-  /** Show user icon */
-  icon?: boolean;
-  /** Additional CSS classes */
-  className?: string;
 }
 
 export interface NavigationItem {

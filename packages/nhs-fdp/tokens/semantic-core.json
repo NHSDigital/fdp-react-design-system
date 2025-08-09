@@ -1,0 +1,217 @@
+{
+  "semantic": {
+    "intent": {
+      "$type": "color",
+      "primary": {
+        "$value": "#007f3b",
+        "$description": "Primary intent color - NHS Green for main actions and success states"
+      },
+      "secondary": {
+        "$value": "#005eb8",
+        "$description": "Secondary intent color - NHS Blue for secondary actions and information"
+      },
+      "warning": {
+        "$value": "#d5281b",
+        "$description": "Warning intent color - NHS Red for errors and dangerous actions"
+      },
+      "success": {
+        "$value": "#007f3b",
+        "$description": "Success intent color - derived from primary for consistency"
+      },
+      "neutral": {
+        "$value": "#4c6272",
+        "$description": "Neutral intent color - for disabled states and subtle actions"
+      },
+      "info": {
+        "$value": "#005eb8",
+        "$description": "Information intent color - for informational content"
+      }
+    },
+    
+    "context": {
+      "$type": "color",
+      "form": {
+        "border": {
+          "default": {
+            "$value": "#4c6272",
+            "$description": "Default form border color - calm and accessible"
+          },
+          "focus": {
+            "$value": "#005eb8",
+            "$description": "Form focus border - uses secondary intent for consistency"
+          },
+          "error": {
+            "$value": "#d5281b",
+            "$description": "Form error border - uses warning intent"
+          },
+          "success": {
+            "$value": "#007f3b",
+            "$description": "Form success border - uses success intent"
+          }
+        },
+        "background": {
+          "default": {
+            "$value": "#ffffff",
+            "$description": "Default form background"
+          },
+          "disabled": {
+            "$value": "#d8dde0",
+            "$description": "Disabled form background"
+          },
+          "readonly": {
+            "$value": "#e8edee",
+            "$description": "Read-only form background"
+          }
+        },
+        "text": {
+          "default": {
+            "$value": "#212b32",
+            "$description": "Default form text color - high contrast"
+          },
+          "placeholder": {
+            "$value": "#768692",
+            "$description": "Form placeholder text - reduced contrast but readable"
+          },
+          "disabled": {
+            "$value": "#768692",
+            "$description": "Disabled form text"
+          },
+          "error": {
+            "$value": "#d5281b",
+            "$description": "Form error text color"
+          }
+        }
+      },
+      
+      "navigation": {
+        "background": {
+          "header": {
+            "$value": "#005eb8",
+            "$description": "Header navigation background - NHS Blue"
+          },
+          "footer": {
+            "$value": "#005eb8",
+            "$description": "Footer navigation background - consistent with header"
+          },
+          "sidebar": {
+            "$value": "#ffffff",
+            "$description": "Sidebar navigation background"
+          }
+        },
+        "text": {
+          "primary": {
+            "$value": "#ffffff",
+            "$description": "Primary navigation text - high contrast on blue"
+          },
+          "secondary": {
+            "$value": "rgba(255, 255, 255, 0.8)",
+            "$description": "Secondary navigation text - slightly transparent"
+          },
+          "active": {
+            "$value": "#ffeb3b",
+            "$description": "Active navigation text - NHS Yellow for visibility"
+          }
+        },
+        "accent": {
+          "hover": {
+            "$value": "rgba(255, 255, 255, 0.1)",
+            "$description": "Navigation hover accent - subtle overlay"
+          },
+          "active": {
+            "$value": "rgba(255, 255, 255, 0.2)",
+            "$description": "Navigation active accent - stronger overlay"
+          },
+          "border": {
+            "$value": "#ffeb3b",
+            "$description": "Navigation accent border - NHS Yellow"
+          }
+        }
+      },
+      
+      "content": {
+        "background": {
+          "primary": {
+            "$value": "#ffffff",
+            "$description": "Primary content background"
+          },
+          "secondary": {
+            "$value": "#d8dde0",
+            "$description": "Secondary content background - for panels and asides"
+          },
+          "elevated": {
+            "$value": "#ffffff",
+            "$description": "Elevated content background - for cards and modals"
+          }
+        },
+        "text": {
+          "primary": {
+            "$value": "#212b32",
+            "$description": "Primary content text - maximum readability"
+          },
+          "secondary": {
+            "$value": "#4c6272",
+            "$description": "Secondary content text - for supporting information"
+          },
+          "tertiary": {
+            "$value": "#768692",
+            "$description": "Tertiary content text - for captions and metadata"
+          }
+        },
+        "accent": {
+          "link": {
+            "$value": "#005eb8",
+            "$description": "Content link color - uses secondary intent"
+          },
+          "highlight": {
+            "$value": "#ffeb3b",
+            "$description": "Content highlight color - NHS Yellow"
+          },
+          "border": {
+            "$value": "#e8edee",
+            "$description": "Content border color - subtle separation"
+          }
+        }
+      }
+    },
+    
+    "surface": {
+      "$type": "color",
+      "elevation": {
+        "0": {
+          "$value": "#ffffff",
+          "$description": "Base surface - no elevation"
+        },
+        "1": {
+          "$value": "#ffffff",
+          "$description": "Low elevation surface - cards"
+        },
+        "2": {
+          "$value": "#ffffff",
+          "$description": "Medium elevation surface - dialogs"
+        },
+        "3": {
+          "$value": "#ffffff",
+          "$description": "High elevation surface - tooltips"
+        }
+      },
+      "interactive": {
+        "default": {
+          "$value": "#ffffff",
+          "$description": "Default interactive surface"
+        },
+        "hover": {
+          "$value": "#d8dde0",
+          "$description": "Hover interactive surface - subtle change"
+        },
+        "active": {
+          "$value": "#e8edee",
+          "$description": "Active interactive surface - more pronounced"
+        },
+        "selected": {
+          "$value": "rgba(0, 94, 184, 0.1)",
+          "$description": "Selected interactive surface - NHS Blue tint"
+        }
+      }
+    }
+  }
+}

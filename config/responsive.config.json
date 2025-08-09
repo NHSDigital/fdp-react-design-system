@@ -1,0 +1,21 @@
+{
+  "source": [
+    "tokens/semantic-responsive.json",
+    "tokens/semantic-dynamic.json"
+  ],
+  "platforms": {
+    "responsive-css": {
+      "transformGroup": "css",
+      "buildPath": "packages/nhs-fdp/dist/css/",
+      "files": [
+        {
+          "destination": "_responsive.css",
+          "format": "responsive/css",
+          "options": {
+            "showFileHeader": true
+          }
+        }
+      ]
+    }
+  }
+}

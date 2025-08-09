@@ -1,0 +1,163 @@
+{
+  "theme": {
+    "light": {
+      "$type": "color",
+      "semantic": {
+        "intent": {
+          "primary": {
+            "$value": "{color.primary.green}",
+            "$description": "Light theme primary - NHS Green"
+          },
+          "secondary": {
+            "$value": "{color.primary.blue}",
+            "$description": "Light theme secondary - NHS Blue"
+          },
+          "warning": {
+            "$value": "{color.primary.red}",
+            "$description": "Light theme warning - NHS Red"
+          },
+          "success": {
+            "$value": "{color.primary.green}",
+            "$description": "Light theme success - NHS Green"
+          },
+          "neutral": {
+            "$value": "{color.grey.1}",
+            "$description": "Light theme neutral - Dark grey"
+          },
+          "info": {
+            "$value": "{color.primary.blue}",
+            "$description": "Light theme info - NHS Blue"
+          }
+        },
+        "surface": {
+          "background": {
+            "primary": {
+              "$value": "{color.primary.white}",
+              "$description": "Light theme primary background"
+            },
+            "secondary": {
+              "$value": "{color.grey.5}",
+              "$description": "Light theme secondary background"
+            },
+            "elevated": {
+              "$value": "{color.primary.white}",
+              "$description": "Light theme elevated surface (cards, modals)"
+            }
+          },
+          "text": {
+            "primary": {
+              "$value": "{color.primary.black}",
+              "$description": "Light theme primary text - high contrast"
+            },
+            "secondary": {
+              "$value": "{color.grey.1}",
+              "$description": "Light theme secondary text"
+            },
+            "tertiary": {
+              "$value": "{color.grey.2}",
+              "$description": "Light theme tertiary text - captions"
+            },
+            "inverse": {
+              "$value": "{color.primary.white}",
+              "$description": "Light theme inverse text - for dark backgrounds"
+            }
+          },
+          "border": {
+            "default": {
+              "$value": "{color.grey.4}",
+              "$description": "Light theme default border"
+            },
+            "subtle": {
+              "$value": "{color.grey.5}",
+              "$description": "Light theme subtle border"
+            },
+            "strong": {
+              "$value": "{color.grey.2}",
+              "$description": "Light theme strong border"
+            }
+          }
+        }
+      }
+    },
+    
+    "dark": {
+      "$type": "color",
+      "semantic": {
+        "intent": {
+          "primary": {
+            "$value": "lighten({color.primary.green}, 20%)",
+            "$description": "Dark theme primary - lighter NHS Green for contrast"
+          },
+          "secondary": {
+            "$value": "lighten({color.primary.blue}, 25%)",
+            "$description": "Dark theme secondary - lighter NHS Blue for contrast"
+          },
+          "warning": {
+            "$value": "lighten({color.primary.red}, 15%)",
+            "$description": "Dark theme warning - lighter NHS Red for contrast"
+          },
+          "success": {
+            "$value": "lighten({color.primary.green}, 20%)",
+            "$description": "Dark theme success - lighter NHS Green"
+          },
+          "neutral": {
+            "$value": "{color.grey.3}",
+            "$description": "Dark theme neutral - Medium grey for contrast"
+          },
+          "info": {
+            "$value": "lighten({color.primary.blue}, 25%)",
+            "$description": "Dark theme info - lighter NHS Blue"
+          }
+        },
+        "surface": {
+          "background": {
+            "primary": {
+              "$value": "darken({color.primary.black}, 5%)",
+              "$description": "Dark theme primary background - very dark"
+            },
+            "secondary": {
+              "$value": "lighten({color.primary.black}, 8%)",
+              "$description": "Dark theme secondary background - slightly lighter"
+            },
+            "elevated": {
+              "$value": "lighten({color.primary.black}, 12%)",
+              "$description": "Dark theme elevated surface - cards, modals"
+            }
+          },
+          "text": {
+            "primary": {
+              "$value": "fade({color.primary.white}, 95%)",
+              "$description": "Dark theme primary text - high contrast white"
+            },
+            "secondary": {
+              "$value": "fade({color.primary.white}, 80%)",
+              "$description": "Dark theme secondary text - medium contrast"
+            },
+            "tertiary": {
+              "$value": "fade({color.primary.white}, 60%)",
+              "$description": "Dark theme tertiary text - low contrast"
+            },
+            "inverse": {
+              "$value": "{color.primary.black}",
+              "$description": "Dark theme inverse text - for light backgrounds"
+            }
+          },
+          "border": {
+            "default": {
+              "$value": "fade({color.primary.white}, 20%)",
+              "$description": "Dark theme default border - subtle white"
+            },
+            "subtle": {
+              "$value": "fade({color.primary.white}, 10%)",
+              "$description": "Dark theme subtle border - very light white"
+            },
+            "strong": {
+              "$value": "fade({color.primary.white}, 40%)",
+              "$description": "Dark theme strong border - more visible white"
+            }
+          }
+        }
+      }
+    }
+  }
+}

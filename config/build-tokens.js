@@ -47,266 +47,225 @@ export default tokens;
 })
 
 // Custom format for React Theme Provider
-StyleDictionary.registerFormat({
-  name: 'react/theme-provider',
-  format: ({ dictionary, options, file }) => {
-    const header = `// Do not edit directly, this file was auto-generated.
+// StyleDictionary.registerFormat({
+//   name: 'react/theme-provider',
+//   format: ({ dictionary, options, file }) => {
+//     const header = `// Do not edit directly, this file was auto-generated.
 
-import React, { createContext, useContext, ReactNode } from 'react';
+// import React, { createContext, useContext, ReactNode } from 'react';
 
-export interface NHSTheme {`
+// export interface NHSTheme {`
 
-    const tokenTypes = {}
-    dictionary.allTokens.forEach(token => {
-      const category = token.attributes?.category || 'misc'
-      if (!tokenTypes[category]) tokenTypes[category] = []
-      tokenTypes[category].push(token)
-    })
+//     const tokenTypes = {}
+//     dictionary.allTokens.forEach(token => {
+//       const category = token.attributes?.category || 'misc'
+//       if (!tokenTypes[category]) tokenTypes[category] = []
+//       tokenTypes[category].push(token)
+//     })
 
-    const themeInterface = Object.keys(tokenTypes)
-      .map(category => `  ${category}: {
-${tokenTypes[category].map(token => `    ${token.name}: string;`).join('\n')}
-  };`)
-      .join('\n')
+//     const themeInterface = Object.keys(tokenTypes)
+//       .map(category => `  ${category}: {
+// ${tokenTypes[category].map(token => `    ${token.name}: string;`).join('\n')}
+//   };`)
+//       .join('\n')
 
-    const themeObject = Object.keys(tokenTypes)
-      .map(category => `  ${category}: {
-${tokenTypes[category].map(token => `    ${token.name}: '${token.value}',`).join('\n')}
-  },`)
-      .join('\n')
+//     const themeObject = Object.keys(tokenTypes)
+//       .map(category => `  ${category}: {
+// ${tokenTypes[category].map(token => `    ${token.name}: '${token.value}',`).join('\n')}
+//   },`)
+//       .join('\n')
 
-    const provider = `
-}
+//     const provider = `
+// }
 
-export const nhsTheme: NHSTheme = {
-${themeObject}
-};
+// export const nhsTheme: NHSTheme = {
+// ${themeObject}
+// };
 
-const ThemeContext = createContext<NHSTheme>(nhsTheme);
+// const ThemeContext = createContext<NHSTheme>(nhsTheme);
 
-export interface ThemeProviderProps {
-  children: ReactNode;
-  theme?: Partial<NHSTheme>;
-}
+// export interface ThemeProviderProps {
+//   children: ReactNode;
+//   theme?: Partial<NHSTheme>;
+// }
 
-export const NHSThemeProvider: React.FC<ThemeProviderProps> = ({ 
-  children, 
-  theme = {} 
-}) => {
-  const mergedTheme = { ...nhsTheme, ...theme };
-  return (
-    <ThemeContext.Provider value={mergedTheme}>
-      {children}
-    </ThemeContext.Provider>
-  );
-};
+// export const NHSThemeProvider: React.FC<ThemeProviderProps> = ({ 
+//   children, 
+//   theme = {} 
+// }) => {
+//   const mergedTheme = { ...nhsTheme, ...theme };
+//   return (
+//     <ThemeContext.Provider value={mergedTheme}>
+//       {children}
+//     </ThemeContext.Provider>
+//   );
+// };
 
-export const useNHSTheme = (): NHSTheme => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useNHSTheme must be used within an NHSThemeProvider');
-  }
-  return context;
-};
+// export const useNHSTheme = (): NHSTheme => {
+//   const context = useContext(ThemeContext);
+//   if (!context) {
+//     throw new Error('useNHSTheme must be used within an NHSThemeProvider');
+//   }
+//   return context;
+// };
 
-export default nhsTheme;`
+// export default nhsTheme;`
 
-    return header + themeInterface + provider
-  }
-})
+//     return header + themeInterface + provider
+//   }
+// })
 
 // Custom format for React hooks
-StyleDictionary.registerFormat({
-  name: 'react/hooks',
-  format: ({ dictionary, options }) => {
-    const header = `// Do not edit directly, this file was auto-generated.
+// StyleDictionary.registerFormat({
+//   name: 'react/hooks',
+//   format: ({ dictionary, options }) => {
+//     const header = `// Do not edit directly, this file was auto-generated.
 
-import { useMemo } from 'react';
-import * as tokens from '../index';
+// import { useMemo } from 'react';
+// import * as tokens from '../index';
 
-`
+// `
 
-    const allTokens = dictionary.allTokens
-    const colorTokens = allTokens.filter(token => 
-      token.type === 'color' || 
-      token.$type === 'color' ||
-      token.name.toLowerCase().includes('color') ||
-      token.name.toLowerCase().includes('border')
-    )
-    const spacingTokens = allTokens.filter(token => 
-      token.type === 'spacing' || 
-      token.$type === 'spacing' ||
-      /^Spacing\d$/.test(token.name)
-    )
-    const fontTokens = allTokens.filter(token => 
-      token.attributes?.category === 'font' ||
-      token.name.toLowerCase().includes('font')
-    )
-    const responsiveSpacingTokens = allTokens.filter(token => 
-      token.name.includes('SpacingResponsive')
-    )
-    const componentSpacingTokens = allTokens.filter(token => 
-      (token.name.includes('ButtonSpacing') || 
-       token.name.includes('CardSpacing') || 
-       token.name.includes('FormSpacing')) &&
-      !token.name.includes('Component')
-    )
+//     const allTokens = dictionary.allTokens
+//     const colorTokens = allTokens.filter(token => 
+//       token.type === 'color' || 
+//       token.$type === 'color' ||
+//       token.name.toLowerCase().includes('color') ||
+//       token.name.toLowerCase().includes('border')
+//     )
+//     const spacingTokens = allTokens.filter(token => 
+//       token.type === 'spacing' || 
+//       token.$type === 'spacing' ||
+//       /^Spacing\d$/.test(token.name)
+//     )
+//     const fontTokens = allTokens.filter(token => 
+//       token.attributes?.category === 'font' ||
+//       token.name.toLowerCase().includes('font')
+//     )
+//     const responsiveSpacingTokens = allTokens.filter(token => 
+//       token.name.includes('SpacingResponsive')
+//     )
+//     const componentSpacingTokens = allTokens.filter(token => 
+//       (token.name.includes('ButtonSpacing') || 
+//        token.name.includes('CardSpacing') || 
+//        token.name.includes('FormSpacing')) &&
+//       !token.name.includes('Component')
+//     )
 
-    const borderColors = colorTokens.filter(t => t.name.includes('BorderColor'))
-      .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
-    const primaryColors = colorTokens.filter(t => t.name.includes('ColorPrimary'))
-      .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
-    const secondaryColors = colorTokens.filter(t => t.name.includes('ColorSecondary'))
-      .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
-    const greyColors = colorTokens.filter(t => t.name.includes('ColorGrey'))
-      .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
-    const coreSpacing = spacingTokens.filter(t => /^Spacing\d$/.test(t.name))
-      .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
-    const typography = `    // Semantic device-grouped typography
-    Mobile: {
-      Size14: tokens.FontSize14Mobile,
-      Size16: tokens.FontSize16Mobile,
-      Size19: tokens.FontSize19Mobile,
-      Size22: tokens.FontSize22Mobile,
-      Size26: tokens.FontSize26Mobile,
-      Size36: tokens.FontSize36Mobile,
-      Size48: tokens.FontSize48Mobile,
-    },
-    Tablet: {
-      Size14: tokens.FontSize14Tablet,
-      Size16: tokens.FontSize16Tablet,
-      Size19: tokens.FontSize19Tablet,
-      Size22: tokens.FontSize22Tablet,
-      Size26: tokens.FontSize26Tablet,
-      Size36: tokens.FontSize36Tablet,
-      Size48: tokens.FontSize48Tablet,
-    },
-    Print: {
-      Size14: tokens.FontSize14Print,
-      Size16: tokens.FontSize16Print,
-      Size19: tokens.FontSize19Print,
-      Size22: tokens.FontSize22Print,
-      Size26: tokens.FontSize26Print,
-      Size36: tokens.FontSize36Print,
-      Size48: tokens.FontSize48Print,
-    },
-    Family: {
-      Base: tokens.FontFamilyBase,
-      Fallback: tokens.FontFamilyFallback,
-      Print: tokens.FontFamilyPrint,
-    },
-    Weight: {
-      Normal: tokens.FontWeightNormal,
-      Bold: tokens.FontWeightBold,
-      Light: tokens.FontWeightLight,
-    },
-    Base: {
-      Size: tokens.FontSizeBase,
-      LineHeight: tokens.FontLineHeightBase,
-    },
+//     const borderColors = colorTokens.filter(t => t.name.includes('BorderColor'))
+//       .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
+//     const primaryColors = colorTokens.filter(t => t.name.includes('ColorPrimary'))
+//       .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
+//     const secondaryColors = colorTokens.filter(t => t.name.includes('ColorSecondary'))
+//       .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
+//     const greyColors = colorTokens.filter(t => t.name.includes('ColorGrey'))
+//       .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
+//     const coreSpacing = spacingTokens.filter(t => /^Spacing\d$/.test(t.name))
+//       .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
+//     const typography = fontTokens.map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
     
-    // Backward compatibility - individual exports
-${fontTokens.map(token => `    ${token.name}: tokens.${token.name},`).join('\n')}`
-    // Dynamic responsive spacing structure
-    const responsiveSpacingStructure = `    // Semantic device-grouped responsive spacing
-    Mobile: {${Array.from({length: 10}, (_, i) => `
-      Size${i}: tokens.SpacingResponsive${i}Mobile,`).join('')}
-    },
-    Tablet: {${Array.from({length: 10}, (_, i) => `
-      Size${i}: tokens.SpacingResponsive${i}Tablet,`).join('')}
-    },
+//     // Backward compatibility - individual exports
+//     ${fontTokens.map(token => `    ${token.name}: tokens.${token.name},`).join('\n')}
+//     // Dynamic responsive spacing structure
+//     const responsiveSpacingStructure = `    // Semantic device-grouped responsive spacing
+//     Mobile: {${Array.from({length: 10}, (_, i) => `
+//       Size${i}: tokens.SpacingResponsive${i}Mobile,`).join('')}
+//     },
+//     Tablet: {${Array.from({length: 10}, (_, i) => `
+//       Size${i}: tokens.SpacingResponsive${i}Tablet,`).join('')}
+//     },
     
-    // Backward compatibility - individual exports
-${responsiveSpacingTokens.map(token => `    ${token.name}: tokens.${token.name},`).join('\n')}`
+//     // Backward compatibility - individual exports
+// ${responsiveSpacingTokens.map(token => `    ${token.name}: tokens.${token.name},`).join('\n')}`
 
-    const buttonSpacing = componentSpacingTokens.filter(t => t.name.includes('ButtonSpacing'))
-      .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
-    const cardSpacing = componentSpacingTokens.filter(t => t.name.includes('CardSpacing'))
-      .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
-    const formSpacing = componentSpacingTokens.filter(t => t.name.includes('FormSpacing'))
-      .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
+//     const buttonSpacing = componentSpacingTokens.filter(t => t.name.includes('ButtonSpacing'))
+//       .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
+//     const cardSpacing = componentSpacingTokens.filter(t => t.name.includes('CardSpacing'))
+//       .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
+//     const formSpacing = componentSpacingTokens.filter(t => t.name.includes('FormSpacing'))
+//       .map(token => `    ${token.name}: tokens.${token.name},`).join('\n')
 
-    const hooks = `export const useTokens = () => {
-  return useMemo(() => tokens, []);
-};
+//     const hooks = `export const useTokens = () => {
+//   return useMemo(() => tokens, []);
+// };
 
-export const useColors = () => {
-  return useMemo(() => ({
-    // Border colors
-${borderColors}
+// export const useColors = () => {
+//   return useMemo(() => ({
+//     // Border colors
+// ${borderColors}
     
-    // Primary colors
-${primaryColors}
+//     // Primary colors
+// ${primaryColors}
     
-    // Secondary colors
-${secondaryColors}
+//     // Secondary colors
+// ${secondaryColors}
     
-    // Grey scale
-${greyColors}
-  }), []);
-};
+//     // Grey scale
+// ${greyColors}
+//   }), []);
+// };
 
-export const useSpacing = () => {
-  return useMemo(() => ({
-${coreSpacing}
-  }), []);
-};
+// export const useSpacing = () => {
+//   return useMemo(() => ({
+// ${coreSpacing}
+//   }), []);
+// };
 
-export const useTypography = () => {
-  return useMemo(() => ({
-${typography}
-  }), []);
-};
+// export const useTypography = () => {
+//   return useMemo(() => ({
+// ${typography}
+//   }), []);
+// };
 
-export const useResponsiveSpacing = () => {
-  return useMemo(() => ({
-${responsiveSpacingStructure}
-  }), []);
-};
+// export const useResponsiveSpacing = () => {
+//   return useMemo(() => ({
+// ${responsiveSpacingStructure}
+//   }), []);
+// };
 
-export const useComponentSpacing = () => {
-  return useMemo(() => ({
-    // Button spacing
-${buttonSpacing}
+// export const useComponentSpacing = () => {
+//   return useMemo(() => ({
+//     // Button spacing
+// ${buttonSpacing}
     
-    // Card spacing  
-${cardSpacing}
+//     // Card spacing  
+// ${cardSpacing}
     
-    // Form spacing
-${formSpacing}
-  }), []);
-};`
+//     // Form spacing
+// ${formSpacing}
+//   }), []);
+// };`
 
-    return header + hooks
-  }
-})
+//     return header + hooks
+//   }
+// })
 
 // Custom format for styled-components theme
-StyleDictionary.registerFormat({
-  name: 'react/styled-components',
-  format: ({ dictionary, options }) => {
-    const header = `// Do not edit directly, this file was auto-generated.
+// StyleDictionary.registerFormat({
+//   name: 'react/styled-components',
+//   format: ({ dictionary, options }) => {
+//     const header = `// Do not edit directly, this file was auto-generated.
 
-export interface StyledTheme {
-${dictionary.allTokens.map(token => `  ${token.name}: string;`).join('\n')}
-}
+// export interface StyledTheme {
+// ${dictionary.allTokens.map(token => `  ${token.name}: string;`).join('\n')}
+// }
 
-export const styledTheme: StyledTheme = {
-${dictionary.allTokens.map(token => `  ${token.name}: '${token.value}',`).join('\n')}
-};
+// export const styledTheme: StyledTheme = {
+// ${dictionary.allTokens.map(token => `  ${token.name}: '${token.value}',`).join('\n')}
+// };
 
-// For use with styled-components ThemeProvider
-export default styledTheme;
+// // For use with styled-components ThemeProvider
+// export default styledTheme;
 
-// TypeScript module declaration for styled-components
-declare module 'styled-components' {
-  export interface DefaultTheme extends StyledTheme {}
-}
-`
+// // TypeScript module declaration for styled-components
+// declare module 'styled-components' {
+//   export interface DefaultTheme extends StyledTheme {}
+// }
+// `
     
-    return header
-  }
-})
+//     return header
+//   }
+// })
 
 // Build the tokens
 async function buildTokens() {

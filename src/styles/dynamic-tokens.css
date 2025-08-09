@@ -1,0 +1,389 @@
+/* NHS FDP Dynamic Token Systems - Phase 4.3 */
+/* Responsive Design Tokens with Breakpoints, Density Modes, and Accessibility */
+
+/* ===== BASE RESPONSIVE TOKENS ===== */
+:root {
+  /* Spacing Scale - Mobile First */
+  --nhs-spacing-1: 0.25rem;
+  --nhs-spacing-2: 0.5rem;
+  --nhs-spacing-3: 0.75rem;
+  --nhs-spacing-4: 1rem;
+  --nhs-spacing-5: 1.25rem;
+  --nhs-spacing-6: 1.5rem;
+  --nhs-spacing-8: 2rem;
+  --nhs-spacing-10: 2.5rem;
+  --nhs-spacing-12: 3rem;
+
+  /* Typography Scale - Mobile First */
+  --nhs-typography-xs: 0.75rem;
+  --nhs-typography-sm: 0.875rem;
+  --nhs-typography-base: 1rem;
+  --nhs-typography-lg: 1.125rem;
+  --nhs-typography-xl: 1.25rem;
+  --nhs-typography-2xl: 1.5rem;
+  --nhs-typography-3xl: 1.875rem;
+  --nhs-typography-4xl: 2.25rem;
+
+  /* Component Tokens - Mobile First */
+  --nhs-component-button-height: 2.75rem;
+  --nhs-component-button-padding: 0.75rem 1rem;
+  --nhs-component-input-height: 2.5rem;
+  --nhs-component-input-padding: 0.5rem 0.75rem;
+  --nhs-component-card-padding: 1rem;
+  --nhs-component-card-radius: 6px;
+}
+
+/* ===== TABLET BREAKPOINT ===== */
+@media (min-width: 768px) {
+  :root {
+    /* Spacing Scale - Tablet */
+    --nhs-spacing-1: 0.375rem;
+    --nhs-spacing-2: 0.75rem;
+    --nhs-spacing-3: 1.125rem;
+    --nhs-spacing-4: 1.5rem;
+    --nhs-spacing-5: 1.875rem;
+    --nhs-spacing-6: 2.25rem;
+    --nhs-spacing-8: 3rem;
+    --nhs-spacing-10: 3.75rem;
+    --nhs-spacing-12: 4.5rem;
+
+    /* Typography Scale - Tablet */
+    --nhs-typography-xs: 0.8125rem;
+    --nhs-typography-sm: 0.9375rem;
+    --nhs-typography-base: 1.125rem;
+    --nhs-typography-lg: 1.25rem;
+    --nhs-typography-xl: 1.5rem;
+    --nhs-typography-2xl: 1.875rem;
+    --nhs-typography-3xl: 2.25rem;
+    --nhs-typography-4xl: 2.75rem;
+
+    /* Component Tokens - Tablet */
+    --nhs-component-button-height: 3rem;
+    --nhs-component-button-padding: 0.875rem 1.25rem;
+    --nhs-component-input-height: 2.75rem;
+    --nhs-component-input-padding: 0.625rem 0.875rem;
+    --nhs-component-card-padding: 1.5rem;
+    --nhs-component-card-radius: 8px;
+  }
+}
+
+/* ===== DESKTOP BREAKPOINT ===== */
+@media (min-width: 1024px) {
+  :root {
+    /* Spacing Scale - Desktop */
+    --nhs-spacing-1: 0.5rem;
+    --nhs-spacing-2: 1rem;
+    --nhs-spacing-3: 1.5rem;
+    --nhs-spacing-4: 2rem;
+    --nhs-spacing-5: 2.5rem;
+    --nhs-spacing-6: 3rem;
+    --nhs-spacing-8: 4rem;
+    --nhs-spacing-10: 5rem;
+    --nhs-spacing-12: 6rem;
+
+    /* Typography Scale - Desktop */
+    --nhs-typography-xs: 0.875rem;
+    --nhs-typography-sm: 1rem;
+    --nhs-typography-base: 1.25rem;
+    --nhs-typography-lg: 1.375rem;
+    --nhs-typography-xl: 1.75rem;
+    --nhs-typography-2xl: 2.25rem;
+    --nhs-typography-3xl: 2.75rem;
+    --nhs-typography-4xl: 3.5rem;
+
+    /* Component Tokens - Desktop */
+    --nhs-component-button-height: 3.25rem;
+    --nhs-component-button-padding: 1rem 1.5rem;
+    --nhs-component-input-height: 3rem;
+    --nhs-component-input-padding: 0.75rem 1rem;
+    --nhs-component-card-padding: 2rem;
+    --nhs-component-card-radius: 10px;
+  }
+}
+
+/* ===== DENSITY MODES ===== */
+
+/* Compact Density - For data-heavy interfaces */
+[data-density="compact"] {
+  --nhs-spacing-unit: 0.25rem;
+  --nhs-spacing-xs: 0.25rem;
+  --nhs-spacing-sm: 0.5rem;
+  --nhs-spacing-md: 0.75rem;
+  --nhs-spacing-lg: 1rem;
+  --nhs-spacing-xl: 1.25rem;
+  --nhs-spacing-2xl: 1.5rem;
+
+  --nhs-component-button-height: 2rem;
+  --nhs-component-button-padding: 0.25rem 0.75rem;
+  --nhs-component-input-height: 1.75rem;
+  --nhs-component-input-padding: 0.25rem 0.5rem;
+  --nhs-component-card-padding: 0.75rem;
+
+  --nhs-typography-base: 0.875rem;
+  --nhs-typography-lg: 1rem;
+  --nhs-typography-xl: 1.125rem;
+}
+
+/* Comfortable Density - Default mode */
+[data-density="comfortable"] {
+  --nhs-spacing-unit: 0.5rem;
+  --nhs-spacing-xs: 0.5rem;
+  --nhs-spacing-sm: 0.75rem;
+  --nhs-spacing-md: 1rem;
+  --nhs-spacing-lg: 1.5rem;
+  --nhs-spacing-xl: 2rem;
+  --nhs-spacing-2xl: 2.5rem;
+
+  --nhs-component-button-height: 2.75rem;
+  --nhs-component-button-padding: 0.75rem 1rem;
+  --nhs-component-input-height: 2.5rem;
+  --nhs-component-input-padding: 0.5rem 0.75rem;
+  --nhs-component-card-padding: 1.5rem;
+
+  --nhs-typography-base: 1rem;
+  --nhs-typography-lg: 1.125rem;
+  --nhs-typography-xl: 1.25rem;
+}
+
+/* Spacious Density - For accessibility and touch interfaces */
+[data-density="spacious"] {
+  --nhs-spacing-unit: 0.75rem;
+  --nhs-spacing-xs: 0.75rem;
+  --nhs-spacing-sm: 1rem;
+  --nhs-spacing-md: 1.5rem;
+  --nhs-spacing-lg: 2rem;
+  --nhs-spacing-xl: 3rem;
+  --nhs-spacing-2xl: 4rem;
+
+  --nhs-component-button-height: 3.5rem;
+  --nhs-component-button-padding: 1rem 1.5rem;
+  --nhs-component-input-height: 3rem;
+  --nhs-component-input-padding: 0.75rem 1rem;
+  --nhs-component-card-padding: 2rem;
+
+  --nhs-typography-base: 1.125rem;
+  --nhs-typography-lg: 1.25rem;
+  --nhs-typography-xl: 1.375rem;
+}
+
+/* ===== ACCESSIBILITY PREFERENCES ===== */
+
+/* High Contrast Mode */
+@media (prefers-contrast: high), [data-contrast="high"] {
+  :root {
+    /* Surface Tokens */
+    --nhs-surface-bg-primary: #000000;
+    --nhs-surface-bg-secondary: #1a1a1a;
+    --nhs-surface-bg-elevated: #2d2d2d;
+    
+    --nhs-surface-text-primary: #ffffff;
+    --nhs-surface-text-secondary: #e0e0e0;
+    --nhs-surface-text-tertiary: #c0c0c0;
+    --nhs-surface-text-inverse: #000000;
+    
+    --nhs-surface-border-default: #ffffff;
+    --nhs-surface-border-strong: #ffff00;
+    --nhs-surface-border-focus: #ffff00;
+
+    /* Intent Colors */
+    --nhs-intent-primary: #00ff00;
+    --nhs-intent-secondary: #00ffff;
+    --nhs-intent-warning: #ffff00;
+    --nhs-intent-success: #00ff00;
+    --nhs-intent-danger: #ff0000;
+    --nhs-intent-info: #00ffff;
+    --nhs-intent-neutral: #ffffff;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce), [data-motion="reduced"] {
+  :root {
+    --nhs-transition-duration: 0s;
+    --nhs-transition-easing: linear;
+    --nhs-animation-duration: 0s;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Enhanced Motion */
+[data-motion="normal"] {
+  :root {
+    --nhs-transition-duration: 0.3s;
+    --nhs-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+    --nhs-animation-duration: 0.5s;
+  }
+}
+
+/* ===== BRAND VARIANTS ===== */
+
+/* NHS England (Default) */
+[data-brand="nhs-england"] {
+  --nhs-brand-primary: #007f3b;
+  --nhs-brand-secondary: #005eb8;
+  --nhs-brand-accent: #d5281b;
+}
+
+/* NHS Scotland */
+[data-brand="nhs-scotland"] {
+  --nhs-brand-primary: #0078d4;
+  --nhs-brand-secondary: #005eb8;
+  --nhs-brand-accent: #1ba1e2;
+}
+
+/* NHS Wales */
+[data-brand="nhs-wales"] {
+  --nhs-brand-primary: #d5281b;
+  --nhs-brand-secondary: #005eb8;
+  --nhs-brand-accent: #e31837;
+}
+
+/* ===== COMPONENT UTILITIES ===== */
+
+/* Responsive Breakpoint Classes */
+.nhs-hide-mobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .nhs-hide-mobile {
+    display: block;
+  }
+  
+  .nhs-hide-tablet {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .nhs-hide-tablet {
+    display: block;
+  }
+  
+  .nhs-hide-desktop {
+    display: none;
+  }
+}
+
+/* Responsive Text Classes */
+.nhs-text-responsive {
+  font-size: var(--nhs-typography-base);
+  line-height: 1.5;
+}
+
+.nhs-text-responsive-lg {
+  font-size: var(--nhs-typography-lg);
+  line-height: 1.4;
+}
+
+.nhs-text-responsive-xl {
+  font-size: var(--nhs-typography-xl);
+  line-height: 1.3;
+}
+
+/* Responsive Spacing Classes */
+.nhs-spacing-responsive {
+  padding: var(--nhs-spacing-4);
+}
+
+.nhs-spacing-responsive-sm {
+  padding: var(--nhs-spacing-2);
+}
+
+.nhs-spacing-responsive-lg {
+  padding: var(--nhs-spacing-6);
+}
+
+/* Component Base Classes */
+.nhs-button-responsive {
+  height: var(--nhs-component-button-height);
+  padding: var(--nhs-component-button-padding);
+  font-size: var(--nhs-typography-base);
+  transition: all var(--nhs-transition-duration, 0.3s) var(--nhs-transition-easing, ease);
+}
+
+.nhs-input-responsive {
+  height: var(--nhs-component-input-height);
+  padding: var(--nhs-component-input-padding);
+  font-size: var(--nhs-typography-base);
+  transition: all var(--nhs-transition-duration, 0.3s) var(--nhs-transition-easing, ease);
+}
+
+.nhs-card-responsive {
+  padding: var(--nhs-component-card-padding);
+  border-radius: var(--nhs-component-card-radius);
+  transition: all var(--nhs-transition-duration, 0.3s) var(--nhs-transition-easing, ease);
+}
+
+/* ===== CONTAINER QUERIES (Future Enhancement) ===== */
+@supports (container-type: inline-size) {
+  .nhs-container-responsive {
+    container-type: inline-size;
+  }
+  
+  @container (min-width: 400px) {
+    .nhs-container-responsive .nhs-text-responsive {
+      font-size: var(--nhs-typography-lg);
+    }
+  }
+  
+  @container (min-width: 600px) {
+    .nhs-container-responsive .nhs-text-responsive {
+      font-size: var(--nhs-typography-xl);
+    }
+  }
+}
+
+/* ===== PRINT OPTIMIZATIONS ===== */
+@media print {
+  :root {
+    --nhs-typography-base: 12pt;
+    --nhs-typography-lg: 14pt;
+    --nhs-typography-xl: 16pt;
+    --nhs-typography-2xl: 18pt;
+    
+    --nhs-spacing-2: 0.25cm;
+    --nhs-spacing-4: 0.5cm;
+    --nhs-spacing-6: 0.75cm;
+    --nhs-spacing-8: 1cm;
+    
+    --nhs-surface-bg-primary: #ffffff;
+    --nhs-surface-text-primary: #000000;
+    --nhs-surface-border-default: #000000;
+  }
+  
+  .nhs-hide-print {
+    display: none !important;
+  }
+}
+
+/* ===== DEBUG MODE ===== */
+[data-debug="true"] {
+  --nhs-debug-border: 1px solid #ff0000;
+}
+
+[data-debug="true"] * {
+  outline: var(--nhs-debug-border);
+  outline-offset: -1px;
+}
+
+[data-debug="true"] *::before {
+  content: attr(class) " | " attr(data-density) " | " attr(data-contrast);
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 10px;
+  background: #ff0000;
+  color: #ffffff;
+  padding: 2px 4px;
+  z-index: 9999;
+  pointer-events: none;
+}

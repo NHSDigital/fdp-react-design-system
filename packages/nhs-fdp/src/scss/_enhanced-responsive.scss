@@ -1,0 +1,154 @@
+// NHS FDP Enhanced Breakpoint System
+// Provides systematic responsive design utilities
+
+// Enhanced Breakpoint Values
+$nhs-fdp-breakpoint-mobile-small: 320px;
+$nhs-fdp-breakpoint-mobile-medium: 480px;
+$nhs-fdp-breakpoint-mobile-large: 640px;
+$nhs-fdp-breakpoint-tablet-small: 768px;
+$nhs-fdp-breakpoint-tablet-medium: 834px;
+$nhs-fdp-breakpoint-tablet-large: 960px;
+$nhs-fdp-breakpoint-desktop-small: 1024px;
+$nhs-fdp-breakpoint-desktop-medium: 1200px;
+$nhs-fdp-breakpoint-desktop-large: 1440px;
+
+// Legacy NHS Breakpoints (for backward compatibility)
+$nhs-fdp-breakpoint-mobile: 0px;
+$nhs-fdp-breakpoint-tablet: 768px;
+$nhs-fdp-breakpoint-desktop: 1024px;
+
+// Breakpoint Map for easy iteration
+$nhs-fdp-breakpoints: (
+  mobile-small: $nhs-fdp-breakpoint-mobile-small,
+  mobile-medium: $nhs-fdp-breakpoint-mobile-medium,
+  mobile-large: $nhs-fdp-breakpoint-mobile-large,
+  tablet-small: $nhs-fdp-breakpoint-tablet-small,
+  tablet-medium: $nhs-fdp-breakpoint-tablet-medium,
+  tablet-large: $nhs-fdp-breakpoint-tablet-large,
+  desktop-small: $nhs-fdp-breakpoint-desktop-small,
+  desktop-medium: $nhs-fdp-breakpoint-desktop-medium,
+  desktop-large: $nhs-fdp-breakpoint-desktop-large
+);
+
+// Legacy breakpoint map
+$nhs-fdp-legacy-breakpoints: (
+  mobile: $nhs-fdp-breakpoint-mobile,
+  tablet: $nhs-fdp-breakpoint-tablet,
+  desktop: $nhs-fdp-breakpoint-desktop
+);
+
+// Enhanced responsive mixin with systematic breakpoint support
+@mixin nhs-fdp-responsive($breakpoint) {
+  @if map-has-key($nhs-fdp-breakpoints, $breakpoint) {
+    $bp-value: map-get($nhs-fdp-breakpoints, $breakpoint);
+    @if $bp-value == 0px {
+      @content;
+    } @else {
+      @media (min-width: $bp-value) {
+        @content;
+      }
+    }
+  } @else if map-has-key($nhs-fdp-legacy-breakpoints, $breakpoint) {
+    $bp-value: map-get($nhs-fdp-legacy-breakpoints, $breakpoint);
+    @if $bp-value == 0px {
+      @content;
+    } @else {
+      @media (min-width: $bp-value) {
+        @content;
+      }
+    }
+  } @else {
+    @warn "Breakpoint '#{$breakpoint}' not found in NHS FDP breakpoint system";
+  }
+}
+
+// Range-based responsive mixin for specific ranges
+@mixin nhs-fdp-responsive-range($min-breakpoint, $max-breakpoint) {
+  $min-value: null;
+  $max-value: null;
+  
+  @if map-has-key($nhs-fdp-breakpoints, $min-breakpoint) {
+    $min-value: map-get($nhs-fdp-breakpoints, $min-breakpoint);
+  }
+  
+  @if map-has-key($nhs-fdp-breakpoints, $max-breakpoint) {
+    $max-value: map-get($nhs-fdp-breakpoints, $max-breakpoint) - 1px;
+  }
+  
+  @if $min-value and $max-value {
+    @if $min-value == 0px {
+      @media (max-width: $max-value) {
+        @content;
+      }
+    } @else {
+      @media (min-width: $min-value) and (max-width: $max-value) {
+        @content;
+      }
+    }
+  } @else {
+    @warn "Invalid breakpoint range: #{$min-breakpoint} to #{$max-breakpoint}";
+  }
+}
+
+// Responsive property mixin - applies different values at different breakpoints
+@mixin nhs-fdp-responsive-property($property, $mobile: null, $tablet: null, $desktop: null) {
+  @if $mobile {
+    #{$property}: $mobile;
+  }
+  
+  @if $tablet {
+    @include nhs-fdp-responsive(tablet) {
+      #{$property}: $tablet;
+    }
+  }
+  
+  @if $desktop {
+    @include nhs-fdp-responsive(desktop) {
+      #{$property}: $desktop;
+    }
+  }
+}
+
+// Convenience mixins for common patterns
+@mixin nhs-fdp-mobile-only {
+  @include nhs-fdp-responsive-range(mobile-small, tablet-small) {
+    @content;
+  }
+}
+
+@mixin nhs-fdp-tablet-only {
+  @include nhs-fdp-responsive-range(tablet-small, desktop-small) {
+    @content;
+  }
+}
+
+@mixin nhs-fdp-desktop-only {
+  @include nhs-fdp-responsive(desktop-small) {
+    @content;
+  }
+}
+
+// Modern mobile-tablet bridge for problematic ranges
+@mixin nhs-fdp-mobile-tablet-bridge {
+  @include nhs-fdp-responsive-range(mobile-large, tablet-medium) {
+    @content;
+  }
+}
+
+// Tablet-desktop bridge for smooth transitions
+@mixin nhs-fdp-tablet-desktop-bridge {
+  @include nhs-fdp-responsive-range(tablet-large, desktop-medium) {
+    @content;
+  }
+}
+
+// Component-specific responsive token access
+@function nhs-fdp-component-token($component, $element, $property, $breakpoint: mobile) {
+  $token-name: "--nhs-component-#{$component}-responsive-#{$element}-#{$property}";
+  @return var(#{$token-name});
+}
+
+// Example usage for AriaTabsDataGrid
+@function nhs-fdp-tabs-token($element, $property, $breakpoint: mobile) {
+  @return nhs-fdp-component-token("aria-tabs-datagrid", $element, $property, $breakpoint);
+}

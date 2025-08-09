@@ -4,7 +4,8 @@
 .nhsuk-fieldset {
   border: 0;
   margin: 0;
-  padding: 0;
+  padding-top: nhs.$nhs-fdp-spacing-4;
+  padding-bottom: nhs.$nhs-fdp-spacing-4;
 
   // Clearfix for legacy browser support
   &::after {

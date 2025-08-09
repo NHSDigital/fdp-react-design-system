@@ -1,0 +1,56 @@
+// NHS Main Wrapper - Token-based implementation
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// Breakpoints (based on NHS UK)
+$tablet: 641px;
+$desktop: 769px;
+
+////
+/// Main Wrapper
+/// Provides consistent padding around main content areas
+/// Usually used inside width containers
+////
+
+.nhsuk-main-wrapper {
+  // In IE11 the `main` element can be used, but is not recognized  –
+  // meaning it's not defined in IE's default style sheet,
+  // so it uses CSS initial value, which is inline.
+  display: block;
+  
+  // Typography inheritance
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  
+  // Default padding using responsive tokens
+  padding-top: nhs.$nhs-fdp-spacing-responsive-4-mobile; // 16px mobile
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-4-mobile; // 16px mobile
+  
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-4-tablet; // 24px tablet+
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-4-tablet; // 24px tablet+
+  }
+}
+
+// Large variant for spacious layouts
+.nhsuk-main-wrapper--l {
+  padding-top: nhs.$nhs-fdp-spacing-responsive-5-mobile; // 24px mobile
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-5-mobile; // 24px mobile
+  
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-5-tablet; // 32px tablet+
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-5-tablet; // 32px tablet+
+  }
+}
+
+// Small variant for compact layouts
+.nhsuk-main-wrapper--s {
+  padding-top: nhs.$nhs-fdp-spacing-responsive-3-mobile; // 8px mobile
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-3-mobile; // 8px mobile
+  
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-3-tablet; // 16px tablet+
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-3-tablet; // 16px tablet+
+  }
+}

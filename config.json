@@ -1,0 +1,423 @@
+{
+  "source": ["packages/nhs-fdp/tokens/**/*.json"],
+  "platforms": {
+	"scss": {
+		"transformGroup": "scss",
+		"prefix": "nhs-fdp",
+		"buildPath": "packages/nhs-fdp/dist/scss/",
+		"files": [
+			{
+				"destination": "_colors.scss",
+				"format": "scss/variables",
+				"filter": {
+					"$type": "color"
+				},
+				"options": {
+					"showFileHeader": true,
+					"outputReferences": false
+				}
+			},
+			{
+				"destination": "_spacing.scss",
+				"format": "scss/variables",
+				"filter": {
+					"$type": "spacing"
+				}
+			},
+			{
+				"destination": "_typography.scss", 
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "font"
+					}
+				}
+			},
+			{
+				"destination": "_globals.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "breakpoint"
+					}
+				}
+			},
+			{
+				"destination": "_tokens.scss",
+				"format": "scss/variables",
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_button.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "button"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_link.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "link"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_form.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "form"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_text.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "text"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_focus.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "focus"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_border.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "border"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/_tag.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "tag"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			}
+		]
+	},
+	"js": {
+		"transformGroup": "js",
+		"buildPath": "packages/nhs-fdp/dist/js/",
+		"files": [
+			{
+				"destination": "tokens.js",
+				"format": "javascript/es6",
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "tokens.json",
+				"format": "json/nested"
+			},
+			{
+				"destination": "components/button.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "button"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/link.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "link"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/form.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "form"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/text.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "text"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/focus.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "focus"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/border.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "border"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/tag.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "tag"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "components/button.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "button"
+					}
+				}
+			},
+			{
+				"destination": "components/link.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "link"
+					}
+				}
+			},
+			{
+				"destination": "components/form.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "form"
+					}
+				}
+			},
+			{
+				"destination": "components/text.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "text"
+					}
+				}
+			},
+			{
+				"destination": "components/focus.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "focus"
+					}
+				}
+			},
+			{
+				"destination": "components/border.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "semantic",
+						"type": "color",
+						"item": "border"
+					}
+				}
+			},
+			{
+				"destination": "components/tag.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "tag"
+					}
+				}
+			}
+		]
+	},
+    "css": {
+      "transformGroup": "css",
+      "buildPath": "packages/nhs-fdp/dist/css/",
+      "files": [
+        {
+          "destination": "tokens.css",
+          "format": "css/variables",
+          "options": {
+            "showFileHeader": true,
+            "selector": ":root"
+          }
+        }
+      ]
+    },
+    "android": {
+      "transformGroup": "android",
+      "buildPath": "packages/nhs-fdp/dist/android/",
+      "files": [
+        {
+          "destination": "font_dimens.xml",
+          "format": "android/fontDimens"
+        },
+        {
+          "destination": "colors.xml",
+          "format": "android/colors"
+        }
+      ]
+    },
+    "ios-swift": {
+      "transformGroup": "ios-swift",
+      "buildPath": "packages/nhs-fdp/dist/ios-swift/",
+      "files": [
+        {
+          "destination": "StyleDictionary+Class.swift",
+          "format": "ios-swift/class.swift",
+          "options": {
+            "className": "StyleDictionaryClass"
+          }
+        },
+        {
+          "destination": "StyleDictionary+Enum.swift",
+          "format": "ios-swift/enum.swift",
+          "options": {
+            "className": "StyleDictionaryEnum"
+          }
+        },
+        {
+          "destination": "StyleDictionary+Struct.swift",
+          "format": "ios-swift/any.swift",
+          "options": {
+            "className": "StyleDictionaryStruct",
+            "imports": "SwiftUI",
+            "objectType": "struct",
+            "accessControl": "internal"
+          }
+        }
+      ]
+    },
+    "ios-swift-separate-enums": {
+      "transformGroup": "ios-swift-separate",
+      "buildPath": "packages/nhs-fdp/dist/ios-swift/",
+      "files": [
+        {
+          "destination": "StyleDictionaryColor.swift",
+          "format": "ios-swift/enum.swift",
+          "options": {
+            "className": "StyleDictionaryColor"
+          },
+          "filter": {
+            "$type": "color"
+          }
+        },
+        {
+          "destination": "StyleDictionarySize.swift",
+          "format": "ios-swift/enum.swift",
+          "options": {
+            "className": "StyleDictionarySize"
+          },
+          "filter": {
+            "$type": "dimension"
+          }
+        }
+      ]
+    }
+  }
+}

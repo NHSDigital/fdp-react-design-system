@@ -1,0 +1,611 @@
+// NHS Spacing Utilities - Token-based implementation
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// Breakpoints (based on NHS UK)
+$tablet: 641px;
+$desktop: 769px;
+
+// Utility classes are allowed to use !important
+// stylelint-disable declaration-no-important
+
+////
+/// Static Spacing Utilities
+/// Use fixed spacing values that don't change across breakpoints
+////
+
+// Margin utilities - all directions
+.nhsuk-u-margin-0 { margin: nhs.$nhs-fdp-spacing-0 !important; }
+.nhsuk-u-margin-1 { margin: nhs.$nhs-fdp-spacing-1 !important; }
+.nhsuk-u-margin-2 { margin: nhs.$nhs-fdp-spacing-2 !important; }
+.nhsuk-u-margin-3 { margin: nhs.$nhs-fdp-spacing-3 !important; }
+.nhsuk-u-margin-4 { margin: nhs.$nhs-fdp-spacing-4 !important; }
+.nhsuk-u-margin-5 { margin: nhs.$nhs-fdp-spacing-5 !important; }
+.nhsuk-u-margin-6 { margin: nhs.$nhs-fdp-spacing-6 !important; }
+.nhsuk-u-margin-7 { margin: nhs.$nhs-fdp-spacing-7 !important; }
+.nhsuk-u-margin-8 { margin: nhs.$nhs-fdp-spacing-8 !important; }
+.nhsuk-u-margin-9 { margin: nhs.$nhs-fdp-spacing-9 !important; }
+
+// Margin utilities - top
+.nhsuk-u-margin-top-0 { margin-top: nhs.$nhs-fdp-spacing-0 !important; }
+.nhsuk-u-margin-top-1 { margin-top: nhs.$nhs-fdp-spacing-1 !important; }
+.nhsuk-u-margin-top-2 { margin-top: nhs.$nhs-fdp-spacing-2 !important; }
+.nhsuk-u-margin-top-3 { margin-top: nhs.$nhs-fdp-spacing-3 !important; }
+.nhsuk-u-margin-top-4 { margin-top: nhs.$nhs-fdp-spacing-4 !important; }
+.nhsuk-u-margin-top-5 { margin-top: nhs.$nhs-fdp-spacing-5 !important; }
+.nhsuk-u-margin-top-6 { margin-top: nhs.$nhs-fdp-spacing-6 !important; }
+.nhsuk-u-margin-top-7 { margin-top: nhs.$nhs-fdp-spacing-7 !important; }
+.nhsuk-u-margin-top-8 { margin-top: nhs.$nhs-fdp-spacing-8 !important; }
+.nhsuk-u-margin-top-9 { margin-top: nhs.$nhs-fdp-spacing-9 !important; }
+
+// Margin utilities - right
+.nhsuk-u-margin-right-0 { margin-right: nhs.$nhs-fdp-spacing-0 !important; }
+.nhsuk-u-margin-right-1 { margin-right: nhs.$nhs-fdp-spacing-1 !important; }
+.nhsuk-u-margin-right-2 { margin-right: nhs.$nhs-fdp-spacing-2 !important; }
+.nhsuk-u-margin-right-3 { margin-right: nhs.$nhs-fdp-spacing-3 !important; }
+.nhsuk-u-margin-right-4 { margin-right: nhs.$nhs-fdp-spacing-4 !important; }
+.nhsuk-u-margin-right-5 { margin-right: nhs.$nhs-fdp-spacing-5 !important; }
+.nhsuk-u-margin-right-6 { margin-right: nhs.$nhs-fdp-spacing-6 !important; }
+.nhsuk-u-margin-right-7 { margin-right: nhs.$nhs-fdp-spacing-7 !important; }
+.nhsuk-u-margin-right-8 { margin-right: nhs.$nhs-fdp-spacing-8 !important; }
+.nhsuk-u-margin-right-9 { margin-right: nhs.$nhs-fdp-spacing-9 !important; }
+
+// Margin utilities - bottom
+.nhsuk-u-margin-bottom-0 { margin-bottom: nhs.$nhs-fdp-spacing-0 !important; }
+.nhsuk-u-margin-bottom-1 { margin-bottom: nhs.$nhs-fdp-spacing-1 !important; }
+.nhsuk-u-margin-bottom-2 { margin-bottom: nhs.$nhs-fdp-spacing-2 !important; }
+.nhsuk-u-margin-bottom-3 { margin-bottom: nhs.$nhs-fdp-spacing-3 !important; }
+.nhsuk-u-margin-bottom-4 { margin-bottom: nhs.$nhs-fdp-spacing-4 !important; }
+.nhsuk-u-margin-bottom-5 { margin-bottom: nhs.$nhs-fdp-spacing-5 !important; }
+.nhsuk-u-margin-bottom-6 { margin-bottom: nhs.$nhs-fdp-spacing-6 !important; }
+.nhsuk-u-margin-bottom-7 { margin-bottom: nhs.$nhs-fdp-spacing-7 !important; }
+.nhsuk-u-margin-bottom-8 { margin-bottom: nhs.$nhs-fdp-spacing-8 !important; }
+.nhsuk-u-margin-bottom-9 { margin-bottom: nhs.$nhs-fdp-spacing-9 !important; }
+
+// Margin utilities - left
+.nhsuk-u-margin-left-0 { margin-left: nhs.$nhs-fdp-spacing-0 !important; }
+.nhsuk-u-margin-left-1 { margin-left: nhs.$nhs-fdp-spacing-1 !important; }
+.nhsuk-u-margin-left-2 { margin-left: nhs.$nhs-fdp-spacing-2 !important; }
+.nhsuk-u-margin-left-3 { margin-left: nhs.$nhs-fdp-spacing-3 !important; }
+.nhsuk-u-margin-left-4 { margin-left: nhs.$nhs-fdp-spacing-4 !important; }
+.nhsuk-u-margin-left-5 { margin-left: nhs.$nhs-fdp-spacing-5 !important; }
+.nhsuk-u-margin-left-6 { margin-left: nhs.$nhs-fdp-spacing-6 !important; }
+.nhsuk-u-margin-left-7 { margin-left: nhs.$nhs-fdp-spacing-7 !important; }
+.nhsuk-u-margin-left-8 { margin-left: nhs.$nhs-fdp-spacing-8 !important; }
+.nhsuk-u-margin-left-9 { margin-left: nhs.$nhs-fdp-spacing-9 !important; }
+
+// Padding utilities - all directions
+.nhsuk-u-padding-0 { padding: nhs.$nhs-fdp-spacing-0 !important; }
+.nhsuk-u-padding-1 { padding: nhs.$nhs-fdp-spacing-1 !important; }
+.nhsuk-u-padding-2 { padding: nhs.$nhs-fdp-spacing-2 !important; }
+.nhsuk-u-padding-3 { padding: nhs.$nhs-fdp-spacing-3 !important; }
+.nhsuk-u-padding-4 { padding: nhs.$nhs-fdp-spacing-4 !important; }
+.nhsuk-u-padding-5 { padding: nhs.$nhs-fdp-spacing-5 !important; }
+.nhsuk-u-padding-6 { padding: nhs.$nhs-fdp-spacing-6 !important; }
+.nhsuk-u-padding-7 { padding: nhs.$nhs-fdp-spacing-7 !important; }
+.nhsuk-u-padding-8 { padding: nhs.$nhs-fdp-spacing-8 !important; }
+.nhsuk-u-padding-9 { padding: nhs.$nhs-fdp-spacing-9 !important; }
+
+// Padding utilities - top
+.nhsuk-u-padding-top-0 { padding-top: nhs.$nhs-fdp-spacing-0 !important; }
+.nhsuk-u-padding-top-1 { padding-top: nhs.$nhs-fdp-spacing-1 !important; }
+.nhsuk-u-padding-top-2 { padding-top: nhs.$nhs-fdp-spacing-2 !important; }
+.nhsuk-u-padding-top-3 { padding-top: nhs.$nhs-fdp-spacing-3 !important; }
+.nhsuk-u-padding-top-4 { padding-top: nhs.$nhs-fdp-spacing-4 !important; }
+.nhsuk-u-padding-top-5 { padding-top: nhs.$nhs-fdp-spacing-5 !important; }
+.nhsuk-u-padding-top-6 { padding-top: nhs.$nhs-fdp-spacing-6 !important; }
+.nhsuk-u-padding-top-7 { padding-top: nhs.$nhs-fdp-spacing-7 !important; }
+.nhsuk-u-padding-top-8 { padding-top: nhs.$nhs-fdp-spacing-8 !important; }
+.nhsuk-u-padding-top-9 { padding-top: nhs.$nhs-fdp-spacing-9 !important; }
+
+// Padding utilities - right
+.nhsuk-u-padding-right-0 { padding-right: nhs.$nhs-fdp-spacing-0 !important; }
+.nhsuk-u-padding-right-1 { padding-right: nhs.$nhs-fdp-spacing-1 !important; }
+.nhsuk-u-padding-right-2 { padding-right: nhs.$nhs-fdp-spacing-2 !important; }
+.nhsuk-u-padding-right-3 { padding-right: nhs.$nhs-fdp-spacing-3 !important; }
+.nhsuk-u-padding-right-4 { padding-right: nhs.$nhs-fdp-spacing-4 !important; }
+.nhsuk-u-padding-right-5 { padding-right: nhs.$nhs-fdp-spacing-5 !important; }
+.nhsuk-u-padding-right-6 { padding-right: nhs.$nhs-fdp-spacing-6 !important; }
+.nhsuk-u-padding-right-7 { padding-right: nhs.$nhs-fdp-spacing-7 !important; }
+.nhsuk-u-padding-right-8 { padding-right: nhs.$nhs-fdp-spacing-8 !important; }
+.nhsuk-u-padding-right-9 { padding-right: nhs.$nhs-fdp-spacing-9 !important; }
+
+// Padding utilities - bottom
+.nhsuk-u-padding-bottom-0 { padding-bottom: nhs.$nhs-fdp-spacing-0 !important; }
+.nhsuk-u-padding-bottom-1 { padding-bottom: nhs.$nhs-fdp-spacing-1 !important; }
+.nhsuk-u-padding-bottom-2 { padding-bottom: nhs.$nhs-fdp-spacing-2 !important; }
+.nhsuk-u-padding-bottom-3 { padding-bottom: nhs.$nhs-fdp-spacing-3 !important; }
+.nhsuk-u-padding-bottom-4 { padding-bottom: nhs.$nhs-fdp-spacing-4 !important; }
+.nhsuk-u-padding-bottom-5 { padding-bottom: nhs.$nhs-fdp-spacing-5 !important; }
+.nhsuk-u-padding-bottom-6 { padding-bottom: nhs.$nhs-fdp-spacing-6 !important; }
+.nhsuk-u-padding-bottom-7 { padding-bottom: nhs.$nhs-fdp-spacing-7 !important; }
+.nhsuk-u-padding-bottom-8 { padding-bottom: nhs.$nhs-fdp-spacing-8 !important; }
+.nhsuk-u-padding-bottom-9 { padding-bottom: nhs.$nhs-fdp-spacing-9 !important; }
+
+// Padding utilities - left
+.nhsuk-u-padding-left-0 { padding-left: nhs.$nhs-fdp-spacing-0 !important; }
+.nhsuk-u-padding-left-1 { padding-left: nhs.$nhs-fdp-spacing-1 !important; }
+.nhsuk-u-padding-left-2 { padding-left: nhs.$nhs-fdp-spacing-2 !important; }
+.nhsuk-u-padding-left-3 { padding-left: nhs.$nhs-fdp-spacing-3 !important; }
+.nhsuk-u-padding-left-4 { padding-left: nhs.$nhs-fdp-spacing-4 !important; }
+.nhsuk-u-padding-left-5 { padding-left: nhs.$nhs-fdp-spacing-5 !important; }
+.nhsuk-u-padding-left-6 { padding-left: nhs.$nhs-fdp-spacing-6 !important; }
+.nhsuk-u-padding-left-7 { padding-left: nhs.$nhs-fdp-spacing-7 !important; }
+.nhsuk-u-padding-left-8 { padding-left: nhs.$nhs-fdp-spacing-8 !important; }
+.nhsuk-u-padding-left-9 { padding-left: nhs.$nhs-fdp-spacing-9 !important; }
+
+////
+/// Responsive Spacing Utilities
+/// Use responsive spacing that changes between mobile and tablet/desktop
+////
+
+// Responsive margin utilities - all directions
+.nhsuk-u-margin-responsive-0 {
+  margin: nhs.$nhs-fdp-spacing-responsive-0-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin: nhs.$nhs-fdp-spacing-responsive-0-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-responsive-1 {
+  margin: nhs.$nhs-fdp-spacing-responsive-1-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin: nhs.$nhs-fdp-spacing-responsive-1-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-responsive-2 {
+  margin: nhs.$nhs-fdp-spacing-responsive-2-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin: nhs.$nhs-fdp-spacing-responsive-2-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-responsive-3 {
+  margin: nhs.$nhs-fdp-spacing-responsive-3-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin: nhs.$nhs-fdp-spacing-responsive-3-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-responsive-4 {
+  margin: nhs.$nhs-fdp-spacing-responsive-4-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin: nhs.$nhs-fdp-spacing-responsive-4-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-responsive-5 {
+  margin: nhs.$nhs-fdp-spacing-responsive-5-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin: nhs.$nhs-fdp-spacing-responsive-5-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-responsive-6 {
+  margin: nhs.$nhs-fdp-spacing-responsive-6-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin: nhs.$nhs-fdp-spacing-responsive-6-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-responsive-7 {
+  margin: nhs.$nhs-fdp-spacing-responsive-7-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin: nhs.$nhs-fdp-spacing-responsive-7-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-responsive-8 {
+  margin: nhs.$nhs-fdp-spacing-responsive-8-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin: nhs.$nhs-fdp-spacing-responsive-8-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-responsive-9 {
+  margin: nhs.$nhs-fdp-spacing-responsive-9-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin: nhs.$nhs-fdp-spacing-responsive-9-tablet !important;
+  }
+}
+
+// Responsive margin utilities - top
+.nhsuk-u-margin-top-responsive-0 {
+  margin-top: nhs.$nhs-fdp-spacing-responsive-0-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-top: nhs.$nhs-fdp-spacing-responsive-0-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-top-responsive-1 {
+  margin-top: nhs.$nhs-fdp-spacing-responsive-1-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-top: nhs.$nhs-fdp-spacing-responsive-1-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-top-responsive-2 {
+  margin-top: nhs.$nhs-fdp-spacing-responsive-2-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-top: nhs.$nhs-fdp-spacing-responsive-2-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-top-responsive-3 {
+  margin-top: nhs.$nhs-fdp-spacing-responsive-3-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-top: nhs.$nhs-fdp-spacing-responsive-3-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-top-responsive-4 {
+  margin-top: nhs.$nhs-fdp-spacing-responsive-4-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-top: nhs.$nhs-fdp-spacing-responsive-4-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-top-responsive-5 {
+  margin-top: nhs.$nhs-fdp-spacing-responsive-5-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-top: nhs.$nhs-fdp-spacing-responsive-5-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-top-responsive-6 {
+  margin-top: nhs.$nhs-fdp-spacing-responsive-6-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-top: nhs.$nhs-fdp-spacing-responsive-6-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-top-responsive-7 {
+  margin-top: nhs.$nhs-fdp-spacing-responsive-7-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-top: nhs.$nhs-fdp-spacing-responsive-7-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-top-responsive-8 {
+  margin-top: nhs.$nhs-fdp-spacing-responsive-8-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-top: nhs.$nhs-fdp-spacing-responsive-8-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-top-responsive-9 {
+  margin-top: nhs.$nhs-fdp-spacing-responsive-9-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-top: nhs.$nhs-fdp-spacing-responsive-9-tablet !important;
+  }
+}
+
+// Responsive margin utilities - bottom
+.nhsuk-u-margin-bottom-responsive-0 {
+  margin-bottom: nhs.$nhs-fdp-spacing-responsive-0-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-bottom: nhs.$nhs-fdp-spacing-responsive-0-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-bottom-responsive-1 {
+  margin-bottom: nhs.$nhs-fdp-spacing-responsive-1-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-bottom: nhs.$nhs-fdp-spacing-responsive-1-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-bottom-responsive-2 {
+  margin-bottom: nhs.$nhs-fdp-spacing-responsive-2-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-bottom: nhs.$nhs-fdp-spacing-responsive-2-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-bottom-responsive-3 {
+  margin-bottom: nhs.$nhs-fdp-spacing-responsive-3-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-bottom: nhs.$nhs-fdp-spacing-responsive-3-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-bottom-responsive-4 {
+  margin-bottom: nhs.$nhs-fdp-spacing-responsive-4-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-bottom: nhs.$nhs-fdp-spacing-responsive-4-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-bottom-responsive-5 {
+  margin-bottom: nhs.$nhs-fdp-spacing-responsive-5-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-bottom: nhs.$nhs-fdp-spacing-responsive-5-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-bottom-responsive-6 {
+  margin-bottom: nhs.$nhs-fdp-spacing-responsive-6-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-bottom: nhs.$nhs-fdp-spacing-responsive-6-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-bottom-responsive-7 {
+  margin-bottom: nhs.$nhs-fdp-spacing-responsive-7-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-bottom: nhs.$nhs-fdp-spacing-responsive-7-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-bottom-responsive-8 {
+  margin-bottom: nhs.$nhs-fdp-spacing-responsive-8-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-bottom: nhs.$nhs-fdp-spacing-responsive-8-tablet !important;
+  }
+}
+
+.nhsuk-u-margin-bottom-responsive-9 {
+  margin-bottom: nhs.$nhs-fdp-spacing-responsive-9-mobile !important;
+  @media (min-width: #{$tablet}) {
+    margin-bottom: nhs.$nhs-fdp-spacing-responsive-9-tablet !important;
+  }
+}
+
+// Responsive padding utilities - all directions
+.nhsuk-u-padding-responsive-0 {
+  padding: nhs.$nhs-fdp-spacing-responsive-0-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding: nhs.$nhs-fdp-spacing-responsive-0-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-responsive-1 {
+  padding: nhs.$nhs-fdp-spacing-responsive-1-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding: nhs.$nhs-fdp-spacing-responsive-1-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-responsive-2 {
+  padding: nhs.$nhs-fdp-spacing-responsive-2-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding: nhs.$nhs-fdp-spacing-responsive-2-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-responsive-3 {
+  padding: nhs.$nhs-fdp-spacing-responsive-3-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding: nhs.$nhs-fdp-spacing-responsive-3-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-responsive-4 {
+  padding: nhs.$nhs-fdp-spacing-responsive-4-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding: nhs.$nhs-fdp-spacing-responsive-4-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-responsive-5 {
+  padding: nhs.$nhs-fdp-spacing-responsive-5-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding: nhs.$nhs-fdp-spacing-responsive-5-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-responsive-6 {
+  padding: nhs.$nhs-fdp-spacing-responsive-6-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding: nhs.$nhs-fdp-spacing-responsive-6-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-responsive-7 {
+  padding: nhs.$nhs-fdp-spacing-responsive-7-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding: nhs.$nhs-fdp-spacing-responsive-7-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-responsive-8 {
+  padding: nhs.$nhs-fdp-spacing-responsive-8-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding: nhs.$nhs-fdp-spacing-responsive-8-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-responsive-9 {
+  padding: nhs.$nhs-fdp-spacing-responsive-9-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding: nhs.$nhs-fdp-spacing-responsive-9-tablet !important;
+  }
+}
+
+// Responsive padding utilities - top
+.nhsuk-u-padding-top-responsive-0 {
+  padding-top: nhs.$nhs-fdp-spacing-responsive-0-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-0-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-top-responsive-1 {
+  padding-top: nhs.$nhs-fdp-spacing-responsive-1-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-1-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-top-responsive-2 {
+  padding-top: nhs.$nhs-fdp-spacing-responsive-2-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-2-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-top-responsive-3 {
+  padding-top: nhs.$nhs-fdp-spacing-responsive-3-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-3-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-top-responsive-4 {
+  padding-top: nhs.$nhs-fdp-spacing-responsive-4-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-4-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-top-responsive-5 {
+  padding-top: nhs.$nhs-fdp-spacing-responsive-5-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-5-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-top-responsive-6 {
+  padding-top: nhs.$nhs-fdp-spacing-responsive-6-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-6-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-top-responsive-7 {
+  padding-top: nhs.$nhs-fdp-spacing-responsive-7-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-7-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-top-responsive-8 {
+  padding-top: nhs.$nhs-fdp-spacing-responsive-8-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-8-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-top-responsive-9 {
+  padding-top: nhs.$nhs-fdp-spacing-responsive-9-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-top: nhs.$nhs-fdp-spacing-responsive-9-tablet !important;
+  }
+}
+
+// Responsive padding utilities - bottom
+.nhsuk-u-padding-bottom-responsive-0 {
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-0-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-0-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-bottom-responsive-1 {
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-1-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-1-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-bottom-responsive-2 {
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-2-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-2-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-bottom-responsive-3 {
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-3-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-3-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-bottom-responsive-4 {
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-4-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-4-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-bottom-responsive-5 {
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-5-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-5-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-bottom-responsive-6 {
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-6-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-6-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-bottom-responsive-7 {
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-7-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-7-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-bottom-responsive-8 {
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-8-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-8-tablet !important;
+  }
+}
+
+.nhsuk-u-padding-bottom-responsive-9 {
+  padding-bottom: nhs.$nhs-fdp-spacing-responsive-9-mobile !important;
+  @media (min-width: #{$tablet}) {
+    padding-bottom: nhs.$nhs-fdp-spacing-responsive-9-tablet !important;
+  }
+}
+
+////
+/// Debug Mode
+/// Visual indicators for spacing utilities when debugging
+////
+
+.nhsuk-spacing-utilities--debug {
+  [class*="nhsuk-u-margin-"] {
+    position: relative;
+    
+    &::before {
+      content: attr(class);
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      background: rgba(255, 0, 0, 0.8);
+      color: white;
+      padding: 2px 4px;
+      font-size: 10px;
+      font-family: monospace;
+      z-index: 9999;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+  }
+  
+  [class*="nhsuk-u-padding-"] {
+    position: relative;
+    background: rgba(0, 255, 0, 0.1) !important;
+    
+    &::after {
+      content: attr(class);
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      background: rgba(0, 255, 0, 0.8);
+      color: white;
+      padding: 2px 4px;
+      font-size: 10px;
+      font-family: monospace;
+      z-index: 9999;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+  }
+}

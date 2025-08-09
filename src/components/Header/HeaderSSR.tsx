@@ -2,8 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { HeaderProps, NavigationItem } from './Header.types';
 import { Account } from '../Account/Account';
-import './Header.scss';
-import './Header.ssr.scss';
+import { HeaderSearch } from '../HeaderSearch';
 
 /**
  * True SSR-Compatible Header Component
@@ -157,54 +156,10 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
     ));
   };
 
-  // Render SSR-safe search form (no JavaScript required)
+  // Render search form
   const renderSearch = () => {
     if (!search) return null;
-
-    return (
-      <div className="nhsuk-header__search">
-        <form 
-          className="nhsuk-header__search-form" 
-          action={search.action || "https://www.nhs.uk/search/"} 
-          method={search.method || "get"}
-          role="search"
-        >
-          <label 
-            className="nhsuk-visually-hidden" 
-            htmlFor="header-search-ssr"
-          >
-            {search.visuallyHiddenLabel || "Search the NHS website"}
-          </label>
-          <input 
-            className="nhsuk-header__search-input" 
-            id="header-search-ssr"
-            name={search.name || "q"} 
-            type="search" 
-            placeholder={search.placeholder || "Search"} 
-            autoComplete="off"
-            defaultValue={search.value || ""}
-            disabled={search.disabled}
-          />
-          <button 
-            className="nhsuk-header__search-submit" 
-            type="submit"
-          >
-            <span className="nhsuk-visually-hidden">
-              {search.visuallyHiddenButton || "Search"}
-            </span>
-            <svg 
-              className="nhsuk-icon nhsuk-icon__search" 
-              xmlns="http://www.w3.org/2000/svg" 
-              viewBox="0 0 24 24" 
-              aria-hidden="true" 
-              focusable="false"
-            >
-              <path d="m19.71 18.29-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z" />
-            </svg>
-          </button>
-        </form>
-      </div>
-    );
+    return <HeaderSearch {...search} />;
   };
 
   return (

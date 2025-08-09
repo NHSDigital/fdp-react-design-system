@@ -1,10 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import './Header.scss';
-import './HeaderStatic.scss'; // Static-specific styles
 import { HeaderProps, NavigationItem } from './Header.types';
 import { Account } from '../Account/Account';
-import { HeaderSearch } from '../HeaderSearch';
 
 /**
  * True SSR-Compatible Header Component
@@ -194,9 +191,6 @@ export const HeaderStatic: React.FC<HeaderProps> = ({
             renderServiceName(service.text, service.href)
           }
         </div>
-
-        {/* Search */}
-        {search && <HeaderSearch {...search} />}
 
         {/* Account - Now using Account component */}
         <Account 

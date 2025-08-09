@@ -7,7 +7,10 @@
  */
 
 // Import NHS FDP design tokens
-@use '../../../packages/nhs-fdp/scss' as nhs;
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+
+// Import essential utilities that this component depends on (scoped to avoid conflicts)
+@use './_header-utilities.scss';
 
 /* SSR Fallback Navigation Container */
 .nhsuk-header__navigation-container--ssr {
@@ -15,10 +18,10 @@
   .nhsuk-header__navigation-list {
     display: flex;
     flex-wrap: wrap;
-    gap: nhs.$nhs-fdp-spacing-2; // 8px gap using design token
+    gap: tokens.$nhs-fdp-spacing-2; // 8px gap using design token
     
     /* On narrow screens, show items vertically */
-    @media (max-width: nhs.$nhs-fdp-breakpoint-medium) {
+    @media (max-width: tokens.$nhs-fdp-breakpoint-medium) {
       flex-direction: column;
       max-width: 100%;
     }
@@ -28,17 +31,17 @@
 /* SSR Fallback Navigation Items */
 .nhsuk-header__navigation-item--ssr-fallback {
   /* Hide items that would typically be in overflow on smaller screens */
-  @media (max-width: nhs.$nhs-fdp-breakpoint-large) {
+  @media (max-width: tokens.$nhs-fdp-breakpoint-large) {
     display: none;
   }
   
   /* Show with reduced priority styling */
   .nhsuk-header__navigation-link {
-    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    font-size: tokens.$nhs-fdp-font-size-16-desktop;
     opacity: 0.9;
     
-    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+      font-size: tokens.$nhs-fdp-font-size-16-tablet;
     }
   }
 }
@@ -47,7 +50,7 @@
 .nhsuk-header__navigation-container--initializing {
   /* Subtle loading state while JavaScript calculates overflow */
   opacity: 0.95;
-  transition: opacity nhs.$nhs-fdp-animation-duration-fast ease-in-out;
+  transition: opacity tokens.$nhs-fdp-animation-duration-fast ease-in-out;
 }
 
 /* No-JS Fallback Styles */
@@ -57,19 +60,19 @@
     .nhsuk-header__navigation-list {
       display: flex;
       flex-wrap: wrap;
-      gap: nhs.$nhs-fdp-spacing-1; // 4px gap using design token
+      gap: tokens.$nhs-fdp-spacing-1; // 4px gap using design token
     }
     
     .nhsuk-header__navigation-item {
       flex-shrink: 1;
       
       .nhsuk-header__navigation-link {
-        padding: calc(#{nhs.$nhs-fdp-spacing-2} + 1px) nhs.$nhs-fdp-spacing-3; // 9px 16px using design tokens
-        font-size: nhs.$nhs-fdp-font-size-16-mobile;
+        padding: calc(#{tokens.$nhs-fdp-spacing-2} + 1px) tokens.$nhs-fdp-spacing-3; // 9px 16px using design tokens
+        font-size: tokens.$nhs-fdp-font-size-16-mobile;
         
-        @media (min-width: nhs.$nhs-fdp-breakpoint-large) {
-          padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4; // 16px 24px for larger screens
-          font-size: nhs.$nhs-fdp-font-size-16-tablet;
+        @media (min-width: tokens.$nhs-fdp-breakpoint-large) {
+          padding: tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-4; // 16px 24px for larger screens
+          font-size: tokens.$nhs-fdp-font-size-16-tablet;
           display: block;
           width: 100%;
         }

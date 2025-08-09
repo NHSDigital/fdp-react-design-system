@@ -1,0 +1,12 @@
+// NHS Header Complete Styles
+// This file includes all dependencies needed for the Header component
+
+// Import design tokens and utilities first (@use rules must come before @import)
+@use '../../styles/utilities.scss';
+
+// Import component styles with explicit namespaces to avoid conflicts
+@use './Header.scss' as header-main;
+@use './Header.ssr.scss' as header-ssr;
+
+// Import fonts last (CSS import comes after @use)
+@import '../../styles/fonts.css';

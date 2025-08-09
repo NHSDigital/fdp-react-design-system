@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { HeaderProps, NavigationItem } from './Header.types';
-import { AccountItem } from '../Account/Account.types';
+import { Account } from '../Account/Account';
 import './Header.scss';
 import './Header.ssr.scss';
 
@@ -157,22 +157,6 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
     ));
   };
 
-  // Render account items
-  const renderAccountItems = () => {
-    if (!account?.items || account.items.length === 0) return null;
-
-    return account.items.map((item: AccountItem, index: number) => (
-      <li key={item.href || index} className="nhsuk-header__account-item">
-        <a 
-          className="nhsuk-header__account-link" 
-          href={item.href}
-        >
-          {item.text}
-        </a>
-      </li>
-    ));
-  };
-
   // Render search form
   const renderSearch = () => {
     if (!search) return null;
@@ -264,14 +248,11 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
         {/* Search for non-organisation variants */}
         {variant !== 'organisation' && !organisation && renderSearch()}
 
-        {/* Account section */}
-        {account && (
-          <div className="nhsuk-header__account">
-            <ul className="nhsuk-header__account-list">
-              {renderAccountItems()}
-            </ul>
-          </div>
-        )}
+        {/* Account - Now using Account component */}
+        <Account 
+          {...account}
+          variant={variant === 'white' ? 'white' : 'default'}
+        />
       </div>
 
       {/* Navigation */}

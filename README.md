@@ -8,13 +8,84 @@ The NHS FDP Design System provides a complete set of reusable components, design
 
 ## Quick Start
 
-### **TODO:** (setup as npm package): Installation
+The package is, for the time being, published to GitHub Packages, so you'll need to configure your `.npmrc`:
+
+This guide will help you configure your `.npmrc` file to install and use the `@fergusbisset/nhs-fdp-design-system` package.
+
+### Global Configuration (recommended for personal development)
+
+Create or edit your global `.npmrc` file:
+
+**Step 1: Create/edit the file**
+```bash
+# Open the file in your editor (replace YOUR_ACTUAL_TOKEN with your real token)
+nano ~/.npmrc
+# or
+code ~/.npmrc
+```
+
+**Step 2: Add this content to ~/.npmrc**
+```
+# Configure the registry for @fergusbisset scoped packages
+@fergusbisset:registry=https://npm.pkg.github.com
+
+# Add your GitHub personal access token (replace YOUR_GITHUB_TOKEN with actual token)
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+```
+
+**Important:** 
+- Replace `YOUR_GITHUB_TOKEN` with your actual GitHub Personal Access Token
+- Do NOT source this file - npm reads it automatically
+- No need to run any commands after creating the file
+
+### Project-specific Configuration
+
+Alternatively, create a `.npmrc` file in your project root:
+
+```bash
+# Location: your-project/.npmrc
+
+@fergusbisset:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+```
+
+### Setting up GitHub Personal Access Token
+
+To access packages like this from GitHub Packages, you'll need a Personal Access Token:
+
+1. Go to GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. Click "Generate new token (classic)"
+3. Set an expiration date
+4. Select scopes:
+   - ✅ `read:packages` (to download packages)
+   - ✅ `repo` (if the repository is private)
+5. Copy the generated token
+6. Add it to your `.npmrc` file
+
+### Quick Setup Verification
+
+After setting up your `.npmrc`, verify everything is working:
+
+```bash
+# 1. Check if npm can read your config
+npm config list
+
+# 2. Verify authentication (if using GitHub Packages)
+npm whoami --registry=https://npm.pkg.github.com
+
+# 3. Test package access
+npm view @fergusbisset/nhs-fdp-design-system
+```
+
+If these commands work without errors, your setup is correct!
+
+## Installation
 
 ```bash
 npm install @fergusbisset/nhs-fdp-design-system
 ```
 
-### Basic Usage
+## Basic Usage
 
 ```tsx
 import { Button, Panel, Heading } from '@fergusbisset/nhs-fdp-design-system';
@@ -84,13 +155,13 @@ npm run storybook
 ### Available Scripts
 
 ```bash
-npm run build:tokens     # Build design tokens
+npm run build:tokens    # Build design tokens
 npm run storybook       # Start Storybook development server
 npm run build-storybook # Build Storybook for production
-npm run test           # Run component tests
-npm run test:visual    # Run visual regression tests
-npm run lint          # Run ESLint
-npm run type-check    # Run TypeScript type checking
+npm run test            # Run component tests
+npm run test:visual     # Run visual regression tests
+npm run lint            # Run ESLint
+npm run type-check      # Run TypeScript type checking
 ```
 
 ## Architecture

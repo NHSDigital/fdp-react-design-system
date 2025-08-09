@@ -1,4 +1,8 @@
 import React from 'react';
 import './Breadcrumb.scss';
-import { BreadcrumbProps } from './Breadcrumb.types';
-export declare const Breadcrumb: React.FC<BreadcrumbProps>;
+import { BreadcrumbProps, BreadcrumbItemProps } from './Breadcrumb.types';
+interface BreadcrumbComponent extends React.FC<BreadcrumbProps> {
+    Item: React.FC<BreadcrumbItemProps>;
+}
+export declare const Breadcrumb: BreadcrumbComponent;
+export {};

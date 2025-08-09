@@ -76,6 +76,18 @@
     &:visited {
       color: nhs.$nhs-fdp-color-primary-purple;
     }
+    
+    // Current/active breadcrumb item (no link)
+    &--current {
+      color: nhs.$nhs-fdp-semantic-color-text-primary;
+      text-decoration: none;
+      font-weight: 600;
+      
+      &:hover {
+        color: nhs.$nhs-fdp-semantic-color-text-primary;
+        cursor: default;
+      }
+    }
   }
 
   // Back link for mobile

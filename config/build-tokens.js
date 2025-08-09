@@ -337,6 +337,15 @@ const semanticTypographyFormat = {
     
     const exports = `// Semantic Typography Structure - Device-grouped approach
 export const Typography = {
+  Desktop: {
+	Size14: ${findToken('FontSize14Desktop')},
+	Size16: ${findToken('FontSize16Desktop')},
+	Size19: ${findToken('FontSize19Desktop')},
+	Size22: ${findToken('FontSize22Desktop')},
+	Size26: ${findToken('FontSize26Desktop')},
+	Size36: ${findToken('FontSize36Desktop')},
+	Size48: ${findToken('FontSize48Desktop')}
+  },
   Mobile: {
     Size14: ${findToken('FontSize14Mobile')},
     Size16: ${findToken('FontSize16Mobile')},

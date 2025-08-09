@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import { HeaderProps, NavigationItem } from './Header.types';
 import { Account } from '../Account/Account';
 import { HeaderSearch } from '../HeaderSearch';
+import './Header.scss';
+import './Header.ssr.scss';
 
 /**
  * True SSR-Compatible Header Component
@@ -223,7 +225,7 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
       </div>
 
       {/* Navigation */}
-      {navigation && navigation.items && navigation.items.length > 0 && (
+      { navigation && navigation.items && navigation.items.length > 0 && (
         <nav 
           className={navigationClasses} 
           id="header-navigation" 

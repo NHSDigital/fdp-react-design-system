@@ -300,7 +300,7 @@ export const SortStatusControl: React.FC<SortStatusControlProps> = ({
 					<Button
 						variant="secondary"
 						onClick={handleReset}
-						isDisabled={disabled}
+						      disabled={disabled}
 						aria-label="Reset all sorting"
 						className="sort-status-control__reset-button"
 					>

@@ -9,7 +9,7 @@ const meta: Meta<typeof Button> = {
     docs: {
       description: {
         component: `
-The NHS Button component is built with React Aria Components to provide excellent accessibility support out of the box. It follows NHS design guidelines and includes:
+The NHS Button component provides excellent accessibility support with native HTML elements. It follows NHS design guidelines and includes:
 
 ## Features
 
@@ -33,8 +33,8 @@ import { Button } from '@nhs-fdp/design-system';
   variant="secondary" 
   size="large"
   fullWidth
-  isDisabled
-  onPress={() => console.log('Pressed!')}
+  disabled
+  onClick={() => console.log('Clicked!')}
 >
   Click me
 </Button>
@@ -53,9 +53,9 @@ import { Button } from '@nhs-fdp/design-system';
 ### Special Cases
 - **Warning**: Red button for destructive actions
 
-## React Aria Benefits
+## Native Accessibility
 
-This component leverages React Aria to provide:
+This component uses native HTML elements to provide:
 - Automatic ARIA attributes
 - Keyboard event handling
 - Focus management
@@ -78,7 +78,7 @@ This component leverages React Aria to provide:
     fullWidth: {
       control: 'boolean',
     },
-    isDisabled: {
+    disabled: {
       control: 'boolean',
     },
     children: {
@@ -142,7 +142,7 @@ export const FullWidth: Story = {
 export const Disabled: Story = {
   args: {
     variant: 'primary',
-    isDisabled: true,
+    disabled: true,
     children: 'Disabled button',
   },
 };
@@ -188,28 +188,28 @@ This story demonstrates the accessibility features of the Button component:
       
       <Button 
         variant="primary" 
-        onPress={() => console.log('First button pressed')}
+        onClick={() => console.log('First button pressed')}
       >
         First Button
       </Button>
       
       <Button 
         variant="secondary"
-        onPress={() => console.log('Second button pressed')}
+        onClick={() => console.log('Second button pressed')}
       >
         Second Button
       </Button>
       
       <Button 
         variant="primary"
-        isDisabled
+        disabled
       >
         Disabled Button (skip with Tab)
       </Button>
       
       <Button 
         variant="warning"
-        onPress={() => console.log('Last button pressed')}
+        onClick={() => console.log('Last button pressed')}
       >
         Last Button
       </Button>

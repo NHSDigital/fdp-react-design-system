@@ -43,18 +43,14 @@ export type { ErrorMessageProps } from './ErrorMessage';
 export { SkipLink } from './SkipLink';
 export type { SkipLinkProps } from './SkipLink';
 
-// ⚠️  REMOVED COMPONENTS (contain react-aria-components or other context dependencies):
-// - Button (uses react-aria-components which includes createContext)
+// ⚠️  REMOVED COMPONENTS (contain react-aria dependencies or other context dependencies):
 // - Input, Textarea, Select, Checkboxes, Radios (may use react-aria-components)
 
-// ⚠️  EXCLUDED COMPONENTS (contain hooks, context, or react-aria-components):
-// - NHSThemeProvider (uses createContext, useContext, useEffect)
-// - Header (uses useState, useRef, useEffect, useCallback)
-// - Button (uses react-aria-components which includes createContext)
-// - CharacterCount (uses useState, useEffect, useCallback)
+// ⚠️  EXCLUDED COMPONENTS (contain hooks, context, or react-aria dependencies):
+// - All form input components that haven't been converted yet
 // - Input, Textarea, Select, Checkboxes, Radios (may use react-aria-components)
-// - SortableDataTable components (heavy hook usage)
-// - Any components that depend on NHSThemeProvider or react-aria-components
+// - DataTable, SortableDataTable (use hooks and state)
+// - Any components that depend on NHSThemeProvider or react-aria dependencies
 //
 // If you need these components in SSR, consider:
 // 1. Using dynamic imports with { ssr: false }

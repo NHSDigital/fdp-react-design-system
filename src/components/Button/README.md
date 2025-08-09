@@ -10,12 +10,6 @@ A React Aria-powered button component that provides excellent accessibility supp
 - **Type Safety**: Full TypeScript support with proper type definitions
 - **CSS-Based Styling**: Clean CSS architecture with CSS custom properties and utility classes
 
-## Installation
-
-```bash
-npm install react-aria-components
-```
-
 ## Usage
 
 ```tsx
@@ -29,13 +23,13 @@ import { Button } from '@nhs-fdp/design-system';
   variant="secondary"
   size="large"
   fullWidth
-  onPress={() => console.log('Pressed!')}
+  onClick={() => console.log('Clicked!')}
 >
   Find out more
 </Button>
 
 // Disabled state
-<Button variant="warning" isDisabled>
+<Button variant="warning" disabled>
   Cannot delete
 </Button>
 ```
@@ -47,12 +41,12 @@ import { Button } from '@nhs-fdp/design-system';
 | `variant` | `'primary' \| 'secondary' \| 'reverse' \| 'warning' \| 'login'` | `'primary'` | Button style variant |
 | `size` | `'small' \| 'default' \| 'large'` | `'default'` | Button size |
 | `fullWidth` | `boolean` | `false` | Whether button should take full container width |
-| `isDisabled` | `boolean` | `false` | Whether button is disabled |
-| `onPress` | `(e: PressEvent) => void` | - | Handler called when button is pressed |
+| `disabled` | `boolean` | `false` | Whether button is disabled |
+| `onClick` | `(e: MouseEvent) => void` | - | Handler called when button is clicked |
 | `className` | `string` | - | Additional CSS classes |
 | `children` | `ReactNode` | - | Button content |
 
-All other props from React Aria's `ButtonProps` are supported.
+All other props from HTML button and anchor elements are supported.
 
 ## Variants
 

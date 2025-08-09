@@ -37,30 +37,34 @@
 		box-shadow: 0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background;
 	}
 
-	// Hover styles (React Aria provides hovered state)
-	&[data-hovered] {
+	// Hover styles (data attribute from our component + standard pseudo-class fallback)
+	&[data-hovered],
+	&:hover:not([data-disabled]):not(:disabled) {
 		//transform: translateY(-2px);
 		box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
 		color: nhs.$nhs-fdp-color-primary-white;
 	}
 
-	// Press/Active styles (React Aria provides pressed state)
-	&[data-pressed] {
+	// Press/Active styles (data attribute from our component + standard pseudo-class fallback)
+	&[data-pressed],
+	&:active:not([data-disabled]):not(:disabled) {
 		transform: translateY(4px);
 		//box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
 		box-shadow: 0;
 		color: nhs.$nhs-fdp-color-primary-white;
 	}
 
-	// Disabled styles
-	&[data-disabled] {
+	// Disabled styles (data attribute + standard HTML disabled)
+	&[data-disabled],
+	&:disabled,
+	&[aria-disabled="true"] {
 		opacity: 0.5;
 		cursor: not-allowed;
 		transform: none;
 		box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
 	}
 
-	// Focused state styles
+	// Focused state styles (data attribute from our component)
 	&[data-focused] {
 		background-color: nhs.$nhs-fdp-semantic-color-focus-background;
 		color: nhs.$nhs-fdp-semantic-color-focus-text;
@@ -136,14 +140,16 @@
 		color: nhs.$nhs-fdp-color-primary-white;
 		border-color: nhs.$nhs-fdp-semantic-color-button-primary-background;
 
-		&:not([data-disabled]) {
-			&[data-hovered] {
+		&:not([data-disabled]):not(:disabled):not([aria-disabled="true"]) {
+			&[data-hovered],
+			&:hover {
 				background-color: nhs.$nhs-fdp-semantic-color-button-primary-hover;
 				border-color: nhs.$nhs-fdp-semantic-color-button-primary-hover;
 				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
 			}
 			
-			&[data-pressed] {
+			&[data-pressed],
+			&:active {
 				// This handles the press/active state
 				background-color: nhs.$nhs-fdp-semantic-color-button-primary-shadow;
 				border-color: nhs.$nhs-fdp-semantic-color-button-primary-active;
@@ -159,14 +165,16 @@
 		border-color: nhs.$nhs-fdp-color-primary-blue;
 		box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-blue;
 
-		&:not([data-disabled]) {
-			&[data-hovered] {
+		&:not([data-disabled]):not(:disabled):not([aria-disabled="true"]) {
+			&[data-hovered],
+			&:hover {
 				background-color: nhs.$nhs-fdp-semantic-color-button-secondary-hover;
 				border-color: nhs.$nhs-fdp-semantic-color-button-login-hover;
 				color: nhs.$nhs-fdp-semantic-color-button-login-hover;
 			}
 			
-			&[data-pressed] {
+			&[data-pressed],
+			&:active {
 				background-color: nhs.$nhs-fdp-semantic-color-button-secondary-active;
 				border-color: nhs.$nhs-fdp-semantic-color-button-login-hover;
 				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
@@ -180,14 +188,16 @@
 		color: nhs.$nhs-fdp-semantic-color-button-reverse-text;
 		border-color: nhs.$nhs-fdp-color-primary-white;
 
-		&:not([data-disabled]) {
-			&[data-hovered] {
+		&:not([data-disabled]):not(:disabled):not([aria-disabled="true"]) {
+			&[data-hovered],
+			&:hover {
 				background-color: nhs.$nhs-fdp-semantic-color-button-reverse-hover;
 				color: nhs.$nhs-fdp-semantic-color-button-reverse-text;
 				border-color: nhs.$nhs-fdp-semantic-color-button-reverse-hover;
 			}
 			
-			&[data-pressed] {
+			&[data-pressed],
+			&:active {
 				background-color: nhs.$nhs-fdp-semantic-color-button-reverse-active;
 				border-color: nhs.$nhs-fdp-semantic-color-button-reverse-active;
 				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 transparent;
@@ -201,13 +211,15 @@
 		border-color: nhs.$nhs-fdp-semantic-color-error;
 		box-shadow: nhs.$nhs-fdp-shadow-button-warning;
 
-		&:not([data-disabled]) {
-			&[data-hovered] {
+		&:not([data-disabled]):not(:disabled):not([aria-disabled="true"]) {
+			&[data-hovered],
+			&:hover {
 				background-color: nhs.$nhs-fdp-semantic-color-button-warning-hover;
 				border-color: nhs.$nhs-fdp-semantic-color-button-warning-hover;
 			}
 			
-			&[data-pressed] {
+			&[data-pressed],
+			&:active {
 				background-color: nhs.$nhs-fdp-semantic-color-button-warning-active;
 				border-color: nhs.$nhs-fdp-semantic-color-button-warning-active;
 				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
@@ -221,13 +233,15 @@
 		color: nhs.$nhs-fdp-color-primary-white;
 		border-color: nhs.$nhs-fdp-color-primary-blue;
 
-		&:not([data-disabled]) {
-			&[data-hovered] {
+		&:not([data-disabled]):not(:disabled):not([aria-disabled="true"]) {
+			&[data-hovered],
+			&:hover {
 				background-color: nhs.$nhs-fdp-color-primary-blue;
 				border-color: nhs.$nhs-fdp-color-primary-blue;
 			}
 			
-			&[data-pressed] {
+			&[data-pressed],
+			&:active {
 				background-color: nhs.$nhs-fdp-semantic-color-button-login-active;
 				border-color: nhs.$nhs-fdp-semantic-color-button-login-active;
 				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;

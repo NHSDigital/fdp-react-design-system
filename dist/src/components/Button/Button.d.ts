@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { ButtonProps as ReactButtonProps } from 'react-aria-components';
 import { ButtonVariant, ButtonSize } from './Button.types';
 import './Button.scss';
 /**
- * Props for the NHS Button component built with React Aria
+ * Base props for NHS Button component
  */
-export interface NHSButtonProps extends Omit<ReactButtonProps, 'className'> {
+interface BaseButtonProps {
     /**
      * The variant of the button
      * @default 'primary'
@@ -29,26 +28,79 @@ export interface NHSButtonProps extends Omit<ReactButtonProps, 'className'> {
      * Button content
      */
     children: React.ReactNode;
+    /**
+     * Prevent double click submissions (adds debouncing)
+     * @default false
+     */
+    preventDoubleClick?: boolean;
 }
 /**
- * NHS Button Component with React Aria
+ * Props when rendering as button element (no href)
+ */
+export interface ButtonAsButtonProps extends BaseButtonProps, Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseButtonProps> {
+    /**
+     * Button type
+     * @default 'button'
+     */
+    type?: 'button' | 'submit' | 'reset';
+}
+/**
+ * Props when rendering as anchor element (with href)
+ */
+export interface ButtonAsLinkProps extends BaseButtonProps, Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseButtonProps | 'role' | 'type'> {
+    /**
+     * When provided, renders as anchor link instead of button
+     */
+    href: string;
+    /**
+     * Link target
+     */
+    target?: string;
+    /**
+     * Link rel attribute
+     */
+    rel?: string;
+    /**
+     * Use aria-disabled for anchor elements (no native disabled support)
+     * Use disabled prop instead for button elements
+     */
+    'aria-disabled'?: 'true' | 'false';
+}
+/**
+ * NHS Button Component
  *
- * A button component built with React Aria that provides excellent accessibility
- * out of the box while following NHS design guidelines.
+ * A button component that provides excellent accessibility out of the box
+ * while following NHS design guidelines. Based on NHS.UK button patterns.
  *
  * Features:
- * - Full keyboard navigation support
+ * - Full keyboard navigation support (Enter and Space key activation)
  * - Screen reader compatibility
  * - Focus management
  * - Proper ARIA attributes
- * - Press state management
+ * - Double-click prevention
+ * - Support for button and link variants
  *
  * @example
  * ```tsx
  * <Button variant="primary" size="default">
  *	 Continue
  * </Button>
+ *
+ * <Button href="/next-page" variant="secondary">
+ *	 Go to next page
+ * </Button>
  * ```
  */
-export declare const Button: React.ForwardRefExoticComponent<NHSButtonProps & React.RefAttributes<HTMLButtonElement>>;
+declare function ButtonComponent(props: ButtonAsButtonProps | ButtonAsLinkProps, ref: React.Ref<HTMLButtonElement | HTMLAnchorElement>): React.ReactElement;
+interface ButtonComponent {
+    (props: ButtonAsButtonProps & {
+        ref?: React.Ref<HTMLButtonElement>;
+    }): React.ReactElement;
+    (props: ButtonAsLinkProps & {
+        ref?: React.Ref<HTMLAnchorElement>;
+    }): React.ReactElement;
+    displayName?: string;
+}
+export declare const Button: ButtonComponent;
+export type NHSButtonProps = ButtonAsButtonProps | ButtonAsLinkProps;
 export default Button;

@@ -56,20 +56,20 @@ describe('Button', () => {
     expect(getByRole('button')!.className.includes('nhs-aria-button')).toBeTruthy();
   });
 
-  it('handles onPress events', () => {
-    const mockOnPress = vi.fn();
-    const { getByRole } = render(<Button onPress={mockOnPress}>Clickable</Button>);
+  it('handles onClick events', () => {
+    const mockOnClick = vi.fn();
+    const { getByRole } = render(<Button onClick={mockOnClick}>Clickable</Button>);
     const button = getByRole('button');
     
     expect(button).toBeTruthy();
-    // In SSR context, we verify the button has the onPress handler attached
+    // In SSR context, we verify the button has the onClick handler attached
     // The actual event simulation would require DOM manipulation
-    expect(mockOnPress).toHaveBeenCalledTimes(0); // Not called yet
+    expect(mockOnClick).toHaveBeenCalledTimes(0); // Not called yet
   });
 
   it('supports keyboard interactions', () => {
-    const mockOnPress = vi.fn();
-    const { getByRole } = render(<Button onPress={mockOnPress}>Keyboard</Button>);
+    const mockOnClick = vi.fn();
+    const { getByRole } = render(<Button onClick={mockOnClick}>Keyboard</Button>);
     const button = getByRole('button');
     
     // Check that button is focusable (has tabindex or is naturally focusable)
@@ -78,8 +78,8 @@ describe('Button', () => {
   });
 
   it('handles disabled state correctly', () => {
-    const mockOnPress = vi.fn();
-    const { getByRole } = render(<Button isDisabled onPress={mockOnPress}>Disabled</Button>);
+    const mockOnClick = vi.fn();
+    const { getByRole } = render(<Button disabled onClick={mockOnClick}>Disabled</Button>);
     const button = getByRole('button');
     
     expect(button!.hasAttribute('disabled')).toBeTruthy();

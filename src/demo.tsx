@@ -73,7 +73,7 @@ const App: React.FC = () => {
           </div>
 
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            <Button variant="primary" isDisabled>Disabled Button</Button>
+            <Button variant="primary" disabled>Disabled Button</Button>
             <Button variant="primary" fullWidth>Full Width Button</Button>
           </div>
         </div>

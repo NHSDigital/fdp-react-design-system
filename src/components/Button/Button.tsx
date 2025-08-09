@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { Button as ReactButton, ButtonProps as ReactButtonProps } from 'react-aria-components';
-const { forwardRef } = React;
+const { forwardRef, useCallback, useState } = React;
 import { ButtonVariant, ButtonSize } from './Button.types';
 import './Button.scss';
 
 /**
- * Props for the NHS Button component built with React Aria
+ * Base props for NHS Button component
  */
-export interface NHSButtonProps extends Omit<ReactButtonProps, 'className'> {
+interface BaseButtonProps {
 	/**
 	 * The variant of the button
 	 * @default 'primary'
@@ -35,60 +34,299 @@ export interface NHSButtonProps extends Omit<ReactButtonProps, 'className'> {
 	 * Button content
 	 */
 	children: React.ReactNode;
+	
+	/**
+	 * Prevent double click submissions (adds debouncing)
+	 * @default false
+	 */
+	preventDoubleClick?: boolean;
 }
 
 /**
- * NHS Button Component with React Aria
+ * Props when rendering as button element (no href)
+ */
+export interface ButtonAsButtonProps extends BaseButtonProps, Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseButtonProps> {
+	/**
+	 * Button type
+	 * @default 'button'
+	 */
+	type?: 'button' | 'submit' | 'reset';
+}
+
+/**
+ * Props when rendering as anchor element (with href)
+ */
+export interface ButtonAsLinkProps extends BaseButtonProps, Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseButtonProps | 'role' | 'type'> {
+	/**
+	 * When provided, renders as anchor link instead of button
+	 */
+	href: string;
+	
+	/**
+	 * Link target
+	 */
+	target?: string;
+	
+	/**
+	 * Link rel attribute
+	 */
+	rel?: string;
+	
+	/**
+	 * Use aria-disabled for anchor elements (no native disabled support)
+	 * Use disabled prop instead for button elements
+	 */
+	'aria-disabled'?: 'true' | 'false';
+}
+
+/**
+ * NHS Button Component
  * 
- * A button component built with React Aria that provides excellent accessibility
- * out of the box while following NHS design guidelines.
+ * A button component that provides excellent accessibility out of the box 
+ * while following NHS design guidelines. Based on NHS.UK button patterns.
  * 
  * Features:
- * - Full keyboard navigation support
+ * - Full keyboard navigation support (Enter and Space key activation)
  * - Screen reader compatibility
  * - Focus management
  * - Proper ARIA attributes
- * - Press state management
+ * - Double-click prevention
+ * - Support for button and link variants
  * 
  * @example
  * ```tsx
  * <Button variant="primary" size="default">
  *	 Continue
  * </Button>
+ * 
+ * <Button href="/next-page" variant="secondary">
+ *	 Go to next page
+ * </Button>
  * ```
  */
-export const Button = forwardRef<HTMLButtonElement, NHSButtonProps>(
-	({
+
+// Implementation function
+function ButtonComponent(
+	props: ButtonAsButtonProps | ButtonAsLinkProps,
+	ref: React.Ref<HTMLButtonElement | HTMLAnchorElement>
+): React.ReactElement {
+	const {
 		children,
 		variant = 'primary',
 		size = 'default',
 		fullWidth = false,
 		className = '',
+		preventDoubleClick = false,
 		...rest
-	},
-		ref
-	) => {
-		// Build CSS classes
-		const classes = [
-			'nhs-aria-button',
-			`nhs-aria-button--${variant}`,
-			size !== 'default' ? `nhs-aria-button--${size}` : '',
-			fullWidth ? 'nhs-aria-button--full-width' : '',
-			className
-		].filter(Boolean).join(' ');
+	} = props;
 
+	// State for interactive data attributes (replaces React Aria state management)
+	const [isPressed, setIsPressed] = useState(false);
+	const [isHovered, setIsHovered] = useState(false);
+	const [isFocused, setIsFocused] = useState(false);
+
+	// Build CSS classes
+	const classes = [
+		'nhs-aria-button',
+		`nhs-aria-button--${variant}`,
+		size !== 'default' ? `nhs-aria-button--${size}` : '',
+		fullWidth ? 'nhs-aria-button--full-width' : '',
+		className
+	].filter(Boolean).join(' ');
+
+	// Build data attributes for styling (replaces React Aria data attributes)
+	const isDisabled = 'disabled' in rest ? rest.disabled : rest['aria-disabled'] === 'true';
+	const dataAttributes = {
+		...(isPressed && { 'data-pressed': 'true' }),
+		...(isHovered && { 'data-hovered': 'true' }),
+		...(isFocused && { 'data-focused': 'true' }),
+		...(isDisabled && { 'data-disabled': 'true' })
+	};
+
+	// Event handlers for state management
+	const handleMouseDown = useCallback(() => !isDisabled && setIsPressed(true), [isDisabled]);
+	const handleMouseUp = useCallback(() => setIsPressed(false), []);
+	const handleMouseEnter = useCallback(() => !isDisabled && setIsHovered(true), [isDisabled]);
+	const handleMouseLeave = useCallback(() => {
+		setIsHovered(false);
+		setIsPressed(false); // Reset pressed state when leaving
+	}, []);
+	const handleFocus = useCallback(() => setIsFocused(true), []);
+	const handleBlur = useCallback(() => setIsFocused(false), []);
+
+	// Handle keyboard navigation (Space key support for buttons and links with role="button")
+	const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLElement>) => {
+		// Handle space bar activation for button role elements
+		if (event.key === ' ' && ('href' in rest || event.currentTarget.getAttribute('role') === 'button')) {
+			event.preventDefault();
+			(event.currentTarget as HTMLElement).click();
+		}
+	}, [rest]);
+
+	// Handle click with double-click prevention
+	const handleClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
+		// Double-click prevention logic (following NHS.UK pattern)
+		if (preventDoubleClick) {
+			const target = event.currentTarget as HTMLElement;
+			const isAlreadyProcessing = target.getAttribute('data-processing') === 'true';
+			
+			if (isAlreadyProcessing) {
+				event.preventDefault();
+				return;
+			}
+			
+			// Mark as processing
+			target.setAttribute('data-processing', 'true');
+			
+			// Clear processing state after 1 second
+			setTimeout(() => {
+				target.removeAttribute('data-processing');
+			}, 1000);
+		}
+	}, [preventDoubleClick]);
+
+	// Render as anchor link if href is provided
+	if ('href' in rest && rest.href) {
+		const anchorProps = rest as ButtonAsLinkProps;
 		return (
-			<ReactButton
-			ref={ref}
-			className={classes}
-			{...rest}
+			<a
+				ref={ref as React.Ref<HTMLAnchorElement>}
+				href={anchorProps.href}
+				target={anchorProps.target}
+				rel={anchorProps.rel}
+				className={classes}
+				role="button"
+				draggable="false"
+				data-module="nhs-button"
+				{...dataAttributes}
+				{...(preventDoubleClick && { 'data-prevent-double-click': 'true' })}
+				onKeyDown={(event) => {
+					anchorProps.onKeyDown?.(event);
+					handleKeyDown(event);
+				}}
+				onClick={(event) => {
+					anchorProps.onClick?.(event);
+					handleClick(event);
+				}}
+				onMouseDown={(event) => {
+					anchorProps.onMouseDown?.(event);
+					handleMouseDown();
+				}}
+				onMouseUp={(event) => {
+					anchorProps.onMouseUp?.(event);
+					handleMouseUp();
+				}}
+				onMouseEnter={(event) => {
+					anchorProps.onMouseEnter?.(event);
+					handleMouseEnter();
+				}}
+				onMouseLeave={(event) => {
+					anchorProps.onMouseLeave?.(event);
+					handleMouseLeave();
+				}}
+				onFocus={(event) => {
+					anchorProps.onFocus?.(event);
+					handleFocus();
+				}}
+				onBlur={(event) => {
+					anchorProps.onBlur?.(event);
+					handleBlur();
+				}}
+				// Note: anchor links don't support disabled, but we can simulate it with aria-disabled
+				aria-disabled={anchorProps['aria-disabled']}
+				{...(anchorProps['aria-disabled'] === 'true' && { 'tabIndex': -1 })}
+				// Extract relevant props excluding our custom ones
+				id={anchorProps.id}
+				style={anchorProps.style}
+				title={anchorProps.title}
+				aria-label={anchorProps['aria-label']}
+				aria-describedby={anchorProps['aria-describedby']}
+				aria-labelledby={anchorProps['aria-labelledby']}
+				tabIndex={anchorProps.tabIndex}
 			>
-			{children}
-			</ReactButton>
+				{children}
+			</a>
 		);
 	}
-);
 
+	// Render as button element
+	const buttonProps = rest as ButtonAsButtonProps;
+	return (
+		<button
+			ref={ref as React.Ref<HTMLButtonElement>}
+			type={buttonProps.type || 'button'}
+			disabled={buttonProps.disabled}
+			className={classes}
+			data-module="nhs-button"
+			{...dataAttributes}
+			{...(preventDoubleClick && { 'data-prevent-double-click': 'true' })}
+			{...(buttonProps.disabled && { 'aria-disabled': 'true' })}
+			onKeyDown={(event) => {
+				buttonProps.onKeyDown?.(event);
+				handleKeyDown(event);
+			}}
+			onClick={(event) => {
+				buttonProps.onClick?.(event);
+				handleClick(event);
+			}}
+			onMouseDown={(event) => {
+				buttonProps.onMouseDown?.(event);
+				handleMouseDown();
+			}}
+			onMouseUp={(event) => {
+				buttonProps.onMouseUp?.(event);
+				handleMouseUp();
+			}}
+			onMouseEnter={(event) => {
+				buttonProps.onMouseEnter?.(event);
+				handleMouseEnter();
+			}}
+			onMouseLeave={(event) => {
+				buttonProps.onMouseLeave?.(event);
+				handleMouseLeave();
+			}}
+			onFocus={(event) => {
+				buttonProps.onFocus?.(event);
+				handleFocus();
+			}}
+			onBlur={(event) => {
+				buttonProps.onBlur?.(event);
+				handleBlur();
+			}}
+			// Extract relevant props
+			id={buttonProps.id}
+			style={buttonProps.style}
+			title={buttonProps.title}
+			aria-label={buttonProps['aria-label']}
+			aria-describedby={buttonProps['aria-describedby']}
+			aria-labelledby={buttonProps['aria-labelledby']}
+			tabIndex={buttonProps.tabIndex}
+			name={buttonProps.name}
+			value={buttonProps.value}
+			form={buttonProps.form}
+			formAction={buttonProps.formAction}
+			formEncType={buttonProps.formEncType}
+			formMethod={buttonProps.formMethod}
+			formNoValidate={buttonProps.formNoValidate}
+			formTarget={buttonProps.formTarget}
+			autoFocus={buttonProps.autoFocus}
+		>
+			{children}
+		</button>
+	);
+}
+
+// Define overloaded function signatures 
+interface ButtonComponent {
+	(props: ButtonAsButtonProps & { ref?: React.Ref<HTMLButtonElement> }): React.ReactElement;
+	(props: ButtonAsLinkProps & { ref?: React.Ref<HTMLAnchorElement> }): React.ReactElement;
+	displayName?: string;
+}
+
+export const Button = forwardRef(ButtonComponent) as ButtonComponent;
 Button.displayName = 'Button';
+
+// Export union type for compatibility
+export type NHSButtonProps = ButtonAsButtonProps | ButtonAsLinkProps;
 
 export default Button;

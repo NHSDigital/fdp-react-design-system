@@ -48,11 +48,11 @@ export const ButtonExamples: React.FC = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-start' }}>
           <Button 
             variant="primary"
-            onPress={() => alert('Button pressed!')}
+            onClick={() => alert('Button clicked!')}
           >
             Interactive Button
           </Button>
-          <Button variant="primary" isDisabled>
+          <Button variant="primary" disabled>
             Disabled Button
           </Button>
           <Button variant="primary" fullWidth>
@@ -66,7 +66,7 @@ export const ButtonExamples: React.FC = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-start' }}>
           <Button 
             variant="primary"
-            onPress={() => console.log('Form submitted')}
+            onClick={() => console.log('Form submitted')}
             type="submit"
             aria-label="Submit the form"
           >
@@ -75,7 +75,7 @@ export const ButtonExamples: React.FC = () => {
           
           <Button 
             variant="warning"
-            onPress={() => {
+            onClick={() => {
               if (confirm('Are you sure you want to delete this item?')) {
                 console.log('Item deleted');
               }
@@ -101,25 +101,25 @@ export const ButtonExamples: React.FC = () => {
         <div style={{ display: 'flex', gap: '1rem' }}>
           <Button 
             variant="primary"
-            onPress={() => console.log('First button')}
+            onClick={() => console.log('First button')}
           >
             First Button
           </Button>
           <Button 
             variant="secondary"
-            onPress={() => console.log('Second button')}
+            onClick={() => console.log('Second button')}
           >
             Second Button
           </Button>
           <Button 
             variant="primary"
-            isDisabled
+            disabled
           >
             Disabled (Skipped)
           </Button>
           <Button 
             variant="warning"
-            onPress={() => console.log('Last button')}
+            onClick={() => console.log('Last button')}
           >
             Last Button
           </Button>

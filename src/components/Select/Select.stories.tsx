@@ -222,3 +222,75 @@ export const MultipleWithSelection: Story = {
     size: 4,
   },
 };
+
+export const WithChildren: Story = {
+  render: (args) => (
+    <Select {...args}>
+      <Select.Option value="">Choose an option</Select.Option>
+      <Select.Option value="england">England</Select.Option>
+      <Select.Option value="northern-ireland">Northern Ireland</Select.Option>
+      <Select.Option value="scotland">Scotland</Select.Option>
+      <Select.Option value="wales">Wales</Select.Option>
+    </Select>
+  ),
+  args: {
+    id: 'select-children',
+    name: 'select-children',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Select component using children pattern with Select.Option components instead of options prop.',
+      },
+    },
+  },
+};
+
+export const WithChildrenAndDisabled: Story = {
+  render: (args) => (
+    <Select {...args}>
+      <Select.Option value="">Select a health condition</Select.Option>
+      <Select.Option value="asthma">Asthma</Select.Option>
+      <Select.Option value="diabetes" disabled>Diabetes (unavailable)</Select.Option>
+      <Select.Option value="heart-disease">Heart disease</Select.Option>
+      <Select.Option value="high-blood-pressure">High blood pressure</Select.Option>
+      <Select.Option value="other">Other</Select.Option>
+    </Select>
+  ),
+  args: {
+    id: 'select-children-disabled',
+    name: 'select-children-disabled',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Select component using children pattern with some disabled options.',
+      },
+    },
+  },
+};
+
+export const WithChildrenError: Story = {
+  render: (args) => (
+    <Select {...args}>
+      <Select.Option value="">Choose a country</Select.Option>
+      <Select.Option value="uk">United Kingdom</Select.Option>
+      <Select.Option value="us">United States</Select.Option>
+      <Select.Option value="ca">Canada</Select.Option>
+      <Select.Option value="au">Australia</Select.Option>
+    </Select>
+  ),
+  args: {
+    id: 'select-children-error',
+    name: 'select-children-error',
+    hasError: true,
+    describedBy: 'select-children-error-message',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Select component using children pattern with error state.',
+      },
+    },
+  },
+};

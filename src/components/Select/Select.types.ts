@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface SelectOption {
   /** The value of the option */
   value: string;
@@ -7,6 +9,19 @@ export interface SelectOption {
   disabled?: boolean;
   /** Whether the option is selected by default */
   selected?: boolean;
+}
+
+export interface SelectOptionProps {
+  /** The value of the option */
+  value: string;
+  /** Whether the option is disabled */
+  disabled?: boolean;
+  /** Whether the option is selected by default */
+  selected?: boolean;
+  /** Additional CSS classes */
+  className?: string;
+  /** The content/text for the option */
+  children: React.ReactNode;
 }
 
 export interface SelectProps {
@@ -34,12 +49,19 @@ export interface SelectProps {
   size?: number;
   /** Autocomplete attribute */
   autoComplete?: string;
-  /** The options for the select */
-  options: SelectOption[];
+  /** The options for the select (alternative to children) */
+  options?: SelectOption[];
+  /** Select.Option components as children (alternative to options prop) */
+  children?: React.ReactNode;
   /** Change event handler */
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   /** Blur event handler */
   onBlur?: (event: React.FocusEvent<HTMLSelectElement>) => void;
   /** Focus event handler */
   onFocus?: (event: React.FocusEvent<HTMLSelectElement>) => void;
+}
+
+// Type for the compound component
+export interface SelectComponent extends React.FC<SelectProps> {
+  Option: React.FC<SelectOptionProps>;
 }

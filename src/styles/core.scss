@@ -53,23 +53,3 @@
     line-height: 1.5;
   }
 }
-
-// Export classes for use in other build targets
-:export {
-  grid: 'nhsuk-grid-row';
-  gridColumn: 'nhsuk-grid-column';
-  gridColumnFull: 'nhsuk-grid-column-full';
-  gridColumnThreeQuarters: 'nhsuk-grid-column-three-quarters';
-  gridColumnTwoThirds: 'nhsuk-grid-column-two-thirds';
-  gridColumnOneHalf: 'nhsuk-grid-column-one-half';
-  gridColumnOneThird: 'nhsuk-grid-column-one-third';
-  gridColumnOneQuarter: 'nhsuk-grid-column-one-quarter';
-  mainWrapper: 'nhsuk-main-wrapper';
-  skipLink: 'nhsuk-skip-link';
-  srOnly: 'nhsuk-u-visually-hidden';
-  widthContainer: 'nhsuk-width-container';
-  // Typography classes
-  body: 'nhsuk-body';
-  bodyLarge: 'nhsuk-body-l';
-  bodySmall: 'nhsuk-body-s';
-}

@@ -14,4 +14,62 @@
 @use '../components/SkipLink/SkipLink.scss';
 
 // Import fonts last (CSS import comes after @use)
-@import './fonts.css';
+@use './fonts.css';
+
+// Typography - Paragraph styles
+// Based on NHS Service Manual typography guidelines
+.nhsuk-body {
+  font-size: 1rem; // 16px on small screens
+  line-height: 1.5;
+  margin-top: 0;
+  margin-bottom: 1rem;
+
+  @media (min-width: 40.0625em) { // 641px+
+    font-size: 1.1875rem; // 19px on large screens
+    line-height: 1.47;
+  }
+}
+
+.nhsuk-body-l {
+  font-size: 1.125rem; // 18px on small screens
+  line-height: 1.44;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+
+  @media (min-width: 40.0625em) { // 641px+
+    font-size: 1.625rem; // 26px on large screens
+    line-height: 1.38;
+  }
+}
+
+.nhsuk-body-s {
+  font-size: 0.875rem; // 14px on small screens
+  line-height: 1.57;
+  margin-top: 0;
+  margin-bottom: 1rem;
+
+  @media (min-width: 40.0625em) { // 641px+
+    font-size: 1rem; // 16px on large screens
+    line-height: 1.5;
+  }
+}
+
+// Export classes for use in other build targets
+:export {
+  grid: 'nhsuk-grid-row';
+  gridColumn: 'nhsuk-grid-column';
+  gridColumnFull: 'nhsuk-grid-column-full';
+  gridColumnThreeQuarters: 'nhsuk-grid-column-three-quarters';
+  gridColumnTwoThirds: 'nhsuk-grid-column-two-thirds';
+  gridColumnOneHalf: 'nhsuk-grid-column-one-half';
+  gridColumnOneThird: 'nhsuk-grid-column-one-third';
+  gridColumnOneQuarter: 'nhsuk-grid-column-one-quarter';
+  mainWrapper: 'nhsuk-main-wrapper';
+  skipLink: 'nhsuk-skip-link';
+  srOnly: 'nhsuk-u-visually-hidden';
+  widthContainer: 'nhsuk-width-container';
+  // Typography classes
+  body: 'nhsuk-body';
+  bodyLarge: 'nhsuk-body-l';
+  bodySmall: 'nhsuk-body-s';
+}

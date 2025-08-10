@@ -1,6 +1,6 @@
 {
   "name": "@fergusbisset/nhs-fdp-design-system",
-  "version": "0.0.12a-alpha",
+  "version": "0.0.13-alpha",
   "description": "NHS FDP Frontend Development Platform Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
@@ -29,7 +29,6 @@
       "import": "./dist/src/components/Header/index.js",
       "require": "./dist/src/components/Header/index.js"
     },
-    "./components/Header/css": "./dist/components/Header/Header.css",
     "./components/Button": {
       "types": "./dist/src/components/Button/index.d.ts",
       "import": "./dist/src/components/Button/index.js",
@@ -106,6 +105,7 @@
     "./components/SortableDataTable/SortStatusControl/css": "./dist/components/SortableDataTable/SortStatusControl.css",
     "./components/Tables/Table/css": "./dist/components/Tables/Table.css",
     "./components/Checkbox/css": "./dist/components/Checkbox/Checkbox.css",
+    "./components/Header/css": "./dist/components/Header/Header.css",
     "./components/Header/Header2/css": "./dist/components/Header/Header2.css"
   },
   "files": [

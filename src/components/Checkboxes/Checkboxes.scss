@@ -125,6 +125,19 @@ $checkboxes-label-padding: nhs.$nhs-fdp-form-spacing-checkbox-label-padding;
     }
   }
 
+  // Checkbox error message alignment (without color override)
+  &__error {
+    display: block;
+    padding-left: $checkboxes-label-padding;
+    padding-right: $checkboxes-label-padding;
+    margin-bottom: nhs.$nhs-fdp-spacing-1;
+    
+    // Ensure error message keeps its red color when combined with nhsuk-error-message
+    &.nhsuk-error-message {
+      color: nhs.$nhs-fdp-semantic-color-error !important;
+    }
+  }
+
   // Checkbox divider
   &__divider {
     color: nhs.$nhs-fdp-semantic-color-text-primary;

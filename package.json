@@ -1,6 +1,6 @@
 {
   "name": "@fergusbisset/nhs-fdp-design-system",
-  "version": "0.0.10a-alpha",
+  "version": "0.0.11-alpha",
   "description": "NHS FDP Frontend Development Platform Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
@@ -97,7 +97,6 @@
     "./components/Textarea/css": "./dist/components/Textarea/Textarea.css",
     "./components/WarningCallout/css": "./dist/components/WarningCallout/WarningCallout.css",
     "./components/WidthUtilities/css": "./dist/components/WidthUtilities/WidthUtilities.css",
-    "./components/Header/Header2/css": "./dist/components/Header/Header2.css",
     "./components/Header/HeaderStatic/css": "./dist/components/Header/HeaderStatic.css",
     "./components/Header/index/css": "./dist/components/Header/index.css",
     "./components/SortableDataTable/AriaTabsDataGrid/css": "./dist/components/SortableDataTable/AriaTabsDataGrid.css",
@@ -105,7 +104,8 @@
     "./components/SortableDataTable/AriaTabsDataGridDemo/css": "./dist/components/SortableDataTable/AriaTabsDataGridDemo.css",
     "./components/SortableDataTable/HealthcareCardTemplates/css": "./dist/components/SortableDataTable/HealthcareCardTemplates.css",
     "./components/SortableDataTable/SortStatusControl/css": "./dist/components/SortableDataTable/SortStatusControl.css",
-    "./components/Tables/Table/css": "./dist/components/Tables/Table.css"
+    "./components/Tables/Table/css": "./dist/components/Tables/Table.css",
+    "./components/Checkbox/css": "./dist/components/Checkbox/Checkbox.css"
   },
   "files": [
     "dist",

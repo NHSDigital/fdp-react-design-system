@@ -1,4 +1,5 @@
 // Healthcare Card Templates - NHS Design System Compliant
+@use 'sass:color';
 @use '../../../../packages/nhs-fdp/scss' as nhs;
 
 // ==========================================================================
@@ -462,8 +463,8 @@
       border: 2px solid nhs.$nhs-fdp-color-primary-blue;
 
       &:hover {
-        background: darken(nhs.$nhs-fdp-color-primary-blue, 10%);
-        border-color: darken(nhs.$nhs-fdp-color-primary-blue, 10%);
+        background: color.adjust(nhs.$nhs-fdp-color-primary-blue, $lightness: -10%);
+        border-color: color.adjust(nhs.$nhs-fdp-color-primary-blue, $lightness: -10%);
       }
     }
 

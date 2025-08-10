@@ -8,6 +8,8 @@ export { BackLink } from './BackLink';
 export type { BackLinkProps } from './BackLink';
 export { Tag } from './Tag';
 export type { TagColor, TagProps } from './Tag';
+export { Checkbox } from './Checkbox';
+export type { CheckboxProps } from './Checkbox';
 export { Checkboxes } from './Checkboxes';
 export type { CheckboxesProps, CheckboxItem } from './Checkboxes';
 export { CharacterCount } from './CharacterCount';

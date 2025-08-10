@@ -100,17 +100,27 @@ export const Column: React.FC<ColumnProps> = ({
  * Grid Wrapper Component
  * 
  * Convenience component that combines Container and Row.
+ * Automatically wraps children in a Row unless the first child is already a Row component.
  */
 export const Grid: React.FC<GridProps> = ({ 
   children, 
   className,
   ...props 
 }) => {
+  const childrenArray = React.Children.toArray(children);
+  const firstChild = childrenArray[0];
+  
+  // Check if the first child is a Row component
+  const hasRowAsFirstChild = React.isValidElement(firstChild) && 
+    (firstChild.type === Row || 
+     (typeof firstChild.props === 'object' && firstChild.props && 
+      'className' in firstChild.props && 
+      typeof firstChild.props.className === 'string' && 
+      firstChild.props.className.includes('nhsuk-grid-row')));
+  
   return (
     <Container className={className} {...props}>
-      <Row>
-        {children}
-      </Row>
+      { hasRowAsFirstChild ? children : <Row>{children}</Row> }
     </Container>
   );
 };

@@ -26,5 +26,6 @@ export declare const Column: React.FC<ColumnProps>;
  * Grid Wrapper Component
  *
  * Convenience component that combines Container and Row.
+ * Automatically wraps children in a Row unless the first child is already a Row component.
  */
 export declare const Grid: React.FC<GridProps>;

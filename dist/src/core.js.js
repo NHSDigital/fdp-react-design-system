@@ -1,5 +1,5 @@
-import oe, { useState as ae, useEffect as M } from "react";
-function ie(r) {
+import C, { useState as ie, useEffect as U } from "react";
+function ue(r) {
   return r && r.__esModule && Object.prototype.hasOwnProperty.call(r, "default") ? r.default : r;
 }
 var w = { exports: {} }, _ = {};
@@ -12,27 +12,27 @@ var w = { exports: {} }, _ = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var U;
-function ue() {
-  if (U) return _;
-  U = 1;
+var W;
+function le() {
+  if (W) return _;
+  W = 1;
   var r = Symbol.for("react.transitional.element"), a = Symbol.for("react.fragment");
-  function s(i, o, t) {
+  function o(i, s, t) {
     var u = null;
-    if (t !== void 0 && (u = "" + t), o.key !== void 0 && (u = "" + o.key), "key" in o) {
+    if (t !== void 0 && (u = "" + t), s.key !== void 0 && (u = "" + s.key), "key" in s) {
       t = {};
-      for (var c in o)
-        c !== "key" && (t[c] = o[c]);
-    } else t = o;
-    return o = t.ref, {
+      for (var c in s)
+        c !== "key" && (t[c] = s[c]);
+    } else t = s;
+    return s = t.ref, {
       $$typeof: r,
       type: i,
       key: u,
-      ref: o !== void 0 ? o : null,
+      ref: s !== void 0 ? s : null,
       props: t
     };
   }
-  return _.Fragment = a, _.jsx = s, _.jsxs = s, _;
+  return _.Fragment = a, _.jsx = o, _.jsxs = o, _;
 }
 var T = {};
 /**
@@ -44,44 +44,44 @@ var T = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var W;
-function le() {
-  return W || (W = 1, process.env.NODE_ENV !== "production" && function() {
+var B;
+function ce() {
+  return B || (B = 1, process.env.NODE_ENV !== "production" && function() {
     function r(e) {
       if (e == null) return null;
       if (typeof e == "function")
-        return e.$$typeof === te ? null : e.displayName || e.name || null;
+        return e.$$typeof === se ? null : e.displayName || e.name || null;
       if (typeof e == "string") return e;
       switch (e) {
-        case j:
+        case A:
           return "Fragment";
-        case G:
+        case H:
           return "Profiler";
-        case z:
+        case X:
           return "StrictMode";
-        case Q:
+        case ee:
           return "Suspense";
-        case K:
-          return "SuspenseList";
         case re:
+          return "SuspenseList";
+        case ne:
           return "Activity";
       }
       if (typeof e == "object")
         switch (typeof e.tag == "number" && console.error(
           "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
         ), e.$$typeof) {
-          case V:
+          case G:
             return "Portal";
-          case H:
+          case Q:
             return (e.displayName || "Context") + ".Provider";
-          case X:
-            return (e._context.displayName || "Context") + ".Consumer";
           case Z:
+            return (e._context.displayName || "Context") + ".Consumer";
+          case K:
             var n = e.render;
             return e = e.displayName, e || (e = n.displayName || n.name || "", e = e !== "" ? "ForwardRef(" + e + ")" : "ForwardRef"), e;
-          case ee:
+          case te:
             return n = e.displayName || null, n !== null ? n : r(e.type) || "Memo";
-          case C:
+          case L:
             n = e._payload, e = e._init;
             try {
               return r(e(n));
@@ -93,7 +93,7 @@ function le() {
     function a(e) {
       return "" + e;
     }
-    function s(e) {
+    function o(e) {
       try {
         a(e);
         var n = !1;
@@ -111,8 +111,8 @@ function le() {
       }
     }
     function i(e) {
-      if (e === j) return "<>";
-      if (typeof e == "object" && e !== null && e.$$typeof === C)
+      if (e === A) return "<>";
+      if (typeof e == "object" && e !== null && e.$$typeof === L)
         return "<...>";
       try {
         var n = r(e);
@@ -121,15 +121,15 @@ function le() {
         return "<...>";
       }
     }
-    function o() {
-      var e = x.A;
+    function s() {
+      var e = y.A;
       return e === null ? null : e.getOwner();
     }
     function t() {
       return Error("react-stack-top-frame");
     }
     function u(e) {
-      if (L.call(e, "key")) {
+      if (I.call(e, "key")) {
         var n = Object.getOwnPropertyDescriptor(e, "key").get;
         if (n && n.isReactWarning) return !1;
       }
@@ -137,7 +137,7 @@ function le() {
     }
     function c(e, n) {
       function l() {
-        I || (I = !0, console.error(
+        Y || (Y = !0, console.error(
           "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
           n
         ));
@@ -149,11 +149,11 @@ function le() {
     }
     function k() {
       var e = r(this.type);
-      return Y[e] || (Y[e] = !0, console.error(
+      return F[e] || (F[e] = !0, console.error(
         "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
       )), e = this.props.ref, e !== void 0 ? e : null;
     }
-    function m(e, n, l, f, b, h, O, y) {
+    function p(e, n, l, f, b, h, x, O) {
       return l = h.ref, e = {
         $$typeof: P,
         type: e,
@@ -177,33 +177,33 @@ function le() {
         configurable: !1,
         enumerable: !1,
         writable: !0,
-        value: O
+        value: x
       }), Object.defineProperty(e, "_debugTask", {
         configurable: !1,
         enumerable: !1,
         writable: !0,
-        value: y
+        value: O
       }), Object.freeze && (Object.freeze(e.props), Object.freeze(e)), e;
     }
-    function g(e, n, l, f, b, h, O, y) {
+    function g(e, n, l, f, b, h, x, O) {
       var d = n.children;
       if (d !== void 0)
         if (f)
-          if (ne(d)) {
+          if (oe(d)) {
             for (f = 0; f < d.length; f++)
-              p(d[f]);
+              m(d[f]);
             Object.freeze && Object.freeze(d);
           } else
             console.error(
               "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
             );
-        else p(d);
-      if (L.call(n, "key")) {
+        else m(d);
+      if (I.call(n, "key")) {
         d = r(e);
-        var E = Object.keys(n).filter(function(se) {
-          return se !== "key";
+        var E = Object.keys(n).filter(function(ae) {
+          return ae !== "key";
         });
-        f = 0 < E.length ? "{key: someKey, " + E.join(": ..., ") + ": ...}" : "{key: someKey}", D[d + f] || (E = 0 < E.length ? "{" + E.join(": ..., ") + ": ...}" : "{}", console.error(
+        f = 0 < E.length ? "{key: someKey, " + E.join(": ..., ") + ": ...}" : "{key: someKey}", M[d + f] || (E = 0 < E.length ? "{" + E.join(": ..., ") + ": ...}" : "{}", console.error(
           `A props object containing a "key" prop is being spread into JSX:
   let props = %s;
   <%s {...props} />
@@ -214,31 +214,31 @@ React keys must be passed directly to JSX without using spread:
           d,
           E,
           d
-        ), D[d + f] = !0);
+        ), M[d + f] = !0);
       }
-      if (d = null, l !== void 0 && (s(l), d = "" + l), u(n) && (s(n.key), d = "" + n.key), "key" in n) {
+      if (d = null, l !== void 0 && (o(l), d = "" + l), u(n) && (o(n.key), d = "" + n.key), "key" in n) {
         l = {};
-        for (var $ in n)
-          $ !== "key" && (l[$] = n[$]);
+        for (var N in n)
+          N !== "key" && (l[N] = n[N]);
       } else l = n;
       return d && c(
         l,
         typeof e == "function" ? e.displayName || e.name || "Unknown" : e
-      ), m(
+      ), p(
         e,
         d,
         h,
         b,
-        o(),
+        s(),
         l,
-        O,
-        y
+        x,
+        O
       );
     }
-    function p(e) {
+    function m(e) {
       typeof e == "object" && e !== null && e.$$typeof === P && e._store && (e._store.validated = 1);
     }
-    var R = oe, P = Symbol.for("react.transitional.element"), V = Symbol.for("react.portal"), j = Symbol.for("react.fragment"), z = Symbol.for("react.strict_mode"), G = Symbol.for("react.profiler"), X = Symbol.for("react.consumer"), H = Symbol.for("react.context"), Z = Symbol.for("react.forward_ref"), Q = Symbol.for("react.suspense"), K = Symbol.for("react.suspense_list"), ee = Symbol.for("react.memo"), C = Symbol.for("react.lazy"), re = Symbol.for("react.activity"), te = Symbol.for("react.client.reference"), x = R.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, L = Object.prototype.hasOwnProperty, ne = Array.isArray, A = console.createTask ? console.createTask : function() {
+    var R = C, P = Symbol.for("react.transitional.element"), G = Symbol.for("react.portal"), A = Symbol.for("react.fragment"), X = Symbol.for("react.strict_mode"), H = Symbol.for("react.profiler"), Z = Symbol.for("react.consumer"), Q = Symbol.for("react.context"), K = Symbol.for("react.forward_ref"), ee = Symbol.for("react.suspense"), re = Symbol.for("react.suspense_list"), te = Symbol.for("react.memo"), L = Symbol.for("react.lazy"), ne = Symbol.for("react.activity"), se = Symbol.for("react.client.reference"), y = R.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, I = Object.prototype.hasOwnProperty, oe = Array.isArray, j = console.createTask ? console.createTask : function() {
       return null;
     };
     R = {
@@ -246,12 +246,12 @@ React keys must be passed directly to JSX without using spread:
         return e();
       }
     };
-    var I, Y = {}, q = R.react_stack_bottom_frame.bind(
+    var Y, F = {}, q = R.react_stack_bottom_frame.bind(
       R,
       t
-    )(), F = A(i(t)), D = {};
-    T.Fragment = j, T.jsx = function(e, n, l, f, b) {
-      var h = 1e4 > x.recentlyCreatedOwnerStacks++;
+    )(), D = j(i(t)), M = {};
+    T.Fragment = A, T.jsx = function(e, n, l, f, b) {
+      var h = 1e4 > y.recentlyCreatedOwnerStacks++;
       return g(
         e,
         n,
@@ -260,10 +260,10 @@ React keys must be passed directly to JSX without using spread:
         f,
         b,
         h ? Error("react-stack-top-frame") : q,
-        h ? A(i(e)) : F
+        h ? j(i(e)) : D
       );
     }, T.jsxs = function(e, n, l, f, b) {
-      var h = 1e4 > x.recentlyCreatedOwnerStacks++;
+      var h = 1e4 > y.recentlyCreatedOwnerStacks++;
       return g(
         e,
         n,
@@ -272,30 +272,30 @@ React keys must be passed directly to JSX without using spread:
         f,
         b,
         h ? Error("react-stack-top-frame") : q,
-        h ? A(i(e)) : F
+        h ? j(i(e)) : D
       );
     };
   }()), T;
 }
-var B;
-function ce() {
-  return B || (B = 1, process.env.NODE_ENV === "production" ? w.exports = ue() : w.exports = le()), w.exports;
+var V;
+function fe() {
+  return V || (V = 1, process.env.NODE_ENV === "production" ? w.exports = le() : w.exports = ce()), w.exports;
 }
-var v = ce(), N = { exports: {} };
+var v = fe(), $ = { exports: {} };
 /*!
 	Copyright (c) 2018 Jed Watson.
 	Licensed under the MIT License (MIT), see
 	http://jedwatson.github.io/classnames
 */
 var J;
-function fe() {
+function de() {
   return J || (J = 1, function(r) {
     (function() {
       var a = {}.hasOwnProperty;
-      function s() {
+      function o() {
         for (var t = "", u = 0; u < arguments.length; u++) {
           var c = arguments[u];
-          c && (t = o(t, i(c)));
+          c && (t = s(t, i(c)));
         }
         return t;
       }
@@ -305,103 +305,106 @@ function fe() {
         if (typeof t != "object")
           return "";
         if (Array.isArray(t))
-          return s.apply(null, t);
+          return o.apply(null, t);
         if (t.toString !== Object.prototype.toString && !t.toString.toString().includes("[native code]"))
           return t.toString();
         var u = "";
         for (var c in t)
-          a.call(t, c) && t[c] && (u = o(u, c));
+          a.call(t, c) && t[c] && (u = s(u, c));
         return u;
       }
-      function o(t, u) {
+      function s(t, u) {
         return u ? t ? t + " " + u : t + u : t;
       }
-      r.exports ? (s.default = s, r.exports = s) : window.classNames = s;
+      r.exports ? (o.default = o, r.exports = o) : window.classNames = o;
     })();
-  }(N)), N.exports;
+  }($)), $.exports;
 }
-var de = fe();
-const S = /* @__PURE__ */ ie(de), me = ({
+var pe = de();
+const S = /* @__PURE__ */ ue(pe), me = ({
   children: r,
   className: a,
-  fluid: s = !1,
+  fluid: o = !1,
   maxWidth: i,
-  ...o
+  ...s
 }) => {
   const t = S(
     {
-      "nhsuk-width-container": !s,
-      "nhsuk-width-container-fluid": s
+      "nhsuk-width-container": !o,
+      "nhsuk-width-container-fluid": o
     },
     a
   ), u = i ? { maxWidth: i } : void 0;
-  return /* @__PURE__ */ v.jsx("div", { className: t, style: u, ...o, children: r });
-}, pe = ({
+  return /* @__PURE__ */ v.jsx("div", { className: t, style: u, ...s, children: r });
+}, z = ({
   children: r,
   className: a,
-  ...s
+  ...o
 }) => {
   const i = S("nhsuk-grid-row", a);
-  return /* @__PURE__ */ v.jsx("div", { className: i, ...s, children: r });
+  return /* @__PURE__ */ v.jsx("div", { className: i, ...o, children: r });
 }, he = ({
   children: r,
   width: a = "full",
-  mobileWidth: s,
+  mobileWidth: o,
   tabletWidth: i,
-  desktopWidth: o,
+  desktopWidth: s,
   start: t,
   className: u,
   forceWidth: c = !1,
   ...k
 }) => {
-  const m = S(
+  const p = S(
     {
       // Standard responsive grid columns
       [`nhsuk-grid-column-${a}`]: !c,
       // Utility classes that force width on all screen sizes
       [`nhsuk-u-${a}`]: c,
       // Responsive width overrides
-      [`nhsuk-u-${s}-mobile`]: s,
+      [`nhsuk-u-${o}-mobile`]: o,
       [`nhsuk-u-${i}-tablet`]: i,
-      [`nhsuk-u-${o}-desktop`]: o,
+      [`nhsuk-u-${s}-desktop`]: s,
       // Grid positioning
       [`nhsuk-grid-column-start-${t}`]: t && t >= 1 && t <= 7
     },
     u
   );
-  return /* @__PURE__ */ v.jsx("div", { className: m, ...k, children: r });
+  return /* @__PURE__ */ v.jsx("div", { className: p, ...k, children: r });
 }, ge = ({
   children: r,
   className: a,
-  ...s
-}) => /* @__PURE__ */ v.jsx(me, { className: a, ...s, children: /* @__PURE__ */ v.jsx(pe, { children: r }) }), ve = ({
+  ...o
+}) => {
+  const s = C.Children.toArray(r)[0], t = C.isValidElement(s) && (s.type === z || typeof s.props == "object" && s.props && "className" in s.props && typeof s.props.className == "string" && s.props.className.includes("nhsuk-grid-row"));
+  return /* @__PURE__ */ v.jsx(me, { className: a, ...o, children: t ? r : /* @__PURE__ */ v.jsx(z, { children: r }) });
+}, ve = ({
   as: r = "main",
   size: a = "default",
-  className: s,
+  className: o,
   children: i,
-  ...o
+  ...s
 }) => {
   const t = [
     "nhsuk-main-wrapper",
     a === "large" && "nhsuk-main-wrapper--l",
     a === "small" && "nhsuk-main-wrapper--s",
-    s
+    o
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ v.jsx(r, { className: t, ...o, children: i });
+  return /* @__PURE__ */ v.jsx(r, { className: t, ...s, children: i });
 }, be = ({
   debug: r = !1,
   className: a,
-  children: s,
+  children: o,
   ...i
 }) => {
-  if (!s)
+  if (!o)
     return null;
-  const o = [
+  const s = [
     "nhsuk-spacing-utilities",
     r && "nhsuk-spacing-utilities--debug",
     a
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ v.jsx("div", { className: o, ...i, children: s });
+  return /* @__PURE__ */ v.jsx("div", { className: s, ...i, children: o });
 }, Re = {
   margin: (r) => `nhsuk-u-margin-${r}`,
   marginTop: (r) => `nhsuk-u-margin-top-${r}`,
@@ -427,17 +430,17 @@ const S = /* @__PURE__ */ ie(de), me = ({
 }, Ee = ({
   debug: r = !1,
   className: a,
-  children: s,
+  children: o,
   ...i
 }) => {
-  if (!s)
+  if (!o)
     return null;
-  const o = [
+  const s = [
     "nhsuk-width-utilities",
     r && "nhsuk-width-utilities--debug",
     a
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ v.jsx("div", { className: o, ...i, children: s });
+  return /* @__PURE__ */ v.jsx("div", { className: s, ...i, children: o });
 }, _e = {
   width: (r) => `nhsuk-u-width-${r}`,
   widthTablet: (r) => `nhsuk-u-width-${r}-tablet`
@@ -451,56 +454,56 @@ const S = /* @__PURE__ */ ie(de), me = ({
 ], we = ({
   text: r = "Skip to main content",
   href: a = "#maincontent",
-  classes: s,
+  classes: o,
   attributes: i = {}
 }) => {
-  const [o, t] = ae(!1);
-  M(() => {
+  const [s, t] = ie(!1);
+  U(() => {
     t(!0);
-  }, []), M(() => {
+  }, []), U(() => {
     if (typeof window > "u" || typeof document > "u" || !document.querySelector || !document.querySelectorAll)
       return;
     const c = (k) => {
-      const m = k.target, g = m.getAttribute("href");
+      const p = k.target, g = p.getAttribute("href");
       if (g && g.startsWith("#")) {
-        const p = document.querySelector(g);
-        if (p) {
-          p.hasAttribute("tabindex") || p.setAttribute("tabindex", "-1"), p.focus(), p.classList.add("nhsuk-skip-link-focused-element");
+        const m = document.querySelector(g);
+        if (m) {
+          m.hasAttribute("tabindex") || m.setAttribute("tabindex", "-1"), m.focus(), m.classList.add("nhsuk-skip-link-focused-element");
           const R = window.setTimeout(() => {
-            p.classList.remove("nhsuk-skip-link-focused-element"), p.getAttribute("tabindex") === "-1" && p.removeAttribute("tabindex");
+            m.classList.remove("nhsuk-skip-link-focused-element"), m.getAttribute("tabindex") === "-1" && m.removeAttribute("tabindex");
           }, 3e3);
-          m.__nhsSkipLinkTimeout = R;
+          p.__nhsSkipLinkTimeout = R;
         }
       }
     };
     try {
       const k = document.querySelectorAll(".nhsuk-skip-link");
-      return k.forEach((m) => {
-        m.addEventListener("click", c);
+      return k.forEach((p) => {
+        p.addEventListener("click", c);
       }), () => {
         try {
-          k.forEach((m) => {
-            m.removeEventListener("click", c);
-            const g = m.__nhsSkipLinkTimeout;
+          k.forEach((p) => {
+            p.removeEventListener("click", c);
+            const g = p.__nhsSkipLinkTimeout;
             g && window.clearTimeout && window.clearTimeout(g);
           });
-        } catch (m) {
-          console.warn("SkipLink cleanup error:", m);
+        } catch (p) {
+          console.warn("SkipLink cleanup error:", p);
         }
       };
     } catch (k) {
       return console.warn("SkipLink initialization error:", k), () => {
       };
     }
-  }, [o]);
-  const u = S("nhsuk-skip-link", s);
+  }, [s]);
+  const u = S("nhsuk-skip-link", o);
   return /* @__PURE__ */ v.jsx(
     "a",
     {
       className: u,
       href: a,
       "data-module": "nhsuk-skip-link",
-      "data-enhanced": o ? "true" : "false",
+      "data-enhanced": s ? "true" : "false",
       ...i,
       children: r
     }
@@ -511,7 +514,7 @@ export {
   me as Container,
   ge as Grid,
   ve as MainWrapper,
-  pe as Row,
+  z as Row,
   we as SkipLink,
   be as SpacingUtilities,
   Te as WIDTH_FRACTIONS,

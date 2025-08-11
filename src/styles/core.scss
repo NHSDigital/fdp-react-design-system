@@ -2,7 +2,10 @@
 // Essential layout and utility styles that should be imported globally
 // Optimized for Next.js layout.tsx and progressive enhancement
 
-// Import base tokens and utilities first (@use rules must come before @import)
+// Import design tokens first (required for typography styles)
+@use '../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+
+// Import base utilities
 @use './utilities.scss';
 
 // Core layout components that are typically used globally
@@ -19,7 +22,7 @@
 
 // Skip link for accessibility (should be global)
 @use '../components/SkipLink/SkipLink.scss';
-
+@use '../components/Heading/Heading.scss';
 @use '../components/ErrorMessage/ErrorMessage.scss';  // Form validation
 @use '../components/Breadcrumb/Breadcrumb.scss';      // Navigation
 @use '../components/BackLink/BackLink.scss';          // Navigation
@@ -30,37 +33,40 @@
 // Typography - Paragraph styles
 // Based on NHS Service Manual typography guidelines
 .nhsuk-body {
-  font-size: 1rem; // 16px on small screens
+  font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
+  font-size: tokens.$nhs-fdp-font-size-19-desktop;
   line-height: 1.5;
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: tokens.$nhs-fdp-spacing-4;
 
-  @media (min-width: 40.0625em) { // 641px+
-    font-size: 1.1875rem; // 19px on large screens
+  @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+    font-size: tokens.$nhs-fdp-font-size-19-tablet;
     line-height: 1.47;
   }
 }
 
 .nhsuk-body-l {
-  font-size: 1.125rem; // 18px on small screens
+  font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
+  font-size: tokens.$nhs-fdp-font-size-26-desktop;
   line-height: 1.44;
   margin-top: 0;
-  margin-bottom: 1.25rem;
+  margin-bottom: tokens.$nhs-fdp-spacing-5;
 
-  @media (min-width: 40.0625em) { // 641px+
-    font-size: 1.625rem; // 26px on large screens
+  @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+    font-size: tokens.$nhs-fdp-font-size-26-tablet;
     line-height: 1.38;
   }
 }
 
 .nhsuk-body-s {
-  font-size: 0.875rem; // 14px on small screens
+  font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
+  font-size: tokens.$nhs-fdp-font-size-14-desktop;
   line-height: 1.57;
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: tokens.$nhs-fdp-spacing-4;
 
-  @media (min-width: 40.0625em) { // 641px+
-    font-size: 1rem; // 16px on large screens
+  @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+    font-size: tokens.$nhs-fdp-font-size-14-tablet;
     line-height: 1.5;
   }
 }

@@ -114,7 +114,10 @@ export {
   AriaDataGrid, 
   AriaTabsDataGrid, 
   AriaTabsDataGridAdaptive, 
-  SortStatusControl 
+  SortStatusControl,
+  createGenericTabsConfig,
+  createTCHTabsConfig,
+  tchDataConfig
 } from './SortableDataTable';
 export type { 
   AriaDataGridProps, 
@@ -123,7 +126,9 @@ export type {
   AriaTabsDataGridAdaptiveProps, 
   TabPanelConfig, 
   LayoutMode, 
-  SortStatusControlProps 
+  SortStatusControlProps,
+  GenericTabDefinition,
+  GenericColumnDefinition
 } from './SortableDataTable';
 
 // Layout Components

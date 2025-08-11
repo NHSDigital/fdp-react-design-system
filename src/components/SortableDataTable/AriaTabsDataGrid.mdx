@@ -20,11 +20,12 @@ Choose the appropriate CSS import based on your needs:
 // Option 1: Core styles only (recommended for Next.js layout.tsx)
 import '@fergusbisset/nhs-fdp-design-system/core/css';
 
+// Then import the component specific styles on the page / location where the data table is being utilised.
+import '@fergusbisset/nhs-fdp-design-system/components/AriaTabsDataGrid/css';
+
 // Option 2: Full design system styles
 import '@fergusbisset/nhs-fdp-design-system/css';
 
-// Option 3: Next.js optimised import (includes core styles + components)
-import '@fergusbisset/nhs-fdp-design-system/nextjs';
 ```
 
 ## Key Features
@@ -49,7 +50,7 @@ import {
 } from '@fergusbisset/nhs-fdp-design-system';
 
 // Import styles (choose one approach)
-import '@fergusbisset/nhs-fdp-design-system/css';
+import '@fergusbisset/nhs-fdp-design-system/components/AriaTabsDataGrid/css';
 
 const MyComponent = () => {
   const data = [

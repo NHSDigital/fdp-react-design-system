@@ -1,6 +1,6 @@
 {
   "name": "@fergusbisset/nhs-fdp-design-system",
-  "version": "0.0.17-alpha",
+  "version": "0.0.18-alpha",
   "description": "NHS FDP Frontend Development Platform Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
@@ -90,6 +90,11 @@
     "./components/Radios/css": "./dist/components/Radios/Radios.css",
     "./components/Select/css": "./dist/components/Select/Select.css",
     "./components/SkipLink/css": "./dist/components/SkipLink/SkipLink.css",
+    "./components/SortableDataTable": {
+      "types": "./dist/src/components/SortableDataTable/index.d.ts",
+      "import": "./dist/src/components/SortableDataTable/index.js",
+      "require": "./dist/src/components/SortableDataTable/index.js"
+    },
     "./components/SortableDataTable/css": "./dist/components/SortableDataTable/AriaTabsDataGrid.css",
     "./components/SpacingUtilities/css": "./dist/components/SpacingUtilities/SpacingUtilities.css",
     "./components/SummaryCard/css": "./dist/components/SummaryCard/SummaryCard.css",

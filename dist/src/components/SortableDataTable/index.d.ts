@@ -7,5 +7,8 @@ export { AriaTabsDataGridAdaptive } from './AriaTabsDataGridAdaptive';
 export type { AriaTabsDataGridAdaptiveProps, LayoutMode } from './AriaTabsDataGridAdaptiveTypes';
 export { SortStatusControl } from './SortStatusControl';
 export type { SortStatusControlProps } from './SortStatusControlTypes';
+export { createGenericTabsConfig } from './AriaTabsDataGridFactory';
+export type { GenericTabDefinition, GenericColumnDefinition } from './AriaTabsDataGridFactory';
+export { createTCHTabsConfig, tchDataConfig } from './AriaTabsDataGridTCH';
 export * from './icons';
 export * from './utils';

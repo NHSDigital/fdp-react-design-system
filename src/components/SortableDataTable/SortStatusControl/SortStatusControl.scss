@@ -1,5 +1,15 @@
 /**
  * Sort Status Control Component Styles
+ * 
+ * IMPORTANT: CSS Specificity and Load Order Notes
+ * ================================================
+ * 
+ * This component overrides NHS Tag and Button styles for custom layout.
+ * 
+ * For consumers using this component:
+ * 1. Import this CSS AFTER the base Tag/Button CSS
+ * 2. OR use the main bundle which has correct load order
+ * 3. If styles still don't apply, add a wrapper class with higher specificity
  */
 @use '../../../../packages/nhs-fdp/scss' as nhs;
 
@@ -7,6 +17,7 @@
 @use '../../../styles/utilities.scss';
 
 // Import NHS Tag and Button styles directly to ensure inclusion
+<<<<<<< HEAD
 @import '../../Tag/Tag.scss';
 @import '../../Button/Button.scss';
 
@@ -83,10 +94,102 @@
 
       &:hover {
         transform: translateY(-1px);
+=======
+@use '../../Tag/Tag.scss';
+@use '../../Button/Button.scss';
+
+// Create a high-specificity wrapper for overrides
+.sort-status-control {
+  padding: nhs.$nhs-fdp-spacing-4 !important;
+  background: nhs.$nhs-fdp-color-grey-5 !important;
+  border: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-color-grey-4 !important;
+  border-radius: none !important;
+  margin-bottom: nhs.$nhs-fdp-spacing-4 !important;
+  display: flex !important; 
+  flex-direction: column !important;
+
+  // Description text with higher specificity
+  &__description {
+    font-size: nhs.$nhs-fdp-font-size-14-tablet !important;
+    margin-bottom: nhs.$nhs-fdp-spacing-3 !important;
+    color: nhs.$nhs-fdp-color-grey-1 !important;
+    font-weight: nhs.$nhs-fdp-font-weight-normal !important;
+
+    &--active {
+      color: nhs.$nhs-fdp-color-primary-blue !important;
+      font-weight: nhs.$nhs-fdp-font-weight-bold !important;
+    }
+  }
+
+  // Tags container with overrides
+  &__tags {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    column-gap: nhs.$nhs-fdp-spacing-2 !important;
+    row-gap: nhs.$nhs-fdp-spacing-2 !important;
+    flex: 1 !important;
+
+    &--empty {
+      background: nhs.$nhs-fdp-color-grey-5 !important;
+      border: nhs.$nhs-fdp-border-width-default dashed nhs.$nhs-fdp-color-grey-3 !important;
+      border-radius: nhs.$nhs-fdp-border-radius-small !important;
+      padding: nhs.$nhs-fdp-spacing-4 !important;
+    }
+
+    &-header {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      width: 100% !important;
+      margin-bottom: nhs.$nhs-fdp-spacing-2 !important;
+    }
+
+    &-label {
+      font-size: nhs.$nhs-fdp-font-size-14-tablet !important;
+      font-weight: nhs.$nhs-fdp-font-weight-bold !important;
+      color: nhs.$nhs-fdp-color-grey-1 !important;
+      margin-right: nhs.$nhs-fdp-spacing-2 !important;
+    }
+  }
+
+  // Multiple selectors for higher specificity - NHS Tag overrides
+  .nhsuk-tag,
+  &__tag,
+  & .nhsuk-tag {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 0.25rem 0.5rem !important;
+    
+    // Nested overrides for even higher specificity
+    &.nhsuk-tag {
+      padding: 0.25rem 0.5rem !important;
+      display: inline-flex !important;
+      font-size: nhs.$nhs-fdp-font-size-14-tablet !important;
+    }
+  }
+
+  // Tag-specific component styling
+  &__tag {
+    &-container {
+      display: inline-flex !important;
+      align-items: center !important;
+      cursor: grab !important;
+      transition: transform 0.2s ease !important;
+
+      &:active {
+        cursor: grabbing !important;
+      }
+
+      &:hover {
+        transform: translateY(-1px) !important;
+>>>>>>> dde3396 (Refactoring the SortStatusControl styles)
       }
     }
 
     &-content {
+<<<<<<< HEAD
       display: flex;
       align-items: center;
       gap: nhs.$nhs-fdp-spacing-2;
@@ -130,14 +233,66 @@
       &:focus {
         outline: 2px solid nhs.$nhs-fdp-color-primary-yellow;
         outline-offset: 1px;
+=======
+      display: flex !important;
+      align-items: center !important;
+      gap: nhs.$nhs-fdp-spacing-2 !important;
+      width: 100% !important;
+    }
+
+    &-label {
+      font-weight: nhs.$nhs-fdp-font-weight-bold !important;
+      color: inherit !important;
+      white-space: nowrap !important;
+    }
+
+    &-priority {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 1.25rem !important;
+      height: 1.25rem !important;
+      background: rgba(255, 255, 255, 0.2) !important;
+      border-radius: 50% !important;
+      font-size: nhs.$nhs-fdp-font-size-14-tablet !important;
+      font-weight: nhs.$nhs-fdp-font-weight-bold !important;
+      color: white !important;
+    }
+
+    &-direction {
+      background: none !important;
+      border: none !important;
+      color: white !important;
+      font-size: nhs.$nhs-fdp-font-size-14-tablet !important;
+      font-weight: nhs.$nhs-fdp-font-weight-bold !important;
+      cursor: pointer !important;
+      padding: 0.125rem 0.25rem !important;
+      border-radius: 0.125rem !important;
+      transition: background-color 0.15s ease !important;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+      }
+      
+      &:focus {
+        outline: 2px solid nhs.$nhs-fdp-color-primary-yellow !important;
+        outline-offset: 1px !important;
+>>>>>>> dde3396 (Refactoring the SortStatusControl styles)
       }
     }
 
     &-actions {
+<<<<<<< HEAD
       display: flex;
       flex-direction: column;
       gap: nhs.$nhs-fdp-spacing-1;
       margin-left: nhs.$nhs-fdp-spacing-1;
+=======
+      display: flex !important;
+      flex-direction: column !important;
+      gap: nhs.$nhs-fdp-spacing-1 !important;
+      margin-left: nhs.$nhs-fdp-spacing-1 !important;
+>>>>>>> dde3396 (Refactoring the SortStatusControl styles)
     }
   }
 
@@ -388,4 +543,10 @@
       transition: none;
     }
   }
+}
+
+// Alternative selector for data attribute support (higher specificity fallback)
+[data-component="sort-status-control"] {
+  // Inherit all styles from main component
+  @extend .sort-status-control;
 }

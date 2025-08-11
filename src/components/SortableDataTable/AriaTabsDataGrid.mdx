@@ -4,13 +4,34 @@ import { Canvas, Meta } from '@storybook/addon-docs/blocks';
 
 # AriaTabsDataGrid Component
 
-The `AriaTabsDataGrid` is intended to be a proof of concept fully accessible data grid component that combines tabbed navigation with sortable data tables. Originally designed for FDP Timely Care Hub workflows, it has been refactored and generified with the intention of supporting any domain.
+The `AriaTabsDataGrid` is a fully accessible data grid component that combines tabbed navigation with sortable data tables. Originally designed for FDP Timely Care Hub workflows, it has been refactored and generalised to support any domain.
+
+## Installation
+
+```bash
+npm install @fergusbisset/nhs-fdp-design-system
+```
+
+## Importing Styles
+
+Choose the appropriate CSS import based on your needs:
+
+```typescript
+// Option 1: Core styles only (recommended for Next.js layout.tsx)
+import '@fergusbisset/nhs-fdp-design-system/core/css';
+
+// Option 2: Full design system styles
+import '@fergusbisset/nhs-fdp-design-system/css';
+
+// Option 3: Next.js optimised import (includes core styles + components)
+import '@fergusbisset/nhs-fdp-design-system/nextjs';
+```
 
 ## Key Features
 
 - **Full ARIA Compliance**: Complete accessibility support with screen reader compatibility
 - **Hierarchical Keyboard Navigation**: Arrow key navigation between tabs, headers, and cells
-- **Global Multi-Column Sorting**: Supporting ``SortStatusControl`` component with drag-and-drop sort configuration with visual priority indicators
+- **Global Multi-Column Sorting**: Supporting `SortStatusControl` component with drag-and-drop sort configuration with visual priority indicators
 - **NHS Design System Compliant**: Full integration with NHS design tokens and patterns
 - **TODO: Responsive Design**: Mobile-first approach with proper scaling across devices
 
@@ -21,20 +42,46 @@ The `AriaTabsDataGrid` is intended to be a proof of concept fully accessible dat
 ### Basic Usage
 
 ```tsx
-import { AriaTabsDataGrid } from './AriaTabsDataGrid';
-import { createGenericTabsConfig } from './AriaTabsDataGridFactory';
+import { 
+  AriaTabsDataGrid,
+  createGenericTabsConfig,
+  type GenericTabDefinition 
+} from '@fergusbisset/nhs-fdp-design-system';
+
+// Import styles (choose one approach)
+import '@fergusbisset/nhs-fdp-design-system/css';
 
 const MyComponent = () => {
-  const tabPanels = createGenericTabsConfig(data, [
+  const data = [
+    { id: 1, name: 'John Doe', status: 'Active', department: 'Cardiology' },
+    { id: 2, name: 'Jane Smith', status: 'Pending', department: 'Emergency' },
+    { id: 3, name: 'David Wilson', status: 'Active', department: 'Neurology' },
+    { id: 4, name: 'Sarah Connor', status: 'Inactive', department: 'Orthopedics' },
+    { id: 5, name: 'Mike Johnson', status: 'Active', department: 'Cardiology' }
+  ];
+
+  const tabDefinitions: GenericTabDefinition[] = [
     {
       id: 'all',
       label: 'All Items',
       columns: [
         { key: 'name', label: 'Name' },
-        { key: 'status', label: 'Status' }
+        { key: 'status', label: 'Status' },
+        { key: 'department', label: 'Department' }
       ]
+    },
+    {
+      id: 'active',
+      label: 'Active Only',
+      columns: [
+        { key: 'name', label: 'Name' },
+        { key: 'department', label: 'Department' }
+      ],
+      filter: (data) => data.filter(item => item.status === 'Active')
     }
-  ]);
+  ];
+
+  const tabPanels = createGenericTabsConfig(data, tabDefinitions);
 
   return (
     <AriaTabsDataGrid
@@ -45,27 +92,227 @@ const MyComponent = () => {
 };
 ```
 
-### Timely Care Hub (Demo) Usage
+### Next.js App Router Usage
 
 ```tsx
-import { tchDataConfig, createTCHTabsConfig } from './AriaTabsDataGridTCH';
-import patientsData from './patients_with_ews.json';
+// app/layout.tsx
+import '@fergusbisset/nhs-fdp-design-system/nextjs';
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+```tsx
+// app/data-management/page.tsx
+import { 
+  AriaTabsDataGrid,
+  createGenericTabsConfig,
+  type GenericTabDefinition 
+} from '@fergusbisset/nhs-fdp-design-system';
+
+export default function DataManagementPage() {
+  const data = [
+    // Your application data
+  ];
+
+  const tabDefinitions: GenericTabDefinition[] = [
+    {
+      id: 'overview',
+      label: 'Overview',
+      columns: [
+        { key: 'name', label: 'Name' },
+        { key: 'status', label: 'Status' }
+      ]
+    }
+  ];
+
+  const tabPanels = createGenericTabsConfig(data, tabDefinitions);
+
+  return (
+    <div className="nhsuk-width-container">
+      <div className="nhsuk-grid-row">
+        <div className="nhsuk-grid-column-full">
+          <h1 className="nhsuk-heading-l">Data Management</h1>
+          <AriaTabsDataGrid
+            tabPanels={tabPanels}
+            ariaLabel="Patient Data Management Interface"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+### Component-Specific Import
+
+For tree-shaking optimisation, you can import specific components:
+
+```tsx
+// Import only the components you need
+import { AriaTabsDataGrid } from '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable';
+import { Button } from '@fergusbisset/nhs-fdp-design-system/components/Button';
+
+// Styles still need to be imported separately
+import '@fergusbisset/nhs-fdp-design-system/css';
+```
+
+### Healthcare Demo Implementation
+
+```tsx
+import { 
+  AriaTabsDataGrid,
+  createTCHTabsConfig,
+  type TabPanelConfig 
+} from '@fergusbisset/nhs-fdp-design-system';
+
+// Import styles
+import '@fergusbisset/nhs-fdp-design-system/css';
+
+// Define your patient data interface
+interface Patient {
+  id: string;
+  name: string;
+  ews_score: number;
+  department: string;
+  ward_name: string;
+  // ... other patient fields
+}
 
 const HealthcareDemo = () => {
+  const patientsData: Patient[] = [
+    // Your patient data
+  ];
+
+  // Use the healthcare-specific factory function
   const healthcareTabs = createTCHTabsConfig(patientsData);
 
   return (
     <AriaTabsDataGrid
-      dataConfig={tchDataConfig}
       tabPanels={healthcareTabs}
-      ariaLabel="Timely Care Data Table Concept"
-      onGlobalRowSelectionChange={(patient) => {
+      ariaLabel="Timely Care Data Table"
+      onGlobalRowSelectionChange={(patient: Patient) => {
         console.log('Selected patient:', patient);
       }}
     />
   );
 };
 ```
+
+---
+
+## Framework Integration
+
+### React
+
+```tsx
+// src/index.tsx or src/App.tsx
+import '@fergusbisset/nhs-fdp-design-system/css';
+
+// src/components/DataGrid.tsx
+import { AriaTabsDataGrid } from '@fergusbisset/nhs-fdp-design-system';
+
+export function DataGrid() {
+  return (
+    <AriaTabsDataGrid
+      tabPanels={tabPanels}
+      ariaLabel="Application Data Grid"
+    />
+  );
+}
+```
+
+### Vite + React
+
+```tsx
+// main.tsx
+import '@fergusbisset/nhs-fdp-design-system/css';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+
+createRoot(document.getElementById('root')!).render(<App />);
+```
+
+### TypeScript Configuration
+
+Ensure your `tsconfig.json` includes proper module resolution:
+
+```json
+{
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  }
+}
+```
+
+---
+
+## Performance Optimisation
+
+### Bundle Size Optimisation
+
+```tsx
+// Option 1: Tree-shake by importing specific components
+import { AriaTabsDataGrid } from '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable';
+
+// Option 2: Use core bundle for layout, individual components for features
+import '@fergusbisset/nhs-fdp-design-system/core'; // ~55kB (layout essentials)
+// Then import specific components as needed
+```
+
+### Lazy Loading
+
+```tsx
+import { lazy, Suspense } from 'react';
+
+const AriaTabsDataGrid = lazy(() => 
+  import('@fergusbisset/nhs-fdp-design-system').then(module => ({
+    default: module.AriaTabsDataGrid
+  }))
+);
+
+function MyComponent() {
+  return (
+    <Suspense fallback={<div className="nhsuk-body">Loading data grid...</div>}>
+      <AriaTabsDataGrid tabPanels={tabPanels} ariaLabel="Async Data Grid" />
+    </Suspense>
+  );
+}
+```
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**CSS not loading**: Ensure you've imported the CSS file in your main application entry point:
+```tsx
+import '@fergusbisset/nhs-fdp-design-system/css';
+```
+
+**TypeScript errors**: Make sure you have the latest version and proper module resolution:
+```bash
+npm install @fergusbisset/nhs-fdp-design-system@latest
+```
+
+**SSR hydration mismatch**: Use the SSR entry point for server-side rendering:
+```tsx
+import '@fergusbisset/nhs-fdp-design-system/ssr';
+```
+
+### Version Compatibility
+
+- **React**: 18.0.0+
+- **TypeScript**: 4.5.0+
+- **Node.js**: 16.0.0+
 
 ---
 
@@ -429,8 +676,8 @@ test('should have no accessibility violations', async () => {
 ### Performance Optimisation
 
 ```tsx
-// Memoize large datasets
-const memoizedData = useMemo(() => expensiveDataTransformation(rawData), [rawData]);
+// Memoise large datasets
+const memoisedData = useMemo(() => expensiveDataTransformation(rawData), [rawData]);
 
 // Use stable column definitions
 const columns = useMemo(() => [

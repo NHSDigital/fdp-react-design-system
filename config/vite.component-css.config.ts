@@ -10,19 +10,34 @@ const componentDirs = fs.readdirSync(componentsDir, { withFileTypes: true })
   .filter(dirent => dirent.isDirectory())
   .map(dirent => dirent.name);
 
-// Create entries for components that have SCSS files
+// Create entries for components that have SCSS files (including subdirectories)
 const componentEntries: Record<string, string> = {};
+
+// Recursive function to find SCSS files
+function findScssFiles(dir: string, componentName: string, subPath: string = '') {
+  const items = fs.readdirSync(dir, { withFileTypes: true });
+  
+  items.forEach(item => {
+    if (item.isDirectory()) {
+      // Recursively search subdirectories
+      findScssFiles(
+        path.join(dir, item.name), 
+        componentName, 
+        subPath ? `${subPath}/${item.name}` : item.name
+      );
+    } else if (item.name.endsWith('.scss') && !item.name.startsWith('_')) {
+      const baseName = item.name.replace('.scss', '');
+      const entryKey = subPath 
+        ? `components/${componentName}/${subPath}/${baseName}`
+        : `components/${componentName}/${baseName}`;
+      componentEntries[entryKey] = resolve(dir, item.name);
+    }
+  });
+}
 
 componentDirs.forEach(componentName => {
   const componentDir = path.join(componentsDir, componentName);
-  const scssFiles = fs.readdirSync(componentDir)
-    .filter(file => file.endsWith('.scss') && !file.startsWith('_'));
-  
-  scssFiles.forEach(file => {
-    const baseName = file.replace('.scss', '');
-    componentEntries[`components/${componentName}/${baseName}`] = 
-      resolve(componentDir, file);
-  });
+  findScssFiles(componentDir, componentName);
 });
 
 export default defineConfig({

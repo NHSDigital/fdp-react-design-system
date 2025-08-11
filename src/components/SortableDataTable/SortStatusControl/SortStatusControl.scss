@@ -20,147 +20,161 @@
 @use '../../Tag/Tag.scss';
 @use '../../Button/Button.scss';
 
-// Create a high-specificity wrapper for overrides
+// Create a wrapper for overrides - more specific than broad overrides
 .sort-status-control {
-  padding: nhs.$nhs-fdp-spacing-4 !important;
-  background: nhs.$nhs-fdp-color-grey-5 !important;
-  border: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-color-grey-4 !important;
-  border-radius: none !important;
-  margin-bottom: nhs.$nhs-fdp-spacing-4 !important;
-  display: flex !important; 
-  flex-direction: column !important;
+  padding: nhs.$nhs-fdp-spacing-4;
+  background: nhs.$nhs-fdp-color-grey-5;
+  border: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-color-grey-4;
+  border-radius: none;
+  margin-bottom: nhs.$nhs-fdp-spacing-4;
+  display: flex; 
+  flex-direction: column;
 
-  // Description text with higher specificity
+  // Description text styling
   &__description {
-    font-size: nhs.$nhs-fdp-font-size-14-tablet !important;
-    margin-bottom: nhs.$nhs-fdp-spacing-3 !important;
-    color: nhs.$nhs-fdp-color-grey-1 !important;
-    font-weight: nhs.$nhs-fdp-font-weight-normal !important;
+    font-size: nhs.$nhs-fdp-font-size-14-tablet;
+    margin-bottom: nhs.$nhs-fdp-spacing-3;
+    color: nhs.$nhs-fdp-color-grey-1;
+    font-weight: nhs.$nhs-fdp-font-weight-normal;
 
     &--active {
-      color: nhs.$nhs-fdp-color-primary-blue !important;
-      font-weight: nhs.$nhs-fdp-font-weight-bold !important;
+      color: nhs.$nhs-fdp-color-primary-blue;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
     }
   }
 
-  // Tags container with overrides
+  // Tags container styling
   &__tags {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    align-items: flex-start !important;
-    column-gap: nhs.$nhs-fdp-spacing-2 !important;
-    row-gap: nhs.$nhs-fdp-spacing-2 !important;
-    flex: 1 !important;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    column-gap: nhs.$nhs-fdp-spacing-2;
+    row-gap: nhs.$nhs-fdp-spacing-2;
+    flex: 1;
 
     &--empty {
-      background: nhs.$nhs-fdp-color-grey-5 !important;
-      border: nhs.$nhs-fdp-border-width-default dashed nhs.$nhs-fdp-color-grey-3 !important;
-      border-radius: nhs.$nhs-fdp-border-radius-small !important;
-      padding: nhs.$nhs-fdp-spacing-4 !important;
+      background: nhs.$nhs-fdp-color-grey-5;
+      border: nhs.$nhs-fdp-border-width-default dashed nhs.$nhs-fdp-color-grey-3;
+      border-radius: nhs.$nhs-fdp-border-width-default;
+      padding: nhs.$nhs-fdp-spacing-4;
     }
 
     &-header {
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-      width: 100% !important;
-      margin-bottom: nhs.$nhs-fdp-spacing-2 !important;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: nhs.$nhs-fdp-spacing-2;
     }
 
     &-label {
-      font-size: nhs.$nhs-fdp-font-size-14-tablet !important;
-      font-weight: nhs.$nhs-fdp-font-weight-bold !important;
-      color: nhs.$nhs-fdp-color-grey-1 !important;
-      margin-right: nhs.$nhs-fdp-spacing-2 !important;
+      font-size: nhs.$nhs-fdp-font-size-14-tablet;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: nhs.$nhs-fdp-color-grey-1;
+      margin-right: nhs.$nhs-fdp-spacing-2;
     }
   }
 
-  // Multiple selectors for higher specificity - NHS Tag overrides
-  .nhsuk-tag,
-  &__tag,
-  & .nhsuk-tag {
-    display: inline-flex !important;
-    align-items: center !important;
-    padding: 0.25rem 0.5rem !important;
+  // NHS Tag overrides - only adjust layout without affecting colors
+  &__tag-container .nhsuk-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: nhs.$nhs-fdp-spacing-1;
+    padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2;
+    font-size: nhs.$nhs-fdp-font-size-14-tablet;
     
-    // Nested overrides for even higher specificity
-    &.nhsuk-tag {
-      padding: 0.25rem 0.5rem !important;
-      display: inline-flex !important;
-      font-size: nhs.$nhs-fdp-font-size-14-tablet !important;
+    // Don't override colors - let NHS Tag variants work naturally
+    // Only ensure proper layout and functionality
+    
+    // Ensure the close button and chevron work properly
+    .nhsuk-tag__close {
+      margin-left: nhs.$nhs-fdp-spacing-1;
+      background: transparent;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      
+      &:hover {
+        opacity: 0.7;
+      }
     }
   }
 
-  // Tag-specific component styling
+  // Tag container styling - only within sort status control
   &__tag {
     &-container {
-      display: inline-flex !important;
-      align-items: center !important;
-      cursor: grab !important;
-      transition: transform 0.2s ease !important;
+      display: inline-flex;
+      align-items: center;
+      cursor: grab;
+      transition: transform 0.2s ease;
 
       &:active {
-        cursor: grabbing !important;
+        cursor: grabbing;
       }
 
       &:hover {
-        transform: translateY(-1px) !important;
+        transform: translateY(-1px);
       }
     }
 
     &-content {
-      display: flex !important;
-      align-items: center !important;
-      gap: nhs.$nhs-fdp-spacing-2 !important;
-      width: 100% !important;
+      display: flex;
+      align-items: center;
+      gap: nhs.$nhs-fdp-spacing-2;
+      width: 100%;
     }
 
     &-label {
-      font-weight: nhs.$nhs-fdp-font-weight-bold !important;
-      color: inherit !important;
-      white-space: nowrap !important;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: inherit;
+      white-space: nowrap;
     }
 
     &-priority {
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      width: 1.25rem !important;
-      height: 1.25rem !important;
-      background: rgba(255, 255, 255, 0.2) !important;
-      border-radius: 50% !important;
-      font-size: nhs.$nhs-fdp-font-size-14-tablet !important;
-      font-weight: nhs.$nhs-fdp-font-weight-bold !important;
-      color: white !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.25rem;
+      height: 1.25rem;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      font-size: nhs.$nhs-fdp-font-size-14-tablet;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: white;
     }
 
     &-direction {
-      background: none !important;
-      border: none !important;
-      color: white !important;
-      font-size: nhs.$nhs-fdp-font-size-14-tablet !important;
-      font-weight: nhs.$nhs-fdp-font-weight-bold !important;
-      cursor: pointer !important;
-      padding: 0.125rem 0.25rem !important;
-      border-radius: 0.125rem !important;
-      transition: background-color 0.15s ease !important;
+      background: none;
+      border: none;
+      color: inherit;
+      font-size: nhs.$nhs-fdp-font-size-14-tablet;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      cursor: pointer;
+      padding: 0.125rem 0.25rem;
+      border-radius: 0.125rem;
+      transition: background-color 0.15s ease;
       
       &:hover {
-        background: rgba(255, 255, 255, 0.2) !important;
+        background: rgba(255, 255, 255, 0.2);
       }
       
       &:focus {
-        outline: 2px solid nhs.$nhs-fdp-color-primary-yellow !important;
-        outline-offset: 1px !important;
+        outline: 2px solid nhs.$nhs-fdp-color-primary-yellow;
+        outline-offset: 1px;
       }
     }
 
     &-actions {
-      display: flex !important;
-      flex-direction: column !important;
-      gap: nhs.$nhs-fdp-spacing-1 !important;
-      margin-left: nhs.$nhs-fdp-spacing-1 !important;
+      display: flex;
+      flex-direction: column;
+      gap: nhs.$nhs-fdp-spacing-1;
+      margin-left: nhs.$nhs-fdp-spacing-1;
     }
   }
 

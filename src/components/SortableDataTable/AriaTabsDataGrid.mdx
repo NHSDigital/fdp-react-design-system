@@ -50,11 +50,18 @@ import {
   type GenericTabDefinition 
 } from '@fergusbisset/nhs-fdp-design-system';
 
+<<<<<<< HEAD
 // Import styles (choose one approach)
 import '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable/css';
 import '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable/SortStatusControl/css';
+=======
+// Import styles (on a component by component basis, if you haven't already imported all styles) from '@fergusbisset/nhs-fdp-design-system/css'
+import '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable/css'; // The styles for the Table itself
+import '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable/SortStatusControl/css'; // The styles for the sort status control
+import '@fergusbisset/nhs-fdp-design-system/components/Button/css'; // The styles for the NHS Buttons
+>>>>>>> b2f1b34 (Updated docs)
 
-const MyComponent = () => {
+const MyCustomSortableDataTable = () => {
   const data = [
     { id: 1, name: 'John Doe', status: 'Active', department: 'Cardiology' },
     { id: 2, name: 'Jane Smith', status: 'Pending', department: 'Emergency' },
@@ -112,10 +119,15 @@ export default function RootLayout({ children }) {
 
 ```tsx
 // app/data-management/page.tsx
-import { 
-  AriaTabsDataGrid,
-  createGenericTabsConfig,
-  type GenericTabDefinition 
+import {
+	WidthContainer,
+	Grid,
+	Row,
+	Column,
+	Heading,
+	AriaTabsDataGrid,
+	createGenericTabsConfig,
+	type GenericTabDefinition 
 } from '@fergusbisset/nhs-fdp-design-system';
 
 export default function DataManagementPage() {
@@ -137,17 +149,17 @@ export default function DataManagementPage() {
   const tabPanels = createGenericTabsConfig(data, tabDefinitions);
 
   return (
-    <div className="nhsuk-width-container">
-      <div className="nhsuk-grid-row">
-        <div className="nhsuk-grid-column-full">
-          <h1 className="nhsuk-heading-l">Data Management</h1>
+    <WidthContainer>
+      <Grid>
+        <Column width="full-width">
+		  <Heading size="l">Data Management</Heading>
           <AriaTabsDataGrid
             tabPanels={tabPanels}
             ariaLabel="Patient Data Management Interface"
           />
-        </div>
-      </div>
-    </div>
+        </Column>
+      </Grid>
+    </WidthContainer>
   );
 }
 ```
@@ -161,8 +173,17 @@ For tree-shaking optimisation, you can import specific components:
 import { AriaTabsDataGrid } from '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable';
 import { Button } from '@fergusbisset/nhs-fdp-design-system/components/Button';
 
-// Styles still need to be imported separately
+// Styles still need to be imported separately either the entire file
 import '@fergusbisset/nhs-fdp-design-system/css';
+```
+
+or
+
+```tsx
+// All the styles required for the Sortable Data Table
+import '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable/css';
+import '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable/SortStatusControl/css';
+import '@fergusbisset/nhs-fdp-design-system/components/Button/css';
 ```
 
 ### Healthcare Demo Implementation
@@ -187,7 +208,7 @@ interface Patient {
   // ... other patient fields
 }
 
-const HealthcareDemo = () => {
+const TCHDemo = () => {
   const patientsData: Patient[] = [
     // Your patient data
   ];
@@ -304,11 +325,6 @@ import '@fergusbisset/nhs-fdp-design-system/css';
 **TypeScript errors**: Make sure you have the latest version and proper module resolution:
 ```bash
 npm install @fergusbisset/nhs-fdp-design-system@latest
-```
-
-**SSR hydration mismatch**: Use the SSR entry point for server-side rendering:
-```tsx
-import '@fergusbisset/nhs-fdp-design-system/ssr';
 ```
 
 ### Version Compatibility

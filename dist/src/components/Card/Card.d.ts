@@ -12,6 +12,7 @@ import './Card.scss';
  * - Accessibility compliant with proper headings and ARIA attributes
  * - Responsive design with design tokens
  * - Support for images, custom content, and interactive states
+ * - Full HTML div attributes support including keyboard navigation
  *
  * @example
  * ```tsx
@@ -26,18 +27,16 @@ import './Card.scss';
  *   description="This card is clickable"
  * />
  *
- * // Card group
- * <CardGroup>
- *   <CardGroupItem>
- *     <Card heading="Card 1" description="First card" />
- *   </CardGroupItem>
- *   <CardGroupItem>
- *     <Card heading="Card 2" description="Second card" />
- *   </CardGroupItem>
- * </CardGroup>
+ * // Card with keyboard navigation
+ * <Card
+ *   heading="Navigable Card"
+ *   tabIndex={0}
+ *   onKeyDown={handleKeyDown}
+ *   ref={cardRef}
+ * />
  * ```
  */
-export declare const Card: React.FC<CardProps>;
+export declare const Card: React.ForwardRefExoticComponent<CardProps & React.RefAttributes<HTMLDivElement>>;
 /**
  * NHS Card Group Component
  *

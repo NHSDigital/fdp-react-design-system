@@ -300,7 +300,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
         nhsNumber: `NHS-${String(i + 1).padStart(6, '0')}`,
         name: `Patient ${i + 1}`,
         age: 18 + (i % 80),
-        ward: ['Cardiology', 'Neurology', 'Orthopedics', 'ICU', 'Emergency'][i % 5],
+        ward: ['Cardiology', 'Neurology', 'Orthopaedics', 'ICU', 'Emergency'][i % 5],
         condition: ['Stable', 'Critical', 'Recovering', 'Monitoring'][i % 4],
         isInpatient: i % 3 !== 0,
         admissionDate: `2024-01-${String((i % 30) + 1).padStart(2, '0')}`,

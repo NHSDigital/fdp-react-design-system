@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ResponsiveDataGrid } from './ResponsiveDataGrid';
+import { AriaTabsDataGridComprehensiveDemo } from './ResponsiveDataGridDemo';
 import type { ResponsiveDataGridProps } from './ResponsiveDataGridTypes';
 import { PatientCard, AppointmentCard, MedicationCard, VitalsCard } from './HealthcareCardTemplates';
 import { createTCHTabsConfig, tchDataConfig } from '../SortableDataTable/AriaTabsDataGridTCH';
@@ -31,7 +32,7 @@ A mobile-first, responsive data grid component that automatically adapts between
 
 ## Features
 
-- **Mobile-First Design**: Optimized card layout for mobile devices
+- **Mobile-First Design**: Optimised card layout for mobile devices
 - **Progressive Enhancement**: Scales from cards to hybrid to full table
 - **Healthcare Optimization**: Specialized card templates for clinical data
 - **Intelligent Layout**: AI-powered layout recommendations based on data and device context
@@ -133,13 +134,15 @@ const getCardTemplate = (variant: string) => {
 
     switch (variant) {
       case 'patient':
-        return <PatientCard {...commonProps} priority={data.priority_level} status={data.status} />;
+        const patientPriority = data.ews_score >= 7 ? 'high' : data.ews_score >= 3 ? 'medium' : 'low';
+        return <PatientCard {...commonProps} priority={patientPriority} status="active" />;
       case 'appointment':
-        return <AppointmentCard {...commonProps} status={data.status} />;
+        return <AppointmentCard {...commonProps} status={data.status || 'pending'} />;
       case 'medication':
-        return <MedicationCard {...commonProps} priority={data.priority} />;
+        return <MedicationCard {...commonProps} priority={data.priority || 'medium'} />;
       case 'vitals':
-        return <VitalsCard {...commonProps} priority={data.priority} />;
+        const vitalsPriority = data.ews_score >= 7 ? 'high' : data.ews_score >= 3 ? 'medium' : 'low';
+        return <VitalsCard {...commonProps} priority={vitalsPriority} />;
       default:
         return null;
     }
@@ -156,34 +159,120 @@ const baseProps = {
 
 // Use the patients data we have available
 const patientData = patients.slice(0, 10); // Use first 10 patients
-const appointmentData = patients.slice(0, 5).map((patient, index) => ({
-  appointment_time: new Date(Date.now() + index * 60 * 60 * 1000).toISOString(),
-  patient_name: patient.name,
-  appointment_type: ['Consultation', 'Follow-up', 'Check-up', 'Emergency'][index % 4],
-  consultant: patient.consultant,
-  location: patient.ward_name,
-  duration: [30, 45, 60, 15][index % 4],
-  status: ['Confirmed', 'Pending', 'Completed', 'Cancelled'][index % 4]
-}));
-const medicationData = patients.slice(0, 5).map((patient, index) => ({
-  medication: ['Paracetamol', 'Ibuprofen', 'Aspirin', 'Codeine', 'Morphine'][index % 5],
-  dose: ['500mg', '200mg', '75mg', '30mg', '10mg'][index % 5],
-  frequency: ['TDS', 'BD', 'QDS', 'PRN', 'OD'][index % 5],
-  route: ['PO', 'IV', 'IM', 'SC', 'SL'][index % 5],
-  next_due: new Date(Date.now() + (index + 1) * 2 * 60 * 60 * 1000).toISOString(),
-  prescriber: patient.consultant,
-  patient: patient.name
-}));
-const vitalsData = patients.slice(0, 5).map((patient, index) => ({
-  patient: patient.name,
-  recorded_time: new Date(Date.now() - index * 30 * 60 * 1000).toISOString(),
-  temperature: (36.0 + Math.random() * 2).toFixed(1),
-  blood_pressure: `${120 + index * 5}/${80 + index * 2}`,
-  heart_rate: 70 + index * 5,
-  respiratory_rate: 16 + index,
-  oxygen_saturation: 98 - index,
-  ews_score: patient.ews_score
-}));
+
+// Enhanced appointment data with better structure
+const appointmentData = [
+  {
+    id: 'appt-001',
+    appointment_time: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+    patient_name: patients[0]?.name || 'Sarah Johnson',
+    appointment_type: 'Cardiology Consultation',
+    consultant: patients[0]?.consultant || 'Dr. Smith',
+    location: 'Clinic Room 3',
+    duration: 30,
+    status: 'pending'
+  },
+  {
+    id: 'appt-002',
+    appointment_time: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
+    patient_name: patients[1]?.name || 'Michael Davis',
+    appointment_type: 'Post-op Follow-up',
+    consultant: patients[1]?.consultant || 'Dr. Johnson',
+    location: 'Surgery Ward',
+    duration: 15,
+    status: 'active'
+  },
+  {
+    id: 'appt-003',
+    appointment_time: new Date(Date.now() + 3 * 60 * 60 * 1000).toISOString(),
+    patient_name: patients[2]?.name || 'Emma Thompson',
+    appointment_type: 'Respiratory Assessment',
+    consultant: patients[2]?.consultant || 'Dr. Wilson',
+    location: 'Emergency Department',
+    duration: 45,
+    status: 'pending'
+  }
+];
+
+// Enhanced medication data with better structure
+const medicationData = [
+  {
+    id: 'med-001',
+    medication: 'Amlodipine',
+    dose: '5mg',
+    frequency: 'Once daily',
+    route: 'Oral',
+    next_due: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
+    prescriber: 'Dr. Smith',
+    patient_name: patients[0]?.name || 'Sarah Johnson',
+    allergies: null,
+    priority: 'medium'
+  },
+  {
+    id: 'med-002',
+    medication: 'Morphine',
+    dose: '10mg',
+    frequency: 'Every 4 hours',
+    route: 'IV',
+    next_due: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+    prescriber: 'Dr. Johnson',
+    patient_name: patients[1]?.name || 'Michael Davis',
+    allergies: 'Codeine allergy',
+    priority: 'high'
+  },
+  {
+    id: 'med-003',
+    medication: 'Salbutamol',
+    dose: '2 puffs',
+    frequency: 'As needed',
+    route: 'Inhaled',
+    next_due: new Date(Date.now() + 90 * 60 * 1000).toISOString(),
+    prescriber: 'Dr. Wilson',
+    patient_name: patients[2]?.name || 'Emma Thompson',
+    allergies: null,
+    priority: 'high'
+  }
+];
+
+// Enhanced vitals data with better structure
+const vitalsData = [
+  {
+    id: 'vitals-001',
+    patient_name: patients[0]?.name || 'Sarah Johnson',
+    recorded_time: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
+    temperature: 36.8,
+    blood_pressure: '140/90',
+    heart_rate: 82,
+    respiratory_rate: 16,
+    oxygen_saturation: 98,
+    ews_score: patients[0]?.ews_score || 3,
+    priority: patients[0]?.ews_score >= 7 ? 'high' : patients[0]?.ews_score >= 3 ? 'medium' : 'low'
+  },
+  {
+    id: 'vitals-002',
+    patient_name: patients[1]?.name || 'Michael Davis',
+    recorded_time: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
+    temperature: 37.2,
+    blood_pressure: '130/85',
+    heart_rate: 98,
+    respiratory_rate: 20,
+    oxygen_saturation: 95,
+    ews_score: patients[1]?.ews_score || 7,
+    priority: patients[1]?.ews_score >= 7 ? 'high' : patients[1]?.ews_score >= 3 ? 'medium' : 'low'
+  },
+  {
+    id: 'vitals-003',
+    patient_name: patients[2]?.name || 'Emma Thompson',
+    recorded_time: new Date(Date.now() - 90 * 60 * 1000).toISOString(),
+    temperature: 38.5,
+    blood_pressure: '110/70',
+    heart_rate: 105,
+    respiratory_rate: 24,
+    oxygen_saturation: 90,
+    ews_score: patients[2]?.ews_score || 9,
+    priority: patients[2]?.ews_score >= 7 ? 'high' : patients[2]?.ews_score >= 3 ? 'medium' : 'low'
+  }
+];
 
 /**
  * Default adaptive layout that responds to viewport size
@@ -240,38 +329,6 @@ export const ForcedCardLayout: Story = {
     docs: {
       description: {
         story: 'Forces card layout regardless of viewport size to demonstrate mobile-first design patterns.'
-      }
-    }
-  }
-};
-
-/**
- * Hybrid layout optimized for tablets
- */
-export const HybridLayout: Story = {
-  args: {
-    ...baseProps,
-    forceLayout: 'hybrid',
-    tabPanels: [
-      {
-        id: 'patients',
-        label: 'Patients',
-        data: patientData,
-        columns: patientColumns,
-        ariaLabel: 'Patient records'
-      }
-    ],
-    cardConfig: {
-      primaryField: 'name',
-      secondaryFields: ['nhs_number', 'ward', 'condition'],
-      badgeFields: ['ews_score', 'priority_level'],
-      cardTemplate: getCardTemplate('patient')
-    }
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Hybrid layout combining card benefits with table efficiency, optimized for tablet usage in clinical environments.'
       }
     }
   }
@@ -346,7 +403,8 @@ export const HealthcareWorkflow: Story = {
     cardConfig: {
       primaryField: 'name',
       secondaryFields: ['nhs_number', 'ward', 'condition'],
-      badgeFields: ['ews_score', 'priority_level']
+      badgeFields: ['ews_score', 'priority_level'],
+      cardTemplate: getCardTemplate('patient')
     },
     experimental: {
       hybridMode: true,
@@ -491,38 +549,6 @@ export const VitalsCards: Story = {
 };
 
 /**
- * High priority alerts showcase
- */
-export const HighPriorityAlerts: Story = {
-  args: {
-    ...baseProps,
-    forceLayout: 'cards',
-    tabPanels: [
-      {
-        id: 'alerts',
-        label: 'Critical Alerts',
-        data: patientData.filter(patient => patient.ews_score >= 6),
-        columns: patientColumns,
-        ariaLabel: 'High priority patient alerts'
-      }
-    ],
-    cardConfig: {
-      primaryField: 'name',
-      secondaryFields: ['nhs_number', 'ward', 'condition'],
-      badgeFields: ['ews_score', 'priority_level'],
-      cardTemplate: getCardTemplate('patient')
-    }
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Critical patient alerts with enhanced visual indicators, pulsing animations, and emergency action buttons for immediate clinical attention.'
-      }
-    }
-  }
-};
-
-/**
  * Loading state
  */
 export const LoadingState: Story = {
@@ -574,33 +600,3 @@ export const ErrorState: Story = {
   }
 };
 
-/**
- * Accessibility showcase
- */
-export const AccessibilityShowcase: Story = {
-  args: {
-    ...baseProps,
-    tabPanels: [
-      {
-        id: 'patients',
-        label: 'Patients (Navigate with Tab, Arrow keys, Enter)',
-        data: patientData.slice(0, 3),
-        columns: patientColumns,
-        ariaLabel: 'Patient records - use Tab to navigate, Arrow keys within cards, Enter to select'
-      }
-    ],
-    cardConfig: {
-      primaryField: 'name',
-      secondaryFields: ['nhs_number', 'ward', 'condition'],
-      badgeFields: ['ews_score', 'priority_level'],
-      cardTemplate: getCardTemplate('patient')
-    }
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Accessibility features including keyboard navigation, screen reader support, and ARIA labeling. Try navigating with Tab, Arrow keys, and Enter.'
-      }
-    }
-  }
-};

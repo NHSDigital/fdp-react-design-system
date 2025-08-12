@@ -101,13 +101,13 @@ const mockEWSPatients: EWSPatientData[] = [
       avpu: "alert"
     },
     ews_score: 0,
-    ward_name: "Orthopedics Ward",
+    ward_name: "Orthopaedics Ward",
     room_name: "Room B",
     bed_name: "Bed 3",
     bed_type: "bed",
     admin_note: "Post-operative recovery",
     pathway: "Elective Surgery",
-    speciality: "Orthopedics",
+    speciality: "Orthopaedics",
     consultant: "Dr. Williams",
     local_authority: "Birmingham City Council",
     early_discharge_notification: "complete",
@@ -439,7 +439,7 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
       // Check ward information
       expect(screen.getByText('Cardiology Ward')).toBeTruthy();
       expect(screen.getByText('ICU')).toBeTruthy();
-      expect(screen.getByText('Orthopedics Ward')).toBeTruthy();
+      expect(screen.getByText('Orthopaedics Ward')).toBeTruthy();
 
       // Check bed information
       expect(screen.getByText('Bed 1')).toBeTruthy();

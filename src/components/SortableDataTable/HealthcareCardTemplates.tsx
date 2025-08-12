@@ -120,7 +120,7 @@ export const PatientCard: React.FC<HealthcareCardProps> = ({
             onAction?.('view-full', data);
           }}
         >
-          View Full
+          View Full Record
         </button>
       </div>
     </div>

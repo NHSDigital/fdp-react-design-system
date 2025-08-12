@@ -1,6 +1,9 @@
 // ResponsiveDataGrid - Mobile-First Card Layout
 @use '../../../packages/nhs-fdp/scss' as nhs;
 
+// Import healthcare card templates with focus styles
+@use './HealthcareCardTemplates.scss';
+
 // Mobile-first approach: Start with cards, enhance to table
 .aria-tabs-datagrid-adaptive {
   font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
@@ -61,6 +64,49 @@
           color: #212121;
         }
       }
+    }
+
+    // Card navigation states (following GanttChart pattern)
+    &--card-navigation {
+      border: 2px dashed #005eb8; // NHS Blue dashed border for navigation mode
+      background-color: rgba(0, 94, 184, 0.05); // Light blue background tint
+      position: relative;
+      
+      &::before {
+        content: "Navigation Mode";
+        position: absolute;
+        top: -12px;
+        left: nhs.$nhs-fdp-spacing-3;
+        background: #005eb8; // NHS Blue
+        color: #ffffff;
+        font-size: 0.75rem;
+        padding: 2px 8px;
+        border-radius: 4px;
+        z-index: 10;
+        font-weight: 600; // Bold weight
+      }
+      
+      // Highlight focusable elements within active card
+      button, a, input, select, textarea, [tabindex]:not([tabindex="-1"]) {
+        outline: 1px dotted #005eb8 !important;
+        outline-offset: 2px;
+        
+        &:focus {
+          outline: 3px solid #ffeb3b !important; // NHS yellow for focused elements
+          outline-offset: 2px;
+          box-shadow: 0 0 0 4px rgba(255, 235, 59, 0.3);
+        }
+      }
+    }
+
+    &--selected {
+      border-color: #005eb8; // NHS Blue
+      box-shadow: 0 4px 8px rgba(0, 94, 184, 0.15);
+    }
+
+    &--focused {
+      outline: 3px solid #ffeb3b; // NHS Yellow focus
+      outline-offset: 2px;
     }
   }
 
@@ -293,7 +339,7 @@
   &--hybrid {
     @media (min-width: 768px) {
       #{&}__cards {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: nhs.$nhs-fdp-spacing-3;
       }
       
@@ -343,7 +389,7 @@
   @media (min-width: 1200px) {
     // Cards become less prominent, table takes precedence
     &__cards {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: nhs.$nhs-fdp-spacing-2;
     }
     

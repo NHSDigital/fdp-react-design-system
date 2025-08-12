@@ -1,4 +1,7 @@
 import React from 'react';
+import { Button } from '../Button/Button';
+import { Tag } from '../Tag/Tag';
+import type { TagColor } from '../Tag/Tag.types';
 import './HealthcareCardTemplates.scss';
 
 /**
@@ -55,14 +58,20 @@ export const PatientCard: React.FC<HealthcareCardProps> = ({
         {/* Priority and Alert Badges */}
         <div className="healthcare-card__badges">
           {alertLevel && (
-            <span className={`nhsuk-tag healthcare-card__alert healthcare-card__alert--${getAlertLevel(alertLevel)}`}>
+            <Tag 
+              color={getAlertTagColor(getAlertLevel(alertLevel))}
+              className="healthcare-card__alert"
+            >
               EWS: {alertLevel}
-            </span>
+            </Tag>
           )}
           {priority === 'high' && (
-            <span className="nhsuk-tag healthcare-card__priority healthcare-card__priority--high">
+            <Tag 
+              color={getPriorityTagColor(priority)}
+              className="healthcare-card__priority"
+            >
               High Priority
-            </span>
+            </Tag>
           )}
         </div>
       </div>
@@ -95,33 +104,36 @@ export const PatientCard: React.FC<HealthcareCardProps> = ({
 
       {/* Quick Actions */}
       <div className="healthcare-card__actions">
-        <button 
-          className="nhsuk-button nhsuk-button--secondary healthcare-card__action"
+        <Button 
+          variant="secondary"
+          className="healthcare-card__action"
           onClick={(e) => {
             e.stopPropagation();
             onAction?.('view-notes', data);
           }}
         >
           Notes
-        </button>
-        <button 
-          className="nhsuk-button nhsuk-button--secondary healthcare-card__action"
+        </Button>
+        <Button 
+          variant="secondary"
+          className="healthcare-card__action"
           onClick={(e) => {
             e.stopPropagation();
             onAction?.('view-vitals', data);
           }}
         >
           Vitals
-        </button>
-        <button 
-          className="nhsuk-button healthcare-card__action healthcare-card__action--primary"
+        </Button>
+        <Button 
+          variant="primary"
+          className="healthcare-card__action healthcare-card__action--primary"
           onClick={(e) => {
             e.stopPropagation();
             onAction?.('view-full', data);
           }}
         >
-          View Full
-        </button>
+          View Full Record
+        </Button>
       </div>
     </div>
   );
@@ -158,13 +170,19 @@ export const AppointmentCard: React.FC<HealthcareCardProps> = ({
         </div>
         
         <div className="healthcare-card__badges">
-          <span className={`nhsuk-tag healthcare-card__status healthcare-card__status--${status}`}>
+          <Tag 
+            color={getStatusTagColor(status)}
+            className="healthcare-card__status"
+          >
             {status.charAt(0).toUpperCase() + status.slice(1)}
-          </span>
+          </Tag>
           {duration && (
-            <span className="nhsuk-tag healthcare-card__duration">
+            <Tag 
+              color="blue"
+              className="healthcare-card__duration"
+            >
               {duration} min
-            </span>
+            </Tag>
           )}
         </div>
       </div>
@@ -193,24 +211,26 @@ export const AppointmentCard: React.FC<HealthcareCardProps> = ({
       </div>
 
       <div className="healthcare-card__actions">
-        <button 
-          className="nhsuk-button nhsuk-button--secondary healthcare-card__action"
+        <Button 
+          variant="secondary"
+          className="healthcare-card__action"
           onClick={(e) => {
             e.stopPropagation();
             onAction?.('reschedule', data);
           }}
         >
           Reschedule
-        </button>
-        <button 
-          className="nhsuk-button healthcare-card__action healthcare-card__action--primary"
+        </Button>
+        <Button 
+          variant="primary"
+          className="healthcare-card__action healthcare-card__action--primary"
           onClick={(e) => {
             e.stopPropagation();
             onAction?.('check-in', data);
           }}
         >
           Check In
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -249,14 +269,20 @@ export const MedicationCard: React.FC<HealthcareCardProps> = ({
         
         <div className="healthcare-card__badges">
           {route && (
-            <span className="nhsuk-tag healthcare-card__route">
+            <Tag 
+              color="blue"
+              className="healthcare-card__route"
+            >
               {route}
-            </span>
+            </Tag>
           )}
           {allergies && (
-            <span className="nhsuk-tag healthcare-card__warning">
+            <Tag 
+              color="red"
+              className="healthcare-card__warning"
+            >
               ⚠️ Allergies
-            </span>
+            </Tag>
           )}
         </div>
       </div>
@@ -280,24 +306,26 @@ export const MedicationCard: React.FC<HealthcareCardProps> = ({
       </div>
 
       <div className="healthcare-card__actions">
-        <button 
-          className="nhsuk-button nhsuk-button--secondary healthcare-card__action"
+        <Button 
+          variant="secondary"
+          className="healthcare-card__action"
           onClick={(e) => {
             e.stopPropagation();
             onAction?.('view-history', data);
           }}
         >
           History
-        </button>
-        <button 
-          className="nhsuk-button healthcare-card__action healthcare-card__action--primary"
+        </Button>
+        <Button 
+          variant="primary"
+          className="healthcare-card__action healthcare-card__action--primary"
           onClick={(e) => {
             e.stopPropagation();
             onAction?.('administer', data);
           }}
         >
           Administer
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -379,24 +407,26 @@ export const VitalsCard: React.FC<HealthcareCardProps> = ({
       </div>
 
       <div className="healthcare-card__actions">
-        <button 
-          className="nhsuk-button nhsuk-button--secondary healthcare-card__action"
+        <Button 
+          variant="secondary"
+          className="healthcare-card__action"
           onClick={(e) => {
             e.stopPropagation();
             onAction?.('view-trend', data);
           }}
         >
           Trend
-        </button>
-        <button 
-          className="nhsuk-button healthcare-card__action healthcare-card__action--primary"
+        </Button>
+        <Button 
+          variant="primary"
+          className="healthcare-card__action healthcare-card__action--primary"
           onClick={(e) => {
             e.stopPropagation();
             onAction?.('record-new', data);
           }}
         >
           Record New
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -413,6 +443,35 @@ function getAlertLevel(score: number | string): string {
 
 function getEWSLevel(score: number | string): string {
   return getAlertLevel(score);
+}
+
+function getAlertTagColor(alertLevel: string): TagColor {
+  switch (alertLevel) {
+    case 'critical': return 'red';
+    case 'high': return 'orange';
+    case 'medium': return 'yellow';
+    case 'low': return 'grey';
+    default: return 'grey';
+  }
+}
+
+function getStatusTagColor(status: string): TagColor {
+  switch (status) {
+    case 'active': return 'green';
+    case 'pending': return 'orange';
+    case 'completed': return 'aqua-green';
+    case 'cancelled': return 'grey';
+    default: return 'default';
+  }
+}
+
+function getPriorityTagColor(priority: string): TagColor {
+  switch (priority) {
+    case 'high': return 'red';
+    case 'medium': return 'orange';
+    case 'low': return 'grey';
+    default: return 'default';
+  }
 }
 
 function formatDate(dateString: string): string {

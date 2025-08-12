@@ -4,10 +4,14 @@
 
 import React, { useState, useMemo } from 'react';
 import { AriaTabsDataGrid } from '../SortableDataTable/AriaTabsDataGrid';
+import { Button } from '../Button/Button';
+import { tchDataConfig } from '../SortableDataTable/AriaTabsDataGridTCH';
 import { 
-  tchDataConfig, 
-  createTCHTabsConfig 
-} from '../SortableDataTable/AriaTabsDataGridTCH';
+  PatientCard,
+  AppointmentCard, 
+  MedicationCard,
+  VitalsCard
+} from './HealthcareCardTemplates';
 import { 
   createPluginDataGrid,
   type EcommerceProduct,
@@ -140,6 +144,120 @@ const samplePatients: EWSPatientData[] = [
     initial_therapy_contact: '',
     equipment: 'Oxygen',
     district_nurse_referral: false
+  }
+];
+
+// Sample healthcare appointment data
+const sampleAppointments = [
+  {
+    id: 'appt-001',
+    appointment_time: '2024-01-18T09:00:00Z',
+    patient_name: 'Sarah Johnson',
+    appointment_type: 'Cardiology Consultation',
+    consultant: 'Dr. Smith',
+    location: 'Clinic Room 3',
+    duration: 30,
+    status: 'pending'
+  },
+  {
+    id: 'appt-002', 
+    appointment_time: '2024-01-18T10:30:00Z',
+    patient_name: 'Michael Davis',
+    appointment_type: 'Post-op Follow-up',
+    consultant: 'Dr. Johnson',
+    location: 'Surgery Ward',
+    duration: 15,
+    status: 'active'
+  },
+  {
+    id: 'appt-003',
+    appointment_time: '2024-01-18T14:00:00Z',
+    patient_name: 'Emma Thompson',
+    appointment_type: 'Respiratory Assessment',
+    consultant: 'Dr. Wilson',
+    location: 'Emergency Department',
+    duration: 45,
+    status: 'pending'
+  }
+];
+
+// Sample medication data
+const sampleMedications = [
+  {
+    id: 'med-001',
+    medication: 'Amlodipine',
+    dose: '5mg',
+    frequency: 'Once daily',
+    route: 'Oral',
+    next_due: '2024-01-18T08:00:00Z',
+    prescriber: 'Dr. Smith',
+    patient_name: 'Sarah Johnson',
+    allergies: null,
+    priority: 'medium'
+  },
+  {
+    id: 'med-002',
+    medication: 'Morphine',
+    dose: '10mg',
+    frequency: 'Every 4 hours',
+    route: 'IV',
+    next_due: '2024-01-18T10:00:00Z',
+    prescriber: 'Dr. Johnson',
+    patient_name: 'Michael Davis',
+    allergies: 'Codeine allergy',
+    priority: 'high'
+  },
+  {
+    id: 'med-003',
+    medication: 'Salbutamol',
+    dose: '2 puffs',
+    frequency: 'As needed',
+    route: 'Inhaled',
+    next_due: '2024-01-18T12:00:00Z',
+    prescriber: 'Dr. Wilson',
+    patient_name: 'Emma Thompson',
+    allergies: null,
+    priority: 'high'
+  }
+];
+
+// Sample vitals data
+const sampleVitals = [
+  {
+    id: 'vitals-001',
+    patient_name: 'Sarah Johnson',
+    recorded_time: '2024-01-18T07:30:00Z',
+    temperature: 36.8,
+    blood_pressure: '140/90',
+    heart_rate: 82,
+    respiratory_rate: 16,
+    oxygen_saturation: 98,
+    ews_score: 3,
+    priority: 'medium'
+  },
+  {
+    id: 'vitals-002',
+    patient_name: 'Michael Davis',
+    recorded_time: '2024-01-18T08:15:00Z',
+    temperature: 37.2,
+    blood_pressure: '130/85',
+    heart_rate: 98,
+    respiratory_rate: 20,
+    oxygen_saturation: 95,
+    ews_score: 7,
+    priority: 'high'
+  },
+  {
+    id: 'vitals-003',
+    patient_name: 'Emma Thompson',
+    recorded_time: '2024-01-18T09:00:00Z',
+    temperature: 38.5,
+    blood_pressure: '110/70',
+    heart_rate: 105,
+    respiratory_rate: 24,
+    oxygen_saturation: 90,
+    ews_score: 9,
+    priority: 'high'
   }
 ];
 
@@ -311,16 +429,112 @@ const businessLeadsConfig: DataOperationConfig<BusinessLead> = {
 
 type DemoMode = 'healthcare' | 'ecommerce' | 'financial' | 'business';
 
+/**
+ * Create healthcare workflow tabs with card templates
+ */
+const createHealthcareWorkflowTabs = () => {
+  return [
+    {
+      id: 'patients',
+      label: 'Patients',
+      data: samplePatients,
+      columns: [
+        { key: 'name', label: 'Patient Name' },
+        { key: 'age', label: 'Age' },
+        { key: 'ward_name', label: 'Ward' },
+        { key: 'ews_score', label: 'EWS Score' }
+      ],
+      ariaLabel: 'Patient Records',
+      ariaDescription: 'Healthcare patient management with EWS monitoring',
+      cardTemplate: (data: any, columns: any[]) => (
+        <PatientCard 
+          data={data} 
+          columns={columns}
+          onSelect={(patient) => console.log('Selected patient:', patient)}
+          onAction={(action, patient) => console.log('Patient action:', action, patient)}
+          priority={data.ews_score >= 7 ? 'high' : data.ews_score >= 3 ? 'medium' : 'low'}
+        />
+      )
+    },
+    {
+      id: 'appointments',
+      label: 'Appointments',
+      data: sampleAppointments,
+      columns: [
+        { key: 'appointment_time', label: 'Time' },
+        { key: 'patient_name', label: 'Patient' },
+        { key: 'appointment_type', label: 'Type' },
+        { key: 'consultant', label: 'Consultant' }
+      ],
+      ariaLabel: 'Patient Appointments',
+      ariaDescription: 'Scheduled appointments and consultations',
+      cardTemplate: (data: any, columns: any[]) => (
+        <AppointmentCard 
+          data={data} 
+          columns={columns}
+          onSelect={(appointment) => console.log('Selected appointment:', appointment)}
+          onAction={(action, appointment) => console.log('Appointment action:', action, appointment)}
+          status={data.status}
+        />
+      )
+    },
+    {
+      id: 'medications',
+      label: 'Medications',
+      data: sampleMedications,
+      columns: [
+        { key: 'medication', label: 'Medication' },
+        { key: 'dose', label: 'Dose' },
+        { key: 'frequency', label: 'Frequency' },
+        { key: 'next_due', label: 'Next Due' }
+      ],
+      ariaLabel: 'Patient Medications',
+      ariaDescription: 'Medication administration and scheduling',
+      cardTemplate: (data: any, columns: any[]) => (
+        <MedicationCard 
+          data={data} 
+          columns={columns}
+          onSelect={(medication) => console.log('Selected medication:', medication)}
+          onAction={(action, medication) => console.log('Medication action:', action, medication)}
+          priority={data.priority}
+        />
+      )
+    },
+    {
+      id: 'vitals',
+      label: 'Vital Signs',
+      data: sampleVitals,
+      columns: [
+        { key: 'patient_name', label: 'Patient' },
+        { key: 'recorded_time', label: 'Time' },
+        { key: 'temperature', label: 'Temperature' },
+        { key: 'ews_score', label: 'EWS Score' }
+      ],
+      ariaLabel: 'Patient Vital Signs',
+      ariaDescription: 'Patient vital signs monitoring and EWS scores',
+      cardTemplate: (data: any, columns: any[]) => (
+        <VitalsCard 
+          data={data} 
+          columns={columns}
+          onSelect={(vitals) => console.log('Selected vitals:', vitals)}
+          onAction={(action, vitals) => console.log('Vitals action:', action, vitals)}
+          priority={data.ews_score >= 7 ? 'high' : data.ews_score >= 3 ? 'medium' : 'low'}
+        />
+      )
+    }
+  ];
+};
+
 export const AriaTabsDataGridComprehensiveDemo: React.FC = () => {
   const [demoMode, setDemoMode] = useState<DemoMode>('healthcare');
 
   // Memoized configurations for each demo mode
   const demoConfigurations = useMemo(() => ({
     healthcare: {
-      title: 'Healthcare Patient Management',
-      description: 'NHS Early Warning System with patient monitoring',
+      title: 'Healthcare Workflow Management',
+      description: 'Comprehensive healthcare workflow with patient cards, appointments, medications, and vitals',
       dataConfig: tchDataConfig,
-      tabPanels: createTCHTabsConfig(samplePatients),
+      tabPanels: createHealthcareWorkflowTabs(),
       data: samplePatients
     },
     ecommerce: {
@@ -437,33 +651,16 @@ export const AriaTabsDataGridComprehensiveDemo: React.FC = () => {
           flexWrap: 'wrap'
         }}>
           {(Object.keys(demoConfigurations) as DemoMode[]).map((mode) => (
-            <button
+            <Button
               key={mode}
+              variant={demoMode === mode ? 'primary' : 'secondary'}
               onClick={() => setDemoMode(mode)}
               style={{
-                padding: '0.75rem 1.5rem',
-                borderRadius: '0.5rem',
-                border: '1px solid #d1d5db',
-                backgroundColor: demoMode === mode ? '#3b82f6' : '#ffffff',
-                color: demoMode === mode ? '#ffffff' : '#374151',
-                cursor: 'pointer',
-                fontWeight: '500',
-                transition: 'all 0.2s',
                 textTransform: 'capitalize'
-              }}
-              onMouseOver={(e) => {
-                if (demoMode !== mode) {
-                  e.currentTarget.style.backgroundColor = '#f3f4f6';
-                }
-              }}
-              onMouseOut={(e) => {
-                if (demoMode !== mode) {
-                  e.currentTarget.style.backgroundColor = '#ffffff';
-                }
               }}
             >
               {mode}
-            </button>
+            </Button>
           ))}
         </div>
 

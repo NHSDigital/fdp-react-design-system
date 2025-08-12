@@ -14,6 +14,7 @@ import './Card.scss';
  * - Accessibility compliant with proper headings and ARIA attributes
  * - Responsive design with design tokens
  * - Support for images, custom content, and interactive states
+ * - Full HTML div attributes support including keyboard navigation
  * 
  * @example
  * ```tsx
@@ -28,18 +29,16 @@ import './Card.scss';
  *   description="This card is clickable"
  * />
  * 
- * // Card group
- * <CardGroup>
- *   <CardGroupItem>
- *     <Card heading="Card 1" description="First card" />
- *   </CardGroupItem>
- *   <CardGroupItem>
- *     <Card heading="Card 2" description="Second card" />
- *   </CardGroupItem>
- * </CardGroup>
+ * // Card with keyboard navigation
+ * <Card 
+ *   heading="Navigable Card"
+ *   tabIndex={0}
+ *   onKeyDown={handleKeyDown}
+ *   ref={cardRef}
+ * />
  * ```
  */
-export const Card: React.FC<CardProps> = ({
+export const Card = React.forwardRef<HTMLDivElement, CardProps>(({
   variant = 'default',
   heading,
   headingHtml,
@@ -50,21 +49,15 @@ export const Card: React.FC<CardProps> = ({
   href,
   imgURL,
   imgAlt,
-  className,
-  children,
-  'data-testid': dataTestId,
-  id,
-  'aria-label': ariaLabel,
-  'aria-labelledby': ariaLabelledBy,
-  'aria-describedby': ariaDescribedBy,
-}) => {
-  // Build CSS classes
+  ...htmlAttributes
+}, ref) => {
+  // Build CSS classes  
   const cardClasses = [
     'nhsuk-card',
     variant === 'clickable' && 'nhsuk-card--clickable',
     variant === 'secondary' && 'nhsuk-card--secondary',
     variant === 'feature' && 'nhsuk-card--feature',
-    className
+    htmlAttributes.className
   ].filter(Boolean).join(' ');
 
   const contentClasses = [
@@ -108,7 +101,7 @@ export const Card: React.FC<CardProps> = ({
   };
 
   const renderContent = () => {
-    if (children) return children;
+    if (htmlAttributes.children) return htmlAttributes.children;
     if (descriptionHtml) return <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />;
     if (description) return <p className="nhsuk-card__description">{description}</p>;
     return null;
@@ -136,12 +129,9 @@ export const Card: React.FC<CardProps> = ({
 
   return (
     <div 
+      {...htmlAttributes}
       className={cardClasses}
-      data-testid={dataTestId}
-      id={id}
-      aria-label={ariaLabel}
-      aria-labelledby={ariaLabelledBy}
-      aria-describedby={ariaDescribedBy}
+      ref={ref}
     >
       {imgURL && (
         <img 
@@ -158,7 +148,9 @@ export const Card: React.FC<CardProps> = ({
       </div>
     </div>
   );
-};
+});
+
+Card.displayName = 'Card';
 
 /**
  * NHS Card Group Component

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 /**
  * Card variant options following NHS design guidelines
  */
@@ -10,7 +10,7 @@ export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 /**
  * Props for the NHS Card component
  */
-export interface CardProps {
+export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
     /**
      * The variant of the card
      * @default 'default'
@@ -53,22 +53,6 @@ export interface CardProps {
      * Alt text for card image
      */
     imgAlt?: string;
-    /**
-     * Additional CSS class names
-     */
-    className?: string;
-    /**
-     * Card content (children take precedence over description props)
-     */
-    children?: React.ReactNode;
-    /**
-     * Additional HTML attributes
-     */
-    'data-testid'?: string;
-    id?: string;
-    'aria-label'?: string;
-    'aria-labelledby'?: string;
-    'aria-describedby'?: string;
 }
 /**
  * Props for the Card Group component

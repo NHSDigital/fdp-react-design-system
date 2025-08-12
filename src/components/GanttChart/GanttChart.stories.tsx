@@ -93,7 +93,7 @@ const nhsTasks: Task[] = [
   
   // Operating Room tasks
   { id: 'or-1-1', title: 'Cardiac Surgery', resourceId: 'or-1', start: createDate(1), end: createDate(1), priority: 'high', progress: 0 },
-  { id: 'or-1-2', title: 'Orthopedic Surgery', resourceId: 'or-1', start: createDate(3), end: createDate(3), priority: 'medium', progress: 0 },
+  { id: 'or-1-2', title: 'Orthopaedic Surgery', resourceId: 'or-1', start: createDate(3), end: createDate(3), priority: 'medium', progress: 0 },
   { id: 'or-2-1', title: 'Neurosurgery', resourceId: 'or-2', start: createDate(2), end: createDate(2), priority: 'high', progress: 0 },
   
   // Imaging tasks

@@ -1,20 +1,20 @@
 /**
- * Comprehensive demo showcasing all AriaTabsDataGrid plugins and configurations
+ * Comprehensive demo showcasing all ResponsiveDataGrid plugins and configurations
  */
 
 import React, { useState, useMemo } from 'react';
-import { AriaTabsDataGrid } from '../AriaTabsDataGrid';
+import { AriaTabsDataGrid } from '../SortableDataTable/AriaTabsDataGrid';
 import { 
   tchDataConfig, 
   createTCHTabsConfig 
-} from '../AriaTabsDataGridTCH';
+} from '../SortableDataTable/AriaTabsDataGridTCH';
 import { 
   createPluginDataGrid,
   type EcommerceProduct,
   type FinancialTransaction 
-} from '../AriaTabsDataGridPlugins';
-import { createGenericTabsConfig } from '../AriaTabsDataGridFactory';
-import type { DataOperationConfig, EWSPatientData } from '../AriaTabsDataGridTypes';
+} from '../SortableDataTable/AriaTabsDataGridPlugins';
+import { createGenericTabsConfig } from '../SortableDataTable/AriaTabsDataGridFactory';
+import type { DataOperationConfig, EWSPatientData } from '../SortableDataTable/AriaTabsDataGridTypes';
 
 // Sample healthcare data
 const samplePatients: EWSPatientData[] = [
@@ -563,3 +563,6 @@ export const AriaTabsDataGridComprehensiveDemo: React.FC = () => {
     </div>
   );
 };
+
+// Export alias for new naming convention
+export const ResponsiveDataGridDemo = AriaTabsDataGridComprehensiveDemo;

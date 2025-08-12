@@ -113,7 +113,6 @@ export type { DashboardSummaryGridProps } from './DashboardSummaryGrid';
 export { 
   AriaDataGrid, 
   AriaTabsDataGrid, 
-  AriaTabsDataGridAdaptive, 
   SortStatusControl,
   createGenericTabsConfig,
   createTCHTabsConfig,
@@ -123,13 +122,33 @@ export type {
   AriaDataGridProps, 
   AriaTabsDataGridProps, 
   AriaTabsDataGridRef, 
-  AriaTabsDataGridAdaptiveProps, 
   TabPanelConfig, 
-  LayoutMode, 
   SortStatusControlProps,
   GenericTabDefinition,
   GenericColumnDefinition
 } from './SortableDataTable';
+
+// Responsive Data Grid Components
+export { 
+  ResponsiveDataGrid, 
+  ResponsiveDataGridDemo,
+  PatientCard, 
+  AppointmentCard, 
+  MedicationCard, 
+  VitalsCard,
+  // Backward compatibility exports
+  ResponsiveDataGrid as AdaptiveDataGrid,
+  ResponsiveDataGrid as AriaTabsDataGridAdaptive
+} from './ResponsiveDataGrid';
+export type { 
+  ResponsiveDataGridProps, 
+  ResponsiveTabPanelConfig, 
+  LayoutMode, 
+  ViewportConfig,
+  // Backward compatibility exports
+  ResponsiveDataGridProps as AdaptiveDataGridProps,
+  ResponsiveDataGridProps as AriaTabsDataGridAdaptiveProps
+} from './ResponsiveDataGrid';
 
 // Layout Components
 export { WidthContainer } from './WidthContainer';

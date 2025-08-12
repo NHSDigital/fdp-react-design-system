@@ -1,8 +1,8 @@
-import { AriaTabsDataGridProps, TabPanelConfig } from './AriaTabsDataGridTypes';
+import { AriaTabsDataGridProps, TabPanelConfig } from '../SortableDataTable/AriaTabsDataGridTypes';
 import * as React from 'react';
 
 /**
- * Viewport configuration for adaptive layouts
+ * Viewport configuration for responsive layouts
  */
 export interface ViewportConfig {
   mobile: number;
@@ -18,17 +18,17 @@ export type LayoutMode = 'cards' | 'table' | 'hybrid';
 /**
  * Extended tab panel config with card template support
  */
-export interface AdaptiveTabPanelConfig<T = any> extends TabPanelConfig<T> {
+export interface ResponsiveTabPanelConfig<T = any> extends TabPanelConfig<T> {
   /** Custom card template function for this tab */
   cardTemplate?: (data: T, columns: any[]) => React.ReactNode;
 }
 
 /**
- * Enhanced props for adaptive component
+ * Enhanced props for responsive component
  */
-export interface AriaTabsDataGridAdaptiveProps<T = any> extends Omit<AriaTabsDataGridProps<T>, 'tabPanels'> {
-  /** Tab panels with adaptive features */
-  tabPanels: AdaptiveTabPanelConfig<T>[];
+export interface ResponsiveDataGridProps<T = any> extends AriaTabsDataGridProps<T> {
+  /** Tab panels with responsive features */
+  tabPanels: ResponsiveTabPanelConfig<T>[];
   /** Viewport breakpoints for layout switching */
   breakpoints?: ViewportConfig;
   /** Force a specific layout mode (overrides responsive behavior) */

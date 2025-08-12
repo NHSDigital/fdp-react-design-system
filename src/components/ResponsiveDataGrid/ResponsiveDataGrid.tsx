@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef, useReducer, useMemo } from 'react';
-import { AriaTabsDataGrid } from '../AriaTabsDataGrid';
-import { Card, type CardProps } from '../../Card';
-import { AriaTabsDataGridAdaptiveProps, LayoutMode, ViewportConfig } from './AriaTabsDataGridAdaptiveTypes';
-import { AriaTabsDataGridState, AriaTabsDataGridAction } from '../AriaTabsDataGridTypes';
-import './AriaTabsDataGridAdaptive.scss';
+import { AriaTabsDataGrid } from '../SortableDataTable/AriaTabsDataGrid';
+import { Card, type CardProps } from '../Card';
+import { ResponsiveDataGridProps, LayoutMode, ViewportConfig } from './ResponsiveDataGridTypes';
+import { AriaTabsDataGridState, AriaTabsDataGridAction } from '../SortableDataTable/AriaTabsDataGridTypes';
+import './ResponsiveDataGrid.scss';
 
 /**
  * Tab state reducer (reused from AriaTabsDataGrid)
@@ -182,10 +182,10 @@ function createHealthcareCard(data: any, columns: any[], cardConfig: any): CardP
 }
 
 /**
- * Adaptive AriaTabsDataGrid with mobile-first card layout
+ * Responsive Data Grid with mobile-first card layout
  */
-export const AriaTabsDataGridAdaptive: React.FC<AriaTabsDataGridAdaptiveProps> = ({
-  // Adaptive-specific props
+export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
+  // Responsive-specific props
   breakpoints = { mobile: 768, tablet: 1024, desktop: 1200 },
   forceLayout,
   cardConfig = {},
@@ -437,4 +437,4 @@ export const AriaTabsDataGridAdaptive: React.FC<AriaTabsDataGridAdaptiveProps> =
   );
 };
 
-export default AriaTabsDataGridAdaptive;
+export default ResponsiveDataGrid;

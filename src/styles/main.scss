@@ -44,12 +44,10 @@
 @use '../components/Radios/Radios.scss';
 @use '../components/Select/Select.scss';
 @use '../components/SkipLink/SkipLink.scss';
-@use '../components/SortableDataTable/AdaptiveTabGrid/AriaTabsDataGridAdaptive.scss' as adaptive-grid-adaptive;
-@use '../components/SortableDataTable/AdaptiveTabGrid/HealthcareCardTemplates.scss' as adaptive-healthcare-cards;
+@use '../components/ResponsiveDataGrid/ResponsiveDataGrid.scss' as responsive-data-grid;
+@use '../components/ResponsiveDataGrid/HealthcareCardTemplates.scss' as responsive-healthcare-cards;
 @use '../components/SortableDataTable/AriaTabsDataGrid.scss';
-@use '../components/SortableDataTable/AriaTabsDataGridAdaptive.scss' as main-grid-adaptive;
 @use '../components/SortableDataTable/AriaTabsDataGridDemo.scss';
-@use '../components/SortableDataTable/HealthcareCardTemplates.scss' as main-healthcare-cards;
 @use '../components/SortableDataTable/SortStatusControl.scss' as main-sort-status;
 @use '../components/SortableDataTable/SortStatusControl/SortStatusControl.scss' as nested-sort-status;
 @use '../components/SpacingUtilities/SpacingUtilities.scss';

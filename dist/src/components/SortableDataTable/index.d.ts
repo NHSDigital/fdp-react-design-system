@@ -3,8 +3,6 @@ export type { AriaDataGridProps } from './AriaDataGridTypes';
 export { AriaTabsDataGrid } from './AriaTabsDataGrid';
 export type { AriaTabsDataGridProps, TabPanelConfig } from './AriaTabsDataGridTypes';
 export type { AriaTabsDataGridRef } from './AriaTabsDataGrid';
-export { AriaTabsDataGridAdaptive } from './AriaTabsDataGridAdaptive';
-export type { AriaTabsDataGridAdaptiveProps, LayoutMode } from './AriaTabsDataGridAdaptiveTypes';
 export { SortStatusControl } from './SortStatusControl';
 export type { SortStatusControlProps } from './SortStatusControlTypes';
 export { createGenericTabsConfig } from './AriaTabsDataGridFactory';

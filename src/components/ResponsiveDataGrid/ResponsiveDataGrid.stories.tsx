@@ -1,34 +1,33 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { AriaTabsDataGridAdaptive } from '../src/components/SortableDataTable/AdaptiveTabGrid/AriaTabsDataGridAdaptive';
-import { AriaTabsDataGridAdaptiveProps } from '../src/components/SortableDataTable/AdaptiveTabGrid/AriaTabsDataGridAdaptiveTypes';
-import { PatientCard, AppointmentCard, MedicationCard, VitalsCard } from '../src/components/SortableDataTable/AdaptiveTabGrid/HealthcareCardTemplates';
-import { createTCHTabsConfig, tchDataConfig } from '../src/components/SortableDataTable/AriaTabsDataGridTCH';
-import { EWSPatientData } from '../src/components/SortableDataTable/AriaTabsDataGridTypes';
+import { ResponsiveDataGrid } from './ResponsiveDataGrid';
+import type { ResponsiveDataGridProps } from './ResponsiveDataGridTypes';
+import { PatientCard, AppointmentCard, MedicationCard, VitalsCard } from './HealthcareCardTemplates';
+import { createTCHTabsConfig, tchDataConfig } from '../SortableDataTable/AriaTabsDataGridTCH';
+import type { EWSPatientData } from '../SortableDataTable/AriaTabsDataGridTypes';
 
 // Import real patient data
-import patientsData from '../src/components/SortableDataTable/patients_with_ews.json';
+import patientsData from '../SortableDataTable/patients_with_ews.json';
 
 // Cast imported JSON to typed patient data
 const patients = patientsData as EWSPatientData[];
 
-// Enhanced props for adaptive component stories
-interface AdaptiveStoryArgs extends AriaTabsDataGridAdaptiveProps {
+// Enhanced props for responsive component stories
+interface ResponsiveStoryArgs extends ResponsiveDataGridProps {
   enableAnimations?: boolean;
   cardVariant?: 'patient' | 'appointment' | 'medication' | 'vitals' | 'generic';
 }
 
-const meta: Meta<AdaptiveStoryArgs> = {
-  title: 'NHS/Data/AriaTabsDataGrid Adaptive',
-  component: AriaTabsDataGridAdaptive,
+const meta: Meta<ResponsiveStoryArgs> = {
+  title: 'NHS/Data/ResponsiveDataGrid',
+  component: ResponsiveDataGrid,
   parameters: {
     layout: 'padded',
     docs: {
       description: {
         component: `
-# AriaTabsDataGrid Adaptive
+# ResponsiveDataGrid
 
-A mobile-first, responsive enhancement of the AriaTabsDataGrid component that automatically adapts between card and table layouts based on device capabilities and data characteristics.
+A mobile-first, responsive data grid component that automatically adapts between card and table layouts based on device capabilities and data characteristics.
 
 ## Features
 
@@ -74,23 +73,10 @@ A mobile-first, responsive enhancement of the AriaTabsDataGrid component that au
 };
 
 export default meta;
-type Story = StoryObj<AdaptiveStoryArgs>;
+type Story = StoryObj<ResponsiveStoryArgs>;
 
 // Create healthcare tabs configuration with real patient data
 const healthcareTabs = createTCHTabsConfig(patients);
-
-// Base props for all stories
-const baseProps: Partial<AriaTabsDataGridAdaptiveProps> = {
-  dataConfig: tchDataConfig,
-  tabPanels: healthcareTabs,
-  ariaLabel: 'NHS Patient Data Grid',
-  ariaDescription: 'Adaptive data grid showing patient information with mobile-first design',
-  breakpoints: {
-    mobile: 768,
-    tablet: 1024,
-    desktop: 1200
-  }
-};
 
 // Column definitions for different data types
 const patientColumns = [
@@ -167,6 +153,37 @@ const baseProps = {
   onTabChange: (index: number) => console.log('Tab changed to:', index),
   onGlobalRowSelectionChange: (data: any) => console.log('Row selection changed:', data)
 };
+
+// Use the patients data we have available
+const patientData = patients.slice(0, 10); // Use first 10 patients
+const appointmentData = patients.slice(0, 5).map((patient, index) => ({
+  appointment_time: new Date(Date.now() + index * 60 * 60 * 1000).toISOString(),
+  patient_name: patient.name,
+  appointment_type: ['Consultation', 'Follow-up', 'Check-up', 'Emergency'][index % 4],
+  consultant: patient.consultant,
+  location: patient.ward_name,
+  duration: [30, 45, 60, 15][index % 4],
+  status: ['Confirmed', 'Pending', 'Completed', 'Cancelled'][index % 4]
+}));
+const medicationData = patients.slice(0, 5).map((patient, index) => ({
+  medication: ['Paracetamol', 'Ibuprofen', 'Aspirin', 'Codeine', 'Morphine'][index % 5],
+  dose: ['500mg', '200mg', '75mg', '30mg', '10mg'][index % 5],
+  frequency: ['TDS', 'BD', 'QDS', 'PRN', 'OD'][index % 5],
+  route: ['PO', 'IV', 'IM', 'SC', 'SL'][index % 5],
+  next_due: new Date(Date.now() + (index + 1) * 2 * 60 * 60 * 1000).toISOString(),
+  prescriber: patient.consultant,
+  patient: patient.name
+}));
+const vitalsData = patients.slice(0, 5).map((patient, index) => ({
+  patient: patient.name,
+  recorded_time: new Date(Date.now() - index * 30 * 60 * 1000).toISOString(),
+  temperature: (36.0 + Math.random() * 2).toFixed(1),
+  blood_pressure: `${120 + index * 5}/${80 + index * 2}`,
+  heart_rate: 70 + index * 5,
+  respiratory_rate: 16 + index,
+  oxygen_saturation: 98 - index,
+  ews_score: patient.ews_score
+}));
 
 /**
  * Default adaptive layout that responds to viewport size

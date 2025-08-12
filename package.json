@@ -29,41 +29,25 @@
     "./dist/nhs-fdp-design-system.css": "./dist/nhs-fdp-design-system.css",
     "./css": "./dist/nhs-fdp-design-system.css",
     "./core/css": "./dist/nhs-fdp-design-system-core.css",
-    "./components/Header": {
-      "types": "./dist/src/components/Header/index.d.ts",
-      "import": "./dist/src/components/Header/index.js",
-      "require": "./dist/src/components/Header/index.js"
-    },
+    "./components/Account/css": "./dist/components/Account/Account.css",
+    "./components/ActionLink/css": "./dist/components/ActionLink/ActionLink.css",
+    "./components/BackLink/css": "./dist/components/BackLink/BackLink.css",
+    "./components/Breadcrumb/css": "./dist/components/Breadcrumb/Breadcrumb.css",
     "./components/Button": {
       "types": "./dist/src/components/Button/index.d.ts",
       "import": "./dist/src/components/Button/index.js",
       "require": "./dist/src/components/Button/index.js"
     },
     "./components/Button/css": "./dist/components/Button/Button.css",
-    "./components/Grid": {
-      "types": "./dist/src/components/Grid/index.d.ts",
-      "import": "./dist/src/components/Grid/index.js",
-      "require": "./dist/src/components/Grid/index.js"
-    },
-    "./components/Grid/css": "./dist/components/Grid/Grid.css",
     "./components/Card": {
       "types": "./dist/src/components/Card/index.d.ts",
       "import": "./dist/src/components/Card/index.js",
       "require": "./dist/src/components/Card/index.js"
     },
     "./components/Card/css": "./dist/components/Card/Card.css",
-    "./components/Footer": {
-      "types": "./dist/src/components/Footer/index.d.ts",
-      "import": "./dist/src/components/Footer/index.js",
-      "require": "./dist/src/components/Footer/index.js"
-    },
-    "./components/Footer/css": "./dist/components/Footer/Footer.css",
-    "./components/Account/css": "./dist/components/Account/Account.css",
-    "./components/ActionLink/css": "./dist/components/ActionLink/ActionLink.css",
-    "./components/BackLink/css": "./dist/components/BackLink/BackLink.css",
-    "./components/Breadcrumb/css": "./dist/components/Breadcrumb/Breadcrumb.css",
     "./components/CareCard/css": "./dist/components/CareCard/CareCard.css",
     "./components/CharacterCount/css": "./dist/components/CharacterCount/CharacterCount.css",
+    "./components/Checkbox/css": "./dist/components/Checkbox/Checkbox.css",
     "./components/Checkboxes/css": "./dist/components/Checkboxes/Checkboxes.css",
     "./components/ContentsList/css": "./dist/components/ContentsList/ContentsList.css",
     "./components/DashboardSummaryGrid/css": "./dist/components/DashboardSummaryGrid/DashboardSummaryGrid.css",
@@ -74,7 +58,28 @@
     "./components/ErrorSummary/css": "./dist/components/ErrorSummary/ErrorSummary.css",
     "./components/Expander/css": "./dist/components/Expander/Expander.css",
     "./components/Fieldset/css": "./dist/components/Fieldset/Fieldset.css",
+    "./components/Footer": {
+      "types": "./dist/src/components/Footer/index.d.ts",
+      "import": "./dist/src/components/Footer/index.js",
+      "require": "./dist/src/components/Footer/index.js"
+    },
+    "./components/Footer/css": "./dist/components/Footer/Footer.css",
     "./components/GanttChart/css": "./dist/components/GanttChart/GanttChart.css",
+    "./components/Grid": {
+      "types": "./dist/src/components/Grid/index.d.ts",
+      "import": "./dist/src/components/Grid/index.js",
+      "require": "./dist/src/components/Grid/index.js"
+    },
+    "./components/Grid/css": "./dist/components/Grid/Grid.css",
+    "./components/Header": {
+      "types": "./dist/src/components/Header/index.d.ts",
+      "import": "./dist/src/components/Header/index.js",
+      "require": "./dist/src/components/Header/index.js"
+    },
+    "./components/Header/css": "./dist/components/Header/Header.css",
+    "./components/Header/Header2/css": "./dist/components/Header/Header2.css",
+    "./components/Header/HeaderStatic/css": "./dist/components/Header/HeaderStatic.css",
+    "./components/Header/index/css": "./dist/components/Header/index.css",
     "./components/HeaderSearch/css": "./dist/components/HeaderSearch/HeaderSearch.css",
     "./components/Heading/css": "./dist/components/Heading/Heading.css",
     "./components/Hero/css": "./dist/components/Hero/Hero.css",
@@ -88,6 +93,13 @@
     "./components/Pagination/css": "./dist/components/Pagination/Pagination.css",
     "./components/Panel/css": "./dist/components/Panel/Panel.css",
     "./components/Radios/css": "./dist/components/Radios/Radios.css",
+    "./components/ResponsiveDataGrid": {
+      "types": "./dist/src/components/ResponsiveDataGrid/index.d.ts",
+      "import": "./dist/src/components/ResponsiveDataGrid/index.js",
+      "require": "./dist/src/components/ResponsiveDataGrid/index.js"
+    },
+    "./components/ResponsiveDataGrid/css": "./dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css",
+    "./components/ResponsiveDataGrid/HealthcareCardTemplates/css": "./dist/components/ResponsiveDataGrid/HealthcareCardTemplates.css",
     "./components/Select/css": "./dist/components/Select/Select.css",
     "./components/SkipLink/css": "./dist/components/SkipLink/SkipLink.css",
     "./components/SortableDataTable": {
@@ -95,28 +107,23 @@
       "import": "./dist/src/components/SortableDataTable/index.js",
       "require": "./dist/src/components/SortableDataTable/index.js"
     },
+    "./components/SortableDataTable/AriaTabsDataGrid/css": "./dist/components/SortableDataTable/AriaTabsDataGrid.css",
+    "./components/SortableDataTable/AriaTabsDataGridDemo/css": "./dist/components/SortableDataTable/AriaTabsDataGridDemo.css",
     "./components/SortableDataTable/css": "./dist/components/SortableDataTable/AriaTabsDataGrid.css",
+    "./components/SortableDataTable/HealthcareCardTemplates/css": "./dist/components/SortableDataTable/HealthcareCardTemplates.css",
+    "./components/SortableDataTable/SortStatusControl/css": "./dist/components/SortableDataTable/SortStatusControl.css",
     "./components/SpacingUtilities/css": "./dist/components/SpacingUtilities/SpacingUtilities.css",
     "./components/SummaryCard/css": "./dist/components/SummaryCard/SummaryCard.css",
     "./components/SummaryList/css": "./dist/components/SummaryList/SummaryList.css",
     "./components/Tables/css": "./dist/components/Tables/Table.css",
+    "./components/Tables/Table/css": "./dist/components/Tables/Table.css",
     "./components/Tabs/css": "./dist/components/Tabs/Tabs.css",
     "./components/Tag/css": "./dist/components/Tag/Tag.css",
     "./components/TaskList/css": "./dist/components/TaskList/TaskList.css",
     "./components/Textarea/css": "./dist/components/Textarea/Textarea.css",
     "./components/WarningCallout/css": "./dist/components/WarningCallout/WarningCallout.css",
     "./components/WidthUtilities/css": "./dist/components/WidthUtilities/WidthUtilities.css",
-    "./components/Header/HeaderStatic/css": "./dist/components/Header/HeaderStatic.css",
-    "./components/Header/index/css": "./dist/components/Header/index.css",
-    "./components/SortableDataTable/AriaTabsDataGrid/css": "./dist/components/SortableDataTable/AriaTabsDataGrid.css",
-    "./components/SortableDataTable/AriaTabsDataGridAdaptive/css": "./dist/components/SortableDataTable/AriaTabsDataGridAdaptive.css",
-    "./components/SortableDataTable/AriaTabsDataGridDemo/css": "./dist/components/SortableDataTable/AriaTabsDataGridDemo.css",
-    "./components/SortableDataTable/HealthcareCardTemplates/css": "./dist/components/SortableDataTable/HealthcareCardTemplates.css",
-    "./components/SortableDataTable/SortStatusControl/css": "./dist/components/SortableDataTable/SortStatusControl.css",
-    "./components/Tables/Table/css": "./dist/components/Tables/Table.css",
-    "./components/Checkbox/css": "./dist/components/Checkbox/Checkbox.css",
-    "./components/Header/css": "./dist/components/Header/Header.css",
-    "./components/Header/Header2/css": "./dist/components/Header/Header2.css"
+    "./components/SortableDataTable/SortStatusControl/SortStatusControl/css": "./dist/components/SortableDataTable/SortStatusControl/SortStatusControl.css"
   },
   "files": [
     "dist",

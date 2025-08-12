@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { AriaTabsDataGridDemo } from './AriaTabsDataGridDemo';
-import { AriaTabsDataGridComprehensiveDemo } from './AdaptiveTabGrid/AriaTabsDataGridComprehensiveDemo.tsx';
 
 const meta: Meta<typeof AriaTabsDataGridDemo> = {
   title: 'NHS/Data/SortableDataTable',

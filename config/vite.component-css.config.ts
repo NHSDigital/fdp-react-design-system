@@ -41,6 +41,9 @@ componentDirs.forEach(componentName => {
 });
 
 export default defineConfig({
+  css: {
+    devSourcemap: true, // Enable source maps in development
+  },
   build: {
     lib: {
       entry: componentEntries,
@@ -58,6 +61,8 @@ export default defineConfig({
         },
       },
     },
+    sourcemap: true, // Enable source maps for debugging
+    minify: false, // Don't minify to preserve source map accuracy
     outDir: resolve(__dirname, '../dist'),
     emptyOutDir: false, // Don't empty the dist dir (it contains other builds)
     cssCodeSplit: true,

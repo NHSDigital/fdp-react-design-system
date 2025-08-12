@@ -41,6 +41,12 @@ const config: StorybookConfig = {
       jsxDev: false
     };
     
+    // Enable CSS source maps for debugging
+    config.css = {
+      ...config.css,
+      devSourcemap: true,
+    };
+    
     // Ensure TypeScript files can handle JSX
     if (config.resolve) {
       config.resolve.extensions = [

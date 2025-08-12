@@ -15,6 +15,9 @@ export default defineConfig({
     //   rollupTypes: false,
     // }),
   ],
+  css: {
+    devSourcemap: true, // Enable CSS source maps in development
+  },
   build: {
     lib: {
       entry: resolve(__dirname, '../src/index.ts'),
@@ -29,6 +32,7 @@ export default defineConfig({
           react: 'React',
           'react-dom': 'ReactDOM',
         },
+        sourcemap: true, // Generate source maps for assets
       },
     },
     sourcemap: true,

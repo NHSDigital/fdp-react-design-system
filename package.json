@@ -136,6 +136,7 @@
     "build:core": "vite build --config config/vite.core.config.ts",
     "build:ssr": "vite build --config config/vite.ssr.config.ts",
     "build:component-css": "vite build --config config/vite.component-css.config.ts",
+    "build:component-css:dev": "vite build --config config/vite.component-css.dev.config.ts",
     "build:types": "tsc --project tsconfig.build.json",
     "update:css-exports": "node scripts/update-css-exports.cjs",
     "build:tokens": "npx style-dictionary build --config config/style-dictionary.config.js && node scripts/add-use-directives.js",

@@ -82,6 +82,8 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	overflow-x: auto;
 	scrollbar-width: thin; // Firefox
 	-webkit-overflow-scrolling: touch; // iOS smooth scrolling
+	scroll-snap-type: x mandatory; // Snap to tabs on mobile
+	scroll-behavior: smooth; // Smooth scroll animations
 	
 	// Custom scrollbar for webkit browsers
 	&::-webkit-scrollbar {
@@ -122,6 +124,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	min-width: max-content; // Ensure tab content is fully visible
 	position: relative;
 	min-height: nhs.$nhs-fdp-form-spacing-input-min-height + nhs.$nhs-fdp-spacing-2;
+	scroll-snap-align: start; // Snap alignment for mobile scrolling
 
 	// Remove right border from the last tab to avoid double border with container
 	// &:last-child {
@@ -136,12 +139,14 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	&:focus {
 	  outline: nhs.$nhs-fdp-border-width-card-bottom solid $color-focus;
 	  outline-offset: -(nhs.$nhs-fdp-border-width-card-bottom);
-	  background: nhs.$nhs-fdp-color-grey-3; // Match the hover state
+	  background: $color-focus; // Bright yellow background for focus
+	  color: $color-text; // Ensure text is readable on yellow
 	  border-top-color: $color-focus; // Focus border
 	  border-left-color: $color-focus;
 	  border-right-color: $color-focus;
 	  z-index: 10;
 	  position: relative;
+	  font-weight: 700; // Make focused tab bold for clarity
 	}
 
 	&--selected {
@@ -150,7 +155,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	  border-top: 2px solid $color-primary;
 	  border-left: 2px solid $color-primary;
 	  border-right: 2px solid $color-primary;
-	  border-bottom: 2px solid nhs.$nhs-fdp-color-grey-5; // Match the tab background to hide the border underneath
+	  border-bottom: 2px solid transparent; // Match the tab background to hide the border underneath
 	  font-weight: 700;
 	  margin-bottom: -1px; // Extend down to cover the gap between tab and panel
 	  position: relative;
@@ -163,7 +168,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	  color: $color-disabled;
 	}
 
-  // Healthcare-specific tablet optimizations - updated to align with systematic breakpoints
+  // Healthcare-specific tablet optimisations - updated to align with systematic breakpoints
 @media (min-width: 769px) and (max-width: 1200px) {
   .aria-tabs-datagrid {
 	// Clinical workflow enhancements for bedside/mobile cart usage
@@ -1219,7 +1224,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	  // Enhanced focus states for tablet navigation
 	  &:focus {
 		outline: 3px solid $color-focus;
-		outline-offset: 2px;
+		//outline-offset: 2px;
 		z-index: 15; // Higher than mobile to ensure visibility
 	  }
 	}

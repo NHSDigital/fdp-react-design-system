@@ -728,6 +728,35 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 	}
   }, [cardNavState, state.selectedIndex, tabPanels, handleCardSelect, focusCard, focusTab, setCardNavState, scanCardElements, focusCardElement, announceToScreenReader]);
 
+  // Scroll tab into view for mobile card layout
+  const scrollTabIntoViewMobile = useCallback((index: number) => {
+	console.log('scrollTabIntoViewMobile called for index:', index);
+	const tab = tabRefs.current[index];
+	const tabsContainer = tab?.parentElement;
+	
+	if (!tab || !tabsContainer) {
+	  console.log('Tab or container not found for mobile scroll');
+	  return;
+	}
+
+	// Check if tab is already visible
+	const tabRect = tab.getBoundingClientRect();
+	const containerRect = tabsContainer.getBoundingClientRect();
+	
+	const isVisible = tabRect.left >= containerRect.left && 
+					 tabRect.right <= containerRect.right;
+	
+	if (!isVisible) {
+	  console.log('Tab not visible, scrolling into view (mobile)');
+	  // Use scroll into view for horizontal scrolling
+	  tab.scrollIntoView({
+		behavior: 'smooth',
+		block: 'nearest',
+		inline: 'center'
+	  });
+	}
+  }, []);
+
   // Enhanced tab keyboard navigation that handles card navigation
   const handleTabKeyDownWithCards = useCallback((event: React.KeyboardEvent, index: number) => {
 	// Only handle navigation for card layout - let AriaTabsDataGrid handle table/hybrid layouts
@@ -735,6 +764,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 	  return; // Let the event bubble up to AriaTabsDataGrid
 	}
 
+	console.log('handleTabKeyDownWithCards called with key:', event.key, 'index:', index);
 	const { key } = event;
 	
 	switch (key) {
@@ -744,6 +774,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		handleTabSelect(prevIndex);
 		setCardNavState(prev => ({ ...prev, focusedTabIndex: prevIndex }));
 		tabRefs.current[prevIndex]?.focus();
+		scrollTabIntoViewMobile(prevIndex);
 		break;
 	  
 	  case 'ArrowRight':
@@ -752,6 +783,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		handleTabSelect(nextIndex);
 		setCardNavState(prev => ({ ...prev, focusedTabIndex: nextIndex }));
 		tabRefs.current[nextIndex]?.focus();
+		scrollTabIntoViewMobile(nextIndex);
 		break;
 
 	  case 'ArrowDown':
@@ -770,6 +802,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		handleTabSelect(0);
 		setCardNavState(prev => ({ ...prev, focusedTabIndex: 0 }));
 		tabRefs.current[0]?.focus();
+		scrollTabIntoViewMobile(0);
 		break;
 	  
 	  case 'End':
@@ -778,6 +811,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		handleTabSelect(lastIndex);
 		setCardNavState(prev => ({ ...prev, focusedTabIndex: lastIndex }));
 		tabRefs.current[lastIndex]?.focus();
+		scrollTabIntoViewMobile(lastIndex);
 		break;
 	  
 	  case 'Enter':
@@ -786,7 +820,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		handleTabSelect(index);
 		break;
 	}
-  }, [tabPanels.length, handleTabSelect, layout, focusCard, setCardNavState]);
+  }, [tabPanels.length, handleTabSelect, layout, focusCard, setCardNavState, scrollTabIntoViewMobile]);
 
   // Mobile-first card implementation
   if (layout === 'cards') {

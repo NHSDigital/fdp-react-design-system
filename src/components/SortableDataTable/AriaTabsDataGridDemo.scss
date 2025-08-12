@@ -16,14 +16,14 @@ $demo-text-secondary: nhs.$nhs-fdp-color-grey-1;
 // Main demo container
 .aria-tabs-datagrid-demo {
   margin: 0 auto;
-  padding: clamp(nhs.$nhs-fdp-spacing-3, 3vw, nhs.$nhs-fdp-spacing-5); // Fluid padding
+  padding: nhs.$nhs-fdp-spacing-4; // Fixed padding instead of fluid clamp()
   font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
   
-  // On very large screens, maintain reasonable max-width
-  @media (min-width: 1600px) {
-    max-width: $demo-max-width;
-    padding: nhs.$nhs-fdp-spacing-5;
-  }
+  // Remove max-width constraint that might be causing 1398px scaling issues
+  // @media (min-width: 1600px) {
+  //   max-width: $demo-max-width;
+  //   padding: nhs.$nhs-fdp-spacing-5;
+  // }
 }
 
 // Tablet-Enhanced Quick Actions

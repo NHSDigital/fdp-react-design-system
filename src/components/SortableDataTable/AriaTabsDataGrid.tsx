@@ -183,6 +183,19 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
       }
     }, [selectedIndex, isControlled]);
 
+    // Reset navigation state when selected tab changes to ensure proper keyboard navigation
+    useEffect(() => {
+      setNavigationState(prev => ({
+        ...prev,
+        focusArea: 'tabs',
+        focusedTabIndex: state.selectedIndex,
+        focusedHeaderIndex: 0,
+        focusedRowIndex: 0,
+        focusedColumnIndex: 0,
+        isGridActive: false
+      }));
+    }, [state.selectedIndex]);
+
     // Handle global row selection callback
     useEffect(() => {
       if (onGlobalRowSelectionChange) {
@@ -230,9 +243,10 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
           setNavigationState(prev => ({ 
             ...prev, 
             focusArea: 'headers',
-            focusedHeaderIndex: 0
+            focusedHeaderIndex: 0,
+            isGridActive: true
           }));
-          focusGridHeader(0);
+          // Focus will happen in the next effect cycle when navigation state is updated
           break;
         
         case 'Home':
@@ -369,6 +383,22 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
       }, 0);
     }, [state.selectedIndex]);
 
+    // Handle automatic focusing when navigation state changes
+    useEffect(() => {
+      // Only auto-focus when isGridActive is true (indicates we're transitioning into the grid)
+      if (navigationState.isGridActive) {
+        if (navigationState.focusArea === 'headers') {
+          setTimeout(() => {
+            focusGridHeader(navigationState.focusedHeaderIndex);
+          }, 0);
+        } else if (navigationState.focusArea === 'cells') {
+          setTimeout(() => {
+            focusGridCell(navigationState.focusedRowIndex, navigationState.focusedColumnIndex);
+          }, 0);
+        }
+      }
+    }, [navigationState.focusArea, navigationState.isGridActive, navigationState.focusedHeaderIndex, navigationState.focusedRowIndex, navigationState.focusedColumnIndex, focusGridHeader, focusGridCell]);
+
     // Grid header navigation (similar to GanttChart date navigation)
     const handleHeaderKeyDown = useCallback((event: React.KeyboardEvent, headerIndex: number) => {
       const { key } = event;
@@ -411,7 +441,7 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
             focusedColumnIndex: headerIndex,
             isGridActive: true
           }));
-          focusGridCell(0, headerIndex);
+          // Focus will happen in the next effect cycle when navigation state is updated
           break;
         
         case 'Home':

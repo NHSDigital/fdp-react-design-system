@@ -10,7 +10,7 @@
  *
  * Navigation Controls:
  * - Arrow keys: Navigate within current focus area
- * - Enter: When on card, enter card-internal navigation mode
+ * - Enter: When on card, select card and enter card-internal navigation mode
  * - Space: Toggle card selection (traditional behavior)
  * - Escape: Exit card-internal navigation or clear selection
  * - Ctrl+Home/End: Jump between navigation levels

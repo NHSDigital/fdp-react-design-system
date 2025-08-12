@@ -23,7 +23,7 @@
     }
     
     &:focus {
-      outline: 3px solid #ffeb3b; // NHS yellow focus indicator
+      outline: 3px solid nhs.$nhs-fdp-color-primary-yellow; // NHS yellow focus indicator
       outline-offset: 2px;
     }
     
@@ -44,32 +44,32 @@
           font-weight: 600; // Bold weight
           
           &.nhsuk-tag--high {
-            background-color: #d5281b; // NHS Red
-            color: #ffffff;
+            background-color: nhs.$nhs-fdp-color-primary-red; // NHS Red
+            color: nhs.$nhs-fdp-color-primary-white;
           }
           
           &.nhsuk-tag--medium {
-            background-color: #ffeb3b; // NHS Yellow  
-            color: #212121;
+            background-color: nhs.$nhs-fdp-color-primary-yellow; // NHS Yellow  
+            color: nhs.$nhs-fdp-color-primary-black;
           }
           
           &.nhsuk-tag--low {
-            background-color: #00a499; // NHS Green
-            color: #ffffff;
+            background-color: nhs.$nhs-fdp-color-secondary-aqua-green; // NHS Green
+            color: nhs.$nhs-fdp-color-primary-white;
           }
         }
         
         .adaptive-card__badge {
-          background-color: #f0f4f5; // NHS Grey 5
-          color: #212121;
+          background-color: nhs.$nhs-fdp-color-grey-5; // NHS Grey 5
+          color: nhs.$nhs-fdp-color-primary-black;
         }
       }
     }
 
     // Card navigation states (following GanttChart pattern)
     &--card-navigation {
-      border: 2px dashed #005eb8; // NHS Blue dashed border for navigation mode
-      background-color: rgba(0, 94, 184, 0.05); // Light blue background tint
+      border: nhs.$nhs-fdp-border-width-form-element dashed nhs.$nhs-fdp-color-primary-blue; // NHS Blue dashed border for navigation mode
+      background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.05); // Light blue background tint
       position: relative;
       
       &::before {
@@ -77,35 +77,34 @@
         position: absolute;
         top: -12px;
         left: nhs.$nhs-fdp-spacing-3;
-        background: #005eb8; // NHS Blue
-        color: #ffffff;
+        background: nhs.$nhs-fdp-color-primary-blue; // NHS Blue
+        color: nhs.$nhs-fdp-color-primary-white;
         font-size: 0.75rem;
         padding: 2px 8px;
-        border-radius: 4px;
+        border-radius: nhs.$nhs-fdp-border-radius-small;
         z-index: 10;
         font-weight: 600; // Bold weight
       }
       
       // Highlight focusable elements within active card
       button, a, input, select, textarea, [tabindex]:not([tabindex="-1"]) {
-        outline: 1px dotted #005eb8 !important;
+        outline: 1px dotted nhs.$nhs-fdp-color-primary-blue !important;
         outline-offset: 2px;
         
         &:focus {
-          outline: 3px solid #ffeb3b !important; // NHS yellow for focused elements
+          outline: 3px solid nhs.$nhs-fdp-color-primary-yellow !important; // NHS yellow for focused elements
           outline-offset: 2px;
-          box-shadow: 0 0 0 4px rgba(255, 235, 59, 0.3);
+          box-shadow: 0 0 0 4px rgba(nhs.$nhs-fdp-color-primary-yellow, 0.3);
         }
       }
     }
 
     &--selected {
-      border-color: #005eb8; // NHS Blue
-      box-shadow: 0 4px 8px rgba(0, 94, 184, 0.15);
+      border-color: nhs.$nhs-fdp-color-primary-blue; // NHS Blue
     }
 
     &--focused {
-      outline: 3px solid #ffeb3b; // NHS Yellow focus
+      outline: 3px solid nhs.$nhs-fdp-color-primary-yellow; // NHS Yellow focus
       outline-offset: 2px;
     }
   }
@@ -139,7 +138,7 @@
   // Individual tab buttons
   &__tab {
     background: nhs.$nhs-fdp-color-grey-5;
-    border: 2px solid nhs.$nhs-fdp-color-grey-4;
+    border: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-grey-4;
     padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4;
     border-radius: nhs.$nhs-fdp-border-radius-small;
     font-size: nhs.$nhs-fdp-font-size-16-mobile;
@@ -148,7 +147,7 @@
     white-space: nowrap;
     cursor: pointer;
     transition: all 0.2s ease;
-    min-height: 44px; // Touch target
+    min-height: nhs.$nhs-fdp-size-button-min-height-mobile; // Touch target
     
     &:hover {
       background: nhs.$nhs-fdp-color-grey-4;
@@ -327,7 +326,7 @@
       .nhsuk-button {
         font-size: nhs.$nhs-fdp-font-size-14-mobile;
         padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
-        min-height: 44px;
+        min-height: nhs.$nhs-fdp-size-button-min-height-mobile;
       }
     }
   }

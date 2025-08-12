@@ -27,703 +27,833 @@
   -moz-user-select: none;
   user-select: none;
 
+  // ==========================================================================
+  // CARD STATES
+  // ==========================================================================
+
   // Base hover states - following button interaction pattern
   &:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-	box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2;
-	border-color: nhs.$nhs-fdp-color-primary-blue;
-	// Subtle lift like buttons but more gentle for cards
-	//transform: translateY(-1px);
+    box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2;
+    border-color: nhs.$nhs-fdp-color-primary-blue;
+    // Subtle lift like buttons but more gentle for cards
+    //transform: translateY(-1px);
   }
 
   // Focus states - following button accessibility pattern
   &:focus {
-	outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background;
-	outline-offset: 2px;
-	box-shadow: 0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background;
+    outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background;
   }
 
   &:focus-visible {
-	outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background;
-	outline-offset: 2px;
-	box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-focus-text;
+    outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background;
+    outline-offset: 2px;
+    box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-focus-text;
   }
 
   // Active/pressed states - following button press behavior
   &:active:not([data-disabled]):not(.healthcare-card--disabled) {
-	//transform: translateY(nhs.$nhs-fdp-button-shadow-size);
-	box-shadow: 0 0 0 transparent;
-	border-color: nhs.$nhs-fdp-color-primary-blue;
+    //transform: translateY(nhs.$nhs-fdp-button-shadow-size);
+    box-shadow: 0 0 0 transparent;
+    border-color: nhs.$nhs-fdp-color-primary-blue;
   }
 
   // Disabled state
   &[data-disabled],
-  &.healthcare-card--disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-	transform: none;
-	box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-4;
-	
-	&:hover,
-	&:active {
-	  transform: none;
-	  box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-4;
-	  border-color: nhs.$nhs-fdp-color-grey-4;
-	}
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-4;
+    
+    &:hover,
+    &:active {
+      transform: none;
+      box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-4;
+      border-color: nhs.$nhs-fdp-color-grey-4;
+    }
   }
+
+  // ==========================================================================
+  // PRIORITY-BASED STYLING
+  // ==========================================================================
 
   // Priority-based styling with button-style shadow behavior
   &--high {
-	border-left: 4px solid nhs.$nhs-fdp-color-primary-red;
-	box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-primary-red, 0.3);
-	
-	&::before {
-	  content: '';
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-	  right: 0;
-	  height: 4px;
-	  background: linear-gradient(90deg, 
-		nhs.$nhs-fdp-color-primary-red 0%, 
-		rgba(nhs.$nhs-fdp-color-primary-red, 0.1) 100%);
-	}
+    border-left: 4px solid nhs.$nhs-fdp-color-primary-red;
+    box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-primary-red, 0.3);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, 
+        nhs.$nhs-fdp-color-primary-red 0%, 
+        rgba(nhs.$nhs-fdp-color-primary-red, 0.1) 100%);
+    }
 
-	&:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-	  box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-primary-red, 0.4);
-	  border-color: nhs.$nhs-fdp-color-primary-red;
-	}
+    &:hover:not([data-disabled]):not(.healthcare-card--disabled) {
+      box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-primary-red, 0.4);
+      border-color: nhs.$nhs-fdp-color-primary-red;
+    }
 
-	&:active:not([data-disabled]):not(.healthcare-card--disabled) {
-	  box-shadow: 0 0 0 transparent;
-	  border-color: nhs.$nhs-fdp-color-primary-red;
-	}
+    &:active:not([data-disabled]):not(.healthcare-card--disabled) {
+      box-shadow: 0 0 0 transparent;
+      border-color: nhs.$nhs-fdp-color-primary-red;
+    }
   }
 
   &--medium {
-	border-left: 4px solid nhs.$nhs-fdp-color-secondary-orange;
-	border-bottom: 4px solid nhs.$nhs-fdp-color-secondary-orange;
-	box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-secondary-orange, 0.5);
+    border-left: 4px solid nhs.$nhs-fdp-color-secondary-orange;
+    border-bottom: 4px solid nhs.$nhs-fdp-color-secondary-orange;
+    box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-secondary-orange, 0.5);
 
-	&:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-	  box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-secondary-orange, 0.4);
-	  border-color: nhs.$nhs-fdp-color-secondary-orange;
-	}
+    &:hover:not([data-disabled]):not(.healthcare-card--disabled) {
+      box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-secondary-orange, 0.4);
+      border-color: nhs.$nhs-fdp-color-secondary-orange;
+    }
 
-	&:active:not([data-disabled]):not(.healthcare-card--disabled) {
-	  box-shadow: 0 0 0 transparent;
-	  border-color: nhs.$nhs-fdp-color-secondary-orange;
-	}
+    &:active:not([data-disabled]):not(.healthcare-card--disabled) {
+      box-shadow: 0 0 0 transparent;
+      border-color: nhs.$nhs-fdp-color-secondary-orange;
+    }
   }
 
   &--low {
-	border-left: 2px solid nhs.$nhs-fdp-color-grey-3;
-	box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-3;
+    border-left: 2px solid nhs.$nhs-fdp-color-grey-3;
+    box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-3;
 
-	&:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-	  box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-3;
-	  border-color: nhs.$nhs-fdp-color-grey-2;
-	}
+    &:hover:not([data-disabled]):not(.healthcare-card--disabled){
+      box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-3;
+      border-color: nhs.$nhs-fdp-color-grey-2;
+    }
 
-	&:active:not([data-disabled]):not(.healthcare-card--disabled) {
-	  box-shadow: 0 0 0 transparent;
-	  border-color: nhs.$nhs-fdp-color-grey-2;
-	}
+    &:active:not([data-disabled]):not(.healthcare-card--disabled) {
+      box-shadow: 0 0 0 transparent;
+      border-color: nhs.$nhs-fdp-color-grey-2;
+    }
   }
+
+  // ==========================================================================
+  // STATUS-BASED STYLING
+  // ==========================================================================
 
   // Status-based styling with button-style interactions
   &--active {
-	background: nhs.$nhs-fdp-color-primary-white;
+    background: nhs.$nhs-fdp-color-primary-white;
 
-	&:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-	  box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2;
-	  border-color: nhs.$nhs-fdp-color-grey-2;
-	}
+    &:hover:not([data-disabled]):not(.healthcare-card--disabled) {
+      box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2;
+      border-color: nhs.$nhs-fdp-color-grey-2;
+    }
 
-	&:active:not([data-disabled]):not(.healthcare-card--disabled) {
-	  box-shadow: 0 0 0 transparent;
-	  border-color: nhs.$nhs-fdp-color-grey-2;
-	}
+    &:active:not([data-disabled]):not(.healthcare-card--disabled) {
+      box-shadow: 0 0 0 transparent;
+      border-color: nhs.$nhs-fdp-color-grey-2;
+    }
   }
 
   &--pending {
-	background: rgba(nhs.$nhs-fdp-color-secondary-orange, 0.02);
-	box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-secondary-orange, 0.2);
+    background: rgba(nhs.$nhs-fdp-color-secondary-orange, 0.02);
+    box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-secondary-orange, 0.2);
 
-	&:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-	  box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-secondary-orange, 0.3);
-	  border-color: nhs.$nhs-fdp-color-secondary-orange;
-	}
+    &:hover:not([data-disabled]):not(.healthcare-card--disabled) {
+      box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-secondary-orange, 0.3);
+      border-color: nhs.$nhs-fdp-color-secondary-orange;
+    }
 
-	&:active:not([data-disabled]):not(.healthcare-card--disabled) {
-	  box-shadow: 0 0 0 transparent;
-	  border-color: nhs.$nhs-fdp-color-secondary-orange;
-	}
+    &:active:not([data-disabled]):not(.healthcare-card--disabled) {
+      box-shadow: 0 0 0 transparent;
+      border-color: nhs.$nhs-fdp-color-secondary-orange;
+    }
   }
 
   &--completed {
-	background: rgba(nhs.$nhs-fdp-color-secondary-aqua-green, 0.02);
-	opacity: 0.8;
-	box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-secondary-aqua-green, 0.15);
+    background: rgba(nhs.$nhs-fdp-color-secondary-aqua-green, 0.02);
+    opacity: 0.8;
+    box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-secondary-aqua-green, 0.15);
 
-	&:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-	  opacity: 0.9;
-	  box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-secondary-aqua-green, 0.25);
-	  border-color: nhs.$nhs-fdp-color-secondary-aqua-green;
-	}
+    &:hover:not([data-disabled]):not(.healthcare-card--disabled) {
+      opacity: 0.9;
+      box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-secondary-aqua-green, 0.25);
+      border-color: nhs.$nhs-fdp-color-secondary-aqua-green;
+    }
 
-	&:active:not([data-disabled]):not(.healthcare-card--disabled) {
-	  box-shadow: 0 0 0 transparent;
-	  border-color: nhs.$nhs-fdp-color-secondary-aqua-green;
-	}
+    &:active:not([data-disabled]):not(.healthcare-card--disabled) {
+      box-shadow: 0 0 0 transparent;
+      border-color: nhs.$nhs-fdp-color-secondary-aqua-green;
+    }
   }
 
   &--cancelled {
-	background: rgba(nhs.$nhs-fdp-color-grey-3, 0.02);
-	opacity: 0.6;
-	box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-grey-3, 0.15);
+    background: rgba(nhs.$nhs-fdp-color-grey-3, 0.02);
+    opacity: 0.6;
+    box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-grey-3, 0.15);
 
-	&:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-	  opacity: 0.7;
-	  box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-grey-3, 0.25);
-	  border-color: nhs.$nhs-fdp-color-grey-2;
-	}
+    &:hover:not([data-disabled]):not(.healthcare-card--disabled) {
+      opacity: 0.7;
+      box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-grey-3, 0.25);
+      border-color: nhs.$nhs-fdp-color-grey-2;
+    }
 
-	&:active:not([data-disabled]):not(.healthcare-card--disabled) {
-	  box-shadow: 0 0 0 transparent;
-	  border-color: nhs.$nhs-fdp-color-grey-2;
-	}
+    &:active:not([data-disabled]):not(.healthcare-card--disabled) {
+      box-shadow: 0 0 0 transparent;
+      border-color: nhs.$nhs-fdp-color-grey-2;
+    }
   }
+
+  // ==========================================================================
+  // RESPONSIVE ENHANCEMENTS
+  // ==========================================================================
 
   // Tablet enhancements
   @media (min-width: 768px) {
-	padding: nhs.$nhs-fdp-component-card-padding-desktop;
-	margin-bottom: nhs.$nhs-fdp-spacing-4;
+    padding: nhs.$nhs-fdp-component-card-padding-desktop;
+    margin-bottom: nhs.$nhs-fdp-spacing-4;
   }
 
   // Desktop enhancements
   @media (min-width: 1200px) {
-	padding: nhs.$nhs-fdp-component-card-padding-desktop;
+    padding: nhs.$nhs-fdp-component-card-padding-desktop;
   }
-}
 
-// ==========================================================================
-// CARD HEADER STYLES
-// ==========================================================================
+  // ==========================================================================
+  // CARD HEADER AND LAYOUT ELEMENTS
+  // ==========================================================================
 
-.healthcare-card {
   &__header {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	margin-bottom: nhs.$nhs-fdp-spacing-3;
-	padding-bottom: nhs.$nhs-fdp-spacing-2;
-	border-bottom: 1px solid nhs.$nhs-fdp-color-grey-4;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: nhs.$nhs-fdp-spacing-3;
+    padding-bottom: nhs.$nhs-fdp-spacing-2;
+    border-bottom: 1px solid nhs.$nhs-fdp-color-grey-4;
   }
 
   &__identity,
   &__time-info,
   &__medication-info,
   &__vitals-summary {
-	flex: 1;
-	margin-right: nhs.$nhs-fdp-spacing-2;
+    flex: 1;
+    margin-right: nhs.$nhs-fdp-spacing-2;
   }
 
   &__badges {
-	display: flex;
-	flex-wrap: wrap;
-	gap: nhs.$nhs-fdp-spacing-1;
-	align-items: flex-start;
-  }
-}
-
-// ==========================================================================
-// PATIENT CARD SPECIFIC STYLES
-// ==========================================================================
-
-.healthcare-card--patient {
-  #{&}__patient-name {
-	margin: 0 0 nhs.$nhs-fdp-spacing-1 0;
-	font-size: nhs.$nhs-fdp-font-size-19-mobile;
-	font-weight: nhs.$nhs-fdp-font-weight-bold;
-	color: nhs.$nhs-fdp-color-primary-black;
-	line-height: 1.3;
-
-	@media (min-width: 768px) {
-	  font-size: nhs.$nhs-fdp-font-size-19-tablet;
-	}
-
-	@media (min-width: 1200px) {
-	  font-size: nhs.$nhs-fdp-font-size-22-tablet;
-	}
+    display: flex;
+    flex-wrap: wrap;
+    gap: nhs.$nhs-fdp-spacing-1;
+    align-items: flex-start;
   }
 
-  #{&}__nhs-number {
-	margin: 0;
-	font-size: nhs.$nhs-fdp-font-size-14-mobile;
-	color: nhs.$nhs-fdp-color-grey-1;
-	font-family: 'Courier New', monospace;
-
-	#{&}__label {
-	  font-weight: nhs.$nhs-fdp-font-weight-bold;
-	  margin-right: nhs.$nhs-fdp-spacing-1;
-	}
-
-	#{&}__value {
-	  letter-spacing: 0.5px;
-	}
-  }
-
-  #{&}__alert {
-	&--critical {
-	  background: nhs.$nhs-fdp-color-primary-red;
-	  color: nhs.$nhs-fdp-color-primary-white;
-	  animation: pulse-critical 2s infinite;
-	}
-
-	&--high {
-	  background: nhs.$nhs-fdp-color-secondary-orange;
-	  color: nhs.$nhs-fdp-color-primary-white;
-	}
-
-	&--medium {
-	  background: nhs.$nhs-fdp-color-primary-yellow;
-	  color: nhs.$nhs-fdp-color-primary-black;
-	}
-
-	&--low {
-	  background: nhs.$nhs-fdp-color-grey-3;
-	  color: nhs.$nhs-fdp-color-primary-black;
-	}
-  }
-
-  #{&}__priority {
-	&--high {
-	  background: nhs.$nhs-fdp-color-primary-red;
-	  color: nhs.$nhs-fdp-color-primary-white;
-	  font-weight: nhs.$nhs-fdp-font-weight-bold;
-	}
-  }
-}
-
-// ==========================================================================
-// APPOINTMENT CARD SPECIFIC STYLES
-// ==========================================================================
-
-.healthcare-card--appointment {
-  #{&}__time {
-	margin: 0;
-	font-size: nhs.$nhs-fdp-font-size-22-mobile;
-	font-weight: nhs.$nhs-fdp-font-weight-bold;
-	color: nhs.$nhs-fdp-color-primary-blue;
-	font-variant-numeric: tabular-nums;
-
-	@media (min-width: 768px) {
-	  font-size: nhs.$nhs-fdp-font-size-22-tablet;
-	}
-  }
-
-  #{&}__type {
-	margin: nhs.$nhs-fdp-spacing-1 0 0 0;
-	font-size: nhs.$nhs-fdp-font-size-14-mobile;
-	color: nhs.$nhs-fdp-color-grey-1;
-	font-weight: nhs.$nhs-fdp-font-weight-bold;
-  }
-
-  #{&}__status {
-	&--pending {
-	  background: nhs.$nhs-fdp-color-secondary-orange;
-	  color: nhs.$nhs-fdp-color-primary-white;
-	}
-
-	&--active {
-	  background: nhs.$nhs-fdp-color-primary-blue;
-	  color: nhs.$nhs-fdp-color-primary-white;
-	}
-
-	&--completed {
-	  background: nhs.$nhs-fdp-color-secondary-aqua-green;
-	  color: nhs.$nhs-fdp-color-primary-white;
-	}
-
-	&--cancelled {
-	  background: nhs.$nhs-fdp-color-grey-2;
-	  color: nhs.$nhs-fdp-color-primary-white;
-	}
-  }
-
-  #{&}__duration {
-	background: nhs.$nhs-fdp-color-grey-4;
-	color: nhs.$nhs-fdp-color-primary-black;
-	font-variant-numeric: tabular-nums;
-  }
-}
-
-// ==========================================================================
-// MEDICATION CARD SPECIFIC STYLES
-// ==========================================================================
-
-.healthcare-card--medication {
-  #{&}__medication-name {
-	margin: 0;
-	font-size: nhs.$nhs-fdp-font-size-19-mobile;
-	font-weight: nhs.$nhs-fdp-font-weight-bold;
-	color: nhs.$nhs-fdp-color-primary-black;
-	line-height: 1.3;
-
-	@media (min-width: 768px) {
-	  font-size: nhs.$nhs-fdp-font-size-19-tablet;
-	}
-  }
-
-  #{&}__dose {
-	margin: nhs.$nhs-fdp-spacing-1 0 0 0;
-	font-size: nhs.$nhs-fdp-font-size-14-mobile;
-	color: nhs.$nhs-fdp-color-grey-1;
-	font-weight: nhs.$nhs-fdp-font-weight-bold;
-	font-variant-numeric: tabular-nums;
-  }
-
-  #{&}__route {
-	background: nhs.$nhs-fdp-color-primary-blue;
-	color: nhs.$nhs-fdp-color-primary-white;
-	font-size: nhs.$nhs-fdp-font-size-14-mobile;
-	text-transform: uppercase;
-	letter-spacing: 0.5px;
-  }
-
-  #{&}__warning {
-	background: nhs.$nhs-fdp-color-primary-red;
-	color: nhs.$nhs-fdp-color-primary-white;
-	animation: pulse-warning 1.5s infinite;
-  }
-}
-
-// ==========================================================================
-// VITALS CARD SPECIFIC STYLES
-// ==========================================================================
-
-.healthcare-card--vitals {
-  #{&}__timestamp {
-	margin: 0;
-	font-size: nhs.$nhs-fdp-font-size-16-mobile;
-	font-weight: nhs.$nhs-fdp-font-weight-bold;
-	color: nhs.$nhs-fdp-color-primary-black;
-	font-variant-numeric: tabular-nums;
-  }
-
-  #{&}__ews-score {
-	margin: nhs.$nhs-fdp-spacing-1 0 0 0;
-	font-size: nhs.$nhs-fdp-font-size-14-mobile;
-	font-weight: nhs.$nhs-fdp-font-weight-bold;
-	padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2;
-	border-radius: nhs.$nhs-fdp-border-radius-small;
-	display: inline-block;
-	font-variant-numeric: tabular-nums;
-
-	&--critical {
-	  background: nhs.$nhs-fdp-color-primary-red;
-	  color: nhs.$nhs-fdp-color-primary-white;
-	}
-
-	&--high {
-	  background: nhs.$nhs-fdp-color-secondary-orange;
-	  color: nhs.$nhs-fdp-color-primary-white;
-	}
-
-	&--medium {
-	  background: nhs.$nhs-fdp-color-primary-yellow;
-	  color: nhs.$nhs-fdp-color-primary-black;
-	}
-
-	&--low {
-	  background: nhs.$nhs-fdp-color-secondary-aqua-green;
-	  color: nhs.$nhs-fdp-color-primary-white;
-	}
-  }
-
-  #{&}__vitals-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-	gap: nhs.$nhs-fdp-spacing-2;
-	margin-top: nhs.$nhs-fdp-spacing-2;
-
-	@media (min-width: 480px) {
-	  grid-template-columns: repeat(3, 1fr);
-	}
-
-	@media (min-width: 768px) {
-	  grid-template-columns: repeat(5, 1fr);
-	}
-  }
-
-  #{&}__vital {
-	text-align: center;
-	padding: nhs.$nhs-fdp-spacing-2;
-	background: nhs.$nhs-fdp-color-grey-5;
-	border-radius: nhs.$nhs-fdp-border-radius-small;
-  }
-
-  #{&}__vital-label {
-	display: block;
-	font-size: nhs.$nhs-fdp-font-size-14-mobile;
-	font-weight: nhs.$nhs-fdp-font-weight-bold;
-	color: nhs.$nhs-fdp-color-grey-1;
-	margin-bottom: nhs.$nhs-fdp-spacing-1;
-	text-transform: uppercase;
-	letter-spacing: 0.5px;
-  }
-
-  #{&}__vital-value {
-	display: block;
-	font-size: nhs.$nhs-fdp-font-size-16-mobile;
-	font-weight: nhs.$nhs-fdp-font-weight-bold;
-	color: nhs.$nhs-fdp-color-primary-black;
-	font-variant-numeric: tabular-nums;
-  }
-}
-
-// ==========================================================================
-// CARD BODY AND DETAILS STYLES
-// ==========================================================================
-
-.healthcare-card {
   &__body {
-	margin-bottom: nhs.$nhs-fdp-spacing-3;
+    margin-bottom: nhs.$nhs-fdp-spacing-3;
   }
 
   &__details {
-	margin: 0;
+    margin: 0;
   }
 
   &__detail {
-	display: grid;
-	grid-template-columns: 1fr 2fr;
-	gap: nhs.$nhs-fdp-spacing-2;
-	margin-bottom: nhs.$nhs-fdp-spacing-2;
-	align-items: baseline;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: nhs.$nhs-fdp-spacing-2;
+    margin-bottom: nhs.$nhs-fdp-spacing-2;
+    align-items: baseline;
 
-	&:last-child {
-	  margin-bottom: 0;
-	}
+    &:last-child {
+      margin-bottom: 0;
+    }
 
-	// Prominent detail styling
-	&--prominent {
-	  padding: nhs.$nhs-fdp-spacing-2;
-	  background: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02);
-	  border-radius: nhs.$nhs-fdp-border-radius-small;
-	  border-left: 3px solid nhs.$nhs-fdp-color-primary-blue;
-	}
+    // Prominent detail styling
+    &--prominent {
+      padding: nhs.$nhs-fdp-spacing-2;
+      background: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02);
+      border-radius: nhs.$nhs-fdp-border-radius-small;
+      border-left: 3px solid nhs.$nhs-fdp-color-primary-blue;
+    }
 
-	// Urgent detail styling
-	&--urgent {
-	  padding: nhs.$nhs-fdp-spacing-2;
-	  background: rgba(nhs.$nhs-fdp-color-primary-red, 0.02);
-	  border-radius: nhs.$nhs-fdp-border-radius-small;
-	  border-left: 3px solid nhs.$nhs-fdp-color-primary-red;
-	  
-	  dd {
-		color: nhs.$nhs-fdp-color-primary-red;
-		font-weight: nhs.$nhs-fdp-font-weight-bold;
-	  }
-	}
+    // Urgent detail styling
+    &--urgent {
+      padding: nhs.$nhs-fdp-spacing-2;
+      background: rgba(nhs.$nhs-fdp-color-primary-red, 0.02);
+      border-radius: nhs.$nhs-fdp-border-radius-small;
+      border-left: 3px solid nhs.$nhs-fdp-color-primary-red;
+      
+      dd {
+        color: nhs.$nhs-fdp-color-primary-red;
+        font-weight: nhs.$nhs-fdp-font-weight-bold;
+      }
+    }
 
-	// Stack vertically on very small screens
-	@media (max-width: 360px) {
-	  grid-template-columns: 1fr;
-	  gap: nhs.$nhs-fdp-spacing-1;
-	}
+    // Stack vertically on very small screens
+    @media (max-width: 360px) {
+      grid-template-columns: 1fr;
+      gap: nhs.$nhs-fdp-spacing-1;
+    }
 
-	dt {
-	  font-size: nhs.$nhs-fdp-font-size-14-mobile;
-	  font-weight: nhs.$nhs-fdp-font-weight-bold;
-	  color: nhs.$nhs-fdp-color-grey-1;
-	  margin: 0;
-	}
+    dt {
+      font-size: nhs.$nhs-fdp-font-size-14-mobile;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: nhs.$nhs-fdp-color-grey-1;
+      margin: 0;
+    }
 
-	dd {
-	  font-size: nhs.$nhs-fdp-font-size-16-mobile;
-	  color: nhs.$nhs-fdp-color-primary-black;
-	  margin: 0;
-	  word-break: break-word;
-	  font-variant-numeric: tabular-nums;
-	}
+    dd {
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+      color: nhs.$nhs-fdp-color-primary-black;
+      margin: 0;
+      word-break: break-word;
+      font-variant-numeric: tabular-nums;
+    }
   }
-}
 
-// ==========================================================================
-// CARD ACTIONS STYLES
-// ==========================================================================
-
-.healthcare-card {
   &__actions {
-	display: flex;
-	gap: nhs.$nhs-fdp-spacing-2;
-	justify-content: flex-end;
-	flex-wrap: wrap;
-	margin-top: nhs.$nhs-fdp-spacing-3;
-	padding-top: nhs.$nhs-fdp-spacing-2;
-	border-top: 1px solid nhs.$nhs-fdp-color-grey-4;
+    display: flex;
+    gap: nhs.$nhs-fdp-spacing-2;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    margin-top: nhs.$nhs-fdp-spacing-3;
+    padding-top: nhs.$nhs-fdp-spacing-2;
+    border-top: 1px solid nhs.$nhs-fdp-color-grey-4;
   }
 
-  // Legacy action class - no longer needed since we use actual Button components
-  // Keeping selector for backwards compatibility but removing all manual styling
-}
+  // ==========================================================================
+  // CARD TYPE SPECIFIC STYLES
+  // ==========================================================================
 
-// ==========================================================================
-// HEALTHCARE CARD COMPONENT INTEGRATION
-// ==========================================================================
+  // ==========================================================================
+  // PATIENT CARD VARIANT
+  // ==========================================================================
 
-// Style NHS Tags within healthcare cards for better integration
-.healthcare-card {
-  // Tag component styling within cards
+  &--patient {
+    // Patient identity elements
+    .healthcare-card__patient-name {
+      margin: 0 0 nhs.$nhs-fdp-spacing-1 0;
+      font-size: nhs.$nhs-fdp-font-size-19-mobile;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: nhs.$nhs-fdp-color-primary-black;
+      line-height: 1.3;
+
+      @media (min-width: 768px) {
+        font-size: nhs.$nhs-fdp-font-size-19-tablet;
+      }
+
+      @media (min-width: 1200px) {
+        font-size: nhs.$nhs-fdp-font-size-22-tablet;
+      }
+    }
+
+    .healthcare-card__nhs-number {
+      margin: 0;
+      font-size: nhs.$nhs-fdp-font-size-14-mobile;
+      color: nhs.$nhs-fdp-color-grey-1;
+      font-family: 'Courier New', monospace;
+
+      &__label {
+        font-weight: nhs.$nhs-fdp-font-weight-bold;
+        margin-right: nhs.$nhs-fdp-spacing-1;
+      }
+
+      &__value {
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+
+  // ==========================================================================
+  // APPOINTMENT CARD VARIANT
+  // ==========================================================================
+
+  &--appointment {
+    // Time and scheduling elements
+    .healthcare-card__time {
+      margin: 0;
+      font-size: nhs.$nhs-fdp-font-size-22-mobile;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: nhs.$nhs-fdp-color-primary-blue;
+      font-variant-numeric: tabular-nums;
+
+      @media (min-width: 768px) {
+        font-size: nhs.$nhs-fdp-font-size-22-tablet;
+      }
+    }
+
+    .healthcare-card__type {
+      margin: nhs.$nhs-fdp-spacing-1 0 0 0;
+      font-size: nhs.$nhs-fdp-font-size-14-mobile;
+      color: nhs.$nhs-fdp-color-grey-1;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+    }
+
+    .healthcare-card__duration {
+      background: nhs.$nhs-fdp-color-grey-4;
+      color: nhs.$nhs-fdp-color-primary-black;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  // ==========================================================================
+  // MEDICATION CARD VARIANT
+  // ==========================================================================
+
+  &--medication {
+    // Medication identification elements
+    .healthcare-card__medication-name {
+      margin: 0;
+      font-size: nhs.$nhs-fdp-font-size-19-mobile;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: nhs.$nhs-fdp-color-primary-black;
+      line-height: 1.3;
+
+      @media (min-width: 768px) {
+        font-size: nhs.$nhs-fdp-font-size-19-tablet;
+      }
+    }
+
+    .healthcare-card__dose {
+      margin: nhs.$nhs-fdp-spacing-1 0 0 0;
+      font-size: nhs.$nhs-fdp-font-size-14-mobile;
+      color: nhs.$nhs-fdp-color-grey-1;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .healthcare-card__route {
+      background: nhs.$nhs-fdp-color-primary-blue;
+      color: nhs.$nhs-fdp-color-primary-white;
+      font-size: nhs.$nhs-fdp-font-size-14-mobile;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .healthcare-card__warning {
+      background: nhs.$nhs-fdp-color-primary-red;
+      color: nhs.$nhs-fdp-color-primary-white;
+      animation: pulse-warning 1.5s infinite;
+    }
+  }
+
+  // ==========================================================================
+  // VITALS CARD VARIANT
+  // ==========================================================================
+
+  &--vitals {
+    // Vital signs timing and measurement
+    .healthcare-card__timestamp {
+      margin: 0;
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: nhs.$nhs-fdp-color-primary-black;
+      font-variant-numeric: tabular-nums;
+    }
+
+    // Vitals grid layout
+    .healthcare-card__vitals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: nhs.$nhs-fdp-spacing-2;
+      margin-top: nhs.$nhs-fdp-spacing-2;
+
+      @media (min-width: 480px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      @media (min-width: 768px) {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    .healthcare-card__vital {
+      text-align: center;
+      padding: nhs.$nhs-fdp-spacing-2;
+      background: nhs.$nhs-fdp-color-grey-5;
+      border-radius: nhs.$nhs-fdp-border-radius-small;
+    }
+
+    .healthcare-card__vital-label {
+      display: block;
+      font-size: nhs.$nhs-fdp-font-size-14-mobile;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: nhs.$nhs-fdp-color-grey-1;
+      margin-bottom: nhs.$nhs-fdp-spacing-1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .healthcare-card__vital-value {
+      display: block;
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: nhs.$nhs-fdp-color-primary-black;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  // ==========================================================================
+  // SHARED STATUS AND INDICATOR ELEMENTS
+  // ==========================================================================
+
+  // Alert badges for patient cards and other critical indicators
+  .healthcare-card__alert {
+    &--critical {
+      background: nhs.$nhs-fdp-color-primary-red;
+      color: nhs.$nhs-fdp-color-primary-white;
+      animation: pulse-critical 2s infinite;
+    }
+
+    &--high {
+      background: nhs.$nhs-fdp-color-secondary-orange;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+
+    &--medium {
+      background: nhs.$nhs-fdp-color-primary-yellow;
+      color: nhs.$nhs-fdp-color-primary-black;
+    }
+
+    &--low {
+      background: nhs.$nhs-fdp-color-grey-3;
+      color: nhs.$nhs-fdp-color-primary-black;
+    }
+  }
+
+  // Priority indicators for patient triage and task prioritization
+  .healthcare-card__priority {
+    &--high {
+      background: nhs.$nhs-fdp-color-primary-red;
+      color: nhs.$nhs-fdp-color-primary-white;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+    }
+
+    &--medium {
+      background: nhs.$nhs-fdp-color-secondary-orange;
+      color: nhs.$nhs-fdp-color-primary-white;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+    }
+
+    &--low {
+      background: nhs.$nhs-fdp-color-grey-3;
+      color: nhs.$nhs-fdp-color-primary-black;
+      font-weight: nhs.$nhs-fdp-font-weight-normal;
+    }
+  }
+
+  // Status indicators for appointments and tasks
+  .healthcare-card__status {
+    &--pending {
+      background: nhs.$nhs-fdp-color-secondary-orange;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+
+    &--active {
+      background: nhs.$nhs-fdp-color-primary-blue;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+
+    &--completed {
+      background: nhs.$nhs-fdp-color-secondary-aqua-green;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+
+    &--cancelled {
+      background: nhs.$nhs-fdp-color-grey-2;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+  }
+
+  // EWS (Early Warning Score) indicators for vitals monitoring
+  .healthcare-card__ews-score {
+    margin: nhs.$nhs-fdp-spacing-1 0 0 0;
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2;
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
+
+    &--critical {
+      background: nhs.$nhs-fdp-color-primary-red;
+      color: nhs.$nhs-fdp-color-primary-white;
+      animation: pulse-critical 1.5s infinite;
+    }
+
+    &--high {
+      background: nhs.$nhs-fdp-color-secondary-orange;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+
+    &--medium {
+      background: nhs.$nhs-fdp-color-primary-yellow;
+      color: nhs.$nhs-fdp-color-primary-black;
+    }
+
+    &--low {
+      background: nhs.$nhs-fdp-color-secondary-aqua-green;
+      color: nhs.$nhs-fdp-color-primary-white;
+    }
+  }
+
+  // ==========================================================================
+  // COMPONENT INTEGRATION STYLES
+  // ==========================================================================
+
+  // Style NHS Tags within healthcare cards for better integration
   .nhsuk-tag {
-	// Inherit the button-style shadow behavior for tags in cards
-	cursor: default; // Tags are typically not interactive
-	
-	// Override any transform effects for tags in cards
-	&:hover,
-	&:active,
-	&:focus {
-	  transform: none !important;
-	}
-	
-	// Button-style hover for interactive tags
-	&.healthcare-card__alert,
-	&.healthcare-card__priority,
-	&.healthcare-card__status {
-	  cursor: pointer;
-	  
-	  &:hover,
-	  &:active,
-	  &:focus {
-		transform: none !important;
-	  }
-	  
-	  &:active {
-		//transform: translateY(1px);
-		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-	  }
-	}
+    // Inherit the button-style shadow behavior for tags in cards
+    cursor: default; // Tags are typically not interactive
+    
+    // Override any transform effects for tags in cards
+    &:hover,
+    &:active,
+    &:focus {
+      transform: none !important;
+    }
+    
+    // Button-style hover for interactive tags
+    &.healthcare-card__alert,
+    &.healthcare-card__priority,
+    &.healthcare-card__status {
+      cursor: pointer;
+      
+      &:hover,
+      &:active,
+      &:focus {
+        transform: none !important;
+      }
+      
+      &:active {
+        //transform: translateY(1px);
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+      }
+    }
   }
 
   // Button component styling within cards
   .nhs-aria-button {
-	// The Button component already has the perfect interaction styling
-	// Just ensure proper spacing and sizing in card context
-	font-size: nhs.$nhs-fdp-font-size-14-mobile;
-	
-	// Override Button component's translateY transforms if unwanted in cards
-	&:hover,
-	&:active,
-	&:focus {
-	  transform: none !important;
-	}
-	
-	@media (min-width: 768px) {
-	  font-size: nhs.$nhs-fdp-font-size-14-tablet;
-	}
+    // The Button component already has the perfect interaction styling
+    // Just ensure proper spacing and sizing in card context
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    
+    // Override Button component's translateY transforms if unwanted in cards
+    &:hover,
+    &:active,
+    &:focus {
+      transform: none !important;
+    }
+    
+    @media (min-width: 768px) {
+      font-size: nhs.$nhs-fdp-font-size-14-tablet;
+    }
   }
 }
 
 // ==========================================================================
-// NHS CARD COMPONENT ARIA NAVIGATION STYLES  
+// RESPONSIVE DATA GRID INTEGRATION STYLES
 // ==========================================================================
 
-// NHS Card component with keyboard navigation focus (higher specificity)
-.aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused,
-.aria-tabs-datagrid-adaptive__cards .nhsuk-card:focus,
+// ResponsiveDataGrid card wrapper base styles
+.aria-tabs-datagrid-adaptive__card-wrapper {
+  // Remove transforms that interfere with card interaction patterns
+  &:hover,
+  &:active,
+  &:focus {
+    transform: none !important;
+  }
+
+  // Remove focus outline from wrapper since Card component handles focus
+  &:focus {
+    outline: none;
+  }
+
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    
+    &:hover,
+    &:focus {
+      transition: none;
+    }
+  }
+
+  // ==========================================================================
+  // WRAPPER FOCUS STATE
+  // ==========================================================================
+  
+  &--focused {
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+
+    // Focus styles applied to inner healthcare card
+    .healthcare-card {
+      outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
+      outline-offset: 2px !important;
+      box-shadow: 
+        0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background,
+        0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2 !important;
+      border-color: nhs.$nhs-fdp-color-primary-blue !important;
+
+      // Focus should be visible even when hovered
+      &:hover {
+        outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
+        outline-offset: 2px !important;
+        box-shadow: 
+          0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background,
+          0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2 !important;
+      }
+    }
+  }
+
+  // ==========================================================================
+  // WRAPPER SELECTION STATE
+  // ==========================================================================
+  
+  &--selected {
+    .healthcare-card {
+      border-color: nhs.$nhs-fdp-color-primary-blue !important;
+      transition: all 0.15s ease;
+      position: relative;
+      
+      // Add selection indicator
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: nhs.$nhs-fdp-color-primary-blue;
+        z-index: 1;
+      }
+    }
+  }
+
+  // ==========================================================================
+  // COMBINED WRAPPER STATES
+  // ==========================================================================
+  
+  &--focused.aria-tabs-datagrid-adaptive__card-wrapper--selected {
+    .healthcare-card {
+      outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
+      outline-offset: 2px !important;
+	  border-bottom: 4px solid nhs.$nhs-fdp-color-grey-3;
+
+    }
+  }
+}
+
+// ==========================================================================
+// NHS CARD COMPONENT GRID NAVIGATION OVERRIDES
+// ==========================================================================
+
+// NHS Card component integration with ResponsiveDataGrid
+.aria-tabs-datagrid-adaptive__cards {
+  .nhsuk-card {
+    // Focus states for NHS Card component in grid context
+    &.aria-tabs-datagrid-adaptive__card--focused,
+    &:focus {
+      outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
+      outline-offset: 2px !important;
+      box-shadow: 
+        0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background,
+        0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2 !important;
+      border-color: nhs.$nhs-fdp-color-primary-blue !important;
+
+      // Focus should be visible even when hovered
+      &:hover {
+        outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
+        outline-offset: 2px !important;
+        box-shadow: 
+          0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background,
+          0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2 !important;
+      }
+    }
+
+    // Selection states for NHS Card component in grid context
+    &.aria-tabs-datagrid-adaptive__card--selected {
+      border-color: nhs.$nhs-fdp-color-primary-blue !important;
+      background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02) !important;
+      position: relative;
+      
+      // Add selection indicator
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: nhs.$nhs-fdp-color-primary-blue;
+        z-index: 1;
+      }
+    }
+
+    // Combined focused and selected state
+    &.aria-tabs-datagrid-adaptive__card--focused.aria-tabs-datagrid-adaptive__card--selected {
+      outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
+      outline-offset: 2px !important;
+    }
+  }
+}
+
+// Global fallback selectors for backwards compatibility
 .aria-tabs-datagrid-adaptive__card--focused,
-.nhsuk-card.aria-tabs-datagrid-adaptive__card--focused,
-.aria-tabs-datagrid-adaptive__card-wrapper--focused .healthcare-card {
-  // Override NHS Card default focus styles for grid navigation
+.nhsuk-card.aria-tabs-datagrid-adaptive__card--focused {
   outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
   outline-offset: 2px !important;
   box-shadow: 
     0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background,
     0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2 !important;
-  
-  // Ensure focus is clearly visible
   border-color: nhs.$nhs-fdp-color-primary-blue !important;
+}
 
-  // Focus should be visible even when hovered
-  &:hover {
-    outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
-    outline-offset: 2px !important;
-    box-shadow: 
-      0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background,
-      0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2 !important;
+// ==========================================================================
+// ANIMATIONS
+// ==========================================================================
+
+@keyframes pulse-critical {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(nhs.$nhs-fdp-color-primary-red, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(nhs.$nhs-fdp-color-primary-red, 0.1);
   }
 }
 
-// Remove focus styles from wrapper when applied to inner card
-.aria-tabs-datagrid-adaptive__card-wrapper--focused {
-  outline: none !important;
-  box-shadow: none !important;
-  background-color: transparent !important;
-}
-
-// NHS Card component with selection state (higher specificity)
-.aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--selected {
-  border-color: nhs.$nhs-fdp-color-primary-blue !important;
-  background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02) !important;
-  box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-primary-blue, 0.3) !important;
-  
-  // Add selection indicator
-  position: relative;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: nhs.$nhs-fdp-color-primary-blue;
-    z-index: 1;
+@keyframes pulse-warning {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
   }
 }
 
-// Healthcare card selection state (for custom card templates)
-.aria-tabs-datagrid-adaptive__card-wrapper--selected .healthcare-card {
-  border-color: nhs.$nhs-fdp-color-primary-blue !important;
-  background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02) !important;
-  box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-primary-blue, 0.4) !important;
-  transition: all 0.15s ease;
-  // Add selection indicator
-  position: relative;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: nhs.$nhs-fdp-color-primary-blue;
-    z-index: 1;
-  }
-}
+// ==========================================================================
+// ACCESSIBILITY ENHANCEMENTS
+// ==========================================================================
 
-// Combined focused and selected state for Card component (higher specificity)
-.aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused.aria-tabs-datagrid-adaptive__card--selected {
-  outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
-  outline-offset: 2px !important;
-  box-shadow: 
-    0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background,
-    0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-primary-blue, 0.4) !important;
-}
-
-// Combined focused and selected state for healthcare cards (custom templates)
-.aria-tabs-datagrid-adaptive__card-wrapper--focused.aria-tabs-datagrid-adaptive__card-wrapper--selected .healthcare-card {
-  outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
-  outline-offset: 2px !important;
-  box-shadow: 
-    0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background,
-    0 nhs.$nhs-fdp-button-shadow-size 0 rgba(nhs.$nhs-fdp-color-primary-blue, 0.4) !important;
-}
-
-// High contrast mode support for Card navigation states
+// High contrast mode support
 @media (forced-colors: active) {
+  .healthcare-card {
+    border: 2px solid ButtonText;
+    
+    &--high {
+      border-left: 6px solid Highlight;
+    }
+    
+    &__alert,
+    &__priority,
+    &__status {
+      background: ButtonText !important;
+      color: ButtonFace !important;
+    }
+  }
+
   .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused,
   .aria-tabs-datagrid-adaptive__card-wrapper--focused .healthcare-card {
     outline: 4px solid Highlight !important;
@@ -741,129 +871,45 @@
   }
 }
 
-// ==========================================================================
-// OVERRIDE ARIA TABS DATAGRID CARD WRAPPER TRANSFORMS
-// ==========================================================================
-
-// Override the ResponsiveDataGrid card wrapper hover transforms
-.aria-tabs-datagrid-adaptive__card-wrapper {
-  &:hover,
-  &:active,
-  &:focus {
-    transform: none !important;
-  }
-
-  // Remove focus outline from wrapper since Card component handles focus
-  &:focus {
-    outline: none;
-  }
-
-  // Legacy ARIA Grid Navigation States (DEPRECATED - now handled by Card component)
-  // These are maintained for backwards compatibility but are not used
-  /*
-  &--focused {
-    // Primary focus state - now handled by .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused
-  }
-
-  &--selected {
-    // Selected state - now handled by .nhsuk-card.aria-tabs-datagrid-adaptive__card--selected
-  }
-  */
-
-  // Reduced motion support
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-    
-    &:hover,
-    &:focus {
-      transition: none;
-    }
-  }
-}
-
-// ==========================================================================
-// ANIMATIONS
-// ==========================================================================
-
-@keyframes pulse-critical {
-  0%, 100% {
-	box-shadow: 0 0 0 0 rgba(nhs.$nhs-fdp-color-primary-red, 0.4);
-  }
-  50% {
-	box-shadow: 0 0 0 6px rgba(nhs.$nhs-fdp-color-primary-red, 0.1);
-  }
-}
-
-@keyframes pulse-warning {
-  0%, 100% {
-	transform: scale(1);
-  }
-  50% {
-	transform: scale(1.05);
-  }
-}
-
-// ==========================================================================
-// ACCESSIBILITY ENHANCEMENTS
-// ==========================================================================
-
-// High contrast mode support
-@media (forced-colors: active) {
-  .healthcare-card {
-	border: 2px solid ButtonText;
-	
-	&--high {
-	  border-left: 6px solid Highlight;
-	}
-	
-	&__alert,
-	&__priority,
-	&__status {
-	  background: ButtonText !important;
-	  color: ButtonFace !important;
-	}
-  }
-}
-
 // Reduced motion support
 @media (prefers-reduced-motion: reduce) {
   .healthcare-card {
-	transition: none;
-	
-	&:hover {
-	  transform: none;
-	}
-	
-	&__alert--critical,
-	&__warning {
-	  animation: none;
-	}
+    transition: none;
+    
+    &:hover {
+      transform: none;
+    }
+    
+    &__alert--critical,
+    &__warning {
+      animation: none;
+    }
   }
 }
 
 // Print styles
 @media print {
   .healthcare-card {
-	break-inside: avoid;
-	box-shadow: none;
-	border: 1px solid black;
-	margin-bottom: nhs.$nhs-fdp-spacing-3;
-	
-	&:hover {
-	  transform: none;
-	  box-shadow: none;
-	}
-	
-	&__actions {
-	  display: none;
-	}
-	
-	&__alert,
-	&__priority,
-	&__status {
-	  background: none !important;
-	  color: black !important;
-	  border: 1px solid black;
-	}
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid black;
+    margin-bottom: nhs.$nhs-fdp-spacing-3;
+    
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+    
+    &__actions {
+      display: none;
+    }
+    
+    &__alert,
+    &__priority,
+    &__status {
+      background: none !important;
+      color: black !important;
+      border: 1px solid black;
+    }
   }
 }

@@ -10,7 +10,7 @@
  * 
  * Navigation Controls:
  * - Arrow keys: Navigate within current focus area
- * - Enter: When on card, enter card-internal navigation mode
+ * - Enter: When on card, select card and enter card-internal navigation mode
  * - Space: Toggle card selection (traditional behavior)
  * - Escape: Exit card-internal navigation or clear selection
  * - Ctrl+Home/End: Jump between navigation levels
@@ -70,6 +70,9 @@ interface CardNavigationState {
   focusedCardElementIndex: number;
   cardElements: CardElement[];
   isCardNavigationActive: boolean;
+  // 2D Grid navigation state
+  gridColumns: number;
+  gridRows: number;
 }
 
 /**
@@ -297,6 +300,9 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
   
   // Card refs for keyboard navigation in card view
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  
+  // Container ref for 2D grid calculations
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
 
   // Card navigation state for ARIA grid keyboard navigation
   const [cardNavState, setCardNavState] = useState<CardNavigationState>({
@@ -307,8 +313,77 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
     isGridActive: false,
     focusedCardElementIndex: 0,
     cardElements: [],
-    isCardNavigationActive: false
+    isCardNavigationActive: false,
+    gridColumns: 1,
+    gridRows: 1
   });
+
+  // 2D Grid Navigation Utilities (moved before useEffects)
+    const calculateGridDimensions = useCallback((containerRef: React.RefObject<HTMLElement | null>) => {
+    if (!containerRef.current) {
+      return { columns: 1, rows: 0 };
+    }
+
+    const container = containerRef.current;
+    const cards = container.querySelectorAll('.aria-tabs-datagrid-adaptive__card-wrapper');
+    
+    if (cards.length === 0) {
+      return { columns: 1, rows: 0 };
+    }
+
+    // Get container width
+    const containerWidth = container.offsetWidth;
+    
+    // Get first card dimensions
+    const firstCard = cards[0] as HTMLElement;
+    const cardWidth = firstCard.offsetWidth;
+    
+    // Calculate columns based on card width and container width
+    const columns = Math.floor(containerWidth / cardWidth) || 1;
+    const rows = Math.ceil(cards.length / columns);
+
+    return { columns, rows };
+  }, []);
+
+  // Convert linear index to 2D grid coordinates
+  const indexToGrid = useCallback((index: number, columns: number) => {
+    return {
+      row: Math.floor(index / columns),
+      col: index % columns
+    };
+  }, []);
+
+  // Convert 2D grid coordinates to linear index
+  const gridToIndex = useCallback((row: number, col: number, columns: number) => {
+    return row * columns + col;
+  }, []);
+
+  // Navigate in 2D grid with bounds checking
+  const navigate2D = useCallback((currentIndex: number, direction: 'up' | 'down' | 'left' | 'right', totalCards: number, columns: number) => {
+    const { row, col } = indexToGrid(currentIndex, columns);
+    let newRow = row;
+    let newCol = col;
+    
+    switch (direction) {
+      case 'up':
+        newRow = Math.max(0, row - 1);
+        break;
+      case 'down':
+        newRow = Math.min(Math.floor((totalCards - 1) / columns), row + 1);
+        break;
+      case 'left':
+        newCol = Math.max(0, col - 1);
+        break;
+      case 'right':
+        newCol = Math.min(columns - 1, col + 1);
+        break;
+    }
+    
+    const newIndex = gridToIndex(newRow, newCol, columns);
+    
+    // Ensure the new index is within bounds and a valid card exists
+    return Math.min(newIndex, totalCards - 1);
+  }, [indexToGrid, gridToIndex]);
 
   // Effect to handle focus when card navigation becomes active (following GanttChart pattern)
   useEffect(() => {
@@ -323,6 +398,34 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
       }, 0);
     }
   }, [cardNavState.isCardNavigationActive, cardNavState.focusedCardElementIndex, cardNavState.cardElements.length]);
+
+  // Effect to update grid dimensions when layout changes
+  useEffect(() => {
+    const updateGridDimensions = () => {
+      if (layout === 'cards' && cardsContainerRef.current) {
+        const { columns, rows } = calculateGridDimensions(cardsContainerRef);
+        setCardNavState(prev => ({
+          ...prev,
+          gridColumns: columns,
+          gridRows: rows
+        }));
+      }
+    };
+
+    // Update dimensions after a delay to ensure DOM is ready
+    const timeoutId = setTimeout(updateGridDimensions, 200);
+
+    // Update dimensions on window resize
+    const handleResize = () => {
+      setTimeout(updateGridDimensions, 100); // Debounce resize events
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [layout, tabPanels, calculateGridDimensions]);
 
   // Handle tabPanels length changes
   useEffect(() => {
@@ -462,22 +565,69 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
             setCardNavState(prev => ({ ...prev, focusArea: 'tabs' }));
             focusTab(state.selectedIndex);
           } else {
-            const prevCardIndex = cardIndex - 1;
-            setCardNavState(prev => ({ ...prev, focusedCardIndex: prevCardIndex }));
-            focusCard(prevCardIndex);
+            // Use 2D navigation for up movement
+            const newCardIndex = navigate2D(cardIndex, 'up', cardCount, cardNavState.gridColumns);
+            if (newCardIndex !== cardIndex) {
+              setCardNavState(prev => ({ ...prev, focusedCardIndex: newCardIndex }));
+              focusCard(newCardIndex);
+              announceToScreenReader(`Moved to card ${newCardIndex + 1} of ${cardCount}`);
+            }
           }
           break;
         case 'ArrowDown':
           event.preventDefault();
-          const nextCardIndex = Math.min(cardCount - 1, cardIndex + 1);
-          if (nextCardIndex !== cardIndex) {
-            setCardNavState(prev => ({ ...prev, focusedCardIndex: nextCardIndex }));
-            focusCard(nextCardIndex);
+          // Use 2D navigation for down movement
+          const newDownCardIndex = navigate2D(cardIndex, 'down', cardCount, cardNavState.gridColumns);
+          if (newDownCardIndex !== cardIndex) {
+            setCardNavState(prev => ({ ...prev, focusedCardIndex: newDownCardIndex }));
+            focusCard(newDownCardIndex);
+            announceToScreenReader(`Moved to card ${newDownCardIndex + 1} of ${cardCount}`);
           }
+          break;
+        case 'ArrowLeft':
+          event.preventDefault();
+          // Use 2D navigation for left movement
+          const newLeftCardIndex = navigate2D(cardIndex, 'left', cardCount, cardNavState.gridColumns);
+          if (newLeftCardIndex !== cardIndex) {
+            setCardNavState(prev => ({ ...prev, focusedCardIndex: newLeftCardIndex }));
+            focusCard(newLeftCardIndex);
+            announceToScreenReader(`Moved to card ${newLeftCardIndex + 1} of ${cardCount}`);
+          } else {
+            // If at leftmost card, navigate to previous tab
+            if (state.selectedIndex > 0) {
+              dispatch({ type: 'SET_SELECTED_INDEX', payload: state.selectedIndex - 1 });
+              setCardNavState(prev => ({ ...prev, focusArea: 'tabs' }));
+              setTimeout(() => focusTab(state.selectedIndex - 1), 0);
+            }
+          }
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          // Use 2D navigation for right movement
+          const newRightCardIndex = navigate2D(cardIndex, 'right', cardCount, cardNavState.gridColumns);
+          if (newRightCardIndex !== cardIndex) {
+            setCardNavState(prev => ({ ...prev, focusedCardIndex: newRightCardIndex }));
+            focusCard(newRightCardIndex);
+            announceToScreenReader(`Moved to card ${newRightCardIndex + 1} of ${cardCount}`);
+          } else {
+            // If at rightmost card, navigate to next tab
+            if (state.selectedIndex < tabPanels.length - 1) {
+              dispatch({ type: 'SET_SELECTED_INDEX', payload: state.selectedIndex + 1 });
+              setCardNavState(prev => ({ ...prev, focusArea: 'tabs' }));
+              setTimeout(() => focusTab(state.selectedIndex + 1), 0);
+            }
+          }
+          break;
           break;
         case 'Enter':
           if (currentPanel?.data[cardIndex]) {
             event.preventDefault();
+            // Mark card as selected when entering it
+            setCardNavState(prev => ({
+              ...prev,
+              selectedCardIndex: cardIndex
+            }));
+            
             // Scan for focusable elements and activate card navigation
             const cardElements = scanCardElements(cardIndex);
             if (cardElements.length > 0) {
@@ -486,29 +636,27 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
                 focusArea: 'card',
                 isCardNavigationActive: true,
                 focusedCardElementIndex: 0,
-                cardElements
+                cardElements,
+                selectedCardIndex: cardIndex // Ensure selection is maintained
               }));
-              announceToScreenReader(`Card navigation activated. ${cardElements.length} interactive elements available. Use arrow keys to navigate, Enter to activate, Escape to exit.`);
+              announceToScreenReader(`Card ${cardIndex + 1} selected and navigation activated. ${cardElements.length} interactive elements available. Use arrow keys to navigate, Enter to activate, Escape to exit.`);
               // Focus will be handled by useEffect
+            } else {
+              // If no internal elements, just select the card
+              announceToScreenReader(`Card ${cardIndex + 1} selected.`);
             }
           }
           break;
-        case 'ArrowLeft':
-          event.preventDefault();
-          // Navigate to previous tab
-          if (state.selectedIndex > 0) {
-            dispatch({ type: 'SET_SELECTED_INDEX', payload: state.selectedIndex - 1 });
-            setCardNavState(prev => ({ ...prev, focusArea: 'tabs' }));
-            setTimeout(() => focusTab(state.selectedIndex - 1), 0);
-          }
-          break;
-        case 'ArrowRight':
-          event.preventDefault();
-          // Navigate to next tab
-          if (state.selectedIndex < tabPanels.length - 1) {
-            dispatch({ type: 'SET_SELECTED_INDEX', payload: state.selectedIndex + 1 });
-            setCardNavState(prev => ({ ...prev, focusArea: 'tabs' }));
-            setTimeout(() => focusTab(state.selectedIndex + 1), 0);
+        case ' ':
+          if (currentPanel?.data[cardIndex]) {
+            event.preventDefault();
+            // Toggle card selection (traditional behavior)
+            setCardNavState(prev => ({
+              ...prev,
+              selectedCardIndex: prev.selectedCardIndex === cardIndex ? -1 : cardIndex
+            }));
+            const isSelected = cardNavState.selectedCardIndex === cardIndex;
+            announceToScreenReader(`Card ${cardIndex + 1} ${isSelected ? 'deselected' : 'selected'}.`);
           }
           break;
       }
@@ -576,141 +724,6 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
           setCardNavState(prev => ({ ...prev, focusedCardElementIndex: lastIndex }));
           focusCardElement(cardIndex, lastIndex);
         }
-        break;
-    }
-    switch (key) {
-      case 'ArrowUp':
-        event.preventDefault();
-        if (cardNavState.focusArea === 'cards') {
-          if (cardIndex === 0) {
-            // Navigate to tabs
-            setCardNavState(prev => ({ 
-              ...prev, 
-              focusArea: 'tabs',
-              focusedTabIndex: state.selectedIndex
-            }));
-            focusTab(state.selectedIndex);
-          } else {
-            // Move to previous card
-            const prevCardIndex = cardIndex - 1;
-            focusCard(prevCardIndex);
-          }
-        }
-        break;
-
-      case 'ArrowDown':
-        event.preventDefault();
-        if (cardIndex < cardCount - 1) {
-          // Move to next card
-          const nextCardIndex = cardIndex + 1;
-          focusCard(nextCardIndex);
-        }
-        break;
-
-      case 'ArrowLeft':
-        event.preventDefault();
-        // Grid-style navigation - treat cards as a grid
-        const cardsPerRow = 1; // Mobile-first, single column
-        const prevRowCardIndex = Math.max(0, cardIndex - cardsPerRow);
-        focusCard(prevRowCardIndex);
-        break;
-
-      case 'ArrowRight':
-        event.preventDefault();
-        // Grid-style navigation - treat cards as a grid
-        const nextRowCardIndex = Math.min(cardCount - 1, cardIndex + 1);
-        focusCard(nextRowCardIndex);
-        break;
-
-      case 'Home':
-        event.preventDefault();
-        if (event.ctrlKey) {
-          // Navigate to tabs
-          setCardNavState(prev => ({ 
-            ...prev, 
-            focusArea: 'tabs',
-            focusedTabIndex: state.selectedIndex,
-            focusedCardIndex: 0
-          }));
-          focusTab(state.selectedIndex);
-        } else {
-          // First card
-          focusCard(0);
-        }
-        break;
-
-      case 'End':
-        event.preventDefault();
-        if (event.ctrlKey) {
-          // Navigate to tabs
-          setCardNavState(prev => ({ 
-            ...prev, 
-            focusArea: 'tabs',
-            focusedTabIndex: state.selectedIndex,
-            focusedCardIndex: cardCount - 1
-          }));
-          focusTab(state.selectedIndex);
-        } else {
-          // Last card
-          const lastCardIndex = cardCount - 1;
-          focusCard(lastCardIndex);
-        }
-        break;
-
-      case 'Enter':
-        event.preventDefault();
-        // Enter card navigation mode - scan for internal elements
-        const cardElements = scanCardElements(cardIndex);
-        if (cardElements.length > 0) {
-          setCardNavState(prev => ({
-            ...prev,
-            focusArea: 'card',
-            isCardNavigationActive: true,
-            selectedCardIndex: cardIndex,
-            cardElements,
-            focusedCardElementIndex: 0
-          }));
-          focusCardElement(cardIndex, 0);
-          announceToScreenReader(`Entered card navigation, found ${cardElements.length} interactive elements`);
-        } else {
-          // No internal elements, just select the card
-          const currentData = currentPanel?.data[cardIndex];
-          if (currentData) {
-            const isCurrentlySelected = cardNavState.selectedCardIndex === cardIndex;
-            setCardNavState(prev => ({ 
-              ...prev, 
-              selectedCardIndex: isCurrentlySelected ? -1 : cardIndex 
-            }));
-            handleCardSelect(currentData);
-          }
-        }
-        break;
-
-      case ' ':
-        event.preventDefault();
-        // Toggle selection (traditional behavior)
-        const currentData = currentPanel?.data[cardIndex];
-        if (currentData) {
-          const isCurrentlySelected = cardNavState.selectedCardIndex === cardIndex;
-          setCardNavState(prev => ({ 
-            ...prev, 
-            selectedCardIndex: isCurrentlySelected ? -1 : cardIndex 
-          }));
-          handleCardSelect(currentData);
-        }
-        break;
-
-      case 'Escape':
-        event.preventDefault();
-        // Clear selection and exit any navigation modes
-        setCardNavState(prev => ({ 
-          ...prev, 
-          selectedCardIndex: -1,
-          isCardNavigationActive: false,
-          focusArea: 'cards',
-          cardElements: [],
-          focusedCardElementIndex: 0
-        }));
         break;
     }
   }, [cardNavState, state.selectedIndex, tabPanels, handleCardSelect, focusCard, focusTab, setCardNavState, scanCardElements, focusCardElement, announceToScreenReader]);
@@ -823,11 +836,12 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 
         {/* Card-based data presentation with ARIA grid navigation */}
         <div 
+          ref={cardsContainerRef}
           className="aria-tabs-datagrid-adaptive__cards" 
           role="grid"
-          aria-label={`${currentPanel?.label || 'Data'} cards`}
-          aria-rowcount={currentPanel?.data.length || 0}
-          aria-colcount={1}
+          aria-label={`${currentPanel?.label || 'Data'} cards in ${cardNavState.gridRows} rows and ${cardNavState.gridColumns} columns`}
+          aria-rowcount={cardNavState.gridRows}
+          aria-colcount={cardNavState.gridColumns}
           id={`panel-${currentPanel?.id}`}
           aria-labelledby={`tab-${currentPanel?.id}`}
         >
@@ -838,6 +852,9 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
             // Ensure first card is focusable if no card is currently focused
             const isFirstCardFocusable = index === 0 && cardNavState.focusArea !== 'cards';
             const shouldBeFocusable = isFocused || isFirstCardFocusable;
+            
+            // Calculate 2D grid position for ARIA
+            const gridPosition = indexToGrid(index, cardNavState.gridColumns);
             
             // If custom card template is provided, use it
             if (cardConfig.cardTemplate) {
@@ -853,8 +870,8 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
                     ${isInCardNavigation ? 'aria-tabs-datagrid-adaptive__card-wrapper--card-navigation' : ''}
                   `.trim()}
                   role="gridcell"
-                  aria-rowindex={index + 1}
-                  aria-colindex={1}
+                  aria-rowindex={gridPosition.row + 1}
+                  aria-colindex={gridPosition.col + 1}
                   aria-selected={isSelected}
                   aria-expanded={isInCardNavigation}
                   aria-description={isInCardNavigation ? `Card navigation active. ${cardNavState.cardElements.length} interactive elements available.` : undefined}
@@ -906,8 +923,8 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
                   ${isInCardNavigation ? 'aria-tabs-datagrid-adaptive__card-wrapper--card-navigation' : ''}
                 `.trim()}
                 role="gridcell"
-                aria-rowindex={index + 1}
-                aria-colindex={1}
+                aria-rowindex={gridPosition.row + 1}
+                aria-colindex={gridPosition.col + 1}
               >
                 <Card 
                   {...cardProps}

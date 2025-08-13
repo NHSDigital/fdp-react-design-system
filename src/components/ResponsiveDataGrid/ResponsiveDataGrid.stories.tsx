@@ -384,12 +384,12 @@ export const HealthcareWorkflow: Story = {
         cardTemplate: getCardTemplate('appointment')
       },
       {
-        id: 'medications',
-        label: 'Medications',
+        id: 'prescriptions',
+        label: 'Prescriptions',
         data: medicationData,
         columns: medicationColumns,
-        ariaLabel: 'Medication schedule',
-        cardTemplate: getCardTemplate('medication')
+        ariaLabel: 'Prescription schedule',
+        cardTemplate: getCardTemplate('prescription')
       },
       {
         id: 'vitals',

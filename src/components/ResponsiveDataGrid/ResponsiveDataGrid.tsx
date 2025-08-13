@@ -506,17 +506,25 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 	}));
   }, []);
 
+  // Screen reader announcements container ref
+  const announcementsRef = useRef<HTMLDivElement>(null);
+
   // Screen reader announcements
   const announceToScreenReader = useCallback((message: string) => {
+	const container = announcementsRef.current;
+	if (!container) return;
+
 	const announcement = document.createElement('div');
 	announcement.setAttribute('aria-live', 'polite');
 	announcement.setAttribute('aria-atomic', 'true');
 	announcement.className = 'sr-only';
 	announcement.textContent = message;
-	document.body.appendChild(announcement);
+	container.appendChild(announcement);
 	
 	setTimeout(() => {
-	  document.body.removeChild(announcement);
+	  if (container.contains(announcement)) {
+		container.removeChild(announcement);
+	  }
 	}, 1000);
   }, []);
 
@@ -730,7 +738,6 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 
   // Scroll tab into view for mobile card layout
   const scrollTabIntoViewMobile = useCallback((index: number) => {
-	console.log('scrollTabIntoViewMobile called for index:', index);
 	const tab = tabRefs.current[index];
 	const tabsContainer = tab?.parentElement;
 	
@@ -743,8 +750,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 	const tabRect = tab.getBoundingClientRect();
 	const containerRect = tabsContainer.getBoundingClientRect();
 	
-	const isVisible = tabRect.left >= containerRect.left && 
-					 tabRect.right <= containerRect.right;
+	const isVisible = tabRect.left >= containerRect.left && tabRect.right <= containerRect.right;
 	
 	if (!isVisible) {
 	  console.log('Tab not visible, scrolling into view (mobile)');
@@ -1003,6 +1009,26 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 			);
 		  })}
 		</div>
+
+		{/* Screen reader announcements container - fixed position to avoid layout impact */}
+		<div 
+		  ref={announcementsRef}
+		  className="aria-tabs-datagrid-adaptive__announcements"
+		  aria-hidden="true"
+		  style={{
+			position: 'fixed',
+			top: '-1px',
+			left: '-1px',
+			width: '1px',
+			height: '1px',
+			overflow: 'hidden',
+			clip: 'rect(0, 0, 0, 0)',
+			whiteSpace: 'nowrap',
+			border: 0,
+			padding: 0,
+			margin: 0
+		  }}
+		/>
 	  </div>
 	);
   }

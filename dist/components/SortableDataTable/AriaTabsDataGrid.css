@@ -198,7 +198,7 @@ span .nhsuk-u-visually-hidden {
   border-top: 2px solid #005eb8;
   border-left: 2px solid #005eb8;
   border-right: 2px solid #005eb8;
-  border-bottom: 2px solid #f0f4f5;
+  border-bottom: 2px solid transparent;
   font-weight: 700;
   margin-bottom: -1px;
   position: relative;
@@ -1003,7 +1003,6 @@ span .nhsuk-u-visually-hidden {
   }
   .aria-tabs-datagrid__tab:focus {
     outline: 3px solid #ffeb3b;
-    outline-offset: 2px;
     z-index: 15;
   }
   .aria-tabs-datagrid__panel {

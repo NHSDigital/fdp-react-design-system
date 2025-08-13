@@ -1153,3 +1153,28 @@ span .nhsuk-u-visually-hidden {
 .aria-tabs-datagrid-adaptive--transitioning .aria-tabs-datagrid-adaptive--transitioning__cards {
   transition: all 0.3s ease;
 }
+.aria-tabs-datagrid-adaptive__announcements {
+  position: fixed !important;
+  top: -1px !important;
+  left: -1px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  z-index: -1;
+}
+.aria-tabs-datagrid-adaptive__announcements .sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

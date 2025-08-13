@@ -38,8 +38,11 @@
 import React, { useState, useEffect, useCallback, useRef, useReducer, useMemo } from 'react';
 import { AriaTabsDataGrid } from '../SortableDataTable/AriaTabsDataGrid';
 import { Card, type CardProps } from '../Card';
+import { Select } from '../Select';
+import { Button } from '../Button';
 import { ResponsiveDataGridProps, LayoutMode, ViewportConfig } from './ResponsiveDataGridTypes';
 import { AriaTabsDataGridState, AriaTabsDataGridAction } from '../SortableDataTable/AriaTabsDataGridTypes';
+import { SortConfig } from '../SortableDataTable/AriaDataGridTypes';
 import './ResponsiveDataGrid.scss';
 
 /**
@@ -73,6 +76,8 @@ interface CardNavigationState {
   // 2D Grid navigation state
   gridColumns: number;
   gridRows: number;
+  // Card sorting state
+  cardSortConfig: SortConfig | null;
 }
 
 /**
@@ -315,7 +320,8 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 	cardElements: [],
 	isCardNavigationActive: false,
 	gridColumns: 1,
-	gridRows: 1
+	gridRows: 1,
+	cardSortConfig: null
   });
 
   // 2D Grid Navigation Utilities (moved before useEffects)
@@ -527,6 +533,99 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 	  }
 	}, 1000);
   }, []);
+
+  // Card sorting utilities
+  const generateSortOptions = useCallback((columns: any[]) => {
+	const sortableColumns = columns.filter(col => col.sortable !== false);
+	const options: { value: string; label: string }[] = [
+	  { value: '', label: 'Sort by...' }
+	];
+	
+	sortableColumns.forEach(column => {
+	  const baseLabel = column.label || column.key;
+	  
+	  // Add contextual sort labels based on data type
+	  if (column.key === 'name') {
+		options.push(
+		  { value: `${column.key}-asc`, label: `${baseLabel} (A-Z)` },
+		  { value: `${column.key}-desc`, label: `${baseLabel} (Z-A)` }
+		);
+	  } else if (column.key === 'ews_score' || column.key.includes('score')) {
+		options.push(
+		  { value: `${column.key}-desc`, label: `${baseLabel} (High-Low)` },
+		  { value: `${column.key}-asc`, label: `${baseLabel} (Low-High)` }
+		);
+	  } else if (column.key === 'age' || column.key.includes('date') || column.key.includes('time')) {
+		options.push(
+		  { value: `${column.key}-desc`, label: `${baseLabel} (Newest-Oldest)` },
+		  { value: `${column.key}-asc`, label: `${baseLabel} (Oldest-Newest)` }
+		);
+	  } else {
+		options.push(
+		  { value: `${column.key}-asc`, label: `${baseLabel} (A-Z)` },
+		  { value: `${column.key}-desc`, label: `${baseLabel} (Z-A)` }
+		);
+	  }
+	});
+	
+	return options;
+  }, []);
+
+  const sortCardData = useCallback((data: any[], sortConfig: SortConfig | null) => {
+	if (!sortConfig) return data;
+	
+	return [...data].sort((a, b) => {
+	  const aValue = a[sortConfig.key];
+	  const bValue = b[sortConfig.key];
+	  
+	  // Handle null/undefined values
+	  if (aValue == null && bValue == null) return 0;
+	  if (aValue == null) return 1;
+	  if (bValue == null) return -1;
+	  
+	  // Numeric comparison for numbers and strings that look like numbers
+	  const aNum = Number(aValue);
+	  const bNum = Number(bValue);
+	  if (!isNaN(aNum) && !isNaN(bNum)) {
+		return sortConfig.direction === 'asc' ? aNum - bNum : bNum - aNum;
+	  }
+	  
+	  // String comparison
+	  const aStr = String(aValue).toLowerCase();
+	  const bStr = String(bValue).toLowerCase();
+	  const result = aStr.localeCompare(bStr);
+	  
+	  return sortConfig.direction === 'asc' ? result : -result;
+	});
+  }, []);
+
+  const handleCardSort = useCallback((sortValue: string) => {
+	if (!sortValue) {
+	  setCardNavState(prev => ({ ...prev, cardSortConfig: null }));
+	  announceToScreenReader('Card sorting cleared');
+	  return;
+	}
+	
+	const [key, direction] = sortValue.split('-') as [string, 'asc' | 'desc'];
+	const newSortConfig: SortConfig = { key, direction };
+	
+	setCardNavState(prev => ({ ...prev, cardSortConfig: newSortConfig }));
+	
+	// Announce the sort change
+	const currentPanel = tabPanels[state.selectedIndex];
+	const column = currentPanel?.columns.find(col => col.key === key);
+	const columnLabel = column?.label || key;
+	const directionLabel = direction === 'asc' ? 'ascending' : 'descending';
+	announceToScreenReader(`Cards sorted by ${columnLabel} in ${directionLabel} order`);
+  }, [tabPanels, state.selectedIndex, announceToScreenReader]);
+
+  const getSortLabel = useCallback((sortConfig: SortConfig) => {
+	const currentPanel = tabPanels[state.selectedIndex];
+	const column = currentPanel?.columns.find(col => col.key === sortConfig.key);
+	const columnLabel = column?.label || sortConfig.key;
+	const directionLabel = sortConfig.direction === 'asc' ? 'ascending' : 'descending';
+	return `${columnLabel} (${directionLabel})`;
+  }, [tabPanels, state.selectedIndex]);
 
   // Focus specific element within a card (following GanttChart pattern)
   const focusCardElement = useCallback((cardIndex: number, elementIndex: number) => {
@@ -877,6 +976,49 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		  })}
 		</div>
 
+		{/* Card sort controls */}
+		{currentPanel && currentPanel.columns && (
+		  <div className="aria-tabs-datagrid-adaptive__sort-controls">
+			<div className="sort-controls-row">
+			  <div className="sort-select-container">
+				<label htmlFor={`card-sort-${currentPanel.id}`} className="sort-label">
+				  Sort cards by
+				</label>
+				<Select
+				  id={`card-sort-${currentPanel.id}`}
+				  name={`card-sort-${currentPanel.id}`}
+				  value={cardNavState.cardSortConfig ? `${cardNavState.cardSortConfig.key}-${cardNavState.cardSortConfig.direction}` : ''}
+				  onChange={(e) => handleCardSort(e.target.value)}
+				  className="sort-select"
+				>
+				  {generateSortOptions(currentPanel.columns).map(option => (
+					<option key={option.value} value={option.value}>
+					  {option.label}
+					</option>
+				  ))}
+				</Select>
+			  </div>
+			  
+			  {cardNavState.cardSortConfig && (
+				<div className="sort-indicator" role="status" aria-live="polite">
+				  <span className="sort-indicator-text">
+					Sorted by {getSortLabel(cardNavState.cardSortConfig)}
+				  </span>
+				  <Button
+					variant="secondary"
+					size="small"
+					onClick={() => handleCardSort('')}
+					aria-label="Clear card sorting"
+					className="sort-clear-button"
+				  >
+					Clear
+				  </Button>
+				</div>
+			  )}
+			</div>
+		  </div>
+		)}
+
 		{/* Card-based data presentation with ARIA grid navigation */}
 		<div 
 		  ref={cardsContainerRef}
@@ -888,7 +1030,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		  id={`panel-${currentPanel?.id}`}
 		  aria-labelledby={`tab-${currentPanel?.id}`}
 		>
-		  { currentPanel?.data.map((row, index) => {
+		  { sortCardData(currentPanel?.data || [], cardNavState.cardSortConfig).map((row, index) => {
 			const isSelected = cardNavState.selectedCardIndex === index;
 			const isFocused = cardNavState.focusedCardIndex === index && cardNavState.focusArea === 'cards';
 			const isInCardNavigation = cardNavState.focusedCardIndex === index && cardNavState.focusArea === 'card' && cardNavState.isCardNavigationActive;

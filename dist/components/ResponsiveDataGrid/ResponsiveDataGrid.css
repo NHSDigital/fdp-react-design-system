@@ -1153,6 +1153,120 @@ span .nhsuk-u-visually-hidden {
 .aria-tabs-datagrid-adaptive--transitioning .aria-tabs-datagrid-adaptive--transitioning__cards {
   transition: all 0.3s ease;
 }
+.aria-tabs-datagrid-adaptive__sort-controls {
+  padding: 16px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #d8dde0;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__sort-controls {
+    margin: 0 -24px;
+    width: calc(100% + 48px);
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-controls-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+@media (max-width: 768px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-controls-row {
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-select-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 200px;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-select-container {
+    min-width: 0;
+    width: 100%;
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-select-container .sort-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #212b32;
+  margin: 0;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-select-container .sort-label {
+    font-size: 14px;
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-select-container .sort-select {
+  max-width: 300px;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-select-container .sort-select {
+    max-width: none;
+    width: 100%;
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-indicator {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  background: #ccdff1;
+  border: 1px solid #004281;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-indicator {
+    width: 100%;
+    font-size: 12px;
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-indicator .sort-indicator-text {
+  color: #212b32;
+  font-weight: 500;
+  flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-indicator .sort-clear-button {
+  margin: 0;
+  padding: 4px 8px;
+  min-height: auto;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-indicator .sort-clear-button {
+    font-size: 12px;
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-indicator .sort-clear-button.nhsuk-button--secondary {
+  margin: 0;
+  border-radius: 4px;
+}
+@media (max-width: 768px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-indicator {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-indicator .sort-indicator-text {
+    width: 100%;
+    text-align: left;
+  }
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-indicator .sort-clear-button {
+    align-self: flex-end;
+  }
+}
 .aria-tabs-datagrid-adaptive__announcements {
   position: fixed !important;
   top: -1px !important;

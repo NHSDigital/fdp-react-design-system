@@ -5,15 +5,25 @@
  * 
  * Hierarchical Navigation Structure:
  * 1. TAB LEVEL: Navigate between tab buttons using arrow keys
- * 2. CARD LEVEL: Navigate between cards using arrow keys  
- * 3. CARD-INTERNAL LEVEL: Navigate within card elements using arrow keys
+ * 2. SORT-CONTROLS LEVEL: Navigate between sort controls using arrow keys
+ * 3. CARD LEVEL: Navigate between cards using arrow keys  
+ * 4. CARD-INTERNAL LEVEL: Navigate within card elements using arrow keys
  * 
  * Navigation Controls:
  * - Arrow keys: Navigate within current focus area
  * - Enter: When on card, select card and enter card-internal navigation mode
+ *           When on sort controls, enter sort controls navigation mode
  * - Space: Toggle card selection (traditional behavior)
- * - Escape: Exit card-internal navigation or clear selection
+ *          Enter sort controls navigation mode
+ * - Escape: Exit card-internal navigation, sort controls navigation, or clear selection
  * - Ctrl+Home/End: Jump between navigation levels
+ * 
+ * Sort Controls Navigation:
+ * - Automatically manages sort dropdown and clear button navigation
+ * - Arrow keys move between sort controls
+ * - Enter/Space activates the focused control or enters navigation mode
+ * - Up arrow returns to tabs, Down arrow goes to cards
+ * - Screen reader announcements for sort control changes
  * 
  * Card-Internal Navigation:
  * - Automatically scans for focusable elements (buttons, links, inputs, etc.)
@@ -26,6 +36,7 @@
  * - Selected cards: NHS blue border and shadow
  * - Focused cards: NHS yellow focus outline
  * - Card navigation mode: Dashed border with "Navigation Mode" badge
+ * - Sort controls navigation mode: Focus outline on sort controls section
  * - Internal elements: Dotted borders with focus highlighting
  * 
  * ARIA Compliance:
@@ -48,7 +59,7 @@ import './ResponsiveDataGrid.scss';
 /**
  * Navigation focus areas for hierarchical keyboard navigation in card view
  */
-type CardFocusArea = 'tabs' | 'cards' | 'card';
+type CardFocusArea = 'tabs' | 'sort-controls' | 'cards' | 'card';
 
 /**
  * Card internal focusable elements
@@ -78,6 +89,9 @@ interface CardNavigationState {
   gridRows: number;
   // Card sorting state
   cardSortConfig: SortConfig | null;
+  // Sort controls navigation state
+  focusedSortControlIndex: number;
+  isSortControlsActive: boolean;
 }
 
 /**
@@ -306,6 +320,9 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
   // Card refs for keyboard navigation in card view
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   
+  // Sort control refs for keyboard navigation
+  const sortControlRefs = useRef<(HTMLElement | null)[]>([]);
+  
   // Container ref for 2D grid calculations
   const cardsContainerRef = useRef<HTMLDivElement>(null);
 
@@ -321,7 +338,9 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 	isCardNavigationActive: false,
 	gridColumns: 1,
 	gridRows: 1,
-	cardSortConfig: null
+	cardSortConfig: null,
+	focusedSortControlIndex: 0,
+	isSortControlsActive: false
   });
 
   // 2D Grid Navigation Utilities (moved before useEffects)
@@ -645,7 +664,53 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 	tabRefs.current[tabIndex]?.focus();
   }, []);
 
-  // Enhanced card keyboard navigation handlers following GanttChart pattern
+  // Get all available sort controls dynamically
+  const getAvailableSortControls = useCallback(() => {
+	const container = sortControlRefs.current[0];
+	if (!container) return [];
+	
+	// Find all focusable elements within the sort controls container
+	const focusableSelectors = [
+	  'select:not([disabled]):not([aria-hidden="true"])',
+	  'button:not([disabled]):not([aria-hidden="true"])',
+	  'input:not([disabled]):not([aria-hidden="true"])',
+	  '[tabindex]:not([tabindex="-1"]):not([disabled]):not([aria-hidden="true"])'
+	].join(', ');
+	
+	const focusableElements = container.querySelectorAll(focusableSelectors) as NodeListOf<HTMLElement>;
+	return Array.from(focusableElements);
+  }, []);
+
+  // Focus sort control element and handle sort controls navigation
+  const focusSortControl = useCallback((controlIndex: number) => {
+	if (controlIndex === 0) {
+	  // Focus the container for navigation mode entry
+	  const sortControlElement = sortControlRefs.current[0];
+	  if (sortControlElement) {
+		sortControlElement.focus();
+		const availableControls = getAvailableSortControls();
+		const announcement = `Sort controls region with ${availableControls.length} interactive elements. Press Enter or Space to navigate between controls.`;
+		announceToScreenReader(announcement);
+	  }
+	} else {
+	  // For individual controls, focus them directly by querying the DOM
+	  const availableControls = getAvailableSortControls();
+	  const adjustedIndex = controlIndex - 1; // Subtract 1 because index 0 is the container
+	  const formControl = availableControls[adjustedIndex];
+	  
+	  if (formControl) {
+		formControl.focus();
+		
+		// Create announcement with helpful keyboard hint for select elements
+		const isSelect = formControl.tagName.toLowerCase() === 'select';
+		const isButton = formControl.tagName.toLowerCase() === 'button';
+		const elementType = isSelect ? 'dropdown' : isButton ? 'button' : 'control';
+		const keyboardHint = isSelect ? '. Use Space key to open dropdown' : '';
+		const announcement = `${elementType} ${adjustedIndex + 1} of ${availableControls.length}${keyboardHint}`;
+		announceToScreenReader(announcement);
+	  }
+	}
+  }, [getAvailableSortControls, announceToScreenReader]);  // Enhanced card keyboard navigation handlers following GanttChart pattern
   const handleCardKeyDown = useCallback((event: React.KeyboardEvent, cardIndex: number) => {
 	const { key } = event;
 	const currentPanel = tabPanels[state.selectedIndex];
@@ -869,7 +934,6 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 	  return; // Let the event bubble up to AriaTabsDataGrid
 	}
 
-	console.log('handleTabKeyDownWithCards called with key:', event.key, 'index:', index);
 	const { key } = event;
 	
 	switch (key) {
@@ -893,13 +957,25 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 
 	  case 'ArrowDown':
 		event.preventDefault();
-		// Navigate to first card in card view
-		setCardNavState(prev => ({ 
-		  ...prev, 
-		  focusArea: 'cards',
-		  focusedCardIndex: 0
-		}));
-		focusCard(0);
+		// Navigate to sort controls first if they exist, otherwise go to cards
+		const currentPanel = tabPanels[state.selectedIndex];
+		if (currentPanel && currentPanel.columns && currentPanel.columns.length > 0) {
+		  // Navigate to sort controls
+		  setCardNavState(prev => ({ 
+			...prev, 
+			focusArea: 'sort-controls',
+			focusedSortControlIndex: 0
+		  }));
+		  focusSortControl(0);
+		} else {
+		  // Navigate directly to cards if no sort controls
+		  setCardNavState(prev => ({ 
+			...prev, 
+			focusArea: 'cards',
+			focusedCardIndex: 0
+		  }));
+		  focusCard(0);
+		}
 		break;
 	  
 	  case 'Home':
@@ -926,6 +1002,141 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		break;
 	}
   }, [tabPanels.length, handleTabSelect, layout, focusCard, setCardNavState, scrollTabIntoViewMobile]);
+
+  // Sort controls keyboard navigation
+  const handleSortControlKeyDown = useCallback((event: React.KeyboardEvent, controlIndex: number) => {
+	// Only handle navigation for card layout
+	if (layout !== 'cards') {
+	  return;
+	}
+
+	const { key } = event;
+	const currentPanel = tabPanels[state.selectedIndex];
+	
+	// Handle container (index 0) vs individual controls (indices 1, 2)
+	if (controlIndex === 0 && !cardNavState.isSortControlsActive) {
+	  // Container level navigation - only handle Enter/Space to enter navigation mode
+	  switch (key) {
+		case 'ArrowUp':
+		  event.preventDefault();
+		  // Navigate back to tabs
+		  setCardNavState(prev => ({ 
+			...prev, 
+			focusArea: 'tabs',
+			isSortControlsActive: false
+		  }));
+		  focusTab(state.selectedIndex);
+		  break;
+
+		case 'ArrowDown':
+		  event.preventDefault();
+		  // Navigate to first card in card view
+		  if (currentPanel?.data && currentPanel.data.length > 0) {
+			setCardNavState(prev => ({ 
+			  ...prev, 
+			  focusArea: 'cards',
+			  focusedCardIndex: 0,
+			  isSortControlsActive: false
+			}));
+			focusCard(0);
+		  }
+		  break;
+
+		case 'Enter':
+		case ' ':
+		  event.preventDefault();
+		  // Enter sort controls navigation mode
+		  const availableControls = getAvailableSortControls();
+		  if (availableControls.length > 0) {
+			setCardNavState(prev => ({ 
+			  ...prev, 
+			  isSortControlsActive: true,
+			  focusedSortControlIndex: 1 // Start with the first actual control (skip container)
+			}));
+			focusSortControl(1);
+			const announcement = `Entered sort controls navigation mode. ${availableControls.length} controls available. Use arrow keys to navigate between controls.`;
+			announceToScreenReader(announcement);
+		  }
+		  break;
+
+		case 'Escape':
+		  event.preventDefault();
+		  // Exit to tabs
+		  setCardNavState(prev => ({ 
+			...prev, 
+			isSortControlsActive: false,
+			focusArea: 'tabs'
+		  }));
+		  focusTab(state.selectedIndex);
+		  break;
+	  }
+	  return;
+	}
+	
+	// Individual control navigation (when isSortControlsActive is true)
+	if (cardNavState.isSortControlsActive) {
+	  // Get available sort control elements dynamically
+	  const availableControls = getAvailableSortControls();
+	  const controlCount = availableControls.length;
+	  
+	  switch (key) {
+		case 'ArrowLeft':
+		  event.preventDefault();
+		  const prevControlIndex = cardNavState.focusedSortControlIndex > 1 ? 
+			cardNavState.focusedSortControlIndex - 1 : 
+			controlCount; // Wrap to last control
+		  setCardNavState(prev => ({ ...prev, focusedSortControlIndex: prevControlIndex }));
+		  focusSortControl(prevControlIndex);
+		  break;
+		
+		case 'ArrowRight':
+		case 'ArrowDown': // Also allow down arrow to move to next control
+		  event.preventDefault();
+		  const nextControlIndex = cardNavState.focusedSortControlIndex < controlCount ? 
+			cardNavState.focusedSortControlIndex + 1 : 
+			1; // Wrap to first control (skip container 0)
+		  setCardNavState(prev => ({ ...prev, focusedSortControlIndex: nextControlIndex }));
+		  focusSortControl(nextControlIndex);
+		  break;
+
+		case 'ArrowUp':
+		  event.preventDefault();
+		  // Exit to container level
+		  setCardNavState(prev => ({ 
+			...prev, 
+			isSortControlsActive: false,
+			focusArea: 'sort-controls'
+		  }));
+		  focusSortControl(0);
+		  break;
+
+		case 'ArrowDown':
+		  event.preventDefault();
+		  // Navigate to first card in card view
+		  if (currentPanel?.data && currentPanel.data.length > 0) {
+			setCardNavState(prev => ({ 
+			  ...prev, 
+			  focusArea: 'cards',
+			  focusedCardIndex: 0,
+			  isSortControlsActive: false
+			}));
+			focusCard(0);
+		  }
+		  break;
+
+		case 'Escape':
+		  event.preventDefault();
+		  // Exit sort controls navigation mode
+		  setCardNavState(prev => ({ 
+			...prev, 
+			isSortControlsActive: false,
+			focusArea: 'tabs'
+		  }));
+		  focusTab(state.selectedIndex);
+		  break;
+	  }
+	}
+  }, [layout, tabPanels, state.selectedIndex, cardNavState.isSortControlsActive, cardNavState.focusedSortControlIndex, focusSortControl, focusTab, focusCard, setCardNavState, announceToScreenReader]);
 
   // Mobile-first card implementation
   if (layout === 'cards') {
@@ -978,7 +1189,14 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 
 		{/* Card sort controls */}
 		{currentPanel && currentPanel.columns && (
-		  <div className="aria-tabs-datagrid-adaptive__sort-controls">
+		  <div 
+			className="aria-tabs-datagrid-adaptive__sort-controls"
+			role="region"
+			aria-label="Sort controls"
+			tabIndex={cardNavState.focusArea === 'sort-controls' ? 0 : -1}
+			ref={el => { sortControlRefs.current[0] = el; }}
+			onKeyDown={(event) => handleSortControlKeyDown(event, 0)}
+		  >
 			<div className="sort-controls-row">
 			  <div className="sort-select-container">
 				<label htmlFor={`card-sort-${currentPanel.id}`} className="sort-label">

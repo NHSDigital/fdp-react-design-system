@@ -13,6 +13,11 @@
   width: 100%;
   max-width: 100%;
   overflow: hidden;
+  
+  // Allow overflow when sort controls are focused to show the full yellow border
+  &:focus-within {
+    overflow: visible;
+  }
 
   // ==========================================================================
   // ADAPTIVE CARD WRAPPER STYLES  
@@ -177,8 +182,7 @@
       border-top: 2px solid nhs.$nhs-fdp-color-primary-yellow;
       border-left: 2px solid nhs.$nhs-fdp-color-primary-yellow;
       border-right: 2px solid nhs.$nhs-fdp-color-primary-yellow;
-      z-index: 10;
-      position: relative;
+      z-index: 5; // Lower than sort controls when focused
     }
     
     // Tab states
@@ -625,7 +629,17 @@
   &__sort-controls {
     padding: 0 nhs.$nhs-fdp-spacing-4 0 nhs.$nhs-fdp-spacing-4;
     background: nhs.$nhs-fdp-color-primary-white;
-    border-bottom: 1px solid nhs.$nhs-fdp-border-color-default;
+    position: relative; // Enable z-index positioning
+    overflow: hidden;
+    // NHS focus styling for sort controls container - full yellow border
+    &:focus {
+      outline: none; // Remove default outline
+      border: 4px solid nhs.$nhs-fdp-color-primary-yellow !important;
+      z-index: 999; // High z-index to ensure it's above everything
+      background: nhs.$nhs-fdp-color-primary-white;
+      margin: -4px; // Compensate for the border to prevent layout shift
+      padding: 0 // Adjust padding to account for border
+    }
     
     // Full width on mobile
     @media (max-width: #{nhs.$nhs-fdp-breakpoint-medium - 1px}) {
@@ -633,7 +647,7 @@
     }
     
     .sort-controls-row {
-		background-color: nhs.$nhs-fdp-color-grey-5;
+      background-color: nhs.$nhs-fdp-color-grey-5;
       display: flex;
       align-items: flex-start;
       gap: nhs.$nhs-fdp-spacing-4;
@@ -660,6 +674,14 @@
       @media (max-width: #{nhs.$nhs-fdp-breakpoint-medium - 1px}) {
         min-width: 0;
         width: 100%;
+      }
+      
+      // Focus style for the wrapper div around Select
+      > div:focus {
+        outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 6px nhs.$nhs-fdp-semantic-color-focus-background;
+        border-radius: nhs.$nhs-fdp-border-radius-small;
       }
       
       .sort-label {
@@ -711,6 +733,14 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+      
+      // Focus style for the wrapper div around clear button
+      > div:focus {
+        outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 6px nhs.$nhs-fdp-semantic-color-focus-background;
+        border-radius: nhs.$nhs-fdp-border-radius-small;
       }
       
       .sort-clear-button {

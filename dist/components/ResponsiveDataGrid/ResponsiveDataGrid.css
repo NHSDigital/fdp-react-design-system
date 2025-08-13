@@ -1156,7 +1156,6 @@ span .nhsuk-u-visually-hidden {
   transition: all 0.3s ease;
 }
 .aria-tabs-datagrid-adaptive__sort-controls {
-  padding: 0 24px 0 24px;
   background: #ffffff;
   position: relative;
   overflow: hidden;
@@ -1172,6 +1171,7 @@ span .nhsuk-u-visually-hidden {
 @media (max-width: 767px) {
   .aria-tabs-datagrid-adaptive__sort-controls {
     margin: 0 -24px;
+    padding: 0 24px 0 24px;
   }
 }
 .aria-tabs-datagrid-adaptive__sort-controls .sort-controls-row {

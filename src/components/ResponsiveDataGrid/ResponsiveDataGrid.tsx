@@ -52,8 +52,12 @@ import { Card, type CardProps } from '../Card';
 import { Select } from '../Select';
 import { Button } from '../Button';
 import { ResponsiveDataGridProps, LayoutMode, ViewportConfig } from './ResponsiveDataGridTypes';
+import { GenericCardConfig, DomainPlugin } from './ResponsiveDataGridGeneric.types';
 import { AriaTabsDataGridState, AriaTabsDataGridAction } from '../SortableDataTable/AriaTabsDataGridTypes';
 import { SortConfig } from '../SortableDataTable/AriaDataGridTypes';
+import { createGenericCard, defaultGenericCardConfig } from './GenericCardRenderer';
+import { healthcarePlugin } from './HealthcarePlugin';
+import { convertLegacyCardConfig, isHealthcareData } from './ResponsiveDataGridHelpers';
 import './ResponsiveDataGrid.scss';
 
 /**
@@ -198,80 +202,36 @@ function useResponsiveLayout(breakpoints: ViewportConfig, forceLayout?: LayoutMo
 }
 
 /**
- * Smart card template selection based on data type
- * Now using the standardized Card component with healthcare-specific customization
+ * Generic card template selection based on data type and configuration
+ * Now using configurable card creation with plugin support
  */
-function createHealthcareCard(data: any, columns: any[], cardConfig: any): CardProps {
-  const {
-	primaryField,
-	secondaryFields = [],
-	badgeFields = [],
-	hiddenFields = []
-  } = cardConfig;
+function createCard<T = any>(
+  data: T, 
+  columns: any[], 
+  cardConfig: GenericCardConfig<T>, 
+  domainPlugin?: DomainPlugin<T>
+): CardProps {
+  // Use domain plugin configuration if available
+  const effectiveConfig = domainPlugin ? 
+    { ...domainPlugin.defaultCardConfig, ...cardConfig } : 
+    { ...defaultGenericCardConfig, ...cardConfig };
 
-  // Determine primary content
-  const primaryColumn = columns.find(col => col.key === primaryField);
-  const primaryValue = primaryColumn?.render ? 
-	primaryColumn.render(data) : 
-	data[primaryField || 'name'] || 'Untitled';
+  // Check if there's a custom card template
+  if (effectiveConfig.cardTemplate) {
+    const customCard = effectiveConfig.cardTemplate(data, columns, effectiveConfig);
+    if (customCard) {
+      // If custom template returns a React node, we need to handle it differently
+      // For now, fall back to generic card creation
+      return createGenericCard(data, columns, effectiveConfig);
+    }
+  }
 
-  // Create healthcare-specific description
-  const createDescription = () => {
-	const relevantFields = secondaryFields
-	  .filter((fieldKey: string) => !hiddenFields.includes(fieldKey) && data[fieldKey])
-	  .slice(0, 3); // Limit to 3 fields for card readability
-
-	return relevantFields.map((fieldKey: string) => {
-	  const column = columns.find(col => col.key === fieldKey);
-	  const value = column?.render ? column.render(data) : data[fieldKey];
-	  const label = column?.label || fieldKey;
-	  return `${label}: ${value}`;
-	}).join(' • ');
-  };
-
-  // Create healthcare badges content
-  const createBadges = () => {
-	if (badgeFields.length === 0) return null;
-	
-	return badgeFields
-	  .filter((fieldKey: string) => data[fieldKey] !== undefined)
-	  .map((fieldKey: string) => {
-		const column = columns.find(col => col.key === fieldKey);
-		const value = column?.render ? column.render(data) : data[fieldKey];
-		
-		// Healthcare-specific badge styling
-		if (fieldKey === 'ews_score') {
-		  const score = Number(value);
-		  const ewsClass = score >= 7 ? 'high' : score >= 3 ? 'medium' : 'low';
-		  return `<span class="nhsuk-tag nhsuk-tag--${ewsClass} adaptive-card__ews-badge">EWS: ${value}</span>`;
-		}
-		
-		return `<span class="nhsuk-tag adaptive-card__badge">${value}</span>`;
-	  }).join('');
-  };
-
-  // Determine card variant based on healthcare context
-  const getCardVariant = (): 'default' | 'feature' | 'clickable' | 'secondary' | 'primary' => {
-	if (data.ews_score && Number(data.ews_score) >= 7) return 'primary'; // High priority
-	if (data.priority === 'high' || data.status === 'urgent') return 'primary';
-	return 'default';
-  };
-
-  const badges = createBadges();
-  const description = createDescription();
-  const enhancedDescription = badges ? `${description}${badges ? `<div class="adaptive-card__badges">${badges}</div>` : ''}` : description;
-
-  return {
-	variant: getCardVariant(),
-	heading: String(primaryValue),
-	descriptionHtml: enhancedDescription,
-	className: 'adaptive-card adaptive-card--healthcare',
-	'aria-label': `Healthcare record for ${primaryValue}`
-  } as CardProps;
+  // Use the generic card creation function
+  return createGenericCard(data, columns, effectiveConfig);
 }
 
 /**
- * Responsive Data Grid with mobile-first card layout
+ * Responsive Data Grid with mobile-first card layout - Now Generic with Plugin Support
  */
 export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
   // Responsive-specific props
@@ -298,6 +258,35 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
   // Determine if component is controlled
   const isControlled = selectedIndexProp !== undefined;
   const selectedIndex = selectedIndexProp ?? 0;
+
+  // Convert legacy cardConfig to generic configuration with automatic healthcare detection
+  const genericCardConfig: GenericCardConfig = useMemo(() => {
+    // Auto-detect healthcare data
+    const hasHealthcareData = tabPanels.some(panel => 
+      panel.data && panel.data.length > 0 && isHealthcareData(panel.data)
+    );
+    
+    if (hasHealthcareData) {
+      // Use healthcare plugin configuration as base
+      const legacyConverted = convertLegacyCardConfig(cardConfig);
+      return {
+        ...healthcarePlugin.defaultCardConfig,
+        ...legacyConverted
+      };
+    } else {
+      // Use generic configuration
+      return convertLegacyCardConfig(cardConfig);
+    }
+  }, [cardConfig, tabPanels]);
+
+  // Determine domain plugin based on data
+  const domainPlugin: DomainPlugin | undefined = useMemo(() => {
+    const hasHealthcareData = tabPanels.some(panel => 
+      panel.data && panel.data.length > 0 && isHealthcareData(panel.data)
+    );
+    
+    return hasHealthcareData ? healthcarePlugin : undefined;
+  }, [tabPanels]);
 
   // Initialize state with proper tab management
   const initialState: AriaTabsDataGridState = useMemo(() => {
@@ -1307,8 +1296,8 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 			  );
 			}
 
-			// Use the standardized Card component with healthcare-specific props
-			const cardProps = createHealthcareCard(row, currentPanel.columns, cardConfig);
+			// Use the generic card creation function with plugin support
+			const cardProps = createCard(row, currentPanel.columns, genericCardConfig, domainPlugin);
 			
 			// Calculate the full className including navigation state
 			const cardClassName = `

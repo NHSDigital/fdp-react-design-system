@@ -19,7 +19,8 @@ interface HealthcareCardProps {
 
 /**
  * Patient Record Card Template
- * Optimized for patient data with NHS number, demographics, and priority
+ * Displays all fields from the Patient Overview table view: 
+ * Patient Name, Age, Ward, Bed, EWS Score, Specialty, Consultant
  */
 export const PatientCard: React.FC<HealthcareCardProps> = ({
   data,
@@ -29,13 +30,14 @@ export const PatientCard: React.FC<HealthcareCardProps> = ({
   priority = 'medium',
   status = 'active'
 }) => {
-  // Extract key patient fields
-  const nhsNumber = data.nhs_number || data.nhsNumber || data.patient_id;
-  const name = data.name || data.patient_name || `${data.first_name || ''} ${data.last_name || ''}`.trim();
-  const dob = data.dob || data.date_of_birth || data.birth_date;
-  const ward = data.ward || data.location || data.current_ward;
-  const condition = data.condition || data.diagnosis || data.primary_condition;
-  const alertLevel = data.alert_level || data.ews_score || data.priority_level;
+  // Extract fields exactly as they appear in the table (from TCH overview config)
+  const name = data.name;
+  const age = data.age;
+  const ward = data.ward_name;
+  const bed = data.bed_name;
+  const ewsScore = data.ews_score;
+  const specialty = data.speciality; // Note: spelled 'speciality' in the data
+  const consultant = data.consultant;
 
   return (
     <div 
@@ -43,62 +45,53 @@ export const PatientCard: React.FC<HealthcareCardProps> = ({
       onClick={() => onSelect?.(data)}
       role="button"
       tabIndex={0}
-      aria-label={`Patient record for ${name}, NHS number ${nhsNumber}`}
+      aria-label={`Patient record for ${name}, Age ${age}, Ward ${ward}, Bed ${bed}`}
     >
       {/* Card Header with Patient Identity */}
       <div className="healthcare-card__header">
         <div className="healthcare-card__identity">
           <h3 className="healthcare-card__patient-name">{name}</h3>
-          <p className="healthcare-card__nhs-number">
-            <span className="healthcare-card__label">NHS:</span>
-            <span className="healthcare-card__value">{nhsNumber}</span>
+          <p className="healthcare-card__age-info">
+            <span className="healthcare-card__label">Age:</span>
+            <span className="healthcare-card__value">{age}</span>
           </p>
         </div>
         
-        {/* Priority and Alert Badges */}
+        {/* EWS Score Badge */}
         <div className="healthcare-card__badges">
-          {alertLevel && (
+          {ewsScore !== undefined && (
             <Tag 
-              color={getAlertTagColor(getAlertLevel(alertLevel))}
+              color={getAlertTagColor(getAlertLevel(ewsScore))}
               className="healthcare-card__alert"
             >
-              EWS: {alertLevel}
-            </Tag>
-          )}
-          {priority === 'high' && (
-            <Tag 
-              color={getPriorityTagColor(priority)}
-              className="healthcare-card__priority"
-            >
-              High Priority
+              EWS: {ewsScore}
             </Tag>
           )}
         </div>
       </div>
 
-      {/* Card Body with Key Information */}
+      {/* Card Body with All Table Fields */}
       <div className="healthcare-card__body">
         <dl className="healthcare-card__details">
-          {dob && (
-            <div className="healthcare-card__detail">
-              <dt>DOB</dt>
-              <dd>{formatDate(dob)} ({calculateAge(dob)}y)</dd>
-            </div>
-          )}
+          <div className="healthcare-card__detail">
+            <dt>Ward</dt>
+            <dd>{ward}</dd>
+          </div>
           
-          {ward && (
-            <div className="healthcare-card__detail">
-              <dt>Ward</dt>
-              <dd>{ward}</dd>
-            </div>
-          )}
+          <div className="healthcare-card__detail">
+            <dt>Bed</dt>
+            <dd>{bed}</dd>
+          </div>
           
-          {condition && (
-            <div className="healthcare-card__detail healthcare-card__detail--prominent">
-              <dt>Condition</dt>
-              <dd>{condition}</dd>
-            </div>
-          )}
+          <div className="healthcare-card__detail">
+            <dt>Specialty</dt>
+            <dd>{specialty}</dd>
+          </div>
+          
+          <div className="healthcare-card__detail healthcare-card__detail--prominent">
+            <dt>Consultant</dt>
+            <dd>{consultant}</dd>
+          </div>
         </dl>
       </div>
 
@@ -143,197 +136,118 @@ export const PatientCard: React.FC<HealthcareCardProps> = ({
  * Appointment Card Template
  * Optimized for appointment scheduling and time-sensitive information
  */
-export const AppointmentCard: React.FC<HealthcareCardProps> = ({
-  data,
-  onSelect,
-  onAction,
-  status = 'pending'
-}) => {
-  const time = data.appointment_time || data.time || data.scheduled_time;
-  const patient = data.patient_name || data.name;
-  const type = data.appointment_type || data.type || data.service;
-  const consultant = data.consultant || data.doctor || data.practitioner;
-  const location = data.room || data.location || data.clinic;
-  const duration = data.duration || data.estimated_duration;
-
-  return (
-    <div 
-      className={`healthcare-card healthcare-card--appointment healthcare-card--${status}`}
-      onClick={() => onSelect?.(data)}
-      role="button"
-      tabIndex={0}
-    >
-      <div className="healthcare-card__header">
-        <div className="healthcare-card__time-info">
-          <h3 className="healthcare-card__time">{formatTime(time)}</h3>
-          <p className="healthcare-card__type">{type}</p>
-        </div>
-        
-        <div className="healthcare-card__badges">
-          <Tag 
-            color={getStatusTagColor(status)}
-            className="healthcare-card__status"
-          >
-            {status.charAt(0).toUpperCase() + status.slice(1)}
-          </Tag>
-          {duration && (
-            <Tag 
-              color="blue"
-              className="healthcare-card__duration"
-            >
-              {duration} min
-            </Tag>
-          )}
-        </div>
+export const AppointmentCard = ({ data, onAction }: HealthcareCardProps) => (
+  <div className="fdp-healthcare-card fdp-appointment-card" role="article" tabIndex={0}>
+    <div className="fdp-card-header">
+      <h3 className="fdp-card-title">{data.appointment_type}</h3>
+      <span className="fdp-badge fdp-badge--high">{data.status}</span>
+    </div>
+    <div className="fdp-card-content">
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Time:</span>
+        <span className="fdp-field-value">{new Date(data.appointment_time).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>
       </div>
-
-      <div className="healthcare-card__body">
-        <dl className="healthcare-card__details">
-          <div className="healthcare-card__detail">
-            <dt>Patient</dt>
-            <dd>{patient}</dd>
-          </div>
-          
-          {consultant && (
-            <div className="healthcare-card__detail">
-              <dt>Consultant</dt>
-              <dd>{consultant}</dd>
-            </div>
-          )}
-          
-          {location && (
-            <div className="healthcare-card__detail">
-              <dt>Location</dt>
-              <dd>{location}</dd>
-            </div>
-          )}
-        </dl>
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Patient:</span>
+        <span className="fdp-field-value">{data.patient_name}</span>
       </div>
-
-      <div className="healthcare-card__actions">
-        <Button 
-          variant="secondary"
-          className="healthcare-card__action"
-          onClick={(e) => {
-            e.stopPropagation();
-            onAction?.('reschedule', data);
-          }}
-        >
-          Reschedule
-        </Button>
-        <Button 
-          variant="primary"
-          className="healthcare-card__action healthcare-card__action--primary"
-          onClick={(e) => {
-            e.stopPropagation();
-            onAction?.('check-in', data);
-          }}
-        >
-          Check In
-        </Button>
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Type:</span>
+        <span className="fdp-field-value">{data.appointment_type}</span>
+      </div>
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Consultant:</span>
+        <span className="fdp-field-value">{data.consultant}</span>
+      </div>
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Location:</span>
+        <span className="fdp-field-value">{data.location}</span>
+      </div>
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Duration (min):</span>
+        <span className="fdp-field-value">{data.duration}</span>
+      </div>
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Status:</span>
+        <span className="fdp-field-value">{data.status}</span>
       </div>
     </div>
-  );
-};
+    <div className="fdp-card-actions">
+      <button onClick={() => onAction?.('view', data)} className="fdp-button fdp-button--secondary">
+        View Details
+      </button>
+      <button onClick={() => onAction?.('edit', data)} className="fdp-button fdp-button--primary">
+        Reschedule
+      </button>
+    </div>
+  </div>
+);
 
 /**
- * Medication Card Template
- * Optimized for medication administration and safety
+ * Medication Card Template  
+ * Displays all fields from the Medication table view:
+ * Medication, Dose, Frequency, Route, Next Due, Prescriber, Patient
  */
 export const MedicationCard: React.FC<HealthcareCardProps> = ({
   data,
-  onSelect,
-  onAction,
-  priority = 'medium'
-}) => {
-  const medication = data.medication || data.drug_name || data.name;
-  const dose = data.dose || data.dosage || data.amount;
-  const frequency = data.frequency || data.schedule;
-  const route = data.route || data.administration_route;
-  const nextDue = data.next_due || data.next_administration;
-  const prescriber = data.prescriber || data.doctor;
-  const allergies = data.allergies || data.contraindications;
-
-  return (
-    <div 
-      className={`healthcare-card healthcare-card--medication healthcare-card--${priority}`}
-      onClick={() => onSelect?.(data)}
-      role="button"
-      tabIndex={0}
-    >
-      <div className="healthcare-card__header">
-        <div className="healthcare-card__medication-info">
-          <h3 className="healthcare-card__medication-name">{medication}</h3>
-          <p className="healthcare-card__dose">{dose} - {frequency}</p>
-        </div>
-        
-        <div className="healthcare-card__badges">
-          {route && (
-            <Tag 
-              color="blue"
-              className="healthcare-card__route"
-            >
-              {route}
-            </Tag>
-          )}
-          {allergies && (
-            <Tag 
-              color="red"
-              className="healthcare-card__warning"
-            >
-              ⚠️ Allergies
-            </Tag>
-          )}
-        </div>
-      </div>
-
-      <div className="healthcare-card__body">
-        <dl className="healthcare-card__details">
-          {nextDue && (
-            <div className="healthcare-card__detail healthcare-card__detail--urgent">
-              <dt>Next Due</dt>
-              <dd>{formatTime(nextDue)}</dd>
-            </div>
-          )}
-          
-          {prescriber && (
-            <div className="healthcare-card__detail">
-              <dt>Prescriber</dt>
-              <dd>{prescriber}</dd>
-            </div>
-          )}
-        </dl>
-      </div>
-
-      <div className="healthcare-card__actions">
-        <Button 
-          variant="secondary"
-          className="healthcare-card__action"
-          onClick={(e) => {
-            e.stopPropagation();
-            onAction?.('view-history', data);
-          }}
-        >
-          History
-        </Button>
-        <Button 
-          variant="primary"
-          className="healthcare-card__action healthcare-card__action--primary"
-          onClick={(e) => {
-            e.stopPropagation();
-            onAction?.('administer', data);
-          }}
-        >
-          Administer
-        </Button>
-      </div>
+  onAction
+}) => (
+  <div className="fdp-healthcare-card fdp-medication-card" role="article" tabIndex={0}>
+    <div className="fdp-card-header">
+      <h3 className="fdp-card-title">{data.medication}</h3>
+      <span className="fdp-badge fdp-badge--high">{data.priority}</span>
     </div>
-  );
-};
+    <div className="fdp-card-content">
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Medication:</span>
+        <span className="fdp-field-value">{data.medication}</span>
+      </div>
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Dose:</span>
+        <span className="fdp-field-value">{data.dose}</span>
+      </div>
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Frequency:</span>
+        <span className="fdp-field-value">{data.frequency}</span>
+      </div>
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Route:</span>
+        <span className="fdp-field-value">{data.route}</span>
+      </div>
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Next Due:</span>
+        <span className="fdp-field-value">{new Date(data.next_due).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>
+      </div>
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Prescriber:</span>
+        <span className="fdp-field-value">{data.prescriber}</span>
+      </div>
+      <div className="fdp-card-field">
+        <span className="fdp-field-label">Patient:</span>
+        <span className="fdp-field-value">{data.patient_name}</span>
+      </div>
+      {data.allergies && (
+        <div className="fdp-card-field fdp-card-field--alert">
+          <span className="fdp-field-label">Allergies:</span>
+          <span className="fdp-field-value fdp-field-value--warning">{data.allergies}</span>
+        </div>
+      )}
+    </div>
+    <div className="fdp-card-actions">
+      <button onClick={() => onAction?.('view', data)} className="fdp-button fdp-button--secondary">
+        View Details
+      </button>
+      <button onClick={() => onAction?.('edit', data)} className="fdp-button fdp-button--primary">
+        Adjust Dose
+      </button>
+    </div>
+  </div>
+);
 
 /**
  * Vital Signs Card Template
- * Optimized for clinical vital signs monitoring
+ * Displays all fields from the Vitals table view:
+ * Patient Name, EWS Score, Respiratory Rate, SpO2, Temperature, Systolic BP, Heart Rate, AVPU
  */
 export const VitalsCard: React.FC<HealthcareCardProps> = ({
   data,
@@ -341,13 +255,15 @@ export const VitalsCard: React.FC<HealthcareCardProps> = ({
   onAction,
   priority = 'medium'
 }) => {
-  const temperature = data.temperature || data.temp;
-  const bloodPressure = data.blood_pressure || data.bp || `${data.systolic}/${data.diastolic}`;
-  const heartRate = data.heart_rate || data.pulse || data.hr;
-  const respiratoryRate = data.respiratory_rate || data.resp_rate || data.rr;
-  const oxygenSaturation = data.oxygen_saturation || data.spo2 || data.o2_sat;
-  const ewsScore = data.ews_score || data.news_score || data.alert_score;
-  const timestamp = data.recorded_time || data.timestamp || data.time;
+  // Extract fields exactly as they appear in the vitals table
+  const name = data.name;
+  const ewsScore = data.ews_score;
+  const respiratoryRate = data.ews_data?.respiratory_rate_bpm;
+  const sp02 = data.ews_data?.sp02;
+  const temperature = data.ews_data?.temperature;
+  const systolicBp = data.ews_data?.systolic_bp;
+  const heartRate = data.ews_data?.heart_rate;
+  const avpu = data.ews_data?.avpu;
 
   return (
     <div 
@@ -355,52 +271,64 @@ export const VitalsCard: React.FC<HealthcareCardProps> = ({
       onClick={() => onSelect?.(data)}
       role="button"
       tabIndex={0}
+      aria-label={`Vital signs for ${name}, EWS Score ${ewsScore}`}
     >
       <div className="healthcare-card__header">
         <div className="healthcare-card__vitals-summary">
-          <h3 className="healthcare-card__timestamp">{formatTime(timestamp)}</h3>
-          {ewsScore && (
+          <h3 className="healthcare-card__patient-name">{name}</h3>
+          {ewsScore !== undefined && (
             <p className={`healthcare-card__ews-score healthcare-card__ews-score--${getEWSLevel(ewsScore)}`}>
               EWS: {ewsScore}
             </p>
+          )}
+        </div>
+        
+        <div className="healthcare-card__badges">
+          {avpu && (
+            <Tag 
+              color="blue"
+              className="healthcare-card__avpu"
+            >
+              AVPU: {avpu.toUpperCase()}
+            </Tag>
           )}
         </div>
       </div>
 
       <div className="healthcare-card__body">
         <div className="healthcare-card__vitals-grid">
-          {temperature && (
+          {respiratoryRate !== undefined && (
             <div className="healthcare-card__vital">
-              <span className="healthcare-card__vital-label">Temp</span>
+              <span className="healthcare-card__vital-label">Respiratory Rate</span>
+              <span className="healthcare-card__vital-value">{respiratoryRate} bpm</span>
+            </div>
+          )}
+          
+          {sp02 !== undefined && (
+            <div className="healthcare-card__vital">
+              <span className="healthcare-card__vital-label">SpO2</span>
+              <span className="healthcare-card__vital-value">{sp02}%</span>
+            </div>
+          )}
+          
+          {temperature !== undefined && (
+            <div className="healthcare-card__vital">
+              <span className="healthcare-card__vital-label">Temperature</span>
               <span className="healthcare-card__vital-value">{temperature}°C</span>
             </div>
           )}
           
-          {bloodPressure && (
+          {systolicBp !== undefined && (
             <div className="healthcare-card__vital">
-              <span className="healthcare-card__vital-label">BP</span>
-              <span className="healthcare-card__vital-value">{bloodPressure}</span>
+              <span className="healthcare-card__vital-label">Systolic BP</span>
+              <span className="healthcare-card__vital-value">{systolicBp}</span>
             </div>
           )}
           
-          {heartRate && (
+          {heartRate !== undefined && (
             <div className="healthcare-card__vital">
-              <span className="healthcare-card__vital-label">HR</span>
+              <span className="healthcare-card__vital-label">Heart Rate</span>
               <span className="healthcare-card__vital-value">{heartRate} bpm</span>
-            </div>
-          )}
-          
-          {respiratoryRate && (
-            <div className="healthcare-card__vital">
-              <span className="healthcare-card__vital-label">RR</span>
-              <span className="healthcare-card__vital-value">{respiratoryRate}</span>
-            </div>
-          )}
-          
-          {oxygenSaturation && (
-            <div className="healthcare-card__vital">
-              <span className="healthcare-card__vital-label">SpO₂</span>
-              <span className="healthcare-card__vital-value">{oxygenSaturation}%</span>
             </div>
           )}
         </div>
@@ -452,64 +380,5 @@ function getAlertTagColor(alertLevel: string): TagColor {
     case 'medium': return 'yellow';
     case 'low': return 'grey';
     default: return 'grey';
-  }
-}
-
-function getStatusTagColor(status: string): TagColor {
-  switch (status) {
-    case 'active': return 'green';
-    case 'pending': return 'orange';
-    case 'completed': return 'aqua-green';
-    case 'cancelled': return 'grey';
-    default: return 'default';
-  }
-}
-
-function getPriorityTagColor(priority: string): TagColor {
-  switch (priority) {
-    case 'high': return 'red';
-    case 'medium': return 'orange';
-    case 'low': return 'grey';
-    default: return 'default';
-  }
-}
-
-function formatDate(dateString: string): string {
-  try {
-    return new Date(dateString).toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
-  } catch {
-    return dateString;
-  }
-}
-
-function formatTime(timeString: string): string {
-  try {
-    return new Date(timeString).toLocaleTimeString('en-GB', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  } catch {
-    return timeString;
-  }
-}
-
-function calculateAge(dobString: string): number {
-  try {
-    const dob = new Date(dobString);
-    const today = new Date();
-    let age = today.getFullYear() - dob.getFullYear();
-    const monthDiff = today.getMonth() - dob.getMonth();
-    
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-      age--;
-    }
-    
-    return age;
-  } catch {
-    return 0;
   }
 }

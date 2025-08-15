@@ -5,6 +5,7 @@
   font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
   font-weight: nhs.$nhs-fdp-font-weight-bold;
   line-height: nhs.$nhs-fdp-font-line-height-base;
+  // Top margin is applied conditionally (not first-child) using size-based token mapping below
   margin-top: 0;
   margin-bottom: nhs.$nhs-fdp-spacing-responsive-3-mobile;
   
@@ -66,4 +67,42 @@
       margin-bottom: nhs.$nhs-fdp-spacing-responsive-8-tablet;
     }
   }
+
+  // ---------------------------------------------------------------------------
+  // Conditional top margin (token-based) applied only when the heading is not
+  // the first child in its container. Larger visual sizes receive larger
+  // preceding space to create a clear vertical rhythm without double-spacing
+  // at section starts.
+  // Mapping (mobile / tablet):
+  // xs -> spacing 3 / 3
+  // s,m -> spacing 4 / 4
+  // l -> spacing 5 / 5
+  // xl -> spacing 6 / 6
+  // xxl -> spacing 7 / 7
+  // Base (no size modifier) defaults to spacing 3 / 3
+  &:not(:first-child) {
+    // Default (base) top spacing
+    --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-3-mobile};
+    &.nhsuk-heading--xs { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-3-mobile}; }
+    &.nhsuk-heading--s,
+    &.nhsuk-heading--m { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-4-mobile}; }
+    &.nhsuk-heading--l { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-5-mobile}; }
+    &.nhsuk-heading--xl { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-6-mobile}; }
+    &.nhsuk-heading--xxl { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-7-mobile}; }
+    margin-top: var(--nhs-heading-mt);
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-3-tablet};
+      &.nhsuk-heading--xs { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-3-tablet}; }
+      &.nhsuk-heading--s,
+      &.nhsuk-heading--m { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-4-tablet}; }
+      &.nhsuk-heading--l { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-5-tablet}; }
+      &.nhsuk-heading--xl { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-6-tablet}; }
+      &.nhsuk-heading--xxl { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-7-tablet}; }
+      margin-top: var(--nhs-heading-mt);
+    }
+  }
+
+  // Utility modifier to explicitly suppress top margin when applied after another block
+  &--no-mt { margin-top: 0 !important; }
 }

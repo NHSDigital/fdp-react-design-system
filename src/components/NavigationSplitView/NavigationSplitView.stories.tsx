@@ -1,10 +1,7 @@
 // PRUNED STORY FILE: Reduced to a single representative story.
 // Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
-import * as React from 'react';
 import { NavigationSplitView } from './NavigationSplitView';
-import { Button } from '..';
-import { BackLink } from '..';
 import type { NavigationSplitItem } from './NavigationSplitView.types';
 
 interface DemoItem extends NavigationSplitItem<string> {
@@ -51,6 +48,7 @@ const meta: Meta<typeof NavigationSplitView< string, DemoItem>> = {
   collapseToggleIconShow: { control: false, description: 'Custom icon (ReactNode) when collapsed (default chevron right)' },
   collapseToggleIconHide: { control: false, description: 'Custom icon (ReactNode) when expanded (default chevron left)' },
   navFooter: { control: false, description: 'Custom footer region content (hidden when collapsed)' }
+  ,autoContentHeader: { control: 'object', description: 'Automatic content header: boolean or { mobile, tablet, desktop }' }
   },
   parameters: {
     layout: 'fullscreen',

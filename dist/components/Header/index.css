@@ -1171,6 +1171,11 @@ span .nhsuk-u-visually-hidden {
   color: #005eb8;
 }
 
+.nhsuk-header--white .nhsuk-header__navigation {
+  background-color: #ffffff;
+  color: #005eb8;
+}
+
 .nhsuk-header--white .nhsuk-header__service-logo,
 .nhsuk-header--white .nhsuk-header__service-name {
   color: #005eb8 !important;

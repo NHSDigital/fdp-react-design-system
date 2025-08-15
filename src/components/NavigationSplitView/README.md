@@ -15,6 +15,40 @@ Mobile-first master–detail navigation component inspired by SwiftUI `Navigatio
 - Navigation footer region (`navFooter`) for status / actions that remains fixed to bottom
 - Debounced URL sync (`urlSyncDebounceMs`) & lazy secondary pane mount (`lazySecondary`) for performance
 
+## 🎨 Stylesheet Imports
+
+Import CSS in the correct order so design tokens and utilities are available before component styles. You can either use the full bundle (simplest) or granular imports (smaller payload when tree‑shaken).
+
+### Option 1: Full Bundle (easiest)
+
+```tsx
+// Provides core tokens + all component styles (order handled for you)
+import '@fergusbisset/nhs-fdp-design-system/css';
+```
+
+### Option 2: Granular (minimal styles)
+
+```tsx
+// 1. Core design tokens, CSS reset & utilities (required first)
+import '@fergusbisset/nhs-fdp-design-system/core/css';
+
+// 2. Dependent component styles used internally (BackLink for mobile header)
+import '@fergusbisset/nhs-fdp-design-system/components/BackLink/css';
+
+// 3. NavigationSplitView styles
+import '@fergusbisset/nhs-fdp-design-system/components/NavigationSplitView/css';
+```
+
+If you already import another component (e.g. `BackLink`) elsewhere its CSS will only be bundled once. Skip the BackLink line if you are not rendering the mobile detail header (e.g. custom `backLabel` system or always ≥ medium breakpoint) — though it is usually safe to include.
+
+### Import Order Summary
+
+1. Core (`core/css` or full `css` bundle) – sets CSS variables & utility classes
+2. Dependency component styles (BackLink) – provides its specific class rules
+3. This component’s CSS – uses tokens/variables established by core
+
+Do NOT import the full bundle and granular files together (you’ll duplicate styles).
+
 ## Basic Usage
 
 ```tsx
@@ -246,3 +280,51 @@ Icons are wrapped in an accessible button whose `aria-label` is controlled by th
 ---
 
 See `NavigationSplitView.types.ts` for full prop definitions.
+
+## Automatic Content Header (Selected Item Title)
+
+By default a header bar containing a BackLink + the selected item label is only shown in the mobile detail view (list / cards layouts) when an item is selected.
+
+Enable a consistent title bar on wider breakpoints via `autoContentHeader`:
+
+```tsx
+// Always show a header (mobile + tablet + desktop)
+<NavigationSplitView autoContentHeader {...props} />
+
+// Disable all automatic headers (you will render your own in renderContent)
+<NavigationSplitView autoContentHeader={false} {...props} />
+
+// Granular per breakpoint control
+<NavigationSplitView
+  autoContentHeader={{ mobile: true, tablet: true, desktop: false }}
+  {...props}
+/>
+```
+
+Granular object defaults: `{ mobile: true, tablet: false, desktop: false }`.
+
+### Notes:
+
+- The BackLink only appears in the mobile detail context (when the navigation list has slid away). On tablet/desktop a BackLink is usually unnecessary because the navigation and content panes are simultaneously visible.
+- If you disable the mobile header (`mobile: false`) ensure an alternative, accessible way to return to the navigation is present (e.g. custom BackLink inside `renderContent`).
+- The automatically injected heading uses an `h2` element; if you need a different semantic structure, disable the feature and render your own custom heading inside `renderContent`.
+- Override the heading level with `contentHeaderLevel={3}` (for example) when using the automatic header.
+- Use `renderContentHeader` for full customisation while retaining breakpoint logic:
+
+```tsx
+<NavigationSplitView
+  autoContentHeader
+  contentHeaderLevel={2}
+  renderContentHeader={({ item, detailActive, context, backLink, defaultHeading }) => (
+    <>
+      {backLink}
+      {/* Inject a tag or status chip next to the default heading */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginLeft: detailActive ? 32 : 0 }}>
+        {defaultHeading}
+        <span style={{ fontSize: 12, background: '#005eb8', color: 'white', padding: '2px 6px', borderRadius: 4 }}>{context}</span>
+      </div>
+    </>
+  )}
+  {...props}
+/>
+```

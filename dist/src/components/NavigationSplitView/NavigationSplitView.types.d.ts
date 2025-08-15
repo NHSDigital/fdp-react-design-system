@@ -135,4 +135,37 @@ export interface NavigationSplitViewProps<ID = string, T extends NavigationSplit
     navCollapsedStorageKey?: string;
     /** URL query param used when persistNavCollapsed includes url (default: 'nsvCollapsed'). Value '1'/'0'. */
     navCollapsedUrlParam?: string;
+    /**
+     * Control automatic rendering of a header (selected item label) at the top of the content pane.
+     *
+     * Behaviour by default (when omitted): a header with a BackLink + selected item label is rendered ONLY in the mobile detail view (list/cards when an item is selected).
+     * Set to `true` to render a heading for the selected item across all breakpoints (mobile, tablet and desktop). The BackLink only appears in the mobile detail state.
+     * Provide an object for granular control: `{ mobile?: boolean; tablet?: boolean; desktop?: boolean }`.
+     * - `mobile` (default: true) controls the mobile detail header (disabling removes the BackLink – ensure you provide an alternative way to navigate back).
+     * - `tablet` (default: false) controls a title bar in two‑column layouts (>= medium & < xlarge).
+     * - `desktop` (default: false) controls a title bar in three‑column desktop layouts (>= xlarge) or forced two‑column desktop layout.
+     *
+     * NOTE: Hiding the mobile header will also hide the BackLink which may reduce discoverability of the navigation affordance – prefer keeping it enabled.
+     */
+    autoContentHeader?: boolean | {
+        mobile?: boolean;
+        tablet?: boolean;
+        desktop?: boolean;
+    };
+    /**
+     * Heading level (1-6) used for the automatically injected content header title (default: 2).
+     * Ignored if `renderContentHeader` provides a custom header. Always ensure heading hierarchy is logical within the surrounding page.
+     */
+    contentHeaderLevel?: 1 | 2 | 3 | 4 | 5 | 6;
+    /**
+     * Full render override for the content header bar. Only invoked when a header would normally render (i.e. selection present & enabled by `autoContentHeader`).
+     * Receives contextual helpers so you can decide what to output.
+     */
+    renderContentHeader?: (args: {
+        item: T;
+        detailActive: boolean;
+        context: 'mobile' | 'tablet' | 'desktop';
+        backLink?: React.ReactNode;
+        defaultHeading: React.ReactNode;
+    }) => React.ReactNode;
 }

@@ -374,6 +374,8 @@ span .nhsuk-u-visually-hidden {
   .nhs-navigation-split-view--three-column__secondary-pane {
     flex: 0 0 360px;
     display: flex;
+    flex-direction: column;
+    min-width: 0;
   }
 }
 

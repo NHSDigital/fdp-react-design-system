@@ -287,7 +287,14 @@
     &--three-column {
       &__nav-pane { flex: 0 0 300px; }
       &__content-pane { flex: 1 1 auto; border-right: 1px solid var(--nsplit-divider); }
-      &__secondary-pane { flex: 0 0 360px; display: flex; }
+      &__secondary-pane { 
+        flex: 0 0 360px; 
+        display: flex; 
+        flex-direction: column; // retain column layout (was lost by override) 
+        min-width: 0; // allow inner flex children/text to wrap instead of overflowing
+        // Optional: uncomment if extremely long tokens/URLs appear without spaces
+        // word-break: break-word; 
+      }
     }
   }
 }

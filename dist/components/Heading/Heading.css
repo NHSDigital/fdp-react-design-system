@@ -160,3 +160,46 @@ span .nhsuk-u-visually-hidden {
     margin-bottom: 56px;
   }
 }
+.nhsuk-heading:not(:first-child) {
+  --nhs-heading-mt: 8px;
+  margin-top: var(--nhs-heading-mt);
+}
+.nhsuk-heading:not(:first-child).nhsuk-heading--xs {
+  --nhs-heading-mt: 8px;
+}
+.nhsuk-heading:not(:first-child).nhsuk-heading--s, .nhsuk-heading:not(:first-child).nhsuk-heading--m {
+  --nhs-heading-mt: 16px;
+}
+.nhsuk-heading:not(:first-child).nhsuk-heading--l {
+  --nhs-heading-mt: 24px;
+}
+.nhsuk-heading:not(:first-child).nhsuk-heading--xl {
+  --nhs-heading-mt: 32px;
+}
+.nhsuk-heading:not(:first-child).nhsuk-heading--xxl {
+  --nhs-heading-mt: 40px;
+}
+@media (min-width: 768px) {
+  .nhsuk-heading:not(:first-child) {
+    --nhs-heading-mt: 16px;
+    margin-top: var(--nhs-heading-mt);
+  }
+  .nhsuk-heading:not(:first-child).nhsuk-heading--xs {
+    --nhs-heading-mt: 16px;
+  }
+  .nhsuk-heading:not(:first-child).nhsuk-heading--s, .nhsuk-heading:not(:first-child).nhsuk-heading--m {
+    --nhs-heading-mt: 24px;
+  }
+  .nhsuk-heading:not(:first-child).nhsuk-heading--l {
+    --nhs-heading-mt: 32px;
+  }
+  .nhsuk-heading:not(:first-child).nhsuk-heading--xl {
+    --nhs-heading-mt: 40px;
+  }
+  .nhsuk-heading:not(:first-child).nhsuk-heading--xxl {
+    --nhs-heading-mt: 48px;
+  }
+}
+.nhsuk-heading--no-mt {
+  margin-top: 0 !important;
+}

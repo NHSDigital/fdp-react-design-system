@@ -6861,7 +6861,7 @@ const bn = rt(
                           return /* @__PURE__ */ n.jsx(
                             "th",
                             {
-                              className: `sortable-header ${le ? "sortable-header--focused" : ""}`,
+                              className: `sortable-header ${le ? "sortable-header--focused" : ""} ${ne ? "sortable-header--sorted" : ""}`,
                               role: "columnheader",
                               tabIndex: le ? 0 : -1,
                               onClick: () => ie(T, V.key),

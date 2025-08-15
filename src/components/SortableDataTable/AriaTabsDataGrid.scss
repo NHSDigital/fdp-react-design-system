@@ -643,6 +643,12 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 			cursor: pointer;
 			user-select: none;
 			//border-right: 1px solid nhs.$nhs-fdp-color-grey-3;
+			
+			// Apply increased height when header has active sorting (desktop)
+			&.sortable-header--sorted {
+			  min-height: 56px; // Accommodate sort indicators
+			}
+			
 			&:hover {
 				background-color: nhs.$nhs-fdp-card-border-bottom;
 			}
@@ -709,15 +715,22 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 			  }
 			}
 			
-			// Sort indicator container - fixed space to prevent jumping
+			// Sort indicator container - responsive space based on content
 			.sort-indicator-container {
 			  display: inline-flex;
 			  align-items: center;
 			  justify-content: center; // Center the priority indicator
 			  margin-left: nhs.$nhs-fdp-spacing-2;
-			  min-width: 44px; // Reserve space for priority indicator (20px) + arrow (20px) + gaps
-			  min-height: 44px; // Increased height for vertical stacking
+			  min-width: 20px; // Minimal space when no indicators
+			  min-height: 20px; // Minimal height when no indicators
 			  position: relative; // For absolute positioning of chevron
+			  
+			  // Expand to full size when containing sort indicators
+			  &.sort-indicator--asc,
+			  &.sort-indicator--desc {
+				min-width: 44px; // Reserve space for priority indicator (20px) + arrow (20px) + gaps
+				min-height: 44px; // Increased height for vertical stacking
+			  }
 			  
 			  // Optimize for vertical layout on constrained screens
 			  @media (max-width: 1024px) {
@@ -1267,7 +1280,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 		thead th {
 		  // Enhanced sortable headers for tablet interaction
 		  &.sortable-header {
-			min-height: 56px; // Larger touch target for sorting
+			min-height: 40px; // Base height for tablet touch targets
 			
 			&:hover,
 			&:active {
@@ -1275,10 +1288,22 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 			  transform: none; // Remove transform for table headers
 			}
 			
-			// Enhanced sort indicator spacing for tablet
+			// Enhanced sort indicator spacing for tablet - responsive
 			.sort-indicator-container {
-			  min-width: 48px; // Larger touch target
-			  min-height: 48px;
+			  min-width: 24px; // Minimal space when no indicators
+			  min-height: 24px;
+			  
+			  // Expand to full size when containing sort indicators
+			  &.sort-indicator--asc,
+			  &.sort-indicator--desc {
+				min-width: 48px; // Larger touch target for sorted columns
+				min-height: 48px;
+			  }
+			}
+			
+			// Apply increased height when header has active sorting
+			&.sortable-header--sorted {
+			  min-height: 56px !important; // Override base 40px when sort indicators are present
 			}
 			
 			.sort-priority {

@@ -890,7 +890,7 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 							return (
 							  <th
 								key={column.key}
-								className={`sortable-header ${isFocused ? 'sortable-header--focused' : ''}`}
+								className={`sortable-header ${isFocused ? 'sortable-header--focused' : ''} ${isSorted ? 'sortable-header--sorted' : ''}`}
 								role="columnheader"
 								tabIndex={isFocused ? 0 : -1}
 								onClick={() => handleSort(index, column.key)}

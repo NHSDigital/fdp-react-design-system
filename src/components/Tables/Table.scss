@@ -4,6 +4,11 @@
 
 @use '../../../packages/nhs-fdp/scss' as nhs;
 
+// Responsive breakpoints based on enhanced tokens
+// Using max-width: ($tablet-small - 1px) to ensure mobile styles apply below tablet breakpoint
+$tablet-small: 768px; // breakpoint.enhanced.tablet.small
+$mobile-large: 640px; // breakpoint.enhanced.mobile.large
+
 .nhsuk-table-container {
   overflow-x: auto;
 }
@@ -23,45 +28,56 @@
     padding-bottom: nhs.$nhs-fdp-spacing-3;
     text-align: left;
 
-    @media (max-width: 768px) {
+    @media (max-width: ($tablet-small - 1px)) {
       font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    }
+
+    // Responsive variant override
+    .nhsuk-table--responsive & {
+      @media (max-width: ($tablet-small - 1px)) {
+        border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+        display: block;
+        font-size: inherit;
+        font-weight: normal;
+        padding: nhs.$nhs-fdp-spacing-3 0;
+      }
     }
 
     // Caption size variants
     &--xl {
-      font-size: nhs.$nhs-fdp-font-size-36-tablet;
+      font-size: nhs.$nhs-fdp-font-size-36-desktop;
       font-weight: nhs.$nhs-fdp-font-weight-bold;
       margin-bottom: nhs.$nhs-fdp-spacing-2;
 
-      @media (max-width: 768px) {
+      @media (max-width: ($tablet-small - 1px)) {
         font-size: nhs.$nhs-fdp-font-size-36-mobile;
       }
     }
 
     &--l {
-      font-size: nhs.$nhs-fdp-font-size-26-tablet;
+      font-size: nhs.$nhs-fdp-font-size-26-desktop;
       font-weight: nhs.$nhs-fdp-font-weight-bold;
       margin-bottom: nhs.$nhs-fdp-spacing-2;
 
-      @media (max-width: 768px) {
+      @media (max-width: ($tablet-small - 1px)) {
         font-size: nhs.$nhs-fdp-font-size-26-mobile;
       }
     }
 
     &--m {
-      font-size: nhs.$nhs-fdp-font-size-22-tablet;
+      font-size: nhs.$nhs-fdp-font-size-22-desktop;
       font-weight: nhs.$nhs-fdp-font-weight-bold;
 
-      @media (max-width: 768px) {
+      @media (max-width: ($tablet-small - 1px)) {
         font-size: nhs.$nhs-fdp-font-size-22-mobile;
       }
     }
 
     &--s {
-      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      font-size: nhs.$nhs-fdp-font-size-16-desktop;
       font-weight: nhs.$nhs-fdp-font-weight-bold;
 
-      @media (max-width: 768px) {
+      @media (max-width: ($tablet-small - 1px)) {
         font-size: nhs.$nhs-fdp-font-size-16-mobile;
       }
     }
@@ -70,6 +86,33 @@
   // Table head
   &__head {
     border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+
+    // Responsive variant override - hide table head on mobile
+    .nhsuk-table--responsive & {
+      @media (max-width: ($tablet-small - 1px)) {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+      }
+    }
+  }
+
+  // Table row
+  &__row {
+    // Responsive variant override
+    .nhsuk-table--responsive & {
+      @media (max-width: ($tablet-small - 1px)) {
+        border-bottom: 3px solid nhs.$nhs-fdp-semantic-color-border-default;
+        display: block;
+        margin-bottom: nhs.$nhs-fdp-spacing-3;
+        padding: nhs.$nhs-fdp-spacing-3 0;
+      }
+    }
   }
 
   // Table header cell
@@ -83,42 +126,7 @@
     text-align: left;
     vertical-align: top;
 
-    @media (max-width: 768px) {
-      font-size: nhs.$nhs-fdp-font-size-16-mobile;
-    }
-
-    &:last-child {
-      padding-right: 0;
-    }
-  }
-
-  // Table body
-  &__body {
-    // Body cell header variant
-    &__cell {
-      &--header {
-        font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
-        font-size: nhs.$nhs-fdp-font-size-16-tablet;
-        font-weight: nhs.$nhs-fdp-font-weight-bold;
-
-        @media (max-width: 768px) {
-          font-size: nhs.$nhs-fdp-font-size-16-mobile;
-        }
-      }
-    }
-  }
-
-  // Table data cell
-  &__cell {
-    font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
-    font-size: nhs.$nhs-fdp-font-size-16-tablet;
-    border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
-    color: nhs.$nhs-fdp-semantic-color-text-primary;
-    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2 0;
-    text-align: left;
-    vertical-align: top;
-
-    @media (max-width: 768px) {
+    @media (max-width: ($tablet-small - 1px)) {
       font-size: nhs.$nhs-fdp-font-size-16-mobile;
     }
 
@@ -126,55 +134,9 @@
       padding-right: 0;
     }
 
-    // Numeric cell variant
-    &--numeric {
-      text-align: right;
-    }
-  }
-
-  // Table variants
-  &--panel {
-    border: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-border-color-default;
-    padding: nhs.$nhs-fdp-spacing-3;
-
-    .nhsuk-table__caption {
-      margin-top: 0;
-      padding-bottom: nhs.$nhs-fdp-spacing-3;
-    }
-  }
-
-  &--responsive {
-    @media (max-width: 768px) {
-      border: 0;
-
-      .nhsuk-table__caption {
-        border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
-        display: block;
-        font-size: inherit;
-        font-weight: normal;
-        padding: nhs.$nhs-fdp-spacing-3 0;
-      }
-
-      .nhsuk-table__head {
-        border: 0;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
-      }
-
-      .nhsuk-table__row {
-        border-bottom: 3px solid nhs.$nhs-fdp-semantic-color-border-default;
-        display: block;
-        margin-bottom: nhs.$nhs-fdp-spacing-3;
-        padding: nhs.$nhs-fdp-spacing-3 0;
-      }
-
-      .nhsuk-table__header,
-      .nhsuk-table__cell {
+    // Responsive variant override
+    .nhsuk-table--responsive & {
+      @media (max-width: ($tablet-small - 1px)) {
         border: 0;
         border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
         display: block;
@@ -192,6 +154,85 @@
           margin-right: nhs.$nhs-fdp-spacing-2;
         }
       }
+    }
+  }
+
+  // Table body
+  &__body {
+    // Body cell header variant
+    &__cell {
+      &--header {
+        font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+        font-size: nhs.$nhs-fdp-font-size-16-tablet;
+        font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+        @media (max-width: ($tablet-small - 1px)) {
+          font-size: nhs.$nhs-fdp-font-size-16-mobile;
+        }
+      }
+    }
+  }
+
+  // Table data cell
+  &__cell {
+    font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2 0;
+    text-align: left;
+    vertical-align: top;
+
+    @media (max-width: ($tablet-small - 1px)) {
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+
+    // Numeric cell variant
+    &--numeric {
+      text-align: right;
+    }
+
+    // Responsive variant override
+    .nhsuk-table--responsive & {
+      @media (max-width: ($tablet-small - 1px)) {
+        border: 0;
+        border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+        display: block;
+        padding: nhs.$nhs-fdp-spacing-2 0;
+        text-align: right;
+
+        &:last-child {
+          border-bottom: 0;
+        }
+
+        &::before {
+          content: attr(data-label) ': ';
+          display: inline-block;
+          font-weight: nhs.$nhs-fdp-font-weight-bold;
+          margin-right: nhs.$nhs-fdp-spacing-2;
+        }
+      }
+    }
+  }
+
+  // Table variants
+  &--panel {
+    border: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-border-color-default;
+    padding: nhs.$nhs-fdp-spacing-3;
+
+    .nhsuk-table__caption {
+      margin-top: 0;
+      padding-bottom: nhs.$nhs-fdp-spacing-3;
+    }
+  }
+
+  &--responsive {
+    @media (max-width: ($tablet-small - 1px)) {
+      border: 0;
     }
   }
 }

@@ -1,0 +1,324 @@
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// NavigationSplitView styles
+// Mobile-first: stacked list that slides to detail view
+
+.nhs-navigation-split-view {
+  --nsplit-transition: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  --nsplit-border-color: #{nhs.$nhs-fdp-color-grey-4};
+  --nsplit-background: #{nhs.$nhs-fdp-color-primary-white};
+  --nsplit-divider: #{nhs.$nhs-fdp-color-grey-5};
+  --nsplit-focus-outline: #{nhs.$nhs-fdp-semantic-color-focus-background};
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--nsplit-background);
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  font-size: nhs.$nhs-fdp-font-size-19-desktop;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: nhs.$nhs-fdp-spacing-3;
+    padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4;
+    border-bottom: 1px solid var(--nsplit-divider);
+  }
+
+  &__back-button {
+    background: none;
+    border: none;
+    color: nhs.$nhs-fdp-color-primary-blue;
+    cursor: pointer;
+    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+    font: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: nhs.$nhs-fdp-spacing-2;
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+
+    &:focus-visible {
+      outline: 3px solid var(--nsplit-focus-outline);
+      outline-offset: 2px;
+    }
+  }
+
+  &__body {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  &__panes {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform var(--nsplit-transition);
+  }
+
+  &--animated &__panes {
+    will-change: transform;
+  }
+
+  &__nav-pane, &__content-pane, &__secondary-pane {
+    flex: 0 0 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: var(--nsplit-background);
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__nav-pane {
+    border-right: 1px solid var(--nsplit-divider);
+  }
+
+  &__nav-scroll { flex: 1 1 auto; overflow-y: auto; }
+  &__nav-footer { border-top: 1px solid var(--nsplit-divider); padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-5; background: var(--nsplit-background); }
+  &__nav-collapse { 
+	border-bottom: 1px solid var(--nsplit-divider); 
+	padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-4; 
+	background-color: nhs.$nhs-fdp-color-grey-4; 
+  }
+  &__nav-collapse-btn { 
+	font: inherit; background: none; 
+	border: none; 
+	padding: 4px 6px; 
+	border-radius: nhs.$nhs-fdp-border-radius-small; cursor: pointer;
+	min-width: 44px; 
+	display: flex; align-items: center; justify-content: left; color: nhs.$nhs-fdp-color-primary-blue;
+    &:hover { background: nhs.$nhs-fdp-color-grey-5; }
+    &:focus-visible { outline: 3px solid var(--nsplit-focus-outline); outline-offset: 2px; }
+    svg { display: block; }
+  // Tooltip browsers show native title attr. Provide optional custom tooltip styling hook.
+  position: relative;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  // Card layout wrapper for items (mobile forceLayout='cards')
+  &__cards {
+  display: flex;
+  flex-direction: column;
+  gap: nhs.$nhs-fdp-spacing-4;
+  padding: nhs.$nhs-fdp-spacing-4;
+  }
+
+  &__card-item {
+    list-style: none;
+  }
+
+  &__card {
+  width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: nhs.$nhs-fdp-color-primary-white;
+    border: 2px solid nhs.$nhs-fdp-color-grey-4;
+    border-radius: nhs.$nhs-fdp-border-radius-medium;
+    padding: nhs.$nhs-fdp-component-card-padding-mobile;
+    border-bottom: 4px solid nhs.$nhs-fdp-color-grey-3;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s ease;
+    text-align: left;
+    box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-5;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+
+    &:hover:not([data-disabled='true']) {
+      box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2;
+      border-color: nhs.$nhs-fdp-color-primary-blue;
+    }
+
+    &:focus-visible {
+      outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: 2px;
+      box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-focus-text;
+    }
+
+    &:active:not([data-disabled='true']) {
+      box-shadow: 0 0 0 transparent;
+      border-color: nhs.$nhs-fdp-color-primary-blue;
+    }
+
+    &[data-selected='true'] {
+      border-color: nhs.$nhs-fdp-color-primary-blue;
+      box-shadow: 0 0 0 2px nhs.$nhs-fdp-color-primary-blue;
+  animation: nsv-card-pop 160ms ease-out;
+    }
+
+    &[data-disabled='true'] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-4;
+    }
+  }
+
+  &__list-item {
+    border-bottom: 1px solid var(--nsplit-divider);
+    background: var(--nsplit-background);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__item-button {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-5;
+    cursor: pointer;
+    display: flex;
+    gap: nhs.$nhs-fdp-spacing-4;
+    align-items: flex-start;
+    font-size: nhs.$nhs-fdp-font-size-19-desktop;
+    line-height: 1.4;
+    position: relative;
+
+    &:hover:not([data-disabled='true']) {
+      background: nhs.$nhs-fdp-color-grey-5;
+    }
+
+    &[data-selected='true'] {
+      background: nhs.$nhs-fdp-color-grey-5;
+      box-shadow: inset 4px 0 0 nhs.$nhs-fdp-color-primary-blue;
+  animation: nsv-list-select 140ms ease-out;
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--nsplit-focus-outline);
+      outline-offset: -3px;
+      z-index: 2;
+    }
+
+    &[data-disabled='true'] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__item-icon {
+    flex-shrink: 0;
+    font-size: 20px;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  &__item-content {
+    flex: 1;
+    min-width: 0;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback}; // Frutiger for first column text
+    display: block;
+  }
+
+  &__item-label {
+  // Using bold token; medium not defined in current token set
+  	font-weight: nhs.$nhs-fdp-font-weight-bold;
+    margin: 0 0 nhs.$nhs-fdp-spacing-1 0;
+    font-size: nhs.$nhs-fdp-font-size-19-mobile;
+	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+		font-size: nhs.$nhs-fdp-font-size-16-desktop;
+	}
+  }
+
+  &__item-description {
+    margin: 0;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    color: nhs.$nhs-fdp-color-grey-1;
+    display: block; // ensure on new line
+	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+		font-size: nhs.$nhs-fdp-font-size-16-desktop;
+	}
+  }
+
+  &__badge {
+    position: absolute;
+    top: 50%;
+    right: nhs.$nhs-fdp-spacing-4;
+    transform: translateY(-50%);
+    background: nhs.$nhs-fdp-color-primary-blue;
+    color: nhs.$nhs-fdp-color-primary-white;
+    border-radius: 999px;
+    padding: 0 nhs.$nhs-fdp-spacing-2;
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  // Slide state (mobile)
+  &--detail-active &__panes {
+    transform: translateX(-100%);
+  }
+
+  // Tablet (>= medium): two-column layout
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+    flex-direction: row;
+
+    &__body { flex: 1; }
+    &__panes { transform: none !important; }
+
+  &__nav-pane { 
+	flex: 0 0 320px; 
+	display: flex; 
+	flex-direction: column; 
+	transition: 
+	width var(--nsplit-transition);
+	
+  }
+  &--nav-collapsed &__nav-pane { width: 56px; flex: 0 0 56px; }
+  &--nav-collapsed &__item-button { padding-left: nhs.$nhs-fdp-spacing-4; }
+  &--nav-collapsed &__item-label,
+  &--nav-collapsed &__item-description,
+  &--nav-collapsed &__badge,
+  &--nav-collapsed &__nav-footer { display: none; }
+  &--nav-collapsed &__nav-collapse-btn { font-size: 0; padding: 6px; }
+    &__content-pane { flex: 1 1 auto; }
+  }
+
+  // Desktop (>= xlarge): optional three-column support (handled by modifier class)
+  @media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
+    &--three-column {
+      &__nav-pane { flex: 0 0 300px; }
+      &__content-pane { flex: 1 1 auto; border-right: 1px solid var(--nsplit-divider); }
+      &__secondary-pane { flex: 0 0 360px; display: flex; }
+    }
+  }
+}
+
+// Content pane inner transition (fade/slide)
+.nhs-navigation-split-view__content-inner {
+  position: relative;
+  animation: nsv-fade-in 180ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nhs-navigation-split-view {
+    --nsplit-transition: 1ms linear;
+  }
+  .nhs-navigation-split-view__panes { transition: none !important; }
+  .nhs-navigation-split-view__content-inner { animation: none !important; }
+  .nhs-navigation-split-view__card, .nhs-navigation-split-view__item-button { transition: none !important; }
+}
+
+@keyframes nsv-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes nsv-card-pop {
+  0% { transform: translateY(0); }
+  40% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes nsv-list-select {
+  0% { background: nhs.$nhs-fdp-color-grey-4; }
+  100% { background: nhs.$nhs-fdp-color-grey-5; }
+}

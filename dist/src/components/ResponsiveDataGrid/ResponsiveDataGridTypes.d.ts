@@ -22,7 +22,9 @@ export interface ResponsiveTabPanelConfig<T = any> extends TabPanelConfig<T> {
 /**
  * Enhanced props for responsive component
  */
-export interface ResponsiveDataGridProps<T = any> extends AriaTabsDataGridProps<T> {
+export interface ResponsiveDataGridProps<T = any> extends Omit<AriaTabsDataGridProps<T>, 'tabPanels'> {
+    /** Array of responsive tab panel configurations with card template support */
+    tabPanels: ResponsiveTabPanelConfig<T>[];
     /**
      * Enable advanced sorting with SortStatusControl component.
      * When true, provides multi-column sorting, drag reordering, and sort management.

@@ -156,3 +156,4 @@ export { PageTemplate } from './PageTemplate';
 export type { PageTemplateProps } from './PageTemplate';
 export { TransactionalPageTemplate } from './TransactionalPageTemplate';
 export type { TransactionalPageTemplateProps } from './TransactionalPageTemplate';
+export * from './NavigationSplitView';

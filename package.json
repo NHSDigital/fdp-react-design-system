@@ -1,6 +1,6 @@
 {
   "name": "@fergusbisset/nhs-fdp-design-system",
-  "version": "0.0.26-alpha",
+  "version": "0.0.27-alpha",
   "description": "NHS FDP Frontend Development Platform Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
@@ -123,8 +123,17 @@
     "./components/Textarea/css": "./dist/components/Textarea/Textarea.css",
     "./components/WarningCallout/css": "./dist/components/WarningCallout/WarningCallout.css",
     "./components/WidthUtilities/css": "./dist/components/WidthUtilities/WidthUtilities.css",
-    "./components/SortableDataTable/SortStatusControl/SortStatusControl/css": "./dist/components/SortableDataTable/SortStatusControl/SortStatusControl.css"
+    "./components/SortableDataTable/SortStatusControl/SortStatusControl/css": "./dist/components/SortableDataTable/SortStatusControl/SortStatusControl.css",
+    "./pure": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/index.esm.js"
+    },
+    "./components/NavigationSplitView/css": "./dist/components/NavigationSplitView/NavigationSplitView.css"
   },
+  "sideEffects": [
+    "**/*.css",
+    "dist/**/*.css"
+  ],
   "files": [
     "dist",
     "packages/nhs-fdp/dist"
@@ -228,6 +237,14 @@
     "react-aria": "^3.42.0",
     "react-dom": "^19.1.0",
     "sass": "^1.89.2"
+  },
+  "peerDependencies": {
+    "next": ">=13.4.0 || ^14 || ^15"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
   },
   "eslintConfig": {
     "extends": [

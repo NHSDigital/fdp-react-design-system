@@ -18,6 +18,9 @@ export * from '../packages/nhs-fdp/dist/react/components/NHSTypography';
 
 // Hooks
 export * from '../packages/nhs-fdp/dist/react/hooks/useTokens';
+export { useNhsFdpBreakpoints, useResponsiveValue } from './hooks/useBreakpoints';
+export { useNavigationSplitDrill } from './hooks/useNavigationSplitDrill';
+export { useNavigationSplitUrlSync } from './hooks/useNavigationSplitUrlSync';
 
 // Font loading utilities
 export * from './styles/font-config';

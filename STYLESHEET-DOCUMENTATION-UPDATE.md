@@ -1,6 +1,6 @@
 # Stylesheet Import Documentation Update
 
-## 📚 Up### Usage-Specific Imports
+## 📚 Usage-Specific Imports
 
 #### Minimal Bundle (Generic Data)
 ```tsx
@@ -32,9 +32,7 @@ import './HealthcareCardTemplates.scss';
 ```tsx
 import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
 import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
-```on Files
-
-I have comprehensively updated all ResponsiveDataGrid documentation to include detailed stylesheet import instructions with correct import order requirements.
+```
 
 ## 📄 Files Updated
 

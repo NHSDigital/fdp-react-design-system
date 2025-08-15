@@ -785,11 +785,11 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 				onClick={() => handleTabSelect(index)}
 				onKeyDown={(event) => handleTabKeyDown(event, index)}
 				disabled={isDisabled}
-				className={`
-				  aria-tabs-datagrid__tab
-				  ${isSelected ? 'aria-tabs-datagrid__tab--selected' : ''}
-				  ${isDisabled ? 'aria-tabs-datagrid__tab--disabled' : ''}
-				`.trim()}
+				className={[
+				  'aria-tabs-datagrid__tab',
+				  isSelected ? 'aria-tabs-datagrid__tab--selected' : '',
+				  isDisabled ? 'aria-tabs-datagrid__tab--disabled' : ''
+				].filter(Boolean).join(' ')}
 			  >
 				<span className="aria-tabs-datagrid__tab-label">{panel.label}</span>
 				{state.tabLoadingStates[index] && (

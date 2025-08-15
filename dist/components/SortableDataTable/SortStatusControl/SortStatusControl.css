@@ -504,6 +504,7 @@ span .nhsuk-u-visually-hidden {
   gap: 4px;
   padding: 4px 8px;
   font-size: 14px;
+  border-radius: 0 !important;
 }
 .sort-status-control__tag-container .nhsuk-tag .nhsuk-tag__close {
   margin-left: 4px;
@@ -525,12 +526,18 @@ span .nhsuk-u-visually-hidden {
   align-items: center;
   cursor: grab;
   transition: transform 0.2s ease;
+  border-radius: 0 !important;
+  border: none !important;
 }
 .sort-status-control__tag-container:active {
   cursor: grabbing;
 }
 .sort-status-control__tag-container:hover {
   transform: translateY(-1px);
+}
+.sort-status-control__tag-container .nhsuk-tag {
+  border-radius: 0;
+  margin: 0;
 }
 .sort-status-control__tag-content {
   display: flex;
@@ -664,6 +671,18 @@ span .nhsuk-u-visually-hidden {
   transform: rotate(-90deg);
 }
 .sort-status-control__chevron--desc {
+  transform: rotate(90deg);
+}
+.sort-status-control .nhsuk-icon.sort-status-control__chevron, [data-component=sort-status-control] .nhsuk-icon.sort-status-control__chevron {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  transition: transform 0.2s ease;
+}
+.sort-status-control .nhsuk-icon.sort-status-control__chevron.sort-status-control__chevron--asc, [data-component=sort-status-control] .nhsuk-icon.sort-status-control__chevron.sort-status-control__chevron--asc {
+  transform: rotate(-90deg);
+}
+.sort-status-control .nhsuk-icon.sort-status-control__chevron.sort-status-control__chevron--desc, [data-component=sort-status-control] .nhsuk-icon.sort-status-control__chevron.sort-status-control__chevron--desc {
   transform: rotate(90deg);
 }
 .sort-status-control__move-button {

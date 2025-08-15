@@ -1273,11 +1273,11 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 				onClick={() => handleTabSelect(index)}
 				onKeyDown={(event) => handleTabKeyDownWithCards(event, index)}
 				disabled={isDisabled}
-				className={`
-				  aria-tabs-datagrid__tab
-				  ${isSelected ? 'aria-tabs-datagrid__tab--selected' : ''}
-				  ${isDisabled ? 'aria-tabs-datagrid__tab--disabled' : ''}
-				`.trim()}
+				className={[
+				  'aria-tabs-datagrid__tab',
+				  isSelected ? 'aria-tabs-datagrid__tab--selected' : '',
+				  isDisabled ? 'aria-tabs-datagrid__tab--disabled' : ''
+				].filter(Boolean).join(' ')}
 			  >
 				<span className="aria-tabs-datagrid__tab-label">{panel.label}</span>
 				{state.tabLoadingStates[index] && (
@@ -1386,12 +1386,12 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 				<div
 				  key={`card-${index}`}
 				  ref={el => { cardRefs.current[index] = el; }}
-				  className={`
-					aria-tabs-datagrid-adaptive__card-wrapper
-					${isSelected ? 'aria-tabs-datagrid-adaptive__card-wrapper--selected' : ''}
-					${isFocused ? 'aria-tabs-datagrid-adaptive__card-wrapper--focused' : ''}
-					${isInCardNavigation ? 'aria-tabs-datagrid-adaptive__card-wrapper--card-navigation' : ''}
-				  `.trim()}
+				  className={[
+					'aria-tabs-datagrid-adaptive__card-wrapper',
+					isSelected ? 'aria-tabs-datagrid-adaptive__card-wrapper--selected' : '',
+					isFocused ? 'aria-tabs-datagrid-adaptive__card-wrapper--focused' : '',
+					isInCardNavigation ? 'aria-tabs-datagrid-adaptive__card-wrapper--card-navigation' : ''
+				  ].filter(Boolean).join(' ')}
 				  role="gridcell"
 				  aria-rowindex={gridPosition.row + 1}
 				  aria-colindex={gridPosition.col + 1}
@@ -1431,20 +1431,20 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 			const cardProps = createCard(row, currentPanel.columns, genericCardConfig, domainPlugin);
 			
 			// Calculate the full className including navigation state
-			const cardClassName = `
-			  ${cardProps.className || ''}
-			  ${isSelected ? 'aria-tabs-datagrid-adaptive__card--selected' : ''}
-			  ${isFocused ? 'aria-tabs-datagrid-adaptive__card--focused' : ''}
-			  ${isInCardNavigation ? 'aria-tabs-datagrid-adaptive__card--card-navigation' : ''}
-			`.trim();
+			const cardClassName = [
+			  cardProps.className || '',
+			  isSelected ? 'aria-tabs-datagrid-adaptive__card--selected' : '',
+			  isFocused ? 'aria-tabs-datagrid-adaptive__card--focused' : '',
+			  isInCardNavigation ? 'aria-tabs-datagrid-adaptive__card--card-navigation' : ''
+			].filter(Boolean).join(' ');
 			
 			return (
 			  <div
 				key={`card-${index}`}
-				className={`
-				  aria-tabs-datagrid-adaptive__card-wrapper
-				  ${isInCardNavigation ? 'aria-tabs-datagrid-adaptive__card-wrapper--card-navigation' : ''}
-				`.trim()}
+				className={[
+				  'aria-tabs-datagrid-adaptive__card-wrapper',
+				  isInCardNavigation ? 'aria-tabs-datagrid-adaptive__card-wrapper--card-navigation' : ''
+				].filter(Boolean).join(' ')}
 				role="gridcell"
 				aria-rowindex={gridPosition.row + 1}
 				aria-colindex={gridPosition.col + 1}

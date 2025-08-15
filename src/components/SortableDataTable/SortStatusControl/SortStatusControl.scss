@@ -83,6 +83,7 @@
     gap: nhs.$nhs-fdp-spacing-1;
     padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2;
     font-size: nhs.$nhs-fdp-font-size-14-tablet;
+    border-radius: 0 !important; // Override any inherited border-radius - tags should be rectangular
     
     // Don't override colors - let NHS Tag variants work naturally
     // Only ensure proper layout and functionality
@@ -113,6 +114,8 @@
       align-items: center;
       cursor: grab;
       transition: transform 0.2s ease;
+      border-radius: 0 !important; // Override any inherited border-radius
+      border: none !important; // Ensure no border on container
 
       &:active {
         cursor: grabbing;
@@ -120,6 +123,12 @@
 
       &:hover {
         transform: translateY(-1px);
+      }
+
+      // Ensure contained Tag has proper styling without interference
+      .nhsuk-tag {
+        border-radius: 0; // Tags should be rectangular in sort context
+        margin: 0; // Reset any default margins
       }
     }
 
@@ -283,6 +292,22 @@
     }
 
     &--desc {
+      transform: rotate(90deg);
+    }
+  }
+
+  // Ensure nhsuk-icon within sort-status-control inherits our chevron styles
+  .nhsuk-icon.sort-status-control__chevron {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: transform 0.2s ease;
+    
+    &.sort-status-control__chevron--asc {
+      transform: rotate(-90deg);
+    }
+
+    &.sort-status-control__chevron--desc {
       transform: rotate(90deg);
     }
   }

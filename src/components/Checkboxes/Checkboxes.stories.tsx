@@ -1,3 +1,4 @@
+// PRUNE: KEEP_ALL (Expanded to include conditional content example)
 import type { Meta, StoryObj } from '@storybook/react';
 import { Checkboxes } from './Checkboxes';
 
@@ -106,198 +107,34 @@ export const Default: Story = {
   },
 };
 
-// With hints
-export const WithHints: Story = {
+export const WithConditionalInformation: Story = {
   args: {
     name: 'contact-preferences',
-    legend: 'How would you like to be contacted?',
+    legend: 'How can we contact you?',
+    hint: 'Select all that apply. Additional fields will appear for chosen methods.',
     items: [
-      { 
-        value: 'email', 
+      {
+        value: 'email',
         text: 'Email',
-        hint: 'We\'ll only use this for appointment reminders'
+        conditional: 'We will only use your email for appointment reminders.'
       },
-      { 
-        value: 'phone', 
-        text: 'Phone',
-        hint: 'We may call between 9am and 5pm, Monday to Friday'
+      {
+        value: 'sms',
+        text: 'Text message',
+        conditional: 'Texts may incur standard network charges.'
       },
-      { 
-        value: 'post', 
-        text: 'Post',
-        hint: 'Letters will be sent to your registered address'
-      },
-    ],
+      {
+        value: 'phone',
+        text: 'Phone call',
+        conditional: 'We will only call between 9am and 5pm.'
+      }
+    ]
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Each option reveals lightweight informational text (no inputs) using the built-in conditional prop.'
+      }
+    }
+  }
 };
-
-// With conditional content
-export const WithConditional: Story = {
-  args: {
-    name: 'contact',
-    legend: 'How would you like to be contacted?',
-    items: [
-      { 
-        value: 'email', 
-        text: 'Email',
-        conditional: (
-          <div>
-            <label htmlFor="contact-email" style={{ display: 'block', marginBottom: '8px' }}>
-              Email address
-            </label>
-            <input 
-              type="email" 
-              id="contact-email" 
-              name="contact-email"
-              style={{ 
-                padding: '8px', 
-                border: '2px solid #425563', 
-                borderRadius: '4px',
-                width: '100%',
-                maxWidth: '300px'
-              }}
-            />
-          </div>
-        )
-      },
-      { 
-        value: 'phone', 
-        text: 'Phone',
-        conditional: (
-          <div>
-            <label htmlFor="contact-phone" style={{ display: 'block', marginBottom: '8px' }}>
-              Phone number
-            </label>
-            <input 
-              type="tel" 
-              id="contact-phone" 
-              name="contact-phone"
-              style={{ 
-                padding: '8px', 
-                border: '2px solid #425563', 
-                borderRadius: '4px',
-                width: '100%',
-                maxWidth: '300px'
-              }}
-            />
-          </div>
-        )
-      },
-      { value: 'post', text: 'Post' },
-    ],
-  },
-};
-
-// With error
-export const WithError: Story = {
-  args: {
-    name: 'waste',
-    legend: 'Which types of waste do you transport?',
-    hint: 'Select all that apply.',
-    errorMessage: 'Select which types of waste you transport',
-    items: [
-      { value: 'animal', text: 'Waste from animal carcasses' },
-      { value: 'mines', text: 'Waste from mines or quarries' },
-      { value: 'farm', text: 'Farm or agricultural waste' },
-    ],
-  },
-};
-
-// With conditional Input component
-export const WithConditionalInput: Story = {
-  args: {
-    name: 'contact-details',
-    legend: 'How would you like to be contacted?',
-    hint: 'Select all preferred contact methods and provide details.',
-    items: [
-      { 
-        value: 'email', 
-        text: 'Email',
-        conditional: {
-          id: 'contact-email',
-          name: 'contact-email',
-          label: 'Email address',
-          type: 'email',
-          placeholder: 'Enter your email address',
-          width: 'full'
-        }
-      },
-      { 
-        value: 'phone', 
-        text: 'Phone',
-        conditional: {
-          id: 'contact-phone',
-          name: 'contact-phone',
-          label: 'Phone number',
-          type: 'tel',
-          placeholder: 'Enter your phone number',
-          width: 'full'
-        }
-      },
-      { 
-        value: 'post', 
-        text: 'Post',
-        conditional: {
-          id: 'contact-address',
-          name: 'contact-address',
-          label: 'Postal address',
-          type: 'text',
-          placeholder: 'Enter your postal address',
-          width: 'full'
-        }
-      },
-    ],
-  },
-};
-
-// Mixed conditional content (ReactNode and Input component)
-export const WithMixedConditional: Story = {
-  args: {
-    name: 'contact-mixed',
-    legend: 'How would you like us to contact you?',
-    items: [
-      { 
-        value: 'email', 
-        text: 'Email',
-        conditional: {
-          id: 'contact-email-mixed',
-          name: 'contact-email-mixed',
-          label: 'Email address',
-          type: 'email',
-          placeholder: 'your@email.com',
-          width: 'full'
-        }
-      },
-      { 
-        value: 'phone', 
-        text: 'Phone',
-        conditional: (
-          <div>
-            <p style={{ marginBottom: '16px', color: '#212b32' }}>
-              We'll call you during business hours (9am to 5pm, Monday to Friday).
-            </p>
-            <label htmlFor="custom-phone" style={{ display: 'block', marginBottom: '8px', fontWeight: 600 }}>
-              Phone number
-            </label>
-            <input 
-              type="tel" 
-              id="custom-phone" 
-              name="custom-phone"
-              placeholder="Enter phone number"
-              style={{ 
-                padding: '8px 12px', 
-                border: '2px solid #d8dde0', 
-                borderRadius: '4px',
-                width: '100%',
-                fontSize: '19px',
-                fontFamily: 'inherit'
-              }}
-            />
-          </div>
-        )
-      },
-      { value: 'post', text: 'Post' },
-    ],
-  },
-};
-

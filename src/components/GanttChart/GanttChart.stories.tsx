@@ -1,3 +1,5 @@
+// PRUNED STORY FILE: Reduced to a single representative story.
+// Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { GanttChart } from './GanttChart';
 import { Resource, Task } from './TaskBar';
@@ -30,7 +32,7 @@ Built with React Aria for keyboard navigation and screen reader support, followi
       }
     }
   },
-  tags: ['autodocs'],
+  // Removed 'autodocs' tag; dedicated docs page exists
   argTypes: {
     resources: {
       description: 'Array of resources/rows to display in the chart',
@@ -116,128 +118,6 @@ export const Default: Story = {
     docs: {
       description: {
         story: 'Default NHS healthcare scheduling view showing various departments and patient care activities.'
-      }
-    }
-  }
-};
-
-export const CurrentWeek: Story = {
-  args: {
-    resources: nhsResources.slice(0, 4), // Show fewer resources
-    tasks: nhsTasks.filter(task => 
-      task.start >= createDate(-2) && task.start <= createDate(5)
-    ),
-    viewStart: createDate(-2),
-    viewEnd: createDate(5)
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Focused view showing just the current week of activities with critical care tasks.'
-      }
-    }
-  }
-};
-
-export const LongTermCare: Story = {
-  args: {
-    resources: [
-      { id: 'rehabilitation', label: 'Rehabilitation Unit' },
-      { id: 'elderly-care', label: 'Elderly Care Ward' },
-      { id: 'mental-health', label: 'Mental Health Unit' }
-    ],
-    tasks: [
-      { id: 'rehab-1', title: 'Stroke Recovery Program', resourceId: 'rehabilitation', start: createDate(-14), end: createDate(14), priority: 'medium', progress: 65 },
-      { id: 'elderly-1', title: 'Long-term Care Plan', resourceId: 'elderly-care', start: createDate(-21), end: createDate(7), priority: 'low', progress: 80 },
-      { id: 'mental-1', title: 'Therapy Program', resourceId: 'mental-health', start: createDate(-7), end: createDate(21), priority: 'medium', progress: 35 }
-    ],
-    viewStart: createDate(-28),
-    viewEnd: createDate(28)
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Long-term care planning view showing extended treatment programs and rehabilitation schedules.'
-      }
-    }
-  }
-};
-
-export const EmptySchedule: Story = {
-  args: {
-    resources: [
-      { id: 'ward-1', label: 'General Ward 1' },
-      { id: 'ward-2', label: 'General Ward 2' },
-      { id: 'ward-3', label: 'General Ward 3' }
-    ],
-    tasks: [],
-    viewStart: createDate(0),
-    viewEnd: createDate(7)
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Empty schedule view showing how the component handles no tasks.'
-      }
-    }
-  }
-};
-
-// Interactive story for testing accessibility
-export const AccessibilityDemo: Story = {
-  args: {
-    resources: [
-      { id: 'demo-1', label: 'Demo Resource 1' },
-      { id: 'demo-2', label: 'Demo Resource 2' }
-    ],
-    tasks: [
-      { id: 'task-1', title: 'High Priority Task', resourceId: 'demo-1', start: createDate(0), end: createDate(2), priority: 'high', progress: 50 },
-      { id: 'task-2', title: 'Medium Priority Task', resourceId: 'demo-2', start: createDate(1), end: createDate(3), priority: 'medium', progress: 75 }
-    ],
-    viewStart: createDate(-1),
-    viewEnd: createDate(4)
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: `
-**ARIA Grid Compliant Gantt Chart**
-
-This component fully implements the [W3C ARIA Grid Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/grid/).
-
-**ARIA Features:**
-- \`role="grid"\` with proper \`aria-rowcount\` and \`aria-colcount\`
-- \`role="row"\` with \`aria-rowindex\` for all rows including header
-- \`role="columnheader"\` for header cells with \`aria-colindex\`
-- \`role="gridcell"\` for data cells with \`aria-colindex\`
-- Proper \`aria-label\` and \`aria-describedby\` relationships
-
-**Keyboard Navigation Testing:**
-1. **Focus**: Click on the chart or press Tab to focus the grid
-2. **Grid Navigation**: Use ↑↓←→ to navigate between cells
-3. **Scrolling Navigation**:
-   - Alt+Arrow Keys: Scroll the main grid area
-   - Shift+Arrow Keys: Scroll individual timeline rows
-   - Tab to header timeline, then Shift+Arrow Keys: Scroll header
-4. **Home/End**: 
-   - Home: Go to first cell in current row
-   - Ctrl+Home: Go to first cell in grid
-   - End: Go to last cell in current row  
-   - Ctrl+End: Go to last cell in grid
-5. **Screen Reader**: Test with NVDA/JAWS/VoiceOver for proper announcements
-
-**Testing Checklist:**
-- [ ] Grid receives focus with Tab key
-- [ ] Arrow keys navigate between cells
-- [ ] Alt+Arrow keys scroll the main grid
-- [ ] Shift+Arrow keys scroll timeline rows
-- [ ] Header timeline is focusable and scrollable
-- [ ] Home/End keys work as expected
-- [ ] Screen reader announces cell content
-- [ ] Focus indicators are visible
-- [ ] All scrollable regions are keyboard accessible
-- [ ] Task interactions work within grid context
-        `
       }
     }
   }

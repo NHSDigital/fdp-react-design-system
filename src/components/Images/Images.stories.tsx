@@ -1,3 +1,5 @@
+// PRUNED STORY FILE: Reduced to a single representative story.
+// Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { Images } from './Images';
 
@@ -98,119 +100,6 @@ export const Default: Story = {
     docs: {
       description: {
         story: 'A basic image without a caption. This is the most common use case.',
-      },
-    },
-  },
-};
-
-export const WithCaption: Story = {
-  args: {
-    caption: 'A doctor taking a patient\'s pulse during a routine check-up',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'An image with a descriptive caption below it. Use captions to provide additional context or attribution.',
-      },
-    },
-  },
-};
-
-export const WithHtmlCaption: Story = {
-  args: {
-    caption: 'A doctor taking a patient\'s pulse. <a href="https://www.nhs.uk">Learn more about routine check-ups</a>.',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Captions can contain HTML markup such as links or formatting.',
-      },
-    },
-  },
-};
-
-export const ResponsiveImage: Story = {
-  args: {
-    srcset: 'https://assets.nhs.uk/prod/images/A_1018_doctor-getting-pulse_1018_doctor-getting-pulse_620088932_FinalCopyright.2e16d0ba.fill-320x320.jpg 320w, https://assets.nhs.uk/prod/images/A_1018_doctor-getting-pulse_1018_doctor-getting-pulse_620088932_FinalCopyright.2e16d0ba.fill-540x540.jpg 540w, https://assets.nhs.uk/prod/images/A_1018_doctor-getting-pulse_1018_doctor-getting-pulse_620088932_FinalCopyright.2e16d0ba.fill-768x768.jpg 768w',
-    sizes: '(max-width: 320px) 100vw, (max-width: 540px) 540px, 768px',
-    caption: 'This image uses responsive sizing to deliver the optimal image for each screen size',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'A responsive image that loads different sizes based on the user\'s screen size and device capabilities.',
-      },
-    },
-  },
-};
-
-export const MedicalDiagram: Story = {
-  args: {
-    src: 'https://assets.nhs.uk/prod/images/S_1017_allergic-conjunctivitis_M15.2e16d0ba.fill-540x540.jpg',
-    alt: 'Diagram showing symptoms of allergic conjunctivitis including red, itchy, watery eyes',
-    caption: 'Common symptoms of allergic conjunctivitis include red, itchy and watery eyes',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Example of using images for medical diagrams with descriptive alt text and captions.',
-      },
-    },
-  },
-};
-
-export const MultipleImages: Story = {
-  render: () => (
-    <div>
-      <Images
-        src="https://assets.nhs.uk/prod/images/A_1018_doctor-getting-pulse_1018_doctor-getting-pulse_620088932_FinalCopyright.2e16d0ba.fill-540x540.jpg"
-        alt="A doctor taking a patient's pulse"
-        caption="Step 1: Doctor takes patient's pulse"
-      />
-      <Images
-        src="https://assets.nhs.uk/prod/images/S_1017_allergic-conjunctivitis_M15.2e16d0ba.fill-540x540.jpg"
-        alt="Medical professional examining patient's eyes"
-        caption="Step 2: Examination of symptoms"
-      />
-      <Images
-        src="https://assets.nhs.uk/prod/images/A_1018_doctor-getting-pulse_1018_doctor-getting-pulse_620088932_FinalCopyright.2e16d0ba.fill-540x540.jpg"
-        alt="Patient receiving treatment"
-        caption="Step 3: Treatment administration"
-      />
-    </div>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Multiple images displayed together. Note that subsequent images have their top margin removed for better spacing.',
-      },
-    },
-  },
-};
-
-export const DecorativeImage: Story = {
-  args: {
-    src: 'https://assets.nhs.uk/prod/images/A_1018_doctor-getting-pulse_1018_doctor-getting-pulse_620088932_FinalCopyright.2e16d0ba.fill-540x540.jpg',
-    alt: '',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'A decorative image with empty alt text. Only use empty alt text for purely decorative images that don\'t add information.',
-      },
-    },
-  },
-};
-
-export const CustomClassName: Story = {
-  args: {
-    caption: 'Image with custom styling applied',
-    className: 'custom-image-class',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'An image with additional CSS classes for custom styling.',
       },
     },
   },

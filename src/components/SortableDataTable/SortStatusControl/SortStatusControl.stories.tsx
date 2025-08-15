@@ -1,3 +1,5 @@
+// PRUNED STORY FILE: Reduced to a single representative story.
+// Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { SortStatusControl } from './SortStatusControl';
@@ -15,7 +17,7 @@ const meta: Meta<typeof SortStatusControl> = {
       }
     }
   },
-  tags: ['autodocs']
+  tags: [], // Removed 'autodocs' tag; dedicated docs page exists
 };
 
 export default meta;
@@ -71,36 +73,3 @@ export const Default: Story = {
     ]
   }
 };
-
-export const SingleSort: Story = {
-  render: SortStatusControlWithState,
-  args: {
-    sortConfig: [
-      { key: 'name', direction: 'asc' }
-    ]
-  }
-};
-
-export const WithCustomDescriptions: Story = {
-  render: SortStatusControlWithState,
-  args: {
-    sortConfig: [
-      { key: 'priority', direction: 'desc' },
-      { key: 'urgency', direction: 'desc' }
-    ],
-    emptyDescription: 'No custom sorting has been applied to this data.',
-    activeDescription: 'Data is currently sorted by multiple criteria for optimal viewing.'
-  }
-};
-
-export const Disabled: Story = {
-  render: SortStatusControlWithState,
-  args: {
-    sortConfig: [
-      { key: 'medication', direction: 'asc' },
-      { key: 'dosage', direction: 'desc' }
-    ],
-    disabled: true
-  }
-};
-

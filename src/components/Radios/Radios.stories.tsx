@@ -1,7 +1,7 @@
+// PRUNE: KEEP_ALL (Expanded to include conditional content example)
 import type { Meta, StoryObj } from '@storybook/react';
 import { Radios } from './Radios';
 import { Input } from '../Input';
-import { Label } from '../Label';
 
 const meta: Meta<typeof Radios> = {
   title: 'NHS/Components/Radios',
@@ -103,10 +103,6 @@ const basicOptions = [
   { value: 'post', text: 'Post' },
 ];
 
-const yesNoOptions = [
-  { value: 'yes', text: 'Yes' },
-  { value: 'no', text: 'No' },
-];
 
 const appointmentOptions = [
   { 
@@ -177,252 +173,38 @@ const contactPreferenceOptions = [
   },
 ];
 
-const urgencyOptions = [
-	{ value: 'urgent', text: 'Urgent - within 24 hours' },
-	{ value: 'soon', text: 'Soon - within a week' },
-	{ value: 'routine', text: 'Routine - within a month' },
-];
 
 export const Default: Story = {
-  args: {
+	args: {
 	name: 'contact-method',
 	options: basicOptions,
-  },
-};
-
-export const WithValue: Story = {
-  args: {
-	name: 'contact-method-value',
-	options: basicOptions,
-	value: 'email',
-  },
-};
-
-export const YesNo: Story = {
-  args: {
-	name: 'consent',
-	options: yesNoOptions,
-  },
-  parameters: {
-	docs: {
-	  description: {
-		story: 'Simple yes/no radio button group.',
-	  },
 	},
-  },
 };
 
-export const WithConditionalContent: Story = {
-  args: {
-	name: 'contact-preference',
-	options: contactPreferenceOptions,
-  },
-  parameters: {
-	docs: {
-	  description: {
-		story: `Radio buttons with conditional Input components that appear when an option is selected. 
-		
-This example demonstrates how to collect contact preferences with the appropriate input fields for each method:
-- **Email**: Shows an email input field
-- **Phone**: Shows a phone number input field  
-- **Text message**: Shows a mobile number input field
-
-The conditional content includes proper form labels and input types for accessibility and user experience.`,
-	  },
+export const WithConditionalInformation: Story = {
+	args: {
+		name: 'appointment-type',
+		options: appointmentOptions,
 	},
-  },
-};
-
-export const AppointmentTypes: Story = {
-  args: {
-	name: 'appointment-type',
-	options: appointmentOptions,
-  },
-  parameters: {
-	docs: {
-	  description: {
-		story: 'Radio buttons with text-based conditional content for appointment type selection.',
-	  },
-	},
-  },
-};
-
-export const UrgencySelection: Story = {
-  args: {
-	name: 'urgency',
-	options: urgencyOptions,
-	value: 'routine',
-  },
-  parameters: {
-	docs: {
-	  description: {
-		story: 'Medical appointment urgency selection with pre-selected option.',
-	  },
-	},
-  },
-};
-
-export const WithError: Story = {
-  args: {
-	name: 'contact-method-error',
-	options: basicOptions,
-	hasError: true,
-	describedBy: 'contact-method-error-message',
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-	name: 'contact-method-disabled',
-	options: basicOptions.map(option => ({ ...option, disabled: true })),
-	value: 'email',
-  },
-};
-
-export const Required: Story = {
-  args: {
-	name: 'contact-method-required',
-	options: basicOptions,
-  },
-};
-
-// Variant examples
-export const SmallVariant: Story = {
-  args: {
-	name: 'contact-method-small',
-	size: 'small',
-	options: basicOptions,
-  },
-  parameters: {
-	docs: {
-	  description: {
-		story: 'Smaller radio buttons for compact layouts.',
-	  },
-	},
-  },
-};
-
-export const InlineVariant: Story = {
-  args: {
-	name: 'yes-no-inline',
-	inline: true,
-	options: yesNoOptions,
-  },
-  parameters: {
-	docs: {
-	  description: {
-		story: 'Radio buttons displayed inline (horizontally) instead of stacked.',
-	  },
-	},
-  },
-};
-
-export const InlineWithMore: Story = {
-  args: {
-	name: 'urgency-inline',
-	inline: true,
-	options: urgencyOptions,
-  },
-  parameters: {
-	docs: {
-	  description: {
-		story: 'Multiple radio buttons in inline layout.',
-	  },
-	},
-  },
-};
-
-// With conditional Input component
-export const WithConditionalInput: Story = {
-  args: {
-	name: 'contact-input',
-	options: [
-	  { 
-		value: 'email', 
-		text: 'Email',
-		conditional: {
-			id: 'contact-email-radio',
-			name: 'contact-email-radio',
-			label: 'Email address',
-			type: 'email',
-			placeholder: 'Enter your email address',
-			width: 'full'
+	parameters: {
+		docs: {
+			description: {
+				story: 'Displays informational text beneath each selected appointment type using the conditional prop.'
+			}
 		}
-	  },
-	  { 
-		value: 'phone', 
-		text: 'Phone',
-		conditional: {
-			id: 'contact-phone-radio',
-			name: 'contact-phone-radio',
-			label: 'Phone number',
-			type: 'tel',
-			placeholder: 'Enter your phone number',
-			width: 'full'
-		}
-	  },
-	  { value: 'post', text: 'Post' },
-	],
-  },
-  parameters: {
-	docs: {
-	  description: {
-		story: 'Radio buttons with Input component integration for conditional content.',
-	  },
-	},
-  },
+	}
 };
 
-// Mixed conditional content (ReactNode and Input component)
-export const WithMixedConditionalRadio: Story = {
-  args: {
-	name: 'contact-mixed-radio',
-	options: [
-	  { 
-		value: 'email', 
-		text: 'Email',
-		conditional: (
-			<div style={{ marginTop: '16px' }}>
-				{/* <Label htmlFor="email-address">Email address</Label> */}
-				<Input
-					id="email-address"
-					name="email-address"
-					type="email"
-					placeholder="Enter your email address"
-					autoComplete="email"
-				/>
-			</div>
-		)
-	  },
-	  { 
-		value: 'phone', 
-		text: 'Phone',
-		conditional: (
-		  <div>
-			<p style={{ marginBottom: '16px', color: '#212b32' }}>
-				We'll call you during business hours (9am to 5pm, Monday to Friday).
-			</p>
-			{/* <Label htmlFor="custom-phone-radio">
-			  Phone number
-			</Label> */}
-			<Input
-				type="tel"
-				id="custom-phone-radio"
-				name="custom-phone-radio"
-				placeholder="Enter phone number"
-				width="full"
-			/>
-		  </div>
-		)
-	  },
-	  { value: 'post', text: 'Post' },
-	],
-  },
-  parameters: {
-	docs: {
-	  description: {
-		story: 'Radio buttons with mixed conditional content - both Input component and custom ReactNode.',
-	  },
+export const WithConditionalInteractiveFields: Story = {
+	args: {
+		name: 'contact-preference',
+		options: contactPreferenceOptions,
 	},
-  },
+	parameters: {
+		docs: {
+			description: {
+				story: 'Demonstrates conditional sections containing interactive form fields (inputs) for the selected option.'
+			}
+		}
+	}
 };

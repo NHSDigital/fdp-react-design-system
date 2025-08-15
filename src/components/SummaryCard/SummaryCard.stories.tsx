@@ -1,3 +1,5 @@
+// PRUNED STORY FILE: Reduced to a single representative story.
+// Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { SummaryCard } from './SummaryCard';
 
@@ -72,66 +74,5 @@ export const Default: Story = {
   args: {
     title: 'Patient Records',
     value: '1,247',
-  },
-};
-
-export const WithSubtitle: Story = {
-  args: {
-    title: 'Appointments Today',
-    value: '89',
-    subtitle: '15% increase from yesterday',
-  },
-};
-
-export const Clickable: Story = {
-  args: {
-    title: 'Active Prescriptions',
-    value: '342',
-    href: '/prescriptions',
-    subtitle: 'Click to view details',
-  },
-};
-
-export const SuccessVariant: Story = {
-  args: {
-    title: 'Completed Tasks',
-    value: '98%',
-    variant: 'success',
-    subtitle: 'All critical tasks finished',
-  },
-};
-
-export const WarningVariant: Story = {
-  args: {
-    title: 'Pending Reviews',
-    value: '23',
-    variant: 'warning',
-    subtitle: 'Requires attention',
-  },
-};
-
-export const ErrorVariant: Story = {
-  args: {
-    title: 'Failed Processes',
-    value: '3',
-    variant: 'error',
-    subtitle: 'Immediate action required',
-  },
-};
-
-export const LargeNumbers: Story = {
-  args: {
-    title: 'Total Population Served',
-    value: '2,847,392',
-    subtitle: 'Across all NHS trusts',
-  },
-};
-
-export const PercentageValue: Story = {
-  args: {
-    title: 'System Availability',
-    value: '99.9%',
-    variant: 'success',
-    subtitle: 'Last 30 days',
   },
 };

@@ -1,3 +1,5 @@
+// PRUNED STORY FILE: Reduced to a single representative story.
+// Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { Panel } from './Panel';
 
@@ -85,73 +87,3 @@ export const Default: Story = {
     bodyText: 'Your application has been successfully submitted. We will send you an email confirmation within 24 hours.',
   },
 };
-
-/**
- * Panel with only a heading, useful for simple status messages.
- */
-export const HeadingOnly: Story = {
-  args: {
-    headingText: 'Registration confirmed',
-  },
-};
-
-/**
- * Panel with only body content, useful for highlighted text without a formal heading.
- */
-export const BodyOnly: Story = {
-  args: {
-    bodyText: 'This service will be unavailable for maintenance between 2am and 4am on Sunday 15 October.',
-  },
-};
-
-/**
- * Panel using HTML content for rich text formatting in heading and body.
- */
-export const WithHtmlContent: Story = {
-  args: {
-    headingHtml: 'Your <strong>GP registration</strong> is complete',
-    bodyHtml: '<p>We have sent confirmation to:</p><ul><li><strong>Email:</strong> patient@example.com</li><li><strong>SMS:</strong> 07700 900 123</li></ul>',
-  },
-};
-
-/**
- * Panel with React children for complex content structure.
- */
-export const WithChildren: Story = {
-  args: {
-    headingText: 'Next steps',
-    children: (
-      <>
-        <p>You will need to:</p>
-        <ol>
-          <li>Attend your appointment on <strong>Monday 16 October at 2:30pm</strong></li>
-          <li>Bring your NHS number and a form of ID</li>
-          <li>Complete the health questionnaire beforehand</li>
-        </ol>
-        <p>If you need to cancel or reschedule, call <a href="tel:01234567890">01234 567 890</a>.</p>
-      </>
-    ),
-  },
-};
-
-/**
- * Panel with custom styling and attributes.
- */
-export const WithCustomAttributes: Story = {
-  args: {
-    headingText: 'Custom panel',
-    bodyText: 'This panel demonstrates custom className and HTML attributes.',
-    className: 'custom-panel-class',
-    id: 'custom-panel-id',
-    'data-testid': 'custom-panel',
-    'aria-label': 'Custom panel with additional attributes',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Panel with custom CSS class, id, and additional HTML attributes for testing or styling purposes.',
-      },
-    },
-  },
-};
-

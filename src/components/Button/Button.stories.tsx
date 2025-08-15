@@ -1,3 +1,5 @@
+// PRUNE: KEEP_ALL  (This file intentionally contains multiple stories for documentation & visual regression.)
+// Expanded Button stories demonstrating variants, sizes, states, and behaviors.
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from './Button';
 
@@ -78,9 +80,6 @@ This component uses native HTML elements to provide:
     fullWidth: {
       control: 'boolean',
     },
-    disabled: {
-      control: 'boolean',
-    },
     children: {
       control: 'text',
     },
@@ -90,129 +89,85 @@ This component uses native HTML elements to provide:
 export default meta;
 type Story = StoryObj<typeof Button>;
 
+// Variant stories
 export const Primary: Story = {
-  args: {
-    variant: 'primary',
-    children: 'Continue',
-  },
+  args: { variant: 'primary', children: 'Primary action' },
+};
+
+export const PrimaryDisabled: Story = {
+  args: { variant: 'primary', children: 'Primary disabled', disabled: true } as any,
 };
 
 export const Secondary: Story = {
-  args: {
-    variant: 'secondary',
-    children: 'Find out more',
-  },
+  args: { variant: 'secondary', children: 'Secondary action' },
+};
+
+export const SecondaryDisabled: Story = {
+  args: { variant: 'secondary', children: 'Secondary disabled', disabled: true } as any,
 };
 
 export const Reverse: Story = {
-  args: {
-    variant: 'reverse',
-    children: 'Start now',
-  },
+  args: { variant: 'reverse', children: 'Reverse on dark BG' },
   parameters: {
-    backgrounds: { default: 'nhs-blue' },
+    backgrounds: { default: 'dark' },
   },
 };
 
 export const Warning: Story = {
-  args: {
-    variant: 'warning',
-    children: 'Delete item',
-  },
+  args: { variant: 'warning', children: 'Destructive action' },
 };
 
 export const Login: Story = {
-  args: {
-    variant: 'login',
-    children: 'Sign in',
-  },
+  args: { variant: 'login', children: 'Login' },
 };
 
+// Size stories
+export const LargePrimary: Story = {
+  args: { variant: 'primary', size: 'large', children: 'Large primary' },
+};
+
+export const SmallSecondary: Story = {
+  args: { variant: 'secondary', size: 'small', children: 'Small secondary' },
+};
+
+// Layout & width
 export const FullWidth: Story = {
-  args: {
-    variant: 'primary',
-    fullWidth: true,
-    children: 'Full width button',
-  },
-  parameters: {
-    layout: 'padded',
-  },
+  args: { variant: 'primary', fullWidth: true, children: 'Full width button' },
+  parameters: { layout: 'padded' },
 };
 
-export const Disabled: Story = {
-  args: {
-    variant: 'primary',
-    disabled: true,
-    children: 'Disabled button',
-  },
+// Link rendering
+export const AsLink: Story = {
+  args: { variant: 'secondary', href: '#next', children: 'Anchor link button' },
 };
 
-export const AllVariants: Story = {
+// Double‑click prevention demonstration
+export const PreventDoubleClick: Story = {
+  args: { variant: 'primary', preventDoubleClick: true, children: 'Submit (1s lockout)' },
   parameters: {
-    layout: 'padded',
-  },
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '300px' }}>
-      <Button variant="primary">Primary Button</Button>
-      <Button variant="secondary">Secondary Button</Button>
-      <Button variant="login">Login Button</Button>
-      <Button variant="warning">Warning Button</Button>
-      <div style={{ background: '#005eb8', padding: '1rem', borderRadius: '4px' }}>
-        <Button variant="reverse">Reverse Button</Button>
-      </div>
-    </div>
-  ),
-};
-
-export const AccessibilityDemo: Story = {
-  parameters: {
-    layout: 'padded',
     docs: {
       description: {
-        story: `
-This story demonstrates the accessibility features of the Button component:
-
-- **Keyboard Navigation**: Try using Tab to navigate between buttons, and Enter/Space to activate them
-- **Screen Reader**: Screen readers will announce the button text and state
-- **Focus Indicators**: Notice the focus outline when navigating with keyboard
-- **Press States**: Visual feedback when buttons are pressed
-- **Disabled State**: Disabled buttons are properly marked as inaccessible
-        `,
+        story: 'Demonstrates preventDoubleClick — clicking rapidly will only trigger first activation for 1 second.',
       },
     },
   },
+};
+
+// Composite gallery (for visual scan of main variants) – hidden from docs table.
+export const Gallery: Story = {
+  parameters: { docs: { disable: true } },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '400px' }}>
-      <h3>Keyboard Navigation Test</h3>
-      <p>Try using Tab, Enter, and Space keys:</p>
-      
-      <Button 
-        variant="primary" 
-        onClick={() => console.log('First button pressed')}
-      >
-        First Button
-      </Button>
-      
-      <Button 
-        variant="secondary"
-        onClick={() => console.log('Second button pressed')}
-      >
-        Second Button
-      </Button>
-      
-      <Button 
-        variant="primary"
-        disabled
-      >
-        Disabled Button (skip with Tab)
-      </Button>
-      
-      <Button 
-        variant="warning"
-        onClick={() => console.log('Last button pressed')}
-      >
-        Last Button
-      </Button>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'flex-start' }}>
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="reverse">Reverse</Button>
+      <Button variant="warning">Warning</Button>
+      <Button variant="login">Login</Button>
+      <Button variant="primary" size="small">Small</Button>
+      <Button variant="primary" size="large">Large</Button>
+      <Button variant="secondary" disabled>Disabled</Button>
+      <Button variant="primary" fullWidth style={{ maxWidth: 200 }}>Full width (200px container)</Button>
+      <Button variant="primary" preventDoubleClick>Prevent dbl‑click</Button>
     </div>
   ),
 };

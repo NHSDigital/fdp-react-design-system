@@ -1,3 +1,5 @@
+// PRUNED STORY FILE: Reduced to a single representative story.
+// Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import Table from './Table';
 
@@ -135,34 +137,5 @@ export const Default: Story = {
     rows: basicData.slice(1),
     head: basicData[0].map(cell => ({ ...cell })),
     caption: 'Basic table example',
-  },
-};
-
-export const PatientList: Story = {
-  args: {
-    rows: patientData.slice(1),
-    head: patientData[0].map(cell => ({ ...cell })),
-    caption: 'Patient appointments',
-    captionSize: 'l',
-  },
-};
-
-export const ResponsiveTable: Story = {
-  args: {
-    rows: patientData.slice(1),
-    head: patientData[0].map(cell => ({ ...cell })),
-    caption: 'Responsive patient list',
-    responsive: true,
-  },
-};
-
-export const WithPanel: Story = {
-  args: {
-    rows: basicData.slice(1),
-    head: basicData[0].map(cell => ({ ...cell })),
-    caption: 'Current prescriptions',
-    panel: true,
-    heading: 'Medication Overview',
-    headingLevel: 2,
   },
 };

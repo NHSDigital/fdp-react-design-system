@@ -1,3 +1,5 @@
+// PRUNED STORY FILE: Reduced to a single representative story.
+// Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { Textarea } from './Textarea';
 
@@ -100,100 +102,5 @@ export const Default: Story = {
     id: 'textarea-default',
     name: 'textarea-default',
     placeholder: 'Enter your text here...',
-  },
-};
-
-export const WithValue: Story = {
-  args: {
-    id: 'textarea-value',
-    name: 'textarea-value',
-    value: 'This is some pre-filled content in the textarea. It demonstrates how the component looks with existing content.',
-  },
-};
-
-export const WithRows: Story = {
-  args: {
-    id: 'textarea-rows',
-    name: 'textarea-rows',
-    rows: 5,
-    placeholder: 'This textarea has 5 rows...',
-  },
-};
-
-export const WithError: Story = {
-  args: {
-    id: 'textarea-error',
-    name: 'textarea-error',
-    hasError: true,
-    value: 'This content has an error',
-    describedBy: 'textarea-error-message',
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    id: 'textarea-disabled',
-    name: 'textarea-disabled',
-    disabled: true,
-    value: 'This textarea is disabled',
-  },
-};
-
-export const ReadOnly: Story = {
-  args: {
-    id: 'textarea-readonly',
-    name: 'textarea-readonly',
-    readOnly: true,
-    value: 'This textarea is read-only and cannot be modified',
-  },
-};
-
-export const Required: Story = {
-  args: {
-    id: 'textarea-required',
-    name: 'textarea-required',
-    required: true,
-    placeholder: 'This field is required',
-  },
-};
-
-// Resize variants
-export const ResizeVertical: Story = {
-  args: {
-    id: 'textarea-resize-vertical',
-    name: 'textarea-resize-vertical',
-    resize: 'vertical',
-    placeholder: 'This textarea can be resized vertically only',
-    rows: 3,
-  },
-};
-
-export const ResizeHorizontal: Story = {
-  args: {
-    id: 'textarea-resize-horizontal',
-    name: 'textarea-resize-horizontal',
-    resize: 'horizontal',
-    placeholder: 'This textarea can be resized horizontally only',
-    rows: 3,
-  },
-};
-
-export const ResizeBoth: Story = {
-  args: {
-    id: 'textarea-resize-both',
-    name: 'textarea-resize-both',
-    resize: 'both',
-    placeholder: 'This textarea can be resized in both directions',
-    rows: 3,
-  },
-};
-
-export const ResizeNone: Story = {
-  args: {
-    id: 'textarea-resize-none',
-    name: 'textarea-resize-none',
-    resize: 'none',
-    placeholder: 'This textarea cannot be resized',
-    rows: 3,
   },
 };

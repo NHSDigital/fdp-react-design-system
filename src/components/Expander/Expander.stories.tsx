@@ -45,7 +45,7 @@ The Expander component accepts either text or HTML content, and allows you to se
       },
     },
   },
-  tags: ['autodocs'],
+  // Removed 'autodocs' tag; dedicated docs page exists
   argTypes: {
     summaryText: {
       control: 'text',

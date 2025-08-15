@@ -1,3 +1,5 @@
+// PRUNED STORY FILE: Reduced to a single representative story.
+// Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { InsetText } from './InsetText';
 
@@ -63,58 +65,3 @@ export const Default: Story = {
     text: 'It can take up to 8 weeks to register a lasting power of attorney if there are no mistakes in the application.',
   },
 };
-
-/**
- * Inset text with HTML content for rich formatting.
- */
-export const WithHtmlContent: Story = {
-  args: {
-    html: '<p>You can <strong>cancel your registration</strong> up to 7 days before your appointment.</p><p>Call us on <a href="tel:01234567890">01234 567 890</a> to cancel.</p>',
-  },
-};
-
-/**
- * Inset text with React children for complex content structure.
- */
-export const WithChildren: Story = {
-  args: {
-    children: (
-      <>
-        <p>
-          <strong>You must tell DVLA if you develop a medical condition</strong> that affects your ability to drive safely.
-        </p>
-        <p>This includes:</p>
-        <ul>
-          <li>diabetes</li>
-          <li>epilepsy</li>
-          <li>strokes</li>
-          <li>heart conditions</li>
-        </ul>
-        <p>
-          You can <a href="#" onClick={(e) => e.preventDefault()}>check if you need to tell DVLA about your condition</a>.
-        </p>
-      </>
-    ),
-  },
-};
-
-/**
- * Inset text with custom styling and attributes.
- */
-export const WithCustomAttributes: Story = {
-  args: {
-    text: 'This inset text demonstrates custom className and HTML attributes.',
-    className: 'custom-inset-class',
-    id: 'custom-inset-id',
-    role: 'note',
-    'aria-label': 'Important note about the service',
-  } as any,
-  parameters: {
-    docs: {
-      description: {
-        story: 'Inset text with custom CSS class, id, and additional HTML attributes for testing or styling purposes.',
-      },
-    },
-  },
-};
-

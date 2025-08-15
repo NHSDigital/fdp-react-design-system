@@ -1,3 +1,4 @@
+// PRUNE: KEEP_ALL (Expanded single-story gallery showcasing all Heading variants)
 import type { Meta, StoryObj } from '@storybook/react';
 import { Heading } from '.';
 
@@ -65,154 +66,40 @@ type Story = StoryObj<typeof Heading>;
 /**
  * Default heading with medium size
  */
-export const Default: Story = {
-  args: {
-    level: 2,
-    text: 'Default heading',
+export const AllVariants: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Gallery of all semantic + visual heading combinations. Use this as a reference for sizing, auto-mapped levels, and explicit level overrides.'
+      }
+    }
   },
-};
+  render: () => {
+  const samples: { size: any; label: string; level?: 1 | 2 | 3 | 4 | 5 | 6 }[] = [
+      { size: 'xxl', label: 'XXL (auto → h1)' },
+      { size: 'xl', label: 'XL (auto → h1)' },
+      { size: 'l', label: 'L (auto → h2)' },
+      { size: 'm', label: 'M (auto → h3)' },
+      { size: 's', label: 'S (auto → h4)' },
+      { size: 'xs', label: 'XS (auto → h5)' },
+      { size: 'm', level: 1, label: 'M forced level=1 (h1 visual m)' },
+      { size: 's', level: 2, label: 'S forced level=2 (h2 visual s)' },
+      { size: 'xs', level: 6, label: 'XS forced level=6 (h6 visual xs)' }
+    ];
 
-/**
- * Demonstrates all available size variants
- */
-export const SizeVariants: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Heading level={2} size="xs" text="Extra Small (xs)" />
-      <Heading level={2} size="s" text="Small (s)" />
-      <Heading level={2} size="m" text="Medium (m)" />
-      <Heading level={2} size="l" text="Large (l)" />
-      <Heading level={2} size="xl" text="Extra Large (xl)" />
-      <Heading level={2} size="xxl" text="Extra Extra Large (xxl)" />
-    </div>
-  ),
-};
-
-/**
- * Shows different semantic levels with the same visual size
- */
-export const SemanticLevels: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Heading level={1} size="l" text="H1 with large size" />
-      <Heading level={2} size="l" text="H2 with large size" />
-      <Heading level={3} size="l" text="H3 with large size" />
-      <Heading level={4} size="l" text="H4 with large size" />
-      <Heading level={5} size="l" text="H5 with large size" />
-      <Heading level={6} size="l" text="H6 with large size" />
-    </div>
-  ),
-};
-
-/**
- * Heading with HTML content
- */
-export const WithHTML: Story = {
-  args: {
-    level: 2,
-    html: 'Heading with <strong>bold</strong> and <em>italic</em> text',
-    size: 'l',
-  },
-};
-
-/**
- * Heading with React children
- */
-export const WithChildren: Story = {
-  render: () => (
-    <Heading level={2} size="xl">
-      Heading with <span style={{ color: '#007f3b' }}>colored</span> children
-    </Heading>
-  ),
-};
-
-/**
- * Demonstrates automatic level mapping from size when level is not provided
- */
-export const AutomaticLevelMapping: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <div style={{ marginBottom: '16px' }}>
-        <h3>Automatic Level Assignment from Size</h3>
-        <p style={{ fontSize: '14px', color: '#666', marginBottom: '16px' }}>
-          When <code>level</code> is not specified, it's automatically determined from the <code>size</code> prop
-          following NHS design system guidelines:
-        </p>
-        <ul style={{ fontSize: '14px', color: '#666', marginLeft: '20px' }}>
-          <li><strong>xxl/xl</strong> → h1 (main page headings)</li>
-          <li><strong>l</strong> → h2 (major sections)</li>
-          <li><strong>m</strong> → h3 (subsections)</li>
-          <li><strong>s</strong> → h4 (sub-subsections)</li>
-          <li><strong>xs</strong> → h5 (minor headings)</li>
-        </ul>
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {samples.map((s, i) => (
+          <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <code style={{ fontSize: '12px', color: '#555' }}>{s.label}</code>
+            <Heading size={s.size as any} {...(s.level ? { level: s.level } : {})} text={`Example heading – ${s.label}`} />
+          </div>
+        ))}
+        <div style={{ marginTop: '24px' }}>
+          <code style={{ fontSize: '12px', color: '#555' }}>HTML prop example (size m auto → h3)</code>
+          <Heading size="m" html="<em>Heading with <strong>HTML</strong> content</em>" />
+        </div>
       </div>
-      
-      <div style={{ border: '1px solid #d8dde0', padding: '16px', borderRadius: '4px' }}>
-        <Heading size="xxl" text="XXL Size → Auto H1" />
-        <Heading size="xl" text="XL Size → Auto H1" />
-        <Heading size="l" text="L Size → Auto H2" />
-        <Heading size="m" text="M Size → Auto H3" />
-        <Heading size="s" text="S Size → Auto H4" />
-        <Heading size="xs" text="XS Size → Auto H5" />
-      </div>
-      
-      <div style={{ marginTop: '16px', padding: '12px', background: '#f0f4f5', borderRadius: '4px' }}>
-        <p style={{ fontSize: '14px', margin: 0 }}>
-          <strong>Note:</strong> Explicit <code>level</code> prop always takes precedence over automatic mapping.
-        </p>
-      </div>
-    </div>
-  ),
-};
-
-/**
- * Compare old vs new approach - demonstrates architectural improvement
- */
-export const ArchitecturalComparison: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      <div>
-        <h3>❌ Old Approach (repetitive switch statements)</h3>
-        <pre style={{ background: '#f5f5f5', padding: '16px', fontSize: '12px' }}>
-{`// Every component had this repetitive code:
-switch (headingLevel) {
-  case 1: return <h1>{text}</h1>;
-  case 2: return <h2>{text}</h2>;
-  case 3: return <h3>{text}</h3>;
-  // ... etc
-}`}
-        </pre>
-      </div>
-      
-      <div>
-        <h3>✅ New Approach (clean abstraction)</h3>
-        <pre style={{ background: '#f0f4f5', padding: '16px', fontSize: '12px' }}>
-{`// Now just use the Heading component:
-<Heading level={headingLevel} text={text} />
-
-// Or with size control:
-<Heading level={2} size="xl" text={text} />`}
-        </pre>
-      </div>
-      
-      <div style={{ marginTop: '16px' }}>
-        <Heading level={3} size="m" text="This heading demonstrates the new approach in action!" />
-      </div>
-    </div>
-  ),
-};
-
-/**
- * Responsive behavior demonstration
- */
-export const ResponsiveBehavior: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <p><strong>Resize your browser to see responsive font sizing:</strong></p>
-      <Heading level={1} size="xxl" text="This heading adapts to screen size" />
-      <p style={{ fontSize: '14px', color: '#666' }}>
-        Font sizes automatically adjust between mobile and desktop breakpoints
-      </p>
-    </div>
-  ),
+    );
+  }
 };

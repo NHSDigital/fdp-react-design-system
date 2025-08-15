@@ -1,3 +1,5 @@
+// PRUNED STORY FILE: Reduced to a single representative story.
+// Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { WarningCallout } from './WarningCallout';
 
@@ -79,69 +81,3 @@ export const Default: Story = {
     },
   },
 };
-
-export const WithHTMLContent: Story = {
-  args: {
-    heading: 'Legal consequences',
-    html: `
-      <p>If you do not comply with this requirement, you may face:</p>
-      <ul>
-        <li>A fine of up to £1,000</li>
-        <li>Legal action</li>
-        <li>Removal from the register</li>
-      </ul>
-    `,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Warning callout with HTML content for more complex layouts.',
-      },
-    },
-  },
-};
-
-export const WithReactChildren: Story = {
-  args: {
-    heading: 'Verify your identity',
-    children: (
-      <>
-        <p>You must provide one of the following documents:</p>
-        <ul>
-          <li>Passport</li>
-          <li>Driving licence</li>
-          <li>National insurance card</li>
-        </ul>
-        <p>
-          <a href="/upload-documents">Upload your documents</a> before continuing.
-        </p>
-      </>
-    ),
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Warning callout with React children for maximum flexibility.',
-      },
-    },
-  },
-};
-
-export const WithCustomClass: Story = {
-  args: {
-    heading: 'Data protection notice',
-    text: 'Your personal information will be processed in accordance with data protection laws. By continuing, you consent to this processing.',
-    className: 'custom-warning-style',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Warning callout with custom CSS class for additional styling.',
-      },
-    },
-    backgrounds: {
-      default: 'light',
-    },
-  },
-};
-

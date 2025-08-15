@@ -4,7 +4,7 @@ import { AriaTabsDataGridDemo } from './AriaTabsDataGridDemo';
 const meta: Meta<typeof AriaTabsDataGridDemo> = {
   title: 'NHS/Data/SortableDataTable',
   component: AriaTabsDataGridDemo,
-  tags: ['autodocs'],
+  // Removed 'autodocs' tag; dedicated docs page exists
   parameters: {
     layout: 'fullscreen',
     documentation: {

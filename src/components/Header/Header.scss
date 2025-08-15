@@ -923,6 +923,12 @@ $header-item-active-size: tokens.$nhs-fdp-focus-outline-width;
     background-color: tokens.$nhs-fdp-color-primary-white;
     color: tokens.$nhs-fdp-color-primary-blue;
 
+    // Ensure navigation bar background switches to white in white variant
+    .nhsuk-header__navigation {
+      background-color: tokens.$nhs-fdp-color-primary-white;
+      color: tokens.$nhs-fdp-color-primary-blue;
+    }
+
     // Service elements specifically for white header
     .nhsuk-header__service-logo,
     .nhsuk-header__service-name {

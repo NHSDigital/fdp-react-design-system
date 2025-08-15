@@ -1,3 +1,5 @@
+// PRUNED STORY FILE: Reduced to a single representative story.
+// Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { ActionLink } from './ActionLink';
 
@@ -81,36 +83,6 @@ export const Default: Story = {
     docs: {
       description: {
         story: 'Default action link for finding a GP practice.',
-      },
-    },
-  },
-};
-
-export const ExternalLink: Story = {
-  args: {
-    text: 'NHS App - Get health advice',
-    href: 'https://www.nhs.uk/nhs-app/',
-    openInNewWindow: true,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Action link that opens external NHS resources in a new window.',
-      },
-    },
-  },
-};
-
-export const WithCustomClass: Story = {
-  args: {
-    text: 'Custom styled action link',
-    href: '/custom',
-    className: 'custom-action-link',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Action link with custom CSS class for additional styling.',
       },
     },
   },

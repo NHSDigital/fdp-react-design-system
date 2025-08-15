@@ -1,3 +1,5 @@
+// PRUNED STORY FILE: Reduced to a single representative story.
+// Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { BackLink } from './BackLink';
 
@@ -85,79 +87,6 @@ export const Default: Story = {
     docs: {
       description: {
         story: 'Default back link with standard "Back" text and hash href.',
-      },
-    },
-  },
-};
-
-export const CustomText: Story = {
-  args: {
-    text: 'Back to previous page',
-    href: '/previous-page',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Back link with custom text content.',
-      },
-    },
-  },
-};
-
-export const AsButton: Story = {
-  args: {
-    element: 'button',
-    text: 'Go back',
-    onClick: () => alert('Back button clicked'),
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Back link rendered as a button element with click handler.',
-      },
-    },
-  },
-};
-
-export const BrowserBack: Story = {
-  args: {
-    element: 'button',
-    text: 'Back',
-    onClick: () => window.history.back(),
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Button that uses browser history to navigate back.',
-      },
-    },
-  },
-};
-
-export const WithHTMLContent: Story = {
-  args: {
-    html: 'Back to <strong>search results</strong>',
-    href: '/search',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Back link with HTML content for emphasis.',
-      },
-    },
-  },
-};
-
-export const WithCustomClass: Story = {
-  args: {
-    text: 'Back to dashboard',
-    href: '/dashboard',
-    className: 'custom-back-link',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Back link with custom CSS class for additional styling.',
       },
     },
   },

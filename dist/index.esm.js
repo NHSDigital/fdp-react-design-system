@@ -9973,7 +9973,7 @@ function mc(e) {
               tabIndex: -1,
               children: [
                 re && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: Ce }),
-                /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__content-inner", style: { padding: 32, flex: 1, overflowWrap: "break-word", wordBreak: "break-word" }, children: i(g) })
+                /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__content-inner", style: { padding: 32, flex: 1 }, children: i(g) })
               ]
             }
           ),
@@ -9983,7 +9983,7 @@ function mc(e) {
               className: "nhs-navigation-split-view__secondary-pane",
               role: "region",
               "aria-label": _?.secondaryContentLabel || "Secondary",
-              children: /* @__PURE__ */ n.jsx("div", { style: { padding: 32, flex: 1, minWidth: 0, overflowWrap: "break-word", wordBreak: "break-word" }, children: l?.(g) })
+              children: /* @__PURE__ */ n.jsx("div", { style: { padding: 32, flex: 1, minWidth: 0 }, children: l?.(g) })
             }
           )
         ] }),

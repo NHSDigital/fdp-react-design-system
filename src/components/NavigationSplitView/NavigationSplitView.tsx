@@ -486,7 +486,7 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 				{renderedHeaderInner}
 			  </div>
 			)}
-			<div className="nhs-navigation-split-view__content-inner" style={{ padding: 32, flex: 1, overflowWrap: 'break-word', wordBreak: 'break-word' }}>
+			<div className="nhs-navigation-split-view__content-inner" style={{ padding: 32, flex: 1 }}>
 			  {renderContent(selectedItem)}
 			</div>
 		  </div>
@@ -498,7 +498,7 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 			  role="region"
 			  aria-label={a11y?.secondaryContentLabel || 'Secondary'}
 			>
-			  <div style={{ padding: 32, flex: 1, minWidth: 0, overflowWrap: 'break-word', wordBreak: 'break-word' }}>
+			  <div style={{ padding: 32, flex: 1, minWidth: 0 }}>
 				{renderSecondaryContent?.(selectedItem)}
 			  </div>
 			</div>

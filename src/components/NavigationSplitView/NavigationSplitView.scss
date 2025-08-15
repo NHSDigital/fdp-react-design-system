@@ -1,5 +1,39 @@
 @use '../../../packages/nhs-fdp/scss' as nhs;
 
+// Shared rich content styling (code blocks & tables) used in content + secondary panes
+@mixin nsv-scrollable-rich-content {
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+    padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4;
+    background: nhs.$nhs-fdp-color-grey-5;
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+    font-family: monospace;
+    font-size: 0.875em;
+    line-height: 1.4;
+    white-space: pre; // preserve formatting
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+  pre code { white-space: inherit; font: inherit; background: none; padding: 0; }
+  code:not(pre code) {
+    background: nhs.$nhs-fdp-color-grey-5;
+    padding: 2px 4px;
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+    font-family: monospace;
+    font-size: 0.875em;
+  }
+  table {
+    display: block; // enables horizontal scroll wrapper
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: 0.95em;
+  }
+  table thead th { text-align: left; font-weight: nhs.$nhs-fdp-font-weight-bold; }
+  table th, table td { padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3; border: 1px solid var(--nsplit-divider); }
+}
+
 // NavigationSplitView styles
 // Mobile-first: stacked list that slides to detail view
 
@@ -68,7 +102,22 @@
     background: var(--nsplit-background);
     display: flex;
     flex-direction: column;
+  // Allow flex children/content to shrink/wrap instead of forcing horizontal overflow
+  min-width: 0;
   }
+
+  // Content pane inner transition (fade/slide) + wrapping & rich content rules
+  &__content-inner {
+    position: relative;
+    animation: nsv-fade-in 180ms ease;
+    min-width: 0;
+    overflow-wrap: anywhere; // modern long token handling
+    word-break: break-word; // legacy fallback
+    @include nsv-scrollable-rich-content;
+  }
+
+  // Apply same rich content styles to secondary pane immediate inner wrapper div
+  &__secondary-pane > div { @include nsv-scrollable-rich-content; }
 
   &__nav-pane {
     border-right: 1px solid var(--nsplit-divider);
@@ -150,7 +199,7 @@
     &[data-selected='true'] {
       border-color: nhs.$nhs-fdp-color-primary-blue;
       box-shadow: 0 0 0 2px nhs.$nhs-fdp-color-primary-blue;
-  animation: nsv-card-pop 160ms ease-out;
+      animation: nsv-card-pop 160ms ease-out;
     }
 
     &[data-disabled='true'] {
@@ -297,12 +346,6 @@
       }
     }
   }
-}
-
-// Content pane inner transition (fade/slide)
-.nhs-navigation-split-view__content-inner {
-  position: relative;
-  animation: nsv-fade-in 180ms ease;
 }
 
 @media (prefers-reduced-motion: reduce) {

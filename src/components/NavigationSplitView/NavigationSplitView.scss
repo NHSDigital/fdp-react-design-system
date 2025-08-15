@@ -117,7 +117,20 @@
   }
 
   // Apply same rich content styles to secondary pane immediate inner wrapper div
-  &__secondary-pane > div { @include nsv-scrollable-rich-content; }
+  &__secondary-pane > div {
+    // Ensure generic text/content wraps (was missing before)
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    min-width: 0;
+    // Defensive: prevent horizontal bleed early (before nested rules to satisfy Sass mixed-decls warning)
+    overflow-x: hidden;
+    @include nsv-scrollable-rich-content;
+	// Constrain any direct child blocks so they cannot assume full viewport width when nested in a narrower pane
+	> * { max-width: 100%; box-sizing: border-box; }
+	// Media elements scale down to fit pane
+	img, video, canvas, svg { max-width: 100%; height: auto; }
+  // (moved overflow-x above nested rules for Sass deprecation compliance)
+  }
 
   &__nav-pane {
     border-right: 1px solid var(--nsplit-divider);

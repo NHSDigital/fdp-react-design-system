@@ -196,6 +196,12 @@ span .nhsuk-u-visually-hidden {
   padding: 8px 16px;
   border: 1px solid var(--nsplit-divider);
 }
+.nhs-navigation-split-view__secondary-pane > div {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
+  overflow-x: hidden;
+}
 .nhs-navigation-split-view__secondary-pane > div pre {
   max-width: 100%;
   overflow-x: auto;
@@ -236,6 +242,14 @@ span .nhsuk-u-visually-hidden {
 .nhs-navigation-split-view__secondary-pane > div table th, .nhs-navigation-split-view__secondary-pane > div table td {
   padding: 8px 16px;
   border: 1px solid var(--nsplit-divider);
+}
+.nhs-navigation-split-view__secondary-pane > div > * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.nhs-navigation-split-view__secondary-pane > div img, .nhs-navigation-split-view__secondary-pane > div video, .nhs-navigation-split-view__secondary-pane > div canvas, .nhs-navigation-split-view__secondary-pane > div svg {
+  max-width: 100%;
+  height: auto;
 }
 .nhs-navigation-split-view__nav-pane {
   border-right: 1px solid var(--nsplit-divider);

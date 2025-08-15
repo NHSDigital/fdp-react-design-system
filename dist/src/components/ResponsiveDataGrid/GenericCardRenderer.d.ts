@@ -1,9 +1,10 @@
 import { type CardProps } from '../Card';
 import { GenericCardConfig } from './ResponsiveDataGridGeneric.types';
+import { AriaDataGridColumn } from '../SortableDataTable/AriaDataGridTypes';
 /**
  * Generic card creation function that works with any data type and configuration
  */
-export declare function createGenericCard<T = any>(data: T, columns: any[], config: GenericCardConfig<T>): CardProps;
+export declare function createGenericCard<T = any>(data: T, columns: AriaDataGridColumn[], config: GenericCardConfig<T>): CardProps;
 /**
  * Default generic configuration for common use cases
  */

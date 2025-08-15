@@ -2,6 +2,7 @@ export { ResponsiveDataGrid } from './ResponsiveDataGrid';
 export { ResponsiveDataGridDemo } from './ResponsiveDataGridDemo';
 export { PatientCard, AppointmentCard, MedicationCard, VitalsCard } from './HealthcareCardTemplates';
 export type { ResponsiveDataGridProps, ResponsiveTabPanelConfig, LayoutMode, ViewportConfig } from './ResponsiveDataGridTypes';
+export type { ColumnDefinition, AriaDataGridColumn, SortConfig } from '../SortableDataTable/AriaDataGridTypes';
 export type { GenericResponsiveDataGridProps, GenericResponsiveTabPanelConfig, GenericCardConfig, DomainPlugin, BadgeConfig, PriorityLevel, StatusType } from './ResponsiveDataGridGeneric.types';
 export { healthcarePlugin, type HealthcareData } from './HealthcarePlugin';
 export { createGenericCard, defaultGenericCardConfig } from './GenericCardRenderer';

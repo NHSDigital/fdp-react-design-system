@@ -179,11 +179,11 @@ export function AriaTabsDataGridEnhancedDemo() {
                 Selected Patient: {selectedPatient.name}
               </h4>
               <p style={{ margin: '0', fontSize: '14px' }}>
-                <strong>Age:</strong> {selectedPatient.age} | 
-                <strong> Ward:</strong> {selectedPatient.ward_name} | 
-                <strong> Bed:</strong> {selectedPatient.bed_name} | 
-                <strong> EWS Score:</strong> {selectedPatient.ews_score} |
-                <strong> Specialty:</strong> {selectedPatient.speciality}
+                <strong>Age: </strong> {selectedPatient.age} | 
+                <strong> Ward: </strong> {selectedPatient.ward_name} | 
+                <strong> Bed: </strong> {selectedPatient.bed_name} | 
+                <strong> EWS Score: </strong> {selectedPatient.ews_score} |
+                <strong> Specialty: </strong> {selectedPatient.speciality}
               </p>
               <p style={{ margin: '4px 0 0 0', fontSize: '12px', fontStyle: 'italic' }}>
                 ✨ Using healthcare-specific data operations with custom patient comparison

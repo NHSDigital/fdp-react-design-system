@@ -421,7 +421,8 @@ export const AriaDataGrid = React.forwardRef<HTMLTableElement, AriaDataGridProps
               aria-selected={isSelected}
             >
               {columns.map((column, colIndex) => {
-                const value = column.render ? column.render(row) : row[column.key];
+                const value = column.tableRenderer ? column.tableRenderer(row) : 
+                             column.render ? column.render(row) : row[column.key];
                 const isCellFocused = focusArea === 'cells' && 
                                     focusedRowIndex === rowIndex && 
                                     focusedColumnIndex === colIndex;

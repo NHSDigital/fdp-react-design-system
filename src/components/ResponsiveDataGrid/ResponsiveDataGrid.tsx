@@ -58,8 +58,13 @@ import { SortConfig } from '../SortableDataTable/AriaDataGridTypes';
 import { createGenericCard, defaultGenericCardConfig } from './GenericCardRenderer';
 import { healthcarePlugin } from './HealthcarePlugin';
 import { convertLegacyCardConfig, isHealthcareData } from './ResponsiveDataGridHelpers';
+
+// Advanced sorting component - only imported when enableAdvancedSorting is true
+import { SortStatusControl } from '../SortableDataTable/SortStatusControl/SortStatusControl';
 import './ResponsiveDataGrid.scss';
 import './HealthcareCardTemplates.scss';
+import '../Select/Select.scss';
+import '../Button/Button.scss';
 
 /**
  * Navigation focus areas for hierarchical keyboard navigation in card view
@@ -286,6 +291,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
   forceLayout,
   cardConfig = {},
   experimental = {},
+  enableAdvancedSorting = false,
   
   // Standard AriaTabsDataGrid props
   tabPanels,
@@ -612,8 +618,8 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		);
 	  } else if (column.key === 'age' || column.key.includes('date') || column.key.includes('time')) {
 		options.push(
-		  { value: `${column.key}-desc`, label: `${baseLabel} (Newest-Oldest)` },
-		  { value: `${column.key}-asc`, label: `${baseLabel} (Oldest-Newest)` }
+		  { value: `${column.key}-desc`, label: `${baseLabel} (Oldest-Youngest)` },
+		  { value: `${column.key}-asc`, label: `${baseLabel} (Youngest-Oldest)` }
 		);
 	  } else {
 		options.push(
@@ -681,6 +687,59 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 	const directionLabel = sortConfig.direction === 'asc' ? 'ascending' : 'descending';
 	return `${columnLabel} (${directionLabel})`;
   }, [tabPanels, state.selectedIndex]);
+
+  // Combined sorting function for card data
+  const sortCardDataCombined = useCallback((data: any[]) => {
+    const currentPanel = tabPanels[state.selectedIndex];
+    
+    if (enableAdvancedSorting) {
+      // Use advanced sorting (multi-column from state.sortConfig)
+      const sortConfig = state.sortConfig;
+      if (!sortConfig || sortConfig.length === 0) return data;
+      
+      return [...data].sort((a: any, b: any) => {
+        // Apply each sort configuration in order
+        for (const { key, direction } of sortConfig) {
+          let aValue = a[key];
+          let bValue = b[key];
+
+          // Handle rendered values using enhanced renderers
+          const column = currentPanel?.columns.find((col: any) => col.key === key);
+          if (column?.cardRenderer) {
+            aValue = column.cardRenderer(a);
+            bValue = column.cardRenderer(b);
+          } else if (column?.render) {
+            aValue = column.render(a);
+            bValue = column.render(b);
+          }
+
+          // Handle null/undefined values
+          if (aValue == null && bValue == null) continue;
+          if (aValue == null) return direction === 'asc' ? -1 : 1;
+          if (bValue == null) return direction === 'asc' ? 1 : -1;
+
+          // Numeric comparison for numbers and strings that look like numbers
+          const aNum = Number(aValue);
+          const bNum = Number(bValue);
+          if (!isNaN(aNum) && !isNaN(bNum)) {
+            const result = aNum - bNum;
+            if (result !== 0) return direction === 'asc' ? result : -result;
+            continue;
+          }
+
+          // String comparison
+          const aStr = String(aValue).toLowerCase();
+          const bStr = String(bValue).toLowerCase();
+          const result = aStr.localeCompare(bStr);
+          if (result !== 0) return direction === 'asc' ? result : -result;
+        }
+        return 0;
+      });
+    } else {
+      // Use simple sorting (single column from cardNavState.cardSortConfig)
+      return sortCardData(data, cardNavState.cardSortConfig);
+    }
+  }, [enableAdvancedSorting, state.sortConfig, cardNavState.cardSortConfig, sortCardData, tabPanels, state.selectedIndex]);
 
   // Focus specific element within a card (following GanttChart pattern)
   const focusCardElement = useCallback((cardIndex: number, elementIndex: number) => {
@@ -1232,54 +1291,70 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		  })}
 		</div>
 
-		{/* Card sort controls */}
+		{/* Conditional Sort Controls: Advanced vs Simple */}
 		{currentPanel && currentPanel.columns && (
-		  <div 
-			className="aria-tabs-datagrid-adaptive__sort-controls"
-			role="region"
-			aria-label="Sort controls"
-			tabIndex={cardNavState.focusArea === 'sort-controls' ? 0 : -1}
-			ref={el => { sortControlRefs.current[0] = el; }}
-			onKeyDown={(event) => handleSortControlKeyDown(event, 0)}
-		  >
-			<div className="sort-controls-row">
-			  <div className="sort-select-container">
-				<label htmlFor={`card-sort-${currentPanel.id}`} className="sort-label">
-				  Sort cards by
-				</label>
-				<Select
-				  id={`card-sort-${currentPanel.id}`}
-				  name={`card-sort-${currentPanel.id}`}
-				  value={cardNavState.cardSortConfig ? `${cardNavState.cardSortConfig.key}-${cardNavState.cardSortConfig.direction}` : ''}
-				  onChange={(e) => handleCardSort(e.target.value)}
-				  className="sort-select"
-				>
-				  {generateSortOptions(currentPanel.columns).map(option => (
-					<option key={option.value} value={option.value}>
-					  {option.label}
-					</option>
-				  ))}
-				</Select>
-			  </div>
-			  
-			  {cardNavState.cardSortConfig && (
-				<div className="sort-indicator" role="status" aria-live="polite">
-				  <span className="sort-indicator-text">
-					Sorted by {getSortLabel(cardNavState.cardSortConfig)}
-				  </span>
-				  <Button
-					variant="secondary"
-					size="small"
-					onClick={() => handleCardSort('')}
-					aria-label="Clear card sorting"
-					className="sort-clear-button"
-				  >
-					Clear
-				  </Button>
+		  <>
+			{enableAdvancedSorting ? (
+			  /* Advanced sorting with SortStatusControl */
+			  <SortStatusControl
+				sortConfig={state.sortConfig || []}
+				columns={currentPanel.columns.map(col => ({ key: col.key, label: col.label }))}
+				onSortChange={(newSortConfig) => {
+				  dispatch({ type: 'SET_SORT', payload: newSortConfig });
+				}}
+				ariaLabel="Card view sort configuration"
+				className="aria-tabs-datagrid-adaptive__advanced-sort-controls"
+			  />
+			) : (
+			  /* Simple card sorting */
+			  <div 
+				className="aria-tabs-datagrid-adaptive__sort-controls"
+				role="region"
+				aria-label="Sort controls"
+				tabIndex={cardNavState.focusArea === 'sort-controls' ? 0 : -1}
+				ref={el => { sortControlRefs.current[0] = el; }}
+				onKeyDown={(event) => handleSortControlKeyDown(event, 0)}
+			  >
+				<div className="sort-controls-row">
+				  <div className="sort-select-container">
+					<label htmlFor={`card-sort-${currentPanel.id}`} className="sort-label">
+					  Sort cards by
+					</label>
+					<Select
+					  id={`card-sort-${currentPanel.id}`}
+					  name={`card-sort-${currentPanel.id}`}
+					  value={cardNavState.cardSortConfig ? `${cardNavState.cardSortConfig.key}-${cardNavState.cardSortConfig.direction}` : ''}
+					  onChange={(e) => handleCardSort(e.target.value)}
+					  className="sort-select"
+					>
+					  {generateSortOptions(currentPanel.columns).map(option => (
+						<option key={option.value} value={option.value}>
+						  {option.label}
+						</option>
+					  ))}
+					</Select>
+				  </div>
+				  
+				  {cardNavState.cardSortConfig && (
+					<div className="sort-indicator" role="status" aria-live="polite">
+					  <span className="sort-indicator-text">
+						Sorted by {getSortLabel(cardNavState.cardSortConfig)}
+					  </span>
+					  <Button
+						variant="secondary"
+						size="small"
+						onClick={() => handleCardSort('')}
+						aria-label="Clear card sorting"
+						className="sort-clear-button"
+					  >
+						Clear
+					  </Button>
+					</div>
+				  )}
 				</div>
-			  )}
-			</div>
-		  </div>
+			  </div>
+			)}
+		  </>
 		)}
 
 		{/* Card-based data presentation with ARIA grid navigation */}
@@ -1293,7 +1368,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		  id={`panel-${currentPanel?.id}`}
 		  aria-labelledby={`tab-${currentPanel?.id}`}
 		>
-		  { sortCardData(currentPanel?.data || [], cardNavState.cardSortConfig).map((row, index) => {
+		  { sortCardDataCombined(currentPanel?.data || []).map((row, index) => {
 			const isSelected = cardNavState.selectedCardIndex === index;
 			const isFocused = cardNavState.focusedCardIndex === index && cardNavState.focusArea === 'cards';
 			const isInCardNavigation = cardNavState.focusedCardIndex === index && cardNavState.focusArea === 'card' && cardNavState.isCardNavigationActive;

@@ -8,6 +8,10 @@ export interface AriaDataGridColumn {
   width?: string | number;
   align?: 'left' | 'center' | 'right';
   render?: (data: any) => any;
+  /** Enhanced renderer for table view (overrides render if provided) */
+  tableRenderer?: (data: any) => any;
+  /** Enhanced renderer for card view (overrides render if provided) */
+  cardRenderer?: (data: any) => any;
 }
 
 export interface SortConfig {
@@ -56,6 +60,10 @@ export interface ColumnDefinition {
   width?: string | number;
   align?: 'left' | 'center' | 'right';
   render?: (data: any) => any;
+  /** Enhanced renderer for table view (overrides render if provided) */
+  tableRenderer?: (data: any) => any;
+  /** Enhanced renderer for card view (overrides render if provided) */
+  cardRenderer?: (data: any) => any;
 }
 
 export interface AriaGridCellProps {

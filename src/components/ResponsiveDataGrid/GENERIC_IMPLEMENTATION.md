@@ -24,6 +24,123 @@ interface DomainPlugin<T = any> {
 }
 ```
 
+## 🎨 Stylesheet Imports
+
+### Required Stylesheets
+
+The ResponsiveDataGrid component requires specific stylesheet imports in the correct order for proper styling and functionality.
+
+#### Basic Usage (All Scenarios)
+
+```tsx
+// Core ResponsiveDataGrid styles (always required)
+import '@fergusbisset/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
+
+// Component imports
+import { ResponsiveDataGrid } from '@fergusbisset/nhs-fdp-design-system';
+```
+
+#### Healthcare-Specific Usage
+
+```tsx
+// 1. Core ResponsiveDataGrid styles (required first)
+import '@fergusbisset/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
+
+// 2. Healthcare card templates (for healthcare data)
+import '@fergusbisset/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/HealthcareCardTemplates.css';
+
+// Component imports
+import { ResponsiveDataGrid } from '@fergusbisset/nhs-fdp-design-system';
+```
+
+#### Advanced Usage with AriaTabsDataGrid
+
+```tsx
+// 1. Core table styles (foundation)
+import '@fergusbisset/nhs-fdp-design-system/dist/components/SortableDataTable/AriaTabsDataGrid.css';
+
+// 2. ResponsiveDataGrid styles (builds on table styles)
+import '@fergusbisset/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
+
+// 3. Healthcare templates (if using healthcare data)
+import '@fergusbisset/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/HealthcareCardTemplates.css';
+
+// Component imports
+import { ResponsiveDataGrid } from '@fergusbisset/nhs-fdp-design-system';
+```
+
+### Import Order Guidelines
+
+**Critical:** Stylesheets must be imported in the following order to ensure proper cascade:
+
+1. **Foundation styles** (`AriaTabsDataGrid.css`) - Base table styling
+2. **Core component styles** (`ResponsiveDataGrid.css`) - Responsive grid layout
+3. **Domain-specific styles** (`HealthcareCardTemplates.css`) - Healthcare templates
+4. **Custom overrides** (your custom CSS) - Application-specific styling
+
+### Development vs Production
+
+#### Development (Source Files)
+
+```tsx
+// When working with source files during development
+import './ResponsiveDataGrid.scss';
+import './HealthcareCardTemplates.scss';
+```
+
+#### Production (Built CSS)
+
+```tsx
+// When using the published package
+import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+```
+
+### Bundle Size Optimisation
+
+#### Selective Imports
+
+```tsx
+// Minimal bundle - only core functionality
+import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+
+// Healthcare bundle - includes domain-specific styles
+import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+
+// Full bundle - includes all table functionality
+import '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable/css';
+import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+```
+
+### CSS Variables and Customisation
+
+The stylesheets expose CSS custom properties for theming:
+
+```css
+/* Override default spacing */
+:root {
+  --responsive-grid-card-gap: 1.5rem;
+  --responsive-grid-table-padding: 1rem;
+  --healthcare-card-border-radius: 8px;
+}
+```
+
+### Troubleshooting Style Issues
+
+**Issue:** Cards not displaying correctly
+**Solution:** Ensure `ResponsiveDataGrid.css` is imported
+
+**Issue:** Healthcare cards missing NHS styling  
+**Solution:** Import `HealthcareCardTemplates.css` after core styles
+
+**Issue:** Table view styling broken
+**Solution:** Import `AriaTabsDataGrid.css` first, then other stylesheets
+
+**Issue:** Styles not applying in production
+**Solution:** Check import paths match your build output structure
+
 ## Usage Examples
 
 ### 📊 **Generic Usage (Any Domain)**
@@ -137,6 +254,7 @@ const EcommerceExample = () => (
 ### 🔄 **From Healthcare-Specific to Generic**
 
 **Before (Healthcare-specific):**
+
 ```tsx
 <ResponsiveDataGrid
   cardConfig={{
@@ -203,7 +321,7 @@ const EcommerceExample = () => (
 ### 📊 **Performance**
 - Only loads domain-specific code when needed
 - Lazy plugin loading possible
-- Optimized for tree-shaking
+- Optimised for tree-shaking
 
 ## Advanced Configuration
 
@@ -245,3 +363,278 @@ const fieldRenderers = {
 ```
 
 This refactoring makes the ResponsiveDataGrid truly generic while preserving all healthcare functionality through the plugin system. The component can now be used for any domain with appropriate configuration.
+
+## Enhanced Column Renderers
+
+### 🎯 **Overview**
+
+The ResponsiveDataGrid now supports enhanced column definitions with separate renderers for table and card views, providing optimal display formatting for each context.
+
+### 📋 **Enhanced Column Definition Interface**
+
+```typescript
+interface ColumnDefinition {
+  key: string;
+  label: string;
+  sortable?: boolean;
+  width?: string | number;
+  align?: 'left' | 'center' | 'right';
+  render?: (data: any) => any;              // Original renderer (fallback)
+  tableRenderer?: (data: any) => any;       // Table-specific renderer
+  cardRenderer?: (data: any) => any;        // Card-specific renderer
+}
+```
+
+### 🔄 **Renderer Priority System**
+
+The rendering system uses a clear priority order:
+
+**Table View:**
+
+1. `tableRenderer` (if provided)
+2. `render` (fallback)
+3. Raw field value
+
+**Card View:**
+
+1. `fieldRenderers` in `GenericCardConfig` (if provided)
+2. `cardRenderer` (if provided)
+3. `render` (fallback)
+4. Raw field value
+
+### 💻 **Implementation Examples**
+
+#### Basic Example: Currency Formatting
+
+```tsx
+const columns: ColumnDefinition[] = [
+  {
+    key: 'amount',
+    label: 'Amount',
+    sortable: true,
+    align: 'right',
+    // Table view: Full currency formatting
+    tableRenderer: (data) => {
+      return new Intl.NumberFormat('en-GB', {
+        style: 'currency',
+        currency: 'GBP'
+      }).format(data.amount);
+    },
+    // Card view: Abbreviated for space efficiency
+    cardRenderer: (data) => {
+      const amount = data.amount;
+      if (amount >= 1000000) {
+        return `£${(amount / 1000000).toFixed(1)}M`;
+      } else if (amount >= 1000) {
+        return `£${(amount / 1000).toFixed(1)}K`;
+      }
+      return `£${amount}`;
+    }
+  }
+];
+```
+
+#### Healthcare Example: Patient Information
+
+```tsx
+const healthcareColumns: ColumnDefinition[] = [
+  {
+    key: 'patient_name',
+    label: 'Patient Name',
+    sortable: true,
+    // Table view: Full name with NHS number
+    tableRenderer: (data) => {
+      const name = data.patient_name || 'Unknown';
+      const formattedName = name.split(' ')
+        .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+        .join(' ');
+      return `${formattedName} (NHS: ${data.nhs_number})`;
+    },
+    // Card view: Abbreviated name for mobile
+    cardRenderer: (data) => {
+      const name = data.patient_name || 'Unknown';
+      const parts = name.split(' ');
+      if (parts.length > 1) {
+        return `${parts[0].charAt(0)}${parts[0].slice(1).toLowerCase()} ${parts[parts.length - 1].charAt(0)}.`;
+      }
+      return parts[0].charAt(0) + parts[0].slice(1).toLowerCase();
+    }
+  },
+  {
+    key: 'ews_score',
+    label: 'EWS Score',
+    sortable: true,
+    align: 'center',
+    // Table view: Detailed risk assessment
+    tableRenderer: (data) => {
+      const score = Number(data.ews_score);
+      const level = score >= 7 ? 'HIGH RISK' : score >= 3 ? 'MEDIUM RISK' : 'LOW RISK';
+      const colorClass = score >= 7 ? 'text-danger' : score >= 3 ? 'text-warning' : 'text-success';
+      return `<span class="${colorClass}"><strong>${score}</strong> (${level})</span>`;
+    },
+    // Card view: Visual indicator for quick scanning
+    cardRenderer: (data) => {
+      const score = Number(data.ews_score);
+      const indicator = score >= 7 ? '🔴' : score >= 3 ? '🟡' : '🟢';
+      return `${indicator} ${score}`;
+    }
+  },
+  {
+    key: 'appointment_time',
+    label: 'Appointment',
+    sortable: true,
+    // Table view: Full date and time with day
+    tableRenderer: (data) => {
+      const date = new Date(data.appointment_time);
+      return date.toLocaleString('en-GB', {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    },
+    // Card view: Relative time for quick understanding
+    cardRenderer: (data) => {
+      const date = new Date(data.appointment_time);
+      const now = new Date();
+      const diffHours = Math.round((date.getTime() - now.getTime()) / (1000 * 60 * 60));
+      
+      if (Math.abs(diffHours) < 24) {
+        return diffHours > 0 ? `In ${diffHours}h` : `${Math.abs(diffHours)}h ago`;
+      }
+      return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    }
+  }
+];
+```
+
+#### E-commerce Example: Product Data
+
+```tsx
+const ecommerceColumns: ColumnDefinition[] = [
+  {
+    key: 'product_name',
+    label: 'Product',
+    sortable: true,
+    // Table view: Full product name with SKU
+    tableRenderer: (data) => `${data.product_name} (SKU: ${data.sku})`,
+    // Card view: Shortened name only
+    cardRenderer: (data) => {
+      const name = data.product_name;
+      return name.length > 25 ? `${name.substring(0, 22)}...` : name;
+    }
+  },
+  {
+    key: 'stock_level',
+    label: 'Stock',
+    sortable: true,
+    align: 'center',
+    // Table view: Detailed stock information
+    tableRenderer: (data) => {
+      const stock = data.stock_level;
+      const status = stock === 0 ? 'Out of Stock' : 
+                    stock < 10 ? 'Low Stock' : 'In Stock';
+      const colorClass = stock === 0 ? 'text-danger' : 
+                        stock < 10 ? 'text-warning' : 'text-success';
+      return `<span class="${colorClass}">${stock} units (${status})</span>`;
+    },
+    // Card view: Simple status indicator
+    cardRenderer: (data) => {
+      const stock = data.stock_level;
+      if (stock === 0) return '❌ Out';
+      if (stock < 10) return `⚠️ ${stock}`;
+      return `✅ ${stock}`;
+    }
+  }
+];
+```
+
+### 🔧 **Usage in ResponsiveDataGrid**
+
+```tsx
+import { ResponsiveDataGrid } from '@/components/ResponsiveDataGrid';
+
+const ExampleWithEnhancedRenderers = () => (
+  <ResponsiveDataGrid
+    ariaLabel="Enhanced renderers example"
+    tabPanels={[
+      {
+        id: 'data',
+        label: 'Data',
+        ariaLabel: 'Data table with enhanced renderers',
+        data: sampleData,
+        columns: enhancedColumns // Using columns with tableRenderer/cardRenderer
+      }
+    ]}
+    breakpoints={{
+      mobile: 768,
+      tablet: 1024,
+      desktop: 1200
+    }}
+    cardConfig={{
+      primaryField: 'name',
+      secondaryFields: ['category', 'status', 'date'],
+      // fieldRenderers can still be used for additional customisation
+      fieldRenderers: {
+        category: (value, data) => `📂 ${value}`,
+        status: (value, data) => value.toUpperCase()
+      }
+    }}
+  />
+);
+```
+
+### 🎨 **Best Practices**
+
+#### For Table Renderers
+
+- **Detailed Information**: Tables have more space, show comprehensive data
+- **Consistent Formatting**: Use standard date/currency formatters
+- **Accessibility**: Include proper ARIA labels and semantic HTML
+- **Sortable Data**: Ensure rendered values work well with sorting
+
+#### For Card Renderers  
+
+- **Concise Display**: Cards have limited space, prioritise essential information
+- **Quick Scanning**: Use icons, abbreviations, and visual cues
+- **Mobile-Friendly**: Consider touch targets and readability on small screens
+- **Progressive Disclosure**: Show summary in card, details available in table
+
+#### Performance Considerations
+
+- **Memoization**: Consider memoizing expensive calculations
+- **Conditional Rendering**: Only compute complex renderers when needed
+- **Data Preparation**: Pre-process data when possible instead of in render logic
+
+### 🔄 **Migration from Single Renderer**
+
+**Before (Single Renderer):**
+
+```tsx
+{
+  key: 'amount',
+  label: 'Amount',
+  render: (data) => `£${data.amount}`
+}
+```
+
+**After (Enhanced Renderers):**
+
+```tsx
+{
+  key: 'amount',
+  label: 'Amount',
+  tableRenderer: (data) => new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: 'GBP'
+  }).format(data.amount),
+  cardRenderer: (data) => `£${(data.amount / 1000).toFixed(1)}K`,
+  render: (data) => `£${data.amount}` // Fallback for backward compatibility
+}
+```
+
+### ✅ **Backward Compatibility**
+
+All existing code continues to work unchanged. The `render` function serves as a fallback when specific renderers are not provided, ensuring seamless migration.

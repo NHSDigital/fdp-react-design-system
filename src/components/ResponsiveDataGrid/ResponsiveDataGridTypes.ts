@@ -27,30 +27,44 @@ export interface ResponsiveTabPanelConfig<T = any> extends TabPanelConfig<T> {
  * Enhanced props for responsive component
  */
 export interface ResponsiveDataGridProps<T = any> extends AriaTabsDataGridProps<T> {
-  /** Tab panels with responsive features */
-  tabPanels: ResponsiveTabPanelConfig<T>[];
-  /** Viewport breakpoints for layout switching */
+  /** 
+   * Enable advanced sorting with SortStatusControl component.
+   * When true, provides multi-column sorting, drag reordering, and sort management.
+   * When false (default), uses simple dropdown sorting for card view only.
+   * 
+   * Note: Advanced sorting requires additional CSS dependencies. 
+   */
+  enableAdvancedSorting?: boolean;
+  
+  /** Viewport breakpoints for responsive behavior */
   breakpoints?: ViewportConfig;
-  /** Force a specific layout mode (overrides responsive behavior) */
+  
+  /** Force a specific layout mode */
   forceLayout?: LayoutMode;
-  /** Card layout configuration */
+  
+  /** Card configuration for card view */
   cardConfig?: {
-    /** Primary field to highlight in card header */
     primaryField?: string;
-    /** Secondary fields to show in card body */
     secondaryFields?: string[];
-    /** Fields to show as badges/tags */
     badgeFields?: string[];
-    /** Fields to hide in card view */
     hiddenFields?: string[];
-    /** Custom card template function */
     cardTemplate?: (data: T, columns: any[]) => React.ReactNode;
   };
-  /** Enable experimental features */
+  
+  /** Experimental features */
   experimental?: {
-    /** Hybrid view showing cards on mobile, table on desktop */
     hybridMode?: boolean;
-    /** Animated transitions between layouts */
+    animatedTransitions?: boolean;
+    virtualScrolling?: boolean;
+  };
+  
+  /** Enhanced options for responsive behavior */
+  responsiveOptions?: {
+    /** Enable card layout on mobile devices */
+    enableCardLayout?: boolean;
+    /** Breakpoint for switching to card layout (default: 768px) */
+    cardBreakpoint?: number;
+    /** Enable smooth layout transitions */
     animatedTransitions?: boolean;
     /** Virtual scrolling for large datasets */
     virtualScrolling?: boolean;

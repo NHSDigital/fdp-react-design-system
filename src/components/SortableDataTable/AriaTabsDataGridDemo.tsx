@@ -74,11 +74,11 @@ export function AriaTabsDataGridDemo() {
                 Selected Patient: {selectedPatient.name}
               </h4>
               <p>
-                <strong>Age:</strong> {selectedPatient.age} | 
-                <strong> Ward:</strong> {selectedPatient.ward_name} | 
-                <strong> Bed:</strong> {selectedPatient.bed_name} | 
-                <strong> EWS Score:</strong> {selectedPatient.ews_score} |
-                <strong> Specialty:</strong> {selectedPatient.speciality}
+                <strong>Age: </strong> {selectedPatient.age} | 
+                <strong> Ward: </strong> {selectedPatient.ward_name} | 
+                <strong> Bed: </strong> {selectedPatient.bed_name} | 
+                <strong> EWS Score: </strong> {selectedPatient.ews_score} |
+                <strong> Specialty: </strong> {selectedPatient.speciality}
               </p>
               <p>
                 This selection persists when switching between tabs

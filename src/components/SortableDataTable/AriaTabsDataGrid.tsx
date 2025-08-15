@@ -620,7 +620,10 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 
 				  // Handle rendered values
 				  const column = currentPanel.columns.find(col => col.key === key);
-				  if (column?.render) {
+				  if (column?.tableRenderer) {
+					aValue = column.tableRenderer(a);
+					bValue = column.tableRenderer(b);
+				  } else if (column?.render) {
 					aValue = column.render(a);
 					bValue = column.render(b);
 				  }
@@ -836,7 +839,10 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 
 						// Handle rendered values
 						const column = panel.columns.find(col => col.key === key);
-						if (column?.render) {
+						if (column?.tableRenderer) {
+						  aValue = column.tableRenderer(a);
+						  bValue = column.tableRenderer(b);
+						} else if (column?.render) {
 						  aValue = column.render(a);
 						  bValue = column.render(b);
 						}
@@ -941,7 +947,8 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 							  aria-selected={isRowSelected}
 							>
 							  {panel.columns.map((column, colIndex) => {
-								const value = column.render ? column.render(row) : row[column.key];
+								const value = column.tableRenderer ? column.tableRenderer(row) : 
+											 column.render ? column.render(row) : row[column.key];
 								const isCellFocused = navigationState.focusArea === 'cells' && 
 													navigationState.focusedRowIndex === rowIndex && 
 													navigationState.focusedColumnIndex === colIndex;

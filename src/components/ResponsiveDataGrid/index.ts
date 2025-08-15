@@ -13,6 +13,13 @@ export type {
   ViewportConfig 
 } from './ResponsiveDataGridTypes';
 
+// Enhanced column types (with table/card renderers)
+export type {
+  ColumnDefinition,
+  AriaDataGridColumn,
+  SortConfig
+} from '../SortableDataTable/AriaDataGridTypes';
+
 // Generic types and interfaces
 export type {
   GenericResponsiveDataGridProps,

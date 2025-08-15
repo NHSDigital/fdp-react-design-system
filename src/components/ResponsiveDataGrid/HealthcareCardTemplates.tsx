@@ -52,7 +52,7 @@ export const PatientCard: React.FC<HealthcareCardProps> = ({
         <div className="healthcare-card__identity">
           <h3 className="healthcare-card__patient-name">{name}</h3>
           <p className="healthcare-card__age-info">
-            <span className="healthcare-card__label">Age:</span>
+            <span className="healthcare-card__label">Age: </span>
             <span className="healthcare-card__value">{age}</span>
           </p>
         </div>

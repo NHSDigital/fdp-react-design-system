@@ -1,12 +1,13 @@
 import { type CardProps } from '../Card';
 import { GenericCardConfig, BadgeConfig } from './ResponsiveDataGridGeneric.types';
+import { AriaDataGridColumn } from '../SortableDataTable/AriaDataGridTypes';
 
 /**
  * Generic card creation function that works with any data type and configuration
  */
 export function createGenericCard<T = any>(
   data: T, 
-  columns: any[], 
+  columns: AriaDataGridColumn[], 
   config: GenericCardConfig<T>
 ): CardProps {
   const {
@@ -22,7 +23,9 @@ export function createGenericCard<T = any>(
 
   // Determine primary content
   const primaryColumn = columns.find(col => col.key === primaryField);
-  const primaryValue = primaryColumn?.render ? 
+  const primaryValue = primaryColumn?.cardRenderer ? 
+    primaryColumn.cardRenderer(data) : 
+    primaryColumn?.render ? 
     primaryColumn.render(data) : 
     (data as any)[primaryField || 'name'] || 'Untitled';
 
@@ -39,7 +42,8 @@ export function createGenericCard<T = any>(
       // Use custom field renderer if available
       const value = fieldRenderers[fieldKey] ? 
         fieldRenderers[fieldKey](rawValue, data) :
-        (column?.render ? column.render(data) : rawValue);
+        (column?.cardRenderer ? column.cardRenderer(data) : 
+         column?.render ? column.render(data) : rawValue);
       
       const label = column?.label || fieldKey;
       return `${label}: ${value}`;

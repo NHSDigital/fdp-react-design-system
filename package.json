@@ -1,6 +1,10 @@
 {
   "name": "@fergusbisset/nhs-fdp-design-system",
+<<<<<<< HEAD
   "version": "0.0.30-alpha",
+=======
+  "version": "0.0.31-alpha",
+>>>>>>> 9feede4 (Reflow fixes)
   "description": "NHS FDP Frontend Development Platform Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",

@@ -468,14 +468,14 @@ span .nhsuk-u-visually-hidden {
   }
 }
 @media (min-width: 1200px) {
-  .nhs-navigation-split-view--three-column__nav-pane {
+  .nhs-navigation-split-view--three-column .nhs-navigation-split-view__nav-pane {
     flex: 0 0 300px;
   }
-  .nhs-navigation-split-view--three-column__content-pane {
+  .nhs-navigation-split-view--three-column .nhs-navigation-split-view__content-pane {
     flex: 1 1 auto;
     border-right: 1px solid var(--nsplit-divider);
   }
-  .nhs-navigation-split-view--three-column__secondary-pane {
+  .nhs-navigation-split-view--three-column .nhs-navigation-split-view__secondary-pane {
     flex: 0 0 360px;
     display: flex;
     flex-direction: column;

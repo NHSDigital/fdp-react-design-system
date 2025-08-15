@@ -1,4 +1,3 @@
-import React from 'react';
 import { DomainPlugin, GenericCardConfig, BadgeConfig, PriorityLevel, StatusType } from './ResponsiveDataGridGeneric.types';
 import { PatientCard, AppointmentCard, MedicationCard, VitalsCard } from './HealthcareCardTemplates';
 
@@ -114,49 +113,57 @@ const defaultHealthcareCardConfig: GenericCardConfig<HealthcareData> = {
 const healthcareCardTemplates = {
   patient: (data: HealthcareData, columns: any[], config: GenericCardConfig<HealthcareData>) => {
     const priority = config.getPriority?.(data) || 'medium';
-    const status = config.getStatus?.(data) || 'active';
-    // Map urgent status to pending for component compatibility
-    const componentStatus = status === 'urgent' ? 'pending' : status;
-    return React.createElement(PatientCard, {
-      data,
-      columns,
-      priority,
-      status: componentStatus as 'active' | 'pending' | 'completed' | 'cancelled',
-      onSelect: (selectedData: any) => console.log('Patient selected:', selectedData),
-      onAction: (action: string, actionData: any) => console.log('Patient action:', action, actionData)
-    });
+    const rawStatus = config.getStatus?.(data) || 'active';
+    // Map status to allowed values for HealthcareCardProps
+    const status = rawStatus === 'urgent' ? 'active' : rawStatus;
+    return (
+      <PatientCard
+        data={data}
+        columns={columns}
+        priority={priority}
+        status={status as 'active' | 'pending' | 'completed' | 'cancelled'}
+        onSelect={(selectedData: any) => console.log('Patient selected:', selectedData)}
+        onAction={(action: string, actionData: any) => console.log('Patient action:', action, actionData)}
+      />
+    );
   },
   appointment: (data: HealthcareData, columns: any[], config: GenericCardConfig<HealthcareData>) => {
-    const status = config.getStatus?.(data) || 'pending';
-    // Map urgent status to pending for component compatibility
-    const componentStatus = status === 'urgent' ? 'pending' : status;
-    return React.createElement(AppointmentCard, {
-      data,
-      columns,
-      status: componentStatus as 'active' | 'pending' | 'completed' | 'cancelled',
-      onSelect: (selectedData: any) => console.log('Appointment selected:', selectedData),
-      onAction: (action: string, actionData: any) => console.log('Appointment action:', action, actionData)
-    });
+    const rawStatus = config.getStatus?.(data) || 'pending';
+    // Map status to allowed values for HealthcareCardProps
+    const status = rawStatus === 'urgent' ? 'pending' : rawStatus;
+    return (
+      <AppointmentCard
+        data={data}
+        columns={columns}
+        status={status as 'active' | 'pending' | 'completed' | 'cancelled'}
+        onSelect={(selectedData: any) => console.log('Appointment selected:', selectedData)}
+        onAction={(action: string, actionData: any) => console.log('Appointment action:', action, actionData)}
+      />
+    );
   },
   medication: (data: HealthcareData, columns: any[], config: GenericCardConfig<HealthcareData>) => {
     const priority = config.getPriority?.(data) || 'medium';
-    return React.createElement(MedicationCard, {
-      data,
-      columns,
-      priority,
-      onSelect: (selectedData: any) => console.log('Medication selected:', selectedData),
-      onAction: (action: string, actionData: any) => console.log('Medication action:', action, actionData)
-    });
+    return (
+      <MedicationCard
+        data={data}
+        columns={columns}
+        priority={priority}
+        onSelect={(selectedData: any) => console.log('Medication selected:', selectedData)}
+        onAction={(action: string, actionData: any) => console.log('Medication action:', action, actionData)}
+      />
+    );
   },
   vitals: (data: HealthcareData, columns: any[], config: GenericCardConfig<HealthcareData>) => {
     const priority = config.getPriority?.(data) || 'medium';
-    return React.createElement(VitalsCard, {
-      data,
-      columns,
-      priority,
-      onSelect: (selectedData: any) => console.log('Vitals selected:', selectedData),
-      onAction: (action: string, actionData: any) => console.log('Vitals action:', action, actionData)
-    });
+    return (
+      <VitalsCard
+        data={data}
+        columns={columns}
+        priority={priority}
+        onSelect={(selectedData: any) => console.log('Vitals selected:', selectedData)}
+        onAction={(action: string, actionData: any) => console.log('Vitals action:', action, actionData)}
+      />
+    );
   }
 };
 

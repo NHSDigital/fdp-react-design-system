@@ -211,13 +211,13 @@
   // ==========================================================================
 
   // Tablet enhancements
-  @media (min-width: 768px) {
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     padding: nhs.$nhs-fdp-component-card-padding-desktop;
     margin-bottom: nhs.$nhs-fdp-spacing-4;
   }
 
-  // Desktop enhancements
-  @media (min-width: 1200px) {
+  // Desktop enhancements  
+  @media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
     padding: nhs.$nhs-fdp-component-card-padding-desktop;
   }
 
@@ -290,7 +290,7 @@
     }
 
     // Stack vertically on very small screens
-    @media (max-width: 360px) {
+    @media (max-width: nhs.$nhs-fdp-breakpoint-small) {
       grid-template-columns: 1fr;
       gap: nhs.$nhs-fdp-spacing-1;
     }
@@ -313,12 +313,35 @@
 
   &__actions {
     display: flex;
+    flex-direction: column;
     gap: nhs.$nhs-fdp-spacing-2;
-    justify-content: flex-end;
-    flex-wrap: wrap;
+    align-items: stretch;
     margin-top: nhs.$nhs-fdp-spacing-3;
     padding-top: nhs.$nhs-fdp-spacing-2;
     border-top: 1px solid nhs.$nhs-fdp-color-grey-4;
+    
+    // Buttons expand to fill available width on mobile/tablet
+    .nhs-aria-button,
+    .nhsuk-button {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    // Switch to row layout only when cards change to 3-column layout (1200px+)
+    // This aligns button layout changes with card grid changes
+    @media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      flex-wrap: wrap;
+      
+      // Reset button expansion - let them size naturally
+      .nhs-aria-button,
+      .nhsuk-button {
+        flex: none;
+        min-width: auto;
+      }
+    }
   }
 
   // ==========================================================================
@@ -338,11 +361,11 @@
       color: nhs.$nhs-fdp-color-primary-black;
       line-height: 1.3;
 
-      @media (min-width: 768px) {
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
         font-size: nhs.$nhs-fdp-font-size-19-tablet;
       }
 
-      @media (min-width: 1200px) {
+      @media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
         font-size: nhs.$nhs-fdp-font-size-22-tablet;
       }
     }
@@ -377,7 +400,7 @@
       color: nhs.$nhs-fdp-color-primary-blue;
       font-variant-numeric: tabular-nums;
 
-      @media (min-width: 768px) {
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
         font-size: nhs.$nhs-fdp-font-size-22-tablet;
       }
     }
@@ -409,7 +432,7 @@
       color: nhs.$nhs-fdp-color-primary-black;
       line-height: 1.3;
 
-      @media (min-width: 768px) {
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
         font-size: nhs.$nhs-fdp-font-size-19-tablet;
       }
     }
@@ -458,11 +481,7 @@
       gap: nhs.$nhs-fdp-spacing-2;
       margin-top: nhs.$nhs-fdp-spacing-2;
 
-      @media (min-width: 480px) {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      @media (min-width: 768px) {
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
         grid-template-columns: repeat(5, 1fr);
       }
     }
@@ -645,7 +664,7 @@
       transform: none !important;
     }
     
-    @media (min-width: 768px) {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       font-size: nhs.$nhs-fdp-font-size-14-tablet;
     }
   }

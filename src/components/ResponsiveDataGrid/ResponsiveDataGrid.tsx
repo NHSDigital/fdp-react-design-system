@@ -59,6 +59,7 @@ import { createGenericCard, defaultGenericCardConfig } from './GenericCardRender
 import { healthcarePlugin } from './HealthcarePlugin';
 import { convertLegacyCardConfig, isHealthcareData } from './ResponsiveDataGridHelpers';
 import './ResponsiveDataGrid.scss';
+import './HealthcareCardTemplates.scss';
 
 /**
  * Navigation focus areas for hierarchical keyboard navigation in card view
@@ -202,6 +203,37 @@ function useResponsiveLayout(breakpoints: ViewportConfig, forceLayout?: LayoutMo
 }
 
 /**
+ * Detect the specific healthcare data type based on data properties
+ */
+function detectHealthcareDataType(data: any): string | null {
+  if (!data || typeof data !== 'object') return null;
+  
+  // Check for appointment-specific fields
+  if (data.appointment_type || data.appointment_time || data.clinic) {
+    return 'appointment';
+  }
+  
+  // Check for medication-specific fields
+  if (data.medication_name || data.medication || data.dose || data.frequency) {
+    return 'medication';
+  }
+  
+  // Check for vitals-specific fields
+  if (data.ews_score !== undefined || data.respiratory_rate !== undefined || 
+      data.spo2 !== undefined || data.temperature !== undefined || 
+      data.systolic_bp !== undefined || data.heart_rate !== undefined) {
+    return 'vitals';
+  }
+  
+  // Check for patient-specific fields (most general, check last)
+  if (data.name || data.patient_name || data.nhs_number || data.ward || data.bed) {
+    return 'patient';
+  }
+  
+  return null;
+}
+
+/**
  * Generic card template selection based on data type and configuration
  * Now using configurable card creation with plugin support
  */
@@ -215,6 +247,21 @@ function createCard<T = any>(
   const effectiveConfig = domainPlugin ? 
     { ...domainPlugin.defaultCardConfig, ...cardConfig } : 
     { ...defaultGenericCardConfig, ...cardConfig };
+
+  // Check if domain plugin has specialized card templates
+  if (domainPlugin && domainPlugin.cardTemplates) {
+    const dataType = detectHealthcareDataType(data);
+    if (dataType && domainPlugin.cardTemplates[dataType]) {
+      const customCardContent = domainPlugin.cardTemplates[dataType](data, columns, effectiveConfig);
+      if (customCardContent) {
+        // Return a card with the custom content as children
+        return {
+          variant: 'default',
+          children: customCardContent
+        };
+      }
+    }
+  }
 
   // Check if there's a custom card template
   if (effectiveConfig.cardTemplate) {
@@ -1079,13 +1126,36 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		  break;
 		
 		case 'ArrowRight':
-		case 'ArrowDown': // Also allow down arrow to move to next control
 		  event.preventDefault();
 		  const nextControlIndex = cardNavState.focusedSortControlIndex < controlCount ? 
 			cardNavState.focusedSortControlIndex + 1 : 
 			1; // Wrap to first control (skip container 0)
 		  setCardNavState(prev => ({ ...prev, focusedSortControlIndex: nextControlIndex }));
 		  focusSortControl(nextControlIndex);
+		  break;
+
+		case 'ArrowDown':
+		  event.preventDefault();
+		  // Check if we're already in sort controls navigation mode
+		  if (cardNavState.isSortControlsActive) {
+			// Move to next control within sort controls
+			const nextControlIndexDown = cardNavState.focusedSortControlIndex < controlCount ? 
+			  cardNavState.focusedSortControlIndex + 1 : 
+			  1; // Wrap to first control (skip container 0)
+			setCardNavState(prev => ({ ...prev, focusedSortControlIndex: nextControlIndexDown }));
+			focusSortControl(nextControlIndexDown);
+		  } else {
+			// Navigate to first card in card view
+			if (currentPanel?.data && currentPanel.data.length > 0) {
+			  setCardNavState(prev => ({ 
+				...prev, 
+				focusArea: 'cards',
+				focusedCardIndex: 0,
+				isSortControlsActive: false
+			  }));
+			  focusCard(0);
+			}
+		  }
 		  break;
 
 		case 'ArrowUp':
@@ -1097,20 +1167,6 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 			focusArea: 'sort-controls'
 		  }));
 		  focusSortControl(0);
-		  break;
-
-		case 'ArrowDown':
-		  event.preventDefault();
-		  // Navigate to first card in card view
-		  if (currentPanel?.data && currentPanel.data.length > 0) {
-			setCardNavState(prev => ({ 
-			  ...prev, 
-			  focusArea: 'cards',
-			  focusedCardIndex: 0,
-			  isSortControlsActive: false
-			}));
-			focusCard(0);
-		  }
 		  break;
 
 		case 'Escape':

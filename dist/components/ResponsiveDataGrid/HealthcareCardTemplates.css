@@ -291,7 +291,7 @@ span .nhsuk-u-visually-hidden {
   color: #d5281b;
   font-weight: 600;
 }
-@media (max-width: 360px) {
+@media (max-width: 320px) {
   .healthcare-card__detail {
     grid-template-columns: 1fr;
     gap: 4px;
@@ -312,12 +312,30 @@ span .nhsuk-u-visually-hidden {
 }
 .healthcare-card__actions {
   display: flex;
+  flex-direction: column;
   gap: 8px;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+  align-items: stretch;
   margin-top: 16px;
   padding-top: 8px;
   border-top: 1px solid #d8dde0;
+}
+.healthcare-card__actions .nhs-aria-button,
+.healthcare-card__actions .nhsuk-button {
+  flex: 1;
+  min-width: 0;
+}
+@media (min-width: 1200px) {
+  .healthcare-card__actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .healthcare-card__actions .nhs-aria-button,
+  .healthcare-card__actions .nhsuk-button {
+    flex: none;
+    min-width: auto;
+  }
 }
 .healthcare-card--patient .healthcare-card__patient-name {
   margin: 0 0 4px 0;
@@ -415,11 +433,6 @@ span .nhsuk-u-visually-hidden {
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 8px;
   margin-top: 8px;
-}
-@media (min-width: 480px) {
-  .healthcare-card--vitals .healthcare-card__vitals-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 @media (min-width: 768px) {
   .healthcare-card--vitals .healthcare-card__vitals-grid {

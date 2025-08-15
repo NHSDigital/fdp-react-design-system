@@ -291,7 +291,7 @@ span .nhsuk-u-visually-hidden {
   color: #d5281b;
   font-weight: 600;
 }
-@media (max-width: 360px) {
+@media (max-width: 320px) {
   .healthcare-card__detail {
     grid-template-columns: 1fr;
     gap: 4px;
@@ -312,12 +312,30 @@ span .nhsuk-u-visually-hidden {
 }
 .healthcare-card__actions {
   display: flex;
+  flex-direction: column;
   gap: 8px;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+  align-items: stretch;
   margin-top: 16px;
   padding-top: 8px;
   border-top: 1px solid #d8dde0;
+}
+.healthcare-card__actions .nhs-aria-button,
+.healthcare-card__actions .nhsuk-button {
+  flex: 1;
+  min-width: 0;
+}
+@media (min-width: 1200px) {
+  .healthcare-card__actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .healthcare-card__actions .nhs-aria-button,
+  .healthcare-card__actions .nhsuk-button {
+    flex: none;
+    min-width: auto;
+  }
 }
 .healthcare-card--patient .healthcare-card__patient-name {
   margin: 0 0 4px 0;
@@ -415,11 +433,6 @@ span .nhsuk-u-visually-hidden {
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 8px;
   margin-top: 8px;
-}
-@media (min-width: 480px) {
-  .healthcare-card--vitals .healthcare-card__vitals-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 @media (min-width: 768px) {
   .healthcare-card--vitals .healthcare-card__vitals-grid {
@@ -897,11 +910,6 @@ span .nhsuk-u-visually-hidden {
 .aria-tabs-datagrid-adaptive__cards::-webkit-scrollbar-thumb:hover {
   background: #768692;
 }
-@media (min-width: 480px) {
-  .aria-tabs-datagrid-adaptive__cards {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  }
-}
 .aria-tabs-datagrid-adaptive__card {
   background: #ffffff;
   border: 2px solid #d8dde0;
@@ -978,7 +986,7 @@ span .nhsuk-u-visually-hidden {
 .aria-tabs-datagrid-adaptive__card-field:last-child {
   margin-bottom: 0;
 }
-@media (max-width: 360px) {
+@media (max-width: 320px) {
   .aria-tabs-datagrid-adaptive__card-field {
     grid-template-columns: 1fr;
     gap: 4px;
@@ -1020,8 +1028,26 @@ span .nhsuk-u-visually-hidden {
   min-height: 44px;
 }
 @media (min-width: 768px) {
+  .aria-tabs-datagrid-adaptive__cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .aria-tabs-datagrid-adaptive__card {
+    padding: 32px;
+  }
+  .aria-tabs-datagrid-adaptive__card-title {
+    font-size: 19px;
+  }
+  .aria-tabs-datagrid-adaptive__card-field-label {
+    font-size: 14px;
+  }
+  .aria-tabs-datagrid-adaptive__card-field-value {
+    font-size: 16px;
+  }
+}
+@media (min-width: 768px) {
   .aria-tabs-datagrid-adaptive--hybrid .aria-tabs-datagrid-adaptive--hybrid__cards {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
   .aria-tabs-datagrid-adaptive--hybrid .aria-tabs-datagrid-adaptive--hybrid__card {
@@ -1037,6 +1063,12 @@ span .nhsuk-u-visually-hidden {
     font-size: 16px;
   }
 }
+@media (min-width: 1200px) {
+  .aria-tabs-datagrid-adaptive--hybrid .aria-tabs-datagrid-adaptive--hybrid__cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
 .aria-tabs-datagrid-adaptive__table--hybrid .aria-tabs-datagrid__grid {
   border-radius: 8px;
   overflow: hidden;
@@ -1050,7 +1082,7 @@ span .nhsuk-u-visually-hidden {
 }
 @media (min-width: 1200px) {
   .aria-tabs-datagrid-adaptive__cards {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
   }
   .aria-tabs-datagrid-adaptive__card {

@@ -137,48 +137,58 @@ export const PatientCard: React.FC<HealthcareCardProps> = ({
  * Optimized for appointment scheduling and time-sensitive information
  */
 export const AppointmentCard = ({ data, onAction }: HealthcareCardProps) => (
-  <div className="fdp-healthcare-card fdp-appointment-card" role="article" tabIndex={0}>
-    <div className="fdp-card-header">
-      <h3 className="fdp-card-title">{data.appointment_type}</h3>
-      <span className="fdp-badge fdp-badge--high">{data.status}</span>
-    </div>
-    <div className="fdp-card-content">
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Time:</span>
-        <span className="fdp-field-value">{new Date(data.appointment_time).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>
+  <div className="healthcare-card healthcare-card--appointment healthcare-card--medium healthcare-card--active" role="article" tabIndex={0}>
+    <div className="healthcare-card__header">
+      <div className="healthcare-card__time-info">
+        <h3 className="healthcare-card__time">{new Date(data.appointment_time).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</h3>
+        <p className="healthcare-card__type">{data.appointment_type}</p>
       </div>
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Patient:</span>
-        <span className="fdp-field-value">{data.patient_name}</span>
-      </div>
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Type:</span>
-        <span className="fdp-field-value">{data.appointment_type}</span>
-      </div>
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Consultant:</span>
-        <span className="fdp-field-value">{data.consultant}</span>
-      </div>
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Location:</span>
-        <span className="fdp-field-value">{data.location}</span>
-      </div>
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Duration (min):</span>
-        <span className="fdp-field-value">{data.duration}</span>
-      </div>
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Status:</span>
-        <span className="fdp-field-value">{data.status}</span>
+      <div className="healthcare-card__badges">
+        <Tag 
+          color={getStatusTagColor(data.status || 'active')}
+          className="healthcare-card__status"
+        >
+          {(data.status || 'active').charAt(0).toUpperCase() + (data.status || 'active').slice(1)}
+        </Tag>
+        <Tag 
+          color="grey"
+          className="healthcare-card__duration"
+        >
+          {data.duration || '30'} min
+        </Tag>
       </div>
     </div>
-    <div className="fdp-card-actions">
-      <button onClick={() => onAction?.('view', data)} className="fdp-button fdp-button--secondary">
+    <div className="healthcare-card__body">
+      <dl className="healthcare-card__details">
+        <div className="healthcare-card__detail">
+          <dt>Patient</dt>
+          <dd>{data.patient_name}</dd>
+        </div>
+        <div className="healthcare-card__detail">
+          <dt>Consultant</dt>
+          <dd>{data.consultant}</dd>
+        </div>
+        <div className="healthcare-card__detail">
+          <dt>Location</dt>
+          <dd>{data.location}</dd>
+        </div>
+      </dl>
+    </div>
+    <div className="healthcare-card__actions">
+      <Button 
+        variant="secondary" 
+        size="small"
+        onClick={() => onAction?.('view', data)}
+      >
         View Details
-      </button>
-      <button onClick={() => onAction?.('edit', data)} className="fdp-button fdp-button--primary">
+      </Button>
+      <Button 
+        variant="primary" 
+        size="small"
+        onClick={() => onAction?.('edit', data)}
+      >
         Reschedule
-      </button>
+      </Button>
     </div>
   </div>
 );
@@ -192,54 +202,62 @@ export const MedicationCard: React.FC<HealthcareCardProps> = ({
   data,
   onAction
 }) => (
-  <div className="fdp-healthcare-card fdp-medication-card" role="article" tabIndex={0}>
-    <div className="fdp-card-header">
-      <h3 className="fdp-card-title">{data.medication}</h3>
-      <span className="fdp-badge fdp-badge--high">{data.priority}</span>
+  <div className="healthcare-card healthcare-card--medication healthcare-card--medium healthcare-card--active" role="article" tabIndex={0}>
+    <div className="healthcare-card__header">
+      <div className="healthcare-card__medication-info">
+        <h3 className="healthcare-card__medication-name">{data.medication}</h3>
+        <p className="healthcare-card__dose">{data.dose} • {data.frequency}</p>
+      </div>
+      <div className="healthcare-card__badges">
+        <Tag 
+          color="blue"
+          className="healthcare-card__route"
+        >
+          {data.route}
+        </Tag>
+        {data.next_due && (
+          <Tag 
+            color="red"
+            className="healthcare-card__warning"
+          >
+            Due: {new Date(data.next_due).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
+          </Tag>
+        )}
+      </div>
     </div>
-    <div className="fdp-card-content">
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Medication:</span>
-        <span className="fdp-field-value">{data.medication}</span>
-      </div>
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Dose:</span>
-        <span className="fdp-field-value">{data.dose}</span>
-      </div>
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Frequency:</span>
-        <span className="fdp-field-value">{data.frequency}</span>
-      </div>
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Route:</span>
-        <span className="fdp-field-value">{data.route}</span>
-      </div>
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Next Due:</span>
-        <span className="fdp-field-value">{new Date(data.next_due).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>
-      </div>
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Prescriber:</span>
-        <span className="fdp-field-value">{data.prescriber}</span>
-      </div>
-      <div className="fdp-card-field">
-        <span className="fdp-field-label">Patient:</span>
-        <span className="fdp-field-value">{data.patient_name}</span>
-      </div>
-      {data.allergies && (
-        <div className="fdp-card-field fdp-card-field--alert">
-          <span className="fdp-field-label">Allergies:</span>
-          <span className="fdp-field-value fdp-field-value--warning">{data.allergies}</span>
+    <div className="healthcare-card__body">
+      <dl className="healthcare-card__details">
+        <div className="healthcare-card__detail">
+          <dt>Patient</dt>
+          <dd>{data.patient_name}</dd>
         </div>
-      )}
+        <div className="healthcare-card__detail">
+          <dt>Prescriber</dt>
+          <dd>{data.prescriber}</dd>
+        </div>
+        {data.allergies && (
+          <div className="healthcare-card__detail healthcare-card__detail--urgent">
+            <dt>Allergies</dt>
+            <dd>{data.allergies}</dd>
+          </div>
+        )}
+      </dl>
     </div>
-    <div className="fdp-card-actions">
-      <button onClick={() => onAction?.('view', data)} className="fdp-button fdp-button--secondary">
+    <div className="healthcare-card__actions">
+      <Button 
+        variant="secondary" 
+        size="small"
+        onClick={() => onAction?.('view', data)}
+      >
         View Details
-      </button>
-      <button onClick={() => onAction?.('edit', data)} className="fdp-button fdp-button--primary">
+      </Button>
+      <Button 
+        variant="primary" 
+        size="small"
+        onClick={() => onAction?.('edit', data)}
+      >
         Adjust Dose
-      </button>
+      </Button>
     </div>
   </div>
 );
@@ -380,5 +398,15 @@ function getAlertTagColor(alertLevel: string): TagColor {
     case 'medium': return 'yellow';
     case 'low': return 'grey';
     default: return 'grey';
+  }
+}
+
+function getStatusTagColor(status: string): TagColor {
+  switch (status.toLowerCase()) {
+    case 'active': return 'blue';
+    case 'pending': return 'orange';
+    case 'completed': return 'green';
+    case 'cancelled': return 'grey';
+    default: return 'blue';
   }
 }

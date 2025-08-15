@@ -48,6 +48,7 @@
 import React from 'react';
 import { ResponsiveDataGridProps } from './ResponsiveDataGridTypes';
 import './ResponsiveDataGrid.scss';
+import './HealthcareCardTemplates.scss';
 /**
  * Responsive Data Grid with mobile-first card layout - Now Generic with Plugin Support
  */

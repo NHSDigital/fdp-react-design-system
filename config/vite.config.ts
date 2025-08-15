@@ -32,7 +32,6 @@ export default defineConfig({
           react: 'React',
           'react-dom': 'ReactDOM',
         },
-        sourcemap: true, // Generate source maps for assets
       },
     },
     sourcemap: true,

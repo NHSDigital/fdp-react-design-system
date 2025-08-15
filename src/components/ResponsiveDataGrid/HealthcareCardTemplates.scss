@@ -632,21 +632,54 @@
       transform: none !important;
     }
     
-    // Button-style hover for interactive tags
-    &.healthcare-card__alert,
-    &.healthcare-card__priority,
-    &.healthcare-card__status {
-      cursor: pointer;
-      
-      &:hover,
-      &:active,
-      &:focus {
-        transform: none !important;
+    // Button-style hover for interactive healthcare card tags
+    &.healthcare-card {
+      // Alert tag variants
+      &__alert {
+        cursor: pointer;
+        
+        &:hover,
+        &:active,
+        &:focus {
+          transform: none !important;
+        }
+        
+        &:active {
+          //transform: translateY(1px);
+          box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+        }
       }
       
-      &:active {
-        //transform: translateY(1px);
-        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+      // Priority tag variants
+      &__priority {
+        cursor: pointer;
+        
+        &:hover,
+        &:active,
+        &:focus {
+          transform: none !important;
+        }
+        
+        &:active {
+          //transform: translateY(1px);
+          box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+        }
+      }
+      
+      // Status tag variants
+      &__status {
+        cursor: pointer;
+        
+        &:hover,
+        &:active,
+        &:focus {
+          transform: none !important;
+        }
+        
+        &:active {
+          //transform: translateY(1px);
+          box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+        }
       }
     }
   }
@@ -770,57 +803,69 @@
 // ==========================================================================
 
 // NHS Card component integration with ResponsiveDataGrid
-.aria-tabs-datagrid-adaptive__cards {
-  .nhsuk-card {
-    // Focus states for NHS Card component in grid context
-    &.aria-tabs-datagrid-adaptive__card--focused,
-    &:focus {
-      outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
-      outline-offset: 2px !important;
-      box-shadow: 
-        0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background,
-        0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2 !important;
-      border-color: nhs.$nhs-fdp-color-primary-blue !important;
-
-      // Focus should be visible even when hovered
-      &:hover {
+.aria-tabs-datagrid-adaptive {
+  // Cards container specific overrides
+  &__cards {
+    .nhsuk-card {
+      // Focus states for NHS Card component in grid context
+      &.aria-tabs-datagrid-adaptive__card--focused,
+      &:focus {
         outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
         outline-offset: 2px !important;
         box-shadow: 
           0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background,
           0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2 !important;
+        border-color: nhs.$nhs-fdp-color-primary-blue !important;
+
+        // Focus should be visible even when hovered
+        &:hover {
+          outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
+          outline-offset: 2px !important;
+          box-shadow: 
+            0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background,
+            0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2 !important;
+        }
+        
+        // Combined focused and selected state
+        &.aria-tabs-datagrid-adaptive__card--selected {
+          outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
+          outline-offset: 2px !important;
+        }
+      }
+
+      // Selection states for NHS Card component in grid context
+      &.aria-tabs-datagrid-adaptive__card--selected {
+        border-color: nhs.$nhs-fdp-color-primary-blue !important;
+        background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02) !important;
+        position: relative;
+        
+        // Add selection indicator
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 4px;
+          background: nhs.$nhs-fdp-color-primary-blue;
+          z-index: 1;
+        }
       }
     }
-
-    // Selection states for NHS Card component in grid context
-    &.aria-tabs-datagrid-adaptive__card--selected {
-      border-color: nhs.$nhs-fdp-color-primary-blue !important;
-      background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02) !important;
-      position: relative;
-      
-      // Add selection indicator
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 4px;
-        background: nhs.$nhs-fdp-color-primary-blue;
-        z-index: 1;
-      }
-    }
-
-    // Combined focused and selected state
-    &.aria-tabs-datagrid-adaptive__card--focused.aria-tabs-datagrid-adaptive__card--selected {
-      outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
-      outline-offset: 2px !important;
-    }
+  }
+  
+  // Global fallback selectors for backwards compatibility
+  &__card--focused {
+    outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
+    outline-offset: 2px !important;
+    box-shadow: 
+      0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background,
+      0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-grey-2 !important;
+    border-color: nhs.$nhs-fdp-color-primary-blue !important;
   }
 }
 
-// Global fallback selectors for backwards compatibility
-.aria-tabs-datagrid-adaptive__card--focused,
+// Additional backwards compatibility for NHS Card component
 .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused {
   outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background !important;
   outline-offset: 2px !important;
@@ -873,19 +918,47 @@
     }
   }
 
-  .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused,
-  .aria-tabs-datagrid-adaptive__card-wrapper--focused .healthcare-card {
-    outline: 4px solid Highlight !important;
-    border-color: Highlight !important;
-  }
-
-  .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--selected,
-  .aria-tabs-datagrid-adaptive__card-wrapper--selected .healthcare-card {
-    border: 2px solid Highlight !important;
-    background: Mark !important;
+  .aria-tabs-datagrid-adaptive {
+    // High contrast styles for cards container
+    &__cards {
+      .nhsuk-card {
+        // Focused state in high contrast
+        &.aria-tabs-datagrid-adaptive__card--focused {
+          outline: 4px solid Highlight !important;
+          border-color: Highlight !important;
+        }
+        
+        // Selected state in high contrast
+        &.aria-tabs-datagrid-adaptive__card--selected {
+          border: 2px solid Highlight !important;
+          background: Mark !important;
+          
+          &::before {
+            background: Highlight !important;
+          }
+        }
+      }
+    }
     
-    &::before {
-      background: Highlight !important;
+    // High contrast styles for card wrapper
+    &__card-wrapper {
+      &--focused {
+        .healthcare-card {
+          outline: 4px solid Highlight !important;
+          border-color: Highlight !important;
+        }
+      }
+      
+      &--selected {
+        .healthcare-card {
+          border: 2px solid Highlight !important;
+          background: Mark !important;
+          
+          &::before {
+            background: Highlight !important;
+          }
+        }
+      }
     }
   }
 }

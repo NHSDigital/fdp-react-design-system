@@ -43,14 +43,16 @@
       &--healthcare {
         // Additional healthcare-specific styling
         
-        .adaptive-card__badges {
+        // Nested badge container
+        &__badges {
           margin-top: nhs.$nhs-fdp-spacing-3;
           display: flex;
           gap: nhs.$nhs-fdp-spacing-2;
           flex-wrap: wrap;
         }
         
-        .adaptive-card__ews-badge {
+        // Early Warning Score badge styles
+        &__ews-badge {
           font-weight: 600; // Bold weight
           
           &.nhsuk-tag--high {
@@ -69,7 +71,8 @@
           }
         }
         
-        .adaptive-card__badge {
+        // General badge styles for healthcare context
+        &__badge {
           background-color: nhs.$nhs-fdp-color-grey-5; // NHS Grey 5
           color: nhs.$nhs-fdp-color-primary-black;
         }
@@ -473,7 +476,6 @@
   // Enhanced table mode for hybrid view
   &__table--hybrid {
     .aria-tabs-datagrid__grid {
-      border-radius: nhs.$nhs-fdp-border-radius-medium;
       overflow: hidden;
       box-shadow: nhs.$nhs-fdp-shadow-card-default;
       

@@ -826,6 +826,65 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 				color: $color-primary;
 			  }
 			}
+			
+			// Enhanced Focus Styles for sortable headers
+			&--focused {
+			  background-color: $color-primary !important;
+			  color: $color-white !important;
+			  // Use layered box-shadow for NHS focus conventions - with !important to override base styling
+			  box-shadow: 
+				  inset 0 0 0 nhs.$nhs-fdp-border-width-card-bottom nhs.$nhs-fdp-color-primary-yellow,
+				  0 0 0 2px $color-highlight !important; // Yellow outer outline (5px total)
+			  position: relative;
+			  z-index: 5;
+
+			  .header-label {
+				  color: $color-white;
+			  }
+
+			  .sort-indicator {
+				  color: $color-white;
+			  }
+
+			  .sort-arrow {
+				  color: $color-white;
+				  fill: $color-white;
+				  
+				  &.sort-arrow--asc {
+					  transform: rotate(-90deg);
+				  }
+				  
+				  &.sort-arrow--desc {
+					  transform: rotate(90deg);
+				  }
+			  }
+			  
+			  // Enhanced sort priority when focused - inherit the base styles but with white text
+			  .sort-priority {
+				// Color adjustments for focused state while maintaining base styling
+				&--priority-1,
+				&--priority-2,
+				&--priority-4,
+				&--priority-5 {
+				  // Maintain the background colors but ensure visibility on focused header
+				  box-shadow: nhs.$nhs-fdp-shadow-card-hover;
+				  transform: scale(1.05);
+				}
+				&--priority-3 {
+				  // Maintain the background colors but ensure visibility on focused header
+				  //box-shadow: 0 2px 4px nhs.$nhs-fdp-color-primary-white;
+				  background: nhs.$nhs-fdp-color-primary-white !important; // Ensure white background for visibility
+				  color: nhs.$nhs-fdp-color-primary-blue !important;
+				}
+				
+				&::before {
+				  // Make sure the priority number is still visible on focused headers
+				  background: $color-white;
+				  color: $color-text;
+				  border: 1px solid $color-primary;
+				}
+			  }
+			}
 		  }
 		}
 	  }
@@ -982,67 +1041,6 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	&:active {
 	  transform: translateY(1px);
 	  box-shadow: none;
-	}
-  }
-}
-
-// Enhanced Focus Styles for Hierarchical Navigation (component-specific styles)
-.sortable-header {
-  &--focused {
-	background-color: $color-primary !important;
-	color: $color-white !important;
-	// Use layered box-shadow for NHS focus conventions - with !important to override base styling
-	box-shadow: 
-			inset 0 0 0 nhs.$nhs-fdp-border-width-card-bottom nhs.$nhs-fdp-color-primary-black, // Black inner border
-			0 0 0 2px $color-highlight !important; // Yellow outer outline (5px total)
-	position: relative;
-	z-index: 5;
-
-	.header-label {
-		color: $color-white;
-	}
-
-	.sort-indicator {
-		color: $color-white;
-	}
-
-	.sort-arrow {
-		color: $color-white;
-		fill: $color-white;
-		
-		&.sort-arrow--asc {
-			transform: rotate(-90deg);
-		}
-		
-		&.sort-arrow--desc {
-			transform: rotate(90deg);
-		}
-	}
-	
-	// Enhanced sort priority when focused - inherit the base styles but with white text
-	.sort-priority {
-	  // Color adjustments for focused state while maintaining base styling
-	  &--priority-1,
-	  &--priority-2,
-	  &--priority-4,
-	  &--priority-5 {
-		// Maintain the background colors but ensure visibility on focused header
-		box-shadow: nhs.$nhs-fdp-shadow-card-hover;
-		transform: scale(1.05);
-	  }
-	  &--priority-3 {
-		// Maintain the background colors but ensure visibility on focused header
-		//box-shadow: 0 2px 4px nhs.$nhs-fdp-color-primary-white;
-		background: nhs.$nhs-fdp-color-primary-white !important; // Ensure white background for visibility
-		color: nhs.$nhs-fdp-color-primary-blue !important;
-	  }
-	  
-	  &::before {
-		// Make sure the priority number is still visible on focused headers
-		background: $color-white;
-		color: $color-text;
-		border: 1px solid $color-primary;
-	  }
 	}
   }
 }

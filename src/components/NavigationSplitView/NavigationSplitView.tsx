@@ -21,14 +21,7 @@ const ChevronRightIcon: React.FC<{ className?: string }> = ({ className }) => (
   </svg>
 );
 
-// Determine responsive layout using shared breakpoint hook
-function useResponsiveLayout(forceLayout: NavigationSplitLayoutMode | undefined) {
-  const { up } = useNhsFdpBreakpoints();
-  if (forceLayout) return forceLayout;
-  // Mobile-first: list (or cards) until medium, then two-column. Third column not yet auto-enabled.
-  if (up('medium')) return 'two-column';
-  return 'list';
-}
+// (Deprecated internal) Previous responsive layout helper removed in favour of hydration-safe inline logic.
 
 /**
  * NavigationSplitView Component
@@ -82,13 +75,26 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 	renderContentHeader
 } = props;
 
-  const { up } = useNhsFdpBreakpoints();
-  const isAtLeastMedium = up('medium');
-  const responsiveLayout = useResponsiveLayout(forceLayout);
-  let effectiveLayout = responsiveLayout; // already respects forceLayout when provided
-  if (!forceLayout && autoEnableThirdColumn && renderSecondaryContent && up('xlarge')) {
-	effectiveLayout = 'three-column';
-  }
+	const { up } = useNhsFdpBreakpoints();
+	// Hydration gating: avoid reading real breakpoints on first client render to match SSR markup
+	const [hydrated, setHydrated] = React.useState(false);
+	React.useEffect(() => { setHydrated(true); }, []);
+
+	// Treat all breakpoints as mobile until hydrated unless forceLayout provided
+	const isAtLeastMedium = hydrated && up('medium');
+	const isAtLeastXlarge = hydrated && up('xlarge');
+
+	let effectiveLayout: NavigationSplitLayoutMode;
+	if (forceLayout) {
+		effectiveLayout = forceLayout;
+	} else if (isAtLeastMedium) {
+		effectiveLayout = 'two-column';
+	} else {
+		effectiveLayout = 'list';
+	}
+	if (!forceLayout && autoEnableThirdColumn && renderSecondaryContent && isAtLeastXlarge) {
+		effectiveLayout = 'three-column';
+	}
 
   // URL sync integration (optional)
   const urlSync = useNavigationSplitUrlSync<ID>({
@@ -129,8 +135,8 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 	}, [autoContentHeader]);
 
 	// Breakpoint buckets for header logic (reuse breakpoint hook 'up')
-	const isTabletRange = up('medium') && !up('xlarge');
-	const isDesktopRange = up('xlarge');
+	const isTabletRange = hydrated && up('medium') && !up('xlarge');
+	const isDesktopRange = hydrated && up('xlarge');
 
 	const showHeader = !!selectedItem && (
 		(detailActive && autoHeaderConfig.mobile) || // mobile detail view (list/cards)

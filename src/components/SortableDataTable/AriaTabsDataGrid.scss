@@ -641,7 +641,12 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 		  &.sortable-header {
 			cursor: pointer;
 			user-select: none;
-			//border-right: 1px solid nhs.$nhs-fdp-color-grey-3;
+			border-right: 1px solid nhs.$nhs-fdp-color-grey-4; // Column separator
+			
+			// Remove border from last column to avoid double border with table edge
+			&:last-child {
+			  border-right: none;
+			}
 			
 			// Apply increased height when header has active sorting (desktop)
 			&.sortable-header--sorted {
@@ -682,7 +687,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 			  // Apply vertical stacking for all constrained layouts (up to 1024px)
 			  @media (max-width: 1400px) {
 				flex-direction: column; // Stack vertically for better space utilization
-				align-items: flex-start;
+				align-items: center;
 				min-height: 32px;
 				padding: nhs.$nhs-fdp-spacing-2;
 				gap: nhs.$nhs-fdp-spacing-3;
@@ -1280,6 +1285,12 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 		  // Enhanced sortable headers for tablet interaction
 		  &.sortable-header {
 			min-height: 40px; // Base height for tablet touch targets
+			border-right: 1px solid nhs.$nhs-fdp-color-grey-3; // Column separator
+			
+			// Remove border from last column to avoid double border with table edge
+			&:last-child {
+			  border-right: none;
+			}
 			
 			&:hover,
 			&:active {

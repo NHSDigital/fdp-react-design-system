@@ -487,7 +487,7 @@ span .nhsuk-u-visually-hidden {
   border-radius: 0 0 4px 4px;
   outline: none;
   border-left: 2px solid #005eb8;
-  border-right: 2px solid transparent;
+  border-right: 2px solid #005eb8;
   border-bottom: 2px solid #005eb8;
   margin-top: -2px;
   overflow-x: auto;
@@ -526,7 +526,6 @@ span .nhsuk-u-visually-hidden {
   margin-bottom: 0;
   border-collapse: collapse;
   border-spacing: 0;
-  border-right: 2px solid #005eb8;
   table-layout: auto;
 }
 .aria-tabs-datagrid__grid.nhsuk-table th,

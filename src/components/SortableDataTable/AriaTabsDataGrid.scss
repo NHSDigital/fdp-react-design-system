@@ -559,7 +559,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	border-radius: 0 0 $border-radius $border-radius; // Rounded bottom corners only
 	outline: none; // Reset outline
 	border-left: 2px solid $color-primary;
-	border-right: 2px solid transparent;
+	border-right: 2px solid $color-primary;
 	border-bottom: 2px solid $color-primary;
 	margin-top: -2px; // Connect seamlessly with the tab
 	overflow-x: auto; // Allow horizontal scrolling for wide content
@@ -608,7 +608,6 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	  margin-bottom: 0;
 	  border-collapse: collapse;
 	  border-spacing: 0;
-	  border-right: 2px solid $color-primary;
 	  table-layout: auto; // Allow flexible column widths based on content
 	  
 	  // Consistent table cell padding using design tokens

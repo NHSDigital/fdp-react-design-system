@@ -1,0 +1,9 @@
+// Deprecated monolithic Select test file retained as a marker for migration completion.
+// All relevant coverage moved into Select.ssr.test.tsx, Select.client.test.tsx, and Select.hydration.test.tsx.
+import { describe, it, expect } from 'vitest';
+
+describe('Select (deprecated monolithic placeholder)', () => {
+  it('placeholder', () => {
+    expect(true).toBe(true);
+  });
+});

@@ -11,6 +11,10 @@ const dirname =
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   test: {
+    // Global fallback environment so direct file runs (without project resolution) still get jsdom
+  environment: 'jsdom',
+  // Ensure direct single-file runs also execute the common setup (matchers, polyfills, etc.)
+  setupFiles: ['../src/test-setup.ts'],
     projects: [
       // Component tests
       {

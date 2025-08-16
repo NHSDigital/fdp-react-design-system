@@ -1,0 +1,9 @@
+// Deprecated monolithic Radios test file retained as a marker for migration completion.
+// All relevant coverage moved into Radios.ssr.test.tsx, Radios.client.test.tsx, and Radios.hydration.test.tsx.
+import { describe, it, expect } from 'vitest';
+
+describe('Radios (deprecated monolithic placeholder)', () => {
+  it('placeholder', () => {
+    expect(true).toBe(true);
+  });
+});

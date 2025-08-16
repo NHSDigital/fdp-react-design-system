@@ -1,0 +1,6 @@
+// Deprecated monolithic TaskList test placeholder for migration audit.
+import { describe, it, expect } from 'vitest';
+
+describe('TaskList (deprecated monolithic)', () => {
+  it('placeholder', () => { expect(true).toBe(true); });
+});

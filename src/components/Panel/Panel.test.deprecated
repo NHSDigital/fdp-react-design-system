@@ -1,0 +1,9 @@
+// Deprecated monolithic Panel test file retained as a marker for migration completion.
+// All relevant coverage moved into Panel.ssr.test.tsx, Panel.client.test.tsx, and Panel.hydration.test.tsx.
+import { describe, it, expect } from 'vitest';
+
+describe('Panel (deprecated monolithic placeholder)', () => {
+  it('placeholder', () => {
+    expect(true).toBe(true);
+  });
+});

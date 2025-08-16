@@ -53,6 +53,15 @@ if (typeof window !== 'undefined') {
     configurable: true,
   });
 
+  // Provide a lightweight ResizeObserver mock for components using it (e.g. GanttChart)
+  if (!('ResizeObserver' in window)) {
+    (window as any).ResizeObserver = vi.fn().mockImplementation(() => ({
+      observe: vi.fn(),
+      unobserve: vi.fn(),
+      disconnect: vi.fn(),
+    }));
+  }
+
   // Polyfill scrollIntoView used in tab/data grid components (noop for jsdom)
   if (!HTMLElement.prototype.scrollIntoView) {
     (HTMLElement.prototype as any).scrollIntoView = function() { /* noop */ } as any;

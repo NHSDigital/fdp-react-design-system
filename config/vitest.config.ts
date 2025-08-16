@@ -15,6 +15,7 @@ export default defineConfig({
   environment: 'jsdom',
   // Ensure direct single-file runs also execute the common setup (matchers, polyfills, etc.)
   setupFiles: ['../src/test-setup.ts'],
+  reporters: [ ['default', { summary: false }] ],
     projects: [
       // Component tests
       {

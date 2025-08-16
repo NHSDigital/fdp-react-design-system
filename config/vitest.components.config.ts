@@ -9,6 +9,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['src/test-setup.ts'],
     globals: true,
+  // Replace deprecated 'basic' reporter usage with default reporter summary disabled
+  reporters: [ ['default', { summary: false }] ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov'],

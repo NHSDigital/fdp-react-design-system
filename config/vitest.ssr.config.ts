@@ -10,6 +10,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['src/test-setup.ts', 'src/ssr-test-setup.ts'],
     globals: true,
+  reporters: [ ['default', { summary: false }] ],
     // Additional configuration for SSR tests
     testTimeout: 30000,
     env: {

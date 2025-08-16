@@ -198,6 +198,7 @@ const { selectedId, setSelectedId, drilledIn, setDrilledIn } = useNavigationSpli
 ## Collapsible Navigation & Footer
 
 On wider viewports (≥ medium breakpoint) you can allow the navigation pane to collapse to an icon rail.
+\n+## Keyboard Summary (Quick Reference)\n+\n+| Key | Action | Notes |\n+|-----|--------|-------|\n+| Arrow Up / Down | Move focus to previous/next option | Uses roving tabindex on `[data-nav-item]` |\n+| Home / End | Jump to first / last option | |\n+| Enter / Space | Select focused enabled option | Disabled options have `aria-disabled=true` and ignore activation |\n+| Esc (mobile detail) | Custom (consumer may add) to clear selection | Not built-in to avoid conflicts |\n+\n+## Live Regions\n+Two polite live regions:\n+1. Selection changes ("Selected Alpha") – atomic so entire phrase announced.\n+2. Layout drill state ("Expanded to three column layout").\n+Suppress selection announcements with `skipAnnouncements`. Provide custom status messaging by rendering your own `aria-live` region adjacent.\n+\n+## Disabled Items\n+Disabled items remain keyboard focusable (so users learn they exist) but can't be selected. They set: `aria-disabled="true"`, no click/keyboard handlers, no `aria-selected`.\n+\n+## Testing Notes\n+- a11y tests: zero axe violations for list and three-column scenarios.\n+- Client interaction tests assert roving focus, disabled selection prevention, selection live region message.\n+- Focus logic test stability ensured by selector `[data-nav-item]` rather than element tag.\n+\n+## Implementation Detail\n+Roving focus effect updates `tabIndex` for each item in an effect; on structure changes (e.g., switching from buttons to list items) only the selector needs to remain stable.\n+\n+---\n+For further enhancements consider: roving focus management hook extraction, ARIA orientation switching warnings, and adding optional typeahead.\n*** End Patch
 
 ```tsx
 <NavigationSplitView
@@ -303,7 +304,7 @@ Enable a consistent title bar on wider breakpoints via `autoContentHeader`:
 
 Granular object defaults: `{ mobile: true, tablet: false, desktop: false }`.
 
-### Notes:
+### Notes
 
 - The BackLink only appears in the mobile detail context (when the navigation list has slid away). On tablet/desktop a BackLink is usually unnecessary because the navigation and content panes are simultaneously visible.
 - If you disable the mobile header (`mobile: false`) ensure an alternative, accessible way to return to the navigation is present (e.g. custom BackLink inside `renderContent`).

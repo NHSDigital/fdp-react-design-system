@@ -257,7 +257,9 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 	return () => window.removeEventListener('popstate', handler);
   }, [syncUrl, urlParamSelected, urlParamDrill, forceLayout, renderSecondaryContent]);
 
-  const lastFocusedIndexRef = React.useRef(0);
+	const lastFocusedIndexRef = React.useRef(0);
+	// Ref to store buffered typeahead state { buffer: accumulated chars; last: timestamp }
+	const typeaheadRef = React.useRef<{ buffer: string; last: number } | null>(null);
   const handleSelect = React.useCallback((id: ID, item: T) => {
 	if (controlledSelectedId === undefined) setUncontrolledSelected(id);
 	onSelectionChange?.(id, item);
@@ -285,6 +287,8 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 	  if (focusedIndex >= 0) {
 		const node = nodes[focusedIndex];
 		node?.focus();
+		// Track last focused for restoration when selection cleared
+		lastFocusedIndexRef.current = focusedIndex;
 		const item = items[focusedIndex];
 		onFocusChange?.(item ? getId(item) : undefined, item as any, focusedIndex);
 	  }
@@ -305,6 +309,53 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 	  e.preventDefault();
 	  const item = items[focusedIndex];
 	  if (item && !item.disabled) handleSelect(getId(item), item as T);
+	} else if (e.key.length === 1 && /[a-z0-9]/i.test(e.key)) {
+	  // Buffered typeahead (multi-character within time window) + cycling for same char sequences
+	  if (!typeaheadRef.current) typeaheadRef.current = { buffer: '', last: 0 };
+	  const now = Date.now();
+	  const timeout = 700; // ms window to accumulate buffer
+	  const lower = e.key.toLowerCase();
+	  if (now - typeaheadRef.current.last > timeout) {
+		typeaheadRef.current.buffer = lower; // reset buffer
+	  } else {
+		typeaheadRef.current.buffer += lower;
+	  }
+	  typeaheadRef.current.last = now;
+	  let buffer = typeaheadRef.current.buffer;
+	  // If buffer is repeating same char (e.g. 'ccc'), treat as cycling among items starting with that char
+	  const allSame = buffer.split('').every((ch: string) => ch === buffer[0]);
+	  const labels = items.map(it => String((it as any).label || '').toLowerCase());
+	  let startIndex = 0;
+	  if (focusedIndex >= 0) {
+		startIndex = (focusedIndex + 1) % items.length;
+	  }
+	  let matchIndex: number | undefined;
+	  const search = (prefix: string, cycleFromCurrent: boolean) => {
+		const total = items.length;
+		for (let offset = 0; offset < total; offset++) {
+		  const idx = ((cycleFromCurrent ? startIndex : 0) + offset) % total;
+		  const it = items[idx];
+		  if (!it.disabled && labels[idx].startsWith(prefix)) {
+			return idx;
+		  }
+		}
+		return undefined;
+	  };
+	  if (allSame && buffer.length > 1) {
+		// cycle to next item starting with single char after current focus
+		matchIndex = search(buffer[0], true);
+	  } else {
+		matchIndex = search(buffer, true);
+		if (matchIndex === undefined && buffer.length > 1) {
+		  // Fallback: if no multi-char match, try last char only
+		  matchIndex = search(buffer[buffer.length - 1], true);
+		  if (matchIndex !== undefined) {
+			// reduce buffer to last char so subsequent typing continues from there
+			if (typeaheadRef.current) typeaheadRef.current.buffer = buffer[buffer.length - 1];
+		  }
+		}
+	  }
+	  if (matchIndex !== undefined) setFocusedIndex(matchIndex);
 	}
   };
 
@@ -365,9 +416,9 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
   // Persist + restore nav focus when returning from detail
   React.useEffect(() => {
 	if (!detailActive && selectedId == null && listRef.current) {
-	  	const btns = listRef.current.querySelectorAll('button[data-nav-item]');
-  		const target = btns[lastFocusedIndexRef.current] as HTMLElement | undefined;
-  		target?.focus();
+	  	const nodes = listRef.current.querySelectorAll('[data-nav-item]');
+		const target = nodes[lastFocusedIndexRef.current] as HTMLElement | undefined;
+		target?.focus();
 	}
   }, [detailActive, selectedId]);
 

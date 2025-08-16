@@ -3,6 +3,10 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import fs from 'fs';
 import path from 'path';
+// Use central alias map so we can skip generating duplicate CSS bundles for alias components
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const cssAliases: Record<string, string> = require('../scripts/css-aliases.cjs');
+const aliasComponentNames = new Set(Object.keys(cssAliases));
 
 // Find all component directories
 const componentsDir = resolve(__dirname, '../src/components');
@@ -26,6 +30,10 @@ function findScssFiles(dir: string, componentName: string, subPath: string = '')
         subPath ? `${subPath}/${item.name}` : item.name
       );
     } else if (item.name.endsWith('.scss') && !item.name.startsWith('_')) {
+      // Skip alias components – they intentionally re-use provider CSS via exports
+      if (aliasComponentNames.has(componentName)) {
+        return; // do not create an entry for this alias's SCSS
+      }
       const baseName = item.name.replace('.scss', '');
       const entryKey = subPath 
         ? `components/${componentName}/${subPath}/${baseName}`

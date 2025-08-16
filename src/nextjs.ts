@@ -2,7 +2,8 @@
 // Optimized CSS loading for Next.js applications
 
 // Core styles (load in layout.tsx)
-import './core.scss';
+// Align path with core.ts which imports from styles folder
+import './styles/core.scss';
 
 // Re-export core components for convenience
 export * from './core';

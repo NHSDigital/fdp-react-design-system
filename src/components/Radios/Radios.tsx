@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, useRef, useCallback } from 'react';
 import classNames from 'classnames';
 import { RadiosProps, RadioConditionalProps } from './Radios.types';
 import { Input } from '../Input/Input';
@@ -22,6 +22,7 @@ export const Radios: React.FC<RadiosProps> = ({
   ...props
 }) => {
   const [selectedValue, setSelectedValue] = useState(value || defaultValue || '');
+	const itemsRef = useRef<HTMLInputElement[]>([]);
 
   const radiosClasses = classNames(
     'nhsuk-radios',
@@ -33,13 +34,35 @@ export const Radios: React.FC<RadiosProps> = ({
     className
   );
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setSelectedValue(newValue);
     if (onChange) {
       onChange(event);
     }
   };
+
+	const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+		const { key } = event;
+		if (!['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(key)) return;
+		event.preventDefault();
+		const enabledRadios = itemsRef.current.filter(r => r && !r.disabled);
+		const current = enabledRadios.indexOf(event.currentTarget);
+		if (current === -1) return;
+		let nextIndex = current;
+		if (key === 'ArrowDown' || key === 'ArrowRight') {
+			nextIndex = (current + 1) % enabledRadios.length;
+		} else if (key === 'ArrowUp' || key === 'ArrowLeft') {
+			nextIndex = (current - 1 + enabledRadios.length) % enabledRadios.length;
+		}
+		const nextRadio = enabledRadios[nextIndex];
+		if (nextRadio) {
+			nextRadio.focus();
+			if (!nextRadio.checked) {
+				nextRadio.click();
+			}
+		}
+	}, []);
 
 	return (
 	  <Fieldset>
@@ -50,7 +73,7 @@ export const Radios: React.FC<RadiosProps> = ({
 					const isSelected = selectedValue === option.value;
 
 					return (
-					<div key={option.value} className="nhsuk-radios__item">
+	                <div key={option.value} className="nhsuk-radios__item">
 						<input
 							className="nhsuk-radios__input"
 							id={radioId}
@@ -63,6 +86,8 @@ export const Radios: React.FC<RadiosProps> = ({
 							onChange={handleChange}
 							onBlur={onBlur}
 							onFocus={onFocus}
+								onKeyDown={handleKeyDown}
+								ref={el => { if (el) itemsRef.current[index] = el; }}
 						/>
 						<label className="nhsuk-radios__label" htmlFor={radioId}>
 							{option.text}

@@ -118,12 +118,15 @@ export const CharacterCount: React.FC<CharacterCountProps> = ({
         className={textareaClasses}
         onChange={handleChange}
         aria-describedby={`${id}-info`}
+  aria-invalid={isOverLimit || undefined}
         {...textareaProps}
       />
       
       <Hint
         id={`${id}-info`}
-        className={messageClasses}
+  className={messageClasses}
+  role="status"
+  aria-live="polite"
       >
         {generateCountMessage()}
       </Hint>

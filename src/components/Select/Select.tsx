@@ -43,6 +43,7 @@ export const SelectOption: React.FC<SelectOptionProps> = ({
 const SelectBase: React.FC<SelectProps> = ({
   id,
   name,
+  ariaLabel,
   value,
   defaultValue,
   disabled = false,
@@ -94,6 +95,7 @@ const SelectBase: React.FC<SelectProps> = ({
       className={selectClasses}
       id={id}
       name={name}
+  aria-label={ariaLabel}
       value={value}
       defaultValue={defaultValue !== undefined ? defaultValue : derivedDefaultValue}
       disabled={disabled}

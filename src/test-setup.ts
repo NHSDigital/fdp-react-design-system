@@ -1,6 +1,7 @@
 import { afterEach } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
+// Accessibility matcher (jest-axe) is imported indirectly via test utils when used.
 
 // Import React globally for JSX in tests
 import React from 'react';

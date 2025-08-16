@@ -889,11 +889,11 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		case 'Enter':
 		  if (currentPanel?.data[cardIndex]) {
 			event.preventDefault();
-			// Mark card as selected when entering it
-			setCardNavState(prev => ({
-			  ...prev,
-			  selectedCardIndex: cardIndex
-			}));
+				 // Mark card as selected when entering it (always)
+				 setCardNavState(prev => ({
+				   ...prev,
+				   selectedCardIndex: cardIndex
+				 }));
 			
 			// Scan for focusable elements and activate card navigation
 			const cardElements = scanCardElements(cardIndex);
@@ -1385,44 +1385,47 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 			  return (
 				<div
 				  key={`card-${index}`}
-				  ref={el => { cardRefs.current[index] = el; }}
-				  className={[
-					'aria-tabs-datagrid-adaptive__card-wrapper',
-					isSelected ? 'aria-tabs-datagrid-adaptive__card-wrapper--selected' : '',
-					isFocused ? 'aria-tabs-datagrid-adaptive__card-wrapper--focused' : '',
-					isInCardNavigation ? 'aria-tabs-datagrid-adaptive__card-wrapper--card-navigation' : ''
-				  ].filter(Boolean).join(' ')}
-				  role="gridcell"
+				  role="row"
 				  aria-rowindex={gridPosition.row + 1}
-				  aria-colindex={gridPosition.col + 1}
-				  aria-selected={isSelected}
-				  aria-expanded={isInCardNavigation}
-				  aria-description={isInCardNavigation ? `Card navigation active. ${cardNavState.cardElements.length} interactive elements available.` : undefined}
-				  tabIndex={shouldBeFocusable ? 0 : -1}
-				  onClick={() => {
-					// Only handle selection state, let onFocus handle focus state
-					setCardNavState(prev => ({ 
-					  ...prev, 
-					  selectedCardIndex: prev.selectedCardIndex === index ? -1 : index
-					}));
-					handleCardSelect(row);
-				  }}
-				  onKeyDown={(event) => handleCardKeyDown(event, index)}
-				  onFocus={() => {
-					// Only update state if it's actually changing to prevent unnecessary re-renders
-					setCardNavState(prev => {
-					  if (prev.focusedCardIndex !== index || prev.focusArea !== 'cards') {
-						return { 
-						  ...prev, 
-						  focusedCardIndex: index,
-						  focusArea: 'cards'
-						};
-					  }
-					  return prev; // No change, prevent re-render
-					});
-				  }}
+				  className="aria-tabs-datagrid-adaptive__row"
 				>
-				  {customCard}
+				  <div
+					ref={el => { cardRefs.current[index] = el; }}
+					className={[
+					  'aria-tabs-datagrid-adaptive__card-wrapper',
+					  isSelected ? 'aria-tabs-datagrid-adaptive__card-wrapper--selected' : '',
+					  isFocused ? 'aria-tabs-datagrid-adaptive__card-wrapper--focused' : '',
+					  isInCardNavigation ? 'aria-tabs-datagrid-adaptive__card-wrapper--card-navigation' : ''
+					].filter(Boolean).join(' ')}
+					role="gridcell"
+					aria-colindex={gridPosition.col + 1}
+					aria-selected={isSelected}
+					aria-expanded={isInCardNavigation}
+					aria-description={isInCardNavigation ? `Card navigation active. ${cardNavState.cardElements.length} interactive elements available.` : undefined}
+					tabIndex={shouldBeFocusable ? 0 : -1}
+					onClick={() => {
+					  setCardNavState(prev => ({ 
+						...prev, 
+						selectedCardIndex: prev.selectedCardIndex === index ? -1 : index
+					  }));
+					  handleCardSelect(row);
+					}}
+					onKeyDown={(event) => handleCardKeyDown(event, index)}
+					onFocus={() => {
+					  setCardNavState(prev => {
+						if (prev.focusedCardIndex !== index || prev.focusArea !== 'cards') {
+						  return { 
+							...prev, 
+							focusedCardIndex: index,
+							focusArea: 'cards'
+						  };
+						}
+						return prev;
+					  });
+					}}
+				  >
+					{customCard}
+				  </div>
 				</div>
 			  );
 			}
@@ -1441,50 +1444,64 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 			return (
 			  <div
 				key={`card-${index}`}
-				className={[
-				  'aria-tabs-datagrid-adaptive__card-wrapper',
-				  isInCardNavigation ? 'aria-tabs-datagrid-adaptive__card-wrapper--card-navigation' : ''
-				].filter(Boolean).join(' ')}
-				role="gridcell"
+				role="row"
 				aria-rowindex={gridPosition.row + 1}
-				aria-colindex={gridPosition.col + 1}
+				className="aria-tabs-datagrid-adaptive__row"
 			  >
-				<Card 
-				  {...cardProps}
-				  ref={el => { cardRefs.current[index] = el; }}
-				  className={cardClassName}
+				<div
+				  className={[
+					'aria-tabs-datagrid-adaptive__card-wrapper',
+					isSelected ? 'aria-tabs-datagrid-adaptive__card-wrapper--selected' : '',
+					isFocused ? 'aria-tabs-datagrid-adaptive__card-wrapper--focused' : '',
+					isInCardNavigation ? 'aria-tabs-datagrid-adaptive__card-wrapper--card-navigation' : ''
+				  ].filter(Boolean).join(' ')}
+				  role="gridcell"
+				  aria-colindex={gridPosition.col + 1}
 				  aria-selected={isSelected}
 				  aria-expanded={isInCardNavigation}
-				  aria-label={`${cardProps['aria-label'] || cardProps.heading}. ${isInCardNavigation ? `Card navigation active with ${cardNavState.cardElements.length} interactive elements. Use arrow keys to navigate, Enter to activate, Escape to exit.` : 'Press Enter to navigate within card elements.'}`}
-				  tabIndex={shouldBeFocusable ? 0 : -1}
-				  onClick={() => {
-					// Handle selection state similar to GanttChart task selection
-					setCardNavState(prev => ({ 
-					  ...prev, 
-					  selectedCardIndex: prev.selectedCardIndex === index ? -1 : index
-					}));
-					handleCardSelect(row);
-				  }}
-				  onKeyDown={(event) => handleCardKeyDown(event, index)}
-				  onFocus={() => {
-					// Update focus state when card gains focus (like GanttChart timeline container)
-					if (!cardNavState.isCardNavigationActive) {
-					  setCardNavState(prev => {
-						if (prev.focusedCardIndex !== index || prev.focusArea !== 'cards') {
-						  return { 
-							...prev, 
-							focusedCardIndex: index,
-							focusArea: 'cards',
-							// Reset card navigation state when switching cards
-							focusedCardElementIndex: 0,
-							cardElements: []
-						  };
-						}
-						return prev;
-					  });
+				  onKeyDown={(event) => {
+					if (event.key === 'Enter') {
+					  event.preventDefault();
+					  setCardNavState(prev => ({
+						...prev,
+						selectedCardIndex: index
+					  }));
 					}
+					handleCardKeyDown(event as any, index);
 				  }}
-				/>
+				>
+				  <Card 
+					{...cardProps}
+					ref={el => { cardRefs.current[index] = el; }}
+					className={cardClassName}
+					aria-label={`${cardProps['aria-label'] || cardProps.heading}. ${isInCardNavigation ? `Card navigation active with ${cardNavState.cardElements.length} interactive elements. Use arrow keys to navigate, Enter to activate, Escape to exit.` : 'Press Enter to navigate within card elements.'}`}
+					tabIndex={shouldBeFocusable ? 0 : -1}
+					onClick={() => {
+					  setCardNavState(prev => ({ 
+						...prev, 
+						selectedCardIndex: prev.selectedCardIndex === index ? -1 : index
+					  }));
+					  handleCardSelect(row);
+					}}
+					onKeyDown={(event) => handleCardKeyDown(event, index)}
+					onFocus={() => {
+					  if (!cardNavState.isCardNavigationActive) {
+						setCardNavState(prev => {
+						  if (prev.focusedCardIndex !== index || prev.focusArea !== 'cards') {
+							return { 
+							  ...prev, 
+							  focusedCardIndex: index,
+							  focusArea: 'cards',
+							  focusedCardElementIndex: 0,
+							  cardElements: []
+							};
+						  }
+						  return prev;
+						});
+					  }
+					}}
+				  />
+				</div>
 			  </div>
 			);
 		  })}

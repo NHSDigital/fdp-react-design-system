@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { buildRadiosOptions } from '../../test-utils/builders';
 import { Radios } from './Radios';
 
 const base = [
@@ -41,5 +42,18 @@ describe('Radios (client)', () => {
     expect(document.querySelectorAll('.nhsuk-radios__conditional--hidden').length).toBe(2);
     fireEvent.click(screen.getByRole('radio', { name: 'A' }));
     expect(screen.getByText('Shown A').closest('.nhsuk-radios__conditional')).not.toHaveClass('nhsuk-radios__conditional--hidden');
+  });
+
+  it('navigates with arrow keys', () => {
+    const opts = buildRadiosOptions({ count: 4 });
+    render(<Radios name="kb" options={opts} />);
+    const radios = screen.getAllByRole('radio');
+    radios[0].focus();
+    fireEvent.keyDown(radios[0], { key: 'ArrowDown' });
+    expect(radios[1]).toBeChecked();
+    fireEvent.keyDown(radios[1], { key: 'ArrowDown' });
+    expect(radios[2]).toBeChecked();
+    fireEvent.keyDown(radios[2], { key: 'ArrowUp' });
+    expect(radios[1]).toBeChecked();
   });
 });

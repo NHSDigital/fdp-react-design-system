@@ -163,7 +163,7 @@ export const Tabs = forwardRef<TabsHandle, TabsProps>(({
             });
             
             return (
-              <li key={item.id} className={tabClasses}>
+              <li key={item.id} className={tabClasses} role="presentation">
                 <button
                   ref={(element) => setTabRef(item.id, element)}
                   className="nhsuk-tabs__tab"

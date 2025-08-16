@@ -275,17 +275,20 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
   const listRef = React.useRef<HTMLUListElement | null>(null);
   const [focusedIndex, setFocusedIndex] = React.useState(() => initialFocus === 'first' ? 0 : -1);
 
-  React.useEffect(() => {
-	if (!listRef.current) return;
-	const nodes = Array.from(listRef.current.querySelectorAll('button[data-nav-item]')) as HTMLButtonElement[];
-	nodes.forEach((btn, idx) => btn.tabIndex = (focusedIndex === -1 ? (idx === 0 && initialFocus === 'first') : idx === focusedIndex) ? 0 : -1);
-	if (focusedIndex >= 0) {
-	  const node = nodes[focusedIndex];
-	  node?.focus();
-	  const item = items[focusedIndex];
-	  onFocusChange?.(item ? getId(item) : undefined, item as any, focusedIndex);
-	}
-  }, [focusedIndex, items, initialFocus, onFocusChange, getId]);
+	React.useEffect(() => {
+	  if (!listRef.current) return;
+	  // After refactor nav items are <li data-nav-item>, not buttons; include future-proof selector.
+	  const nodes = Array.from(listRef.current.querySelectorAll('[data-nav-item]')) as HTMLElement[];
+	  nodes.forEach((el, idx) => {
+		el.tabIndex = (focusedIndex === -1 ? (idx === 0 && initialFocus === 'first') : idx === focusedIndex) ? 0 : -1;
+	  });
+	  if (focusedIndex >= 0) {
+		const node = nodes[focusedIndex];
+		node?.focus();
+		const item = items[focusedIndex];
+		onFocusChange?.(item ? getId(item) : undefined, item as any, focusedIndex);
+	  }
+	}, [focusedIndex, items, initialFocus, onFocusChange, getId]);
 
   const onKeyDownList = (e: React.KeyboardEvent) => {
 	const forward = orientation === 'vertical' ? 'ArrowDown' : 'ArrowRight';
@@ -423,35 +426,43 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 
 	// Default list layout
 	const instructionsId = 'nsv-nav-instructions';
-	const NavItem = React.useMemo(() => {
+	  const NavItem = React.useMemo(() => {
 	  type P = { item: T; idx: number; selected: boolean };
 	  const C: React.FC<P> = ({ item, idx, selected }) => {
 		const id = getId(item);
+		const interactiveProps: React.HTMLAttributes<HTMLLIElement> = item.disabled ? {
+		  'aria-disabled': true,
+		  tabIndex: -1
+		} : {
+		  tabIndex: selected ? 0 : -1,
+		  onClick: () => { lastFocusedIndexRef.current = idx; handleSelect(id, item as T); },
+		  onKeyDown: (e) => {
+			if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lastFocusedIndexRef.current = idx; handleSelect(id, item as T); }
+		  }
+		};
 		return (
-		  <li className="nhs-navigation-split-view__list-item" role="option" aria-selected={selected}>
-			<button
-			  id={String(id)}
-			  data-nav-item
-			  type="button"
-			  className="nhs-navigation-split-view__item-button"
-			  data-selected={selected || undefined}
-			  data-disabled={item.disabled || undefined}
-			  disabled={item.disabled}
-			  aria-current={selected ? 'true' : undefined}
-			  onClick={() => { if (!item.disabled) { lastFocusedIndexRef.current = idx; handleSelect(id, item as T);} }}
-			>
-			  {item.icon && <span className="nhs-navigation-split-view__item-icon">{item.icon}</span>}
-			  <span className="nhs-navigation-split-view__item-content">
-				<span className="nhs-navigation-split-view__item-label">{item.label}</span>
-				{item.description && (
-				  <span className="nhs-navigation-split-view__item-description">{item.description}</span>
-				)}
-				{renderItemContent?.(item)}
-			  </span>
-			  {item.badge !== undefined && (
-				<span className="nhs-navigation-split-view__badge">{item.badge}</span>
+		  <li
+			id={String(id)}
+			data-nav-item
+			className="nhs-navigation-split-view__list-item nhs-navigation-split-view__item-button"
+			role="option"
+			aria-selected={selected}
+			aria-current={selected ? 'true' : undefined}
+			data-selected={selected || undefined}
+			data-disabled={item.disabled || undefined}
+			{...interactiveProps}
+		  >
+			{item.icon && <span className="nhs-navigation-split-view__item-icon">{item.icon}</span>}
+			<span className="nhs-navigation-split-view__item-content">
+			  <span className="nhs-navigation-split-view__item-label">{item.label}</span>
+			  {item.description && (
+				<span className="nhs-navigation-split-view__item-description">{item.description}</span>
 			  )}
-			</button>
+			  {renderItemContent?.(item)}
+			</span>
+			{item.badge !== undefined && (
+			  <span className="nhs-navigation-split-view__badge">{item.badge}</span>
+			)}
 		  </li>
 		);
 	  };
@@ -464,6 +475,7 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 		  className="nhs-navigation-split-view__list"
 		  onKeyDown={onKeyDownList}
 		  role="listbox"
+		  aria-label={'Navigation items'}
 		  aria-describedby={instructionsId}
 		  aria-activedescendant={selectedId ? String(selectedId) : undefined}
 		>

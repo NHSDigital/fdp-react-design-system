@@ -44,16 +44,22 @@ if (typeof global !== 'undefined') {
   }
 }
 
-// Fix React 19 compatibility issue with concurrent features
-// React 19 tries to access window.event in resolveUpdatePriority but it's undefined in test environment
+// React 19: ensure window.event exists with minimal shape { type }
 if (typeof window !== 'undefined') {
-  // Set up a minimal event object to prevent "Cannot read properties of undefined (reading 'event')" error
   Object.defineProperty(window, 'event', {
     get() {
-      return null; // Return null instead of undefined to prevent the error
+      return { type: 'synthetic' } as any; // minimal object so code can read .type
     },
     configurable: true,
   });
+}
+
+// Provide jest global alias for tests still using jest.fn etc.
+if (!(globalThis as any).jest) {
+  (globalThis as any).jest = {
+    fn: vi.fn.bind(vi),
+    spyOn: vi.spyOn.bind(vi),
+  };
 }
 
 // Mock document.fonts API for testing

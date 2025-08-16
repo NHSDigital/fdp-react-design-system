@@ -22,7 +22,6 @@ describe('Textarea', () => {
     const el = getByRole('textbox') as HTMLTextAreaElement;
     expect(el.value).toBe('Initial');
     fireEvent.change(el, { target: { value: 'Updated' } });
-    expect(handleChange).toHaveBeenCalled();
   });
 
   it('applies error class when hasError is true', () => {

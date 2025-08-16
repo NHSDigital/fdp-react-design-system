@@ -724,7 +724,9 @@ var AriaTabsDataGrid = forwardRef2(
             });
           }
         } else {
-          console.log("Missing elements for scroll:", { tabElement, tabListElement });
+          if (!process.env.SILENCE_SCROLL_DEBUG) {
+            console.debug("[AriaTabsDataGrid] Missing elements for scroll", { tabElementExists: !!tabElement, tabListElementExists: !!tabListElement });
+          }
         }
       }, 50);
     }, []);
@@ -1445,6 +1447,7 @@ var SelectOption = ({
   value,
   disabled = false,
   selected = false,
+  // deprecated in React 19 warnings: we map to parent defaultValue
   className,
   children,
   ...props
@@ -1459,7 +1462,6 @@ var SelectOption = ({
       className: optionClasses,
       value,
       disabled,
-      selected,
       ...props,
       children
     }
@@ -1468,6 +1470,7 @@ var SelectOption = ({
 var SelectBase = ({
   id,
   name,
+  ariaLabel,
   value,
   defaultValue,
   disabled = false,
@@ -1485,6 +1488,7 @@ var SelectBase = ({
   onFocus,
   ...props
 }) => {
+  var _a;
   const selectClasses = (0, import_classnames3.default)(
     "nhsuk-select",
     {
@@ -1499,20 +1503,22 @@ var SelectBase = ({
       {
         value: option.value,
         disabled: option.disabled,
-        selected: option.selected,
+        "data-initial-selected": option.selected || void 0,
         children: option.text
       },
       `${option.value}-${index}`
     ));
   };
+  const derivedDefaultValue = defaultValue === void 0 && value === void 0 && options ? (_a = options.find((o) => o.selected)) == null ? void 0 : _a.value : void 0;
   return /* @__PURE__ */ jsx7(
     "select",
     {
       className: selectClasses,
       id,
       name,
+      "aria-label": ariaLabel,
       value,
-      defaultValue,
+      defaultValue: defaultValue !== void 0 ? defaultValue : derivedDefaultValue,
       disabled,
       required,
       "aria-describedby": describedBy,
@@ -3193,43 +3199,50 @@ var ResponsiveDataGrid = ({
               return /* @__PURE__ */ jsx10(
                 "div",
                 {
-                  ref: (el) => {
-                    cardRefs.current[index] = el;
-                  },
-                  className: [
-                    "aria-tabs-datagrid-adaptive__card-wrapper",
-                    isSelected ? "aria-tabs-datagrid-adaptive__card-wrapper--selected" : "",
-                    isFocused ? "aria-tabs-datagrid-adaptive__card-wrapper--focused" : "",
-                    isInCardNavigation ? "aria-tabs-datagrid-adaptive__card-wrapper--card-navigation" : ""
-                  ].filter(Boolean).join(" "),
-                  role: "gridcell",
+                  role: "row",
                   "aria-rowindex": gridPosition.row + 1,
-                  "aria-colindex": gridPosition.col + 1,
-                  "aria-selected": isSelected,
-                  "aria-expanded": isInCardNavigation,
-                  "aria-description": isInCardNavigation ? `Card navigation active. ${cardNavState.cardElements.length} interactive elements available.` : void 0,
-                  tabIndex: shouldBeFocusable ? 0 : -1,
-                  onClick: () => {
-                    setCardNavState((prev) => ({
-                      ...prev,
-                      selectedCardIndex: prev.selectedCardIndex === index ? -1 : index
-                    }));
-                    handleCardSelect(row);
-                  },
-                  onKeyDown: (event) => handleCardKeyDown(event, index),
-                  onFocus: () => {
-                    setCardNavState((prev) => {
-                      if (prev.focusedCardIndex !== index || prev.focusArea !== "cards") {
-                        return {
+                  className: "aria-tabs-datagrid-adaptive__row",
+                  children: /* @__PURE__ */ jsx10(
+                    "div",
+                    {
+                      ref: (el) => {
+                        cardRefs.current[index] = el;
+                      },
+                      className: [
+                        "aria-tabs-datagrid-adaptive__card-wrapper",
+                        isSelected ? "aria-tabs-datagrid-adaptive__card-wrapper--selected" : "",
+                        isFocused ? "aria-tabs-datagrid-adaptive__card-wrapper--focused" : "",
+                        isInCardNavigation ? "aria-tabs-datagrid-adaptive__card-wrapper--card-navigation" : ""
+                      ].filter(Boolean).join(" "),
+                      role: "gridcell",
+                      "aria-colindex": gridPosition.col + 1,
+                      "aria-selected": isSelected,
+                      "aria-expanded": isInCardNavigation,
+                      "aria-description": isInCardNavigation ? `Card navigation active. ${cardNavState.cardElements.length} interactive elements available.` : void 0,
+                      tabIndex: shouldBeFocusable ? 0 : -1,
+                      onClick: () => {
+                        setCardNavState((prev) => ({
                           ...prev,
-                          focusedCardIndex: index,
-                          focusArea: "cards"
-                        };
-                      }
-                      return prev;
-                    });
-                  },
-                  children: customCard
+                          selectedCardIndex: prev.selectedCardIndex === index ? -1 : index
+                        }));
+                        handleCardSelect(row);
+                      },
+                      onKeyDown: (event) => handleCardKeyDown(event, index),
+                      onFocus: () => {
+                        setCardNavState((prev) => {
+                          if (prev.focusedCardIndex !== index || prev.focusArea !== "cards") {
+                            return {
+                              ...prev,
+                              focusedCardIndex: index,
+                              focusArea: "cards"
+                            };
+                          }
+                          return prev;
+                        });
+                      },
+                      children: customCard
+                    }
+                  )
                 },
                 `card-${index}`
               );
@@ -3244,50 +3257,68 @@ var ResponsiveDataGrid = ({
             return /* @__PURE__ */ jsx10(
               "div",
               {
-                className: [
-                  "aria-tabs-datagrid-adaptive__card-wrapper",
-                  isInCardNavigation ? "aria-tabs-datagrid-adaptive__card-wrapper--card-navigation" : ""
-                ].filter(Boolean).join(" "),
-                role: "gridcell",
+                role: "row",
                 "aria-rowindex": gridPosition.row + 1,
-                "aria-colindex": gridPosition.col + 1,
+                className: "aria-tabs-datagrid-adaptive__row",
                 children: /* @__PURE__ */ jsx10(
-                  Card,
+                  "div",
                   {
-                    ...cardProps,
-                    ref: (el) => {
-                      cardRefs.current[index] = el;
-                    },
-                    className: cardClassName,
+                    className: [
+                      "aria-tabs-datagrid-adaptive__card-wrapper",
+                      isSelected ? "aria-tabs-datagrid-adaptive__card-wrapper--selected" : "",
+                      isFocused ? "aria-tabs-datagrid-adaptive__card-wrapper--focused" : "",
+                      isInCardNavigation ? "aria-tabs-datagrid-adaptive__card-wrapper--card-navigation" : ""
+                    ].filter(Boolean).join(" "),
+                    role: "gridcell",
+                    "aria-colindex": gridPosition.col + 1,
                     "aria-selected": isSelected,
                     "aria-expanded": isInCardNavigation,
-                    "aria-label": `${cardProps["aria-label"] || cardProps.heading}. ${isInCardNavigation ? `Card navigation active with ${cardNavState.cardElements.length} interactive elements. Use arrow keys to navigate, Enter to activate, Escape to exit.` : "Press Enter to navigate within card elements."}`,
-                    tabIndex: shouldBeFocusable ? 0 : -1,
-                    onClick: () => {
-                      setCardNavState((prev) => ({
-                        ...prev,
-                        selectedCardIndex: prev.selectedCardIndex === index ? -1 : index
-                      }));
-                      handleCardSelect(row);
-                    },
-                    onKeyDown: (event) => handleCardKeyDown(event, index),
-                    onFocus: () => {
-                      if (!cardNavState.isCardNavigationActive) {
-                        setCardNavState((prev) => {
-                          if (prev.focusedCardIndex !== index || prev.focusArea !== "cards") {
-                            return {
-                              ...prev,
-                              focusedCardIndex: index,
-                              focusArea: "cards",
-                              // Reset card navigation state when switching cards
-                              focusedCardElementIndex: 0,
-                              cardElements: []
-                            };
-                          }
-                          return prev;
-                        });
+                    onKeyDown: (event) => {
+                      if (event.key === "Enter") {
+                        event.preventDefault();
+                        setCardNavState((prev) => ({
+                          ...prev,
+                          selectedCardIndex: index
+                        }));
                       }
-                    }
+                      handleCardKeyDown(event, index);
+                    },
+                    children: /* @__PURE__ */ jsx10(
+                      Card,
+                      {
+                        ...cardProps,
+                        ref: (el) => {
+                          cardRefs.current[index] = el;
+                        },
+                        className: cardClassName,
+                        "aria-label": `${cardProps["aria-label"] || cardProps.heading}. ${isInCardNavigation ? `Card navigation active with ${cardNavState.cardElements.length} interactive elements. Use arrow keys to navigate, Enter to activate, Escape to exit.` : "Press Enter to navigate within card elements."}`,
+                        tabIndex: shouldBeFocusable ? 0 : -1,
+                        onClick: () => {
+                          setCardNavState((prev) => ({
+                            ...prev,
+                            selectedCardIndex: prev.selectedCardIndex === index ? -1 : index
+                          }));
+                          handleCardSelect(row);
+                        },
+                        onKeyDown: (event) => handleCardKeyDown(event, index),
+                        onFocus: () => {
+                          if (!cardNavState.isCardNavigationActive) {
+                            setCardNavState((prev) => {
+                              if (prev.focusedCardIndex !== index || prev.focusArea !== "cards") {
+                                return {
+                                  ...prev,
+                                  focusedCardIndex: index,
+                                  focusArea: "cards",
+                                  focusedCardElementIndex: 0,
+                                  cardElements: []
+                                };
+                              }
+                              return prev;
+                            });
+                          }
+                        }
+                      }
+                    )
                   }
                 )
               },

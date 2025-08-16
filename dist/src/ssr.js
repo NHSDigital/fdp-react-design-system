@@ -234,8 +234,7 @@ const A = ({
                 onFocus: z,
                 onBlur: V,
                 disabled: f || m,
-                "aria-expanded": x && p.length > 0,
-                "aria-haspopup": "listbox",
+                ...x && p.length > 0 ? { "aria-expanded": !0, "aria-haspopup": "listbox" } : {},
                 ...H
               }
             ),

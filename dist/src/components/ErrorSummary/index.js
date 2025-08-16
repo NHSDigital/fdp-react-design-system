@@ -147,8 +147,8 @@ var ErrorSummary = ({
       children: [
         /* @__PURE__ */ jsx("h2", { className: "nhsuk-error-summary__title", id: "error-summary-title", children: renderTitle() }),
         /* @__PURE__ */ jsxs("div", { className: "nhsuk-error-summary__body", children: [
-          children && /* @__PURE__ */ jsx("p", { children }),
-          !children && (descriptionText || descriptionHtml) && /* @__PURE__ */ jsx("p", { children: renderDescription() }),
+          children && /* @__PURE__ */ jsx("div", { className: "nhsuk-error-summary__description", "data-role": "description", children }),
+          !children && (descriptionText || descriptionHtml) && /* @__PURE__ */ jsx("div", { className: "nhsuk-error-summary__description", "data-role": "description", children: renderDescription() }),
           /* @__PURE__ */ jsx("ul", { className: "nhsuk-list nhsuk-error-summary__list", role: "list", children: errorList.map((item, index) => /* @__PURE__ */ jsx("li", { children: renderErrorItem(item) }, index)) })
         ] })
       ]

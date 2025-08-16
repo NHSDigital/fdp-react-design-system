@@ -179,29 +179,25 @@ var Input = ({
     },
     ...props
   };
+  const uncontrolledRangeProps = !isControlled && defaultValue !== void 0 ? { defaultValue } : {};
+  const controlledRangeProps = isControlled ? { value } : {};
+  const renderRangeInput = () => /* @__PURE__ */ jsx(
+    "input",
+    {
+      className: inputClasses,
+      ...controlledRangeProps,
+      ...uncontrolledRangeProps,
+      "data-current-value": currentValue,
+      ...sharedRangeProps
+    }
+  );
   const rangeWrapper = isRange ? /* @__PURE__ */ jsxs("div", { className: "nhsuk-input-range-wrapper", children: [
     showValueLabels && /* @__PURE__ */ jsxs("div", { className: "nhsuk-input-range-labels", children: [
       /* @__PURE__ */ jsx("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min", children: (valueLabels == null ? void 0 : valueLabels.min) || min || "0" }),
-      /* @__PURE__ */ jsx(
-        "input",
-        {
-          className: inputClasses,
-          value: isControlled ? value : currentValue,
-          ...!isControlled && defaultValue !== void 0 ? { defaultValue } : {},
-          ...sharedRangeProps
-        }
-      ),
+      renderRangeInput(),
       /* @__PURE__ */ jsx("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max", children: (valueLabels == null ? void 0 : valueLabels.max) || max || "100" })
     ] }),
-    !showValueLabels && /* @__PURE__ */ jsx(
-      "input",
-      {
-        className: inputClasses,
-        value: isControlled ? value : currentValue,
-        ...!isControlled && defaultValue !== void 0 ? { defaultValue } : {},
-        ...sharedRangeProps
-      }
-    ),
+    !showValueLabels && renderRangeInput(),
     showCurrentValue && /* @__PURE__ */ jsx("div", { className: "nhsuk-input-range-current-value", children: /* @__PURE__ */ jsxs("span", { className: "nhsuk-input-range-current-label", children: [
       (valueLabels == null ? void 0 : valueLabels.current) || "Current value:",
       " ",

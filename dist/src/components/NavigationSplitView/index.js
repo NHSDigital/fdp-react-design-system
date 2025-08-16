@@ -434,6 +434,7 @@ function NavigationSplitView(props) {
     return () => window.removeEventListener("popstate", handler);
   }, [syncUrl, urlParamSelected, urlParamDrill, forceLayout, renderSecondaryContent]);
   const lastFocusedIndexRef = React3.useRef(0);
+  const typeaheadRef = React3.useRef(null);
   const handleSelect = React3.useCallback((id, item) => {
     if (controlledSelectedId === void 0) setUncontrolledSelected(id);
     onSelectionChange == null ? void 0 : onSelectionChange(id, item);
@@ -451,11 +452,14 @@ function NavigationSplitView(props) {
   const [focusedIndex, setFocusedIndex] = React3.useState(() => initialFocus === "first" ? 0 : -1);
   React3.useEffect(() => {
     if (!listRef.current) return;
-    const nodes = Array.from(listRef.current.querySelectorAll("button[data-nav-item]"));
-    nodes.forEach((btn, idx) => btn.tabIndex = (focusedIndex === -1 ? idx === 0 && initialFocus === "first" : idx === focusedIndex) ? 0 : -1);
+    const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
+    nodes.forEach((el, idx) => {
+      el.tabIndex = (focusedIndex === -1 ? idx === 0 && initialFocus === "first" : idx === focusedIndex) ? 0 : -1;
+    });
     if (focusedIndex >= 0) {
       const node = nodes[focusedIndex];
       node == null ? void 0 : node.focus();
+      lastFocusedIndexRef.current = focusedIndex;
       const item = items[focusedIndex];
       onFocusChange == null ? void 0 : onFocusChange(item ? getId(item) : void 0, item, focusedIndex);
     }
@@ -479,6 +483,48 @@ function NavigationSplitView(props) {
       e.preventDefault();
       const item = items[focusedIndex];
       if (item && !item.disabled) handleSelect(getId(item), item);
+    } else if (e.key.length === 1 && /[a-z0-9]/i.test(e.key)) {
+      if (!typeaheadRef.current) typeaheadRef.current = { buffer: "", last: 0 };
+      const now = Date.now();
+      const timeout = 700;
+      const lower = e.key.toLowerCase();
+      if (now - typeaheadRef.current.last > timeout) {
+        typeaheadRef.current.buffer = lower;
+      } else {
+        typeaheadRef.current.buffer += lower;
+      }
+      typeaheadRef.current.last = now;
+      let buffer = typeaheadRef.current.buffer;
+      const allSame = buffer.split("").every((ch) => ch === buffer[0]);
+      const labels = items.map((it) => String(it.label || "").toLowerCase());
+      let startIndex = 0;
+      if (focusedIndex >= 0) {
+        startIndex = (focusedIndex + 1) % items.length;
+      }
+      let matchIndex;
+      const search = (prefix, cycleFromCurrent) => {
+        const total = items.length;
+        for (let offset = 0; offset < total; offset++) {
+          const idx = ((cycleFromCurrent ? startIndex : 0) + offset) % total;
+          const it = items[idx];
+          if (!it.disabled && labels[idx].startsWith(prefix)) {
+            return idx;
+          }
+        }
+        return void 0;
+      };
+      if (allSame && buffer.length > 1) {
+        matchIndex = search(buffer[0], true);
+      } else {
+        matchIndex = search(buffer, true);
+        if (matchIndex === void 0 && buffer.length > 1) {
+          matchIndex = search(buffer[buffer.length - 1], true);
+          if (matchIndex !== void 0) {
+            if (typeaheadRef.current) typeaheadRef.current.buffer = buffer[buffer.length - 1];
+          }
+        }
+      }
+      if (matchIndex !== void 0) setFocusedIndex(matchIndex);
     }
   };
   const initialCollapsed = React3.useMemo(() => {
@@ -539,8 +585,8 @@ function NavigationSplitView(props) {
   }, [selectedItem, skipAnnouncements]);
   React3.useEffect(() => {
     if (!detailActive && selectedId == null && listRef.current) {
-      const btns = listRef.current.querySelectorAll("button[data-nav-item]");
-      const target = btns[lastFocusedIndexRef.current];
+      const nodes = listRef.current.querySelectorAll("[data-nav-item]");
+      const target = nodes[lastFocusedIndexRef.current];
       target == null ? void 0 : target.focus();
     }
   }, [detailActive, selectedId]);
@@ -589,23 +635,35 @@ function NavigationSplitView(props) {
     const NavItem = React3.useMemo(() => {
       const C = ({ item, idx, selected }) => {
         const id = getId(item);
-        return /* @__PURE__ */ jsx3("li", { className: "nhs-navigation-split-view__list-item", role: "option", "aria-selected": selected, children: /* @__PURE__ */ jsxs3(
-          "button",
+        const interactiveProps = item.disabled ? {
+          "aria-disabled": true,
+          tabIndex: -1
+        } : {
+          tabIndex: selected ? 0 : -1,
+          onClick: () => {
+            lastFocusedIndexRef.current = idx;
+            handleSelect(id, item);
+          },
+          onKeyDown: (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              lastFocusedIndexRef.current = idx;
+              handleSelect(id, item);
+            }
+          }
+        };
+        return /* @__PURE__ */ jsxs3(
+          "li",
           {
             id: String(id),
             "data-nav-item": true,
-            type: "button",
-            className: "nhs-navigation-split-view__item-button",
+            className: "nhs-navigation-split-view__list-item nhs-navigation-split-view__item-button",
+            role: "option",
+            "aria-selected": selected,
+            "aria-current": selected ? "true" : void 0,
             "data-selected": selected || void 0,
             "data-disabled": item.disabled || void 0,
-            disabled: item.disabled,
-            "aria-current": selected ? "true" : void 0,
-            onClick: () => {
-              if (!item.disabled) {
-                lastFocusedIndexRef.current = idx;
-                handleSelect(id, item);
-              }
-            },
+            ...interactiveProps,
             children: [
               item.icon && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-icon", children: item.icon }),
               /* @__PURE__ */ jsxs3("span", { className: "nhs-navigation-split-view__item-content", children: [
@@ -616,7 +674,7 @@ function NavigationSplitView(props) {
               item.badge !== void 0 && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__badge", children: item.badge })
             ]
           }
-        ) });
+        );
       };
       return React3.memo(C);
     }, [getId, handleSelect, renderItemContent]);
@@ -628,6 +686,7 @@ function NavigationSplitView(props) {
           className: "nhs-navigation-split-view__list",
           onKeyDown: onKeyDownList,
           role: "listbox",
+          "aria-label": "Navigation items",
           "aria-describedby": instructionsId,
           "aria-activedescendant": selectedId ? String(selectedId) : void 0,
           children: [

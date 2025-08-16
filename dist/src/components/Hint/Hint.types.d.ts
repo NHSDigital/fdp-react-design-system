@@ -1,4 +1,4 @@
-export interface HintProps {
+export interface HintProps extends React.HTMLAttributes<HTMLDivElement> {
     /** The HTML id attribute for the hint */
     id?: string;
     /** Additional CSS classes */

@@ -86,7 +86,7 @@ var require_classnames = __commonJS({
 
 // src/components/Radios/Radios.tsx
 var import_classnames4 = __toESM(require_classnames(), 1);
-import { useState as useState2 } from "react";
+import { useState as useState2, useRef, useCallback } from "react";
 
 // src/components/Input/Input.tsx
 var import_classnames = __toESM(require_classnames(), 1);
@@ -179,29 +179,25 @@ var Input = ({
     },
     ...props
   };
+  const uncontrolledRangeProps = !isControlled && defaultValue !== void 0 ? { defaultValue } : {};
+  const controlledRangeProps = isControlled ? { value } : {};
+  const renderRangeInput = () => /* @__PURE__ */ jsx(
+    "input",
+    {
+      className: inputClasses,
+      ...controlledRangeProps,
+      ...uncontrolledRangeProps,
+      "data-current-value": currentValue,
+      ...sharedRangeProps
+    }
+  );
   const rangeWrapper = isRange ? /* @__PURE__ */ jsxs("div", { className: "nhsuk-input-range-wrapper", children: [
     showValueLabels && /* @__PURE__ */ jsxs("div", { className: "nhsuk-input-range-labels", children: [
       /* @__PURE__ */ jsx("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min", children: (valueLabels == null ? void 0 : valueLabels.min) || min || "0" }),
-      /* @__PURE__ */ jsx(
-        "input",
-        {
-          className: inputClasses,
-          value: isControlled ? value : currentValue,
-          ...!isControlled && defaultValue !== void 0 ? { defaultValue } : {},
-          ...sharedRangeProps
-        }
-      ),
+      renderRangeInput(),
       /* @__PURE__ */ jsx("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max", children: (valueLabels == null ? void 0 : valueLabels.max) || max || "100" })
     ] }),
-    !showValueLabels && /* @__PURE__ */ jsx(
-      "input",
-      {
-        className: inputClasses,
-        value: isControlled ? value : currentValue,
-        ...!isControlled && defaultValue !== void 0 ? { defaultValue } : {},
-        ...sharedRangeProps
-      }
-    ),
+    !showValueLabels && renderRangeInput(),
     showCurrentValue && /* @__PURE__ */ jsx("div", { className: "nhsuk-input-range-current-value", children: /* @__PURE__ */ jsxs("span", { className: "nhsuk-input-range-current-label", children: [
       (valueLabels == null ? void 0 : valueLabels.current) || "Current value:",
       " ",
@@ -332,6 +328,7 @@ var Radios = ({
   ...props
 }) => {
   const [selectedValue, setSelectedValue] = useState2(value || defaultValue || "");
+  const itemsRef = useRef([]);
   const radiosClasses = (0, import_classnames4.default)(
     "nhsuk-radios",
     {
@@ -348,6 +345,27 @@ var Radios = ({
       onChange(event);
     }
   };
+  const handleKeyDown = useCallback((event) => {
+    const { key } = event;
+    if (!["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].includes(key)) return;
+    event.preventDefault();
+    const enabledRadios = itemsRef.current.filter((r) => r && !r.disabled);
+    const current = enabledRadios.indexOf(event.currentTarget);
+    if (current === -1) return;
+    let nextIndex = current;
+    if (key === "ArrowDown" || key === "ArrowRight") {
+      nextIndex = (current + 1) % enabledRadios.length;
+    } else if (key === "ArrowUp" || key === "ArrowLeft") {
+      nextIndex = (current - 1 + enabledRadios.length) % enabledRadios.length;
+    }
+    const nextRadio = enabledRadios[nextIndex];
+    if (nextRadio) {
+      nextRadio.focus();
+      if (!nextRadio.checked) {
+        nextRadio.click();
+      }
+    }
+  }, []);
   return /* @__PURE__ */ jsx4(Fieldset, { children: /* @__PURE__ */ jsx4("div", { className: radiosClasses, ...props, children: options.map((option, index) => {
     const radioId = `${name}-${index}`;
     const conditionalId = option.conditional ? `${radioId}-conditional` : void 0;
@@ -366,7 +384,11 @@ var Radios = ({
           "aria-describedby": describedBy,
           onChange: handleChange,
           onBlur,
-          onFocus
+          onFocus,
+          onKeyDown: handleKeyDown,
+          ref: (el) => {
+            if (el) itemsRef.current[index] = el;
+          }
         }
       ),
       /* @__PURE__ */ jsx4("label", { className: "nhsuk-radios__label", htmlFor: radioId, children: option.text }),

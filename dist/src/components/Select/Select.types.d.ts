@@ -26,6 +26,8 @@ export interface SelectProps {
     id: string;
     /** The name attribute for the select */
     name: string;
+    /** Optional accessible label for cases where external label element isn't used */
+    ariaLabel?: string;
     /** The selected value */
     value?: string;
     /** Default value for uncontrolled selects */

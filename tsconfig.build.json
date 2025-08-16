@@ -19,6 +19,7 @@
     "**/*.stories.*",
     "src/test-setup.ts",
     "src/vitest-env.d.ts",
-    "**/styled-components.ts"
+  "**/styled-components.ts",
+  "src/test-utils/**"
   ]
 }

@@ -91,6 +91,7 @@ var SelectOption = ({
   value,
   disabled = false,
   selected = false,
+  // deprecated in React 19 warnings: we map to parent defaultValue
   className,
   children,
   ...props
@@ -105,7 +106,6 @@ var SelectOption = ({
       className: optionClasses,
       value,
       disabled,
-      selected,
       ...props,
       children
     }
@@ -114,6 +114,7 @@ var SelectOption = ({
 var SelectBase = ({
   id,
   name,
+  ariaLabel,
   value,
   defaultValue,
   disabled = false,
@@ -131,6 +132,7 @@ var SelectBase = ({
   onFocus,
   ...props
 }) => {
+  var _a;
   const selectClasses = (0, import_classnames.default)(
     "nhsuk-select",
     {
@@ -145,20 +147,22 @@ var SelectBase = ({
       {
         value: option.value,
         disabled: option.disabled,
-        selected: option.selected,
+        "data-initial-selected": option.selected || void 0,
         children: option.text
       },
       `${option.value}-${index}`
     ));
   };
+  const derivedDefaultValue = defaultValue === void 0 && value === void 0 && options ? (_a = options.find((o) => o.selected)) == null ? void 0 : _a.value : void 0;
   return /* @__PURE__ */ jsx(
     "select",
     {
       className: selectClasses,
       id,
       name,
+      "aria-label": ariaLabel,
       value,
-      defaultValue,
+      defaultValue: defaultValue !== void 0 ? defaultValue : derivedDefaultValue,
       disabled,
       required,
       "aria-describedby": describedBy,

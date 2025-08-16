@@ -265,6 +265,7 @@ var CharacterCount = ({
             className: textareaClasses,
             onChange: handleChange,
             "aria-describedby": `${id}-info`,
+            "aria-invalid": isOverLimit || void 0,
             ...textareaProps
           }
         ),
@@ -273,6 +274,8 @@ var CharacterCount = ({
           {
             id: `${id}-info`,
             className: messageClasses,
+            role: "status",
+            "aria-live": "polite",
             children: generateCountMessage()
           }
         )

@@ -209,7 +209,7 @@ var Tabs = forwardRef(({
                     "nhsuk-tabs__list-item--selected": isActive,
                     "nhsuk-tabs__list-item--disabled": isDisabled
                   });
-                  return /* @__PURE__ */ jsx("li", { className: tabClasses, children: /* @__PURE__ */ jsx(
+                  return /* @__PURE__ */ jsx("li", { className: tabClasses, role: "presentation", children: /* @__PURE__ */ jsx(
                     "button",
                     {
                       ref: (element) => setTabRef(item.id, element),

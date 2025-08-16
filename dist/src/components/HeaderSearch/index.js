@@ -313,8 +313,7 @@ var HeaderSearch = ({
                 onFocus: handleFocus,
                 onBlur: handleBlur,
                 disabled: disabled || isLoading,
-                "aria-expanded": showResults && results.length > 0,
-                "aria-haspopup": "listbox",
+                ...showResults && results.length > 0 ? { "aria-expanded": true, "aria-haspopup": "listbox" } : {},
                 ...inputAttributes
               }
             ),

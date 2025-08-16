@@ -98,6 +98,24 @@ export const Input: React.FC<InputProps> = ({
     ...props,
   } as const;
 
+  // Range input handling: avoid React warning by not passing both value and defaultValue for uncontrolled inputs
+  const uncontrolledRangeProps = (!isControlled && defaultValue !== undefined)
+    ? { defaultValue }
+    : {};
+  const controlledRangeProps = isControlled ? { value } : {};
+
+  const renderRangeInput = () => (
+    <input
+      className={inputClasses}
+      // Only supply value if controlled; otherwise rely on defaultValue
+      {...controlledRangeProps}
+      {...uncontrolledRangeProps}
+      // For internal current value display we still keep state, but don't force React controlled mode
+      data-current-value={currentValue}
+      {...sharedRangeProps}
+    />
+  );
+
   const rangeWrapper = isRange ? (
     <div className="nhsuk-input-range-wrapper">
       {showValueLabels && (
@@ -105,25 +123,13 @@ export const Input: React.FC<InputProps> = ({
           <span className="nhsuk-input-range-label nhsuk-input-range-label--min">
             {valueLabels?.min || min || '0'}
           </span>
-          <input
-            className={inputClasses}
-            value={isControlled ? value : currentValue}
-            {...(!isControlled && defaultValue !== undefined ? { defaultValue } : {})}
-            {...sharedRangeProps}
-          />
+          {renderRangeInput()}
           <span className="nhsuk-input-range-label nhsuk-input-range-label--max">
             {valueLabels?.max || max || '100'}
           </span>
         </div>
       )}
-      {!showValueLabels && (
-        <input
-          className={inputClasses}
-          value={isControlled ? value : currentValue}
-          {...(!isControlled && defaultValue !== undefined ? { defaultValue } : {})}
-          {...sharedRangeProps}
-        />
-      )}
+      {!showValueLabels && renderRangeInput()}
       {showCurrentValue && (
         <div className="nhsuk-input-range-current-value">
           <span className="nhsuk-input-range-current-label">

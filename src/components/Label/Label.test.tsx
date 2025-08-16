@@ -1,4 +1,4 @@
-import { render } from '../../test-utils/ServerRenderer';
+import { renderSSR as render } from '../../test-utils/renderSSR';
 import { describe, it, expect } from 'vitest';
 import { Label } from './Label';
 

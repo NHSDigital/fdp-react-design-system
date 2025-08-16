@@ -1,4 +1,4 @@
-import { render } from '../../test-utils/ServerRenderer';
+import { renderSSR as render } from '../../test-utils/renderSSR';
 import { describe, it, expect } from 'vitest';
 import { ActionLink } from './ActionLink';
 
@@ -59,7 +59,7 @@ describe('ActionLink', () => {
   });
 
   it('passes additional props to link element', () => {
-    const { getByTestId } = render(
+    const { container } = render(
       <ActionLink 
         text="Test" 
         href="/test" 
@@ -67,7 +67,7 @@ describe('ActionLink', () => {
         id="test-action"
       />
     );
-    const link = getByTestId('action-link');
+    const link = container.querySelector('[data-testid="action-link"]');
     expect(link!.getAttribute('id')).toBe('test-action');
   });
 

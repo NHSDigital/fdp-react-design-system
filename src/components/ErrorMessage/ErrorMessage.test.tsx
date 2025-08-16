@@ -1,4 +1,4 @@
-import { render } from '../../test-utils/ServerRenderer';
+import { renderSSR as render } from '../../test-utils/renderSSR';
 import { describe, it, expect } from 'vitest';
 import { ErrorMessage } from './ErrorMessage';
 
@@ -90,13 +90,13 @@ describe('ErrorMessage', () => {
     });
 
     it('renders nested elements in children', () => {
-      const { getByText, getByRole } = render(
+  const { getByText, getByRole, container } = render(
         <ErrorMessage>
           Error with <a href="#help">help link</a> and <code>code</code> elements
         </ErrorMessage>
       );
-      
-      expect(getByText('Error with')).toBeTruthy();
+  const span = container.querySelector('.nhsuk-error-message');
+  expect(span?.textContent).toContain('Error with');
       expect(getByRole('link')).toBeTruthy();
       expect(getByText('code')).toBeTruthy();
     });
@@ -398,13 +398,13 @@ describe('ErrorMessage', () => {
     });
 
     it('handles error with action links', () => {
-      const { getByText, getByRole } = render(
+      const { getByRole, container } = render(
         <ErrorMessage>
           Invalid format. <a href="#help">Learn more about valid formats</a>.
         </ErrorMessage>
       );
-      
-      expect(getByText('Invalid format.')).toBeTruthy();
+      const span = container.querySelector('.nhsuk-error-message');
+      expect(span?.textContent).toContain('Invalid format.');
       expect(getByRole('link')).toBeTruthy();
     });
   });

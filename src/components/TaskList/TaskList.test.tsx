@@ -1,4 +1,4 @@
-import { render } from '../../test-utils/ServerRenderer';
+import { renderSSR as render } from '../../test-utils/renderSSR';
 import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { TaskList } from './TaskList';
@@ -81,7 +81,7 @@ describe('TaskList', () => {
       const { getAllByRole } = render(<TaskList items={basicItems} />);
       
       const listItems = getAllByRole('listitem');
-      listItems?.forEach(item => {
+  listItems?.forEach((item: Element) => {
         expect(item?.className.includes('nhsuk-task-list__item--with-link')).toBe(true);
       });
     });

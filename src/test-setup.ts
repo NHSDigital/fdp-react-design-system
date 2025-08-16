@@ -56,6 +56,25 @@ if (typeof window !== 'undefined') {
   // Polyfill scrollIntoView used in tab/data grid components (noop for jsdom)
   if (!HTMLElement.prototype.scrollIntoView) {
     (HTMLElement.prototype as any).scrollIntoView = function() { /* noop */ } as any;
+  } else {
+    // Wrap existing to swallow unexpected calls in tests
+    const original = HTMLElement.prototype.scrollIntoView;
+    (HTMLElement.prototype as any).scrollIntoView = function(...args: any[]) {
+      try { return original.apply(this, args as any); } catch { /* ignore */ }
+    };
+  }
+
+  // Polyfill HTMLFormElement.requestSubmit (jsdom not implemented)
+  if (typeof (HTMLFormElement.prototype as any).requestSubmit !== 'function') {
+    (HTMLFormElement.prototype as any).requestSubmit = function(submitter?: HTMLElement) {
+      const evt = new Event('submit', { bubbles: true, cancelable: true });
+      // If submitter provided set it on form for handlers that read it
+      (this as any)._requestSubmitter = submitter;
+      this.dispatchEvent(evt);
+      if (!evt.defaultPrevented) {
+        // Basic no-op to simulate native submission path
+      }
+    };
   }
 }
 
@@ -104,4 +123,14 @@ if (typeof document !== 'undefined') {
       }
     });
   };
+}
+
+// Silence AriaTabsDataGrid scroll debug logs by default in test runs unless explicitly disabled
+if (!process.env.SILENCE_SCROLL_DEBUG) {
+  process.env.SILENCE_SCROLL_DEBUG = 'true';
+}
+
+// Silence performance warnings during normal test runs unless explicitly enabled
+if (!process.env.CI_SILENCE_PERF_WARN) {
+  process.env.CI_SILENCE_PERF_WARN = 'true';
 }

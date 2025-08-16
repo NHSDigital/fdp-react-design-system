@@ -1,5 +1,5 @@
-import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
+import { act } from 'react';
 import { HeaderSSR } from './HeaderSSR';
 import type { HeaderProps } from './Header.types';
 
@@ -24,16 +24,16 @@ describe('HeaderSSR - Simple Tests', () => {
     const container = document.createElement('div');
     const root = createRoot(container);
     
-    expect(() => {
+    act(() => {
       root.render(<HeaderSSR {...defaultProps} />);
-    }).not.toThrow();
-    
-    root.unmount();
+    });
+    expect(container.innerHTML.length).toBeGreaterThan(0);
+    act(() => {
+      root.unmount();
+    });
   });
 
   it('should render with jsdom environment available', () => {
-    expect(typeof document).toBe('object');
-    expect(typeof window).toBe('object');
-    expect(document.createElement).toBeDefined();
+  expect(typeof document.createElement).toBe('function');
   });
 });

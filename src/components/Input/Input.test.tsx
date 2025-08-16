@@ -1,5 +1,4 @@
-import React from 'react';
-import { render, fireEvent } from '../../test-utils/ServerRenderer';
+import { renderSSR as render } from '../../test-utils/renderSSR';
 import { describe, it, expect, vi } from 'vitest';
 import { Input } from './Input';
 
@@ -24,8 +23,8 @@ describe('Input', () => {
     expect(input?.getAttribute('type')).toBe('email');
   });
 
-  it('renders with value', () => {
-    const { getByDisplayValue } = render(<Input id="test-input" name="test" value="test value" />);
+  it('renders with value (readOnly to avoid warning)', () => {
+    const { getByDisplayValue } = render(<Input id="test-input" name="test" value="test value" readOnly />);
     const input = getByDisplayValue('test value');
     expect(input).toBeTruthy();
   });

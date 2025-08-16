@@ -350,7 +350,7 @@ describe('AriaDataGrid - Comprehensive Healthcare Integration Tests', () => {
       expect(riskHeader.getAttribute('aria-sort')).toBe('descending');
       
       // Verify performance is within acceptable range for production
-      if (renderTime > 500) {
+      if (renderTime > 500 && !process.env.CI_SILENCE_PERF_WARN) {
         console.warn(`Performance warning: Large dataset render took ${renderTime.toFixed(2)}ms - consider virtualization for larger datasets`);
       }
     });

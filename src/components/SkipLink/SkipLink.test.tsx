@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render } from '../../test-utils/ServerRenderer';
+import { renderSSR as render } from '../../test-utils/renderSSR';
 import { SkipLink } from './SkipLink';
 
 describe('SkipLink', () => {
@@ -76,11 +76,8 @@ describe('SkipLink', () => {
     expect(skipLink).toBeTruthy();
   });
 
-  it('cleans up event listeners on unmount', () => {
-    const { unmount } = render(<SkipLink />);
-    
-    // In SSR context, we can't test event listener cleanup
-    // Just verify unmount works without errors
-    expect(() => unmount()).not.toThrow();
+  it('renders SSR output without runtime cleanup concerns (no unmount in SSR helper)', () => {
+    const { container } = render(<SkipLink />);
+    expect(container.querySelector('a')).toBeTruthy();
   });
 });

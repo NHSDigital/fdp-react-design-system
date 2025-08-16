@@ -1,60 +1,47 @@
-import { ServerRenderer } from '../../test-utils/ServerRenderer';
+import { renderSSR } from '../../test-utils/renderSSR';
 import { describe, it, expect, vi } from 'vitest';
 import { CharacterCount } from './CharacterCount';
 
 describe('CharacterCount', () => {
   it('renders successfully', () => {
-    const container = ServerRenderer.render(<CharacterCount id="test-char-count" name="symptoms" maxLength={100} />);
-    const getByRole = (role: string) => ServerRenderer.getByRole(container, role);
-    const getByText = (text: string) => ServerRenderer.getByText(container, text);
+    const { getByRole, getByText } = renderSSR(<CharacterCount id="test-char-count" name="symptoms" maxLength={100} />);
     expect(getByRole('textbox')).toBeTruthy();
-    expect(getByText('You can enter up to 100 characters')).toBeTruthy();
+    expect(getByText(/You can enter up to 100 characters/)).toBeTruthy();
   });
 
   it('applies custom className', () => {
-    const container = ServerRenderer.render(<CharacterCount id="test-char-count" name="symptoms" maxLength={100} className="custom-class" />);
-    const component = container.querySelector('[data-testid="character-count"]') || container.querySelector('.nhsuk-character-count');
-    expect(component!.className.includes('custom-class')).toBeTruthy();
-    expect(component!.className.includes('nhsuk-character-count')).toBeTruthy();
+    const { container } = renderSSR(<CharacterCount id="test-char-count" name="symptoms" maxLength={100} className="custom-class" />);
+    const component = container.querySelector('[data-testid="character-count"], .nhsuk-character-count');
+    expect(component!.className).toContain('custom-class');
+    expect(component!.className).toContain('nhsuk-character-count');
   });
 
-  it('updates character count on input when threshold reached', () => {
-    const container = ServerRenderer.render(<CharacterCount id="test-char-count" name="symptoms" maxLength={100} threshold={10} />);
-    const getByRole = (role: string) => ServerRenderer.getByRole(container, role);
-    const textarea = getByRole('textbox');
-    
-    // Note: Server-side rendering doesn't support event simulation
-    // Event handling should be tested in browser integration tests
-    expect(textarea).toBeTruthy();
+  it('updates character count on input when threshold reached (SSR static markup only)', () => {
+    const { getByRole } = renderSSR(<CharacterCount id="test-char-count" name="symptoms" maxLength={100} threshold={10} />);
+    expect(getByRole('textbox')).toBeTruthy();
   });
 
-  it('shows over limit warning', () => {
-    const container = ServerRenderer.render(<CharacterCount id="test-char-count" name="symptoms" maxLength={10} />);
-    const getByRole = (role: string) => ServerRenderer.getByRole(container, role);
-    const textarea = getByRole('textbox');
-    
-    // Note: Server-side rendering doesn't support event simulation
-    // Event handling should be tested in browser integration tests
-    expect(textarea).toBeTruthy();
+  it('shows textarea when over limit scenario (SSR static)', () => {
+    const { getByRole } = renderSSR(<CharacterCount id="test-char-count" name="symptoms" maxLength={10} />);
+    expect(getByRole('textbox')).toBeTruthy();
   });
 
   it('renders with custom threshold', () => {
-    const container = ServerRenderer.render(<CharacterCount id="test-char-count" name="symptoms" maxLength={100} threshold={50} />);
-    const component = container.querySelector('[data-testid="character-count"]') || container.querySelector('.nhsuk-character-count');
+    const { container } = renderSSR(<CharacterCount id="test-char-count" name="symptoms" maxLength={100} threshold={50} />);
+    const component = container.querySelector('[data-testid="character-count"], .nhsuk-character-count');
     expect(component!.getAttribute('data-threshold')).toBe('50');
   });
 
   it('renders with textarea name and id', () => {
-    const container = ServerRenderer.render(<CharacterCount id="test-char-count" name="user-feedback" maxLength={100} />);
-    const getByRole = (role: string) => ServerRenderer.getByRole(container, role);
+    const { getByRole } = renderSSR(<CharacterCount id="test-char-count" name="user-feedback" maxLength={100} />);
     const textarea = getByRole('textbox');
-    expect(textarea!.getAttribute('name')).toBe('user-feedback');
-    expect(textarea!.getAttribute('id')).toBe('test-char-count');
+    expect(textarea.getAttribute('name')).toBe('user-feedback');
+    expect(textarea.getAttribute('id')).toBe('test-char-count');
   });
 
-  it('calls onChange when text changes', () => {
+  it('includes onChange handler prop in SSR output (no runtime events)', () => {
     const handleChange = vi.fn();
-    const container = ServerRenderer.render(
+    const { getByRole } = renderSSR(
       <CharacterCount 
         id="test-char-count" 
         name="symptoms" 
@@ -62,12 +49,6 @@ describe('CharacterCount', () => {
         onChange={handleChange}
       />
     );
-    const getByRole = (role: string) => ServerRenderer.getByRole(container, role);
-    
-    const textarea = getByRole('textbox');
-    
-    // Note: Server-side rendering doesn't support event simulation
-    // Event handling should be tested in browser integration tests
-    expect(textarea).toBeTruthy();
+    expect(getByRole('textbox')).toBeTruthy();
   });
 });

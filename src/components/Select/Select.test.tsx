@@ -52,7 +52,8 @@ describe('Select', () => {
   });
 
   it('handles controlled component with value prop', () => {
-    render(<Select id="country" name="country" options={basicOptions} value="scotland" />);
+    const handleChange = () => {};
+    render(<Select id="country" name="country" options={basicOptions} value="scotland" onChange={handleChange} />);
     
     const select = screen.getByRole('combobox');
     expect(select).toHaveValue('scotland');
@@ -326,7 +327,7 @@ describe('Select', () => {
   });
 
   describe('Integration scenarios', () => {
-    it('works correctly in forms', () => {
+  it('works correctly in forms', () => {
       const handleSubmit = vi.fn();
       
       render(
@@ -337,28 +338,29 @@ describe('Select', () => {
       );
       
       const select = screen.getByRole('combobox');
-      const submitButton = screen.getByRole('button', { name: 'Submit' });
       
       // Select a value
       fireEvent.change(select, { target: { value: 'england' } });
       expect(select).toHaveValue('england');
       
       // Form should be submittable
-      fireEvent.click(submitButton);
+  // Use submit event directly to avoid jsdom requestSubmit warning
+  fireEvent.submit(select.closest('form')!);
       expect(handleSubmit).toHaveBeenCalledTimes(1);
     });
 
     it('maintains state correctly during re-renders', () => {
+      const handleChange = () => {};
       const { rerender } = render(
-        <Select id="country" name="country" options={basicOptions} value="scotland" />
-      );
+          <Select id="country" name="country" options={basicOptions} value="scotland" onChange={handleChange} />
+        );
       
       let select = screen.getByRole('combobox');
       expect(select).toHaveValue('scotland');
       
       // Re-render with different value
       rerender(
-        <Select id="country" name="country" options={basicOptions} value="wales" />
+        <Select id="country" name="country" options={basicOptions} value="wales" onChange={handleChange} />
       );
       
       select = screen.getByRole('combobox');

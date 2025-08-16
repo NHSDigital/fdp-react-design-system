@@ -77,10 +77,16 @@ export const ErrorSummary: React.FC<ErrorSummaryProps> = ({
       </h2>
       
       <div className="nhsuk-error-summary__body">
-        {children && <p>{children}</p>}
-        
+        {children && (
+          <div className="nhsuk-error-summary__description" data-role="description">
+            {children}
+          </div>
+        )}
+
         {!children && (descriptionText || descriptionHtml) && (
-          <p>{renderDescription()}</p>
+          <div className="nhsuk-error-summary__description" data-role="description">
+            {renderDescription()}
+          </div>
         )}
         
         <ul className="nhsuk-list nhsuk-error-summary__list" role="list">

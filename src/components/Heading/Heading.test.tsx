@@ -1,4 +1,4 @@
-import { render } from '../../test-utils/ServerRenderer';
+import { renderSSR as render } from '../../test-utils/renderSSR';
 import { Heading } from './Heading';
 import { describe, it, expect } from 'vitest';
 

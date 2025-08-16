@@ -1,4 +1,4 @@
-import { render } from '../../test-utils/ServerRenderer';
+import { renderSSR as render } from '../../test-utils/renderSSR';
 import { describe, it, expect } from 'vitest';
 import { Card, CardGroup, CardGroupItem } from './Card';
 
@@ -110,17 +110,17 @@ describe('Card Component', () => {
   it('renders with custom HTML content', () => {
     const customDescription = '<p>Custom <strong>HTML</strong> content</p>';
     
-    const { getByText } = render(
+  const { container } = render(
       <Card 
         heading="Card with HTML"
         descriptionHtml={customDescription}
         data-testid="test-card"
       />
     );
-
-    expect(getByText('Custom')).toBeTruthy();
-    expect(getByText('HTML')).toBeTruthy();
-    expect(getByText('content')).toBeTruthy();
+  const htmlWrapper = container.querySelector('p');
+  expect(htmlWrapper?.textContent).toMatch(/Custom/);
+  expect(htmlWrapper?.textContent).toMatch(/HTML/);
+  expect(htmlWrapper?.textContent).toMatch(/content/);
   });
 
   it('renders with children content', () => {

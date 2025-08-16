@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect } from 'vitest';
-import { render } from '../../test-utils/ServerRenderer';
+import { renderSSR as render } from '../../test-utils/renderSSR';
 import { Hero } from './Hero';
 
 describe('Hero', () => {
@@ -98,29 +98,24 @@ describe('Hero', () => {
   });
 
   it('renders with border class when no image', () => {
-    const { getByRole, querySelector } = render(<Hero heading="Test Heading" />);
-    
-    const heroContainer = querySelector('.nhsuk-width-container');
+    const { container } = render(<Hero heading="Test Heading" />);
+    const heroContainer = container.querySelector('.nhsuk-width-container');
     expect(heroContainer?.className).toContain('nhsuk-hero--border');
   });
 
   it('does not render border class with image', () => {
-    const { getByRole, querySelector } = render(<Hero heading="Test Heading" imageURL="test.jpg" />);
-    
-    const heroContainer = querySelector('.nhsuk-width-container');
+    const { container } = render(<Hero heading="Test Heading" imageURL="test.jpg" />);
+    const heroContainer = container.querySelector('.nhsuk-width-container');
     expect(heroContainer?.className).not.toContain('nhsuk-hero--border');
   });
 
   it('forwards additional attributes', () => {
-    const { getByRole, getByText, queryByText, getByTestId, getAllByRole, container } = render(<Hero data-testid="hero-component" aria-label="Hero section" />);
-    
-    const hero = getByTestId('hero-component');
-    expect(hero).toHaveAttribute('aria-label', 'Hero section');
+    const { getByTestId } = render(<Hero data-testid="hero-component" aria-label="Hero section" />);
+    expect(getByTestId('hero-component')).toHaveAttribute('aria-label', 'Hero section');
   });
 
   it('renders arrow element with image and content', () => {
-    const { getByRole, getByText, queryByText, getByTestId, getAllByRole, container } = render(<Hero imageURL="test.jpg" heading="Test" />);
-    
+    const { container } = render(<Hero imageURL="test.jpg" heading="Test" />);
     const arrow = container.querySelector('.nhsuk-hero__arrow');
     expect(arrow).toBeTruthy();
     expect(arrow).toHaveAttribute('aria-hidden', 'true');
@@ -131,7 +126,7 @@ describe('Hero', () => {
     const textContent = 'Text content';
     const htmlContent = '<p>HTML content</p>';
     
-    const { getByRole, getByText, queryByText, getByTestId, getAllByRole, container } = render(
+  const { getByText, queryByText } = render(
       <Hero text={textContent} html={htmlContent}>
         <p>{childContent}</p>
       </Hero>
@@ -143,40 +138,33 @@ describe('Hero', () => {
   });
 
   it('adds margin-bottom-0 class to heading when no content', () => {
-    const { getByRole, getByText, queryByText, getByTestId, getAllByRole, container } = render(<Hero heading="Lone Heading" />);
-    
-    const heading = getByRole('heading');
-    expect(heading?.className?.includes('nhsuk-u-margin-bottom-0')).toBeTruthy();
+    const { getByRole } = render(<Hero heading="Lone Heading" />);
+    expect(getByRole('heading')?.className?.includes('nhsuk-u-margin-bottom-0')).toBeTruthy();
   });
 
   it('does not add margin-bottom-0 class to heading when content present', () => {
-    const { getByRole, getByText, queryByText, getByTestId, getAllByRole, container } = render(<Hero heading="Heading with content" text="Some text" />);
-    
-    const heading = getByRole('heading');
-    expect(heading?.className?.includes('nhsuk-u-margin-bottom-0')).toBeFalsy();
+    const { getByRole } = render(<Hero heading="Heading with content" text="Some text" />);
+    expect(getByRole('heading')?.className?.includes('nhsuk-u-margin-bottom-0')).toBeFalsy();
   });
 
   it('handles all heading levels correctly', () => {
     const headingLevels = [1, 2, 3, 4, 5, 6];
     
     headingLevels.forEach(level => {
-      const { getByRole, unmount } = render(<Hero heading="Test" headingLevel={level as 1 | 2 | 3 | 4 | 5 | 6} />);
+      const { getByRole } = render(<Hero heading="Test" headingLevel={level as 1 | 2 | 3 | 4 | 5 | 6} />);
       const heading = getByRole('heading', { level });
       expect(heading).toBeTruthy();
-      unmount();
     });
   });
 
   it('defaults to h1 for invalid heading level', () => {
-    const { getByRole, getByText, queryByText, getByTestId, getAllByRole, container } = render(<Hero heading="Test" headingLevel={7} />);
-    
-    const heading = getByRole('heading', { level: 1 });
-    expect(heading).toBeTruthy();
+    // @ts-expect-error intentional invalid level to test fallback
+    const { getByRole } = render(<Hero heading="Test" headingLevel={7} />);
+    expect(getByRole('heading', { level: 1 })).toBeTruthy();
   });
 
   it('does not render content sections when no content provided', () => {
-    const { getByRole, getByText, queryByText, getByTestId, getAllByRole, container } = render(<Hero />);
-    
+    render(<Hero />);
     expect(document.querySelector('.nhsuk-hero__wrapper')).not.toBeTruthy();
     expect(document.querySelector('.nhsuk-hero-content')).not.toBeTruthy();
   });

@@ -127,6 +127,8 @@ nhs-fdp-design-system/
 - **[Migration Guide](./docs/migration/migration-guide.md)** - Upgrade from legacy systems
 - **[Design Tokens](./docs/tokens/NHS-COMPOSITE-TOKENS-GUIDE.md)** - Token system overview
 - **[Component Library](http://localhost:6006)** - Interactive Storybook
+- **[SSR Testing Guide](./docs/testing/ssr-testing.md)** - Unified server-side test patterns
+- **[Hydration Testing](./docs/guides/testing-hydration.mdx)** - Split SSR / client / hydration test pattern & helper
 
 ## Development
 

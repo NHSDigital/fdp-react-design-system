@@ -256,7 +256,9 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 			});
 		  }
 		} else {
-		  console.log('Missing elements for scroll:', { tabElement, tabListElement });
+		  if (!process.env.SILENCE_SCROLL_DEBUG) {
+			console.debug('[AriaTabsDataGrid] Missing elements for scroll', { tabElementExists: !!tabElement, tabListElementExists: !!tabListElement });
+		  }
 		}
 	  }, 50);
 	}, []);

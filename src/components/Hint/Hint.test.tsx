@@ -1,4 +1,4 @@
-import { render } from '../../test-utils/ServerRenderer';
+import { renderSSR as render } from '../../test-utils/renderSSR';
 import { describe, it, expect } from 'vitest';
 import { Hint } from './Hint';
 
@@ -80,9 +80,8 @@ describe('Hint', () => {
     });
 
     it('handles empty content gracefully', () => {
-      const { querySelector } = render(<Hint>{''}</Hint>);
-      
-      const hint = querySelector('.nhsuk-hint');
+      const { container } = render(<Hint>{''}</Hint>);
+      const hint = container.querySelector('.nhsuk-hint');
       expect(hint).toBeTruthy();
       expect(hint?.textContent).toBe('');
     });
@@ -138,9 +137,8 @@ describe('Hint', () => {
     });
 
     it('works with screen readers through proper markup', () => {
-      const { querySelector } = render(<Hint id="screen-reader-hint">Screen reader accessible hint</Hint>);
-      
-      const hint = querySelector('#screen-reader-hint');
+      const { container } = render(<Hint id="screen-reader-hint">Screen reader accessible hint</Hint>);
+      const hint = container.querySelector('#screen-reader-hint');
       expect(hint).toBeTruthy();
       expect(hint?.textContent).toBe('Screen reader accessible hint');
     });
@@ -222,15 +220,14 @@ describe('Hint', () => {
 
   describe('Integration scenarios', () => {
     it('works with form fields', () => {
-      const { getByLabelText, querySelector } = render(
+      const { getByLabelText, container } = render(
         <div>
           <label htmlFor="password">Password</label>
           <Hint id="password-hint">Must be at least 8 characters long</Hint>
           <input id="password" type="password" aria-describedby="password-hint" />
         </div>
       );
-      
-      const hint = querySelector('#password-hint');
+      const hint = container.querySelector('#password-hint');
       const input = getByLabelText('Password');
       
       expect(hint?.getAttribute('id')).toBe('password-hint');
@@ -255,7 +252,7 @@ describe('Hint', () => {
     });
 
     it('maintains correct structure during re-renders', () => {
-      const { getByText, querySelector } = render(
+      const { getByText } = render(
         <Hint id="dynamic-hint">Original hint text</Hint>
       );
       
@@ -264,11 +261,11 @@ describe('Hint', () => {
       expect(hint?.getAttribute('id')).toBe('dynamic-hint');
       
       // Re-render with different content
-      const { querySelector: newQuerySelector } = render(
+      const { container: updatedContainer } = render(
         <Hint id="dynamic-hint">Updated hint text</Hint>
       );
       
-      hint = newQuerySelector('#dynamic-hint') as HTMLElement;
+      hint = updatedContainer.querySelector('#dynamic-hint') as HTMLElement;
       expect(hint?.getAttribute('id')).toBe('dynamic-hint');
     });
 

@@ -11,7 +11,7 @@ import { SelectProps, SelectOptionProps, type SelectComponent } from './Select.t
 export const SelectOption: React.FC<SelectOptionProps> = ({
   value,
   disabled = false,
-  selected = false,
+  selected = false, // deprecated in React 19 warnings: we map to parent defaultValue
   className,
   children,
   ...props
@@ -26,7 +26,6 @@ export const SelectOption: React.FC<SelectOptionProps> = ({
       className={optionClasses}
       value={value}
       disabled={disabled}
-      selected={selected}
       {...props}
     >
       {children}
@@ -72,18 +71,23 @@ const SelectBase: React.FC<SelectProps> = ({
   // Render options from the options prop
   const renderOptionsFromProp = () => {
     if (!options) return null;
-    
     return options.map((option, index) => (
       <option
         key={`${option.value}-${index}`}
         value={option.value}
         disabled={option.disabled}
-        selected={option.selected}
+        // React 19: avoid selected attribute warning; rely on defaultValue / value
+        data-initial-selected={option.selected || undefined}
       >
         {option.text}
       </option>
     ));
   };
+
+  // Derive a defaultValue if none provided but options include a selected flag
+  const derivedDefaultValue = (defaultValue === undefined && value === undefined && options)
+    ? options.find(o => o.selected)?.value
+    : undefined;
 
   return (
     <select
@@ -91,7 +95,7 @@ const SelectBase: React.FC<SelectProps> = ({
       id={id}
       name={name}
       value={value}
-      defaultValue={defaultValue}
+      defaultValue={defaultValue !== undefined ? defaultValue : derivedDefaultValue}
       disabled={disabled}
       required={required}
       aria-describedby={describedBy}

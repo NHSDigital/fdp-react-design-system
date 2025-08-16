@@ -187,6 +187,7 @@ function ButtonComponent(
 
 	// Render as anchor link if href is provided
 	if ('href' in rest && rest.href) {
+		const { id, style, title, ['aria-label']: ariaLabel, ['aria-describedby']: ariaDescribedBy, ['aria-labelledby']: ariaLabelledBy, tabIndex, ...anchorRest } = rest as ButtonAsLinkProps as any;
 		const anchorProps = rest as ButtonAsLinkProps;
 		return (
 			<a
@@ -200,6 +201,7 @@ function ButtonComponent(
 				data-module="nhs-button"
 				{...dataAttributes}
 				{...(preventDoubleClick && { 'data-prevent-double-click': 'true' })}
+				{...anchorRest}
 				onKeyDown={(event) => {
 					anchorProps.onKeyDown?.(event);
 					handleKeyDown(event);
@@ -236,13 +238,13 @@ function ButtonComponent(
 				aria-disabled={anchorProps['aria-disabled']}
 				{...(anchorProps['aria-disabled'] === 'true' && { 'tabIndex': -1 })}
 				// Extract relevant props excluding our custom ones
-				id={anchorProps.id}
-				style={anchorProps.style}
-				title={anchorProps.title}
-				aria-label={anchorProps['aria-label']}
-				aria-describedby={anchorProps['aria-describedby']}
-				aria-labelledby={anchorProps['aria-labelledby']}
-				tabIndex={anchorProps.tabIndex}
+				id={id}
+				style={style}
+				title={title}
+				aria-label={ariaLabel}
+				aria-describedby={ariaDescribedBy}
+				aria-labelledby={ariaLabelledBy}
+				tabIndex={tabIndex}
 			>
 				{children}
 			</a>
@@ -250,6 +252,7 @@ function ButtonComponent(
 	}
 
 	// Render as button element
+	const { id, style, title, ['aria-label']: ariaLabel, ['aria-describedby']: ariaDescribedBy, ['aria-labelledby']: ariaLabelledBy, tabIndex, name, value: valueProp, form, formAction, formEncType, formMethod, formNoValidate, formTarget, autoFocus, ...buttonRest } = rest as any as ButtonAsButtonProps;
 	const buttonProps = rest as ButtonAsButtonProps;
 	return (
 		<button
@@ -261,6 +264,7 @@ function ButtonComponent(
 			{...dataAttributes}
 			{...(preventDoubleClick && { 'data-prevent-double-click': 'true' })}
 			{...(buttonProps.disabled && { 'aria-disabled': 'true' })}
+			{...buttonRest}
 			onKeyDown={(event) => {
 				buttonProps.onKeyDown?.(event);
 				handleKeyDown(event);
@@ -294,22 +298,22 @@ function ButtonComponent(
 				handleBlur();
 			}}
 			// Extract relevant props
-			id={buttonProps.id}
-			style={buttonProps.style}
-			title={buttonProps.title}
-			aria-label={buttonProps['aria-label']}
-			aria-describedby={buttonProps['aria-describedby']}
-			aria-labelledby={buttonProps['aria-labelledby']}
-			tabIndex={buttonProps.tabIndex}
-			name={buttonProps.name}
-			value={buttonProps.value}
-			form={buttonProps.form}
-			formAction={buttonProps.formAction}
-			formEncType={buttonProps.formEncType}
-			formMethod={buttonProps.formMethod}
-			formNoValidate={buttonProps.formNoValidate}
-			formTarget={buttonProps.formTarget}
-			autoFocus={buttonProps.autoFocus}
+			id={id}
+			style={style}
+			title={title}
+			aria-label={ariaLabel}
+			aria-describedby={ariaDescribedBy}
+			aria-labelledby={ariaLabelledBy}
+			tabIndex={tabIndex}
+			name={name}
+			value={valueProp}
+			form={form}
+			formAction={formAction}
+			formEncType={formEncType}
+			formMethod={formMethod}
+			formNoValidate={formNoValidate}
+			formTarget={formTarget}
+			autoFocus={autoFocus}
 		>
 			{children}
 		</button>

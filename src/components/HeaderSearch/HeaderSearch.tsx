@@ -32,7 +32,7 @@ import './HeaderSearch.scss';
  */
 export const HeaderSearch: React.FC<HeaderSearchProps> = ({
   mode = 'form',
-  action = "https://www.nhs.uk/search/",
+  action = "/search",
   method = 'get',
   name = "q",
   value,
@@ -252,7 +252,7 @@ export const HeaderSearch: React.FC<HeaderSearchProps> = ({
   };
 
   return (
-    <search className={classNames('nhsuk-header__search', className, {
+    <div className={classNames('nhsuk-header__search', className, {
       'nhsuk-header__search--controlled': mode === 'controlled',
       'nhsuk-header__search--hybrid': mode === 'hybrid',
       'nhsuk-header__search--loading': isLoading,
@@ -265,6 +265,7 @@ export const HeaderSearch: React.FC<HeaderSearchProps> = ({
         id="search" 
         action={mode !== 'controlled' ? action : undefined}
         method={mode !== 'controlled' ? method : undefined}
+        role="search"
         onSubmit={handleFormSubmit}
         {...formAttributes}
       >
@@ -310,6 +311,6 @@ export const HeaderSearch: React.FC<HeaderSearchProps> = ({
       </form>
       
       {renderResults()}
-    </search>
+  </div>
   );
 };

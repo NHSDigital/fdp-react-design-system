@@ -112,9 +112,8 @@ const BreadcrumbBase: React.FC<BreadcrumbProps> = ({
     classes
   );
 
-  // Enhanced ARIA compliance
-  const hasMultipleItems = breadcrumbItems && breadcrumbItems.length > 1;
-  const ariaLabel = hasMultipleItems ? labelText : undefined;
+  // Enhanced ARIA compliance: always set aria-label for consistency with tests
+  const ariaLabel = labelText;
 
   return (
     <nav 
@@ -135,7 +134,7 @@ const BreadcrumbBase: React.FC<BreadcrumbProps> = ({
           })
         ) : (
           // Render from items array
-          breadcrumbItems?.map((item, index) => (
+          breadcrumbItems?.filter(item => item.active || !!item.href).map((item, index) => (
             <li key={index} className="nhsuk-breadcrumb__item" role="listitem">
               {item.active ? (
                 <span

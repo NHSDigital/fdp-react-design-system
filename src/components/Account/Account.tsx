@@ -29,6 +29,8 @@ export const Account: React.FC<AccountProps> = ({
         viewBox="0 0 24 24" 
         aria-hidden="true" 
         focusable="false"
+        role="img" 
+        aria-label={item.icon === true ? 'User' : undefined}
       >
         <path d="M12 1a11 11 0 1 1 0 22 11 11 0 0 1 0-22Zm0 2a9 9 0 0 0-5 16.5V18a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1.5A9 9 0 0 0 12 3Zm0 3a3.5 3.5 0 1 1-3.5 3.5A3.4 3.4 0 0 1 12 6Z" />
       </svg>
@@ -49,7 +51,7 @@ export const Account: React.FC<AccountProps> = ({
 
     if (item.href) {
       return (
-        <a className="nhsuk-account__link" href={item.href}>
+        <a className="nhsuk-account__link nhsuk-header__account-link" href={item.href}>
           {content}
         </a>
       );
@@ -93,7 +95,7 @@ export const Account: React.FC<AccountProps> = ({
           item && (
             <li 
               key={index} 
-              className={classNames('nhsuk-account__item', item.className)}
+              className={classNames('nhsuk-account__item nhsuk-header__account-item', item.className)}
             >
               {renderAccountItem(item)}
             </li>

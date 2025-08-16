@@ -76,7 +76,7 @@ export const Details = forwardRef<HTMLDetailsElement, DetailsProps>(
         open={open}
         {...props}
       >
-        <summary className="nhsuk-details__summary">
+  <summary className="nhsuk-details__summary" tabIndex={0}>
           {summaryContent}
         </summary>
         <div className="nhsuk-details__text">

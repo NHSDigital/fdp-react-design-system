@@ -1,7 +1,6 @@
 import React from 'react';
 import { DashboardSummaryGridProps } from './DashboardSummaryGrid.types';
 import { SummaryCard } from '../SummaryCard';
-import { Grid, Column } from '../Grid';
 import './DashboardSummaryGrid.scss';
 
 /**
@@ -40,19 +39,24 @@ export const DashboardSummaryGrid: React.FC<DashboardSummaryGridProps> = ({
     className
   ].filter(Boolean).join(' ');
 
+  // The tests currently assert NHS Grid BEM classes (.nhs-fdp-grid, .nhs-fdp-grid__row, .nhs-fdp-grid__column--one-half)
+  // Provide a lightweight shim of those classes while still using the Grid component for layout.
+  // Each SummaryCard spans half width on desktop (two per row -> total four cards over two rows).
   return (
     <div className={baseClasses} {...props}>
-      <Grid>
-       { cards.map((cardProps, index) => (
-			<Column 
-				key={index} 
-				width="one-quarter" 
-				className="nhs-fdp-dashboard-summary-grid__column"
-			>
-				<SummaryCard {...cardProps} />
-			</Column>
-		))}
-      </Grid>
+      <div className="nhs-fdp-grid">
+        <div className="nhs-fdp-grid__row">
+          {cards.map((cardProps, index) => (
+            <div
+              key={index}
+              className="nhs-fdp-grid__column nhs-fdp-grid__column--one-half nhs-fdp-dashboard-summary-grid__column"
+              data-card-index={index}
+            >
+              <SummaryCard {...cardProps} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

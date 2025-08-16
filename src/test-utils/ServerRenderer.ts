@@ -12,7 +12,10 @@ export class ServerRenderer {
     const htmlString = renderToString(element);
     // Handle preload links that might be included at the start
     const cleanHtml = htmlString.replace(/^<link[^>]*\/?>/, '');
-    const dom = new JSDOM(`<!DOCTYPE html><html><body>${cleanHtml}</body></html>`);
+    // Provide a fixed URL so that jsdom enables localStorage/sessionStorage without SecurityError
+    const dom = new JSDOM(`<!DOCTYPE html><html><body>${cleanHtml}</body></html>`, {
+      url: 'https://test.local/'
+    });
     
     // Always return the body as the container, not the first element
     // This ensures that querySelector('input') will work properly

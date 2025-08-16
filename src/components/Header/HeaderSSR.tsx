@@ -94,6 +94,8 @@ export const HeaderSSR: React.FC<HeaderProps> = ({
           src={logo.src} 
           width="280" 
           alt={logo.ariaLabel || "NHS"} 
+          role="img" 
+          aria-label={logo.ariaLabel || 'NHS'}
         />
       );
     }

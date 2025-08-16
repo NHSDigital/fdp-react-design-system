@@ -52,6 +52,12 @@ if (typeof window !== 'undefined') {
     },
     configurable: true,
   });
+
+  // Polyfill scrollIntoView used in tab/data grid components (noop for jsdom)
+  if (!HTMLElement.prototype.scrollIntoView) {
+    // eslint-disable-next-line no-extend-native
+    HTMLElement.prototype.scrollIntoView = function() { /* noop */ } as any;
+  }
 }
 
 // Provide jest global alias for tests still using jest.fn etc.

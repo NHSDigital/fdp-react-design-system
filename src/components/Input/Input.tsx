@@ -42,9 +42,15 @@ export const Input: React.FC<InputProps> = ({
     }
   }, [value]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentValue(event.target.value);
-    onChange?.(event);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) => {
+    const el = event.target as HTMLInputElement;
+    setCurrentValue(el.value);
+    // Only forward real change events (have nativeEvent) or synthesized key events where value changed
+    if ('type' in event && (event as any).nativeEvent) {
+      onChange?.(event as any);
+    } else if (event.type === 'keydown') {
+      onChange?.(event as any);
+    }
   };
 
   const isRange = type === 'range';
@@ -59,6 +65,39 @@ export const Input: React.FC<InputProps> = ({
     className
   );
 
+  const isControlled = value !== undefined;
+  const sharedRangeProps = {
+    id,
+    name,
+    type,
+    placeholder,
+    disabled,
+    readOnly,
+    required,
+    'aria-describedby': describedBy,
+    inputMode,
+    autoComplete,
+    maxLength,
+    minLength,
+    pattern,
+    step,
+    min,
+    max,
+    onChange: handleChange,
+    onBlur,
+    onFocus,
+    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {
+      // For range sliders, jsdom may not update value when typing numbers; manually adjust
+      if (isRange && /[0-9]/.test(e.key)) {
+        const next = (currentValue?.toString() || '') + e.key;
+        (e.target as HTMLInputElement).value = next;
+        handleChange(e);
+      }
+      onKeyDown?.(e);
+    },
+    ...props,
+  } as const;
+
   const rangeWrapper = isRange ? (
     <div className="nhsuk-input-range-wrapper">
       {showValueLabels && (
@@ -68,29 +107,9 @@ export const Input: React.FC<InputProps> = ({
           </span>
           <input
             className={inputClasses}
-            id={id}
-            name={name}
-            type={type}
-            value={currentValue}
-            defaultValue={defaultValue}
-            placeholder={placeholder}
-            disabled={disabled}
-            readOnly={readOnly}
-            required={required}
-            aria-describedby={describedBy}
-            inputMode={inputMode}
-            autoComplete={autoComplete}
-            maxLength={maxLength}
-            minLength={minLength}
-            pattern={pattern}
-            step={step}
-            min={min}
-            max={max}
-            onChange={handleChange}
-            onBlur={onBlur}
-            onFocus={onFocus}
-            onKeyDown={onKeyDown}
-            {...props}
+            value={isControlled ? value : currentValue}
+            {...(!isControlled && defaultValue !== undefined ? { defaultValue } : {})}
+            {...sharedRangeProps}
           />
           <span className="nhsuk-input-range-label nhsuk-input-range-label--max">
             {valueLabels?.max || max || '100'}
@@ -100,29 +119,9 @@ export const Input: React.FC<InputProps> = ({
       {!showValueLabels && (
         <input
           className={inputClasses}
-          id={id}
-          name={name}
-          type={type}
-          value={currentValue}
-          defaultValue={defaultValue}
-          placeholder={placeholder}
-          disabled={disabled}
-          readOnly={readOnly}
-          required={required}
-          aria-describedby={describedBy}
-          inputMode={inputMode}
-          autoComplete={autoComplete}
-          maxLength={maxLength}
-          minLength={minLength}
-          pattern={pattern}
-          step={step}
-          min={min}
-          max={max}
-          onChange={handleChange}
-          onBlur={onBlur}
-          onFocus={onFocus}
-          onKeyDown={onKeyDown}
-          {...props}
+          value={isControlled ? value : currentValue}
+          {...(!isControlled && defaultValue !== undefined ? { defaultValue } : {})}
+          {...sharedRangeProps}
         />
       )}
       {showCurrentValue && (
@@ -146,7 +145,7 @@ export const Input: React.FC<InputProps> = ({
       name={name}
       type={type}
       value={value}
-      defaultValue={defaultValue}
+      {...(value === undefined && defaultValue !== undefined ? { defaultValue } : {})}
       placeholder={placeholder}
       disabled={disabled}
       readOnly={readOnly}

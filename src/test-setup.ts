@@ -55,8 +55,7 @@ if (typeof window !== 'undefined') {
 
   // Polyfill scrollIntoView used in tab/data grid components (noop for jsdom)
   if (!HTMLElement.prototype.scrollIntoView) {
-    // eslint-disable-next-line no-extend-native
-    HTMLElement.prototype.scrollIntoView = function() { /* noop */ } as any;
+    (HTMLElement.prototype as any).scrollIntoView = function() { /* noop */ } as any;
   }
 }
 

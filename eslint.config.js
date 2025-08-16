@@ -19,5 +19,12 @@ export default [
     },
     plugins: { '@typescript-eslint': tsPlugin, storybook },
     rules: {}
+  },
+  {
+    files: ['src/**/*.stories.@(ts|tsx)'],
+    rules: {
+      // Allow direct renderer import for now until migration to framework-specific package
+      'storybook/no-renderer-packages': 'off'
+    }
   }
 ];

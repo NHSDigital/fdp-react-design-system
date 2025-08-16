@@ -1,6 +1,5 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore - jsdom types not needed for runtime
 import { JSDOM } from 'jsdom';
 

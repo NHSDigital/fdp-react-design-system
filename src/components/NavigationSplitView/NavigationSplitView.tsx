@@ -6,6 +6,7 @@ import {
 } from './NavigationSplitView.types';
 import './NavigationSplitView.scss';
 import { BackLink } from '../BackLink/BackLink';
+import { ForwardLink } from '../BackLink/ForwardLink';
 import { useNhsFdpBreakpoints } from '../../hooks/useBreakpoints';
 import { useNavigationSplitUrlSync } from '../../hooks/useNavigationSplitUrlSync';
 
@@ -41,6 +42,7 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 	forceLayout,
 	animated = true,
 	backLabel = 'Back',
+	nextLabel = 'Next',
 	isLoading = false,
 	emptyState,
 	a11y,
@@ -72,7 +74,9 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 	navCollapsedUrlParam = 'nsvCollapsed',
 	autoContentHeader,
 	contentHeaderLevel = 2,
-	renderContentHeader
+	renderContentHeader,
+	contentSubheader,
+	secondarySubheader
 } = props;
 
 	const { up } = useNhsFdpBreakpoints();
@@ -138,23 +142,56 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 	const isTabletRange = hydrated && up('medium') && !up('xlarge');
 	const isDesktopRange = hydrated && up('xlarge');
 
-	const showHeader = !!selectedItem && (
-		(detailActive && autoHeaderConfig.mobile) || // mobile detail view (list/cards)
-		(!detailActive && isTabletRange && autoHeaderConfig.tablet) || // tablet two-column
-		(!detailActive && isDesktopRange && autoHeaderConfig.desktop) // desktop two/three column
+	// Header visibility:
+	// 1. Original behaviour when a selection exists according to per-breakpoint config.
+	// 2. Additionally: persist a header shell (to host ForwardLink) whenever a tertiary pane is available but not yet visible.
+	const tertiaryAvailable = !!renderSecondaryContent;
+	const tertiaryVisible = effectiveLayout === 'three-column';
+	// Inline tertiary (secondary pane content) activation when below desktop width
+	const [tertiaryInlineActive, setTertiaryInlineActive] = React.useState(false);
+	// Reset inline tertiary when desktop three-column becomes available
+	React.useEffect(() => { if (tertiaryVisible && tertiaryInlineActive) setTertiaryInlineActive(false); }, [tertiaryVisible, tertiaryInlineActive]);
+	const baseHeaderCondition = !!selectedItem && (
+		(detailActive && autoHeaderConfig.mobile) ||
+		(!detailActive && isTabletRange && autoHeaderConfig.tablet) ||
+		(!detailActive && isDesktopRange && autoHeaderConfig.desktop)
 	);
+	const showHeader = baseHeaderCondition || (tertiaryAvailable && !tertiaryVisible);
 
 	// Build default heading node respecting chosen level
 	const headingTag = `h${contentHeaderLevel}` as keyof HTMLElementTagNameMap;
-	const defaultHeadingNode = selectedItem ? React.createElement(headingTag, { style: { marginLeft: detailActive ? 32 : 0 } }, selectedItem.label) : null;
+	const defaultHeadingNode = selectedItem ? React.createElement(headingTag, { style: { marginLeft: detailActive ? 32 : 0, marginRight: detailActive ? 32 : 0 } }, selectedItem.label) : null;
 
 	const headerContext: 'mobile' | 'tablet' | 'desktop' = detailActive ? 'mobile' : (isTabletRange ? 'tablet' : 'desktop');
+
+	// Forward button shows whenever tertiary exists but isn't visible (sub‑xlarge or forced two-column)
+	const showForward = tertiaryAvailable && !tertiaryVisible && !tertiaryInlineActive;
 
 	const backLinkNode = detailActive && autoHeaderConfig.mobile ? (
 		<BackLink
 		  element="button"
-		  text={backLabel}
+			text={backLabel}
+			style={{ marginRight: 16 }}
 		  onClick={() => handleSelect(undefined as any, undefined as any)}
+		/>
+	) : undefined;
+
+	const forwardLinkNode = showForward ? (
+		<ForwardLink
+		  element="button"
+		  text={nextLabel}
+		  onClick={() => {
+			setTertiaryInlineActive(true);
+		}}
+		/>
+	) : undefined;
+
+	const tertiaryBackNode = (!tertiaryVisible && tertiaryInlineActive) ? (
+		<BackLink
+		  element="button"
+			text={backLabel}
+			style={{ marginRight: 16 }}
+		  onClick={() => setTertiaryInlineActive(false)}
 		/>
 	) : undefined;
 
@@ -167,11 +204,23 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 			backLink: backLinkNode,
 			defaultHeading: defaultHeadingNode
 		});
-		return (<>
-			{backLinkNode}
-			{defaultHeadingNode}
-		</>);
-	}, [showHeader, selectedItem, renderContentHeader, detailActive, headerContext, backLinkNode, defaultHeadingNode]);
+		// Default header (auto) including optional subheader underneath
+		const sub = selectedItem && contentSubheader ? (typeof contentSubheader === 'function' ? contentSubheader(selectedItem as any) : contentSubheader) : null;
+		return (<div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+			<div style={{ display: 'flex', alignItems: 'center', gap: 0, flex: '1 1 auto', minWidth: 0 }}>
+			  {tertiaryBackNode || backLinkNode /* show tertiary inline back else mobile Back */}
+			  <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
+				{defaultHeadingNode}
+				{ sub && <div className="nhs-navigation-split-view__subheader">{sub}</div> }
+			  </div>
+			</div>
+			{forwardLinkNode && (
+			  <div style={{ marginLeft: 'auto' }}>
+				{forwardLinkNode}
+			  </div>
+			)}
+		</div>);
+	}, [showHeader, selectedItem, renderContentHeader, detailActive, headerContext, backLinkNode, tertiaryBackNode, defaultHeadingNode, forwardLinkNode, contentSubheader]);
 
   // Keep URL in sync with selection and drill state (two vs three column) without adding history entries
   React.useEffect(() => {
@@ -487,7 +536,11 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 			  </div>
 			)}
 			<div className="nhs-navigation-split-view__content-inner" style={{ padding: 32, flex: 1 }}>
-			  {renderContent(selectedItem)}
+			  { tertiaryInlineActive && !tertiaryVisible ? (
+				renderSecondaryContent?.(selectedItem)
+			  ) : (
+				renderContent(selectedItem)
+			  ) }
 			</div>
 		  </div>
 
@@ -498,8 +551,15 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 			  role="region"
 			  aria-label={a11y?.secondaryContentLabel || 'Secondary'}
 			>
-			  <div style={{ padding: 32, flex: 1, minWidth: 0 }}>
-				{renderSecondaryContent?.(selectedItem)}
+			  <div className="nhs-navigation-split-view__secondary-inner" style={{ display:'flex', flexDirection:'column', flex: 1, minWidth: 0 }}>
+				{ selectedItem && secondarySubheader && (
+				  <div className="nhs-navigation-split-view__secondary-header" style={{ padding: '16px 32px', borderBottom: '1px solid var(--nsplit-divider)' }}>
+					{ typeof secondarySubheader === 'function' ? secondarySubheader(selectedItem as any) : secondarySubheader }
+				  </div>
+				)}
+				<div style={{ padding: 32, flex: 1, minWidth: 0 }}>
+				  {renderSecondaryContent?.(selectedItem)}
+				</div>
 			  </div>
 			</div>
 		  )}

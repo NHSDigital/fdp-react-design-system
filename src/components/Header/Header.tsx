@@ -224,7 +224,7 @@ export const Header: React.FC<HeaderProps> = ({
     if (window.matchMedia) {
       mediaQueryList = window.matchMedia('(max-width: 767px)');
       handleBreakpointChange = () => {
-        console.log('Breakpoint changed:', mediaQueryList?.matches ? 'mobile' : 'desktop');
+        // console.log('Breakpoint changed:', mediaQueryList?.matches ? 'mobile' : 'desktop');
         // Immediate check on breakpoint change
         if (navigationItemsRef.current.length > 0) {
           // Small delay to let layout settle

@@ -106,8 +106,31 @@ span .nhsuk-u-visually-hidden {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px 24px;
+  padding: 16px 32px;
   border-bottom: 1px solid var(--nsplit-divider);
+}
+.nhs-navigation-split-view__subheader {
+  font-size: 16px;
+  margin-left: 32px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: #4c6272;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+@media (min-width: 768px) {
+  .nhs-navigation-split-view__subheader {
+    margin-left: 4px;
+  }
+}
+.nhs-navigation-split-view__secondary-header {
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 600;
+  color: #4c6272;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .nhs-navigation-split-view__back-button {
   background: none;

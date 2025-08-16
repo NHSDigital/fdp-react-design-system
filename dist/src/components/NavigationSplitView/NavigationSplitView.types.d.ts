@@ -71,6 +71,8 @@ export interface NavigationSplitViewProps<ID = string, T extends NavigationSplit
     animated?: boolean;
     /** Show back button label override (mobile detail view) */
     backLabel?: string;
+    /** Label for forward/next action to reveal tertiary (secondary) pane when available */
+    nextLabel?: string;
     /** Optional loading state */
     isLoading?: boolean;
     /** Show an empty state when no items */
@@ -157,6 +159,19 @@ export interface NavigationSplitViewProps<ID = string, T extends NavigationSplit
      * Ignored if `renderContentHeader` provides a custom header. Always ensure heading hierarchy is logical within the surrounding page.
      */
     contentHeaderLevel?: 1 | 2 | 3 | 4 | 5 | 6;
+    /**
+     * Optional subheader displayed beneath the automatic heading in the content pane header.
+     * Can be a static ReactNode or a function receiving the selected item.
+     * Ignored when a custom `renderContentHeader` is supplied (you are responsible for rendering it there).
+     */
+    contentSubheader?: React.ReactNode | ((item: T) => React.ReactNode);
+    /**
+     * Optional subheader for the tertiary (secondary) pane. When provided and the tertiary pane is visible (three‑column layout)
+     * a slim header bar will be rendered at the top of the secondary pane containing this node.
+     * In inline tertiary mode (mobile/tablet forward drill) this is NOT rendered separately – you can merge tertiary context
+     * within the main `contentSubheader` if needed.
+     */
+    secondarySubheader?: React.ReactNode | ((item: T) => React.ReactNode);
     /**
      * Full render override for the content header bar. Only invoked when a header would normally render (i.e. selection present & enabled by `autoContentHeader`).
      * Receives contextual helpers so you can decide what to output.

@@ -126,8 +126,13 @@ var Input = ({
     }
   }, [value]);
   const handleChange = (event) => {
-    setCurrentValue(event.target.value);
-    onChange == null ? void 0 : onChange(event);
+    const el = event.target;
+    setCurrentValue(el.value);
+    if ("type" in event && event.nativeEvent) {
+      onChange == null ? void 0 : onChange(event);
+    } else if (event.type === "keydown") {
+      onChange == null ? void 0 : onChange(event);
+    }
   };
   const isRange = type === "range";
   const inputClasses = (0, import_classnames.default)(
@@ -139,6 +144,37 @@ var Input = ({
     },
     className
   );
+  const isControlled = value !== void 0;
+  const sharedRangeProps = {
+    id,
+    name,
+    type,
+    placeholder,
+    disabled,
+    readOnly,
+    required,
+    "aria-describedby": describedBy,
+    inputMode,
+    autoComplete,
+    maxLength,
+    minLength,
+    pattern,
+    step,
+    min,
+    max,
+    onChange: handleChange,
+    onBlur,
+    onFocus,
+    onKeyDown: (e) => {
+      if (isRange && /[0-9]/.test(e.key)) {
+        const next = ((currentValue == null ? void 0 : currentValue.toString()) || "") + e.key;
+        e.target.value = next;
+        handleChange(e);
+      }
+      onKeyDown == null ? void 0 : onKeyDown(e);
+    },
+    ...props
+  };
   const rangeWrapper = isRange ? /* @__PURE__ */ jsxs("div", { className: "nhsuk-input-range-wrapper", children: [
     showValueLabels && /* @__PURE__ */ jsxs("div", { className: "nhsuk-input-range-labels", children: [
       /* @__PURE__ */ jsx("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min", children: (valueLabels == null ? void 0 : valueLabels.min) || min || "0" }),
@@ -146,29 +182,9 @@ var Input = ({
         "input",
         {
           className: inputClasses,
-          id,
-          name,
-          type,
-          value: currentValue,
-          defaultValue,
-          placeholder,
-          disabled,
-          readOnly,
-          required,
-          "aria-describedby": describedBy,
-          inputMode,
-          autoComplete,
-          maxLength,
-          minLength,
-          pattern,
-          step,
-          min,
-          max,
-          onChange: handleChange,
-          onBlur,
-          onFocus,
-          onKeyDown,
-          ...props
+          value: isControlled ? value : currentValue,
+          ...!isControlled && defaultValue !== void 0 ? { defaultValue } : {},
+          ...sharedRangeProps
         }
       ),
       /* @__PURE__ */ jsx("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max", children: (valueLabels == null ? void 0 : valueLabels.max) || max || "100" })
@@ -177,29 +193,9 @@ var Input = ({
       "input",
       {
         className: inputClasses,
-        id,
-        name,
-        type,
-        value: currentValue,
-        defaultValue,
-        placeholder,
-        disabled,
-        readOnly,
-        required,
-        "aria-describedby": describedBy,
-        inputMode,
-        autoComplete,
-        maxLength,
-        minLength,
-        pattern,
-        step,
-        min,
-        max,
-        onChange: handleChange,
-        onBlur,
-        onFocus,
-        onKeyDown,
-        ...props
+        value: isControlled ? value : currentValue,
+        ...!isControlled && defaultValue !== void 0 ? { defaultValue } : {},
+        ...sharedRangeProps
       }
     ),
     showCurrentValue && /* @__PURE__ */ jsx("div", { className: "nhsuk-input-range-current-value", children: /* @__PURE__ */ jsxs("span", { className: "nhsuk-input-range-current-label", children: [
@@ -219,7 +215,7 @@ var Input = ({
       name,
       type,
       value,
-      defaultValue,
+      ...value === void 0 && defaultValue !== void 0 ? { defaultValue } : {},
       placeholder,
       disabled,
       readOnly,

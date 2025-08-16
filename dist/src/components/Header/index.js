@@ -109,6 +109,8 @@ var Account = ({
         viewBox: "0 0 24 24",
         "aria-hidden": "true",
         focusable: "false",
+        role: "img",
+        "aria-label": item.icon === true ? "User" : void 0,
         children: /* @__PURE__ */ jsx("path", { d: "M12 1a11 11 0 1 1 0 22 11 11 0 0 1 0-22Zm0 2a9 9 0 0 0-5 16.5V18a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1.5A9 9 0 0 0 12 3Zm0 3a3.5 3.5 0 1 1-3.5 3.5A3.4 3.4 0 0 1 12 6Z" })
       }
     ) : null;
@@ -118,7 +120,7 @@ var Account = ({
       textContent
     ] });
     if (item.href) {
-      return /* @__PURE__ */ jsx("a", { className: "nhsuk-account__link", href: item.href, children: content });
+      return /* @__PURE__ */ jsx("a", { className: "nhsuk-account__link nhsuk-header__account-link", href: item.href, children: content });
     }
     if (item.action) {
       return /* @__PURE__ */ jsx(
@@ -155,7 +157,7 @@ var Account = ({
       children: /* @__PURE__ */ jsx("ul", { className: "nhsuk-account__list", children: items.map((item, index) => item && /* @__PURE__ */ jsx(
         "li",
         {
-          className: (0, import_classnames.default)("nhsuk-account__item", item.className),
+          className: (0, import_classnames.default)("nhsuk-account__item nhsuk-header__account-item", item.className),
           children: renderAccountItem(item)
         },
         index
@@ -170,7 +172,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
 var HeaderSearch = ({
   mode = "form",
-  action = "https://www.nhs.uk/search/",
+  action = "/search",
   method = "get",
   name = "q",
   value,
@@ -350,7 +352,7 @@ var HeaderSearch = ({
       }
     ) }, result.id)) });
   };
-  return /* @__PURE__ */ jsxs2("search", { className: (0, import_classnames2.default)("nhsuk-header__search", className, {
+  return /* @__PURE__ */ jsxs2("div", { className: (0, import_classnames2.default)("nhsuk-header__search", className, {
     "nhsuk-header__search--controlled": mode === "controlled",
     "nhsuk-header__search--hybrid": mode === "hybrid",
     "nhsuk-header__search--loading": isLoading,
@@ -365,6 +367,7 @@ var HeaderSearch = ({
         id: "search",
         action: mode !== "controlled" ? action : void 0,
         method: mode !== "controlled" ? method : void 0,
+        role: "search",
         onSubmit: handleFormSubmit,
         ...formAttributes,
         children: [
@@ -920,7 +923,9 @@ var HeaderSSR = ({
           className: "nhsuk-header__organisation-logo",
           src: logo.src,
           width: "280",
-          alt: logo.ariaLabel || "NHS"
+          alt: logo.ariaLabel || "NHS",
+          role: "img",
+          "aria-label": logo.ariaLabel || "NHS"
         }
       );
     }

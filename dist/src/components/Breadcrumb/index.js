@@ -166,8 +166,7 @@ var BreadcrumbBase = ({
     },
     classes
   );
-  const hasMultipleItems = breadcrumbItems && breadcrumbItems.length > 1;
-  const ariaLabel = hasMultipleItems ? labelText : void 0;
+  const ariaLabel = labelText;
   return /* @__PURE__ */ jsxs(
     "nav",
     {
@@ -187,7 +186,7 @@ var BreadcrumbBase = ({
           })
         ) : (
           // Render from items array
-          breadcrumbItems == null ? void 0 : breadcrumbItems.map((item, index) => /* @__PURE__ */ jsx("li", { className: "nhsuk-breadcrumb__item", role: "listitem", children: item.active ? /* @__PURE__ */ jsx(
+          breadcrumbItems == null ? void 0 : breadcrumbItems.filter((item) => item.active || !!item.href).map((item, index) => /* @__PURE__ */ jsx("li", { className: "nhsuk-breadcrumb__item", role: "listitem", children: item.active ? /* @__PURE__ */ jsx(
             "span",
             {
               className: "nhsuk-breadcrumb__link nhsuk-breadcrumb__link--current",

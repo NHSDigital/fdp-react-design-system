@@ -90,7 +90,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { jsx, jsxs } from "react/jsx-runtime";
 var HeaderSearch = ({
   mode = "form",
-  action = "https://www.nhs.uk/search/",
+  action = "/search",
   method = "get",
   name = "q",
   value,
@@ -270,7 +270,7 @@ var HeaderSearch = ({
       }
     ) }, result.id)) });
   };
-  return /* @__PURE__ */ jsxs("search", { className: (0, import_classnames.default)("nhsuk-header__search", className, {
+  return /* @__PURE__ */ jsxs("div", { className: (0, import_classnames.default)("nhsuk-header__search", className, {
     "nhsuk-header__search--controlled": mode === "controlled",
     "nhsuk-header__search--hybrid": mode === "hybrid",
     "nhsuk-header__search--loading": isLoading,
@@ -285,6 +285,7 @@ var HeaderSearch = ({
         id: "search",
         action: mode !== "controlled" ? action : void 0,
         method: mode !== "controlled" ? method : void 0,
+        role: "search",
         onSubmit: handleFormSubmit,
         ...formAttributes,
         children: [

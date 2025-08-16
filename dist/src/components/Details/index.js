@@ -41,7 +41,7 @@ var Details = forwardRef(
         open,
         ...props,
         children: [
-          /* @__PURE__ */ jsx("summary", { className: "nhsuk-details__summary", children: summaryContent }),
+          /* @__PURE__ */ jsx("summary", { className: "nhsuk-details__summary", tabIndex: 0, children: summaryContent }),
           /* @__PURE__ */ jsx("div", { className: "nhsuk-details__text", children: bodyContent })
         ]
       }

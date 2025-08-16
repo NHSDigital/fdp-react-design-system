@@ -59,6 +59,7 @@ function ButtonComponent(props, ref) {
     }
   }, [preventDoubleClick]);
   if ("href" in rest && rest.href) {
+    const { id: id2, style: style2, title: title2, ["aria-label"]: ariaLabel2, ["aria-describedby"]: ariaDescribedBy2, ["aria-labelledby"]: ariaLabelledBy2, tabIndex: tabIndex2, ...anchorRest } = rest;
     const anchorProps = rest;
     return /* @__PURE__ */ jsx(
       "a",
@@ -73,6 +74,7 @@ function ButtonComponent(props, ref) {
         "data-module": "nhs-button",
         ...dataAttributes,
         ...preventDoubleClick && { "data-prevent-double-click": "true" },
+        ...anchorRest,
         onKeyDown: (event) => {
           var _a;
           (_a = anchorProps.onKeyDown) == null ? void 0 : _a.call(anchorProps, event);
@@ -115,17 +117,18 @@ function ButtonComponent(props, ref) {
         },
         "aria-disabled": anchorProps["aria-disabled"],
         ...anchorProps["aria-disabled"] === "true" && { "tabIndex": -1 },
-        id: anchorProps.id,
-        style: anchorProps.style,
-        title: anchorProps.title,
-        "aria-label": anchorProps["aria-label"],
-        "aria-describedby": anchorProps["aria-describedby"],
-        "aria-labelledby": anchorProps["aria-labelledby"],
-        tabIndex: anchorProps.tabIndex,
+        id: id2,
+        style: style2,
+        title: title2,
+        "aria-label": ariaLabel2,
+        "aria-describedby": ariaDescribedBy2,
+        "aria-labelledby": ariaLabelledBy2,
+        tabIndex: tabIndex2,
         children
       }
     );
   }
+  const { id, style, title, ["aria-label"]: ariaLabel, ["aria-describedby"]: ariaDescribedBy, ["aria-labelledby"]: ariaLabelledBy, tabIndex, name, value: valueProp, form, formAction, formEncType, formMethod, formNoValidate, formTarget, autoFocus, ...buttonRest } = rest;
   const buttonProps = rest;
   return /* @__PURE__ */ jsx(
     "button",
@@ -138,6 +141,7 @@ function ButtonComponent(props, ref) {
       ...dataAttributes,
       ...preventDoubleClick && { "data-prevent-double-click": "true" },
       ...buttonProps.disabled && { "aria-disabled": "true" },
+      ...buttonRest,
       onKeyDown: (event) => {
         var _a;
         (_a = buttonProps.onKeyDown) == null ? void 0 : _a.call(buttonProps, event);
@@ -178,22 +182,22 @@ function ButtonComponent(props, ref) {
         (_a = buttonProps.onBlur) == null ? void 0 : _a.call(buttonProps, event);
         handleBlur();
       },
-      id: buttonProps.id,
-      style: buttonProps.style,
-      title: buttonProps.title,
-      "aria-label": buttonProps["aria-label"],
-      "aria-describedby": buttonProps["aria-describedby"],
-      "aria-labelledby": buttonProps["aria-labelledby"],
-      tabIndex: buttonProps.tabIndex,
-      name: buttonProps.name,
-      value: buttonProps.value,
-      form: buttonProps.form,
-      formAction: buttonProps.formAction,
-      formEncType: buttonProps.formEncType,
-      formMethod: buttonProps.formMethod,
-      formNoValidate: buttonProps.formNoValidate,
-      formTarget: buttonProps.formTarget,
-      autoFocus: buttonProps.autoFocus,
+      id,
+      style,
+      title,
+      "aria-label": ariaLabel,
+      "aria-describedby": ariaDescribedBy,
+      "aria-labelledby": ariaLabelledBy,
+      tabIndex,
+      name,
+      value: valueProp,
+      form,
+      formAction,
+      formEncType,
+      formMethod,
+      formNoValidate,
+      formTarget,
+      autoFocus,
       children
     }
   );

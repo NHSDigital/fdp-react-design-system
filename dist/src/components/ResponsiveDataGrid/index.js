@@ -2698,12 +2698,16 @@ var ResponsiveDataGrid = ({
   }, []);
   const focusSortControl = useCallback4((controlIndex) => {
     if (controlIndex === 0) {
-      const sortControlElement = sortControlRefs.current[0];
-      if (sortControlElement) {
-        sortControlElement.focus();
+      const outer = sortControlRefs.current[0];
+      const innerRow = outer == null ? void 0 : outer.querySelector(".sort-controls-row");
+      if (innerRow) {
+        innerRow.setAttribute("tabindex", "-1");
+        innerRow.focus();
         const availableControls = getAvailableSortControls();
-        const announcement = `Sort controls region with ${availableControls.length} interactive elements. Press Enter or Space to navigate between controls.`;
+        const announcement = `Sort controls group with ${availableControls.length} interactive elements. Press Enter or Space to begin navigating controls.`;
         announceToScreenReader(announcement);
+      } else if (outer) {
+        outer.focus();
       }
     } else {
       const availableControls = getAvailableSortControls();
@@ -2738,8 +2742,8 @@ var ResponsiveDataGrid = ({
         case "ArrowUp":
           event.preventDefault();
           if (cardIndex === 0) {
-            setCardNavState((prev) => ({ ...prev, focusArea: "tabs" }));
-            focusTab(state.selectedIndex);
+            setCardNavState((prev) => ({ ...prev, focusArea: "sort-controls", focusedSortControlIndex: 0, isSortControlsActive: false }));
+            focusSortControl(0);
           } else {
             const newCardIndex = navigate2D(cardIndex, "up", cardCount, cardNavState.gridColumns);
             if (newCardIndex !== cardIndex) {
@@ -3076,9 +3080,10 @@ var ResponsiveDataGrid = ({
           setCardNavState((prev) => ({
             ...prev,
             isSortControlsActive: false,
-            focusArea: "tabs"
+            focusArea: "sort-controls",
+            focusedSortControlIndex: 0
           }));
-          focusTab(state.selectedIndex);
+          focusSortControl(0);
           break;
       }
     }

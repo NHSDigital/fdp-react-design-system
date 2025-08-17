@@ -7,7 +7,10 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, '../src/styles/core.scss'),
       formats: ['es'],
-      fileName: () => 'nhs-fdp-design-system-core.css'
+  // Use a base name without extension so Vite doesn't emit a duplicate
+  // CSS asset that forces a "-core2.css" rename. The assetFileNames
+  // rule below will supply the final .css name.
+  fileName: () => 'nhs-fdp-design-system-core'
     },
     rollupOptions: {
       output: {

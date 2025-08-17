@@ -46,4 +46,16 @@ export interface FooterProps {
      * Additional HTML attributes
      */
     attributes?: Record<string, string>;
+    /**
+     * Inline style object applied to the root <footer>
+     */
+    style?: React.CSSProperties;
+    /**
+     * Inline style object applied to the inner .nhsuk-footer block (the visual footer element)
+     */
+    footerStyle?: React.CSSProperties;
+    /**
+     * Inline style object applied to the width container (.nhsuk-width-container) wrapping footer content
+     */
+    containerStyle?: React.CSSProperties;
 }

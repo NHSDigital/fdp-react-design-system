@@ -95,7 +95,10 @@ var Footer = ({
   metaLinks,
   copyright = "\xA9 NHS England",
   containerClasses,
-  attributes = {}
+  attributes = {},
+  style,
+  footerStyle,
+  containerStyle
 }) => {
   const renderLinkItem = (item, isDefaultLayout = false) => /* @__PURE__ */ jsx(
     "li",
@@ -117,28 +120,35 @@ var Footer = ({
     `${item.URL}-${item.label}`
   );
   const isMultiColumnLayout = !!(linksColumn2 || linksColumn3);
-  return /* @__PURE__ */ jsx("footer", { role: "contentinfo", ...attributes, children: /* @__PURE__ */ jsxs("div", { className: "nhsuk-footer-container", children: [
-    /* @__PURE__ */ jsxs("div", { className: (0, import_classnames.default)("nhsuk-width-container", containerClasses), children: [
-      /* @__PURE__ */ jsx("h2", { className: "nhsuk-u-visually-hidden", children: "Support links" }),
-      /* @__PURE__ */ jsx("div", { className: (0, import_classnames.default)("nhsuk-footer", className), children: !isMultiColumnLayout ? (
-        // Single column layout (default)
-        /* @__PURE__ */ jsxs("ul", { className: "nhsuk-footer__list", children: [
-          links.map((item) => renderLinkItem(item, true)),
-          (linksColumn2 || []).map((item) => renderLinkItem(item, true)),
-          (linksColumn3 || []).map((item) => renderLinkItem(item, true)),
-          (metaLinks || []).map((item) => renderLinkItem(item, true))
-        ] })
-      ) : (
-        // Multi-column layout
-        /* @__PURE__ */ jsxs(Fragment, { children: [
-          links.length > 0 && /* @__PURE__ */ jsx("ul", { className: "nhsuk-footer__list", children: links.map((item) => renderLinkItem(item)) }),
-          linksColumn2 && linksColumn2.length > 0 && /* @__PURE__ */ jsx("ul", { className: "nhsuk-footer__list", children: linksColumn2.map((item) => renderLinkItem(item)) }),
-          linksColumn3 && linksColumn3.length > 0 && /* @__PURE__ */ jsx("ul", { className: "nhsuk-footer__list", children: linksColumn3.map((item) => renderLinkItem(item)) }),
-          metaLinks && metaLinks.length > 0 && /* @__PURE__ */ jsx("ul", { className: "nhsuk-footer__list nhsuk-footer__meta", children: metaLinks.map((item) => renderLinkItem(item)) })
-        ] })
-      ) }),
-      !isMultiColumnLayout && /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx("p", { className: "nhsuk-footer__copyright", children: copyright }) })
-    ] }),
+  return /* @__PURE__ */ jsx("footer", { role: "contentinfo", ...attributes, style: { ...attributes == null ? void 0 : attributes.style, ...style }, children: /* @__PURE__ */ jsxs("div", { className: "nhsuk-footer-container", children: [
+    /* @__PURE__ */ jsxs(
+      "div",
+      {
+        className: (0, import_classnames.default)("nhsuk-width-container", containerClasses),
+        style: containerStyle,
+        children: [
+          /* @__PURE__ */ jsx("h2", { className: "nhsuk-u-visually-hidden", children: "Support links" }),
+          /* @__PURE__ */ jsx("div", { className: (0, import_classnames.default)("nhsuk-footer", className), style: footerStyle, children: !isMultiColumnLayout ? (
+            // Single column layout (default)
+            /* @__PURE__ */ jsxs("ul", { className: "nhsuk-footer__list", children: [
+              links.map((item) => renderLinkItem(item, true)),
+              (linksColumn2 || []).map((item) => renderLinkItem(item, true)),
+              (linksColumn3 || []).map((item) => renderLinkItem(item, true)),
+              (metaLinks || []).map((item) => renderLinkItem(item, true))
+            ] })
+          ) : (
+            // Multi-column layout
+            /* @__PURE__ */ jsxs(Fragment, { children: [
+              links.length > 0 && /* @__PURE__ */ jsx("ul", { className: "nhsuk-footer__list", children: links.map((item) => renderLinkItem(item)) }),
+              linksColumn2 && linksColumn2.length > 0 && /* @__PURE__ */ jsx("ul", { className: "nhsuk-footer__list", children: linksColumn2.map((item) => renderLinkItem(item)) }),
+              linksColumn3 && linksColumn3.length > 0 && /* @__PURE__ */ jsx("ul", { className: "nhsuk-footer__list", children: linksColumn3.map((item) => renderLinkItem(item)) }),
+              metaLinks && metaLinks.length > 0 && /* @__PURE__ */ jsx("ul", { className: "nhsuk-footer__list nhsuk-footer__meta", children: metaLinks.map((item) => renderLinkItem(item)) })
+            ] })
+          ) }),
+          !isMultiColumnLayout && /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx("p", { className: "nhsuk-footer__copyright", children: copyright }) })
+        ]
+      }
+    ),
     isMultiColumnLayout && /* @__PURE__ */ jsx("div", { className: "nhsuk-width-container", children: /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx("p", { className: "nhsuk-footer__copyright", children: copyright }) }) })
   ] }) });
 };

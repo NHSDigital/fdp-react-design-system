@@ -22,9 +22,8 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 .aria-tabs-datagrid {
   font-family: $font-family-primary;
   background: $color-white;
-  border-radius: $border-radius;
-  box-shadow: nhs.$nhs-fdp-shadow-card-hover;
-  width: 100%; // Ensure full width utilization
+  border-radius: 0;
+  width: 100%; // Ensure full width utilisation
   max-width: 100%; // Prevent overflow
   overflow: hidden; // Contain child overflow
 

@@ -8,8 +8,8 @@
 .aria-tabs-datagrid-adaptive {
   font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
   background: nhs.$nhs-fdp-color-primary-white;
-  border-radius: nhs.$nhs-fdp-border-radius-small;
-  box-shadow: nhs.$nhs-fdp-shadow-card-hover;
+  border-radius: 0;
+  box-shadow: none;
   width: 100%;
   max-width: 100%;
   overflow: hidden;

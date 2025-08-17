@@ -48,8 +48,8 @@
 @use '../components/ResponsiveDataGrid/HealthcareCardTemplates.scss' as responsive-healthcare-cards;
 @use '../components/SortableDataTable/AriaTabsDataGrid.scss';
 @use '../components/SortableDataTable/AriaTabsDataGridDemo.scss';
-@use '../components/SortableDataTable/SortStatusControl.scss' as main-sort-status;
-@use '../components/SortableDataTable/SortStatusControl/SortStatusControl.scss' as nested-sort-status;
+// SortStatusControl: use canonical nested implementation (root file forwards for backwards compatibility)
+@use '../components/SortableDataTable/SortStatusControl/SortStatusControl.scss' as sort-status-control;
 @use '../components/SpacingUtilities/SpacingUtilities.scss';
 @use '../components/SummaryCard/SummaryCard.scss';
 @use '../components/SummaryList/SummaryList.scss';

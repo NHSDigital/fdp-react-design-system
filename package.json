@@ -141,7 +141,8 @@
     "packages/nhs-fdp/dist"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "dev": "vite",
@@ -200,7 +201,7 @@
     "preversion": "npm run lint && npm test && npm run build:parity",
     "preversion:smoke": "npm run lint && npm run test:smoke && npm run build:parity",
     "version": "git add . && git commit -m 'chore(build): dist for v$npm_package_version' || true",
-    "postversion": "git push && git push --tags && npm publish --access public",
+    "postversion": "git push && git push --tags",
     "release:patch": "npm version patch",
     "release:minor": "npm version minor",
     "release:major": "npm version major",

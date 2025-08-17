@@ -12,10 +12,10 @@ var h = { exports: {} }, T = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var D;
+var $;
 function se() {
-  if (D) return T;
-  D = 1;
+  if ($) return T;
+  $ = 1;
   var a = Symbol.for("react.transitional.element"), k = Symbol.for("react.fragment");
   function l(p, s, t) {
     var o = null;
@@ -203,7 +203,7 @@ function ie() {
         var R = Object.keys(r).filter(function(te) {
           return te !== "key";
         });
-        i = 0 < R.length ? "{key: someKey, " + R.join(": ..., ") + ": ...}" : "{key: someKey}", $[u + i] || (R = 0 < R.length ? "{" + R.join(": ..., ") + ": ...}" : "{}", console.error(
+        i = 0 < R.length ? "{key: someKey, " + R.join(": ..., ") + ": ...}" : "{key: someKey}", D[u + i] || (R = 0 < R.length ? "{" + R.join(": ..., ") + ": ...}" : "{}", console.error(
           `A props object containing a "key" prop is being spread into JSX:
   let props = %s;
   <%s {...props} />
@@ -214,7 +214,7 @@ React keys must be passed directly to JSX without using spread:
           u,
           R,
           u
-        ), $[u + i] = !0);
+        ), D[u + i] = !0);
       }
       if (u = null, n !== void 0 && (l(n), u = "" + n), o(r) && (l(r.key), u = "" + r.key), "key" in r) {
         n = {};
@@ -249,7 +249,7 @@ React keys must be passed directly to JSX without using spread:
     var L, Y = {}, I = v.react_stack_bottom_frame.bind(
       v,
       t
-    )(), F = O(p(t)), $ = {};
+    )(), F = O(p(t)), D = {};
     S.Fragment = w, S.jsx = function(e, r, n, i, _) {
       var m = 1e4 > A.recentlyCreatedOwnerStacks++;
       return E(
@@ -384,4 +384,4 @@ export {
   de as c,
   ce as j
 };
-//# sourceMappingURL=SkipLink-D92eaicu.js.map
+//# sourceMappingURL=SkipLink-CFQznirl.js.map

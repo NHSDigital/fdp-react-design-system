@@ -5,6 +5,11 @@ export interface UseNavigationSplitNextUrlSyncOptions {
     method?: 'replace' | 'push';
 }
 export declare function useNavigationSplitNextUrlSync<ID = string>(options?: UseNavigationSplitNextUrlSyncOptions): {
+    readonly selectedId: ID | undefined;
+    readonly drilledIn: false;
+    readonly setSelectedId: () => void;
+    readonly setDrilledIn: () => void;
+} | {
     readonly selectedId: NonNullable<ID> | undefined;
     readonly drilledIn: boolean;
     readonly setSelectedId: (id: ID | undefined) => void;

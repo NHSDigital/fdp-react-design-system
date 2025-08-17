@@ -1,7 +1,7 @@
-import { j as e, c as d } from "../SkipLink-D92eaicu.js";
-import { S as de } from "../SkipLink-D92eaicu.js";
+import { j as e, c as d } from "../SkipLink-CFQznirl.js";
+import { S as de } from "../SkipLink-CFQznirl.js";
 import * as K from "react";
-import { useState as R, useRef as F, useCallback as C, useEffect as P, createElement as W } from "react";
+import { useState as D, useRef as F, useCallback as C, useEffect as P, createElement as W } from "react";
 const A = ({
   ariaLabel: l = "Account",
   items: n = [],
@@ -88,31 +88,31 @@ const A = ({
   debounceMs: N = 300,
   minQueryLength: j = 1
 }) => {
-  const [b, g] = R(""), [r, k] = R(!1), y = F(void 0), $ = F(null), T = F(null), B = l === "controlled" && i !== void 0, M = B ? i : b, Z = C((_) => {
+  const [b, g] = D(""), [r, k] = D(!1), y = F(void 0), I = F(null), R = F(null), B = l === "controlled" && i !== void 0, M = B ? i : b, T = C((_) => {
     y.current && clearTimeout(y.current), y.current = setTimeout(() => {
       c.onChange && _.length >= j && c.onChange(_);
     }, N);
-  }, [c.onChange, N, j]), I = C((_) => {
+  }, [c.onChange, N, j]), $ = C((_) => {
     const S = _.target.value;
-    B || g(S), l !== "form" && Z(S);
-  }, [B, l, Z]), E = C((_) => {
-    const S = M.trim(), D = {
+    B || g(S), l !== "form" && T(S);
+  }, [B, l, T]), E = C((_) => {
+    const S = M.trim(), Z = {
       query: S,
       timestamp: Date.now(),
       formData: new FormData(_.currentTarget)
     };
-    l === "controlled" || l === "hybrid" && w ? (_.preventDefault(), c.onSearch && S.length >= j && c.onSearch(D)) : l === "hybrid" && c.onSearch && S.length >= j && c.onSearch(D);
+    l === "controlled" || l === "hybrid" && w ? (_.preventDefault(), c.onSearch && S.length >= j && c.onSearch(Z)) : l === "hybrid" && c.onSearch && S.length >= j && c.onSearch(Z);
   }, [l, M, c.onSearch, w, j]), z = C(() => {
     k(!0), c.onFocus?.();
   }, [c.onFocus]), V = C(() => {
     k(!1), c.onBlur?.();
-  }, [c.onBlur]), q = C(() => {
-    B || g(""), c.onClear?.(), T.current?.focus();
+  }, [c.onBlur]), O = C(() => {
+    B || g(""), c.onClear?.(), R.current?.focus();
   }, [B, c.onClear]);
   P(() => () => {
     y.current && clearTimeout(y.current);
   }, []);
-  const O = () => /* @__PURE__ */ e.jsx(
+  const q = () => /* @__PURE__ */ e.jsx(
     "svg",
     {
       className: d("nhsuk-icon nhsuk-icon__search", {
@@ -172,7 +172,7 @@ const A = ({
     {
       type: "button",
       className: "nhsuk-header__search-clear",
-      onClick: q,
+      onClick: O,
       "aria-label": "Clear search",
       children: /* @__PURE__ */ e.jsx("svg", { className: "nhsuk-icon nhsuk-icon__close", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ e.jsx("path", { d: "M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 1.42 1.42l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42-1.42z" }) })
     }
@@ -201,7 +201,7 @@ const A = ({
     /* @__PURE__ */ e.jsxs(
       "form",
       {
-        ref: $,
+        ref: I,
         className: "nhsuk-header__search-form",
         id: "search",
         action: l !== "controlled" ? n : void 0,
@@ -222,7 +222,7 @@ const A = ({
             /* @__PURE__ */ e.jsx(
               "input",
               {
-                ref: T,
+                ref: R,
                 className: "nhsuk-header__search-input nhsuk-input",
                 id: "search-field",
                 name: l !== "controlled" ? s : void 0,
@@ -230,7 +230,7 @@ const A = ({
                 placeholder: h,
                 autoComplete: "off",
                 value: M,
-                onChange: I,
+                onChange: $,
                 onFocus: z,
                 onBlur: V,
                 disabled: f || m,
@@ -248,7 +248,7 @@ const A = ({
               disabled: f || m || l !== "form" && M.length < j,
               ...L,
               children: [
-                m ? U() : O(),
+                m ? U() : q(),
                 /* @__PURE__ */ e.jsx("span", { className: "nhsuk-u-visually-hidden", children: m ? "Searching..." : u })
               ]
             }

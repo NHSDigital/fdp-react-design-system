@@ -1,0 +1,69 @@
+name: Publish GitHub Package
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Optional semver bump to apply before publishing (patch, minor, major, prerelease)'
+        required: false
+        type: string
+      preid:
+        description: 'Prerelease identifier when version is prerelease'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: '@fergusbisset'
+
+      - name: Install
+        run: npm ci
+
+      - name: Optionally bump version (manual dispatch only)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.version != '' }}
+        run: |
+          if [ "${{ inputs.version }}" = "prerelease" ]; then
+            npm version prerelease --preid=${{ inputs.preid || 'alpha' }} -m "chore(release): %s"
+          else
+            npm version ${{ inputs.version }} -m "chore(release): %s"
+          fi
+
+      - name: Build & Test
+        run: |
+          npm run lint
+          npm test
+          npm run build
+
+      - name: Publish (GitHub Packages)
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish --access public
+
+      - name: Create Git Tag (manual dispatch without tag)
+        if: ${{ github.event_name == 'workflow_dispatch' && startsWith(github.ref, 'refs/heads/') }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag v$VERSION
+          git push origin v$VERSION
+
+      - name: Summary
+        run: echo "Published @fergusbisset/nhs-fdp-design-system@$(node -p "require('./package.json').version") to GitHub Packages" >> $GITHUB_STEP_SUMMARY

@@ -1,13 +1,14 @@
 import React from 'react';
 import { DashboardSummaryGridProps } from './DashboardSummaryGrid.types';
 import { SummaryCard } from '../SummaryCard';
+import { Grid, Row, Column } from '../Grid';
 import './DashboardSummaryGrid.scss';
 
 /**
  * NHS Dashboard Summary Grid Component
  * 
  * A pre-configured grid layout that displays four summary cards in a responsive 
- * 2x2 grid on desktop and stacked layout on mobile. Perfect for dashboard KPIs 
+ * 1x4 grid on desktop and stacked layout on mobile. Perfect for dashboard KPIs 
  * and data overviews.
  * 
  * Features:
@@ -39,24 +40,22 @@ export const DashboardSummaryGrid: React.FC<DashboardSummaryGridProps> = ({
     className
   ].filter(Boolean).join(' ');
 
-  // The tests currently assert NHS Grid BEM classes (.nhs-fdp-grid, .nhs-fdp-grid__row, .nhs-fdp-grid__column--one-half)
-  // Provide a lightweight shim of those classes while still using the Grid component for layout.
-  // Each SummaryCard spans half width on desktop (two per row -> total four cards over two rows).
   return (
     <div className={baseClasses} {...props}>
-      <div className="nhs-fdp-grid">
-        <div className="nhs-fdp-grid__row">
+      <Grid /* container applies width constraints */>
+        <Row>
           {cards.map((cardProps, index) => (
-            <div
+            <Column
               key={index}
-              className="nhs-fdp-grid__column nhs-fdp-grid__column--one-half nhs-fdp-dashboard-summary-grid__column"
+              width="one-quarter"
+              className="nhs-fdp-dashboard-summary-grid__column"
               data-card-index={index}
             >
               <SummaryCard {...cardProps} />
-            </div>
+            </Column>
           ))}
-        </div>
-      </div>
+        </Row>
+      </Grid>
     </div>
   );
 };

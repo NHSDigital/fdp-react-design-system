@@ -28,7 +28,7 @@
     },
     "./dist/nhs-fdp-design-system.css": "./dist/nhs-fdp-design-system.css",
     "./css": "./dist/nhs-fdp-design-system.css",
-    "./core/css": "./dist/nhs-fdp-design-system-core.css",
+  "./core/css": "./dist/nhs-fdp-design-system.css",
     "./components/Account/css": "./dist/components/Account/Account.css",
     "./components/ActionLink/css": "./dist/components/ActionLink/ActionLink.css",
     "./components/BackLink/css": "./dist/components/BackLink/BackLink.css",

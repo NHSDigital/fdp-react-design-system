@@ -949,23 +949,43 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 							  aria-selected={isRowSelected}
 							>
 							  {panel.columns.map((column, colIndex) => {
-								const value = column.tableRenderer ? column.tableRenderer(row) : 
-											 column.render ? column.render(row) : row[column.key];
+								// Determine raw data value first (before any custom rendering)
+								const rawValue = row[column.key];
+								// Apply custom renderer precedence: tableRenderer > render
+								let value: any;
+								if (column.tableRenderer) {
+								  value = column.tableRenderer(row);
+								} else if (column.render) {
+								  value = column.render(row);
+								} else {
+								  value = rawValue;
+								}
 								const isCellFocused = navigationState.focusArea === 'cells' && 
 													navigationState.focusedRowIndex === rowIndex && 
 													navigationState.focusedColumnIndex === colIndex;
 
-								// Handle boolean values with NHS-compliant rendering
+								// Handle boolean values with per-column or global rendering; otherwise render ReactNodes directly
 								const renderValue = () => {
-								  if (typeof value === 'boolean') {
+								  // If the final value is explicitly a boolean primitive and no custom renderer produced something else
+								  // Column-level custom renderer always takes priority if provided
+								  if (column.customRenderer) {
+									return column.customRenderer(rawValue, row);
+								  }
+								  if (typeof rawValue === 'boolean' && (value === rawValue)) {
+									// Boolean primitive fallback (global booleanRenderer handling)
 									return (
 									  <>
-										{renderBooleanIcon(value)}
-										<span className="nhsuk-u-visually-hidden">{value ? 'Yes' : 'No'}</span>
+										{renderBooleanIcon(rawValue)}
+										<span className="nhsuk-u-visually-hidden">{rawValue ? 'Yes' : 'No'}</span>
 									  </>
 									);
 								  }
-								  return String(value ?? '');
+								  // If renderer returned a React element / node, return as-is
+								  if (React.isValidElement(value) || typeof value !== 'object') {
+									return value ?? '';
+								  }
+								  // For objects (e.g., custom complex results), let developer control stringification
+								  return value as any;
 								};
 
 								return (

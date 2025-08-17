@@ -64,6 +64,8 @@ export interface ColumnDefinition {
   tableRenderer?: (data: any) => any;
   /** Enhanced renderer for card view (overrides render if provided) */
   cardRenderer?: (data: any) => any;
+  /** Optional per-column custom renderer (receives raw value & full row). Highest precedence for primitive finalisation */
+  customRenderer?: (value: any, row: any) => React.ReactNode;
 }
 
 export interface AriaGridCellProps {

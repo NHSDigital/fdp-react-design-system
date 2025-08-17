@@ -11,6 +11,8 @@ export interface GenericColumnDefinition<T> {
     label: string;
     render?: (data: T) => any;
     sortable?: boolean;
+    /** Optional high-precedence custom renderer (value, row) signature alignment with ColumnDefinition.customRenderer */
+    customRenderer?: (value: any, row: T) => React.ReactNode;
 }
 /**
  * Tab definition for generic tab creation

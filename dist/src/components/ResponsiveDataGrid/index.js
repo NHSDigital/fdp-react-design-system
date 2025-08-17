@@ -3481,7 +3481,8 @@ var createGenericTabsConfig = (data, tabDefinitions) => {
     columns: def.columns.map((col) => ({
       key: col.key,
       label: col.label,
-      render: col.render
+      render: col.render,
+      customRenderer: col.customRenderer
     })),
     sortConfig: def.sortConfig,
     ariaLabel: def.ariaLabel || `${def.label} Data Grid`,

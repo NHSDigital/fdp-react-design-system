@@ -7160,7 +7160,8 @@ const Jf = ({
   columns: r.columns.map((a) => ({
     key: a.key,
     label: a.label,
-    render: a.render
+    render: a.render,
+    customRenderer: a.customRenderer
   })),
   sortConfig: r.sortConfig,
   ariaLabel: r.ariaLabel || `${r.label} Data Grid`,

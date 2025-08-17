@@ -159,9 +159,12 @@
 
   &__nav-pane {
     border-right: 1px solid var(--nsplit-divider);
+    // Prevent horizontal scroll; allow content to wrap within width
+    overflow-x: hidden;
+    min-width: 0;
   }
 
-  &__nav-scroll { flex: 1 1 auto; overflow-y: auto; }
+  &__nav-scroll { flex: 1 1 auto; overflow-y: auto; overflow-x: hidden; }
   &__nav-footer { border-top: 1px solid var(--nsplit-divider); padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-5; background: var(--nsplit-background); }
   &__nav-collapse { 
 	border-bottom: 1px solid var(--nsplit-divider); 
@@ -257,7 +260,6 @@
   }
 
   &__item-button {
-    width: 100%;
     text-align: left;
     background: none;
     border: none;
@@ -269,6 +271,9 @@
     font-size: nhs.$nhs-fdp-font-size-19-desktop;
     line-height: 1.4;
     position: relative;
+  // Wrap long tokens/URLs to avoid forcing horizontal scroll
+  overflow-wrap: anywhere;
+  word-break: break-word;
 
     &:hover:not([data-disabled='true']) {
       background: nhs.$nhs-fdp-color-grey-5;
@@ -352,12 +357,12 @@
     &__panes { transform: none !important; }
 
   &__nav-pane { 
-	flex: 0 0 320px; 
-	display: flex; 
-	flex-direction: column; 
-	transition: 
-	width var(--nsplit-transition);
-	
+  flex: 0 0 320px; 
+  display: flex; 
+  flex-direction: column; 
+  transition: width var(--nsplit-transition);
+  overflow-x: hidden; // ensure no horizontal scroll at wider breakpoints
+  min-width: 0;
   }
   &--nav-collapsed &__nav-pane { width: 56px; flex: 0 0 56px; }
   &--nav-collapsed &__item-button { padding-left: nhs.$nhs-fdp-spacing-4; }

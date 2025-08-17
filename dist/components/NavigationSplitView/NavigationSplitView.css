@@ -276,10 +276,13 @@ span .nhsuk-u-visually-hidden {
 }
 .nhs-navigation-split-view__nav-pane {
   border-right: 1px solid var(--nsplit-divider);
+  overflow-x: hidden;
+  min-width: 0;
 }
 .nhs-navigation-split-view__nav-scroll {
   flex: 1 1 auto;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .nhs-navigation-split-view__nav-footer {
   border-top: 1px solid var(--nsplit-divider);
@@ -378,7 +381,6 @@ span .nhsuk-u-visually-hidden {
   border-bottom: none;
 }
 .nhs-navigation-split-view__item-button {
-  width: 100%;
   text-align: left;
   background: none;
   border: none;
@@ -390,6 +392,8 @@ span .nhsuk-u-visually-hidden {
   font-size: 19px;
   line-height: 1.4;
   position: relative;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .nhs-navigation-split-view__item-button:hover:not([data-disabled=true]) {
   background: #f0f4f5;
@@ -471,6 +475,8 @@ span .nhsuk-u-visually-hidden {
     display: flex;
     flex-direction: column;
     transition: width var(--nsplit-transition);
+    overflow-x: hidden;
+    min-width: 0;
   }
   .nhs-navigation-split-view--nav-collapsed .nhs-navigation-split-view__nav-pane {
     width: 56px;

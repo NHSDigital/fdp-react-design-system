@@ -456,13 +456,13 @@ span .nhsuk-u-visually-hidden {
   padding: 24px;
   background: #f0f4f5;
   border: 1px solid #d8dde0;
-  border-radius: none;
+  border-radius: 0;
   margin-bottom: 24px;
   display: flex;
   flex-direction: column;
 }
 .sort-status-control__description {
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 16px;
   color: #4c6272;
   font-weight: 400;
@@ -499,6 +499,14 @@ span .nhsuk-u-visually-hidden {
   color: #4c6272;
   margin-right: 8px;
 }
+.sort-status-control__tag-container {
+  display: inline-flex;
+  align-items: center;
+  cursor: grab;
+  transition: transform 0.2s ease;
+  border-radius: 0 !important;
+  border: none !important;
+}
 .sort-status-control__tag-container .nhsuk-tag {
   display: inline-flex;
   align-items: center;
@@ -521,14 +529,6 @@ span .nhsuk-u-visually-hidden {
 }
 .sort-status-control__tag-container .nhsuk-tag .nhsuk-tag__close:hover {
   opacity: 0.7;
-}
-.sort-status-control__tag-container {
-  display: inline-flex;
-  align-items: center;
-  cursor: grab;
-  transition: transform 0.2s ease;
-  border-radius: 0 !important;
-  border: none !important;
 }
 .sort-status-control__tag-container:active {
   cursor: grabbing;
@@ -674,17 +674,11 @@ span .nhsuk-u-visually-hidden {
 .sort-status-control__chevron--desc {
   transform: rotate(90deg);
 }
-.sort-status-control .nhsuk-icon.sort-status-control__chevron, [data-component=sort-status-control] .nhsuk-icon.sort-status-control__chevron {
+.sort-status-control__chevron.nhsuk-icon {
   width: 20px;
   height: 20px;
   fill: currentColor;
   transition: transform 0.2s ease;
-}
-.sort-status-control .nhsuk-icon.sort-status-control__chevron.sort-status-control__chevron--asc, [data-component=sort-status-control] .nhsuk-icon.sort-status-control__chevron.sort-status-control__chevron--asc {
-  transform: rotate(-90deg);
-}
-.sort-status-control .nhsuk-icon.sort-status-control__chevron.sort-status-control__chevron--desc, [data-component=sort-status-control] .nhsuk-icon.sort-status-control__chevron.sort-status-control__chevron--desc {
-  transform: rotate(90deg);
 }
 .sort-status-control__move-button {
   background: none;
@@ -734,7 +728,7 @@ span .nhsuk-u-visually-hidden {
 }
 .sort-status-control__help {
   color: #768692;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.4;
   margin-top: 8px;
   padding-top: 8px;

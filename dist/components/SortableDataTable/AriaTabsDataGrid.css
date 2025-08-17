@@ -92,8 +92,7 @@ span .nhsuk-u-visually-hidden {
 .aria-tabs-datagrid {
   font-family: Frutiger W01, Arial, sans-serif;
   background: #ffffff;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
   width: 100%;
   max-width: 100%;
   overflow: hidden;

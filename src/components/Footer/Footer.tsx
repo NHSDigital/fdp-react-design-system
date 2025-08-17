@@ -12,6 +12,9 @@ export const Footer: React.FC<FooterProps> = ({
   copyright = '© NHS England',
   containerClasses,
   attributes = {},
+  style,
+  footerStyle,
+  containerStyle,
 }) => {
   const renderLinkItem = (item: FooterLinkItem, isDefaultLayout: boolean = false) => (
     <li
@@ -34,11 +37,14 @@ export const Footer: React.FC<FooterProps> = ({
   const isMultiColumnLayout = !!(linksColumn2 || linksColumn3);
 
   return (
-    <footer role="contentinfo" {...attributes}>
+    <footer role="contentinfo" {...attributes} style={{ ...(attributes as any)?.style, ...style }}>
       <div className="nhsuk-footer-container">
-        <div className={classNames('nhsuk-width-container', containerClasses)}>
+        <div
+          className={classNames('nhsuk-width-container', containerClasses)}
+          style={containerStyle}
+        >
           <h2 className="nhsuk-u-visually-hidden">Support links</h2>
-          <div className={classNames('nhsuk-footer', className)}>
+          <div className={classNames('nhsuk-footer', className)} style={footerStyle}>
             {!isMultiColumnLayout ? (
               // Single column layout (default)
               <ul className="nhsuk-footer__list">

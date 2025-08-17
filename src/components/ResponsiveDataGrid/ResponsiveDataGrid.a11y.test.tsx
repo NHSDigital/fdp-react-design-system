@@ -1,5 +1,5 @@
-import { describe, it, vi } from 'vitest';
-import { render, act } from '@testing-library/react';
+import { describe, it } from 'vitest';
+import { render, act, waitFor } from '@testing-library/react';
 import { ResponsiveDataGrid } from './ResponsiveDataGrid';
 import { expectAccessible } from '../../test-utils/accessibility';
 
@@ -15,16 +15,16 @@ describe('ResponsiveDataGrid (a11y)', () => {
       }
     ];
   let container: HTMLElement | undefined;
-  vi.useFakeTimers();
   await act(async () => {
     ({ container } = render(<ResponsiveDataGrid forceLayout="cards" ariaLabel="Patients grid" tabPanels={tabPanels} />));
-    // Flush immediate timeouts (0ms) and debounced layout timers (<= 250ms used in component)
-    vi.advanceTimersByTime(300);
+  });
+  // Allow internal setTimeout/resize handlers to settle
+  await new Promise(r => setTimeout(r, 50));
+  await waitFor(() => {
+    // basic assertion to ensure grid rendered before axe
+    if (!container?.querySelector('[role="grid"]')) throw new Error('grid not ready');
   });
   if (!container) throw new Error('Container not set');
-  await act(async () => {
-    await expectAccessible(container!);
-  });
-  vi.useRealTimers();
+  await expectAccessible(container!);
   });
 });

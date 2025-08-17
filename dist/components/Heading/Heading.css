@@ -94,6 +94,8 @@ span .nhsuk-u-visually-hidden {
   line-height: 24px;
   margin-top: 0;
   margin-bottom: 8px;
+  --nhs-heading-mt-mobile: 8px;
+  --nhs-heading-mt-tablet: 16px;
 }
 @media (min-width: 768px) {
   .nhsuk-heading {
@@ -172,44 +174,36 @@ span .nhsuk-u-visually-hidden {
     margin-bottom: 56px;
   }
 }
+.nhsuk-heading--xs {
+  --nhs-heading-mt-mobile: 8px;
+  --nhs-heading-mt-tablet: 16px;
+}
+.nhsuk-heading--s {
+  --nhs-heading-mt-mobile: 16px;
+  --nhs-heading-mt-tablet: 24px;
+}
+.nhsuk-heading--m {
+  --nhs-heading-mt-mobile: 16px;
+  --nhs-heading-mt-tablet: 24px;
+}
+.nhsuk-heading--l {
+  --nhs-heading-mt-mobile: 24px;
+  --nhs-heading-mt-tablet: 32px;
+}
+.nhsuk-heading--xl {
+  --nhs-heading-mt-mobile: 32px;
+  --nhs-heading-mt-tablet: 40px;
+}
+.nhsuk-heading--xxl {
+  --nhs-heading-mt-mobile: 40px;
+  --nhs-heading-mt-tablet: 48px;
+}
 .nhsuk-heading:not(:first-child) {
-  --nhs-heading-mt: 8px;
-  margin-top: var(--nhs-heading-mt);
-}
-.nhsuk-heading:not(:first-child).nhsuk-heading--xs {
-  --nhs-heading-mt: 8px;
-}
-.nhsuk-heading:not(:first-child).nhsuk-heading--s, .nhsuk-heading:not(:first-child).nhsuk-heading--m {
-  --nhs-heading-mt: 16px;
-}
-.nhsuk-heading:not(:first-child).nhsuk-heading--l {
-  --nhs-heading-mt: 24px;
-}
-.nhsuk-heading:not(:first-child).nhsuk-heading--xl {
-  --nhs-heading-mt: 32px;
-}
-.nhsuk-heading:not(:first-child).nhsuk-heading--xxl {
-  --nhs-heading-mt: 40px;
+  margin-top: var(--nhs-heading-mt-mobile);
 }
 @media (min-width: 768px) {
   .nhsuk-heading:not(:first-child) {
-    --nhs-heading-mt: 16px;
-    margin-top: var(--nhs-heading-mt);
-  }
-  .nhsuk-heading:not(:first-child).nhsuk-heading--xs {
-    --nhs-heading-mt: 16px;
-  }
-  .nhsuk-heading:not(:first-child).nhsuk-heading--s, .nhsuk-heading:not(:first-child).nhsuk-heading--m {
-    --nhs-heading-mt: 24px;
-  }
-  .nhsuk-heading:not(:first-child).nhsuk-heading--l {
-    --nhs-heading-mt: 32px;
-  }
-  .nhsuk-heading:not(:first-child).nhsuk-heading--xl {
-    --nhs-heading-mt: 40px;
-  }
-  .nhsuk-heading:not(:first-child).nhsuk-heading--xxl {
-    --nhs-heading-mt: 48px;
+    margin-top: var(--nhs-heading-mt-tablet);
   }
 }
 .nhsuk-heading--no-mt {

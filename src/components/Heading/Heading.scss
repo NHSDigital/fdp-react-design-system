@@ -27,6 +27,10 @@
   // Top margin is applied conditionally (not first-child) using size-based token mapping below
   margin-top: 0;
   margin-bottom: nhs.$nhs-fdp-spacing-responsive-3-mobile;
+  // Base (unmodified) heading fallback custom properties declared early to avoid
+  // Sass mixed-decls deprecation (declarations must precede nested rules).
+  --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-3-mobile};
+  --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-3-tablet};
   
   @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
     margin-bottom: nhs.$nhs-fdp-spacing-responsive-3-tablet;
@@ -85,19 +89,15 @@
 
   // ---------------------------------------------------------------------------
   // Responsive top margin tokens declared per size variant via custom props.
-  // Only applied when not the first child to avoid unwanted extra space at
-  // section starts (matches NHS.UK guidance). Consumers can opt out with
-  // --no-mt modifier. This change exposes the size‑specific spacing as
-  // variables which can be overridden if necessary.
+  // Reordered: base custom properties first (declarations), then nested variant
+  // selectors to satisfy forthcoming Sass mixed-decls rule.
+  // Variant overrides
   &--xs { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-3-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-3-tablet}; }
   &--s  { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-4-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-4-tablet}; }
   &--m  { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-4-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-4-tablet}; }
   &--l  { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-5-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-5-tablet}; }
   &--xl { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-6-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-6-tablet}; }
   &--xxl{ --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-7-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-7-tablet}; }
-  // Base (unmodified) heading fallback
-  --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-3-mobile};
-  --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-3-tablet};
 
   &:not(:first-child) {
     margin-top: var(--nhs-heading-mt-mobile);

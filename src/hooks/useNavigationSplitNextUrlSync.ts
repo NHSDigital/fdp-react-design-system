@@ -1,15 +1,19 @@
-// Next.js specific URL sync hook for NavigationSplitView
-// NOTE: This file assumes a Next.js App Router environment (>=13.4).
-// It intentionally lives outside the default index export to avoid pulling
-// next/navigation into non-Next consumers. Import from the /nextjs entry.
+// Deprecated wrapper kept for backward compatibility. Preferred import path:
+// import { useNavigationSplitNextUrlSync } from '@fergusbisset/nhs-fdp-design-system/nextjs'
+// This wrapper avoids static imports of next/navigation and delegates to the
+// real implementation only when available.
+// (React not required directly in wrapper)
 
-import * as React from 'react';
-// NOTE: The `next/navigation` import is safe for declaration build because we ship
-// a lightweight ambient shim (`src/types/next-navigation-shim.d.ts`) when Next.js
-// isn't installed. In a real Next.js app the real types override the shim.
-// Import as namespace so missing named exports in an optional peer stub don't cause build failure
-// (Vite optional peer dep plugin can supply an empty object). We then feature-detect below.
-import * as nextNavigation from 'next/navigation';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function tryLoad<T = any>(mod: string): T | null {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-implied-eval, no-new-func
+    const req = (Function('return require'))();
+    return req(mod);
+  } catch {
+    return null;
+  }
+}
 
 export interface UseNavigationSplitNextUrlSyncOptions {
   paramSelected?: string;
@@ -25,51 +29,21 @@ export interface UseNavigationSplitNextUrlSyncOptions {
  * router.replace (default) or router.push. Scroll is suppressed by default.
  */
 export function useNavigationSplitNextUrlSync<ID = string>(options: UseNavigationSplitNextUrlSyncOptions = {}) {
-  const { paramSelected = 'nsv', paramDrill = 'nsvDrill', method = 'replace' } = options;
-  // Pull potential hooks off namespace (may be undefined if next/navigation absent)
-  const useSearchParamsFn: any = (nextNavigation as any).useSearchParams;
-  const usePathnameFn: any = (nextNavigation as any).usePathname;
-  const useRouterFn: any = (nextNavigation as any).useRouter;
-
-  // If any are missing we provide a safe fallback object so consumers that mistakenly
-  // invoke this hook outside Next.js don't crash the build. We also warn in dev.
-  const missing = !(useSearchParamsFn && usePathnameFn && useRouterFn);
-  if (missing) {
-    if (process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
-      console.warn('[useNavigationSplitNextUrlSync] next/navigation not available – returning inert URL sync helpers. Ensure you import from the nextjs entry within a Next.js App Router project.');
-    }
-    return {
-      selectedId: undefined as ID | undefined,
-      drilledIn: false,
-      setSelectedId: () => {},
-      setDrilledIn: () => {}
-    } as const;
+  const impl = tryLoad('@fergusbisset/nhs-fdp-design-system/dist/src/nextjs/useNavigationSplitNextUrlSync.js')
+    || tryLoad('@fergusbisset/nhs-fdp-design-system/src/nextjs/useNavigationSplitNextUrlSync');
+  if (impl && typeof impl.useNavigationSplitNextUrlSync === 'function') {
+  // Invoke underlying implementation (loss of generic inference acceptable for wrapper)
+  return (impl.useNavigationSplitNextUrlSync as (o: UseNavigationSplitNextUrlSyncOptions)=>any)(options);
   }
-
-  const searchParams = useSearchParamsFn();
-  const pathname = usePathnameFn();
-  const router = useRouterFn();
-
-  // Derive current state from URL
-  const selectedId = searchParams.get(paramSelected) as ID | null | undefined || undefined;
-  const drilledIn = searchParams.get(paramDrill) === '1';
-
-  const update = React.useCallback((nextSelected: ID | undefined, nextDrilled: boolean) => {
-    const sp = new URLSearchParams(searchParams.toString());
-    if (nextSelected) sp.set(paramSelected, String(nextSelected)); else sp.delete(paramSelected);
-    sp.set(paramDrill, nextDrilled ? '1' : '0');
-    const qs = sp.toString();
-    const url = qs ? `${pathname}?${qs}` : pathname;
-    const nav = method === 'push' ? router.push : router.replace;
-    nav(url, { scroll: false });
-  }, [searchParams, pathname, router, method, paramSelected, paramDrill]);
-
+  if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line no-console
+    console.warn('[useNavigationSplitNextUrlSync] Loaded legacy wrapper without Next.js context. Switch to importing from /nextjs entry for full functionality.');
+  }
   return {
-    selectedId,
-    drilledIn,
-    setSelectedId: (id: ID | undefined) => update(id, drilledIn),
-    setDrilledIn: (d: boolean) => update(selectedId, d)
+    selectedId: undefined as ID | undefined,
+    drilledIn: false,
+    setSelectedId: () => {},
+    setDrilledIn: () => {}
   } as const;
 }
 

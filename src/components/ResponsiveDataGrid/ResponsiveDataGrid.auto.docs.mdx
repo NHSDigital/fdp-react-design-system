@@ -6,4 +6,38 @@ import { Meta, Stories } from '@storybook/addon-docs/blocks';
 
 This page documents the ResponsiveDataGrid component.
 
+## Generic Card Utilities
+
+In addition to the full grid you can build individual cards:
+
+1. `<GenericCard />` – a lightweight wrapper component (ideal for single records)
+2. `createGenericCard(data, columns, config)` – a helper that returns `CardProps`
+
+### Minimal Example (Component)
+
+```tsx
+import { GenericCard } from 'nhs-fdp-design-system';
+
+<GenericCard
+	data={{ id: '1', name: 'Alpha', status: 'active', priority: 'high' }}
+	columns={[{ key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }]}
+	config={{ primaryField: 'name', secondaryFields: ['status'], badges: [{ fieldKey: 'priority', color: 'warning' }] }}
+/>;
+```
+
+### Minimal Example (Helper)
+
+```tsx
+import { createGenericCard } from 'nhs-fdp-design-system';
+
+const cardProps = createGenericCard(
+	{ id: '1', name: 'Alpha', status: 'active', priority: 'high' },
+	[ { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' } ],
+	{ primaryField: 'name', secondaryFields: ['status'] }
+);
+```
+
+See the `GenericCard` stories for extended usage patterns.
+
 {/* Stories table auto-generated */}
+

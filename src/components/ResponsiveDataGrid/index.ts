@@ -34,6 +34,7 @@ export type {
 // Healthcare plugin and utilities
 export { healthcarePlugin, type HealthcareData } from './HealthcarePlugin';
 export { createGenericCard, defaultGenericCardConfig } from './GenericCardRenderer';
+export { GenericCard } from './GenericCard';
 export { convertLegacyCardConfig, isHealthcareData } from './ResponsiveDataGridHelpers';
 
 // Backward compatibility exports

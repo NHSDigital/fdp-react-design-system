@@ -45,7 +45,6 @@
 @use '../components/Select/Select.scss';
 @use '../components/SkipLink/SkipLink.scss';
 @use '../components/ResponsiveDataGrid/ResponsiveDataGrid.scss' as responsive-data-grid;
-@use '../components/ResponsiveDataGrid/HealthcareCardTemplates.scss' as responsive-healthcare-cards;
 @use '../components/SortableDataTable/AriaTabsDataGrid.scss';
 @use '../components/SortableDataTable/AriaTabsDataGridDemo.scss';
 // SortStatusControl: use canonical nested implementation (root file forwards for backwards compatibility)

@@ -1,9 +1,6 @@
 // ResponsiveDataGrid - Mobile-First Card Layout
 @use '../../../packages/nhs-fdp/scss' as nhs;
 
-// Import healthcare card templates with focus styles
-@use './HealthcareCardTemplates.scss';
-
 // Mobile-first approach: Start with cards, enhance to table
 .aria-tabs-datagrid-adaptive {
   font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};

@@ -9,7 +9,7 @@ import * as React from 'react';
 // Rollup then verifies named exports that won't exist when Next is absent.
 // Using a guarded require keeps this entry tree‑shakable for non‑Next
 // consumers while still providing full behaviour in a Next environment.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 let nextNav: any | null = null;
 try {
   // Use Function constructor to avoid bundlers trying to resolve at build.

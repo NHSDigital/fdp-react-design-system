@@ -1619,7 +1619,8 @@ var AriaTabsDataGrid = forwardRef2(
                                 const isCellFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex && navigationState.focusedColumnIndex === colIndex;
                                 const renderValue = () => {
                                   if (column.customRenderer) {
-                                    return column.customRenderer(rawValue, row);
+                                    const rendered = column.customRenderer(rawValue, row);
+                                    return /* @__PURE__ */ jsx5("span", { className: "data-cell__custom", "data-custom-rendered": "true", children: rendered });
                                   }
                                   if (typeof rawValue === "boolean" && value === rawValue) {
                                     return /* @__PURE__ */ jsxs4(Fragment2, { children: [

@@ -140,6 +140,7 @@ span .nhsuk-u-visually-hidden {
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
+  justify-content: flex-start;
 }
 .aria-tabs-datagrid__tabs::-webkit-scrollbar {
   height: 4px;
@@ -209,6 +210,9 @@ span .nhsuk-u-visually-hidden {
   color: #768692;
 }
 @media (min-width: 769px) and (max-width: 1200px) {
+  .aria-tabs-datagrid__tab .aria-tabs-datagrid__tabs {
+    justify-content: flex-start;
+  }
   .aria-tabs-datagrid__tab .aria-tabs-datagrid__tab--vitals {
     border-left: 4px solid #ed8b00;
   }
@@ -881,6 +885,19 @@ span .nhsuk-u-visually-hidden {
   position: relative;
   z-index: 10;
 }
+.data-cell__custom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  gap: 4px;
+  white-space: normal;
+}
+.data-cell__custom:focus-within {
+  outline: 2px solid #ffeb3b;
+  outline-offset: 2px;
+}
 
 .sortable-table-header .sort-priority-container {
   display: inline-flex;
@@ -1122,26 +1139,6 @@ span .nhsuk-u-visually-hidden {
     transform: scale(1.02);
   }
 }
-@media (min-width: 768px) and (max-width: 834px) and (orientation: portrait) {
-  .aria-tabs-datagrid__tabs {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .aria-tabs-datagrid__tab {
-    flex: 1 1 auto;
-    max-width: 200px;
-    text-align: center;
-  }
-  .aria-tabs-datagrid__grid .col-priority-low {
-    display: none;
-  }
-  .aria-tabs-datagrid__grid .col-medium {
-    width: 25%;
-  }
-  .aria-tabs-datagrid__grid .col-wide {
-    width: 35%;
-  }
-}
 @media (max-width: 480px) {
   .aria-tabs-datagrid__tab {
     padding: 8px 16px;
@@ -1221,5 +1218,12 @@ span .nhsuk-u-visually-hidden {
   }
   .aria-tabs-datagrid__panel[hidden] {
     display: block;
+  }
+}
+@media (min-width: 1025px) {
+  .aria-tabs-datagrid__tabs {
+    scroll-snap-type: none;
+    justify-content: flex-start !important;
+    align-items: stretch;
   }
 }

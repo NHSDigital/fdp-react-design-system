@@ -6926,10 +6926,16 @@ const qn = yt(
                                 const g = V[ne.key];
                                 let v;
                                 ne.tableRenderer ? v = ne.tableRenderer(V) : ne.render ? v = ne.render(V) : v = g;
-                                const I = D.focusArea === "cells" && D.focusedRowIndex === T && D.focusedColumnIndex === G, A = () => ne.customRenderer ? ne.customRenderer(g, V) : typeof g == "boolean" && v === g ? /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-                                  Q(g),
-                                  /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: g ? "Yes" : "No" })
-                                ] }) : Be.isValidElement(v) || typeof v != "object" ? v ?? "" : v;
+                                const I = D.focusArea === "cells" && D.focusedRowIndex === T && D.focusedColumnIndex === G, A = () => {
+                                  if (ne.customRenderer) {
+                                    const q = ne.customRenderer(g, V);
+                                    return /* @__PURE__ */ n.jsx("span", { className: "data-cell__custom", "data-custom-rendered": "true", children: q });
+                                  }
+                                  return typeof g == "boolean" && v === g ? /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
+                                    Q(g),
+                                    /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: g ? "Yes" : "No" })
+                                  ] }) : Be.isValidElement(v) || typeof v != "object" ? v ?? "" : v;
+                                };
                                 return /* @__PURE__ */ n.jsx(
                                   "td",
                                   {

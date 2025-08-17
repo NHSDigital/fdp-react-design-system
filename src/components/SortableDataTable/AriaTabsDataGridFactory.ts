@@ -13,6 +13,8 @@ export interface GenericColumnDefinition<T> {
   label: string;
   render?: (data: T) => any;
   sortable?: boolean;
+	/** Optional high-precedence custom renderer (value, row) signature alignment with ColumnDefinition.customRenderer */
+	customRenderer?: (value: any, row: T) => React.ReactNode;
 }
 
 /**
@@ -38,19 +40,20 @@ export const createGenericTabsConfig = <T,>(
   tabDefinitions: GenericTabDefinition<T>[]
 ): TabPanelConfig<T>[] => {
   return tabDefinitions.map(def => ({
-    id: def.id,
-    label: def.label,
-    data: def.filter ? def.filter(data) : data,
-    columns: def.columns.map(col => ({
-      key: col.key,
-      label: col.label,
-      render: col.render
-    })),
-    sortConfig: def.sortConfig,
-    ariaLabel: def.ariaLabel || `${def.label} Data Grid`,
-    ariaDescription: def.ariaDescription || `Data grid showing ${def.label.toLowerCase()}`,
-    className: def.className,
-    disabled: def.disabled
+	id: def.id,
+	label: def.label,
+	data: def.filter ? def.filter(data) : data,
+	columns: def.columns.map(col => ({
+	  key: col.key,
+	  label: col.label,
+	  render: col.render,
+	  customRenderer: col.customRenderer
+	})),
+	sortConfig: def.sortConfig,
+	ariaLabel: def.ariaLabel || `${def.label} Data Grid`,
+	ariaDescription: def.ariaDescription || `Data grid showing ${def.label.toLowerCase()}`,
+	className: def.className,
+	disabled: def.disabled
   }));
 };
 
@@ -60,38 +63,38 @@ export const createGenericTabsConfig = <T,>(
 export const createSimpleDataView = <T,>(
   data: T[],
   config: {
-    id: string;
-    label: string;
-    columns: Array<{
-      key: keyof T;
-      label: string;
-      render?: (value: any, data: T) => any;
-    }>;
-    defaultSort?: {
-      key: keyof T;
-      direction: 'asc' | 'desc';
-    };
-    ariaLabel?: string;
-    className?: string;
-    disabled?: boolean;
+	id: string;
+	label: string;
+	columns: Array<{
+	  key: keyof T;
+	  label: string;
+	  render?: (value: any, data: T) => any;
+	}>;
+	defaultSort?: {
+	  key: keyof T;
+	  direction: 'asc' | 'desc';
+	};
+	ariaLabel?: string;
+	className?: string;
+	disabled?: boolean;
   }
 ): TabPanelConfig<T> => {
   return {
-    id: config.id,
-    label: config.label,
-    data,
-    columns: config.columns.map(col => ({
-      key: col.key as string,
-      label: col.label,
-      render: col.render ? (data: T) => col.render!(data[col.key], data) : undefined
-    })),
-    sortConfig: config.defaultSort 
-      ? [{ key: config.defaultSort.key as string, direction: config.defaultSort.direction }]
-      : undefined,
-    ariaLabel: config.ariaLabel || `${config.label} Data Grid`,
-    ariaDescription: `Data grid showing ${config.label.toLowerCase()}`,
-    className: config.className,
-    disabled: config.disabled
+	id: config.id,
+	label: config.label,
+	data,
+	columns: config.columns.map(col => ({
+	  key: col.key as string,
+	  label: col.label,
+	  render: col.render ? (data: T) => col.render!(data[col.key], data) : undefined
+	})),
+	sortConfig: config.defaultSort 
+	  ? [{ key: config.defaultSort.key as string, direction: config.defaultSort.direction }]
+	  : undefined,
+	ariaLabel: config.ariaLabel || `${config.label} Data Grid`,
+	ariaDescription: `Data grid showing ${config.label.toLowerCase()}`,
+	className: config.className,
+	disabled: config.disabled
   };
 };
 
@@ -101,64 +104,64 @@ export const createSimpleDataView = <T,>(
 export const createBusinessDataTabs = <T extends Record<string, any>>(
   data: T[],
   options: {
-    nameField: keyof T;
-    statusField?: keyof T;
-    dateField?: keyof T;
-    amountField?: keyof T;
-    additionalFields?: Array<{
-      key: keyof T;
-      label: string;
-      render?: (value: any) => any;
-    }>;
+	nameField: keyof T;
+	statusField?: keyof T;
+	dateField?: keyof T;
+	amountField?: keyof T;
+	additionalFields?: Array<{
+	  key: keyof T;
+	  label: string;
+	  render?: (value: any) => any;
+	}>;
   }
 ): TabPanelConfig<T>[] => {
   const baseColumns = [
-    { key: options.nameField as string, label: 'Name' }
+	{ key: options.nameField as string, label: 'Name' }
   ];
 
   if (options.statusField) {
-    baseColumns.push({ key: options.statusField as string, label: 'Status' });
+	baseColumns.push({ key: options.statusField as string, label: 'Status' });
   }
 
   if (options.dateField) {
-    baseColumns.push({ 
-      key: options.dateField as string, 
-      label: 'Date',
-      render: (data: T) => {
-        const value = (data as any)[options.dateField!];
-        return (value as any) instanceof Date ? (value as Date).toLocaleDateString() : value;
-      }
-    } as AriaDataGridColumn);
+	baseColumns.push({ 
+	  key: options.dateField as string, 
+	  label: 'Date',
+	  render: (data: T) => {
+		const value = (data as any)[options.dateField!];
+		return (value as any) instanceof Date ? (value as Date).toLocaleDateString() : value;
+	  }
+	} as AriaDataGridColumn);
   }
 
   if (options.amountField) {
-    baseColumns.push({ 
-      key: options.amountField as string, 
-      label: 'Amount',
-      render: (data: T) => {
-        const value = (data as any)[options.amountField!];
-        return typeof value === 'number' ? `$${value.toFixed(2)}` : value;
-      }
-    } as AriaDataGridColumn);
+	baseColumns.push({ 
+	  key: options.amountField as string, 
+	  label: 'Amount',
+	  render: (data: T) => {
+		const value = (data as any)[options.amountField!];
+		return typeof value === 'number' ? `$${value.toFixed(2)}` : value;
+	  }
+	} as AriaDataGridColumn);
   }
 
   if (options.additionalFields) {
-    baseColumns.push(...options.additionalFields.map(field => ({
-      key: field.key as string,
-      label: field.label,
-      render: field.render ? (data: T) => field.render!(data[field.key]) : undefined
-    })));
+	baseColumns.push(...options.additionalFields.map(field => ({
+	  key: field.key as string,
+	  label: field.label,
+	  render: field.render ? (data: T) => field.render!(data[field.key]) : undefined
+	})));
   }
 
   return [
-    {
-      id: 'overview',
-      label: 'Overview',
-      data,
-      columns: baseColumns,
-      ariaLabel: 'Data Overview Grid',
-      ariaDescription: 'Overview of all data items'
-    }
+	{
+	  id: 'overview',
+	  label: 'Overview',
+	  data,
+	  columns: baseColumns,
+	  ariaLabel: 'Data Overview Grid',
+	  ariaDescription: 'Overview of all data items'
+	}
   ];
 };
 
@@ -191,33 +194,33 @@ export const filterFunctions = {
   
   /** Simple object property matching */
   simple: <T,>(data: T[], filters?: Record<string, any>): T[] => {
-    if (!filters) return data;
-    
-    return data.filter(item => {
-      return Object.keys(filters).every(key => {
-        const filterValue = filters[key];
-        const itemValue = (item as any)[key];
-        
-        if (filterValue === null || filterValue === undefined) return true;
-        if (Array.isArray(filterValue)) {
-          return filterValue.includes(itemValue);
-        }
-        
-        return itemValue === filterValue;
-      });
-    });
+	if (!filters) return data;
+	
+	return data.filter(item => {
+	  return Object.keys(filters).every(key => {
+		const filterValue = filters[key];
+		const itemValue = (item as any)[key];
+		
+		if (filterValue === null || filterValue === undefined) return true;
+		if (Array.isArray(filterValue)) {
+		  return filterValue.includes(itemValue);
+		}
+		
+		return itemValue === filterValue;
+	  });
+	});
   },
   
   /** Text search across multiple fields */
   textSearch: <T,>(searchFields: Array<keyof T>) => (data: T[], filters?: { search?: string }): T[] => {
-    if (!filters?.search) return data;
-    
-    const searchTerm = filters.search.toLowerCase();
-    return data.filter(item => 
-      searchFields.some(field => 
-        String((item as any)[field]).toLowerCase().includes(searchTerm)
-      )
-    );
+	if (!filters?.search) return data;
+	
+	const searchTerm = filters.search.toLowerCase();
+	return data.filter(item => 
+	  searchFields.some(field => 
+		String((item as any)[field]).toLowerCase().includes(searchTerm)
+	  )
+	);
   }
 };
 

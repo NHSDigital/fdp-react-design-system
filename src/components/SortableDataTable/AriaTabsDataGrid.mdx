@@ -357,11 +357,11 @@ The `DataOperationConfig` interface allows you to customise how data is compared
 interface DataOperationConfig<T> {
   dataComparator?: (a: T, b: T) => boolean;
   filterFunction?: (data: T[], filters?: any) => T[];
-  booleanRenderer?: (value: any) => React.ReactNode;
+  booleanRenderer?: (value: any) => React.ReactNode; // Global fallback for primitive booleans
   getDataId?: (data: T) => string;
 }
 
-### Column Rendering Precedence & Per-Column Boolean Rendering
+### Column Rendering Precedence & Custom Column Rendering
 
 Each column can define custom renderers that override more general fallbacks.
 
@@ -376,9 +376,9 @@ Boolean values are rendered with accessibility helpers. You now have two levels 
 | Level | API | Use Case |
 |-------|-----|----------|
 | Global | `dataConfig.booleanRenderer` | Consistent boolean display across all columns/tabs |
-| Per Column | `column.customRenderer(value, row)` | Custom rendering for that column (any type). Overrides global booleanRenderer when used |
+| Per Column | `column.customRenderer(value, row)` | Custom rendering for that column (any type). Overrides global renderers for that column |
 
-If a column supplies `booleanRenderer`, it overrides the global one for that column only.
+If a column supplies `customRenderer`, it overrides the global booleanRenderer for that column only.
 
 Example:
 
@@ -411,55 +411,15 @@ const tabPanels = createGenericTabsConfig(products, [
 />;
 ```
 
-### Column Rendering Precedence & Per-Column Boolean Rendering
+### Migration Note (vNext)
 
-Each column can define custom renderers that override more general fallbacks.
+Previously a per-column `booleanRenderer` existed. This has been generalised to `customRenderer` so any data type (not just booleans) can be overridden at the column level. Migrate by:
 
-Precedence order when rendering a cell (first match wins):
+| Old | New |
+|-----|-----|
+| `booleanRenderer: (v) => ...` (column) | `customRenderer: (v) => ...` |
 
-1. `column.tableRenderer(row)` – table-specific rendering
-2. `column.render(row)` – generic renderer (applies to both table & card views)
-3. Raw value `row[column.key]`
-
-Boolean values are rendered with accessibility helpers. You now have two levels of control:
-
-| Level | API | Use Case |
-|-------|-----|----------|
-| Global | `dataConfig.booleanRenderer` | Consistent boolean display across all columns/tabs |
-| Per Column | `column.booleanRenderer(value, row)` | Special casing a single boolean column (e.g. icons, badges) |
-
-If a column supplies `booleanRenderer`, it overrides the global one for that column only.
-
-Example:
-
-```tsx
-const tabPanels = createGenericTabsConfig(products, [
-  {
-    id: 'inventory',
-    label: 'Inventory',
-    columns: [
-      { key: 'name', label: 'Product' },
-      { 
-        key: 'inStock', 
-        label: 'Availability',
-        booleanRenderer: (val: boolean) => val ? <span className="status status--ok">Available</span> : <span className="status status--no">Out</span>
-      },
-      { 
-        key: 'price', 
-        label: 'Price', 
-        render: (p: Product) => `£${p.price.toFixed(2)}`
-      }
-    ],
-    ariaLabel: 'Inventory grid'
-  }
-]);
-
-<AriaTabsDataGrid
-  tabPanels={tabPanels}
-  ariaLabel="Inventory overview"
-  dataConfig={{ booleanRenderer: (v) => v ? 'Yes' : 'No' }} // fallback for other boolean columns
-/>;
-```
+Global `dataConfig.booleanRenderer` remains for simple primitive boolean fallback styling.
 ```
 
 ---

@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { renderSSR } from '../../test-utils/renderSSR';
-import React from 'react';
 import { ResponsiveDataGrid } from './ResponsiveDataGrid';
 
 // Minimal SSR structural test – no client effects executed

@@ -2,10 +2,9 @@
 // Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { ResponsiveDataGrid } from './ResponsiveDataGrid';
-import { AriaTabsDataGridComprehensiveDemo } from './ResponsiveDataGridDemo';
 import type { ResponsiveDataGridProps } from './ResponsiveDataGridTypes';
 import { PatientCard, AppointmentCard, MedicationCard, VitalsCard } from './HealthcareCardTemplates';
-import { createTCHTabsConfig, tchDataConfig } from '../SortableDataTable/AriaTabsDataGridTCH';
+import { createTCHTabsConfig } from '../SortableDataTable/AriaTabsDataGridTCH';
 import type { EWSPatientData } from '../SortableDataTable/AriaTabsDataGridTypes';
 
 // Import real patient data

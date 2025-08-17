@@ -779,24 +779,25 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
   // Focus sort control element and handle sort controls navigation
   const focusSortControl = useCallback((controlIndex: number) => {
 	if (controlIndex === 0) {
-	  // Focus the container for navigation mode entry
-	  const sortControlElement = sortControlRefs.current[0];
-	  if (sortControlElement) {
-		sortControlElement.focus();
+	  // Focus the inner row (visual container) instead of the outer region wrapper
+	  const outer = sortControlRefs.current[0];
+	  const innerRow = outer?.querySelector('.sort-controls-row') as HTMLElement | null;
+	  if (innerRow) {
+		innerRow.setAttribute('tabindex', '-1'); // make programmatically focusable without altering sequential order
+		innerRow.focus();
 		const availableControls = getAvailableSortControls();
-		const announcement = `Sort controls region with ${availableControls.length} interactive elements. Press Enter or Space to navigate between controls.`;
+		const announcement = `Sort controls group with ${availableControls.length} interactive elements. Press Enter or Space to begin navigating controls.`;
 		announceToScreenReader(announcement);
+	  } else if (outer) {
+		outer.focus(); // fallback
 	  }
 	} else {
 	  // For individual controls, focus them directly by querying the DOM
 	  const availableControls = getAvailableSortControls();
-	  const adjustedIndex = controlIndex - 1; // Subtract 1 because index 0 is the container
+	  const adjustedIndex = controlIndex - 1; // Subtract 1 because index 0 is the group
 	  const formControl = availableControls[adjustedIndex];
-	  
 	  if (formControl) {
 		formControl.focus();
-		
-		// Create announcement with helpful keyboard hint for select elements
 		const isSelect = formControl.tagName.toLowerCase() === 'select';
 		const isButton = formControl.tagName.toLowerCase() === 'button';
 		const elementType = isSelect ? 'dropdown' : isButton ? 'button' : 'control';
@@ -828,11 +829,10 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		case 'ArrowUp':
 		  event.preventDefault();
 		  if (cardIndex === 0) {
-			// Navigate back to tabs
-			setCardNavState(prev => ({ ...prev, focusArea: 'tabs' }));
-			focusTab(state.selectedIndex);
+			// Move up into sort-controls (group) instead of jumping to tabs
+			setCardNavState(prev => ({ ...prev, focusArea: 'sort-controls', focusedSortControlIndex: 0, isSortControlsActive: false }));
+			focusSortControl(0);
 		  } else {
-			// Use 2D navigation for up movement
 			const newCardIndex = navigate2D(cardIndex, 'up', cardCount, cardNavState.gridColumns);
 			if (newCardIndex !== cardIndex) {
 			  setCardNavState(prev => ({ ...prev, focusedCardIndex: newCardIndex }));
@@ -1230,13 +1230,14 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 
 		case 'Escape':
 		  event.preventDefault();
-		  // Exit sort controls navigation mode
+		  // Exit navigation mode but keep focus within sort-controls group (container)
 		  setCardNavState(prev => ({ 
 			...prev, 
 			isSortControlsActive: false,
-			focusArea: 'tabs'
+			focusArea: 'sort-controls',
+			focusedSortControlIndex: 0
 		  }));
-		  focusTab(state.selectedIndex);
+		  focusSortControl(0);
 		  break;
 	  }
 	}

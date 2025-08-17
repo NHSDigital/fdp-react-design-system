@@ -1,5 +1,14 @@
 // AriaTabsDataGrid Component Styles
+// ---------------------------------------------------------------------------
+// Infra summary:
+//  Mixins: atd-max($key), atd-between($min,$max), atd-snap-x(), atd-no-snap()
+//  Placeholders: %atd-data-cell-focus, %atd-sort-priority-base
+//  Breakpoints: phone(480) tablet(768) tabletMax(1024) wideTablet(1200)
+//  Scroll snapping: enabled <= tabletMax; disabled on desktop >=1025px
+//  Conventions: prefer mixins over raw @media; extend placeholders for reuse
+// ---------------------------------------------------------------------------
 @use '../../../packages/nhs-fdp/scss' as nhs;
+@use 'sass:map';
 
 // Component-specific variables using design tokens
 $color-primary: nhs.$nhs-fdp-color-primary-blue;
@@ -18,6 +27,37 @@ $border-radius: nhs.$nhs-fdp-border-radius-small;
 $transition-default: all nhs.$nhs-fdp-animation-duration-normal nhs.$nhs-fdp-animation-easing-ease-out;
 $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
 
+// ---------------------------------------------------------------------------
+// Breakpoint & Utility Mixins (initial refactor pass)
+// ---------------------------------------------------------------------------
+// Centralised breakpoint tokens to reduce repeated literal ranges.
+$atd-breakpoints: (
+	phone: 480px,
+	tablet: 768px,
+	tabletMax: 1024px,
+	wideTablet: 1200px
+);
+
+@mixin atd-max($key) {
+	$size: map.get($atd-breakpoints, $key);
+	@media (max-width: $size) { @content; }
+}
+
+@mixin atd-between($minKey, $maxKey) {
+	$min: map.get($atd-breakpoints, $minKey);
+	$max: map.get($atd-breakpoints, $maxKey);
+	$minPlus: $min + 1px; // avoid overlap with max queries
+	@media (min-width: #{$minPlus}) and (max-width: #{$max}) { @content; }
+}
+
+// Scroll snap helpers so we can switch behaviour without duplicating properties
+@mixin atd-snap-x() { scroll-snap-type: x mandatory; scroll-behavior: smooth; }
+@mixin atd-no-snap() { scroll-snap-type: none; }
+
+// Shared placeholders (wrapped in & to avoid mixed-decls future change)
+%atd-data-cell-focus { & { background-color: $color-primary; color: nhs.$nhs-fdp-semantic-color-text-primary; box-shadow: inset 0 0 0 nhs.$nhs-fdp-border-width-card-bottom nhs.$nhs-fdp-color-primary-black, 0 0 0 5px $color-highlight !important; border-radius: 0 !important; position: relative; z-index: 10; } }
+%atd-sort-priority-base { & { font-weight: nhs.$nhs-fdp-font-weight-bold; border-radius: 50%; min-width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: nhs.$nhs-fdp-font-size-14-mobile; line-height: 1; transition: $transition-default; position: relative; flex-shrink: 0; &:focus-visible { outline: 2px solid $color-focus; outline-offset: 2px; } @include atd-max(tablet) { min-width: 18px; height: 18px; font-size: 10px; } } }
+
 // Main component container
 .aria-tabs-datagrid {
   font-family: $font-family-primary;
@@ -26,7 +66,6 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
   width: 100%; // Ensure full width utilisation
   max-width: 100%; // Prevent overflow
   overflow: hidden; // Contain child overflow
-
   // Loading and Error States
   &--loading,
   &--error {
@@ -81,10 +120,10 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	overflow-x: auto;
 	scrollbar-width: thin; // Firefox
 	-webkit-overflow-scrolling: touch; // iOS smooth scrolling
-	scroll-snap-type: x mandatory; // Snap to tabs on mobile
-	scroll-behavior: smooth; // Smooth scroll animations
+	scrollbar-gutter: stable both-edges; // Prevent layout shift when scrollbar appears
 	// Explicitly pin left alignment to avoid transient centering between breakpoints
 	justify-content: flex-start;
+
 	
 	// Custom scrollbar for webkit browsers
 	&::-webkit-scrollbar {
@@ -102,6 +141,10 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	  &:hover {
 		background: nhs.$nhs-fdp-color-grey-2;
 	  }
+	}
+
+	@media (min-width: 769px) {
+		position: revert;
 	}
   }
 
@@ -126,7 +169,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	position: relative;
 	min-height: nhs.$nhs-fdp-form-spacing-input-min-height + nhs.$nhs-fdp-spacing-2;
 	scroll-snap-align: start; // Snap alignment for mobile scrolling
-
+	
 	// Remove right border from the last tab to avoid double border with container
 	// &:last-child {
 	//   border-right: none;
@@ -169,9 +212,9 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	  color: $color-disabled;
 	}
 
-  // Healthcare-specific tablet optimisations - updated to align with systematic breakpoints
-@media (min-width: 769px) and (max-width: 1200px) {
-  .aria-tabs-datagrid {
+	// Healthcare-specific tablet optimisations (consolidated via mixin)
+    @include atd-between(tablet, wideTablet) {
+    .aria-tabs-datagrid {
 	&__tabs {
 	  // Reinforce left alignment in this range (prevents brief centering jitter during resize)
 	  justify-content: flex-start;
@@ -709,7 +752,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 					white-space: normal;
 			  
 			  // Consistent mobile-friendly typography for constrained layouts
-			  @media (max-width: 1024px) {
+			  @include atd-max(tabletMax) {
 				font-size: 12px; // Keep consistent 14px across all breakpoints
 				width: 100%; // Full width when stacked vertically
 				margin-bottom: nhs.$nhs-fdp-spacing-1;
@@ -719,7 +762,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 			  }
 			  
 			  // Extra small screens get even smaller font
-			  @media (max-width: 480px) {
+			  @include atd-max(phone) {
 				font-size: nhs.$nhs-fdp-font-size-14-mobile;
 			  }
 			}
@@ -742,7 +785,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 			  }
 			  
 			  // Optimize for vertical layout on constrained screens
-			  @media (max-width: 1024px) {
+			  @include atd-max(tabletMax) {
 				margin-left: 0; // Remove left margin when stacked vertically
 				margin-top: nhs.$nhs-fdp-spacing-1;
 				align-self: center; // Align to start when vertically stacked
@@ -753,74 +796,16 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 			
 			// Always visible sort priority styling (not just when focused)
 			.sort-priority {
-			  background: nhs.$nhs-fdp-color-grey-2;
-			  font-weight: nhs.$nhs-fdp-font-weight-bold;
-			  color: $color-white;
-			  border-radius: 50%;
-			  min-width: 20px;
-			  height: 20px;
-			  display: inline-flex;
-			  align-items: center;
-			  justify-content: center;
-			  font-size: nhs.$nhs-fdp-font-size-14-mobile; // 12px
-			  line-height: 1;
-			  transition: $transition-default;
-			  position: relative;
-			  flex-shrink: 0; // Prevent shrinking in flex container
-			  
-			  // Priority level styling with NHS colors
-			  &--priority-1 {
-				background: nhs.$nhs-fdp-color-primary-red;
-				border: 2px solid nhs.$nhs-fdp-color-primary-red;
-				animation: pulse-priority 2s infinite;
-			  }
-			  
-			  &--priority-2 {
-				background: nhs.$nhs-fdp-color-secondary-orange;
-				border: 2px solid nhs.$nhs-fdp-color-secondary-orange;
-			  }
-			  
-			  &--priority-3 {
-				background: nhs.$nhs-fdp-color-primary-blue;
-				border: 2px solid nhs.$nhs-fdp-color-primary-blue;
-			  }
-			  
-			  &--priority-4 {
-				background: nhs.$nhs-fdp-color-secondary-aqua-green;
-				border: 2px solid nhs.$nhs-fdp-color-secondary-aqua-green;
-			  }
-			  
-			  &--priority-5 {
+				@extend %atd-sort-priority-base;
 				background: nhs.$nhs-fdp-color-grey-2;
+				color: $color-white;
 				border: 2px solid nhs.$nhs-fdp-color-grey-2;
-			  }
-			  
-			  // Hover effects
-			  &:hover {
-				transform: scale(1.1);
-				box-shadow: nhs.$nhs-fdp-shadow-card-hover;
-			  }
-			  
-			  // Focus styles for accessibility
-			  &:focus-visible {
-				outline: 2px solid $color-focus;
-				outline-offset: 2px;
-			  }
-			  
-			  // Mobile-specific adjustments
-			  @media (max-width: 768px) {
-				min-width: 18px;
-				height: 18px;
-				font-size: 10px;
-				
-				&::before {
-				  width: 14px;
-				  height: 14px;
-				  font-size: 9px;
-				  top: -7px;
-				  right: -7px;
-				}
-			  }
+				&:hover { transform: scale(1.1); box-shadow: nhs.$nhs-fdp-shadow-card-hover; }
+				&--priority-1 { background: nhs.$nhs-fdp-color-primary-red; border-color: nhs.$nhs-fdp-color-primary-red; animation: pulse-priority 2s infinite; }
+				&--priority-2 { background: nhs.$nhs-fdp-color-secondary-orange; border-color: nhs.$nhs-fdp-color-secondary-orange; }
+				&--priority-3 { background: nhs.$nhs-fdp-color-primary-blue; border-color: nhs.$nhs-fdp-color-primary-blue; }
+				&--priority-4 { background: nhs.$nhs-fdp-color-secondary-aqua-green; border-color: nhs.$nhs-fdp-color-secondary-aqua-green; }
+				&--priority-5 { background: nhs.$nhs-fdp-color-grey-2; border-color: nhs.$nhs-fdp-color-grey-2; }
 			}
 			
 			// Sort arrow styling
@@ -971,13 +956,13 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	}
 	
 	.col-priority-medium {
-	  @media (max-width: 768px) {
+	  @include atd-max(tablet) {
 		display: none;
 	  }
 	}
 	
 	.col-priority-low {
-	  @media (max-width: 1024px) {
+	  @include atd-max(tabletMax) {
 		display: none;
 	  }
 	}
@@ -1019,7 +1004,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	font-size: nhs.$nhs-fdp-font-size-14-tablet;
 	color: $color-text-secondary;
 
-	@media (max-width: 768px) {
+	@include atd-max(tablet) {
 	  flex-direction: column;
 	  align-items: flex-start;
 	  gap: nhs.$nhs-fdp-spacing-2;
@@ -1069,16 +1054,7 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 
 // Data cell focus styles (component-specific)
 .data-cell {
-  &--focused {
-	background-color: $color-primary;
-	color: nhs.$nhs-fdp-semantic-color-text-primary;
-	// Use layered box-shadow to show both black border and yellow outline - with !important to override base styling
-	box-shadow: inset 0 0 0 nhs.$nhs-fdp-border-width-card-bottom nhs.$nhs-fdp-color-primary-black, // Black inner border
-			0 0 0 5px $color-highlight !important; // Yellow outer outline (5px total)
-	border-radius: 0 !important; // Ensure no border radius is applied
-	position: relative;
-	z-index: 10;
-  }
+	&--focused { @extend %atd-data-cell-focus; }
 
 	// Wrapper applied when a column supplies customRenderer
 	&__custom {
@@ -1112,59 +1088,25 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	margin-left: nhs.$nhs-fdp-spacing-2;
 	
 	// Mobile-specific adjustments
-	@media (max-width: 768px) {
+	@include atd-max(tablet) {
 	  gap: calc(nhs.$nhs-fdp-spacing-1 / 2);
 	  margin-left: nhs.$nhs-fdp-spacing-1;
 	}
 	
 	.sort-priority {
-	  &--small {
-		min-width: 16px;
-		height: 16px;
-		font-size: 10px;
-		
-		&::before {
-		  width: 12px;
-		  height: 12px;
-		  font-size: 8px;
-		  top: -6px;
-		  right: -6px;
-		}
-	  }
-	  
-	  &--large {
-		min-width: 24px;
-		height: 24px;
-		font-size: nhs.$nhs-fdp-font-size-14-tablet;
-		
-		&::before {
-		  width: 18px;
-		  height: 18px;
-		  font-size: 11px;
-		  top: -9px;
-		  right: -9px;
-		}
-	  }
-	  
-	  // Multiple sort indicator with connecting lines
-	  &--connected {
-		position: relative;
-		
-		&::after {
-		  content: '';
-		  position: absolute;
-		  left: 100%;
-		  top: 50%;
-		  width: nhs.$nhs-fdp-spacing-2;
-		  height: 2px;
-		  background: nhs.$nhs-fdp-color-grey-3;
-		  transform: translateY(-50%);
-		}
-		
-		&:last-child::after {
-		  display: none;
-		}
-	  }
+	  @extend %atd-sort-priority-base;
+	  background: nhs.$nhs-fdp-color-grey-2;
+	  color: $color-white;
+	  border: 2px solid nhs.$nhs-fdp-color-grey-2;
+	  &:hover { transform: scale(1.1); box-shadow: nhs.$nhs-fdp-shadow-card-hover; }
+	  &--small { min-width:16px; height:16px; font-size:10px; }
+	  &--large { min-width:24px; height:24px; font-size: nhs.$nhs-fdp-font-size-14-tablet; }
+	  &--connected { position:relative; &::after { content:''; position:absolute; left:100%; top:50%; width: nhs.$nhs-fdp-spacing-2; height:2px; background: nhs.$nhs-fdp-color-grey-3; transform: translateY(-50%); } &:last-child::after { display:none; } }
+	  &--priority-1 { background: nhs.$nhs-fdp-color-primary-red; border-color: nhs.$nhs-fdp-color-primary-red; }
+	  &--priority-2 { background: nhs.$nhs-fdp-color-secondary-orange; border-color: nhs.$nhs-fdp-color-secondary-orange; }
+	  &--priority-3 { background: nhs.$nhs-fdp-color-primary-blue; border-color: nhs.$nhs-fdp-color-primary-blue; }
+	  &--priority-4 { background: nhs.$nhs-fdp-color-secondary-aqua-green; border-color: nhs.$nhs-fdp-color-secondary-aqua-green; }
+	  &--priority-5 { background: nhs.$nhs-fdp-color-grey-2; border-color: nhs.$nhs-fdp-color-grey-2; }
 	}
   }
 }
@@ -1267,7 +1209,11 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	  &:focus {
 		outline: 3px solid $color-focus;
 		//outline-offset: 2px;
-		z-index: 15; // Higher than mobile to ensure visibility
+		z-index: 20; // Higher than mobile to ensure visibility
+	  }
+
+	  @media (max-width: 769px) {
+		z-index: 20;
 	  }
 	}
 	
@@ -1433,95 +1379,43 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	}
   }
   
-  .data-cell {
-	&--focused {
-	  // Enhanced cell focus for tablet precision
-	  box-shadow: 
-		inset 0 0 0 3px nhs.$nhs-fdp-color-primary-black,
-		0 0 0 4px $color-highlight !important;
-	  transform: scale(1.02);
-	}
-  }
+	.data-cell { &--focused { // Tablet refinement: lighter outer outline & subtle scale
+		box-shadow:
+			inset 0 0 0 3px nhs.$nhs-fdp-color-primary-black,
+			0 0 0 4px $color-highlight !important;
+		transform: scale(1.02);
+	} }
 }
 
-@media (max-width: 480px) {
-  .aria-tabs-datagrid {
-	
-	&__tab {
-	  padding: nhs.$nhs-fdp-button-spacing-padding-vertical-mobile nhs.$nhs-fdp-button-spacing-padding-horizontal-mobile;
-	  font-size: nhs.$nhs-fdp-font-size-14-mobile;
-	  min-width: 120px; // Component-specific minimum width
-	}
-	
-	// Enhanced table header optimization for mobile viewing
-	&__grid.nhsuk-table {
-	  th {
-		// Mobile-specific header styling
-		font-size: nhs.$nhs-fdp-font-size-14-mobile;
-		padding: nhs.$nhs-fdp-spacing-1;
-		
-		&[role="columnheader"] {
-		  min-height: 44px; // Maintain touch targets
-		  
-		  button {
-			min-height: 40px;
-			padding: nhs.$nhs-fdp-spacing-1;
-			
-			// Mobile header content optimization (consistent with our unified approach)
-			// The mobile styling is now handled by the unified @media (max-width: 1024px) rule above
-			// This ensures consistency across all constrained layouts
-		  }
+// Unified phone breakpoint adjustments (merged duplicate @media blocks)
+@include atd-max(phone) {
+	.aria-tabs-datagrid {
+		&__tab {
+			padding: nhs.$nhs-fdp-button-spacing-padding-vertical-mobile nhs.$nhs-fdp-button-spacing-padding-horizontal-mobile;
+			font-size: nhs.$nhs-fdp-font-size-14-mobile;
+			min-width: 120px;
 		}
-	  }
-	  
-	  // Prevent horizontal scrolling issues
-	  td {
-		min-width: 0;
-		word-break: break-word;
-		hyphens: auto;
-	  }
-	}
-	
-	&--vertical {
-	  flex-direction: column;
-
-	  .aria-tabs-datagrid__tabs {
-		width: 100%;
-		flex-direction: row;
-		border-right: none;
-	  }
-	}
-  }
-}
-
-// Extra small screens (narrow phones) - additional optimizations beyond the unified approach
-@media (max-width: 480px) {
-  .aria-tabs-datagrid {
-	&__grid.nhsuk-table {
-	  th {
-		&[role="columnheader"] {
-		  button {
-			.header-content {
-			  padding: 4px 2px; // Tighter padding for very small screens
-			  
-			  .header-label {
-				font-size: 12px; // Even smaller font for very constrained space
-				line-height: 1.1;
-				
-				// Abbreviate long headers on very small screens
-				&[data-full-text] {
-				  &::after {
-					content: "...";
-					opacity: 0.7;
-				  }
-				}
-			  }
+		&__grid.nhsuk-table {
+			th {
+				font-size: nhs.$nhs-fdp-font-size-14-mobile;
+				padding: nhs.$nhs-fdp-spacing-1;
+				&[role="columnheader"] { min-height: 44px; button { min-height: 40px; padding: nhs.$nhs-fdp-spacing-1; } }
 			}
-		  }
+			td { min-width: 0; word-break: break-word; hyphens: auto; }
 		}
-	  }
+		&--vertical { flex-direction: column; .aria-tabs-datagrid__tabs { width:100%; flex-direction:row; border-right:none; } }
+
+		// Extra-small tightening (previous second block)
+		&__grid.nhsuk-table {
+			th[role="columnheader"] button .header-content {
+				padding: 4px 2px;
+				.header-label {
+					font-size: 12px; line-height:1.1;
+					&[data-full-text]::after { content:"..."; opacity:0.7; }
+				}
+			}
+		}
 	}
-  }
 }
 
 // High Contrast Mode Support
@@ -1578,14 +1472,16 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
   }
 }
 
-// Desktop explicit overrides (beyond tablet breakpoints)
+// Desktop explicit overrides (beyond tablet breakpoints) – disable snap
 @media (min-width: 1025px) {
 	.aria-tabs-datagrid {
 		&__tabs {
-			// Disable scroll snapping which can cause transient re-centering when scrollbar visibility toggles
-			scroll-snap-type: none;
+			@include atd-no-snap();
 			justify-content: flex-start !important; // Ensure no centering from user-agent or transient flex distribution
 			align-items: stretch;
 		}
 	}
 }
+
+// Enable scroll snapping only for <= tabletMax
+@include atd-max(tabletMax) { .aria-tabs-datagrid__tabs { @include atd-snap-x(); } }

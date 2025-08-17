@@ -200,12 +200,12 @@
     "docs:fix-mdx": "tsx scripts/fix-autodocs-mdx.ts",
     "preversion": "npm run lint && npm test && npm run build:parity",
     "preversion:smoke": "npm run lint && npm run test:smoke && npm run build:parity",
-    "version": "git add . && git commit -m 'chore(build): dist for v$npm_package_version' || true",
+  "version": "git add .",
     "postversion": "git push && git push --tags",
-    "release:patch": "npm version patch",
-    "release:minor": "npm version minor",
-    "release:major": "npm version major",
-    "release:prerelease": "npm version prerelease --preid=alpha"
+  "release:patch": "npm version patch -m 'chore(release): %s'",
+  "release:minor": "npm version minor -m 'chore(release): %s'",
+  "release:major": "npm version major -m 'chore(release): %s'",
+  "release:prerelease": "npm version prerelease --preid=alpha -m 'chore(release): %s'"
   },
   "keywords": [],
   "author": "Fergus Bisset",

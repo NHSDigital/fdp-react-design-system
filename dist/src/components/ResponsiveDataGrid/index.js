@@ -88,7 +88,7 @@ var require_classnames = __commonJS({
 import { useState as useState3, useEffect as useEffect2, useCallback as useCallback4, useRef as useRef3, useReducer as useReducer2, useMemo as useMemo3 } from "react";
 
 // src/components/SortableDataTable/AriaTabsDataGrid.tsx
-import { useReducer, useCallback as useCallback3, useMemo as useMemo2, useRef as useRef2, useImperativeHandle, forwardRef as forwardRef2, useEffect, useState as useState2 } from "react";
+import React3, { useReducer, useCallback as useCallback3, useMemo as useMemo2, useRef as useRef2, useImperativeHandle, forwardRef as forwardRef2, useEffect, useState as useState2 } from "react";
 
 // src/components/SortableDataTable/SortStatusControl/SortStatusControl.tsx
 import { useCallback as useCallback2, useMemo, useRef } from "react";
@@ -1233,16 +1233,30 @@ var AriaTabsDataGrid = forwardRef2(
                               className: `data-row ${isRowSelected ? "data-row--selected" : ""} ${isRowFocused ? "data-row--focused" : ""}`,
                               "aria-selected": isRowSelected,
                               children: panel.columns.map((column, colIndex) => {
-                                const value = column.tableRenderer ? column.tableRenderer(row) : column.render ? column.render(row) : row[column.key];
+                                const rawValue = row[column.key];
+                                let value;
+                                if (column.tableRenderer) {
+                                  value = column.tableRenderer(row);
+                                } else if (column.render) {
+                                  value = column.render(row);
+                                } else {
+                                  value = rawValue;
+                                }
                                 const isCellFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex && navigationState.focusedColumnIndex === colIndex;
                                 const renderValue = () => {
-                                  if (typeof value === "boolean") {
+                                  if (column.customRenderer) {
+                                    return column.customRenderer(rawValue, row);
+                                  }
+                                  if (typeof rawValue === "boolean" && value === rawValue) {
                                     return /* @__PURE__ */ jsxs3(Fragment, { children: [
-                                      renderBooleanIcon(value),
-                                      /* @__PURE__ */ jsx4("span", { className: "nhsuk-u-visually-hidden", children: value ? "Yes" : "No" })
+                                      renderBooleanIcon(rawValue),
+                                      /* @__PURE__ */ jsx4("span", { className: "nhsuk-u-visually-hidden", children: rawValue ? "Yes" : "No" })
                                     ] });
                                   }
-                                  return String(value != null ? value : "");
+                                  if (React3.isValidElement(value) || typeof value !== "object") {
+                                    return value != null ? value : "";
+                                  }
+                                  return value;
                                 };
                                 return /* @__PURE__ */ jsx4(
                                   "td",

@@ -4447,10 +4447,26 @@ var AriaTabsDataGridComprehensiveDemo = () => {
   ] });
 };
 var ResponsiveDataGridDemo = AriaTabsDataGridComprehensiveDemo;
+
+// src/components/ResponsiveDataGrid/GenericCard.tsx
+import { jsx as jsx13 } from "react/jsx-runtime";
+function GenericCard({ data, columns, config, className, headingOverride }) {
+  const mergedConfig = { ...defaultGenericCardConfig, ...config };
+  const cardProps = createGenericCard(data, columns, mergedConfig);
+  return /* @__PURE__ */ jsx13(
+    Card,
+    {
+      ...cardProps,
+      heading: headingOverride != null ? headingOverride : cardProps.heading,
+      className: [cardProps.className, className].filter(Boolean).join(" ")
+    }
+  );
+}
 export {
   ResponsiveDataGrid as AdaptiveDataGrid,
   AppointmentCard,
   ResponsiveDataGrid as AriaTabsDataGridAdaptive,
+  GenericCard,
   MedicationCard,
   PatientCard,
   ResponsiveDataGrid,

@@ -6,6 +6,7 @@ export type { ColumnDefinition, AriaDataGridColumn, SortConfig } from '../Sortab
 export type { GenericResponsiveDataGridProps, GenericResponsiveTabPanelConfig, GenericCardConfig, DomainPlugin, BadgeConfig, PriorityLevel, StatusType } from './ResponsiveDataGridGeneric.types';
 export { healthcarePlugin, type HealthcareData } from './HealthcarePlugin';
 export { createGenericCard, defaultGenericCardConfig } from './GenericCardRenderer';
+export { GenericCard } from './GenericCard';
 export { convertLegacyCardConfig, isHealthcareData } from './ResponsiveDataGridHelpers';
 export { ResponsiveDataGrid as AdaptiveDataGrid } from './ResponsiveDataGrid';
 export { ResponsiveDataGrid as AriaTabsDataGridAdaptive } from './ResponsiveDataGrid';

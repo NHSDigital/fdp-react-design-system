@@ -83,6 +83,8 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	-webkit-overflow-scrolling: touch; // iOS smooth scrolling
 	scroll-snap-type: x mandatory; // Snap to tabs on mobile
 	scroll-behavior: smooth; // Smooth scroll animations
+	// Explicitly pin left alignment to avoid transient centering between breakpoints
+	justify-content: flex-start;
 	
 	// Custom scrollbar for webkit browsers
 	&::-webkit-scrollbar {
@@ -170,6 +172,10 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
   // Healthcare-specific tablet optimisations - updated to align with systematic breakpoints
 @media (min-width: 769px) and (max-width: 1200px) {
   .aria-tabs-datagrid {
+	&__tabs {
+	  // Reinforce left alignment in this range (prevents brief centering jitter during resize)
+	  justify-content: flex-start;
+	}
 	// Clinical workflow enhancements for bedside/mobile cart usage
 	// Only apply healthcare-specific styling, avoid layout changes
 	&__tab {
@@ -1073,6 +1079,28 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	position: relative;
 	z-index: 10;
   }
+
+	// Wrapper applied when a column supplies customRenderer
+	&__custom {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		text-align: center;
+		gap: nhs.$nhs-fdp-spacing-1;
+
+		// Ensure icons / text don't stick to cell edges
+		//padding-inline: nhs.$nhs-fdp-spacing-1;
+
+		// Allow wrapping if very long custom content
+		white-space: normal;
+
+		// Accessible focus if nested interactive elements are introduced
+		&:focus-within {
+			outline: 2px solid $color-focus;
+			outline-offset: 2px;
+		}
+	}
 }
 
 // Enhanced sort priority in table headers
@@ -1416,38 +1444,6 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
   }
 }
 
-// Tablet Portrait Optimization (768px - 834px)
-@media (min-width: 768px) and (max-width: 834px) and (orientation: portrait) {
-  .aria-tabs-datagrid {
-	&__tabs {
-	  flex-wrap: wrap; // Allow tab wrapping in portrait mode
-	  justify-content: center; // Center tabs for better visual balance
-	}
-	
-	&__tab {
-	  flex: 1 1 auto; // Flexible tab sizing
-	  max-width: 200px; // Prevent tabs from becoming too wide
-	  text-align: center;
-	}
-	
-	&__grid {
-	  // Hide lower priority columns in portrait tablet mode
-	  .col-priority-low {
-		display: none;
-	  }
-	  
-	  // Adjust remaining columns for portrait layout
-	  .col-medium { 
-		width: 25%; 
-	  }
-	  
-	  .col-wide { 
-		width: 35%; 
-	  }
-	}
-  }
-}
-
 @media (max-width: 480px) {
   .aria-tabs-datagrid {
 	
@@ -1580,4 +1576,16 @@ $font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-fami
 	  page-break-inside: avoid;
 	}
   }
+}
+
+// Desktop explicit overrides (beyond tablet breakpoints)
+@media (min-width: 1025px) {
+	.aria-tabs-datagrid {
+		&__tabs {
+			// Disable scroll snapping which can cause transient re-centering when scrollbar visibility toggles
+			scroll-snap-type: none;
+			justify-content: flex-start !important; // Ensure no centering from user-agent or transient flex distribution
+			align-items: stretch;
+		}
+	}
 }

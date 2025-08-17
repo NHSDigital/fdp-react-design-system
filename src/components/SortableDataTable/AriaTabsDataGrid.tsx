@@ -969,7 +969,12 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 								  // If the final value is explicitly a boolean primitive and no custom renderer produced something else
 								  // Column-level custom renderer always takes priority if provided
 								  if (column.customRenderer) {
-									return column.customRenderer(rawValue, row);
+									const rendered = column.customRenderer(rawValue, row);
+									return (
+									  <span className="data-cell__custom" data-custom-rendered="true">
+										{rendered}
+									  </span>
+									);
 								  }
 								  if (typeof rawValue === 'boolean' && (value === rawValue)) {
 									// Boolean primitive fallback (global booleanRenderer handling)

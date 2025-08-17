@@ -4,10 +4,8 @@
 // real implementation only when available.
 // (React not required directly in wrapper)
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function tryLoad<T = any>(mod: string): T | null {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval, no-new-func
     const req = (Function('return require'))();
     return req(mod);
   } catch {
@@ -36,7 +34,6 @@ export function useNavigationSplitNextUrlSync<ID = string>(options: UseNavigatio
   return (impl.useNavigationSplitNextUrlSync as (o: UseNavigationSplitNextUrlSyncOptions)=>any)(options);
   }
   if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line no-console
     console.warn('[useNavigationSplitNextUrlSync] Loaded legacy wrapper without Next.js context. Switch to importing from /nextjs entry for full functionality.');
   }
   return {

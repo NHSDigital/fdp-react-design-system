@@ -36,7 +36,6 @@ export function useNavigationSplitNextUrlSync<ID = string>(options: UseNavigatio
 
   if (!useSearchParams || !usePathname || !useRouter) {
     if (process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
       console.warn('[useNavigationSplitNextUrlSync] next/navigation not available – returning inert helpers. Import this hook only within a Next.js App Router environment.');
     }
     return {

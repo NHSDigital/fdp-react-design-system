@@ -4,7 +4,12 @@
 // next/navigation into non-Next consumers. Import from the /nextjs entry.
 
 import * as React from 'react';
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+// NOTE: The `next/navigation` import is safe for declaration build because we ship
+// a lightweight ambient shim (`src/types/next-navigation-shim.d.ts`) when Next.js
+// isn't installed. In a real Next.js app the real types override the shim.
+// Import as namespace so missing named exports in an optional peer stub don't cause build failure
+// (Vite optional peer dep plugin can supply an empty object). We then feature-detect below.
+import * as nextNavigation from 'next/navigation';
 
 export interface UseNavigationSplitNextUrlSyncOptions {
   paramSelected?: string;
@@ -21,9 +26,30 @@ export interface UseNavigationSplitNextUrlSyncOptions {
  */
 export function useNavigationSplitNextUrlSync<ID = string>(options: UseNavigationSplitNextUrlSyncOptions = {}) {
   const { paramSelected = 'nsv', paramDrill = 'nsvDrill', method = 'replace' } = options;
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
+  // Pull potential hooks off namespace (may be undefined if next/navigation absent)
+  const useSearchParamsFn: any = (nextNavigation as any).useSearchParams;
+  const usePathnameFn: any = (nextNavigation as any).usePathname;
+  const useRouterFn: any = (nextNavigation as any).useRouter;
+
+  // If any are missing we provide a safe fallback object so consumers that mistakenly
+  // invoke this hook outside Next.js don't crash the build. We also warn in dev.
+  const missing = !(useSearchParamsFn && usePathnameFn && useRouterFn);
+  if (missing) {
+    if (process.env.NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-console
+      console.warn('[useNavigationSplitNextUrlSync] next/navigation not available – returning inert URL sync helpers. Ensure you import from the nextjs entry within a Next.js App Router project.');
+    }
+    return {
+      selectedId: undefined as ID | undefined,
+      drilledIn: false,
+      setSelectedId: () => {},
+      setDrilledIn: () => {}
+    } as const;
+  }
+
+  const searchParams = useSearchParamsFn();
+  const pathname = usePathnameFn();
+  const router = useRouterFn();
 
   // Derive current state from URL
   const selectedId = searchParams.get(paramSelected) as ID | null | undefined || undefined;

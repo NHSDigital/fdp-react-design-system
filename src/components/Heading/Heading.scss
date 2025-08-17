@@ -84,37 +84,25 @@
   );
 
   // ---------------------------------------------------------------------------
-  // Conditional top margin (token-based) applied only when the heading is not
-  // the first child in its container. Larger visual sizes receive larger
-  // preceding space to create a clear vertical rhythm without double-spacing
-  // at section starts.
-  // Mapping (mobile / tablet):
-  // xs -> spacing 3 / 3
-  // s,m -> spacing 4 / 4
-  // l -> spacing 5 / 5
-  // xl -> spacing 6 / 6
-  // xxl -> spacing 7 / 7
-  // Base (no size modifier) defaults to spacing 3 / 3
-  &:not(:first-child) {
-    // Default (base) top spacing
-    --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-3-mobile};
-    &.nhsuk-heading--xs { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-3-mobile}; }
-    &.nhsuk-heading--s,
-    &.nhsuk-heading--m { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-4-mobile}; }
-    &.nhsuk-heading--l { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-5-mobile}; }
-    &.nhsuk-heading--xl { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-6-mobile}; }
-    &.nhsuk-heading--xxl { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-7-mobile}; }
-    margin-top: var(--nhs-heading-mt);
+  // Responsive top margin tokens declared per size variant via custom props.
+  // Only applied when not the first child to avoid unwanted extra space at
+  // section starts (matches NHS.UK guidance). Consumers can opt out with
+  // --no-mt modifier. This change exposes the size‑specific spacing as
+  // variables which can be overridden if necessary.
+  &--xs { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-3-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-3-tablet}; }
+  &--s  { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-4-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-4-tablet}; }
+  &--m  { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-4-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-4-tablet}; }
+  &--l  { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-5-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-5-tablet}; }
+  &--xl { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-6-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-6-tablet}; }
+  &--xxl{ --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-7-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-7-tablet}; }
+  // Base (unmodified) heading fallback
+  --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-3-mobile};
+  --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-3-tablet};
 
+  &:not(:first-child) {
+    margin-top: var(--nhs-heading-mt-mobile);
     @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-      --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-3-tablet};
-      &.nhsuk-heading--xs { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-3-tablet}; }
-      &.nhsuk-heading--s,
-      &.nhsuk-heading--m { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-4-tablet}; }
-      &.nhsuk-heading--l { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-5-tablet}; }
-      &.nhsuk-heading--xl { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-6-tablet}; }
-      &.nhsuk-heading--xxl { --nhs-heading-mt: #{nhs.$nhs-fdp-spacing-responsive-7-tablet}; }
-      margin-top: var(--nhs-heading-mt);
+      margin-top: var(--nhs-heading-mt-tablet);
     }
   }
 

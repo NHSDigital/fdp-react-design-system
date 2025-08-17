@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames2() {
+      function classNames3() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames2.apply(null, arg);
+          return classNames3.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,14 +71,14 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames2.default = classNames2;
-        module.exports = classNames2;
+        classNames3.default = classNames3;
+        module.exports = classNames3;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames2;
+          return classNames3;
         });
       } else {
-        window.classNames = classNames2;
+        window.classNames = classNames3;
       }
     })();
   }
@@ -178,8 +178,76 @@ var SummaryCard = ({
   );
 };
 
-// src/components/DashboardSummaryGrid/DashboardSummaryGrid.tsx
+// src/components/Grid/Grid.tsx
+var import_classnames2 = __toESM(require_classnames(), 1);
+import React2 from "react";
 import { jsx as jsx3 } from "react/jsx-runtime";
+var Container = ({
+  children,
+  className,
+  fluid = false,
+  maxWidth,
+  ...props
+}) => {
+  const containerClasses = (0, import_classnames2.default)(
+    {
+      "nhsuk-width-container": !fluid,
+      "nhsuk-width-container-fluid": fluid
+    },
+    className
+  );
+  const style = maxWidth ? { maxWidth } : void 0;
+  return /* @__PURE__ */ jsx3("div", { className: containerClasses, style, ...props, children });
+};
+var Row = ({
+  children,
+  className,
+  ...props
+}) => {
+  const rowClasses = (0, import_classnames2.default)("nhsuk-grid-row", className);
+  return /* @__PURE__ */ jsx3("div", { className: rowClasses, ...props, children });
+};
+var Column = ({
+  children,
+  width = "full",
+  mobileWidth,
+  tabletWidth,
+  desktopWidth,
+  start,
+  className,
+  forceWidth = false,
+  ...props
+}) => {
+  const columnClasses = (0, import_classnames2.default)(
+    {
+      // Standard responsive grid columns
+      [`nhsuk-grid-column-${width}`]: !forceWidth,
+      // Utility classes that force width on all screen sizes
+      [`nhsuk-u-${width}`]: forceWidth,
+      // Responsive width overrides
+      [`nhsuk-u-${mobileWidth}-mobile`]: mobileWidth,
+      [`nhsuk-u-${tabletWidth}-tablet`]: tabletWidth,
+      [`nhsuk-u-${desktopWidth}-desktop`]: desktopWidth,
+      // Grid positioning
+      [`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7
+    },
+    className
+  );
+  return /* @__PURE__ */ jsx3("div", { className: columnClasses, ...props, children });
+};
+var Grid = ({
+  children,
+  className,
+  ...props
+}) => {
+  const childrenArray = React2.Children.toArray(children);
+  const firstChild = childrenArray[0];
+  const hasRowAsFirstChild = React2.isValidElement(firstChild) && (firstChild.type === Row || typeof firstChild.props === "object" && firstChild.props && "className" in firstChild.props && typeof firstChild.props.className === "string" && firstChild.props.className.includes("nhsuk-grid-row"));
+  return /* @__PURE__ */ jsx3(Container, { className, ...props, children: hasRowAsFirstChild ? children : /* @__PURE__ */ jsx3(Row, { children }) });
+};
+
+// src/components/DashboardSummaryGrid/DashboardSummaryGrid.tsx
+import { jsx as jsx4 } from "react/jsx-runtime";
 var DashboardSummaryGrid = ({
   cards,
   className = "",
@@ -189,12 +257,13 @@ var DashboardSummaryGrid = ({
     "nhs-fdp-dashboard-summary-grid",
     className
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ jsx3("div", { className: baseClasses, ...props, children: /* @__PURE__ */ jsx3("div", { className: "nhs-fdp-grid", children: /* @__PURE__ */ jsx3("div", { className: "nhs-fdp-grid__row", children: cards.map((cardProps, index) => /* @__PURE__ */ jsx3(
-    "div",
+  return /* @__PURE__ */ jsx4("div", { className: baseClasses, ...props, children: /* @__PURE__ */ jsx4(Grid, { children: /* @__PURE__ */ jsx4(Row, { children: cards.map((cardProps, index) => /* @__PURE__ */ jsx4(
+    Column,
     {
-      className: "nhs-fdp-grid__column nhs-fdp-grid__column--one-half nhs-fdp-dashboard-summary-grid__column",
+      width: "one-quarter",
+      className: "nhs-fdp-dashboard-summary-grid__column",
       "data-card-index": index,
-      children: /* @__PURE__ */ jsx3(SummaryCard, { ...cardProps })
+      children: /* @__PURE__ */ jsx4(SummaryCard, { ...cardProps })
     },
     index
   )) }) }) });

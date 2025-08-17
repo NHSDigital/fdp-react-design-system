@@ -5,7 +5,7 @@ import './DashboardSummaryGrid.scss';
  * NHS Dashboard Summary Grid Component
  *
  * A pre-configured grid layout that displays four summary cards in a responsive
- * 2x2 grid on desktop and stacked layout on mobile. Perfect for dashboard KPIs
+ * 1x4 grid on desktop and stacked layout on mobile. Perfect for dashboard KPIs
  * and data overviews.
  *
  * Features:

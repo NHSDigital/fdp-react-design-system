@@ -175,6 +175,7 @@ span .nhsuk-u-visually-hidden {
   -webkit-overflow-scrolling: touch;
   scrollbar-gutter: stable both-edges;
   justify-content: flex-start;
+  overflow-y: hidden;
 }
 .aria-tabs-datagrid__tabs::-webkit-scrollbar {
   height: 4px;
@@ -748,10 +749,10 @@ span .nhsuk-u-visually-hidden {
   fill: #ffffff;
 }
 .aria-tabs-datagrid__grid.nhsuk-table thead th.sortable-header--focused .sort-arrow.sort-arrow--asc {
-  transform: rotate(-90deg);
+  transform: translateX(-50%) rotate(-90deg);
 }
 .aria-tabs-datagrid__grid.nhsuk-table thead th.sortable-header--focused .sort-arrow.sort-arrow--desc {
-  transform: rotate(90deg);
+  transform: translateX(-50%) rotate(90deg);
 }
 .aria-tabs-datagrid__grid.nhsuk-table thead th.sortable-header--focused .sort-priority--priority-1, .aria-tabs-datagrid__grid.nhsuk-table thead th.sortable-header--focused .sort-priority--priority-2, .aria-tabs-datagrid__grid.nhsuk-table thead th.sortable-header--focused .sort-priority--priority-4, .aria-tabs-datagrid__grid.nhsuk-table thead th.sortable-header--focused .sort-priority--priority-5 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

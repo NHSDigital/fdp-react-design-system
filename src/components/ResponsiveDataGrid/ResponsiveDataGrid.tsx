@@ -56,7 +56,7 @@ import { GenericCardConfig, DomainPlugin } from './ResponsiveDataGridGeneric.typ
 import { AriaTabsDataGridState, AriaTabsDataGridAction } from '../SortableDataTable/AriaTabsDataGridTypes';
 import { SortConfig } from '../SortableDataTable/AriaDataGridTypes';
 import { createGenericCard, defaultGenericCardConfig } from './GenericCardRenderer';
-import { healthcarePlugin } from './HealthcarePlugin';
+import { healthcarePlugin } from './HealthcarePlugin.tsx';
 import { convertLegacyCardConfig, isHealthcareData } from './ResponsiveDataGridHelpers';
 
 // Advanced sorting component - only imported when enableAdvancedSorting is true

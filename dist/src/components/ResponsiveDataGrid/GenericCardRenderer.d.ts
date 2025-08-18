@@ -9,4 +9,3 @@ export declare function createGenericCard<T = any>(data: T, columns: AriaDataGri
  * Default generic configuration for common use cases
  */
 export declare const defaultGenericCardConfig: GenericCardConfig;
-

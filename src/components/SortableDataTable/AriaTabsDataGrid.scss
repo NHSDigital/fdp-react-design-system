@@ -836,35 +836,37 @@ $atd-breakpoints: (
 			
 			// Enhanced Focus Styles for sortable headers
 			&--focused {
-			  background-color: $color-primary !important;
-			  color: $color-white !important;
-			  // Use layered box-shadow for NHS focus conventions - with !important to override base styling
-			  box-shadow: 
-				  inset 0 0 0 nhs.$nhs-fdp-border-width-card-bottom nhs.$nhs-fdp-color-primary-yellow,
-				  0 0 0 2px $color-highlight !important; // Yellow outer outline (5px total)
-			  position: relative;
-			  z-index: 5;
+			    background-color: $color-primary !important;
+				color: $color-white !important;
+				box-shadow: 
+				inset 0 0 0 nhs.$nhs-fdp-border-width-card-bottom nhs.$nhs-fdp-color-primary-yellow,
+				0 0 0 2px $color-highlight !important;
+				position: relative;
+				z-index: 5;
 
-			  .header-label {
-				  color: $color-white;
-			  }
+				.header-label {
+					color: $color-white;
+				}
 
-			  .sort-indicator {
-				  color: $color-white;
-			  }
+				.sort-indicator {
+					color: $color-white;
+				}
 
-			  .sort-arrow {
-				  color: $color-white;
-				  fill: $color-white;
-				  
-				  &.sort-arrow--asc {
-					  transform: rotate(-90deg);
-				  }
-				  
-				  &.sort-arrow--desc {
-					  transform: rotate(90deg);
-				  }
-			  }
+				.sort-arrow {
+					color: $color-white;
+					fill: $color-white;
+
+					// Keep centering translation to prevent horizontal jump
+					&.sort-arrow--asc {
+									// was: transform: rotate(-90deg);
+									transform: translateX(-50%) rotate(-90deg);
+					}
+
+					&.sort-arrow--desc {
+									// was: transform: rotate(90deg);
+									transform: translateX(-50%) rotate(90deg);
+					}
+				}
 			  
 			  // Enhanced sort priority when focused - inherit the base styles but with white text
 			  .sort-priority {

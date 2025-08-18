@@ -198,6 +198,7 @@ const { selectedId, setSelectedId, drilledIn, setDrilledIn } = useNavigationSpli
 ## Collapsible Navigation & Footer
 
 On wider viewports (≥ medium breakpoint) you can allow the navigation pane to collapse to an icon rail.
+<<<<<<< HEAD
 ## Keyboard Summary (Quick Reference)
 | Key | Action | Notes |
 |-----|--------|-------|
@@ -207,6 +208,38 @@ On wider viewports (≥ medium breakpoint) you can allow the navigation pane to 
 ## Live Regions
 Two polite live regions:
 1. Selection changes ("Selected Alpha") – atomic so entire phrase announced.\n+2. Layout drill state ("Expanded to three column layout").\n+Suppress selection announcements with `skipAnnouncements`. Provide custom status messaging by rendering your own `aria-live` region adjacent.\n+\n+## Disabled Items\n+Disabled items remain keyboard focusable (so users learn they exist) but can't be selected. They set: `aria-disabled="true"`, no click/keyboard handlers, no `aria-selected`.\n+\n+## Testing Notes\n+- a11y tests: zero axe violations for list and three-column scenarios.\n+- Client interaction tests assert roving focus, disabled selection prevention, selection live region message.\n+- Focus logic test stability ensured by selector `[data-nav-item]` rather than element tag.\n+\n+## Implementation Detail\n+Roving focus effect updates `tabIndex` for each item in an effect; on structure changes (e.g., switching from buttons to list items) only the selector needs to remain stable.\n+\n+---\n+For further enhancements consider: roving focus management hook extraction, ARIA orientation switching warnings, and adding optional typeahead.\n*** End Patch
+=======
+
+## Keyboard Summary (Quick Reference)
+
+| Key | Action | Notes |
+|-----|--------|-------|
+| Arrow Up / Down | Move focus to previous/next option | Uses roving tabindex on `[data-nav-item]` |
+| Home / End | Jump to first / last option | |
+| Enter / Space | Select focused enabled option | Disabled options have `aria-disabled=true` and ignore activation |
+| Esc (mobile detail) | Custom (consumer may add) to clear selection | Not built-in to avoid conflicts |
+
+## Live Regions
+
+Two polite live regions:
+1. Selection changes ("Selected Alpha") – atomic so entire phrase announced.
+2. Layout drill state ("Expanded to three column layout").
+Suppress selection announcements with `skipAnnouncements`. Provide custom status messaging by rendering your own `aria-live` region adjacent.
+
+## Disabled Items
+Disabled items remain keyboard focusable (so users learn they exist) but can't be selected. They set: `aria-disabled="true"`, no click/keyboard handlers, no `aria-selected`.
+
+## Testing Notes
+- a11y tests: zero axe violations for list and three-column scenarios.
+- Client interaction tests assert roving focus, disabled selection prevention, selection live region message.
+- Focus logic test stability ensured by selector `[data-nav-item]` rather than element tag.
+
+## Implementation Detail
+Roving focus effect updates `tabIndex` for each item in an effect; on structure changes (e.g., switching from buttons to list items) only the selector needs to remain stable.
+
+---
+For further enhancements we could consider: roving focus management hook extraction, ARIA orientation switching warnings, and adding optional typeahead.
+>>>>>>> c40180c (Various updates)
 
 ```tsx
 <NavigationSplitView
@@ -292,7 +325,7 @@ See `NavigationSplitView.types.ts` for full prop definitions.
 
 ## Automatic Content Header (Selected Item Title)
 
-By default a header bar containing a BackLink + the selected item label is only shown in the mobile detail view (list / cards layouts) when an item is selected.
+By default a header bar containing a BackLink and the selected item label is only shown in the mobile detail view (list / cards layouts) when an item is selected.
 
 Enable a consistent title bar on wider breakpoints via `autoContentHeader`:
 

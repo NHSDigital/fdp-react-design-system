@@ -123,7 +123,7 @@ $atd-breakpoints: (
 	scrollbar-gutter: stable both-edges; // Prevent layout shift when scrollbar appears
 	// Explicitly pin left alignment to avoid transient centering between breakpoints
 	justify-content: flex-start;
-
+	overflow-y: hidden;
 	
 	// Custom scrollbar for webkit browsers
 	&::-webkit-scrollbar {

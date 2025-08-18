@@ -229,10 +229,6 @@ Roving focus effect updates `tabIndex` for each item in an effect; on structure 
 
 ---
 For further enhancements we could consider: roving focus management hook extraction, ARIA orientation switching warnings, and adding optional typeahead.
-<<<<<<< HEAD
->>>>>>> c40180c (Various updates)
-=======
->>>>>>> 5001928 (Various updates)
 
 ```tsx
 <NavigationSplitView

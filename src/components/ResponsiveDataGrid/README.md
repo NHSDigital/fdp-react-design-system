@@ -1,12 +1,12 @@
 # ResponsiveDataGrid Component
 
-A flexible, responsive data grid component that automatically switches between table and card layouts based on viewport size, with enhanced column rendering capabilities for optimal display in each context.
+A flexible, responsive data grid component that automatically switches between table and card layouts based on viewport sise, with enhanced column rendering capabilities for optimal display in each context.
 
 ## 🎯 Key Features
 
 - **Responsive Layout**: Automatically switches between table (desktop) and card (mobile) views
 - **Enhanced Column Renderers**: Different rendering logic for table vs card views
-- **Healthcare Optimized**: Built-in healthcare data detection and specialized templates
+- **Healthcare Optimised**: Built-in healthcare data detection and specialised templates
 - **Generic Architecture**: Plugin-based system supports any data domain
 - **Accessibility First**: Full ARIA compliance with keyboard navigation
 - **TypeScript Ready**: Complete type definitions for all features
@@ -172,7 +172,7 @@ const healthcareColumns: ColumnDefinition[] = [
 
 ### Automatic Detection
 
-The component automatically detects healthcare data and applies specialized formatting:
+The component automatically detects healthcare data and applies specialised formatting:
 
 ```tsx
 // Automatic healthcare detection based on field names
@@ -216,7 +216,7 @@ Control when the layout switches between table and card views:
 
 ### Card Configuration
 
-Customize how data appears in card view:
+Customise how data appears in card view:
 
 ```tsx
 <ResponsiveDataGrid
@@ -249,13 +249,13 @@ Override responsive behavior:
 
 - **Desktop (>1024px)**: Table view with full column layout
 - **Tablet (768-1024px)**: Hybrid view or condensed table
-- **Mobile (<768px)**: Card view optimized for touch
+- **Mobile (<768px)**: Card view optimised for touch
 
 ### Touch-Friendly Cards
 
 - Large touch targets for mobile interaction
 - Swipe gestures for navigation
-- Optimized typography for small screens
+- Optimised typography for small screens
 - Visual hierarchy with proper spacing
 
 ## ♿ Accessibility
@@ -361,19 +361,19 @@ All existing code continues to work unchanged. The enhanced renderers are additi
 - Show comprehensive information (more space available)
 - Use standard formatting (currency, dates, etc.)
 - Include contextual details (NHS numbers, full names)
-- Optimize for data analysis and comparison
+- Optimise for data analysis and comparison
 
 ### Card Renderers
-- Prioritize essential information (limited space)
+- Prioritise essential information (limited space)
 - Use visual indicators (icons, colors, abbreviations)
-- Optimize for quick scanning and touch interaction
+- Optimise for quick scanning and touch interaction
 - Consider progressive disclosure patterns
 
 ### Performance
 - Memoize expensive calculations
 - Pre-process data when possible
 - Use conditional rendering for complex displays
-- Consider virtualization for large datasets
+- Consider virtualisation for large datasets
 
 ## 📖 Examples
 

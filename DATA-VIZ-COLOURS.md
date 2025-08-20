@@ -17,7 +17,7 @@ This document captures the rationale and mapping for introducing a 12‑colour c
 #78BE20  NHS Light Green (new)
 #ED4F00  NHS Tangerine (new)
 #880FB8  NHS Light Purple (new)
-```tsx
+```
 
 ## Existing vs New Classification
 

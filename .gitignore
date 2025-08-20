@@ -29,6 +29,7 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+.tokens.hash
 
 # Environment variables
 .env

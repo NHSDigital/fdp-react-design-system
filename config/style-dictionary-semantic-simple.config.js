@@ -196,7 +196,9 @@ StyleDictionary.registerFormat({
 // Configuration
 const semanticConfig = {
   source: [
-    'packages/nhs-fdp/tokens/colors.json'
+    'packages/nhs-fdp/tokens/colors.json',
+    'packages/nhs-fdp/tokens/data-viz.json',
+    'packages/nhs-fdp/tokens/semantic-data-viz.json'
   ],
   platforms: {
     // TypeScript semantic tokens

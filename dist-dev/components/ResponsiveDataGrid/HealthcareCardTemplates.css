@@ -291,7 +291,7 @@ span .nhsuk-u-visually-hidden {
   color: #d5281b;
   font-weight: 600;
 }
-@media (max-width: 360px) {
+@media (max-width: 320px) {
   .healthcare-card__detail {
     grid-template-columns: 1fr;
     gap: 4px;
@@ -312,12 +312,30 @@ span .nhsuk-u-visually-hidden {
 }
 .healthcare-card__actions {
   display: flex;
+  flex-direction: column;
   gap: 8px;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+  align-items: stretch;
   margin-top: 16px;
   padding-top: 8px;
   border-top: 1px solid #d8dde0;
+}
+.healthcare-card__actions .nhs-aria-button,
+.healthcare-card__actions .nhsuk-button {
+  flex: 1;
+  min-width: 0;
+}
+@media (min-width: 1200px) {
+  .healthcare-card__actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .healthcare-card__actions .nhs-aria-button,
+  .healthcare-card__actions .nhsuk-button {
+    flex: none;
+    min-width: auto;
+  }
 }
 .healthcare-card--patient .healthcare-card__patient-name {
   margin: 0 0 4px 0;
@@ -415,11 +433,6 @@ span .nhsuk-u-visually-hidden {
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 8px;
   margin-top: 8px;
-}
-@media (min-width: 480px) {
-  .healthcare-card--vitals .healthcare-card__vitals-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 @media (min-width: 768px) {
   .healthcare-card--vitals .healthcare-card__vitals-grid {
@@ -528,13 +541,31 @@ span .nhsuk-u-visually-hidden {
 .healthcare-card .nhsuk-tag:hover, .healthcare-card .nhsuk-tag:active, .healthcare-card .nhsuk-tag:focus {
   transform: none !important;
 }
-.healthcare-card .nhsuk-tag.healthcare-card__alert, .healthcare-card .nhsuk-tag.healthcare-card__priority, .healthcare-card .nhsuk-tag.healthcare-card__status {
+.healthcare-card .nhsuk-tag.healthcare-card__alert {
   cursor: pointer;
 }
-.healthcare-card .nhsuk-tag.healthcare-card__alert:hover, .healthcare-card .nhsuk-tag.healthcare-card__alert:active, .healthcare-card .nhsuk-tag.healthcare-card__alert:focus, .healthcare-card .nhsuk-tag.healthcare-card__priority:hover, .healthcare-card .nhsuk-tag.healthcare-card__priority:active, .healthcare-card .nhsuk-tag.healthcare-card__priority:focus, .healthcare-card .nhsuk-tag.healthcare-card__status:hover, .healthcare-card .nhsuk-tag.healthcare-card__status:active, .healthcare-card .nhsuk-tag.healthcare-card__status:focus {
+.healthcare-card .nhsuk-tag.healthcare-card__alert:hover, .healthcare-card .nhsuk-tag.healthcare-card__alert:active, .healthcare-card .nhsuk-tag.healthcare-card__alert:focus {
   transform: none !important;
 }
-.healthcare-card .nhsuk-tag.healthcare-card__alert:active, .healthcare-card .nhsuk-tag.healthcare-card__priority:active, .healthcare-card .nhsuk-tag.healthcare-card__status:active {
+.healthcare-card .nhsuk-tag.healthcare-card__alert:active {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.healthcare-card .nhsuk-tag.healthcare-card__priority {
+  cursor: pointer;
+}
+.healthcare-card .nhsuk-tag.healthcare-card__priority:hover, .healthcare-card .nhsuk-tag.healthcare-card__priority:active, .healthcare-card .nhsuk-tag.healthcare-card__priority:focus {
+  transform: none !important;
+}
+.healthcare-card .nhsuk-tag.healthcare-card__priority:active {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.healthcare-card .nhsuk-tag.healthcare-card__status {
+  cursor: pointer;
+}
+.healthcare-card .nhsuk-tag.healthcare-card__status:hover, .healthcare-card .nhsuk-tag.healthcare-card__status:active, .healthcare-card .nhsuk-tag.healthcare-card__status:focus {
+  transform: none !important;
+}
+.healthcare-card .nhsuk-tag.healthcare-card__status:active {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 .healthcare-card .nhs-aria-button {
@@ -611,6 +642,10 @@ span .nhsuk-u-visually-hidden {
   outline-offset: 2px !important;
   box-shadow: 0 0 0 4px #ffeb3b, 0 4px 0 #768692 !important;
 }
+.aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused.aria-tabs-datagrid-adaptive__card--selected, .aria-tabs-datagrid-adaptive__cards .nhsuk-card:focus.aria-tabs-datagrid-adaptive__card--selected {
+  outline: 4px solid #ffeb3b !important;
+  outline-offset: 2px !important;
+}
 .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--selected {
   border-color: #005eb8 !important;
   background-color: rgba(0, 94, 184, 0.02) !important;
@@ -626,12 +661,13 @@ span .nhsuk-u-visually-hidden {
   background: #005eb8;
   z-index: 1;
 }
-.aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused.aria-tabs-datagrid-adaptive__card--selected {
+.aria-tabs-datagrid-adaptive__card--focused {
   outline: 4px solid #ffeb3b !important;
   outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px #ffeb3b, 0 4px 0 #768692 !important;
+  border-color: #005eb8 !important;
 }
 
-.aria-tabs-datagrid-adaptive__card--focused,
 .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused {
   outline: 4px solid #ffeb3b !important;
   outline-offset: 2px !important;
@@ -666,17 +702,25 @@ span .nhsuk-u-visually-hidden {
     background: ButtonText !important;
     color: ButtonFace !important;
   }
-  .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused,
+  .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused {
+    outline: 4px solid Highlight !important;
+    border-color: Highlight !important;
+  }
+  .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--selected {
+    border: 2px solid Highlight !important;
+    background: Mark !important;
+  }
+  .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--selected::before {
+    background: Highlight !important;
+  }
   .aria-tabs-datagrid-adaptive__card-wrapper--focused .healthcare-card {
     outline: 4px solid Highlight !important;
     border-color: Highlight !important;
   }
-  .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--selected,
   .aria-tabs-datagrid-adaptive__card-wrapper--selected .healthcare-card {
     border: 2px solid Highlight !important;
     background: Mark !important;
   }
-  .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--selected::before,
   .aria-tabs-datagrid-adaptive__card-wrapper--selected .healthcare-card::before {
     background: Highlight !important;
   }

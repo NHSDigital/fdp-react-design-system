@@ -1,0 +1,30 @@
+{
+  "semantic": {
+    "data-viz": {
+      "$type": "color",
+      "series": {
+        "1": { "$value": "{color.data-viz.categorical.1}" },
+        "2": { "$value": "{color.data-viz.categorical.2}" },
+        "3": { "$value": "{color.data-viz.categorical.3}" },
+        "4": { "$value": "{color.data-viz.categorical.4}" },
+        "5": { "$value": "{color.data-viz.categorical.5}" },
+        "6": { "$value": "{color.data-viz.categorical.6}" },
+        "7": { "$value": "{color.data-viz.categorical.7}" },
+        "8": { "$value": "{color.data-viz.categorical.8}" },
+        "9": { "$value": "{color.data-viz.categorical.9}" },
+        "10": { "$value": "{color.data-viz.categorical.10}" },
+        "11": { "$value": "{color.data-viz.categorical.11}" },
+        "12": { "$value": "{color.data-viz.categorical.12}" }
+      },
+      "region": {
+        "northEast": { "$value": "{color.data-viz.region.north-east}" },
+        "northWest": { "$value": "{color.data-viz.region.north-west}" },
+        "eastOfEngland": { "$value": "{color.data-viz.region.east-of-england}" },
+        "midlands": { "$value": "{color.data-viz.region.midlands}" },
+        "london": { "$value": "{color.data-viz.region.london}" },
+        "southWest": { "$value": "{color.data-viz.region.south-west}" },
+        "southEast": { "$value": "{color.data-viz.region.south-east}" }
+      }
+    }
+  }
+}

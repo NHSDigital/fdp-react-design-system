@@ -1,0 +1,60 @@
+{
+  "color": {
+    "data-viz": {
+      "$type": "color",
+      "categorical": {
+        "1": { "$value": "{color.primary.blue}", "$description": "Series 1 – NHS Blue (brand core)" },
+        "2": { "$value": "#41B6E6", "$description": "Series 2 – NHS Light Blue (new)" },
+        "3": { "$value": "{color.secondary.aqua-green}", "$description": "Series 3 – NHS Aqua Green (existing)" },
+        "4": { "$value": "#78BE20", "$description": "Series 4 – NHS Light Green (new)" },
+        "5": { "$value": "{color.primary.green}", "$description": "Series 5 – NHS Green (existing)" },
+        "6": { "$value": "{color.secondary.warm-yellow}", "$description": "Series 6 – NHS Warm Yellow (existing; distinct from focus yellow)" },
+        "7": { "$value": "#ED4F00", "$description": "Series 7 – NHS Tangerine (new; warmer/deeper than existing orange)" },
+        "8": { "$value": "{color.secondary.pink}", "$description": "Series 8 – NHS Pink (existing)" },
+        "9": { "$value": "#E317AA", "$description": "Series 9 – NHS Bright Pink (new vivid accent)" },
+        "10": { "$value": "#880FB8", "$description": "Series 10 – NHS Light Purple (new mid purple)" },
+        "11": { "$value": "{color.primary.purple}", "$description": "Series 11 – NHS Purple (existing dark purple)" },
+        "12": { "$value": "#9A6324", "$description": "Series 12 – NHS Brown (new; earth neutral)" }
+      },
+      "neutral": {
+        "comparison": { "$value": "{color.grey.1}", "$description": "Neutral comparison series (optional)" }
+      },
+      "region": {
+  "$comment": "Fixed colours for NHS geographical regions; prefer stable mapping for maps. London colour updated (#78BE21 – light green).",
+        "north-east": { "$value": "{color.primary.blue}", "$description": "North East – NHS Blue" },
+        "north-west": { "$value": "#41B6E6", "$description": "North West – NHS Light Blue" },
+        "east-of-england": { "$value": "{color.primary.purple}", "$description": "East of England – NHS Purple" },
+        "midlands": { "$value": "{color.secondary.pink}", "$description": "Midlands – NHS Pink" },
+  		"london": { "$value": "#78BE21", "$description": "London – NHS Light Green (new)" },
+        "south-west": { "$value": "#FAE100", "$description": "South West – NHS Yellow variant (new)" },
+        "south-east": { "$value": "#ed8b00", "$description": "South East – NHS Orange (existing base orange)" }
+      },
+      "stroke": {
+        "$comment": "Automatic contrast stroke colours for overlays / borders. Light fills get dark stroke; dark fills get white stroke.",
+        "categorical": {
+          "1": { "$value": "#ffffff", "$description": "Stroke for series 1 (blue)" },
+          "2": { "$value": "#212b32", "$description": "Stroke for series 2 (light blue)" },
+          "3": { "$value": "#212b32", "$description": "Stroke for series 3 (aqua green)" },
+          "4": { "$value": "#212b32", "$description": "Stroke for series 4 (light green)" },
+          "5": { "$value": "#ffffff", "$description": "Stroke for series 5 (green)" },
+          "6": { "$value": "#212b32", "$description": "Stroke for series 6 (warm yellow)" },
+          "7": { "$value": "#ffffff", "$description": "Stroke for series 7 (tangerine)" },
+          "8": { "$value": "#ffffff", "$description": "Stroke for series 8 (pink)" },
+          "9": { "$value": "#ffffff", "$description": "Stroke for series 9 (bright pink)" },
+          "10": { "$value": "#ffffff", "$description": "Stroke for series 10 (light purple)" },
+          "11": { "$value": "#ffffff", "$description": "Stroke for series 11 (purple)" },
+          "12": { "$value": "#ffffff", "$description": "Stroke for series 12 (brown)" }
+        },
+        "region": {
+          "north-east": { "$value": "#ffffff", "$description": "Stroke for North East (blue)" },
+          "north-west": { "$value": "#212b32", "$description": "Stroke for North West (light blue)" },
+          "east-of-england": { "$value": "#ffffff", "$description": "Stroke for East of England (purple)" },
+          "midlands": { "$value": "#ffffff", "$description": "Stroke for Midlands (pink)" },
+          "london": { "$value": "#212b32", "$description": "Stroke for London (light green)" },
+          "south-west": { "$value": "#212b32", "$description": "Stroke for South West (yellow)" },
+          "south-east": { "$value": "#ffffff", "$description": "Stroke for South East (orange)" }
+        }
+      }
+    }
+  }
+}

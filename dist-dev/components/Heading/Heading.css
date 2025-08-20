@@ -94,6 +94,8 @@ span .nhsuk-u-visually-hidden {
   line-height: 24px;
   margin-top: 0;
   margin-bottom: 8px;
+  --nhs-heading-mt-mobile: 8px;
+  --nhs-heading-mt-tablet: 16px;
 }
 @media (min-width: 768px) {
   .nhsuk-heading {
@@ -102,61 +104,108 @@ span .nhsuk-u-visually-hidden {
 }
 .nhsuk-heading--xs {
   font-size: 14px;
+  line-height: 24px;
   margin-bottom: 16px;
 }
 @media (min-width: 768px) {
   .nhsuk-heading--xs {
     font-size: 19px;
+    line-height: 28px;
     margin-bottom: 24px;
   }
 }
 .nhsuk-heading--s {
   font-size: 16px;
+  line-height: 24px;
   margin-bottom: 16px;
 }
 @media (min-width: 768px) {
   .nhsuk-heading--s {
     font-size: 22px;
+    line-height: 30px;
     margin-bottom: 24px;
   }
 }
 .nhsuk-heading--m {
   font-size: 19px;
+  line-height: 27px;
   margin-bottom: 16px;
 }
 @media (min-width: 768px) {
   .nhsuk-heading--m {
     font-size: 26px;
+    line-height: 32px;
     margin-bottom: 24px;
   }
 }
 .nhsuk-heading--l {
   font-size: 22px;
+  line-height: 29px;
   margin-bottom: 40px;
 }
 @media (min-width: 768px) {
   .nhsuk-heading--l {
     font-size: 36px;
+    line-height: 42px;
     margin-bottom: 48px;
   }
 }
 .nhsuk-heading--xl {
   font-size: 27px;
+  line-height: 33px;
   margin-bottom: 40px;
 }
 @media (min-width: 768px) {
   .nhsuk-heading--xl {
     font-size: 48px;
+    line-height: 54px;
     margin-bottom: 48px;
   }
 }
 .nhsuk-heading--xxl {
   font-size: 33px;
+  line-height: 38px;
   margin-bottom: 48px;
 }
 @media (min-width: 768px) {
   .nhsuk-heading--xxl {
     font-size: 48px;
+    line-height: 54px;
     margin-bottom: 56px;
   }
+}
+.nhsuk-heading--xs {
+  --nhs-heading-mt-mobile: 8px;
+  --nhs-heading-mt-tablet: 16px;
+}
+.nhsuk-heading--s {
+  --nhs-heading-mt-mobile: 16px;
+  --nhs-heading-mt-tablet: 24px;
+}
+.nhsuk-heading--m {
+  --nhs-heading-mt-mobile: 16px;
+  --nhs-heading-mt-tablet: 24px;
+}
+.nhsuk-heading--l {
+  --nhs-heading-mt-mobile: 24px;
+  --nhs-heading-mt-tablet: 32px;
+}
+.nhsuk-heading--xl {
+  --nhs-heading-mt-mobile: 32px;
+  --nhs-heading-mt-tablet: 40px;
+}
+.nhsuk-heading--xxl {
+  --nhs-heading-mt-mobile: 40px;
+  --nhs-heading-mt-tablet: 48px;
+}
+.nhsuk-heading:not(:first-child) {
+  margin-top: var(--nhs-heading-mt-mobile);
+}
+@media (min-width: 768px) {
+  .nhsuk-heading:not(:first-child) {
+    margin-top: var(--nhs-heading-mt-tablet);
+  }
+}
+.nhsuk-heading--no-mt {
+  margin-top: 0 !important;
 }

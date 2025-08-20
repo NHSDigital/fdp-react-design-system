@@ -1,0 +1,143 @@
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// Chart design tokens (SCSS -> CSS custom properties)
+// Provide fallbacks to existing NHS FDP tokens
+.fdp-chart {
+	// spacing & typography
+	--fdp-chart-spacing-y: var(--nhs-fdp-spacing-6, 32px);
+	--fdp-chart-color-text: nhs.$nhs-fdp-color-primary-black;
+	--fdp-chart-color-subtle: nhs.$nhs-fdp-color-grey-1;
+	--fdp-chart-color-subtle-2: nhs.$nhs-fdp-color-grey-2;
+	--fdp-chart-color-grid: nhs.$nhs-fdp-color-grey-4;
+	--fdp-chart-focus-outline: nhs.$nhs-fdp-semantic-color-focus-background;
+	--fdp-chart-font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+	/* Defensive mapping to root token if base var consumed directly in SVG groups */
+	--nhs-fdp-font-family-base: #{nhs.$nhs-fdp-font-family-base};
+	// NHS DS scale alignment: title 19px, body 16px, small 14px
+	--fdp-chart-font-size-title: 1.1875rem; // 19px
+	--fdp-chart-font-size-desc: 1rem; // 16px
+	--fdp-chart-font-size-caption: 0.875rem; // 14px
+	--fdp-chart-font-size-tick: 0.875rem; // 14px
+	--fdp-chart-font-size-axis-label: 1rem; // 16px
+	// point sizing (kept above media queries to avoid Sass mixed-decls warnings)
+	--fdp-chart-point-outline-size: 2px;
+	--fdp-chart-point-focus-radius: 5px;
+	--fdp-chart-point-radius: 3.5px;
+
+	// base element styles (positioned before nested media queries to avoid mixed-decls warnings)
+	margin: 0 0 var(--fdp-chart-spacing-y);
+	font-family: var(--fdp-chart-font-family);
+	color: var(--fdp-chart-color-text);
+	// Breakpoints retained but no size changes now (consistency across viewports)
+	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) { }
+	@media (min-width: nhs.$nhs-fdp-breakpoint-large) { }
+}
+
+.fdp-chart__header {
+	display:flex;
+	align-items:center;
+	gap:nhs.$nhs-fdp-spacing-2; // 8px
+	margin-bottom: nhs.$nhs-fdp-spacing-1;
+}
+
+// Download button row beneath tabs / header alignment
+.fdp-chart__download-row {
+	display:flex;
+	justify-content:flex-end;
+	margin-bottom: nhs.$nhs-fdp-spacing-2;
+}
+
+.fdp-chart__title {
+	font-size: var(--fdp-chart-font-size-title);
+	margin:0;
+	font-weight: 600;
+	font-family: var(--fdp-chart-font-family);
+}
+
+.fdp-chart__description {
+	margin:0 0 nhs.$nhs-fdp-spacing-2;
+	font-size: var(--fdp-chart-font-size-desc);
+	color: var(--fdp-chart-color-subtle);
+	font-family: var(--fdp-chart-font-family);
+}
+
+.fdp-chart__viz { position:relative; }
+
+// Extra spacing between x-axis tick labels and chart content
+// X-axis stays flush with plotting area; tick label gap handled via dy in component or optional translate here.
+.fdp-axis--x .fdp-axis__tick text { dominant-baseline: hanging; }
+
+.fdp-chart__caption {
+	margin-top: nhs.$nhs-fdp-spacing-2;
+	font-size: var(--fdp-chart-font-size-caption);
+	color: var(--fdp-chart-color-subtle-2);
+	display:flex;
+	flex-direction:column;
+	gap: nhs.$nhs-fdp-spacing-1;
+	font-family: var(--fdp-chart-font-family);
+}
+
+.fdp-axis__tick {
+	font-size: var(--fdp-chart-font-size-tick);
+	fill: currentColor;
+	font-family: var(--fdp-chart-font-family);
+}
+
+.fdp-axis__label {
+	font-size: var(--fdp-chart-font-size-axis-label);
+	font-weight:600;
+	fill: currentColor;
+	font-family: var(--fdp-chart-font-family);
+}
+
+.fdp-line-point:focus {
+	outline: var(--fdp-chart-point-outline-size) solid var(--fdp-chart-focus-outline);
+	outline-offset: 2px;
+	stroke: var(--nhs-fdp-color-primary-yellow, nhs.$nhs-fdp-color-primary-yellow);
+	stroke-width: 2px;
+}
+
+.fdp-legend {
+	list-style: none;
+	padding: 0;
+	margin: nhs.$nhs-fdp-spacing-2 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: nhs.$nhs-fdp-spacing-3;
+	justify-content: center;
+}
+
+.fdp-legend--column {
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.fdp-legend__item {
+	display: flex;
+	align-items: center;
+	gap: nhs.$nhs-fdp-spacing-1;
+}
+
+.fdp-legend__swatch {
+	width: 20px;
+	height: 20px;
+	border: 2px solid #4c6272;
+	border-radius: 4px;
+	background: transparent;
+	cursor: pointer;
+	padding: 0;
+}
+
+.fdp-legend__swatch:focus {
+	outline: 2px solid var(--fdp-chart-focus-outline);
+	outline-offset: 2px;
+}
+
+.fdp-legend__label {
+	font-size: 0.875rem;
+}
+
+.fdp-legend__item--hidden { opacity:0.45; }
+.fdp-legend__item--hidden .fdp-legend__swatch { filter:grayscale(40%); }
+.fdp-visually-hidden { position:absolute; width:1px; height:1px; margin:-1px; padding:0; border:0; clip:rect(0 0 0 0); overflow:hidden; white-space:nowrap; }

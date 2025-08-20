@@ -45,6 +45,10 @@
 		"$value": "#ffb81c",
 		"$description": "NHS Warm Yellow"
 	  },
+	  "region-yellow": {
+		"$value": "#FAE100",
+		"$description": "NHS Region Yellow (maps)"
+	  },
 	  "orange": {
 		"$value": "#ed8b00",
 		"$description": "NHS Orange"
@@ -52,6 +56,10 @@
 	  "aqua-green": {
 		"$value": "#00a499",
 		"$description": "NHS Aqua Green"
+	  },
+	  "cyan": {
+		"$value": "#00A9CE",
+		"$description": "NHS Cyan (London region)"
 	  },
 	  "pink": {
 		"$value": "#ae2573",

@@ -1,3 +1,8 @@
+// Provide a minimal process polyfill for browser-like test environments (e.g. Storybook + Vitest) where process may be undefined
+if (typeof (globalThis as any).process === 'undefined') {
+  (globalThis as any).process = { env: {} } as any;
+}
+
 import { afterEach } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
@@ -136,11 +141,11 @@ if (typeof document !== 'undefined') {
 }
 
 // Silence AriaTabsDataGrid scroll debug logs by default in test runs unless explicitly disabled
-if (!process.env.SILENCE_SCROLL_DEBUG) {
-  process.env.SILENCE_SCROLL_DEBUG = 'true';
-}
-
-// Silence performance warnings during normal test runs unless explicitly enabled
-if (!process.env.CI_SILENCE_PERF_WARN) {
-  process.env.CI_SILENCE_PERF_WARN = 'true';
-}
+try {
+  if (!(process as any).env.SILENCE_SCROLL_DEBUG) {
+    (process as any).env.SILENCE_SCROLL_DEBUG = 'true';
+  }
+  if (!(process as any).env.CI_SILENCE_PERF_WARN) {
+    (process as any).env.CI_SILENCE_PERF_WARN = 'true';
+  }
+} catch { /* ignore if polyfill missing */ }

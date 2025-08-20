@@ -88,638 +88,17 @@ span .nhsuk-u-visually-hidden {
   flex-shrink: 0;
 }
 
-.healthcare-card {
-  background: #ffffff;
-  border: 2px solid #d8dde0;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 16px;
-  border-bottom: 4px solid #aeb7bd;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 0 #f0f4f5;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
-.healthcare-card:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 4px 0 #768692;
-  border-color: #005eb8;
-}
-.healthcare-card:focus {
-  outline: 4px solid #ffeb3b;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px #ffeb3b;
-}
-.healthcare-card:focus-visible {
-  outline: 4px solid #ffeb3b;
-  outline-offset: 2px;
-  box-shadow: 0 4px 0 #212b32;
-}
-.healthcare-card:active:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 0 0 transparent;
-  border-color: #005eb8;
-}
-.healthcare-card[data-disabled], .healthcare-card--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: 0 4px 0 #d8dde0;
-}
-.healthcare-card[data-disabled]:hover, .healthcare-card[data-disabled]:active, .healthcare-card--disabled:hover, .healthcare-card--disabled:active {
-  transform: none;
-  box-shadow: 0 4px 0 #d8dde0;
-  border-color: #d8dde0;
-}
-.healthcare-card--high {
-  border-left: 4px solid #d5281b;
-  box-shadow: 0 4px 0 rgba(213, 40, 27, 0.3);
-}
-.healthcare-card--high::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #d5281b 0%, rgba(213, 40, 27, 0.1) 100%);
-}
-.healthcare-card--high:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 4px 0 rgba(213, 40, 27, 0.4);
-  border-color: #d5281b;
-}
-.healthcare-card--high:active:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 0 0 transparent;
-  border-color: #d5281b;
-}
-.healthcare-card--medium {
-  border-left: 4px solid #ed8b00;
-  border-bottom: 4px solid #ed8b00;
-  box-shadow: 0 4px 0 rgba(237, 139, 0, 0.5);
-}
-.healthcare-card--medium:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 4px 0 rgba(237, 139, 0, 0.4);
-  border-color: #ed8b00;
-}
-.healthcare-card--medium:active:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 0 0 transparent;
-  border-color: #ed8b00;
-}
-.healthcare-card--low {
-  border-left: 2px solid #aeb7bd;
-  box-shadow: 0 4px 0 #aeb7bd;
-}
-.healthcare-card--low:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 4px 0 #aeb7bd;
-  border-color: #768692;
-}
-.healthcare-card--low:active:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 0 0 transparent;
-  border-color: #768692;
-}
-.healthcare-card--active {
-  background: #ffffff;
-}
-.healthcare-card--active:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 4px 0 #768692;
-  border-color: #768692;
-}
-.healthcare-card--active:active:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 0 0 transparent;
-  border-color: #768692;
-}
-.healthcare-card--pending {
-  background: rgba(237, 139, 0, 0.02);
-  box-shadow: 0 4px 0 rgba(237, 139, 0, 0.2);
-}
-.healthcare-card--pending:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 4px 0 rgba(237, 139, 0, 0.3);
-  border-color: #ed8b00;
-}
-.healthcare-card--pending:active:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 0 0 transparent;
-  border-color: #ed8b00;
-}
-.healthcare-card--completed {
-  background: rgba(0, 164, 153, 0.02);
-  opacity: 0.8;
-  box-shadow: 0 4px 0 rgba(0, 164, 153, 0.15);
-}
-.healthcare-card--completed:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-  opacity: 0.9;
-  box-shadow: 0 4px 0 rgba(0, 164, 153, 0.25);
-  border-color: #00a499;
-}
-.healthcare-card--completed:active:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 0 0 transparent;
-  border-color: #00a499;
-}
-.healthcare-card--cancelled {
-  background: rgba(174, 183, 189, 0.02);
-  opacity: 0.6;
-  box-shadow: 0 4px 0 rgba(174, 183, 189, 0.15);
-}
-.healthcare-card--cancelled:hover:not([data-disabled]):not(.healthcare-card--disabled) {
-  opacity: 0.7;
-  box-shadow: 0 4px 0 rgba(174, 183, 189, 0.25);
-  border-color: #768692;
-}
-.healthcare-card--cancelled:active:not([data-disabled]):not(.healthcare-card--disabled) {
-  box-shadow: 0 0 0 transparent;
-  border-color: #768692;
-}
-@media (min-width: 768px) {
-  .healthcare-card {
-    padding: 32px;
-    margin-bottom: 24px;
-  }
-}
-@media (min-width: 1200px) {
-  .healthcare-card {
-    padding: 32px;
-  }
-}
-.healthcare-card__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #d8dde0;
-}
-.healthcare-card__identity, .healthcare-card__time-info, .healthcare-card__medication-info, .healthcare-card__vitals-summary {
-  flex: 1;
-  margin-right: 8px;
-}
-.healthcare-card__badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  align-items: flex-start;
-}
-.healthcare-card__body {
-  margin-bottom: 16px;
-}
-.healthcare-card__details {
-  margin: 0;
-}
-.healthcare-card__detail {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 8px;
-  margin-bottom: 8px;
-  align-items: baseline;
-}
-.healthcare-card__detail:last-child {
-  margin-bottom: 0;
-}
-.healthcare-card__detail--prominent {
-  padding: 8px;
-  background: rgba(0, 94, 184, 0.02);
-  border-radius: 4px;
-  border-left: 3px solid #005eb8;
-}
-.healthcare-card__detail--urgent {
-  padding: 8px;
-  background: rgba(213, 40, 27, 0.02);
-  border-radius: 4px;
-  border-left: 3px solid #d5281b;
-}
-.healthcare-card__detail--urgent dd {
-  color: #d5281b;
-  font-weight: 600;
-}
-@media (max-width: 360px) {
-  .healthcare-card__detail {
-    grid-template-columns: 1fr;
-    gap: 4px;
-  }
-}
-.healthcare-card__detail dt {
-  font-size: 12px;
-  font-weight: 600;
-  color: #4c6272;
-  margin: 0;
-}
-.healthcare-card__detail dd {
-  font-size: 14px;
-  color: #212b32;
-  margin: 0;
-  word-break: break-word;
-  font-variant-numeric: tabular-nums;
-}
-.healthcare-card__actions {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  margin-top: 16px;
-  padding-top: 8px;
-  border-top: 1px solid #d8dde0;
-}
-.healthcare-card--patient .healthcare-card__patient-name {
-  margin: 0 0 4px 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #212b32;
-  line-height: 1.3;
-}
-@media (min-width: 768px) {
-  .healthcare-card--patient .healthcare-card__patient-name {
-    font-size: 19px;
-  }
-}
-@media (min-width: 1200px) {
-  .healthcare-card--patient .healthcare-card__patient-name {
-    font-size: 22px;
-  }
-}
-.healthcare-card--patient .healthcare-card__nhs-number {
-  margin: 0;
-  font-size: 12px;
-  color: #4c6272;
-  font-family: "Courier New", monospace;
-}
-.healthcare-card--patient .healthcare-card__nhs-number__label {
-  font-weight: 600;
-  margin-right: 4px;
-}
-.healthcare-card--patient .healthcare-card__nhs-number__value {
-  letter-spacing: 0.5px;
-}
-.healthcare-card--appointment .healthcare-card__time {
-  margin: 0;
-  font-size: 19px;
-  font-weight: 600;
-  color: #005eb8;
-  font-variant-numeric: tabular-nums;
-}
-@media (min-width: 768px) {
-  .healthcare-card--appointment .healthcare-card__time {
-    font-size: 22px;
-  }
-}
-.healthcare-card--appointment .healthcare-card__type {
-  margin: 4px 0 0 0;
-  font-size: 12px;
-  color: #4c6272;
-  font-weight: 600;
-}
-.healthcare-card--appointment .healthcare-card__duration {
-  background: #d8dde0;
-  color: #212b32;
-  font-variant-numeric: tabular-nums;
-}
-.healthcare-card--medication .healthcare-card__medication-name {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #212b32;
-  line-height: 1.3;
-}
-@media (min-width: 768px) {
-  .healthcare-card--medication .healthcare-card__medication-name {
-    font-size: 19px;
-  }
-}
-.healthcare-card--medication .healthcare-card__dose {
-  margin: 4px 0 0 0;
-  font-size: 12px;
-  color: #4c6272;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-.healthcare-card--medication .healthcare-card__route {
-  background: #005eb8;
-  color: #ffffff;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.healthcare-card--medication .healthcare-card__warning {
-  background: #d5281b;
-  color: #ffffff;
-  animation: pulse-warning 1.5s infinite;
-}
-.healthcare-card--vitals .healthcare-card__timestamp {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: #212b32;
-  font-variant-numeric: tabular-nums;
-}
-.healthcare-card--vitals .healthcare-card__vitals-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 8px;
-  margin-top: 8px;
-}
-@media (min-width: 480px) {
-  .healthcare-card--vitals .healthcare-card__vitals-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-@media (min-width: 768px) {
-  .healthcare-card--vitals .healthcare-card__vitals-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-.healthcare-card--vitals .healthcare-card__vital {
-  text-align: center;
-  padding: 8px;
-  background: #f0f4f5;
-  border-radius: 4px;
-}
-.healthcare-card--vitals .healthcare-card__vital-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: #4c6272;
-  margin-bottom: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.healthcare-card--vitals .healthcare-card__vital-value {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: #212b32;
-  font-variant-numeric: tabular-nums;
-}
-.healthcare-card .healthcare-card__alert--critical {
-  background: #d5281b;
-  color: #ffffff;
-  animation: pulse-critical 2s infinite;
-}
-.healthcare-card .healthcare-card__alert--high {
-  background: #ed8b00;
-  color: #ffffff;
-}
-.healthcare-card .healthcare-card__alert--medium {
-  background: #ffeb3b;
-  color: #212b32;
-}
-.healthcare-card .healthcare-card__alert--low {
-  background: #aeb7bd;
-  color: #212b32;
-}
-.healthcare-card .healthcare-card__priority--high {
-  background: #d5281b;
-  color: #ffffff;
-  font-weight: 600;
-}
-.healthcare-card .healthcare-card__priority--medium {
-  background: #ed8b00;
-  color: #ffffff;
-  font-weight: 600;
-}
-.healthcare-card .healthcare-card__priority--low {
-  background: #aeb7bd;
-  color: #212b32;
-  font-weight: 400;
-}
-.healthcare-card .healthcare-card__status--pending {
-  background: #ed8b00;
-  color: #ffffff;
-}
-.healthcare-card .healthcare-card__status--active {
-  background: #005eb8;
-  color: #ffffff;
-}
-.healthcare-card .healthcare-card__status--completed {
-  background: #00a499;
-  color: #ffffff;
-}
-.healthcare-card .healthcare-card__status--cancelled {
-  background: #768692;
-  color: #ffffff;
-}
-.healthcare-card .healthcare-card__ews-score {
-  margin: 4px 0 0 0;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 4px;
-  display: inline-block;
-  font-variant-numeric: tabular-nums;
-}
-.healthcare-card .healthcare-card__ews-score--critical {
-  background: #d5281b;
-  color: #ffffff;
-  animation: pulse-critical 1.5s infinite;
-}
-.healthcare-card .healthcare-card__ews-score--high {
-  background: #ed8b00;
-  color: #ffffff;
-}
-.healthcare-card .healthcare-card__ews-score--medium {
-  background: #ffeb3b;
-  color: #212b32;
-}
-.healthcare-card .healthcare-card__ews-score--low {
-  background: #00a499;
-  color: #ffffff;
-}
-.healthcare-card .nhsuk-tag {
-  cursor: default;
-}
-.healthcare-card .nhsuk-tag:hover, .healthcare-card .nhsuk-tag:active, .healthcare-card .nhsuk-tag:focus {
-  transform: none !important;
-}
-.healthcare-card .nhsuk-tag.healthcare-card__alert, .healthcare-card .nhsuk-tag.healthcare-card__priority, .healthcare-card .nhsuk-tag.healthcare-card__status {
-  cursor: pointer;
-}
-.healthcare-card .nhsuk-tag.healthcare-card__alert:hover, .healthcare-card .nhsuk-tag.healthcare-card__alert:active, .healthcare-card .nhsuk-tag.healthcare-card__alert:focus, .healthcare-card .nhsuk-tag.healthcare-card__priority:hover, .healthcare-card .nhsuk-tag.healthcare-card__priority:active, .healthcare-card .nhsuk-tag.healthcare-card__priority:focus, .healthcare-card .nhsuk-tag.healthcare-card__status:hover, .healthcare-card .nhsuk-tag.healthcare-card__status:active, .healthcare-card .nhsuk-tag.healthcare-card__status:focus {
-  transform: none !important;
-}
-.healthcare-card .nhsuk-tag.healthcare-card__alert:active, .healthcare-card .nhsuk-tag.healthcare-card__priority:active, .healthcare-card .nhsuk-tag.healthcare-card__status:active {
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-}
-.healthcare-card .nhs-aria-button {
-  font-size: 12px;
-}
-.healthcare-card .nhs-aria-button:hover, .healthcare-card .nhs-aria-button:active, .healthcare-card .nhs-aria-button:focus {
-  transform: none !important;
-}
-@media (min-width: 768px) {
-  .healthcare-card .nhs-aria-button {
-    font-size: 14px;
-  }
-}
-
-.aria-tabs-datagrid-adaptive__card-wrapper:hover, .aria-tabs-datagrid-adaptive__card-wrapper:active, .aria-tabs-datagrid-adaptive__card-wrapper:focus {
-  transform: none !important;
-}
-.aria-tabs-datagrid-adaptive__card-wrapper:focus {
-  outline: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .aria-tabs-datagrid-adaptive__card-wrapper {
-    transition: none;
-  }
-  .aria-tabs-datagrid-adaptive__card-wrapper:hover, .aria-tabs-datagrid-adaptive__card-wrapper:focus {
-    transition: none;
-  }
-}
-.aria-tabs-datagrid-adaptive__card-wrapper--focused {
-  outline: none !important;
-  box-shadow: none !important;
-  background-color: transparent !important;
-}
-.aria-tabs-datagrid-adaptive__card-wrapper--focused .healthcare-card {
-  outline: 4px solid #ffeb3b !important;
-  outline-offset: 2px !important;
-  box-shadow: 0 0 0 4px #ffeb3b, 0 4px 0 #768692 !important;
-  border-color: #005eb8 !important;
-}
-.aria-tabs-datagrid-adaptive__card-wrapper--focused .healthcare-card:hover {
-  outline: 4px solid #ffeb3b !important;
-  outline-offset: 2px !important;
-  box-shadow: 0 0 0 4px #ffeb3b, 0 4px 0 #768692 !important;
-}
-.aria-tabs-datagrid-adaptive__card-wrapper--selected .healthcare-card {
-  border-color: #005eb8 !important;
-  transition: all 0.15s ease;
-  position: relative;
-}
-.aria-tabs-datagrid-adaptive__card-wrapper--selected .healthcare-card::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: #005eb8;
-  z-index: 1;
-}
-.aria-tabs-datagrid-adaptive__card-wrapper--focused.aria-tabs-datagrid-adaptive__card-wrapper--selected .healthcare-card {
-  outline: 4px solid #ffeb3b !important;
-  outline-offset: 2px !important;
-  border-bottom: 4px solid #aeb7bd;
-}
-
-.aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused, .aria-tabs-datagrid-adaptive__cards .nhsuk-card:focus {
-  outline: 4px solid #ffeb3b !important;
-  outline-offset: 2px !important;
-  box-shadow: 0 0 0 4px #ffeb3b, 0 4px 0 #768692 !important;
-  border-color: #005eb8 !important;
-}
-.aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused:hover, .aria-tabs-datagrid-adaptive__cards .nhsuk-card:focus:hover {
-  outline: 4px solid #ffeb3b !important;
-  outline-offset: 2px !important;
-  box-shadow: 0 0 0 4px #ffeb3b, 0 4px 0 #768692 !important;
-}
-.aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--selected {
-  border-color: #005eb8 !important;
-  background-color: rgba(0, 94, 184, 0.02) !important;
-  position: relative;
-}
-.aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--selected::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: #005eb8;
-  z-index: 1;
-}
-.aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused.aria-tabs-datagrid-adaptive__card--selected {
-  outline: 4px solid #ffeb3b !important;
-  outline-offset: 2px !important;
-}
-
-.aria-tabs-datagrid-adaptive__card--focused,
-.nhsuk-card.aria-tabs-datagrid-adaptive__card--focused {
-  outline: 4px solid #ffeb3b !important;
-  outline-offset: 2px !important;
-  box-shadow: 0 0 0 4px #ffeb3b, 0 4px 0 #768692 !important;
-  border-color: #005eb8 !important;
-}
-
-@keyframes pulse-critical {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(213, 40, 27, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 6px rgba(213, 40, 27, 0.1);
-  }
-}
-@keyframes pulse-warning {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-@media (forced-colors: active) {
-  .healthcare-card {
-    border: 2px solid ButtonText;
-  }
-  .healthcare-card--high {
-    border-left: 6px solid Highlight;
-  }
-  .healthcare-card__alert, .healthcare-card__priority, .healthcare-card__status {
-    background: ButtonText !important;
-    color: ButtonFace !important;
-  }
-  .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--focused,
-  .aria-tabs-datagrid-adaptive__card-wrapper--focused .healthcare-card {
-    outline: 4px solid Highlight !important;
-    border-color: Highlight !important;
-  }
-  .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--selected,
-  .aria-tabs-datagrid-adaptive__card-wrapper--selected .healthcare-card {
-    border: 2px solid Highlight !important;
-    background: Mark !important;
-  }
-  .aria-tabs-datagrid-adaptive__cards .nhsuk-card.aria-tabs-datagrid-adaptive__card--selected::before,
-  .aria-tabs-datagrid-adaptive__card-wrapper--selected .healthcare-card::before {
-    background: Highlight !important;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .healthcare-card {
-    transition: none;
-  }
-  .healthcare-card:hover {
-    transform: none;
-  }
-  .healthcare-card__alert--critical, .healthcare-card__warning {
-    animation: none;
-  }
-}
-@media print {
-  .healthcare-card {
-    break-inside: avoid;
-    box-shadow: none;
-    border: 1px solid black;
-    margin-bottom: 16px;
-  }
-  .healthcare-card:hover {
-    transform: none;
-    box-shadow: none;
-  }
-  .healthcare-card__actions {
-    display: none;
-  }
-  .healthcare-card__alert, .healthcare-card__priority, .healthcare-card__status {
-    background: none !important;
-    color: black !important;
-    border: 1px solid black;
-  }
-}
 .aria-tabs-datagrid-adaptive {
   font-family: Frutiger W01, Arial, sans-serif;
   background: #ffffff;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  box-shadow: none;
   width: 100%;
   max-width: 100%;
   overflow: hidden;
+}
+.aria-tabs-datagrid-adaptive:focus-within {
+  overflow: visible;
 }
 .aria-tabs-datagrid-adaptive__card-wrapper {
   margin-bottom: 24px;
@@ -733,28 +112,28 @@ span .nhsuk-u-visually-hidden {
   outline: 3px solid #ffeb3b;
   outline-offset: 2px;
 }
-.aria-tabs-datagrid-adaptive__card-wrapper .adaptive-card--healthcare .adaptive-card__badges {
+.aria-tabs-datagrid-adaptive__card-wrapper .adaptive-card--healthcare__badges {
   margin-top: 16px;
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
-.aria-tabs-datagrid-adaptive__card-wrapper .adaptive-card--healthcare .adaptive-card__ews-badge {
+.aria-tabs-datagrid-adaptive__card-wrapper .adaptive-card--healthcare__ews-badge {
   font-weight: 600;
 }
-.aria-tabs-datagrid-adaptive__card-wrapper .adaptive-card--healthcare .adaptive-card__ews-badge.nhsuk-tag--high {
+.aria-tabs-datagrid-adaptive__card-wrapper .adaptive-card--healthcare__ews-badge.nhsuk-tag--high {
   background-color: #d5281b;
   color: #ffffff;
 }
-.aria-tabs-datagrid-adaptive__card-wrapper .adaptive-card--healthcare .adaptive-card__ews-badge.nhsuk-tag--medium {
+.aria-tabs-datagrid-adaptive__card-wrapper .adaptive-card--healthcare__ews-badge.nhsuk-tag--medium {
   background-color: #ffeb3b;
   color: #212b32;
 }
-.aria-tabs-datagrid-adaptive__card-wrapper .adaptive-card--healthcare .adaptive-card__ews-badge.nhsuk-tag--low {
+.aria-tabs-datagrid-adaptive__card-wrapper .adaptive-card--healthcare__ews-badge.nhsuk-tag--low {
   background-color: #00a499;
   color: #ffffff;
 }
-.aria-tabs-datagrid-adaptive__card-wrapper .adaptive-card--healthcare .adaptive-card__badge {
+.aria-tabs-datagrid-adaptive__card-wrapper .adaptive-card--healthcare__badge {
   background-color: #f0f4f5;
   color: #212b32;
 }
@@ -800,6 +179,8 @@ span .nhsuk-u-visually-hidden {
   padding: 0;
   background: #f0f4f5;
   list-style: none;
+  position: relative;
+  z-index: 20;
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
@@ -842,8 +223,7 @@ span .nhsuk-u-visually-hidden {
   border-top: 2px solid #ffeb3b;
   border-left: 2px solid #ffeb3b;
   border-right: 2px solid #ffeb3b;
-  z-index: 10;
-  position: relative;
+  z-index: 5;
 }
 .aria-tabs-datagrid-adaptive__tab--selected {
   background: #ffffff;
@@ -853,6 +233,8 @@ span .nhsuk-u-visually-hidden {
   border-right: 2px solid #005eb8;
   border-bottom: 2px solid #f0f4f5;
   margin-bottom: -2px;
+  position: relative;
+  z-index: 30;
 }
 .aria-tabs-datagrid-adaptive__tab--disabled {
   opacity: 0.6;
@@ -895,9 +277,9 @@ span .nhsuk-u-visually-hidden {
 .aria-tabs-datagrid-adaptive__cards::-webkit-scrollbar-thumb:hover {
   background: #768692;
 }
-@media (min-width: 480px) {
+@media (max-width: 768px) {
   .aria-tabs-datagrid-adaptive__cards {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    margin-top: 24px;
   }
 }
 .aria-tabs-datagrid-adaptive__card {
@@ -976,7 +358,7 @@ span .nhsuk-u-visually-hidden {
 .aria-tabs-datagrid-adaptive__card-field:last-child {
   margin-bottom: 0;
 }
-@media (max-width: 360px) {
+@media (max-width: 320px) {
   .aria-tabs-datagrid-adaptive__card-field {
     grid-template-columns: 1fr;
     gap: 4px;
@@ -1018,8 +400,26 @@ span .nhsuk-u-visually-hidden {
   min-height: 44px;
 }
 @media (min-width: 768px) {
+  .aria-tabs-datagrid-adaptive__cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .aria-tabs-datagrid-adaptive__card {
+    padding: 32px;
+  }
+  .aria-tabs-datagrid-adaptive__card-title {
+    font-size: 19px;
+  }
+  .aria-tabs-datagrid-adaptive__card-field-label {
+    font-size: 14px;
+  }
+  .aria-tabs-datagrid-adaptive__card-field-value {
+    font-size: 16px;
+  }
+}
+@media (min-width: 768px) {
   .aria-tabs-datagrid-adaptive--hybrid .aria-tabs-datagrid-adaptive--hybrid__cards {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
   .aria-tabs-datagrid-adaptive--hybrid .aria-tabs-datagrid-adaptive--hybrid__card {
@@ -1035,8 +435,13 @@ span .nhsuk-u-visually-hidden {
     font-size: 16px;
   }
 }
+@media (min-width: 1200px) {
+  .aria-tabs-datagrid-adaptive--hybrid .aria-tabs-datagrid-adaptive--hybrid__cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
 .aria-tabs-datagrid-adaptive__table--hybrid .aria-tabs-datagrid__grid {
-  border-radius: 8px;
   overflow: hidden;
   box-shadow: none;
 }
@@ -1048,7 +453,7 @@ span .nhsuk-u-visually-hidden {
 }
 @media (min-width: 1200px) {
   .aria-tabs-datagrid-adaptive__cards {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
   }
   .aria-tabs-datagrid-adaptive__card {
@@ -1152,4 +557,170 @@ span .nhsuk-u-visually-hidden {
 }
 .aria-tabs-datagrid-adaptive--transitioning .aria-tabs-datagrid-adaptive--transitioning__cards {
   transition: all 0.3s ease;
+}
+.aria-tabs-datagrid-adaptive__sort-controls {
+  background: #ffffff;
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+  margin: -2px -24px -24px -24px;
+  padding: 0 24px 0 24px;
+  z-index: 0;
+}
+.aria-tabs-datagrid-adaptive__sort-controls:focus {
+  outline: none;
+  border: 4px solid #ffeb3b !important;
+  background: #ffffff;
+  padding: 0 20px 0 20px;
+  margin-top: -6px;
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-controls-row {
+  background-color: #f0f4f5;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 16px 24px 24px 24px;
+  border-left: 2px solid #005eb8;
+  border-right: 2px solid #005eb8;
+  border-top: 2px solid #005eb8;
+  outline-offset: 2px;
+  z-index: 0;
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-controls-row:focus-visible {
+  outline: 3px solid #ffeb3b;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(255, 235, 59, 0.35);
+}
+@media (max-width: 768px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-controls-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-select-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 200px;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-select-container {
+    min-width: 0;
+    width: 100%;
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-select-container > div:focus {
+  outline: 4px solid #ffeb3b;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px #ffeb3b;
+  border-radius: 4px;
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-select-container .sort-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #212b32;
+  margin: 0;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-select-container .sort-label {
+    font-size: 14px;
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-select-container .sort-select {
+  max-width: 300px;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-select-container .sort-select {
+    max-width: none;
+    width: 100%;
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-indicator {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px 16px 16px;
+  background: #ccdff1;
+  border: 1px solid #004281;
+  font-size: 14px;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-indicator {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-indicator .sort-indicator-text {
+  color: #212b32;
+  font-weight: 500;
+  flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-indicator > div:focus {
+  outline: 4px solid #ffeb3b;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px #ffeb3b;
+  border-radius: 4px;
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-indicator .sort-clear-button {
+  margin: 0;
+  padding: 4px 8px;
+  min-height: auto;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-indicator .sort-clear-button {
+    font-size: 12px;
+  }
+}
+.aria-tabs-datagrid-adaptive__sort-controls .sort-indicator .sort-clear-button.nhsuk-button--secondary {
+  margin: 0;
+  border-radius: 4px;
+}
+@media (max-width: 768px) {
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-indicator {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-indicator .sort-indicator-text {
+    width: 100%;
+    text-align: left;
+  }
+  .aria-tabs-datagrid-adaptive__sort-controls .sort-indicator .sort-clear-button {
+    align-self: flex-end;
+  }
+}
+.aria-tabs-datagrid-adaptive__announcements {
+  position: fixed !important;
+  top: -1px !important;
+  left: -1px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  z-index: -1;
+}
+.aria-tabs-datagrid-adaptive__announcements .sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }

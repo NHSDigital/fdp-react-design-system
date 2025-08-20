@@ -123,6 +123,12 @@
     "./components/Textarea/css": "./dist/components/Textarea/Textarea.css",
     "./components/WarningCallout/css": "./dist/components/WarningCallout/WarningCallout.css",
     "./components/WidthUtilities/css": "./dist/components/WidthUtilities/WidthUtilities.css",
+    "./components/DataVisualisation": {
+      "types": "./dist/src/components/DataVisualisation/index.d.ts",
+      "import": "./dist/src/components/DataVisualisation/index.js",
+      "require": "./dist/src/components/DataVisualisation/index.js"
+    },
+    "./components/DataVisualisation/css": "./dist/components/DataVisualisation/DataVisualisation.css",
     "./components/SortableDataTable/SortStatusControl/SortStatusControl/css": "./dist/components/SortableDataTable/SortStatusControl/SortStatusControl.css",
     "./pure": {
       "types": "./dist/src/index.d.ts",

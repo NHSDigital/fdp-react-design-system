@@ -183,6 +183,14 @@ Built with [Style Dictionary](https://amn.github.io/style-dictionary/), our desi
 - **Polymorphic components** for semantic flexibility
 - **CSS Modules** with design token integration
 
+### Data Visualisation
+
+Primary overview: [Data Visualisation Overview](./docs/data-visualisation/README.md)
+
+Focused guides
+
+- [LineChart X‑Axis Tick Alignment](./docs/data-visualisation/x-axis-ticks.md)
+
 ## Contributing
 
 We welcome contributions! Please see our contributing guidelines:

@@ -235,4 +235,18 @@ $mobile-large: 640px; // breakpoint.enhanced.mobile.large
       border: 0;
     }
   }
+
+  // ------------------------------------------------------------------
+  // Alignment utility modifiers (applied to header or cell)
+  // Usage: add class `nhsuk-table__cell--align-right` / `-center` (or
+  // `nhsuk-table__header--align-right` / `-center`) to override default
+  // left alignment. Left alignment is the default so no modifier needed.
+  // These are defined after numeric variants so they can override them
+  // (e.g. centre-align a numeric column for visual reasons if required).
+  // ------------------------------------------------------------------
+  &__cell--align-right,
+  &__header--align-right { text-align: right; }
+
+  &__cell--align-center,
+  &__header--align-center { text-align: center; }
 }

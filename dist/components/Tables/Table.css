@@ -278,3 +278,9 @@ span .nhsuk-u-visually-hidden {
     border: 0;
   }
 }
+.nhsuk-table__cell--align-right, .nhsuk-table__header--align-right {
+  text-align: right;
+}
+.nhsuk-table__cell--align-center, .nhsuk-table__header--align-center {
+  text-align: center;
+}

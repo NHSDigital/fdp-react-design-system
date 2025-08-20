@@ -4,7 +4,7 @@ This document captures the rationale and mapping for introducing a 12‑colour c
 
 ## Source Palette (Authoritative List)
 
-```text
+```tsx
 #005EB8  NHS Blue
 #41B6E6  NHS Light Blue (new)
 #4C6272  NHS Grey 1 (existing neutral – optional for comparison)
@@ -17,7 +17,7 @@ This document captures the rationale and mapping for introducing a 12‑colour c
 #78BE20  NHS Light Green (new)
 #ED4F00  NHS Tangerine (new)
 #880FB8  NHS Light Purple (new)
-```text
+```tsx
 
 ## Existing vs New Classification
 

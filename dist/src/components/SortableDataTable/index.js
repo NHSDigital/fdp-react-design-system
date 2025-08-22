@@ -1076,7 +1076,13 @@ var AriaTabsDataGrid = forwardRef2(
         onTabChange == null ? void 0 : onTabChange(index);
       }
     }, [tabPanels, onTabChange]);
-    const scrollTabIntoView = useCallback4((tabIndex) => {
+    const initialScrollDoneRef = useRef3(false);
+    const scrollTabIntoView = useCallback4((tabIndex, opts) => {
+      if (!(opts == null ? void 0 : opts.force) && !initialScrollDoneRef.current && tabIndex === 0) {
+        initialScrollDoneRef.current = true;
+        return;
+      }
+      initialScrollDoneRef.current = true;
       setTimeout(() => {
         const tabElement = tabRefs.current[tabIndex];
         const tabListElement = tabElement == null ? void 0 : tabElement.parentElement;
@@ -1086,21 +1092,12 @@ var AriaTabsDataGrid = forwardRef2(
           const tabListWidth = tabListElement.clientWidth;
           const targetScrollLeft = tabOffsetLeft - tabListWidth / 2 + tabWidth / 2;
           try {
-            tabListElement.scrollTo({
-              left: Math.max(0, targetScrollLeft),
-              behavior: "smooth"
-            });
-          } catch (e) {
-            tabElement.scrollIntoView({
-              behavior: "smooth",
-              block: "nearest",
-              inline: "center"
-            });
+            tabListElement.scrollTo({ left: Math.max(0, targetScrollLeft), behavior: "smooth" });
+          } catch {
+            tabElement.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
           }
-        } else {
-          if (!process.env.SILENCE_SCROLL_DEBUG) {
-            console.debug("[AriaTabsDataGrid] Missing elements for scroll", { tabElementExists: !!tabElement, tabListElementExists: !!tabListElement });
-          }
+        } else if (!process.env.SILENCE_SCROLL_DEBUG) {
+          console.debug("[AriaTabsDataGrid] Missing elements for scroll", { tabElementExists: !!tabElement, tabListElementExists: !!tabListElement });
         }
       }, 50);
     }, []);

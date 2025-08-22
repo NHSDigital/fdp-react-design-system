@@ -223,42 +223,30 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 	}, [tabPanels, onTabChange]);
 
 	// Scroll tab into view utility
-	const scrollTabIntoView = useCallback((tabIndex: number) => {
-	  
+	const initialScrollDoneRef = useRef(false);
+	const scrollTabIntoView = useCallback((tabIndex: number, opts?: { force?: boolean }) => {
+	  // Skip centering the very first tab on initial mount so it stays flush-left
+	  if (!opts?.force && !initialScrollDoneRef.current && tabIndex === 0) {
+		initialScrollDoneRef.current = true; // prevent future skips
+		return;
+	  }
+	  initialScrollDoneRef.current = true;
 	  // Small delay to ensure DOM is ready
 	  setTimeout(() => {
 		const tabElement = tabRefs.current[tabIndex];
-		const tabListElement = tabElement?.parentElement;
-		
+		const tabListElement = tabElement?.parentElement as HTMLElement | null;
 		if (tabElement && tabListElement) {
-		  // Always scroll to center the tab for better UX
 		  const tabOffsetLeft = tabElement.offsetLeft;
 		  const tabWidth = tabElement.offsetWidth;
 		  const tabListWidth = tabListElement.clientWidth;
-		  
-		  // Center the tab in the viewport
 		  const targetScrollLeft = tabOffsetLeft - (tabListWidth / 2) + (tabWidth / 2);
-		  
-		  // Try scrollTo first, fallback to scrollIntoView
 		  try {
-			tabListElement.scrollTo({
-			  left: Math.max(0, targetScrollLeft),
-			  behavior: 'smooth'
-			});
-		   
-		  } catch (e) {
-			
-			// Fallback for browsers that don't support smooth scrolling
-			tabElement.scrollIntoView({
-			  behavior: 'smooth',
-			  block: 'nearest',
-			  inline: 'center'
-			});
+			tabListElement.scrollTo({ left: Math.max(0, targetScrollLeft), behavior: 'smooth' });
+		  } catch {
+			tabElement.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 		  }
-		} else {
-		  if (!process.env.SILENCE_SCROLL_DEBUG) {
-			console.debug('[AriaTabsDataGrid] Missing elements for scroll', { tabElementExists: !!tabElement, tabListElementExists: !!tabListElement });
-		  }
+		} else if (!process.env.SILENCE_SCROLL_DEBUG) {
+		  console.debug('[AriaTabsDataGrid] Missing elements for scroll', { tabElementExists: !!tabElement, tabListElementExists: !!tabListElement });
 		}
 	  }, 50);
 	}, []);

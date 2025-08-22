@@ -115,7 +115,7 @@ $atd-breakpoints: (
 	background: $color-secondary;
 	gap: 0;
 	margin: 0;
-	padding: 0;
+	padding: 0; // reset default list padding
 	list-style: none;
 	overflow-x: auto;
 	scrollbar-width: thin; // Firefox
@@ -124,6 +124,10 @@ $atd-breakpoints: (
 	// Explicitly pin left alignment to avoid transient centering between breakpoints
 	justify-content: flex-start;
 	overflow-y: hidden;
+		// Ensure the first tab sits flush-left regardless of UA styles or scroll adjustments
+		> .aria-tabs-datagrid__tab:first-child {
+			margin-left: 0 !important;
+		}
 	
 	// Custom scrollbar for webkit browsers
 	&::-webkit-scrollbar {

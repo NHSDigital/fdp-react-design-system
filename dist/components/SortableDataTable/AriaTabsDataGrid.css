@@ -177,6 +177,9 @@ span .nhsuk-u-visually-hidden {
   justify-content: flex-start;
   overflow-y: hidden;
 }
+.aria-tabs-datagrid__tabs > .aria-tabs-datagrid__tab:first-child {
+  margin-left: 0 !important;
+}
 .aria-tabs-datagrid__tabs::-webkit-scrollbar {
   height: 4px;
 }

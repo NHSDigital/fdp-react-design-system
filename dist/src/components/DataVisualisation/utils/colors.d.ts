@@ -28,4 +28,34 @@ export declare function assignSeriesColors<T extends {
     id: string;
     color?: string;
 }>(series: T[], { palette, random }?: AssignColorOptions): T[];
+export interface SequentialScaleOptions {
+    domain: [number, number];
+    colors?: string[];
+    steps?: number;
+    clamp?: boolean;
+    baseColor?: string;
+    lightnessSpan?: number;
+}
+/** Create a sequential colour scale (continuous). */
+export declare function createSequentialColorScale({ domain, colors, steps, clamp, baseColor, lightnessSpan }: SequentialScaleOptions): (value: number) => string;
+export interface DivergingScaleOptions {
+    domain: [number, number, number];
+    colors?: string[];
+    negativeColor?: string;
+    positiveColor?: string;
+    neutralColor?: string;
+    stepsPerSide?: number;
+    clamp?: boolean;
+}
+/** Create a diverging colour scale. */
+export declare function createDivergingColorScale({ domain, colors, negativeColor, // NHS error/red
+positiveColor, // NHS green
+neutralColor, stepsPerSide, clamp }: DivergingScaleOptions): (value: number) => string;
+export type ColorScale = (value: number) => string;
+export type ColorScaleConfig = ({
+    type: 'sequential';
+} & SequentialScaleOptions) | ({
+    type: 'diverging';
+} & DivergingScaleOptions);
+export declare function createColorScale(config: ColorScaleConfig): ColorScale;
 export {};

@@ -1434,6 +1434,7 @@ var AriaTabsDataGrid = forwardRef2(
         id,
         "data-testid": dataTestId,
         children: [
+          ariaDescription && /* @__PURE__ */ jsx5("div", { id: `${id}-description`, className: "nhsuk-u-visually-hidden", children: ariaDescription }),
           /* @__PURE__ */ jsx5("div", { className: "aria-tabs-datagrid__navigation-help sr-only", id: `${id}-navigation-help`, children: "Keyboard navigation: Use Tab to move between tabs and grid. Arrow keys navigate within tabs and grid cells. Enter activates tabs and sorts columns. Arrow Down from tabs moves to table headers. Arrow Down from headers moves to table cells. Use Arrow keys to navigate between cells." }),
           /* @__PURE__ */ jsx5(
             SortStatusControl,
@@ -1456,7 +1457,7 @@ var AriaTabsDataGrid = forwardRef2(
             {
               role: "tablist",
               "aria-label": ariaLabel,
-              "aria-describedby": `${ariaDescription || ""} ${id ? `${id}-navigation-help` : ""}`.trim(),
+              "aria-describedby": `${ariaDescription ? `${id}-description` : ""} ${id ? `${id}-navigation-help` : ""}`.trim() || void 0,
               "aria-orientation": orientation,
               className: "aria-tabs-datagrid__tabs",
               children: tabPanels.map((panel, index) => {
@@ -1552,8 +1553,9 @@ var AriaTabsDataGrid = forwardRef2(
                       className: "nhsuk-table aria-tabs-datagrid__grid",
                       role: "grid",
                       "aria-label": panel.ariaLabel,
-                      "aria-describedby": panel.ariaDescription,
+                      "aria-describedby": panel.ariaDescription ? `panel-${panel.id}-description` : void 0,
                       children: [
+                        panel.ariaDescription && /* @__PURE__ */ jsx5("caption", { className: "nhsuk-u-visually-hidden", id: `panel-${panel.id}-description`, children: panel.ariaDescription }),
                         /* @__PURE__ */ jsx5("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ jsx5("tr", { role: "row", children: panel.columns.map((column, colIndex) => {
                           var _a;
                           const sortInfo = (_a = state.sortConfig) == null ? void 0 : _a.find((config) => config.key === column.key);

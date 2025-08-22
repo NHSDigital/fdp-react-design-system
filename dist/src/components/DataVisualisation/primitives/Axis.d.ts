@@ -3,6 +3,8 @@ export interface AxisProps {
     type: 'x' | 'y';
     scale?: any;
     tickCount?: number;
+    /** Explicit tick values; if provided overrides tickCount/ticks() generation */
+    tickValues?: any[];
     formatTick?: (v: any) => string;
     label?: string;
     offset?: number;

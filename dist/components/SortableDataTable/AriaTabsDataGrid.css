@@ -218,7 +218,7 @@ span .nhsuk-u-visually-hidden {
 }
 .aria-tabs-datagrid__tab:hover:not(.aria-tabs-datagrid__tab--disabled) {
   background: #aeb7bd;
-  color: #005eb8;
+  color: #003087;
 }
 .aria-tabs-datagrid__tab:focus {
   outline: 4px solid #ffeb3b;
@@ -234,7 +234,7 @@ span .nhsuk-u-visually-hidden {
 }
 .aria-tabs-datagrid__tab--selected {
   background: #f0f4f5;
-  color: #005eb8;
+  color: #003087;
   border-top: 2px solid #005eb8;
   border-left: 2px solid #005eb8;
   border-right: 2px solid #005eb8;

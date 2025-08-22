@@ -741,6 +741,10 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 		id={id}
 		data-testid={dataTestId}
 	  >
+		{/* Optional descriptive text (converted from plain string to element for aria-describedby) */}
+		{ariaDescription && (
+		  <div id={`${id}-description`} className="nhsuk-u-visually-hidden">{ariaDescription}</div>
+		)}
 		{/* Keyboard Navigation Instructions (Screen Reader Only) */}
 		<div className="aria-tabs-datagrid__navigation-help sr-only" id={`${id}-navigation-help`}>
 		  Keyboard navigation: Use Tab to move between tabs and grid. Arrow keys navigate within tabs and grid cells. 
@@ -765,7 +769,7 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 		<div 
 		  role="tablist"
 		  aria-label={ariaLabel}
-		  aria-describedby={`${ariaDescription || ''} ${id ? `${id}-navigation-help` : ''}`.trim()}
+		  aria-describedby={`${ariaDescription ? `${id}-description` : ''} ${id ? `${id}-navigation-help` : ''}`.trim() || undefined}
 		  aria-orientation={orientation}
 		  className="aria-tabs-datagrid__tabs"
 		>
@@ -879,8 +883,11 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 					  className="nhsuk-table aria-tabs-datagrid__grid"
 					  role="grid"
 					  aria-label={panel.ariaLabel}
-					  aria-describedby={panel.ariaDescription}
+					  aria-describedby={panel.ariaDescription ? `panel-${panel.id}-description` : undefined}
 					>
+					  {panel.ariaDescription && (
+						<caption className="nhsuk-u-visually-hidden" id={`panel-${panel.id}-description`}>{panel.ariaDescription}</caption>
+					  )}
 					  <thead className="nhsuk-table__head" role="rowgroup">
 						<tr role="row">
 						  {panel.columns.map((column, colIndex) => {

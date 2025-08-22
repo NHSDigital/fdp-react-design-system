@@ -4,7 +4,7 @@ export { PatientCard, AppointmentCard, MedicationCard, VitalsCard } from './Heal
 export type { ResponsiveDataGridProps, ResponsiveTabPanelConfig, LayoutMode, ViewportConfig } from './ResponsiveDataGridTypes';
 export type { ColumnDefinition, AriaDataGridColumn, SortConfig } from '../SortableDataTable/AriaDataGridTypes';
 export type { GenericResponsiveDataGridProps, GenericResponsiveTabPanelConfig, GenericCardConfig, DomainPlugin, BadgeConfig, PriorityLevel, StatusType } from './ResponsiveDataGridGeneric.types';
-export { healthcarePlugin, type HealthcareData } from './HealthcarePlugin';
+export { healthcarePlugin, type HealthcareData } from './HealthcarePlugin.tsx';
 export { createGenericCard, defaultGenericCardConfig } from './GenericCardRenderer';
 export { GenericCard } from './GenericCard';
 export { convertLegacyCardConfig, isHealthcareData } from './ResponsiveDataGridHelpers';

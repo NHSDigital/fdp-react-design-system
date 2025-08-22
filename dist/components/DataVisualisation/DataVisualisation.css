@@ -96,6 +96,8 @@ span .nhsuk-u-visually-hidden {
   --fdp-chart-color-grid: nhs.$nhs-fdp-color-grey-4;
   --fdp-chart-focus-outline: nhs.$nhs-fdp-semantic-color-focus-background;
   --fdp-chart-font-family: Frutiger W01, Arial, sans-serif;
+  /* Defensive mapping to root token if base var consumed directly in SVG groups */
+  --nhs-fdp-font-family-base: Frutiger W01;
   --fdp-chart-font-size-title: 1.1875rem;
   --fdp-chart-font-size-desc: 1rem;
   --fdp-chart-font-size-caption: 0.875rem;
@@ -169,6 +171,8 @@ span .nhsuk-u-visually-hidden {
 .fdp-line-point:focus {
   outline: var(--fdp-chart-point-outline-size) solid var(--fdp-chart-focus-outline);
   outline-offset: 2px;
+  stroke: var(--nhs-fdp-color-primary-yellow, #ffeb3b);
+  stroke-width: 2px;
 }
 
 .fdp-legend {

@@ -611,23 +611,30 @@ span .nhsuk-u-visually-hidden {
   border-radius: 50%;
   font-size: 14px;
   font-weight: 600;
-  color: white;
+  color: #212b32;
   flex-shrink: 0;
+  background: #f0f4f5;
+  border: 1px solid white;
 }
 .sort-status-control__priority-badge.sort-priority--priority-1 {
   background: #d5281b;
+  color: white;
 }
 .sort-status-control__priority-badge.sort-priority--priority-2 {
   background: #ed8b00;
+  color: white;
 }
 .sort-status-control__priority-badge.sort-priority--priority-3 {
   background: #005eb8;
+  color: white;
 }
 .sort-status-control__priority-badge.sort-priority--priority-4 {
   background: #00a499;
+  color: white;
 }
 .sort-status-control__priority-badge.sort-priority--priority-5 {
   background: #768692;
+  color: white;
 }
 .sort-status-control__direction-button {
   background: transparent;
@@ -732,7 +739,7 @@ span .nhsuk-u-visually-hidden {
   align-items: center;
 }
 .sort-status-control__help {
-  color: #768692;
+  color: #212b32;
   font-size: 16px;
   line-height: 1.4;
   margin-top: 8px;

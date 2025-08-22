@@ -7,7 +7,8 @@ export interface LegendItem {
     palette?: 'categorical' | 'region';
 }
 export interface LegendProps {
-    items: LegendItem[];
+    /** Legend items. If omitted and a VisibilityProvider is present, auto inference may be added later. */
+    items?: LegendItem[];
     palette?: 'categorical' | 'region';
     direction?: 'row' | 'column';
     /** Make legend interactive – clicking toggles series visibility */

@@ -119,17 +119,15 @@ span .nhsuk-u-visually-hidden {
   line-height: 24px;
   margin: 0;
   margin-bottom: 8px;
-  margin-right: -24px;
   padding: 8px 24px;
   position: relative;
-  left: -26px;
+  left: 0;
   top: -8px;
 }
 @media (min-width: 768px) {
   .nhsuk-do-dont-list__label {
     font-size: 22px;
-    left: -34px;
-    margin-right: -32px;
+    left: 0;
     padding: 8px 32px;
     top: -16px;
   }

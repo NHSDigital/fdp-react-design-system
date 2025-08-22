@@ -175,7 +175,7 @@ var ChartContainer = ({
 var ChartContainer_default = ChartContainer;
 
 // src/components/DataVisualisation/charts/LineChart.tsx
-import * as React8 from "react";
+import * as React10 from "react";
 
 // node_modules/d3-array/src/ascending.js
 function ascending(a, b) {
@@ -274,6 +274,48 @@ function extent(values, valueof) {
   return [min, max];
 }
 
+// node_modules/internmap/src/index.js
+var InternMap = class extends Map {
+  constructor(entries, key = keyof) {
+    super();
+    Object.defineProperties(this, { _intern: { value: /* @__PURE__ */ new Map() }, _key: { value: key } });
+    if (entries != null) for (const [key2, value] of entries) this.set(key2, value);
+  }
+  get(key) {
+    return super.get(intern_get(this, key));
+  }
+  has(key) {
+    return super.has(intern_get(this, key));
+  }
+  set(key, value) {
+    return super.set(intern_set(this, key), value);
+  }
+  delete(key) {
+    return super.delete(intern_delete(this, key));
+  }
+};
+function intern_get({ _intern, _key }, value) {
+  const key = _key(value);
+  return _intern.has(key) ? _intern.get(key) : value;
+}
+function intern_set({ _intern, _key }, value) {
+  const key = _key(value);
+  if (_intern.has(key)) return _intern.get(key);
+  _intern.set(key, value);
+  return value;
+}
+function intern_delete({ _intern, _key }, value) {
+  const key = _key(value);
+  if (_intern.has(key)) {
+    value = _intern.get(key);
+    _intern.delete(key);
+  }
+  return value;
+}
+function keyof(value) {
+  return value !== null && typeof value === "object" ? value.valueOf() : value;
+}
+
 // node_modules/d3-array/src/ticks.js
 var e10 = Math.sqrt(50);
 var e5 = Math.sqrt(10);
@@ -324,8 +366,18 @@ function tickStep(start, stop, count) {
   return (reverse ? -1 : 1) * (inc < 0 ? 1 / -inc : inc);
 }
 
+// node_modules/d3-array/src/range.js
+function range(start, stop, step) {
+  start = +start, stop = +stop, step = (n = arguments.length) < 2 ? (stop = start, start = 0, 1) : n < 3 ? 1 : +step;
+  var i = -1, n = Math.max(0, Math.ceil((stop - start) / step)) | 0, range2 = new Array(n);
+  while (++i < n) {
+    range2[i] = start + i * step;
+  }
+  return range2;
+}
+
 // node_modules/d3-scale/src/init.js
-function initRange(domain, range) {
+function initRange(domain, range2) {
   switch (arguments.length) {
     case 0:
       break;
@@ -333,10 +385,96 @@ function initRange(domain, range) {
       this.range(domain);
       break;
     default:
-      this.range(range).domain(domain);
+      this.range(range2).domain(domain);
       break;
   }
   return this;
+}
+
+// node_modules/d3-scale/src/ordinal.js
+var implicit = Symbol("implicit");
+function ordinal() {
+  var index = new InternMap(), domain = [], range2 = [], unknown = implicit;
+  function scale(d) {
+    let i = index.get(d);
+    if (i === void 0) {
+      if (unknown !== implicit) return unknown;
+      index.set(d, i = domain.push(d) - 1);
+    }
+    return range2[i % range2.length];
+  }
+  scale.domain = function(_) {
+    if (!arguments.length) return domain.slice();
+    domain = [], index = new InternMap();
+    for (const value of _) {
+      if (index.has(value)) continue;
+      index.set(value, domain.push(value) - 1);
+    }
+    return scale;
+  };
+  scale.range = function(_) {
+    return arguments.length ? (range2 = Array.from(_), scale) : range2.slice();
+  };
+  scale.unknown = function(_) {
+    return arguments.length ? (unknown = _, scale) : unknown;
+  };
+  scale.copy = function() {
+    return ordinal(domain, range2).unknown(unknown);
+  };
+  initRange.apply(scale, arguments);
+  return scale;
+}
+
+// node_modules/d3-scale/src/band.js
+function band() {
+  var scale = ordinal().unknown(void 0), domain = scale.domain, ordinalRange = scale.range, r0 = 0, r1 = 1, step, bandwidth, round = false, paddingInner = 0, paddingOuter = 0, align = 0.5;
+  delete scale.unknown;
+  function rescale() {
+    var n = domain().length, reverse = r1 < r0, start = reverse ? r1 : r0, stop = reverse ? r0 : r1;
+    step = (stop - start) / Math.max(1, n - paddingInner + paddingOuter * 2);
+    if (round) step = Math.floor(step);
+    start += (stop - start - step * (n - paddingInner)) * align;
+    bandwidth = step * (1 - paddingInner);
+    if (round) start = Math.round(start), bandwidth = Math.round(bandwidth);
+    var values = range(n).map(function(i) {
+      return start + step * i;
+    });
+    return ordinalRange(reverse ? values.reverse() : values);
+  }
+  scale.domain = function(_) {
+    return arguments.length ? (domain(_), rescale()) : domain();
+  };
+  scale.range = function(_) {
+    return arguments.length ? ([r0, r1] = _, r0 = +r0, r1 = +r1, rescale()) : [r0, r1];
+  };
+  scale.rangeRound = function(_) {
+    return [r0, r1] = _, r0 = +r0, r1 = +r1, round = true, rescale();
+  };
+  scale.bandwidth = function() {
+    return bandwidth;
+  };
+  scale.step = function() {
+    return step;
+  };
+  scale.round = function(_) {
+    return arguments.length ? (round = !!_, rescale()) : round;
+  };
+  scale.padding = function(_) {
+    return arguments.length ? (paddingInner = Math.min(1, paddingOuter = +_), rescale()) : paddingInner;
+  };
+  scale.paddingInner = function(_) {
+    return arguments.length ? (paddingInner = Math.min(1, _), rescale()) : paddingInner;
+  };
+  scale.paddingOuter = function(_) {
+    return arguments.length ? (paddingOuter = +_, rescale()) : paddingOuter;
+  };
+  scale.align = function(_) {
+    return arguments.length ? (align = Math.max(0, Math.min(1, _)), rescale()) : align;
+  };
+  scale.copy = function() {
+    return band(domain(), [r0, r1]).round(round).paddingInner(paddingInner).paddingOuter(paddingOuter).align(align);
+  };
+  return initRange.apply(rescale(), arguments);
 }
 
 // node_modules/d3-color/src/define.js
@@ -914,23 +1052,23 @@ function clamper(a, b) {
     return Math.max(a, Math.min(b, x2));
   };
 }
-function bimap(domain, range, interpolate) {
-  var d0 = domain[0], d1 = domain[1], r0 = range[0], r1 = range[1];
+function bimap(domain, range2, interpolate) {
+  var d0 = domain[0], d1 = domain[1], r0 = range2[0], r1 = range2[1];
   if (d1 < d0) d0 = normalize(d1, d0), r0 = interpolate(r1, r0);
   else d0 = normalize(d0, d1), r0 = interpolate(r0, r1);
   return function(x2) {
     return r0(d0(x2));
   };
 }
-function polymap(domain, range, interpolate) {
-  var j = Math.min(domain.length, range.length) - 1, d = new Array(j), r2 = new Array(j), i = -1;
+function polymap(domain, range2, interpolate) {
+  var j = Math.min(domain.length, range2.length) - 1, d = new Array(j), r2 = new Array(j), i = -1;
   if (domain[j] < domain[0]) {
     domain = domain.slice().reverse();
-    range = range.slice().reverse();
+    range2 = range2.slice().reverse();
   }
   while (++i < j) {
     d[i] = normalize(domain[i], domain[i + 1]);
-    r2[i] = interpolate(range[i], range[i + 1]);
+    r2[i] = interpolate(range2[i], range2[i + 1]);
   }
   return function(x2) {
     var i2 = bisect_default(domain, x2, 1, j) - 1;
@@ -941,28 +1079,28 @@ function copy(source, target) {
   return target.domain(source.domain()).range(source.range()).interpolate(source.interpolate()).clamp(source.clamp()).unknown(source.unknown());
 }
 function transformer() {
-  var domain = unit, range = unit, interpolate = value_default, transform, untransform, unknown, clamp = identity, piecewise, output, input;
+  var domain = unit, range2 = unit, interpolate = value_default, transform, untransform, unknown, clamp = identity, piecewise, output, input;
   function rescale() {
-    var n = Math.min(domain.length, range.length);
+    var n = Math.min(domain.length, range2.length);
     if (clamp !== identity) clamp = clamper(domain[0], domain[n - 1]);
     piecewise = n > 2 ? polymap : bimap;
     output = input = null;
     return scale;
   }
   function scale(x2) {
-    return x2 == null || isNaN(x2 = +x2) ? unknown : (output || (output = piecewise(domain.map(transform), range, interpolate)))(transform(clamp(x2)));
+    return x2 == null || isNaN(x2 = +x2) ? unknown : (output || (output = piecewise(domain.map(transform), range2, interpolate)))(transform(clamp(x2)));
   }
   scale.invert = function(y2) {
-    return clamp(untransform((input || (input = piecewise(range, domain.map(transform), number_default)))(y2)));
+    return clamp(untransform((input || (input = piecewise(range2, domain.map(transform), number_default)))(y2)));
   };
   scale.domain = function(_) {
     return arguments.length ? (domain = Array.from(_, number2), rescale()) : domain.slice();
   };
   scale.range = function(_) {
-    return arguments.length ? (range = Array.from(_), rescale()) : range.slice();
+    return arguments.length ? (range2 = Array.from(_), rescale()) : range2.slice();
   };
   scale.rangeRound = function(_) {
-    return range = Array.from(_), interpolate = round_default, rescale();
+    return range2 = Array.from(_), interpolate = round_default, rescale();
   };
   scale.clamp = function(_) {
     return arguments.length ? (clamp = _ ? true : identity, rescale()) : clamp !== identity;
@@ -1339,15 +1477,15 @@ function timeInterval(floori, offseti, count, field) {
     return offseti(date2 = /* @__PURE__ */ new Date(+date2), step == null ? 1 : Math.floor(step)), date2;
   };
   interval.range = (start, stop, step) => {
-    const range = [];
+    const range2 = [];
     start = interval.ceil(start);
     step = step == null ? 1 : Math.floor(step);
-    if (!(start < stop) || !(step > 0)) return range;
+    if (!(start < stop) || !(step > 0)) return range2;
     let previous;
     do
-      range.push(previous = /* @__PURE__ */ new Date(+start)), offseti(start, step), floori(start);
+      range2.push(previous = /* @__PURE__ */ new Date(+start)), offseti(start, step), floori(start);
     while (previous < start && start < stop);
-    return range;
+    return range2;
   };
   interval.filter = (test) => {
     return timeInterval((date2) => {
@@ -2463,6 +2601,80 @@ function line_default(x2, y2) {
   return line;
 }
 
+// node_modules/d3-shape/src/area.js
+function area_default(x0, y0, y1) {
+  var x1 = null, defined = constant_default2(true), context = null, curve = linear_default, output = null, path2 = withPath(area);
+  x0 = typeof x0 === "function" ? x0 : x0 === void 0 ? x : constant_default2(+x0);
+  y0 = typeof y0 === "function" ? y0 : y0 === void 0 ? constant_default2(0) : constant_default2(+y0);
+  y1 = typeof y1 === "function" ? y1 : y1 === void 0 ? y : constant_default2(+y1);
+  function area(data) {
+    var i, j, k, n = (data = array_default(data)).length, d, defined0 = false, buffer, x0z = new Array(n), y0z = new Array(n);
+    if (context == null) output = curve(buffer = path2());
+    for (i = 0; i <= n; ++i) {
+      if (!(i < n && defined(d = data[i], i, data)) === defined0) {
+        if (defined0 = !defined0) {
+          j = i;
+          output.areaStart();
+          output.lineStart();
+        } else {
+          output.lineEnd();
+          output.lineStart();
+          for (k = i - 1; k >= j; --k) {
+            output.point(x0z[k], y0z[k]);
+          }
+          output.lineEnd();
+          output.areaEnd();
+        }
+      }
+      if (defined0) {
+        x0z[i] = +x0(d, i, data), y0z[i] = +y0(d, i, data);
+        output.point(x1 ? +x1(d, i, data) : x0z[i], y1 ? +y1(d, i, data) : y0z[i]);
+      }
+    }
+    if (buffer) return output = null, buffer + "" || null;
+  }
+  function arealine() {
+    return line_default().defined(defined).curve(curve).context(context);
+  }
+  area.x = function(_) {
+    return arguments.length ? (x0 = typeof _ === "function" ? _ : constant_default2(+_), x1 = null, area) : x0;
+  };
+  area.x0 = function(_) {
+    return arguments.length ? (x0 = typeof _ === "function" ? _ : constant_default2(+_), area) : x0;
+  };
+  area.x1 = function(_) {
+    return arguments.length ? (x1 = _ == null ? null : typeof _ === "function" ? _ : constant_default2(+_), area) : x1;
+  };
+  area.y = function(_) {
+    return arguments.length ? (y0 = typeof _ === "function" ? _ : constant_default2(+_), y1 = null, area) : y0;
+  };
+  area.y0 = function(_) {
+    return arguments.length ? (y0 = typeof _ === "function" ? _ : constant_default2(+_), area) : y0;
+  };
+  area.y1 = function(_) {
+    return arguments.length ? (y1 = _ == null ? null : typeof _ === "function" ? _ : constant_default2(+_), area) : y1;
+  };
+  area.lineX0 = area.lineY0 = function() {
+    return arealine().x(x0).y(y0);
+  };
+  area.lineY1 = function() {
+    return arealine().x(x0).y(y1);
+  };
+  area.lineX1 = function() {
+    return arealine().x(x1).y(y0);
+  };
+  area.defined = function(_) {
+    return arguments.length ? (defined = typeof _ === "function" ? _ : constant_default2(!!_), area) : defined;
+  };
+  area.curve = function(_) {
+    return arguments.length ? (curve = _, context != null && (output = curve(context)), area) : curve;
+  };
+  area.context = function(_) {
+    return arguments.length ? (_ == null ? context = output = null : output = curve(context = _), area) : context;
+  };
+  return area;
+}
+
 // node_modules/d3-shape/src/curve/monotone.js
 function sign(x2) {
   return x2 < 0 ? -1 : 1;
@@ -2475,7 +2687,7 @@ function slope2(that, t) {
   var h = that._x1 - that._x0;
   return h ? (3 * (that._y1 - that._y0) / h - t) / 2 : t;
 }
-function point(that, t02, t12) {
+function point2(that, t02, t12) {
   var x0 = that._x0, y0 = that._y0, x1 = that._x1, y1 = that._y1, dx = (x1 - x0) / 3;
   that._context.bezierCurveTo(x0 + dx, y0 + dx * t02, x1 - dx, y1 - dx * t12, x1, y1);
 }
@@ -2499,7 +2711,7 @@ MonotoneX.prototype = {
         this._context.lineTo(this._x1, this._y1);
         break;
       case 3:
-        point(this, this._t0, slope2(this, this._t0));
+        point2(this, this._t0, slope2(this, this._t0));
         break;
     }
     if (this._line || this._line !== 0 && this._point === 1) this._context.closePath();
@@ -2519,10 +2731,10 @@ MonotoneX.prototype = {
         break;
       case 2:
         this._point = 3;
-        point(this, slope2(this, t12 = slope3(this, x2, y2)), t12);
+        point2(this, slope2(this, t12 = slope3(this, x2, y2)), t12);
         break;
       default:
-        point(this, this._t0, t12 = slope3(this, x2, y2));
+        point2(this, this._t0, t12 = slope3(this, x2, y2));
         break;
     }
     this._x0 = this._x1, this._x1 = x2;
@@ -2558,17 +2770,21 @@ function monotoneX(context) {
 }
 
 // src/components/DataVisualisation/utils/scales.ts
-function createXTimeScale(data, accessor, range) {
+function createXTimeScale(data, accessor, range2) {
   const domain = extent(data, accessor);
-  return time().domain(domain).range(range);
+  return time().domain(domain).range(range2);
 }
-function createYLinearScale(data, accessor, range) {
+function createYLinearScale(data, accessor, range2) {
   const [min, max] = extent(data, accessor);
-  return linear2().domain([Math.min(0, min != null ? min : 0), max != null ? max : 0]).nice().range(range);
+  return linear2().domain([Math.min(0, min != null ? min : 0), max != null ? max : 0]).nice().range(range2);
 }
-function createLinePath(data, x2, y2) {
+function createLinePath(data, x2, y2, options) {
   var _a;
-  return (_a = line_default().x(x2).y(y2).curve(monotoneX)(data)) != null ? _a : "";
+  const lineGen = line_default().x(x2).y(y2);
+  if ((options == null ? void 0 : options.smooth) !== false) {
+    lineGen.curve(monotoneX);
+  }
+  return (_a = lineGen(data)) != null ? _a : "";
 }
 
 // src/components/DataVisualisation/hooks/useChartDimensions.ts
@@ -2601,41 +2817,19 @@ function useChartDimensions(initial = {}) {
   return { width: dims.width, height: dims.height, innerWidth, innerHeight, margin, ref };
 }
 
-// src/components/DataVisualisation/hooks/useFocusNav.ts
-import * as React3 from "react";
-function useFocusNav(length) {
-  const [index, setIndex] = React3.useState(0);
-  const onKey = React3.useCallback((e) => {
-    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
-    if (length === 0) return;
-    e.preventDefault();
-    setIndex((i) => {
-      if (e.key === "ArrowLeft") return Math.max(0, i - 1);
-      if (e.key === "ArrowRight") return Math.min(length - 1, i + 1);
-      if (e.key === "Home") return 0;
-      if (e.key === "End") return length - 1;
-      return i;
-    });
-  }, [length]);
-  React3.useEffect(() => {
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onKey]);
-  return { index, setIndex };
-}
-
 // src/components/DataVisualisation/core/ChartRoot.tsx
-import * as React4 from "react";
+import * as React3 from "react";
 import { jsx as jsx2 } from "react/jsx-runtime";
-var ChartContext = React4.createContext(null);
+var ChartContext = React3.createContext(null);
 function useChartContext() {
-  return React4.useContext(ChartContext);
+  return React3.useContext(ChartContext);
 }
 var ChartRoot = ({
   height = 240,
   margin,
   width,
-  className = "fdp-chart-root",
+  className = "fdp-chart",
+  // align with SCSS token application (.fdp-chart)
   children,
   role = "group",
   ariaLabel
@@ -2648,10 +2842,10 @@ var ChartRoot = ({
 var ChartRoot_default = ChartRoot;
 
 // src/components/DataVisualisation/core/ScaleContext.tsx
-import * as React5 from "react";
+import * as React4 from "react";
 import { jsx as jsx3 } from "react/jsx-runtime";
-var ScaleContext = React5.createContext(null);
-var useScaleContext = () => React5.useContext(ScaleContext);
+var ScaleContext = React4.createContext(null);
+var useScaleContext = () => React4.useContext(ScaleContext);
 var LineScalesProvider = ({
   series,
   innerWidth: innerWidthProp,
@@ -2665,15 +2859,15 @@ var LineScalesProvider = ({
   const chartDims = useChartContext();
   const innerWidth = (_a = innerWidthProp != null ? innerWidthProp : chartDims == null ? void 0 : chartDims.innerWidth) != null ? _a : 0;
   const innerHeight = (_b = innerHeightProp != null ? innerHeightProp : chartDims == null ? void 0 : chartDims.innerHeight) != null ? _b : 0;
-  const allData = React5.useMemo(() => series.flatMap((s) => s.data), [series]);
-  const parseX = React5.useCallback((d) => {
+  const allData = React4.useMemo(() => series.flatMap((s) => s.data), [series]);
+  const parseX = React4.useCallback((d) => {
     if (parseXProp) return parseXProp(d);
     const raw = d.x;
     return raw instanceof Date ? raw : new Date(raw);
   }, [parseXProp]);
-  const xScale = React5.useMemo(() => createXTimeScale(allData, parseX, [0, innerWidth]), [allData, parseX, innerWidth]);
-  const yScale = React5.useMemo(() => createYLinearScale(allData, (d) => d.y, [innerHeight, 0]), [allData, innerHeight]);
-  const value = React5.useMemo(() => ({
+  const xScale = React4.useMemo(() => createXTimeScale(allData, parseX, [0, innerWidth]), [allData, parseX, innerWidth]);
+  const yScale = React4.useMemo(() => createYLinearScale(allData, (d) => d.y, [innerHeight, 0]), [allData, innerHeight]);
+  const value = React4.useMemo(() => ({
     xScale,
     yScale,
     getXTicks: (count = xTickCount) => xScale.ticks(count),
@@ -2684,19 +2878,20 @@ var LineScalesProvider = ({
 var ScaleContext_default = ScaleContext;
 
 // src/components/DataVisualisation/primitives/Axis.tsx
-import * as React6 from "react";
+import * as React5 from "react";
 import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
 var Axis = ({
   type,
   scale,
   tickCount,
+  tickValues,
   formatTick: rawFormatTick,
   label,
   offset,
   className,
   minLabelSpacing,
   maxTickLabelLength,
-  autoMinLabelSpacing = false,
+  autoMinLabelSpacing = type === "x" ? true : false,
   labelAngle = 0,
   allowLabelWrap = true,
   tickFormatPreset
@@ -2706,7 +2901,7 @@ var Axis = ({
   const resolvedScale = scale || (type === "x" ? scaleCtx == null ? void 0 : scaleCtx.xScale : scaleCtx == null ? void 0 : scaleCtx.yScale);
   const defaultCount = tickCount != null ? tickCount : type === "x" ? 6 : 5;
   const hasUserFormatter = typeof rawFormatTick === "function";
-  const presetFormatter = React6.useMemo(() => {
+  const presetFormatter = React5.useMemo(() => {
     if (hasUserFormatter) return void 0;
     if (!tickFormatPreset) return void 0;
     const dtf = (opts) => new Intl.DateTimeFormat(void 0, opts);
@@ -2742,35 +2937,75 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
         return void 0;
     }
   }, [hasUserFormatter, tickFormatPreset]);
-  const effectiveFormatTick = hasUserFormatter ? rawFormatTick : presetFormatter || ((v) => String(v));
-  const ticks2 = React6.useMemo(() => {
+  let effectiveFormatTick = hasUserFormatter ? rawFormatTick : presetFormatter || ((v) => String(v));
+  const ticks2 = React5.useMemo(() => {
+    if (tickValues && Array.isArray(tickValues)) return tickValues;
     if (!resolvedScale) return [];
     if (typeof resolvedScale.ticks === "function") return resolvedScale.ticks(defaultCount);
     return resolvedScale.domain ? resolvedScale.domain() : [];
-  }, [resolvedScale, defaultCount]);
+  }, [resolvedScale, defaultCount, tickValues]);
+  if (type === "x" && !hasUserFormatter && !tickFormatPreset && ticks2.length && ticks2.every((t) => t instanceof Date)) {
+    const first = ticks2[0];
+    const last = ticks2[ticks2.length - 1];
+    const spanMs = last.getTime() - first.getTime();
+    const oneDay = 24 * 3600 * 1e3;
+    const oneYear = 365 * oneDay;
+    const sameYear = first.getFullYear() === last.getFullYear();
+    const dtfMonth = new Intl.DateTimeFormat(void 0, { month: "short" });
+    if (spanMs < 2 * oneDay) {
+      const dtfTime = new Intl.DateTimeFormat(void 0, { hour: "2-digit", minute: "2-digit" });
+      effectiveFormatTick = (v) => dtfTime.format(v);
+    } else if (spanMs < 32 * oneDay) {
+      effectiveFormatTick = (v) => {
+        const d = v;
+        return `${d.getDate()} ${dtfMonth.format(d)}`;
+      };
+    } else if (spanMs < oneYear && sameYear) {
+      effectiveFormatTick = (v) => dtfMonth.format(v);
+    } else if (spanMs < 2 * oneYear) {
+      const seenMonths = /* @__PURE__ */ new Set();
+      effectiveFormatTick = (v) => {
+        const d = v;
+        const key = d.getMonth();
+        if (!seenMonths.has(key)) {
+          seenMonths.add(key);
+        }
+        return `${dtfMonth.format(d)} ${d.getFullYear()}`;
+      };
+    } else {
+      effectiveFormatTick = (v) => String(v.getFullYear());
+    }
+  }
   if (!resolvedScale || !dims) return null;
   if (type === "x") {
     const y2 = offset != null ? offset : dims.innerHeight;
+    const isBandScale = typeof resolvedScale.bandwidth === "function";
+    const bandwidth = isBandScale ? resolvedScale.bandwidth() : 0;
+    const tickPos = (t) => {
+      const base = resolvedScale(t);
+      return isBandScale ? base + bandwidth / 2 : base;
+    };
     let resolvedMinSpacing = minLabelSpacing != null ? minLabelSpacing : 0;
     if (autoMinLabelSpacing && (minLabelSpacing === void 0 || minLabelSpacing === null)) {
       const labels = ticks2.map((t) => effectiveFormatTick(t).replace(/\n.*/g, ""));
       const avgLen = labels.length ? labels.reduce((a, b) => a + b.length, 0) / labels.length : 0;
       resolvedMinSpacing = Math.max(12, Math.round(avgLen * 6 + 4));
     }
-    const filteredTicks = React6.useMemo(() => {
+    const filteredTicks = React5.useMemo(() => {
+      if (tickValues && Array.isArray(tickValues)) return ticks2;
       if (resolvedMinSpacing <= 0) return ticks2;
       const accepted = [];
       let lastPos = -Infinity;
       for (const t of ticks2) {
-        const pos = resolvedScale(t);
+        const pos = tickPos(t);
         if (pos - lastPos >= resolvedMinSpacing) {
           accepted.push(t);
           lastPos = pos;
         }
       }
       return accepted;
-    }, [ticks2, resolvedScale, resolvedMinSpacing]);
-    return /* @__PURE__ */ jsxs2("g", { className: ["fdp-axis", "fdp-axis--x", className].filter(Boolean).join(" "), transform: `translate(0,${y2})`, children: [
+    }, [ticks2, resolvedScale, resolvedMinSpacing, tickValues, isBandScale, bandwidth]);
+    return /* @__PURE__ */ jsxs2("g", { className: ["fdp-axis", "fdp-axis--x", className].filter(Boolean).join(" "), transform: `translate(0,${y2})`, fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))", children: [
       /* @__PURE__ */ jsx4("line", { x1: 0, x2: dims.innerWidth, y1: 0, y2: 0, stroke: "currentColor" }),
       filteredTicks.map((t, i) => {
         var _a;
@@ -2778,9 +3013,9 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
         const displayLabel = maxTickLabelLength && rawLabel.length > maxTickLabelLength ? rawLabel.slice(0, Math.max(1, maxTickLabelLength - 1)) + "\u2026" : rawLabel;
         const lines = allowLabelWrap ? displayLabel.split(/\n/) : [displayLabel.replace(/\n/g, " ")];
         const anchor = labelAngle < 0 ? "end" : labelAngle > 0 ? "start" : "middle";
-        return /* @__PURE__ */ jsxs2("g", { transform: `translate(${resolvedScale(t)},0)`, children: [
+        return /* @__PURE__ */ jsxs2("g", { transform: `translate(${tickPos(t)},0)`, children: [
           /* @__PURE__ */ jsx4("line", { y2: 6, stroke: "currentColor" }),
-          /* @__PURE__ */ jsxs2("text", { y: 9, textAnchor: anchor, className: "fdp-axis__tick", dominantBaseline: "hanging", transform: labelAngle ? `rotate(${labelAngle})` : void 0, children: [
+          /* @__PURE__ */ jsxs2("text", { y: 9, textAnchor: anchor, className: "fdp-axis__tick", dominantBaseline: "hanging", transform: labelAngle ? `rotate(${labelAngle})` : void 0, fontFamily: "inherit", children: [
             lines.map((ln, li) => /* @__PURE__ */ jsx4("tspan", { x: 0, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
             displayLabel !== rawLabel && /* @__PURE__ */ jsx4("title", { children: rawLabel })
           ] })
@@ -2788,7 +3023,7 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
       })
     ] });
   }
-  return /* @__PURE__ */ jsxs2("g", { className: ["fdp-axis", "fdp-axis--y", className].filter(Boolean).join(" "), children: [
+  return /* @__PURE__ */ jsxs2("g", { className: ["fdp-axis", "fdp-axis--y", className].filter(Boolean).join(" "), fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))", children: [
     ticks2.map((t, i) => {
       var _a;
       const rawLabel = effectiveFormatTick(t);
@@ -2796,13 +3031,13 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
       const lines = allowLabelWrap ? displayLabel.split(/\n/) : [displayLabel.replace(/\n/g, " ")];
       return /* @__PURE__ */ jsxs2("g", { transform: `translate(0,${resolvedScale(t)})`, children: [
         /* @__PURE__ */ jsx4("line", { x2: -6, stroke: "currentColor" }),
-        /* @__PURE__ */ jsxs2("text", { x: -9, dy: "0.32em", textAnchor: "end", className: "fdp-axis__tick", children: [
+        /* @__PURE__ */ jsxs2("text", { x: -9, dy: "0.32em", textAnchor: "end", className: "fdp-axis__tick", fontFamily: "inherit", children: [
           lines.map((ln, li) => /* @__PURE__ */ jsx4("tspan", { x: -9, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
           displayLabel !== rawLabel && /* @__PURE__ */ jsx4("title", { children: rawLabel })
         ] })
       ] }, ((_a = t == null ? void 0 : t.toString) == null ? void 0 : _a.call(t)) || i);
     }),
-    label && /* @__PURE__ */ jsx4("text", { transform: "rotate(-90)", x: -dims.innerHeight / 2, y: -dims.margin.left + 12, textAnchor: "middle", className: "fdp-axis__label", children: label })
+    label && /* @__PURE__ */ jsx4("text", { transform: "rotate(-90)", x: -dims.innerHeight / 2, y: -dims.margin.left + 12, textAnchor: "middle", className: "fdp-axis__label", fontFamily: "inherit", children: label })
   ] });
 };
 var Axis_default = Axis;
@@ -2828,7 +3063,7 @@ var GridLines = ({
 var GridLines_default = GridLines;
 
 // src/components/DataVisualisation/series/LineSeriesPrimitive.tsx
-import * as React7 from "react";
+import * as React8 from "react";
 
 // packages/nhs-fdp/tokens/data-viz.json
 var data_viz_default = {
@@ -3312,8 +3547,188 @@ function assignSeriesColors(series, { palette = "categorical", random = false } 
   return copy2;
 }
 
+// src/components/DataVisualisation/core/VisibilityContext.tsx
+import * as React6 from "react";
+import { jsx as jsx6 } from "react/jsx-runtime";
+var VisibilityContext = React6.createContext(null);
+var useVisibility = () => React6.useContext(VisibilityContext);
+var VisibilityProvider = ({
+  initialHiddenIds = [],
+  children,
+  hiddenIds: controlledHidden,
+  onChange
+}) => {
+  const [uncontrolled, setUncontrolled] = React6.useState(() => new Set(initialHiddenIds));
+  const isControlled = controlledHidden !== void 0;
+  const hiddenSet = React6.useMemo(() => isControlled ? new Set(controlledHidden) : uncontrolled, [isControlled, controlledHidden, uncontrolled]);
+  const update = React6.useCallback((next) => {
+    if (!isControlled) setUncontrolled(new Set(next));
+    onChange == null ? void 0 : onChange(Array.from(next));
+  }, [isControlled, onChange]);
+  const api = React6.useMemo(() => ({
+    hiddenIds: hiddenSet,
+    isHidden: (id) => hiddenSet.has(id),
+    toggle: (id) => {
+      const next = new Set(hiddenSet);
+      next.has(id) ? next.delete(id) : next.add(id);
+      update(next);
+    },
+    showOnly: (_id) => {
+      update(/* @__PURE__ */ new Set());
+    },
+    showAll: () => update(/* @__PURE__ */ new Set()),
+    setHidden: (ids) => update(new Set(Array.isArray(ids) ? ids : Array.from(ids)))
+  }), [hiddenSet, update]);
+  return /* @__PURE__ */ jsx6(VisibilityContext.Provider, { value: api, children });
+};
+
+// src/components/DataVisualisation/core/TooltipContext.tsx
+import * as React7 from "react";
+import { jsx as jsx7 } from "react/jsx-runtime";
+var TooltipContext = React7.createContext(null);
+var useTooltipContext = () => React7.useContext(TooltipContext);
+var TooltipProvider = ({ children, maxDistance = 40, wrapAround = false }) => {
+  const scaleCtx = useScaleContext();
+  const visibility = useVisibility();
+  const [focused, setFocused] = React7.useState(null);
+  const seriesRef = React7.useRef(/* @__PURE__ */ new Map());
+  const [aggregated, setAggregated] = React7.useState([]);
+  const registerSeries = React7.useCallback((seriesId, data) => {
+    seriesRef.current.set(seriesId, data);
+  }, []);
+  const unregisterSeries = React7.useCallback((seriesId) => {
+    seriesRef.current.delete(seriesId);
+  }, []);
+  const focusNearest = React7.useCallback((plotX, plotY) => {
+    if (!scaleCtx) return;
+    const { xScale, yScale } = scaleCtx;
+    let best = null;
+    let bestDist = Infinity;
+    seriesRef.current.forEach((data, sid) => {
+      data.forEach((d, i) => {
+        const px = xScale(d.x);
+        const py = yScale(d.y);
+        const dx = px - plotX;
+        const dy = py - plotY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = { seriesId: sid, index: i, x: d.x, y: d.y, clientX: px, clientY: py };
+        }
+      });
+    });
+    if (best && bestDist <= maxDistance) setFocused(best);
+    else setFocused(null);
+  }, [scaleCtx, maxDistance]);
+  const clear = React7.useCallback(() => setFocused(null), []);
+  React7.useEffect(() => {
+    if (!focused) {
+      setAggregated([]);
+      return;
+    }
+    const targetTime = focused.x.getTime();
+    if (!scaleCtx) return;
+    const { xScale, yScale } = scaleCtx;
+    const agg = [];
+    seriesRef.current.forEach((data, sid) => {
+      data.forEach((d, i) => {
+        if (d.x.getTime() === targetTime) {
+          agg.push({ seriesId: sid, index: i, x: d.x, y: d.y, clientX: xScale(d.x), clientY: yScale(d.y) });
+        }
+      });
+    });
+    agg.sort((a, b) => a.seriesId.localeCompare(b.seriesId));
+    setAggregated(agg);
+  }, [focused, scaleCtx]);
+  const focusRelativePoint = React7.useCallback((delta) => {
+    if (!focused) return;
+    const data = seriesRef.current.get(focused.seriesId);
+    if (!data) return;
+    let nextIndex = focused.index + delta;
+    if (nextIndex < 0 || nextIndex >= data.length) {
+      if (!wrapAround) return;
+      nextIndex = (nextIndex + data.length) % data.length;
+    }
+    const d = data[nextIndex];
+    if (!scaleCtx) return;
+    const { xScale, yScale } = scaleCtx;
+    setFocused({ seriesId: focused.seriesId, index: nextIndex, x: d.x, y: d.y, clientX: xScale(d.x), clientY: yScale(d.y) });
+  }, [focused, scaleCtx, wrapAround]);
+  const focusSeriesAtIndex = React7.useCallback((seriesDelta) => {
+    let ids = Array.from(seriesRef.current.keys());
+    if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
+    if (ids.length === 0) return;
+    if (!focused) {
+      const first = ids[0];
+      const data = seriesRef.current.get(first);
+      if (!data || !scaleCtx) return;
+      const { xScale: xScale2, yScale: yScale2 } = scaleCtx;
+      const d2 = data[0];
+      setFocused({ seriesId: first, index: 0, x: d2.x, y: d2.y, clientX: xScale2(d2.x), clientY: yScale2(d2.y) });
+      return;
+    }
+    const currentSeriesIdx = ids.indexOf(focused.seriesId);
+    if (currentSeriesIdx === -1) return;
+    let nextSeriesIdx = currentSeriesIdx + seriesDelta;
+    if (nextSeriesIdx < 0 || nextSeriesIdx >= ids.length) {
+      if (!wrapAround) return;
+      nextSeriesIdx = (nextSeriesIdx + ids.length) % ids.length;
+    }
+    const nextSeriesId = ids[nextSeriesIdx];
+    const nextData = seriesRef.current.get(nextSeriesId);
+    if (!nextData || !scaleCtx) return;
+    const idx = Math.min(focused.index, nextData.length - 1);
+    const d = nextData[idx];
+    const { xScale, yScale } = scaleCtx;
+    setFocused({ seriesId: nextSeriesId, index: idx, x: d.x, y: d.y, clientX: xScale(d.x), clientY: yScale(d.y) });
+  }, [focused, scaleCtx, wrapAround, visibility]);
+  const focusFirstPoint = React7.useCallback(() => {
+    let ids = Array.from(seriesRef.current.keys());
+    if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
+    if (ids.length === 0) return;
+    const targetSeriesId = focused ? focused.seriesId : ids[0];
+    const data = seriesRef.current.get(targetSeriesId);
+    if (!data || data.length === 0 || !scaleCtx) return;
+    const d = data[0];
+    const { xScale, yScale } = scaleCtx;
+    setFocused({ seriesId: targetSeriesId, index: 0, x: d.x, y: d.y, clientX: xScale(d.x), clientY: yScale(d.y) });
+  }, [focused, scaleCtx, visibility]);
+  const focusLastPoint = React7.useCallback(() => {
+    let ids = Array.from(seriesRef.current.keys());
+    if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
+    if (ids.length === 0) return;
+    const targetSeriesId = focused ? focused.seriesId : ids[0];
+    const data = seriesRef.current.get(targetSeriesId);
+    if (!data || data.length === 0 || !scaleCtx) return;
+    const lastIndex = data.length - 1;
+    const d = data[lastIndex];
+    const { xScale, yScale } = scaleCtx;
+    setFocused({ seriesId: targetSeriesId, index: lastIndex, x: d.x, y: d.y, clientX: xScale(d.x), clientY: yScale(d.y) });
+  }, [focused, scaleCtx, visibility]);
+  const focusNextPoint = React7.useCallback(() => focusRelativePoint(1), [focusRelativePoint]);
+  const focusPrevPoint = React7.useCallback(() => focusRelativePoint(-1), [focusRelativePoint]);
+  const focusNextSeries = React7.useCallback(() => focusSeriesAtIndex(1), [focusSeriesAtIndex]);
+  const focusPrevSeries = React7.useCallback(() => focusSeriesAtIndex(-1), [focusSeriesAtIndex]);
+  const value = React7.useMemo(() => ({
+    focused,
+    setFocused,
+    aggregated,
+    focusNearest,
+    clear,
+    registerSeries,
+    unregisterSeries,
+    focusNextPoint,
+    focusPrevPoint,
+    focusNextSeries,
+    focusPrevSeries,
+    focusFirstPoint,
+    focusLastPoint
+  }), [focused, aggregated, focusNearest, clear, registerSeries, unregisterSeries, focusNextPoint, focusPrevPoint, focusNextSeries, focusPrevSeries, focusFirstPoint, focusLastPoint]);
+  return /* @__PURE__ */ jsx7(TooltipContext.Provider, { value, children });
+};
+
 // src/components/DataVisualisation/series/LineSeriesPrimitive.tsx
-import { jsx as jsx6, jsxs as jsxs4 } from "react/jsx-runtime";
+import { jsx as jsx8, jsxs as jsxs4 } from "react/jsx-runtime";
 var LineSeriesPrimitive = ({
   series,
   seriesIndex,
@@ -3321,35 +3736,66 @@ var LineSeriesPrimitive = ({
   showPoints,
   focusablePoints,
   focusIndex,
-  parseX
+  parseX,
+  visibilityMode = "remove",
+  strokeWidth = 1,
+  smooth = true
 }) => {
+  var _a;
   const scaleCtx = useScaleContext();
   if (!scaleCtx) return null;
   const { xScale, yScale } = scaleCtx;
-  const path2 = React7.useMemo(() => createLinePath(series.data, (d) => xScale(parseX(d)), (d) => yScale(d.y)), [series.data, xScale, yScale, parseX]);
+  const visibility = useVisibility();
+  const isHidden = (_a = visibility == null ? void 0 : visibility.isHidden(series.id)) != null ? _a : false;
+  const faded = isHidden && visibilityMode === "fade";
+  if (isHidden && visibilityMode === "remove") {
+    return null;
+  }
+  const tooltip = useTooltipContext();
+  React8.useEffect(() => {
+    if (!tooltip) return;
+    const normalized = series.data.map((d) => ({ x: parseX(d), y: d.y }));
+    tooltip.registerSeries(series.id, normalized);
+    return () => tooltip.unregisterSeries(series.id);
+  }, [tooltip, series.id, series.data, parseX]);
+  const path2 = React8.useMemo(() => createLinePath(series.data, (d) => xScale(parseX(d)), (d) => yScale(d.y), { smooth }), [series.data, xScale, yScale, parseX, smooth]);
   const color2 = series.color || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
   const stroke = palette === "region" ? pickRegionStroke(series.id, seriesIndex) : pickSeriesStroke(seriesIndex);
-  return /* @__PURE__ */ jsxs4("g", { className: "fdp-line-series", "data-series": series.id, children: [
-    /* @__PURE__ */ jsx6("path", { d: path2, fill: "none", stroke: color2, strokeWidth: 1, role: "presentation" }),
+  return /* @__PURE__ */ jsxs4("g", { className: "fdp-line-series", "data-series": series.id, opacity: faded ? 0.25 : 1, "aria-hidden": faded ? true : void 0, children: [
+    /* @__PURE__ */ jsx8("path", { d: path2, fill: "none", stroke: color2, strokeWidth, role: "presentation" }),
     showPoints && series.data.map((d, di) => {
+      var _a2;
       const cx = xScale(parseX(d));
       const cy = yScale(d.y);
       const tabIndex = focusablePoints ? 0 : -1;
-      const isFocusedPoint = focusablePoints && di === focusIndex;
-      return /* @__PURE__ */ jsx6(
+      const isFocusedPoint = !faded && (focusablePoints && di === focusIndex || ((_a2 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a2.seriesId) === series.id && tooltip.focused.index === di);
+      const handleEnter = () => {
+        if (tooltip && !faded) {
+          tooltip.setFocused({ seriesId: series.id, index: di, x: parseX(d), y: d.y, clientX: cx, clientY: cy });
+        }
+      };
+      const handleLeave = () => {
+        var _a3;
+        if (tooltip && ((_a3 = tooltip.focused) == null ? void 0 : _a3.seriesId) === series.id && tooltip.focused.index === di) tooltip.clear();
+      };
+      return /* @__PURE__ */ jsx8(
         "circle",
         {
           cx,
           cy,
           r: isFocusedPoint ? 5 : 3.5,
-          stroke,
-          strokeWidth: 1,
+          stroke: isFocusedPoint ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : stroke,
+          strokeWidth: isFocusedPoint ? 2 : 1,
           fill: color2,
           className: "fdp-line-point",
-          tabIndex,
+          tabIndex: faded ? -1 : tabIndex,
           "aria-label": `${series.label || series.id} ${parseX(d).toDateString()} value ${d.y}`,
           "data-series": series.id,
-          "data-index": di
+          "data-index": di,
+          onMouseEnter: handleEnter,
+          onFocus: handleEnter,
+          onMouseLeave: handleLeave,
+          onBlur: handleLeave
         },
         di
       );
@@ -3358,8 +3804,88 @@ var LineSeriesPrimitive = ({
 };
 var LineSeriesPrimitive_default = LineSeriesPrimitive;
 
+// src/components/DataVisualisation/primitives/VisuallyHiddenLiveRegion.tsx
+import * as React9 from "react";
+import { jsx as jsx9 } from "react/jsx-runtime";
+var VisuallyHiddenLiveRegion = ({ polite = true, format: format2 }) => {
+  const tooltip = useTooltipContext();
+  const [message, setMessage] = React9.useState("");
+  const lastRef = React9.useRef("");
+  React9.useEffect(() => {
+    if (!(tooltip == null ? void 0 : tooltip.focused)) return;
+    const { focused, aggregated } = tooltip;
+    let msg;
+    if (aggregated && aggregated.length > 1) {
+      const parts = aggregated.map((a) => `${a.seriesId} ${a.y}`).join("; ");
+      msg = `${focused.x.toDateString()} \u2013 ${parts}`;
+    } else {
+      msg = format2 ? format2({ seriesId: focused.seriesId, x: focused.x, y: focused.y, index: focused.index }) : defaultFormatter(focused.seriesId, focused.x, focused.y, focused.index);
+    }
+    if (msg !== lastRef.current) {
+      lastRef.current = msg;
+      setMessage("");
+      const timeout = setTimeout(() => setMessage(msg), 10);
+      return () => clearTimeout(timeout);
+    }
+  }, [tooltip == null ? void 0 : tooltip.focused, format2]);
+  return /* @__PURE__ */ jsx9(
+    "div",
+    {
+      "aria-live": polite ? "polite" : "assertive",
+      "aria-atomic": "true",
+      style: { position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", border: 0 },
+      children: message
+    }
+  );
+};
+function defaultFormatter(seriesId, x2, y2, index) {
+  return `Series ${seriesId}, point ${index + 1}, ${x2.toDateString()}, value ${y2}`;
+}
+var VisuallyHiddenLiveRegion_default = VisuallyHiddenLiveRegion;
+
+// src/components/DataVisualisation/primitives/TooltipOverlay.tsx
+import { jsx as jsx10, jsxs as jsxs5 } from "react/jsx-runtime";
+var TooltipOverlay = () => {
+  const tooltip = useTooltipContext();
+  const chart = useChartContext();
+  if (!tooltip || !chart || !tooltip.focused) return null;
+  const { focused, aggregated } = tooltip;
+  const { innerWidth, innerHeight } = chart;
+  const clampX = Math.min(Math.max(focused.clientX, 0), innerWidth);
+  const clampY = Math.min(Math.max(focused.clientY, 0), innerHeight);
+  const bgX = clampX + 8;
+  const bgY = clampY - 8;
+  const multi = aggregated.length > 1;
+  const label = multi ? focused.x.toDateString() : `${focused.x.toDateString()} \u2022 ${focused.y}`;
+  const idDigits = /\d+$/.exec(focused.seriesId || "");
+  const seriesIdx = idDigits ? parseInt(idDigits[0], 10) - 1 : 0;
+  const seriesColor = pickSeriesColor(seriesIdx >= 0 ? seriesIdx : 0) || "#005eb8";
+  const focusYellow = "var(--nhs-fdp-color-primary-yellow,#ffeb3b)";
+  return /* @__PURE__ */ jsxs5("g", { className: "fdp-tooltip-layer", pointerEvents: "none", children: [
+    /* @__PURE__ */ jsx10("circle", { cx: clampX, cy: clampY, r: 7, fill: "none", stroke: focusYellow, strokeWidth: 3 }),
+    /* @__PURE__ */ jsx10("circle", { cx: clampX, cy: clampY, r: 5, fill: "#000", stroke: focusYellow, strokeWidth: 1.5 }),
+    /* @__PURE__ */ jsx10("circle", { cx: clampX, cy: clampY, r: 2.5, fill: seriesColor, stroke: "#fff", strokeWidth: 0.5 }),
+    multi ? (() => {
+      const lineHeight = 16;
+      const rows = aggregated.map((a) => `${a.seriesId}: ${a.y}`);
+      const content = [label, ...rows];
+      const maxChars = content.reduce((m, s) => Math.max(m, s.length), 0);
+      const width = Math.max(90, maxChars * 6.2 + 16);
+      const height = lineHeight * content.length + 8;
+      return /* @__PURE__ */ jsxs5("g", { children: [
+        /* @__PURE__ */ jsx10("rect", { x: bgX, y: bgY - height, rx: 4, ry: 4, width, height, fill: "#212b32", opacity: 0.92 }),
+        content.map((t, i) => /* @__PURE__ */ jsx10("text", { x: bgX + 8, y: bgY - height + 6 + lineHeight * (i + 0.7), fill: "#fff", fontSize: 12, children: t }, i))
+      ] });
+    })() : /* @__PURE__ */ jsxs5("g", { children: [
+      /* @__PURE__ */ jsx10("rect", { x: bgX, y: bgY - 24, rx: 4, ry: 4, width: Math.max(60, label.length * 6.2), height: 24, fill: "#212b32", opacity: 0.92 }),
+      /* @__PURE__ */ jsx10("text", { x: bgX + 8, y: bgY - 8, fill: "#fff", fontSize: 12, children: label })
+    ] })
+  ] });
+};
+var TooltipOverlay_default = TooltipOverlay;
+
 // src/components/DataVisualisation/charts/LineChart.tsx
-import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
+import { jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
 var InternalLineChart = ({
   series,
   yLabel,
@@ -3369,23 +3895,64 @@ var InternalLineChart = ({
   palette = "categorical",
   dateFormatter,
   valueFormatter,
+  xTickValues,
+  alignXTicksToData = false,
+  announceFocus = true,
+  showTooltipOverlay = true,
+  padXDomain = true,
+  wrapAroundNav = false,
+  keyboardNav = false,
+  visibilityMode = "remove",
+  recomputeYDomainOnHidden = false,
+  strokeWidth = 1,
+  smooth = true,
   providedDims
 }) => {
   const contextDims = useChartContext();
   const dims = providedDims || contextDims || useChartDimensions({ bottom: 48, left: 56, right: 16, top: 12 });
   const scaleCtx = useScaleContext();
-  const allData = React8.useMemo(() => series.flatMap((s) => s.data), [series]);
-  const parseX = React8.useCallback((d) => d.x instanceof Date ? d.x : new Date(d.x), []);
-  const xScale = scaleCtx ? scaleCtx.xScale : React8.useMemo(() => createXTimeScale(allData, parseX, [0, dims.innerWidth]), [allData, parseX, dims.innerWidth]);
-  const yScale = scaleCtx ? scaleCtx.yScale : React8.useMemo(() => createYLinearScale(allData, (d) => d.y, [dims.innerHeight, 0]), [allData, dims.innerHeight]);
-  const { index: focusIndex } = useFocusNav(allData.length);
+  const visibility = useVisibility();
+  const visibleSeries = React10.useMemo(() => {
+    if (!visibility) return series;
+    return series.filter((s) => !visibility.isHidden(s.id));
+  }, [series, visibility]);
+  const allData = React10.useMemo(() => {
+    if (recomputeYDomainOnHidden && visibility) return visibleSeries.flatMap((s) => s.data);
+    return series.flatMap((s) => s.data);
+  }, [series, visibleSeries, recomputeYDomainOnHidden, visibility]);
+  const parseX = React10.useCallback((d) => d.x instanceof Date ? d.x : new Date(d.x), []);
+  const xScale = scaleCtx ? scaleCtx.xScale : React10.useMemo(() => {
+    if (!padXDomain) return createXTimeScale(allData, parseX, [0, dims.innerWidth]);
+    const times = allData.map((d) => parseX(d).getTime()).sort((a, b) => a - b);
+    if (times.length === 0) return createXTimeScale(allData, parseX, [0, dims.innerWidth]);
+    let step;
+    if (times.length === 1) {
+      step = 24 * 3600 * 1e3;
+    } else {
+      const diffs = [];
+      for (let i = 1; i < times.length; i++) diffs.push(times[i] - times[i - 1]);
+      diffs.sort((a, b) => a - b);
+      step = diffs[Math.floor(diffs.length / 2)] || (times[times.length - 1] - times[0]) / (times.length - 1);
+    }
+    const pad2 = step / 2;
+    const domain = [new Date(times[0] - pad2), new Date(times[times.length - 1] + pad2)];
+    return time().domain(domain).range([0, dims.innerWidth]);
+  }, [allData, parseX, dims.innerWidth, padXDomain]);
+  const yScale = scaleCtx ? scaleCtx.yScale : React10.useMemo(() => createYLinearScale(allData, (d) => d.y, [dims.innerHeight, 0]), [allData, dims.innerHeight]);
   const formatDate = dateFormatter || ((d) => d.toLocaleDateString(void 0, { month: "short", day: "numeric" }));
+  const computedDataTickValues = React10.useMemo(() => {
+    if (xTickValues && xTickValues.length) return xTickValues.map((v) => v instanceof Date ? v : new Date(v));
+    if (!alignXTicksToData) return [];
+    const set = /* @__PURE__ */ new Set();
+    for (const d of allData) set.add(parseX(d).getTime());
+    return Array.from(set).sort((a, b) => a - b).map((ms) => new Date(ms));
+  }, [xTickValues, alignXTicksToData, allData, parseX]);
   const formatValue = valueFormatter || ((v) => String(v));
-  const body = /* @__PURE__ */ jsx7("div", { className: "fdp-line-chart", role: "group", "aria-label": ariaLabel, children: /* @__PURE__ */ jsx7("svg", { width: dims.width, height: dims.height, role: "img", children: /* @__PURE__ */ jsxs5("g", { transform: `translate(${dims.margin.left},${dims.margin.top})`, children: [
-    /* @__PURE__ */ jsx7(Axis_default, { type: "x", formatTick: formatDate }),
-    /* @__PURE__ */ jsx7(Axis_default, { type: "y", formatTick: formatValue, label: yLabel }),
-    /* @__PURE__ */ jsx7(GridLines_default, { axis: "y" }),
-    series.map((s, si) => /* @__PURE__ */ jsx7(
+  const svgContent = /* @__PURE__ */ jsx11("svg", { width: dims.width, height: dims.height, role: "img", children: /* @__PURE__ */ jsxs6("g", { transform: `translate(${dims.margin.left},${dims.margin.top})`, children: [
+    /* @__PURE__ */ jsx11(Axis_default, { type: "x", formatTick: formatDate, tickValues: computedDataTickValues.length ? computedDataTickValues : void 0 }),
+    /* @__PURE__ */ jsx11(Axis_default, { type: "y", formatTick: formatValue, label: yLabel }),
+    /* @__PURE__ */ jsx11(GridLines_default, { axis: "y" }),
+    series.map((s, si) => /* @__PURE__ */ jsx11(
       LineSeriesPrimitive_default,
       {
         series: s,
@@ -3393,12 +3960,62 @@ var InternalLineChart = ({
         palette,
         showPoints,
         focusablePoints,
-        focusIndex,
-        parseX
+        focusIndex: -1,
+        parseX,
+        visibilityMode,
+        strokeWidth,
+        smooth
       },
       s.id
-    ))
-  ] }) }) });
+    )),
+    showTooltipOverlay && /* @__PURE__ */ jsx11(TooltipOverlay_default, {})
+  ] }) });
+  const KeyboardNavWrapper = ({ children }) => {
+    const t = useTooltipContext();
+    const onKeyDown = React10.useCallback((e) => {
+      if (!t) return;
+      switch (e.key) {
+        case "ArrowRight":
+          t.focusNextPoint();
+          e.preventDefault();
+          break;
+        case "ArrowLeft":
+          t.focusPrevPoint();
+          e.preventDefault();
+          break;
+        case "ArrowDown":
+          t.focusNextSeries();
+          e.preventDefault();
+          break;
+        case "ArrowUp":
+          t.focusPrevSeries();
+          e.preventDefault();
+          break;
+        case "Home":
+          t.focusFirstPoint();
+          e.preventDefault();
+          break;
+        case "End":
+          t.focusLastPoint();
+          e.preventDefault();
+          break;
+        case "Escape":
+          t.clear();
+          e.preventDefault();
+          break;
+        default:
+          break;
+      }
+    }, [t]);
+    return /* @__PURE__ */ jsx11("div", { className: "fdp-line-chart", role: "group", "aria-label": ariaLabel, tabIndex: 0, onKeyDown, children });
+  };
+  const body = /* @__PURE__ */ jsx11(TooltipProvider, { wrapAround: wrapAroundNav, children: keyboardNav ? /* @__PURE__ */ jsxs6(KeyboardNavWrapper, { children: [
+    svgContent,
+    announceFocus && /* @__PURE__ */ jsx11(VisuallyHiddenLiveRegion_default, {})
+  ] }) : /* @__PURE__ */ jsxs6("div", { className: "fdp-line-chart", role: "group", "aria-label": ariaLabel, children: [
+    svgContent,
+    announceFocus && /* @__PURE__ */ jsx11(VisuallyHiddenLiveRegion_default, {})
+  ] }) });
   if (scaleCtx) return body;
   const value = {
     xScale,
@@ -3406,24 +4023,24 @@ var InternalLineChart = ({
     getXTicks: (c = 6) => xScale.ticks(c),
     getYTicks: (c = 5) => yScale.ticks(c)
   };
-  return /* @__PURE__ */ jsx7(ScaleContext_default.Provider, { value, children: body });
+  return /* @__PURE__ */ jsx11(ScaleContext_default.Provider, { value, children: body });
 };
 var LineChart = (props) => {
   var _a;
   const ctx = useChartContext();
-  const content = /* @__PURE__ */ jsx7(InternalLineChart, { ...props, providedDims: ctx });
+  const content = /* @__PURE__ */ jsx11(InternalLineChart, { ...props, providedDims: ctx });
   if (ctx) {
-    return useScaleContext() ? content : /* @__PURE__ */ jsx7(LineScalesProvider, { series: props.series, innerWidth: ctx.innerWidth, innerHeight: ctx.innerHeight, children: content });
+    return useScaleContext() ? content : /* @__PURE__ */ jsx11(LineScalesProvider, { series: props.series, innerWidth: ctx.innerWidth, innerHeight: ctx.innerHeight, children: content });
   }
   const ariaLabel = props.ariaLabel;
-  return /* @__PURE__ */ jsx7(ChartRoot, { height: (_a = props.height) != null ? _a : 240, ariaLabel, margin: { bottom: 48, left: 56, right: 16, top: 12 }, children: /* @__PURE__ */ jsx7(InternalLineChart, { ...props }) });
+  return /* @__PURE__ */ jsx11(ChartRoot, { height: (_a = props.height) != null ? _a : 240, ariaLabel, margin: { bottom: 48, left: 56, right: 16, top: 12 }, children: /* @__PURE__ */ jsx11(InternalLineChart, { ...props }) });
 };
 var LineChart_default = LineChart;
 
 // src/components/Tabs/Tabs.tsx
 var import_classnames = __toESM(require_classnames(), 1);
-import { useState as useState4, useCallback as useCallback5, useRef as useRef2, forwardRef, useImperativeHandle } from "react";
-import { jsx as jsx8, jsxs as jsxs6 } from "react/jsx-runtime";
+import { useState as useState6, useCallback as useCallback6, useRef as useRef4, forwardRef, useImperativeHandle } from "react";
+import { jsx as jsx12, jsxs as jsxs7 } from "react/jsx-runtime";
 var Tabs = forwardRef(({
   items,
   defaultActiveTab,
@@ -3439,26 +4056,26 @@ var Tabs = forwardRef(({
   ...props
 }, ref) => {
   const isControlled = controlledActiveTab !== void 0;
-  const [internalActiveTab, setInternalActiveTab] = useState4(() => {
+  const [internalActiveTab, setInternalActiveTab] = useState6(() => {
     var _a;
     return defaultActiveTab || ((_a = items[0]) == null ? void 0 : _a.id) || "";
   });
   const activeTab = isControlled ? controlledActiveTab : internalActiveTab;
-  const tabListRef = useRef2(null);
-  const tabRefs = useRef2(/* @__PURE__ */ new Map());
-  const handleTabClick = useCallback5((tabId) => {
+  const tabListRef = useRef4(null);
+  const tabRefs = useRef4(/* @__PURE__ */ new Map());
+  const handleTabClick = useCallback6((tabId) => {
     if (!isControlled) {
       setInternalActiveTab(tabId);
     }
     onTabChange == null ? void 0 : onTabChange(tabId);
   }, [isControlled, onTabChange]);
-  const handleTabFocus = useCallback5((tabId) => {
+  const handleTabFocus = useCallback6((tabId) => {
     onTabFocus == null ? void 0 : onTabFocus(tabId);
     if (autoActivate) {
       handleTabClick(tabId);
     }
   }, [onTabFocus, autoActivate, handleTabClick]);
-  const handleKeyDown = useCallback5((event, tabId) => {
+  const handleKeyDown = useCallback6((event, tabId) => {
     const tabIds = items.filter((item) => !item.disabled).map((item) => item.id);
     const currentIndex = tabIds.indexOf(tabId);
     let newIndex = null;
@@ -3492,14 +4109,14 @@ var Tabs = forwardRef(({
       }
     }
   }, [items, handleTabFocus, onEscape]);
-  const setTabRef = useCallback5((tabId, element) => {
+  const setTabRef = useCallback6((tabId, element) => {
     if (element) {
       tabRefs.current.set(tabId, element);
     } else {
       tabRefs.current.delete(tabId);
     }
   }, []);
-  const focusTab = useCallback5((tabId) => {
+  const focusTab = useCallback6((tabId) => {
     const tabRef = tabRefs.current.get(tabId);
     if (tabRef) {
       tabRef.focus();
@@ -3510,7 +4127,7 @@ var Tabs = forwardRef(({
     getActiveTab: () => activeTab,
     getTabListElement: () => tabListRef.current
   }), [focusTab, activeTab]);
-  const handleTabListBlur = useCallback5((event) => {
+  const handleTabListBlur = useCallback6((event) => {
     var _a;
     const relatedTarget = event.relatedTarget;
     if (!((_a = tabListRef.current) == null ? void 0 : _a.contains(relatedTarget))) {
@@ -3518,7 +4135,7 @@ var Tabs = forwardRef(({
     }
   }, [onTabListBlur]);
   const tabsClasses = (0, import_classnames.default)("nhsuk-tabs", className);
-  return /* @__PURE__ */ jsxs6(
+  return /* @__PURE__ */ jsxs7(
     "div",
     {
       className: tabsClasses,
@@ -3526,13 +4143,13 @@ var Tabs = forwardRef(({
       "data-testid": testId,
       ...props,
       children: [
-        /* @__PURE__ */ jsx8("h2", { className: "nhsuk-tabs__title", children: "Contents" }),
-        /* @__PURE__ */ jsx8(
+        /* @__PURE__ */ jsx12("h2", { className: "nhsuk-tabs__title", children: "Contents" }),
+        /* @__PURE__ */ jsx12(
           "div",
           {
             className: "nhsuk-tabs__list-container",
             ref: tabListRef,
-            children: /* @__PURE__ */ jsx8(
+            children: /* @__PURE__ */ jsx12(
               "ul",
               {
                 className: "nhsuk-tabs__list",
@@ -3545,7 +4162,7 @@ var Tabs = forwardRef(({
                     "nhsuk-tabs__list-item--selected": isActive,
                     "nhsuk-tabs__list-item--disabled": isDisabled
                   });
-                  return /* @__PURE__ */ jsx8("li", { className: tabClasses, role: "presentation", children: /* @__PURE__ */ jsx8(
+                  return /* @__PURE__ */ jsx12("li", { className: tabClasses, role: "presentation", children: /* @__PURE__ */ jsx12(
                     "button",
                     {
                       ref: (element) => setTabRef(item.id, element),
@@ -3570,7 +4187,7 @@ var Tabs = forwardRef(({
         ),
         items.map((item) => {
           const isActive = item.id === activeTab;
-          return /* @__PURE__ */ jsx8(
+          return /* @__PURE__ */ jsx12(
             "div",
             {
               className: "nhsuk-tabs__panel",
@@ -3589,9 +4206,9 @@ var Tabs = forwardRef(({
 });
 
 // src/components/Button/Button.tsx
-import * as React10 from "react";
-import { jsx as jsx9 } from "react/jsx-runtime";
-var { forwardRef: forwardRef2, useCallback: useCallback6, useState: useState5 } = React10;
+import * as React12 from "react";
+import { jsx as jsx13 } from "react/jsx-runtime";
+var { forwardRef: forwardRef2, useCallback: useCallback7, useState: useState7 } = React12;
 function ButtonComponent(props, ref) {
   const {
     children,
@@ -3602,9 +4219,9 @@ function ButtonComponent(props, ref) {
     preventDoubleClick = false,
     ...rest
   } = props;
-  const [isPressed, setIsPressed] = useState5(false);
-  const [isHovered, setIsHovered] = useState5(false);
-  const [isFocused, setIsFocused] = useState5(false);
+  const [isPressed, setIsPressed] = useState7(false);
+  const [isHovered, setIsHovered] = useState7(false);
+  const [isFocused, setIsFocused] = useState7(false);
   const classes = [
     "nhs-aria-button",
     `nhs-aria-button--${variant}`,
@@ -3619,22 +4236,22 @@ function ButtonComponent(props, ref) {
     ...isFocused && { "data-focused": "true" },
     ...isDisabled && { "data-disabled": "true" }
   };
-  const handleMouseDown = useCallback6(() => !isDisabled && setIsPressed(true), [isDisabled]);
-  const handleMouseUp = useCallback6(() => setIsPressed(false), []);
-  const handleMouseEnter = useCallback6(() => !isDisabled && setIsHovered(true), [isDisabled]);
-  const handleMouseLeave = useCallback6(() => {
+  const handleMouseDown = useCallback7(() => !isDisabled && setIsPressed(true), [isDisabled]);
+  const handleMouseUp = useCallback7(() => setIsPressed(false), []);
+  const handleMouseEnter = useCallback7(() => !isDisabled && setIsHovered(true), [isDisabled]);
+  const handleMouseLeave = useCallback7(() => {
     setIsHovered(false);
     setIsPressed(false);
   }, []);
-  const handleFocus = useCallback6(() => setIsFocused(true), []);
-  const handleBlur = useCallback6(() => setIsFocused(false), []);
-  const handleKeyDown = useCallback6((event) => {
+  const handleFocus = useCallback7(() => setIsFocused(true), []);
+  const handleBlur = useCallback7(() => setIsFocused(false), []);
+  const handleKeyDown = useCallback7((event) => {
     if (event.key === " " && ("href" in rest || event.currentTarget.getAttribute("role") === "button")) {
       event.preventDefault();
       event.currentTarget.click();
     }
   }, [rest]);
-  const handleClick = useCallback6((event) => {
+  const handleClick = useCallback7((event) => {
     if (preventDoubleClick) {
       const target = event.currentTarget;
       const isAlreadyProcessing = target.getAttribute("data-processing") === "true";
@@ -3651,7 +4268,7 @@ function ButtonComponent(props, ref) {
   if ("href" in rest && rest.href) {
     const { id: id2, style: style2, title: title2, ["aria-label"]: ariaLabel2, ["aria-describedby"]: ariaDescribedBy2, ["aria-labelledby"]: ariaLabelledBy2, tabIndex: tabIndex2, ...anchorRest } = rest;
     const anchorProps = rest;
-    return /* @__PURE__ */ jsx9(
+    return /* @__PURE__ */ jsx13(
       "a",
       {
         ref,
@@ -3720,7 +4337,7 @@ function ButtonComponent(props, ref) {
   }
   const { id, style, title, ["aria-label"]: ariaLabel, ["aria-describedby"]: ariaDescribedBy, ["aria-labelledby"]: ariaLabelledBy, tabIndex, name, value: valueProp, form, formAction, formEncType, formMethod, formNoValidate, formTarget, autoFocus, ...buttonRest } = rest;
   const buttonProps = rest;
-  return /* @__PURE__ */ jsx9(
+  return /* @__PURE__ */ jsx13(
     "button",
     {
       ref,
@@ -3805,7 +4422,7 @@ var import_classnames3 = __toESM(require_classnames(), 1);
 // src/components/Heading/Heading.tsx
 var import_classnames2 = __toESM(require_classnames(), 1);
 import { createElement } from "react";
-import { jsx as jsx10 } from "react/jsx-runtime";
+import { jsx as jsx14 } from "react/jsx-runtime";
 var Heading = ({
   level,
   className,
@@ -3841,7 +4458,7 @@ var Heading = ({
     },
     className
   );
-  const content = children || (html ? /* @__PURE__ */ jsx10("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
+  const content = children || (html ? /* @__PURE__ */ jsx14("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
   const tagName = `h${headingLevel}`;
   const style = marginBottom ? { ...props.style, marginBottom } : props.style;
   return createElement(
@@ -3852,7 +4469,7 @@ var Heading = ({
 };
 
 // src/components/Panel/Panel.tsx
-import { jsx as jsx11, jsxs as jsxs7 } from "react/jsx-runtime";
+import { jsx as jsx15, jsxs as jsxs8 } from "react/jsx-runtime";
 var Panel = ({
   id,
   className,
@@ -3871,7 +4488,7 @@ var Panel = ({
   const renderHeading = () => {
     if (!headingText && !headingHtml && !children) return null;
     if (headingHtml) {
-      return /* @__PURE__ */ jsx11(
+      return /* @__PURE__ */ jsx15(
         Heading,
         {
           level: headingLevel,
@@ -3882,7 +4499,7 @@ var Panel = ({
       );
     }
     if (headingText) {
-      return /* @__PURE__ */ jsx11(
+      return /* @__PURE__ */ jsx15(
         Heading,
         {
           level: headingLevel,
@@ -3896,10 +4513,10 @@ var Panel = ({
   };
   const renderBody = () => {
     if (children) {
-      return /* @__PURE__ */ jsx11("div", { className: "nhsuk-panel__body", children });
+      return /* @__PURE__ */ jsx15("div", { className: "nhsuk-panel__body", children });
     }
     if (bodyHtml) {
-      return /* @__PURE__ */ jsx11(
+      return /* @__PURE__ */ jsx15(
         "div",
         {
           className: "nhsuk-panel__body",
@@ -3908,18 +4525,18 @@ var Panel = ({
       );
     }
     if (bodyText) {
-      return /* @__PURE__ */ jsx11("div", { className: "nhsuk-panel__body", children: /* @__PURE__ */ jsx11("p", { children: bodyText }) });
+      return /* @__PURE__ */ jsx15("div", { className: "nhsuk-panel__body", children: /* @__PURE__ */ jsx15("p", { children: bodyText }) });
     }
     return null;
   };
-  return /* @__PURE__ */ jsxs7("div", { className: panelClasses, id, ...props, children: [
+  return /* @__PURE__ */ jsxs8("div", { className: panelClasses, id, ...props, children: [
     renderHeading(),
     renderBody()
   ] });
 };
 
 // src/components/Tables/Table.tsx
-import { Fragment, jsx as jsx12, jsxs as jsxs8 } from "react/jsx-runtime";
+import { Fragment, jsx as jsx16, jsxs as jsxs9 } from "react/jsx-runtime";
 var Table = ({
   rows,
   head,
@@ -3956,7 +4573,7 @@ var Table = ({
       ...responsive && { role: "columnheader" },
       ...cell.attributes
     };
-    return /* @__PURE__ */ jsx12("th", { className: headerClasses, ...headerAttributes, children: cell.html ? /* @__PURE__ */ jsx12("span", { dangerouslySetInnerHTML: { __html: cell.html } }) : cell.text }, index);
+    return /* @__PURE__ */ jsx16("th", { className: headerClasses, ...headerAttributes, children: cell.html ? /* @__PURE__ */ jsx16("span", { dangerouslySetInnerHTML: { __html: cell.html } }) : cell.text }, index);
   };
   const renderCell = (cell, cellIndex, isFirstCell) => {
     const isHeaderCell = firstCellIsHeader && isFirstCell;
@@ -3977,17 +4594,17 @@ var Table = ({
       },
       ...cell.attributes
     };
-    const cellContent = /* @__PURE__ */ jsxs8(Fragment, { children: [
-      responsive && cell.header && /* @__PURE__ */ jsxs8("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true", children: [
+    const cellContent = /* @__PURE__ */ jsxs9(Fragment, { children: [
+      responsive && cell.header && /* @__PURE__ */ jsxs9("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true", children: [
         cell.header,
         " "
       ] }),
-      cell.html ? /* @__PURE__ */ jsx12("span", { dangerouslySetInnerHTML: { __html: cell.html } }) : cell.text
+      cell.html ? /* @__PURE__ */ jsx16("span", { dangerouslySetInnerHTML: { __html: cell.html } }) : cell.text
     ] });
     const Component = isHeaderCell ? "th" : "td";
-    return /* @__PURE__ */ jsx12(Component, { className: cellClasses, ...cellAttributes, children: cellContent }, cellIndex);
+    return /* @__PURE__ */ jsx16(Component, { className: cellClasses, ...cellAttributes, children: cellContent }, cellIndex);
   };
-  const renderTable = () => /* @__PURE__ */ jsxs8(
+  const renderTable = () => /* @__PURE__ */ jsxs9(
     "table",
     {
       className: tableClassList,
@@ -3995,16 +4612,16 @@ var Table = ({
       ...attributes,
       ...testId && { "data-testid": testId },
       children: [
-        caption && /* @__PURE__ */ jsx12("caption", { className: captionClass, children: caption }),
-        head && head.length > 0 && /* @__PURE__ */ jsx12(
+        caption && /* @__PURE__ */ jsx16("caption", { className: captionClass, children: caption }),
+        head && head.length > 0 && /* @__PURE__ */ jsx16(
           "thead",
           {
             className: "nhsuk-table__head",
             ...responsive && { role: "rowgroup" },
-            children: /* @__PURE__ */ jsx12("tr", { ...responsive && { role: "row" }, children: head.map((cell, index) => renderHeaderCell(cell, index)) })
+            children: /* @__PURE__ */ jsx16("tr", { ...responsive && { role: "row" }, children: head.map((cell, index) => renderHeaderCell(cell, index)) })
           }
         ),
-        /* @__PURE__ */ jsx12("tbody", { className: "nhsuk-table__body", children: rows && rows.map((row, rowIndex) => /* @__PURE__ */ jsx12(
+        /* @__PURE__ */ jsx16("tbody", { className: "nhsuk-table__body", children: rows && rows.map((row, rowIndex) => /* @__PURE__ */ jsx16(
           "tr",
           {
             className: "nhsuk-table__row",
@@ -4019,20 +4636,20 @@ var Table = ({
     }
   );
   if (panel) {
-    return /* @__PURE__ */ jsxs8(Panel, { className: panelClasses, children: [
-      heading && /* @__PURE__ */ jsx12(Heading, { level: headingLevel, className: "nhsuk-table__heading-tab", children: heading }),
+    return /* @__PURE__ */ jsxs9(Panel, { className: panelClasses, children: [
+      heading && /* @__PURE__ */ jsx16(Heading, { level: headingLevel, className: "nhsuk-table__heading-tab", children: heading }),
       renderTable()
     ] });
   }
   if (containerClassList) {
-    return /* @__PURE__ */ jsx12("div", { className: containerClassList, children: renderTable() });
+    return /* @__PURE__ */ jsx16("div", { className: containerClassList, children: renderTable() });
   }
   return renderTable();
 };
 var Table_default = Table;
 
 // src/components/DataVisualisation/ChartWithTableTabs.tsx
-import { jsx as jsx13, jsxs as jsxs9 } from "react/jsx-runtime";
+import { jsx as jsx17, jsxs as jsxs10 } from "react/jsx-runtime";
 var ChartWithTableTabs = ({
   chart,
   table,
@@ -4059,26 +4676,22 @@ var ChartWithTableTabs = ({
 }) => {
   let resolvedTable = table;
   if (!resolvedTable && autoTableFromSeries && autoTableFromSeries.length > 0 && !hideTable) {
-    const colAlign = columnAlign || [];
-    const mapAlign = (idx) => colAlign[idx] || "left";
     const heads = [
-      { text: "Date", classes: mapAlign(0) !== "left" ? `nhsuk-table__header--align-${mapAlign(0)}` : void 0 },
-      ...autoTableFromSeries.map((s, i) => ({
+      { text: "Date", classes: "nhsuk-table__header--align-left" },
+      ...autoTableFromSeries.map((s) => ({
         text: s.label || s.id,
-        format: "numeric",
-        classes: mapAlign(i + 1) !== "left" ? `nhsuk-table__header--align-${mapAlign(i + 1)}` : void 0
+        classes: "nhsuk-table__header--align-left"
       }))
     ];
     const longest = autoTableFromSeries.reduce((a, b) => b.data.length > a.data.length ? b : a, autoTableFromSeries[0]);
     const rows = longest.data.map((d, rowIdx) => {
-      const dateCell = { text: new Date(d.x).toLocaleDateString(), classes: mapAlign(0) !== "left" ? `nhsuk-table__cell--align-${mapAlign(0)}` : void 0 };
-      const seriesCells = autoTableFromSeries.map((s, sIdx) => {
-        const point2 = s.data[rowIdx];
-        const yVal = point2 ? point2.y : void 0;
+      const dateCell = { text: new Date(d.x).toLocaleDateString(), classes: "nhsuk-table__cell--align-left" };
+      const seriesCells = autoTableFromSeries.map((s) => {
+        const point3 = s.data[rowIdx];
+        const yVal = point3 ? point3.y : void 0;
         return {
           text: yVal === void 0 || yVal === null ? "\u2013" : String(yVal),
-          format: "numeric",
-          classes: mapAlign(sIdx + 1) !== "left" ? `nhsuk-table__cell--align-${mapAlign(sIdx + 1)}` : void 0,
+          classes: "nhsuk-table__cell--align-left",
           header: s.label || s.id
         };
       });
@@ -4109,9 +4722,9 @@ var ChartWithTableTabs = ({
         console.warn("CSV download failed", e);
       }
     };
-    resolvedTable = /* @__PURE__ */ jsxs9("div", { className: "fdp-chart__auto-table", children: [
-      enableDownload && /* @__PURE__ */ jsx13("div", { className: "fdp-chart__download-row", children: /* @__PURE__ */ jsx13(Button_default, { variant: "secondary", onClick: handleDownload, size: "small", children: "Download CSV" }) }),
-      /* @__PURE__ */ jsx13(
+    resolvedTable = /* @__PURE__ */ jsxs10("div", { className: "fdp-chart__auto-table", children: [
+      enableDownload && /* @__PURE__ */ jsx17("div", { className: "fdp-chart__download-row", children: /* @__PURE__ */ jsx17(Button_default, { variant: "secondary", onClick: handleDownload, size: "small", children: "Download CSV" }) }),
+      /* @__PURE__ */ jsx17(
         Table_default,
         {
           caption: `${title} data`,
@@ -4125,7 +4738,7 @@ var ChartWithTableTabs = ({
   const hasTable = !!resolvedTable && !hideTable;
   const shouldUseTabs = !disableTabs && hasTable;
   if (!shouldUseTabs) {
-    return /* @__PURE__ */ jsx13(
+    return /* @__PURE__ */ jsx17(
       ChartContainer_default,
       {
         title,
@@ -4145,7 +4758,7 @@ var ChartWithTableTabs = ({
     {
       id: "chart",
       label: chartTabLabel,
-      content: /* @__PURE__ */ jsx13(
+      content: /* @__PURE__ */ jsx17(
         ChartContainer_default,
         {
           title,
@@ -4164,11 +4777,11 @@ var ChartWithTableTabs = ({
     {
       id: "table",
       label: tableTabLabel,
-      content: /* @__PURE__ */ jsx13("div", { className: "fdp-chart-table-wrapper", "aria-label": `${title} data table`, children: resolvedTable })
+      content: /* @__PURE__ */ jsx17("div", { className: "fdp-chart-table-wrapper", "aria-label": `${title} data table`, children: resolvedTable })
     }
   ];
   const items = additionalTabs ? [...baseTabs, ...additionalTabs] : baseTabs;
-  return /* @__PURE__ */ jsx13("div", { className: "fdp-chart-tabs", "data-chart-with-table": true, children: /* @__PURE__ */ jsx13(
+  return /* @__PURE__ */ jsx17("div", { className: "fdp-chart-tabs", "data-chart-with-table": true, children: /* @__PURE__ */ jsx17(
     Tabs,
     {
       items,
@@ -4186,10 +4799,10 @@ var ChartWithTableTabs = ({
 var ChartWithTableTabs_default = ChartWithTableTabs;
 
 // src/components/DataVisualisation/primitives/Legend.tsx
-import * as React12 from "react";
-import { jsx as jsx14, jsxs as jsxs10 } from "react/jsx-runtime";
+import * as React14 from "react";
+import { jsx as jsx18, jsxs as jsxs11 } from "react/jsx-runtime";
 var Legend = ({
-  items,
+  items: itemsProp,
   palette = "categorical",
   direction = "row",
   interactive = false,
@@ -4199,12 +4812,25 @@ var Legend = ({
   onVisibilityChange,
   formatAnnouncement
 }) => {
+  const visibility = useVisibility();
+  const contextInteractive = !!(visibility && !interactive && !onVisibilityChange && hiddenIds === void 0);
+  const effectiveInteractive = interactive || contextInteractive;
+  const items = itemsProp || [];
   const controlled = hiddenIds !== void 0;
-  const [internalHidden, setInternalHidden] = React12.useState(new Set(defaultHiddenIds));
+  const [internalHidden, setInternalHidden] = React14.useState(new Set(defaultHiddenIds));
   const effectiveHidden = controlled ? new Set(hiddenIds) : internalHidden;
-  const [announcement, setAnnouncement] = React12.useState("");
+  const [announcement, setAnnouncement] = React14.useState("");
   const toggle = (id) => {
-    if (!interactive) return;
+    if (contextInteractive && visibility) {
+      const wasHidden2 = visibility.isHidden(id);
+      visibility.toggle(id);
+      const item2 = items.find((i) => i.id === id);
+      const label2 = (item2 == null ? void 0 : item2.label) || id;
+      const msg2 = formatAnnouncement ? formatAnnouncement(id, wasHidden2, label2) : `${label2} ${wasHidden2 ? "shown" : "hidden"}`;
+      setAnnouncement(msg2);
+      return;
+    }
+    if (!effectiveInteractive) return;
     const next = new Set(effectiveHidden);
     const wasHidden = next.has(id);
     if (wasHidden) next.delete(id);
@@ -4218,8 +4844,8 @@ var Legend = ({
     const msg = formatAnnouncement ? formatAnnouncement(id, wasHidden, label) : `${label} ${wasHidden ? "shown" : "hidden"}`;
     setAnnouncement(msg);
   };
-  return /* @__PURE__ */ jsxs10("div", { className: "fdp-legend-wrapper", children: [
-    /* @__PURE__ */ jsx14("ul", { className: `fdp-legend fdp-legend--${direction}`, children: items.map((item, i) => {
+  return /* @__PURE__ */ jsxs11("div", { className: "fdp-legend-wrapper", children: [
+    /* @__PURE__ */ jsx18("ul", { className: `fdp-legend fdp-legend--${direction}`, children: items.map((item, i) => {
       const fill = item.color || (palette === "region" ? pickRegionColor(item.id, i) : pickSeriesColor(i));
       let stroke = item.stroke || (palette === "region" ? pickRegionStroke(item.id, i) : pickSeriesStroke(i));
       if (adjustStrokeForWhiteBackground && stroke) {
@@ -4228,14 +4854,14 @@ var Legend = ({
           stroke = "#212b32";
         }
       }
-      const hidden = effectiveHidden.has(item.id);
-      const btnProps = interactive ? {
+      const hidden = contextInteractive && visibility ? visibility.isHidden(item.id) : effectiveHidden.has(item.id);
+      const btnProps = effectiveInteractive ? {
         "aria-pressed": !hidden,
         "aria-label": `${item.label} (${hidden ? "show" : "hide"})`,
         onClick: () => toggle(item.id)
       } : { "aria-label": item.label };
-      return /* @__PURE__ */ jsxs10("li", { className: `fdp-legend__item${hidden ? " fdp-legend__item--hidden" : ""}`, children: [
-        /* @__PURE__ */ jsx14(
+      return /* @__PURE__ */ jsxs11("li", { className: `fdp-legend__item${hidden ? " fdp-legend__item--hidden" : ""}`, children: [
+        /* @__PURE__ */ jsx18(
           "button",
           {
             type: "button",
@@ -4244,17 +4870,17 @@ var Legend = ({
             ...btnProps
           }
         ),
-        /* @__PURE__ */ jsx14("span", { className: "fdp-legend__label", children: item.label })
+        /* @__PURE__ */ jsx18("span", { className: "fdp-legend__label", children: item.label })
       ] }, item.id);
     }) }),
-    interactive && /* @__PURE__ */ jsx14("div", { className: "fdp-visually-hidden", "aria-live": "polite", "aria-atomic": "true", children: announcement })
+    effectiveInteractive && /* @__PURE__ */ jsx18("div", { className: "fdp-visually-hidden", "aria-live": "polite", "aria-atomic": "true", children: announcement })
   ] });
 };
 var Legend_default = Legend;
 
 // src/components/DataVisualisation/FilterableLineChart.tsx
-import * as React13 from "react";
-import { jsx as jsx15, jsxs as jsxs11 } from "react/jsx-runtime";
+import * as React15 from "react";
+import { jsx as jsx19, jsxs as jsxs12 } from "react/jsx-runtime";
 var FilterableLineChart = ({
   series,
   legendPosition = "top",
@@ -4266,19 +4892,19 @@ var FilterableLineChart = ({
   palette = "categorical",
   ...lineChartProps
 }) => {
-  const coloured = React13.useMemo(() => assignColors ? assignSeriesColors(series, { palette }) : series, [series, assignColors, palette]);
+  const coloured = React15.useMemo(() => assignColors ? assignSeriesColors(series, { palette }) : series, [series, assignColors, palette]);
   const controlled = hiddenIds !== void 0;
-  const [internalHidden, setInternalHidden] = React13.useState(new Set(initialHiddenIds));
+  const [internalHidden, setInternalHidden] = React15.useState(new Set(initialHiddenIds));
   const hiddenSet = controlled ? new Set(hiddenIds) : internalHidden;
-  const visibleSeries = React13.useMemo(() => coloured.filter((s) => !hiddenSet.has(s.id)), [coloured, hiddenSet]);
-  const handleVisibilityChange = React13.useCallback((_visibleIds, nextHiddenIds) => {
+  const visibleSeries = React15.useMemo(() => coloured.filter((s) => !hiddenSet.has(s.id)), [coloured, hiddenSet]);
+  const handleVisibilityChange = React15.useCallback((_visibleIds, nextHiddenIds) => {
     if (!controlled) setInternalHidden(new Set(nextHiddenIds));
     const visibleIds = coloured.filter((s) => !nextHiddenIds.includes(s.id)).map((s) => s.id);
     onHiddenChange == null ? void 0 : onHiddenChange(nextHiddenIds, visibleIds);
   }, [controlled, coloured, onHiddenChange]);
-  const legendItems = React13.useMemo(() => coloured.map((s) => ({ id: s.id, label: s.label || s.id, color: s.color })), [coloured]);
-  const chartEl = /* @__PURE__ */ jsx15(LineChart_default, { ...lineChartProps, series: visibleSeries, palette });
-  const legendEl = /* @__PURE__ */ jsx15(
+  const legendItems = React15.useMemo(() => coloured.map((s) => ({ id: s.id, label: s.label || s.id, color: s.color })), [coloured]);
+  const chartEl = /* @__PURE__ */ jsx19(LineChart_default, { ...lineChartProps, series: visibleSeries, palette });
+  const legendEl = /* @__PURE__ */ jsx19(
     Legend_default,
     {
       ...legendProps,
@@ -4289,15 +4915,294 @@ var FilterableLineChart = ({
       onVisibilityChange: handleVisibilityChange
     }
   );
-  return /* @__PURE__ */ jsxs11("div", { className: "fdp-filterable-line-chart", children: [
+  return /* @__PURE__ */ jsxs12("div", { className: "fdp-filterable-line-chart", children: [
     legendPosition === "top" && legendEl,
     chartEl,
     legendPosition === "bottom" && legendEl
   ] });
 };
 var FilterableLineChart_default = FilterableLineChart;
+
+// src/components/DataVisualisation/series/AreaSeriesPrimitive.tsx
+import * as React16 from "react";
+import { jsx as jsx20, jsxs as jsxs13 } from "react/jsx-runtime";
+var AreaSeriesPrimitive = ({
+  series,
+  seriesIndex,
+  palette,
+  parseX,
+  areaOnly = false,
+  visibilityMode = "remove",
+  baselineY = 0,
+  smooth = true
+}) => {
+  var _a;
+  const scaleCtx = useScaleContext();
+  if (!scaleCtx) return null;
+  const { xScale, yScale } = scaleCtx;
+  const visibility = useVisibility();
+  const isHidden = (_a = visibility == null ? void 0 : visibility.isHidden(series.id)) != null ? _a : false;
+  const faded = isHidden && visibilityMode === "fade";
+  if (isHidden && visibilityMode === "remove") return null;
+  const tooltip = useTooltipContext();
+  React16.useEffect(() => {
+    if (!tooltip) return;
+    const normalized = series.data.map((d) => ({ x: parseX(d), y: d.y }));
+    tooltip.registerSeries(series.id, normalized);
+    return () => tooltip.unregisterSeries(series.id);
+  }, [tooltip, series.id, series.data, parseX]);
+  const color2 = series.color || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
+  const linePath = React16.useMemo(() => createLinePath(series.data, (d) => xScale(parseX(d)), (d) => yScale(d.y), { smooth }), [series.data, xScale, yScale, parseX, smooth]);
+  const areaPath = React16.useMemo(() => {
+    const gen = area_default().x((d) => xScale(parseX(d))).y0(() => yScale(baselineY)).y1((d) => yScale(d.y));
+    if (smooth) gen.curve(monotoneX);
+    return gen(series.data) || "";
+  }, [series.data, xScale, yScale, parseX, baselineY, smooth]);
+  return /* @__PURE__ */ jsxs13("g", { className: "fdp-area-series", "data-series": series.id, opacity: faded ? 0.25 : 1, "aria-hidden": faded ? true : void 0, children: [
+    /* @__PURE__ */ jsx20("path", { d: areaPath, fill: color2, fillOpacity: 0.25, stroke: "none" }),
+    !areaOnly && /* @__PURE__ */ jsx20("path", { d: linePath, fill: "none", stroke: color2, strokeWidth: 1 })
+  ] });
+};
+var AreaSeriesPrimitive_default = AreaSeriesPrimitive;
+
+// src/components/DataVisualisation/series/BarSeriesPrimitive.tsx
+import * as React17 from "react";
+import { jsx as jsx21 } from "react/jsx-runtime";
+var BarSeriesPrimitive = ({
+  series,
+  seriesIndex,
+  seriesCount,
+  palette,
+  parseX,
+  focusable = true,
+  widthFactor = 0.8,
+  groupGap = 2,
+  barWidth,
+  adaptive = false,
+  adaptiveGroupOccupancy = 0.9,
+  visibilityMode = "remove",
+  colorMode = "series",
+  allSeries
+}) => {
+  var _a;
+  const scaleCtx = useScaleContext();
+  const chartDims = useChartContext();
+  if (!scaleCtx || !chartDims) return null;
+  const { xScale, yScale } = scaleCtx;
+  const visibility = useVisibility();
+  const isHidden = (_a = visibility == null ? void 0 : visibility.isHidden(series.id)) != null ? _a : false;
+  const faded = isHidden && visibilityMode === "fade";
+  if (isHidden && visibilityMode === "remove") return null;
+  const tooltip = useTooltipContext();
+  React17.useEffect(() => {
+    if (!tooltip) return;
+    const normalized = series.data.map((d) => ({ x: parseX(d), y: d.y }));
+    tooltip.registerSeries(series.id, normalized);
+    return () => tooltip.unregisterSeries(series.id);
+  }, [tooltip, series.id, series.data, parseX]);
+  const isBandScale = typeof xScale.bandwidth === "function";
+  const bandwidth = isBandScale ? xScale.bandwidth() : void 0;
+  const inferredPixelWidth = React17.useMemo(() => {
+    if (bandwidth != null) return bandwidth;
+    const sourceSeries = allSeries && allSeries.length ? allSeries : [series];
+    const posSet = [];
+    sourceSeries.forEach((s) => {
+      s.data.forEach((d) => {
+        const v = xScale(parseX(d));
+        if (Number.isFinite(v)) posSet.push(v);
+      });
+    });
+    const pxPositions = posSet.sort((a, b) => a - b);
+    if (pxPositions.length <= 1) return 40;
+    const diffs = [];
+    for (let i = 1; i < pxPositions.length; i++) diffs.push(pxPositions[i] - pxPositions[i - 1]);
+    diffs.sort((a, b) => a - b);
+    const median = diffs[Math.floor(diffs.length / 2)] || 40;
+    return median * widthFactor;
+  }, [series.data, allSeries, xScale, parseX, widthFactor, bandwidth]);
+  const { groupTotalWidth, basePerBar } = React17.useMemo(() => {
+    var _a2, _b;
+    if (isBandScale) {
+      const bw = inferredPixelWidth;
+      const autoPerBar = Math.max(1, (bw - groupGap * (seriesCount - 1)) / seriesCount);
+      const explicit2 = (_a2 = series.barWidth) != null ? _a2 : barWidth;
+      let finalPerBar = explicit2 ? Math.min(explicit2, bw) : autoPerBar;
+      if (adaptive) {
+        const targetGroup = bw * Math.min(1, Math.max(0.05, adaptiveGroupOccupancy));
+        const adaptedPerBar = Math.max(1, (targetGroup - groupGap * (seriesCount - 1)) / seriesCount);
+        finalPerBar = explicit2 ? Math.min(finalPerBar, adaptedPerBar) : adaptedPerBar;
+      }
+      const total2 = finalPerBar * seriesCount + groupGap * (seriesCount - 1);
+      return { groupTotalWidth: total2, basePerBar: finalPerBar };
+    }
+    const explicit = (_b = series.barWidth) != null ? _b : barWidth;
+    const maxAutoPer = Math.max(1, (inferredPixelWidth - groupGap * (seriesCount - 1)) / seriesCount);
+    if (adaptive) {
+      const sourceSeries = allSeries && allSeries.length ? allSeries : [series];
+      const positions = [];
+      sourceSeries.forEach((s) => s.data.forEach((d) => {
+        const v = xScale(parseX(d));
+        if (Number.isFinite(v)) positions.push(v);
+      }));
+      positions.sort((a, b) => a - b);
+      const diffs = [];
+      for (let i = 1; i < positions.length; i++) diffs.push(positions[i] - positions[i - 1]);
+      diffs.sort((a, b) => a - b);
+      const step = diffs[Math.floor(diffs.length / 2)] || inferredPixelWidth;
+      const targetGroup = step * Math.min(1, Math.max(0.05, adaptiveGroupOccupancy));
+      const adaptivePer = Math.max(1, (targetGroup - groupGap * (seriesCount - 1)) / seriesCount);
+      const finalPer = explicit ? Math.min(explicit, adaptivePer) : adaptivePer;
+      const total2 = finalPer * seriesCount + groupGap * (seriesCount - 1);
+      return { groupTotalWidth: total2, basePerBar: finalPer };
+    }
+    if (explicit) {
+      const finalPer = Math.min(explicit, maxAutoPer);
+      const total2 = finalPer * seriesCount + groupGap * (seriesCount - 1);
+      return { groupTotalWidth: total2, basePerBar: finalPer };
+    }
+    const total = maxAutoPer * seriesCount + groupGap * (seriesCount - 1);
+    return { groupTotalWidth: total, basePerBar: maxAutoPer };
+  }, [isBandScale, inferredPixelWidth, groupGap, seriesCount, barWidth, series.barWidth, adaptive, adaptiveGroupOccupancy, allSeries, xScale, parseX]);
+  const globalCenters = React17.useMemo(() => {
+    if (isBandScale) return [];
+    const pts = [];
+    const src = allSeries && allSeries.length ? allSeries : [series];
+    src.forEach((s) => s.data.forEach((pt) => {
+      const v = xScale(parseX(pt));
+      if (Number.isFinite(v)) pts.push(v);
+    }));
+    pts.sort((a, b) => a - b);
+    return Array.from(new Set(pts));
+  }, [isBandScale, allSeries, series, xScale, parseX]);
+  const uniformContinuousBarWidth = React17.useMemo(() => {
+    if (isBandScale) return void 0;
+    if (!globalCenters.length) return basePerBar;
+    const steps = [];
+    for (let i = 1; i < globalCenters.length; i++) steps.push(globalCenters[i] - globalCenters[i - 1]);
+    steps.sort((a, b) => a - b);
+    const medianStep = steps.length ? steps[Math.floor(steps.length / 2)] : basePerBar * seriesCount + groupGap * (seriesCount - 1);
+    const pseudoFirstPrev = globalCenters[0] - medianStep;
+    const pseudoLastNext = globalCenters[globalCenters.length - 1] + medianStep;
+    const localSpans = [];
+    for (let i = 0; i < globalCenters.length; i++) {
+      const c = globalCenters[i];
+      const prev = i > 0 ? globalCenters[i - 1] : pseudoFirstPrev;
+      const next = i < globalCenters.length - 1 ? globalCenters[i + 1] : pseudoLastNext;
+      const leftBound = (prev + c) / 2;
+      const rightBound = (c + next) / 2;
+      localSpans.push(Math.max(1, rightBound - leftBound));
+    }
+    const minLocalSpan = Math.min(...localSpans);
+    const desiredGroupWidth = medianStep * Math.min(1, Math.max(0.05, adaptiveGroupOccupancy));
+    const finalGroupWidth = Math.min(desiredGroupWidth, minLocalSpan - 0.5, groupTotalWidth);
+    const per = Math.max(1, (finalGroupWidth - groupGap * (seriesCount - 1)) / seriesCount);
+    return Math.min(per, basePerBar);
+  }, [isBandScale, globalCenters, basePerBar, groupTotalWidth, seriesCount, groupGap, adaptiveGroupOccupancy]);
+  const baseSeriesColor = series.color || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
+  const baseSeriesStroke = palette === "region" ? pickRegionStroke(series.id, seriesIndex) : pickSeriesStroke(seriesIndex);
+  const baselineY = Number.isFinite(yScale(0)) ? yScale(0) : yScale.range()[0];
+  return /* @__PURE__ */ jsx21("g", { className: "fdp-bar-series", "data-series": series.id, opacity: faded ? 0.25 : 1, "aria-hidden": faded ? true : void 0, children: series.data.map((d, di) => {
+    var _a2;
+    const rawX = parseX(d);
+    const xPos = isBandScale ? xScale(d.x) : xScale(rawX);
+    let barX;
+    let barWidth2;
+    if (isBandScale) {
+      const groupWidth = inferredPixelWidth;
+      const available = groupWidth - (seriesCount - 1) * groupGap;
+      barWidth2 = Math.max(1, available / seriesCount);
+      barX = xPos + seriesIndex * (barWidth2 + groupGap);
+    } else {
+      const xCenter = xPos;
+      const centerIndex = globalCenters.indexOf(xCenter);
+      let prevCenter = centerIndex > 0 ? globalCenters[centerIndex - 1] : globalCenters[0] - (uniformContinuousBarWidth * seriesCount + groupGap * (seriesCount - 1)) / Math.max(0.05, adaptiveGroupOccupancy);
+      let nextCenter = centerIndex < globalCenters.length - 1 ? globalCenters[centerIndex + 1] : globalCenters[globalCenters.length - 1] + (uniformContinuousBarWidth * seriesCount + groupGap * (seriesCount - 1)) / Math.max(0.05, adaptiveGroupOccupancy);
+      const leftBound = (prevCenter + xCenter) / 2;
+      const rightBound = (xCenter + nextCenter) / 2;
+      const per = uniformContinuousBarWidth != null ? uniformContinuousBarWidth : basePerBar;
+      const totalGroup = per * seriesCount + groupGap * (seriesCount - 1);
+      let groupLeft = xCenter - totalGroup / 2;
+      if (groupLeft < leftBound) groupLeft = leftBound;
+      if (groupLeft + totalGroup > rightBound) groupLeft = Math.max(leftBound, rightBound - totalGroup);
+      barX = groupLeft + seriesIndex * (per + groupGap);
+      barWidth2 = per;
+    }
+    const barCenterX = barX + barWidth2 / 2;
+    const valueY = yScale(d.y);
+    const y2 = Math.min(baselineY, valueY);
+    const height = Math.abs(baselineY - valueY);
+    const isFocused = !faded && ((_a2 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a2.seriesId) === series.id && tooltip.focused.index === di;
+    const onEnter = () => {
+      if (!tooltip || faded) return;
+      tooltip.setFocused({ seriesId: series.id, index: di, x: rawX, y: d.y, clientX: barCenterX, clientY: valueY });
+    };
+    const onLeave = () => {
+      var _a3;
+      if (((_a3 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a3.seriesId) === series.id && tooltip.focused.index === di) tooltip.clear();
+    };
+    return /* @__PURE__ */ jsx21(
+      "rect",
+      {
+        x: barX,
+        y: y2,
+        width: barWidth2,
+        height: height || 1,
+        fill: colorMode === "category" ? palette === "region" ? pickRegionColor(String(d.x), di) : pickSeriesColor(di) : baseSeriesColor,
+        stroke: isFocused ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : colorMode === "category" ? palette === "region" ? pickRegionStroke(String(d.x), di) : pickSeriesStroke(di) : baseSeriesStroke,
+        strokeWidth: isFocused ? 2 : 1,
+        className: "fdp-bar",
+        tabIndex: faded || !focusable ? -1 : 0,
+        role: "graphics-symbol",
+        "aria-label": `${series.label || series.id} ${rawX instanceof Date ? rawX.toDateString() : rawX} value ${d.y}`,
+        onMouseEnter: onEnter,
+        onFocus: onEnter,
+        onMouseLeave: onLeave,
+        onBlur: onLeave
+      },
+      di
+    );
+  }) });
+};
+var BarSeriesPrimitive_default = BarSeriesPrimitive;
+
+// src/components/DataVisualisation/core/BandScalesProvider.tsx
+import * as React18 from "react";
+import { jsx as jsx22 } from "react/jsx-runtime";
+var BandScalesProvider = ({
+  series,
+  innerWidth: iw,
+  innerHeight: ih,
+  paddingInner = 0.1,
+  paddingOuter = 0.05,
+  children,
+  yTickCount = 5
+}) => {
+  var _a, _b;
+  const chart = useChartContext();
+  const innerWidth = (_a = iw != null ? iw : chart == null ? void 0 : chart.innerWidth) != null ? _a : 0;
+  const innerHeight = (_b = ih != null ? ih : chart == null ? void 0 : chart.innerHeight) != null ? _b : 0;
+  const allData = React18.useMemo(() => series.flatMap((s) => s.data), [series]);
+  const xDomain = React18.useMemo(() => {
+    const set = /* @__PURE__ */ new Set();
+    allData.forEach((d) => set.add(d.x));
+    return Array.from(set);
+  }, [allData]);
+  const yMax = React18.useMemo(() => Math.max(0, ...allData.map((d) => d.y)), [allData]);
+  const xScale = React18.useMemo(() => band().domain(xDomain).range([0, innerWidth]).paddingInner(paddingInner).paddingOuter(paddingOuter), [xDomain, innerWidth, paddingInner, paddingOuter]);
+  const yScale = React18.useMemo(() => linear2().domain([0, yMax]).nice().range([innerHeight, 0]), [yMax, innerHeight]);
+  const value = React18.useMemo(() => ({
+    xScale,
+    yScale,
+    getXTicks: () => xDomain,
+    getYTicks: (c = yTickCount) => yScale.ticks(c)
+  }), [xScale, yScale, xDomain, yTickCount]);
+  return /* @__PURE__ */ jsx22(ScaleContext_default.Provider, { value, children });
+};
 export {
+  AreaSeriesPrimitive_default as AreaSeriesPrimitive,
   Axis_default as Axis,
+  BandScalesProvider,
+  BarSeriesPrimitive_default as BarSeriesPrimitive,
   ChartContainer_default as ChartContainer,
   ChartRoot_default as ChartRoot,
   ChartWithTableTabs_default as ChartWithTableTabs,
@@ -4307,7 +5212,13 @@ export {
   LineChart_default as LineChart,
   LineScalesProvider,
   LineSeriesPrimitive_default as LineSeriesPrimitive,
-  useScaleContext
+  TooltipOverlay_default as TooltipOverlay,
+  TooltipProvider,
+  VisibilityProvider,
+  VisuallyHiddenLiveRegion_default as VisuallyHiddenLiveRegion,
+  useScaleContext,
+  useTooltipContext,
+  useVisibility
 };
 /*! Bundled license information:
 

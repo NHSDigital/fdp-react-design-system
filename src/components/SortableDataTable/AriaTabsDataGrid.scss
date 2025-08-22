@@ -177,7 +177,7 @@ $atd-breakpoints: (
 
 	&:hover:not(&--disabled) {
 	  background: nhs.$nhs-fdp-color-grey-3; // Lighter grey for better visual progression
-	  color: $color-primary;
+	  color: nhs.$nhs-fdp-semantic-color-link-active;
 	}
 
 	&:focus {
@@ -195,7 +195,7 @@ $atd-breakpoints: (
 
 	&--selected {
 	  background: nhs.$nhs-fdp-color-grey-5;
-	  color: $color-primary;
+	  color: nhs.$nhs-fdp-semantic-color-link-active;
 	  border-top: 2px solid $color-primary;
 	  border-left: 2px solid $color-primary;
 	  border-right: 2px solid $color-primary;

@@ -40,16 +40,14 @@ $nhs-font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallba
     line-height: nhs.$nhs-fdp-font-line-height-base;
     margin: 0;
     margin-bottom: nhs.$nhs-fdp-spacing-2;
-    margin-right: -(nhs.$nhs-fdp-spacing-4);
     padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-4;
     position: relative;
-    left: -(nhs.$nhs-fdp-spacing-4 + nhs.$nhs-fdp-border-width-form-element);
+    left: 0; // aligned with component left edge
     top: -(nhs.$nhs-fdp-spacing-2);
 
     @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
       font-size: nhs.$nhs-fdp-font-size-22-tablet;
-      left: -(nhs.$nhs-fdp-spacing-5 + nhs.$nhs-fdp-border-width-form-element);
-      margin-right: -(nhs.$nhs-fdp-spacing-5);
+      left: 0; // maintain alignment on larger screens
       padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-5;
       top: -(nhs.$nhs-fdp-spacing-3);
     }

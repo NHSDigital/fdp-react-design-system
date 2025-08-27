@@ -114,7 +114,6 @@ export const ChartWithTableTabs: React.FC<ChartWithTableTabsProps> = ({
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.warn('CSV download failed', e);
       }
     };

@@ -287,10 +287,8 @@ function buildRegionMap(): Record<string,string> {
   });
   if (process.env.NODE_ENV !== 'production') {
     if (Object.keys(map).length === 0) {
-      // eslint-disable-next-line no-console
-      console.warn('[DataViz] Region colour tokens unresolved – falling back to categorical colours.');
+      console.warn('[DataViz] Region colour tokens unresolved  falling back to categorical colours.');
     } else if (missing.length) {
-      // eslint-disable-next-line no-console
       console.warn(`[DataViz] Missing region colour tokens: ${missing.join(', ')}.`);
     }
   }

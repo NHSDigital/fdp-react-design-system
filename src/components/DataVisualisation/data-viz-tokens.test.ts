@@ -1,8 +1,6 @@
 import { describe, it, expect } from 'vitest';
 // Tokens are raw JSON; import via require to avoid build transforms
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const dataViz = require('../../../packages/nhs-fdp/tokens/data-viz.json');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const semanticDataViz = require('../../../packages/nhs-fdp/tokens/semantic-data-viz.json');
 
 function get(obj: any, path: string) {

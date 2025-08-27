@@ -3505,7 +3505,7 @@ function buildRegionMap() {
   });
   if (true) {
     if (Object.keys(map2).length === 0) {
-      console.warn("[DataViz] Region colour tokens unresolved \u2013 falling back to categorical colours.");
+      console.warn("[DataViz] Region colour tokens unresolved  falling back to categorical colours.");
     } else if (missing.length) {
       console.warn(`[DataViz] Missing region colour tokens: ${missing.join(", ")}.`);
     }

@@ -1006,6 +1006,11 @@ var AriaTabsDataGrid = forwardRef2(
       errorComponent,
       "data-testid": dataTestId
     } = props;
+    const baseIdRef = useRef3(id || `aria-tabs-datagrid-${Math.random().toString(36).slice(2, 9)}`);
+    const baseId = baseIdRef.current;
+    const descriptionLooksLikeId = typeof ariaDescription === "string" && ariaDescription.trim() !== "" && !/\s/.test(ariaDescription);
+    const generatedDescriptionId = `${baseId}-description`;
+    const navigationHelpId = `${baseId}-navigation-help`;
     const {
       dataComparator = (a, b) => JSON.stringify(a) === JSON.stringify(b),
       filterFunction = (data) => data,
@@ -1431,8 +1436,8 @@ var AriaTabsDataGrid = forwardRef2(
         id,
         "data-testid": dataTestId,
         children: [
-          ariaDescription && /* @__PURE__ */ jsx5("div", { id: `${id}-description`, className: "nhsuk-u-visually-hidden", children: ariaDescription }),
-          /* @__PURE__ */ jsx5("div", { className: "aria-tabs-datagrid__navigation-help sr-only", id: `${id}-navigation-help`, children: "Keyboard navigation: Use Tab to move between tabs and grid. Arrow keys navigate within tabs and grid cells. Enter activates tabs and sorts columns. Arrow Down from tabs moves to table headers. Arrow Down from headers moves to table cells. Use Arrow keys to navigate between cells." }),
+          ariaDescription && !descriptionLooksLikeId && /* @__PURE__ */ jsx5("div", { id: generatedDescriptionId, className: "nhsuk-u-visually-hidden", children: ariaDescription }),
+          /* @__PURE__ */ jsx5("div", { className: "aria-tabs-datagrid__navigation-help sr-only", id: navigationHelpId, children: "Keyboard navigation: Use Tab to move between tabs and grid. Arrow keys navigate within tabs and grid cells. Enter activates tabs and sorts columns. Arrow Down from tabs moves to table headers. Arrow Down from headers moves to table cells. Use Arrow keys to navigate between cells." }),
           /* @__PURE__ */ jsx5(
             SortStatusControl,
             {
@@ -1454,7 +1459,12 @@ var AriaTabsDataGrid = forwardRef2(
             {
               role: "tablist",
               "aria-label": ariaLabel,
-              "aria-describedby": `${ariaDescription ? `${id}-description` : ""} ${id ? `${id}-navigation-help` : ""}`.trim() || void 0,
+              "aria-describedby": (() => {
+                if (ariaDescription) {
+                  return descriptionLooksLikeId ? ariaDescription : generatedDescriptionId;
+                }
+                return navigationHelpId;
+              })(),
               "aria-orientation": orientation,
               className: "aria-tabs-datagrid__tabs",
               children: tabPanels.map((panel, index) => {

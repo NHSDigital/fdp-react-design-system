@@ -1,0 +1,3812 @@
+{
+  "totalComponents": 149,
+  "fullyCompatible": 135,
+  "compatibleWithHydration": 3,
+  "clientOnly": 1,
+  "requiresRefactoring": 10,
+  "components": [
+    {
+      "name": "Account",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Account/Account.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Account.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Account/Account.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ActionLink",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ActionLink/ActionLink.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ActionLink.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ActionLink/ActionLink.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "BackLink",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/BackLink/BackLink.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "BackLink.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/BackLink/BackLink.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ForwardLink",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/BackLink/ForwardLink.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Breadcrumb",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Breadcrumb/Breadcrumb.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Breadcrumb.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Breadcrumb/Breadcrumb.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Button.test-types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/Button.test-types.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Button",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/Button.tsx",
+      "compatibilityLevel": "compatible-with-hydration",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": true,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Button.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/Button.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ButtonExamples",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/ButtonExamples.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ButtonSSR",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/ButtonSSR.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Card.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Card/Card.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "CareCard.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/CareCard/CareCard.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "CharacterCount",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/CharacterCount/CharacterCount.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 39,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "CharacterCount.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/CharacterCount/CharacterCount.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Checkbox",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkbox/Checkbox.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 56,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Checkbox.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkbox/Checkbox.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Checkboxes.styles",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.styles.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Checkboxes",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Checkboxes.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "CheckboxesCSS",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkboxes/CheckboxesCSS.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ContentsList",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ContentsList/ContentsList.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ContentsList.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ContentsList/ContentsList.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "DashboardSummaryGrid.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DashboardSummaryGrid/DashboardSummaryGrid.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ChartWithTableTabs",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/ChartWithTableTabs.tsx",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "document-object",
+          "line": 107,
+          "code": "const link = document.createElement('a');",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 112,
+          "code": "document.body.appendChild(link);",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 114,
+          "code": "document.body.removeChild(link);",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": false,
+      "usesBrowserAPIs": true,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
+      "name": "FilterableLineChart",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/FilterableLineChart.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "LineChart",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/charts/LineChart.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "BandScalesProvider",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/BandScalesProvider.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ChartRoot",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/ChartRoot.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ScaleContext",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/ScaleContext.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "TooltipContext",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/TooltipContext.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 90,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "VisibilityContext",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/VisibilityContext.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "useChartDimensions",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/hooks/useChartDimensions.ts",
+      "compatibilityLevel": "client-only",
+      "issues": [
+        {
+          "type": "useLayoutEffect",
+          "line": 23,
+          "code": "React.useLayoutEffect(() => {",
+          "severity": "high",
+          "description": "useLayoutEffect does not run during SSR",
+          "suggestion": "Add SSR guard or use useEffect with proper fallbacks",
+          "canAutoFix": true
+        },
+        {
+          "type": "resize-observer",
+          "line": 25,
+          "code": "const ro = new ResizeObserver(entries => {",
+          "severity": "high",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "wrap-use-client",
+          "description": "Wrap component with \"use client\" directive",
+          "automated": true,
+          "complexity": "low",
+          "example": "'use client';\n\nimport React from 'react';"
+        }
+      ]
+    },
+    {
+      "name": "useFocusNav",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/hooks/useFocusNav.ts",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 17,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "window-object",
+          "line": 18,
+          "code": "window.addEventListener('keydown', onKey);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 18,
+          "code": "window.addEventListener('keydown', onKey);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 19,
+          "code": "return () => window.removeEventListener('keydown', onKey);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
+      "name": "Axis",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/Axis.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ChartContainer",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/ChartContainer.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "GridLines",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/GridLines.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "TooltipOverlay",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/TooltipOverlay.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "VisuallyHiddenLiveRegion",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/VisuallyHiddenLiveRegion.tsx",
+      "compatibilityLevel": "compatible-with-hydration",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 14,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": true,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "AreaSeriesPrimitive",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/series/AreaSeriesPrimitive.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 49,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "BarSeriesPrimitive",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/series/BarSeriesPrimitive.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 66,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "LineSeriesPrimitive",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/series/LineSeriesPrimitive.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 53,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "colors",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/utils/colors.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "scales",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/utils/scales.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "DateInput",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DateInput/DateInput.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "DateInput.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DateInput/DateInput.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Details",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Details/Details.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "DoDontList",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DoDontList/DoDontList.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ErrorMessage",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ErrorMessage/ErrorMessage.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ErrorMessage.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ErrorMessage/ErrorMessage.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ErrorSummary",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 19,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ErrorSummary.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Expander",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Expander/Expander.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Fieldset",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Fieldset/Fieldset.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Fieldset.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Fieldset/Fieldset.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "FontDebugger",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/FontDebugger.tsx",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 11,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "document-object",
+          "line": 13,
+          "code": "const testElement = document.createElement('span');",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 18,
+          "code": "document.body.appendChild(testElement);",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 23,
+          "code": "document.body.removeChild(testElement);",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 56,
+          "code": "<div>Frutiger W01 400: {document.fonts?.check('1em \"Frutiger W01\"') ? '✅ Available' : '❌ Not available'}</div>",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 57,
+          "code": "<div>Frutiger W01 600: {document.fonts?.check('600 1em \"Frutiger W01\"') ? '✅ Available' : '❌ Not available'}</div>",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": true,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        },
+        {
+          "type": "dynamic-import",
+          "description": "Consider lazy loading this component",
+          "automated": false,
+          "complexity": "medium",
+          "example": "\nconst HeavyComponent = dynamic(() => import('./HeavyComponent'), {\n  ssr: false,\n  loading: () => <div>Loading...</div>\n});"
+        }
+      ]
+    },
+    {
+      "name": "Footer",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Footer/Footer.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Footer.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Footer/Footer.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "GanttChart-new",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/GanttChart-new.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "GanttChart",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/GanttChart.tsx",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "document-object",
+          "line": 87,
+          "code": "const firstRowTimeline = document.querySelector('.gantt-row .timeline-container') as HTMLElement;",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 107,
+          "code": "const firstRowResource = document.querySelector('.gantt-row .resource-label') as HTMLElement;",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "useEffect",
+          "line": 211,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "document-object",
+          "line": 239,
+          "code": "const headerTimeline = document.querySelector('.header-timeline') as HTMLElement;",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 242,
+          "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .timeline-container`) as HTMLElement;",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 248,
+          "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .timeline-container`) as HTMLElement;",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 310,
+          "code": "const headerResource = document.querySelector('.header-resource') as HTMLElement;",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 313,
+          "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .resource-label`) as HTMLElement;",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 319,
+          "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .resource-label`) as HTMLElement;",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "useEffect",
+          "line": 438,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "resize-observer",
+          "line": 441,
+          "code": "const resizeObserver = new ResizeObserver((entries) => {",
+          "severity": "high",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": true,
+      "usesDOM": true,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        },
+        {
+          "type": "dynamic-import",
+          "description": "Consider lazy loading this component",
+          "automated": false,
+          "complexity": "medium",
+          "example": "\nconst HeavyComponent = dynamic(() => import('./HeavyComponent'), {\n  ssr: false,\n  loading: () => <div>Loading...</div>\n});"
+        }
+      ]
+    },
+    {
+      "name": "TaskBar-new",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/TaskBar-new.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "TaskBar",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/TaskBar.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Grid.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Grid/Grid.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Header",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Header/Header.tsx",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 46,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 54,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "window-object",
+          "line": 120,
+          "code": "const mobile = window.innerWidth < 768;",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "useEffect",
+          "line": 181,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "document-object",
+          "line": 192,
+          "code": "document.addEventListener('keydown', handleEscapeKey);",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 192,
+          "code": "document.addEventListener('keydown', handleEscapeKey);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 193,
+          "code": "return () => document.removeEventListener('keydown', handleEscapeKey);",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "useEffect",
+          "line": 198,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "window-object",
+          "line": 224,
+          "code": "if (window.matchMedia) {",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 225,
+          "code": "mediaQueryList = window.matchMedia('(max-width: 767px)');",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "media-query",
+          "line": 225,
+          "code": "mediaQueryList = window.matchMedia('(max-width: 767px)');",
+          "severity": "high",
+          "description": "matchMedia API usage",
+          "suggestion": "Add window check and use CSS media queries for initial render",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 236,
+          "code": "mediaQueryList.addEventListener('change', handleBreakpointChange);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 242,
+          "code": "window.addEventListener('resize', handleResize);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 242,
+          "code": "window.addEventListener('resize', handleResize);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 245,
+          "code": "window.removeEventListener('resize', handleResize);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "useEffect",
+          "line": 263,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "document-object",
+          "line": 278,
+          "code": "document.addEventListener('mousedown', handleClickOutside);",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 278,
+          "code": "document.addEventListener('mousedown', handleClickOutside);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 279,
+          "code": "return () => document.removeEventListener('mousedown', handleClickOutside);",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": true,
+      "usesDOM": true,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        },
+        {
+          "type": "dynamic-import",
+          "description": "Consider lazy loading this component",
+          "automated": false,
+          "complexity": "medium",
+          "example": "\nconst HeavyComponent = dynamic(() => import('./HeavyComponent'), {\n  ssr: false,\n  loading: () => <div>Loading...</div>\n});"
+        }
+      ]
+    },
+    {
+      "name": "Header.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Header/Header.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "HeaderSSR",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Header/HeaderSSR.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "HeaderStatic",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Header/HeaderStatic.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "HeaderSearch",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/HeaderSearch/HeaderSearch.tsx",
+      "compatibilityLevel": "compatible-with-hydration",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 144,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": true,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "HeaderSearch.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/HeaderSearch/HeaderSearch.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Heading",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Heading/Heading.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Heading.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Heading/Heading.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Hero",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Hero/Hero.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Hero.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Hero/Hero.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Hint",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Hint/Hint.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Hint.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Hint/Hint.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Images",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Images/Images.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Input",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Input/Input.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 39,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Input.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Input/Input.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "InsetText",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/InsetText/InsetText.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "InsetText.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/InsetText/InsetText.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Label",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Label/Label.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Label.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Label/Label.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "List",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/List/List.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "List.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/List/List.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "MainWrapper",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/MainWrapper/MainWrapper.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "MainWrapper.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/MainWrapper/MainWrapper.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "NHSThemeProvider",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/NHSThemeProvider.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 16,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "NavigationSplitView",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.tsx",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 85,
+          "code": "React.useEffect(() => { setHydrated(true); }, []);",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 153,
+          "code": "React.useEffect(() => { if (tertiaryVisible && tertiaryInlineActive) setTertiaryInlineActive(false); }, [tertiaryVisible, tertiaryInlineActive]);",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 226,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 244,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "window-object",
+          "line": 247,
+          "code": "const sp = new URLSearchParams(window.location.search);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 256,
+          "code": "window.addEventListener('popstate', handler);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 256,
+          "code": "window.addEventListener('popstate', handler);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 257,
+          "code": "return () => window.removeEventListener('popstate', handler);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "useEffect",
+          "line": 269,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 280,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "localStorage",
+          "line": 363,
+          "code": "// Collapsed state initialisation with persistence sources (URL overrides localStorage overrides prop)",
+          "severity": "blocking",
+          "description": "localStorage is not available during SSR",
+          "suggestion": "Add browser check or use a library like use-local-storage-state",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 366,
+          "code": "const sp = new URLSearchParams(window.location.search);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "localStorage",
+          "line": 370,
+          "code": "if (persistNavCollapsed && (persistNavCollapsed === 'localStorage' || persistNavCollapsed === 'both') && typeof window !== 'undefined') {",
+          "severity": "blocking",
+          "description": "localStorage is not available during SSR",
+          "suggestion": "Add browser check or use a library like use-local-storage-state",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 372,
+          "code": "const raw = window.localStorage.getItem(navCollapsedStorageKey);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "localStorage",
+          "line": 372,
+          "code": "const raw = window.localStorage.getItem(navCollapsedStorageKey);",
+          "severity": "blocking",
+          "description": "localStorage is not available during SSR",
+          "suggestion": "Add browser check or use a library like use-local-storage-state",
+          "canAutoFix": true
+        },
+        {
+          "type": "useEffect",
+          "line": 379,
+          "code": "React.useEffect(() => { onNavCollapseChange?.(navCollapsed); }, [navCollapsed, onNavCollapseChange]);",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 383,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "localStorage",
+          "line": 386,
+          "code": "if (persistNavCollapsed === 'localStorage' || persistNavCollapsed === 'both') {",
+          "severity": "blocking",
+          "description": "localStorage is not available during SSR",
+          "suggestion": "Add browser check or use a library like use-local-storage-state",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 387,
+          "code": "try { window.localStorage.setItem(navCollapsedStorageKey, navCollapsed ? '1' : '0'); } catch {}",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "localStorage",
+          "line": 387,
+          "code": "try { window.localStorage.setItem(navCollapsedStorageKey, navCollapsed ? '1' : '0'); } catch {}",
+          "severity": "blocking",
+          "description": "localStorage is not available during SSR",
+          "suggestion": "Add browser check or use a library like use-local-storage-state",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 390,
+          "code": "const sp = new URLSearchParams(window.location.search);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 392,
+          "code": "const newUrl = `${window.location.pathname}?${sp.toString()}${window.location.hash}`;",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 392,
+          "code": "const newUrl = `${window.location.pathname}?${sp.toString()}${window.location.hash}`;",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 393,
+          "code": "window.history.replaceState(null, '', newUrl);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "useEffect",
+          "line": 408,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 417,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 428,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 432,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": true,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        },
+        {
+          "type": "dynamic-import",
+          "description": "Consider lazy loading this component",
+          "automated": false,
+          "complexity": "medium",
+          "example": "\nconst HeavyComponent = dynamic(() => import('./HeavyComponent'), {\n  ssr: false,\n  loading: () => <div>Loading...</div>\n});"
+        }
+      ]
+    },
+    {
+      "name": "NavigationSplitView.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.types.ts",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "localStorage",
+          "line": 140,
+          "code": "persistNavCollapsed?: 'localStorage' | 'url' | 'both';",
+          "severity": "blocking",
+          "description": "localStorage is not available during SSR",
+          "suggestion": "Add browser check or use a library like use-local-storage-state",
+          "canAutoFix": true
+        },
+        {
+          "type": "localStorage",
+          "line": 141,
+          "code": "/** Storage key used when persistNavCollapsed includes localStorage (default: 'nsvCollapsed'). */",
+          "severity": "blocking",
+          "description": "localStorage is not available during SSR",
+          "suggestion": "Add browser check or use a library like use-local-storage-state",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
+      "name": "PageTemplate",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/PageTemplate/PageTemplate.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "PageTemplate.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/PageTemplate/PageTemplate.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Pagination",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Pagination/Pagination.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Pagination.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Pagination/Pagination.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Panel",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Panel/Panel.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Panel.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Panel/Panel.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Radios",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Radios/Radios.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Radios.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Radios/Radios.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "GenericCardRenderer",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/GenericCardRenderer.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "HealthcareCardTemplates",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/HealthcareCardTemplates.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "HealthcarePlugin",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/HealthcarePlugin.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ResponsiveDataGridDemo",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridDemo.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ResponsiveDataGridGeneric.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridGeneric.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ResponsiveDataGridHelpers",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridHelpers.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ResponsiveDataGridTypes",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridTypes.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Select",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Select/Select.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Select.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Select/Select.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SkipLink",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SkipLink/SkipLink.tsx",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 34,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 38,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "document-object",
+          "line": 42,
+          "code": "!document.querySelector ||",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 43,
+          "code": "!document.querySelectorAll) {",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 52,
+          "code": "const targetElement = document.querySelector(targetId);",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 65,
+          "code": "// Clean up after a short delay - use window.setTimeout to ensure availability",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 66,
+          "code": "const timeoutId = window.setTimeout(() => {",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 82,
+          "code": "const skipLinks = document.querySelectorAll('.nhsuk-skip-link');",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 84,
+          "code": "link.addEventListener('click', handleSkipLinkClick);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 94,
+          "code": "if (timeoutId && window.clearTimeout) {",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 95,
+          "code": "window.clearTimeout(timeoutId);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": true,
+      "usesDOM": true,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        },
+        {
+          "type": "dynamic-import",
+          "description": "Consider lazy loading this component",
+          "automated": false,
+          "complexity": "medium",
+          "example": "\nconst HeavyComponent = dynamic(() => import('./HeavyComponent'), {\n  ssr: false,\n  loading: () => <div>Loading...</div>\n});"
+        }
+      ]
+    },
+    {
+      "name": "SkipLink.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SkipLink/SkipLink.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "AriaDataGridTypes",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaDataGridTypes.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "AriaTabsDataGridDemo",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridDemo.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "AriaTabsDataGridEnhancedDemo",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridEnhancedDemo.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "AriaTabsDataGridFactory",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridFactory.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "AriaTabsDataGridPlugins",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridPlugins.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "AriaTabsDataGridTCH",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridTCH.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "AriaTabsDataGridTypes",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridTypes.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "HealthcareCardTemplates",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/HealthcareCardTemplates.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SortStatusControl",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControl/SortStatusControl.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SortStatusControl",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControl.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SortStatusControlTypes",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControlTypes.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "useIntelligentLayout",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/hooks/useIntelligentLayout.ts",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "window-object",
+          "line": 61,
+          "code": "const width = window.innerWidth;",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 62,
+          "code": "const height = window.innerHeight;",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "navigator",
+          "line": 67,
+          "code": "touchCapable: 'ontouchstart' in window || navigator.maxTouchPoints > 0,",
+          "severity": "high",
+          "description": "Navigator API access",
+          "suggestion": "Add browser check and fallback values",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 68,
+          "code": "highDensity: window.devicePixelRatio > 1.5,",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 69,
+          "code": "reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "media-query",
+          "line": 69,
+          "code": "reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,",
+          "severity": "high",
+          "description": "matchMedia API usage",
+          "suggestion": "Add window check and use CSS media queries for initial render",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 70,
+          "code": "forcedColors: window.matchMedia('(forced-colors: active)').matches",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "media-query",
+          "line": 70,
+          "code": "forcedColors: window.matchMedia('(forced-colors: active)').matches",
+          "severity": "high",
+          "description": "matchMedia API usage",
+          "suggestion": "Add window check and use CSS media queries for initial render",
+          "canAutoFix": true
+        },
+        {
+          "type": "useEffect",
+          "line": 167,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "window-object",
+          "line": 178,
+          "code": "window.addEventListener('resize', handleResize);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 178,
+          "code": "window.addEventListener('resize', handleResize);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 179,
+          "code": "window.addEventListener('orientationchange', handleOrientationChange);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 179,
+          "code": "window.addEventListener('orientationchange', handleOrientationChange);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 182,
+          "code": "const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "media-query",
+          "line": 182,
+          "code": "const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');",
+          "severity": "high",
+          "description": "matchMedia API usage",
+          "suggestion": "Add window check and use CSS media queries for initial render",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 183,
+          "code": "const forcedColorsQuery = window.matchMedia('(forced-colors: active)');",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "media-query",
+          "line": 183,
+          "code": "const forcedColorsQuery = window.matchMedia('(forced-colors: active)');",
+          "severity": "high",
+          "description": "matchMedia API usage",
+          "suggestion": "Add window check and use CSS media queries for initial render",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 187,
+          "code": "reducedMotionQuery.addEventListener('change', handleMediaChange);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 188,
+          "code": "forcedColorsQuery.addEventListener('change', handleMediaChange);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 191,
+          "code": "window.removeEventListener('resize', handleResize);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 192,
+          "code": "window.removeEventListener('orientationchange', handleOrientationChange);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "useEffect",
+          "line": 200,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "resize-observer",
+          "line": 226,
+          "code": "// Use ResizeObserver to detect layout shifts",
+          "severity": "high",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
+          "canAutoFix": true
+        },
+        {
+          "type": "resize-observer",
+          "line": 228,
+          "code": "const observer = new ResizeObserver(() => {",
+          "severity": "high",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 233,
+          "code": "const container = document.querySelector('.aria-tabs-datagrid-adaptive');",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 267,
+          "code": "const announcement = document.createElement('div');",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 273,
+          "code": "document.body.appendChild(announcement);",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 277,
+          "code": "document.body.removeChild(announcement);",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 283,
+          "code": "const activeElement = document.activeElement;",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 289,
+          "code": "const newActiveElement = document.getElementById(activeId);",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 294,
+          "code": "const firstFocusable = document.querySelector(",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": true,
+      "usesDOM": true,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        },
+        {
+          "type": "dynamic-import",
+          "description": "Consider lazy loading this component",
+          "automated": false,
+          "complexity": "medium",
+          "example": "\nconst HeavyComponent = dynamic(() => import('./HeavyComponent'), {\n  ssr: false,\n  loading: () => <div>Loading...</div>\n});"
+        }
+      ]
+    },
+    {
+      "name": "icons",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/icons.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "patient",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/patient.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "utils",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/utils.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SpacingUtilities",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SpacingUtilities/SpacingUtilities.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SpacingUtilities.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SpacingUtilities/SpacingUtilities.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SummaryCard.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SummaryCard/SummaryCard.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SummaryList",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SummaryList/SummaryList.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SummaryList.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SummaryList/SummaryList.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Table",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tables/Table.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Table.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tables/Table.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "AriaTabs",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tabs/AriaTabs.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "AriaTabsTypes",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tabs/AriaTabsTypes.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Tabs",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tabs/Tabs.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Tabs.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tabs/Tabs.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Tag",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tag/Tag.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Tag.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tag/Tag.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "TaskList",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/TaskList/TaskList.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Textarea",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Textarea/Textarea.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Textarea.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Textarea/Textarea.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "TransactionalPageTemplate",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/TransactionalPageTemplate/TransactionalPageTemplate.tsx",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "window-object",
+          "line": 106,
+          "code": "*     onClick: () => window.history.back()",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
+      "name": "WarningCallout",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/WarningCallout/WarningCallout.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "WidthContainer",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/WidthContainer/WidthContainer.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "WidthUtilities",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/WidthUtilities/WidthUtilities.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "WidthUtilities.types",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/WidthUtilities/WidthUtilities.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ssr",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ssr.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "test-account-icon",
+      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/test-account-icon.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    }
+  ],
+  "summary": {
+    "overallCompatibility": 92,
+    "majorIssues": [
+      {
+        "type": "document-object",
+        "line": 107,
+        "code": "const link = document.createElement('a');",
+        "severity": "blocking",
+        "description": "Direct document object access",
+        "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "document-object",
+        "line": 112,
+        "code": "document.body.appendChild(link);",
+        "severity": "blocking",
+        "description": "Direct document object access",
+        "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "document-object",
+        "line": 114,
+        "code": "document.body.removeChild(link);",
+        "severity": "blocking",
+        "description": "Direct document object access",
+        "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "useLayoutEffect",
+        "line": 23,
+        "code": "React.useLayoutEffect(() => {",
+        "severity": "high",
+        "description": "useLayoutEffect does not run during SSR",
+        "suggestion": "Add SSR guard or use useEffect with proper fallbacks",
+        "canAutoFix": true
+      },
+      {
+        "type": "resize-observer",
+        "line": 25,
+        "code": "const ro = new ResizeObserver(entries => {",
+        "severity": "high",
+        "description": "ResizeObserver API usage",
+        "suggestion": "Add feature detection and fallbacks",
+        "canAutoFix": true
+      },
+      {
+        "type": "window-object",
+        "line": 18,
+        "code": "window.addEventListener('keydown', onKey);",
+        "severity": "blocking",
+        "description": "Direct window object access",
+        "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "window-object",
+        "line": 19,
+        "code": "return () => window.removeEventListener('keydown', onKey);",
+        "severity": "blocking",
+        "description": "Direct window object access",
+        "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "document-object",
+        "line": 13,
+        "code": "const testElement = document.createElement('span');",
+        "severity": "blocking",
+        "description": "Direct document object access",
+        "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "document-object",
+        "line": 18,
+        "code": "document.body.appendChild(testElement);",
+        "severity": "blocking",
+        "description": "Direct document object access",
+        "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "document-object",
+        "line": 23,
+        "code": "document.body.removeChild(testElement);",
+        "severity": "blocking",
+        "description": "Direct document object access",
+        "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      }
+    ],
+    "quickWins": [
+      {
+        "name": "ChartWithTableTabs",
+        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/ChartWithTableTabs.tsx",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "document-object",
+            "line": 107,
+            "code": "const link = document.createElement('a');",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 112,
+            "code": "document.body.appendChild(link);",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 114,
+            "code": "document.body.removeChild(link);",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": false,
+        "usesBrowserAPIs": true,
+        "usesDOM": false,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          }
+        ]
+      },
+      {
+        "name": "FontDebugger",
+        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/FontDebugger.tsx",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "useEffect",
+            "line": 11,
+            "code": "useEffect(() => {",
+            "severity": "medium",
+            "description": "useEffect runs only on client side",
+            "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+            "canAutoFix": false
+          },
+          {
+            "type": "document-object",
+            "line": 13,
+            "code": "const testElement = document.createElement('span');",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 18,
+            "code": "document.body.appendChild(testElement);",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 23,
+            "code": "document.body.removeChild(testElement);",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 56,
+            "code": "<div>Frutiger W01 400: {document.fonts?.check('1em \"Frutiger W01\"') ? '✅ Available' : '❌ Not available'}</div>",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 57,
+            "code": "<div>Frutiger W01 600: {document.fonts?.check('600 1em \"Frutiger W01\"') ? '✅ Available' : '❌ Not available'}</div>",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": true,
+        "usesBrowserAPIs": true,
+        "usesDOM": false,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          },
+          {
+            "type": "dynamic-import",
+            "description": "Consider lazy loading this component",
+            "automated": false,
+            "complexity": "medium",
+            "example": "\nconst HeavyComponent = dynamic(() => import('./HeavyComponent'), {\n  ssr: false,\n  loading: () => <div>Loading...</div>\n});"
+          }
+        ]
+      },
+      {
+        "name": "GanttChart",
+        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/GanttChart.tsx",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "document-object",
+            "line": 87,
+            "code": "const firstRowTimeline = document.querySelector('.gantt-row .timeline-container') as HTMLElement;",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 107,
+            "code": "const firstRowResource = document.querySelector('.gantt-row .resource-label') as HTMLElement;",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "useEffect",
+            "line": 211,
+            "code": "useEffect(() => {",
+            "severity": "medium",
+            "description": "useEffect runs only on client side",
+            "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+            "canAutoFix": false
+          },
+          {
+            "type": "document-object",
+            "line": 239,
+            "code": "const headerTimeline = document.querySelector('.header-timeline') as HTMLElement;",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 242,
+            "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .timeline-container`) as HTMLElement;",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 248,
+            "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .timeline-container`) as HTMLElement;",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 310,
+            "code": "const headerResource = document.querySelector('.header-resource') as HTMLElement;",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 313,
+            "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .resource-label`) as HTMLElement;",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 319,
+            "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .resource-label`) as HTMLElement;",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "useEffect",
+            "line": 438,
+            "code": "useEffect(() => {",
+            "severity": "medium",
+            "description": "useEffect runs only on client side",
+            "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+            "canAutoFix": false
+          },
+          {
+            "type": "resize-observer",
+            "line": 441,
+            "code": "const resizeObserver = new ResizeObserver((entries) => {",
+            "severity": "high",
+            "description": "ResizeObserver API usage",
+            "suggestion": "Add feature detection and fallbacks",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": true,
+        "usesBrowserAPIs": true,
+        "usesDOM": true,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          },
+          {
+            "type": "dynamic-import",
+            "description": "Consider lazy loading this component",
+            "automated": false,
+            "complexity": "medium",
+            "example": "\nconst HeavyComponent = dynamic(() => import('./HeavyComponent'), {\n  ssr: false,\n  loading: () => <div>Loading...</div>\n});"
+          }
+        ]
+      },
+      {
+        "name": "NavigationSplitView.types",
+        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.types.ts",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "localStorage",
+            "line": 140,
+            "code": "persistNavCollapsed?: 'localStorage' | 'url' | 'both';",
+            "severity": "blocking",
+            "description": "localStorage is not available during SSR",
+            "suggestion": "Add browser check or use a library like use-local-storage-state",
+            "canAutoFix": true
+          },
+          {
+            "type": "localStorage",
+            "line": 141,
+            "code": "/** Storage key used when persistNavCollapsed includes localStorage (default: 'nsvCollapsed'). */",
+            "severity": "blocking",
+            "description": "localStorage is not available during SSR",
+            "suggestion": "Add browser check or use a library like use-local-storage-state",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": false,
+        "usesBrowserAPIs": false,
+        "usesDOM": false,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          }
+        ]
+      },
+      {
+        "name": "SkipLink",
+        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SkipLink/SkipLink.tsx",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "useEffect",
+            "line": 34,
+            "code": "useEffect(() => {",
+            "severity": "medium",
+            "description": "useEffect runs only on client side",
+            "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+            "canAutoFix": false
+          },
+          {
+            "type": "useEffect",
+            "line": 38,
+            "code": "useEffect(() => {",
+            "severity": "medium",
+            "description": "useEffect runs only on client side",
+            "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+            "canAutoFix": false
+          },
+          {
+            "type": "document-object",
+            "line": 42,
+            "code": "!document.querySelector ||",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 43,
+            "code": "!document.querySelectorAll) {",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 52,
+            "code": "const targetElement = document.querySelector(targetId);",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 65,
+            "code": "// Clean up after a short delay - use window.setTimeout to ensure availability",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 66,
+            "code": "const timeoutId = window.setTimeout(() => {",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 82,
+            "code": "const skipLinks = document.querySelectorAll('.nhsuk-skip-link');",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "event-listener",
+            "line": 84,
+            "code": "link.addEventListener('click', handleSkipLinkClick);",
+            "severity": "medium",
+            "description": "Event listener setup",
+            "suggestion": "Move to useEffect hook",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 94,
+            "code": "if (timeoutId && window.clearTimeout) {",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 95,
+            "code": "window.clearTimeout(timeoutId);",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": true,
+        "usesBrowserAPIs": true,
+        "usesDOM": true,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          },
+          {
+            "type": "dynamic-import",
+            "description": "Consider lazy loading this component",
+            "automated": false,
+            "complexity": "medium",
+            "example": "\nconst HeavyComponent = dynamic(() => import('./HeavyComponent'), {\n  ssr: false,\n  loading: () => <div>Loading...</div>\n});"
+          }
+        ]
+      },
+      {
+        "name": "useIntelligentLayout",
+        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/hooks/useIntelligentLayout.ts",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "window-object",
+            "line": 61,
+            "code": "const width = window.innerWidth;",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 62,
+            "code": "const height = window.innerHeight;",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "navigator",
+            "line": 67,
+            "code": "touchCapable: 'ontouchstart' in window || navigator.maxTouchPoints > 0,",
+            "severity": "high",
+            "description": "Navigator API access",
+            "suggestion": "Add browser check and fallback values",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 68,
+            "code": "highDensity: window.devicePixelRatio > 1.5,",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 69,
+            "code": "reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "media-query",
+            "line": 69,
+            "code": "reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,",
+            "severity": "high",
+            "description": "matchMedia API usage",
+            "suggestion": "Add window check and use CSS media queries for initial render",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 70,
+            "code": "forcedColors: window.matchMedia('(forced-colors: active)').matches",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "media-query",
+            "line": 70,
+            "code": "forcedColors: window.matchMedia('(forced-colors: active)').matches",
+            "severity": "high",
+            "description": "matchMedia API usage",
+            "suggestion": "Add window check and use CSS media queries for initial render",
+            "canAutoFix": true
+          },
+          {
+            "type": "useEffect",
+            "line": 167,
+            "code": "useEffect(() => {",
+            "severity": "medium",
+            "description": "useEffect runs only on client side",
+            "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+            "canAutoFix": false
+          },
+          {
+            "type": "window-object",
+            "line": 178,
+            "code": "window.addEventListener('resize', handleResize);",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "event-listener",
+            "line": 178,
+            "code": "window.addEventListener('resize', handleResize);",
+            "severity": "medium",
+            "description": "Event listener setup",
+            "suggestion": "Move to useEffect hook",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 179,
+            "code": "window.addEventListener('orientationchange', handleOrientationChange);",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "event-listener",
+            "line": 179,
+            "code": "window.addEventListener('orientationchange', handleOrientationChange);",
+            "severity": "medium",
+            "description": "Event listener setup",
+            "suggestion": "Move to useEffect hook",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 182,
+            "code": "const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "media-query",
+            "line": 182,
+            "code": "const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');",
+            "severity": "high",
+            "description": "matchMedia API usage",
+            "suggestion": "Add window check and use CSS media queries for initial render",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 183,
+            "code": "const forcedColorsQuery = window.matchMedia('(forced-colors: active)');",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "media-query",
+            "line": 183,
+            "code": "const forcedColorsQuery = window.matchMedia('(forced-colors: active)');",
+            "severity": "high",
+            "description": "matchMedia API usage",
+            "suggestion": "Add window check and use CSS media queries for initial render",
+            "canAutoFix": true
+          },
+          {
+            "type": "event-listener",
+            "line": 187,
+            "code": "reducedMotionQuery.addEventListener('change', handleMediaChange);",
+            "severity": "medium",
+            "description": "Event listener setup",
+            "suggestion": "Move to useEffect hook",
+            "canAutoFix": true
+          },
+          {
+            "type": "event-listener",
+            "line": 188,
+            "code": "forcedColorsQuery.addEventListener('change', handleMediaChange);",
+            "severity": "medium",
+            "description": "Event listener setup",
+            "suggestion": "Move to useEffect hook",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 191,
+            "code": "window.removeEventListener('resize', handleResize);",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 192,
+            "code": "window.removeEventListener('orientationchange', handleOrientationChange);",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "useEffect",
+            "line": 200,
+            "code": "useEffect(() => {",
+            "severity": "medium",
+            "description": "useEffect runs only on client side",
+            "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+            "canAutoFix": false
+          },
+          {
+            "type": "resize-observer",
+            "line": 226,
+            "code": "// Use ResizeObserver to detect layout shifts",
+            "severity": "high",
+            "description": "ResizeObserver API usage",
+            "suggestion": "Add feature detection and fallbacks",
+            "canAutoFix": true
+          },
+          {
+            "type": "resize-observer",
+            "line": 228,
+            "code": "const observer = new ResizeObserver(() => {",
+            "severity": "high",
+            "description": "ResizeObserver API usage",
+            "suggestion": "Add feature detection and fallbacks",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 233,
+            "code": "const container = document.querySelector('.aria-tabs-datagrid-adaptive');",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 267,
+            "code": "const announcement = document.createElement('div');",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 273,
+            "code": "document.body.appendChild(announcement);",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 277,
+            "code": "document.body.removeChild(announcement);",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 283,
+            "code": "const activeElement = document.activeElement;",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 289,
+            "code": "const newActiveElement = document.getElementById(activeId);",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 294,
+            "code": "const firstFocusable = document.querySelector(",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": true,
+        "usesBrowserAPIs": true,
+        "usesDOM": true,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          },
+          {
+            "type": "dynamic-import",
+            "description": "Consider lazy loading this component",
+            "automated": false,
+            "complexity": "medium",
+            "example": "\nconst HeavyComponent = dynamic(() => import('./HeavyComponent'), {\n  ssr: false,\n  loading: () => <div>Loading...</div>\n});"
+          }
+        ]
+      },
+      {
+        "name": "TransactionalPageTemplate",
+        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/TransactionalPageTemplate/TransactionalPageTemplate.tsx",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "window-object",
+            "line": 106,
+            "code": "*     onClick: () => window.history.back()",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": false,
+        "usesBrowserAPIs": false,
+        "usesDOM": false,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          }
+        ]
+      }
+    ],
+    "complexRefactors": []
+  }
+}

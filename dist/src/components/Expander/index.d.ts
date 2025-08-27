@@ -1,1 +1,0 @@
-export { Expander, type ExpanderProps } from './Expander';

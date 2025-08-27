@@ -10,7 +10,7 @@
 		"files": [
 			{
 				"destination": "_colors.scss",
-				"format": "scss/variables",
+				"format": "scss/variables-with-color-import",
 				"filter": {
 					"$type": "color"
 				},
@@ -46,7 +46,7 @@
 			},
 			{
 				"destination": "_tokens.scss",
-				"format": "scss/variables",
+				"format": "scss/variables-with-color-import",
 				"options": {
 					"showFileHeader": true
 				}

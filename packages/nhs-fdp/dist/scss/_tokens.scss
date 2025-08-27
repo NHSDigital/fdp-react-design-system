@@ -1,356 +1,357 @@
+@use 'sass:color';
 
 // Do not edit directly, this file was auto-generated.
 
-$nhs-fdp-animation-duration-fast: 150ms; // Fast animation duration for micro-interactions
-$nhs-fdp-animation-duration-normal: 300ms; // Normal animation duration for most transitions
-$nhs-fdp-animation-duration-slow: 500ms; // Slow animation duration for complex transitions
-$nhs-fdp-animation-easing-ease-in: cubic-bezier(0.4, 0, 1, 1); // Ease in timing function
-$nhs-fdp-animation-easing-ease-out: cubic-bezier(0, 0, 0.2, 1); // Ease out timing function
-$nhs-fdp-animation-easing-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1); // Ease in-out timing function
-$nhs-fdp-animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55); // Bounce timing function
-$nhs-fdp-transition-button-default: background-color 300ms cubic-bezier(0, 0, 0.2, 1); // Default button transition
-$nhs-fdp-transition-button-shadow: box-shadow 150ms cubic-bezier(0, 0, 0.2, 1); // Button shadow transition
-$nhs-fdp-transition-input-focus: border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1); // Input focus transition
-$nhs-fdp-transition-card-hover: border-color 300ms cubic-bezier(0, 0, 0.2, 1); // Card hover transition
-$nhs-fdp-border-width-default: 1px; // Default border width for general use
-$nhs-fdp-border-width-form-element: 2px; // Border width for form elements like inputs and buttons
-$nhs-fdp-border-width-form-element-error: 4px; // Border width for form elements in error state
-$nhs-fdp-border-width-card-bottom: 4px; // Bottom border width for clickable cards
-$nhs-fdp-border-width-panel: 8px; // Border width for panel components
-$nhs-fdp-border-width-table-header: 2px; // Table header border width
-$nhs-fdp-border-width-table-cell: 1px; // Table cell border width
-$nhs-fdp-border-width-semantic-thin: 1px; // Thin border width for subtle separations
-$nhs-fdp-border-width-semantic-standard: 2px; // Standard border width for most components
-$nhs-fdp-border-width-semantic-thick: 4px; // Thick border width for emphasis
-$nhs-fdp-border-radius-none: 0px; // No border radius
-$nhs-fdp-border-radius-small: 4px; // Small border radius for buttons and form elements
-$nhs-fdp-border-radius-medium: 8px; // Medium border radius
-$nhs-fdp-border-radius-large: 12px; // Large border radius
-$nhs-fdp-border-color-default: #d8dde0; // Default border color
-$nhs-fdp-border-color-form: #4c6272; // Border color for form elements
-$nhs-fdp-border-color-card: #d8dde0; // Border color for cards
-$nhs-fdp-border-color-card-hover: #aeb7bd; // Border color for cards on hover
-$nhs-fdp-border-color-error: #d5281b; // Border color for error states
-$nhs-fdp-color-primary-blue: #005eb8; // NHS Blue - Primary brand color
-$nhs-fdp-color-primary-blue-active: #002f5c; // NHS Active Blue (50% shade) – alias of button/login active; promoted for general reuse
-$nhs-fdp-color-primary-white: #ffffff; // NHS White
-$nhs-fdp-color-primary-black: #212b32; // NHS Black
-$nhs-fdp-color-primary-green: #007f3b; // NHS Green
-$nhs-fdp-color-primary-purple: #330072; // NHS Purple
-$nhs-fdp-color-primary-dark-pink: #7c2855; // NHS Dark Pink
-$nhs-fdp-color-primary-red: #d5281b; // NHS Red
-$nhs-fdp-color-primary-light-purple: #880fb8; // NHS Light Purple (data viz promoted)
-$nhs-fdp-color-primary-yellow: #ffeb3b; // NHS Yellow
-$nhs-fdp-color-secondary-pale-yellow: #fff9c4; // NHS Pale Yellow
-$nhs-fdp-color-secondary-warm-yellow: #ffb81c; // NHS Warm Yellow
-$nhs-fdp-color-secondary-region-yellow: #fae100; // NHS Region Yellow (maps)
-$nhs-fdp-color-secondary-orange: #ed8b00; // NHS Orange
-$nhs-fdp-color-secondary-tangerine: #ed4f00; // NHS Tangerine (data viz promoted)
-$nhs-fdp-color-secondary-aqua-green: #00a499; // NHS Aqua Green
-$nhs-fdp-color-secondary-light-blue: #41b6e6; // NHS Light Blue (data viz promoted)
-$nhs-fdp-color-secondary-pink: #ae2573; // NHS Pink
-$nhs-fdp-color-secondary-bright-pink: #e317aa; // NHS Bright Pink (data viz promoted)
-$nhs-fdp-color-secondary-light-green: #78be20; // NHS Light Green (data viz promoted)
-$nhs-fdp-color-secondary-brown: #9a6324; // NHS Brown (data viz promoted neutral)
-$nhs-fdp-color-grey-1: #4c6272; // NHS Grey 1 - Darkest grey
-$nhs-fdp-color-grey-2: #768692; // NHS Grey 2 - Darker grey
-$nhs-fdp-color-grey-3: #aeb7bd; // NHS Grey 3 - Medium grey
-$nhs-fdp-color-grey-4: #d8dde0; // NHS Grey 4 - Light grey
-$nhs-fdp-color-grey-5: #f0f4f5; // NHS Grey 5 - Lightest grey
-$nhs-fdp-color-data-viz-categorical-1: #005eb8; // Series 1 – NHS Blue (brand core)
-$nhs-fdp-color-data-viz-categorical-2: #41b6e6; // Series 2 – NHS Light Blue (new)
-$nhs-fdp-color-data-viz-categorical-3: #00a499; // Series 3 – NHS Aqua Green (existing)
-$nhs-fdp-color-data-viz-categorical-4: #78be20; // Series 4 – NHS Light Green (new)
-$nhs-fdp-color-data-viz-categorical-5: #007f3b; // Series 5 – NHS Green (existing)
-$nhs-fdp-color-data-viz-categorical-6: #ffb81c; // Series 6 – NHS Warm Yellow (existing; distinct from focus yellow)
-$nhs-fdp-color-data-viz-categorical-7: #ed4f00; // Series 7 – NHS Tangerine (new; warmer/deeper than existing orange)
-$nhs-fdp-color-data-viz-categorical-8: #ae2573; // Series 8 – NHS Pink (existing)
-$nhs-fdp-color-data-viz-categorical-9: #e317aa; // Series 9 – NHS Bright Pink (new vivid accent)
-$nhs-fdp-color-data-viz-categorical-10: #880fb8; // Series 10 – NHS Light Purple (new mid purple)
-$nhs-fdp-color-data-viz-categorical-11: #330072; // Series 11 – NHS Purple (existing dark purple)
-$nhs-fdp-color-data-viz-categorical-12: #9a6324; // Series 12 – NHS Brown (new; earth neutral)
-$nhs-fdp-color-data-viz-neutral-comparison: #4c6272; // Neutral comparison series (optional)
-$nhs-fdp-color-data-viz-region-north-east: #005eb8; // North East – NHS Blue
-$nhs-fdp-color-data-viz-region-north-west: #41b6e6; // North West – NHS Light Blue
-$nhs-fdp-color-data-viz-region-east-of-england: #330072; // East of England – NHS Purple
-$nhs-fdp-color-data-viz-region-midlands: #ae2573; // Midlands – NHS Pink
-$nhs-fdp-color-data-viz-region-london: #78be21; // London – NHS Light Green (new)
-$nhs-fdp-color-data-viz-region-south-west: #fae100; // South West – NHS Yellow variant (new)
-$nhs-fdp-color-data-viz-region-south-east: #ed8b00; // South East – NHS Orange (existing base orange)
-$nhs-fdp-color-data-viz-severity-low: #fff9c4; // Low severity – pale yellow background
-$nhs-fdp-color-data-viz-severity-moderate: #ffb81c; // Moderate severity – warm yellow
-$nhs-fdp-color-data-viz-severity-high: #ed8b00; // High severity – orange
-$nhs-fdp-color-data-viz-severity-critical: #d5281b; // Critical severity – red
-$nhs-fdp-color-data-viz-org-level-trust: #005eb8; // Trust – NHS Blue
-$nhs-fdp-color-data-viz-org-level-ambulance: #007f3b; // Ambulance – NHS Green
-$nhs-fdp-color-data-viz-org-level-icb: #7c2855; // ICB – NHS Dark Pink
-$nhs-fdp-color-data-viz-org-level-region: #330072; // Region – NHS Purple
-$nhs-fdp-color-data-viz-stroke-categorical-1: #ffffff; // Stroke for series 1 (blue)
-$nhs-fdp-color-data-viz-stroke-categorical-2: #212b32; // Stroke for series 2 (light blue)
-$nhs-fdp-color-data-viz-stroke-categorical-3: #212b32; // Stroke for series 3 (aqua green)
-$nhs-fdp-color-data-viz-stroke-categorical-4: #212b32; // Stroke for series 4 (light green)
-$nhs-fdp-color-data-viz-stroke-categorical-5: #ffffff; // Stroke for series 5 (green)
-$nhs-fdp-color-data-viz-stroke-categorical-6: #212b32; // Stroke for series 6 (warm yellow)
-$nhs-fdp-color-data-viz-stroke-categorical-7: #ffffff; // Stroke for series 7 (tangerine)
-$nhs-fdp-color-data-viz-stroke-categorical-8: #ffffff; // Stroke for series 8 (pink)
-$nhs-fdp-color-data-viz-stroke-categorical-9: #ffffff; // Stroke for series 9 (bright pink)
-$nhs-fdp-color-data-viz-stroke-categorical-10: #ffffff; // Stroke for series 10 (light purple)
-$nhs-fdp-color-data-viz-stroke-categorical-11: #ffffff; // Stroke for series 11 (purple)
-$nhs-fdp-color-data-viz-stroke-categorical-12: #ffffff; // Stroke for series 12 (brown)
-$nhs-fdp-color-data-viz-stroke-region-north-east: #5996d1; // Stroke for North East (blue lightened 35%)
-$nhs-fdp-color-data-viz-stroke-region-north-west: #3189ad; // Stroke for North West (light blue darkened 25%)
-$nhs-fdp-color-data-viz-stroke-region-east-of-england: #7a59a3; // Stroke for East of England (purple lightened 35%)
-$nhs-fdp-color-data-viz-stroke-region-midlands: #ca71a4; // Stroke for Midlands (pink lightened 35%)
-$nhs-fdp-color-data-viz-stroke-region-london: #5a8f19; // Stroke for London (light green darkened 25%)
-$nhs-fdp-color-data-viz-stroke-region-south-west: #bca900; // Stroke for South West (yellow darkened 25%)
-$nhs-fdp-color-data-viz-stroke-region-south-east: #b26800; // Stroke for South East (orange darkened 25%)
-$nhs-fdp-color-data-viz-stroke-severity-low: #212b32; // Stroke for low severity (pale yellow fill)
-$nhs-fdp-color-data-viz-stroke-severity-moderate: #212b32; // Stroke for moderate severity (warm yellow fill)
-$nhs-fdp-color-data-viz-stroke-severity-high: #212b32; // Stroke for high severity (orange fill)
-$nhs-fdp-color-data-viz-stroke-severity-critical: #ffffff; // Stroke for critical severity (red fill)
-$nhs-fdp-color-data-viz-stroke-org-level-trust: #ffffff; // Stroke for trust (blue fill)
-$nhs-fdp-color-data-viz-stroke-org-level-ambulance: #ffffff; // Stroke for ambulance (green fill)
-$nhs-fdp-color-data-viz-stroke-org-level-icb: #ffffff; // Stroke for ICB (dark pink fill)
-$nhs-fdp-color-data-viz-stroke-org-level-region: #ffffff; // Stroke for region (purple fill)
-$nhs-fdp-component-button-padding-mobile-vertical: 8px; // Button vertical padding on mobile
-$nhs-fdp-component-button-padding-mobile-horizontal: 16px; // Button horizontal padding on mobile
-$nhs-fdp-component-button-padding-desktop-vertical: 12px; // Button vertical padding on desktop
-$nhs-fdp-component-button-padding-desktop-horizontal: 16px; // Button horizontal padding on desktop
-$nhs-fdp-component-button-shadow-size: 4px; // Button shadow size
-$nhs-fdp-component-form-input-min-height: 40px; // Minimum height for input fields
-$nhs-fdp-component-form-input-padding: 4px; // Internal padding for input fields
-$nhs-fdp-component-form-checkbox-size: 40px; // Size of checkbox and radio button controls
-$nhs-fdp-component-form-checkbox-label-padding: 12px; // Left and right padding for checkbox labels
-$nhs-fdp-component-card-padding-mobile: 16px; // Card content padding on mobile
-$nhs-fdp-component-card-padding-desktop: 32px; // Card content padding on desktop
-$nhs-fdp-component-card-heading-margin: 16px; // Margin below card headings
-$nhs-fdp-component-panel-padding-mobile: 20px; // Panel padding on mobile (24px - 4px border)
-$nhs-fdp-component-panel-padding-desktop: 28px; // Panel padding on desktop (32px - 4px border)
-$nhs-fdp-component-breadcrumb-chevron-margin-left: 9px; // Left margin for breadcrumb chevron
-$nhs-fdp-component-breadcrumb-chevron-margin-right: 2px; // Right margin for breadcrumb chevron
-$nhs-fdp-component-breadcrumb-padding-top-mobile: 16px; // Top padding for breadcrumb on mobile
-$nhs-fdp-component-breadcrumb-padding-top-desktop: 24px; // Top padding for breadcrumb on desktop
-$nhs-fdp-component-summary-list-cell-padding-vertical: 8px; // Top and bottom padding for summary list cells
-$nhs-fdp-component-summary-list-cell-padding-horizontal: 24px; // Right padding for summary list cells
-$nhs-fdp-component-summary-list-row-margin: 16px; // Bottom margin for summary list rows on mobile
-$nhs-fdp-component-disclosure-icon-offset: 20px; // Standard spacing for disclosure component icon offset
-$nhs-fdp-component-disclosure-icon-size: 32px; // Standard size for disclosure component icons
-$nhs-fdp-component-disclosure-icon-position-offset: 16px; // Half icon size for centering calculations
-$nhs-fdp-component-icon-text-gap: 38px; // Standard spacing between icons and adjacent text content
-$nhs-fdp-component-icon-text-gap-small: 26px; // Reduced spacing for smaller screens
-$nhs-fdp-component-warning-icon-offset: 33px; // Warning callout icon positioning offset
-$nhs-fdp-component-warning-icon-offset-mobile: 25px; // Warning callout icon positioning offset on mobile
-$nhs-fdp-component-warning-icon-top: 16px; // Warning callout icon top position
-$nhs-fdp-component-warning-icon-top-mobile: 8px; // Warning callout icon top position on mobile
-$nhs-fdp-component-guidance-icon-size: 34px; // Do/Don't list icon size
-$nhs-fdp-component-guidance-icon-position-top: 2px; // Do/Don't list icon top position
-$nhs-fdp-component-guidance-icon-position-top-print: 4px; // Do/Don't list icon top position adjustment for print
-$nhs-fdp-component-guidance-content-padding: 40px; // Do/Don't list content left padding
-$nhs-fdp-component-guidance-content-padding-small: 32px; // Do/Don't list content left padding on smaller screens
-$nhs-fdp-component-guidance-tick-size: 28px; // Do/Don't list tick mark size
-$nhs-fdp-component-header-logo-min-width: 100px; // Minimum width for header logo
-$nhs-fdp-component-header-logo-height: 40px; // Standard height for header logo
-$nhs-fdp-component-header-search-button-width: 44px; // Width of header search button
-$nhs-fdp-component-header-search-icon-size: 24px; // Size of search icon
-$nhs-fdp-component-header-menu-icon-size: 28px; // Size of mobile menu icons
-$nhs-fdp-component-task-padding-adjustment: 4px; // Visual balance adjustment for task list item padding
-$nhs-fdp-component-tag-padding-adjustment: 2px; // Visual balance adjustment for tag padding
-$nhs-fdp-component-tabs-border-width: 1px; // Standard border width for tab elements
-$nhs-fdp-component-tabs-border-compensation: 1px; // Border compensation for visual alignment
-$nhs-fdp-component-tabs-padding-multiplier: 1.5; // Padding multiplier for selected tab visual enhancement
-$nhs-fdp-component-details: 8px; // Details component shadow
-$nhs-fdp-component-navigation-dropdown-item-padding: 6px; // Standard padding for dropdown navigation items
-$nhs-fdp-component-navigation-dropdown-logo-margin: 32px; // Standard spacing for logo area in navigation
-$nhs-fdp-component-expander: 4px; // Expander shadow
-$nhs-fdp-component-print-icon-adjustment: 4px; // Icon position adjustment for print media
-$nhs-fdp-component-print-logo-height: 32px; // Logo height for print layouts
-$nhs-fdp-component-spread: 4px; // Default shadow spread
-$nhs-fdp-component-blur: 4px; // Default shadow blur
-$nhs-fdp-component-link: 4px; // Link shadow spread
-$nhs-fdp-component-pagination: 16px; // Pagination shadow
-$nhs-fdp-button-primary-background-default: #007f3b; // Primary button background color
-$nhs-fdp-button-primary-background-hover: #006530; // Primary button hover background color
-$nhs-fdp-button-primary-background-active: #00401e; // Primary button active background color
-$nhs-fdp-button-primary-background-disabled: #d8dde0; // Primary button disabled background color
-$nhs-fdp-button-primary-text-default: #ffffff; // Primary button text color
-$nhs-fdp-button-primary-text-disabled: #768692; // Primary button disabled text color
-$nhs-fdp-button-primary-border-default: #00000000; // Primary button border color
-$nhs-fdp-button-primary-border-focus: #ffeb3b; // Primary button focus border color
-$nhs-fdp-button-secondary-background-default: #00000000; // Secondary button background color
-$nhs-fdp-button-secondary-background-solid: #ffffff; // Secondary button solid background color
-$nhs-fdp-button-secondary-background-hover: #d9e5f2; // Secondary button hover background color
-$nhs-fdp-button-secondary-background-active: #c7daf0; // Secondary button active background color
-$nhs-fdp-button-secondary-text-default: #005eb8; // Secondary button text color
-$nhs-fdp-button-secondary-border-default: #005eb8; // Secondary button border color
-$nhs-fdp-button-spacing-padding-vertical-mobile: 8px; // Button vertical padding on mobile
-$nhs-fdp-button-spacing-padding-horizontal-mobile: 16px; // Button horizontal padding on mobile
-$nhs-fdp-button-spacing-padding-vertical-desktop: 12px; // Button vertical padding on desktop
-$nhs-fdp-button-spacing-padding-horizontal-desktop: 16px; // Button horizontal padding on desktop
-$nhs-fdp-button-border-width: 2px; // Button border width
-$nhs-fdp-button-border-radius: 4px; // Button border radius
-$nhs-fdp-button-shadow-size: 4px; // Button shadow size
-$nhs-fdp-button-typography-weight: 600; // Button font weight
-$nhs-fdp-card-background-default: #ffffff; // Default card background color
-$nhs-fdp-card-border-default: #d8dde0; // Default card border color
-$nhs-fdp-card-border-hover: #aeb7bd; // Card border color on hover
-$nhs-fdp-card-border-bottom: #f0f4f5; // Card image bottom border color
-$nhs-fdp-card-text-heading: #212b32; // Card heading text color
-$nhs-fdp-card-text-description: #212b32; // Card description text color
-$nhs-fdp-card-text-link: #005eb8; // Card link text color
-$nhs-fdp-card-spacing-padding-mobile: 16px; // Card content padding on mobile
-$nhs-fdp-card-spacing-padding-desktop: 32px; // Card content padding on desktop
-$nhs-fdp-card-spacing-heading-margin: 16px; // Margin below card headings
-$nhs-fdp-card-border-width-default: 1px; // Default card border width
-$nhs-fdp-card-border-width-bottom: 4px; // Card bottom border width for clickable cards
-$nhs-fdp-card-shadow-default: none; // Default card shadow
-$nhs-fdp-card-shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.1); // Card shadow on hover
-$nhs-fdp-form-input-background-default: #ffffff; // Default input background color
-$nhs-fdp-form-input-background-focus: #ffffff; // Input background color when focused
-$nhs-fdp-form-input-background-disabled: #f0f4f5; // Input background color when disabled
-$nhs-fdp-form-input-background-error: #ffffff; // Input background color in error state
-$nhs-fdp-form-input-border-default: #4c6272; // Default input border color
-$nhs-fdp-form-input-border-focus: #ffeb3b; // Input border color when focused
-$nhs-fdp-form-input-border-error: #d5281b; // Input border color in error state
-$nhs-fdp-form-input-border-disabled: #aeb7bd; // Input border color when disabled
-$nhs-fdp-form-input-text-default: #212b32; // Default input text color
-$nhs-fdp-form-input-text-placeholder: #4c6272; // Input placeholder text color
-$nhs-fdp-form-input-text-disabled: #768692; // Input text color when disabled
-$nhs-fdp-form-label-text-default: #212b32; // Form label text color
-$nhs-fdp-form-label-text-required: #d5281b; // Required form label indicator color
-$nhs-fdp-form-label-typography-weight: 600; // Form label font weight
-$nhs-fdp-form-error-text-default: #d5281b; // Form error message text color
-$nhs-fdp-form-error-typography-weight: 600; // Form error message font weight
-$nhs-fdp-form-hint-text-default: #4c6272; // Form hint text color
-$nhs-fdp-form-spacing-input-padding: 4px; // Internal padding for input fields
-$nhs-fdp-form-spacing-input-min-height: 40px; // Minimum height for input fields
-$nhs-fdp-form-spacing-checkbox-size: 40px; // Size of checkbox controls
-$nhs-fdp-form-spacing-checkbox-label-padding: 12px; // Padding for checkbox labels
-$nhs-fdp-form-border-width-default: 2px; // Default form element border width
-$nhs-fdp-form-border-width-error: 4px; // Form element border width in error state
-$nhs-fdp-form-border-radius: 0px; // Form element border radius
-$nhs-fdp-tag-default-background: #004c96; // Default tag background (10% shade of NHS blue)
-$nhs-fdp-tag-default-border: #004c96; // Default tag border (10% shade of NHS blue)
-$nhs-fdp-tag-default-text: #ffffff; // Default tag text color
-$nhs-fdp-tag-white-background: #ffffff; // White tag background
-$nhs-fdp-tag-white-border: #212b32; // White tag border
-$nhs-fdp-tag-white-text: #212b32; // White tag text color
-$nhs-fdp-tag-grey-background: #dbe0e3; // Grey tag background (80% tint of grey-1)
-$nhs-fdp-tag-grey-border: #354550; // Grey tag border (30% shade of grey-1)
-$nhs-fdp-tag-grey-text: #354550; // Grey tag text color (30% shade of grey-1)
-$nhs-fdp-tag-green-background: #cce5d8; // Green tag background (80% tint of NHS green)
-$nhs-fdp-tag-green-border: #004c23; // Green tag border (40% shade of NHS green)
-$nhs-fdp-tag-green-text: #004c23; // Green tag text color (40% shade of NHS green)
-$nhs-fdp-tag-aqua-green-background: #ccedeb; // Aqua green tag background (80% tint of NHS aqua green)
-$nhs-fdp-tag-aqua-green-border: #00524d; // Aqua green tag border (50% shade of NHS aqua green)
-$nhs-fdp-tag-aqua-green-text: #00524d; // Aqua green tag text color (50% shade of NHS aqua green)
-$nhs-fdp-tag-blue-background: #ccdff1; // Blue tag background (80% tint of NHS blue)
-$nhs-fdp-tag-blue-border: #004281; // Blue tag border (30% shade of NHS blue)
-$nhs-fdp-tag-blue-text: #004281; // Blue tag text color (30% shade of NHS blue)
-$nhs-fdp-tag-purple-background: #d6cce3; // Purple tag background (80% tint of NHS purple)
-$nhs-fdp-tag-purple-border: #240050; // Purple tag border (30% shade of NHS purple)
-$nhs-fdp-tag-purple-text: #240050; // Purple tag text color (30% shade of NHS purple)
-$nhs-fdp-tag-pink-background: #efd3e3; // Pink tag background (80% tint of NHS pink)
-$nhs-fdp-tag-pink-border: #57133a; // Pink tag border (50% shade of NHS pink)
-$nhs-fdp-tag-pink-text: #57133a; // Pink tag text color (50% shade of NHS pink)
-$nhs-fdp-tag-red-background: #f7d4d1; // Red tag background (80% tint of NHS red)
-$nhs-fdp-tag-red-border: #6b140e; // Red tag border (50% shade of NHS red)
-$nhs-fdp-tag-red-text: #6b140e; // Red tag text color (50% shade of NHS red)
-$nhs-fdp-tag-orange-background: #ffdc8e; // Orange tag background (50% tint of NHS warm yellow)
-$nhs-fdp-tag-orange-border: #4d3708; // Orange tag border (70% shade of NHS warm yellow)
-$nhs-fdp-tag-orange-text: #4d3708; // Orange tag text color (70% shade of NHS warm yellow)
-$nhs-fdp-tag-yellow-background: #fff59d; // Yellow tag background (50% tint of NHS yellow)
-$nhs-fdp-tag-yellow-border: #4d4712; // Yellow tag border (70% shade of NHS yellow)
-$nhs-fdp-tag-yellow-text: #4d4712; // Yellow tag text color (70% shade of NHS yellow)
-$nhs-fdp-size-icon-small: 16px; // Small icon size
-$nhs-fdp-size-icon-medium: 18px; // Medium icon size (breadcrumb chevrons)
-$nhs-fdp-size-icon-large: 24px; // Large icon size (back links)
-$nhs-fdp-size-icon-extra-large: 32px; // Extra large icon size
-$nhs-fdp-size-icon-nhs-default: 34px; // Default NHS icon size
-$nhs-fdp-size-form-control-small: 32px; // Small form control size
-$nhs-fdp-size-form-control-medium: 40px; // Medium form control size (default)
-$nhs-fdp-size-form-control-large: 48px; // Large form control size
-$nhs-fdp-size-form-input-width-xs: 5.4ex; // Extra small input width (2 characters)
-$nhs-fdp-size-form-input-width-sm: 7.2ex; // Small input width (3 characters)
-$nhs-fdp-size-form-input-width-md: 9ex; // Medium input width (4 characters)
-$nhs-fdp-size-form-input-width-lg: 10.8ex; // Large input width (5 characters)
-$nhs-fdp-size-form-input-width-xl: 20ex; // Extra large input width (10 characters)
-$nhs-fdp-size-form-input-width-2xl: 38ex; // 2XL input width (20 characters)
-$nhs-fdp-size-form-input-width-3xl: 56ex; // 3XL input width (30 characters)
-$nhs-fdp-size-button-min-height-mobile: 44px; // Minimum button height on mobile for touch targets
-$nhs-fdp-size-button-min-height-desktop: 40px; // Minimum button height on desktop
-$nhs-fdp-layout-container-max-width: 1020px; // Maximum container width
-$nhs-fdp-layout-column-full: 100%; // Full width column
-$nhs-fdp-layout-column-half: 50%; // Half width column
-$nhs-fdp-layout-column-third: 33.333%; // One third width column
-$nhs-fdp-layout-column-quarter: 25%; // Quarter width column
-$nhs-fdp-layout-column-actions: 20%; // Actions column width in summary lists
-$nhs-fdp-layout-margin-negative-thin: -1px; // Negative margin for border compensation
-$nhs-fdp-layout-margin-negative-standard: -2px; // Standard negative margin for visual alignment
-$nhs-fdp-layout-gap-minimal: 1px; // Minimal gap between elements
-$nhs-fdp-layout-gap-small: 6px; // Small gap for tight layouts
-$nhs-fdp-breakpoint-small: 320px; // Small devices (mobile phones)
-$nhs-fdp-breakpoint-small-max: 767px; // Maximum width for small devices
-$nhs-fdp-breakpoint-medium: 768px; // Medium devices (tablets and small laptops)
-$nhs-fdp-breakpoint-large: 1025px; // Large devices (desktops)
-$nhs-fdp-breakpoint-xlarge: 1200px; // Extra large devices (large desktops)
-$nhs-fdp-breakpoint-xxlarge: 1440px; // Extra extra large devices (ultra-wide screens)
-$nhs-fdp-grid-page-width: 960px; // Maximum page width
-$nhs-fdp-grid-gutter: 32px; // Grid gutter width
-$nhs-fdp-grid-gutter-half: 16px; // Half grid gutter width
-$nhs-fdp-semantic-intent-primary: #007f3b; // Primary intent color - NHS Green for main actions and success states
-$nhs-fdp-semantic-intent-secondary: #005eb8; // Secondary intent color - NHS Blue for secondary actions and information
-$nhs-fdp-semantic-intent-warning: #d5281b; // Warning intent color - NHS Red for errors and dangerous actions
-$nhs-fdp-semantic-intent-success: #007f3b; // Success intent color - derived from primary for consistency
-$nhs-fdp-semantic-intent-neutral: #aeb7bd; // Neutral intent color - for disabled states and subtle actions
-$nhs-fdp-semantic-intent-info: #005eb8; // Information intent color - for informational content
-$nhs-fdp-semantic-intent-hover-primary: color.adjust(#007f3b, $lightness: -10%); // Primary intent hover state - darker NHS Green
-$nhs-fdp-semantic-intent-hover-secondary: color.adjust(#005eb8, $lightness: -10%); // Secondary intent hover state - darker NHS Blue
-$nhs-fdp-semantic-intent-hover-warning: color.adjust(#d5281b, $lightness: -10%); // Warning intent hover state - darker NHS Red
-$nhs-fdp-semantic-intent-active-primary: color.adjust(#007f3b, $lightness: -20%); // Primary intent active state - much darker NHS Green
-$nhs-fdp-semantic-intent-active-secondary: color.adjust(#005eb8, $lightness: -20%); // Secondary intent active state - much darker NHS Blue
-$nhs-fdp-semantic-intent-active-warning: color.adjust(#d5281b, $lightness: -20%); // Warning intent active state - much darker NHS Red
-$nhs-fdp-semantic-intent-light-primary: color.adjust(#007f3b, $lightness: +40%); // Light primary intent - for backgrounds and subtle states
-$nhs-fdp-semantic-intent-light-secondary: color.adjust(#005eb8, $lightness: +40%); // Light secondary intent - for backgrounds and subtle states
-$nhs-fdp-semantic-intent-light-warning: color.adjust(#d5281b, $lightness: +40%); // Light warning intent - for backgrounds and subtle states
-$nhs-fdp-semantic-context-form-border-default: #4c6272; // Default form border color - calm and accessible
-$nhs-fdp-semantic-context-form-border-focus: #005eb8; // Form focus border - uses secondary intent for consistency
-$nhs-fdp-semantic-context-form-border-error: #d5281b; // Form error border - uses warning intent
-$nhs-fdp-semantic-context-form-border-success: #007f3b; // Form success border - uses success intent
-$nhs-fdp-semantic-context-form-background-default: #ffffff; // Default form background
-$nhs-fdp-semantic-context-form-background-disabled: #f0f4f5; // Disabled form background
-$nhs-fdp-semantic-context-form-background-readonly: #d8dde0; // Read-only form background
-$nhs-fdp-semantic-context-form-background-error: color.adjust(#d5281b, $lightness: +40%); // Error form background - uses light warning intent
-$nhs-fdp-semantic-context-form-background-success: color.adjust(#007f3b, $lightness: +40%); // Success form background - uses light primary intent
-$nhs-fdp-semantic-context-form-text-default: #212b32; // Default form text color - high contrast
-$nhs-fdp-semantic-context-form-text-placeholder: #768692; // Form placeholder text - reduced contrast but readable
-$nhs-fdp-semantic-context-form-text-disabled: #768692; // Disabled form text
-$nhs-fdp-semantic-context-form-text-error: #d5281b; // Form error text color
-$nhs-fdp-semantic-context-navigation-background-header: #005eb8; // Header navigation background - NHS Blue
-$nhs-fdp-semantic-context-navigation-background-footer: #005eb8; // Footer navigation background - consistent with header
-$nhs-fdp-semantic-context-navigation-background-sidebar: #ffffff; // Sidebar navigation background
-$nhs-fdp-semantic-context-navigation-text-primary: #ffffff; // Primary navigation text - high contrast on blue
-$nhs-fdp-semantic-context-navigation-text-secondary: #ffffffcc; // Secondary navigation text - slightly transparent
-$nhs-fdp-semantic-context-navigation-text-active: #ffeb3b; // Active navigation text - NHS Yellow for visibility
-$nhs-fdp-semantic-context-navigation-accent-hover: #ffffff1a; // Navigation hover accent - subtle overlay
-$nhs-fdp-semantic-context-navigation-accent-active: #ffffff33; // Navigation active accent - stronger overlay
-$nhs-fdp-semantic-context-navigation-accent-border: #ffeb3b; // Navigation accent border - NHS Yellow
-$nhs-fdp-semantic-context-content-background-primary: #ffffff; // Primary content background
-$nhs-fdp-semantic-context-content-background-secondary: #f0f4f5; // Secondary content background - for panels and asides
-$nhs-fdp-semantic-context-content-background-elevated: #ffffff; // Elevated content background - for cards and modals
-$nhs-fdp-semantic-context-content-text-primary: #212b32; // Primary content text - maximum readability
-$nhs-fdp-semantic-context-content-text-secondary: #4c6272; // Secondary content text - for supporting information
-$nhs-fdp-semantic-context-content-text-tertiary: #768692; // Tertiary content text - for captions and metadata
-$nhs-fdp-semantic-context-content-accent-link: #005eb8; // Content link color - uses secondary intent
-$nhs-fdp-semantic-context-content-accent-highlight: #ffeb3b; // Content highlight color - NHS Yellow
-$nhs-fdp-semantic-context-content-accent-border: #d8dde0; // Content border color - subtle separation
-$nhs-fdp-semantic-surface-elevation-0: #ffffff; // Base surface - no elevation
-$nhs-fdp-semantic-surface-elevation-1: #ffffff; // Low elevation surface - cards
-$nhs-fdp-semantic-surface-elevation-2: #ffffff; // Medium elevation surface - dialogs
-$nhs-fdp-semantic-surface-elevation-3: #ffffff; // High elevation surface - tooltips
-$nhs-fdp-semantic-surface-interactive-default: #ffffff; // Default interactive surface
-$nhs-fdp-semantic-surface-interactive-hover: #f0f4f5; // Hover interactive surface - subtle change
-$nhs-fdp-semantic-surface-interactive-active: #d8dde0; // Active interactive surface - more pronounced
-$nhs-fdp-semantic-surface-interactive-selected: #005eb81a; // Selected interactive surface - NHS Blue tint
+$nhs-fdp-animation-duration-fast: 150ms;
+$nhs-fdp-animation-duration-normal: 300ms;
+$nhs-fdp-animation-duration-slow: 500ms;
+$nhs-fdp-animation-easing-ease-in: cubic-bezier(0.4, 0, 1, 1);
+$nhs-fdp-animation-easing-ease-out: cubic-bezier(0, 0, 0.2, 1);
+$nhs-fdp-animation-easing-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+$nhs-fdp-animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+$nhs-fdp-transition-button-default: background-color 300ms cubic-bezier(0, 0, 0.2, 1);
+$nhs-fdp-transition-button-shadow: box-shadow 150ms cubic-bezier(0, 0, 0.2, 1);
+$nhs-fdp-transition-input-focus: border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1);
+$nhs-fdp-transition-card-hover: border-color 300ms cubic-bezier(0, 0, 0.2, 1);
+$nhs-fdp-border-width-default: 1px;
+$nhs-fdp-border-width-form-element: 2px;
+$nhs-fdp-border-width-form-element-error: 4px;
+$nhs-fdp-border-width-card-bottom: 4px;
+$nhs-fdp-border-width-panel: 8px;
+$nhs-fdp-border-width-table-header: 2px;
+$nhs-fdp-border-width-table-cell: 1px;
+$nhs-fdp-border-width-semantic-thin: 1px;
+$nhs-fdp-border-width-semantic-standard: 2px;
+$nhs-fdp-border-width-semantic-thick: 4px;
+$nhs-fdp-border-radius-none: 0px;
+$nhs-fdp-border-radius-small: 4px;
+$nhs-fdp-border-radius-medium: 8px;
+$nhs-fdp-border-radius-large: 12px;
+$nhs-fdp-border-color-default: #d8dde0;
+$nhs-fdp-border-color-form: #4c6272;
+$nhs-fdp-border-color-card: #d8dde0;
+$nhs-fdp-border-color-card-hover: #aeb7bd;
+$nhs-fdp-border-color-error: #d5281b;
+$nhs-fdp-color-primary-blue: #005eb8;
+$nhs-fdp-color-primary-blue-active: #002f5c;
+$nhs-fdp-color-primary-white: #ffffff;
+$nhs-fdp-color-primary-black: #212b32;
+$nhs-fdp-color-primary-green: #007f3b;
+$nhs-fdp-color-primary-purple: #330072;
+$nhs-fdp-color-primary-dark-pink: #7c2855;
+$nhs-fdp-color-primary-red: #d5281b;
+$nhs-fdp-color-primary-light-purple: #880fb8;
+$nhs-fdp-color-primary-yellow: #ffeb3b;
+$nhs-fdp-color-secondary-pale-yellow: #fff9c4;
+$nhs-fdp-color-secondary-warm-yellow: #ffb81c;
+$nhs-fdp-color-secondary-region-yellow: #fae100;
+$nhs-fdp-color-secondary-orange: #ed8b00;
+$nhs-fdp-color-secondary-tangerine: #ed4f00;
+$nhs-fdp-color-secondary-aqua-green: #00a499;
+$nhs-fdp-color-secondary-light-blue: #41b6e6;
+$nhs-fdp-color-secondary-pink: #ae2573;
+$nhs-fdp-color-secondary-bright-pink: #e317aa;
+$nhs-fdp-color-secondary-light-green: #78be20;
+$nhs-fdp-color-secondary-brown: #9a6324;
+$nhs-fdp-color-grey-1: #4c6272;
+$nhs-fdp-color-grey-2: #768692;
+$nhs-fdp-color-grey-3: #aeb7bd;
+$nhs-fdp-color-grey-4: #d8dde0;
+$nhs-fdp-color-grey-5: #f0f4f5;
+$nhs-fdp-color-data-viz-categorical-1: #005eb8;
+$nhs-fdp-color-data-viz-categorical-2: #41b6e6;
+$nhs-fdp-color-data-viz-categorical-3: #00a499;
+$nhs-fdp-color-data-viz-categorical-4: #78be20;
+$nhs-fdp-color-data-viz-categorical-5: #007f3b;
+$nhs-fdp-color-data-viz-categorical-6: #ffb81c;
+$nhs-fdp-color-data-viz-categorical-7: #ed4f00;
+$nhs-fdp-color-data-viz-categorical-8: #ae2573;
+$nhs-fdp-color-data-viz-categorical-9: #e317aa;
+$nhs-fdp-color-data-viz-categorical-10: #880fb8;
+$nhs-fdp-color-data-viz-categorical-11: #330072;
+$nhs-fdp-color-data-viz-categorical-12: #9a6324;
+$nhs-fdp-color-data-viz-neutral-comparison: #4c6272;
+$nhs-fdp-color-data-viz-region-north-east: #005eb8;
+$nhs-fdp-color-data-viz-region-north-west: #41b6e6;
+$nhs-fdp-color-data-viz-region-east-of-england: #330072;
+$nhs-fdp-color-data-viz-region-midlands: #ae2573;
+$nhs-fdp-color-data-viz-region-london: #78be21;
+$nhs-fdp-color-data-viz-region-south-west: #fae100;
+$nhs-fdp-color-data-viz-region-south-east: #ed8b00;
+$nhs-fdp-color-data-viz-severity-low: #fff9c4;
+$nhs-fdp-color-data-viz-severity-moderate: #ffb81c;
+$nhs-fdp-color-data-viz-severity-high: #ed8b00;
+$nhs-fdp-color-data-viz-severity-critical: #d5281b;
+$nhs-fdp-color-data-viz-org-level-trust: #005eb8;
+$nhs-fdp-color-data-viz-org-level-ambulance: #007f3b;
+$nhs-fdp-color-data-viz-org-level-icb: #7c2855;
+$nhs-fdp-color-data-viz-org-level-region: #330072;
+$nhs-fdp-color-data-viz-stroke-categorical-1: #ffffff;
+$nhs-fdp-color-data-viz-stroke-categorical-2: #212b32;
+$nhs-fdp-color-data-viz-stroke-categorical-3: #212b32;
+$nhs-fdp-color-data-viz-stroke-categorical-4: #212b32;
+$nhs-fdp-color-data-viz-stroke-categorical-5: #ffffff;
+$nhs-fdp-color-data-viz-stroke-categorical-6: #212b32;
+$nhs-fdp-color-data-viz-stroke-categorical-7: #ffffff;
+$nhs-fdp-color-data-viz-stroke-categorical-8: #ffffff;
+$nhs-fdp-color-data-viz-stroke-categorical-9: #ffffff;
+$nhs-fdp-color-data-viz-stroke-categorical-10: #ffffff;
+$nhs-fdp-color-data-viz-stroke-categorical-11: #ffffff;
+$nhs-fdp-color-data-viz-stroke-categorical-12: #ffffff;
+$nhs-fdp-color-data-viz-stroke-region-north-east: #5996d1;
+$nhs-fdp-color-data-viz-stroke-region-north-west: #3189ad;
+$nhs-fdp-color-data-viz-stroke-region-east-of-england: #7a59a3;
+$nhs-fdp-color-data-viz-stroke-region-midlands: #ca71a4;
+$nhs-fdp-color-data-viz-stroke-region-london: #5a8f19;
+$nhs-fdp-color-data-viz-stroke-region-south-west: #bca900;
+$nhs-fdp-color-data-viz-stroke-region-south-east: #b26800;
+$nhs-fdp-color-data-viz-stroke-severity-low: #212b32;
+$nhs-fdp-color-data-viz-stroke-severity-moderate: #212b32;
+$nhs-fdp-color-data-viz-stroke-severity-high: #212b32;
+$nhs-fdp-color-data-viz-stroke-severity-critical: #ffffff;
+$nhs-fdp-color-data-viz-stroke-org-level-trust: #ffffff;
+$nhs-fdp-color-data-viz-stroke-org-level-ambulance: #ffffff;
+$nhs-fdp-color-data-viz-stroke-org-level-icb: #ffffff;
+$nhs-fdp-color-data-viz-stroke-org-level-region: #ffffff;
+$nhs-fdp-component-button-padding-mobile-vertical: 8px;
+$nhs-fdp-component-button-padding-mobile-horizontal: 16px;
+$nhs-fdp-component-button-padding-desktop-vertical: 12px;
+$nhs-fdp-component-button-padding-desktop-horizontal: 16px;
+$nhs-fdp-component-button-shadow-size: 4px;
+$nhs-fdp-component-form-input-min-height: 40px;
+$nhs-fdp-component-form-input-padding: 4px;
+$nhs-fdp-component-form-checkbox-size: 40px;
+$nhs-fdp-component-form-checkbox-label-padding: 12px;
+$nhs-fdp-component-card-padding-mobile: 16px;
+$nhs-fdp-component-card-padding-desktop: 32px;
+$nhs-fdp-component-card-heading-margin: 16px;
+$nhs-fdp-component-panel-padding-mobile: 20px;
+$nhs-fdp-component-panel-padding-desktop: 28px;
+$nhs-fdp-component-breadcrumb-chevron-margin-left: 9px;
+$nhs-fdp-component-breadcrumb-chevron-margin-right: 2px;
+$nhs-fdp-component-breadcrumb-padding-top-mobile: 16px;
+$nhs-fdp-component-breadcrumb-padding-top-desktop: 24px;
+$nhs-fdp-component-summary-list-cell-padding-vertical: 8px;
+$nhs-fdp-component-summary-list-cell-padding-horizontal: 24px;
+$nhs-fdp-component-summary-list-row-margin: 16px;
+$nhs-fdp-component-disclosure-icon-offset: 20px;
+$nhs-fdp-component-disclosure-icon-size: 32px;
+$nhs-fdp-component-disclosure-icon-position-offset: 16px;
+$nhs-fdp-component-icon-text-gap: 38px;
+$nhs-fdp-component-icon-text-gap-small: 26px;
+$nhs-fdp-component-warning-icon-offset: 33px;
+$nhs-fdp-component-warning-icon-offset-mobile: 25px;
+$nhs-fdp-component-warning-icon-top: 16px;
+$nhs-fdp-component-warning-icon-top-mobile: 8px;
+$nhs-fdp-component-guidance-icon-size: 34px;
+$nhs-fdp-component-guidance-icon-position-top: 2px;
+$nhs-fdp-component-guidance-icon-position-top-print: 4px;
+$nhs-fdp-component-guidance-content-padding: 40px;
+$nhs-fdp-component-guidance-content-padding-small: 32px;
+$nhs-fdp-component-guidance-tick-size: 28px;
+$nhs-fdp-component-header-logo-min-width: 100px;
+$nhs-fdp-component-header-logo-height: 40px;
+$nhs-fdp-component-header-search-button-width: 44px;
+$nhs-fdp-component-header-search-icon-size: 24px;
+$nhs-fdp-component-header-menu-icon-size: 28px;
+$nhs-fdp-component-task-padding-adjustment: 4px;
+$nhs-fdp-component-tag-padding-adjustment: 2px;
+$nhs-fdp-component-tabs-border-width: 1px;
+$nhs-fdp-component-tabs-border-compensation: 1px;
+$nhs-fdp-component-tabs-padding-multiplier: 1.5;
+$nhs-fdp-component-details: 8px;
+$nhs-fdp-component-navigation-dropdown-item-padding: 6px;
+$nhs-fdp-component-navigation-dropdown-logo-margin: 32px;
+$nhs-fdp-component-expander: 4px;
+$nhs-fdp-component-print-icon-adjustment: 4px;
+$nhs-fdp-component-print-logo-height: 32px;
+$nhs-fdp-component-spread: 4px;
+$nhs-fdp-component-blur: 4px;
+$nhs-fdp-component-link: 4px;
+$nhs-fdp-component-pagination: 16px;
+$nhs-fdp-button-primary-background-default: #007f3b;
+$nhs-fdp-button-primary-background-hover: #006530;
+$nhs-fdp-button-primary-background-active: #00401e;
+$nhs-fdp-button-primary-background-disabled: #d8dde0;
+$nhs-fdp-button-primary-text-default: #ffffff;
+$nhs-fdp-button-primary-text-disabled: #768692;
+$nhs-fdp-button-primary-border-default: #00000000;
+$nhs-fdp-button-primary-border-focus: #ffeb3b;
+$nhs-fdp-button-secondary-background-default: #00000000;
+$nhs-fdp-button-secondary-background-solid: #ffffff;
+$nhs-fdp-button-secondary-background-hover: #d9e5f2;
+$nhs-fdp-button-secondary-background-active: #c7daf0;
+$nhs-fdp-button-secondary-text-default: #005eb8;
+$nhs-fdp-button-secondary-border-default: #005eb8;
+$nhs-fdp-button-spacing-padding-vertical-mobile: 8px;
+$nhs-fdp-button-spacing-padding-horizontal-mobile: 16px;
+$nhs-fdp-button-spacing-padding-vertical-desktop: 12px;
+$nhs-fdp-button-spacing-padding-horizontal-desktop: 16px;
+$nhs-fdp-button-border-width: 2px;
+$nhs-fdp-button-border-radius: 4px;
+$nhs-fdp-button-shadow-size: 4px;
+$nhs-fdp-button-typography-weight: 600;
+$nhs-fdp-card-background-default: #ffffff;
+$nhs-fdp-card-border-default: #d8dde0;
+$nhs-fdp-card-border-hover: #aeb7bd;
+$nhs-fdp-card-border-bottom: #f0f4f5;
+$nhs-fdp-card-text-heading: #212b32;
+$nhs-fdp-card-text-description: #212b32;
+$nhs-fdp-card-text-link: #005eb8;
+$nhs-fdp-card-spacing-padding-mobile: 16px;
+$nhs-fdp-card-spacing-padding-desktop: 32px;
+$nhs-fdp-card-spacing-heading-margin: 16px;
+$nhs-fdp-card-border-width-default: 1px;
+$nhs-fdp-card-border-width-bottom: 4px;
+$nhs-fdp-card-shadow-default: none;
+$nhs-fdp-card-shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.1);
+$nhs-fdp-form-input-background-default: #ffffff;
+$nhs-fdp-form-input-background-focus: #ffffff;
+$nhs-fdp-form-input-background-disabled: #f0f4f5;
+$nhs-fdp-form-input-background-error: #ffffff;
+$nhs-fdp-form-input-border-default: #4c6272;
+$nhs-fdp-form-input-border-focus: #ffeb3b;
+$nhs-fdp-form-input-border-error: #d5281b;
+$nhs-fdp-form-input-border-disabled: #aeb7bd;
+$nhs-fdp-form-input-text-default: #212b32;
+$nhs-fdp-form-input-text-placeholder: #4c6272;
+$nhs-fdp-form-input-text-disabled: #768692;
+$nhs-fdp-form-label-text-default: #212b32;
+$nhs-fdp-form-label-text-required: #d5281b;
+$nhs-fdp-form-label-typography-weight: 600;
+$nhs-fdp-form-error-text-default: #d5281b;
+$nhs-fdp-form-error-typography-weight: 600;
+$nhs-fdp-form-hint-text-default: #4c6272;
+$nhs-fdp-form-spacing-input-padding: 4px;
+$nhs-fdp-form-spacing-input-min-height: 40px;
+$nhs-fdp-form-spacing-checkbox-size: 40px;
+$nhs-fdp-form-spacing-checkbox-label-padding: 12px;
+$nhs-fdp-form-border-width-default: 2px;
+$nhs-fdp-form-border-width-error: 4px;
+$nhs-fdp-form-border-radius: 0px;
+$nhs-fdp-tag-default-background: #004c96;
+$nhs-fdp-tag-default-border: #004c96;
+$nhs-fdp-tag-default-text: #ffffff;
+$nhs-fdp-tag-white-background: #ffffff;
+$nhs-fdp-tag-white-border: #212b32;
+$nhs-fdp-tag-white-text: #212b32;
+$nhs-fdp-tag-grey-background: #dbe0e3;
+$nhs-fdp-tag-grey-border: #354550;
+$nhs-fdp-tag-grey-text: #354550;
+$nhs-fdp-tag-green-background: #cce5d8;
+$nhs-fdp-tag-green-border: #004c23;
+$nhs-fdp-tag-green-text: #004c23;
+$nhs-fdp-tag-aqua-green-background: #ccedeb;
+$nhs-fdp-tag-aqua-green-border: #00524d;
+$nhs-fdp-tag-aqua-green-text: #00524d;
+$nhs-fdp-tag-blue-background: #ccdff1;
+$nhs-fdp-tag-blue-border: #004281;
+$nhs-fdp-tag-blue-text: #004281;
+$nhs-fdp-tag-purple-background: #d6cce3;
+$nhs-fdp-tag-purple-border: #240050;
+$nhs-fdp-tag-purple-text: #240050;
+$nhs-fdp-tag-pink-background: #efd3e3;
+$nhs-fdp-tag-pink-border: #57133a;
+$nhs-fdp-tag-pink-text: #57133a;
+$nhs-fdp-tag-red-background: #f7d4d1;
+$nhs-fdp-tag-red-border: #6b140e;
+$nhs-fdp-tag-red-text: #6b140e;
+$nhs-fdp-tag-orange-background: #ffdc8e;
+$nhs-fdp-tag-orange-border: #4d3708;
+$nhs-fdp-tag-orange-text: #4d3708;
+$nhs-fdp-tag-yellow-background: #fff59d;
+$nhs-fdp-tag-yellow-border: #4d4712;
+$nhs-fdp-tag-yellow-text: #4d4712;
+$nhs-fdp-size-icon-small: 16px;
+$nhs-fdp-size-icon-medium: 18px;
+$nhs-fdp-size-icon-large: 24px;
+$nhs-fdp-size-icon-extra-large: 32px;
+$nhs-fdp-size-icon-nhs-default: 34px;
+$nhs-fdp-size-form-control-small: 32px;
+$nhs-fdp-size-form-control-medium: 40px;
+$nhs-fdp-size-form-control-large: 48px;
+$nhs-fdp-size-form-input-width-xs: 5.4ex;
+$nhs-fdp-size-form-input-width-sm: 7.2ex;
+$nhs-fdp-size-form-input-width-md: 9ex;
+$nhs-fdp-size-form-input-width-lg: 10.8ex;
+$nhs-fdp-size-form-input-width-xl: 20ex;
+$nhs-fdp-size-form-input-width-2xl: 38ex;
+$nhs-fdp-size-form-input-width-3xl: 56ex;
+$nhs-fdp-size-button-min-height-mobile: 44px;
+$nhs-fdp-size-button-min-height-desktop: 40px;
+$nhs-fdp-layout-container-max-width: 1020px;
+$nhs-fdp-layout-column-full: 100%;
+$nhs-fdp-layout-column-half: 50%;
+$nhs-fdp-layout-column-third: 33.333%;
+$nhs-fdp-layout-column-quarter: 25%;
+$nhs-fdp-layout-column-actions: 20%;
+$nhs-fdp-layout-margin-negative-thin: -1px;
+$nhs-fdp-layout-margin-negative-standard: -2px;
+$nhs-fdp-layout-gap-minimal: 1px;
+$nhs-fdp-layout-gap-small: 6px;
+$nhs-fdp-breakpoint-small: 320px;
+$nhs-fdp-breakpoint-small-max: 767px;
+$nhs-fdp-breakpoint-medium: 768px;
+$nhs-fdp-breakpoint-large: 1025px;
+$nhs-fdp-breakpoint-xlarge: 1200px;
+$nhs-fdp-breakpoint-xxlarge: 1440px;
+$nhs-fdp-grid-page-width: 960px;
+$nhs-fdp-grid-gutter: 32px;
+$nhs-fdp-grid-gutter-half: 16px;
+$nhs-fdp-semantic-intent-primary: #007f3b;
+$nhs-fdp-semantic-intent-secondary: #005eb8;
+$nhs-fdp-semantic-intent-warning: #d5281b;
+$nhs-fdp-semantic-intent-success: #007f3b;
+$nhs-fdp-semantic-intent-neutral: #aeb7bd;
+$nhs-fdp-semantic-intent-info: #005eb8;
+$nhs-fdp-semantic-intent-hover-primary: color.adjust(#007f3b, $lightness: -10%);
+$nhs-fdp-semantic-intent-hover-secondary: color.adjust(#005eb8, $lightness: -10%);
+$nhs-fdp-semantic-intent-hover-warning: color.adjust(#d5281b, $lightness: -10%);
+$nhs-fdp-semantic-intent-active-primary: color.adjust(#007f3b, $lightness: -20%);
+$nhs-fdp-semantic-intent-active-secondary: color.adjust(#005eb8, $lightness: -20%);
+$nhs-fdp-semantic-intent-active-warning: color.adjust(#d5281b, $lightness: -20%);
+$nhs-fdp-semantic-intent-light-primary: color.adjust(#007f3b, $lightness: +40%);
+$nhs-fdp-semantic-intent-light-secondary: color.adjust(#005eb8, $lightness: +40%);
+$nhs-fdp-semantic-intent-light-warning: color.adjust(#d5281b, $lightness: +40%);
+$nhs-fdp-semantic-context-form-border-default: #4c6272;
+$nhs-fdp-semantic-context-form-border-focus: #005eb8;
+$nhs-fdp-semantic-context-form-border-error: #d5281b;
+$nhs-fdp-semantic-context-form-border-success: #007f3b;
+$nhs-fdp-semantic-context-form-background-default: #ffffff;
+$nhs-fdp-semantic-context-form-background-disabled: #f0f4f5;
+$nhs-fdp-semantic-context-form-background-readonly: #d8dde0;
+$nhs-fdp-semantic-context-form-background-error: color.adjust(#d5281b, $lightness: +40%);
+$nhs-fdp-semantic-context-form-background-success: color.adjust(#007f3b, $lightness: +40%);
+$nhs-fdp-semantic-context-form-text-default: #212b32;
+$nhs-fdp-semantic-context-form-text-placeholder: #768692;
+$nhs-fdp-semantic-context-form-text-disabled: #768692;
+$nhs-fdp-semantic-context-form-text-error: #d5281b;
+$nhs-fdp-semantic-context-navigation-background-header: #005eb8;
+$nhs-fdp-semantic-context-navigation-background-footer: #005eb8;
+$nhs-fdp-semantic-context-navigation-background-sidebar: #ffffff;
+$nhs-fdp-semantic-context-navigation-text-primary: #ffffff;
+$nhs-fdp-semantic-context-navigation-text-secondary: #ffffffcc;
+$nhs-fdp-semantic-context-navigation-text-active: #ffeb3b;
+$nhs-fdp-semantic-context-navigation-accent-hover: #ffffff1a;
+$nhs-fdp-semantic-context-navigation-accent-active: #ffffff33;
+$nhs-fdp-semantic-context-navigation-accent-border: #ffeb3b;
+$nhs-fdp-semantic-context-content-background-primary: #ffffff;
+$nhs-fdp-semantic-context-content-background-secondary: #f0f4f5;
+$nhs-fdp-semantic-context-content-background-elevated: #ffffff;
+$nhs-fdp-semantic-context-content-text-primary: #212b32;
+$nhs-fdp-semantic-context-content-text-secondary: #4c6272;
+$nhs-fdp-semantic-context-content-text-tertiary: #768692;
+$nhs-fdp-semantic-context-content-accent-link: #005eb8;
+$nhs-fdp-semantic-context-content-accent-highlight: #ffeb3b;
+$nhs-fdp-semantic-context-content-accent-border: #d8dde0;
+$nhs-fdp-semantic-surface-elevation-0: #ffffff;
+$nhs-fdp-semantic-surface-elevation-1: #ffffff;
+$nhs-fdp-semantic-surface-elevation-2: #ffffff;
+$nhs-fdp-semantic-surface-elevation-3: #ffffff;
+$nhs-fdp-semantic-surface-interactive-default: #ffffff;
+$nhs-fdp-semantic-surface-interactive-hover: #f0f4f5;
+$nhs-fdp-semantic-surface-interactive-active: #d8dde0;
+$nhs-fdp-semantic-surface-interactive-selected: #005eb81a;
 $nhs-fdp-semantic-data-viz-series-1: #005eb8;
 $nhs-fdp-semantic-data-viz-series-2: #41b6e6;
 $nhs-fdp-semantic-data-viz-series-3: #00a499;
@@ -370,95 +371,95 @@ $nhs-fdp-semantic-data-viz-region-midlands: #ae2573;
 $nhs-fdp-semantic-data-viz-region-london: #78be21;
 $nhs-fdp-semantic-data-viz-region-south-west: #fae100;
 $nhs-fdp-semantic-data-viz-region-south-east: #ed8b00;
-$nhs-fdp-semantic-relationship-parent-child-card-background: #ffffff; // Card background - base elevation
-$nhs-fdp-semantic-relationship-parent-child-card-content-background: color.adjust(#ffffff, $lightness: +2%); // Card content background - slightly lighter than parent
-$nhs-fdp-semantic-relationship-parent-child-card-content-text: auto-contrast(color.adjust(#ffffff, $lightness: +2%)); // Card content text - auto-calculated contrast
-$nhs-fdp-semantic-relationship-parent-child-card-header-background: color.adjust(#ffffff, $lightness: -3%); // Card header background - slightly darker than parent
-$nhs-fdp-semantic-relationship-parent-child-card-header-text: auto-contrast(color.adjust(#ffffff, $lightness: -3%)); // Card header text - auto-calculated contrast
-$nhs-fdp-semantic-relationship-parent-child-panel-background: #ffffff; // Panel background - base elevation
-$nhs-fdp-semantic-relationship-parent-child-panel-border: color.adjust(#ffffff, $lightness: -15%); // Panel border - darker than background for definition
-$nhs-fdp-semantic-relationship-parent-child-panel-content-text: auto-contrast(#ffffff); // Panel content text - optimal contrast
-$nhs-fdp-semantic-relationship-state-propagation-interactive-default: #007f3b; // Default interactive state
-$nhs-fdp-semantic-relationship-state-propagation-interactive-hover: color.adjust(#007f3b, $lightness: -10%); // Hover state - automatically 10% darker
-$nhs-fdp-semantic-relationship-state-propagation-interactive-active: color.adjust(#007f3b, $lightness: -20%); // Active state - automatically 20% darker
-$nhs-fdp-semantic-relationship-state-propagation-interactive-disabled: calculated-fade(#007f3b, 40%); // Disabled state - automatically 40% opacity
-$nhs-fdp-semantic-relationship-state-propagation-button-primary-background: #007f3b; // Primary button background
-$nhs-fdp-semantic-relationship-state-propagation-button-primary-hover: color.adjust(#007f3b, $lightness: -10%); // Primary button hover - 10% darker
-$nhs-fdp-semantic-relationship-state-propagation-button-primary-active: color.adjust(#007f3b, $lightness: -20%); // Primary button active - 20% darker
-$nhs-fdp-semantic-relationship-state-propagation-button-secondary-background: #00000000; // Secondary button background
-$nhs-fdp-semantic-relationship-state-propagation-button-secondary-border: #005eb8; // Secondary button border
-$nhs-fdp-semantic-relationship-state-propagation-button-secondary-hover: calculated-tint(#005eb8, 90%); // Secondary button hover - light tint
-$nhs-fdp-semantic-color-text-primary: #212b32; // Primary text color
-$nhs-fdp-semantic-color-text-secondary: #4c6272; // Secondary text color
-$nhs-fdp-semantic-color-text-reverse: #ffffff; // Reverse/inverted text color
-$nhs-fdp-semantic-color-text-print: #212b32; // Print text color
-$nhs-fdp-semantic-color-link-default: #005eb8; // Default link color
-$nhs-fdp-semantic-color-link-hover: #7c2855; // Link hover color
-$nhs-fdp-semantic-color-link-active: #003087; // Link active color (50% shade of blue)
-$nhs-fdp-semantic-color-link-visited: #330072; // Visited link color
-$nhs-fdp-semantic-color-focus-background: #ffeb3b; // Focus background color
-$nhs-fdp-semantic-color-focus-text: #212b32; // Focus text color
-$nhs-fdp-semantic-color-border-default: #d8dde0; // Default border color
-$nhs-fdp-semantic-color-border-secondary: #ffffff33; // Secondary border color
-$nhs-fdp-semantic-color-error: #d5281b; // Error color
-$nhs-fdp-semantic-color-form-border: #4c6272; // Form border color
-$nhs-fdp-semantic-color-form-background: #ffffff; // Form background color
-$nhs-fdp-semantic-color-hover-subtle: #e8edee; // Subtle background hover for interactive list items
-$nhs-fdp-semantic-color-hover-header-link: #3a71a6; // Header link hover color (slightly lighter than NHS Blue)
-$nhs-fdp-semantic-color-active-header-link: #002c5c; // Header link active color (darker than NHS Blue)
+$nhs-fdp-semantic-relationship-parent-child-card-background: #ffffff;
+$nhs-fdp-semantic-relationship-parent-child-card-content-background: color.adjust(#ffffff, $lightness: +2%);
+$nhs-fdp-semantic-relationship-parent-child-card-content-text: auto-contrast(color.adjust(#ffffff, $lightness: +2%));
+$nhs-fdp-semantic-relationship-parent-child-card-header-background: color.adjust(#ffffff, $lightness: -3%);
+$nhs-fdp-semantic-relationship-parent-child-card-header-text: auto-contrast(color.adjust(#ffffff, $lightness: -3%));
+$nhs-fdp-semantic-relationship-parent-child-panel-background: #ffffff;
+$nhs-fdp-semantic-relationship-parent-child-panel-border: color.adjust(#ffffff, $lightness: -15%);
+$nhs-fdp-semantic-relationship-parent-child-panel-content-text: auto-contrast(#ffffff);
+$nhs-fdp-semantic-relationship-state-propagation-interactive-default: #007f3b;
+$nhs-fdp-semantic-relationship-state-propagation-interactive-hover: color.adjust(#007f3b, $lightness: -10%);
+$nhs-fdp-semantic-relationship-state-propagation-interactive-active: color.adjust(#007f3b, $lightness: -20%);
+$nhs-fdp-semantic-relationship-state-propagation-interactive-disabled: calculated-fade(#007f3b, 40%);
+$nhs-fdp-semantic-relationship-state-propagation-button-primary-background: #007f3b;
+$nhs-fdp-semantic-relationship-state-propagation-button-primary-hover: color.adjust(#007f3b, $lightness: -10%);
+$nhs-fdp-semantic-relationship-state-propagation-button-primary-active: color.adjust(#007f3b, $lightness: -20%);
+$nhs-fdp-semantic-relationship-state-propagation-button-secondary-background: #00000000;
+$nhs-fdp-semantic-relationship-state-propagation-button-secondary-border: #005eb8;
+$nhs-fdp-semantic-relationship-state-propagation-button-secondary-hover: calculated-tint(#005eb8, 90%);
+$nhs-fdp-semantic-color-text-primary: #212b32;
+$nhs-fdp-semantic-color-text-secondary: #4c6272;
+$nhs-fdp-semantic-color-text-reverse: #ffffff;
+$nhs-fdp-semantic-color-text-print: #212b32;
+$nhs-fdp-semantic-color-link-default: #005eb8;
+$nhs-fdp-semantic-color-link-hover: #7c2855;
+$nhs-fdp-semantic-color-link-active: #003087;
+$nhs-fdp-semantic-color-link-visited: #330072;
+$nhs-fdp-semantic-color-focus-background: #ffeb3b;
+$nhs-fdp-semantic-color-focus-text: #212b32;
+$nhs-fdp-semantic-color-border-default: #d8dde0;
+$nhs-fdp-semantic-color-border-secondary: #ffffff33;
+$nhs-fdp-semantic-color-error: #d5281b;
+$nhs-fdp-semantic-color-form-border: #4c6272;
+$nhs-fdp-semantic-color-form-background: #ffffff;
+$nhs-fdp-semantic-color-hover-subtle: #e8edee;
+$nhs-fdp-semantic-color-hover-header-link: #3a71a6;
+$nhs-fdp-semantic-color-active-header-link: #002c5c;
 $nhs-fdp-semantic-color-button-primary-background: #007f3b;
 $nhs-fdp-semantic-color-button-primary-text: #ffffff;
-$nhs-fdp-semantic-color-button-primary-hover: #006530; // 20% shade of green
-$nhs-fdp-semantic-color-button-primary-active: #00401e; // 50% shade of green
-$nhs-fdp-semantic-color-button-primary-shadow: #00401e; // 50% shade of green
+$nhs-fdp-semantic-color-button-primary-hover: #006530;
+$nhs-fdp-semantic-color-button-primary-active: #00401e;
+$nhs-fdp-semantic-color-button-primary-shadow: #00401e;
 $nhs-fdp-semantic-color-button-secondary-background: #00000000;
 $nhs-fdp-semantic-color-button-secondary-background-solid: #ffffff;
 $nhs-fdp-semantic-color-button-secondary-border: #005eb8;
 $nhs-fdp-semantic-color-button-secondary-text: #005eb8;
-$nhs-fdp-semantic-color-button-secondary-hover: #d9e5f2; // 85% tint of blue
-$nhs-fdp-semantic-color-button-secondary-active: #c7daf0; // 78% tint of blue
+$nhs-fdp-semantic-color-button-secondary-hover: #d9e5f2;
+$nhs-fdp-semantic-color-button-secondary-active: #c7daf0;
 $nhs-fdp-semantic-color-button-secondary-shadow: #005eb8;
 $nhs-fdp-semantic-color-button-reverse-background: #ffffff;
 $nhs-fdp-semantic-color-button-reverse-text: #212b32;
-$nhs-fdp-semantic-color-button-reverse-hover: #d9dde0; // 15% shade of white
-$nhs-fdp-semantic-color-button-reverse-active: #b3bcc2; // 30% shade of white
+$nhs-fdp-semantic-color-button-reverse-hover: #d9dde0;
+$nhs-fdp-semantic-color-button-reverse-active: #b3bcc2;
 $nhs-fdp-semantic-color-button-reverse-shadow: #b3bcc2;
 $nhs-fdp-semantic-color-button-warning-background: #d5281b;
-$nhs-fdp-semantic-color-button-warning-hover: #aa2016; // 20% shade of red
-$nhs-fdp-semantic-color-button-warning-active: #6a140e; // 50% shade of red
+$nhs-fdp-semantic-color-button-warning-hover: #aa2016;
+$nhs-fdp-semantic-color-button-warning-active: #6a140e;
 $nhs-fdp-semantic-color-button-warning-shadow: #6a140e;
 $nhs-fdp-semantic-color-button-login-background: #005eb8;
-$nhs-fdp-semantic-color-button-login-hover: #004b93; // 20% shade of blue
-$nhs-fdp-semantic-color-button-login-active: #002f5c; // 50% shade of blue
+$nhs-fdp-semantic-color-button-login-hover: #004b93;
+$nhs-fdp-semantic-color-button-login-active: #002f5c;
 $nhs-fdp-semantic-color-button-login-shadow: #002f5c;
-$nhs-fdp-shadow-button-default: 0 4px 0 #00401e; // Default button shadow
-$nhs-fdp-shadow-button-secondary: 0 4px 0 #005eb8; // Secondary button shadow
-$nhs-fdp-shadow-button-warning: 0 4px 0 #6a140e; // Warning button shadow
-$nhs-fdp-shadow-button-focus: 0 4px 0 #ffeb3b; // Button shadow when focused
-$nhs-fdp-shadow-card-default: none; // Default card shadow (none for NHS style)
-$nhs-fdp-shadow-card-hover: 0 2px 4px rgba(0, 0, 0, 0.1); // Card shadow on hover (if needed)
-$nhs-fdp-focus-outline-width: 4px; // Focus outline width
-$nhs-fdp-focus-outline-offset: 0px; // Focus outline offset
-$nhs-fdp-focus-outline-style: solid; // Focus outline style
-$nhs-fdp-focus-shadow-input: 0 0 0 3px #ffeb3b; // Focus shadow for input elements
-$nhs-fdp-focus-shadow-button: 0 0 0 3px #ffeb3b; // Focus shadow for buttons
-$nhs-fdp-focus-shadow-link-pattern: 0 -2px #ffeb3b, 0 4px #212b32; // Standard link focus shadow pattern
-$nhs-fdp-focus-box-shadow-offset-top: -2px; // Top offset for focus box shadow
-$nhs-fdp-focus-box-shadow-offset-bottom: 4px; // Bottom offset for focus box shadow
-$nhs-fdp-elevation-none: none; // No elevation
-$nhs-fdp-elevation-low: 0 1px 3px rgba(0, 0, 0, 0.12); // Low elevation shadow
-$nhs-fdp-elevation-medium: 0 2px 6px rgba(0, 0, 0, 0.16); // Medium elevation shadow
-$nhs-fdp-elevation-high: 0 4px 12px rgba(0, 0, 0, 0.20); // High elevation shadow
-$nhs-fdp-spacing-0: 0; // No spacing
-$nhs-fdp-spacing-1: 4px; // Extra small spacing
-$nhs-fdp-spacing-2: 8px; // Small spacing
-$nhs-fdp-spacing-3: 16px; // Medium spacing
-$nhs-fdp-spacing-4: 24px; // Large spacing
-$nhs-fdp-spacing-5: 32px; // Large spacing
-$nhs-fdp-spacing-6: 40px; // 2XL spacing
-$nhs-fdp-spacing-7: 48px; // 3XL spacing
-$nhs-fdp-spacing-8: 56px; // 4XL spacing
-$nhs-fdp-spacing-9: 64px; // 5XL spacing
+$nhs-fdp-shadow-button-default: 0 4px 0 #00401e;
+$nhs-fdp-shadow-button-secondary: 0 4px 0 #005eb8;
+$nhs-fdp-shadow-button-warning: 0 4px 0 #6a140e;
+$nhs-fdp-shadow-button-focus: 0 4px 0 #ffeb3b;
+$nhs-fdp-shadow-card-default: none;
+$nhs-fdp-shadow-card-hover: 0 2px 4px rgba(0, 0, 0, 0.1);
+$nhs-fdp-focus-outline-width: 4px;
+$nhs-fdp-focus-outline-offset: 0px;
+$nhs-fdp-focus-outline-style: solid;
+$nhs-fdp-focus-shadow-input: 0 0 0 3px #ffeb3b;
+$nhs-fdp-focus-shadow-button: 0 0 0 3px #ffeb3b;
+$nhs-fdp-focus-shadow-link-pattern: 0 -2px #ffeb3b, 0 4px #212b32;
+$nhs-fdp-focus-box-shadow-offset-top: -2px;
+$nhs-fdp-focus-box-shadow-offset-bottom: 4px;
+$nhs-fdp-elevation-none: none;
+$nhs-fdp-elevation-low: 0 1px 3px rgba(0, 0, 0, 0.12);
+$nhs-fdp-elevation-medium: 0 2px 6px rgba(0, 0, 0, 0.16);
+$nhs-fdp-elevation-high: 0 4px 12px rgba(0, 0, 0, 0.20);
+$nhs-fdp-spacing-0: 0;
+$nhs-fdp-spacing-1: 4px;
+$nhs-fdp-spacing-2: 8px;
+$nhs-fdp-spacing-3: 16px;
+$nhs-fdp-spacing-4: 24px;
+$nhs-fdp-spacing-5: 32px;
+$nhs-fdp-spacing-6: 40px;
+$nhs-fdp-spacing-7: 48px;
+$nhs-fdp-spacing-8: 56px;
+$nhs-fdp-spacing-9: 64px;
 $nhs-fdp-spacing-responsive-0-mobile: 0;
 $nhs-fdp-spacing-responsive-0-tablet: 0;
 $nhs-fdp-spacing-responsive-1-mobile: 4px;
@@ -479,44 +480,44 @@ $nhs-fdp-spacing-responsive-8-mobile: 48px;
 $nhs-fdp-spacing-responsive-8-tablet: 56px;
 $nhs-fdp-spacing-responsive-9-mobile: 56px;
 $nhs-fdp-spacing-responsive-9-tablet: 64px;
-$nhs-fdp-theme-light-semantic-intent-primary: #007f3b; // Light theme primary - NHS Green
-$nhs-fdp-theme-light-semantic-intent-secondary: #005eb8; // Light theme secondary - NHS Blue
-$nhs-fdp-theme-light-semantic-intent-warning: #d5281b; // Light theme warning - NHS Red
-$nhs-fdp-theme-light-semantic-intent-success: #007f3b; // Light theme success - NHS Green
-$nhs-fdp-theme-light-semantic-intent-neutral: #4c6272; // Light theme neutral - Dark grey
-$nhs-fdp-theme-light-semantic-intent-info: #005eb8; // Light theme info - NHS Blue
-$nhs-fdp-theme-light-semantic-surface-background-primary: #ffffff; // Light theme primary background
-$nhs-fdp-theme-light-semantic-surface-background-secondary: #f0f4f5; // Light theme secondary background
-$nhs-fdp-theme-light-semantic-surface-background-elevated: #ffffff; // Light theme elevated surface (cards, modals)
-$nhs-fdp-theme-light-semantic-surface-text-primary: #212b32; // Light theme primary text - high contrast
-$nhs-fdp-theme-light-semantic-surface-text-secondary: #4c6272; // Light theme secondary text
-$nhs-fdp-theme-light-semantic-surface-text-tertiary: #768692; // Light theme tertiary text - captions
-$nhs-fdp-theme-light-semantic-surface-text-inverse: #ffffff; // Light theme inverse text - for dark backgrounds
-$nhs-fdp-theme-light-semantic-surface-border-default: #d8dde0; // Light theme default border
-$nhs-fdp-theme-light-semantic-surface-border-subtle: #f0f4f5; // Light theme subtle border
-$nhs-fdp-theme-light-semantic-surface-border-strong: #768692; // Light theme strong border
-$nhs-fdp-theme-dark-semantic-intent-primary: color.adjust(#007f3b, $lightness: +20%); // Dark theme primary - lighter NHS Green for contrast
-$nhs-fdp-theme-dark-semantic-intent-secondary: color.adjust(#005eb8, $lightness: +25%); // Dark theme secondary - lighter NHS Blue for contrast
-$nhs-fdp-theme-dark-semantic-intent-warning: color.adjust(#d5281b, $lightness: +15%); // Dark theme warning - lighter NHS Red for contrast
-$nhs-fdp-theme-dark-semantic-intent-success: color.adjust(#007f3b, $lightness: +20%); // Dark theme success - lighter NHS Green
-$nhs-fdp-theme-dark-semantic-intent-neutral: #aeb7bd; // Dark theme neutral - Medium grey for contrast
-$nhs-fdp-theme-dark-semantic-intent-info: color.adjust(#005eb8, $lightness: +25%); // Dark theme info - lighter NHS Blue
-$nhs-fdp-theme-dark-semantic-surface-background-primary: color.adjust(#212b32, $lightness: -5%); // Dark theme primary background - very dark
-$nhs-fdp-theme-dark-semantic-surface-background-secondary: color.adjust(#212b32, $lightness: +8%); // Dark theme secondary background - slightly lighter
-$nhs-fdp-theme-dark-semantic-surface-background-elevated: color.adjust(#212b32, $lightness: +12%); // Dark theme elevated surface - cards, modals
-$nhs-fdp-theme-dark-semantic-surface-text-primary: fade(#ffffff, 95%); // Dark theme primary text - high contrast white
-$nhs-fdp-theme-dark-semantic-surface-text-secondary: fade(#ffffff, 80%); // Dark theme secondary text - medium contrast
-$nhs-fdp-theme-dark-semantic-surface-text-tertiary: fade(#ffffff, 60%); // Dark theme tertiary text - low contrast
-$nhs-fdp-theme-dark-semantic-surface-text-inverse: #212b32; // Dark theme inverse text - for light backgrounds
-$nhs-fdp-theme-dark-semantic-surface-border-default: fade(#ffffff, 20%); // Dark theme default border - subtle white
-$nhs-fdp-theme-dark-semantic-surface-border-subtle: fade(#ffffff, 10%); // Dark theme subtle border - very light white
-$nhs-fdp-theme-dark-semantic-surface-border-strong: fade(#ffffff, 40%); // Dark theme strong border - more visible white
-$nhs-fdp-font-family-base: Frutiger W01; // Primary NHS font family
-$nhs-fdp-font-family-fallback: Arial, sans-serif; // Fallback fonts if Frutiger fails to load
-$nhs-fdp-font-family-print: sans-serif; // Font family for print styles
-$nhs-fdp-font-weight-normal: 400; // Normal font weight
-$nhs-fdp-font-weight-bold: 600; // Bold font weight
-$nhs-fdp-font-weight-light: 400; // Light font weight (same as normal)
+$nhs-fdp-theme-light-semantic-intent-primary: #007f3b;
+$nhs-fdp-theme-light-semantic-intent-secondary: #005eb8;
+$nhs-fdp-theme-light-semantic-intent-warning: #d5281b;
+$nhs-fdp-theme-light-semantic-intent-success: #007f3b;
+$nhs-fdp-theme-light-semantic-intent-neutral: #4c6272;
+$nhs-fdp-theme-light-semantic-intent-info: #005eb8;
+$nhs-fdp-theme-light-semantic-surface-background-primary: #ffffff;
+$nhs-fdp-theme-light-semantic-surface-background-secondary: #f0f4f5;
+$nhs-fdp-theme-light-semantic-surface-background-elevated: #ffffff;
+$nhs-fdp-theme-light-semantic-surface-text-primary: #212b32;
+$nhs-fdp-theme-light-semantic-surface-text-secondary: #4c6272;
+$nhs-fdp-theme-light-semantic-surface-text-tertiary: #768692;
+$nhs-fdp-theme-light-semantic-surface-text-inverse: #ffffff;
+$nhs-fdp-theme-light-semantic-surface-border-default: #d8dde0;
+$nhs-fdp-theme-light-semantic-surface-border-subtle: #f0f4f5;
+$nhs-fdp-theme-light-semantic-surface-border-strong: #768692;
+$nhs-fdp-theme-dark-semantic-intent-primary: color.adjust(#007f3b, $lightness: +20%);
+$nhs-fdp-theme-dark-semantic-intent-secondary: color.adjust(#005eb8, $lightness: +25%);
+$nhs-fdp-theme-dark-semantic-intent-warning: color.adjust(#d5281b, $lightness: +15%);
+$nhs-fdp-theme-dark-semantic-intent-success: color.adjust(#007f3b, $lightness: +20%);
+$nhs-fdp-theme-dark-semantic-intent-neutral: #aeb7bd;
+$nhs-fdp-theme-dark-semantic-intent-info: color.adjust(#005eb8, $lightness: +25%);
+$nhs-fdp-theme-dark-semantic-surface-background-primary: color.adjust(#212b32, $lightness: -5%);
+$nhs-fdp-theme-dark-semantic-surface-background-secondary: color.adjust(#212b32, $lightness: +8%);
+$nhs-fdp-theme-dark-semantic-surface-background-elevated: color.adjust(#212b32, $lightness: +12%);
+$nhs-fdp-theme-dark-semantic-surface-text-primary: fade(#ffffff, 95%);
+$nhs-fdp-theme-dark-semantic-surface-text-secondary: fade(#ffffff, 80%);
+$nhs-fdp-theme-dark-semantic-surface-text-tertiary: fade(#ffffff, 60%);
+$nhs-fdp-theme-dark-semantic-surface-text-inverse: #212b32;
+$nhs-fdp-theme-dark-semantic-surface-border-default: fade(#ffffff, 20%);
+$nhs-fdp-theme-dark-semantic-surface-border-subtle: fade(#ffffff, 10%);
+$nhs-fdp-theme-dark-semantic-surface-border-strong: fade(#ffffff, 40%);
+$nhs-fdp-font-family-base: Frutiger W01;
+$nhs-fdp-font-family-fallback: Arial, sans-serif;
+$nhs-fdp-font-family-print: sans-serif;
+$nhs-fdp-font-weight-normal: 400;
+$nhs-fdp-font-weight-bold: 600;
+$nhs-fdp-font-weight-light: 400;
 $nhs-fdp-font-size-14-desktop: 14px;
 $nhs-fdp-font-size-14-mobile: 12px;
 $nhs-fdp-font-size-14-tablet: 14px;
@@ -545,7 +546,7 @@ $nhs-fdp-font-size-48-desktop: 48px;
 $nhs-fdp-font-size-48-mobile: 33px;
 $nhs-fdp-font-size-48-tablet: 48px;
 $nhs-fdp-font-size-48-print: 24pt;
-$nhs-fdp-font-size-base: 16px; // Base font size
+$nhs-fdp-font-size-base: 16px;
 $nhs-fdp-font-line-height-14-desktop: 24px;
 $nhs-fdp-font-line-height-14-mobile: 20px;
 $nhs-fdp-font-line-height-14-tablet: 24px;
@@ -574,4 +575,4 @@ $nhs-fdp-font-line-height-48-desktop: 54px;
 $nhs-fdp-font-line-height-48-mobile: 38px;
 $nhs-fdp-font-line-height-48-tablet: 54px;
 $nhs-fdp-font-line-height-48-print: 1.15;
-$nhs-fdp-font-line-height-base: 24px; // Base line height
+$nhs-fdp-font-line-height-base: 24px;

@@ -3104,6 +3104,13 @@ var data_viz_default = {
         high: { $value: "{color.secondary.orange}", $description: "High severity \u2013 orange" },
         critical: { $value: "{color.primary.red}", $description: "Critical severity \u2013 red" }
       },
+      "org-level": {
+        $comment: "Organisational level semantic colours (stable NHS brand mappings).",
+        trust: { $value: "{color.primary.blue}", $description: "Trust \u2013 NHS Blue" },
+        ambulance: { $value: "{color.primary.green}", $description: "Ambulance \u2013 NHS Green" },
+        icb: { $value: "{color.primary.dark-pink}", $description: "ICB \u2013 NHS Dark Pink" },
+        region: { $value: "{color.primary.purple}", $description: "Region \u2013 NHS Purple" }
+      },
       stroke: {
         $comment: "Automatic contrast stroke colours for overlays / borders. Light fills get dark stroke; dark fills get white stroke.",
         categorical: {
@@ -3136,6 +3143,13 @@ var data_viz_default = {
           moderate: { $value: "#212b32", $description: "Stroke for moderate severity (warm yellow fill)" },
           high: { $value: "#212b32", $description: "Stroke for high severity (orange fill)" },
           critical: { $value: "#ffffff", $description: "Stroke for critical severity (red fill)" }
+        },
+        "org-level": {
+          $comment: "Contrast strokes for organisational level colours (all dark brand fills so white stroke for consistency).",
+          trust: { $value: "#ffffff", $description: "Stroke for trust (blue fill)" },
+          ambulance: { $value: "#ffffff", $description: "Stroke for ambulance (green fill)" },
+          icb: { $value: "#ffffff", $description: "Stroke for ICB (dark pink fill)" },
+          region: { $value: "#ffffff", $description: "Stroke for region (purple fill)" }
         }
       }
     }
@@ -3150,6 +3164,10 @@ var colors_default = {
       blue: {
         $value: "#005eb8",
         $description: "NHS Blue - Primary brand color"
+      },
+      "blue-active": {
+        $value: "#002f5c",
+        $description: "NHS Active Blue (50% shade) \u2013 alias of button/login active; promoted for general reuse"
       },
       white: {
         $value: "#ffffff",
@@ -3175,6 +3193,10 @@ var colors_default = {
         $value: "#d5281b",
         $description: "NHS Red"
       },
+      "light-purple": {
+        $value: "#880FB8",
+        $description: "NHS Light Purple (data viz promoted)"
+      },
       yellow: {
         $value: "#ffeb3b",
         $description: "NHS Yellow"
@@ -3198,17 +3220,33 @@ var colors_default = {
         $value: "#ed8b00",
         $description: "NHS Orange"
       },
+      tangerine: {
+        $value: "#ED4F00",
+        $description: "NHS Tangerine (data viz promoted)"
+      },
       "aqua-green": {
         $value: "#00a499",
         $description: "NHS Aqua Green"
       },
-      cyan: {
-        $value: "#00A9CE",
-        $description: "NHS Cyan (London region)"
+      "light-blue": {
+        $value: "#41B6E6",
+        $description: "NHS Light Blue (data viz promoted)"
       },
       pink: {
         $value: "#ae2573",
         $description: "NHS Pink"
+      },
+      "bright-pink": {
+        $value: "#E317AA",
+        $description: "NHS Bright Pink (data viz promoted)"
+      },
+      "light-green": {
+        $value: "#78BE20",
+        $description: "NHS Light Green (data viz promoted)"
+      },
+      brown: {
+        $value: "#9A6324",
+        $description: "NHS Brown (data viz promoted neutral)"
       }
     },
     grey: {

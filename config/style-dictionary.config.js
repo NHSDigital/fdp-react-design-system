@@ -51,8 +51,13 @@ StyleDictionary.registerFormat({
   format: ({ dictionary }) => {
     const vars = dictionary.allTokens
       .map(token => {
-        const comment = token.comment ? ` // ${token.comment}` : ''
-        return `$${token.name}: ${token.value};${comment}`
+        const commentSource = token.comment || token.description || token.original?.description
+        const comment = commentSource ? ` // ${commentSource}` : ''
+        // Fallback order: transformed value -> original value -> $value -> empty string
+        const value = token.value !== undefined && token.value !== null
+          ? token.value
+          : (token.original && token.original.value !== undefined ? token.original.value : (token.$value ?? ''))
+        return `$${token.name}: ${value};${comment}`
       })
       .join('\n')
     

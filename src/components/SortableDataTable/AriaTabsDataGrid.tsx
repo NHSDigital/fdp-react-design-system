@@ -129,6 +129,16 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 	  'data-testid': dataTestId
 	} = props;
 
+	// Generate a stable base id for internal helper elements when no `id` prop is provided.
+	const baseIdRef = useRef<string>(id || `aria-tabs-datagrid-${Math.random().toString(36).slice(2,9)}`);
+	const baseId = baseIdRef.current;
+
+	// ariaDescription can be either a reference id (when consumers pass an existing element id)
+	// or plain descriptive text. Detect simple ids (no whitespace) and handle accordingly.
+	const descriptionLooksLikeId = typeof ariaDescription === 'string' && ariaDescription.trim() !== '' && !/\s/.test(ariaDescription);
+	const generatedDescriptionId = `${baseId}-description`;
+	const navigationHelpId = `${baseId}-navigation-help`;
+
 	// Extract data operation functions with defaults
   const {
 	dataComparator = (a: any, b: any) => JSON.stringify(a) === JSON.stringify(b),
@@ -729,12 +739,14 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 		id={id}
 		data-testid={dataTestId}
 	  >
-		{/* Optional descriptive text (converted from plain string to element for aria-describedby) */}
-		{ariaDescription && (
-		  <div id={`${id}-description`} className="nhsuk-u-visually-hidden">{ariaDescription}</div>
+		{/* Optional descriptive text (converted from plain string to element for aria-describedby).
+		    If `ariaDescription` looks like an existing id, use it directly; otherwise render a
+		    visually-hidden element with a generated id and put the text there. */}
+		{ariaDescription && !descriptionLooksLikeId && (
+		  <div id={generatedDescriptionId} className="nhsuk-u-visually-hidden">{ariaDescription}</div>
 		)}
 		{/* Keyboard Navigation Instructions (Screen Reader Only) */}
-		<div className="aria-tabs-datagrid__navigation-help sr-only" id={`${id}-navigation-help`}>
+		<div className="aria-tabs-datagrid__navigation-help sr-only" id={navigationHelpId}>
 		  Keyboard navigation: Use Tab to move between tabs and grid. Arrow keys navigate within tabs and grid cells. 
 		  Enter activates tabs and sorts columns. Arrow Down from tabs moves to table headers. 
 		  Arrow Down from headers moves to table cells. Use Arrow keys to navigate between cells.
@@ -757,7 +769,14 @@ export const AriaTabsDataGrid = forwardRef<AriaTabsDataGridRef, AriaTabsDataGrid
 		<div 
 		  role="tablist"
 		  aria-label={ariaLabel}
-		  aria-describedby={`${ariaDescription ? `${id}-description` : ''} ${id ? `${id}-navigation-help` : ''}`.trim() || undefined}
+		  aria-describedby={(() => {
+		    if (ariaDescription) {
+		      // If consumer provided description (id or text), use only that.
+		      return descriptionLooksLikeId ? (ariaDescription as string) : generatedDescriptionId;
+		    }
+		    // No external description provided — expose internal navigation help id only
+		    return navigationHelpId;
+		  })()}
 		  aria-orientation={orientation}
 		  className="aria-tabs-datagrid__tabs"
 		>

@@ -1,0 +1,286 @@
+.nhsuk-u-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.nhsuk-u-hidden {
+  display: none !important;
+}
+.nhsuk-u-show {
+  display: block !important;
+}
+.nhsuk-u-text-left {
+  text-align: left !important;
+}
+.nhsuk-u-text-center {
+  text-align: center !important;
+}
+.nhsuk-u-text-right {
+  text-align: right !important;
+}
+.nhsuk-u-margin-0 {
+  margin: 0 !important;
+}
+.nhsuk-u-margin-bottom-0 {
+  margin-bottom: 0 !important;
+}
+.nhsuk-u-margin-top-0 {
+  margin-top: 0 !important;
+}
+.nhsuk-u-padding-0 {
+  padding: 0 !important;
+}
+.nhsuk-u-padding-bottom-0 {
+  padding-bottom: 0 !important;
+}
+.nhsuk-u-padding-top-0 {
+  padding-top: 0 !important;
+}
+.nhsuk-u-clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.nhsuk-header .nhsuk-u-visually-hidden,
+.nhsuk-header__search .nhsuk-u-visually-hidden,
+label .nhsuk-u-visually-hidden,
+span .nhsuk-u-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.nhsuk-width-container {
+  margin: 0 auto;
+  padding: 0 24px;
+  max-width: 1200px;
+}
+@media (min-width: 768px) {
+  .nhsuk-width-container {
+    padding: 0 32px;
+  }
+}
+@media (min-width: 1020px) {
+  .nhsuk-width-container {
+    padding: 0 40px;
+  }
+}
+
+.nhsuk-icon {
+  width: auto !important;
+  height: 2em;
+  vertical-align: text-bottom;
+  flex-shrink: 0;
+}
+
+.nhsuk-table-container {
+  overflow-x: auto;
+}
+
+.nhsuk-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+.nhsuk-table__caption {
+  font-family: Frutiger W01, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #212b32;
+  display: table-caption;
+  padding-bottom: 16px;
+  text-align: left;
+}
+@media (max-width: 767px) {
+  .nhsuk-table__caption {
+    font-size: 14px;
+  }
+}
+@media (max-width: 767px) {
+  .nhsuk-table--responsive .nhsuk-table__caption {
+    border-bottom: 1px solid #d8dde0;
+    display: block;
+    font-size: inherit;
+    font-weight: normal;
+    padding: 16px 0;
+  }
+}
+.nhsuk-table__caption--xl {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+@media (max-width: 767px) {
+  .nhsuk-table__caption--xl {
+    font-size: 27px;
+  }
+}
+.nhsuk-table__caption--l {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+@media (max-width: 767px) {
+  .nhsuk-table__caption--l {
+    font-size: 22px;
+  }
+}
+.nhsuk-table__caption--m {
+  font-size: 22px;
+  font-weight: 600;
+}
+@media (max-width: 767px) {
+  .nhsuk-table__caption--m {
+    font-size: 19px;
+  }
+}
+.nhsuk-table__caption--s {
+  font-size: 16px;
+  font-weight: 600;
+}
+@media (max-width: 767px) {
+  .nhsuk-table__caption--s {
+    font-size: 14px;
+  }
+}
+.nhsuk-table__head {
+  border-bottom: 1px solid #d8dde0;
+}
+@media (max-width: 767px) {
+  .nhsuk-table--responsive .nhsuk-table__head {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+}
+@media (max-width: 767px) {
+  .nhsuk-table--responsive .nhsuk-table__row {
+    border-bottom: 3px solid #d8dde0;
+    display: block;
+    margin-bottom: 16px;
+    padding: 16px 0;
+  }
+}
+.nhsuk-table__header {
+  font-family: Frutiger W01, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 2px solid #d8dde0;
+  color: #212b32;
+  padding: 8px 16px 8px 0;
+  text-align: left;
+  vertical-align: top;
+}
+@media (max-width: 767px) {
+  .nhsuk-table__header {
+    font-size: 14px;
+  }
+}
+.nhsuk-table__header:last-child {
+  padding-right: 0;
+}
+@media (max-width: 767px) {
+  .nhsuk-table--responsive .nhsuk-table__header {
+    border: 0;
+    border-bottom: 1px solid #d8dde0;
+    display: block;
+    padding: 8px 0;
+    text-align: right;
+  }
+  .nhsuk-table--responsive .nhsuk-table__header:last-child {
+    border-bottom: 0;
+  }
+  .nhsuk-table--responsive .nhsuk-table__header::before {
+    content: attr(data-label) ": ";
+    display: inline-block;
+    font-weight: 600;
+    margin-right: 8px;
+  }
+}
+.nhsuk-table__body__cell--header {
+  font-family: Frutiger W01, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+@media (max-width: 767px) {
+  .nhsuk-table__body__cell--header {
+    font-size: 14px;
+  }
+}
+.nhsuk-table__cell {
+  font-family: Frutiger W01, Arial, sans-serif;
+  font-size: 16px;
+  border-bottom: 1px solid #d8dde0;
+  color: #212b32;
+  padding: 8px 16px 8px 0;
+  text-align: left;
+  vertical-align: top;
+}
+@media (max-width: 767px) {
+  .nhsuk-table__cell {
+    font-size: 14px;
+  }
+}
+.nhsuk-table__cell:last-child {
+  padding-right: 0;
+}
+.nhsuk-table__cell--numeric {
+  text-align: right;
+}
+@media (max-width: 767px) {
+  .nhsuk-table--responsive .nhsuk-table__cell {
+    border: 0;
+    border-bottom: 1px solid #d8dde0;
+    display: block;
+    padding: 8px 0;
+    text-align: right;
+  }
+  .nhsuk-table--responsive .nhsuk-table__cell:last-child {
+    border-bottom: 0;
+  }
+  .nhsuk-table--responsive .nhsuk-table__cell::before {
+    content: attr(data-label) ": ";
+    display: inline-block;
+    font-weight: 600;
+    margin-right: 8px;
+  }
+}
+.nhsuk-table--panel {
+  border: 1px solid #d8dde0;
+  padding: 16px;
+}
+.nhsuk-table--panel .nhsuk-table__caption {
+  margin-top: 0;
+  padding-bottom: 16px;
+}
+@media (max-width: 767px) {
+  .nhsuk-table--responsive {
+    border: 0;
+  }
+}
+.nhsuk-table__cell--align-right, .nhsuk-table__header--align-right {
+  text-align: right;
+}
+.nhsuk-table__cell--align-center, .nhsuk-table__header--align-center {
+  text-align: center;
+}

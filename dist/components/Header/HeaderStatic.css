@@ -1,0 +1,380 @@
+/* HeaderStatic.scss - True SSR-Compatible Header Styles
+ * 
+ * This stylesheet provides CSS-only responsive behavior for the HeaderStatic component.
+ * Key features:
+ * 1. No JavaScript required for responsive behaviour    // Dropdown menu (cleaner design matching NHS standards)
+    .nhsuk-header__navigation-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      min-width: $header-static-dropdown-min-width;
+      background: nhs.$nhs-fdp-color-primary-white;
+      border: 1px solid nhs.$nhs-fdp-color-grey-4;
+      border-radius: $header-static-border-radius;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      margin: 0;
+      margin-top: 2px;
+      padding: 0;
+      list-style: none;
+      z-index: $header-static-dropdown-z-index;
+
+      // Hide by default (details will handle showing)
+      display: block;
+    } dropdown using <details> element
+ * 3. Media query based responsive navigation
+ * 4. Works without any client-side hydration
+ * 5. Full integration with NHS FDP design tokens
+ */
+.nhsuk-u-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.nhsuk-u-hidden {
+  display: none !important;
+}
+.nhsuk-u-show {
+  display: block !important;
+}
+.nhsuk-u-text-left {
+  text-align: left !important;
+}
+.nhsuk-u-text-center {
+  text-align: center !important;
+}
+.nhsuk-u-text-right {
+  text-align: right !important;
+}
+.nhsuk-u-margin-0 {
+  margin: 0 !important;
+}
+.nhsuk-u-margin-bottom-0 {
+  margin-bottom: 0 !important;
+}
+.nhsuk-u-margin-top-0 {
+  margin-top: 0 !important;
+}
+.nhsuk-u-padding-0 {
+  padding: 0 !important;
+}
+.nhsuk-u-padding-bottom-0 {
+  padding-bottom: 0 !important;
+}
+.nhsuk-u-padding-top-0 {
+  padding-top: 0 !important;
+}
+.nhsuk-u-clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.nhsuk-header .nhsuk-u-visually-hidden,
+.nhsuk-header__search .nhsuk-u-visually-hidden,
+label .nhsuk-u-visually-hidden,
+span .nhsuk-u-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.nhsuk-width-container {
+  margin: 0 auto;
+  padding: 0 24px;
+  max-width: 1200px;
+}
+@media (min-width: 768px) {
+  .nhsuk-width-container {
+    padding: 0 32px;
+  }
+}
+@media (min-width: 1020px) {
+  .nhsuk-width-container {
+    padding: 0 40px;
+  }
+}
+
+.nhsuk-icon {
+  width: auto !important;
+  height: 2em;
+  vertical-align: text-bottom;
+  flex-shrink: 0;
+}
+
+.nhsuk-header--static {
+  position: relative;
+  font-family: Frutiger W01, Arial, sans-serif;
+}
+.nhsuk-header__navigation--static {
+  background-color: #005eb8;
+}
+.nhsuk-header__navigation-container--static {
+  position: relative;
+}
+.nhsuk-header__navigation-list--primary {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  gap: 8px;
+}
+@media (max-width: calc(767px)) {
+  .nhsuk-header__navigation-list--primary {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+}
+.nhsuk-header__navigation-item--primary {
+  margin-bottom: 0;
+  padding: 0 8px;
+  flex-shrink: 0;
+}
+@media (min-width: 768px) {
+  .nhsuk-header__navigation-item--primary {
+    padding: 0 16px;
+  }
+  .nhsuk-header__navigation-item--primary:last-child:not(.nhsuk-header__navigation-item--more) {
+    margin-right: 0;
+  }
+}
+@media (max-width: calc(767px)) {
+  .nhsuk-header__navigation-item--primary {
+    padding: 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .nhsuk-header__navigation-item--primary:last-child {
+    border-bottom: none;
+  }
+}
+.nhsuk-header__navigation-item--primary.nhsuk-header__navigation-item--current .nhsuk-header__navigation-link::before {
+  border-bottom-width: 4px;
+}
+.nhsuk-header__navigation-item--more {
+  position: relative;
+  margin-left: auto;
+}
+@media (max-width: calc(767px)) {
+  .nhsuk-header__navigation-item--more {
+    display: none;
+  }
+}
+.nhsuk-header__navigation-link {
+  display: block;
+  padding: 28px 4px;
+  position: relative;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 400;
+  color: #ffffff;
+  text-decoration: none;
+}
+.nhsuk-header__navigation-link:hover {
+  color: #ffffff;
+}
+.nhsuk-header__navigation-link:active {
+  color: #ffffff;
+}
+.nhsuk-header__navigation-link:focus {
+  outline: 4px solid #ffeb3b;
+  outline-offset: 0;
+  background-color: #ffeb3b;
+  color: #212b32;
+  box-shadow: inset 0 -4px #212b32;
+}
+.nhsuk-header__navigation-link:focus:visited {
+  color: #212b32;
+}
+@media (min-width: 768px) {
+  .nhsuk-header__navigation-link {
+    font-size: 16px;
+  }
+}
+.nhsuk-header__navigation-link::before {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 0 solid currentcolor;
+}
+.nhsuk-header__navigation-link[aria-current=page]::before, .nhsuk-header__navigation-link[aria-current=true]::before {
+  border-bottom-width: 4px;
+}
+.nhsuk-header__navigation-details {
+  position: relative;
+}
+.nhsuk-header__navigation-details[open] .nhsuk-header__navigation-summary .nhsuk-icon__chevron-down {
+  transform: rotate(-90deg);
+}
+.nhsuk-header__navigation-summary {
+  display: flex;
+  align-items: center;
+  padding: 24px 4px;
+  background: transparent;
+  border: none;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1;
+  cursor: pointer;
+  list-style: none;
+  white-space: nowrap;
+  color: #ffffff;
+  text-decoration: none;
+}
+.nhsuk-header__navigation-summary:hover {
+  color: #ffffff;
+}
+.nhsuk-header__navigation-summary:active {
+  color: #ffffff;
+}
+.nhsuk-header__navigation-summary:focus {
+  outline: 4px solid #ffeb3b;
+  outline-offset: 0;
+  background-color: #ffeb3b;
+  color: #212b32;
+  box-shadow: inset 0 -4px #212b32;
+}
+.nhsuk-header__navigation-summary:focus:visited {
+  color: #212b32;
+}
+@media (min-width: 768px) {
+  .nhsuk-header__navigation-summary {
+    font-size: 16px;
+  }
+}
+.nhsuk-header__navigation-summary::-webkit-details-marker {
+  display: none;
+}
+.nhsuk-header__navigation-summary .nhsuk-icon__chevron-down {
+  width: 24px;
+  height: 24px;
+  margin-left: 4px;
+  transition: transform 0.2s ease;
+  transform: rotate(90deg);
+}
+.nhsuk-header__navigation-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 200px;
+  background: #ffffff;
+  border: 1px solid #aeb7bd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  margin-top: 4px;
+  padding: 0;
+  list-style: none;
+  z-index: 1000;
+  display: block;
+}
+.nhsuk-header__navigation-dropdown-item {
+  margin: 0;
+}
+.nhsuk-header__navigation-dropdown-item--current .nhsuk-header__navigation-dropdown-link {
+  background-color: #d8dde0;
+  font-weight: 600;
+}
+.nhsuk-header__navigation-dropdown-link {
+  display: block;
+  padding: 24px 24px;
+  color: #005eb8;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1;
+  border-bottom: 1px solid #d8dde0;
+}
+@media (min-width: 768px) {
+  .nhsuk-header__navigation-dropdown-link {
+    font-size: 16px;
+  }
+}
+.nhsuk-header__navigation-dropdown-link:hover {
+  background-color: #f0f4f5;
+  color: #005eb8;
+  text-decoration: underline;
+}
+.nhsuk-header__navigation-dropdown-link:focus {
+  outline: 4px solid #ffeb3b;
+  outline-offset: -4px;
+  background-color: #ffeb3b;
+  color: #212b32;
+  box-shadow: inset 0 -4px #212b32;
+}
+.nhsuk-header__navigation-dropdown-link:active {
+  background-color: #aeb7bd;
+}
+.nhsuk-header__navigation-dropdown-link:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: calc(767px)) {
+  .nhsuk-header__navigation__navigation--static .nhsuk-header__navigation-item--more {
+    display: none;
+  }
+  .nhsuk-header__navigation__navigation--static .nhsuk-header__navigation-list--primary {
+    flex-direction: column;
+  }
+  .nhsuk-header__navigation__navigation--static .nhsuk-header__navigation-list--primary .nhsuk-header__navigation-item--primary {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .nhsuk-header__navigation__navigation--static .nhsuk-header__navigation-list--primary {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+  .nhsuk-header__navigation__navigation--static .nhsuk-header__navigation-list--primary .nhsuk-header__navigation-item--primary {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .nhsuk-header__navigation__navigation--static .nhsuk-header__navigation-list--primary .nhsuk-header__navigation-item--more {
+    display: flex;
+  }
+}
+.no-js .nhsuk-header__navigation--static .nhsuk-header__navigation-item--more {
+  display: none;
+}
+@media (min-width: 768px) {
+  .no-js .nhsuk-header__navigation--static .nhsuk-header__navigation-list--primary {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+}
+
+@media print {
+  .nhsuk-header__navigation--static .nhsuk-header__navigation-item--more {
+    display: none;
+  }
+  .nhsuk-header__navigation--static .nhsuk-header__navigation-dropdown {
+    display: none;
+  }
+  .nhsuk-header__navigation--static .nhsuk-header__navigation-list--primary {
+    flex-wrap: wrap;
+  }
+  .nhsuk-header__navigation--static .nhsuk-header__navigation-list--primary .nhsuk-header__navigation-item--primary .nhsuk-header__navigation-link {
+    color: #4c6272 !important;
+    background-color: transparent !important;
+  }
+}

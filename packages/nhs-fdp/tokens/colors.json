@@ -6,6 +6,10 @@
 		"$value": "#005eb8",
 		"$description": "NHS Blue - Primary brand color"
 	  },
+	  "blue-active": {
+		"$value": "#002f5c",
+		"$description": "NHS Active Blue (50% shade) – alias of button/login active; promoted for general reuse"
+	  },
 	  "white": {
 		"$value": "#ffffff",
 		"$description": "NHS White"
@@ -30,6 +34,10 @@
 		"$value": "#d5281b",
 		"$description": "NHS Red"
 	  },
+	  "light-purple": {
+		"$value": "#880FB8",
+		"$description": "NHS Light Purple (data viz promoted)"
+	  },
 	  "yellow": {
 		"$value": "#ffeb3b",
 		"$description": "NHS Yellow"
@@ -53,17 +61,33 @@
 		"$value": "#ed8b00",
 		"$description": "NHS Orange"
 	  },
+	  "tangerine": {
+		"$value": "#ED4F00",
+		"$description": "NHS Tangerine (data viz promoted)"
+	  },
 	  "aqua-green": {
 		"$value": "#00a499",
 		"$description": "NHS Aqua Green"
 	  },
-	  "cyan": {
-		"$value": "#00A9CE",
-		"$description": "NHS Cyan (London region)"
+	  "light-blue": {
+		"$value": "#41B6E6",
+		"$description": "NHS Light Blue (data viz promoted)"
 	  },
 	  "pink": {
 		"$value": "#ae2573",
 		"$description": "NHS Pink"
+	  },
+	  "bright-pink": {
+		"$value": "#E317AA",
+		"$description": "NHS Bright Pink (data viz promoted)"
+	  },
+	  "light-green": {
+		"$value": "#78BE20",
+		"$description": "NHS Light Green (data viz promoted)"
+	  },
+	  "brown": {
+		"$value": "#9A6324",
+		"$description": "NHS Brown (data viz promoted neutral)"
 	  }
 	},
 	"grey": {

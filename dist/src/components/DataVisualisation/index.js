@@ -3097,6 +3097,13 @@ var data_viz_default = {
         "south-west": { $value: "#FAE100", $description: "South West \u2013 NHS Yellow variant (new)" },
         "south-east": { $value: "#ed8b00", $description: "South East \u2013 NHS Orange (existing base orange)" }
       },
+      severity: {
+        $comment: "Semantic severity / alert colours (light background ramp \u2192 critical).",
+        low: { $value: "{color.secondary.pale-yellow}", $description: "Low severity \u2013 pale yellow background" },
+        moderate: { $value: "{color.secondary.warm-yellow}", $description: "Moderate severity \u2013 warm yellow" },
+        high: { $value: "{color.secondary.orange}", $description: "High severity \u2013 orange" },
+        critical: { $value: "{color.primary.red}", $description: "Critical severity \u2013 red" }
+      },
       stroke: {
         $comment: "Automatic contrast stroke colours for overlays / borders. Light fills get dark stroke; dark fills get white stroke.",
         categorical: {
@@ -3114,13 +3121,21 @@ var data_viz_default = {
           "12": { $value: "#ffffff", $description: "Stroke for series 12 (brown)" }
         },
         region: {
-          "north-east": { $value: "#ffffff", $description: "Stroke for North East (blue)" },
-          "north-west": { $value: "#212b32", $description: "Stroke for North West (light blue)" },
-          "east-of-england": { $value: "#ffffff", $description: "Stroke for East of England (purple)" },
-          midlands: { $value: "#ffffff", $description: "Stroke for Midlands (pink)" },
-          london: { $value: "#212b32", $description: "Stroke for London (light green)" },
-          "south-west": { $value: "#212b32", $description: "Stroke for South West (yellow)" },
-          "south-east": { $value: "#ffffff", $description: "Stroke for South East (orange)" }
+          $comment: "Region stroke colours derived from fill colours: dark fills lightened ~35%; light fills darkened ~25% for consistent contrast without defaulting to pure white/black.",
+          "north-east": { $value: "#5996D1", $description: "Stroke for North East (blue lightened 35%)" },
+          "north-west": { $value: "#3189AD", $description: "Stroke for North West (light blue darkened 25%)" },
+          "east-of-england": { $value: "#7A59A3", $description: "Stroke for East of England (purple lightened 35%)" },
+          midlands: { $value: "#CA71A4", $description: "Stroke for Midlands (pink lightened 35%)" },
+          london: { $value: "#5A8F19", $description: "Stroke for London (light green darkened 25%)" },
+          "south-west": { $value: "#BCA900", $description: "Stroke for South West (yellow darkened 25%)" },
+          "south-east": { $value: "#B26800", $description: "Stroke for South East (orange darkened 25%)" }
+        },
+        severity: {
+          $comment: "Contrast strokes for severity colours (light backgrounds use dark stroke; dark backgrounds use white).",
+          low: { $value: "#212b32", $description: "Stroke for low severity (pale yellow fill)" },
+          moderate: { $value: "#212b32", $description: "Stroke for moderate severity (warm yellow fill)" },
+          high: { $value: "#212b32", $description: "Stroke for high severity (orange fill)" },
+          critical: { $value: "#ffffff", $description: "Stroke for critical severity (red fill)" }
         }
       }
     }
@@ -3438,6 +3453,7 @@ function getExtendedCategoricalPalette() {
 }
 var categoricalStrokeMap = null;
 var regionStrokeMap = null;
+var severityStrokeMap = null;
 function buildStrokeMaps() {
   var _a, _b, _c, _d, _e;
   const stroke = (_c = (_b = (_a = data_viz_default) == null ? void 0 : _a.color) == null ? void 0 : _b["data-viz"]) == null ? void 0 : _c.stroke;
@@ -3455,10 +3471,17 @@ function buildStrokeMaps() {
       const v = ((_a2 = reg[k]) == null ? void 0 : _a2.$value) || ((_b2 = reg[k]) == null ? void 0 : _b2.value);
       if (typeof v === "string") regionStrokeMap[k] = v;
     });
+    const sev = stroke.severity || {};
+    severityStrokeMap = {};
+    Object.keys(sev).forEach((k) => {
+      var _a2, _b2;
+      const v = ((_a2 = sev[k]) == null ? void 0 : _a2.$value) || ((_b2 = sev[k]) == null ? void 0 : _b2.value);
+      if (typeof v === "string") severityStrokeMap[k] = v;
+    });
   }
 }
 function ensureStrokeMaps() {
-  if (!categoricalStrokeMap || !regionStrokeMap) buildStrokeMaps();
+  if (!categoricalStrokeMap || !regionStrokeMap || !severityStrokeMap) buildStrokeMaps();
 }
 function pickSeriesStroke(i) {
   ensureStrokeMaps();
@@ -3471,6 +3494,43 @@ function getRegionStroke(id) {
 }
 function pickRegionStroke(id, fallbackIndex) {
   return getRegionStroke(id) || pickSeriesStroke(fallbackIndex);
+}
+var SEVERITY_IDS = ["low", "moderate", "high", "critical"];
+var severityMap = null;
+function buildSeverityMap() {
+  const root = { color: { ...colors_default.color, ...data_viz_default.color } };
+  const resolve = (path2, seen = /* @__PURE__ */ new Set()) => {
+    if (seen.has(path2)) return void 0;
+    seen.add(path2);
+    const node = path2.split(".").reduce((acc, k) => acc ? acc[k] : void 0, root);
+    if (!node) return void 0;
+    const value = node.$value || node.value;
+    if (typeof value === "string" && /^\{.+\}$/.test(value)) return resolve(value.slice(1, -1), seen);
+    return typeof value === "string" ? value : void 0;
+  };
+  const map2 = {};
+  SEVERITY_IDS.forEach((id) => {
+    const hex2 = resolve(`color.data-viz.severity.${id}`);
+    if (hex2) map2[id] = hex2;
+  });
+  return map2;
+}
+function getSeverityMap() {
+  if (!severityMap) severityMap = buildSeverityMap();
+  return severityMap;
+}
+function getSeverityColor(id) {
+  return getSeverityMap()[id.toLowerCase()];
+}
+function pickSeverityColor(id, fallbackIndex) {
+  return getSeverityColor(id) || getSeverityMap()[SEVERITY_IDS[fallbackIndex % SEVERITY_IDS.length]] || pickSeriesColor(fallbackIndex);
+}
+function getSeverityStroke(id) {
+  ensureStrokeMaps();
+  return severityStrokeMap ? severityStrokeMap[id] : void 0;
+}
+function pickSeverityStroke(id, fallbackIndex) {
+  return getSeverityStroke(id) || pickSeriesStroke(fallbackIndex);
 }
 var regionMap = null;
 var REGION_IDS = [
@@ -4846,8 +4906,9 @@ var Legend = ({
   };
   return /* @__PURE__ */ jsxs11("div", { className: "fdp-legend-wrapper", children: [
     /* @__PURE__ */ jsx18("ul", { className: `fdp-legend fdp-legend--${direction}`, children: items.map((item, i) => {
-      const fill = item.color || (palette === "region" ? pickRegionColor(item.id, i) : pickSeriesColor(i));
-      let stroke = item.stroke || (palette === "region" ? pickRegionStroke(item.id, i) : pickSeriesStroke(i));
+      const effectivePalette = item.palette || palette;
+      const fill = item.color || (effectivePalette === "region" ? pickRegionColor(item.id, i) : effectivePalette === "severity" ? pickSeverityColor(item.id, i) : pickSeriesColor(i));
+      let stroke = item.stroke || (effectivePalette === "region" ? pickRegionStroke(item.id, i) : effectivePalette === "severity" ? pickSeverityStroke(item.id, i) : pickSeriesStroke(i));
       if (adjustStrokeForWhiteBackground && stroke) {
         const norm = stroke.trim().toLowerCase();
         if (norm === "#fff" || norm === "#ffffff" || norm === "white" || /^rgb\(\s*255\s*,\s*255\s*,\s*255\s*\)$/.test(norm)) {

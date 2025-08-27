@@ -205,6 +205,7 @@ export function getExtendedCategoricalPalette(): string[] { return [...getExtend
 // Stroke (contrast outline) tokens
 let categoricalStrokeMap: string[] | null = null;
 let regionStrokeMap: Record<string,string> | null = null;
+let severityStrokeMap: Record<string,string> | null = null;
 
 function buildStrokeMaps() {
   const stroke = (dataVizTokens as any)?.color?.['data-viz']?.stroke;
@@ -221,11 +222,17 @@ function buildStrokeMaps() {
       const v = reg[k]?.$value || reg[k]?.value;
       if (typeof v === 'string') regionStrokeMap![k] = v;
     });
+    const sev = stroke.severity || {};
+    severityStrokeMap = {};
+    Object.keys(sev).forEach(k => {
+      const v = sev[k]?.$value || sev[k]?.value;
+      if (typeof v === 'string') severityStrokeMap![k] = v;
+    });
   }
 }
 
 function ensureStrokeMaps() {
-  if (!categoricalStrokeMap || !regionStrokeMap) buildStrokeMaps();
+  if (!categoricalStrokeMap || !regionStrokeMap || !severityStrokeMap) buildStrokeMaps();
 }
 
 export function pickSeriesStroke(i: number) {
@@ -241,6 +248,40 @@ export function getRegionStroke(id: string): string | undefined {
 
 export function pickRegionStroke(id: string, fallbackIndex: number): string {
   return getRegionStroke(id) || pickSeriesStroke(fallbackIndex);
+}
+
+// Severity colours – semantic alert levels
+export const SEVERITY_IDS = [ 'low', 'moderate', 'high', 'critical' ] as const;
+export type SeverityId = typeof SEVERITY_IDS[number];
+let severityMap: Record<string,string> | null = null;
+
+function buildSeverityMap(): Record<string,string> {
+  const root: any = { color: { ...(colorTokens as any).color, ...(dataVizTokens as any).color } };
+  const resolve = (path: string, seen: Set<string> = new Set()): string | undefined => {
+    if (seen.has(path)) return undefined;
+    seen.add(path);
+    const node = path.split('.').reduce((acc: any, k) => (acc ? acc[k] : undefined), root);
+    if (!node) return undefined;
+    const value = node.$value || node.value;
+    if (typeof value === 'string' && /^\{.+\}$/.test(value)) return resolve(value.slice(1,-1), seen);
+    return typeof value === 'string' ? value : undefined;
+  };
+  const map: Record<string,string> = {};
+  SEVERITY_IDS.forEach(id => {
+    const hex = resolve(`color.data-viz.severity.${id}`);
+    if (hex) map[id] = hex;
+  });
+  return map;
+}
+
+function getSeverityMap(): Record<string,string> { if (!severityMap) severityMap = buildSeverityMap(); return severityMap; }
+export function getSeverityColor(id: string): string | undefined { return getSeverityMap()[id.toLowerCase()]; }
+export function pickSeverityColor(id: string, fallbackIndex: number): string {
+  return getSeverityColor(id) || getSeverityMap()[SEVERITY_IDS[fallbackIndex % SEVERITY_IDS.length]] || pickSeriesColor(fallbackIndex);
+}
+export function getSeverityStroke(id: string): string | undefined { ensureStrokeMaps(); return severityStrokeMap ? severityStrokeMap[id] : undefined; }
+export function pickSeverityStroke(id: string, fallbackIndex: number): string {
+  return getSeverityStroke(id) || pickSeriesStroke(fallbackIndex);
 }
 
 // Region colours – resolved from tokens; key by region token id (kebab-case)
@@ -324,6 +365,7 @@ export function invalidateColorCaches(options: { regions?: boolean; categorical?
   if (strokes) {
     categoricalStrokeMap = null;
     regionStrokeMap = null;
+  severityStrokeMap = null;
   }
 }
 

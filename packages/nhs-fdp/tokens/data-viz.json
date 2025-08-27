@@ -20,7 +20,7 @@
         "comparison": { "$value": "{color.grey.1}", "$description": "Neutral comparison series (optional)" }
       },
       "region": {
-  "$comment": "Fixed colours for NHS geographical regions; prefer stable mapping for maps. London colour updated (#78BE21 – light green).",
+        "$comment": "Fixed colours for NHS geographical regions; prefer stable mapping for maps. London colour updated (#78BE21 – light green).",
         "north-east": { "$value": "{color.primary.blue}", "$description": "North East – NHS Blue" },
         "north-west": { "$value": "#41B6E6", "$description": "North West – NHS Light Blue" },
         "east-of-england": { "$value": "{color.primary.purple}", "$description": "East of England – NHS Purple" },
@@ -28,6 +28,20 @@
   		"london": { "$value": "#78BE21", "$description": "London – NHS Light Green (new)" },
         "south-west": { "$value": "#FAE100", "$description": "South West – NHS Yellow variant (new)" },
         "south-east": { "$value": "#ed8b00", "$description": "South East – NHS Orange (existing base orange)" }
+      },
+      "severity": {
+        "$comment": "Semantic severity / alert colours (light background ramp → critical).",
+        "low": { "$value": "{color.secondary.pale-yellow}", "$description": "Low severity – pale yellow background" },
+        "moderate": { "$value": "{color.secondary.warm-yellow}", "$description": "Moderate severity – warm yellow" },
+        "high": { "$value": "{color.secondary.orange}", "$description": "High severity – orange" },
+        "critical": { "$value": "{color.primary.red}", "$description": "Critical severity – red" }
+      },
+      "org-level": {
+        "$comment": "Organisational level semantic colours (stable NHS brand mappings).",
+        "trust": { "$value": "{color.primary.blue}", "$description": "Trust – NHS Blue" },
+        "ambulance": { "$value": "{color.primary.green}", "$description": "Ambulance – NHS Green" },
+        "icb": { "$value": "{color.primary.dark-pink}", "$description": "ICB – NHS Dark Pink" },
+        "region": { "$value": "{color.primary.purple}", "$description": "Region – NHS Purple" }
       },
       "stroke": {
         "$comment": "Automatic contrast stroke colours for overlays / borders. Light fills get dark stroke; dark fills get white stroke.",
@@ -46,13 +60,28 @@
           "12": { "$value": "#ffffff", "$description": "Stroke for series 12 (brown)" }
         },
         "region": {
-          "north-east": { "$value": "#ffffff", "$description": "Stroke for North East (blue)" },
-          "north-west": { "$value": "#212b32", "$description": "Stroke for North West (light blue)" },
-          "east-of-england": { "$value": "#ffffff", "$description": "Stroke for East of England (purple)" },
-          "midlands": { "$value": "#ffffff", "$description": "Stroke for Midlands (pink)" },
-          "london": { "$value": "#212b32", "$description": "Stroke for London (light green)" },
-          "south-west": { "$value": "#212b32", "$description": "Stroke for South West (yellow)" },
-          "south-east": { "$value": "#ffffff", "$description": "Stroke for South East (orange)" }
+          "$comment": "Region stroke colours derived from fill colours: dark fills lightened ~35%; light fills darkened ~25% for consistent contrast without defaulting to pure white/black.",
+          "north-east": { "$value": "#5996D1", "$description": "Stroke for North East (blue lightened 35%)" },
+          "north-west": { "$value": "#3189AD", "$description": "Stroke for North West (light blue darkened 25%)" },
+          "east-of-england": { "$value": "#7A59A3", "$description": "Stroke for East of England (purple lightened 35%)" },
+          "midlands": { "$value": "#CA71A4", "$description": "Stroke for Midlands (pink lightened 35%)" },
+          "london": { "$value": "#5A8F19", "$description": "Stroke for London (light green darkened 25%)" },
+          "south-west": { "$value": "#BCA900", "$description": "Stroke for South West (yellow darkened 25%)" },
+          "south-east": { "$value": "#B26800", "$description": "Stroke for South East (orange darkened 25%)" }
+        },
+        "severity": {
+          "$comment": "Contrast strokes for severity colours (light backgrounds use dark stroke; dark backgrounds use white).",
+          "low": { "$value": "#212b32", "$description": "Stroke for low severity (pale yellow fill)" },
+          "moderate": { "$value": "#212b32", "$description": "Stroke for moderate severity (warm yellow fill)" },
+          "high": { "$value": "#212b32", "$description": "Stroke for high severity (orange fill)" },
+          "critical": { "$value": "#ffffff", "$description": "Stroke for critical severity (red fill)" }
+        },
+        "org-level": {
+          "$comment": "Contrast strokes for organisational level colours (all dark brand fills so white stroke for consistency).",
+          "trust": { "$value": "#ffffff", "$description": "Stroke for trust (blue fill)" },
+          "ambulance": { "$value": "#ffffff", "$description": "Stroke for ambulance (green fill)" },
+          "icb": { "$value": "#ffffff", "$description": "Stroke for ICB (dark pink fill)" },
+          "region": { "$value": "#ffffff", "$description": "Stroke for region (purple fill)" }
         }
       }
     }

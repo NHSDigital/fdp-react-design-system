@@ -62,6 +62,23 @@ export const Region: Story = {
   )
 };
 
+const severityItems = [
+  { id: 'low', label: 'Low' },
+  { id: 'moderate', label: 'Moderate' },
+  { id: 'high', label: 'High' },
+  { id: 'critical', label: 'Critical' }
+];
+
+export const Severity: Story = {
+  render: () => (
+    <div>
+      <ChartContainer title="Severity legend" description="Semantic severity palette" source="Tokens only">
+        <Legend items={severityItems} palette="severity" />
+      </ChartContainer>
+    </div>
+  )
+};
+
 export const Interactive: Story = {
   render: () => {
     const localSeries = series; // reuse existing

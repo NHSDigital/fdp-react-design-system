@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { pickSeriesColor, pickSeriesStroke, pickRegionColor, pickRegionStroke } from '../utils/colors';
+import { pickSeriesColor, pickSeriesStroke, pickRegionColor, pickRegionStroke, pickSeverityColor, pickSeverityStroke } from '../utils/colors';
 import { useVisibility } from '../core/VisibilityContext';
 
 export interface LegendItem {
@@ -7,13 +7,14 @@ export interface LegendItem {
   label: string;
   color?: string; // explicit override
   stroke?: string; // explicit stroke
-  palette?: 'categorical' | 'region';
+  palette?: 'categorical' | 'region' | 'severity';
+  description?: string; // optional accessible description / tooltip (future)
 }
 
 export interface LegendProps {
   /** Legend items. If omitted and a VisibilityProvider is present, auto inference may be added later. */
   items?: LegendItem[];
-  palette?: 'categorical' | 'region';
+  palette?: 'categorical' | 'region' | 'severity';
   direction?: 'row' | 'column';
   /** Make legend interactive – clicking toggles series visibility */
   interactive?: boolean;
@@ -82,8 +83,17 @@ export const Legend: React.FC<LegendProps> = ({
     <div className="fdp-legend-wrapper">
       <ul className={`fdp-legend fdp-legend--${direction}`}> 
         {items.map((item, i) => {
-          const fill = item.color || (palette === 'region' ? pickRegionColor(item.id, i) : pickSeriesColor(i));
-          let stroke = item.stroke || (palette === 'region' ? pickRegionStroke(item.id, i) : pickSeriesStroke(i));
+          const effectivePalette = item.palette || palette;
+          const fill = item.color || (
+            effectivePalette === 'region' ? pickRegionColor(item.id, i)
+            : effectivePalette === 'severity' ? pickSeverityColor(item.id, i)
+            : pickSeriesColor(i)
+          );
+          let stroke = item.stroke || (
+            effectivePalette === 'region' ? pickRegionStroke(item.id, i)
+            : effectivePalette === 'severity' ? pickSeverityStroke(item.id, i)
+            : pickSeriesStroke(i)
+          );
           if (adjustStrokeForWhiteBackground && stroke) {
             const norm = stroke.trim().toLowerCase();
             if (norm === '#fff' || norm === '#ffffff' || norm === 'white' || /^rgb\(\s*255\s*,\s*255\s*,\s*255\s*\)$/.test(norm)) {

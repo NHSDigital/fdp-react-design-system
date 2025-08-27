@@ -4,12 +4,13 @@ export interface LegendItem {
     label: string;
     color?: string;
     stroke?: string;
-    palette?: 'categorical' | 'region';
+    palette?: 'categorical' | 'region' | 'severity';
+    description?: string;
 }
 export interface LegendProps {
     /** Legend items. If omitted and a VisibilityProvider is present, auto inference may be added later. */
     items?: LegendItem[];
-    palette?: 'categorical' | 'region';
+    palette?: 'categorical' | 'region' | 'severity';
     direction?: 'row' | 'column';
     /** Make legend interactive – clicking toggles series visibility */
     interactive?: boolean;

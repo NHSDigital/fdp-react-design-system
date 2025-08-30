@@ -12,6 +12,7 @@ import {
 	assuranceLabel,
 	zoneLabel,
 } from "./logic/spcDescriptors";
+import { getVariationColorToken } from "./logic/spcDescriptors";
 import { Tag } from "../../../Tag";
 
 interface SPCTooltipOverlayProps {
@@ -131,22 +132,8 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 
 	// focus ring colour
 	const focusYellow = "var(--nhs-fdp-color-primary-yellow,#ffeb3b)";
-	// Tooltip inner dot colour: use SPC semantic tokens
-	// Mapping: improvement -> spc-improvement, concern -> spc-concern, neither -> common-cause, none -> no-judgement
-	const spcDotColor = (() => {
-		const v = row?.variationIcon;
-		switch (v) {
-			case "improvement":
-				return "var(--nhs-fdp-color-data-viz-spc-improvement, #00b0f0)"; // user-provided #00b0f0
-			case "concern":
-				return "var(--nhs-fdp-color-data-viz-spc-concern, #e46c0a)"; // user-provided #e46c0a
-			case "none":
-				return "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)"; // user-provided #490092
-			case "neither":
-			default:
-				return "var(--nhs-fdp-color-data-viz-spc-common-cause, #a6a6a6)"; // user-provided #a6a6a6
-		}
-	})();
+	// Tooltip inner dot colour: use canonical token exported from spcDescriptors
+	const spcDotColor = getVariationColorToken(row?.variationIcon);
 
 	// lineHeight constant removed (was only used for height calculation)
 	// Height no longer needed for positioning (always placed below point)

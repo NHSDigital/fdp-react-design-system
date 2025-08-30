@@ -5,6 +5,9 @@ export enum AssuranceResult {
   Uncertain = 'uncertain'
 }
 
+// Pull canonical SPC palette from engine logic (source of truth)
+import { VARIATION_COLOR_TOKENS } from "../SPCChart/logic/spcDescriptors";
+
 // Default colours aligned to variation icon palette
 export const DEFAULT_COLOURS: Record<AssuranceResult, string> = {
   [AssuranceResult.Pass]: '#00B0F0', // blue
@@ -80,25 +83,25 @@ const pickTextColour = (hex: string) => {
 
 export const VARIATION_COLOURS: Record<VariationState, VariationColourDef> = {
   [VariationState.SpecialCauseDeteriorating]: {
-    hex: '#E46C0A',
+  hex: VARIATION_COLOR_TOKENS.concern.hex,
     judgement: VariationJudgement.Deteriorating,
     label: 'Special Cause (Deteriorating)',
     description: 'Deteriorating variation detected (special cause) relative to baseline.'
   },
   [VariationState.SpecialCauseImproving]: {
-    hex: '#00B0F0',
+  hex: VARIATION_COLOR_TOKENS.improvement.hex,
     judgement: VariationJudgement.Improving,
     label: 'Special Cause (Improving)',
     description: 'Improving variation detected (special cause) relative to baseline.'
   },
   [VariationState.CommonCause]: {
-    hex: '#A6A6A6',
+  hex: VARIATION_COLOR_TOKENS.neither.hex,
     judgement: VariationJudgement.None,
     label: 'Common Cause',
     description: 'Common cause variation only – no special cause detected.'
   },
   [VariationState.SpecialCauseNoJudgement]: {
-    hex: '#490092',
+  hex: VARIATION_COLOR_TOKENS.none.hex,
     judgement: VariationJudgement.No_Judgement,
     label: 'Special Cause (No Judgement)',
     description: 'Special cause detected without assigning improving/deteriorating judgement.'
@@ -168,3 +171,8 @@ export const assuranceExamples = [
 	{ id: 'assurance-fail', label: 'Assurance Fail', status: AssuranceResult.Fail },
 	{ id: 'assurance-uncertain', label: 'Assurance Uncertain', status: AssuranceResult.Uncertain }
 ];
+
+// Compatibility re-exports: canonical tokens & helpers live in SPCChart logic; re-export here for older imports
+export { VARIATION_COLOR_TOKENS } from "../SPCChart/logic/spcDescriptors";
+export { getVariationColorToken, getVariationColorHex } from "../SPCChart/logic/spcDescriptors";
+export type { VariationIcon } from "../SPCChart/logic/spc";

@@ -109,3 +109,22 @@ export function zoneLabel(mean: number | null | undefined, sigma: number, value:
   if (z < 3) return 'Between 2–3σ';
   return 'Beyond 3σ';
 }
+
+// ------------------------- Shared visual tokens (source of truth) -------------------------
+// Canonical mapping of engine variation icons -> CSS token (with fallback hex).
+export const VARIATION_COLOR_TOKENS: Record<VariationIcon, { token: string; hex: string }> = {
+  improvement: { token: 'var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)', hex: '#00B0F0' },
+  concern:     { token: 'var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)', hex: '#E46C0A' },
+  none:        { token: 'var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)', hex: '#490092' },
+  neither:     { token: 'var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)', hex: '#A6A6A6' },
+};
+
+export function getVariationColorToken(icon: VariationIcon | undefined): string {
+  if (!icon) return VARIATION_COLOR_TOKENS.neither.token;
+  return VARIATION_COLOR_TOKENS[icon]?.token ?? VARIATION_COLOR_TOKENS.neither.token;
+}
+
+export function getVariationColorHex(icon: VariationIcon | undefined): string {
+  if (!icon) return VARIATION_COLOR_TOKENS.neither.hex;
+  return VARIATION_COLOR_TOKENS[icon]?.hex ?? VARIATION_COLOR_TOKENS.neither.hex;
+}

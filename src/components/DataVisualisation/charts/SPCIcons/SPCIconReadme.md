@@ -43,22 +43,18 @@ Used only for derived ARIA description (not colour or letter).
 Provide what you *know*; icon infers state + direction:
 ```ts
 import { SpcVariationIcon } from "./SPCIcon";
-import { VariationJudgement, MetricPolarity, Direction } from "./SPCConstants";
+// Recommended: import the engine enum for variation keys
+import { VariationIcon as EngineVariationIcon } from "../SPCChart/logic/spc";
+
+<SpcVariationIcon data={{ variationIcon: EngineVariationIcon.Improvement }} />
 
 <SpcVariationIcon
   data={{
-    judgement: VariationJudgement.Improving,
-    polarity: MetricPolarity.HigherIsBetter
-  }}
-/>
-
-<SpcVariationIcon
-  data={{
-    judgement: VariationJudgement.No_Judgement,
-    polarity: MetricPolarity.ContextDependent,
+    judgement: 'no_judgement', // or use VariationJudgement.No_Judgement
+    polarity: 'context_dependent',
     trend: Direction.Lower    // required here
   }}
-/>
+/> 
 ```
 
 ### 2. Parsimonious Helper Type

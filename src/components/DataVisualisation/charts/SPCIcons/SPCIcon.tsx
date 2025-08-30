@@ -13,6 +13,9 @@ import {
 // Updated: point to advanced SPC engine (legacy ../../xmr/spc path removed during refactor)
 import { VariationIcon as SpcEngineVariationIcon } from "../SPCChart/logic/spc";
 
+// Friendly alias exported for consumers who want to pass just the engine icon key
+export type SpcEngineIconPayload = { variationIcon: SpcEngineVariationIcon; trend?: Direction; polarity?: MetricPolarity };
+
 // --- Variation colour system -------------------------------------------------
 // Primary brand‑aligned palette for SPC variation states.
 // stroke: ring / outline; fill: interior glyph colour. In most cases we use the same.
@@ -213,7 +216,7 @@ const resolveStateAndLayout = (input: SpcVariationInput): {
 			[SpcEngineVariationIcon.Improvement]: VariationState.SpecialCauseImproving,
 			[SpcEngineVariationIcon.Concern]: VariationState.SpecialCauseDeteriorating,
 			[SpcEngineVariationIcon.Neither]: VariationState.CommonCause,
-			[SpcEngineVariationIcon.None]: VariationState.CommonCause,
+			[SpcEngineVariationIcon.None]: VariationState.SpecialCauseNoJudgement,
 		};
 		const state = mapping[eng.variationIcon];
 		const direction = (eng.trend ?? (state === VariationState.SpecialCauseImproving
@@ -468,7 +471,7 @@ export const SpcVariationIcon = ({
 						/>
 					)}
 					{/* Data points (last two coloured when judgement positive or negative) */}
-					{points.map((p: Point, i: number) => {
+					{ points.map((p: Point, i: number) => {
 						const specialIdx = i >= points.length - 2 && isSpecial; // last two
 						const fill = specialIdx ? pointColour : "#A6A6A6";
 						const stroke = fill;

@@ -12,6 +12,8 @@ import LineSeriesPrimitive from "../../series/LineSeriesPrimitive";
 import SPCTooltipOverlay from "./SPCTooltipOverlay";
 import { TooltipProvider } from "../../core/TooltipContext";
 import VisuallyHiddenLiveRegion from "../../primitives/VisuallyHiddenLiveRegion";
+import { SpcVariationIcon } from "../SPCIcons/SPCIcon";
+import { Direction } from "../SPCIcons/SPCConstants";
 import {
 	buildSpc,
 	ImprovementDirection,
@@ -20,6 +22,7 @@ import {
 	type ChartType,
 	type SpcSettings,
 } from "./logic/spc";
+import { VariationJudgement, MetricPolarity } from "../SPCIcons/SPCConstants";
 import { extractRuleIds, ruleGlossary, variationLabel } from './logic/spcDescriptors';
 
 export interface SPCDatum {
@@ -44,6 +47,8 @@ export interface SPCChartProps {
 	enableRules?: boolean;
 	/** Render variation/assurance icons (basic text markers for now) */
 	showIcons?: boolean;
+	/** Render embedded SPC variation icon in chart corner (defaults to true) */
+	showEmbeddedIcon?: boolean;
 	/** Optional targets per point (same length order as data) */
 	targets?: (number | null | undefined)[];
 	/** Baseline flags per point to start new partitions */
@@ -76,6 +81,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	metricImprovement = ImprovementDirection.Neither,
 	enableRules = true,
 	showIcons = false,
+	showEmbeddedIcon = true,
 	targets,
 	baselines,
 	ghosts,
@@ -139,28 +145,95 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		return [Math.min(...base), Math.max(...base)];
 	}, [data, mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg]);
 
-	return (
-		<ChartRoot
-			height={height}
-			ariaLabel={ariaLabel}
-			margin={{ bottom: 48, left: 56, right: 16, top: 12 }}
-			className={className}
-		>
-			<LineScalesProvider series={series as any} yDomain={yDomain as any}>
-				<InternalSPC
-					series={series as any}
-					showPoints={showPoints}
-					announceFocus={announceFocus}
-					limits={{ mean, ucl, lcl, sigma, onePos, oneNeg, twoPos, twoNeg }}
-					showZones={showZones}
-					highlightOutOfControl={highlightOutOfControl}
-					engineRows={engine?.rows || null}
-					enableRules={enableRules}
-					showIcons={showIcons}
-					narrationContext={narrationContext}
+	// Derive embedded variation icon (now rendered above chart instead of inside SVG)
+	const embeddedIcon = React.useMemo(() => {
+		if (!showEmbeddedIcon || !engine?.rows?.length) return null;
+		const engineRows = engine.rows;
+		let lastIdx = -1;
+		for (let i = engineRows.length - 1; i >= 0; i--) {
+			const r = engineRows[i];
+			if (r && r.value != null && !r.ghost) { lastIdx = i; break; }
+		}
+		if (lastIdx === -1) return null;
+		const lastRow = engineRows[lastIdx];
+		const variation = lastRow.variationIcon as VariationIcon | undefined;
+		// Trend currently not surfaced on SpcRow; placeholder for future extension
+		let trend: Direction | undefined = undefined;
+		let judgement: VariationJudgement;
+		switch (variation) {
+			case VariationIcon.Improvement:
+				judgement = VariationJudgement.Improving;
+				break;
+			case VariationIcon.Concern:
+				judgement = VariationJudgement.Deteriorating;
+				break;
+			case VariationIcon.None:
+				judgement = VariationJudgement.No_Judgement;
+				break;
+			case VariationIcon.Neither:
+			default:
+				judgement = VariationJudgement.None;
+		}
+		let polarity: MetricPolarity;
+		if (metricImprovement === ImprovementDirection.Up) {
+			polarity = MetricPolarity.HigherIsBetter;
+		} else if (metricImprovement === ImprovementDirection.Down) {
+			polarity = MetricPolarity.LowerIsBetter;
+		} else {
+			polarity = MetricPolarity.ContextDependent;
+		}
+		const iconSize = 80;
+		return (
+			<div
+				key={`embedded-icon-${lastIdx}`}
+				className="fdp-spc-chart__embedded-icon"
+				data-variation={String(variation)}
+				data-variation-judgement={String(judgement)}
+				data-trend-raw={'none'}
+				data-trend={trend ? String(trend) : 'none'}
+				data-polarity={String(polarity ?? 'unknown')}
+				style={{ width: iconSize, height: iconSize }}
+			>
+				<SpcVariationIcon
+					dropShadow={false}
+					data={{ judgement, polarity, ...(trend ? { trend } : {}) }}
+					size={iconSize}
 				/>
-			</LineScalesProvider>
-		</ChartRoot>
+			</div>
+		);
+	}, [showEmbeddedIcon, engine?.rows, metricImprovement]);
+
+	return (
+		<div className={className ? `fdp-spc-chart-wrapper ${className}` : 'fdp-spc-chart-wrapper'}>
+			{/* Top row containing right-aligned embedded variation icon */}
+			{showEmbeddedIcon && (
+				<div className="fdp-spc-chart__top-row" style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 4 }}>
+					{embeddedIcon}
+				</div>
+			)}
+			<ChartRoot
+				height={height}
+				ariaLabel={ariaLabel}
+				margin={{ bottom: 48, left: 56, right: 16, top: 12 }}
+				className={undefined /* avoid duplicating outer class */}
+			>
+				<LineScalesProvider series={series as any} yDomain={yDomain as any}>
+					<InternalSPC
+						series={series as any}
+						showPoints={showPoints}
+						announceFocus={announceFocus}
+						limits={{ mean, ucl, lcl, sigma, onePos, oneNeg, twoPos, twoNeg }}
+						showZones={showZones}
+						highlightOutOfControl={highlightOutOfControl}
+						engineRows={engine?.rows || null}
+						enableRules={enableRules}
+						showIcons={showIcons}
+						narrationContext={narrationContext}
+						metricImprovement={metricImprovement}
+					/>
+				</LineScalesProvider>
+			</ChartRoot>
+		</div>
 	);
 };
 
@@ -191,6 +264,7 @@ interface InternalProps {
 		timeframe?: string;
 		additionalNote?: string;
 	};
+	metricImprovement?: ImprovementDirection;
 }
 
 const InternalSPC: React.FC<InternalProps> = ({
@@ -551,7 +625,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 							measureUnit={narrationContext?.measureUnit}
 							dateFormatter={(d: Date) => formatDateLong(d)}
 						/>
-					</g>
+
+						</g>
 				</svg>
 				{announceFocus && (
 					<VisuallyHiddenLiveRegion

@@ -25,6 +25,9 @@ export interface LineScalesProviderProps<Datum extends { x: any; y: number }> {
   yTickCount?: number;
   /** Optional explicit y domain override (e.g. stacked totals). */
   yDomain?: [number, number];
+  /** Inner padding (px) to leave between axis and plotted points — improves hover targets near edges. Default: 6px */
+  xPadding?: number;
+  yPadding?: number;
 }
 
 export const LineScalesProvider = <Datum extends { x: any; y: number }>({
@@ -36,6 +39,7 @@ export const LineScalesProvider = <Datum extends { x: any; y: number }>({
   xTickCount = 6,
   yTickCount = 5,
   yDomain
+  , xPadding, yPadding
 }: LineScalesProviderProps<Datum>) => {
   const chartDims = useChartContext();
   // Prefer explicit values; fallback to chart context; final fallback 0 (will update on re-measure)
@@ -48,14 +52,17 @@ export const LineScalesProvider = <Datum extends { x: any; y: number }>({
     return raw instanceof Date ? raw : new Date(raw);
   }, [parseXProp]);
 
-  const xScale = React.useMemo(() => createXTimeScale(allData, parseX as any, [0, innerWidth]), [allData, parseX, innerWidth]);
+  const xPad = xPadding ?? 6;
+  const yPad = yPadding ?? 6;
+
+  const xScale = React.useMemo(() => createXTimeScale(allData, parseX as any, [xPad, Math.max(0, innerWidth - xPad)]), [allData, parseX, innerWidth, xPad]);
   const yScale = React.useMemo(() => {
     if (yDomain) {
-      const scale = createYLinearScale([], (d: any) => d.y, [innerHeight, 0]);
+      const scale = createYLinearScale([], (d: any) => d.y, [Math.max(0, innerHeight - yPad), yPad]);
       scale.domain(yDomain);
       return scale;
     }
-    return createYLinearScale(allData, (d: any) => d.y, [innerHeight, 0]);
+    return createYLinearScale(allData, (d: any) => d.y, [Math.max(0, innerHeight - yPad), yPad]);
   }, [allData, innerHeight, yDomain]);
 
   const value: ScaleContextValue = React.useMemo(() => ({

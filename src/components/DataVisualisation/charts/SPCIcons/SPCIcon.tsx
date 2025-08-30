@@ -1,4 +1,4 @@
-import { useId, useMemo } from "react";
+import React, { useId, useMemo } from "react";
 import {
 	computePointPositions,
 	Direction,
@@ -350,15 +350,22 @@ export interface SpcIconsProps {
 // For states without an inherent judgement (common cause or no judgement),
 // return null to allow callers to specify their own direction.
 
+
+export interface SpcVariationIconPropsAlt extends SpcVariationIconProps {
+	variant?: 'classic' | 'triangle' | 'triangleWithRun';
+	runLength?: number;
+}
+
 export const SpcVariationIcon = ({
 	data,
 	size = 44,
 	ariaLabel,
 	showLetter = true,
 	dropShadow = true,
+	variant = 'classic',
+	runLength = 0,
 	...rest
-}: SpcVariationIconProps & Record<string, unknown>) => {
-	// Generate a unique ID for the shadow filter to avoid conflicts in the DOM
+}: SpcVariationIconPropsAlt & Record<string, unknown>) => {
 	const shadowId = useId();
 	const { state, direction } = resolveStateAndLayout(data as SpcVariationInput);
 	const colour = getVariationColour(state);
@@ -369,27 +376,266 @@ export const SpcVariationIcon = ({
 	const letter =
 		showLetter && showLetterForJudgement
 			? direction === Direction.Higher
-				? "H"
-				: "L"
-			: "";
+				? 'H'
+				: 'L'
+			: '';
 	const isSpecial = state !== VariationState.CommonCause;
 	const isNoJudgement = state === VariationState.SpecialCauseNoJudgement;
-	const pointColour = isSpecial ? colour.hex : "#A6A6A6";
-	// Fallback to 'higher' when trend is null; ensures stable layouts.
+	const pointColour = isSpecial ? colour.hex : '#A6A6A6';
 	const points: Point[] = useMemo(
 		() => computePointPositions(state, direction),
 		[state, direction]
 	);
-	// Build aria label.  Always mention the state label; append direction when present.
 	const aria =
 		ariaLabel ||
 		`${colour.label}${
-			letter ? (direction === Direction.Higher ? " – Higher" : " – Lower") : ""
+			letter ? (direction === Direction.Higher ? ' – Higher' : ' – Lower') : ''
 		}`;
 	const ariaDescription = deriveVariationAriaDescription(
 		data as SpcVariationInput
 	);
 
+	// --- Triangle with run rendering (new) ---
+	if (variant === 'triangleWithRun') {
+		// Short triangle with run indicator (five small circles)
+		const triSize = 100;
+		const centerX = 150;
+		const centerY = 140;
+		const upTriangle = [
+			[centerX, centerY - triSize / 2],
+			[centerX - triSize / 2, centerY + triSize / 2],
+			[centerX + triSize / 2, centerY + triSize / 2],
+		];
+		const downTriangle = [
+			[centerX, centerY + triSize / 2],
+			[centerX - triSize / 2, centerY - triSize / 2],
+			[centerX + triSize / 2, centerY - triSize / 2],
+		];
+		// flatLine intentionally omitted — rendered as a short line when needed directly in JSX
+		let shape: React.ReactNode = null;
+		let shapeLetter = '';
+		if (state === VariationState.SpecialCauseImproving) {
+			shape = (
+				<polygon
+					points={upTriangle.map((p) => p.join(',')).join(' ')}
+					fill={colour.hex}
+					stroke={colour.hex}
+					strokeWidth={6}
+					transform="translate(0, -15)"
+				/>
+			);
+			shapeLetter = 'H';
+		} else if (state === VariationState.SpecialCauseDeteriorating) {
+			shape = (
+				<polygon
+					points={downTriangle.map((p) => p.join(',')).join(' ')}
+					fill={colour.hex}
+					stroke={colour.hex}
+					strokeWidth={6}
+					transform="translate(0, 15)"
+				/>
+			);
+			shapeLetter = 'L';
+		} else if (state === VariationState.SpecialCauseNoJudgement) {
+			shape = (
+				<polygon
+					points={
+						direction === Direction.Higher
+							? upTriangle.map((p) => p.join(',')).join(' ')
+							: downTriangle.map((p) => p.join(',')).join(' ')
+					}
+					fill={colour.hex}
+					stroke={colour.hex}
+					strokeWidth={6}
+					transform={direction === Direction.Higher ? 'translate(0,-6)' : 'translate(0,6)'}
+				/>
+			);
+		}
+		// Run circles
+		const runLen = Math.max(0, Math.min(5, Math.floor(runLength || 0)));
+		const runY = state === VariationState.CommonCause ? 160 : direction === Direction.Higher ? 210 : 70;
+		const runRadius = 10;
+		const runGap = 26;
+		const runStartX = centerX - 2 * runGap;
+		const runColor = state === VariationState.SpecialCauseImproving ? '#00B0F0' : state === VariationState.SpecialCauseDeteriorating ? '#E46C0A' : '#A6A6A6';
+		const runCircles = Array.from({ length: 5 }).map((_, i) => {
+		const filled = (state === VariationState.SpecialCauseImproving || state === VariationState.SpecialCauseDeteriorating) && i >= 5 - runLen;
+		const fill = filled ? runColor : '#A6A6A6';
+			return <circle key={i} cx={runStartX + i * runGap} cy={runY} r={runRadius} fill={fill} stroke={fill} strokeWidth={1} />;
+		});
+		return (
+			<svg width={size} height={size} viewBox="0 0 300 300" role="img" aria-label={aria} aria-description={ariaDescription} {...rest}>
+				{dropShadow && (
+					<defs>
+						<filter id={shadowId} filterUnits="objectBoundingBox">
+							<feGaussianBlur stdDeviation="3" />
+							<feOffset dx="0" dy="15" result="blur" />
+							<feFlood floodColor="rgb(150,150,150)" floodOpacity="1" />
+							<feComposite in2="blur" operator="in" result="colorShadow" />
+							<feComposite in="SourceGraphic" in2="colorShadow" operator="over" />
+						</filter>
+					</defs>
+				)}
+				<circle stroke="none" fill="#ffffff" {...(dropShadow ? { filter: `url(#${shadowId})` } : {})} cx="150" cy="150" r="120" />
+				<circle stroke={colour.hex} strokeWidth={15} strokeMiterlimit={10} fill="none" cx="150" cy="150" r="120" />
+				<g transform={ direction === Direction.Higher ? "translate(0,-10)" : "translate(0,20)"}>
+					{shape}
+					{shapeLetter && (
+						<text fill="#fff" fontFamily="'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" fontWeight="bold" fontSize={64} x="150" y={direction === Direction.Higher ? 150 : 145} textAnchor="middle" dominantBaseline="middle">{shapeLetter}</text>
+					)}
+					{runCircles}
+				</g>
+			</svg>
+		);
+	}
+
+	// --- Alternative triangle rendering ---
+	if (variant === 'triangle') {
+		// Triangle geometry
+		// Upward triangle: base at bottom, tip at top
+		// Downward triangle: base at top, tip at bottom
+		// Centered at (150,150), size ~120px
+		const triSize = 150;
+		const centerX = 150;
+		const centerY = 150;
+		const upTriangle = [
+			[centerX, centerY - triSize / 2],
+			[centerX - triSize / 2, centerY + triSize / 2],
+			[centerX + triSize / 2, centerY + triSize / 2],
+		];
+		const downTriangle = [
+			[centerX, centerY + triSize / 2],
+			[centerX - triSize / 2, centerY - triSize / 2],
+			[centerX + triSize / 2, centerY - triSize / 2],
+		];
+		// Flat line for neither
+		const flatLine = [
+			[centerX - triSize / 2, centerY + triSize / 2],
+			[centerX + triSize / 2, centerY + triSize / 2],
+		];
+	let shape: React.ReactNode = null;
+		if (state === VariationState.SpecialCauseImproving) {
+			shape = (
+				<>
+				<polygon
+					points={upTriangle.map((p) => p.join(',')).join(' ')}
+					fill={colour.hex}
+					stroke={colour.hex}
+					strokeWidth={8}
+					transform="translate(0, -10)"
+				/>
+				<text
+					fill="#fff"
+					fontFamily="'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif"
+					fontWeight="bold"
+					fontSize={100}
+					x="150"
+					y="175"
+					textAnchor="middle"
+					dominantBaseline="middle"
+				>
+					{'H'}
+					</text>
+				</>
+			);
+		} else if (state === VariationState.SpecialCauseDeteriorating) {
+			shape = (
+				<>
+				<polygon
+					points={downTriangle.map((p) => p.join(',')).join(' ')}
+					fill={colour.hex}
+					stroke={colour.hex}
+					strokeWidth={8}
+					transform="translate(0, 10)"
+				/>
+				<text
+					fill="#fff"
+					fontFamily="'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif"
+					fontWeight="bold"
+					fontSize={100}
+					x="150"
+					y="145"
+					textAnchor="middle"
+					dominantBaseline="middle"
+				>
+					{'L'}
+					</text>
+				</>
+			);			
+		} else if (state === VariationState.SpecialCauseNoJudgement) {
+			// Up or down triangle, no letter
+			shape = (
+				<polygon
+					points={
+						direction === Direction.Higher
+							? upTriangle.map((p) => p.join(',')).join(' ')
+							: downTriangle.map((p) => p.join(',')).join(' ')
+					}
+					fill={colour.hex}
+					stroke={colour.hex}
+					strokeWidth={8}
+					transform={direction === Direction.Higher ? "translate(0, -15)" : "translate(0, 15)"}
+				/>
+			);
+		} else if (state === VariationState.CommonCause) {
+			// Flat line
+			shape = (
+				<line
+					x1={flatLine[0][0]}
+					y1={flatLine[0][1]}
+					x2={flatLine[1][0]}
+					y2={flatLine[1][1]}
+					stroke={colour.hex}
+					strokeWidth={32}
+					strokeLinecap="square"
+					transform="translate(0, -75)"
+				/>
+			);
+		}
+		return (
+			<svg
+				width={size}
+				height={size}
+				viewBox="0 0 300 300"
+				role="img"
+				aria-label={aria}
+				aria-description={ariaDescription}
+				{...rest}
+			>
+				{dropShadow && (
+					<defs>
+						<filter id={shadowId} filterUnits="objectBoundingBox">
+							<feGaussianBlur stdDeviation="3" />
+							<feOffset dx="0" dy="15" result="blur" />
+							<feFlood floodColor="rgb(150,150,150)" floodOpacity="1" />
+							<feComposite in2="blur" operator="in" result="colorShadow" />
+							<feComposite in="SourceGraphic" in2="colorShadow" operator="over" />
+						</filter>
+					</defs>
+				)}
+				<circle
+					stroke="none"
+					fill="#ffffff"
+					{...(dropShadow ? { filter: `url(#${shadowId})` } : {})}
+					cx="150"
+					cy="150"
+					r="120"
+				/>
+				<circle
+					stroke={colour.hex}
+					strokeWidth={15}
+					strokeMiterlimit={10}
+					fill="none"
+					cx="150"
+					cy="150"
+					r="120"
+				/>
+				{shape}
+			</svg>
+		);
+	}
+
+	// --- Default/classic rendering ---
 	return (
 		<svg
 			width={size}
@@ -400,7 +646,7 @@ export const SpcVariationIcon = ({
 			aria-description={ariaDescription}
 			{...rest}
 		>
-			{ dropShadow && (
+			{dropShadow && (
 				<defs>
 					<filter id={shadowId} filterUnits="objectBoundingBox">
 						<feGaussianBlur stdDeviation="3" />
@@ -437,13 +683,13 @@ export const SpcVariationIcon = ({
 					transform="translate(86.67, 54) scale(0.5, 0.5)"
 					textAnchor="end"
 				>
-					<tspan x="120" y={direction === Direction.Lower ? "325" : "156"}>
+					<tspan x="120" y={direction === Direction.Lower ? '325' : '156'}>
 						{letter}
 					</tspan>
 				</text>
 			)}
 			{/* Special Cause (No Judgement) arrow glyph: vertical arrow indicating orientation.
-		  Up (layout Higher) shows arrow pointing up; Down (layout Lower) rotates 90°. */}
+				Up (layout Higher) shows arrow pointing up; Down (layout Lower) rotates 90°. */}
 			{isNoJudgement ? (
 				<path
 					aria-hidden="true"
@@ -451,8 +697,8 @@ export const SpcVariationIcon = ({
 					stroke="none"
 					fill={colour.hex}
 					{...(direction === Direction.Lower
-						? { transform: "rotate(90 150 150)" }
-						: { transform: "translate(-5 0) rotate(0 150 150)" })}
+						? { transform: 'rotate(90 150 150)' }
+						: { transform: 'translate(-5 0) rotate(0 150 150)' })}
 					d="M 90.26,185.42 L 149.31,126.37 127.44,104.51 209.81,90.66 195.96,173.02 174.09,151.16 115.05,210.2 90.26,185.42 Z M 90.26,185.42"
 				/>
 			) : (
@@ -467,13 +713,13 @@ export const SpcVariationIcon = ({
 							strokeLinecap="round"
 							strokeLinejoin="round"
 							opacity={0.9}
-							d={`M ${points.map((p) => `${p.cx} ${p.cy}`).join(" L ")}`}
+							d={`M ${points.map((p) => `${p.cx} ${p.cy}`).join(' L ')}`}
 						/>
 					)}
 					{/* Data points (last two coloured when judgement positive or negative) */}
-					{ points.map((p: Point, i: number) => {
+					{points.map((p: Point, i: number) => {
 						const specialIdx = i >= points.length - 2 && isSpecial; // last two
-						const fill = specialIdx ? pointColour : "#A6A6A6";
+						const fill = specialIdx ? pointColour : '#A6A6A6';
 						const stroke = fill;
 						return (
 							<circle
@@ -494,4 +740,4 @@ export const SpcVariationIcon = ({
 	);
 };
 
-SpcVariationIcon.displayName = "SpcVariationIcon";
+SpcVariationIcon.displayName = 'SpcVariationIcon';

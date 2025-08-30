@@ -321,15 +321,15 @@ export const RTTPatientsWaiting: Story = {
 		docs: {
 			description: {
 				story:
-					"Count between hospital-acquired pressure ulcers – G chart. Increased counts showing improvement; short count (month 21) then recovery.",
+					"Indicative RTT % patients waiting less than 18 weeks. Higher is better.",
 			},
 		},
 		metricContext: { improvement: "up" },
 	},
 	render: () => (
 		<ChartContainer
-			title="Count Between Pressure Ulcers"
-			description="Opportunities/units between events (G chart)"
+			title="RTT % Patients Waiting < 18 weeks"
+			description="(XmR chart)"
 			source="Synthetic"
 		>
 			<SPCChart
@@ -337,11 +337,12 @@ export const RTTPatientsWaiting: Story = {
 				chartType="XmR"
 				metricImprovement={ImprovementDirection.Up}
 				enableRules
+				unit="%"
 				announceFocus
 				narrationContext={{
-					measureName: "Count between pressure ulcers",
-					datasetContext: "Trust-wide events",
-					timeframe: "24 events",
+					measureName: "RTT % Patients Waiting < 18 weeks",
+					datasetContext: "National RTT Waiting List Target",
+					timeframe: "25 events",
 				}}
 			/>
 		</ChartContainer>

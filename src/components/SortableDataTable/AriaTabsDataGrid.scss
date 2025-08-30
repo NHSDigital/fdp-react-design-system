@@ -112,7 +112,7 @@ $atd-breakpoints: (
   // Tab List
   &__tabs {
 	display: flex;
-	background: $color-secondary;
+	background: none;
 	gap: 0;
 	margin: 0;
 	padding: 0; // reset default list padding
@@ -1491,3 +1491,25 @@ $atd-breakpoints: (
 
 // Enable scroll snapping only for <= tabletMax
 @include atd-max(tabletMax) { .aria-tabs-datagrid__tabs { @include atd-snap-x(); } }
+
+// Actions area styles
+.aria-tabs-datagrid {
+	&__tabs-wrapper {
+		position: relative;
+		display: flex;
+		align-items: stretch;
+		width: 100%;
+		&--inline-actions {
+			.aria-tabs-datagrid__tabs { flex: 1 1 auto; }
+		}
+	}
+	&__actions {
+		display: flex;
+		gap: nhs.$nhs-fdp-spacing-2;
+		align-items: center;
+		padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+		&--inline { flex: 0 0 auto; }
+		&--above { justify-content: flex-end; margin-bottom: nhs.$nhs-fdp-spacing-2; }
+		button, .nhsuk-button { white-space: nowrap; }
+	}
+}

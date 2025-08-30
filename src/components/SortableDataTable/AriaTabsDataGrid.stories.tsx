@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { AriaTabsDataGrid } from './AriaTabsDataGrid';
+import { Select } from '../Select';
 import { createGenericTabsConfig } from './AriaTabsDataGridFactory';
 import type { DataOperationConfig } from './AriaTabsDataGridTypes';
 
@@ -107,6 +108,56 @@ export const MinimalFourColumns: Story = {
     docs: {
       description: {
         story: 'Minimal four column story (no custom renderer) useful for header width and overflow tests.'
+      }
+    }
+  }
+};
+
+// Demonstrates the actions toolbar appearing inline to the right when there is sufficient horizontal space
+export const WithActionsInline: Story = {
+  args: {
+    ariaLabel: 'Product inventory with actions',
+    tabPanels,
+	dataConfig,
+    forceActionsAbove: false,
+    actions: (
+      <Select id="bulk-action" name="bulk-action" ariaLabel="Bulk action" onChange={() => {}}>
+        <Select.Option value="">Choose category</Select.Option>
+        <Select.Option value="export">Export CSV</Select.Option>
+        <Select.Option value="add">Add Product</Select.Option>
+        <Select.Option value="archive">Archive Selected</Select.Option>
+      </Select>
+    )
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Shows the new actions prop placed inline (right side) when all tabs + actions comfortably fit the container width.'
+      }
+    }
+  }
+};
+
+// Demonstrates forcing the actions area above the tabs (using forceActionsAbove)
+export const WithActionsForcedAbove: Story = {
+  args: {
+    ariaLabel: 'Product inventory with actions forced above',
+    tabPanels,
+    dataConfig,
+    forceActionsAbove: true,
+    actions: (
+      <Select id="forced-action" name="forced-action" ariaLabel="Actions" onChange={() => {}}>
+        <Select.Option value="">Select action</Select.Option>
+        <Select.Option value="refresh">Refresh Data</Select.Option>
+        <Select.Option value="create">Create Item</Select.Option>
+        <Select.Option value="settings">Settings</Select.Option>
+      </Select>
+    )
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Uses forceActionsAbove to disable measurement logic and always place the actions bar above the tab list.'
       }
     }
   }

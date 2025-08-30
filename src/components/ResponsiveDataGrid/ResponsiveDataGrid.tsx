@@ -1307,7 +1307,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		{/* Conditional Sort Controls: Advanced vs Simple */}
 		{currentPanel && currentPanel.columns && (
 		  <>
-			{enableAdvancedSorting ? (
+			{ enableAdvancedSorting ? (
 			  /* Advanced sorting with SortStatusControl */
 			  <SortStatusControl
 				sortConfig={state.sortConfig || []}

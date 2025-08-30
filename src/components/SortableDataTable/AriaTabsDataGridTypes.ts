@@ -81,6 +81,12 @@ export interface AriaTabsDataGridProps<T = any> {
   errorComponent?: React.ReactNode;
   /** Test ID for testing */
   'data-testid'?: string;
+  /** Optional actions to render alongside the tab list (e.g. buttons, filters). These will appear to the right of the tabs when space allows, otherwise they will render above (just before) the tab list. */
+  actions?: React.ReactNode;
+  /** Optional minimum gap (px) to preserve between the end of the tabs and the actions when attempting inline placement. Defaults to 16. */
+  actionsMinGap?: number;
+  /** When true, disables dynamic measurement and always places actions above the tab list. */
+  forceActionsAbove?: boolean;
 }
 
 /**

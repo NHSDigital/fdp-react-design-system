@@ -154,13 +154,12 @@
       padding: nhs.$nhs-fdp-button-spacing-padding-vertical-desktop nhs.$nhs-fdp-spacing-3;
       min-height: nhs.$nhs-fdp-form-spacing-input-min-height + nhs.$nhs-fdp-spacing-2;
       align-items: center;
+	  border: 0;
     }
     
     // Above table variant (for table/hybrid layouts)
     &--above-table {
       background: nhs.$nhs-fdp-color-primary-white;
-      border: 2px solid nhs.$nhs-fdp-color-primary-blue;
-      border-radius: nhs.$nhs-fdp-border-radius-small nhs.$nhs-fdp-border-radius-small 0 0;
       justify-content: flex-end;
       margin-bottom: -2px; // Connect to table below
       

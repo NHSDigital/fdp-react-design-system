@@ -76,7 +76,7 @@ export const LineSeriesPrimitive: React.FC<LineSeriesPrimitiveProps> = ({
         const handleLeave = () => {
           if (tooltip && tooltip.focused?.seriesId === series.id && tooltip.focused.index === di) tooltip.clear();
         };
-        return (
+    return (
           <circle
             key={di}
             cx={cx}
@@ -84,7 +84,7 @@ export const LineSeriesPrimitive: React.FC<LineSeriesPrimitiveProps> = ({
             r={isFocusedPoint ? 5 : 3.5}
             stroke={isFocusedPoint ? 'var(--nhs-fdp-color-primary-yellow, #ffeb3b)' : stroke}
             strokeWidth={isFocusedPoint ? 2 : 1}
-            fill={color}
+      		fill={isFocusedPoint ? 'var(--nhs-fdp-color-grey-3, #aeb7bd)' : color}
             className="fdp-line-point"
             tabIndex={faded ? -1 : tabIndex}
             aria-label={`${series.label || series.id} ${parseX(d).toDateString()} value ${d.y}`}

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SPCChart, type SPCDatum, ImprovementDirection } from './SPCChart';
+import { ruleGlossary, variationLabel, assuranceLabel, zoneLabel } from './logic/spcDescriptors';
 import React from 'react';
 import { ChartContainer } from '../..';
 
@@ -185,4 +186,62 @@ export const AssuranceCapability: Story = {
 	  </div>
 	);
   }
+};
+
+export const RuleGlossary: Story = {
+	parameters: {
+		docs: { description: { story: `Glossary of SPC rule identifiers, variation & assurance semantics.
+
+Special cause rules help distinguish common-cause vs assignable variation:
+- Single point beyond a control limit (3σ) – indicates a rare event.
+- Two of three beyond 2σ (same side) – emerging shift.
+- Four of five beyond 1σ (same side) – strengthening shift (optional rule).
+- Shift – run of points all on one side of the mean meeting configured length.
+- Trend – consecutive increases or decreases meeting configured length.
+
+Variation classification (icons / colours):
+Improvement signal: favourable special cause relative to metricImprovement.
+Concern signal: unfavourable special cause relative to metricImprovement.
+Common cause variation: no special cause signal; system behaving normally.
+
+Assurance (capability mode):
+Target met: Entire 3σ process band on favourable side of target.
+Target not met: Entire band on unfavourable side.
+No label (uncertain): Band straddles target.
+
+Zone bands (for heuristics & some rule logic): Within 1σ, Between 1–2σ, Between 2–3σ, Beyond 3σ.` } }
+	},
+	render: () => {
+		const rows = Object.entries(ruleGlossary).map(([id, entry]) => ({ id, ...entry }));
+		return (
+			<div style={{ maxWidth: 760 }}>
+				<h3>Special Cause Rules</h3>
+				<table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+					<thead>
+						<tr>
+							<th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '4px 6px' }}>Rule ID</th>
+							<th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '4px 6px' }}>Tooltip Label</th>
+							<th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '4px 6px' }}>Narration Fragment</th>
+						</tr>
+					</thead>
+					<tbody>
+						{rows.map(r => (
+							<tr key={r.id}>
+								<td style={{ verticalAlign: 'top', padding: '4px 6px', fontFamily: 'monospace' }}>{r.id}</td>
+								<td style={{ verticalAlign: 'top', padding: '4px 6px' }}>{r.tooltip}</td>
+								<td style={{ verticalAlign: 'top', padding: '4px 6px', color: '#555' }}>{r.narration}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+				<h3 style={{ marginTop: '1.5rem' }}>Variation & Assurance Helpers</h3>
+				<ul>
+					<li><strong>variationLabel()</strong> returns one of: Improvement signal / Concern signal / Common cause variation / null</li>
+					<li><strong>assuranceLabel()</strong> returns: Target met / Target not met / null</li>
+					<li><strong>zoneLabel(mean, sigma, value)</strong> returns the zone classification based on |z|</li>
+				</ul>
+				<p style={{ fontSize: 12, color: '#666' }}>These helpers are used by both tooltip and live narration to maintain consistent phrasing and reduce duplication.</p>
+			</div>
+		);
+	}
 };

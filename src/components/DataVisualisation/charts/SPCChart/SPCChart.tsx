@@ -20,6 +20,7 @@ import {
 	type ChartType,
 	type SpcSettings,
 } from "./logic/spc";
+import { extractRuleIds, ruleGlossary, variationLabel } from './logic/spcDescriptors';
 
 export interface SPCDatum {
 	x: Date | string | number;
@@ -208,6 +209,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 	const chartCtx = useChartContext();
 	if (!scaleCtx) return null;
 	const { xScale, yScale } = scaleCtx;
+	const tooltipCtx = useTooltipContext();
 	const all = series[0]?.data || [];
 	const outOfControl = React.useMemo(() => {
 		if (!limits.ucl && !limits.lcl) return new Set<number>();
@@ -296,66 +298,25 @@ const InternalSPC: React.FC<InternalProps> = ({
 		`${ordinal(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
 
 	const formatLive = React.useCallback(
-		({
-			index,
-			x,
-			y,
-		}: {
-			seriesId: string;
-			x: Date;
-			y: number;
-			index: number;
-		}) => {
+		({ index, x, y }: { seriesId: string; x: Date; y: number; index: number }) => {
 			const row = engineRows?.[index];
 			const dateObj = x instanceof Date ? x : new Date(x);
 			const dateLabel = formatDateLong(dateObj);
-			const unit = narrationContext?.measureUnit
-				? ` ${narrationContext.measureUnit}`
-				: "";
-			const measure = narrationContext?.measureName
-				? ` ${narrationContext.measureName}`
-				: "";
-			if (!row)
+			const unit = narrationContext?.measureUnit ? ` ${narrationContext.measureUnit}` : "";
+			const measure = narrationContext?.measureName ? ` ${narrationContext.measureName}` : "";
+			if (!row) {
 				return `General summary is: ${computedTimeframe ? computedTimeframe + ". " : ""}Point ${index + 1}, ${dateLabel}, ${y}${unit}${measure}`;
-			const variationMap: Record<VariationIcon, string> = {
-				[VariationIcon.Improvement]: "Improvement",
-				[VariationIcon.Concern]: "Concern",
-				[VariationIcon.Neither]: "Neither",
-				[VariationIcon.None]: "No Variation",
-			};
-			const varLabel =
-				variationMap[row.variationIcon as VariationIcon] || "Variation";
-			const rules: string[] = [];
-			if (row.specialCauseSinglePointAbove || row.specialCauseSinglePointBelow)
-				rules.push("\nSpecial Cause - Single point beyond limit");
-			if (row.specialCauseTwoOfThreeAbove || row.specialCauseTwoOfThreeBelow)
-				rules.push("\nSpecial Cause - Two of three points beyond 2 sigma");
-			if (row.specialCauseFourOfFiveAbove || row.specialCauseFourOfFiveBelow)
-				rules.push(
-					"\nSpecial Cause - Four of the last five points beyond 1 sigma"
-				);
-			if (row.specialCauseShiftHigh || row.specialCauseShiftLow)
-				rules.push(
-					"\nSpecial Cause - Shift Rule - A shift rule applies when a run of consecutive points all fall on the same side of the current centre line (mean) and meets or exceeds the configured threshold."
-				);
-			if (row.specialCauseTrendIncreasing || row.specialCauseTrendDecreasing)
-				rules.push(
-					"\nSpecial Cause - Trend Rule - A trend rule fires when a run of consecutive points all fall in the same direction (increasing or decreasing) and meets or exceeds the configured threshold, sometimes 6 points."
-				);
-			const rulePart = rules.length
-				? ` Rules: ${rules.join("; ")}.`
+			}
+			const varLabel = variationLabel(row.variationIcon) || "Variation";
+			const ruleIds = extractRuleIds(row);
+			const ruleNarr = ruleIds.length
+				? ` Rules: ${[...new Set(ruleIds.map(r => ruleGlossary[r].narration))].join("; ")}.`
 				: " No special cause rules.";
 			const ctxParts: string[] = [];
-			//if (computedTimeframe) ctxParts.push(`${computedTimeframe}.`);
-			if (narrationContext?.measureName)
-				ctxParts.push(`Measure: ${narrationContext.measureName}.`);
-			if (narrationContext?.datasetContext)
-				ctxParts.push(`${narrationContext.datasetContext}.`);
-			if (narrationContext?.organisation)
-				ctxParts.push(`Organisation: ${narrationContext.organisation}.`);
-			//if (narrationContext?.timeframe) ctxParts.push(`Timeframe: ${narrationContext.timeframe}.`);
-			if (narrationContext?.additionalNote)
-				ctxParts.push(narrationContext.additionalNote);
+			if (narrationContext?.measureName) ctxParts.push(`Measure: ${narrationContext.measureName}.`);
+			if (narrationContext?.datasetContext) ctxParts.push(`${narrationContext.datasetContext}.`);
+			if (narrationContext?.organisation) ctxParts.push(`Organisation: ${narrationContext.organisation}.`);
+			if (narrationContext?.additionalNote) ctxParts.push(narrationContext.additionalNote);
 			return [
 				`General summary is:`,
 				...ctxParts,
@@ -363,7 +324,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 				dateLabel + ",",
 				`with a value of ${y} ${unit}${measure}`,
 				varLabel + ".",
-				rulePart,
+				ruleNarr,
 			]
 				.join(" ")
 				.replace(/\s+/g, " ")
@@ -397,6 +358,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 				className="fdp-spc-chart"
 				role="group"
 				aria-label="Statistical process control chart"
+				aria-roledescription="chart"
 			>
 				<svg
 					width={scaleCtx.xScale.range()[1] + 56 + 16}
@@ -414,6 +376,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 								x2={xScale.range()[1]}
 								y1={yScale(limits.mean)}
 								y2={yScale(limits.mean)}
+								aria-hidden="true"
 							/>
 						)}
 						{limits.ucl != null && (
@@ -423,6 +386,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 								x2={xScale.range()[1]}
 								y1={yScale(limits.ucl)}
 								y2={yScale(limits.ucl)}
+								aria-hidden="true"
 							/>
 						)}
 						{limits.lcl != null && (
@@ -432,6 +396,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 								x2={xScale.range()[1]}
 								y1={yScale(limits.lcl)}
 								y2={yScale(limits.lcl)}
+								aria-hidden="true"
 							/>
 						)}
 						{showZones && limits.mean != null && (
@@ -443,6 +408,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 										x2={xScale.range()[1]}
 										y1={yScale(limits.onePos)}
 										y2={yScale(limits.onePos)}
+										aria-hidden="true"
 									/>
 								)}
 								{limits.oneNeg != null && (
@@ -452,6 +418,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 										x2={xScale.range()[1]}
 										y1={yScale(limits.oneNeg)}
 										y2={yScale(limits.oneNeg)}
+										aria-hidden="true"
 									/>
 								)}
 								{limits.twoPos != null && (
@@ -461,6 +428,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 										x2={xScale.range()[1]}
 										y1={yScale(limits.twoPos)}
 										y2={yScale(limits.twoPos)}
+										aria-hidden="true"
 									/>
 								)}
 								{limits.twoNeg != null && (
@@ -470,6 +438,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 										x2={xScale.range()[1]}
 										y1={yScale(limits.twoNeg)}
 										y2={yScale(limits.twoNeg)}
+										aria-hidden="true"
 									/>
 								)}
 							</>
@@ -518,20 +487,19 @@ const InternalSPC: React.FC<InternalProps> = ({
 										: sig?.variation === VariationIcon.Concern
 											? " concern"
 											: "");
-								const ariaDescription = describePoint(i, d);
+								// Removed per refined ARIA approach: rely on tooltip via aria-describedby for detailed context
+								const isFocused = tooltipCtx?.focused?.index === i;
 								return (
 									<circle
 										key={i}
 										cx={cx}
 										cy={cy}
-										r={ooc && highlightOutOfControl ? 5 : 4}
+										r={5} // unified radius for consistency across all points
 										className={classes}
 										data-variation={sig?.variation}
 										data-assurance={sig?.assurance}
 										aria-label={ariaLabel}
-										{...(ariaDescription
-											? { "aria-description": ariaDescription }
-											: {})}
+										{...(isFocused ? { 'aria-describedby': `spc-tooltip-${i}` } : {})}
 									/>
 								);
 							})}

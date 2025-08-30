@@ -1,0 +1,111 @@
+import { VariationIcon, AssuranceIcon, SpcRow } from './spc';
+
+// Stable identifiers for rule flags mapped from SpcRow boolean properties
+export type SpcRuleId =
+  | 'singlePointAbove'
+  | 'singlePointBelow'
+  | 'twoOfThreeAbove'
+  | 'twoOfThreeBelow'
+  | 'fourOfFiveAbove'
+  | 'fourOfFiveBelow'
+  | 'shiftHigh'
+  | 'shiftLow'
+  | 'trendIncreasing'
+  | 'trendDecreasing';
+
+export interface SpcRuleGlossaryEntry {
+  /** Short label suitable for dense tooltip list */
+  tooltip: string;
+  /** Longer narration fragment (not full sentence) used when assembling live region text */
+  narration: string;
+}
+
+export const ruleGlossary: Record<SpcRuleId, SpcRuleGlossaryEntry> = {
+  singlePointAbove: {
+    tooltip: 'Single point above upper control limit',
+    narration: 'Single point beyond a control limit',
+  },
+  singlePointBelow: {
+    tooltip: 'Single point below lower control limit',
+    narration: 'Single point beyond a control limit',
+  },
+  twoOfThreeAbove: {
+    tooltip: 'Two of three points beyond +2σ',
+    narration: 'Two of three points beyond two sigma (same side)',
+  },
+  twoOfThreeBelow: {
+    tooltip: 'Two of three points beyond -2σ',
+    narration: 'Two of three points beyond two sigma (same side)',
+  },
+  fourOfFiveAbove: {
+    tooltip: 'Four of five points beyond +1σ',
+    narration: 'Four of five points beyond one sigma (same side)',
+  },
+  fourOfFiveBelow: {
+    tooltip: 'Four of five points beyond -1σ',
+    narration: 'Four of five points beyond one sigma (same side)',
+  },
+  shiftHigh: {
+    tooltip: 'Shift: run of points above centre line',
+    narration: 'Shift (run on one side of mean)',
+  },
+  shiftLow: {
+    tooltip: 'Shift: run of points below centre line',
+    narration: 'Shift (run on one side of mean)',
+  },
+  trendIncreasing: {
+    tooltip: 'Trend: consecutive increasing points',
+    narration: 'Trend (consecutive increases)',
+  },
+  trendDecreasing: {
+    tooltip: 'Trend: consecutive decreasing points',
+    narration: 'Trend (consecutive decreases)',
+  },
+};
+
+/** Extract the triggered rule identifiers for a given SPC row */
+export function extractRuleIds(row: SpcRow | undefined | null): SpcRuleId[] {
+  if (!row) return [];
+  const ids: SpcRuleId[] = [];
+  if (row.specialCauseSinglePointAbove) ids.push('singlePointAbove');
+  if (row.specialCauseSinglePointBelow) ids.push('singlePointBelow');
+  if (row.specialCauseTwoOfThreeAbove) ids.push('twoOfThreeAbove');
+  if (row.specialCauseTwoOfThreeBelow) ids.push('twoOfThreeBelow');
+  if (row.specialCauseFourOfFiveAbove) ids.push('fourOfFiveAbove');
+  if (row.specialCauseFourOfFiveBelow) ids.push('fourOfFiveBelow');
+  if (row.specialCauseShiftHigh) ids.push('shiftHigh');
+  if (row.specialCauseShiftLow) ids.push('shiftLow');
+  if (row.specialCauseTrendIncreasing) ids.push('trendIncreasing');
+  if (row.specialCauseTrendDecreasing) ids.push('trendDecreasing');
+  return ids;
+}
+
+/** Standardised human readable label for variation classification */
+export function variationLabel(icon: VariationIcon | undefined): string | null {
+  switch (icon) {
+    case VariationIcon.Improvement: return 'Improvement signal';
+    case VariationIcon.Concern: return 'Concern signal';
+    case VariationIcon.Neither: return 'Common cause variation';
+    case VariationIcon.None: return null; // suppressed / not enough data
+    default: return null;
+  }
+}
+
+/** Human readable assurance (target) classification */
+export function assuranceLabel(icon: AssuranceIcon | undefined): string | null {
+  switch (icon) {
+    case AssuranceIcon.Pass: return 'Target met';
+    case AssuranceIcon.Fail: return 'Target not met';
+    default: return null;
+  }
+}
+
+/** Zone classification given mean + sigma + value */
+export function zoneLabel(mean: number | null | undefined, sigma: number, value: number): string | null {
+  if (mean == null || !Number.isFinite(sigma) || sigma <= 0) return null;
+  const z = Math.abs((value - mean) / sigma);
+  if (z < 1) return 'Within 1σ';
+  if (z < 2) return 'Between 1–2σ';
+  if (z < 3) return 'Between 2–3σ';
+  return 'Beyond 3σ';
+}

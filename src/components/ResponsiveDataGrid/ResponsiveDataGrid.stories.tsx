@@ -329,3 +329,93 @@ Try switching between different device sizes to see how the action areas adapt r
     }
   }
 };
+
+/**
+ * Grid Actions Inline: Demonstrates forwarding gridActions to AriaTabsDataGrid allowing inline placement.
+ */
+export const WithGridActionsInline: Story = {
+  args: {
+    ...baseProps,
+    forceLayout: 'table',
+    tabPanels: [
+      {
+        id: 'patients',
+        label: 'Patients',
+        data: patientData.slice(0, 6),
+        columns: [
+          { key: 'name', label: 'Name' },
+          { key: 'nhs_number', label: 'NHS Number' },
+          { key: 'age', label: 'Age' },
+          { key: 'ward', label: 'Ward' },
+          { key: 'ews_score', label: 'EWS' }
+        ],
+        ariaLabel: 'Patients with grid actions'
+      },
+      {
+        id: 'more',
+        label: 'More',
+        data: patientData.slice(6, 10),
+        columns: [
+          { key: 'name', label: 'Name' },
+          { key: 'nhs_number', label: 'NHS Number' },
+          { key: 'age', label: 'Age' },
+          { key: 'ward', label: 'Ward' },
+          { key: 'ews_score', label: 'EWS' }
+        ],
+        ariaLabel: 'More patients'
+      }
+    ],
+    gridActions: (
+      <div style={{ display: 'flex', gap: 16 }}>
+        <Button variant="secondary" onClick={() => console.log('Refresh')}>Add</Button>
+        <Button variant="primary" onClick={() => console.log('Add')}>Export</Button>
+      </div>
+    )
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Demonstrates `gridActions` forwarded to the underlying AriaTabsDataGrid so they attempt inline placement beside the tabs when space allows.'
+      }
+    }
+  }
+};
+
+/**
+ * Grid Actions Forced Above: Demonstrates forceGridActionsAbove prop.
+ */
+export const WithGridActionsForcedAbove: Story = {
+  args: {
+    ...baseProps,
+    forceLayout: 'table',
+    tabPanels: [
+      {
+        id: 'patients',
+        label: 'Patients',
+        data: patientData.slice(0, 6),
+        columns: [
+          { key: 'name', label: 'Name' },
+          { key: 'nhs_number', label: 'NHS Number' },
+          { key: 'age', label: 'Age' },
+          { key: 'ward', label: 'Ward' },
+          { key: 'ews_score', label: 'EWS' }
+        ],
+        ariaLabel: 'Patients with forced actions above'
+      }
+    ],
+    gridActions: (
+      <div style={{ display: 'flex', gap: 16 }}>
+        <Button variant="secondary" onClick={() => console.log('Export')}>Export</Button>
+        <Button variant="primary" onClick={() => console.log('Create')}>Create</Button>
+      </div>
+    ),
+    forceGridActionsAbove: true
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Forces the grid actions to render above the tabs regardless of available inline space.'
+      }
+    }
+  }
+};

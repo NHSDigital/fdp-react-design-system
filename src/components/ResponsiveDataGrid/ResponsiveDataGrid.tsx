@@ -294,6 +294,8 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
   enableAdvancedSorting = false,
   topActions,
   bottomActions,
+	gridActions,
+	forceGridActionsAbove,
   
   // Standard AriaTabsDataGrid props
   tabPanels,
@@ -1573,6 +1575,8 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		  selectedIndex={selectedIndexProp} // Use the original prop, not ResponsiveDataGrid's state
 		  onTabChange={onTabChange} // Use the original callback, not ResponsiveDataGrid's wrapper
 		  className="aria-tabs-datagrid-adaptive__table--hybrid"
+		  actions={gridActions}
+		  forceActionsAbove={forceGridActionsAbove}
 		  {...props}
 		/>
 
@@ -1606,6 +1610,8 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		disabled={disabled}
 		selectedIndex={selectedIndexProp} // Use the original prop, not ResponsiveDataGrid's state
 		onTabChange={onTabChange} // Use the original callback, not ResponsiveDataGrid's wrapper
+			actions={gridActions}
+			forceActionsAbove={forceGridActionsAbove}
 		{...props}
 	  />
 

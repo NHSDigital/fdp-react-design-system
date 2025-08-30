@@ -85,4 +85,17 @@ export interface ResponsiveDataGridProps<T = any> extends Omit<AriaTabsDataGridP
    * Appears at the bottom of the component, typically for pagination or bulk actions.
    */
   bottomActions?: React.ReactNode;
+
+  /**
+   * Actions specifically for the underlying AriaTabsDataGrid (e.g. export, view toggles) that
+   * should participate in the tabs action placement (inline when space permits or above).
+   * These are forwarded to the AriaTabsDataGrid `actions` prop.
+   */
+  gridActions?: React.ReactNode;
+
+  /**
+   * Force the forwarded gridActions to render above the tabs (never inline) when provided.
+   * Maps to AriaTabsDataGrid `forceActionsAbove`.
+   */
+  forceGridActionsAbove?: boolean;
 }

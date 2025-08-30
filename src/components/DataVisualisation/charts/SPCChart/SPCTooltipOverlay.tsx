@@ -280,7 +280,7 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 						{zone && (
 							<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--limits">
 								<div className="fdp-spc-tooltip__section-label">
-									<strong>Limits</strong>
+									<strong>Control Limits & Sigma</strong>
 								</div>
 								<div className="fdp-spc-tooltip__badges" aria-label="Limits">
 									<Tag

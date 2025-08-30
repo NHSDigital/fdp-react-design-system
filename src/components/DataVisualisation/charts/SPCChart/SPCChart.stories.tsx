@@ -8,6 +8,8 @@ import {
 } from "./logic/spcDescriptors";
 import React from "react";
 import { ChartContainer } from "../..";
+import { Heading, Table } from "../../..";
+import { List } from "../../../List/List";
 
 const meta: Meta<typeof SPCChart> = {
 	title: "Data Visualisation/SPC/Individuals",
@@ -60,6 +62,7 @@ export const Basic: Story = {
 					data={data}
 					announceFocus
 					unit="%"
+					gradientSequences
 					narrationContext={{
 						measureName: "Daily metric",
 						datasetContext: "Synthetic 30-day sample",
@@ -97,6 +100,7 @@ export const Signals: Story = {
 					chartType="XmR"
 					metricImprovement={ImprovementDirection.Up}
 					announceFocus
+					gradientSequences={true}
 					unit="%"
 					narrationContext={{
 						measureName: "Process metric",
@@ -131,16 +135,17 @@ export const DownIsBetter: Story = {
 		return (
 			<ChartContainer
 				title="SPC (Down is better)"
-				description="Variation icons invert when improvement direction is Down (not suppressing isolated favourable points)"
+				description="Variation icons invert when improvement direction is Down (deliberately not suppressing isolated favourable points)"
 				source="Synthetic data"
 			>
 				<SPCChart
 					data={data}
 					chartType="XmR"
 					settings={{
-						suppressIsolatedFavourablePoint: false,
+						suppressIsolatedFavourablePoint: true,
 					}}
 					metricImprovement={ImprovementDirection.Down}
+					gradientSequences={true}
 					unit="%"
 					announceFocus
 					narrationContext={{
@@ -167,18 +172,19 @@ export const UpIsBetter: Story = {
 		return (
 			<ChartContainer
 				title="SPC (Up is better)"
-				description="Variation icons invert when improvement direction is Up (not supressing isolated favourable points)"
+				description="Variation icons invert when improvement direction is Up (deliberately not suppressing isolated favourable points)"
 				source="Synthetic data"
 			>
 				<SPCChart
 					data={data}
 					chartType="XmR"
 					settings={{
-						suppressIsolatedFavourablePoint: false,
+						suppressIsolatedFavourablePoint: true,
 					}}
 					metricImprovement={ImprovementDirection.Up}
 					unit="%"
 					announceFocus
+					gradientSequences={true}
 					narrationContext={{
 						measureName: "Process metric",
 						datasetContext: "Synthetic direction example",
@@ -232,6 +238,7 @@ export const TChartRareEvents: Story = {
 					chartType="T"
 					metricImprovement={ImprovementDirection.Up}
 					announceFocus
+					gradientSequences={true}
 					narrationContext={{
 						measureName: "Days between events",
 						datasetContext: "Rare event monitoring",
@@ -268,6 +275,7 @@ export const GChartRareEvents: Story = {
 					chartType="G"
 					metricImprovement={ImprovementDirection.Up}
 					announceFocus
+					gradientSequences={true}
 					narrationContext={{
 						measureName: "Count between events",
 						datasetContext: "Rare event monitoring",
@@ -320,6 +328,7 @@ export const AssuranceCapability: Story = {
 						chartType="XmR"
 						metricImprovement={ImprovementDirection.Up}
 						announceFocus
+						gradientSequences={true}
 						narrationContext={{
 							measureName: "Capability metric",
 							datasetContext: "Process band entirely favourable",
@@ -335,6 +344,7 @@ export const AssuranceCapability: Story = {
 					<SPCChart
 						data={failData}
 						chartType="XmR"
+						gradientSequences={true}
 						metricImprovement={ImprovementDirection.Up}
 						announceFocus
 						narrationContext={{
@@ -352,6 +362,7 @@ export const AssuranceCapability: Story = {
 					<SPCChart
 						data={uncertainData}
 						chartType="XmR"
+						gradientSequences={true}
 						metricImprovement={ImprovementDirection.Up}
 						announceFocus
 						narrationContext={{
@@ -394,95 +405,88 @@ Zone bands (for heuristics & some rule logic): Within 1σ, Between 1–2σ, Betw
 		},
 	},
 	render: () => {
-		const rows = Object.entries(ruleGlossary).map(([id, entry]) => ({
-			id,
-			...entry,
-		}));
+		const glossaryEntries = Object.entries(ruleGlossary).map(([id, entry]) => ({ id, ...entry }));
+		const head = [
+			{ text: 'Rule ID' },
+			{ text: 'Tooltip Label' },
+			{ text: 'Narration Fragment' },
+		];
+		const rows = glossaryEntries.map(r => [
+			{ text: r.id, classes: 'nhsuk-u-font-mono' },
+			{ text: r.tooltip },
+			{ text: r.narration },
+		]);
 		return (
 			<div style={{ maxWidth: 760 }}>
-				<h3>Special Cause Rules</h3>
-				<table
-					style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}
-				>
-					<thead>
-						<tr>
-							<th
-								style={{
-									textAlign: "left",
-									borderBottom: "1px solid #ccc",
-									padding: "4px 6px",
-								}}
-							>
-								Rule ID
-							</th>
-							<th
-								style={{
-									textAlign: "left",
-									borderBottom: "1px solid #ccc",
-									padding: "4px 6px",
-								}}
-							>
-								Tooltip Label
-							</th>
-							<th
-								style={{
-									textAlign: "left",
-									borderBottom: "1px solid #ccc",
-									padding: "4px 6px",
-								}}
-							>
-								Narration Fragment
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{rows.map((r) => (
-							<tr key={r.id}>
-								<td
-									style={{
-										verticalAlign: "top",
-										padding: "4px 6px",
-										fontFamily: "monospace",
-									}}
-								>
-									{r.id}
-								</td>
-								<td style={{ verticalAlign: "top", padding: "4px 6px" }}>
-									{r.tooltip}
-								</td>
-								<td
-									style={{
-										verticalAlign: "top",
-										padding: "4px 6px",
-										color: "#555",
-									}}
-								>
-									{r.narration}
-								</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
-				<h3 style={{ marginTop: "1.5rem" }}>Variation & Assurance Helpers</h3>
-				<ul>
-					<li>
-						<strong>variationLabel()</strong> returns one of: Improvement signal
-						/ Concern signal / Common cause variation / null
-					</li>
-					<li>
-						<strong>assuranceLabel()</strong> returns: Target met / Target not
-						met / null
-					</li>
-					<li>
-						<strong>zoneLabel(mean, sigma, value)</strong> returns the zone
-						classification based on |z|
-					</li>
-				</ul>
+				<Heading size="m">Special Cause Rules</Heading>
+				<Table head={head as any} rows={rows as any} responsive={false} firstCellIsHeader={false} />
+				<Heading size="m">Variation & Assurance Helpers</Heading>
+				<List>
+					<List.Item><strong>variationLabel()</strong> returns one of: Improvement signal / Concern signal / Common cause variation / null</List.Item>
+					<List.Item><strong>assuranceLabel()</strong> returns: Target met / Target not met / null</List.Item>
+					<List.Item><strong>zoneLabel(mean, sigma, value)</strong> returns the zone classification based on |z|</List.Item>
+				</List>
 				<p style={{ fontSize: 12, color: "#666" }}>
 					These helpers are used by both tooltip and live narration to maintain
 					consistent phrasing and reduce duplication.
 				</p>
 			</div>
+		);
+	},
+};
+
+export const GradientSequences: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story: `Gradient sequence backgrounds (experimental).
+Adds a subtle vertical fade behind contiguous runs (>1 point) of:
+- Concern points (orange)
+- Improvement points (blue)
+- Common cause points (neutral grey)
+
+Purpose: reinforce sustained behaviour patterns without the harshness of solid bands. Single isolated points are ignored to avoid visual noise.
+
+Behaviour:
+- Run detection is recalculated on data / rule changes.
+- A run starts when category changes or at first point, and closes when category changes.
+- Width extends halfway to neighbouring points (or chart edge) so backgrounds tile seamlessly.
+- Opacity tapers (≈0.18→0.08→0.03) to stay recessive under lines/points and limits.
+
+Accessibility: decorative only (aria-hidden). Does not alter live narration or tooltips.
+
+Disable via gradientSequences={false} (default). Useful for storytelling views highlighting sustained shifts or improvement windows.`,
+			},
+		},
+		metricContext: { improvement: 'up' },
+	},
+	render: () => {
+		const base = React.useMemo(() => makeData(), []);
+		// Engineer a few runs: improvement cluster, concern cluster, neutral cluster
+		const mutated = base.map(d => ({ ...d }));
+		// Improvement run (raise values)
+		for (let i = 5; i < 10; i++) mutated[i].y += 8;
+		// Concern run (lower values)
+		for (let i = 15; i < 20; i++) mutated[i].y -= 8;
+		return (
+			<ChartContainer
+				title="SPC with Gradient Sequence Backgrounds"
+				description="Contiguous improvement / concern / common-cause runs gain subtle gradient fills"
+				source="Synthetic data"
+			>
+				<SPCChart
+					data={mutated}
+					chartType="XmR"
+					metricImprovement={ImprovementDirection.Up}
+					gradientSequences
+					announceFocus
+					narrationContext={{
+						measureName: 'Process metric',
+						datasetContext: 'Engineered runs (raised & lowered segments)',
+						timeframe: '30 points'
+					}}
+				/>
+			</ChartContainer>
 		);
 	},
 };

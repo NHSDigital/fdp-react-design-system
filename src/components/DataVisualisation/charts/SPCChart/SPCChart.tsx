@@ -68,6 +68,10 @@ export interface SPCChartProps {
 		timeframe?: string; // free text timeframe summary
 		additionalNote?: string; // intervention or caveat
 	};
+	/** When true, render light gradient band fills behind contiguous sequences of similarly coloured points (concern / improvement / common). */
+	gradientSequences?: boolean;
+	/** Stroke width (thickness) of the main process line. Defaults to 1. */
+	processLineWidth?: number;
 }
 
 export const SPCChart: React.FC<SPCChartProps> = ({
@@ -90,6 +94,8 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	ghosts,
 	settings,
 	narrationContext,
+	gradientSequences = false,
+	processLineWidth = 1,
 }) => {
 	const engine = React.useMemo(() => {
 		const rowsInput = data.map((d, i) => ({
@@ -209,7 +215,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				data-trend-raw={'none'}
 				data-trend={trend ? String(trend) : 'none'}
 				data-polarity={String(polarity ?? 'unknown')}
-				style={{ width: iconSize, height: iconSize }}
+				style={{ width: iconSize, height: iconSize, marginRight: 16 }}
 			>
 				<SpcVariationIcon
 					dropShadow={false}
@@ -247,6 +253,8 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						showIcons={showIcons}
 						narrationContext={effectiveNarrationContext}
 						metricImprovement={metricImprovement}
+						gradientSequences={gradientSequences}
+						processLineWidth={processLineWidth}
 					/>
 				</LineScalesProvider>
 			</ChartRoot>
@@ -282,6 +290,8 @@ interface InternalProps {
 		additionalNote?: string;
 	};
 	metricImprovement?: ImprovementDirection;
+	gradientSequences: boolean;
+	processLineWidth: number;
 }
 
 const InternalSPC: React.FC<InternalProps> = ({
@@ -295,6 +305,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 	enableRules,
 	showIcons,
 	narrationContext,
+	gradientSequences,
+	processLineWidth,
 }) => {
 	const scaleCtx = useScaleContext();
 	const chartCtx = useChartContext();
@@ -351,6 +363,171 @@ const InternalSPC: React.FC<InternalProps> = ({
 		});
 		return map;
 	}, [engineRows]);
+
+	// Preprocess categories with singleton coloured point absorption
+	const categories = React.useMemo(() => {
+		if (!engineSignals) return [] as ('concern' | 'improvement' | 'common')[];
+		const raw: ('concern' | 'improvement' | 'common')[] = all.map((_d, i) => {
+			const sig = engineSignals?.[i];
+			if (sig?.concern) return 'concern';
+			if (sig?.improvement) return 'improvement';
+			return 'common';
+		});
+		// Absorb single coloured point interruptions (concern/improvement) flanked by identical common segments
+		for (let i = 1; i < raw.length - 1; i++) {
+			if ((raw[i] === 'concern' || raw[i] === 'improvement') && raw[i - 1] === 'common' && raw[i + 1] === 'common') {
+				raw[i] = 'common';
+			}
+		}
+		return raw;
+	}, [engineSignals, all]);
+
+	// Derive contiguous sequences after absorption
+	const sequences = React.useMemo(() => {
+		if (!gradientSequences || !categories.length) return [] as { start: number; end: number; category: 'concern' | 'improvement' | 'common' }[];
+		const result: { start: number; end: number; category: 'concern' | 'improvement' | 'common' }[] = [];
+		let runStart = 0;
+		for (let i = 1; i <= categories.length; i++) {
+			const changed = i === categories.length || categories[i] !== categories[runStart];
+			if (changed) {
+				const cat = categories[runStart];
+				const runEnd = i - 1;
+				const runLen = runEnd - runStart + 1;
+				if (cat === 'common') {
+					// Include all common runs (even single) to avoid gaps.
+					result.push({ start: runStart, end: runEnd, category: 'common' });
+				} else {
+					// For coloured runs require length > 1 to show wash (skip isolated coloured point already absorbed earlier if flanked by common)
+					if (runLen > 1) result.push({ start: runStart, end: runEnd, category: cat });
+				}
+				runStart = i;
+			}
+		}
+		return result;
+	}, [gradientSequences, categories]);
+
+	// Precompute x positions for boundary calculations (after scales + data available)
+	const xPositions = React.useMemo(() => all.map(d => xScale(d.x instanceof Date ? d.x : new Date(d.x))), [all, xScale]);
+	const plotWidth = xScale.range()[1];
+
+	// Build gradient definitions + rects
+	const sequenceDefs = React.useMemo(() => {
+		if (!sequences.length) return null;
+		return (
+			<defs>
+				{sequences.map((seq, idx) => {
+					const id = `spc-seq-grad-${idx}`;
+					let baseVar: string;
+					let top = 0.28, mid = 0.12, end = 0.045; // default (grey/common)
+					switch (seq.category) {
+						case 'concern':
+							baseVar = 'var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)';
+							// stronger wash for coloured sequences
+							top = 0.28; mid = 0.12; end = 0.045;
+							break;
+						case 'improvement':
+							baseVar = 'var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)';
+							top = 0.26; mid = 0.11; end = 0.045;
+							break;
+						default:
+							baseVar = 'var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)';
+					}
+					return (
+						<linearGradient key={id} id={id} x1="0%" y1="0%" x2="0%" y2="100%">
+							<stop offset="0%" stopColor={baseVar} stopOpacity={top} />
+							<stop offset="70%" stopColor={baseVar} stopOpacity={mid} />
+							<stop offset="100%" stopColor={baseVar} stopOpacity={end} />
+						</linearGradient>
+					);
+				})}
+			</defs>
+		);
+	}, [sequences]);
+
+	const sequenceAreas = React.useMemo(() => {
+		if (!sequences.length) return null;
+		const [domainMin] = yScale.domain();
+		const baseY = yScale(domainMin);
+		const areas = sequences.map((seq, idx) => {
+			const firstIdx = seq.start;
+			const lastIdx = seq.end;
+			const firstX = xPositions[firstIdx];
+			const lastX = xPositions[lastIdx];
+			const prevX = firstIdx > 0 ? xPositions[firstIdx - 1] : firstX;
+			const nextX = lastIdx < xPositions.length - 1 ? xPositions[lastIdx + 1] : lastX;
+			// Boundary midpoints (default behaviour for coloured runs)
+			let left = firstIdx === 0 ? Math.max(0, firstX - (xPositions.length > 1 ? (xPositions[1] - firstX) / 2 : 10)) : (prevX + firstX) / 2;
+			let right = lastIdx === xPositions.length - 1 ? Math.min(plotWidth, lastX + (xPositions.length > 1 ? (lastX - xPositions[xPositions.length - 2]) / 2 : 10)) : (lastX + nextX) / 2;
+			// For common-cause (grey) sequences, extend to neighbouring actual point x positions so wash meets coloured washes directly.
+			let extendLeftY: number | null = null;
+			let extendRightY: number | null = null;
+			if (seq.category === 'common') {
+				if (firstIdx > 0) {
+					left = xPositions[firstIdx - 1];
+					// Always anchor left vertical to previous point's y so wash top aligns with preceding colour block
+					extendLeftY = yScale(all[firstIdx - 1].y);
+				}
+				if (lastIdx < all.length - 1) {
+					right = xPositions[lastIdx + 1];
+					// Always anchor forward to next point height (even single-point run) for seamless bridge
+					extendRightY = yScale(all[lastIdx + 1].y);
+				}
+			} else {
+				// For coloured sequences (concern/improvement) start exactly under first point normally
+				left = firstX;
+				// But if previous point is a different coloured category, extend back to that previous point so seams align at point instead of midpoint
+				if (firstIdx > 0) {
+					const prevCat = categories[firstIdx - 1];
+					if (prevCat !== 'common' && prevCat !== seq.category) {
+						left = xPositions[firstIdx - 1];
+						extendLeftY = yScale(all[firstIdx - 1].y);
+					}
+				}
+			}
+			// Build polygon: left baseline -> vertical up to first point -> through points -> down to baseline at lastX & right midpoint -> close
+			let d = `M ${left} ${baseY}`;
+			// Left side ascent: if we extended into previous point (common cause) use its Y, then go to first point
+			const firstY = yScale(all[firstIdx].y);
+			if (extendLeftY != null) {
+				// vertical lift to previous point height
+				d += ` L ${left} ${extendLeftY}`;
+				if (firstX !== left) d += ` L ${firstX} ${firstY}`;
+			} else {
+				// standard: lift to first point height at left boundary (midpoint)
+				d += ` L ${left} ${firstY}`;
+				if (firstX !== left) d += ` L ${firstX} ${firstY}`;
+			}
+			for (let i = firstIdx; i <= lastIdx; i++) {
+				const x = xPositions[i];
+				const y = yScale(all[i].y);
+				d += ` L ${x} ${y}`;
+			}
+			// Right descent: if common run and we extended to next point's x, bridge to that point height before dropping
+			if (seq.category === 'common' && extendRightY != null) {
+				// ensure path includes last point already; connect to next point height to avoid gap
+				if (right !== lastX) {
+					// draw towards next point height (straight line)
+					d += ` L ${right} ${extendRightY}`;
+				}
+				// then drop to baseline at right boundary
+				d += ` L ${right} ${baseY} Z`;
+			} else {
+				// standard closure via last point down to baseline then to right boundary baseline
+				d += ` L ${lastX} ${baseY} L ${right} ${baseY} Z`;
+			}
+			return (
+				<path
+					key={`seq-area-${idx}`}
+					d={d}
+					fill={`url(#spc-seq-grad-${idx})`}
+					stroke="none"
+					className="fdp-spc__sequence-bg"
+					aria-hidden="true"
+				/>
+			);
+		});
+		return <g className="fdp-spc__sequence-bgs">{areas}</g>;
+	}, [sequences, xPositions, plotWidth, yScale, all]);
 
 	// Live region formatter (invoked only when announceFocus prop true)
 	// Derive descriptive timeframe if not explicitly provided
@@ -460,6 +637,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 						<Axis type="x" />
 						<Axis type="y" />
 						<GridLines axis="y" />
+						{sequenceDefs}
+						{sequenceAreas}
 						{limits.mean != null && (
 							<line
 								className="fdp-spc__cl"
@@ -545,6 +724,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 								d.x instanceof Date ? d.x : new Date(d.x)
 							}
 							smooth={false}
+							strokeWidth={processLineWidth}
 						/>
 						{showPoints &&
 							all.map((d, i) => {

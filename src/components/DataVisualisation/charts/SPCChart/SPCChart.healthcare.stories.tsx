@@ -108,6 +108,7 @@ export const ED4HourCompliance: Story = {
 				unit="%"
 				enableRules
 				announceFocus
+				gradientSequences
 				narrationContext={{
 					measureName: "ED 4h compliance",
 					datasetContext: "Monthly trust-wide data",
@@ -142,6 +143,7 @@ export const LengthOfStay: Story = {
 				enableRules
 				unit="days"
 				announceFocus
+				gradientSequences
 				narrationContext={{
 					measureName: "Average length of stay",
 					datasetContext: "Monthly acute admissions",
@@ -175,6 +177,7 @@ export const ReadmissionRate: Story = {
 				enableRules
 				unit="%"
 				announceFocus
+				gradientSequences
 				narrationContext={{
 					measureName: "30-day readmission rate",
 					datasetContext: "Monthly trust-wide data",
@@ -208,6 +211,7 @@ export const HandHygieneCompliance: Story = {
 				enableRules
 				unit="%"
 				announceFocus
+				gradientSequences
 				narrationContext={{
 					measureName: "Hand hygiene compliance",
 					datasetContext: "Monthly audits",
@@ -241,6 +245,7 @@ export const FallsPer1000BedDays: Story = {
 				metricImprovement={ImprovementDirection.Down}
 				enableRules
 				announceFocus
+				gradientSequences
 				narrationContext={{
 					measureName: "Inpatient falls per 1000 bed days",
 					datasetContext: "Monthly trust-wide data",
@@ -273,6 +278,7 @@ export const TimeBetweenMedicationErrors: Story = {
 				metricImprovement={ImprovementDirection.Up}
 				enableRules
 				announceFocus
+				gradientSequences
 				narrationContext={{
 					measureName: "Days between medication errors",
 					datasetContext: "Trust-wide events",
@@ -306,6 +312,7 @@ export const CountBetweenPressureUlcers: Story = {
 				metricImprovement={ImprovementDirection.Up}
 				enableRules
 				announceFocus
+				gradientSequences
 				narrationContext={{
 					measureName: "Count between pressure ulcers",
 					datasetContext: "Trust-wide events",
@@ -339,6 +346,7 @@ export const RTTPatientsWaiting: Story = {
 				enableRules
 				unit="%"
 				announceFocus
+				gradientSequences
 				narrationContext={{
 					measureName: "RTT % Patients Waiting < 18 weeks",
 					datasetContext: "National RTT Waiting List Target",

@@ -640,7 +640,7 @@ $atd-breakpoints: (
 	}
 
 	&:focus {
-	  outline: nhs.$nhs-fdp-border-width-form-element solid $color-primary;
+	  outline: nhs.$nhs-fdp-border-width-form-element solid transparent;
 	  outline-offset: nhs.$nhs-fdp-spacing-1;
 	}
 

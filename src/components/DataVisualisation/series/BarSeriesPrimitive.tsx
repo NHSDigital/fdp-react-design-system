@@ -43,6 +43,8 @@ export interface BarSeriesPrimitiveProps {
   stackedMode?: boolean;
   /** Apply vertical gradient wash (solid at top -> transparent at baseline). Default true. */
   gradientFill?: boolean;
+  /** When gradientFill is true, match stroke to primary bar colour. If false, fall back to token/dark stroke. Default true. */
+  gradientStrokeMatch?: boolean;
 }
 
 /** Low-level primitive for vertical bars (time / ordinal X via ScaleContext time scale). */
@@ -65,6 +67,7 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
   , gapRatio = 0.15
   , minBarWidth
   , gradientFill = true
+  , gradientStrokeMatch = true
 }) => {
   const effectiveGapRatio = Math.max(0, gapRatio);
   const scaleCtx = useScaleContext();
@@ -297,7 +300,7 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
             tooltip.setFocused({ seriesId: series.id, index: di, x: rawX as any, y: seg.y1 - seg.y0, clientX: barX + fullWidth / 2, clientY: y });
           };
            const onLeave = () => { if (tooltip?.focused?.seriesId === series.id && tooltip.focused.index === di) tooltip.clear(); };
-           return (
+       return (
              <rect
                key={di}
                x={barX}
@@ -306,7 +309,7 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
                height={height}
                fill={gradientFill ? `url(#${seriesGradientId})` : baseSeriesColor}
                {...(!gradientFill ? { fillOpacity: 0.25 } : {})}
-               stroke={isFocused ? 'var(--nhs-fdp-color-primary-yellow, #ffeb3b)' : baseSeriesColor}
+         stroke={isFocused ? 'var(--nhs-fdp-color-primary-yellow, #ffeb3b)' : (gradientFill && gradientStrokeMatch ? baseSeriesColor : 'var(--nhs-fdp-chart-stacked-stroke, #212b32)')}
                strokeWidth={isFocused ? 2 : 1}
                className="fdp-bar fdp-bar--stacked"
                tabIndex={faded || !focusable ? -1 : 0}
@@ -424,9 +427,11 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
         };
         const catColor = colorMode === 'category' ? (palette === 'region' ? pickRegionColor(String(d.x), di) : pickSeriesColor(di)) : baseSeriesColor;
         const fillId = colorMode === 'category' ? `${seriesGradientId}-${di}` : seriesGradientId;
-        const baseStroke = gradientFill ? catColor : (colorMode === 'category'
-          ? (palette === 'region' ? pickRegionStroke(String(d.x), di) : pickSeriesStroke(di))
-          : baseSeriesStroke);
+        const baseStroke = (gradientFill && gradientStrokeMatch)
+          ? catColor
+          : (colorMode === 'category'
+              ? (palette === 'region' ? pickRegionStroke(String(d.x), di) : pickSeriesStroke(di))
+              : baseSeriesStroke);
         const barStrokeColor = isFocused ? 'var(--nhs-fdp-color-primary-yellow, #ffeb3b)' : (baseStroke || catColor);
         return (
           <rect

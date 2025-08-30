@@ -5,6 +5,7 @@ import { ResponsiveDataGrid } from './ResponsiveDataGrid';
 import type { ResponsiveDataGridProps } from './ResponsiveDataGridTypes';
 import { PatientCard, AppointmentCard, MedicationCard, VitalsCard } from './HealthcareCardTemplates';
 import type { EWSPatientData } from '../SortableDataTable/AriaTabsDataGridTypes';
+import { Button } from '../Button';
 
 // Import real patient data
 import patientsData from '../SortableDataTable/patients_with_ews.json';
@@ -196,6 +197,135 @@ export const FourColumnTable: Story = {
     experimental: {
       hybridMode: false,
       animatedTransitions: false
+    }
+  }
+};
+
+/**
+ * Action Areas: Demonstrates top and bottom action areas in different layouts
+ */
+export const WithActionAreas: Story = {
+  args: {
+    ...baseProps,
+    tabPanels: [
+      {
+        id: 'patients',
+        label: 'Patient Records',
+        data: patientData.slice(0, 6),
+        columns: [
+          { key: 'name', label: 'Name', cardRenderer: (row: any) => row.name },
+          { key: 'nhs_number', label: 'NHS Number', cardRenderer: (row: any) => row.nhs_number },
+          { key: 'ward_name', label: 'Ward', cardRenderer: (row: any) => row.ward_name },
+          { key: 'ews_score', label: 'EWS Score', cardRenderer: (row: any) => row.ews_score }
+        ],
+        ariaLabel: 'Patient records with action buttons'
+      },
+      {
+        id: 'appointments',
+        label: 'Appointments',
+        data: patientData.slice(0, 4).map(p => ({
+          id: p.name,
+          patient: p.name,
+          time: '09:00',
+          type: 'Consultation',
+          status: 'Scheduled'
+        })),
+        columns: [
+          { key: 'patient', label: 'Patient', cardRenderer: (row: any) => row.patient },
+          { key: 'time', label: 'Time', cardRenderer: (row: any) => row.time },
+          { key: 'type', label: 'Type', cardRenderer: (row: any) => row.type },
+          { key: 'status', label: 'Status', cardRenderer: (row: any) => row.status }
+        ],
+        ariaLabel: 'Appointment schedule'
+      }
+    ],
+    topActions: (
+      <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+        <Button 
+          variant="primary" 
+          onClick={() => console.log('Add new patient')}
+        >
+          Add Patient
+        </Button>
+        <Button 
+          variant="secondary" 
+          onClick={() => console.log('Filter patients')}
+        >
+          Filter
+        </Button>
+        <Button 
+          variant="secondary" 
+          onClick={() => console.log('Settings')}
+        >
+          Settings
+        </Button>
+      </div>
+    ),
+    bottomActions: (
+      <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          <Button 
+            variant="secondary" 
+            onClick={() => console.log('Previous page')}
+          >
+            Previous
+          </Button>
+          <span style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            padding: '0 16px',
+            color: '#231f20'
+          }}>
+            Page 1 of 3
+          </span>
+          <Button 
+            variant="secondary" 
+            onClick={() => console.log('Next page')}
+          >
+            Next
+          </Button>
+        </div>
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          <Button 
+            variant="secondary" 
+            onClick={() => console.log('Export selected')}
+          >
+            Export Selected
+          </Button>
+          <Button 
+            variant="primary" 
+            onClick={() => console.log('Export all')}
+          >
+            Export All
+          </Button>
+        </div>
+      </div>
+    ),
+    cardConfig: {
+      primaryField: 'name',
+      secondaryFields: ['nhs_number', 'ward_name'],
+      badgeFields: ['ews_score'],
+      cardTemplate: getCardTemplate('patient')
+    }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `
+This story demonstrates the action areas feature in ResponsiveDataGrid:
+
+**Top Actions**: Contains primary action buttons like "Add Patient", "Filter", and "Settings"
+- In card layout: Appears in the top-right of the tab bar when space allows
+- In table/hybrid layout: Appears above the table, right-aligned
+
+**Bottom Actions**: Contains secondary actions like pagination and export options
+- Appears below the table/cards area
+- Can contain pagination controls and bulk actions
+- Responsive layout adjusts for mobile devices
+
+Try switching between different device sizes to see how the action areas adapt responsively.
+        `
+      }
     }
   }
 };

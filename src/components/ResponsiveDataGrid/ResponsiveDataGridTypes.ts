@@ -72,4 +72,17 @@ export interface ResponsiveDataGridProps<T = any> extends Omit<AriaTabsDataGridP
     /** Virtual scrolling for large datasets */
     virtualScrolling?: boolean;
   };
+
+  /** 
+   * Optional action buttons or content to display in the top-right area.
+   * In card layout: appears in the top-right of the tab bar (when space allows) or above the table, right-aligned.
+   * In table/hybrid layout: appears above the table, right-aligned.
+   */
+  topActions?: React.ReactNode;
+
+  /** 
+   * Optional action buttons or content to display below the table/cards area.
+   * Appears at the bottom of the component, typically for pagination or bulk actions.
+   */
+  bottomActions?: React.ReactNode;
 }

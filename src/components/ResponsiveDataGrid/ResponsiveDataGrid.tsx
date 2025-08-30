@@ -292,6 +292,8 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
   cardConfig = {},
   experimental = {},
   enableAdvancedSorting = false,
+  topActions,
+  bottomActions,
   
   // Standard AriaTabsDataGrid props
   tabPanels,
@@ -1249,47 +1251,57 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 	
 	return (
 	  <div className={`aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--cards ${className || ''}`}>
-		{/* Tab navigation with proper ARIA implementation */}
-		<div 
-		  role="tablist"
-		  aria-label={ariaLabel}
-		  aria-describedby={`${ariaDescription || ''} ${id ? `${id}-navigation-help` : ''}`.trim()}
-		  aria-orientation={orientation}
-		  className="aria-tabs-datagrid__tabs"
-		>
-		  {tabPanels.map((panel, index) => {
-			const isSelected = index === state.selectedIndex;
-			const isDisabled = panel.disabled || disabled;
+		{/* Header container with tabs and optional top actions */}
+		<div className="aria-tabs-datagrid-adaptive__header">
+		  {/* Tab navigation with proper ARIA implementation */}
+		  <div 
+			role="tablist"
+			aria-label={ariaLabel}
+			aria-describedby={`${ariaDescription || ''} ${id ? `${id}-navigation-help` : ''}`.trim()}
+			aria-orientation={orientation}
+			className="aria-tabs-datagrid__tabs"
+		  >
+			{tabPanels.map((panel, index) => {
+			  const isSelected = index === state.selectedIndex;
+			  const isDisabled = panel.disabled || disabled;
 
-			return (
-			  <button
-				key={panel.id}
-				role="tab"
-				id={`tab-${panel.id}`}
-				aria-controls={`panel-${panel.id}`}
-				aria-selected={isSelected}
-				aria-disabled={isDisabled}
-				tabIndex={isSelected ? 0 : -1}
-				ref={el => { tabRefs.current[index] = el; }}
-				onClick={() => handleTabSelect(index)}
-				onKeyDown={(event) => handleTabKeyDownWithCards(event, index)}
-				disabled={isDisabled}
-				className={[
-				  'aria-tabs-datagrid__tab',
-				  isSelected ? 'aria-tabs-datagrid__tab--selected' : '',
-				  isDisabled ? 'aria-tabs-datagrid__tab--disabled' : ''
-				].filter(Boolean).join(' ')}
-			  >
-				<span className="aria-tabs-datagrid__tab-label">{panel.label}</span>
-				{state.tabLoadingStates[index] && (
-				  <span className="aria-tabs-datagrid__tab-loading" aria-hidden="true">⏳</span>
-				)}
-				{state.tabErrors[index] && (
-				  <span className="aria-tabs-datagrid__tab-error" aria-hidden="true">⚠️</span>
-				)}
-			  </button>
-			);
-		  })}
+			  return (
+				<button
+				  key={panel.id}
+				  role="tab"
+				  id={`tab-${panel.id}`}
+				  aria-controls={`panel-${panel.id}`}
+				  aria-selected={isSelected}
+				  aria-disabled={isDisabled}
+				  tabIndex={isSelected ? 0 : -1}
+				  ref={el => { tabRefs.current[index] = el; }}
+				  onClick={() => handleTabSelect(index)}
+				  onKeyDown={(event) => handleTabKeyDownWithCards(event, index)}
+				  disabled={isDisabled}
+				  className={[
+					'aria-tabs-datagrid__tab',
+					isSelected ? 'aria-tabs-datagrid__tab--selected' : '',
+					isDisabled ? 'aria-tabs-datagrid__tab--disabled' : ''
+				  ].filter(Boolean).join(' ')}
+				>
+				  <span className="aria-tabs-datagrid__tab-label">{panel.label}</span>
+				  {state.tabLoadingStates[index] && (
+					<span className="aria-tabs-datagrid__tab-loading" aria-hidden="true">⏳</span>
+				  )}
+				  {state.tabErrors[index] && (
+					<span className="aria-tabs-datagrid__tab-error" aria-hidden="true">⚠️</span>
+				  )}
+				</button>
+			  );
+			})}
+		  </div>
+
+		  {/* Top actions area */}
+		  {topActions && (
+			<div className="aria-tabs-datagrid-adaptive__top-actions">
+			  {topActions}
+			</div>
+		  )}
 		</div>
 
 		{/* Conditional Sort Controls: Advanced vs Simple */}
@@ -1508,6 +1520,13 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		  })}
 		</div>
 
+		{/* Bottom actions area */}
+		{bottomActions && (
+		  <div className="aria-tabs-datagrid-adaptive__bottom-actions">
+			{bottomActions}
+		  </div>
+		)}
+
 		{/* Screen reader announcements container - fixed position to avoid layout impact */}
 		<div 
 		  ref={announcementsRef}
@@ -1535,6 +1554,13 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
   if (layout === 'hybrid') {
 	return (
 	  <div className={`aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--hybrid ${className || ''}`}>
+		{/* Top actions area */}
+		{topActions && (
+		  <div className="aria-tabs-datagrid-adaptive__top-actions aria-tabs-datagrid-adaptive__top-actions--above-table">
+			{topActions}
+		  </div>
+		)}
+
 		{/* Enhanced table with card-like spacing - AriaTabsDataGrid handles its own keyboard navigation */}
 		<AriaTabsDataGrid 
 		  tabPanels={tabPanels}
@@ -1549,24 +1575,47 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		  className="aria-tabs-datagrid-adaptive__table--hybrid"
 		  {...props}
 		/>
+
+		{/* Bottom actions area */}
+		{bottomActions && (
+		  <div className="aria-tabs-datagrid-adaptive__bottom-actions">
+			{bottomActions}
+		  </div>
+		)}
 	  </div>
 	);
   }
 
-  // Desktop table mode - AriaTabsDataGrid handles its own keyboard navigation
+  // Desktop table mode - AriaTabsDataGrid handles its own keyboard navigation  
   return (
-	<AriaTabsDataGrid 
-	  tabPanels={tabPanels}
-	  dataConfig={dataConfig}
-	  ariaLabel={ariaLabel}
-	  ariaDescription={ariaDescription}
-	  orientation={orientation}
-	  id={id}
-	  disabled={disabled}
-	  selectedIndex={selectedIndexProp} // Use the original prop, not ResponsiveDataGrid's state
-	  onTabChange={onTabChange} // Use the original callback, not ResponsiveDataGrid's wrapper
-	  {...props}
-	/>
+	<div className={`aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--table ${className || ''}`}>
+	  {/* Top actions area */}
+	  {topActions && (
+		<div className="aria-tabs-datagrid-adaptive__top-actions aria-tabs-datagrid-adaptive__top-actions--above-table">
+		  {topActions}
+		</div>
+	  )}
+
+	  <AriaTabsDataGrid 
+		tabPanels={tabPanels}
+		dataConfig={dataConfig}
+		ariaLabel={ariaLabel}
+		ariaDescription={ariaDescription}
+		orientation={orientation}
+		id={id}
+		disabled={disabled}
+		selectedIndex={selectedIndexProp} // Use the original prop, not ResponsiveDataGrid's state
+		onTabChange={onTabChange} // Use the original callback, not ResponsiveDataGrid's wrapper
+		{...props}
+	  />
+
+	  {/* Bottom actions area */}
+	  {bottomActions && (
+		<div className="aria-tabs-datagrid-adaptive__bottom-actions">
+		  {bottomActions}
+		</div>
+	  )}
+	</div>
   );
 };
 

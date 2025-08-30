@@ -120,9 +120,86 @@
   }
 
   // ==========================================================================
+  // ACTION AREAS
+  // ==========================================================================
+  
+  // Header container for tabs and top actions
+  &__header {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+
+  // Top actions area
+  &__top-actions {
+    display: flex;
+    gap: nhs.$nhs-fdp-spacing-3;
+    padding: nhs.$nhs-fdp-spacing-3;
+    background: nhs.$nhs-fdp-color-grey-5;
+    border-left: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    border-right: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    border-top: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    
+    // In card layout, appears in the top-right of the tab bar when space allows
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      margin-left: auto;
+      border-top: none;
+      border-bottom: 2px solid nhs.$nhs-fdp-color-primary-blue;
+      background: nhs.$nhs-fdp-color-primary-white;
+      padding: nhs.$nhs-fdp-button-spacing-padding-vertical-desktop nhs.$nhs-fdp-spacing-3;
+      min-height: nhs.$nhs-fdp-form-spacing-input-min-height + nhs.$nhs-fdp-spacing-2;
+      align-items: center;
+    }
+    
+    // Above table variant (for table/hybrid layouts)
+    &--above-table {
+      background: nhs.$nhs-fdp-color-primary-white;
+      border: 2px solid nhs.$nhs-fdp-color-primary-blue;
+      border-radius: nhs.$nhs-fdp-border-radius-small nhs.$nhs-fdp-border-radius-small 0 0;
+      justify-content: flex-end;
+      margin-bottom: -2px; // Connect to table below
+      
+      @media (max-width: calc(nhs.$nhs-fdp-breakpoint-medium - 1px)) {
+        border-radius: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  // Bottom actions area
+  &__bottom-actions {
+    display: flex;
+    gap: nhs.$nhs-fdp-spacing-3;
+    padding: nhs.$nhs-fdp-spacing-4;
+    background: nhs.$nhs-fdp-color-primary-white;
+    border-left: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    border-right: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    border-bottom: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    border-radius: 0 0 nhs.$nhs-fdp-border-radius-small nhs.$nhs-fdp-border-radius-small;
+    justify-content: flex-end;
+    margin-top: -2px; // Connect to content above
+    
+    @media (max-width: calc(nhs.$nhs-fdp-breakpoint-medium - 1px)) {
+      flex-direction: column;
+      align-items: stretch;
+      
+      > * {
+        width: 100%;
+      }
+    }
+  }
+
+  // ==========================================================================
   // MOBILE-FIRST: Card Layout (Default)
   // ==========================================================================
   
+  // Update tabs to work within header container
+  &__header &__tabs,
   // Tab navigation
   &__tabs {
     display: flex;
@@ -218,7 +295,7 @@
   &__cards {
     background: nhs.$nhs-fdp-color-primary-white;
     min-height: 400px; // Consistent with SortableDataGrid
-    border-radius: 0 0 nhs.$nhs-fdp-border-radius-small nhs.$nhs-fdp-border-radius-small; // Rounded bottom corners only
+    border-radius: 0; // Bottom radius handled conditionally
     outline: none;
     border-left: 2px solid nhs.$nhs-fdp-color-primary-blue;
     border-right: 2px solid nhs.$nhs-fdp-color-primary-blue;
@@ -257,6 +334,12 @@
 
 	@media (max-width: 768px) {
 		margin-top: 24px;
+	}
+	
+	// When cards are the last element (no bottom actions), add bottom radius
+	&:last-child,
+	.aria-tabs-datagrid-adaptive:not(:has(.aria-tabs-datagrid-adaptive__bottom-actions)) & {
+	  border-radius: 0 0 nhs.$nhs-fdp-border-radius-small nhs.$nhs-fdp-border-radius-small;
 	}
   }
 

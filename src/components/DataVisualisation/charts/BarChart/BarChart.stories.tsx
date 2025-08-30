@@ -49,6 +49,7 @@ export const StackedBars: Story = {
       );
     };
     return (
+      <div style={{ fontFamily: '"Frutiger W01", Frutiger, Arial, "Helvetica Neue", Helvetica, sans-serif' }}>
       <ChartRoot width={720} height={320} margin={margin} ariaLabel="Stacked bar chart (categorical)">
         <BandScalesProvider series={stacked.map(s => ({ data: s.stacked.map(d => ({ x: d.x, y: d.y1 })) })) as any}>
           <TooltipProvider>
@@ -58,6 +59,7 @@ export const StackedBars: Story = {
           </TooltipProvider>
         </BandScalesProvider>
       </ChartRoot>
+      </div>
     );
   },
   // name removed (redundant; Storybook infers from export identifier)
@@ -100,6 +102,7 @@ export const StackedBarsPercent: Story = {
       );
     };
     return (
+      <div style={{ fontFamily: '"Frutiger W01", Frutiger, Arial, "Helvetica Neue", Helvetica, sans-serif' }}>
       <ChartRoot width={760} height={320} margin={margin} ariaLabel="100 percent stacked bar chart (categorical)">
         <BandScalesProvider series={percentStack.map(s => ({ data: s.stacked.map(d => ({ x: d.x, y: d.y1 })) })) as any}>
           <TooltipProvider>
@@ -109,6 +112,7 @@ export const StackedBarsPercent: Story = {
           </TooltipProvider>
         </BandScalesProvider>
       </ChartRoot>
+      </div>
     );
   },
   // name removed (redundant)
@@ -153,7 +157,7 @@ export const StackedBarsToggle: Story = {
       );
     };
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontFamily: '"Frutiger W01", Frutiger, Arial, "Helvetica Neue", Helvetica, sans-serif' }}>
         <div style={{ display: 'flex', gap: 8 }}>
           <button type="button" onClick={()=>setMode('absolute')} disabled={mode==='absolute'}>Absolute</button>
           <button type="button" onClick={()=>setMode('percent')} disabled={mode==='percent'}>Percent</button>
@@ -208,6 +212,7 @@ export const GenericBars: Story = {
     };
     const yMax = Math.max(...series.flatMap(s=>s.data.map(d=>d.y)));
     return (
+      <div style={{ fontFamily: '"Frutiger W01", Frutiger, Arial, "Helvetica Neue", Helvetica, sans-serif' }}>
       <ChartRoot width={760} height={320} margin={margin} ariaLabel="Generic grouped bar chart (categorical)">
         <BandScalesProvider series={series as any}> 
           <TooltipProvider>
@@ -217,6 +222,7 @@ export const GenericBars: Story = {
           </TooltipProvider>
         </BandScalesProvider>
       </ChartRoot>
+      </div>
     );
   },
   // name removed (redundant)
@@ -276,7 +282,7 @@ export const ContinuousManyBarsScrollable: Story = {
       );
     };
     return (
-      <div style={{ width: 760, overflowX: 'auto', border: '1px solid #ddd', paddingBottom: 4 }}>
+      <div style={{ width: 760, overflowX: 'auto', border: '1px solid #ddd', paddingBottom: 4, fontFamily: '"Frutiger W01", Frutiger, Arial, "Helvetica Neue", Helvetica, sans-serif' }}>
         <ChartRoot width={requiredTotalWidth} height={320} margin={margin} ariaLabel="Scrollable bar chart with many bars">
           <LineScalesProvider series={raw as any} parseX={parse} yDomain={[0, 60]}>
             <TooltipProvider>

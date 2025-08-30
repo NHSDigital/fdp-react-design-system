@@ -80,7 +80,9 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 	}, [tooltip, tooltip?.focused, hoveringTooltip]);
 
 	// Determine current focused point (may be null). No early returns until AFTER all hooks declared.
-	const focused = tooltip && (tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
+	const focused =
+		tooltip &&
+		(tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
 
 	// Visibility animation hooks MUST run every render to keep ordering stable.
 	const [visible, setVisible] = React.useState(false);
@@ -92,8 +94,12 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 	// Safe metrics (fallback to 0 if chart not ready so calculations still defined)
 	const innerWidth = chart?.innerWidth ?? 0;
 	const innerHeight = chart?.innerHeight ?? 0;
-	const clampX = focused ? Math.min(Math.max(focused.clientX, 0), innerWidth) : 0;
-	const clampY = focused ? Math.min(Math.max(focused.clientY, 0), innerHeight) : 0;
+	const clampX = focused
+		? Math.min(Math.max(focused.clientX, 0), innerWidth)
+		: 0;
+	const clampY = focused
+		? Math.min(Math.max(focused.clientY, 0), innerHeight)
+		: 0;
 
 	// We'll render marker in SVG but move rich text into an absolutely positioned HTML portal so it can overflow chart.
 	const containerEl = (chart as any).ref?.current as HTMLElement | undefined; // ChartRoot div (position: relative)
@@ -103,17 +109,23 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 	if (!focused) {
 		return null;
 	}
+
 	// Single series assumption for SPCChart; index aligns with engineRows order used earlier.
 	const row = engineRows?.[focused.index];
 	const rules = extractRuleIds(row).map((r) => ruleGlossary[r].tooltip);
 	const dateObj = focused.x instanceof Date ? focused.x : new Date(focused.x);
-	const dateLabel = dateFormatter ? dateFormatter(dateObj) : dateObj.toDateString();
+	const dateLabel = dateFormatter
+		? dateFormatter(dateObj)
+		: dateObj.toDateString();
 	const unit = measureUnit ? `${measureUnit}` : "";
-	const valueLabel = measureName || unit ? `${focused.y}${unit ? " " + unit : " - "}${measureName ? " " + measureName : ""}` : `${focused.y}`;
+	const valueLabel =
+		measureName || unit
+			? `${focused.y}${unit ? "" + unit : " "}${measureName ? " " + measureName : ""}`
+			: `${focused.y}`;
 
 	// Variation / assurance descriptors
 	const variationDesc: string | null = variationLabel(row?.variationIcon);
-
+	// Assurance descriptor
 	const assuranceDesc: string | null = assuranceLabel(row?.assuranceIcon);
 
 	// Zone classification relative to mean & sigma
@@ -131,7 +143,7 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 	const hasRules = rules.length > 0;
 
 	// focus ring colour
-	const focusYellow = "var(--nhs-fdp-color-primary-yellow,#ffeb3b)";
+	const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
 	// Tooltip inner dot colour: use canonical token exported from spcDescriptors
 	const spcDotColor = getVariationColorToken(row?.variationIcon);
 
@@ -168,7 +180,7 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 	if (left < 0) left = Math.max(0, innerWidth - boxWidth);
 
 	// Fade-in: mount flag already handled earlier; reuse existing visible state.
-	const tooltipId = focused ? `spc-tooltip-${focused.index}` : 'spc-tooltip';
+	const tooltipId = focused ? `spc-tooltip-${focused.index}` : "spc-tooltip";
 	const portal = host
 		? createPortal(
 				<div
@@ -213,66 +225,115 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 				>
 					<div className="fdp-spc-tooltip__body">
 						<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--date">
-							<div className="fdp-spc-tooltip__primary-line"><strong>Date:</strong> {dateLabel}</div>
-					</div>
-					<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--value">
-						<div className="fdp-spc-tooltip__primary-line"><strong>Value:</strong> {valueLabel}</div>
-					</div>
-					{/* {narrative && (
+							<div className="fdp-spc-tooltip__section-label">
+								<strong>Date</strong>
+							</div>
+							<div className="fdp-spc-tooltip__primary-line">{dateLabel}</div>
+						</div>
+						<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--value">
+							<div className="fdp-spc-tooltip__section-label">
+								<strong>Value</strong>
+							</div>
+							<div className="fdp-spc-tooltip__primary-line">{valueLabel}</div>
+						</div>
+						{/* {narrative && (
 						<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--narrative">
 							<div className="fdp-spc-tooltip__narrative">{narrative}</div>
 						</div>
 					)} */}
-					{showBadges && (
-						<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--signals">
-							<div className="fdp-spc-tooltip__badges" aria-label="Signals">
-								{variationDesc && (
-									variationDesc.toLowerCase().includes("concern") ? (
-										<Tag text={variationDesc} color="default" className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern" />
-									) : variationDesc.toLowerCase().includes("improvement") ? (
-										<Tag text={variationDesc} color="default" className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement" />
-									) : (
-										<Tag text={variationDesc} color="default" className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common" />
-									)
-								)}
-								{assuranceDesc && (
-									<span className={`fdp-spc-badge fdp-spc-badge--assurance ${assuranceDesc.toLowerCase().includes("met") ? "is-pass" : "is-fail"}`}>{assuranceDesc}</span>
-								)}
-								{zone && (
+						{showBadges && (
+							<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--signals">
+								<div className="fdp-spc-tooltip__section-label">
+									<strong>Signals</strong>
+								</div>
+								<div className="fdp-spc-tooltip__badges" aria-label="Signals">
+									{variationDesc &&
+										(variationDesc.toLowerCase().includes("concern") ? (
+											<Tag
+												text={variationDesc}
+												color="default"
+												className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
+											/>
+										) : variationDesc.toLowerCase().includes("improvement") ? (
+											<Tag
+												text={variationDesc}
+												color="default"
+												className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
+											/>
+										) : (
+											<Tag
+												text={variationDesc}
+												color="default"
+												className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
+											/>
+										))}
+									{assuranceDesc && (
+										<span
+											className={`fdp-spc-badge fdp-spc-badge--assurance ${assuranceDesc.toLowerCase().includes("met") ? "is-pass" : "is-fail"}`}
+										>
+											{assuranceDesc}
+										</span>
+									)}
+								</div>
+							</div>
+						)}
+						{zone && (
+							<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--limits">
+								<div className="fdp-spc-tooltip__section-label">
+									<strong>Limits</strong>
+								</div>
+								<div className="fdp-spc-tooltip__badges" aria-label="Limits">
 									<Tag
-										text={(() => { const z = zone.toLowerCase(); if (z.startsWith("within 1")) return "≤1σ"; if (z.startsWith("1–2")) return "1–2σ"; if (z.startsWith("2–3")) return "2–3σ"; if (z.startsWith(">3")) return ">3σ"; return zone; })()}
-										color={zone.includes(">3") ? "orange" : zone.includes("2–3") ? "yellow" : "grey"}
+										text={(() => {
+											const z = zone.toLowerCase();
+											if (z.startsWith("within 1")) return "≤1σ";
+											if (z.startsWith("1–2")) return "1–2σ";
+											if (z.startsWith("2–3")) return "2–3σ";
+											if (z.startsWith(">3")) return ">3σ";
+											return zone;
+										})()}
+										color={
+											zone.includes(">3")
+												? "orange"
+												: zone.includes("2–3")
+													? "yellow"
+													: "grey"
+										}
 										aria-label={`Sigma zone: ${zone}`}
 										className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--zone"
 									/>
-								)}
+								</div>
 							</div>
-						</div>
-					)}
-					{hasRules && (
-						<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--rules">
-							<div className="fdp-spc-tooltip__section-label"><strong>Special cause</strong></div>
-							<div className="fdp-spc-tooltip__rule-tags" aria-label="Special cause rules">
-								{rules.map(r => {
-									const ruleColorClass = variationDesc
-										? variationDesc.toLowerCase().includes("concern")
-											? "fdp-spc-tag--concern"
-											: variationDesc.toLowerCase().includes("improvement")
-												? "fdp-spc-tag--improvement"
-												: "fdp-spc-tag--rule"
-										: "fdp-spc-tag--rule";
-									return (
-										<Tag
-											key={r}
-											text={r}
-											color="default"
-											className={`fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`}
-										/>
-									);
-								})}
+						)}
+						{hasRules && (
+							<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--rules">
+								<div className="fdp-spc-tooltip__section-label">
+									<strong>Special cause</strong>
+								</div>
+								<div
+									className="fdp-spc-tooltip__rule-tags"
+									aria-label="Special cause rules"
+								>
+									{rules.map((r) => {
+										const ruleColorClass = variationDesc
+											? variationDesc.toLowerCase().includes("concern")
+												? "fdp-spc-tag--concern"
+												: variationDesc.toLowerCase().includes("improvement")
+													? "fdp-spc-tag--improvement"
+													: "fdp-spc-tag--rule"
+											: "fdp-spc-tag--rule";
+										return (
+											<Tag
+												key={r}
+												text={r}
+												color="default"
+												className={`fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`}
+											/>
+										);
+									})}
+								</div>
 							</div>
-						</div>
-					)}
+						)}
 					</div>
 				</div>,
 				host

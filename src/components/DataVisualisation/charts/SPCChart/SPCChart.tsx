@@ -37,6 +37,8 @@ export interface SPCChartProps {
 	showPoints?: boolean;
 	announceFocus?: boolean;
 	className?: string;
+	/** Convenience unit alias (overrides narrationContext.measureUnit). Auto-detected as '%' when all y in [0,1] if not provided */
+	unit?: string;
 	/** Highlight points outside 3-sigma */
 	highlightOutOfControl?: boolean;
 	/** SPC chart type */
@@ -76,6 +78,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	showPoints = true,
 	announceFocus = false,
 	className,
+	unit,
 	highlightOutOfControl = true,
 	chartType = "XmR",
 	metricImprovement = ImprovementDirection.Neither,
@@ -144,6 +147,20 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		if (!base.length) return undefined;
 		return [Math.min(...base), Math.max(...base)];
 	}, [data, mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg]);
+
+	// Auto-detect percentage unit when all values in [0,1] and no explicit unit supplied
+	const autoUnit = React.useMemo(() => {
+		if (unit || narrationContext?.measureUnit) return undefined;
+		if (!data.length) return undefined;
+		return data.every(d => d.y >= 0 && d.y <= 1) ? '%' : undefined;
+	}, [unit, narrationContext?.measureUnit, data]);
+
+	const effectiveUnit = unit ?? narrationContext?.measureUnit ?? autoUnit;
+	const effectiveNarrationContext = React.useMemo(() => {
+		return effectiveUnit
+			? { ...(narrationContext || {}), measureUnit: effectiveUnit }
+			: narrationContext;
+	}, [narrationContext, effectiveUnit]);
 
 	// Derive embedded variation icon (now rendered above chart instead of inside SVG)
 	const embeddedIcon = React.useMemo(() => {
@@ -228,7 +245,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						engineRows={engine?.rows || null}
 						enableRules={enableRules}
 						showIcons={showIcons}
-						narrationContext={narrationContext}
+						narrationContext={effectiveNarrationContext}
 						metricImprovement={metricImprovement}
 					/>
 				</LineScalesProvider>

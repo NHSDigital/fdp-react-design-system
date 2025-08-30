@@ -7,6 +7,7 @@ import ScaleContext, { useScaleContext, LineScalesProvider } from '../../core/Sc
 import Axis from '../../charts/Axis/Axis';
 import GridLines from '../../charts/GridlLines/GridLines';
 import LineSeriesPrimitive from '../../series/LineSeriesPrimitive';
+import { pickSeriesColor, pickRegionColor } from '../../utils/colors';
 import VisuallyHiddenLiveRegion from '../../primitives/VisuallyHiddenLiveRegion';
 import { TooltipProvider } from '../../core/TooltipContext';
 import TooltipOverlay from '../../primitives/TooltipOverlay';
@@ -50,6 +51,8 @@ export interface LineChartProps {
   strokeWidth?: number;
   /** Enable / disable curve smoothing (monotoneX). Default true. */
   smooth?: boolean;
+  /** Light gradient wash under lines (uses series stroke color fading to transparent). Default true. */
+  gradientFills?: boolean;
 }
 
 // Internal renderer. If used inside a ChartRoot (context) it will use those dimensions; otherwise
@@ -74,6 +77,7 @@ const InternalLineChart: React.FC<LineChartProps & { providedDims?: ReturnType<t
   recomputeYDomainOnHidden = false,
   strokeWidth = 1,
   smooth = true,
+  gradientFills = true,
   providedDims
 }) => {
   // Prefer explicit prop (legacy), then context (ChartRoot), else create local dimensions (standalone mode)
@@ -119,9 +123,23 @@ const InternalLineChart: React.FC<LineChartProps & { providedDims?: ReturnType<t
     return Array.from(set).sort((a,b)=>a-b).map(ms => new Date(ms));
   }, [xTickValues, alignXTicksToData, allData, parseX]);
   const formatValue = valueFormatter || ((v: number) => String(v));
+  const gradientIds = React.useMemo(() => series.map(s => `fdp-line-grad-${s.id}`), [series]);
   const svgContent = (
     <svg width={dims.width} height={dims.height} role="img">
       <g transform={`translate(${dims.margin.left},${dims.margin.top})`}>
+        {gradientFills && (
+          <defs>
+            {series.map((s, i) => {
+              const lineColor = s.color || (palette === 'region' ? pickRegionColor(s.id, i) : pickSeriesColor(i));
+              return (
+                <linearGradient key={s.id} id={gradientIds[i]} x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor={lineColor} stopOpacity={0.25} />
+                  <stop offset="100%" stopColor={lineColor} stopOpacity={0} />
+                </linearGradient>
+              );
+            })}
+          </defs>
+        )}
         <Axis type="x" formatTick={formatDate} tickValues={computedDataTickValues.length ? computedDataTickValues : undefined} />
         <Axis type="y" formatTick={formatValue} label={yLabel} />
         <GridLines axis="y" />
@@ -138,6 +156,7 @@ const InternalLineChart: React.FC<LineChartProps & { providedDims?: ReturnType<t
       visibilityMode={visibilityMode}
       strokeWidth={strokeWidth}
       smooth={smooth}
+      gradientFillId={gradientFills ? gradientIds[si] : undefined}
           />
         ))}
         {showTooltipOverlay && <TooltipOverlay />}

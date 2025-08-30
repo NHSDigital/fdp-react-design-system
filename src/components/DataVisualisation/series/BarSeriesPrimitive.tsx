@@ -41,6 +41,8 @@ export interface BarSeriesPrimitiveProps {
   stacked?: { y0: number; y1: number }[];
   /** If true, renders stacked segments individually instead of grouping across series. Provided mainly for future extension (multi-encoded). */
   stackedMode?: boolean;
+  /** Apply vertical gradient wash (solid at top -> transparent at baseline). Default true. */
+  gradientFill?: boolean;
 }
 
 /** Low-level primitive for vertical bars (time / ordinal X via ScaleContext time scale). */
@@ -62,6 +64,7 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
   , stacked
   , gapRatio = 0.15
   , minBarWidth
+  , gradientFill = true
 }) => {
   const effectiveGapRatio = Math.max(0, gapRatio);
   const scaleCtx = useScaleContext();
@@ -233,10 +236,21 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
   const baselineY = Number.isFinite(yScale(0)) ? yScale(0) : yScale.range()[0];
 
   // If stacked provided, render each datum as a single vertical rect spanning y0->y1 (ignore grouping logic beyond width allocation).
+  const seriesGradientId = React.useId();
   if (stacked && stacked.length === series.data.length) {
     // For stacked bars we typically have one BarSeriesPrimitive per stacked layer OR a combined single series with stacked segments? Here we assume one primitive per layer (like stacked areas). Width partition among series becomes full slot per layer (overlap) so we treat seriesCount=1 for geometry.
     return (
       <g className="fdp-bar-series fdp-bar-series--stacked" data-series={series.id} opacity={faded ? 0.25 : 1} aria-hidden={faded ? true : undefined}>
+        {gradientFill && (
+          <defs>
+            {/* Vertical gradient from top-left downward (strong at top, soft toward baseline). */}
+            <linearGradient id={seriesGradientId} x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor={baseSeriesColor} stopOpacity={0.30} />
+              <stop offset="60%" stopColor={baseSeriesColor} stopOpacity={0.14} />
+              <stop offset="100%" stopColor={baseSeriesColor} stopOpacity={0.06} />
+            </linearGradient>
+          </defs>
+        )}
         {series.data.map((d, di) => {
           const rawX = parseX(d);
           const xPos = isBandScale ? xScale(d.x as any) : xScale(rawX);
@@ -290,9 +304,9 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
                y={y}
                width={fullWidth}
                height={height}
-               fill={baseSeriesColor}
-               // Use a consistent dark stroke for all stacked segments to avoid low-contrast/light outlines from token stroke variants
-               stroke={isFocused ? 'var(--nhs-fdp-color-primary-yellow, #ffeb3b)' : 'var(--nhs-fdp-chart-stacked-stroke, #212b32)'}
+               fill={gradientFill ? `url(#${seriesGradientId})` : baseSeriesColor}
+               {...(!gradientFill ? { fillOpacity: 0.25 } : {})}
+               stroke={isFocused ? 'var(--nhs-fdp-color-primary-yellow, #ffeb3b)' : baseSeriesColor}
                strokeWidth={isFocused ? 2 : 1}
                className="fdp-bar fdp-bar--stacked"
                tabIndex={faded || !focusable ? -1 : 0}
@@ -311,6 +325,29 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
 
   return (
     <g className="fdp-bar-series" data-series={series.id} opacity={faded ? 0.25 : 1} aria-hidden={faded ? true : undefined}>
+      {/* Gradients: one per series in series color mode, or per bar when category mode (unique id based on index) */}
+      {gradientFill && (
+        <defs>
+          {colorMode === 'series' && (
+            <linearGradient id={seriesGradientId} x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor={baseSeriesColor} stopOpacity={0.30} />
+              <stop offset="60%" stopColor={baseSeriesColor} stopOpacity={0.14} />
+              <stop offset="100%" stopColor={baseSeriesColor} stopOpacity={0.06} />
+            </linearGradient>
+          )}
+          {colorMode === 'category' && series.data.map((d, di) => {
+            const catColor = palette === 'region' ? pickRegionColor(String(d.x), di) : pickSeriesColor(di);
+            const gid = `${seriesGradientId}-${di}`;
+            return (
+              <linearGradient key={gid} id={gid} x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor={catColor} stopOpacity={0.30} />
+                <stop offset="60%" stopColor={catColor} stopOpacity={0.14} />
+                <stop offset="100%" stopColor={catColor} stopOpacity={0.06} />
+              </linearGradient>
+            );
+          })}
+        </defs>
+      )}
       {series.data.map((d, di) => {
         const rawX = parseX(d);
         const xPos = isBandScale ? xScale(d.x as any) : xScale(rawX);
@@ -385,6 +422,12 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
         const onLeave = () => {
           if (tooltip?.focused?.seriesId === series.id && tooltip.focused.index === di) tooltip.clear();
         };
+        const catColor = colorMode === 'category' ? (palette === 'region' ? pickRegionColor(String(d.x), di) : pickSeriesColor(di)) : baseSeriesColor;
+        const fillId = colorMode === 'category' ? `${seriesGradientId}-${di}` : seriesGradientId;
+        const baseStroke = gradientFill ? catColor : (colorMode === 'category'
+          ? (palette === 'region' ? pickRegionStroke(String(d.x), di) : pickSeriesStroke(di))
+          : baseSeriesStroke);
+        const barStrokeColor = isFocused ? 'var(--nhs-fdp-color-primary-yellow, #ffeb3b)' : (baseStroke || catColor);
         return (
           <rect
             key={di}
@@ -392,8 +435,9 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
             y={y}
             width={barWidth}
             height={height || 1} // ensure minimal visibility for zero-height
-            fill={colorMode === 'category' ? (palette === 'region' ? pickRegionColor(String(d.x), di) : pickSeriesColor(di)) : baseSeriesColor}
-            stroke={isFocused ? 'var(--nhs-fdp-color-primary-yellow, #ffeb3b)' : (colorMode === 'category' ? (palette === 'region' ? pickRegionStroke(String(d.x), di) : pickSeriesStroke(di)) : baseSeriesStroke)}
+            fill={gradientFill ? `url(#${fillId})` : catColor}
+            {...(!gradientFill ? { fillOpacity: 0.25 } : {})}
+            stroke={barStrokeColor}
             strokeWidth={isFocused ? 2 : 1}
             className="fdp-bar"
             tabIndex={faded || !focusable ? -1 : 0}

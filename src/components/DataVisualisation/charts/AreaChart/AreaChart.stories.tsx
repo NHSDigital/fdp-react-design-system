@@ -55,10 +55,9 @@ const InnerArea: React.FC<{ series: AreaSeries[]; parseX: (d: Datum) => Date }> 
   return (
     <svg width={dims.width} height={dims.height} role="img">
       <g transform={`translate(${dims.margin.left},${dims.margin.top})`}>
-        <Axis type="x" />
-        <Axis type="y" />
-        <GridLines axis="y" />
-        {/* Areas (render first) */}
+  {/* Grid lines below data */}
+  <GridLines axis="y" />
+  {/* Areas (render below axes so axes sit on top) */}
         {series.map((s, i) => (
           <AreaSeriesPrimitive
             key={s.id}
@@ -84,6 +83,9 @@ const InnerArea: React.FC<{ series: AreaSeries[]; parseX: (d: Datum) => Date }> 
 			smooth={false}
           />
         ))}
+  {/* Axes drawn last so tick labels sit atop fills */}
+  <Axis type="x" />
+  <Axis type="y" />
         <TooltipOverlay />
       </g>
     </svg>
@@ -113,8 +115,6 @@ export const Stacked: Story = {
       return (
         <svg width={dims.width} height={dims.height} role="img">
           <g transform={`translate(${dims.margin.left},${dims.margin.top})`}>
-            <Axis type="x" />
-            <Axis type="y" />
             <GridLines axis="y" />
             {stacked.map((s, i) => (
               <AreaSeriesPrimitive
@@ -127,6 +127,8 @@ export const Stacked: Story = {
                 smooth={false}
               />
             ))}
+            <Axis type="x" />
+            <Axis type="y" />
             <TooltipOverlay />
           </g>
         </svg>
@@ -202,8 +204,6 @@ export const StackedPercent: Story = {
       return (
         <svg width={dims.width} height={dims.height} role="img">
           <g transform={`translate(${dims.margin.left},${dims.margin.top})`}>
-            <Axis type="x" />
-            <Axis type="y" formatTick={(v:any)=>`${Math.round(v*100)}%`} />
             <GridLines axis="y" />
             {stacked.map((s, i) => (
               <AreaSeriesPrimitive
@@ -216,6 +216,8 @@ export const StackedPercent: Story = {
                 smooth={false}
               />
             ))}
+            <Axis type="x" />
+            <Axis type="y" formatTick={(v:any)=>`${Math.round(v*100)}%`} />
             <PercentTooltipOverlay />
           </g>
         </svg>
@@ -295,8 +297,6 @@ export const StackedToggle: Story = {
       return (
         <svg width={dims.width} height={dims.height} role="img">
           <g transform={`translate(${dims.margin.left},${dims.margin.top})`}>
-            <Axis type="x" />
-            <Axis type="y" formatTick={mode==='percent' ? (v:any)=>`${Math.round(v*100)}%` : undefined} />
             <GridLines axis="y" />
             {activeStack.map((s,i) => (
               <AreaSeriesPrimitive
@@ -309,6 +309,8 @@ export const StackedToggle: Story = {
                 smooth={false}
               />
             ))}
+            <Axis type="x" />
+            <Axis type="y" formatTick={mode==='percent' ? (v:any)=>`${Math.round(v*100)}%` : undefined} />
             <ToggleTooltip />
           </g>
         </svg>

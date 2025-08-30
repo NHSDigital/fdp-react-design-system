@@ -23,16 +23,24 @@ export interface BarSeriesPrimitiveProps {
   widthFactor?: number;
   /** Gap (px) between grouped bars (apportioned inside step) */
   groupGap?: number;
+  /** Dynamic gap ratio (gap = barWidth * gapRatio) for grouped bars. Overrides static groupGap when provided. Default 0.15 */
+  gapRatio?: number;
   /** Explicit per-bar width override (px). If provided, inference is skipped (continuous scales). For band scales this is clamped to available slot. */
   barWidth?: number;
   /** Adaptive mode: dynamically fill available step width up to an occupancy factor, ignoring widthFactor when continuous. */
   adaptive?: boolean;
   /** Fraction (0-1] of the step (distance to next category midpoint) to occupy as total group width in adaptive mode. Default 0.9 */
   adaptiveGroupOccupancy?: number;
+  /** Minimum bar width (px) for continuous scales. If the inferred uniform bar width would be smaller and it is possible to satisfy the constraint within slot bounds, it will be raised to this value. (No effect for band scales or when explicit barWidth provided.) */
+  minBarWidth?: number;
   /** Presentation for hidden series (consistency with line). */
   visibilityMode?: 'remove' | 'fade';
   /** Color assignment mode: by entire series (default) or per category (datum index within a single series). */
   colorMode?: 'series' | 'category';
+  /** Optional stacked data: for a stacked vertical bar each datum gets y0,y1 absolute values (pre-normalised if percent). Mutually exclusive with grouped multi-series at same x (i.e., set seriesCount=1 for stacked multi-layer). */
+  stacked?: { y0: number; y1: number }[];
+  /** If true, renders stacked segments individually instead of grouping across series. Provided mainly for future extension (multi-encoded). */
+  stackedMode?: boolean;
 }
 
 /** Low-level primitive for vertical bars (time / ordinal X via ScaleContext time scale). */
@@ -51,7 +59,11 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
   visibilityMode = 'remove'
   , colorMode = 'series'
   , allSeries
+  , stacked
+  , gapRatio = 0.15
+  , minBarWidth
 }) => {
+  const effectiveGapRatio = Math.max(0, gapRatio);
   const scaleCtx = useScaleContext();
   const chartDims = useChartContext();
   if (!scaleCtx || !chartDims) return null;
@@ -94,7 +106,7 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
   }, [series.data, allSeries, xScale, parseX, widthFactor, bandwidth]);
 
   // Group width = total width occupied by all bars in a group plus base single bar width candidate
-    const { groupTotalWidth, basePerBar } = React.useMemo(() => {
+  const { basePerBar } = React.useMemo(() => {
     // Band scale: derived from bandwidth then optional override (clamped)
     if (isBandScale) {
       const bw = inferredPixelWidth; // bandwidth
@@ -106,8 +118,7 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
         const adaptedPerBar = Math.max(1, (targetGroup - groupGap * (seriesCount - 1)) / seriesCount);
         finalPerBar = explicit ? Math.min(finalPerBar, adaptedPerBar) : adaptedPerBar;
       }
-  const total = finalPerBar * seriesCount + groupGap * (seriesCount - 1);
-  return { groupTotalWidth: total, basePerBar: finalPerBar };
+  return { basePerBar: finalPerBar };
     }
     // Continuous scale: explicit override first
     const explicit = series.barWidth ?? barWidth;
@@ -128,16 +139,13 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
       const targetGroup = step * Math.min(1, Math.max(0.05, adaptiveGroupOccupancy));
       const adaptivePer = Math.max(1, (targetGroup - groupGap * (seriesCount - 1)) / seriesCount);
       const finalPer = explicit ? Math.min(explicit, adaptivePer) : adaptivePer;
-      const total = finalPer * seriesCount + groupGap * (seriesCount - 1);
-        return { groupTotalWidth: total, basePerBar: finalPer };
+  return { basePerBar: finalPer };
     }
     if (explicit) {
       const finalPer = Math.min(explicit, maxAutoPer);
-      const total = finalPer * seriesCount + groupGap * (seriesCount - 1);
-        return { groupTotalWidth: total, basePerBar: finalPer };
+  return { basePerBar: finalPer };
     }
-    const total = maxAutoPer * seriesCount + groupGap * (seriesCount - 1);
-      return { groupTotalWidth: total, basePerBar: maxAutoPer };
+  return { basePerBar: maxAutoPer };
   }, [isBandScale, inferredPixelWidth, groupGap, seriesCount, barWidth, series.barWidth, adaptive, adaptiveGroupOccupancy, allSeries, xScale, parseX]);
   // Precompute global centers for continuous scale once
   const globalCenters = React.useMemo(() => {
@@ -151,39 +159,155 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
     pts.sort((a,b)=>a-b);
     return Array.from(new Set(pts));
   }, [isBandScale, allSeries, series, xScale, parseX]);
-  // Compute uniform bar width for continuous scale (cap by smallest available span among groups)
-  const uniformContinuousBarWidth = React.useMemo(() => {
-    if (isBandScale) return undefined;
-    if (!globalCenters.length) return basePerBar;
-    // Compute steps between centers
-    const steps: number[] = [];
-    for (let i=1;i<globalCenters.length;i++) steps.push(globalCenters[i]-globalCenters[i-1]);
-    steps.sort((a,b)=>a-b);
-    const medianStep = steps.length ? steps[Math.floor(steps.length/2)] : basePerBar * seriesCount + groupGap * (seriesCount - 1);
-    // Pseudo neighbours for edges so outer spans resemble internal spacing
-    const pseudoFirstPrev = globalCenters[0] - medianStep;
-    const pseudoLastNext = globalCenters[globalCenters.length-1] + medianStep;
-    const localSpans: number[] = [];
+  // Slot bounds for continuous layout: each data center gets a slot from midpoint(prev, current) to midpoint(current, next);
+  // first slot starts at 0, last slot ends at innerWidth -> ensures no overflow beyond plotting area.
+  const continuousSlots = React.useMemo(() => {
+    if (isBandScale) return [] as { center: number; left: number; right: number }[];
+    if (!globalCenters.length) return [];
+    if (globalCenters.length === 1) {
+      return [{ center: globalCenters[0], left: 0, right: chartDims.innerWidth }];
+    }
+    const slots: { center: number; left: number; right: number }[] = [];
     for (let i=0;i<globalCenters.length;i++) {
       const c = globalCenters[i];
-      const prev = i>0 ? globalCenters[i-1] : pseudoFirstPrev;
-      const next = i<globalCenters.length-1 ? globalCenters[i+1] : pseudoLastNext;
-      const leftBound = (prev + c)/2;
-      const rightBound = (c + next)/2;
-      localSpans.push(Math.max(1, rightBound - leftBound));
+      const left = i===0 ? 0 : (globalCenters[i-1] + c)/2;
+      const right = i===globalCenters.length-1 ? chartDims.innerWidth : (c + globalCenters[i+1])/2;
+      slots.push({ center: c, left: Math.max(0,left), right: Math.min(chartDims.innerWidth,right) });
     }
-    const minLocalSpan = Math.min(...localSpans);
-    // Target group width tries to occupy occupancy * medianStep, but cannot exceed any local span
-    const desiredGroupWidth = medianStep * Math.min(1, Math.max(0.05, adaptiveGroupOccupancy));
-    const finalGroupWidth = Math.min(desiredGroupWidth, minLocalSpan - 0.5, groupTotalWidth);
-    const per = Math.max(1, (finalGroupWidth - groupGap * (seriesCount - 1)) / seriesCount);
-    return Math.min(per, basePerBar);
-  }, [isBandScale, globalCenters, basePerBar, groupTotalWidth, seriesCount, groupGap, adaptiveGroupOccupancy]);
+    return slots;
+  }, [isBandScale, globalCenters, chartDims.innerWidth]);
+
+  // Uniform group width across all continuous slots so first/last bars are same width.
+  const continuousUniforms = React.useMemo(() => {
+    if (isBandScale || !continuousSlots.length) return undefined as undefined | { groupWidth: number; barWidth: number };
+    const occupancy = Math.min(1, Math.max(0.05, widthFactor));
+    const slotSpans = continuousSlots.map(s => Math.max(2, s.right - s.left));
+    // Candidate width per slot capped by slot span minus a pixel padding, scaled by occupancy
+    const candidates = slotSpans.map(span => Math.max(2, Math.min(span - 1, span * occupancy)));
+    let uniformGroupWidth = Math.min(...candidates);
+    // If a minBarWidth is provided we may be able to expand beyond occupancy (without exceeding any slot span - 1)
+    if (minBarWidth) {
+      if (seriesCount <= 1) {
+        const maxFeasible = Math.min(...slotSpans.map(span => span - 1));
+        if (maxFeasible >= minBarWidth && uniformGroupWidth < minBarWidth) {
+          uniformGroupWidth = Math.min(maxFeasible, minBarWidth);
+        }
+      } else {
+        const maxFeasibleGroup = Math.min(...slotSpans.map(span => span - 1));
+        const requiredGroupForMin = minBarWidth * seriesCount + (seriesCount - 1) * (minBarWidth * effectiveGapRatio);
+        if (requiredGroupForMin <= maxFeasibleGroup && uniformGroupWidth < requiredGroupForMin) {
+          uniformGroupWidth = requiredGroupForMin;
+        }
+      }
+    }
+    if (seriesCount <= 1) {
+      // For single-series continuous bars we can attempt to respect minBarWidth directly (bounded by slot constraints)
+      if (minBarWidth && uniformGroupWidth < minBarWidth) {
+        // Only upgrade if all slots can accommodate minBarWidth (single series so groupWidth == barWidth)
+        const canAllFit = slotSpans.every(span => span >= minBarWidth);
+        if (canAllFit) return { groupWidth: minBarWidth, barWidth: minBarWidth };
+      }
+      return { groupWidth: uniformGroupWidth, barWidth: uniformGroupWidth };
+    }
+    // Solve for barWidth where gap = barWidth * effectiveGapRatio and total group fits uniformGroupWidth
+    // uniformGroupWidth = b*seriesCount + (seriesCount-1)*(b*effectiveGapRatio)
+    // => b = uniformGroupWidth / (seriesCount + (seriesCount-1)*effectiveGapRatio)
+    let b = uniformGroupWidth / (seriesCount + (seriesCount - 1) * effectiveGapRatio);
+    if (b < 1) b = 1; // clamp minimal visibility
+    if (minBarWidth && b < minBarWidth) {
+      // Check if raising to minBarWidth still fits inside the smallest slot span
+      const requiredGroup = minBarWidth * seriesCount + (seriesCount - 1) * (minBarWidth * effectiveGapRatio);
+      if (requiredGroup <= uniformGroupWidth) {
+        b = minBarWidth;
+      }
+    }
+  // Recompute group width using derived b (might be slightly < uniformGroupWidth due to clamping)
+    const groupWidth = b * seriesCount + (seriesCount - 1) * (b * effectiveGapRatio);
+    return { groupWidth, barWidth: b };
+  }, [isBandScale, continuousSlots, widthFactor, seriesCount, effectiveGapRatio, minBarWidth]);
+
   // innerWidth not needed after uniform span logic (bounds derived from midpoints)
 
   const baseSeriesColor = series.color || (palette === 'region' ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
   const baseSeriesStroke = palette === 'region' ? pickRegionStroke(series.id, seriesIndex) : pickSeriesStroke(seriesIndex);
   const baselineY = Number.isFinite(yScale(0)) ? yScale(0) : yScale.range()[0];
+
+  // If stacked provided, render each datum as a single vertical rect spanning y0->y1 (ignore grouping logic beyond width allocation).
+  if (stacked && stacked.length === series.data.length) {
+    // For stacked bars we typically have one BarSeriesPrimitive per stacked layer OR a combined single series with stacked segments? Here we assume one primitive per layer (like stacked areas). Width partition among series becomes full slot per layer (overlap) so we treat seriesCount=1 for geometry.
+    return (
+      <g className="fdp-bar-series fdp-bar-series--stacked" data-series={series.id} opacity={faded ? 0.25 : 1} aria-hidden={faded ? true : undefined}>
+        {series.data.map((d, di) => {
+          const rawX = parseX(d);
+          const xPos = isBandScale ? xScale(d.x as any) : xScale(rawX);
+          let fullWidth: number;
+          let barX: number;
+          if (isBandScale) {
+            fullWidth = inferredPixelWidth;
+            barX = xPos;
+          } else {
+            const slot = continuousSlots.find(s => Math.abs(s.center - xPos) < 0.5);
+            if (!slot || !continuousUniforms) {
+              fullWidth = basePerBar; barX = xPos - basePerBar/2;
+            } else {
+              const { groupWidth } = continuousUniforms;
+              fullWidth = groupWidth;
+              let groupLeft = xPos - groupWidth/2;
+              // Clamp within slot
+              if (groupLeft < slot.left) groupLeft = slot.left;
+              if (groupLeft + groupWidth > slot.right) groupLeft = Math.max(slot.left, slot.right - groupWidth);
+              barX = groupLeft;
+            }
+          }
+          const seg = stacked[di];
+          const y0 = yScale(seg.y0);
+          const y1 = yScale(seg.y1);
+          const y = Math.min(y0, y1);
+          const height = Math.abs(y1 - y0) || 1;
+          // Fallback enforcement: ensure minBarWidth respected if possible
+          if (!isBandScale && minBarWidth && fullWidth < minBarWidth) {
+            const slot = continuousSlots.find(s => Math.abs(s.center - xPos) < 0.5);
+            if (slot) {
+              const maxFeasible = Math.max(2, slot.right - slot.left - 1);
+              const target = Math.min(maxFeasible, minBarWidth);
+              if (target > fullWidth) {
+                fullWidth = target;
+                barX = Math.max(slot.left, Math.min(slot.right - fullWidth, xPos - fullWidth / 2));
+              }
+            }
+          }
+          const isFocused = !faded && tooltip?.focused?.seriesId === series.id && tooltip.focused.index === di;
+          const onEnter = () => {
+            if (!tooltip || faded) return;
+            // Use top segment value for focus (y1)
+            tooltip.setFocused({ seriesId: series.id, index: di, x: rawX as any, y: seg.y1 - seg.y0, clientX: barX + fullWidth / 2, clientY: y });
+          };
+           const onLeave = () => { if (tooltip?.focused?.seriesId === series.id && tooltip.focused.index === di) tooltip.clear(); };
+           return (
+             <rect
+               key={di}
+               x={barX}
+               y={y}
+               width={fullWidth}
+               height={height}
+               fill={baseSeriesColor}
+               // Use a consistent dark stroke for all stacked segments to avoid low-contrast/light outlines from token stroke variants
+               stroke={isFocused ? 'var(--nhs-fdp-color-primary-yellow, #ffeb3b)' : 'var(--nhs-fdp-chart-stacked-stroke, #212b32)'}
+               strokeWidth={isFocused ? 2 : 1}
+               className="fdp-bar fdp-bar--stacked"
+               tabIndex={faded || !focusable ? -1 : 0}
+               role="graphics-symbol"
+               aria-label={`${series.label || series.id} ${rawX instanceof Date ? rawX.toDateString() : rawX} value ${seg.y1 - seg.y0}`}
+               onMouseEnter={onEnter}
+               onFocus={onEnter}
+               onMouseLeave={onLeave}
+               onBlur={onLeave}
+             />
+           );
+        })}
+      </g>
+    );
+  }
 
   return (
     <g className="fdp-bar-series" data-series={series.id} opacity={faded ? 0.25 : 1} aria-hidden={faded ? true : undefined}>
@@ -194,25 +318,60 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
         let barX: number;
         let barWidth: number;
         if (isBandScale) {
-          const groupWidth = inferredPixelWidth; // == bandwidth
-            const available = groupWidth - (seriesCount - 1) * groupGap;
-            barWidth = Math.max(1, available / seriesCount);
-            barX = xPos + seriesIndex * (barWidth + groupGap);
+          const bw = inferredPixelWidth; // full categorical slot
+          if (seriesCount <= 1) {
+            barWidth = bw;
+            barX = xPos;
+          } else {
+            barWidth = Math.max(1, bw / (seriesCount + (seriesCount - 1) * effectiveGapRatio));
+            const gap = barWidth * effectiveGapRatio;
+            const groupWidth = barWidth * seriesCount + gap * (seriesCount - 1);
+            const groupLeft = xPos + (bw - groupWidth) / 2;
+            barX = groupLeft + seriesIndex * (barWidth + gap);
+          }
         } else {
-          const xCenter = xPos; // continuous scale center for group
-          const centerIndex = globalCenters.indexOf(xCenter);
-          // Recompute bounds using pseudo spacing like in uniform width calc for consistent edge gaps
-          let prevCenter = centerIndex > 0 ? globalCenters[centerIndex - 1] : (globalCenters[0] - (uniformContinuousBarWidth! * seriesCount + groupGap * (seriesCount - 1)) / Math.max(0.05, adaptiveGroupOccupancy));
-          let nextCenter = centerIndex < globalCenters.length -1 ? globalCenters[centerIndex + 1] : (globalCenters[globalCenters.length -1] + (uniformContinuousBarWidth! * seriesCount + groupGap * (seriesCount - 1)) / Math.max(0.05, adaptiveGroupOccupancy));
-          const leftBound = (prevCenter + xCenter)/2;
-          const rightBound = (xCenter + nextCenter)/2;
-          const per = uniformContinuousBarWidth ?? basePerBar;
-          const totalGroup = per * seriesCount + groupGap * (seriesCount - 1);
-          let groupLeft = xCenter - totalGroup / 2;
-          if (groupLeft < leftBound) groupLeft = leftBound;
-          if (groupLeft + totalGroup > rightBound) groupLeft = Math.max(leftBound, rightBound - totalGroup);
-          barX = groupLeft + seriesIndex * (per + groupGap);
-          barWidth = per;
+          const slot = continuousSlots.find(s => s.center === xPos);
+          if (!slot || !continuousUniforms) {
+            barWidth = basePerBar; barX = xPos - basePerBar/2;
+            if (minBarWidth && barWidth < minBarWidth) {
+              barWidth = minBarWidth;
+              barX = xPos - barWidth/2;
+            }
+          } else {
+            const { barWidth: uBar } = continuousUniforms;
+            barWidth = uBar;
+            const gap = seriesCount > 1 ? uBar * effectiveGapRatio : 0;
+            const computedGroupWidth = barWidth * seriesCount + gap * (seriesCount - 1);
+            let groupLeft = xPos - computedGroupWidth / 2;
+            if (groupLeft < slot.left) groupLeft = slot.left;
+            if (groupLeft + computedGroupWidth > slot.right) groupLeft = Math.max(slot.left, slot.right - computedGroupWidth);
+            barX = groupLeft + seriesIndex * (barWidth + gap);
+          }
+          // Fallback enforcement for continuous bars
+          if (minBarWidth && barWidth < minBarWidth) {
+            const slot2 = continuousSlots.find(s => Math.abs(s.center - xPos) < 0.5);
+            if (slot2) {
+              const maxFeasible = Math.max(2, slot2.right - slot2.left - 1);
+              const target = Math.min(maxFeasible, minBarWidth);
+              if (target > barWidth) {
+                if (seriesCount <= 1) {
+                  barWidth = target;
+                  barX = Math.max(slot2.left, Math.min(slot2.right - barWidth, xPos - barWidth / 2));
+                } else {
+                  const gap = target * effectiveGapRatio;
+                  const neededGroup = target * seriesCount + gap * (seriesCount - 1);
+                  if (neededGroup <= (slot2.right - slot2.left - 1)) {
+                    barWidth = target;
+                    const groupWidth = neededGroup;
+                    let groupLeft = xPos - groupWidth / 2;
+                    if (groupLeft < slot2.left) groupLeft = slot2.left;
+                    if (groupLeft + groupWidth > slot2.right) groupLeft = Math.max(slot2.left, slot2.right - groupWidth);
+                    barX = groupLeft + seriesIndex * (barWidth + gap);
+                  }
+                }
+              }
+            }
+          }
         }
         const barCenterX = barX + (barWidth / 2);
         const valueY = yScale(d.y);

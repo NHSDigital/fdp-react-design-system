@@ -14,6 +14,7 @@ export const Container: React.FC<ContainerProps> = ({
   className, 
   fluid = false,
   maxWidth,
+  style,
   ...props 
 }) => {
   const containerClasses = classNames(
@@ -24,10 +25,10 @@ export const Container: React.FC<ContainerProps> = ({
     className
   );
 
-  const style = maxWidth ? { maxWidth } : undefined;
+  const mergedStyle = maxWidth ? { maxWidth, ...(style || {}) } : style;
 
   return (
-    <div className={containerClasses} style={style} {...props}>
+    <div className={containerClasses} style={mergedStyle} {...props}>
       {children}
     </div>
   );
@@ -42,12 +43,13 @@ export const Container: React.FC<ContainerProps> = ({
 export const Row: React.FC<RowProps> = ({ 
   children, 
   className,
+  style,
   ...props 
 }) => {
   const rowClasses = classNames('nhsuk-grid-row', className);
 
   return (
-    <div className={rowClasses} {...props}>
+    <div className={rowClasses} style={style} {...props}>
       {children}
     </div>
   );
@@ -68,6 +70,7 @@ export const Column: React.FC<ColumnProps> = ({
   start,
   className,
   forceWidth = false,
+  style,
   ...props 
 }) => {
   const columnClasses = classNames(
@@ -90,7 +93,7 @@ export const Column: React.FC<ColumnProps> = ({
   );
 
   return (
-    <div className={columnClasses} {...props}>
+    <div className={columnClasses} style={style} {...props}>
       {children}
     </div>
   );
@@ -105,6 +108,7 @@ export const Column: React.FC<ColumnProps> = ({
 export const Grid: React.FC<GridProps> = ({ 
   children, 
   className,
+  style,
   ...props 
 }) => {
   const childrenArray = React.Children.toArray(children);
@@ -119,7 +123,7 @@ export const Grid: React.FC<GridProps> = ({
       firstChild.props.className.includes('nhsuk-grid-row')));
   
   return (
-    <Container className={className} {...props}>
+    <Container className={className} style={style} {...props}>
       { hasRowAsFirstChild ? children : <Row>{children}</Row> }
     </Container>
   );

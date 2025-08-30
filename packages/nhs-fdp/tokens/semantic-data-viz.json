@@ -17,13 +17,62 @@
         "12": { "$value": "{color.data-viz.categorical.12}" }
       },
       "region": {
-        "northEast": { "$value": "{color.data-viz.region.north-east}" },
-        "northWest": { "$value": "{color.data-viz.region.north-west}" },
-        "eastOfEngland": { "$value": "{color.data-viz.region.east-of-england}" },
+        "north-east": { "$value": "{color.data-viz.region.north-east}" },
+        "north-west": { "$value": "{color.data-viz.region.north-west}" },
+        "east-of-england": { "$value": "{color.data-viz.region.east-of-england}" },
         "midlands": { "$value": "{color.data-viz.region.midlands}" },
         "london": { "$value": "{color.data-viz.region.london}" },
-        "southWest": { "$value": "{color.data-viz.region.south-west}" },
-        "southEast": { "$value": "{color.data-viz.region.south-east}" }
+        "south-west": { "$value": "{color.data-viz.region.south-west}" },
+        "south-east": { "$value": "{color.data-viz.region.south-east}" }
+      },
+      "severity": {
+        "low": { "$value": "{color.data-viz.severity.low}" },
+        "moderate": { "$value": "{color.data-viz.severity.moderate}" },
+        "high": { "$value": "{color.data-viz.severity.high}" },
+        "critical": { "$value": "{color.data-viz.severity.critical}" }
+      },
+      "org-level": {
+        "trust": { "$value": "{color.data-viz.org-level.trust}" },
+        "ambulance": { "$value": "{color.data-viz.org-level.ambulance}" },
+        "icb": { "$value": "{color.data-viz.org-level.icb}" },
+        "region": { "$value": "{color.data-viz.org-level.region}" }
+      },
+      "stroke": {
+        "series": {
+          "1": { "$value": "{color.data-viz.stroke.categorical.1}" },
+          "2": { "$value": "{color.data-viz.stroke.categorical.2}" },
+          "3": { "$value": "{color.data-viz.stroke.categorical.3}" },
+          "4": { "$value": "{color.data-viz.stroke.categorical.4}" },
+          "5": { "$value": "{color.data-viz.stroke.categorical.5}" },
+          "6": { "$value": "{color.data-viz.stroke.categorical.6}" },
+          "7": { "$value": "{color.data-viz.stroke.categorical.7}" },
+          "8": { "$value": "{color.data-viz.stroke.categorical.8}" },
+          "9": { "$value": "{color.data-viz.stroke.categorical.9}" },
+          "10": { "$value": "{color.data-viz.stroke.categorical.10}" },
+          "11": { "$value": "{color.data-viz.stroke.categorical.11}" },
+          "12": { "$value": "{color.data-viz.stroke.categorical.12}" }
+        },
+        "region": {
+          "north-east": { "$value": "{color.data-viz.stroke.region.north-east}" },
+          "north-west": { "$value": "{color.data-viz.stroke.region.north-west}" },
+          "east-of-england": { "$value": "{color.data-viz.stroke.region.east-of-england}" },
+          "midlands": { "$value": "{color.data-viz.stroke.region.midlands}" },
+          "london": { "$value": "{color.data-viz.stroke.region.london}" },
+          "south-west": { "$value": "{color.data-viz.stroke.region.south-west}" },
+          "south-east": { "$value": "{color.data-viz.stroke.region.south-east}" }
+        },
+        "severity": {
+          "low": { "$value": "{color.data-viz.stroke.severity.low}" },
+          "moderate": { "$value": "{color.data-viz.stroke.severity.moderate}" },
+          "high": { "$value": "{color.data-viz.stroke.severity.high}" },
+          "critical": { "$value": "{color.data-viz.stroke.severity.critical}" }
+        },
+        "org-level": {
+          "trust": { "$value": "{color.data-viz.stroke.org-level.trust}" },
+          "ambulance": { "$value": "{color.data-viz.stroke.org-level.ambulance}" },
+          "icb": { "$value": "{color.data-viz.stroke.org-level.icb}" },
+          "region": { "$value": "{color.data-viz.stroke.org-level.region}" }
+        }
       }
     }
   }

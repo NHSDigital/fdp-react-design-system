@@ -23,6 +23,8 @@ export interface LineScalesProviderProps<Datum extends { x: any; y: number }> {
   children: React.ReactNode;
   xTickCount?: number; // preferred default counts
   yTickCount?: number;
+  /** Optional explicit y domain override (e.g. stacked totals). */
+  yDomain?: [number, number];
 }
 
 export const LineScalesProvider = <Datum extends { x: any; y: number }>({
@@ -32,7 +34,8 @@ export const LineScalesProvider = <Datum extends { x: any; y: number }>({
   parseX: parseXProp,
   children,
   xTickCount = 6,
-  yTickCount = 5
+  yTickCount = 5,
+  yDomain
 }: LineScalesProviderProps<Datum>) => {
   const chartDims = useChartContext();
   // Prefer explicit values; fallback to chart context; final fallback 0 (will update on re-measure)
@@ -46,7 +49,14 @@ export const LineScalesProvider = <Datum extends { x: any; y: number }>({
   }, [parseXProp]);
 
   const xScale = React.useMemo(() => createXTimeScale(allData, parseX as any, [0, innerWidth]), [allData, parseX, innerWidth]);
-  const yScale = React.useMemo(() => createYLinearScale(allData, (d: any) => d.y, [innerHeight, 0]), [allData, innerHeight]);
+  const yScale = React.useMemo(() => {
+    if (yDomain) {
+      const scale = createYLinearScale([], (d: any) => d.y, [innerHeight, 0]);
+      scale.domain(yDomain);
+      return scale;
+    }
+    return createYLinearScale(allData, (d: any) => d.y, [innerHeight, 0]);
+  }, [allData, innerHeight, yDomain]);
 
   const value: ScaleContextValue = React.useMemo(() => ({
     xScale,

@@ -15,7 +15,8 @@ export const TooltipOverlay: React.FC = () => {
   const bgX = clampX + 8;
   const bgY = clampY - 8;
   const multi = aggregated.length > 1;
-  const label = multi ? focused.x.toDateString() : `${focused.x.toDateString()} • ${focused.y}`;
+  const dateLabel = focused.x instanceof Date ? focused.x.toDateString() : String(focused.x);
+  const label = multi ? dateLabel : `${dateLabel} • ${focused.y}`;
   // Derive base series colour (fallback to NHS blue if util absent)
   // We only have seriesId; attempt to parse trailing digits else fallback index 0
   const idDigits = /\d+$/.exec(focused.seriesId || '');

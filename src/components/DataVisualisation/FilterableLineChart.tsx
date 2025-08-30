@@ -1,26 +1,18 @@
 import * as React from 'react';
-import LineChart, { type LineChartProps, type LineSeries } from './charts/LineChart';
-import Legend, { type LegendProps, type LegendItem } from './primitives/Legend';
+import LineChart, { type LineChartProps, type LineSeries } from './charts/LineChart/LineChart';
+import Legend, { type LegendProps } from './charts/Legend/Legend';
 import { assignSeriesColors } from './utils/colors';
 
 export interface FilterableLineChartProps extends Omit<LineChartProps, 'series'> {
-  /** Raw input series (colours will be assigned for stability unless assignColors=false) */
   series: LineSeries[];
-  /** Place legend above (default) or below the chart */
   legendPosition?: 'top' | 'bottom';
-  /** Initial hidden ids (uncontrolled mode) */
   initialHiddenIds?: string[];
-  /** Controlled hidden ids */
   hiddenIds?: string[];
-  /** Callback when hidden set changes (visible provided for convenience) */
   onHiddenChange?: (hiddenIds: string[], visibleIds: string[]) => void;
-  /** Merge props into the internal Legend (items/interactive/hiddenIds/onVisibilityChange managed internally) */
   legendProps?: Omit<LegendProps, 'items' | 'interactive' | 'hiddenIds' | 'onVisibilityChange'>;
-  /** Assign stable colours automatically (default true). If false, existing series.color values used/fallback to palette index order. */
   assignColors?: boolean;
 }
 
-/** Convenience wrapper wiring an interactive Legend to a LineChart with built-in series filtering & stable colour assignment. */
 export const FilterableLineChart: React.FC<FilterableLineChartProps> = ({
   series,
   legendPosition = 'top',
@@ -44,7 +36,7 @@ export const FilterableLineChart: React.FC<FilterableLineChartProps> = ({
     onHiddenChange?.(nextHiddenIds, visibleIds);
   }, [controlled, coloured, onHiddenChange]);
 
-  const legendItems: LegendItem[] = React.useMemo(() => coloured.map(s => ({ id: s.id, label: s.label || s.id, color: s.color })), [coloured]);
+  const legendItems = React.useMemo(() => coloured.map(s => ({ id: s.id, label: s.label || s.id, color: s.color })), [coloured]);
 
   const chartEl = <LineChart {...lineChartProps} series={visibleSeries} palette={palette} />;
   const legendEl = (
@@ -54,9 +46,10 @@ export const FilterableLineChart: React.FC<FilterableLineChartProps> = ({
       items={legendItems}
       interactive
       hiddenIds={Array.from(hiddenSet)}
-      onVisibilityChange={handleVisibilityChange}
+      onVisibilityChange={(visible, hidden) => handleVisibilityChange(visible, hidden)}
     />
   );
+
   return (
     <div className="fdp-filterable-line-chart">
       {legendPosition === 'top' && legendEl}

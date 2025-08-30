@@ -1,0 +1,180 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Data Visualisation/SPC/Documentation" />
+
+# SPCChart
+
+An SPC (Shewhart) chart is a time‑series chart that distinguishes common cause (natural) variation from special cause (signal) variation so teams can decide when to investigate, hold, or change a process. It extends a simple run chart by adding a statistically derived centre line (mean), control limits and (optionally) rule logic that classifies patterns of points.
+
+## When to use
+Use the SPCChart when you need to:
+- Monitor a process metric over time and decide if a change is real
+- Detect signals early without over‑reacting to noise
+- Communicate process capability (expected range) relative to a target
+
+Use a plain line / run chart instead when you have very few points (typically < 10–12) or only need a quick visual without inference.
+
+## Core visual elements
+- Data points & connecting line: the observed metric over equally spaced subgroups (e.g. weeks, months, individual events).
+- Centre line (CL): the mean of the baseline / current phase. (Run charts use the median; SPC uses the mean to incorporate distance of every point.)
+- Control limits (UCL / LCL): ±3 sigma limits estimating the natural spread if only common causes are present. Computed from within‑process variation (not user chosen). They are NOT confidence intervals.
+- Sigma (zone) bands: The area between CL and each limit is divided into three 1‑sigma zones (C, B, A) on each side. We surface these implicitly for rule detection; you can optionally render 1σ / 2σ reference lines.
+- Special cause markers / classes: Styling applied to points that breach a rule (concern) or indicate improvement given the direction of better performance.
+- Icons (optional): Variation or assurance glyphs summarising interpretation (placeholder text icons currently: improvement / concern; can be swapped for accessible SVGs later).
+- Targets & baselines (optional): Additional horizontal reference lines for goals (specification limits) or historical phases; baselines can re‑segment the series and recalculate limits per phase.
+- Ghost periods (optional): Future or incomplete periods shown with attenuated styling.
+
+## Chart types (variations)
+`chartType` prop selects the underlying statistical method:
+- `XmR` (Individuals / Moving Range): For continuous or rate‑like measurements where each point is a single observation (most common). We currently plot only the X (individual) chart; moving range is used internally to estimate sigma when enabled.
+- `T` (Time between rare events): For monitoring days (or other time unit) between occurrences (rare events). Highlights unusually long or short gaps.
+- `G` (Count between rare events): Similar to T but counts number of opportunities / units between events.
+
+All calculations and rule detection paths are enabled by default. (Limits/icons may still be suppressed automatically when there are too few points).
+
+## Improvement direction
+`metricImprovement` tells the engine which side is “good” so that special causes on the favourable side can be styled as improvement rather than concern. Values: `UP` (higher is better), `DOWN` (lower is better), `NEUTRAL` (no directional semantics— all special causes flagged uniformly).
+
+## Special cause detection
+By default we implement the four commonly communicated “public” rules used in NHS/IHI style SPC communication:
+
+| Rule | Pattern (concise) | Typical meaning |
+| ---- | ----------------- | --------------- |
+| Single point | One point beyond a 3σ limit (outside UCL/LCL) | An exceptional point (potential shift or data issue) |
+| Shift | Six consecutive points on the same side of the mean (ties ignored) | Sustained level change |
+| Trend | Six consecutive points strictly increasing or strictly decreasing (ties ignored) | Gradual drift (systematic change) |
+| Two‑of‑three | Two of the last three points in Zone A or beyond (between 2σ and 3σ, same side) | Emerging shift toward extreme |
+
+An optional fifth internal / early warning rule (Four‑of‑five: four of five points in Zone B or beyond on one side, i.e. outside 1σ) can be enabled explicitly.
+
+Why ±3σ? Empirically balances false alarms (Type I) against missed signals (Type II). Narrower bands over‑signal; wider bands under‑signal.
+
+### Enabling rules
+Rules are active by default (toggle with `enableRules={false}` if you need a purely descriptive view). Internally, each candidate point is evaluated in sequence; earlier points do not retroactively change after re‑phasing unless baselines are supplied.
+
+Optional rule toggles & thresholds are exposed via the `settings` prop (see Advanced settings). The four‑of‑five rule is OFF by default to align with the simplified public narrative; turn it on for more sensitive internal monitoring.
+
+### Minimum data
+For stability the engine may defer centre line and limits until a minimal count (e.g. 10–12 points) is reached. Before that, points render without limits and icons.
+
+## Estimating sigma
+Depending on `chartType` the engine uses the recommended estimator:
+- XmR: Average moving range / 1.128 (individuals) for sigma estimate.
+- T / G: Distribution‑appropriate transformations (time or count between events) to derive expected mean and limits.
+
+No legacy (naive) calculation path is retained; all sigma values follow the appropriate SPC formulae.
+
+## Props overview
+| Prop | Type | Purpose |
+| ---- | ---- | ------- |
+| `data` | Array of point objects (x,y pairs) | Time ordered series (uniform subgroup spacing assumed) |
+| `chartType` | 'XmR' | 'T' | 'G' | Select algorithm (default 'XmR') |
+| `metricImprovement` | 'UP' | 'DOWN' | 'NEUTRAL' | Direction of better performance |
+| `enableRules` | boolean | Enable / disable rules while still using advanced sigma estimation |
+| `showIcons` | boolean | Show variation / assurance icons summarising signals |
+| `settings` | SpcSettings | Advanced tuning (rule thresholds, enabling four-of-five, suppression options, assurance mode) |
+| `targets` | Array of target objects | Draw goal/spec lines (value, optional label, kind=USL/LSL/TARGET) |
+| `baselines` | Array of baseline segment objects | Segment series into phases with recalculated CL & limits |
+| `ghosts` | Array of indices | Indices treated as provisional / future (styled lightly) |
+| `narrationContext` | Object | Optional metadata (measureName, datasetContext, organisation, timeframe, additionalNote) appended to live screen reader narration |
+| `onSignals?` | (signals) => void (if implemented) | Callback with latest special cause info (future enhancement) |
+
+(Refer to the TypeScript definitions for the full, current interface; above is a conceptual map.)
+
+## Styling & semantics
+Point elements receive data attributes & classes:
+- `data-signal="concern|improvement"` on special-cause points.
+- Classes like `fdp-spc__point--sc-concern` or `fdp-spc__point--sc-improvement` for custom theming.
+- Zone line helpers (1σ / 2σ) (if rendered) use tokenised colours (`--fdp-data-viz-*`).
+
+Assistive tech: Provide an `aria-label` or tooltip summarising detected rule (future enhancement: expose aggregated narration). Icons must have `role="img"` with `aria-label` or be hidden with `aria-hidden="true"` if redundant.
+
+## Usage examples
+### Individuals chart with rule detection
+```tsx
+<SPCChart
+  data={weeklyValues}
+  chartType="XmR"
+  metricImprovement="DOWN" // lower is better
+  enableRules
+  showIcons
+  targets={[{ value: 20, label: 'Target', kind: 'TARGET' }]}
+/>
+```
+
+### Rare event (T chart) example
+```tsx
+<SPCChart
+  data={daysBetweenEvents}
+  chartType="T"
+  metricImprovement="UP" // longer gap between events is better
+  enableRules
+/>
+```
+
+### Phased baseline (recalculate limits after an intervention)
+```tsx
+<SPCChart
+  data={monthlyValues}
+  baselines={[{ startIndex: 0, endIndex: 11 }, { startIndex: 12 }]} // first 12 points = baseline
+  enableRules
+/>
+```
+
+## Interpreting what you see
+1. Are limits present? If not (advanced mode early points) treat signals cautiously.
+2. Any special cause points or patterns? Investigate context, verify data validity first.
+3. Is the process stable (no signals)? Then performance is predictable within UCL/LCL; compare to target to assess capability.
+4. If stable but not capable (target outside natural limits) redesign the process; tampering with individual points will only add noise.
+5. After confirmed change (e.g. shift rule) consider establishing a new baseline so future variation is interpreted relative to the new level.
+
+## Good practice
+- Start plotting immediately; upgrade to SPC logic once ~20+ points collected (or treat early limits as provisional / trial).
+- Never hard‑code limits; always recompute from process data or fixed baseline segment.
+- Annotate interventions (future enhancement: `annotations` prop) to connect signals to changes.
+- Combine with domain knowledge: the chart prompts questions; it does not answer root cause by itself.
+
+## Limitations & roadmap
+Current implementation gaps / planned enhancements:
+- Moving range panel (mR) not yet rendered for XmR.
+- Dedicated accessibility narration for detected rules.
+- Automated icons replaced with semantic SVGs & legend entries.
+- Additional chart types (e.g. p, u, c charts) for proportion / count per unit data.
+- Configurable shift / trend rule thresholds for higher‑risk safety metrics.
+
+## Summary
+The SPCChart component always applies full SPC logic (appropriate sigma estimation and special‑cause rule detection). Supply adequate data (≥ ~13 points) for stable limits; use baselines to re‑phase after genuine shifts; and interpret improvement vs concern via the `metricImprovement` setting. See Storybook for Individuals (XmR), T (time between), and G (count between) examples.
+
+## Stories
+Below are interactive examples. Each story's description (shown in the canvas/docs panel) explains the dataset scenario and which rules or behaviours to observe.
+
+<Stories />
+
+## Advanced settings
+
+Use the optional `settings` prop (type `SpcSettings`) for deeper tuning. Defaults are chosen to reflect widely accepted NHS “Making Data Count” guidance while supporting internal analytical sensitivity.
+
+| Setting | Default | Purpose |
+| ------- | ------- | ------- |
+| `specialCauseShiftPoints` | 6 | Points required for shift rule (same side of mean) |
+| `specialCauseTrendPoints` | 6 | Points required for trend rule (strict monotonic) |
+| `enableFourOfFiveRule` | false | Enable 4‑of‑5 beyond 1σ (Zone B/A) early warning rule |
+| `suppressIsolatedFavourablePoint` | true | Avoid classifying a single favourable 3σ point as “improvement” unless another rule corroborates (reduces over‑celebration) |
+| `assuranceCapabilityMode` | true | Classify assurance (Pass/Fail) using full process band vs target (capability). If false, compares current point only |
+
+Example:
+```tsx
+<SPCChart
+  data={values}
+  metricImprovement={ImprovementDirection.Up}
+  settings={{ enableFourOfFiveRule: true, suppressIsolatedFavourablePoint: true }}
+/>
+```
+
+### Assurance (capability) logic
+When `assuranceCapabilityMode` is true:
+* Pass: Entire 3σ process band (LCL–UCL) sits on the favourable side of the target.
+* Fail: Entire band sits on the unfavourable side.
+* Uncertain: Target lies inside the band (overlap). We display no explicit pass/fail icon (class is absent).
+
+This distinguishes stable but incapable processes (target outside band) from those already consistently meeting / exceeding the goal.

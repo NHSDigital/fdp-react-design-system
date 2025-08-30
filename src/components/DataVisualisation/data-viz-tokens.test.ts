@@ -41,7 +41,7 @@ describe('Data Viz Tokens', () => {
       const alias = get(semanticDataViz, `semantic.data-viz.series.${i}`);
       expect(alias, `semantic series ${i} missing`).toBeTruthy();
     }
-    const regions = ['northEast','northWest','eastOfEngland','midlands','london','southWest','southEast'];
+    const regions = ['north-east','north-west','east-of-england','midlands','london','south-west','south-east'];
     regions.forEach(r => {
       const alias = get(semanticDataViz, `semantic.data-viz.region.${r}`);
       expect(alias, `semantic region alias ${r} missing`).toBeTruthy();

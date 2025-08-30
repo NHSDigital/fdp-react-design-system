@@ -15,11 +15,13 @@ export interface ContainerProps {
   className?: string;
   fluid?: boolean;
   maxWidth?: string;
+  style?: React.CSSProperties;
 }
 
 export interface RowProps {
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export interface ColumnProps {
@@ -31,9 +33,11 @@ export interface ColumnProps {
   start?: number; // Grid column start position (1-12)
   className?: string;
   forceWidth?: boolean; // Uses utility classes that force width on all screen sizes
+  style?: React.CSSProperties;
 }
 
 export interface GridProps {
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties; // forwarded to Container
 }

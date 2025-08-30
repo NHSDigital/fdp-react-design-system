@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { SummaryCard } from './SummaryCard';
 
 const meta: Meta<typeof SummaryCard> = {
-  title: 'Data Visualization/SummaryCard',
+  title: 'Data Dashboard/SummaryCard',
   component: SummaryCard,
   parameters: {
     docs: {

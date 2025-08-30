@@ -206,6 +206,7 @@ export function getExtendedCategoricalPalette(): string[] { return [...getExtend
 let categoricalStrokeMap: string[] | null = null;
 let regionStrokeMap: Record<string,string> | null = null;
 let severityStrokeMap: Record<string,string> | null = null;
+let orgLevelStrokeMap: Record<string,string> | null = null;
 
 function buildStrokeMaps() {
   const stroke = (dataVizTokens as any)?.color?.['data-viz']?.stroke;
@@ -223,6 +224,12 @@ function buildStrokeMaps() {
       if (typeof v === 'string') regionStrokeMap![k] = v;
     });
     const sev = stroke.severity || {};
+    const org = stroke['org-level'] || {};
+    orgLevelStrokeMap = {};
+    Object.keys(org).forEach(k => {
+      const v = org[k]?.$value || org[k]?.value;
+      if (typeof v === 'string') orgLevelStrokeMap![k] = v;
+    });
     severityStrokeMap = {};
     Object.keys(sev).forEach(k => {
       const v = sev[k]?.$value || sev[k]?.value;
@@ -232,7 +239,7 @@ function buildStrokeMaps() {
 }
 
 function ensureStrokeMaps() {
-  if (!categoricalStrokeMap || !regionStrokeMap || !severityStrokeMap) buildStrokeMaps();
+  if (!categoricalStrokeMap || !regionStrokeMap || !severityStrokeMap || !orgLevelStrokeMap) buildStrokeMaps();
 }
 
 export function pickSeriesStroke(i: number) {
@@ -282,6 +289,40 @@ export function pickSeverityColor(id: string, fallbackIndex: number): string {
 export function getSeverityStroke(id: string): string | undefined { ensureStrokeMaps(); return severityStrokeMap ? severityStrokeMap[id] : undefined; }
 export function pickSeverityStroke(id: string, fallbackIndex: number): string {
   return getSeverityStroke(id) || pickSeriesStroke(fallbackIndex);
+}
+
+// Org-level colours (trust, ambulance, icb, region)
+export const ORG_LEVEL_IDS = [ 'trust', 'ambulance', 'icb', 'region' ] as const;
+export type OrgLevelId = typeof ORG_LEVEL_IDS[number];
+let orgLevelMap: Record<string,string> | null = null;
+
+function buildOrgLevelMap(): Record<string,string> {
+  const root: any = { color: { ...(colorTokens as any).color, ...(dataVizTokens as any).color } };
+  const resolve = (path: string, seen: Set<string> = new Set()): string | undefined => {
+    if (seen.has(path)) return undefined;
+    seen.add(path);
+    const node = path.split('.').reduce((acc: any, k) => (acc ? acc[k] : undefined), root);
+    if (!node) return undefined;
+    const value = node.$value || node.value;
+    if (typeof value === 'string' && /^\{.+\}$/.test(value)) return resolve(value.slice(1,-1), seen);
+    return typeof value === 'string' ? value : undefined;
+  };
+  const map: Record<string,string> = {};
+  ORG_LEVEL_IDS.forEach(id => {
+    const hex = resolve(`color.data-viz.org-level.${id}`);
+    if (hex) map[id] = hex;
+  });
+  return map;
+}
+
+function getOrgLevelMap(): Record<string,string> { if (!orgLevelMap) orgLevelMap = buildOrgLevelMap(); return orgLevelMap; }
+export function getOrgLevelColor(id: string): string | undefined { return getOrgLevelMap()[id.toLowerCase()]; }
+export function pickOrgLevelColor(id: string, fallbackIndex: number): string {
+  return getOrgLevelColor(id) || getOrgLevelMap()[ORG_LEVEL_IDS[fallbackIndex % ORG_LEVEL_IDS.length]] || pickSeriesColor(fallbackIndex);
+}
+export function getOrgLevelStroke(id: string): string | undefined { ensureStrokeMaps(); return orgLevelStrokeMap ? orgLevelStrokeMap[id] : undefined; }
+export function pickOrgLevelStroke(id: string, fallbackIndex: number): string {
+  return getOrgLevelStroke(id) || pickSeriesStroke(fallbackIndex);
 }
 
 // Region colours – resolved from tokens; key by region token id (kebab-case)
@@ -366,11 +407,12 @@ export function invalidateColorCaches(options: { regions?: boolean; categorical?
     categoricalStrokeMap = null;
     regionStrokeMap = null;
   severityStrokeMap = null;
+  orgLevelStrokeMap = null;
   }
 }
 
 export interface AssignColorOptions {
-  palette?: 'categorical' | 'region';
+  palette?: 'categorical' | 'region' | 'severity' | 'org-level';
   random?: boolean; // if true, shuffle palette order before assignment (stable per call)
 }
 
@@ -382,6 +424,10 @@ export function assignSeriesColors<T extends { id: string; color?: string }>(
   const copy = series.map(s => ({ ...s }));
   const paletteValues = palette === 'region'
     ? copy.map((s, i) => pickRegionColor(s.id, i))
+    : palette === 'severity'
+      ? copy.map((s,i)=> pickSeverityColor(s.id, i))
+      : palette === 'org-level'
+        ? copy.map((s,i)=> pickOrgLevelColor(s.id, i))
     : (series.length > getOptimizedCategoricalPalette().length
         ? getExtendedCategoricalPalette()
         : (categoricalStrategy === 'optimized'
@@ -390,6 +436,10 @@ export function assignSeriesColors<T extends { id: string; color?: string }>(
 
   let order: number[] = palette === 'region'
     ? copy.map((_, i) => i) // region colours already derived per id position
+    : palette === 'severity'
+      ? copy.map((_, i) => i)
+      : palette === 'org-level'
+        ? copy.map((_, i) => i)
     : [...Array(paletteValues.length).keys()];
   if (random) {
     // Fisher–Yates

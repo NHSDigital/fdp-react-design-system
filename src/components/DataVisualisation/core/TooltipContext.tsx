@@ -5,7 +5,7 @@ import { useVisibility } from './VisibilityContext';
 export interface TooltipDatum {
   seriesId: string;
   index: number; // index within series
-  x: Date;
+  x: Date | string | number; // allow categorical values
   y: number;
   clientX: number; // scaled x position within plot area
   clientY: number; // scaled y position within plot area
@@ -21,7 +21,7 @@ export interface TooltipContextValue {
   /** Clear current focus */
   clear: () => void;
   /** Register series data for nearest-point lookup */
-  registerSeries: (seriesId: string, data: { x: Date; y: number }[]) => void;
+  registerSeries: (seriesId: string, data: { x: Date | string | number; y: number }[]) => void;
   unregisterSeries: (seriesId: string) => void;
   /** Move focus to next point in same series */
   focusNextPoint: () => void;
@@ -53,10 +53,10 @@ export const TooltipProvider: React.FC<TooltipProviderProps> = ({ children, maxD
   const scaleCtx = useScaleContext();
   const visibility = useVisibility();
   const [focused, setFocused] = React.useState<TooltipDatum | null>(null);
-  const seriesRef = React.useRef<Map<string, { x: Date; y: number }[]>>(new Map());
+  const seriesRef = React.useRef<Map<string, { x: Date | string | number; y: number }[]>>(new Map());
   const [aggregated, setAggregated] = React.useState<TooltipDatum[]>([]);
 
-  const registerSeries = React.useCallback((seriesId: string, data: { x: Date; y: number }[]) => {
+  const registerSeries = React.useCallback((seriesId: string, data: { x: Date | string | number; y: number }[]) => {
     seriesRef.current.set(seriesId, data);
   }, []);
   const unregisterSeries = React.useCallback((seriesId: string) => {
@@ -93,14 +93,17 @@ export const TooltipProvider: React.FC<TooltipProviderProps> = ({ children, maxD
       return;
     }
     // Collect all points with identical x timestamp (exact match) across visible (registered) series
-    const targetTime = focused.x.getTime();
     if (!scaleCtx) return;
     const { xScale, yScale } = scaleCtx;
     const agg: TooltipDatum[] = [];
     seriesRef.current.forEach((data, sid) => {
       data.forEach((d, i) => {
-        if (d.x.getTime() === targetTime) {
-          agg.push({ seriesId: sid, index: i, x: d.x, y: d.y, clientX: xScale(d.x), clientY: yScale(d.y) });
+        const match = ((): boolean => {
+          if (focused.x instanceof Date && d.x instanceof Date) return d.x.getTime() === focused.x.getTime();
+          return d.x === focused.x; // strict equality for non-dates
+        })();
+        if (match) {
+          agg.push({ seriesId: sid, index: i, x: d.x, y: d.y, clientX: xScale(d.x as any), clientY: yScale(d.y) });
         }
       });
     });
@@ -111,7 +114,7 @@ export const TooltipProvider: React.FC<TooltipProviderProps> = ({ children, maxD
 
   const focusRelativePoint = React.useCallback((delta: 1 | -1) => {
     if (!focused) return;
-    const data = seriesRef.current.get(focused.seriesId);
+  const data = seriesRef.current.get(focused.seriesId);
     if (!data) return;
     let nextIndex = focused.index + delta;
     if (nextIndex < 0 || nextIndex >= data.length) {
@@ -119,7 +122,7 @@ export const TooltipProvider: React.FC<TooltipProviderProps> = ({ children, maxD
       // wrap
       nextIndex = (nextIndex + data.length) % data.length;
     }
-    const d = data[nextIndex];
+  const d = data[nextIndex];
     if (!scaleCtx) return;
     const { xScale, yScale } = scaleCtx;
     setFocused({ seriesId: focused.seriesId, index: nextIndex, x: d.x, y: d.y, clientX: xScale(d.x), clientY: yScale(d.y) });
@@ -148,7 +151,7 @@ export const TooltipProvider: React.FC<TooltipProviderProps> = ({ children, maxD
       nextSeriesIdx = (nextSeriesIdx + ids.length) % ids.length;
     }
     const nextSeriesId = ids[nextSeriesIdx];
-    const nextData = seriesRef.current.get(nextSeriesId);
+  const nextData = seriesRef.current.get(nextSeriesId);
     if (!nextData || !scaleCtx) return;
     const idx = Math.min(focused.index, nextData.length - 1);
     const d = nextData[idx];

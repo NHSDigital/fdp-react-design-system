@@ -191,6 +191,30 @@ Focused guides
 
 - [LineChart X‑Axis Tick Alignment](./docs/data-visualisation/x-axis-ticks.md)
 
+#### BarSeriesPrimitive: minBarWidth (continuous scales)
+
+`minBarWidth` ensures bars on dense continuous (time/linear) charts remain legible. When automatic layout would yield thinner bars and horizontal slot space exists, bars expand up to the provided minimum.
+
+Key behaviour:
+
+- Ignored on categorical (band) scales and when an explicit `barWidth` prop is set.
+- For grouped bars, expansion only occurs if the whole group (including gaps) fits inside every slot.
+- If expansion is impossible (slots genuinely too narrow) bars fall back gracefully to the computed width.
+
+Example:
+
+```tsx
+<BarSeriesPrimitive
+  series={series}
+  seriesIndex={0}
+  seriesCount={1}
+  palette="categorical"
+  parseX={(d) => d.x as Date}
+  minBarWidth={12}
+/>```
+
+
+
 ## Contributing
 
 We welcome contributions! Please see our contributing guidelines:

@@ -1,0 +1,64 @@
+@use '../../../../../packages/nhs-fdp/scss' as nhs; // corrected relative path (5 levels up to repo root)
+/*
+ * SPCChart specific styling extracted from global DataVisualisation.scss
+ * Colours now sourced from SPC design tokens (color.data-viz.spc.*) instead of hardcoded hex values.
+ *  - Improvement (special cause improving): var(--nhs-fdp-color-data-viz-spc-improvement)
+ *  - Concern / deteriorating (special cause deteriorating): var(--nhs-fdp-color-data-viz-spc-concern)
+ *  - Common cause (no special cause): var(--nhs-fdp-color-data-viz-spc-common-cause) (default point fill)
+ *  - Special cause (no judgement): var(--nhs-fdp-color-data-viz-spc-no-judgement)
+ * Stroke colours also tokenised (spc-stroke-*).
+ */
+
+// Use design token SCSS variables (prefixed $nhs-fdp-) with CSS custom property fallbacks
+// Hierarchical (nested) BEM structure for clarity.
+.fdp-spc {
+	&__cl { stroke: var(--nhs-fdp-color-grey-1, nhs.$nhs-fdp-color-grey-1); stroke-width: 1.25; }
+	&__limit { stroke: var(--nhs-fdp-color-grey-2, nhs.$nhs-fdp-color-grey-2); stroke-width: 1; stroke-dasharray:4 4; }
+	&__zone { stroke: var(--nhs-fdp-color-grey-4, nhs.$nhs-fdp-color-grey-4); stroke-width: 0.75; stroke-dasharray:2 6; }
+
+	// Point base + modifier states
+	&__point { 
+		fill: var(--nhs-fdp-color-data-viz-spc-common-cause, nhs.$nhs-fdp-color-data-viz-spc-common-cause); 
+		stroke: var(--nhs-fdp-color-data-viz-spc-stroke-common-cause, nhs.$nhs-fdp-color-data-viz-spc-stroke-common-cause);
+		stroke-width:1; 
+
+		&--ooc,
+		&--sc-concern { 
+			fill: var(--nhs-fdp-color-data-viz-spc-concern, nhs.$nhs-fdp-color-data-viz-spc-concern); 
+
+		/* Tooltip portal animation */
+		.fdp-spc-tooltip-portal {
+			opacity: 0;
+			transform: translateY(-2px);
+			transition: opacity 120ms ease-out, transform 120ms ease-out;
+		}
+		.fdp-spc-tooltip-portal.is-visible {
+			opacity: 0.96;
+			transform: translateY(0);
+		}
+
+			stroke: var(--nhs-fdp-color-data-viz-spc-stroke-concern, nhs.$nhs-fdp-color-data-viz-spc-stroke-concern); 
+			stroke-width:1.5; 
+		}
+
+		&--sc-improvement { 
+			fill: var(--nhs-fdp-color-data-viz-spc-improvement, nhs.$nhs-fdp-color-data-viz-spc-improvement); 
+			stroke: var(--nhs-fdp-color-data-viz-spc-stroke-improvement, nhs.$nhs-fdp-color-data-viz-spc-stroke-improvement); 
+			stroke-width:1.25; 
+		}
+
+		&--sc-no-judgement { 
+			fill: var(--nhs-fdp-color-data-viz-spc-no-judgement, nhs.$nhs-fdp-color-data-viz-spc-no-judgement); 
+			stroke: var(--nhs-fdp-color-data-viz-spc-stroke-no-judgement, nhs.$nhs-fdp-color-data-viz-spc-stroke-no-judgement); 
+			stroke-width:1.25; 
+		}
+	}
+
+	// Icon base + modifiers
+	&__icon { 
+		font-size:10px; font-weight:600; fill:#000; pointer-events:none; 
+		&--concern { fill: var(--nhs-fdp-color-data-viz-spc-concern, nhs.$nhs-fdp-color-data-viz-spc-concern); }
+		&--improvement { fill: var(--nhs-fdp-color-data-viz-spc-improvement, nhs.$nhs-fdp-color-data-viz-spc-improvement); }
+		&--no-judgement { fill: var(--nhs-fdp-color-data-viz-spc-no-judgement, nhs.$nhs-fdp-color-data-viz-spc-no-judgement); }
+	}
+}

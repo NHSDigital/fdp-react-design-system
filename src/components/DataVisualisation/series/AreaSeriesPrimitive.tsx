@@ -24,6 +24,8 @@ export interface AreaSeriesPrimitiveProps {
   baselineY?: number;
   /** Enable curve smoothing (monotoneX). Defaults to true. */
   smooth?: boolean;
+  /** Optional stacked data providing per-datum y0/y1 (overrides baselineY & raw y). Length must match series.data. */
+  stacked?: { y0: number; y1: number }[];
 }
 
 /** Renders an area under a line (baseline -> series y). Provides tooltip registration like LineSeriesPrimitive. */
@@ -35,7 +37,8 @@ export const AreaSeriesPrimitive: React.FC<AreaSeriesPrimitiveProps> = ({
   areaOnly = false,
   visibilityMode = 'remove',
   baselineY = 0,
-  smooth = true
+  smooth = true,
+  stacked
 }) => {
   const scaleCtx = useScaleContext();
   if (!scaleCtx) return null;
@@ -58,13 +61,21 @@ export const AreaSeriesPrimitive: React.FC<AreaSeriesPrimitiveProps> = ({
   // Build area + optional line with smoothing toggle.
   const linePath = React.useMemo(() => createLinePath(series.data, d => xScale(parseX(d)), d => yScale(d.y), { smooth }), [series.data, xScale, yScale, parseX, smooth]);
   const areaPath = React.useMemo(() => {
+    if (stacked && stacked.length === series.data.length) {
+      const gen = d3Area<AreaDatum & { __y0: number; __y1: number }>()
+        .x(d => xScale(parseX(d)))
+        .y0((_,i) => yScale(stacked[i].y0))
+        .y1((_,i) => yScale(stacked[i].y1));
+      if (smooth) gen.curve(curveMonotoneX);
+      return gen(series.data as any) || '';
+    }
     const gen = d3Area<AreaDatum>()
       .x(d => xScale(parseX(d)))
       .y0(() => yScale(baselineY))
       .y1(d => yScale(d.y));
     if (smooth) gen.curve(curveMonotoneX);
     return gen(series.data) || '';
-  }, [series.data, xScale, yScale, parseX, baselineY, smooth]);
+  }, [series.data, stacked, xScale, yScale, parseX, baselineY, smooth]);
 
   return (
     <g className="fdp-area-series" data-series={series.id} opacity={faded ? 0.25 : 1} aria-hidden={faded ? true : undefined}>

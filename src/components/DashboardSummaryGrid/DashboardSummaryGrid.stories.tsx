@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { DashboardSummaryGrid } from './DashboardSummaryGrid';
 
 const meta: Meta<typeof DashboardSummaryGrid> = {
-  title: 'Data Visualization/DashboardSummaryGrid',
+  title: 'Data Dashboard/DashboardSummaryGrid',
   component: DashboardSummaryGrid,
   parameters: {
     layout: 'padded',

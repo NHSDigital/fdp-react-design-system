@@ -114,6 +114,18 @@
   --color-data-viz-stroke-org-level-ambulance: #ffffff; /** Stroke for ambulance (green fill) */
   --color-data-viz-stroke-org-level-icb: #ffffff; /** Stroke for ICB (dark pink fill) */
   --color-data-viz-stroke-org-level-region: #ffffff; /** Stroke for region (purple fill) */
+  --color-data-viz-spc-improvement: #00b0f0; /** SPC special cause improvement (favourable) */
+  --color-data-viz-spc-concern: #e46c0a; /** SPC special cause concern (deteriorating) */
+  --color-data-viz-spc-no-judgement: #490092; /** SPC special cause (no directional judgement) */
+  --color-data-viz-spc-common-cause: #a6a6a6; /** SPC common cause (baseline variation) */
+  --color-data-viz-spc-assurance-pass: #00823b; /** SPC assurance pass indicator (process capable) */
+  --color-data-viz-spc-assurance-fail: #da291c; /** SPC assurance fail indicator (process not capable) */
+  --color-data-viz-spc-stroke-improvement: #000000; /** Stroke for improvement points */
+  --color-data-viz-spc-stroke-concern: #000000; /** Stroke for concern points */
+  --color-data-viz-spc-stroke-no-judgement: #000000; /** Stroke for no-judgement points */
+  --color-data-viz-spc-stroke-common-cause: #ffffff; /** Stroke for common cause points */
+  --color-data-viz-spc-stroke-assurance-pass: #000000; /** Stroke for assurance pass points */
+  --color-data-viz-spc-stroke-assurance-fail: #000000; /** Stroke for assurance fail points */
   --component-button-padding-mobile-vertical: 8px; /** Button vertical padding on mobile */
   --component-button-padding-mobile-horizontal: 16px; /** Button horizontal padding on mobile */
   --component-button-padding-desktop-vertical: 12px; /** Button vertical padding on desktop */
@@ -299,12 +311,6 @@
   --grid-page-width: 960px; /** Maximum page width */
   --grid-gutter: 32px; /** Grid gutter width */
   --grid-gutter-half: 16px; /** Half grid gutter width */
-  --semantic-intent-primary: #007f3b; /** Primary intent color - NHS Green for main actions and success states */
-  --semantic-intent-secondary: #005eb8; /** Secondary intent color - NHS Blue for secondary actions and information */
-  --semantic-intent-warning: #d5281b; /** Warning intent color - NHS Red for errors and dangerous actions */
-  --semantic-intent-success: #007f3b; /** Success intent color - derived from primary for consistency */
-  --semantic-intent-neutral: #aeb7bd; /** Neutral intent color - for disabled states and subtle actions */
-  --semantic-intent-info: #005eb8; /** Information intent color - for informational content */
   --semantic-intent-hover-primary: darken(#007f3b, 10%); /** Primary intent hover state - darker NHS Green */
   --semantic-intent-hover-secondary: darken(#005eb8, 10%); /** Secondary intent hover state - darker NHS Blue */
   --semantic-intent-hover-warning: darken(#d5281b, 10%); /** Warning intent hover state - darker NHS Red */
@@ -314,15 +320,15 @@
   --semantic-intent-light-primary: lighten(#007f3b, 40%); /** Light primary intent - for backgrounds and subtle states */
   --semantic-intent-light-secondary: lighten(#005eb8, 40%); /** Light secondary intent - for backgrounds and subtle states */
   --semantic-intent-light-warning: lighten(#d5281b, 40%); /** Light warning intent - for backgrounds and subtle states */
+  --semantic-context-form-background-error: lighten(#d5281b, 40%); /** Error form background - uses light warning intent */
+  --semantic-context-form-background-success: lighten(#007f3b, 40%); /** Success form background - uses light primary intent */
+  --semantic-context-form-background-default: #ffffff; /** Default form background */
+  --semantic-context-form-background-disabled: #d8dde0; /** Disabled form background */
+  --semantic-context-form-background-readonly: #e8edee; /** Read-only form background */
   --semantic-context-form-border-default: #4c6272; /** Default form border color - calm and accessible */
   --semantic-context-form-border-focus: #005eb8; /** Form focus border - uses secondary intent for consistency */
   --semantic-context-form-border-error: #d5281b; /** Form error border - uses warning intent */
   --semantic-context-form-border-success: #007f3b; /** Form success border - uses success intent */
-  --semantic-context-form-background-default: #ffffff; /** Default form background */
-  --semantic-context-form-background-disabled: #f0f4f5; /** Disabled form background */
-  --semantic-context-form-background-readonly: #d8dde0; /** Read-only form background */
-  --semantic-context-form-background-error: lighten(#d5281b, 40%); /** Error form background - uses light warning intent */
-  --semantic-context-form-background-success: lighten(#007f3b, 40%); /** Success form background - uses light primary intent */
   --semantic-context-form-text-default: #212b32; /** Default form text color - high contrast */
   --semantic-context-form-text-placeholder: #768692; /** Form placeholder text - reduced contrast but readable */
   --semantic-context-form-text-disabled: #768692; /** Disabled form text */
@@ -337,21 +343,27 @@
   --semantic-context-navigation-accent-active: rgba(255, 255, 255, 0.2); /** Navigation active accent - stronger overlay */
   --semantic-context-navigation-accent-border: #ffeb3b; /** Navigation accent border - NHS Yellow */
   --semantic-context-content-background-primary: #ffffff; /** Primary content background */
-  --semantic-context-content-background-secondary: #f0f4f5; /** Secondary content background - for panels and asides */
+  --semantic-context-content-background-secondary: #d8dde0; /** Secondary content background - for panels and asides */
   --semantic-context-content-background-elevated: #ffffff; /** Elevated content background - for cards and modals */
   --semantic-context-content-text-primary: #212b32; /** Primary content text - maximum readability */
   --semantic-context-content-text-secondary: #4c6272; /** Secondary content text - for supporting information */
   --semantic-context-content-text-tertiary: #768692; /** Tertiary content text - for captions and metadata */
   --semantic-context-content-accent-link: #005eb8; /** Content link color - uses secondary intent */
   --semantic-context-content-accent-highlight: #ffeb3b; /** Content highlight color - NHS Yellow */
-  --semantic-context-content-accent-border: #d8dde0; /** Content border color - subtle separation */
+  --semantic-context-content-accent-border: #e8edee; /** Content border color - subtle separation */
+  --semantic-intent-primary: #007f3b; /** Primary intent color - NHS Green for main actions and success states */
+  --semantic-intent-secondary: #005eb8; /** Secondary intent color - NHS Blue for secondary actions and information */
+  --semantic-intent-warning: #d5281b; /** Warning intent color - NHS Red for errors and dangerous actions */
+  --semantic-intent-success: #007f3b; /** Success intent color - derived from primary for consistency */
+  --semantic-intent-neutral: #4c6272; /** Neutral intent color - for disabled states and subtle actions */
+  --semantic-intent-info: #005eb8; /** Information intent color - for informational content */
   --semantic-surface-elevation-0: #ffffff; /** Base surface - no elevation */
   --semantic-surface-elevation-1: #ffffff; /** Low elevation surface - cards */
   --semantic-surface-elevation-2: #ffffff; /** Medium elevation surface - dialogs */
   --semantic-surface-elevation-3: #ffffff; /** High elevation surface - tooltips */
   --semantic-surface-interactive-default: #ffffff; /** Default interactive surface */
-  --semantic-surface-interactive-hover: #f0f4f5; /** Hover interactive surface - subtle change */
-  --semantic-surface-interactive-active: #d8dde0; /** Active interactive surface - more pronounced */
+  --semantic-surface-interactive-hover: #d8dde0; /** Hover interactive surface - subtle change */
+  --semantic-surface-interactive-active: #e8edee; /** Active interactive surface - more pronounced */
   --semantic-surface-interactive-selected: rgba(0, 94, 184, 0.1); /** Selected interactive surface - NHS Blue tint */
   --semantic-data-viz-series-1: #005eb8;
   --semantic-data-viz-series-2: #41b6e6;
@@ -372,6 +384,41 @@
   --semantic-data-viz-region-london: #78be21;
   --semantic-data-viz-region-south-west: #fae100;
   --semantic-data-viz-region-south-east: #ed8b00;
+  --semantic-data-viz-severity-low: #fff9c4;
+  --semantic-data-viz-severity-moderate: #ffb81c;
+  --semantic-data-viz-severity-high: #ed8b00;
+  --semantic-data-viz-severity-critical: #d5281b;
+  --semantic-data-viz-org-level-trust: #005eb8;
+  --semantic-data-viz-org-level-ambulance: #007f3b;
+  --semantic-data-viz-org-level-icb: #7c2855;
+  --semantic-data-viz-org-level-region: #330072;
+  --semantic-data-viz-stroke-series-1: #ffffff;
+  --semantic-data-viz-stroke-series-2: #212b32;
+  --semantic-data-viz-stroke-series-3: #212b32;
+  --semantic-data-viz-stroke-series-4: #212b32;
+  --semantic-data-viz-stroke-series-5: #ffffff;
+  --semantic-data-viz-stroke-series-6: #212b32;
+  --semantic-data-viz-stroke-series-7: #ffffff;
+  --semantic-data-viz-stroke-series-8: #ffffff;
+  --semantic-data-viz-stroke-series-9: #ffffff;
+  --semantic-data-viz-stroke-series-10: #ffffff;
+  --semantic-data-viz-stroke-series-11: #ffffff;
+  --semantic-data-viz-stroke-series-12: #ffffff;
+  --semantic-data-viz-stroke-region-north-east: #5996d1;
+  --semantic-data-viz-stroke-region-north-west: #3189ad;
+  --semantic-data-viz-stroke-region-east-of-england: #7a59a3;
+  --semantic-data-viz-stroke-region-midlands: #ca71a4;
+  --semantic-data-viz-stroke-region-london: #5a8f19;
+  --semantic-data-viz-stroke-region-south-west: #bca900;
+  --semantic-data-viz-stroke-region-south-east: #b26800;
+  --semantic-data-viz-stroke-severity-low: #212b32;
+  --semantic-data-viz-stroke-severity-moderate: #212b32;
+  --semantic-data-viz-stroke-severity-high: #212b32;
+  --semantic-data-viz-stroke-severity-critical: #ffffff;
+  --semantic-data-viz-stroke-org-level-trust: #ffffff;
+  --semantic-data-viz-stroke-org-level-ambulance: #ffffff;
+  --semantic-data-viz-stroke-org-level-icb: #ffffff;
+  --semantic-data-viz-stroke-org-level-region: #ffffff;
   --semantic-relationship-parent-child-card-background: #ffffff; /** Card background - base elevation */
   --semantic-relationship-parent-child-card-content-background: calculated-lighten(#ffffff, 2%); /** Card content background - slightly lighter than parent */
   --semantic-relationship-parent-child-card-content-text: auto-contrast(calculated-lighten(#ffffff, 2%)); /** Card content text - auto-calculated contrast */

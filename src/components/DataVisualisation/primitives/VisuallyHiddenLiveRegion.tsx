@@ -5,7 +5,7 @@ import { useTooltipContext } from '../core/TooltipContext';
  * ARIA live region announcing the currently focused data point for screen reader users.
  * Mount inside TooltipProvider scope (e.g. within LineChart). Hidden visually.
  */
-const VisuallyHiddenLiveRegion: React.FC<{ polite?: boolean; format?: (d: { seriesId: string; x: Date; y: number; index: number }) => string }>
+const VisuallyHiddenLiveRegion: React.FC<{ polite?: boolean; format?: (d: { seriesId: string; x: Date | string | number; y: number; index: number }) => string }>
   = ({ polite = true, format }) => {
   const tooltip = useTooltipContext();
   const [message, setMessage] = React.useState('');
@@ -18,7 +18,8 @@ const VisuallyHiddenLiveRegion: React.FC<{ polite?: boolean; format?: (d: { seri
     if (aggregated && aggregated.length > 1) {
       // Aggregate announcement
       const parts = aggregated.map(a => `${a.seriesId} ${a.y}`).join('; ');
-      msg = `${focused.x.toDateString()} – ${parts}`;
+  const xLabel = focused.x instanceof Date ? focused.x.toDateString() : String(focused.x);
+  msg = `${xLabel} – ${parts}`;
     } else {
       msg = format ? format({ seriesId: focused.seriesId, x: focused.x, y: focused.y, index: focused.index })
         : defaultFormatter(focused.seriesId, focused.x, focused.y, focused.index);
@@ -43,8 +44,9 @@ const VisuallyHiddenLiveRegion: React.FC<{ polite?: boolean; format?: (d: { seri
   );
 };
 
-function defaultFormatter(seriesId: string, x: Date, y: number, index: number) {
-  return `Series ${seriesId}, point ${index + 1}, ${x.toDateString()}, value ${y}`;
+function defaultFormatter(seriesId: string, x: Date | string | number, y: number, index: number) {
+  const xLabel = x instanceof Date ? x.toDateString() : String(x);
+  return `Series ${seriesId}, point ${index + 1}, ${xLabel}, value ${y}`;
 }
 
 export default VisuallyHiddenLiveRegion;

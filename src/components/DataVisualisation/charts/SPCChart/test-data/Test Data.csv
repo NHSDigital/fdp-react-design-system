@@ -1,0 +1,1595 @@
+﻿Metric,Date,Value
+Number of points - 12,01/01/2023,30
+Number of points - 12,02/01/2023,31
+Number of points - 12,03/01/2023,25
+Number of points - 12,04/01/2023,35
+Number of points - 12,05/01/2023,34
+Number of points - 12,06/01/2023,15
+Number of points - 12,07/01/2023,21
+Number of points - 12,08/01/2023,23
+Number of points - 12,09/01/2023,30
+Number of points - 12,10/01/2023,26
+Number of points - 12,11/01/2023,26
+Number of points - 12,12/01/2023,22
+Number of points - 13,01/01/2023,30
+Number of points - 13,02/01/2023,31
+Number of points - 13,03/01/2023,25
+Number of points - 13,04/01/2023,35
+Number of points - 13,05/01/2023,34
+Number of points - 13,06/01/2023,15
+Number of points - 13,07/01/2023,21
+Number of points - 13,08/01/2023,23
+Number of points - 13,09/01/2023,30
+Number of points - 13,10/01/2023,26
+Number of points - 13,11/01/2023,26
+Number of points - 13,12/01/2023,22
+Number of points - 13,13/01/2023,25
+Process limits - 15,01/01/2023,20
+Process limits - 15,02/01/2023,24
+Process limits - 15,03/01/2023,20
+Process limits - 15,04/01/2023,26
+Process limits - 15,05/01/2023,22
+Process limits - 15,06/01/2023,16
+Process limits - 15,07/01/2023,18
+Process limits - 15,08/01/2023,16
+Process limits - 15,09/01/2023,31
+Process limits - 15,10/01/2023,28
+Process limits - 15,11/01/2023,34
+Process limits - 15,12/01/2023,26
+Process limits - 15,13/01/2023,30
+Process limits - 15,14/01/2023,19
+Process limits - 15,15/01/2023,18
+Process limits - 10,01/01/2023,20
+Process limits - 10,02/01/2023,24
+Process limits - 10,03/01/2023,20
+Process limits - 10,04/01/2023,26
+Process limits - 10,05/01/2023,22
+Process limits - 10,06/01/2023,16
+Process limits - 10,07/01/2023,18
+Process limits - 10,08/01/2023,16
+Process limits - 10,09/01/2023,31
+Process limits - 10,10/01/2023,28
+Special cause,01/01/2023,8
+Special cause,02/01/2023,27
+Special cause,03/01/2023,32
+Special cause,04/01/2023,26
+Special cause,05/01/2023,20
+Special cause,06/01/2023,21
+Special cause,07/01/2023,23
+Special cause,08/01/2023,21
+Special cause,09/01/2023,23
+Special cause,10/01/2023,22
+Special cause,11/01/2023,26
+Special cause,12/01/2023,23
+Special cause,13/01/2023,20
+Special cause,14/01/2023,20
+Special cause,15/01/2023,29
+Special cause,16/01/2023,28
+Special cause,17/01/2023,22
+Special cause,18/01/2023,23
+Special cause,19/01/2023,25
+Special cause,20/01/2023,26
+Special cause,21/01/2023,28
+Special cause,22/01/2023,29
+Special cause,23/01/2023,26
+Special cause,24/01/2023,24
+Special cause,25/01/2023,36
+Special cause,26/01/2023,29
+Special cause,27/01/2023,35
+Special cause,28/01/2023,22
+Special cause,29/01/2023,30
+Special cause,30/01/2023,18
+Special cause - single point - ends,01/01/2023,45
+Special cause - single point - ends,02/01/2023,29
+Special cause - single point - ends,03/01/2023,20
+Special cause - single point - ends,04/01/2023,22
+Special cause - single point - ends,05/01/2023,25
+Special cause - single point - ends,06/01/2023,20
+Special cause - single point - ends,07/01/2023,27
+Special cause - single point - ends,08/01/2023,24
+Special cause - single point - ends,09/01/2023,22
+Special cause - single point - ends,10/01/2023,23
+Special cause - single point - ends,11/01/2023,20
+Special cause - single point - ends,12/01/2023,26
+Special cause - single point - ends,13/01/2023,20
+Special cause - single point - ends,14/01/2023,15
+Special cause - single point - ends,15/01/2023,5
+Special cause - single point - middle,01/01/2023,29
+Special cause - single point - middle,02/01/2023,32
+Special cause - single point - middle,03/01/2023,35
+Special cause - single point - middle,04/01/2023,45
+Special cause - single point - middle,05/01/2023,43
+Special cause - single point - middle,06/01/2023,23
+Special cause - single point - middle,07/01/2023,18
+Special cause - single point - middle,08/01/2023,20
+Special cause - single point - middle,09/01/2023,16
+Special cause - single point - middle,10/01/2023,7
+Special cause - single point - middle,11/01/2023,28
+Special cause - single point - middle,12/01/2023,26
+Special cause - single point - middle,13/01/2023,22
+Special cause - single point - middle,14/01/2023,19
+Special cause - single point - middle,15/01/2023,20
+Special cause - shift - ends,01/01/2023,31
+Special cause - shift - ends,02/01/2023,35
+Special cause - shift - ends,03/01/2023,34
+Special cause - shift - ends,04/01/2023,29
+Special cause - shift - ends,05/01/2023,29
+Special cause - shift - ends,06/01/2023,32
+Special cause - shift - ends,07/01/2023,26
+Special cause - shift - ends,08/01/2023,26
+Special cause - shift - ends,09/01/2023,32
+Special cause - shift - ends,10/01/2023,35
+Special cause - shift - ends,11/01/2023,30
+Special cause - shift - ends,12/01/2023,18
+Special cause - shift - ends,13/01/2023,31
+Special cause - shift - ends,14/01/2023,25
+Special cause - shift - ends,15/01/2023,27
+Special cause - shift - ends,16/01/2023,22
+Special cause - shift - ends,17/01/2023,18
+Special cause - shift - ends,18/01/2023,25
+Special cause - shift - ends,19/01/2023,25
+Special cause - shift - ends,20/01/2023,17
+Special cause - shift - middle,01/01/2023,31
+Special cause - shift - middle,02/01/2023,22
+Special cause - shift - middle,03/01/2023,19
+Special cause - shift - middle,04/01/2023,21
+Special cause - shift - middle,05/01/2023,18
+Special cause - shift - middle,06/01/2023,18
+Special cause - shift - middle,07/01/2023,22
+Special cause - shift - middle,08/01/2023,22
+Special cause - shift - middle,09/01/2023,29
+Special cause - shift - middle,10/01/2023,25
+Special cause - shift - middle,11/01/2023,23
+Special cause - shift - middle,12/01/2023,26
+Special cause - shift - middle,13/01/2023,31
+Special cause - shift - middle,14/01/2023,26
+Special cause - shift - middle,15/01/2023,28
+Special cause - shift - middle,16/01/2023,29
+Special cause - shift - middle,17/01/2023,32
+Special cause - shift - middle,18/01/2023,24
+Special cause - shift - middle,19/01/2023,31
+Special cause - shift - middle,20/01/2023,22
+Special cause - trend - no pauses,01/01/2023,11
+Special cause - trend - no pauses,02/01/2023,14
+Special cause - trend - no pauses,03/01/2023,18
+Special cause - trend - no pauses,04/01/2023,20
+Special cause - trend - no pauses,05/01/2023,22
+Special cause - trend - no pauses,06/01/2023,23
+Special cause - trend - no pauses,07/01/2023,18
+Special cause - trend - no pauses,08/01/2023,21
+Special cause - trend - no pauses,09/01/2023,17
+Special cause - trend - no pauses,10/01/2023,23
+Special cause - trend - no pauses,11/01/2023,26
+Special cause - trend - no pauses,12/01/2023,20
+Special cause - trend - no pauses,13/01/2023,16
+Special cause - trend - no pauses,14/01/2023,25
+Special cause - trend - no pauses,15/01/2023,23
+Special cause - trend - no pauses,16/01/2023,22
+Special cause - trend - no pauses,17/01/2023,19
+Special cause - trend - no pauses,18/01/2023,16
+Special cause - trend - no pauses,19/01/2023,15
+Special cause - trend - no pauses,20/01/2023,12
+Special cause - trend - pauses,01/01/2023,23
+Special cause - trend - pauses,02/01/2023,30
+Special cause - trend - pauses,03/01/2023,28
+Special cause - trend - pauses,04/01/2023,25
+Special cause - trend - pauses,05/01/2023,25
+Special cause - trend - pauses,06/01/2023,20
+Special cause - trend - pauses,07/01/2023,18
+Special cause - trend - pauses,08/01/2023,24
+Special cause - trend - pauses,09/01/2023,16
+Special cause - trend - pauses,10/01/2023,13
+Special cause - trend - pauses,11/01/2023,14
+Special cause - trend - pauses,12/01/2023,18
+Special cause - trend - pauses,13/01/2023,18
+Special cause - trend - pauses,14/01/2023,24
+Special cause - trend - pauses,15/01/2023,26
+Special cause - trend - pauses,16/01/2023,29
+Special cause - trend - pauses,17/01/2023,19
+Special cause - trend - pauses,18/01/2023,20
+Special cause - trend - pauses,19/01/2023,28
+Special cause - trend - pauses,20/01/2023,16
+Special cause - two-sigma - 1,01/01/2023,42
+Special cause - two-sigma - 1,02/01/2023,40
+Special cause - two-sigma - 1,03/01/2023,39
+Special cause - two-sigma - 1,04/01/2023,26
+Special cause - two-sigma - 1,05/01/2023,39
+Special cause - two-sigma - 1,06/01/2023,24
+Special cause - two-sigma - 1,07/01/2023,22
+Special cause - two-sigma - 1,08/01/2023,29
+Special cause - two-sigma - 1,09/01/2023,32
+Special cause - two-sigma - 1,10/01/2023,22
+Special cause - two-sigma - 1,11/01/2023,20
+Special cause - two-sigma - 1,12/01/2023,23
+Special cause - two-sigma - 1,13/01/2023,25
+Special cause - two-sigma - 1,14/01/2023,26
+Special cause - two-sigma - 1,15/01/2023,22
+Special cause - two-sigma - 1,16/01/2023,24
+Special cause - two-sigma - 1,17/01/2023,27
+Special cause - two-sigma - 1,18/01/2023,7
+Special cause - two-sigma - 1,19/01/2023,19
+Special cause - two-sigma - 1,20/01/2023,24
+Special cause - two-sigma - 1,21/01/2023,7
+Special cause - two-sigma - 1,22/01/2023,7
+Special cause - two-sigma - 1,23/01/2023,32
+Special cause - two-sigma - 2,01/01/2023,42
+Special cause - two-sigma - 2,02/01/2023,40
+Special cause - two-sigma - 2,03/01/2023,39
+Special cause - two-sigma - 2,04/01/2023,26
+Special cause - two-sigma - 2,05/01/2023,39
+Special cause - two-sigma - 2,06/01/2023,24
+Special cause - two-sigma - 2,07/01/2023,22
+Special cause - two-sigma - 2,08/01/2023,29
+Special cause - two-sigma - 2,09/01/2023,32
+Special cause - two-sigma - 2,10/01/2023,22
+Special cause - two-sigma - 2,11/01/2023,20
+Special cause - two-sigma - 2,12/01/2023,23
+Special cause - two-sigma - 2,13/01/2023,25
+Special cause - two-sigma - 2,14/01/2023,26
+Special cause - two-sigma - 2,15/01/2023,22
+Special cause - two-sigma - 2,16/01/2023,24
+Special cause - two-sigma - 2,17/01/2023,27
+Special cause - two-sigma - 2,18/01/2023,7
+Special cause - two-sigma - 2,19/01/2023,19
+Special cause - two-sigma - 2,20/01/2023,24
+Special cause - two-sigma - 2,21/01/2023,7
+Special cause - two-sigma - 2,22/01/2023,2
+Special cause - two-sigma - 2,23/01/2023,32
+Special cause - two-sigma - 3,01/01/2023,42
+Special cause - two-sigma - 3,02/01/2023,40
+Special cause - two-sigma - 3,03/01/2023,39
+Special cause - two-sigma - 3,04/01/2023,24
+Special cause - two-sigma - 3,05/01/2023,39
+Special cause - two-sigma - 3,06/01/2023,24
+Special cause - two-sigma - 3,07/01/2023,22
+Special cause - two-sigma - 3,08/01/2023,29
+Special cause - two-sigma - 3,09/01/2023,32
+Special cause - two-sigma - 3,10/01/2023,22
+Special cause - two-sigma - 3,11/01/2023,20
+Special cause - two-sigma - 3,12/01/2023,23
+Special cause - two-sigma - 3,13/01/2023,25
+Special cause - two-sigma - 3,14/01/2023,26
+Special cause - two-sigma - 3,15/01/2023,22
+Special cause - two-sigma - 3,16/01/2023,24
+Special cause - two-sigma - 3,17/01/2023,27
+Special cause - two-sigma - 3,18/01/2023,7
+Special cause - two-sigma - 3,19/01/2023,19
+Special cause - two-sigma - 3,20/01/2023,26
+Special cause - two-sigma - 3,21/01/2023,7
+Special cause - two-sigma - 3,22/01/2023,7
+Special cause - two-sigma - 3,23/01/2023,32
+Special cause conflict,01/01/2023,43
+Special cause conflict,02/01/2023,41
+Special cause conflict,03/01/2023,37
+Special cause conflict,04/01/2023,36
+Special cause conflict,05/01/2023,31
+Special cause conflict,06/01/2023,23
+Special cause conflict,07/01/2023,15
+Special cause conflict,08/01/2023,13
+Special cause conflict,09/01/2023,15
+Special cause conflict,10/01/2023,18
+Special cause conflict,11/01/2023,23
+Special cause conflict,12/01/2023,27
+Special cause conflict,13/01/2023,31
+Special cause conflict,14/01/2023,36
+Special cause conflict,15/01/2023,27
+Special cause conflict,16/01/2023,19
+Special cause conflict,17/01/2023,17
+Special cause conflict,18/01/2023,27
+Special cause conflict,19/01/2023,15
+Special cause conflict,20/01/2023,22
+Recalculations / Baselines,01/01/2023,16
+Recalculations / Baselines,02/01/2023,24
+Recalculations / Baselines,03/01/2023,22
+Recalculations / Baselines,04/01/2023,19
+Recalculations / Baselines,05/01/2023,19
+Recalculations / Baselines,06/01/2023,18
+Recalculations / Baselines,07/01/2023,24
+Recalculations / Baselines,08/01/2023,25
+Recalculations / Baselines,09/01/2023,18
+Recalculations / Baselines,10/01/2023,17
+Recalculations / Baselines,11/01/2023,16
+Recalculations / Baselines,12/01/2023,25
+Recalculations / Baselines,13/01/2023,15
+Recalculations / Baselines,14/01/2023,23
+Recalculations / Baselines,15/01/2023,19
+Recalculations / Baselines,16/01/2023,35
+Recalculations / Baselines,17/01/2023,32
+Recalculations / Baselines,18/01/2023,35
+Recalculations / Baselines,19/01/2023,31
+Recalculations / Baselines,20/01/2023,27
+Recalculations / Baselines,21/01/2023,33
+Recalculations / Baselines,22/01/2023,28
+Recalculations / Baselines,23/01/2023,38
+Recalculations / Baselines,24/01/2023,35
+Recalculations / Baselines,25/01/2023,30
+Recalculations / Baselines,26/01/2023,28
+Recalculations / Baselines,27/01/2023,29
+Recalculations / Baselines,28/01/2023,27
+Recalculations / Baselines,29/01/2023,24
+Recalculations / Baselines,30/01/2023,23
+Special cause crossing recalculations and baselines - shift,01/01/2023,28
+Special cause crossing recalculations and baselines - shift,02/01/2023,23
+Special cause crossing recalculations and baselines - shift,03/01/2023,26
+Special cause crossing recalculations and baselines - shift,04/01/2023,21
+Special cause crossing recalculations and baselines - shift,05/01/2023,23
+Special cause crossing recalculations and baselines - shift,06/01/2023,25
+Special cause crossing recalculations and baselines - shift,07/01/2023,24
+Special cause crossing recalculations and baselines - shift,08/01/2023,29
+Special cause crossing recalculations and baselines - shift,09/01/2023,30
+Special cause crossing recalculations and baselines - shift,10/01/2023,27
+Special cause crossing recalculations and baselines - shift,11/01/2023,25
+Special cause crossing recalculations and baselines - shift,12/01/2023,30
+Special cause crossing recalculations and baselines - shift,13/01/2023,27
+Special cause crossing recalculations and baselines - shift,14/01/2023,24
+Special cause crossing recalculations and baselines - shift,15/01/2023,19
+Special cause crossing recalculations and baselines - shift,16/01/2023,22
+Special cause crossing recalculations and baselines - shift,17/01/2023,28
+Special cause crossing recalculations and baselines - shift,18/01/2023,28
+Special cause crossing recalculations and baselines - shift,19/01/2023,29
+Special cause crossing recalculations and baselines - shift,20/01/2023,33
+Special cause crossing recalculations and baselines - shift,21/01/2023,28
+Special cause crossing recalculations and baselines - shift,22/01/2023,30
+Special cause crossing recalculations and baselines - shift,23/01/2023,31
+Special cause crossing recalculations and baselines - shift,24/01/2023,30
+Special cause crossing recalculations and baselines - shift,25/01/2023,26
+Special cause crossing recalculations and baselines - shift,26/01/2023,27
+Special cause crossing recalculations and baselines - shift,27/01/2023,34
+Special cause crossing recalculations and baselines - shift,28/01/2023,30
+Special cause crossing recalculations and baselines - shift,29/01/2023,32
+Special cause crossing recalculations and baselines - shift,30/01/2023,35
+Special cause crossing recalculations and baselines - trend,01/01/2023,28
+Special cause crossing recalculations and baselines - trend,02/01/2023,23
+Special cause crossing recalculations and baselines - trend,03/01/2023,26
+Special cause crossing recalculations and baselines - trend,04/01/2023,21
+Special cause crossing recalculations and baselines - trend,05/01/2023,23
+Special cause crossing recalculations and baselines - trend,06/01/2023,25
+Special cause crossing recalculations and baselines - trend,07/01/2023,24
+Special cause crossing recalculations and baselines - trend,08/01/2023,29
+Special cause crossing recalculations and baselines - trend,09/01/2023,30
+Special cause crossing recalculations and baselines - trend,10/01/2023,27
+Special cause crossing recalculations and baselines - trend,11/01/2023,25
+Special cause crossing recalculations and baselines - trend,12/01/2023,30
+Special cause crossing recalculations and baselines - trend,13/01/2023,27
+Special cause crossing recalculations and baselines - trend,14/01/2023,26
+Special cause crossing recalculations and baselines - trend,15/01/2023,19
+Special cause crossing recalculations and baselines - trend,16/01/2023,22
+Special cause crossing recalculations and baselines - trend,17/01/2023,26
+Special cause crossing recalculations and baselines - trend,18/01/2023,28
+Special cause crossing recalculations and baselines - trend,19/01/2023,29
+Special cause crossing recalculations and baselines - trend,20/01/2023,33
+Special cause crossing recalculations and baselines - trend,21/01/2023,28
+Special cause crossing recalculations and baselines - trend,22/01/2023,30
+Special cause crossing recalculations and baselines - trend,23/01/2023,31
+Special cause crossing recalculations and baselines - trend,24/01/2023,30
+Special cause crossing recalculations and baselines - trend,25/01/2023,26
+Special cause crossing recalculations and baselines - trend,26/01/2023,27
+Special cause crossing recalculations and baselines - trend,27/01/2023,34
+Special cause crossing recalculations and baselines - trend,28/01/2023,30
+Special cause crossing recalculations and baselines - trend,29/01/2023,32
+Special cause crossing recalculations and baselines - trend,30/01/2023,35
+Special cause crossing recalculations and baselines - two-sigma,01/01/2023,28
+Special cause crossing recalculations and baselines - two-sigma,02/01/2023,23
+Special cause crossing recalculations and baselines - two-sigma,03/01/2023,26
+Special cause crossing recalculations and baselines - two-sigma,04/01/2023,21
+Special cause crossing recalculations and baselines - two-sigma,05/01/2023,23
+Special cause crossing recalculations and baselines - two-sigma,06/01/2023,25
+Special cause crossing recalculations and baselines - two-sigma,07/01/2023,24
+Special cause crossing recalculations and baselines - two-sigma,08/01/2023,29
+Special cause crossing recalculations and baselines - two-sigma,09/01/2023,30
+Special cause crossing recalculations and baselines - two-sigma,10/01/2023,27
+Special cause crossing recalculations and baselines - two-sigma,11/01/2023,25
+Special cause crossing recalculations and baselines - two-sigma,12/01/2023,30
+Special cause crossing recalculations and baselines - two-sigma,13/01/2023,27
+Special cause crossing recalculations and baselines - two-sigma,14/01/2023,24
+Special cause crossing recalculations and baselines - two-sigma,15/01/2023,19
+Special cause crossing recalculations and baselines - two-sigma,16/01/2023,22
+Special cause crossing recalculations and baselines - two-sigma,17/01/2023,32
+Special cause crossing recalculations and baselines - two-sigma,18/01/2023,28
+Special cause crossing recalculations and baselines - two-sigma,19/01/2023,29
+Special cause crossing recalculations and baselines - two-sigma,20/01/2023,33
+Special cause crossing recalculations and baselines - two-sigma,21/01/2023,28
+Special cause crossing recalculations and baselines - two-sigma,22/01/2023,30
+Special cause crossing recalculations and baselines - two-sigma,23/01/2023,31
+Special cause crossing recalculations and baselines - two-sigma,24/01/2023,30
+Special cause crossing recalculations and baselines - two-sigma,25/01/2023,26
+Special cause crossing recalculations and baselines - two-sigma,26/01/2023,27
+Special cause crossing recalculations and baselines - two-sigma,27/01/2023,34
+Special cause crossing recalculations and baselines - two-sigma,28/01/2023,30
+Special cause crossing recalculations and baselines - two-sigma,29/01/2023,32
+Special cause crossing recalculations and baselines - two-sigma,30/01/2023,35
+Summary icons - assurance,01/01/2023,16
+Summary icons - assurance,02/01/2023,24
+Summary icons - assurance,03/01/2023,22
+Summary icons - assurance,04/01/2023,19
+Summary icons - assurance,05/01/2023,19
+Summary icons - assurance,06/01/2023,18
+Summary icons - assurance,07/01/2023,24
+Summary icons - assurance,08/01/2023,25
+Summary icons - assurance,09/01/2023,18
+Summary icons - assurance,10/01/2023,17
+Summary icons - assurance,11/01/2023,16
+Summary icons - assurance,12/01/2023,25
+Summary icons - assurance,13/01/2023,15
+Summary icons - assurance,14/01/2023,23
+Summary icons - assurance,15/01/2023,19
+Summary icons - assurance,16/01/2023,35
+Summary icons - assurance,17/01/2023,32
+Summary icons - assurance,18/01/2023,35
+Summary icons - assurance,19/01/2023,31
+Summary icons - assurance,20/01/2023,27
+Summary icons - assurance,21/01/2023,33
+Summary icons - assurance,22/01/2023,28
+Summary icons - assurance,23/01/2023,38
+Summary icons - assurance,24/01/2023,35
+Summary icons - assurance,25/01/2023,30
+Summary icons - assurance,26/01/2023,28
+Summary icons - assurance,27/01/2023,29
+Summary icons - assurance,28/01/2023,27
+Summary icons - assurance,29/01/2023,24
+Summary icons - assurance,30/01/2023,23
+Summary icons - assurance - too few points,01/01/2023,16
+Summary icons - assurance - too few points,02/01/2023,24
+Summary icons - assurance - too few points,03/01/2023,22
+Summary icons - assurance - too few points,04/01/2023,19
+Summary icons - assurance - too few points,05/01/2023,19
+Summary icons - assurance - too few points,06/01/2023,18
+Summary icons - assurance - too few points,07/01/2023,24
+Summary icons - assurance - too few points,08/01/2023,25
+Summary icons - assurance - too few points,09/01/2023,18
+Summary icons - assurance - too few points,10/01/2023,17
+Summary icons - variation - 1,01/01/2023,16
+Summary icons - variation - 1,02/01/2023,20
+Summary icons - variation - 1,03/01/2023,22
+Summary icons - variation - 1,04/01/2023,18
+Summary icons - variation - 1,05/01/2023,21
+Summary icons - variation - 1,06/01/2023,18
+Summary icons - variation - 1,07/01/2023,26
+Summary icons - variation - 1,08/01/2023,28
+Summary icons - variation - 1,09/01/2023,24
+Summary icons - variation - 1,10/01/2023,26
+Summary icons - variation - 1,11/01/2023,19
+Summary icons - variation - 1,12/01/2023,18
+Summary icons - variation - 1,13/01/2023,25
+Summary icons - variation - 1,14/01/2023,32
+Summary icons - variation - 1,15/01/2023,43
+Summary icons - variation - 1,16/01/2023,28
+Summary icons - variation - 1,17/01/2023,22
+Summary icons - variation - 1,18/01/2023,45
+Summary icons - variation - 2,01/01/2023,16
+Summary icons - variation - 2,02/01/2023,20
+Summary icons - variation - 2,03/01/2023,22
+Summary icons - variation - 2,04/01/2023,18
+Summary icons - variation - 2,05/01/2023,21
+Summary icons - variation - 2,06/01/2023,18
+Summary icons - variation - 2,07/01/2023,26
+Summary icons - variation - 2,08/01/2023,28
+Summary icons - variation - 2,09/01/2023,24
+Summary icons - variation - 2,10/01/2023,26
+Summary icons - variation - 2,11/01/2023,19
+Summary icons - variation - 2,12/01/2023,18
+Summary icons - variation - 2,13/01/2023,25
+Summary icons - variation - 2,14/01/2023,32
+Summary icons - variation - 2,15/01/2023,43
+Summary icons - variation - 2,16/01/2023,28
+Summary icons - variation - 2,17/01/2023,22
+Summary icons - variation - 2,18/01/2023,25
+Summary icons - variation - 3,01/01/2023,16
+Summary icons - variation - 3,02/01/2023,20
+Summary icons - variation - 3,03/01/2023,22
+Summary icons - variation - 3,04/01/2023,18
+Summary icons - variation - 3,05/01/2023,21
+Summary icons - variation - 3,06/01/2023,18
+Summary icons - variation - 3,07/01/2023,26
+Summary icons - variation - 3,08/01/2023,28
+Summary icons - variation - 3,09/01/2023,24
+Summary icons - variation - 3,10/01/2023,26
+Summary icons - variation - 3,11/01/2023,19
+Summary icons - variation - 3,12/01/2023,18
+Summary icons - variation - 3,13/01/2023,25
+Summary icons - variation - 3,14/01/2023,32
+Summary icons - variation - 3,15/01/2023,43
+Summary icons - variation - 3,16/01/2023,28
+Summary icons - variation - 3,17/01/2023,22
+Summary icons - variation - 3,18/01/2023,5
+Summary icons - variation - too few points,01/01/2023,16
+Summary icons - variation - too few points,02/01/2023,20
+Summary icons - variation - too few points,03/01/2023,22
+Summary icons - variation - too few points,04/01/2023,18
+Summary icons - variation - too few points,05/01/2023,21
+Summary icons - variation - too few points,06/01/2023,18
+Summary icons - variation - too few points,07/01/2023,26
+Summary icons - variation - too few points,08/01/2023,28
+Summary icons - variation - too few points,09/01/2023,24
+Summary icons - variation - too few points,10/01/2023,26
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,

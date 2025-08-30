@@ -22,9 +22,14 @@ export interface LineScalesProviderProps<Datum extends {
     children: React.ReactNode;
     xTickCount?: number;
     yTickCount?: number;
+    /** Optional explicit y domain override (e.g. stacked totals). */
+    yDomain?: [number, number];
+    /** Inner padding (px) to leave between axis and plotted points — improves hover targets near edges. Default: 6px */
+    xPadding?: number;
+    yPadding?: number;
 }
 export declare const LineScalesProvider: <Datum extends {
     x: any;
     y: number;
-}>({ series, innerWidth: innerWidthProp, innerHeight: innerHeightProp, parseX: parseXProp, children, xTickCount, yTickCount }: LineScalesProviderProps<Datum>) => import("react/jsx-runtime").JSX.Element;
+}>({ series, innerWidth: innerWidthProp, innerHeight: innerHeightProp, parseX: parseXProp, children, xTickCount, yTickCount, yDomain, xPadding, yPadding }: LineScalesProviderProps<Datum>) => import("react/jsx-runtime").JSX.Element;
 export default ScaleContext;

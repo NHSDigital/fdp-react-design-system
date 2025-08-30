@@ -321,6 +321,299 @@ function NavigationSplitView(props) {
   const selectedItem = items.find((i) => getId(i) === selectedId);
   const rootRef = React3.useRef(null);
   const contentPaneRef = React3.useRef(null);
+  const secondaryPaneRef = React3.useRef(null);
+  const navPaneRef = React3.useRef(null);
+  const [paneNavState, setPaneNavState] = React3.useState(() => ({ contentIndex: 0, secondaryIndex: 0 }));
+  const [paneFocusMode, setPaneFocusMode] = React3.useState(() => "nav");
+  const [containerIndex, setContainerIndex] = React3.useState(0);
+  const getPaneOrder = () => {
+    return [navPaneRef.current, contentPaneRef.current, secondaryPaneRef.current].filter(Boolean);
+  };
+  const focusContainerByIndex = (idx) => {
+    var _a;
+    const order = getPaneOrder();
+    const clamped = Math.max(0, Math.min(idx, order.length - 1));
+    (_a = order[clamped]) == null ? void 0 : _a.focus();
+    setContainerIndex(clamped);
+  };
+  const getFocusableElements = React3.useCallback((root) => {
+    if (!root) return [];
+    const selector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    return Array.from(root.querySelectorAll(selector)).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1 && el.offsetParent !== null);
+  }, []);
+  const focusContentElement = React3.useCallback((idx) => {
+    var _a;
+    const els = getFocusableElements(contentPaneRef.current);
+    if (!els.length) {
+      (_a = contentPaneRef.current) == null ? void 0 : _a.focus();
+      return;
+    }
+    const clamped = Math.max(0, Math.min(idx, els.length - 1));
+    const targetElement = els[clamped];
+    targetElement.focus();
+    setTimeout(() => {
+      if (document.activeElement !== targetElement) {
+        targetElement.focus();
+        setTimeout(() => {
+          if (document.activeElement !== targetElement) {
+            targetElement.click();
+          }
+        }, 10);
+      }
+    }, 10);
+    setPaneNavState((p) => ({ ...p, contentIndex: clamped }));
+    const handleChildEscape = (e) => {
+      var _a2;
+      if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        (_a2 = contentPaneRef.current) == null ? void 0 : _a2.focus();
+        targetElement.removeEventListener("keydown", handleChildEscape);
+      }
+    };
+    els.forEach((el) => {
+      const existingHandler = el._escapeHandler;
+      if (existingHandler) {
+        el.removeEventListener("keydown", existingHandler);
+      }
+    });
+    targetElement._escapeHandler = handleChildEscape;
+    targetElement.addEventListener("keydown", handleChildEscape);
+  }, [getFocusableElements]);
+  const focusSecondaryElement = React3.useCallback((idx) => {
+    var _a;
+    const els = getFocusableElements(secondaryPaneRef.current);
+    if (!els.length) {
+      (_a = secondaryPaneRef.current) == null ? void 0 : _a.focus();
+      return;
+    }
+    const clamped = Math.max(0, Math.min(idx, els.length - 1));
+    els[clamped].focus();
+    setPaneNavState((p) => ({ ...p, secondaryIndex: clamped }));
+    const handleChildEscape = (e) => {
+      var _a2;
+      if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        (_a2 = secondaryPaneRef.current) == null ? void 0 : _a2.focus();
+        els[clamped].removeEventListener("keydown", handleChildEscape);
+      }
+    };
+    els.forEach((el) => el.removeEventListener("keydown", handleChildEscape));
+    els[clamped].addEventListener("keydown", handleChildEscape);
+  }, [getFocusableElements]);
+  const onRootKeyDown = (e) => {
+    var _a;
+    if (e.defaultPrevented) return;
+    const key = e.key;
+    const target = e.target;
+    const inNav = !!listRef.current && listRef.current.contains(target);
+    const inContent = !!contentPaneRef.current && contentPaneRef.current.contains(target);
+    const inSecondary = !!secondaryPaneRef.current && secondaryPaneRef.current.contains(target);
+    const hasSecondary = !!secondaryPaneRef.current;
+    const isContainer = target === navPaneRef.current || target === contentPaneRef.current || target === secondaryPaneRef.current;
+    if (paneFocusMode === "containers" && isContainer) {
+      if (key === "ArrowRight") {
+        e.preventDefault();
+        const order = getPaneOrder();
+        const next = Math.min(order.length - 1, containerIndex + 1);
+        focusContainerByIndex(next);
+        return;
+      }
+      if (key === "ArrowLeft") {
+        e.preventDefault();
+        const prev = Math.max(0, containerIndex - 1);
+        focusContainerByIndex(prev);
+        return;
+      }
+      if (key === "Home") {
+        e.preventDefault();
+        focusContainerByIndex(0);
+        return;
+      }
+      if (key === "End") {
+        e.preventDefault();
+        focusContainerByIndex(getPaneOrder().length - 1);
+        return;
+      }
+      if (key === "Enter" || key === " ") {
+        e.preventDefault();
+        if (target === navPaneRef.current) {
+          setPaneFocusMode("nav");
+          if (listRef.current) {
+            const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
+            (_a = nodes[focusedIndex >= 0 ? focusedIndex : 0] || nodes[0]) == null ? void 0 : _a.focus();
+          }
+        } else if (target === contentPaneRef.current) {
+          setPaneFocusMode("content");
+          focusContentElement(paneNavState.contentIndex);
+        } else if (target === secondaryPaneRef.current) {
+          setPaneFocusMode("secondary");
+          focusSecondaryElement(paneNavState.secondaryIndex);
+        }
+        return;
+      }
+      return;
+    }
+    if (key === "Escape") {
+      if (paneFocusMode === "content" || paneFocusMode === "secondary") {
+        if (inContent || inSecondary) {
+          e.preventDefault();
+          setPaneFocusMode("nav");
+          if (listRef.current) {
+            const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
+            const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0];
+            setTimeout(() => candidate == null ? void 0 : candidate.focus(), 10);
+          }
+        } else if (target === contentPaneRef.current || target === secondaryPaneRef.current) {
+          e.preventDefault();
+          setPaneFocusMode("nav");
+          if (listRef.current) {
+            const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
+            const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0];
+            setTimeout(() => candidate == null ? void 0 : candidate.focus(), 10);
+          }
+        }
+      }
+      return;
+    }
+    if (key === "Enter" || key === " ") {
+      const isInteractiveElement = target.matches('button, a, input, select, textarea, [role="button"], [role="link"], [role="tab"]');
+      if (isInteractiveElement) {
+        return;
+      }
+      if (target === contentPaneRef.current && paneFocusMode === "content") {
+        e.preventDefault();
+        e.stopPropagation();
+        const contentElements = getFocusableElements(contentPaneRef.current);
+        if (contentElements.length > 0) {
+          setTimeout(() => {
+            focusContentElement(paneNavState.contentIndex);
+          }, 50);
+        }
+        return;
+      }
+      if (target === secondaryPaneRef.current && paneFocusMode === "secondary") {
+        e.preventDefault();
+        e.stopPropagation();
+        const secondaryElements = getFocusableElements(secondaryPaneRef.current);
+        if (secondaryElements.length > 0) {
+          setTimeout(() => {
+            focusSecondaryElement(paneNavState.secondaryIndex);
+          }, 50);
+        }
+        return;
+      }
+    }
+    if (key === "ArrowRight") {
+      if (inNav || paneFocusMode === "nav") {
+        e.preventDefault();
+        setPaneFocusMode("content");
+        setTimeout(() => {
+          var _a2;
+          return (_a2 = contentPaneRef.current) == null ? void 0 : _a2.focus();
+        }, 10);
+        return;
+      }
+      if (inContent || paneFocusMode === "content") {
+        if (hasSecondary) {
+          e.preventDefault();
+          setPaneFocusMode("secondary");
+          setTimeout(() => {
+            var _a2;
+            return (_a2 = secondaryPaneRef.current) == null ? void 0 : _a2.focus();
+          }, 10);
+        }
+        return;
+      }
+    }
+    if (key === "ArrowLeft") {
+      if (inSecondary || paneFocusMode === "secondary") {
+        e.preventDefault();
+        setPaneFocusMode("content");
+        setTimeout(() => {
+          var _a2;
+          return (_a2 = contentPaneRef.current) == null ? void 0 : _a2.focus();
+        }, 10);
+        return;
+      }
+      if (inContent || paneFocusMode === "content") {
+        e.preventDefault();
+        setPaneFocusMode("nav");
+        if (listRef.current) {
+          const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
+          const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0];
+          setTimeout(() => candidate == null ? void 0 : candidate.focus(), 10);
+        }
+        return;
+      }
+    }
+    if (key === "Home") {
+      if (!inNav) {
+        e.preventDefault();
+        setPaneFocusMode("nav");
+        if (listRef.current) {
+          const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
+          const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0] || nodes[0];
+          setTimeout(() => candidate == null ? void 0 : candidate.focus(), 10);
+        }
+      }
+    }
+    if (key === "End") {
+      const targetPane = hasSecondary ? secondaryPaneRef.current : contentPaneRef.current;
+      if (targetPane && !targetPane.contains(target)) {
+        e.preventDefault();
+        if (hasSecondary) {
+          setPaneFocusMode("secondary");
+          setTimeout(() => {
+            var _a2;
+            return (_a2 = secondaryPaneRef.current) == null ? void 0 : _a2.focus();
+          }, 10);
+        } else {
+          setPaneFocusMode("content");
+          setTimeout(() => {
+            var _a2;
+            return (_a2 = contentPaneRef.current) == null ? void 0 : _a2.focus();
+          }, 10);
+        }
+      }
+    }
+    if (key === "ArrowDown" || key === "ArrowUp") {
+      if (target === contentPaneRef.current && key === "ArrowDown") {
+        e.preventDefault();
+        const contentElements = getFocusableElements(contentPaneRef.current);
+        if (contentElements.length > 0) {
+          focusContentElement(0);
+        }
+        return;
+      }
+      if (target === secondaryPaneRef.current && key === "ArrowDown") {
+        e.preventDefault();
+        const secondaryElements = getFocusableElements(secondaryPaneRef.current);
+        if (secondaryElements.length > 0) {
+          focusSecondaryElement(0);
+        }
+        return;
+      }
+      if (inContent) {
+        const els = getFocusableElements(contentPaneRef.current);
+        if (els.length) {
+          e.preventDefault();
+          const dir = key === "ArrowDown" ? 1 : -1;
+          const next = (paneNavState.contentIndex + dir + els.length) % els.length;
+          focusContentElement(next);
+        }
+      } else if (inSecondary) {
+        const els = getFocusableElements(secondaryPaneRef.current);
+        if (els.length) {
+          e.preventDefault();
+          const dir = key === "ArrowDown" ? 1 : -1;
+          const next = (paneNavState.secondaryIndex + dir + els.length) % els.length;
+          focusSecondaryElement(next);
+        }
+      }
+    }
+  };
   const detailActive = !!selectedItem && (effectiveLayout === "list" || effectiveLayout === "cards");
   const autoHeaderConfig = React3.useMemo(() => {
     if (autoContentHeader === void 0) {
@@ -346,6 +639,26 @@ function NavigationSplitView(props) {
   React3.useEffect(() => {
     if (tertiaryVisible && tertiaryInlineActive) setTertiaryInlineActive(false);
   }, [tertiaryVisible, tertiaryInlineActive]);
+  React3.useEffect(() => {
+    if (tertiaryInlineActive && !tertiaryVisible) {
+      setPaneFocusMode("secondary");
+      setContainerIndex(2);
+      setTimeout(() => {
+        var _a;
+        (_a = secondaryPaneRef.current) == null ? void 0 : _a.focus();
+      }, 50);
+    }
+  }, [tertiaryInlineActive, tertiaryVisible]);
+  React3.useEffect(() => {
+    if (!tertiaryInlineActive && !tertiaryVisible && paneFocusMode === "secondary") {
+      setPaneFocusMode("content");
+      setContainerIndex(1);
+      setTimeout(() => {
+        var _a;
+        (_a = contentPaneRef.current) == null ? void 0 : _a.focus();
+      }, 50);
+    }
+  }, [tertiaryInlineActive, tertiaryVisible, paneFocusMode]);
   const baseHeaderCondition = !!selectedItem && (detailActive && autoHeaderConfig.mobile || !detailActive && isTabletRange && autoHeaderConfig.tablet || !detailActive && isDesktopRange && autoHeaderConfig.desktop);
   const showHeader = baseHeaderCondition || tertiaryAvailable && !tertiaryVisible;
   const headingTag = `h${contentHeaderLevel}`;
@@ -467,6 +780,23 @@ function NavigationSplitView(props) {
   const onKeyDownList = (e) => {
     const forward = orientation === "vertical" ? "ArrowDown" : "ArrowRight";
     const backward = orientation === "vertical" ? "ArrowUp" : "ArrowLeft";
+    if (e.key === "ArrowRight" && orientation === "vertical") {
+      e.preventDefault();
+      if (tertiaryInlineActive) {
+        setPaneFocusMode("secondary");
+        setTimeout(() => {
+          var _a;
+          (_a = secondaryPaneRef.current) == null ? void 0 : _a.focus();
+        }, 10);
+      } else {
+        setPaneFocusMode("content");
+        setTimeout(() => {
+          var _a;
+          (_a = contentPaneRef.current) == null ? void 0 : _a.focus();
+        }, 10);
+      }
+      return;
+    }
     if (e.key === forward) {
       e.preventDefault();
       setFocusedIndex((i) => Math.min(items.length - 1, i + 1));
@@ -705,15 +1035,18 @@ function NavigationSplitView(props) {
       className: rootClasses,
       "aria-label": a11y == null ? void 0 : a11y.rootLabel,
       "data-layout": effectiveLayout,
+      onKeyDown: onRootKeyDown,
       children: /* @__PURE__ */ jsxs3("div", { className: "nhs-navigation-split-view__body", children: [
         /* @__PURE__ */ jsxs3("div", { className: "nhs-navigation-split-view__panes", "data-active-detail": detailActive || void 0, style: { transform: detailActive ? "translateX(-100%)" : void 0 }, children: [
           /* @__PURE__ */ jsxs3(
             "div",
             {
+              ref: navPaneRef,
               className: "nhs-navigation-split-view__nav-pane",
               role: "navigation",
               "aria-label": (a11y == null ? void 0 : a11y.navigationLabel) || "Items",
               "data-collapsed": navCollapsed || void 0,
+              tabIndex: 0,
               children: [
                 collapsibleNav && isAtLeastMedium && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__nav-collapse", children: /* @__PURE__ */ jsx3(
                   "button",
@@ -739,25 +1072,32 @@ function NavigationSplitView(props) {
               role: "region",
               "aria-label": (a11y == null ? void 0 : a11y.contentLabel) || "Content",
               "data-has-selection": !!selectedItem || void 0,
-              tabIndex: -1,
+              tabIndex: 0,
+              style: { display: tertiaryInlineActive && !tertiaryVisible ? "none" : void 0 },
               children: [
                 showHeader && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__header", children: renderedHeaderInner }),
-                /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__content-inner", style: { padding: 32, flex: 1 }, children: tertiaryInlineActive && !tertiaryVisible ? renderSecondaryContent == null ? void 0 : renderSecondaryContent(selectedItem) : renderContent(selectedItem) })
+                /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__content-inner", style: { padding: 32, flex: 1 }, children: renderContent(selectedItem) })
               ]
             }
           ),
-          effectiveLayout === "three-column" && (!lazySecondary || secondaryMounted) && /* @__PURE__ */ jsx3(
+          effectiveLayout === "three-column" && (!lazySecondary || secondaryMounted) || tertiaryInlineActive && !tertiaryVisible ? /* @__PURE__ */ jsx3(
             "div",
             {
+              ref: secondaryPaneRef,
               className: "nhs-navigation-split-view__secondary-pane",
               role: "region",
               "aria-label": (a11y == null ? void 0 : a11y.secondaryContentLabel) || "Secondary",
+              tabIndex: 0,
               children: /* @__PURE__ */ jsxs3("div", { className: "nhs-navigation-split-view__secondary-inner", style: { display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }, children: [
+                tertiaryInlineActive && !tertiaryVisible && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__header", children: /* @__PURE__ */ jsx3("div", { style: { display: "flex", alignItems: "center", width: "100%" }, children: /* @__PURE__ */ jsxs3("div", { style: { display: "flex", alignItems: "center", gap: 0, flex: "1 1 auto", minWidth: 0 }, children: [
+                  tertiaryBackNode,
+                  /* @__PURE__ */ jsx3("div", { style: { display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }, children: /* @__PURE__ */ jsx3("h2", { style: { marginLeft: 0, marginRight: 0 }, children: selectedItem && typeof selectedItem === "object" && "label" in selectedItem ? selectedItem.label : String(selectedItem) }) })
+                ] }) }) }),
                 selectedItem && secondarySubheader && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__secondary-header", style: { padding: "16px 32px", borderBottom: "1px solid var(--nsplit-divider)" }, children: typeof secondarySubheader === "function" ? secondarySubheader(selectedItem) : secondarySubheader }),
                 /* @__PURE__ */ jsx3("div", { style: { padding: 32, flex: 1, minWidth: 0 }, children: renderSecondaryContent == null ? void 0 : renderSecondaryContent(selectedItem) })
               ] })
             }
-          )
+          ) : null
         ] }),
         /* @__PURE__ */ jsx3("div", { ref: liveRef, "aria-live": "polite", "aria-atomic": "true", style: { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" } }),
         /* @__PURE__ */ jsx3("div", { "aria-live": "polite", style: { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }, children: drilledIn ? "Expanded to three column layout" : "In two column layout" })

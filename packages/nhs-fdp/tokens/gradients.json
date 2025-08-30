@@ -1,0 +1,31 @@
+{
+  "gradient": {
+    "$type": "gradient",
+    "metric-card": {
+      "primary": {
+        "$value": "linear-gradient(135deg, rgba(0,94,184,0.05), #ffffff)",
+        "$description": "Primary metric card subtle wash (NHS Blue 5% → White)"
+      },
+      "secondary": {
+        "$value": "linear-gradient(135deg, rgba(136,15,184,0.06), #ffffff)",
+        "$description": "Secondary metric card subtle wash (Light Purple 6% → White)"
+      },
+      "accent": {
+        "$value": "linear-gradient(135deg, rgba(255,184,28,0.10), #ffffff)",
+        "$description": "Accent metric card subtle wash (Warm Yellow 10% → White)"
+      },
+      "success": {
+        "$value": "linear-gradient(135deg, rgba(0,164,153,0.10), #ffffff)",
+        "$description": "Success metric card subtle wash (Aqua Green 10% → White)"
+      },
+      "warning": {
+        "$value": "linear-gradient(135deg, rgba(237,79,0,0.10), #ffffff)",
+        "$description": "Warning metric card subtle wash (Tangerine 10% → White)"
+      },
+      "error": {
+        "$value": "linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff)",
+        "$description": "Error metric card subtle wash (NHS Red 10% → White)"
+      }
+    }
+  }
+}

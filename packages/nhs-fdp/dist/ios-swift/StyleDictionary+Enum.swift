@@ -325,6 +325,12 @@ public enum StyleDictionaryEnum {
     public static let formSpacingCheckboxSize = 40px /** Size of checkbox controls */
     public static let formSpacingInputMinHeight = 40px /** Minimum height for input fields */
     public static let formSpacingInputPadding = 4px /** Internal padding for input fields */
+    public static let gradientMetricCardAccent = linear-gradient(135deg, rgba(255,184,28,0.10), #ffffff) /** Accent metric card subtle wash (Warm Yellow 10% → White) */
+    public static let gradientMetricCardError = linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff) /** Error metric card subtle wash (NHS Red 10% → White) */
+    public static let gradientMetricCardPrimary = linear-gradient(135deg, rgba(0,94,184,0.05), #ffffff) /** Primary metric card subtle wash (NHS Blue 5% → White) */
+    public static let gradientMetricCardSecondary = linear-gradient(135deg, rgba(136,15,184,0.06), #ffffff) /** Secondary metric card subtle wash (Light Purple 6% → White) */
+    public static let gradientMetricCardSuccess = linear-gradient(135deg, rgba(0,164,153,0.10), #ffffff) /** Success metric card subtle wash (Aqua Green 10% → White) */
+    public static let gradientMetricCardWarning = linear-gradient(135deg, rgba(237,79,0,0.10), #ffffff) /** Warning metric card subtle wash (Tangerine 10% → White) */
     public static let gridGutter = CGFloat(512.00) /** Grid gutter width */
     public static let gridGutterHalf = CGFloat(256.00) /** Half grid gutter width */
     public static let gridPageWidth = CGFloat(15360.00) /** Maximum page width */

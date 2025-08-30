@@ -235,3 +235,57 @@ span .nhsuk-u-visually-hidden {
   overflow: hidden;
   white-space: nowrap;
 }
+
+.fdp-chart--noscript .fdp-chart__loading {
+  font-size: var(--fdp-chart-font-size-caption);
+  color: var(--fdp-chart-color-subtle);
+  margin-bottom: 8px;
+}
+.fdp-chart--noscript .fdp-chart__fallback {
+  border: 1px solid var(--fdp-chart-color-subtle-2);
+  padding: 8px;
+  background: #ffffff;
+}
+.fdp-chart--noscript .fdp-chart__table {
+  overflow-x: auto;
+}
+
+.fdp-chart--enhanced [data-fallback-table] {
+  display: none;
+}
+
+.nhs-fdp-metric-card-wrapper .nhs-fdp-metric-value {
+  display: block;
+  font-size: 36px;
+  font-weight: 600;
+}
+.nhs-fdp-metric-card-wrapper .nhs-fdp-metric-unit {
+  font-size: 16px;
+  margin-left: 4px;
+}
+.nhs-fdp-metric-card-wrapper .nhs-fdp-metric-delta {
+  font-family: Frutiger W01, Arial, sans-serif;
+}
+.nhs-fdp-metric-card-wrapper .nhs-fdp-metric-delta--up {
+  color: #007f3b;
+}
+.nhs-fdp-metric-card-wrapper .nhs-fdp-metric-delta--down {
+  color: #d5281b;
+}
+.nhs-fdp-metric-card-wrapper .nhs-fdp-metric-delta--neutral {
+  color: #4c6272;
+}
+.nhs-fdp-metric-card-wrapper .nhs-fdp-metric-skeleton {
+  display: inline-block;
+  height: 1.2em;
+  width: 50%;
+  background: #d8dde0;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+.nhs-fdp-metric-card-wrapper .nhs-fdp-metric-error {
+  display: block;
+  margin-top: 8px;
+  font-size: 16px;
+  color: #d5281b;
+}

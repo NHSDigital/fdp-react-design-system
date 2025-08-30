@@ -7,7 +7,7 @@ declare const VisuallyHiddenLiveRegion: React.FC<{
     polite?: boolean;
     format?: (d: {
         seriesId: string;
-        x: Date;
+        x: Date | string | number;
         y: number;
         index: number;
     }) => string;

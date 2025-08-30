@@ -171,7 +171,71 @@ span .nhsuk-u-visually-hidden {
   outline: 3px solid #ffeb3b;
   outline-offset: 2px;
 }
-.aria-tabs-datagrid-adaptive__tabs {
+.aria-tabs-datagrid-adaptive__header {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+@media (min-width: 768px) {
+  .aria-tabs-datagrid-adaptive__header {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+.aria-tabs-datagrid-adaptive__top-actions {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: #f0f4f5;
+  border-left: 2px solid #005eb8;
+  border-right: 2px solid #005eb8;
+  border-top: 2px solid #005eb8;
+}
+@media (min-width: 768px) {
+  .aria-tabs-datagrid-adaptive__top-actions {
+    margin-left: auto;
+    border-top: none;
+    border-bottom: 2px solid #005eb8;
+    background: #ffffff;
+    padding: 12px 16px;
+    min-height: 48px;
+    align-items: center;
+    border: 0;
+  }
+}
+.aria-tabs-datagrid-adaptive__top-actions--above-table {
+  background: #ffffff;
+  justify-content: flex-end;
+  margin-bottom: -2px;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__top-actions--above-table {
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+}
+.aria-tabs-datagrid-adaptive__bottom-actions {
+  display: flex;
+  gap: 16px;
+  padding: 24px;
+  background: #ffffff;
+  border-left: 2px solid #005eb8;
+  border-right: 2px solid #005eb8;
+  border-bottom: 2px solid #005eb8;
+  border-radius: 0 0 4px 4px;
+  justify-content: flex-end;
+  margin-top: -2px;
+}
+@media (max-width: 767px) {
+  .aria-tabs-datagrid-adaptive__bottom-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .aria-tabs-datagrid-adaptive__bottom-actions > * {
+    width: 100%;
+  }
+}
+.aria-tabs-datagrid-adaptive__header .aria-tabs-datagrid-adaptive__tabs, .aria-tabs-datagrid-adaptive__tabs {
   display: flex;
   gap: 0;
   margin-bottom: 0;
@@ -185,13 +249,13 @@ span .nhsuk-u-visually-hidden {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
 }
-.aria-tabs-datagrid-adaptive__tabs::-webkit-scrollbar {
+.aria-tabs-datagrid-adaptive__header .aria-tabs-datagrid-adaptive__tabs::-webkit-scrollbar, .aria-tabs-datagrid-adaptive__tabs::-webkit-scrollbar {
   height: 4px;
 }
-.aria-tabs-datagrid-adaptive__tabs::-webkit-scrollbar-track {
+.aria-tabs-datagrid-adaptive__header .aria-tabs-datagrid-adaptive__tabs::-webkit-scrollbar-track, .aria-tabs-datagrid-adaptive__tabs::-webkit-scrollbar-track {
   background: transparent;
 }
-.aria-tabs-datagrid-adaptive__tabs::-webkit-scrollbar-thumb {
+.aria-tabs-datagrid-adaptive__header .aria-tabs-datagrid-adaptive__tabs::-webkit-scrollbar-thumb, .aria-tabs-datagrid-adaptive__tabs::-webkit-scrollbar-thumb {
   background: #aeb7bd;
   border-radius: 2px;
 }
@@ -248,7 +312,7 @@ span .nhsuk-u-visually-hidden {
 .aria-tabs-datagrid-adaptive__cards {
   background: #ffffff;
   min-height: 400px;
-  border-radius: 0 0 4px 4px;
+  border-radius: 0;
   outline: none;
   border-left: 2px solid #005eb8;
   border-right: 2px solid #005eb8;
@@ -281,6 +345,9 @@ span .nhsuk-u-visually-hidden {
   .aria-tabs-datagrid-adaptive__cards {
     margin-top: 24px;
   }
+}
+.aria-tabs-datagrid-adaptive__cards:last-child, .aria-tabs-datagrid-adaptive:not(:has(.aria-tabs-datagrid-adaptive__bottom-actions)) .aria-tabs-datagrid-adaptive__cards {
+  border-radius: 0 0 4px 4px;
 }
 .aria-tabs-datagrid-adaptive__card {
   background: #ffffff;

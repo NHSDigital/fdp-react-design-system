@@ -1,6 +1,6 @@
-import React from 'react';
-import { AriaTabsDataGridProps } from './AriaTabsDataGridTypes';
-import './AriaTabsDataGrid.scss';
+import React from "react";
+import { AriaTabsDataGridProps } from "./AriaTabsDataGridTypes";
+import "./AriaTabsDataGrid.scss";
 /**
  * Component reference interface for imperative actions
  */

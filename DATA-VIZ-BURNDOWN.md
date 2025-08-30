@@ -1,4 +1,4 @@
-# Data Visualisation v2 Burndown & Risk Register (Aug 29 2025)
+# Data Visualisation v2 Burndown & Risk Register (Aug 30 2025)
 
 Companion to:
 
@@ -15,31 +15,35 @@ Core Epics (indicative sizing):
 
 1. ChartNoScript fallback (SSR + a11y) – 5 (Done)
 2. MetricCard (base + variants) – 5+5
-3. DataVizFilterBar (scaffold + interactions) – 3+5
-4. ExportMenu (contract + CSV + PNG) – 3+5
-5. Severity / exception visual mapping guidance – 2
-6. Freshness badge (KPI) – 2
-7. Map wrapper (MVP) – 8
-8. Choropleth helpers (quantisation + auto legend) – 5
-9. Legend grouping & search – 5
-10. Series metadata interface (for grouping) – 2
-11. Layer abstraction (points + polygons) – 8
-12. Performance sampling / down-sampling helper – 5
-13. Accessibility extensions (CVD pattern mapping, announcements debounce) – 5
-14. Export enhancements (SVG) – 3
-15. Tooltip aggregated summary – 3
-16. Exception states (SPC overlays integration pre-IPR) – 5
-17. Advanced legend ordering API – 3
-18. Pattern auto-substitution (low contrast) – 3
-19. Internationalisation context (date/number/time unify) – 5
-20. Dark mode token prototype – 5
+3. **SPC Charts (Statistical Process Control)** – **8+5 (Done)**
+4. **Enhanced Data Grid Navigation** – **5+3 (Done)**
+5. DataVizFilterBar (scaffold + interactions) – 3+5
+6. ExportMenu (contract + CSV + PNG) – 3+5
+7. Severity / exception visual mapping guidance – 2
+8. Freshness badge (KPI) – 2
+9. Map wrapper (MVP) – 8
+10. Choropleth helpers (quantisation + auto legend) – 5
+11. Legend grouping & search – 5
+12. Series metadata interface (for grouping) – 2
+13. Layer abstraction (points + polygons) – 8
+14. Performance sampling / down-sampling helper – 5
+15. Accessibility extensions (CVD pattern mapping, announcements debounce) – 5
+16. Export enhancements (SVG) – 3
+17. Tooltip aggregated summary – 3
+18. Exception states (SPC overlays integration pre-IPR) – 5 (Superseded by Epic 3)
+19. Advanced legend ordering API – 3
+20. Pattern auto-substitution (low contrast) – 3
+21. Internationalisation context (date/number/time unify) – 5
+22. Dark mode token prototype – 5
 
-Assumed point scale: S=2, M=5, L=8. Total ≈ 110 points.
+Assumed point scale: S=2, M=5, L=8. Total ≈ 121 points.
 
 ## 2. Burndown Snapshot
 
-Done (≈47 points / ~43%):
+Done (≈63 points / ~52%):
 
+- **SPC Charts Complete (13 points)**: Full SPCChart component with XmR/T/G chart types, rule detection engine, improvement direction support, healthcare examples, 25+ tests
+- **Enhanced Data Grid Navigation (8 points)**: NavigationSplitView keyboard navigation, AriaTabsDataGrid actions area, responsive placement, tablet breakpoint fixes
 - Palettes (categorical, region, severity, org-level) + stroke & semantic alias tokens
 - Legend refactor (unified palettes + pattern overlays)
 - Pattern system (18+) with a11y tests
@@ -55,7 +59,7 @@ Groundwork (≈4 points counted partial):
 - Severity/org-level tokens integrated
 - SlotMatrix scaffold (related to scheduling visualisation, not core charts)
 
-Remaining core (to analyst kit pre-map): ≈59 points
+Remaining core (to analyst kit pre-map): ≈42 points
 
 Extended (map, choropleth, advanced legend, perf extras): ≈24 points
 
@@ -63,16 +67,20 @@ Extended (map, choropleth, advanced legend, perf extras): ≈24 points
 
 Done:
 
+- **SPC Charts**: Full implementation with rule detection, chart types, healthcare examples, comprehensive testing
+- **Enhanced Navigation**: Complete keyboard navigation for data grids and split views
 - Colour & token system, patterns, legend unification, stacking, tooltips, axis/layout, tests, chart↔table pattern
 
 Next (Immediate Build Enablers):
 
-1. ChartNoScript wrapper (Done)
-2. MetricCard (base + delta/status variant)
-3. DataVizFilterBar skeleton
-4. ExportMenu API contract (types only)
-5. Exception severity mapping doc
-6. KPI FreshnessBadge component
+1. ~~ChartNoScript wrapper~~ (Done)
+2. ~~SPC Charts~~ (Done)
+3. ~~Enhanced Data Grid Navigation~~ (Done)
+4. MetricCard (base + delta/status variant)
+5. DataVizFilterBar skeleton
+6. ExportMenu API contract (types only)
+7. Exception severity mapping doc
+8. KPI FreshnessBadge component
 
 Backlog (Post-enablers):
 
@@ -82,18 +90,26 @@ Deferred / Nice-to-have:
 
 - Live streaming incremental redraw
 - Animation patterns (enter/update/exit) behind prefers-reduced-motion
-- Advanced statistical overlays (SPC, regression bands) – may move into IPR stream
+- ~~Advanced statistical overlays (SPC, regression bands)~~ **Completed in core SPC implementation**
 
 ## 4. Six-Week Delivery Slice (Starting 1 Sep 2025)
 
-### Sprint 1 (Weeks 1–2)
+### Sprint 1 (Weeks 1–2) ✅ COMPLETED AHEAD OF SCHEDULE
 
-- ChartNoScript (feat + SSR/hydration tests) – 5
+- ~~ChartNoScript (feat + SSR/hydration tests)~~ – 5 ✅
+- ~~SPC Charts (full implementation)~~ – 13 ✅  
+- ~~Enhanced Data Grid Navigation~~ – 8 ✅
+- ~~Package publication & documentation updates~~ – 2 ✅
+(Target 17 → Delivered 28)
+
+### Sprint 2 (Weeks 3–4) – **REVISED SCHEDULE**
+
 - MetricCard base + delta variant (+ stories) – 5
-- DataVizFilterBar skeleton (layout, slot props) – 3
+- DataVizFilterBar skeleton (layout, slot props) – 3  
 - Severity token mapping doc + legend story updates – 2
 - FreshnessBadge (relative time util) – 2
-(Target 17)
+- SPC chart baseline analysis automation – 3
+(Target 15)
 
 ### Sprint 2 (Weeks 3–4)
 

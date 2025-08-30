@@ -187,6 +187,7 @@ var Container = ({
   className,
   fluid = false,
   maxWidth,
+  style,
   ...props
 }) => {
   const containerClasses = (0, import_classnames2.default)(
@@ -196,16 +197,17 @@ var Container = ({
     },
     className
   );
-  const style = maxWidth ? { maxWidth } : void 0;
-  return /* @__PURE__ */ jsx3("div", { className: containerClasses, style, ...props, children });
+  const mergedStyle = maxWidth ? { maxWidth, ...style || {} } : style;
+  return /* @__PURE__ */ jsx3("div", { className: containerClasses, style: mergedStyle, ...props, children });
 };
 var Row = ({
   children,
   className,
+  style,
   ...props
 }) => {
   const rowClasses = (0, import_classnames2.default)("nhsuk-grid-row", className);
-  return /* @__PURE__ */ jsx3("div", { className: rowClasses, ...props, children });
+  return /* @__PURE__ */ jsx3("div", { className: rowClasses, style, ...props, children });
 };
 var Column = ({
   children,
@@ -216,6 +218,7 @@ var Column = ({
   start,
   className,
   forceWidth = false,
+  style,
   ...props
 }) => {
   const columnClasses = (0, import_classnames2.default)(
@@ -233,17 +236,18 @@ var Column = ({
     },
     className
   );
-  return /* @__PURE__ */ jsx3("div", { className: columnClasses, ...props, children });
+  return /* @__PURE__ */ jsx3("div", { className: columnClasses, style, ...props, children });
 };
 var Grid = ({
   children,
   className,
+  style,
   ...props
 }) => {
   const childrenArray = React2.Children.toArray(children);
   const firstChild = childrenArray[0];
   const hasRowAsFirstChild = React2.isValidElement(firstChild) && (firstChild.type === Row || typeof firstChild.props === "object" && firstChild.props && "className" in firstChild.props && typeof firstChild.props.className === "string" && firstChild.props.className.includes("nhsuk-grid-row"));
-  return /* @__PURE__ */ jsx3(Container, { className, ...props, children: hasRowAsFirstChild ? children : /* @__PURE__ */ jsx3(Row, { children }) });
+  return /* @__PURE__ */ jsx3(Container, { className, style, ...props, children: hasRowAsFirstChild ? children : /* @__PURE__ */ jsx3(Row, { children }) });
 };
 
 // src/components/DashboardSummaryGrid/DashboardSummaryGrid.tsx

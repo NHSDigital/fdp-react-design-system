@@ -4,8 +4,10 @@ export interface LegendItem {
     label: string;
     color?: string;
     stroke?: string;
-    palette?: 'categorical' | 'region' | 'severity';
+    palette?: 'categorical' | 'region' | 'severity' | 'org-level';
     description?: string;
+    /** Optional pattern data URI (e.g. from patternDataUrl). When provided overlays on top of colour for CVD-friendly distinction. */
+    patternDataUrl?: string;
 }
 export interface LegendProps {
     /** Legend items. If omitted and a VisibilityProvider is present, auto inference may be added later. */

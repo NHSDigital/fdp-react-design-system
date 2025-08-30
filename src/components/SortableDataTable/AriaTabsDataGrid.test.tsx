@@ -615,7 +615,10 @@ describe('AriaTabsDataGrid - Integrated Tabs and DataGrid Component', () => {
 
       const tablist = screen.getByRole('tablist');
       expect(tablist.getAttribute('aria-orientation')).toBe('vertical');
-      expect(tablist.parentElement?.className).toContain('aria-tabs-datagrid--vertical');
+      
+      // The vertical class is applied to the main container, not the tablist's direct parent
+      const container = tablist.closest('.aria-tabs-datagrid');
+      expect(container?.className).toContain('aria-tabs-datagrid--vertical');
     });
 
     it('handles loading and error states', () => {

@@ -1,7 +1,10 @@
 // NHS FDP Design System - Main Stylesheet
 // This file imports all component styles and utilities
 
-// Import base tokens and utilities first (@use rules must come before @import)
+// Import base token CSS custom properties (generated) so component styles can use them
+@import '../../packages/nhs-fdp/dist/css/tokens.css';
+
+// Import base tokens and utilities (Sass variable layer)
 @use './utilities.scss';
 
 // Import all component styles (only those that exist)

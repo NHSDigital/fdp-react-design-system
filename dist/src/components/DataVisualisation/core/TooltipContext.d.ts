@@ -1,8 +1,8 @@
-import * as React from 'react';
+import * as React from "react";
 export interface TooltipDatum {
     seriesId: string;
     index: number;
-    x: Date;
+    x: Date | string | number;
     y: number;
     clientX: number;
     clientY: number;
@@ -18,7 +18,7 @@ export interface TooltipContextValue {
     clear: () => void;
     /** Register series data for nearest-point lookup */
     registerSeries: (seriesId: string, data: {
-        x: Date;
+        x: Date | string | number;
         y: number;
     }[]) => void;
     unregisterSeries: (seriesId: string) => void;

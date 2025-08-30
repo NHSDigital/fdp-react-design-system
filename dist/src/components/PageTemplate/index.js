@@ -939,6 +939,7 @@ var Container = ({
   className,
   fluid = false,
   maxWidth,
+  style,
   ...props
 }) => {
   const containerClasses = (0, import_classnames5.default)(
@@ -948,16 +949,17 @@ var Container = ({
     },
     className
   );
-  const style = maxWidth ? { maxWidth } : void 0;
-  return /* @__PURE__ */ jsx5("div", { className: containerClasses, style, ...props, children });
+  const mergedStyle = maxWidth ? { maxWidth, ...style || {} } : style;
+  return /* @__PURE__ */ jsx5("div", { className: containerClasses, style: mergedStyle, ...props, children });
 };
 var Row = ({
   children,
   className,
+  style,
   ...props
 }) => {
   const rowClasses = (0, import_classnames5.default)("nhsuk-grid-row", className);
-  return /* @__PURE__ */ jsx5("div", { className: rowClasses, ...props, children });
+  return /* @__PURE__ */ jsx5("div", { className: rowClasses, style, ...props, children });
 };
 var Column = ({
   children,
@@ -968,6 +970,7 @@ var Column = ({
   start,
   className,
   forceWidth = false,
+  style,
   ...props
 }) => {
   const columnClasses = (0, import_classnames5.default)(
@@ -985,7 +988,7 @@ var Column = ({
     },
     className
   );
-  return /* @__PURE__ */ jsx5("div", { className: columnClasses, ...props, children });
+  return /* @__PURE__ */ jsx5("div", { className: columnClasses, style, ...props, children });
 };
 
 // src/components/WidthContainer/WidthContainer.tsx

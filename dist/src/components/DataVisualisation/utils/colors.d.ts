@@ -15,6 +15,12 @@ export declare function getSeverityColor(id: string): string | undefined;
 export declare function pickSeverityColor(id: string, fallbackIndex: number): string;
 export declare function getSeverityStroke(id: string): string | undefined;
 export declare function pickSeverityStroke(id: string, fallbackIndex: number): string;
+export declare const ORG_LEVEL_IDS: readonly ["trust", "ambulance", "icb", "region"];
+export type OrgLevelId = typeof ORG_LEVEL_IDS[number];
+export declare function getOrgLevelColor(id: string): string | undefined;
+export declare function pickOrgLevelColor(id: string, fallbackIndex: number): string;
+export declare function getOrgLevelStroke(id: string): string | undefined;
+export declare function pickOrgLevelStroke(id: string, fallbackIndex: number): string;
 export declare const REGION_IDS: readonly ["north-east", "north-west", "east-of-england", "midlands", "london", "south-west", "south-east"];
 export type RegionId = typeof REGION_IDS[number];
 export declare function normalizeRegionId(id: string): string;
@@ -27,7 +33,7 @@ export declare function invalidateColorCaches(options?: {
     strokes?: boolean;
 }): void;
 export interface AssignColorOptions {
-    palette?: 'categorical' | 'region';
+    palette?: 'categorical' | 'region' | 'severity' | 'org-level';
     random?: boolean;
 }
 export declare function assignSeriesColors<T extends {

@@ -6,10 +6,12 @@ export interface ContainerProps {
     className?: string;
     fluid?: boolean;
     maxWidth?: string;
+    style?: React.CSSProperties;
 }
 export interface RowProps {
     children: React.ReactNode;
     className?: string;
+    style?: React.CSSProperties;
 }
 export interface ColumnProps {
     children: React.ReactNode;
@@ -20,8 +22,10 @@ export interface ColumnProps {
     start?: number;
     className?: string;
     forceWidth?: boolean;
+    style?: React.CSSProperties;
 }
 export interface GridProps {
     children: React.ReactNode;
     className?: string;
+    style?: React.CSSProperties;
 }

@@ -1,6 +1,6 @@
 {
   "name": "@fergusbisset/nhs-fdp-design-system",
-  "version": "0.0.33-alpha.3",
+  "version": "0.1.1",
   "description": "NHS FDP Frontend Development Platform Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
@@ -137,7 +137,9 @@
     "./components/NavigationSplitView/css": "./dist/components/NavigationSplitView/NavigationSplitView.css",
     "./components/PageTemplate/css": "./dist/components/MainWrapper/MainWrapper.css",
     "./components/TransactionalPageTemplate/css": "./dist/components/MainWrapper/MainWrapper.css",
-    "./components/WidthContainer/css": "./dist/components/Grid/Grid.css"
+    "./components/WidthContainer/css": "./dist/components/Grid/Grid.css",
+    "./components/DataVisualisation/charts/SPCChart/SPCChart/css": "./dist/components/DataVisualisation/charts/SPCChart/SPCChart.css",
+    "./components/SlotMatrix/css": "./dist/components/SlotMatrix/SlotMatrix.css"
   },
   "sideEffects": [
     "dist/**/*.css"

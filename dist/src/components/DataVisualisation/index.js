@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames5() {
+      function classNames6() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames5.apply(null, arg);
+          return classNames6.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,20 +71,20 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames5.default = classNames5;
-        module.exports = classNames5;
+        classNames6.default = classNames6;
+        module.exports = classNames6;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames5;
+          return classNames6;
         });
       } else {
-        window.classNames = classNames5;
+        window.classNames = classNames6;
       }
     })();
   }
 });
 
-// src/components/DataVisualisation/primitives/ChartContainer.tsx
+// src/components/DataVisualisation/charts/ChartContainer.tsx
 import * as React from "react";
 
 // node_modules/clsx/dist/clsx.mjs
@@ -103,7 +103,7 @@ function clsx() {
 }
 var clsx_default = clsx;
 
-// src/components/DataVisualisation/primitives/ChartContainer.tsx
+// src/components/DataVisualisation/charts/ChartContainer.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
 var ChartContainer = ({
   title,
@@ -174,7 +174,7 @@ var ChartContainer = ({
 };
 var ChartContainer_default = ChartContainer;
 
-// src/components/DataVisualisation/charts/LineChart.tsx
+// src/components/DataVisualisation/charts/LineChart/LineChart.tsx
 import * as React10 from "react";
 
 // node_modules/d3-array/src/ascending.js
@@ -2776,7 +2776,21 @@ function createXTimeScale(data, accessor, range2) {
 }
 function createYLinearScale(data, accessor, range2) {
   const [min, max] = extent(data, accessor);
-  return linear2().domain([Math.min(0, min != null ? min : 0), max != null ? max : 0]).nice().range(range2);
+  const hasData = Number.isFinite(min) && Number.isFinite(max);
+  if (!hasData) {
+    return linear2().domain([0, 0]).range(range2);
+  }
+  let lower;
+  if (min <= 0) {
+    lower = Math.min(0, min);
+  } else {
+    const span = max - min;
+    const pad2 = (span > 0 ? span : min) * 0.1;
+    lower = Math.max(0, min - pad2);
+    if (lower === min) lower = Math.max(0, min * 0.9);
+  }
+  const upper = max != null ? max : 0;
+  return linear2().domain([lower, upper]).nice().range(range2);
 }
 function createLinePath(data, x2, y2, options) {
   var _a;
@@ -2853,7 +2867,10 @@ var LineScalesProvider = ({
   parseX: parseXProp,
   children,
   xTickCount = 6,
-  yTickCount = 5
+  yTickCount = 5,
+  yDomain,
+  xPadding,
+  yPadding
 }) => {
   var _a, _b;
   const chartDims = useChartContext();
@@ -2865,8 +2882,17 @@ var LineScalesProvider = ({
     const raw = d.x;
     return raw instanceof Date ? raw : new Date(raw);
   }, [parseXProp]);
-  const xScale = React4.useMemo(() => createXTimeScale(allData, parseX, [0, innerWidth]), [allData, parseX, innerWidth]);
-  const yScale = React4.useMemo(() => createYLinearScale(allData, (d) => d.y, [innerHeight, 0]), [allData, innerHeight]);
+  const xPad = xPadding != null ? xPadding : 6;
+  const yPad = yPadding != null ? yPadding : 6;
+  const xScale = React4.useMemo(() => createXTimeScale(allData, parseX, [xPad, Math.max(0, innerWidth - xPad)]), [allData, parseX, innerWidth, xPad]);
+  const yScale = React4.useMemo(() => {
+    if (yDomain) {
+      const scale = createYLinearScale([], (d) => d.y, [Math.max(0, innerHeight - yPad), yPad]);
+      scale.domain(yDomain);
+      return scale;
+    }
+    return createYLinearScale(allData, (d) => d.y, [Math.max(0, innerHeight - yPad), yPad]);
+  }, [allData, innerHeight, yDomain]);
   const value = React4.useMemo(() => ({
     xScale,
     yScale,
@@ -2877,7 +2903,7 @@ var LineScalesProvider = ({
 };
 var ScaleContext_default = ScaleContext;
 
-// src/components/DataVisualisation/primitives/Axis.tsx
+// src/components/DataVisualisation/charts/Axis/Axis.tsx
 import * as React5 from "react";
 import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
 var Axis = ({
@@ -3042,7 +3068,7 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
 };
 var Axis_default = Axis;
 
-// src/components/DataVisualisation/primitives/GridLines.tsx
+// src/components/DataVisualisation/charts/GridlLines/GridLines.tsx
 import { jsx as jsx5, jsxs as jsxs3 } from "react/jsx-runtime";
 var GridLines = ({
   axis = "y",
@@ -3150,6 +3176,24 @@ var data_viz_default = {
           ambulance: { $value: "#ffffff", $description: "Stroke for ambulance (green fill)" },
           icb: { $value: "#ffffff", $description: "Stroke for ICB (dark pink fill)" },
           region: { $value: "#ffffff", $description: "Stroke for region (purple fill)" }
+        }
+      },
+      spc: {
+        $comment: "SPC (Statistical Process Control) semantic variation colours aligned to SPCChart.scss and SPCIcons.",
+        improvement: { $value: "#00B0F0", $description: "SPC special cause improvement (favourable)" },
+        concern: { $value: "#E46C0A", $description: "SPC special cause concern (deteriorating)" },
+        "no-judgement": { $value: "#490092", $description: "SPC special cause (no directional judgement)" },
+        "common-cause": { $value: "#A6A6A6", $description: "SPC common cause (baseline variation)" },
+        "assurance-pass": { $value: "#00823B", $description: "SPC assurance pass indicator (process capable)" },
+        "assurance-fail": { $value: "#DA291C", $description: "SPC assurance fail indicator (process not capable)" },
+        stroke: {
+          $comment: "Contrast stroke colours for SPC variation fills.",
+          improvement: { $value: "#000000", $description: "Stroke for improvement points" },
+          concern: { $value: "#000000", $description: "Stroke for concern points" },
+          "no-judgement": { $value: "#000000", $description: "Stroke for no-judgement points" },
+          "common-cause": { $value: "#ffffff", $description: "Stroke for common cause points" },
+          "assurance-pass": { $value: "#000000", $description: "Stroke for assurance pass points" },
+          "assurance-fail": { $value: "#000000", $description: "Stroke for assurance fail points" }
         }
       }
     }
@@ -3492,6 +3536,7 @@ function getExtendedCategoricalPalette() {
 var categoricalStrokeMap = null;
 var regionStrokeMap = null;
 var severityStrokeMap = null;
+var orgLevelStrokeMap = null;
 function buildStrokeMaps() {
   var _a, _b, _c, _d, _e;
   const stroke = (_c = (_b = (_a = data_viz_default) == null ? void 0 : _a.color) == null ? void 0 : _b["data-viz"]) == null ? void 0 : _c.stroke;
@@ -3510,6 +3555,13 @@ function buildStrokeMaps() {
       if (typeof v === "string") regionStrokeMap[k] = v;
     });
     const sev = stroke.severity || {};
+    const org = stroke["org-level"] || {};
+    orgLevelStrokeMap = {};
+    Object.keys(org).forEach((k) => {
+      var _a2, _b2;
+      const v = ((_a2 = org[k]) == null ? void 0 : _a2.$value) || ((_b2 = org[k]) == null ? void 0 : _b2.value);
+      if (typeof v === "string") orgLevelStrokeMap[k] = v;
+    });
     severityStrokeMap = {};
     Object.keys(sev).forEach((k) => {
       var _a2, _b2;
@@ -3519,7 +3571,7 @@ function buildStrokeMaps() {
   }
 }
 function ensureStrokeMaps() {
-  if (!categoricalStrokeMap || !regionStrokeMap || !severityStrokeMap) buildStrokeMaps();
+  if (!categoricalStrokeMap || !regionStrokeMap || !severityStrokeMap || !orgLevelStrokeMap) buildStrokeMaps();
 }
 function pickSeriesStroke(i) {
   ensureStrokeMaps();
@@ -3569,6 +3621,43 @@ function getSeverityStroke(id) {
 }
 function pickSeverityStroke(id, fallbackIndex) {
   return getSeverityStroke(id) || pickSeriesStroke(fallbackIndex);
+}
+var ORG_LEVEL_IDS = ["trust", "ambulance", "icb", "region"];
+var orgLevelMap = null;
+function buildOrgLevelMap() {
+  const root = { color: { ...colors_default.color, ...data_viz_default.color } };
+  const resolve = (path2, seen = /* @__PURE__ */ new Set()) => {
+    if (seen.has(path2)) return void 0;
+    seen.add(path2);
+    const node = path2.split(".").reduce((acc, k) => acc ? acc[k] : void 0, root);
+    if (!node) return void 0;
+    const value = node.$value || node.value;
+    if (typeof value === "string" && /^\{.+\}$/.test(value)) return resolve(value.slice(1, -1), seen);
+    return typeof value === "string" ? value : void 0;
+  };
+  const map2 = {};
+  ORG_LEVEL_IDS.forEach((id) => {
+    const hex2 = resolve(`color.data-viz.org-level.${id}`);
+    if (hex2) map2[id] = hex2;
+  });
+  return map2;
+}
+function getOrgLevelMap() {
+  if (!orgLevelMap) orgLevelMap = buildOrgLevelMap();
+  return orgLevelMap;
+}
+function getOrgLevelColor(id) {
+  return getOrgLevelMap()[id.toLowerCase()];
+}
+function pickOrgLevelColor(id, fallbackIndex) {
+  return getOrgLevelColor(id) || getOrgLevelMap()[ORG_LEVEL_IDS[fallbackIndex % ORG_LEVEL_IDS.length]] || pickSeriesColor(fallbackIndex);
+}
+function getOrgLevelStroke(id) {
+  ensureStrokeMaps();
+  return orgLevelStrokeMap ? orgLevelStrokeMap[id] : void 0;
+}
+function pickOrgLevelStroke(id, fallbackIndex) {
+  return getOrgLevelStroke(id) || pickSeriesStroke(fallbackIndex);
 }
 var regionMap = null;
 var REGION_IDS = [
@@ -3622,8 +3711,8 @@ function pickRegionColor(id, fallbackIndex) {
 }
 function assignSeriesColors(series, { palette = "categorical", random = false } = {}) {
   const copy2 = series.map((s) => ({ ...s }));
-  const paletteValues = palette === "region" ? copy2.map((s, i) => pickRegionColor(s.id, i)) : series.length > getOptimizedCategoricalPalette().length ? getExtendedCategoricalPalette() : categoricalStrategy === "optimized" ? getOptimizedCategoricalPalette() : getRawCategoricalPalette();
-  let order = palette === "region" ? copy2.map((_, i) => i) : [...Array(paletteValues.length).keys()];
+  const paletteValues = palette === "region" ? copy2.map((s, i) => pickRegionColor(s.id, i)) : palette === "severity" ? copy2.map((s, i) => pickSeverityColor(s.id, i)) : palette === "org-level" ? copy2.map((s, i) => pickOrgLevelColor(s.id, i)) : series.length > getOptimizedCategoricalPalette().length ? getExtendedCategoricalPalette() : categoricalStrategy === "optimized" ? getOptimizedCategoricalPalette() : getRawCategoricalPalette();
+  let order = palette === "region" ? copy2.map((_, i) => i) : palette === "severity" ? copy2.map((_, i) => i) : palette === "org-level" ? copy2.map((_, i) => i) : [...Array(paletteValues.length).keys()];
   if (random) {
     for (let i = order.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -3685,101 +3774,156 @@ import * as React7 from "react";
 import { jsx as jsx7 } from "react/jsx-runtime";
 var TooltipContext = React7.createContext(null);
 var useTooltipContext = () => React7.useContext(TooltipContext);
-var TooltipProvider = ({ children, maxDistance = 40, wrapAround = false }) => {
+var TooltipProvider = ({
+  children,
+  maxDistance = 40,
+  wrapAround = false
+}) => {
   const scaleCtx = useScaleContext();
   const visibility = useVisibility();
   const [focused, setFocused] = React7.useState(null);
   const seriesRef = React7.useRef(/* @__PURE__ */ new Map());
   const [aggregated, setAggregated] = React7.useState([]);
-  const registerSeries = React7.useCallback((seriesId, data) => {
-    seriesRef.current.set(seriesId, data);
-  }, []);
+  const registerSeries = React7.useCallback(
+    (seriesId, data) => {
+      seriesRef.current.set(seriesId, data);
+    },
+    []
+  );
   const unregisterSeries = React7.useCallback((seriesId) => {
     seriesRef.current.delete(seriesId);
   }, []);
-  const focusNearest = React7.useCallback((plotX, plotY) => {
-    if (!scaleCtx) return;
-    const { xScale, yScale } = scaleCtx;
-    let best = null;
-    let bestDist = Infinity;
-    seriesRef.current.forEach((data, sid) => {
-      data.forEach((d, i) => {
-        const px = xScale(d.x);
-        const py = yScale(d.y);
-        const dx = px - plotX;
-        const dy = py - plotY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < bestDist) {
-          bestDist = dist;
-          best = { seriesId: sid, index: i, x: d.x, y: d.y, clientX: px, clientY: py };
-        }
+  const focusNearest = React7.useCallback(
+    (plotX, plotY) => {
+      if (!scaleCtx) return;
+      const { xScale, yScale } = scaleCtx;
+      let best = null;
+      let bestDist = Infinity;
+      seriesRef.current.forEach((data, sid) => {
+        data.forEach((d, i) => {
+          const px = xScale(d.x);
+          const py = yScale(d.y);
+          const dx = px - plotX;
+          const dy = py - plotY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < bestDist) {
+            bestDist = dist;
+            best = {
+              seriesId: sid,
+              index: i,
+              x: d.x,
+              y: d.y,
+              clientX: px,
+              clientY: py
+            };
+          }
+        });
       });
-    });
-    if (best && bestDist <= maxDistance) setFocused(best);
-    else setFocused(null);
-  }, [scaleCtx, maxDistance]);
+      if (best && bestDist <= maxDistance) setFocused(best);
+      else setFocused(null);
+    },
+    [scaleCtx, maxDistance]
+  );
   const clear = React7.useCallback(() => setFocused(null), []);
   React7.useEffect(() => {
     if (!focused) {
       setAggregated([]);
       return;
     }
-    const targetTime = focused.x.getTime();
     if (!scaleCtx) return;
     const { xScale, yScale } = scaleCtx;
     const agg = [];
     seriesRef.current.forEach((data, sid) => {
       data.forEach((d, i) => {
-        if (d.x.getTime() === targetTime) {
-          agg.push({ seriesId: sid, index: i, x: d.x, y: d.y, clientX: xScale(d.x), clientY: yScale(d.y) });
+        const match = (() => {
+          if (focused.x instanceof Date && d.x instanceof Date)
+            return d.x.getTime() === focused.x.getTime();
+          return d.x === focused.x;
+        })();
+        if (match) {
+          agg.push({
+            seriesId: sid,
+            index: i,
+            x: d.x,
+            y: d.y,
+            clientX: xScale(d.x),
+            clientY: yScale(d.y)
+          });
         }
       });
     });
     agg.sort((a, b) => a.seriesId.localeCompare(b.seriesId));
     setAggregated(agg);
   }, [focused, scaleCtx]);
-  const focusRelativePoint = React7.useCallback((delta) => {
-    if (!focused) return;
-    const data = seriesRef.current.get(focused.seriesId);
-    if (!data) return;
-    let nextIndex = focused.index + delta;
-    if (nextIndex < 0 || nextIndex >= data.length) {
-      if (!wrapAround) return;
-      nextIndex = (nextIndex + data.length) % data.length;
-    }
-    const d = data[nextIndex];
-    if (!scaleCtx) return;
-    const { xScale, yScale } = scaleCtx;
-    setFocused({ seriesId: focused.seriesId, index: nextIndex, x: d.x, y: d.y, clientX: xScale(d.x), clientY: yScale(d.y) });
-  }, [focused, scaleCtx, wrapAround]);
-  const focusSeriesAtIndex = React7.useCallback((seriesDelta) => {
-    let ids = Array.from(seriesRef.current.keys());
-    if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
-    if (ids.length === 0) return;
-    if (!focused) {
-      const first = ids[0];
-      const data = seriesRef.current.get(first);
-      if (!data || !scaleCtx) return;
-      const { xScale: xScale2, yScale: yScale2 } = scaleCtx;
-      const d2 = data[0];
-      setFocused({ seriesId: first, index: 0, x: d2.x, y: d2.y, clientX: xScale2(d2.x), clientY: yScale2(d2.y) });
-      return;
-    }
-    const currentSeriesIdx = ids.indexOf(focused.seriesId);
-    if (currentSeriesIdx === -1) return;
-    let nextSeriesIdx = currentSeriesIdx + seriesDelta;
-    if (nextSeriesIdx < 0 || nextSeriesIdx >= ids.length) {
-      if (!wrapAround) return;
-      nextSeriesIdx = (nextSeriesIdx + ids.length) % ids.length;
-    }
-    const nextSeriesId = ids[nextSeriesIdx];
-    const nextData = seriesRef.current.get(nextSeriesId);
-    if (!nextData || !scaleCtx) return;
-    const idx = Math.min(focused.index, nextData.length - 1);
-    const d = nextData[idx];
-    const { xScale, yScale } = scaleCtx;
-    setFocused({ seriesId: nextSeriesId, index: idx, x: d.x, y: d.y, clientX: xScale(d.x), clientY: yScale(d.y) });
-  }, [focused, scaleCtx, wrapAround, visibility]);
+  const focusRelativePoint = React7.useCallback(
+    (delta) => {
+      if (!focused) return;
+      const data = seriesRef.current.get(focused.seriesId);
+      if (!data) return;
+      let nextIndex = focused.index + delta;
+      if (nextIndex < 0 || nextIndex >= data.length) {
+        if (!wrapAround) return;
+        nextIndex = (nextIndex + data.length) % data.length;
+      }
+      const d = data[nextIndex];
+      if (!scaleCtx) return;
+      const { xScale, yScale } = scaleCtx;
+      setFocused({
+        seriesId: focused.seriesId,
+        index: nextIndex,
+        x: d.x,
+        y: d.y,
+        clientX: xScale(d.x),
+        clientY: yScale(d.y)
+      });
+    },
+    [focused, scaleCtx, wrapAround]
+  );
+  const focusSeriesAtIndex = React7.useCallback(
+    (seriesDelta) => {
+      let ids = Array.from(seriesRef.current.keys());
+      if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
+      if (ids.length === 0) return;
+      if (!focused) {
+        const first = ids[0];
+        const data = seriesRef.current.get(first);
+        if (!data || !scaleCtx) return;
+        const { xScale: xScale2, yScale: yScale2 } = scaleCtx;
+        const d2 = data[0];
+        setFocused({
+          seriesId: first,
+          index: 0,
+          x: d2.x,
+          y: d2.y,
+          clientX: xScale2(d2.x),
+          clientY: yScale2(d2.y)
+        });
+        return;
+      }
+      const currentSeriesIdx = ids.indexOf(focused.seriesId);
+      if (currentSeriesIdx === -1) return;
+      let nextSeriesIdx = currentSeriesIdx + seriesDelta;
+      if (nextSeriesIdx < 0 || nextSeriesIdx >= ids.length) {
+        if (!wrapAround) return;
+        nextSeriesIdx = (nextSeriesIdx + ids.length) % ids.length;
+      }
+      const nextSeriesId = ids[nextSeriesIdx];
+      const nextData = seriesRef.current.get(nextSeriesId);
+      if (!nextData || !scaleCtx) return;
+      const idx = Math.min(focused.index, nextData.length - 1);
+      const d = nextData[idx];
+      const { xScale, yScale } = scaleCtx;
+      setFocused({
+        seriesId: nextSeriesId,
+        index: idx,
+        x: d.x,
+        y: d.y,
+        clientX: xScale(d.x),
+        clientY: yScale(d.y)
+      });
+    },
+    [focused, scaleCtx, wrapAround, visibility]
+  );
   const focusFirstPoint = React7.useCallback(() => {
     let ids = Array.from(seriesRef.current.keys());
     if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
@@ -3789,7 +3933,14 @@ var TooltipProvider = ({ children, maxDistance = 40, wrapAround = false }) => {
     if (!data || data.length === 0 || !scaleCtx) return;
     const d = data[0];
     const { xScale, yScale } = scaleCtx;
-    setFocused({ seriesId: targetSeriesId, index: 0, x: d.x, y: d.y, clientX: xScale(d.x), clientY: yScale(d.y) });
+    setFocused({
+      seriesId: targetSeriesId,
+      index: 0,
+      x: d.x,
+      y: d.y,
+      clientX: xScale(d.x),
+      clientY: yScale(d.y)
+    });
   }, [focused, scaleCtx, visibility]);
   const focusLastPoint = React7.useCallback(() => {
     let ids = Array.from(seriesRef.current.keys());
@@ -3801,27 +3952,62 @@ var TooltipProvider = ({ children, maxDistance = 40, wrapAround = false }) => {
     const lastIndex = data.length - 1;
     const d = data[lastIndex];
     const { xScale, yScale } = scaleCtx;
-    setFocused({ seriesId: targetSeriesId, index: lastIndex, x: d.x, y: d.y, clientX: xScale(d.x), clientY: yScale(d.y) });
+    setFocused({
+      seriesId: targetSeriesId,
+      index: lastIndex,
+      x: d.x,
+      y: d.y,
+      clientX: xScale(d.x),
+      clientY: yScale(d.y)
+    });
   }, [focused, scaleCtx, visibility]);
-  const focusNextPoint = React7.useCallback(() => focusRelativePoint(1), [focusRelativePoint]);
-  const focusPrevPoint = React7.useCallback(() => focusRelativePoint(-1), [focusRelativePoint]);
-  const focusNextSeries = React7.useCallback(() => focusSeriesAtIndex(1), [focusSeriesAtIndex]);
-  const focusPrevSeries = React7.useCallback(() => focusSeriesAtIndex(-1), [focusSeriesAtIndex]);
-  const value = React7.useMemo(() => ({
-    focused,
-    setFocused,
-    aggregated,
-    focusNearest,
-    clear,
-    registerSeries,
-    unregisterSeries,
-    focusNextPoint,
-    focusPrevPoint,
-    focusNextSeries,
-    focusPrevSeries,
-    focusFirstPoint,
-    focusLastPoint
-  }), [focused, aggregated, focusNearest, clear, registerSeries, unregisterSeries, focusNextPoint, focusPrevPoint, focusNextSeries, focusPrevSeries, focusFirstPoint, focusLastPoint]);
+  const focusNextPoint = React7.useCallback(
+    () => focusRelativePoint(1),
+    [focusRelativePoint]
+  );
+  const focusPrevPoint = React7.useCallback(
+    () => focusRelativePoint(-1),
+    [focusRelativePoint]
+  );
+  const focusNextSeries = React7.useCallback(
+    () => focusSeriesAtIndex(1),
+    [focusSeriesAtIndex]
+  );
+  const focusPrevSeries = React7.useCallback(
+    () => focusSeriesAtIndex(-1),
+    [focusSeriesAtIndex]
+  );
+  const value = React7.useMemo(
+    () => ({
+      focused,
+      setFocused,
+      aggregated,
+      focusNearest,
+      clear,
+      registerSeries,
+      unregisterSeries,
+      focusNextPoint,
+      focusPrevPoint,
+      focusNextSeries,
+      focusPrevSeries,
+      focusFirstPoint,
+      focusLastPoint
+    }),
+    [
+      focused,
+      aggregated,
+      focusNearest,
+      clear,
+      registerSeries,
+      unregisterSeries,
+      focusNextPoint,
+      focusPrevPoint,
+      focusNextSeries,
+      focusPrevSeries,
+      focusFirstPoint,
+      focusLastPoint
+    ]
+  );
   return /* @__PURE__ */ jsx7(TooltipContext.Provider, { value, children });
 };
 
@@ -3884,7 +4070,7 @@ var LineSeriesPrimitive = ({
           r: isFocusedPoint ? 5 : 3.5,
           stroke: isFocusedPoint ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : stroke,
           strokeWidth: isFocusedPoint ? 2 : 1,
-          fill: color2,
+          fill: isFocusedPoint ? "var(--nhs-fdp-color-grey-3, #aeb7bd)" : color2,
           className: "fdp-line-point",
           tabIndex: faded ? -1 : tabIndex,
           "aria-label": `${series.label || series.id} ${parseX(d).toDateString()} value ${d.y}`,
@@ -3915,7 +4101,8 @@ var VisuallyHiddenLiveRegion = ({ polite = true, format: format2 }) => {
     let msg;
     if (aggregated && aggregated.length > 1) {
       const parts = aggregated.map((a) => `${a.seriesId} ${a.y}`).join("; ");
-      msg = `${focused.x.toDateString()} \u2013 ${parts}`;
+      const xLabel = focused.x instanceof Date ? focused.x.toDateString() : String(focused.x);
+      msg = `${xLabel} \u2013 ${parts}`;
     } else {
       msg = format2 ? format2({ seriesId: focused.seriesId, x: focused.x, y: focused.y, index: focused.index }) : defaultFormatter(focused.seriesId, focused.x, focused.y, focused.index);
     }
@@ -3937,7 +4124,8 @@ var VisuallyHiddenLiveRegion = ({ polite = true, format: format2 }) => {
   );
 };
 function defaultFormatter(seriesId, x2, y2, index) {
-  return `Series ${seriesId}, point ${index + 1}, ${x2.toDateString()}, value ${y2}`;
+  const xLabel = x2 instanceof Date ? x2.toDateString() : String(x2);
+  return `Series ${seriesId}, point ${index + 1}, ${xLabel}, value ${y2}`;
 }
 var VisuallyHiddenLiveRegion_default = VisuallyHiddenLiveRegion;
 
@@ -3954,7 +4142,8 @@ var TooltipOverlay = () => {
   const bgX = clampX + 8;
   const bgY = clampY - 8;
   const multi = aggregated.length > 1;
-  const label = multi ? focused.x.toDateString() : `${focused.x.toDateString()} \u2022 ${focused.y}`;
+  const dateLabel = focused.x instanceof Date ? focused.x.toDateString() : String(focused.x);
+  const label = multi ? dateLabel : `${dateLabel} \u2022 ${focused.y}`;
   const idDigits = /\d+$/.exec(focused.seriesId || "");
   const seriesIdx = idDigits ? parseInt(idDigits[0], 10) - 1 : 0;
   const seriesColor = pickSeriesColor(seriesIdx >= 0 ? seriesIdx : 0) || "#005eb8";
@@ -3982,7 +4171,7 @@ var TooltipOverlay = () => {
 };
 var TooltipOverlay_default = TooltipOverlay;
 
-// src/components/DataVisualisation/charts/LineChart.tsx
+// src/components/DataVisualisation/charts/LineChart/LineChart.tsx
 import { jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
 var InternalLineChart = ({
   series,
@@ -4746,7 +4935,7 @@ var Table = ({
 };
 var Table_default = Table;
 
-// src/components/DataVisualisation/ChartWithTableTabs.tsx
+// src/components/DataVisualisation/charts/ChartWithTableTabs/ChartWithTableTabs.tsx
 import { jsx as jsx17, jsxs as jsxs10 } from "react/jsx-runtime";
 var ChartWithTableTabs = ({
   chart,
@@ -4896,7 +5085,7 @@ var ChartWithTableTabs = ({
 };
 var ChartWithTableTabs_default = ChartWithTableTabs;
 
-// src/components/DataVisualisation/primitives/Legend.tsx
+// src/components/DataVisualisation/charts/Legend/Legend.tsx
 import * as React14 from "react";
 import { jsx as jsx18, jsxs as jsxs11 } from "react/jsx-runtime";
 var Legend = ({
@@ -4945,8 +5134,8 @@ var Legend = ({
   return /* @__PURE__ */ jsxs11("div", { className: "fdp-legend-wrapper", children: [
     /* @__PURE__ */ jsx18("ul", { className: `fdp-legend fdp-legend--${direction}`, children: items.map((item, i) => {
       const effectivePalette = item.palette || palette;
-      const fill = item.color || (effectivePalette === "region" ? pickRegionColor(item.id, i) : effectivePalette === "severity" ? pickSeverityColor(item.id, i) : pickSeriesColor(i));
-      let stroke = item.stroke || (effectivePalette === "region" ? pickRegionStroke(item.id, i) : effectivePalette === "severity" ? pickSeverityStroke(item.id, i) : pickSeriesStroke(i));
+      const fill = item.color || (effectivePalette === "region" ? pickRegionColor(item.id, i) : effectivePalette === "severity" ? pickSeverityColor(item.id, i) : effectivePalette === "org-level" ? pickOrgLevelColor(item.id, i) : pickSeriesColor(i));
+      let stroke = item.stroke || (effectivePalette === "region" ? pickRegionStroke(item.id, i) : effectivePalette === "severity" ? pickSeverityStroke(item.id, i) : effectivePalette === "org-level" ? pickOrgLevelStroke(item.id, i) : pickSeriesStroke(i));
       if (adjustStrokeForWhiteBackground && stroke) {
         const norm = stroke.trim().toLowerCase();
         if (norm === "#fff" || norm === "#ffffff" || norm === "white" || /^rgb\(\s*255\s*,\s*255\s*,\s*255\s*\)$/.test(norm)) {
@@ -4965,7 +5154,12 @@ var Legend = ({
           {
             type: "button",
             className: "fdp-legend__swatch",
-            style: { background: fill, borderColor: stroke },
+            style: {
+              backgroundColor: fill,
+              backgroundImage: item.patternDataUrl ? `url(${item.patternDataUrl})` : void 0,
+              backgroundSize: item.patternDataUrl ? "auto" : void 0,
+              borderColor: stroke
+            },
             ...btnProps
           }
         ),
@@ -5011,7 +5205,7 @@ var FilterableLineChart = ({
       items: legendItems,
       interactive: true,
       hiddenIds: Array.from(hiddenSet),
-      onVisibilityChange: handleVisibilityChange
+      onVisibilityChange: (visible, hidden) => handleVisibilityChange(visible, hidden)
     }
   );
   return /* @__PURE__ */ jsxs12("div", { className: "fdp-filterable-line-chart", children: [
@@ -5033,7 +5227,8 @@ var AreaSeriesPrimitive = ({
   areaOnly = false,
   visibilityMode = "remove",
   baselineY = 0,
-  smooth = true
+  smooth = true,
+  stacked
 }) => {
   var _a;
   const scaleCtx = useScaleContext();
@@ -5053,10 +5248,15 @@ var AreaSeriesPrimitive = ({
   const color2 = series.color || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
   const linePath = React16.useMemo(() => createLinePath(series.data, (d) => xScale(parseX(d)), (d) => yScale(d.y), { smooth }), [series.data, xScale, yScale, parseX, smooth]);
   const areaPath = React16.useMemo(() => {
+    if (stacked && stacked.length === series.data.length) {
+      const gen2 = area_default().x((d) => xScale(parseX(d))).y0((_, i) => yScale(stacked[i].y0)).y1((_, i) => yScale(stacked[i].y1));
+      if (smooth) gen2.curve(monotoneX);
+      return gen2(series.data) || "";
+    }
     const gen = area_default().x((d) => xScale(parseX(d))).y0(() => yScale(baselineY)).y1((d) => yScale(d.y));
     if (smooth) gen.curve(monotoneX);
     return gen(series.data) || "";
-  }, [series.data, xScale, yScale, parseX, baselineY, smooth]);
+  }, [series.data, stacked, xScale, yScale, parseX, baselineY, smooth]);
   return /* @__PURE__ */ jsxs13("g", { className: "fdp-area-series", "data-series": series.id, opacity: faded ? 0.25 : 1, "aria-hidden": faded ? true : void 0, children: [
     /* @__PURE__ */ jsx20("path", { d: areaPath, fill: color2, fillOpacity: 0.25, stroke: "none" }),
     !areaOnly && /* @__PURE__ */ jsx20("path", { d: linePath, fill: "none", stroke: color2, strokeWidth: 1 })
@@ -5081,9 +5281,13 @@ var BarSeriesPrimitive = ({
   adaptiveGroupOccupancy = 0.9,
   visibilityMode = "remove",
   colorMode = "series",
-  allSeries
+  allSeries,
+  stacked,
+  gapRatio = 0.15,
+  minBarWidth
 }) => {
   var _a;
+  const effectiveGapRatio = Math.max(0, gapRatio);
   const scaleCtx = useScaleContext();
   const chartDims = useChartContext();
   if (!scaleCtx || !chartDims) return null;
@@ -5119,7 +5323,7 @@ var BarSeriesPrimitive = ({
     const median = diffs[Math.floor(diffs.length / 2)] || 40;
     return median * widthFactor;
   }, [series.data, allSeries, xScale, parseX, widthFactor, bandwidth]);
-  const { groupTotalWidth, basePerBar } = React17.useMemo(() => {
+  const { basePerBar } = React17.useMemo(() => {
     var _a2, _b;
     if (isBandScale) {
       const bw = inferredPixelWidth;
@@ -5131,8 +5335,7 @@ var BarSeriesPrimitive = ({
         const adaptedPerBar = Math.max(1, (targetGroup - groupGap * (seriesCount - 1)) / seriesCount);
         finalPerBar = explicit2 ? Math.min(finalPerBar, adaptedPerBar) : adaptedPerBar;
       }
-      const total2 = finalPerBar * seriesCount + groupGap * (seriesCount - 1);
-      return { groupTotalWidth: total2, basePerBar: finalPerBar };
+      return { basePerBar: finalPerBar };
     }
     const explicit = (_b = series.barWidth) != null ? _b : barWidth;
     const maxAutoPer = Math.max(1, (inferredPixelWidth - groupGap * (seriesCount - 1)) / seriesCount);
@@ -5151,16 +5354,13 @@ var BarSeriesPrimitive = ({
       const targetGroup = step * Math.min(1, Math.max(0.05, adaptiveGroupOccupancy));
       const adaptivePer = Math.max(1, (targetGroup - groupGap * (seriesCount - 1)) / seriesCount);
       const finalPer = explicit ? Math.min(explicit, adaptivePer) : adaptivePer;
-      const total2 = finalPer * seriesCount + groupGap * (seriesCount - 1);
-      return { groupTotalWidth: total2, basePerBar: finalPer };
+      return { basePerBar: finalPer };
     }
     if (explicit) {
       const finalPer = Math.min(explicit, maxAutoPer);
-      const total2 = finalPer * seriesCount + groupGap * (seriesCount - 1);
-      return { groupTotalWidth: total2, basePerBar: finalPer };
+      return { basePerBar: finalPer };
     }
-    const total = maxAutoPer * seriesCount + groupGap * (seriesCount - 1);
-    return { groupTotalWidth: total, basePerBar: maxAutoPer };
+    return { basePerBar: maxAutoPer };
   }, [isBandScale, inferredPixelWidth, groupGap, seriesCount, barWidth, series.barWidth, adaptive, adaptiveGroupOccupancy, allSeries, xScale, parseX]);
   const globalCenters = React17.useMemo(() => {
     if (isBandScale) return [];
@@ -5173,33 +5373,134 @@ var BarSeriesPrimitive = ({
     pts.sort((a, b) => a - b);
     return Array.from(new Set(pts));
   }, [isBandScale, allSeries, series, xScale, parseX]);
-  const uniformContinuousBarWidth = React17.useMemo(() => {
-    if (isBandScale) return void 0;
-    if (!globalCenters.length) return basePerBar;
-    const steps = [];
-    for (let i = 1; i < globalCenters.length; i++) steps.push(globalCenters[i] - globalCenters[i - 1]);
-    steps.sort((a, b) => a - b);
-    const medianStep = steps.length ? steps[Math.floor(steps.length / 2)] : basePerBar * seriesCount + groupGap * (seriesCount - 1);
-    const pseudoFirstPrev = globalCenters[0] - medianStep;
-    const pseudoLastNext = globalCenters[globalCenters.length - 1] + medianStep;
-    const localSpans = [];
+  const continuousSlots = React17.useMemo(() => {
+    if (isBandScale) return [];
+    if (!globalCenters.length) return [];
+    if (globalCenters.length === 1) {
+      return [{ center: globalCenters[0], left: 0, right: chartDims.innerWidth }];
+    }
+    const slots = [];
     for (let i = 0; i < globalCenters.length; i++) {
       const c = globalCenters[i];
-      const prev = i > 0 ? globalCenters[i - 1] : pseudoFirstPrev;
-      const next = i < globalCenters.length - 1 ? globalCenters[i + 1] : pseudoLastNext;
-      const leftBound = (prev + c) / 2;
-      const rightBound = (c + next) / 2;
-      localSpans.push(Math.max(1, rightBound - leftBound));
+      const left = i === 0 ? 0 : (globalCenters[i - 1] + c) / 2;
+      const right = i === globalCenters.length - 1 ? chartDims.innerWidth : (c + globalCenters[i + 1]) / 2;
+      slots.push({ center: c, left: Math.max(0, left), right: Math.min(chartDims.innerWidth, right) });
     }
-    const minLocalSpan = Math.min(...localSpans);
-    const desiredGroupWidth = medianStep * Math.min(1, Math.max(0.05, adaptiveGroupOccupancy));
-    const finalGroupWidth = Math.min(desiredGroupWidth, minLocalSpan - 0.5, groupTotalWidth);
-    const per = Math.max(1, (finalGroupWidth - groupGap * (seriesCount - 1)) / seriesCount);
-    return Math.min(per, basePerBar);
-  }, [isBandScale, globalCenters, basePerBar, groupTotalWidth, seriesCount, groupGap, adaptiveGroupOccupancy]);
+    return slots;
+  }, [isBandScale, globalCenters, chartDims.innerWidth]);
+  const continuousUniforms = React17.useMemo(() => {
+    if (isBandScale || !continuousSlots.length) return void 0;
+    const occupancy = Math.min(1, Math.max(0.05, widthFactor));
+    const slotSpans = continuousSlots.map((s) => Math.max(2, s.right - s.left));
+    const candidates = slotSpans.map((span) => Math.max(2, Math.min(span - 1, span * occupancy)));
+    let uniformGroupWidth = Math.min(...candidates);
+    if (minBarWidth) {
+      if (seriesCount <= 1) {
+        const maxFeasible = Math.min(...slotSpans.map((span) => span - 1));
+        if (maxFeasible >= minBarWidth && uniformGroupWidth < minBarWidth) {
+          uniformGroupWidth = Math.min(maxFeasible, minBarWidth);
+        }
+      } else {
+        const maxFeasibleGroup = Math.min(...slotSpans.map((span) => span - 1));
+        const requiredGroupForMin = minBarWidth * seriesCount + (seriesCount - 1) * (minBarWidth * effectiveGapRatio);
+        if (requiredGroupForMin <= maxFeasibleGroup && uniformGroupWidth < requiredGroupForMin) {
+          uniformGroupWidth = requiredGroupForMin;
+        }
+      }
+    }
+    if (seriesCount <= 1) {
+      if (minBarWidth && uniformGroupWidth < minBarWidth) {
+        const canAllFit = slotSpans.every((span) => span >= minBarWidth);
+        if (canAllFit) return { groupWidth: minBarWidth, barWidth: minBarWidth };
+      }
+      return { groupWidth: uniformGroupWidth, barWidth: uniformGroupWidth };
+    }
+    let b = uniformGroupWidth / (seriesCount + (seriesCount - 1) * effectiveGapRatio);
+    if (b < 1) b = 1;
+    if (minBarWidth && b < minBarWidth) {
+      const requiredGroup = minBarWidth * seriesCount + (seriesCount - 1) * (minBarWidth * effectiveGapRatio);
+      if (requiredGroup <= uniformGroupWidth) {
+        b = minBarWidth;
+      }
+    }
+    const groupWidth = b * seriesCount + (seriesCount - 1) * (b * effectiveGapRatio);
+    return { groupWidth, barWidth: b };
+  }, [isBandScale, continuousSlots, widthFactor, seriesCount, effectiveGapRatio, minBarWidth]);
   const baseSeriesColor = series.color || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
   const baseSeriesStroke = palette === "region" ? pickRegionStroke(series.id, seriesIndex) : pickSeriesStroke(seriesIndex);
   const baselineY = Number.isFinite(yScale(0)) ? yScale(0) : yScale.range()[0];
+  if (stacked && stacked.length === series.data.length) {
+    return /* @__PURE__ */ jsx21("g", { className: "fdp-bar-series fdp-bar-series--stacked", "data-series": series.id, opacity: faded ? 0.25 : 1, "aria-hidden": faded ? true : void 0, children: series.data.map((d, di) => {
+      var _a2;
+      const rawX = parseX(d);
+      const xPos = isBandScale ? xScale(d.x) : xScale(rawX);
+      let fullWidth;
+      let barX;
+      if (isBandScale) {
+        fullWidth = inferredPixelWidth;
+        barX = xPos;
+      } else {
+        const slot = continuousSlots.find((s) => Math.abs(s.center - xPos) < 0.5);
+        if (!slot || !continuousUniforms) {
+          fullWidth = basePerBar;
+          barX = xPos - basePerBar / 2;
+        } else {
+          const { groupWidth } = continuousUniforms;
+          fullWidth = groupWidth;
+          let groupLeft = xPos - groupWidth / 2;
+          if (groupLeft < slot.left) groupLeft = slot.left;
+          if (groupLeft + groupWidth > slot.right) groupLeft = Math.max(slot.left, slot.right - groupWidth);
+          barX = groupLeft;
+        }
+      }
+      const seg = stacked[di];
+      const y0 = yScale(seg.y0);
+      const y1 = yScale(seg.y1);
+      const y2 = Math.min(y0, y1);
+      const height = Math.abs(y1 - y0) || 1;
+      if (!isBandScale && minBarWidth && fullWidth < minBarWidth) {
+        const slot = continuousSlots.find((s) => Math.abs(s.center - xPos) < 0.5);
+        if (slot) {
+          const maxFeasible = Math.max(2, slot.right - slot.left - 1);
+          const target = Math.min(maxFeasible, minBarWidth);
+          if (target > fullWidth) {
+            fullWidth = target;
+            barX = Math.max(slot.left, Math.min(slot.right - fullWidth, xPos - fullWidth / 2));
+          }
+        }
+      }
+      const isFocused = !faded && ((_a2 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a2.seriesId) === series.id && tooltip.focused.index === di;
+      const onEnter = () => {
+        if (!tooltip || faded) return;
+        tooltip.setFocused({ seriesId: series.id, index: di, x: rawX, y: seg.y1 - seg.y0, clientX: barX + fullWidth / 2, clientY: y2 });
+      };
+      const onLeave = () => {
+        var _a3;
+        if (((_a3 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a3.seriesId) === series.id && tooltip.focused.index === di) tooltip.clear();
+      };
+      return /* @__PURE__ */ jsx21(
+        "rect",
+        {
+          x: barX,
+          y: y2,
+          width: fullWidth,
+          height,
+          fill: baseSeriesColor,
+          stroke: isFocused ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : "var(--nhs-fdp-chart-stacked-stroke, #212b32)",
+          strokeWidth: isFocused ? 2 : 1,
+          className: "fdp-bar fdp-bar--stacked",
+          tabIndex: faded || !focusable ? -1 : 0,
+          role: "graphics-symbol",
+          "aria-label": `${series.label || series.id} ${rawX instanceof Date ? rawX.toDateString() : rawX} value ${seg.y1 - seg.y0}`,
+          onMouseEnter: onEnter,
+          onFocus: onEnter,
+          onMouseLeave: onLeave,
+          onBlur: onLeave
+        },
+        di
+      );
+    }) });
+  }
   return /* @__PURE__ */ jsx21("g", { className: "fdp-bar-series", "data-series": series.id, opacity: faded ? 0.25 : 1, "aria-hidden": faded ? true : void 0, children: series.data.map((d, di) => {
     var _a2;
     const rawX = parseX(d);
@@ -5207,24 +5508,60 @@ var BarSeriesPrimitive = ({
     let barX;
     let barWidth2;
     if (isBandScale) {
-      const groupWidth = inferredPixelWidth;
-      const available = groupWidth - (seriesCount - 1) * groupGap;
-      barWidth2 = Math.max(1, available / seriesCount);
-      barX = xPos + seriesIndex * (barWidth2 + groupGap);
+      const bw = inferredPixelWidth;
+      if (seriesCount <= 1) {
+        barWidth2 = bw;
+        barX = xPos;
+      } else {
+        barWidth2 = Math.max(1, bw / (seriesCount + (seriesCount - 1) * effectiveGapRatio));
+        const gap = barWidth2 * effectiveGapRatio;
+        const groupWidth = barWidth2 * seriesCount + gap * (seriesCount - 1);
+        const groupLeft = xPos + (bw - groupWidth) / 2;
+        barX = groupLeft + seriesIndex * (barWidth2 + gap);
+      }
     } else {
-      const xCenter = xPos;
-      const centerIndex = globalCenters.indexOf(xCenter);
-      let prevCenter = centerIndex > 0 ? globalCenters[centerIndex - 1] : globalCenters[0] - (uniformContinuousBarWidth * seriesCount + groupGap * (seriesCount - 1)) / Math.max(0.05, adaptiveGroupOccupancy);
-      let nextCenter = centerIndex < globalCenters.length - 1 ? globalCenters[centerIndex + 1] : globalCenters[globalCenters.length - 1] + (uniformContinuousBarWidth * seriesCount + groupGap * (seriesCount - 1)) / Math.max(0.05, adaptiveGroupOccupancy);
-      const leftBound = (prevCenter + xCenter) / 2;
-      const rightBound = (xCenter + nextCenter) / 2;
-      const per = uniformContinuousBarWidth != null ? uniformContinuousBarWidth : basePerBar;
-      const totalGroup = per * seriesCount + groupGap * (seriesCount - 1);
-      let groupLeft = xCenter - totalGroup / 2;
-      if (groupLeft < leftBound) groupLeft = leftBound;
-      if (groupLeft + totalGroup > rightBound) groupLeft = Math.max(leftBound, rightBound - totalGroup);
-      barX = groupLeft + seriesIndex * (per + groupGap);
-      barWidth2 = per;
+      const slot = continuousSlots.find((s) => s.center === xPos);
+      if (!slot || !continuousUniforms) {
+        barWidth2 = basePerBar;
+        barX = xPos - basePerBar / 2;
+        if (minBarWidth && barWidth2 < minBarWidth) {
+          barWidth2 = minBarWidth;
+          barX = xPos - barWidth2 / 2;
+        }
+      } else {
+        const { barWidth: uBar } = continuousUniforms;
+        barWidth2 = uBar;
+        const gap = seriesCount > 1 ? uBar * effectiveGapRatio : 0;
+        const computedGroupWidth = barWidth2 * seriesCount + gap * (seriesCount - 1);
+        let groupLeft = xPos - computedGroupWidth / 2;
+        if (groupLeft < slot.left) groupLeft = slot.left;
+        if (groupLeft + computedGroupWidth > slot.right) groupLeft = Math.max(slot.left, slot.right - computedGroupWidth);
+        barX = groupLeft + seriesIndex * (barWidth2 + gap);
+      }
+      if (minBarWidth && barWidth2 < minBarWidth) {
+        const slot2 = continuousSlots.find((s) => Math.abs(s.center - xPos) < 0.5);
+        if (slot2) {
+          const maxFeasible = Math.max(2, slot2.right - slot2.left - 1);
+          const target = Math.min(maxFeasible, minBarWidth);
+          if (target > barWidth2) {
+            if (seriesCount <= 1) {
+              barWidth2 = target;
+              barX = Math.max(slot2.left, Math.min(slot2.right - barWidth2, xPos - barWidth2 / 2));
+            } else {
+              const gap = target * effectiveGapRatio;
+              const neededGroup = target * seriesCount + gap * (seriesCount - 1);
+              if (neededGroup <= slot2.right - slot2.left - 1) {
+                barWidth2 = target;
+                const groupWidth = neededGroup;
+                let groupLeft = xPos - groupWidth / 2;
+                if (groupLeft < slot2.left) groupLeft = slot2.left;
+                if (groupLeft + groupWidth > slot2.right) groupLeft = Math.max(slot2.left, slot2.right - groupWidth);
+                barX = groupLeft + seriesIndex * (barWidth2 + gap);
+              }
+            }
+          }
+        }
+      }
     }
     const barCenterX = barX + barWidth2 / 2;
     const valueY = yScale(d.y);
@@ -5297,12 +5634,2233 @@ var BandScalesProvider = ({
   }), [xScale, yScale, xDomain, yTickCount]);
   return /* @__PURE__ */ jsx22(ScaleContext_default.Provider, { value, children });
 };
+
+// src/components/DataVisualisation/charts/ChartNoScript/ChartNoScript.tsx
+import * as React19 from "react";
+import { jsx as jsx23, jsxs as jsxs14 } from "react/jsx-runtime";
+var ChartNoScript = ({
+  title,
+  description,
+  source,
+  table,
+  className,
+  id,
+  message = "Interactive chart loading\u2026",
+  forceFallback = false
+}) => {
+  const figureId = React19.useId();
+  const resolvedId = id || figureId;
+  const descId = description ? `${resolvedId}-desc` : void 0;
+  const sourceId = source ? `${resolvedId}-src` : void 0;
+  const isHydrated = typeof window !== "undefined" && !forceFallback;
+  return /* @__PURE__ */ jsxs14(
+    "figure",
+    {
+      id: resolvedId,
+      className: clsx_default("fdp-chart fdp-chart--noscript", className),
+      "aria-labelledby": `${resolvedId}-title`,
+      "aria-describedby": clsx_default(descId, sourceId),
+      "data-component": "ChartNoScript",
+      children: [
+        /* @__PURE__ */ jsx23("header", { className: "fdp-chart__header", children: /* @__PURE__ */ jsx23("h3", { id: `${resolvedId}-title`, className: "fdp-chart__title", children: title }) }),
+        description && /* @__PURE__ */ jsx23("p", { id: descId, className: "fdp-chart__description", children: description }),
+        !isHydrated && /* @__PURE__ */ jsx23("div", { className: "fdp-chart__loading", role: "status", "aria-live": "polite", children: message }),
+        /* @__PURE__ */ jsxs14("div", { className: "fdp-chart__fallback", role: "group", "aria-label": title, children: [
+          /* @__PURE__ */ jsx23("noscript", { children: /* @__PURE__ */ jsx23("div", { className: "fdp-chart__noscript-wrapper", children: /* @__PURE__ */ jsx23(Table_default, { ...table }) }) }),
+          /* @__PURE__ */ jsx23("div", { className: "fdp-chart__table", "data-fallback-table": true, children: /* @__PURE__ */ jsx23(Table_default, { ...table }) })
+        ] }),
+        source && /* @__PURE__ */ jsx23("figcaption", { className: "fdp-chart__caption", children: source && /* @__PURE__ */ jsxs14("small", { id: sourceId, className: "fdp-chart__source", children: [
+          "Source: ",
+          source
+        ] }) })
+      ]
+    }
+  );
+};
+var ChartNoScript_default = ChartNoScript;
+
+// src/components/DataVisualisation/charts/ChartEnhancer/ChartEnhancer.tsx
+import * as React20 from "react";
+import { jsx as jsx24 } from "react/jsx-runtime";
+var ChartEnhancer = ({ selector = "figure.fdp-chart", onEnhanced, delay = 0, children }) => {
+  const ref = React20.useRef(null);
+  React20.useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const apply = () => {
+      const figures = Array.from(root.querySelectorAll(selector));
+      if (figures.length === 0) return;
+      const newlyEnhanced = [];
+      figures.forEach((fig) => {
+        if (!fig.classList.contains("fdp-chart--enhanced")) {
+          fig.classList.add("fdp-chart--enhanced");
+          newlyEnhanced.push(fig);
+        }
+      });
+      if (newlyEnhanced.length && onEnhanced) onEnhanced(newlyEnhanced);
+    };
+    if (delay > 0) {
+      const t = window.setTimeout(apply, delay);
+      return () => window.clearTimeout(t);
+    }
+    apply();
+  }, [selector, onEnhanced, delay]);
+  return /* @__PURE__ */ jsx24("div", { ref, children });
+};
+var ChartEnhancer_default = ChartEnhancer;
+
+// src/components/DataVisualisation/components/MetricCard/MetricCard.tsx
+import * as React21 from "react";
+
+// src/components/SummaryCard/SummaryCard.tsx
+import { Fragment as Fragment2, jsx as jsx25, jsxs as jsxs15 } from "react/jsx-runtime";
+var SummaryCard = ({
+  title,
+  value,
+  subtitle,
+  variant = "default",
+  href,
+  className = "",
+  ariaLabel,
+  ...props
+}) => {
+  const baseClasses = [
+    "nhs-fdp-summary-card",
+    `nhs-fdp-summary-card--${variant}`,
+    className
+  ].filter(Boolean).join(" ");
+  const content = /* @__PURE__ */ jsxs15(Fragment2, { children: [
+    /* @__PURE__ */ jsx25(Heading, { level: 3, className: "nhs-fdp-summary-card__title", children: title }),
+    /* @__PURE__ */ jsx25("p", { className: "nhs-fdp-summary-card__value", children: value }),
+    subtitle && /* @__PURE__ */ jsx25("p", { className: "nhs-fdp-summary-card__subtitle", children: subtitle })
+  ] });
+  if (href) {
+    return /* @__PURE__ */ jsx25(
+      "a",
+      {
+        className: `${baseClasses} nhs-fdp-summary-card--clickable`,
+        href,
+        "aria-label": ariaLabel || `${title}: ${value}`,
+        ...props,
+        children: content
+      }
+    );
+  }
+  return /* @__PURE__ */ jsx25(
+    "div",
+    {
+      className: baseClasses,
+      "aria-label": ariaLabel,
+      ...props,
+      children: content
+    }
+  );
+};
+
+// src/components/DataVisualisation/components/MetricCard/MetricCard.tsx
+import { Fragment as Fragment3, jsx as jsx26, jsxs as jsxs16 } from "react/jsx-runtime";
+var MetricCard = ({
+  label,
+  value,
+  unit: unit2,
+  delta,
+  status = "neutral",
+  trendData,
+  loading = false,
+  error,
+  valueFormatter,
+  className,
+  id,
+  announceDelta = true
+}) => {
+  const internalId = React21.useId();
+  const baseId = id || internalId;
+  const labelId = `${baseId}-label`;
+  const valueId = `${baseId}-value`;
+  const deltaId = `${baseId}-delta`;
+  const isNumber2 = typeof value === "number" && !Number.isNaN(value);
+  const formattedValue = loading ? "\u2014" : error ? "" : isNumber2 ? valueFormatter ? valueFormatter(value) : value.toLocaleString() : value;
+  let deltaDirection;
+  let visualDelta = "";
+  let deltaAria = "";
+  if (delta && !loading && !error) {
+    deltaDirection = delta.direction || (delta.value > 0 ? "up" : delta.value < 0 ? "down" : "neutral");
+    const absVal = Math.abs(delta.value);
+    const signedDisplay = deltaDirection === "up" ? `+${absVal}` : deltaDirection === "down" ? `-${absVal}` : "0";
+    const arrow = deltaDirection === "up" ? "\u25B2" : deltaDirection === "down" ? "\u25BC" : "\u2013";
+    const suffix = delta.isPercent ? "%" : "";
+    visualDelta = `${arrow} ${signedDisplay}${suffix}`;
+    if (delta.ariaLabel) {
+      deltaAria = delta.ariaLabel;
+    } else {
+      const better = delta.invert ? deltaDirection === "down" : deltaDirection === "up";
+      const dirWord = deltaDirection === "neutral" ? "no change" : deltaDirection === "up" ? "up" : "down";
+      deltaAria = `${dirWord} ${absVal}${suffix}${deltaDirection === "neutral" ? "" : better ? " (improvement)" : " (worse)"}`;
+    }
+  }
+  const summaryVariant = status === "positive" ? "success" : status === "negative" ? "error" : status === "warning" ? "warning" : void 0;
+  const titleContent = /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    /* @__PURE__ */ jsx26("span", { id: labelId, children: label }),
+    delta && !loading && !error && /* @__PURE__ */ jsx26(
+      "span",
+      {
+        id: deltaId,
+        "aria-label": deltaAria,
+        className: clsx_default("nhs-fdp-metric-delta", deltaDirection && `nhs-fdp-metric-delta--${deltaDirection}`),
+        style: { marginLeft: "0.5rem", fontSize: "0.75em", fontWeight: 500 },
+        children: visualDelta
+      }
+    )
+  ] });
+  const subtitleContent = /* @__PURE__ */ jsxs16(Fragment3, { children: [
+    /* @__PURE__ */ jsxs16("span", { id: valueId, className: "nhs-fdp-metric-value", children: [
+      formattedValue,
+      unit2 && !loading && !error && /* @__PURE__ */ jsx26("span", { className: "nhs-fdp-metric-unit", children: unit2 })
+    ] }),
+    trendData && trendData.length > 0 && /* @__PURE__ */ jsx26("span", { className: "nhs-fdp-metric-trend", "aria-hidden": "true" }),
+    loading && /* @__PURE__ */ jsx26("span", { className: "nhs-fdp-metric-skeleton", "aria-hidden": "true" }),
+    error && /* @__PURE__ */ jsx26("span", { className: "nhs-fdp-metric-error", role: "alert", children: error }),
+    announceDelta && delta && !delta.ariaLabel && !loading && !error && /* @__PURE__ */ jsx26("span", { className: "fdp-visually-hidden", "aria-live": "polite", children: deltaAria })
+  ] });
+  return /* @__PURE__ */ jsx26(
+    SummaryCard,
+    {
+      className: clsx_default("nhs-fdp-metric-card-wrapper", className),
+      variant: summaryVariant,
+      title: titleContent,
+      value: subtitleContent,
+      "data-component": "MetricCard"
+    }
+  );
+};
+var MetricCard_default = MetricCard;
+
+// src/components/DataVisualisation/charts/SPCChart/SPCChart.tsx
+import * as React24 from "react";
+
+// src/components/DataVisualisation/charts/SPCChart/SPCTooltipOverlay.tsx
+import * as React22 from "react";
+import { createPortal } from "react-dom";
+
+// src/components/DataVisualisation/charts/SPCChart/logic/spc.ts
+var isNumber = (v) => typeof v === "number" && Number.isFinite(v);
+var sum = (arr) => arr.reduce((a, b) => a + b, 0);
+var mean = (arr) => arr.length ? sum(arr) / arr.length : NaN;
+function partitionRows(data) {
+  const partitions = [];
+  let current = [];
+  for (const row of data) {
+    if (row.baseline && current.length) {
+      partitions.push(current);
+      current = [];
+    }
+    current.push(row);
+  }
+  if (current.length) partitions.push(current);
+  return partitions;
+}
+function movingRanges(values, ghosts) {
+  const mr = new Array(values.length).fill(null);
+  let prevIdx = null;
+  for (let i = 0; i < values.length; i++) {
+    const vi = values[i];
+    if (!ghosts[i] && isNumber(vi)) {
+      if (prevIdx !== null) {
+        const pv = values[prevIdx];
+        mr[i] = isNumber(pv) ? Math.abs(vi - pv) : null;
+      }
+      prevIdx = i;
+    }
+  }
+  return mr;
+}
+function mrMeanWithOptionalExclusion(mr, excludeOutliers) {
+  const pool = mr.filter((v) => isNumber(v));
+  if (!pool.length) return { mrMean: NaN, mrUcl: NaN };
+  let mrMeanVal = mean(pool);
+  let mrUclVal = 3.267 * mrMeanVal;
+  if (excludeOutliers) {
+    const trimmed = pool.filter((v) => v <= mrUclVal);
+    if (trimmed.length && trimmed.length !== pool.length) {
+      mrMeanVal = mean(trimmed);
+      mrUclVal = 3.267 * mrMeanVal;
+    }
+  }
+  return { mrMean: mrMeanVal, mrUcl: mrUclVal };
+}
+function xmrLimits(centerMean, mrMeanVal) {
+  if (!isNumber(centerMean) || !isNumber(mrMeanVal)) return {
+    upperProcessLimit: null,
+    lowerProcessLimit: null,
+    upperTwoSigma: null,
+    lowerTwoSigma: null,
+    upperOneSigma: null,
+    lowerOneSigma: null
+  };
+  const k3 = 2.66;
+  const k2 = 2 / 3 * k3;
+  const k1 = 1 / 3 * k3;
+  return {
+    upperProcessLimit: centerMean + k3 * mrMeanVal,
+    lowerProcessLimit: centerMean - k3 * mrMeanVal,
+    upperTwoSigma: centerMean + k2 * mrMeanVal,
+    lowerTwoSigma: centerMean - k2 * mrMeanVal,
+    upperOneSigma: centerMean + k1 * mrMeanVal,
+    lowerOneSigma: centerMean - k1 * mrMeanVal
+  };
+}
+function countAbove(values, ref) {
+  return values.reduce((c, v) => c + (isNumber(v) && v > ref ? 1 : 0), 0);
+}
+function countBelow(values, ref) {
+  return values.reduce((c, v) => c + (isNumber(v) && v < ref ? 1 : 0), 0);
+}
+function isTrend(seq, n, direction) {
+  const vals = seq.filter((v) => isNumber(v));
+  if (vals.length < n) return false;
+  const tail = vals.slice(-n);
+  for (let i = 1; i < tail.length; i++) {
+    if (direction === "up" && !(tail[i] > tail[i - 1])) return false;
+    if (direction === "down" && !(tail[i] < tail[i - 1])) return false;
+  }
+  return true;
+}
+function isRunOnOneSide(seq, n, ref, side) {
+  const vals = seq.filter((v) => isNumber(v));
+  if (vals.length < n) return false;
+  const tail = vals.slice(-n);
+  if (side === "high") return tail.every((v) => v > ref);
+  if (side === "low") return tail.every((v) => v < ref);
+  return false;
+}
+var T_ALPHA = 0.2777;
+var T_INV_ALPHA = 3.6;
+var toTTransformed = (t) => isNumber(t) && t >= 0 ? Math.pow(t, T_ALPHA) : null;
+var fromTTransformed = (y2) => isNumber(y2) && y2 >= 0 ? Math.pow(y2, T_INV_ALPHA) : null;
+var SIGMA_PROBS = {
+  one: { low: 0.1586552539, high: 0.8413447461 },
+  two: { low: 0.0227501319, high: 0.9772498681 },
+  three: { low: 1349898e-9, high: 0.998650102 }
+};
+function geomInvCdfReal(q, p) {
+  if (!(q > 0 && q < 1) || !(p > 0 && p < 1)) return NaN;
+  return Math.log(1 - q) / Math.log(1 - p);
+}
+function gChartProbabilityLimits(gMean) {
+  if (!isNumber(gMean) || gMean < 0) return {
+    cl: null,
+    lcl: null,
+    ucl: null,
+    oneLow: null,
+    oneHigh: null,
+    twoLow: null,
+    twoHigh: null
+  };
+  const p = 1 / (gMean + 1);
+  const qToGbetween = (q) => geomInvCdfReal(q, p) - 1;
+  const cl = qToGbetween(0.5);
+  const lcl = Math.max(0, qToGbetween(SIGMA_PROBS.three.low));
+  const ucl = qToGbetween(SIGMA_PROBS.three.high);
+  const oneL = Math.max(0, qToGbetween(SIGMA_PROBS.one.low));
+  const oneH = qToGbetween(SIGMA_PROBS.one.high);
+  const twoL = Math.max(0, qToGbetween(SIGMA_PROBS.two.low));
+  const twoH = qToGbetween(SIGMA_PROBS.two.high);
+  return { cl, lcl, ucl, oneLow: oneL, oneHigh: oneH, twoLow: twoL, twoHigh: twoH };
+}
+function tChartLimits(tValues, ghosts, excludeOutliers) {
+  const y2 = tValues.map((v) => isNumber(v) ? toTTransformed(v) : null);
+  const mrY = movingRanges(y2, ghosts);
+  const {
+    mrMean: mrMeanY_raw
+    /*, mrUcl: _mrUclY_raw*/
+  } = mrMeanWithOptionalExclusion(mrY, !!excludeOutliers);
+  const yNonGhost = y2.filter((v, i) => !ghosts[i] && isNumber(v));
+  const yBar = yNonGhost.length ? mean(yNonGhost) : NaN;
+  if (!isNumber(yBar) || !isNumber(mrMeanY_raw)) {
+    return {
+      center: null,
+      upperProcessLimit: null,
+      lowerProcessLimit: null,
+      upperTwoSigma: null,
+      lowerTwoSigma: null,
+      upperOneSigma: null,
+      lowerOneSigma: null,
+      mr: mrY,
+      mrMean: null,
+      mrUcl: null
+    };
+  }
+  const k3 = 2.66, k2 = 2 / 3 * k3, k1 = 1 / 3 * k3;
+  const UL_y = yBar + k3 * mrMeanY_raw;
+  const LL_y = yBar - k3 * mrMeanY_raw;
+  const U2_y = yBar + k2 * mrMeanY_raw;
+  const L2_y = yBar - k2 * mrMeanY_raw;
+  const U1_y = yBar + k1 * mrMeanY_raw;
+  const L1_y = yBar - k1 * mrMeanY_raw;
+  const center = fromTTransformed(yBar);
+  const upl = fromTTransformed(UL_y);
+  const lpl = LL_y <= 0 ? null : fromTTransformed(LL_y);
+  const oneH = fromTTransformed(U1_y);
+  const oneL = L1_y <= 0 ? null : fromTTransformed(L1_y);
+  const twoH = fromTTransformed(U2_y);
+  const twoL = L2_y <= 0 ? null : fromTTransformed(L2_y);
+  return {
+    center: center != null ? center : null,
+    upperProcessLimit: upl != null ? upl : null,
+    lowerProcessLimit: lpl != null ? lpl : null,
+    upperTwoSigma: twoH != null ? twoH : null,
+    lowerTwoSigma: twoL != null ? twoL : null,
+    upperOneSigma: oneH != null ? oneH : null,
+    lowerOneSigma: oneL != null ? oneL : null,
+    mr: mrY,
+    mrMean: mrMeanY_raw,
+    mrUcl: isNumber(mrMeanY_raw) ? 3.267 * mrMeanY_raw : null
+  };
+}
+function buildSpc(args) {
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+  const {
+    chartType,
+    metricImprovement,
+    data,
+    settings: userSettings = {}
+  } = args;
+  const settings = {
+    excludeMovingRangeOutliers: false,
+    specialCauseShiftPoints: 6,
+    specialCauseTrendPoints: 6,
+    enableFourOfFiveRule: false,
+    suppressIsolatedFavourablePoint: true,
+    minimumPoints: 13,
+    minimumPointsWarning: false,
+    minimumPointsPartition: 12,
+    maximumPointsPartition: null,
+    maximumPoints: null,
+    pointConflictWarning: false,
+    variationIconConflictWarning: true,
+    nullValueWarning: true,
+    targetSuppressedWarning: true,
+    ghostOnRareEventWarning: true,
+    partitionSizeWarnings: true,
+    baselineSpecialCauseWarning: true,
+    maximumPointsWarnings: true,
+    assuranceCapabilityMode: true,
+    ...userSettings
+  };
+  if (!Array.isArray(data)) throw new Error("data must be an array of rows");
+  const canonical = data.map((d, i) => ({
+    rowId: i + 1,
+    x: d.x,
+    value: isNumber(d.value) ? d.value : null,
+    ghost: !!d.ghost,
+    baseline: !!d.baseline,
+    target: isNumber(d.target) ? d.target : null
+  }));
+  const partitions = partitionRows(canonical);
+  const output = [];
+  const warnings = [];
+  const nonGhostGlobalCount = canonical.filter((r2) => !r2.ghost && isNumber(r2.value)).length;
+  const globalEnough = nonGhostGlobalCount >= ((_a = settings.minimumPoints) != null ? _a : 13);
+  let partitionId = 0;
+  const partitionNonGhostCounts = {};
+  for (const part of partitions) {
+    partitionId++;
+    const values = part.map((r2) => r2.value);
+    const ghosts = part.map((r2) => r2.ghost);
+    let mr = new Array(values.length).fill(null);
+    let centerLine = NaN;
+    let mrMean = NaN;
+    let mrUcl = NaN;
+    let lim = {
+      upperProcessLimit: null,
+      lowerProcessLimit: null,
+      upperTwoSigma: null,
+      lowerTwoSigma: null,
+      upperOneSigma: null,
+      lowerOneSigma: null
+    };
+    if (chartType === "XmR") {
+      mr = movingRanges(values, ghosts);
+      const nonGhostVals = values.filter((v, i) => !ghosts[i] && isNumber(v));
+      centerLine = nonGhostVals.length ? mean(nonGhostVals) : NaN;
+      const tmp = mrMeanWithOptionalExclusion(mr, !!settings.excludeMovingRangeOutliers);
+      mrMean = tmp.mrMean;
+      mrUcl = tmp.mrUcl;
+      lim = xmrLimits(centerLine, mrMean);
+    } else if (chartType === "T") {
+      const tlim = tChartLimits(values, ghosts, !!settings.excludeMovingRangeOutliers);
+      mr = tlim.mr;
+      mrMean = (_b = tlim.mrMean) != null ? _b : NaN;
+      mrUcl = (_c = tlim.mrUcl) != null ? _c : NaN;
+      centerLine = (_d = tlim.center) != null ? _d : NaN;
+      lim = {
+        upperProcessLimit: tlim.upperProcessLimit,
+        lowerProcessLimit: tlim.lowerProcessLimit,
+        upperTwoSigma: tlim.upperTwoSigma,
+        lowerTwoSigma: tlim.lowerTwoSigma,
+        upperOneSigma: tlim.upperOneSigma,
+        lowerOneSigma: tlim.lowerOneSigma
+      };
+    } else if (chartType === "G") {
+      const nonGhostVals = values.filter((v, i) => !ghosts[i] && isNumber(v));
+      const gMean = nonGhostVals.length ? mean(nonGhostVals) : NaN;
+      const g = gChartProbabilityLimits(gMean);
+      centerLine = (_e = g.cl) != null ? _e : NaN;
+      lim = {
+        upperProcessLimit: g.ucl,
+        lowerProcessLimit: g.lcl,
+        upperTwoSigma: g.twoHigh,
+        lowerTwoSigma: g.twoLow,
+        upperOneSigma: g.oneHigh,
+        lowerOneSigma: g.oneLow
+      };
+      mr = new Array(values.length).fill(null);
+      mrMean = NaN;
+      mrUcl = NaN;
+    } else {
+      warnings.push({ code: "unknown_chart_type", category: "config", severity: "error", message: `Unknown ChartType '${chartType}' \u2013 supported: XmR, T, G.`, context: { chartType } });
+    }
+    const withLines = part.map((r2, i) => {
+      const pointRank = !r2.ghost && isNumber(r2.value) ? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber(v)).length : 0;
+      const limitsAllowed = globalEnough;
+      const limits = limitsAllowed ? lim : {
+        upperProcessLimit: null,
+        lowerProcessLimit: null,
+        upperTwoSigma: null,
+        lowerTwoSigma: null,
+        upperOneSigma: null,
+        lowerOneSigma: null
+      };
+      const row = {
+        rowId: r2.rowId,
+        x: r2.x,
+        value: isNumber(r2.value) ? r2.value : null,
+        ghost: r2.ghost,
+        partitionId,
+        pointRank,
+        mean: limitsAllowed && isNumber(centerLine) ? centerLine : null,
+        mr: isNumber(mr[i]) ? mr[i] : null,
+        mrMean: limitsAllowed && isNumber(mrMean) ? mrMean : null,
+        mrUcl: limitsAllowed && isNumber(mrUcl) ? mrUcl : null,
+        upperProcessLimit: isNumber(limits.upperProcessLimit) ? limits.upperProcessLimit : null,
+        lowerProcessLimit: isNumber(limits.lowerProcessLimit) ? limits.lowerProcessLimit : null,
+        upperTwoSigma: isNumber(limits.upperTwoSigma) ? limits.upperTwoSigma : null,
+        lowerTwoSigma: isNumber(limits.lowerTwoSigma) ? limits.lowerTwoSigma : null,
+        upperOneSigma: isNumber(limits.upperOneSigma) ? limits.upperOneSigma : null,
+        lowerOneSigma: isNumber(limits.lowerOneSigma) ? limits.lowerOneSigma : null,
+        specialCauseSinglePointAbove: false,
+        specialCauseSinglePointBelow: false,
+        specialCauseTwoOfThreeAbove: false,
+        specialCauseTwoOfThreeBelow: false,
+        specialCauseFourOfFiveAbove: false,
+        specialCauseFourOfFiveBelow: false,
+        specialCauseShiftHigh: false,
+        specialCauseShiftLow: false,
+        specialCauseTrendIncreasing: false,
+        specialCauseTrendDecreasing: false,
+        variationIcon: "none" /* None */,
+        assuranceIcon: "none" /* None */,
+        upperBaseline: limitsAllowed && isNumber(centerLine) ? centerLine : null,
+        lowerBaseline: limitsAllowed && isNumber(centerLine) ? centerLine : null,
+        movingRangeHighPointValue: limitsAllowed && isNumber(mrUcl) ? mrUcl : null,
+        ghostValue: r2.ghost && isNumber(r2.value) ? r2.value : null,
+        ghostFlag: !!r2.ghost,
+        specialCauseImprovementValue: null,
+        specialCauseConcernValue: null,
+        specialCauseNeitherValue: null
+      };
+      return row;
+    });
+    partitionNonGhostCounts[partitionId] = withLines.filter((r2) => !r2.ghost && isNumber(r2.value)).length;
+    const shiftN = (_f = settings.specialCauseShiftPoints) != null ? _f : 6;
+    const trendN = (_g = settings.specialCauseTrendPoints) != null ? _g : 6;
+    const runningNonGhostValues = [];
+    for (let i = 0; i < withLines.length; i++) {
+      const row = withLines[i];
+      const v = row.value;
+      if (!row.ghost && isNumber(v)) runningNonGhostValues.push(v);
+      const hasLimits = isNumber(row.mean) && isNumber(row.upperProcessLimit) && isNumber(row.lowerProcessLimit);
+      if (!hasLimits || row.ghost || !isNumber(v)) {
+        output.push(row);
+        continue;
+      }
+      row.specialCauseSinglePointAbove = isNumber(row.upperProcessLimit) ? v > row.upperProcessLimit : false;
+      row.specialCauseSinglePointBelow = isNumber(row.lowerProcessLimit) ? v < row.lowerProcessLimit : false;
+      const last3 = runningNonGhostValues.slice(-3);
+      if (last3.length === 3) {
+        const u2 = (_h = row.upperTwoSigma) != null ? _h : Infinity;
+        const l2 = (_i = row.lowerTwoSigma) != null ? _i : -Infinity;
+        row.specialCauseTwoOfThreeAbove = countAbove(last3, u2) >= 2;
+        row.specialCauseTwoOfThreeBelow = countBelow(last3, l2) >= 2;
+      }
+      if (settings.enableFourOfFiveRule) {
+        const last5 = runningNonGhostValues.slice(-5);
+        if (last5.length === 5) {
+          const u1 = (_j = row.upperOneSigma) != null ? _j : Infinity;
+          const l1 = (_k = row.lowerOneSigma) != null ? _k : -Infinity;
+          row.specialCauseFourOfFiveAbove = countAbove(last5, u1) >= 4;
+          row.specialCauseFourOfFiveBelow = countBelow(last5, l1) >= 4;
+        }
+      }
+      if (isNumber(row.mean)) {
+        row.specialCauseShiftHigh = isRunOnOneSide(runningNonGhostValues, shiftN, row.mean, "high");
+        row.specialCauseShiftLow = isRunOnOneSide(runningNonGhostValues, shiftN, row.mean, "low");
+      }
+      row.specialCauseTrendIncreasing = isTrend(runningNonGhostValues, trendN, "up");
+      row.specialCauseTrendDecreasing = isTrend(runningNonGhostValues, trendN, "down");
+      output.push(row);
+    }
+    if (settings.maximumPointsPartition && Number.isFinite(settings.maximumPointsPartition)) {
+      const cap = settings.maximumPointsPartition;
+      let seen = 0;
+      for (const row of output.filter((r2) => r2.partitionId === partitionId)) {
+        if (!row.ghost && isNumber(row.value)) seen++;
+        if (seen > cap) {
+          row.mean = row.upperProcessLimit = row.lowerProcessLimit = null;
+          row.upperTwoSigma = row.lowerTwoSigma = row.upperOneSigma = row.lowerOneSigma = null;
+        }
+      }
+    }
+  }
+  for (const row of output) {
+    if (row.ghost || !isNumber(row.value) || row.mean === null) {
+      row.variationIcon = "none" /* None */;
+      continue;
+    }
+    const anyHigh = row.specialCauseSinglePointAbove || row.specialCauseTwoOfThreeAbove || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveAbove || row.specialCauseShiftHigh || row.specialCauseTrendIncreasing;
+    const anyLow = row.specialCauseSinglePointBelow || row.specialCauseTwoOfThreeBelow || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow || row.specialCauseShiftLow || row.specialCauseTrendDecreasing;
+    if (metricImprovement === "Up" /* Up */) {
+      row.variationIcon = anyHigh ? "improvement" /* Improvement */ : anyLow ? "concern" /* Concern */ : "neither" /* Neither */;
+    } else if (metricImprovement === "Down" /* Down */) {
+      row.variationIcon = anyLow ? "improvement" /* Improvement */ : anyHigh ? "concern" /* Concern */ : "neither" /* Neither */;
+    } else {
+      row.variationIcon = "neither" /* Neither */;
+    }
+    if (settings.suppressIsolatedFavourablePoint && row.variationIcon === "improvement" /* Improvement */) {
+      const favourableSingleHigh = metricImprovement === "Up" /* Up */ && row.specialCauseSinglePointAbove;
+      const favourableSingleLow = metricImprovement === "Down" /* Down */ && row.specialCauseSinglePointBelow;
+      const corroborating = metricImprovement === "Up" /* Up */ && (row.specialCauseTwoOfThreeAbove || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveAbove || row.specialCauseShiftHigh || row.specialCauseTrendIncreasing) || metricImprovement === "Down" /* Down */ && (row.specialCauseTwoOfThreeBelow || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow || row.specialCauseShiftLow || row.specialCauseTrendDecreasing);
+      if ((favourableSingleHigh || favourableSingleLow) && !corroborating) {
+        row.variationIcon = "neither" /* Neither */;
+        row.specialCauseImprovementValue = null;
+      }
+    }
+    const anySignal = anyHigh || anyLow;
+    row.specialCauseImprovementValue = anySignal && row.variationIcon === "improvement" /* Improvement */ ? row.value : null;
+    row.specialCauseConcernValue = anySignal && row.variationIcon === "concern" /* Concern */ ? row.value : null;
+    row.specialCauseNeitherValue = anySignal && row.variationIcon === "neither" /* Neither */ ? row.value : null;
+    if (isNumber(row.value) && row.mean !== null) {
+      row.assuranceIcon = "none" /* None */;
+      const inputRow = canonical[row.rowId - 1];
+      if (isNumber(inputRow.target)) {
+        const t = inputRow.target;
+        if (settings.assuranceCapabilityMode && isNumber(row.upperProcessLimit) && isNumber(row.lowerProcessLimit)) {
+          if (metricImprovement === "Up" /* Up */) {
+            if (row.lowerProcessLimit !== null && row.lowerProcessLimit > t) row.assuranceIcon = "pass" /* Pass */;
+            else if (row.upperProcessLimit !== null && row.upperProcessLimit < t) row.assuranceIcon = "fail" /* Fail */;
+            else row.assuranceIcon = "none" /* None */;
+          } else if (metricImprovement === "Down" /* Down */) {
+            if (row.upperProcessLimit !== null && row.upperProcessLimit < t) row.assuranceIcon = "pass" /* Pass */;
+            else if (row.lowerProcessLimit !== null && row.lowerProcessLimit > t) row.assuranceIcon = "fail" /* Fail */;
+            else row.assuranceIcon = "none" /* None */;
+          } else {
+            row.assuranceIcon = "none" /* None */;
+          }
+        } else {
+          if (metricImprovement === "Down" /* Down */) row.assuranceIcon = row.value <= t ? "pass" /* Pass */ : "fail" /* Fail */;
+          else if (metricImprovement === "Up" /* Up */) row.assuranceIcon = row.value >= t ? "pass" /* Pass */ : "fail" /* Fail */;
+          else row.assuranceIcon = "none" /* None */;
+        }
+      }
+    }
+  }
+  if (((_l = settings.minimumPointsWarning) != null ? _l : false) && !globalEnough) {
+    const available = canonical.filter((r2) => !r2.ghost && isNumber(r2.value)).length;
+    warnings.push({
+      code: "insufficient_points_global",
+      category: "data",
+      severity: "warning",
+      message: `Only ${available} non-ghost points available; minimum required is ${settings.minimumPoints}. Limits and icons suppressed.`,
+      context: { available, minimumRequired: settings.minimumPoints }
+    });
+  }
+  if (settings.variationIconConflictWarning) {
+    for (const row of output) {
+      if (row.variationIcon === "improvement" /* Improvement */) {
+        const highAndLow = (row.specialCauseSinglePointAbove || row.specialCauseTwoOfThreeAbove || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveAbove || row.specialCauseShiftHigh || row.specialCauseTrendIncreasing) && (row.specialCauseSinglePointBelow || row.specialCauseTwoOfThreeBelow || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow || row.specialCauseShiftLow || row.specialCauseTrendDecreasing);
+        if (highAndLow) warnings.push({ code: "variation_conflict_row", category: "logic", severity: "warning", message: `Row ${row.rowId}: simultaneous high/low special-cause signals \u2013 variation icon may be ambiguous.`, context: { rowId: row.rowId } });
+      }
+    }
+  }
+  if (settings.maximumPoints && Number.isFinite(settings.maximumPoints)) {
+    const cap = settings.maximumPoints;
+    let seen = 0;
+    for (const row of output) {
+      if (!row.ghost && isNumber(row.value)) seen++;
+      if (seen > cap) {
+        row.mean = row.upperProcessLimit = row.lowerProcessLimit = null;
+        row.upperTwoSigma = row.lowerTwoSigma = row.upperOneSigma = row.lowerOneSigma = null;
+      }
+    }
+  }
+  if (settings.nullValueWarning && (chartType === "XmR" || chartType === "G")) {
+    const nullCount = canonical.filter((r2) => !r2.ghost && (r2.value === null || r2.value === void 0 || !isNumber(r2.value))).length;
+    if (nullCount) warnings.push({ code: "null_values_excluded", category: "data", severity: "info", message: `${nullCount} null/missing value(s) excluded from calculations.`, context: { nullCount } });
+  }
+  if (settings.targetSuppressedWarning && (chartType === "T" || chartType === "G")) {
+    const hasTarget = canonical.some((r2) => isNumber(r2.target));
+    if (hasTarget) warnings.push({ code: "target_ignored_rare_event", category: "target", severity: "info", message: `Targets provided are ignored for ${chartType} charts in this port.`, context: { chartType } });
+  }
+  if (settings.ghostOnRareEventWarning && (chartType === "T" || chartType === "G")) {
+    const ghostCount = canonical.filter((r2) => r2.ghost).length;
+    if (ghostCount) warnings.push({ code: "ghost_rows_rare_event", category: "ghost", severity: "info", message: `${ghostCount} ghost row(s) supplied for rare-event chart (${chartType}); verify intent.`, context: { chartType, ghostCount } });
+  }
+  if (settings.partitionSizeWarnings) {
+    Object.entries(partitionNonGhostCounts).forEach(([pid, count]) => {
+      if (count < settings.minimumPointsPartition) warnings.push({ code: "insufficient_points_partition", category: "partition", severity: "warning", message: `Partition ${pid} has only ${count} non-ghost point(s); below recommended ${settings.minimumPointsPartition}.`, context: { partitionId: Number(pid), count, minimum: settings.minimumPointsPartition } });
+    });
+  }
+  if (settings.baselineSpecialCauseWarning) {
+    const issueRows = [];
+    output.forEach((r2) => {
+      const input = canonical[r2.rowId - 1];
+      if (input.baseline) {
+        const anySignal = r2.specialCauseSinglePointAbove || r2.specialCauseSinglePointBelow || r2.specialCauseTwoOfThreeAbove || r2.specialCauseTwoOfThreeBelow || r2.specialCauseFourOfFiveAbove || r2.specialCauseFourOfFiveBelow || r2.specialCauseShiftHigh || r2.specialCauseShiftLow || r2.specialCauseTrendIncreasing || r2.specialCauseTrendDecreasing;
+        if (anySignal) issueRows.push(r2.rowId);
+      }
+    });
+    if (issueRows.length) warnings.push({ code: "baseline_with_special_cause", category: "baseline", severity: "warning", message: `Baseline set with special-cause present at row(s): ${issueRows.join(", ")}.`, context: { rows: issueRows } });
+  }
+  if (settings.maximumPointsWarnings) {
+    if (settings.maximumPointsPartition && Number.isFinite(settings.maximumPointsPartition)) warnings.push({ code: "partition_cap_applied", category: "limits", severity: "info", message: `Limits suppressed after ${settings.maximumPointsPartition} non-ghost points per partition.`, context: { cap: settings.maximumPointsPartition } });
+    if (settings.maximumPoints && Number.isFinite(settings.maximumPoints)) warnings.push({ code: "global_cap_applied", category: "limits", severity: "info", message: `Limits suppressed after global cap of ${settings.maximumPoints} non-ghost points.`, context: { cap: settings.maximumPoints } });
+  }
+  return { rows: output, warnings };
+}
+
+// src/components/DataVisualisation/charts/SPCChart/logic/spcDescriptors.ts
+var ruleGlossary = {
+  singlePointAbove: {
+    tooltip: "Single point above upper control limit",
+    narration: "Single point beyond a control limit"
+  },
+  singlePointBelow: {
+    tooltip: "Single point below lower control limit",
+    narration: "Single point beyond a control limit"
+  },
+  twoOfThreeAbove: {
+    tooltip: "Two of three points beyond +2\u03C3",
+    narration: "Two of three points beyond two sigma (same side)"
+  },
+  twoOfThreeBelow: {
+    tooltip: "Two of three points beyond -2\u03C3",
+    narration: "Two of three points beyond two sigma (same side)"
+  },
+  fourOfFiveAbove: {
+    tooltip: "Four of five points beyond +1\u03C3",
+    narration: "Four of five points beyond one sigma (same side)"
+  },
+  fourOfFiveBelow: {
+    tooltip: "Four of five points beyond -1\u03C3",
+    narration: "Four of five points beyond one sigma (same side)"
+  },
+  shiftHigh: {
+    tooltip: "Shift: run of points above centre line",
+    narration: "Shift (run on one side of mean)"
+  },
+  shiftLow: {
+    tooltip: "Shift: run of points below centre line",
+    narration: "Shift (run on one side of mean)"
+  },
+  trendIncreasing: {
+    tooltip: "Trend: consecutive increasing points",
+    narration: "Trend (consecutive increases)"
+  },
+  trendDecreasing: {
+    tooltip: "Trend: consecutive decreasing points",
+    narration: "Trend (consecutive decreases)"
+  }
+};
+function extractRuleIds(row) {
+  if (!row) return [];
+  const ids = [];
+  if (row.specialCauseSinglePointAbove) ids.push("singlePointAbove");
+  if (row.specialCauseSinglePointBelow) ids.push("singlePointBelow");
+  if (row.specialCauseTwoOfThreeAbove) ids.push("twoOfThreeAbove");
+  if (row.specialCauseTwoOfThreeBelow) ids.push("twoOfThreeBelow");
+  if (row.specialCauseFourOfFiveAbove) ids.push("fourOfFiveAbove");
+  if (row.specialCauseFourOfFiveBelow) ids.push("fourOfFiveBelow");
+  if (row.specialCauseShiftHigh) ids.push("shiftHigh");
+  if (row.specialCauseShiftLow) ids.push("shiftLow");
+  if (row.specialCauseTrendIncreasing) ids.push("trendIncreasing");
+  if (row.specialCauseTrendDecreasing) ids.push("trendDecreasing");
+  return ids;
+}
+function variationLabel(icon) {
+  switch (icon) {
+    case "improvement" /* Improvement */:
+      return "Improvement signal";
+    case "concern" /* Concern */:
+      return "Concern signal";
+    case "neither" /* Neither */:
+      return "Common cause variation";
+    case "none" /* None */:
+      return null;
+    // suppressed / not enough data
+    default:
+      return null;
+  }
+}
+function assuranceLabel(icon) {
+  switch (icon) {
+    case "pass" /* Pass */:
+      return "Target met";
+    case "fail" /* Fail */:
+      return "Target not met";
+    default:
+      return null;
+  }
+}
+function zoneLabel(mean2, sigma, value) {
+  if (mean2 == null || !Number.isFinite(sigma) || sigma <= 0) return null;
+  const z = Math.abs((value - mean2) / sigma);
+  if (z < 1) return "Within 1\u03C3";
+  if (z < 2) return "Between 1\u20132\u03C3";
+  if (z < 3) return "Between 2\u20133\u03C3";
+  return "Beyond 3\u03C3";
+}
+var VARIATION_COLOR_TOKENS = {
+  improvement: { token: "var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)", hex: "#00B0F0" },
+  concern: { token: "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)", hex: "#E46C0A" },
+  none: { token: "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)", hex: "#490092" },
+  neither: { token: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", hex: "#A6A6A6" }
+};
+function getVariationColorToken(icon) {
+  var _a, _b;
+  if (!icon) return VARIATION_COLOR_TOKENS.neither.token;
+  return (_b = (_a = VARIATION_COLOR_TOKENS[icon]) == null ? void 0 : _a.token) != null ? _b : VARIATION_COLOR_TOKENS.neither.token;
+}
+
+// src/components/Tag/Tag.tsx
+var import_classnames5 = __toESM(require_classnames(), 1);
+import { jsx as jsx27, jsxs as jsxs17 } from "react/jsx-runtime";
+var Tag = ({
+  text,
+  html,
+  children,
+  color: color2 = "default",
+  noBorder = false,
+  closable = false,
+  onClose,
+  disabled = false,
+  className,
+  ...props
+}) => {
+  const tagClasses = (0, import_classnames5.default)(
+    "nhsuk-tag",
+    {
+      [`nhsuk-tag--${color2}`]: color2 !== "default",
+      "nhsuk-tag--no-border": noBorder,
+      "nhsuk-tag--closable": closable,
+      "nhsuk-tag--disabled": disabled
+    },
+    className
+  );
+  const handleClose = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!disabled && onClose) {
+      onClose();
+    }
+  };
+  return /* @__PURE__ */ jsxs17("strong", { className: tagClasses, ...props, children: [
+    children ? children : html ? /* @__PURE__ */ jsx27("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
+    closable && /* @__PURE__ */ jsx27(
+      "button",
+      {
+        type: "button",
+        className: "nhsuk-tag__close",
+        onClick: handleClose,
+        disabled,
+        "aria-label": "Remove",
+        title: "Remove",
+        children: "\xD7"
+      }
+    )
+  ] });
+};
+
+// src/components/DataVisualisation/charts/SPCChart/SPCTooltipOverlay.tsx
+import { jsx as jsx28, jsxs as jsxs18 } from "react/jsx-runtime";
+var SPCTooltipOverlay = ({
+  engineRows,
+  limits,
+  pointDescriber,
+  measureName,
+  measureUnit,
+  dateFormatter
+}) => {
+  var _a, _b, _c, _d, _e, _f;
+  const tooltip = useTooltipContext();
+  const chart = useChartContext();
+  const [cachedFocus, setCachedFocus] = React22.useState(null);
+  const [hoveringTooltip, setHoveringTooltip] = React22.useState(false);
+  const hideTimeoutRef = React22.useRef(null);
+  React22.useEffect(() => {
+    if (!tooltip) return;
+    if (tooltip.focused) {
+      setCachedFocus(tooltip.focused);
+      if (hideTimeoutRef.current) {
+        cancelAnimationFrame(hideTimeoutRef.current);
+        hideTimeoutRef.current = null;
+      }
+    }
+    if (!tooltip.focused && !hoveringTooltip) {
+      const id = requestAnimationFrame(() => {
+        setCachedFocus(null);
+        hideTimeoutRef.current = null;
+      });
+      hideTimeoutRef.current = id;
+    }
+    return () => {
+      if (hideTimeoutRef.current) {
+        cancelAnimationFrame(hideTimeoutRef.current);
+        hideTimeoutRef.current = null;
+      }
+    };
+  }, [tooltip, tooltip == null ? void 0 : tooltip.focused, hoveringTooltip]);
+  const focused = tooltip && (tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
+  const [visible, setVisible] = React22.useState(false);
+  React22.useEffect(() => {
+    const id = requestAnimationFrame(() => setVisible(true));
+    return () => cancelAnimationFrame(id);
+  }, [focused == null ? void 0 : focused.index]);
+  const innerWidth = (_a = chart == null ? void 0 : chart.innerWidth) != null ? _a : 0;
+  const innerHeight = (_b = chart == null ? void 0 : chart.innerHeight) != null ? _b : 0;
+  const clampX = focused ? Math.min(Math.max(focused.clientX, 0), innerWidth) : 0;
+  const clampY = focused ? Math.min(Math.max(focused.clientY, 0), innerHeight) : 0;
+  const containerEl = (_c = chart.ref) == null ? void 0 : _c.current;
+  const host = containerEl;
+  if (!focused) {
+    return null;
+  }
+  const row = engineRows == null ? void 0 : engineRows[focused.index];
+  const rules = extractRuleIds(row).map((r2) => ruleGlossary[r2].tooltip);
+  const dateObj = focused.x instanceof Date ? focused.x : new Date(focused.x);
+  const dateLabel = dateFormatter ? dateFormatter(dateObj) : dateObj.toDateString();
+  const unit2 = measureUnit ? `${measureUnit}` : "";
+  const valueLabel = measureName || unit2 ? `${focused.y}${unit2 ? "" + unit2 : " "}${measureName ? " " + measureName : ""}` : `${focused.y}`;
+  const variationDesc = variationLabel(row == null ? void 0 : row.variationIcon);
+  const assuranceDesc = assuranceLabel(row == null ? void 0 : row.assuranceIcon);
+  const zone = zoneLabel(
+    (_d = limits.mean) != null ? _d : null,
+    limits.sigma,
+    focused.y
+  );
+  const narrative = pointDescriber ? pointDescriber(focused.index, { x: focused.x, y: focused.y }) : void 0;
+  const showBadges = variationDesc || assuranceDesc || zone;
+  const hasRules = rules.length > 0;
+  const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
+  const spcDotColor = getVariationColorToken(row == null ? void 0 : row.variationIcon);
+  const charPx = 6.2;
+  const baseLinesForMeasure = [
+    narrative || "",
+    `${dateLabel} \u2022 ${valueLabel}`
+  ].filter(Boolean);
+  const contentWidthEstimate = baseLinesForMeasure.reduce(
+    (m, s) => Math.max(m, s.length * charPx + 32),
+    0
+  );
+  const minWidth = 200;
+  const maxWidth = 440;
+  const boxWidth = Math.min(maxWidth, Math.max(minWidth, contentWidthEstimate));
+  let left = clampX + 12;
+  const marginTop = (_f = (_e = chart.margin) == null ? void 0 : _e.top) != null ? _f : 0;
+  let top = marginTop + clampY + 16;
+  if (left + boxWidth > innerWidth) {
+    const flipGap = -60;
+    left = clampX - flipGap - boxWidth;
+  }
+  if (left < 0) left = Math.max(0, innerWidth - boxWidth);
+  const tooltipId = focused ? `spc-tooltip-${focused.index}` : "spc-tooltip";
+  const portal = host ? createPortal(
+    /* @__PURE__ */ jsx28(
+      "div",
+      {
+        id: tooltipId,
+        className: "fdp-spc-tooltip fdp-spc-tooltip-portal" + (visible ? " is-visible" : ""),
+        style: {
+          position: "absolute",
+          left,
+          top,
+          width: boxWidth,
+          maxWidth,
+          zIndex: 10,
+          pointerEvents: "auto",
+          userSelect: "none"
+        },
+        role: "tooltip",
+        "aria-live": "polite",
+        "aria-hidden": visible ? "false" : "true",
+        "data-floating": true,
+        "data-placement": left + boxWidth + 12 > innerWidth ? "left" : "right",
+        onPointerEnter: () => {
+          setHoveringTooltip(true);
+          if (hideTimeoutRef.current) {
+            cancelAnimationFrame(hideTimeoutRef.current);
+            hideTimeoutRef.current = null;
+          }
+        },
+        onPointerLeave: () => {
+          setHoveringTooltip(false);
+          if (!(tooltip == null ? void 0 : tooltip.focused)) {
+            const id = requestAnimationFrame(() => {
+              setCachedFocus(null);
+              hideTimeoutRef.current = null;
+            });
+            hideTimeoutRef.current = id;
+          }
+        },
+        children: /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__body", children: [
+          /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
+            /* @__PURE__ */ jsx28("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx28("strong", { children: "Date" }) }),
+            /* @__PURE__ */ jsx28("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
+          ] }),
+          /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--value", children: [
+            /* @__PURE__ */ jsx28("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx28("strong", { children: "Value" }) }),
+            /* @__PURE__ */ jsx28("div", { className: "fdp-spc-tooltip__primary-line", children: valueLabel })
+          ] }),
+          showBadges && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
+            /* @__PURE__ */ jsx28("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx28("strong", { children: "Signals" }) }),
+            /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: [
+              variationDesc && (variationDesc.toLowerCase().includes("concern") ? /* @__PURE__ */ jsx28(
+                Tag,
+                {
+                  text: variationDesc,
+                  color: "default",
+                  className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
+                }
+              ) : variationDesc.toLowerCase().includes("improvement") ? /* @__PURE__ */ jsx28(
+                Tag,
+                {
+                  text: variationDesc,
+                  color: "default",
+                  className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
+                }
+              ) : /* @__PURE__ */ jsx28(
+                Tag,
+                {
+                  text: variationDesc,
+                  color: "default",
+                  className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
+                }
+              )),
+              assuranceDesc && /* @__PURE__ */ jsx28(
+                "span",
+                {
+                  className: `fdp-spc-badge fdp-spc-badge--assurance ${assuranceDesc.toLowerCase().includes("met") ? "is-pass" : "is-fail"}`,
+                  children: assuranceDesc
+                }
+              )
+            ] })
+          ] }),
+          zone && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
+            /* @__PURE__ */ jsx28("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx28("strong", { children: "Limits" }) }),
+            /* @__PURE__ */ jsx28("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: /* @__PURE__ */ jsx28(
+              Tag,
+              {
+                text: (() => {
+                  const z = zone.toLowerCase();
+                  if (z.startsWith("within 1")) return "\u22641\u03C3";
+                  if (z.startsWith("1\u20132")) return "1\u20132\u03C3";
+                  if (z.startsWith("2\u20133")) return "2\u20133\u03C3";
+                  if (z.startsWith(">3")) return ">3\u03C3";
+                  return zone;
+                })(),
+                color: zone.includes(">3") ? "orange" : zone.includes("2\u20133") ? "yellow" : "grey",
+                "aria-label": `Sigma zone: ${zone}`,
+                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--zone"
+              }
+            ) })
+          ] }),
+          hasRules && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
+            /* @__PURE__ */ jsx28("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx28("strong", { children: "Special cause" }) }),
+            /* @__PURE__ */ jsx28(
+              "div",
+              {
+                className: "fdp-spc-tooltip__rule-tags",
+                "aria-label": "Special cause rules",
+                children: rules.map((r2) => {
+                  const ruleColorClass = variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--rule" : "fdp-spc-tag--rule";
+                  return /* @__PURE__ */ jsx28(
+                    Tag,
+                    {
+                      text: r2,
+                      color: "default",
+                      className: `fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`
+                    },
+                    r2
+                  );
+                })
+              }
+            )
+          ] })
+        ] })
+      }
+    ),
+    host
+  ) : null;
+  return /* @__PURE__ */ jsxs18(
+    "g",
+    {
+      className: "fdp-tooltip-layer fdp-spc-tooltip",
+      pointerEvents: "none",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsx28(
+          "circle",
+          {
+            cx: clampX,
+            cy: clampY,
+            r: 7,
+            fill: "none",
+            stroke: focusYellow,
+            strokeWidth: 3
+          }
+        ),
+        /* @__PURE__ */ jsx28(
+          "circle",
+          {
+            cx: clampX,
+            cy: clampY,
+            r: 5,
+            fill: "#000",
+            stroke: focusYellow,
+            strokeWidth: 1.5
+          }
+        ),
+        /* @__PURE__ */ jsx28(
+          "circle",
+          {
+            cx: clampX,
+            cy: clampY,
+            r: 2.5,
+            fill: spcDotColor,
+            stroke: "#fff",
+            strokeWidth: 0.5
+          }
+        ),
+        portal
+      ]
+    }
+  );
+};
+var SPCTooltipOverlay_default = SPCTooltipOverlay;
+
+// src/components/DataVisualisation/charts/SPCIcons/SPCIcon.tsx
+import { useId as useId4, useMemo as useMemo12 } from "react";
+
+// src/components/DataVisualisation/charts/SPCIcons/SPCConstants.ts
+var pickTextColour = (hex2) => {
+  const c = hex2.replace("#", "");
+  const r2 = parseInt(c.slice(0, 2), 16) / 255;
+  const g = parseInt(c.slice(2, 4), 16) / 255;
+  const b = parseInt(c.slice(4, 6), 16) / 255;
+  const srgb = [r2, g, b].map((v) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+  const L = 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
+  return L < 0.55 ? "#ffffff" : "#212b32";
+};
+var VARIATION_COLOURS = {
+  ["special_cause_deteriorating" /* SpecialCauseDeteriorating */]: {
+    hex: VARIATION_COLOR_TOKENS.concern.hex,
+    judgement: "deteriorating" /* Deteriorating */,
+    label: "Special Cause (Deteriorating)",
+    description: "Deteriorating variation detected (special cause) relative to baseline."
+  },
+  ["special_cause_improving" /* SpecialCauseImproving */]: {
+    hex: VARIATION_COLOR_TOKENS.improvement.hex,
+    judgement: "improving" /* Improving */,
+    label: "Special Cause (Improving)",
+    description: "Improving variation detected (special cause) relative to baseline."
+  },
+  ["common_cause" /* CommonCause */]: {
+    hex: VARIATION_COLOR_TOKENS.neither.hex,
+    judgement: "none" /* None */,
+    label: "Common Cause",
+    description: "Common cause variation only \u2013 no special cause detected."
+  },
+  ["special_cause_no_judgement" /* SpecialCauseNoJudgement */]: {
+    hex: VARIATION_COLOR_TOKENS.none.hex,
+    judgement: "no_judgement" /* No_Judgement */,
+    label: "Special Cause (No Judgement)",
+    description: "Special cause detected without assigning improving/deteriorating judgement."
+  }
+};
+Object.values(VARIATION_COLOURS).forEach((def) => {
+  if (!def.text) def.text = pickTextColour(def.hex);
+});
+var getVariationColour = (state) => VARIATION_COLOURS[state];
+var getVariationTrend = (state) => VARIATION_COLOURS[state].judgement || "none" /* None */;
+var POINT_LAYOUTS = {
+  special: {
+    higher: [
+      { cx: 77.5, cy: 158.5 },
+      { cx: 114, cy: 175 },
+      { cx: 150.5, cy: 158.5 },
+      { cx: 188, cy: 125 },
+      { cx: 225, cy: 137 }
+    ],
+    lower: [
+      { cx: 77.5, cy: 139.5 },
+      { cx: 114, cy: 124.5 },
+      { cx: 150.5, cy: 139.5 },
+      { cx: 188, cy: 175.5 },
+      { cx: 224.5, cy: 162 }
+    ]
+  },
+  common: [
+    { cx: 76.5, cy: 149.5 },
+    { cx: 113, cy: 179.5 },
+    { cx: 149.5, cy: 117 },
+    { cx: 187, cy: 171 },
+    { cx: 223.5, cy: 158 }
+  ]
+};
+function computePointPositions(state, direction) {
+  let src;
+  if (state === "common_cause" /* CommonCause */) src = POINT_LAYOUTS.common;
+  else src = POINT_LAYOUTS.special[direction === "lower" /* Lower */ ? "lower" : "higher"];
+  return src.map((p) => ({ ...p }));
+}
+
+// src/components/DataVisualisation/charts/SPCIcons/SPCIcon.tsx
+import { Fragment as Fragment4, jsx as jsx29, jsxs as jsxs19 } from "react/jsx-runtime";
+var pickTextColour2 = (hex2) => {
+  const c = hex2.replace("#", "");
+  const r2 = parseInt(c.slice(0, 2), 16) / 255;
+  const g = parseInt(c.slice(2, 4), 16) / 255;
+  const b = parseInt(c.slice(4, 6), 16) / 255;
+  const srgb = [r2, g, b].map(
+    (v) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
+  );
+  const L = 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
+  return L < 0.55 ? "#ffffff" : "#212b32";
+};
+var VARIATION_COLOURS2 = {
+  ["special_cause_deteriorating" /* SpecialCauseDeteriorating */]: {
+    hex: "#E46C0A",
+    judgement: "deteriorating" /* Deteriorating */,
+    label: "Special Cause (Deteriorating)",
+    description: "Deteriorating variation detected (special cause) relative to baseline."
+  },
+  ["special_cause_improving" /* SpecialCauseImproving */]: {
+    hex: "#00B0F0",
+    judgement: "improving" /* Improving */,
+    label: "Special Cause (Improving)",
+    description: "Improving variation detected (special cause) relative to baseline."
+  },
+  ["common_cause" /* CommonCause */]: {
+    hex: "#A6A6A6",
+    judgement: "none" /* None */,
+    label: "Common Cause",
+    description: "Common cause variation only \u2013 no special cause detected."
+  },
+  ["special_cause_no_judgement" /* SpecialCauseNoJudgement */]: {
+    hex: "#490092",
+    judgement: "no_judgement" /* No_Judgement */,
+    label: "Special Cause (No Judgement)",
+    description: "Special cause detected without assigning improving/deteriorating judgement."
+  }
+};
+Object.values(VARIATION_COLOURS2).forEach((def) => {
+  if (!def.text) def.text = pickTextColour2(def.hex);
+});
+var resolveStateAndLayout = (input) => {
+  var _a, _b, _c, _d, _e, _f;
+  if (input.variationIcon !== void 0) {
+    const eng = input;
+    const mapping = {
+      ["improvement" /* Improvement */]: "special_cause_improving" /* SpecialCauseImproving */,
+      ["concern" /* Concern */]: "special_cause_deteriorating" /* SpecialCauseDeteriorating */,
+      ["neither" /* Neither */]: "common_cause" /* CommonCause */,
+      ["none" /* None */]: "special_cause_no_judgement" /* SpecialCauseNoJudgement */
+    };
+    const state2 = mapping[eng.variationIcon];
+    const direction2 = (_a = eng.trend) != null ? _a : state2 === "special_cause_improving" /* SpecialCauseImproving */ ? "higher" /* Higher */ : state2 === "special_cause_deteriorating" /* SpecialCauseDeteriorating */ ? "lower" /* Lower */ : "higher" /* Higher */;
+    return { state: state2, direction: direction2, polarity: (_b = eng.polarity) != null ? _b : "context_dependent" /* ContextDependent */ };
+  }
+  if (input.state !== void 0) {
+    const v1 = input;
+    let inferred;
+    if (v1.state === "special_cause_improving" /* SpecialCauseImproving */) inferred = "higher" /* Higher */;
+    else if (v1.state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) inferred = "lower" /* Lower */;
+    const direction2 = (_d = (_c = v1.trend) != null ? _c : inferred) != null ? _d : "higher" /* Higher */;
+    return { state: v1.state, direction: direction2, polarity: (_e = v1.polarity) != null ? _e : "context_dependent" /* ContextDependent */ };
+  }
+  const v2 = input;
+  const map2 = {
+    ["improving" /* Improving */]: "special_cause_improving" /* SpecialCauseImproving */,
+    ["deteriorating" /* Deteriorating */]: "special_cause_deteriorating" /* SpecialCauseDeteriorating */,
+    ["no_judgement" /* No_Judgement */]: "special_cause_no_judgement" /* SpecialCauseNoJudgement */,
+    ["none" /* None */]: "common_cause" /* CommonCause */
+  };
+  const state = map2[v2.judgement];
+  let direction;
+  if (v2.judgement === "improving" /* Improving */) {
+    direction = v2.polarity === "lower_is_better" /* LowerIsBetter */ ? "lower" /* Lower */ : "higher" /* Higher */;
+  } else if (v2.judgement === "deteriorating" /* Deteriorating */) {
+    direction = v2.polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
+  } else {
+    direction = (_f = v2.trend) != null ? _f : "higher" /* Higher */;
+  }
+  return { state, direction, polarity: v2.polarity };
+};
+function deriveVariationAriaDescription(input, context) {
+  const { state, direction, polarity } = resolveStateAndLayout(input);
+  const judgement = getVariationTrend(state);
+  const sideWord = direction === "higher" /* Higher */ ? "above" : "below";
+  const trendWord = direction === "higher" /* Higher */ ? "upwards" : "downwards";
+  const polarityClause = (() => {
+    switch (polarity) {
+      case "higher_is_better" /* HigherIsBetter */:
+        return "For this measure, higher values are better.";
+      case "lower_is_better" /* LowerIsBetter */:
+        return "For this measure, lower values are better.";
+      default:
+        return "Direction of improvement is context dependent.";
+    }
+  })();
+  const base = (() => {
+    switch (judgement) {
+      case "improving" /* Improving */:
+        return `Special cause improvement: recent data show a sustained run ${sideWord} the mean (unlikely due to random variation).`;
+      case "deteriorating" /* Deteriorating */:
+        return `Special cause deterioration: recent data show a sustained run ${sideWord} the mean (unlikely due to random variation).`;
+      case "no_judgement" /* No_Judgement */:
+        return `Special cause detected (no value judgement): recent data show a change in level, trending ${trendWord}.`;
+      case "none" /* None */:
+      default:
+        return `Common cause variation: points vary randomly around the mean; no special cause detected.`;
+    }
+  })();
+  const parts = [
+    base,
+    polarityClause,
+    (context == null ? void 0 : context.measureName) ? `Measure: ${context.measureName}.` : null,
+    (context == null ? void 0 : context.datasetContext) ? `${context.datasetContext}.` : null,
+    (context == null ? void 0 : context.organisation) ? `Organisation: ${context.organisation}.` : null,
+    (context == null ? void 0 : context.timeframe) ? `Timeframe: ${context.timeframe}.` : null,
+    (context == null ? void 0 : context.additionalNote) ? context.additionalNote : null
+  ];
+  return parts.filter(Boolean).join(" ");
+}
+var SpcVariationIcon = ({
+  data,
+  size = 44,
+  ariaLabel,
+  showLetter = true,
+  dropShadow = true,
+  variant = "classic",
+  runLength = 0,
+  ...rest
+}) => {
+  const shadowId = useId4();
+  const { state, direction } = resolveStateAndLayout(data);
+  const colour = getVariationColour(state);
+  const judgement = getVariationTrend(state);
+  const showLetterForJudgement = judgement === "improving" /* Improving */ || judgement === "deteriorating" /* Deteriorating */;
+  const letter = showLetter && showLetterForJudgement ? direction === "higher" /* Higher */ ? "H" : "L" : "";
+  const isSpecial = state !== "common_cause" /* CommonCause */;
+  const isNoJudgement = state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
+  const pointColour = isSpecial ? colour.hex : "#A6A6A6";
+  const points = useMemo12(
+    () => computePointPositions(state, direction),
+    [state, direction]
+  );
+  const aria = ariaLabel || `${colour.label}${letter ? direction === "higher" /* Higher */ ? " \u2013 Higher" : " \u2013 Lower" : ""}`;
+  const ariaDescription = deriveVariationAriaDescription(
+    data
+  );
+  if (variant === "triangleWithRun") {
+    const triSize = 100;
+    const centerX = 150;
+    const centerY = 140;
+    const upTriangle = [
+      [centerX, centerY - triSize / 2],
+      [centerX - triSize / 2, centerY + triSize / 2],
+      [centerX + triSize / 2, centerY + triSize / 2]
+    ];
+    const downTriangle = [
+      [centerX, centerY + triSize / 2],
+      [centerX - triSize / 2, centerY - triSize / 2],
+      [centerX + triSize / 2, centerY - triSize / 2]
+    ];
+    let shape = null;
+    let shapeLetter = "";
+    if (state === "special_cause_improving" /* SpecialCauseImproving */) {
+      shape = /* @__PURE__ */ jsx29(
+        "polygon",
+        {
+          points: upTriangle.map((p) => p.join(",")).join(" "),
+          fill: colour.hex,
+          stroke: colour.hex,
+          strokeWidth: 6,
+          transform: "translate(0, -15)"
+        }
+      );
+      shapeLetter = "H";
+    } else if (state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
+      shape = /* @__PURE__ */ jsx29(
+        "polygon",
+        {
+          points: downTriangle.map((p) => p.join(",")).join(" "),
+          fill: colour.hex,
+          stroke: colour.hex,
+          strokeWidth: 6,
+          transform: "translate(0, 15)"
+        }
+      );
+      shapeLetter = "L";
+    } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
+      shape = /* @__PURE__ */ jsx29(
+        "polygon",
+        {
+          points: direction === "higher" /* Higher */ ? upTriangle.map((p) => p.join(",")).join(" ") : downTriangle.map((p) => p.join(",")).join(" "),
+          fill: colour.hex,
+          stroke: colour.hex,
+          strokeWidth: 6,
+          transform: direction === "higher" /* Higher */ ? "translate(0,-6)" : "translate(0,6)"
+        }
+      );
+    }
+    const runLen = Math.max(0, Math.min(5, Math.floor(runLength || 0)));
+    const runY = state === "common_cause" /* CommonCause */ ? 160 : direction === "higher" /* Higher */ ? 210 : 70;
+    const runRadius = 10;
+    const runGap = 26;
+    const runStartX = centerX - 2 * runGap;
+    const runColor = state === "special_cause_improving" /* SpecialCauseImproving */ ? "#00B0F0" : state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */ ? "#E46C0A" : "#A6A6A6";
+    const runCircles = Array.from({ length: 5 }).map((_, i) => {
+      const filled = (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && i >= 5 - runLen;
+      const fill = filled ? runColor : "#A6A6A6";
+      return /* @__PURE__ */ jsx29("circle", { cx: runStartX + i * runGap, cy: runY, r: runRadius, fill, stroke: fill, strokeWidth: 1 }, i);
+    });
+    return /* @__PURE__ */ jsxs19("svg", { width: size, height: size, viewBox: "0 0 300 300", role: "img", "aria-label": aria, "aria-description": ariaDescription, ...rest, children: [
+      dropShadow && /* @__PURE__ */ jsx29("defs", { children: /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+        /* @__PURE__ */ jsx29("feGaussianBlur", { stdDeviation: "3" }),
+        /* @__PURE__ */ jsx29("feOffset", { dx: "0", dy: "15", result: "blur" }),
+        /* @__PURE__ */ jsx29("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
+        /* @__PURE__ */ jsx29("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+        /* @__PURE__ */ jsx29("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+      ] }) }),
+      /* @__PURE__ */ jsx29("circle", { stroke: "none", fill: "#ffffff", ...dropShadow ? { filter: `url(#${shadowId})` } : {}, cx: "150", cy: "150", r: "120" }),
+      /* @__PURE__ */ jsx29("circle", { stroke: colour.hex, strokeWidth: 15, strokeMiterlimit: 10, fill: "none", cx: "150", cy: "150", r: "120" }),
+      /* @__PURE__ */ jsxs19("g", { transform: direction === "higher" /* Higher */ ? "translate(0,-10)" : "translate(0,20)", children: [
+        shape,
+        shapeLetter && /* @__PURE__ */ jsx29("text", { fill: "#fff", fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif", fontWeight: "bold", fontSize: 64, x: "150", y: direction === "higher" /* Higher */ ? 150 : 145, textAnchor: "middle", dominantBaseline: "middle", children: shapeLetter }),
+        runCircles
+      ] })
+    ] });
+  }
+  if (variant === "triangle") {
+    const triSize = 150;
+    const centerX = 150;
+    const centerY = 150;
+    const upTriangle = [
+      [centerX, centerY - triSize / 2],
+      [centerX - triSize / 2, centerY + triSize / 2],
+      [centerX + triSize / 2, centerY + triSize / 2]
+    ];
+    const downTriangle = [
+      [centerX, centerY + triSize / 2],
+      [centerX - triSize / 2, centerY - triSize / 2],
+      [centerX + triSize / 2, centerY - triSize / 2]
+    ];
+    const flatLine = [
+      [centerX - triSize / 2, centerY + triSize / 2],
+      [centerX + triSize / 2, centerY + triSize / 2]
+    ];
+    let shape = null;
+    if (state === "special_cause_improving" /* SpecialCauseImproving */) {
+      shape = /* @__PURE__ */ jsxs19(Fragment4, { children: [
+        /* @__PURE__ */ jsx29(
+          "polygon",
+          {
+            points: upTriangle.map((p) => p.join(",")).join(" "),
+            fill: colour.hex,
+            stroke: colour.hex,
+            strokeWidth: 8,
+            transform: "translate(0, -10)"
+          }
+        ),
+        /* @__PURE__ */ jsx29(
+          "text",
+          {
+            fill: "#fff",
+            fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+            fontWeight: "bold",
+            fontSize: 100,
+            x: "150",
+            y: "175",
+            textAnchor: "middle",
+            dominantBaseline: "middle",
+            children: "H"
+          }
+        )
+      ] });
+    } else if (state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
+      shape = /* @__PURE__ */ jsxs19(Fragment4, { children: [
+        /* @__PURE__ */ jsx29(
+          "polygon",
+          {
+            points: downTriangle.map((p) => p.join(",")).join(" "),
+            fill: colour.hex,
+            stroke: colour.hex,
+            strokeWidth: 8,
+            transform: "translate(0, 10)"
+          }
+        ),
+        /* @__PURE__ */ jsx29(
+          "text",
+          {
+            fill: "#fff",
+            fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+            fontWeight: "bold",
+            fontSize: 100,
+            x: "150",
+            y: "145",
+            textAnchor: "middle",
+            dominantBaseline: "middle",
+            children: "L"
+          }
+        )
+      ] });
+    } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
+      shape = /* @__PURE__ */ jsx29(
+        "polygon",
+        {
+          points: direction === "higher" /* Higher */ ? upTriangle.map((p) => p.join(",")).join(" ") : downTriangle.map((p) => p.join(",")).join(" "),
+          fill: colour.hex,
+          stroke: colour.hex,
+          strokeWidth: 8,
+          transform: direction === "higher" /* Higher */ ? "translate(0, -15)" : "translate(0, 15)"
+        }
+      );
+    } else if (state === "common_cause" /* CommonCause */) {
+      shape = /* @__PURE__ */ jsx29(
+        "line",
+        {
+          x1: flatLine[0][0],
+          y1: flatLine[0][1],
+          x2: flatLine[1][0],
+          y2: flatLine[1][1],
+          stroke: colour.hex,
+          strokeWidth: 32,
+          strokeLinecap: "square",
+          transform: "translate(0, -75)"
+        }
+      );
+    }
+    return /* @__PURE__ */ jsxs19(
+      "svg",
+      {
+        width: size,
+        height: size,
+        viewBox: "0 0 300 300",
+        role: "img",
+        "aria-label": aria,
+        "aria-description": ariaDescription,
+        ...rest,
+        children: [
+          dropShadow && /* @__PURE__ */ jsx29("defs", { children: /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+            /* @__PURE__ */ jsx29("feGaussianBlur", { stdDeviation: "3" }),
+            /* @__PURE__ */ jsx29("feOffset", { dx: "0", dy: "15", result: "blur" }),
+            /* @__PURE__ */ jsx29("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
+            /* @__PURE__ */ jsx29("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+            /* @__PURE__ */ jsx29("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+          ] }) }),
+          /* @__PURE__ */ jsx29(
+            "circle",
+            {
+              stroke: "none",
+              fill: "#ffffff",
+              ...dropShadow ? { filter: `url(#${shadowId})` } : {},
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          ),
+          /* @__PURE__ */ jsx29(
+            "circle",
+            {
+              stroke: colour.hex,
+              strokeWidth: 15,
+              strokeMiterlimit: 10,
+              fill: "none",
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          ),
+          shape
+        ]
+      }
+    );
+  }
+  return /* @__PURE__ */ jsxs19(
+    "svg",
+    {
+      width: size,
+      height: size,
+      viewBox: "0 0 300 300",
+      role: "img",
+      "aria-label": aria,
+      "aria-description": ariaDescription,
+      ...rest,
+      children: [
+        dropShadow && /* @__PURE__ */ jsx29("defs", { children: /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+          /* @__PURE__ */ jsx29("feGaussianBlur", { stdDeviation: "3" }),
+          /* @__PURE__ */ jsx29("feOffset", { dx: "0", dy: "15", result: "blur" }),
+          /* @__PURE__ */ jsx29("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
+          /* @__PURE__ */ jsx29("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+          /* @__PURE__ */ jsx29("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+        ] }) }),
+        /* @__PURE__ */ jsx29(
+          "circle",
+          {
+            stroke: "none",
+            fill: "#ffffff",
+            ...dropShadow ? { filter: `url(#${shadowId})` } : {},
+            cx: "150",
+            cy: "150",
+            r: "120"
+          }
+        ),
+        /* @__PURE__ */ jsx29(
+          "circle",
+          {
+            stroke: colour.hex,
+            strokeWidth: 15,
+            strokeMiterlimit: 10,
+            fill: "none",
+            cx: "150",
+            cy: "150",
+            r: "120"
+          }
+        ),
+        letter && /* @__PURE__ */ jsx29(
+          "text",
+          {
+            fill: colour.hex,
+            fontFamily: "Arial-BoldMT, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+            fontWeight: "bold",
+            fontSize: 176,
+            transform: "translate(86.67, 54) scale(0.5, 0.5)",
+            textAnchor: "end",
+            children: /* @__PURE__ */ jsx29("tspan", { x: "120", y: direction === "lower" /* Lower */ ? "325" : "156", children: letter })
+          }
+        ),
+        isNoJudgement ? /* @__PURE__ */ jsx29(
+          "path",
+          {
+            "aria-hidden": "true",
+            fillRule: "evenodd",
+            stroke: "none",
+            fill: colour.hex,
+            ...direction === "lower" /* Lower */ ? { transform: "rotate(90 150 150)" } : { transform: "translate(-5 0) rotate(0 150 150)" },
+            d: "M 90.26,185.42 L 149.31,126.37 127.44,104.51 209.81,90.66 195.96,173.02 174.09,151.16 115.05,210.2 90.26,185.42 Z M 90.26,185.42"
+          }
+        ) : /* @__PURE__ */ jsxs19(Fragment4, { children: [
+          points.length === 5 && /* @__PURE__ */ jsx29(
+            "path",
+            {
+              "aria-hidden": "true",
+              fill: "none",
+              stroke: "#A6A6A6",
+              strokeWidth: 12,
+              strokeLinecap: "round",
+              strokeLinejoin: "round",
+              opacity: 0.9,
+              d: `M ${points.map((p) => `${p.cx} ${p.cy}`).join(" L ")}`
+            }
+          ),
+          points.map((p, i) => {
+            const specialIdx = i >= points.length - 2 && isSpecial;
+            const fill = specialIdx ? pointColour : "#A6A6A6";
+            const stroke = fill;
+            return /* @__PURE__ */ jsx29(
+              "circle",
+              {
+                stroke,
+                strokeWidth: 2,
+                strokeMiterlimit: 10,
+                fill,
+                cx: p.cx,
+                cy: p.cy,
+                r: 16
+              },
+              i
+            );
+          })
+        ] })
+      ]
+    }
+  );
+};
+SpcVariationIcon.displayName = "SpcVariationIcon";
+
+// src/components/DataVisualisation/charts/SPCChart/SPCChart.tsx
+import { Fragment as Fragment5, jsx as jsx30, jsxs as jsxs20 } from "react/jsx-runtime";
+var SPCChart = ({
+  data,
+  ariaLabel = "SPC chart",
+  height = 260,
+  showZones = true,
+  showPoints = true,
+  announceFocus = false,
+  className,
+  unit: unit2,
+  highlightOutOfControl = true,
+  chartType = "XmR",
+  metricImprovement = "Neither" /* Neither */,
+  enableRules = true,
+  showIcons = false,
+  showEmbeddedIcon = true,
+  targets,
+  baselines,
+  ghosts,
+  settings,
+  narrationContext
+}) => {
+  var _a, _b, _c, _d, _e, _f, _g, _h;
+  const engine = React24.useMemo(() => {
+    const rowsInput = data.map((d, i) => {
+      var _a2, _b2, _c2;
+      return {
+        x: d.x,
+        value: d.y,
+        target: (_a2 = targets == null ? void 0 : targets[i]) != null ? _a2 : void 0,
+        baseline: (_b2 = baselines == null ? void 0 : baselines[i]) != null ? _b2 : void 0,
+        ghost: (_c2 = ghosts == null ? void 0 : ghosts[i]) != null ? _c2 : void 0
+      };
+    });
+    try {
+      return buildSpc({
+        chartType,
+        metricImprovement,
+        data: rowsInput,
+        settings
+      });
+    } catch {
+      return null;
+    }
+  }, [
+    data,
+    targets,
+    baselines,
+    ghosts,
+    chartType,
+    metricImprovement,
+    settings
+  ]);
+  const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r2) => r2.mean != null);
+  const mean2 = (_a = engineRepresentative == null ? void 0 : engineRepresentative.mean) != null ? _a : null;
+  const ucl = (_b = engineRepresentative == null ? void 0 : engineRepresentative.upperProcessLimit) != null ? _b : null;
+  const lcl = (_c = engineRepresentative == null ? void 0 : engineRepresentative.lowerProcessLimit) != null ? _c : null;
+  const onePos = (_d = engineRepresentative == null ? void 0 : engineRepresentative.upperOneSigma) != null ? _d : null;
+  const oneNeg = (_e = engineRepresentative == null ? void 0 : engineRepresentative.lowerOneSigma) != null ? _e : null;
+  const twoPos = (_f = engineRepresentative == null ? void 0 : engineRepresentative.upperTwoSigma) != null ? _f : null;
+  const twoNeg = (_g = engineRepresentative == null ? void 0 : engineRepresentative.lowerTwoSigma) != null ? _g : null;
+  const sigma = mean2 != null && onePos != null ? Math.abs(onePos - mean2) : 0;
+  const series = React24.useMemo(
+    () => [{ id: "process", data, color: "#A6A6A6" }],
+    [data]
+  );
+  const yDomain = React24.useMemo(() => {
+    const values = data.map((d) => d.y);
+    const base = [...values];
+    [mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg].forEach((v) => {
+      if (v != null) base.push(v);
+    });
+    if (!base.length) return void 0;
+    return [Math.min(...base), Math.max(...base)];
+  }, [data, mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg]);
+  const autoUnit = React24.useMemo(() => {
+    if (unit2 || (narrationContext == null ? void 0 : narrationContext.measureUnit)) return void 0;
+    if (!data.length) return void 0;
+    return data.every((d) => d.y >= 0 && d.y <= 1) ? "%" : void 0;
+  }, [unit2, narrationContext == null ? void 0 : narrationContext.measureUnit, data]);
+  const effectiveUnit = (_h = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _h : autoUnit;
+  const effectiveNarrationContext = React24.useMemo(() => {
+    return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
+  }, [narrationContext, effectiveUnit]);
+  const embeddedIcon = React24.useMemo(() => {
+    var _a2;
+    if (!showEmbeddedIcon || !((_a2 = engine == null ? void 0 : engine.rows) == null ? void 0 : _a2.length)) return null;
+    const engineRows = engine.rows;
+    let lastIdx = -1;
+    for (let i = engineRows.length - 1; i >= 0; i--) {
+      const r2 = engineRows[i];
+      if (r2 && r2.value != null && !r2.ghost) {
+        lastIdx = i;
+        break;
+      }
+    }
+    if (lastIdx === -1) return null;
+    const lastRow = engineRows[lastIdx];
+    const variation = lastRow.variationIcon;
+    let trend = void 0;
+    let judgement;
+    switch (variation) {
+      case "improvement" /* Improvement */:
+        judgement = "improving" /* Improving */;
+        break;
+      case "concern" /* Concern */:
+        judgement = "deteriorating" /* Deteriorating */;
+        break;
+      case "none" /* None */:
+        judgement = "no_judgement" /* No_Judgement */;
+        break;
+      case "neither" /* Neither */:
+      default:
+        judgement = "none" /* None */;
+    }
+    let polarity;
+    if (metricImprovement === "Up" /* Up */) {
+      polarity = "higher_is_better" /* HigherIsBetter */;
+    } else if (metricImprovement === "Down" /* Down */) {
+      polarity = "lower_is_better" /* LowerIsBetter */;
+    } else {
+      polarity = "context_dependent" /* ContextDependent */;
+    }
+    const iconSize = 80;
+    return /* @__PURE__ */ jsx30(
+      "div",
+      {
+        className: "fdp-spc-chart__embedded-icon",
+        "data-variation": String(variation),
+        "data-variation-judgement": String(judgement),
+        "data-trend-raw": "none",
+        "data-trend": trend ? String(trend) : "none",
+        "data-polarity": String(polarity != null ? polarity : "unknown"),
+        style: { width: iconSize, height: iconSize },
+        children: /* @__PURE__ */ jsx30(
+          SpcVariationIcon,
+          {
+            dropShadow: false,
+            data: { judgement, polarity, ...trend ? { trend } : {} },
+            size: iconSize
+          }
+        )
+      },
+      `embedded-icon-${lastIdx}`
+    );
+  }, [showEmbeddedIcon, engine == null ? void 0 : engine.rows, metricImprovement]);
+  return /* @__PURE__ */ jsxs20("div", { className: className ? `fdp-spc-chart-wrapper ${className}` : "fdp-spc-chart-wrapper", children: [
+    showEmbeddedIcon && /* @__PURE__ */ jsx30("div", { className: "fdp-spc-chart__top-row", style: { display: "flex", justifyContent: "flex-end", marginBottom: 4 }, children: embeddedIcon }),
+    /* @__PURE__ */ jsx30(
+      ChartRoot,
+      {
+        height,
+        ariaLabel,
+        margin: { bottom: 48, left: 56, right: 16, top: 12 },
+        className: void 0,
+        children: /* @__PURE__ */ jsx30(LineScalesProvider, { series, yDomain, children: /* @__PURE__ */ jsx30(
+          InternalSPC,
+          {
+            series,
+            showPoints,
+            announceFocus,
+            limits: { mean: mean2, ucl, lcl, sigma, onePos, oneNeg, twoPos, twoNeg },
+            showZones,
+            highlightOutOfControl,
+            engineRows: (engine == null ? void 0 : engine.rows) || null,
+            enableRules,
+            showIcons,
+            narrationContext: effectiveNarrationContext,
+            metricImprovement
+          }
+        ) })
+      }
+    )
+  ] });
+};
+var InternalSPC = ({
+  series,
+  showPoints,
+  announceFocus,
+  limits,
+  showZones,
+  highlightOutOfControl,
+  engineRows,
+  enableRules,
+  showIcons,
+  narrationContext
+}) => {
+  var _a;
+  const scaleCtx = useScaleContext();
+  const chartCtx = useChartContext();
+  if (!scaleCtx) return null;
+  const { xScale, yScale } = scaleCtx;
+  const tooltipCtx = useTooltipContext();
+  const all = ((_a = series[0]) == null ? void 0 : _a.data) || [];
+  const outOfControl = React24.useMemo(() => {
+    if (!limits.ucl && !limits.lcl) return /* @__PURE__ */ new Set();
+    const set = /* @__PURE__ */ new Set();
+    all.forEach((d, i) => {
+      if (limits.ucl != null && d.y > limits.ucl || limits.lcl != null && d.y < limits.lcl)
+        set.add(i);
+    });
+    return set;
+  }, [all, limits.ucl, limits.lcl]);
+  const engineSignals = React24.useMemo(() => {
+    if (!engineRows) return null;
+    const map2 = {};
+    engineRows.forEach((r2, idx) => {
+      if (r2.value == null || r2.ghost) return;
+      const anySpecial = r2.specialCauseSinglePointAbove || r2.specialCauseSinglePointBelow || r2.specialCauseTwoOfThreeAbove || r2.specialCauseTwoOfThreeBelow || r2.specialCauseFourOfFiveAbove || r2.specialCauseFourOfFiveBelow || r2.specialCauseShiftHigh || r2.specialCauseShiftLow || r2.specialCauseTrendIncreasing || r2.specialCauseTrendDecreasing;
+      map2[idx] = {
+        variation: r2.variationIcon,
+        assurance: r2.assuranceIcon,
+        special: anySpecial,
+        concern: r2.variationIcon === "concern" /* Concern */,
+        improvement: r2.variationIcon === "improvement" /* Improvement */
+      };
+    });
+    return map2;
+  }, [engineRows]);
+  const computedTimeframe = React24.useMemo(() => {
+    if (!(narrationContext == null ? void 0 : narrationContext.timeframe) && all.length >= 2) {
+      const xs = all.map((d) => d.x instanceof Date ? d.x : new Date(d.x));
+      const min = new Date(Math.min(...xs.map((d) => d.getTime())));
+      const max = new Date(Math.max(...xs.map((d) => d.getTime())));
+      const diffDays = Math.round((max.getTime() - min.getTime()) / 864e5) || 0;
+      if (diffDays < 14)
+        return `The chart shows a timeframe of ${diffDays + 1} days`;
+      const weeks = Math.round(diffDays / 7);
+      if (weeks < 20) return `The chart shows a timeframe of ${weeks} weeks`;
+      const months = (max.getFullYear() - min.getFullYear()) * 12 + (max.getMonth() - min.getMonth()) + 1;
+      return `The chart shows a timeframe of ${months} months`;
+    }
+    if (narrationContext == null ? void 0 : narrationContext.timeframe) {
+      return `The chart shows a timeframe of ${narrationContext.timeframe}`;
+    }
+    return void 0;
+  }, [narrationContext == null ? void 0 : narrationContext.timeframe, all]);
+  const ordinal2 = (n) => {
+    const mod10 = n % 10, mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return `${n}st`;
+    if (mod10 === 2 && mod100 !== 12) return `${n}nd`;
+    if (mod10 === 3 && mod100 !== 13) return `${n}rd`;
+    return `${n}th`;
+  };
+  const formatDateLong = (d) => `${ordinal2(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
+  const formatLive = React24.useCallback(
+    ({ index, x: x2, y: y2 }) => {
+      const row = engineRows == null ? void 0 : engineRows[index];
+      const dateObj = x2 instanceof Date ? x2 : new Date(x2);
+      const dateLabel = formatDateLong(dateObj);
+      const unit2 = (narrationContext == null ? void 0 : narrationContext.measureUnit) ? ` ${narrationContext.measureUnit}` : "";
+      const measure = (narrationContext == null ? void 0 : narrationContext.measureName) ? ` ${narrationContext.measureName}` : "";
+      if (!row) {
+        return `General summary is: ${computedTimeframe ? computedTimeframe + ". " : ""}Point ${index + 1}, ${dateLabel}, ${y2}${unit2}${measure}`;
+      }
+      const varLabel = variationLabel(row.variationIcon) || "Variation";
+      const ruleIds = extractRuleIds(row);
+      const ruleNarr = ruleIds.length ? ` Rules: ${[...new Set(ruleIds.map((r2) => ruleGlossary[r2].narration))].join("; ")}.` : " No special cause rules.";
+      const ctxParts = [];
+      if (narrationContext == null ? void 0 : narrationContext.measureName) ctxParts.push(`Measure: ${narrationContext.measureName}.`);
+      if (narrationContext == null ? void 0 : narrationContext.datasetContext) ctxParts.push(`${narrationContext.datasetContext}.`);
+      if (narrationContext == null ? void 0 : narrationContext.organisation) ctxParts.push(`Organisation: ${narrationContext.organisation}.`);
+      if (narrationContext == null ? void 0 : narrationContext.additionalNote) ctxParts.push(narrationContext.additionalNote);
+      return [
+        `General summary is:`,
+        ...ctxParts,
+        `Point ${index + 1} recorded on `,
+        dateLabel + ",",
+        `with a value of ${y2} ${unit2}${measure}`,
+        varLabel + ".",
+        ruleNarr
+      ].join(" ").replace(/\s+/g, " ").trim();
+    },
+    [engineRows, narrationContext, computedTimeframe]
+  );
+  const describePoint = React24.useCallback(
+    (index, d) => {
+      const row = engineRows == null ? void 0 : engineRows[index];
+      if (!row) return void 0;
+      const base = formatLive({
+        index,
+        seriesId: "process",
+        x: d.x instanceof Date ? d.x : new Date(d.x),
+        y: d.y
+      });
+      return base.replace(/^General summary is:\s*/, "").replace(/^Point \d+\s*/, "");
+    },
+    [engineRows, formatLive]
+  );
+  return /* @__PURE__ */ jsx30(TooltipProvider, { children: /* @__PURE__ */ jsxs20(
+    "div",
+    {
+      className: "fdp-spc-chart",
+      role: "group",
+      "aria-label": "Statistical process control chart",
+      "aria-roledescription": "chart",
+      children: [
+        /* @__PURE__ */ jsx30(
+          "svg",
+          {
+            width: scaleCtx.xScale.range()[1] + 56 + 16,
+            height: scaleCtx.yScale.range()[0] + 12 + 48,
+            role: "img",
+            children: /* @__PURE__ */ jsxs20("g", { transform: `translate(56,12)`, children: [
+              /* @__PURE__ */ jsx30(Axis_default, { type: "x" }),
+              /* @__PURE__ */ jsx30(Axis_default, { type: "y" }),
+              /* @__PURE__ */ jsx30(GridLines_default, { axis: "y" }),
+              limits.mean != null && /* @__PURE__ */ jsx30(
+                "line",
+                {
+                  className: "fdp-spc__cl",
+                  x1: 0,
+                  x2: xScale.range()[1],
+                  y1: yScale(limits.mean),
+                  y2: yScale(limits.mean),
+                  "aria-hidden": "true"
+                }
+              ),
+              limits.ucl != null && /* @__PURE__ */ jsx30(
+                "line",
+                {
+                  className: "fdp-spc__limit fdp-spc__limit--ucl",
+                  x1: 0,
+                  x2: xScale.range()[1],
+                  y1: yScale(limits.ucl),
+                  y2: yScale(limits.ucl),
+                  "aria-hidden": "true"
+                }
+              ),
+              limits.lcl != null && /* @__PURE__ */ jsx30(
+                "line",
+                {
+                  className: "fdp-spc__limit fdp-spc__limit--lcl",
+                  x1: 0,
+                  x2: xScale.range()[1],
+                  y1: yScale(limits.lcl),
+                  y2: yScale(limits.lcl),
+                  "aria-hidden": "true"
+                }
+              ),
+              showZones && limits.mean != null && /* @__PURE__ */ jsxs20(Fragment5, { children: [
+                limits.onePos != null && /* @__PURE__ */ jsx30(
+                  "line",
+                  {
+                    className: "fdp-spc__zone fdp-spc__zone--pos1",
+                    x1: 0,
+                    x2: xScale.range()[1],
+                    y1: yScale(limits.onePos),
+                    y2: yScale(limits.onePos),
+                    "aria-hidden": "true"
+                  }
+                ),
+                limits.oneNeg != null && /* @__PURE__ */ jsx30(
+                  "line",
+                  {
+                    className: "fdp-spc__zone fdp-spc__zone--neg1",
+                    x1: 0,
+                    x2: xScale.range()[1],
+                    y1: yScale(limits.oneNeg),
+                    y2: yScale(limits.oneNeg),
+                    "aria-hidden": "true"
+                  }
+                ),
+                limits.twoPos != null && /* @__PURE__ */ jsx30(
+                  "line",
+                  {
+                    className: "fdp-spc__zone fdp-spc__zone--pos2",
+                    x1: 0,
+                    x2: xScale.range()[1],
+                    y1: yScale(limits.twoPos),
+                    y2: yScale(limits.twoPos),
+                    "aria-hidden": "true"
+                  }
+                ),
+                limits.twoNeg != null && /* @__PURE__ */ jsx30(
+                  "line",
+                  {
+                    className: "fdp-spc__zone fdp-spc__zone--neg2",
+                    x1: 0,
+                    x2: xScale.range()[1],
+                    y1: yScale(limits.twoNeg),
+                    y2: yScale(limits.twoNeg),
+                    "aria-hidden": "true"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ jsx30(
+                LineSeriesPrimitive_default,
+                {
+                  series: series[0],
+                  seriesIndex: 0,
+                  palette: "categorical",
+                  showPoints: false,
+                  focusablePoints: false,
+                  focusIndex: -1,
+                  parseX: (d) => d.x instanceof Date ? d.x : new Date(d.x),
+                  smooth: false
+                }
+              ),
+              showPoints && all.map((d, i) => {
+                var _a2;
+                const cx = xScale(d.x instanceof Date ? d.x : new Date(d.x));
+                const cy = yScale(d.y);
+                const ooc = outOfControl.has(i);
+                const sig = engineSignals == null ? void 0 : engineSignals[i];
+                const classes = [
+                  "fdp-spc__point",
+                  ooc && highlightOutOfControl ? "fdp-spc__point--ooc" : null,
+                  enableRules && (sig == null ? void 0 : sig.special) && sig.concern ? "fdp-spc__point--sc-concern" : null,
+                  enableRules && (sig == null ? void 0 : sig.special) && sig.improvement ? "fdp-spc__point--sc-improvement" : null,
+                  (sig == null ? void 0 : sig.assurance) === "pass" /* Pass */ ? "fdp-spc__point--assurance-pass" : null,
+                  (sig == null ? void 0 : sig.assurance) === "fail" /* Fail */ ? "fdp-spc__point--assurance-fail" : null
+                ].filter(Boolean).join(" ");
+                const ariaLabel = `Point ${i + 1} value ${d.y}` + ((sig == null ? void 0 : sig.special) ? " special cause" : "") + ((sig == null ? void 0 : sig.variation) === "improvement" /* Improvement */ ? " improving" : (sig == null ? void 0 : sig.variation) === "concern" /* Concern */ ? " concern" : "");
+                const isFocused = ((_a2 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a2.index) === i;
+                return /* @__PURE__ */ jsx30(
+                  "circle",
+                  {
+                    cx,
+                    cy,
+                    r: 5,
+                    className: classes,
+                    "data-variation": sig == null ? void 0 : sig.variation,
+                    "data-assurance": sig == null ? void 0 : sig.assurance,
+                    "aria-label": ariaLabel,
+                    ...isFocused ? { "aria-describedby": `spc-tooltip-${i}` } : {}
+                  },
+                  i
+                );
+              }),
+              showIcons && enableRules && engineSignals && all.map((d, i) => {
+                const sig = engineSignals[i];
+                if (!sig) return null;
+                if (!(sig.concern || sig.improvement)) return null;
+                const rawX = xScale(d.x instanceof Date ? d.x : new Date(d.x));
+                const rawPointY = yScale(d.y);
+                let iconY = rawPointY - 10;
+                const topPadding = 12;
+                const bottomLimit = yScale.range()[0] - 4;
+                if (iconY < topPadding) {
+                  iconY = Math.min(rawPointY + 16, bottomLimit);
+                }
+                const plotWidth = xScale.range()[1];
+                const iconX = Math.min(Math.max(rawX, 0), plotWidth - 0);
+                return /* @__PURE__ */ jsx30(
+                  "text",
+                  {
+                    x: iconX,
+                    y: iconY,
+                    textAnchor: "middle",
+                    className: `fdp-spc__icon ${sig.concern ? "fdp-spc__icon--concern" : "fdp-spc__icon--improvement"}`,
+                    "aria-hidden": "true",
+                    children: sig.concern ? "!" : "\u2605"
+                  },
+                  `icon-${i}`
+                );
+              }),
+              chartCtx && /* @__PURE__ */ jsx30(
+                InteractionLayer,
+                {
+                  width: xScale.range()[1],
+                  height: yScale.range()[0]
+                }
+              ),
+              /* @__PURE__ */ jsx30(
+                SPCTooltipOverlay_default,
+                {
+                  engineRows,
+                  limits: { mean: limits.mean, sigma: limits.sigma },
+                  pointDescriber: describePoint,
+                  measureName: narrationContext == null ? void 0 : narrationContext.measureName,
+                  measureUnit: narrationContext == null ? void 0 : narrationContext.measureUnit,
+                  dateFormatter: (d) => formatDateLong(d)
+                }
+              )
+            ] })
+          }
+        ),
+        announceFocus && /* @__PURE__ */ jsx30(
+          VisuallyHiddenLiveRegion_default,
+          {
+            format: (d) => formatLive({ ...d, x: d.x instanceof Date ? d.x : new Date(d.x) })
+          }
+        )
+      ]
+    }
+  ) });
+};
+var InteractionLayer = ({
+  width,
+  height
+}) => {
+  const t = useTooltipContext();
+  if (!t) return null;
+  return /* @__PURE__ */ jsx30(
+    "rect",
+    {
+      className: "fdp-spc__interaction-layer",
+      width,
+      height,
+      fill: "transparent",
+      tabIndex: 0,
+      "aria-label": "Interactive chart area. Use arrow keys to move between points.",
+      onMouseMove: (e) => {
+        const target = e.currentTarget;
+        const bounds = target.getBoundingClientRect();
+        const x2 = e.clientX - bounds.left;
+        const y2 = e.clientY - bounds.top;
+        t.focusNearest(x2, y2);
+      },
+      onMouseLeave: () => t.clear(),
+      onKeyDown: (e) => {
+        switch (e.key) {
+          case "ArrowRight":
+            t.focusNextPoint();
+            e.preventDefault();
+            break;
+          case "ArrowLeft":
+            t.focusPrevPoint();
+            e.preventDefault();
+            break;
+          case "ArrowDown":
+            t.focusNextSeries();
+            e.preventDefault();
+            break;
+          case "ArrowUp":
+            t.focusPrevSeries();
+            e.preventDefault();
+            break;
+          case "Home":
+            t.focusFirstPoint();
+            e.preventDefault();
+            break;
+          case "End":
+            t.focusLastPoint();
+            e.preventDefault();
+            break;
+        }
+      },
+      style: { cursor: "crosshair" }
+    }
+  );
+};
+var SPCChart_default = SPCChart;
 export {
   AreaSeriesPrimitive_default as AreaSeriesPrimitive,
   Axis_default as Axis,
   BandScalesProvider,
   BarSeriesPrimitive_default as BarSeriesPrimitive,
   ChartContainer_default as ChartContainer,
+  ChartEnhancer_default as ChartEnhancer,
+  ChartNoScript_default as ChartNoScript,
   ChartRoot_default as ChartRoot,
   ChartWithTableTabs_default as ChartWithTableTabs,
   FilterableLineChart_default as FilterableLineChart,
@@ -5311,6 +7869,8 @@ export {
   LineChart_default as LineChart,
   LineScalesProvider,
   LineSeriesPrimitive_default as LineSeriesPrimitive,
+  MetricCard_default as MetricCard,
+  SPCChart_default as SPCChart,
   TooltipOverlay_default as TooltipOverlay,
   TooltipProvider,
   VisibilityProvider,

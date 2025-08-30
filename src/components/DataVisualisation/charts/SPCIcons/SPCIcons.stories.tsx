@@ -266,4 +266,3 @@ export const AllAssuranceIcons = () => (
 );
 
 AllVariationIcons.storyName = "All Variation Icons (engine enum)";
-AllAssuranceIcons.storyName = "All Assurance Icons";

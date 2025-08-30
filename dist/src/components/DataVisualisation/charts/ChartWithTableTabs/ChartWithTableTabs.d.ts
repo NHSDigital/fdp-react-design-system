@@ -1,6 +1,6 @@
 import * as React from 'react';
-import type { TabItem } from '../Tabs/Tabs.types';
-import { type ChartContainerProps, type LineSeries } from './index';
+import type { TabItem } from '../../../Tabs/Tabs.types';
+import { type ChartContainerProps, type LineSeries } from '../../index';
 export interface ChartWithTableTabsProps extends Omit<ChartContainerProps, 'children' | 'tabularData' | 'showTableToggle'> {
     /** The chart element to render */
     chart: React.ReactNode;

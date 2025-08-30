@@ -24,6 +24,11 @@ export interface AreaSeriesPrimitiveProps {
     baselineY?: number;
     /** Enable curve smoothing (monotoneX). Defaults to true. */
     smooth?: boolean;
+    /** Optional stacked data providing per-datum y0/y1 (overrides baselineY & raw y). Length must match series.data. */
+    stacked?: {
+        y0: number;
+        y1: number;
+    }[];
 }
 /** Renders an area under a line (baseline -> series y). Provides tooltip registration like LineSeriesPrimitive. */
 export declare const AreaSeriesPrimitive: React.FC<AreaSeriesPrimitiveProps>;

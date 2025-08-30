@@ -314,6 +314,18 @@ export const BreakpointXxlarge = "1440px"; // Extra extra large devices (ultra-w
 export const GridPageWidth = "960px"; // Maximum page width
 export const GridGutter = "32px"; // Grid gutter width
 export const GridGutterHalf = "16px"; // Half grid gutter width
+export const GradientMetricCardPrimary =
+  "linear-gradient(135deg, rgba(0,94,184,0.05), #ffffff)"; // Primary metric card subtle wash (NHS Blue 5% → White)
+export const GradientMetricCardSecondary =
+  "linear-gradient(135deg, rgba(136,15,184,0.06), #ffffff)"; // Secondary metric card subtle wash (Light Purple 6% → White)
+export const GradientMetricCardAccent =
+  "linear-gradient(135deg, rgba(255,184,28,0.10), #ffffff)"; // Accent metric card subtle wash (Warm Yellow 10% → White)
+export const GradientMetricCardSuccess =
+  "linear-gradient(135deg, rgba(0,164,153,0.10), #ffffff)"; // Success metric card subtle wash (Aqua Green 10% → White)
+export const GradientMetricCardWarning =
+  "linear-gradient(135deg, rgba(237,79,0,0.10), #ffffff)"; // Warning metric card subtle wash (Tangerine 10% → White)
+export const GradientMetricCardError =
+  "linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff)"; // Error metric card subtle wash (NHS Red 10% → White)
 export const SemanticIntentHoverPrimary = "darken(#007f3b, 10%)"; // Primary intent hover state - darker NHS Green
 export const SemanticIntentHoverSecondary = "darken(#005eb8, 10%)"; // Secondary intent hover state - darker NHS Blue
 export const SemanticIntentHoverWarning = "darken(#d5281b, 10%)"; // Warning intent hover state - darker NHS Red

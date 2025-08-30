@@ -20,6 +20,16 @@
 				}
 			},
 			{
+				"destination": "_gradients.scss",
+				"format": "scss/variables",
+				"filter": {
+					"$type": "gradient"
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
 				"destination": "_spacing.scss",
 				"format": "scss/variables",
 				"filter": {
@@ -163,6 +173,23 @@
 			{
 				"destination": "tokens.json",
 				"format": "json/nested"
+			},
+			{
+				"destination": "gradients.js",
+				"format": "javascript/es6",
+				"filter": {
+					"$type": "gradient"
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
+				"destination": "gradients.json",
+				"format": "json/nested",
+				"filter": {
+					"$type": "gradient"
+				}
 			},
 			{
 				"destination": "components/button.js",

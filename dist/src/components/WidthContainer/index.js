@@ -93,6 +93,7 @@ var Container = ({
   className,
   fluid = false,
   maxWidth,
+  style,
   ...props
 }) => {
   const containerClasses = (0, import_classnames.default)(
@@ -102,8 +103,8 @@ var Container = ({
     },
     className
   );
-  const style = maxWidth ? { maxWidth } : void 0;
-  return /* @__PURE__ */ jsx("div", { className: containerClasses, style, ...props, children });
+  const mergedStyle = maxWidth ? { maxWidth, ...style || {} } : style;
+  return /* @__PURE__ */ jsx("div", { className: containerClasses, style: mergedStyle, ...props, children });
 };
 
 // src/components/WidthContainer/WidthContainer.tsx

@@ -1003,6 +1003,21 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 			  tabIndex={0}
 			>
 			  <div className="nhs-navigation-split-view__secondary-inner" style={{ display:'flex', flexDirection:'column', flex: 1, minWidth: 0 }}>
+				{/* Header for inline mode with back button */}
+				{ tertiaryInlineActive && !tertiaryVisible && (
+				  <div className="nhs-navigation-split-view__header">
+					<div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+					  <div style={{ display: 'flex', alignItems: 'center', gap: 0, flex: '1 1 auto', minWidth: 0 }}>
+						{tertiaryBackNode}
+						<div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
+						  <h2 style={{ marginLeft: 0, marginRight: 0 }}>
+							{selectedItem && typeof selectedItem === 'object' && 'label' in selectedItem ? selectedItem.label : String(selectedItem)}
+						  </h2>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				)}
 				{ selectedItem && secondarySubheader && (
 				  <div className="nhs-navigation-split-view__secondary-header" style={{ padding: '16px 32px', borderBottom: '1px solid var(--nsplit-divider)' }}>
 					{ typeof secondarySubheader === 'function' ? secondarySubheader(selectedItem as any) : secondarySubheader }

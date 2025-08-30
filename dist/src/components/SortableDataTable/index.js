@@ -463,7 +463,16 @@ var AriaDataGrid = React.forwardRef(
 AriaDataGrid.displayName = "AriaDataGrid";
 
 // src/components/SortableDataTable/AriaTabsDataGrid.tsx
-import React4, { useReducer, useCallback as useCallback4, useMemo as useMemo3, useRef as useRef3, useImperativeHandle, forwardRef as forwardRef2, useEffect as useEffect2, useState as useState3 } from "react";
+import React4, {
+  useReducer,
+  useCallback as useCallback4,
+  useMemo as useMemo3,
+  useRef as useRef3,
+  useImperativeHandle,
+  forwardRef as forwardRef2,
+  useEffect as useEffect2,
+  useState as useState3
+} from "react";
 
 // src/components/SortableDataTable/SortStatusControl/SortStatusControl.tsx
 import { useCallback as useCallback3, useMemo as useMemo2, useRef as useRef2 } from "react";
@@ -986,91 +995,101 @@ function tabsDataGridReducer(state, action) {
       return state;
   }
 }
-var AriaTabsDataGrid = forwardRef2(
-  function AriaTabsDataGrid2(props, ref) {
-    const {
-      dataConfig = {},
-      tabPanels,
-      selectedIndex: selectedIndexProp,
-      onTabChange,
-      onGlobalRowSelectionChange,
-      ariaLabel,
-      ariaDescription,
-      className = "",
-      disabled = false,
-      orientation = "horizontal",
-      id,
-      isLoading = false,
-      loadingComponent,
-      error = null,
-      errorComponent,
-      "data-testid": dataTestId
-    } = props;
-    const baseIdRef = useRef3(id || `aria-tabs-datagrid-${Math.random().toString(36).slice(2, 9)}`);
-    const baseId = baseIdRef.current;
-    const descriptionLooksLikeId = typeof ariaDescription === "string" && ariaDescription.trim() !== "" && !/\s/.test(ariaDescription);
-    const generatedDescriptionId = `${baseId}-description`;
-    const navigationHelpId = `${baseId}-navigation-help`;
-    const {
-      dataComparator = (a, b) => JSON.stringify(a) === JSON.stringify(b),
-      filterFunction = (data) => data,
-      booleanRenderer = (value) => value ? "\u2713" : "\u2717"
-    } = dataConfig || {};
-    const isControlled = selectedIndexProp !== void 0;
-    const selectedIndex = selectedIndexProp != null ? selectedIndexProp : 0;
-    const [navigationState, setNavigationState] = useState3({
+var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
+  const {
+    dataConfig = {},
+    tabPanels,
+    selectedIndex: selectedIndexProp,
+    onTabChange,
+    onGlobalRowSelectionChange,
+    ariaLabel,
+    ariaDescription,
+    className = "",
+    disabled = false,
+    orientation = "horizontal",
+    id,
+    isLoading = false,
+    loadingComponent,
+    error = null,
+    errorComponent,
+    "data-testid": dataTestId,
+    actions,
+    actionsMinGap = 16,
+    forceActionsAbove = false
+  } = props;
+  const baseIdRef = useRef3(
+    id || `aria-tabs-datagrid-${Math.random().toString(36).slice(2, 9)}`
+  );
+  const baseId = baseIdRef.current;
+  const descriptionLooksLikeId = typeof ariaDescription === "string" && ariaDescription.trim() !== "" && !/\s/.test(ariaDescription);
+  const generatedDescriptionId = `${baseId}-description`;
+  const navigationHelpId = `${baseId}-navigation-help`;
+  const {
+    dataComparator = (a, b) => JSON.stringify(a) === JSON.stringify(b),
+    filterFunction = (data) => data,
+    booleanRenderer = (value) => value ? "\u2713" : "\u2717"
+  } = dataConfig || {};
+  const isControlled = selectedIndexProp !== void 0;
+  const selectedIndex = selectedIndexProp != null ? selectedIndexProp : 0;
+  const [navigationState, setNavigationState] = useState3({
+    focusArea: "tabs",
+    focusedTabIndex: selectedIndex,
+    focusedHeaderIndex: 0,
+    focusedRowIndex: 0,
+    focusedColumnIndex: 0,
+    focusedActionIndex: 0,
+    isGridActive: false
+  });
+  const initialState = useMemo3(() => {
+    return {
+      selectedIndex,
+      tabLoadingStates: new Array(tabPanels.length).fill(false),
+      tabErrors: new Array(tabPanels.length).fill(null),
+      sortConfig: [],
+      // Start with empty sort config
+      selectedRows: new Array(tabPanels.length).fill([]),
+      globalSelectedRowData: null,
+      filters: void 0
+    };
+  }, [selectedIndex]);
+  const [state, dispatch] = useReducer(tabsDataGridReducer, initialState);
+  useEffect2(() => {
+    const currentLength = state.tabLoadingStates.length;
+    const newLength = tabPanels.length;
+    if (currentLength !== newLength) {
+      dispatch({ type: "ADJUST_ARRAYS", payload: { newLength } });
+    }
+  }, [tabPanels.length]);
+  useEffect2(() => {
+    if (isControlled) {
+      dispatch({ type: "SET_SELECTED_INDEX", payload: selectedIndex });
+    }
+  }, [selectedIndex, isControlled]);
+  useEffect2(() => {
+    setNavigationState((prev) => ({
+      ...prev,
       focusArea: "tabs",
-      focusedTabIndex: selectedIndex,
+      focusedTabIndex: state.selectedIndex,
       focusedHeaderIndex: 0,
       focusedRowIndex: 0,
       focusedColumnIndex: 0,
+      focusedActionIndex: 0,
       isGridActive: false
-    });
-    const initialState = useMemo3(() => {
-      return {
-        selectedIndex,
-        tabLoadingStates: new Array(tabPanels.length).fill(false),
-        tabErrors: new Array(tabPanels.length).fill(null),
-        sortConfig: [],
-        // Start with empty sort config
-        selectedRows: new Array(tabPanels.length).fill([]),
-        globalSelectedRowData: null,
-        filters: void 0
-      };
-    }, [selectedIndex]);
-    const [state, dispatch] = useReducer(tabsDataGridReducer, initialState);
-    useEffect2(() => {
-      const currentLength = state.tabLoadingStates.length;
-      const newLength = tabPanels.length;
-      if (currentLength !== newLength) {
-        dispatch({ type: "ADJUST_ARRAYS", payload: { newLength } });
-      }
-    }, [tabPanels.length]);
-    useEffect2(() => {
-      if (isControlled) {
-        dispatch({ type: "SET_SELECTED_INDEX", payload: selectedIndex });
-      }
-    }, [selectedIndex, isControlled]);
-    useEffect2(() => {
-      setNavigationState((prev) => ({
-        ...prev,
-        focusArea: "tabs",
-        focusedTabIndex: state.selectedIndex,
-        focusedHeaderIndex: 0,
-        focusedRowIndex: 0,
-        focusedColumnIndex: 0,
-        isGridActive: false
-      }));
-    }, [state.selectedIndex]);
-    useEffect2(() => {
-      if (onGlobalRowSelectionChange) {
-        onGlobalRowSelectionChange(state.globalSelectedRowData);
-      }
-    }, [state.globalSelectedRowData, onGlobalRowSelectionChange]);
-    const isDataEqual = useCallback4((data1, data2) => {
+    }));
+  }, [state.selectedIndex]);
+  useEffect2(() => {
+    if (onGlobalRowSelectionChange) {
+      onGlobalRowSelectionChange(state.globalSelectedRowData);
+    }
+  }, [state.globalSelectedRowData, onGlobalRowSelectionChange]);
+  const isDataEqual = useCallback4(
+    (data1, data2) => {
       return dataComparator(data1, data2);
-    }, [dataComparator]);
-    const handleTabSelect = useCallback4((index) => {
+    },
+    [dataComparator]
+  );
+  const handleTabSelect = useCallback4(
+    (index) => {
       if (index >= 0 && index < tabPanels.length && !tabPanels[index].disabled) {
         dispatch({ type: "SET_SELECTED_INDEX", payload: index });
         setNavigationState((prev) => ({
@@ -1080,9 +1099,12 @@ var AriaTabsDataGrid = forwardRef2(
         }));
         onTabChange == null ? void 0 : onTabChange(index);
       }
-    }, [tabPanels, onTabChange]);
-    const initialScrollDoneRef = useRef3(false);
-    const scrollTabIntoView = useCallback4((tabIndex, opts) => {
+    },
+    [tabPanels, onTabChange]
+  );
+  const initialScrollDoneRef = useRef3(false);
+  const scrollTabIntoView = useCallback4(
+    (tabIndex, opts) => {
       if (!(opts == null ? void 0 : opts.force) && !initialScrollDoneRef.current && tabIndex === 0) {
         initialScrollDoneRef.current = true;
         return;
@@ -1097,68 +1119,36 @@ var AriaTabsDataGrid = forwardRef2(
           const tabListWidth = tabListElement.clientWidth;
           const targetScrollLeft = tabOffsetLeft - tabListWidth / 2 + tabWidth / 2;
           try {
-            tabListElement.scrollTo({ left: Math.max(0, targetScrollLeft), behavior: "smooth" });
+            tabListElement.scrollTo({
+              left: Math.max(0, targetScrollLeft),
+              behavior: "smooth"
+            });
           } catch {
-            tabElement.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+            tabElement.scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+              inline: "center"
+            });
           }
         } else if (!process.env.SILENCE_SCROLL_DEBUG) {
-          console.debug("[AriaTabsDataGrid] Missing elements for scroll", { tabElementExists: !!tabElement, tabListElementExists: !!tabListElement });
+          console.debug("[AriaTabsDataGrid] Missing elements for scroll", {
+            tabElementExists: !!tabElement,
+            tabListElementExists: !!tabListElement
+          });
         }
       }, 50);
-    }, []);
-    const handleTabKeyDown = useCallback4((event, index) => {
-      var _a, _b, _c, _d;
-      const { key } = event;
-      switch (key) {
-        case "ArrowLeft":
-          event.preventDefault();
-          const prevIndex = index > 0 ? index - 1 : tabPanels.length - 1;
-          handleTabSelect(prevIndex);
-          scrollTabIntoView(prevIndex);
-          (_a = tabRefs.current[prevIndex]) == null ? void 0 : _a.focus();
-          break;
-        case "ArrowRight":
-          event.preventDefault();
-          const nextIndex = index < tabPanels.length - 1 ? index + 1 : 0;
-          handleTabSelect(nextIndex);
-          scrollTabIntoView(nextIndex);
-          (_b = tabRefs.current[nextIndex]) == null ? void 0 : _b.focus();
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          setNavigationState((prev) => ({
-            ...prev,
-            focusArea: "headers",
-            focusedHeaderIndex: 0,
-            isGridActive: true
-          }));
-          break;
-        case "Home":
-          event.preventDefault();
-          handleTabSelect(0);
-          scrollTabIntoView(0);
-          (_c = tabRefs.current[0]) == null ? void 0 : _c.focus();
-          break;
-        case "End":
-          event.preventDefault();
-          const lastIndex = tabPanels.length - 1;
-          handleTabSelect(lastIndex);
-          scrollTabIntoView(lastIndex);
-          (_d = tabRefs.current[lastIndex]) == null ? void 0 : _d.focus();
-          break;
-        case "Enter":
-        case " ":
-          event.preventDefault();
-          handleTabSelect(index);
-          break;
-      }
-    }, [tabPanels.length, handleTabSelect, scrollTabIntoView]);
-    const tabRefs = useRef3([]);
-    const panelRefs = useRef3([]);
-    const handleSort = useCallback4((tabIndex, key) => {
+    },
+    []
+  );
+  const tabRefs = useRef3([]);
+  const panelRefs = useRef3([]);
+  const handleSort = useCallback4(
+    (tabIndex, key) => {
       var _a;
       const currentSort = state.sortConfig || [];
-      const existingSort = currentSort.find((sort) => sort.key === key);
+      const existingSort = currentSort.find(
+        (sort) => sort.key === key
+      );
       let newSortConfig;
       if (existingSort) {
         if (existingSort.direction === "asc") {
@@ -1166,7 +1156,9 @@ var AriaTabsDataGrid = forwardRef2(
             (sort) => sort.key === key ? { ...sort, direction: "desc" } : sort
           );
         } else {
-          newSortConfig = currentSort.filter((sort) => sort.key !== key);
+          newSortConfig = currentSort.filter(
+            (sort) => sort.key !== key
+          );
         }
       } else {
         newSortConfig = [...currentSort, { key, direction: "asc" }];
@@ -1177,8 +1169,11 @@ var AriaTabsDataGrid = forwardRef2(
       });
       const panel = tabPanels[tabIndex];
       (_a = panel.onSort) == null ? void 0 : _a.call(panel, key);
-    }, [state.sortConfig, tabPanels]);
-    const focusGridHeader = useCallback4((headerIndex) => {
+    },
+    [state.sortConfig, tabPanels]
+  );
+  const focusGridHeader = useCallback4(
+    (headerIndex) => {
       setTimeout(() => {
         const headerElement = document.querySelector(
           `[data-tab-panel="${state.selectedIndex}"] th:nth-child(${headerIndex + 1})`
@@ -1187,11 +1182,17 @@ var AriaTabsDataGrid = forwardRef2(
           headerElement.focus();
         }
       }, 0);
-    }, [state.selectedIndex]);
-    const renderBooleanIcon = useCallback4((value) => {
+    },
+    [state.selectedIndex]
+  );
+  const renderBooleanIcon = useCallback4(
+    (value) => {
       return booleanRenderer(value);
-    }, [booleanRenderer]);
-    const focusGridCell = useCallback4((rowIndex, colIndex) => {
+    },
+    [booleanRenderer]
+  );
+  const focusGridCell = useCallback4(
+    (rowIndex, colIndex) => {
       setTimeout(() => {
         const cellElement = document.querySelector(
           `[data-tab-panel="${state.selectedIndex}"] tbody tr:nth-child(${rowIndex + 1}) td:nth-child(${colIndex + 1})`
@@ -1200,24 +1201,38 @@ var AriaTabsDataGrid = forwardRef2(
           cellElement.focus();
         }
       }, 0);
-    }, [state.selectedIndex]);
-    useEffect2(() => {
-      if (navigationState.isGridActive) {
-        if (navigationState.focusArea === "headers") {
-          setTimeout(() => {
-            focusGridHeader(navigationState.focusedHeaderIndex);
-          }, 0);
-        } else if (navigationState.focusArea === "cells") {
-          setTimeout(() => {
-            focusGridCell(navigationState.focusedRowIndex, navigationState.focusedColumnIndex);
-          }, 0);
-        }
+    },
+    [state.selectedIndex]
+  );
+  useEffect2(() => {
+    if (navigationState.isGridActive) {
+      if (navigationState.focusArea === "headers") {
+        setTimeout(() => {
+          focusGridHeader(navigationState.focusedHeaderIndex);
+        }, 0);
+      } else if (navigationState.focusArea === "cells") {
+        setTimeout(() => {
+          focusGridCell(
+            navigationState.focusedRowIndex,
+            navigationState.focusedColumnIndex
+          );
+        }, 0);
       }
-    }, [navigationState.focusArea, navigationState.isGridActive, navigationState.focusedHeaderIndex, navigationState.focusedRowIndex, navigationState.focusedColumnIndex, focusGridHeader, focusGridCell]);
-    useEffect2(() => {
-      scrollTabIntoView(state.selectedIndex);
-    }, [state.selectedIndex, scrollTabIntoView]);
-    const handleHeaderKeyDown = useCallback4((event, headerIndex) => {
+    }
+  }, [
+    navigationState.focusArea,
+    navigationState.isGridActive,
+    navigationState.focusedHeaderIndex,
+    navigationState.focusedRowIndex,
+    navigationState.focusedColumnIndex,
+    focusGridHeader,
+    focusGridCell
+  ]);
+  useEffect2(() => {
+    scrollTabIntoView(state.selectedIndex);
+  }, [state.selectedIndex, scrollTabIntoView]);
+  const handleHeaderKeyDown = useCallback4(
+    (event, headerIndex) => {
       var _a, _b;
       const { key } = event;
       const currentPanel = tabPanels[state.selectedIndex];
@@ -1226,13 +1241,19 @@ var AriaTabsDataGrid = forwardRef2(
         case "ArrowLeft":
           event.preventDefault();
           const prevHeaderIndex = Math.max(0, headerIndex - 1);
-          setNavigationState((prev) => ({ ...prev, focusedHeaderIndex: prevHeaderIndex }));
+          setNavigationState((prev) => ({
+            ...prev,
+            focusedHeaderIndex: prevHeaderIndex
+          }));
           focusGridHeader(prevHeaderIndex);
           break;
         case "ArrowRight":
           event.preventDefault();
           const nextHeaderIndex = Math.min(columnCount - 1, headerIndex + 1);
-          setNavigationState((prev) => ({ ...prev, focusedHeaderIndex: nextHeaderIndex }));
+          setNavigationState((prev) => ({
+            ...prev,
+            focusedHeaderIndex: nextHeaderIndex
+          }));
           focusGridHeader(nextHeaderIndex);
           break;
         case "ArrowUp":
@@ -1263,7 +1284,10 @@ var AriaTabsDataGrid = forwardRef2(
         case "End":
           event.preventDefault();
           const lastHeaderIndex = columnCount - 1;
-          setNavigationState((prev) => ({ ...prev, focusedHeaderIndex: lastHeaderIndex }));
+          setNavigationState((prev) => ({
+            ...prev,
+            focusedHeaderIndex: lastHeaderIndex
+          }));
           focusGridHeader(lastHeaderIndex);
           break;
         case "Enter":
@@ -1275,8 +1299,19 @@ var AriaTabsDataGrid = forwardRef2(
           }
           break;
       }
-    }, [tabPanels, state.selectedIndex, handleSort, setNavigationState, focusGridHeader, focusGridCell, tabRefs]);
-    const handleCellKeyDown = useCallback4((event, rowIndex, colIndex) => {
+    },
+    [
+      tabPanels,
+      state.selectedIndex,
+      handleSort,
+      setNavigationState,
+      focusGridHeader,
+      focusGridCell,
+      tabRefs
+    ]
+  );
+  const handleCellKeyDown = useCallback4(
+    (event, rowIndex, colIndex) => {
       const { key } = event;
       const currentPanel = tabPanels[state.selectedIndex];
       const rowCount = (currentPanel == null ? void 0 : currentPanel.data.length) || 0;
@@ -1294,32 +1329,48 @@ var AriaTabsDataGrid = forwardRef2(
             focusGridHeader(colIndex);
           } else {
             const newRowIndex2 = rowIndex - 1;
-            setNavigationState((prev) => ({ ...prev, focusedRowIndex: newRowIndex2 }));
+            setNavigationState((prev) => ({
+              ...prev,
+              focusedRowIndex: newRowIndex2
+            }));
             focusGridCell(newRowIndex2, colIndex);
           }
           break;
         case "ArrowDown":
           event.preventDefault();
           const newRowIndex = Math.min(rowCount - 1, rowIndex + 1);
-          setNavigationState((prev) => ({ ...prev, focusedRowIndex: newRowIndex }));
+          setNavigationState((prev) => ({
+            ...prev,
+            focusedRowIndex: newRowIndex
+          }));
           focusGridCell(newRowIndex, colIndex);
           break;
         case "ArrowLeft":
           event.preventDefault();
           const newColIndex = Math.max(0, colIndex - 1);
-          setNavigationState((prev) => ({ ...prev, focusedColumnIndex: newColIndex }));
+          setNavigationState((prev) => ({
+            ...prev,
+            focusedColumnIndex: newColIndex
+          }));
           focusGridCell(rowIndex, newColIndex);
           break;
         case "ArrowRight":
           event.preventDefault();
           const nextColIndex = Math.min(columnCount - 1, colIndex + 1);
-          setNavigationState((prev) => ({ ...prev, focusedColumnIndex: nextColIndex }));
+          setNavigationState((prev) => ({
+            ...prev,
+            focusedColumnIndex: nextColIndex
+          }));
           focusGridCell(rowIndex, nextColIndex);
           break;
         case "Home":
           event.preventDefault();
           if (event.ctrlKey) {
-            setNavigationState((prev) => ({ ...prev, focusedRowIndex: 0, focusedColumnIndex: 0 }));
+            setNavigationState((prev) => ({
+              ...prev,
+              focusedRowIndex: 0,
+              focusedColumnIndex: 0
+            }));
             focusGridCell(0, 0);
           } else {
             setNavigationState((prev) => ({ ...prev, focusedColumnIndex: 0 }));
@@ -1331,11 +1382,18 @@ var AriaTabsDataGrid = forwardRef2(
           if (event.ctrlKey) {
             const lastRow = rowCount - 1;
             const lastCol = columnCount - 1;
-            setNavigationState((prev) => ({ ...prev, focusedRowIndex: lastRow, focusedColumnIndex: lastCol }));
+            setNavigationState((prev) => ({
+              ...prev,
+              focusedRowIndex: lastRow,
+              focusedColumnIndex: lastCol
+            }));
             focusGridCell(lastRow, lastCol);
           } else {
             const lastCol = columnCount - 1;
-            setNavigationState((prev) => ({ ...prev, focusedColumnIndex: lastCol }));
+            setNavigationState((prev) => ({
+              ...prev,
+              focusedColumnIndex: lastCol
+            }));
             focusGridCell(rowIndex, lastCol);
           }
           break;
@@ -1343,7 +1401,9 @@ var AriaTabsDataGrid = forwardRef2(
         case " ":
           event.preventDefault();
           if (currentPanel && currentPanel.data[rowIndex]) {
-            const displayData = currentPanel.data.some((item) => "ews_data" in item) ? filterFunction(currentPanel.data, state.filters) : currentPanel.data;
+            const displayData = currentPanel.data.some(
+              (item) => "ews_data" in item
+            ) ? filterFunction(currentPanel.data, state.filters) : currentPanel.data;
             const sortConfig = state.sortConfig;
             let sortedData = displayData;
             if (sortConfig && sortConfig.length > 0) {
@@ -1351,7 +1411,9 @@ var AriaTabsDataGrid = forwardRef2(
                 for (const { key: key2, direction } of sortConfig) {
                   let aValue = a[key2];
                   let bValue = b[key2];
-                  const column = currentPanel.columns.find((col) => col.key === key2);
+                  const column = currentPanel.columns.find(
+                    (col) => col.key === key2
+                  );
                   if (column == null ? void 0 : column.tableRenderer) {
                     aValue = column.tableRenderer(a);
                     bValue = column.tableRenderer(b);
@@ -1366,7 +1428,11 @@ var AriaTabsDataGrid = forwardRef2(
                   if (typeof aValue === "number" && typeof bValue === "number") {
                     result = aValue - bValue;
                   } else {
-                    result = String(aValue).localeCompare(String(bValue), void 0, { numeric: true, sensitivity: "base" });
+                    result = String(aValue).localeCompare(
+                      String(bValue),
+                      void 0,
+                      { numeric: true, sensitivity: "base" }
+                    );
                   }
                   if (result !== 0) {
                     return direction === "asc" ? result : -result;
@@ -1387,11 +1453,29 @@ var AriaTabsDataGrid = forwardRef2(
           }
           break;
       }
-    }, [tabPanels, state.selectedIndex, state.filters, state.sortConfig, filterFunction, isDataEqual, dispatch, setNavigationState, focusGridHeader, focusGridCell]);
-    const getFilteredData = useCallback4((data, filters) => {
+    },
+    [
+      tabPanels,
+      state.selectedIndex,
+      state.filters,
+      state.sortConfig,
+      filterFunction,
+      isDataEqual,
+      dispatch,
+      setNavigationState,
+      focusGridHeader,
+      focusGridCell
+    ]
+  );
+  const getFilteredData = useCallback4(
+    (data, filters) => {
       return filterFunction(data, filters);
-    }, [filterFunction]);
-    useImperativeHandle(ref, () => ({
+    },
+    [filterFunction]
+  );
+  useImperativeHandle(
+    ref,
+    () => ({
       selectTab: (index) => {
         if (index >= 0 && index < tabPanels.length) {
           dispatch({ type: "SET_SELECTED_INDEX", payload: index });
@@ -1419,41 +1503,264 @@ var AriaTabsDataGrid = forwardRef2(
       applyFilters: (filters) => {
         dispatch({ type: "SET_FILTERS", payload: filters });
       }
-    }), [state.selectedIndex, state.selectedRows, tabPanels, onTabChange]);
-    if (isLoading) {
-      return /* @__PURE__ */ jsx5("div", { className: `aria-tabs-datagrid aria-tabs-datagrid--loading ${className}`, "data-testid": dataTestId, children: loadingComponent || /* @__PURE__ */ jsx5("div", { className: "aria-tabs-datagrid__loading", children: /* @__PURE__ */ jsx5("div", { className: "nhsuk-spinner", role: "status", "aria-label": "Loading data", children: /* @__PURE__ */ jsx5("span", { className: "nhsuk-u-visually-hidden", children: "Loading..." }) }) }) });
-    }
-    if (error) {
-      return /* @__PURE__ */ jsx5("div", { className: `aria-tabs-datagrid aria-tabs-datagrid--error ${className}`, "data-testid": dataTestId, children: errorComponent || /* @__PURE__ */ jsxs4("div", { className: "aria-tabs-datagrid__error", role: "alert", children: [
-        /* @__PURE__ */ jsx5("h3", { className: "nhsuk-error-summary__title", children: "Error loading data" }),
-        /* @__PURE__ */ jsx5("p", { children: error })
-      ] }) });
-    }
-    return /* @__PURE__ */ jsxs4(
+    }),
+    [state.selectedIndex, state.selectedRows, tabPanels, onTabChange]
+  );
+  if (isLoading) {
+    return /* @__PURE__ */ jsx5(
       "div",
       {
-        className: `aria-tabs-datagrid aria-tabs-datagrid--${orientation} ${className}`,
-        id,
+        className: `aria-tabs-datagrid aria-tabs-datagrid--loading ${className}`,
         "data-testid": dataTestId,
-        children: [
-          ariaDescription && !descriptionLooksLikeId && /* @__PURE__ */ jsx5("div", { id: generatedDescriptionId, className: "nhsuk-u-visually-hidden", children: ariaDescription }),
-          /* @__PURE__ */ jsx5("div", { className: "aria-tabs-datagrid__navigation-help sr-only", id: navigationHelpId, children: "Keyboard navigation: Use Tab to move between tabs and grid. Arrow keys navigate within tabs and grid cells. Enter activates tabs and sorts columns. Arrow Down from tabs moves to table headers. Arrow Down from headers moves to table cells. Use Arrow keys to navigate between cells." }),
-          /* @__PURE__ */ jsx5(
-            SortStatusControl,
-            {
-              sortConfig: state.sortConfig || [],
-              columns: tabPanels.flatMap(
-                (panel) => panel.columns.map((col) => ({ key: col.key, label: col.label }))
-              ).filter(
-                (col, index, arr) => arr.findIndex((c) => c.key === col.key) === index
-                // Remove duplicates
-              ),
-              onSortChange: (newSortConfig) => {
-                dispatch({ type: "SET_SORT", payload: newSortConfig });
-              },
-              ariaLabel: "Data grid sort configuration"
-            }
-          ),
+        children: loadingComponent || /* @__PURE__ */ jsx5("div", { className: "aria-tabs-datagrid__loading", children: /* @__PURE__ */ jsx5(
+          "div",
+          {
+            className: "nhsuk-spinner",
+            role: "status",
+            "aria-label": "Loading data",
+            children: /* @__PURE__ */ jsx5("span", { className: "nhsuk-u-visually-hidden", children: "Loading..." })
+          }
+        ) })
+      }
+    );
+  }
+  if (error) {
+    return /* @__PURE__ */ jsx5(
+      "div",
+      {
+        className: `aria-tabs-datagrid aria-tabs-datagrid--error ${className}`,
+        "data-testid": dataTestId,
+        children: errorComponent || /* @__PURE__ */ jsxs4("div", { className: "aria-tabs-datagrid__error", role: "alert", children: [
+          /* @__PURE__ */ jsx5("h3", { className: "nhsuk-error-summary__title", children: "Error loading data" }),
+          /* @__PURE__ */ jsx5("p", { children: error })
+        ] })
+      }
+    );
+  }
+  const containerRef = useRef3(null);
+  const tabListRef = useRef3(null);
+  const actionsRef = useRef3(null);
+  const [placeActionsInline, setPlaceActionsInline] = useState3(true);
+  useEffect2(() => {
+    if (!actions) {
+      setPlaceActionsInline(false);
+      return;
+    }
+    if (forceActionsAbove) {
+      setPlaceActionsInline(false);
+      return;
+    }
+    function recompute() {
+      if (!containerRef.current || !tabListRef.current || !actionsRef.current) return;
+      const containerWidth = containerRef.current.clientWidth;
+      const tabButtons = Array.from(
+        tabListRef.current.querySelectorAll(":scope > .aria-tabs-datagrid__tab")
+      );
+      const tabsWidth = tabButtons.reduce((w, el) => w + el.offsetWidth, 0);
+      const actionsWidth = actionsRef.current.offsetWidth;
+      const estimatedGaps = Math.max(8 * (tabButtons.length - 1), 0);
+      const fits = tabsWidth + estimatedGaps + actionsWidth + actionsMinGap <= containerWidth;
+      setPlaceActionsInline(fits);
+    }
+    const raf = requestAnimationFrame(() => recompute());
+    const ro = new ResizeObserver(() => recompute());
+    if (containerRef.current) ro.observe(containerRef.current);
+    if (tabListRef.current) ro.observe(tabListRef.current);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
+  }, [actions, actionsMinGap, forceActionsAbove, tabPanels.length]);
+  const actionsContainerRef = actionsRef;
+  const getActionElements = useCallback4(() => {
+    if (!actionsContainerRef.current) return [];
+    return Array.from(
+      actionsContainerRef.current.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((el) => !el.hasAttribute("disabled"));
+  }, []);
+  const focusAction = useCallback4(
+    (idx) => {
+      const els = getActionElements();
+      if (!els.length) return;
+      const clamped = Math.max(0, Math.min(idx, els.length - 1));
+      els[clamped].focus();
+      setNavigationState((prev) => ({ ...prev, focusArea: "actions", focusedActionIndex: clamped }));
+    },
+    [getActionElements]
+  );
+  const focusFirstAction = useCallback4(() => focusAction(0), [focusAction]);
+  const handleTabKeyDown = useCallback4(
+    (event, index) => {
+      var _a, _b, _c, _d;
+      const { key } = event;
+      const lastTab = tabPanels.length - 1;
+      switch (key) {
+        case "ArrowUp": {
+          if (actions && !placeActionsInline) {
+            event.preventDefault();
+            focusFirstAction();
+          }
+          break;
+        }
+        case "ArrowLeft": {
+          event.preventDefault();
+          const prevIdx = index > 0 ? index - 1 : lastTab;
+          handleTabSelect(prevIdx);
+          scrollTabIntoView(prevIdx);
+          (_a = tabRefs.current[prevIdx]) == null ? void 0 : _a.focus();
+          break;
+        }
+        case "ArrowRight": {
+          event.preventDefault();
+          if (index === lastTab && actions && placeActionsInline) {
+            focusFirstAction();
+            return;
+          }
+          const nextIdx = index < lastTab ? index + 1 : 0;
+          handleTabSelect(nextIdx);
+          scrollTabIntoView(nextIdx);
+          (_b = tabRefs.current[nextIdx]) == null ? void 0 : _b.focus();
+          break;
+        }
+        case "ArrowDown": {
+          event.preventDefault();
+          setNavigationState((prev) => ({
+            ...prev,
+            focusArea: "headers",
+            focusedHeaderIndex: 0,
+            isGridActive: true
+          }));
+          break;
+        }
+        case "Home": {
+          event.preventDefault();
+          handleTabSelect(0);
+          scrollTabIntoView(0);
+          (_c = tabRefs.current[0]) == null ? void 0 : _c.focus();
+          break;
+        }
+        case "End": {
+          event.preventDefault();
+          handleTabSelect(lastTab);
+          scrollTabIntoView(lastTab);
+          (_d = tabRefs.current[lastTab]) == null ? void 0 : _d.focus();
+          break;
+        }
+        case "Enter":
+        case " ": {
+          event.preventDefault();
+          handleTabSelect(index);
+          break;
+        }
+        case "Tab": {
+          if (!event.shiftKey && index === lastTab && actions && placeActionsInline) {
+            focusFirstAction();
+          }
+          break;
+        }
+      }
+    },
+    [tabPanels.length, handleTabSelect, scrollTabIntoView, actions, placeActionsInline, focusFirstAction]
+  );
+  const handleActionsKeyDown = useCallback4((event) => {
+    var _a, _b, _c;
+    const { key } = event;
+    const els = getActionElements();
+    if (!els.length) return;
+    const currentIndex = els.findIndex((el) => el === document.activeElement);
+    switch (key) {
+      case "ArrowLeft": {
+        if (placeActionsInline) {
+          if (currentIndex > 0) {
+            event.preventDefault();
+            focusAction(currentIndex - 1);
+          } else {
+            event.preventDefault();
+            const last = tabPanels.length - 1;
+            handleTabSelect(last);
+            scrollTabIntoView(last);
+            (_a = tabRefs.current[last]) == null ? void 0 : _a.focus();
+            setNavigationState((p) => ({ ...p, focusArea: "tabs", focusedTabIndex: last }));
+          }
+        }
+        break;
+      }
+      case "ArrowRight": {
+        if (placeActionsInline) {
+          if (currentIndex < els.length - 1) {
+            event.preventDefault();
+            focusAction(currentIndex + 1);
+          } else {
+            event.preventDefault();
+            handleTabSelect(0);
+            scrollTabIntoView(0);
+            (_b = tabRefs.current[0]) == null ? void 0 : _b.focus();
+            setNavigationState((p) => ({ ...p, focusArea: "tabs", focusedTabIndex: 0 }));
+          }
+        }
+        break;
+      }
+      case "ArrowDown": {
+        if (!placeActionsInline) {
+          event.preventDefault();
+          const currentTab = state.selectedIndex;
+          (_c = tabRefs.current[currentTab]) == null ? void 0 : _c.focus();
+          setNavigationState((p) => ({ ...p, focusArea: "tabs", focusedTabIndex: currentTab }));
+        } else {
+          event.preventDefault();
+          setNavigationState((prev) => ({ ...prev, focusArea: "headers", focusedHeaderIndex: 0, isGridActive: true }));
+        }
+        break;
+      }
+    }
+  }, [getActionElements, placeActionsInline, focusAction, tabPanels.length, handleTabSelect, scrollTabIntoView, state.selectedIndex]);
+  return /* @__PURE__ */ jsxs4(
+    "div",
+    {
+      className: `aria-tabs-datagrid aria-tabs-datagrid--${orientation} ${className}`,
+      id,
+      "data-testid": dataTestId,
+      ref: containerRef,
+      children: [
+        ariaDescription && !descriptionLooksLikeId && /* @__PURE__ */ jsx5("div", { id: generatedDescriptionId, className: "nhsuk-u-visually-hidden", children: ariaDescription }),
+        /* @__PURE__ */ jsx5(
+          "div",
+          {
+            className: "aria-tabs-datagrid__navigation-help sr-only",
+            id: navigationHelpId,
+            children: "Keyboard navigation: Use Tab to move between tabs and grid. Arrow keys navigate within tabs and grid cells. Enter activates tabs and sorts columns. Arrow Down from tabs moves to table headers. Arrow Down from headers moves to table cells. Use Arrow keys to navigate between cells."
+          }
+        ),
+        /* @__PURE__ */ jsx5(
+          SortStatusControl,
+          {
+            sortConfig: state.sortConfig || [],
+            columns: tabPanels.flatMap(
+              (panel) => panel.columns.map((col) => ({ key: col.key, label: col.label }))
+            ).filter(
+              (col, index, arr) => arr.findIndex((c) => c.key === col.key) === index
+              // Remove duplicates
+            ),
+            onSortChange: (newSortConfig) => {
+              dispatch({ type: "SET_SORT", payload: newSortConfig });
+            },
+            ariaLabel: "Data grid sort configuration"
+          }
+        ),
+        actions && !placeActionsInline && /* @__PURE__ */ jsx5(
+          "div",
+          {
+            className: "aria-tabs-datagrid__actions aria-tabs-datagrid__actions--above",
+            ref: actionsRef,
+            role: "toolbar",
+            "aria-label": "Additional actions",
+            onKeyDown: handleActionsKeyDown,
+            children: actions
+          }
+        ),
+        /* @__PURE__ */ jsxs4("div", { className: `aria-tabs-datagrid__tabs-wrapper ${placeActionsInline ? "aria-tabs-datagrid__tabs-wrapper--inline-actions" : ""}`, children: [
           /* @__PURE__ */ jsx5(
             "div",
             {
@@ -1467,6 +1774,7 @@ var AriaTabsDataGrid = forwardRef2(
               })(),
               "aria-orientation": orientation,
               className: "aria-tabs-datagrid__tabs",
+              ref: tabListRef,
               children: tabPanels.map((panel, index) => {
                 const isSelected = index === state.selectedIndex;
                 const isDisabled = panel.disabled || disabled;
@@ -1501,184 +1809,238 @@ var AriaTabsDataGrid = forwardRef2(
               })
             }
           ),
-          tabPanels.map((panel, index) => {
-            const isSelected = index === state.selectedIndex;
-            return /* @__PURE__ */ jsx5(
-              "div",
-              {
-                role: "tabpanel",
-                id: `panel-${panel.id}`,
-                "aria-labelledby": `tab-${panel.id}`,
-                tabIndex: 0,
-                hidden: !isSelected,
-                ref: (el) => {
-                  panelRefs.current[index] = el;
-                },
-                className: `aria-tabs-datagrid__panel ${panel.className || ""}`,
-                "data-tab-panel": index,
-                children: isSelected && (() => {
-                  const displayData = panel.data.some((item) => "ews_data" in item) ? getFilteredData(panel.data, state.filters) : panel.data;
-                  const sortedData = useMemo3(() => {
-                    const sortConfig = state.sortConfig;
-                    if (!sortConfig || sortConfig.length === 0) return displayData;
-                    return [...displayData].sort((a, b) => {
-                      for (const { key, direction } of sortConfig) {
-                        let aValue = a[key];
-                        let bValue = b[key];
-                        const column = panel.columns.find((col) => col.key === key);
-                        if (column == null ? void 0 : column.tableRenderer) {
-                          aValue = column.tableRenderer(a);
-                          bValue = column.tableRenderer(b);
-                        } else if (column == null ? void 0 : column.render) {
-                          aValue = column.render(a);
-                          bValue = column.render(b);
-                        }
-                        if (aValue == null && bValue == null) continue;
-                        if (aValue == null) return 1;
-                        if (bValue == null) return -1;
-                        let comparison = 0;
-                        if (typeof aValue === "number" && typeof bValue === "number") {
-                          comparison = aValue - bValue;
-                        } else if (typeof aValue === "boolean" && typeof bValue === "boolean") {
-                          comparison = aValue === bValue ? 0 : aValue ? 1 : -1;
-                        } else {
-                          comparison = String(aValue).localeCompare(String(bValue), void 0, {
+          actions && placeActionsInline && /* @__PURE__ */ jsx5(
+            "div",
+            {
+              className: "aria-tabs-datagrid__actions aria-tabs-datagrid__actions--inline",
+              ref: actionsRef,
+              role: "toolbar",
+              "aria-label": "Additional actions",
+              onKeyDown: handleActionsKeyDown,
+              children: actions
+            }
+          )
+        ] }),
+        tabPanels.map((panel, index) => {
+          const isSelected = index === state.selectedIndex;
+          return /* @__PURE__ */ jsx5(
+            "div",
+            {
+              role: "tabpanel",
+              id: `panel-${panel.id}`,
+              "aria-labelledby": `tab-${panel.id}`,
+              tabIndex: 0,
+              hidden: !isSelected,
+              ref: (el) => {
+                panelRefs.current[index] = el;
+              },
+              className: `aria-tabs-datagrid__panel ${panel.className || ""}`,
+              "data-tab-panel": index,
+              children: isSelected && (() => {
+                const displayData = panel.data.some(
+                  (item) => "ews_data" in item
+                ) ? getFilteredData(panel.data, state.filters) : panel.data;
+                const sortedData = useMemo3(() => {
+                  const sortConfig = state.sortConfig;
+                  if (!sortConfig || sortConfig.length === 0)
+                    return displayData;
+                  return [...displayData].sort((a, b) => {
+                    for (const { key, direction } of sortConfig) {
+                      let aValue = a[key];
+                      let bValue = b[key];
+                      const column = panel.columns.find(
+                        (col) => col.key === key
+                      );
+                      if (column == null ? void 0 : column.tableRenderer) {
+                        aValue = column.tableRenderer(a);
+                        bValue = column.tableRenderer(b);
+                      } else if (column == null ? void 0 : column.render) {
+                        aValue = column.render(a);
+                        bValue = column.render(b);
+                      }
+                      if (aValue == null && bValue == null) continue;
+                      if (aValue == null) return 1;
+                      if (bValue == null) return -1;
+                      let comparison = 0;
+                      if (typeof aValue === "number" && typeof bValue === "number") {
+                        comparison = aValue - bValue;
+                      } else if (typeof aValue === "boolean" && typeof bValue === "boolean") {
+                        comparison = aValue === bValue ? 0 : aValue ? 1 : -1;
+                      } else {
+                        comparison = String(aValue).localeCompare(
+                          String(bValue),
+                          void 0,
+                          {
                             numeric: true,
                             sensitivity: "base"
-                          });
-                        }
-                        if (comparison !== 0) {
-                          return direction === "asc" ? comparison : -comparison;
-                        }
+                          }
+                        );
                       }
-                      return 0;
-                    });
-                  }, [displayData, state.sortConfig, panel.columns]);
-                  return /* @__PURE__ */ jsxs4(
-                    "table",
-                    {
-                      className: "nhsuk-table aria-tabs-datagrid__grid",
-                      role: "grid",
-                      "aria-label": panel.ariaLabel,
-                      "aria-describedby": panel.ariaDescription ? `panel-${panel.id}-description` : void 0,
-                      children: [
-                        panel.ariaDescription && /* @__PURE__ */ jsx5("caption", { className: "nhsuk-u-visually-hidden", id: `panel-${panel.id}-description`, children: panel.ariaDescription }),
-                        /* @__PURE__ */ jsx5("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ jsx5("tr", { role: "row", children: panel.columns.map((column, colIndex) => {
-                          var _a;
-                          const sortInfo = (_a = state.sortConfig) == null ? void 0 : _a.find((config) => config.key === column.key);
-                          const isSorted = !!sortInfo;
-                          const isFocused = navigationState.focusArea === "headers" && navigationState.focusedHeaderIndex === colIndex;
-                          return /* @__PURE__ */ jsx5(
-                            "th",
-                            {
-                              className: `sortable-header ${isFocused ? "sortable-header--focused" : ""} ${isSorted ? "sortable-header--sorted" : ""}`,
-                              role: "columnheader",
-                              tabIndex: isFocused ? 0 : -1,
-                              onClick: () => handleSort(index, column.key),
-                              onKeyDown: (e) => handleHeaderKeyDown(e, colIndex),
-                              "aria-sort": isSorted ? (sortInfo == null ? void 0 : sortInfo.direction) === "asc" ? "ascending" : "descending" : "none",
-                              children: /* @__PURE__ */ jsxs4("div", { className: "header-content", children: [
-                                /* @__PURE__ */ jsx5("span", { className: "header-label", children: column.label }),
-                                /* @__PURE__ */ jsxs4("div", { className: `sort-indicator-container ${isSorted ? `sort-indicator--${sortInfo == null ? void 0 : sortInfo.direction}` : ""}`, children: [
-                                  state.sortConfig && state.sortConfig.length > 0 && state.sortConfig.findIndex((config) => config.key === column.key) !== -1 && /* @__PURE__ */ jsx5(
+                      if (comparison !== 0) {
+                        return direction === "asc" ? comparison : -comparison;
+                      }
+                    }
+                    return 0;
+                  });
+                }, [displayData, state.sortConfig, panel.columns]);
+                return /* @__PURE__ */ jsxs4(
+                  "table",
+                  {
+                    className: "nhsuk-table aria-tabs-datagrid__grid",
+                    role: "grid",
+                    "aria-label": panel.ariaLabel,
+                    "aria-describedby": panel.ariaDescription ? `panel-${panel.id}-description` : void 0,
+                    children: [
+                      panel.ariaDescription && /* @__PURE__ */ jsx5(
+                        "caption",
+                        {
+                          className: "nhsuk-u-visually-hidden",
+                          id: `panel-${panel.id}-description`,
+                          children: panel.ariaDescription
+                        }
+                      ),
+                      /* @__PURE__ */ jsx5("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ jsx5("tr", { role: "row", children: panel.columns.map((column, colIndex) => {
+                        var _a;
+                        const sortInfo = (_a = state.sortConfig) == null ? void 0 : _a.find(
+                          (config) => config.key === column.key
+                        );
+                        const isSorted = !!sortInfo;
+                        const isFocused = navigationState.focusArea === "headers" && navigationState.focusedHeaderIndex === colIndex;
+                        return /* @__PURE__ */ jsx5(
+                          "th",
+                          {
+                            className: `sortable-header ${isFocused ? "sortable-header--focused" : ""} ${isSorted ? "sortable-header--sorted" : ""}`,
+                            role: "columnheader",
+                            tabIndex: isFocused ? 0 : -1,
+                            onClick: () => handleSort(index, column.key),
+                            onKeyDown: (e) => handleHeaderKeyDown(e, colIndex),
+                            "aria-sort": isSorted ? (sortInfo == null ? void 0 : sortInfo.direction) === "asc" ? "ascending" : "descending" : "none",
+                            children: /* @__PURE__ */ jsxs4("div", { className: "header-content", children: [
+                              /* @__PURE__ */ jsx5("span", { className: "header-label", children: column.label }),
+                              /* @__PURE__ */ jsxs4(
+                                "div",
+                                {
+                                  className: `sort-indicator-container ${isSorted ? `sort-indicator--${sortInfo == null ? void 0 : sortInfo.direction}` : ""}`,
+                                  children: [
+                                    state.sortConfig && state.sortConfig.length > 0 && state.sortConfig.findIndex(
+                                      (config) => config.key === column.key
+                                    ) !== -1 && /* @__PURE__ */ jsx5(
+                                      "span",
+                                      {
+                                        className: `sort-priority sort-priority--priority-${state.sortConfig.findIndex((config) => config.key === column.key) + 1}`,
+                                        "data-priority": state.sortConfig.findIndex(
+                                          (config) => config.key === column.key
+                                        ) + 1,
+                                        title: `Sort priority: ${state.sortConfig.findIndex((config) => config.key === column.key) + 1}`,
+                                        children: state.sortConfig.findIndex(
+                                          (config) => config.key === column.key
+                                        ) + 1
+                                      }
+                                    ),
+                                    isSorted && /* @__PURE__ */ jsx5(
+                                      "svg",
+                                      {
+                                        className: `nhsuk-icon sort-arrow sort-arrow--${sortInfo == null ? void 0 : sortInfo.direction}`,
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                        viewBox: "0 0 24 24",
+                                        "aria-hidden": "true",
+                                        focusable: "false",
+                                        children: /* @__PURE__ */ jsx5("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
+                                      }
+                                    )
+                                  ]
+                                }
+                              )
+                            ] })
+                          },
+                          column.key
+                        );
+                      }) }) }),
+                      /* @__PURE__ */ jsx5("tbody", { className: "nhsuk-table__body", role: "rowgroup", children: sortedData.map((row, rowIndex) => {
+                        const isRowSelected = state.globalSelectedRowData && isDataEqual(state.globalSelectedRowData, row);
+                        const isRowFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex;
+                        return /* @__PURE__ */ jsx5(
+                          "tr",
+                          {
+                            role: "row",
+                            className: `data-row ${isRowSelected ? "data-row--selected" : ""} ${isRowFocused ? "data-row--focused" : ""}`,
+                            "aria-selected": isRowSelected,
+                            children: panel.columns.map((column, colIndex) => {
+                              const rawValue = row[column.key];
+                              let value;
+                              if (column.tableRenderer) {
+                                value = column.tableRenderer(row);
+                              } else if (column.render) {
+                                value = column.render(row);
+                              } else {
+                                value = rawValue;
+                              }
+                              const isCellFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex && navigationState.focusedColumnIndex === colIndex;
+                              const renderValue = () => {
+                                if (column.customRenderer) {
+                                  const rendered = column.customRenderer(
+                                    rawValue,
+                                    row
+                                  );
+                                  return /* @__PURE__ */ jsx5(
                                     "span",
                                     {
-                                      className: `sort-priority sort-priority--priority-${state.sortConfig.findIndex((config) => config.key === column.key) + 1}`,
-                                      "data-priority": state.sortConfig.findIndex((config) => config.key === column.key) + 1,
-                                      title: `Sort priority: ${state.sortConfig.findIndex((config) => config.key === column.key) + 1}`,
-                                      children: state.sortConfig.findIndex((config) => config.key === column.key) + 1
+                                      className: "data-cell__custom",
+                                      "data-custom-rendered": "true",
+                                      children: rendered
                                     }
-                                  ),
-                                  isSorted && /* @__PURE__ */ jsx5(
-                                    "svg",
-                                    {
-                                      className: `nhsuk-icon sort-arrow sort-arrow--${sortInfo == null ? void 0 : sortInfo.direction}`,
-                                      xmlns: "http://www.w3.org/2000/svg",
-                                      viewBox: "0 0 24 24",
-                                      "aria-hidden": "true",
-                                      focusable: "false",
-                                      children: /* @__PURE__ */ jsx5("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
-                                    }
-                                  )
-                                ] })
-                              ] })
-                            },
-                            column.key
-                          );
-                        }) }) }),
-                        /* @__PURE__ */ jsx5("tbody", { className: "nhsuk-table__body", role: "rowgroup", children: sortedData.map((row, rowIndex) => {
-                          const isRowSelected = state.globalSelectedRowData && isDataEqual(state.globalSelectedRowData, row);
-                          const isRowFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex;
-                          return /* @__PURE__ */ jsx5(
-                            "tr",
-                            {
-                              role: "row",
-                              className: `data-row ${isRowSelected ? "data-row--selected" : ""} ${isRowFocused ? "data-row--focused" : ""}`,
-                              "aria-selected": isRowSelected,
-                              children: panel.columns.map((column, colIndex) => {
-                                const rawValue = row[column.key];
-                                let value;
-                                if (column.tableRenderer) {
-                                  value = column.tableRenderer(row);
-                                } else if (column.render) {
-                                  value = column.render(row);
-                                } else {
-                                  value = rawValue;
+                                  );
                                 }
-                                const isCellFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex && navigationState.focusedColumnIndex === colIndex;
-                                const renderValue = () => {
-                                  if (column.customRenderer) {
-                                    const rendered = column.customRenderer(rawValue, row);
-                                    return /* @__PURE__ */ jsx5("span", { className: "data-cell__custom", "data-custom-rendered": "true", children: rendered });
-                                  }
-                                  if (typeof rawValue === "boolean" && value === rawValue) {
-                                    return /* @__PURE__ */ jsxs4(Fragment2, { children: [
-                                      renderBooleanIcon(rawValue),
-                                      /* @__PURE__ */ jsx5("span", { className: "nhsuk-u-visually-hidden", children: rawValue ? "Yes" : "No" })
-                                    ] });
-                                  }
-                                  if (React4.isValidElement(value) || typeof value !== "object") {
-                                    return value != null ? value : "";
-                                  }
-                                  return value;
-                                };
-                                return /* @__PURE__ */ jsx5(
-                                  "td",
-                                  {
-                                    role: "gridcell",
-                                    className: `data-cell ${isCellFocused ? "data-cell--focused" : ""}`,
-                                    tabIndex: isCellFocused ? 0 : -1,
-                                    onClick: () => {
-                                      const isCurrentlySelected = state.globalSelectedRowData && isDataEqual(state.globalSelectedRowData, row);
-                                      const newSelectedRowData = isCurrentlySelected ? null : row;
-                                      dispatch({
-                                        type: "SET_GLOBAL_SELECTED_ROW_DATA",
-                                        payload: newSelectedRowData
-                                      });
-                                    },
-                                    onKeyDown: (e) => handleCellKeyDown(e, rowIndex, colIndex),
-                                    children: renderValue()
+                                if (typeof rawValue === "boolean" && value === rawValue) {
+                                  return /* @__PURE__ */ jsxs4(Fragment2, { children: [
+                                    renderBooleanIcon(rawValue),
+                                    /* @__PURE__ */ jsx5("span", { className: "nhsuk-u-visually-hidden", children: rawValue ? "Yes" : "No" })
+                                  ] });
+                                }
+                                if (React4.isValidElement(value) || typeof value !== "object") {
+                                  return value != null ? value : "";
+                                }
+                                return value;
+                              };
+                              return /* @__PURE__ */ jsx5(
+                                "td",
+                                {
+                                  role: "gridcell",
+                                  className: `data-cell ${isCellFocused ? "data-cell--focused" : ""}`,
+                                  tabIndex: isCellFocused ? 0 : -1,
+                                  onClick: () => {
+                                    const isCurrentlySelected = state.globalSelectedRowData && isDataEqual(
+                                      state.globalSelectedRowData,
+                                      row
+                                    );
+                                    const newSelectedRowData = isCurrentlySelected ? null : row;
+                                    dispatch({
+                                      type: "SET_GLOBAL_SELECTED_ROW_DATA",
+                                      payload: newSelectedRowData
+                                    });
                                   },
-                                  column.key
-                                );
-                              })
-                            },
-                            rowIndex
-                          );
-                        }) })
-                      ]
-                    }
-                  );
-                })()
-              },
-              panel.id
-            );
-          })
-        ]
-      }
-    );
-  }
-);
+                                  onKeyDown: (e) => handleCellKeyDown(e, rowIndex, colIndex),
+                                  children: renderValue()
+                                },
+                                column.key
+                              );
+                            })
+                          },
+                          rowIndex
+                        );
+                      }) })
+                    ]
+                  }
+                );
+              })()
+            },
+            panel.id
+          );
+        })
+      ]
+    }
+  );
+});
 
 // src/components/SortableDataTable/SortStatusControl.tsx
 import { useCallback as useCallback5, useMemo as useMemo4 } from "react";

@@ -165,7 +165,7 @@ span .nhsuk-u-visually-hidden {
 }
 .aria-tabs-datagrid__tabs {
   display: flex;
-  background: #f0f4f5;
+  background: none;
   gap: 0;
   margin: 0;
   padding: 0;
@@ -1258,4 +1258,29 @@ span .nhsuk-u-visually-hidden {
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
   }
+}
+.aria-tabs-datagrid__tabs-wrapper {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+.aria-tabs-datagrid__tabs-wrapper--inline-actions .aria-tabs-datagrid__tabs {
+  flex: 1 1 auto;
+}
+.aria-tabs-datagrid__actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 16px;
+}
+.aria-tabs-datagrid__actions--inline {
+  flex: 0 0 auto;
+}
+.aria-tabs-datagrid__actions--above {
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+.aria-tabs-datagrid__actions button, .aria-tabs-datagrid__actions .nhsuk-button {
+  white-space: nowrap;
 }

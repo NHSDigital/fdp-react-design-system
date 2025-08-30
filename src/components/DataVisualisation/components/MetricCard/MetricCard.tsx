@@ -1,9 +1,10 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import '../../DataVisualisation.scss';
-import { SummaryCard } from '../../../SummaryCard';
+import './MetricCard.scss';
 
 export type MetricStatus = 'positive' | 'negative' | 'warning' | 'neutral';
+export type MetricVariant = 'default' | 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'error';
 
 export interface MetricDelta {
   /** Numeric change (positive, negative or zero). Sign used if direction not supplied. */
@@ -16,6 +17,8 @@ export interface MetricDelta {
   invert?: boolean;
   /** Treat value as percentage and append % sign in visual text (ariaLabel can still override). */
   isPercent?: boolean;
+  /** Additional context text for the delta (e.g. "this month", "this year") */
+  period?: string;
 }
 
 export interface MetricCardProps {
@@ -29,6 +32,12 @@ export interface MetricCardProps {
   delta?: MetricDelta;
   /** Visual status accent (maps to border / colour modifiers) */
   status?: MetricStatus;
+  /** Visual variant (maps to DataViz color palette) */
+  variant?: MetricVariant;
+  /** Optional subtitle/description text */
+  subtitle?: string;
+  /** Optional metadata (e.g. "Latest period: Aug 2025") */
+  metadata?: string;
   /** Optional little trend sparkline values (reserved – visualisation to follow) */
   trendData?: number[];
   /** Show skeleton / placeholder instead of value */
@@ -47,6 +56,7 @@ export interface MetricCardProps {
 
 /**
  * MetricCard presents a headline KPI value with optional delta (change) and severity/status accent.
+ * Features modern DataViz-inspired styling with left border accents and subtle gradients.
  * Accessibility:
  * - Wrapper uses role="group" with aria-labelledby referencing the label.
  * - Delta includes an aria-label conveying direction & magnitude; a live region announces updates.
@@ -60,6 +70,9 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   unit,
   delta,
   status = 'neutral',
+  variant = 'default',
+  subtitle,
+  metadata,
   trendData,
   loading = false,
   error,
@@ -83,10 +96,10 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   if (delta && !loading && !error) {
     deltaDirection = delta.direction || (delta.value > 0 ? 'up' : delta.value < 0 ? 'down' : 'neutral');
     const absVal = Math.abs(delta.value);
-    const signedDisplay = deltaDirection === 'up' ? `+${absVal}` : deltaDirection === 'down' ? `-${absVal}` : '0';
-    const arrow = deltaDirection === 'up' ? '▲' : deltaDirection === 'down' ? '▼' : '–';
-    const suffix = delta.isPercent ? '%' : '';
-    visualDelta = `${arrow} ${signedDisplay}${suffix}`;
+  const signedDisplay = deltaDirection === 'up' ? `+${absVal}` : deltaDirection === 'down' ? `-${absVal}` : '0';
+  const suffix = delta.isPercent ? '%' : '';
+  // Plain representation (no arrow emojis) per design refinement
+  visualDelta = `${signedDisplay}${suffix}`;
     if (delta.ariaLabel) {
       deltaAria = delta.ariaLabel;
     } else {
@@ -96,49 +109,94 @@ export const MetricCard: React.FC<MetricCardProps> = ({
     }
   }
 
-  const summaryVariant = status === 'positive' ? 'success' : status === 'negative' ? 'error' : status === 'warning' ? 'warning' : undefined;
-  // Build title + optional delta inline similar to SummaryCard title spacing
-  const titleContent = (
-    <>
-      <span id={labelId}>{label}</span>
-      {delta && !loading && !error && (
-        <span
-          id={deltaId}
-          aria-label={deltaAria}
-          className={clsx('nhs-fdp-metric-delta', deltaDirection && `nhs-fdp-metric-delta--${deltaDirection}`)}
-          style={{ marginLeft: '0.5rem', fontSize: '0.75em', fontWeight: 500 }}
-        >
-          {visualDelta}
-        </span>
-      )}
-    </>
-  );
-
-  // Subtitle becomes the formatted value (SummaryCard value style). Trend placeholder reserved.
-  const subtitleContent = (
-    <>
-      <span id={valueId} className="nhs-fdp-metric-value">
-        {formattedValue}{unit && !loading && !error && <span className="nhs-fdp-metric-unit">{unit}</span>}
-      </span>
-      {trendData && trendData.length > 0 && (
-        <span className="nhs-fdp-metric-trend" aria-hidden="true" />
-      )}
-      {loading && <span className="nhs-fdp-metric-skeleton" aria-hidden="true" />}
-      {error && <span className="nhs-fdp-metric-error" role="alert">{error}</span>}
-      {announceDelta && delta && !delta.ariaLabel && !loading && !error && (
-        <span className="fdp-visually-hidden" aria-live="polite">{deltaAria}</span>
-      )}
-    </>
-  );
-
   return (
-    <SummaryCard
-      className={clsx('nhs-fdp-metric-card-wrapper', className)}
-      variant={summaryVariant as any}
-      title={titleContent as any}
-      value={subtitleContent as any}
+    <div
+      className={clsx(
+        'fdp-metric-card',
+        variant && `fdp-metric-card--${variant}`,
+        status && `fdp-metric-card--status-${status}`,
+        loading && 'fdp-metric-card--loading',
+        error && 'fdp-metric-card--error',
+        className
+      )}
+      role="group"
+      aria-labelledby={labelId}
       data-component="MetricCard"
-    />
+    >
+      <div className="fdp-metric-card__inner">
+        <div className="fdp-metric-card__header">
+          <h3 id={labelId} className="fdp-metric-card__label">
+            {label}
+          </h3>
+          {metadata && (
+            <div className="fdp-metric-card__metadata">
+              {metadata}
+            </div>
+          )}
+        </div>
+
+        <div className="fdp-metric-card__content">
+          <div className="fdp-metric-card__value-section">
+            <div id={valueId} className="fdp-metric-card__value">
+              {loading ? (
+                <div className="fdp-metric-card__skeleton" aria-hidden="true">
+                  <div className="fdp-metric-card__skeleton-line fdp-metric-card__skeleton-line--value"></div>
+                </div>
+              ) : error ? (
+                <div className="fdp-metric-card__error" role="alert">
+                  {error}
+                </div>
+              ) : (
+                <>
+                  <span className="fdp-metric-card__number">{formattedValue}</span>
+                  {unit && <span className="fdp-metric-card__unit">{unit}</span>}
+                </>
+              )}
+            </div>
+
+            {subtitle && !loading && !error && (
+              <div className="fdp-metric-card__subtitle">
+                {subtitle}
+              </div>
+            )}
+          </div>
+
+          {delta && !loading && !error && (
+            <div className="fdp-metric-card__delta-section">
+              <div
+                id={deltaId}
+                aria-label={deltaAria}
+                className={clsx(
+                  'fdp-metric-card__delta',
+                  deltaDirection && `fdp-metric-card__delta--${deltaDirection}`
+                )}
+              >
+                <span className="fdp-metric-card__delta-value">
+                  {visualDelta}
+                </span>
+                {delta.period && (
+                  <span className="fdp-metric-card__delta-period">
+                    {delta.period}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {trendData && trendData.length > 0 && !loading && !error && (
+            <div className="fdp-metric-card__trend" aria-hidden="true">
+              {/* Future: mini sparkline visualization */}
+            </div>
+          )}
+        </div>
+
+        {announceDelta && delta && !delta.ariaLabel && !loading && !error && (
+          <div className="fdp-visually-hidden" aria-live="polite">
+            {deltaAria}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

@@ -1610,8 +1610,8 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 		disabled={disabled}
 		selectedIndex={selectedIndexProp} // Use the original prop, not ResponsiveDataGrid's state
 		onTabChange={onTabChange} // Use the original callback, not ResponsiveDataGrid's wrapper
-			actions={gridActions}
-			forceActionsAbove={forceGridActionsAbove}
+		actions={gridActions}
+		forceActionsAbove={forceGridActionsAbove}
 		{...props}
 	  />
 

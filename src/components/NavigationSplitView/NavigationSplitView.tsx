@@ -116,6 +116,343 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const contentPaneRef = React.useRef<HTMLDivElement | null>(null);
+	const secondaryPaneRef = React.useRef<HTMLDivElement | null>(null);
+	const navPaneRef = React.useRef<HTMLDivElement | null>(null);
+
+	// Pane-level keyboard navigation state (child element indices within panes)
+	const [paneNavState, setPaneNavState] = React.useState<{ contentIndex: number; secondaryIndex: number; }>(() => ({ contentIndex: 0, secondaryIndex: 0 }));
+
+	// Container focus mode: user is navigating between pane containers (nav/content/secondary) before "entering" a pane
+	const [paneFocusMode, setPaneFocusMode] = React.useState<'containers' | 'nav' | 'content' | 'secondary'>(() => 'nav');
+	const [containerIndex, setContainerIndex] = React.useState(0); // 0=nav,1=content,2=secondary (if present)
+
+	const getPaneOrder = () => {
+		return [navPaneRef.current, contentPaneRef.current, secondaryPaneRef.current].filter(Boolean) as HTMLElement[];
+	};
+
+	const focusContainerByIndex = (idx: number) => {
+		const order = getPaneOrder();
+		const clamped = Math.max(0, Math.min(idx, order.length - 1));
+		order[clamped]?.focus();
+		setContainerIndex(clamped);
+	};
+
+	const getFocusableElements = React.useCallback((root: HTMLElement | null | undefined) => {
+		if (!root) return [] as HTMLElement[];
+		const selector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+		return Array.from(root.querySelectorAll<HTMLElement>(selector))
+			.filter(el => !el.hasAttribute('disabled') && el.tabIndex !== -1 && el.offsetParent !== null);
+	}, []);
+
+	const focusContentElement = React.useCallback((idx: number) => {
+		const els = getFocusableElements(contentPaneRef.current);
+		if (!els.length) { 
+			contentPaneRef.current?.focus(); 
+			return; 
+		}
+		const clamped = Math.max(0, Math.min(idx, els.length - 1));
+		const targetElement = els[clamped];
+		
+		// Try multiple focus attempts to overcome interference
+		targetElement.focus();
+		
+		// Verify focus and retry if needed
+		setTimeout(() => {
+			if (document.activeElement !== targetElement) {
+				targetElement.focus();
+				
+				// Final check with click fallback
+				setTimeout(() => {
+					if (document.activeElement !== targetElement) {
+						targetElement.click();
+					}
+				}, 10);
+			}
+		}, 10);
+		
+		setPaneNavState(p => ({ ...p, contentIndex: clamped }));
+		
+		// Add escape key listener to the focused element
+		const handleChildEscape = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				e.preventDefault();
+				e.stopPropagation();
+				// Return focus to content pane container
+				contentPaneRef.current?.focus();
+				// Remove this listener
+				targetElement.removeEventListener('keydown', handleChildEscape);
+			}
+		};
+		
+		// Clean up any existing listeners first
+		els.forEach(el => {
+			const existingHandler = (el as any)._escapeHandler;
+			if (existingHandler) {
+				el.removeEventListener('keydown', existingHandler);
+			}
+		});
+		// Add listener to the focused element and store reference for cleanup
+		(targetElement as any)._escapeHandler = handleChildEscape;
+		targetElement.addEventListener('keydown', handleChildEscape);
+	}, [getFocusableElements]);
+
+	const focusSecondaryElement = React.useCallback((idx: number) => {
+		const els = getFocusableElements(secondaryPaneRef.current);
+		if (!els.length) { 
+			secondaryPaneRef.current?.focus(); 
+			return; 
+		}
+		const clamped = Math.max(0, Math.min(idx, els.length - 1));
+		els[clamped].focus();
+		setPaneNavState(p => ({ ...p, secondaryIndex: clamped }));
+		
+		// Add escape key listener to the focused element
+		const handleChildEscape = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				e.preventDefault();
+				e.stopPropagation();
+				// Return focus to secondary pane container
+				secondaryPaneRef.current?.focus();
+				// Remove this listener
+				els[clamped].removeEventListener('keydown', handleChildEscape);
+			}
+		};
+		
+		// Clean up any existing listeners first
+		els.forEach(el => el.removeEventListener('keydown', handleChildEscape));
+		// Add listener to the focused element
+		els[clamped].addEventListener('keydown', handleChildEscape);
+	}, [getFocusableElements]);
+
+	// Root keydown handler implementing container-enter/exit model + intra-pane navigation
+	const onRootKeyDown = (e: React.KeyboardEvent) => {
+		if (e.defaultPrevented) return;
+		const key = e.key;
+		const target = e.target as HTMLElement;
+		const inNav = !!listRef.current && listRef.current.contains(target);
+		const inContent = !!contentPaneRef.current && contentPaneRef.current.contains(target);
+		const inSecondary = !!secondaryPaneRef.current && secondaryPaneRef.current.contains(target);
+		const hasSecondary = !!secondaryPaneRef.current;
+		const isContainer = target === navPaneRef.current || target === contentPaneRef.current || target === secondaryPaneRef.current;
+
+		// Container mode transitions (Left/Right to move between pane containers, Enter to enter)
+		if (paneFocusMode === 'containers' && isContainer) {
+			if (key === 'ArrowRight') {
+				e.preventDefault();
+				const order = getPaneOrder();
+				const next = Math.min(order.length - 1, containerIndex + 1);
+				focusContainerByIndex(next);
+				return;
+			}
+			if (key === 'ArrowLeft') {
+				e.preventDefault();
+				const prev = Math.max(0, containerIndex - 1);
+				focusContainerByIndex(prev);
+				return;
+			}
+			if (key === 'Home') { e.preventDefault(); focusContainerByIndex(0); return; }
+			if (key === 'End') { e.preventDefault(); focusContainerByIndex(getPaneOrder().length - 1); return; }
+			if (key === 'Enter' || key === ' ') {
+				e.preventDefault();
+				// Enter the focused pane
+				if (target === navPaneRef.current) {
+					setPaneFocusMode('nav');
+					// focus current selected or first nav item
+					if (listRef.current) {
+						const nodes = Array.from(listRef.current.querySelectorAll('[data-nav-item]')) as HTMLElement[];
+						(nodes[focusedIndex >= 0 ? focusedIndex : 0] || nodes[0])?.focus();
+					}
+				} else if (target === contentPaneRef.current) {
+					setPaneFocusMode('content');
+					focusContentElement(paneNavState.contentIndex);
+				} else if (target === secondaryPaneRef.current) {
+					setPaneFocusMode('secondary');
+					focusSecondaryElement(paneNavState.secondaryIndex);
+				}
+				return;
+			}
+			// Ignore other keys in containers mode
+			return;
+		}
+
+		// Escape from pane child navigation back to nav pane
+		if (key === 'Escape') {
+			if (paneFocusMode === 'content' || paneFocusMode === 'secondary') {
+				// If we're focused on a child element within content/secondary panes, return to nav
+				if (inContent || inSecondary) {
+					e.preventDefault();
+					setPaneFocusMode('nav');
+					if (listRef.current) {
+						const nodes = Array.from(listRef.current.querySelectorAll('[data-nav-item]')) as HTMLElement[];
+						const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0];
+						setTimeout(() => candidate?.focus(), 10);
+					}
+				}
+				// If we're focused on the pane container itself, also return to nav
+				else if (target === contentPaneRef.current || target === secondaryPaneRef.current) {
+					e.preventDefault();
+					setPaneFocusMode('nav');
+					if (listRef.current) {
+						const nodes = Array.from(listRef.current.querySelectorAll('[data-nav-item]')) as HTMLElement[];
+						const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0];
+						setTimeout(() => candidate?.focus(), 10);
+					}
+				}
+			}
+			return;
+		}
+
+		// Enter key when focused on pane containers - enter the pane to navigate child elements
+		if (key === 'Enter' || key === ' ') {
+			// Don't interfere with interactive elements' own Enter/Space handling
+			const isInteractiveElement = target.matches('button, a, input, select, textarea, [role="button"], [role="link"], [role="tab"]');
+			if (isInteractiveElement) {
+				// Let the interactive element handle its own Enter/Space
+				return;
+			}
+			
+			if (target === contentPaneRef.current && paneFocusMode === 'content') {
+				e.preventDefault();
+				e.stopPropagation(); // Stop the event from bubbling to other handlers
+				// Enter content pane child navigation
+				const contentElements = getFocusableElements(contentPaneRef.current);
+				if (contentElements.length > 0) {
+					// Use a longer delay to ensure no other handlers interfere
+					setTimeout(() => {
+						focusContentElement(paneNavState.contentIndex);
+					}, 50);
+				}
+				return;
+			}
+			if (target === secondaryPaneRef.current && paneFocusMode === 'secondary') {
+				e.preventDefault();
+				e.stopPropagation(); // Stop the event from bubbling to other handlers
+				// Enter secondary pane child navigation
+				const secondaryElements = getFocusableElements(secondaryPaneRef.current);
+				if (secondaryElements.length > 0) {
+					setTimeout(() => {
+						focusSecondaryElement(paneNavState.secondaryIndex);
+					}, 50);
+				}
+				return;
+			}
+		}
+
+		// ArrowRight: nav → content → secondary
+		if (key === 'ArrowRight') {
+			if (inNav || paneFocusMode === 'nav') {
+				// Move from nav pane to content pane
+				e.preventDefault();
+				setPaneFocusMode('content');
+				// Focus the content pane container to show focus ring
+				setTimeout(() => contentPaneRef.current?.focus(), 10);
+				return;
+			}
+			if (inContent || paneFocusMode === 'content') {
+				// Move from content pane to secondary pane (if available)
+				if (hasSecondary) {
+					e.preventDefault();
+					setPaneFocusMode('secondary');
+					// Focus the secondary pane container to show focus ring
+					setTimeout(() => secondaryPaneRef.current?.focus(), 10);
+				}
+				return;
+			}
+		}
+
+		// ArrowLeft: secondary → content → nav
+		if (key === 'ArrowLeft') {
+			if (inSecondary || paneFocusMode === 'secondary') {
+				// Move from secondary pane back to content pane
+				e.preventDefault();
+				setPaneFocusMode('content');
+				// Focus the content pane container to show focus ring
+				setTimeout(() => contentPaneRef.current?.focus(), 10);
+				return;
+			}
+			if (inContent || paneFocusMode === 'content') {
+				// Move from content pane back to nav pane
+				e.preventDefault();
+				setPaneFocusMode('nav');
+				if (listRef.current) {
+					const nodes = Array.from(listRef.current.querySelectorAll('[data-nav-item]')) as HTMLElement[];
+					const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0];
+					setTimeout(() => candidate?.focus(), 10);
+				}
+				return;
+			}
+		}
+
+		// Home/End shortcuts for quick pane jumping
+		if (key === 'Home') {
+			// Jump to nav pane retaining nav focus index
+			if (!inNav) {
+				e.preventDefault();
+				setPaneFocusMode('nav');
+				if (listRef.current) {
+					const nodes = Array.from(listRef.current.querySelectorAll('[data-nav-item]')) as HTMLElement[];
+					const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0] || nodes[0];
+					setTimeout(() => candidate?.focus(), 10);
+				}
+			}
+		}
+		if (key === 'End') {
+			// Jump to last available pane (secondary if present else content)
+			const targetPane = hasSecondary ? secondaryPaneRef.current : contentPaneRef.current;
+			if (targetPane && !targetPane.contains(target)) {
+				e.preventDefault();
+				if (hasSecondary) {
+					setPaneFocusMode('secondary');
+					setTimeout(() => secondaryPaneRef.current?.focus(), 10);
+				} else {
+					setPaneFocusMode('content');
+					setTimeout(() => contentPaneRef.current?.focus(), 10);
+				}
+			}
+		}
+
+		// ArrowDown/ArrowUp for within-pane navigation
+		if (key === 'ArrowDown' || key === 'ArrowUp') {
+			// If focused on content pane container, enter child navigation on ArrowDown
+			if (target === contentPaneRef.current && key === 'ArrowDown') {
+				e.preventDefault();
+				const contentElements = getFocusableElements(contentPaneRef.current);
+				if (contentElements.length > 0) {
+					focusContentElement(0); // Start from first element
+				}
+				return;
+			}
+			// If focused on secondary pane container, enter child navigation on ArrowDown
+			if (target === secondaryPaneRef.current && key === 'ArrowDown') {
+				e.preventDefault();
+				const secondaryElements = getFocusableElements(secondaryPaneRef.current);
+				if (secondaryElements.length > 0) {
+					focusSecondaryElement(0); // Start from first element
+				}
+				return;
+			}
+			// If focused on child elements within content pane, navigate between them
+			if (inContent) {
+				const els = getFocusableElements(contentPaneRef.current);
+				if (els.length) {
+					e.preventDefault();
+					const dir = key === 'ArrowDown' ? 1 : -1;
+					const next = (paneNavState.contentIndex + dir + els.length) % els.length;
+					focusContentElement(next);
+				}
+			} 
+			// If focused on child elements within secondary pane, navigate between them
+			else if (inSecondary) {
+				const els = getFocusableElements(secondaryPaneRef.current);
+				if (els.length) {
+					e.preventDefault();
+					const dir = key === 'ArrowDown' ? 1 : -1;
+					const next = (paneNavState.secondaryIndex + dir + els.length) % els.length;
+					focusSecondaryElement(next);
+				}
+			}
+		}
+	};
 
 	// Track detail active state for mobile slide animation
 	const detailActive = !!selectedItem && (effectiveLayout === 'list' || effectiveLayout === 'cards');
@@ -151,6 +488,31 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 	const [tertiaryInlineActive, setTertiaryInlineActive] = React.useState(false);
 	// Reset inline tertiary when desktop three-column becomes available
 	React.useEffect(() => { if (tertiaryVisible && tertiaryInlineActive) setTertiaryInlineActive(false); }, [tertiaryVisible, tertiaryInlineActive]);
+	
+	// Update focus mode when tertiary inline becomes active (user clicked Next button)
+	React.useEffect(() => {
+		if (tertiaryInlineActive && !tertiaryVisible) {
+			setPaneFocusMode('secondary');
+			setContainerIndex(2); // Secondary pane is index 2
+			
+			// Focus the secondary pane container
+			setTimeout(() => {
+				secondaryPaneRef.current?.focus();
+			}, 50);
+		}
+	}, [tertiaryInlineActive, tertiaryVisible]);
+	
+	// Update focus mode when going back from tertiary inline (user clicked Back button)
+	React.useEffect(() => {
+		if (!tertiaryInlineActive && !tertiaryVisible && paneFocusMode === 'secondary') {
+			setPaneFocusMode('content');
+			setContainerIndex(1); // Content pane is index 1
+			// Focus the content pane container
+			setTimeout(() => {
+				contentPaneRef.current?.focus();
+			}, 50);
+		}
+	}, [tertiaryInlineActive, tertiaryVisible, paneFocusMode]);
 	const baseHeaderCondition = !!selectedItem && (
 		(detailActive && autoHeaderConfig.mobile) ||
 		(!detailActive && isTabletRange && autoHeaderConfig.tablet) ||
@@ -297,6 +659,30 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
   const onKeyDownList = (e: React.KeyboardEvent) => {
 	const forward = orientation === 'vertical' ? 'ArrowDown' : 'ArrowRight';
 	const backward = orientation === 'vertical' ? 'ArrowUp' : 'ArrowLeft';
+	
+	// PRIORITY: Pane navigation - ArrowRight always moves to content pane when in vertical orientation
+	if (e.key === 'ArrowRight' && orientation === 'vertical') {
+		e.preventDefault();
+		
+		if (tertiaryInlineActive) {
+			setPaneFocusMode('secondary');
+			// Use setTimeout to ensure the DOM updates before focusing
+			setTimeout(() => {
+				secondaryPaneRef.current?.focus();
+			}, 10);
+		} else {
+			setPaneFocusMode('content');
+			// Use setTimeout to ensure the DOM updates before focusing
+			setTimeout(() => {
+				// For now, always focus the content pane container directly
+				// This ensures reliable focus transfer and visible focus ring
+				contentPaneRef.current?.focus();
+			}, 10);
+		}
+		return;
+	}
+	
+	// List navigation within the nav pane
 	if (e.key === forward) {
 	  e.preventDefault(); setFocusedIndex(i => Math.min(items.length - 1, i + 1));
 	} else if (e.key === backward) {
@@ -550,15 +936,18 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 	  className={rootClasses}
 	  aria-label={a11y?.rootLabel}
 	  data-layout={effectiveLayout}
+	  onKeyDown={onRootKeyDown}
 	>
 	  <div className="nhs-navigation-split-view__body">
 		<div className="nhs-navigation-split-view__panes" data-active-detail={detailActive || undefined} style={{ transform: detailActive ? 'translateX(-100%)' : undefined }}>
 		  {/* Navigation Pane */}
 		  <div
+			ref={navPaneRef}
 			className="nhs-navigation-split-view__nav-pane"
 			role="navigation"
 			aria-label={a11y?.navigationLabel || 'Items'}
 			data-collapsed={navCollapsed || undefined}
+			tabIndex={0}
 		  >
 			{ collapsibleNav && isAtLeastMedium && (
 			  <div className="nhs-navigation-split-view__nav-collapse">
@@ -591,7 +980,8 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 			role="region"
 			aria-label={a11y?.contentLabel || 'Content'}
 			data-has-selection={!!selectedItem || undefined}
-			tabIndex={-1}
+			tabIndex={0}
+			style={{ display: tertiaryInlineActive && !tertiaryVisible ? 'none' : undefined }}
 		  >
 			{showHeader && (
 			  <div className="nhs-navigation-split-view__header">
@@ -599,20 +989,18 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 			  </div>
 			)}
 			<div className="nhs-navigation-split-view__content-inner" style={{ padding: 32, flex: 1 }}>
-			  { tertiaryInlineActive && !tertiaryVisible ? (
-				renderSecondaryContent?.(selectedItem)
-			  ) : (
-				renderContent(selectedItem)
-			  ) }
+			  {renderContent(selectedItem)}
 			</div>
 		  </div>
 
-		  {/* Secondary Pane (three-column on desktop) */}
-		  { effectiveLayout === 'three-column' && (!lazySecondary || secondaryMounted) && (
+		  {/* Secondary Pane (three-column on desktop OR inline mode at tablet) */}
+		  { (effectiveLayout === 'three-column' && (!lazySecondary || secondaryMounted)) || (tertiaryInlineActive && !tertiaryVisible) ? (
 			<div
+			  ref={secondaryPaneRef}
 			  className="nhs-navigation-split-view__secondary-pane"
 			  role="region"
 			  aria-label={a11y?.secondaryContentLabel || 'Secondary'}
+			  tabIndex={0}
 			>
 			  <div className="nhs-navigation-split-view__secondary-inner" style={{ display:'flex', flexDirection:'column', flex: 1, minWidth: 0 }}>
 				{ selectedItem && secondarySubheader && (
@@ -625,7 +1013,7 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 				</div>
 			  </div>
 			</div>
-		  )}
+		  ) : null}
 		</div>
 	{/* Live regions */}
 	<div ref={liveRef} aria-live="polite" aria-atomic="true" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }} />

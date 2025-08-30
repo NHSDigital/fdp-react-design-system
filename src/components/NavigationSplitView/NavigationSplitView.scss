@@ -130,6 +130,15 @@
   min-width: 0;
   }
 
+  // Focus styles for pane containers when they receive direct focus
+  &__nav-pane:focus-visible,
+  &__content-pane:focus-visible,
+  &__secondary-pane:focus-visible {
+    outline: 3px solid var(--nsplit-focus-outline);
+    outline-offset: -3px;
+    z-index: 2;
+  }
+
   // Content pane inner transition (fade/slide) + wrapping & rich content rules
   &__content-inner {
     position: relative;

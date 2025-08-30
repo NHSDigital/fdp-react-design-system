@@ -2,6 +2,9 @@
 // Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { NavigationSplitView } from './NavigationSplitView';
+import { ResponsiveDataGrid } from '../ResponsiveDataGrid/ResponsiveDataGrid';
+import patientsData from '../SortableDataTable/patients_with_ews.json';
+import type { EWSPatientData } from '../SortableDataTable/AriaTabsDataGridTypes';
 import type { NavigationSplitItem } from './NavigationSplitView.types';
 
 interface DemoItem extends NavigationSplitItem<string> {
@@ -75,4 +78,47 @@ export default meta;
 
 export const Default: StoryObj = {
   name: 'Default (Responsive)',
+};
+
+// Patients dataset (trim for story brevity)
+const rgPatients = (patientsData as EWSPatientData[]).slice(0, 8);
+const rgColumns = [
+  { key: 'name', label: 'Name' },
+  { key: 'nhs_number', label: 'NHS Number' },
+  { key: 'ward_name', label: 'Ward' },
+  { key: 'ews_score', label: 'EWS' }
+];
+
+export const WithResponsiveDataGrid: StoryObj = {
+  name: 'With ResponsiveDataGrid in Main Content Pane',
+  args: {
+    items: demoItems,
+    renderContent: (item?: DemoItem) => (
+      <div>
+        {item && <h3 style={{ marginTop: 0 }}>{item.label}</h3>}
+        {item && <p style={{ marginTop: 0 }}>{item.detail}</p>}
+        <ResponsiveDataGrid
+          forceLayout="table"
+            ariaLabel="Patient metrics data grid"
+            tabPanels={[{
+              id: 'patients',
+              label: 'Patients',
+              data: rgPatients,
+              columns: rgColumns,
+              ariaLabel: 'Patients grid'
+            }]}
+            gridActions={<span style={{ fontSize: 12 }}>Actions</span>}
+        />
+      </div>
+    ),
+    renderSecondaryContent: (item?: DemoItem) => item ? <p>Secondary context for {item.label}</p> : <p>No selection.</p>,
+    autoContentHeader: { mobile: true, tablet: true, desktop: true }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Embeds a ResponsiveDataGrid in the main content pane to test combined navigation (ArrowRight / Enter from nav goes into grid; ArrowUp/Down navigate grid internals; ArrowRight again enters secondary if present).'
+      }
+    }
+  }
 };

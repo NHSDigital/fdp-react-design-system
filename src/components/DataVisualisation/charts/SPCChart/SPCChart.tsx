@@ -95,7 +95,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	settings,
 	narrationContext,
 	gradientSequences = false,
-	processLineWidth = 1,
+	processLineWidth = 2,
 }) => {
 	const engine = React.useMemo(() => {
 		const rowsInput = data.map((d, i) => ({

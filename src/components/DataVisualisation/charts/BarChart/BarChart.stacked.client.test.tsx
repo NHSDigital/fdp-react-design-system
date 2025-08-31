@@ -1,4 +1,5 @@
 import React from 'react';
+import { describe, test, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ChartRoot, BandScalesProvider, TooltipProvider, BarSeriesPrimitive, type BarSeries } from '../../index';
 import { stackSeries, normaliseStack } from '../../utils/stack';
@@ -48,18 +49,43 @@ describe('Stacked Bars utilities & rendering', () => {
     sums.forEach(sum => expect(sum).toBeLessThan(1.001));
   });
 
-  test('stacked bar segments use consistent dark stroke token', () => {
+  test('stacked bar segments use consistent dark stroke token (via CSS variable)', () => {
     const categories = ['A','B','C'];
     const raw: BarSeries[] = Array.from({ length: 3 }).map((_, si) => ({
       id: `cs${si+1}`,
       data: categories.map(c => ({ x: c, y: 10 + Math.random()*10 }))
     }));
     const abs = stackSeries(raw as any);
-    renderStacked(abs, false);
+    // Render with gradientStrokeMatch disabled so stroke comes from CSS variable, not inline attribute
+    render(
+      <ChartRoot width={600} height={300} margin={margin} ariaLabel={'Absolute stacked bars test'}>
+        <BandScalesProvider series={abs.map(s => ({ data: s.stacked.map(d => ({ x: d.x, y: d.y1 })) })) as any}>
+          <TooltipProvider>
+            <svg width={600 - margin.left - margin.right} height={300 - margin.top - margin.bottom} role="img">
+              <g transform={`translate(${margin.left},${margin.top})`}>
+                {abs.map((s,i) => (
+                  <BarSeriesPrimitive
+                    key={s.id}
+                    series={{ id: s.id, data: s.stacked.map(d => ({ x: d.x, y: d.y1 - d.y0 })) }}
+                    stacked={s.stacked.map(d => ({ y0: d.y0, y1: d.y1 }))}
+                    seriesIndex={i}
+                    seriesCount={1}
+                    palette="categorical"
+                    parseX={parseX}
+                    gradientStrokeMatch={false}
+                  />
+                ))}
+              </g>
+            </svg>
+          </TooltipProvider>
+        </BandScalesProvider>
+      </ChartRoot>
+    );
     const rects = document.querySelectorAll('rect.fdp-bar--stacked');
     expect(rects.length).toBeGreaterThan(0);
     rects.forEach(r => {
-      expect(r.getAttribute('stroke')).toBe('var(--nhs-fdp-chart-stacked-stroke, #212b32)');
+      // Stroke now applied via CSS (no inline attribute) when gradientStrokeMatch=false
+      expect(r.getAttribute('stroke')).toBeNull();
     });
   });
 

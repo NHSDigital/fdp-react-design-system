@@ -46,6 +46,10 @@ export interface BarSeriesPrimitiveProps {
     }[];
     /** If true, renders stacked segments individually instead of grouping across series. Provided mainly for future extension (multi-encoded). */
     stackedMode?: boolean;
+    /** Apply vertical gradient wash (solid at top -> transparent at baseline). Default true. */
+    gradientFill?: boolean;
+    /** When gradientFill is true, match stroke to primary bar colour. If false, fall back to token/dark stroke. Default true. */
+    gradientStrokeMatch?: boolean;
 }
 /** Low-level primitive for vertical bars (time / ordinal X via ScaleContext time scale). */
 export declare const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps>;

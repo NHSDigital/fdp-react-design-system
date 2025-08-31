@@ -112,6 +112,38 @@
 		"$value": "#f0f4f5",
 		"$description": "NHS Grey 5 - Lightest grey"
 	  }
+	},
+	"accessibility": {
+	  "$type": "color",
+	  "$comment": "Accessibility-oriented color tokens. Includes CVD-safe pairs and Okabe–Ito colors. Use these for positive/negative semantics and colour-blind–friendly defaults.",
+	  "okabe-ito": {
+		"green": {
+		  "$value": "#009E73",
+		  "$description": "Okabe–Ito green (CVD-safe) – recommended positive"
+		},
+		"vermillion": {
+		  "$value": "#D55E00",
+		  "$description": "Okabe–Ito vermillion / red–orange (CVD-safe) – recommended negative"
+		}
+	  },
+	  "cvd-safe": {
+		"blue": {
+		  "$value": "#1f77b4",
+		  "$description": "CVD-safe blue (pairs with orange); widely used in Matplotlib/Tableau sets"
+		},
+		"orange": {
+		  "$value": "#ff7f0e",
+		  "$description": "CVD-safe orange (pairs with blue)"
+		}
+	  },
+	  "positive": {
+		"$value": "{color.accessibility.okabe-ito.green}",
+		"$description": "Accessibility semantic alias – positive"
+	  },
+	  "negative": {
+		"$value": "{color.accessibility.okabe-ito.vermillion}",
+		"$description": "Accessibility semantic alias – negative"
+	  }
 	}
   }
 }

@@ -44,6 +44,8 @@ export interface LineChartProps {
     strokeWidth?: number;
     /** Enable / disable curve smoothing (monotoneX). Default true. */
     smooth?: boolean;
+    /** Light gradient wash under lines (uses series stroke color fading to transparent). Default true. */
+    gradientFills?: boolean;
 }
 export declare const LineChart: React.FC<LineChartProps>;
 export default LineChart;

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import '../../DataVisualisation.scss';
+import './MetricCard.scss';
 export type MetricStatus = 'positive' | 'negative' | 'warning' | 'neutral';
+export type MetricVariant = 'default' | 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'error';
 export interface MetricDelta {
     /** Numeric change (positive, negative or zero). Sign used if direction not supplied. */
     value: number;
@@ -12,6 +14,8 @@ export interface MetricDelta {
     invert?: boolean;
     /** Treat value as percentage and append % sign in visual text (ariaLabel can still override). */
     isPercent?: boolean;
+    /** Additional context text for the delta (e.g. "this month", "this year") */
+    period?: string;
 }
 export interface MetricCardProps {
     /** Primary textual label (short) */
@@ -24,6 +28,12 @@ export interface MetricCardProps {
     delta?: MetricDelta;
     /** Visual status accent (maps to border / colour modifiers) */
     status?: MetricStatus;
+    /** Visual variant (maps to DataViz color palette) */
+    variant?: MetricVariant;
+    /** Optional subtitle/description text */
+    subtitle?: string;
+    /** Optional metadata (e.g. "Latest period: Aug 2025") */
+    metadata?: string;
     /** Optional little trend sparkline values (reserved – visualisation to follow) */
     trendData?: number[];
     /** Show skeleton / placeholder instead of value */
@@ -41,6 +51,7 @@ export interface MetricCardProps {
 }
 /**
  * MetricCard presents a headline KPI value with optional delta (change) and severity/status accent.
+ * Features modern DataViz-inspired styling with left border accents and subtle gradients.
  * Accessibility:
  * - Wrapper uses role="group" with aria-labelledby referencing the label.
  * - Delta includes an aria-label conveying direction & magnitude; a live region announces updates.

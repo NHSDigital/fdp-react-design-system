@@ -556,7 +556,7 @@ span .nhsuk-u-visually-hidden {
   background: #768692;
 }
 .aria-tabs-datagrid__panel:focus {
-  outline: 2px solid #005eb8;
+  outline: 2px solid transparent;
   outline-offset: 4px;
 }
 .aria-tabs-datagrid__panel[hidden] {

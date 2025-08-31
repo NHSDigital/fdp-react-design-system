@@ -529,23 +529,39 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
       row.specialCauseSinglePointAbove = isNumber(row.upperProcessLimit) ? v > row.upperProcessLimit : false;
       row.specialCauseSinglePointBelow = isNumber(row.lowerProcessLimit) ? v < row.lowerProcessLimit : false;
 
-      // Two of three beyond 2-sigma (same side)
+      // Helpers enforcing side-of-mean consistency
+      const allAboveMean = (vals: number[], meanVal: number) => vals.every(val => val > meanVal);
+      const allBelowMean = (vals: number[], meanVal: number) => vals.every(val => val < meanVal);
+
+      // Two of three beyond 2-sigma AND all three on same side of mean
       const last3 = (runningNonGhostValues as number[]).slice(-3);
-      if (last3.length === 3) {
+      if (last3.length === 3 && isNumber(row.mean)) {
         const u2 = row.upperTwoSigma ?? Infinity;
         const l2 = row.lowerTwoSigma ?? -Infinity;
-        row.specialCauseTwoOfThreeAbove = countAbove(last3, u2) >= 2;
-        row.specialCauseTwoOfThreeBelow = countBelow(last3, l2) >= 2;
+        const highCount = countAbove(last3, u2);
+        const lowCount = countBelow(last3, l2);
+        if (highCount >= 2 && allAboveMean(last3, row.mean)) {
+          row.specialCauseTwoOfThreeAbove = true;
+        }
+        if (lowCount >= 2 && allBelowMean(last3, row.mean)) {
+          row.specialCauseTwoOfThreeBelow = true;
+        }
       }
 
-      // Four of five beyond 1-sigma (same side) – optional
-      if (settings.enableFourOfFiveRule) {
+      // Four of five beyond 1-sigma (same side) – optional, require all five on same side of mean
+      if (settings.enableFourOfFiveRule && isNumber(row.mean)) {
         const last5 = (runningNonGhostValues as number[]).slice(-5);
         if (last5.length === 5) {
           const u1 = row.upperOneSigma ?? Infinity;
           const l1 = row.lowerOneSigma ?? -Infinity;
-          row.specialCauseFourOfFiveAbove = countAbove(last5, u1) >= 4;
-          row.specialCauseFourOfFiveBelow = countBelow(last5, l1) >= 4;
+          const highCount = countAbove(last5, u1);
+          const lowCount = countBelow(last5, l1);
+          if (highCount >= 4 && allAboveMean(last5, row.mean)) {
+            row.specialCauseFourOfFiveAbove = true;
+          }
+          if (lowCount >= 4 && allBelowMean(last5, row.mean)) {
+            row.specialCauseFourOfFiveBelow = true;
+          }
         }
       }
 

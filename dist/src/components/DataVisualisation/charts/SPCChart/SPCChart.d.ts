@@ -45,6 +45,10 @@ export interface SPCChartProps {
         timeframe?: string;
         additionalNote?: string;
     };
+    /** When true, render light gradient band fills behind contiguous sequences of similarly coloured points (concern / improvement / common). */
+    gradientSequences?: boolean;
+    /** Stroke width (thickness) of the main process line. Defaults to 1. */
+    processLineWidth?: number;
 }
 export declare const SPCChart: React.FC<SPCChartProps>;
 export { ImprovementDirection, VariationIcon, AssuranceIcon };

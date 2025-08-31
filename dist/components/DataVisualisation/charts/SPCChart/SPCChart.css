@@ -349,3 +349,7 @@ span .nhsuk-u-visually-hidden {
   fill: var(--nhs-fdp-color-data-viz-spc-common-cause, #a6a6a6) !important;
   stroke-width: 1.5 !important;
 }
+
+rect:focus {
+  outline: none;
+}

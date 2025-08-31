@@ -14,6 +14,7 @@ import { TooltipProvider } from "../../core/TooltipContext";
 import VisuallyHiddenLiveRegion from "../../primitives/VisuallyHiddenLiveRegion";
 import { SpcVariationIcon } from "../SPCIcons/SPCIcon";
 import { Direction } from "../SPCIcons/SPCConstants";
+// Design tokens (accessibility colors)
 import {
 	buildSpc,
 	ImprovementDirection,
@@ -95,7 +96,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	settings,
 	narrationContext,
 	gradientSequences = false,
-	processLineWidth = 2,
+ 	processLineWidth = 2,
 }) => {
 	const engine = React.useMemo(() => {
 		const rowsInput = data.map((d, i) => ({
@@ -217,11 +218,11 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				data-polarity={String(polarity ?? 'unknown')}
 				style={{ width: iconSize, height: iconSize, marginRight: 16 }}
 			>
-				<SpcVariationIcon
-					dropShadow={false}
-					data={{ judgement, polarity, ...(trend ? { trend } : {}) }}
-					size={iconSize}
-				/>
+					<SpcVariationIcon
+						dropShadow={false}
+						data={{ judgement, polarity, ...(trend ? { trend } : {}) }}
+						size={iconSize}
+					/>
 			</div>
 		);
 	}, [showEmbeddedIcon, engine?.rows, metricImprovement]);

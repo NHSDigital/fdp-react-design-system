@@ -139,7 +139,8 @@
     "./components/TransactionalPageTemplate/css": "./dist/components/MainWrapper/MainWrapper.css",
     "./components/WidthContainer/css": "./dist/components/Grid/Grid.css",
     "./components/DataVisualisation/charts/SPCChart/SPCChart/css": "./dist/components/DataVisualisation/charts/SPCChart/SPCChart.css",
-    "./components/SlotMatrix/css": "./dist/components/SlotMatrix/SlotMatrix.css"
+    "./components/SlotMatrix/css": "./dist/components/SlotMatrix/SlotMatrix.css",
+    "./components/DataVisualisation/components/MetricCard/MetricCard/css": "./dist/components/DataVisualisation/components/MetricCard/MetricCard.css"
   },
   "sideEffects": [
     "dist/**/*.css"

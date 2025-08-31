@@ -1,0 +1,84 @@
+import { describe, it, expect } from 'vitest';
+import { buildSpc, ImprovementDirection, VariationIcon } from './spc';
+
+function stableSeries(n: number, base = 100, jitter = 1): number[] {
+  return Array.from({ length: n }, (_, i) => base + (i % 2 === 0 ? jitter : -jitter));
+}
+
+// Helper to build dataset with final extreme value
+function datasetWithExtreme({
+  nStable = 12,
+  extremeValue,
+}: { nStable?: number; extremeValue: number; }) {
+  const base = stableSeries(nStable);
+  return [...base, extremeValue];
+}
+
+describe('SPC variation icon matrix & isolated favourable suppression', () => {
+  it('Up direction: isolated favourable high single 3σ point is suppressed to Neither (default suppression on)', () => {
+    const values = datasetWithExtreme({ extremeValue: 500 }); // very high
+    const data = values.map((v, i) => ({ x: i + 1, value: v }));
+    const { rows } = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Up, data });
+    const last = rows.at(-1)!;
+    expect(last.specialCauseSinglePointAbove).toBe(true);
+    expect(last.variationIcon).toBe(VariationIcon.Neither); // suppressed improvement
+  });
+
+  it('Up direction: disabling suppression yields Improvement icon for high single point', () => {
+    const values = datasetWithExtreme({ extremeValue: 500 });
+    const data = values.map((v, i) => ({ x: i + 1, value: v }));
+    const { rows } = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Up, data, settings: { suppressIsolatedFavourablePoint: false } });
+    const last = rows.at(-1)!;
+    expect(last.specialCauseSinglePointAbove).toBe(true);
+    expect(last.variationIcon).toBe(VariationIcon.Improvement);
+  });
+
+  it('Up direction: isolated adverse low single point produces Concern icon', () => {
+    const values = datasetWithExtreme({ extremeValue: -200 });
+    const data = values.map((v, i) => ({ x: i + 1, value: v }));
+    const { rows } = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Up, data });
+    const last = rows.at(-1)!;
+    expect(last.specialCauseSinglePointBelow).toBe(true);
+    expect(last.variationIcon).toBe(VariationIcon.Concern);
+  });
+
+  it('Down direction: isolated favourable low single point suppressed to Neither by default', () => {
+    const values = datasetWithExtreme({ extremeValue: -200 });
+    const data = values.map((v, i) => ({ x: i + 1, value: v }));
+    const { rows } = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Down, data });
+    const last = rows.at(-1)!;
+    expect(last.specialCauseSinglePointBelow).toBe(true);
+    expect(last.variationIcon).toBe(VariationIcon.Neither); // suppressed improvement (favourable low)
+  });
+
+  it('Down direction: disabling suppression yields Improvement icon for low single point', () => {
+    const values = datasetWithExtreme({ extremeValue: -200 });
+    const data = values.map((v, i) => ({ x: i + 1, value: v }));
+    const { rows } = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Down, data, settings: { suppressIsolatedFavourablePoint: false } });
+    const last = rows.at(-1)!;
+    expect(last.specialCauseSinglePointBelow).toBe(true);
+    expect(last.variationIcon).toBe(VariationIcon.Improvement);
+  });
+
+  it('Down direction: isolated high single point produces Concern icon', () => {
+    const values = datasetWithExtreme({ extremeValue: 500 });
+    const data = values.map((v, i) => ({ x: i + 1, value: v }));
+    const { rows } = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Down, data });
+    const last = rows.at(-1)!;
+    expect(last.specialCauseSinglePointAbove).toBe(true);
+    expect(last.variationIcon).toBe(VariationIcon.Concern);
+  });
+
+  it('Neutral direction: high or low single point both yield Neither icon', () => {
+    const highValues = datasetWithExtreme({ extremeValue: 500 });
+    const lowValues = datasetWithExtreme({ extremeValue: -200 });
+    const highData = highValues.map((v, i) => ({ x: i + 1, value: v }));
+    const lowData = lowValues.map((v, i) => ({ x: i + 1, value: v }));
+    const { rows: highRows } = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Neither, data: highData });
+    const { rows: lowRows } = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Neither, data: lowData });
+    expect(highRows.at(-1)!.specialCauseSinglePointAbove).toBe(true);
+    expect(highRows.at(-1)!.variationIcon).toBe(VariationIcon.Neither);
+    expect(lowRows.at(-1)!.specialCauseSinglePointBelow).toBe(true);
+    expect(lowRows.at(-1)!.variationIcon).toBe(VariationIcon.Neither);
+  });
+});

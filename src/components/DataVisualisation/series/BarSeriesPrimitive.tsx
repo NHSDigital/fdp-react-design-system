@@ -309,7 +309,8 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
                height={height}
                fill={gradientFill ? `url(#${seriesGradientId})` : baseSeriesColor}
                {...(!gradientFill ? { fillOpacity: 0.25 } : {})}
-         stroke={isFocused ? 'var(--nhs-fdp-color-primary-yellow, #ffeb3b)' : (gradientFill && gradientStrokeMatch ? baseSeriesColor : 'var(--nhs-fdp-chart-stacked-stroke, #212b32)')}
+         // Stroke now driven by CSS variable for non-matched gradient strokes (path 2c). Attribute only overrides for focus highlight or when matching base color.
+         stroke={isFocused ? 'var(--nhs-fdp-color-primary-yellow, #ffeb3b)' : (gradientFill && gradientStrokeMatch ? baseSeriesColor : undefined)}
                strokeWidth={isFocused ? 2 : 1}
                className="fdp-bar fdp-bar--stacked"
                tabIndex={faded || !focusable ? -1 : 0}

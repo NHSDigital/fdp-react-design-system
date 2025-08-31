@@ -62,6 +62,24 @@ export interface SpcSettings {
     maximumPointsWarnings?: boolean;
     /** Capability mode: classify assurance by full process band vs target. Default: true */
     assuranceCapabilityMode?: boolean;
+    /** Precedence strategy for classifying variation when multiple rule types overlap */
+    precedenceStrategy?: "legacy" | "directional_first";
+    /** When true (with directional_first), allow early favourable emerging trend to neutralise/downgrade concern before full trend rule fires */
+    emergingDirectionGrace?: boolean;
+    /** Points difference buffer when resolving simultaneous opposing sustained indications */
+    transitionBufferPoints?: number;
+    /** Collapse lower-severity cluster rules (2-of-3 vs 4-of-5) keeping only strongest */
+    collapseClusterRules?: boolean;
+    /** Enable heuristic baseline (phase) change suggestions */
+    baselineSuggest?: boolean;
+    /** Minimum change in mean (in sigma units) between old & new stable windows */
+    baselineSuggestMinDeltaSigma?: number;
+    /** Points required in stability window after candidate change */
+    baselineSuggestStabilityPoints?: number;
+    /** Minimum non-ghost points since previous accepted (or initial) baseline */
+    baselineSuggestMinGap?: number;
+    /** Minimum score threshold (0-100) for emitting suggestion */
+    baselineSuggestScoreThreshold?: number;
 }
 export interface BuildSpcArgs {
     chartType: ChartType;
@@ -86,6 +104,8 @@ export interface SpcRow {
     upperOneSigma: number | null;
     lowerOneSigma: number | null;
     lowerTwoSigma: number | null;
+    /** Target value for this row (if provided in input). Exposed for rendering reference lines. */
+    target: number | null;
     specialCauseSinglePointAbove: boolean;
     specialCauseSinglePointBelow: boolean;
     specialCauseTwoOfThreeAbove: boolean;
@@ -110,13 +130,23 @@ export interface SpcRow {
 export interface SpcWarning {
     code: string;
     message: string;
-    severity?: 'info' | 'warning' | 'error';
-    category?: 'config' | 'data' | 'limits' | 'special_cause' | 'baseline' | 'logic' | 'target' | 'ghost' | 'partition';
+    severity?: "info" | "warning" | "error";
+    category?: "config" | "data" | "limits" | "special_cause" | "baseline" | "logic" | "target" | "ghost" | "partition";
     context?: Record<string, unknown>;
 }
 export interface SpcResult {
     rows: SpcRow[];
     warnings: SpcWarning[];
+    /** Optional heuristic suggestions for candidate new baseline starting points (phase changes) */
+    suggestedBaselines?: Array<{
+        index: number;
+        reason: 'shift' | 'trend' | 'point';
+        score: number;
+        deltaMean: number;
+        oldMean: number;
+        newMean: number;
+        window: [number, number];
+    }>;
 }
 export declare function buildSpc(args: BuildSpcArgs): SpcResult;
 declare const _default: {

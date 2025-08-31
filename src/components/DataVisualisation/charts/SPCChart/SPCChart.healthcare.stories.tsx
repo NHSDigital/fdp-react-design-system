@@ -108,6 +108,7 @@ export const ED4HourCompliance: Story = {
 				unit="%"
 				enableRules
 				announceFocus
+				targets={Array(ed4hValues.length).fill(75)} // Target 75% -> PASS (latest 80%)
 				gradientSequences
 				narrationContext={{
 					measureName: "ED 4h compliance",
@@ -141,6 +142,7 @@ export const LengthOfStay: Story = {
 				chartType="XmR"
 				metricImprovement={ImprovementDirection.Down}
 				enableRules
+				targets={Array(losValues.length).fill(6.2)} // Target 6.2 days -> PASS (latest 6.0)
 				unit="days"
 				announceFocus
 				gradientSequences
@@ -175,6 +177,7 @@ export const ReadmissionRate: Story = {
 				chartType="XmR"
 				metricImprovement={ImprovementDirection.Down}
 				enableRules
+				targets={Array(readmitValues.length).fill(9.1)} // Target 9.1% -> PASS (latest 9.0)
 				unit="%"
 				announceFocus
 				gradientSequences
@@ -209,6 +212,7 @@ export const HandHygieneCompliance: Story = {
 				chartType="XmR"
 				metricImprovement={ImprovementDirection.Up}
 				enableRules
+				targets={Array(handHygieneValues.length).fill(90)} // Target 90% -> PASS (latest 93%)
 				unit="%"
 				announceFocus
 				gradientSequences
@@ -244,6 +248,7 @@ export const FallsPer1000BedDays: Story = {
 				chartType="XmR"
 				metricImprovement={ImprovementDirection.Down}
 				enableRules
+				targets={Array(fallsValues.length).fill(4.6)} // Target 4.6 falls/1000 bed days -> PASS (latest 4.3)
 				announceFocus
 				gradientSequences
 				narrationContext={{
@@ -278,6 +283,7 @@ export const TimeBetweenMedicationErrors: Story = {
 				metricImprovement={ImprovementDirection.Up}
 				enableRules
 				announceFocus
+				targets={Array(medErrorGaps.length).fill(10)} // Target 10 days between errors -> FAIL (latest 7 < 10)
 				gradientSequences
 				narrationContext={{
 					measureName: "Days between medication errors",
@@ -312,6 +318,7 @@ export const CountBetweenPressureUlcers: Story = {
 				metricImprovement={ImprovementDirection.Up}
 				enableRules
 				announceFocus
+				targets={Array(pressureUlcerCounts.length).fill(14)} // Target 14 counts -> PASS (latest 23 >=14)
 				gradientSequences
 				narrationContext={{
 					measureName: "Count between pressure ulcers",
@@ -346,6 +353,7 @@ export const RTTPatientsWaiting: Story = {
 				enableRules
 				unit="%"
 				announceFocus
+				targets={Array(rttValues.length).fill(80)} // Target 80% -> PASS (latest ~84%)
 				gradientSequences
 				narrationContext={{
 					measureName: "RTT % Patients Waiting < 18 weeks",

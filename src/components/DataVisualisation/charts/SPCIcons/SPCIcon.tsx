@@ -328,6 +328,8 @@ export interface SpcIconBaseProps {
 	ariaLabel?: string; // override accessible label
 	showLetter?: boolean; // default true — render H/L
 	dropShadow?: boolean; // default true – apply outer circle shadow
+	/** When true, apply a diagonal (top-left -> bottom-right) colour wash instead of solid white interior. */
+	gradientWash?: boolean;
 }
 
 export interface SpcVariationIconProps extends SpcIconBaseProps {
@@ -362,11 +364,13 @@ export const SpcVariationIcon = ({
 	ariaLabel,
 	showLetter = true,
 	dropShadow = true,
+	gradientWash = false,
 	variant = 'classic',
 	runLength = 0,
 	...rest
 }: SpcVariationIconPropsAlt & Record<string, unknown>) => {
 	const shadowId = useId();
+	const washId = useId();
 	const { state, direction } = resolveStateAndLayout(data as SpcVariationInput);
 	const colour = getVariationColour(state);
 	const judgement = getVariationTrend(state);
@@ -465,8 +469,8 @@ export const SpcVariationIcon = ({
 		});
 		return (
 			<svg width={size} height={size} viewBox="0 0 300 300" role="img" aria-label={aria} aria-description={ariaDescription} {...rest}>
-				{dropShadow && (
-					<defs>
+				<defs>
+					{dropShadow && (
 						<filter id={shadowId} filterUnits="objectBoundingBox">
 							<feGaussianBlur stdDeviation="3" />
 							<feOffset dx="0" dy="15" result="blur" />
@@ -474,9 +478,17 @@ export const SpcVariationIcon = ({
 							<feComposite in2="blur" operator="in" result="colorShadow" />
 							<feComposite in="SourceGraphic" in2="colorShadow" operator="over" />
 						</filter>
-					</defs>
-				)}
-				<circle stroke="none" fill="#ffffff" {...(dropShadow ? { filter: `url(#${shadowId})` } : {})} cx="150" cy="150" r="120" />
+					)}
+					{gradientWash && (
+						<linearGradient id={washId} x1="0%" y1="0%" x2="100%" y2="100%">
+							{/* Subtle washed-out diagonal: light tint fading to near-transparent */}
+							<stop offset="0%" stopColor={colour.hex} stopOpacity={0.12} />
+							<stop offset="75%" stopColor={colour.hex} stopOpacity={0.06} />
+							<stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+						</linearGradient>
+					)}
+				</defs>
+				<circle stroke="none" fill={gradientWash ? `url(#${washId})` : '#ffffff'} {...(dropShadow ? { filter: `url(#${shadowId})` } : {})} cx="150" cy="150" r="120" />
 				<circle stroke={colour.hex} strokeWidth={15} strokeMiterlimit={10} fill="none" cx="150" cy="150" r="120" />
 				<g transform={ direction === Direction.Higher ? "translate(0,-10)" : "translate(0,20)"}>
 					{shape}
@@ -602,8 +614,8 @@ export const SpcVariationIcon = ({
 				aria-description={ariaDescription}
 				{...rest}
 			>
-				{dropShadow && (
-					<defs>
+				<defs>
+					{dropShadow && (
 						<filter id={shadowId} filterUnits="objectBoundingBox">
 							<feGaussianBlur stdDeviation="3" />
 							<feOffset dx="0" dy="15" result="blur" />
@@ -611,11 +623,18 @@ export const SpcVariationIcon = ({
 							<feComposite in2="blur" operator="in" result="colorShadow" />
 							<feComposite in="SourceGraphic" in2="colorShadow" operator="over" />
 						</filter>
-					</defs>
-				)}
+					)}
+					{gradientWash && (
+						<linearGradient id={washId} x1="0%" y1="0%" x2="100%" y2="100%">
+							<stop offset="0%" stopColor={colour.hex} stopOpacity={0.18} />
+							<stop offset="65%" stopColor={colour.hex} stopOpacity={0.06} />
+							<stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+						</linearGradient>
+					)}
+				</defs>
 				<circle
 					stroke="none"
-					fill="#ffffff"
+					fill={gradientWash ? `url(#${washId})` : '#ffffff'}
 					{...(dropShadow ? { filter: `url(#${shadowId})` } : {})}
 					cx="150"
 					cy="150"
@@ -646,8 +665,8 @@ export const SpcVariationIcon = ({
 			aria-description={ariaDescription}
 			{...rest}
 		>
-			{dropShadow && (
-				<defs>
+			<defs>
+				{dropShadow && (
 					<filter id={shadowId} filterUnits="objectBoundingBox">
 						<feGaussianBlur stdDeviation="3" />
 						<feOffset dx="0" dy="15" result="blur" />
@@ -655,11 +674,18 @@ export const SpcVariationIcon = ({
 						<feComposite in2="blur" operator="in" result="colorShadow" />
 						<feComposite in="SourceGraphic" in2="colorShadow" operator="over" />
 					</filter>
-				</defs>
-			)}
+				)}
+				{gradientWash && (
+					<linearGradient id={washId} x1="0%" y1="0%" x2="100%" y2="100%">
+						<stop offset="0%" stopColor={colour.hex} stopOpacity={0.18} />
+						<stop offset="65%" stopColor={colour.hex} stopOpacity={0.06} />
+						<stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+					</linearGradient>
+				)}
+			</defs>
 			<circle
 				stroke="none"
-				fill="#ffffff"
+				fill={gradientWash ? `url(#${washId})` : '#ffffff'}
 				{...(dropShadow ? { filter: `url(#${shadowId})` } : {})}
 				cx="150"
 				cy="150"

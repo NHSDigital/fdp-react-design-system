@@ -267,13 +267,31 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 												className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
 											/>
 										))}
-									{assuranceDesc && (
-										<span
-											className={`fdp-spc-badge fdp-spc-badge--assurance ${assuranceDesc.toLowerCase().includes("met") ? "is-pass" : "is-fail"}`}
-										>
-											{assuranceDesc}
-										</span>
-									)}
+								</div>
+							</div>
+						)}
+						{assuranceDesc && (
+							<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance">
+								<div className="fdp-spc-tooltip__section-label">
+									<strong>Assurance</strong>
+								</div>
+								<div className="fdp-spc-tooltip__badges" aria-label="Limits">
+									{(() => {
+										const lower = assuranceDesc.toLowerCase();
+										// Treat explicit 'not met' (or 'not achieved') as fail; require standalone 'met' / 'achieved' for pass.
+										const isFail = lower.includes("not met") || lower.includes("not achieved");
+										// Pass if contains 'met' or 'achieved' and not a fail phrase.
+										const isPass = !isFail && (/(^|\b)(met|achieved)(\b|$)/).test(lower);
+										return (
+											<Tag
+												text={assuranceDesc}
+												color="default"
+												// Pass -> improvement (blue), Fail -> concern (orange)
+												className={`fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--assurance ${isPass ? "fdp-spc-tag--improvement" : "fdp-spc-tag--concern"}`}
+												aria-label={`Assurance: ${assuranceDesc}`}
+											/>
+										);
+									})()}
 								</div>
 							</div>
 						)}

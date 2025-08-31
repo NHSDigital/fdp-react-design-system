@@ -15,13 +15,13 @@ function datasetWithExtreme({
 }
 
 describe('SPC variation icon matrix & isolated favourable suppression', () => {
-  it('Up direction: isolated favourable high single 3σ point is suppressed to Neither (default suppression on)', () => {
+  it('Up direction: isolated favourable high single 3σ point is suppressed to None (no judgement) (default suppression on)', () => {
     const values = datasetWithExtreme({ extremeValue: 500 }); // very high
     const data = values.map((v, i) => ({ x: i + 1, value: v }));
     const { rows } = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Up, data });
     const last = rows.at(-1)!;
     expect(last.specialCauseSinglePointAbove).toBe(true);
-    expect(last.variationIcon).toBe(VariationIcon.Neither); // suppressed improvement
+  expect(last.variationIcon).toBe(VariationIcon.None); // suppressed improvement -> no judgement
   });
 
   it('Up direction: disabling suppression yields Improvement icon for high single point', () => {
@@ -42,13 +42,13 @@ describe('SPC variation icon matrix & isolated favourable suppression', () => {
     expect(last.variationIcon).toBe(VariationIcon.Concern);
   });
 
-  it('Down direction: isolated favourable low single point suppressed to Neither by default', () => {
+  it('Down direction: isolated favourable low single point suppressed to None (no judgement) by default', () => {
     const values = datasetWithExtreme({ extremeValue: -200 });
     const data = values.map((v, i) => ({ x: i + 1, value: v }));
     const { rows } = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Down, data });
     const last = rows.at(-1)!;
     expect(last.specialCauseSinglePointBelow).toBe(true);
-    expect(last.variationIcon).toBe(VariationIcon.Neither); // suppressed improvement (favourable low)
+  expect(last.variationIcon).toBe(VariationIcon.None); // suppressed improvement (favourable low) -> no judgement
   });
 
   it('Down direction: disabling suppression yields Improvement icon for low single point', () => {

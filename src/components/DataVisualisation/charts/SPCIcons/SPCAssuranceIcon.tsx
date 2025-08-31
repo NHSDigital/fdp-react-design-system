@@ -10,6 +10,8 @@ export interface AssuranceIconProps {
 	size?: number; // px
 	ariaLabel?: string; // override accessible label
 	dropShadow?: boolean;
+	/** When true apply a diagonal colour wash instead of solid white interior */
+	gradientWash?: boolean;
 	colourOverride?: string; // optional single colour override for ring, letter & accent path
 	letterOverride?: string; // optional override for displayed letter
 	showTrendLines?: boolean; // allow hiding decorative lines if needed
@@ -22,11 +24,13 @@ export const SPCAssuranceIcon = ({
 	ariaLabel,
 	dropShadow = true,
 	colourOverride,
+	gradientWash = false,
 	letterOverride,
 	showTrendLines = true,
 	...rest
 }: AssuranceIconProps & Record<string, unknown>) => {
 	const shadowId = useId();
+	const washId = useId();
 	const colour = colourOverride || DEFAULT_COLOURS[status];
 	const letter = (letterOverride || DEFAULT_LETTERS[status]).slice(0, 2); // safety – limit length
 	const aria = ariaLabel || `Assurance ${status}`;
@@ -40,8 +44,8 @@ export const SPCAssuranceIcon = ({
 			aria-label={aria}
 			{...rest}
 		>
-			{dropShadow && (
-				<defs>
+			<defs>
+				{dropShadow && (
 					<filter id={shadowId} filterUnits="objectBoundingBox">
 						<feGaussianBlur stdDeviation="3" />
 						<feOffset dx="-1" dy="15" result="blur" />
@@ -49,11 +53,18 @@ export const SPCAssuranceIcon = ({
 						<feComposite in2="blur" operator="in" result="colorShadow" />
 						<feComposite in="SourceGraphic" in2="colorShadow" operator="over" />
 					</filter>
-				</defs>
-			)}
+				)}
+				{gradientWash && (
+					<linearGradient id={washId} x1="0%" y1="0%" x2="100%" y2="100%">
+						<stop offset="0%" stopColor={colour} stopOpacity={0.18} />
+						<stop offset="65%" stopColor={colour} stopOpacity={0.06} />
+						<stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+					</linearGradient>
+				)}
+			</defs>
 			<circle
 				stroke="none"
-				fill="#ffffff"
+				fill={gradientWash ? `url(#${washId})` : '#ffffff'}
 				{...(dropShadow ? { filter: `url(#${shadowId})` } : {})}
 				cx="150"
 				cy="150"

@@ -297,84 +297,57 @@ export const AssuranceCapability: Story = {
 		},
 		metricContext: { improvement: "up" },
 	},
+		render: () => {
+			const baseSeq: SPCDatum[] = Array.from({ length: 20 }, (_, i) => ({ x: i + 1, y: 50 + Math.sin(i / 2) * 3 + (Math.random() - 0.5) * 2 }));
+			const passData = baseSeq.map(d => ({ x: d.x as any, y: d.y + 20 }));
+			const passTargets = passData.map(() => 60); // target well below raised band -> pass
+			const failData = baseSeq.map(d => ({ x: d.x as any, y: d.y - 20 }));
+			const failTargets = failData.map(() => 60); // band below target -> fail
+			const uncertainData = baseSeq.map(d => ({ x: d.x as any, y: d.y }));
+			// Use target at approximate mean so band straddles it -> assuranceIcon None (uncertain)
+			const uncertainTargets = uncertainData.map(() => 50);
+			return (
+				<div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+					<ChartContainer title="Capability: Pass" description="Process consistently above target" source="Synthetic data">
+						<SPCChart data={passData} targets={passTargets} chartType="XmR" metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences narrationContext={{ measureName: 'Capability metric', datasetContext: 'Process band entirely favourable', additionalNote: 'Pass scenario' }} />
+					</ChartContainer>
+					<ChartContainer title="Capability: Fail" description="Process consistently below target" source="Synthetic data">
+						<SPCChart data={failData} targets={failTargets} chartType="XmR" metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences narrationContext={{ measureName: 'Capability metric', datasetContext: 'Process band entirely unfavourable', additionalNote: 'Fail scenario' }} />
+					</ChartContainer>
+					<ChartContainer title="Capability: Uncertain" description="Process band overlaps target (no assurance icon)" source="Synthetic data">
+						<SPCChart data={uncertainData} targets={uncertainTargets} chartType="XmR" metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences narrationContext={{ measureName: 'Capability metric', datasetContext: 'Process band overlaps target', additionalNote: 'Uncertain scenario' }} />
+					</ChartContainer>
+				</div>
+			);
+		},
+};
+
+// New story: Embedded summary icons (variation + assurance) side-by-side examples
+export const EmbeddedSummaryIcons: Story = {
+	parameters: { docs: { description: { story: 'Demonstrates embedded variation + assurance icons rendered together: Pass, Fail and (no icon) Uncertain scenarios.' } }, metricContext: { improvement: 'up' } },
 	render: () => {
-		const baseSeq: SPCDatum[] = Array.from({ length: 20 }, (_, i) => ({
-			x: i + 1,
-			y: 50 + Math.sin(i / 2) * 3 + (Math.random() - 0.5) * 2,
-		}));
-		const passData: SPCDatum[] = baseSeq.map((d) => ({
-			...d,
-			y: d.y + 20,
-			target: 60,
-		})); // target below band (good since Up)
-		const failData: SPCDatum[] = baseSeq.map((d) => ({
-			...d,
-			y: d.y - 20,
-			target: 60,
-		})); // band below target (bad for Up)
-		const uncertainData: SPCDatum[] = baseSeq.map((d) => ({
-			...d,
-			target: 60,
-		})); // baseline around target
+		const baseSeq: SPCDatum[] = Array.from({ length: 18 }, (_, i) => ({ x: i + 1, y: 40 + Math.sin(i / 2) * 2 + (Math.random() - 0.5) * 1.5 }));
+		const passData = baseSeq.map(d => ({ x: d.x as any, y: d.y + 18 }));
+		const passTargets = passData.map(() => 55);
+		const failData = baseSeq.map(d => ({ x: d.x as any, y: d.y - 18 }));
+		const failTargets = failData.map(() => 55);
+		const uncertainData = baseSeq.map(d => ({ x: d.x as any, y: d.y }));
+		// Target at approximate mean ensures band spans the target -> assuranceIcon None
+		const uncertainTargets = uncertainData.map(() => 40);
 		return (
-			<div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-				<ChartContainer
-					title="Capability: Pass"
-					description="Process consistently above target"
-					source="Synthetic data"
-				>
-					<SPCChart
-						data={passData}
-						chartType="XmR"
-						metricImprovement={ImprovementDirection.Up}
-						announceFocus
-						gradientSequences={true}
-						narrationContext={{
-							measureName: "Capability metric",
-							datasetContext: "Process band entirely favourable",
-							additionalNote: "Pass scenario",
-						}}
-					/>
+			<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(360px,1fr))', gap: 24 }}>
+				<ChartContainer title="Embedded: Pass" description="Variation + assurance pass" source="Synthetic">
+					<SPCChart data={passData} targets={passTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon />
 				</ChartContainer>
-				<ChartContainer
-					title="Capability: Fail"
-					description="Process consistently below target"
-					source="Synthetic data"
-				>
-					<SPCChart
-						data={failData}
-						chartType="XmR"
-						gradientSequences={true}
-						metricImprovement={ImprovementDirection.Up}
-						announceFocus
-						narrationContext={{
-							measureName: "Capability metric",
-							datasetContext: "Process band entirely unfavourable",
-							additionalNote: "Fail scenario",
-						}}
-					/>
+				<ChartContainer title="Embedded: Fail" description="Variation + assurance fail" source="Synthetic">
+					<SPCChart data={failData} targets={failTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon />
 				</ChartContainer>
-				<ChartContainer
-					title="Capability: Uncertain"
-					description="Process band overlaps target"
-					source="Synthetic data"
-				>
-					<SPCChart
-						data={uncertainData}
-						chartType="XmR"
-						gradientSequences={true}
-						metricImprovement={ImprovementDirection.Up}
-						announceFocus
-						narrationContext={{
-							measureName: "Capability metric",
-							datasetContext: "Process band overlaps target",
-							additionalNote: "Uncertain scenario",
-						}}
-					/>
+				<ChartContainer title="Embedded: Uncertain" description="No assurance icon (band overlaps target)" source="Synthetic">
+					<SPCChart data={uncertainData} targets={uncertainTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon />
 				</ChartContainer>
 			</div>
 		);
-	},
+	}
 };
 
 export const RuleGlossary: Story = {

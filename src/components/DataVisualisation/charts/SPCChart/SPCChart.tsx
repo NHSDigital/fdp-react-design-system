@@ -13,6 +13,7 @@ import SPCTooltipOverlay from "./SPCTooltipOverlay";
 import { TooltipProvider } from "../../core/TooltipContext";
 import VisuallyHiddenLiveRegion from "../../primitives/VisuallyHiddenLiveRegion";
 import { SpcVariationIcon } from "../SPCIcons/SPCIcon";
+import { SPCAssuranceIcon } from "../SPCIcons/SPCAssuranceIcon";
 import { Direction } from "../SPCIcons/SPCConstants";
 // Design tokens (accessibility colors)
 import {
@@ -173,6 +174,10 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	const embeddedIcon = React.useMemo(() => {
 		if (!showEmbeddedIcon || !engine?.rows?.length) return null;
 		const engineRows = engine.rows;
+		// Suppress embedded icon entirely when insufficient non-ghost points to establish stable limits
+		const minPoints = settings?.minimumPoints ?? 13;
+		const nonGhostCount = engineRows.filter(r => !r.ghost && r.value != null).length;
+		if (nonGhostCount < minPoints) return null;
 		let lastIdx = -1;
 		for (let i = engineRows.length - 1; i >= 0; i--) {
 			const r = engineRows[i];
@@ -181,8 +186,26 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		if (lastIdx === -1) return null;
 		const lastRow = engineRows[lastIdx];
 		const variation = lastRow.variationIcon as VariationIcon | undefined;
-		// Trend currently not surfaced on SpcRow; placeholder for future extension
+		const assuranceRaw = lastRow.assuranceIcon as AssuranceIcon | undefined;
+		// Derive a trend/orientation hint for suppressed 'no judgement' cases so the purple arrow points towards the favourable direction
 		let trend: Direction | undefined = undefined;
+		if (variation === VariationIcon.None) {
+			// A suppressed favourable single point will have exactly one of the singlePointAbove/Below flags set
+			const singleHigh = lastRow.specialCauseSinglePointAbove;
+			const singleLow = lastRow.specialCauseSinglePointBelow;
+			if (metricImprovement === ImprovementDirection.Up) {
+				// Higher is favourable: a suppressed high point should orient higher
+				if (singleHigh) trend = Direction.Higher;
+				else if (singleLow) trend = Direction.Lower; // defensive (should not be favourable)
+			} else if (metricImprovement === ImprovementDirection.Down) {
+				// Lower is favourable: a suppressed low point should orient lower
+				if (singleLow) trend = Direction.Lower;
+				else if (singleHigh) trend = Direction.Higher; // defensive
+			} else {
+				// Neutral metrics: default to higher to preserve legacy layout
+				trend = Direction.Higher;
+			}
+		}
 		let judgement: VariationJudgement;
 		switch (variation) {
 			case VariationIcon.Improvement:
@@ -207,25 +230,36 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			polarity = MetricPolarity.ContextDependent;
 		}
 		const iconSize = 80;
+		const assuranceShow = assuranceRaw && assuranceRaw !== AssuranceIcon.None;
 		return (
-			<div
-				key={`embedded-icon-${lastIdx}`}
-				className="fdp-spc-chart__embedded-icon"
-				data-variation={String(variation)}
-				data-variation-judgement={String(judgement)}
-				data-trend-raw={'none'}
-				data-trend={trend ? String(trend) : 'none'}
-				data-polarity={String(polarity ?? 'unknown')}
-				style={{ width: iconSize, height: iconSize, marginRight: 16 }}
-			>
+			<div key={`embedded-icon-${lastIdx}`} style={{ display: 'flex', gap: 12, marginRight: 16 }}>
+				<div
+					className="fdp-spc-chart__embedded-icon"
+					data-variation={String(variation)}
+					data-variation-judgement={String(judgement)}
+					data-trend-raw={trend ? String(trend) : 'none'}
+					data-trend={trend ? String(trend) : 'none'}
+					data-polarity={String(polarity ?? 'unknown')}
+					style={{ width: iconSize, height: iconSize }}
+				>
 					<SpcVariationIcon
 						dropShadow={false}
 						data={{ judgement, polarity, ...(trend ? { trend } : {}) }}
 						size={iconSize}
 					/>
+				</div>
+				{assuranceShow && (
+					<div
+						className="fdp-spc-chart__embedded-assurance-icon"
+						data-assurance={String(assuranceRaw)}
+						style={{ width: iconSize, height: iconSize }}
+					>
+						<SPCAssuranceIcon status={assuranceRaw as any} size={iconSize} dropShadow={false} />
+					</div>
+				)}
 			</div>
 		);
-	}, [showEmbeddedIcon, engine?.rows, metricImprovement]);
+	}, [showEmbeddedIcon, engine?.rows, metricImprovement, settings?.minimumPoints]);
 
 	return (
 		<div className={className ? `fdp-spc-chart-wrapper ${className}` : 'fdp-spc-chart-wrapper'}>
@@ -658,6 +692,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 								y1={yScale(limits.ucl)}
 								y2={yScale(limits.ucl)}
 								aria-hidden="true"
+								strokeWidth={2}
 							/>
 						)}
 						{limits.lcl != null && (
@@ -668,6 +703,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 								y1={yScale(limits.lcl)}
 								y2={yScale(limits.lcl)}
 								aria-hidden="true"
+								strokeWidth={2}
 							/>
 						)}
 						{showZones && limits.mean != null && (
@@ -680,6 +716,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 										y1={yScale(limits.onePos)}
 										y2={yScale(limits.onePos)}
 										aria-hidden="true"
+										strokeWidth={2}
 									/>
 								)}
 								{limits.oneNeg != null && (
@@ -690,6 +727,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 										y1={yScale(limits.oneNeg)}
 										y2={yScale(limits.oneNeg)}
 										aria-hidden="true"
+										strokeWidth={2}
 									/>
 								)}
 								{limits.twoPos != null && (
@@ -700,6 +738,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 										y1={yScale(limits.twoPos)}
 										y2={yScale(limits.twoPos)}
 										aria-hidden="true"
+										strokeWidth={2}
 									/>
 								)}
 								{limits.twoNeg != null && (
@@ -710,6 +749,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 										y1={yScale(limits.twoNeg)}
 										y2={yScale(limits.twoNeg)}
 										aria-hidden="true"
+										strokeWidth={2}
 									/>
 								)}
 							</>

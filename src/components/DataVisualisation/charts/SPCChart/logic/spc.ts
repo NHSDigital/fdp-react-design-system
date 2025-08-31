@@ -617,7 +617,8 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
         (metricImprovement === ImprovementDirection.Down && (row.specialCauseTwoOfThreeBelow || (settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow) || row.specialCauseShiftLow || row.specialCauseTrendDecreasing))
       );
       if ((favourableSingleHigh || favourableSingleLow) && !corroborating) {
-        row.variationIcon = VariationIcon.Neither;
+  // Suppressed favourable single 3σ point -> show 'no judgement' (purple) icon
+  row.variationIcon = VariationIcon.None;
         row.specialCauseImprovementValue = null;
       }
     }

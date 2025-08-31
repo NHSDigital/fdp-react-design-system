@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { getGradientOpacities } from './tokenUtils';
 import {
 	AssuranceResult,
 	DEFAULT_COLOURS,
@@ -31,6 +32,8 @@ export const SPCAssuranceIcon = ({
 }: AssuranceIconProps & Record<string, unknown>) => {
 	const shadowId = useId();
 	const washId = useId();
+	// Gradient stop opacity tokens via shared util
+	const { start: gradStart, mid: gradMid, end: gradEnd } = getGradientOpacities();
 	const colour = colourOverride || DEFAULT_COLOURS[status];
 	const letter = (letterOverride || DEFAULT_LETTERS[status]).slice(0, 2); // safety – limit length
 	const aria = ariaLabel || `Assurance ${status}`;
@@ -56,9 +59,9 @@ export const SPCAssuranceIcon = ({
 				)}
 				{gradientWash && (
 					<linearGradient id={washId} x1="0%" y1="0%" x2="100%" y2="100%">
-						<stop offset="0%" stopColor={colour} stopOpacity={0.18} />
-						<stop offset="65%" stopColor={colour} stopOpacity={0.06} />
-						<stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+						<stop offset="0%" stopColor={colour} stopOpacity={parseFloat(gradStart)} />
+						<stop offset="65%" stopColor={colour} stopOpacity={parseFloat(gradMid)} />
+						<stop offset="100%" stopColor="#ffffff" stopOpacity={parseFloat(gradEnd)} />
 					</linearGradient>
 				)}
 			</defs>

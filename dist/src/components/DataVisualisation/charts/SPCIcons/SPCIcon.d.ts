@@ -138,6 +138,8 @@ export interface SpcIconBaseProps {
     ariaLabel?: string;
     showLetter?: boolean;
     dropShadow?: boolean;
+    /** When true, apply a diagonal (top-left -> bottom-right) colour wash instead of solid white interior. */
+    gradientWash?: boolean;
 }
 export interface SpcVariationIconProps extends SpcIconBaseProps {
     data: SpcVariationInput;
@@ -156,6 +158,6 @@ export interface SpcVariationIconPropsAlt extends SpcVariationIconProps {
     runLength?: number;
 }
 export declare const SpcVariationIcon: {
-    ({ data, size, ariaLabel, showLetter, dropShadow, variant, runLength, ...rest }: SpcVariationIconPropsAlt & Record<string, unknown>): import("react/jsx-runtime").JSX.Element;
+    ({ data, size, ariaLabel, showLetter, dropShadow, gradientWash, variant, runLength, ...rest }: SpcVariationIconPropsAlt & Record<string, unknown>): import("react/jsx-runtime").JSX.Element;
     displayName: string;
 };

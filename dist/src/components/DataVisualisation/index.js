@@ -5636,7 +5636,7 @@ var BarSeriesPrimitive = ({
             height,
             fill: gradientFill ? `url(#${seriesGradientId})` : baseSeriesColor,
             ...!gradientFill ? { fillOpacity: 0.25 } : {},
-            stroke: isFocused ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : gradientFill && gradientStrokeMatch ? baseSeriesColor : "var(--nhs-fdp-chart-stacked-stroke, #212b32)",
+            stroke: isFocused ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : gradientFill && gradientStrokeMatch ? baseSeriesColor : void 0,
             strokeWidth: isFocused ? 2 : 1,
             className: "fdp-bar fdp-bar--stacked",
             tabIndex: faded || !focusable ? -1 : 0,
@@ -6398,7 +6398,7 @@ function buildSpc(args) {
       const favourableSingleLow = metricImprovement === "Down" /* Down */ && row.specialCauseSinglePointBelow;
       const corroborating = metricImprovement === "Up" /* Up */ && (row.specialCauseTwoOfThreeAbove || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveAbove || row.specialCauseShiftHigh || row.specialCauseTrendIncreasing) || metricImprovement === "Down" /* Down */ && (row.specialCauseTwoOfThreeBelow || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow || row.specialCauseShiftLow || row.specialCauseTrendDecreasing);
       if ((favourableSingleHigh || favourableSingleLow) && !corroborating) {
-        row.variationIcon = "neither" /* Neither */;
+        row.variationIcon = "none" /* None */;
         row.specialCauseImprovementValue = null;
       }
     }
@@ -6789,37 +6789,45 @@ var SPCTooltipOverlay = ({
           ] }),
           showBadges && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
             /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Signals" }) }),
-            /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: [
-              variationDesc && (variationDesc.toLowerCase().includes("concern") ? /* @__PURE__ */ jsx27(
+            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: variationDesc && (variationDesc.toLowerCase().includes("concern") ? /* @__PURE__ */ jsx27(
+              Tag,
+              {
+                text: variationDesc,
+                color: "default",
+                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
+              }
+            ) : variationDesc.toLowerCase().includes("improvement") ? /* @__PURE__ */ jsx27(
+              Tag,
+              {
+                text: variationDesc,
+                color: "default",
+                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
+              }
+            ) : /* @__PURE__ */ jsx27(
+              Tag,
+              {
+                text: variationDesc,
+                color: "default",
+                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
+              }
+            )) })
+          ] }),
+          assuranceDesc && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
+            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Assurance" }) }),
+            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: (() => {
+              const lower = assuranceDesc.toLowerCase();
+              const isFail = lower.includes("not met") || lower.includes("not achieved");
+              const isPass = !isFail && /(^|\b)(met|achieved)(\b|$)/.test(lower);
+              return /* @__PURE__ */ jsx27(
                 Tag,
                 {
-                  text: variationDesc,
+                  text: assuranceDesc,
                   color: "default",
-                  className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
+                  className: `fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--assurance ${isPass ? "fdp-spc-tag--improvement" : "fdp-spc-tag--concern"}`,
+                  "aria-label": `Assurance: ${assuranceDesc}`
                 }
-              ) : variationDesc.toLowerCase().includes("improvement") ? /* @__PURE__ */ jsx27(
-                Tag,
-                {
-                  text: variationDesc,
-                  color: "default",
-                  className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
-                }
-              ) : /* @__PURE__ */ jsx27(
-                Tag,
-                {
-                  text: variationDesc,
-                  color: "default",
-                  className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
-                }
-              )),
-              assuranceDesc && /* @__PURE__ */ jsx27(
-                "span",
-                {
-                  className: `fdp-spc-badge fdp-spc-badge--assurance ${assuranceDesc.toLowerCase().includes("met") ? "is-pass" : "is-fail"}`,
-                  children: assuranceDesc
-                }
-              )
-            ] })
+              );
+            })() })
           ] }),
           zone && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
             /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Control Limits & Sigma" }) }),
@@ -6918,6 +6926,19 @@ var SPCTooltipOverlay_default = SPCTooltipOverlay;
 import { useId as useId6, useMemo as useMemo12 } from "react";
 
 // src/components/DataVisualisation/charts/SPCIcons/SPCConstants.ts
+var DEFAULT_COLOURS = {
+  ["pass" /* Pass */]: "#00B0F0",
+  // blue
+  ["fail" /* Fail */]: "#E46C0A",
+  // orange
+  ["uncertain" /* Uncertain */]: "#A6A6A6"
+  // grey
+};
+var DEFAULT_LETTERS = {
+  ["pass" /* Pass */]: "P",
+  ["fail" /* Fail */]: "F",
+  ["uncertain" /* Uncertain */]: "?"
+};
 var pickTextColour = (hex2) => {
   const c = hex2.replace("#", "");
   const r2 = parseInt(c.slice(0, 2), 16) / 255;
@@ -7117,11 +7138,13 @@ var SpcVariationIcon = ({
   ariaLabel,
   showLetter = true,
   dropShadow = true,
+  gradientWash = false,
   variant = "classic",
   runLength = 0,
   ...rest
 }) => {
   const shadowId = useId6();
+  const washId = useId6();
   const { state, direction } = resolveStateAndLayout(data);
   const colour = getVariationColour(state);
   const judgement = getVariationTrend(state);
@@ -7202,14 +7225,21 @@ var SpcVariationIcon = ({
       return /* @__PURE__ */ jsx28("circle", { cx: runStartX + i * runGap, cy: runY, r: runRadius, fill, stroke: fill, strokeWidth: 1 }, i);
     });
     return /* @__PURE__ */ jsxs19("svg", { width: size, height: size, viewBox: "0 0 300 300", role: "img", "aria-label": aria, "aria-description": ariaDescription, ...rest, children: [
-      dropShadow && /* @__PURE__ */ jsx28("defs", { children: /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-        /* @__PURE__ */ jsx28("feGaussianBlur", { stdDeviation: "3" }),
-        /* @__PURE__ */ jsx28("feOffset", { dx: "0", dy: "15", result: "blur" }),
-        /* @__PURE__ */ jsx28("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
-        /* @__PURE__ */ jsx28("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-        /* @__PURE__ */ jsx28("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
-      ] }) }),
-      /* @__PURE__ */ jsx28("circle", { stroke: "none", fill: "#ffffff", ...dropShadow ? { filter: `url(#${shadowId})` } : {}, cx: "150", cy: "150", r: "120" }),
+      /* @__PURE__ */ jsxs19("defs", { children: [
+        dropShadow && /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+          /* @__PURE__ */ jsx28("feGaussianBlur", { stdDeviation: "3" }),
+          /* @__PURE__ */ jsx28("feOffset", { dx: "0", dy: "15", result: "blur" }),
+          /* @__PURE__ */ jsx28("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
+          /* @__PURE__ */ jsx28("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+          /* @__PURE__ */ jsx28("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+        ] }),
+        gradientWash && /* @__PURE__ */ jsxs19("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
+          /* @__PURE__ */ jsx28("stop", { offset: "0%", stopColor: colour.hex, stopOpacity: 0.12 }),
+          /* @__PURE__ */ jsx28("stop", { offset: "75%", stopColor: colour.hex, stopOpacity: 0.06 }),
+          /* @__PURE__ */ jsx28("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: 0 })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx28("circle", { stroke: "none", fill: gradientWash ? `url(#${washId})` : "#ffffff", ...dropShadow ? { filter: `url(#${shadowId})` } : {}, cx: "150", cy: "150", r: "120" }),
       /* @__PURE__ */ jsx28("circle", { stroke: colour.hex, strokeWidth: 15, strokeMiterlimit: 10, fill: "none", cx: "150", cy: "150", r: "120" }),
       /* @__PURE__ */ jsxs19("g", { transform: direction === "higher" /* Higher */ ? "translate(0,-10)" : "translate(0,20)", children: [
         shape,
@@ -7328,18 +7358,25 @@ var SpcVariationIcon = ({
         "aria-description": ariaDescription,
         ...rest,
         children: [
-          dropShadow && /* @__PURE__ */ jsx28("defs", { children: /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-            /* @__PURE__ */ jsx28("feGaussianBlur", { stdDeviation: "3" }),
-            /* @__PURE__ */ jsx28("feOffset", { dx: "0", dy: "15", result: "blur" }),
-            /* @__PURE__ */ jsx28("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
-            /* @__PURE__ */ jsx28("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-            /* @__PURE__ */ jsx28("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
-          ] }) }),
+          /* @__PURE__ */ jsxs19("defs", { children: [
+            dropShadow && /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+              /* @__PURE__ */ jsx28("feGaussianBlur", { stdDeviation: "3" }),
+              /* @__PURE__ */ jsx28("feOffset", { dx: "0", dy: "15", result: "blur" }),
+              /* @__PURE__ */ jsx28("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
+              /* @__PURE__ */ jsx28("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+              /* @__PURE__ */ jsx28("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+            ] }),
+            gradientWash && /* @__PURE__ */ jsxs19("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
+              /* @__PURE__ */ jsx28("stop", { offset: "0%", stopColor: colour.hex, stopOpacity: 0.18 }),
+              /* @__PURE__ */ jsx28("stop", { offset: "65%", stopColor: colour.hex, stopOpacity: 0.06 }),
+              /* @__PURE__ */ jsx28("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: 0 })
+            ] })
+          ] }),
           /* @__PURE__ */ jsx28(
             "circle",
             {
               stroke: "none",
-              fill: "#ffffff",
+              fill: gradientWash ? `url(#${washId})` : "#ffffff",
               ...dropShadow ? { filter: `url(#${shadowId})` } : {},
               cx: "150",
               cy: "150",
@@ -7374,18 +7411,25 @@ var SpcVariationIcon = ({
       "aria-description": ariaDescription,
       ...rest,
       children: [
-        dropShadow && /* @__PURE__ */ jsx28("defs", { children: /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-          /* @__PURE__ */ jsx28("feGaussianBlur", { stdDeviation: "3" }),
-          /* @__PURE__ */ jsx28("feOffset", { dx: "0", dy: "15", result: "blur" }),
-          /* @__PURE__ */ jsx28("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
-          /* @__PURE__ */ jsx28("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-          /* @__PURE__ */ jsx28("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
-        ] }) }),
+        /* @__PURE__ */ jsxs19("defs", { children: [
+          dropShadow && /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+            /* @__PURE__ */ jsx28("feGaussianBlur", { stdDeviation: "3" }),
+            /* @__PURE__ */ jsx28("feOffset", { dx: "0", dy: "15", result: "blur" }),
+            /* @__PURE__ */ jsx28("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
+            /* @__PURE__ */ jsx28("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+            /* @__PURE__ */ jsx28("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+          ] }),
+          gradientWash && /* @__PURE__ */ jsxs19("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
+            /* @__PURE__ */ jsx28("stop", { offset: "0%", stopColor: colour.hex, stopOpacity: 0.18 }),
+            /* @__PURE__ */ jsx28("stop", { offset: "65%", stopColor: colour.hex, stopOpacity: 0.06 }),
+            /* @__PURE__ */ jsx28("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: 0 })
+          ] })
+        ] }),
         /* @__PURE__ */ jsx28(
           "circle",
           {
             stroke: "none",
-            fill: "#ffffff",
+            fill: gradientWash ? `url(#${washId})` : "#ffffff",
             ...dropShadow ? { filter: `url(#${shadowId})` } : {},
             cx: "150",
             cy: "150",
@@ -7465,8 +7509,144 @@ var SpcVariationIcon = ({
 };
 SpcVariationIcon.displayName = "SpcVariationIcon";
 
-// src/components/DataVisualisation/charts/SPCChart/SPCChart.tsx
+// src/components/DataVisualisation/charts/SPCIcons/SPCAssuranceIcon.tsx
+import { useId as useId7 } from "react";
 import { Fragment as Fragment4, jsx as jsx29, jsxs as jsxs20 } from "react/jsx-runtime";
+var SPCAssuranceIcon = ({
+  status,
+  size = 44,
+  ariaLabel,
+  dropShadow = true,
+  colourOverride,
+  gradientWash = false,
+  letterOverride,
+  showTrendLines = true,
+  ...rest
+}) => {
+  const shadowId = useId7();
+  const washId = useId7();
+  const colour = colourOverride || DEFAULT_COLOURS[status];
+  const letter = (letterOverride || DEFAULT_LETTERS[status]).slice(0, 2);
+  const aria = ariaLabel || `Assurance ${status}`;
+  return /* @__PURE__ */ jsxs20(
+    "svg",
+    {
+      width: size,
+      height: size,
+      viewBox: "0 0 300 300",
+      role: "img",
+      "aria-label": aria,
+      ...rest,
+      children: [
+        /* @__PURE__ */ jsxs20("defs", { children: [
+          dropShadow && /* @__PURE__ */ jsxs20("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+            /* @__PURE__ */ jsx29("feGaussianBlur", { stdDeviation: "3" }),
+            /* @__PURE__ */ jsx29("feOffset", { dx: "-1", dy: "15", result: "blur" }),
+            /* @__PURE__ */ jsx29("feFlood", { floodColor: "rgb(166,166,166)", floodOpacity: "1" }),
+            /* @__PURE__ */ jsx29("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+            /* @__PURE__ */ jsx29("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+          ] }),
+          gradientWash && /* @__PURE__ */ jsxs20("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
+            /* @__PURE__ */ jsx29("stop", { offset: "0%", stopColor: colour, stopOpacity: 0.18 }),
+            /* @__PURE__ */ jsx29("stop", { offset: "65%", stopColor: colour, stopOpacity: 0.06 }),
+            /* @__PURE__ */ jsx29("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: 0 })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsx29(
+          "circle",
+          {
+            stroke: "none",
+            fill: gradientWash ? `url(#${washId})` : "#ffffff",
+            ...dropShadow ? { filter: `url(#${shadowId})` } : {},
+            cx: "150",
+            cy: "150",
+            r: "120"
+          }
+        ),
+        /* @__PURE__ */ jsx29(
+          "text",
+          {
+            fill: colour,
+            fontFamily: "Arial-BoldMT, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+            fontWeight: "bold",
+            fontSize: 176,
+            x: 0,
+            y: 0,
+            transform: "translate(121.01, 32) scale(0.5, 0.5)",
+            textAnchor: "middle",
+            children: /* @__PURE__ */ jsx29("tspan", { x: 60, y: 184, children: letter })
+          }
+        ),
+        showTrendLines && /* @__PURE__ */ jsxs20(Fragment4, { children: [
+          status === "fail" /* Fail */ ? /* @__PURE__ */ jsx29(
+            "path",
+            {
+              id: "fail-line",
+              stroke: colour,
+              strokeWidth: 9.5,
+              strokeMiterlimit: 9.5,
+              strokeDasharray: "35,10",
+              strokeDashoffset: 0,
+              fill: "none",
+              d: "M 33,143 L 268,143"
+            }
+          ) : status === "uncertain" /* Uncertain */ ? /* @__PURE__ */ jsx29(
+            "path",
+            {
+              id: "uncertain-line",
+              stroke: "rgb(166, 166, 166)",
+              strokeWidth: 9.5,
+              strokeMiterlimit: 9.5,
+              strokeDasharray: "16.5,10",
+              strokeDashoffset: 0,
+              fill: "none",
+              d: "M 36,174 L 266,174"
+            }
+          ) : /* @__PURE__ */ jsx29(
+            "path",
+            {
+              id: "pass-line",
+              stroke: colour,
+              strokeWidth: 9.5,
+              strokeMiterlimit: 9.5,
+              strokeDasharray: "35,10",
+              strokeDashoffset: 0,
+              fill: "none",
+              d: "M 48,204 L 254,204"
+            }
+          ),
+          /* @__PURE__ */ jsx29(
+            "path",
+            {
+              id: "data-sparkline",
+              stroke: "rgb(166, 166, 166)",
+              strokeWidth: 12,
+              strokeMiterlimit: 12,
+              fill: "none",
+              d: "M 59.9,187.91 C 72.79,171.72 87.33,158.06 104.4,157.83 121.91,158.58 140.94,187.85 153.4,189.91 164.1,192.12 163.78,171.38 169.17,170.53 172.87,169.55 174.88,187.45 184.94,189.24 197,191.86 230.54,184.47 239.01,185.9"
+            }
+          ),
+          /* @__PURE__ */ jsx29(
+            "circle",
+            {
+              stroke: colour,
+              strokeWidth: 15,
+              strokeMiterlimit: 10,
+              fill: "none",
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          )
+        ] })
+      ]
+    }
+  );
+};
+SPCAssuranceIcon.displayName = "SPCAssuranceIcon";
+
+// src/components/DataVisualisation/charts/SPCChart/SPCChart.tsx
+import { Fragment as Fragment5, jsx as jsx30, jsxs as jsxs21 } from "react/jsx-runtime";
 var SPCChart = ({
   data,
   ariaLabel = "SPC chart",
@@ -7553,9 +7733,12 @@ var SPCChart = ({
     return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
   }, [narrationContext, effectiveUnit]);
   const embeddedIcon = React24.useMemo(() => {
-    var _a2;
+    var _a2, _b2;
     if (!showEmbeddedIcon || !((_a2 = engine == null ? void 0 : engine.rows) == null ? void 0 : _a2.length)) return null;
     const engineRows = engine.rows;
+    const minPoints = (_b2 = settings == null ? void 0 : settings.minimumPoints) != null ? _b2 : 13;
+    const nonGhostCount = engineRows.filter((r2) => !r2.ghost && r2.value != null).length;
+    if (nonGhostCount < minPoints) return null;
     let lastIdx = -1;
     for (let i = engineRows.length - 1; i >= 0; i--) {
       const r2 = engineRows[i];
@@ -7567,7 +7750,21 @@ var SPCChart = ({
     if (lastIdx === -1) return null;
     const lastRow = engineRows[lastIdx];
     const variation = lastRow.variationIcon;
+    const assuranceRaw = lastRow.assuranceIcon;
     let trend = void 0;
+    if (variation === "none" /* None */) {
+      const singleHigh = lastRow.specialCauseSinglePointAbove;
+      const singleLow = lastRow.specialCauseSinglePointBelow;
+      if (metricImprovement === "Up" /* Up */) {
+        if (singleHigh) trend = "higher" /* Higher */;
+        else if (singleLow) trend = "lower" /* Lower */;
+      } else if (metricImprovement === "Down" /* Down */) {
+        if (singleLow) trend = "lower" /* Lower */;
+        else if (singleHigh) trend = "higher" /* Higher */;
+      } else {
+        trend = "higher" /* Higher */;
+      }
+    }
     let judgement;
     switch (variation) {
       case "improvement" /* Improvement */:
@@ -7592,38 +7789,49 @@ var SPCChart = ({
       polarity = "context_dependent" /* ContextDependent */;
     }
     const iconSize = 80;
-    return /* @__PURE__ */ jsx29(
-      "div",
-      {
-        className: "fdp-spc-chart__embedded-icon",
-        "data-variation": String(variation),
-        "data-variation-judgement": String(judgement),
-        "data-trend-raw": "none",
-        "data-trend": trend ? String(trend) : "none",
-        "data-polarity": String(polarity != null ? polarity : "unknown"),
-        style: { width: iconSize, height: iconSize, marginRight: 16 },
-        children: /* @__PURE__ */ jsx29(
-          SpcVariationIcon,
-          {
-            dropShadow: false,
-            data: { judgement, polarity, ...trend ? { trend } : {} },
-            size: iconSize
-          }
-        )
-      },
-      `embedded-icon-${lastIdx}`
-    );
-  }, [showEmbeddedIcon, engine == null ? void 0 : engine.rows, metricImprovement]);
-  return /* @__PURE__ */ jsxs20("div", { className: className ? `fdp-spc-chart-wrapper ${className}` : "fdp-spc-chart-wrapper", children: [
-    showEmbeddedIcon && /* @__PURE__ */ jsx29("div", { className: "fdp-spc-chart__top-row", style: { display: "flex", justifyContent: "flex-end", marginBottom: 4 }, children: embeddedIcon }),
-    /* @__PURE__ */ jsx29(
+    const assuranceShow = assuranceRaw && assuranceRaw !== "none" /* None */;
+    return /* @__PURE__ */ jsxs21("div", { style: { display: "flex", gap: 12, marginRight: 16 }, children: [
+      /* @__PURE__ */ jsx30(
+        "div",
+        {
+          className: "fdp-spc-chart__embedded-icon",
+          "data-variation": String(variation),
+          "data-variation-judgement": String(judgement),
+          "data-trend-raw": trend ? String(trend) : "none",
+          "data-trend": trend ? String(trend) : "none",
+          "data-polarity": String(polarity != null ? polarity : "unknown"),
+          style: { width: iconSize, height: iconSize },
+          children: /* @__PURE__ */ jsx30(
+            SpcVariationIcon,
+            {
+              dropShadow: false,
+              data: { judgement, polarity, ...trend ? { trend } : {} },
+              size: iconSize
+            }
+          )
+        }
+      ),
+      assuranceShow && /* @__PURE__ */ jsx30(
+        "div",
+        {
+          className: "fdp-spc-chart__embedded-assurance-icon",
+          "data-assurance": String(assuranceRaw),
+          style: { width: iconSize, height: iconSize },
+          children: /* @__PURE__ */ jsx30(SPCAssuranceIcon, { status: assuranceRaw, size: iconSize, dropShadow: false })
+        }
+      )
+    ] }, `embedded-icon-${lastIdx}`);
+  }, [showEmbeddedIcon, engine == null ? void 0 : engine.rows, metricImprovement, settings == null ? void 0 : settings.minimumPoints]);
+  return /* @__PURE__ */ jsxs21("div", { className: className ? `fdp-spc-chart-wrapper ${className}` : "fdp-spc-chart-wrapper", children: [
+    showEmbeddedIcon && /* @__PURE__ */ jsx30("div", { className: "fdp-spc-chart__top-row", style: { display: "flex", justifyContent: "flex-end", marginBottom: 4 }, children: embeddedIcon }),
+    /* @__PURE__ */ jsx30(
       ChartRoot,
       {
         height,
         ariaLabel,
         margin: { bottom: 48, left: 56, right: 16, top: 12 },
         className: void 0,
-        children: /* @__PURE__ */ jsx29(LineScalesProvider, { series, yDomain, children: /* @__PURE__ */ jsx29(
+        children: /* @__PURE__ */ jsx30(LineScalesProvider, { series, yDomain, children: /* @__PURE__ */ jsx30(
           InternalSPC,
           {
             series,
@@ -7730,7 +7938,7 @@ var InternalSPC = ({
   const plotWidth = xScale.range()[1];
   const sequenceDefs = React24.useMemo(() => {
     if (!sequences.length) return null;
-    return /* @__PURE__ */ jsx29("defs", { children: sequences.map((seq, idx) => {
+    return /* @__PURE__ */ jsx30("defs", { children: sequences.map((seq, idx) => {
       const id = `spc-seq-grad-${idx}`;
       let baseVar;
       let top = 0.28, mid = 0.12, end = 0.045;
@@ -7750,10 +7958,10 @@ var InternalSPC = ({
         default:
           baseVar = "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)";
       }
-      return /* @__PURE__ */ jsxs20("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-        /* @__PURE__ */ jsx29("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
-        /* @__PURE__ */ jsx29("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
-        /* @__PURE__ */ jsx29("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
+      return /* @__PURE__ */ jsxs21("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
+        /* @__PURE__ */ jsx30("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
+        /* @__PURE__ */ jsx30("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
+        /* @__PURE__ */ jsx30("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
       ] }, id);
     }) });
   }, [sequences]);
@@ -7813,7 +8021,7 @@ var InternalSPC = ({
       } else {
         d += ` L ${lastX} ${baseY} L ${right} ${baseY} Z`;
       }
-      return /* @__PURE__ */ jsx29(
+      return /* @__PURE__ */ jsx30(
         "path",
         {
           d,
@@ -7825,7 +8033,7 @@ var InternalSPC = ({
         `seq-area-${idx}`
       );
     });
-    return /* @__PURE__ */ jsx29("g", { className: "fdp-spc__sequence-bgs", children: areas });
+    return /* @__PURE__ */ jsx30("g", { className: "fdp-spc__sequence-bgs", children: areas });
   }, [sequences, xPositions, plotWidth, yScale, all]);
   const computedTimeframe = React24.useMemo(() => {
     if (!(narrationContext == null ? void 0 : narrationContext.timeframe) && all.length >= 2) {
@@ -7897,7 +8105,7 @@ var InternalSPC = ({
     },
     [engineRows, formatLive]
   );
-  return /* @__PURE__ */ jsx29(TooltipProvider, { children: /* @__PURE__ */ jsxs20(
+  return /* @__PURE__ */ jsx30(TooltipProvider, { children: /* @__PURE__ */ jsxs21(
     "div",
     {
       className: "fdp-spc-chart",
@@ -7905,19 +8113,19 @@ var InternalSPC = ({
       "aria-label": "Statistical process control chart",
       "aria-roledescription": "chart",
       children: [
-        /* @__PURE__ */ jsx29(
+        /* @__PURE__ */ jsx30(
           "svg",
           {
             width: scaleCtx.xScale.range()[1] + 56 + 16,
             height: scaleCtx.yScale.range()[0] + 12 + 48,
             role: "img",
-            children: /* @__PURE__ */ jsxs20("g", { transform: `translate(56,12)`, children: [
-              /* @__PURE__ */ jsx29(Axis_default, { type: "x" }),
-              /* @__PURE__ */ jsx29(Axis_default, { type: "y" }),
-              /* @__PURE__ */ jsx29(GridLines_default, { axis: "y" }),
+            children: /* @__PURE__ */ jsxs21("g", { transform: `translate(56,12)`, children: [
+              /* @__PURE__ */ jsx30(Axis_default, { type: "x" }),
+              /* @__PURE__ */ jsx30(Axis_default, { type: "y" }),
+              /* @__PURE__ */ jsx30(GridLines_default, { axis: "y" }),
               sequenceDefs,
               sequenceAreas,
-              limits.mean != null && /* @__PURE__ */ jsx29(
+              limits.mean != null && /* @__PURE__ */ jsx30(
                 "line",
                 {
                   className: "fdp-spc__cl",
@@ -7928,7 +8136,7 @@ var InternalSPC = ({
                   "aria-hidden": "true"
                 }
               ),
-              limits.ucl != null && /* @__PURE__ */ jsx29(
+              limits.ucl != null && /* @__PURE__ */ jsx30(
                 "line",
                 {
                   className: "fdp-spc__limit fdp-spc__limit--ucl",
@@ -7936,10 +8144,11 @@ var InternalSPC = ({
                   x2: xScale.range()[1],
                   y1: yScale(limits.ucl),
                   y2: yScale(limits.ucl),
-                  "aria-hidden": "true"
+                  "aria-hidden": "true",
+                  strokeWidth: 2
                 }
               ),
-              limits.lcl != null && /* @__PURE__ */ jsx29(
+              limits.lcl != null && /* @__PURE__ */ jsx30(
                 "line",
                 {
                   className: "fdp-spc__limit fdp-spc__limit--lcl",
@@ -7947,11 +8156,12 @@ var InternalSPC = ({
                   x2: xScale.range()[1],
                   y1: yScale(limits.lcl),
                   y2: yScale(limits.lcl),
-                  "aria-hidden": "true"
+                  "aria-hidden": "true",
+                  strokeWidth: 2
                 }
               ),
-              showZones && limits.mean != null && /* @__PURE__ */ jsxs20(Fragment4, { children: [
-                limits.onePos != null && /* @__PURE__ */ jsx29(
+              showZones && limits.mean != null && /* @__PURE__ */ jsxs21(Fragment5, { children: [
+                limits.onePos != null && /* @__PURE__ */ jsx30(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--pos1",
@@ -7959,10 +8169,11 @@ var InternalSPC = ({
                     x2: xScale.range()[1],
                     y1: yScale(limits.onePos),
                     y2: yScale(limits.onePos),
-                    "aria-hidden": "true"
+                    "aria-hidden": "true",
+                    strokeWidth: 2
                   }
                 ),
-                limits.oneNeg != null && /* @__PURE__ */ jsx29(
+                limits.oneNeg != null && /* @__PURE__ */ jsx30(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--neg1",
@@ -7970,10 +8181,11 @@ var InternalSPC = ({
                     x2: xScale.range()[1],
                     y1: yScale(limits.oneNeg),
                     y2: yScale(limits.oneNeg),
-                    "aria-hidden": "true"
+                    "aria-hidden": "true",
+                    strokeWidth: 2
                   }
                 ),
-                limits.twoPos != null && /* @__PURE__ */ jsx29(
+                limits.twoPos != null && /* @__PURE__ */ jsx30(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--pos2",
@@ -7981,10 +8193,11 @@ var InternalSPC = ({
                     x2: xScale.range()[1],
                     y1: yScale(limits.twoPos),
                     y2: yScale(limits.twoPos),
-                    "aria-hidden": "true"
+                    "aria-hidden": "true",
+                    strokeWidth: 2
                   }
                 ),
-                limits.twoNeg != null && /* @__PURE__ */ jsx29(
+                limits.twoNeg != null && /* @__PURE__ */ jsx30(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--neg2",
@@ -7992,11 +8205,12 @@ var InternalSPC = ({
                     x2: xScale.range()[1],
                     y1: yScale(limits.twoNeg),
                     y2: yScale(limits.twoNeg),
-                    "aria-hidden": "true"
+                    "aria-hidden": "true",
+                    strokeWidth: 2
                   }
                 )
               ] }),
-              /* @__PURE__ */ jsx29(
+              /* @__PURE__ */ jsx30(
                 LineSeriesPrimitive_default,
                 {
                   series: series[0],
@@ -8026,7 +8240,7 @@ var InternalSPC = ({
                 ].filter(Boolean).join(" ");
                 const ariaLabel = `Point ${i + 1} value ${d.y}` + ((sig == null ? void 0 : sig.special) ? " special cause" : "") + ((sig == null ? void 0 : sig.variation) === "improvement" /* Improvement */ ? " improving" : (sig == null ? void 0 : sig.variation) === "concern" /* Concern */ ? " concern" : "");
                 const isFocused = ((_a2 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a2.index) === i;
-                return /* @__PURE__ */ jsx29(
+                return /* @__PURE__ */ jsx30(
                   "circle",
                   {
                     cx,
@@ -8055,7 +8269,7 @@ var InternalSPC = ({
                 }
                 const plotWidth2 = xScale.range()[1];
                 const iconX = Math.min(Math.max(rawX, 0), plotWidth2 - 0);
-                return /* @__PURE__ */ jsx29(
+                return /* @__PURE__ */ jsx30(
                   "text",
                   {
                     x: iconX,
@@ -8068,14 +8282,14 @@ var InternalSPC = ({
                   `icon-${i}`
                 );
               }),
-              chartCtx && /* @__PURE__ */ jsx29(
+              chartCtx && /* @__PURE__ */ jsx30(
                 InteractionLayer,
                 {
                   width: xScale.range()[1],
                   height: yScale.range()[0]
                 }
               ),
-              /* @__PURE__ */ jsx29(
+              /* @__PURE__ */ jsx30(
                 SPCTooltipOverlay_default,
                 {
                   engineRows,
@@ -8089,7 +8303,7 @@ var InternalSPC = ({
             ] })
           }
         ),
-        announceFocus && /* @__PURE__ */ jsx29(
+        announceFocus && /* @__PURE__ */ jsx30(
           VisuallyHiddenLiveRegion_default,
           {
             format: (d) => formatLive({ ...d, x: d.x instanceof Date ? d.x : new Date(d.x) })
@@ -8105,7 +8319,7 @@ var InteractionLayer = ({
 }) => {
   const t = useTooltipContext();
   if (!t) return null;
-  return /* @__PURE__ */ jsx29(
+  return /* @__PURE__ */ jsx30(
     "rect",
     {
       className: "fdp-spc__interaction-layer",

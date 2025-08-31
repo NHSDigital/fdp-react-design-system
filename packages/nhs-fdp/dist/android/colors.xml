@@ -35,6 +35,12 @@
   <color name="color_grey_3">#ffaeb7bd</color>
   <color name="color_grey_4">#ffd8dde0</color>
   <color name="color_grey_5">#fff0f4f5</color>
+  <color name="color_accessibility_okabe_ito_green">#ff009e73</color>
+  <color name="color_accessibility_okabe_ito_vermillion">#ffd55e00</color>
+  <color name="color_accessibility_cvd_safe_blue">#ff1f77b4</color>
+  <color name="color_accessibility_cvd_safe_orange">#ffff7f0e</color>
+  <color name="color_accessibility_positive">#ff009e73</color>
+  <color name="color_accessibility_negative">#ffd55e00</color>
   <color name="color_data_viz_categorical_1">#ff005eb8</color>
   <color name="color_data_viz_categorical_2">#ff41b6e6</color>
   <color name="color_data_viz_categorical_3">#ff00a499</color>
@@ -96,6 +102,12 @@
   <color name="color_data_viz_spc_common_cause">#ffa6a6a6</color>
   <color name="color_data_viz_spc_assurance_pass">#ff00823b</color>
   <color name="color_data_viz_spc_assurance_fail">#ffda291c</color>
+  <color name="color_data_viz_spc_gradient_stop_start_opacity">0.18</color>
+  <color name="color_data_viz_spc_gradient_stop_mid_opacity">0.06</color>
+  <color name="color_data_viz_spc_gradient_stop_end_opacity">0</color>
+  <color name="color_data_viz_spc_gradient_stop_triangle_start_opacity">0.18</color>
+  <color name="color_data_viz_spc_gradient_stop_triangle_mid_opacity">0.06</color>
+  <color name="color_data_viz_spc_gradient_stop_triangle_end_opacity">0</color>
   <color name="color_data_viz_spc_stroke_improvement">#ff000000</color>
   <color name="color_data_viz_spc_stroke_concern">#ff000000</color>
   <color name="color_data_viz_spc_stroke_no_judgement">#ff000000</color>

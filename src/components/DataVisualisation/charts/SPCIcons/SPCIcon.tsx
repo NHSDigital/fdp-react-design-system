@@ -1,4 +1,5 @@
 import React, { useId, useMemo } from "react";
+import { tokenColour, getGradientOpacities } from './tokenUtils';
 import {
 	computePointPositions,
 	Direction,
@@ -9,6 +10,7 @@ import {
 	VariationJudgement,
 	VariationState,
 } from "./SPCConstants";
+// Token utilities now sourced from shared tokenUtils module.
 // Import VariationIcon enum from SPC engine to permit direct usage with icon component.
 // Updated: point to advanced SPC engine (legacy ../../xmr/spc path removed during refactor)
 import { VariationIcon as SpcEngineVariationIcon } from "../SPCChart/logic/spc";
@@ -45,27 +47,27 @@ const pickTextColour = (hex: string) => {
 
 export const VARIATION_COLOURS: Record<VariationState, VariationColourDef> = {
 	[VariationState.SpecialCauseDeteriorating]: {
-		hex: "#E46C0A",
+		hex: tokenColour('concern', '#E46C0A'),
 		judgement: VariationJudgement.Deteriorating,
 		label: "Special Cause (Deteriorating)",
 		description:
 			"Deteriorating variation detected (special cause) relative to baseline.",
 	},
 	[VariationState.SpecialCauseImproving]: {
-		hex: "#00B0F0",
+		hex: tokenColour('improvement', '#00B0F0'),
 		judgement: VariationJudgement.Improving,
 		label: "Special Cause (Improving)",
 		description:
 			"Improving variation detected (special cause) relative to baseline.",
 	},
 	[VariationState.CommonCause]: {
-		hex: "#A6A6A6",
+		hex: tokenColour('common-cause', '#A6A6A6'),
 		judgement: VariationJudgement.None,
 		label: "Common Cause",
 		description: "Common cause variation only – no special cause detected.",
 	},
 	[VariationState.SpecialCauseNoJudgement]: {
-		hex: "#490092",
+		hex: tokenColour('no-judgement', '#490092'),
 		judgement: VariationJudgement.No_Judgement,
 		label: "Special Cause (No Judgement)",
 		description:
@@ -371,6 +373,8 @@ export const SpcVariationIcon = ({
 }: SpcVariationIconPropsAlt & Record<string, unknown>) => {
 	const shadowId = useId();
 	const washId = useId();
+	// Gradient opacities via shared util (ensures import is used)
+	const { start: gradStart, mid: gradMid, end: gradEnd, triStart: triGradStart, triMid: triGradMid, triEnd: triGradEnd } = getGradientOpacities();
 	const { state, direction } = resolveStateAndLayout(data as SpcVariationInput);
 	const colour = getVariationColour(state);
 	const judgement = getVariationTrend(state);
@@ -385,7 +389,8 @@ export const SpcVariationIcon = ({
 			: '';
 	const isSpecial = state !== VariationState.CommonCause;
 	const isNoJudgement = state === VariationState.SpecialCauseNoJudgement;
-	const pointColour = isSpecial ? colour.hex : '#A6A6A6';
+	const neutralGrey = tokenColour('common-cause', '#A6A6A6');
+	const pointColour = isSpecial ? colour.hex : neutralGrey;
 	const points: Point[] = useMemo(
 		() => computePointPositions(state, direction),
 		[state, direction]
@@ -461,10 +466,14 @@ export const SpcVariationIcon = ({
 		const runRadius = 10;
 		const runGap = 26;
 		const runStartX = centerX - 2 * runGap;
-		const runColor = state === VariationState.SpecialCauseImproving ? '#00B0F0' : state === VariationState.SpecialCauseDeteriorating ? '#E46C0A' : '#A6A6A6';
+		const runColor = state === VariationState.SpecialCauseImproving
+			? tokenColour('improvement', '#00B0F0')
+			: state === VariationState.SpecialCauseDeteriorating
+			? tokenColour('concern', '#E46C0A')
+			: neutralGrey;
 		const runCircles = Array.from({ length: 5 }).map((_, i) => {
 		const filled = (state === VariationState.SpecialCauseImproving || state === VariationState.SpecialCauseDeteriorating) && i >= 5 - runLen;
-		const fill = filled ? runColor : '#A6A6A6';
+		const fill = filled ? runColor : neutralGrey;
 			return <circle key={i} cx={runStartX + i * runGap} cy={runY} r={runRadius} fill={fill} stroke={fill} strokeWidth={1} />;
 		});
 		return (
@@ -481,10 +490,9 @@ export const SpcVariationIcon = ({
 					)}
 					{gradientWash && (
 						<linearGradient id={washId} x1="0%" y1="0%" x2="100%" y2="100%">
-							{/* Subtle washed-out diagonal: light tint fading to near-transparent */}
-							<stop offset="0%" stopColor={colour.hex} stopOpacity={0.12} />
-							<stop offset="75%" stopColor={colour.hex} stopOpacity={0.06} />
-							<stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+							<stop offset="0%" stopColor={colour.hex} stopOpacity={parseFloat(triGradStart)} />
+							<stop offset="75%" stopColor={colour.hex} stopOpacity={parseFloat(triGradMid)} />
+							<stop offset="100%" stopColor="#ffffff" stopOpacity={parseFloat(triGradEnd)} />
 						</linearGradient>
 					)}
 				</defs>
@@ -626,9 +634,9 @@ export const SpcVariationIcon = ({
 					)}
 					{gradientWash && (
 						<linearGradient id={washId} x1="0%" y1="0%" x2="100%" y2="100%">
-							<stop offset="0%" stopColor={colour.hex} stopOpacity={0.18} />
-							<stop offset="65%" stopColor={colour.hex} stopOpacity={0.06} />
-							<stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+							<stop offset="0%" stopColor={colour.hex} stopOpacity={parseFloat(triGradStart)} />
+							<stop offset="65%" stopColor={colour.hex} stopOpacity={parseFloat(triGradMid)} />
+							<stop offset="100%" stopColor="#ffffff" stopOpacity={parseFloat(triGradEnd)} />
 						</linearGradient>
 					)}
 				</defs>
@@ -677,9 +685,9 @@ export const SpcVariationIcon = ({
 				)}
 				{gradientWash && (
 					<linearGradient id={washId} x1="0%" y1="0%" x2="100%" y2="100%">
-						<stop offset="0%" stopColor={colour.hex} stopOpacity={0.18} />
-						<stop offset="65%" stopColor={colour.hex} stopOpacity={0.06} />
-						<stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+						<stop offset="0%" stopColor={colour.hex} stopOpacity={parseFloat(gradStart)} />
+						<stop offset="65%" stopColor={colour.hex} stopOpacity={parseFloat(gradMid)} />
+						<stop offset="100%" stopColor="#ffffff" stopOpacity={parseFloat(gradEnd)} />
 					</linearGradient>
 				)}
 			</defs>
@@ -734,7 +742,7 @@ export const SpcVariationIcon = ({
 						<path
 							aria-hidden="true"
 							fill="none"
-							stroke="#A6A6A6"
+							stroke={neutralGrey}
 							strokeWidth={12}
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -745,7 +753,7 @@ export const SpcVariationIcon = ({
 					{/* Data points (last two coloured when judgement positive or negative) */}
 					{points.map((p: Point, i: number) => {
 						const specialIdx = i >= points.length - 2 && isSpecial; // last two
-						const fill = specialIdx ? pointColour : '#A6A6A6';
+						const fill = specialIdx ? pointColour : neutralGrey;
 						const stroke = fill;
 						return (
 							<circle

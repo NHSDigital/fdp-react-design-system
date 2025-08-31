@@ -1,0 +1,191 @@
+import { Meta, Canvas, Story } from '@storybook/blocks';
+import { AllVariationIcons, AllAssuranceIcons } from './SPCIcons.stories';
+import { SpcVariationIcon } from './SPCIcon';
+import { SPCAssuranceIcon } from './SPCAssuranceIcon';
+import React from 'react';
+
+<Meta title="Data Visualisation/SPC/Guides/SPC Icons" />
+
+# SPC Icons
+
+Comprehensive guide to the Statistical Process Control (SPC) variation and assurance iconography used across FDP data visualisation components.
+
+## Overview
+
+Two complementary icon families can be rendered within SPC charts:
+
+- **Variation Icon**: Encodes special cause vs common cause variation and directional judgement (Improvement / Concern / Common Cause / No Judgement).
+- **Assurance Icon**: Encodes the capability-based likelihood of sustaining performance relative to target (Pass / Fail / Uncertain) when targets are supplied.
+
+They may appear:
+- Embedded (top‑right of `SPCChart`) for the most recent *eligible* data point.
+- Standalone (e.g. dashboards, legend explanations, summary cards).
+
+## Variation States
+
+| Engine Enum | Visual Colour | Meaning |
+|-------------|---------------|---------|
+| `Improvement` | Blue `#00B0F0` | Special cause improvement (favourable shift/run) |
+| `Concern` | Orange `#E46C0A` | Special cause deterioration (unfavourable shift/run) |
+| `Neither` | Grey `#A6A6A6` | Common cause only (no special cause signals) |
+| `None` | Purple `#490092` | Special cause detected but judgement suppressed (no directional value) |
+
+### Suppression to `None`
+
+A single favourable 3σ point (isolated spike) is *suppressed* (mapped from Improvement/Concern to `None`) to avoid over‑interpreting an uncorroborated outlier. The purple arrow still conveys direction (based on metric improvement polarity and which single‑point rule fired) but removes value judgement.
+
+### Direction / Trend Orientation
+
+- Improvement / Concern states derive direction from variation judgement & metric polarity and display letter **H**/**L**.
+- No Judgement (`None`) arrow orientation is inferred so that it points toward the favourable side when suppression occurred.
+- Common Cause renders neutral grey points and ring; no letter or arrow.
+
+## Assurance States
+
+When a `target` array is supplied to `SPCChart`, each point receives capability analysis:
+
+| Assurance | Meaning |
+|-----------|---------|
+| `Pass` | Entire capability band (mean ± kσ as configured) lies on the favourable side of target. |
+| `Fail` | Entire band lies on the unfavourable side. |
+| `Uncertain` | Band overlaps the target threshold (cannot assure pass or fail). |
+
+The embedded Assurance icon is omitted if the latest point has `AssuranceIcon.None` (no target or insufficient data).
+
+## Minimum Points Gate
+
+Variation + assurance icons are gated by `settings.minimumPoints` (default 13) requiring enough non‑ghost points to form stable limits; otherwise embedded icons are hidden.
+
+## Gradient Wash
+
+Set `gradientWash` to create a *subtle diagonal tint* (top‑left → bottom‑right) inside the icon instead of pure white. This visually reinforces category colour while remaining accessible (contrast preserved for letters and glyphs).
+
+### Tokenised Gradient Stops
+
+The wash now derives its stop opacities from design tokens under `color.data-viz.spc.gradient.stop`:
+
+| Token | Purpose | Default |
+|-------|---------|---------|
+| `start-opacity` | Circle wash first stop | `0.18` |
+| `mid-opacity` | Circle wash mid stop | `0.06` |
+| `end-opacity` | Circle wash end (transparent) | `0` |
+| `triangle-start-opacity` | Triangle variant first stop | `0.18` |
+| `triangle-mid-opacity` | Triangle variant mid stop | `0.06` |
+| `triangle-end-opacity` | Triangle variant end stop | `0` |
+
+Triangle variants receive a parallel set so future tuning (e.g. slightly stronger or weaker emphasis) can occur without affecting circular icons. Assurance icons reuse the circle trio.
+
+Fallback behaviour: if a token is missing, the component safely falls back to the defaults above.
+
+Use cases:
+- Differentiating icon variants in dense dashboards.
+- Emphasising active/focused state (ensure consistent a11y checks).
+
+Avoid using the wash if icons sit on coloured backgrounds that already provide sufficient contrast.
+
+## Usage Examples
+
+### Basic Variation Icon
+
+```tsx
+<SpcVariationIcon data={{ variationIcon: 'improvement' }} />
+```
+
+### Variation Icon With Explicit Direction (No Judgement)
+
+```tsx
+<SpcVariationIcon data={{ variationIcon: 'none', trend: 'lower' }} />
+```
+
+### Derived (Judgement + Polarity) Form
+
+```tsx
+<SpcVariationIcon data={{ judgement: 'improving', polarity: 'lower_is_better' }} />
+```
+
+### Assurance Icon Standalone
+
+```tsx
+<SPCAssuranceIcon status="pass" />
+```
+
+### With Gradient Wash
+
+```tsx
+<SpcVariationIcon data={{ variationIcon: 'concern' }} gradientWash />
+```
+
+### Triangle Variant
+
+Triangle variant replaces the circular ring + internal point motif with a filled triangle (or flat line for common cause) while retaining colour + optional letter. Use `variant="triangle"`.
+
+```tsx
+<SpcVariationIcon data={{ variationIcon: 'improvement' }} variant="triangle" />
+<SpcVariationIcon data={{ variationIcon: 'concern' }} variant="triangle" />
+<SpcVariationIcon data={{ variationIcon: 'neither' }} variant="triangle" />
+<SpcVariationIcon data={{ variationIcon: 'none', trend: 'higher' }} variant="triangle" />
+```
+
+With gradient wash:
+
+```tsx
+<SpcVariationIcon data={{ variationIcon: 'improvement' }} variant="triangle" gradientWash />
+```
+
+### Triangle With Run Length
+
+`variant="triangleWithRun"` adds a compact triangle glyph plus a 5-dot run indicator showing the length of a recent sustained run (coloured dots filled from right to left). Provide `runLength` (0–5). Only improvement / concern states colour the run; others stay grey.
+
+```tsx
+<SpcVariationIcon data={{ variationIcon: 'improvement' }} variant="triangleWithRun" runLength={3} />
+<SpcVariationIcon data={{ variationIcon: 'concern' }} variant="triangleWithRun" runLength={2} />
+<SpcVariationIcon data={{ variationIcon: 'neither' }} variant="triangleWithRun" runLength={0} />
+<SpcVariationIcon data={{ variationIcon: 'none', trend: 'lower' }} variant="triangleWithRun" runLength={4} />
+```
+
+With gradient wash:
+
+```tsx
+<SpcVariationIcon data={{ variationIcon: 'improvement' }} variant="triangleWithRun" runLength={5} gradientWash />
+```
+
+## Storybook
+
+Below are the live icon matrices (sourced from `SPCIcons.stories`).
+
+### All Variation Icons
+
+<Canvas><Story name="AllVariationIcons">{AllVariationIcons()}</Story></Canvas>
+
+### All Assurance Icons
+
+<Canvas><Story name="AllAssuranceIcons">{AllAssuranceIcons()}</Story></Canvas>
+
+## Accessibility
+
+- Icons supply `aria-label` and rich `aria-description` strings derived from variation judgement, direction, and optional narrative context.
+- Purple suppression state deliberately omits value judgement words (“improvement” / “deterioration”) to prevent misleading assistive narration.
+- Gradient wash maintains WCAG AA contrast for glyphs (letters/arrow) because glyphs use solid state colour, not gradient stops.
+
+## Configuration Summary
+
+| Prop | Component | Default | Notes |
+|------|-----------|---------|-------|
+| `data` | Variation | required | Accepts engine enum payload OR derivation forms. |
+| `gradientWash` | Both | `false` | Enables subtle interior tint. |
+| `dropShadow` | Both | `true` | Remove in dense tables or print contexts. |
+| `size` | Both | `44` | Square pixel dimension. |
+| `showLetter` | Variation | `true` | Only affects Improvement / Concern. |
+
+## Future Enhancements
+
+- Visual regression snapshots for gradient + triangle variants.
+- Dark / high-contrast theme token overrides (validate wash subtlety).
+
+## Changelog (Icon System)
+
+| Date | Change |
+|------|--------|
+| 2025-08-XX | Added `gradientWash` option to all SPC icons. |
+| 2025-08-XX | Introduced suppression mapping to `None` for isolated favourable 3σ points & orientation logic. |
+| 2025-08-XX | Embedded dual Variation + Assurance icons in `SPCChart`. |

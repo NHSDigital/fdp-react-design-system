@@ -77,6 +77,12 @@ public class StyleDictionaryClass {
     public static let cardTextDescription = UIColor(red: 0.129, green: 0.169, blue: 0.196, alpha: 1) /** Card description text color */
     public static let cardTextHeading = UIColor(red: 0.129, green: 0.169, blue: 0.196, alpha: 1) /** Card heading text color */
     public static let cardTextLink = UIColor(red: 0.000, green: 0.369, blue: 0.722, alpha: 1) /** Card link text color */
+    public static let colorAccessibilityCvdSafeBlue = UIColor(red: 0.122, green: 0.467, blue: 0.706, alpha: 1) /** CVD-safe blue (pairs with orange); widely used in Matplotlib/Tableau sets */
+    public static let colorAccessibilityCvdSafeOrange = UIColor(red: 1.000, green: 0.498, blue: 0.055, alpha: 1) /** CVD-safe orange (pairs with blue) */
+    public static let colorAccessibilityNegative = UIColor(red: 0.835, green: 0.369, blue: 0.000, alpha: 1) /** Accessibility semantic alias – negative */
+    public static let colorAccessibilityOkabeItoGreen = UIColor(red: 0.000, green: 0.620, blue: 0.451, alpha: 1) /** Okabe–Ito green (CVD-safe) – recommended positive */
+    public static let colorAccessibilityOkabeItoVermillion = UIColor(red: 0.835, green: 0.369, blue: 0.000, alpha: 1) /** Okabe–Ito vermillion / red–orange (CVD-safe) – recommended negative */
+    public static let colorAccessibilityPositive = UIColor(red: 0.000, green: 0.620, blue: 0.451, alpha: 1) /** Accessibility semantic alias – positive */
     public static let colorDataVizCategorical1 = UIColor(red: 0.000, green: 0.369, blue: 0.722, alpha: 1) /** Series 1 – NHS Blue (brand core) */
     public static let colorDataVizCategorical10 = UIColor(red: 0.533, green: 0.059, blue: 0.722, alpha: 1) /** Series 10 – NHS Light Purple (new mid purple) */
     public static let colorDataVizCategorical11 = UIColor(red: 0.200, green: 0.000, blue: 0.447, alpha: 1) /** Series 11 – NHS Purple (existing dark purple) */
@@ -109,6 +115,12 @@ public class StyleDictionaryClass {
     public static let colorDataVizSpcAssurancePass = UIColor(red: 0.000, green: 0.510, blue: 0.231, alpha: 1) /** SPC assurance pass indicator (process capable) */
     public static let colorDataVizSpcCommonCause = UIColor(red: 0.651, green: 0.651, blue: 0.651, alpha: 1) /** SPC common cause (baseline variation) */
     public static let colorDataVizSpcConcern = UIColor(red: 0.894, green: 0.424, blue: 0.039, alpha: 1) /** SPC special cause concern (deteriorating) */
+    public static let colorDataVizSpcGradientStopEndOpacity = 0 /** End stop opacity (100%) */
+    public static let colorDataVizSpcGradientStopMidOpacity = 0.06 /** Mid stop opacity (~65-75%) */
+    public static let colorDataVizSpcGradientStopStartOpacity = 0.18 /** Start stop opacity (0%) for classic variant wash */
+    public static let colorDataVizSpcGradientStopTriangleEndOpacity = 0 /** End opacity for triangle variants */
+    public static let colorDataVizSpcGradientStopTriangleMidOpacity = 0.06 /** Mid opacity for triangle variants */
+    public static let colorDataVizSpcGradientStopTriangleStartOpacity = 0.18 /** Start opacity for triangle variants (kept aligned) */
     public static let colorDataVizSpcImprovement = UIColor(red: 0.000, green: 0.690, blue: 0.941, alpha: 1) /** SPC special cause improvement (favourable) */
     public static let colorDataVizSpcNoJudgement = UIColor(red: 0.286, green: 0.000, blue: 0.573, alpha: 1) /** SPC special cause (no directional judgement) */
     public static let colorDataVizSpcStrokeAssuranceFail = UIColor(red: 0.000, green: 0.000, blue: 0.000, alpha: 1) /** Stroke for assurance fail points */

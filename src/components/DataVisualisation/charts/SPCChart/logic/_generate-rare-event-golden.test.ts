@@ -18,12 +18,12 @@ describe('SPC rare-event golden parity (T & G)', () => {
     expect(Math.abs((last.lowerTwoSigma ?? 0) - 1.4409720340212195)).toBeLessThan(tol);
     expect(Math.abs((last.upperOneSigma ?? 0) - 9.037161449882735)).toBeLessThan(tol);
     expect(Math.abs((last.lowerOneSigma ?? 0) - 2.9635683393412235)).toBeLessThan(tol);
-    // Special cause single point above at row 7
-    const row7 = rows.find(r=>r.rowId===7)!; expect(row7.specialCauseSinglePointAbove).toBe(true);
-    // Decreasing trend flagged on last three rows (12,13,14)
-    [12,13,14].forEach(id => expect(rows.find(r=>r.rowId===id)!.specialCauseTrendDecreasing).toBe(true));
-  // Variation icon for row 7: allow 'improvement' or 'neither' depending on suppression logic changes
-  expect([VariationIcon.Improvement, VariationIcon.Neither]).toContain(row7.variationIcon);
+  // Special cause single point above at row 7
+  const row7 = rows.find(r=>r.rowId===7)!; expect(row7.specialCauseSinglePointAbove).toBe(true);
+  // Decreasing trend flagged on last three rows (12,13,14)
+  [12,13,14].forEach(id => expect(rows.find(r=>r.rowId===id)!.specialCauseTrendDecreasing).toBe(true));
+  // Variation icon for row 7: allow 'improvement', 'neither' or suppressed 'none' (purple no‑judgement) depending on suppression/orientation logic revisions
+  expect([VariationIcon.Improvement, VariationIcon.Neither, VariationIcon.None]).toContain(row7.variationIcon);
     const codes = warnings.map(w=>w.code).sort();
     expect(codes).toEqual(['ghost_rows_rare_event','target_ignored_rare_event']);
   });

@@ -47,4 +47,19 @@ describe('Data Viz Tokens', () => {
       expect(alias, `semantic region alias ${r} missing`).toBeTruthy();
     });
   });
+
+  it('includes SPC gradient wash opacity tokens', () => {
+    const keys = [
+      'start-opacity', 'mid-opacity', 'end-opacity',
+      'triangle-start-opacity', 'triangle-mid-opacity', 'triangle-end-opacity'
+    ];
+    keys.forEach(k => {
+      const token = get(dataViz, `color.data-viz.spc.gradient.stop.${k}`);
+      expect(token, `${k} token missing`).toBeTruthy();
+      const val = token.$value ?? token.value ?? token;
+      const num = parseFloat(val);
+      expect(!Number.isNaN(num), `${k} not numeric/parseable`).toBeTruthy();
+      expect(num <= 1 && num >= 0, `${k} outside 0–1 range`).toBeTruthy();
+    });
+  });
 });

@@ -93,6 +93,17 @@
         "common-cause": { "$value": "#A6A6A6", "$description": "SPC common cause (baseline variation)" },
         "assurance-pass": { "$value": "#00823B", "$description": "SPC assurance pass indicator (process capable)" },
         "assurance-fail": { "$value": "#DA291C", "$description": "SPC assurance fail indicator (process not capable)" },
+        "gradient": {
+          "$comment": "Opacity stops for SPC icon gradient wash (applied top-left -> bottom-right). Consumers build gradients using these opacities + base colour.",
+          "stop": {
+            "start-opacity": { "$value": "0.18", "$description": "Start stop opacity (0%) for classic variant wash" },
+            "mid-opacity": { "$value": "0.06", "$description": "Mid stop opacity (~65-75%)" },
+            "end-opacity": { "$value": "0", "$description": "End stop opacity (100%)" },
+            "triangle-start-opacity": { "$value": "0.18", "$description": "Start opacity for triangle variants (kept aligned)" },
+            "triangle-mid-opacity": { "$value": "0.06", "$description": "Mid opacity for triangle variants" },
+            "triangle-end-opacity": { "$value": "0", "$description": "End opacity for triangle variants" }
+          }
+        },
         "stroke": {
           "$comment": "Contrast stroke colours for SPC variation fills.",
           "improvement": { "$value": "#000000", "$description": "Stroke for improvement points" },

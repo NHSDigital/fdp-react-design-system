@@ -36,8 +36,7 @@ export const AllVariationIcons = () => (
 							<div
 								style={{
 									marginTop: 8,
-									fontFamily:
-										"Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+									fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
 								}}
 							>
 								{icon}
@@ -58,8 +57,7 @@ export const AllVariationIcons = () => (
 					<div
 						style={{
 							marginTop: 8,
-							fontFamily:
-								"Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+							fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
 						}}
 					>
 						none (higher)
@@ -75,8 +73,7 @@ export const AllVariationIcons = () => (
 					<div
 						style={{
 							marginTop: 8,
-							fontFamily:
-								"Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+							fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
 						}}
 					>
 						none (lower)
@@ -106,7 +103,7 @@ export const AllVariationIcons = () => (
 								size={100}
 								gradientWash
 							/>
-							<div style={{ marginTop: 8, fontFamily: "Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>{icon} (wash)</div>
+							<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>{icon} (gradient)</div>
 						</Column>
 					)
 				)}
@@ -118,7 +115,7 @@ export const AllVariationIcons = () => (
 						size={100}
 						gradientWash
 					/>
-					<div style={{ marginTop: 8, fontFamily: "Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>none (higher)</div>
+					<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>none (higher)</div>
 				</Column>
 				{/* No Judgement (none) - Lower */}
 				<Column width="one-third" style={{ textAlign: "center" }}>
@@ -128,7 +125,7 @@ export const AllVariationIcons = () => (
 						size={100}
 						gradientWash
 					/>
-					<div style={{ marginTop: 8, fontFamily: "Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>none (lower)</div>
+					<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>none (lower)</div>
 				</Column>
 			</Row>
 		</Grid>
@@ -157,7 +154,7 @@ export const AllVariationIcons = () => (
 								style={{
 									marginTop: 8,
 									fontFamily:
-										"Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+										"'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
 								}}
 							>
 								{icon}
@@ -180,7 +177,7 @@ export const AllVariationIcons = () => (
 						style={{
 							marginTop: 8,
 							fontFamily:
-								"Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+								"'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
 						}}
 					>
 						none (higher)
@@ -198,7 +195,7 @@ export const AllVariationIcons = () => (
 						style={{
 							marginTop: 8,
 							fontFamily:
-								"Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+								"'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
 						}}
 					>
 						none (lower)
@@ -225,7 +222,7 @@ export const AllVariationIcons = () => (
 								variant="triangle"
 								gradientWash
 							/>
-							<div style={{ marginTop: 8, fontFamily: "Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>{icon} (wash)</div>
+							<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>{icon} (gradient)</div>
 						</Column>
 					)
 				)}
@@ -237,7 +234,7 @@ export const AllVariationIcons = () => (
 						variant="triangle"
 						gradientWash
 					/>
-					<div style={{ marginTop: 8, fontFamily: "Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>none (higher)</div>
+					<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>none (higher)</div>
 				</Column>
 				<Column width="one-third" style={{ textAlign: "center" }}>
 					<SpcVariationIcon
@@ -247,7 +244,7 @@ export const AllVariationIcons = () => (
 						variant="triangle"
 						gradientWash
 					/>
-					<div style={{ marginTop: 8, fontFamily: "Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>none (lower)</div>
+					<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>none (lower)</div>
 				</Column>
 			</Row>
 		</Grid>
@@ -277,7 +274,7 @@ export const AllVariationIcons = () => (
 								style={{
 									marginTop: 8,
 									fontFamily:
-										"Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+										"'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
 								}}
 							>
 								{icon}
@@ -303,7 +300,7 @@ export const AllVariationIcons = () => (
 						style={{
 							marginTop: 8,
 							fontFamily:
-								"Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+								"'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
 						}}
 					>
 						none (higher)
@@ -322,7 +319,7 @@ export const AllVariationIcons = () => (
 						style={{
 							marginTop: 8,
 							fontFamily:
-								"Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+								"'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
 						}}
 					>
 						none (lower)
@@ -350,7 +347,7 @@ export const AllVariationIcons = () => (
 								runLength={2}
 								gradientWash
 							/>
-							<div style={{ marginTop: 8, fontFamily: "Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>{icon} (wash)</div>
+							<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>{icon} (gradient)</div>
 						</Column>
 					)
 				)}
@@ -365,7 +362,7 @@ export const AllVariationIcons = () => (
 						runLength={3}
 						gradientWash
 					/>
-					<div style={{ marginTop: 8, fontFamily: "Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>none (higher)</div>
+					<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>none (higher)</div>
 				</Column>
 				<Column width="one-third" style={{ textAlign: "center" }}>
 					<SpcVariationIcon
@@ -376,7 +373,7 @@ export const AllVariationIcons = () => (
 						runLength={2}
 						gradientWash
 					/>
-					<div style={{ marginTop: 8, fontFamily: "Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>none (lower)</div>
+					<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>none (lower)</div>
 				</Column>
 			</Row>
 		</Grid>
@@ -389,7 +386,7 @@ export const AllAssuranceIcons = () => (
 			{([AssuranceResult.Pass, AssuranceResult.Fail, AssuranceResult.Uncertain] as AssuranceResult[]).map(status => (
 				<div key={status} style={{ textAlign: 'center' }}>
 					<SPCAssuranceIcon status={status} size={100} dropShadow={false} />
-					<div style={{ marginTop: 8, fontFamily: "Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>{status}</div>
+					<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>{status}</div>
 				</div>
 			))}
 		</div>
@@ -397,11 +394,11 @@ export const AllAssuranceIcons = () => (
 			{([AssuranceResult.Pass, AssuranceResult.Fail, AssuranceResult.Uncertain] as AssuranceResult[]).map(status => (
 				<div key={status} style={{ textAlign: 'center' }}>
 					<SPCAssuranceIcon status={status} size={100} dropShadow={false} gradientWash />
-					<div style={{ marginTop: 8, fontFamily: "Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>{status} (wash)</div>
+					<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" }}>{status} (wash)</div>
 				</div>
 			))}
 		</div>
 	</div>
 );
 
-AllVariationIcons.storyName = "All Variation Icons (engine enum)";
+AllVariationIcons.storyName = "All Variation Icons";

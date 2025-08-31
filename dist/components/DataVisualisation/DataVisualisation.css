@@ -95,9 +95,12 @@ span .nhsuk-u-visually-hidden {
   --fdp-chart-color-subtle-2: nhs.$nhs-fdp-color-grey-2;
   --fdp-chart-color-grid: nhs.$nhs-fdp-color-grey-4;
   --fdp-chart-focus-outline: nhs.$nhs-fdp-semantic-color-focus-background;
-  --fdp-chart-font-family: Frutiger W01, Arial, sans-serif;
+  --fdp-chart-font-family:
+  	Frutiger W01, Arial, sans-serif;
   /* Defensive mapping to root token if base var consumed directly in SVG groups */
   --nhs-fdp-font-family-base: Frutiger W01;
+  /* Stacked bar stroke token (fallback dark neutral) */
+  --nhs-fdp-chart-stacked-stroke: nhs.$nhs-fdp-color-primary-black;
   --fdp-chart-font-size-title: 1.1875rem;
   --fdp-chart-font-size-desc: 1rem;
   --fdp-chart-font-size-caption: 0.875rem;
@@ -234,6 +237,10 @@ span .nhsuk-u-visually-hidden {
   clip: rect(0 0 0 0);
   overflow: hidden;
   white-space: nowrap;
+}
+
+rect.fdp-bar--stacked {
+  stroke: var(--nhs-fdp-chart-stacked-stroke, #212b32);
 }
 
 .fdp-chart--noscript .fdp-chart__loading {

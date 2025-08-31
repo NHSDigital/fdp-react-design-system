@@ -319,6 +319,13 @@ function NavigationSplitView(props) {
   );
   const selectedId = controlledSelectedId !== void 0 ? controlledSelectedId : uncontrolledSelected;
   const selectedItem = items.find((i) => getId(i) === selectedId);
+  const [justSelectedId, setJustSelectedId] = React3.useState(void 0);
+  React3.useEffect(() => {
+    if (selectedId === void 0) return;
+    setJustSelectedId(selectedId);
+    const t = setTimeout(() => setJustSelectedId(void 0), 220);
+    return () => clearTimeout(t);
+  }, [selectedId]);
   const rootRef = React3.useRef(null);
   const contentPaneRef = React3.useRef(null);
   const secondaryPaneRef = React3.useRef(null);
@@ -339,7 +346,7 @@ function NavigationSplitView(props) {
   const getFocusableElements = React3.useCallback((root) => {
     if (!root) return [];
     const selector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-    return Array.from(root.querySelectorAll(selector)).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1 && el.offsetParent !== null);
+    return Array.from(root.querySelectorAll(selector)).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
   }, []);
   const focusContentElement = React3.useCallback((idx) => {
     var _a;
@@ -388,7 +395,18 @@ function NavigationSplitView(props) {
       return;
     }
     const clamped = Math.max(0, Math.min(idx, els.length - 1));
-    els[clamped].focus();
+    const targetElement = els[clamped];
+    targetElement.focus();
+    setTimeout(() => {
+      if (document.activeElement !== targetElement) {
+        targetElement.focus();
+        setTimeout(() => {
+          if (document.activeElement !== targetElement) {
+            targetElement.click();
+          }
+        }, 10);
+      }
+    }, 10);
     setPaneNavState((p) => ({ ...p, secondaryIndex: clamped }));
     const handleChildEscape = (e) => {
       var _a2;
@@ -396,11 +414,15 @@ function NavigationSplitView(props) {
         e.preventDefault();
         e.stopPropagation();
         (_a2 = secondaryPaneRef.current) == null ? void 0 : _a2.focus();
-        els[clamped].removeEventListener("keydown", handleChildEscape);
+        targetElement.removeEventListener("keydown", handleChildEscape);
       }
     };
-    els.forEach((el) => el.removeEventListener("keydown", handleChildEscape));
-    els[clamped].addEventListener("keydown", handleChildEscape);
+    els.forEach((el) => {
+      const existing = el._escapeHandler;
+      if (existing) el.removeEventListener("keydown", existing);
+    });
+    targetElement._escapeHandler = handleChildEscape;
+    targetElement.addEventListener("keydown", handleChildEscape);
   }, [getFocusableElements]);
   const onRootKeyDown = (e) => {
     var _a;
@@ -412,6 +434,8 @@ function NavigationSplitView(props) {
     const inSecondary = !!secondaryPaneRef.current && secondaryPaneRef.current.contains(target);
     const hasSecondary = !!secondaryPaneRef.current;
     const isContainer = target === navPaneRef.current || target === contentPaneRef.current || target === secondaryPaneRef.current;
+    const isMobileDetail = detailActive && (effectiveLayout === "list" || effectiveLayout === "cards");
+    const inContentHeader = inContent && !!target.closest(".nhs-navigation-split-view__header");
     if (paneFocusMode === "containers" && isContainer) {
       if (key === "ArrowRight") {
         e.preventDefault();
@@ -503,6 +527,19 @@ function NavigationSplitView(props) {
           }, 50);
         }
         return;
+      }
+    }
+    if (isMobileDetail && inContentHeader && !isContainer && (key === "ArrowRight" || key === "ArrowLeft")) {
+      const all = getFocusableElements(contentPaneRef.current).filter((el) => el.closest(".nhs-navigation-split-view__header"));
+      if (all.length > 1) {
+        const currentIndex = all.indexOf(target);
+        if (currentIndex >= 0) {
+          const dir = key === "ArrowRight" ? 1 : -1;
+          const next = (currentIndex + dir + all.length) % all.length;
+          e.preventDefault();
+          all[next].focus();
+          return;
+        }
       }
     }
     if (key === "ArrowRight") {
@@ -749,9 +786,10 @@ function NavigationSplitView(props) {
   const lastFocusedIndexRef = React3.useRef(0);
   const typeaheadRef = React3.useRef(null);
   const handleSelect = React3.useCallback((id, item) => {
+    if (id === selectedId) return;
     if (controlledSelectedId === void 0) setUncontrolledSelected(id);
     onSelectionChange == null ? void 0 : onSelectionChange(id, item);
-  }, [controlledSelectedId, onSelectionChange]);
+  }, [controlledSelectedId, onSelectionChange, selectedId]);
   React3.useEffect(() => {
     if (!skipFocusOnSelect && detailActive && contentPaneRef.current) {
       const t = setTimeout(() => {
@@ -764,19 +802,19 @@ function NavigationSplitView(props) {
   const listRef = React3.useRef(null);
   const [focusedIndex, setFocusedIndex] = React3.useState(() => initialFocus === "first" ? 0 : -1);
   React3.useEffect(() => {
+    if (focusedIndex < 0) return;
     if (!listRef.current) return;
     const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
-    nodes.forEach((el, idx) => {
-      el.tabIndex = (focusedIndex === -1 ? idx === 0 && initialFocus === "first" : idx === focusedIndex) ? 0 : -1;
-    });
-    if (focusedIndex >= 0) {
-      const node = nodes[focusedIndex];
-      node == null ? void 0 : node.focus();
+    const node = nodes[focusedIndex];
+    if (node) {
+      if (document.activeElement !== node) {
+        node.focus();
+      }
       lastFocusedIndexRef.current = focusedIndex;
       const item = items[focusedIndex];
       onFocusChange == null ? void 0 : onFocusChange(item ? getId(item) : void 0, item, focusedIndex);
     }
-  }, [focusedIndex, items, initialFocus, onFocusChange, getId]);
+  }, [focusedIndex, items, onFocusChange, getId]);
   const onKeyDownList = (e) => {
     const forward = orientation === "vertical" ? "ArrowDown" : "ArrowRight";
     const backward = orientation === "vertical" ? "ArrowUp" : "ArrowLeft";
@@ -963,13 +1001,13 @@ function NavigationSplitView(props) {
     }
     const instructionsId = "nsv-nav-instructions";
     const NavItem = React3.useMemo(() => {
-      const C = ({ item, idx, selected }) => {
+      return React3.memo(({ item, idx, selected, focused }) => {
         const id = getId(item);
         const interactiveProps = item.disabled ? {
           "aria-disabled": true,
           tabIndex: -1
         } : {
-          tabIndex: selected ? 0 : -1,
+          tabIndex: focused ? 0 : -1,
           onClick: () => {
             lastFocusedIndexRef.current = idx;
             handleSelect(id, item);
@@ -1005,8 +1043,7 @@ function NavigationSplitView(props) {
             ]
           }
         );
-      };
-      return React3.memo(C);
+      });
     }, [getId, handleSelect, renderItemContent]);
     return /* @__PURE__ */ jsxs3(Fragment2, { children: [
       /* @__PURE__ */ jsxs3(
@@ -1020,7 +1057,7 @@ function NavigationSplitView(props) {
           "aria-describedby": instructionsId,
           "aria-activedescendant": selectedId ? String(selectedId) : void 0,
           children: [
-            items.map((item, idx) => /* @__PURE__ */ jsx3(NavItem, { item, idx, selected: getId(item) === selectedId }, getId(item))),
+            items.map((item, idx) => /* @__PURE__ */ jsx3(NavItem, { item, idx, selected: getId(item) === selectedId, focused: idx === focusedIndex || focusedIndex === -1 && idx === 0 && initialFocus === "first", "data-just-selected": getId(item) === justSelectedId ? "true" : void 0 }, getId(item))),
             items.length === 0 && !isLoading && /* @__PURE__ */ jsx3("li", { className: "nhs-navigation-split-view__list-item", "aria-disabled": "true", children: emptyState || /* @__PURE__ */ jsx3("div", { style: { padding: 16 }, children: "No items" }) })
           ]
         }

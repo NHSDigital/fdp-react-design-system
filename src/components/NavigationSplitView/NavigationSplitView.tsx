@@ -114,6 +114,15 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
   const selectedId = controlledSelectedId !== undefined ? controlledSelectedId : uncontrolledSelected;
   const selectedItem = items.find(i => getId(i) === selectedId);
 
+	// Track fresh selection to enable one-time animation without re-triggering on unrelated re-renders
+	const [justSelectedId, setJustSelectedId] = React.useState<ID | undefined>(undefined);
+	React.useEffect(() => {
+		if (selectedId === undefined) return;
+		setJustSelectedId(selectedId);
+		const t = setTimeout(() => setJustSelectedId(undefined), 220); // longer than CSS 140ms to ensure completion
+		return () => clearTimeout(t);
+	}, [selectedId]);
+
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const contentPaneRef = React.useRef<HTMLDivElement | null>(null);
 	const secondaryPaneRef = React.useRef<HTMLDivElement | null>(null);
@@ -141,7 +150,7 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 		if (!root) return [] as HTMLElement[];
 		const selector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 		return Array.from(root.querySelectorAll<HTMLElement>(selector))
-			.filter(el => !el.hasAttribute('disabled') && el.tabIndex !== -1 && el.offsetParent !== null);
+			.filter(el => !el.hasAttribute('disabled') && el.tabIndex !== -1);
 	}, []);
 
 	const focusContentElement = React.useCallback((idx: number) => {
@@ -198,30 +207,42 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 
 	const focusSecondaryElement = React.useCallback((idx: number) => {
 		const els = getFocusableElements(secondaryPaneRef.current);
-		if (!els.length) { 
-			secondaryPaneRef.current?.focus(); 
-			return; 
+		if (!els.length) {
+			secondaryPaneRef.current?.focus();
+			return;
 		}
 		const clamped = Math.max(0, Math.min(idx, els.length - 1));
-		els[clamped].focus();
+		const targetElement = els[clamped];
+		targetElement.focus();
+		// Retry focus if something stole it (matches content pane reliability logic)
+		setTimeout(() => {
+			if (document.activeElement !== targetElement) {
+				targetElement.focus();
+				setTimeout(() => {
+					if (document.activeElement !== targetElement) {
+						targetElement.click();
+					}
+				}, 10);
+			}
+		}, 10);
 		setPaneNavState(p => ({ ...p, secondaryIndex: clamped }));
-		
+
 		// Add escape key listener to the focused element
 		const handleChildEscape = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') {
 				e.preventDefault();
 				e.stopPropagation();
-				// Return focus to secondary pane container
 				secondaryPaneRef.current?.focus();
-				// Remove this listener
-				els[clamped].removeEventListener('keydown', handleChildEscape);
+				targetElement.removeEventListener('keydown', handleChildEscape);
 			}
 		};
-		
-		// Clean up any existing listeners first
-		els.forEach(el => el.removeEventListener('keydown', handleChildEscape));
-		// Add listener to the focused element
-		els[clamped].addEventListener('keydown', handleChildEscape);
+		// Clean existing stored escape handlers
+		els.forEach(el => {
+			const existing = (el as any)._escapeHandler;
+			if (existing) el.removeEventListener('keydown', existing);
+		});
+		(targetElement as any)._escapeHandler = handleChildEscape;
+		targetElement.addEventListener('keydown', handleChildEscape);
 	}, [getFocusableElements]);
 
 	// Root keydown handler implementing container-enter/exit model + intra-pane navigation
@@ -234,6 +255,8 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 		const inSecondary = !!secondaryPaneRef.current && secondaryPaneRef.current.contains(target);
 		const hasSecondary = !!secondaryPaneRef.current;
 		const isContainer = target === navPaneRef.current || target === contentPaneRef.current || target === secondaryPaneRef.current;
+		const isMobileDetail = detailActive && (effectiveLayout === 'list' || effectiveLayout === 'cards');
+		const inContentHeader = inContent && !!target.closest('.nhs-navigation-split-view__header');
 
 		// Container mode transitions (Left/Right to move between pane containers, Enter to enter)
 		if (paneFocusMode === 'containers' && isContainer) {
@@ -335,6 +358,21 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 					}, 50);
 				}
 				return;
+			}
+		}
+
+		// Horizontal intra-header navigation on mobile detail: allow Left/Right to move between header focusables instead of pane switching.
+		if (isMobileDetail && inContentHeader && !isContainer && (key === 'ArrowRight' || key === 'ArrowLeft')) {
+			const all = getFocusableElements(contentPaneRef.current).filter(el => el.closest('.nhs-navigation-split-view__header'));
+			if (all.length > 1) {
+				const currentIndex = all.indexOf(target as HTMLElement);
+				if (currentIndex >= 0) {
+					const dir = key === 'ArrowRight' ? 1 : -1;
+					const next = (currentIndex + dir + all.length) % all.length;
+					e.preventDefault();
+					all[next].focus();
+					return; // Stop before pane switching logic
+				}
 			}
 		}
 
@@ -622,10 +660,12 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 	const lastFocusedIndexRef = React.useRef(0);
 	// Ref to store buffered typeahead state { buffer: accumulated chars; last: timestamp }
 	const typeaheadRef = React.useRef<{ buffer: string; last: number } | null>(null);
-  const handleSelect = React.useCallback((id: ID, item: T) => {
+	const handleSelect = React.useCallback((id: ID, item: T) => {
+		// Avoid redundant state updates (which were causing highlight flicker) if the item is already selected
+		if (id === selectedId) return;
 	if (controlledSelectedId === undefined) setUncontrolledSelected(id);
 	onSelectionChange?.(id, item);
-  }, [controlledSelectedId, onSelectionChange]);
+	}, [controlledSelectedId, onSelectionChange, selectedId]);
 
   // When entering detail view on mobile/card layouts move focus into content pane
   React.useEffect(() => {
@@ -639,22 +679,22 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
   const listRef = React.useRef<HTMLUListElement | null>(null);
   const [focusedIndex, setFocusedIndex] = React.useState(() => initialFocus === 'first' ? 0 : -1);
 
+	// Declarative roving focus: only focus the newly focused element; tabIndex handled during render
 	React.useEffect(() => {
+	  if (focusedIndex < 0) return;
 	  if (!listRef.current) return;
-	  // After refactor nav items are <li data-nav-item>, not buttons; include future-proof selector.
 	  const nodes = Array.from(listRef.current.querySelectorAll('[data-nav-item]')) as HTMLElement[];
-	  nodes.forEach((el, idx) => {
-		el.tabIndex = (focusedIndex === -1 ? (idx === 0 && initialFocus === 'first') : idx === focusedIndex) ? 0 : -1;
-	  });
-	  if (focusedIndex >= 0) {
-		const node = nodes[focusedIndex];
-		node?.focus();
-		// Track last focused for restoration when selection cleared
+	  const node = nodes[focusedIndex];
+	  if (node) {
+		// Focus only if it isn't already focused to avoid unnecessary blur/focus cycles (reduces flicker)
+		if (document.activeElement !== node) {
+		  node.focus();
+		}
 		lastFocusedIndexRef.current = focusedIndex;
 		const item = items[focusedIndex];
 		onFocusChange?.(item ? getId(item) : undefined, item as any, focusedIndex);
 	  }
-	}, [focusedIndex, items, initialFocus, onFocusChange, getId]);
+	}, [focusedIndex, items, onFocusChange, getId]);
 
   const onKeyDownList = (e: React.KeyboardEvent) => {
 	const forward = orientation === 'vertical' ? 'ArrowDown' : 'ArrowRight';
@@ -864,46 +904,51 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 	// Default list layout
 	const instructionsId = 'nsv-nav-instructions';
 	  const NavItem = React.useMemo(() => {
-	  type P = { item: T; idx: number; selected: boolean };
-	  const C: React.FC<P> = ({ item, idx, selected }) => {
-		const id = getId(item);
-		const interactiveProps: React.HTMLAttributes<HTMLLIElement> = item.disabled ? {
-		  'aria-disabled': true,
-		  tabIndex: -1
-		} : {
-		  tabIndex: selected ? 0 : -1,
-		  onClick: () => { lastFocusedIndexRef.current = idx; handleSelect(id, item as T); },
-		  onKeyDown: (e) => {
-			if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lastFocusedIndexRef.current = idx; handleSelect(id, item as T); }
-		  }
-		};
-		return (
-		  <li
-			id={String(id)}
-			data-nav-item
-			className="nhs-navigation-split-view__list-item nhs-navigation-split-view__item-button"
-			role="option"
-			aria-selected={selected}
-			aria-current={selected ? 'true' : undefined}
-			data-selected={selected || undefined}
-			data-disabled={item.disabled || undefined}
-			{...interactiveProps}
-		  >
-			{item.icon && <span className="nhs-navigation-split-view__item-icon">{item.icon}</span>}
-			<span className="nhs-navigation-split-view__item-content">
-			  <span className="nhs-navigation-split-view__item-label">{item.label}</span>
-			  {item.description && (
-				<span className="nhs-navigation-split-view__item-description">{item.description}</span>
+		// Include focusedIndex in dependencies so we can derive tabIndex declaratively
+		// and avoid an extra post-render mutation pass (removes visual flicker).
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		return React.memo(<P extends { item: T; idx: number; selected: boolean; focused: boolean }>(
+		  { item, idx, selected, focused }: P
+		) => {
+		  const id = getId(item);
+		  const interactiveProps: React.HTMLAttributes<HTMLLIElement> = item.disabled ? {
+			'aria-disabled': true,
+			tabIndex: -1
+		  } : {
+			tabIndex: focused ? 0 : -1,
+			onClick: () => { lastFocusedIndexRef.current = idx; handleSelect(id, item as T); },
+			onKeyDown: (e) => {
+			  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lastFocusedIndexRef.current = idx; handleSelect(id, item as T); }
+			}
+		  };
+		  return (
+			<li
+			  id={String(id)}
+			  data-nav-item
+			  className="nhs-navigation-split-view__list-item nhs-navigation-split-view__item-button"
+			  role="option"
+			  aria-selected={selected}
+			  aria-current={selected ? 'true' : undefined}
+			  data-selected={selected || undefined}
+			  data-disabled={item.disabled || undefined}
+			  {...interactiveProps}
+			>
+			  {item.icon && <span className="nhs-navigation-split-view__item-icon">{item.icon}</span>}
+			  <span className="nhs-navigation-split-view__item-content">
+				<span className="nhs-navigation-split-view__item-label">{item.label}</span>
+				{item.description && (
+				  <span className="nhs-navigation-split-view__item-description">{item.description}</span>
+				)}
+				{renderItemContent?.(item)}
+			  </span>
+			  {item.badge !== undefined && (
+				<span className="nhs-navigation-split-view__badge">{item.badge}</span>
 			  )}
-			  {renderItemContent?.(item)}
-			</span>
-			{item.badge !== undefined && (
-			  <span className="nhs-navigation-split-view__badge">{item.badge}</span>
-			)}
-		  </li>
-		);
-	  };
-	  return React.memo(C);
+			</li>
+		  );
+		});
+	  // We intentionally depend on getId / handleSelect / renderItemContent because they affect rendering.
+	  // focusedIndex is passed as a prop so component instances update without remount.
 	}, [getId, handleSelect, renderItemContent]);
 	return (
 	  <>
@@ -916,7 +961,7 @@ export function NavigationSplitView<ID = string, T extends NavigationSplitItem<I
 		  aria-describedby={instructionsId}
 		  aria-activedescendant={selectedId ? String(selectedId) : undefined}
 		>
-  		{ items.map((item, idx) => <NavItem key={getId(item)} item={item} idx={idx} selected={getId(item) === selectedId} />)}
+		{ items.map((item, idx) => <NavItem key={getId(item)} item={item} idx={idx} selected={getId(item) === selectedId} focused={idx === focusedIndex || (focusedIndex === -1 && idx === 0 && initialFocus === 'first')} data-just-selected={getId(item) === justSelectedId ? 'true' : undefined} />)}
 		{ items.length === 0 && !isLoading && (
 		  <li className="nhs-navigation-split-view__list-item" aria-disabled="true">
 			{emptyState || <div style={{ padding: 16 }}>No items</div>}

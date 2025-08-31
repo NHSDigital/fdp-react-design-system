@@ -290,7 +290,9 @@
     &[data-selected='true'] {
       background: nhs.$nhs-fdp-color-grey-5;
       box-shadow: inset 4px 0 0 nhs.$nhs-fdp-color-primary-blue;
-  animation: nsv-list-select 140ms ease-out;
+    }
+    &[data-selected='true'][data-just-selected='true'] {
+      animation: nsv-list-select 140ms ease-out;
     }
 
     &:focus-visible {

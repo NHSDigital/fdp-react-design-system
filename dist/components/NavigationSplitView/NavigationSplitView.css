@@ -404,6 +404,8 @@ span .nhsuk-u-visually-hidden {
 .nhs-navigation-split-view__item-button[data-selected=true] {
   background: #f0f4f5;
   box-shadow: inset 4px 0 0 #005eb8;
+}
+.nhs-navigation-split-view__item-button[data-selected=true][data-just-selected=true] {
   animation: nsv-list-select 140ms ease-out;
 }
 .nhs-navigation-split-view__item-button:focus-visible {

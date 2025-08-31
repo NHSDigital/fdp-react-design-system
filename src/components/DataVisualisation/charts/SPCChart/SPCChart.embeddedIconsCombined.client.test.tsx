@@ -28,10 +28,12 @@ describe('SPCChart embedded variation + assurance icons', () => {
     expect(assurance).toBeTruthy();
   });
 
-  it('omits assurance icon when no targets provided', () => {
+  it('renders assurance placeholder (uncertain) when no targets provided', () => {
     const { data } = makePassData();
     const { container } = render(<SPCChart data={data} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon />);
     const assurance = container.querySelector('.fdp-spc-chart__embedded-assurance-icon');
-    expect(assurance).toBeNull();
+    expect(assurance).not.toBeNull();
+    // underlying engine value is "none"
+    expect(assurance!.getAttribute('data-assurance')).toBe('none');
   });
 });

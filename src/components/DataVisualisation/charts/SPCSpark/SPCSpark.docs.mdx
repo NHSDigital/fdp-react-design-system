@@ -1,0 +1,107 @@
+import React from 'react';
+import { SPCSpark } from './SPCSpark';
+import { Meta } from '@storybook/addon-docs/blocks';
+
+```jsx
+// Story args loaded dynamically (avoid direct named import which confused MDX parser)
+// @ts-ignore
+import * as SparkStories from './SPCSpark.stories';
+const { Basic, WithLatestMarker, Dense, ColouredPoints } = SparkStories;
+```
+
+<Meta title="Data Visualisation/SPC/Guides/SPC Spark" />
+
+# SPC Spark
+
+A compact statistical process control (SPC) sparkline summarising recent process behaviour and current variation state.
+
+## Purpose
+
+Provide a glanceable trend with optional: mean, 3-sigma control limits, latest point emphasis, and simplified special cause classification (auto or supplied).
+
+## When To Use
+
+- Dense KPI dashboards where a full SPC chart is too large.
+- Table cells summarising a metric's stability.
+- Card headers / overview panels.
+
+Avoid using when full interpretive context (signals over time, rules detail) is required—link to a full SPC chart instead.
+
+## Key Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `Array(value:null|number)` | — | Sequential metric values. `null` creates a gap. |
+| `windowSize` | `number` | — | If set, only the trailing N points are rendered (classification still uses shown window). |
+| `autoClassify` | `boolean` | `false` | Derives variation state using simple 3σ rule if `variationState` absent. |
+| `variationState` | `VariationState` | — | External classification (overrides `autoClassify`). |
+| `showMean` | `boolean` | `true` | Renders horizontal mean dashed line. |
+| `showLimits` | `boolean` | `false` | Shows mean ±3σ control limits (requires >=2 numeric points). |
+| `showLimitBand` | `boolean` | `false` | Fills the region between ±3σ with a subtle translucent band (requires `showLimits`). |
+| `showLatestMarker` | `boolean` | `true` | Enlarges & fills latest valid point. |
+| `showStateGlyph` | `boolean` | `true` | Shows H/L glyph when state implies direction and points >= `minPointsForSignals`. |
+| `minPointsForSignals` | `number` | `13` | Minimum points before glyph renders (stability gate). |
+| `gradientWash` | `boolean` | `false` | Subtle background wash using tokenised opacities. |
+| `size` | `'xs' | 'sm' | 'md'` | `sm` | Vertical height preset (width auto based on number of points). |
+| `maxPoints` | `number` | — | If set, thin rendered circles to at most this count (path also thinned); classification still uses full window. |
+| `thinningStrategy` | `'stride' | 'rdp'` | `'stride'` | `stride` keeps roughly uniform spacing; `rdp` applies a shape-preserving simplification (Ramer–Douglas–Peucker). |
+| `sigmaMethod` | `'stddev' | 'moving-range'` | `'stddev'` | Selects 3σ estimation: population sample standard deviation vs XmR moving-range (MR / 1.128). Use `moving-range` for parity with full Individuals charts. |
+| `colorPointsBySignal` | `boolean` | `false` | When true, each point is coloured individually (improvement / concern / neutral) instead of using a single series colour; latest marker still enlarges. |
+
+## Classification Model
+
+Current automatic logic (MVP):
+1. Compute mean & sample standard deviation over displayed window.
+2. Classify latest point:
+   - > mean + 3σ ⇒ `SpecialCauseImproving`
+   - < mean − 3σ ⇒ `SpecialCauseDeteriorating`
+   - else ⇒ `CommonCause`
+3. Direction glyph H/L requires caller to provide `direction` (domain polarity) and enough points.
+
+Future enhancements may add run / shift detection (e.g. 8-point runs, 2-of-3 near limit, etc.).
+
+## Visual Anatomy
+
+1. Trend path (state colour)
+2. Mean (grey dashed) – optional
+3. Control limits (lighter dashed state colour) – optional
+4. Limit band (semi-transparent rect spanning ±3σ) – optional
+5. Latest marker (slightly larger circle) – optional (by default all points share the series state colour; with `colorPointsBySignal` each point may differ, latest still +1 radius)
+6. Glyph (H/L) – gated & optional; dynamically shifts above/below midline based on trailing cluster to reduce overlap
+7. Wash (gradient rect) – optional
+
+## Accessibility
+
+- `role="img"` and an `aria-label` (default: "SPC sparkline").
+- Consider providing a surrounding textual summary (e.g., "Stable trend; latest value 120 above mean").
+- Future work: include generated aria-description narrative similar to full SPC icons.
+
+## Examples
+
+### With Shaded Limit Band
+<SPCSpark data={[{value:60},{value:62},{value:59},{value:61},{value:63},{value:60},{value:61},{value:62},{value:64},{value:63},{value:62},{value:61},{value:60},{value:62},{value:63},{value:61},{value:62},{value:60},{value:61},{value:62}]} variationState={undefined} autoClassify showMean showLimits showLimitBand />
+
+## Theming & Tokens
+
+State colours and gradient wash opacities leverage existing SPC icon tokens (`improvement`, `concern`, etc.) and `gradient.stop.*` opacity tokens. Dark / high contrast themes will override these centrally.
+
+## Roadmap
+
+- Multi-rule classification (runs, trends, zones)
+- Optional spark stacking (mini multi-metric panel)
+- Accessible narrative generation
+- Performance benchmark for rendering 100+ sparks
+- Visual regression coverage
+
+## Changelog
+
+| Date | Change |
+|------|--------|
+| 2025-08-31 | Initial component scaffold with mean / latest marker |
+| 2025-08-31 | Added gradient wash, limits, glyph gating |
+| 2025-08-31 | Added autoClassify and control limit logic |
+| 2025-08-31 | Unified point styling (solid fill, no stroke), padding to prevent clipping, optional render thinning (`maxPoints`, `thinningStrategy`). |
+| 2025-08-31 | Added shaded 3σ limit band (`showLimitBand`) and dynamic glyph vertical avoidance logic. |
+| 2025-08-31 | Added moving-range sigma option (`sigmaMethod`) for parity with XmR charts. |
+| 2025-08-31 | Added per-point signal colouring (`colorPointsBySignal`). Clarified that `showMean` only toggles line visibility (mean still used for limits & classification). |
+

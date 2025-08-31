@@ -14,6 +14,7 @@ import { TooltipProvider } from "../../core/TooltipContext";
 import VisuallyHiddenLiveRegion from "../../primitives/VisuallyHiddenLiveRegion";
 import { SpcVariationIcon } from "../SPCIcons/SPCIcon";
 import { SPCAssuranceIcon } from "../SPCIcons/SPCAssuranceIcon";
+import { AssuranceResult } from "../SPCIcons/SPCConstants";
 import { Direction } from "../SPCIcons/SPCConstants";
 // Design tokens (accessibility colors)
 import {
@@ -91,7 +92,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	enableRules = true,
 	showIcons = false,
 	showEmbeddedIcon = true,
-	targets,
+	targets: targetsProp,
 	baselines,
 	ghosts,
 	settings,
@@ -103,7 +104,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		const rowsInput = data.map((d, i) => ({
 			x: d.x,
 			value: d.y,
-			target: targets?.[i] ?? undefined,
+			target: targetsProp?.[i] ?? undefined,
 			baseline: baselines?.[i] ?? undefined,
 			ghost: ghosts?.[i] ?? undefined,
 		}));
@@ -119,7 +120,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		}
 	}, [
 		data,
-		targets,
+		targetsProp,
 		baselines,
 		ghosts,
 		chartType,
@@ -152,9 +153,11 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		[mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg].forEach((v) => {
 			if (v != null) base.push(v);
 		});
+		// Include any numeric targets so target line never sits outside vertical range
+		if (targetsProp) targetsProp.forEach((t: number | null | undefined) => { if (typeof t === 'number' && !isNaN(t)) base.push(t); });
 		if (!base.length) return undefined;
 		return [Math.min(...base), Math.max(...base)];
-	}, [data, mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg]);
+	}, [data, mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp]);
 
 	// Auto-detect percentage unit when all values in [0,1] and no explicit unit supplied
 	const autoUnit = React.useMemo(() => {
@@ -187,6 +190,12 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		const lastRow = engineRows[lastIdx];
 		const variation = lastRow.variationIcon as VariationIcon | undefined;
 		const assuranceRaw = lastRow.assuranceIcon as AssuranceIcon | undefined;
+		// Map engine assurance icon (which can be None) to visual AssuranceResult (which uses Uncertain)
+		const assuranceRenderStatus: AssuranceResult = assuranceRaw === AssuranceIcon.Pass
+			? AssuranceResult.Pass
+			: assuranceRaw === AssuranceIcon.Fail
+				? AssuranceResult.Fail
+				: AssuranceResult.Uncertain; // treat None as Uncertain placeholder visually
 		// Derive a trend/orientation hint for suppressed 'no judgement' cases so the purple arrow points towards the favourable direction
 		let trend: Direction | undefined = undefined;
 		if (variation === VariationIcon.None) {
@@ -230,7 +239,6 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			polarity = MetricPolarity.ContextDependent;
 		}
 		const iconSize = 80;
-		const assuranceShow = assuranceRaw && assuranceRaw !== AssuranceIcon.None;
 		return (
 			<div key={`embedded-icon-${lastIdx}`} style={{ display: 'flex', gap: 12, marginRight: 16 }}>
 				<div
@@ -248,15 +256,13 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						size={iconSize}
 					/>
 				</div>
-				{assuranceShow && (
-					<div
-						className="fdp-spc-chart__embedded-assurance-icon"
-						data-assurance={String(assuranceRaw)}
-						style={{ width: iconSize, height: iconSize }}
-					>
-						<SPCAssuranceIcon status={assuranceRaw as any} size={iconSize} dropShadow={false} />
-					</div>
-				)}
+				<div
+					className="fdp-spc-chart__embedded-assurance-icon"
+					data-assurance={String(assuranceRaw)}
+					style={{ width: iconSize, height: iconSize }}
+				>
+					<SPCAssuranceIcon status={assuranceRenderStatus} size={iconSize} dropShadow={false} />
+				</div>
 			</div>
 		);
 	}, [showEmbeddedIcon, engine?.rows, metricImprovement, settings?.minimumPoints]);
@@ -290,6 +296,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						metricImprovement={metricImprovement}
 						gradientSequences={gradientSequences}
 						processLineWidth={processLineWidth}
+						effectiveUnit={effectiveUnit}
 					/>
 				</LineScalesProvider>
 			</ChartRoot>
@@ -327,6 +334,7 @@ interface InternalProps {
 	metricImprovement?: ImprovementDirection;
 	gradientSequences: boolean;
 	processLineWidth: number;
+	effectiveUnit?: string;
 }
 
 const InternalSPC: React.FC<InternalProps> = ({
@@ -341,7 +349,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 	showIcons,
 	narrationContext,
 	gradientSequences,
-	processLineWidth,
+ 	processLineWidth,
+	effectiveUnit,
 }) => {
 	const scaleCtx = useScaleContext();
 	const chartCtx = useChartContext();
@@ -399,6 +408,18 @@ const InternalSPC: React.FC<InternalProps> = ({
 		return map;
 	}, [engineRows]);
 
+	// Derive a single uniform target (most common current usage) for drawing a horizontal reference line.
+	const uniformTarget = React.useMemo(() => {
+		if (!engineRows || !engineRows.length) return null;
+		const values: number[] = [];
+		for (const r of engineRows) {
+			if (typeof r.target === 'number' && !isNaN(r.target)) values.push(r.target);
+		}
+		if (!values.length) return null;
+		const first = values[0];
+		return values.every(v => v === first) ? first : null; // only render when constant across series
+	}, [engineRows]);
+
 	// Preprocess categories with singleton coloured point absorption
 	const categories = React.useMemo(() => {
 		if (!engineSignals) return [] as ('concern' | 'improvement' | 'common')[];
@@ -411,6 +432,17 @@ const InternalSPC: React.FC<InternalProps> = ({
 		// Absorb single coloured point interruptions (concern/improvement) flanked by identical common segments
 		for (let i = 1; i < raw.length - 1; i++) {
 			if ((raw[i] === 'concern' || raw[i] === 'improvement') && raw[i - 1] === 'common' && raw[i + 1] === 'common') {
+				raw[i] = 'common';
+			}
+		}
+		// New rule: absorb a single coloured point of one category that sits between two of the *other* coloured category
+		// e.g. improvement (blue) between two concern (orange) points, or vice versa – treat as inconclusive (common) for wash fill
+		for (let i = 1; i < raw.length - 1; i++) {
+			const left = raw[i - 1];
+			const mid = raw[i];
+			const right = raw[i + 1];
+			if (mid !== 'common' && left !== 'common' && right !== 'common' && left === right && mid !== left) {
+				// Pattern: A B A with A,B both coloured -> make B common
 				raw[i] = 'common';
 			}
 		}
@@ -684,6 +716,10 @@ const InternalSPC: React.FC<InternalProps> = ({
 								aria-hidden="true"
 							/>
 						)}
+						{uniformTarget != null && (
+							// Render later (after limits) for stacking; temporary placeholder (moved below)
+							<></>
+						)}
 						{limits.ucl != null && (
 							<line
 								className="fdp-spc__limit fdp-spc__limit--ucl"
@@ -705,6 +741,30 @@ const InternalSPC: React.FC<InternalProps> = ({
 								aria-hidden="true"
 								strokeWidth={2}
 							/>
+						)}
+						{/* Target line drawn after limits for clear visibility */}
+						{uniformTarget != null && (
+							<g aria-hidden="true" className="fdp-spc__target-group">
+								<line
+									className="fdp-spc__target"
+									data-testid="spc-target-line"
+									x1={0}
+									x2={xScale.range()[1]}
+									y1={yScale(uniformTarget)}
+									y2={yScale(uniformTarget)}
+									strokeWidth={2.5}
+								/>
+								<text
+									data-testid="spc-target-label"
+									x={xScale.range()[0] - 7}
+									y={yScale(uniformTarget) - 5}
+									textAnchor="start"
+									className="fdp-spc__target-label"
+									fontSize={12}
+								>
+									Target {uniformTarget} {effectiveUnit || narrationContext?.measureUnit || ''}
+								</text>
+							</g>
 						)}
 						{showZones && limits.mean != null && (
 							<>

@@ -1,0 +1,60 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { RuleClashChartOne, RuleClashChartTwo, RuleClashChartThree, RuleClashChartFour, RuleClashChartFive } from './SPCRuleClashExamples';
+
+<Meta title="Data Visualisation/SPC/Guides/Rule Clash Examples" />
+
+# SPC Rule Clash Guidance
+
+This guide documents examples where multiple special-cause rules may plausibly fire on closely related subsets of data – a "rule clash". It clarifies expected precedence and interpretation when simultaneous patterns (e.g. emerging shift plus high outlier) occur.
+
+The datasets below replicate the five illustrative images from the legacy primaryField reference (SPCRuleClashExplanationV1.0.pdf). Each chart renders an Individuals (XmR) SPC chart with variation icons and rule detection enabled. Data points are monthly (ISO YYYY-MM) and values are percentages.
+
+All series map to SPCChart data points via conversion of their ISO month to a Date instance.
+
+## Rule Clash Chart 1 - Trend: a run of 6/7 points or more all consecutively
+
+<RuleClashChartOne />
+
+**Commentary**: Gradual increase through mid‑2022 with a local dip at 2022‑09 then recovery. Watch for sustained run above prior mean; confirm shift only after required run length. No hard clash – sequence near but not exceeding classical shift rule length before dip resets count.
+
+## Rule Clash Chart 2 - Shift: a run of 6/7 points or more above or below the mean.
+
+<RuleClashChartTwo />
+
+**Commentary**: Mostly stable mid‑5% band with brief deterioration signals around 2022‑11 to 2023‑01. Possible 2-of-3 near limit vs single beyond 3σ if limits tight. Evaluate if downward run length disqualifies an improving shift interpretation.
+
+## Rule Clash Chart 3 - 2/3: where there are 2 out of 3 points outside either the upper or lower control limits.
+
+<RuleClashChartThree />
+
+**Commentary**: Upward shift after early low baseline; later cluster (2023‑02 onwards) may generate both shift and 2-of-3 near limit rules. Precedence: sustained shift classification (improvement) dominates if cluster persists and latest mean relocates.
+
+## Rule Clash Chart 4 - Single point: any single point outside the process limits.
+
+<RuleClashChartFour />
+
+**Commentary**: Early higher values taper, mid-period dip, partial recovery. Possible trend rule (5-point monotonic) vs oscillation around mean causing no sustained shift. Icons likely neutral unless dip breaches inner sigma zones.
+
+## Multiple Rules Example
+
+<RuleClashChartFive />
+
+**Commentary**: Alternating high/low extremes then prolonged high plateau and subsequent decline. Expect multiple rule triggers: early point-beyond-3σ, later run above mean, then potential downward trend. Demonstrates sequencing where later conflicting direction signals appear; narrative should emphasise most recent sustained pattern.
+
+## Precedence & Messaging
+
+When multiple rules trigger at the same most‑recent point, messaging should:
+
+1. Prioritise directionally consistent sustained rules (shift, long run) over single-point outliers.
+2. Collapse redundant signals (e.g. both 2-of-3 and 4-of-5 on same side) into the strongest narrative.
+3. Surface conflicting direction signals only if overlapping windows are partial and recency differs; emphasise the most recent sustained direction.
+
+| Scenario | Example | Preferred Narrative | Secondary Signals (Suppressed) |
+|----------|---------|---------------------|--------------------------------|
+| Single high outlier after stable run | Chart 1 | "Special cause improvement (single point beyond 3σ)" | Near-limit run developing |
+| Emerging shift + single outlier | Chart 3 | "Shift to higher performance" | Single outlier call-out |
+| Multiple alternating extremes | Chart 5 | "Process unstable with alternating special causes" | Individual beyond-limit enumerations |
+
+## Summary
+
+These examples aid design of consistent precedence logic so users see a concise, meaningful summary instead of a confusing cluster of rule labels.

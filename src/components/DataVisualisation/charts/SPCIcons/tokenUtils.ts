@@ -1,11 +1,13 @@
 // Shared token lookup utilities for SPC icons.
 let spcTokenRoot: Record<string, any> | null = null;
 try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  // @ts-ignore
+  // Dynamic require to avoid breaking SSR if tokens file not present at runtime.
+  // @ts-ignore - compiled artifact path resolved post-build
   const tokens = require('@fergusbisset/nhs-fdp-design-system/dist/js/tokens.json');
   spcTokenRoot = tokens?.color?.['data-viz']?.spc || null;
-} catch {}
+} catch {
+  // Swallow – fall back to provided colour fallbacks.
+}
 
 export const tokenColour = (key: string, fallback: string): string => {
   if (!spcTokenRoot) return fallback;

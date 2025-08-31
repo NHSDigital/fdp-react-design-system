@@ -401,4 +401,4 @@ export const AllAssuranceIcons = () => (
 	</div>
 );
 
-AllVariationIcons.storyName = "All Variation Icons";
+// Explicit storyName removed to satisfy no-redundant-story-name lint rule.

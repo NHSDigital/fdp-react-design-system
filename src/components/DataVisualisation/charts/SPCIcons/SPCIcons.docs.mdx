@@ -1,8 +1,8 @@
-import { Meta, Canvas, Story } from '@storybook/blocks';
 import { AllVariationIcons, AllAssuranceIcons } from './SPCIcons.stories';
 import { SpcVariationIcon } from './SPCIcon';
 import { SPCAssuranceIcon } from './SPCAssuranceIcon';
 import React from 'react';
+import { Meta } from '@storybook/addon-docs/blocks';
 
 <Meta title="Data Visualisation/SPC/Guides/SPC Icons" />
 
@@ -155,11 +155,11 @@ Below are the live icon matrices (sourced from `SPCIcons.stories`).
 
 ### All Variation Icons
 
-<Canvas><Story name="AllVariationIcons">{AllVariationIcons()}</Story></Canvas>
+{AllVariationIcons()}
 
 ### All Assurance Icons
 
-<Canvas><Story name="AllAssuranceIcons">{AllAssuranceIcons()}</Story></Canvas>
+{AllAssuranceIcons()}
 
 ## Accessibility
 

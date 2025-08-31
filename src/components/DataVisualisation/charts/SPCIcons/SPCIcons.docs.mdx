@@ -50,7 +50,7 @@ When a `target` array is supplied to `SPCChart`, each point receives capability 
 | `Fail` | Entire band lies on the unfavourable side. |
 | `Uncertain` | Band overlaps the target threshold (cannot assure pass or fail). |
 
-The embedded Assurance icon is omitted if the latest point has `AssuranceIcon.None` (no target or insufficient data).
+The embedded Assurance icon now always renders. When the underlying engine state is `AssuranceIcon.None` (no target / insufficient data / overlapping band) it is visualised using the **Uncertain** assurance placeholder so layout remains stable.
 
 ## Minimum Points Gate
 

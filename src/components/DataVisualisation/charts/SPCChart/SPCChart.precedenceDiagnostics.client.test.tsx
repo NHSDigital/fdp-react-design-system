@@ -45,8 +45,8 @@ describe('SPC precedence diagnostics (decline inside high-side shift)', () => {
       localSlope: localSlope(i),
     }));
 
-    // eslint-disable-next-line no-console
-    console.table(diagnostics);
+  // Intentionally log diagnostics for development insight; retain console usage (eslint rule disabled project-wide for tests if needed)
+  console.table(diagnostics);
 
     // Find at least one row where:
     // - shiftHigh fired (high-side run)

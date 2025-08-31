@@ -76,6 +76,16 @@ export interface SpcSettings {
 	transitionBufferPoints?: number; // default 2
 	/** Collapse lower-severity cluster rules (2-of-3 vs 4-of-5) keeping only strongest */
 	collapseClusterRules?: boolean; // default true
+	/** Enable heuristic baseline (phase) change suggestions */
+	baselineSuggest?: boolean; // default false
+	/** Minimum change in mean (in sigma units) between old & new stable windows */
+	baselineSuggestMinDeltaSigma?: number; // default 0.5
+	/** Points required in stability window after candidate change */
+	baselineSuggestStabilityPoints?: number; // default 5
+	/** Minimum non-ghost points since previous accepted (or initial) baseline */
+	baselineSuggestMinGap?: number; // default 12
+	/** Minimum score threshold (0-100) for emitting suggestion */
+	baselineSuggestScoreThreshold?: number; // default 50
 }
 
 export interface BuildSpcArgs {
@@ -146,6 +156,16 @@ export interface SpcWarning {
 export interface SpcResult {
 	rows: SpcRow[];
 	warnings: SpcWarning[];
+	/** Optional heuristic suggestions for candidate new baseline starting points (phase changes) */
+	suggestedBaselines?: Array<{
+		index: number; // 0-based index into rows
+		reason: 'shift' | 'trend' | 'point';
+		score: number; // relative confidence 0-100
+		deltaMean: number; // absolute difference in means (new - old)
+		oldMean: number;
+		newMean: number;
+		window: [number, number]; // stability window used
+	}>;
 }
 
 // ------------------------- Utility functions -------------------------
@@ -468,6 +488,11 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		emergingDirectionGrace: false,
 		transitionBufferPoints: 2,
 		collapseClusterRules: true,
+		baselineSuggest: false,
+		baselineSuggestMinDeltaSigma: 0.5,
+		baselineSuggestStabilityPoints: 5,
+		baselineSuggestMinGap: 12,
+		baselineSuggestScoreThreshold: 50,
 		...userSettings,
 	} as Required<SpcSettings>;
 
@@ -1153,7 +1178,112 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			});
 	}
 
-	return { rows: output, warnings };
+	let suggestedBaselines: SpcResult['suggestedBaselines'];
+	if (settings.baselineSuggest) {
+		// Heuristic baseline change (phase) suggestions
+		const rows = output;
+		const W = settings.baselineSuggestStabilityPoints;
+		const minGap = settings.baselineSuggestMinGap;
+		const minDeltaSigma = settings.baselineSuggestMinDeltaSigma;
+		const scoreThreshold = settings.baselineSuggestScoreThreshold;
+		const suggestions: NonNullable<SpcResult['suggestedBaselines']> = [];
+		// Determine existing manual baseline positions (input baselines create new partitions). Use earliest row index for gap.
+		let lastBaselineIndex = 0; // treat start as baseline
+		for (let i = 0; i < rows.length; i++) {
+			const r = rows[i];
+			// If this row began a new partition (partitionId increment), treat as baseline boundary.
+			if (i > 0 && rows[i - 1].partitionId !== r.partitionId) {
+				lastBaselineIndex = i;
+			}
+			// Collect candidate triggers only at first point where rule becomes true
+			const prev = rows[i - 1];
+			function becameTrue(flag: keyof SpcRow): boolean {
+				return !!(r as any)[flag] && !(prev as any)?.[flag];
+			}
+			const candidates: { reason: 'shift' | 'trend' | 'point'; index: number }[] = [];
+			if (becameTrue('specialCauseShiftHigh') || becameTrue('specialCauseShiftLow')) {
+				candidates.push({ reason: 'shift', index: i });
+			}
+			if (becameTrue('specialCauseTrendIncreasing') || becameTrue('specialCauseTrendDecreasing')) {
+				candidates.push({ reason: 'trend', index: i });
+			}
+			// Single 3σ point candidate – only if not already part of shift/trend suggestion
+			if (becameTrue('specialCauseSinglePointAbove') || becameTrue('specialCauseSinglePointBelow')) {
+				candidates.push({ reason: 'point', index: i });
+			}
+			for (const c of candidates) {
+				// Enforce minimum gap
+				if (c.index - lastBaselineIndex < minGap) continue;
+				// Windows: previous W non-ghost points before candidate (excluding candidate) & next W points starting at candidate
+				const oldStart = Math.max(0, c.index - W);
+				const oldEnd = c.index - 1;
+				if (oldEnd - oldStart + 1 < W) continue; // insufficient history
+				const newStart = c.index;
+				const newEnd = c.index + W - 1;
+				if (newEnd >= rows.length) continue; // insufficient future stability window
+				const oldVals = rows.slice(oldStart, oldEnd + 1).map(rw => rw.value).filter(isNumber) as number[];
+				const newVals = rows.slice(newStart, newEnd + 1).map(rw => rw.value).filter(isNumber) as number[];
+				if (oldVals.length < W || newVals.length < W) continue;
+				// Sigma estimate from candidate row (if limits present)
+				const cand = rows[c.index];
+				let sigma: number | null = null;
+				if (isNumber(cand.upperProcessLimit) && isNumber(cand.mean)) {
+					const span = cand.upperProcessLimit - cand.mean;
+					if (span > 0) sigma = span / 3;
+				}
+				if (!sigma || sigma <= 0) continue;
+				const oldMean = mean(oldVals);
+				const newMean = mean(newVals);
+				const deltaMean = newMean - oldMean;
+				if (Math.abs(deltaMean) < minDeltaSigma * sigma) continue;
+				// Stability: limit number of special cause concern/improvement flags inside new window (<=1 Concern allowed, Improvement neutral)
+				const newRows = rows.slice(newStart, newEnd + 1);
+				const concernCount = newRows.filter(rw => rw.variationIcon === VariationIcon.Concern).length;
+				if (concernCount > 1) continue;
+				// Variance change (optionally reward lower variance)
+				const variance = (arr: number[]) => {
+					const m = mean(arr);
+					return arr.length ? arr.reduce((a,b)=> a + (b - m) * (b - m), 0) / arr.length : 0;
+				};
+				const oldVar = variance(oldVals);
+				const newVar = variance(newVals);
+				let scoreBase = c.reason === 'shift' ? 90 : c.reason === 'trend' ? 70 : 60;
+				if (newVar < oldVar) scoreBase += 10;
+				scoreBase -= concernCount * 15;
+				if (scoreBase < scoreThreshold) continue;
+				// Avoid duplicates at same index (keep highest score / more significant reason ordering shift>trend>point)
+				const existing = suggestions.find(s => s.index === c.index);
+				if (existing) {
+					const priority = (reason: 'shift'|'trend'|'point') => reason === 'shift' ? 3 : reason === 'trend' ? 2 : 1;
+					if (priority(c.reason) > priority(existing.reason) || scoreBase > existing.score) {
+						existing.reason = c.reason;
+						existing.score = scoreBase;
+						existing.deltaMean = deltaMean;
+						existing.oldMean = oldMean;
+						existing.newMean = newMean;
+						existing.window = [newStart, newEnd];
+					}
+				} else {
+					suggestions.push({
+						index: c.index,
+						reason: c.reason,
+						score: scoreBase,
+						deltaMean,
+						oldMean,
+						newMean,
+						window: [newStart, newEnd],
+					});
+				}
+			}
+			// If a manual baseline occurs update lastBaselineIndex
+			if (i > 0 && rows[i - 1].partitionId !== rows[i].partitionId) {
+				lastBaselineIndex = i;
+			}
+		}
+		suggestions.sort((a,b)=> a.index - b.index);
+		suggestedBaselines = suggestions;
+	}
+	return { rows: output, warnings, ...(suggestedBaselines ? { suggestedBaselines } : {}) };
 }
 
 export default { buildSpc };

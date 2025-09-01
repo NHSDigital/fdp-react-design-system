@@ -217,7 +217,7 @@ const ExplicitHealthcareExample = () => (
 );
 ```
 
-### 🔧 **Custom Domain Plugin**
+### **Custom Domain Plugin**
 
 ```tsx
 import { GenericResponsiveDataGrid, DomainPlugin } from '@/components/ResponsiveDataGrid';
@@ -251,7 +251,7 @@ const EcommerceExample = () => (
 
 ## Migration Guide
 
-### 🔄 **From Healthcare-Specific to Generic**
+### **From Healthcare-Specific to Generic**
 
 **Before (Healthcare-specific):**
 
@@ -287,7 +287,7 @@ const EcommerceExample = () => (
 />
 ```
 
-### 📝 **Configuration Changes**
+### **Configuration Changes**
 
 | Old Property | New Property | Description |
 |-------------|--------------|-------------|
@@ -298,34 +298,34 @@ const EcommerceExample = () => (
 
 ## Benefits
 
-### ✅ **Fully Generic**
+### **Fully Generic**
 - Works with any data type and domain
 - No healthcare assumptions in core logic
 - Configurable field mapping and rendering
 
-### 🔌 **Plugin Architecture**
+### **Plugin Architecture**
 - Healthcare functionality moved to optional plugin
 - Easy to create custom domain plugins
 - Clean separation of concerns
 
-### 🔄 **Backward Compatible**
+### **Backward Compatible**
 - Existing healthcare code continues to work
 - Automatic healthcare detection
 - Legacy prop conversion
 
-### 🎨 **Highly Configurable**
+### **Highly Configurable**
 - Custom badge rendering and styling
 - Flexible priority and status determination
 - Domain-specific field formatters
 
-### 📊 **Performance**
+### **Performance**
 - Only loads domain-specific code when needed
 - Lazy plugin loading possible
 - Optimised for tree-shaking
 
 ## Advanced Configuration
 
-### 🎨 **Custom Badge Rendering**
+### **Custom Badge Rendering**
 
 ```tsx
 const customBadges: BadgeConfig[] = [
@@ -346,7 +346,7 @@ const customBadges: BadgeConfig[] = [
 ];
 ```
 
-### 🔄 **Custom Field Renderers**
+### **Custom Field Renderers**
 
 ```tsx
 const fieldRenderers = {
@@ -638,3 +638,128 @@ const ExampleWithEnhancedRenderers = () => (
 ### ✅ **Backward Compatibility**
 
 All existing code continues to work unchanged. The `render` function serves as a fallback when specific renderers are not provided, ensuring seamless migration.
+
+## ⚙️ Action Zones (Top / Inline / Bottom)
+
+The ResponsiveDataGrid exposes three tiers of action placement so developers can compose toolbars, filters, export controls, pagination and bulk operations in predictable locations across all layouts.
+
+### Zones Overview
+
+| Zone | Prop | Typical Uses | Layout Behavior |
+|------|------|--------------|-----------------|
+| Top (component-level) | `topActions` | Global filters, add/create buttons, view toggles (card vs table) | Cards: sits to the right of tabs (wraps above on narrow widths). Table: full-width row above table, right-aligned |
+| Tab Inline (AriaTabsDataGrid) | `gridActions` | Per-tab actions (export CSV, column visibility, density, advanced filters) that should appear inline beside tabs when space allows | Auto inline beside tablist; collapses above when insufficient space or when `forceGridActionsAbove` is true |
+| Bottom | `bottomActions` | Pagination, bulk selection actions, secondary export, footnotes | Renders after the data region (cards or table) spanning full width |
+
+### Choosing Between `topActions` and `gridActions`
+
+Use `gridActions` when actions semantically belong to the tabbed data set (e.g. export current tab, toggle columns). These forward to the underlying `AriaTabsDataGrid` `actions` slot and inherit its responsive inline/above placement logic.
+
+Use `topActions` for higher‑level or cross‑tab actions (create new item, global filters) that should not shift position when the AriaTabsDataGrid decides to reflow its inline actions.
+
+Combine them when you need both: `topActions` stays consistently positioned; `gridActions` may inline with tabs when wide enough.
+
+### Props Summary
+
+```ts
+interface ResponsiveDataGridProps {
+  topActions?: React.ReactNode;
+  bottomActions?: React.ReactNode;
+  gridActions?: React.ReactNode;        // forwarded to AriaTabsDataGrid actions
+  forceGridActionsAbove?: boolean;      // force gridActions to render on their own row
+}
+```
+
+### Basic Examples
+
+#### 1. Top Actions Only
+
+```tsx
+<ResponsiveDataGrid
+  ariaLabel="Products"
+  tabPanels={[{ label: 'All', data, columns }]}
+  topActions={<Button onClick={openNew}>New Product</Button>}
+/>;
+```
+
+#### 2. Inline Tab Actions (gridActions)
+
+```tsx
+<ResponsiveDataGrid
+  ariaLabel="Dataset"
+  tabPanels={[{ label: 'Active', data, columns }]}
+  gridActions={(
+    <div style={{ display: 'flex', gap: '0.5rem' }}>
+      <Button size="small" onClick={exportCsv}>Export CSV</Button>
+      <Button size="small" variant="secondary" onClick={toggleColumns}>Columns</Button>
+    </div>
+  )}
+/>;
+```
+
+#### 3. Force Actions Above Tabs
+
+```tsx
+<ResponsiveDataGrid
+  ariaLabel="Patients"
+  tabPanels={[{ label: 'Ward A', data: patientsA, columns: patientCols }]}
+  gridActions={<FilterToolbar />}
+  forceGridActionsAbove
+/>;
+```
+
+#### 4. Top + Inline + Bottom
+
+```tsx
+<ResponsiveDataGrid
+  ariaLabel="Orders"
+  tabPanels={[{ label: 'Open', data: orders, columns: orderCols }]}
+  topActions={<Button onClick={createOrder}>Create Order</Button>}
+  gridActions={<OrderViewToggles />}
+  bottomActions={<Pagination current={page} onChange={setPage} />}
+/>;
+```
+
+### Card vs Table Layout Differences
+
+| Layout | topActions | gridActions | bottomActions |
+|--------|------------|-------------|---------------|
+| Cards  | Right of tabs (wraps above when narrow) | Inline with tabs if space; else own row above cards | Below card grid |
+| Table  | Full-width row above table (right-aligned) | Inline with tabs (same row) unless forced above | Below table |
+
+### Accessibility Notes
+
+- Each action zone is outside individual card focus order; ensure keyboard users can reach controls before or after navigating tab or table content.
+- Provide aria-labels / aria-describedby on composite toolbars (e.g. `<div role="toolbar" aria-label="Grid actions">`).
+- When forcing gridActions above, consider adding a visually hidden heading for context if many controls are present.
+
+### Styling Hooks
+
+CSS class names (BEM style) exposed for customization in `ResponsiveDataGrid.scss`:
+
+| Selector | Purpose |
+|----------|---------|
+| `.nhsuk-responsive-data-grid__top-actions` | Container for `topActions` |
+| `.nhsuk-responsive-data-grid__bottom-actions` | Container for `bottomActions` |
+| `.aria-tabs-datagrid-adaptive__actions` | Underlying AriaTabsDataGrid action zone (`gridActions`) |
+
+Override spacing or alignment with custom CSS (import after core styles):
+
+```css
+.nhsuk-responsive-data-grid__top-actions { gap: .75rem; }
+.nhsuk-responsive-data-grid__bottom-actions { padding-top: 1rem; border-top: 1px solid var(--color-border-muted); }
+```
+
+### Testing Tips
+
+- Use `getByRole('toolbar', { name: /grid actions/i })` for semantic toolbars.
+- Provide `data-testid` on custom action wrappers for deterministic selection when semantic queries aren’t feasible.
+- In visual regression, capture both wide (inline) and narrow (wrapped/forced) states.
+
+### Common Patterns
+
+1. **Filter + Export**: Place filters in `gridActions` (inline beside tabs) and heavy exports (PDF, XLSX) in `topActions` so they wrap earlier on small screens.
+2. **Create + Pagination**: `topActions` for create button, `bottomActions` for pagination to mimic common list/detail layouts.
+3. **View Toggles**: Card/table toggle button group in `gridActions` aligns with other per-tab controls.
+
+This action zone model keeps domain/tooling actions close to the data (inline) while reserving persistent global actions for a stable top region and end-of-flow bulk operations at the bottom.

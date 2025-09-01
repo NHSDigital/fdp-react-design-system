@@ -17,8 +17,8 @@ export default [
       parser: tsParser,
       parserOptions: { ecmaVersion: 2022, sourceType: 'module' }
     },
-    plugins: { '@typescript-eslint': tsPlugin, storybook },
-    rules: {}
+  plugins: { '@typescript-eslint': tsPlugin, storybook },
+  rules: {}
   },
   {
     files: ['src/**/*.stories.@(ts|tsx)'],

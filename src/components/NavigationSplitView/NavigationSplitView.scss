@@ -279,9 +279,9 @@
     font-size: nhs.$nhs-fdp-font-size-19-desktop;
     line-height: 1.4;
     position: relative;
-  // Wrap long tokens/URLs to avoid forcing horizontal scroll
-  overflow-wrap: anywhere;
-  word-break: break-word;
+    // Wrap long tokens/URLs to avoid forcing horizontal scroll
+    overflow-wrap: anywhere;
+    word-break: break-word;
 
     &:hover:not([data-disabled='true']) {
       background: nhs.$nhs-fdp-color-grey-5;

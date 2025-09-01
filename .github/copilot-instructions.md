@@ -65,10 +65,15 @@ NHS FDP Design System is a comprehensive React component library with TypeScript
 2. **Component accessibility**:
    - Use Storybook's accessibility addon
    - Test keyboard navigation
-   - Verify ARIA attributes and roles
-3. **SSR analysis**: Run `npm run analyze:ssr` (~1 second) for comprehensive SSR compatibility report
+   Built with Style Dictionary (source definitions → generated SCSS & TS in `packages/nhs-fdp/dist/`)
+   Smart build: `npm run build:tokens:smart` (skips when source hash unchanged) – ALWAYS prefer in incremental builds
+   Force rebuild: `npm run build:tokens` (full Style Dictionary run + post-processing script)
+   Outputs (do not hand edit):
+     * SCSS: `packages/nhs-fdp/dist/scss/_tokens.scss` (master), plus categorical files (`_colors.scss`, `_spacing.scss`, etc.)
+     * Component-specific token bundles in `packages/nhs-fdp/dist/scss/components/`
+     * (If configured) TypeScript constants (search for `dist/**/tokens.*.ts` if needed)
+   Consumption pattern in component SCSS: ALWAYS import the aggregated SCSS entry and reference variables via the `nhs.` namespace.
 
-## Architecture Overview
 
 ### Key Directories
 - `src/components/` - React components (55+ components)
@@ -84,6 +89,7 @@ Each component follows a standardized pattern:
 - `Component.tsx` - Main component
 - `Component.types.ts` - TypeScript interfaces
 - `Component.scss` - Component styles
+
 - `Component.stories.tsx` - Storybook documentation
 - `Component.client.test.tsx` - Interactive behavior tests
 - `Component.ssr.test.tsx` - Server-side rendering tests  
@@ -92,18 +98,21 @@ Each component follows a standardized pattern:
 
 ### Testing Strategy (Critical)
 Follow the established 3-tier testing pattern:
+
 - **Client tests**: Interactive behavior, events, keyboard, accessibility
 - **SSR tests**: Structural output, roles, semantics, conditional rendering
 - **Hydration tests**: SSR → client integrity + post-hydration interaction
 
 Use React Testing Library query priority:
 1. `getByRole` (with `name` option)
+
 2. `getByLabelText`
 3. `getByPlaceholderText` 
 4. `getByText` (scoped, exact)
 5. `getByTestId` (only when no semantic alternative)
 
 ### Design Token System
+
 - Built with Style Dictionary
 - Smart building: `npm run build:tokens:smart` (skips if unchanged)
 - Full rebuild: `npm run build:tokens` 
@@ -114,6 +123,7 @@ Use React Testing Library query priority:
 - **Build before publish**: Always run `npm run build:parity` 
 - **Version management**: Use `npm run release:patch|minor|major|prerelease`
 
+
 ## Common Tasks
 
 ### Adding New Components
@@ -121,11 +131,13 @@ Use React Testing Library query priority:
 2. Follow established file structure (see Component Structure above)
 3. Add component to `src/components/index.ts` 
 4. Create comprehensive tests (client/SSR/hydration)
+
 5. Add Storybook stories with documentation
 6. Run full build and test suite
 7. Update package.json exports if needed
 
 ### Modifying Existing Components
+
 1. Update component files as needed
 2. Update corresponding tests to match changes
 3. Update Storybook stories if behavior changes

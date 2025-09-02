@@ -1,0 +1,2972 @@
+{
+  "dateHeadings": [
+    "Sep 2025",
+    "Oct 2025",
+    "Nov 2025",
+    "Dec 2025",
+    "Jan 2026",
+    "Feb 2026"
+  ],
+  "categories": [
+    {
+      "heading": "Parity Foundations (GOV.UK / NHS)",
+      "roadmapItems": [
+        {
+          "id": "parity-phase-1",
+          "title": "GDS System Parity",
+          "content": "CookieBanner, NotificationBanner, PhaseBanner, WarningText alias",
+          "date": 1,
+          "length": 2,
+          "partialLength": 1,
+          "ariaLabel": "Parity Foundations Phase 1: fast parity wins Sep–Oct 2025",
+          "childItems": [
+            {
+              "id": "parity-phase-1__cookiebanner",
+              "parentId": "parity-phase-1",
+              "position": 1,
+              "title": "CookieBanner",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-15",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "parity-phase-1__notificationbanner",
+              "parentId": "parity-phase-1",
+              "position": 2,
+              "title": "NotificationBanner",
+              "startDate": "2025-09-16",
+              "endDate": "2025-09-30",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "parity-phase-1__phasebanner",
+              "parentId": "parity-phase-1",
+              "position": 3,
+              "title": "PhaseBanner",
+              "startDate": "2025-10-01",
+              "endDate": "2025-10-15",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "parity-phase-1__warningtext-alias",
+              "parentId": "parity-phase-1",
+              "position": 4,
+              "title": "WarningText alias",
+              "startDate": "2025-10-16",
+              "endDate": "2025-10-30",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-10-30"
+        },
+        {
+          "id": "parity-phase-2",
+          "title": "Inputs & disclosure",
+          "content": "FileUpload (MVP), PasswordInput (show/hide), Accordion wrapper",
+          "date": 3,
+          "length": 2,
+          "partialLength": 1,
+          "ariaLabel": "Parity Foundations Phase 2: FileUpload, PasswordInput, Accordion Nov–Dec 2025",
+          "childItems": [
+            {
+              "id": "parity-phase-2__fileupload-mvp",
+              "parentId": "parity-phase-2",
+              "position": 1,
+              "title": "FileUpload (MVP)",
+              "startDate": "2025-10-31",
+              "endDate": "2025-11-19",
+              "startColumn": 3,
+              "endColumn": 4,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "parity-phase-2__passwordinput-show-hide",
+              "parentId": "parity-phase-2",
+              "position": 2,
+              "title": "PasswordInput (show/hide)",
+              "startDate": "2025-11-20",
+              "endDate": "2025-12-09",
+              "startColumn": 3,
+              "endColumn": 4,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "parity-phase-2__accordion-wrapper",
+              "parentId": "parity-phase-2",
+              "position": 3,
+              "title": "Accordion wrapper",
+              "startDate": "2025-12-10",
+              "endDate": "2025-12-29",
+              "startColumn": 3,
+              "endColumn": 4,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-10-31",
+          "endDate": "2025-12-29"
+        },
+        {
+          "id": "parity-phase-3",
+          "title": "Service nav & safety",
+          "content": "ServiceNavigation pattern; ExitThisPage (feature-flag)",
+          "date": 5,
+          "length": 3,
+          "partialLength": 1,
+          "ariaLabel": "Parity Foundations Phase 3: ServiceNavigation, ExitThisPage Jan–Mar 2026",
+          "childItems": [
+            {
+              "id": "parity-phase-3__servicenavigation-pattern",
+              "parentId": "parity-phase-3",
+              "position": 1,
+              "title": "ServiceNavigation pattern",
+              "startDate": "2025-12-30",
+              "endDate": "2026-02-11",
+              "startColumn": 5,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "parity-phase-3__exitthispage-feature-flag",
+              "parentId": "parity-phase-3",
+              "position": 2,
+              "title": "ExitThisPage (feature-flag)",
+              "startDate": "2026-02-12",
+              "endDate": "2026-03-29",
+              "startColumn": 5,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-12-30",
+          "endDate": "2026-03-29"
+        }
+      ]
+    },
+    {
+      "heading": "Analyst-grade Data Viz (v2)",
+      "roadmapItems": [
+        {
+          "id": "viz-phase-1",
+          "title": "Foundations",
+          "content": "Severity/alert tokens, Legend refactor, ChartNoScript",
+          "date": 1,
+          "length": 2,
+          "partialLength": 1,
+          "ariaLabel": "Data Viz Phase 1: tokens, legend, noscript Sep–Oct 2025",
+          "childItems": [
+            {
+              "id": "viz-phase-1__severity-alert-tokens",
+              "parentId": "viz-phase-1",
+              "position": 1,
+              "title": "Severity/alert tokens",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-19",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-1__legend-refactor",
+              "parentId": "viz-phase-1",
+              "position": 2,
+              "title": "Legend refactor",
+              "startDate": "2025-09-22",
+              "endDate": "2025-10-10",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-1__chartnoscript",
+              "parentId": "viz-phase-1",
+              "position": 3,
+              "title": "ChartNoScript",
+              "startDate": "2025-10-13",
+              "endDate": "2025-10-31",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-10-31"
+        },
+        {
+          "id": "viz-phase-2",
+          "title": "Map & KPI",
+          "content": "Map wrapper + controls + Key/Legend; MetricCard; DataVizFilterBar",
+          "date": 3,
+          "length": 2,
+          "partialLength": 1,
+          "ariaLabel": "Data Viz Phase 2: map wrapper, KPI, filter bar Nov–Dec 2025",
+          "childItems": [
+            {
+              "id": "viz-phase-2__map-wrapper-controls-key-legend",
+              "parentId": "viz-phase-2",
+              "position": 1,
+              "title": "Map wrapper + controls + Key/Legend",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-18",
+              "startColumn": 3,
+              "endColumn": 4,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-2__metriccard",
+              "parentId": "viz-phase-2",
+              "position": 2,
+              "title": "MetricCard",
+              "startDate": "2025-09-19",
+              "endDate": "2025-10-08",
+              "startColumn": 3,
+              "endColumn": 4,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-2__datavizfilterbar",
+              "parentId": "viz-phase-2",
+              "position": 3,
+              "title": "DataVizFilterBar",
+              "startDate": "2025-10-09",
+              "endDate": "2025-10-28",
+              "startColumn": 3,
+              "endColumn": 4,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-10-28"
+        },
+        {
+          "id": "viz-phase-3",
+          "title": "Geo layers",
+          "content": "Choropleth helpers (scales, quantisation) + layer abstraction",
+          "date": 5,
+          "length": 3,
+          "partialLength": 1,
+          "ariaLabel": "Data Viz Phase 3: choropleth helpers Jan–Mar 2026",
+          "childItems": [
+            {
+              "id": "viz-phase-3__choropleth-helpers-scales",
+              "parentId": "viz-phase-3",
+              "position": 1,
+              "title": "Choropleth helpers (scales",
+              "startDate": "2025-09-01",
+              "endDate": "2025-10-14",
+              "startColumn": 5,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-3__quantisation-layer-abstraction",
+              "parentId": "viz-phase-3",
+              "position": 2,
+              "title": "quantisation) + layer abstraction",
+              "startDate": "2025-10-15",
+              "endDate": "2025-11-26",
+              "startColumn": 5,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-11-26"
+        },
+        {
+          "id": "viz-phase-4",
+          "title": "SPC Enhancements",
+          "content": "Enhanced rule config & custom thresholds; multi‑phase baseline change detection",
+          "ariaLabel": "Data Viz Phase 4: SPC rule configuration & baseline change detection Nov 2025–Jan 2026",
+          "childItems": [
+            {
+              "id": "viz-phase-4__enhanced-rule-config",
+              "parentId": "viz-phase-4",
+              "position": 1,
+              "title": "Enhanced rule configuration & thresholds",
+              "startDate": "2025-11-27",
+              "endDate": "2025-12-12",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-4__multi-phase-baseline",
+              "parentId": "viz-phase-4",
+              "position": 2,
+              "title": "Multi-phase baseline change detection",
+              "startDate": "2025-12-15",
+              "endDate": "2026-01-07",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-11-27",
+          "endDate": "2026-01-07"
+        },
+        {
+          "id": "viz-phase-5",
+          "title": "Interaction & Accessibility",
+          "content": "Tooltip aggregation, legend SR phrasing, debounced announcements, pattern guidance",
+          "ariaLabel": "Data Viz Phase 5: interaction & accessibility enhancements Jan–Mar 2026",
+          "childItems": [
+            {
+              "id": "viz-phase-5__tooltip-aggregate-layouts",
+              "parentId": "viz-phase-5",
+              "position": 1,
+              "title": "Enhanced tooltip aggregate layouts",
+              "startDate": "2026-01-08",
+              "endDate": "2026-01-23",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-5__legend-announcement-enhancements",
+              "parentId": "viz-phase-5",
+              "position": 2,
+              "title": "Legend announcement enhancements",
+              "startDate": "2026-01-26",
+              "endDate": "2026-02-05",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-5__debounced-aggregated-announcements",
+              "parentId": "viz-phase-5",
+              "position": 3,
+              "title": "Debounced aggregated announcements",
+              "startDate": "2026-02-06",
+              "endDate": "2026-02-19",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-5__pattern-colour-guidance",
+              "parentId": "viz-phase-5",
+              "position": 4,
+              "title": "Pattern + colour dual encoding guidance",
+              "startDate": "2026-02-20",
+              "endDate": "2026-03-05",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2026-01-08",
+          "endDate": "2026-03-05"
+        },
+        {
+          "id": "viz-phase-6",
+          "title": "New Chart Types",
+          "content": "Stacked area & bar utilities; scatter & density primitives",
+          "ariaLabel": "Data Viz Phase 6: stacked & scatter chart primitives Mar–Apr 2026",
+          "childItems": [
+            {
+              "id": "viz-phase-6__stacked-area-bar",
+              "parentId": "viz-phase-6",
+              "position": 1,
+              "title": "Stacked area & bar utilities",
+              "startDate": "2026-03-06",
+              "endDate": "2026-03-25",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-6__scatter-density-primitives",
+              "parentId": "viz-phase-6",
+              "position": 2,
+              "title": "Scatter & density primitives",
+              "startDate": "2026-03-26",
+              "endDate": "2026-04-15",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2026-03-06",
+          "endDate": "2026-04-15"
+        },
+        {
+          "id": "viz-phase-7",
+          "title": "Export & Performance",
+          "content": "PNG/SVG export; sampling helper; test & Chromatic expansion",
+          "ariaLabel": "Data Viz Phase 7: export, performance & regression Apr–Jun 2026",
+          "childItems": [
+            {
+              "id": "viz-phase-7__export-png-svg",
+              "parentId": "viz-phase-7",
+              "position": 1,
+              "title": "PNG/SVG export utility",
+              "startDate": "2026-04-16",
+              "endDate": "2026-04-29",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-7__performance-sampling-helper",
+              "parentId": "viz-phase-7",
+              "position": 2,
+              "title": "Performance sampling helper",
+              "startDate": "2026-04-30",
+              "endDate": "2026-05-14",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-7__bar-width-smoothing-tests",
+              "parentId": "viz-phase-7",
+              "position": 3,
+              "title": "Bar width & smoothing tests",
+              "startDate": "2026-05-15",
+              "endDate": "2026-05-28",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-7__chromatic-story-expansion",
+              "parentId": "viz-phase-7",
+              "position": 4,
+              "title": "Chromatic story expansion",
+              "startDate": "2026-05-29",
+              "endDate": "2026-06-11",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2026-04-16",
+          "endDate": "2026-06-11"
+        },
+        {
+          "id": "viz-phase-8",
+          "title": "Mapping & Theming",
+          "content": "Choropleth baseline; dark mode tokens; high-contrast override",
+          "ariaLabel": "Data Viz Phase 8: mapping & theming Jun–Aug 2026",
+          "childItems": [
+            {
+              "id": "viz-phase-8__choropleth-baseline",
+              "parentId": "viz-phase-8",
+              "position": 1,
+              "title": "Choropleth baseline (TopoJSON + legend)",
+              "startDate": "2026-06-12",
+              "endDate": "2026-07-03",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-8__dark-mode-token-prototypes",
+              "parentId": "viz-phase-8",
+              "position": 2,
+              "title": "Dark mode token prototypes",
+              "startDate": "2026-07-06",
+              "endDate": "2026-07-24",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-8__high-contrast-override",
+              "parentId": "viz-phase-8",
+              "position": 3,
+              "title": "High-contrast override mode",
+              "startDate": "2026-07-27",
+              "endDate": "2026-08-12",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2026-06-12",
+          "endDate": "2026-08-12"
+        },
+        {
+          "id": "viz-phase-9",
+          "title": "i18n & Governance",
+          "content": "Internationalisation context; pattern ids; advanced legend; changelog governance",
+          "ariaLabel": "Data Viz Phase 9: i18n, patterns & governance Aug–Oct 2026",
+          "childItems": [
+            {
+              "id": "viz-phase-9__internationalisation-context",
+              "parentId": "viz-phase-9",
+              "position": 1,
+              "title": "Internationalisation context",
+              "startDate": "2026-08-13",
+              "endDate": "2026-08-29",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-9__deterministic-pattern-ids",
+              "parentId": "viz-phase-9",
+              "position": 2,
+              "title": "Deterministic pattern ids & semantic tokens",
+              "startDate": "2026-09-01",
+              "endDate": "2026-09-17",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-9__advanced-legend-api",
+              "parentId": "viz-phase-9",
+              "position": 3,
+              "title": "Advanced legend (group/search/filter/order)",
+              "startDate": "2026-09-18",
+              "endDate": "2026-10-09",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "viz-phase-9__versioned-changelog-governance",
+              "parentId": "viz-phase-9",
+              "position": 4,
+              "title": "Versioned changelog & governance docs",
+              "startDate": "2026-10-10",
+              "endDate": "2026-10-24",
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2026-08-13",
+          "endDate": "2026-10-24"
+        }
+      ]
+    },
+    {
+      "heading": "Product Marketing, Docs & Onboarding",
+      "roadmapItems": [
+        {
+          "id": "mkt-phase-1",
+          "title": "Marketing slices",
+          "content": "Hero, FeatureGrid, Testimonials, PricingTable, FAQ, GlobalNav, Footer, AnnouncementBanner",
+          "date": 1,
+          "length": 2,
+          "partialLength": 1,
+          "ariaLabel": "Marketing Phase 1: site slices Sep–Oct 2025",
+          "childItems": [
+            {
+              "id": "mkt-phase-1__hero",
+              "parentId": "mkt-phase-1",
+              "position": 1,
+              "title": "Hero",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-05",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-1__featuregrid",
+              "parentId": "mkt-phase-1",
+              "position": 2,
+              "title": "FeatureGrid",
+              "startDate": "2025-09-08",
+              "endDate": "2025-09-12",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-1__testimonials",
+              "parentId": "mkt-phase-1",
+              "position": 3,
+              "title": "Testimonials",
+              "startDate": "2025-09-15",
+              "endDate": "2025-09-19",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-1__pricingtable",
+              "parentId": "mkt-phase-1",
+              "position": 4,
+              "title": "PricingTable",
+              "startDate": "2025-09-22",
+              "endDate": "2025-09-26",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-1__faq",
+              "parentId": "mkt-phase-1",
+              "position": 5,
+              "title": "FAQ",
+              "startDate": "2025-09-29",
+              "endDate": "2025-10-03",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-1__globalnav",
+              "parentId": "mkt-phase-1",
+              "position": 6,
+              "title": "GlobalNav",
+              "startDate": "2025-10-06",
+              "endDate": "2025-10-10",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-1__footer",
+              "parentId": "mkt-phase-1",
+              "position": 7,
+              "title": "Footer",
+              "startDate": "2025-10-13",
+              "endDate": "2025-10-17",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-1__announcementbanner",
+              "parentId": "mkt-phase-1",
+              "position": 8,
+              "title": "AnnouncementBanner",
+              "startDate": "2025-10-20",
+              "endDate": "2025-10-24",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-10-24"
+        },
+        {
+          "id": "mkt-phase-2",
+          "title": "Onboarding core",
+          "content": "Stepper, OnboardingChecklist, EmptyStates, PasswordStrength, VerificationCode, Toasts",
+          "date": 3,
+          "length": 2,
+          "partialLength": 1,
+          "ariaLabel": "Marketing Phase 2: onboarding components Nov–Dec 2025",
+          "childItems": [
+            {
+              "id": "mkt-phase-2__stepper",
+              "parentId": "mkt-phase-2",
+              "position": 1,
+              "title": "Stepper",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-09",
+              "startColumn": 3,
+              "endColumn": 4,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-2__onboardingchecklist",
+              "parentId": "mkt-phase-2",
+              "position": 2,
+              "title": "OnboardingChecklist",
+              "startDate": "2025-09-10",
+              "endDate": "2025-09-18",
+              "startColumn": 3,
+              "endColumn": 4,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-2__emptystates",
+              "parentId": "mkt-phase-2",
+              "position": 3,
+              "title": "EmptyStates",
+              "startDate": "2025-09-19",
+              "endDate": "2025-09-29",
+              "startColumn": 3,
+              "endColumn": 4,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-2__passwordstrength",
+              "parentId": "mkt-phase-2",
+              "position": 4,
+              "title": "PasswordStrength",
+              "startDate": "2025-09-30",
+              "endDate": "2025-10-08",
+              "startColumn": 3,
+              "endColumn": 4,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-2__verificationcode",
+              "parentId": "mkt-phase-2",
+              "position": 5,
+              "title": "VerificationCode",
+              "startDate": "2025-10-09",
+              "endDate": "2025-10-17",
+              "startColumn": 3,
+              "endColumn": 4,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-2__toasts",
+              "parentId": "mkt-phase-2",
+              "position": 6,
+              "title": "Toasts",
+              "startDate": "2025-10-20",
+              "endDate": "2025-10-28",
+              "startColumn": 3,
+              "endColumn": 4,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-10-28"
+        },
+        {
+          "id": "mkt-phase-3",
+          "title": "Docs & resources",
+          "content": "Docs/Article template, in-page TOC, ResourceGrid, TagChips, FeedbackWidget, Changelog, CodeSnippet",
+          "date": 5,
+          "length": 3,
+          "partialLength": 1,
+          "ariaLabel": "Marketing Phase 3: docs & resources Jan–Mar 2026",
+          "childItems": [
+            {
+              "id": "mkt-phase-3__docs-article-template",
+              "parentId": "mkt-phase-3",
+              "position": 1,
+              "title": "Docs/Article template",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-11",
+              "startColumn": 5,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-3__in-page-toc",
+              "parentId": "mkt-phase-3",
+              "position": 2,
+              "title": "in-page TOC",
+              "startDate": "2025-09-12",
+              "endDate": "2025-09-24",
+              "startColumn": 5,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-3__resourcegrid",
+              "parentId": "mkt-phase-3",
+              "position": 3,
+              "title": "ResourceGrid",
+              "startDate": "2025-09-25",
+              "endDate": "2025-10-07",
+              "startColumn": 5,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-3__tagchips",
+              "parentId": "mkt-phase-3",
+              "position": 4,
+              "title": "TagChips",
+              "startDate": "2025-10-08",
+              "endDate": "2025-10-20",
+              "startColumn": 5,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-3__feedbackwidget",
+              "parentId": "mkt-phase-3",
+              "position": 5,
+              "title": "FeedbackWidget",
+              "startDate": "2025-10-21",
+              "endDate": "2025-10-31",
+              "startColumn": 5,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-3__changelog",
+              "parentId": "mkt-phase-3",
+              "position": 6,
+              "title": "Changelog",
+              "startDate": "2025-11-03",
+              "endDate": "2025-11-13",
+              "startColumn": 5,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-3__codesnippet",
+              "parentId": "mkt-phase-3",
+              "position": 7,
+              "title": "CodeSnippet",
+              "startDate": "2025-11-14",
+              "endDate": "2025-11-26",
+              "startColumn": 5,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-11-26"
+        },
+        {
+          "id": "mkt-phase-4",
+          "title": "Billing & data ops",
+          "content": "BillingSummaryCard, PlanUpgradeModal, PaymentMethod, 2FA; DataFreshnessBadge, ExportMenu, FileUploader, DataImportPanel",
+          "date": 8,
+          "length": 3,
+          "partialLength": 1,
+          "ariaLabel": "Marketing Phase 4/5: billing & data ops Apr–Jun 2026",
+          "childItems": [
+            {
+              "id": "mkt-phase-4__billingsummarycard",
+              "parentId": "mkt-phase-4",
+              "position": 1,
+              "title": "BillingSummaryCard",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-05",
+              "startColumn": 8,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-4__planupgrademodal",
+              "parentId": "mkt-phase-4",
+              "position": 2,
+              "title": "PlanUpgradeModal",
+              "startDate": "2025-09-08",
+              "endDate": "2025-09-12",
+              "startColumn": 8,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-4__paymentmethod",
+              "parentId": "mkt-phase-4",
+              "position": 3,
+              "title": "PaymentMethod",
+              "startDate": "2025-09-15",
+              "endDate": "2025-09-19",
+              "startColumn": 8,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-4__2fa",
+              "parentId": "mkt-phase-4",
+              "position": 4,
+              "title": "2FA",
+              "startDate": "2025-09-22",
+              "endDate": "2025-09-26",
+              "startColumn": 8,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-4__datafreshnessbadge",
+              "parentId": "mkt-phase-4",
+              "position": 5,
+              "title": "DataFreshnessBadge",
+              "startDate": "2025-09-29",
+              "endDate": "2025-10-03",
+              "startColumn": 8,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-4__exportmenu",
+              "parentId": "mkt-phase-4",
+              "position": 6,
+              "title": "ExportMenu",
+              "startDate": "2025-10-06",
+              "endDate": "2025-10-10",
+              "startColumn": 8,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-4__fileuploader",
+              "parentId": "mkt-phase-4",
+              "position": 7,
+              "title": "FileUploader",
+              "startDate": "2025-10-13",
+              "endDate": "2025-10-17",
+              "startColumn": 8,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "mkt-phase-4__dataimportpanel",
+              "parentId": "mkt-phase-4",
+              "position": 8,
+              "title": "DataImportPanel",
+              "startDate": "2025-10-20",
+              "endDate": "2025-10-24",
+              "startColumn": 8,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-10-24"
+        }
+      ]
+    },
+    {
+      "heading": "Learning Management & Training (LMS)",
+      "roadmapItems": [
+        {
+          "id": "lms-phase-1",
+          "title": "Learner MVP",
+          "content": "Catalog, CourseOverview, LessonPlayer (basic), Progress widgets, Enrolment, Notifications, DiscussionThread (lite)",
+          "date": 1,
+          "length": 2,
+          "partialLength": 1,
+          "ariaLabel": "LMS Phase 1: learner MVP Sep–Oct 2025",
+          "childItems": [
+            {
+              "id": "lms-phase-1__catalog",
+              "parentId": "lms-phase-1",
+              "position": 1,
+              "title": "Catalog",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-08",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-1__courseoverview",
+              "parentId": "lms-phase-1",
+              "position": 2,
+              "title": "CourseOverview",
+              "startDate": "2025-09-09",
+              "endDate": "2025-09-16",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-1__lessonplayer-basic",
+              "parentId": "lms-phase-1",
+              "position": 3,
+              "title": "LessonPlayer (basic)",
+              "startDate": "2025-09-17",
+              "endDate": "2025-09-24",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-1__progress-widgets",
+              "parentId": "lms-phase-1",
+              "position": 4,
+              "title": "Progress widgets",
+              "startDate": "2025-09-25",
+              "endDate": "2025-10-02",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-1__enrolment",
+              "parentId": "lms-phase-1",
+              "position": 5,
+              "title": "Enrolment",
+              "startDate": "2025-10-03",
+              "endDate": "2025-10-10",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-1__notifications",
+              "parentId": "lms-phase-1",
+              "position": 6,
+              "title": "Notifications",
+              "startDate": "2025-10-13",
+              "endDate": "2025-10-20",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-1__discussionthread-lite",
+              "parentId": "lms-phase-1",
+              "position": 7,
+              "title": "DiscussionThread (lite)",
+              "startDate": "2025-10-21",
+              "endDate": "2025-10-28",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-10-28"
+        },
+        {
+          "id": "lms-phase-2",
+          "title": "Assessment & assignments",
+          "content": "Question types, AttemptTimer, SubmissionSummary, Assignments with Rubrics",
+          "date": 3,
+          "length": 3,
+          "partialLength": 1,
+          "ariaLabel": "LMS Phase 2: assessment & assignments Nov 2025–Jan 2026",
+          "childItems": [
+            {
+              "id": "lms-phase-2__question-types",
+              "parentId": "lms-phase-2",
+              "position": 1,
+              "title": "Question types",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-22",
+              "startColumn": 3,
+              "endColumn": 5,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-2__attempttimer",
+              "parentId": "lms-phase-2",
+              "position": 2,
+              "title": "AttemptTimer",
+              "startDate": "2025-09-23",
+              "endDate": "2025-10-14",
+              "startColumn": 3,
+              "endColumn": 5,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-2__submissionsummary",
+              "parentId": "lms-phase-2",
+              "position": 3,
+              "title": "SubmissionSummary",
+              "startDate": "2025-10-15",
+              "endDate": "2025-11-04",
+              "startColumn": 3,
+              "endColumn": 5,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-2__assignments-with-rubrics",
+              "parentId": "lms-phase-2",
+              "position": 4,
+              "title": "Assignments with Rubrics",
+              "startDate": "2025-11-05",
+              "endDate": "2025-11-26",
+              "startColumn": 3,
+              "endColumn": 5,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-11-26"
+        },
+        {
+          "id": "lms-phase-3",
+          "title": "Builder, admin, pathways",
+          "content": "CourseBuilder, QuestionBank, Enrollment admin, Analytics; Learning paths, Recommendations, Certificates & Recertification",
+          "date": 6,
+          "length": 3,
+          "partialLength": 1,
+          "ariaLabel": "LMS Phase 3–5: builder/admin/pathways Feb–Apr 2026",
+          "childItems": [
+            {
+              "id": "lms-phase-3__coursebuilder",
+              "parentId": "lms-phase-3",
+              "position": 1,
+              "title": "CourseBuilder",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-11",
+              "startColumn": 6,
+              "endColumn": 8,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-3__questionbank",
+              "parentId": "lms-phase-3",
+              "position": 2,
+              "title": "QuestionBank",
+              "startDate": "2025-09-12",
+              "endDate": "2025-09-24",
+              "startColumn": 6,
+              "endColumn": 8,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-3__enrollment-admin",
+              "parentId": "lms-phase-3",
+              "position": 3,
+              "title": "Enrollment admin",
+              "startDate": "2025-09-25",
+              "endDate": "2025-10-07",
+              "startColumn": 6,
+              "endColumn": 8,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-3__analytics",
+              "parentId": "lms-phase-3",
+              "position": 4,
+              "title": "Analytics",
+              "startDate": "2025-10-08",
+              "endDate": "2025-10-20",
+              "startColumn": 6,
+              "endColumn": 8,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-3__learning-paths",
+              "parentId": "lms-phase-3",
+              "position": 5,
+              "title": "Learning paths",
+              "startDate": "2025-10-21",
+              "endDate": "2025-10-31",
+              "startColumn": 6,
+              "endColumn": 8,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-3__recommendations",
+              "parentId": "lms-phase-3",
+              "position": 6,
+              "title": "Recommendations",
+              "startDate": "2025-11-03",
+              "endDate": "2025-11-13",
+              "startColumn": 6,
+              "endColumn": 8,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "lms-phase-3__certificates-recertification",
+              "parentId": "lms-phase-3",
+              "position": 7,
+              "title": "Certificates & Recertification",
+              "startDate": "2025-11-14",
+              "endDate": "2025-11-26",
+              "startColumn": 6,
+              "endColumn": 8,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-11-26"
+        }
+      ]
+    },
+    {
+      "heading": "Clinical Operations Toolkit (Workshop → React)",
+      "roadmapItems": [
+        {
+          "id": "ops-phase-1",
+          "title": "List & booking core",
+          "content": "WaitingListTable, PriorityBadge, PatientSummaryCard, RTTClockIndicator, SlotMatrix (basic), Booking shell, KPI tiles",
+          "date": 1,
+          "length": 3,
+          "partialLength": 1,
+          "ariaLabel": "Clinical Ops Phase 1: list & booking core Sep–Nov 2025",
+          "childItems": [
+            {
+              "id": "ops-phase-1__waitinglisttable",
+              "parentId": "ops-phase-1",
+              "position": 1,
+              "title": "WaitingListTable",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-11",
+              "startColumn": 1,
+              "endColumn": 3,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-1__prioritybadge",
+              "parentId": "ops-phase-1",
+              "position": 2,
+              "title": "PriorityBadge",
+              "startDate": "2025-09-12",
+              "endDate": "2025-09-24",
+              "startColumn": 1,
+              "endColumn": 3,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-1__patientsummarycard",
+              "parentId": "ops-phase-1",
+              "position": 3,
+              "title": "PatientSummaryCard",
+              "startDate": "2025-09-25",
+              "endDate": "2025-10-07",
+              "startColumn": 1,
+              "endColumn": 3,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-1__rttclockindicator",
+              "parentId": "ops-phase-1",
+              "position": 4,
+              "title": "RTTClockIndicator",
+              "startDate": "2025-10-08",
+              "endDate": "2025-10-20",
+              "startColumn": 1,
+              "endColumn": 3,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-1__slotmatrix-basic",
+              "parentId": "ops-phase-1",
+              "position": 5,
+              "title": "SlotMatrix (basic)",
+              "startDate": "2025-10-21",
+              "endDate": "2025-10-31",
+              "startColumn": 1,
+              "endColumn": 3,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-1__booking-shell",
+              "parentId": "ops-phase-1",
+              "position": 6,
+              "title": "Booking shell",
+              "startDate": "2025-11-03",
+              "endDate": "2025-11-13",
+              "startColumn": 1,
+              "endColumn": 3,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-1__kpi-tiles",
+              "parentId": "ops-phase-1",
+              "position": 7,
+              "title": "KPI tiles",
+              "startDate": "2025-11-14",
+              "endDate": "2025-11-26",
+              "startColumn": 1,
+              "endColumn": 3,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-11-26"
+        },
+        {
+          "id": "ops-phase-2",
+          "title": "Sessions & validation",
+          "content": "SessionCalendar, Overbooking rules, RoomAvailabilityTimeline, ConflictResolutionPanel; ValidationDriveWizard, PauseReasonModal, DataQualityIssueBadge",
+          "date": 4,
+          "length": 3,
+          "partialLength": 1,
+          "ariaLabel": "Clinical Ops Phase 2–3: sessions & validation Dec 2025–Feb 2026",
+          "childItems": [
+            {
+              "id": "ops-phase-2__sessioncalendar",
+              "parentId": "ops-phase-2",
+              "position": 1,
+              "title": "SessionCalendar",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-11",
+              "startColumn": 4,
+              "endColumn": 6,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-2__overbooking-rules",
+              "parentId": "ops-phase-2",
+              "position": 2,
+              "title": "Overbooking rules",
+              "startDate": "2025-09-12",
+              "endDate": "2025-09-24",
+              "startColumn": 4,
+              "endColumn": 6,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-2__roomavailabilitytimeline",
+              "parentId": "ops-phase-2",
+              "position": 3,
+              "title": "RoomAvailabilityTimeline",
+              "startDate": "2025-09-25",
+              "endDate": "2025-10-07",
+              "startColumn": 4,
+              "endColumn": 6,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-2__conflictresolutionpanel",
+              "parentId": "ops-phase-2",
+              "position": 4,
+              "title": "ConflictResolutionPanel",
+              "startDate": "2025-10-08",
+              "endDate": "2025-10-20",
+              "startColumn": 4,
+              "endColumn": 6,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-2__validationdrivewizard",
+              "parentId": "ops-phase-2",
+              "position": 5,
+              "title": "ValidationDriveWizard",
+              "startDate": "2025-10-21",
+              "endDate": "2025-10-31",
+              "startColumn": 4,
+              "endColumn": 6,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-2__pausereasonmodal",
+              "parentId": "ops-phase-2",
+              "position": 6,
+              "title": "PauseReasonModal",
+              "startDate": "2025-11-03",
+              "endDate": "2025-11-13",
+              "startColumn": 4,
+              "endColumn": 6,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-2__dataqualityissuebadge",
+              "parentId": "ops-phase-2",
+              "position": 7,
+              "title": "DataQualityIssueBadge",
+              "startDate": "2025-11-14",
+              "endDate": "2025-11-26",
+              "startColumn": 4,
+              "endColumn": 6,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-11-26"
+        },
+        {
+          "id": "ops-phase-3",
+          "title": "Bulk actions & comms",
+          "content": "PartialBookingWizard, DNAResolutionPanel, BulkRebookingWizard, MultiAppointmentWizard, CommunicationTemplatePicker, BulkSend tracker",
+          "date": 7,
+          "length": 4,
+          "partialLength": 1,
+          "ariaLabel": "Clinical Ops Phase 4–5: bulk actions & comms Mar–Jun 2026",
+          "childItems": [
+            {
+              "id": "ops-phase-3__partialbookingwizard",
+              "parentId": "ops-phase-3",
+              "position": 1,
+              "title": "PartialBookingWizard",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-12",
+              "startColumn": 7,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-3__dnaresolutionpanel",
+              "parentId": "ops-phase-3",
+              "position": 2,
+              "title": "DNAResolutionPanel",
+              "startDate": "2025-09-15",
+              "endDate": "2025-09-26",
+              "startColumn": 7,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-3__bulkrebookingwizard",
+              "parentId": "ops-phase-3",
+              "position": 3,
+              "title": "BulkRebookingWizard",
+              "startDate": "2025-09-29",
+              "endDate": "2025-10-10",
+              "startColumn": 7,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-3__multiappointmentwizard",
+              "parentId": "ops-phase-3",
+              "position": 4,
+              "title": "MultiAppointmentWizard",
+              "startDate": "2025-10-13",
+              "endDate": "2025-10-24",
+              "startColumn": 7,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-3__communicationtemplatepicker",
+              "parentId": "ops-phase-3",
+              "position": 5,
+              "title": "CommunicationTemplatePicker",
+              "startDate": "2025-10-27",
+              "endDate": "2025-11-06",
+              "startColumn": 7,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "ops-phase-3__bulksend-tracker",
+              "parentId": "ops-phase-3",
+              "position": 6,
+              "title": "BulkSend tracker",
+              "startDate": "2025-11-07",
+              "endDate": "2025-11-20",
+              "startColumn": 7,
+              "endColumn": 10,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-11-20"
+        }
+      ]
+    },
+    {
+      "heading": "Product-specific Enablement (Reference Builds)",
+      "roadmapItems": [
+        {
+          "id": "prod-endoscopy-scheduling-skeleton",
+          "title": "Endoscopy Scheduling – skeleton",
+          "content": "Slot search filters, SlotMatrix, SuggestedSlots, OverbookingIndicator, Conflicts, multi-slot bundles; RTT/risk flags",
+          "date": 1,
+          "length": 2,
+          "partialLength": 1,
+          "ariaLabel": "Endoscopy Scheduling skeleton Sep–Oct 2025",
+          "childItems": [
+            {
+              "id": "prod-endoscopy-scheduling-skeleton__slot-search-filters",
+              "parentId": "prod-endoscopy-scheduling-skeleton",
+              "position": 1,
+              "title": "Slot search filters",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-08",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-endoscopy-scheduling-skeleton__slotmatrix",
+              "parentId": "prod-endoscopy-scheduling-skeleton",
+              "position": 2,
+              "title": "SlotMatrix",
+              "startDate": "2025-09-09",
+              "endDate": "2025-09-16",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-endoscopy-scheduling-skeleton__suggestedslots",
+              "parentId": "prod-endoscopy-scheduling-skeleton",
+              "position": 3,
+              "title": "SuggestedSlots",
+              "startDate": "2025-09-17",
+              "endDate": "2025-09-24",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-endoscopy-scheduling-skeleton__overbookingindicator",
+              "parentId": "prod-endoscopy-scheduling-skeleton",
+              "position": 4,
+              "title": "OverbookingIndicator",
+              "startDate": "2025-09-25",
+              "endDate": "2025-10-02",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-endoscopy-scheduling-skeleton__conflicts",
+              "parentId": "prod-endoscopy-scheduling-skeleton",
+              "position": 5,
+              "title": "Conflicts",
+              "startDate": "2025-10-03",
+              "endDate": "2025-10-10",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-endoscopy-scheduling-skeleton__multi-slot-bundles",
+              "parentId": "prod-endoscopy-scheduling-skeleton",
+              "position": 6,
+              "title": "multi-slot bundles",
+              "startDate": "2025-10-13",
+              "endDate": "2025-10-20",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-endoscopy-scheduling-skeleton__rtt-risk-flags",
+              "parentId": "prod-endoscopy-scheduling-skeleton",
+              "position": 7,
+              "title": "RTT/risk flags",
+              "startDate": "2025-10-21",
+              "endDate": "2025-10-28",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-10-28"
+        },
+        {
+          "id": "prod-ipr-shell",
+          "title": "Integrated Performance Reporting – shell",
+          "content": "SPC exception panels, Chart↔Table, KPI tiles, Drill-through layout, AI narrative area",
+          "date": 1,
+          "length": 2,
+          "partialLength": 1,
+          "ariaLabel": "IPR shell Sep–Oct 2025",
+          "childItems": [
+            {
+              "id": "prod-ipr-shell__spc-exception-panels",
+              "parentId": "prod-ipr-shell",
+              "position": 1,
+              "title": "SPC exception panels",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-11",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-ipr-shell__chart-table",
+              "parentId": "prod-ipr-shell",
+              "position": 2,
+              "title": "Chart↔Table",
+              "startDate": "2025-09-12",
+              "endDate": "2025-09-24",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-ipr-shell__kpi-tiles",
+              "parentId": "prod-ipr-shell",
+              "position": 3,
+              "title": "KPI tiles",
+              "startDate": "2025-09-25",
+              "endDate": "2025-10-07",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-ipr-shell__drill-through-layout",
+              "parentId": "prod-ipr-shell",
+              "position": 4,
+              "title": "Drill-through layout",
+              "startDate": "2025-10-08",
+              "endDate": "2025-10-20",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-ipr-shell__ai-narrative-area",
+              "parentId": "prod-ipr-shell",
+              "position": 5,
+              "title": "AI narrative area",
+              "startDate": "2025-10-21",
+              "endDate": "2025-10-31",
+              "startColumn": 1,
+              "endColumn": 2,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-10-31"
+        },
+        {
+          "id": "prod-preop-assessment",
+          "title": "Endoscopy Pre-Op Assessment",
+          "content": "Questionnaire with branching, risk routing, reminders, readiness status surfaces",
+          "date": 3,
+          "length": 3,
+          "partialLength": 1,
+          "ariaLabel": "Endoscopy Pre-Op assessment Nov 2025–Jan 2026",
+          "childItems": [
+            {
+              "id": "prod-preop-assessment__questionnaire-with-branching",
+              "parentId": "prod-preop-assessment",
+              "position": 1,
+              "title": "Questionnaire with branching",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-22",
+              "startColumn": 3,
+              "endColumn": 5,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-preop-assessment__risk-routing",
+              "parentId": "prod-preop-assessment",
+              "position": 2,
+              "title": "risk routing",
+              "startDate": "2025-09-23",
+              "endDate": "2025-10-14",
+              "startColumn": 3,
+              "endColumn": 5,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-preop-assessment__reminders",
+              "parentId": "prod-preop-assessment",
+              "position": 3,
+              "title": "reminders",
+              "startDate": "2025-10-15",
+              "endDate": "2025-11-05",
+              "startColumn": 3,
+              "endColumn": 5,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-preop-assessment__readiness-status-surfaces",
+              "parentId": "prod-preop-assessment",
+              "position": 4,
+              "title": "readiness status surfaces",
+              "startDate": "2025-11-06",
+              "endDate": "2025-11-27",
+              "startColumn": 3,
+              "endColumn": 5,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-11-27"
+        },
+        {
+          "id": "prod-ooa-capacity-mh",
+          "title": "Out-of-Area Capacity Manager (MH)",
+          "content": "Capacity timelines, heatmaps, placement recommendations, live alerting; map phase later",
+          "date": 4,
+          "length": 4,
+          "partialLength": 1,
+          "ariaLabel": "OOA Capacity Manager Dec 2025–Mar 2026",
+          "childItems": [
+            {
+              "id": "prod-ooa-capacity-mh__capacity-timelines",
+              "parentId": "prod-ooa-capacity-mh",
+              "position": 1,
+              "title": "Capacity timelines",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-23",
+              "startColumn": 4,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-ooa-capacity-mh__heatmaps",
+              "parentId": "prod-ooa-capacity-mh",
+              "position": 2,
+              "title": "heatmaps",
+              "startDate": "2025-09-24",
+              "endDate": "2025-10-16",
+              "startColumn": 4,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-ooa-capacity-mh__placement-recommendations",
+              "parentId": "prod-ooa-capacity-mh",
+              "position": 3,
+              "title": "placement recommendations",
+              "startDate": "2025-10-17",
+              "endDate": "2025-11-10",
+              "startColumn": 4,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-ooa-capacity-mh__live-alerting",
+              "parentId": "prod-ooa-capacity-mh",
+              "position": 4,
+              "title": "live alerting",
+              "startDate": "2025-11-11",
+              "endDate": "2025-12-03",
+              "startColumn": 4,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-ooa-capacity-mh__map-phase-later",
+              "parentId": "prod-ooa-capacity-mh",
+              "position": 5,
+              "title": "map phase later",
+              "startDate": "2025-12-04",
+              "endDate": "2025-12-26",
+              "startColumn": 4,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-12-26"
+        },
+        {
+          "id": "prod-drivers-deficit",
+          "title": "Automated Drivers of the Deficit",
+          "content": "Attribution tables, exception ranking, benchmark badges, export & freshness",
+          "date": 3,
+          "length": 4,
+          "partialLength": 1,
+          "ariaLabel": "Automated Drivers of the Deficit Nov 2025–Feb 2026",
+          "childItems": [
+            {
+              "id": "prod-drivers-deficit__attribution-tables",
+              "parentId": "prod-drivers-deficit",
+              "position": 1,
+              "title": "Attribution tables",
+              "startDate": "2025-09-01",
+              "endDate": "2025-09-26",
+              "startColumn": 3,
+              "endColumn": 6,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-drivers-deficit__exception-ranking",
+              "parentId": "prod-drivers-deficit",
+              "position": 2,
+              "title": "exception ranking",
+              "startDate": "2025-09-29",
+              "endDate": "2025-10-27",
+              "startColumn": 3,
+              "endColumn": 6,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-drivers-deficit__benchmark-badges",
+              "parentId": "prod-drivers-deficit",
+              "position": 3,
+              "title": "benchmark badges",
+              "startDate": "2025-10-28",
+              "endDate": "2025-11-25",
+              "startColumn": 3,
+              "endColumn": 6,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "prod-drivers-deficit__export-freshness",
+              "parentId": "prod-drivers-deficit",
+              "position": 4,
+              "title": "export & freshness",
+              "startDate": "2025-11-26",
+              "endDate": "2025-12-24",
+              "startColumn": 3,
+              "endColumn": 6,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-09-01",
+          "endDate": "2025-12-24"
+        }
+      ]
+    }
+  ],
+  "drilldown": {
+    "parity-phase-1": {
+      "workstream": "Parity Foundations (GOV.UK / NHS)",
+      "programme": "Fast parity wins",
+      "components": [
+        {
+          "type": "molecule",
+          "name": "CookieBanner",
+          "description": "Consent banner with preferences and ARIA live status",
+          "a11y": [
+            "role=region",
+            "focus trap",
+            "keyboard escape"
+          ],
+          "status": "new"
+        },
+        {
+          "type": "molecule",
+          "name": "NotificationBanner",
+          "description": "Info/success/warning/danger banners with close",
+          "a11y": [
+            "role=status|alert",
+            "dismissible"
+          ],
+          "status": "new"
+        },
+        {
+          "type": "molecule",
+          "name": "PhaseBanner",
+          "description": "Beta/Alpha ribbon with feedback link",
+          "status": "new"
+        },
+        {
+          "type": "atom",
+          "name": "WarningText",
+          "description": "Alias pattern to parity with NHS/GOV.UK",
+          "status": "alias"
+        }
+      ]
+    },
+    "parity-phase-2": {
+      "workstream": "Parity Foundations (GOV.UK / NHS)",
+      "programme": "Inputs & disclosure",
+      "components": [
+        {
+          "type": "organism",
+          "name": "FileUpload",
+          "description": "Accessible file input; MVP single-file with validation; later drag-drop",
+          "a11y": [
+            "keyboard",
+            "screenreader labels"
+          ],
+          "status": "new"
+        },
+        {
+          "type": "molecule",
+          "name": "PasswordInput",
+          "description": "Show/hide toggle; strength meter optional",
+          "status": "new"
+        },
+        {
+          "type": "molecule",
+          "name": "Accordion (wrapper)",
+          "description": "Open-all/close-all parity behaviour",
+          "status": "wrapper"
+        }
+      ]
+    },
+    "parity-phase-3": {
+      "workstream": "Parity Foundations (GOV.UK / NHS)",
+      "programme": "Service nav & safety",
+      "components": [
+        {
+          "type": "organism",
+          "name": "ServiceNavigation",
+          "description": "Service-level nav with active/overflow patterns",
+          "status": "new"
+        },
+        {
+          "type": "pattern",
+          "name": "ExitThisPage",
+          "description": "Rapid page escape safety pattern (feature-flagged)",
+          "status": "flagged"
+        }
+      ]
+    },
+    "viz-phase-1": {
+      "workstream": "Analyst-grade Data Viz (v2)",
+      "programme": "Foundations",
+      "components": [
+        {
+          "type": "token",
+          "name": "severity.tokens",
+          "description": "Low/Moderate/High/Critical with contrast thresholds"
+        },
+        {
+          "type": "molecule",
+          "name": "Legend",
+          "description": "Generic legend refactor usable across charts and maps"
+        },
+        {
+          "type": "pattern",
+          "name": "ChartNoScript",
+          "description": "Static fallback table/figure for SSR/noscript"
+        }
+      ]
+    },
+    "viz-phase-2": {
+      "workstream": "Analyst-grade Data Viz (v2)",
+      "programme": "Map & KPI",
+      "components": [
+        {
+          "type": "organism",
+          "name": "Map",
+          "description": "SSR-guarded wrapper + pan/zoom + layers API"
+        },
+        {
+          "type": "molecule",
+          "name": "MapLegend/Key",
+          "description": "Collapsible, accessible legend/key"
+        },
+        {
+          "type": "molecule",
+          "name": "MetricCard",
+          "description": "KPI tile with trend, delta, targets"
+        },
+        {
+          "type": "molecule",
+          "name": "DataVizFilterBar",
+          "description": "Global slicers for period/org/cohort"
+        }
+      ]
+    },
+    "viz-phase-3": {
+      "workstream": "Analyst-grade Data Viz (v2)",
+      "programme": "Geo layers",
+      "components": [
+        {
+          "type": "pattern",
+          "name": "Choropleth helpers",
+          "description": "Quantisation, colour scales, bins, auto-legend"
+        },
+        {
+          "type": "pattern",
+          "name": "Layer abstraction",
+          "description": "Consistent API for polygons/points/lines"
+        }
+      ]
+    },
+    "mkt-phase-1": {
+      "workstream": "Product Marketing, Docs & Onboarding",
+      "programme": "Marketing slices",
+      "components": [
+        {
+          "type": "organism",
+          "name": "Hero",
+          "description": "Marketing hero with CTA and illustration slot"
+        },
+        {
+          "type": "organism",
+          "name": "FeatureGrid",
+          "description": "Icons + copy grid"
+        },
+        {
+          "type": "molecule",
+          "name": "Testimonials",
+          "description": "Quote carousel or grid"
+        },
+        {
+          "type": "organism",
+          "name": "PricingTable",
+          "description": "Plan matrix with features"
+        },
+        {
+          "type": "organism",
+          "name": "FAQ",
+          "description": "FAQ accordion list"
+        },
+        {
+          "type": "organism",
+          "name": "GlobalNav",
+          "description": "Marketing nav"
+        },
+        {
+          "type": "organism",
+          "name": "Footer",
+          "description": "Marketing footer"
+        },
+        {
+          "type": "molecule",
+          "name": "AnnouncementBanner",
+          "description": "Site-wide banner for launches"
+        }
+      ]
+    },
+    "mkt-phase-2": {
+      "workstream": "Product Marketing, Docs & Onboarding",
+      "programme": "Onboarding core",
+      "components": [
+        {
+          "type": "molecule",
+          "name": "Stepper",
+          "description": "Multi-step progress with a11y announcements"
+        },
+        {
+          "type": "organism",
+          "name": "OnboardingChecklist",
+          "description": "Task list with persist state"
+        },
+        {
+          "type": "molecule",
+          "name": "EmptyStates",
+          "description": "Empty placeholders with CTAs"
+        },
+        {
+          "type": "molecule",
+          "name": "PasswordStrength",
+          "description": "Strength meter + hints"
+        },
+        {
+          "type": "molecule",
+          "name": "VerificationCode",
+          "description": "One-time code input"
+        },
+        {
+          "type": "molecule",
+          "name": "Toasts",
+          "description": "Transient notifications"
+        }
+      ]
+    },
+    "mkt-phase-3": {
+      "workstream": "Product Marketing, Docs & Onboarding",
+      "programme": "Docs & resources",
+      "components": [
+        {
+          "type": "organism",
+          "name": "DocsArticle",
+          "description": "Docs template with headings, code blocks"
+        },
+        {
+          "type": "molecule",
+          "name": "InPageTOC",
+          "description": "Scrollspy table of contents"
+        },
+        {
+          "type": "organism",
+          "name": "ResourceGrid",
+          "description": "Cards for resources/patterns"
+        },
+        {
+          "type": "atom",
+          "name": "TagChips",
+          "description": "Filterable tags"
+        },
+        {
+          "type": "molecule",
+          "name": "FeedbackWidget",
+          "description": "Thumbs/comments with capture"
+        },
+        {
+          "type": "organism",
+          "name": "Changelog",
+          "description": "Versioned release notes"
+        },
+        {
+          "type": "molecule",
+          "name": "CodeSnippet",
+          "description": "Copyable code blocks"
+        }
+      ]
+    },
+    "mkt-phase-4": {
+      "workstream": "Product Marketing, Docs & Onboarding",
+      "programme": "Billing & data ops",
+      "components": [
+        {
+          "type": "organism",
+          "name": "BillingSummaryCard",
+          "description": "Plan and usage summary"
+        },
+        {
+          "type": "molecule",
+          "name": "PlanUpgradeModal",
+          "description": "Upgrade/change plan flow"
+        },
+        {
+          "type": "molecule",
+          "name": "PaymentMethod",
+          "description": "Payment method manager"
+        },
+        {
+          "type": "molecule",
+          "name": "TwoFactorAuth",
+          "description": "2FA setup widgets"
+        },
+        {
+          "type": "atom",
+          "name": "DataFreshnessBadge",
+          "description": "Indicate last refresh time"
+        },
+        {
+          "type": "molecule",
+          "name": "ExportMenu",
+          "description": "CSV/XLSX/PDF export actions"
+        },
+        {
+          "type": "organism",
+          "name": "FileUploader",
+          "description": "Drag-drop uploader with progress"
+        },
+        {
+          "type": "organism",
+          "name": "DataImportPanel",
+          "description": "CSV/JSON import with mapping"
+        }
+      ]
+    },
+    "lms-phase-1": {
+      "workstream": "Learning Management & Training (LMS)",
+      "programme": "Learner MVP",
+      "components": [
+        {
+          "type": "organism",
+          "name": "CourseCatalog",
+          "description": "Search/browse courses"
+        },
+        {
+          "type": "organism",
+          "name": "CourseOverview",
+          "description": "Syllabus, requirements"
+        },
+        {
+          "type": "organism",
+          "name": "LessonPlayer",
+          "description": "Content player with progress"
+        },
+        {
+          "type": "molecule",
+          "name": "ProgressWidgets",
+          "description": "Percent complete, streaks"
+        },
+        {
+          "type": "molecule",
+          "name": "EnrollmentControls",
+          "description": "Enroll/unenroll"
+        },
+        {
+          "type": "molecule",
+          "name": "NotificationToast",
+          "description": "Learner notifications"
+        },
+        {
+          "type": "organism",
+          "name": "DiscussionThread",
+          "description": "Minimal threaded comments"
+        }
+      ]
+    },
+    "lms-phase-2": {
+      "workstream": "Learning Management & Training (LMS)",
+      "programme": "Assessment & assignments",
+      "components": [
+        {
+          "type": "atom",
+          "name": "QuestionTypes",
+          "description": "MCQ, multi-select, short/long answer, hotspot"
+        },
+        {
+          "type": "molecule",
+          "name": "AttemptTimer",
+          "description": "Timed assessments with live regions"
+        },
+        {
+          "type": "molecule",
+          "name": "SubmissionSummary",
+          "description": "Answers + rationale"
+        },
+        {
+          "type": "organism",
+          "name": "AssignmentFlow",
+          "description": "Upload/submit with Rubrics"
+        },
+        {
+          "type": "molecule",
+          "name": "Rubrics",
+          "description": "Criteria-based marking"
+        }
+      ]
+    },
+    "lms-phase-3": {
+      "workstream": "Learning Management & Training (LMS)",
+      "programme": "Builder, admin, pathways",
+      "components": [
+        {
+          "type": "organism",
+          "name": "CourseBuilder",
+          "description": "Authoring interface"
+        },
+        {
+          "type": "organism",
+          "name": "QuestionBank",
+          "description": "Reusable questions"
+        },
+        {
+          "type": "organism",
+          "name": "EnrollmentAdmin",
+          "description": "Bulk enrolments, roles"
+        },
+        {
+          "type": "molecule",
+          "name": "LearningAnalytics",
+          "description": "Basic learner analytics"
+        },
+        {
+          "type": "molecule",
+          "name": "LearningPaths",
+          "description": "Sequenced courses"
+        },
+        {
+          "type": "molecule",
+          "name": "Recommendations",
+          "description": "Suggest next course"
+        },
+        {
+          "type": "molecule",
+          "name": "Certificates",
+          "description": "Issue certificates"
+        },
+        {
+          "type": "molecule",
+          "name": "Recertification",
+          "description": "Expiry & renewal"
+        }
+      ]
+    },
+    "ops-phase-1": {
+      "workstream": "Clinical Operations Toolkit (Workshop → React)",
+      "programme": "List & booking core",
+      "components": [
+        {
+          "type": "organism",
+          "name": "WaitingListTable",
+          "description": "Virtualised table with filters"
+        },
+        {
+          "type": "atom",
+          "name": "PriorityBadge",
+          "description": "Urgency / priority tokenised badge"
+        },
+        {
+          "type": "molecule",
+          "name": "PatientSummaryCard",
+          "description": "Compact patient details"
+        },
+        {
+          "type": "atom",
+          "name": "RTTClockIndicator",
+          "description": "RTT/breach risk inline"
+        },
+        {
+          "type": "organism",
+          "name": "SlotMatrix",
+          "description": "Cross-tabbed slots"
+        },
+        {
+          "type": "organism",
+          "name": "BookingScreen",
+          "description": "Booking shell with confirmation"
+        },
+        {
+          "type": "molecule",
+          "name": "KPITrendTiles",
+          "description": "Mini charts for KPIs"
+        }
+      ]
+    },
+    "ops-phase-2": {
+      "workstream": "Clinical Operations Toolkit (Workshop → React)",
+      "programme": "Sessions & validation",
+      "components": [
+        {
+          "type": "organism",
+          "name": "SessionCalendar",
+          "description": "Sessions by resource"
+        },
+        {
+          "type": "molecule",
+          "name": "OverbookingIndicator",
+          "description": "Guardrails and warnings"
+        },
+        {
+          "type": "organism",
+          "name": "RoomAvailabilityTimeline",
+          "description": "Timelines for rooms"
+        },
+        {
+          "type": "organism",
+          "name": "ConflictResolutionPanel",
+          "description": "Explain & resolve conflicts"
+        },
+        {
+          "type": "organism",
+          "name": "ValidationDriveWizard",
+          "description": "Step-through validation of lists"
+        },
+        {
+          "type": "molecule",
+          "name": "PauseReasonModal",
+          "description": "Capture pause reason"
+        },
+        {
+          "type": "atom",
+          "name": "DataQualityIssueBadge",
+          "description": "Flag data issues"
+        }
+      ]
+    },
+    "ops-phase-3": {
+      "workstream": "Clinical Operations Toolkit (Workshop → React)",
+      "programme": "Bulk actions & comms",
+      "components": [
+        {
+          "type": "organism",
+          "name": "PartialBookingWizard",
+          "description": "Handle partial bookings"
+        },
+        {
+          "type": "organism",
+          "name": "DNAResolutionPanel",
+          "description": "Do-not-attend follow-up"
+        },
+        {
+          "type": "organism",
+          "name": "BulkRebookingWizard",
+          "description": "Rebook many appointments"
+        },
+        {
+          "type": "organism",
+          "name": "MultiAppointmentWizard",
+          "description": "Bundle linked appointments"
+        },
+        {
+          "type": "molecule",
+          "name": "CommunicationTemplatePicker",
+          "description": "Choose template & channel"
+        },
+        {
+          "type": "molecule",
+          "name": "BulkSendTracker",
+          "description": "Track bulk communications"
+        }
+      ]
+    },
+    "prod-endoscopy-scheduling-skeleton": {
+      "workstream": "Product-specific Enablement",
+      "programme": "Endoscopy Scheduling – skeleton",
+      "components": [
+        {
+          "type": "molecule",
+          "name": "SlotSearchFilters",
+          "description": "Filter by modality, staff, room"
+        },
+        {
+          "type": "organism",
+          "name": "SlotMatrix",
+          "description": "Ranked slots with holds"
+        },
+        {
+          "type": "molecule",
+          "name": "SuggestedSlotsList",
+          "description": "Top ranked slots"
+        },
+        {
+          "type": "molecule",
+          "name": "OverbookingIndicator",
+          "description": "Overbooking guardrails"
+        },
+        {
+          "type": "organism",
+          "name": "ConflictResolutionPanel",
+          "description": "Resolve staff/equipment conflicts"
+        },
+        {
+          "type": "organism",
+          "name": "MultiSlotBundles",
+          "description": "Handle linked procedures"
+        },
+        {
+          "type": "atom",
+          "name": "RTTClockIndicator",
+          "description": "RTT/breach flags"
+        }
+      ]
+    },
+    "prod-ipr-shell": {
+      "workstream": "Product-specific Enablement",
+      "programme": "Integrated Performance Reporting – shell",
+      "components": [
+        {
+          "type": "organism",
+          "name": "SPCExceptionPanel",
+          "description": "Signals vs noise summary"
+        },
+        {
+          "type": "organism",
+          "name": "ChartWithTableTabs",
+          "description": "Accessible chart-table toggle"
+        },
+        {
+          "type": "molecule",
+          "name": "MetricCard",
+          "description": "KPI tiles with trends"
+        },
+        {
+          "type": "organism",
+          "name": "DrillDownPanel",
+          "description": "Navigate from KPI to drivers"
+        },
+        {
+          "type": "molecule",
+          "name": "NarrativeNotes",
+          "description": "Free text / AI-assisted notes"
+        }
+      ]
+    },
+    "prod-preop-assessment": {
+      "workstream": "Product-specific Enablement",
+      "programme": "Endoscopy Pre-Op Assessment",
+      "components": [
+        {
+          "type": "organism",
+          "name": "Questionnaire",
+          "description": "Branching rules"
+        },
+        {
+          "type": "molecule",
+          "name": "RiskRoutingBanners",
+          "description": "Clear / telephone / F2F"
+        },
+        {
+          "type": "molecule",
+          "name": "ReminderScheduler",
+          "description": "Targeted reminders"
+        },
+        {
+          "type": "atom",
+          "name": "ReadinessBadge",
+          "description": "Expose readiness to schedulers"
+        }
+      ]
+    },
+    "prod-ooa-capacity-mh": {
+      "workstream": "Product-specific Enablement",
+      "programme": "Out-of-Area Capacity Manager (MH)",
+      "components": [
+        {
+          "type": "organism",
+          "name": "RoomAvailabilityTimeline",
+          "description": "Bed/staffing timelines"
+        },
+        {
+          "type": "organism",
+          "name": "CapacityHeatmap",
+          "description": "Live capacity heatmap"
+        },
+        {
+          "type": "molecule",
+          "name": "PlacementRecommendationCard",
+          "description": "Recommend placement with evidence"
+        },
+        {
+          "type": "molecule",
+          "name": "EscalationAlertToast",
+          "description": "Crisis/threshold alerts"
+        },
+        {
+          "type": "organism",
+          "name": "Map",
+          "description": "Regional view (future)"
+        }
+      ]
+    },
+    "prod-drivers-deficit": {
+      "workstream": "Product-specific Enablement",
+      "programme": "Automated Drivers of the Deficit",
+      "components": [
+        {
+          "type": "molecule",
+          "name": "AttributionTable",
+          "description": "Driver attribution with % contribution"
+        },
+        {
+          "type": "molecule",
+          "name": "ExceptionPanel",
+          "description": "Ranked by materiality"
+        },
+        {
+          "type": "atom",
+          "name": "BenchmarkBadge",
+          "description": "Show variance vs peers"
+        },
+        {
+          "type": "molecule",
+          "name": "ExportMenu",
+          "description": "Board-ready exports"
+        },
+        {
+          "type": "atom",
+          "name": "DataFreshnessBadge",
+          "description": "Last updated timestamp"
+        }
+      ]
+    }
+  }
+}

@@ -256,13 +256,16 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						size={iconSize}
 					/>
 				</div>
-				<div
-					className="fdp-spc-chart__embedded-assurance-icon"
-					data-assurance={String(assuranceRaw)}
-					style={{ width: iconSize, height: iconSize }}
-				>
-					<SPCAssuranceIcon status={assuranceRenderStatus} size={iconSize} dropShadow={false} />
-				</div>
+				{/* Only render assurance icon when engine reports explicit Pass/Fail. For overlap (None -> Uncertain) suppress entirely per accessibility / test expectations. */}
+				{(assuranceRaw === AssuranceIcon.Pass || assuranceRaw === AssuranceIcon.Fail) && (
+					<div
+						className="fdp-spc-chart__embedded-assurance-icon"
+						data-assurance={String(assuranceRaw)}
+						style={{ width: iconSize, height: iconSize }}
+					>
+						<SPCAssuranceIcon status={assuranceRenderStatus} size={iconSize} dropShadow={false} />
+					</div>
+				)}
 			</div>
 		);
 	}, [showEmbeddedIcon, engine?.rows, metricImprovement, settings?.minimumPoints]);

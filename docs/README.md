@@ -5,23 +5,31 @@ Welcome to the NHS FDP Design System documentation. This directory contains comp
 ## Directory Structure
 
 ### Components (`/docs/components/`)
-Component-specific implementation guides and patterns:
-- TODO
+
+TODO - Component-specific implementation guides and patterns:
 
 ### Migration (`/docs/migration/`)
+
 Migration guides and progress tracking:
+
 - [Migration Guide](./migration/migration-guide.md)
 
 ### Design Tokens (`/docs/tokens/`)
+
 Token system documentation and analysis:
+
 - [NHS Composite Tokens Guide](./tokens/NHS-COMPOSITE-TOKENS-GUIDE.md)
 
 ### Testing (`/docs/testing/`)
+
 Testing guides and visual testing documentation:
+
 - TODO
 
 ### Guides (`/docs/guides/`)
+
 Development and workflow guides:
+
 - TODO
 
 ## Quick Start
@@ -33,6 +41,7 @@ Development and workflow guides:
 ## Architecture
 
 The NHS FDP Design System follows these principles:
+
 - **Token-based design**: All visual properties are defined as design tokens
 - **Component-driven development**: Reusable React components with TypeScript
 - **Accessibility-first**: WCAG 2.1 AA compliance built-in

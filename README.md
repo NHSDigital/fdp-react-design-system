@@ -123,6 +123,10 @@ nhs-fdp-design-system/
 
 ## Documentation
 
+> Centralised Documentation Policy: All project documentation (architecture, data visualisation, testing, tokens, migration, guides) now resides under `./docs/` (data viz specific files under `./docs/data-viz/`). Only this root `README.md` should exist at the repository root. When adding new docs, place them in an appropriate subfolder (create one if necessary) rather than the root.
+
+> Copilot / AI Assistants: When generating or updating documentation, output to the `docs/` hierarchy (prefer existing thematic folders like `docs/data-viz/`, `docs/testing/`, `docs/tokens/`). Do not create new markdown files in the repo root.
+
 - **[Full Documentation](./docs/README.md)** - Comprehensive guides and references
 - **[Migration Guide](./docs/migration/migration-guide.md)** - Upgrade from legacy systems
 - **[Design Tokens](./docs/tokens/NHS-COMPOSITE-TOKENS-GUIDE.md)** - Token system overview

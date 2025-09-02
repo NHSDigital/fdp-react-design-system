@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames3() {
+      function classNames2() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames3.apply(null, arg);
+          return classNames2.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,14 +71,14 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames3.default = classNames3;
-        module.exports = classNames3;
+        classNames2.default = classNames2;
+        module.exports = classNames2;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames3;
+          return classNames2;
         });
       } else {
-        window.classNames = classNames3;
+        window.classNames = classNames2;
       }
     })();
   }
@@ -479,6 +479,30 @@ import { useCallback as useCallback3, useMemo as useMemo2, useRef as useRef2 } f
 
 // src/components/Button/Button.tsx
 import * as React2 from "react";
+
+// src/mapping/button.ts
+function mapButtonProps(input) {
+  const variant = input.variant || "primary";
+  const size = input.size || "default";
+  const fullWidth = !!input.fullWidth;
+  const classes = [
+    "nhs-aria-button",
+    `nhs-aria-button--${variant}`,
+    size !== "default" ? `nhs-aria-button--${size}` : "",
+    fullWidth ? "nhs-aria-button--full-width" : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const tag = input.href ? "a" : "button";
+  return {
+    tag,
+    classes,
+    data: { module: "nhs-button" },
+    attrs: input.href ? { href: input.href, role: "button" } : { type: "button" },
+    preventDoubleClick: !!input.preventDoubleClick
+  };
+}
+
+// src/components/Button/Button.tsx
 import { jsx as jsx2 } from "react/jsx-runtime";
 var { forwardRef, useCallback: useCallback2, useState: useState2 } = React2;
 function ButtonComponent(props, ref) {
@@ -494,13 +518,14 @@ function ButtonComponent(props, ref) {
   const [isPressed, setIsPressed] = useState2(false);
   const [isHovered, setIsHovered] = useState2(false);
   const [isFocused, setIsFocused] = useState2(false);
-  const classes = [
-    "nhs-aria-button",
-    `nhs-aria-button--${variant}`,
-    size !== "default" ? `nhs-aria-button--${size}` : "",
-    fullWidth ? "nhs-aria-button--full-width" : "",
-    className
-  ].filter(Boolean).join(" ");
+  const model = mapButtonProps({
+    variant,
+    size,
+    fullWidth,
+    className,
+    preventDoubleClick,
+    href: "href" in rest ? rest.href : void 0
+  });
   const isDisabled = "disabled" in rest ? rest.disabled : rest["aria-disabled"] === "true";
   const dataAttributes = {
     ...isPressed && { "data-pressed": "true" },
@@ -508,37 +533,58 @@ function ButtonComponent(props, ref) {
     ...isFocused && { "data-focused": "true" },
     ...isDisabled && { "data-disabled": "true" }
   };
-  const handleMouseDown = useCallback2(() => !isDisabled && setIsPressed(true), [isDisabled]);
+  const handleMouseDown = useCallback2(
+    () => !isDisabled && setIsPressed(true),
+    [isDisabled]
+  );
   const handleMouseUp = useCallback2(() => setIsPressed(false), []);
-  const handleMouseEnter = useCallback2(() => !isDisabled && setIsHovered(true), [isDisabled]);
+  const handleMouseEnter = useCallback2(
+    () => !isDisabled && setIsHovered(true),
+    [isDisabled]
+  );
   const handleMouseLeave = useCallback2(() => {
     setIsHovered(false);
     setIsPressed(false);
   }, []);
   const handleFocus = useCallback2(() => setIsFocused(true), []);
   const handleBlur = useCallback2(() => setIsFocused(false), []);
-  const handleKeyDown = useCallback2((event) => {
-    if (event.key === " " && ("href" in rest || event.currentTarget.getAttribute("role") === "button")) {
-      event.preventDefault();
-      event.currentTarget.click();
-    }
-  }, [rest]);
-  const handleClick = useCallback2((event) => {
-    if (preventDoubleClick) {
-      const target = event.currentTarget;
-      const isAlreadyProcessing = target.getAttribute("data-processing") === "true";
-      if (isAlreadyProcessing) {
+  const handleKeyDown = useCallback2(
+    (event) => {
+      if (event.key === " " && ("href" in rest || event.currentTarget.getAttribute("role") === "button")) {
         event.preventDefault();
-        return;
+        event.currentTarget.click();
       }
-      target.setAttribute("data-processing", "true");
-      setTimeout(() => {
-        target.removeAttribute("data-processing");
-      }, 1e3);
-    }
-  }, [preventDoubleClick]);
+    },
+    [rest]
+  );
+  const handleClick = useCallback2(
+    (event) => {
+      if (preventDoubleClick) {
+        const target = event.currentTarget;
+        const isAlreadyProcessing = target.getAttribute("data-processing") === "true";
+        if (isAlreadyProcessing) {
+          event.preventDefault();
+          return;
+        }
+        target.setAttribute("data-processing", "true");
+        setTimeout(() => {
+          target.removeAttribute("data-processing");
+        }, 1e3);
+      }
+    },
+    [preventDoubleClick]
+  );
   if ("href" in rest && rest.href) {
-    const { id: id2, style: style2, title: title2, ["aria-label"]: ariaLabel2, ["aria-describedby"]: ariaDescribedBy2, ["aria-labelledby"]: ariaLabelledBy2, tabIndex: tabIndex2, ...anchorRest } = rest;
+    const {
+      id: id2,
+      style: style2,
+      title: title2,
+      ["aria-label"]: ariaLabel2,
+      ["aria-describedby"]: ariaDescribedBy2,
+      ["aria-labelledby"]: ariaLabelledBy2,
+      tabIndex: tabIndex2,
+      ...anchorRest
+    } = rest;
     const anchorProps = rest;
     return /* @__PURE__ */ jsx2(
       "a",
@@ -547,7 +593,7 @@ function ButtonComponent(props, ref) {
         href: anchorProps.href,
         target: anchorProps.target,
         rel: anchorProps.rel,
-        className: classes,
+        className: model.classes,
         role: "button",
         draggable: "false",
         "data-module": "nhs-button",
@@ -595,7 +641,7 @@ function ButtonComponent(props, ref) {
           handleBlur();
         },
         "aria-disabled": anchorProps["aria-disabled"],
-        ...anchorProps["aria-disabled"] === "true" && { "tabIndex": -1 },
+        ...anchorProps["aria-disabled"] === "true" && { tabIndex: -1 },
         id: id2,
         style: style2,
         title: title2,
@@ -607,7 +653,25 @@ function ButtonComponent(props, ref) {
       }
     );
   }
-  const { id, style, title, ["aria-label"]: ariaLabel, ["aria-describedby"]: ariaDescribedBy, ["aria-labelledby"]: ariaLabelledBy, tabIndex, name, value: valueProp, form, formAction, formEncType, formMethod, formNoValidate, formTarget, autoFocus, ...buttonRest } = rest;
+  const {
+    id,
+    style,
+    title,
+    ["aria-label"]: ariaLabel,
+    ["aria-describedby"]: ariaDescribedBy,
+    ["aria-labelledby"]: ariaLabelledBy,
+    tabIndex,
+    name,
+    value: valueProp,
+    form,
+    formAction,
+    formEncType,
+    formMethod,
+    formNoValidate,
+    formTarget,
+    autoFocus,
+    ...buttonRest
+  } = rest;
   const buttonProps = rest;
   return /* @__PURE__ */ jsx2(
     "button",
@@ -615,7 +679,7 @@ function ButtonComponent(props, ref) {
       ref,
       type: buttonProps.type || "button",
       disabled: buttonProps.disabled,
-      className: classes,
+      className: model.classes,
       "data-module": "nhs-button",
       ...dataAttributes,
       ...preventDoubleClick && { "data-prevent-double-click": "true" },
@@ -684,8 +748,21 @@ function ButtonComponent(props, ref) {
 var Button = forwardRef(ButtonComponent);
 Button.displayName = "Button";
 
+// src/mapping/tag.ts
+function mapTagProps(input) {
+  const { color = "default", noBorder, closable, disabled, className } = input;
+  const classes = [
+    "nhsuk-tag",
+    color !== "default" ? `nhsuk-tag--${color}` : "",
+    noBorder ? "nhsuk-tag--no-border" : "",
+    closable ? "nhsuk-tag--closable" : "",
+    disabled ? "nhsuk-tag--disabled" : "",
+    className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, showClose: !!closable, disabled: !!disabled };
+}
+
 // src/components/Tag/Tag.tsx
-var import_classnames2 = __toESM(require_classnames(), 1);
 import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
 var Tag = ({
   text,
@@ -699,16 +776,7 @@ var Tag = ({
   className,
   ...props
 }) => {
-  const tagClasses = (0, import_classnames2.default)(
-    "nhsuk-tag",
-    {
-      [`nhsuk-tag--${color}`]: color !== "default",
-      "nhsuk-tag--no-border": noBorder,
-      "nhsuk-tag--closable": closable,
-      "nhsuk-tag--disabled": disabled
-    },
-    className
-  );
+  const model = mapTagProps({ color, noBorder, closable, disabled, className });
   const handleClose = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -716,7 +784,7 @@ var Tag = ({
       onClose();
     }
   };
-  return /* @__PURE__ */ jsxs2("strong", { className: tagClasses, ...props, children: [
+  return /* @__PURE__ */ jsxs2("strong", { className: model.classes, ...props, children: [
     children ? children : html ? /* @__PURE__ */ jsx3("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
     closable && /* @__PURE__ */ jsx3(
       "button",

@@ -59,11 +59,11 @@ const baseArgs = {
   service: { text: 'NHS Service', href: '/' },
   navigation: {
     items: [
-      { href: '/', text: 'Home', current: true },
-      { href: '/services', text: 'Services' },
-      { href: '/guidance', text: 'Guidance' },
-      { href: '/resources', text: 'Resources' },
-      { href: '/about', text: 'About' }
+      { href: '#', text: 'Home', current: true },
+      { href: '#', text: 'Services' },
+      { href: '#', text: 'Guidance' },
+      { href: '#', text: 'Resources' },
+      { href: '#', text: 'About' }
     ]
   }
 };
@@ -98,14 +98,14 @@ export const WithLongNavigationOverflow: Story = {
     ...baseArgs,
     navigation: {
       items: [
-        { href: '/', text: 'Home', current: true },
-        { href: '/appointments', text: 'Appointments' },
-        { href: '/results', text: 'Test results' },
-        { href: '/medicines', text: 'Medicines' },
-        { href: '/messages', text: 'Messages' },
-        { href: '/conditions', text: 'Conditions' },
-        { href: '/settings', text: 'Settings' },
-        { href: '/support', text: 'Support' }
+        { href: '#', text: 'Home', current: true },
+        { href: '#', text: 'Appointments' },
+        { href: '#', text: 'Test results' },
+        { href: '#', text: 'Medicines' },
+        { href: '#', text: 'Messages' },
+        { href: '#', text: 'Conditions' },
+        { href: '#', text: 'Settings' },
+        { href: '#', text: 'Support' }
       ]
     }
   },

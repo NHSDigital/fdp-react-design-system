@@ -30,8 +30,6 @@
 @use '../components/GanttChart/GanttChart.scss';
 @use '../components/Grid/Grid.scss';
 @use '../components/Header/Header.scss' as header-main;
-@use '../components/Header/Header.ssr.scss' as header-ssr;
-@use '../components/Header/HeaderStatic.scss' as header-static;
 @use '../components/HeaderSearch/HeaderSearch.scss';
 @use '../components/Heading/Heading.scss';
 @use '../components/Hero/Hero.scss';

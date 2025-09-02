@@ -1,0 +1,24 @@
+{# Manual Radios macro (temporary until schema generation integrated) #}
+{% macro radios(params) %}
+  {# Parity-focused implementation mirroring React SSR output #}
+  {% set classes = 'nhsuk-radios' %}{% if params.hasError %}{% set classes = classes + ' nhsuk-radios--error' %}{% endif %}{% if params.size == 'small' %}{% set classes = classes + ' nhsuk-radios--small' %}{% endif %}{% if params.inline %}{% set classes = classes + ' nhsuk-radios--inline' %}{% endif %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}
+  {% set selectedValue = params.value is defined and params.value or (params.defaultValue is defined and params.defaultValue or '') %}
+  <fieldset class="nhsuk-fieldset">
+    <div class="{{ classes }}">
+      {% for o in params.options %}
+        {% set idx = loop.index0 %}
+        {% set id = params.name + '-' + idx %}
+        {% set isSelected = selectedValue and selectedValue == o.value %}
+        <div class="nhsuk-radios__item">
+          <input class="nhsuk-radios__input" id="{{ id }}" name="{{ params.name }}" type="radio" value="{{ o.value }}"{% if o.disabled %} disabled{% endif %}{% if isSelected %} checked=""{% endif %}{% if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %} />
+          <label class="nhsuk-radios__label" for="{{ id }}">{{ o.text }}</label>
+          {% if o.hint %}<div class="nhsuk-radios__hint">{{ o.hint }}</div>{% endif %}
+          {% if o.conditional %}
+            {% set condId = id + '-conditional' %}
+            <div class="nhsuk-radios__conditional{% if not isSelected %} nhsuk-radios__conditional--hidden{% endif %}" id="{{ condId }}">{{ o.conditional }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </fieldset>
+{% endmacro %}

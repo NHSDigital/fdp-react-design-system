@@ -1,18 +1,12 @@
 import React from 'react';
-import classNames from 'classnames';
 import './Hint.scss';
 import { HintProps } from './Hint.types';
+import { mapHintProps } from '../../mapping/hint';
 
-export const Hint: React.FC<HintProps> = ({
-  id,
-  className,
-  children,
-  ...props
-}) => {
-  const hintClasses = classNames('nhsuk-hint', className);
-
+export const Hint: React.FC<HintProps> = ({ id, className, children, ...rest }) => {
+  const model = mapHintProps({ id, className });
   return (
-    <div className={hintClasses} id={id} {...props}>
+    <div className={model.classes} id={model.id} {...rest}>
       {children}
     </div>
   );

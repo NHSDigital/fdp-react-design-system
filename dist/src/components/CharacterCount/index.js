@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames4() {
+      function classNames3() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames4.apply(null, arg);
+          return classNames3.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,21 +71,21 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames4.default = classNames4;
-        module.exports = classNames4;
+        classNames3.default = classNames3;
+        module.exports = classNames3;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames4;
+          return classNames3;
         });
       } else {
-        window.classNames = classNames4;
+        window.classNames = classNames3;
       }
     })();
   }
 });
 
 // src/components/CharacterCount/CharacterCount.tsx
-var import_classnames3 = __toESM(require_classnames(), 1);
+var import_classnames2 = __toESM(require_classnames(), 1);
 import { useState, useEffect, useCallback } from "react";
 
 // src/components/Textarea/Textarea.tsx
@@ -154,17 +154,20 @@ var Textarea = ({
   );
 };
 
+// src/mapping/hint.ts
+function mapHintProps(input) {
+  const classes = [
+    "nhsuk-hint",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, id: input.id };
+}
+
 // src/components/Hint/Hint.tsx
-var import_classnames2 = __toESM(require_classnames(), 1);
 import { jsx as jsx2 } from "react/jsx-runtime";
-var Hint = ({
-  id,
-  className,
-  children,
-  ...props
-}) => {
-  const hintClasses = (0, import_classnames2.default)("nhsuk-hint", className);
-  return /* @__PURE__ */ jsx2("div", { className: hintClasses, id, ...props, children });
+var Hint = ({ id, className, children, ...rest }) => {
+  const model = mapHintProps({ id, className });
+  return /* @__PURE__ */ jsx2("div", { className: model.classes, id: model.id, ...rest, children });
 };
 
 // src/components/CharacterCount/CharacterCount.tsx
@@ -227,11 +230,11 @@ var CharacterCount = ({
       return `You have ${remaining} ${remaining === 1 ? unit : unitPlural} remaining`;
     }
   };
-  const characterCountClasses = (0, import_classnames3.default)(
+  const characterCountClasses = (0, import_classnames2.default)(
     "nhsuk-character-count",
     className
   );
-  const messageClasses = (0, import_classnames3.default)(
+  const messageClasses = (0, import_classnames2.default)(
     "nhsuk-character-count__message",
     {
       "nhsuk-character-count__message--disabled": !showCount,
@@ -239,7 +242,7 @@ var CharacterCount = ({
     },
     countMessage == null ? void 0 : countMessage.classes
   );
-  const textareaClasses = (0, import_classnames3.default)(
+  const textareaClasses = (0, import_classnames2.default)(
     "nhsuk-js-character-count",
     {
       "nhsuk-textarea--error": isOverLimit

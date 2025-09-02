@@ -38,8 +38,8 @@ export interface HeaderProps {
   containerClasses?: string;
   /** Header variant */
   variant?: 'default' | 'white' | 'organisation';
-  /** Maximum visible navigation items before showing "More" (for HeaderStatic) */
-  maxVisibleItems?: number;
+  // Deprecated: maxVisibleItems (previously for HeaderStatic) retained for backward compatibility but ignored.
+  maxVisibleItems?: number; // no-op
   /** Additional HTML attributes */
   attributes?: Record<string, any>;
 }

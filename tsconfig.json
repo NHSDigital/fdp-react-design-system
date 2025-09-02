@@ -1,17 +1,17 @@
 {
-  "extends": "./config/tsconfig.json",
-  "compilerOptions": {
-    "declaration": true,
-    "emitDeclarationOnly": false,
-    "outDir": "./dist"
-  },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.test.*",
-    "**/*.stories.*"
-  ]
+	"extends": "./config/tsconfig.json",
+	"compilerOptions": {
+		"declaration": true,
+		"emitDeclarationOnly": false,
+		"outDir": "./dist"
+	},
+	"include": [
+		"src/**/*",
+	],
+	"exclude": [
+		"node_modules",
+		"dist",
+		"**/*.test.*",
+		"**/*.stories.*"
+	]
 }

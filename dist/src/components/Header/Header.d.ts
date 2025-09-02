@@ -1,6 +1,4 @@
 import React from 'react';
-import './Header.scss';
-import './Header.ssr.scss';
 import { HeaderProps } from './Header.types';
 /**
  * SSR-compatible Header Component with Progressive Enhancement

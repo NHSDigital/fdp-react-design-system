@@ -1,7 +1,22 @@
 // PRUNED STORY FILE: Reduced to a single representative story.
 // Original duplicates commented out to minimise Storybook surface area.
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj, Decorator } from '@storybook/react';
+import React, { useEffect } from 'react';
 import { Header } from './Header';
+import { initAll } from '../../behaviours';
+
+// Decorator to ensure behaviour layer (including header overflow logic) runs explicitly in Storybook
+const withBehaviours: Decorator = (StoryFn) => {
+  useEffect(() => {
+    try {
+      initAll();
+    } catch (e) {
+       
+      console.warn('Behaviour init failed in story:', e);
+    }
+  }, []);
+  return <StoryFn />;
+};
 
 const meta = {
   title: 'NHS/Components/Header/Navigation Overflow',
@@ -44,10 +59,11 @@ The header navigation dynamically manages menu items based on available space:
 2. **Mobile Testing**: Use viewport controls or resize below 768px
 3. **Console Debugging**: Open browser console to see overflow detection logs
 4. **Interaction Testing**: Click "More" button to verify dropdown functionality
-        `,
+    `,
       },
     },
   },
+  decorators: [withBehaviours],
 } satisfies Meta<typeof Header>;
 
 export default meta;
@@ -80,6 +96,42 @@ export const ModerateOverflow: Story = {
     docs: {
       description: {
         story: 'Tests overflow behavior with 10 navigation items. Resize browser to see items move to "More" dropdown.',
+      },
+    },
+  },
+};
+
+// Constrained container to force overflow immediately (shows behaviour layer redistribution quickly)
+export const ForcedOverflowConstrainedWidth: Story = {
+  args: {
+    service: { text: 'NHS Services', href: '/' },
+    navigation: {
+      items: [
+        { href: '/', text: 'Home', current: true },
+        { href: '/a', text: 'Very Long Section Name One' },
+        { href: '/b', text: 'Section Two' },
+        { href: '/c', text: 'Another Long Section Three' },
+        { href: '/d', text: 'Section Four' },
+        { href: '/e', text: 'Section Five' },
+        { href: '/f', text: 'Six' },
+        { href: '/g', text: 'Seven' },
+        { href: '/h', text: 'Eight' },
+      ],
+    },
+    containerClasses: 'storybook-constrained-width',
+  },
+  decorators: [
+    (StoryFn) => (
+      <div style={{ maxWidth: 720, border: '1px dashed #999' }}>
+        <StoryFn />
+        <p style={{ fontSize: 12, padding: '0 1rem 1rem' }}>Container artificially constrained to 720px to trigger overflow measurement & More dropdown.</p>
+      </div>
+    ),
+  ],
+  parameters: {
+    docs: {
+      description: {
+        story: 'Forces overflow by constraining the width; behaviour layer should inject a More button and move excess items into dropdown.',
       },
     },
   },

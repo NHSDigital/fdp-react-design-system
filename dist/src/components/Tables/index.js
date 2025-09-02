@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames4() {
+      function classNames3() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames4.apply(null, arg);
+          return classNames3.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,72 +71,64 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames4.default = classNames4;
-        module.exports = classNames4;
+        classNames3.default = classNames3;
+        module.exports = classNames3;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames4;
+          return classNames3;
         });
       } else {
-        window.classNames = classNames4;
+        window.classNames = classNames3;
       }
     })();
   }
 });
 
 // src/components/Tables/Table.tsx
-var import_classnames3 = __toESM(require_classnames(), 1);
-
-// src/components/Panel/Panel.tsx
 var import_classnames2 = __toESM(require_classnames(), 1);
 
-// src/components/Heading/Heading.tsx
+// src/components/Panel/Panel.tsx
 var import_classnames = __toESM(require_classnames(), 1);
+
+// src/components/Heading/Heading.tsx
 import { createElement } from "react";
-import { jsx } from "react/jsx-runtime";
-var Heading = ({
-  level,
-  className,
-  text,
-  html,
-  children,
-  size,
-  marginBottom,
-  ...props
-}) => {
-  const getDefaultLevelFromSize = (size2) => {
-    switch (size2) {
-      case "xxl":
-      case "xl":
-        return 1;
-      case "l":
-        return 2;
-      case "m":
-        return 3;
-      case "s":
-        return 4;
-      case "xs":
-        return 5;
-      default:
-        return 2;
-    }
-  };
-  const headingLevel = level != null ? level : getDefaultLevelFromSize(size);
-  const headingClasses = (0, import_classnames.default)(
+
+// src/mapping/heading.ts
+function deriveLevel(size) {
+  switch (size) {
+    case "xxl":
+    case "xl":
+      return 1;
+    case "l":
+      return 2;
+    case "m":
+      return 3;
+    case "s":
+      return 4;
+    case "xs":
+      return 5;
+    default:
+      return 2;
+  }
+}
+function mapHeadingProps(input) {
+  var _a;
+  const level = (_a = input.level) != null ? _a : deriveLevel(input.size);
+  const classes = [
     "nhsuk-heading",
-    {
-      [`nhsuk-heading--${size}`]: size
-    },
-    className
-  );
+    input.size ? `nhsuk-heading--${input.size}` : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const style = input.marginBottom ? { marginBottom: input.marginBottom } : void 0;
+  return { tag: `h${level}`, classes, style };
+}
+
+// src/components/Heading/Heading.tsx
+import { jsx } from "react/jsx-runtime";
+var Heading = ({ level, className, text, html, children, size, marginBottom, ...rest }) => {
+  const model = mapHeadingProps({ level, size, className, marginBottom });
   const content = children || (html ? /* @__PURE__ */ jsx("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
-  const tagName = `h${headingLevel}`;
-  const style = marginBottom ? { ...props.style, marginBottom } : props.style;
-  return createElement(
-    tagName,
-    { className: headingClasses, ...props, style },
-    content
-  );
+  return createElement(model.tag, { className: model.classes, style: model.style, ...rest }, content);
 };
 
 // src/components/Panel/Panel.tsx
@@ -152,7 +144,7 @@ var Panel = ({
   children,
   ...props
 }) => {
-  const panelClasses = (0, import_classnames2.default)(
+  const panelClasses = (0, import_classnames.default)(
     "nhsuk-panel",
     className
   );
@@ -225,16 +217,16 @@ var Table = ({
   "data-testid": testId
 }) => {
   const captionClass = `nhsuk-table__caption ${captionSize ? `nhsuk-table__caption--${captionSize}` : ""}`.trim();
-  const tableClassList = (0, import_classnames3.default)(
+  const tableClassList = (0, import_classnames2.default)(
     "nhsuk-table",
     {
       "nhsuk-table-responsive": responsive
     },
     tableClasses
   );
-  const containerClassList = (0, import_classnames3.default)(classes);
+  const containerClassList = (0, import_classnames2.default)(classes);
   const renderHeaderCell = (cell, index) => {
-    const headerClasses = (0, import_classnames3.default)("nhsuk-table__header", {
+    const headerClasses = (0, import_classnames2.default)("nhsuk-table__header", {
       [`nhsuk-table__header--${cell.format}`]: cell.format
     }, cell.classes);
     const headerAttributes = {
@@ -248,7 +240,7 @@ var Table = ({
   };
   const renderCell = (cell, cellIndex, isFirstCell) => {
     const isHeaderCell = firstCellIsHeader && isFirstCell;
-    const cellClasses = (0, import_classnames3.default)(
+    const cellClasses = (0, import_classnames2.default)(
       isHeaderCell ? "nhsuk-table__header" : "nhsuk-table__cell",
       {
         [`nhsuk-table__${isHeaderCell ? "header" : "cell"}--${cell.format}`]: cell.format

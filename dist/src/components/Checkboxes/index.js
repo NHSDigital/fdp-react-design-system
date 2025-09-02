@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames5() {
+      function classNames3() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames5.apply(null, arg);
+          return classNames3.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,26 +71,41 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames5.default = classNames5;
-        module.exports = classNames5;
+        classNames3.default = classNames3;
+        module.exports = classNames3;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames5;
+          return classNames3;
         });
       } else {
-        window.classNames = classNames5;
+        window.classNames = classNames3;
       }
     })();
   }
 });
 
 // src/components/Checkboxes/Checkboxes.tsx
-var import_classnames4 = __toESM(require_classnames(), 1);
+var import_classnames2 = __toESM(require_classnames(), 1);
 import { useState as useState2 } from "react";
 
 // src/components/Input/Input.tsx
-var import_classnames = __toESM(require_classnames(), 1);
 import { useState, useEffect } from "react";
+
+// src/mapping/input.ts
+function mapInputProps(p) {
+  const type = p.type || "text";
+  const isRange = type === "range";
+  const classes = [
+    "nhsuk-input",
+    p.hasError ? "nhsuk-input--error" : "",
+    isRange ? "nhsuk-input--range" : "",
+    !isRange && p.width && p.width !== "full" ? `nhsuk-input--width-${p.width}` : "",
+    p.className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, isRange };
+}
+
+// src/components/Input/Input.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
 var Input = ({
   id,
@@ -138,16 +153,7 @@ var Input = ({
       onChange == null ? void 0 : onChange(event);
     }
   };
-  const isRange = type === "range";
-  const inputClasses = (0, import_classnames.default)(
-    "nhsuk-input",
-    {
-      "nhsuk-input--error": hasError,
-      "nhsuk-input--range": isRange,
-      [`nhsuk-input--width-${width}`]: width !== "full" && !isRange
-    },
-    className
-  );
+  const { classes: inputClasses, isRange } = mapInputProps({ id, name, type, hasError, width, className });
   const isControlled = value !== void 0;
   const sharedRangeProps = {
     id,
@@ -238,8 +244,24 @@ var Input = ({
   );
 };
 
+// src/mapping/label.ts
+function mapLabelProps(input) {
+  const size = input.size || "m";
+  const classes = [
+    "nhsuk-label",
+    size !== "m" ? `nhsuk-label--${size}` : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  return {
+    tag: input.isPageHeading ? "h1" : "label",
+    classes,
+    size,
+    htmlFor: input.isPageHeading ? void 0 : input.htmlFor,
+    isPageHeading: !!input.isPageHeading
+  };
+}
+
 // src/components/Label/Label.tsx
-var import_classnames2 = __toESM(require_classnames(), 1);
 import { jsx as jsx2 } from "react/jsx-runtime";
 var Label = ({
   htmlFor,
@@ -249,27 +271,13 @@ var Label = ({
   children,
   ...props
 }) => {
-  const labelClasses = (0, import_classnames2.default)(
-    "nhsuk-label",
-    {
-      [`nhsuk-label--${size}`]: size !== "m"
-    },
-    className
-  );
-  const LabelElement = isPageHeading ? "h1" : "label";
-  return /* @__PURE__ */ jsx2(
-    LabelElement,
-    {
-      className: labelClasses,
-      htmlFor: isPageHeading ? void 0 : htmlFor,
-      ...props,
-      children: isPageHeading ? /* @__PURE__ */ jsx2("label", { className: "nhsuk-label-wrapper", htmlFor, children }) : children
-    }
-  );
+  const model = mapLabelProps({ size, isPageHeading, className, htmlFor });
+  const LabelElement = model.tag;
+  return /* @__PURE__ */ jsx2(LabelElement, { className: model.classes, htmlFor: model.htmlFor, ...props, children: isPageHeading ? /* @__PURE__ */ jsx2("label", { className: "nhsuk-label-wrapper", htmlFor, children }) : children });
 };
 
 // src/components/Fieldset/Fieldset.tsx
-var import_classnames3 = __toESM(require_classnames(), 1);
+var import_classnames = __toESM(require_classnames(), 1);
 import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
 var Fieldset = ({
   children,
@@ -278,11 +286,11 @@ var Fieldset = ({
   describedBy,
   ...fieldsetProps
 }) => {
-  const fieldsetClasses = (0, import_classnames3.default)(
+  const fieldsetClasses = (0, import_classnames.default)(
     "nhsuk-fieldset",
     className
   );
-  const legendClasses = (0, import_classnames3.default)(
+  const legendClasses = (0, import_classnames.default)(
     "nhsuk-fieldset__legend",
     {
       [`nhsuk-fieldset__legend--${legend == null ? void 0 : legend.size}`]: legend == null ? void 0 : legend.size
@@ -376,7 +384,7 @@ var Checkboxes = ({
         item.conditional && /* @__PURE__ */ jsx4(
           "div",
           {
-            className: (0, import_classnames4.default)("nhsuk-checkboxes__conditional", {
+            className: (0, import_classnames2.default)("nhsuk-checkboxes__conditional", {
               "nhsuk-checkboxes__conditional--hidden": !isChecked
             }),
             id: conditionalId,
@@ -389,14 +397,14 @@ var Checkboxes = ({
       ] }, item.value);
     });
   };
-  const checkboxesClasses = (0, import_classnames4.default)(
+  const checkboxesClasses = (0, import_classnames2.default)(
     "nhsuk-checkboxes",
     {
       "nhsuk-checkboxes--small": small
     },
     className
   );
-  const formGroupClasses = (0, import_classnames4.default)("nhsuk-form-group", {
+  const formGroupClasses = (0, import_classnames2.default)("nhsuk-form-group", {
     "nhsuk-form-group--error": !!errorMessage
   });
   return /* @__PURE__ */ jsx4("div", { className: formGroupClasses, ...attributes, ...props, children: /* @__PURE__ */ jsxs3(

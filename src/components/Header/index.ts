@@ -1,4 +1,3 @@
 export { Header } from './Header';
-export { HeaderSSR } from './HeaderSSR';
-export { HeaderStatic } from './HeaderStatic';
+export { HeaderServer } from './Header.server';
 export type { HeaderProps, NavigationItem } from './Header.types';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import classNames from 'classnames';
 import './Input.scss';
 import { InputProps } from './Input.types';
+import { mapInputProps } from '../../mapping/input';
 
 export const Input: React.FC<InputProps> = ({
   id,
@@ -53,17 +53,7 @@ export const Input: React.FC<InputProps> = ({
     }
   };
 
-  const isRange = type === 'range';
-  
-  const inputClasses = classNames(
-    'nhsuk-input',
-    {
-      'nhsuk-input--error': hasError,
-      'nhsuk-input--range': isRange,
-      [`nhsuk-input--width-${width}`]: width !== 'full' && !isRange,
-    },
-    className
-  );
+  const { classes: inputClasses, isRange } = mapInputProps({ id, name, type, hasError, width, className });
 
   const isControlled = value !== undefined;
   const sharedRangeProps = {

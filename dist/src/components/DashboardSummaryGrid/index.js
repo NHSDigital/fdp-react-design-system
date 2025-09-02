@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames3() {
+      function classNames2() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames3.apply(null, arg);
+          return classNames2.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,66 +71,58 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames3.default = classNames3;
-        module.exports = classNames3;
+        classNames2.default = classNames2;
+        module.exports = classNames2;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames3;
+          return classNames2;
         });
       } else {
-        window.classNames = classNames3;
+        window.classNames = classNames2;
       }
     })();
   }
 });
 
 // src/components/Heading/Heading.tsx
-var import_classnames = __toESM(require_classnames(), 1);
 import { createElement } from "react";
-import { jsx } from "react/jsx-runtime";
-var Heading = ({
-  level,
-  className,
-  text,
-  html,
-  children,
-  size,
-  marginBottom,
-  ...props
-}) => {
-  const getDefaultLevelFromSize = (size2) => {
-    switch (size2) {
-      case "xxl":
-      case "xl":
-        return 1;
-      case "l":
-        return 2;
-      case "m":
-        return 3;
-      case "s":
-        return 4;
-      case "xs":
-        return 5;
-      default:
-        return 2;
-    }
-  };
-  const headingLevel = level != null ? level : getDefaultLevelFromSize(size);
-  const headingClasses = (0, import_classnames.default)(
+
+// src/mapping/heading.ts
+function deriveLevel(size) {
+  switch (size) {
+    case "xxl":
+    case "xl":
+      return 1;
+    case "l":
+      return 2;
+    case "m":
+      return 3;
+    case "s":
+      return 4;
+    case "xs":
+      return 5;
+    default:
+      return 2;
+  }
+}
+function mapHeadingProps(input) {
+  var _a;
+  const level = (_a = input.level) != null ? _a : deriveLevel(input.size);
+  const classes = [
     "nhsuk-heading",
-    {
-      [`nhsuk-heading--${size}`]: size
-    },
-    className
-  );
+    input.size ? `nhsuk-heading--${input.size}` : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const style = input.marginBottom ? { marginBottom: input.marginBottom } : void 0;
+  return { tag: `h${level}`, classes, style };
+}
+
+// src/components/Heading/Heading.tsx
+import { jsx } from "react/jsx-runtime";
+var Heading = ({ level, className, text, html, children, size, marginBottom, ...rest }) => {
+  const model = mapHeadingProps({ level, size, className, marginBottom });
   const content = children || (html ? /* @__PURE__ */ jsx("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
-  const tagName = `h${headingLevel}`;
-  const style = marginBottom ? { ...props.style, marginBottom } : props.style;
-  return createElement(
-    tagName,
-    { className: headingClasses, ...props, style },
-    content
-  );
+  return createElement(model.tag, { className: model.classes, style: model.style, ...rest }, content);
 };
 
 // src/components/SummaryCard/SummaryCard.tsx
@@ -179,7 +171,7 @@ var SummaryCard = ({
 };
 
 // src/components/Grid/Grid.tsx
-var import_classnames2 = __toESM(require_classnames(), 1);
+var import_classnames = __toESM(require_classnames(), 1);
 import React2 from "react";
 import { jsx as jsx3 } from "react/jsx-runtime";
 var Container = ({
@@ -190,7 +182,7 @@ var Container = ({
   style,
   ...props
 }) => {
-  const containerClasses = (0, import_classnames2.default)(
+  const containerClasses = (0, import_classnames.default)(
     {
       "nhsuk-width-container": !fluid,
       "nhsuk-width-container-fluid": fluid
@@ -206,7 +198,7 @@ var Row = ({
   style,
   ...props
 }) => {
-  const rowClasses = (0, import_classnames2.default)("nhsuk-grid-row", className);
+  const rowClasses = (0, import_classnames.default)("nhsuk-grid-row", className);
   return /* @__PURE__ */ jsx3("div", { className: rowClasses, style, ...props, children });
 };
 var Column = ({
@@ -221,7 +213,7 @@ var Column = ({
   style,
   ...props
 }) => {
-  const columnClasses = (0, import_classnames2.default)(
+  const columnClasses = (0, import_classnames.default)(
     {
       // Standard responsive grid columns
       [`nhsuk-grid-column-${width}`]: !forceWidth,

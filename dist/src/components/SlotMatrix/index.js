@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames5() {
+      function classNames4() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames5.apply(null, arg);
+          return classNames4.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,25 +71,49 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames5.default = classNames5;
-        module.exports = classNames5;
+        classNames4.default = classNames4;
+        module.exports = classNames4;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames5;
+          return classNames4;
         });
       } else {
-        window.classNames = classNames5;
+        window.classNames = classNames4;
       }
     })();
   }
 });
 
 // src/components/SlotMatrix/SlotMatrix.tsx
-var import_classnames4 = __toESM(require_classnames(), 1);
+var import_classnames3 = __toESM(require_classnames(), 1);
 import { useMemo, useState as useState2, useCallback as useCallback2 } from "react";
 
 // src/components/Button/Button.tsx
 import * as React from "react";
+
+// src/mapping/button.ts
+function mapButtonProps(input) {
+  const variant = input.variant || "primary";
+  const size = input.size || "default";
+  const fullWidth = !!input.fullWidth;
+  const classes = [
+    "nhs-aria-button",
+    `nhs-aria-button--${variant}`,
+    size !== "default" ? `nhs-aria-button--${size}` : "",
+    fullWidth ? "nhs-aria-button--full-width" : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const tag = input.href ? "a" : "button";
+  return {
+    tag,
+    classes,
+    data: { module: "nhs-button" },
+    attrs: input.href ? { href: input.href, role: "button" } : { type: "button" },
+    preventDoubleClick: !!input.preventDoubleClick
+  };
+}
+
+// src/components/Button/Button.tsx
 import { jsx } from "react/jsx-runtime";
 var { forwardRef, useCallback, useState } = React;
 function ButtonComponent(props, ref) {
@@ -105,13 +129,14 @@ function ButtonComponent(props, ref) {
   const [isPressed, setIsPressed] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const classes = [
-    "nhs-aria-button",
-    `nhs-aria-button--${variant}`,
-    size !== "default" ? `nhs-aria-button--${size}` : "",
-    fullWidth ? "nhs-aria-button--full-width" : "",
-    className
-  ].filter(Boolean).join(" ");
+  const model = mapButtonProps({
+    variant,
+    size,
+    fullWidth,
+    className,
+    preventDoubleClick,
+    href: "href" in rest ? rest.href : void 0
+  });
   const isDisabled = "disabled" in rest ? rest.disabled : rest["aria-disabled"] === "true";
   const dataAttributes = {
     ...isPressed && { "data-pressed": "true" },
@@ -119,37 +144,58 @@ function ButtonComponent(props, ref) {
     ...isFocused && { "data-focused": "true" },
     ...isDisabled && { "data-disabled": "true" }
   };
-  const handleMouseDown = useCallback(() => !isDisabled && setIsPressed(true), [isDisabled]);
+  const handleMouseDown = useCallback(
+    () => !isDisabled && setIsPressed(true),
+    [isDisabled]
+  );
   const handleMouseUp = useCallback(() => setIsPressed(false), []);
-  const handleMouseEnter = useCallback(() => !isDisabled && setIsHovered(true), [isDisabled]);
+  const handleMouseEnter = useCallback(
+    () => !isDisabled && setIsHovered(true),
+    [isDisabled]
+  );
   const handleMouseLeave = useCallback(() => {
     setIsHovered(false);
     setIsPressed(false);
   }, []);
   const handleFocus = useCallback(() => setIsFocused(true), []);
   const handleBlur = useCallback(() => setIsFocused(false), []);
-  const handleKeyDown = useCallback((event) => {
-    if (event.key === " " && ("href" in rest || event.currentTarget.getAttribute("role") === "button")) {
-      event.preventDefault();
-      event.currentTarget.click();
-    }
-  }, [rest]);
-  const handleClick = useCallback((event) => {
-    if (preventDoubleClick) {
-      const target = event.currentTarget;
-      const isAlreadyProcessing = target.getAttribute("data-processing") === "true";
-      if (isAlreadyProcessing) {
+  const handleKeyDown = useCallback(
+    (event) => {
+      if (event.key === " " && ("href" in rest || event.currentTarget.getAttribute("role") === "button")) {
         event.preventDefault();
-        return;
+        event.currentTarget.click();
       }
-      target.setAttribute("data-processing", "true");
-      setTimeout(() => {
-        target.removeAttribute("data-processing");
-      }, 1e3);
-    }
-  }, [preventDoubleClick]);
+    },
+    [rest]
+  );
+  const handleClick = useCallback(
+    (event) => {
+      if (preventDoubleClick) {
+        const target = event.currentTarget;
+        const isAlreadyProcessing = target.getAttribute("data-processing") === "true";
+        if (isAlreadyProcessing) {
+          event.preventDefault();
+          return;
+        }
+        target.setAttribute("data-processing", "true");
+        setTimeout(() => {
+          target.removeAttribute("data-processing");
+        }, 1e3);
+      }
+    },
+    [preventDoubleClick]
+  );
   if ("href" in rest && rest.href) {
-    const { id: id2, style: style2, title: title2, ["aria-label"]: ariaLabel2, ["aria-describedby"]: ariaDescribedBy2, ["aria-labelledby"]: ariaLabelledBy2, tabIndex: tabIndex2, ...anchorRest } = rest;
+    const {
+      id: id2,
+      style: style2,
+      title: title2,
+      ["aria-label"]: ariaLabel2,
+      ["aria-describedby"]: ariaDescribedBy2,
+      ["aria-labelledby"]: ariaLabelledBy2,
+      tabIndex: tabIndex2,
+      ...anchorRest
+    } = rest;
     const anchorProps = rest;
     return /* @__PURE__ */ jsx(
       "a",
@@ -158,7 +204,7 @@ function ButtonComponent(props, ref) {
         href: anchorProps.href,
         target: anchorProps.target,
         rel: anchorProps.rel,
-        className: classes,
+        className: model.classes,
         role: "button",
         draggable: "false",
         "data-module": "nhs-button",
@@ -206,7 +252,7 @@ function ButtonComponent(props, ref) {
           handleBlur();
         },
         "aria-disabled": anchorProps["aria-disabled"],
-        ...anchorProps["aria-disabled"] === "true" && { "tabIndex": -1 },
+        ...anchorProps["aria-disabled"] === "true" && { tabIndex: -1 },
         id: id2,
         style: style2,
         title: title2,
@@ -218,7 +264,25 @@ function ButtonComponent(props, ref) {
       }
     );
   }
-  const { id, style, title, ["aria-label"]: ariaLabel, ["aria-describedby"]: ariaDescribedBy, ["aria-labelledby"]: ariaLabelledBy, tabIndex, name, value: valueProp, form, formAction, formEncType, formMethod, formNoValidate, formTarget, autoFocus, ...buttonRest } = rest;
+  const {
+    id,
+    style,
+    title,
+    ["aria-label"]: ariaLabel,
+    ["aria-describedby"]: ariaDescribedBy,
+    ["aria-labelledby"]: ariaLabelledBy,
+    tabIndex,
+    name,
+    value: valueProp,
+    form,
+    formAction,
+    formEncType,
+    formMethod,
+    formNoValidate,
+    formTarget,
+    autoFocus,
+    ...buttonRest
+  } = rest;
   const buttonProps = rest;
   return /* @__PURE__ */ jsx(
     "button",
@@ -226,7 +290,7 @@ function ButtonComponent(props, ref) {
       ref,
       type: buttonProps.type || "button",
       disabled: buttonProps.disabled,
-      className: classes,
+      className: model.classes,
       "data-module": "nhs-button",
       ...dataAttributes,
       ...preventDoubleClick && { "data-prevent-double-click": "true" },
@@ -450,8 +514,21 @@ var SlotMatrixToolbar = ({
   ] });
 };
 
+// src/mapping/tag.ts
+function mapTagProps(input) {
+  const { color = "default", noBorder, closable, disabled, className } = input;
+  const classes = [
+    "nhsuk-tag",
+    color !== "default" ? `nhsuk-tag--${color}` : "",
+    noBorder ? "nhsuk-tag--no-border" : "",
+    closable ? "nhsuk-tag--closable" : "",
+    disabled ? "nhsuk-tag--disabled" : "",
+    className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, showClose: !!closable, disabled: !!disabled };
+}
+
 // src/components/Tag/Tag.tsx
-var import_classnames2 = __toESM(require_classnames(), 1);
 import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
 var Tag = ({
   text,
@@ -465,16 +542,7 @@ var Tag = ({
   className,
   ...props
 }) => {
-  const tagClasses = (0, import_classnames2.default)(
-    "nhsuk-tag",
-    {
-      [`nhsuk-tag--${color}`]: color !== "default",
-      "nhsuk-tag--no-border": noBorder,
-      "nhsuk-tag--closable": closable,
-      "nhsuk-tag--disabled": disabled
-    },
-    className
-  );
+  const model = mapTagProps({ color, noBorder, closable, disabled, className });
   const handleClose = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -482,7 +550,7 @@ var Tag = ({
       onClose();
     }
   };
-  return /* @__PURE__ */ jsxs2("strong", { className: tagClasses, ...props, children: [
+  return /* @__PURE__ */ jsxs2("strong", { className: model.classes, ...props, children: [
     children ? children : html ? /* @__PURE__ */ jsx4("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
     closable && /* @__PURE__ */ jsx4(
       "button",
@@ -523,7 +591,7 @@ function mapStatusToTagColor(status) {
 }
 
 // src/components/Grid/Grid.tsx
-var import_classnames3 = __toESM(require_classnames(), 1);
+var import_classnames2 = __toESM(require_classnames(), 1);
 import React2 from "react";
 import { jsx as jsx6 } from "react/jsx-runtime";
 var Container = ({
@@ -534,7 +602,7 @@ var Container = ({
   style,
   ...props
 }) => {
-  const containerClasses = (0, import_classnames3.default)(
+  const containerClasses = (0, import_classnames2.default)(
     {
       "nhsuk-width-container": !fluid,
       "nhsuk-width-container-fluid": fluid
@@ -550,7 +618,7 @@ var Row = ({
   style,
   ...props
 }) => {
-  const rowClasses = (0, import_classnames3.default)("nhsuk-grid-row", className);
+  const rowClasses = (0, import_classnames2.default)("nhsuk-grid-row", className);
   return /* @__PURE__ */ jsx6("div", { className: rowClasses, style, ...props, children });
 };
 var Column = ({
@@ -565,7 +633,7 @@ var Column = ({
   style,
   ...props
 }) => {
-  const columnClasses = (0, import_classnames3.default)(
+  const columnClasses = (0, import_classnames2.default)(
     {
       // Standard responsive grid columns
       [`nhsuk-grid-column-${width}`]: !forceWidth,
@@ -675,7 +743,7 @@ var SlotMatrix = ({
       onA11yModeChange: handleA11yModeChange
     }
   ) : null);
-  const ListView = /* @__PURE__ */ jsx7("div", { style, className: (0, import_classnames4.default)(className), children: /* @__PURE__ */ jsx7(Grid, { className: (0, import_classnames4.default)("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ jsx7(Row, { children: /* @__PURE__ */ jsx7(Column, { width: "full", children: /* @__PURE__ */ jsxs3("div", { className: "nhs-slot-matrix", children: [
+  const ListView = /* @__PURE__ */ jsx7("div", { style, className: (0, import_classnames3.default)(className), children: /* @__PURE__ */ jsx7(Grid, { className: (0, import_classnames3.default)("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ jsx7(Row, { children: /* @__PURE__ */ jsx7(Column, { width: "full", children: /* @__PURE__ */ jsxs3("div", { className: "nhs-slot-matrix", children: [
     toolbarNode,
     legendPlacement === "top" && legendNode,
     /* @__PURE__ */ jsx7("ul", { "aria-label": "Appointment slots list", children: slots.map((s) => /* @__PURE__ */ jsx7("li", { children: /* @__PURE__ */ jsxs3("button", { type: "button", onClick: () => toggleSelect(s), "aria-pressed": selected.includes(s.id), children: [
@@ -689,7 +757,7 @@ var SlotMatrix = ({
     legendPlacement === "bottom" && legendNode
   ] }) }) }) }) });
   if (a11yMode === "list") return ListView;
-  return /* @__PURE__ */ jsx7("div", { style, className: (0, import_classnames4.default)(className), children: /* @__PURE__ */ jsx7(Grid, { className: (0, import_classnames4.default)("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ jsx7(Row, { children: /* @__PURE__ */ jsx7(Column, { width: "full", children: /* @__PURE__ */ jsxs3("div", { className: "nhs-slot-matrix", children: [
+  return /* @__PURE__ */ jsx7("div", { style, className: (0, import_classnames3.default)(className), children: /* @__PURE__ */ jsx7(Grid, { className: (0, import_classnames3.default)("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ jsx7(Row, { children: /* @__PURE__ */ jsx7(Column, { width: "full", children: /* @__PURE__ */ jsxs3("div", { className: "nhs-slot-matrix", children: [
     toolbarNode,
     legendPlacement === "top" && legendNode,
     /* @__PURE__ */ jsxs3("div", { role: "grid", "aria-rowcount": timebandKeys.length + 1, "aria-colcount": sessions.length + 1, children: [
@@ -714,7 +782,7 @@ var SlotMatrix = ({
               type: "button",
               role: "gridcell",
               "data-status": slot.status,
-              className: (0, import_classnames4.default)("nhs-slot-matrix__cell", isSelected && "nhs-slot-matrix__cell--selected"),
+              className: (0, import_classnames3.default)("nhs-slot-matrix__cell", isSelected && "nhs-slot-matrix__cell--selected"),
               "aria-label": ariaLabel,
               "aria-selected": isSelected || void 0,
               onClick: () => toggleSelect(slot),

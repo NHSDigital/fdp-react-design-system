@@ -5,7 +5,8 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   test: {
-    include: ['src/**/*.test.{ts,tsx}'],
+    // Include standard component tests and macro parity tests under tests/macroParity
+    include: ['src/**/*.test.{ts,tsx}', 'tests/macroParity/**/*.test.{ts,tsx}'],
     environment: 'jsdom',
     setupFiles: ['src/test-setup.ts'],
     globals: true,

@@ -20,7 +20,7 @@ export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
 export { Select, SelectOption } from './Select';
 export type { SelectProps, SelectOption as SelectOptionType, SelectOptionProps } from './Select';
-export { Radios } from './Radios';
+export { Radios, RadiosServer } from './Radios';
 export type { RadiosProps, RadioOption } from './Radios';
 export { Container, Row, Column, Grid } from './Grid';
 export type { 
@@ -57,8 +57,6 @@ export type { FieldsetProps, FieldsetLegendProps } from './Fieldset';
 export { NHSThemeProvider, useNHSTheme } from './NHSThemeProvider';
 export type { ThemeProviderProps } from './NHSThemeProvider';
 export { Header } from './Header';
-export { HeaderSSR } from './Header/HeaderSSR';
-export { HeaderStatic } from './Header/HeaderStatic';
 export { HeaderSearch } from './HeaderSearch';
 export type { HeaderProps, NavigationItem } from './Header/Header.types';
 export type { HeaderSearchProps } from './HeaderSearch';

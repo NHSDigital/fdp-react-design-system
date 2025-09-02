@@ -36,7 +36,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames6() {
+      function classNames4() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -54,7 +54,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames6.apply(null, arg);
+          return classNames4.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -77,14 +77,14 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames6.default = classNames6;
-        module.exports = classNames6;
+        classNames4.default = classNames4;
+        module.exports = classNames4;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames6;
+          return classNames4;
         });
       } else {
-        window.classNames = classNames6;
+        window.classNames = classNames4;
       }
     })();
   }
@@ -4605,6 +4605,30 @@ var Tabs = forwardRef(({
 
 // src/components/Button/Button.tsx
 import * as React12 from "react";
+
+// src/mapping/button.ts
+function mapButtonProps(input) {
+  const variant = input.variant || "primary";
+  const size = input.size || "default";
+  const fullWidth = !!input.fullWidth;
+  const classes = [
+    "nhs-aria-button",
+    `nhs-aria-button--${variant}`,
+    size !== "default" ? `nhs-aria-button--${size}` : "",
+    fullWidth ? "nhs-aria-button--full-width" : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const tag = input.href ? "a" : "button";
+  return {
+    tag,
+    classes,
+    data: { module: "nhs-button" },
+    attrs: input.href ? { href: input.href, role: "button" } : { type: "button" },
+    preventDoubleClick: !!input.preventDoubleClick
+  };
+}
+
+// src/components/Button/Button.tsx
 import { jsx as jsx13 } from "react/jsx-runtime";
 var { forwardRef: forwardRef2, useCallback: useCallback7, useState: useState7 } = React12;
 function ButtonComponent(props, ref) {
@@ -4620,13 +4644,14 @@ function ButtonComponent(props, ref) {
   const [isPressed, setIsPressed] = useState7(false);
   const [isHovered, setIsHovered] = useState7(false);
   const [isFocused, setIsFocused] = useState7(false);
-  const classes = [
-    "nhs-aria-button",
-    `nhs-aria-button--${variant}`,
-    size !== "default" ? `nhs-aria-button--${size}` : "",
-    fullWidth ? "nhs-aria-button--full-width" : "",
-    className
-  ].filter(Boolean).join(" ");
+  const model = mapButtonProps({
+    variant,
+    size,
+    fullWidth,
+    className,
+    preventDoubleClick,
+    href: "href" in rest ? rest.href : void 0
+  });
   const isDisabled = "disabled" in rest ? rest.disabled : rest["aria-disabled"] === "true";
   const dataAttributes = {
     ...isPressed && { "data-pressed": "true" },
@@ -4634,37 +4659,58 @@ function ButtonComponent(props, ref) {
     ...isFocused && { "data-focused": "true" },
     ...isDisabled && { "data-disabled": "true" }
   };
-  const handleMouseDown = useCallback7(() => !isDisabled && setIsPressed(true), [isDisabled]);
+  const handleMouseDown = useCallback7(
+    () => !isDisabled && setIsPressed(true),
+    [isDisabled]
+  );
   const handleMouseUp = useCallback7(() => setIsPressed(false), []);
-  const handleMouseEnter = useCallback7(() => !isDisabled && setIsHovered(true), [isDisabled]);
+  const handleMouseEnter = useCallback7(
+    () => !isDisabled && setIsHovered(true),
+    [isDisabled]
+  );
   const handleMouseLeave = useCallback7(() => {
     setIsHovered(false);
     setIsPressed(false);
   }, []);
   const handleFocus = useCallback7(() => setIsFocused(true), []);
   const handleBlur = useCallback7(() => setIsFocused(false), []);
-  const handleKeyDown = useCallback7((event) => {
-    if (event.key === " " && ("href" in rest || event.currentTarget.getAttribute("role") === "button")) {
-      event.preventDefault();
-      event.currentTarget.click();
-    }
-  }, [rest]);
-  const handleClick = useCallback7((event) => {
-    if (preventDoubleClick) {
-      const target = event.currentTarget;
-      const isAlreadyProcessing = target.getAttribute("data-processing") === "true";
-      if (isAlreadyProcessing) {
+  const handleKeyDown = useCallback7(
+    (event) => {
+      if (event.key === " " && ("href" in rest || event.currentTarget.getAttribute("role") === "button")) {
         event.preventDefault();
-        return;
+        event.currentTarget.click();
       }
-      target.setAttribute("data-processing", "true");
-      setTimeout(() => {
-        target.removeAttribute("data-processing");
-      }, 1e3);
-    }
-  }, [preventDoubleClick]);
+    },
+    [rest]
+  );
+  const handleClick = useCallback7(
+    (event) => {
+      if (preventDoubleClick) {
+        const target = event.currentTarget;
+        const isAlreadyProcessing = target.getAttribute("data-processing") === "true";
+        if (isAlreadyProcessing) {
+          event.preventDefault();
+          return;
+        }
+        target.setAttribute("data-processing", "true");
+        setTimeout(() => {
+          target.removeAttribute("data-processing");
+        }, 1e3);
+      }
+    },
+    [preventDoubleClick]
+  );
   if ("href" in rest && rest.href) {
-    const { id: id2, style: style2, title: title2, ["aria-label"]: ariaLabel2, ["aria-describedby"]: ariaDescribedBy2, ["aria-labelledby"]: ariaLabelledBy2, tabIndex: tabIndex2, ...anchorRest } = rest;
+    const {
+      id: id2,
+      style: style2,
+      title: title2,
+      ["aria-label"]: ariaLabel2,
+      ["aria-describedby"]: ariaDescribedBy2,
+      ["aria-labelledby"]: ariaLabelledBy2,
+      tabIndex: tabIndex2,
+      ...anchorRest
+    } = rest;
     const anchorProps = rest;
     return /* @__PURE__ */ jsx13(
       "a",
@@ -4673,7 +4719,7 @@ function ButtonComponent(props, ref) {
         href: anchorProps.href,
         target: anchorProps.target,
         rel: anchorProps.rel,
-        className: classes,
+        className: model.classes,
         role: "button",
         draggable: "false",
         "data-module": "nhs-button",
@@ -4721,7 +4767,7 @@ function ButtonComponent(props, ref) {
           handleBlur();
         },
         "aria-disabled": anchorProps["aria-disabled"],
-        ...anchorProps["aria-disabled"] === "true" && { "tabIndex": -1 },
+        ...anchorProps["aria-disabled"] === "true" && { tabIndex: -1 },
         id: id2,
         style: style2,
         title: title2,
@@ -4733,7 +4779,25 @@ function ButtonComponent(props, ref) {
       }
     );
   }
-  const { id, style, title, ["aria-label"]: ariaLabel, ["aria-describedby"]: ariaDescribedBy, ["aria-labelledby"]: ariaLabelledBy, tabIndex, name, value: valueProp, form, formAction, formEncType, formMethod, formNoValidate, formTarget, autoFocus, ...buttonRest } = rest;
+  const {
+    id,
+    style,
+    title,
+    ["aria-label"]: ariaLabel,
+    ["aria-describedby"]: ariaDescribedBy,
+    ["aria-labelledby"]: ariaLabelledBy,
+    tabIndex,
+    name,
+    value: valueProp,
+    form,
+    formAction,
+    formEncType,
+    formMethod,
+    formNoValidate,
+    formTarget,
+    autoFocus,
+    ...buttonRest
+  } = rest;
   const buttonProps = rest;
   return /* @__PURE__ */ jsx13(
     "button",
@@ -4741,7 +4805,7 @@ function ButtonComponent(props, ref) {
       ref,
       type: buttonProps.type || "button",
       disabled: buttonProps.disabled,
-      className: classes,
+      className: model.classes,
       "data-module": "nhs-button",
       ...dataAttributes,
       ...preventDoubleClick && { "data-prevent-double-click": "true" },
@@ -4812,58 +4876,50 @@ Button.displayName = "Button";
 var Button_default = Button;
 
 // src/components/Tables/Table.tsx
-var import_classnames4 = __toESM(require_classnames(), 1);
-
-// src/components/Panel/Panel.tsx
 var import_classnames3 = __toESM(require_classnames(), 1);
 
-// src/components/Heading/Heading.tsx
+// src/components/Panel/Panel.tsx
 var import_classnames2 = __toESM(require_classnames(), 1);
+
+// src/components/Heading/Heading.tsx
 import { createElement } from "react";
-import { jsx as jsx14 } from "react/jsx-runtime";
-var Heading = ({
-  level,
-  className,
-  text,
-  html,
-  children,
-  size,
-  marginBottom,
-  ...props
-}) => {
-  const getDefaultLevelFromSize = (size2) => {
-    switch (size2) {
-      case "xxl":
-      case "xl":
-        return 1;
-      case "l":
-        return 2;
-      case "m":
-        return 3;
-      case "s":
-        return 4;
-      case "xs":
-        return 5;
-      default:
-        return 2;
-    }
-  };
-  const headingLevel = level != null ? level : getDefaultLevelFromSize(size);
-  const headingClasses = (0, import_classnames2.default)(
+
+// src/mapping/heading.ts
+function deriveLevel(size) {
+  switch (size) {
+    case "xxl":
+    case "xl":
+      return 1;
+    case "l":
+      return 2;
+    case "m":
+      return 3;
+    case "s":
+      return 4;
+    case "xs":
+      return 5;
+    default:
+      return 2;
+  }
+}
+function mapHeadingProps(input) {
+  var _a2;
+  const level = (_a2 = input.level) != null ? _a2 : deriveLevel(input.size);
+  const classes = [
     "nhsuk-heading",
-    {
-      [`nhsuk-heading--${size}`]: size
-    },
-    className
-  );
+    input.size ? `nhsuk-heading--${input.size}` : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const style = input.marginBottom ? { marginBottom: input.marginBottom } : void 0;
+  return { tag: `h${level}`, classes, style };
+}
+
+// src/components/Heading/Heading.tsx
+import { jsx as jsx14 } from "react/jsx-runtime";
+var Heading = ({ level, className, text, html, children, size, marginBottom, ...rest }) => {
+  const model = mapHeadingProps({ level, size, className, marginBottom });
   const content = children || (html ? /* @__PURE__ */ jsx14("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
-  const tagName = `h${headingLevel}`;
-  const style = marginBottom ? { ...props.style, marginBottom } : props.style;
-  return createElement(
-    tagName,
-    { className: headingClasses, ...props, style },
-    content
-  );
+  return createElement(model.tag, { className: model.classes, style: model.style, ...rest }, content);
 };
 
 // src/components/Panel/Panel.tsx
@@ -4879,7 +4935,7 @@ var Panel = ({
   children,
   ...props
 }) => {
-  const panelClasses = (0, import_classnames3.default)(
+  const panelClasses = (0, import_classnames2.default)(
     "nhsuk-panel",
     className
   );
@@ -4952,16 +5008,16 @@ var Table = ({
   "data-testid": testId
 }) => {
   const captionClass = `nhsuk-table__caption ${captionSize ? `nhsuk-table__caption--${captionSize}` : ""}`.trim();
-  const tableClassList = (0, import_classnames4.default)(
+  const tableClassList = (0, import_classnames3.default)(
     "nhsuk-table",
     {
       "nhsuk-table-responsive": responsive
     },
     tableClasses
   );
-  const containerClassList = (0, import_classnames4.default)(classes);
+  const containerClassList = (0, import_classnames3.default)(classes);
   const renderHeaderCell = (cell, index) => {
-    const headerClasses = (0, import_classnames4.default)("nhsuk-table__header", {
+    const headerClasses = (0, import_classnames3.default)("nhsuk-table__header", {
       [`nhsuk-table__header--${cell.format}`]: cell.format
     }, cell.classes);
     const headerAttributes = {
@@ -4975,7 +5031,7 @@ var Table = ({
   };
   const renderCell = (cell, cellIndex, isFirstCell) => {
     const isHeaderCell = firstCellIsHeader && isFirstCell;
-    const cellClasses = (0, import_classnames4.default)(
+    const cellClasses = (0, import_classnames3.default)(
       isHeaderCell ? "nhsuk-table__header" : "nhsuk-table__cell",
       {
         [`nhsuk-table__${isHeaderCell ? "header" : "cell"}--${cell.format}`]: cell.format
@@ -6896,8 +6952,21 @@ function getVariationColorToken(icon) {
   return (_b2 = (_a2 = VARIATION_COLOR_TOKENS[icon]) == null ? void 0 : _a2.token) != null ? _b2 : VARIATION_COLOR_TOKENS.neither.token;
 }
 
+// src/mapping/tag.ts
+function mapTagProps(input) {
+  const { color: color2 = "default", noBorder, closable, disabled, className } = input;
+  const classes = [
+    "nhsuk-tag",
+    color2 !== "default" ? `nhsuk-tag--${color2}` : "",
+    noBorder ? "nhsuk-tag--no-border" : "",
+    closable ? "nhsuk-tag--closable" : "",
+    disabled ? "nhsuk-tag--disabled" : "",
+    className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, showClose: !!closable, disabled: !!disabled };
+}
+
 // src/components/Tag/Tag.tsx
-var import_classnames5 = __toESM(require_classnames(), 1);
 import { jsx as jsx26, jsxs as jsxs17 } from "react/jsx-runtime";
 var Tag = ({
   text,
@@ -6911,16 +6980,7 @@ var Tag = ({
   className,
   ...props
 }) => {
-  const tagClasses = (0, import_classnames5.default)(
-    "nhsuk-tag",
-    {
-      [`nhsuk-tag--${color2}`]: color2 !== "default",
-      "nhsuk-tag--no-border": noBorder,
-      "nhsuk-tag--closable": closable,
-      "nhsuk-tag--disabled": disabled
-    },
-    className
-  );
+  const model = mapTagProps({ color: color2, noBorder, closable, disabled, className });
   const handleClose = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -6928,7 +6988,7 @@ var Tag = ({
       onClose();
     }
   };
-  return /* @__PURE__ */ jsxs17("strong", { className: tagClasses, ...props, children: [
+  return /* @__PURE__ */ jsxs17("strong", { className: model.classes, ...props, children: [
     children ? children : html ? /* @__PURE__ */ jsx26("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
     closable && /* @__PURE__ */ jsx26(
       "button",
@@ -8147,7 +8207,7 @@ var SPCChart = ({
           )
         }
       ),
-      /* @__PURE__ */ jsx30(
+      (assuranceRaw === "pass" /* Pass */ || assuranceRaw === "fail" /* Fail */) && /* @__PURE__ */ jsx30(
         "div",
         {
           className: "fdp-spc-chart__embedded-assurance-icon",

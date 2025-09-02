@@ -1,23 +1,15 @@
 /**
  * SSR-Safe Component Exports
- * 
- * This file exports only components that are safe for server-side rendering
- * without any React hooks, createContext, or client-side dependencies.
- * 
- * Use these imports in Next.js App Router and other SSR environments
- * to avoid "createContext only works in Client Components" errors.
- * 
- * USAGE:
- * import { HeaderSSR, HeaderStatic } from '@fergusbisset/nhs-fdp-design-system/ssr';
- * 
- * Or import individual components:
- * import { HeaderSSR } from '@fergusbisset/nhs-fdp-design-system/components/Header/HeaderSSR';
+ *
+ * Components re-exported here are verified to avoid React hooks / context in their
+ * render paths so they can be safely imported in a server component (e.g. Next.js
+ * App Router) without triggering client boundary errors.
+ *
+ * Legacy exports HeaderSSR / HeaderStatic have been removed – use `Header` directly.
  */
 
-// SSR-Safe Header Components (zero hooks, pure React components)
-export { HeaderSSR } from './Header/HeaderSSR';
-export { HeaderStatic } from './Header/HeaderStatic';
-export { HeaderSearch } from './HeaderSearch';
+// SSR-safe Header (pure render path)
+export { Header } from './Header';
 export { Account } from './Account';
 export type { HeaderProps, NavigationItem } from './Header/Header.types';
 export type { HeaderSearchProps } from './HeaderSearch';

@@ -133,6 +133,36 @@ nhs-fdp-design-system/
 - **[Component Library](http://localhost:6006)** - Interactive Storybook
 - **[SSR Testing Guide](./docs/testing/ssr-testing.md)** - Unified server-side test patterns
 - **[Hydration Testing](./docs/guides/testing-hydration.mdx)** - Split SSR / client / hydration test pattern & helper
+- **[Multi‑Render Architecture](./docs/guides/multi-render-architecture.md)** - React + Nunjucks macro generation & parity
+- **[Behaviour Layer](./docs/guides/behaviours.md)** - Progressive enhancement, events & teardown API
+
+### Server / Client Variant Pattern
+
+Some interactive components now adopt an explicit split to guarantee deterministic, hook‑free server markup and eliminate hydration warnings while still providing a progressive enhancement path:
+
+- `Component.render.tsx` – Pure render function producing static JSX (no hooks / side effects). Shared source of truth.
+- `Component.tsx` – Client interactive variant that wraps the pure renderer and adds state, effects and data attributes for behaviours.
+- `Component.server.tsx` – Server (static) variant invoking the pure renderer only. Contains no React hooks (enforced via `npm run verify:server-variants`).
+
+Current migrated components: `Radios`, `Header` (exporting `RadiosServer`, `HeaderServer`). You can import server variants via `@fergusbisset/nhs-fdp-design-system/components/ComponentName/server`.
+
+Use cases:
+1. SSR (Next.js / Node) where you want stable deterministic HTML.
+2. Static HTML or Nunjucks macro generation before behaviour scripts attach.
+3. Selective progressive enhancement where only behaviour scripts, not React hydration, activate interactivity.
+
+Further components (Checkbox, CharacterCount, Range, Button, etc.) will migrate incrementally.
+
+### Behaviour Layer Extensions
+
+The behaviour layer now includes a `header` enhancement that:
+
+- Detects when primary navigation items overflow the available horizontal space.
+- Provides a deterministic server fallback (all items rendered inside a dropdown with `data-ssr-overflow="true"`).
+- On the client, re‑measures, redistributes items between the primary list and an injected "More" dropdown trigger, and removes the `data-ssr-overflow` fallback artefact.
+- Supports teardown (resize/orientation listeners cleaned) via `teardownAll()` or `detachHeaders()`.
+- Works identically across React SSR, Nunjucks macro output and static HTML snapshots (single progressive enhancement pathway).
+
 
 ## Development
 

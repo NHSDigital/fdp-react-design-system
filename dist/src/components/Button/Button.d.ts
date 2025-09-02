@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { ButtonVariant, ButtonSize } from './Button.types';
-import './Button.scss';
+import * as React from "react";
+import { ButtonVariant, ButtonSize } from "./Button.types";
+import "./Button.scss";
 /**
  * Base props for NHS Button component
  */
@@ -42,12 +42,12 @@ export interface ButtonAsButtonProps extends BaseButtonProps, Omit<React.ButtonH
      * Button type
      * @default 'button'
      */
-    type?: 'button' | 'submit' | 'reset';
+    type?: "button" | "submit" | "reset";
 }
 /**
  * Props when rendering as anchor element (with href)
  */
-export interface ButtonAsLinkProps extends BaseButtonProps, Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseButtonProps | 'role' | 'type'> {
+export interface ButtonAsLinkProps extends BaseButtonProps, Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseButtonProps | "role" | "type"> {
     /**
      * When provided, renders as anchor link instead of button
      */
@@ -64,7 +64,7 @@ export interface ButtonAsLinkProps extends BaseButtonProps, Omit<React.AnchorHTM
      * Use aria-disabled for anchor elements (no native disabled support)
      * Use disabled prop instead for button elements
      */
-    'aria-disabled'?: 'true' | 'false';
+    "aria-disabled"?: "true" | "false";
 }
 /**
  * NHS Button Component

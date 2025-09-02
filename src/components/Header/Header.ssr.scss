@@ -14,17 +14,11 @@
 
 /* SSR Fallback Navigation Container */
 .nhsuk-header__navigation-container--ssr {
-  /* On server-side, show a simple horizontal layout */
+  /* Server-side: start as single line; overflow handled via progressive enhancement */
   .nhsuk-header__navigation-list {
     display: flex;
-    flex-wrap: wrap;
-    gap: tokens.$nhs-fdp-spacing-2; // 8px gap using design token
-    
-    /* On narrow screens, show items vertically */
-    @media (max-width: tokens.$nhs-fdp-breakpoint-medium) {
-      flex-direction: column;
-      max-width: 100%;
-    }
+    flex-wrap: nowrap;
+    gap: 0;
   }
 }
 
@@ -88,23 +82,7 @@
 }
 
 /* Enhanced Responsive Design for SSR */
-.nhsuk-header__navigation-container--ssr {
-  @media (max-width: 960px) {
-    .nhsuk-header__navigation-item--ssr-fallback:nth-child(n+4) {
-      display: none;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .nhsuk-header__navigation-list {
-      flex-direction: column;
-    }
-    
-    .nhsuk-header__navigation-item--ssr-fallback:nth-child(n+3) {
-      display: none;
-    }
-  }
-}
+// Removed responsive vertical stacking; enhancement script repurposes overflow into dropdown.
 
 /* Print Styles - Show all navigation for accessibility */
 @media print {

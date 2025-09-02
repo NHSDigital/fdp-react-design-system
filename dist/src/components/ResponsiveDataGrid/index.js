@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames4() {
+      function classNames2() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames4.apply(null, arg);
+          return classNames2.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,14 +71,14 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames4.default = classNames4;
-        module.exports = classNames4;
+        classNames2.default = classNames2;
+        module.exports = classNames2;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames4;
+          return classNames2;
         });
       } else {
-        window.classNames = classNames4;
+        window.classNames = classNames2;
       }
     })();
   }
@@ -104,6 +104,30 @@ import { useCallback as useCallback2, useMemo, useRef } from "react";
 
 // src/components/Button/Button.tsx
 import * as React from "react";
+
+// src/mapping/button.ts
+function mapButtonProps(input) {
+  const variant = input.variant || "primary";
+  const size = input.size || "default";
+  const fullWidth = !!input.fullWidth;
+  const classes = [
+    "nhs-aria-button",
+    `nhs-aria-button--${variant}`,
+    size !== "default" ? `nhs-aria-button--${size}` : "",
+    fullWidth ? "nhs-aria-button--full-width" : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const tag = input.href ? "a" : "button";
+  return {
+    tag,
+    classes,
+    data: { module: "nhs-button" },
+    attrs: input.href ? { href: input.href, role: "button" } : { type: "button" },
+    preventDoubleClick: !!input.preventDoubleClick
+  };
+}
+
+// src/components/Button/Button.tsx
 import { jsx } from "react/jsx-runtime";
 var { forwardRef, useCallback, useState } = React;
 function ButtonComponent(props, ref) {
@@ -119,13 +143,14 @@ function ButtonComponent(props, ref) {
   const [isPressed, setIsPressed] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const classes = [
-    "nhs-aria-button",
-    `nhs-aria-button--${variant}`,
-    size !== "default" ? `nhs-aria-button--${size}` : "",
-    fullWidth ? "nhs-aria-button--full-width" : "",
-    className
-  ].filter(Boolean).join(" ");
+  const model = mapButtonProps({
+    variant,
+    size,
+    fullWidth,
+    className,
+    preventDoubleClick,
+    href: "href" in rest ? rest.href : void 0
+  });
   const isDisabled = "disabled" in rest ? rest.disabled : rest["aria-disabled"] === "true";
   const dataAttributes = {
     ...isPressed && { "data-pressed": "true" },
@@ -133,37 +158,58 @@ function ButtonComponent(props, ref) {
     ...isFocused && { "data-focused": "true" },
     ...isDisabled && { "data-disabled": "true" }
   };
-  const handleMouseDown = useCallback(() => !isDisabled && setIsPressed(true), [isDisabled]);
+  const handleMouseDown = useCallback(
+    () => !isDisabled && setIsPressed(true),
+    [isDisabled]
+  );
   const handleMouseUp = useCallback(() => setIsPressed(false), []);
-  const handleMouseEnter = useCallback(() => !isDisabled && setIsHovered(true), [isDisabled]);
+  const handleMouseEnter = useCallback(
+    () => !isDisabled && setIsHovered(true),
+    [isDisabled]
+  );
   const handleMouseLeave = useCallback(() => {
     setIsHovered(false);
     setIsPressed(false);
   }, []);
   const handleFocus = useCallback(() => setIsFocused(true), []);
   const handleBlur = useCallback(() => setIsFocused(false), []);
-  const handleKeyDown = useCallback((event) => {
-    if (event.key === " " && ("href" in rest || event.currentTarget.getAttribute("role") === "button")) {
-      event.preventDefault();
-      event.currentTarget.click();
-    }
-  }, [rest]);
-  const handleClick = useCallback((event) => {
-    if (preventDoubleClick) {
-      const target = event.currentTarget;
-      const isAlreadyProcessing = target.getAttribute("data-processing") === "true";
-      if (isAlreadyProcessing) {
+  const handleKeyDown = useCallback(
+    (event) => {
+      if (event.key === " " && ("href" in rest || event.currentTarget.getAttribute("role") === "button")) {
         event.preventDefault();
-        return;
+        event.currentTarget.click();
       }
-      target.setAttribute("data-processing", "true");
-      setTimeout(() => {
-        target.removeAttribute("data-processing");
-      }, 1e3);
-    }
-  }, [preventDoubleClick]);
+    },
+    [rest]
+  );
+  const handleClick = useCallback(
+    (event) => {
+      if (preventDoubleClick) {
+        const target = event.currentTarget;
+        const isAlreadyProcessing = target.getAttribute("data-processing") === "true";
+        if (isAlreadyProcessing) {
+          event.preventDefault();
+          return;
+        }
+        target.setAttribute("data-processing", "true");
+        setTimeout(() => {
+          target.removeAttribute("data-processing");
+        }, 1e3);
+      }
+    },
+    [preventDoubleClick]
+  );
   if ("href" in rest && rest.href) {
-    const { id: id2, style: style2, title: title2, ["aria-label"]: ariaLabel2, ["aria-describedby"]: ariaDescribedBy2, ["aria-labelledby"]: ariaLabelledBy2, tabIndex: tabIndex2, ...anchorRest } = rest;
+    const {
+      id: id2,
+      style: style2,
+      title: title2,
+      ["aria-label"]: ariaLabel2,
+      ["aria-describedby"]: ariaDescribedBy2,
+      ["aria-labelledby"]: ariaLabelledBy2,
+      tabIndex: tabIndex2,
+      ...anchorRest
+    } = rest;
     const anchorProps = rest;
     return /* @__PURE__ */ jsx(
       "a",
@@ -172,7 +218,7 @@ function ButtonComponent(props, ref) {
         href: anchorProps.href,
         target: anchorProps.target,
         rel: anchorProps.rel,
-        className: classes,
+        className: model.classes,
         role: "button",
         draggable: "false",
         "data-module": "nhs-button",
@@ -220,7 +266,7 @@ function ButtonComponent(props, ref) {
           handleBlur();
         },
         "aria-disabled": anchorProps["aria-disabled"],
-        ...anchorProps["aria-disabled"] === "true" && { "tabIndex": -1 },
+        ...anchorProps["aria-disabled"] === "true" && { tabIndex: -1 },
         id: id2,
         style: style2,
         title: title2,
@@ -232,7 +278,25 @@ function ButtonComponent(props, ref) {
       }
     );
   }
-  const { id, style, title, ["aria-label"]: ariaLabel, ["aria-describedby"]: ariaDescribedBy, ["aria-labelledby"]: ariaLabelledBy, tabIndex, name, value: valueProp, form, formAction, formEncType, formMethod, formNoValidate, formTarget, autoFocus, ...buttonRest } = rest;
+  const {
+    id,
+    style,
+    title,
+    ["aria-label"]: ariaLabel,
+    ["aria-describedby"]: ariaDescribedBy,
+    ["aria-labelledby"]: ariaLabelledBy,
+    tabIndex,
+    name,
+    value: valueProp,
+    form,
+    formAction,
+    formEncType,
+    formMethod,
+    formNoValidate,
+    formTarget,
+    autoFocus,
+    ...buttonRest
+  } = rest;
   const buttonProps = rest;
   return /* @__PURE__ */ jsx(
     "button",
@@ -240,7 +304,7 @@ function ButtonComponent(props, ref) {
       ref,
       type: buttonProps.type || "button",
       disabled: buttonProps.disabled,
-      className: classes,
+      className: model.classes,
       "data-module": "nhs-button",
       ...dataAttributes,
       ...preventDoubleClick && { "data-prevent-double-click": "true" },
@@ -310,8 +374,21 @@ var Button = forwardRef(ButtonComponent);
 Button.displayName = "Button";
 var Button_default = Button;
 
+// src/mapping/tag.ts
+function mapTagProps(input) {
+  const { color = "default", noBorder, closable, disabled, className } = input;
+  const classes = [
+    "nhsuk-tag",
+    color !== "default" ? `nhsuk-tag--${color}` : "",
+    noBorder ? "nhsuk-tag--no-border" : "",
+    closable ? "nhsuk-tag--closable" : "",
+    disabled ? "nhsuk-tag--disabled" : "",
+    className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, showClose: !!closable, disabled: !!disabled };
+}
+
 // src/components/Tag/Tag.tsx
-var import_classnames = __toESM(require_classnames(), 1);
 import { jsx as jsx2, jsxs } from "react/jsx-runtime";
 var Tag = ({
   text,
@@ -325,16 +402,7 @@ var Tag = ({
   className,
   ...props
 }) => {
-  const tagClasses = (0, import_classnames.default)(
-    "nhsuk-tag",
-    {
-      [`nhsuk-tag--${color}`]: color !== "default",
-      "nhsuk-tag--no-border": noBorder,
-      "nhsuk-tag--closable": closable,
-      "nhsuk-tag--disabled": disabled
-    },
-    className
-  );
+  const model = mapTagProps({ color, noBorder, closable, disabled, className });
   const handleClose = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -342,7 +410,7 @@ var Tag = ({
       onClose();
     }
   };
-  return /* @__PURE__ */ jsxs("strong", { className: tagClasses, ...props, children: [
+  return /* @__PURE__ */ jsxs("strong", { className: model.classes, ...props, children: [
     children ? children : html ? /* @__PURE__ */ jsx2("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
     closable && /* @__PURE__ */ jsx2(
       "button",
@@ -1672,52 +1740,44 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
 import React5 from "react";
 
 // src/components/Heading/Heading.tsx
-var import_classnames2 = __toESM(require_classnames(), 1);
 import { createElement } from "react";
-import { jsx as jsx5 } from "react/jsx-runtime";
-var Heading = ({
-  level,
-  className,
-  text,
-  html,
-  children,
-  size,
-  marginBottom,
-  ...props
-}) => {
-  const getDefaultLevelFromSize = (size2) => {
-    switch (size2) {
-      case "xxl":
-      case "xl":
-        return 1;
-      case "l":
-        return 2;
-      case "m":
-        return 3;
-      case "s":
-        return 4;
-      case "xs":
-        return 5;
-      default:
-        return 2;
-    }
-  };
-  const headingLevel = level != null ? level : getDefaultLevelFromSize(size);
-  const headingClasses = (0, import_classnames2.default)(
+
+// src/mapping/heading.ts
+function deriveLevel(size) {
+  switch (size) {
+    case "xxl":
+    case "xl":
+      return 1;
+    case "l":
+      return 2;
+    case "m":
+      return 3;
+    case "s":
+      return 4;
+    case "xs":
+      return 5;
+    default:
+      return 2;
+  }
+}
+function mapHeadingProps(input) {
+  var _a;
+  const level = (_a = input.level) != null ? _a : deriveLevel(input.size);
+  const classes = [
     "nhsuk-heading",
-    {
-      [`nhsuk-heading--${size}`]: size
-    },
-    className
-  );
+    input.size ? `nhsuk-heading--${input.size}` : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const style = input.marginBottom ? { marginBottom: input.marginBottom } : void 0;
+  return { tag: `h${level}`, classes, style };
+}
+
+// src/components/Heading/Heading.tsx
+import { jsx as jsx5 } from "react/jsx-runtime";
+var Heading = ({ level, className, text, html, children, size, marginBottom, ...rest }) => {
+  const model = mapHeadingProps({ level, size, className, marginBottom });
   const content = children || (html ? /* @__PURE__ */ jsx5("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
-  const tagName = `h${headingLevel}`;
-  const style = marginBottom ? { ...props.style, marginBottom } : props.style;
-  return createElement(
-    tagName,
-    { className: headingClasses, ...props, style },
-    content
-  );
+  return createElement(model.tag, { className: model.classes, style: model.style, ...rest }, content);
 };
 
 // src/components/Card/Card.tsx
@@ -1827,7 +1887,7 @@ var Card = React5.forwardRef(({
 Card.displayName = "Card";
 
 // src/components/Select/Select.tsx
-var import_classnames3 = __toESM(require_classnames(), 1);
+var import_classnames = __toESM(require_classnames(), 1);
 import { jsx as jsx7 } from "react/jsx-runtime";
 var SelectOption = ({
   value,
@@ -1838,7 +1898,7 @@ var SelectOption = ({
   children,
   ...props
 }) => {
-  const optionClasses = (0, import_classnames3.default)(
+  const optionClasses = (0, import_classnames.default)(
     "nhsuk-select__option",
     className
   );
@@ -1875,7 +1935,7 @@ var SelectBase = ({
   ...props
 }) => {
   var _a;
-  const selectClasses = (0, import_classnames3.default)(
+  const selectClasses = (0, import_classnames.default)(
     "nhsuk-select",
     {
       "nhsuk-select--error": hasError

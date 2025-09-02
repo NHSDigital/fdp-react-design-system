@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames5() {
+      function classNames3() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames5.apply(null, arg);
+          return classNames3.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,26 +71,43 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames5.default = classNames5;
-        module.exports = classNames5;
+        classNames3.default = classNames3;
+        module.exports = classNames3;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames5;
+          return classNames3;
         });
       } else {
-        window.classNames = classNames5;
+        window.classNames = classNames3;
       }
     })();
   }
 });
 
 // src/components/Radios/Radios.tsx
-var import_classnames4 = __toESM(require_classnames(), 1);
 import { useState as useState2, useRef, useCallback } from "react";
 
+// src/components/Radios/Radios.render.tsx
+var import_classnames2 = __toESM(require_classnames(), 1);
+
 // src/components/Input/Input.tsx
-var import_classnames = __toESM(require_classnames(), 1);
 import { useState, useEffect } from "react";
+
+// src/mapping/input.ts
+function mapInputProps(p) {
+  const type = p.type || "text";
+  const isRange = type === "range";
+  const classes = [
+    "nhsuk-input",
+    p.hasError ? "nhsuk-input--error" : "",
+    isRange ? "nhsuk-input--range" : "",
+    !isRange && p.width && p.width !== "full" ? `nhsuk-input--width-${p.width}` : "",
+    p.className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, isRange };
+}
+
+// src/components/Input/Input.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
 var Input = ({
   id,
@@ -138,16 +155,7 @@ var Input = ({
       onChange == null ? void 0 : onChange(event);
     }
   };
-  const isRange = type === "range";
-  const inputClasses = (0, import_classnames.default)(
-    "nhsuk-input",
-    {
-      "nhsuk-input--error": hasError,
-      "nhsuk-input--range": isRange,
-      [`nhsuk-input--width-${width}`]: width !== "full" && !isRange
-    },
-    className
-  );
+  const { classes: inputClasses, isRange } = mapInputProps({ id, name, type, hasError, width, className });
   const isControlled = value !== void 0;
   const sharedRangeProps = {
     id,
@@ -238,8 +246,24 @@ var Input = ({
   );
 };
 
+// src/mapping/label.ts
+function mapLabelProps(input) {
+  const size = input.size || "m";
+  const classes = [
+    "nhsuk-label",
+    size !== "m" ? `nhsuk-label--${size}` : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  return {
+    tag: input.isPageHeading ? "h1" : "label",
+    classes,
+    size,
+    htmlFor: input.isPageHeading ? void 0 : input.htmlFor,
+    isPageHeading: !!input.isPageHeading
+  };
+}
+
 // src/components/Label/Label.tsx
-var import_classnames2 = __toESM(require_classnames(), 1);
 import { jsx as jsx2 } from "react/jsx-runtime";
 var Label = ({
   htmlFor,
@@ -249,27 +273,13 @@ var Label = ({
   children,
   ...props
 }) => {
-  const labelClasses = (0, import_classnames2.default)(
-    "nhsuk-label",
-    {
-      [`nhsuk-label--${size}`]: size !== "m"
-    },
-    className
-  );
-  const LabelElement = isPageHeading ? "h1" : "label";
-  return /* @__PURE__ */ jsx2(
-    LabelElement,
-    {
-      className: labelClasses,
-      htmlFor: isPageHeading ? void 0 : htmlFor,
-      ...props,
-      children: isPageHeading ? /* @__PURE__ */ jsx2("label", { className: "nhsuk-label-wrapper", htmlFor, children }) : children
-    }
-  );
+  const model = mapLabelProps({ size, isPageHeading, className, htmlFor });
+  const LabelElement = model.tag;
+  return /* @__PURE__ */ jsx2(LabelElement, { className: model.classes, htmlFor: model.htmlFor, ...props, children: isPageHeading ? /* @__PURE__ */ jsx2("label", { className: "nhsuk-label-wrapper", htmlFor, children }) : children });
 };
 
 // src/components/Fieldset/Fieldset.tsx
-var import_classnames3 = __toESM(require_classnames(), 1);
+var import_classnames = __toESM(require_classnames(), 1);
 import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
 var Fieldset = ({
   children,
@@ -278,11 +288,11 @@ var Fieldset = ({
   describedBy,
   ...fieldsetProps
 }) => {
-  const fieldsetClasses = (0, import_classnames3.default)(
+  const fieldsetClasses = (0, import_classnames.default)(
     "nhsuk-fieldset",
     className
   );
-  const legendClasses = (0, import_classnames3.default)(
+  const legendClasses = (0, import_classnames.default)(
     "nhsuk-fieldset__legend",
     {
       [`nhsuk-fieldset__legend--${legend == null ? void 0 : legend.size}`]: legend == null ? void 0 : legend.size
@@ -310,26 +320,29 @@ var Fieldset = ({
   );
 };
 
-// src/components/Radios/Radios.tsx
+// src/components/Radios/Radios.render.tsx
 import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
-var Radios = ({
-  name,
-  value,
-  defaultValue,
-  hasError = false,
-  describedBy,
-  className,
-  size = "normal",
-  inline = false,
-  options,
-  onChange,
-  onBlur,
-  onFocus,
-  ...props
-}) => {
-  const [selectedValue, setSelectedValue] = useState2(value || defaultValue || "");
-  const itemsRef = useRef([]);
-  const radiosClasses = (0, import_classnames4.default)(
+function renderRadiosMarkup(props, {
+  variant,
+  selectedValue,
+  enableBehaviourAttr,
+  handleChange,
+  handleBlur,
+  handleFocus,
+  handleKeyDown,
+  itemsRef
+}) {
+  const {
+    name,
+    hasError = false,
+    describedBy,
+    className,
+    size = "normal",
+    inline = false,
+    options,
+    ...rest
+  } = props;
+  const radiosClasses = (0, import_classnames2.default)(
     "nhsuk-radios",
     {
       "nhsuk-radios--error": hasError,
@@ -338,12 +351,62 @@ var Radios = ({
     },
     className
   );
+  return /* @__PURE__ */ jsx4(Fieldset, { children: /* @__PURE__ */ jsx4(
+    "div",
+    {
+      className: radiosClasses,
+      ...rest,
+      ...enableBehaviourAttr ? { "data-nhs-behaviour": "radios" } : {},
+      children: options.map((option, index) => {
+        const radioId = `${name}-${index}`;
+        const conditionalId = option.conditional ? `${radioId}-conditional` : void 0;
+        const isSelected = selectedValue === option.value;
+        return /* @__PURE__ */ jsxs3("div", { className: "nhsuk-radios__item", children: [
+          /* @__PURE__ */ jsx4(
+            "input",
+            {
+              className: "nhsuk-radios__input",
+              id: radioId,
+              name,
+              type: "radio",
+              value: option.value,
+              disabled: option.disabled,
+              ...variant === "client" ? { checked: isSelected, onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, onKeyDown: handleKeyDown, ref: (el) => {
+                if (el && itemsRef) itemsRef.current[index] = el;
+              } } : { defaultChecked: isSelected, "data-nhs-radios-input": true },
+              "aria-describedby": describedBy
+            }
+          ),
+          /* @__PURE__ */ jsx4("label", { className: "nhsuk-radios__label", htmlFor: radioId, children: option.text }),
+          option.hint && /* @__PURE__ */ jsx4("div", { className: "nhsuk-radios__hint", children: option.hint }),
+          option.conditional && /* @__PURE__ */ jsx4(
+            "div",
+            {
+              className: (0, import_classnames2.default)("nhsuk-radios__conditional", {
+                "nhsuk-radios__conditional--hidden": !isSelected
+              }),
+              id: conditionalId,
+              ...variant === "server" ? { "data-nhs-radios-conditional": true } : {},
+              children: typeof option.conditional === "object" && option.conditional !== null && "label" in option.conditional && "id" in option.conditional && "name" in option.conditional ? /* @__PURE__ */ jsxs3("div", { style: { marginTop: "16px" }, children: [
+                option.conditional.label && /* @__PURE__ */ jsx4(Label, { htmlFor: option.conditional.id, children: option.conditional.label }),
+                /* @__PURE__ */ jsx4(Input, { ...option.conditional })
+              ] }) : option.conditional
+            }
+          )
+        ] }, option.value);
+      })
+    }
+  ) });
+}
+
+// src/components/Radios/Radios.tsx
+var Radios = ({ value, defaultValue, onChange, onBlur, onFocus, ...rest }) => {
+  const [selectedValue, setSelectedValue] = useState2(value || defaultValue || "");
+  const itemsRef = useRef([]);
   const handleChange = (event) => {
     const newValue = event.target.value;
     setSelectedValue(newValue);
-    if (onChange) {
-      onChange(event);
-    }
+    onChange == null ? void 0 : onChange(event);
   };
   const handleKeyDown = useCallback((event) => {
     const { key } = event;
@@ -353,64 +416,44 @@ var Radios = ({
     const current = enabledRadios.indexOf(event.currentTarget);
     if (current === -1) return;
     let nextIndex = current;
-    if (key === "ArrowDown" || key === "ArrowRight") {
-      nextIndex = (current + 1) % enabledRadios.length;
-    } else if (key === "ArrowUp" || key === "ArrowLeft") {
-      nextIndex = (current - 1 + enabledRadios.length) % enabledRadios.length;
-    }
+    if (["ArrowDown", "ArrowRight"].includes(key)) nextIndex = (current + 1) % enabledRadios.length;
+    else if (["ArrowUp", "ArrowLeft"].includes(key)) nextIndex = (current - 1 + enabledRadios.length) % enabledRadios.length;
     const nextRadio = enabledRadios[nextIndex];
     if (nextRadio) {
       nextRadio.focus();
-      if (!nextRadio.checked) {
-        nextRadio.click();
-      }
+      if (!nextRadio.checked) nextRadio.click();
     }
   }, []);
-  return /* @__PURE__ */ jsx4(Fieldset, { children: /* @__PURE__ */ jsx4("div", { className: radiosClasses, ...props, children: options.map((option, index) => {
-    const radioId = `${name}-${index}`;
-    const conditionalId = option.conditional ? `${radioId}-conditional` : void 0;
-    const isSelected = selectedValue === option.value;
-    return /* @__PURE__ */ jsxs3("div", { className: "nhsuk-radios__item", children: [
-      /* @__PURE__ */ jsx4(
-        "input",
-        {
-          className: "nhsuk-radios__input",
-          id: radioId,
-          name,
-          type: "radio",
-          value: option.value,
-          disabled: option.disabled,
-          checked: isSelected,
-          "aria-describedby": describedBy,
-          onChange: handleChange,
-          onBlur,
-          onFocus,
-          onKeyDown: handleKeyDown,
-          ref: (el) => {
-            if (el) itemsRef.current[index] = el;
-          }
-        }
-      ),
-      /* @__PURE__ */ jsx4("label", { className: "nhsuk-radios__label", htmlFor: radioId, children: option.text }),
-      option.hint && /* @__PURE__ */ jsx4("div", { className: "nhsuk-radios__hint", children: option.hint }),
-      option.conditional && /* @__PURE__ */ jsx4(
-        "div",
-        {
-          className: (0, import_classnames4.default)("nhsuk-radios__conditional", {
-            "nhsuk-radios__conditional--hidden": !isSelected
-          }),
-          id: conditionalId,
-          children: typeof option.conditional === "object" && option.conditional !== null && "label" in option.conditional && "id" in option.conditional && "name" in option.conditional ? /* @__PURE__ */ jsxs3("div", { style: { marginTop: "16px" }, children: [
-            option.conditional.label && /* @__PURE__ */ jsx4(Label, { htmlFor: option.conditional.id, children: option.conditional.label }),
-            /* @__PURE__ */ jsx4(Input, { ...option.conditional })
-          ] }) : option.conditional
-        }
-      )
-    ] }, option.value);
-  }) }) });
+  return renderRadiosMarkup(
+    { value, defaultValue, onChange, onBlur, onFocus, ...rest },
+    {
+      variant: "client",
+      selectedValue,
+      enableBehaviourAttr: false,
+      handleChange,
+      handleBlur: onBlur,
+      handleFocus: onFocus,
+      handleKeyDown,
+      itemsRef
+    }
+  );
+};
+
+// src/components/Radios/Radios.server.tsx
+var RadiosServer = ({ value, defaultValue, ...rest }) => {
+  const selectedValue = value || defaultValue || "";
+  return renderRadiosMarkup(
+    { value, defaultValue, ...rest },
+    {
+      variant: "server",
+      selectedValue,
+      enableBehaviourAttr: true
+    }
+  );
 };
 export {
-  Radios
+  Radios,
+  RadiosServer
 };
 /*! Bundled license information:
 

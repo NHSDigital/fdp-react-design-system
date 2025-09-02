@@ -16,8 +16,6 @@
 
 // Critical layout components for progressive enhancement
 @use '../components/Header/Header.scss' as header-main;
-@use '../components/Header/Header.ssr.scss' as header-ssr;
-@use '../components/Header/HeaderStatic.scss' as header-static;
 @use '../components/Footer/Footer.scss';
 
 // Skip link for accessibility (should be global)

@@ -1,7 +1,7 @@
 import React from 'react';
-import classNames from 'classnames';
 import './Label.scss';
 import { LabelProps } from './Label.types';
+import { mapLabelProps } from '../../mapping/label';
 
 export const Label: React.FC<LabelProps> = ({
   htmlFor,
@@ -11,22 +11,11 @@ export const Label: React.FC<LabelProps> = ({
   children,
   ...props
 }) => {
-  const labelClasses = classNames(
-    'nhsuk-label',
-    {
-      [`nhsuk-label--${size}`]: size !== 'm',
-    },
-    className
-  );
-
-  const LabelElement = isPageHeading ? 'h1' : 'label';
+  const model = mapLabelProps({ size, isPageHeading, className, htmlFor });
+  const LabelElement = model.tag;
 
   return (
-    <LabelElement
-      className={labelClasses}
-      htmlFor={isPageHeading ? undefined : htmlFor}
-      {...props}
-    >
+  <LabelElement className={model.classes} htmlFor={model.htmlFor} {...props}>
       {isPageHeading ? (
         <label className="nhsuk-label-wrapper" htmlFor={htmlFor}>
           {children}

@@ -12,7 +12,7 @@ export default defineConfig({
 		projects: [
 			{
 				test: {
-					include: ['src/**/*.test.{ts,tsx}'],
+					include: ['src/**/*.test.{ts,tsx}', 'tests/macroParity/**/*.test.{ts,tsx}'],
 					environment: 'jsdom',
 					setupFiles: ['src/test-setup.ts'],
 				},

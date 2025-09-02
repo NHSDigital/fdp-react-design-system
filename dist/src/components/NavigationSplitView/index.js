@@ -241,8 +241,42 @@ function useNavigationSplitUrlSync(options = {}) {
 
 // src/components/NavigationSplitView/NavigationSplitView.tsx
 import { Fragment as Fragment2, jsx as jsx3, jsxs as jsxs3 } from "react/jsx-runtime";
-var ChevronLeftIcon = ({ className }) => /* @__PURE__ */ jsx3("svg", { className, width: "16", height: "16", viewBox: "0 0 16 16", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ jsx3("path", { fill: "currentColor", d: "M10.7 3.3a1 1 0 0 1 0 1.4L7.41 8l3.3 3.3a1 1 0 1 1-1.42 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.42 0Z" }) });
-var ChevronRightIcon = ({ className }) => /* @__PURE__ */ jsx3("svg", { className, width: "16", height: "16", viewBox: "0 0 16 16", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ jsx3("path", { fill: "currentColor", d: "M5.3 12.7a1 1 0 0 1 0-1.4L8.59 8l-3.3-3.3a1 1 0 0 1 1.42-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.42 0Z" }) });
+var ChevronLeftIcon = ({ className }) => /* @__PURE__ */ jsx3(
+  "svg",
+  {
+    className,
+    width: "16",
+    height: "16",
+    viewBox: "0 0 16 16",
+    "aria-hidden": "true",
+    focusable: "false",
+    children: /* @__PURE__ */ jsx3(
+      "path",
+      {
+        fill: "currentColor",
+        d: "M10.7 3.3a1 1 0 0 1 0 1.4L7.41 8l3.3 3.3a1 1 0 1 1-1.42 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.42 0Z"
+      }
+    )
+  }
+);
+var ChevronRightIcon = ({ className }) => /* @__PURE__ */ jsx3(
+  "svg",
+  {
+    className,
+    width: "16",
+    height: "16",
+    viewBox: "0 0 16 16",
+    "aria-hidden": "true",
+    focusable: "false",
+    children: /* @__PURE__ */ jsx3(
+      "path",
+      {
+        fill: "currentColor",
+        d: "M5.3 12.7a1 1 0 0 1 0-1.4L8.59 8l-3.3-3.3a1 1 0 0 1 1.42-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.42 0Z"
+      }
+    )
+  }
+);
 function NavigationSplitView(props) {
   const {
     items,
@@ -319,7 +353,9 @@ function NavigationSplitView(props) {
   );
   const selectedId = controlledSelectedId !== void 0 ? controlledSelectedId : uncontrolledSelected;
   const selectedItem = items.find((i) => getId(i) === selectedId);
-  const [justSelectedId, setJustSelectedId] = React3.useState(void 0);
+  const [justSelectedId, setJustSelectedId] = React3.useState(
+    void 0
+  );
   React3.useEffect(() => {
     if (selectedId === void 0) return;
     setJustSelectedId(selectedId);
@@ -334,7 +370,11 @@ function NavigationSplitView(props) {
   const [paneFocusMode, setPaneFocusMode] = React3.useState(() => "nav");
   const [containerIndex, setContainerIndex] = React3.useState(0);
   const getPaneOrder = () => {
-    return [navPaneRef.current, contentPaneRef.current, secondaryPaneRef.current].filter(Boolean);
+    return [
+      navPaneRef.current,
+      contentPaneRef.current,
+      secondaryPaneRef.current
+    ].filter(Boolean);
   };
   const focusContainerByIndex = (idx) => {
     var _a;
@@ -343,87 +383,98 @@ function NavigationSplitView(props) {
     (_a = order[clamped]) == null ? void 0 : _a.focus();
     setContainerIndex(clamped);
   };
-  const getFocusableElements = React3.useCallback((root) => {
-    if (!root) return [];
-    const selector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-    return Array.from(root.querySelectorAll(selector)).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
-  }, []);
-  const focusContentElement = React3.useCallback((idx) => {
-    var _a;
-    const els = getFocusableElements(contentPaneRef.current);
-    if (!els.length) {
-      (_a = contentPaneRef.current) == null ? void 0 : _a.focus();
-      return;
-    }
-    const clamped = Math.max(0, Math.min(idx, els.length - 1));
-    const targetElement = els[clamped];
-    targetElement.focus();
-    setTimeout(() => {
-      if (document.activeElement !== targetElement) {
-        targetElement.focus();
-        setTimeout(() => {
-          if (document.activeElement !== targetElement) {
-            targetElement.click();
-          }
-        }, 10);
+  const getFocusableElements = React3.useCallback(
+    (root) => {
+      if (!root) return [];
+      const selector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+      return Array.from(root.querySelectorAll(selector)).filter(
+        (el) => !el.hasAttribute("disabled") && el.tabIndex !== -1
+      );
+    },
+    []
+  );
+  const focusContentElement = React3.useCallback(
+    (idx) => {
+      var _a;
+      const els = getFocusableElements(contentPaneRef.current);
+      if (!els.length) {
+        (_a = contentPaneRef.current) == null ? void 0 : _a.focus();
+        return;
       }
-    }, 10);
-    setPaneNavState((p) => ({ ...p, contentIndex: clamped }));
-    const handleChildEscape = (e) => {
-      var _a2;
-      if (e.key === "Escape") {
-        e.preventDefault();
-        e.stopPropagation();
-        (_a2 = contentPaneRef.current) == null ? void 0 : _a2.focus();
-        targetElement.removeEventListener("keydown", handleChildEscape);
+      const clamped = Math.max(0, Math.min(idx, els.length - 1));
+      const targetElement = els[clamped];
+      targetElement.focus();
+      setTimeout(() => {
+        if (document.activeElement !== targetElement) {
+          targetElement.focus();
+          setTimeout(() => {
+            if (document.activeElement !== targetElement) {
+              targetElement.click();
+            }
+          }, 10);
+        }
+      }, 10);
+      setPaneNavState((p) => ({ ...p, contentIndex: clamped }));
+      const handleChildEscape = (e) => {
+        var _a2;
+        if (e.key === "Escape") {
+          e.preventDefault();
+          e.stopPropagation();
+          (_a2 = contentPaneRef.current) == null ? void 0 : _a2.focus();
+          targetElement.removeEventListener("keydown", handleChildEscape);
+        }
+      };
+      els.forEach((el) => {
+        const existingHandler = el._escapeHandler;
+        if (existingHandler) {
+          el.removeEventListener("keydown", existingHandler);
+        }
+      });
+      targetElement._escapeHandler = handleChildEscape;
+      targetElement.addEventListener("keydown", handleChildEscape);
+    },
+    [getFocusableElements]
+  );
+  const focusSecondaryElement = React3.useCallback(
+    (idx) => {
+      var _a;
+      const els = getFocusableElements(secondaryPaneRef.current);
+      if (!els.length) {
+        (_a = secondaryPaneRef.current) == null ? void 0 : _a.focus();
+        return;
       }
-    };
-    els.forEach((el) => {
-      const existingHandler = el._escapeHandler;
-      if (existingHandler) {
-        el.removeEventListener("keydown", existingHandler);
-      }
-    });
-    targetElement._escapeHandler = handleChildEscape;
-    targetElement.addEventListener("keydown", handleChildEscape);
-  }, [getFocusableElements]);
-  const focusSecondaryElement = React3.useCallback((idx) => {
-    var _a;
-    const els = getFocusableElements(secondaryPaneRef.current);
-    if (!els.length) {
-      (_a = secondaryPaneRef.current) == null ? void 0 : _a.focus();
-      return;
-    }
-    const clamped = Math.max(0, Math.min(idx, els.length - 1));
-    const targetElement = els[clamped];
-    targetElement.focus();
-    setTimeout(() => {
-      if (document.activeElement !== targetElement) {
-        targetElement.focus();
-        setTimeout(() => {
-          if (document.activeElement !== targetElement) {
-            targetElement.click();
-          }
-        }, 10);
-      }
-    }, 10);
-    setPaneNavState((p) => ({ ...p, secondaryIndex: clamped }));
-    const handleChildEscape = (e) => {
-      var _a2;
-      if (e.key === "Escape") {
-        e.preventDefault();
-        e.stopPropagation();
-        (_a2 = secondaryPaneRef.current) == null ? void 0 : _a2.focus();
-        targetElement.removeEventListener("keydown", handleChildEscape);
-      }
-    };
-    els.forEach((el) => {
-      const existing = el._escapeHandler;
-      if (existing) el.removeEventListener("keydown", existing);
-    });
-    targetElement._escapeHandler = handleChildEscape;
-    targetElement.addEventListener("keydown", handleChildEscape);
-  }, [getFocusableElements]);
+      const clamped = Math.max(0, Math.min(idx, els.length - 1));
+      const targetElement = els[clamped];
+      targetElement.focus();
+      setTimeout(() => {
+        if (document.activeElement !== targetElement) {
+          targetElement.focus();
+          setTimeout(() => {
+            if (document.activeElement !== targetElement) {
+              targetElement.click();
+            }
+          }, 10);
+        }
+      }, 10);
+      setPaneNavState((p) => ({ ...p, secondaryIndex: clamped }));
+      const handleChildEscape = (e) => {
+        var _a2;
+        if (e.key === "Escape") {
+          e.preventDefault();
+          e.stopPropagation();
+          (_a2 = secondaryPaneRef.current) == null ? void 0 : _a2.focus();
+          targetElement.removeEventListener("keydown", handleChildEscape);
+        }
+      };
+      els.forEach((el) => {
+        const existing = el._escapeHandler;
+        if (existing) el.removeEventListener("keydown", existing);
+      });
+      targetElement._escapeHandler = handleChildEscape;
+      targetElement.addEventListener("keydown", handleChildEscape);
+    },
+    [getFocusableElements]
+  );
   const onRootKeyDown = (e) => {
     var _a;
     if (e.defaultPrevented) return;
@@ -465,7 +516,9 @@ function NavigationSplitView(props) {
         if (target === navPaneRef.current) {
           setPaneFocusMode("nav");
           if (listRef.current) {
-            const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
+            const nodes = Array.from(
+              listRef.current.querySelectorAll("[data-nav-item]")
+            );
             (_a = nodes[focusedIndex >= 0 ? focusedIndex : 0] || nodes[0]) == null ? void 0 : _a.focus();
           }
         } else if (target === contentPaneRef.current) {
@@ -485,7 +538,9 @@ function NavigationSplitView(props) {
           e.preventDefault();
           setPaneFocusMode("nav");
           if (listRef.current) {
-            const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
+            const nodes = Array.from(
+              listRef.current.querySelectorAll("[data-nav-item]")
+            );
             const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0];
             setTimeout(() => candidate == null ? void 0 : candidate.focus(), 10);
           }
@@ -493,7 +548,9 @@ function NavigationSplitView(props) {
           e.preventDefault();
           setPaneFocusMode("nav");
           if (listRef.current) {
-            const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
+            const nodes = Array.from(
+              listRef.current.querySelectorAll("[data-nav-item]")
+            );
             const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0];
             setTimeout(() => candidate == null ? void 0 : candidate.focus(), 10);
           }
@@ -502,7 +559,9 @@ function NavigationSplitView(props) {
       return;
     }
     if (key === "Enter" || key === " ") {
-      const isInteractiveElement = target.matches('button, a, input, select, textarea, [role="button"], [role="link"], [role="tab"]');
+      const isInteractiveElement = target.matches(
+        'button, a, input, select, textarea, [role="button"], [role="link"], [role="tab"]'
+      );
       if (isInteractiveElement) {
         return;
       }
@@ -520,7 +579,9 @@ function NavigationSplitView(props) {
       if (target === secondaryPaneRef.current && paneFocusMode === "secondary") {
         e.preventDefault();
         e.stopPropagation();
-        const secondaryElements = getFocusableElements(secondaryPaneRef.current);
+        const secondaryElements = getFocusableElements(
+          secondaryPaneRef.current
+        );
         if (secondaryElements.length > 0) {
           setTimeout(() => {
             focusSecondaryElement(paneNavState.secondaryIndex);
@@ -530,7 +591,9 @@ function NavigationSplitView(props) {
       }
     }
     if (isMobileDetail && inContentHeader && !isContainer && (key === "ArrowRight" || key === "ArrowLeft")) {
-      const all = getFocusableElements(contentPaneRef.current).filter((el) => el.closest(".nhs-navigation-split-view__header"));
+      const all = getFocusableElements(contentPaneRef.current).filter(
+        (el) => el.closest(".nhs-navigation-split-view__header")
+      );
       if (all.length > 1) {
         const currentIndex = all.indexOf(target);
         if (currentIndex >= 0) {
@@ -578,7 +641,9 @@ function NavigationSplitView(props) {
         e.preventDefault();
         setPaneFocusMode("nav");
         if (listRef.current) {
-          const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
+          const nodes = Array.from(
+            listRef.current.querySelectorAll("[data-nav-item]")
+          );
           const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0];
           setTimeout(() => candidate == null ? void 0 : candidate.focus(), 10);
         }
@@ -590,7 +655,9 @@ function NavigationSplitView(props) {
         e.preventDefault();
         setPaneFocusMode("nav");
         if (listRef.current) {
-          const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
+          const nodes = Array.from(
+            listRef.current.querySelectorAll("[data-nav-item]")
+          );
           const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0] || nodes[0];
           setTimeout(() => candidate == null ? void 0 : candidate.focus(), 10);
         }
@@ -626,7 +693,9 @@ function NavigationSplitView(props) {
       }
       if (target === secondaryPaneRef.current && key === "ArrowDown") {
         e.preventDefault();
-        const secondaryElements = getFocusableElements(secondaryPaneRef.current);
+        const secondaryElements = getFocusableElements(
+          secondaryPaneRef.current
+        );
         if (secondaryElements.length > 0) {
           focusSecondaryElement(0);
         }
@@ -699,7 +768,16 @@ function NavigationSplitView(props) {
   const baseHeaderCondition = !!selectedItem && (detailActive && autoHeaderConfig.mobile || !detailActive && isTabletRange && autoHeaderConfig.tablet || !detailActive && isDesktopRange && autoHeaderConfig.desktop);
   const showHeader = baseHeaderCondition || tertiaryAvailable && !tertiaryVisible;
   const headingTag = `h${contentHeaderLevel}`;
-  const defaultHeadingNode = selectedItem ? React3.createElement(headingTag, { style: { marginLeft: detailActive ? 32 : 0, marginRight: detailActive ? 32 : 0 } }, selectedItem.label) : null;
+  const defaultHeadingNode = selectedItem ? React3.createElement(
+    headingTag,
+    {
+      style: {
+        marginLeft: detailActive ? 32 : 0,
+        marginRight: detailActive ? 32 : 0
+      }
+    },
+    selectedItem.label
+  ) : null;
   const headerContext = detailActive ? "mobile" : isTabletRange ? "tablet" : "desktop";
   const showForward = tertiaryAvailable && !tertiaryVisible && !tertiaryInlineActive;
   const backLinkNode = detailActive && autoHeaderConfig.mobile ? /* @__PURE__ */ jsx3(
@@ -732,32 +810,68 @@ function NavigationSplitView(props) {
   ) : void 0;
   const renderedHeaderInner = React3.useMemo(() => {
     if (!showHeader || !selectedItem) return null;
-    if (renderContentHeader) return renderContentHeader({
-      item: selectedItem,
-      detailActive,
-      context: headerContext,
-      backLink: backLinkNode,
-      defaultHeading: defaultHeadingNode
-    });
+    if (renderContentHeader)
+      return renderContentHeader({
+        item: selectedItem,
+        detailActive,
+        context: headerContext,
+        backLink: backLinkNode,
+        defaultHeading: defaultHeadingNode
+      });
     const sub = selectedItem && contentSubheader ? typeof contentSubheader === "function" ? contentSubheader(selectedItem) : contentSubheader : null;
     return /* @__PURE__ */ jsxs3("div", { style: { display: "flex", alignItems: "center", width: "100%" }, children: [
-      /* @__PURE__ */ jsxs3("div", { style: { display: "flex", alignItems: "center", gap: 0, flex: "1 1 auto", minWidth: 0 }, children: [
-        tertiaryBackNode || backLinkNode,
-        /* @__PURE__ */ jsxs3("div", { style: { display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }, children: [
-          defaultHeadingNode,
-          sub && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__subheader", children: sub })
-        ] })
-      ] }),
+      /* @__PURE__ */ jsxs3(
+        "div",
+        {
+          style: {
+            display: "flex",
+            alignItems: "center",
+            gap: 0,
+            flex: "1 1 auto",
+            minWidth: 0
+          },
+          children: [
+            tertiaryBackNode || backLinkNode,
+            /* @__PURE__ */ jsxs3(
+              "div",
+              {
+                style: {
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
+                  minWidth: 0
+                },
+                children: [
+                  defaultHeadingNode,
+                  sub && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__subheader", children: sub })
+                ]
+              }
+            )
+          ]
+        }
+      ),
       forwardLinkNode && /* @__PURE__ */ jsx3("div", { style: { marginLeft: "auto" }, children: forwardLinkNode })
     ] });
-  }, [showHeader, selectedItem, renderContentHeader, detailActive, headerContext, backLinkNode, tertiaryBackNode, defaultHeadingNode, forwardLinkNode, contentSubheader]);
+  }, [
+    showHeader,
+    selectedItem,
+    renderContentHeader,
+    detailActive,
+    headerContext,
+    backLinkNode,
+    tertiaryBackNode,
+    defaultHeadingNode,
+    forwardLinkNode,
+    contentSubheader
+  ]);
   React3.useEffect(() => {
     if (!syncUrl) return;
     const drilled = effectiveLayout === "three-column";
     let cancelled = false;
     const apply = () => {
       if (cancelled) return;
-      if (urlSync.selectedId !== selectedId) urlSync.setSelectedId(selectedId);
+      if (urlSync.selectedId !== selectedId)
+        urlSync.setSelectedId(selectedId);
       if (urlSync.drilledIn !== drilled) urlSync.setDrilledIn(drilled);
     };
     if (urlSyncDebounceMs && urlSyncDebounceMs > 0) {
@@ -782,14 +896,25 @@ function NavigationSplitView(props) {
     };
     window.addEventListener("popstate", handler);
     return () => window.removeEventListener("popstate", handler);
-  }, [syncUrl, urlParamSelected, urlParamDrill, forceLayout, renderSecondaryContent]);
+  }, [
+    syncUrl,
+    urlParamSelected,
+    urlParamDrill,
+    forceLayout,
+    renderSecondaryContent
+  ]);
   const lastFocusedIndexRef = React3.useRef(0);
-  const typeaheadRef = React3.useRef(null);
-  const handleSelect = React3.useCallback((id, item) => {
-    if (id === selectedId) return;
-    if (controlledSelectedId === void 0) setUncontrolledSelected(id);
-    onSelectionChange == null ? void 0 : onSelectionChange(id, item);
-  }, [controlledSelectedId, onSelectionChange, selectedId]);
+  const typeaheadRef = React3.useRef(
+    null
+  );
+  const handleSelect = React3.useCallback(
+    (id, item) => {
+      if (id === selectedId) return;
+      if (controlledSelectedId === void 0) setUncontrolledSelected(id);
+      onSelectionChange == null ? void 0 : onSelectionChange(id, item);
+    },
+    [controlledSelectedId, onSelectionChange, selectedId]
+  );
   React3.useEffect(() => {
     if (!skipFocusOnSelect && detailActive && contentPaneRef.current) {
       const t = setTimeout(() => {
@@ -800,11 +925,15 @@ function NavigationSplitView(props) {
     }
   }, [detailActive, selectedId, skipFocusOnSelect]);
   const listRef = React3.useRef(null);
-  const [focusedIndex, setFocusedIndex] = React3.useState(() => initialFocus === "first" ? 0 : -1);
+  const [focusedIndex, setFocusedIndex] = React3.useState(
+    () => initialFocus === "first" ? 0 : -1
+  );
   React3.useEffect(() => {
     if (focusedIndex < 0) return;
     if (!listRef.current) return;
-    const nodes = Array.from(listRef.current.querySelectorAll("[data-nav-item]"));
+    const nodes = Array.from(
+      listRef.current.querySelectorAll("[data-nav-item]")
+    );
     const node = nodes[focusedIndex];
     if (node) {
       if (document.activeElement !== node) {
@@ -812,7 +941,11 @@ function NavigationSplitView(props) {
       }
       lastFocusedIndexRef.current = focusedIndex;
       const item = items[focusedIndex];
-      onFocusChange == null ? void 0 : onFocusChange(item ? getId(item) : void 0, item, focusedIndex);
+      onFocusChange == null ? void 0 : onFocusChange(
+        item ? getId(item) : void 0,
+        item,
+        focusedIndex
+      );
     }
   }, [focusedIndex, items, onFocusChange, getId]);
   const onKeyDownList = (e) => {
@@ -864,7 +997,9 @@ function NavigationSplitView(props) {
       typeaheadRef.current.last = now;
       let buffer = typeaheadRef.current.buffer;
       const allSame = buffer.split("").every((ch) => ch === buffer[0]);
-      const labels = items.map((it) => String(it.label || "").toLowerCase());
+      const labels = items.map(
+        (it) => String(it.label || "").toLowerCase()
+      );
       let startIndex = 0;
       if (focusedIndex >= 0) {
         startIndex = (focusedIndex + 1) % items.length;
@@ -888,7 +1023,8 @@ function NavigationSplitView(props) {
         if (matchIndex === void 0 && buffer.length > 1) {
           matchIndex = search(buffer[buffer.length - 1], true);
           if (matchIndex !== void 0) {
-            if (typeaheadRef.current) typeaheadRef.current.buffer = buffer[buffer.length - 1];
+            if (typeaheadRef.current)
+              typeaheadRef.current.buffer = buffer[buffer.length - 1];
           }
         }
       }
@@ -911,7 +1047,12 @@ function NavigationSplitView(props) {
       }
     }
     return navInitiallyCollapsed;
-  }, [persistNavCollapsed, navInitiallyCollapsed, navCollapsedStorageKey, navCollapsedUrlParam]);
+  }, [
+    persistNavCollapsed,
+    navInitiallyCollapsed,
+    navCollapsedStorageKey,
+    navCollapsedUrlParam
+  ]);
   const [navCollapsed, setNavCollapsed] = React3.useState(initialCollapsed);
   React3.useEffect(() => {
     onNavCollapseChange == null ? void 0 : onNavCollapseChange(navCollapsed);
@@ -924,7 +1065,10 @@ function NavigationSplitView(props) {
     if (typeof window === "undefined") return;
     if (persistNavCollapsed === "localStorage" || persistNavCollapsed === "both") {
       try {
-        window.localStorage.setItem(navCollapsedStorageKey, navCollapsed ? "1" : "0");
+        window.localStorage.setItem(
+          navCollapsedStorageKey,
+          navCollapsed ? "1" : "0"
+        );
       } catch {
       }
     }
@@ -934,7 +1078,12 @@ function NavigationSplitView(props) {
       const newUrl = `${window.location.pathname}?${sp.toString()}${window.location.hash}`;
       window.history.replaceState(null, "", newUrl);
     }
-  }, [navCollapsed, persistNavCollapsed, navCollapsedStorageKey, navCollapsedUrlParam]);
+  }, [
+    navCollapsed,
+    persistNavCollapsed,
+    navCollapsedStorageKey,
+    navCollapsedUrlParam
+  ]);
   const rootClasses = [
     "nhs-navigation-split-view",
     animated ? "nhs-navigation-split-view--animated" : "",
@@ -972,78 +1121,109 @@ function NavigationSplitView(props) {
   }, [drilledIn, onDrillChange]);
   const renderNavigationCollection = () => {
     if (effectiveLayout === "cards") {
-      return /* @__PURE__ */ jsxs3("ul", { className: "nhs-navigation-split-view__cards", role: "listbox", "aria-activedescendant": selectedId ? String(selectedId) : void 0, children: [
-        items.map((item) => {
-          const id = getId(item);
-          const selected = id === selectedId;
-          return /* @__PURE__ */ jsx3("li", { className: "nhs-navigation-split-view__card-item", role: "option", "aria-selected": selected, children: /* @__PURE__ */ jsxs3(
-            "button",
-            {
-              id: String(id),
-              type: "button",
-              className: "nhs-navigation-split-view__card",
-              "data-selected": selected || void 0,
-              "data-disabled": item.disabled || void 0,
-              disabled: item.disabled,
-              onClick: () => !item.disabled && handleSelect(id, item),
-              children: [
-                item.icon && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-icon", children: item.icon }),
-                /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-label", children: item.label }),
-                item.description && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-description", children: item.description }),
-                renderItemContent == null ? void 0 : renderItemContent(item),
-                item.badge !== void 0 && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__badge", children: item.badge })
-              ]
-            }
-          ) }, id);
-        }),
-        items.length === 0 && !isLoading && /* @__PURE__ */ jsx3("li", { className: "nhs-navigation-split-view__card-item", "aria-disabled": "true", children: emptyState || /* @__PURE__ */ jsx3("div", { style: { padding: 16 }, children: "No items" }) })
-      ] });
+      return /* @__PURE__ */ jsxs3(
+        "ul",
+        {
+          className: "nhs-navigation-split-view__cards",
+          role: "listbox",
+          "aria-activedescendant": selectedId ? String(selectedId) : void 0,
+          children: [
+            items.map((item) => {
+              const id = getId(item);
+              const selected = id === selectedId;
+              return /* @__PURE__ */ jsx3(
+                "li",
+                {
+                  className: "nhs-navigation-split-view__card-item",
+                  role: "option",
+                  "aria-selected": selected,
+                  children: /* @__PURE__ */ jsxs3(
+                    "button",
+                    {
+                      id: String(id),
+                      type: "button",
+                      className: "nhs-navigation-split-view__card",
+                      "data-selected": selected || void 0,
+                      "data-disabled": item.disabled || void 0,
+                      disabled: item.disabled,
+                      onClick: () => !item.disabled && handleSelect(id, item),
+                      children: [
+                        item.icon && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-icon", children: item.icon }),
+                        /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-label", children: item.label }),
+                        item.description && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-description", children: item.description }),
+                        renderItemContent == null ? void 0 : renderItemContent(item),
+                        item.badge !== void 0 && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__badge", children: item.badge })
+                      ]
+                    }
+                  )
+                },
+                id
+              );
+            }),
+            items.length === 0 && !isLoading && /* @__PURE__ */ jsx3(
+              "li",
+              {
+                className: "nhs-navigation-split-view__card-item",
+                "aria-disabled": "true",
+                children: emptyState || /* @__PURE__ */ jsx3("div", { style: { padding: 16 }, children: "No items" })
+              }
+            )
+          ]
+        }
+      );
     }
     const instructionsId = "nsv-nav-instructions";
     const NavItem = React3.useMemo(() => {
-      return React3.memo(({ item, idx, selected, focused }) => {
-        const id = getId(item);
-        const interactiveProps = item.disabled ? {
-          "aria-disabled": true,
-          tabIndex: -1
-        } : {
-          tabIndex: focused ? 0 : -1,
-          onClick: () => {
-            lastFocusedIndexRef.current = idx;
-            handleSelect(id, item);
-          },
-          onKeyDown: (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
+      return React3.memo(
+        ({
+          item,
+          idx,
+          selected,
+          focused
+        }) => {
+          const id = getId(item);
+          const interactiveProps = item.disabled ? {
+            "aria-disabled": true,
+            tabIndex: -1
+          } : {
+            tabIndex: focused ? 0 : -1,
+            onClick: () => {
               lastFocusedIndexRef.current = idx;
               handleSelect(id, item);
+            },
+            onKeyDown: (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                lastFocusedIndexRef.current = idx;
+                handleSelect(id, item);
+              }
             }
-          }
-        };
-        return /* @__PURE__ */ jsxs3(
-          "li",
-          {
-            id: String(id),
-            "data-nav-item": true,
-            className: "nhs-navigation-split-view__list-item nhs-navigation-split-view__item-button",
-            role: "option",
-            "aria-selected": selected,
-            "aria-current": selected ? "true" : void 0,
-            "data-selected": selected || void 0,
-            "data-disabled": item.disabled || void 0,
-            ...interactiveProps,
-            children: [
-              item.icon && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-icon", children: item.icon }),
-              /* @__PURE__ */ jsxs3("span", { className: "nhs-navigation-split-view__item-content", children: [
-                /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-label", children: item.label }),
-                item.description && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-description", children: item.description }),
-                renderItemContent == null ? void 0 : renderItemContent(item)
-              ] }),
-              item.badge !== void 0 && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__badge", children: item.badge })
-            ]
-          }
-        );
-      });
+          };
+          return /* @__PURE__ */ jsxs3(
+            "li",
+            {
+              id: String(id),
+              "data-nav-item": true,
+              className: "nhs-navigation-split-view__list-item nhs-navigation-split-view__item-button",
+              role: "option",
+              "aria-selected": selected,
+              "aria-current": selected ? "true" : void 0,
+              "data-selected": selected || void 0,
+              "data-disabled": item.disabled || void 0,
+              ...interactiveProps,
+              children: [
+                item.icon && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-icon", children: item.icon }),
+                /* @__PURE__ */ jsxs3("span", { className: "nhs-navigation-split-view__item-content", children: [
+                  /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-label", children: item.label }),
+                  item.description && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__item-description", children: item.description }),
+                  renderItemContent == null ? void 0 : renderItemContent(item)
+                ] }),
+                item.badge !== void 0 && /* @__PURE__ */ jsx3("span", { className: "nhs-navigation-split-view__badge", children: item.badge })
+              ]
+            }
+          );
+        }
+      );
     }, [getId, handleSelect, renderItemContent]);
     return /* @__PURE__ */ jsxs3(Fragment2, { children: [
       /* @__PURE__ */ jsxs3(
@@ -1057,12 +1237,42 @@ function NavigationSplitView(props) {
           "aria-describedby": instructionsId,
           "aria-activedescendant": selectedId ? String(selectedId) : void 0,
           children: [
-            items.map((item, idx) => /* @__PURE__ */ jsx3(NavItem, { item, idx, selected: getId(item) === selectedId, focused: idx === focusedIndex || focusedIndex === -1 && idx === 0 && initialFocus === "first", "data-just-selected": getId(item) === justSelectedId ? "true" : void 0 }, getId(item))),
-            items.length === 0 && !isLoading && /* @__PURE__ */ jsx3("li", { className: "nhs-navigation-split-view__list-item", "aria-disabled": "true", children: emptyState || /* @__PURE__ */ jsx3("div", { style: { padding: 16 }, children: "No items" }) })
+            items.map((item, idx) => /* @__PURE__ */ jsx3(
+              NavItem,
+              {
+                item,
+                idx,
+                selected: getId(item) === selectedId,
+                focused: idx === focusedIndex || focusedIndex === -1 && idx === 0 && initialFocus === "first",
+                "data-just-selected": getId(item) === justSelectedId ? "true" : void 0
+              },
+              getId(item)
+            )),
+            items.length === 0 && !isLoading && /* @__PURE__ */ jsx3(
+              "li",
+              {
+                className: "nhs-navigation-split-view__list-item",
+                "aria-disabled": "true",
+                children: emptyState || /* @__PURE__ */ jsx3("div", { style: { padding: 16 }, children: "No items" })
+              }
+            )
           ]
         }
       ),
-      /* @__PURE__ */ jsx3("div", { id: instructionsId, style: { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }, children: navigationInstructions })
+      /* @__PURE__ */ jsx3(
+        "div",
+        {
+          id: instructionsId,
+          style: {
+            position: "absolute",
+            width: 1,
+            height: 1,
+            overflow: "hidden",
+            clip: "rect(0 0 0 0)"
+          },
+          children: navigationInstructions
+        }
+      )
     ] });
   };
   return /* @__PURE__ */ jsx3(
@@ -1074,70 +1284,176 @@ function NavigationSplitView(props) {
       "data-layout": effectiveLayout,
       onKeyDown: onRootKeyDown,
       children: /* @__PURE__ */ jsxs3("div", { className: "nhs-navigation-split-view__body", children: [
-        /* @__PURE__ */ jsxs3("div", { className: "nhs-navigation-split-view__panes", "data-active-detail": detailActive || void 0, style: { transform: detailActive ? "translateX(-100%)" : void 0 }, children: [
-          /* @__PURE__ */ jsxs3(
-            "div",
-            {
-              ref: navPaneRef,
-              className: "nhs-navigation-split-view__nav-pane",
-              role: "navigation",
-              "aria-label": (a11y == null ? void 0 : a11y.navigationLabel) || "Items",
-              "data-collapsed": navCollapsed || void 0,
-              tabIndex: 0,
-              children: [
-                collapsibleNav && isAtLeastMedium && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__nav-collapse", children: /* @__PURE__ */ jsx3(
-                  "button",
-                  {
-                    type: "button",
-                    onClick: toggleNav,
-                    className: "nhs-navigation-split-view__nav-collapse-btn",
-                    "aria-label": navCollapsed ? collapseToggleLabelShow : collapseToggleLabelHide,
-                    title: navCollapsed ? collapseToggleLabelShow : collapseToggleLabelHide,
-                    children: navCollapsed ? collapseToggleIconShow || /* @__PURE__ */ jsx3(ChevronRightIcon, {}) : collapseToggleIconHide || /* @__PURE__ */ jsx3(ChevronLeftIcon, {})
-                  }
-                ) }),
-                /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__nav-scroll", children: renderNavigationCollection() }),
-                navFooter && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__nav-footer", role: "contentinfo", children: navFooter })
-              ]
+        /* @__PURE__ */ jsxs3(
+          "div",
+          {
+            className: "nhs-navigation-split-view__panes",
+            "data-active-detail": detailActive || void 0,
+            style: { transform: detailActive ? "translateX(-100%)" : void 0 },
+            children: [
+              /* @__PURE__ */ jsxs3(
+                "div",
+                {
+                  ref: navPaneRef,
+                  className: "nhs-navigation-split-view__nav-pane",
+                  role: "navigation",
+                  "aria-label": (a11y == null ? void 0 : a11y.navigationLabel) || "Items",
+                  "data-collapsed": navCollapsed || void 0,
+                  tabIndex: 0,
+                  children: [
+                    collapsibleNav && isAtLeastMedium && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__nav-collapse", children: /* @__PURE__ */ jsx3(
+                      "button",
+                      {
+                        type: "button",
+                        onClick: toggleNav,
+                        className: "nhs-navigation-split-view__nav-collapse-btn",
+                        "aria-label": navCollapsed ? collapseToggleLabelShow : collapseToggleLabelHide,
+                        title: navCollapsed ? collapseToggleLabelShow : collapseToggleLabelHide,
+                        children: navCollapsed ? collapseToggleIconShow || /* @__PURE__ */ jsx3(ChevronRightIcon, {}) : collapseToggleIconHide || /* @__PURE__ */ jsx3(ChevronLeftIcon, {})
+                      }
+                    ) }),
+                    /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__nav-scroll", children: renderNavigationCollection() }),
+                    navFooter && /* @__PURE__ */ jsx3(
+                      "div",
+                      {
+                        className: "nhs-navigation-split-view__nav-footer",
+                        role: "contentinfo",
+                        children: navFooter
+                      }
+                    )
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxs3(
+                "div",
+                {
+                  ref: contentPaneRef,
+                  className: "nhs-navigation-split-view__content-pane",
+                  role: "region",
+                  "aria-label": (a11y == null ? void 0 : a11y.contentLabel) || "Content",
+                  "data-has-selection": !!selectedItem || void 0,
+                  tabIndex: 0,
+                  style: {
+                    display: tertiaryInlineActive && !tertiaryVisible ? "none" : void 0
+                  },
+                  children: [
+                    showHeader && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__header", children: renderedHeaderInner }),
+                    /* @__PURE__ */ jsx3(
+                      "div",
+                      {
+                        className: "nhs-navigation-split-view__content-inner",
+                        style: { padding: 32, flex: 1 },
+                        children: renderContent(selectedItem)
+                      }
+                    )
+                  ]
+                }
+              ),
+              effectiveLayout === "three-column" && (!lazySecondary || secondaryMounted) || tertiaryInlineActive && !tertiaryVisible ? /* @__PURE__ */ jsx3(
+                "div",
+                {
+                  ref: secondaryPaneRef,
+                  className: "nhs-navigation-split-view__secondary-pane",
+                  role: "region",
+                  "aria-label": (a11y == null ? void 0 : a11y.secondaryContentLabel) || "Secondary",
+                  tabIndex: 0,
+                  children: /* @__PURE__ */ jsxs3(
+                    "div",
+                    {
+                      className: "nhs-navigation-split-view__secondary-inner",
+                      style: {
+                        display: "flex",
+                        flexDirection: "column",
+                        flex: 1,
+                        minWidth: 0
+                      },
+                      children: [
+                        tertiaryInlineActive && !tertiaryVisible && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__header", children: /* @__PURE__ */ jsx3(
+                          "div",
+                          {
+                            style: {
+                              display: "flex",
+                              alignItems: "center",
+                              width: "100%"
+                            },
+                            children: /* @__PURE__ */ jsxs3(
+                              "div",
+                              {
+                                style: {
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 0,
+                                  flex: "1 1 auto",
+                                  minWidth: 0
+                                },
+                                children: [
+                                  tertiaryBackNode,
+                                  /* @__PURE__ */ jsx3(
+                                    "div",
+                                    {
+                                      style: {
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: 4,
+                                        minWidth: 0
+                                      },
+                                      children: /* @__PURE__ */ jsx3("h2", { style: { marginLeft: 0, marginRight: 0 }, children: selectedItem && typeof selectedItem === "object" && "label" in selectedItem ? selectedItem.label : String(selectedItem) })
+                                    }
+                                  )
+                                ]
+                              }
+                            )
+                          }
+                        ) }),
+                        selectedItem && secondarySubheader && /* @__PURE__ */ jsx3(
+                          "div",
+                          {
+                            className: "nhs-navigation-split-view__secondary-header",
+                            style: {
+                              padding: "16px 32px",
+                              borderBottom: "1px solid var(--nsplit-divider)"
+                            },
+                            children: typeof secondarySubheader === "function" ? secondarySubheader(selectedItem) : secondarySubheader
+                          }
+                        ),
+                        /* @__PURE__ */ jsx3("div", { style: { padding: 32, flex: 1, minWidth: 0 }, children: renderSecondaryContent == null ? void 0 : renderSecondaryContent(selectedItem) })
+                      ]
+                    }
+                  )
+                }
+              ) : null
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsx3(
+          "div",
+          {
+            ref: liveRef,
+            "aria-live": "polite",
+            "aria-atomic": "true",
+            style: {
+              position: "absolute",
+              width: 1,
+              height: 1,
+              overflow: "hidden",
+              clip: "rect(0 0 0 0)"
             }
-          ),
-          /* @__PURE__ */ jsxs3(
-            "div",
-            {
-              ref: contentPaneRef,
-              className: "nhs-navigation-split-view__content-pane",
-              role: "region",
-              "aria-label": (a11y == null ? void 0 : a11y.contentLabel) || "Content",
-              "data-has-selection": !!selectedItem || void 0,
-              tabIndex: 0,
-              style: { display: tertiaryInlineActive && !tertiaryVisible ? "none" : void 0 },
-              children: [
-                showHeader && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__header", children: renderedHeaderInner }),
-                /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__content-inner", style: { padding: 32, flex: 1 }, children: renderContent(selectedItem) })
-              ]
-            }
-          ),
-          effectiveLayout === "three-column" && (!lazySecondary || secondaryMounted) || tertiaryInlineActive && !tertiaryVisible ? /* @__PURE__ */ jsx3(
-            "div",
-            {
-              ref: secondaryPaneRef,
-              className: "nhs-navigation-split-view__secondary-pane",
-              role: "region",
-              "aria-label": (a11y == null ? void 0 : a11y.secondaryContentLabel) || "Secondary",
-              tabIndex: 0,
-              children: /* @__PURE__ */ jsxs3("div", { className: "nhs-navigation-split-view__secondary-inner", style: { display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }, children: [
-                tertiaryInlineActive && !tertiaryVisible && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__header", children: /* @__PURE__ */ jsx3("div", { style: { display: "flex", alignItems: "center", width: "100%" }, children: /* @__PURE__ */ jsxs3("div", { style: { display: "flex", alignItems: "center", gap: 0, flex: "1 1 auto", minWidth: 0 }, children: [
-                  tertiaryBackNode,
-                  /* @__PURE__ */ jsx3("div", { style: { display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }, children: /* @__PURE__ */ jsx3("h2", { style: { marginLeft: 0, marginRight: 0 }, children: selectedItem && typeof selectedItem === "object" && "label" in selectedItem ? selectedItem.label : String(selectedItem) }) })
-                ] }) }) }),
-                selectedItem && secondarySubheader && /* @__PURE__ */ jsx3("div", { className: "nhs-navigation-split-view__secondary-header", style: { padding: "16px 32px", borderBottom: "1px solid var(--nsplit-divider)" }, children: typeof secondarySubheader === "function" ? secondarySubheader(selectedItem) : secondarySubheader }),
-                /* @__PURE__ */ jsx3("div", { style: { padding: 32, flex: 1, minWidth: 0 }, children: renderSecondaryContent == null ? void 0 : renderSecondaryContent(selectedItem) })
-              ] })
-            }
-          ) : null
-        ] }),
-        /* @__PURE__ */ jsx3("div", { ref: liveRef, "aria-live": "polite", "aria-atomic": "true", style: { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" } }),
-        /* @__PURE__ */ jsx3("div", { "aria-live": "polite", style: { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }, children: drilledIn ? "Expanded to three column layout" : "In two column layout" })
+          }
+        ),
+        /* @__PURE__ */ jsx3(
+          "div",
+          {
+            "aria-live": "polite",
+            style: {
+              position: "absolute",
+              width: 1,
+              height: 1,
+              overflow: "hidden",
+              clip: "rect(0 0 0 0)"
+            },
+            children: drilledIn ? "Expanded to three column layout" : "In two column layout"
+          }
+        )
       ] })
     }
   );

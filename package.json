@@ -244,8 +244,9 @@
     "release:patch": "npm version patch -m 'chore(release): %s'",
     "release:minor": "npm version minor -m 'chore(release): %s'",
     "release:major": "npm version major -m 'chore(release): %s'",
-    "release:prerelease": "npm version prerelease --preid=alpha -m 'chore(release): %s'",
-    "check:tokens": "node scripts/check-token-collisions.cjs"
+  "release:prerelease": "npm version prerelease --preid=alpha -m 'chore(release): %s'",
+  "check:tokens": "node scripts/check-token-collisions.cjs",
+  "inventory": "tsx scripts/inventory-design-system.ts --md inventory.md --json inventory.json"
   },
   "keywords": [],
   "author": "Fergus Bisset",

@@ -1,0 +1,377 @@
+{
+  "generatedAt": "2025-09-03T05:58:16.255Z",
+  "counts": {
+    "sourceComponents": 57,
+    "builtJs": 56,
+    "builtCss": 56,
+    "macros": 0,
+    "ssrEntries": 149,
+    "macroCoveragePercent": 0
+  },
+  "parity": {
+    "missingCss": [],
+    "missingJs": [],
+    "missingMacro": [
+      "Account",
+      "ActionLink",
+      "BackLink",
+      "Breadcrumb",
+      "Button",
+      "Card",
+      "CareCard",
+      "CharacterCount",
+      "Checkbox",
+      "Checkboxes",
+      "ContentsList",
+      "DashboardSummaryGrid",
+      "DataVisualisation",
+      "DateInput",
+      "Details",
+      "DoDontList",
+      "ErrorMessage",
+      "ErrorSummary",
+      "Expander",
+      "Fieldset",
+      "Footer",
+      "GanttChart",
+      "Grid",
+      "Header",
+      "HeaderSearch",
+      "Heading",
+      "Hero",
+      "Hint",
+      "Images",
+      "Input",
+      "InsetText",
+      "Label",
+      "List",
+      "MainWrapper",
+      "NavigationSplitView",
+      "PageTemplate",
+      "Pagination",
+      "Panel",
+      "ProductRoadmap",
+      "Radios",
+      "ResponsiveDataGrid",
+      "Select",
+      "SkipLink",
+      "SlotMatrix",
+      "SortableDataTable",
+      "SpacingUtilities",
+      "SummaryCard",
+      "SummaryList",
+      "Tables",
+      "Tabs",
+      "Tag",
+      "TaskList",
+      "Textarea",
+      "TransactionalPageTemplate",
+      "WarningCallout",
+      "WidthContainer",
+      "WidthUtilities"
+    ],
+    "missingReactForMacro": []
+  },
+  "tokens": {
+    "sourceHash": "1dcd5b3da08d",
+    "distHash": "270f7e1e384a",
+    "inSync": false
+  },
+  "sassMixedDeclarations": {
+    "total": 4875
+  },
+  "ssr": {
+    "total": 149,
+    "fullyCompatible": 135,
+    "compatibleWithHydration": 3,
+    "clientOnly": 1,
+    "requiresRefactoring": 10
+  },
+  "components": [
+    {
+      "name": "Account",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "ActionLink",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "BackLink",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Breadcrumb",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Button",
+      "hasMacro": false,
+      "ssr": "compatible-with-hydration"
+    },
+    {
+      "name": "Card",
+      "hasMacro": false,
+      "ssr": ""
+    },
+    {
+      "name": "CareCard",
+      "hasMacro": false,
+      "ssr": ""
+    },
+    {
+      "name": "CharacterCount",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Checkbox",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Checkboxes",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "ContentsList",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "DashboardSummaryGrid",
+      "hasMacro": false,
+      "ssr": ""
+    },
+    {
+      "name": "DataVisualisation",
+      "hasMacro": false,
+      "ssr": ""
+    },
+    {
+      "name": "DateInput",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Details",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "DoDontList",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "ErrorMessage",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "ErrorSummary",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Expander",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Fieldset",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Footer",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "GanttChart",
+      "hasMacro": false,
+      "ssr": "requires-refactoring"
+    },
+    {
+      "name": "Grid",
+      "hasMacro": false,
+      "ssr": ""
+    },
+    {
+      "name": "Header",
+      "hasMacro": false,
+      "ssr": "requires-refactoring"
+    },
+    {
+      "name": "HeaderSearch",
+      "hasMacro": false,
+      "ssr": "compatible-with-hydration"
+    },
+    {
+      "name": "Heading",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Hero",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Hint",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Images",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Input",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "InsetText",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Label",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "List",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "MainWrapper",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "NavigationSplitView",
+      "hasMacro": false,
+      "ssr": "requires-refactoring"
+    },
+    {
+      "name": "PageTemplate",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Pagination",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Panel",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "ProductRoadmap",
+      "hasMacro": false,
+      "ssr": ""
+    },
+    {
+      "name": "Radios",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "ResponsiveDataGrid",
+      "hasMacro": false,
+      "ssr": ""
+    },
+    {
+      "name": "Select",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "SkipLink",
+      "hasMacro": false,
+      "ssr": "requires-refactoring"
+    },
+    {
+      "name": "SlotMatrix",
+      "hasMacro": false,
+      "ssr": ""
+    },
+    {
+      "name": "SortableDataTable",
+      "hasMacro": false,
+      "ssr": ""
+    },
+    {
+      "name": "SpacingUtilities",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "SummaryCard",
+      "hasMacro": false,
+      "ssr": ""
+    },
+    {
+      "name": "SummaryList",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Tables",
+      "hasMacro": false,
+      "ssr": ""
+    },
+    {
+      "name": "Tabs",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Tag",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "TaskList",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "Textarea",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "TransactionalPageTemplate",
+      "hasMacro": false,
+      "ssr": "requires-refactoring"
+    },
+    {
+      "name": "WarningCallout",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "WidthContainer",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    },
+    {
+      "name": "WidthUtilities",
+      "hasMacro": false,
+      "ssr": "fully-compatible"
+    }
+  ]
+}

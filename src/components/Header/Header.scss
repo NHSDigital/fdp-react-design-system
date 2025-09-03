@@ -14,16 +14,7 @@ $header-nav-vertical-pad: tokens.$nhs-fdp-spacing-5; // unified vertical padding
 
 // Shared interactive navigation element styles (anchor & More button)
 @mixin header-nav-interactive-base {
-	display: inline-flex;
-	align-items: flex-start;
-	position: relative;
-	white-space: nowrap;
-	font-size: tokens.$nhs-fdp-font-size-16-mobile;
-	font-weight: tokens.$nhs-fdp-font-weight-normal;
-	line-height: 1; // tighter line-height so vertical padding defines total height consistently for link & button
-	padding: $header-nav-vertical-pad $header-link-padding;
-	gap: tokens.$nhs-fdp-spacing-1; // harmless for plain text links; useful when icon present
-
+	
 	@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
 		font-size: tokens.$nhs-fdp-font-size-16-tablet;
 	}
@@ -36,8 +27,8 @@ $header-nav-vertical-pad: tokens.$nhs-fdp-spacing-5; // unified vertical padding
 	// 	border: 0 solid currentcolor; // bottom border added when active/current
 	// }
 
-	// &[aria-current="page"]::before,
-	// &[aria-current="true"]::before { border-bottom-width: $header-item-active-size; }
+	&[aria-current="page"]::before,
+	&[aria-current="true"]::before { border-bottom-width: $header-item-active-size; }
 }
 
 // Vertical rhythm variables (allows independent control of top vs container internal spacing)
@@ -79,14 +70,10 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	}
 
 	&:focus {
-		outline: tokens.$nhs-fdp-focus-outline-width
-			tokens.$nhs-fdp-focus-outline-style
-			tokens.$nhs-fdp-semantic-color-focus-background;
 		outline-offset: 0;
 		background-color: tokens.$nhs-fdp-semantic-color-focus-background;
 		color: tokens.$nhs-fdp-semantic-color-focus-text;
-		box-shadow: inset 0 -#{tokens.$nhs-fdp-focus-outline-width}
-			tokens.$nhs-fdp-semantic-color-focus-text;
+		box-shadow: inset 0 -#{tokens.$nhs-fdp-focus-outline-width} tokens.$nhs-fdp-semantic-color-focus-text;
 	}
 
 	&:focus:visited {
@@ -123,6 +110,48 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 			padding-bottom: $header-vertical-pad-tablet; // match larger top padding at tablet+
 			margin: 0 tokens.$nhs-fdp-spacing-7;
 			gap: tokens.$nhs-fdp-spacing-4;
+		}
+	}
+
+	// Navigation container - hierarchical structure
+	&__navigation-container {
+		box-shadow: 0 -1px 0 0 tokens.$nhs-fdp-border-color-default;
+		position: relative;
+
+		// Prevent layout shift during initialization with subtle opacity transition
+		&--initializing {
+			opacity: 0.3;
+			transition: opacity #{tokens.$nhs-fdp-animation-duration-fast} ease-in-out;
+		}
+
+		// Ensure smooth transition when initialization completes
+		&:not(&--initializing) {
+			opacity: 1;
+			transition: opacity #{tokens.$nhs-fdp-animation-duration-fast} ease-in-out;
+		}
+
+		@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
+			// On mobile, remove box shadow and add better spacing
+			box-shadow: none;
+			margin-top: 0;
+		}
+
+		#{&}--white #{&}__navigation--white & {
+			box-shadow: 0 -1px 0 0 tokens.$nhs-fdp-color-grey-4;
+		}
+
+		#{&}--white :not(#{&}__navigation--white) &,
+		#{&}__navigation--white & {
+			box-shadow: none;
+			margin-top: 0;
+		}
+
+		&,
+		#{&}--white #{&}__navigation--white & {
+			@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
+				box-shadow: none;
+				margin-top: -#{tokens.$nhs-fdp-spacing-3};
+			}
 		}
 	}
 
@@ -347,24 +376,24 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		color: tokens.$nhs-fdp-color-primary-white;
 		max-width: tokens.$nhs-fdp-breakpoint-xlarge; // Constrain width to 1200px
 		// Add proper vertical padding and match container margins
-		margin: 0 tokens.$nhs-fdp-spacing-2;
+		margin: 0 auto;
 		overflow: hidden;
 
-		// Small devices
-		@media (min-width: calc(#{tokens.$nhs-fdp-breakpoint-small} + 1px)) {
-			margin: 0 tokens.$nhs-fdp-spacing-4;
-		}
+		// // Small devices
+		// @media (min-width: calc(#{tokens.$nhs-fdp-breakpoint-small} + 1px)) {
+		// 	margin: 0 tokens.$nhs-fdp-spacing-4;
+		// }
 
-		// Medium devices and up
-		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
-			margin: 0 tokens.$nhs-fdp-spacing-7;
-		}
+		// // Medium devices and up
+		// @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+		// 	margin: 0 tokens.$nhs-fdp-spacing-4;
+		// }
 
-		// Center content when viewport is wide enough (follows NHS.UK pattern)
-		// Use xlarge breakpoint + spacing to determine when to center
-		@media (min-width: calc(#{tokens.$nhs-fdp-breakpoint-xlarge} + #{tokens.$nhs-fdp-spacing-7} * 2)) {
-			margin: 0 auto; // Center the navigation to match header container
-		}
+		// // Center content when viewport is wide enough (follows NHS.UK pattern)
+		// // Use xlarge breakpoint + spacing to determine when to center
+		// @media (min-width: calc(#{tokens.$nhs-fdp-breakpoint-xlarge} + #{tokens.$nhs-fdp-spacing-7} * 2)) {
+		// 	margin: 0 auto; // Center the navigation to match header container
+		// }
 	}
 
 	&__navigation-list {
@@ -391,12 +420,16 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 
 	&__navigation-item {
 		margin-bottom: 0;
-		padding: 0 tokens.$nhs-fdp-spacing-2;
+		padding: 0 tokens.$nhs-fdp-spacing-3;
 
 		&-current-fallback {
 			font-weight: inherit; // previously bold <strong>, neutralised for consistent height
 			line-height: inherit; // ensure no extra vertical space vs button label
 			display: inline-block; // predictable box for baseline alignment
+		}
+
+		a {
+			padding: tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-3;
 		}
 
 		// More button functionality
@@ -413,41 +446,61 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 			$link-active-color: tokens.$nhs-fdp-color-primary-white
 		);
 		@include header-nav-interactive-base;
+		display: inline-flex;
+		align-items: flex-start;
+		position: relative;
+		white-space: nowrap;
+		font-size: tokens.$nhs-fdp-font-size-16-mobile;
+		font-weight: tokens.$nhs-fdp-font-weight-normal;
+		line-height: 1; // tighter line-height so vertical padding defines total height consistently for link & button
+		padding: tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3;
+		gap: tokens.$nhs-fdp-spacing-1; // harmless for plain text links; useful when icon present
+		text-decoration: underline;
 	}
 
 	// Navigation button for dropdown functionality
 	&__navigation-button {
-		// Plain declarations first (Sass: properties must come before nested rules/mixins that emit them)
+		// Plain declarations FIRST (no nested rules) to avoid mixed-decls warnings
 		background: transparent;
 		border: none;
 		cursor: pointer;
 		font-family: inherit;
-		padding: tokens.$nhs-fdp-spacing-4 0;
-		// Mixin includes afterwards (may output nested @media rules)
+		display: inline-flex;
+		align-items: flex-start;
+		position: relative;
+		white-space: nowrap;
+		font-size: tokens.$nhs-fdp-font-size-16-mobile;
+		font-weight: tokens.$nhs-fdp-font-weight-normal;
+		padding: tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 20px tokens.$nhs-fdp-spacing-3; // this is a 20px hack, combined with the margin-top -4px on the icon to center the icon in the line.
+		line-height: 1; // tighter line-height so vertical padding defines total height consistently for link & button
+		gap: tokens.$nhs-fdp-spacing-1; // harmless for plain text links; useful when icon present
+		text-decoration: underline;
+		
+		// Now include mixins (these emit nested @media / pseudo rules after base declarations)
 		@include header-link-style(
 			$link-color: tokens.$nhs-fdp-color-primary-white,
 			$link-hover-color: tokens.$nhs-fdp-color-primary-white,
 			$link-active-color: tokens.$nhs-fdp-color-primary-white
 		);
-		@include header-nav-interactive-base;
-
+		
+		span {
+			text-decoration: underline;
+		}
+		
 		&:hover {
 			color: tokens.$nhs-fdp-color-primary-white;
 			text-decoration: none;
 		}
 
 		&:focus {
-			outline: tokens.$nhs-fdp-focus-outline-width
-				tokens.$nhs-fdp-focus-outline-style
-				tokens.$nhs-fdp-semantic-color-focus-background;
 			outline-offset: 0;
 			background-color: tokens.$nhs-fdp-semantic-color-focus-background;
 			color: tokens.$nhs-fdp-semantic-color-focus-text;
-			box-shadow: inset 0 -#{tokens.$nhs-fdp-focus-outline-width}
-				tokens.$nhs-fdp-semantic-color-focus-text;
+			box-shadow: inset 0 -#{tokens.$nhs-fdp-focus-outline-width} tokens.$nhs-fdp-semantic-color-focus-text;
 		}
 
 		.nhsuk-icon {
+			margin-top: -4px;
 			&__chevron-down {
 				@include header-icon-small;
 				display: block; // remove inline baseline gap
@@ -467,13 +520,6 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
 			font-size: tokens.$nhs-fdp-font-size-16-tablet;
 		}
-	}
-
-	// Fine tune the inline more button alignment (list item wrapper)
-	&__navigation-item--more > &__navigation-button {
-		// Remove any inherited bottom margin anomalies and ensure consistent line-height alignment
-		margin-bottom: 0;
-		// Slight negative margin tweak if required for optical centering (kept at 0 for now)
 	}
 
 	// Dropdown menu - hierarchical structure
@@ -561,48 +607,6 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	// Removed legacy &__menu (responsive dropdown) and &__menu-list blocks
 
 	// Removed duplicate navigation variants block (handled earlier in file)
-
-	// Navigation container - hierarchical structure
-	&__navigation-container {
-		box-shadow: 0 -0.25px 0 0 tokens.$nhs-fdp-border-color-default;
-		//position: relative;
-
-		// Prevent layout shift during initialization with subtle opacity transition
-		&--initializing {
-			opacity: 0.3;
-			transition: opacity #{tokens.$nhs-fdp-animation-duration-fast} ease-in-out;
-		}
-
-		// Ensure smooth transition when initialization completes
-		&:not(&--initializing) {
-			opacity: 1;
-			transition: opacity #{tokens.$nhs-fdp-animation-duration-fast} ease-in-out;
-		}
-
-		@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
-			// On mobile, remove box shadow and add better spacing
-			box-shadow: none;
-			margin-top: 0;
-		}
-
-		#{&}--white #{&}__navigation--white & {
-			box-shadow: 0 -1px 0 0 tokens.$nhs-fdp-color-grey-4;
-		}
-
-		#{&}--white :not(#{&}__navigation--white) &,
-		#{&}__navigation--white & {
-			box-shadow: none;
-			margin-top: 0;
-		}
-
-		&,
-		#{&}--white #{&}__navigation--white & {
-			@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
-				box-shadow: none;
-				margin-top: -#{tokens.$nhs-fdp-spacing-3};
-			}
-		}
-	}
 
 	// Header variants - hierarchical structure
 	// Removed duplicate white variant block (original variant styles retained earlier)

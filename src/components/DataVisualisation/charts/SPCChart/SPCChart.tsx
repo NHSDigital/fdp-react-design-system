@@ -181,6 +181,8 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		const minPoints = settings?.minimumPoints ?? 13;
 		const nonGhostCount = engineRows.filter(r => !r.ghost && r.value != null).length;
 		if (nonGhostCount < minPoints) return null;
+		// Determine if targets exist (no longer used to suppress placeholder; kept for potential future diagnostics)
+		// const hasAnyTargets = (targetsProp?.some(t => typeof t === 'number' && !isNaN(t as any))) ?? false;
 		let lastIdx = -1;
 		for (let i = engineRows.length - 1; i >= 0; i--) {
 			const r = engineRows[i];
@@ -190,12 +192,12 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		const lastRow = engineRows[lastIdx];
 		const variation = lastRow.variationIcon as VariationIcon | undefined;
 		const assuranceRaw = lastRow.assuranceIcon as AssuranceIcon | undefined;
-		// Map engine assurance icon (which can be None) to visual AssuranceResult (which uses Uncertain)
+		// Map engine assurance icon (which can be None) to visual AssuranceResult (None -> Uncertain placeholder glyph)
 		const assuranceRenderStatus: AssuranceResult = assuranceRaw === AssuranceIcon.Pass
 			? AssuranceResult.Pass
 			: assuranceRaw === AssuranceIcon.Fail
 				? AssuranceResult.Fail
-				: AssuranceResult.Uncertain; // treat None as Uncertain placeholder visually
+				: AssuranceResult.Uncertain;
 		// Derive a trend/orientation hint for suppressed 'no judgement' cases so the purple arrow points towards the favourable direction
 		let trend: Direction | undefined = undefined;
 		if (variation === VariationIcon.None) {
@@ -256,19 +258,17 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						size={iconSize}
 					/>
 				</div>
-				{/* Only render assurance icon when engine reports explicit Pass/Fail. For overlap (None -> Uncertain) suppress entirely per accessibility / test expectations. */}
-				{(assuranceRaw === AssuranceIcon.Pass || assuranceRaw === AssuranceIcon.Fail) && (
-					<div
-						className="fdp-spc-chart__embedded-assurance-icon"
-						data-assurance={String(assuranceRaw)}
-						style={{ width: iconSize, height: iconSize }}
-					>
-						<SPCAssuranceIcon status={assuranceRenderStatus} size={iconSize} dropShadow={false} />
-					</div>
-				)}
+				{/* Always render assurance icon (mapping 'none' -> Uncertain placeholder) for consistent dual-icon display */}
+				<div
+					className="fdp-spc-chart__embedded-assurance-icon"
+					data-assurance={String(assuranceRaw)}
+					style={{ width: iconSize, height: iconSize }}
+				>
+					<SPCAssuranceIcon status={assuranceRenderStatus} size={iconSize} dropShadow={false} />
+				</div>
 			</div>
 		);
-	}, [showEmbeddedIcon, engine?.rows, metricImprovement, settings?.minimumPoints]);
+	}, [showEmbeddedIcon, engine?.rows, metricImprovement, settings?.minimumPoints, targetsProp]);
 
 	return (
 		<div className={className ? `fdp-spc-chart-wrapper ${className}` : 'fdp-spc-chart-wrapper'}>

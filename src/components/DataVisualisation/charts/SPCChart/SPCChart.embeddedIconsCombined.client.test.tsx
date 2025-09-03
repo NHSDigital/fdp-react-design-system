@@ -33,7 +33,6 @@ describe('SPCChart embedded variation + assurance icons', () => {
     const { container } = render(<SPCChart data={data} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon />);
     const assurance = container.querySelector('.fdp-spc-chart__embedded-assurance-icon');
     expect(assurance).not.toBeNull();
-    // underlying engine value is "none"
     expect(assurance!.getAttribute('data-assurance')).toBe('none');
   });
 });

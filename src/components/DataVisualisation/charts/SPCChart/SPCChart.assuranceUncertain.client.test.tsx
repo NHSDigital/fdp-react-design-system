@@ -14,11 +14,12 @@ function makeAroundTarget(len=18): { data: SPCDatum[]; targets: number[] } {
   return { data, targets };
 }
 
-describe('SPCChart assurance uncertain (no embedded assurance icon)', () => {
-  it('does not render assurance icon when process band overlaps target', () => {
+describe('SPCChart assurance uncertain (embedded assurance placeholder)', () => {
+  it('renders assurance placeholder when process band overlaps target (uncertain)', () => {
     const { data, targets } = makeAroundTarget();
     const { container } = render(<SPCChart data={data} targets={targets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon />);
     const assurance = container.querySelector('.fdp-spc-chart__embedded-assurance-icon');
-    expect(assurance).toBeNull();
+    expect(assurance).not.toBeNull();
+    expect(assurance!.getAttribute('data-assurance')).toBe('none');
   });
 });

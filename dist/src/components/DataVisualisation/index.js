@@ -8157,7 +8157,7 @@ var SPCChart = ({
         }
       )
     ] }, `embedded-icon-${lastIdx}`);
-  }, [showEmbeddedIcon, engine == null ? void 0 : engine.rows, metricImprovement, settings == null ? void 0 : settings.minimumPoints]);
+  }, [showEmbeddedIcon, engine == null ? void 0 : engine.rows, metricImprovement, settings == null ? void 0 : settings.minimumPoints, targetsProp]);
   return /* @__PURE__ */ jsxs21("div", { className: className ? `fdp-spc-chart-wrapper ${className}` : "fdp-spc-chart-wrapper", children: [
     showEmbeddedIcon && /* @__PURE__ */ jsx30("div", { className: "fdp-spc-chart__top-row", style: { display: "flex", justifyContent: "flex-end", marginBottom: 4 }, children: embeddedIcon }),
     /* @__PURE__ */ jsx30(

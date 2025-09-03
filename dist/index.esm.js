@@ -10243,7 +10243,41 @@ function ed(e = {}) {
     window.history.replaceState(null, "", c);
   }, [o, i, t, r, a]), { selectedId: o, setSelectedId: s, drilledIn: i, setDrilledIn: l };
 }
-const td = ({ className: e }) => /* @__PURE__ */ n.jsx("svg", { className: e, width: "16", height: "16", viewBox: "0 0 16 16", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ n.jsx("path", { fill: "currentColor", d: "M10.7 3.3a1 1 0 0 1 0 1.4L7.41 8l3.3 3.3a1 1 0 1 1-1.42 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.42 0Z" }) }), nd = ({ className: e }) => /* @__PURE__ */ n.jsx("svg", { className: e, width: "16", height: "16", viewBox: "0 0 16 16", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ n.jsx("path", { fill: "currentColor", d: "M5.3 12.7a1 1 0 0 1 0-1.4L8.59 8l-3.3-3.3a1 1 0 0 1 1.42-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.42 0Z" }) });
+const td = ({ className: e }) => /* @__PURE__ */ n.jsx(
+  "svg",
+  {
+    className: e,
+    width: "16",
+    height: "16",
+    viewBox: "0 0 16 16",
+    "aria-hidden": "true",
+    focusable: "false",
+    children: /* @__PURE__ */ n.jsx(
+      "path",
+      {
+        fill: "currentColor",
+        d: "M10.7 3.3a1 1 0 0 1 0 1.4L7.41 8l3.3 3.3a1 1 0 1 1-1.42 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.42 0Z"
+      }
+    )
+  }
+), nd = ({ className: e }) => /* @__PURE__ */ n.jsx(
+  "svg",
+  {
+    className: e,
+    width: "16",
+    height: "16",
+    viewBox: "0 0 16 16",
+    "aria-hidden": "true",
+    focusable: "false",
+    children: /* @__PURE__ */ n.jsx(
+      "path",
+      {
+        fill: "currentColor",
+        d: "M5.3 12.7a1 1 0 0 1 0-1.4L8.59 8l-3.3-3.3a1 1 0 0 1 1.42-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.42 0Z"
+      }
+    )
+  }
+);
 function rd(e) {
   const {
     items: t,
@@ -10304,55 +10338,72 @@ function rd(e) {
     paramDrill: F
   }), [xe, $e] = ce.useState(
     () => he.selectedId !== void 0 ? he.selectedId : a
-  ), De = r !== void 0 ? r : xe, Ne = t.find((Z) => k(Z) === De), [T, S] = ce.useState(void 0);
+  ), De = r !== void 0 ? r : xe, Ne = t.find((Z) => k(Z) === De), [T, S] = ce.useState(
+    void 0
+  );
   ce.useEffect(() => {
     if (De === void 0) return;
     S(De);
     const Z = setTimeout(() => S(void 0), 220);
     return () => clearTimeout(Z);
   }, [De]);
-  const W = ce.useRef(null), H = ce.useRef(null), h = ce.useRef(null), w = ce.useRef(null), [O, Y] = ce.useState(() => ({ contentIndex: 0, secondaryIndex: 0 })), [D, G] = ce.useState(() => "nav"), [ye, ge] = ce.useState(0), _e = () => [w.current, H.current, h.current].filter(Boolean), we = (Z) => {
+  const W = ce.useRef(null), H = ce.useRef(null), h = ce.useRef(null), w = ce.useRef(null), [O, Y] = ce.useState(() => ({ contentIndex: 0, secondaryIndex: 0 })), [D, G] = ce.useState(() => "nav"), [ye, ge] = ce.useState(0), _e = () => [
+    w.current,
+    H.current,
+    h.current
+  ].filter(Boolean), we = (Z) => {
     const le = _e(), ne = Math.max(0, Math.min(Z, le.length - 1));
     le[ne]?.focus(), ge(ne);
-  }, oe = ce.useCallback((Z) => Z ? Array.from(Z.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter((ne) => !ne.hasAttribute("disabled") && ne.tabIndex !== -1) : [], []), ke = ce.useCallback((Z) => {
-    const le = oe(H.current);
-    if (!le.length) {
-      H.current?.focus();
-      return;
-    }
-    const ne = Math.max(0, Math.min(Z, le.length - 1)), be = le[ne];
-    be.focus(), setTimeout(() => {
-      document.activeElement !== be && (be.focus(), setTimeout(() => {
-        document.activeElement !== be && be.click();
-      }, 10));
-    }, 10), Y((Le) => ({ ...Le, contentIndex: ne }));
-    const Me = (Le) => {
-      Le.key === "Escape" && (Le.preventDefault(), Le.stopPropagation(), H.current?.focus(), be.removeEventListener("keydown", Me));
-    };
-    le.forEach((Le) => {
-      const Ee = Le._escapeHandler;
-      Ee && Le.removeEventListener("keydown", Ee);
-    }), be._escapeHandler = Me, be.addEventListener("keydown", Me);
-  }, [oe]), Fe = ce.useCallback((Z) => {
-    const le = oe(h.current);
-    if (!le.length) {
-      h.current?.focus();
-      return;
-    }
-    const ne = Math.max(0, Math.min(Z, le.length - 1)), be = le[ne];
-    be.focus(), setTimeout(() => {
-      document.activeElement !== be && (be.focus(), setTimeout(() => {
-        document.activeElement !== be && be.click();
-      }, 10));
-    }, 10), Y((Le) => ({ ...Le, secondaryIndex: ne }));
-    const Me = (Le) => {
-      Le.key === "Escape" && (Le.preventDefault(), Le.stopPropagation(), h.current?.focus(), be.removeEventListener("keydown", Me));
-    };
-    le.forEach((Le) => {
-      const Ee = Le._escapeHandler;
-      Ee && Le.removeEventListener("keydown", Ee);
-    }), be._escapeHandler = Me, be.addEventListener("keydown", Me);
-  }, [oe]), Pe = (Z) => {
+  }, oe = ce.useCallback(
+    (Z) => Z ? Array.from(Z.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(
+      (ne) => !ne.hasAttribute("disabled") && ne.tabIndex !== -1
+    ) : [],
+    []
+  ), ke = ce.useCallback(
+    (Z) => {
+      const le = oe(H.current);
+      if (!le.length) {
+        H.current?.focus();
+        return;
+      }
+      const ne = Math.max(0, Math.min(Z, le.length - 1)), be = le[ne];
+      be.focus(), setTimeout(() => {
+        document.activeElement !== be && (be.focus(), setTimeout(() => {
+          document.activeElement !== be && be.click();
+        }, 10));
+      }, 10), Y((Le) => ({ ...Le, contentIndex: ne }));
+      const Me = (Le) => {
+        Le.key === "Escape" && (Le.preventDefault(), Le.stopPropagation(), H.current?.focus(), be.removeEventListener("keydown", Me));
+      };
+      le.forEach((Le) => {
+        const Ee = Le._escapeHandler;
+        Ee && Le.removeEventListener("keydown", Ee);
+      }), be._escapeHandler = Me, be.addEventListener("keydown", Me);
+    },
+    [oe]
+  ), Fe = ce.useCallback(
+    (Z) => {
+      const le = oe(h.current);
+      if (!le.length) {
+        h.current?.focus();
+        return;
+      }
+      const ne = Math.max(0, Math.min(Z, le.length - 1)), be = le[ne];
+      be.focus(), setTimeout(() => {
+        document.activeElement !== be && (be.focus(), setTimeout(() => {
+          document.activeElement !== be && be.click();
+        }, 10));
+      }, 10), Y((Le) => ({ ...Le, secondaryIndex: ne }));
+      const Me = (Le) => {
+        Le.key === "Escape" && (Le.preventDefault(), Le.stopPropagation(), h.current?.focus(), be.removeEventListener("keydown", Me));
+      };
+      le.forEach((Le) => {
+        const Ee = Le._escapeHandler;
+        Ee && Le.removeEventListener("keydown", Ee);
+      }), be._escapeHandler = Me, be.addEventListener("keydown", Me);
+    },
+    [oe]
+  ), Pe = (Z) => {
     if (Z.defaultPrevented) return;
     const le = Z.key, ne = Z.target, be = !!Ge.current && Ge.current.contains(ne), Me = !!H.current && H.current.contains(ne), Le = !!h.current && h.current.contains(ne), Ee = !!h.current, Ft = ne === w.current || ne === H.current || ne === h.current, St = Be && (pe === "list" || pe === "cards"), nn = Me && !!ne.closest(".nhs-navigation-split-view__header");
     if (D === "containers" && Ft) {
@@ -10379,7 +10430,9 @@ function rd(e) {
       if (le === "Enter" || le === " ") {
         if (Z.preventDefault(), ne === w.current) {
           if (G("nav"), Ge.current) {
-            const ve = Array.from(Ge.current.querySelectorAll("[data-nav-item]"));
+            const ve = Array.from(
+              Ge.current.querySelectorAll("[data-nav-item]")
+            );
             (ve[He >= 0 ? He : 0] || ve[0])?.focus();
           }
         } else ne === H.current ? (G("content"), ke(O.contentIndex)) : ne === h.current && (G("secondary"), Fe(O.secondaryIndex));
@@ -10391,18 +10444,24 @@ function rd(e) {
       if (D === "content" || D === "secondary") {
         if (Me || Le) {
           if (Z.preventDefault(), G("nav"), Ge.current) {
-            const Ae = Array.from(Ge.current.querySelectorAll("[data-nav-item]"))[He >= 0 ? He : 0];
+            const Ae = Array.from(
+              Ge.current.querySelectorAll("[data-nav-item]")
+            )[He >= 0 ? He : 0];
             setTimeout(() => Ae?.focus(), 10);
           }
         } else if ((ne === H.current || ne === h.current) && (Z.preventDefault(), G("nav"), Ge.current)) {
-          const Ae = Array.from(Ge.current.querySelectorAll("[data-nav-item]"))[He >= 0 ? He : 0];
+          const Ae = Array.from(
+            Ge.current.querySelectorAll("[data-nav-item]")
+          )[He >= 0 ? He : 0];
           setTimeout(() => Ae?.focus(), 10);
         }
       }
       return;
     }
     if (le === "Enter" || le === " ") {
-      if (ne.matches('button, a, input, select, textarea, [role="button"], [role="link"], [role="tab"]'))
+      if (ne.matches(
+        'button, a, input, select, textarea, [role="button"], [role="link"], [role="tab"]'
+      ))
         return;
       if (ne === H.current && D === "content") {
         Z.preventDefault(), Z.stopPropagation(), oe(H.current).length > 0 && setTimeout(() => {
@@ -10411,14 +10470,18 @@ function rd(e) {
         return;
       }
       if (ne === h.current && D === "secondary") {
-        Z.preventDefault(), Z.stopPropagation(), oe(h.current).length > 0 && setTimeout(() => {
+        Z.preventDefault(), Z.stopPropagation(), oe(
+          h.current
+        ).length > 0 && setTimeout(() => {
           Fe(O.secondaryIndex);
         }, 50);
         return;
       }
     }
     if (St && nn && !Ft && (le === "ArrowRight" || le === "ArrowLeft")) {
-      const ve = oe(H.current).filter((Ae) => Ae.closest(".nhs-navigation-split-view__header"));
+      const ve = oe(H.current).filter(
+        (Ae) => Ae.closest(".nhs-navigation-split-view__header")
+      );
       if (ve.length > 1) {
         const Ae = ve.indexOf(ne);
         if (Ae >= 0) {
@@ -10445,14 +10508,18 @@ function rd(e) {
       }
       if (Me || D === "content") {
         if (Z.preventDefault(), G("nav"), Ge.current) {
-          const Ae = Array.from(Ge.current.querySelectorAll("[data-nav-item]"))[He >= 0 ? He : 0];
+          const Ae = Array.from(
+            Ge.current.querySelectorAll("[data-nav-item]")
+          )[He >= 0 ? He : 0];
           setTimeout(() => Ae?.focus(), 10);
         }
         return;
       }
     }
     if (le === "Home" && !be && (Z.preventDefault(), G("nav"), Ge.current)) {
-      const ve = Array.from(Ge.current.querySelectorAll("[data-nav-item]")), Ae = ve[He >= 0 ? He : 0] || ve[0];
+      const ve = Array.from(
+        Ge.current.querySelectorAll("[data-nav-item]")
+      ), Ae = ve[He >= 0 ? He : 0] || ve[0];
       setTimeout(() => Ae?.focus(), 10);
     }
     if (le === "End") {
@@ -10465,7 +10532,9 @@ function rd(e) {
         return;
       }
       if (ne === h.current && le === "ArrowDown") {
-        Z.preventDefault(), oe(h.current).length > 0 && Fe(0);
+        Z.preventDefault(), oe(
+          h.current
+        ).length > 0 && Fe(0);
         return;
       }
       if (Me) {
@@ -10500,7 +10569,16 @@ function rd(e) {
       H.current?.focus();
     }, 50));
   }, [Oe, ze, D]);
-  const Gn = !!Ne && (Be && Ye.mobile || !Be && _t && Ye.tablet || !Be && at && Ye.desktop) || Qe && !ze, po = `h${Q}`, Vn = Ne ? ce.createElement(po, { style: { marginLeft: Be ? 32 : 0, marginRight: Be ? 32 : 0 } }, Ne.label) : null, Qr = Be ? "mobile" : _t ? "tablet" : "desktop", go = Qe && !ze && !Oe, Yn = Be && Ye.mobile ? /* @__PURE__ */ n.jsx(
+  const Gn = !!Ne && (Be && Ye.mobile || !Be && _t && Ye.tablet || !Be && at && Ye.desktop) || Qe && !ze, po = `h${Q}`, Vn = Ne ? ce.createElement(
+    po,
+    {
+      style: {
+        marginLeft: Be ? 32 : 0,
+        marginRight: Be ? 32 : 0
+      }
+    },
+    Ne.label
+  ) : null, Qr = Be ? "mobile" : _t ? "tablet" : "desktop", go = Qe && !ze && !Oe, Yn = Be && Ye.mobile ? /* @__PURE__ */ n.jsx(
     dr,
     {
       element: "button",
@@ -10527,25 +10605,60 @@ function rd(e) {
     }
   ) : void 0, bo = ce.useMemo(() => {
     if (!Gn || !Ne) return null;
-    if (V) return V({
-      item: Ne,
-      detailActive: Be,
-      context: Qr,
-      backLink: Yn,
-      defaultHeading: Vn
-    });
+    if (V)
+      return V({
+        item: Ne,
+        detailActive: Be,
+        context: Qr,
+        backLink: Yn,
+        defaultHeading: Vn
+      });
     const Z = Ne && K ? typeof K == "function" ? K(Ne) : K : null;
     return /* @__PURE__ */ n.jsxs("div", { style: { display: "flex", alignItems: "center", width: "100%" }, children: [
-      /* @__PURE__ */ n.jsxs("div", { style: { display: "flex", alignItems: "center", gap: 0, flex: "1 1 auto", minWidth: 0 }, children: [
-        Kn || Yn,
-        /* @__PURE__ */ n.jsxs("div", { style: { display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }, children: [
-          Vn,
-          Z && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__subheader", children: Z })
-        ] })
-      ] }),
+      /* @__PURE__ */ n.jsxs(
+        "div",
+        {
+          style: {
+            display: "flex",
+            alignItems: "center",
+            gap: 0,
+            flex: "1 1 auto",
+            minWidth: 0
+          },
+          children: [
+            Kn || Yn,
+            /* @__PURE__ */ n.jsxs(
+              "div",
+              {
+                style: {
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
+                  minWidth: 0
+                },
+                children: [
+                  Vn,
+                  Z && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__subheader", children: Z })
+                ]
+              }
+            )
+          ]
+        }
+      ),
       qn && /* @__PURE__ */ n.jsx("div", { style: { marginLeft: "auto" }, children: qn })
     ] });
-  }, [Gn, Ne, V, Be, Qr, Yn, Kn, Vn, qn, K]);
+  }, [
+    Gn,
+    Ne,
+    V,
+    Be,
+    Qr,
+    Yn,
+    Kn,
+    Vn,
+    qn,
+    K
+  ]);
   ce.useEffect(() => {
     if (!I) return;
     const Z = pe === "three-column";
@@ -10567,24 +10680,43 @@ function rd(e) {
       le.get(F), $e(ne === null ? void 0 : ne);
     };
     return window.addEventListener("popstate", Z), () => window.removeEventListener("popstate", Z);
-  }, [I, b, F, d, l]);
-  const tn = ce.useRef(0), st = ce.useRef(null), Rt = ce.useCallback((Z, le) => {
-    Z !== De && (r === void 0 && $e(Z), o?.(Z, le));
-  }, [r, o, De]);
+  }, [
+    I,
+    b,
+    F,
+    d,
+    l
+  ]);
+  const tn = ce.useRef(0), st = ce.useRef(
+    null
+  ), Rt = ce.useCallback(
+    (Z, le) => {
+      Z !== De && (r === void 0 && $e(Z), o?.(Z, le));
+    },
+    [r, o, De]
+  );
   ce.useEffect(() => {
     if (!v && Be && H.current) {
       const Z = setTimeout(() => H.current?.focus(), 30);
       return () => clearTimeout(Z);
     }
   }, [Be, De, v]);
-  const Ge = ce.useRef(null), [He, Wt] = ce.useState(() => L === "first" ? 0 : -1);
+  const Ge = ce.useRef(null), [He, Wt] = ce.useState(
+    () => L === "first" ? 0 : -1
+  );
   ce.useEffect(() => {
     if (He < 0 || !Ge.current) return;
-    const le = Array.from(Ge.current.querySelectorAll("[data-nav-item]"))[He];
+    const le = Array.from(
+      Ge.current.querySelectorAll("[data-nav-item]")
+    )[He];
     if (le) {
       document.activeElement !== le && le.focus(), tn.current = He;
       const ne = t[He];
-      A?.(ne ? k(ne) : void 0, ne, He);
+      A?.(
+        ne ? k(ne) : void 0,
+        ne,
+        He
+      );
     }
   }, [He, t, A, k]);
   const xo = (Z) => {
@@ -10614,7 +10746,9 @@ function rd(e) {
       const be = Date.now(), Me = 700, Le = Z.key.toLowerCase();
       be - st.current.last > Me ? st.current.buffer = Le : st.current.buffer += Le, st.current.last = be;
       let Ee = st.current.buffer;
-      const Ft = Ee.split("").every((tt) => tt === Ee[0]), St = t.map((tt) => String(tt.label || "").toLowerCase());
+      const Ft = Ee.split("").every((tt) => tt === Ee[0]), St = t.map(
+        (tt) => String(tt.label || "").toLowerCase()
+      );
       let nn = 0;
       He >= 0 && (nn = (He + 1) % t.length);
       let ve;
@@ -10642,7 +10776,12 @@ function rd(e) {
       } catch {
       }
     return x;
-  }, [M, x, te, E]), [et, vo] = ce.useState(yo);
+  }, [
+    M,
+    x,
+    te,
+    E
+  ]), [et, vo] = ce.useState(yo);
   ce.useEffect(() => {
     N?.(et);
   }, [et, N]);
@@ -10653,7 +10792,10 @@ function rd(e) {
     if (M && !(typeof window > "u")) {
       if (M === "localStorage" || M === "both")
         try {
-          window.localStorage.setItem(te, et ? "1" : "0");
+          window.localStorage.setItem(
+            te,
+            et ? "1" : "0"
+          );
         } catch {
         }
       if (M === "url" || M === "both") {
@@ -10663,7 +10805,12 @@ function rd(e) {
         window.history.replaceState(null, "", le);
       }
     }
-  }, [et, M, te, E]);
+  }, [
+    et,
+    M,
+    te,
+    E
+  ]);
   const ko = [
     "nhs-navigation-split-view",
     c ? "nhs-navigation-split-view--animated" : "",
@@ -10690,68 +10837,99 @@ function rd(e) {
   }, [kt, _]);
   const So = () => {
     if (pe === "cards")
-      return /* @__PURE__ */ n.jsxs("ul", { className: "nhs-navigation-split-view__cards", role: "listbox", "aria-activedescendant": De ? String(De) : void 0, children: [
-        t.map((ne) => {
-          const be = k(ne), Me = be === De;
-          return /* @__PURE__ */ n.jsx("li", { className: "nhs-navigation-split-view__card-item", role: "option", "aria-selected": Me, children: /* @__PURE__ */ n.jsxs(
-            "button",
-            {
-              id: String(be),
-              type: "button",
-              className: "nhs-navigation-split-view__card",
-              "data-selected": Me || void 0,
-              "data-disabled": ne.disabled || void 0,
-              disabled: ne.disabled,
-              onClick: () => !ne.disabled && Rt(be, ne),
-              children: [
-                ne.icon && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: ne.icon }),
-                /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-label", children: ne.label }),
-                ne.description && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-description", children: ne.description }),
-                s?.(ne),
-                ne.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: ne.badge })
-              ]
-            }
-          ) }, be);
-        }),
-        t.length === 0 && !m && /* @__PURE__ */ n.jsx("li", { className: "nhs-navigation-split-view__card-item", "aria-disabled": "true", children: p || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" }) })
-      ] });
-    const Z = "nsv-nav-instructions", le = ce.useMemo(() => ce.memo(({ item: ne, idx: be, selected: Me, focused: Le }) => {
-      const Ee = k(ne), Ft = ne.disabled ? {
-        "aria-disabled": !0,
-        tabIndex: -1
-      } : {
-        tabIndex: Le ? 0 : -1,
-        onClick: () => {
-          tn.current = be, Rt(Ee, ne);
-        },
-        onKeyDown: (St) => {
-          (St.key === "Enter" || St.key === " ") && (St.preventDefault(), tn.current = be, Rt(Ee, ne));
-        }
-      };
       return /* @__PURE__ */ n.jsxs(
-        "li",
+        "ul",
         {
-          id: String(Ee),
-          "data-nav-item": !0,
-          className: "nhs-navigation-split-view__list-item nhs-navigation-split-view__item-button",
-          role: "option",
-          "aria-selected": Me,
-          "aria-current": Me ? "true" : void 0,
-          "data-selected": Me || void 0,
-          "data-disabled": ne.disabled || void 0,
-          ...Ft,
+          className: "nhs-navigation-split-view__cards",
+          role: "listbox",
+          "aria-activedescendant": De ? String(De) : void 0,
           children: [
-            ne.icon && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: ne.icon }),
-            /* @__PURE__ */ n.jsxs("span", { className: "nhs-navigation-split-view__item-content", children: [
-              /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-label", children: ne.label }),
-              ne.description && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-description", children: ne.description }),
-              s?.(ne)
-            ] }),
-            ne.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: ne.badge })
+            t.map((ne) => {
+              const be = k(ne), Me = be === De;
+              return /* @__PURE__ */ n.jsx(
+                "li",
+                {
+                  className: "nhs-navigation-split-view__card-item",
+                  role: "option",
+                  "aria-selected": Me,
+                  children: /* @__PURE__ */ n.jsxs(
+                    "button",
+                    {
+                      id: String(be),
+                      type: "button",
+                      className: "nhs-navigation-split-view__card",
+                      "data-selected": Me || void 0,
+                      "data-disabled": ne.disabled || void 0,
+                      disabled: ne.disabled,
+                      onClick: () => !ne.disabled && Rt(be, ne),
+                      children: [
+                        ne.icon && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: ne.icon }),
+                        /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-label", children: ne.label }),
+                        ne.description && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-description", children: ne.description }),
+                        s?.(ne),
+                        ne.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: ne.badge })
+                      ]
+                    }
+                  )
+                },
+                be
+              );
+            }),
+            t.length === 0 && !m && /* @__PURE__ */ n.jsx(
+              "li",
+              {
+                className: "nhs-navigation-split-view__card-item",
+                "aria-disabled": "true",
+                children: p || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" })
+              }
+            )
           ]
         }
       );
-    }), [k, Rt, s]);
+    const Z = "nsv-nav-instructions", le = ce.useMemo(() => ce.memo(
+      ({
+        item: ne,
+        idx: be,
+        selected: Me,
+        focused: Le
+      }) => {
+        const Ee = k(ne), Ft = ne.disabled ? {
+          "aria-disabled": !0,
+          tabIndex: -1
+        } : {
+          tabIndex: Le ? 0 : -1,
+          onClick: () => {
+            tn.current = be, Rt(Ee, ne);
+          },
+          onKeyDown: (St) => {
+            (St.key === "Enter" || St.key === " ") && (St.preventDefault(), tn.current = be, Rt(Ee, ne));
+          }
+        };
+        return /* @__PURE__ */ n.jsxs(
+          "li",
+          {
+            id: String(Ee),
+            "data-nav-item": !0,
+            className: "nhs-navigation-split-view__list-item nhs-navigation-split-view__item-button",
+            role: "option",
+            "aria-selected": Me,
+            "aria-current": Me ? "true" : void 0,
+            "data-selected": Me || void 0,
+            "data-disabled": ne.disabled || void 0,
+            ...Ft,
+            children: [
+              ne.icon && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: ne.icon }),
+              /* @__PURE__ */ n.jsxs("span", { className: "nhs-navigation-split-view__item-content", children: [
+                /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-label", children: ne.label }),
+                ne.description && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-description", children: ne.description }),
+                s?.(ne)
+              ] }),
+              ne.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: ne.badge })
+            ]
+          }
+        );
+      }
+    ), [k, Rt, s]);
     return /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
       /* @__PURE__ */ n.jsxs(
         "ul",
@@ -10764,12 +10942,42 @@ function rd(e) {
           "aria-describedby": Z,
           "aria-activedescendant": De ? String(De) : void 0,
           children: [
-            t.map((ne, be) => /* @__PURE__ */ n.jsx(le, { item: ne, idx: be, selected: k(ne) === De, focused: be === He || He === -1 && be === 0 && L === "first", "data-just-selected": k(ne) === T ? "true" : void 0 }, k(ne))),
-            t.length === 0 && !m && /* @__PURE__ */ n.jsx("li", { className: "nhs-navigation-split-view__list-item", "aria-disabled": "true", children: p || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" }) })
+            t.map((ne, be) => /* @__PURE__ */ n.jsx(
+              le,
+              {
+                item: ne,
+                idx: be,
+                selected: k(ne) === De,
+                focused: be === He || He === -1 && be === 0 && L === "first",
+                "data-just-selected": k(ne) === T ? "true" : void 0
+              },
+              k(ne)
+            )),
+            t.length === 0 && !m && /* @__PURE__ */ n.jsx(
+              "li",
+              {
+                className: "nhs-navigation-split-view__list-item",
+                "aria-disabled": "true",
+                children: p || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" })
+              }
+            )
           ]
         }
       ),
-      /* @__PURE__ */ n.jsx("div", { id: Z, style: { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }, children: y })
+      /* @__PURE__ */ n.jsx(
+        "div",
+        {
+          id: Z,
+          style: {
+            position: "absolute",
+            width: 1,
+            height: 1,
+            overflow: "hidden",
+            clip: "rect(0 0 0 0)"
+          },
+          children: y
+        }
+      )
     ] });
   };
   return /* @__PURE__ */ n.jsx(
@@ -10781,70 +10989,176 @@ function rd(e) {
       "data-layout": pe,
       onKeyDown: Pe,
       children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-navigation-split-view__body", children: [
-        /* @__PURE__ */ n.jsxs("div", { className: "nhs-navigation-split-view__panes", "data-active-detail": Be || void 0, style: { transform: Be ? "translateX(-100%)" : void 0 }, children: [
-          /* @__PURE__ */ n.jsxs(
-            "div",
-            {
-              ref: w,
-              className: "nhs-navigation-split-view__nav-pane",
-              role: "navigation",
-              "aria-label": C?.navigationLabel || "Items",
-              "data-collapsed": et || void 0,
-              tabIndex: 0,
-              children: [
-                R && je && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-collapse", children: /* @__PURE__ */ n.jsx(
-                  "button",
-                  {
-                    type: "button",
-                    onClick: _o,
-                    className: "nhs-navigation-split-view__nav-collapse-btn",
-                    "aria-label": et ? ue : P,
-                    title: et ? ue : P,
-                    children: et ? j || /* @__PURE__ */ n.jsx(nd, {}) : ae || /* @__PURE__ */ n.jsx(td, {})
-                  }
-                ) }),
-                /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-scroll", children: So() }),
-                J && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-footer", role: "contentinfo", children: J })
-              ]
+        /* @__PURE__ */ n.jsxs(
+          "div",
+          {
+            className: "nhs-navigation-split-view__panes",
+            "data-active-detail": Be || void 0,
+            style: { transform: Be ? "translateX(-100%)" : void 0 },
+            children: [
+              /* @__PURE__ */ n.jsxs(
+                "div",
+                {
+                  ref: w,
+                  className: "nhs-navigation-split-view__nav-pane",
+                  role: "navigation",
+                  "aria-label": C?.navigationLabel || "Items",
+                  "data-collapsed": et || void 0,
+                  tabIndex: 0,
+                  children: [
+                    R && je && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-collapse", children: /* @__PURE__ */ n.jsx(
+                      "button",
+                      {
+                        type: "button",
+                        onClick: _o,
+                        className: "nhs-navigation-split-view__nav-collapse-btn",
+                        "aria-label": et ? ue : P,
+                        title: et ? ue : P,
+                        children: et ? j || /* @__PURE__ */ n.jsx(nd, {}) : ae || /* @__PURE__ */ n.jsx(td, {})
+                      }
+                    ) }),
+                    /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-scroll", children: So() }),
+                    J && /* @__PURE__ */ n.jsx(
+                      "div",
+                      {
+                        className: "nhs-navigation-split-view__nav-footer",
+                        role: "contentinfo",
+                        children: J
+                      }
+                    )
+                  ]
+                }
+              ),
+              /* @__PURE__ */ n.jsxs(
+                "div",
+                {
+                  ref: H,
+                  className: "nhs-navigation-split-view__content-pane",
+                  role: "region",
+                  "aria-label": C?.contentLabel || "Content",
+                  "data-has-selection": !!Ne || void 0,
+                  tabIndex: 0,
+                  style: {
+                    display: Oe && !ze ? "none" : void 0
+                  },
+                  children: [
+                    Gn && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: bo }),
+                    /* @__PURE__ */ n.jsx(
+                      "div",
+                      {
+                        className: "nhs-navigation-split-view__content-inner",
+                        style: { padding: 32, flex: 1 },
+                        children: i(Ne)
+                      }
+                    )
+                  ]
+                }
+              ),
+              pe === "three-column" && (!de || Jn) || Oe && !ze ? /* @__PURE__ */ n.jsx(
+                "div",
+                {
+                  ref: h,
+                  className: "nhs-navigation-split-view__secondary-pane",
+                  role: "region",
+                  "aria-label": C?.secondaryContentLabel || "Secondary",
+                  tabIndex: 0,
+                  children: /* @__PURE__ */ n.jsxs(
+                    "div",
+                    {
+                      className: "nhs-navigation-split-view__secondary-inner",
+                      style: {
+                        display: "flex",
+                        flexDirection: "column",
+                        flex: 1,
+                        minWidth: 0
+                      },
+                      children: [
+                        Oe && !ze && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: /* @__PURE__ */ n.jsx(
+                          "div",
+                          {
+                            style: {
+                              display: "flex",
+                              alignItems: "center",
+                              width: "100%"
+                            },
+                            children: /* @__PURE__ */ n.jsxs(
+                              "div",
+                              {
+                                style: {
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 0,
+                                  flex: "1 1 auto",
+                                  minWidth: 0
+                                },
+                                children: [
+                                  Kn,
+                                  /* @__PURE__ */ n.jsx(
+                                    "div",
+                                    {
+                                      style: {
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: 4,
+                                        minWidth: 0
+                                      },
+                                      children: /* @__PURE__ */ n.jsx("h2", { style: { marginLeft: 0, marginRight: 0 }, children: Ne && typeof Ne == "object" && "label" in Ne ? Ne.label : String(Ne) })
+                                    }
+                                  )
+                                ]
+                              }
+                            )
+                          }
+                        ) }),
+                        Ne && U && /* @__PURE__ */ n.jsx(
+                          "div",
+                          {
+                            className: "nhs-navigation-split-view__secondary-header",
+                            style: {
+                              padding: "16px 32px",
+                              borderBottom: "1px solid var(--nsplit-divider)"
+                            },
+                            children: typeof U == "function" ? U(Ne) : U
+                          }
+                        ),
+                        /* @__PURE__ */ n.jsx("div", { style: { padding: 32, flex: 1, minWidth: 0 }, children: l?.(Ne) })
+                      ]
+                    }
+                  )
+                }
+              ) : null
+            ]
+          }
+        ),
+        /* @__PURE__ */ n.jsx(
+          "div",
+          {
+            ref: Zn,
+            "aria-live": "polite",
+            "aria-atomic": "true",
+            style: {
+              position: "absolute",
+              width: 1,
+              height: 1,
+              overflow: "hidden",
+              clip: "rect(0 0 0 0)"
             }
-          ),
-          /* @__PURE__ */ n.jsxs(
-            "div",
-            {
-              ref: H,
-              className: "nhs-navigation-split-view__content-pane",
-              role: "region",
-              "aria-label": C?.contentLabel || "Content",
-              "data-has-selection": !!Ne || void 0,
-              tabIndex: 0,
-              style: { display: Oe && !ze ? "none" : void 0 },
-              children: [
-                Gn && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: bo }),
-                /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__content-inner", style: { padding: 32, flex: 1 }, children: i(Ne) })
-              ]
-            }
-          ),
-          pe === "three-column" && (!de || Jn) || Oe && !ze ? /* @__PURE__ */ n.jsx(
-            "div",
-            {
-              ref: h,
-              className: "nhs-navigation-split-view__secondary-pane",
-              role: "region",
-              "aria-label": C?.secondaryContentLabel || "Secondary",
-              tabIndex: 0,
-              children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-navigation-split-view__secondary-inner", style: { display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }, children: [
-                Oe && !ze && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: /* @__PURE__ */ n.jsx("div", { style: { display: "flex", alignItems: "center", width: "100%" }, children: /* @__PURE__ */ n.jsxs("div", { style: { display: "flex", alignItems: "center", gap: 0, flex: "1 1 auto", minWidth: 0 }, children: [
-                  Kn,
-                  /* @__PURE__ */ n.jsx("div", { style: { display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }, children: /* @__PURE__ */ n.jsx("h2", { style: { marginLeft: 0, marginRight: 0 }, children: Ne && typeof Ne == "object" && "label" in Ne ? Ne.label : String(Ne) }) })
-                ] }) }) }),
-                Ne && U && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__secondary-header", style: { padding: "16px 32px", borderBottom: "1px solid var(--nsplit-divider)" }, children: typeof U == "function" ? U(Ne) : U }),
-                /* @__PURE__ */ n.jsx("div", { style: { padding: 32, flex: 1, minWidth: 0 }, children: l?.(Ne) })
-              ] })
-            }
-          ) : null
-        ] }),
-        /* @__PURE__ */ n.jsx("div", { ref: Zn, "aria-live": "polite", "aria-atomic": "true", style: { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" } }),
-        /* @__PURE__ */ n.jsx("div", { "aria-live": "polite", style: { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }, children: kt ? "Expanded to three column layout" : "In two column layout" })
+          }
+        ),
+        /* @__PURE__ */ n.jsx(
+          "div",
+          {
+            "aria-live": "polite",
+            style: {
+              position: "absolute",
+              width: 1,
+              height: 1,
+              overflow: "hidden",
+              clip: "rect(0 0 0 0)"
+            },
+            children: kt ? "Expanded to three column layout" : "In two column layout"
+          }
+        )
       ] })
     }
   );

@@ -1,5 +1,5 @@
-import { NavigationSplitViewProps, NavigationSplitItem } from './NavigationSplitView.types';
-import './NavigationSplitView.scss';
+import { NavigationSplitViewProps, NavigationSplitItem } from "./NavigationSplitView.types";
+import "./NavigationSplitView.scss";
 /**
  * NavigationSplitView Component
  * Mobile-first master-detail navigation similar to SwiftUI NavigationSplitView.

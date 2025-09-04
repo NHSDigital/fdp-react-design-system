@@ -13710,12 +13710,16 @@ function nd(e = {}) {
     window.history.replaceState(null, "", d);
   }, [o, i, t, r, a]), { selectedId: o, setSelectedId: s, drilledIn: i, setDrilledIn: l };
 }
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 const ud = ({ className: e }) => /* @__PURE__ */ n.jsx(
 =======
 <<<<<<< Updated upstream
 const td = ({ className: e }) => /* @__PURE__ */ n.jsx(
 >>>>>>> Stashed changes
+=======
+const td = ({ className: e }) => /* @__PURE__ */ n.jsx(
+>>>>>>> master
   "svg",
   {
     className: e,
@@ -13732,7 +13736,11 @@ const td = ({ className: e }) => /* @__PURE__ */ n.jsx(
       }
     )
   }
+<<<<<<< HEAD
 ), hd = ({ className: e }) => /* @__PURE__ */ n.jsx(
+=======
+), nd = ({ className: e }) => /* @__PURE__ */ n.jsx(
+>>>>>>> master
   "svg",
   {
     className: e,
@@ -13750,9 +13758,12 @@ const td = ({ className: e }) => /* @__PURE__ */ n.jsx(
     )
   }
 );
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 function fd(e) {
 =======
+=======
+>>>>>>> master
 function rd(e) {
 =======
 const rd = ({ className: e }) => /* @__PURE__ */ n.jsx("svg", { className: e, width: "16", height: "16", viewBox: "0 0 16 16", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ n.jsx("path", { fill: "currentColor", d: "M10.7 3.3a1 1 0 0 1 0 1.4L7.41 8l3.3 3.3a1 1 0 1 1-1.42 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.42 0Z" }) }), ad = ({ className: e }) => /* @__PURE__ */ n.jsx("svg", { className: e, width: "16", height: "16", viewBox: "0 0 16 16", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ n.jsx("path", { fill: "currentColor", d: "M5.3 12.7a1 1 0 0 1 0-1.4L8.59 8l-3.3-3.3a1 1 0 0 1 1.42-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.42 0Z" }) });
@@ -13875,6 +13886,7 @@ function sd(e) {
     paramDrill: F
   }), [xe, $e] = ce.useState(
     () => he.selectedId !== void 0 ? he.selectedId : a
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   ), De = r !== void 0 ? r : xe, Ne = t.find((Z) => k(Z) === De), [T, S] = ce.useState(
     void 0
@@ -13882,12 +13894,18 @@ function sd(e) {
 =======
   ), De = r !== void 0 ? r : xe, Ne = t.find((Z) => _(Z) === De), [T, S] = ce.useState(void 0);
 >>>>>>> Stashed changes
+=======
+  ), De = r !== void 0 ? r : xe, Ne = t.find((Z) => k(Z) === De), [T, S] = ce.useState(
+    void 0
+  );
+>>>>>>> master
   ce.useEffect(() => {
     if (De === void 0) return;
     S(De);
     const Z = setTimeout(() => S(void 0), 220);
     return () => clearTimeout(Z);
   }, [De]);
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   const W = ce.useRef(null), H = ce.useRef(null), h = ce.useRef(null), w = ce.useRef(null), [O, Y] = ce.useState(() => ({ contentIndex: 0, secondaryIndex: 0 })), [D, G] = ce.useState(() => "nav"), [ye, ge] = ce.useState(0), _e = () => [
 >>>>>>> Stashed changes
@@ -14002,6 +14020,65 @@ function sd(e) {
     }), be._escapeHandler = Me, be.addEventListener("keydown", Me);
   }, [oe]), Pe = (Z) => {
 >>>>>>> Stashed changes
+=======
+  const W = ce.useRef(null), H = ce.useRef(null), h = ce.useRef(null), w = ce.useRef(null), [O, Y] = ce.useState(() => ({ contentIndex: 0, secondaryIndex: 0 })), [D, G] = ce.useState(() => "nav"), [ye, ge] = ce.useState(0), _e = () => [
+    w.current,
+    H.current,
+    h.current
+  ].filter(Boolean), we = (Z) => {
+    const le = _e(), ne = Math.max(0, Math.min(Z, le.length - 1));
+    le[ne]?.focus(), ge(ne);
+  }, oe = ce.useCallback(
+    (Z) => Z ? Array.from(Z.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(
+      (ne) => !ne.hasAttribute("disabled") && ne.tabIndex !== -1
+    ) : [],
+    []
+  ), ke = ce.useCallback(
+    (Z) => {
+      const le = oe(H.current);
+      if (!le.length) {
+        H.current?.focus();
+        return;
+      }
+      const ne = Math.max(0, Math.min(Z, le.length - 1)), be = le[ne];
+      be.focus(), setTimeout(() => {
+        document.activeElement !== be && (be.focus(), setTimeout(() => {
+          document.activeElement !== be && be.click();
+        }, 10));
+      }, 10), Y((Le) => ({ ...Le, contentIndex: ne }));
+      const Me = (Le) => {
+        Le.key === "Escape" && (Le.preventDefault(), Le.stopPropagation(), H.current?.focus(), be.removeEventListener("keydown", Me));
+      };
+      le.forEach((Le) => {
+        const Ee = Le._escapeHandler;
+        Ee && Le.removeEventListener("keydown", Ee);
+      }), be._escapeHandler = Me, be.addEventListener("keydown", Me);
+    },
+    [oe]
+  ), Fe = ce.useCallback(
+    (Z) => {
+      const le = oe(h.current);
+      if (!le.length) {
+        h.current?.focus();
+        return;
+      }
+      const ne = Math.max(0, Math.min(Z, le.length - 1)), be = le[ne];
+      be.focus(), setTimeout(() => {
+        document.activeElement !== be && (be.focus(), setTimeout(() => {
+          document.activeElement !== be && be.click();
+        }, 10));
+      }, 10), Y((Le) => ({ ...Le, secondaryIndex: ne }));
+      const Me = (Le) => {
+        Le.key === "Escape" && (Le.preventDefault(), Le.stopPropagation(), h.current?.focus(), be.removeEventListener("keydown", Me));
+      };
+      le.forEach((Le) => {
+        const Ee = Le._escapeHandler;
+        Ee && Le.removeEventListener("keydown", Ee);
+      }), be._escapeHandler = Me, be.addEventListener("keydown", Me);
+    },
+    [oe]
+  ), Pe = (Z) => {
+>>>>>>> master
     if (Z.defaultPrevented) return;
     const le = Z.key, ne = Z.target, be = !!Ge.current && Ge.current.contains(ne), Me = !!H.current && H.current.contains(ne), Le = !!h.current && h.current.contains(ne), Ee = !!h.current, Ft = ne === w.current || ne === H.current || ne === h.current, St = Be && (pe === "list" || pe === "cards"), nn = Me && !!ne.closest(".nhs-navigation-split-view__header");
     if (D === "containers" && Ft) {
@@ -14026,6 +14103,7 @@ function sd(e) {
         q.preventDefault(), ke(ve().length - 1);
         return;
       }
+<<<<<<< HEAD
       if (ie === "Enter" || ie === " ") {
         if (q.preventDefault(), J === w.current) {
           if (U("nav"), Oe.current) {
@@ -14033,12 +14111,22 @@ function sd(e) {
               Oe.current.querySelectorAll("[data-nav-item]")
             );
             (ye[$e >= 0 ? $e : 0] || ye[0])?.focus();
+=======
+      if (le === "Enter" || le === " ") {
+        if (Z.preventDefault(), ne === w.current) {
+          if (G("nav"), Ge.current) {
+            const ve = Array.from(
+              Ge.current.querySelectorAll("[data-nav-item]")
+            );
+            (ve[He >= 0 ? He : 0] || ve[0])?.focus();
+>>>>>>> master
           }
         } else J === L.current ? (U("content"), _e(W.contentIndex)) : J === h.current && (U("secondary"), Ie(W.secondaryIndex));
         return;
       }
       return;
     }
+<<<<<<< HEAD
     if (ie === "Escape") {
       if (T === "content" || T === "secondary") {
         if (Me || Be) {
@@ -14052,13 +14140,33 @@ function sd(e) {
           const Ae = Array.from(
             Oe.current.querySelectorAll("[data-nav-item]")
           )[$e >= 0 ? $e : 0];
+=======
+    if (le === "Escape") {
+      if (D === "content" || D === "secondary") {
+        if (Me || Le) {
+          if (Z.preventDefault(), G("nav"), Ge.current) {
+            const Ae = Array.from(
+              Ge.current.querySelectorAll("[data-nav-item]")
+            )[He >= 0 ? He : 0];
+            setTimeout(() => Ae?.focus(), 10);
+          }
+        } else if ((ne === H.current || ne === h.current) && (Z.preventDefault(), G("nav"), Ge.current)) {
+          const Ae = Array.from(
+            Ge.current.querySelectorAll("[data-nav-item]")
+          )[He >= 0 ? He : 0];
+>>>>>>> master
           setTimeout(() => Ae?.focus(), 10);
         }
       }
       return;
     }
+<<<<<<< HEAD
     if (ie === "Enter" || ie === " ") {
       if (J.matches(
+=======
+    if (le === "Enter" || le === " ") {
+      if (ne.matches(
+>>>>>>> master
         'button, a, input, select, textarea, [role="button"], [role="link"], [role="tab"]'
       ))
         return;
@@ -14068,21 +14176,38 @@ function sd(e) {
         }, 50);
         return;
       }
+<<<<<<< HEAD
       if (J === h.current && T === "secondary") {
         q.preventDefault(), q.stopPropagation(), ne(
           h.current
         ).length > 0 && setTimeout(() => {
           Ie(W.secondaryIndex);
+=======
+      if (ne === h.current && D === "secondary") {
+        Z.preventDefault(), Z.stopPropagation(), oe(
+          h.current
+        ).length > 0 && setTimeout(() => {
+          Fe(O.secondaryIndex);
+>>>>>>> master
         }, 50);
         return;
       }
     }
+<<<<<<< HEAD
     if (St && nn && !Bt && (ie === "ArrowRight" || ie === "ArrowLeft")) {
       const ye = ne(L.current).filter(
         (Ae) => Ae.closest(".nhs-navigation-split-view__header")
       );
       if (ye.length > 1) {
         const Ae = ye.indexOf(J);
+=======
+    if (St && nn && !Ft && (le === "ArrowRight" || le === "ArrowLeft")) {
+      const ve = oe(H.current).filter(
+        (Ae) => Ae.closest(".nhs-navigation-split-view__header")
+      );
+      if (ve.length > 1) {
+        const Ae = ve.indexOf(ne);
+>>>>>>> master
         if (Ae >= 0) {
           const ea = (Ae + (ie === "ArrowRight" ? 1 : -1) + ye.length) % ye.length;
           q.preventDefault(), ye[ea].focus();
@@ -14105,20 +14230,35 @@ function sd(e) {
         q.preventDefault(), U("content"), setTimeout(() => L.current?.focus(), 10);
         return;
       }
+<<<<<<< HEAD
       if (Me || T === "content") {
         if (q.preventDefault(), U("nav"), Oe.current) {
           const Ae = Array.from(
             Oe.current.querySelectorAll("[data-nav-item]")
           )[$e >= 0 ? $e : 0];
+=======
+      if (Me || D === "content") {
+        if (Z.preventDefault(), G("nav"), Ge.current) {
+          const Ae = Array.from(
+            Ge.current.querySelectorAll("[data-nav-item]")
+          )[He >= 0 ? He : 0];
+>>>>>>> master
           setTimeout(() => Ae?.focus(), 10);
         }
         return;
       }
     }
+<<<<<<< HEAD
     if (ie === "Home" && !fe && (q.preventDefault(), U("nav"), Oe.current)) {
       const ye = Array.from(
         Oe.current.querySelectorAll("[data-nav-item]")
       ), Ae = ye[$e >= 0 ? $e : 0] || ye[0];
+=======
+    if (le === "Home" && !be && (Z.preventDefault(), G("nav"), Ge.current)) {
+      const ve = Array.from(
+        Ge.current.querySelectorAll("[data-nav-item]")
+      ), Ae = ve[He >= 0 ? He : 0] || ve[0];
+>>>>>>> master
       setTimeout(() => Ae?.focus(), 10);
     }
     if (ie === "End") {
@@ -14130,10 +14270,17 @@ function sd(e) {
         q.preventDefault(), ne(L.current).length > 0 && _e(0);
         return;
       }
+<<<<<<< HEAD
       if (J === h.current && ie === "ArrowDown") {
         q.preventDefault(), ne(
           h.current
         ).length > 0 && Ie(0);
+=======
+      if (ne === h.current && le === "ArrowDown") {
+        Z.preventDefault(), oe(
+          h.current
+        ).length > 0 && Fe(0);
+>>>>>>> master
         return;
       }
       if (Me) {
@@ -14173,6 +14320,7 @@ function sd(e) {
     mo,
 =======
   }, [Oe, ze, D]);
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   const Gn = !!Ne && (Be && Ye.mobile || !Be && _t && Ye.tablet || !Be && at && Ye.desktop) || Qe && !ze, po = `h${Q}`, Vn = Ne ? ce.createElement(
     po,
@@ -14192,6 +14340,18 @@ function sd(e) {
   const Gn = !!Ne && (Be && Ye.mobile || !Be && _t && Ye.tablet || !Be && at && Ye.desktop) || Qe && !ze, go = `h${Q}`, Vn = Ne ? ce.createElement(go, { style: { marginLeft: Be ? 32 : 0, marginRight: Be ? 32 : 0 } }, Ne.label) : null, Qr = Be ? "mobile" : _t ? "tablet" : "desktop", bo = Qe && !ze && !Oe, Yn = Be && Ye.mobile ? /* @__PURE__ */ n.jsx(
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
+=======
+  const Gn = !!Ne && (Be && Ye.mobile || !Be && _t && Ye.tablet || !Be && at && Ye.desktop) || Qe && !ze, po = `h${Q}`, Vn = Ne ? ce.createElement(
+    po,
+    {
+      style: {
+        marginLeft: Be ? 32 : 0,
+        marginRight: Be ? 32 : 0
+      }
+    },
+    Ne.label
+  ) : null, Qr = Be ? "mobile" : _t ? "tablet" : "desktop", go = Qe && !ze && !Oe, Yn = Be && Ye.mobile ? /* @__PURE__ */ n.jsx(
+>>>>>>> master
     dr,
     {
       element: "button",
@@ -14224,6 +14384,7 @@ function sd(e) {
 <<<<<<< Updated upstream
   ) : void 0, go = le.useMemo(() => {
     if (!Gn || !Ne) return null;
+<<<<<<< HEAD
     if (se)
       return se({
 =======
@@ -14251,6 +14412,16 @@ function sd(e) {
       defaultHeading: Vn
     });
 >>>>>>> Stashed changes
+=======
+    if (V)
+      return V({
+        item: Ne,
+        detailActive: Be,
+        context: Qr,
+        backLink: Yn,
+        defaultHeading: Vn
+      });
+>>>>>>> master
     const Z = Ne && K ? typeof K == "function" ? K(Ne) : K : null;
 >>>>>>> Stashed changes
     return /* @__PURE__ */ n.jsxs("div", { style: { display: "flex", alignItems: "center", width: "100%" }, children: [
@@ -14277,7 +14448,11 @@ function sd(e) {
                 },
                 children: [
                   Vn,
+<<<<<<< HEAD
                   q && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__subheader", children: q })
+=======
+                  Z && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__subheader", children: Z })
+>>>>>>> master
                 ]
               }
             )
@@ -14286,6 +14461,7 @@ function sd(e) {
       ),
       qn && /* @__PURE__ */ n.jsx("div", { style: { marginLeft: "auto" }, children: qn })
     ] });
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   }, [
     Gn,
@@ -14293,10 +14469,19 @@ function sd(e) {
     se,
     Re,
     Xr,
+=======
+  }, [
+    Gn,
+    Ne,
+    V,
+    Be,
+    Qr,
+>>>>>>> master
     Yn,
     Kn,
     Vn,
     qn,
+<<<<<<< HEAD
     X
   ]);
 <<<<<<< Updated upstream
@@ -14310,6 +14495,10 @@ function sd(e) {
 =======
   }, [Gn, Ne, Y, Be, Qr, Yn, Kn, Vn, qn, K]);
 >>>>>>> Stashed changes
+=======
+    K
+  ]);
+>>>>>>> master
   ce.useEffect(() => {
     if (!I) return;
     const Z = pe === "three-column";
@@ -14335,6 +14524,7 @@ function sd(e) {
     return window.addEventListener("popstate", q), () => window.removeEventListener("popstate", q);
 =======
     return window.addEventListener("popstate", Z), () => window.removeEventListener("popstate", Z);
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 >>>>>>> Stashed changes
   }, [
@@ -14364,12 +14554,30 @@ function sd(e) {
     Z !== De && (r === void 0 && $e(Z), o?.(Z, le));
   }, [r, o, De]);
 >>>>>>> Stashed changes
+=======
+  }, [
+    I,
+    b,
+    F,
+    d,
+    l
+  ]);
+  const tn = ce.useRef(0), st = ce.useRef(
+    null
+  ), Rt = ce.useCallback(
+    (Z, le) => {
+      Z !== De && (r === void 0 && $e(Z), o?.(Z, le));
+    },
+    [r, o, De]
+  );
+>>>>>>> master
   ce.useEffect(() => {
     if (!v && Be && H.current) {
       const Z = setTimeout(() => H.current?.focus(), 30);
       return () => clearTimeout(Z);
 >>>>>>> Stashed changes
     }
+<<<<<<< HEAD
   }, [Re, Le, A]);
   const Oe = le.useRef(null), [$e, Wt] = le.useState(
     () => H === "first" ? 0 : -1
@@ -14388,6 +14596,12 @@ function sd(e) {
         J,
         $e
 =======
+=======
+  }, [Be, De, v]);
+  const Ge = ce.useRef(null), [He, Wt] = ce.useState(
+    () => L === "first" ? 0 : -1
+  );
+>>>>>>> master
   ce.useEffect(() => {
     if (He < 0 || !Ge.current) return;
     const le = Array.from(
@@ -14396,16 +14610,23 @@ function sd(e) {
     if (le) {
       document.activeElement !== le && le.focus(), tn.current = He;
       const ne = t[He];
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+>>>>>>> master
       A?.(
         ne ? k(ne) : void 0,
         ne,
         He
+<<<<<<< HEAD
 >>>>>>> Stashed changes
       );
 =======
       A?.(ne ? _(ne) : void 0, ne, He);
 >>>>>>> Stashed changes
+=======
+      );
+>>>>>>> master
     }
 <<<<<<< Updated upstream
   }, [$e, t, M, _]);
@@ -14459,7 +14680,11 @@ function sd(e) {
       const fe = Date.now(), Me = 700, Be = q.key.toLowerCase();
       fe - st.current.last > Me ? st.current.buffer = Be : st.current.buffer += Be, st.current.last = fe;
       let Ee = st.current.buffer;
+<<<<<<< HEAD
       const Bt = Ee.split("").every((tt) => tt === Ee[0]), St = t.map(
+=======
+      const Ft = Ee.split("").every((tt) => tt === Ee[0]), St = t.map(
+>>>>>>> master
         (tt) => String(tt.label || "").toLowerCase()
       );
       let nn = 0;
@@ -14515,16 +14740,22 @@ function sd(e) {
       if (E === "localStorage" || E === "both")
 =======
     return x;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+>>>>>>> master
   }, [
     M,
     x,
     te,
     E
   ]), [et, vo] = ce.useState(yo);
+<<<<<<< HEAD
 =======
   }, [M, x, te, E]), [et, _o] = ce.useState(vo);
 >>>>>>> Stashed changes
+=======
+>>>>>>> master
   ce.useEffect(() => {
     N?.(et);
   }, [et, N]);
@@ -14537,7 +14768,11 @@ function sd(e) {
 >>>>>>> Stashed changes
         try {
           window.localStorage.setItem(
+<<<<<<< HEAD
             Q,
+=======
+            te,
+>>>>>>> master
             et ? "1" : "0"
           );
         } catch {
@@ -14549,6 +14784,7 @@ function sd(e) {
         window.history.replaceState(null, "", ie);
       }
     }
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   }, [
     et,
@@ -14558,6 +14794,15 @@ function sd(e) {
   ]);
 <<<<<<< Updated upstream
   const _o = [
+=======
+  }, [
+    et,
+    M,
+    te,
+    E
+  ]);
+  const ko = [
+>>>>>>> master
     "nhs-navigation-split-view",
     c ? "nhs-navigation-split-view--animated" : "",
     Re ? "nhs-navigation-split-view--detail-active" : "",
@@ -14608,6 +14853,7 @@ function sd(e) {
   const Co = () => {
 >>>>>>> Stashed changes
     if (pe === "cards")
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
       return /* @__PURE__ */ n.jsxs("ul", { className: "nhs-navigation-split-view__cards", role: "listbox", "aria-activedescendant": De ? String(De) : void 0, children: [
@@ -14649,15 +14895,24 @@ function sd(e) {
         }
       };
 >>>>>>> Stashed changes
+=======
+>>>>>>> master
       return /* @__PURE__ */ n.jsxs(
         "ul",
         {
           className: "nhs-navigation-split-view__cards",
           role: "listbox",
+<<<<<<< HEAD
           "aria-activedescendant": Le ? String(Le) : void 0,
           children: [
             t.map((J) => {
               const fe = _(J), Me = fe === Le;
+=======
+          "aria-activedescendant": De ? String(De) : void 0,
+          children: [
+            t.map((ne) => {
+              const be = k(ne), Me = be === De;
+>>>>>>> master
               return /* @__PURE__ */ n.jsx(
                 "li",
                 {
@@ -14667,6 +14922,7 @@ function sd(e) {
                   children: /* @__PURE__ */ n.jsxs(
                     "button",
                     {
+<<<<<<< HEAD
                       id: String(fe),
                       type: "button",
                       className: "nhs-navigation-split-view__card",
@@ -14680,24 +14936,51 @@ function sd(e) {
                         J.description && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-description", children: J.description }),
                         s?.(J),
                         J.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: J.badge })
+=======
+                      id: String(be),
+                      type: "button",
+                      className: "nhs-navigation-split-view__card",
+                      "data-selected": Me || void 0,
+                      "data-disabled": ne.disabled || void 0,
+                      disabled: ne.disabled,
+                      onClick: () => !ne.disabled && Rt(be, ne),
+                      children: [
+                        ne.icon && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: ne.icon }),
+                        /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-label", children: ne.label }),
+                        ne.description && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-description", children: ne.description }),
+                        s?.(ne),
+                        ne.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: ne.badge })
+>>>>>>> master
                       ]
                     }
                   )
                 },
+<<<<<<< HEAD
                 fe
               );
             }),
             t.length === 0 && !p && /* @__PURE__ */ n.jsx(
+=======
+                be
+              );
+            }),
+            t.length === 0 && !m && /* @__PURE__ */ n.jsx(
+>>>>>>> master
               "li",
               {
                 className: "nhs-navigation-split-view__card-item",
                 "aria-disabled": "true",
+<<<<<<< HEAD
                 children: m || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" })
+=======
+                children: p || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" })
+>>>>>>> master
               }
             )
           ]
         }
       );
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     const q = "nsv-nav-instructions", ie = le.useMemo(() => le.memo(
 =======
@@ -14720,6 +15003,25 @@ function sd(e) {
           },
           onKeyDown: (St) => {
             (St.key === "Enter" || St.key === " ") && (St.preventDefault(), tn.current = fe, Rt(Ee, J));
+=======
+    const Z = "nsv-nav-instructions", le = ce.useMemo(() => ce.memo(
+      ({
+        item: ne,
+        idx: be,
+        selected: Me,
+        focused: Le
+      }) => {
+        const Ee = k(ne), Ft = ne.disabled ? {
+          "aria-disabled": !0,
+          tabIndex: -1
+        } : {
+          tabIndex: Le ? 0 : -1,
+          onClick: () => {
+            tn.current = be, Rt(Ee, ne);
+          },
+          onKeyDown: (St) => {
+            (St.key === "Enter" || St.key === " ") && (St.preventDefault(), tn.current = be, Rt(Ee, ne));
+>>>>>>> master
           }
         };
         return /* @__PURE__ */ n.jsxs(
@@ -14732,6 +15034,7 @@ function sd(e) {
             "aria-selected": Me,
             "aria-current": Me ? "true" : void 0,
             "data-selected": Me || void 0,
+<<<<<<< HEAD
             "data-disabled": J.disabled || void 0,
             ...Bt,
             children: [
@@ -14742,10 +15045,23 @@ function sd(e) {
                 s?.(J)
               ] }),
               J.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: J.badge })
+=======
+            "data-disabled": ne.disabled || void 0,
+            ...Ft,
+            children: [
+              ne.icon && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: ne.icon }),
+              /* @__PURE__ */ n.jsxs("span", { className: "nhs-navigation-split-view__item-content", children: [
+                /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-label", children: ne.label }),
+                ne.description && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-description", children: ne.description }),
+                s?.(ne)
+              ] }),
+              ne.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: ne.badge })
+>>>>>>> master
             ]
           }
         );
       }
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     ), [_, Rt, s]);
 =======
@@ -14754,6 +15070,9 @@ function sd(e) {
     }), [_, Rt, s]);
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
+=======
+    ), [k, Rt, s]);
+>>>>>>> master
     return /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
       /* @__PURE__ */ n.jsxs(
         "ul",
@@ -14770,6 +15089,7 @@ function sd(e) {
           "aria-describedby": q,
           "aria-activedescendant": Le ? String(Le) : void 0,
           children: [
+<<<<<<< HEAD
 <<<<<<< Updated upstream
             t.map((J, fe) => /* @__PURE__ */ n.jsx(
               ie,
@@ -14788,10 +15108,25 @@ function sd(e) {
               _(J)
             )),
             t.length === 0 && !p && /* @__PURE__ */ n.jsx(
+=======
+            t.map((ne, be) => /* @__PURE__ */ n.jsx(
+              le,
+              {
+                item: ne,
+                idx: be,
+                selected: k(ne) === De,
+                focused: be === He || He === -1 && be === 0 && L === "first",
+                "data-just-selected": k(ne) === T ? "true" : void 0
+              },
+              k(ne)
+            )),
+            t.length === 0 && !m && /* @__PURE__ */ n.jsx(
+>>>>>>> master
               "li",
               {
                 className: "nhs-navigation-split-view__list-item",
                 "aria-disabled": "true",
+<<<<<<< HEAD
                 children: m || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" })
               }
             )
@@ -14799,13 +15134,22 @@ function sd(e) {
             t.map((ne, be) => /* @__PURE__ */ n.jsx(le, { item: ne, idx: be, selected: _(ne) === De, focused: be === He || He === -1 && be === 0 && L === "first", "data-just-selected": _(ne) === T ? "true" : void 0 }, _(ne))),
             t.length === 0 && !p && /* @__PURE__ */ n.jsx("li", { className: "nhs-navigation-split-view__list-item", "aria-disabled": "true", children: m || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" }) })
 >>>>>>> Stashed changes
+=======
+                children: p || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" })
+              }
+            )
+>>>>>>> master
           ]
         }
       ),
       /* @__PURE__ */ n.jsx(
         "div",
         {
+<<<<<<< HEAD
           id: q,
+=======
+          id: Z,
+>>>>>>> master
           style: {
             position: "absolute",
             width: 1,
@@ -14813,7 +15157,11 @@ function sd(e) {
             overflow: "hidden",
             clip: "rect(0 0 0 0)"
           },
+<<<<<<< HEAD
           children: k
+=======
+          children: y
+>>>>>>> master
         }
       )
     ] });
@@ -14833,13 +15181,21 @@ function sd(e) {
       "data-layout": pe,
       onKeyDown: He,
       children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-navigation-split-view__body", children: [
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+>>>>>>> master
         /* @__PURE__ */ n.jsxs(
           "div",
           {
             className: "nhs-navigation-split-view__panes",
+<<<<<<< HEAD
             "data-active-detail": Re || void 0,
             style: { transform: Re ? "translateX(-100%)" : void 0 },
+=======
+            "data-active-detail": Be || void 0,
+            style: { transform: Be ? "translateX(-100%)" : void 0 },
+>>>>>>> master
             children: [
               /* @__PURE__ */ n.jsxs(
                 "div",
@@ -14847,6 +15203,7 @@ function sd(e) {
                   ref: w,
                   className: "nhs-navigation-split-view__nav-pane",
                   role: "navigation",
+<<<<<<< HEAD
                   "aria-label": v?.navigationLabel || "Items",
                   "data-collapsed": et || void 0,
                   tabIndex: 0,
@@ -14864,11 +15221,34 @@ function sd(e) {
                     ) }),
                     /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-scroll", children: wo() }),
                     K && /* @__PURE__ */ n.jsx(
+=======
+                  "aria-label": C?.navigationLabel || "Items",
+                  "data-collapsed": et || void 0,
+                  tabIndex: 0,
+                  children: [
+                    R && je && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-collapse", children: /* @__PURE__ */ n.jsx(
+                      "button",
+                      {
+                        type: "button",
+                        onClick: _o,
+                        className: "nhs-navigation-split-view__nav-collapse-btn",
+                        "aria-label": et ? ue : P,
+                        title: et ? ue : P,
+                        children: et ? j || /* @__PURE__ */ n.jsx(nd, {}) : ae || /* @__PURE__ */ n.jsx(td, {})
+                      }
+                    ) }),
+                    /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-scroll", children: So() }),
+                    J && /* @__PURE__ */ n.jsx(
+>>>>>>> master
                       "div",
                       {
                         className: "nhs-navigation-split-view__nav-footer",
                         role: "contentinfo",
+<<<<<<< HEAD
                         children: K
+=======
+                        children: J
+>>>>>>> master
                       }
                     )
                   ]
@@ -14877,6 +15257,7 @@ function sd(e) {
               /* @__PURE__ */ n.jsxs(
                 "div",
                 {
+<<<<<<< HEAD
                   ref: L,
                   className: "nhs-navigation-split-view__content-pane",
                   role: "region",
@@ -14888,6 +15269,19 @@ function sd(e) {
                   },
                   children: [
                     Gn && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: go }),
+=======
+                  ref: H,
+                  className: "nhs-navigation-split-view__content-pane",
+                  role: "region",
+                  "aria-label": C?.contentLabel || "Content",
+                  "data-has-selection": !!Ne || void 0,
+                  tabIndex: 0,
+                  style: {
+                    display: Oe && !ze ? "none" : void 0
+                  },
+                  children: [
+                    Gn && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: bo }),
+>>>>>>> master
                     /* @__PURE__ */ n.jsx(
                       "div",
                       {
@@ -14899,13 +15293,21 @@ function sd(e) {
                   ]
                 }
               ),
+<<<<<<< HEAD
               pe === "three-column" && (!ce || Jn) || We && !Pe ? /* @__PURE__ */ n.jsx(
+=======
+              pe === "three-column" && (!de || Jn) || Oe && !ze ? /* @__PURE__ */ n.jsx(
+>>>>>>> master
                 "div",
                 {
                   ref: h,
                   className: "nhs-navigation-split-view__secondary-pane",
                   role: "region",
+<<<<<<< HEAD
                   "aria-label": v?.secondaryContentLabel || "Secondary",
+=======
+                  "aria-label": C?.secondaryContentLabel || "Secondary",
+>>>>>>> master
                   tabIndex: 0,
                   children: /* @__PURE__ */ n.jsxs(
                     "div",
@@ -14918,7 +15320,11 @@ function sd(e) {
                         minWidth: 0
                       },
                       children: [
+<<<<<<< HEAD
                         We && !Pe && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: /* @__PURE__ */ n.jsx(
+=======
+                        Oe && !ze && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: /* @__PURE__ */ n.jsx(
+>>>>>>> master
                           "div",
                           {
                             style: {
@@ -14955,7 +15361,11 @@ function sd(e) {
                             )
                           }
                         ) }),
+<<<<<<< HEAD
                         Ne && Y && /* @__PURE__ */ n.jsx(
+=======
+                        Ne && U && /* @__PURE__ */ n.jsx(
+>>>>>>> master
                           "div",
                           {
                             className: "nhs-navigation-split-view__secondary-header",
@@ -14963,7 +15373,11 @@ function sd(e) {
                               padding: "16px 32px",
                               borderBottom: "1px solid var(--nsplit-divider)"
                             },
+<<<<<<< HEAD
                             children: typeof Y == "function" ? Y(Ne) : Y
+=======
+                            children: typeof U == "function" ? U(Ne) : U
+>>>>>>> master
                           }
                         ),
                         /* @__PURE__ */ n.jsx("div", { style: { padding: 32, flex: 1, minWidth: 0 }, children: l?.(Ne) })
@@ -14987,6 +15401,7 @@ function sd(e) {
               height: 1,
               overflow: "hidden",
               clip: "rect(0 0 0 0)"
+<<<<<<< HEAD
             }
           }
         ),
@@ -15070,6 +15485,25 @@ function sd(e) {
         /* @__PURE__ */ n.jsx("div", { ref: Zn, "aria-live": "polite", "aria-atomic": "true", style: { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" } }),
         /* @__PURE__ */ n.jsx("div", { "aria-live": "polite", style: { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }, children: kt ? "Expanded to three column layout" : "In two column layout" })
 >>>>>>> Stashed changes
+=======
+            }
+          }
+        ),
+        /* @__PURE__ */ n.jsx(
+          "div",
+          {
+            "aria-live": "polite",
+            style: {
+              position: "absolute",
+              width: 1,
+              height: 1,
+              overflow: "hidden",
+              clip: "rect(0 0 0 0)"
+            },
+            children: kt ? "Expanded to three column layout" : "In two column layout"
+          }
+        )
+>>>>>>> master
       ] })
     }
   );

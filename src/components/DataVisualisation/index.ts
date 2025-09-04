@@ -22,4 +22,6 @@ export { VisuallyHiddenLiveRegion };
 export { default as ChartNoScript, type ChartNoScriptProps } from './charts/ChartNoScript/ChartNoScript.tsx';
 export { default as ChartEnhancer, type ChartEnhancerProps } from './charts/ChartEnhancer/ChartEnhancer.tsx';
 export { default as MetricCard, type MetricCardProps, type MetricDelta, type MetricStatus } from './components/MetricCard/MetricCard.tsx';
-export { default as SPCChart, type SPCChartProps, type SPCDatum } from './charts/SPCChart/SPCChart';
+export { default as SPCChart, type SPCChartProps, type SPCDatum } from './charts/SPC/SPCChart/SPCChart.tsx';
+// SPC barrel (charts/SPC) aggregates SPCChart, engine, icons, descriptors for ergonomic imports
+export * as SPC from './charts/SPC';

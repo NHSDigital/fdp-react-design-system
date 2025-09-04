@@ -236,12 +236,13 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		}
 
 		&[href] {
+			// Move plain declarations before mixin includes to avoid mixed-decls warnings (mixin outputs nested pseudo rules)
+			// (header-link-style already sets text-decoration: none; so redundant declaration removed)
 			@include header-link-style(
 				$link-color: tokens.$nhs-fdp-color-primary-white,
 				$link-hover-color: tokens.$nhs-fdp-color-primary-white,
 				$link-active-color: tokens.$nhs-fdp-color-primary-white
 			);
-			text-decoration: none;
 			&:not(:focus):hover { text-decoration: underline; }
 		}
 	}
@@ -440,22 +441,24 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	}
 
 	&__navigation-link {
-		@include header-link-style(
-			$link-color: tokens.$nhs-fdp-color-primary-white,
-			$link-hover-color: tokens.$nhs-fdp-color-primary-white,
-			$link-active-color: tokens.$nhs-fdp-color-primary-white
-		);
-		@include header-nav-interactive-base;
+		// Plain declarations FIRST
 		display: inline-flex;
 		align-items: flex-start;
 		position: relative;
 		white-space: nowrap;
 		font-size: tokens.$nhs-fdp-font-size-16-mobile;
 		font-weight: tokens.$nhs-fdp-font-weight-normal;
-		line-height: 1; // tighter line-height so vertical padding defines total height consistently for link & button
+		line-height: 1; // vertical rhythm
 		padding: tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3;
-		gap: tokens.$nhs-fdp-spacing-1; // harmless for plain text links; useful when icon present
+		gap: tokens.$nhs-fdp-spacing-1;
 		text-decoration: underline;
+		// Then include mixins that emit nested pseudo selectors / media queries
+		@include header-link-style(
+			$link-color: tokens.$nhs-fdp-color-primary-white,
+			$link-hover-color: tokens.$nhs-fdp-color-primary-white,
+			$link-active-color: tokens.$nhs-fdp-color-primary-white
+		);
+		@include header-nav-interactive-base;
 	}
 
 	// Navigation button for dropdown functionality
@@ -546,25 +549,17 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	}
 
 	&__dropdown-item {
-		margin: 0;
-		position: relative;
-
-		&:last-child #{&}__dropdown-link {
-			border-bottom: none;
-		}
-	}
-
-	&__dropdown-link {
-		@include header-link-style(
-			$link-color: tokens.$nhs-fdp-color-primary-blue,
-			$link-hover-color: tokens.$nhs-fdp-color-primary-blue,
-			$link-active-color: tokens.$nhs-fdp-color-primary-blue
-		);
+		// Base declarations first to avoid mixed declaration warnings
 		display: block;
 		padding: tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-2;
 		border-bottom: 1px solid tokens.$nhs-fdp-color-grey-5;
 		white-space: nowrap;
 		position: relative;
+		@include header-link-style(
+			$link-color: tokens.$nhs-fdp-color-primary-blue,
+			$link-hover-color: tokens.$nhs-fdp-color-primary-blue,
+			$link-active-color: tokens.$nhs-fdp-color-primary-blue
+		);
 
 		@media (min-width: calc(#{tokens.$nhs-fdp-breakpoint-small} + 1px)) {
 			padding: tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-4;

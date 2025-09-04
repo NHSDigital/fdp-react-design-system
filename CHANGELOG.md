@@ -14,6 +14,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 - Macro parity tests for CharacterCount and Checkboxes ensuring deterministic HTML output across renderers
 - Shared conditional reveal utility (`src/behaviours/conditionalRevealUtil.ts`) powering Radios & Checkboxes
 - Teardown functions for all behaviours (`detachButtons`, `detachRadios`, `detachRanges`, `detachCharacterCounts`, `detachCheckboxes`) and global `teardownAll`
+- Backward compatibility exports: `HeaderStatic` and `HeaderSSR` now alias the unified `Header` / `HeaderServer` implementations to ease migration
 
 ### Changed
 
@@ -29,6 +30,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 - Extended macro generator to include Checkboxes & CharacterCount (schema driven)
 - Added global window exposure of detach functions (`__nhsDetach*`) and `__nhsTeardownAllBehaviours`
+
+### Deprecated
+
+- `HeaderStatic` and `HeaderSSR` names are deprecated; use `Header` (client/PE) and `HeaderServer` (SSR helper) directly. Aliases will be removed in a future breaking release after 1.0.
 
 ### Parity Coverage (Tracking)
 

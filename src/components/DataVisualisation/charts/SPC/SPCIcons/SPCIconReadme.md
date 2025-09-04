@@ -1,4 +1,4 @@
-# SPC Variation Icon (`SpcVariationIcon`)
+# SPC Variation Icon (`SPCVariationIcon`)
 
 A React SVG component that renders a compact Statistical Process Control (SPC) “variation” glyph for performance dashboards.  
 It visualises:  
@@ -42,13 +42,13 @@ Used only for derived ARIA description (not colour or letter).
 ### 1. V2 Derivable (recommended)
 Provide what you *know*; icon infers state + direction:
 ```ts
-import { SpcVariationIcon } from "./SPCIcon";
+import { SPCVariationIcon } from "./SPCIcon";
 // Recommended: import the engine enum for variation keys
 import { VariationIcon as EngineVariationIcon } from "../SPCChart/logic/spc";
 
-<SpcVariationIcon data={{ variationIcon: EngineVariationIcon.Improvement }} />
+<SPCVariationIcon data={{ variationIcon: EngineVariationIcon.Improvement }} />
 
-<SpcVariationIcon
+<SPCVariationIcon
   data={{
     judgement: 'no_judgement', // or use VariationJudgement.No_Judgement
     polarity: 'context_dependent',
@@ -65,13 +65,13 @@ const payload: SpcVariationParsimonious = {
   polarity: MetricPolarity.ContextDependent,
   trend: Direction.Higher
 };
-<SpcVariationIcon data={payload} />
+<SPCVariationIcon data={payload} />
 ```
 
 ### 3. Legacy / Explicit (V1)
 Directly specify visual state + trend (bypasses derivation):
 ```ts
-<SpcVariationIcon
+<SPCVariationIcon
   data={{
     state: VariationState.SpecialCauseDeteriorating,
     trend: Direction.Lower,
@@ -120,14 +120,14 @@ interface SpcIconBaseProps {
   dropShadow?: boolean;   // default true
 }
 
-interface SpcVariationIconProps extends SpcIconBaseProps {
+interface SPCVariationIconProps extends SpcIconBaseProps {
   data: SpcVariationInput; // any of the 3 shapes above
 }
 ```
 
 Example:
 ```tsx
-<SpcVariationIcon
+<SPCVariationIcon
   size={64}
   dropShadow={false}
   data={{ judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.LowerIsBetter }}
@@ -212,11 +212,11 @@ To extend (e.g., light backgrounds) you can add ramp shades or computed variants
 ## Minimal End‑to‑End Example
 
 ```tsx
-import { SpcVariationIcon } from "./SPCIcon";
+import { SPCVariationIcon } from "./SPCIcon";
 import { VariationJudgement, MetricPolarity } from "./SPCConstants";
 
 export const Cell = () => (
-  <SpcVariationIcon
+  <SPCVariationIcon
     data={{
       judgement: VariationJudgement.Improving,
       polarity: MetricPolarity.LowerIsBetter // infers downward (L)

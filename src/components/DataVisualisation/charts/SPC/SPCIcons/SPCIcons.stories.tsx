@@ -1,6 +1,5 @@
-import { SpcVariationIcon } from "./SPCIcon";
+import { SPCVariationIcon } from "./SPCIcon";
 import { SPCAssuranceIcon } from "./SPCAssuranceIcon";
-import { VariationIcon } from "../SPCChart/logic/spc";
 import { Direction, VariationJudgement, MetricPolarity } from "./SPCConstants";
 import { AssuranceResult } from "./SPCConstants";
 import { Grid, Row, Column } from "../../../../../core";
@@ -8,9 +7,8 @@ import { Heading } from "../../../../Heading";
 
 export default {
 	title: "Data Visualisation/SPC/SPCIcons",
-	component: SpcVariationIcon,
+	component: SPCVariationIcon,
 };
-
 
 export const AllAssuranceIcons = () => (
 	<div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
@@ -106,7 +104,7 @@ function VariationMatrix({ variant, runLength, gradientWash }: MatrixConfig) {
 															{payloads.map((pl, idx) => (
 																<Column key={idx} width={needsTrend ? 'one-half' : 'full'}>
 																	<div style={cellStyle}>
-																		<SpcVariationIcon
+																		<SPCVariationIcon
 																			data={pl}
 																			size={72}
 																			variant={variant}

@@ -3,7 +3,7 @@ import React from 'react';
 import { renderSSR } from '../../../../test-utils/renderSSR';
 import { SPCChart } from './SPCChart';
 import { ImprovementDirection, VariationIcon as EngineVariationIcon } from './logic/spc';
-import { SpcVariationIcon } from '../SPCIcons/SPCIcon';
+import { SPCVariationIcon } from '../SPCIcons/SPCIcon';
 import { Direction } from '../SPCIcons/SPCConstants';
 
 type SPCDatum = { x: Date | string | number; y: number };
@@ -17,7 +17,7 @@ describe('SPC embedded icon rendering (deterministic unit)', () => {
   it('renders Improvement (H) with blue colour', () => {
     const { container } = renderSSR(
       <div>
-        <SpcVariationIcon data={{ variationIcon: EngineVariationIcon.Improvement, trend: Direction.Higher }} size={80} />
+        <SPCVariationIcon data={{ variationIcon: EngineVariationIcon.Improvement, trend: Direction.Higher }} size={80} />
       </div>
     );
     const svg = container.querySelector('svg');
@@ -31,7 +31,7 @@ describe('SPC embedded icon rendering (deterministic unit)', () => {
   it('renders Concern (L) with orange colour', () => {
     const { container } = renderSSR(
       <div>
-        <SpcVariationIcon data={{ variationIcon: EngineVariationIcon.Concern, trend: Direction.Lower }} size={80} />
+        <SPCVariationIcon data={{ variationIcon: EngineVariationIcon.Concern, trend: Direction.Lower }} size={80} />
       </div>
     );
     const svg = container.querySelector('svg');
@@ -45,7 +45,7 @@ describe('SPC embedded icon rendering (deterministic unit)', () => {
   it('renders No-judgement (purple) when signals conflict', () => {
     const { container } = renderSSR(
       <div>
-        <SpcVariationIcon data={{ variationIcon: EngineVariationIcon.None, trend: Direction.Lower }} size={80} />
+        <SPCVariationIcon data={{ variationIcon: EngineVariationIcon.None, trend: Direction.Lower }} size={80} />
       </div>
     );
     const svg = container.querySelector('svg');
@@ -61,7 +61,7 @@ describe('SPC embedded icon rendering (deterministic unit)', () => {
   it('renders Common cause (grey) with no letter', () => {
     const { container } = renderSSR(
       <div>
-        <SpcVariationIcon data={{ variationIcon: EngineVariationIcon.Neither, trend: Direction.Higher }} size={80} />
+        <SPCVariationIcon data={{ variationIcon: EngineVariationIcon.Neither, trend: Direction.Higher }} size={80} />
       </div>
     );
     const svg = container.querySelector('svg');

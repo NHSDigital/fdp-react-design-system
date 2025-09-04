@@ -1,5 +1,5 @@
 import { AllVariationIcons, AllAssuranceIcons } from './SPCIcons.stories';
-import { SpcVariationIcon } from './SPCIcon';
+import { SPCVariationIcon } from './SPCIcon';
 import { SPCAssuranceIcon } from './SPCAssuranceIcon';
 import React from 'react';
 import { Meta } from '@storybook/addon-docs/blocks';
@@ -88,19 +88,19 @@ Avoid using the wash if icons sit on coloured backgrounds that already provide s
 ### Basic Variation Icon
 
 ```tsx
-<SpcVariationIcon data={{ variationIcon: 'improvement' }} />
+<SPCVariationIcon data={{ variationIcon: 'improvement' }} />
 ```
 
 ### Variation Icon With Explicit Direction (No Judgement)
 
 ```tsx
-<SpcVariationIcon data={{ variationIcon: 'none', trend: 'lower' }} />
+<SPCVariationIcon data={{ variationIcon: 'none', trend: 'lower' }} />
 ```
 
 ### Derived (Judgement + Polarity) Form
 
 ```tsx
-<SpcVariationIcon data={{ judgement: 'improving', polarity: 'lower_is_better' }} />
+<SPCVariationIcon data={{ judgement: 'improving', polarity: 'lower_is_better' }} />
 ```
 
 ### Assurance Icon Standalone
@@ -112,7 +112,7 @@ Avoid using the wash if icons sit on coloured backgrounds that already provide s
 ### With Gradient Wash
 
 ```tsx
-<SpcVariationIcon data={{ variationIcon: 'concern' }} gradientWash />
+<SPCVariationIcon data={{ variationIcon: 'concern' }} gradientWash />
 ```
 
 ### Triangle Variant
@@ -120,16 +120,16 @@ Avoid using the wash if icons sit on coloured backgrounds that already provide s
 Triangle variant replaces the circular ring + internal point motif with a filled triangle (or flat line for common cause) while retaining colour + optional letter. Use `variant="triangle"`.
 
 ```tsx
-<SpcVariationIcon data={{ variationIcon: 'improvement' }} variant="triangle" />
-<SpcVariationIcon data={{ variationIcon: 'concern' }} variant="triangle" />
-<SpcVariationIcon data={{ variationIcon: 'neither' }} variant="triangle" />
-<SpcVariationIcon data={{ variationIcon: 'none', trend: 'higher' }} variant="triangle" />
+<SPCVariationIcon data={{ variationIcon: 'improvement' }} variant="triangle" />
+<SPCVariationIcon data={{ variationIcon: 'concern' }} variant="triangle" />
+<SPCVariationIcon data={{ variationIcon: 'neither' }} variant="triangle" />
+<SPCVariationIcon data={{ variationIcon: 'none', trend: 'higher' }} variant="triangle" />
 ```
 
 With gradient wash:
 
 ```tsx
-<SpcVariationIcon data={{ variationIcon: 'improvement' }} variant="triangle" gradientWash />
+<SPCVariationIcon data={{ variationIcon: 'improvement' }} variant="triangle" gradientWash />
 ```
 
 ### Triangle With Run Length
@@ -137,16 +137,16 @@ With gradient wash:
 `variant="triangleWithRun"` adds a compact triangle glyph plus a 5-dot run indicator showing the length of a recent sustained run (coloured dots filled from right to left). Provide `runLength` (0–5). Only improvement / concern states colour the run; others stay grey.
 
 ```tsx
-<SpcVariationIcon data={{ variationIcon: 'improvement' }} variant="triangleWithRun" runLength={3} />
-<SpcVariationIcon data={{ variationIcon: 'concern' }} variant="triangleWithRun" runLength={2} />
-<SpcVariationIcon data={{ variationIcon: 'neither' }} variant="triangleWithRun" runLength={0} />
-<SpcVariationIcon data={{ variationIcon: 'none', trend: 'lower' }} variant="triangleWithRun" runLength={4} />
+<SPCVariationIcon data={{ variationIcon: 'improvement' }} variant="triangleWithRun" runLength={3} />
+<SPCVariationIcon data={{ variationIcon: 'concern' }} variant="triangleWithRun" runLength={2} />
+<SPCVariationIcon data={{ variationIcon: 'neither' }} variant="triangleWithRun" runLength={0} />
+<SPCVariationIcon data={{ variationIcon: 'none', trend: 'lower' }} variant="triangleWithRun" runLength={4} />
 ```
 
 With gradient wash:
 
 ```tsx
-<SpcVariationIcon data={{ variationIcon: 'improvement' }} variant="triangleWithRun" runLength={5} gradientWash />
+<SPCVariationIcon data={{ variationIcon: 'improvement' }} variant="triangleWithRun" runLength={5} gradientWash />
 ```
 
 ## Storybook

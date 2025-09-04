@@ -148,7 +148,7 @@ export function computePointPositions(state: VariationState, direction: Directio
   return src.map(p => ({ ...p }));
 }
 
-// Narrow type for example payloads (matches derivation form accepted by SpcVariationIcon)
+// Narrow type for example payloads (matches derivation form accepted by SPCVariationIcon)
 interface VariationExampleData {
   judgement: VariationJudgement;
   polarity: MetricPolarity;

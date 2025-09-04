@@ -342,7 +342,7 @@ export interface SpcIconBaseProps {
 	gradientWash?: boolean;
 }
 
-export interface SpcVariationIconProps extends SpcIconBaseProps {
+export interface SPCVariationIconProps extends SpcIconBaseProps {
 	data: SpcVariationInput;
 }
 
@@ -351,7 +351,7 @@ export interface SpcAssuranceIconProps extends SpcIconBaseProps {
 }
 
 export interface SpcIconsProps {
-	variation: SpcVariationIconProps["data"];
+	variation: SPCVariationIconProps["data"];
 	assurance: SpcAssuranceIconProps["data"];
 	size?: number;
 	ariaLabel?: string; // combined label for the pair
@@ -362,7 +362,7 @@ export interface SpcIconsProps {
 // For states without an inherent judgement (common cause or no judgement),
 // return null to allow callers to specify their own direction.
 
-export interface SpcVariationIconPropsAlt extends SpcVariationIconProps {
+export interface SPCVariationIconPropsAlt extends SPCVariationIconProps {
 	variant?: "classic" | "triangle" | "triangleWithRun";
 	runLength?: number;
 	/** How to derive H/L when shown (default: direction). */
@@ -405,7 +405,7 @@ const buildDefs = (
 	</defs>
 );
 
-export const SpcVariationIcon = ({
+export const SPCVariationIcon = ({
 	data,
 	size = 44,
 	ariaLabel,
@@ -418,7 +418,7 @@ export const SpcVariationIcon = ({
 	letterMode = "polarity",
 	letterOverride,
 	...rest
-}: SpcVariationIconPropsAlt & Record<string, unknown>) => {
+}: SPCVariationIconPropsAlt & Record<string, unknown>) => {
 	const shadowId = useId();
 	const washId = useId();
 	// Gradient opacities (classic + triangle variants)
@@ -874,4 +874,4 @@ export const SpcVariationIcon = ({
 	);
 };
 
-SpcVariationIcon.displayName = "SpcVariationIcon";
+SPCVariationIcon.displayName = "SPCVariationIcon";

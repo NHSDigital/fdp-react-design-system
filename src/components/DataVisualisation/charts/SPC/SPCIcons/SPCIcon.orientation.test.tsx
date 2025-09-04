@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render } from '@testing-library/react';
-import { SpcVariationIcon } from './SPCIcon';
+import { SPCVariationIcon } from './SPCIcon';
 import { VariationJudgement, MetricPolarity } from './SPCConstants';
 
 // Helper to get polygon points from SVG
@@ -36,34 +36,34 @@ function isDownTriangle(points: string) {
   return minCount === 2 && maxCount === 1;
 }
 
-describe('SpcVariationIcon triangle orientation', () => {
+describe('SPCVariationIcon triangle orientation', () => {
   it('improving + HigherIsBetter -> up triangle', () => {
-    const { container } = render(<SpcVariationIcon data={{ judgement: VariationJudgement.Improving, polarity: MetricPolarity.HigherIsBetter }} variant="triangle" />);
+    const { container } = render(<SPCVariationIcon data={{ judgement: VariationJudgement.Improving, polarity: MetricPolarity.HigherIsBetter }} variant="triangle" />);
     const pts = getPolygonPoints(container);
     expect(isUpTriangle(pts)).toBe(true);
   });
   it('improving + LowerIsBetter -> down triangle', () => {
-    const { container } = render(<SpcVariationIcon data={{ judgement: VariationJudgement.Improving, polarity: MetricPolarity.LowerIsBetter }} variant="triangle" />);
+    const { container } = render(<SPCVariationIcon data={{ judgement: VariationJudgement.Improving, polarity: MetricPolarity.LowerIsBetter }} variant="triangle" />);
     const pts = getPolygonPoints(container);
     expect(isDownTriangle(pts)).toBe(true);
   });
   it('deteriorating + HigherIsBetter -> down triangle', () => {
-    const { container } = render(<SpcVariationIcon data={{ judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.HigherIsBetter }} variant="triangle" />);
+    const { container } = render(<SPCVariationIcon data={{ judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.HigherIsBetter }} variant="triangle" />);
     const pts = getPolygonPoints(container);
     expect(isDownTriangle(pts)).toBe(true);
   });
   it('deteriorating + LowerIsBetter -> up triangle', () => {
-    const { container } = render(<SpcVariationIcon data={{ judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.LowerIsBetter }} variant="triangle" />);
+    const { container } = render(<SPCVariationIcon data={{ judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.LowerIsBetter }} variant="triangle" />);
     const pts = getPolygonPoints(container);
     expect(isUpTriangle(pts)).toBe(true);
   });
   it('triangleWithRun improving + LowerIsBetter -> down triangle', () => {
-    const { container } = render(<SpcVariationIcon data={{ judgement: VariationJudgement.Improving, polarity: MetricPolarity.LowerIsBetter }} variant="triangleWithRun" runLength={3} />);
+    const { container } = render(<SPCVariationIcon data={{ judgement: VariationJudgement.Improving, polarity: MetricPolarity.LowerIsBetter }} variant="triangleWithRun" runLength={3} />);
     const pts = getPolygonPoints(container);
     expect(isDownTriangle(pts)).toBe(true);
   });
   it('triangleWithRun deteriorating + LowerIsBetter -> up triangle', () => {
-    const { container } = render(<SpcVariationIcon data={{ judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.LowerIsBetter }} variant="triangleWithRun" runLength={3} />);
+    const { container } = render(<SPCVariationIcon data={{ judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.LowerIsBetter }} variant="triangleWithRun" runLength={3} />);
     const pts = getPolygonPoints(container);
     expect(isUpTriangle(pts)).toBe(true);
   });

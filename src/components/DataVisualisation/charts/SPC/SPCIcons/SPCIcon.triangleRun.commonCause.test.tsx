@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render } from '@testing-library/react';
-import { SpcVariationIcon } from './SPCIcon';
+import { SPCVariationIcon } from './SPCIcon';
 import { VariationJudgement, MetricPolarity, Direction } from './SPCConstants';
 
 function getRunCircleYs(container: HTMLElement) {
@@ -15,14 +15,14 @@ function getRunCircleYs(container: HTMLElement) {
 describe('triangleWithRun common cause centering', () => {
   it('common cause higher vs lower produce identical run circle Y positions', () => {
     const { container: higher } = render(
-      <SpcVariationIcon
+      <SPCVariationIcon
         data={{ judgement: VariationJudgement.None, polarity: MetricPolarity.HigherIsBetter, trend: Direction.Higher }}
         variant="triangleWithRun"
         runLength={3}
       />
     );
     const { container: lower } = render(
-      <SpcVariationIcon
+      <SPCVariationIcon
         data={{ judgement: VariationJudgement.None, polarity: MetricPolarity.HigherIsBetter, trend: Direction.Lower }}
         variant="triangleWithRun"
         runLength={3}

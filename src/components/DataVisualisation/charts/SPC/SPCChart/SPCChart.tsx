@@ -12,7 +12,7 @@ import LineSeriesPrimitive from "../../../series/LineSeriesPrimitive";
 import SPCTooltipOverlay from "./SPCTooltipOverlay";
 import { TooltipProvider } from "../../../core/TooltipContext";
 import VisuallyHiddenLiveRegion from "../../../primitives/VisuallyHiddenLiveRegion";
-import { SpcVariationIcon } from "../SPCIcons/SPCIcon";
+import { SPCVariationIcon } from "../SPCIcons/SPCIcon";
 import { SPCAssuranceIcon } from "../SPCIcons/SPCAssuranceIcon";
 import { AssuranceResult } from "../SPCIcons/SPCConstants";
 import { Direction } from "../SPCIcons/SPCConstants";
@@ -252,7 +252,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 					data-polarity={String(polarity ?? 'unknown')}
 					style={{ width: iconSize, height: iconSize }}
 				>
-					<SpcVariationIcon
+					<SPCVariationIcon
 						dropShadow={false}
 						data={{ judgement, polarity, ...(trend ? { trend } : {}) }}
 						size={iconSize}

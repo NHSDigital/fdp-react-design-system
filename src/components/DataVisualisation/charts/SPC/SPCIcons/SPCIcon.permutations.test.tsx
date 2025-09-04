@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import { SpcVariationIcon } from './SPCIcon';
+import { SPCVariationIcon } from './SPCIcon';
 import { VariationJudgement, MetricPolarity, Direction } from './SPCConstants';
 
 // Utility to extract letters H/L from rendered SVG
@@ -33,7 +33,7 @@ const neutralJudgements = [VariationJudgement.No_Judgement, VariationJudgement.N
 
 const variants: Array<'classic' | 'triangle' | 'triangleWithRun'> = ['classic', 'triangle', 'triangleWithRun'];
 
-describe('SpcVariationIcon permutations', () => {
+describe('SPCVariationIcon permutations', () => {
   afterEach(() => cleanup());
 
   variants.forEach(variant => {
@@ -41,7 +41,7 @@ describe('SpcVariationIcon permutations', () => {
       [...improving, ...deteriorating].forEach(exp => {
         it(`${exp.judgement} / ${exp.polarity} polarity-mode`, () => {
           const { container } = render(
-            <SpcVariationIcon
+            <SPCVariationIcon
               data={{ judgement: exp.judgement, polarity: exp.polarity }}
               variant={variant}
               runLength={variant === 'triangleWithRun' ? 3 : undefined}
@@ -57,7 +57,7 @@ describe('SpcVariationIcon permutations', () => {
 
         it(`${exp.judgement} / ${exp.polarity} direction-mode`, () => {
           const { container } = render(
-            <SpcVariationIcon
+            <SPCVariationIcon
               data={{ judgement: exp.judgement, polarity: exp.polarity }}
               variant={variant}
               letterMode="direction"
@@ -78,7 +78,7 @@ describe('SpcVariationIcon permutations', () => {
           const trend = dirKey === 'higher' ? Direction.Higher : Direction.Lower;
           it(`${j} (${dirKey}) has no letter (polarity mode)`, () => {
             const { container } = render(
-              <SpcVariationIcon
+              <SPCVariationIcon
                 data={{ judgement: j, polarity: MetricPolarity.HigherIsBetter, trend }}
                 variant={variant}
                 runLength={variant === 'triangleWithRun' ? 2 : undefined}
@@ -89,7 +89,7 @@ describe('SpcVariationIcon permutations', () => {
           });
           it(`${j} (${dirKey}) has no letter (direction mode)`, () => {
             const { container } = render(
-              <SpcVariationIcon
+              <SPCVariationIcon
                 data={{ judgement: j, polarity: MetricPolarity.LowerIsBetter, trend }}
                 variant={variant}
                 letterMode="direction"
@@ -104,7 +104,7 @@ describe('SpcVariationIcon permutations', () => {
 
       it('letterOverride forces value even when polarity would suppress', () => {
         const { container } = render(
-          <SpcVariationIcon
+          <SPCVariationIcon
             data={{ judgement: VariationJudgement.Improving, polarity: MetricPolarity.ContextDependent }}
             variant={variant}
             letterOverride="H"

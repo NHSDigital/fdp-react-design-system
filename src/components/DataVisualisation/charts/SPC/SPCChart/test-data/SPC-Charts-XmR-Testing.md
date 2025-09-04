@@ -221,18 +221,14 @@ least 6 points but may be set to at least 7 points.
 
 # Special cause -- trend
 
-When a consecutive run of points is all increasing or all decreasing,
-they all show as special cause variation. This is usually set to at
-least 6 points but may be set to at least 7 points.
+When a consecutive run of points is all increasing or all decreasing, they all show as special cause variation. This is usually set to at least 6 points but may be set to at least 7 points.
 
-When set to at least 6 points, this is 5 increases (p~1~ to p~2~, p~2~
-to p~3~, ..., p~5~ to p~6~) but all 6 points show as special cause
+When set to at least 6 points, this is 5 increases (p~1~ to p~2~, p~2~to p~3~, ..., p~5~ to p~6~) but all 6 points show as special cause
 variation.
 
 There cannot be any pauses in the run.
 
-The trend rule is the only special cause rule not affected by either the
-mean or sigma lines and so is the only rule that can cross the mean.
+The trend rule is the only special cause rule not affected by either the mean or sigma lines and so is the only rule that can cross the mean.
 
 +------------------------------------------------------------------------------+-----------------------------------------------------------------------------------+
 | ![](media/image12.png){width="3.031496062992126in"                           | ![](media/image13.png){width="3.031496062992126in" height="1.5315244969378827in"} |
@@ -250,9 +246,7 @@ mean or sigma lines and so is the only rule that can cross the mean.
 
 # Special cause -- two-sigma
 
-Within each consecutive run of 3 points, if 2 or all 3 points are beyond
-a two-sigma line, the 2 or 3 points show as special cause variation. All
-3 points must be on the same side of the mean.
+Within each consecutive run of 3 points, if 2 or all 3 points are beyond a two-sigma line, the 2 or 3 points show as special cause variation. All 3 points must be on the same side of the mean.
 
 Except for at the ends of the chart, each point is part of 3 consecutive
 run of 3 points to check (p~3~ is part of p~1~ to p~3~, p~2~ to p~4~ and

@@ -19,16 +19,7 @@
 // Width container utility (used by header)
 .nhsuk-width-container {
   margin: 0 auto;
-  padding: 0 tokens.$nhs-fdp-spacing-3;
   max-width: 1200px;
-  
-  @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
-    padding: 0 tokens.$nhs-fdp-spacing-4;
-  }
-  
-  @media (min-width: tokens.$nhs-fdp-breakpoint-large) {
-    padding: 0 tokens.$nhs-fdp-spacing-5;
-  }
 }
 
 // Icon base styles

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { SPCChart, ImprovementDirection } from './SPCChart';
-import { ChartContainer } from '../..';
+import { ChartContainer } from '../../ChartContainer.tsx';
 import { metricLookup } from './test-data/parsedDataset';
 
 const meta: Meta = {

@@ -1,5 +1,5 @@
 import React, { useId, useMemo } from "react";
-import { tokenColour, getGradientOpacities } from './tokenUtils';
+import { tokenColour, getGradientOpacities } from "./tokenUtils";
 import {
 	computePointPositions,
 	Direction,
@@ -16,69 +16,13 @@ import {
 import { VariationIcon as SpcEngineVariationIcon } from "../SPCChart/logic/spc";
 
 // Friendly alias exported for consumers who want to pass just the engine icon key
-export type SpcEngineIconPayload = { variationIcon: SpcEngineVariationIcon; trend?: Direction; polarity?: MetricPolarity };
-
-// --- Variation colour system -------------------------------------------------
-// Primary brand‑aligned palette for SPC variation states.
-// stroke: ring / outline; fill: interior glyph colour. In most cases we use the same.
-// You can extend each entry later with lighter/darker ramps if needed for backgrounds.
-export interface VariationColourDef {
-	hex: string; // canonical colour
-	stroke?: string; // optional override for stroke (defaults to hex)
-	fill?: string; // optional override for fill (defaults to hex)
-	label: string; // human readable label
-	description: string; // semantic description for tooltips / a11y
-	text?: string; // recommended contrasting text colour
-	judgement?: VariationJudgement; // variation judgement
-}
-
-// Accessible text colour picker (simple luminance threshold)
-const pickTextColour = (hex: string) => {
-	const c = hex.replace("#", "");
-	const r = parseInt(c.slice(0, 2), 16) / 255;
-	const g = parseInt(c.slice(2, 4), 16) / 255;
-	const b = parseInt(c.slice(4, 6), 16) / 255;
-	const srgb = [r, g, b].map((v) =>
-		v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
-	);
-	const L = 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
-	return L < 0.55 ? "#ffffff" : "#212b32";
+export type SpcEngineIconPayload = {
+	variationIcon: SpcEngineVariationIcon;
+	trend?: Direction;
+	polarity?: MetricPolarity;
 };
 
-export const VARIATION_COLOURS: Record<VariationState, VariationColourDef> = {
-	[VariationState.SpecialCauseDeteriorating]: {
-		hex: tokenColour('concern', '#E46C0A'),
-		judgement: VariationJudgement.Deteriorating,
-		label: "Special Cause (Deteriorating)",
-		description:
-			"Deteriorating variation detected (special cause) relative to baseline.",
-	},
-	[VariationState.SpecialCauseImproving]: {
-		hex: tokenColour('improvement', '#00B0F0'),
-		judgement: VariationJudgement.Improving,
-		label: "Special Cause (Improving)",
-		description:
-			"Improving variation detected (special cause) relative to baseline.",
-	},
-	[VariationState.CommonCause]: {
-		hex: tokenColour('common-cause', '#A6A6A6'),
-		judgement: VariationJudgement.None,
-		label: "Common Cause",
-		description: "Common cause variation only – no special cause detected.",
-	},
-	[VariationState.SpecialCauseNoJudgement]: {
-		hex: tokenColour('no-judgement', '#490092'),
-		judgement: VariationJudgement.No_Judgement,
-		label: "Special Cause (No Judgement)",
-		description:
-			"Special cause detected without assigning improving/deteriorating judgement.",
-	},
-};
-
-// Augment each with contrast text colour lazily
-Object.values(VARIATION_COLOURS).forEach((def) => {
-	if (!def.text) def.text = pickTextColour(def.hex);
-});
+// (Removed duplicate local colour system; rely on canonical palette & helpers from SPCConstants.)
 
 // --- Point layout system ----------------------------------------------------
 // We render five recent data points; their vertical positions vary with state + direction
@@ -181,22 +125,22 @@ export type SpcVariationInput =
  */
 export type SpcVariationParsimonious =
 	| {
-		judgement: VariationJudgement.Improving;
-		polarity: MetricPolarity.HigherIsBetter | MetricPolarity.LowerIsBetter;
+			judgement: VariationJudgement.Improving;
+			polarity: MetricPolarity.HigherIsBetter | MetricPolarity.LowerIsBetter;
 	  }
 	| {
-		judgement: VariationJudgement.Deteriorating;
-		polarity: MetricPolarity.HigherIsBetter | MetricPolarity.LowerIsBetter;
+			judgement: VariationJudgement.Deteriorating;
+			polarity: MetricPolarity.HigherIsBetter | MetricPolarity.LowerIsBetter;
 	  }
 	| {
-		judgement: VariationJudgement.No_Judgement;
-		polarity: MetricPolarity;
-		trend: Direction;
+			judgement: VariationJudgement.No_Judgement;
+			polarity: MetricPolarity;
+			trend: Direction;
 	  }
 	| {
-		judgement: VariationJudgement.None;
-		polarity: MetricPolarity;
-		trend: Direction;
+			judgement: VariationJudgement.None;
+			polarity: MetricPolarity;
+			trend: Direction;
 	  };
 
 export interface SpcVariationAltIconProps extends SpcIconBaseProps {
@@ -206,7 +150,9 @@ export interface SpcVariationAltIconProps extends SpcIconBaseProps {
 /**
  * Normalise either V1 (state/layout) or V2 (judgement+polarity) into { state, layout, polarity } for rendering.
  */
-const resolveStateAndLayout = (input: SpcVariationInput): {
+const resolveStateAndLayout = (
+	input: SpcVariationInput
+): {
 	state: VariationState;
 	direction: Direction;
 	polarity: MetricPolarity;
@@ -215,42 +161,103 @@ const resolveStateAndLayout = (input: SpcVariationInput): {
 	if ((input as SpcVariationEngineIconPayload).variationIcon !== undefined) {
 		const eng = input as SpcVariationEngineIconPayload;
 		const mapping: Record<SpcEngineVariationIcon, VariationState> = {
-			[SpcEngineVariationIcon.Improvement]: VariationState.SpecialCauseImproving,
-			[SpcEngineVariationIcon.Concern]: VariationState.SpecialCauseDeteriorating,
+			[SpcEngineVariationIcon.Improvement]:
+				VariationState.SpecialCauseImproving,
+			[SpcEngineVariationIcon.Concern]:
+				VariationState.SpecialCauseDeteriorating,
 			[SpcEngineVariationIcon.Neither]: VariationState.CommonCause,
 			[SpcEngineVariationIcon.None]: VariationState.SpecialCauseNoJudgement,
 		};
 		const state = mapping[eng.variationIcon];
-		const direction = (eng.trend ?? (state === VariationState.SpecialCauseImproving
-			? Direction.Higher
-			: state === VariationState.SpecialCauseDeteriorating
-			? Direction.Lower
-			: Direction.Higher)) as Direction;
-		return { state, direction, polarity: eng.polarity ?? MetricPolarity.ContextDependent };
+		let direction: Direction | undefined = eng.trend as Direction | undefined;
+		if (
+			!direction &&
+			eng.polarity &&
+			(state === VariationState.SpecialCauseImproving ||
+				state === VariationState.SpecialCauseDeteriorating)
+		) {
+			if (state === VariationState.SpecialCauseImproving) {
+				direction =
+					eng.polarity === MetricPolarity.LowerIsBetter
+						? Direction.Lower
+						: Direction.Higher;
+			} else {
+				direction =
+					eng.polarity === MetricPolarity.LowerIsBetter
+						? Direction.Higher
+						: Direction.Lower;
+			}
+		}
+		if (!direction) {
+			direction =
+				state === VariationState.SpecialCauseImproving
+					? Direction.Higher
+					: state === VariationState.SpecialCauseDeteriorating
+						? Direction.Lower
+						: Direction.Higher;
+		}
+		return {
+			state,
+			direction,
+			polarity: eng.polarity ?? MetricPolarity.ContextDependent,
+		};
 	}
 	// Legacy explicit state payload
 	if ((input as SpcVariationPayload).state !== undefined) {
 		const v1 = input as SpcVariationPayload;
-		let inferred: Direction | undefined;
-		if (v1.state === VariationState.SpecialCauseImproving) inferred = Direction.Higher;
-		else if (v1.state === VariationState.SpecialCauseDeteriorating) inferred = Direction.Lower;
-		const direction = (v1.trend ?? inferred ?? Direction.Higher) as Direction;
-		return { state: v1.state, direction, polarity: v1.polarity ?? MetricPolarity.ContextDependent };
+		let direction: Direction | undefined = v1.trend as Direction | undefined;
+		if (
+			!direction &&
+			(v1.state === VariationState.SpecialCauseImproving ||
+				v1.state === VariationState.SpecialCauseDeteriorating) &&
+			v1.polarity
+		) {
+			if (v1.state === VariationState.SpecialCauseImproving) {
+				direction =
+					v1.polarity === MetricPolarity.LowerIsBetter
+						? Direction.Lower
+						: Direction.Higher;
+			} else {
+				direction =
+					v1.polarity === MetricPolarity.LowerIsBetter
+						? Direction.Higher
+						: Direction.Lower;
+			}
+		}
+		if (!direction) {
+			if (v1.state === VariationState.SpecialCauseImproving)
+				direction = Direction.Higher;
+			else if (v1.state === VariationState.SpecialCauseDeteriorating)
+				direction = Direction.Lower;
+			else direction = Direction.Higher;
+		}
+		return {
+			state: v1.state,
+			direction,
+			polarity: v1.polarity ?? MetricPolarity.ContextDependent,
+		};
 	}
 	// Derivation payload based on judgement + polarity
 	const v2 = input as SpcVariationDerivePayload;
 	const map: Record<VariationJudgement, VariationState> = {
 		[VariationJudgement.Improving]: VariationState.SpecialCauseImproving,
-		[VariationJudgement.Deteriorating]: VariationState.SpecialCauseDeteriorating,
+		[VariationJudgement.Deteriorating]:
+			VariationState.SpecialCauseDeteriorating,
 		[VariationJudgement.No_Judgement]: VariationState.SpecialCauseNoJudgement,
 		[VariationJudgement.None]: VariationState.CommonCause,
 	};
 	const state = map[v2.judgement];
 	let direction: Direction;
 	if (v2.judgement === VariationJudgement.Improving) {
-		direction = v2.polarity === MetricPolarity.LowerIsBetter ? Direction.Lower : Direction.Higher;
+		direction =
+			v2.polarity === MetricPolarity.LowerIsBetter
+				? Direction.Lower
+				: Direction.Higher;
 	} else if (v2.judgement === VariationJudgement.Deteriorating) {
-		direction = v2.polarity === MetricPolarity.LowerIsBetter ? Direction.Higher : Direction.Lower;
+		direction =
+			v2.polarity === MetricPolarity.LowerIsBetter
+				? Direction.Higher
+				: Direction.Lower;
 	} else {
 		direction = (v2.trend ?? Direction.Higher) as Direction;
 	}
@@ -262,11 +269,11 @@ const resolveStateAndLayout = (input: SpcVariationInput): {
  * This version aligns with MDC accessibility and NHS style.
  */
 export interface VariationNarrativeContext {
-	measureName?: string;         // e.g. "Emergency department 4h performance"
-	datasetContext?: string;      // e.g. "Monthly trust-wide data"
-	organisation?: string;        // e.g. "University Hospital A"
-	timeframe?: string;           // e.g. "Jan 2024 – Jul 2025"
-	additionalNote?: string;      // free-form note (intervention, caveat)
+	measureName?: string; // e.g. "Emergency department 4h performance"
+	datasetContext?: string; // e.g. "Monthly trust-wide data"
+	organisation?: string; // e.g. "University Hospital A"
+	timeframe?: string; // e.g. "Jan 2024 – Jul 2025"
+	additionalNote?: string; // free-form note (intervention, caveat)
 }
 
 export function deriveVariationAriaDescription(
@@ -304,6 +311,7 @@ export function deriveVariationAriaDescription(
 				return `Common cause variation: points vary randomly around the mean; no special cause detected.`;
 		}
 	})();
+
 	const parts = [
 		base,
 		polarityClause,
@@ -313,7 +321,7 @@ export function deriveVariationAriaDescription(
 		context?.timeframe ? `Timeframe: ${context.timeframe}.` : null,
 		context?.additionalNote ? context.additionalNote : null,
 	];
-	return parts.filter(Boolean).join(' ');
+	return parts.filter(Boolean).join(" ");
 }
 
 /** Assurance states – SPC‑based likelihood to meet target consistently. */
@@ -354,11 +362,48 @@ export interface SpcIconsProps {
 // For states without an inherent judgement (common cause or no judgement),
 // return null to allow callers to specify their own direction.
 
-
 export interface SpcVariationIconPropsAlt extends SpcVariationIconProps {
-	variant?: 'classic' | 'triangle' | 'triangleWithRun';
+	variant?: "classic" | "triangle" | "triangleWithRun";
 	runLength?: number;
+	/** How to derive H/L when shown (default: direction). */
+	letterMode?: "direction" | "polarity";
+	/** Explicit override for the letter (takes precedence). Use '' to suppress. */
+	letterOverride?: "H" | "L" | "";
 }
+
+// Shared defs (filter + gradient) helper to avoid repetition across variants
+const buildDefs = (
+	colourHex: string,
+	shadowId: string,
+	washId: string,
+	dropShadow: boolean,
+	gradientWash: boolean,
+	stops: Array<{ offset: string; opacity: string }>
+) => (
+	<defs>
+		{dropShadow && (
+			<filter id={shadowId} filterUnits="objectBoundingBox">
+				<feGaussianBlur stdDeviation="3" />
+				<feOffset dx="0" dy="15" result="blur" />
+				<feFlood floodColor="rgb(150,150,150)" floodOpacity="1" />
+				<feComposite in2="blur" operator="in" result="colorShadow" />
+				<feComposite in="SourceGraphic" in2="colorShadow" operator="over" />
+			</filter>
+		)}
+		{gradientWash && (
+			<linearGradient id={washId} x1="0%" y1="0%" x2="100%" y2="100%">
+				{stops.map((s) => (
+					<stop
+						key={s.offset}
+						offset={s.offset}
+						stopColor={colourHex}
+						stopOpacity={parseFloat(s.opacity)}
+					/>
+				))}
+			</linearGradient>
+		)}
+	</defs>
+);
 
 export const SpcVariationIcon = ({
 	data,
@@ -367,29 +412,51 @@ export const SpcVariationIcon = ({
 	showLetter = true,
 	dropShadow = true,
 	gradientWash = false,
-	variant = 'classic',
+	variant = "classic",
 	runLength = 0,
+	// Default changed to 'polarity' so letters reflect desirable direction (H = Higher is better, L = Lower is better)
+	letterMode = "polarity",
+	letterOverride,
 	...rest
 }: SpcVariationIconPropsAlt & Record<string, unknown>) => {
 	const shadowId = useId();
 	const washId = useId();
-	// Gradient opacities via shared util (ensures import is used)
-	const { start: gradStart, mid: gradMid, end: gradEnd, triStart: triGradStart, triMid: triGradMid, triEnd: triGradEnd } = getGradientOpacities();
-	const { state, direction } = resolveStateAndLayout(data as SpcVariationInput);
-	const colour = getVariationColour(state);
-	const judgement = getVariationTrend(state);
+	// Gradient opacities (classic + triangle variants)
+	const {
+		start: gradStart,
+		mid: gradMid,
+		end: gradEnd,
+		triStart: triGradStart,
+		triMid: triGradMid,
+		triEnd: triGradEnd,
+	} = getGradientOpacities();
+
+	// Resolve semantic state + layout once
+	const { state, direction, polarity } = useMemo(
+		() => resolveStateAndLayout(data as SpcVariationInput),
+		[data]
+	);
+	const colour = useMemo(() => getVariationColour(state), [state]);
+	const judgement = useMemo(() => getVariationTrend(state), [state]);
 	const showLetterForJudgement =
 		judgement === VariationJudgement.Improving ||
 		judgement === VariationJudgement.Deteriorating;
-	const letter =
-		showLetter && showLetterForJudgement
-			? direction === Direction.Higher
-				? 'H'
-				: 'L'
-			: '';
+	let letter = "";
+	
+	if (showLetter && showLetterForJudgement) {
+		if (letterMode === "polarity") {
+			if (polarity === MetricPolarity.HigherIsBetter) letter = "H";
+			else if (polarity === MetricPolarity.LowerIsBetter) letter = "L";
+			else letter = "";
+		} else {
+			letter = direction === Direction.Higher ? "H" : "L";
+		}
+	}
+	
+	if (letterOverride !== undefined) letter = letterOverride;
 	const isSpecial = state !== VariationState.CommonCause;
 	const isNoJudgement = state === VariationState.SpecialCauseNoJudgement;
-	const neutralGrey = tokenColour('common-cause', '#A6A6A6');
+	const neutralGrey = tokenColour("common-cause", "#A6A6A6");
 	const pointColour = isSpecial ? colour.hex : neutralGrey;
 	const points: Point[] = useMemo(
 		() => computePointPositions(state, direction),
@@ -398,14 +465,14 @@ export const SpcVariationIcon = ({
 	const aria =
 		ariaLabel ||
 		`${colour.label}${
-			letter ? (direction === Direction.Higher ? ' – Higher' : ' – Lower') : ''
+			letter ? (direction === Direction.Higher ? " – Higher" : " – Lower") : ""
 		}`;
 	const ariaDescription = deriveVariationAriaDescription(
 		data as SpcVariationInput
 	);
 
 	// --- Triangle with run rendering (new) ---
-	if (variant === 'triangleWithRun') {
+	if (variant === "triangleWithRun") {
 		// Short triangle with run indicator (five small circles)
 		const triSize = 100;
 		const centerX = 150;
@@ -422,41 +489,43 @@ export const SpcVariationIcon = ({
 		];
 		// flatLine intentionally omitted — rendered as a short line when needed directly in JSX
 		let shape: React.ReactNode = null;
-		let shapeLetter = '';
-		if (state === VariationState.SpecialCauseImproving) {
+		// Orientation now driven by inferred direction (not raw improving/deteriorating state) so
+		// "improving" with LowerIsBetter shows a downward triangle and "deteriorating" with LowerIsBetter shows upward.
+		if (
+			state === VariationState.SpecialCauseImproving ||
+			state === VariationState.SpecialCauseDeteriorating
+		) {
 			shape = (
 				<polygon
-					points={upTriangle.map((p) => p.join(',')).join(' ')}
+					points={(direction === Direction.Higher ? upTriangle : downTriangle)
+						.map((p) => p.join(","))
+						.join(" ")}
 					fill={colour.hex}
 					stroke={colour.hex}
 					strokeWidth={6}
-					transform="translate(0, -15)"
+					transform={
+						direction === Direction.Higher
+							? "translate(0, -15)"
+							: "translate(0, 15)"
+					}
 				/>
 			);
-			shapeLetter = 'H';
-		} else if (state === VariationState.SpecialCauseDeteriorating) {
-			shape = (
-				<polygon
-					points={downTriangle.map((p) => p.join(',')).join(' ')}
-					fill={colour.hex}
-					stroke={colour.hex}
-					strokeWidth={6}
-					transform="translate(0, 15)"
-				/>
-			);
-			shapeLetter = 'L';
 		} else if (state === VariationState.SpecialCauseNoJudgement) {
 			shape = (
 				<polygon
 					points={
 						direction === Direction.Higher
-							? upTriangle.map((p) => p.join(',')).join(' ')
-							: downTriangle.map((p) => p.join(',')).join(' ')
+							? upTriangle.map((p) => p.join(",")).join(" ")
+							: downTriangle.map((p) => p.join(",")).join(" ")
 					}
 					fill={colour.hex}
 					stroke={colour.hex}
 					strokeWidth={6}
-					transform={direction === Direction.Higher ? 'translate(0,-6)' : 'translate(0,6)'}
+					transform={
+						direction === Direction.Higher
+							? "translate(0,-6)"
+							: "translate(0,6)"
+					}
 				/>
 			);
 		}
@@ -467,41 +536,89 @@ export const SpcVariationIcon = ({
 		const runGap = 26;
 		const runStartX = centerX - 2 * runGap;
 		const runColor = state === VariationState.SpecialCauseImproving
-			? tokenColour('improvement', '#00B0F0')
-			: state === VariationState.SpecialCauseDeteriorating
-			? tokenColour('concern', '#E46C0A')
-			: neutralGrey;
+				? tokenColour("improvement", "#00B0F0")
+				: state === VariationState.SpecialCauseDeteriorating
+					? tokenColour("concern", "#E46C0A")
+					: neutralGrey;
 		const runCircles = Array.from({ length: 5 }).map((_, i) => {
-		const filled = (state === VariationState.SpecialCauseImproving || state === VariationState.SpecialCauseDeteriorating) && i >= 5 - runLen;
-		const fill = filled ? runColor : neutralGrey;
-			return <circle key={i} cx={runStartX + i * runGap} cy={runY} r={runRadius} fill={fill} stroke={fill} strokeWidth={1} />;
+		const filled = (state === VariationState.SpecialCauseImproving ||
+				state === VariationState.SpecialCauseDeteriorating) &&
+				i >= 5 - runLen;
+			const fill = filled ? runColor : neutralGrey;
+			return (
+				<circle
+					key={i}
+					cx={runStartX + i * runGap}
+					cy={runY}
+					r={runRadius}
+					fill={fill}
+					stroke={fill}
+					strokeWidth={1}
+				/>
+			);
 		});
+		const defs = buildDefs(
+			colour.hex,
+			shadowId,
+			washId,
+			dropShadow,
+			gradientWash,
+			[
+				{ offset: "0%", opacity: triGradStart },
+				{ offset: "75%", opacity: triGradMid },
+				{ offset: "100%", opacity: triGradEnd },
+			]
+		);
+		// Keep common cause visually consistent regardless of supplied direction by fixing transform.
+		const groupTransform =
+			state === VariationState.CommonCause
+			? "translate(0,-10)" // mimic the higher layout centring
+			: direction === Direction.Higher
+			? "translate(0,-10)"
+			: "translate(0,20)";
 		return (
-			<svg width={size} height={size} viewBox="0 0 300 300" role="img" aria-label={aria} aria-description={ariaDescription} {...rest}>
-				<defs>
-					{dropShadow && (
-						<filter id={shadowId} filterUnits="objectBoundingBox">
-							<feGaussianBlur stdDeviation="3" />
-							<feOffset dx="0" dy="15" result="blur" />
-							<feFlood floodColor="rgb(150,150,150)" floodOpacity="1" />
-							<feComposite in2="blur" operator="in" result="colorShadow" />
-							<feComposite in="SourceGraphic" in2="colorShadow" operator="over" />
-						</filter>
-					)}
-					{gradientWash && (
-						<linearGradient id={washId} x1="0%" y1="0%" x2="100%" y2="100%">
-							<stop offset="0%" stopColor={colour.hex} stopOpacity={parseFloat(triGradStart)} />
-							<stop offset="75%" stopColor={colour.hex} stopOpacity={parseFloat(triGradMid)} />
-							<stop offset="100%" stopColor="#ffffff" stopOpacity={parseFloat(triGradEnd)} />
-						</linearGradient>
-					)}
-				</defs>
-				<circle stroke="none" fill={gradientWash ? `url(#${washId})` : '#ffffff'} {...(dropShadow ? { filter: `url(#${shadowId})` } : {})} cx="150" cy="150" r="120" />
-				<circle stroke={colour.hex} strokeWidth={15} strokeMiterlimit={10} fill="none" cx="150" cy="150" r="120" />
-				<g transform={ direction === Direction.Higher ? "translate(0,-10)" : "translate(0,20)"}>
+			<svg
+				width={size}
+				height={size}
+				viewBox="0 0 300 300"
+				role="img"
+				aria-label={aria}
+				aria-description={ariaDescription}
+				{...rest}
+			>
+				{defs}
+				<circle
+					stroke="none"
+					fill={gradientWash ? `url(#${washId})` : "#ffffff"}
+					{...(dropShadow ? { filter: `url(#${shadowId})` } : {})}
+					cx="150"
+					cy="150"
+					r="120"
+				/>
+				<circle
+					stroke={colour.hex}
+					strokeWidth={15}
+					strokeMiterlimit={10}
+					fill="none"
+					cx="150"
+					cy="150"
+					r="120"
+				/>
+				<g transform={groupTransform}>
 					{shape}
-					{shapeLetter && (
-						<text fill="#fff" fontFamily="'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif" fontWeight="bold" fontSize={64} x="150" y={direction === Direction.Higher ? 150 : 145} textAnchor="middle" dominantBaseline="middle">{shapeLetter}</text>
+					{letter && (
+						<text
+							fill="#fff"
+							fontFamily="'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif"
+							fontWeight="bold"
+							fontSize={64}
+							x="150"
+							y={direction === Direction.Higher ? 150 : 145}
+							textAnchor="middle"
+							dominantBaseline="middle"
+						>
+							{letter}
+						</text>
 					)}
 					{runCircles}
 				</g>
@@ -510,7 +627,7 @@ export const SpcVariationIcon = ({
 	}
 
 	// --- Alternative triangle rendering ---
-	if (variant === 'triangle') {
+	if (variant === "triangle") {
 		// Triangle geometry
 		// Upward triangle: base at bottom, tip at top
 		// Downward triangle: base at top, tip at bottom
@@ -533,68 +650,44 @@ export const SpcVariationIcon = ({
 			[centerX - triSize / 2, centerY + triSize / 2],
 			[centerX + triSize / 2, centerY + triSize / 2],
 		];
-	let shape: React.ReactNode = null;
-		if (state === VariationState.SpecialCauseImproving) {
+		let shape: React.ReactNode = null;
+		// Orientation now driven by direction (not state) for the same semantic reason as triangleWithRun.
+		if (
+			state === VariationState.SpecialCauseImproving ||
+			state === VariationState.SpecialCauseDeteriorating
+		) {
 			shape = (
-				<>
 				<polygon
-					points={upTriangle.map((p) => p.join(',')).join(' ')}
+					points={(direction === Direction.Higher ? upTriangle : downTriangle)
+						.map((p) => p.join(","))
+						.join(" ")}
 					fill={colour.hex}
 					stroke={colour.hex}
 					strokeWidth={8}
-					transform="translate(0, -10)"
+					transform={
+						direction === Direction.Higher
+							? "translate(0, -10)"
+							: "translate(0, 10)"
+					}
 				/>
-				<text
-					fill="#fff"
-					fontFamily="'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif"
-					fontWeight="bold"
-					fontSize={100}
-					x="150"
-					y="175"
-					textAnchor="middle"
-					dominantBaseline="middle"
-				>
-					{'H'}
-					</text>
-				</>
 			);
-		} else if (state === VariationState.SpecialCauseDeteriorating) {
-			shape = (
-				<>
-				<polygon
-					points={downTriangle.map((p) => p.join(',')).join(' ')}
-					fill={colour.hex}
-					stroke={colour.hex}
-					strokeWidth={8}
-					transform="translate(0, 10)"
-				/>
-				<text
-					fill="#fff"
-					fontFamily="'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif"
-					fontWeight="bold"
-					fontSize={100}
-					x="150"
-					y="145"
-					textAnchor="middle"
-					dominantBaseline="middle"
-				>
-					{'L'}
-					</text>
-				</>
-			);			
 		} else if (state === VariationState.SpecialCauseNoJudgement) {
 			// Up or down triangle, no letter
 			shape = (
 				<polygon
 					points={
 						direction === Direction.Higher
-							? upTriangle.map((p) => p.join(',')).join(' ')
-							: downTriangle.map((p) => p.join(',')).join(' ')
+							? upTriangle.map((p) => p.join(",")).join(" ")
+							: downTriangle.map((p) => p.join(",")).join(" ")
 					}
 					fill={colour.hex}
 					stroke={colour.hex}
 					strokeWidth={8}
-					transform={direction === Direction.Higher ? "translate(0, -15)" : "translate(0, 15)"}
+					transform={
+						direction === Direction.Higher
+							? "translate(0, -15)"
+							: "translate(0, 15)"
+					}
 				/>
 			);
 		} else if (state === VariationState.CommonCause) {
@@ -612,6 +705,18 @@ export const SpcVariationIcon = ({
 				/>
 			);
 		}
+		const defs = buildDefs(
+			colour.hex,
+			shadowId,
+			washId,
+			dropShadow,
+			gradientWash,
+			[
+				{ offset: "0%", opacity: triGradStart },
+				{ offset: "65%", opacity: triGradMid },
+				{ offset: "100%", opacity: triGradEnd },
+			]
+		);
 		return (
 			<svg
 				width={size}
@@ -622,27 +727,10 @@ export const SpcVariationIcon = ({
 				aria-description={ariaDescription}
 				{...rest}
 			>
-				<defs>
-					{dropShadow && (
-						<filter id={shadowId} filterUnits="objectBoundingBox">
-							<feGaussianBlur stdDeviation="3" />
-							<feOffset dx="0" dy="15" result="blur" />
-							<feFlood floodColor="rgb(150,150,150)" floodOpacity="1" />
-							<feComposite in2="blur" operator="in" result="colorShadow" />
-							<feComposite in="SourceGraphic" in2="colorShadow" operator="over" />
-						</filter>
-					)}
-					{gradientWash && (
-						<linearGradient id={washId} x1="0%" y1="0%" x2="100%" y2="100%">
-							<stop offset="0%" stopColor={colour.hex} stopOpacity={parseFloat(triGradStart)} />
-							<stop offset="65%" stopColor={colour.hex} stopOpacity={parseFloat(triGradMid)} />
-							<stop offset="100%" stopColor="#ffffff" stopOpacity={parseFloat(triGradEnd)} />
-						</linearGradient>
-					)}
-				</defs>
+				{defs}
 				<circle
 					stroke="none"
-					fill={gradientWash ? `url(#${washId})` : '#ffffff'}
+					fill={gradientWash ? `url(#${washId})` : "#ffffff"}
 					{...(dropShadow ? { filter: `url(#${shadowId})` } : {})}
 					cx="150"
 					cy="150"
@@ -658,11 +746,39 @@ export const SpcVariationIcon = ({
 					r="120"
 				/>
 				{shape}
+				{letter &&
+					(state === VariationState.SpecialCauseImproving ||
+						state === VariationState.SpecialCauseDeteriorating) && (
+						<text
+							fill="#fff"
+							fontFamily="'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif"
+							fontWeight="bold"
+							fontSize={100}
+							x="150"
+							y={state === VariationState.SpecialCauseImproving ? "175" : "145"}
+							textAnchor="middle"
+							dominantBaseline="middle"
+						>
+							{letter}
+						</text>
+					)}
 			</svg>
 		);
 	}
 
 	// --- Default/classic rendering ---
+	const defs = buildDefs(
+		colour.hex,
+		shadowId,
+		washId,
+		dropShadow,
+		gradientWash,
+		[
+			{ offset: "0%", opacity: gradStart },
+			{ offset: "65%", opacity: gradMid },
+			{ offset: "100%", opacity: gradEnd },
+		]
+	);
 	return (
 		<svg
 			width={size}
@@ -673,27 +789,10 @@ export const SpcVariationIcon = ({
 			aria-description={ariaDescription}
 			{...rest}
 		>
-			<defs>
-				{dropShadow && (
-					<filter id={shadowId} filterUnits="objectBoundingBox">
-						<feGaussianBlur stdDeviation="3" />
-						<feOffset dx="0" dy="15" result="blur" />
-						<feFlood floodColor="rgb(150,150,150)" floodOpacity="1" />
-						<feComposite in2="blur" operator="in" result="colorShadow" />
-						<feComposite in="SourceGraphic" in2="colorShadow" operator="over" />
-					</filter>
-				)}
-				{gradientWash && (
-					<linearGradient id={washId} x1="0%" y1="0%" x2="100%" y2="100%">
-						<stop offset="0%" stopColor={colour.hex} stopOpacity={parseFloat(gradStart)} />
-						<stop offset="65%" stopColor={colour.hex} stopOpacity={parseFloat(gradMid)} />
-						<stop offset="100%" stopColor="#ffffff" stopOpacity={parseFloat(gradEnd)} />
-					</linearGradient>
-				)}
-			</defs>
+			{defs}
 			<circle
 				stroke="none"
-				fill={gradientWash ? `url(#${washId})` : '#ffffff'}
+				fill={gradientWash ? `url(#${washId})` : "#ffffff"}
 				{...(dropShadow ? { filter: `url(#${shadowId})` } : {})}
 				cx="150"
 				cy="150"
@@ -717,7 +816,7 @@ export const SpcVariationIcon = ({
 					transform="translate(86.67, 54) scale(0.5, 0.5)"
 					textAnchor="end"
 				>
-					<tspan x="120" y={direction === Direction.Lower ? '325' : '156'}>
+					<tspan x="120" y={direction === Direction.Lower ? "325" : "156"}>
 						{letter}
 					</tspan>
 				</text>
@@ -731,8 +830,8 @@ export const SpcVariationIcon = ({
 					stroke="none"
 					fill={colour.hex}
 					{...(direction === Direction.Lower
-						? { transform: 'rotate(90 150 150)' }
-						: { transform: 'translate(-5 0) rotate(0 150 150)' })}
+						? { transform: "rotate(90 150 150)" }
+						: { transform: "translate(-5 0) rotate(0 150 150)" })}
 					d="M 90.26,185.42 L 149.31,126.37 127.44,104.51 209.81,90.66 195.96,173.02 174.09,151.16 115.05,210.2 90.26,185.42 Z M 90.26,185.42"
 				/>
 			) : (
@@ -747,7 +846,7 @@ export const SpcVariationIcon = ({
 							strokeLinecap="round"
 							strokeLinejoin="round"
 							opacity={0.9}
-							d={`M ${points.map((p) => `${p.cx} ${p.cy}`).join(' L ')}`}
+							d={`M ${points.map((p) => `${p.cx} ${p.cy}`).join(" L ")}`}
 						/>
 					)}
 					{/* Data points (last two coloured when judgement positive or negative) */}
@@ -774,4 +873,4 @@ export const SpcVariationIcon = ({
 	);
 };
 
-SpcVariationIcon.displayName = 'SpcVariationIcon';
+SpcVariationIcon.displayName = "SpcVariationIcon";

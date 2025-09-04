@@ -1,4 +1,5 @@
-@use "../../../../../packages/nhs-fdp/scss" as nhs; // corrected relative path (5 levels up to repo root)
+// Import generated design token bundle (same pattern as Header.scss but deeper path depth)
+@use "../../../../../../packages/nhs-fdp/dist/scss/tokens" as nhs;
 /*
  * SPCChart specific styling extracted from global DataVisualisation.scss
  * Colours now sourced from SPC design tokens (color.data-viz.spc.*) instead of hardcoded hex values.

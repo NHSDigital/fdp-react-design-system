@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { SPCChart, type SPCDatum, ImprovementDirection } from './SPCChart';
-import { ChartContainer } from '../..';
+import { ChartContainer } from '../../ChartContainer.tsx';
 
 const meta: Meta<typeof SPCChart> = {
   title: 'Data Visualisation/SPC/Embedded Icon Matrix',

@@ -1,17 +1,17 @@
 import * as React from "react";
-import "../../DataVisualisation.scss";
+import "../../../DataVisualisation.scss";
 import "./SPCChart.scss";
-import { ChartRoot } from "../../core/ChartRoot";
-import { LineScalesProvider, useScaleContext } from "../../core/ScaleContext";
-import { useChartContext } from "../../core/ChartRoot";
-import { useTooltipContext } from "../../core/TooltipContext";
-import Axis from "../../charts/Axis/Axis";
-import GridLines from "../../charts/GridlLines/GridLines";
-import LineSeriesPrimitive from "../../series/LineSeriesPrimitive";
+import { ChartRoot } from "../../../core/ChartRoot";
+import { LineScalesProvider, useScaleContext } from "../../../core/ScaleContext";
+import { useChartContext } from "../../../core/ChartRoot";
+import { useTooltipContext } from "../../../core/TooltipContext";
+import Axis from "../../Axis/Axis";
+import GridLines from "../../GridlLines/GridLines";
+import LineSeriesPrimitive from "../../../series/LineSeriesPrimitive";
 // Replaced generic TooltipOverlay with SPC-specific enriched overlay
 import SPCTooltipOverlay from "./SPCTooltipOverlay";
-import { TooltipProvider } from "../../core/TooltipContext";
-import VisuallyHiddenLiveRegion from "../../primitives/VisuallyHiddenLiveRegion";
+import { TooltipProvider } from "../../../core/TooltipContext";
+import VisuallyHiddenLiveRegion from "../../../primitives/VisuallyHiddenLiveRegion";
 import { SpcVariationIcon } from "../SPCIcons/SPCIcon";
 import { SPCAssuranceIcon } from "../SPCIcons/SPCAssuranceIcon";
 import { AssuranceResult } from "../SPCIcons/SPCConstants";
@@ -931,9 +931,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 				</svg>
 				{announceFocus && (
 					<VisuallyHiddenLiveRegion
-						format={(d) =>
-							formatLive({ ...d, x: d.x instanceof Date ? d.x : new Date(d.x) })
-						}
+						format={(d: any) => formatLive({ ...d, x: d.x instanceof Date ? d.x : new Date(d.x) })}
 					/>
 				)}
 			</div>

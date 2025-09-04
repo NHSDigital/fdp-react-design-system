@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { SPCChart, ImprovementDirection } from './SPCChart';
-import { ChartContainer } from '../..';
+// Updated relative path after introducing SPC nesting structure
+import { ChartContainer } from '../../ChartContainer.tsx';
 
 // Simple synthetic series with a shift after point 14 to trigger baseline suggestion.
 function makeSeries() {

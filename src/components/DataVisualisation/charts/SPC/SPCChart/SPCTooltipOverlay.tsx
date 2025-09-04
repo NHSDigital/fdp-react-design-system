@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { useTooltipContext } from "../../core/TooltipContext";
-import { useChartContext } from "../../core/ChartRoot";
+import { useTooltipContext } from "../../../core/TooltipContext";
+import { useChartContext } from "../../../core/ChartRoot";
 // pickSeriesColor intentionally not used in SPC tooltip overlay; keep import commented for future use
 // import { pickSeriesColor } from "../../utils/colors";
 // AssuranceIcon import removed (utility based)
@@ -13,7 +13,7 @@ import {
 	zoneLabel,
 } from "./logic/spcDescriptors";
 import { getVariationColorToken } from "./logic/spcDescriptors";
-import { Tag } from "../../../Tag";
+import { Tag } from "../../../../Tag";
 
 interface SPCTooltipOverlayProps {
 	engineRows: any[] | null;

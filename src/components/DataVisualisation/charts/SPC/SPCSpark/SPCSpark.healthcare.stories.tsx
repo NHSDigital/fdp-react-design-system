@@ -1,7 +1,7 @@
 // React import omitted (automatic JSX runtime)
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCSpark } from "./SPCSpark";
-import { Grid, Row, Column } from "../../../Grid";
+import { Grid, Row, Column } from "../../../../../";
 
 // Replicates the healthcare datasets from SPCChart.healthcare.stories.tsx
 // to provide compact sparkline equivalents.

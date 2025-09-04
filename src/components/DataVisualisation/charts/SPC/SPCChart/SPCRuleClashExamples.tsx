@@ -1,5 +1,5 @@
 import { SPCChart, ImprovementDirection } from "./SPCChart";
-import { ChartContainer } from "../..";
+import { ChartContainer } from "../../..";
 
 // Helper to convert lightweight month/value objects to SPCChart datapoints
 const toData = (series: { x: string; y: number }[]) =>

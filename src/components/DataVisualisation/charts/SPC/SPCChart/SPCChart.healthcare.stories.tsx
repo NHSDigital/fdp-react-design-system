@@ -1,7 +1,7 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCChart, ImprovementDirection, type SPCDatum } from "./SPCChart";
-import { ChartContainer } from "../..";
+import { ChartContainer } from "../../ChartContainer.tsx";
 
 // Healthcare representative SPC examples (deterministic, no randomness)
 // Each dataset contains >= 20 points (monthly) to ensure stable limits and illustrates

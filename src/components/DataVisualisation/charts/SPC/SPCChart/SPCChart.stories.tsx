@@ -7,9 +7,9 @@ import {
 	zoneLabel,
 } from "./logic/spcDescriptors";
 import React from "react";
-import { ChartContainer } from "../..";
-import { Heading, Table } from "../../..";
-import { List } from "../../../List/List";
+import { ChartContainer } from "../../ChartContainer.tsx";
+// Use top-level component barrel for Heading/Table/List (navigate up to components root)
+import { Heading, Table, List } from "../../../../";
 
 const meta: Meta<typeof SPCChart> = {
 	title: "Data Visualisation/SPC/Individuals",

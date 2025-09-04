@@ -73,6 +73,26 @@ Or with derived payload:
 - `VARIATION_COLOURS`: Canonical colour mapping.
 - `resolveStateAndLayout`: Normalizes all payloads to `{ state, direction, polarity }`.
 - `deriveVariationAriaDescription`: Generates ARIA label for accessibility.
+ 
+### New Props (polarity / direction decoupling)
+
+- `letterMode`: `'direction' | 'polarity'` (default `'direction'`). Controls how the H/L letter is derived when the variation judgement is improving or deteriorating.
+	- `direction`: H if inferred direction is Higher, L if Lower (legacy behaviour).
+	- `polarity`: H if `polarity === HigherIsBetter`, L if `polarity === LowerIsBetter`, suppressed if `ContextDependent`.
+- `letterOverride`: `'H' | 'L' | ''` – Highest precedence. Supply `''` to hide the letter entirely even if it would normally render.
+
+### Unified Direction Inference
+
+All payload forms (engine, legacy state, derived) now use the same inference rules when `trend` is omitted and the state/judgement is improving or deteriorating:
+
+| State/Judgement | Polarity              | Inferred Direction |
+|-----------------|-----------------------|--------------------|
+| Improving       | HigherIsBetter        | Higher             |
+| Improving       | LowerIsBetter         | Lower              |
+| Deteriorating   | HigherIsBetter        | Lower              |
+| Deteriorating   | LowerIsBetter         | Higher             |
+
+Previously, only the derived payload path applied this logic; engine and explicit state payloads defaulted to a fixed direction unless `trend` was provided. This change ensures consistent interpretation across all input shapes.
 
 ## Best Practices
 
@@ -87,7 +107,7 @@ Or with derived payload:
 ---
 *This documentation was auto-generated to summarize the structure, logic, and usage of the SPCIcon component as implemented in the referenced file.*
 
-# Analysis of Current SPC Icons
+## Analysis of Current SPC Icons
 
 Here’s a structured analysis of what the current SPCIcons communicate, how that compares to the richer state machine in the SPCChart logic, and what could be added to the icons to better communicate underlying trends and states.
 

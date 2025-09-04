@@ -1,0 +1,64 @@
+import React from 'react';
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { SpcVariationIcon } from './SPCIcon';
+import { VariationState, Direction, MetricPolarity, VariationJudgement } from './SPCConstants';
+
+describe('SpcVariationIcon', () => {
+  const base = { state: VariationState.SpecialCauseImproving, direction: Direction.Higher, polarity: MetricPolarity.HigherIsBetter } as const;
+
+  it('renders classic variant with accessible label', () => {
+    render(<SpcVariationIcon data={base} ariaLabel="Improving" variant="classic" />);
+  const svg = screen.getByRole('img', { name: /Improving/i });
+  expect(svg).not.toBeNull();
+    expect(svg.querySelectorAll('circle').length).toBeGreaterThan(0);
+  });
+
+  it('renders triangle variant', () => {
+    render(<SpcVariationIcon data={base} ariaLabel="Improving" variant="triangle" />);
+  const svg = screen.getByRole('img', { name: /Improving/i });
+  expect(svg).not.toBeNull();
+    // ring + interior + maybe others
+    expect(svg.querySelectorAll('circle').length).toBeGreaterThan(0);
+    expect(svg.innerHTML).toMatch(/polygon/);
+  });
+
+  it('renders triangleWithRun variant including run points when runLength provided', () => {
+    render(<SpcVariationIcon data={base} ariaLabel="Improving" variant="triangleWithRun" runLength={3} />);
+  const svg = screen.getByRole('img', { name: /Improving/i });
+  expect(svg).not.toBeNull();
+    // run circles (5 potential, some filled)
+    const circles = svg.querySelectorAll('circle');
+    expect(circles.length).toBeGreaterThan(2); // outer + inner + run points
+  });
+
+  it('infers direction from polarity for legacy payload when trend omitted (improving + LowerIsBetter -> L)', () => {
+    const payload = { state: VariationState.SpecialCauseImproving, polarity: MetricPolarity.LowerIsBetter } as const;
+    render(<SpcVariationIcon data={payload} ariaLabel="Improving" />);
+    const text = screen.getByText('L');
+    expect(text).not.toBeNull();
+  });
+
+  it('letterMode=polarity uses polarity not direction', () => {
+    // Deteriorating with polarity HigherIsBetter => inferred direction Lower (so direction letter would be L)
+    // polarity HigherIsBetter -> expect H when letterMode=polarity
+    const derivePayload = { judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.HigherIsBetter } as const;
+    render(<SpcVariationIcon data={derivePayload} ariaLabel="Det" letterMode="polarity" />);
+    const text = screen.getByText('H');
+    expect(text).not.toBeNull();
+  });
+
+  it('letterOverride takes precedence', () => {
+    const derivePayload = { judgement: VariationJudgement.Improving, polarity: MetricPolarity.LowerIsBetter } as const; // would normally show L (direction Lower)
+    render(<SpcVariationIcon data={derivePayload} ariaLabel="Imp" letterOverride="H" />);
+    const text = screen.getByText('H');
+    expect(text).not.toBeNull();
+  });
+
+  it('default polarity mapping: deteriorating + HigherIsBetter yields H (polarity-based)', () => {
+    const payload = { judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.HigherIsBetter } as const;
+    render(<SpcVariationIcon data={payload} ariaLabel="Det" />);
+    const text = screen.getByText('H');
+    expect(text).not.toBeNull();
+  });
+});

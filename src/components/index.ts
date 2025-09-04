@@ -58,6 +58,9 @@ export { NHSThemeProvider, useNHSTheme } from './NHSThemeProvider';
 export type { ThemeProviderProps } from './NHSThemeProvider';
 export { Header } from './Header';
 export { HeaderSearch } from './HeaderSearch';
+// Backward compatibility: old names HeaderStatic / HeaderSSR now map to unified Header variants
+export { Header as HeaderStatic } from './Header';
+export { HeaderServer as HeaderSSR } from './Header';
 export type { HeaderProps, NavigationItem } from './Header/Header.types';
 export type { HeaderSearchProps } from './HeaderSearch';
 export { Hero } from './Hero';
@@ -157,3 +160,10 @@ export type { PageTemplateProps } from './PageTemplate';
 export { TransactionalPageTemplate } from './TransactionalPageTemplate';
 export type { TransactionalPageTemplateProps } from './TransactionalPageTemplate';
 export * from './NavigationSplitView';
+export { ProductRoadmap } from './ProductRoadmap';
+export type { ProductRoadmapProps, ProductRoadmapCategory, ProductRoadmapItem } from './ProductRoadmap';
+
+// Data Visualisation SPC exports (barrel + direct) for convenience
+export { SPCChart } from './DataVisualisation';
+export type { SPCChartProps, SPCDatum } from './DataVisualisation';
+export { SPC as SPC } from './DataVisualisation';

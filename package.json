@@ -1,6 +1,6 @@
 {
   "name": "@fergusbisset/nhs-fdp-design-system",
-  "version": "0.1.1",
+  "version": "0.0.34-alpha.0",
   "description": "NHS FDP Frontend Development Platform Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
@@ -244,9 +244,9 @@
     "release:patch": "npm version patch -m 'chore(release): %s'",
     "release:minor": "npm version minor -m 'chore(release): %s'",
     "release:major": "npm version major -m 'chore(release): %s'",
-  "release:prerelease": "npm version prerelease --preid=alpha -m 'chore(release): %s'",
-  "check:tokens": "node scripts/check-token-collisions.cjs",
-  "inventory": "tsx scripts/inventory-design-system.ts --md inventory.md --json inventory.json"
+    "release:prerelease": "npm version prerelease --preid=alpha -m 'chore(release): %s'",
+    "check:tokens": "node scripts/check-token-collisions.cjs",
+    "inventory": "tsx scripts/inventory-design-system.ts --md inventory.md --json inventory.json"
   },
   "keywords": [],
   "author": "Fergus Bisset",
@@ -305,6 +305,7 @@
     "clsx": "^2.1.1",
     "color": "^5.0.0",
     "d3": "^7.9.0",
+    "gsap": "^3.13.0",
     "react": "19.1.1",
     "react-aria": "^3.42.0",
     "react-dom": "19.1.1",

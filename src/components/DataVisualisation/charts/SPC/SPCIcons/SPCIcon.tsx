@@ -755,9 +755,10 @@ export const SpcVariationIcon = ({
 							fontWeight="bold"
 							fontSize={100}
 							x="150"
-							y={state === VariationState.SpecialCauseImproving ? "175" : "145"}
+							y={direction === Direction.Higher ? "170" : "140"}
 							textAnchor="middle"
 							dominantBaseline="middle"
+
 						>
 							{letter}
 						</text>

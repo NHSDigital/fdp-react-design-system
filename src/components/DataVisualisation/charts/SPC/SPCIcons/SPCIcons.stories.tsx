@@ -33,8 +33,6 @@ export const AllAssuranceIcons = () => (
 	</div>
 );
 
-// Explicit storyName removed to satisfy no-redundant-story-name lint rule.
-
 // ---- Comprehensive Matrices -------------------------------------------------
 
 const cellStyle: React.CSSProperties = { textAlign: 'center', padding: 8 };
@@ -114,6 +112,7 @@ function VariationMatrix({ variant, runLength, gradientWash }: MatrixConfig) {
 																			variant={variant}
 																			runLength={variant === 'triangleWithRun' ? (runLength ?? 3) : undefined}
 																			gradientWash={gradientWash}
+																			dropShadow={false}
 																		/>
 																		<div style={labelStyle}>
 																			{polarityLabel(p)}{needsTrend ? ` / ${pl.trend === Direction.Higher ? 'Higher' : 'Lower'}` : ''}
@@ -155,5 +154,14 @@ export const VariationIconMatrixTriangleWithRun = () => (
 	<>
 		<VariationMatrix variant="triangleWithRun" runLength={3} />
 		<VariationMatrix variant="triangleWithRun" runLength={4} gradientWash />
+	</>
+);
+
+// Aggregate export used by docs page (MDX) expecting a combined showcase of variation icons
+export const AllVariationIcons = () => (
+	<>
+		<VariationIconMatrixClassic />
+		<VariationIconMatrixTriangle />
+		<VariationIconMatrixTriangleWithRun />
 	</>
 );

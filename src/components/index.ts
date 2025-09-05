@@ -164,6 +164,39 @@ export { ProductRoadmap } from './ProductRoadmap';
 export type { ProductRoadmapProps, ProductRoadmapCategory, ProductRoadmapItem } from './ProductRoadmap';
 
 // Data Visualisation SPC exports (barrel + direct) for convenience
-export { SPCChart } from './DataVisualisation';
-export type { SPCChartProps, SPCDatum } from './DataVisualisation';
+export { 
+  SPCChart,
+  ChartRoot,
+  Axis,
+  GridLines,
+  LineScalesProvider,
+  BandScalesProvider,
+  LineSeriesPrimitive,
+  AreaSeriesPrimitive,
+  BarSeriesPrimitive,
+  Legend,
+  TooltipProvider,
+  TooltipOverlay,
+  VisibilityProvider,
+  ChartNoScript,
+  ChartEnhancer,
+  MetricCard
+} from './DataVisualisation';
+export type { 
+  SPCChartProps, 
+  SPCDatum,
+  ChartRootProps,
+  AxisProps,
+  LineSeries,
+  LineDatum,
+  LineSeriesPrimitiveProps,
+  AreaSeriesPrimitiveProps,
+  AreaSeries,
+  AreaDatum,
+  BarSeriesPrimitiveProps,
+  BarSeries,
+  BarDatum,
+  LegendProps,
+  LegendItem
+} from './DataVisualisation';
 export { SPC as SPC } from './DataVisualisation';

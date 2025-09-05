@@ -1,20 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { renderToString } from 'react-dom/server';
 import React from 'react';
-import nunjucks from 'nunjucks';
 import { Select } from '../../src/components/Select/Select';
-import { normaliseHtml } from './utils/htmlNormaliser';
+import { buildParity } from './utils/parityHarness';
 
-const env = new nunjucks.Environment(new nunjucks.FileSystemLoader('dist/macros'));
-
-function renderMacro(params: any) {
-  const macro = `{% from "select.njk" import select %}{{ select(params) }}`;
-  return env.renderString(macro, { params });
-}
+const { react, macro } = buildParity({ react: (p) => <Select {...p} />, macroName: 'select' });
 
 describe('Select macro parity', () => {
-  const react = (p: any, children?: React.ReactNode) => normaliseHtml(renderToString(<Select {...p}>{children}</Select>));
-  const macro = (p: any) => normaliseHtml(renderMacro(p));
 
   it('basic select with options prop (default selected via selected flag)', () => {
     const options = [ { value: 'a', text: 'A' }, { value: 'b', text: 'B', selected: true }, { value: 'c', text: 'C' } ];
@@ -24,6 +15,7 @@ describe('Select macro parity', () => {
 
   it('controlled value', () => {
     const options = [ { value: 'a', text: 'A' }, { value: 'b', text: 'B' } ];
+    // onChange will be auto-inserted by harness
     const props = { id: 's2', name: 's2', options, value: 'b' };
     expect(macro(props)).toEqual(react(props));
   });
@@ -52,6 +44,11 @@ describe('Select macro parity', () => {
       <Select.Option value="1">One</Select.Option>
       <Select.Option value="2" disabled>Two</Select.Option>
     </>;
-    expect(macro({ ...props, children: renderToString(children) })).toEqual(react(props, children));
+    // For parity we compare macro rendered children string to react rendering (macro expects children HTML string)
+  // Render children to string for macro side; React side uses component rendering.
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { renderToString } = require('react-dom/server');
+  const childrenHtml = renderToString(<>{children}</>);
+  expect(macro({ ...props, children: childrenHtml })).toEqual(react({ ...props, children }));
   });
 });

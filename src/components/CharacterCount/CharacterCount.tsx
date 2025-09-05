@@ -11,7 +11,8 @@ export const CharacterCount: React.FC<CharacterCountProps> = ({
   maxWords,
   threshold = 75,
   name,
-  value = '',
+  value,
+  defaultValue,
   rows,
   className,
   countMessage,
@@ -19,7 +20,9 @@ export const CharacterCount: React.FC<CharacterCountProps> = ({
   onChange,
   ...textareaProps
 }) => {
-  const [currentValue, setCurrentValue] = useState(value);
+  // Determine initial text: prefer controlled value, else defaultValue, else empty
+  const initial = value ?? (defaultValue as string) ?? '';
+  const [currentValue, setCurrentValue] = useState(initial);
   const [remaining, setRemaining] = useState(0);
   const [isOverLimit, setIsOverLimit] = useState(false);
   const [showCount, setShowCount] = useState(false);
@@ -55,11 +58,10 @@ export const CharacterCount: React.FC<CharacterCountProps> = ({
   // Handle input changes
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
+    // Always update internal state for live counting; if consumer supplies a controlled value prop
+    // they'll also update value externally, keeping in sync. If uncontrolled, internal state drives UI.
     setCurrentValue(newValue);
-    
-    if (onChange) {
-      onChange(event);
-    }
+    if (onChange) onChange(event);
   };
 
   // Generate count message
@@ -113,12 +115,14 @@ export const CharacterCount: React.FC<CharacterCountProps> = ({
       <Textarea
         id={id}
         name={name}
-        value={currentValue}
+        // Controlled: only value prop. Uncontrolled: only defaultValue prop.
+        value={value !== undefined ? currentValue : undefined}
+        defaultValue={value === undefined ? defaultValue ?? currentValue : undefined}
         rows={rows}
         className={textareaClasses}
         onChange={handleChange}
         aria-describedby={`${id}-info`}
-  aria-invalid={isOverLimit || undefined}
+        aria-invalid={isOverLimit || undefined}
         {...textareaProps}
       />
       

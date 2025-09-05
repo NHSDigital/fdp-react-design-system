@@ -11,6 +11,7 @@ $header-item-hover-color: tokens.$nhs-fdp-semantic-color-hover-header-link; // S
 $header-item-active-color: tokens.$nhs-fdp-semantic-color-active-header-link; // Darker than NHS Blue
 $header-item-active-size: tokens.$nhs-fdp-focus-outline-width;
 $header-nav-vertical-pad: tokens.$nhs-fdp-spacing-5; // unified vertical padding for nav link & button
+$header-max-width: tokens.$nhs-fdp-breakpoint-xlarge; // single source of truth for 1200px cap
 
 // Shared interactive navigation element styles (anchor & More button)
 @mixin header-nav-interactive-base {
@@ -29,6 +30,23 @@ $header-nav-vertical-pad: tokens.$nhs-fdp-spacing-5; // unified vertical padding
 
 	&[aria-current="page"]::before,
 	&[aria-current="true"]::before { border-bottom-width: $header-item-active-size; }
+}
+
+// Shared navigation item (link + button) structural styles
+// $padding param allows the button variant to supply its asymmetric 20px bottom padding hack
+@mixin header-nav-item-base($padding) {
+	display: inline-flex;
+	align-items: flex-start;
+	position: relative;
+	white-space: nowrap;
+	font-size: tokens.$nhs-fdp-font-size-16-mobile;
+	font-weight: tokens.$nhs-fdp-font-weight-normal;
+	line-height: 1;
+	gap: tokens.$nhs-fdp-spacing-1;
+	padding: $padding;
+	@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+		font-size: tokens.$nhs-fdp-font-size-16-tablet;
+	}
 }
 
 // Vertical rhythm variables (allows independent control of top vs container internal spacing)
@@ -97,7 +115,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		padding-right: tokens.$nhs-fdp-spacing-2;
 		margin-left: auto; // allow centering when width constrained
 		margin-right: auto;
-		max-width: 1200px; // always cap width; matches design cap
+		max-width: $header-max-width; // width cap (previously hard-coded 1200px)
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -116,7 +134,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	// Usage: supply containerClasses="nhsuk-width-container" (already supported) – this override ensures
 	// the header content is capped at 1200px and horizontally centred while preserving existing
 	// horizontal spacing via internal padding (rather than asymmetric outer margins that block centring).
-	&__container.nhsuk-width-container { max-width: 1200px; }
+	// (Redundant now the base container is always capped) – rule removed.
 
 	// Navigation container - hierarchical structure
 	&__navigation-container {
@@ -296,8 +314,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		}
 	}
 
-	// Logo utility: keep minimal explicit rule (other logic consolidated above)
-	&__logo { min-width: tokens.$nhs-fdp-component-header-logo-min-width; }
+	// (Removed earlier standalone &__logo min-width block – merged into unified logo block below)
 
 	&__search-form {
 		display: flex;
@@ -461,10 +478,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 			display: inline-block; // predictable box for baseline alignment
 		}
 
-		a {
-			padding: tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-3;
-			text-decoration: underline;
-		}
+		a { padding: tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-3; }
 
 		// More button functionality
 		&--more {
@@ -474,18 +488,8 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	}
 
 	&__navigation-link {
-		// Plain declarations FIRST
-		display: inline-flex;
-		align-items: flex-start;
-		position: relative;
-		white-space: nowrap;
-		font-size: tokens.$nhs-fdp-font-size-16-mobile;
-		font-weight: tokens.$nhs-fdp-font-weight-normal;
-		line-height: 1; // vertical rhythm
-		padding: tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3;
-		gap: tokens.$nhs-fdp-spacing-1;
-		text-decoration: underline;
-		// Then include mixins that emit nested pseudo selectors / media queries
+		@include header-nav-item-base(tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3);
+		// (No baseline underline; rely on hover/focus styles for emphasis)
 		@include header-link-style(
 			$link-color: tokens.$nhs-fdp-color-primary-white,
 			$link-hover-color: tokens.$nhs-fdp-color-primary-white,
@@ -496,37 +500,16 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 
 	// Navigation button for dropdown functionality
 	&__navigation-button {
-		// Plain declarations FIRST (no nested rules) to avoid mixed-decls warnings
 		background: transparent;
 		border: none;
 		cursor: pointer;
 		font-family: inherit;
-		display: inline-flex;
-		align-items: flex-start;
-		position: relative;
-		white-space: nowrap;
-		font-size: tokens.$nhs-fdp-font-size-16-mobile;
-		font-weight: tokens.$nhs-fdp-font-weight-normal;
-		padding: tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 20px tokens.$nhs-fdp-spacing-3; // this is a 20px hack, combined with the margin-top -4px on the icon to center the icon in the line.
-		line-height: 1; // tighter line-height so vertical padding defines total height consistently for link & button
-		gap: tokens.$nhs-fdp-spacing-1; // harmless for plain text links; useful when icon present
-		text-decoration: underline;
-		
-		// Now include mixins (these emit nested @media / pseudo rules after base declarations)
+		@include header-nav-item-base(tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 20px tokens.$nhs-fdp-spacing-3); // keep 20px bottom padding hack
 		@include header-link-style(
 			$link-color: tokens.$nhs-fdp-color-primary-white,
 			$link-hover-color: tokens.$nhs-fdp-color-primary-white,
 			$link-active-color: tokens.$nhs-fdp-color-primary-white
 		);
-		
-		span {
-			text-decoration: underline;
-		}
-		
-		&:hover {
-			color: tokens.$nhs-fdp-color-primary-white;
-			text-decoration: none;
-		}
 
 		&:focus {
 			outline-offset: 0;
@@ -539,23 +522,16 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 			margin-top: -4px;
 			&__chevron-down {
 				@include header-icon-small;
-				display: block; // remove inline baseline gap
-				transform: rotate(90deg); // Point down initially
+				display: block;
+				transform: rotate(90deg);
 				transition: transform #{tokens.$nhs-fdp-animation-duration-fast} #{tokens.$nhs-fdp-animation-easing-ease-out};
-				
 			}
 		}
 
-		&[aria-expanded="true"] .nhsuk-icon__chevron-down {
-			transform: rotate(270deg); // Point up when open
-		}
-
-		// Apply active bottom indicator when menu open
+		&[aria-expanded="true"] .nhsuk-icon__chevron-down { transform: rotate(270deg); }
 		&[aria-expanded="true"]::before { border-bottom-width: $header-item-active-size; }
 
-		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
-			font-size: tokens.$nhs-fdp-font-size-16-tablet;
-		}
+		// font-size at breakpoints handled by mixin
 	}
 
 	// Dropdown menu - hierarchical structure
@@ -581,13 +557,20 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		padding: 0;
 	}
 
+	// Hierarchical dropdown structure: list item acts as structural wrapper (no padding), link supplies interactive hit area
 	&__dropdown-item {
-		// Base declarations first to avoid mixed declaration warnings
-		display: block;
-		padding: tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-2;
-		border-bottom: 1px solid tokens.$nhs-fdp-color-grey-5;
-		white-space: nowrap;
 		position: relative;
+		border-bottom: 1px solid tokens.$nhs-fdp-color-grey-5;
+		list-style: none;
+		margin: 0;
+		padding: 0; // prevent double padding when link inside
+	}
+
+	&__dropdown-link {
+		display: block;
+		position: relative;
+		white-space: nowrap;
+		padding: tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-2;
 		@include header-link-style(
 			$link-color: tokens.$nhs-fdp-color-primary-blue,
 			$link-hover-color: tokens.$nhs-fdp-color-primary-blue,
@@ -602,11 +585,8 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 			padding: tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-7;
 		}
 
-		&:hover {
-			background-color: rgba(0, 0, 0, 0.05);
-		}
+		&:hover { background-color: rgba(0, 0, 0, 0.05); }
 
-		// Visual indicator for navigation item uses a border on left edge
 		&::before {
 			content: "";
 			display: block;
@@ -618,7 +598,6 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 			border: 0 solid currentcolor;
 		}
 
-		// Active/current state styling for dropdown items
 		&[aria-current="page"]::before,
 		&[aria-current="true"]::before {
 			width: 0;
@@ -721,13 +700,11 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		height: tokens.$nhs-fdp-component-header-logo-height;
 		width: tokens.$nhs-fdp-component-header-logo-min-width;
 		max-width: tokens.$nhs-fdp-component-header-logo-min-width;
+		min-width: tokens.$nhs-fdp-component-header-logo-min-width; // merged from earlier standalone rule
 		vertical-align: middle;
 		line-height: 0;
 		background: tokens.$nhs-fdp-color-primary-blue;
-		// Ensure SVG path appears in white
-		path {
-			fill: tokens.$nhs-fdp-color-primary-white;
-		}
+		path { fill: tokens.$nhs-fdp-color-primary-white; }
 	}
 
 	// Minimal white variant styling (reintroduced after cleanup)

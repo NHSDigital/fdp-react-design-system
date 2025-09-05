@@ -1,15 +1,16 @@
 // PRUNE: KEEP_ALL (Expanded Header stories for variant coverage & documentation)
-import type { Meta, StoryObj } from '@storybook/react';
-import { Header } from './Header';
+import type { Meta, StoryObj } from "@storybook/react";
+import { Header } from "./Header";
+import { Heading } from "../..";
 
 const meta: Meta<typeof Header> = {
-  title: 'NHS/Components/Header',
-  component: Header,
-  parameters: {
-    layout: 'fullscreen',
-    docs: {
-      description: {
-        component: `
+	title: "NHS/Components/Header",
+	component: Header,
+	parameters: {
+		layout: "fullscreen",
+		docs: {
+			description: {
+				component: `
 The Header component provides navigation and branding for NHS services. It includes support for logos, service names, search functionality, account navigation, and main navigation.
 
 ## Features
@@ -34,21 +35,21 @@ The Header component provides navigation and branding for NHS services. It inclu
 - Keyboard accessible menu toggle
 - Screen reader friendly hidden labels
 - Focus indicators for all interactive elements
-        `
-      }
-    }
-  },
-  argTypes: {
-    variant: {
-      control: 'select',
-      options: ['default', 'white', 'organisation'],
-      description: 'Header color variant'
-    },
-    className: {
-      control: 'text',
-      description: 'Additional CSS classes'
-    }
-  }
+        `,
+			},
+		},
+	},
+	argTypes: {
+		variant: {
+			control: "select",
+			options: ["default", "white", "organisation"],
+			description: "Header color variant",
+		},
+		className: {
+			control: "text",
+			description: "Additional CSS classes",
+		},
+	},
 };
 
 export default meta;
@@ -56,83 +57,154 @@ type Story = StoryObj<typeof Header>;
 
 // Base navigation + service used across examples
 const baseArgs = {
-  service: { text: 'NHS Service', href: '/' },
-  navigation: {
-    items: [
-      { href: '#', text: 'Home', current: true },
-      { href: '#', text: 'Services' },
-      { href: '#', text: 'Guidance' },
-      { href: '#', text: 'Resources' },
-      { href: '#', text: 'About' }
-    ]
-  }
+	service: { text: "NHS Service", href: "/" },
+	navigation: {
+		items: [
+			{ href: "#", text: "Home", current: true },
+			{ href: "#", text: "Services" },
+			{ href: "#", text: "Guidance" },
+			{ href: "#", text: "Resources" },
+			{ href: "#", text: "About" },
+		],
+	},
 };
 
 export const Default: Story = {
-  args: { ...baseArgs },
-  parameters: { docs: { description: { story: 'Default header with core NHS styling.' } } }
+	args: { ...baseArgs },
+	parameters: {
+		docs: { description: { story: "Default header with core NHS styling." } },
+	},
 };
 
 export const WhiteVariant: Story = {
-  args: { ...baseArgs, variant: 'white' },
-  parameters: { docs: { description: { story: 'White variant for coloured / dark backgrounds.' } } }
+	args: { ...baseArgs, variant: "white" },
+	parameters: {
+		docs: {
+			description: { story: "White variant for coloured / dark backgrounds." },
+		},
+	},
 };
 
 export const OrganisationVariant: Story = {
-  args: { ...baseArgs, variant: 'organisation' },
-  parameters: { docs: { description: { story: 'Organisation variant (Trust / Hospital branding contexts).' } } }
+	args: { ...baseArgs, variant: "organisation" },
+	parameters: {
+		docs: {
+			description: {
+				story: "Organisation variant (Trust / Hospital branding contexts).",
+			},
+		},
+	},
 };
 
 export const WithSearch: Story = {
-  args: { ...baseArgs, search: { action: '/search', placeholder: 'Search the NHS site' } },
-  parameters: { docs: { description: { story: 'Header including search form integration.' } } }
+	args: {
+		...baseArgs,
+		search: { action: "/search", placeholder: "Search the NHS site" },
+	},
+	parameters: {
+		docs: {
+			description: { story: "Header including search form integration." },
+		},
+	},
 };
 
 export const WithAccountMenu: Story = {
-  args: { ...baseArgs, account: { items: [ { href: '/profile', text: 'Your profile', icon: true }, { action: '/logout', method: 'post', text: 'Sign out' } ] } },
-  parameters: { docs: { description: { story: 'Header with authenticated account navigation.' } } }
+	args: {
+		...baseArgs,
+		account: {
+			items: [
+				{ href: "/profile", text: "Your profile", icon: true },
+				{ action: "/logout", method: "post", text: "Sign out" },
+			],
+		},
+	},
+	parameters: {
+		docs: {
+			description: { story: "Header with authenticated account navigation." },
+		},
+	},
 };
 
 export const WithLongNavigationOverflow: Story = {
-  args: {
-    ...baseArgs,
-    navigation: {
-      items: [
-        { href: '#', text: 'Home', current: true },
-        { href: '#', text: 'Appointments' },
-        { href: '#', text: 'Test results' },
-        { href: '#', text: 'Medicines' },
-        { href: '#', text: 'Messages' },
-        { href: '#', text: 'Conditions' },
-        { href: '#', text: 'Settings' },
-        { href: '#', text: 'Support' }
-      ]
-    }
-  },
-  parameters: { docs: { description: { story: 'Demonstrates overflow handling when navigation items exceed width.' } } }
+	args: {
+		...baseArgs,
+		navigation: {
+			items: [
+				{ href: "#", text: "Home", current: true },
+				{ href: "#", text: "Appointments" },
+				{ href: "#", text: "Test results" },
+				{ href: "#", text: "Medicines" },
+				{ href: "#", text: "Messages" },
+				{ href: "#", text: "Conditions" },
+				{ href: "#", text: "Settings" },
+				{ href: "#", text: "Support" },
+			],
+		},
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					"Demonstrates overflow handling when navigation items exceed width.",
+			},
+		},
+	},
 };
 
 export const WithEverything: Story = {
-  args: {
-    ...baseArgs,
-    variant: 'organisation',
-    search: { action: '/search', placeholder: 'Search services' },
-    account: { items: [ { href: '/profile', text: 'Jane Doe', icon: true }, { href: '/settings', text: 'Settings' }, { action: '/logout', method: 'post', text: 'Sign out' } ] }
-  },
-  parameters: { docs: { description: { story: 'Organisation variant with search and account menu combined.' } } }
+	args: {
+		...baseArgs,
+		variant: "organisation",
+		search: { action: "/search", placeholder: "Search services" },
+		account: {
+			items: [
+				{ href: "/profile", text: "Jane Doe", icon: true },
+				{ href: "/settings", text: "Settings" },
+				{ action: "/logout", method: "post", text: "Sign out" },
+			],
+		},
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: "Organisation variant with search and account menu combined.",
+			},
+		},
+	},
 };
 
 export const Gallery: Story = {
-  parameters: { docs: { disable: true } },
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      <div><strong>Default</strong><Header {...(Default.args as any)} /></div>
-      <div style={{ background: '#005eb8', padding: '8px' }}><strong style={{ color: 'white' }}>White</strong><Header {...(WhiteVariant.args as any)} /></div>
-      <div><strong>Organisation</strong><Header {...(OrganisationVariant.args as any)} /></div>
-      <div><strong>With Search</strong><Header {...(WithSearch.args as any)} /></div>
-      <div><strong>With Account</strong><Header {...(WithAccountMenu.args as any)} /></div>
-      <div><strong>Overflow</strong><Header {...(WithLongNavigationOverflow.args as any)} /></div>
-      <div><strong>Everything</strong><Header {...(WithEverything.args as any)} /></div>
-    </div>
-  )
+	parameters: { docs: { disable: true } },
+	render: () => (
+		<div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+			<div>
+				<Heading level={3}>Default</Heading>
+				<Header {...(Default.args as any)} />
+			</div>
+			<div style={{ background: "#005eb8", padding: "8px" }}>
+				<Heading level={3} style={{ color: "white" }}>White</Heading>
+				<Header {...(WhiteVariant.args as any)} />
+			</div>
+			<div>
+				<Heading level={3}>Organisation</Heading>
+				<Header {...(OrganisationVariant.args as any)} />
+			</div>
+			<div>
+				<Heading level={3}>With Search</Heading>
+				<Header {...(WithSearch.args as any)} />
+			</div>
+			<div>
+				<Heading level={3}>With Account</Heading>
+				<Header {...(WithAccountMenu.args as any)} />
+			</div>
+			<div>
+				<Heading level={3}>Overflow</Heading>
+				<Header {...(WithLongNavigationOverflow.args as any)} />
+			</div>
+			<div>
+				<Heading level={3}>Everything</Heading>
+				<Header {...(WithEverything.args as any)} />
+			</div>
+		</div>
+	),
 };

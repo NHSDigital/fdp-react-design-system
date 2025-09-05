@@ -91,8 +91,13 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	position: relative;
 
 	&__container {
+		// Use padding for internal horizontal spacing so centering via auto margins is effective
 		padding-top: tokens.$nhs-fdp-spacing-4;
-		margin: 0 tokens.$nhs-fdp-spacing-2;
+		padding-left: tokens.$nhs-fdp-spacing-2;
+		padding-right: tokens.$nhs-fdp-spacing-2;
+		margin-left: auto; // allow centering when width constrained
+		margin-right: auto;
+		max-width: 1200px; // always cap width; matches design cap
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -101,10 +106,17 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 
 		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
 			padding-bottom: $header-vertical-pad-tablet; // match larger top padding at tablet+
-			margin: 0 tokens.$nhs-fdp-spacing-7;
+			padding-left: tokens.$nhs-fdp-spacing-7; // maintain previous visual inset
+			padding-right: tokens.$nhs-fdp-spacing-7;
 			gap: tokens.$nhs-fdp-spacing-4;
 		}
 	}
+
+	// Optional width-constrained + centred container.
+	// Usage: supply containerClasses="nhsuk-width-container" (already supported) – this override ensures
+	// the header content is capped at 1200px and horizontally centred while preserving existing
+	// horizontal spacing via internal padding (rather than asymmetric outer margins that block centring).
+	&__container.nhsuk-width-container { max-width: 1200px; }
 
 	// Navigation container - hierarchical structure
 	&__navigation-container {
@@ -115,9 +127,22 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		// preceding header content). Inset ensures consistent visibility.
 		box-shadow: inset 0 0.25px 0 0 tokens.$nhs-fdp-border-color-default;
 
+		// Optional vertical padding modifier. DOES NOT apply by default so existing layouts remain unchanged.
+		// Apply by adding class 'nhsuk-header__navigation-container--padded' alongside containerClasses prop.
+		// Safe because we require the base class + modifier in the selector (the modifier alone has no effect
+		// when inadvertently added to other header containers).
+		&.nhsuk-header__navigation-container--padded {
+			padding-top: $header-vertical-pad-mobile;
+			padding-bottom: $header-vertical-pad-mobile;
+			@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+				padding-top: $header-vertical-pad-tablet;
+				padding-bottom: $header-vertical-pad-tablet;
+			}
+		}
+		padding: tokens.$nhs-fdp-spacing-3 0;
+
 		// Prevent layout shift during initialization with subtle opacity transition
 		&--initializing {
-			opacity: 0.3;
 			transition: opacity #{tokens.$nhs-fdp-animation-duration-fast} ease-in-out;
 		}
 

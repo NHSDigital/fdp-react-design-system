@@ -170,9 +170,7 @@ export const LineSeriesPrimitive: React.FC<LineSeriesPrimitiveProps> = ({
 							cy={cy}
 							r={isFocusedPoint ? 5 : 3.5}
 							stroke={
-								isFocusedPoint
-									? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)"
-									: stroke
+								isFocusedPoint ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : stroke
 							}
 							strokeWidth={isFocusedPoint ? 2 : 1}
 							fill={

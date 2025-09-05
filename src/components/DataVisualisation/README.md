@@ -1,194 +1,235 @@
-# DataVisualisation (MVP)
+# Data Visualisation Primitives & Composition
 
-Initial MVP primitives & LineChart using D3 scales and path generation.
+This module provides both higher‑level chart components (e.g. `LineChart`, `SPCChart`) and a **fully composable primitive layer** so consumers can assemble bespoke charts without forking internals.
 
-## Components
+## At a Glance
 
-- `LineSeriesPrimitive` – low-level line renderer (used in compositional charts)
-- `Axis` / `GridLines` – primitives for building custom chart layouts
-- `VisibilityProvider` – context for managing hidden series state (consumed by `Legend` & primitives)
-- `Legend` – color swatches + (optional) interactive show/hide toggling
+- High‑level: `LineChart`, `ChartContainer`, `SPCChart`, `ChartWithTableTabs`, `FilterableLineChart`
+- Core layout: `ChartRoot`, `useChartContext`
+- Scale contexts: `LineScalesProvider`, `BandScalesProvider`, `useScaleContext`
+- Series primitives: `LineSeriesPrimitive`, `AreaSeriesPrimitive`, `BarSeriesPrimitive`
+- Structural primitives: `Axis`, `GridLines`, `Legend`, `TooltipOverlay`, `VisuallyHiddenLiveRegion`
+- Behaviour / state: `VisibilityProvider`, `useVisibility`, `TooltipProvider`, `useTooltipContext`
 
-## Roadmap
-- Patterns & high-contrast fills
+All are exported from the DataVisualisation barrel so you can import them together:
 
-## Usage
+```ts
+import {
+  ChartRoot,
+  useChartContext,
+  LineScalesProvider,
+  BandScalesProvider,
+  Axis,
+  GridLines,
+  Legend,
+  TooltipProvider,
+  TooltipOverlay,
+  LineSeriesPrimitive,
+  AreaSeriesPrimitive,
+  BarSeriesPrimitive,
+  VisibilityProvider,
+  useVisibility,
+  SPCChart,
+  SPC,              // namespace (engine, descriptors, icons)
+  ChartNoScript,
+  ChartEnhancer,
+  MetricCard
+} from '@fergusbisset/nhs-fdp-design-system';
+```
+
+> Tree‑shaking: Only the primitives you import are pulled into your bundle when using a modern bundler (ESM build).
+
+---
+ 
+## Quick Start (High‑Level)
 
 ```tsx
 <ChartContainer title="Daily admissions" description="14 day rolling" source="Example data">
-  <LineChart series={[{ id:'admissions', data: dataArray }]} yLabel="Count" />
+  <LineChart series={[{ id: 'admissions', data }]} yLabel="Count" />
 </ChartContainer>
+```
 
-## Compositional Pattern
+---
+ 
+## Composing Your Own Chart
 
-For advanced layouts you can compose primitives directly instead of using the higher-level `LineChart`.
+Below is a minimal **custom line chart** using primitives (no `LineChart` wrapper):
 
 ```tsx
+const series = [
+  { id: 'a', data: dataA },
+  { id: 'b', data: dataB }
+];
+
 <VisibilityProvider>
   <ChartRoot height={320} margin={{ left: 56, bottom: 48, right: 16, top: 12 }} ariaLabel="Admissions over time">
-    <LineScalesProvider series={series}> {/* provides x/y scales & ticks */}
+    <LineScalesProvider series={series}>
       <svg width="100%" height="100%">
         <g transform={`translate(56,12)`}>
           <Axis type="x" autoMinLabelSpacing tickFormatPreset="dayShortMonth" labelAngle={-35} />
           <Axis type="y" label="Admissions" />
           <GridLines axis="y" />
-          # DataVisualisation (MVP)
+          {series.map((s, i) => (
+            <LineSeriesPrimitive
+              key={s.id}
+              series={s}
+              seriesIndex={i}
+              palette="categorical"
+              showPoints
+              focusablePoints
+              parseX={d => d.x instanceof Date ? d.x : new Date(d.x)}
+            />
+          ))}
+        </g>
+      </svg>
+    </LineScalesProvider>
+  </ChartRoot>
+  <Legend items={series.map(s => ({ id: s.id, label: s.id }))} />
+</VisibilityProvider>
+```
 
-          Initial MVP primitives & LineChart using D3 scales and path generation.
+### Stacked Bars (Absolute)
 
-          ## Components
+```tsx
+const categories = ['Alpha','Bravo','Charlie'];
+const raw = [0,1,2].map(i => ({
+  id: `s${i+1}`,
+  data: categories.map(c => ({ x: c, y: Math.round(5 + Math.random()*30) }))
+}));
+const stacked = stackSeries(raw as any); // helper provided in utils/stack
 
-          - `ChartContainer` – semantic wrapper with figure/figcaption & table toggle
-          - `LineChart` – multi-series line with focusable points for keyboard nav
-          - `LineSeriesPrimitive` – low-level line renderer (used in compositional charts)
-          - `Axis` / `GridLines` – primitives for building custom chart layouts
-          - `VisibilityProvider` – context for managing hidden series state (consumed by `Legend` & primitives)
-          - `Legend` – color swatches + (optional) interactive show/hide toggling
+<ChartRoot width={640} height={300} margin={{ left:56, bottom:48, right:16, top:12 }} ariaLabel="Stacked bar chart">
+  <BandScalesProvider
+    series={stacked.map(s => ({ data: s.stacked.map(d => ({ x: d.x, y: d.y1 })) })) as any}
+  >
+    <TooltipProvider>
+      <svg width="100%" height="100%">
+        <g transform={`translate(56,12)`}>
+          <GridLines axis="y" />
+          {stacked.map((s,i) => (
+            <BarSeriesPrimitive
+              key={s.id}
+              series={{ id: s.id, data: s.stacked.map(d => ({ x: d.x, y: d.y1 - d.y0 })) }}
+              stacked={s.stacked.map(d => ({ y0: d.y0, y1: d.y1 }))}
+              seriesIndex={i}
+              seriesCount={1}
+              palette="categorical"
+              parseX={d => d.x}
+            />
+          ))}
+          <Axis type="y" />
+          <Axis type="x" />
+        </g>
+      </svg>
+      <Legend items={stacked.map(s => ({ id: s.id, label: s.id }))} />
+      <VisuallyHiddenLiveRegion />
+    </TooltipProvider>
+  </BandScalesProvider>
+</ChartRoot>
+```
 
-          ## Roadmap
+ 
+ 
+### Scrollable Continuous Bars
 
-          - Tooltip (hover + focus)
-          - Legend (series toggle + color swatches)
-          - Area / Bar / Scatter / Choropleth
-          - Accessibility announcements (live region)
-          - Export (CSV / PNG)
-          - Patterns & high-contrast fills
+See `BarChart.stories.tsx` (export `ContinuousManyBarsScrollable`) for a wide time‑series bar configuration using `LineScalesProvider` + `computeContinuousBarChartTotalWidth`.
 
-          ## Usage
+---
+ 
+## Hook & Context Reference
 
-          ```tsx
-          <ChartContainer title="Daily admissions" description="14 day rolling" source="Example data">
-            <LineChart series={[{ id: 'admissions', data: dataArray }]} yLabel="Count" />
-          </ChartContainer>
-          ```
+| Hook | Purpose |
+|------|---------|
+| `useChartContext` | Layout dimensions (inner width/height, margins) prepared by `ChartRoot` |
+| `useScaleContext` | Access x/y scales & ticks from scales providers |
+| `useVisibility` | Read / toggle hidden series state |
+| `useTooltipContext` | Access current tooltip datum (when using `TooltipProvider`) |
 
-          ## Compositional Pattern
+---
+ 
+## Visibility Model
 
-          For advanced layouts you can compose primitives directly instead of using the higher-level `LineChart`.
+Provided by `VisibilityProvider` and automatically consumed by primitives & `Legend`.
 
-          ```tsx
-          <VisibilityProvider>
-            <ChartRoot height={320} margin={{ left: 56, bottom: 48, right: 16, top: 12 }} ariaLabel="Admissions over time">
-              <LineScalesProvider series={series}> {/* provides x/y scales & ticks */}
-                <svg width="100%" height="100%">
-                  <g transform={`translate(56,12)`}>
-                    <Axis type="x" autoMinLabelSpacing tickFormatPreset="dayShortMonth" labelAngle={-35} />
-                    <Axis type="y" label="Admissions" />
-                    <GridLines axis="y" />
-                    {series.map((s, i) => (
-                      <LineSeriesPrimitive
-                        key={s.id}
-                        series={s}
-                        seriesIndex={i}
-                        palette="categorical"
-                        showPoints
-                        focusablePoints
-                        focusIndex={-1}
-                        parseX={d => d.x instanceof Date ? d.x : new Date(d.x)}
-                      />
-                    ))}
-                  </g>
-                </svg>
-              </LineScalesProvider>
-            </ChartRoot>
-            <Legend items={series.map(s => ({ id: s.id, label: s.label || s.id }))} />
-          </VisibilityProvider>
-          ```
+Hidden IDs are stored internally (uncontrolled) unless you supply `hiddenIds` + `onChange` for a controlled pattern.
 
-          ### Visibility Model
+Legend behaviour:
+ 
+1. `interactive` prop forces interactive mode.
+2. If a provider is present and no explicit visibility props are passed, it becomes interactive automatically.
+3. Otherwise it renders static labels.
 
-          The `VisibilityProvider` supplies a context consumed automatically by:
+Hidden series are currently removed from the DOM. (Future enhancement: optional faded rendering.)
 
-          - `LineSeriesPrimitive` (series skipped entirely when hidden)
-          - `Legend` (becomes interactive without passing `interactive` when a provider is present and no explicit control props are supplied)
+---
+ 
+## Axis Overlap Strategies
 
-          Hidden state semantics:
+Combine these props as needed:
+ 
+- `autoMinLabelSpacing`
+- `labelAngle`
+- `allowLabelWrap`
+- `maxTickLabelLength`
+- `tickFormatPreset`
 
-          | Action | Result |
-          |--------|--------|
-          | User clicks legend swatch | `toggle(id)` invoked → series removed/returned |
-          | `showAll()` | Clears hidden set |
-          | `showOnly(id)` (future) | Will hide all other series (currently behaves like `showAll`) |
+---
+ 
+## Accessibility
 
-          #### Controlled vs Uncontrolled
+- Always set an informative `ariaLabel` on `ChartRoot`.
+- `VisuallyHiddenLiveRegion` announces dynamic changes (legend toggles, future tooltip updates).
+- Focusable points (`focusablePoints` on `LineSeriesPrimitive`) enable keyboard data exploration.
+- `ChartNoScript` can be co‑located to provide a static fallback representation.
 
-          You can manage hidden ids externally:
+---
+ 
+## API Snapshot (Selected Props)
 
-          ```tsx
-          const [hidden, setHidden] = useState<string[]>([]);
-          <VisibilityProvider hiddenIds={hidden} onChange={setHidden}>
-            {/* children */}
-          </VisibilityProvider>
-          ```
+| Component | Key Props | Notes |
+|-----------|-----------|-------|
+| `ChartRoot` | `height`, `margin`, `width`, `ariaLabel` | Provides layout + context |
+| `LineScalesProvider` | `series`, `parseX?`, `yDomain?` | Time/continuous / numeric domains |
+| `BandScalesProvider` | `series`, `bandPadding?` | Categorical / grouped bars |
+| `LineSeriesPrimitive` | `series`, `palette`, `showPoints`, `focusablePoints`, `parseX` | Low‑level line rendering |
+| `BarSeriesPrimitive` | `series`, `seriesIndex`, `seriesCount`, `stacked?`, `groupGap?` | Grouped or stacked bars |
+| `AreaSeriesPrimitive` | Same shape as line plus `baseline?` | Area under line |
+| `Axis` | `type`, `formatTick?`, `tickValues?`, `autoMinLabelSpacing?` | Shared x/y axis component |
+| `GridLines` | `axis` | Horizontal or vertical grid lines |
+| `Legend` | `items`, visibility props | Integrates with `VisibilityProvider` |
+| `VisibilityProvider` | `hiddenIds?`, `onChange?`, `initialHiddenIds?` | Series visibility state |
+| `TooltipProvider` | children | Context for future pointer/focus tooltips |
+| `TooltipOverlay` | (no props) | Absolute overlay inside `ChartRoot` |
 
-          Or rely on the internal set via `initialHiddenIds`.
+---
+ 
+## Migration Notes
 
-          ### Legend Integration Rules
+If you rolled your own visibility toggling previously:
+ 
+1. Wrap chart + legend with `VisibilityProvider`.
+2. Remove manual filtering; pass full series list to scales provider.
+3. (Optional) implement controlled mode via `hiddenIds` + `onChange`.
 
-          Legend decides its interaction mode as follows:
+---
+ 
+## Examples in Repo
 
-          1. If `interactive` is true → it manages visibility internally (or controlled via `hiddenIds` / `onVisibilityChange`).
-          2. Else, if a `VisibilityProvider` is present and no `hiddenIds` / `onVisibilityChange` props are provided → it delegates to visibility context (zero config).
-          3. Otherwise, it renders a static legend.
+| File | Demonstrates |
+|------|--------------|
+| `CompositionalLineChart.stories.tsx` | Multi‑series line composition |
+| `BarChart.stories.tsx` | Stacked, percent, grouped & scrollable bars |
+| `SPCChart` + `SPC` namespace | Statistical process control primitives |
 
-          ### Styling Hidden Series
+---
+ 
+## Roadmap (Next Iterations)
 
-          Currently hidden series are fully removed from the DOM (simpler scales, no ghost strokes). If a faded style is preferred, update `LineSeriesPrimitive` to render with reduced opacity instead of returning `null` when hidden.
+- Shared tooltip interactions (pointer + keyboard parity)
+- Live announcements of focused datum
+- Optional fade for hidden series instead of removal
+- Export utilities (CSV / PNG)
+- Pattern fills & high‑contrast accessibility themes
 
-          ### Axis Overlap Strategies
-
-          The `Axis` primitive offers several props to mitigate label collisions:
-
-          - `autoMinLabelSpacing` – heuristic tick thinning based on pixel distance.
-          - `labelAngle={-35}` – rotate labels for dense time series.
-          - `maxTickLabelLength` – truncate with ellipsis (full text in `<title>` if added upstream).
-          - `allowLabelWrap` – enable multi-line tick labels (splits on whitespace / hyphen heuristics).
-          - `tickFormatPreset` – date formatting presets (e.g. `dayShortMonth`).
-
-          Combine these as needed for clarity.
-
-          ### Accessibility Notes
-
-          - Legend provides an aria-live region announcing visibility changes when interactive.
-          - Points rendered by `LineSeriesPrimitive` are focusable (`focusablePoints`) enabling keyboard exploration (future: shared tooltip / data summary on focus).
-          - Provide `ariaLabel` on `ChartRoot` for assistive context.
-
-          ### Planned (Roadmap Alignment)
-
-          - TooltipContext (shared focused datum, pointer + keyboard parity)
-          - Announced summary of the currently focused point / nearest datum
-          - `showOnly(id)` full implementation once a registry of series ids is centralised
-          - Optional fade instead of removal for hidden series
-
-          ---
-
-          ## API Reference (Key Props)
-
-          | Component | Prop | Type | Description |
-          |-----------|------|------|-------------|
-          | `VisibilityProvider` | `initialHiddenIds` | `string[]` | Start hidden set (uncontrolled) |
-          | `VisibilityProvider` | `hiddenIds` | `string[]` | Controlled hidden ids |
-          | `VisibilityProvider` | `onChange` | `(hidden: string[]) => void` | Controlled change callback |
-          | `Legend` | `items` | `LegendItem[]` | Swatch definitions (id + label + optional colour) |
-          | `Legend` | `interactive` | `boolean` | Force internal interactive mode |
-          | `Legend` | `hiddenIds/onVisibilityChange` | - | Controlled interactive legend |
-          | `LineSeriesPrimitive` | `series` | `{ id; data; }` | Data points (x numeric/date/string convertible to Date, y number) |
-          | `LineSeriesPrimitive` | `palette` | `'categorical' \| 'region'` | Colour strategy |
-          | `Axis` | `type` | `'x' \| 'y'` | Axis orientation |
-          | `Axis` | `autoMinLabelSpacing` | `boolean` | Heuristic tick thinning |
-          | `Axis` | `labelAngle` | `number` | Rotate labels (deg) |
-          | `Axis` | `tickFormatPreset` | preset key | Built-in date formatting |
-
-          ---
-
-          ## Migration Notes
-
-          If you previously maintained series visibility state manually in a story/component:
-
-          1. Wrap chart+legend in `<VisibilityProvider>`.
-          2. Remove custom toggle handlers & hidden filtering logic.
-          3. Pass the full series array to `LineScalesProvider` (hidden series are skipped before render; if domain exclusion is required, supply only visible series to the provider instead). Future enhancement may offer automatic domain recalculation excluding hidden series via an option.
-
-          ## Examples
-
-          See `CompositionalLineChart.stories.tsx` for a full composition using visibility context.
+---
+Have a composition requirement not covered here? Raise an issue or PR with the desired primitive behaviour.

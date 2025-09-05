@@ -13,6 +13,10 @@ var __require = /* @__PURE__ */ ((x2) => typeof require !== "undefined" ? requir
 var __commonJS = (cb, mod) => function __require2() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
@@ -6051,14 +6055,33 @@ var MetricCard = ({
 };
 var MetricCard_default = MetricCard;
 
-// src/components/DataVisualisation/charts/SPCChart/SPCChart.tsx
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
 import * as React24 from "react";
 
-// src/components/DataVisualisation/charts/SPCChart/SPCTooltipOverlay.tsx
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
 import * as React22 from "react";
 import { createPortal } from "react-dom";
 
-// src/components/DataVisualisation/charts/SPCChart/logic/spc.ts
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc.ts
+var ImprovementDirection = /* @__PURE__ */ ((ImprovementDirection2) => {
+  ImprovementDirection2["Up"] = "Up";
+  ImprovementDirection2["Down"] = "Down";
+  ImprovementDirection2["Neither"] = "Neither";
+  return ImprovementDirection2;
+})(ImprovementDirection || {});
+var VariationIcon = /* @__PURE__ */ ((VariationIcon2) => {
+  VariationIcon2["Improvement"] = "improvement";
+  VariationIcon2["Concern"] = "concern";
+  VariationIcon2["Neither"] = "neither";
+  VariationIcon2["None"] = "none";
+  return VariationIcon2;
+})(VariationIcon || {});
+var AssuranceIcon = /* @__PURE__ */ ((AssuranceIcon2) => {
+  AssuranceIcon2["Pass"] = "pass";
+  AssuranceIcon2["Fail"] = "fail";
+  AssuranceIcon2["None"] = "none";
+  return AssuranceIcon2;
+})(AssuranceIcon || {});
 var isNumber = (v) => typeof v === "number" && Number.isFinite(v);
 var sum = (arr) => arr.reduce((a, b) => a + b, 0);
 var mean = (arr) => arr.length ? sum(arr) / arr.length : NaN;
@@ -6849,7 +6872,7 @@ function buildSpc(args) {
   return { rows: output, warnings, ...suggestedBaselines ? { suggestedBaselines } : {} };
 }
 
-// src/components/DataVisualisation/charts/SPCChart/logic/spcDescriptors.ts
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcDescriptors.ts
 var ruleGlossary = {
   singlePointAbove: {
     tooltip: "Single point above upper control limit",
@@ -6951,6 +6974,11 @@ function getVariationColorToken(icon) {
   if (!icon) return VARIATION_COLOR_TOKENS.neither.token;
   return (_b2 = (_a2 = VARIATION_COLOR_TOKENS[icon]) == null ? void 0 : _a2.token) != null ? _b2 : VARIATION_COLOR_TOKENS.neither.token;
 }
+function getVariationColorHex(icon) {
+  var _a2, _b2;
+  if (!icon) return VARIATION_COLOR_TOKENS.neither.hex;
+  return (_b2 = (_a2 = VARIATION_COLOR_TOKENS[icon]) == null ? void 0 : _a2.hex) != null ? _b2 : VARIATION_COLOR_TOKENS.neither.hex;
+}
 
 // src/mapping/tag.ts
 function mapTagProps(input) {
@@ -7005,7 +7033,7 @@ var Tag = ({
   ] });
 };
 
-// src/components/DataVisualisation/charts/SPCChart/SPCTooltipOverlay.tsx
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
 import { jsx as jsx27, jsxs as jsxs18 } from "react/jsx-runtime";
 var SPCTooltipOverlay = ({
   engineRows,
@@ -7280,10 +7308,10 @@ var SPCTooltipOverlay = ({
 };
 var SPCTooltipOverlay_default = SPCTooltipOverlay;
 
-// src/components/DataVisualisation/charts/SPCIcons/SPCIcon.tsx
+// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
 import { useId as useId6, useMemo as useMemo12 } from "react";
 
-// src/components/DataVisualisation/charts/SPCIcons/tokenUtils.ts
+// src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts
 var spcTokenRoot = null;
 var _a, _b;
 try {
@@ -7307,15 +7335,31 @@ var tokenColour = (key, fallback) => {
   return fallback;
 };
 var getGradientOpacities = () => ({
-  start: tokenColour("gradient.stop.start-opacity", "0.18"),
-  mid: tokenColour("gradient.stop.mid-opacity", "0.06"),
+  // Lightened defaults (previous 0.18 -> 0.12, 0.06 -> 0.03) to reduce intensity of wash.
+  start: tokenColour("gradient.stop.start-opacity", "0.12"),
+  mid: tokenColour("gradient.stop.mid-opacity", "0.03"),
   end: tokenColour("gradient.stop.end-opacity", "0"),
-  triStart: tokenColour("gradient.stop.triangle-start-opacity", tokenColour("gradient.stop.start-opacity", "0.18")),
-  triMid: tokenColour("gradient.stop.triangle-mid-opacity", tokenColour("gradient.stop.mid-opacity", "0.06")),
-  triEnd: tokenColour("gradient.stop.triangle-end-opacity", tokenColour("gradient.stop.end-opacity", "0"))
+  triStart: tokenColour(
+    "gradient.stop.triangle-start-opacity",
+    tokenColour("gradient.stop.start-opacity", "0.12")
+  ),
+  triMid: tokenColour(
+    "gradient.stop.triangle-mid-opacity",
+    tokenColour("gradient.stop.mid-opacity", "0.03")
+  ),
+  triEnd: tokenColour(
+    "gradient.stop.triangle-end-opacity",
+    tokenColour("gradient.stop.end-opacity", "0")
+  )
 });
 
-// src/components/DataVisualisation/charts/SPCIcons/SPCConstants.ts
+// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCConstants.ts
+var AssuranceResult = /* @__PURE__ */ ((AssuranceResult2) => {
+  AssuranceResult2["Pass"] = "pass";
+  AssuranceResult2["Fail"] = "fail";
+  AssuranceResult2["Uncertain"] = "uncertain";
+  return AssuranceResult2;
+})(AssuranceResult || {});
 var DEFAULT_COLOURS = {
   ["pass" /* Pass */]: "#00B0F0",
   // blue
@@ -7329,6 +7373,31 @@ var DEFAULT_LETTERS = {
   ["fail" /* Fail */]: "F",
   ["uncertain" /* Uncertain */]: "?"
 };
+var MetricPolarity = /* @__PURE__ */ ((MetricPolarity2) => {
+  MetricPolarity2["HigherIsBetter"] = "higher_is_better";
+  MetricPolarity2["LowerIsBetter"] = "lower_is_better";
+  MetricPolarity2["ContextDependent"] = "context_dependent";
+  return MetricPolarity2;
+})(MetricPolarity || {});
+var Direction = /* @__PURE__ */ ((Direction2) => {
+  Direction2["Higher"] = "higher";
+  Direction2["Lower"] = "lower";
+  return Direction2;
+})(Direction || {});
+var VariationJudgement = /* @__PURE__ */ ((VariationJudgement2) => {
+  VariationJudgement2["Improving"] = "improving";
+  VariationJudgement2["Deteriorating"] = "deteriorating";
+  VariationJudgement2["No_Judgement"] = "no_judgement";
+  VariationJudgement2["None"] = "none";
+  return VariationJudgement2;
+})(VariationJudgement || {});
+var VariationState = /* @__PURE__ */ ((VariationState2) => {
+  VariationState2["SpecialCauseImproving"] = "special_cause_improving";
+  VariationState2["SpecialCauseDeteriorating"] = "special_cause_deteriorating";
+  VariationState2["CommonCause"] = "common_cause";
+  VariationState2["SpecialCauseNoJudgement"] = "special_cause_no_judgement";
+  return VariationState2;
+})(VariationState || {});
 var pickTextColour = (hex2) => {
   const c = hex2.replace("#", "");
   const r2 = parseInt(c.slice(0, 2), 16) / 255;
@@ -7401,50 +7470,10 @@ function computePointPositions(state, direction) {
   return src.map((p) => ({ ...p }));
 }
 
-// src/components/DataVisualisation/charts/SPCIcons/SPCIcon.tsx
+// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
 import { Fragment as Fragment3, jsx as jsx28, jsxs as jsxs19 } from "react/jsx-runtime";
-var pickTextColour2 = (hex2) => {
-  const c = hex2.replace("#", "");
-  const r2 = parseInt(c.slice(0, 2), 16) / 255;
-  const g = parseInt(c.slice(2, 4), 16) / 255;
-  const b = parseInt(c.slice(4, 6), 16) / 255;
-  const srgb = [r2, g, b].map(
-    (v) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
-  );
-  const L = 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
-  return L < 0.55 ? "#ffffff" : "#212b32";
-};
-var VARIATION_COLOURS2 = {
-  ["special_cause_deteriorating" /* SpecialCauseDeteriorating */]: {
-    hex: tokenColour("concern", "#E46C0A"),
-    judgement: "deteriorating" /* Deteriorating */,
-    label: "Special Cause (Deteriorating)",
-    description: "Deteriorating variation detected (special cause) relative to baseline."
-  },
-  ["special_cause_improving" /* SpecialCauseImproving */]: {
-    hex: tokenColour("improvement", "#00B0F0"),
-    judgement: "improving" /* Improving */,
-    label: "Special Cause (Improving)",
-    description: "Improving variation detected (special cause) relative to baseline."
-  },
-  ["common_cause" /* CommonCause */]: {
-    hex: tokenColour("common-cause", "#A6A6A6"),
-    judgement: "none" /* None */,
-    label: "Common Cause",
-    description: "Common cause variation only \u2013 no special cause detected."
-  },
-  ["special_cause_no_judgement" /* SpecialCauseNoJudgement */]: {
-    hex: tokenColour("no-judgement", "#490092"),
-    judgement: "no_judgement" /* No_Judgement */,
-    label: "Special Cause (No Judgement)",
-    description: "Special cause detected without assigning improving/deteriorating judgement."
-  }
-};
-Object.values(VARIATION_COLOURS2).forEach((def) => {
-  if (!def.text) def.text = pickTextColour2(def.hex);
-});
 var resolveStateAndLayout = (input) => {
-  var _a2, _b2, _c, _d, _e, _f;
+  var _a2, _b2, _c;
   if (input.variationIcon !== void 0) {
     const eng = input;
     const mapping = {
@@ -7454,16 +7483,45 @@ var resolveStateAndLayout = (input) => {
       ["none" /* None */]: "special_cause_no_judgement" /* SpecialCauseNoJudgement */
     };
     const state2 = mapping[eng.variationIcon];
-    const direction2 = (_a2 = eng.trend) != null ? _a2 : state2 === "special_cause_improving" /* SpecialCauseImproving */ ? "higher" /* Higher */ : state2 === "special_cause_deteriorating" /* SpecialCauseDeteriorating */ ? "lower" /* Lower */ : "higher" /* Higher */;
-    return { state: state2, direction: direction2, polarity: (_b2 = eng.polarity) != null ? _b2 : "context_dependent" /* ContextDependent */ };
+    let direction2 = eng.trend;
+    if (!direction2 && eng.polarity && (state2 === "special_cause_improving" /* SpecialCauseImproving */ || state2 === "special_cause_deteriorating" /* SpecialCauseDeteriorating */)) {
+      if (state2 === "special_cause_improving" /* SpecialCauseImproving */) {
+        direction2 = eng.polarity === "lower_is_better" /* LowerIsBetter */ ? "lower" /* Lower */ : "higher" /* Higher */;
+      } else {
+        direction2 = eng.polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
+      }
+    }
+    if (!direction2) {
+      direction2 = state2 === "special_cause_improving" /* SpecialCauseImproving */ ? "higher" /* Higher */ : state2 === "special_cause_deteriorating" /* SpecialCauseDeteriorating */ ? "lower" /* Lower */ : "higher" /* Higher */;
+    }
+    return {
+      state: state2,
+      direction: direction2,
+      polarity: (_a2 = eng.polarity) != null ? _a2 : "context_dependent" /* ContextDependent */
+    };
   }
   if (input.state !== void 0) {
     const v1 = input;
-    let inferred;
-    if (v1.state === "special_cause_improving" /* SpecialCauseImproving */) inferred = "higher" /* Higher */;
-    else if (v1.state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) inferred = "lower" /* Lower */;
-    const direction2 = (_d = (_c = v1.trend) != null ? _c : inferred) != null ? _d : "higher" /* Higher */;
-    return { state: v1.state, direction: direction2, polarity: (_e = v1.polarity) != null ? _e : "context_dependent" /* ContextDependent */ };
+    let direction2 = v1.trend;
+    if (!direction2 && (v1.state === "special_cause_improving" /* SpecialCauseImproving */ || v1.state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && v1.polarity) {
+      if (v1.state === "special_cause_improving" /* SpecialCauseImproving */) {
+        direction2 = v1.polarity === "lower_is_better" /* LowerIsBetter */ ? "lower" /* Lower */ : "higher" /* Higher */;
+      } else {
+        direction2 = v1.polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
+      }
+    }
+    if (!direction2) {
+      if (v1.state === "special_cause_improving" /* SpecialCauseImproving */)
+        direction2 = "higher" /* Higher */;
+      else if (v1.state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */)
+        direction2 = "lower" /* Lower */;
+      else direction2 = "higher" /* Higher */;
+    }
+    return {
+      state: v1.state,
+      direction: direction2,
+      polarity: (_b2 = v1.polarity) != null ? _b2 : "context_dependent" /* ContextDependent */
+    };
   }
   const v2 = input;
   const map2 = {
@@ -7479,7 +7537,7 @@ var resolveStateAndLayout = (input) => {
   } else if (v2.judgement === "deteriorating" /* Deteriorating */) {
     direction = v2.polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
   } else {
-    direction = (_f = v2.trend) != null ? _f : "higher" /* Higher */;
+    direction = (_c = v2.trend) != null ? _c : "higher" /* Higher */;
   }
   return { state, direction, polarity: v2.polarity };
 };
@@ -7522,7 +7580,25 @@ function deriveVariationAriaDescription(input, context) {
   ];
   return parts.filter(Boolean).join(" ");
 }
-var SpcVariationIcon = ({
+var buildDefs = (colourHex, shadowId, washId, dropShadow, gradientWash, stops) => /* @__PURE__ */ jsxs19("defs", { children: [
+  dropShadow && /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+    /* @__PURE__ */ jsx28("feGaussianBlur", { stdDeviation: "3" }),
+    /* @__PURE__ */ jsx28("feOffset", { dx: "0", dy: "15", result: "blur" }),
+    /* @__PURE__ */ jsx28("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
+    /* @__PURE__ */ jsx28("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+    /* @__PURE__ */ jsx28("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+  ] }),
+  gradientWash && /* @__PURE__ */ jsx28("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: stops.map((s) => /* @__PURE__ */ jsx28(
+    "stop",
+    {
+      offset: s.offset,
+      stopColor: colourHex,
+      stopOpacity: parseFloat(s.opacity)
+    },
+    s.offset
+  )) })
+] });
+var SPCVariationIcon = ({
   data,
   size = 44,
   ariaLabel,
@@ -7531,16 +7607,39 @@ var SpcVariationIcon = ({
   gradientWash = false,
   variant = "classic",
   runLength = 0,
+  // Default changed to 'polarity' so letters reflect desirable direction (H = Higher is better, L = Lower is better)
+  letterMode = "polarity",
+  letterOverride,
   ...rest
 }) => {
   const shadowId = useId6();
   const washId = useId6();
-  const { start: gradStart, mid: gradMid, end: gradEnd, triStart: triGradStart, triMid: triGradMid, triEnd: triGradEnd } = getGradientOpacities();
-  const { state, direction } = resolveStateAndLayout(data);
-  const colour = getVariationColour(state);
-  const judgement = getVariationTrend(state);
+  const {
+    start: gradStart,
+    mid: gradMid,
+    end: gradEnd,
+    triStart: triGradStart,
+    triMid: triGradMid,
+    triEnd: triGradEnd
+  } = getGradientOpacities();
+  const { state, direction, polarity } = useMemo12(
+    () => resolveStateAndLayout(data),
+    [data]
+  );
+  const colour = useMemo12(() => getVariationColour(state), [state]);
+  const judgement = useMemo12(() => getVariationTrend(state), [state]);
   const showLetterForJudgement = judgement === "improving" /* Improving */ || judgement === "deteriorating" /* Deteriorating */;
-  const letter = showLetter && showLetterForJudgement ? direction === "higher" /* Higher */ ? "H" : "L" : "";
+  let letter = "";
+  if (showLetter && showLetterForJudgement) {
+    if (letterMode === "polarity") {
+      if (polarity === "higher_is_better" /* HigherIsBetter */) letter = "H";
+      else if (polarity === "lower_is_better" /* LowerIsBetter */) letter = "L";
+      else letter = "";
+    } else {
+      letter = direction === "higher" /* Higher */ ? "H" : "L";
+    }
+  }
+  if (letterOverride !== void 0) letter = letterOverride;
   const isSpecial = state !== "common_cause" /* CommonCause */;
   const isNoJudgement = state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
   const neutralGrey = tokenColour("common-cause", "#A6A6A6");
@@ -7568,31 +7667,17 @@ var SpcVariationIcon = ({
       [centerX + triSize / 2, centerY - triSize / 2]
     ];
     let shape = null;
-    let shapeLetter = "";
-    if (state === "special_cause_improving" /* SpecialCauseImproving */) {
+    if (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
       shape = /* @__PURE__ */ jsx28(
         "polygon",
         {
-          points: upTriangle.map((p) => p.join(",")).join(" "),
+          points: (direction === "higher" /* Higher */ ? upTriangle : downTriangle).map((p) => p.join(",")).join(" "),
           fill: colour.hex,
           stroke: colour.hex,
           strokeWidth: 6,
-          transform: "translate(0, -15)"
+          transform: direction === "higher" /* Higher */ ? "translate(0, -15)" : "translate(0, 15)"
         }
       );
-      shapeLetter = "H";
-    } else if (state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
-      shape = /* @__PURE__ */ jsx28(
-        "polygon",
-        {
-          points: downTriangle.map((p) => p.join(",")).join(" "),
-          fill: colour.hex,
-          stroke: colour.hex,
-          strokeWidth: 6,
-          transform: "translate(0, 15)"
-        }
-      );
-      shapeLetter = "L";
     } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
       shape = /* @__PURE__ */ jsx28(
         "polygon",
@@ -7614,31 +7699,88 @@ var SpcVariationIcon = ({
     const runCircles = Array.from({ length: 5 }).map((_, i) => {
       const filled = (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && i >= 5 - runLen;
       const fill = filled ? runColor : neutralGrey;
-      return /* @__PURE__ */ jsx28("circle", { cx: runStartX + i * runGap, cy: runY, r: runRadius, fill, stroke: fill, strokeWidth: 1 }, i);
+      return /* @__PURE__ */ jsx28(
+        "circle",
+        {
+          cx: runStartX + i * runGap,
+          cy: runY,
+          r: runRadius,
+          fill,
+          stroke: fill,
+          strokeWidth: 1
+        },
+        i
+      );
     });
-    return /* @__PURE__ */ jsxs19("svg", { width: size, height: size, viewBox: "0 0 300 300", role: "img", "aria-label": aria, "aria-description": ariaDescription, ...rest, children: [
-      /* @__PURE__ */ jsxs19("defs", { children: [
-        dropShadow && /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-          /* @__PURE__ */ jsx28("feGaussianBlur", { stdDeviation: "3" }),
-          /* @__PURE__ */ jsx28("feOffset", { dx: "0", dy: "15", result: "blur" }),
-          /* @__PURE__ */ jsx28("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
-          /* @__PURE__ */ jsx28("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-          /* @__PURE__ */ jsx28("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
-        ] }),
-        gradientWash && /* @__PURE__ */ jsxs19("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
-          /* @__PURE__ */ jsx28("stop", { offset: "0%", stopColor: colour.hex, stopOpacity: parseFloat(triGradStart) }),
-          /* @__PURE__ */ jsx28("stop", { offset: "75%", stopColor: colour.hex, stopOpacity: parseFloat(triGradMid) }),
-          /* @__PURE__ */ jsx28("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(triGradEnd) })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsx28("circle", { stroke: "none", fill: gradientWash ? `url(#${washId})` : "#ffffff", ...dropShadow ? { filter: `url(#${shadowId})` } : {}, cx: "150", cy: "150", r: "120" }),
-      /* @__PURE__ */ jsx28("circle", { stroke: colour.hex, strokeWidth: 15, strokeMiterlimit: 10, fill: "none", cx: "150", cy: "150", r: "120" }),
-      /* @__PURE__ */ jsxs19("g", { transform: direction === "higher" /* Higher */ ? "translate(0,-10)" : "translate(0,20)", children: [
-        shape,
-        shapeLetter && /* @__PURE__ */ jsx28("text", { fill: "#fff", fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif", fontWeight: "bold", fontSize: 64, x: "150", y: direction === "higher" /* Higher */ ? 150 : 145, textAnchor: "middle", dominantBaseline: "middle", children: shapeLetter }),
-        runCircles
-      ] })
-    ] });
+    const defs2 = buildDefs(
+      colour.hex,
+      shadowId,
+      washId,
+      dropShadow,
+      gradientWash,
+      [
+        { offset: "0%", opacity: triGradStart },
+        { offset: "75%", opacity: triGradMid },
+        { offset: "100%", opacity: triGradEnd }
+      ]
+    );
+    const groupTransform = state === "common_cause" /* CommonCause */ ? "translate(0,-10)" : direction === "higher" /* Higher */ ? "translate(0,-10)" : "translate(0,20)";
+    return /* @__PURE__ */ jsxs19(
+      "svg",
+      {
+        width: size,
+        height: size,
+        viewBox: "0 0 300 300",
+        role: "img",
+        "aria-label": aria,
+        "aria-description": ariaDescription,
+        ...rest,
+        children: [
+          defs2,
+          /* @__PURE__ */ jsx28(
+            "circle",
+            {
+              stroke: "none",
+              fill: gradientWash ? `url(#${washId})` : "#ffffff",
+              ...dropShadow ? { filter: `url(#${shadowId})` } : {},
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          ),
+          /* @__PURE__ */ jsx28(
+            "circle",
+            {
+              stroke: colour.hex,
+              strokeWidth: 15,
+              strokeMiterlimit: 10,
+              fill: "none",
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          ),
+          /* @__PURE__ */ jsxs19("g", { transform: groupTransform, children: [
+            shape,
+            letter && /* @__PURE__ */ jsx28(
+              "text",
+              {
+                fill: "#fff",
+                fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+                fontWeight: "bold",
+                fontSize: 64,
+                x: "150",
+                y: direction === "higher" /* Higher */ ? 150 : 145,
+                textAnchor: "middle",
+                dominantBaseline: "middle",
+                children: letter
+              }
+            ),
+            runCircles
+          ] })
+        ]
+      }
+    );
   }
   if (variant === "triangle") {
     const triSize = 150;
@@ -7659,60 +7801,17 @@ var SpcVariationIcon = ({
       [centerX + triSize / 2, centerY + triSize / 2]
     ];
     let shape = null;
-    if (state === "special_cause_improving" /* SpecialCauseImproving */) {
-      shape = /* @__PURE__ */ jsxs19(Fragment3, { children: [
-        /* @__PURE__ */ jsx28(
-          "polygon",
-          {
-            points: upTriangle.map((p) => p.join(",")).join(" "),
-            fill: colour.hex,
-            stroke: colour.hex,
-            strokeWidth: 8,
-            transform: "translate(0, -10)"
-          }
-        ),
-        /* @__PURE__ */ jsx28(
-          "text",
-          {
-            fill: "#fff",
-            fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
-            fontWeight: "bold",
-            fontSize: 100,
-            x: "150",
-            y: "175",
-            textAnchor: "middle",
-            dominantBaseline: "middle",
-            children: "H"
-          }
-        )
-      ] });
-    } else if (state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
-      shape = /* @__PURE__ */ jsxs19(Fragment3, { children: [
-        /* @__PURE__ */ jsx28(
-          "polygon",
-          {
-            points: downTriangle.map((p) => p.join(",")).join(" "),
-            fill: colour.hex,
-            stroke: colour.hex,
-            strokeWidth: 8,
-            transform: "translate(0, 10)"
-          }
-        ),
-        /* @__PURE__ */ jsx28(
-          "text",
-          {
-            fill: "#fff",
-            fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
-            fontWeight: "bold",
-            fontSize: 100,
-            x: "150",
-            y: "145",
-            textAnchor: "middle",
-            dominantBaseline: "middle",
-            children: "L"
-          }
-        )
-      ] });
+    if (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
+      shape = /* @__PURE__ */ jsx28(
+        "polygon",
+        {
+          points: (direction === "higher" /* Higher */ ? upTriangle : downTriangle).map((p) => p.join(",")).join(" "),
+          fill: colour.hex,
+          stroke: colour.hex,
+          strokeWidth: 8,
+          transform: direction === "higher" /* Higher */ ? "translate(0, -10)" : "translate(0, 10)"
+        }
+      );
     } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
       shape = /* @__PURE__ */ jsx28(
         "polygon",
@@ -7739,6 +7838,18 @@ var SpcVariationIcon = ({
         }
       );
     }
+    const defs2 = buildDefs(
+      colour.hex,
+      shadowId,
+      washId,
+      dropShadow,
+      gradientWash,
+      [
+        { offset: "0%", opacity: triGradStart },
+        { offset: "65%", opacity: triGradMid },
+        { offset: "100%", opacity: triGradEnd }
+      ]
+    );
     return /* @__PURE__ */ jsxs19(
       "svg",
       {
@@ -7750,20 +7861,7 @@ var SpcVariationIcon = ({
         "aria-description": ariaDescription,
         ...rest,
         children: [
-          /* @__PURE__ */ jsxs19("defs", { children: [
-            dropShadow && /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-              /* @__PURE__ */ jsx28("feGaussianBlur", { stdDeviation: "3" }),
-              /* @__PURE__ */ jsx28("feOffset", { dx: "0", dy: "15", result: "blur" }),
-              /* @__PURE__ */ jsx28("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
-              /* @__PURE__ */ jsx28("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-              /* @__PURE__ */ jsx28("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
-            ] }),
-            gradientWash && /* @__PURE__ */ jsxs19("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
-              /* @__PURE__ */ jsx28("stop", { offset: "0%", stopColor: colour.hex, stopOpacity: parseFloat(triGradStart) }),
-              /* @__PURE__ */ jsx28("stop", { offset: "65%", stopColor: colour.hex, stopOpacity: parseFloat(triGradMid) }),
-              /* @__PURE__ */ jsx28("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(triGradEnd) })
-            ] })
-          ] }),
+          defs2,
           /* @__PURE__ */ jsx28(
             "circle",
             {
@@ -7787,11 +7885,37 @@ var SpcVariationIcon = ({
               r: "120"
             }
           ),
-          shape
+          shape,
+          letter && (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && /* @__PURE__ */ jsx28(
+            "text",
+            {
+              fill: "#fff",
+              fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+              fontWeight: "bold",
+              fontSize: 100,
+              x: "150",
+              y: direction === "higher" /* Higher */ ? "170" : "140",
+              textAnchor: "middle",
+              dominantBaseline: "middle",
+              children: letter
+            }
+          )
         ]
       }
     );
   }
+  const defs = buildDefs(
+    colour.hex,
+    shadowId,
+    washId,
+    dropShadow,
+    gradientWash,
+    [
+      { offset: "0%", opacity: gradStart },
+      { offset: "65%", opacity: gradMid },
+      { offset: "100%", opacity: gradEnd }
+    ]
+  );
   return /* @__PURE__ */ jsxs19(
     "svg",
     {
@@ -7803,20 +7927,7 @@ var SpcVariationIcon = ({
       "aria-description": ariaDescription,
       ...rest,
       children: [
-        /* @__PURE__ */ jsxs19("defs", { children: [
-          dropShadow && /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-            /* @__PURE__ */ jsx28("feGaussianBlur", { stdDeviation: "3" }),
-            /* @__PURE__ */ jsx28("feOffset", { dx: "0", dy: "15", result: "blur" }),
-            /* @__PURE__ */ jsx28("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
-            /* @__PURE__ */ jsx28("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-            /* @__PURE__ */ jsx28("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
-          ] }),
-          gradientWash && /* @__PURE__ */ jsxs19("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
-            /* @__PURE__ */ jsx28("stop", { offset: "0%", stopColor: colour.hex, stopOpacity: parseFloat(gradStart) }),
-            /* @__PURE__ */ jsx28("stop", { offset: "65%", stopColor: colour.hex, stopOpacity: parseFloat(gradMid) }),
-            /* @__PURE__ */ jsx28("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(gradEnd) })
-          ] })
-        ] }),
+        defs,
         /* @__PURE__ */ jsx28(
           "circle",
           {
@@ -7899,9 +8010,9 @@ var SpcVariationIcon = ({
     }
   );
 };
-SpcVariationIcon.displayName = "SpcVariationIcon";
+SPCVariationIcon.displayName = "SPCVariationIcon";
 
-// src/components/DataVisualisation/charts/SPCIcons/SPCAssuranceIcon.tsx
+// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCAssuranceIcon.tsx
 import { useId as useId7 } from "react";
 import { Fragment as Fragment4, jsx as jsx29, jsxs as jsxs20 } from "react/jsx-runtime";
 var SPCAssuranceIcon = ({
@@ -8038,7 +8149,7 @@ var SPCAssuranceIcon = ({
 };
 SPCAssuranceIcon.displayName = "SPCAssuranceIcon";
 
-// src/components/DataVisualisation/charts/SPCChart/SPCChart.tsx
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
 import { Fragment as Fragment5, jsx as jsx30, jsxs as jsxs21 } from "react/jsx-runtime";
 var SPCChart = ({
   data,
@@ -8198,16 +8309,17 @@ var SPCChart = ({
           "data-polarity": String(polarity != null ? polarity : "unknown"),
           style: { width: iconSize, height: iconSize },
           children: /* @__PURE__ */ jsx30(
-            SpcVariationIcon,
+            SPCVariationIcon,
             {
               dropShadow: false,
               data: { judgement, polarity, ...trend ? { trend } : {} },
+              letterMode: "direction",
               size: iconSize
             }
           )
         }
       ),
-      (assuranceRaw === "pass" /* Pass */ || assuranceRaw === "fail" /* Fail */) && /* @__PURE__ */ jsx30(
+      /* @__PURE__ */ jsx30(
         "div",
         {
           className: "fdp-spc-chart__embedded-assurance-icon",
@@ -8818,6 +8930,32 @@ var InteractionLayer = ({
   );
 };
 var SPCChart_default = SPCChart;
+
+// src/components/DataVisualisation/charts/SPC/index.ts
+var SPC_exports = {};
+__export(SPC_exports, {
+  AssuranceIcon: () => AssuranceIcon,
+  AssuranceResult: () => AssuranceResult,
+  Direction: () => Direction,
+  ImprovementDirection: () => ImprovementDirection,
+  MetricPolarity: () => MetricPolarity,
+  SPCAssuranceIcon: () => SPCAssuranceIcon,
+  SPCChart: () => SPCChart_default,
+  SPCTooltipOverlay: () => SPCTooltipOverlay_default,
+  SPCVariationIcon: () => SPCVariationIcon,
+  VARIATION_COLOR_TOKENS: () => VARIATION_COLOR_TOKENS,
+  VariationIcon: () => VariationIcon,
+  VariationJudgement: () => VariationJudgement,
+  VariationState: () => VariationState,
+  buildSpc: () => buildSpc,
+  extractRuleIds: () => extractRuleIds,
+  getVariationColorHex: () => getVariationColorHex,
+  getVariationColorToken: () => getVariationColorToken,
+  getVariationColour: () => getVariationColour,
+  getVariationTrend: () => getVariationTrend,
+  ruleGlossary: () => ruleGlossary,
+  variationLabel: () => variationLabel
+});
 export {
   AreaSeriesPrimitive_default as AreaSeriesPrimitive,
   Axis_default as Axis,
@@ -8835,6 +8973,7 @@ export {
   LineScalesProvider,
   LineSeriesPrimitive_default as LineSeriesPrimitive,
   MetricCard_default as MetricCard,
+  SPC_exports as SPC,
   SPCChart_default as SPCChart,
   TooltipOverlay_default as TooltipOverlay,
   TooltipProvider,

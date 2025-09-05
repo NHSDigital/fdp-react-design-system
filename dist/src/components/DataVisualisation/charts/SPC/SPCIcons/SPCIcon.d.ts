@@ -5,16 +5,6 @@ export type SpcEngineIconPayload = {
     trend?: Direction;
     polarity?: MetricPolarity;
 };
-export interface VariationColourDef {
-    hex: string;
-    stroke?: string;
-    fill?: string;
-    label: string;
-    description: string;
-    text?: string;
-    judgement?: VariationJudgement;
-}
-export declare const VARIATION_COLOURS: Record<VariationState, VariationColourDef>;
 /**
  * Payload driving the variation icon.
  *
@@ -141,23 +131,27 @@ export interface SpcIconBaseProps {
     /** When true, apply a diagonal (top-left -> bottom-right) colour wash instead of solid white interior. */
     gradientWash?: boolean;
 }
-export interface SpcVariationIconProps extends SpcIconBaseProps {
+export interface SPCVariationIconProps extends SpcIconBaseProps {
     data: SpcVariationInput;
 }
 export interface SpcAssuranceIconProps extends SpcIconBaseProps {
     data: SpcAssurancePayload;
 }
 export interface SpcIconsProps {
-    variation: SpcVariationIconProps["data"];
+    variation: SPCVariationIconProps["data"];
     assurance: SpcAssuranceIconProps["data"];
     size?: number;
     ariaLabel?: string;
 }
-export interface SpcVariationIconPropsAlt extends SpcVariationIconProps {
-    variant?: 'classic' | 'triangle' | 'triangleWithRun';
+export interface SPCVariationIconPropsAlt extends SPCVariationIconProps {
+    variant?: "classic" | "triangle" | "triangleWithRun";
     runLength?: number;
+    /** How to derive H/L when shown (default: direction). */
+    letterMode?: "direction" | "polarity";
+    /** Explicit override for the letter (takes precedence). Use '' to suppress. */
+    letterOverride?: "H" | "L" | "";
 }
-export declare const SpcVariationIcon: {
-    ({ data, size, ariaLabel, showLetter, dropShadow, gradientWash, variant, runLength, ...rest }: SpcVariationIconPropsAlt & Record<string, unknown>): import("react/jsx-runtime").JSX.Element;
+export declare const SPCVariationIcon: {
+    ({ data, size, ariaLabel, showLetter, dropShadow, gradientWash, variant, runLength, letterMode, letterOverride, ...rest }: SPCVariationIconPropsAlt & Record<string, unknown>): import("react/jsx-runtime").JSX.Element;
     displayName: string;
 };

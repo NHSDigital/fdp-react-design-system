@@ -1,0 +1,31 @@
+{# Nunjucks macro for NHS FDP Button #}
+{# Mirrors the props surface of the React Button for parity. #}
+{% macro button(params) %}
+  {# Expected params:
+     text (string) OR html (safe HTML) OR children (raw)
+     href (optional)
+     variant = 'primary' | 'secondary' | etc.
+     size = 'default' | 'small'
+     fullWidth (bool)
+     preventDoubleClick (bool)
+     classes (string additional classes)
+     attributes (object of extra attributes)
+  #}
+  {% set variant = params.variant or 'primary' %}
+  {% set size = params.size or 'default' %}
+  {% set fullWidth = params.fullWidth %}
+  {% set isLink = params.href %}
+  {% set prevent = params.preventDoubleClick %}
+  {% set classes = [
+    'nhs-aria-button',
+    'nhs-aria-button--' + variant,
+    size != 'default' and 'nhs-aria-button--' + size or '',
+    fullWidth and 'nhs-aria-button--full-width' or '',
+    params.classes
+  ] | reject('equalto', '') | join(' ') %}
+  {% if isLink %}
+    <a href="{{ params.href }}" class="{{ classes }}" role="button" data-module="nhs-button"{% if prevent %} data-prevent-double-click="true"{% endif %}{% for name, value in (params.attributes or {}) %} {{ name }}="{{ value }}"{% endfor %}>{{ params.html | safe if params.html else params.text }}</a>
+  {% else %}
+    <button type="{{ params.type or 'button' }}" class="{{ classes }}" data-module="nhs-button"{% if prevent %} data-prevent-double-click="true"{% endif %}{% for name, value in (params.attributes or {}) %} {{ name }}="{{ value }}"{% endfor %}>{{ params.html | safe if params.html else params.text }}</button>
+  {% endif %}
+{% endmacro %}

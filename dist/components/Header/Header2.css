@@ -19,18 +19,7 @@
 
 .nhsuk-width-container {
   margin: 0 auto;
-  padding: 0 16px;
   max-width: 1200px;
-}
-@media (min-width: 768px) {
-  .nhsuk-width-container {
-    padding: 0 24px;
-  }
-}
-@media (min-width: 1025px) {
-  .nhsuk-width-container {
-    padding: 0 32px;
-  }
 }
 
 .nhsuk-icon {

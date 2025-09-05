@@ -1,0 +1,40 @@
+{# Checkboxes component macro (parity with React Checkboxes) #}
+{% macro checkboxes(params) %}
+  {# Parity macro for React Checkboxes component #}
+  {% set idPrefix = params.idPrefix or params.name %}
+  {% set hintId = params.hint and (idPrefix + '-hint') %}
+  {% set errorId = params.errorMessage and (idPrefix + '-error') %}
+  {% set describedBy = [] %}
+  {% if hintId %}{% set describedBy = describedBy.concat([hintId]) %}{% endif %}
+  {% if errorId %}{% set describedBy = describedBy.concat([errorId]) %}{% endif %}
+  {% set describedByAttr = describedBy | join(' ') %}
+  {% set formGroupClasses = 'nhsuk-form-group' %}{% if params.errorMessage %}{% set formGroupClasses = formGroupClasses + ' nhsuk-form-group--error' %}{% endif %}
+  {% set checkClasses = 'nhsuk-checkboxes' %}{% if params.small %}{% set checkClasses = checkClasses + ' nhsuk-checkboxes--small' %}{% endif %}{% if params.className %}{% set checkClasses = checkClasses + ' ' + params.className %}{% endif %}
+
+  <div class="{{ formGroupClasses }}">
+    <fieldset class="nhsuk-fieldset"{% if describedByAttr %} aria-describedby="{{ describedByAttr }}"{% endif %}>
+      {% if params.legend %}
+        <legend class="nhsuk-fieldset__legend{% if params.legendSize %} nhsuk-fieldset__legend--{{ params.legendSize }}{% else %} nhsuk-fieldset__legend--l{% endif %}">{{ params.legend }}</legend>
+      {% endif %}
+      {% if params.hint %}<div class="nhsuk-hint" id="{{ hintId }}">{{ params.hint }}</div>{% endif %}
+      {% if params.errorMessage %}<div class="nhsuk-error-message" id="{{ errorId }}"><span class="nhsuk-u-visually-hidden">Error:</span>{{ params.errorMessage }}</div>{% endif %}
+      <div class="{{ checkClasses }}">
+        {% for item in params.items %}
+          {% set idx = loop.index %}
+            {% set itemId = idPrefix + '-' + idx %}
+            {% set condId = itemId + '-conditional' %}
+            {% set isChecked = item.checked %}
+            <div class="nhsuk-checkboxes__item">
+              <input class="nhsuk-checkboxes__input" id="{{ itemId }}" name="{{ params.name }}" type="checkbox" value="{{ item.value }}"{% if isChecked %} checked=""{% endif %}{% if item.disabled %} disabled{% endif %}{% if item.hint %} aria-describedby="{{ itemId }}-hint"{% elseif describedByAttr %} aria-describedby="{{ describedByAttr }}"{% endif %}{% if item.conditional %} aria-controls="{{ condId }}" aria-expanded="{{ isChecked and 'true' or 'false' }}"{% endif %}>
+              <label class="nhsuk-checkboxes__label" for="{{ itemId }}">{{ item.text }}</label>
+              {% if item.hint %}<div class="nhsuk-checkboxes__hint" id="{{ itemId }}-hint">{{ item.hint }}</div>{% endif %}
+              {% if item.conditional %}
+                {# Parity: React escapes raw string conditional content (it's provided as a string, not JSX). #}
+                <div class="nhsuk-checkboxes__conditional{% if not isChecked %} nhsuk-checkboxes__conditional--hidden{% endif %}" id="{{ condId }}">{{ item.conditional | escape }}</div>
+              {% endif %}
+            </div>
+        {% endfor %}
+      </div>
+    </fieldset>
+  </div>
+{% endmacro %}

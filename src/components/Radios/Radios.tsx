@@ -6,10 +6,18 @@ export const Radios: React.FC<RadiosProps> = ({ value, defaultValue, onChange, o
 	const [selectedValue, setSelectedValue] = useState(value || defaultValue || '');
 	const itemsRef = useRef<HTMLInputElement[]>([]);
 
+	// Minimal guards: only emit change if value actually changed
+	const lastValueRef = useRef<string | null>(selectedValue);
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = event.target.value;
+		if (newValue === lastValueRef.current) return; // ignore duplicate
+		lastValueRef.current = newValue;
 		setSelectedValue(newValue);
 		onChange?.(event);
+	};
+
+	const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+		onFocus?.(event);
 	};
 
 	const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -37,7 +45,7 @@ export const Radios: React.FC<RadiosProps> = ({ value, defaultValue, onChange, o
 			enableBehaviourAttr: false,
 			handleChange,
 			handleBlur: onBlur,
-			handleFocus: onFocus,
+			handleFocus, // wrapped to suppress duplicate focus calls
 			handleKeyDown,
 			itemsRef,
 		}

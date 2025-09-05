@@ -33,6 +33,8 @@ export function renderRadiosMarkup(
     itemsRef,
   }: RenderRadiosOptions
 ) {
+  // Remove user-supplied form event handlers so they are only bound to inputs, not the wrapper
+  const { onChange: _omitOnChange, onBlur: _omitOnBlur, onFocus: _omitOnFocus, ...safeProps } = props as any;
   const {
     name,
     hasError = false,
@@ -42,7 +44,7 @@ export function renderRadiosMarkup(
     inline = false,
     options,
     ...rest
-  } = props;
+  } = safeProps;
 
   const radiosClasses = classNames(
     'nhsuk-radios',
@@ -61,7 +63,7 @@ export function renderRadiosMarkup(
         {...rest}
         {...(enableBehaviourAttr ? { 'data-nhs-behaviour': 'radios' } : {})}
       >
-        {options.map((option, index) => {
+  {options.map((option: any, index: number) => {
           const radioId = `${name}-${index}`;
           const conditionalId = option.conditional ? `${radioId}-conditional` : undefined;
           const isSelected = selectedValue === option.value;

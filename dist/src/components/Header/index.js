@@ -683,7 +683,9 @@ var HeaderServer = (props) => {
 };
 export {
   Header,
-  HeaderServer
+  HeaderServer as HeaderSSR,
+  HeaderServer,
+  Header as HeaderStatic
 };
 /*! Bundled license information:
 

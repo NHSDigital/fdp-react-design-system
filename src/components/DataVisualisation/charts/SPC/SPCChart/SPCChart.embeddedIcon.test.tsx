@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
-import { renderSSR } from '../../../../test-utils/renderSSR';
+// Adjusted relative path (one level too shallow previously) to locate shared test SSR renderer
+import { renderSSR } from '../../../../../test-utils/renderSSR';
 import { SPCChart } from './SPCChart';
 import { ImprovementDirection, VariationIcon as EngineVariationIcon } from './logic/spc';
 import { SPCVariationIcon } from '../SPCIcons/SPCIcon';
@@ -17,7 +18,7 @@ describe('SPC embedded icon rendering (deterministic unit)', () => {
   it('renders Improvement (H) with blue colour', () => {
     const { container } = renderSSR(
       <div>
-        <SPCVariationIcon data={{ variationIcon: EngineVariationIcon.Improvement, trend: Direction.Higher }} size={80} />
+  <SPCVariationIcon data={{ variationIcon: EngineVariationIcon.Improvement, trend: Direction.Higher }} size={80} letterMode="direction" />
       </div>
     );
     const svg = container.querySelector('svg');
@@ -31,7 +32,7 @@ describe('SPC embedded icon rendering (deterministic unit)', () => {
   it('renders Concern (L) with orange colour', () => {
     const { container } = renderSSR(
       <div>
-        <SPCVariationIcon data={{ variationIcon: EngineVariationIcon.Concern, trend: Direction.Lower }} size={80} />
+  <SPCVariationIcon data={{ variationIcon: EngineVariationIcon.Concern, trend: Direction.Lower }} size={80} letterMode="direction" />
       </div>
     );
     const svg = container.querySelector('svg');

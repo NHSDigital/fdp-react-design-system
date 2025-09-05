@@ -3,7 +3,7 @@ describe('Radios (deprecated monolithic)', () => {
   it('placeholder', () => { expect(true).toBe(true); }); 
 });
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { Radios } from './Radios';
 import { Input } from '../Input';
 

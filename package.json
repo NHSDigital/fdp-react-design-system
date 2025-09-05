@@ -151,7 +151,10 @@
       "types": "./dist/src/behaviours/index.d.ts",
       "import": "./dist/behaviours/index.js"
     },
-    "./macros": "./dist/macros"
+    "./macros": "./dist/macros",
+    "./components/DataVisualisation/charts/SPC/SPCChart/SPCChart/css": "./dist/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.css",
+    "./components/Header/Header2/css": "./dist/components/Header/Header2.css",
+    "./components/ProductRoadmap/css": "./dist/components/ProductRoadmap/ProductRoadmap.css"
   },
   "sideEffects": [
     "dist/**/*.css"
@@ -167,7 +170,8 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run build:parity",
-    "build:parity": "npm run clean:dist && npm run build:tokens:smart && npm run build:multi && npm run build:index:esm && npm run build:index:umd && npm run build:core:css && npm run build:component-css && npm run update:css-exports && npm run verify:css-exports && npm run build:components:js && npm run build:behaviours && npm run build:types && npm run verify:js-entries && npm run verify:component-parity && npm run verify:css-aliases && npm run build:multi-render:optional",
+    "build:parity": "npm run clean:dist && npm run build:tokens:smart && npm run build:multi && npm run build:index:esm && npm run build:index:umd && npm run build:core:css && npm run build:component-css && npm run update:css-exports && npm run verify:css-exports && npm run build:components:js && npm run build:behaviours && npm run copy:macros && npm run build:types && npm run verify:js-entries && npm run verify:component-parity && npm run verify:css-aliases && npm run build:multi-render:optional",
+    "copy:macros": "mkdir -p dist/macros && cp src/macros/*.njk dist/macros/",
     "build:multi-render:optional": "node scripts/run-multi-render-optional.cjs",
     "build:components:js": "node scripts/build-component-js.cjs",
     "build:index:esm": "vite build --config config/vite.index.esm.config.ts",

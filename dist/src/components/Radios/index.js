@@ -332,6 +332,7 @@ function renderRadiosMarkup(props, {
   handleKeyDown,
   itemsRef
 }) {
+  const { onChange: _omitOnChange, onBlur: _omitOnBlur, onFocus: _omitOnFocus, ...safeProps } = props;
   const {
     name,
     hasError = false,
@@ -341,7 +342,7 @@ function renderRadiosMarkup(props, {
     inline = false,
     options,
     ...rest
-  } = props;
+  } = safeProps;
   const radiosClasses = (0, import_classnames2.default)(
     "nhsuk-radios",
     {
@@ -403,10 +404,16 @@ function renderRadiosMarkup(props, {
 var Radios = ({ value, defaultValue, onChange, onBlur, onFocus, ...rest }) => {
   const [selectedValue, setSelectedValue] = useState2(value || defaultValue || "");
   const itemsRef = useRef([]);
+  const lastValueRef = useRef(selectedValue);
   const handleChange = (event) => {
     const newValue = event.target.value;
+    if (newValue === lastValueRef.current) return;
+    lastValueRef.current = newValue;
     setSelectedValue(newValue);
     onChange == null ? void 0 : onChange(event);
+  };
+  const handleFocus = (event) => {
+    onFocus == null ? void 0 : onFocus(event);
   };
   const handleKeyDown = useCallback((event) => {
     const { key } = event;
@@ -432,7 +439,8 @@ var Radios = ({ value, defaultValue, onChange, onBlur, onFocus, ...rest }) => {
       enableBehaviourAttr: false,
       handleChange,
       handleBlur: onBlur,
-      handleFocus: onFocus,
+      handleFocus,
+      // wrapped to suppress duplicate focus calls
       handleKeyDown,
       itemsRef
     }

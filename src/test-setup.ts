@@ -28,6 +28,9 @@ afterEach(() => {
   cleanup();
 });
 
+// Flag to allow hydration tests to ignore known React 19 act() environment warnings
+(globalThis as any).__ALLOW_ACT_WARNING__ = true;
+
 // Enhanced DOM environment setup for CI/CD environments
 // This addresses issues where jsdom may not be fully initialized
 if (typeof global !== 'undefined') {

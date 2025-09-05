@@ -129,10 +129,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	]);
 
 	// Representative row with populated limits (last available)
-	const engineRepresentative = engine?.rows
-		.slice()
-		.reverse()
-		.find((r) => r.mean != null);
+	const engineRepresentative = engine?.rows.slice().reverse().find((r) => r.mean != null);
 	const mean = engineRepresentative?.mean ?? null;
 	const ucl = engineRepresentative?.upperProcessLimit ?? null;
 	const lcl = engineRepresentative?.lowerProcessLimit ?? null;
@@ -180,6 +177,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		// Suppress embedded icon entirely when insufficient non-ghost points to establish stable limits
 		const minPoints = settings?.minimumPoints ?? 13;
 		const nonGhostCount = engineRows.filter(r => !r.ghost && r.value != null).length;
+		
 		if (nonGhostCount < minPoints) return null;
 		// Determine if targets exist (no longer used to suppress placeholder; kept for potential future diagnostics)
 		// const hasAnyTargets = (targetsProp?.some(t => typeof t === 'number' && !isNaN(t as any))) ?? false;
@@ -255,6 +253,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 					<SPCVariationIcon
 						dropShadow={false}
 						data={{ judgement, polarity, ...(trend ? { trend } : {}) }}
+						letterMode="direction"
 						size={iconSize}
 					/>
 				</div>

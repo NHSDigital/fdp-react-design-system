@@ -1,5 +1,5 @@
 import * as React from "react";
-import "../../DataVisualisation.scss";
+import "../../../DataVisualisation.scss";
 import "./SPCChart.scss";
 import { ImprovementDirection, VariationIcon, AssuranceIcon, type ChartType, type SpcSettings } from "./logic/spc";
 export interface SPCDatum {

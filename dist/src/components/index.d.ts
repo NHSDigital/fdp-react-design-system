@@ -50,6 +50,8 @@ export { NHSThemeProvider, useNHSTheme } from './NHSThemeProvider';
 export type { ThemeProviderProps } from './NHSThemeProvider';
 export { Header } from './Header';
 export { HeaderSearch } from './HeaderSearch';
+export { Header as HeaderStatic } from './Header';
+export { HeaderServer as HeaderSSR } from './Header';
 export type { HeaderProps, NavigationItem } from './Header/Header.types';
 export type { HeaderSearchProps } from './HeaderSearch';
 export { Hero } from './Hero';
@@ -110,3 +112,6 @@ export type { TransactionalPageTemplateProps } from './TransactionalPageTemplate
 export * from './NavigationSplitView';
 export { ProductRoadmap } from './ProductRoadmap';
 export type { ProductRoadmapProps, ProductRoadmapCategory, ProductRoadmapItem } from './ProductRoadmap';
+export { SPCChart } from './DataVisualisation';
+export type { SPCChartProps, SPCDatum } from './DataVisualisation';
+export { SPC as SPC } from './DataVisualisation';

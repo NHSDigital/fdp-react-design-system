@@ -1,15 +1,10 @@
-<<<<<<< Updated upstream
-import * as le from "react";
-import Ze, { useState as we, useEffect as Fe, useCallback as ee, useRef as Te, createElement as Pa, useMemo as De, useContext as So, createContext as Co, forwardRef as Pt, useImperativeHandle as za, useReducer as Wa } from "react";
-function jo(e) {
-=======
-import * as ce from "react";
-import Ze, { useState as Se, useEffect as Ie, useCallback as re, useRef as Ce, createElement as Wa, useMemo as Re, useContext as jo, createContext as No, forwardRef as Pt, useImperativeHandle as Oa, useReducer as Ua, memo as To } from "react";
-function Do(e) {
->>>>>>> Stashed changes
+import * as X from "react";
+import at, { useState as Ne, useEffect as Ee, useCallback as ie, useRef as Ie, createElement as eo, useMemo as je, useContext as yl, createContext as vl, forwardRef as an, useImperativeHandle as to, useReducer as no, memo as wl, useLayoutEffect as _l, useId as Mn } from "react";
+import { createPortal as Sl } from "react-dom";
+function kl(e) {
   return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
 }
-var rn = { exports: {} }, Ut = {};
+var Nn = { exports: {} }, ln = {};
 /**
  * @license React
  * react-jsx-runtime.production.js
@@ -19,19 +14,12 @@ var rn = { exports: {} }, Ut = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-<<<<<<< Updated upstream
-var na;
-function No() {
-  if (na) return Ut;
-  na = 1;
-=======
-var ra;
-function Io() {
-  if (ra) return Ot;
-  ra = 1;
->>>>>>> Stashed changes
+var ts;
+function Cl() {
+  if (ts) return ln;
+  ts = 1;
   var e = Symbol.for("react.transitional.element"), t = Symbol.for("react.fragment");
-  function r(a, o, s) {
+  function n(a, o, s) {
     var i = null;
     if (s !== void 0 && (i = "" + s), o.key !== void 0 && (i = "" + o.key), "key" in o) {
       s = {};
@@ -46,9 +34,9 @@ function Io() {
       props: s
     };
   }
-  return Ut.Fragment = t, Ut.jsx = r, Ut.jsxs = r, Ut;
+  return ln.Fragment = t, ln.jsx = n, ln.jsxs = n, ln;
 }
-var Ot = {};
+var cn = {};
 /**
  * @license React
  * react-jsx-runtime.development.js
@@ -58,367 +46,255 @@ var Ot = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-<<<<<<< Updated upstream
-var ra;
-function To() {
-  return ra || (ra = 1, process.env.NODE_ENV !== "production" && (function() {
-    function e(C) {
-      if (C == null) return null;
-      if (typeof C == "function")
-        return C.$$typeof === x ? null : C.displayName || C.name || null;
-      if (typeof C == "string") return C;
-      switch (C) {
-        case g:
+var ns;
+function jl() {
+  return ns || (ns = 1, process.env.NODE_ENV !== "production" && (function() {
+    function e($) {
+      if ($ == null) return null;
+      if (typeof $ == "function")
+        return $.$$typeof === v ? null : $.displayName || $.name || null;
+      if (typeof $ == "string") return $;
+      switch ($) {
+        case p:
           return "Fragment";
-        case G:
-=======
-var aa;
-function Ro() {
-  return aa || (aa = 1, process.env.NODE_ENV !== "production" && (function() {
-    function e(j) {
-      if (j == null) return null;
-      if (typeof j == "function")
-        return j.$$typeof === b ? null : j.displayName || j.name || null;
-      if (typeof j == "string") return j;
-      switch (j) {
-        case g:
-          return "Fragment";
-        case V:
->>>>>>> Stashed changes
-          return "Profiler";
-        case _:
-          return "StrictMode";
-        case H:
-          return "Suspense";
-        case A:
-          return "SuspenseList";
         case R:
+          return "Profiler";
+        case u:
+          return "StrictMode";
+        case B:
+          return "Suspense";
+        case _:
+          return "SuspenseList";
+        case D:
           return "Activity";
       }
-      if (typeof C == "object")
-        switch (typeof C.tag == "number" && console.error(
+      if (typeof $ == "object")
+        switch (typeof $.tag == "number" && console.error(
           "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
-        ), C.$$typeof) {
-          case v:
+        ), $.$$typeof) {
+          case C:
             return "Portal";
-<<<<<<< Updated upstream
-          case I:
-            return (C.displayName || "Context") + ".Provider";
+          case T:
+            return ($.displayName || "Context") + ".Provider";
+          case F:
+            return ($._context.displayName || "Context") + ".Consumer";
+          case S:
+            var W = $.render;
+            return $ = $.displayName, $ || ($ = W.displayName || W.name || "", $ = $ !== "" ? "ForwardRef(" + $ + ")" : "ForwardRef"), $;
+          case L:
+            return W = $.displayName || null, W !== null ? W : e($.type) || "Memo";
           case j:
-            return (C._context.displayName || "Context") + ".Consumer";
-          case k:
-            var te = C.render;
-            return C = C.displayName, C || (C = te.displayName || te.name || "", C = C !== "" ? "ForwardRef(" + C + ")" : "ForwardRef"), C;
-          case V:
-            return te = C.displayName || null, te !== null ? te : e(C.type) || "Memo";
-          case M:
-            te = C._payload, C = C._init;
-=======
-          case k:
-            return (j.displayName || "Context") + ".Provider";
-          case B:
-            return (j._context.displayName || "Context") + ".Consumer";
-          case y:
-            var ae = j.render;
-            return j = j.displayName, j || (j = ae.displayName || ae.name || "", j = j !== "" ? "ForwardRef(" + j + ")" : "ForwardRef"), j;
-          case $:
-            return ae = j.displayName || null, ae !== null ? ae : e(j.type) || "Memo";
-          case A:
-            ae = j._payload, j = j._init;
->>>>>>> Stashed changes
+            W = $._payload, $ = $._init;
             try {
-              return e(C(te));
+              return e($(W));
             } catch {
             }
         }
       return null;
     }
-    function t(C) {
-      return "" + C;
+    function t($) {
+      return "" + $;
     }
-    function r(C) {
+    function n($) {
       try {
-        t(C);
-        var te = !1;
+        t($);
+        var W = !1;
       } catch {
-        te = !0;
+        W = !0;
       }
-      if (te) {
-        te = console;
-        var E = te.error, Q = typeof Symbol == "function" && Symbol.toStringTag && C[Symbol.toStringTag] || C.constructor.name || "Object";
-        return E.call(
-          te,
+      if (W) {
+        W = console;
+        var I = W.error, O = typeof Symbol == "function" && Symbol.toStringTag && $[Symbol.toStringTag] || $.constructor.name || "Object";
+        return I.call(
+          W,
           "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
-          Q
-        ), t(C);
+          O
+        ), t($);
       }
     }
-    function a(C) {
-      if (C === g) return "<>";
-      if (typeof C == "object" && C !== null && C.$$typeof === M)
+    function a($) {
+      if ($ === p) return "<>";
+      if (typeof $ == "object" && $ !== null && $.$$typeof === j)
         return "<...>";
       try {
-        var te = e(C);
-        return te ? "<" + te + ">" : "<...>";
+        var W = e($);
+        return W ? "<" + W + ">" : "<...>";
       } catch {
         return "<...>";
       }
     }
     function o() {
-      var C = B.A;
-      return C === null ? null : C.getOwner();
+      var $ = x.A;
+      return $ === null ? null : $.getOwner();
     }
     function s() {
       return Error("react-stack-top-frame");
     }
-    function i(C) {
-      if (Z.call(C, "key")) {
-        var te = Object.getOwnPropertyDescriptor(C, "key").get;
-        if (te && te.isReactWarning) return !1;
+    function i($) {
+      if (y.call($, "key")) {
+        var W = Object.getOwnPropertyDescriptor($, "key").get;
+        if (W && W.isReactWarning) return !1;
       }
-      return C.key !== void 0;
+      return $.key !== void 0;
     }
-    function l(C, te) {
-      function E() {
-        y || (y = !0, console.error(
+    function l($, W) {
+      function I() {
+        M || (M = !0, console.error(
           "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
-          te
+          W
         ));
       }
-      E.isReactWarning = !0, Object.defineProperty(C, "key", {
-        get: E,
+      I.isReactWarning = !0, Object.defineProperty($, "key", {
+        get: I,
         configurable: !0
       });
     }
-<<<<<<< Updated upstream
     function d() {
-      var C = e(this.type);
-      return b[C] || (b[C] = !0, console.error(
-=======
-    function c() {
-      var j = e(this.type);
-      return x[j] || (x[j] = !0, console.error(
->>>>>>> Stashed changes
+      var $ = e(this.type);
+      return k[$] || (k[$] = !0, console.error(
         "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
-      )), C = this.props.ref, C !== void 0 ? C : null;
+      )), $ = this.props.ref, $ !== void 0 ? $ : null;
     }
-<<<<<<< Updated upstream
-    function c(C, te, E, Q, F, ae, Ce, se) {
-      return E = ae.ref, C = {
-        $$typeof: m,
-        type: C,
-        key: te,
-        props: ae,
-        _owner: F
-      }, (E !== void 0 ? E : null) !== null ? Object.defineProperty(C, "ref", {
+    function c($, W, I, O, H, Q, fe, oe) {
+      return I = Q.ref, $ = {
+        $$typeof: g,
+        type: $,
+        key: W,
+        props: Q,
+        _owner: H
+      }, (I !== void 0 ? I : null) !== null ? Object.defineProperty($, "ref", {
         enumerable: !1,
         get: d
-      }) : Object.defineProperty(C, "ref", { enumerable: !1, value: null }), C._store = {}, Object.defineProperty(C._store, "validated", {
-=======
-    function d(j, ae, M, te, E, ie, Q, Y) {
-      return M = ie.ref, j = {
-        $$typeof: m,
-        type: j,
-        key: ae,
-        props: ie,
-        _owner: E
-      }, (M !== void 0 ? M : null) !== null ? Object.defineProperty(j, "ref", {
-        enumerable: !1,
-        get: c
-      }) : Object.defineProperty(j, "ref", { enumerable: !1, value: null }), j._store = {}, Object.defineProperty(j._store, "validated", {
->>>>>>> Stashed changes
+      }) : Object.defineProperty($, "ref", { enumerable: !1, value: null }), $._store = {}, Object.defineProperty($._store, "validated", {
         configurable: !1,
         enumerable: !1,
         writable: !0,
         value: 0
-      }), Object.defineProperty(C, "_debugInfo", {
+      }), Object.defineProperty($, "_debugInfo", {
         configurable: !1,
         enumerable: !1,
         writable: !0,
         value: null
-      }), Object.defineProperty(C, "_debugStack", {
+      }), Object.defineProperty($, "_debugStack", {
         configurable: !1,
         enumerable: !1,
         writable: !0,
-        value: Ce
-      }), Object.defineProperty(C, "_debugTask", {
+        value: fe
+      }), Object.defineProperty($, "_debugTask", {
         configurable: !1,
         enumerable: !1,
         writable: !0,
-<<<<<<< Updated upstream
-        value: se
-      }), Object.freeze && (Object.freeze(C.props), Object.freeze(C)), C;
+        value: oe
+      }), Object.freeze && (Object.freeze($.props), Object.freeze($)), $;
     }
-    function u(C, te, E, Q, F, ae, Ce, se) {
-      var X = te.children;
-      if (X !== void 0)
-        if (Q)
-          if (ce(X)) {
-            for (Q = 0; Q < X.length; Q++)
-              f(X[Q]);
-            Object.freeze && Object.freeze(X);
-=======
-        value: Y
-      }), Object.freeze && (Object.freeze(j.props), Object.freeze(j)), j;
-    }
-    function u(j, ae, M, te, E, ie, Q, Y) {
-      var K = ae.children;
+    function f($, W, I, O, H, Q, fe, oe) {
+      var K = W.children;
       if (K !== void 0)
-        if (te)
-          if (de(K)) {
-            for (te = 0; te < K.length; te++)
-              f(K[te]);
+        if (O)
+          if (P(K)) {
+            for (O = 0; O < K.length; O++)
+              h(K[O]);
             Object.freeze && Object.freeze(K);
->>>>>>> Stashed changes
           } else
             console.error(
               "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
             );
-        else f(X);
-      if (Z.call(te, "key")) {
-        X = e(C);
-        var Y = Object.keys(te).filter(function(me) {
-          return me !== "key";
+        else h(K);
+      if (y.call(W, "key")) {
+        K = e($);
+        var V = Object.keys(W).filter(function(ae) {
+          return ae !== "key";
         });
-        Q = 0 < Y.length ? "{key: someKey, " + Y.join(": ..., ") + ": ...}" : "{key: someKey}", $[X + Q] || (Y = 0 < Y.length ? "{" + Y.join(": ..., ") + ": ...}" : "{}", console.error(
+        O = 0 < V.length ? "{key: someKey, " + V.join(": ..., ") + ": ...}" : "{key: someKey}", w[K + O] || (V = 0 < V.length ? "{" + V.join(": ..., ") + ": ...}" : "{}", console.error(
           `A props object containing a "key" prop is being spread into JSX:
   let props = %s;
   <%s {...props} />
 React keys must be passed directly to JSX without using spread:
   let props = %s;
   <%s key={someKey} {...props} />`,
-          Q,
-          X,
-          Y,
-          X
-        ), $[X + Q] = !0);
+          O,
+          K,
+          V,
+          K
+        ), w[K + O] = !0);
       }
-<<<<<<< Updated upstream
-      if (X = null, E !== void 0 && (r(E), X = "" + E), i(te) && (r(te.key), X = "" + te.key), "key" in te) {
-        E = {};
-        for (var re in te)
-          re !== "key" && (E[re] = te[re]);
-      } else E = te;
-      return X && l(
-=======
-      if (K = null, M !== void 0 && (r(M), K = "" + M), i(ae) && (r(ae.key), K = "" + ae.key), "key" in ae) {
-        M = {};
-        for (var se in ae)
-          se !== "key" && (M[se] = ae[se]);
-      } else M = ae;
+      if (K = null, I !== void 0 && (n(I), K = "" + I), i(W) && (n(W.key), K = "" + W.key), "key" in W) {
+        I = {};
+        for (var J in W)
+          J !== "key" && (I[J] = W[J]);
+      } else I = W;
       return K && l(
-        M,
-        typeof j == "function" ? j.displayName || j.name || "Unknown" : j
-      ), d(
-        j,
-        K,
-        ie,
->>>>>>> Stashed changes
-        E,
-        typeof C == "function" ? C.displayName || C.name || "Unknown" : C
+        I,
+        typeof $ == "function" ? $.displayName || $.name || "Unknown" : $
       ), c(
-        C,
-        X,
-        ae,
-        F,
+        $,
+        K,
+        Q,
+        H,
         o(),
-<<<<<<< Updated upstream
-        E,
-        Ce,
-        se
+        I,
+        fe,
+        oe
       );
     }
-    function f(C) {
-      typeof C == "object" && C !== null && C.$$typeof === m && C._store && (C._store.validated = 1);
+    function h($) {
+      typeof $ == "object" && $ !== null && $.$$typeof === g && $._store && ($._store.validated = 1);
     }
-    var p = Ze, m = Symbol.for("react.transitional.element"), v = Symbol.for("react.portal"), g = Symbol.for("react.fragment"), _ = Symbol.for("react.strict_mode"), G = Symbol.for("react.profiler"), j = Symbol.for("react.consumer"), I = Symbol.for("react.context"), k = Symbol.for("react.forward_ref"), H = Symbol.for("react.suspense"), A = Symbol.for("react.suspense_list"), V = Symbol.for("react.memo"), M = Symbol.for("react.lazy"), R = Symbol.for("react.activity"), x = Symbol.for("react.client.reference"), B = p.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, Z = Object.prototype.hasOwnProperty, ce = Array.isArray, K = console.createTask ? console.createTask : function() {
+    var m = at, g = Symbol.for("react.transitional.element"), C = Symbol.for("react.portal"), p = Symbol.for("react.fragment"), u = Symbol.for("react.strict_mode"), R = Symbol.for("react.profiler"), F = Symbol.for("react.consumer"), T = Symbol.for("react.context"), S = Symbol.for("react.forward_ref"), B = Symbol.for("react.suspense"), _ = Symbol.for("react.suspense_list"), L = Symbol.for("react.memo"), j = Symbol.for("react.lazy"), D = Symbol.for("react.activity"), v = Symbol.for("react.client.reference"), x = m.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, y = Object.prototype.hasOwnProperty, P = Array.isArray, E = console.createTask ? console.createTask : function() {
       return null;
     };
-    p = {
-      react_stack_bottom_frame: function(C) {
-        return C();
+    m = {
+      react_stack_bottom_frame: function($) {
+        return $();
       }
     };
-    var y, b = {}, N = p.react_stack_bottom_frame.bind(
-=======
-        M,
-        Q,
-        Y
-      );
-    }
-    function f(j) {
-      typeof j == "object" && j !== null && j.$$typeof === m && j._store && (j._store.validated = 1);
-    }
-    var p = Ze, m = Symbol.for("react.transitional.element"), C = Symbol.for("react.portal"), g = Symbol.for("react.fragment"), _ = Symbol.for("react.strict_mode"), V = Symbol.for("react.profiler"), B = Symbol.for("react.consumer"), k = Symbol.for("react.context"), y = Symbol.for("react.forward_ref"), L = Symbol.for("react.suspense"), v = Symbol.for("react.suspense_list"), $ = Symbol.for("react.memo"), A = Symbol.for("react.lazy"), I = Symbol.for("react.activity"), b = Symbol.for("react.client.reference"), F = p.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, X = Object.prototype.hasOwnProperty, de = Array.isArray, J = console.createTask ? console.createTask : function() {
-      return null;
-    };
-    p = {
-      react_stack_bottom_frame: function(j) {
-        return j();
-      }
-    };
-    var R, x = {}, N = p.react_stack_bottom_frame.bind(
->>>>>>> Stashed changes
-      p,
+    var M, k = {}, b = m.react_stack_bottom_frame.bind(
+      m,
       s
-    )(), ue = K(a(s)), $ = {};
-    Ot.Fragment = g, Ot.jsx = function(C, te, E, Q, F) {
-      var ae = 1e4 > B.recentlyCreatedOwnerStacks++;
-      return u(
-        C,
-        te,
-        E,
+    )(), A = E(a(s)), w = {};
+    cn.Fragment = p, cn.jsx = function($, W, I, O, H) {
+      var Q = 1e4 > x.recentlyCreatedOwnerStacks++;
+      return f(
+        $,
+        W,
+        I,
         !1,
-        Q,
-        F,
-        ae ? Error("react-stack-top-frame") : N,
-        ae ? K(a(C)) : ue
+        O,
+        H,
+        Q ? Error("react-stack-top-frame") : b,
+        Q ? E(a($)) : A
       );
-    }, Ot.jsxs = function(C, te, E, Q, F) {
-      var ae = 1e4 > B.recentlyCreatedOwnerStacks++;
-      return u(
-        C,
-        te,
-        E,
+    }, cn.jsxs = function($, W, I, O, H) {
+      var Q = 1e4 > x.recentlyCreatedOwnerStacks++;
+      return f(
+        $,
+        W,
+        I,
         !0,
-        Q,
-        F,
-        ae ? Error("react-stack-top-frame") : N,
-        ae ? K(a(C)) : ue
+        O,
+        H,
+        Q ? Error("react-stack-top-frame") : b,
+        Q ? E(a($)) : A
       );
     };
-  })()), Ot;
+  })()), cn;
 }
-<<<<<<< Updated upstream
-var aa;
-function Do() {
-  return aa || (aa = 1, process.env.NODE_ENV === "production" ? rn.exports = No() : rn.exports = To()), rn.exports;
+var rs;
+function Nl() {
+  return rs || (rs = 1, process.env.NODE_ENV === "production" ? Nn.exports = Cl() : Nn.exports = jl()), Nn.exports;
 }
-var n = Do(), er = { exports: {} };
-=======
-var sa;
-function Fo() {
-  return sa || (sa = 1, process.env.NODE_ENV === "production" ? rn.exports = Io() : rn.exports = Ro()), rn.exports;
-}
-var n = Fo(), er = { exports: {} };
->>>>>>> Stashed changes
+var r = Nl(), Dr = { exports: {} };
 /*!
 	Copyright (c) 2018 Jed Watson.
 	Licensed under the MIT License (MIT), see
 	http://jedwatson.github.io/classnames
 */
-<<<<<<< Updated upstream
-var sa;
-function Io() {
-  return sa || (sa = 1, (function(e) {
-=======
-var oa;
-function Bo() {
-  return oa || (oa = 1, (function(e) {
->>>>>>> Stashed changes
+var as;
+function Tl() {
+  return as || (as = 1, (function(e) {
     (function() {
       var t = {}.hasOwnProperty;
-      function r() {
+      function n() {
         for (var s = "", i = 0; i < arguments.length; i++) {
           var l = arguments[i];
           l && (s = o(s, a(l)));
@@ -431,7 +307,7 @@ function Bo() {
         if (typeof s != "object")
           return "";
         if (Array.isArray(s))
-          return r.apply(null, s);
+          return n.apply(null, s);
         if (s.toString !== Object.prototype.toString && !s.toString.toString().includes("[native code]"))
           return s.toString();
         var i = "";
@@ -442,37 +318,32 @@ function Bo() {
       function o(s, i) {
         return i ? s ? s + " " + i : s + i : s;
       }
-      e.exports ? (r.default = r, e.exports = r) : window.classNames = r;
+      e.exports ? (n.default = n, e.exports = n) : window.classNames = n;
     })();
-  })(er)), er.exports;
+  })(Dr)), Dr.exports;
 }
-<<<<<<< Updated upstream
-var Ro = Io();
-const oe = /* @__PURE__ */ jo(Ro), tm = ({
-=======
-var Lo = Bo();
-const ee = /* @__PURE__ */ Do(Lo), Kf = ({
->>>>>>> Stashed changes
+var Dl = Tl();
+const de = /* @__PURE__ */ kl(Dl), b0 = ({
   text: e,
   href: t,
-  openInNewWindow: r = !1,
+  openInNewWindow: n = !1,
   className: a,
   ...o
 }) => {
-  const s = oe(
+  const s = de(
     "nhsuk-action-link__link",
     a
   );
-  return /* @__PURE__ */ n.jsx("div", { className: "nhsuk-action-link", children: /* @__PURE__ */ n.jsxs(
+  return /* @__PURE__ */ r.jsx("div", { className: "nhsuk-action-link", children: /* @__PURE__ */ r.jsxs(
     "a",
     {
       className: s,
       href: t,
-      target: r ? "_blank" : void 0,
-      rel: r ? "noopener noreferrer" : void 0,
+      target: n ? "_blank" : void 0,
+      rel: n ? "noopener noreferrer" : void 0,
       ...o,
       children: [
-        /* @__PURE__ */ n.jsxs(
+        /* @__PURE__ */ r.jsxs(
           "svg",
           {
             className: "nhsuk-icon nhsuk-icon__arrow-right-circle",
@@ -482,25 +353,25 @@ const ee = /* @__PURE__ */ Do(Lo), Kf = ({
             width: "36",
             height: "36",
             children: [
-              /* @__PURE__ */ n.jsx("path", { d: "M0 0h24v24H0z", fill: "none" }),
-              /* @__PURE__ */ n.jsx("path", { d: "M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z" })
+              /* @__PURE__ */ r.jsx("path", { d: "M0 0h24v24H0z", fill: "none" }),
+              /* @__PURE__ */ r.jsx("path", { d: "M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z" })
             ]
           }
         ),
-        /* @__PURE__ */ n.jsx("span", { className: "nhsuk-action-link__text", children: e })
+        /* @__PURE__ */ r.jsx("span", { className: "nhsuk-action-link__text", children: e })
       ]
     }
   ) });
-}, Bo = ({
+}, $l = ({
   ariaLabel: e = "Account",
   items: t = [],
-  className: r,
+  className: n,
   variant: a = "default"
 }) => {
   if (!t || t.length === 0)
     return null;
   const o = (s) => {
-    const i = s.icon ? /* @__PURE__ */ n.jsx(
+    const i = s.icon ? /* @__PURE__ */ r.jsx(
       "svg",
       {
         className: "nhsuk-icon nhsuk-icon__user",
@@ -510,58 +381,57 @@ const ee = /* @__PURE__ */ Do(Lo), Kf = ({
         focusable: "false",
         role: "img",
         "aria-label": s.icon === !0 ? "User" : void 0,
-        children: /* @__PURE__ */ n.jsx("path", { d: "M12 1a11 11 0 1 1 0 22 11 11 0 0 1 0-22Zm0 2a9 9 0 0 0-5 16.5V18a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1.5A9 9 0 0 0 12 3Zm0 3a3.5 3.5 0 1 1-3.5 3.5A3.4 3.4 0 0 1 12 6Z" })
+        children: /* @__PURE__ */ r.jsx("path", { d: "M12 1a11 11 0 1 1 0 22 11 11 0 0 1 0-22Zm0 2a9 9 0 0 0-5 16.5V18a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1.5A9 9 0 0 0 12 3Zm0 3a3.5 3.5 0 1 1-3.5 3.5A3.4 3.4 0 0 1 12 6Z" })
       }
-    ) : null, l = s.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: s.html } }) : s.text, c = /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
+    ) : null, l = s.html ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: s.html } }) : s.text, d = /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
       i,
       l
     ] });
-    return s.href ? /* @__PURE__ */ n.jsx("a", { className: "nhsuk-account__link nhsuk-header__account-link", href: s.href, children: c }) : s.action ? /* @__PURE__ */ n.jsx(
+    return s.href ? /* @__PURE__ */ r.jsx("a", { className: "nhsuk-account__link nhsuk-header__account-link", href: s.href, children: d }) : s.action ? /* @__PURE__ */ r.jsx(
       "form",
       {
         className: "nhsuk-account__form",
         action: s.action,
         method: s.method || "post",
-        children: /* @__PURE__ */ n.jsx(
+        children: /* @__PURE__ */ r.jsx(
           "button",
           {
             className: "nhsuk-account__button",
             type: "submit",
             role: "button",
-            children: c
+            children: d
           }
         )
       }
-    ) : /* @__PURE__ */ n.jsx("span", { children: c });
+    ) : /* @__PURE__ */ r.jsx("span", { children: d });
   };
-  return /* @__PURE__ */ n.jsx(
+  return /* @__PURE__ */ r.jsx(
     "nav",
     {
-      className: oe(
+      className: de(
         "nhsuk-account",
         {
           "nhsuk-account--white": a === "white"
         },
-        r
+        n
       ),
       "aria-label": e,
-      children: /* @__PURE__ */ n.jsx("ul", { className: "nhsuk-account__list", children: t.map((s, i) => s && /* @__PURE__ */ n.jsx(
+      children: /* @__PURE__ */ r.jsx("ul", { className: "nhsuk-account__list", children: t.map((s, i) => s && /* @__PURE__ */ r.jsx(
         "li",
         {
-          className: oe("nhsuk-account__item nhsuk-header__account-item", s.className),
+          className: de("nhsuk-account__item nhsuk-header__account-item", s.className),
           children: o(s)
         },
         i
       )) })
     }
   );
-<<<<<<< Updated upstream
 };
-function Fo(e) {
-  const t = e.variant || "primary", r = e.size || "default", a = !!e.fullWidth, o = [
+function Il(e) {
+  const t = e.variant || "primary", n = e.size || "default", a = !!e.fullWidth, o = [
     "nhs-aria-button",
     `nhs-aria-button--${t}`,
-    r !== "default" ? `nhs-aria-button--${r}` : "",
+    n !== "default" ? `nhs-aria-button--${n}` : "",
     a ? "nhs-aria-button--full-width" : "",
     e.className || ""
   ].filter(Boolean).join(" ");
@@ -573,55 +443,51 @@ function Fo(e) {
     preventDoubleClick: !!e.preventDoubleClick
   };
 }
-const { forwardRef: Eo, useCallback: wt, useState: tr } = le;
-=======
-}, { forwardRef: Eo, useCallback: wt, useState: tr } = ce;
->>>>>>> Stashed changes
-function Ao(e, t) {
+const { forwardRef: Ll, useCallback: Lt, useState: $r } = X;
+function Ml(e, t) {
   const {
-    children: r,
+    children: n,
     variant: a = "primary",
     size: o = "default",
     fullWidth: s = !1,
     className: i = "",
     preventDoubleClick: l = !1,
-<<<<<<< Updated upstream
     ...d
-  } = e, [c, u] = tr(!1), [f, p] = tr(!1), [m, v] = tr(!1), g = Fo({
+  } = e, [c, f] = $r(!1), [h, m] = $r(!1), [g, C] = $r(!1), p = Il({
     variant: a,
     size: o,
     fullWidth: s,
     className: i,
     preventDoubleClick: l,
     href: "href" in d ? d.href : void 0
-  }), _ = "disabled" in d ? d.disabled : d["aria-disabled"] === "true", G = {
+  }), u = "disabled" in d ? d.disabled : d["aria-disabled"] === "true", R = {
     ...c && { "data-pressed": "true" },
-    ...f && { "data-hovered": "true" },
-    ...m && { "data-focused": "true" },
-    ..._ && { "data-disabled": "true" }
-  }, j = wt(
-    () => !_ && u(!0),
-    [_]
-  ), I = wt(() => u(!1), []), k = wt(
-    () => !_ && p(!0),
-    [_]
-  ), H = wt(() => {
-    p(!1), u(!1);
-  }, []), A = wt(() => v(!0), []), V = wt(() => v(!1), []), M = wt(
-    (X) => {
-      X.key === " " && ("href" in d || X.currentTarget.getAttribute("role") === "button") && (X.preventDefault(), X.currentTarget.click());
+    ...h && { "data-hovered": "true" },
+    ...g && { "data-focused": "true" },
+    ...u && { "data-disabled": "true" }
+  }, F = Lt(
+    () => !u && f(!0),
+    [u]
+  ), T = Lt(() => f(!1), []), S = Lt(
+    () => !u && m(!0),
+    [u]
+  ), B = Lt(() => {
+    m(!1), f(!1);
+  }, []), _ = Lt(() => C(!0), []), L = Lt(() => C(!1), []), j = Lt(
+    (K) => {
+      K.key === " " && ("href" in d || K.currentTarget.getAttribute("role") === "button") && (K.preventDefault(), K.currentTarget.click());
     },
     [d]
-  ), R = wt(
-    (X) => {
+  ), D = Lt(
+    (K) => {
       if (l) {
-        const Y = X.currentTarget;
-        if (Y.getAttribute("data-processing") === "true") {
-          X.preventDefault();
+        const V = K.currentTarget;
+        if (V.getAttribute("data-processing") === "true") {
+          K.preventDefault();
           return;
         }
-        Y.setAttribute("data-processing", "true"), setTimeout(() => {
-          Y.removeAttribute("data-processing");
+        V.setAttribute("data-processing", "true"), setTimeout(() => {
+          V.removeAttribute("data-processing");
         }, 1e3);
       }
     },
@@ -629,247 +495,159 @@ function Ao(e, t) {
   );
   if ("href" in d && d.href) {
     const {
-      id: X,
-      style: Y,
-      title: re,
-      ["aria-label"]: me,
-      ["aria-describedby"]: P,
-      ["aria-labelledby"]: je,
-      tabIndex: ge,
-      ...pe
-    } = d, de = d;
-=======
-    ...c
-  } = e, [d, u] = tr(!1), [f, p] = tr(!1), [m, C] = tr(!1), g = [
-    "nhs-aria-button",
-    `nhs-aria-button--${a}`,
-    o !== "default" ? `nhs-aria-button--${o}` : "",
-    s ? "nhs-aria-button--full-width" : "",
-    i
-  ].filter(Boolean).join(" "), _ = "disabled" in c ? c.disabled : c["aria-disabled"] === "true", V = {
-    ...d && { "data-pressed": "true" },
-    ...f && { "data-hovered": "true" },
-    ...m && { "data-focused": "true" },
-    ..._ && { "data-disabled": "true" }
-  }, B = wt(() => !_ && u(!0), [_]), k = wt(() => u(!1), []), y = wt(() => !_ && p(!0), [_]), L = wt(() => {
-    p(!1), u(!1);
-  }, []), v = wt(() => C(!0), []), $ = wt(() => C(!1), []), A = wt((K) => {
-    K.key === " " && ("href" in c || K.currentTarget.getAttribute("role") === "button") && (K.preventDefault(), K.currentTarget.click());
-  }, [c]), I = wt((K) => {
-    if (l) {
-      const U = K.currentTarget;
-      if (U.getAttribute("data-processing") === "true") {
-        K.preventDefault();
-        return;
-      }
-      U.setAttribute("data-processing", "true"), setTimeout(() => {
-        U.removeAttribute("data-processing");
-      }, 1e3);
-    }
-  }, [l]);
-  if ("href" in c && c.href) {
-    const { id: K, style: U, title: se, ["aria-label"]: me, ["aria-describedby"]: z, ["aria-labelledby"]: je, tabIndex: fe, ...pe } = c, he = c;
->>>>>>> Stashed changes
-    return /* @__PURE__ */ n.jsx(
+      id: K,
+      style: V,
+      title: J,
+      ["aria-label"]: ae,
+      ["aria-describedby"]: G,
+      ["aria-labelledby"]: me,
+      tabIndex: he,
+      ...xe
+    } = d, pe = d;
+    return /* @__PURE__ */ r.jsx(
       "a",
       {
         ref: t,
-        href: de.href,
-        target: de.target,
-        rel: de.rel,
-        className: g.classes,
+        href: pe.href,
+        target: pe.target,
+        rel: pe.rel,
+        className: p.classes,
         role: "button",
         draggable: "false",
         "data-module": "nhs-button",
-<<<<<<< Updated upstream
-        ...G,
-=======
-        ...V,
->>>>>>> Stashed changes
+        ...R,
         ...l && { "data-prevent-double-click": "true" },
-        ...pe,
+        ...xe,
         onKeyDown: (be) => {
-          de.onKeyDown?.(be), M(be);
+          pe.onKeyDown?.(be), j(be);
         },
         onClick: (be) => {
-          de.onClick?.(be), R(be);
+          pe.onClick?.(be), D(be);
         },
         onMouseDown: (be) => {
-          de.onMouseDown?.(be), j();
+          pe.onMouseDown?.(be), F();
         },
-<<<<<<< Updated upstream
         onMouseUp: (be) => {
-          de.onMouseUp?.(be), I();
-=======
-        onMouseUp: (xe) => {
-          he.onMouseUp?.(xe), k();
->>>>>>> Stashed changes
+          pe.onMouseUp?.(be), T();
         },
         onMouseEnter: (be) => {
-          de.onMouseEnter?.(be), k();
+          pe.onMouseEnter?.(be), S();
         },
         onMouseLeave: (be) => {
-          de.onMouseLeave?.(be), H();
+          pe.onMouseLeave?.(be), B();
         },
         onFocus: (be) => {
-          de.onFocus?.(be), A();
+          pe.onFocus?.(be), _();
         },
         onBlur: (be) => {
-          de.onBlur?.(be), V();
+          pe.onBlur?.(be), L();
         },
-        "aria-disabled": de["aria-disabled"],
-        ...de["aria-disabled"] === "true" && { tabIndex: -1 },
-        id: X,
-        style: Y,
-        title: re,
-        "aria-label": me,
-        "aria-describedby": P,
-        "aria-labelledby": je,
-        tabIndex: ge,
-        children: r
+        "aria-disabled": pe["aria-disabled"],
+        ...pe["aria-disabled"] === "true" && { tabIndex: -1 },
+        id: K,
+        style: V,
+        title: J,
+        "aria-label": ae,
+        "aria-describedby": G,
+        "aria-labelledby": me,
+        tabIndex: he,
+        children: n
       }
     );
   }
-<<<<<<< Updated upstream
   const {
-    id: x,
-    style: B,
-    title: Z,
-    ["aria-label"]: ce,
-    ["aria-describedby"]: K,
-    ["aria-labelledby"]: y,
-    tabIndex: b,
-    name: N,
-    value: ue,
-    form: $,
-    formAction: C,
-    formEncType: te,
-    formMethod: E,
-    formNoValidate: Q,
-    formTarget: F,
-    autoFocus: ae,
-    ...Ce
-  } = d, se = d;
-=======
-  const { id: b, style: F, title: X, ["aria-label"]: de, ["aria-describedby"]: J, ["aria-labelledby"]: R, tabIndex: x, name: N, value: ue, form: P, formAction: j, formEncType: ae, formMethod: M, formNoValidate: te, formTarget: E, autoFocus: ie, ...Q } = c, Y = c;
->>>>>>> Stashed changes
-  return /* @__PURE__ */ n.jsx(
+    id: v,
+    style: x,
+    title: y,
+    ["aria-label"]: P,
+    ["aria-describedby"]: E,
+    ["aria-labelledby"]: M,
+    tabIndex: k,
+    name: b,
+    value: A,
+    form: w,
+    formAction: $,
+    formEncType: W,
+    formMethod: I,
+    formNoValidate: O,
+    formTarget: H,
+    autoFocus: Q,
+    ...fe
+  } = d, oe = d;
+  return /* @__PURE__ */ r.jsx(
     "button",
     {
       ref: t,
-<<<<<<< Updated upstream
-      type: se.type || "button",
-      disabled: se.disabled,
-      className: g.classes,
+      type: oe.type || "button",
+      disabled: oe.disabled,
+      className: p.classes,
       "data-module": "nhs-button",
-      ...G,
+      ...R,
       ...l && { "data-prevent-double-click": "true" },
-      ...se.disabled && { "aria-disabled": "true" },
-      ...Ce,
-      onKeyDown: (X) => {
-        se.onKeyDown?.(X), M(X);
-      },
-      onClick: (X) => {
-        se.onClick?.(X), R(X);
-      },
-      onMouseDown: (X) => {
-        se.onMouseDown?.(X), j();
-      },
-      onMouseUp: (X) => {
-        se.onMouseUp?.(X), I();
-      },
-      onMouseEnter: (X) => {
-        se.onMouseEnter?.(X), k();
-      },
-      onMouseLeave: (X) => {
-        se.onMouseLeave?.(X), H();
-      },
-      onFocus: (X) => {
-        se.onFocus?.(X), A();
-      },
-      onBlur: (X) => {
-        se.onBlur?.(X), V();
-=======
-      type: Y.type || "button",
-      disabled: Y.disabled,
-      className: g,
-      "data-module": "nhs-button",
-      ...V,
-      ...l && { "data-prevent-double-click": "true" },
-      ...Y.disabled && { "aria-disabled": "true" },
-      ...Q,
+      ...oe.disabled && { "aria-disabled": "true" },
+      ...fe,
       onKeyDown: (K) => {
-        Y.onKeyDown?.(K), A(K);
+        oe.onKeyDown?.(K), j(K);
       },
       onClick: (K) => {
-        Y.onClick?.(K), I(K);
+        oe.onClick?.(K), D(K);
       },
       onMouseDown: (K) => {
-        Y.onMouseDown?.(K), B();
+        oe.onMouseDown?.(K), F();
       },
       onMouseUp: (K) => {
-        Y.onMouseUp?.(K), k();
+        oe.onMouseUp?.(K), T();
       },
       onMouseEnter: (K) => {
-        Y.onMouseEnter?.(K), y();
+        oe.onMouseEnter?.(K), S();
       },
       onMouseLeave: (K) => {
-        Y.onMouseLeave?.(K), L();
+        oe.onMouseLeave?.(K), B();
       },
       onFocus: (K) => {
-        Y.onFocus?.(K), v();
+        oe.onFocus?.(K), _();
       },
       onBlur: (K) => {
-        Y.onBlur?.(K), $();
->>>>>>> Stashed changes
+        oe.onBlur?.(K), L();
       },
-      id: x,
-      style: B,
-      title: Z,
-      "aria-label": ce,
-      "aria-describedby": K,
-      "aria-labelledby": y,
-      tabIndex: b,
-      name: N,
-      value: ue,
-      form: $,
-      formAction: C,
-      formEncType: te,
-      formMethod: E,
-      formNoValidate: Q,
-      formTarget: F,
-      autoFocus: ae,
-      children: r
+      id: v,
+      style: x,
+      title: y,
+      "aria-label": P,
+      "aria-describedby": E,
+      "aria-labelledby": M,
+      tabIndex: k,
+      name: b,
+      value: A,
+      form: w,
+      formAction: $,
+      formEncType: W,
+      formMethod: I,
+      formNoValidate: O,
+      formTarget: H,
+      autoFocus: Q,
+      children: n
     }
   );
 }
-<<<<<<< Updated upstream
-const Ge = Eo(Ao);
-Ge.displayName = "Button";
-=======
-const Ve = Eo(Ao);
-Ve.displayName = "Button";
->>>>>>> Stashed changes
-const dr = ({
+const Qe = Ll(Ml);
+Qe.displayName = "Button";
+const Yr = ({
   text: e = "Back",
   html: t,
-  href: r = "#",
+  href: n = "#",
   className: a,
   element: o = "a",
   onClick: s,
   ...i
 }) => {
-  const l = oe(
+  const l = de(
     "nhsuk-back-link",
     a
-<<<<<<< Updated upstream
-  ), d = oe(
-=======
-  ), c = ee(
->>>>>>> Stashed changes
+  ), d = de(
     "nhsuk-back-link__link"
-  ), d = () => /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-    /* @__PURE__ */ n.jsx(
+  ), c = () => /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+    /* @__PURE__ */ r.jsx(
       "svg",
       {
         className: "nhsuk-icon nhsuk-icon__chevron-left",
@@ -878,80 +656,64 @@ const dr = ({
         "aria-hidden": "true",
         height: "24",
         width: "24",
-        children: /* @__PURE__ */ n.jsx("path", { d: "M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z" })
+        children: /* @__PURE__ */ r.jsx("path", { d: "M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z" })
       }
     ),
-    t ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: t } }) : e
+    t ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: t } }) : e
   ] });
-  return /* @__PURE__ */ n.jsx("div", { className: l, children: o === "button" ? /* @__PURE__ */ n.jsx(
+  return /* @__PURE__ */ r.jsx("div", { className: l, children: o === "button" ? /* @__PURE__ */ r.jsx(
     "button",
     {
-      className: c,
+      className: d,
       onClick: s,
       type: "button",
       ...i,
-      children: d()
+      children: c()
     }
-  ) : /* @__PURE__ */ n.jsx(
+  ) : /* @__PURE__ */ r.jsx(
     "a",
     {
-      className: c,
-      href: r,
+      className: d,
+      href: n,
       ...i,
-      children: d()
+      children: c()
     }
   ) });
 };
-function Lo(e) {
-  const { color: t = "default", noBorder: r, closable: a, disabled: o, className: s } = e;
+function Fl(e) {
+  const { color: t = "default", noBorder: n, closable: a, disabled: o, className: s } = e;
   return { classes: [
     "nhsuk-tag",
     t !== "default" ? `nhsuk-tag--${t}` : "",
-    r ? "nhsuk-tag--no-border" : "",
+    n ? "nhsuk-tag--no-border" : "",
     a ? "nhsuk-tag--closable" : "",
     o ? "nhsuk-tag--disabled" : "",
     s || ""
   ].filter(Boolean).join(" "), showClose: !!a, disabled: !!o };
 }
-const rt = ({
+const et = ({
   text: e,
   html: t,
-  children: r,
+  children: n,
   color: a = "default",
   noBorder: o = !1,
   closable: s = !1,
   onClose: i,
   disabled: l = !1,
-  className: c,
-  ...d
+  className: d,
+  ...c
 }) => {
-<<<<<<< Updated upstream
-  const u = Lo({ color: a, noBorder: o, closable: s, disabled: l, className: d }), f = (p) => {
-    p.preventDefault(), p.stopPropagation(), !l && i && i();
+  const f = Fl({ color: a, noBorder: o, closable: s, disabled: l, className: d }), h = (m) => {
+    m.preventDefault(), m.stopPropagation(), !l && i && i();
   };
-  return /* @__PURE__ */ n.jsxs("strong", { className: u.classes, ...c, children: [
-=======
-  const u = ee(
-    "nhsuk-tag",
-    {
-      [`nhsuk-tag--${a}`]: a !== "default",
-      "nhsuk-tag--no-border": o,
-      "nhsuk-tag--closable": s,
-      "nhsuk-tag--disabled": l
-    },
-    c
-  ), f = (p) => {
-    p.preventDefault(), p.stopPropagation(), !l && i && i();
-  };
-  return /* @__PURE__ */ n.jsxs("strong", { className: u, ...d, children: [
->>>>>>> Stashed changes
-    r || (t ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: t } }) : e),
-    s && /* @__PURE__ */ n.jsx(
+  return /* @__PURE__ */ r.jsxs("strong", { className: f.classes, ...c, children: [
+    n || (t ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: t } }) : e),
+    s && /* @__PURE__ */ r.jsx(
       "button",
       {
         type: "button",
         className: "nhsuk-tag__close",
-        onClick: f,
+        onClick: h,
         disabled: l,
         "aria-label": "Remove",
         title: "Remove",
@@ -959,52 +721,39 @@ const rt = ({
       }
     )
   ] });
-}, Mo = ({
+}, Bl = ({
   id: e,
   name: t,
-  checked: r,
+  checked: n,
   defaultChecked: a = !1,
   disabled: o = !1,
   value: s = "true",
   hint: i,
   errorMessage: l,
-  className: c,
-  children: d,
-  onChange: u,
-  onBlur: f,
-  onFocus: p,
-  attributes: m,
-<<<<<<< Updated upstream
-  ...v
-}) => {
-  const [g, _] = we(a), G = r !== void 0, j = G ? r : g;
-  Fe(() => {
-    G || _(a);
-  }, [a, G]);
-  const I = (M) => {
-    const R = M.target.checked;
-    G || _(R), u?.(R, M);
-  }, k = i ? `${e}-hint` : void 0, H = l ? `${e}-error` : void 0, A = [k, H].filter(Boolean).join(" ") || void 0, V = oe(
-=======
+  className: d,
+  children: c,
+  onChange: f,
+  onBlur: h,
+  onFocus: m,
+  attributes: g,
   ...C
 }) => {
-  const [g, _] = Se(a), V = r !== void 0, B = V ? r : g;
-  Ie(() => {
-    V || _(a);
-  }, [a, V]);
-  const k = (A) => {
-    const I = A.target.checked;
-    V || _(I), u?.(I, A);
-  }, y = i ? `${e}-hint` : void 0, L = l ? `${e}-error` : void 0, v = [y, L].filter(Boolean).join(" ") || void 0, $ = ee(
->>>>>>> Stashed changes
+  const [p, u] = Ne(a), R = n !== void 0, F = R ? n : p;
+  Ee(() => {
+    R || u(a);
+  }, [a, R]);
+  const T = (j) => {
+    const D = j.target.checked;
+    R || u(D), f?.(D, j);
+  }, S = i ? `${e}-hint` : void 0, B = l ? `${e}-error` : void 0, _ = [S, B].filter(Boolean).join(" ") || void 0, L = de(
     "nhsuk-form-group",
     {
       "nhsuk-form-group--error": !!l
     },
-    c
+    d
   );
-  return /* @__PURE__ */ n.jsx("div", { className: V, ...v, children: /* @__PURE__ */ n.jsx("div", { className: "nhsuk-checkboxes", children: /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-checkboxes__item", children: [
-    /* @__PURE__ */ n.jsx(
+  return /* @__PURE__ */ r.jsx("div", { className: L, ...C, children: /* @__PURE__ */ r.jsx("div", { className: "nhsuk-checkboxes", children: /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-checkboxes__item", children: [
+    /* @__PURE__ */ r.jsx(
       "input",
       {
         className: "nhsuk-checkboxes__input",
@@ -1012,682 +761,469 @@ const rt = ({
         name: t || e,
         type: "checkbox",
         value: s,
-        checked: j,
+        checked: F,
         disabled: o,
-<<<<<<< Updated upstream
-        onChange: I,
-        onBlur: f,
-        onFocus: p,
-        "aria-describedby": A,
-        ...m
+        onChange: T,
+        onBlur: h,
+        onFocus: m,
+        "aria-describedby": _,
+        ...g
       }
     ),
-    /* @__PURE__ */ n.jsx("label", { className: "nhsuk-checkboxes__label", htmlFor: e, children: c }),
-    i && /* @__PURE__ */ n.jsx("div", { id: k, className: "nhsuk-checkboxes__hint", children: i }),
-    l && /* @__PURE__ */ n.jsxs("div", { id: H, className: "nhsuk-error-message nhsuk-checkboxes__error", children: [
-=======
-        onChange: k,
-        onBlur: f,
-        onFocus: p,
-        "aria-describedby": v,
-        ...m
-      }
-    ),
-    /* @__PURE__ */ n.jsx("label", { className: "nhsuk-checkboxes__label", htmlFor: e, children: d }),
-    i && /* @__PURE__ */ n.jsx("div", { id: y, className: "nhsuk-checkboxes__hint", children: i }),
-    l && /* @__PURE__ */ n.jsxs("div", { id: L, className: "nhsuk-error-message nhsuk-checkboxes__error", children: [
->>>>>>> Stashed changes
-      /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: "Error:" }),
+    /* @__PURE__ */ r.jsx("label", { className: "nhsuk-checkboxes__label", htmlFor: e, children: c }),
+    i && /* @__PURE__ */ r.jsx("div", { id: S, className: "nhsuk-checkboxes__hint", children: i }),
+    l && /* @__PURE__ */ r.jsxs("div", { id: B, className: "nhsuk-error-message nhsuk-checkboxes__error", children: [
+      /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: "Error:" }),
       " ",
       l
     ] })
   ] }) }) });
 };
-Mo.displayName = "Checkbox";
-<<<<<<< Updated upstream
-function $o(e) {
-  const r = (e.type || "text") === "range";
+Bl.displayName = "Checkbox";
+function Al(e) {
+  const n = (e.type || "text") === "range";
   return { classes: [
     "nhsuk-input",
     e.hasError ? "nhsuk-input--error" : "",
-    r ? "nhsuk-input--range" : "",
-    !r && e.width && e.width !== "full" ? `nhsuk-input--width-${e.width}` : "",
+    n ? "nhsuk-input--range" : "",
+    !n && e.width && e.width !== "full" ? `nhsuk-input--width-${e.width}` : "",
     e.className || ""
-  ].filter(Boolean).join(" "), isRange: r };
+  ].filter(Boolean).join(" "), isRange: n };
 }
-const Hr = ({
-=======
-const Pr = ({
->>>>>>> Stashed changes
+const Da = ({
   id: e,
   name: t,
-  type: r = "text",
+  type: n = "text",
   value: a,
   defaultValue: o,
   placeholder: s,
   disabled: i = !1,
   readOnly: l = !1,
-  required: c = !1,
-  hasError: d = !1,
-  describedBy: u,
-  className: f,
-  width: p = "full",
-  inputMode: m,
-<<<<<<< Updated upstream
-  autoComplete: v,
-  maxLength: g,
-  minLength: _,
-  pattern: G,
-  step: j,
-  min: I,
-  max: k,
-  showValueLabels: H = !1,
-  showCurrentValue: A = !1,
-  valueLabels: V,
-  onChange: M,
-  onBlur: R,
-  onFocus: x,
-  onKeyDown: B,
-  ...Z
-}) => {
-  const [ce, K] = we(a || o || (r === "range" ? I || "0" : ""));
-  Fe(() => {
-    a !== void 0 && K(a);
-  }, [a]);
-  const y = (F) => {
-    const ae = F.target;
-    K(ae.value), ("type" in F && F.nativeEvent || F.type === "keydown") && M?.(F);
-  }, { classes: b, isRange: N } = $o({ type: r, hasError: c, width: p, className: f }), ue = a !== void 0, $ = {
-=======
+  required: d = !1,
+  hasError: c = !1,
+  describedBy: f,
+  className: h,
+  width: m = "full",
+  inputMode: g,
   autoComplete: C,
-  maxLength: g,
-  minLength: _,
-  pattern: V,
-  step: B,
-  min: k,
-  max: y,
-  showValueLabels: L = !1,
-  showCurrentValue: v = !1,
-  valueLabels: $,
-  onChange: A,
-  onBlur: I,
-  onFocus: b,
-  onKeyDown: F,
-  ...X
+  maxLength: p,
+  minLength: u,
+  pattern: R,
+  step: F,
+  min: T,
+  max: S,
+  showValueLabels: B = !1,
+  showCurrentValue: _ = !1,
+  valueLabels: L,
+  onChange: j,
+  onBlur: D,
+  onFocus: v,
+  onKeyDown: x,
+  ...y
 }) => {
-  const [de, J] = Se(a || o || (r === "range" ? k || "0" : ""));
-  Ie(() => {
-    a !== void 0 && J(a);
+  const [P, E] = Ne(a || o || (n === "range" ? T || "0" : ""));
+  Ee(() => {
+    a !== void 0 && E(a);
   }, [a]);
-  const R = (E) => {
-    const ie = E.target;
-    J(ie.value), ("type" in E && E.nativeEvent || E.type === "keydown") && A?.(E);
-  }, x = r === "range", N = ee(
-    "nhsuk-input",
-    {
-      "nhsuk-input--error": d,
-      "nhsuk-input--range": x,
-      [`nhsuk-input--width-${p}`]: p !== "full" && !x
-    },
-    f
-  ), ue = a !== void 0, P = {
->>>>>>> Stashed changes
+  const M = (H) => {
+    const Q = H.target;
+    E(Q.value), ("type" in H && H.nativeEvent || H.type === "keydown") && j?.(H);
+  }, { classes: k, isRange: b } = Al({ type: n, hasError: c, width: m, className: h }), A = a !== void 0, w = {
     id: e,
     name: t,
-    type: r,
+    type: n,
     placeholder: s,
     disabled: i,
     readOnly: l,
-    required: c,
-    "aria-describedby": u,
-    inputMode: m,
-<<<<<<< Updated upstream
-    autoComplete: v,
-    maxLength: g,
-    minLength: _,
-    pattern: G,
-    step: j,
-    min: I,
-    max: k,
-    onChange: y,
-    onBlur: R,
-    onFocus: x,
-    onKeyDown: (F) => {
-      if (N && /[0-9]/.test(F.key)) {
-        const ae = (ce?.toString() || "") + F.key;
-        F.target.value = ae, y(F);
-=======
+    required: d,
+    "aria-describedby": f,
+    inputMode: g,
     autoComplete: C,
-    maxLength: g,
-    minLength: _,
-    pattern: V,
-    step: B,
-    min: k,
-    max: y,
-    onChange: R,
-    onBlur: I,
-    onFocus: b,
-    onKeyDown: (E) => {
-      if (x && /[0-9]/.test(E.key)) {
-        const ie = (de?.toString() || "") + E.key;
-        E.target.value = ie, R(E);
->>>>>>> Stashed changes
+    maxLength: p,
+    minLength: u,
+    pattern: R,
+    step: F,
+    min: T,
+    max: S,
+    onChange: M,
+    onBlur: D,
+    onFocus: v,
+    onKeyDown: (H) => {
+      if (b && /[0-9]/.test(H.key)) {
+        const Q = (P?.toString() || "") + H.key;
+        H.target.value = Q, M(H);
       }
-      B?.(F);
+      x?.(H);
     },
-    ...Z
-  }, C = !ue && o !== void 0 ? { defaultValue: o } : {}, te = ue ? { value: a } : {}, E = () => /* @__PURE__ */ n.jsx(
+    ...y
+  }, $ = !A && o !== void 0 ? { defaultValue: o } : {}, W = A ? { value: a } : {}, I = () => /* @__PURE__ */ r.jsx(
     "input",
     {
-      className: b,
-      ...te,
-      ...C,
-      "data-current-value": ce,
-      ...$
+      className: k,
+      ...W,
+      ...$,
+      "data-current-value": P,
+      ...w
     }
-<<<<<<< Updated upstream
-  ), Q = N ? /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-input-range-wrapper", children: [
-    H && /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-input-range-labels", children: [
-      /* @__PURE__ */ n.jsx("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min", children: V?.min || I || "0" }),
-      E(),
-      /* @__PURE__ */ n.jsx("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max", children: V?.max || k || "100" })
-=======
-  ), te = x ? /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-input-range-wrapper", children: [
-    L && /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-input-range-labels", children: [
-      /* @__PURE__ */ n.jsx("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min", children: $?.min || k || "0" }),
-      M(),
-      /* @__PURE__ */ n.jsx("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max", children: $?.max || y || "100" })
->>>>>>> Stashed changes
+  ), O = b ? /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-input-range-wrapper", children: [
+    B && /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-input-range-labels", children: [
+      /* @__PURE__ */ r.jsx("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min", children: L?.min || T || "0" }),
+      I(),
+      /* @__PURE__ */ r.jsx("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max", children: L?.max || S || "100" })
     ] }),
-    !H && E(),
-    A && /* @__PURE__ */ n.jsx("div", { className: "nhsuk-input-range-current-value", children: /* @__PURE__ */ n.jsxs("span", { className: "nhsuk-input-range-current-label", children: [
-      V?.current || "Current value:",
+    !B && I(),
+    _ && /* @__PURE__ */ r.jsx("div", { className: "nhsuk-input-range-current-value", children: /* @__PURE__ */ r.jsxs("span", { className: "nhsuk-input-range-current-label", children: [
+      L?.current || "Current value:",
       " ",
-      /* @__PURE__ */ n.jsx("strong", { children: ce })
+      /* @__PURE__ */ r.jsx("strong", { children: P })
     ] }) })
   ] }) : null;
-  return N ? Q : /* @__PURE__ */ n.jsx(
+  return b ? O : /* @__PURE__ */ r.jsx(
     "input",
     {
-      className: b,
+      className: k,
       id: e,
       name: t,
-      type: r,
+      type: n,
       value: a,
       ...a === void 0 && o !== void 0 ? { defaultValue: o } : {},
       placeholder: s,
       disabled: i,
       readOnly: l,
-      required: c,
-      "aria-describedby": u,
-      inputMode: m,
-<<<<<<< Updated upstream
-      autoComplete: v,
-      maxLength: g,
-      minLength: _,
-      pattern: G,
-      step: j,
-      min: I,
-      max: k,
-      onChange: M,
-      onBlur: R,
-      onFocus: x,
-      onKeyDown: B,
-      ...Z
-=======
+      required: d,
+      "aria-describedby": f,
+      inputMode: g,
       autoComplete: C,
-      maxLength: g,
-      minLength: _,
-      pattern: V,
-      step: B,
-      min: k,
-      max: y,
-      onChange: A,
-      onBlur: I,
-      onFocus: b,
-      onKeyDown: F,
-      ...X
->>>>>>> Stashed changes
+      maxLength: p,
+      minLength: u,
+      pattern: R,
+      step: F,
+      min: T,
+      max: S,
+      onChange: j,
+      onBlur: D,
+      onFocus: v,
+      onKeyDown: x,
+      ...y
     }
   );
 };
-function Ho(e) {
-  const t = e.size || "m", r = [
+function El(e) {
+  const t = e.size || "m", n = [
     "nhsuk-label",
     t !== "m" ? `nhsuk-label--${t}` : "",
     e.className || ""
   ].filter(Boolean).join(" ");
   return {
     tag: e.isPageHeading ? "h1" : "label",
-    classes: r,
+    classes: n,
     size: t,
     htmlFor: e.isPageHeading ? void 0 : e.htmlFor,
     isPageHeading: !!e.isPageHeading
   };
 }
-const Pr = ({
+const $a = ({
   htmlFor: e,
   className: t,
-  isPageHeading: r = !1,
+  isPageHeading: n = !1,
   size: a = "m",
   children: o,
   ...s
 }) => {
-  const i = Ho({ size: a, isPageHeading: r, className: t, htmlFor: e }), l = i.tag;
-  return /* @__PURE__ */ n.jsx(l, { className: i.classes, htmlFor: i.htmlFor, ...s, children: r ? /* @__PURE__ */ n.jsx("label", { className: "nhsuk-label-wrapper", htmlFor: e, children: o }) : o });
-}, zr = ({
+  const i = El({ size: a, isPageHeading: n, className: t, htmlFor: e }), l = i.tag;
+  return /* @__PURE__ */ r.jsx(l, { className: i.classes, htmlFor: i.htmlFor, ...s, children: n ? /* @__PURE__ */ r.jsx("label", { className: "nhsuk-label-wrapper", htmlFor: e, children: o }) : o });
+}, Ia = ({
   children: e,
   legend: t,
-  className: r,
+  className: n,
   describedBy: a,
   ...o
 }) => {
-  const s = oe(
+  const s = de(
     "nhsuk-fieldset",
-    r
-  ), i = oe(
+    n
+  ), i = de(
     "nhsuk-fieldset__legend",
     {
       [`nhsuk-fieldset__legend--${t?.size}`]: t?.size
     },
     t?.className
   ), l = () => {
-    const c = t?.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: t.html } }) : t?.text;
-    return t?.isPageHeading ? /* @__PURE__ */ n.jsx("h1", { className: "nhsuk-fieldset__heading", children: c }) : c;
+    const d = t?.html ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: t.html } }) : t?.text;
+    return t?.isPageHeading ? /* @__PURE__ */ r.jsx("h1", { className: "nhsuk-fieldset__heading", children: d }) : d;
   };
-  return /* @__PURE__ */ n.jsxs(
+  return /* @__PURE__ */ r.jsxs(
     "fieldset",
     {
       className: s,
       "aria-describedby": a,
       ...o,
       children: [
-        t && (t.text || t.html) && /* @__PURE__ */ n.jsx("legend", { className: i, children: l() }),
+        t && (t.text || t.html) && /* @__PURE__ */ r.jsx("legend", { className: i, children: l() }),
         e
       ]
     }
   );
-<<<<<<< Updated upstream
-}, Po = ({
-=======
-}, $o = ({
->>>>>>> Stashed changes
+}, Rl = ({
   items: e,
   name: t,
-  idPrefix: r,
+  idPrefix: n,
   legend: a,
   isPageHeading: o = !1,
   legendSize: s = "l",
   hint: i,
   errorMessage: l,
-  className: c = "",
-  small: d = !1,
-  onChange: u,
-  fieldsetAttributes: f,
-  attributes: p,
-  ...m
+  className: d = "",
+  small: c = !1,
+  onChange: f,
+  fieldsetAttributes: h,
+  attributes: m,
+  ...g
 }) => {
-<<<<<<< Updated upstream
-  const [v, g] = we(
-    e.filter((M) => M.checked).map((M) => M.value)
-  ), _ = r || t, G = i ? `${_}-hint` : void 0, j = l ? `${_}-error` : void 0, I = [G, j].filter(Boolean).join(" ") || void 0, k = (M, R) => {
-    let x;
-    R ? x = [...v, M] : x = v.filter((B) => B !== M), g(x), u?.(x);
-  }, H = () => e.map((M, R) => {
-    const x = `${_}-${R + 1}`, B = `${x}-conditional`, Z = v.includes(M.value), ce = M.disabled || !1;
-=======
-  const [C, g] = Se(
-    e.filter((A) => A.checked).map((A) => A.value)
-  ), _ = r || t, V = i ? `${_}-hint` : void 0, B = l ? `${_}-error` : void 0, k = [V, B].filter(Boolean).join(" ") || void 0, y = (A, I) => {
-    let b;
-    I ? b = [...C, A] : b = C.filter((F) => F !== A), g(b), u?.(b);
-  }, L = () => e.map((A, I) => {
-    const b = `${_}-${I + 1}`, F = `${b}-conditional`, X = C.includes(A.value), de = A.disabled || !1;
->>>>>>> Stashed changes
-    return /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-checkboxes__item", children: [
-      /* @__PURE__ */ n.jsx(
+  const [C, p] = Ne(
+    e.filter((j) => j.checked).map((j) => j.value)
+  ), u = n || t, R = i ? `${u}-hint` : void 0, F = l ? `${u}-error` : void 0, T = [R, F].filter(Boolean).join(" ") || void 0, S = (j, D) => {
+    let v;
+    D ? v = [...C, j] : v = C.filter((x) => x !== j), p(v), f?.(v);
+  }, B = () => e.map((j, D) => {
+    const v = `${u}-${D + 1}`, x = `${v}-conditional`, y = C.includes(j.value), P = j.disabled || !1;
+    return /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-checkboxes__item", children: [
+      /* @__PURE__ */ r.jsx(
         "input",
         {
           className: "nhsuk-checkboxes__input",
-          id: x,
+          id: v,
           name: t,
           type: "checkbox",
-<<<<<<< Updated upstream
-          value: M.value,
-          checked: Z,
-          disabled: ce,
-          onChange: (K) => k(M.value, K.target.checked),
-          "aria-describedby": M.hint ? `${x}-hint` : I,
-          ...M.conditional && {
-            "aria-controls": B,
-            "aria-expanded": Z ? "true" : "false"
-=======
-          value: A.value,
-          checked: X,
-          disabled: de,
-          onChange: (J) => y(A.value, J.target.checked),
-          "aria-describedby": A.hint ? `${b}-hint` : k,
-          ...A.conditional && {
-            "aria-controls": F,
-            "aria-expanded": X ? "true" : "false"
->>>>>>> Stashed changes
+          value: j.value,
+          checked: y,
+          disabled: P,
+          onChange: (E) => S(j.value, E.target.checked),
+          "aria-describedby": j.hint ? `${v}-hint` : T,
+          ...j.conditional && {
+            "aria-controls": x,
+            "aria-expanded": y ? "true" : "false"
           },
-          ...M.attributes
+          ...j.attributes
         }
       ),
-      /* @__PURE__ */ n.jsx("label", { className: "nhsuk-checkboxes__label", htmlFor: x, children: M.text }),
-      M.hint && /* @__PURE__ */ n.jsx("div", { id: `${x}-hint`, className: "nhsuk-checkboxes__hint", children: M.hint }),
-      M.conditional && /* @__PURE__ */ n.jsx(
+      /* @__PURE__ */ r.jsx("label", { className: "nhsuk-checkboxes__label", htmlFor: v, children: j.text }),
+      j.hint && /* @__PURE__ */ r.jsx("div", { id: `${v}-hint`, className: "nhsuk-checkboxes__hint", children: j.hint }),
+      j.conditional && /* @__PURE__ */ r.jsx(
         "div",
         {
-          className: oe("nhsuk-checkboxes__conditional", {
-            "nhsuk-checkboxes__conditional--hidden": !Z
+          className: de("nhsuk-checkboxes__conditional", {
+            "nhsuk-checkboxes__conditional--hidden": !y
           }),
-          id: B,
-          children: typeof M.conditional == "object" && M.conditional !== null && "label" in M.conditional && "id" in M.conditional && "name" in M.conditional ? /* @__PURE__ */ n.jsxs("div", { style: { marginTop: "16px" }, children: [
-            M.conditional.label && /* @__PURE__ */ n.jsx(Pr, { htmlFor: M.conditional.id, children: M.conditional.label }),
-            /* @__PURE__ */ n.jsx(Hr, { ...M.conditional })
-          ] }) : M.conditional
+          id: x,
+          children: typeof j.conditional == "object" && j.conditional !== null && "label" in j.conditional && "id" in j.conditional && "name" in j.conditional ? /* @__PURE__ */ r.jsxs("div", { style: { marginTop: "16px" }, children: [
+            j.conditional.label && /* @__PURE__ */ r.jsx($a, { htmlFor: j.conditional.id, children: j.conditional.label }),
+            /* @__PURE__ */ r.jsx(Da, { ...j.conditional })
+          ] }) : j.conditional
         }
       )
-    ] }, M.value);
-  }), A = oe(
+    ] }, j.value);
+  }), _ = de(
     "nhsuk-checkboxes",
     {
-      "nhsuk-checkboxes--small": d
+      "nhsuk-checkboxes--small": c
     },
-<<<<<<< Updated upstream
     d
-  ), V = oe("nhsuk-form-group", {
+  ), L = de("nhsuk-form-group", {
     "nhsuk-form-group--error": !!l
   });
-  return /* @__PURE__ */ n.jsx("div", { className: V, ...p, ...m, children: /* @__PURE__ */ n.jsxs(
-    zr,
-=======
-    c
-  ), $ = ee("nhsuk-form-group", {
-    "nhsuk-form-group--error": !!l
-  });
-  return /* @__PURE__ */ n.jsx("div", { className: $, ...p, ...m, children: /* @__PURE__ */ n.jsxs(
-    Wr,
->>>>>>> Stashed changes
+  return /* @__PURE__ */ r.jsx("div", { className: L, ...m, ...g, children: /* @__PURE__ */ r.jsxs(
+    Ia,
     {
       legend: a ? {
         text: a,
         isPageHeading: o,
         size: s
       } : void 0,
-<<<<<<< Updated upstream
-      describedBy: I,
-      ...f,
+      describedBy: T,
+      ...h,
       children: [
-        i && /* @__PURE__ */ n.jsx("div", { id: G, className: "nhsuk-hint", children: i }),
-        l && /* @__PURE__ */ n.jsxs("div", { id: j, className: "nhsuk-error-message", children: [
-=======
-      describedBy: k,
-      ...f,
-      children: [
-        i && /* @__PURE__ */ n.jsx("div", { id: V, className: "nhsuk-hint", children: i }),
-        l && /* @__PURE__ */ n.jsxs("div", { id: B, className: "nhsuk-error-message", children: [
->>>>>>> Stashed changes
-          /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: "Error:" }),
+        i && /* @__PURE__ */ r.jsx("div", { id: R, className: "nhsuk-hint", children: i }),
+        l && /* @__PURE__ */ r.jsxs("div", { id: F, className: "nhsuk-error-message", children: [
+          /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: "Error:" }),
           " ",
           l
         ] }),
-        /* @__PURE__ */ n.jsx("div", { className: A, children: H() })
+        /* @__PURE__ */ r.jsx("div", { className: _, children: B() })
       ]
     }
   ) });
 };
-<<<<<<< Updated upstream
-Po.displayName = "Checkboxes";
-const zo = ({
-=======
-$o.displayName = "Checkboxes";
-const Ho = ({
->>>>>>> Stashed changes
+Rl.displayName = "Checkboxes";
+const Pl = ({
   id: e,
   name: t,
-  value: r,
+  value: n,
   defaultValue: a,
   placeholder: o,
   disabled: s = !1,
   readOnly: i = !1,
   required: l = !1,
-  hasError: c = !1,
-  describedBy: d,
-  className: u,
-  rows: f = 5,
-  cols: p,
-  maxLength: m,
-<<<<<<< Updated upstream
-  minLength: v,
-  wrap: g = "soft",
-  resize: _ = "vertical",
-  autoComplete: G,
-  spellCheck: j,
-  onChange: I,
-  onBlur: k,
-  onFocus: H,
-  onKeyDown: A,
-  ...V
-=======
+  hasError: d = !1,
+  describedBy: c,
+  className: f,
+  rows: h = 5,
+  cols: m,
+  maxLength: g,
   minLength: C,
-  wrap: g = "soft",
-  resize: _ = "vertical",
-  autoComplete: V,
-  spellCheck: B,
-  onChange: k,
-  onBlur: y,
-  onFocus: L,
-  onKeyDown: v,
-  ...$
->>>>>>> Stashed changes
+  wrap: p = "soft",
+  resize: u = "vertical",
+  autoComplete: R,
+  spellCheck: F,
+  onChange: T,
+  onBlur: S,
+  onFocus: B,
+  onKeyDown: _,
+  ...L
 }) => {
-  const M = oe(
+  const j = de(
     "nhsuk-textarea",
     {
-<<<<<<< Updated upstream
       "nhsuk-textarea--error": d,
-=======
-      "nhsuk-textarea--error": c,
->>>>>>> Stashed changes
-      [`nhsuk-textarea--resize-${_}`]: _ !== "vertical"
+      [`nhsuk-textarea--resize-${u}`]: u !== "vertical"
     },
-    u
+    f
   );
-  return /* @__PURE__ */ n.jsx(
+  return /* @__PURE__ */ r.jsx(
     "textarea",
     {
-      className: M,
+      className: j,
       id: e,
       name: t,
-      value: r,
+      value: n,
       defaultValue: a,
       placeholder: o,
       disabled: s,
       readOnly: i,
       required: l,
-      "aria-describedby": d,
-      rows: f,
-      cols: p,
-      maxLength: m,
-<<<<<<< Updated upstream
-      minLength: v,
-      wrap: g,
-      autoComplete: G,
-      spellCheck: j,
-      onChange: I,
-      onBlur: k,
-      onFocus: H,
-      onKeyDown: A,
-      ...V
+      "aria-describedby": c,
+      rows: h,
+      cols: m,
+      maxLength: g,
+      minLength: C,
+      wrap: p,
+      autoComplete: R,
+      spellCheck: F,
+      onChange: T,
+      onBlur: S,
+      onFocus: B,
+      onKeyDown: _,
+      ...L
     }
   );
 };
-function Wo(e) {
+function Hl(e) {
   return { classes: [
     "nhsuk-hint",
     e.className || ""
   ].filter(Boolean).join(" "), id: e.id };
 }
-const Ua = ({ id: e, className: t, children: r, ...a }) => {
-  const o = Wo({ id: e, className: t });
-  return /* @__PURE__ */ n.jsx("div", { className: o.classes, id: o.id, ...a, children: r });
-}, nm = ({
-=======
-      minLength: C,
-      wrap: g,
-      autoComplete: V,
-      spellCheck: B,
-      onChange: k,
-      onBlur: y,
-      onFocus: L,
-      onKeyDown: v,
-      ...$
-    }
-  );
-}, Ga = ({
-  id: e,
-  className: t,
-  children: r,
-  ...a
-}) => {
-  const o = ee("nhsuk-hint", t);
-  return /* @__PURE__ */ n.jsx("div", { className: o, id: e, ...a, children: r });
-}, Zf = ({
->>>>>>> Stashed changes
+const ro = ({ id: e, className: t, children: n, ...a }) => {
+  const o = Hl({ id: e, className: t });
+  return /* @__PURE__ */ r.jsx("div", { className: o.classes, id: o.id, ...a, children: n });
+}, y0 = ({
   id: e,
   maxLength: t,
-  maxWords: r,
+  maxWords: n,
   threshold: a = 75,
   name: o,
   value: s = "",
   rows: i,
   className: l,
-  countMessage: c,
-  onCountChange: d,
-  onChange: u,
-  ...f
+  countMessage: d,
+  onCountChange: c,
+  onChange: f,
+  ...h
 }) => {
-<<<<<<< Updated upstream
-  const [p, m] = we(s), [v, g] = we(0), [_, G] = we(!1), [j, I] = we(!1), k = ee((x) => r ? x.trim() === "" ? 0 : x.trim().split(/\s+/).length : x.length, [r]);
-  Fe(() => {
-    const x = k(p), B = t || r || 0, Z = B - x, ce = Math.floor(B * (a / 100));
-    g(Z), G(x > B), I(x >= ce || x > B), c && c(x, Z);
-  }, [p, t, r, a, k, c]);
-  const H = (x) => {
-    const B = x.target.value;
-    m(B), u && u(x);
-  }, A = () => {
-    const x = t || r || 0, B = r ? "word" : "character", Z = r ? "words" : "characters";
-    if (!j)
-      return `You can enter up to ${x} ${x === 1 ? B : Z}`;
-    if (_) {
-      const ce = Math.abs(v);
-      return `You have ${ce} ${ce === 1 ? B : Z} too many`;
-=======
-  const [p, m] = Se(s), [C, g] = Se(0), [_, V] = Se(!1), [B, k] = Se(!1), y = re((b) => r ? b.trim() === "" ? 0 : b.trim().split(/\s+/).length : b.length, [r]);
-  Ie(() => {
-    const b = y(p), F = t || r || 0, X = F - b, de = Math.floor(F * (a / 100));
-    g(X), V(b > F), k(b >= de || b > F), d && d(b, X);
-  }, [p, t, r, a, y, d]);
-  const L = (b) => {
-    const F = b.target.value;
-    m(F), u && u(b);
-  }, v = () => {
-    const b = t || r || 0, F = r ? "word" : "character", X = r ? "words" : "characters";
-    if (!B)
-      return `You can enter up to ${b} ${b === 1 ? F : X}`;
-    if (_) {
-      const de = Math.abs(C);
-      return `You have ${de} ${de === 1 ? F : X} too many`;
->>>>>>> Stashed changes
+  const [m, g] = Ne(s), [C, p] = Ne(0), [u, R] = Ne(!1), [F, T] = Ne(!1), S = ie((v) => n ? v.trim() === "" ? 0 : v.trim().split(/\s+/).length : v.length, [n]);
+  Ee(() => {
+    const v = S(m), x = t || n || 0, y = x - v, P = Math.floor(x * (a / 100));
+    p(y), R(v > x), T(v >= P || v > x), c && c(v, y);
+  }, [m, t, n, a, S, c]);
+  const B = (v) => {
+    const x = v.target.value;
+    g(x), f && f(v);
+  }, _ = () => {
+    const v = t || n || 0, x = n ? "word" : "character", y = n ? "words" : "characters";
+    if (!F)
+      return `You can enter up to ${v} ${v === 1 ? x : y}`;
+    if (u) {
+      const P = Math.abs(C);
+      return `You have ${P} ${P === 1 ? x : y} too many`;
     } else
-      return `You have ${v} ${v === 1 ? B : Z} remaining`;
-  }, V = oe(
+      return `You have ${C} ${C === 1 ? x : y} remaining`;
+  }, L = de(
     "nhsuk-character-count",
     l
-  ), M = oe(
+  ), j = de(
     "nhsuk-character-count__message",
     {
-<<<<<<< Updated upstream
-      "nhsuk-character-count__message--disabled": !j,
-      "nhsuk-error-message": _
+      "nhsuk-character-count__message--disabled": !F,
+      "nhsuk-error-message": u
     },
     d?.classes
-  ), R = oe(
-=======
-      "nhsuk-character-count__message--disabled": !B,
-      "nhsuk-error-message": _
-    },
-    c?.classes
-  ), I = ee(
->>>>>>> Stashed changes
+  ), D = de(
     "nhsuk-js-character-count",
     {
-      "nhsuk-textarea--error": _
+      "nhsuk-textarea--error": u
     }
   );
-  return /* @__PURE__ */ n.jsxs(
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
-      className: V,
+      className: L,
       "data-module": "nhsuk-character-count",
       "data-maxlength": t,
-      "data-maxwords": r,
+      "data-maxwords": n,
       "data-threshold": a,
       "data-testid": "character-count",
       children: [
-        /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-          zo,
-=======
-          Ho,
->>>>>>> Stashed changes
+        /* @__PURE__ */ r.jsx(
+          Pl,
           {
             id: e,
             name: o,
-            value: p,
+            value: m,
             rows: i,
-            className: R,
-            onChange: H,
+            className: D,
+            onChange: B,
             "aria-describedby": `${e}-info`,
-            "aria-invalid": _ || void 0,
-            ...f
+            "aria-invalid": u || void 0,
+            ...h
           }
         ),
-        /* @__PURE__ */ n.jsx(
-          Ga,
+        /* @__PURE__ */ r.jsx(
+          ro,
           {
             id: `${e}-info`,
-            className: M,
+            className: j,
             role: "status",
             "aria-live": "polite",
-            children: A()
+            children: _()
           }
         )
       ]
     }
   );
-<<<<<<< Updated upstream
-}, Uo = ({
-=======
-}, Po = ({
->>>>>>> Stashed changes
+}, zl = ({
   value: e,
   disabled: t = !1,
-  selected: r = !1,
+  selected: n = !1,
   // deprecated in React 19 warnings: we map to parent defaultValue
   className: a,
   children: o,
   ...s
 }) => {
-  const i = oe(
+  const i = de(
     "nhsuk-select__option",
     a
   );
-  return /* @__PURE__ */ n.jsx(
+  return /* @__PURE__ */ r.jsx(
     "option",
     {
       className: i,
@@ -1697,99 +1233,70 @@ const Ua = ({ id: e, className: t, children: r, ...a }) => {
       children: o
     }
   );
-<<<<<<< Updated upstream
-}, Oo = ({
-=======
-}, zo = ({
->>>>>>> Stashed changes
+}, Wl = ({
   id: e,
   name: t,
-  ariaLabel: r,
+  ariaLabel: n,
   value: a,
   defaultValue: o,
   disabled: s = !1,
   required: i = !1,
   hasError: l = !1,
-  describedBy: c,
-  className: d,
-  multiple: u = !1,
-  size: f,
-  autoComplete: p,
-  options: m,
-<<<<<<< Updated upstream
-  children: v,
-  onChange: g,
-  onBlur: _,
-  onFocus: G,
-  ...j
-}) => {
-  const I = oe(
-=======
+  describedBy: d,
+  className: c,
+  multiple: f = !1,
+  size: h,
+  autoComplete: m,
+  options: g,
   children: C,
-  onChange: g,
-  onBlur: _,
-  onFocus: V,
-  ...B
+  onChange: p,
+  onBlur: u,
+  onFocus: R,
+  ...F
 }) => {
-  const k = ee(
->>>>>>> Stashed changes
+  const T = de(
     "nhsuk-select",
     {
       "nhsuk-select--error": l
     },
-<<<<<<< Updated upstream
     c
-  ), k = () => m ? m.map((A, V) => /* @__PURE__ */ n.jsx(
-=======
-    d
-  ), y = () => m ? m.map((v, $) => /* @__PURE__ */ n.jsx(
->>>>>>> Stashed changes
+  ), S = () => g ? g.map((_, L) => /* @__PURE__ */ r.jsx(
     "option",
     {
-      value: A.value,
-      disabled: A.disabled,
-      "data-initial-selected": A.selected || void 0,
-      children: A.text
+      value: _.value,
+      disabled: _.disabled,
+      "data-initial-selected": _.selected || void 0,
+      children: _.text
     },
-<<<<<<< Updated upstream
-    `${A.value}-${V}`
-  )) : null, H = o === void 0 && a === void 0 && m ? m.find((A) => A.selected)?.value : void 0;
-  return /* @__PURE__ */ n.jsx(
+    `${_.value}-${L}`
+  )) : null, B = o === void 0 && a === void 0 && g ? g.find((_) => _.selected)?.value : void 0;
+  return /* @__PURE__ */ r.jsx(
     "select",
     {
-      className: I,
-=======
-    `${v.value}-${$}`
-  )) : null, L = o === void 0 && a === void 0 && m ? m.find((v) => v.selected)?.value : void 0;
-  return /* @__PURE__ */ n.jsx(
-    "select",
-    {
-      className: k,
->>>>>>> Stashed changes
+      className: T,
       id: e,
       name: t,
-      "aria-label": r,
+      "aria-label": n,
       value: a,
-      defaultValue: o !== void 0 ? o : H,
+      defaultValue: o !== void 0 ? o : B,
       disabled: s,
       required: i,
-      "aria-describedby": c,
-      multiple: u,
-      size: f,
-      autoComplete: p,
-      onChange: g,
-      onBlur: _,
-<<<<<<< Updated upstream
-      onFocus: G,
-      ...j,
-      children: v || k()
+      "aria-describedby": d,
+      multiple: f,
+      size: h,
+      autoComplete: m,
+      onChange: p,
+      onBlur: u,
+      onFocus: R,
+      ...F,
+      children: C || S()
     }
   );
-}, cn = Oo;
-cn.Option = Uo;
-function Oa(e, {
+}, Fn = Wl;
+Fn.Option = zl;
+function ao(e, {
   variant: t,
-  selectedValue: r,
+  selectedValue: n,
   enableBehaviourAttr: a,
   handleChange: o,
   handleBlur: s,
@@ -1797,232 +1304,154 @@ function Oa(e, {
   handleKeyDown: l,
   itemsRef: d
 }) {
-  const {
-    name: c,
-    hasError: u = !1,
-    describedBy: f,
-    className: p,
-    size: m = "normal",
-    inline: v = !1,
-    options: g,
-    ..._
-  } = e, G = oe(
-=======
-      onFocus: V,
-      ...B,
-      children: C || y()
-    }
-  );
-}, cn = zo;
-cn.Option = Po;
-const Jf = ({
-  name: e,
-  value: t,
-  defaultValue: r,
-  hasError: a = !1,
-  describedBy: o,
-  className: s,
-  size: i = "normal",
-  inline: l = !1,
-  options: c,
-  onChange: d,
-  onBlur: u,
-  onFocus: f,
-  ...p
-}) => {
-  const [m, C] = Se(t || r || ""), g = Ce([]), _ = ee(
->>>>>>> Stashed changes
+  const { onChange: c, onBlur: f, onFocus: h, ...m } = e, {
+    name: g,
+    hasError: C = !1,
+    describedBy: p,
+    className: u,
+    size: R = "normal",
+    inline: F = !1,
+    options: T,
+    ...S
+  } = m, B = de(
     "nhsuk-radios",
     {
-      "nhsuk-radios--error": u,
-      "nhsuk-radios--small": m === "small",
-      "nhsuk-radios--inline": v
+      "nhsuk-radios--error": C,
+      "nhsuk-radios--small": R === "small",
+      "nhsuk-radios--inline": F
     },
-<<<<<<< Updated upstream
-    p
+    u
   );
-  return /* @__PURE__ */ n.jsx(zr, { children: /* @__PURE__ */ n.jsx(
+  return /* @__PURE__ */ r.jsx(Ia, { children: /* @__PURE__ */ r.jsx(
     "div",
     {
-      className: G,
-      ..._,
+      className: B,
+      ...S,
       ...a ? { "data-nhs-behaviour": "radios" } : {},
-      children: g.map((j, I) => {
-        const k = `${c}-${I}`, H = j.conditional ? `${k}-conditional` : void 0, A = r === j.value;
-        return /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-radios__item", children: [
-          /* @__PURE__ */ n.jsx(
+      children: T.map((_, L) => {
+        const j = `${g}-${L}`, D = _.conditional ? `${j}-conditional` : void 0, v = n === _.value;
+        return /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-radios__item", children: [
+          /* @__PURE__ */ r.jsx(
             "input",
             {
               className: "nhsuk-radios__input",
-              id: k,
-              name: c,
+              id: j,
+              name: g,
               type: "radio",
-              value: j.value,
-              disabled: j.disabled,
-              ...t === "client" ? { checked: A, onChange: o, onBlur: s, onFocus: i, onKeyDown: l, ref: (V) => {
-                V && d && (d.current[I] = V);
-              } } : { defaultChecked: A, "data-nhs-radios-input": !0 },
-              "aria-describedby": f
+              value: _.value,
+              disabled: _.disabled,
+              ...t === "client" ? { checked: v, onChange: o, onBlur: s, onFocus: i, onKeyDown: l, ref: (x) => {
+                x && d && (d.current[L] = x);
+              } } : { defaultChecked: v, "data-nhs-radios-input": !0 },
+              "aria-describedby": p
             }
           ),
-          /* @__PURE__ */ n.jsx("label", { className: "nhsuk-radios__label", htmlFor: k, children: j.text }),
-          j.hint && /* @__PURE__ */ n.jsx("div", { className: "nhsuk-radios__hint", children: j.hint }),
-          j.conditional && /* @__PURE__ */ n.jsx(
+          /* @__PURE__ */ r.jsx("label", { className: "nhsuk-radios__label", htmlFor: j, children: _.text }),
+          _.hint && /* @__PURE__ */ r.jsx("div", { className: "nhsuk-radios__hint", children: _.hint }),
+          _.conditional && /* @__PURE__ */ r.jsx(
             "div",
             {
-              className: oe("nhsuk-radios__conditional", {
-                "nhsuk-radios__conditional--hidden": !A
+              className: de("nhsuk-radios__conditional", {
+                "nhsuk-radios__conditional--hidden": !v
               }),
-              id: H,
+              id: D,
               ...t === "server" ? { "data-nhs-radios-conditional": !0 } : {},
-              children: typeof j.conditional == "object" && j.conditional !== null && "label" in j.conditional && "id" in j.conditional && "name" in j.conditional ? /* @__PURE__ */ n.jsxs("div", { style: { marginTop: "16px" }, children: [
-                j.conditional.label && /* @__PURE__ */ n.jsx(Pr, { htmlFor: j.conditional.id, children: j.conditional.label }),
-                /* @__PURE__ */ n.jsx(Hr, { ...j.conditional })
-              ] }) : j.conditional
+              children: typeof _.conditional == "object" && _.conditional !== null && "label" in _.conditional && "id" in _.conditional && "name" in _.conditional ? /* @__PURE__ */ r.jsxs("div", { style: { marginTop: "16px" }, children: [
+                _.conditional.label && /* @__PURE__ */ r.jsx($a, { htmlFor: _.conditional.id, children: _.conditional.label }),
+                /* @__PURE__ */ r.jsx(Da, { ..._.conditional })
+              ] }) : _.conditional
             }
           )
-        ] }, j.value);
+        ] }, _.value);
       })
     }
   ) });
 }
-const rm = ({ value: e, defaultValue: t, onChange: r, onBlur: a, onFocus: o, ...s }) => {
-  const [i, l] = we(e || t || ""), d = Te([]), c = (f) => {
-    const p = f.target.value;
-    l(p), r?.(f);
-  }, u = ee((f) => {
-    const { key: p } = f;
-    if (!["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].includes(p)) return;
-    f.preventDefault();
-    const m = d.current.filter((G) => G && !G.disabled), v = m.indexOf(f.currentTarget);
-=======
-    s
-  ), V = (k) => {
-    const y = k.target.value;
-    C(y), d && d(k);
-  }, B = re((k) => {
-    const { key: y } = k;
-    if (!["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].includes(y)) return;
-    k.preventDefault();
-    const L = g.current.filter((I) => I && !I.disabled), v = L.indexOf(k.currentTarget);
->>>>>>> Stashed changes
-    if (v === -1) return;
-    let g = v;
-    ["ArrowDown", "ArrowRight"].includes(p) ? g = (v + 1) % m.length : ["ArrowUp", "ArrowLeft"].includes(p) && (g = (v - 1 + m.length) % m.length);
-    const _ = m[g];
-    _ && (_.focus(), _.checked || _.click());
+const v0 = ({ value: e, defaultValue: t, onChange: n, onBlur: a, onFocus: o, ...s }) => {
+  const [i, l] = Ne(e || t || ""), d = Ie([]), c = Ie(i), f = (g) => {
+    const C = g.target.value;
+    C !== c.current && (c.current = C, l(C), n?.(g));
+  }, h = (g) => {
+    o?.(g);
+  }, m = ie((g) => {
+    const { key: C } = g;
+    if (!["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].includes(C)) return;
+    g.preventDefault();
+    const p = d.current.filter((T) => T && !T.disabled), u = p.indexOf(g.currentTarget);
+    if (u === -1) return;
+    let R = u;
+    ["ArrowDown", "ArrowRight"].includes(C) ? R = (u + 1) % p.length : ["ArrowUp", "ArrowLeft"].includes(C) && (R = (u - 1 + p.length) % p.length);
+    const F = p[R];
+    F && (F.focus(), F.checked || F.click());
   }, []);
-<<<<<<< Updated upstream
-  return Oa(
-    { value: e, defaultValue: t, onChange: r, onBlur: a, onFocus: o, ...s },
+  return ao(
+    { value: e, defaultValue: t, onChange: n, onBlur: a, onFocus: o, ...s },
     {
       variant: "client",
       selectedValue: i,
       enableBehaviourAttr: !1,
-      handleChange: c,
+      handleChange: f,
       handleBlur: a,
-      handleFocus: o,
-      handleKeyDown: u,
+      handleFocus: h,
+      // wrapped to suppress duplicate focus calls
+      handleKeyDown: m,
       itemsRef: d
     }
   );
-}, am = ({ value: e, defaultValue: t, ...r }) => {
+}, w0 = ({ value: e, defaultValue: t, ...n }) => {
   const a = e || t || "";
-  return Oa(
-    { value: e, defaultValue: t, ...r },
+  return ao(
+    { value: e, defaultValue: t, ...n },
     {
       variant: "server",
       selectedValue: a,
       enableBehaviourAttr: !0
     }
   );
-}, Ga = ({
-=======
-  return /* @__PURE__ */ n.jsx(Wr, { children: /* @__PURE__ */ n.jsx("div", { className: _, ...p, children: c.map((k, y) => {
-    const L = `${e}-${y}`, v = k.conditional ? `${L}-conditional` : void 0, $ = m === k.value;
-    return /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-radios__item", children: [
-      /* @__PURE__ */ n.jsx(
-        "input",
-        {
-          className: "nhsuk-radios__input",
-          id: L,
-          name: e,
-          type: "radio",
-          value: k.value,
-          disabled: k.disabled,
-          checked: $,
-          "aria-describedby": o,
-          onChange: V,
-          onBlur: u,
-          onFocus: f,
-          onKeyDown: B,
-          ref: (A) => {
-            A && (g.current[y] = A);
-          }
-        }
-      ),
-      /* @__PURE__ */ n.jsx("label", { className: "nhsuk-radios__label", htmlFor: L, children: k.text }),
-      k.hint && /* @__PURE__ */ n.jsx("div", { className: "nhsuk-radios__hint", children: k.hint }),
-      k.conditional && /* @__PURE__ */ n.jsx(
-        "div",
-        {
-          className: ee("nhsuk-radios__conditional", {
-            "nhsuk-radios__conditional--hidden": !$
-          }),
-          id: v,
-          children: typeof k.conditional == "object" && k.conditional !== null && "label" in k.conditional && "id" in k.conditional && "name" in k.conditional ? /* @__PURE__ */ n.jsxs("div", { style: { marginTop: "16px" }, children: [
-            k.conditional.label && /* @__PURE__ */ n.jsx(zr, { htmlFor: k.conditional.id, children: k.conditional.label }),
-            /* @__PURE__ */ n.jsx(Pr, { ...k.conditional })
-          ] }) : k.conditional
-        }
-      )
-    ] }, k.value);
-  }) }) });
-}, Va = ({
->>>>>>> Stashed changes
+}, so = ({
   children: e,
   className: t,
-  fluid: r = !1,
+  fluid: n = !1,
   maxWidth: a,
   style: o,
   ...s
 }) => {
-  const i = oe(
+  const i = de(
     {
-      "nhsuk-width-container": !r,
-      "nhsuk-width-container-fluid": r
+      "nhsuk-width-container": !n,
+      "nhsuk-width-container-fluid": n
     },
     t
   ), l = a ? { maxWidth: a, ...o || {} } : o;
-  return /* @__PURE__ */ n.jsx("div", { className: i, style: l, ...s, children: e });
-}, Nt = ({
+  return /* @__PURE__ */ r.jsx("div", { className: i, style: l, ...s, children: e });
+}, Wt = ({
   children: e,
   className: t,
-  style: r,
+  style: n,
   ...a
 }) => {
-  const o = oe("nhsuk-grid-row", t);
-  return /* @__PURE__ */ n.jsx("div", { className: o, style: r, ...a, children: e });
-}, Kt = ({
+  const o = de("nhsuk-grid-row", t);
+  return /* @__PURE__ */ r.jsx("div", { className: o, style: n, ...a, children: e });
+}, pn = ({
   children: e,
   width: t = "full",
-  mobileWidth: r,
+  mobileWidth: n,
   tabletWidth: a,
   desktopWidth: o,
   start: s,
   className: i,
   forceWidth: l = !1,
-  style: c,
-  ...d
+  style: d,
+  ...c
 }) => {
-  const u = oe(
+  const f = de(
     {
       // Standard responsive grid columns
       [`nhsuk-grid-column-${t}`]: !l,
       // Utility classes that force width on all screen sizes
       [`nhsuk-u-${t}`]: l,
       // Responsive width overrides
-      [`nhsuk-u-${r}-mobile`]: r,
+      [`nhsuk-u-${n}-mobile`]: n,
       [`nhsuk-u-${a}-tablet`]: a,
       [`nhsuk-u-${o}-desktop`]: o,
       // Grid positioning
@@ -2030,85 +1459,61 @@ const rm = ({ value: e, defaultValue: t, onChange: r, onBlur: a, onFocus: o, ...
     },
     i
   );
-  return /* @__PURE__ */ n.jsx("div", { className: u, style: c, ...d, children: e });
-}, ur = ({
+  return /* @__PURE__ */ r.jsx("div", { className: f, style: d, ...c, children: e });
+}, Vr = ({
   children: e,
   className: t,
-  style: r,
+  style: n,
   ...a
 }) => {
-  const s = Ze.Children.toArray(e)[0], i = Ze.isValidElement(s) && (s.type === Nt || typeof s.props == "object" && s.props && "className" in s.props && typeof s.props.className == "string" && s.props.className.includes("nhsuk-grid-row"));
-<<<<<<< Updated upstream
-  return /* @__PURE__ */ n.jsx(Ga, { className: t, style: r, ...a, children: i ? e : /* @__PURE__ */ n.jsx(Nt, { children: e }) });
-}, Go = ({
-=======
-  return /* @__PURE__ */ n.jsx(Va, { className: t, style: r, ...a, children: i ? e : /* @__PURE__ */ n.jsx(Nt, { children: e }) });
-}, Wo = ({
->>>>>>> Stashed changes
+  const s = at.Children.toArray(e)[0], i = at.isValidElement(s) && (s.type === Wt || typeof s.props == "object" && s.props && "className" in s.props && typeof s.props.className == "string" && s.props.className.includes("nhsuk-grid-row"));
+  return /* @__PURE__ */ r.jsx(so, { className: t, style: n, ...a, children: i ? e : /* @__PURE__ */ r.jsx(Wt, { children: e }) });
+}, Ol = ({
   children: e,
   type: t = "bullet",
-  size: r = "medium",
+  size: n = "medium",
   border: a = !1,
   className: o,
   role: s,
   as: i,
   ...l
 }) => {
-<<<<<<< Updated upstream
-  const d = i || (t === "number" ? "ol" : "ul"), c = oe(
-=======
-  const c = i || (t === "number" ? "ol" : "ul"), d = ee(
->>>>>>> Stashed changes
+  const d = i || (t === "number" ? "ol" : "ul"), c = de(
     "nhsuk-list",
     {
       "nhsuk-list--bullet": t === "bullet",
       "nhsuk-list--number": t === "number",
       "nhsuk-list--none": t === "none",
       "nhsuk-list--border": a,
-      [`nhsuk-list--${r}`]: r !== "medium"
+      [`nhsuk-list--${n}`]: n !== "medium"
     },
     o
   );
-<<<<<<< Updated upstream
-  return /* @__PURE__ */ n.jsx(d, { className: c, role: s, ...l, children: e });
-}, Vo = ({
-=======
-  return /* @__PURE__ */ n.jsx(c, { className: d, role: s, ...l, children: e });
-}, Oo = ({
->>>>>>> Stashed changes
+  return /* @__PURE__ */ r.jsx(d, { className: c, role: s, ...l, children: e });
+}, Ul = ({
   children: e,
   className: t,
-  ...r
+  ...n
 }) => {
-  const a = oe("nhsuk-list__item", t);
-  return /* @__PURE__ */ n.jsx("li", { className: a, ...r, children: e });
-<<<<<<< Updated upstream
-}, Yo = Go;
-Yo.Item = Vo;
-const sm = ({
-=======
-}, Uo = Wo;
-Uo.Item = Oo;
-const Xf = ({
->>>>>>> Stashed changes
+  const a = de("nhsuk-list__item", t);
+  return /* @__PURE__ */ r.jsx("li", { className: a, ...n, children: e });
+}, Gl = Ol;
+Gl.Item = Ul;
+const _0 = ({
   debug: e = !1,
   className: t,
-  children: r,
+  children: n,
   ...a
 }) => {
-  if (!r)
+  if (!n)
     return null;
   const o = [
     "nhsuk-spacing-utilities",
     e && "nhsuk-spacing-utilities--debug",
     t
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ n.jsx("div", { className: o, ...a, children: r });
-<<<<<<< Updated upstream
-}, om = {
-=======
-}, Qf = {
->>>>>>> Stashed changes
+  return /* @__PURE__ */ r.jsx("div", { className: o, ...a, children: n });
+}, S0 = {
   margin: (e) => `nhsuk-u-margin-${e}`,
   marginTop: (e) => `nhsuk-u-margin-top-${e}`,
   marginRight: (e) => `nhsuk-u-margin-right-${e}`,
@@ -2130,45 +1535,34 @@ const Xf = ({
   paddingRightResponsive: (e) => `nhsuk-u-padding-right-responsive-${e}`,
   paddingBottomResponsive: (e) => `nhsuk-u-padding-bottom-responsive-${e}`,
   paddingLeftResponsive: (e) => `nhsuk-u-padding-left-responsive-${e}`
-<<<<<<< Updated upstream
-}, im = ({
-=======
-}, em = ({
->>>>>>> Stashed changes
+}, k0 = ({
   debug: e = !1,
   className: t,
-  children: r,
+  children: n,
   ...a
 }) => {
-  if (!r)
+  if (!n)
     return null;
   const o = [
     "nhsuk-width-utilities",
     e && "nhsuk-width-utilities--debug",
     t
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ n.jsx("div", { className: o, ...a, children: r });
-<<<<<<< Updated upstream
-}, lm = {
+  return /* @__PURE__ */ r.jsx("div", { className: o, ...a, children: n });
+}, C0 = {
   width: (e) => `nhsuk-u-width-${e}`,
   widthTablet: (e) => `nhsuk-u-width-${e}-tablet`
-}, cm = [
-=======
-}, tm = {
-  width: (e) => `nhsuk-u-width-${e}`,
-  widthTablet: (e) => `nhsuk-u-width-${e}-tablet`
-}, nm = [
->>>>>>> Stashed changes
+}, j0 = [
   "full",
   "three-quarters",
   "two-thirds",
   "one-half",
   "one-third",
   "one-quarter"
-], Ya = ({
+], oo = ({
   as: e = "main",
   size: t = "default",
-  className: r,
+  className: n,
   children: a,
   ...o
 }) => {
@@ -2176,12 +1570,11 @@ const Xf = ({
     "nhsuk-main-wrapper",
     t === "large" && "nhsuk-main-wrapper--l",
     t === "small" && "nhsuk-main-wrapper--s",
-    r
+    n
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ n.jsx(e, { className: s, ...o, children: a });
-<<<<<<< Updated upstream
+  return /* @__PURE__ */ r.jsx(e, { className: s, ...o, children: a });
 };
-function qo(e) {
+function Yl(e) {
   switch (e) {
     case "xxl":
     case "xl":
@@ -2198,198 +1591,111 @@ function qo(e) {
       return 2;
   }
 }
-function Ko(e) {
-  const t = e.level ?? qo(e.size), r = [
+function Vl(e) {
+  const t = e.level ?? Yl(e.size), n = [
     "nhsuk-heading",
     e.size ? `nhsuk-heading--${e.size}` : "",
     e.className || ""
   ].filter(Boolean).join(" "), a = e.marginBottom ? { marginBottom: e.marginBottom } : void 0;
-  return { tag: `h${t}`, classes: r, style: a };
+  return { tag: `h${t}`, classes: n, style: a };
 }
-const xt = ({ level: e, className: t, text: r, html: a, children: o, size: s, marginBottom: i, ...l }) => {
-  const d = Ko({ level: e, size: s, className: t, marginBottom: i }), c = o || (a ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: a } }) : r);
-  return Pa(d.tag, { className: d.classes, style: d.style, ...l }, c);
+const Nt = ({ level: e, className: t, text: n, html: a, children: o, size: s, marginBottom: i, ...l }) => {
+  const d = Vl({ level: e, size: s, className: t, marginBottom: i }), c = o || (a ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: a } }) : n);
+  return eo(d.tag, { className: d.classes, style: d.style, ...l }, c);
 };
-function Zo(e) {
+function ql(e) {
   return {
     classes: ["nhsuk-error-message", e.className || ""].filter(Boolean).join(" "),
     id: e.id,
     visuallyHiddenText: e.visuallyHiddenText ?? "Error:"
   };
 }
-const oa = ({ id: e, className: t, visuallyHiddenText: r = "Error:", children: a, ...o }) => {
-  const s = Zo({ id: e, className: t, visuallyHiddenText: r });
-  return /* @__PURE__ */ n.jsxs("span", { className: s.classes, id: s.id, ...o, children: [
-=======
-}, xt = ({
-  level: e,
-  className: t,
-  text: r,
-  html: a,
-  children: o,
-  size: s,
-  marginBottom: i,
-  ...l
-}) => {
-  const d = e ?? ((C) => {
-    switch (C) {
-      case "xxl":
-      case "xl":
-        return 1;
-      case "l":
-        return 2;
-      case "m":
-        return 3;
-      case "s":
-        return 4;
-      case "xs":
-        return 5;
-      default:
-        return 2;
-    }
-  })(s), u = ee(
-    "nhsuk-heading",
-    {
-      [`nhsuk-heading--${s}`]: s
-    },
-    t
-  ), f = o || (a ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: a } }) : r), p = `h${d}`, m = i ? { ...l.style, marginBottom: i } : l.style;
-  return Wa(
-    p,
-    { className: u, ...l, style: m },
-    f
-  );
-}, ia = ({
-  id: e,
-  className: t,
-  visuallyHiddenText: r = "Error:",
-  children: a,
-  ...o
-}) => {
-  const s = ee("nhsuk-error-message", t);
-  return /* @__PURE__ */ n.jsxs("span", { className: s, id: e, ...o, children: [
->>>>>>> Stashed changes
-    /* @__PURE__ */ n.jsxs("span", { className: "nhsuk-u-visually-hidden", children: [
+const ss = ({ id: e, className: t, visuallyHiddenText: n = "Error:", children: a, ...o }) => {
+  const s = ql({ id: e, className: t, visuallyHiddenText: n });
+  return /* @__PURE__ */ r.jsxs("span", { className: s.classes, id: s.id, ...o, children: [
+    /* @__PURE__ */ r.jsxs("span", { className: "nhsuk-u-visually-hidden", children: [
       s.visuallyHiddenText,
       " "
     ] }),
     a
   ] });
-<<<<<<< Updated upstream
-}, dm = ({
-=======
-}, rm = ({
->>>>>>> Stashed changes
+}, N0 = ({
   titleText: e = "There is a problem",
   titleHtml: t,
-  descriptionText: r,
+  descriptionText: n,
   descriptionHtml: a,
   errorList: o,
   className: s,
   children: i,
   ...l
 }) => {
-<<<<<<< Updated upstream
-  const d = Te(null);
-  Fe(() => {
+  const d = Ie(null);
+  Ee(() => {
     d.current && d.current.focus();
   }, []);
-  const c = oe(
+  const c = de(
     "nhsuk-error-summary",
     s
-  ), u = () => t ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: t } }) : e, f = () => a ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: a } }) : r, p = (m) => {
-    const v = m.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: m.html } }) : m.text;
-=======
-  const c = Ce(null);
-  Ie(() => {
-    c.current && c.current.focus();
-  }, []);
-  const d = ee(
-    "nhsuk-error-summary",
-    s
-  ), u = () => t ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: t } }) : e, f = () => a ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: a } }) : r, p = (m) => {
-    const C = m.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: m.html } }) : m.text;
->>>>>>> Stashed changes
-    return m.href ? /* @__PURE__ */ n.jsx(
+  ), f = () => t ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: t } }) : e, h = () => a ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: a } }) : n, m = (g) => {
+    const C = g.html ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: g.html } }) : g.text;
+    return g.href ? /* @__PURE__ */ r.jsx(
       "a",
       {
-        href: m.href,
-        ...m.attributes,
-<<<<<<< Updated upstream
-        children: v
-=======
+        href: g.href,
+        ...g.attributes,
         children: C
->>>>>>> Stashed changes
       }
-    ) : v;
+    ) : C;
   };
-  return /* @__PURE__ */ n.jsxs(
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
-      ref: c,
-      className: d,
+      ref: d,
+      className: c,
       "aria-labelledby": "error-summary-title",
       role: "alert",
       tabIndex: -1,
       "data-module": "nhsuk-error-summary",
       ...l,
       children: [
-        /* @__PURE__ */ n.jsx("h2", { className: "nhsuk-error-summary__title", id: "error-summary-title", children: u() }),
-        /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-error-summary__body", children: [
-          i && /* @__PURE__ */ n.jsx("div", { className: "nhsuk-error-summary__description", "data-role": "description", children: i }),
-          !i && (r || a) && /* @__PURE__ */ n.jsx("div", { className: "nhsuk-error-summary__description", "data-role": "description", children: f() }),
-<<<<<<< Updated upstream
-          /* @__PURE__ */ n.jsx("ul", { className: "nhsuk-list nhsuk-error-summary__list", role: "list", children: o.map((m, v) => /* @__PURE__ */ n.jsx("li", { children: p(m) }, v)) })
-=======
-          /* @__PURE__ */ n.jsx("ul", { className: "nhsuk-list nhsuk-error-summary__list", role: "list", children: o.map((m, C) => /* @__PURE__ */ n.jsx("li", { children: p(m) }, C)) })
->>>>>>> Stashed changes
+        /* @__PURE__ */ r.jsx("h2", { className: "nhsuk-error-summary__title", id: "error-summary-title", children: f() }),
+        /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-error-summary__body", children: [
+          i && /* @__PURE__ */ r.jsx("div", { className: "nhsuk-error-summary__description", "data-role": "description", children: i }),
+          !i && (n || a) && /* @__PURE__ */ r.jsx("div", { className: "nhsuk-error-summary__description", "data-role": "description", children: h() }),
+          /* @__PURE__ */ r.jsx("ul", { className: "nhsuk-list nhsuk-error-summary__list", role: "list", children: o.map((g, C) => /* @__PURE__ */ r.jsx("li", { children: m(g) }, C)) })
         ] })
       ]
     }
   );
-<<<<<<< Updated upstream
-}, um = ({
-=======
-}, am = ({
->>>>>>> Stashed changes
+}, T0 = ({
   id: e,
   className: t,
-  items: r,
+  items: n,
   namePrefix: a,
   values: o = {},
   fieldset: s,
   hint: i,
   errorMessage: l,
-  onChange: c,
-  ...d
+  onChange: d,
+  ...c
 }) => {
-  const [u, f] = we(() => ({
+  const [f, h] = Ne(() => ({
     day: o.day || "",
     month: o.month || "",
     year: o.year || ""
-<<<<<<< Updated upstream
-  })), [p, m] = we({}), v = (y) => y % 4 === 0 && y % 100 !== 0 || y % 400 === 0, g = (y, b) => {
-    const N = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    return y === 2 && v(b) ? 29 : N[y - 1];
-  }, _ = (y, b, N) => {
-    if (!y) return;
-    if (!/^\d+$/.test(y)) return "Day must be a number";
-    const ue = parseInt(y, 10);
-=======
-  })), [p, m] = Se({}), C = (R) => R % 4 === 0 && R % 100 !== 0 || R % 400 === 0, g = (R, x) => {
-    const N = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    return R === 2 && C(x) ? 29 : N[R - 1];
-  }, _ = (R, x, N) => {
-    if (!R) return;
-    if (!/^\d+$/.test(R)) return "Day must be a number";
-    const ue = parseInt(R, 10);
->>>>>>> Stashed changes
-    if (ue < 1 || ue > 31) return "Day must be between 1 and 31";
-    if (b && N) {
-      const $ = parseInt(b, 10), C = parseInt(N, 10);
-      if (!isNaN($) && !isNaN(C) && $ >= 1 && $ <= 12) {
-        const te = g($, C);
-        if (ue > te)
+  })), [m, g] = Ne({}), C = (M) => M % 4 === 0 && M % 100 !== 0 || M % 400 === 0, p = (M, k) => {
+    const b = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    return M === 2 && C(k) ? 29 : b[M - 1];
+  }, u = (M, k, b) => {
+    if (!M) return;
+    if (!/^\d+$/.test(M)) return "Day must be a number";
+    const A = parseInt(M, 10);
+    if (A < 1 || A > 31) return "Day must be between 1 and 31";
+    if (k && b) {
+      const w = parseInt(k, 10), $ = parseInt(b, 10);
+      if (!isNaN(w) && !isNaN($) && w >= 1 && w <= 12) {
+        const W = p(w, $);
+        if (A > W)
           return `${[
             "January",
             "February",
@@ -2403,123 +1709,67 @@ const oa = ({ id: e, className: t, visuallyHiddenText: r = "Error:", children: a
             "October",
             "November",
             "December"
-          ][$ - 1]} ${C} only has ${te} days`;
+          ][w - 1]} ${$} only has ${W} days`;
       }
     }
-<<<<<<< Updated upstream
-  }, G = (y) => {
-    if (!y) return;
-    if (!/^\d+$/.test(y)) return "Month must be a number";
-    const b = parseInt(y, 10);
-    if (b < 1 || b > 12) return "Month must be between 1 and 12";
-  }, j = (y) => {
-    if (!y) return;
-    if (!/^\d+$/.test(y)) return "Year must be a number";
-    const b = parseInt(y, 10), N = (/* @__PURE__ */ new Date()).getFullYear();
-    if (b < 1900 || b > N + 10)
-      return `Year must be between 1900 and ${N + 10}`;
-  }, I = (y, b, N) => {
-    if (!y || !b || !N) return;
-    const ue = parseInt(y, 10), $ = parseInt(b, 10), C = parseInt(N, 10);
-    if (isNaN(ue) || isNaN($) || isNaN(C) || $ < 1 || $ > 12 || C < 1900) return;
-    const te = g($, C);
-    ue < 1 || ue > te;
-  }, k = ee((y, b) => {
-=======
-  }, V = (R) => {
-    if (!R) return;
-    if (!/^\d+$/.test(R)) return "Month must be a number";
-    const x = parseInt(R, 10);
-    if (x < 1 || x > 12) return "Month must be between 1 and 12";
-  }, B = (R) => {
-    if (!R) return;
-    if (!/^\d+$/.test(R)) return "Year must be a number";
-    const x = parseInt(R, 10), N = (/* @__PURE__ */ new Date()).getFullYear();
-    if (x < 1900 || x > N + 10)
-      return `Year must be between 1900 and ${N + 10}`;
-  }, k = (R, x, N) => {
-    if (!R || !x || !N) return;
-    const ue = parseInt(R, 10), P = parseInt(x, 10), j = parseInt(N, 10);
-    if (isNaN(ue) || isNaN(P) || isNaN(j) || P < 1 || P > 12 || j < 1900) return;
-    const ae = g(P, j);
-    ue < 1 || ue > ae;
-  }, y = re((R, x) => {
->>>>>>> Stashed changes
-    const N = {
-      ...u,
-      [y]: b
+  }, R = (M) => {
+    if (!M) return;
+    if (!/^\d+$/.test(M)) return "Month must be a number";
+    const k = parseInt(M, 10);
+    if (k < 1 || k > 12) return "Month must be between 1 and 12";
+  }, F = (M) => {
+    if (!M) return;
+    if (!/^\d+$/.test(M)) return "Year must be a number";
+    const k = parseInt(M, 10), b = (/* @__PURE__ */ new Date()).getFullYear();
+    if (k < 1900 || k > b + 10)
+      return `Year must be between 1900 and ${b + 10}`;
+  }, T = (M, k, b) => {
+    if (!M || !k || !b) return;
+    const A = parseInt(M, 10), w = parseInt(k, 10), $ = parseInt(b, 10);
+    if (isNaN(A) || isNaN(w) || isNaN($) || w < 1 || w > 12 || $ < 1900) return;
+    const W = p(w, $);
+    A < 1 || A > W;
+  }, S = ie((M, k) => {
+    const b = {
+      ...f,
+      [M]: k
     };
-<<<<<<< Updated upstream
-    f(N), d && d(N);
-  }, [u, d]), H = ee((y) => {
-    const b = u[y];
-    let N;
-    if (y === "day")
-      N = _(b, u.month, u.year);
-    else if (y === "month") {
-      if (N = G(b), !N && u.day) {
-        const ue = _(u.day, b, u.year);
-        m(($) => ({
-          ...$,
-          day: ue
+    h(b), d && d(b);
+  }, [f, d]), B = ie((M) => {
+    const k = f[M];
+    let b;
+    if (M === "day")
+      b = u(k, f.month, f.year);
+    else if (M === "month") {
+      if (b = R(k), !b && f.day) {
+        const A = u(f.day, k, f.year);
+        g((w) => ({
+          ...w,
+          day: A
         }));
       }
-    } else if (y === "year" && (N = j(b), !N && u.day && u.month)) {
-      const ue = _(u.day, u.month, b);
-      m(($) => ({
-        ...$,
-=======
-    f(N), c && c(N);
-  }, [u, c]), L = re((R) => {
-    const x = u[R];
-    let N;
-    if (R === "day")
-      N = _(x, u.month, u.year);
-    else if (R === "month") {
-      if (N = V(x), !N && u.day) {
-        const ue = _(u.day, x, u.year);
-        m((P) => ({
-          ...P,
-          day: ue
-        }));
-      }
-    } else if (R === "year" && (N = B(x), !N && u.day && u.month)) {
-      const ue = _(u.day, u.month, x);
-      m((P) => ({
-        ...P,
->>>>>>> Stashed changes
-        day: ue
+    } else if (M === "year" && (b = F(k), !b && f.day && f.month)) {
+      const A = u(f.day, f.month, k);
+      g((w) => ({
+        ...w,
+        day: A
       }));
     }
-    if (m((ue) => ({
-      ...ue,
-      [y]: N
-    })), u.day && u.month && u.year) {
-<<<<<<< Updated upstream
-      const ue = I(
-        y === "day" ? b : u.day,
-        y === "month" ? b : u.month,
-        y === "year" ? b : u.year
+    if (g((A) => ({
+      ...A,
+      [M]: b
+    })), f.day && f.month && f.year) {
+      const A = T(
+        M === "day" ? k : f.day,
+        M === "month" ? k : f.month,
+        M === "year" ? k : f.year
       );
-      ue && m(($) => ({
-        ...$,
-        day: ue
+      A && g((w) => ({
+        ...w,
+        day: A
       }));
     }
-  }, [u, _, G, j, I]), A = De(() => [
-=======
-      const ue = k(
-        R === "day" ? x : u.day,
-        R === "month" ? x : u.month,
-        R === "year" ? x : u.year
-      );
-      ue && m((P) => ({
-        ...P,
-        day: ue
-      }));
-    }
-  }, [u, _, V, B, k]), v = Re(() => [
->>>>>>> Stashed changes
+  }, [f, u, R, F, T]), _ = je(() => [
     {
       name: "day",
       classes: "nhsuk-input--width-2",
@@ -2538,124 +1788,97 @@ const oa = ({ id: e, className: t, visuallyHiddenText: r = "Error:", children: a
       inputmode: "numeric",
       pattern: "[0-9]*"
     }
-<<<<<<< Updated upstream
-  ], []), V = r || A;
-  let M = s?.describedBy || "";
-  const R = i ? `${e}-hint` : "", x = l ? `${e}-error` : "";
-  R && (M = M ? `${M} ${R}` : R), x && (M = M ? `${M} ${x}` : x);
-  const B = Object.values(p).some((y) => y), Z = oe(
-=======
-  ], []), $ = r || v;
-  let A = s?.describedBy || "";
-  const I = i ? `${e}-hint` : "", b = l ? `${e}-error` : "";
-  I && (A = A ? `${A} ${I}` : I), b && (A = A ? `${A} ${b}` : b);
-  const F = Object.values(p).some((R) => R), X = ee(
->>>>>>> Stashed changes
+  ], []), L = n || _;
+  let j = s?.describedBy || "";
+  const D = i ? `${e}-hint` : "", v = l ? `${e}-error` : "";
+  D && (j = j ? `${j} ${D}` : D), v && (j = j ? `${j} ${v}` : v);
+  const x = Object.values(m).some((M) => M), y = de(
     "nhsuk-form-group",
     {
-      "nhsuk-form-group--error": l || B
+      "nhsuk-form-group--error": l || x
     }
-  ), ce = oe(
+  ), P = de(
     "nhsuk-date-input",
     t
-  ), K = () => /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-    i && /* @__PURE__ */ n.jsx(
-      Ga,
+  ), E = () => /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+    i && /* @__PURE__ */ r.jsx(
+      ro,
       {
-        id: R,
+        id: D,
         className: i.classes,
-        children: i.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: i.html } }) : i.text
+        children: i.html ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: i.html } }) : i.text
       }
     ),
-    l && /* @__PURE__ */ n.jsx(
-      oa,
+    l && /* @__PURE__ */ r.jsx(
+      ss,
       {
-        id: x,
+        id: v,
         className: l.classes,
-        children: l.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: l.html } }) : l.text
+        children: l.html ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: l.html } }) : l.text
       }
     ),
-    Object.entries(p).map(
-<<<<<<< Updated upstream
-      ([y, b]) => b ? /* @__PURE__ */ n.jsxs(
-        oa,
-=======
-      ([R, x]) => x ? /* @__PURE__ */ n.jsxs(
-        ia,
->>>>>>> Stashed changes
+    Object.entries(m).map(
+      ([M, k]) => k ? /* @__PURE__ */ r.jsxs(
+        ss,
         {
-          id: `${e}-${y}-error`,
+          id: `${e}-${M}-error`,
           className: "nhsuk-error-message",
           children: [
-            /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: "Error:" }),
+            /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: "Error:" }),
             " ",
-            b
+            k
           ]
         },
-        `${y}-error`
+        `${M}-error`
       ) : null
     ),
-<<<<<<< Updated upstream
-    /* @__PURE__ */ n.jsx("div", { className: ce, id: e, "data-testid": "date-input", ...c, children: V.map((y) => {
-      const b = y.id || `${e}-${y.name}`, N = a ? `${a}[${y.name}]` : y.name, ue = y.label || y.name.charAt(0).toUpperCase() + y.name.slice(1), $ = p[y.name], C = u[y.name] || "";
-      let te = M;
-      if ($) {
-        const E = `${e}-${y.name}-error`;
-        te = te ? `${te} ${E}` : E;
-=======
-    /* @__PURE__ */ n.jsx("div", { className: de, id: e, "data-testid": "date-input", ...d, children: $.map((R) => {
-      const x = R.id || `${e}-${R.name}`, N = a ? `${a}[${R.name}]` : R.name, ue = R.label || R.name.charAt(0).toUpperCase() + R.name.slice(1), P = p[R.name], j = u[R.name] || "";
-      let ae = A;
-      if (P) {
-        const M = `${e}-${R.name}-error`;
-        ae = ae ? `${ae} ${M}` : M;
->>>>>>> Stashed changes
+    /* @__PURE__ */ r.jsx("div", { className: P, id: e, "data-testid": "date-input", ...c, children: L.map((M) => {
+      const k = M.id || `${e}-${M.name}`, b = a ? `${a}[${M.name}]` : M.name, A = M.label || M.name.charAt(0).toUpperCase() + M.name.slice(1), w = m[M.name], $ = f[M.name] || "";
+      let W = j;
+      if (w) {
+        const I = `${e}-${M.name}-error`;
+        W = W ? `${W} ${I}` : I;
       }
-      return /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-date-input__item", children: [
-        /* @__PURE__ */ n.jsx(
-          Pr,
+      return /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-date-input__item", children: [
+        /* @__PURE__ */ r.jsx(
+          $a,
           {
-            htmlFor: b,
+            htmlFor: k,
             className: "nhsuk-date-input__label",
-            children: ue
+            children: A
           }
         ),
-        /* @__PURE__ */ n.jsx(
-          Hr,
+        /* @__PURE__ */ r.jsx(
+          Da,
           {
-            id: b,
-            name: N,
-            value: C,
-            className: oe("nhsuk-date-input__input", y.classes, {
-              "nhsuk-input--error": $
+            id: k,
+            name: b,
+            value: $,
+            className: de("nhsuk-date-input__input", M.classes, {
+              "nhsuk-input--error": w
             }),
-            inputMode: y.inputmode,
-            autoComplete: y.autocomplete,
-            pattern: y.pattern,
-            "aria-describedby": te || void 0,
-            hasError: !!$,
-            onChange: (E) => k(y.name, E.target.value),
-            onBlur: () => H(y.name)
+            inputMode: M.inputmode,
+            autoComplete: M.autocomplete,
+            pattern: M.pattern,
+            "aria-describedby": W || void 0,
+            hasError: !!w,
+            onChange: (I) => S(M.name, I.target.value),
+            onBlur: () => B(M.name)
           }
         )
-      ] }, y.name);
+      ] }, M.name);
     }) })
   ] });
-  return /* @__PURE__ */ n.jsx("div", { className: Z, children: s ? /* @__PURE__ */ n.jsx(
-    zr,
+  return /* @__PURE__ */ r.jsx("div", { className: y, children: s ? /* @__PURE__ */ r.jsx(
+    Ia,
     {
       className: s.classes,
       legend: s.legend ? { text: s.legend } : void 0,
-      describedBy: M || void 0,
-      children: K()
+      describedBy: j || void 0,
+      children: E()
     }
-<<<<<<< Updated upstream
-  ) : K() });
-}, Ya = {
-=======
-  ) : J() });
-}, qa = {
->>>>>>> Stashed changes
+  ) : E() });
+}, io = {
   animation: {
     AnimationDurationFast: "150ms",
     AnimationDurationNormal: "300ms",
@@ -3072,34 +2295,19 @@ const oa = ({ id: e, className: t, visuallyHiddenText: r = "Error:", children: a
       marginBottom: { mobile: "24px", tablet: "32px" }
     }
   }
-<<<<<<< Updated upstream
-}, qa = Co(Ya), Jo = ({
+}, lo = vl(io), Xl = ({
   children: e,
   theme: t = {}
 }) => {
-  const r = { ...Ya, ...t };
-  return /* @__PURE__ */ n.jsx(qa.Provider, { value: r, children: e });
-}, hm = () => {
-  const e = So(qa);
-=======
-}, Ka = No(qa), Go = ({
-  children: e,
-  theme: t = {}
-}) => {
-  const r = { ...qa, ...t };
-  return /* @__PURE__ */ n.jsx(Ka.Provider, { value: r, children: e });
-}, sm = () => {
-  const e = jo(Ka);
->>>>>>> Stashed changes
+  const n = { ...io, ...t };
+  return /* @__PURE__ */ r.jsx(lo.Provider, { value: n, children: e });
+}, D0 = () => {
+  const e = yl(lo);
   if (!e)
     throw new Error("useNHSTheme must be used within an NHSThemeProvider");
   return e;
 };
-<<<<<<< Updated upstream
-function Xo() {
-=======
-function Vo() {
->>>>>>> Stashed changes
+function Kl() {
   return `
 	@font-face {
 	  font-display: swap;
@@ -3124,116 +2332,72 @@ function Vo() {
 	}
   `;
 }
-<<<<<<< Updated upstream
-function Qo() {
+function Zl() {
   if (typeof document > "u" || document.getElementById("nhs-fonts")) return;
   const e = document.createElement("style");
-  e.id = "nhs-fonts", e.textContent = Xo(), document.head.appendChild(e);
+  e.id = "nhs-fonts", e.textContent = Kl(), document.head.appendChild(e);
 }
-const fm = ({ children: e, theme: t }) => (Fe(() => {
-  Qo();
-}, []), /* @__PURE__ */ n.jsx(Jo, { theme: t, children: e })), ei = ({
-=======
-function Yo() {
-  if (typeof document > "u" || document.getElementById("nhs-fonts")) return;
-  const e = document.createElement("style");
-  e.id = "nhs-fonts", e.textContent = Vo(), document.head.appendChild(e);
-}
-const om = ({ children: e, theme: t }) => (Ie(() => {
-  Yo();
-}, []), /* @__PURE__ */ n.jsx(Go, { theme: t, children: e })), Za = ({
->>>>>>> Stashed changes
+const $0 = ({ children: e, theme: t }) => (Ee(() => {
+  Zl();
+}, []), /* @__PURE__ */ r.jsx(Xl, { theme: t, children: e })), Jl = ({
   mode: e = "form",
   action: t = "/search",
-  method: r = "get",
+  method: n = "get",
   name: a = "q",
   value: o,
   placeholder: s = "Search",
   visuallyHiddenLabel: i = "Search the NHS website",
   visuallyHiddenButton: l = "Search",
-  className: c,
-  disabled: d = !1,
-  callbacks: u = {},
-  isLoading: f = !1,
-  showResults: p = !1,
-  results: m = [],
-<<<<<<< Updated upstream
-  formAttributes: v = {},
-  inputAttributes: g = {},
-  buttonAttributes: _ = {},
-  preventDefaultSubmit: G = !1,
-  debounceMs: j = 300,
-  minQueryLength: I = 1
-}) => {
-  const [k, H] = we(""), [A, V] = we(!1), M = Te(void 0), R = Te(null), x = Te(null), B = e === "controlled" && o !== void 0, Z = B ? o : k, ce = ee((Q) => {
-    M.current && clearTimeout(M.current), M.current = setTimeout(() => {
-      u.onChange && Q.length >= I && u.onChange(Q);
-    }, j);
-  }, [u.onChange, j, I]), K = ee((Q) => {
-    const F = Q.target.value;
-    B || H(F), e !== "form" && ce(F);
-  }, [B, e, ce]), y = ee((Q) => {
-    const F = Z.trim(), ae = {
-      query: F,
-=======
+  className: d,
+  disabled: c = !1,
+  callbacks: f = {},
+  isLoading: h = !1,
+  showResults: m = !1,
+  results: g = [],
   formAttributes: C = {},
-  inputAttributes: g = {},
-  buttonAttributes: _ = {},
-  preventDefaultSubmit: V = !1,
-  debounceMs: B = 300,
-  minQueryLength: k = 1
+  inputAttributes: p = {},
+  buttonAttributes: u = {},
+  preventDefaultSubmit: R = !1,
+  debounceMs: F = 300,
+  minQueryLength: T = 1
 }) => {
-  const [y, L] = Se(""), [v, $] = Se(!1), A = Ce(void 0), I = Ce(null), b = Ce(null), F = e === "controlled" && o !== void 0, X = F ? o : y, de = re((te) => {
-    A.current && clearTimeout(A.current), A.current = setTimeout(() => {
-      u.onChange && te.length >= k && u.onChange(te);
-    }, B);
-  }, [u.onChange, B, k]), J = re((te) => {
-    const E = te.target.value;
-    F || L(E), e !== "form" && de(E);
-  }, [F, e, de]), R = re((te) => {
-    const E = X.trim(), ie = {
-      query: E,
->>>>>>> Stashed changes
+  const [S, B] = Ne(""), [_, L] = Ne(!1), j = Ie(void 0), D = Ie(null), v = Ie(null), x = e === "controlled" && o !== void 0, y = x ? o : S, P = ie((O) => {
+    j.current && clearTimeout(j.current), j.current = setTimeout(() => {
+      f.onChange && O.length >= T && f.onChange(O);
+    }, F);
+  }, [f.onChange, F, T]), E = ie((O) => {
+    const H = O.target.value;
+    x || B(H), e !== "form" && P(H);
+  }, [x, e, P]), M = ie((O) => {
+    const H = y.trim(), Q = {
+      query: H,
       timestamp: Date.now(),
-      formData: new FormData(Q.currentTarget)
+      formData: new FormData(O.currentTarget)
     };
-<<<<<<< Updated upstream
-    e === "controlled" || e === "hybrid" && G ? (Q.preventDefault(), u.onSearch && F.length >= I && u.onSearch(ae)) : e === "hybrid" && u.onSearch && F.length >= I && u.onSearch(ae);
-  }, [e, Z, u.onSearch, G, I]), b = ee(() => {
-    V(!0), u.onFocus?.();
-  }, [u.onFocus]), N = ee(() => {
-    V(!1), u.onBlur?.();
-  }, [u.onBlur]), ue = ee(() => {
-    B || H(""), u.onClear?.(), x.current?.focus();
-  }, [B, u.onClear]);
-  Fe(() => () => {
-    M.current && clearTimeout(M.current);
-=======
-    e === "controlled" || e === "hybrid" && V ? (te.preventDefault(), u.onSearch && E.length >= k && u.onSearch(ie)) : e === "hybrid" && u.onSearch && E.length >= k && u.onSearch(ie);
-  }, [e, X, u.onSearch, V, k]), x = re(() => {
-    $(!0), u.onFocus?.();
-  }, [u.onFocus]), N = re(() => {
-    $(!1), u.onBlur?.();
-  }, [u.onBlur]), ue = re(() => {
-    F || L(""), u.onClear?.(), b.current?.focus();
-  }, [F, u.onClear]);
-  Ie(() => () => {
-    A.current && clearTimeout(A.current);
->>>>>>> Stashed changes
+    e === "controlled" || e === "hybrid" && R ? (O.preventDefault(), f.onSearch && H.length >= T && f.onSearch(Q)) : e === "hybrid" && f.onSearch && H.length >= T && f.onSearch(Q);
+  }, [e, y, f.onSearch, R, T]), k = ie(() => {
+    L(!0), f.onFocus?.();
+  }, [f.onFocus]), b = ie(() => {
+    L(!1), f.onBlur?.();
+  }, [f.onBlur]), A = ie(() => {
+    x || B(""), f.onClear?.(), v.current?.focus();
+  }, [x, f.onClear]);
+  Ee(() => () => {
+    j.current && clearTimeout(j.current);
   }, []);
-  const $ = () => /* @__PURE__ */ n.jsx(
+  const w = () => /* @__PURE__ */ r.jsx(
     "svg",
     {
-      className: oe("nhsuk-icon nhsuk-icon__search", {
-        "nhsuk-icon__search--loading": f
+      className: de("nhsuk-icon nhsuk-icon__search", {
+        "nhsuk-icon__search--loading": h
       }),
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       "aria-hidden": "true",
       focusable: "false",
-      children: /* @__PURE__ */ n.jsx("path", { d: "M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z" })
+      children: /* @__PURE__ */ r.jsx("path", { d: "M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z" })
     }
-  ), C = () => /* @__PURE__ */ n.jsx(
+  ), $ = () => /* @__PURE__ */ r.jsx(
     "svg",
     {
       className: "nhsuk-icon nhsuk-icon__spinner",
@@ -3241,7 +2405,7 @@ const om = ({ children: e, theme: t }) => (Ie(() => {
       viewBox: "0 0 24 24",
       "aria-hidden": "true",
       focusable: "false",
-      children: /* @__PURE__ */ n.jsxs(
+      children: /* @__PURE__ */ r.jsxs(
         "circle",
         {
           cx: "12",
@@ -3254,7 +2418,7 @@ const om = ({ children: e, theme: t }) => (Ie(() => {
           strokeDasharray: "31.416",
           strokeDashoffset: "31.416",
           children: [
-            /* @__PURE__ */ n.jsx(
+            /* @__PURE__ */ r.jsx(
               "animate",
               {
                 attributeName: "stroke-dasharray",
@@ -3263,7 +2427,7 @@ const om = ({ children: e, theme: t }) => (Ie(() => {
                 repeatCount: "indefinite"
               }
             ),
-            /* @__PURE__ */ n.jsx(
+            /* @__PURE__ */ r.jsx(
               "animate",
               {
                 attributeName: "stroke-dashoffset",
@@ -3276,65 +2440,50 @@ const om = ({ children: e, theme: t }) => (Ie(() => {
         }
       )
     }
-  ), te = () => !Z || e === "form" ? null : /* @__PURE__ */ n.jsx(
+  ), W = () => !y || e === "form" ? null : /* @__PURE__ */ r.jsx(
     "button",
     {
       type: "button",
       className: "nhsuk-header__search-clear",
-      onClick: ue,
+      onClick: A,
       "aria-label": "Clear search",
-      children: /* @__PURE__ */ n.jsx("svg", { className: "nhsuk-icon nhsuk-icon__close", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ n.jsx("path", { d: "M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 1.42 1.42l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42-1.42z" }) })
+      children: /* @__PURE__ */ r.jsx("svg", { className: "nhsuk-icon nhsuk-icon__close", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ r.jsx("path", { d: "M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 1.42 1.42l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42-1.42z" }) })
     }
-<<<<<<< Updated upstream
-  ), E = () => !p || !m.length || !A ? null : /* @__PURE__ */ n.jsx("div", { className: "nhsuk-header__search-results", role: "listbox", children: m.map((Q) => /* @__PURE__ */ n.jsx("div", { className: "nhsuk-header__search-result", role: "option", children: Q.href ? /* @__PURE__ */ n.jsxs("a", { href: Q.href, className: "nhsuk-header__search-result-link", children: [
-    /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__search-result-title", children: Q.title }),
-    Q.description && /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__search-result-description", children: Q.description })
-=======
-  ), M = () => !p || !m.length || !v ? null : /* @__PURE__ */ n.jsx("div", { className: "nhsuk-header__search-results", role: "listbox", children: m.map((te) => /* @__PURE__ */ n.jsx("div", { className: "nhsuk-header__search-result", role: "option", children: te.href ? /* @__PURE__ */ n.jsxs("a", { href: te.href, className: "nhsuk-header__search-result-link", children: [
-    /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__search-result-title", children: te.title }),
-    te.description && /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__search-result-description", children: te.description })
->>>>>>> Stashed changes
-  ] }) : /* @__PURE__ */ n.jsxs(
+  ), I = () => !m || !g.length || !_ ? null : /* @__PURE__ */ r.jsx("div", { className: "nhsuk-header__search-results", role: "listbox", children: g.map((O) => /* @__PURE__ */ r.jsx("div", { className: "nhsuk-header__search-result", role: "option", children: O.href ? /* @__PURE__ */ r.jsxs("a", { href: O.href, className: "nhsuk-header__search-result-link", children: [
+    /* @__PURE__ */ r.jsx("span", { className: "nhsuk-header__search-result-title", children: O.title }),
+    O.description && /* @__PURE__ */ r.jsx("span", { className: "nhsuk-header__search-result-description", children: O.description })
+  ] }) : /* @__PURE__ */ r.jsxs(
     "button",
     {
       type: "button",
       className: "nhsuk-header__search-result-button",
-      onClick: () => u.onSearch?.({ query: Q.title, timestamp: Date.now() }),
+      onClick: () => f.onSearch?.({ query: O.title, timestamp: Date.now() }),
       children: [
-        /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__search-result-title", children: Q.title }),
-        Q.description && /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__search-result-description", children: Q.description })
+        /* @__PURE__ */ r.jsx("span", { className: "nhsuk-header__search-result-title", children: O.title }),
+        O.description && /* @__PURE__ */ r.jsx("span", { className: "nhsuk-header__search-result-description", children: O.description })
       ]
     }
-<<<<<<< Updated upstream
-  ) }, Q.id)) });
-  return /* @__PURE__ */ n.jsxs("div", { className: oe("nhsuk-header__search", d, {
+  ) }, O.id)) });
+  return /* @__PURE__ */ r.jsxs("div", { className: de("nhsuk-header__search", d, {
     "nhsuk-header__search--controlled": e === "controlled",
     "nhsuk-header__search--hybrid": e === "hybrid",
-    "nhsuk-header__search--loading": f,
-    "nhsuk-header__search--focused": A,
-=======
-  ) }, te.id)) });
-  return /* @__PURE__ */ n.jsxs("div", { className: ee("nhsuk-header__search", c, {
-    "nhsuk-header__search--controlled": e === "controlled",
-    "nhsuk-header__search--hybrid": e === "hybrid",
-    "nhsuk-header__search--loading": f,
-    "nhsuk-header__search--focused": v,
->>>>>>> Stashed changes
-    "nhsuk-header__search--has-results": p && m.length > 0
+    "nhsuk-header__search--loading": h,
+    "nhsuk-header__search--focused": _,
+    "nhsuk-header__search--has-results": m && g.length > 0
   }), children: [
-    /* @__PURE__ */ n.jsxs(
+    /* @__PURE__ */ r.jsxs(
       "form",
       {
-        ref: R,
+        ref: D,
         className: "nhsuk-header__search-form",
         id: "search",
         action: e !== "controlled" ? t : void 0,
-        method: e !== "controlled" ? r : void 0,
+        method: e !== "controlled" ? n : void 0,
         role: "search",
-        onSubmit: y,
-        ...v,
+        onSubmit: M,
+        ...C,
         children: [
-          /* @__PURE__ */ n.jsx(
+          /* @__PURE__ */ r.jsx(
             "label",
             {
               className: "nhsuk-u-visually-hidden",
@@ -3342,59 +2491,50 @@ const om = ({ children: e, theme: t }) => (Ie(() => {
               children: i
             }
           ),
-          /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-header__search-input-wrapper", children: [
-            /* @__PURE__ */ n.jsx(
+          /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-header__search-input-wrapper", children: [
+            /* @__PURE__ */ r.jsx(
               "input",
               {
-                ref: x,
+                ref: v,
                 className: "nhsuk-header__search-input nhsuk-input",
                 id: "search-field",
                 name: e !== "controlled" ? a : void 0,
                 type: "search",
                 placeholder: s,
                 autoComplete: "off",
-                value: Z,
-                onChange: K,
-                onFocus: b,
-                onBlur: N,
-<<<<<<< Updated upstream
-                disabled: c || f,
-=======
-                disabled: d || f,
->>>>>>> Stashed changes
-                ...p && m.length > 0 ? { "aria-expanded": !0, "aria-haspopup": "listbox" } : {},
-                ...g
+                value: y,
+                onChange: E,
+                onFocus: k,
+                onBlur: b,
+                disabled: c || h,
+                ...m && g.length > 0 ? { "aria-expanded": !0, "aria-haspopup": "listbox" } : {},
+                ...p
               }
             ),
-            te()
+            W()
           ] }),
-          /* @__PURE__ */ n.jsxs(
+          /* @__PURE__ */ r.jsxs(
             "button",
             {
               className: "nhsuk-header__search-submit",
               type: "submit",
-<<<<<<< Updated upstream
-              disabled: c || f || e !== "form" && Z.length < I,
-=======
-              disabled: d || f || e !== "form" && X.length < k,
->>>>>>> Stashed changes
-              ..._,
+              disabled: c || h || e !== "form" && y.length < T,
+              ...u,
               children: [
-                f ? C() : $(),
-                /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: f ? "Searching..." : l })
+                h ? $() : w(),
+                /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: h ? "Searching..." : l })
               ]
             }
           )
         ]
       }
     ),
-    E()
+    I()
   ] });
-<<<<<<< Updated upstream
 };
-function ti(e, {
+function co(e, {
   variant: t,
-  isClient: r,
+  isClient: n,
   menuOpen: a = !1,
   showMoreButton: o = !1,
   visibleItems: s,
@@ -3404,146 +2544,33 @@ function ti(e, {
   const {
     className: d,
     logo: c = {},
-    service: u = {},
-    organisation: f,
-    search: p,
-    account: m,
-    navigation: v,
-    containerClasses: g,
-    variant: _ = "default",
-    attributes: G = {},
-    maxVisibleItems: j,
-    ...I
+    service: f = {},
+    organisation: h,
+    search: m,
+    account: g,
+    navigation: C,
+    containerClasses: p,
+    variant: u = "default",
+    attributes: R = {},
+    maxVisibleItems: F,
+    ...T
   } = e;
-  "maxVisibleItems" in I && delete I.maxVisibleItems;
-  const k = u.href && !c.href || u.href && u.href === c.href, H = k ? u.href : c.href, A = oe(
+  "maxVisibleItems" in T && delete T.maxVisibleItems;
+  const S = f.href && !c.href || f.href && f.href === c.href, B = S ? f.href : c.href, _ = de(
     "nhsuk-header",
     {
-      "nhsuk-header--organisation": _ === "organisation" || f,
-      "nhsuk-header--white": _ === "white"
-=======
-}, Ja = ({
-  className: e,
-  logo: t = {},
-  service: r = {},
-  organisation: a,
-  search: o,
-  account: s,
-  navigation: i,
-  containerClasses: l,
-  variant: c = "default",
-  attributes: d = {},
-  ...u
-}) => {
-  const [f, p] = Se(!1), [m, C] = Se(!1), [g, _] = Se(i?.items?.length || 0), [V, B] = Se(!1), [k, y] = Se(!1), [L, v] = Se(!1), $ = Ce(null), A = Ce(null), I = Ce(!1), b = Ce(null), F = Ce([]), X = Ce(null);
-  Ie(() => {
-    typeof window > "u" || (v(!0), B(!0));
-  }, []), Ie(() => {
-    if (!L || !i?.items?.length) return;
-    F.current = i.items;
-    const Q = setTimeout(() => {
-      $.current && A.current && ue();
-    }, 100);
-    return () => clearTimeout(Q);
-  }, [L, i?.items]);
-  const de = r.href && !t.href || r.href && r.href === t.href, J = de ? r.href : t.href, R = ee(
-    "nhsuk-header",
-    {
-      "nhsuk-header--organisation": c === "organisation" || a,
-      "nhsuk-header--white": c === "white"
->>>>>>> Stashed changes
+      "nhsuk-header--organisation": u === "organisation" || h,
+      "nhsuk-header--white": u === "white"
     },
     d
-  ), V = oe("nhsuk-header__container", "nhsuk-width-container", g), M = oe(
+  ), L = de("nhsuk-header__container", "nhsuk-width-container", p), j = de(
     "nhsuk-header__navigation",
     {
-      "nhsuk-header__navigation--white": v?.white,
-      "nhsuk-header__navigation--justified": v?.justified
+      "nhsuk-header__navigation--white": C?.white,
+      "nhsuk-header__navigation--justified": C?.justified
     },
-<<<<<<< Updated upstream
-    v?.className
-  ), R = () => /* @__PURE__ */ n.jsxs(
-=======
-    i?.className
-  ), ue = re(() => {
-    if (!(typeof window > "u" || I.current) && !(!$.current || !A.current || !F.current.length)) {
-      I.current = !0;
-      try {
-        const Q = A.current, Y = $.current, K = Q.offsetWidth, U = Y.querySelectorAll(".nhsuk-header__navigation-item:not(.nhsuk-header__navigation-item--more)");
-        if (U.length === 0 || K === 0) {
-          I.current = !1;
-          return;
-        }
-        const se = window.innerWidth < 768, me = se ? 16 : 32, z = me * 2, je = K - z, fe = Array.from(U).map(($e) => $e.offsetWidth), pe = fe.reduce(($e, De) => $e + De, 0), he = se ? 80 : 100, xe = X.current !== null && X.current !== se;
-        if (X.current = se, console.log("Overflow check:", {
-          containerWidth: K,
-          availableContainerWidth: je,
-          totalGutters: z,
-          gutterSize: me,
-          totalWidth: pe,
-          mobile: se,
-          breakpointChanged: xe,
-          itemCount: fe.length,
-          measurements: fe
-        }), pe <= je)
-          C(!1), _(F.current.length);
-        else {
-          const $e = je - he;
-          let De = 0, Ne = 0;
-          for (let S = 0; S < fe.length; S++) {
-            const W = Ne + fe[S];
-            if (W <= $e)
-              Ne = W, De = S + 1;
-            else
-              break;
-          }
-          De = Math.max(1, De);
-          const T = De < fe.length;
-          C(T), _(De);
-        }
-        I.current = !1;
-      } catch (Q) {
-        console.error("Overflow detection error:", Q), C(!1), _(F.current.length), I.current = !1;
-      }
-    }
-  }, []);
-  Ie(() => {
-    if (typeof document > "u") return;
-    const Q = (Y) => {
-      Y.key === "Escape" && f && p(!1);
-    };
-    if (f)
-      return document.addEventListener("keydown", Q), () => document.removeEventListener("keydown", Q);
-  }, [f]), Ie(() => {
-    if (typeof window > "u" || !L) return;
-    const Q = () => {
-      f && (p(!1), y(!1)), b.current && clearTimeout(b.current), b.current = setTimeout(() => {
-        F.current.length > 0 && ue();
-      }, 250);
-    };
-    let Y = null, K = null;
-    return window.matchMedia && (Y = window.matchMedia("(max-width: 767px)"), K = () => {
-      F.current.length > 0 && setTimeout(() => ue(), 50);
-    }, Y.addEventListener ? Y.addEventListener("change", K) : Y.addListener(K)), window.addEventListener("resize", Q), () => {
-      window.removeEventListener("resize", Q), Y && K && (Y.removeEventListener ? Y.removeEventListener("change", K) : Y.removeListener(K)), b.current && clearTimeout(b.current);
-    };
-  }, [L, f, ue]), Ie(() => {
-    if (typeof document > "u") return;
-    const Q = (Y) => {
-      const K = Y.target, U = $.current?.contains(K);
-      f && !U && p(!1);
-    };
-    if (f)
-      return document.addEventListener("mousedown", Q), () => document.removeEventListener("mousedown", Q);
-  }, [f]);
-  const P = (Q) => {
-    Q && (Q.preventDefault(), Q.stopPropagation());
-    const Y = !f;
-    p(Y), Y ? setTimeout(() => {
-      y(!0);
-    }, 50) : y(!1);
-  }, j = () => /* @__PURE__ */ n.jsxs(
->>>>>>> Stashed changes
+    C?.className
+  ), D = () => /* @__PURE__ */ r.jsxs(
     "svg",
     {
       className: "nhsuk-header__logo",
@@ -3555,8 +2582,8 @@ function ti(e, {
       role: "img",
       "aria-label": c.ariaLabel || "NHS",
       children: [
-        /* @__PURE__ */ n.jsx("title", { children: c.ariaLabel || "NHS" }),
-        /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx("title", { children: c.ariaLabel || "NHS" }),
+        /* @__PURE__ */ r.jsx(
           "path",
           {
             fill: "#fff",
@@ -3565,896 +2592,376 @@ function ti(e, {
         )
       ]
     }
-  ), x = () => c.src ? /* @__PURE__ */ n.jsx("img", { className: "nhsuk-header__organisation-logo", src: c.src, width: "280", alt: c.ariaLabel || "NHS" }) : R(), B = () => f ? /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-    /* @__PURE__ */ n.jsxs("span", { className: "nhsuk-header__organisation-name", children: [
-      f.name,
-      f.split && /* @__PURE__ */ n.jsxs("span", { className: "nhsuk-header__organisation-name-split", children: [
+  ), v = () => c.src ? /* @__PURE__ */ r.jsx("img", { className: "nhsuk-header__organisation-logo", src: c.src, width: "280", alt: c.ariaLabel || "NHS" }) : D(), x = () => h ? /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+    /* @__PURE__ */ r.jsxs("span", { className: "nhsuk-header__organisation-name", children: [
+      h.name,
+      h.split && /* @__PURE__ */ r.jsxs("span", { className: "nhsuk-header__organisation-name-split", children: [
         " ",
         " ",
-        f.split
+        h.split
       ] })
     ] }),
-<<<<<<< Updated upstream
-    f.descriptor && /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__organisation-name-descriptor", children: f.descriptor })
-  ] }) : null, Z = (y, b) => y ? b ? /* @__PURE__ */ n.jsx("a", { className: "nhsuk-header__service-name", href: b, children: y }) : /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__service-name", children: y }) : null, ce = (y) => y.active || y.current ? /* @__PURE__ */ n.jsx("strong", { className: "nhsuk-header__navigation-item-current-fallback", children: y.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: y.html } }) : y.text }) : y.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: y.html } }) : y.text, K = () => /* @__PURE__ */ n.jsx("svg", { className: "nhsuk-icon nhsuk-icon__chevron-down", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 12 7", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ n.jsx("path", { d: "M1.414 0 6 4.586 10.586 0 12 1.414 6 7 0 1.414 1.414 0Z" }) });
-  return v?.items, /* @__PURE__ */ n.jsxs("header", { className: A, role: "banner", "data-module": "nhsuk-header", ...G, ...I, children: [
-    /* @__PURE__ */ n.jsxs("div", { className: V, children: [
-      /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-header__service", children: [
-        H ? /* @__PURE__ */ n.jsxs("a", { className: "nhsuk-header__service-logo", href: H, children: [
+    h.descriptor && /* @__PURE__ */ r.jsx("span", { className: "nhsuk-header__organisation-name-descriptor", children: h.descriptor })
+  ] }) : null, y = (w, $) => w ? $ ? /* @__PURE__ */ r.jsx("a", { className: "nhsuk-header__service-name", href: $, children: w }) : /* @__PURE__ */ r.jsx("span", { className: "nhsuk-header__service-name", children: w }) : null, P = (w) => w.active || w.current ? /* @__PURE__ */ r.jsx("strong", { className: "nhsuk-header__navigation-item-current-fallback", children: w.html ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: w.html } }) : w.text }) : w.html ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: w.html } }) : w.text, E = () => /* @__PURE__ */ r.jsx("svg", { className: "nhsuk-icon nhsuk-icon__chevron-down", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 12 7", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ r.jsx("path", { d: "M1.414 0 6 4.586 10.586 0 12 1.414 6 7 0 1.414 1.414 0Z" }) }), M = F ?? 4, k = t === "server" && C?.items && C.items.length > M, b = k ? [] : C?.items, A = k ? C.items : [];
+  return /* @__PURE__ */ r.jsxs("header", { className: _, role: "banner", "data-module": "nhsuk-header", ...R, ...T, children: [
+    /* @__PURE__ */ r.jsxs("div", { className: L, children: [
+      /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-header__service", children: [
+        B ? /* @__PURE__ */ r.jsxs("a", { className: "nhsuk-header__service-logo", href: B, children: [
+          v(),
           x(),
-          B(),
-          k && Z(u.text)
-        ] }) : /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
+          S && y(f.text)
+        ] }) : /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+          v(),
           x(),
-          B(),
-          k && Z(u.text)
-=======
-    a.descriptor && /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__organisation-name-descriptor", children: a.descriptor })
-  ] }) : null, te = (Q, Y) => Q ? Y ? /* @__PURE__ */ n.jsx("a", { className: "nhsuk-header__service-name", href: Y, children: Q }) : /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__service-name", children: Q }) : null, E = () => /* @__PURE__ */ n.jsx(
-    "svg",
-    {
-      className: "nhsuk-icon nhsuk-icon__chevron-down",
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 24 24",
-      "aria-hidden": "true",
-      focusable: "false",
-      children: /* @__PURE__ */ n.jsx("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
-    }
-  ), ie = (Q) => {
-    if (Q.active || Q.current) {
-      const Y = Q.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: Q.html } }) : Q.text;
-      return /* @__PURE__ */ n.jsx("strong", { className: "nhsuk-header__navigation-item-current-fallback", children: Y });
-    }
-    return Q.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: Q.html } }) : Q.text;
-  };
-  return /* @__PURE__ */ n.jsxs(
-    "header",
-    {
-      className: R,
-      role: "banner",
-      "data-module": "nhsuk-header",
-      ...d,
-      ...u,
-      children: [
-        /* @__PURE__ */ n.jsxs("div", { className: x, children: [
-          /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-header__service", children: [
-            J ? /* @__PURE__ */ n.jsxs("a", { className: "nhsuk-header__service-logo", href: J, children: [
-              ae(),
-              M(),
-              de && te(r.text)
-            ] }) : /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-              ae(),
-              M(),
-              de && te(r.text)
-            ] }),
-            r.text && !de && te(r.text, r.href)
-          ] }),
-          o && /* @__PURE__ */ n.jsx(Za, { ...o }),
-          /* @__PURE__ */ n.jsx(
-            Hr,
-            {
-              ...s,
-              variant: c === "white" ? "white" : "default"
-            }
-          )
->>>>>>> Stashed changes
+          S && y(f.text)
         ] }),
-        u.text && !k && Z(u.text, u.href)
+        f.text && !S && y(f.text, f.href)
       ] }),
-      p && /* @__PURE__ */ n.jsx(ei, { ...p }),
-      /* @__PURE__ */ n.jsx(Bo, { ...m, variant: _ === "white" ? "white" : "default" })
+      m && /* @__PURE__ */ r.jsx(Jl, { ...m }),
+      /* @__PURE__ */ r.jsx($l, { ...g, variant: u === "white" ? "white" : "default" })
     ] }),
-    v && v.items && v.items.length > 0 && /* @__PURE__ */ n.jsx("nav", { className: M, "aria-label": v.ariaLabel || "Menu", children: /* @__PURE__ */ n.jsx(
+    C && C.items && C.items.length > 0 && /* @__PURE__ */ r.jsx("nav", { className: j, "aria-label": C.ariaLabel || "Menu", children: /* @__PURE__ */ r.jsx(
       "div",
       {
-        className: oe(
+        className: de(
           "nhsuk-header__navigation-container",
           "nhsuk-width-container",
           {
-<<<<<<< Updated upstream
-            "nhsuk-header__navigation-container--initializing": r && t === "client",
-            "nhsuk-header__navigation-container--ssr": !r
+            "nhsuk-header__navigation-container--initializing": n && t === "client",
+            "nhsuk-header__navigation-container--ssr": !n
           },
-          g
+          p
         ),
-        children: /* @__PURE__ */ n.jsxs("ul", { className: "nhsuk-header__navigation-list", children: [
-          (v?.items || []).slice(0, s ?? (v?.items?.length || 0)).map((y, b) => /* @__PURE__ */ n.jsx(
+        children: /* @__PURE__ */ r.jsxs("ul", { className: "nhsuk-header__navigation-list", children: [
+          (t === "server" ? b || [] : (C?.items || []).slice(0, s ?? (C?.items?.length || 0))).map((w, $) => /* @__PURE__ */ r.jsx(
             "li",
             {
-              className: oe(
+              className: de(
                 "nhsuk-header__navigation-item",
                 {
-                  "nhsuk-header__navigation-item--current": y.active || y.current
+                  "nhsuk-header__navigation-item--current": w.active || w.current
                 },
-                y.className
+                w.className
               ),
-              ...y.attributes || {},
-              children: /* @__PURE__ */ n.jsx(
+              ...w.attributes || {},
+              children: /* @__PURE__ */ r.jsx(
                 "a",
                 {
                   className: "nhsuk-header__navigation-link",
-                  href: y.href,
-                  ...y.active || y.current ? { "aria-current": y.current ? "page" : "true" } : {},
-                  children: ce(y)
+                  href: w.href,
+                  ...w.active || w.current ? { "aria-current": w.current ? "page" : "true" } : {},
+                  children: P(w)
                 }
               )
             },
-            b
+            $
           )),
-          o && s !== void 0 && v?.items && s < v.items.length && /* @__PURE__ */ n.jsx("li", { className: "nhsuk-header__navigation-item nhsuk-header__navigation-item--more", children: /* @__PURE__ */ n.jsxs("a", { className: "nhsuk-header__navigation-button", id: "toggle-more-menu", onClick: l, type: "button", children: [
-            /* @__PURE__ */ n.jsx("span", { children: "More" }),
-            K()
+          t === "client" && o && s !== void 0 && C?.items && s < C.items.length && /* @__PURE__ */ r.jsx("li", { className: "nhsuk-header__navigation-item nhsuk-header__navigation-item--more", children: /* @__PURE__ */ r.jsxs("a", { className: "nhsuk-header__navigation-button", id: "toggle-more-menu", onClick: l, type: "button", children: [
+            /* @__PURE__ */ r.jsx("span", { children: "More" }),
+            E()
           ] }) })
         ] })
       }
     ) }),
-    r && v && v.items && v.items.length > 0 && a && i && /* @__PURE__ */ n.jsx("div", { className: "nhsuk-header__dropdown-menu", hidden: !i, children: /* @__PURE__ */ n.jsx("ul", { className: "nhsuk-header__dropdown-list", children: v.items.slice(s ?? 0).map((y, b) => /* @__PURE__ */ n.jsx(
+    t === "client" && n && C && C.items && C.items.length > 0 && a && i && /* @__PURE__ */ r.jsx("div", { className: "nhsuk-header__dropdown-menu", hidden: !i, children: /* @__PURE__ */ r.jsx("ul", { className: "nhsuk-header__dropdown-list", children: C.items.slice(s ?? 0).map((w, $) => /* @__PURE__ */ r.jsx(
       "li",
       {
-        className: oe("nhsuk-header__dropdown-item", {
-          "nhsuk-header__dropdown-item--current": y.active || y.current
+        className: de("nhsuk-header__dropdown-item", {
+          "nhsuk-header__dropdown-item--current": w.active || w.current
         }),
-        children: /* @__PURE__ */ n.jsx(
+        children: /* @__PURE__ */ r.jsx(
           "a",
           {
             className: "nhsuk-header__dropdown-link",
-            href: y.href,
-            ...y.active || y.current ? { "aria-current": y.current ? "page" : "true" } : {},
+            href: w.href,
+            ...w.active || w.current ? { "aria-current": w.current ? "page" : "true" } : {},
             onClick: () => {
               l?.();
             },
-            children: ce(y)
+            children: P(w)
           }
         )
       },
-      `overflow-${(s ?? 0) + b}`
+      `overflow-${(s ?? 0) + $}`
     )) }) }),
-    t === "server"
+    t === "server" && k && A.length > 0 && /* @__PURE__ */ r.jsx("div", { className: "nhsuk-header__dropdown-menu", "data-ssr-overflow": "true", children: /* @__PURE__ */ r.jsx("ul", { className: "nhsuk-header__dropdown-list", children: A.map((w, $) => /* @__PURE__ */ r.jsx(
+      "li",
+      {
+        className: de("nhsuk-header__dropdown-item", {
+          "nhsuk-header__dropdown-item--current": w.active || w.current
+        }),
+        children: /* @__PURE__ */ r.jsx(
+          "a",
+          {
+            className: "nhsuk-header__dropdown-link",
+            href: w.href,
+            ...w.active || w.current ? { "aria-current": w.current ? "page" : "true" } : {},
+            children: P(w)
+          }
+        )
+      },
+      `overflow-server-${$}`
+    )) }) })
   ] });
 }
-const Ka = ({
-=======
-            className: N,
-            "aria-label": i.ariaLabel || "Menu",
-            children: /* @__PURE__ */ n.jsx(
-              "div",
-              {
-                className: ee(
-                  "nhsuk-header__navigation-container",
-                  "nhsuk-width-container",
-                  {
-                    "nhsuk-header__navigation-container--initializing": !V && L,
-                    "nhsuk-header__navigation-container--ssr": !L
-                  },
-                  l
-                ),
-                ref: A,
-                children: /* @__PURE__ */ n.jsxs("ul", { className: "nhsuk-header__navigation-list", ref: $, children: [
-                  (L ? i.items.slice(0, g) : i.items).map((Q, Y) => /* @__PURE__ */ n.jsx(
-                    "li",
-                    {
-                      className: ee(
-                        "nhsuk-header__navigation-item",
-                        {
-                          "nhsuk-header__navigation-item--current": Q.active || Q.current,
-                          "nhsuk-header__navigation-item--ssr-fallback": !L && Y >= 4
-                          // Mark items that would be hidden on client
-                        },
-                        Q.className
-                      ),
-                      ...Q.attributes || {},
-                      children: /* @__PURE__ */ n.jsx(
-                        "a",
-                        {
-                          className: "nhsuk-header__navigation-link",
-                          href: Q.href,
-                          ...Q.active || Q.current ? {
-                            "aria-current": Q.current ? "page" : "true"
-                          } : {},
-                          children: ie(Q)
-                        }
-                      )
-                    },
-                    Y
-                  )),
-                  L && m && g < i.items.length && /* @__PURE__ */ n.jsx(
-                    "li",
-                    {
-                      className: "nhsuk-header__navigation-item nhsuk-header__navigation-item--more",
-                      children: /* @__PURE__ */ n.jsxs(
-                        "a",
-                        {
-                          className: "nhsuk-header__navigation-button",
-                          id: "toggle-more-menu",
-                          onClick: P,
-                          type: "button",
-                          children: [
-                            /* @__PURE__ */ n.jsx("span", { children: "More" }),
-                            E()
-                          ]
-                        }
-                      )
-                    }
-                  )
-                ] })
-              }
-            )
-          }
-        ),
-        L && i && i.items && i.items.length > 0 && f && k && /* @__PURE__ */ n.jsx(
-          "div",
-          {
-            className: "nhsuk-header__dropdown-menu",
-            hidden: !k,
-            children: /* @__PURE__ */ n.jsx("ul", { className: "nhsuk-header__dropdown-list", children: i.items.slice(g).map((Q, Y) => /* @__PURE__ */ n.jsx(
-              "li",
-              {
-                className: ee(
-                  "nhsuk-header__dropdown-item",
-                  {
-                    "nhsuk-header__dropdown-item--current": Q.active || Q.current
-                  }
-                ),
-                children: /* @__PURE__ */ n.jsx(
-                  "a",
-                  {
-                    className: "nhsuk-header__dropdown-link",
-                    href: Q.href,
-                    ...Q.active || Q.current ? {
-                      "aria-current": Q.current ? "page" : "true"
-                    } : {},
-                    onClick: () => {
-                      p(!1), y(!1);
-                    },
-                    children: ie(Q)
-                  }
-                )
-              },
-              `overflow-${g + Y}`
-            )) })
-          }
-        )
-      ]
-    }
-  );
-}, im = ({
->>>>>>> Stashed changes
+const uo = ({
   className: e,
   logo: t = {},
-  service: r = {},
+  service: n = {},
   organisation: a,
   search: o,
   account: s,
   navigation: i,
   containerClasses: l,
-  variant: c = "default",
-  attributes: d = {},
-  ...u
-}) => {
-<<<<<<< Updated upstream
-  const [f, p] = we(!1), [m] = we(!1), [v] = we(i?.items?.length || 0), [g, _] = we(!1), [G, j] = we(!1);
-  Fe(() => {
-    typeof window > "u" || j(!0);
-  }, []), Fe(() => {
-    if (typeof document > "u") return;
-    const k = (H) => {
-      H.key === "Escape" && f && p(!1);
-    };
-    if (f)
-      return document.addEventListener("keydown", k), () => document.removeEventListener("keydown", k);
-  }, [f]);
-  const I = (k) => {
-    k && (k.preventDefault(), k.stopPropagation());
-    const H = !f;
-    p(H), _(H);
-=======
-  const f = r.href && !t.href || r.href && r.href === t.href, p = f ? r.href : t.href, m = ee(
-    "nhsuk-header",
-    "nhsuk-header--ssr",
-    // SSR version identifier
-    {
-      "nhsuk-header--organisation": c === "organisation" || a,
-      "nhsuk-header--white": c === "white"
-    },
-    e
-  ), C = ee(
-    "nhsuk-header__container",
-    "nhsuk-width-container",
-    l
-  ), g = ee(
-    "nhsuk-header__navigation",
-    i?.className
-  ), _ = () => /* @__PURE__ */ n.jsxs(
-    "svg",
-    {
-      className: "nhsuk-header__logo",
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 200 80",
-      height: "40",
-      width: "100",
-      focusable: "false",
-      role: "img",
-      "aria-label": t.ariaLabel || "NHS",
-      children: [
-        /* @__PURE__ */ n.jsx("title", { children: t.ariaLabel || "NHS" }),
-        /* @__PURE__ */ n.jsx(
-          "path",
-          {
-            fill: "currentcolor",
-            d: "M200 0v80H0V0h200Zm-27.5 5.5c-14.5 0-29 5-29 22 0 10.2 7.7 13.5 14.7 16.3l.7.3c5.4 2 10.1 3.9 10.1 8.4 0 6.5-8.5 7.5-14 7.5s-12.5-1.5-16-3.5L135 70c5.5 2 13.5 3.5 20 3.5 15.5 0 32-4.5 32-22.5 0-19.5-25.5-16.5-25.5-25.5 0-5.5 5.5-6.5 12.5-6.5a35 35 0 0 1 14.5 3l4-13.5c-4.5-2-12-3-20-3Zm-131 2h-22l-14 65H22l9-45h.5l13.5 45h21.5l14-65H64l-9 45h-.5l-13-45Zm63 0h-18l-13 65h17l6-28H117l-5.5 28H129l13.5-65H125L119.5 32h-20l5-24.5Z"
-          }
-        )
-      ]
-    }
-  ), V = () => t.src ? /* @__PURE__ */ n.jsx(
-    "img",
-    {
-      className: "nhsuk-header__organisation-logo",
-      src: t.src,
-      width: "280",
-      alt: t.ariaLabel || "NHS",
-      role: "img",
-      "aria-label": t.ariaLabel || "NHS"
-    }
-  ) : _(), B = () => a ? /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-    /* @__PURE__ */ n.jsxs("span", { className: "nhsuk-header__organisation-name", children: [
-      a.name,
-      a.split && /* @__PURE__ */ n.jsxs("span", { className: "nhsuk-header__organisation-name-split", children: [
-        " ",
-        a.split
-      ] })
-    ] }),
-    a.descriptor && /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__organisation-name-descriptor", children: a.descriptor })
-  ] }) : null, k = (v, $) => v ? $ ? /* @__PURE__ */ n.jsx("a", { className: "nhsuk-header__service-name", href: $, children: v }) : /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__service-name", children: v }) : null, y = () => !i?.items || i.items.length === 0 ? null : i.items.map((v, $) => /* @__PURE__ */ n.jsx(
-    "li",
-    {
-      className: "nhsuk-header__navigation-item",
-      "data-navigation-item": "true",
-      children: /* @__PURE__ */ n.jsx(
-        "a",
-        {
-          className: "nhsuk-header__navigation-link",
-          href: v.href,
-          ...v.attributes || {},
-          children: v.text
-        }
-      )
-    },
-    v.href || $
-  )), L = () => o ? /* @__PURE__ */ n.jsx(Za, { ...o }) : null;
-  return /* @__PURE__ */ n.jsxs(
-    "header",
-    {
-      className: m,
-      role: "banner",
-      "data-progressive-enhancement": "true",
-      "data-navigation-items-count": i?.items?.length || 0,
-      ...d,
-      ...u,
-      children: [
-        /* @__PURE__ */ n.jsxs("div", { className: C, children: [
-          /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-header__service", children: [
-            p ? /* @__PURE__ */ n.jsxs("a", { className: "nhsuk-header__service-logo", href: p, children: [
-              V(),
-              B(),
-              f && k(r.text)
-            ] }) : /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-              V(),
-              B(),
-              f && k(r.text)
-            ] }),
-            r.text && !f && k(r.text, r.href)
-          ] }),
-          (c === "organisation" || a) && /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-header__content", id: "content-header", children: [
-            a && /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-header__organisation", children: [
-              /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__organisation-name", children: a.name }),
-              a.descriptor && /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__organisation-descriptor", children: a.descriptor })
-            ] }),
-            L()
-          ] }),
-          c !== "organisation" && !a && L(),
-          /* @__PURE__ */ n.jsx(
-            Hr,
-            {
-              ...s,
-              variant: c === "white" ? "white" : "default"
-            }
-          )
-        ] }),
-        i && i.items && i.items.length > 0 && /* @__PURE__ */ n.jsx(
-          "nav",
-          {
-            className: g,
-            id: "header-navigation",
-            role: "navigation",
-            "aria-label": i.ariaLabel || "Primary navigation",
-            "data-navigation-enhanced": "false",
-            children: /* @__PURE__ */ n.jsx("div", { className: "nhsuk-width-container", children: /* @__PURE__ */ n.jsx(
-              "ul",
-              {
-                className: "nhsuk-header__navigation-list",
-                "data-navigation-list": "true",
-                children: y()
-              }
-            ) })
-          }
-        )
-      ]
-    }
-  );
-}, lm = ({
-  className: e,
-  logo: t = {},
-  service: r = {},
-  organisation: a,
-  search: o,
-  account: s,
-  navigation: i,
-  containerClasses: l,
-  variant: c = "default",
-  attributes: d = {},
-  maxVisibleItems: u = 5,
-  // New prop to control CSS-based overflow
+  variant: d = "default",
+  attributes: c = {},
   ...f
 }) => {
-  const p = r.href && !t.href || r.href && r.href === t.href, m = p ? r.href : t.href, C = ee(
-    "nhsuk-header",
-    "nhsuk-header--static",
-    // Static version identifier
-    {
-      "nhsuk-header--organisation": c === "organisation" || a,
-      "nhsuk-header--white": c === "white"
-    },
-    e
-  ), g = ee(
-    "nhsuk-header__container",
-    "nhsuk-width-container",
-    l
-  ), _ = ee(
-    "nhsuk-header__navigation",
-    "nhsuk-header__navigation--static",
-    // Static navigation identifier
-    {
-      "nhsuk-header__navigation--white": i?.white,
-      "nhsuk-header__navigation--justified": i?.justified
-    },
-    i?.className
-  ), V = () => /* @__PURE__ */ n.jsxs(
-    "svg",
-    {
-      className: "nhsuk-header__logo",
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 200 80",
-      height: "40",
-      width: "100",
-      focusable: "false",
-      role: "img",
-      "aria-label": t.ariaLabel || "NHS",
-      children: [
-        /* @__PURE__ */ n.jsx("title", { children: t.ariaLabel || "NHS" }),
-        /* @__PURE__ */ n.jsx(
-          "path",
-          {
-            fill: "currentcolor",
-            d: "M200 0v80H0V0h200Zm-27.5 5.5c-14.5 0-29 5-29 22 0 10.2 7.7 13.5 14.7 16.3l.7.3c5.4 2 10.1 3.9 10.1 8.4 0 6.5-8.5 7.5-14 7.5s-12.5-1.5-16-3.5L135 70c5.5 2 13.5 3.5 20 3.5 15.5 0 32-4.5 32-22.5 0-19.5-25.5-16.5-25.5-25.5 0-5.5 5.5-6.5 12.5-6.5a35 35 0 0 1 14.5 3l4-13.5c-4.5-2-12-3-20-3Zm-131 2h-22l-14 65H22l9-45h.5l13.5 45h21.5l14-65H64l-9 45h-.5l-13-45Zm63 0h-18l-13 65h17l6-28H117l-5.5 28H129l13.5-65H125L119.5 32h-20l5-24.5Z"
-          }
-        )
-      ]
-    }
-  ), B = () => t.src ? /* @__PURE__ */ n.jsx(
-    "img",
-    {
-      className: "nhsuk-header__logo",
-      src: t.src,
-      alt: t.ariaLabel || "",
-      width: "100",
-      height: "40"
-    }
-  ) : V(), k = () => a ? /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-    /* @__PURE__ */ n.jsxs("span", { className: "nhsuk-header__organisation-name", children: [
-      a.name,
-      a.split && /* @__PURE__ */ n.jsxs("span", { className: "nhsuk-header__organisation-name-split", children: [
-        " ",
-        a.split
-      ] })
-    ] }),
-    a.descriptor && /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__organisation-name-descriptor", children: a.descriptor })
-  ] }) : null, y = (v, $) => v ? $ ? /* @__PURE__ */ n.jsx("a", { className: "nhsuk-header__service-name", href: $, children: v }) : /* @__PURE__ */ n.jsx("span", { className: "nhsuk-header__service-name", children: v }) : null, L = (v) => {
-    if (v.active || v.current) {
-      const $ = v.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: v.html } }) : v.text;
-      return /* @__PURE__ */ n.jsx("strong", { className: "nhsuk-header__navigation-item-current-fallback", children: $ });
-    }
-    return v.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: v.html } }) : v.text;
->>>>>>> Stashed changes
+  const [h, m] = Ne(!1), [g] = Ne(!1), [C] = Ne(i?.items?.length || 0), [p, u] = Ne(!1), [R, F] = Ne(!1);
+  Ee(() => {
+    typeof window > "u" || F(!0);
+  }, []), Ee(() => {
+    if (typeof document > "u") return;
+    const S = (B) => {
+      B.key === "Escape" && h && m(!1);
+    };
+    if (h)
+      return document.addEventListener("keydown", S), () => document.removeEventListener("keydown", S);
+  }, [h]);
+  const T = (S) => {
+    S && (S.preventDefault(), S.stopPropagation());
+    const B = !h;
+    m(B), u(B);
   };
-  return ti(
-    { className: e, logo: t, service: r, organisation: a, search: o, account: s, navigation: i, containerClasses: l, variant: d, attributes: c, ...u },
+  return co(
+    { className: e, logo: t, service: n, organisation: a, search: o, account: s, navigation: i, containerClasses: l, variant: d, attributes: c, ...f },
     {
-<<<<<<< Updated upstream
       variant: "client",
-      isClient: G,
-      menuOpen: f,
-      showMoreButton: m,
-      visibleItems: v,
-      dropdownVisible: g,
-      toggleMenu: I
+      isClient: R,
+      menuOpen: h,
+      showMoreButton: g,
+      visibleItems: C,
+      dropdownVisible: p,
+      toggleMenu: T
     }
   );
-}, ni = ({
-=======
-      className: C,
-      role: "banner",
-      "data-module": "nhsuk-header-static",
-      ...d,
-      ...f,
-      children: [
-        /* @__PURE__ */ n.jsxs("div", { className: g, children: [
-          /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-header__service", children: [
-            m ? /* @__PURE__ */ n.jsxs("a", { className: "nhsuk-header__service-logo", href: m, children: [
-              B(),
-              k(),
-              p && y(r.text)
-            ] }) : /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-              B(),
-              k(),
-              p && y(r.text)
-            ] }),
-            r.text && !p && y(r.text, r.href)
-          ] }),
-          /* @__PURE__ */ n.jsx(
-            Hr,
-            {
-              ...s,
-              variant: c === "white" ? "white" : "default"
-            }
-          )
-        ] }),
-        i && i.items && i.items.length > 0 && /* @__PURE__ */ n.jsx(
-          "nav",
-          {
-            className: _,
-            "aria-label": i.ariaLabel || "Menu",
-            children: /* @__PURE__ */ n.jsx(
-              "div",
-              {
-                className: ee(
-                  "nhsuk-header__navigation-container",
-                  "nhsuk-width-container",
-                  "nhsuk-header__navigation-container--static",
-                  l
-                ),
-                children: /* @__PURE__ */ n.jsxs("ul", { className: "nhsuk-header__navigation-list nhsuk-header__navigation-list--primary", children: [
-                  i.items.slice(0, u).map((v, $) => /* @__PURE__ */ n.jsx(
-                    "li",
-                    {
-                      className: ee(
-                        "nhsuk-header__navigation-item",
-                        "nhsuk-header__navigation-item--primary",
-                        {
-                          "nhsuk-header__navigation-item--current": v.active || v.current
-                        },
-                        v.className
-                      ),
-                      ...v.attributes || {},
-                      children: /* @__PURE__ */ n.jsx(
-                        "a",
-                        {
-                          className: "nhsuk-header__navigation-link",
-                          href: v.href,
-                          ...v.active || v.current ? {
-                            "aria-current": v.current ? "page" : "true"
-                          } : {},
-                          children: L(v)
-                        }
-                      )
-                    },
-                    $
-                  )),
-                  i.items.length > u && /* @__PURE__ */ n.jsx("li", { className: "nhsuk-header__navigation-item nhsuk-header__navigation-item--more nhsuk-header__navigation-item--static", children: /* @__PURE__ */ n.jsxs("details", { className: "nhsuk-header__navigation-details", children: [
-                    /* @__PURE__ */ n.jsxs("summary", { className: "nhsuk-header__navigation-summary", children: [
-                      /* @__PURE__ */ n.jsx("span", { children: "More" }),
-                      /* @__PURE__ */ n.jsx(
-                        "svg",
-                        {
-                          className: "nhsuk-icon nhsuk-icon__chevron-down",
-                          xmlns: "http://www.w3.org/2000/svg",
-                          viewBox: "0 0 24 24",
-                          "aria-hidden": "true",
-                          focusable: "false",
-                          children: /* @__PURE__ */ n.jsx("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
-                        }
-                      )
-                    ] }),
-                    /* @__PURE__ */ n.jsx("ul", { className: "nhsuk-header__navigation-dropdown", children: i.items.slice(u).map((v, $) => /* @__PURE__ */ n.jsx(
-                      "li",
-                      {
-                        className: ee(
-                          "nhsuk-header__navigation-dropdown-item",
-                          {
-                            "nhsuk-header__navigation-dropdown-item--current": v.active || v.current
-                          }
-                        ),
-                        children: /* @__PURE__ */ n.jsx(
-                          "a",
-                          {
-                            className: "nhsuk-header__navigation-dropdown-link",
-                            href: v.href,
-                            ...v.active || v.current ? {
-                              "aria-current": v.current ? "page" : "true"
-                            } : {},
-                            children: L(v)
-                          }
-                        )
-                      },
-                      `overflow-${u + $}`
-                    )) })
-                  ] }) })
-                ] })
-              }
-            )
-          }
-        )
-      ]
-    }
-  );
-}, qo = ({
->>>>>>> Stashed changes
+}, I0 = (e) => co(e, {
+  variant: "server",
+  isClient: !1
+}), Ql = ({
   heading: e,
   headingLevel: t = 1,
-  headingClasses: r = "",
+  headingClasses: n = "",
   text: a,
   html: o,
   imageURL: s,
   containerClasses: i = "",
   classes: l = "",
-  children: c,
-  ...d
+  children: d,
+  ...c
 }) => {
-  const u = [
+  const f = [
     "nhsuk-hero",
     s && e ? "nhsuk-hero--image nhsuk-hero--image-description" : "",
     s && !e ? "nhsuk-hero--image" : "",
     l
-  ].filter(Boolean).join(" "), f = [
+  ].filter(Boolean).join(" "), h = [
     "nhsuk-width-container",
     i,
     s ? "" : "nhsuk-hero--border"
-  ].filter(Boolean).join(" "), p = [
+  ].filter(Boolean).join(" "), m = [
     "nhsuk-hero__heading",
-    r,
-<<<<<<< Updated upstream
+    n,
     !d && !a && !o ? "nhsuk-u-margin-bottom-0" : ""
-  ].filter(Boolean).join(" "), m = d || e || a || o, v = () => {
-=======
-    !c && !a && !o ? "nhsuk-u-margin-bottom-0" : ""
-  ].filter(Boolean).join(" "), m = c || e || a || o, C = () => {
->>>>>>> Stashed changes
+  ].filter(Boolean).join(" "), g = d || e || a || o, C = () => {
     if (!e) return null;
-    const g = { className: p };
+    const p = { className: m };
     switch (t) {
       case 1:
-        return /* @__PURE__ */ n.jsx("h1", { ...g, children: e });
+        return /* @__PURE__ */ r.jsx("h1", { ...p, children: e });
       case 2:
-        return /* @__PURE__ */ n.jsx("h2", { ...g, children: e });
+        return /* @__PURE__ */ r.jsx("h2", { ...p, children: e });
       case 3:
-        return /* @__PURE__ */ n.jsx("h3", { ...g, children: e });
+        return /* @__PURE__ */ r.jsx("h3", { ...p, children: e });
       case 4:
-        return /* @__PURE__ */ n.jsx("h4", { ...g, children: e });
+        return /* @__PURE__ */ r.jsx("h4", { ...p, children: e });
       case 5:
-        return /* @__PURE__ */ n.jsx("h5", { ...g, children: e });
+        return /* @__PURE__ */ r.jsx("h5", { ...p, children: e });
       case 6:
-        return /* @__PURE__ */ n.jsx("h6", { ...g, children: e });
+        return /* @__PURE__ */ r.jsx("h6", { ...p, children: e });
       default:
-        return /* @__PURE__ */ n.jsx("h1", { ...g, children: e });
+        return /* @__PURE__ */ r.jsx("h1", { ...p, children: e });
     }
   };
-  return /* @__PURE__ */ n.jsxs(
+  return /* @__PURE__ */ r.jsxs(
     "section",
     {
-      className: u,
+      className: f,
       style: s ? { backgroundImage: `url('${s}')` } : void 0,
       role: "banner",
-      ...d,
+      ...c,
       children: [
-        s && /* @__PURE__ */ n.jsx("div", { className: "nhsuk-hero__overlay", children: m && /* @__PURE__ */ n.jsx("div", { className: f, children: /* @__PURE__ */ n.jsx("div", { className: "nhsuk-grid-row", children: /* @__PURE__ */ n.jsx("div", { className: "nhsuk-grid-column-two-thirds", children: /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-hero-content", children: [
-<<<<<<< Updated upstream
-          v(),
-          d || (o ? /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: o } }) : a ? /* @__PURE__ */ n.jsx("p", { className: "nhsuk-body-l nhsuk-u-margin-bottom-0", children: a }) : null),
-          /* @__PURE__ */ n.jsx("span", { className: "nhsuk-hero__arrow", "aria-hidden": "true" })
-        ] }) }) }) }) }),
-        !s && m && /* @__PURE__ */ n.jsx("div", { className: f, children: /* @__PURE__ */ n.jsx("div", { className: "nhsuk-grid-row", children: /* @__PURE__ */ n.jsx("div", { className: "nhsuk-grid-column-two-thirds", children: /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-hero__wrapper", children: [
-          v(),
-          d || (o ? /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: o } }) : a ? /* @__PURE__ */ n.jsx("p", { className: "nhsuk-body-l nhsuk-u-margin-bottom-0", children: a }) : null)
-=======
+        s && /* @__PURE__ */ r.jsx("div", { className: "nhsuk-hero__overlay", children: g && /* @__PURE__ */ r.jsx("div", { className: h, children: /* @__PURE__ */ r.jsx("div", { className: "nhsuk-grid-row", children: /* @__PURE__ */ r.jsx("div", { className: "nhsuk-grid-column-two-thirds", children: /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-hero-content", children: [
           C(),
-          c || (o ? /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: o } }) : a ? /* @__PURE__ */ n.jsx("p", { className: "nhsuk-body-l nhsuk-u-margin-bottom-0", children: a }) : null),
-          /* @__PURE__ */ n.jsx("span", { className: "nhsuk-hero__arrow", "aria-hidden": "true" })
+          d || (o ? /* @__PURE__ */ r.jsx("div", { dangerouslySetInnerHTML: { __html: o } }) : a ? /* @__PURE__ */ r.jsx("p", { className: "nhsuk-body-l nhsuk-u-margin-bottom-0", children: a }) : null),
+          /* @__PURE__ */ r.jsx("span", { className: "nhsuk-hero__arrow", "aria-hidden": "true" })
         ] }) }) }) }) }),
-        !s && m && /* @__PURE__ */ n.jsx("div", { className: f, children: /* @__PURE__ */ n.jsx("div", { className: "nhsuk-grid-row", children: /* @__PURE__ */ n.jsx("div", { className: "nhsuk-grid-column-two-thirds", children: /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-hero__wrapper", children: [
+        !s && g && /* @__PURE__ */ r.jsx("div", { className: h, children: /* @__PURE__ */ r.jsx("div", { className: "nhsuk-grid-row", children: /* @__PURE__ */ r.jsx("div", { className: "nhsuk-grid-column-two-thirds", children: /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-hero__wrapper", children: [
           C(),
-          c || (o ? /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: o } }) : a ? /* @__PURE__ */ n.jsx("p", { className: "nhsuk-body-l nhsuk-u-margin-bottom-0", children: a }) : null)
->>>>>>> Stashed changes
+          d || (o ? /* @__PURE__ */ r.jsx("div", { dangerouslySetInnerHTML: { __html: o } }) : a ? /* @__PURE__ */ r.jsx("p", { className: "nhsuk-body-l nhsuk-u-margin-bottom-0", children: a }) : null)
         ] }) }) }) })
       ]
     }
   );
 };
-<<<<<<< Updated upstream
-ni.displayName = "Hero";
-const Za = ({
-=======
-qo.displayName = "Hero";
-const Xa = ({
->>>>>>> Stashed changes
+Ql.displayName = "Hero";
+const fo = ({
   className: e,
   links: t = [],
-  linksColumn2: r,
+  linksColumn2: n,
   linksColumn3: a,
   metaLinks: o,
   copyright: s = "© NHS England",
   containerClasses: i,
   attributes: l = {},
-  style: c,
-  footerStyle: d,
-  containerStyle: u
+  style: d,
+  footerStyle: c,
+  containerStyle: f
 }) => {
-<<<<<<< Updated upstream
-  const f = (m, v = !1) => /* @__PURE__ */ n.jsx(
-=======
-  const f = (m, C = !1) => /* @__PURE__ */ n.jsx(
->>>>>>> Stashed changes
+  const h = (g, C = !1) => /* @__PURE__ */ r.jsx(
     "li",
     {
-      className: oe("nhsuk-footer__list-item", {
-        "nhsuk-footer-default__list-item": v
+      className: de("nhsuk-footer__list-item", {
+        "nhsuk-footer-default__list-item": C
       }),
-      children: /* @__PURE__ */ n.jsx(
+      children: /* @__PURE__ */ r.jsx(
         "a",
         {
           className: "nhsuk-footer__list-item-link",
-          href: m.URL,
-          target: m.newWindow ? "_blank" : void 0,
-          rel: m.newWindow ? "noopener noreferrer" : void 0,
-          children: m.label
+          href: g.URL,
+          target: g.newWindow ? "_blank" : void 0,
+          rel: g.newWindow ? "noopener noreferrer" : void 0,
+          children: g.label
         }
       )
     },
-    `${m.URL}-${m.label}`
-  ), p = !!(r || a);
-<<<<<<< Updated upstream
-  return /* @__PURE__ */ n.jsx("footer", { role: "contentinfo", ...l, style: { ...l?.style, ...d }, children: /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-footer-container", children: [
-=======
-  return /* @__PURE__ */ n.jsx("footer", { role: "contentinfo", ...l, style: { ...l?.style, ...c }, children: /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-footer-container", children: [
->>>>>>> Stashed changes
-    /* @__PURE__ */ n.jsxs(
+    `${g.URL}-${g.label}`
+  ), m = !!(n || a);
+  return /* @__PURE__ */ r.jsx("footer", { role: "contentinfo", ...l, style: { ...l?.style, ...d }, children: /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-footer-container", children: [
+    /* @__PURE__ */ r.jsxs(
       "div",
       {
-        className: oe("nhsuk-width-container", i),
-        style: u,
+        className: de("nhsuk-width-container", i),
+        style: f,
         children: [
-          /* @__PURE__ */ n.jsx("h2", { className: "nhsuk-u-visually-hidden", children: "Support links" }),
-<<<<<<< Updated upstream
-          /* @__PURE__ */ n.jsx("div", { className: oe("nhsuk-footer", e), style: c, children: p ? (
-=======
-          /* @__PURE__ */ n.jsx("div", { className: ee("nhsuk-footer", e), style: d, children: p ? (
->>>>>>> Stashed changes
+          /* @__PURE__ */ r.jsx("h2", { className: "nhsuk-u-visually-hidden", children: "Support links" }),
+          /* @__PURE__ */ r.jsx("div", { className: de("nhsuk-footer", e), style: c, children: m ? (
             // Multi-column layout
-            /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-              t.length > 0 && /* @__PURE__ */ n.jsx("ul", { className: "nhsuk-footer__list", children: t.map((m) => f(m)) }),
-              r && r.length > 0 && /* @__PURE__ */ n.jsx("ul", { className: "nhsuk-footer__list", children: r.map((m) => f(m)) }),
-              a && a.length > 0 && /* @__PURE__ */ n.jsx("ul", { className: "nhsuk-footer__list", children: a.map((m) => f(m)) }),
-              o && o.length > 0 && /* @__PURE__ */ n.jsx("ul", { className: "nhsuk-footer__list nhsuk-footer__meta", children: o.map((m) => f(m)) })
+            /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+              t.length > 0 && /* @__PURE__ */ r.jsx("ul", { className: "nhsuk-footer__list", children: t.map((g) => h(g)) }),
+              n && n.length > 0 && /* @__PURE__ */ r.jsx("ul", { className: "nhsuk-footer__list", children: n.map((g) => h(g)) }),
+              a && a.length > 0 && /* @__PURE__ */ r.jsx("ul", { className: "nhsuk-footer__list", children: a.map((g) => h(g)) }),
+              o && o.length > 0 && /* @__PURE__ */ r.jsx("ul", { className: "nhsuk-footer__list nhsuk-footer__meta", children: o.map((g) => h(g)) })
             ] })
           ) : (
             // Single column layout (default)
-            /* @__PURE__ */ n.jsxs("ul", { className: "nhsuk-footer__list", children: [
-              t.map((m) => f(m, !0)),
-              (r || []).map((m) => f(m, !0)),
-              (a || []).map((m) => f(m, !0)),
-              (o || []).map((m) => f(m, !0))
+            /* @__PURE__ */ r.jsxs("ul", { className: "nhsuk-footer__list", children: [
+              t.map((g) => h(g, !0)),
+              (n || []).map((g) => h(g, !0)),
+              (a || []).map((g) => h(g, !0)),
+              (o || []).map((g) => h(g, !0))
             ] })
           ) }),
-          !p && /* @__PURE__ */ n.jsx("div", { children: /* @__PURE__ */ n.jsx("p", { className: "nhsuk-footer__copyright", children: s }) })
+          !m && /* @__PURE__ */ r.jsx("div", { children: /* @__PURE__ */ r.jsx("p", { className: "nhsuk-footer__copyright", children: s }) })
         ]
       }
     ),
-    p && /* @__PURE__ */ n.jsx("div", { className: "nhsuk-width-container", children: /* @__PURE__ */ n.jsx("div", { children: /* @__PURE__ */ n.jsx("p", { className: "nhsuk-footer__copyright", children: s }) }) })
+    m && /* @__PURE__ */ r.jsx("div", { className: "nhsuk-width-container", children: /* @__PURE__ */ r.jsx("div", { children: /* @__PURE__ */ r.jsx("p", { className: "nhsuk-footer__copyright", children: s }) }) })
   ] }) });
 };
-function ln(e, t) {
+function Ln(e, t) {
   return e == null || t == null ? NaN : e < t ? -1 : e > t ? 1 : e >= t ? 0 : NaN;
 }
-<<<<<<< Updated upstream
-function ri(e, t) {
-=======
-function Ko(e, t) {
->>>>>>> Stashed changes
+function ec(e, t) {
   return e == null || t == null ? NaN : t < e ? -1 : t > e ? 1 : t >= e ? 0 : NaN;
 }
-function Wr(e) {
-  let t, r, a;
-<<<<<<< Updated upstream
-  e.length !== 2 ? (t = ln, r = (l, d) => ln(e(l), d), a = (l, d) => e(l) - d) : (t = e === ln || e === ri ? e : ai, r = e, a = e);
-  function o(l, d, c = 0, u = l.length) {
-    if (c < u) {
-      if (t(d, d) !== 0) return u;
-=======
-  e.length !== 2 ? (t = ln, r = (l, c) => ln(e(l), c), a = (l, c) => e(l) - c) : (t = e === ln || e === Ko ? e : Zo, r = e, a = e);
-  function o(l, c, d = 0, u = l.length) {
-    if (d < u) {
-      if (t(c, c) !== 0) return u;
->>>>>>> Stashed changes
+function La(e) {
+  let t, n, a;
+  e.length !== 2 ? (t = Ln, n = (l, d) => Ln(e(l), d), a = (l, d) => e(l) - d) : (t = e === Ln || e === ec ? e : tc, n = e, a = e);
+  function o(l, d, c = 0, f = l.length) {
+    if (c < f) {
+      if (t(d, d) !== 0) return f;
       do {
-        const f = d + u >>> 1;
-        r(l[f], c) < 0 ? d = f + 1 : u = f;
-      } while (d < u);
+        const h = c + f >>> 1;
+        n(l[h], d) < 0 ? c = h + 1 : f = h;
+      } while (c < f);
     }
-    return d;
+    return c;
   }
-  function s(l, c, d = 0, u = l.length) {
-    if (d < u) {
-      if (t(c, c) !== 0) return u;
+  function s(l, d, c = 0, f = l.length) {
+    if (c < f) {
+      if (t(d, d) !== 0) return f;
       do {
-        const f = d + u >>> 1;
-        r(l[f], c) <= 0 ? d = f + 1 : u = f;
-      } while (d < u);
+        const h = c + f >>> 1;
+        n(l[h], d) <= 0 ? c = h + 1 : f = h;
+      } while (c < f);
     }
-    return d;
+    return c;
   }
-  function i(l, c, d = 0, u = l.length) {
-    const f = o(l, c, d, u - 1);
-    return f > d && a(l[f - 1], c) > -a(l[f], c) ? f - 1 : f;
+  function i(l, d, c = 0, f = l.length) {
+    const h = o(l, d, c, f - 1);
+    return h > c && a(l[h - 1], d) > -a(l[h], d) ? h - 1 : h;
   }
   return { left: o, center: i, right: s };
 }
-<<<<<<< Updated upstream
-function ai() {
+function tc() {
   return 0;
 }
-function si(e) {
+function nc(e) {
   return e === null ? NaN : +e;
 }
-const oi = Wr(ln), ii = oi.right;
-Wr(si).center;
-const li = Math.sqrt(50), ci = Math.sqrt(10), di = Math.sqrt(2);
-function Ja(e, t, r) {
-  const a = (t - e) / Math.max(0, r), o = Math.floor(Math.log10(a)), s = a / Math.pow(10, o), i = s >= li ? 10 : s >= ci ? 5 : s >= di ? 2 : 1;
+const rc = La(Ln), ac = rc.right;
+La(nc).center;
+function ho(e, t) {
+  let n, a;
+  if (t === void 0)
+    for (const o of e)
+      o != null && (n === void 0 ? o >= o && (n = a = o) : (n > o && (n = o), a < o && (a = o)));
+  else {
+    let o = -1;
+    for (let s of e)
+      (s = t(s, ++o, e)) != null && (n === void 0 ? s >= s && (n = a = s) : (n > s && (n = s), a < s && (a = s)));
+  }
+  return [n, a];
+}
+const sc = Math.sqrt(50), oc = Math.sqrt(10), ic = Math.sqrt(2);
+function Bn(e, t, n) {
+  const a = (t - e) / Math.max(0, n), o = Math.floor(Math.log10(a)), s = a / Math.pow(10, o), i = s >= sc ? 10 : s >= oc ? 5 : s >= ic ? 2 : 1;
   let l, d, c;
-  return o < 0 ? (c = Math.pow(10, -o) / i, l = Math.round(e * c), d = Math.round(t * c), l / c < e && ++l, d / c > t && --d, c = -c) : (c = Math.pow(10, o) * i, l = Math.round(e / c), d = Math.round(t / c), l * c < e && ++l, d * c > t && --d), d < l && 0.5 <= r && r < 2 ? Ja(e, t, r * 2) : [l, d, c];
+  return o < 0 ? (c = Math.pow(10, -o) / i, l = Math.round(e * c), d = Math.round(t * c), l / c < e && ++l, d / c > t && --d, c = -c) : (c = Math.pow(10, o) * i, l = Math.round(e / c), d = Math.round(t / c), l * c < e && ++l, d * c > t && --d), d < l && 0.5 <= n && n < 2 ? Bn(e, t, n * 2) : [l, d, c];
 }
-function ia(e, t, r) {
-  return t = +t, e = +e, r = +r, Ja(e, t, r)[2];
+function lc(e, t, n) {
+  if (t = +t, e = +e, n = +n, !(n > 0)) return [];
+  if (e === t) return [e];
+  const a = t < e, [o, s, i] = a ? Bn(t, e, n) : Bn(e, t, n);
+  if (!(s >= o)) return [];
+  const l = s - o + 1, d = new Array(l);
+  if (a)
+    if (i < 0) for (let c = 0; c < l; ++c) d[c] = (s - c) / -i;
+    else for (let c = 0; c < l; ++c) d[c] = (s - c) * i;
+  else if (i < 0) for (let c = 0; c < l; ++c) d[c] = (o + c) / -i;
+  else for (let c = 0; c < l; ++c) d[c] = (o + c) * i;
+  return d;
 }
-function la(e, t, r) {
-=======
-function Zo() {
-  return 0;
+function qr(e, t, n) {
+  return t = +t, e = +e, n = +n, Bn(e, t, n)[2];
 }
-function Jo(e) {
-  return e === null ? NaN : +e;
-}
-const Xo = Or(ln), Qo = Xo.right;
-Or(Jo).center;
-const ei = Math.sqrt(50), ti = Math.sqrt(10), ni = Math.sqrt(2);
-function Qa(e, t, r) {
-  const a = (t - e) / Math.max(0, r), o = Math.floor(Math.log10(a)), s = a / Math.pow(10, o), i = s >= ei ? 10 : s >= ti ? 5 : s >= ni ? 2 : 1;
-  let l, c, d;
-  return o < 0 ? (d = Math.pow(10, -o) / i, l = Math.round(e * d), c = Math.round(t * d), l / d < e && ++l, c / d > t && --c, d = -d) : (d = Math.pow(10, o) * i, l = Math.round(e / d), c = Math.round(t / d), l * d < e && ++l, c * d > t && --c), c < l && 0.5 <= r && r < 2 ? Qa(e, t, r * 2) : [l, c, d];
-}
-function la(e, t, r) {
-  return t = +t, e = +e, r = +r, Qa(e, t, r)[2];
-}
-function ca(e, t, r) {
->>>>>>> Stashed changes
-  t = +t, e = +e, r = +r;
-  const a = t < e, o = a ? ia(t, e, r) : ia(e, t, r);
+function Xr(e, t, n) {
+  t = +t, e = +e, n = +n;
+  const a = t < e, o = a ? qr(t, e, n) : qr(e, t, n);
   return (a ? -1 : 1) * (o < 0 ? 1 / -o : o);
 }
-<<<<<<< Updated upstream
-function ui(e, t) {
-=======
-function ri(e, t) {
->>>>>>> Stashed changes
+function po(e, t) {
   switch (arguments.length) {
     case 0:
       break;
@@ -4467,25 +2974,17 @@ function ri(e, t) {
   }
   return this;
 }
-function Ur(e, t, r) {
-  e.prototype = t.prototype = r, r.constructor = e;
+function Ma(e, t, n) {
+  e.prototype = t.prototype = n, n.constructor = e;
 }
-<<<<<<< Updated upstream
-function Xa(e, t) {
-=======
-function es(e, t) {
->>>>>>> Stashed changes
-  var r = Object.create(e.prototype);
-  for (var a in t) r[a] = t[a];
-  return r;
+function mo(e, t) {
+  var n = Object.create(e.prototype);
+  for (var a in t) n[a] = t[a];
+  return n;
 }
-function Qt() {
+function vn() {
 }
-<<<<<<< Updated upstream
-var Zt = 0.7, dn = 1 / Zt, Mt = "\\s*([+-]?\\d+)\\s*", Jt = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)\\s*", nt = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)%\\s*", hi = /^#([0-9a-f]{3,8})$/, fi = new RegExp(`^rgb\\(${Mt},${Mt},${Mt}\\)$`), mi = new RegExp(`^rgb\\(${nt},${nt},${nt}\\)$`), pi = new RegExp(`^rgba\\(${Mt},${Mt},${Mt},${Jt}\\)$`), gi = new RegExp(`^rgba\\(${nt},${nt},${nt},${Jt}\\)$`), bi = new RegExp(`^hsl\\(${Jt},${nt},${nt}\\)$`), xi = new RegExp(`^hsla\\(${Jt},${nt},${nt},${Jt}\\)$`), ca = {
-=======
-var Zt = 0.7, dn = 1 / Zt, Mt = "\\s*([+-]?\\d+)\\s*", Jt = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)\\s*", nt = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)%\\s*", ai = /^#([0-9a-f]{3,8})$/, si = new RegExp(`^rgb\\(${Mt},${Mt},${Mt}\\)$`), oi = new RegExp(`^rgb\\(${nt},${nt},${nt}\\)$`), ii = new RegExp(`^rgba\\(${Mt},${Mt},${Mt},${Jt}\\)$`), li = new RegExp(`^rgba\\(${nt},${nt},${nt},${Jt}\\)$`), ci = new RegExp(`^hsl\\(${Jt},${nt},${nt}\\)$`), di = new RegExp(`^hsla\\(${Jt},${nt},${nt},${Jt}\\)$`), da = {
->>>>>>> Stashed changes
+var mn = 0.7, An = 1 / mn, Qt = "\\s*([+-]?\\d+)\\s*", gn = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)\\s*", ft = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)%\\s*", cc = /^#([0-9a-f]{3,8})$/, dc = new RegExp(`^rgb\\(${Qt},${Qt},${Qt}\\)$`), uc = new RegExp(`^rgb\\(${ft},${ft},${ft}\\)$`), fc = new RegExp(`^rgba\\(${Qt},${Qt},${Qt},${gn}\\)$`), hc = new RegExp(`^rgba\\(${ft},${ft},${ft},${gn}\\)$`), pc = new RegExp(`^hsl\\(${gn},${ft},${ft}\\)$`), mc = new RegExp(`^hsla\\(${gn},${ft},${ft},${gn}\\)$`), os = {
   aliceblue: 15792383,
   antiquewhite: 16444375,
   aqua: 65535,
@@ -4635,506 +3134,553 @@ var Zt = 0.7, dn = 1 / Zt, Mt = "\\s*([+-]?\\d+)\\s*", Jt = "\\s*([+-]?(?:\\d*\\
   yellow: 16776960,
   yellowgreen: 10145074
 };
-Ur(Qt, Xt, {
+Ma(vn, xn, {
   copy(e) {
     return Object.assign(new this.constructor(), this, e);
   },
   displayable() {
     return this.rgb().displayable();
   },
-  hex: da,
+  hex: is,
   // Deprecated! Use color.formatHex.
-<<<<<<< Updated upstream
-  formatHex: da,
-  formatHex8: yi,
-  formatHsl: vi,
-  formatRgb: ua,
-  toString: ua
-=======
-  formatHex: ua,
-  formatHex8: ui,
-  formatHsl: hi,
-  formatRgb: ha,
-  toString: ha
->>>>>>> Stashed changes
+  formatHex: is,
+  formatHex8: gc,
+  formatHsl: xc,
+  formatRgb: ls,
+  toString: ls
 });
-function da() {
+function is() {
   return this.rgb().formatHex();
 }
-<<<<<<< Updated upstream
-function yi() {
+function gc() {
   return this.rgb().formatHex8();
 }
-function vi() {
-  return Qa(this).formatHsl();
-=======
-function ui() {
-  return this.rgb().formatHex8();
+function xc() {
+  return go(this).formatHsl();
 }
-function hi() {
-  return ts(this).formatHsl();
->>>>>>> Stashed changes
-}
-function ua() {
+function ls() {
   return this.rgb().formatRgb();
 }
-function Xt(e) {
-  var t, r;
-<<<<<<< Updated upstream
-  return e = (e + "").trim().toLowerCase(), (t = hi.exec(e)) ? (r = t[1].length, t = parseInt(t[1], 16), r === 6 ? ha(t) : r === 3 ? new Ke(t >> 8 & 15 | t >> 4 & 240, t >> 4 & 15 | t & 240, (t & 15) << 4 | t & 15, 1) : r === 8 ? an(t >> 24 & 255, t >> 16 & 255, t >> 8 & 255, (t & 255) / 255) : r === 4 ? an(t >> 12 & 15 | t >> 8 & 240, t >> 8 & 15 | t >> 4 & 240, t >> 4 & 15 | t & 240, ((t & 15) << 4 | t & 15) / 255) : null) : (t = fi.exec(e)) ? new Ke(t[1], t[2], t[3], 1) : (t = mi.exec(e)) ? new Ke(t[1] * 255 / 100, t[2] * 255 / 100, t[3] * 255 / 100, 1) : (t = pi.exec(e)) ? an(t[1], t[2], t[3], t[4]) : (t = gi.exec(e)) ? an(t[1] * 255 / 100, t[2] * 255 / 100, t[3] * 255 / 100, t[4]) : (t = bi.exec(e)) ? pa(t[1], t[2] / 100, t[3] / 100, 1) : (t = xi.exec(e)) ? pa(t[1], t[2] / 100, t[3] / 100, t[4]) : ca.hasOwnProperty(e) ? ha(ca[e]) : e === "transparent" ? new Ke(NaN, NaN, NaN, 0) : null;
-=======
-  return e = (e + "").trim().toLowerCase(), (t = ai.exec(e)) ? (r = t[1].length, t = parseInt(t[1], 16), r === 6 ? fa(t) : r === 3 ? new Ke(t >> 8 & 15 | t >> 4 & 240, t >> 4 & 15 | t & 240, (t & 15) << 4 | t & 15, 1) : r === 8 ? an(t >> 24 & 255, t >> 16 & 255, t >> 8 & 255, (t & 255) / 255) : r === 4 ? an(t >> 12 & 15 | t >> 8 & 240, t >> 8 & 15 | t >> 4 & 240, t >> 4 & 15 | t & 240, ((t & 15) << 4 | t & 15) / 255) : null) : (t = si.exec(e)) ? new Ke(t[1], t[2], t[3], 1) : (t = oi.exec(e)) ? new Ke(t[1] * 255 / 100, t[2] * 255 / 100, t[3] * 255 / 100, 1) : (t = ii.exec(e)) ? an(t[1], t[2], t[3], t[4]) : (t = li.exec(e)) ? an(t[1] * 255 / 100, t[2] * 255 / 100, t[3] * 255 / 100, t[4]) : (t = ci.exec(e)) ? ga(t[1], t[2] / 100, t[3] / 100, 1) : (t = di.exec(e)) ? ga(t[1], t[2] / 100, t[3] / 100, t[4]) : da.hasOwnProperty(e) ? fa(da[e]) : e === "transparent" ? new Ke(NaN, NaN, NaN, 0) : null;
->>>>>>> Stashed changes
+function xn(e) {
+  var t, n;
+  return e = (e + "").trim().toLowerCase(), (t = cc.exec(e)) ? (n = t[1].length, t = parseInt(t[1], 16), n === 6 ? cs(t) : n === 3 ? new rt(t >> 8 & 15 | t >> 4 & 240, t >> 4 & 15 | t & 240, (t & 15) << 4 | t & 15, 1) : n === 8 ? Tn(t >> 24 & 255, t >> 16 & 255, t >> 8 & 255, (t & 255) / 255) : n === 4 ? Tn(t >> 12 & 15 | t >> 8 & 240, t >> 8 & 15 | t >> 4 & 240, t >> 4 & 15 | t & 240, ((t & 15) << 4 | t & 15) / 255) : null) : (t = dc.exec(e)) ? new rt(t[1], t[2], t[3], 1) : (t = uc.exec(e)) ? new rt(t[1] * 255 / 100, t[2] * 255 / 100, t[3] * 255 / 100, 1) : (t = fc.exec(e)) ? Tn(t[1], t[2], t[3], t[4]) : (t = hc.exec(e)) ? Tn(t[1] * 255 / 100, t[2] * 255 / 100, t[3] * 255 / 100, t[4]) : (t = pc.exec(e)) ? fs(t[1], t[2] / 100, t[3] / 100, 1) : (t = mc.exec(e)) ? fs(t[1], t[2] / 100, t[3] / 100, t[4]) : os.hasOwnProperty(e) ? cs(os[e]) : e === "transparent" ? new rt(NaN, NaN, NaN, 0) : null;
 }
-function ha(e) {
-  return new Ke(e >> 16 & 255, e >> 8 & 255, e & 255, 1);
+function cs(e) {
+  return new rt(e >> 16 & 255, e >> 8 & 255, e & 255, 1);
 }
-function an(e, t, r, a) {
-  return a <= 0 && (e = t = r = NaN), new Ke(e, t, r, a);
+function Tn(e, t, n, a) {
+  return a <= 0 && (e = t = n = NaN), new rt(e, t, n, a);
 }
-<<<<<<< Updated upstream
-function _i(e) {
-  return e instanceof Qt || (e = Xt(e)), e ? (e = e.rgb(), new Ke(e.r, e.g, e.b, e.opacity)) : new Ke();
+function bc(e) {
+  return e instanceof vn || (e = xn(e)), e ? (e = e.rgb(), new rt(e.r, e.g, e.b, e.opacity)) : new rt();
 }
-function hr(e, t, r, a) {
-  return arguments.length === 1 ? _i(e) : new Ke(e, t, r, a ?? 1);
-=======
-function fi(e) {
-  return e instanceof Qt || (e = Xt(e)), e ? (e = e.rgb(), new Ke(e.r, e.g, e.b, e.opacity)) : new Ke();
+function Kr(e, t, n, a) {
+  return arguments.length === 1 ? bc(e) : new rt(e, t, n, a ?? 1);
 }
-function hr(e, t, r, a) {
-  return arguments.length === 1 ? fi(e) : new Ke(e, t, r, a ?? 1);
->>>>>>> Stashed changes
+function rt(e, t, n, a) {
+  this.r = +e, this.g = +t, this.b = +n, this.opacity = +a;
 }
-function Ke(e, t, r, a) {
-  this.r = +e, this.g = +t, this.b = +r, this.opacity = +a;
-}
-<<<<<<< Updated upstream
-Ur(Ke, hr, Xa(Qt, {
-=======
-Ur(Ke, hr, es(Qt, {
->>>>>>> Stashed changes
+Ma(rt, Kr, mo(vn, {
   brighter(e) {
-    return e = e == null ? dn : Math.pow(dn, e), new Ke(this.r * e, this.g * e, this.b * e, this.opacity);
+    return e = e == null ? An : Math.pow(An, e), new rt(this.r * e, this.g * e, this.b * e, this.opacity);
   },
   darker(e) {
-    return e = e == null ? Zt : Math.pow(Zt, e), new Ke(this.r * e, this.g * e, this.b * e, this.opacity);
+    return e = e == null ? mn : Math.pow(mn, e), new rt(this.r * e, this.g * e, this.b * e, this.opacity);
   },
   rgb() {
     return this;
   },
   clamp() {
-    return new Ke(jt(this.r), jt(this.g), jt(this.b), un(this.opacity));
+    return new rt(Ht(this.r), Ht(this.g), Ht(this.b), En(this.opacity));
   },
   displayable() {
     return -0.5 <= this.r && this.r < 255.5 && -0.5 <= this.g && this.g < 255.5 && -0.5 <= this.b && this.b < 255.5 && 0 <= this.opacity && this.opacity <= 1;
   },
-  hex: fa,
+  hex: ds,
   // Deprecated! Use color.formatHex.
-<<<<<<< Updated upstream
-  formatHex: fa,
-  formatHex8: ki,
-  formatRgb: ma,
-  toString: ma
-=======
-  formatHex: ma,
-  formatHex8: mi,
-  formatRgb: pa,
-  toString: pa
->>>>>>> Stashed changes
+  formatHex: ds,
+  formatHex8: yc,
+  formatRgb: us,
+  toString: us
 }));
-function fa() {
-  return `#${Ct(this.r)}${Ct(this.g)}${Ct(this.b)}`;
+function ds() {
+  return `#${Pt(this.r)}${Pt(this.g)}${Pt(this.b)}`;
 }
-<<<<<<< Updated upstream
-function ki() {
-=======
-function mi() {
->>>>>>> Stashed changes
-  return `#${Ct(this.r)}${Ct(this.g)}${Ct(this.b)}${Ct((isNaN(this.opacity) ? 1 : this.opacity) * 255)}`;
+function yc() {
+  return `#${Pt(this.r)}${Pt(this.g)}${Pt(this.b)}${Pt((isNaN(this.opacity) ? 1 : this.opacity) * 255)}`;
 }
-function ma() {
-  const e = un(this.opacity);
-  return `${e === 1 ? "rgb(" : "rgba("}${jt(this.r)}, ${jt(this.g)}, ${jt(this.b)}${e === 1 ? ")" : `, ${e})`}`;
+function us() {
+  const e = En(this.opacity);
+  return `${e === 1 ? "rgb(" : "rgba("}${Ht(this.r)}, ${Ht(this.g)}, ${Ht(this.b)}${e === 1 ? ")" : `, ${e})`}`;
 }
-function un(e) {
+function En(e) {
   return isNaN(e) ? 1 : Math.max(0, Math.min(1, e));
 }
-function jt(e) {
+function Ht(e) {
   return Math.max(0, Math.min(255, Math.round(e) || 0));
 }
-function Ct(e) {
-  return e = jt(e), (e < 16 ? "0" : "") + e.toString(16);
+function Pt(e) {
+  return e = Ht(e), (e < 16 ? "0" : "") + e.toString(16);
 }
-function pa(e, t, r, a) {
-  return a <= 0 ? e = t = r = NaN : r <= 0 || r >= 1 ? e = t = NaN : t <= 0 && (e = NaN), new Xe(e, t, r, a);
+function fs(e, t, n, a) {
+  return a <= 0 ? e = t = n = NaN : n <= 0 || n >= 1 ? e = t = NaN : t <= 0 && (e = NaN), new it(e, t, n, a);
 }
-<<<<<<< Updated upstream
-function Qa(e) {
-=======
-function ts(e) {
->>>>>>> Stashed changes
-  if (e instanceof Xe) return new Xe(e.h, e.s, e.l, e.opacity);
-  if (e instanceof Qt || (e = Xt(e)), !e) return new Xe();
-  if (e instanceof Xe) return e;
+function go(e) {
+  if (e instanceof it) return new it(e.h, e.s, e.l, e.opacity);
+  if (e instanceof vn || (e = xn(e)), !e) return new it();
+  if (e instanceof it) return e;
   e = e.rgb();
-  var t = e.r / 255, r = e.g / 255, a = e.b / 255, o = Math.min(t, r, a), s = Math.max(t, r, a), i = NaN, l = s - o, c = (s + o) / 2;
-  return l ? (t === s ? i = (r - a) / l + (r < a) * 6 : r === s ? i = (a - t) / l + 2 : i = (t - r) / l + 4, l /= c < 0.5 ? s + o : 2 - s - o, i *= 60) : l = c > 0 && c < 1 ? 0 : i, new Xe(i, l, c, e.opacity);
+  var t = e.r / 255, n = e.g / 255, a = e.b / 255, o = Math.min(t, n, a), s = Math.max(t, n, a), i = NaN, l = s - o, d = (s + o) / 2;
+  return l ? (t === s ? i = (n - a) / l + (n < a) * 6 : n === s ? i = (a - t) / l + 2 : i = (t - n) / l + 4, l /= d < 0.5 ? s + o : 2 - s - o, i *= 60) : l = d > 0 && d < 1 ? 0 : i, new it(i, l, d, e.opacity);
 }
-<<<<<<< Updated upstream
-function wi(e, t, r, a) {
-  return arguments.length === 1 ? Qa(e) : new Xe(e, t, r, a ?? 1);
-=======
-function pi(e, t, r, a) {
-  return arguments.length === 1 ? ts(e) : new Xe(e, t, r, a ?? 1);
->>>>>>> Stashed changes
+function vc(e, t, n, a) {
+  return arguments.length === 1 ? go(e) : new it(e, t, n, a ?? 1);
 }
-function Xe(e, t, r, a) {
-  this.h = +e, this.s = +t, this.l = +r, this.opacity = +a;
+function it(e, t, n, a) {
+  this.h = +e, this.s = +t, this.l = +n, this.opacity = +a;
 }
-<<<<<<< Updated upstream
-Ur(Xe, wi, Xa(Qt, {
-=======
-Ur(Xe, pi, es(Qt, {
->>>>>>> Stashed changes
+Ma(it, vc, mo(vn, {
   brighter(e) {
-    return e = e == null ? dn : Math.pow(dn, e), new Xe(this.h, this.s, this.l * e, this.opacity);
+    return e = e == null ? An : Math.pow(An, e), new it(this.h, this.s, this.l * e, this.opacity);
   },
   darker(e) {
-    return e = e == null ? Zt : Math.pow(Zt, e), new Xe(this.h, this.s, this.l * e, this.opacity);
+    return e = e == null ? mn : Math.pow(mn, e), new it(this.h, this.s, this.l * e, this.opacity);
   },
   rgb() {
-    var e = this.h % 360 + (this.h < 0) * 360, t = isNaN(e) || isNaN(this.s) ? 0 : this.s, r = this.l, a = r + (r < 0.5 ? r : 1 - r) * t, o = 2 * r - a;
-    return new Ke(
-      nr(e >= 240 ? e - 240 : e + 120, o, a),
-      nr(e, o, a),
-      nr(e < 120 ? e + 240 : e - 120, o, a),
+    var e = this.h % 360 + (this.h < 0) * 360, t = isNaN(e) || isNaN(this.s) ? 0 : this.s, n = this.l, a = n + (n < 0.5 ? n : 1 - n) * t, o = 2 * n - a;
+    return new rt(
+      Ir(e >= 240 ? e - 240 : e + 120, o, a),
+      Ir(e, o, a),
+      Ir(e < 120 ? e + 240 : e - 120, o, a),
       this.opacity
     );
   },
   clamp() {
-    return new Xe(ga(this.h), sn(this.s), sn(this.l), un(this.opacity));
+    return new it(hs(this.h), Dn(this.s), Dn(this.l), En(this.opacity));
   },
   displayable() {
     return (0 <= this.s && this.s <= 1 || isNaN(this.s)) && 0 <= this.l && this.l <= 1 && 0 <= this.opacity && this.opacity <= 1;
   },
   formatHsl() {
-    const e = un(this.opacity);
-    return `${e === 1 ? "hsl(" : "hsla("}${ga(this.h)}, ${sn(this.s) * 100}%, ${sn(this.l) * 100}%${e === 1 ? ")" : `, ${e})`}`;
+    const e = En(this.opacity);
+    return `${e === 1 ? "hsl(" : "hsla("}${hs(this.h)}, ${Dn(this.s) * 100}%, ${Dn(this.l) * 100}%${e === 1 ? ")" : `, ${e})`}`;
   }
 }));
-function ga(e) {
+function hs(e) {
   return e = (e || 0) % 360, e < 0 ? e + 360 : e;
 }
-function sn(e) {
+function Dn(e) {
   return Math.max(0, Math.min(1, e || 0));
 }
-function nr(e, t, r) {
-  return (e < 60 ? t + (r - t) * e / 60 : e < 180 ? r : e < 240 ? t + (r - t) * (240 - e) / 60 : t) * 255;
+function Ir(e, t, n) {
+  return (e < 60 ? t + (n - t) * e / 60 : e < 180 ? n : e < 240 ? t + (n - t) * (240 - e) / 60 : t) * 255;
 }
-<<<<<<< Updated upstream
-const Or = (e) => () => e;
-function Si(e, t) {
-=======
-const Gr = (e) => () => e;
-function gi(e, t) {
->>>>>>> Stashed changes
-  return function(r) {
-    return e + r * t;
+const Fa = (e) => () => e;
+function wc(e, t) {
+  return function(n) {
+    return e + n * t;
   };
 }
-<<<<<<< Updated upstream
-function Ci(e, t, r) {
-=======
-function bi(e, t, r) {
->>>>>>> Stashed changes
-  return e = Math.pow(e, r), t = Math.pow(t, r) - e, r = 1 / r, function(a) {
-    return Math.pow(e + a * t, r);
+function _c(e, t, n) {
+  return e = Math.pow(e, n), t = Math.pow(t, n) - e, n = 1 / n, function(a) {
+    return Math.pow(e + a * t, n);
   };
 }
-<<<<<<< Updated upstream
-function ji(e) {
-  return (e = +e) == 1 ? es : function(t, r) {
-    return r - t ? Ci(t, r, e) : Or(isNaN(t) ? r : t);
+function Sc(e) {
+  return (e = +e) == 1 ? xo : function(t, n) {
+    return n - t ? _c(t, n, e) : Fa(isNaN(t) ? n : t);
   };
 }
-function es(e, t) {
-  var r = t - e;
-  return r ? Si(e, r) : Or(isNaN(e) ? t : e);
+function xo(e, t) {
+  var n = t - e;
+  return n ? wc(e, n) : Fa(isNaN(e) ? t : e);
 }
-const ba = (function e(t) {
-  var r = ji(t);
+const ps = (function e(t) {
+  var n = Sc(t);
   function a(o, s) {
-    var i = r((o = hr(o)).r, (s = hr(s)).r), l = r(o.g, s.g), d = r(o.b, s.b), c = es(o.opacity, s.opacity);
-=======
-function xi(e) {
-  return (e = +e) == 1 ? ns : function(t, r) {
-    return r - t ? bi(t, r, e) : Gr(isNaN(t) ? r : t);
-  };
-}
-function ns(e, t) {
-  var r = t - e;
-  return r ? gi(e, r) : Gr(isNaN(e) ? t : e);
-}
-const xa = (function e(t) {
-  var r = xi(t);
-  function a(o, s) {
-    var i = r((o = hr(o)).r, (s = hr(s)).r), l = r(o.g, s.g), c = r(o.b, s.b), d = ns(o.opacity, s.opacity);
->>>>>>> Stashed changes
-    return function(u) {
-      return o.r = i(u), o.g = l(u), o.b = c(u), o.opacity = d(u), o + "";
+    var i = n((o = Kr(o)).r, (s = Kr(s)).r), l = n(o.g, s.g), d = n(o.b, s.b), c = xo(o.opacity, s.opacity);
+    return function(f) {
+      return o.r = i(f), o.g = l(f), o.b = d(f), o.opacity = c(f), o + "";
     };
   }
   return a.gamma = e, a;
 })(1);
-<<<<<<< Updated upstream
-function Ni(e, t) {
-=======
-function yi(e, t) {
->>>>>>> Stashed changes
+function kc(e, t) {
   t || (t = []);
-  var r = e ? Math.min(t.length, e.length) : 0, a = t.slice(), o;
+  var n = e ? Math.min(t.length, e.length) : 0, a = t.slice(), o;
   return function(s) {
-    for (o = 0; o < r; ++o) a[o] = e[o] * (1 - s) + t[o] * s;
+    for (o = 0; o < n; ++o) a[o] = e[o] * (1 - s) + t[o] * s;
     return a;
   };
 }
-<<<<<<< Updated upstream
-function Ti(e) {
+function Cc(e) {
   return ArrayBuffer.isView(e) && !(e instanceof DataView);
 }
-function Di(e, t) {
-=======
-function vi(e) {
-  return ArrayBuffer.isView(e) && !(e instanceof DataView);
-}
-function _i(e, t) {
->>>>>>> Stashed changes
-  var r = t ? t.length : 0, a = e ? Math.min(r, e.length) : 0, o = new Array(a), s = new Array(r), i;
-  for (i = 0; i < a; ++i) o[i] = Gr(e[i], t[i]);
-  for (; i < r; ++i) s[i] = t[i];
+function jc(e, t) {
+  var n = t ? t.length : 0, a = e ? Math.min(n, e.length) : 0, o = new Array(a), s = new Array(n), i;
+  for (i = 0; i < a; ++i) o[i] = Ba(e[i], t[i]);
+  for (; i < n; ++i) s[i] = t[i];
   return function(l) {
     for (i = 0; i < a; ++i) s[i] = o[i](l);
     return s;
   };
 }
-<<<<<<< Updated upstream
-function Ii(e, t) {
-=======
-function ki(e, t) {
->>>>>>> Stashed changes
-  var r = /* @__PURE__ */ new Date();
+function Nc(e, t) {
+  var n = /* @__PURE__ */ new Date();
   return e = +e, t = +t, function(a) {
-    return r.setTime(e * (1 - a) + t * a), r;
+    return n.setTime(e * (1 - a) + t * a), n;
   };
 }
-function hn(e, t) {
-  return e = +e, t = +t, function(r) {
-    return e * (1 - r) + t * r;
+function Rn(e, t) {
+  return e = +e, t = +t, function(n) {
+    return e * (1 - n) + t * n;
   };
 }
-<<<<<<< Updated upstream
-function Ri(e, t) {
-=======
-function wi(e, t) {
->>>>>>> Stashed changes
-  var r = {}, a = {}, o;
+function Tc(e, t) {
+  var n = {}, a = {}, o;
   (e === null || typeof e != "object") && (e = {}), (t === null || typeof t != "object") && (t = {});
   for (o in t)
-    o in e ? r[o] = Gr(e[o], t[o]) : a[o] = t[o];
+    o in e ? n[o] = Ba(e[o], t[o]) : a[o] = t[o];
   return function(s) {
-    for (o in r) a[o] = r[o](s);
+    for (o in n) a[o] = n[o](s);
     return a;
   };
 }
-var fr = /[-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?/g, rr = new RegExp(fr.source, "g");
-<<<<<<< Updated upstream
-function Bi(e) {
-=======
-function Si(e) {
->>>>>>> Stashed changes
+var Zr = /[-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?/g, Lr = new RegExp(Zr.source, "g");
+function Dc(e) {
   return function() {
     return e;
   };
 }
-<<<<<<< Updated upstream
-function Fi(e) {
-=======
-function Ci(e) {
->>>>>>> Stashed changes
+function $c(e) {
   return function(t) {
     return e(t) + "";
   };
 }
-<<<<<<< Updated upstream
-function Ei(e, t) {
-  var r = fr.lastIndex = rr.lastIndex = 0, a, o, s, i = -1, l = [], d = [];
-  for (e = e + "", t = t + ""; (a = fr.exec(e)) && (o = rr.exec(t)); )
-    (s = o.index) > r && (s = t.slice(r, s), l[i] ? l[i] += s : l[++i] = s), (a = a[0]) === (o = o[0]) ? l[i] ? l[i] += o : l[++i] = o : (l[++i] = null, d.push({ i, x: hn(a, o) })), r = rr.lastIndex;
-  return r < t.length && (s = t.slice(r), l[i] ? l[i] += s : l[++i] = s), l.length < 2 ? d[0] ? Fi(d[0].x) : Bi(t) : (t = d.length, function(c) {
-    for (var u = 0, f; u < t; ++u) l[(f = d[u]).i] = f.x(c);
-=======
-function ji(e, t) {
-  var r = fr.lastIndex = rr.lastIndex = 0, a, o, s, i = -1, l = [], c = [];
-  for (e = e + "", t = t + ""; (a = fr.exec(e)) && (o = rr.exec(t)); )
-    (s = o.index) > r && (s = t.slice(r, s), l[i] ? l[i] += s : l[++i] = s), (a = a[0]) === (o = o[0]) ? l[i] ? l[i] += o : l[++i] = o : (l[++i] = null, c.push({ i, x: hn(a, o) })), r = rr.lastIndex;
-  return r < t.length && (s = t.slice(r), l[i] ? l[i] += s : l[++i] = s), l.length < 2 ? c[0] ? Ci(c[0].x) : Si(t) : (t = c.length, function(d) {
-    for (var u = 0, f; u < t; ++u) l[(f = c[u]).i] = f.x(d);
->>>>>>> Stashed changes
+function Ic(e, t) {
+  var n = Zr.lastIndex = Lr.lastIndex = 0, a, o, s, i = -1, l = [], d = [];
+  for (e = e + "", t = t + ""; (a = Zr.exec(e)) && (o = Lr.exec(t)); )
+    (s = o.index) > n && (s = t.slice(n, s), l[i] ? l[i] += s : l[++i] = s), (a = a[0]) === (o = o[0]) ? l[i] ? l[i] += o : l[++i] = o : (l[++i] = null, d.push({ i, x: Rn(a, o) })), n = Lr.lastIndex;
+  return n < t.length && (s = t.slice(n), l[i] ? l[i] += s : l[++i] = s), l.length < 2 ? d[0] ? $c(d[0].x) : Dc(t) : (t = d.length, function(c) {
+    for (var f = 0, h; f < t; ++f) l[(h = d[f]).i] = h.x(c);
     return l.join("");
   });
 }
-function Gr(e, t) {
-  var r = typeof t, a;
-<<<<<<< Updated upstream
-  return t == null || r === "boolean" ? Or(t) : (r === "number" ? hn : r === "string" ? (a = Xt(t)) ? (t = a, ba) : Ei : t instanceof Xt ? ba : t instanceof Date ? Ii : Ti(t) ? Ni : Array.isArray(t) ? Di : typeof t.valueOf != "function" && typeof t.toString != "function" || isNaN(t) ? Ri : hn)(e, t);
+function Ba(e, t) {
+  var n = typeof t, a;
+  return t == null || n === "boolean" ? Fa(t) : (n === "number" ? Rn : n === "string" ? (a = xn(t)) ? (t = a, ps) : Ic : t instanceof xn ? ps : t instanceof Date ? Nc : Cc(t) ? kc : Array.isArray(t) ? jc : typeof t.valueOf != "function" && typeof t.toString != "function" || isNaN(t) ? Tc : Rn)(e, t);
 }
-function Ai(e, t) {
-=======
-  return t == null || r === "boolean" ? Gr(t) : (r === "number" ? hn : r === "string" ? (a = Xt(t)) ? (t = a, xa) : ji : t instanceof Xt ? xa : t instanceof Date ? ki : vi(t) ? yi : Array.isArray(t) ? _i : typeof t.valueOf != "function" && typeof t.toString != "function" || isNaN(t) ? wi : hn)(e, t);
-}
-function Ni(e, t) {
->>>>>>> Stashed changes
-  return e = +e, t = +t, function(r) {
-    return Math.round(e * (1 - r) + t * r);
+function Lc(e, t) {
+  return e = +e, t = +t, function(n) {
+    return Math.round(e * (1 - n) + t * n);
   };
 }
-<<<<<<< Updated upstream
-function Li(e) {
-=======
-function Ti(e) {
->>>>>>> Stashed changes
+function Mc(e) {
   return function() {
     return e;
   };
 }
-<<<<<<< Updated upstream
-function Mi(e) {
-=======
-function Di(e) {
->>>>>>> Stashed changes
+function Fc(e) {
   return +e;
 }
-var xa = [0, 1];
-function At(e) {
+var ms = [0, 1];
+function Zt(e) {
   return e;
 }
-function mr(e, t) {
-  return (t -= e = +e) ? function(r) {
-    return (r - e) / t;
-<<<<<<< Updated upstream
-  } : Li(isNaN(t) ? NaN : 0.5);
+function Jr(e, t) {
+  return (t -= e = +e) ? function(n) {
+    return (n - e) / t;
+  } : Mc(isNaN(t) ? NaN : 0.5);
 }
-function $i(e, t) {
-=======
-  } : Ti(isNaN(t) ? NaN : 0.5);
-}
-function Ii(e, t) {
->>>>>>> Stashed changes
-  var r;
-  return e > t && (r = e, e = t, t = r), function(a) {
+function Bc(e, t) {
+  var n;
+  return e > t && (n = e, e = t, t = n), function(a) {
     return Math.max(e, Math.min(t, a));
   };
 }
-<<<<<<< Updated upstream
-function Hi(e, t, r) {
-=======
-function Ri(e, t, r) {
->>>>>>> Stashed changes
+function Ac(e, t, n) {
   var a = e[0], o = e[1], s = t[0], i = t[1];
-  return o < a ? (a = mr(o, a), s = r(i, s)) : (a = mr(a, o), s = r(s, i)), function(l) {
+  return o < a ? (a = Jr(o, a), s = n(i, s)) : (a = Jr(a, o), s = n(s, i)), function(l) {
     return s(a(l));
   };
 }
-<<<<<<< Updated upstream
-function Pi(e, t, r) {
-=======
-function Fi(e, t, r) {
->>>>>>> Stashed changes
+function Ec(e, t, n) {
   var a = Math.min(e.length, t.length) - 1, o = new Array(a), s = new Array(a), i = -1;
   for (e[a] < e[0] && (e = e.slice().reverse(), t = t.slice().reverse()); ++i < a; )
-    o[i] = mr(e[i], e[i + 1]), s[i] = r(t[i], t[i + 1]);
+    o[i] = Jr(e[i], e[i + 1]), s[i] = n(t[i], t[i + 1]);
   return function(l) {
-<<<<<<< Updated upstream
-    var d = ii(e, l, 1, a) - 1;
+    var d = ac(e, l, 1, a) - 1;
     return s[d](o[d](l));
   };
 }
-function zi(e, t) {
+function bo(e, t) {
   return t.domain(e.domain()).range(e.range()).interpolate(e.interpolate()).clamp(e.clamp()).unknown(e.unknown());
 }
-function Wi() {
-  var e = xa, t = xa, r = Gr, a, o, s, i = At, l, d, c;
-  function u() {
-    var p = Math.min(e.length, t.length);
-    return i !== At && (i = $i(e[0], e[p - 1])), l = p > 2 ? Pi : Hi, d = c = null, f;
+function Rc() {
+  var e = ms, t = ms, n = Ba, a, o, s, i = Zt, l, d, c;
+  function f() {
+    var m = Math.min(e.length, t.length);
+    return i !== Zt && (i = Bc(e[0], e[m - 1])), l = m > 2 ? Ec : Ac, d = c = null, h;
   }
-  function f(p) {
-    return p == null || isNaN(p = +p) ? s : (d || (d = l(e.map(a), t, r)))(a(i(p)));
+  function h(m) {
+    return m == null || isNaN(m = +m) ? s : (d || (d = l(e.map(a), t, n)))(a(i(m)));
   }
-  return f.invert = function(p) {
-    return i(o((c || (c = l(t, e.map(a), hn)))(p)));
-  }, f.domain = function(p) {
-    return arguments.length ? (e = Array.from(p, Mi), u()) : e.slice();
-  }, f.range = function(p) {
-    return arguments.length ? (t = Array.from(p), u()) : t.slice();
-  }, f.rangeRound = function(p) {
-    return t = Array.from(p), r = Ai, u();
-  }, f.clamp = function(p) {
-    return arguments.length ? (i = p ? !0 : At, u()) : i !== At;
-=======
-    var c = Qo(e, l, 1, a) - 1;
-    return s[c](o[c](l));
+  return h.invert = function(m) {
+    return i(o((c || (c = l(t, e.map(a), Rn)))(m)));
+  }, h.domain = function(m) {
+    return arguments.length ? (e = Array.from(m, Fc), f()) : e.slice();
+  }, h.range = function(m) {
+    return arguments.length ? (t = Array.from(m), f()) : t.slice();
+  }, h.rangeRound = function(m) {
+    return t = Array.from(m), n = Lc, f();
+  }, h.clamp = function(m) {
+    return arguments.length ? (i = m ? !0 : Zt, f()) : i !== Zt;
+  }, h.interpolate = function(m) {
+    return arguments.length ? (n = m, f()) : n;
+  }, h.unknown = function(m) {
+    return arguments.length ? (s = m, h) : s;
+  }, function(m, g) {
+    return a = m, o = g, f();
   };
 }
-function Bi(e, t) {
-  return t.domain(e.domain()).range(e.range()).interpolate(e.interpolate()).clamp(e.clamp()).unknown(e.unknown());
+function yo() {
+  return Rc()(Zt, Zt);
 }
-function Li() {
-  var e = ya, t = ya, r = Vr, a, o, s, i = Et, l, c, d;
-  function u() {
-    var p = Math.min(e.length, t.length);
-    return i !== Et && (i = Ii(e[0], e[p - 1])), l = p > 2 ? Fi : Ri, c = d = null, f;
-  }
-  function f(p) {
-    return p == null || isNaN(p = +p) ? s : (c || (c = l(e.map(a), t, r)))(a(i(p)));
-  }
-  return f.invert = function(p) {
-    return i(o((d || (d = l(t, e.map(a), hn)))(p)));
-  }, f.domain = function(p) {
-    return arguments.length ? (e = Array.from(p, Di), u()) : e.slice();
-  }, f.range = function(p) {
-    return arguments.length ? (t = Array.from(p), u()) : t.slice();
-  }, f.rangeRound = function(p) {
-    return t = Array.from(p), r = Ni, u();
-  }, f.clamp = function(p) {
-    return arguments.length ? (i = p ? !0 : Et, u()) : i !== Et;
->>>>>>> Stashed changes
-  }, f.interpolate = function(p) {
-    return arguments.length ? (r = p, u()) : r;
-  }, f.unknown = function(p) {
-    return arguments.length ? (s = p, f) : s;
-  }, function(p, m) {
-    return a = p, o = m, u();
+function Pc(e) {
+  return Math.abs(e = Math.round(e)) >= 1e21 ? e.toLocaleString("en").replace(/,/g, "") : e.toString(10);
+}
+function Pn(e, t) {
+  if ((n = (e = t ? e.toExponential(t - 1) : e.toExponential()).indexOf("e")) < 0) return null;
+  var n, a = e.slice(0, n);
+  return [
+    a.length > 1 ? a[0] + a.slice(2) : a,
+    +e.slice(n + 1)
+  ];
+}
+function tn(e) {
+  return e = Pn(Math.abs(e)), e ? e[1] : NaN;
+}
+function Hc(e, t) {
+  return function(n, a) {
+    for (var o = n.length, s = [], i = 0, l = e[0], d = 0; o > 0 && l > 0 && (d + l + 1 > a && (l = Math.max(1, a - d)), s.push(n.substring(o -= l, o + l)), !((d += l + 1) > a)); )
+      l = e[i = (i + 1) % e.length];
+    return s.reverse().join(t);
   };
 }
-<<<<<<< Updated upstream
-function Ui() {
-  return Wi()(At, At);
+function zc(e) {
+  return function(t) {
+    return t.replace(/[0-9]/g, function(n) {
+      return e[+n];
+    });
+  };
 }
-function Oi(e, t) {
-=======
-function Ei() {
-  return Li()(Et, Et);
+var Wc = /^(?:(.)?([<>=^]))?([+\-( ])?([$#])?(0)?(\d+)?(,)?(\.\d+)?(~)?([a-z%])?$/i;
+function Hn(e) {
+  if (!(t = Wc.exec(e))) throw new Error("invalid format: " + e);
+  var t;
+  return new Aa({
+    fill: t[1],
+    align: t[2],
+    sign: t[3],
+    symbol: t[4],
+    zero: t[5],
+    width: t[6],
+    comma: t[7],
+    precision: t[8] && t[8].slice(1),
+    trim: t[9],
+    type: t[10]
+  });
 }
-function Ai(e, t) {
->>>>>>> Stashed changes
+Hn.prototype = Aa.prototype;
+function Aa(e) {
+  this.fill = e.fill === void 0 ? " " : e.fill + "", this.align = e.align === void 0 ? ">" : e.align + "", this.sign = e.sign === void 0 ? "-" : e.sign + "", this.symbol = e.symbol === void 0 ? "" : e.symbol + "", this.zero = !!e.zero, this.width = e.width === void 0 ? void 0 : +e.width, this.comma = !!e.comma, this.precision = e.precision === void 0 ? void 0 : +e.precision, this.trim = !!e.trim, this.type = e.type === void 0 ? "" : e.type + "";
+}
+Aa.prototype.toString = function() {
+  return this.fill + this.align + this.sign + this.symbol + (this.zero ? "0" : "") + (this.width === void 0 ? "" : Math.max(1, this.width | 0)) + (this.comma ? "," : "") + (this.precision === void 0 ? "" : "." + Math.max(0, this.precision | 0)) + (this.trim ? "~" : "") + this.type;
+};
+function Oc(e) {
+  e: for (var t = e.length, n = 1, a = -1, o; n < t; ++n)
+    switch (e[n]) {
+      case ".":
+        a = o = n;
+        break;
+      case "0":
+        a === 0 && (a = n), o = n;
+        break;
+      default:
+        if (!+e[n]) break e;
+        a > 0 && (a = 0);
+        break;
+    }
+  return a > 0 ? e.slice(0, a) + e.slice(o + 1) : e;
+}
+var vo;
+function Uc(e, t) {
+  var n = Pn(e, t);
+  if (!n) return e + "";
+  var a = n[0], o = n[1], s = o - (vo = Math.max(-8, Math.min(8, Math.floor(o / 3))) * 3) + 1, i = a.length;
+  return s === i ? a : s > i ? a + new Array(s - i + 1).join("0") : s > 0 ? a.slice(0, s) + "." + a.slice(s) : "0." + new Array(1 - s).join("0") + Pn(e, Math.max(0, t + s - 1))[0];
+}
+function gs(e, t) {
+  var n = Pn(e, t);
+  if (!n) return e + "";
+  var a = n[0], o = n[1];
+  return o < 0 ? "0." + new Array(-o).join("0") + a : a.length > o + 1 ? a.slice(0, o + 1) + "." + a.slice(o + 1) : a + new Array(o - a.length + 2).join("0");
+}
+const xs = {
+  "%": (e, t) => (e * 100).toFixed(t),
+  b: (e) => Math.round(e).toString(2),
+  c: (e) => e + "",
+  d: Pc,
+  e: (e, t) => e.toExponential(t),
+  f: (e, t) => e.toFixed(t),
+  g: (e, t) => e.toPrecision(t),
+  o: (e) => Math.round(e).toString(8),
+  p: (e, t) => gs(e * 100, t),
+  r: gs,
+  s: Uc,
+  X: (e) => Math.round(e).toString(16).toUpperCase(),
+  x: (e) => Math.round(e).toString(16)
+};
+function bs(e) {
+  return e;
+}
+var ys = Array.prototype.map, vs = ["y", "z", "a", "f", "p", "n", "µ", "m", "", "k", "M", "G", "T", "P", "E", "Z", "Y"];
+function Gc(e) {
+  var t = e.grouping === void 0 || e.thousands === void 0 ? bs : Hc(ys.call(e.grouping, Number), e.thousands + ""), n = e.currency === void 0 ? "" : e.currency[0] + "", a = e.currency === void 0 ? "" : e.currency[1] + "", o = e.decimal === void 0 ? "." : e.decimal + "", s = e.numerals === void 0 ? bs : zc(ys.call(e.numerals, String)), i = e.percent === void 0 ? "%" : e.percent + "", l = e.minus === void 0 ? "−" : e.minus + "", d = e.nan === void 0 ? "NaN" : e.nan + "";
+  function c(h) {
+    h = Hn(h);
+    var m = h.fill, g = h.align, C = h.sign, p = h.symbol, u = h.zero, R = h.width, F = h.comma, T = h.precision, S = h.trim, B = h.type;
+    B === "n" ? (F = !0, B = "g") : xs[B] || (T === void 0 && (T = 12), S = !0, B = "g"), (u || m === "0" && g === "=") && (u = !0, m = "0", g = "=");
+    var _ = p === "$" ? n : p === "#" && /[boxX]/.test(B) ? "0" + B.toLowerCase() : "", L = p === "$" ? a : /[%p]/.test(B) ? i : "", j = xs[B], D = /[defgprs%]/.test(B);
+    T = T === void 0 ? 6 : /[gprs]/.test(B) ? Math.max(1, Math.min(21, T)) : Math.max(0, Math.min(20, T));
+    function v(x) {
+      var y = _, P = L, E, M, k;
+      if (B === "c")
+        P = j(x) + P, x = "";
+      else {
+        x = +x;
+        var b = x < 0 || 1 / x < 0;
+        if (x = isNaN(x) ? d : j(Math.abs(x), T), S && (x = Oc(x)), b && +x == 0 && C !== "+" && (b = !1), y = (b ? C === "(" ? C : l : C === "-" || C === "(" ? "" : C) + y, P = (B === "s" ? vs[8 + vo / 3] : "") + P + (b && C === "(" ? ")" : ""), D) {
+          for (E = -1, M = x.length; ++E < M; )
+            if (k = x.charCodeAt(E), 48 > k || k > 57) {
+              P = (k === 46 ? o + x.slice(E + 1) : x.slice(E)) + P, x = x.slice(0, E);
+              break;
+            }
+        }
+      }
+      F && !u && (x = t(x, 1 / 0));
+      var A = y.length + x.length + P.length, w = A < R ? new Array(R - A + 1).join(m) : "";
+      switch (F && u && (x = t(w + x, w.length ? R - P.length : 1 / 0), w = ""), g) {
+        case "<":
+          x = y + x + P + w;
+          break;
+        case "=":
+          x = y + w + x + P;
+          break;
+        case "^":
+          x = w.slice(0, A = w.length >> 1) + y + x + P + w.slice(A);
+          break;
+        default:
+          x = w + y + x + P;
+          break;
+      }
+      return s(x);
+    }
+    return v.toString = function() {
+      return h + "";
+    }, v;
+  }
+  function f(h, m) {
+    var g = c((h = Hn(h), h.type = "f", h)), C = Math.max(-8, Math.min(8, Math.floor(tn(m) / 3))) * 3, p = Math.pow(10, -C), u = vs[8 + C / 3];
+    return function(R) {
+      return g(p * R) + u;
+    };
+  }
+  return {
+    format: c,
+    formatPrefix: f
+  };
+}
+var $n, wo, _o;
+Yc({
+  thousands: ",",
+  grouping: [3],
+  currency: ["$", ""]
+});
+function Yc(e) {
+  return $n = Gc(e), wo = $n.format, _o = $n.formatPrefix, $n;
+}
+function Vc(e) {
+  return Math.max(0, -tn(Math.abs(e)));
+}
+function qc(e, t) {
+  return Math.max(0, Math.max(-8, Math.min(8, Math.floor(tn(t) / 3))) * 3 - tn(Math.abs(e)));
+}
+function Xc(e, t) {
+  return e = Math.abs(e), t = Math.abs(t) - e, Math.max(0, tn(t) - tn(e)) + 1;
+}
+function Kc(e, t, n, a) {
+  var o = Xr(e, t, n), s;
+  switch (a = Hn(a ?? ",f"), a.type) {
+    case "s": {
+      var i = Math.max(Math.abs(e), Math.abs(t));
+      return a.precision == null && !isNaN(s = qc(o, i)) && (a.precision = s), _o(a, i);
+    }
+    case "":
+    case "e":
+    case "g":
+    case "p":
+    case "r": {
+      a.precision == null && !isNaN(s = Xc(o, Math.max(Math.abs(e), Math.abs(t)))) && (a.precision = s - (a.type === "e"));
+      break;
+    }
+    case "f":
+    case "%": {
+      a.precision == null && !isNaN(s = Vc(o)) && (a.precision = s - (a.type === "%") * 2);
+      break;
+    }
+  }
+  return wo(a);
+}
+function Zc(e) {
+  var t = e.domain;
+  return e.ticks = function(n) {
+    var a = t();
+    return lc(a[0], a[a.length - 1], n ?? 10);
+  }, e.tickFormat = function(n, a) {
+    var o = t();
+    return Kc(o[0], o[o.length - 1], n ?? 10, a);
+  }, e.nice = function(n) {
+    n == null && (n = 10);
+    var a = t(), o = 0, s = a.length - 1, i = a[o], l = a[s], d, c, f = 10;
+    for (l < i && (c = i, i = l, l = c, c = o, o = s, s = c); f-- > 0; ) {
+      if (c = qr(i, l, n), c === d)
+        return a[o] = i, a[s] = l, t(a);
+      if (c > 0)
+        i = Math.floor(i / c) * c, l = Math.ceil(l / c) * c;
+      else if (c < 0)
+        i = Math.ceil(i * c) / c, l = Math.floor(l * c) / c;
+      else
+        break;
+      d = c;
+    }
+    return e;
+  }, e;
+}
+function Qr() {
+  var e = yo();
+  return e.copy = function() {
+    return bo(e, Qr());
+  }, po.apply(e, arguments), Zc(e);
+}
+function Jc(e, t) {
   e = e.slice();
-  var r = 0, a = e.length - 1, o = e[r], s = e[a], i;
-  return s < o && (i = r, r = a, a = i, i = o, o = s, s = i), e[r] = t.floor(o), e[a] = t.ceil(s), e;
+  var n = 0, a = e.length - 1, o = e[n], s = e[a], i;
+  return s < o && (i = n, n = a, a = i, i = o, o = s, s = i), e[n] = t.floor(o), e[a] = t.ceil(s), e;
 }
-const ar = /* @__PURE__ */ new Date(), sr = /* @__PURE__ */ new Date();
-function ze(e, t, r, a) {
+const Mr = /* @__PURE__ */ new Date(), Fr = /* @__PURE__ */ new Date();
+function Ye(e, t, n, a) {
   function o(s) {
     return e(s = arguments.length === 0 ? /* @__PURE__ */ new Date() : /* @__PURE__ */ new Date(+s)), s;
   }
@@ -5142,21 +3688,14 @@ function ze(e, t, r, a) {
     const i = o(s), l = o.ceil(s);
     return s - i < l - s ? i : l;
   }, o.offset = (s, i) => (t(s = /* @__PURE__ */ new Date(+s), i == null ? 1 : Math.floor(i)), s), o.range = (s, i, l) => {
-    const c = [];
-    if (s = o.ceil(s), l = l == null ? 1 : Math.floor(l), !(s < i) || !(l > 0)) return c;
-    let d;
+    const d = [];
+    if (s = o.ceil(s), l = l == null ? 1 : Math.floor(l), !(s < i) || !(l > 0)) return d;
+    let c;
     do
-<<<<<<< Updated upstream
       d.push(c = /* @__PURE__ */ new Date(+s)), t(s, l), e(s);
     while (c < s && s < i);
     return d;
-  }, o.filter = (s) => ze((i) => {
-=======
-      c.push(d = /* @__PURE__ */ new Date(+s)), t(s, l), e(s);
-    while (d < s && s < i);
-    return c;
-  }, o.filter = (s) => We((i) => {
->>>>>>> Stashed changes
+  }, o.filter = (s) => Ye((i) => {
     if (i >= i) for (; e(i), !s(i); ) i.setTime(i - 1);
   }, (i, l) => {
     if (i >= i)
@@ -5166,1081 +3705,642 @@ function ze(e, t, r, a) {
       else for (; --l >= 0; )
         for (; t(i, 1), !s(i); )
           ;
-  }), r && (o.count = (s, i) => (ar.setTime(+s), sr.setTime(+i), e(ar), e(sr), Math.floor(r(ar, sr))), o.every = (s) => (s = Math.floor(s), !isFinite(s) || !(s > 0) ? null : s > 1 ? o.filter(a ? (i) => a(i) % s === 0 : (i) => o.count(0, i) % s === 0) : o)), o;
+  }), n && (o.count = (s, i) => (Mr.setTime(+s), Fr.setTime(+i), e(Mr), e(Fr), Math.floor(n(Mr, Fr))), o.every = (s) => (s = Math.floor(s), !isFinite(s) || !(s > 0) ? null : s > 1 ? o.filter(a ? (i) => a(i) % s === 0 : (i) => o.count(0, i) % s === 0) : o)), o;
 }
-const fn = ze(() => {
+const zn = Ye(() => {
 }, (e, t) => {
   e.setTime(+e + t);
 }, (e, t) => t - e);
-fn.every = (e) => (e = Math.floor(e), !isFinite(e) || !(e > 0) ? null : e > 1 ? ze((t) => {
+zn.every = (e) => (e = Math.floor(e), !isFinite(e) || !(e > 0) ? null : e > 1 ? Ye((t) => {
   t.setTime(Math.floor(t / e) * e);
-}, (t, r) => {
-  t.setTime(+t + r * e);
-}, (t, r) => (r - t) / e) : fn);
-fn.range;
-const gt = 1e3, Je = gt * 60, bt = Je * 60, yt = bt * 24, Vr = yt * 7, ya = yt * 30, or = yt * 365, Lt = ze((e) => {
+}, (t, n) => {
+  t.setTime(+t + n * e);
+}, (t, n) => (n - t) / e) : zn);
+zn.range;
+const Ct = 1e3, ot = Ct * 60, jt = ot * 60, Tt = jt * 24, Ea = Tt * 7, ws = Tt * 30, Br = Tt * 365, Jt = Ye((e) => {
   e.setTime(e - e.getMilliseconds());
 }, (e, t) => {
-  e.setTime(+e + t * gt);
-}, (e, t) => (t - e) / gt, (e) => e.getUTCSeconds());
-Lt.range;
-const Yr = ze((e) => {
-  e.setTime(e - e.getMilliseconds() - e.getSeconds() * gt);
+  e.setTime(+e + t * Ct);
+}, (e, t) => (t - e) / Ct, (e) => e.getUTCSeconds());
+Jt.range;
+const Ra = Ye((e) => {
+  e.setTime(e - e.getMilliseconds() - e.getSeconds() * Ct);
 }, (e, t) => {
-  e.setTime(+e + t * Je);
-}, (e, t) => (t - e) / Je, (e) => e.getMinutes());
-<<<<<<< Updated upstream
-Yr.range;
-const Gi = ze((e) => {
-=======
-qr.range;
-const Mi = We((e) => {
->>>>>>> Stashed changes
+  e.setTime(+e + t * ot);
+}, (e, t) => (t - e) / ot, (e) => e.getMinutes());
+Ra.range;
+const Qc = Ye((e) => {
   e.setUTCSeconds(0, 0);
 }, (e, t) => {
-  e.setTime(+e + t * Je);
-}, (e, t) => (t - e) / Je, (e) => e.getUTCMinutes());
-<<<<<<< Updated upstream
-Gi.range;
-const qr = ze((e) => {
-=======
-Mi.range;
-const Kr = We((e) => {
->>>>>>> Stashed changes
-  e.setTime(e - e.getMilliseconds() - e.getSeconds() * gt - e.getMinutes() * Je);
+  e.setTime(+e + t * ot);
+}, (e, t) => (t - e) / ot, (e) => e.getUTCMinutes());
+Qc.range;
+const Pa = Ye((e) => {
+  e.setTime(e - e.getMilliseconds() - e.getSeconds() * Ct - e.getMinutes() * ot);
 }, (e, t) => {
-  e.setTime(+e + t * bt);
-}, (e, t) => (t - e) / bt, (e) => e.getHours());
-<<<<<<< Updated upstream
-qr.range;
-const Vi = ze((e) => {
-=======
-Kr.range;
-const $i = We((e) => {
->>>>>>> Stashed changes
+  e.setTime(+e + t * jt);
+}, (e, t) => (t - e) / jt, (e) => e.getHours());
+Pa.range;
+const ed = Ye((e) => {
   e.setUTCMinutes(0, 0, 0);
 }, (e, t) => {
-  e.setTime(+e + t * bt);
-}, (e, t) => (t - e) / bt, (e) => e.getUTCHours());
-<<<<<<< Updated upstream
-Vi.range;
-const en = ze(
-=======
-$i.range;
-const en = We(
->>>>>>> Stashed changes
+  e.setTime(+e + t * jt);
+}, (e, t) => (t - e) / jt, (e) => e.getUTCHours());
+ed.range;
+const wn = Ye(
   (e) => e.setHours(0, 0, 0, 0),
   (e, t) => e.setDate(e.getDate() + t),
-  (e, t) => (t - e - (t.getTimezoneOffset() - e.getTimezoneOffset()) * Je) / yt,
+  (e, t) => (t - e - (t.getTimezoneOffset() - e.getTimezoneOffset()) * ot) / Tt,
   (e) => e.getDate() - 1
 );
-en.range;
-const Kr = ze((e) => {
+wn.range;
+const Ha = Ye((e) => {
   e.setUTCHours(0, 0, 0, 0);
 }, (e, t) => {
   e.setUTCDate(e.getUTCDate() + t);
-}, (e, t) => (t - e) / yt, (e) => e.getUTCDate() - 1);
-<<<<<<< Updated upstream
-Kr.range;
-const Yi = ze((e) => {
-=======
-Zr.range;
-const Hi = We((e) => {
->>>>>>> Stashed changes
+}, (e, t) => (t - e) / Tt, (e) => e.getUTCDate() - 1);
+Ha.range;
+const td = Ye((e) => {
   e.setUTCHours(0, 0, 0, 0);
 }, (e, t) => {
   e.setUTCDate(e.getUTCDate() + t);
-}, (e, t) => (t - e) / yt, (e) => Math.floor(e / yt));
-<<<<<<< Updated upstream
-Yi.range;
-=======
-Hi.range;
->>>>>>> Stashed changes
-function Dt(e) {
-  return ze((t) => {
+}, (e, t) => (t - e) / Tt, (e) => Math.floor(e / Tt));
+td.range;
+function Ut(e) {
+  return Ye((t) => {
     t.setDate(t.getDate() - (t.getDay() + 7 - e) % 7), t.setHours(0, 0, 0, 0);
-  }, (t, r) => {
-    t.setDate(t.getDate() + r * 7);
-  }, (t, r) => (r - t - (r.getTimezoneOffset() - t.getTimezoneOffset()) * Je) / Vr);
+  }, (t, n) => {
+    t.setDate(t.getDate() + n * 7);
+  }, (t, n) => (n - t - (n.getTimezoneOffset() - t.getTimezoneOffset()) * ot) / Ea);
 }
-<<<<<<< Updated upstream
-const On = Dt(0), mn = Dt(1), qi = Dt(2), Ki = Dt(3), $t = Dt(4), Zi = Dt(5), Ji = Dt(6);
-On.range;
-mn.range;
-qi.range;
-Ki.range;
-$t.range;
-Zi.range;
-Ji.range;
-=======
-const Un = Dt(0), mn = Dt(1), Pi = Dt(2), zi = Dt(3), $t = Dt(4), Wi = Dt(5), Oi = Dt(6);
-Un.range;
-mn.range;
-Pi.range;
-zi.range;
-$t.range;
-Wi.range;
-Oi.range;
->>>>>>> Stashed changes
-function It(e) {
-  return ze((t) => {
+const yr = Ut(0), Wn = Ut(1), nd = Ut(2), rd = Ut(3), nn = Ut(4), ad = Ut(5), sd = Ut(6);
+yr.range;
+Wn.range;
+nd.range;
+rd.range;
+nn.range;
+ad.range;
+sd.range;
+function Gt(e) {
+  return Ye((t) => {
     t.setUTCDate(t.getUTCDate() - (t.getUTCDay() + 7 - e) % 7), t.setUTCHours(0, 0, 0, 0);
-  }, (t, r) => {
-    t.setUTCDate(t.getUTCDate() + r * 7);
-  }, (t, r) => (r - t) / Vr);
+  }, (t, n) => {
+    t.setUTCDate(t.getUTCDate() + n * 7);
+  }, (t, n) => (n - t) / Ea);
 }
-<<<<<<< Updated upstream
-const ts = It(0), pn = It(1), Xi = It(2), Qi = It(3), Ht = It(4), el = It(5), tl = It(6);
-ts.range;
-pn.range;
-Xi.range;
-Qi.range;
-Ht.range;
-el.range;
-tl.range;
-const Zr = ze((e) => {
-=======
-const rs = It(0), pn = It(1), Ui = It(2), Gi = It(3), Ht = It(4), Vi = It(5), Yi = It(6);
-rs.range;
-pn.range;
-Ui.range;
-Gi.range;
-Ht.range;
-Vi.range;
-Yi.range;
-const Jr = We((e) => {
->>>>>>> Stashed changes
+const So = Gt(0), On = Gt(1), od = Gt(2), id = Gt(3), rn = Gt(4), ld = Gt(5), cd = Gt(6);
+So.range;
+On.range;
+od.range;
+id.range;
+rn.range;
+ld.range;
+cd.range;
+const bn = Ye((e) => {
   e.setDate(1), e.setHours(0, 0, 0, 0);
 }, (e, t) => {
   e.setMonth(e.getMonth() + t);
 }, (e, t) => t.getMonth() - e.getMonth() + (t.getFullYear() - e.getFullYear()) * 12, (e) => e.getMonth());
-<<<<<<< Updated upstream
-Zr.range;
-const nl = ze((e) => {
-=======
-Jr.range;
-const qi = We((e) => {
->>>>>>> Stashed changes
+bn.range;
+const dd = Ye((e) => {
   e.setUTCDate(1), e.setUTCHours(0, 0, 0, 0);
 }, (e, t) => {
   e.setUTCMonth(e.getUTCMonth() + t);
 }, (e, t) => t.getUTCMonth() - e.getUTCMonth() + (t.getUTCFullYear() - e.getUTCFullYear()) * 12, (e) => e.getUTCMonth());
-<<<<<<< Updated upstream
-nl.range;
-const vt = ze((e) => {
-=======
-qi.range;
-const vt = We((e) => {
->>>>>>> Stashed changes
+dd.range;
+const Dt = Ye((e) => {
   e.setMonth(0, 1), e.setHours(0, 0, 0, 0);
 }, (e, t) => {
   e.setFullYear(e.getFullYear() + t);
 }, (e, t) => t.getFullYear() - e.getFullYear(), (e) => e.getFullYear());
-vt.every = (e) => !isFinite(e = Math.floor(e)) || !(e > 0) ? null : ze((t) => {
+Dt.every = (e) => !isFinite(e = Math.floor(e)) || !(e > 0) ? null : Ye((t) => {
   t.setFullYear(Math.floor(t.getFullYear() / e) * e), t.setMonth(0, 1), t.setHours(0, 0, 0, 0);
-}, (t, r) => {
-  t.setFullYear(t.getFullYear() + r * e);
+}, (t, n) => {
+  t.setFullYear(t.getFullYear() + n * e);
 });
-vt.range;
-const Tt = ze((e) => {
+Dt.range;
+const Ot = Ye((e) => {
   e.setUTCMonth(0, 1), e.setUTCHours(0, 0, 0, 0);
 }, (e, t) => {
   e.setUTCFullYear(e.getUTCFullYear() + t);
 }, (e, t) => t.getUTCFullYear() - e.getUTCFullYear(), (e) => e.getUTCFullYear());
-Tt.every = (e) => !isFinite(e = Math.floor(e)) || !(e > 0) ? null : ze((t) => {
+Ot.every = (e) => !isFinite(e = Math.floor(e)) || !(e > 0) ? null : Ye((t) => {
   t.setUTCFullYear(Math.floor(t.getUTCFullYear() / e) * e), t.setUTCMonth(0, 1), t.setUTCHours(0, 0, 0, 0);
-}, (t, r) => {
-  t.setUTCFullYear(t.getUTCFullYear() + r * e);
+}, (t, n) => {
+  t.setUTCFullYear(t.getUTCFullYear() + n * e);
 });
-Tt.range;
-<<<<<<< Updated upstream
-function rl(e, t, r, a, o, s) {
-=======
-function Ki(e, t, r, a, o, s) {
->>>>>>> Stashed changes
+Ot.range;
+function ud(e, t, n, a, o, s) {
   const i = [
-    [Lt, 1, gt],
-    [Lt, 5, 5 * gt],
-    [Lt, 15, 15 * gt],
-    [Lt, 30, 30 * gt],
-    [s, 1, Je],
-    [s, 5, 5 * Je],
-    [s, 15, 15 * Je],
-    [s, 30, 30 * Je],
-    [o, 1, bt],
-    [o, 3, 3 * bt],
-    [o, 6, 6 * bt],
-    [o, 12, 12 * bt],
-    [a, 1, yt],
-    [a, 2, 2 * yt],
-    [r, 1, Vr],
-    [t, 1, ya],
-    [t, 3, 3 * ya],
-    [e, 1, or]
+    [Jt, 1, Ct],
+    [Jt, 5, 5 * Ct],
+    [Jt, 15, 15 * Ct],
+    [Jt, 30, 30 * Ct],
+    [s, 1, ot],
+    [s, 5, 5 * ot],
+    [s, 15, 15 * ot],
+    [s, 30, 30 * ot],
+    [o, 1, jt],
+    [o, 3, 3 * jt],
+    [o, 6, 6 * jt],
+    [o, 12, 12 * jt],
+    [a, 1, Tt],
+    [a, 2, 2 * Tt],
+    [n, 1, Ea],
+    [t, 1, ws],
+    [t, 3, 3 * ws],
+    [e, 1, Br]
   ];
-<<<<<<< Updated upstream
-  function l(c, u, f) {
-    const p = u < c;
-    p && ([c, u] = [u, c]);
-    const m = f && typeof f.range == "function" ? f : d(c, u, f), v = m ? m.range(c, +u + 1) : [];
-    return p ? v.reverse() : v;
+  function l(c, f, h) {
+    const m = f < c;
+    m && ([c, f] = [f, c]);
+    const g = h && typeof h.range == "function" ? h : d(c, f, h), C = g ? g.range(c, +f + 1) : [];
+    return m ? C.reverse() : C;
   }
-  function d(c, u, f) {
-    const p = Math.abs(u - c) / f, m = Wr(([, , _]) => _).right(i, p);
-    if (m === i.length) return e.every(la(c / or, u / or, f));
-    if (m === 0) return fn.every(Math.max(la(c, u, f), 1));
-    const [v, g] = i[p / i[m - 1][2] < i[m][2] / p ? m - 1 : m];
-    return v.every(g);
-=======
-  function l(d, u, f) {
-    const p = u < d;
-    p && ([d, u] = [u, d]);
-    const m = f && typeof f.range == "function" ? f : c(d, u, f), C = m ? m.range(d, +u + 1) : [];
-    return p ? C.reverse() : C;
+  function d(c, f, h) {
+    const m = Math.abs(f - c) / h, g = La(([, , u]) => u).right(i, m);
+    if (g === i.length) return e.every(Xr(c / Br, f / Br, h));
+    if (g === 0) return zn.every(Math.max(Xr(c, f, h), 1));
+    const [C, p] = i[m / i[g - 1][2] < i[g][2] / m ? g - 1 : g];
+    return C.every(p);
   }
-  function c(d, u, f) {
-    const p = Math.abs(u - d) / f, m = Or(([, , _]) => _).right(i, p);
-    if (m === i.length) return e.every(ca(d / or, u / or, f));
-    if (m === 0) return fn.every(Math.max(ca(d, u, f), 1));
-    const [C, g] = i[p / i[m - 1][2] < i[m][2] / p ? m - 1 : m];
-    return C.every(g);
->>>>>>> Stashed changes
-  }
-  return [l, c];
+  return [l, d];
 }
-<<<<<<< Updated upstream
-const [al, sl] = rl(vt, Zr, On, en, qr, Yr);
-=======
-const [Zi, Ji] = Ki(vt, Jr, Un, en, Kr, qr);
->>>>>>> Stashed changes
-function ir(e) {
+const [fd, hd] = ud(Dt, bn, yr, wn, Pa, Ra);
+function Ar(e) {
   if (0 <= e.y && e.y < 100) {
     var t = new Date(-1, e.m, e.d, e.H, e.M, e.S, e.L);
     return t.setFullYear(e.y), t;
   }
   return new Date(e.y, e.m, e.d, e.H, e.M, e.S, e.L);
 }
-function lr(e) {
+function Er(e) {
   if (0 <= e.y && e.y < 100) {
     var t = new Date(Date.UTC(-1, e.m, e.d, e.H, e.M, e.S, e.L));
     return t.setUTCFullYear(e.y), t;
   }
   return new Date(Date.UTC(e.y, e.m, e.d, e.H, e.M, e.S, e.L));
 }
-function Gt(e, t, r) {
-  return { y: e, m: t, d: r, H: 0, M: 0, S: 0, L: 0 };
+function dn(e, t, n) {
+  return { y: e, m: t, d: n, H: 0, M: 0, S: 0, L: 0 };
 }
-<<<<<<< Updated upstream
-function ol(e) {
-  var t = e.dateTime, r = e.date, a = e.time, o = e.periods, s = e.days, i = e.shortDays, l = e.months, d = e.shortMonths, c = Vt(o), u = Yt(o), f = Vt(s), p = Yt(s), m = Vt(i), v = Yt(i), g = Vt(l), _ = Yt(l), G = Vt(d), j = Yt(d), I = {
-=======
-function Xi(e) {
-  var t = e.dateTime, r = e.date, a = e.time, o = e.periods, s = e.days, i = e.shortDays, l = e.months, c = e.shortMonths, d = Vt(o), u = Yt(o), f = Vt(s), p = Yt(s), m = Vt(i), C = Yt(i), g = Vt(l), _ = Yt(l), V = Vt(c), B = Yt(c), k = {
->>>>>>> Stashed changes
-    a: N,
-    A: ue,
-    b: $,
-    B: C,
-    c: null,
-    d: Ca,
-    e: Ca,
-    f: Dl,
-    g: Hl,
-    G: zl,
-    H: jl,
-    I: Nl,
-    j: Tl,
-    L: ns,
-    m: Il,
-    M: Rl,
-    p: te,
-    q: E,
-    Q: Ta,
-    s: Da,
-    S: Bl,
-    u: Fl,
-    U: El,
-    V: Al,
-    w: Ll,
-    W: Ml,
-    x: null,
-    X: null,
-    y: $l,
-    Y: Pl,
-    Z: Wl,
-    "%": Na
-  }, k = {
-    a: Q,
-    A: F,
-    b: ae,
-    B: Ce,
-    c: null,
-    d: ja,
-    e: ja,
-<<<<<<< Updated upstream
-    f: Vl,
-    g: nc,
-    G: ac,
-    H: Ul,
-    I: Ol,
-    j: Gl,
-    L: as,
-    m: Yl,
-    M: ql,
-    p: se,
-    q: X,
-    Q: Ta,
-    s: Da,
-    S: Kl,
-    u: Zl,
-    U: Jl,
-    V: Xl,
-    w: Ql,
-    W: ec,
-    x: null,
-    X: null,
-    y: tc,
-    Y: rc,
-    Z: sc,
-    "%": Na
-  }, H = {
-    a: x,
-    A: B,
-    b: Z,
-    B: ce,
-    c: K,
-    d: wa,
-    e: wa,
-    f: kl,
-    g: ka,
-    G: _a,
-    H: Sa,
-    I: Sa,
-    j: xl,
-    L: _l,
-    m: bl,
-    M: yl,
-    p: R,
-    q: gl,
-    Q: Sl,
-    s: Cl,
-    S: vl,
-    u: ul,
-    U: hl,
-    V: fl,
-    w: dl,
-    W: ml,
-    x: y,
-    X: b,
-    y: ka,
-    Y: _a,
-    Z: pl,
-    "%": wl
-  };
-  I.x = A(r, I), I.X = A(a, I), I.c = A(t, I), k.x = A(r, k), k.X = A(a, k), k.c = A(t, k);
-  function A(Y, re) {
-=======
-    f: _l,
-    g: Rl,
-    G: Bl,
-    H: xl,
-    I: yl,
-    j: vl,
-    L: as,
-    m: kl,
-    M: wl,
-    p: ae,
-    q: M,
-    Q: Da,
-    s: Ia,
-    S: Sl,
-    u: Cl,
-    U: jl,
-    V: Nl,
-    w: Tl,
-    W: Dl,
-    x: null,
-    X: null,
-    y: Il,
-    Y: Fl,
-    Z: Ll,
-    "%": Ta
-  }, y = {
-    a: te,
-    A: E,
-    b: ie,
-    B: Q,
-    c: null,
-    d: Na,
-    e: Na,
-    f: $l,
-    g: ql,
-    G: Zl,
-    H: El,
-    I: Al,
-    j: Ml,
-    L: os,
-    m: Hl,
-    M: Pl,
-    p: Y,
-    q: K,
-    Q: Da,
-    s: Ia,
-    S: zl,
-    u: Wl,
-    U: Ol,
-    V: Ul,
-    w: Gl,
-    W: Vl,
-    x: null,
-    X: null,
-    y: Yl,
-    Y: Kl,
-    Z: Jl,
-    "%": Ta
-  }, L = {
+function pd(e) {
+  var t = e.dateTime, n = e.date, a = e.time, o = e.periods, s = e.days, i = e.shortDays, l = e.months, d = e.shortMonths, c = un(o), f = fn(o), h = un(s), m = fn(s), g = un(i), C = fn(i), p = un(l), u = fn(l), R = un(d), F = fn(d), T = {
     a: b,
-    A: F,
-    b: X,
-    B: de,
-    c: J,
-    d: Sa,
-    e: Sa,
-    f: ml,
-    g: wa,
-    G: ka,
-    H: Ca,
-    I: Ca,
-    j: dl,
-    L: fl,
-    m: cl,
-    M: ul,
-    p: I,
-    q: ll,
-    Q: gl,
-    s: bl,
-    S: hl,
-    u: rl,
-    U: al,
-    V: sl,
-    w: nl,
-    W: ol,
-    x: R,
-    X: x,
-    y: wa,
-    Y: ka,
-    Z: il,
-    "%": pl
+    A,
+    b: w,
+    B: $,
+    c: null,
+    d: Ns,
+    e: Ns,
+    f: Ed,
+    g: Vd,
+    G: Xd,
+    H: Fd,
+    I: Bd,
+    j: Ad,
+    L: ko,
+    m: Rd,
+    M: Pd,
+    p: W,
+    q: I,
+    Q: $s,
+    s: Is,
+    S: Hd,
+    u: zd,
+    U: Wd,
+    V: Od,
+    w: Ud,
+    W: Gd,
+    x: null,
+    X: null,
+    y: Yd,
+    Y: qd,
+    Z: Kd,
+    "%": Ds
+  }, S = {
+    a: O,
+    A: H,
+    b: Q,
+    B: fe,
+    c: null,
+    d: Ts,
+    e: Ts,
+    f: eu,
+    g: du,
+    G: fu,
+    H: Zd,
+    I: Jd,
+    j: Qd,
+    L: jo,
+    m: tu,
+    M: nu,
+    p: oe,
+    q: K,
+    Q: $s,
+    s: Is,
+    S: ru,
+    u: au,
+    U: su,
+    V: ou,
+    w: iu,
+    W: lu,
+    x: null,
+    X: null,
+    y: cu,
+    Y: uu,
+    Z: hu,
+    "%": Ds
+  }, B = {
+    a: v,
+    A: x,
+    b: y,
+    B: P,
+    c: E,
+    d: Cs,
+    e: Cs,
+    f: $d,
+    g: ks,
+    G: Ss,
+    H: js,
+    I: js,
+    j: jd,
+    L: Dd,
+    m: Cd,
+    M: Nd,
+    p: D,
+    q: kd,
+    Q: Ld,
+    s: Md,
+    S: Td,
+    u: yd,
+    U: vd,
+    V: wd,
+    w: bd,
+    W: _d,
+    x: M,
+    X: k,
+    y: ks,
+    Y: Ss,
+    Z: Sd,
+    "%": Id
   };
-  k.x = v(r, k), k.X = v(a, k), k.c = v(t, k), y.x = v(r, y), y.X = v(a, y), y.c = v(t, y);
-  function v(U, se) {
->>>>>>> Stashed changes
-    return function(me) {
-      var P = [], je = -1, ge = 0, pe = Y.length, de, be, Ve;
-      for (me instanceof Date || (me = /* @__PURE__ */ new Date(+me)); ++je < pe; )
-        Y.charCodeAt(je) === 37 && (P.push(Y.slice(ge, je)), (be = va[de = Y.charAt(++je)]) != null ? de = Y.charAt(++je) : be = de === "e" ? " " : "0", (Ve = re[de]) && (de = Ve(me, be)), P.push(de), ge = je + 1);
-      return P.push(Y.slice(ge, je)), P.join("");
+  T.x = _(n, T), T.X = _(a, T), T.c = _(t, T), S.x = _(n, S), S.X = _(a, S), S.c = _(t, S);
+  function _(V, J) {
+    return function(ae) {
+      var G = [], me = -1, he = 0, xe = V.length, pe, be, We;
+      for (ae instanceof Date || (ae = /* @__PURE__ */ new Date(+ae)); ++me < xe; )
+        V.charCodeAt(me) === 37 && (G.push(V.slice(he, me)), (be = _s[pe = V.charAt(++me)]) != null ? pe = V.charAt(++me) : be = pe === "e" ? " " : "0", (We = J[pe]) && (pe = We(ae, be)), G.push(pe), he = me + 1);
+      return G.push(V.slice(he, me)), G.join("");
     };
   }
-  function V(Y, re) {
-    return function(me) {
-      var P = Gt(1900, void 0, 1), je = M(P, Y, me += "", 0), ge, pe;
-      if (je != me.length) return null;
-      if ("Q" in P) return new Date(P.Q);
-      if ("s" in P) return new Date(P.s * 1e3 + ("L" in P ? P.L : 0));
-      if (re && !("Z" in P) && (P.Z = 0), "p" in P && (P.H = P.H % 12 + P.p * 12), P.m === void 0 && (P.m = "q" in P ? P.q : 0), "V" in P) {
-        if (P.V < 1 || P.V > 53) return null;
-        "w" in P || (P.w = 1), "Z" in P ? (ge = lr(Gt(P.y, 0, 1)), pe = ge.getUTCDay(), ge = pe > 4 || pe === 0 ? pn.ceil(ge) : pn(ge), ge = Kr.offset(ge, (P.V - 1) * 7), P.y = ge.getUTCFullYear(), P.m = ge.getUTCMonth(), P.d = ge.getUTCDate() + (P.w + 6) % 7) : (ge = ir(Gt(P.y, 0, 1)), pe = ge.getDay(), ge = pe > 4 || pe === 0 ? mn.ceil(ge) : mn(ge), ge = en.offset(ge, (P.V - 1) * 7), P.y = ge.getFullYear(), P.m = ge.getMonth(), P.d = ge.getDate() + (P.w + 6) % 7);
-      } else ("W" in P || "U" in P) && ("w" in P || (P.w = "u" in P ? P.u % 7 : "W" in P ? 1 : 0), pe = "Z" in P ? lr(Gt(P.y, 0, 1)).getUTCDay() : ir(Gt(P.y, 0, 1)).getDay(), P.m = 0, P.d = "W" in P ? (P.w + 6) % 7 + P.W * 7 - (pe + 5) % 7 : P.w + P.U * 7 - (pe + 6) % 7);
-      return "Z" in P ? (P.H += P.Z / 100 | 0, P.M += P.Z % 100, lr(P)) : ir(P);
+  function L(V, J) {
+    return function(ae) {
+      var G = dn(1900, void 0, 1), me = j(G, V, ae += "", 0), he, xe;
+      if (me != ae.length) return null;
+      if ("Q" in G) return new Date(G.Q);
+      if ("s" in G) return new Date(G.s * 1e3 + ("L" in G ? G.L : 0));
+      if (J && !("Z" in G) && (G.Z = 0), "p" in G && (G.H = G.H % 12 + G.p * 12), G.m === void 0 && (G.m = "q" in G ? G.q : 0), "V" in G) {
+        if (G.V < 1 || G.V > 53) return null;
+        "w" in G || (G.w = 1), "Z" in G ? (he = Er(dn(G.y, 0, 1)), xe = he.getUTCDay(), he = xe > 4 || xe === 0 ? On.ceil(he) : On(he), he = Ha.offset(he, (G.V - 1) * 7), G.y = he.getUTCFullYear(), G.m = he.getUTCMonth(), G.d = he.getUTCDate() + (G.w + 6) % 7) : (he = Ar(dn(G.y, 0, 1)), xe = he.getDay(), he = xe > 4 || xe === 0 ? Wn.ceil(he) : Wn(he), he = wn.offset(he, (G.V - 1) * 7), G.y = he.getFullYear(), G.m = he.getMonth(), G.d = he.getDate() + (G.w + 6) % 7);
+      } else ("W" in G || "U" in G) && ("w" in G || (G.w = "u" in G ? G.u % 7 : "W" in G ? 1 : 0), xe = "Z" in G ? Er(dn(G.y, 0, 1)).getUTCDay() : Ar(dn(G.y, 0, 1)).getDay(), G.m = 0, G.d = "W" in G ? (G.w + 6) % 7 + G.W * 7 - (xe + 5) % 7 : G.w + G.U * 7 - (xe + 6) % 7);
+      return "Z" in G ? (G.H += G.Z / 100 | 0, G.M += G.Z % 100, Er(G)) : Ar(G);
     };
   }
-  function M(Y, re, me, P) {
-    for (var je = 0, ge = re.length, pe = me.length, de, be; je < ge; ) {
-      if (P >= pe) return -1;
-      if (de = re.charCodeAt(je++), de === 37) {
-        if (de = re.charAt(je++), be = H[de in va ? re.charAt(je++) : de], !be || (P = be(Y, me, P)) < 0) return -1;
-      } else if (de != me.charCodeAt(P++))
+  function j(V, J, ae, G) {
+    for (var me = 0, he = J.length, xe = ae.length, pe, be; me < he; ) {
+      if (G >= xe) return -1;
+      if (pe = J.charCodeAt(me++), pe === 37) {
+        if (pe = J.charAt(me++), be = B[pe in _s ? J.charAt(me++) : pe], !be || (G = be(V, ae, G)) < 0) return -1;
+      } else if (pe != ae.charCodeAt(G++))
         return -1;
     }
-    return P;
+    return G;
   }
-<<<<<<< Updated upstream
-  function R(Y, re, me) {
-    var P = c.exec(re.slice(me));
-    return P ? (Y.p = u.get(P[0].toLowerCase()), me + P[0].length) : -1;
+  function D(V, J, ae) {
+    var G = c.exec(J.slice(ae));
+    return G ? (V.p = f.get(G[0].toLowerCase()), ae + G[0].length) : -1;
   }
-  function x(Y, re, me) {
-    var P = m.exec(re.slice(me));
-    return P ? (Y.w = v.get(P[0].toLowerCase()), me + P[0].length) : -1;
+  function v(V, J, ae) {
+    var G = g.exec(J.slice(ae));
+    return G ? (V.w = C.get(G[0].toLowerCase()), ae + G[0].length) : -1;
   }
-  function B(Y, re, me) {
-    var P = f.exec(re.slice(me));
-    return P ? (Y.w = p.get(P[0].toLowerCase()), me + P[0].length) : -1;
+  function x(V, J, ae) {
+    var G = h.exec(J.slice(ae));
+    return G ? (V.w = m.get(G[0].toLowerCase()), ae + G[0].length) : -1;
   }
-  function Z(Y, re, me) {
-    var P = G.exec(re.slice(me));
-    return P ? (Y.m = j.get(P[0].toLowerCase()), me + P[0].length) : -1;
+  function y(V, J, ae) {
+    var G = R.exec(J.slice(ae));
+    return G ? (V.m = F.get(G[0].toLowerCase()), ae + G[0].length) : -1;
   }
-  function ce(Y, re, me) {
-    var P = g.exec(re.slice(me));
-    return P ? (Y.m = _.get(P[0].toLowerCase()), me + P[0].length) : -1;
-=======
-  function I(U, se, me) {
-    var z = d.exec(se.slice(me));
-    return z ? (U.p = u.get(z[0].toLowerCase()), me + z[0].length) : -1;
+  function P(V, J, ae) {
+    var G = p.exec(J.slice(ae));
+    return G ? (V.m = u.get(G[0].toLowerCase()), ae + G[0].length) : -1;
   }
-  function b(U, se, me) {
-    var z = m.exec(se.slice(me));
-    return z ? (U.w = C.get(z[0].toLowerCase()), me + z[0].length) : -1;
+  function E(V, J, ae) {
+    return j(V, t, J, ae);
   }
-  function F(U, se, me) {
-    var z = f.exec(se.slice(me));
-    return z ? (U.w = p.get(z[0].toLowerCase()), me + z[0].length) : -1;
+  function M(V, J, ae) {
+    return j(V, n, J, ae);
   }
-  function X(U, se, me) {
-    var z = V.exec(se.slice(me));
-    return z ? (U.m = B.get(z[0].toLowerCase()), me + z[0].length) : -1;
+  function k(V, J, ae) {
+    return j(V, a, J, ae);
   }
-  function de(U, se, me) {
-    var z = g.exec(se.slice(me));
-    return z ? (U.m = _.get(z[0].toLowerCase()), me + z[0].length) : -1;
->>>>>>> Stashed changes
+  function b(V) {
+    return i[V.getDay()];
   }
-  function K(Y, re, me) {
-    return M(Y, t, re, me);
+  function A(V) {
+    return s[V.getDay()];
   }
-  function y(Y, re, me) {
-    return M(Y, r, re, me);
+  function w(V) {
+    return d[V.getMonth()];
   }
-  function b(Y, re, me) {
-    return M(Y, a, re, me);
+  function $(V) {
+    return l[V.getMonth()];
   }
-  function N(Y) {
-    return i[Y.getDay()];
+  function W(V) {
+    return o[+(V.getHours() >= 12)];
   }
-  function ue(Y) {
-    return s[Y.getDay()];
+  function I(V) {
+    return 1 + ~~(V.getMonth() / 3);
   }
-<<<<<<< Updated upstream
-  function $(Y) {
-    return d[Y.getMonth()];
-=======
-  function P(U) {
-    return c[U.getMonth()];
->>>>>>> Stashed changes
+  function O(V) {
+    return i[V.getUTCDay()];
   }
-  function C(Y) {
-    return l[Y.getMonth()];
+  function H(V) {
+    return s[V.getUTCDay()];
   }
-  function te(Y) {
-    return o[+(Y.getHours() >= 12)];
+  function Q(V) {
+    return d[V.getUTCMonth()];
   }
-  function E(Y) {
-    return 1 + ~~(Y.getMonth() / 3);
+  function fe(V) {
+    return l[V.getUTCMonth()];
   }
-  function Q(Y) {
-    return i[Y.getUTCDay()];
+  function oe(V) {
+    return o[+(V.getUTCHours() >= 12)];
   }
-  function F(Y) {
-    return s[Y.getUTCDay()];
-  }
-<<<<<<< Updated upstream
-  function ae(Y) {
-    return d[Y.getUTCMonth()];
-=======
-  function ie(U) {
-    return c[U.getUTCMonth()];
->>>>>>> Stashed changes
-  }
-  function Ce(Y) {
-    return l[Y.getUTCMonth()];
-  }
-<<<<<<< Updated upstream
-  function se(Y) {
-    return o[+(Y.getUTCHours() >= 12)];
-=======
-  function Y(U) {
-    return o[+(U.getUTCHours() >= 12)];
->>>>>>> Stashed changes
-  }
-  function X(Y) {
-    return 1 + ~~(Y.getUTCMonth() / 3);
+  function K(V) {
+    return 1 + ~~(V.getUTCMonth() / 3);
   }
   return {
-<<<<<<< Updated upstream
-    format: function(Y) {
-      var re = A(Y += "", I);
-      return re.toString = function() {
-        return Y;
-      }, re;
-=======
-    format: function(U) {
-      var se = v(U += "", k);
-      return se.toString = function() {
-        return U;
-      }, se;
->>>>>>> Stashed changes
+    format: function(V) {
+      var J = _(V += "", T);
+      return J.toString = function() {
+        return V;
+      }, J;
     },
-    parse: function(Y) {
-      var re = V(Y += "", !1);
-      return re.toString = function() {
-        return Y;
-      }, re;
+    parse: function(V) {
+      var J = L(V += "", !1);
+      return J.toString = function() {
+        return V;
+      }, J;
     },
-    utcFormat: function(Y) {
-      var re = A(Y += "", k);
-      return re.toString = function() {
-        return Y;
-      }, re;
+    utcFormat: function(V) {
+      var J = _(V += "", S);
+      return J.toString = function() {
+        return V;
+      }, J;
     },
-    utcParse: function(Y) {
-      var re = V(Y += "", !0);
-      return re.toString = function() {
-        return Y;
-      }, re;
+    utcParse: function(V) {
+      var J = L(V += "", !0);
+      return J.toString = function() {
+        return V;
+      }, J;
     }
   };
 }
-<<<<<<< Updated upstream
-var va = { "-": "", _: " ", 0: "0" }, Ue = /^\s*\d+/, il = /^%/, ll = /[\\^$*+?|[\]().{}]/g;
-function Se(e, t, r) {
+var _s = { "-": "", _: " ", 0: "0" }, Ke = /^\s*\d+/, md = /^%/, gd = /[\\^$*+?|[\]().{}]/g;
+function $e(e, t, n) {
   var a = e < 0 ? "-" : "", o = (a ? -e : e) + "", s = o.length;
-  return a + (s < r ? new Array(r - s + 1).join(t) + o : o);
+  return a + (s < n ? new Array(n - s + 1).join(t) + o : o);
 }
-function cl(e) {
-  return e.replace(ll, "\\$&");
+function xd(e) {
+  return e.replace(gd, "\\$&");
 }
-function Vt(e) {
-  return new RegExp("^(?:" + e.map(cl).join("|") + ")", "i");
-=======
-var _a = { "-": "", _: " ", 0: "0" }, Ue = /^\s*\d+/, Qi = /^%/, el = /[\\^$*+?|[\]().{}]/g;
-function Te(e, t, r) {
-  var a = e < 0 ? "-" : "", o = (a ? -e : e) + "", s = o.length;
-  return a + (s < r ? new Array(r - s + 1).join(t) + o : o);
+function un(e) {
+  return new RegExp("^(?:" + e.map(xd).join("|") + ")", "i");
 }
-function tl(e) {
-  return e.replace(el, "\\$&");
+function fn(e) {
+  return new Map(e.map((t, n) => [t.toLowerCase(), n]));
 }
-function Vt(e) {
-  return new RegExp("^(?:" + e.map(tl).join("|") + ")", "i");
->>>>>>> Stashed changes
+function bd(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 1));
+  return a ? (e.w = +a[0], n + a[0].length) : -1;
 }
-function Yt(e) {
-  return new Map(e.map((t, r) => [t.toLowerCase(), r]));
+function yd(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 1));
+  return a ? (e.u = +a[0], n + a[0].length) : -1;
 }
-<<<<<<< Updated upstream
-function dl(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 1));
-  return a ? (e.w = +a[0], r + a[0].length) : -1;
+function vd(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 2));
+  return a ? (e.U = +a[0], n + a[0].length) : -1;
 }
-function ul(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 1));
-  return a ? (e.u = +a[0], r + a[0].length) : -1;
+function wd(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 2));
+  return a ? (e.V = +a[0], n + a[0].length) : -1;
 }
-function hl(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.U = +a[0], r + a[0].length) : -1;
+function _d(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 2));
+  return a ? (e.W = +a[0], n + a[0].length) : -1;
 }
-function fl(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.V = +a[0], r + a[0].length) : -1;
+function Ss(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 4));
+  return a ? (e.y = +a[0], n + a[0].length) : -1;
 }
-function ml(e, t, r) {
-=======
-function nl(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 1));
-  return a ? (e.w = +a[0], r + a[0].length) : -1;
+function ks(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 2));
+  return a ? (e.y = +a[0] + (+a[0] > 68 ? 1900 : 2e3), n + a[0].length) : -1;
 }
-function rl(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 1));
-  return a ? (e.u = +a[0], r + a[0].length) : -1;
+function Sd(e, t, n) {
+  var a = /^(Z)|([+-]\d\d)(?::?(\d\d))?/.exec(t.slice(n, n + 6));
+  return a ? (e.Z = a[1] ? 0 : -(a[2] + (a[3] || "00")), n + a[0].length) : -1;
 }
-function al(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.U = +a[0], r + a[0].length) : -1;
+function kd(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 1));
+  return a ? (e.q = a[0] * 3 - 3, n + a[0].length) : -1;
 }
-function sl(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.V = +a[0], r + a[0].length) : -1;
+function Cd(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 2));
+  return a ? (e.m = a[0] - 1, n + a[0].length) : -1;
 }
-function ol(e, t, r) {
->>>>>>> Stashed changes
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.W = +a[0], r + a[0].length) : -1;
+function Cs(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 2));
+  return a ? (e.d = +a[0], n + a[0].length) : -1;
 }
-function _a(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 4));
-  return a ? (e.y = +a[0], r + a[0].length) : -1;
+function jd(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 3));
+  return a ? (e.m = 0, e.d = +a[0], n + a[0].length) : -1;
 }
-function ka(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.y = +a[0] + (+a[0] > 68 ? 1900 : 2e3), r + a[0].length) : -1;
+function js(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 2));
+  return a ? (e.H = +a[0], n + a[0].length) : -1;
 }
-<<<<<<< Updated upstream
-function pl(e, t, r) {
-  var a = /^(Z)|([+-]\d\d)(?::?(\d\d))?/.exec(t.slice(r, r + 6));
-  return a ? (e.Z = a[1] ? 0 : -(a[2] + (a[3] || "00")), r + a[0].length) : -1;
+function Nd(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 2));
+  return a ? (e.M = +a[0], n + a[0].length) : -1;
 }
-function gl(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 1));
-  return a ? (e.q = a[0] * 3 - 3, r + a[0].length) : -1;
+function Td(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 2));
+  return a ? (e.S = +a[0], n + a[0].length) : -1;
 }
-function bl(e, t, r) {
-=======
-function il(e, t, r) {
-  var a = /^(Z)|([+-]\d\d)(?::?(\d\d))?/.exec(t.slice(r, r + 6));
-  return a ? (e.Z = a[1] ? 0 : -(a[2] + (a[3] || "00")), r + a[0].length) : -1;
+function Dd(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 3));
+  return a ? (e.L = +a[0], n + a[0].length) : -1;
 }
-function ll(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 1));
-  return a ? (e.q = a[0] * 3 - 3, r + a[0].length) : -1;
+function $d(e, t, n) {
+  var a = Ke.exec(t.slice(n, n + 6));
+  return a ? (e.L = Math.floor(a[0] / 1e3), n + a[0].length) : -1;
 }
-function cl(e, t, r) {
->>>>>>> Stashed changes
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.m = a[0] - 1, r + a[0].length) : -1;
+function Id(e, t, n) {
+  var a = md.exec(t.slice(n, n + 1));
+  return a ? n + a[0].length : -1;
 }
-function wa(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.d = +a[0], r + a[0].length) : -1;
+function Ld(e, t, n) {
+  var a = Ke.exec(t.slice(n));
+  return a ? (e.Q = +a[0], n + a[0].length) : -1;
 }
-<<<<<<< Updated upstream
-function xl(e, t, r) {
-=======
-function dl(e, t, r) {
->>>>>>> Stashed changes
-  var a = Ue.exec(t.slice(r, r + 3));
-  return a ? (e.m = 0, e.d = +a[0], r + a[0].length) : -1;
+function Md(e, t, n) {
+  var a = Ke.exec(t.slice(n));
+  return a ? (e.s = +a[0], n + a[0].length) : -1;
 }
-function Sa(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.H = +a[0], r + a[0].length) : -1;
+function Ns(e, t) {
+  return $e(e.getDate(), t, 2);
 }
-<<<<<<< Updated upstream
-function yl(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.M = +a[0], r + a[0].length) : -1;
+function Fd(e, t) {
+  return $e(e.getHours(), t, 2);
 }
-function vl(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.S = +a[0], r + a[0].length) : -1;
+function Bd(e, t) {
+  return $e(e.getHours() % 12 || 12, t, 2);
 }
-function _l(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 3));
-  return a ? (e.L = +a[0], r + a[0].length) : -1;
+function Ad(e, t) {
+  return $e(1 + wn.count(Dt(e), e), t, 3);
 }
-function kl(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 6));
-  return a ? (e.L = Math.floor(a[0] / 1e3), r + a[0].length) : -1;
+function ko(e, t) {
+  return $e(e.getMilliseconds(), t, 3);
 }
-function wl(e, t, r) {
-  var a = il.exec(t.slice(r, r + 1));
-  return a ? r + a[0].length : -1;
+function Ed(e, t) {
+  return ko(e, t) + "000";
 }
-function Sl(e, t, r) {
-  var a = Ue.exec(t.slice(r));
-  return a ? (e.Q = +a[0], r + a[0].length) : -1;
+function Rd(e, t) {
+  return $e(e.getMonth() + 1, t, 2);
 }
-function Cl(e, t, r) {
-=======
-function ul(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.M = +a[0], r + a[0].length) : -1;
+function Pd(e, t) {
+  return $e(e.getMinutes(), t, 2);
 }
-function hl(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 2));
-  return a ? (e.S = +a[0], r + a[0].length) : -1;
+function Hd(e, t) {
+  return $e(e.getSeconds(), t, 2);
 }
-function fl(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 3));
-  return a ? (e.L = +a[0], r + a[0].length) : -1;
-}
-function ml(e, t, r) {
-  var a = Ue.exec(t.slice(r, r + 6));
-  return a ? (e.L = Math.floor(a[0] / 1e3), r + a[0].length) : -1;
-}
-function pl(e, t, r) {
-  var a = Qi.exec(t.slice(r, r + 1));
-  return a ? r + a[0].length : -1;
-}
-function gl(e, t, r) {
-  var a = Ue.exec(t.slice(r));
-  return a ? (e.Q = +a[0], r + a[0].length) : -1;
-}
-function bl(e, t, r) {
->>>>>>> Stashed changes
-  var a = Ue.exec(t.slice(r));
-  return a ? (e.s = +a[0], r + a[0].length) : -1;
-}
-function Ca(e, t) {
-  return Se(e.getDate(), t, 2);
-}
-<<<<<<< Updated upstream
-function jl(e, t) {
-  return Se(e.getHours(), t, 2);
-}
-function Nl(e, t) {
-  return Se(e.getHours() % 12 || 12, t, 2);
-}
-function Tl(e, t) {
-  return Se(1 + en.count(vt(e), e), t, 3);
-}
-function ns(e, t) {
-  return Se(e.getMilliseconds(), t, 3);
-}
-function Dl(e, t) {
-  return ns(e, t) + "000";
-}
-function Il(e, t) {
-  return Se(e.getMonth() + 1, t, 2);
-}
-function Rl(e, t) {
-  return Se(e.getMinutes(), t, 2);
-}
-function Bl(e, t) {
-  return Se(e.getSeconds(), t, 2);
-}
-function Fl(e) {
+function zd(e) {
   var t = e.getDay();
   return t === 0 ? 7 : t;
 }
-function El(e, t) {
-  return Se(On.count(vt(e) - 1, e), t, 2);
+function Wd(e, t) {
+  return $e(yr.count(Dt(e) - 1, e), t, 2);
 }
-function rs(e) {
+function Co(e) {
   var t = e.getDay();
-  return t >= 4 || t === 0 ? $t(e) : $t.ceil(e);
+  return t >= 4 || t === 0 ? nn(e) : nn.ceil(e);
 }
-function Al(e, t) {
-  return e = rs(e), Se($t.count(vt(e), e) + (vt(e).getDay() === 4), t, 2);
+function Od(e, t) {
+  return e = Co(e), $e(nn.count(Dt(e), e) + (Dt(e).getDay() === 4), t, 2);
 }
-function Ll(e) {
+function Ud(e) {
   return e.getDay();
 }
-function Ml(e, t) {
-  return Se(mn.count(vt(e) - 1, e), t, 2);
+function Gd(e, t) {
+  return $e(Wn.count(Dt(e) - 1, e), t, 2);
 }
-function $l(e, t) {
-  return Se(e.getFullYear() % 100, t, 2);
+function Yd(e, t) {
+  return $e(e.getFullYear() % 100, t, 2);
 }
-function Hl(e, t) {
-  return e = rs(e), Se(e.getFullYear() % 100, t, 2);
+function Vd(e, t) {
+  return e = Co(e), $e(e.getFullYear() % 100, t, 2);
 }
-function Pl(e, t) {
-  return Se(e.getFullYear() % 1e4, t, 4);
+function qd(e, t) {
+  return $e(e.getFullYear() % 1e4, t, 4);
 }
-function zl(e, t) {
-  var r = e.getDay();
-  return e = r >= 4 || r === 0 ? $t(e) : $t.ceil(e), Se(e.getFullYear() % 1e4, t, 4);
+function Xd(e, t) {
+  var n = e.getDay();
+  return e = n >= 4 || n === 0 ? nn(e) : nn.ceil(e), $e(e.getFullYear() % 1e4, t, 4);
 }
-function Wl(e) {
+function Kd(e) {
   var t = e.getTimezoneOffset();
-  return (t > 0 ? "-" : (t *= -1, "+")) + Se(t / 60 | 0, "0", 2) + Se(t % 60, "0", 2);
+  return (t > 0 ? "-" : (t *= -1, "+")) + $e(t / 60 | 0, "0", 2) + $e(t % 60, "0", 2);
 }
-function ja(e, t) {
-  return Se(e.getUTCDate(), t, 2);
+function Ts(e, t) {
+  return $e(e.getUTCDate(), t, 2);
 }
-function Ul(e, t) {
-  return Se(e.getUTCHours(), t, 2);
+function Zd(e, t) {
+  return $e(e.getUTCHours(), t, 2);
 }
-function Ol(e, t) {
-  return Se(e.getUTCHours() % 12 || 12, t, 2);
+function Jd(e, t) {
+  return $e(e.getUTCHours() % 12 || 12, t, 2);
 }
-function Gl(e, t) {
-  return Se(1 + Kr.count(Tt(e), e), t, 3);
+function Qd(e, t) {
+  return $e(1 + Ha.count(Ot(e), e), t, 3);
 }
-function as(e, t) {
-  return Se(e.getUTCMilliseconds(), t, 3);
+function jo(e, t) {
+  return $e(e.getUTCMilliseconds(), t, 3);
 }
-function Vl(e, t) {
-  return as(e, t) + "000";
+function eu(e, t) {
+  return jo(e, t) + "000";
 }
-function Yl(e, t) {
-  return Se(e.getUTCMonth() + 1, t, 2);
+function tu(e, t) {
+  return $e(e.getUTCMonth() + 1, t, 2);
 }
-function ql(e, t) {
-  return Se(e.getUTCMinutes(), t, 2);
+function nu(e, t) {
+  return $e(e.getUTCMinutes(), t, 2);
 }
-function Kl(e, t) {
-  return Se(e.getUTCSeconds(), t, 2);
+function ru(e, t) {
+  return $e(e.getUTCSeconds(), t, 2);
 }
-function Zl(e) {
+function au(e) {
   var t = e.getUTCDay();
   return t === 0 ? 7 : t;
 }
-function Jl(e, t) {
-  return Se(ts.count(Tt(e) - 1, e), t, 2);
+function su(e, t) {
+  return $e(So.count(Ot(e) - 1, e), t, 2);
 }
-function ss(e) {
+function No(e) {
   var t = e.getUTCDay();
-  return t >= 4 || t === 0 ? Ht(e) : Ht.ceil(e);
+  return t >= 4 || t === 0 ? rn(e) : rn.ceil(e);
 }
-function Xl(e, t) {
-  return e = ss(e), Se(Ht.count(Tt(e), e) + (Tt(e).getUTCDay() === 4), t, 2);
+function ou(e, t) {
+  return e = No(e), $e(rn.count(Ot(e), e) + (Ot(e).getUTCDay() === 4), t, 2);
 }
-function Ql(e) {
+function iu(e) {
   return e.getUTCDay();
 }
-function ec(e, t) {
-  return Se(pn.count(Tt(e) - 1, e), t, 2);
+function lu(e, t) {
+  return $e(On.count(Ot(e) - 1, e), t, 2);
 }
-function tc(e, t) {
-  return Se(e.getUTCFullYear() % 100, t, 2);
+function cu(e, t) {
+  return $e(e.getUTCFullYear() % 100, t, 2);
 }
-function nc(e, t) {
-  return e = ss(e), Se(e.getUTCFullYear() % 100, t, 2);
+function du(e, t) {
+  return e = No(e), $e(e.getUTCFullYear() % 100, t, 2);
 }
-function rc(e, t) {
-  return Se(e.getUTCFullYear() % 1e4, t, 4);
+function uu(e, t) {
+  return $e(e.getUTCFullYear() % 1e4, t, 4);
 }
-function ac(e, t) {
-=======
-function xl(e, t) {
-  return Te(e.getHours(), t, 2);
+function fu(e, t) {
+  var n = e.getUTCDay();
+  return e = n >= 4 || n === 0 ? rn(e) : rn.ceil(e), $e(e.getUTCFullYear() % 1e4, t, 4);
 }
-function yl(e, t) {
-  return Te(e.getHours() % 12 || 12, t, 2);
-}
-function vl(e, t) {
-  return Te(1 + en.count(vt(e), e), t, 3);
-}
-function as(e, t) {
-  return Te(e.getMilliseconds(), t, 3);
-}
-function _l(e, t) {
-  return as(e, t) + "000";
-}
-function kl(e, t) {
-  return Te(e.getMonth() + 1, t, 2);
-}
-function wl(e, t) {
-  return Te(e.getMinutes(), t, 2);
-}
-function Sl(e, t) {
-  return Te(e.getSeconds(), t, 2);
-}
-function Cl(e) {
-  var t = e.getDay();
-  return t === 0 ? 7 : t;
-}
-function jl(e, t) {
-  return Te(Un.count(vt(e) - 1, e), t, 2);
-}
-function ss(e) {
-  var t = e.getDay();
-  return t >= 4 || t === 0 ? $t(e) : $t.ceil(e);
-}
-function Nl(e, t) {
-  return e = ss(e), Te($t.count(vt(e), e) + (vt(e).getDay() === 4), t, 2);
-}
-function Tl(e) {
-  return e.getDay();
-}
-function Dl(e, t) {
-  return Te(mn.count(vt(e) - 1, e), t, 2);
-}
-function Il(e, t) {
-  return Te(e.getFullYear() % 100, t, 2);
-}
-function Rl(e, t) {
-  return e = ss(e), Te(e.getFullYear() % 100, t, 2);
-}
-function Fl(e, t) {
-  return Te(e.getFullYear() % 1e4, t, 4);
-}
-function Bl(e, t) {
-  var r = e.getDay();
-  return e = r >= 4 || r === 0 ? $t(e) : $t.ceil(e), Te(e.getFullYear() % 1e4, t, 4);
-}
-function Ll(e) {
-  var t = e.getTimezoneOffset();
-  return (t > 0 ? "-" : (t *= -1, "+")) + Te(t / 60 | 0, "0", 2) + Te(t % 60, "0", 2);
-}
-function Na(e, t) {
-  return Te(e.getUTCDate(), t, 2);
-}
-function El(e, t) {
-  return Te(e.getUTCHours(), t, 2);
-}
-function Al(e, t) {
-  return Te(e.getUTCHours() % 12 || 12, t, 2);
-}
-function Ml(e, t) {
-  return Te(1 + Zr.count(Tt(e), e), t, 3);
-}
-function os(e, t) {
-  return Te(e.getUTCMilliseconds(), t, 3);
-}
-function $l(e, t) {
-  return os(e, t) + "000";
-}
-function Hl(e, t) {
-  return Te(e.getUTCMonth() + 1, t, 2);
-}
-function Pl(e, t) {
-  return Te(e.getUTCMinutes(), t, 2);
-}
-function zl(e, t) {
-  return Te(e.getUTCSeconds(), t, 2);
-}
-function Wl(e) {
-  var t = e.getUTCDay();
-  return t === 0 ? 7 : t;
-}
-function Ol(e, t) {
-  return Te(rs.count(Tt(e) - 1, e), t, 2);
-}
-function is(e) {
-  var t = e.getUTCDay();
-  return t >= 4 || t === 0 ? Ht(e) : Ht.ceil(e);
-}
-function Ul(e, t) {
-  return e = is(e), Te(Ht.count(Tt(e), e) + (Tt(e).getUTCDay() === 4), t, 2);
-}
-function Gl(e) {
-  return e.getUTCDay();
-}
-function Vl(e, t) {
-  return Te(pn.count(Tt(e) - 1, e), t, 2);
-}
-function Yl(e, t) {
-  return Te(e.getUTCFullYear() % 100, t, 2);
-}
-function ql(e, t) {
-  return e = is(e), Te(e.getUTCFullYear() % 100, t, 2);
-}
-function Kl(e, t) {
-  return Te(e.getUTCFullYear() % 1e4, t, 4);
-}
-function Zl(e, t) {
->>>>>>> Stashed changes
-  var r = e.getUTCDay();
-  return e = r >= 4 || r === 0 ? Ht(e) : Ht.ceil(e), Se(e.getUTCFullYear() % 1e4, t, 4);
-}
-<<<<<<< Updated upstream
-function sc() {
-=======
-function Jl() {
->>>>>>> Stashed changes
+function hu() {
   return "+0000";
 }
-function Na() {
+function Ds() {
   return "%";
 }
-function Ta(e) {
+function $s(e) {
   return +e;
 }
-function Da(e) {
+function Is(e) {
   return Math.floor(+e / 1e3);
 }
-<<<<<<< Updated upstream
-var Ft, os;
-oc({
-=======
-var Bt, ls;
-Xl({
->>>>>>> Stashed changes
+var qt, To;
+pu({
   dateTime: "%x, %X",
   date: "%-m/%-d/%Y",
   time: "%-I:%M:%S %p",
@@ -6250,92 +4350,51 @@ Xl({
   months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
   shortMonths: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 });
-<<<<<<< Updated upstream
-function oc(e) {
-  return Ft = ol(e), os = Ft.format, Ft.parse, Ft.utcFormat, Ft.utcParse, Ft;
+function pu(e) {
+  return qt = pd(e), To = qt.format, qt.parse, qt.utcFormat, qt.utcParse, qt;
 }
-function ic(e) {
+function mu(e) {
   return new Date(e);
 }
-function lc(e) {
+function gu(e) {
   return e instanceof Date ? +e : +/* @__PURE__ */ new Date(+e);
 }
-function is(e, t, r, a, o, s, i, l, d, c) {
-  var u = Ui(), f = u.invert, p = u.domain, m = c(".%L"), v = c(":%S"), g = c("%I:%M"), _ = c("%I %p"), G = c("%a %d"), j = c("%b %d"), I = c("%B"), k = c("%Y");
-  function H(A) {
-    return (d(A) < A ? m : l(A) < A ? v : i(A) < A ? g : s(A) < A ? _ : a(A) < A ? o(A) < A ? G : j : r(A) < A ? I : k)(A);
+function Do(e, t, n, a, o, s, i, l, d, c) {
+  var f = yo(), h = f.invert, m = f.domain, g = c(".%L"), C = c(":%S"), p = c("%I:%M"), u = c("%I %p"), R = c("%a %d"), F = c("%b %d"), T = c("%B"), S = c("%Y");
+  function B(_) {
+    return (d(_) < _ ? g : l(_) < _ ? C : i(_) < _ ? p : s(_) < _ ? u : a(_) < _ ? o(_) < _ ? R : F : n(_) < _ ? T : S)(_);
   }
-  return u.invert = function(A) {
-    return new Date(f(A));
-  }, u.domain = function(A) {
-    return arguments.length ? p(Array.from(A, lc)) : p().map(ic);
-  }, u.ticks = function(A) {
-    var V = p();
-    return e(V[0], V[V.length - 1], A ?? 10);
-  }, u.tickFormat = function(A, V) {
-    return V == null ? H : c(V);
-  }, u.nice = function(A) {
-    var V = p();
-    return (!A || typeof A.range != "function") && (A = t(V[0], V[V.length - 1], A ?? 10)), A ? p(Oi(V, A)) : u;
-  }, u.copy = function() {
-    return zi(u, is(e, t, r, a, o, s, i, l, d, c));
-  }, u;
+  return f.invert = function(_) {
+    return new Date(h(_));
+  }, f.domain = function(_) {
+    return arguments.length ? m(Array.from(_, gu)) : m().map(mu);
+  }, f.ticks = function(_) {
+    var L = m();
+    return e(L[0], L[L.length - 1], _ ?? 10);
+  }, f.tickFormat = function(_, L) {
+    return L == null ? B : c(L);
+  }, f.nice = function(_) {
+    var L = m();
+    return (!_ || typeof _.range != "function") && (_ = t(L[0], L[L.length - 1], _ ?? 10)), _ ? m(Jc(L, _)) : f;
+  }, f.copy = function() {
+    return bo(f, Do(e, t, n, a, o, s, i, l, d, c));
+  }, f;
 }
-function cc() {
-  return ui.apply(is(al, sl, vt, Zr, On, en, qr, Yr, Lt, os).domain([new Date(2e3, 0, 1), new Date(2e3, 0, 2)]), arguments);
+function za() {
+  return po.apply(Do(fd, hd, Dt, bn, yr, wn, Pa, Ra, Jt, To).domain([new Date(2e3, 0, 1), new Date(2e3, 0, 2)]), arguments);
 }
-function dc({
-=======
-function Xl(e) {
-  return Bt = Xi(e), ls = Bt.format, Bt.parse, Bt.utcFormat, Bt.utcParse, Bt;
-}
-function Ql(e) {
-  return new Date(e);
-}
-function ec(e) {
-  return e instanceof Date ? +e : +/* @__PURE__ */ new Date(+e);
-}
-function cs(e, t, r, a, o, s, i, l, c, d) {
-  var u = Ei(), f = u.invert, p = u.domain, m = d(".%L"), C = d(":%S"), g = d("%I:%M"), _ = d("%I %p"), V = d("%a %d"), B = d("%b %d"), k = d("%B"), y = d("%Y");
-  function L(v) {
-    return (c(v) < v ? m : l(v) < v ? C : i(v) < v ? g : s(v) < v ? _ : a(v) < v ? o(v) < v ? V : B : r(v) < v ? k : y)(v);
-  }
-  return u.invert = function(v) {
-    return new Date(f(v));
-  }, u.domain = function(v) {
-    return arguments.length ? p(Array.from(v, ec)) : p().map(Ql);
-  }, u.ticks = function(v) {
-    var $ = p();
-    return e($[0], $[$.length - 1], v ?? 10);
-  }, u.tickFormat = function(v, $) {
-    return $ == null ? L : d($);
-  }, u.nice = function(v) {
-    var $ = p();
-    return (!v || typeof v.range != "function") && (v = t($[0], $[$.length - 1], v ?? 10)), v ? p(Ai($, v)) : u;
-  }, u.copy = function() {
-    return Bi(u, cs(e, t, r, a, o, s, i, l, c, d));
-  }, u;
-}
-function tc() {
-  return ri.apply(cs(Zi, Ji, vt, Jr, Un, en, Kr, qr, At, ls).domain([new Date(2e3, 0, 1), new Date(2e3, 0, 2)]), arguments);
-}
-function nc({
->>>>>>> Stashed changes
+function xu({
   task: e,
   scale: t,
-  onTaskClick: r,
+  onTaskClick: n,
   onTaskDoubleClick: a,
   isSelected: o = !1,
   taskIndex: s,
   tabIndex: i = -1,
   onFocus: l,
-  "aria-label": c
+  "aria-label": d
 }) {
-<<<<<<< Updated upstream
-  const c = Te(null), [u, f] = we(!1), [p, m] = we(!1), v = t(e.start), g = t(e.end), _ = Math.max(g - v, 20), G = () => {
-=======
-  const d = Ce(null), [u, f] = Se(!1), [p, m] = Se(!1), C = t(e.start), g = t(e.end), _ = Math.max(g - C, 20), V = () => {
->>>>>>> Stashed changes
+  const c = Ie(null), [f, h] = Ne(!1), [m, g] = Ne(!1), C = t(e.start), p = t(e.end), u = Math.max(p - C, 20), R = () => {
     if (e.color) return e.color;
     switch (e.priority) {
       case "high":
@@ -6350,198 +4409,118 @@ function nc({
       default:
         return "#005eb8";
     }
-<<<<<<< Updated upstream
-  }, j = e.progress ? _ * e.progress / 100 : 0, I = () => {
-=======
-  }, B = e.progress ? _ * e.progress / 100 : 0, k = () => {
->>>>>>> Stashed changes
-    r?.(e);
-  }, k = () => {
+  }, F = e.progress ? u * e.progress / 100 : 0, T = () => {
+    n?.(e);
+  }, S = () => {
     a?.(e);
-<<<<<<< Updated upstream
-  }, H = (Z) => {
-    Z.key === "Enter" ? (Z.preventDefault(), I()) : Z.key === " " && (Z.preventDefault(), k());
-  }, A = () => {
-    f(!0);
-  }, V = () => {
-    f(!1);
-  }, M = () => {
-    m(!0), l?.();
-  }, R = () => {
-    m(!1);
-  }, x = [
-=======
-  }, L = (X) => {
-    X.key === "Enter" ? (X.preventDefault(), k()) : X.key === " " && (X.preventDefault(), y());
-  }, v = () => {
-    f(!0);
-  }, $ = () => {
-    f(!1);
-  }, A = () => {
-    m(!0), l?.();
-  }, I = () => {
-    m(!1);
-  }, b = [
->>>>>>> Stashed changes
+  }, B = (y) => {
+    y.key === "Enter" ? (y.preventDefault(), T()) : y.key === " " && (y.preventDefault(), S());
+  }, _ = () => {
+    h(!0);
+  }, L = () => {
+    h(!1);
+  }, j = () => {
+    g(!0), l?.();
+  }, D = () => {
+    g(!1);
+  }, v = [
     "gantt-task-bar",
-    u && "gantt-task-bar--pressed",
-    (p || o) && "gantt-task-bar--focused",
+    f && "gantt-task-bar--pressed",
+    (m || o) && "gantt-task-bar--focused",
     e.priority && `gantt-task-bar--priority-${e.priority}`,
     o && "gantt-task-bar--selected",
     // Add task type class if available for color variants
     e.type && `gantt-task-bar--type-${e.type}`
-<<<<<<< Updated upstream
-  ].filter(Boolean).join(" "), B = {
-    "--task-left": `${v}px`,
-    "--task-width": `${_}px`,
-    "--task-color": G(),
-    left: `${v}px`,
-    width: `${_}px`,
-    backgroundColor: G()
-=======
-  ].filter(Boolean).join(" "), F = {
+  ].filter(Boolean).join(" "), x = {
     "--task-left": `${C}px`,
-    "--task-width": `${_}px`,
-    "--task-color": V(),
+    "--task-width": `${u}px`,
+    "--task-color": R(),
     left: `${C}px`,
-    width: `${_}px`,
-    backgroundColor: V()
->>>>>>> Stashed changes
+    width: `${u}px`,
+    backgroundColor: R()
   };
-  return /* @__PURE__ */ n.jsxs(
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
       role: "button",
       tabIndex: i,
-      ref: d,
+      ref: c,
       "data-task-index": s,
-<<<<<<< Updated upstream
-      className: x,
-      style: B,
-      onClick: I,
-      onDoubleClick: k,
-      onKeyDown: H,
-      onMouseDown: A,
-      onMouseUp: V,
-      onFocus: M,
-      onBlur: R,
+      className: v,
+      style: x,
+      onClick: T,
+      onDoubleClick: S,
+      onKeyDown: B,
+      onMouseDown: _,
+      onMouseUp: L,
+      onFocus: j,
+      onBlur: D,
       "aria-label": d || `${o ? "Selected: " : ""}${e.title}: ${e.start.toLocaleDateString()} to ${e.end.toLocaleDateString()}${e.priority ? `, priority ${e.priority}` : ""}${e.progress ? `, ${e.progress}% complete` : ""}`,
-=======
-      className: b,
-      style: F,
-      onClick: k,
-      onDoubleClick: y,
-      onKeyDown: L,
-      onMouseDown: v,
-      onMouseUp: $,
-      onFocus: A,
-      onBlur: I,
-      "aria-label": c || `${o ? "Selected: " : ""}${e.title}: ${e.start.toLocaleDateString()} to ${e.end.toLocaleDateString()}${e.priority ? `, priority ${e.priority}` : ""}${e.progress ? `, ${e.progress}% complete` : ""}`,
->>>>>>> Stashed changes
       "aria-describedby": `task-${e.id}-details`,
       children: [
-        /* @__PURE__ */ n.jsx("span", { className: "task-title", children: e.title }),
-        e.progress !== void 0 && /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx("span", { className: "task-title", children: e.title }),
+        e.progress !== void 0 && /* @__PURE__ */ r.jsx(
           "div",
           {
             className: "task-progress",
-            style: { width: `${j}px` }
+            style: { width: `${F}px` }
           }
         ),
-        /* @__PURE__ */ n.jsx("span", { id: `task-${e.id}-details`, className: "sr-only", children: `Task: ${e.title}, from ${e.start.toLocaleDateString()} to ${e.end.toLocaleDateString()}${e.progress ? `, ${e.progress}% complete` : ""}${e.priority ? `, priority: ${e.priority}` : ""}` })
+        /* @__PURE__ */ r.jsx("span", { id: `task-${e.id}-details`, className: "sr-only", children: `Task: ${e.title}, from ${e.start.toLocaleDateString()} to ${e.end.toLocaleDateString()}${e.progress ? `, ${e.progress}% complete` : ""}${e.priority ? `, priority: ${e.priority}` : ""}` })
       ]
     }
   );
 }
-<<<<<<< Updated upstream
-function uc({ viewStart: e, viewEnd: t, dateCount: r }) {
-=======
-function rc({ viewStart: e, viewEnd: t, dateCount: r }) {
->>>>>>> Stashed changes
+function bu({ viewStart: e, viewEnd: t, dateCount: n }) {
   const a = [];
-  for (let m = e.getTime(); m <= t.getTime(); m += 864e5)
-    a.push(new Date(m));
+  for (let g = e.getTime(); g <= t.getTime(); g += 864e5)
+    a.push(new Date(g));
   const s = /* @__PURE__ */ new Date();
   s.setHours(0, 0, 0, 0);
-<<<<<<< Updated upstream
-  const [i, l] = we(-1), d = Te(null), c = (m) => {
-    if (m.key === "ArrowLeft") {
-      m.preventDefault();
-      const v = Math.max(0, i === -1 ? 0 : i - 1);
-      l(v), p(v);
-    } else if (m.key === "ArrowRight") {
-      m.preventDefault();
-      const v = Math.min(a.length - 1, i === -1 ? 0 : i + 1);
-      l(v), p(v);
-    } else if (m.key === "ArrowDown") {
-      m.preventDefault();
-      const v = document.querySelector(".gantt-row .timeline-container");
-      v && v.focus();
-=======
-  const [i, l] = Se(-1), c = Ce(null), d = (m) => {
-    if (m.key === "ArrowLeft") {
-      m.preventDefault();
+  const [i, l] = Ne(-1), d = Ie(null), c = (g) => {
+    if (g.key === "ArrowLeft") {
+      g.preventDefault();
       const C = Math.max(0, i === -1 ? 0 : i - 1);
-      l(C), p(C);
-    } else if (m.key === "ArrowRight") {
-      m.preventDefault();
+      l(C), m(C);
+    } else if (g.key === "ArrowRight") {
+      g.preventDefault();
       const C = Math.min(a.length - 1, i === -1 ? 0 : i + 1);
-      l(C), p(C);
-    } else if (m.key === "ArrowDown") {
-      m.preventDefault();
+      l(C), m(C);
+    } else if (g.key === "ArrowDown") {
+      g.preventDefault();
       const C = document.querySelector(".gantt-row .timeline-container");
       C && C.focus();
->>>>>>> Stashed changes
-    } else if (m.key === "Home")
-      m.preventDefault(), l(0), p(0);
-    else if (m.key === "End") {
-      m.preventDefault();
-<<<<<<< Updated upstream
-      const v = a.length - 1;
-      l(v), p(v);
-=======
+    } else if (g.key === "Home")
+      g.preventDefault(), l(0), m(0);
+    else if (g.key === "End") {
+      g.preventDefault();
       const C = a.length - 1;
-      l(C), p(C);
->>>>>>> Stashed changes
+      l(C), m(C);
     }
-  }, u = (m) => {
-    if (m.key === "ArrowDown") {
-      m.preventDefault();
-<<<<<<< Updated upstream
-      const v = document.querySelector(".gantt-row .resource-label");
-      v && v.focus();
-    } else if (m.key === "ArrowRight") {
-      m.preventDefault();
-      const v = d.current;
-      v && v.focus();
-=======
+  }, f = (g) => {
+    if (g.key === "ArrowDown") {
+      g.preventDefault();
       const C = document.querySelector(".gantt-row .resource-label");
       C && C.focus();
-    } else if (m.key === "ArrowRight") {
-      m.preventDefault();
-      const C = c.current;
+    } else if (g.key === "ArrowRight") {
+      g.preventDefault();
+      const C = d.current;
       C && C.focus();
->>>>>>> Stashed changes
     }
-  }, f = () => {
-    i === -1 && (l(0), setTimeout(() => p(0), 0));
-  }, p = (m) => {
-<<<<<<< Updated upstream
-    const v = d.current?.querySelector(`[data-date-index="${m}"]`);
-    v && v.focus();
-=======
-    const C = c.current?.querySelector(`[data-date-index="${m}"]`);
+  }, h = () => {
+    i === -1 && (l(0), setTimeout(() => m(0), 0));
+  }, m = (g) => {
+    const C = d.current?.querySelector(`[data-date-index="${g}"]`);
     C && C.focus();
->>>>>>> Stashed changes
   };
-  return /* @__PURE__ */ n.jsxs(
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
       className: "gantt-header",
       role: "row",
       "aria-rowindex": 1,
       children: [
-        /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx(
           "div",
           {
             className: "header-resource",
@@ -6549,59 +4528,45 @@ function rc({ viewStart: e, viewEnd: t, dateCount: r }) {
             "aria-colindex": 1,
             tabIndex: 0,
             "aria-label": "Resource column header",
-            onKeyDown: u,
+            onKeyDown: f,
             children: "Resources"
           }
         ),
-        /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx(
           "div",
           {
-            ref: c,
+            ref: d,
             className: "header-timeline",
             role: "columnheader",
             "aria-colindex": 2,
-            "aria-colspan": r,
+            "aria-colspan": n,
             "aria-label": `Timeline from ${e.toLocaleDateString()} to ${t.toLocaleDateString()}. Use arrow keys to navigate between dates`,
             tabIndex: 0,
-            onKeyDown: d,
-            onFocus: f,
-<<<<<<< Updated upstream
-            children: a.map((m, v) => {
-              const g = m.getTime() === s.getTime(), _ = i === v;
-              return /* @__PURE__ */ n.jsx(
-                "div",
-                {
-                  "data-date-index": v,
-=======
-            children: a.map((m, C) => {
-              const g = m.getTime() === s.getTime(), _ = i === C;
-              return /* @__PURE__ */ n.jsx(
+            onKeyDown: c,
+            onFocus: h,
+            children: a.map((g, C) => {
+              const p = g.getTime() === s.getTime(), u = i === C;
+              return /* @__PURE__ */ r.jsx(
                 "div",
                 {
                   "data-date-index": C,
->>>>>>> Stashed changes
-                  className: `date-column ${g ? "today" : ""} ${_ ? "focused" : ""}`,
-                  tabIndex: _ ? 0 : -1,
+                  className: `date-column ${p ? "today" : ""} ${u ? "focused" : ""}`,
+                  tabIndex: u ? 0 : -1,
                   role: "button",
-                  "aria-label": `${m.toLocaleDateString("en-GB", {
+                  "aria-label": `${g.toLocaleDateString("en-GB", {
                     weekday: "long",
                     day: "numeric",
                     month: "long",
                     year: "numeric"
-                  })}${g ? " (Today)" : ""}`,
-<<<<<<< Updated upstream
-                  onFocus: () => l(v),
-                  onKeyDown: c,
-=======
+                  })}${p ? " (Today)" : ""}`,
                   onFocus: () => l(C),
-                  onKeyDown: d,
->>>>>>> Stashed changes
-                  children: m.toLocaleDateString("en-GB", {
+                  onKeyDown: c,
+                  children: g.toLocaleDateString("en-GB", {
                     day: "numeric",
                     month: "short"
                   })
                 },
-                v
+                C
               );
             })
           }
@@ -6610,101 +4575,82 @@ function rc({ viewStart: e, viewEnd: t, dateCount: r }) {
     }
   );
 }
-<<<<<<< Updated upstream
-function hc({ resource: e, tasks: t, scale: r, onTaskClick: a, onTaskDoubleClick: o, rowIndex: s, dateCount: i }) {
-  const [l, d] = we(!1), [c, u] = we(-1), f = Te(null);
-  Fe(() => {
+function yu({ resource: e, tasks: t, scale: n, onTaskClick: a, onTaskDoubleClick: o, rowIndex: s, dateCount: i }) {
+  const [l, d] = Ne(!1), [c, f] = Ne(-1), h = Ie(null);
+  Ee(() => {
     l && c >= 0 && t.length > 0 && setTimeout(() => {
-      f.current?.querySelector(`[data-task-index="${c}"]`)?.focus();
+      h.current?.querySelector(`[data-task-index="${c}"]`)?.focus();
     }, 0);
   }, [l, c, t.length]);
-=======
-function ac({ resource: e, tasks: t, scale: r, onTaskClick: a, onTaskDoubleClick: o, rowIndex: s, dateCount: i }) {
-  const [l, c] = Se(!1), [d, u] = Se(-1), f = Ce(null);
-  Ie(() => {
-    l && d >= 0 && t.length > 0 && setTimeout(() => {
-      f.current?.querySelector(`[data-task-index="${d}"]`)?.focus();
-    }, 0);
-  }, [l, d, t.length]);
->>>>>>> Stashed changes
-  const p = (g) => {
-    if (g.key === "ArrowLeft" && g.shiftKey) {
-      g.preventDefault(), g.currentTarget.scrollBy({ left: -30, behavior: "smooth" });
+  const m = (p) => {
+    if (p.key === "ArrowLeft" && p.shiftKey) {
+      p.preventDefault(), p.currentTarget.scrollBy({ left: -30, behavior: "smooth" });
       return;
-    } else if (g.key === "ArrowRight" && g.shiftKey) {
-      g.preventDefault(), g.currentTarget.scrollBy({ left: 30, behavior: "smooth" });
+    } else if (p.key === "ArrowRight" && p.shiftKey) {
+      p.preventDefault(), p.currentTarget.scrollBy({ left: 30, behavior: "smooth" });
       return;
     }
     if (!l) {
-      switch (g.key) {
+      switch (p.key) {
         case "ArrowUp":
-          g.preventDefault(), s === 0 ? document.querySelector(".header-timeline")?.focus() : document.querySelector(`[aria-rowindex="${s + 1}"] .timeline-container`)?.focus();
+          p.preventDefault(), s === 0 ? document.querySelector(".header-timeline")?.focus() : document.querySelector(`[aria-rowindex="${s + 1}"] .timeline-container`)?.focus();
           break;
         case "ArrowDown":
-          g.preventDefault(), document.querySelector(`[aria-rowindex="${s + 3}"] .timeline-container`)?.focus();
+          p.preventDefault(), document.querySelector(`[aria-rowindex="${s + 3}"] .timeline-container`)?.focus();
           break;
         case "ArrowLeft":
-          g.preventDefault(), f.current?.closest(".gantt-row")?.querySelector(".resource-label")?.focus();
+          p.preventDefault(), h.current?.closest(".gantt-row")?.querySelector(".resource-label")?.focus();
           break;
         case "Enter":
-          t.length > 0 && (g.preventDefault(), c(!0), u(0));
+          t.length > 0 && (p.preventDefault(), d(!0), f(0));
           break;
       }
       return;
     }
-    switch (g.key) {
+    switch (p.key) {
       case "ArrowLeft":
-        g.preventDefault();
-<<<<<<< Updated upstream
-        const _ = Math.max(0, c - 1);
-=======
-        const _ = Math.max(0, d - 1);
->>>>>>> Stashed changes
-        u(_), f.current?.querySelector(`[data-task-index="${_}"]`)?.focus();
+        p.preventDefault();
+        const u = Math.max(0, c - 1);
+        f(u), h.current?.querySelector(`[data-task-index="${u}"]`)?.focus();
         break;
       case "ArrowRight":
-        g.preventDefault();
-<<<<<<< Updated upstream
-        const j = Math.min(t.length - 1, c + 1);
-        u(j), f.current?.querySelector(`[data-task-index="${j}"]`)?.focus();
-=======
-        const B = Math.min(t.length - 1, d + 1);
-        u(B), f.current?.querySelector(`[data-task-index="${B}"]`)?.focus();
->>>>>>> Stashed changes
+        p.preventDefault();
+        const F = Math.min(t.length - 1, c + 1);
+        f(F), h.current?.querySelector(`[data-task-index="${F}"]`)?.focus();
         break;
       case "Enter":
-        g.preventDefault(), d >= 0 && a?.(t[d]);
+        p.preventDefault(), c >= 0 && a?.(t[c]);
         break;
       case " ":
-        g.preventDefault(), d >= 0 && o?.(t[d]);
+        p.preventDefault(), c >= 0 && o?.(t[c]);
         break;
       case "Escape":
-        g.preventDefault(), c(!1), u(-1), f.current?.focus();
+        p.preventDefault(), d(!1), f(-1), h.current?.focus();
         break;
     }
-  }, m = (g) => {
-    switch (g.key) {
+  }, g = (p) => {
+    switch (p.key) {
       case "ArrowUp":
-        g.preventDefault(), s === 0 ? document.querySelector(".header-resource")?.focus() : document.querySelector(`[aria-rowindex="${s + 1}"] .resource-label`)?.focus();
+        p.preventDefault(), s === 0 ? document.querySelector(".header-resource")?.focus() : document.querySelector(`[aria-rowindex="${s + 1}"] .resource-label`)?.focus();
         break;
       case "ArrowDown":
-        g.preventDefault(), document.querySelector(`[aria-rowindex="${s + 3}"] .resource-label`)?.focus();
+        p.preventDefault(), document.querySelector(`[aria-rowindex="${s + 3}"] .resource-label`)?.focus();
         break;
       case "ArrowRight":
-        g.preventDefault(), f.current?.focus();
+        p.preventDefault(), h.current?.focus();
         break;
     }
-  }, v = (g) => {
-    l && u(g);
+  }, C = (p) => {
+    l && f(p);
   };
-  return /* @__PURE__ */ n.jsxs(
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
       className: "gantt-row",
       role: "row",
       "aria-rowindex": s + 2,
       children: [
-        /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx(
           "div",
           {
             className: "resource-label",
@@ -6712,48 +4658,37 @@ function ac({ resource: e, tasks: t, scale: r, onTaskClick: a, onTaskDoubleClick
             "aria-colindex": 1,
             tabIndex: 0,
             "aria-label": `Resource: ${e.label}`,
-            onKeyDown: m,
+            onKeyDown: g,
             children: e.label
           }
         ),
-        /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx(
           "div",
           {
-            ref: f,
+            ref: h,
             className: `timeline-container ${l ? "timeline-active" : ""}`,
             role: "gridcell",
             "aria-colindex": 2,
             "aria-colspan": i,
             tabIndex: 0,
             "aria-label": `Timeline for ${e.label} with ${t.length} task${t.length !== 1 ? "s" : ""}. Press Enter to activate task navigation, then use arrow keys to navigate, Enter to select, Space to activate, Escape to exit`,
-            onKeyDown: p,
+            onKeyDown: m,
             onFocus: () => {
-              l || u(-1);
+              l || f(-1);
             },
-            children: t.map((g, _) => /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-              dc,
-=======
-              nc,
->>>>>>> Stashed changes
+            children: t.map((p, u) => /* @__PURE__ */ r.jsx(
+              xu,
               {
-                task: g,
-                scale: r,
+                task: p,
+                scale: n,
                 onTaskClick: a,
                 onTaskDoubleClick: o,
-<<<<<<< Updated upstream
-                isSelected: l && c === _,
-                taskIndex: _,
-                tabIndex: l && c === _ ? 0 : -1,
-                onFocus: () => v(_)
-=======
-                isSelected: l && d === _,
-                taskIndex: _,
-                tabIndex: l && d === _ ? 0 : -1,
-                onFocus: () => C(_)
->>>>>>> Stashed changes
+                isSelected: l && c === u,
+                taskIndex: u,
+                tabIndex: l && c === u ? 0 : -1,
+                onFocus: () => C(u)
               },
-              g.id
+              p.id
             ))
           }
         )
@@ -6761,108 +4696,71 @@ function ac({ resource: e, tasks: t, scale: r, onTaskClick: a, onTaskDoubleClick
     }
   );
 }
-<<<<<<< Updated upstream
-function mm({
-=======
-function cm({
->>>>>>> Stashed changes
+function L0({
   resources: e,
   tasks: t = [],
-  viewStart: r,
+  viewStart: n,
   viewEnd: a,
   onTaskClick: o,
   onTaskDoubleClick: s
 }) {
-<<<<<<< Updated upstream
-  const i = Te(null), [l, d] = we(800), c = De(() => {
-=======
-  const i = Ce(null), [l, c] = Se(800), d = Re(() => {
->>>>>>> Stashed changes
-    if (r instanceof Date)
-      return isNaN(r.getTime()) ? (console.warn("GanttChart: Invalid viewStart date provided, using current date"), /* @__PURE__ */ new Date()) : r;
-    const g = new Date(r);
-    return isNaN(g.getTime()) ? (console.warn("GanttChart: Invalid viewStart date provided, using current date"), /* @__PURE__ */ new Date()) : g;
-  }, [r]), u = De(() => {
+  const i = Ie(null), [l, d] = Ne(800), c = je(() => {
+    if (n instanceof Date)
+      return isNaN(n.getTime()) ? (console.warn("GanttChart: Invalid viewStart date provided, using current date"), /* @__PURE__ */ new Date()) : n;
+    const p = new Date(n);
+    return isNaN(p.getTime()) ? (console.warn("GanttChart: Invalid viewStart date provided, using current date"), /* @__PURE__ */ new Date()) : p;
+  }, [n]), f = je(() => {
     if (a instanceof Date)
       return isNaN(a.getTime()) ? (console.warn("GanttChart: Invalid viewEnd date provided, using date 7 days from now"), new Date(Date.now() + 10080 * 60 * 1e3)) : a;
-    const g = new Date(a);
-    return isNaN(g.getTime()) ? (console.warn("GanttChart: Invalid viewEnd date provided, using date 7 days from now"), new Date(Date.now() + 10080 * 60 * 1e3)) : g;
-<<<<<<< Updated upstream
-  }, [a]), f = De(() => Math.ceil((u.getTime() - c.getTime()) / 864e5) + 1, [c, u]);
-  Fe(() => {
+    const p = new Date(a);
+    return isNaN(p.getTime()) ? (console.warn("GanttChart: Invalid viewEnd date provided, using date 7 days from now"), new Date(Date.now() + 10080 * 60 * 1e3)) : p;
+  }, [a]), h = je(() => Math.ceil((f.getTime() - c.getTime()) / 864e5) + 1, [c, f]);
+  Ee(() => {
     if (!i.current) return;
-    const g = new ResizeObserver((_) => {
-      const G = _[0];
-      G && d(Math.max(G.contentRect.width - 220, 400));
+    const p = new ResizeObserver((u) => {
+      const R = u[0];
+      R && d(Math.max(R.contentRect.width - 220, 400));
     });
-    return g.observe(i.current), () => g.disconnect();
+    return p.observe(i.current), () => p.disconnect();
   }, []);
-  const p = De(
-    () => cc().domain([c, u]).range([0, l]),
-    [c, u, l]
-  ), m = De(() => {
-    const g = /* @__PURE__ */ new Map();
-    return t.forEach((_) => {
-      const G = g.get(_.resourceId) || [];
-      G.push(_), g.set(_.resourceId, G);
-=======
-  }, [a]), f = Re(() => Math.ceil((u.getTime() - d.getTime()) / 864e5) + 1, [d, u]);
-  Ie(() => {
-    if (!i.current) return;
-    const g = new ResizeObserver((_) => {
-      const V = _[0];
-      V && c(Math.max(V.contentRect.width - 220, 400));
-    });
-    return g.observe(i.current), () => g.disconnect();
-  }, []);
-  const p = Re(
-    () => tc().domain([d, u]).range([0, l]),
-    [d, u, l]
-  ), m = Re(() => {
-    const g = /* @__PURE__ */ new Map();
-    return t.forEach((_) => {
-      const V = g.get(_.resourceId) || [];
-      V.push(_), g.set(_.resourceId, V);
->>>>>>> Stashed changes
-    }), g;
-  }, [t]), v = (g) => {
-    if (g.target === g.currentTarget)
-      switch (g.key) {
+  const m = je(
+    () => za().domain([c, f]).range([0, l]),
+    [c, f, l]
+  ), g = je(() => {
+    const p = /* @__PURE__ */ new Map();
+    return t.forEach((u) => {
+      const R = p.get(u.resourceId) || [];
+      R.push(u), p.set(u.resourceId, R);
+    }), p;
+  }, [t]), C = (p) => {
+    if (p.target === p.currentTarget)
+      switch (p.key) {
         case "ArrowDown":
-          g.preventDefault();
-          const _ = i.current?.querySelector(".gantt-row .resource-label");
-          _ && _.focus();
+          p.preventDefault();
+          const u = i.current?.querySelector(".gantt-row .resource-label");
+          u && u.focus();
           break;
         case "Home":
-          g.preventDefault();
-<<<<<<< Updated upstream
-          const G = i.current?.querySelector(".header-resource");
-          G && G.focus();
-=======
-          const V = i.current?.querySelector(".header-resource");
-          V && V.focus();
->>>>>>> Stashed changes
+          p.preventDefault();
+          const R = i.current?.querySelector(".header-resource");
+          R && R.focus();
           break;
       }
   };
-  return /* @__PURE__ */ n.jsxs(
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
       className: "gantt-chart",
       role: "grid",
       "aria-label": "Gantt Chart showing resource scheduling and task timelines",
       "aria-rowcount": e.length + 1,
-      "aria-colcount": f + 1,
+      "aria-colcount": h + 1,
       "aria-description": "Use arrow keys to navigate cells, Tab to cycle through tasks in timeline rows or dates in header, Enter to select task, Space to activate task, Alt+arrows to scroll the grid, Shift+arrows to scroll timeline rows",
       tabIndex: 0,
-      onKeyDown: v,
+      onKeyDown: C,
       children: [
-<<<<<<< Updated upstream
-        /* @__PURE__ */ n.jsx(uc, { viewStart: c, viewEnd: u, dateCount: f }),
-=======
-        /* @__PURE__ */ n.jsx(rc, { viewStart: d, viewEnd: u, dateCount: f }),
->>>>>>> Stashed changes
-        /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx(bu, { viewStart: c, viewEnd: f, dateCount: h }),
+        /* @__PURE__ */ r.jsx(
           "div",
           {
             ref: i,
@@ -6870,25 +4768,21 @@ function cm({
             role: "rowgroup",
             "aria-label": "Gantt chart data rows",
             tabIndex: 0,
-            onKeyDown: (g) => {
-              g.key === "ArrowLeft" && g.altKey ? (g.preventDefault(), i.current?.scrollBy({ left: -50, behavior: "smooth" })) : g.key === "ArrowRight" && g.altKey ? (g.preventDefault(), i.current?.scrollBy({ left: 50, behavior: "smooth" })) : g.key === "ArrowUp" && g.altKey ? (g.preventDefault(), i.current?.scrollBy({ top: -50, behavior: "smooth" })) : g.key === "ArrowDown" && g.altKey && (g.preventDefault(), i.current?.scrollBy({ top: 50, behavior: "smooth" }));
+            onKeyDown: (p) => {
+              p.key === "ArrowLeft" && p.altKey ? (p.preventDefault(), i.current?.scrollBy({ left: -50, behavior: "smooth" })) : p.key === "ArrowRight" && p.altKey ? (p.preventDefault(), i.current?.scrollBy({ left: 50, behavior: "smooth" })) : p.key === "ArrowUp" && p.altKey ? (p.preventDefault(), i.current?.scrollBy({ top: -50, behavior: "smooth" })) : p.key === "ArrowDown" && p.altKey && (p.preventDefault(), i.current?.scrollBy({ top: 50, behavior: "smooth" }));
             },
-            children: e.map((g, _) => /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-              hc,
-=======
-              ac,
->>>>>>> Stashed changes
+            children: e.map((p, u) => /* @__PURE__ */ r.jsx(
+              yu,
               {
-                resource: g,
-                tasks: m.get(g.id) || [],
-                scale: p,
+                resource: p,
+                tasks: g.get(p.id) || [],
+                scale: m,
                 onTaskClick: o,
                 onTaskDoubleClick: s,
-                rowIndex: _,
-                dateCount: f
+                rowIndex: u,
+                dateCount: h
               },
-              g.id
+              p.id
             ))
           }
         )
@@ -6896,12 +4790,12 @@ function cm({
     }
   );
 }
-const gn = ({
+const Un = ({
   children: e,
   href: t,
-  active: r = !1,
+  active: n = !1,
   attributes: a = {}
-}) => /* @__PURE__ */ n.jsx("li", { className: "nhsuk-breadcrumb__item", children: r ? /* @__PURE__ */ n.jsx(
+}) => /* @__PURE__ */ r.jsx("li", { className: "nhsuk-breadcrumb__item", children: n ? /* @__PURE__ */ r.jsx(
   "span",
   {
     className: "nhsuk-breadcrumb__link nhsuk-breadcrumb__link--current",
@@ -6909,7 +4803,7 @@ const gn = ({
     ...a,
     children: e
   }
-) : /* @__PURE__ */ n.jsx(
+) : /* @__PURE__ */ r.jsx(
   "a",
   {
     className: "nhsuk-breadcrumb__link",
@@ -6917,172 +4811,138 @@ const gn = ({
     ...a,
     children: e
   }
-<<<<<<< Updated upstream
-) }), fc = ({
-=======
-) }), sc = ({
->>>>>>> Stashed changes
+) }), vu = ({
   items: e = [],
   children: t,
-  classes: r,
+  classes: n,
   labelText: a = "Breadcrumb",
   href: o,
   text: s,
   reverse: i = !1,
   attributes: l = {}
 }) => {
-<<<<<<< Updated upstream
-  const d = () => t ? Ze.Children.toArray(t).filter(
-=======
-  const c = () => t ? Ze.Children.toArray(t).filter(
->>>>>>> Stashed changes
-    (_) => Ze.isValidElement(_) && (_.type === gn || _.type?.displayName === "BreadcrumbItem")
-  ).map((_) => ({
-    text: typeof _.props.children == "string" ? _.props.children : String(_.props.children),
-    href: _.props.href,
-    active: _.props.active,
-    attributes: _.props.attributes
-<<<<<<< Updated upstream
-  })) : [], c = () => t ? d() : o && s ? [{ href: o, text: s }] : e, u = () => {
-    const g = c();
-    if (g && g.length > 0) {
-      const _ = g.slice().reverse().find((G) => G.href && !G.active);
-=======
-  })) : [], d = () => t ? c() : o && s ? [{ href: o, text: s }] : e, u = () => {
-    const g = d();
-    if (g && g.length > 0) {
-      const _ = g.slice().reverse().find((V) => V.href && !V.active);
->>>>>>> Stashed changes
-      if (_)
-        return { href: _.href, text: _.text };
+  const d = () => t ? at.Children.toArray(t).filter(
+    (u) => at.isValidElement(u) && (u.type === Un || u.type?.displayName === "BreadcrumbItem")
+  ).map((u) => ({
+    text: typeof u.props.children == "string" ? u.props.children : String(u.props.children),
+    href: u.props.href,
+    active: u.props.active,
+    attributes: u.props.attributes
+  })) : [], c = () => t ? d() : o && s ? [{ href: o, text: s }] : e, f = () => {
+    const p = c();
+    if (p && p.length > 0) {
+      const u = p.slice().reverse().find((R) => R.href && !R.active);
+      if (u)
+        return { href: u.href, text: u.text };
     }
     return { text: "Home" };
-<<<<<<< Updated upstream
-  }, f = c(), p = u(), m = oe(
-=======
-  }, f = d(), p = u(), m = ee(
->>>>>>> Stashed changes
+  }, h = c(), m = f(), g = de(
     "nhsuk-breadcrumb",
     {
       "nhsuk-breadcrumb--reverse": i
     },
-    r
-  ), v = a;
-  return /* @__PURE__ */ n.jsxs(
+    n
+  ), C = a;
+  return /* @__PURE__ */ r.jsxs(
     "nav",
     {
-      className: m,
-<<<<<<< Updated upstream
-      "aria-label": v,
-=======
+      className: g,
       "aria-label": C,
->>>>>>> Stashed changes
       role: "navigation",
       ...l,
       children: [
-        /* @__PURE__ */ n.jsx("ol", { className: "nhsuk-breadcrumb__list", role: "list", children: t ? (
+        /* @__PURE__ */ r.jsx("ol", { className: "nhsuk-breadcrumb__list", role: "list", children: t ? (
           // Render children directly if using compound component pattern
-          Ze.Children.map(t, (g, _) => Ze.isValidElement(g) && (g.type === gn || g.type?.displayName === "BreadcrumbItem") ? Ze.cloneElement(g, { key: _ }) : null)
+          at.Children.map(t, (p, u) => at.isValidElement(p) && (p.type === Un || p.type?.displayName === "BreadcrumbItem") ? at.cloneElement(p, { key: u }) : null)
         ) : (
           // Render from items array
-          f?.filter((g) => g.active || !!g.href).map((g, _) => /* @__PURE__ */ n.jsx("li", { className: "nhsuk-breadcrumb__item", role: "listitem", children: g.active ? /* @__PURE__ */ n.jsx(
+          h?.filter((p) => p.active || !!p.href).map((p, u) => /* @__PURE__ */ r.jsx("li", { className: "nhsuk-breadcrumb__item", role: "listitem", children: p.active ? /* @__PURE__ */ r.jsx(
             "span",
             {
               className: "nhsuk-breadcrumb__link nhsuk-breadcrumb__link--current",
               "aria-current": "page",
               role: "text",
-              ...g.attributes || {},
-              children: g.text
+              ...p.attributes || {},
+              children: p.text
             }
-          ) : /* @__PURE__ */ n.jsx(
+          ) : /* @__PURE__ */ r.jsx(
             "a",
             {
               className: "nhsuk-breadcrumb__link",
-              href: g.href,
+              href: p.href,
               role: "link",
-              ...g.attributes || {},
-              children: g.text
+              ...p.attributes || {},
+              children: p.text
             }
-          ) }, _))
+          ) }, u))
         ) }),
-        p.href && /* @__PURE__ */ n.jsx("p", { className: "nhsuk-breadcrumb__back", children: /* @__PURE__ */ n.jsxs(
+        m.href && /* @__PURE__ */ r.jsx("p", { className: "nhsuk-breadcrumb__back", children: /* @__PURE__ */ r.jsxs(
           "a",
           {
             className: "nhsuk-breadcrumb__backlink",
-            href: p.href,
+            href: m.href,
             role: "link",
-            "aria-label": `Back to ${p.text}`,
+            "aria-label": `Back to ${m.text}`,
             ...e.length > 0 ? e[e.length - 1]?.attributes || {} : {},
             children: [
-              /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: "Back to  " }),
-              p.text
+              /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: "Back to  " }),
+              m.text
             ]
           }
         ) })
       ]
     }
   );
-<<<<<<< Updated upstream
-}, mc = fc;
-mc.Item = gn;
-gn.displayName = "BreadcrumbItem";
-const ls = ({
-=======
-}, oc = sc;
-oc.Item = gn;
-gn.displayName = "BreadcrumbItem";
-const ds = ({
->>>>>>> Stashed changes
+}, wu = vu;
+wu.Item = Un;
+Un.displayName = "BreadcrumbItem";
+const $o = ({
   text: e = "Skip to main content",
   href: t = "#maincontent",
-  classes: r,
+  classes: n,
   attributes: a = {}
 }) => {
-  const [o, s] = we(!1);
-  Fe(() => {
+  const [o, s] = Ne(!1);
+  Ee(() => {
     s(!0);
-  }, []), Fe(() => {
+  }, []), Ee(() => {
     if (typeof window > "u" || typeof document > "u" || !document.querySelector || !document.querySelectorAll)
       return;
-    const l = (c) => {
-      const d = c.target, u = d.getAttribute("href");
-      if (u && u.startsWith("#")) {
-        const f = document.querySelector(u);
-        if (f) {
-          f.hasAttribute("tabindex") || f.setAttribute("tabindex", "-1"), f.focus(), f.classList.add("nhsuk-skip-link-focused-element");
-          const p = window.setTimeout(() => {
-            f.classList.remove("nhsuk-skip-link-focused-element"), f.getAttribute("tabindex") === "-1" && f.removeAttribute("tabindex");
+    const l = (d) => {
+      const c = d.target, f = c.getAttribute("href");
+      if (f && f.startsWith("#")) {
+        const h = document.querySelector(f);
+        if (h) {
+          h.hasAttribute("tabindex") || h.setAttribute("tabindex", "-1"), h.focus(), h.classList.add("nhsuk-skip-link-focused-element");
+          const m = window.setTimeout(() => {
+            h.classList.remove("nhsuk-skip-link-focused-element"), h.getAttribute("tabindex") === "-1" && h.removeAttribute("tabindex");
           }, 3e3);
-<<<<<<< Updated upstream
-          c.__nhsSkipLinkTimeout = p;
-=======
-          d.__nhsSkipLinkTimeout = p;
->>>>>>> Stashed changes
+          c.__nhsSkipLinkTimeout = m;
         }
       }
     };
     try {
-      const c = document.querySelectorAll(".nhsuk-skip-link");
-      return c.forEach((d) => {
-        d.addEventListener("click", l);
+      const d = document.querySelectorAll(".nhsuk-skip-link");
+      return d.forEach((c) => {
+        c.addEventListener("click", l);
       }), () => {
         try {
-          c.forEach((d) => {
-            d.removeEventListener("click", l);
-            const u = d.__nhsSkipLinkTimeout;
-            u && window.clearTimeout && window.clearTimeout(u);
+          d.forEach((c) => {
+            c.removeEventListener("click", l);
+            const f = c.__nhsSkipLinkTimeout;
+            f && window.clearTimeout && window.clearTimeout(f);
           });
-        } catch (d) {
-          console.warn("SkipLink cleanup error:", d);
+        } catch (c) {
+          console.warn("SkipLink cleanup error:", c);
         }
       };
-    } catch (c) {
-      return console.warn("SkipLink initialization error:", c), () => {
+    } catch (d) {
+      return console.warn("SkipLink initialization error:", d), () => {
       };
     }
   }, [o]);
-  const i = oe("nhsuk-skip-link", r);
-  return /* @__PURE__ */ n.jsx(
+  const i = de("nhsuk-skip-link", n);
+  return /* @__PURE__ */ r.jsx(
     "a",
     {
       className: i,
@@ -7093,32 +4953,28 @@ const ds = ({
       children: e
     }
   );
-<<<<<<< Updated upstream
-}, pm = ({
-=======
-}, dm = ({
->>>>>>> Stashed changes
+}, M0 = ({
   previousUrl: e,
   previousPage: t,
-  nextUrl: r,
+  nextUrl: n,
   nextPage: a,
   classes: o,
   attributes: s = {}
 }) => {
-  const i = oe("nhsuk-pagination", o);
-  return /* @__PURE__ */ n.jsx(
+  const i = de("nhsuk-pagination", o);
+  return /* @__PURE__ */ r.jsx(
     "nav",
     {
       className: i,
       role: "navigation",
       "aria-label": "Pagination",
       ...s,
-      children: /* @__PURE__ */ n.jsxs("ul", { className: "nhsuk-list nhsuk-pagination__list", children: [
-        e && t && /* @__PURE__ */ n.jsx("li", { className: "nhsuk-pagination-item--previous", children: /* @__PURE__ */ n.jsxs("a", { className: "nhsuk-pagination__link nhsuk-pagination__link--prev", href: e, children: [
-          /* @__PURE__ */ n.jsx("span", { className: "nhsuk-pagination__title", children: "Previous" }),
-          /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: ":" }),
-          /* @__PURE__ */ n.jsx("span", { className: "nhsuk-pagination__page", children: t }),
-          /* @__PURE__ */ n.jsx(
+      children: /* @__PURE__ */ r.jsxs("ul", { className: "nhsuk-list nhsuk-pagination__list", children: [
+        e && t && /* @__PURE__ */ r.jsx("li", { className: "nhsuk-pagination-item--previous", children: /* @__PURE__ */ r.jsxs("a", { className: "nhsuk-pagination__link nhsuk-pagination__link--prev", href: e, children: [
+          /* @__PURE__ */ r.jsx("span", { className: "nhsuk-pagination__title", children: "Previous" }),
+          /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: ":" }),
+          /* @__PURE__ */ r.jsx("span", { className: "nhsuk-pagination__page", children: t }),
+          /* @__PURE__ */ r.jsx(
             "svg",
             {
               className: "nhsuk-icon nhsuk-icon__arrow-left",
@@ -7127,15 +4983,15 @@ const ds = ({
               "aria-hidden": "true",
               width: "34",
               height: "34",
-              children: /* @__PURE__ */ n.jsx("path", { d: "M4.1 12.3l2.7 3c.2.2.5.2.7 0 .1-.1.1-.2.1-.3v-2h11c.6 0 1-.4 1-1s-.4-1-1-1h-11V9c0-.2-.1-.4-.3-.5h-.2c-.1 0-.3.1-.4.2l-2.7 3c0 .2 0 .4.1.6z" })
+              children: /* @__PURE__ */ r.jsx("path", { d: "M4.1 12.3l2.7 3c.2.2.5.2.7 0 .1-.1.1-.2.1-.3v-2h11c.6 0 1-.4 1-1s-.4-1-1-1h-11V9c0-.2-.1-.4-.3-.5h-.2c-.1 0-.3.1-.4.2l-2.7 3c0 .2 0 .4.1.6z" })
             }
           )
         ] }) }),
-        r && a && /* @__PURE__ */ n.jsx("li", { className: "nhsuk-pagination-item--next", children: /* @__PURE__ */ n.jsxs("a", { className: "nhsuk-pagination__link nhsuk-pagination__link--next", href: r, children: [
-          /* @__PURE__ */ n.jsx("span", { className: "nhsuk-pagination__title", children: "Next" }),
-          /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: ":" }),
-          /* @__PURE__ */ n.jsx("span", { className: "nhsuk-pagination__page", children: a }),
-          /* @__PURE__ */ n.jsx(
+        n && a && /* @__PURE__ */ r.jsx("li", { className: "nhsuk-pagination-item--next", children: /* @__PURE__ */ r.jsxs("a", { className: "nhsuk-pagination__link nhsuk-pagination__link--next", href: n, children: [
+          /* @__PURE__ */ r.jsx("span", { className: "nhsuk-pagination__title", children: "Next" }),
+          /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: ":" }),
+          /* @__PURE__ */ r.jsx("span", { className: "nhsuk-pagination__page", children: a }),
+          /* @__PURE__ */ r.jsx(
             "svg",
             {
               className: "nhsuk-icon nhsuk-icon__arrow-right",
@@ -7144,37 +5000,33 @@ const ds = ({
               "aria-hidden": "true",
               width: "34",
               height: "34",
-              children: /* @__PURE__ */ n.jsx("path", { d: "M19.6 11.66l-2.73-3A.51.51 0 0 0 16 9v2H5a1 1 0 0 0 0 2h11v2a.5.5 0 0 0 .32.46.39.39 0 0 0 .18 0 .52.52 0 0 0 .37-.16l2.73-3a.5.5 0 0 0 0-.64z" })
+              children: /* @__PURE__ */ r.jsx("path", { d: "M19.6 11.66l-2.73-3A.51.51 0 0 0 16 9v2H5a1 1 0 0 0 0 2h11v2a.5.5 0 0 0 .32.46.39.39 0 0 0 .18 0 .52.52 0 0 0 .37-.16l2.73-3a.5.5 0 0 0 0-.64z" })
             }
           )
         ] }) })
       ] })
     }
   );
-<<<<<<< Updated upstream
-}, gm = ({
-=======
-}, um = ({
->>>>>>> Stashed changes
+}, F0 = ({
   items: e,
   classes: t,
-  ariaLabel: r = "Pages in this guide",
+  ariaLabel: n = "Pages in this guide",
   attributes: a = {}
 }) => {
-  const o = oe("nhsuk-contents-list", t), s = (i, l) => i.current ? /* @__PURE__ */ n.jsx(
+  const o = de("nhsuk-contents-list", t), s = (i, l) => i.current ? /* @__PURE__ */ r.jsx(
     "li",
     {
       className: "nhsuk-contents-list__item",
       "aria-current": "page",
       ...i.attributes || {},
-      children: /* @__PURE__ */ n.jsx("span", { className: "nhsuk-contents-list__current", children: i.text })
+      children: /* @__PURE__ */ r.jsx("span", { className: "nhsuk-contents-list__current", children: i.text })
     },
     l
-  ) : /* @__PURE__ */ n.jsx(
+  ) : /* @__PURE__ */ r.jsx(
     "li",
     {
       className: "nhsuk-contents-list__item",
-      children: /* @__PURE__ */ n.jsx(
+      children: /* @__PURE__ */ r.jsx(
         "a",
         {
           className: "nhsuk-contents-list__link",
@@ -7186,69 +5038,61 @@ const ds = ({
     },
     l
   );
-  return /* @__PURE__ */ n.jsxs(
+  return /* @__PURE__ */ r.jsxs(
     "nav",
     {
       className: o,
       role: "navigation",
-      "aria-label": r,
+      "aria-label": n,
       ...a,
       children: [
-        /* @__PURE__ */ n.jsx("h2", { className: "nhsuk-u-visually-hidden", children: "Contents" }),
-        /* @__PURE__ */ n.jsx("ol", { className: "nhsuk-contents-list__list", children: e.map((i, l) => s(i, l)) })
+        /* @__PURE__ */ r.jsx("h2", { className: "nhsuk-u-visually-hidden", children: "Contents" }),
+        /* @__PURE__ */ r.jsx("ol", { className: "nhsuk-contents-list__list", children: e.map((i, l) => s(i, l)) })
       ]
     }
   );
-<<<<<<< Updated upstream
-}, cs = Ze.forwardRef(({
-=======
-}, us = Ze.forwardRef(({
->>>>>>> Stashed changes
+}, Io = at.forwardRef(({
   variant: e = "default",
   heading: t,
-  headingHtml: r,
+  headingHtml: n,
   headingLevel: a = 2,
   headingClasses: o,
   description: s,
   descriptionHtml: i,
   href: l,
-  imgURL: c,
-  imgAlt: d,
-  ...u
-}, f) => {
-  const p = [
+  imgURL: d,
+  imgAlt: c,
+  ...f
+}, h) => {
+  const m = [
     "nhsuk-card",
     e === "clickable" && "nhsuk-card--clickable",
     e === "secondary" && "nhsuk-card--secondary",
     e === "feature" && "nhsuk-card--feature",
-    u.className
-  ].filter(Boolean).join(" "), m = [
+    f.className
+  ].filter(Boolean).join(" "), g = [
     "nhsuk-card__content",
     e === "feature" && "nhsuk-card__content--feature",
     e === "primary" && "nhsuk-card__content--primary",
     e === "secondary" && "nhsuk-card__content--secondary"
-  ].filter(Boolean).join(" "), v = [
+  ].filter(Boolean).join(" "), C = [
     "nhsuk-card__heading",
     e === "feature" && "nhsuk-card__heading--feature",
     o
-  ].filter(Boolean).join(" "), g = () => {
-    if (r)
-      return /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: r } });
+  ].filter(Boolean).join(" "), p = () => {
+    if (n)
+      return /* @__PURE__ */ r.jsx("div", { dangerouslySetInnerHTML: { __html: n } });
     if (!t) return null;
-    const j = () => l && e !== "feature" ? /* @__PURE__ */ n.jsx("a", { className: "nhsuk-card__link", href: l, children: t }) : t;
-    return /* @__PURE__ */ n.jsx(
-      xt,
+    const F = () => l && e !== "feature" ? /* @__PURE__ */ r.jsx("a", { className: "nhsuk-card__link", href: l, children: t }) : t;
+    return /* @__PURE__ */ r.jsx(
+      Nt,
       {
         level: a,
-        className: v,
-        children: j()
+        className: C,
+        children: F()
       }
     );
-<<<<<<< Updated upstream
-  }, _ = () => u.children ? u.children : i ? /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: i } }) : s ? /* @__PURE__ */ n.jsx("p", { className: "nhsuk-card__description", children: s }) : null, G = () => e !== "primary" ? null : /* @__PURE__ */ n.jsxs(
-=======
-  }, _ = () => u.children ? u.children : i ? /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: i } }) : s ? /* @__PURE__ */ n.jsx("p", { className: "nhsuk-card__description", children: s }) : null, V = () => e !== "primary" ? null : /* @__PURE__ */ n.jsxs(
->>>>>>> Stashed changes
+  }, u = () => f.children ? f.children : i ? /* @__PURE__ */ r.jsx("div", { dangerouslySetInnerHTML: { __html: i } }) : s ? /* @__PURE__ */ r.jsx("p", { className: "nhsuk-card__description", children: s }) : null, R = () => e !== "primary" ? null : /* @__PURE__ */ r.jsxs(
     "svg",
     {
       className: "nhsuk-icon",
@@ -7258,645 +5102,494 @@ const ds = ({
       "aria-hidden": "true",
       focusable: "false",
       children: [
-        /* @__PURE__ */ n.jsx("circle", { cx: "13.333", cy: "13.333", r: "13.333", fill: "" }),
-        /* @__PURE__ */ n.jsxs("g", { fill: "none", stroke: "#fff", strokeLinecap: "round", strokeMiterlimit: "10", strokeWidth: "2.667", children: [
-          /* @__PURE__ */ n.jsx("path", { d: "M15.438 13l-3.771 3.771" }),
-          /* @__PURE__ */ n.jsx("path", { d: "M11.667 9.229L15.438 13" })
+        /* @__PURE__ */ r.jsx("circle", { cx: "13.333", cy: "13.333", r: "13.333", fill: "" }),
+        /* @__PURE__ */ r.jsxs("g", { fill: "none", stroke: "#fff", strokeLinecap: "round", strokeMiterlimit: "10", strokeWidth: "2.667", children: [
+          /* @__PURE__ */ r.jsx("path", { d: "M15.438 13l-3.771 3.771" }),
+          /* @__PURE__ */ r.jsx("path", { d: "M11.667 9.229L15.438 13" })
         ] })
       ]
     }
   );
-  return /* @__PURE__ */ n.jsxs(
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
-      ...u,
-      className: p,
-      ref: f,
+      ...f,
+      className: m,
+      ref: h,
       children: [
-        c && /* @__PURE__ */ n.jsx(
+        d && /* @__PURE__ */ r.jsx(
           "img",
           {
             className: "nhsuk-card__img",
-            src: c,
-            alt: d || ""
+            src: d,
+            alt: c || ""
           }
         ),
-        /* @__PURE__ */ n.jsxs("div", { className: m, children: [
-          g(),
-          _(),
-<<<<<<< Updated upstream
-          G()
-=======
-          V()
->>>>>>> Stashed changes
+        /* @__PURE__ */ r.jsxs("div", { className: g, children: [
+          p(),
+          u(),
+          R()
         ] })
       ]
     }
   );
 });
-<<<<<<< Updated upstream
-cs.displayName = "Card";
-const bm = ({
-=======
-us.displayName = "Card";
-const hm = ({
->>>>>>> Stashed changes
+Io.displayName = "Card";
+const B0 = ({
   className: e,
   children: t,
-  "data-testid": r,
+  "data-testid": n,
   id: a
 }) => {
   const o = ["nhsuk-card-group", e].filter(Boolean).join(" ");
-  return /* @__PURE__ */ n.jsx(
+  return /* @__PURE__ */ r.jsx(
     "ul",
     {
       className: o,
-      "data-testid": r,
+      "data-testid": n,
       id: a,
       children: t
     }
   );
-<<<<<<< Updated upstream
-}, xm = ({
-=======
-}, fm = ({
->>>>>>> Stashed changes
+}, A0 = ({
   className: e,
   children: t,
-  "data-testid": r
+  "data-testid": n
 }) => {
   const a = ["nhsuk-card-group__item", e].filter(Boolean).join(" ");
-  return /* @__PURE__ */ n.jsx(
+  return /* @__PURE__ */ r.jsx(
     "li",
     {
       className: a,
-      "data-testid": r,
+      "data-testid": n,
       children: t
     }
   );
-<<<<<<< Updated upstream
-}, ym = ({
-=======
-}, mm = ({
->>>>>>> Stashed changes
+}, E0 = ({
   type: e,
   heading: t,
-  headingHtml: r,
+  headingHtml: n,
   headingLevel: a = 3,
   headingClasses: o,
   description: s,
   descriptionHtml: i,
   className: l,
-  children: c,
-  "data-testid": d,
-  id: u,
-  "aria-label": f,
-  "aria-labelledby": p,
-  "aria-describedby": m
+  children: d,
+  "data-testid": c,
+  id: f,
+  "aria-label": h,
+  "aria-labelledby": m,
+  "aria-describedby": g
 }) => {
-  const v = [
+  const C = [
     "nhsuk-care-card",
     `nhsuk-care-card--${e}`,
     l
-  ].filter(Boolean).join(" "), g = [
+  ].filter(Boolean).join(" "), p = [
     "nhsuk-care-card__heading",
     o
-  ].filter(Boolean).join(" "), _ = () => {
-    if (r)
-      return /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: r } });
+  ].filter(Boolean).join(" "), u = () => {
+    if (n)
+      return /* @__PURE__ */ r.jsx("div", { dangerouslySetInnerHTML: { __html: n } });
     if (!t) return null;
-    const j = {
+    const F = {
       "non-urgent": "Non-urgent advice:",
       urgent: "Urgent advice:",
       emergency: "Immediate action required:"
-<<<<<<< Updated upstream
-    }[e], I = /* @__PURE__ */ n.jsxs("span", { role: "text", children: [
-=======
-    }[e], k = /* @__PURE__ */ n.jsxs("span", { role: "text", children: [
->>>>>>> Stashed changes
-      /* @__PURE__ */ n.jsxs("span", { className: "nhsuk-u-visually-hidden", children: [
-        j,
+    }[e], T = /* @__PURE__ */ r.jsxs("span", { role: "text", children: [
+      /* @__PURE__ */ r.jsxs("span", { className: "nhsuk-u-visually-hidden", children: [
+        F,
         " "
       ] }),
       t
     ] });
-    return /* @__PURE__ */ n.jsx(
-      xt,
+    return /* @__PURE__ */ r.jsx(
+      Nt,
       {
         level: a,
-        className: g,
-<<<<<<< Updated upstream
-        children: I
+        className: p,
+        children: T
       }
     );
-  }, G = () => d || (i ? /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: i } }) : s ? /* @__PURE__ */ n.jsx("p", { className: "nhsuk-care-card__text", children: s }) : null);
-  return /* @__PURE__ */ n.jsxs(
-    "div",
-    {
-      className: v,
-      "data-testid": c,
-=======
-        children: k
-      }
-    );
-  }, V = () => c || (i ? /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: i } }) : s ? /* @__PURE__ */ n.jsx("p", { className: "nhsuk-care-card__text", children: s }) : null);
-  return /* @__PURE__ */ n.jsxs(
+  }, R = () => d || (i ? /* @__PURE__ */ r.jsx("div", { dangerouslySetInnerHTML: { __html: i } }) : s ? /* @__PURE__ */ r.jsx("p", { className: "nhsuk-care-card__text", children: s }) : null);
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
       className: C,
-      "data-testid": d,
->>>>>>> Stashed changes
-      id: u,
-      "aria-label": f,
-      "aria-labelledby": p,
-      "aria-describedby": m,
+      "data-testid": c,
+      id: f,
+      "aria-label": h,
+      "aria-labelledby": m,
+      "aria-describedby": g,
       children: [
-        /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-care-card__heading-container", children: [
-          _(),
-          /* @__PURE__ */ n.jsx("span", { className: "nhsuk-care-card__arrow", "aria-hidden": "true" })
+        /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-care-card__heading-container", children: [
+          u(),
+          /* @__PURE__ */ r.jsx("span", { className: "nhsuk-care-card__arrow", "aria-hidden": "true" })
         ] }),
-<<<<<<< Updated upstream
-        /* @__PURE__ */ n.jsx("div", { className: "nhsuk-care-card__content", children: G() })
+        /* @__PURE__ */ r.jsx("div", { className: "nhsuk-care-card__content", children: R() })
       ]
     }
   );
-}, pc = ({
-=======
-        /* @__PURE__ */ n.jsx("div", { className: "nhsuk-care-card__content", children: V() })
-      ]
-    }
-  );
-}, ic = ({
->>>>>>> Stashed changes
+}, _u = ({
   id: e,
   className: t,
-  headingText: r,
+  headingText: n,
   headingHtml: a,
   headingLevel: o = 2,
   bodyText: s,
   bodyHtml: i,
   children: l,
-  ...c
+  ...d
 }) => {
-<<<<<<< Updated upstream
-  const c = oe(
-=======
-  const d = ee(
->>>>>>> Stashed changes
+  const c = de(
     "nhsuk-panel",
     t
-  ), u = () => !r && !a && !l ? null : a ? /* @__PURE__ */ n.jsx(
-    xt,
+  ), f = () => !n && !a && !l ? null : a ? /* @__PURE__ */ r.jsx(
+    Nt,
     {
       level: o,
       className: "nhsuk-panel__heading",
       html: a,
       marginBottom: "var(--panel-heading-margin, 24px)"
     }
-  ) : r ? /* @__PURE__ */ n.jsx(
-    xt,
+  ) : n ? /* @__PURE__ */ r.jsx(
+    Nt,
     {
       level: o,
       className: "nhsuk-panel__heading",
-      text: r,
+      text: n,
       marginBottom: "var(--panel-heading-margin, 24px)"
     }
-  ) : null, f = () => l ? /* @__PURE__ */ n.jsx("div", { className: "nhsuk-panel__body", children: l }) : i ? /* @__PURE__ */ n.jsx(
+  ) : null, h = () => l ? /* @__PURE__ */ r.jsx("div", { className: "nhsuk-panel__body", children: l }) : i ? /* @__PURE__ */ r.jsx(
     "div",
     {
       className: "nhsuk-panel__body",
       dangerouslySetInnerHTML: { __html: i }
     }
-  ) : s ? /* @__PURE__ */ n.jsx("div", { className: "nhsuk-panel__body", children: /* @__PURE__ */ n.jsx("p", { children: s }) }) : null;
-  return /* @__PURE__ */ n.jsxs("div", { className: d, id: e, ...c, children: [
-    u(),
-    f()
+  ) : s ? /* @__PURE__ */ r.jsx("div", { className: "nhsuk-panel__body", children: /* @__PURE__ */ r.jsx("p", { children: s }) }) : null;
+  return /* @__PURE__ */ r.jsxs("div", { className: c, id: e, ...d, children: [
+    f(),
+    h()
   ] });
-<<<<<<< Updated upstream
-}, vm = ({
-=======
-}, pm = ({
->>>>>>> Stashed changes
+}, R0 = ({
   text: e,
   html: t,
-  children: r,
+  children: n,
   className: a,
   ...o
 }) => {
-  const s = oe("nhsuk-inset-text", a), i = () => r || (t ? /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: t } }) : e ? /* @__PURE__ */ n.jsx("p", { children: e }) : null);
-  return /* @__PURE__ */ n.jsx("div", { className: s, ...o, children: i() });
-<<<<<<< Updated upstream
-}, _m = ({
-=======
-}, gm = ({
->>>>>>> Stashed changes
+  const s = de("nhsuk-inset-text", a), i = () => n || (t ? /* @__PURE__ */ r.jsx("div", { dangerouslySetInnerHTML: { __html: t } }) : e ? /* @__PURE__ */ r.jsx("p", { children: e }) : null);
+  return /* @__PURE__ */ r.jsx("div", { className: s, ...o, children: i() });
+}, P0 = ({
   items: e,
   noBorder: t = !1,
-  className: r,
+  className: n,
   ...a
 }) => {
-  const o = oe(
+  const o = de(
     "nhsuk-summary-list",
     {
       "nhsuk-summary-list--no-border": t
     },
-    r
-  ), s = (l) => l.children ? l.children : l.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: l.html } }) : l.text ? l.text : null, i = (l) => !l || !l.items.length ? null : /* @__PURE__ */ n.jsx("dd", { className: "nhsuk-summary-list__actions", children: /* @__PURE__ */ n.jsx("ul", { className: "nhsuk-summary-list__actions-list", children: l.items.map((c, d) => /* @__PURE__ */ n.jsx(
+    n
+  ), s = (l) => l.children ? l.children : l.html ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: l.html } }) : l.text ? l.text : null, i = (l) => !l || !l.items.length ? null : /* @__PURE__ */ r.jsx("dd", { className: "nhsuk-summary-list__actions", children: /* @__PURE__ */ r.jsx("ul", { className: "nhsuk-summary-list__actions-list", children: l.items.map((d, c) => /* @__PURE__ */ r.jsx(
     "li",
     {
       className: "nhsuk-summary-list__actions-list-item",
-      children: /* @__PURE__ */ n.jsxs(
+      children: /* @__PURE__ */ r.jsxs(
         "a",
         {
-          href: c.href,
+          href: d.href,
           className: "nhsuk-link",
-          ...c.attributes,
+          ...d.attributes,
           children: [
-            s(c),
-            c.visuallyHiddenText && /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: c.visuallyHiddenText })
+            s(d),
+            d.visuallyHiddenText && /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: d.visuallyHiddenText })
           ]
         }
       )
     },
-    d
+    c
   )) }) });
-  return /* @__PURE__ */ n.jsx("div", { className: "nhsuk-summary-list-container", children: /* @__PURE__ */ n.jsx("dl", { className: o, ...a, children: e.map((l, c) => /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-summary-list__row", children: [
-    /* @__PURE__ */ n.jsx("dt", { className: "nhsuk-summary-list__key", children: s(l.key) }),
-    /* @__PURE__ */ n.jsx("dd", { className: "nhsuk-summary-list__value", children: s(l.value) }),
+  return /* @__PURE__ */ r.jsx("div", { className: "nhsuk-summary-list-container", children: /* @__PURE__ */ r.jsx("dl", { className: o, ...a, children: e.map((l, d) => /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-summary-list__row", children: [
+    /* @__PURE__ */ r.jsx("dt", { className: "nhsuk-summary-list__key", children: s(l.key) }),
+    /* @__PURE__ */ r.jsx("dd", { className: "nhsuk-summary-list__value", children: s(l.value) }),
     i(l.actions)
-<<<<<<< Updated upstream
   ] }, d)) }) });
-}, km = ({
-=======
-  ] }, c)) }) });
-}, bm = ({
->>>>>>> Stashed changes
+}, H0 = ({
   rows: e,
   head: t,
-  caption: r,
+  caption: n,
   captionSize: a,
   firstCellIsHeader: o = !1,
   responsive: s = !1,
   heading: i,
   headingLevel: l = 3,
-  panel: c = !1,
-  panelClasses: d,
-  tableClasses: u,
-  classes: f,
-  attributes: p,
-  "data-testid": m
+  panel: d = !1,
+  panelClasses: c,
+  tableClasses: f,
+  classes: h,
+  attributes: m,
+  "data-testid": g
 }) => {
-  const v = `nhsuk-table__caption ${a ? `nhsuk-table__caption--${a}` : ""}`.trim(), g = oe(
+  const C = `nhsuk-table__caption ${a ? `nhsuk-table__caption--${a}` : ""}`.trim(), p = de(
     "nhsuk-table",
     {
       "nhsuk-table-responsive": s
     },
-    u
-<<<<<<< Updated upstream
-  ), _ = oe(f), G = (k, H) => {
-    const A = oe("nhsuk-table__header", {
-      [`nhsuk-table__header--${k.format}`]: k.format
-    }, k.classes), V = {
-=======
-  ), _ = ee(f), V = (y, L) => {
-    const v = ee("nhsuk-table__header", {
-      [`nhsuk-table__header--${y.format}`]: y.format
-    }, y.classes), $ = {
->>>>>>> Stashed changes
+    f
+  ), u = de(h), R = (S, B) => {
+    const _ = de("nhsuk-table__header", {
+      [`nhsuk-table__header--${S.format}`]: S.format
+    }, S.classes), L = {
       scope: "col",
-      ...k.colspan && { colSpan: k.colspan },
-      ...k.rowspan && { rowSpan: k.rowspan },
+      ...S.colspan && { colSpan: S.colspan },
+      ...S.rowspan && { rowSpan: S.rowspan },
       ...s && { role: "columnheader" },
-      ...k.attributes
+      ...S.attributes
     };
-    return /* @__PURE__ */ n.jsx("th", { className: A, ...V, children: k.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: k.html } }) : k.text }, H);
-  }, j = (k, H, A) => {
-    const V = o && A, M = oe(
-      V ? "nhsuk-table__header" : "nhsuk-table__cell",
+    return /* @__PURE__ */ r.jsx("th", { className: _, ...L, children: S.html ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: S.html } }) : S.text }, B);
+  }, F = (S, B, _) => {
+    const L = o && _, j = de(
+      L ? "nhsuk-table__header" : "nhsuk-table__cell",
       {
-        [`nhsuk-table__${V ? "header" : "cell"}--${k.format}`]: k.format
+        [`nhsuk-table__${L ? "header" : "cell"}--${S.format}`]: S.format
       },
-      k.classes
-    ), R = {
-      ...V && { scope: "row" },
-      ...k.colspan && { colSpan: k.colspan },
-      ...k.rowspan && { rowSpan: k.rowspan },
+      S.classes
+    ), D = {
+      ...L && { scope: "row" },
+      ...S.colspan && { colSpan: S.colspan },
+      ...S.rowspan && { rowSpan: S.rowspan },
       ...s && {
-        role: V ? "rowheader" : "cell",
-        ...k.header && { "data-label": k.header }
+        role: L ? "rowheader" : "cell",
+        ...S.header && { "data-label": S.header }
       },
-      ...k.attributes
-    }, x = /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-      s && k.header && /* @__PURE__ */ n.jsxs("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true", children: [
-        k.header,
+      ...S.attributes
+    }, v = /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+      s && S.header && /* @__PURE__ */ r.jsxs("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true", children: [
+        S.header,
         " "
       ] }),
-<<<<<<< Updated upstream
-      k.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: k.html } }) : k.text
-    ] }), B = V ? "th" : "td";
-    return /* @__PURE__ */ n.jsx(B, { className: M, ...R, children: x }, H);
-  }, I = () => /* @__PURE__ */ n.jsxs(
-=======
-      y.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: y.html } }) : y.text
-    ] }), F = $ ? "th" : "td";
-    return /* @__PURE__ */ n.jsx(F, { className: A, ...I, children: b }, L);
-  }, k = () => /* @__PURE__ */ n.jsxs(
->>>>>>> Stashed changes
+      S.html ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: S.html } }) : S.text
+    ] }), x = L ? "th" : "td";
+    return /* @__PURE__ */ r.jsx(x, { className: j, ...D, children: v }, B);
+  }, T = () => /* @__PURE__ */ r.jsxs(
     "table",
     {
-      className: g,
+      className: p,
       ...s && { role: "table" },
-      ...p,
-      ...m && { "data-testid": m },
+      ...m,
+      ...g && { "data-testid": g },
       children: [
-        r && /* @__PURE__ */ n.jsx("caption", { className: v, children: r }),
-        t && t.length > 0 && /* @__PURE__ */ n.jsx(
+        n && /* @__PURE__ */ r.jsx("caption", { className: C, children: n }),
+        t && t.length > 0 && /* @__PURE__ */ r.jsx(
           "thead",
           {
             className: "nhsuk-table__head",
             ...s && { role: "rowgroup" },
-<<<<<<< Updated upstream
-            children: /* @__PURE__ */ n.jsx("tr", { ...s && { role: "row" }, children: t.map((k, H) => G(k, H)) })
-=======
-            children: /* @__PURE__ */ n.jsx("tr", { ...s && { role: "row" }, children: t.map((y, L) => V(y, L)) })
->>>>>>> Stashed changes
+            children: /* @__PURE__ */ r.jsx("tr", { ...s && { role: "row" }, children: t.map((S, B) => R(S, B)) })
           }
         ),
-        /* @__PURE__ */ n.jsx("tbody", { className: "nhsuk-table__body", children: e && e.map((k, H) => /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx("tbody", { className: "nhsuk-table__body", children: e && e.map((S, B) => /* @__PURE__ */ r.jsx(
           "tr",
           {
             className: "nhsuk-table__row",
             ...s && { role: "row" },
-            children: k.map(
-              (A, V) => j(A, V, V === 0)
+            children: S.map(
+              (_, L) => F(_, L, L === 0)
             )
           },
-          H
+          B
         )) })
       ]
     }
   );
-<<<<<<< Updated upstream
-  return d ? /* @__PURE__ */ n.jsxs(pc, { className: c, children: [
-    i && /* @__PURE__ */ n.jsx(xt, { level: l, className: "nhsuk-table__heading-tab", children: i }),
-    I()
-  ] }) : _ ? /* @__PURE__ */ n.jsx("div", { className: _, children: I() }) : I();
-}, wm = Pt(({
-=======
-  return c ? /* @__PURE__ */ n.jsxs(ic, { className: d, children: [
-    i && /* @__PURE__ */ n.jsx(xt, { level: l, className: "nhsuk-table__heading-tab", children: i }),
-    k()
-  ] }) : _ ? /* @__PURE__ */ n.jsx("div", { className: _, children: k() }) : k();
-}, xm = Pt(({
->>>>>>> Stashed changes
+  return d ? /* @__PURE__ */ r.jsxs(_u, { className: c, children: [
+    i && /* @__PURE__ */ r.jsx(Nt, { level: l, className: "nhsuk-table__heading-tab", children: i }),
+    T()
+  ] }) : u ? /* @__PURE__ */ r.jsx("div", { className: u, children: T() }) : T();
+}, z0 = an(({
   items: e,
   defaultActiveTab: t,
-  activeTab: r,
+  activeTab: n,
   onTabChange: a,
   onTabFocus: o,
   onTabListBlur: s,
   onEscape: i,
   autoActivate: l = !0,
-  className: c,
-  id: d,
-  "data-testid": u,
-  ...f
-}, p) => {
-<<<<<<< Updated upstream
-  const m = r !== void 0, [v, g] = we(() => t || e[0]?.id || ""), _ = m ? r : v, G = Te(null), j = Te(/* @__PURE__ */ new Map()), I = ee((x) => {
-    m || g(x), a?.(x);
-  }, [m, a]), k = ee((x) => {
-    o?.(x), l && I(x);
-  }, [o, l, I]), H = ee((x, B) => {
-    const Z = e.filter((y) => !y.disabled).map((y) => y.id), ce = Z.indexOf(B);
-    let K = null;
-    switch (x.key) {
-=======
-  const m = r !== void 0, [C, g] = Se(() => t || e[0]?.id || ""), _ = m ? r : C, V = Ce(null), B = Ce(/* @__PURE__ */ new Map()), k = re((b) => {
-    m || g(b), a?.(b);
-  }, [m, a]), y = re((b) => {
-    o?.(b), l && k(b);
-  }, [o, l, k]), L = re((b, F) => {
-    const X = e.filter((R) => !R.disabled).map((R) => R.id), de = X.indexOf(F);
-    let J = null;
-    switch (b.key) {
->>>>>>> Stashed changes
+  className: d,
+  id: c,
+  "data-testid": f,
+  ...h
+}, m) => {
+  const g = n !== void 0, [C, p] = Ne(() => t || e[0]?.id || ""), u = g ? n : C, R = Ie(null), F = Ie(/* @__PURE__ */ new Map()), T = ie((v) => {
+    g || p(v), a?.(v);
+  }, [g, a]), S = ie((v) => {
+    o?.(v), l && T(v);
+  }, [o, l, T]), B = ie((v, x) => {
+    const y = e.filter((M) => !M.disabled).map((M) => M.id), P = y.indexOf(x);
+    let E = null;
+    switch (v.key) {
       case "ArrowLeft":
-        K = ce > 0 ? ce - 1 : Z.length - 1;
+        E = P > 0 ? P - 1 : y.length - 1;
         break;
       case "ArrowRight":
-        K = ce < Z.length - 1 ? ce + 1 : 0;
+        E = P < y.length - 1 ? P + 1 : 0;
         break;
       case "Home":
-        K = 0;
+        E = 0;
         break;
       case "End":
-        K = Z.length - 1;
+        E = y.length - 1;
         break;
       case "Escape":
-        x.preventDefault(), i?.();
+        v.preventDefault(), i?.();
         return;
       default:
         return;
     }
-    if (K !== null) {
-      x.preventDefault();
-      const y = Z[K], b = j.current.get(y);
-      b && (b.focus(), k(y));
+    if (E !== null) {
+      v.preventDefault();
+      const M = y[E], k = F.current.get(M);
+      k && (k.focus(), S(M));
     }
-  }, [e, k, i]), A = ee((x, B) => {
-    B ? j.current.set(x, B) : j.current.delete(x);
-  }, []), V = ee((x) => {
-    const B = j.current.get(x);
-    B && B.focus();
+  }, [e, S, i]), _ = ie((v, x) => {
+    x ? F.current.set(v, x) : F.current.delete(v);
+  }, []), L = ie((v) => {
+    const x = F.current.get(v);
+    x && x.focus();
   }, []);
-<<<<<<< Updated upstream
-  za(p, () => ({
-    focusTab: V,
-    getActiveTab: () => _,
-    getTabListElement: () => G.current
-  }), [V, _]);
-  const M = ee((x) => {
-    const B = x.relatedTarget;
-    G.current?.contains(B) || s?.();
-  }, [s]), R = oe("nhsuk-tabs", d);
-  return /* @__PURE__ */ n.jsxs(
+  to(m, () => ({
+    focusTab: L,
+    getActiveTab: () => u,
+    getTabListElement: () => R.current
+  }), [L, u]);
+  const j = ie((v) => {
+    const x = v.relatedTarget;
+    R.current?.contains(x) || s?.();
+  }, [s]), D = de("nhsuk-tabs", d);
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
-      className: R,
+      className: D,
       id: c,
-=======
-  Oa(p, () => ({
-    focusTab: $,
-    getActiveTab: () => _,
-    getTabListElement: () => V.current
-  }), [$, _]);
-  const A = re((b) => {
-    const F = b.relatedTarget;
-    V.current?.contains(F) || s?.();
-  }, [s]), I = ee("nhsuk-tabs", c);
-  return /* @__PURE__ */ n.jsxs(
-    "div",
-    {
-      className: I,
-      id: d,
->>>>>>> Stashed changes
-      "data-testid": u,
-      ...f,
+      "data-testid": f,
+      ...h,
       children: [
-        /* @__PURE__ */ n.jsx("h2", { className: "nhsuk-tabs__title", children: "Contents" }),
-        /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx("h2", { className: "nhsuk-tabs__title", children: "Contents" }),
+        /* @__PURE__ */ r.jsx(
           "div",
           {
             className: "nhsuk-tabs__list-container",
-<<<<<<< Updated upstream
-            ref: G,
-=======
-            ref: V,
->>>>>>> Stashed changes
-            children: /* @__PURE__ */ n.jsx(
+            ref: R,
+            children: /* @__PURE__ */ r.jsx(
               "ul",
               {
                 className: "nhsuk-tabs__list",
                 role: "tablist",
-<<<<<<< Updated upstream
-                onBlur: M,
-                children: e.map((x) => {
-                  const B = x.id === _, Z = x.disabled, ce = oe("nhsuk-tabs__list-item", {
-                    "nhsuk-tabs__list-item--selected": B,
-                    "nhsuk-tabs__list-item--disabled": Z
-=======
-                onBlur: A,
-                children: e.map((b) => {
-                  const F = b.id === _, X = b.disabled, de = ee("nhsuk-tabs__list-item", {
-                    "nhsuk-tabs__list-item--selected": F,
-                    "nhsuk-tabs__list-item--disabled": X
->>>>>>> Stashed changes
+                onBlur: j,
+                children: e.map((v) => {
+                  const x = v.id === u, y = v.disabled, P = de("nhsuk-tabs__list-item", {
+                    "nhsuk-tabs__list-item--selected": x,
+                    "nhsuk-tabs__list-item--disabled": y
                   });
-                  return /* @__PURE__ */ n.jsx("li", { className: ce, role: "presentation", children: /* @__PURE__ */ n.jsx(
+                  return /* @__PURE__ */ r.jsx("li", { className: P, role: "presentation", children: /* @__PURE__ */ r.jsx(
                     "button",
                     {
-                      ref: (K) => A(x.id, K),
+                      ref: (E) => _(v.id, E),
                       className: "nhsuk-tabs__tab",
                       role: "tab",
-<<<<<<< Updated upstream
-                      "aria-selected": B,
-                      "aria-controls": `${x.id}-panel`,
-                      id: `${x.id}-tab`,
-                      tabIndex: B ? 0 : -1,
-                      disabled: Z,
-                      onClick: () => !Z && I(x.id),
-                      onKeyDown: (K) => !Z && H(K, x.id),
-                      onFocus: () => !Z && k(x.id),
-                      ...x.attributes,
-                      children: x.label
-=======
-                      "aria-selected": F,
-                      "aria-controls": `${b.id}-panel`,
-                      id: `${b.id}-tab`,
-                      tabIndex: F ? 0 : -1,
-                      disabled: X,
-                      onClick: () => !X && k(b.id),
-                      onKeyDown: (J) => !X && L(J, b.id),
-                      onFocus: () => !X && y(b.id),
-                      ...b.attributes,
-                      children: b.label
->>>>>>> Stashed changes
+                      "aria-selected": x,
+                      "aria-controls": `${v.id}-panel`,
+                      id: `${v.id}-tab`,
+                      tabIndex: x ? 0 : -1,
+                      disabled: y,
+                      onClick: () => !y && T(v.id),
+                      onKeyDown: (E) => !y && B(E, v.id),
+                      onFocus: () => !y && S(v.id),
+                      ...v.attributes,
+                      children: v.label
                     }
-                  ) }, x.id);
+                  ) }, v.id);
                 })
               }
             )
           }
         ),
-<<<<<<< Updated upstream
-        e.map((x) => {
-          const B = x.id === _;
-=======
-        e.map((b) => {
-          const F = b.id === _;
->>>>>>> Stashed changes
-          return /* @__PURE__ */ n.jsx(
+        e.map((v) => {
+          const x = v.id === u;
+          return /* @__PURE__ */ r.jsx(
             "div",
             {
               className: "nhsuk-tabs__panel",
               role: "tabpanel",
-              "aria-labelledby": `${x.id}-tab`,
-              id: `${x.id}-panel`,
-              hidden: !B,
-              children: x.content
+              "aria-labelledby": `${v.id}-tab`,
+              id: `${v.id}-panel`,
+              hidden: !x,
+              children: v.content
             },
-            x.id
+            v.id
           );
         })
       ]
     }
   );
-<<<<<<< Updated upstream
-}), gc = Pt(
-=======
-}), lc = Pt(
->>>>>>> Stashed changes
+}), Su = an(
   ({
     summaryText: e,
     summaryHtml: t,
-    text: r,
+    text: n,
     html: a,
     open: o = !1,
     className: s = "",
     id: i,
     children: l,
-    ...c
-  }, d) => {
-    const u = [
+    ...d
+  }, c) => {
+    const f = [
       "nhsuk-details",
       s
-    ].filter(Boolean).join(" "), f = t ? /* @__PURE__ */ n.jsx(
+    ].filter(Boolean).join(" "), h = t ? /* @__PURE__ */ r.jsx(
       "span",
       {
         className: "nhsuk-details__summary-text",
         dangerouslySetInnerHTML: { __html: t }
       }
-    ) : /* @__PURE__ */ n.jsx("span", { className: "nhsuk-details__summary-text", children: e });
-    let p;
-    return l ? p = l : a ? p = /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: a } }) : r && (p = r), /* @__PURE__ */ n.jsxs(
+    ) : /* @__PURE__ */ r.jsx("span", { className: "nhsuk-details__summary-text", children: e });
+    let m;
+    return l ? m = l : a ? m = /* @__PURE__ */ r.jsx("div", { dangerouslySetInnerHTML: { __html: a } }) : n && (m = n), /* @__PURE__ */ r.jsxs(
       "details",
       {
-        ref: d,
+        ref: c,
         id: i,
-        className: u,
+        className: f,
         open: o,
-        ...c,
+        ...d,
         children: [
-          /* @__PURE__ */ n.jsx("summary", { className: "nhsuk-details__summary", tabIndex: 0, children: f }),
-          /* @__PURE__ */ n.jsx("div", { className: "nhsuk-details__text", children: p })
+          /* @__PURE__ */ r.jsx("summary", { className: "nhsuk-details__summary", tabIndex: 0, children: h }),
+          /* @__PURE__ */ r.jsx("div", { className: "nhsuk-details__text", children: m })
         ]
       }
     );
   }
 );
-<<<<<<< Updated upstream
-gc.displayName = "Details";
-const bc = Pt(
-=======
-lc.displayName = "Details";
-const cc = Pt(
->>>>>>> Stashed changes
+Su.displayName = "Details";
+const ku = an(
   ({
     title: e,
     type: t,
-    items: r,
+    items: n,
     hidePrefix: a = !1,
     headingLevel: o = 3,
     className: s,
     ...i
   }, l) => {
-    const c = ["nhsuk-do-dont-list"];
-    s && c.push(s);
-    const d = [
+    const d = ["nhsuk-do-dont-list"];
+    s && d.push(s);
+    const c = [
       "nhsuk-list",
       t === "tick" ? "nhsuk-list--tick" : "nhsuk-list--cross"
-    ], u = () => t === "cross" ? /* @__PURE__ */ n.jsxs(
+    ], f = () => t === "cross" ? /* @__PURE__ */ r.jsxs(
       "svg",
       {
         className: "nhsuk-icon nhsuk-icon__cross",
@@ -7906,14 +5599,14 @@ const cc = Pt(
         width: "34",
         height: "34",
         children: [
-          /* @__PURE__ */ n.jsx(
+          /* @__PURE__ */ r.jsx(
             "path",
             {
               d: "M17 18.5c-.4 0-.8-.1-1.1-.4l-10-10c-.6-.6-.6-1.6 0-2.1.6-.6 1.5-.6 2.1 0l10 10c.6.6.6 1.5 0 2.1-.3.3-.6.4-1 .4z",
               fill: "#d5281b"
             }
           ),
-          /* @__PURE__ */ n.jsx(
+          /* @__PURE__ */ r.jsx(
             "path",
             {
               d: "M7 18.5c-.4 0-.8-.1-1.1-.4-.6-.6-.6-1.5 0-2.1l10-10c.6-.6 1.5-.6 2.1 0 .6.6.6 1.5 0 2.1l-10 10c-.3.3-.6.4-1 .4z",
@@ -7922,7 +5615,7 @@ const cc = Pt(
           )
         ]
       }
-    ) : /* @__PURE__ */ n.jsx(
+    ) : /* @__PURE__ */ r.jsx(
       "svg",
       {
         className: "nhsuk-icon nhsuk-icon__tick",
@@ -7932,7 +5625,7 @@ const cc = Pt(
         "aria-hidden": "true",
         width: "34",
         height: "34",
-        children: /* @__PURE__ */ n.jsx(
+        children: /* @__PURE__ */ r.jsx(
           "path",
           {
             strokeWidth: "4",
@@ -7942,126 +5635,100 @@ const cc = Pt(
           }
         )
       }
-    ), f = (m) => t === "cross" && !a ? `do not ${m}` : m, p = () => /* @__PURE__ */ n.jsx(
-      xt,
+    ), h = (g) => t === "cross" && !a ? `do not ${g}` : g, m = () => /* @__PURE__ */ r.jsx(
+      Nt,
       {
         level: o,
         className: "nhsuk-do-dont-list__label",
         text: e
       }
     );
-    return /* @__PURE__ */ n.jsxs(
+    return /* @__PURE__ */ r.jsxs(
       "div",
       {
         ref: l,
-        className: c.join(" "),
+        className: d.join(" "),
         ...i,
         children: [
-          p(),
-<<<<<<< Updated upstream
-          /* @__PURE__ */ n.jsx("div", { className: "nhsuk-do-dont-list__content--feature", children: /* @__PURE__ */ n.jsx("ul", { className: c.join(" "), role: "list", children: r.map((m, v) => /* @__PURE__ */ n.jsxs("li", { children: [
-            u(),
-            f(m.item)
-          ] }, v)) }) })
-=======
-          /* @__PURE__ */ n.jsx("div", { className: "nhsuk-do-dont-list__content--feature", children: /* @__PURE__ */ n.jsx("ul", { className: d.join(" "), role: "list", children: r.map((m, C) => /* @__PURE__ */ n.jsxs("li", { children: [
-            u(),
-            f(m.item)
+          m(),
+          /* @__PURE__ */ r.jsx("div", { className: "nhsuk-do-dont-list__content--feature", children: /* @__PURE__ */ r.jsx("ul", { className: c.join(" "), role: "list", children: n.map((g, C) => /* @__PURE__ */ r.jsxs("li", { children: [
+            f(),
+            h(g.item)
           ] }, C)) }) })
->>>>>>> Stashed changes
         ]
       }
     );
   }
 );
-<<<<<<< Updated upstream
-bc.displayName = "DoDontList";
-const xc = Pt(
-=======
-cc.displayName = "DoDontList";
-const dc = Pt(
->>>>>>> Stashed changes
+ku.displayName = "DoDontList";
+const Cu = an(
   ({
     summaryText: e,
     summaryHtml: t,
-    text: r,
+    text: n,
     html: a,
     open: o = !1,
     className: s = "",
     id: i,
     children: l,
-    ...c
-  }, d) => {
-    const u = [
+    ...d
+  }, c) => {
+    const f = [
       "nhsuk-expander",
       s
-    ].filter(Boolean).join(" "), f = t ? /* @__PURE__ */ n.jsx(
+    ].filter(Boolean).join(" "), h = t ? /* @__PURE__ */ r.jsx(
       "span",
       {
         className: "nhsuk-details__summary-text",
         dangerouslySetInnerHTML: { __html: t }
       }
-    ) : /* @__PURE__ */ n.jsx("span", { className: "nhsuk-details__summary-text", children: e });
-    let p;
-    return l ? p = l : a ? p = /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: a } }) : r && (p = r), /* @__PURE__ */ n.jsxs(
+    ) : /* @__PURE__ */ r.jsx("span", { className: "nhsuk-details__summary-text", children: e });
+    let m;
+    return l ? m = l : a ? m = /* @__PURE__ */ r.jsx("div", { dangerouslySetInnerHTML: { __html: a } }) : n && (m = n), /* @__PURE__ */ r.jsxs(
       "details",
       {
-        ref: d,
+        ref: c,
         id: i,
-        className: u,
+        className: f,
         open: o,
-        ...c,
+        ...d,
         children: [
-          /* @__PURE__ */ n.jsx("summary", { className: "nhsuk-details__summary", children: f }),
-          /* @__PURE__ */ n.jsx("div", { className: "nhsuk-details__text", children: p })
+          /* @__PURE__ */ r.jsx("summary", { className: "nhsuk-details__summary", children: h }),
+          /* @__PURE__ */ r.jsx("div", { className: "nhsuk-details__text", children: m })
         ]
       }
     );
   }
 );
-<<<<<<< Updated upstream
-xc.displayName = "Expander";
-const yc = Pt(
-=======
-dc.displayName = "Expander";
-const uc = Pt(
->>>>>>> Stashed changes
-  ({ items: e, idPrefix: t = "task-list", className: r, ...a }, o) => {
+Cu.displayName = "Expander";
+const ju = an(
+  ({ items: e, idPrefix: t = "task-list", className: n, ...a }, o) => {
     const s = [
       "nhsuk-task-list",
-      r
-<<<<<<< Updated upstream
+      n
     ].filter(Boolean).join(" "), i = (l, d) => {
-      const c = d + 1, u = `${t}-${c}-hint`, f = `${t}-${c}-status`, p = !!l.href, m = [
-=======
-    ].filter(Boolean).join(" "), i = (l, c) => {
-      const d = c + 1, u = `${t}-${d}-hint`, f = `${t}-${d}-status`, p = !!l.href, m = [
->>>>>>> Stashed changes
+      const c = d + 1, f = `${t}-${c}-hint`, h = `${t}-${c}-status`, m = !!l.href, g = [
         "nhsuk-task-list__item",
-        p && "nhsuk-task-list__item--with-link",
+        m && "nhsuk-task-list__item--with-link",
         l.classes
-      ].filter(Boolean).join(" "), v = [
-        l.hint && u,
-        f
+      ].filter(Boolean).join(" "), C = [
+        l.hint && f,
+        h
       ].filter(Boolean).join(" ");
-      return /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-        vc,
-=======
-        hc,
->>>>>>> Stashed changes
+      return /* @__PURE__ */ r.jsx(
+        Nu,
         {
           item: l,
-          itemClasses: m,
-          hasLink: p,
-          hintId: u,
-          statusId: f,
-          ariaDescribedBy: v
+          itemClasses: g,
+          hasLink: m,
+          hintId: f,
+          statusId: h,
+          ariaDescribedBy: C
         },
-        c
+        d
       );
     };
-    return /* @__PURE__ */ n.jsx(
+    return /* @__PURE__ */ r.jsx(
       "ul",
       {
         ref: o,
@@ -8071,107 +5738,90 @@ const uc = Pt(
       }
     );
   }
-<<<<<<< Updated upstream
-), vc = ({
-=======
-), hc = ({
->>>>>>> Stashed changes
+), Nu = ({
   item: e,
   itemClasses: t,
-  hasLink: r,
+  hasLink: n,
   hintId: a,
   statusId: o,
   ariaDescribedBy: s
 }) => {
   const i = () => {
-    const d = e.title.html ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: e.title.html } }) : e.title.text, u = [
-      r ? "nhsuk-task-list__link" : "",
+    const c = e.title.html ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: e.title.html } }) : e.title.text, f = [
+      n ? "nhsuk-task-list__link" : "",
       e.title.classes
     ].filter(Boolean).join(" ");
-    return r ? /* @__PURE__ */ n.jsx(
+    return n ? /* @__PURE__ */ r.jsx(
       "a",
       {
-        className: u,
+        className: f,
         href: e.href,
         "aria-describedby": s,
-        children: d
+        children: c
       }
-    ) : /* @__PURE__ */ n.jsx("div", { className: e.title.classes || "", children: d });
-  }, l = () => e.hint ? e.hint.html ? /* @__PURE__ */ n.jsx(
+    ) : /* @__PURE__ */ r.jsx("div", { className: e.title.classes || "", children: c });
+  }, l = () => e.hint ? e.hint.html ? /* @__PURE__ */ r.jsx(
     "div",
     {
       id: a,
       className: "nhsuk-task-list__hint",
       dangerouslySetInnerHTML: { __html: e.hint.html }
     }
-  ) : /* @__PURE__ */ n.jsx("div", { id: a, className: "nhsuk-task-list__hint", children: e.hint.text }) : null, c = () => {
-    const d = [
+  ) : /* @__PURE__ */ r.jsx("div", { id: a, className: "nhsuk-task-list__hint", children: e.hint.text }) : null, d = () => {
+    const c = [
       "nhsuk-task-list__status",
       e.status.classes
     ].filter(Boolean).join(" ");
-    let u;
-    return e.status.tag ? u = /* @__PURE__ */ n.jsx(rt, { ...e.status.tag }) : e.status.html ? u = /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: e.status.html } }) : u = e.status.text, /* @__PURE__ */ n.jsx("div", { className: d, id: o, children: u });
+    let f;
+    return e.status.tag ? f = /* @__PURE__ */ r.jsx(et, { ...e.status.tag }) : e.status.html ? f = /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: e.status.html } }) : f = e.status.text, /* @__PURE__ */ r.jsx("div", { className: c, id: o, children: f });
   };
-  return /* @__PURE__ */ n.jsxs("li", { className: t, children: [
-    /* @__PURE__ */ n.jsxs("div", { className: "nhsuk-task-list__name-and-hint", children: [
+  return /* @__PURE__ */ r.jsxs("li", { className: t, children: [
+    /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-task-list__name-and-hint", children: [
       i(),
       l()
     ] }),
-    c()
+    d()
   ] });
 };
-<<<<<<< Updated upstream
-yc.displayName = "TaskList";
-const Sm = ({
-=======
-uc.displayName = "TaskList";
-const ym = ({
->>>>>>> Stashed changes
+ju.displayName = "TaskList";
+const W0 = ({
   heading: e,
   headingLevel: t = 3,
-  text: r,
+  text: n,
   html: a,
   children: o,
   className: s,
   ...i
 }) => {
-  const l = /important/i.test(e), c = () => o || (a ? /* @__PURE__ */ n.jsx("div", { dangerouslySetInnerHTML: { __html: a } }) : r ? /* @__PURE__ */ n.jsx("p", { children: r }) : null), d = [
+  const l = /important/i.test(e), d = () => o || (a ? /* @__PURE__ */ r.jsx("div", { dangerouslySetInnerHTML: { __html: a } }) : n ? /* @__PURE__ */ r.jsx("p", { children: n }) : null), c = [
     "nhsuk-warning-callout",
     s
-  ].filter(Boolean).join(" "), u = `h${t}`;
-  return /* @__PURE__ */ n.jsxs(
+  ].filter(Boolean).join(" "), f = `h${t}`;
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
-      className: d,
+      className: c,
       ...i,
       children: [
-<<<<<<< Updated upstream
-        Pa(
-=======
-        Wa(
->>>>>>> Stashed changes
-          u,
+        eo(
+          f,
           { className: "nhsuk-warning-callout__label" },
-          l ? /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
+          l ? /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
             e,
-            /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: ":" })
-          ] }) : /* @__PURE__ */ n.jsxs("span", { role: "text", children: [
-            /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: "Important: " }),
+            /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: ":" })
+          ] }) : /* @__PURE__ */ r.jsxs("span", { role: "text", children: [
+            /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: "Important: " }),
             e
           ] })
         ),
-        c()
+        d()
       ]
     }
   );
-<<<<<<< Updated upstream
-}, Cm = ({
-=======
-}, vm = ({
->>>>>>> Stashed changes
+}, O0 = ({
   src: e,
   alt: t,
-  caption: r,
+  caption: n,
   sizes: a,
   srcset: o,
   className: s,
@@ -8181,13 +5831,13 @@ const ym = ({
     "nhsuk-image",
     s
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ n.jsxs(
+  return /* @__PURE__ */ r.jsxs(
     "figure",
     {
       className: l,
       ...i,
       children: [
-        /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx(
           "img",
           {
             className: "nhsuk-image__img",
@@ -8196,65 +5846,61 @@ const ym = ({
             ...a && o ? { sizes: a, srcSet: o } : {}
           }
         ),
-        r && /* @__PURE__ */ n.jsx(
+        n && /* @__PURE__ */ r.jsx(
           "figcaption",
           {
             className: "nhsuk-image__caption",
-            dangerouslySetInnerHTML: { __html: r }
+            dangerouslySetInnerHTML: { __html: n }
           }
         )
       ]
     }
   );
-<<<<<<< Updated upstream
-}, _c = ({
-=======
-}, fc = ({
->>>>>>> Stashed changes
+}, Tu = ({
   dateRange: e,
   onPrev: t,
-  onNext: r,
+  onNext: n,
   onToday: a,
   density: o,
   onDensityChange: s,
   a11yMode: i,
   onA11yModeChange: l
-}) => /* @__PURE__ */ n.jsxs("div", { className: "nhs-slot-matrix__toolbar", role: "group", "aria-label": "Slot matrix controls", children: [
-  /* @__PURE__ */ n.jsxs("div", { className: "nhs-slot-matrix__toolbar-section", children: [
-    /* @__PURE__ */ n.jsx(Ge, { variant: "secondary", size: "small", onClick: t, "aria-label": "Previous date range", children: "Prev" }),
-    /* @__PURE__ */ n.jsx(Ge, { variant: "secondary", size: "small", onClick: a, "aria-label": "Jump to today", children: "Today" }),
-    /* @__PURE__ */ n.jsx(Ge, { variant: "secondary", size: "small", onClick: r, "aria-label": "Next date range", children: "Next" }),
-    /* @__PURE__ */ n.jsxs("span", { className: "nhs-slot-matrix__toolbar-daterange", "aria-live": "polite", children: [
+}) => /* @__PURE__ */ r.jsxs("div", { className: "nhs-slot-matrix__toolbar", role: "group", "aria-label": "Slot matrix controls", children: [
+  /* @__PURE__ */ r.jsxs("div", { className: "nhs-slot-matrix__toolbar-section", children: [
+    /* @__PURE__ */ r.jsx(Qe, { variant: "secondary", size: "small", onClick: t, "aria-label": "Previous date range", children: "Prev" }),
+    /* @__PURE__ */ r.jsx(Qe, { variant: "secondary", size: "small", onClick: a, "aria-label": "Jump to today", children: "Today" }),
+    /* @__PURE__ */ r.jsx(Qe, { variant: "secondary", size: "small", onClick: n, "aria-label": "Next date range", children: "Next" }),
+    /* @__PURE__ */ r.jsxs("span", { className: "nhs-slot-matrix__toolbar-daterange", "aria-live": "polite", children: [
       e.start.toDateString(),
       " – ",
       e.end.toDateString()
     ] })
   ] }),
-  /* @__PURE__ */ n.jsxs("div", { className: "nhs-slot-matrix__toolbar-section", children: [
-    /* @__PURE__ */ n.jsx("label", { className: "nhs-slot-matrix__toolbar-label", htmlFor: "slot-matrix-density-select", children: "Density" }),
-    /* @__PURE__ */ n.jsx(
-      cn,
+  /* @__PURE__ */ r.jsxs("div", { className: "nhs-slot-matrix__toolbar-section", children: [
+    /* @__PURE__ */ r.jsx("label", { className: "nhs-slot-matrix__toolbar-label", htmlFor: "slot-matrix-density-select", children: "Density" }),
+    /* @__PURE__ */ r.jsx(
+      Fn,
       {
         id: "slot-matrix-density-select",
         name: "slot-matrix-density",
         ariaLabel: "Change density",
         value: o,
-        onChange: (c) => s?.(c.target.value),
+        onChange: (d) => s?.(d.target.value),
         options: [
           { value: "comfortable", text: "Comfortable" },
           { value: "compact", text: "Compact" }
         ]
       }
     ),
-    /* @__PURE__ */ n.jsx("label", { className: "nhs-slot-matrix__toolbar-label", htmlFor: "slot-matrix-mode-select", children: "Mode" }),
-    /* @__PURE__ */ n.jsx(
-      cn,
+    /* @__PURE__ */ r.jsx("label", { className: "nhs-slot-matrix__toolbar-label", htmlFor: "slot-matrix-mode-select", children: "Mode" }),
+    /* @__PURE__ */ r.jsx(
+      Fn,
       {
         id: "slot-matrix-mode-select",
         name: "slot-matrix-mode",
         ariaLabel: "Change accessibility mode",
         value: i,
-        onChange: (c) => l?.(c.target.value),
+        onChange: (d) => l?.(d.target.value),
         options: [
           { value: "grid", text: "Grid" },
           { value: "list", text: "List" }
@@ -8262,13 +5908,8 @@ const ym = ({
       }
     )
   ] })
-<<<<<<< Updated upstream
-] }), kc = ({ items: e, orientation: t = "horizontal" }) => /* @__PURE__ */ n.jsx("div", { className: `nhs-slot-matrix__legend nhs-slot-matrix__legend--${t}`, role: "list", "aria-label": "Slot legend", children: e.map((r) => /* @__PURE__ */ n.jsx("div", { role: "listitem", className: "nhs-slot-matrix__legend-item", children: /* @__PURE__ */ n.jsx(rt, { color: wc(r.status), text: r.label }) }, r.status)) });
-function wc(e) {
-=======
-] }), mc = ({ items: e, orientation: t = "horizontal" }) => /* @__PURE__ */ n.jsx("div", { className: `nhs-slot-matrix__legend nhs-slot-matrix__legend--${t}`, role: "list", "aria-label": "Slot legend", children: e.map((r) => /* @__PURE__ */ n.jsx("div", { role: "listitem", className: "nhs-slot-matrix__legend-item", children: /* @__PURE__ */ n.jsx(rt, { color: pc(r.status), text: r.label }) }, r.status)) });
-function pc(e) {
->>>>>>> Stashed changes
+] }), Du = ({ items: e, orientation: t = "horizontal" }) => /* @__PURE__ */ r.jsx("div", { className: `nhs-slot-matrix__legend nhs-slot-matrix__legend--${t}`, role: "list", "aria-label": "Slot legend", children: e.map((n) => /* @__PURE__ */ r.jsx("div", { role: "listitem", className: "nhs-slot-matrix__legend-item", children: /* @__PURE__ */ r.jsx(et, { color: $u(n.status), text: n.label }) }, n.status)) });
+function $u(e) {
   switch (e) {
     case "available":
       return "green";
@@ -8285,496 +5926,378 @@ function pc(e) {
       return "default";
   }
 }
-<<<<<<< Updated upstream
-const jm = ({
-=======
-const _m = ({
->>>>>>> Stashed changes
+const U0 = ({
   slots: e,
   sessions: t,
   // dateRange reserved for future horizontal multi-day features
-  value: r,
+  value: n,
   defaultValue: a,
   onChange: o,
   selectionMode: s = "single",
   a11yMode: i,
   className: l,
-  style: c,
-  getSlotAriaLabel: d,
-  toolbar: u,
-  enableDefaultToolbar: f = !0,
-  legendItems: p,
-  enableDefaultLegend: m = !0,
-<<<<<<< Updated upstream
-  legendPlacement: v = "bottom",
-  onA11yModeChange: g
-}) => {
-  const [_, G] = we("grid"), j = i || _, [I, k] = we(a || []), H = r ?? I, A = De(() => {
-    const K = /* @__PURE__ */ new Set();
-    return e.forEach((y) => K.add(new Date(y.start).getTime())), Array.from(K).sort((y, b) => y - b);
-  }, [e]), V = De(() => {
-    const K = {};
-    return e.forEach((y) => {
-      const b = new Date(y.start).getTime();
-      K[b] || (K[b] = {});
-      const N = y.capacity - y.booked - (y.held || 0);
-      K[b][y.sessionId] = { slot: y, remaining: N };
-    }), K;
-  }, [e]), M = ee((K) => {
-=======
+  style: d,
+  getSlotAriaLabel: c,
+  toolbar: f,
+  enableDefaultToolbar: h = !0,
+  legendItems: m,
+  enableDefaultLegend: g = !0,
   legendPlacement: C = "bottom",
-  onA11yModeChange: g
+  onA11yModeChange: p
 }) => {
-  const [_, V] = Se("grid"), B = i || _, [k, y] = Se(a || []), L = r ?? k, v = Re(() => {
-    const J = /* @__PURE__ */ new Set();
-    return e.forEach((R) => J.add(new Date(R.start).getTime())), Array.from(J).sort((R, x) => R - x);
-  }, [e]), $ = Re(() => {
-    const J = {};
-    return e.forEach((R) => {
-      const x = new Date(R.start).getTime();
-      J[x] || (J[x] = {});
-      const N = R.capacity - R.booked - (R.held || 0);
-      J[x][R.sessionId] = { slot: R, remaining: N };
-    }), J;
-  }, [e]), A = re((J) => {
->>>>>>> Stashed changes
+  const [u, R] = Ne("grid"), F = i || u, [T, S] = Ne(a || []), B = n ?? T, _ = je(() => {
+    const E = /* @__PURE__ */ new Set();
+    return e.forEach((M) => E.add(new Date(M.start).getTime())), Array.from(E).sort((M, k) => M - k);
+  }, [e]), L = je(() => {
+    const E = {};
+    return e.forEach((M) => {
+      const k = new Date(M.start).getTime();
+      E[k] || (E[k] = {});
+      const b = M.capacity - M.booked - (M.held || 0);
+      E[k][M.sessionId] = { slot: M, remaining: b };
+    }), E;
+  }, [e]), j = ie((E) => {
     if (s === "single") {
-      const y = [K.id];
-      r || k(y), o?.(y, { lastAction: "select" });
+      const M = [E.id];
+      n || S(M), o?.(M, { lastAction: "select" });
     } else {
-      const y = H.includes(K.id), b = y ? H.filter((N) => N !== K.id) : [...H, K.id];
-      r || k(b), o?.(b, { lastAction: y ? "deselect" : "select" });
+      const M = B.includes(E.id), k = M ? B.filter((b) => b !== E.id) : [...B, E.id];
+      n || S(k), o?.(k, { lastAction: M ? "deselect" : "select" });
     }
-<<<<<<< Updated upstream
-  }, [s, H, r, o]), R = De(() => p || (m ? Array.from(new Set(e.map((y) => y.status))).map((y) => ({
-    status: y,
-    label: y.charAt(0).toUpperCase() + y.slice(1)
-  })) : void 0), [p, m, e]), x = R ? /* @__PURE__ */ n.jsx(
-    kc,
-=======
-  }, [s, L, r, o]), I = Re(() => p || (m ? Array.from(new Set(e.map((R) => R.status))).map((R) => ({
-    status: R,
-    label: R.charAt(0).toUpperCase() + R.slice(1)
-  })) : void 0), [p, m, e]), b = I ? /* @__PURE__ */ n.jsx(
-    mc,
->>>>>>> Stashed changes
+  }, [s, B, n, o]), D = je(() => m || (g ? Array.from(new Set(e.map((M) => M.status))).map((M) => ({
+    status: M,
+    label: M.charAt(0).toUpperCase() + M.slice(1)
+  })) : void 0), [m, g, e]), v = D ? /* @__PURE__ */ r.jsx(
+    Du,
     {
-      items: R,
-      orientation: v === "left" || v === "right" ? "vertical" : "horizontal"
+      items: D,
+      orientation: C === "left" || C === "right" ? "vertical" : "horizontal"
     }
-<<<<<<< Updated upstream
-  ) : null, B = (K) => {
-    i || G(K), g?.(K);
-  }, Z = u || (f ? /* @__PURE__ */ n.jsx(
-    _c,
-=======
-  ) : null, F = (J) => {
-    i || V(J), g?.(J);
-  }, X = u || (f ? /* @__PURE__ */ n.jsx(
-    fc,
->>>>>>> Stashed changes
+  ) : null, x = (E) => {
+    i || R(E), p?.(E);
+  }, y = f || (h ? /* @__PURE__ */ r.jsx(
+    Tu,
     {
       dateRange: { start: /* @__PURE__ */ new Date(), end: /* @__PURE__ */ new Date() },
       density: "comfortable",
-      a11yMode: j,
-      onA11yModeChange: B
+      a11yMode: F,
+      onA11yModeChange: x
     }
-<<<<<<< Updated upstream
-  ) : null), ce = /* @__PURE__ */ n.jsx("div", { style: d, className: oe(l), children: /* @__PURE__ */ n.jsx(ur, { className: oe("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ n.jsx(Nt, { children: /* @__PURE__ */ n.jsx(Kt, { width: "full", children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-slot-matrix", children: [
-    Z,
-    v === "top" && x,
-    /* @__PURE__ */ n.jsx("ul", { "aria-label": "Appointment slots list", children: e.map((K) => /* @__PURE__ */ n.jsx("li", { children: /* @__PURE__ */ n.jsxs("button", { type: "button", onClick: () => M(K), "aria-pressed": H.includes(K.id), children: [
-      qt(new Date(K.start)),
-=======
-  ) : null), de = /* @__PURE__ */ n.jsx("div", { style: c, className: ee(l), children: /* @__PURE__ */ n.jsx(ur, { className: ee("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ n.jsx(Nt, { children: /* @__PURE__ */ n.jsx(Kt, { width: "full", children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-slot-matrix", children: [
-    X,
-    C === "top" && b,
-    /* @__PURE__ */ n.jsx("ul", { "aria-label": "Appointment slots list", children: e.map((J) => /* @__PURE__ */ n.jsx("li", { children: /* @__PURE__ */ n.jsxs("button", { type: "button", onClick: () => A(J), "aria-pressed": L.includes(J.id), children: [
-      qt(new Date(J.start)),
->>>>>>> Stashed changes
+  ) : null), P = /* @__PURE__ */ r.jsx("div", { style: d, className: de(l), children: /* @__PURE__ */ r.jsx(Vr, { className: de("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ r.jsx(Wt, { children: /* @__PURE__ */ r.jsx(pn, { width: "full", children: /* @__PURE__ */ r.jsxs("div", { className: "nhs-slot-matrix", children: [
+    y,
+    C === "top" && v,
+    /* @__PURE__ */ r.jsx("ul", { "aria-label": "Appointment slots list", children: e.map((E) => /* @__PURE__ */ r.jsx("li", { children: /* @__PURE__ */ r.jsxs("button", { type: "button", onClick: () => j(E), "aria-pressed": B.includes(E.id), children: [
+      hn(new Date(E.start)),
       " – ",
-      qt(new Date(K.end)),
+      hn(new Date(E.end)),
       " (",
-      K.status,
+      E.status,
       ")"
-    ] }) }, K.id)) }),
-    v === "bottom" && x
+    ] }) }, E.id)) }),
+    C === "bottom" && v
   ] }) }) }) }) });
-<<<<<<< Updated upstream
-  return j === "list" ? ce : /* @__PURE__ */ n.jsx("div", { style: d, className: oe(l), children: /* @__PURE__ */ n.jsx(ur, { className: oe("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ n.jsx(Nt, { children: /* @__PURE__ */ n.jsx(Kt, { width: "full", children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-slot-matrix", children: [
-    Z,
-    v === "top" && x,
-    /* @__PURE__ */ n.jsxs("div", { role: "grid", "aria-rowcount": A.length + 1, "aria-colcount": t.length + 1, children: [
-=======
-  return B === "list" ? de : /* @__PURE__ */ n.jsx("div", { style: c, className: ee(l), children: /* @__PURE__ */ n.jsx(ur, { className: ee("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ n.jsx(Nt, { children: /* @__PURE__ */ n.jsx(Kt, { width: "full", children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-slot-matrix", children: [
-    X,
-    C === "top" && b,
-    /* @__PURE__ */ n.jsxs("div", { role: "grid", "aria-rowcount": v.length + 1, "aria-colcount": t.length + 1, children: [
->>>>>>> Stashed changes
-      /* @__PURE__ */ n.jsxs("div", { role: "row", className: "nhs-slot-matrix__row", children: [
-        /* @__PURE__ */ n.jsx("div", { role: "columnheader", "aria-label": "Timebands", className: "nhs-slot-matrix__timeband-header" }),
-        t.map((K) => /* @__PURE__ */ n.jsx("div", { role: "columnheader", "aria-label": `Session ${K.specialty}`, className: "nhs-slot-matrix__session-header", children: K.specialty }, K.id))
+  return F === "list" ? P : /* @__PURE__ */ r.jsx("div", { style: d, className: de(l), children: /* @__PURE__ */ r.jsx(Vr, { className: de("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ r.jsx(Wt, { children: /* @__PURE__ */ r.jsx(pn, { width: "full", children: /* @__PURE__ */ r.jsxs("div", { className: "nhs-slot-matrix", children: [
+    y,
+    C === "top" && v,
+    /* @__PURE__ */ r.jsxs("div", { role: "grid", "aria-rowcount": _.length + 1, "aria-colcount": t.length + 1, children: [
+      /* @__PURE__ */ r.jsxs("div", { role: "row", className: "nhs-slot-matrix__row", children: [
+        /* @__PURE__ */ r.jsx("div", { role: "columnheader", "aria-label": "Timebands", className: "nhs-slot-matrix__timeband-header" }),
+        t.map((E) => /* @__PURE__ */ r.jsx("div", { role: "columnheader", "aria-label": `Session ${E.specialty}`, className: "nhs-slot-matrix__session-header", children: E.specialty }, E.id))
       ] }),
-<<<<<<< Updated upstream
-      A.map((K) => /* @__PURE__ */ n.jsxs("div", { role: "row", className: "nhs-slot-matrix__row", children: [
-        /* @__PURE__ */ n.jsx("div", { role: "rowheader", className: "nhs-slot-matrix__timeband-header", "aria-label": qt(new Date(K)), children: qt(new Date(K)) }),
-        t.map((y) => {
-          const b = V[K]?.[y.id];
-          if (!b)
-            return /* @__PURE__ */ n.jsx("div", { role: "gridcell", className: "nhs-slot-matrix__cell", "aria-disabled": "true" }, y.id);
-          const { slot: N, remaining: ue } = b, $ = H.includes(N.id), C = c ? c(N) : `Slot ${qt(new Date(N.start))} ${N.status}${ue === 0 ? " full" : ""}`;
-=======
-      v.map((J) => /* @__PURE__ */ n.jsxs("div", { role: "row", className: "nhs-slot-matrix__row", children: [
-        /* @__PURE__ */ n.jsx("div", { role: "rowheader", className: "nhs-slot-matrix__timeband-header", "aria-label": qt(new Date(J)), children: qt(new Date(J)) }),
-        t.map((R) => {
-          const x = $[J]?.[R.id];
-          if (!x)
-            return /* @__PURE__ */ n.jsx("div", { role: "gridcell", className: "nhs-slot-matrix__cell", "aria-disabled": "true" }, R.id);
-          const { slot: N, remaining: ue } = x, P = L.includes(N.id), j = d ? d(N) : `Slot ${qt(new Date(N.start))} ${N.status}${ue === 0 ? " full" : ""}`;
->>>>>>> Stashed changes
-          return /* @__PURE__ */ n.jsx(
+      _.map((E) => /* @__PURE__ */ r.jsxs("div", { role: "row", className: "nhs-slot-matrix__row", children: [
+        /* @__PURE__ */ r.jsx("div", { role: "rowheader", className: "nhs-slot-matrix__timeband-header", "aria-label": hn(new Date(E)), children: hn(new Date(E)) }),
+        t.map((M) => {
+          const k = L[E]?.[M.id];
+          if (!k)
+            return /* @__PURE__ */ r.jsx("div", { role: "gridcell", className: "nhs-slot-matrix__cell", "aria-disabled": "true" }, M.id);
+          const { slot: b, remaining: A } = k, w = B.includes(b.id), $ = c ? c(b) : `Slot ${hn(new Date(b.start))} ${b.status}${A === 0 ? " full" : ""}`;
+          return /* @__PURE__ */ r.jsx(
             "button",
             {
               type: "button",
               role: "gridcell",
-              "data-status": N.status,
-              className: oe("nhs-slot-matrix__cell", $ && "nhs-slot-matrix__cell--selected"),
-              "aria-label": C,
-              "aria-selected": $ || void 0,
-              onClick: () => M(N),
-              children: ue > 0 ? `${ue} left` : "Full"
+              "data-status": b.status,
+              className: de("nhs-slot-matrix__cell", w && "nhs-slot-matrix__cell--selected"),
+              "aria-label": $,
+              "aria-selected": w || void 0,
+              onClick: () => j(b),
+              children: A > 0 ? `${A} left` : "Full"
             },
-            N.id
+            b.id
           );
         })
-      ] }, K))
+      ] }, E))
     ] }),
-    v === "bottom" && x
+    C === "bottom" && v
   ] }) }) }) }) });
 };
-function Ia(e) {
+function Ls(e) {
   return e < 10 ? `0${e}` : `${e}`;
 }
-function qt(e) {
-  return `${Ia(e.getHours())}:${Ia(e.getMinutes())}`;
+function hn(e) {
+  return `${Ls(e.getHours())}:${Ls(e.getMinutes())}`;
 }
-<<<<<<< Updated upstream
-const Sc = ({
-=======
-const gc = ({
->>>>>>> Stashed changes
+const Iu = ({
   title: e,
   value: t,
-  subtitle: r,
+  subtitle: n,
   variant: a = "default",
   href: o,
   className: s = "",
   ariaLabel: i,
   ...l
 }) => {
-  const c = [
+  const d = [
     "nhs-fdp-summary-card",
     `nhs-fdp-summary-card--${a}`,
     s
-  ].filter(Boolean).join(" "), d = /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-    /* @__PURE__ */ n.jsx(xt, { level: 3, className: "nhs-fdp-summary-card__title", children: e }),
-    /* @__PURE__ */ n.jsx("p", { className: "nhs-fdp-summary-card__value", children: t }),
-    r && /* @__PURE__ */ n.jsx("p", { className: "nhs-fdp-summary-card__subtitle", children: r })
+  ].filter(Boolean).join(" "), c = /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+    /* @__PURE__ */ r.jsx(Nt, { level: 3, className: "nhs-fdp-summary-card__title", children: e }),
+    /* @__PURE__ */ r.jsx("p", { className: "nhs-fdp-summary-card__value", children: t }),
+    n && /* @__PURE__ */ r.jsx("p", { className: "nhs-fdp-summary-card__subtitle", children: n })
   ] });
-  return o ? /* @__PURE__ */ n.jsx(
+  return o ? /* @__PURE__ */ r.jsx(
     "a",
     {
-      className: `${c} nhs-fdp-summary-card--clickable`,
+      className: `${d} nhs-fdp-summary-card--clickable`,
       href: o,
       "aria-label": i || `${e}: ${t}`,
       ...l,
-      children: d
+      children: c
     }
-  ) : /* @__PURE__ */ n.jsx(
+  ) : /* @__PURE__ */ r.jsx(
     "div",
     {
-      className: c,
+      className: d,
       "aria-label": i,
       ...l,
-      children: d
+      children: c
     }
   );
-<<<<<<< Updated upstream
-}, Nm = ({
-=======
-}, km = ({
->>>>>>> Stashed changes
+}, G0 = ({
   cards: e,
   className: t = "",
-  ...r
+  ...n
 }) => {
   const a = [
     "nhs-fdp-dashboard-summary-grid",
     t
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ n.jsx("div", { className: a, ...r, children: /* @__PURE__ */ n.jsx(ur, { children: /* @__PURE__ */ n.jsx(Nt, { children: e.map((o, s) => /* @__PURE__ */ n.jsx(
-    Kt,
+  return /* @__PURE__ */ r.jsx("div", { className: a, ...n, children: /* @__PURE__ */ r.jsx(Vr, { children: /* @__PURE__ */ r.jsx(Wt, { children: e.map((o, s) => /* @__PURE__ */ r.jsx(
+    pn,
     {
       width: "one-quarter",
       className: "nhs-fdp-dashboard-summary-grid__column",
       "data-card-index": s,
-<<<<<<< Updated upstream
-      children: /* @__PURE__ */ n.jsx(Sc, { ...o })
+      children: /* @__PURE__ */ r.jsx(Iu, { ...o })
     },
     s
   )) }) }) });
-}, Cc = Ze.forwardRef(
-=======
-      children: /* @__PURE__ */ n.jsx(gc, { ...o })
-    },
-    s
-  )) }) }) });
-}, bc = Ze.forwardRef(
->>>>>>> Stashed changes
+}, Lu = at.forwardRef(
   ({
     data: e,
     columns: t,
-    sortConfig: r,
+    sortConfig: n,
     onSort: a,
     selectedRowIndex: o,
     onRowSelect: s,
     id: i,
     testId: l,
-    ariaLabel: c,
-    ariaLabelledby: d,
-    ariaDescribedby: u,
-    className: f,
-    tableClassName: p,
-    bordered: m = !1,
-<<<<<<< Updated upstream
-    striped: v = !1,
-    responsive: g = !1,
-    tableType: _ = "default"
-  }, G) => {
-    const j = Te(null), I = Te(null), k = Te(null);
-    Ze.useImperativeHandle(G, () => j.current, []);
-    const [H, A] = we(0), [V, M] = we(0), [R, x] = we("headers"), [B, Z] = we("browse"), ce = t.length, K = e.length, y = De(() => !r || r.length === 0 ? e : [...e].sort((E, Q) => {
-      for (const { key: F, direction: ae } of r) {
-        const Ce = E[F], se = Q[F];
-        if (Ce == null && se == null) continue;
-        if (Ce == null) return 1;
-        if (se == null) return -1;
-        let X = 0;
-        if (typeof Ce == "number" && typeof se == "number" ? X = Ce - se : X = String(Ce).localeCompare(String(se)), X !== 0)
-          return ae === "asc" ? X : -X;
-=======
+    ariaLabel: d,
+    ariaLabelledby: c,
+    ariaDescribedby: f,
+    className: h,
+    tableClassName: m,
+    bordered: g = !1,
     striped: C = !1,
-    responsive: g = !1,
-    tableType: _ = "default"
-  }, V) => {
-    const B = Ce(null), k = Ce(null), y = Ce(null);
-    Ze.useImperativeHandle(V, () => B.current, []);
-    const [L, v] = Se(0), [$, A] = Se(0), [I, b] = Se("headers"), [F, X] = Se("browse"), de = t.length, J = e.length, R = Re(() => !r || r.length === 0 ? e : [...e].sort((M, te) => {
-      for (const { key: E, direction: ie } of r) {
-        const Q = M[E], Y = te[E];
-        if (Q == null && Y == null) continue;
-        if (Q == null) return 1;
-        if (Y == null) return -1;
+    responsive: p = !1,
+    tableType: u = "default"
+  }, R) => {
+    const F = Ie(null), T = Ie(null), S = Ie(null);
+    at.useImperativeHandle(R, () => F.current, []);
+    const [B, _] = Ne(0), [L, j] = Ne(0), [D, v] = Ne("headers"), [x, y] = Ne("browse"), P = t.length, E = e.length, M = je(() => !n || n.length === 0 ? e : [...e].sort((I, O) => {
+      for (const { key: H, direction: Q } of n) {
+        const fe = I[H], oe = O[H];
+        if (fe == null && oe == null) continue;
+        if (fe == null) return 1;
+        if (oe == null) return -1;
         let K = 0;
-        if (typeof Q == "number" && typeof Y == "number" ? K = Q - Y : K = String(Q).localeCompare(String(Y)), K !== 0)
-          return ie === "asc" ? K : -K;
->>>>>>> Stashed changes
+        if (typeof fe == "number" && typeof oe == "number" ? K = fe - oe : K = String(fe).localeCompare(String(oe)), K !== 0)
+          return Q === "asc" ? K : -K;
       }
       return 0;
-    }), [e, r]), b = ee((E, Q) => {
+    }), [e, n]), k = ie((I, O) => {
       setTimeout(() => {
-        const F = j.current?.querySelector(
-          `tbody tr:nth-child(${E + 1}) td:nth-child(${Q + 1})`
+        const H = F.current?.querySelector(
+          `tbody tr:nth-child(${I + 1}) td:nth-child(${O + 1})`
         );
-        F && (F.focus(), typeof F.scrollIntoView == "function" && F.scrollIntoView({
+        H && (H.focus(), typeof H.scrollIntoView == "function" && H.scrollIntoView({
           behavior: "smooth",
           block: "center",
           inline: "nearest"
         }));
       }, 0);
-    }, []), N = ee((E) => {
+    }, []), b = ie((I) => {
       setTimeout(() => {
-        const Q = j.current?.querySelector(`th:nth-child(${E + 1})`);
-        Q && (Q.focus(), typeof Q.scrollIntoView == "function" && Q.scrollIntoView({
+        const O = F.current?.querySelector(`th:nth-child(${I + 1})`);
+        O && (O.focus(), typeof O.scrollIntoView == "function" && O.scrollIntoView({
           behavior: "smooth",
           block: "center",
           inline: "nearest"
         }));
       }, 0);
-    }, []), ue = ee((E) => {
-      a?.(E);
-    }, [a]), $ = ee((E) => {
-      s?.(E);
-    }, [s]), C = ee((E) => {
-      const { key: Q } = E;
-      switch (Q) {
+    }, []), A = ie((I) => {
+      a?.(I);
+    }, [a]), w = ie((I) => {
+      s?.(I);
+    }, [s]), $ = ie((I) => {
+      const { key: O } = I;
+      switch (O) {
         case "Enter":
-          if (E.preventDefault(), R === "headers" && B === "browse")
-            Z("navigate"), N(V);
-          else if (R === "headers" && B === "navigate") {
-            const F = t[V];
-            F && ue(F.key);
-          } else R === "cells" && B === "browse" ? (Z("navigate"), b(H, V)) : R === "cells" && B === "navigate" && $(H);
+          if (I.preventDefault(), D === "headers" && x === "browse")
+            y("navigate"), b(L);
+          else if (D === "headers" && x === "navigate") {
+            const H = t[L];
+            H && A(H.key);
+          } else D === "cells" && x === "browse" ? (y("navigate"), k(B, L)) : D === "cells" && x === "navigate" && w(B);
           break;
         case "Escape":
-          E.preventDefault(), (R === "headers" && B === "navigate" || R === "cells" && B === "navigate") && Z("browse");
+          I.preventDefault(), (D === "headers" && x === "navigate" || D === "cells" && x === "navigate") && y("browse");
           break;
         case "ArrowLeft":
-          if (E.preventDefault(), B === "navigate" || B === "browse" && R === "headers") {
-            if (R === "headers") {
-              const F = Math.max(0, V - 1);
-              M(F), N(F);
-            } else if (R === "cells") {
-              const F = Math.max(0, V - 1);
-              M(F), b(H, F);
+          if (I.preventDefault(), x === "navigate" || x === "browse" && D === "headers") {
+            if (D === "headers") {
+              const H = Math.max(0, L - 1);
+              j(H), b(H);
+            } else if (D === "cells") {
+              const H = Math.max(0, L - 1);
+              j(H), k(B, H);
             }
           }
           break;
         case "ArrowRight":
-          if (E.preventDefault(), B === "navigate" || B === "browse" && R === "headers") {
-            if (R === "headers") {
-              const F = Math.min(ce - 1, V + 1);
-              M(F), N(F);
-            } else if (R === "cells") {
-              const F = Math.min(ce - 1, V + 1);
-              M(F), b(H, F);
+          if (I.preventDefault(), x === "navigate" || x === "browse" && D === "headers") {
+            if (D === "headers") {
+              const H = Math.min(P - 1, L + 1);
+              j(H), b(H);
+            } else if (D === "cells") {
+              const H = Math.min(P - 1, L + 1);
+              j(H), k(B, H);
             }
           }
           break;
         case "ArrowUp":
-          if (E.preventDefault(), R === "cells") {
-            if (B === "browse") {
-              const F = Math.max(0, H - 1);
-              A(F), b(F, 0), M(0);
-            } else if (B === "navigate")
-              if (H > 0) {
-                const F = H - 1;
-                A(F), b(F, V);
+          if (I.preventDefault(), D === "cells") {
+            if (x === "browse") {
+              const H = Math.max(0, B - 1);
+              _(H), k(H, 0), j(0);
+            } else if (x === "navigate")
+              if (B > 0) {
+                const H = B - 1;
+                _(H), k(H, L);
               } else
-                x("headers"), Z("browse"), N(V);
+                v("headers"), y("browse"), b(L);
           }
           break;
         case "ArrowDown":
-          if (E.preventDefault(), R === "headers" && B === "browse")
-            x("cells"), A(0), M(0), b(0, 0);
-          else if (R === "cells") {
-            const F = K - 1;
-            if (B === "browse") {
-              const ae = Math.min(F, H + 1);
-              A(ae), b(ae, 0), M(0);
-            } else if (B === "navigate" && H < F) {
-              const ae = H + 1;
-              A(ae), b(ae, V);
+          if (I.preventDefault(), D === "headers" && x === "browse")
+            v("cells"), _(0), j(0), k(0, 0);
+          else if (D === "cells") {
+            const H = E - 1;
+            if (x === "browse") {
+              const Q = Math.min(H, B + 1);
+              _(Q), k(Q, 0), j(0);
+            } else if (x === "navigate" && B < H) {
+              const Q = B + 1;
+              _(Q), k(Q, L);
             }
           }
           break;
         case "Home":
-          E.preventDefault(), R === "headers" ? (M(0), N(0)) : R === "cells" && (E.ctrlKey ? (A(0), M(0), b(0, 0)) : (M(0), b(H, 0)));
+          I.preventDefault(), D === "headers" ? (j(0), b(0)) : D === "cells" && (I.ctrlKey ? (_(0), j(0), k(0, 0)) : (j(0), k(B, 0)));
           break;
         case "End":
-          if (E.preventDefault(), R === "headers") {
-            const F = ce - 1;
-            M(F), N(F);
-          } else if (R === "cells")
-            if (E.ctrlKey) {
-              const F = K - 1, ae = ce - 1;
-              A(F), M(ae), b(F, ae);
+          if (I.preventDefault(), D === "headers") {
+            const H = P - 1;
+            j(H), b(H);
+          } else if (D === "cells")
+            if (I.ctrlKey) {
+              const H = E - 1, Q = P - 1;
+              _(H), j(Q), k(H, Q);
             } else {
-              const F = ce - 1;
-              M(F), b(H, F);
+              const H = P - 1;
+              j(H), k(B, H);
             }
           break;
         case " ":
-          if (E.preventDefault(), R === "headers" && B === "navigate") {
-            const F = t[V];
-            F && ue(F.key);
-          } else R === "cells" && B === "navigate" && $(H);
+          if (I.preventDefault(), D === "headers" && x === "navigate") {
+            const H = t[L];
+            H && A(H.key);
+          } else D === "cells" && x === "navigate" && w(B);
           break;
       }
     }, [
-      R,
+      D,
+      x,
+      L,
       B,
-      V,
-      H,
-      ce,
-      K,
+      P,
+      E,
       t,
+      k,
       b,
-      N,
-      ue,
-      $
+      A,
+      w
     ]);
-    Fe(() => {
-      const E = j.current;
-      if (E)
-        return E.addEventListener("keydown", C), () => E.removeEventListener("keydown", C);
-    }, [C]);
-    const te = oe(
+    Ee(() => {
+      const I = F.current;
+      if (I)
+        return I.addEventListener("keydown", $), () => I.removeEventListener("keydown", $);
+    }, [$]);
+    const W = de(
       "nhsuk-table",
-      p,
+      m,
       {
-        "nhsuk-table--responsive": g,
-        "nhsuk-table--bordered": m,
-<<<<<<< Updated upstream
-        "nhsuk-table--striped": v,
-=======
+        "nhsuk-table--responsive": p,
+        "nhsuk-table--bordered": g,
         "nhsuk-table--striped": C,
->>>>>>> Stashed changes
-        "nhsuk-table--compact": _ === "compact"
+        "nhsuk-table--compact": u === "compact"
       },
-      f
+      h
     );
-    return /* @__PURE__ */ n.jsxs(
+    return /* @__PURE__ */ r.jsxs(
       "table",
       {
-        ref: j,
-        className: te,
+        ref: F,
+        className: W,
         id: i,
         "data-testid": l,
         role: "grid",
-        "aria-label": c,
-        "aria-labelledby": d,
-        "aria-describedby": u,
+        "aria-label": d,
+        "aria-labelledby": c,
+        "aria-describedby": f,
         tabIndex: 0,
         children: [
-<<<<<<< Updated upstream
-          /* @__PURE__ */ n.jsx("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ n.jsx("tr", { ref: I, role: "row", children: t.map((E, Q) => {
-            const F = r?.find((se) => se.key === E.key), ae = !!F, Ce = R === "headers" && V === Q;
-=======
-          /* @__PURE__ */ n.jsx("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ n.jsx("tr", { ref: k, role: "row", children: t.map((M, te) => {
-            const E = r?.find((Y) => Y.key === M.key), ie = !!E, Q = I === "headers" && $ === te;
->>>>>>> Stashed changes
-            return /* @__PURE__ */ n.jsx(
+          /* @__PURE__ */ r.jsx("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ r.jsx("tr", { ref: T, role: "row", children: t.map((I, O) => {
+            const H = n?.find((oe) => oe.key === I.key), Q = !!H, fe = D === "headers" && L === O;
+            return /* @__PURE__ */ r.jsx(
               "th",
               {
-                className: oe("sortable-header", {
-                  "sortable-header--focused": Ce
+                className: de("sortable-header", {
+                  "sortable-header--focused": fe
                 }),
                 role: "columnheader",
-<<<<<<< Updated upstream
-                tabIndex: Ce ? 0 : -1,
-                onClick: () => ue(E.key),
-                onKeyDown: (se) => {
-                  (se.key === "Enter" || se.key === " ") && (se.preventDefault(), ue(E.key));
-=======
-                tabIndex: Q ? 0 : -1,
-                onClick: () => ue(M.key),
-                onKeyDown: (Y) => {
-                  (Y.key === "Enter" || Y.key === " ") && (Y.preventDefault(), ue(M.key));
->>>>>>> Stashed changes
+                tabIndex: fe ? 0 : -1,
+                onClick: () => A(I.key),
+                onKeyDown: (oe) => {
+                  (oe.key === "Enter" || oe.key === " ") && (oe.preventDefault(), A(I.key));
                 },
-                "aria-sort": ae ? F?.direction === "asc" ? "ascending" : "descending" : "none",
-                children: /* @__PURE__ */ n.jsxs("div", { className: "header-content", children: [
-<<<<<<< Updated upstream
-                  /* @__PURE__ */ n.jsx("span", { className: "header-label", children: E.label }),
-                  ae && /* @__PURE__ */ n.jsxs("span", { className: "sort-indicator", "aria-hidden": "true", children: [
-                    r && r.length > 1 && /* @__PURE__ */ n.jsx("span", { className: "sort-priority", children: r.findIndex((se) => se.key === E.key) + 1 }),
-=======
-                  /* @__PURE__ */ n.jsx("span", { className: "header-label", children: M.label }),
-                  ie && /* @__PURE__ */ n.jsxs("span", { className: "sort-indicator", "aria-hidden": "true", children: [
-                    r && r.length > 1 && /* @__PURE__ */ n.jsx("span", { className: "sort-priority", children: r.findIndex((Y) => Y.key === M.key) + 1 }),
->>>>>>> Stashed changes
-                    /* @__PURE__ */ n.jsx(
+                "aria-sort": Q ? H?.direction === "asc" ? "ascending" : "descending" : "none",
+                children: /* @__PURE__ */ r.jsxs("div", { className: "header-content", children: [
+                  /* @__PURE__ */ r.jsx("span", { className: "header-label", children: I.label }),
+                  Q && /* @__PURE__ */ r.jsxs("span", { className: "sort-indicator", "aria-hidden": "true", children: [
+                    n && n.length > 1 && /* @__PURE__ */ r.jsx("span", { className: "sort-priority", children: n.findIndex((oe) => oe.key === I.key) + 1 }),
+                    /* @__PURE__ */ r.jsx(
                       "svg",
                       {
                         width: "12",
@@ -8782,56 +6305,47 @@ const gc = ({
                         viewBox: "0 0 12 12",
                         fill: "currentColor",
                         className: "sort-arrow",
-                        children: F?.direction === "asc" ? /* @__PURE__ */ n.jsx("path", { d: "M6 2L2 8h8L6 2z" }) : /* @__PURE__ */ n.jsx("path", { d: "M6 10L2 4h8L6 10z" })
+                        children: H?.direction === "asc" ? /* @__PURE__ */ r.jsx("path", { d: "M6 2L2 8h8L6 2z" }) : /* @__PURE__ */ r.jsx("path", { d: "M6 10L2 4h8L6 10z" })
                       }
                     )
                   ] })
                 ] })
               },
-              E.key
+              I.key
             );
           }) }) }),
-          /* @__PURE__ */ n.jsx("tbody", { ref: k, className: "nhsuk-table__body", role: "rowgroup", children: y.map((E, Q) => {
-            const F = o === Q, ae = R === "cells" && H === Q;
-            return /* @__PURE__ */ n.jsx(
+          /* @__PURE__ */ r.jsx("tbody", { ref: S, className: "nhsuk-table__body", role: "rowgroup", children: M.map((I, O) => {
+            const H = o === O, Q = D === "cells" && B === O;
+            return /* @__PURE__ */ r.jsx(
               "tr",
               {
                 role: "row",
-                className: oe("data-row", {
-                  "data-row--selected": F,
-                  "data-row--focused": ae
+                className: de("data-row", {
+                  "data-row--selected": H,
+                  "data-row--focused": Q
                 }),
-<<<<<<< Updated upstream
-                "aria-selected": F,
-                children: t.map((Ce, se) => {
-                  const X = Ce.tableRenderer ? Ce.tableRenderer(E) : Ce.render ? Ce.render(E) : E[Ce.key], Y = R === "cells" && H === Q && V === se, re = () => typeof X == "boolean" ? /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-                    /* @__PURE__ */ n.jsx("span", { "aria-hidden": "true", children: X ? "✓" : "✗" }),
-                    /* @__PURE__ */ n.jsx("span", { className: "sr-only", children: X ? "Yes" : "No" })
-                  ] }) : String(X ?? "");
-=======
-                "aria-selected": E,
-                children: t.map((Q, Y) => {
-                  const K = Q.tableRenderer ? Q.tableRenderer(M) : Q.render ? Q.render(M) : M[Q.key], U = I === "cells" && L === te && $ === Y, se = () => typeof K == "boolean" ? /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-                    /* @__PURE__ */ n.jsx("span", { "aria-hidden": "true", children: K ? "✓" : "✗" }),
-                    /* @__PURE__ */ n.jsx("span", { className: "sr-only", children: K ? "Yes" : "No" })
+                "aria-selected": H,
+                children: t.map((fe, oe) => {
+                  const K = fe.tableRenderer ? fe.tableRenderer(I) : fe.render ? fe.render(I) : I[fe.key], V = D === "cells" && B === O && L === oe, J = () => typeof K == "boolean" ? /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+                    /* @__PURE__ */ r.jsx("span", { "aria-hidden": "true", children: K ? "✓" : "✗" }),
+                    /* @__PURE__ */ r.jsx("span", { className: "sr-only", children: K ? "Yes" : "No" })
                   ] }) : String(K ?? "");
->>>>>>> Stashed changes
-                  return /* @__PURE__ */ n.jsx(
+                  return /* @__PURE__ */ r.jsx(
                     "td",
                     {
                       role: "gridcell",
-                      className: oe("data-cell", {
-                        "data-cell--focused": Y
+                      className: de("data-cell", {
+                        "data-cell--focused": V
                       }),
-                      tabIndex: Y ? 0 : -1,
-                      onClick: () => $(Q),
-                      children: re()
+                      tabIndex: V ? 0 : -1,
+                      onClick: () => w(O),
+                      children: J()
                     },
-                    Ce.key
+                    fe.key
                   );
                 })
               },
-              Q
+              O
             );
           }) })
         ]
@@ -8839,116 +6353,75 @@ const gc = ({
     );
   }
 );
-<<<<<<< Updated upstream
-Cc.displayName = "AriaDataGrid";
-const ds = ({
-=======
-bc.displayName = "AriaDataGrid";
-const hs = ({
->>>>>>> Stashed changes
+Lu.displayName = "AriaDataGrid";
+const Lo = ({
   sortConfig: e,
   columns: t,
-  onSortChange: r,
+  onSortChange: n,
   className: a = "",
   emptyDescription: o = "No sorting applied",
   activeDescription: s,
   showReset: i = !0,
   showHelp: l = !0,
-  disabled: c = !1,
-  ariaLabel: d = "Sort configuration",
-  ariaDescribedBy: u
+  disabled: d = !1,
+  ariaLabel: c = "Sort configuration",
+  ariaDescribedBy: f
 }) => {
-<<<<<<< Updated upstream
-  const f = Te(null), p = Te(null), m = Te(null), v = ee((R, x) => {
-    d || (p.current = x, R.dataTransfer.effectAllowed = "move", R.dataTransfer.setData("text/plain", x));
-  }, [d]), g = ee((R, x) => {
-    d || p.current === x || (R.preventDefault(), R.dataTransfer.dropEffect = "move", m.current = x);
-  }, [d]), _ = ee((R, x) => {
+  const h = Ie(null), m = Ie(null), g = Ie(null), C = ie((D, v) => {
+    d || (m.current = v, D.dataTransfer.effectAllowed = "move", D.dataTransfer.setData("text/plain", v));
+  }, [d]), p = ie((D, v) => {
+    d || m.current === v || (D.preventDefault(), D.dataTransfer.dropEffect = "move", g.current = v);
+  }, [d]), u = ie((D, v) => {
     if (d) return;
-    R.preventDefault();
-    const B = p.current;
-    if (!B || B === x) return;
-    const Z = e.findIndex((K) => K.key === B), ce = e.findIndex((K) => K.key === x);
-    if (Z !== -1 && ce !== -1) {
-      const K = [...e], [y] = K.splice(Z, 1);
-      K.splice(ce, 0, y), r(K);
+    D.preventDefault();
+    const x = m.current;
+    if (!x || x === v) return;
+    const y = e.findIndex((E) => E.key === x), P = e.findIndex((E) => E.key === v);
+    if (y !== -1 && P !== -1) {
+      const E = [...e], [M] = E.splice(y, 1);
+      E.splice(P, 0, M), n(E);
     }
-    p.current = null, m.current = null;
-  }, [d, e, r]), G = ee(() => {
-    p.current = null, m.current = null;
-  }, []), j = ee((R) => {
-    const x = t.find((B) => B.key === R);
-    return x ? x.label : R;
-  }, [t]), I = ee((R) => ["red", "orange", "blue", "aqua-green", "grey"][R] || "grey", []), k = ee((R) => {
+    m.current = null, g.current = null;
+  }, [d, e, n]), R = ie(() => {
+    m.current = null, g.current = null;
+  }, []), F = ie((D) => {
+    const v = t.find((x) => x.key === D);
+    return v ? v.label : D;
+  }, [t]), T = ie((D) => ["red", "orange", "blue", "aqua-green", "grey"][D] || "grey", []), S = ie((D) => {
     if (d) return;
-    const x = e.map(
-      (B) => B.key === R ? { ...B, direction: B.direction === "asc" ? "desc" : "asc" } : B
+    const v = e.map(
+      (x) => x.key === D ? { ...x, direction: x.direction === "asc" ? "desc" : "asc" } : x
     );
-    r(x);
-  }, [e, r, d]), H = ee((R) => {
+    n(v);
+  }, [e, n, d]), B = ie((D) => {
     if (d) return;
-    const x = e.filter((B) => B.key !== R);
-    r(x);
-  }, [e, r, d]), A = ee(() => {
-    d || r([]);
-  }, [r, d]), V = () => {
-=======
-  const f = Ce(null), p = Ce(null), m = Ce(null), C = re((I, b) => {
-    c || (p.current = b, I.dataTransfer.effectAllowed = "move", I.dataTransfer.setData("text/plain", b));
-  }, [c]), g = re((I, b) => {
-    c || p.current === b || (I.preventDefault(), I.dataTransfer.dropEffect = "move", m.current = b);
-  }, [c]), _ = re((I, b) => {
-    if (c) return;
-    I.preventDefault();
-    const F = p.current;
-    if (!F || F === b) return;
-    const X = e.findIndex((J) => J.key === F), de = e.findIndex((J) => J.key === b);
-    if (X !== -1 && de !== -1) {
-      const J = [...e], [R] = J.splice(X, 1);
-      J.splice(de, 0, R), r(J);
-    }
-    p.current = null, m.current = null;
-  }, [c, e, r]), V = re(() => {
-    p.current = null, m.current = null;
-  }, []), B = re((I) => {
-    const b = t.find((F) => F.key === I);
-    return b ? b.label : I;
-  }, [t]), k = re((I) => ["red", "orange", "blue", "aqua-green", "grey"][I] || "grey", []), y = re((I) => {
-    if (c) return;
-    const b = e.map(
-      (F) => F.key === I ? { ...F, direction: F.direction === "asc" ? "desc" : "asc" } : F
-    );
-    r(b);
-  }, [e, r, c]), L = re((I) => {
-    if (c) return;
-    const b = e.filter((F) => F.key !== I);
-    r(b);
-  }, [e, r, c]), v = re(() => {
-    c || r([]);
-  }, [r, c]), $ = () => {
->>>>>>> Stashed changes
+    const v = e.filter((x) => x.key !== D);
+    n(v);
+  }, [e, n, d]), _ = ie(() => {
+    d || n([]);
+  }, [n, d]), L = () => {
     if (e.length === 0)
       return o;
     if (s)
       return s;
-    const R = e.map((x, B) => {
-      const Z = x.direction === "asc" ? "ascending" : "descending";
-      return `${B + 1}. ${j(x.key)} (${Z})`;
+    const D = e.map((v, x) => {
+      const y = v.direction === "asc" ? "ascending" : "descending";
+      return `${x + 1}. ${F(v.key)} (${y})`;
     });
-    if (R.length === 1)
-      return `Sorted by: ${R[0]}`;
-    if (R.length === 2)
-      return `Sorted by: ${R.join(" and ")}`;
+    if (D.length === 1)
+      return `Sorted by: ${D[0]}`;
+    if (D.length === 2)
+      return `Sorted by: ${D.join(" and ")}`;
     {
-      const x = R.pop();
-      return `Sorted by: ${R.join(", ")}, and ${x}`;
+      const v = D.pop();
+      return `Sorted by: ${D.join(", ")}, and ${v}`;
     }
-  }, M = De(() => {
-    const R = ["sort-description"];
-    return l && R.push("sort-help"), u && R.push(u), R.join(" ");
-  }, [l, u]);
-  return e.length === 0 ? /* @__PURE__ */ n.jsxs("div", { className: `sort-status-control ${a}`, children: [
-    /* @__PURE__ */ n.jsx(
+  }, j = je(() => {
+    const D = ["sort-description"];
+    return l && D.push("sort-help"), f && D.push(f), D.join(" ");
+  }, [l, f]);
+  return e.length === 0 ? /* @__PURE__ */ r.jsxs("div", { className: `sort-status-control ${a}`, children: [
+    /* @__PURE__ */ r.jsx(
       "div",
       {
         className: "sort-status-control__description",
@@ -8957,103 +6430,72 @@ const hs = ({
         children: o
       }
     ),
-    l && /* @__PURE__ */ n.jsx("div", { className: "sort-status-control__help", id: "sort-help", children: /* @__PURE__ */ n.jsx("small", { children: "Drag tags to reorder priority. Click tags or ↑/↓ buttons to toggle ascending/descending. Click × to remove a sort." }) })
-  ] }) : /* @__PURE__ */ n.jsxs("div", { className: `sort-status-control ${a}`, children: [
-    /* @__PURE__ */ n.jsx(
+    l && /* @__PURE__ */ r.jsx("div", { className: "sort-status-control__help", id: "sort-help", children: /* @__PURE__ */ r.jsx("small", { children: "Drag tags to reorder priority. Click tags or ↑/↓ buttons to toggle ascending/descending. Click × to remove a sort." }) })
+  ] }) : /* @__PURE__ */ r.jsxs("div", { className: `sort-status-control ${a}`, children: [
+    /* @__PURE__ */ r.jsx(
       "div",
       {
         className: "sort-status-control__description sort-status-control__description--active",
         id: "sort-description",
         "aria-live": "polite",
-        children: V()
+        children: L()
       }
     ),
-    /* @__PURE__ */ n.jsxs("div", { className: "sort-status-container", children: [
-      /* @__PURE__ */ n.jsx(
+    /* @__PURE__ */ r.jsxs("div", { className: "sort-status-container", children: [
+      /* @__PURE__ */ r.jsx(
         "div",
         {
-          ref: f,
+          ref: h,
           className: "sort-status-control__tags",
           role: "list",
-<<<<<<< Updated upstream
           "aria-label": c,
-          "aria-describedby": M,
-          children: e.map((R, x) => /* @__PURE__ */ n.jsx(
-=======
-          "aria-label": d,
-          "aria-describedby": A,
-          children: e.map((I, b) => /* @__PURE__ */ n.jsx(
->>>>>>> Stashed changes
+          "aria-describedby": j,
+          children: e.map((D, v) => /* @__PURE__ */ r.jsx(
             "div",
             {
               className: "sort-status-control__tag-container",
               role: "listitem",
-<<<<<<< Updated upstream
               draggable: !d,
-              onDragStart: (B) => v(B, R.key),
-              onDragOver: (B) => g(B, R.key),
-              onDrop: (B) => _(B, R.key),
-              onDragEnd: G,
-              onClick: () => k(R.key),
+              onDragStart: (x) => C(x, D.key),
+              onDragOver: (x) => p(x, D.key),
+              onDrop: (x) => u(x, D.key),
+              onDragEnd: R,
+              onClick: () => S(D.key),
               style: { cursor: d ? "default" : "pointer" },
-              title: d ? "" : `Click to toggle sort direction. Currently ${R.direction === "asc" ? "ascending" : "descending"}`,
-              "data-key": R.key,
-              children: /* @__PURE__ */ n.jsx(
-                rt,
+              title: d ? "" : `Click to toggle sort direction. Currently ${D.direction === "asc" ? "ascending" : "descending"}`,
+              "data-key": D.key,
+              children: /* @__PURE__ */ r.jsx(
+                et,
                 {
-                  color: I(x),
+                  color: T(v),
                   className: "sort-status-control__tag",
                   closable: !0,
-                  onClose: () => H(R.key),
+                  onClose: () => B(D.key),
                   disabled: d,
-=======
-              draggable: !c,
-              onDragStart: (F) => C(F, I.key),
-              onDragOver: (F) => g(F, I.key),
-              onDrop: (F) => _(F, I.key),
-              onDragEnd: V,
-              onClick: () => y(I.key),
-              style: { cursor: c ? "default" : "pointer" },
-              title: c ? "" : `Click to toggle sort direction. Currently ${I.direction === "asc" ? "ascending" : "descending"}`,
-              "data-key": I.key,
-              children: /* @__PURE__ */ n.jsx(
-                rt,
-                {
-                  color: k(b),
-                  className: "sort-status-control__tag",
-                  closable: !0,
-                  onClose: () => L(I.key),
-                  disabled: c,
->>>>>>> Stashed changes
-                  children: /* @__PURE__ */ n.jsxs("div", { className: "sort-status-control__tag-content", children: [
-                    /* @__PURE__ */ n.jsx("div", { className: "sort-status-control__drag-handle", title: "Drag to reorder", children: "⋮⋮" }),
-                    /* @__PURE__ */ n.jsx("div", { className: `sort-status-control__priority-badge sort-priority sort-priority--priority-${x + 1}`, children: x + 1 }),
-                    /* @__PURE__ */ n.jsx("span", { className: "sort-status-control__tag-label", children: j(R.key) }),
-                    /* @__PURE__ */ n.jsx(
+                  children: /* @__PURE__ */ r.jsxs("div", { className: "sort-status-control__tag-content", children: [
+                    /* @__PURE__ */ r.jsx("div", { className: "sort-status-control__drag-handle", title: "Drag to reorder", children: "⋮⋮" }),
+                    /* @__PURE__ */ r.jsx("div", { className: `sort-status-control__priority-badge sort-priority sort-priority--priority-${v + 1}`, children: v + 1 }),
+                    /* @__PURE__ */ r.jsx("span", { className: "sort-status-control__tag-label", children: F(D.key) }),
+                    /* @__PURE__ */ r.jsx(
                       "button",
                       {
                         type: "button",
                         className: "sort-status-control__direction-button",
-                        onClick: (B) => {
-                          B.stopPropagation(), k(R.key);
+                        onClick: (x) => {
+                          x.stopPropagation(), S(D.key);
                         },
-<<<<<<< Updated upstream
                         disabled: d,
-                        "aria-label": `Toggle sort direction for ${j(R.key)}. Currently ${R.direction === "asc" ? "ascending" : "descending"}`,
-=======
-                        disabled: c,
-                        "aria-label": `Toggle sort direction for ${B(I.key)}. Currently ${I.direction === "asc" ? "ascending" : "descending"}`,
->>>>>>> Stashed changes
+                        "aria-label": `Toggle sort direction for ${F(D.key)}. Currently ${D.direction === "asc" ? "ascending" : "descending"}`,
                         title: "Click to toggle between ascending and descending",
-                        children: /* @__PURE__ */ n.jsx("span", { className: `sort-status-control__direction-icon sort-status-control__direction-icon--${R.direction}`, children: /* @__PURE__ */ n.jsx(
+                        children: /* @__PURE__ */ r.jsx("span", { className: `sort-status-control__direction-icon sort-status-control__direction-icon--${D.direction}`, children: /* @__PURE__ */ r.jsx(
                           "svg",
                           {
-                            className: `nhsuk-icon sort-status-control__chevron sort-status-control__chevron--${R.direction}`,
+                            className: `nhsuk-icon sort-status-control__chevron sort-status-control__chevron--${D.direction}`,
                             xmlns: "http://www.w3.org/2000/svg",
                             viewBox: "0 0 24 24",
                             "aria-hidden": "true",
                             focusable: "false",
-                            children: /* @__PURE__ */ n.jsx("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
+                            children: /* @__PURE__ */ r.jsx("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
                           }
                         ) })
                       }
@@ -9062,41 +6504,32 @@ const hs = ({
                 }
               )
             },
-            R.key
+            D.key
           ))
         }
       ),
-      i && /* @__PURE__ */ n.jsx("div", { className: "sort-status-control__actions", children: /* @__PURE__ */ n.jsx(
-        Ge,
+      i && /* @__PURE__ */ r.jsx("div", { className: "sort-status-control__actions", children: /* @__PURE__ */ r.jsx(
+        Qe,
         {
           variant: "secondary",
-<<<<<<< Updated upstream
-          onClick: A,
+          onClick: _,
           disabled: d,
-=======
-          onClick: v,
-          disabled: c,
->>>>>>> Stashed changes
           "aria-label": "Reset all sorting",
           className: "sort-status-control__reset-button",
           children: "Clear All Sorts"
         }
       ) })
     ] }),
-    l && /* @__PURE__ */ n.jsx("div", { className: "sort-status-control__help", id: "sort-help", children: /* @__PURE__ */ n.jsx("small", { children: "Drag tags to reorder priority. Click tags or ↑/↓ buttons to toggle ascending/descending. Click × to remove a sort." }) })
+    l && /* @__PURE__ */ r.jsx("div", { className: "sort-status-control__help", id: "sort-help", children: /* @__PURE__ */ r.jsx("small", { children: "Drag tags to reorder priority. Click tags or ↑/↓ buttons to toggle ascending/descending. Click × to remove a sort." }) })
   ] });
 };
-<<<<<<< Updated upstream
-function jc(e, t) {
-=======
-function xc(e, t) {
->>>>>>> Stashed changes
+function Mu(e, t) {
   switch (t.type) {
     case "SET_SELECTED_INDEX":
       return { ...e, selectedIndex: t.payload };
     case "SET_TAB_LOADING":
-      const r = [...e.tabLoadingStates];
-      return r[t.payload.tabIndex] = t.payload.isLoading, { ...e, tabLoadingStates: r };
+      const n = [...e.tabLoadingStates];
+      return n[t.payload.tabIndex] = t.payload.isLoading, { ...e, tabLoadingStates: n };
     case "SET_TAB_ERROR":
       const a = [...e.tabErrors];
       return a[t.payload.tabIndex] = t.payload.error, { ...e, tabErrors: a };
@@ -9110,14 +6543,14 @@ function xc(e, t) {
     case "SET_FILTERS":
       return { ...e, filters: t.payload };
     case "ADJUST_ARRAYS":
-      const { newLength: s } = t.payload, i = new Array(s).fill(!1), l = new Array(s).fill(null), c = new Array(s).fill([]);
-      for (let d = 0; d < Math.min(e.tabLoadingStates.length, s); d++)
-        i[d] = e.tabLoadingStates[d], l[d] = e.tabErrors[d], c[d] = e.selectedRows[d];
+      const { newLength: s } = t.payload, i = new Array(s).fill(!1), l = new Array(s).fill(null), d = new Array(s).fill([]);
+      for (let c = 0; c < Math.min(e.tabLoadingStates.length, s); c++)
+        i[c] = e.tabLoadingStates[c], l[c] = e.tabErrors[c], d[c] = e.selectedRows[c];
       return {
         ...e,
         tabLoadingStates: i,
         tabErrors: l,
-        selectedRows: c
+        selectedRows: d
       };
     case "RESET_STATE":
       return {
@@ -9133,61 +6566,43 @@ function xc(e, t) {
       return e;
   }
 }
-const pr = Pt(function(t, r) {
+const ea = an(function(t, n) {
   const {
     dataConfig: a = {},
     tabPanels: o,
     selectedIndex: s,
     onTabChange: i,
     onGlobalRowSelectionChange: l,
-    ariaLabel: c,
-    ariaDescription: d,
-    className: u = "",
-    disabled: f = !1,
-    orientation: p = "horizontal",
-    id: m,
-<<<<<<< Updated upstream
-    isLoading: v = !1,
-    loadingComponent: g,
-    error: _ = null,
-    errorComponent: G,
-    "data-testid": j,
-    actions: I,
-    actionsMinGap: k = 16,
-    forceActionsAbove: H = !1
-  } = t, V = Te(
-    m || `aria-tabs-datagrid-${Math.random().toString(36).slice(2, 9)}`
-  ).current, M = typeof c == "string" && c.trim() !== "" && !/\s/.test(c), R = `${V}-description`, x = `${V}-navigation-help`, {
-    dataComparator: B = (h, w) => JSON.stringify(h) === JSON.stringify(w),
-    filterFunction: Z = (h) => h,
-    booleanRenderer: ce = (h) => h ? "✓" : "✗"
-  } = a || {}, K = s !== void 0, y = s ?? 0, [b, N] = we({
-=======
+    ariaLabel: d,
+    ariaDescription: c,
+    className: f = "",
+    disabled: h = !1,
+    orientation: m = "horizontal",
+    id: g,
     isLoading: C = !1,
-    loadingComponent: g,
-    error: _ = null,
-    errorComponent: V,
-    "data-testid": B,
-    actions: k,
-    actionsMinGap: y = 16,
-    forceActionsAbove: L = !1
-  } = t, $ = Ce(
-    m || `aria-tabs-datagrid-${Math.random().toString(36).slice(2, 9)}`
-  ).current, A = typeof d == "string" && d.trim() !== "" && !/\s/.test(d), I = `${$}-description`, b = `${$}-navigation-help`, {
-    dataComparator: F = (h, w) => JSON.stringify(h) === JSON.stringify(w),
-    filterFunction: X = (h) => h,
-    booleanRenderer: de = (h) => h ? "✓" : "✗"
-  } = a || {}, J = s !== void 0, R = s ?? 0, [x, N] = Se({
->>>>>>> Stashed changes
+    loadingComponent: p,
+    error: u = null,
+    errorComponent: R,
+    "data-testid": F,
+    actions: T,
+    actionsMinGap: S = 16,
+    forceActionsAbove: B = !1
+  } = t, L = Ie(
+    g || `aria-tabs-datagrid-${Math.random().toString(36).slice(2, 9)}`
+  ).current, j = typeof c == "string" && c.trim() !== "" && !/\s/.test(c), D = `${L}-description`, v = `${L}-navigation-help`, {
+    dataComparator: x = (N, z) => JSON.stringify(N) === JSON.stringify(z),
+    filterFunction: y = (N) => N,
+    booleanRenderer: P = (N) => N ? "✓" : "✗"
+  } = a || {}, E = s !== void 0, M = s ?? 0, [k, b] = Ne({
     focusArea: "tabs",
-    focusedTabIndex: y,
+    focusedTabIndex: M,
     focusedHeaderIndex: 0,
     focusedRowIndex: 0,
     focusedColumnIndex: 0,
     focusedActionIndex: 0,
     isGridActive: !1
-  }), ue = De(() => ({
-    selectedIndex: y,
+  }), A = je(() => ({
+    selectedIndex: M,
     tabLoadingStates: new Array(o.length).fill(!1),
     tabErrors: new Array(o.length).fill(null),
     sortConfig: [],
@@ -9195,351 +6610,288 @@ const pr = Pt(function(t, r) {
     selectedRows: new Array(o.length).fill([]),
     globalSelectedRowData: null,
     filters: void 0
-<<<<<<< Updated upstream
-  }), [y]), [$, C] = Wa(jc, ue);
-  Fe(() => {
-    const h = $.tabLoadingStates.length, w = o.length;
-    h !== w && C({ type: "ADJUST_ARRAYS", payload: { newLength: w } });
-  }, [o.length]), Fe(() => {
-    K && C({ type: "SET_SELECTED_INDEX", payload: y });
-  }, [y, K]), Fe(() => {
-=======
-  }), [R]), [P, j] = Ua(xc, ue);
-  Ie(() => {
-    const h = P.tabLoadingStates.length, w = o.length;
-    h !== w && j({ type: "ADJUST_ARRAYS", payload: { newLength: w } });
-  }, [o.length]), Ie(() => {
-    J && j({ type: "SET_SELECTED_INDEX", payload: R });
-  }, [R, J]), Ie(() => {
->>>>>>> Stashed changes
-    N((h) => ({
-      ...h,
+  }), [M]), [w, $] = no(Mu, A);
+  Ee(() => {
+    const N = w.tabLoadingStates.length, z = o.length;
+    N !== z && $({ type: "ADJUST_ARRAYS", payload: { newLength: z } });
+  }, [o.length]), Ee(() => {
+    E && $({ type: "SET_SELECTED_INDEX", payload: M });
+  }, [M, E]), Ee(() => {
+    b((N) => ({
+      ...N,
       focusArea: "tabs",
-      focusedTabIndex: $.selectedIndex,
+      focusedTabIndex: w.selectedIndex,
       focusedHeaderIndex: 0,
       focusedRowIndex: 0,
       focusedColumnIndex: 0,
       focusedActionIndex: 0,
       isGridActive: !1
     }));
-  }, [$.selectedIndex]), Fe(() => {
-    l && l($.globalSelectedRowData);
-  }, [$.globalSelectedRowData, l]);
-  const te = ee(
-    (h, w) => B(h, w),
-    [B]
-  ), E = ee(
-    (h) => {
-      h >= 0 && h < o.length && !o[h].disabled && (C({ type: "SET_SELECTED_INDEX", payload: h }), N((w) => ({
-        ...w,
-        focusedTabIndex: h,
+  }, [w.selectedIndex]), Ee(() => {
+    l && l(w.globalSelectedRowData);
+  }, [w.globalSelectedRowData, l]);
+  const W = ie(
+    (N, z) => x(N, z),
+    [x]
+  ), I = ie(
+    (N) => {
+      N >= 0 && N < o.length && !o[N].disabled && ($({ type: "SET_SELECTED_INDEX", payload: N }), b((z) => ({
+        ...z,
+        focusedTabIndex: N,
         focusArea: "tabs"
-      })), i?.(h));
+      })), i?.(N));
     },
     [o, i]
-  ), Q = Te(!1), F = ee(
-    (h, w) => {
-      if (!w?.force && !Q.current && h === 0) {
-        Q.current = !0;
+  ), O = Ie(!1), H = ie(
+    (N, z) => {
+      if (!z?.force && !O.current && N === 0) {
+        O.current = !0;
         return;
       }
-<<<<<<< Updated upstream
-      Q.current = !0, setTimeout(() => {
-        const W = ae.current[h], O = W?.parentElement;
-        if (W && O) {
-          const T = W.offsetLeft, U = W.offsetWidth, xe = O.clientWidth, he = T - xe / 2 + U / 2;
+      O.current = !0, setTimeout(() => {
+        const te = Q.current[N], re = te?.parentElement;
+        if (te && re) {
+          const Y = te.offsetLeft, ne = te.offsetWidth, _e = re.clientWidth, ye = Y - _e / 2 + ne / 2;
           try {
-            O.scrollTo({
-              left: Math.max(0, he),
-=======
-      te.current = !0, setTimeout(() => {
-        const O = ie.current[h], q = O?.parentElement;
-        if (O && q) {
-          const D = O.offsetLeft, G = O.offsetWidth, ye = q.clientWidth, ge = D - ye / 2 + G / 2;
-          try {
-            q.scrollTo({
-              left: Math.max(0, ge),
->>>>>>> Stashed changes
+            re.scrollTo({
+              left: Math.max(0, ye),
               behavior: "smooth"
             });
           } catch {
-            W.scrollIntoView({
+            te.scrollIntoView({
               behavior: "smooth",
               block: "nearest",
               inline: "center"
             });
           }
         } else process.env.SILENCE_SCROLL_DEBUG || console.debug("[AriaTabsDataGrid] Missing elements for scroll", {
-<<<<<<< Updated upstream
-          tabElementExists: !!W,
-          tabListElementExists: !!O
-=======
-          tabElementExists: !!O,
-          tabListElementExists: !!q
->>>>>>> Stashed changes
+          tabElementExists: !!te,
+          tabListElementExists: !!re
         });
       }, 50);
     },
     []
-<<<<<<< Updated upstream
-  ), ae = Te([]), Ce = Te([]), se = ee(
-    (h, w) => {
-      const W = $.sortConfig || [], O = W.find(
-        (xe) => xe.key === w
+  ), Q = Ie([]), fe = Ie([]), oe = ie(
+    (N, z) => {
+      const te = w.sortConfig || [], re = te.find(
+        (_e) => _e.key === z
       );
-      let T;
-      O ? O.direction === "asc" ? T = W.map(
-        (xe) => xe.key === w ? { ...xe, direction: "desc" } : xe
-      ) : T = W.filter(
-        (xe) => xe.key !== w
-      ) : T = [...W, { key: w, direction: "asc" }], C({
-=======
-  ), ie = Ce([]), Q = Ce([]), Y = re(
-    (h, w) => {
-      const O = P.sortConfig || [], q = O.find(
-        (ye) => ye.key === w
-      );
-      let D;
-      q ? q.direction === "asc" ? D = O.map(
-        (ye) => ye.key === w ? { ...ye, direction: "desc" } : ye
-      ) : D = O.filter(
-        (ye) => ye.key !== w
-      ) : D = [...O, { key: w, direction: "asc" }], j({
->>>>>>> Stashed changes
+      let Y;
+      re ? re.direction === "asc" ? Y = te.map(
+        (_e) => _e.key === z ? { ..._e, direction: "desc" } : _e
+      ) : Y = te.filter(
+        (_e) => _e.key !== z
+      ) : Y = [...te, { key: z, direction: "asc" }], $({
         type: "SET_SORT",
-        payload: T
-      }), o[h].onSort?.(w);
+        payload: Y
+      }), o[N].onSort?.(z);
     },
-    [$.sortConfig, o]
-  ), X = ee(
-    (h) => {
+    [w.sortConfig, o]
+  ), K = ie(
+    (N) => {
       setTimeout(() => {
-        const w = document.querySelector(
-          `[data-tab-panel="${$.selectedIndex}"] th:nth-child(${h + 1})`
+        const z = document.querySelector(
+          `[data-tab-panel="${w.selectedIndex}"] th:nth-child(${N + 1})`
         );
-        w && w.focus();
+        z && z.focus();
       }, 0);
     },
-    [$.selectedIndex]
-  ), Y = ee(
-    (h) => ce(h),
-    [ce]
-  ), re = ee(
-    (h, w) => {
+    [w.selectedIndex]
+  ), V = ie(
+    (N) => P(N),
+    [P]
+  ), J = ie(
+    (N, z) => {
       setTimeout(() => {
-        const W = document.querySelector(
-          `[data-tab-panel="${$.selectedIndex}"] tbody tr:nth-child(${h + 1}) td:nth-child(${w + 1})`
+        const te = document.querySelector(
+          `[data-tab-panel="${w.selectedIndex}"] tbody tr:nth-child(${N + 1}) td:nth-child(${z + 1})`
         );
-        W && W.focus();
+        te && te.focus();
       }, 0);
     },
-    [$.selectedIndex]
+    [w.selectedIndex]
   );
-  Fe(() => {
-    b.isGridActive && (b.focusArea === "headers" ? setTimeout(() => {
-      X(b.focusedHeaderIndex);
-    }, 0) : b.focusArea === "cells" && setTimeout(() => {
-      re(
-        b.focusedRowIndex,
-        b.focusedColumnIndex
+  Ee(() => {
+    k.isGridActive && (k.focusArea === "headers" ? setTimeout(() => {
+      K(k.focusedHeaderIndex);
+    }, 0) : k.focusArea === "cells" && setTimeout(() => {
+      J(
+        k.focusedRowIndex,
+        k.focusedColumnIndex
       );
     }, 0));
   }, [
-    b.focusArea,
-    b.isGridActive,
-    b.focusedHeaderIndex,
-    b.focusedRowIndex,
-    b.focusedColumnIndex,
-    X,
-    re
-  ]), Fe(() => {
-    F($.selectedIndex);
-  }, [$.selectedIndex, F]);
-  const me = ee(
-    (h, w) => {
-<<<<<<< Updated upstream
-      const { key: W } = h, O = o[$.selectedIndex], T = O?.columns.length || 0;
-      switch (W) {
-=======
-      const { key: O } = h, q = o[P.selectedIndex], D = q?.columns.length || 0;
-      switch (O) {
->>>>>>> Stashed changes
+    k.focusArea,
+    k.isGridActive,
+    k.focusedHeaderIndex,
+    k.focusedRowIndex,
+    k.focusedColumnIndex,
+    K,
+    J
+  ]), Ee(() => {
+    H(w.selectedIndex);
+  }, [w.selectedIndex, H]);
+  const ae = ie(
+    (N, z) => {
+      const { key: te } = N, re = o[w.selectedIndex], Y = re?.columns.length || 0;
+      switch (te) {
         case "ArrowLeft":
-          h.preventDefault();
-          const U = Math.max(0, w - 1);
-          N((ke) => ({
-            ...ke,
-            focusedHeaderIndex: U
-          })), X(U);
+          N.preventDefault();
+          const ne = Math.max(0, z - 1);
+          b((Te) => ({
+            ...Te,
+            focusedHeaderIndex: ne
+          })), K(ne);
           break;
         case "ArrowRight":
-          h.preventDefault();
-          const xe = Math.min(T - 1, w + 1);
-          N((ke) => ({
-            ...ke,
-            focusedHeaderIndex: xe
-          })), X(xe);
+          N.preventDefault();
+          const _e = Math.min(Y - 1, z + 1);
+          b((Te) => ({
+            ...Te,
+            focusedHeaderIndex: _e
+          })), K(_e);
           break;
         case "ArrowUp":
-          h.preventDefault(), N((ke) => ({
-            ...ke,
+          N.preventDefault(), b((Te) => ({
+            ...Te,
             focusArea: "tabs",
-            focusedTabIndex: $.selectedIndex
-          })), F($.selectedIndex), ae.current[$.selectedIndex]?.focus();
+            focusedTabIndex: w.selectedIndex
+          })), H(w.selectedIndex), Q.current[w.selectedIndex]?.focus();
           break;
         case "ArrowDown":
-          h.preventDefault(), N((ke) => ({
-            ...ke,
+          N.preventDefault(), b((Te) => ({
+            ...Te,
             focusArea: "cells",
             focusedRowIndex: 0,
-            focusedColumnIndex: w,
+            focusedColumnIndex: z,
             isGridActive: !0
           }));
           break;
         case "Home":
-          h.preventDefault(), N((ke) => ({ ...ke, focusedHeaderIndex: 0 })), X(0);
+          N.preventDefault(), b((Te) => ({ ...Te, focusedHeaderIndex: 0 })), K(0);
           break;
         case "End":
-          h.preventDefault();
-          const he = T - 1;
-          N((ke) => ({
-            ...ke,
-            focusedHeaderIndex: he
-          })), X(he);
+          N.preventDefault();
+          const ye = Y - 1;
+          b((Te) => ({
+            ...Te,
+            focusedHeaderIndex: ye
+          })), K(ye);
           break;
         case "Enter":
         case " ":
-          h.preventDefault();
-<<<<<<< Updated upstream
-          const ve = O?.columns[w]?.key;
-          ve && se($.selectedIndex, ve);
-=======
-          const _e = q?.columns[w]?.key;
-          _e && Y(P.selectedIndex, _e);
->>>>>>> Stashed changes
+          N.preventDefault();
+          const ke = re?.columns[z]?.key;
+          ke && oe(w.selectedIndex, ke);
           break;
       }
     },
     [
       o,
-<<<<<<< Updated upstream
-      $.selectedIndex,
-=======
-      P.selectedIndex,
-      Y,
-      N,
+      w.selectedIndex,
+      oe,
+      b,
       K,
->>>>>>> Stashed changes
-      se,
-      N,
-      X,
-      re,
-      ae
+      J,
+      Q
     ]
-<<<<<<< Updated upstream
-  ), P = ee(
-    (h, w, W) => {
-      const { key: O } = h, T = o[$.selectedIndex], U = T?.data.length || 0, xe = T?.columns.length || 0;
-      switch (O) {
-=======
-  ), z = re(
-    (h, w, O) => {
-      const { key: q } = h, D = o[P.selectedIndex], G = D?.data.length || 0, ye = D?.columns.length || 0;
-      switch (q) {
->>>>>>> Stashed changes
+  ), G = ie(
+    (N, z, te) => {
+      const { key: re } = N, Y = o[w.selectedIndex], ne = Y?.data.length || 0, _e = Y?.columns.length || 0;
+      switch (re) {
         case "ArrowUp":
-          if (h.preventDefault(), w === 0)
-            N((ne) => ({
-              ...ne,
+          if (N.preventDefault(), z === 0)
+            b((ce) => ({
+              ...ce,
               focusArea: "headers",
-              focusedHeaderIndex: W,
+              focusedHeaderIndex: te,
               isGridActive: !1
-            })), X(W);
+            })), K(te);
           else {
-            const ne = w - 1;
-            N((_e) => ({
-              ..._e,
-              focusedRowIndex: ne
-            })), re(ne, W);
+            const ce = z - 1;
+            b((Ce) => ({
+              ...Ce,
+              focusedRowIndex: ce
+            })), J(ce, te);
           }
           break;
         case "ArrowDown":
-          h.preventDefault();
-          const he = Math.min(U - 1, w + 1);
-          N((ne) => ({
-            ...ne,
-            focusedRowIndex: he
-          })), re(he, W);
+          N.preventDefault();
+          const ye = Math.min(ne - 1, z + 1);
+          b((ce) => ({
+            ...ce,
+            focusedRowIndex: ye
+          })), J(ye, te);
           break;
         case "ArrowLeft":
-          h.preventDefault();
-          const ve = Math.max(0, W - 1);
-          N((ne) => ({
-            ...ne,
-            focusedColumnIndex: ve
-          })), re(w, ve);
+          N.preventDefault();
+          const ke = Math.max(0, te - 1);
+          b((ce) => ({
+            ...ce,
+            focusedColumnIndex: ke
+          })), J(z, ke);
           break;
         case "ArrowRight":
-          h.preventDefault();
-          const ke = Math.min(xe - 1, W + 1);
-          N((ne) => ({
-            ...ne,
-            focusedColumnIndex: ke
-          })), re(w, ke);
+          N.preventDefault();
+          const Te = Math.min(_e - 1, te + 1);
+          b((ce) => ({
+            ...ce,
+            focusedColumnIndex: Te
+          })), J(z, Te);
           break;
         case "Home":
-          h.preventDefault(), h.ctrlKey ? (N((ne) => ({
-            ...ne,
+          N.preventDefault(), N.ctrlKey ? (b((ce) => ({
+            ...ce,
             focusedRowIndex: 0,
             focusedColumnIndex: 0
-          })), re(0, 0)) : (N((ne) => ({ ...ne, focusedColumnIndex: 0 })), re(w, 0));
+          })), J(0, 0)) : (b((ce) => ({ ...ce, focusedColumnIndex: 0 })), J(z, 0));
           break;
         case "End":
-          if (h.preventDefault(), h.ctrlKey) {
-            const ne = U - 1, _e = xe - 1;
-            N((Ie) => ({
-              ...Ie,
-              focusedRowIndex: ne,
-              focusedColumnIndex: _e
-            })), re(ne, _e);
+          if (N.preventDefault(), N.ctrlKey) {
+            const ce = ne - 1, Ce = _e - 1;
+            b((Fe) => ({
+              ...Fe,
+              focusedRowIndex: ce,
+              focusedColumnIndex: Ce
+            })), J(ce, Ce);
           } else {
-            const ne = xe - 1;
-            N((_e) => ({
-              ..._e,
-              focusedColumnIndex: ne
-            })), re(w, ne);
+            const ce = _e - 1;
+            b((Ce) => ({
+              ...Ce,
+              focusedColumnIndex: ce
+            })), J(z, ce);
           }
           break;
         case "Enter":
         case " ":
-          if (h.preventDefault(), T && T.data[w]) {
-            const ne = T.data.some(
-              (He) => "ews_data" in He
-            ) ? Z(T.data, $.filters) : T.data, _e = $.sortConfig;
-            let Ie = ne;
-            if (_e && _e.length > 0 && (Ie = [...ne].sort((He, Re) => {
-              for (const { key: Ye, direction: _t } of _e) {
-                let at = He[Ye], Qe = Re[Ye];
-                const Pe = T.columns.find(
-                  (zt) => zt.key === Ye
+          if (N.preventDefault(), Y && Y.data[z]) {
+            const ce = Y.data.some(
+              (Oe) => "ews_data" in Oe
+            ) ? y(Y.data, w.filters) : Y.data, Ce = w.sortConfig;
+            let Fe = ce;
+            if (Ce && Ce.length > 0 && (Fe = [...ce].sort((Oe, Be) => {
+              for (const { key: tt, direction: $t } of Ce) {
+                let ht = Oe[tt], ct = Be[tt];
+                const Ue = Y.columns.find(
+                  (sn) => sn.key === tt
                 );
-                if (Pe?.tableRenderer ? (at = Pe.tableRenderer(He), Qe = Pe.tableRenderer(Re)) : Pe?.render && (at = Pe.render(He), Qe = Pe.render(Re)), at == null && Qe == null) continue;
-                if (at == null) return _t === "asc" ? -1 : 1;
-                if (Qe == null) return _t === "asc" ? 1 : -1;
-                let We = 0;
-                if (typeof at == "number" && typeof Qe == "number" ? We = at - Qe : We = String(at).localeCompare(
-                  String(Qe),
+                if (Ue?.tableRenderer ? (ht = Ue.tableRenderer(Oe), ct = Ue.tableRenderer(Be)) : Ue?.render && (ht = Ue.render(Oe), ct = Ue.render(Be)), ht == null && ct == null) continue;
+                if (ht == null) return $t === "asc" ? -1 : 1;
+                if (ct == null) return $t === "asc" ? 1 : -1;
+                let Ve = 0;
+                if (typeof ht == "number" && typeof ct == "number" ? Ve = ht - ct : Ve = String(ht).localeCompare(
+                  String(ct),
                   void 0,
                   { numeric: !0, sensitivity: "base" }
-                ), We !== 0)
-                  return _t === "asc" ? We : -We;
+                ), Ve !== 0)
+                  return $t === "asc" ? Ve : -Ve;
               }
               return 0;
-            })), Ie[w]) {
-              const He = Ie[w], Ye = $.globalSelectedRowData && te($.globalSelectedRowData, He) ? null : He;
-              C({
+            })), Fe[z]) {
+              const Oe = Fe[z], tt = w.globalSelectedRowData && W(w.globalSelectedRowData, Oe) ? null : Oe;
+              $({
                 type: "SET_GLOBAL_SELECTED_ROW_DATA",
-                payload: Ye
+                payload: tt
               });
             }
           }
@@ -9548,190 +6900,134 @@ const pr = Pt(function(t, r) {
     },
     [
       o,
-      $.selectedIndex,
-      $.filters,
-      $.sortConfig,
-      Z,
-      te,
-      C,
-      N,
-      X,
-      re
+      w.selectedIndex,
+      w.filters,
+      w.sortConfig,
+      y,
+      W,
+      $,
+      b,
+      K,
+      J
     ]
-  ), je = ee(
-    (h, w) => Z(h, w),
-    [Z]
+  ), me = ie(
+    (N, z) => y(N, z),
+    [y]
   );
-<<<<<<< Updated upstream
-  if (za(
-=======
-  if (Oa(
->>>>>>> Stashed changes
-    r,
+  if (to(
+    n,
     () => ({
-      selectTab: (h) => {
-        h >= 0 && h < o.length && (C({ type: "SET_SELECTED_INDEX", payload: h }), i?.(h));
+      selectTab: (N) => {
+        N >= 0 && N < o.length && ($({ type: "SET_SELECTED_INDEX", payload: N }), i?.(N));
       },
-      refreshData: (h) => {
-        console.log("Refreshing data for tab:", h ?? "all");
+      refreshData: (N) => {
+        console.log("Refreshing data for tab:", N ?? "all");
       },
-      exportData: (h) => {
-        const w = h ?? $.selectedIndex, W = o[w];
-        return W ? W.data : [];
+      exportData: (N) => {
+        const z = N ?? w.selectedIndex, te = o[z];
+        return te ? te.data : [];
       },
-      getSelectedRows: (h) => $.globalSelectedRowData ? [] : [],
-      clearSelection: (h) => {
-        C({
+      getSelectedRows: (N) => w.globalSelectedRowData ? [] : [],
+      clearSelection: (N) => {
+        $({
           type: "SET_GLOBAL_SELECTED_ROW_DATA",
           payload: null
         });
       },
-      applyFilters: (h) => {
-        C({ type: "SET_FILTERS", payload: h });
+      applyFilters: (N) => {
+        $({ type: "SET_FILTERS", payload: N });
       }
     }),
-    [$.selectedIndex, $.selectedRows, o, i]
-  ), v)
-    return /* @__PURE__ */ n.jsx(
+    [w.selectedIndex, w.selectedRows, o, i]
+  ), C)
+    return /* @__PURE__ */ r.jsx(
       "div",
       {
-        className: `aria-tabs-datagrid aria-tabs-datagrid--loading ${u}`,
-        "data-testid": j,
-        children: g || /* @__PURE__ */ n.jsx("div", { className: "aria-tabs-datagrid__loading", children: /* @__PURE__ */ n.jsx(
+        className: `aria-tabs-datagrid aria-tabs-datagrid--loading ${f}`,
+        "data-testid": F,
+        children: p || /* @__PURE__ */ r.jsx("div", { className: "aria-tabs-datagrid__loading", children: /* @__PURE__ */ r.jsx(
           "div",
           {
             className: "nhsuk-spinner",
             role: "status",
             "aria-label": "Loading data",
-            children: /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: "Loading..." })
+            children: /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: "Loading..." })
           }
         ) })
       }
     );
-  if (_)
-    return /* @__PURE__ */ n.jsx(
+  if (u)
+    return /* @__PURE__ */ r.jsx(
       "div",
       {
-        className: `aria-tabs-datagrid aria-tabs-datagrid--error ${u}`,
-<<<<<<< Updated upstream
-        "data-testid": j,
-        children: G || /* @__PURE__ */ n.jsxs("div", { className: "aria-tabs-datagrid__error", role: "alert", children: [
-=======
-        "data-testid": B,
-        children: V || /* @__PURE__ */ n.jsxs("div", { className: "aria-tabs-datagrid__error", role: "alert", children: [
->>>>>>> Stashed changes
-          /* @__PURE__ */ n.jsx("h3", { className: "nhsuk-error-summary__title", children: "Error loading data" }),
-          /* @__PURE__ */ n.jsx("p", { children: _ })
+        className: `aria-tabs-datagrid aria-tabs-datagrid--error ${f}`,
+        "data-testid": F,
+        children: R || /* @__PURE__ */ r.jsxs("div", { className: "aria-tabs-datagrid__error", role: "alert", children: [
+          /* @__PURE__ */ r.jsx("h3", { className: "nhsuk-error-summary__title", children: "Error loading data" }),
+          /* @__PURE__ */ r.jsx("p", { children: u })
         ] })
       }
     );
-<<<<<<< Updated upstream
-  const ge = Te(null), pe = Te(null), de = Te(null), [be, Ve] = we(!0);
-  Fe(() => {
-    if (!I) {
-      Ve(!1);
-=======
-  const fe = Ce(null), pe = Ce(null), he = Ce(null), [xe, $e] = Se(!0);
-  Ie(() => {
-    if (!k) {
-      $e(!1);
->>>>>>> Stashed changes
+  const he = Ie(null), xe = Ie(null), pe = Ie(null), [be, We] = Ne(!0);
+  Ee(() => {
+    if (!T) {
+      We(!1);
       return;
     }
-    if (H) {
-      Ve(!1);
+    if (B) {
+      We(!1);
       return;
     }
-    function h() {
-<<<<<<< Updated upstream
-      if (!ge.current || !pe.current || !de.current) return;
-      const O = ge.current.clientWidth, T = Array.from(
-        pe.current.querySelectorAll(":scope > .aria-tabs-datagrid__tab")
-      ), U = T.reduce((ke, ne) => ke + ne.offsetWidth, 0), xe = de.current.offsetWidth, he = Math.max(8 * (T.length - 1), 0), ve = U + he + xe + k <= O;
-      Ve(ve);
-=======
-      if (!fe.current || !pe.current || !he.current) return;
-      const q = fe.current.clientWidth, D = Array.from(
-        pe.current.querySelectorAll(":scope > .aria-tabs-datagrid__tab")
-      ), G = D.reduce((we, oe) => we + oe.offsetWidth, 0), ye = he.current.offsetWidth, ge = Math.max(8 * (D.length - 1), 0), _e = G + ge + ye + y <= q;
-      $e(_e);
->>>>>>> Stashed changes
+    function N() {
+      if (!he.current || !xe.current || !pe.current) return;
+      const re = he.current.clientWidth, Y = Array.from(
+        xe.current.querySelectorAll(":scope > .aria-tabs-datagrid__tab")
+      ), ne = Y.reduce((Te, ce) => Te + ce.offsetWidth, 0), _e = pe.current.offsetWidth, ye = Math.max(8 * (Y.length - 1), 0), ke = ne + ye + _e + S <= re;
+      We(ke);
     }
-    const w = requestAnimationFrame(() => h()), W = new ResizeObserver(() => h());
-    return ge.current && W.observe(ge.current), pe.current && W.observe(pe.current), () => {
-      cancelAnimationFrame(w), W.disconnect();
+    const z = requestAnimationFrame(() => N()), te = new ResizeObserver(() => N());
+    return he.current && te.observe(he.current), xe.current && te.observe(xe.current), () => {
+      cancelAnimationFrame(z), te.disconnect();
     };
-<<<<<<< Updated upstream
-  }, [I, k, H, o.length]);
-  const Le = de, Ne = ee(() => Le.current ? Array.from(
-    Le.current.querySelectorAll(
-=======
-  }, [k, y, L, o.length]);
-  const De = he, Ne = re(() => De.current ? Array.from(
-    De.current.querySelectorAll(
->>>>>>> Stashed changes
+  }, [T, S, B, o.length]);
+  const Me = pe, Le = ie(() => Me.current ? Array.from(
+    Me.current.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     )
-  ).filter((h) => !h.hasAttribute("disabled")) : [], []), D = ee(
-    (h) => {
-      const w = Ne();
-      if (!w.length) return;
-<<<<<<< Updated upstream
-      const W = Math.max(0, Math.min(h, w.length - 1));
-      w[W].focus(), N((O) => ({ ...O, focusArea: "actions", focusedActionIndex: W }));
-=======
-      const O = Math.max(0, Math.min(h, w.length - 1));
-      w[O].focus(), N((q) => ({ ...q, focusArea: "actions", focusedActionIndex: O }));
->>>>>>> Stashed changes
+  ).filter((N) => !N.hasAttribute("disabled")) : [], []), q = ie(
+    (N) => {
+      const z = Le();
+      if (!z.length) return;
+      const te = Math.max(0, Math.min(N, z.length - 1));
+      z[te].focus(), b((re) => ({ ...re, focusArea: "actions", focusedActionIndex: te }));
     },
-    [Ne]
-  ), S = ee(() => D(0), [D]), z = ee(
-    (h, w) => {
-<<<<<<< Updated upstream
-      const { key: W } = h, O = o.length - 1;
-      switch (W) {
+    [Le]
+  ), U = ie(() => q(0), [q]), ee = ie(
+    (N, z) => {
+      const { key: te } = N, re = o.length - 1;
+      switch (te) {
         case "ArrowUp": {
-          I && !be && (h.preventDefault(), S());
-=======
-      const { key: O } = h, q = o.length - 1;
-      switch (O) {
-        case "ArrowUp": {
-          k && !xe && (h.preventDefault(), S());
->>>>>>> Stashed changes
+          T && !be && (N.preventDefault(), U());
           break;
         }
         case "ArrowLeft": {
-          h.preventDefault();
-<<<<<<< Updated upstream
-          const T = w > 0 ? w - 1 : O;
-          E(T), F(T), ae.current[T]?.focus();
+          N.preventDefault();
+          const Y = z > 0 ? z - 1 : re;
+          I(Y), H(Y), Q.current[Y]?.focus();
           break;
         }
         case "ArrowRight": {
-          if (h.preventDefault(), w === O && I && be) {
-            S();
+          if (N.preventDefault(), z === re && T && be) {
+            U();
             return;
           }
-          const T = w < O ? w + 1 : 0;
-          E(T), F(T), ae.current[T]?.focus();
-=======
-          const D = w > 0 ? w - 1 : q;
-          M(D), E(D), ie.current[D]?.focus();
-          break;
-        }
-        case "ArrowRight": {
-          if (h.preventDefault(), w === q && k && xe) {
-            S();
-            return;
-          }
-          const D = w < q ? w + 1 : 0;
-          M(D), E(D), ie.current[D]?.focus();
->>>>>>> Stashed changes
+          const Y = z < re ? z + 1 : 0;
+          I(Y), H(Y), Q.current[Y]?.focus();
           break;
         }
         case "ArrowDown": {
-          h.preventDefault(), N((T) => ({
-            ...T,
+          N.preventDefault(), b((Y) => ({
+            ...Y,
             focusArea: "headers",
             focusedHeaderIndex: 0,
             isGridActive: !0
@@ -9739,372 +7035,259 @@ const pr = Pt(function(t, r) {
           break;
         }
         case "Home": {
-          h.preventDefault(), E(0), F(0), ae.current[0]?.focus();
+          N.preventDefault(), I(0), H(0), Q.current[0]?.focus();
           break;
         }
         case "End": {
-<<<<<<< Updated upstream
-          h.preventDefault(), E(O), F(O), ae.current[O]?.focus();
-=======
-          h.preventDefault(), M(q), E(q), ie.current[q]?.focus();
->>>>>>> Stashed changes
+          N.preventDefault(), I(re), H(re), Q.current[re]?.focus();
           break;
         }
         case "Enter":
         case " ": {
-          h.preventDefault(), E(w);
+          N.preventDefault(), I(z);
           break;
         }
         case "Tab": {
-<<<<<<< Updated upstream
-          !h.shiftKey && w === O && I && be && S();
-=======
-          !h.shiftKey && w === q && k && xe && S();
->>>>>>> Stashed changes
+          !N.shiftKey && z === re && T && be && U();
           break;
         }
       }
     },
-<<<<<<< Updated upstream
-    [o.length, E, F, I, be, S]
-  ), L = ee((h) => {
-    const { key: w } = h, W = Ne();
-    if (!W.length) return;
-    const O = W.findIndex((T) => T === document.activeElement);
-    switch (w) {
+    [o.length, I, H, T, be, U]
+  ), Z = ie((N) => {
+    const { key: z } = N, te = Le();
+    if (!te.length) return;
+    const re = te.findIndex((Y) => Y === document.activeElement);
+    switch (z) {
       case "ArrowLeft": {
         if (be)
-          if (O > 0)
-            h.preventDefault(), D(O - 1);
-=======
-    [o.length, M, E, k, xe, S]
-  ), H = re((h) => {
-    const { key: w } = h, O = Ne();
-    if (!O.length) return;
-    const q = O.findIndex((D) => D === document.activeElement);
-    switch (w) {
-      case "ArrowLeft": {
-        if (xe)
-          if (q > 0)
-            h.preventDefault(), T(q - 1);
->>>>>>> Stashed changes
+          if (re > 0)
+            N.preventDefault(), q(re - 1);
           else {
-            h.preventDefault();
-            const T = o.length - 1;
-            E(T), F(T), ae.current[T]?.focus(), N((U) => ({ ...U, focusArea: "tabs", focusedTabIndex: T }));
+            N.preventDefault();
+            const Y = o.length - 1;
+            I(Y), H(Y), Q.current[Y]?.focus(), b((ne) => ({ ...ne, focusArea: "tabs", focusedTabIndex: Y }));
           }
         break;
       }
       case "ArrowRight": {
-<<<<<<< Updated upstream
-        be && (O < W.length - 1 ? (h.preventDefault(), D(O + 1)) : (h.preventDefault(), E(0), F(0), ae.current[0]?.focus(), N((T) => ({ ...T, focusArea: "tabs", focusedTabIndex: 0 }))));
-=======
-        xe && (q < O.length - 1 ? (h.preventDefault(), T(q + 1)) : (h.preventDefault(), M(0), E(0), ie.current[0]?.focus(), N((D) => ({ ...D, focusArea: "tabs", focusedTabIndex: 0 }))));
->>>>>>> Stashed changes
+        be && (re < te.length - 1 ? (N.preventDefault(), q(re + 1)) : (N.preventDefault(), I(0), H(0), Q.current[0]?.focus(), b((Y) => ({ ...Y, focusArea: "tabs", focusedTabIndex: 0 }))));
         break;
       }
       case "ArrowDown": {
         if (be)
-          h.preventDefault(), N((T) => ({ ...T, focusArea: "headers", focusedHeaderIndex: 0, isGridActive: !0 }));
+          N.preventDefault(), b((Y) => ({ ...Y, focusArea: "headers", focusedHeaderIndex: 0, isGridActive: !0 }));
         else {
-          h.preventDefault();
-          const T = $.selectedIndex;
-          ae.current[T]?.focus(), N((U) => ({ ...U, focusArea: "tabs", focusedTabIndex: T }));
+          N.preventDefault();
+          const Y = w.selectedIndex;
+          Q.current[Y]?.focus(), b((ne) => ({ ...ne, focusArea: "tabs", focusedTabIndex: Y }));
         }
         break;
       }
     }
-  }, [Ne, be, D, o.length, E, F, $.selectedIndex]);
-  return /* @__PURE__ */ n.jsxs(
+  }, [Le, be, q, o.length, I, H, w.selectedIndex]);
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
-      className: `aria-tabs-datagrid aria-tabs-datagrid--${p} ${u}`,
-      id: m,
-<<<<<<< Updated upstream
-      "data-testid": j,
-      ref: ge,
+      className: `aria-tabs-datagrid aria-tabs-datagrid--${m} ${f}`,
+      id: g,
+      "data-testid": F,
+      ref: he,
       children: [
-        c && !M && /* @__PURE__ */ n.jsx("div", { id: R, className: "nhsuk-u-visually-hidden", children: c }),
-=======
-      "data-testid": B,
-      ref: fe,
-      children: [
-        d && !A && /* @__PURE__ */ n.jsx("div", { id: I, className: "nhsuk-u-visually-hidden", children: d }),
->>>>>>> Stashed changes
-        /* @__PURE__ */ n.jsx(
+        c && !j && /* @__PURE__ */ r.jsx("div", { id: D, className: "nhsuk-u-visually-hidden", children: c }),
+        /* @__PURE__ */ r.jsx(
           "div",
           {
             className: "aria-tabs-datagrid__navigation-help sr-only",
-            id: x,
+            id: v,
             children: "Keyboard navigation: Use Tab to move between tabs and grid. Arrow keys navigate within tabs and grid cells. Enter activates tabs and sorts columns. Arrow Down from tabs moves to table headers. Arrow Down from headers moves to table cells. Use Arrow keys to navigate between cells."
           }
         ),
-        /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-          ds,
-=======
-          hs,
->>>>>>> Stashed changes
+        /* @__PURE__ */ r.jsx(
+          Lo,
           {
-            sortConfig: $.sortConfig || [],
+            sortConfig: w.sortConfig || [],
             columns: o.flatMap(
-              (h) => h.columns.map((w) => ({ key: w.key, label: w.label }))
+              (N) => N.columns.map((z) => ({ key: z.key, label: z.label }))
             ).filter(
-<<<<<<< Updated upstream
-              (h, w, W) => W.findIndex((O) => O.key === h.key) === w
-=======
-              (h, w, O) => O.findIndex((q) => q.key === h.key) === w
->>>>>>> Stashed changes
+              (N, z, te) => te.findIndex((re) => re.key === N.key) === z
               // Remove duplicates
             ),
-            onSortChange: (h) => {
-              C({ type: "SET_SORT", payload: h });
+            onSortChange: (N) => {
+              $({ type: "SET_SORT", payload: N });
             },
             ariaLabel: "Data grid sort configuration"
           }
         ),
-<<<<<<< Updated upstream
-        I && !be && /* @__PURE__ */ n.jsx(
-=======
-        k && !xe && /* @__PURE__ */ n.jsx(
->>>>>>> Stashed changes
+        T && !be && /* @__PURE__ */ r.jsx(
           "div",
           {
             className: "aria-tabs-datagrid__actions aria-tabs-datagrid__actions--above",
-            ref: de,
+            ref: pe,
             role: "toolbar",
             "aria-label": "Additional actions",
-<<<<<<< Updated upstream
-            onKeyDown: L,
-            children: I
-=======
-            onKeyDown: H,
-            children: k
->>>>>>> Stashed changes
+            onKeyDown: Z,
+            children: T
           }
         ),
-        /* @__PURE__ */ n.jsxs("div", { className: `aria-tabs-datagrid__tabs-wrapper ${be ? "aria-tabs-datagrid__tabs-wrapper--inline-actions" : ""}`, children: [
-          /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsxs("div", { className: `aria-tabs-datagrid__tabs-wrapper ${be ? "aria-tabs-datagrid__tabs-wrapper--inline-actions" : ""}`, children: [
+          /* @__PURE__ */ r.jsx(
             "div",
             {
               role: "tablist",
-<<<<<<< Updated upstream
               "aria-label": d,
-              "aria-describedby": c ? M ? c : R : x,
-=======
-              "aria-label": c,
-              "aria-describedby": d ? A ? d : I : b,
->>>>>>> Stashed changes
-              "aria-orientation": p,
+              "aria-describedby": c ? j ? c : D : v,
+              "aria-orientation": m,
               className: "aria-tabs-datagrid__tabs",
-              ref: pe,
-              children: o.map((h, w) => {
-<<<<<<< Updated upstream
-                const W = w === $.selectedIndex, O = h.disabled || f;
-=======
-                const O = w === P.selectedIndex, q = h.disabled || f;
->>>>>>> Stashed changes
-                return /* @__PURE__ */ n.jsxs(
+              ref: xe,
+              children: o.map((N, z) => {
+                const te = z === w.selectedIndex, re = N.disabled || h;
+                return /* @__PURE__ */ r.jsxs(
                   "button",
                   {
                     role: "tab",
-                    id: `tab-${h.id}`,
-                    "aria-controls": `panel-${h.id}`,
-<<<<<<< Updated upstream
-                    "aria-selected": W,
-                    "aria-disabled": O,
-                    tabIndex: W ? 0 : -1,
-                    ref: (T) => {
-                      ae.current[w] = T;
+                    id: `tab-${N.id}`,
+                    "aria-controls": `panel-${N.id}`,
+                    "aria-selected": te,
+                    "aria-disabled": re,
+                    tabIndex: te ? 0 : -1,
+                    ref: (Y) => {
+                      Q.current[z] = Y;
                     },
-                    onClick: () => E(w),
-                    onKeyDown: (T) => z(T, w),
-                    disabled: O,
+                    onClick: () => I(z),
+                    onKeyDown: (Y) => ee(Y, z),
+                    disabled: re,
                     className: [
                       "aria-tabs-datagrid__tab",
-                      W ? "aria-tabs-datagrid__tab--selected" : "",
-                      O ? "aria-tabs-datagrid__tab--disabled" : ""
-=======
-                    "aria-selected": O,
-                    "aria-disabled": q,
-                    tabIndex: O ? 0 : -1,
-                    ref: (D) => {
-                      ie.current[w] = D;
-                    },
-                    onClick: () => M(w),
-                    onKeyDown: (D) => W(D, w),
-                    disabled: q,
-                    className: [
-                      "aria-tabs-datagrid__tab",
-                      O ? "aria-tabs-datagrid__tab--selected" : "",
-                      q ? "aria-tabs-datagrid__tab--disabled" : ""
->>>>>>> Stashed changes
+                      te ? "aria-tabs-datagrid__tab--selected" : "",
+                      re ? "aria-tabs-datagrid__tab--disabled" : ""
                     ].filter(Boolean).join(" "),
                     children: [
-                      /* @__PURE__ */ n.jsx("span", { className: "aria-tabs-datagrid__tab-label", children: h.label }),
-                      $.tabLoadingStates[w] && /* @__PURE__ */ n.jsx("span", { className: "aria-tabs-datagrid__tab-loading", "aria-hidden": "true", children: "⏳" }),
-                      $.tabErrors[w] && /* @__PURE__ */ n.jsx("span", { className: "aria-tabs-datagrid__tab-error", "aria-hidden": "true", children: "⚠️" })
+                      /* @__PURE__ */ r.jsx("span", { className: "aria-tabs-datagrid__tab-label", children: N.label }),
+                      w.tabLoadingStates[z] && /* @__PURE__ */ r.jsx("span", { className: "aria-tabs-datagrid__tab-loading", "aria-hidden": "true", children: "⏳" }),
+                      w.tabErrors[z] && /* @__PURE__ */ r.jsx("span", { className: "aria-tabs-datagrid__tab-error", "aria-hidden": "true", children: "⚠️" })
                     ]
                   },
-                  h.id
+                  N.id
                 );
               })
             }
           ),
-<<<<<<< Updated upstream
-          I && be && /* @__PURE__ */ n.jsx(
-=======
-          k && xe && /* @__PURE__ */ n.jsx(
->>>>>>> Stashed changes
+          T && be && /* @__PURE__ */ r.jsx(
             "div",
             {
               className: "aria-tabs-datagrid__actions aria-tabs-datagrid__actions--inline",
-              ref: de,
+              ref: pe,
               role: "toolbar",
               "aria-label": "Additional actions",
-<<<<<<< Updated upstream
-              onKeyDown: L,
-              children: I
-=======
-              onKeyDown: H,
-              children: k
->>>>>>> Stashed changes
+              onKeyDown: Z,
+              children: T
             }
           )
         ] }),
-        o.map((h, w) => {
-          const W = w === $.selectedIndex;
-          return /* @__PURE__ */ n.jsx(
+        o.map((N, z) => {
+          const te = z === w.selectedIndex;
+          return /* @__PURE__ */ r.jsx(
             "div",
             {
               role: "tabpanel",
-              id: `panel-${h.id}`,
-              "aria-labelledby": `tab-${h.id}`,
+              id: `panel-${N.id}`,
+              "aria-labelledby": `tab-${N.id}`,
               tabIndex: 0,
-<<<<<<< Updated upstream
-              hidden: !W,
-              ref: (O) => {
-                Ce.current[w] = O;
+              hidden: !te,
+              ref: (re) => {
+                fe.current[z] = re;
               },
-              className: `aria-tabs-datagrid__panel ${h.className || ""}`,
-              "data-tab-panel": w,
-              children: W && (() => {
-                const O = h.data.some(
-                  (U) => "ews_data" in U
-                ) ? je(h.data, $.filters) : h.data, T = De(() => {
-                  const U = $.sortConfig;
-                  return !U || U.length === 0 ? O : [...O].sort((xe, he) => {
-                    for (const { key: ve, direction: ke } of U) {
-                      let ne = xe[ve], _e = he[ve];
-                      const Ie = h.columns.find(
-                        (Re) => Re.key === ve
-=======
-              hidden: !O,
-              ref: (q) => {
-                Q.current[w] = q;
-              },
-              className: `aria-tabs-datagrid__panel ${h.className || ""}`,
-              "data-tab-panel": w,
-              children: O && (() => {
-                const q = h.data.some(
-                  (G) => "ews_data" in G
-                ) ? je(h.data, P.filters) : h.data, D = Re(() => {
-                  const G = P.sortConfig;
-                  return !G || G.length === 0 ? q : [...q].sort((ye, ge) => {
-                    for (const { key: _e, direction: we } of G) {
-                      let oe = ye[_e], ke = ge[_e];
-                      const Fe = h.columns.find(
-                        (Be) => Be.key === _e
->>>>>>> Stashed changes
+              className: `aria-tabs-datagrid__panel ${N.className || ""}`,
+              "data-tab-panel": z,
+              children: te && (() => {
+                const re = N.data.some(
+                  (ne) => "ews_data" in ne
+                ) ? me(N.data, w.filters) : N.data, Y = je(() => {
+                  const ne = w.sortConfig;
+                  return !ne || ne.length === 0 ? re : [...re].sort((_e, ye) => {
+                    for (const { key: ke, direction: Te } of ne) {
+                      let ce = _e[ke], Ce = ye[ke];
+                      const Fe = N.columns.find(
+                        (Be) => Be.key === ke
                       );
-                      if (Ie?.tableRenderer ? (ne = Ie.tableRenderer(xe), _e = Ie.tableRenderer(he)) : Ie?.render && (ne = Ie.render(xe), _e = Ie.render(he)), ne == null && _e == null) continue;
-                      if (ne == null) return 1;
-                      if (_e == null) return -1;
-                      let He = 0;
-                      if (typeof ne == "number" && typeof _e == "number" ? He = ne - _e : typeof ne == "boolean" && typeof _e == "boolean" ? He = ne === _e ? 0 : ne ? 1 : -1 : He = String(ne).localeCompare(
-                        String(_e),
+                      if (Fe?.tableRenderer ? (ce = Fe.tableRenderer(_e), Ce = Fe.tableRenderer(ye)) : Fe?.render && (ce = Fe.render(_e), Ce = Fe.render(ye)), ce == null && Ce == null) continue;
+                      if (ce == null) return 1;
+                      if (Ce == null) return -1;
+                      let Oe = 0;
+                      if (typeof ce == "number" && typeof Ce == "number" ? Oe = ce - Ce : typeof ce == "boolean" && typeof Ce == "boolean" ? Oe = ce === Ce ? 0 : ce ? 1 : -1 : Oe = String(ce).localeCompare(
+                        String(Ce),
                         void 0,
                         {
                           numeric: !0,
                           sensitivity: "base"
                         }
-                      ), He !== 0)
-                        return ke === "asc" ? He : -He;
+                      ), Oe !== 0)
+                        return Te === "asc" ? Oe : -Oe;
                     }
                     return 0;
                   });
-<<<<<<< Updated upstream
-                }, [O, $.sortConfig, h.columns]);
-=======
-                }, [q, P.sortConfig, h.columns]);
->>>>>>> Stashed changes
-                return /* @__PURE__ */ n.jsxs(
+                }, [re, w.sortConfig, N.columns]);
+                return /* @__PURE__ */ r.jsxs(
                   "table",
                   {
                     className: "nhsuk-table aria-tabs-datagrid__grid",
                     role: "grid",
-                    "aria-label": h.ariaLabel,
-                    "aria-describedby": h.ariaDescription ? `panel-${h.id}-description` : void 0,
+                    "aria-label": N.ariaLabel,
+                    "aria-describedby": N.ariaDescription ? `panel-${N.id}-description` : void 0,
                     children: [
-                      h.ariaDescription && /* @__PURE__ */ n.jsx(
+                      N.ariaDescription && /* @__PURE__ */ r.jsx(
                         "caption",
                         {
                           className: "nhsuk-u-visually-hidden",
-                          id: `panel-${h.id}-description`,
-                          children: h.ariaDescription
+                          id: `panel-${N.id}-description`,
+                          children: N.ariaDescription
                         }
                       ),
-                      /* @__PURE__ */ n.jsx("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ n.jsx("tr", { role: "row", children: h.columns.map((U, xe) => {
-                        const he = $.sortConfig?.find(
-                          (ne) => ne.key === U.key
-                        ), ve = !!he, ke = b.focusArea === "headers" && b.focusedHeaderIndex === xe;
-                        return /* @__PURE__ */ n.jsx(
+                      /* @__PURE__ */ r.jsx("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ r.jsx("tr", { role: "row", children: N.columns.map((ne, _e) => {
+                        const ye = w.sortConfig?.find(
+                          (ce) => ce.key === ne.key
+                        ), ke = !!ye, Te = k.focusArea === "headers" && k.focusedHeaderIndex === _e;
+                        return /* @__PURE__ */ r.jsx(
                           "th",
                           {
-                            className: `sortable-header ${ke ? "sortable-header--focused" : ""} ${ve ? "sortable-header--sorted" : ""}`,
+                            className: `sortable-header ${Te ? "sortable-header--focused" : ""} ${ke ? "sortable-header--sorted" : ""}`,
                             role: "columnheader",
-<<<<<<< Updated upstream
-                            tabIndex: ke ? 0 : -1,
-                            onClick: () => se(w, U.key),
-                            onKeyDown: (ne) => me(ne, xe),
-                            "aria-sort": ve ? he?.direction === "asc" ? "ascending" : "descending" : "none",
-=======
-                            tabIndex: we ? 0 : -1,
-                            onClick: () => Y(w, G.key),
-                            onKeyDown: (oe) => me(oe, ye),
-                            "aria-sort": _e ? ge?.direction === "asc" ? "ascending" : "descending" : "none",
->>>>>>> Stashed changes
-                            children: /* @__PURE__ */ n.jsxs("div", { className: "header-content", children: [
-                              /* @__PURE__ */ n.jsx("span", { className: "header-label", children: U.label }),
-                              /* @__PURE__ */ n.jsxs(
+                            tabIndex: Te ? 0 : -1,
+                            onClick: () => oe(z, ne.key),
+                            onKeyDown: (ce) => ae(ce, _e),
+                            "aria-sort": ke ? ye?.direction === "asc" ? "ascending" : "descending" : "none",
+                            children: /* @__PURE__ */ r.jsxs("div", { className: "header-content", children: [
+                              /* @__PURE__ */ r.jsx("span", { className: "header-label", children: ne.label }),
+                              /* @__PURE__ */ r.jsxs(
                                 "div",
                                 {
-                                  className: `sort-indicator-container ${ve ? `sort-indicator--${he?.direction}` : ""}`,
+                                  className: `sort-indicator-container ${ke ? `sort-indicator--${ye?.direction}` : ""}`,
                                   children: [
-                                    $.sortConfig && $.sortConfig.length > 0 && $.sortConfig.findIndex(
-                                      (ne) => ne.key === U.key
-                                    ) !== -1 && /* @__PURE__ */ n.jsx(
+                                    w.sortConfig && w.sortConfig.length > 0 && w.sortConfig.findIndex(
+                                      (ce) => ce.key === ne.key
+                                    ) !== -1 && /* @__PURE__ */ r.jsx(
                                       "span",
                                       {
-                                        className: `sort-priority sort-priority--priority-${$.sortConfig.findIndex((ne) => ne.key === U.key) + 1}`,
-                                        "data-priority": $.sortConfig.findIndex(
-                                          (ne) => ne.key === U.key
+                                        className: `sort-priority sort-priority--priority-${w.sortConfig.findIndex((ce) => ce.key === ne.key) + 1}`,
+                                        "data-priority": w.sortConfig.findIndex(
+                                          (ce) => ce.key === ne.key
                                         ) + 1,
-                                        title: `Sort priority: ${$.sortConfig.findIndex((ne) => ne.key === U.key) + 1}`,
-                                        children: $.sortConfig.findIndex(
-                                          (ne) => ne.key === U.key
+                                        title: `Sort priority: ${w.sortConfig.findIndex((ce) => ce.key === ne.key) + 1}`,
+                                        children: w.sortConfig.findIndex(
+                                          (ce) => ce.key === ne.key
                                         ) + 1
                                       }
                                     ),
-                                    ve && /* @__PURE__ */ n.jsx(
+                                    ke && /* @__PURE__ */ r.jsx(
                                       "svg",
                                       {
-                                        className: `nhsuk-icon sort-arrow sort-arrow--${he?.direction}`,
+                                        className: `nhsuk-icon sort-arrow sort-arrow--${ye?.direction}`,
                                         xmlns: "http://www.w3.org/2000/svg",
                                         viewBox: "0 0 24 24",
                                         "aria-hidden": "true",
                                         focusable: "false",
-                                        children: /* @__PURE__ */ n.jsx("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
+                                        children: /* @__PURE__ */ r.jsx("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
                                       }
                                     )
                                   ]
@@ -10112,65 +7295,65 @@ const pr = Pt(function(t, r) {
                               )
                             ] })
                           },
-                          U.key
+                          ne.key
                         );
                       }) }) }),
-                      /* @__PURE__ */ n.jsx("tbody", { className: "nhsuk-table__body", role: "rowgroup", children: T.map((U, xe) => {
-                        const he = $.globalSelectedRowData && te($.globalSelectedRowData, U), ve = b.focusArea === "cells" && b.focusedRowIndex === xe;
-                        return /* @__PURE__ */ n.jsx(
+                      /* @__PURE__ */ r.jsx("tbody", { className: "nhsuk-table__body", role: "rowgroup", children: Y.map((ne, _e) => {
+                        const ye = w.globalSelectedRowData && W(w.globalSelectedRowData, ne), ke = k.focusArea === "cells" && k.focusedRowIndex === _e;
+                        return /* @__PURE__ */ r.jsx(
                           "tr",
                           {
                             role: "row",
-                            className: `data-row ${he ? "data-row--selected" : ""} ${ve ? "data-row--focused" : ""}`,
-                            "aria-selected": he,
-                            children: h.columns.map((ke, ne) => {
-                              const _e = U[ke.key];
-                              let Ie;
-                              ke.tableRenderer ? Ie = ke.tableRenderer(U) : ke.render ? Ie = ke.render(U) : Ie = _e;
-                              const He = b.focusArea === "cells" && b.focusedRowIndex === xe && b.focusedColumnIndex === ne, Re = () => {
-                                if (ke.customRenderer) {
-                                  const Ye = ke.customRenderer(
-                                    _e,
-                                    U
+                            className: `data-row ${ye ? "data-row--selected" : ""} ${ke ? "data-row--focused" : ""}`,
+                            "aria-selected": ye,
+                            children: N.columns.map((Te, ce) => {
+                              const Ce = ne[Te.key];
+                              let Fe;
+                              Te.tableRenderer ? Fe = Te.tableRenderer(ne) : Te.render ? Fe = Te.render(ne) : Fe = Ce;
+                              const Oe = k.focusArea === "cells" && k.focusedRowIndex === _e && k.focusedColumnIndex === ce, Be = () => {
+                                if (Te.customRenderer) {
+                                  const tt = Te.customRenderer(
+                                    Ce,
+                                    ne
                                   );
-                                  return /* @__PURE__ */ n.jsx(
+                                  return /* @__PURE__ */ r.jsx(
                                     "span",
                                     {
                                       className: "data-cell__custom",
                                       "data-custom-rendered": "true",
-                                      children: Ye
+                                      children: tt
                                     }
                                   );
                                 }
-                                return typeof _e == "boolean" && Ie === _e ? /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-                                  Y(_e),
-                                  /* @__PURE__ */ n.jsx("span", { className: "nhsuk-u-visually-hidden", children: _e ? "Yes" : "No" })
-                                ] }) : Ze.isValidElement(Ie) || typeof Ie != "object" ? Ie ?? "" : Ie;
+                                return typeof Ce == "boolean" && Fe === Ce ? /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+                                  V(Ce),
+                                  /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: Ce ? "Yes" : "No" })
+                                ] }) : at.isValidElement(Fe) || typeof Fe != "object" ? Fe ?? "" : Fe;
                               };
-                              return /* @__PURE__ */ n.jsx(
+                              return /* @__PURE__ */ r.jsx(
                                 "td",
                                 {
                                   role: "gridcell",
-                                  className: `data-cell ${He ? "data-cell--focused" : ""}`,
-                                  tabIndex: He ? 0 : -1,
+                                  className: `data-cell ${Oe ? "data-cell--focused" : ""}`,
+                                  tabIndex: Oe ? 0 : -1,
                                   onClick: () => {
-                                    const _t = $.globalSelectedRowData && te(
-                                      $.globalSelectedRowData,
-                                      U
-                                    ) ? null : U;
-                                    C({
+                                    const $t = w.globalSelectedRowData && W(
+                                      w.globalSelectedRowData,
+                                      ne
+                                    ) ? null : ne;
+                                    $({
                                       type: "SET_GLOBAL_SELECTED_ROW_DATA",
-                                      payload: _t
+                                      payload: $t
                                     });
                                   },
-                                  onKeyDown: (Ye) => P(Ye, xe, ne),
-                                  children: Re()
+                                  onKeyDown: (tt) => G(tt, _e, ce),
+                                  children: Be()
                                 },
-                                ke.key
+                                Te.key
                               );
                             })
                           },
-                          xe
+                          _e
                         );
                       }) })
                     ]
@@ -10178,245 +7361,167 @@ const pr = Pt(function(t, r) {
                 );
               })()
             },
-            h.id
+            N.id
           );
         })
       ]
     }
   );
-}), on = {
+}), In = {
   asc: "↑",
   desc: "↓"
-<<<<<<< Updated upstream
-}, Nc = (e) => [...e].sort((t, r) => t.priority - r.priority);
-=======
-}, yc = (e) => [...e].sort((t, r) => t.priority - r.priority);
->>>>>>> Stashed changes
-function cr(e) {
-  return e.map((t, r) => ({
+}, Fu = (e) => [...e].sort((t, n) => t.priority - n.priority);
+function Rr(e) {
+  return e.map((t, n) => ({
     ...t,
-    priority: r
+    priority: n
   }));
 }
-<<<<<<< Updated upstream
-function Tc(e) {
+function Bu(e) {
   return e.length > 0 ? Math.max(...e.map((t) => t.priority)) : -1;
 }
-function Dc(e, t) {
-  const r = t.find((a) => a.id === e);
-  return r ? r.priority > 0 : !1;
+function Au(e, t) {
+  const n = t.find((a) => a.id === e);
+  return n ? n.priority > 0 : !1;
 }
-function Ic(e, t) {
-  const r = t.find((o) => o.id === e), a = Tc(t);
-  return r ? r.priority < a : !1;
+function Eu(e, t) {
+  const n = t.find((o) => o.id === e), a = Bu(t);
+  return n ? n.priority < a : !1;
 }
-const Tm = ({
-=======
-function vc(e) {
-  return e.length > 0 ? Math.max(...e.map((t) => t.priority)) : -1;
-}
-function _c(e, t) {
-  const r = t.find((a) => a.id === e);
-  return r ? r.priority > 0 : !1;
-}
-function kc(e, t) {
-  const r = t.find((o) => o.id === e), a = vc(t);
-  return r ? r.priority < a : !1;
-}
-const wm = ({
->>>>>>> Stashed changes
+const Y0 = ({
   sortConfig: e,
   onSortChange: t,
-  className: r = "",
+  className: n = "",
   emptyDescription: a = "No sorting applied",
   activeDescription: o,
   showReset: s = !0,
   showHelp: i = !0,
   disabled: l = !1,
-  ariaLabel: c = "Sort configuration",
-  ariaDescribedBy: d
+  ariaLabel: d = "Sort configuration",
+  ariaDescribedBy: c
 }) => {
-<<<<<<< Updated upstream
-  const u = De(() => Nc(e), [e]), f = ee((j) => {
+  const f = je(() => Fu(e), [e]), h = ie((F) => {
     if (l) return;
-    const I = e.map(
-      (k) => k.id === j ? { ...k, direction: k.direction === "asc" ? "desc" : "asc" } : k
+    const T = e.map(
+      (S) => S.id === F ? { ...S, direction: S.direction === "asc" ? "desc" : "asc" } : S
     );
-    t(I);
-  }, [e, t, l]), p = ee((j) => {
+    t(T);
+  }, [e, t, l]), m = ie((F) => {
     if (l) return;
-    const I = e.findIndex((H) => H.id === j);
-    if (I <= 0) return;
-    const k = [...e];
-    [k[I], k[I - 1]] = [k[I - 1], k[I]], t(cr(k));
-  }, [e, t, l]), m = ee((j) => {
+    const T = e.findIndex((B) => B.id === F);
+    if (T <= 0) return;
+    const S = [...e];
+    [S[T], S[T - 1]] = [S[T - 1], S[T]], t(Rr(S));
+  }, [e, t, l]), g = ie((F) => {
     if (l) return;
-    const I = e.findIndex((H) => H.id === j);
-    if (I >= e.length - 1 || I === -1) return;
-    const k = [...e];
-    [k[I], k[I + 1]] = [k[I + 1], k[I]], t(cr(k));
-  }, [e, t, l]), v = ee((j) => {
+    const T = e.findIndex((B) => B.id === F);
+    if (T >= e.length - 1 || T === -1) return;
+    const S = [...e];
+    [S[T], S[T + 1]] = [S[T + 1], S[T]], t(Rr(S));
+  }, [e, t, l]), C = ie((F) => {
     if (l) return;
-    const I = e.filter((k) => k.id !== j);
-    t(cr(I));
-  }, [e, t, l]), g = ee(() => {
-=======
-  const u = Re(() => yc(e), [e]), f = re((B) => {
-    if (l) return;
-    const k = e.map(
-      (y) => y.id === B ? { ...y, direction: y.direction === "asc" ? "desc" : "asc" } : y
-    );
-    t(k);
-  }, [e, t, l]), p = re((B) => {
-    if (l) return;
-    const k = e.findIndex((L) => L.id === B);
-    if (k <= 0) return;
-    const y = [...e];
-    [y[k], y[k - 1]] = [y[k - 1], y[k]], t(cr(y));
-  }, [e, t, l]), m = re((B) => {
-    if (l) return;
-    const k = e.findIndex((L) => L.id === B);
-    if (k >= e.length - 1 || k === -1) return;
-    const y = [...e];
-    [y[k], y[k + 1]] = [y[k + 1], y[k]], t(cr(y));
-  }, [e, t, l]), C = re((B) => {
-    if (l) return;
-    const k = e.filter((y) => y.id !== B);
-    t(cr(k));
-  }, [e, t, l]), g = re(() => {
->>>>>>> Stashed changes
+    const T = e.filter((S) => S.id !== F);
+    t(Rr(T));
+  }, [e, t, l]), p = ie(() => {
     l || t([]);
-  }, [t, l]), _ = () => {
+  }, [t, l]), u = () => {
     if (e.length === 0)
       return a;
     if (o)
       return o;
-<<<<<<< Updated upstream
-    const j = u.map((I, k) => {
-      const H = I.direction === "asc" ? "ascending" : "descending";
-      return `${k + 1}. ${I.label} (${H})`;
-=======
-    const B = u.map((k, y) => {
-      const L = k.direction === "asc" ? "ascending" : "descending";
-      return `${y + 1}. ${k.label} (${L})`;
->>>>>>> Stashed changes
+    const F = f.map((T, S) => {
+      const B = T.direction === "asc" ? "ascending" : "descending";
+      return `${S + 1}. ${T.label} (${B})`;
     });
-    if (j.length === 1)
-      return `Sorted by: ${j[0]}`;
-    if (j.length === 2)
-      return `Sorted by: ${j.join(" and ")}`;
+    if (F.length === 1)
+      return `Sorted by: ${F[0]}`;
+    if (F.length === 2)
+      return `Sorted by: ${F.join(" and ")}`;
     {
-<<<<<<< Updated upstream
-      const I = j.pop();
-      return `Sorted by: ${j.join(", ")}, and ${I}`;
+      const T = F.pop();
+      return `Sorted by: ${F.join(", ")}, and ${T}`;
     }
-  }, G = De(() => {
-    const j = ["sort-description"];
-    return i && j.push("sort-help"), c && j.push(c), j.join(" ");
+  }, R = je(() => {
+    const F = ["sort-description"];
+    return i && F.push("sort-help"), c && F.push(c), F.join(" ");
   }, [i, c]);
-=======
-      const k = B.pop();
-      return `Sorted by: ${B.join(", ")}, and ${k}`;
-    }
-  }, V = Re(() => {
-    const B = ["sort-description"];
-    return i && B.push("sort-help"), d && B.push(d), B.join(" ");
-  }, [i, d]);
->>>>>>> Stashed changes
-  return e.length === 0 ? /* @__PURE__ */ n.jsx("div", { className: `sort-status-control sort-status-control--empty ${r}`, children: /* @__PURE__ */ n.jsx(
+  return e.length === 0 ? /* @__PURE__ */ r.jsx("div", { className: `sort-status-control sort-status-control--empty ${n}`, children: /* @__PURE__ */ r.jsx(
     "div",
     {
       className: "sort-status-control__description",
       id: "sort-description",
       "aria-live": "polite",
-      children: _()
+      children: u()
     }
-  ) }) : /* @__PURE__ */ n.jsxs("div", { className: `sort-status-control ${r}`, children: [
-    /* @__PURE__ */ n.jsx(
+  ) }) : /* @__PURE__ */ r.jsxs("div", { className: `sort-status-control ${n}`, children: [
+    /* @__PURE__ */ r.jsx(
       "div",
       {
         className: "sort-status-control__description sort-status-control__description--active",
         id: "sort-description",
         "aria-live": "polite",
-        children: _()
+        children: u()
       }
     ),
-    /* @__PURE__ */ n.jsxs(
+    /* @__PURE__ */ r.jsxs(
       "div",
       {
         className: "sort-status-control__tags",
         role: "list",
-<<<<<<< Updated upstream
         "aria-label": d,
-        "aria-describedby": G,
-=======
-        "aria-label": c,
-        "aria-describedby": V,
->>>>>>> Stashed changes
+        "aria-describedby": R,
         children: [
-          /* @__PURE__ */ n.jsx("div", { className: "sort-status-control__tags-label", children: "Current sorting:" }),
-          u.map((j) => /* @__PURE__ */ n.jsx(
+          /* @__PURE__ */ r.jsx("div", { className: "sort-status-control__tags-label", children: "Current sorting:" }),
+          f.map((F) => /* @__PURE__ */ r.jsx(
             "div",
             {
               className: "sort-status-control__tag-container",
               role: "listitem",
-              children: /* @__PURE__ */ n.jsx(
-                rt,
+              children: /* @__PURE__ */ r.jsx(
+                et,
                 {
                   text: "",
                   color: "blue",
                   className: "sort-status-control__tag",
                   closable: !0,
-                  onClose: () => v(j.id),
+                  onClose: () => C(F.id),
                   disabled: l,
-                  children: /* @__PURE__ */ n.jsxs("div", { className: "sort-status-control__tag-content", children: [
-                    /* @__PURE__ */ n.jsx("span", { className: "sort-status-control__tag-priority", children: j.priority + 1 }),
-                    /* @__PURE__ */ n.jsx("span", { className: "sort-status-control__tag-label", children: j.label }),
-                    /* @__PURE__ */ n.jsx(
+                  children: /* @__PURE__ */ r.jsxs("div", { className: "sort-status-control__tag-content", children: [
+                    /* @__PURE__ */ r.jsx("span", { className: "sort-status-control__tag-priority", children: F.priority + 1 }),
+                    /* @__PURE__ */ r.jsx("span", { className: "sort-status-control__tag-label", children: F.label }),
+                    /* @__PURE__ */ r.jsx(
                       "button",
                       {
                         type: "button",
                         className: "sort-status-control__tag-direction",
-                        onClick: () => f(j.id),
+                        onClick: () => h(F.id),
                         disabled: l,
-                        "aria-label": `Toggle sort direction for ${j.label}. Currently ${j.direction === "asc" ? "ascending" : "descending"}`,
+                        "aria-label": `Toggle sort direction for ${F.label}. Currently ${F.direction === "asc" ? "ascending" : "descending"}`,
                         title: "Click to toggle between ascending and descending",
-                        children: j.direction === "asc" ? on.asc : on.desc
+                        children: F.direction === "asc" ? In.asc : In.desc
                       }
                     ),
-                    /* @__PURE__ */ n.jsxs("div", { className: "sort-status-control__tag-actions", children: [
-                      /* @__PURE__ */ n.jsx(
+                    /* @__PURE__ */ r.jsxs("div", { className: "sort-status-control__tag-actions", children: [
+                      /* @__PURE__ */ r.jsx(
                         "button",
                         {
                           type: "button",
                           className: "sort-status-control__move-button",
-<<<<<<< Updated upstream
-                          onClick: () => p(j.id),
-                          disabled: l || !Dc(j.id, e),
-                          "aria-label": `Move ${j.label} sort up in priority`,
-=======
-                          onClick: () => p(B.id),
-                          disabled: l || !_c(B.id, e),
-                          "aria-label": `Move ${B.label} sort up in priority`,
->>>>>>> Stashed changes
+                          onClick: () => m(F.id),
+                          disabled: l || !Au(F.id, e),
+                          "aria-label": `Move ${F.label} sort up in priority`,
                           title: "Move up in priority",
                           children: "▲"
                         }
                       ),
-                      /* @__PURE__ */ n.jsx(
+                      /* @__PURE__ */ r.jsx(
                         "button",
                         {
                           type: "button",
                           className: "sort-status-control__move-button",
-<<<<<<< Updated upstream
-                          onClick: () => m(j.id),
-                          disabled: l || !Ic(j.id, e),
-                          "aria-label": `Move ${j.label} sort down in priority`,
-=======
-                          onClick: () => m(B.id),
-                          disabled: l || !kc(B.id, e),
-                          "aria-label": `Move ${B.label} sort down in priority`,
->>>>>>> Stashed changes
+                          onClick: () => g(F.id),
+                          disabled: l || !Eu(F.id, e),
+                          "aria-label": `Move ${F.label} sort down in priority`,
                           title: "Move down in priority",
                           children: "▼"
                         }
@@ -10426,83 +7531,71 @@ const wm = ({
                 }
               )
             },
-            j.id
+            F.id
           ))
         ]
       }
     ),
-    s && /* @__PURE__ */ n.jsx("div", { className: "sort-status-control__actions", children: /* @__PURE__ */ n.jsx(
-      Ge,
+    s && /* @__PURE__ */ r.jsx("div", { className: "sort-status-control__actions", children: /* @__PURE__ */ r.jsx(
+      Qe,
       {
         variant: "secondary",
-        onClick: g,
+        onClick: p,
         disabled: l,
         "aria-label": "Reset all sorting",
         className: "sort-status-control__reset-button",
         children: "Clear All Sorts"
       }
     ) }),
-    i && /* @__PURE__ */ n.jsx("div", { className: "sort-status-control__help", id: "sort-help", children: /* @__PURE__ */ n.jsxs("small", { children: [
+    i && /* @__PURE__ */ r.jsx("div", { className: "sort-status-control__help", id: "sort-help", children: /* @__PURE__ */ r.jsxs("small", { children: [
       "Click ",
-      on.asc,
+      In.asc,
       "/",
-      on.desc,
+      In.desc,
       " to toggle ascending/descending. Use ▲/▼ to change sort priority. Click × to remove a sort."
     ] }) })
   ] });
-}, Jr = (e, t) => t.map((r) => ({
-  id: r.id,
-  label: r.label,
-  data: r.filter ? r.filter(e) : e,
-  columns: r.columns.map((a) => ({
+}, Wa = (e, t) => t.map((n) => ({
+  id: n.id,
+  label: n.label,
+  data: n.filter ? n.filter(e) : e,
+  columns: n.columns.map((a) => ({
     key: a.key,
     label: a.label,
     render: a.render,
     customRenderer: a.customRenderer
   })),
-  sortConfig: r.sortConfig,
-  ariaLabel: r.ariaLabel || `${r.label} Data Grid`,
-  ariaDescription: r.ariaDescription || `Data grid showing ${r.label.toLowerCase()}`,
-  className: r.className,
-  disabled: r.disabled
-})), gr = [
+  sortConfig: n.sortConfig,
+  ariaLabel: n.ariaLabel || `${n.label} Data Grid`,
+  ariaDescription: n.ariaDescription || `Data grid showing ${n.label.toLowerCase()}`,
+  className: n.className,
+  disabled: n.disabled
+})), ta = [
   {
     value: !0,
-    icon: /* @__PURE__ */ n.jsx("svg", { className: "nhsuk-icon nhsuk-icon__tick", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", width: "100%", height: "34", children: /* @__PURE__ */ n.jsx("path", { strokeWidth: "4", strokeLinecap: "round", d: "M18.4 7.8l-8.5 8.4L5.6 12", stroke: "#007f3b" }) })
+    icon: /* @__PURE__ */ r.jsx("svg", { className: "nhsuk-icon nhsuk-icon__tick", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", width: "100%", height: "34", children: /* @__PURE__ */ r.jsx("path", { strokeWidth: "4", strokeLinecap: "round", d: "M18.4 7.8l-8.5 8.4L5.6 12", stroke: "#007f3b" }) })
   },
   {
     value: !1,
-    icon: /* @__PURE__ */ n.jsxs("svg", { className: "nhsuk-icon nhsuk-icon__cross", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", "aria-hidden": "true", width: "100%", height: "34", children: [
-      /* @__PURE__ */ n.jsx("path", { d: "M17 18.5c-.4 0-.8-.1-1.1-.4l-10-10c-.6-.6-.6-1.6 0-2.1.6-.6 1.5-.6 2.1 0l10 10c.6.6.6 1.5 0 2.1-.3.3-.6.4-1 .4z", fill: "#d5281b" }),
-      /* @__PURE__ */ n.jsx("path", { d: "M7 18.5c-.4 0-.8-.1-1.1-.4-.6-.6-.6-1.5 0-2.1l10-10c.6-.6 1.5-.6 2.1 0 .6.6.6 1.5 0 2.1l-10 10c-.3.3-.6.4-1 .4z", fill: "#d5281b" })
+    icon: /* @__PURE__ */ r.jsxs("svg", { className: "nhsuk-icon nhsuk-icon__cross", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", "aria-hidden": "true", width: "100%", height: "34", children: [
+      /* @__PURE__ */ r.jsx("path", { d: "M17 18.5c-.4 0-.8-.1-1.1-.4l-10-10c-.6-.6-.6-1.6 0-2.1.6-.6 1.5-.6 2.1 0l10 10c.6.6.6 1.5 0 2.1-.3.3-.6.4-1 .4z", fill: "#d5281b" }),
+      /* @__PURE__ */ r.jsx("path", { d: "M7 18.5c-.4 0-.8-.1-1.1-.4-.6-.6-.6-1.5 0-2.1l10-10c.6-.6 1.5-.6 2.1 0 .6.6.6 1.5 0 2.1l-10 10c-.3.3-.6.4-1 .4z", fill: "#d5281b" })
     ] })
   }
-<<<<<<< Updated upstream
-], Rc = (e, t) => !e || !t ? e === t : e.name && e.bed_name && t.name && t.bed_name ? e.name === t.name && e.bed_name === t.bed_name : JSON.stringify(e) === JSON.stringify(t), Bc = (e, t) => t ? e.filter((r) => {
-=======
-], wc = (e, t) => !e || !t ? e === t : e.name && e.bed_name && t.name && t.bed_name ? e.name === t.name && e.bed_name === t.bed_name : JSON.stringify(e) === JSON.stringify(t), Sc = (e, t) => t ? e.filter((r) => {
->>>>>>> Stashed changes
+], Ru = (e, t) => !e || !t ? e === t : e.name && e.bed_name && t.name && t.bed_name ? e.name === t.name && e.bed_name === t.bed_name : JSON.stringify(e) === JSON.stringify(t), Pu = (e, t) => t ? e.filter((n) => {
   if (t.ewsScoreRange) {
     const [a, o] = t.ewsScoreRange;
-    if (r.ews_score < a || r.ews_score > o) return !1;
+    if (n.ews_score < a || n.ews_score > o) return !1;
   }
-  return !(t.wards && t.wards.length > 0 && !t.wards.includes(r.ward_name) || t.specialties && t.specialties.length > 0 && !t.specialties.includes(r.speciality) || t.dischargeStatuses && t.dischargeStatuses.length > 0 && !t.dischargeStatuses.includes(r.early_discharge_notification) || t.avpuLevels && t.avpuLevels.length > 0 && !t.avpuLevels.includes(r.ews_data.avpu) || t.medicallyOptimised !== null && t.medicallyOptimised !== void 0 && r.medically_optimised !== t.medicallyOptimised || t.fastTrack !== null && t.fastTrack !== void 0 && r.fast_track !== t.fastTrack);
-<<<<<<< Updated upstream
-}) : e, Fc = (e) => {
-=======
-}) : e, Cc = (e) => {
->>>>>>> Stashed changes
+  return !(t.wards && t.wards.length > 0 && !t.wards.includes(n.ward_name) || t.specialties && t.specialties.length > 0 && !t.specialties.includes(n.speciality) || t.dischargeStatuses && t.dischargeStatuses.length > 0 && !t.dischargeStatuses.includes(n.early_discharge_notification) || t.avpuLevels && t.avpuLevels.length > 0 && !t.avpuLevels.includes(n.ews_data.avpu) || t.medicallyOptimised !== null && t.medicallyOptimised !== void 0 && n.medically_optimised !== t.medicallyOptimised || t.fastTrack !== null && t.fastTrack !== void 0 && n.fast_track !== t.fastTrack);
+}) : e, Hu = (e) => {
   if (typeof e == "boolean") {
-    const r = gr.find((a) => a.value === e);
-    return r ? r.icon : null;
+    const n = ta.find((a) => a.value === e);
+    return n ? n.icon : null;
   }
-  const t = gr.find((r) => r.value === e);
+  const t = ta.find((n) => n.value === e);
   return t ? t.icon : String(e);
-<<<<<<< Updated upstream
-}, Ec = (e) => `${e.name}-${e.bed_name}`, Ac = () => ({
-=======
-}, jc = (e) => `${e.name}-${e.bed_name}`, Nc = () => ({
->>>>>>> Stashed changes
+}, zu = (e) => `${e.name}-${e.bed_name}`, Wu = () => ({
   overview: [
     { key: "name", label: "Patient Name" },
     { key: "age", label: "Age" },
@@ -10543,13 +7636,8 @@ const wm = ({
     { key: "district_nurse_referral", label: "District Nurse" },
     { key: "equipment", label: "Equipment" }
   ]
-<<<<<<< Updated upstream
-}), Dm = (e) => {
-  const t = Ac();
-=======
-}), Sm = (e) => {
-  const t = Nc();
->>>>>>> Stashed changes
+}), V0 = (e) => {
+  const t = Wu();
   return [
     {
       id: "overview",
@@ -10575,7 +7663,7 @@ const wm = ({
     {
       id: "discharge",
       label: "Discharge Planning",
-      data: e.filter((r) => r.anticipated_discharge_date),
+      data: e.filter((n) => n.anticipated_discharge_date),
       columns: t.discharge,
       sortConfig: [
         { key: "anticipated_discharge_date", direction: "asc" },
@@ -10594,101 +7682,71 @@ const wm = ({
       ariaDescription: "Patient location and logistics information"
     }
   ];
-<<<<<<< Updated upstream
-}, Lc = {
-  dataComparator: Rc,
-  filterFunction: Bc,
-  booleanRenderer: Fc,
-  getDataId: Ec
-=======
-}, Tc = {
-  dataComparator: wc,
-  filterFunction: Sc,
-  booleanRenderer: Cc,
-  getDataId: jc
->>>>>>> Stashed changes
+}, Ou = {
+  dataComparator: Ru,
+  filterFunction: Pu,
+  booleanRenderer: Hu,
+  getDataId: zu
 };
-function Ra(e, t, r) {
+function Ms(e, t, n) {
   const {
     primaryField: a,
     secondaryFields: o = [],
     badges: s = [],
     hiddenFields: i = [],
     getPriority: l,
-    getVariant: c,
-    fieldRenderers: d = {},
-    classPrefix: u = "adaptive-card"
-<<<<<<< Updated upstream
-  } = r, f = t.find((I) => I.key === a), p = f?.cardRenderer ? f.cardRenderer(e) : f?.render ? f.render(e) : e[a || "name"] || "Untitled", m = () => o.filter((k) => !i.includes(k) && e[k]).slice(0, 3).map((k) => {
-    const H = t.find((R) => R.key === k), A = e[k], V = c[k] ? c[k](A, e) : H?.cardRenderer ? H.cardRenderer(e) : H?.render ? H.render(e) : A;
-    return `${H?.label || k}: ${V}`;
-  }).join(" • "), v = () => s.length === 0 ? null : s.filter((I) => e[I.fieldKey] !== void 0).map((I) => {
-    const k = e[I.fieldKey], H = I.render ? I.render(k, e) : k;
-    return `<span class="nhsuk-tag ${Mc(I, k)}">${H}</span>`;
-  }).join(""), g = () => d ? d(e) : l?.(e) === "high" ? "primary" : "default", _ = v(), G = m(), j = _ ? `${G}${_ ? `<div class="adaptive-card__badges">${_}</div>` : ""}` : G;
+    getVariant: d,
+    fieldRenderers: c = {},
+    classPrefix: f = "adaptive-card"
+  } = n, h = t.find((T) => T.key === a), m = h?.cardRenderer ? h.cardRenderer(e) : h?.render ? h.render(e) : e[a || "name"] || "Untitled", g = () => o.filter((S) => !i.includes(S) && e[S]).slice(0, 3).map((S) => {
+    const B = t.find((D) => D.key === S), _ = e[S], L = c[S] ? c[S](_, e) : B?.cardRenderer ? B.cardRenderer(e) : B?.render ? B.render(e) : _;
+    return `${B?.label || S}: ${L}`;
+  }).join(" • "), C = () => s.length === 0 ? null : s.filter((T) => e[T.fieldKey] !== void 0).map((T) => {
+    const S = e[T.fieldKey], B = T.render ? T.render(S, e) : S;
+    return `<span class="nhsuk-tag ${Uu(T, S)}">${B}</span>`;
+  }).join(""), p = () => d ? d(e) : l?.(e) === "high" ? "primary" : "default", u = C(), R = g(), F = u ? `${R}${u ? `<div class="adaptive-card__badges">${u}</div>` : ""}` : R;
   return {
-    variant: g(),
-    heading: String(p),
-    descriptionHtml: j,
-=======
-  } = r, f = t.find((k) => k.key === a), p = f?.cardRenderer ? f.cardRenderer(e) : f?.render ? f.render(e) : e[a || "name"] || "Untitled", m = () => o.filter((y) => !i.includes(y) && e[y]).slice(0, 3).map((y) => {
-    const L = t.find((I) => I.key === y), v = e[y], $ = d[y] ? d[y](v, e) : L?.cardRenderer ? L.cardRenderer(e) : L?.render ? L.render(e) : v;
-    return `${L?.label || y}: ${$}`;
-  }).join(" • "), C = () => s.length === 0 ? null : s.filter((k) => e[k.fieldKey] !== void 0).map((k) => {
-    const y = e[k.fieldKey], L = k.render ? k.render(y, e) : y;
-    return `<span class="nhsuk-tag ${Dc(k, y)}">${L}</span>`;
-  }).join(""), g = () => c ? c(e) : l?.(e) === "high" ? "primary" : "default", _ = C(), V = m(), B = _ ? `${V}${_ ? `<div class="adaptive-card__badges">${_}</div>` : ""}` : V;
-  return {
-    variant: g(),
-    heading: String(p),
-    descriptionHtml: B,
->>>>>>> Stashed changes
-    className: `adaptive-card ${u}`,
-    "aria-label": `Record for ${p}`
+    variant: p(),
+    heading: String(m),
+    descriptionHtml: F,
+    className: `adaptive-card ${f}`,
+    "aria-label": `Record for ${m}`
   };
 }
-<<<<<<< Updated upstream
-function Mc(e, t) {
-=======
-function Dc(e, t) {
->>>>>>> Stashed changes
-  const r = e.className || "adaptive-card__badge";
+function Uu(e, t) {
+  const n = e.className || "adaptive-card__badge";
   if (e.fieldKey === "ews_score" || e.fieldKey.includes("score")) {
     const a = Number(t);
-    return a >= 7 ? `${r} nhsuk-tag--red` : a >= 3 ? `${r} nhsuk-tag--yellow` : `${r} nhsuk-tag--green`;
+    return a >= 7 ? `${n} nhsuk-tag--red` : a >= 3 ? `${n} nhsuk-tag--yellow` : `${n} nhsuk-tag--green`;
   }
   if (e.fieldKey === "priority") {
     const a = String(t).toLowerCase();
-    if (a === "high") return `${r} nhsuk-tag--red`;
-    if (a === "medium") return `${r} nhsuk-tag--yellow`;
-    if (a === "low") return `${r} nhsuk-tag--green`;
+    if (a === "high") return `${n} nhsuk-tag--red`;
+    if (a === "medium") return `${n} nhsuk-tag--yellow`;
+    if (a === "low") return `${n} nhsuk-tag--green`;
   }
   if (e.fieldKey === "status") {
     const a = String(t).toLowerCase();
-    if (a === "urgent" || a === "critical") return `${r} nhsuk-tag--red`;
-    if (a === "pending" || a === "warning") return `${r} nhsuk-tag--yellow`;
-    if (a === "completed" || a === "success") return `${r} nhsuk-tag--green`;
+    if (a === "urgent" || a === "critical") return `${n} nhsuk-tag--red`;
+    if (a === "pending" || a === "warning") return `${n} nhsuk-tag--yellow`;
+    if (a === "completed" || a === "success") return `${n} nhsuk-tag--green`;
   }
   switch (e.color) {
     case "primary":
-      return `${r} nhsuk-tag--blue`;
+      return `${n} nhsuk-tag--blue`;
     case "secondary":
-      return `${r} nhsuk-tag--grey`;
+      return `${n} nhsuk-tag--grey`;
     case "success":
-      return `${r} nhsuk-tag--green`;
+      return `${n} nhsuk-tag--green`;
     case "warning":
-      return `${r} nhsuk-tag--yellow`;
+      return `${n} nhsuk-tag--yellow`;
     case "danger":
-      return `${r} nhsuk-tag--red`;
+      return `${n} nhsuk-tag--red`;
     default:
-      return r;
+      return n;
   }
 }
-<<<<<<< Updated upstream
-const $c = {
-=======
-const Ic = {
->>>>>>> Stashed changes
+const Gu = {
   primaryField: "name",
   secondaryFields: ["id", "description", "status"],
   badges: [
@@ -10709,104 +7767,92 @@ const Ic = {
   getVariant: (e) => e.priority === "high" ? "primary" : "default",
   fieldRenderers: {},
   classPrefix: "adaptive-card--generic"
-<<<<<<< Updated upstream
-}, us = ({
-=======
-}, fs = ({
->>>>>>> Stashed changes
+}, Mo = ({
   data: e,
   columns: t,
-  onSelect: r,
+  onSelect: n,
   onAction: a,
   priority: o = "medium",
   status: s = "active"
 }) => {
-<<<<<<< Updated upstream
-  const i = e.name, l = e.age, d = e.ward_name, c = e.bed_name, u = e.ews_score, f = e.speciality, p = e.consultant;
-=======
-  const i = e.name, l = e.age, c = e.ward_name, d = e.bed_name, u = e.ews_score, f = e.speciality, p = e.consultant;
->>>>>>> Stashed changes
-  return /* @__PURE__ */ n.jsxs(
+  const i = e.name, l = e.age, d = e.ward_name, c = e.bed_name, f = e.ews_score, h = e.speciality, m = e.consultant;
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
       className: `healthcare-card healthcare-card--patient healthcare-card--${o} healthcare-card--${s}`,
-      onClick: () => r?.(e),
+      onClick: () => n?.(e),
       role: "button",
       tabIndex: 0,
-      "aria-label": `Patient record for ${i}, Age ${l}, Ward ${c}, Bed ${d}`,
+      "aria-label": `Patient record for ${i}, Age ${l}, Ward ${d}, Bed ${c}`,
       children: [
-        /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__header", children: [
-          /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__identity", children: [
-            /* @__PURE__ */ n.jsx("h3", { className: "healthcare-card__patient-name", children: i }),
-            /* @__PURE__ */ n.jsxs("p", { className: "healthcare-card__age-info", children: [
-              /* @__PURE__ */ n.jsx("span", { className: "healthcare-card__label", children: "Age: " }),
-              /* @__PURE__ */ n.jsx("span", { className: "healthcare-card__value", children: l })
+        /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__header", children: [
+          /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__identity", children: [
+            /* @__PURE__ */ r.jsx("h3", { className: "healthcare-card__patient-name", children: i }),
+            /* @__PURE__ */ r.jsxs("p", { className: "healthcare-card__age-info", children: [
+              /* @__PURE__ */ r.jsx("span", { className: "healthcare-card__label", children: "Age: " }),
+              /* @__PURE__ */ r.jsx("span", { className: "healthcare-card__value", children: l })
             ] })
           ] }),
-          /* @__PURE__ */ n.jsx("div", { className: "healthcare-card__badges", children: u !== void 0 && /* @__PURE__ */ n.jsxs(
-            rt,
+          /* @__PURE__ */ r.jsx("div", { className: "healthcare-card__badges", children: f !== void 0 && /* @__PURE__ */ r.jsxs(
+            et,
             {
-<<<<<<< Updated upstream
-              color: Pc(ps(u)),
-=======
-              color: Fc(bs(u)),
->>>>>>> Stashed changes
+              color: Vu(Eo(f)),
               className: "healthcare-card__alert",
               children: [
                 "EWS: ",
-                u
+                f
               ]
             }
           ) })
         ] }),
-        /* @__PURE__ */ n.jsx("div", { className: "healthcare-card__body", children: /* @__PURE__ */ n.jsxs("dl", { className: "healthcare-card__details", children: [
-          /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__detail", children: [
-            /* @__PURE__ */ n.jsx("dt", { children: "Ward" }),
-            /* @__PURE__ */ n.jsx("dd", { children: c })
+        /* @__PURE__ */ r.jsx("div", { className: "healthcare-card__body", children: /* @__PURE__ */ r.jsxs("dl", { className: "healthcare-card__details", children: [
+          /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__detail", children: [
+            /* @__PURE__ */ r.jsx("dt", { children: "Ward" }),
+            /* @__PURE__ */ r.jsx("dd", { children: d })
           ] }),
-          /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__detail", children: [
-            /* @__PURE__ */ n.jsx("dt", { children: "Bed" }),
-            /* @__PURE__ */ n.jsx("dd", { children: d })
+          /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__detail", children: [
+            /* @__PURE__ */ r.jsx("dt", { children: "Bed" }),
+            /* @__PURE__ */ r.jsx("dd", { children: c })
           ] }),
-          /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__detail", children: [
-            /* @__PURE__ */ n.jsx("dt", { children: "Specialty" }),
-            /* @__PURE__ */ n.jsx("dd", { children: f })
+          /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__detail", children: [
+            /* @__PURE__ */ r.jsx("dt", { children: "Specialty" }),
+            /* @__PURE__ */ r.jsx("dd", { children: h })
           ] }),
-          /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__detail healthcare-card__detail--prominent", children: [
-            /* @__PURE__ */ n.jsx("dt", { children: "Consultant" }),
-            /* @__PURE__ */ n.jsx("dd", { children: p })
+          /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__detail healthcare-card__detail--prominent", children: [
+            /* @__PURE__ */ r.jsx("dt", { children: "Consultant" }),
+            /* @__PURE__ */ r.jsx("dd", { children: m })
           ] })
         ] }) }),
-        /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__actions", children: [
-          /* @__PURE__ */ n.jsx(
-            Ge,
+        /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__actions", children: [
+          /* @__PURE__ */ r.jsx(
+            Qe,
             {
               variant: "secondary",
               className: "healthcare-card__action",
-              onClick: (m) => {
-                m.stopPropagation(), a?.("view-notes", e);
+              onClick: (g) => {
+                g.stopPropagation(), a?.("view-notes", e);
               },
               children: "Notes"
             }
           ),
-          /* @__PURE__ */ n.jsx(
-            Ge,
+          /* @__PURE__ */ r.jsx(
+            Qe,
             {
               variant: "secondary",
               className: "healthcare-card__action",
-              onClick: (m) => {
-                m.stopPropagation(), a?.("view-vitals", e);
+              onClick: (g) => {
+                g.stopPropagation(), a?.("view-vitals", e);
               },
               children: "Vitals"
             }
           ),
-          /* @__PURE__ */ n.jsx(
-            Ge,
+          /* @__PURE__ */ r.jsx(
+            Qe,
             {
               variant: "primary",
               className: "healthcare-card__action healthcare-card__action--primary",
-              onClick: (m) => {
-                m.stopPropagation(), a?.("view-full", e);
+              onClick: (g) => {
+                g.stopPropagation(), a?.("view-full", e);
               },
               children: "View Full Record"
             }
@@ -10815,31 +7861,23 @@ const Ic = {
       ]
     }
   );
-<<<<<<< Updated upstream
-}, hs = ({ data: e, onAction: t }) => /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card healthcare-card--appointment healthcare-card--medium healthcare-card--active", role: "article", tabIndex: 0, children: [
-=======
-}, ms = ({ data: e, onAction: t }) => /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card healthcare-card--appointment healthcare-card--medium healthcare-card--active", role: "article", tabIndex: 0, children: [
->>>>>>> Stashed changes
-  /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__header", children: [
-    /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__time-info", children: [
-      /* @__PURE__ */ n.jsx("h3", { className: "healthcare-card__time", children: new Date(e.appointment_time).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) }),
-      /* @__PURE__ */ n.jsx("p", { className: "healthcare-card__type", children: e.appointment_type })
+}, Fo = ({ data: e, onAction: t }) => /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card healthcare-card--appointment healthcare-card--medium healthcare-card--active", role: "article", tabIndex: 0, children: [
+  /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__header", children: [
+    /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__time-info", children: [
+      /* @__PURE__ */ r.jsx("h3", { className: "healthcare-card__time", children: new Date(e.appointment_time).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) }),
+      /* @__PURE__ */ r.jsx("p", { className: "healthcare-card__type", children: e.appointment_type })
     ] }),
-    /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__badges", children: [
-      /* @__PURE__ */ n.jsx(
-        rt,
+    /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__badges", children: [
+      /* @__PURE__ */ r.jsx(
+        et,
         {
-<<<<<<< Updated upstream
-          color: zc(e.status || "active"),
-=======
-          color: Bc(e.status || "active"),
->>>>>>> Stashed changes
+          color: qu(e.status || "active"),
           className: "healthcare-card__status",
           children: (e.status || "active").charAt(0).toUpperCase() + (e.status || "active").slice(1)
         }
       ),
-      /* @__PURE__ */ n.jsxs(
-        rt,
+      /* @__PURE__ */ r.jsxs(
+        et,
         {
           color: "grey",
           className: "healthcare-card__duration",
@@ -10851,23 +7889,23 @@ const Ic = {
       )
     ] })
   ] }),
-  /* @__PURE__ */ n.jsx("div", { className: "healthcare-card__body", children: /* @__PURE__ */ n.jsxs("dl", { className: "healthcare-card__details", children: [
-    /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__detail", children: [
-      /* @__PURE__ */ n.jsx("dt", { children: "Patient" }),
-      /* @__PURE__ */ n.jsx("dd", { children: e.patient_name })
+  /* @__PURE__ */ r.jsx("div", { className: "healthcare-card__body", children: /* @__PURE__ */ r.jsxs("dl", { className: "healthcare-card__details", children: [
+    /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__detail", children: [
+      /* @__PURE__ */ r.jsx("dt", { children: "Patient" }),
+      /* @__PURE__ */ r.jsx("dd", { children: e.patient_name })
     ] }),
-    /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__detail", children: [
-      /* @__PURE__ */ n.jsx("dt", { children: "Consultant" }),
-      /* @__PURE__ */ n.jsx("dd", { children: e.consultant })
+    /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__detail", children: [
+      /* @__PURE__ */ r.jsx("dt", { children: "Consultant" }),
+      /* @__PURE__ */ r.jsx("dd", { children: e.consultant })
     ] }),
-    /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__detail", children: [
-      /* @__PURE__ */ n.jsx("dt", { children: "Location" }),
-      /* @__PURE__ */ n.jsx("dd", { children: e.location })
+    /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__detail", children: [
+      /* @__PURE__ */ r.jsx("dt", { children: "Location" }),
+      /* @__PURE__ */ r.jsx("dd", { children: e.location })
     ] })
   ] }) }),
-  /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__actions", children: [
-    /* @__PURE__ */ n.jsx(
-      Ge,
+  /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__actions", children: [
+    /* @__PURE__ */ r.jsx(
+      Qe,
       {
         variant: "secondary",
         size: "small",
@@ -10875,8 +7913,8 @@ const Ic = {
         children: "View Details"
       }
     ),
-    /* @__PURE__ */ n.jsx(
-      Ge,
+    /* @__PURE__ */ r.jsx(
+      Qe,
       {
         variant: "primary",
         size: "small",
@@ -10885,34 +7923,30 @@ const Ic = {
       }
     )
   ] })
-<<<<<<< Updated upstream
-] }), fs = ({
-=======
-] }), ps = ({
->>>>>>> Stashed changes
+] }), Bo = ({
   data: e,
   onAction: t
-}) => /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card healthcare-card--medication healthcare-card--medium healthcare-card--active", role: "article", tabIndex: 0, children: [
-  /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__header", children: [
-    /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__medication-info", children: [
-      /* @__PURE__ */ n.jsx("h3", { className: "healthcare-card__medication-name", children: e.medication }),
-      /* @__PURE__ */ n.jsxs("p", { className: "healthcare-card__dose", children: [
+}) => /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card healthcare-card--medication healthcare-card--medium healthcare-card--active", role: "article", tabIndex: 0, children: [
+  /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__header", children: [
+    /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__medication-info", children: [
+      /* @__PURE__ */ r.jsx("h3", { className: "healthcare-card__medication-name", children: e.medication }),
+      /* @__PURE__ */ r.jsxs("p", { className: "healthcare-card__dose", children: [
         e.dose,
         " • ",
         e.frequency
       ] })
     ] }),
-    /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__badges", children: [
-      /* @__PURE__ */ n.jsx(
-        rt,
+    /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__badges", children: [
+      /* @__PURE__ */ r.jsx(
+        et,
         {
           color: "blue",
           className: "healthcare-card__route",
           children: e.route
         }
       ),
-      e.next_due && /* @__PURE__ */ n.jsxs(
-        rt,
+      e.next_due && /* @__PURE__ */ r.jsxs(
+        et,
         {
           color: "red",
           className: "healthcare-card__warning",
@@ -10924,23 +7958,23 @@ const Ic = {
       )
     ] })
   ] }),
-  /* @__PURE__ */ n.jsx("div", { className: "healthcare-card__body", children: /* @__PURE__ */ n.jsxs("dl", { className: "healthcare-card__details", children: [
-    /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__detail", children: [
-      /* @__PURE__ */ n.jsx("dt", { children: "Patient" }),
-      /* @__PURE__ */ n.jsx("dd", { children: e.patient_name })
+  /* @__PURE__ */ r.jsx("div", { className: "healthcare-card__body", children: /* @__PURE__ */ r.jsxs("dl", { className: "healthcare-card__details", children: [
+    /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__detail", children: [
+      /* @__PURE__ */ r.jsx("dt", { children: "Patient" }),
+      /* @__PURE__ */ r.jsx("dd", { children: e.patient_name })
     ] }),
-    /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__detail", children: [
-      /* @__PURE__ */ n.jsx("dt", { children: "Prescriber" }),
-      /* @__PURE__ */ n.jsx("dd", { children: e.prescriber })
+    /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__detail", children: [
+      /* @__PURE__ */ r.jsx("dt", { children: "Prescriber" }),
+      /* @__PURE__ */ r.jsx("dd", { children: e.prescriber })
     ] }),
-    e.allergies && /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__detail healthcare-card__detail--urgent", children: [
-      /* @__PURE__ */ n.jsx("dt", { children: "Allergies" }),
-      /* @__PURE__ */ n.jsx("dd", { children: e.allergies })
+    e.allergies && /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__detail healthcare-card__detail--urgent", children: [
+      /* @__PURE__ */ r.jsx("dt", { children: "Allergies" }),
+      /* @__PURE__ */ r.jsx("dd", { children: e.allergies })
     ] })
   ] }) }),
-  /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__actions", children: [
-    /* @__PURE__ */ n.jsx(
-      Ge,
+  /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__actions", children: [
+    /* @__PURE__ */ r.jsx(
+      Qe,
       {
         variant: "secondary",
         size: "small",
@@ -10948,8 +7982,8 @@ const Ic = {
         children: "View Details"
       }
     ),
-    /* @__PURE__ */ n.jsx(
-      Ge,
+    /* @__PURE__ */ r.jsx(
+      Qe,
       {
         variant: "primary",
         size: "small",
@@ -10958,18 +7992,14 @@ const Ic = {
       }
     )
   ] })
-<<<<<<< Updated upstream
-] }), ms = ({
-=======
-] }), gs = ({
->>>>>>> Stashed changes
+] }), Ao = ({
   data: e,
   onSelect: t,
-  onAction: r,
+  onAction: n,
   priority: a = "medium"
 }) => {
-  const o = e.name, s = e.ews_score, i = e.ews_data?.respiratory_rate_bpm, l = e.ews_data?.sp02, c = e.ews_data?.temperature, d = e.ews_data?.systolic_bp, u = e.ews_data?.heart_rate, f = e.ews_data?.avpu;
-  return /* @__PURE__ */ n.jsxs(
+  const o = e.name, s = e.ews_score, i = e.ews_data?.respiratory_rate_bpm, l = e.ews_data?.sp02, d = e.ews_data?.temperature, c = e.ews_data?.systolic_bp, f = e.ews_data?.heart_rate, h = e.ews_data?.avpu;
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
       className: `healthcare-card healthcare-card--vitals healthcare-card--${a}`,
@@ -10978,83 +8008,79 @@ const Ic = {
       tabIndex: 0,
       "aria-label": `Vital signs for ${o}, EWS Score ${s}`,
       children: [
-        /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__header", children: [
-          /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__vitals-summary", children: [
-            /* @__PURE__ */ n.jsx("h3", { className: "healthcare-card__patient-name", children: o }),
-<<<<<<< Updated upstream
-            s !== void 0 && /* @__PURE__ */ n.jsxs("p", { className: `healthcare-card__ews-score healthcare-card__ews-score--${Hc(s)}`, children: [
-=======
-            s !== void 0 && /* @__PURE__ */ n.jsxs("p", { className: `healthcare-card__ews-score healthcare-card__ews-score--${Rc(s)}`, children: [
->>>>>>> Stashed changes
+        /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__header", children: [
+          /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__vitals-summary", children: [
+            /* @__PURE__ */ r.jsx("h3", { className: "healthcare-card__patient-name", children: o }),
+            s !== void 0 && /* @__PURE__ */ r.jsxs("p", { className: `healthcare-card__ews-score healthcare-card__ews-score--${Yu(s)}`, children: [
               "EWS: ",
               s
             ] })
           ] }),
-          /* @__PURE__ */ n.jsx("div", { className: "healthcare-card__badges", children: f && /* @__PURE__ */ n.jsxs(
-            rt,
+          /* @__PURE__ */ r.jsx("div", { className: "healthcare-card__badges", children: h && /* @__PURE__ */ r.jsxs(
+            et,
             {
               color: "blue",
               className: "healthcare-card__avpu",
               children: [
                 "AVPU: ",
-                f.toUpperCase()
+                h.toUpperCase()
               ]
             }
           ) })
         ] }),
-        /* @__PURE__ */ n.jsx("div", { className: "healthcare-card__body", children: /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__vitals-grid", children: [
-          i !== void 0 && /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__vital", children: [
-            /* @__PURE__ */ n.jsx("span", { className: "healthcare-card__vital-label", children: "Respiratory Rate" }),
-            /* @__PURE__ */ n.jsxs("span", { className: "healthcare-card__vital-value", children: [
+        /* @__PURE__ */ r.jsx("div", { className: "healthcare-card__body", children: /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__vitals-grid", children: [
+          i !== void 0 && /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__vital", children: [
+            /* @__PURE__ */ r.jsx("span", { className: "healthcare-card__vital-label", children: "Respiratory Rate" }),
+            /* @__PURE__ */ r.jsxs("span", { className: "healthcare-card__vital-value", children: [
               i,
               " bpm"
             ] })
           ] }),
-          l !== void 0 && /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__vital", children: [
-            /* @__PURE__ */ n.jsx("span", { className: "healthcare-card__vital-label", children: "SpO2" }),
-            /* @__PURE__ */ n.jsxs("span", { className: "healthcare-card__vital-value", children: [
+          l !== void 0 && /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__vital", children: [
+            /* @__PURE__ */ r.jsx("span", { className: "healthcare-card__vital-label", children: "SpO2" }),
+            /* @__PURE__ */ r.jsxs("span", { className: "healthcare-card__vital-value", children: [
               l,
               "%"
             ] })
           ] }),
-          c !== void 0 && /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__vital", children: [
-            /* @__PURE__ */ n.jsx("span", { className: "healthcare-card__vital-label", children: "Temperature" }),
-            /* @__PURE__ */ n.jsxs("span", { className: "healthcare-card__vital-value", children: [
-              c,
+          d !== void 0 && /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__vital", children: [
+            /* @__PURE__ */ r.jsx("span", { className: "healthcare-card__vital-label", children: "Temperature" }),
+            /* @__PURE__ */ r.jsxs("span", { className: "healthcare-card__vital-value", children: [
+              d,
               "°C"
             ] })
           ] }),
-          d !== void 0 && /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__vital", children: [
-            /* @__PURE__ */ n.jsx("span", { className: "healthcare-card__vital-label", children: "Systolic BP" }),
-            /* @__PURE__ */ n.jsx("span", { className: "healthcare-card__vital-value", children: d })
+          c !== void 0 && /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__vital", children: [
+            /* @__PURE__ */ r.jsx("span", { className: "healthcare-card__vital-label", children: "Systolic BP" }),
+            /* @__PURE__ */ r.jsx("span", { className: "healthcare-card__vital-value", children: c })
           ] }),
-          u !== void 0 && /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__vital", children: [
-            /* @__PURE__ */ n.jsx("span", { className: "healthcare-card__vital-label", children: "Heart Rate" }),
-            /* @__PURE__ */ n.jsxs("span", { className: "healthcare-card__vital-value", children: [
-              u,
+          f !== void 0 && /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__vital", children: [
+            /* @__PURE__ */ r.jsx("span", { className: "healthcare-card__vital-label", children: "Heart Rate" }),
+            /* @__PURE__ */ r.jsxs("span", { className: "healthcare-card__vital-value", children: [
+              f,
               " bpm"
             ] })
           ] })
         ] }) }),
-        /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__actions", children: [
-          /* @__PURE__ */ n.jsx(
-            Ge,
+        /* @__PURE__ */ r.jsxs("div", { className: "healthcare-card__actions", children: [
+          /* @__PURE__ */ r.jsx(
+            Qe,
             {
               variant: "secondary",
               className: "healthcare-card__action",
-              onClick: (p) => {
-                p.stopPropagation(), r?.("view-trend", e);
+              onClick: (m) => {
+                m.stopPropagation(), n?.("view-trend", e);
               },
               children: "Trend"
             }
           ),
-          /* @__PURE__ */ n.jsx(
-            Ge,
+          /* @__PURE__ */ r.jsx(
+            Qe,
             {
               variant: "primary",
               className: "healthcare-card__action healthcare-card__action--primary",
-              onClick: (p) => {
-                p.stopPropagation(), r?.("record-new", e);
+              onClick: (m) => {
+                m.stopPropagation(), n?.("record-new", e);
               },
               children: "Record New"
             }
@@ -11064,25 +8090,14 @@ const Ic = {
     }
   );
 };
-<<<<<<< Updated upstream
-function ps(e) {
+function Eo(e) {
   const t = typeof e == "string" ? parseInt(e, 10) : e;
   return t >= 7 ? "critical" : t >= 5 ? "high" : t >= 3 ? "medium" : "low";
 }
-function Hc(e) {
-  return ps(e);
+function Yu(e) {
+  return Eo(e);
 }
-function Pc(e) {
-=======
-function bs(e) {
-  const t = typeof e == "string" ? parseInt(e, 10) : e;
-  return t >= 7 ? "critical" : t >= 5 ? "high" : t >= 3 ? "medium" : "low";
-}
-function Rc(e) {
-  return bs(e);
-}
-function Fc(e) {
->>>>>>> Stashed changes
+function Vu(e) {
   switch (e) {
     case "critical":
       return "red";
@@ -11096,11 +8111,7 @@ function Fc(e) {
       return "grey";
   }
 }
-<<<<<<< Updated upstream
-function zc(e) {
-=======
-function Bc(e) {
->>>>>>> Stashed changes
+function qu(e) {
   switch (e.toLowerCase()) {
     case "active":
       return "blue";
@@ -11114,11 +8125,7 @@ function Bc(e) {
       return "blue";
   }
 }
-<<<<<<< Updated upstream
-const Wc = [
-=======
-const Lc = [
->>>>>>> Stashed changes
+const Xu = [
   {
     fieldKey: "ews_score",
     render: (e) => `EWS: ${e}`,
@@ -11136,61 +8143,35 @@ const Lc = [
     render: (e) => e.charAt(0).toUpperCase() + e.slice(1),
     className: "adaptive-card__status-badge"
   }
-<<<<<<< Updated upstream
-], gs = (e) => e.ews_score && Number(e.ews_score) >= 7 ? "high" : e.ews_score && Number(e.ews_score) >= 3 ? "medium" : e.priority === "high" || e.status === "urgent" ? "high" : e.priority === "low" ? "low" : "medium", Uc = (e) => {
-=======
-], xs = (e) => e.ews_score && Number(e.ews_score) >= 7 ? "high" : e.ews_score && Number(e.ews_score) >= 3 ? "medium" : e.priority === "high" || e.status === "urgent" ? "high" : e.priority === "low" ? "low" : "medium", Ec = (e) => {
->>>>>>> Stashed changes
+], Ro = (e) => e.ews_score && Number(e.ews_score) >= 7 ? "high" : e.ews_score && Number(e.ews_score) >= 3 ? "medium" : e.priority === "high" || e.status === "urgent" ? "high" : e.priority === "low" ? "low" : "medium", Ku = (e) => {
   if (e.status) {
     const t = e.status.toLowerCase();
     if (["active", "pending", "completed", "cancelled", "urgent"].includes(t))
       return t;
   }
   return "active";
-<<<<<<< Updated upstream
-}, Oc = (e) => gs(e) === "high" || e.status === "urgent" ? "primary" : "default", Gc = {
-=======
-}, Ac = (e) => xs(e) === "high" || e.status === "urgent" ? "primary" : "default", Mc = {
->>>>>>> Stashed changes
+}, Zu = (e) => Ro(e) === "high" || e.status === "urgent" ? "primary" : "default", Ju = {
   nhs_number: (e) => e ? `NHS: ${e}` : "",
   ews_score: (e) => {
-    const t = Number(e), r = t >= 7 ? "HIGH" : t >= 3 ? "MEDIUM" : "LOW";
-    return `EWS: ${e} (${r})`;
+    const t = Number(e), n = t >= 7 ? "HIGH" : t >= 3 ? "MEDIUM" : "LOW";
+    return `EWS: ${e} (${n})`;
   },
   age: (e, t) => t.dob ? `${(/* @__PURE__ */ new Date()).getFullYear() - new Date(t.dob).getFullYear()}y` : e ? `${e}y` : ""
-<<<<<<< Updated upstream
-}, Vc = {
+}, Qu = {
   primaryField: "name",
   secondaryFields: ["nhs_number", "ward", "condition", "consultant"],
-  badges: Wc,
+  badges: Xu,
   hiddenFields: [],
-  getPriority: gs,
-  getStatus: Uc,
-  getVariant: Oc,
-  fieldRenderers: Gc,
+  getPriority: Ro,
+  getStatus: Ku,
+  getVariant: Zu,
+  fieldRenderers: Ju,
   classPrefix: "adaptive-card--healthcare"
-}, Yc = {
-  patient: (e, t, r) => {
-    const a = r.getPriority?.(e) || "medium", o = r.getStatus?.(e) || "active", s = o === "urgent" ? "active" : o;
-    return /* @__PURE__ */ n.jsx(
-      us,
-=======
-}, $c = {
-  primaryField: "name",
-  secondaryFields: ["nhs_number", "ward", "condition", "consultant"],
-  badges: Lc,
-  hiddenFields: [],
-  getPriority: xs,
-  getStatus: Ec,
-  getVariant: Ac,
-  fieldRenderers: Mc,
-  classPrefix: "adaptive-card--healthcare"
-}, Hc = {
-  patient: (e, t, r) => {
-    const a = r.getPriority?.(e) || "medium", o = r.getStatus?.(e) || "active", s = o === "urgent" ? "active" : o;
-    return /* @__PURE__ */ n.jsx(
-      fs,
->>>>>>> Stashed changes
+}, ef = {
+  patient: (e, t, n) => {
+    const a = n.getPriority?.(e) || "medium", o = n.getStatus?.(e) || "active", s = o === "urgent" ? "active" : o;
+    return /* @__PURE__ */ r.jsx(
+      Mo,
       {
         data: e,
         columns: t,
@@ -11201,14 +8182,10 @@ const Lc = [
       }
     );
   },
-  appointment: (e, t, r) => {
-    const a = r.getStatus?.(e) || "pending", o = a === "urgent" ? "pending" : a;
-    return /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-      hs,
-=======
-      ms,
->>>>>>> Stashed changes
+  appointment: (e, t, n) => {
+    const a = n.getStatus?.(e) || "pending", o = a === "urgent" ? "pending" : a;
+    return /* @__PURE__ */ r.jsx(
+      Fo,
       {
         data: e,
         columns: t,
@@ -11218,14 +8195,10 @@ const Lc = [
       }
     );
   },
-  medication: (e, t, r) => {
-    const a = r.getPriority?.(e) || "medium";
-    return /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-      fs,
-=======
-      ps,
->>>>>>> Stashed changes
+  medication: (e, t, n) => {
+    const a = n.getPriority?.(e) || "medium";
+    return /* @__PURE__ */ r.jsx(
+      Bo,
       {
         data: e,
         columns: t,
@@ -11235,14 +8208,10 @@ const Lc = [
       }
     );
   },
-  vitals: (e, t, r) => {
-    const a = r.getPriority?.(e) || "medium";
-    return /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-      ms,
-=======
-      gs,
->>>>>>> Stashed changes
+  vitals: (e, t, n) => {
+    const a = n.getPriority?.(e) || "medium";
+    return /* @__PURE__ */ r.jsx(
+      Ao,
       {
         data: e,
         columns: t,
@@ -11252,29 +8221,18 @@ const Lc = [
       }
     );
   }
-<<<<<<< Updated upstream
-}, qc = {
-=======
-}, Pc = {
->>>>>>> Stashed changes
+}, tf = {
   isNHSNumber: (e) => typeof e == "string" && /^\d{3}\s?\d{3}\s?\d{4}$/.test(e.replace(/\s/g, "")),
   isEWSScore: (e) => typeof e == "number" && e >= 0 && e <= 20,
   isMedicalDate: (e) => typeof e == "string" && !isNaN(Date.parse(e))
-}, Ba = {
+}, Fs = {
   name: "healthcare",
-<<<<<<< Updated upstream
-  defaultCardConfig: Vc,
+  defaultCardConfig: Qu,
   cssImport: "./HealthcareCardTemplates.scss",
-  cardTemplates: Yc,
-  fieldTypes: qc
-=======
-  defaultCardConfig: $c,
-  cssImport: "./HealthcareCardTemplates.scss",
-  cardTemplates: Hc,
-  fieldTypes: Pc
->>>>>>> Stashed changes
+  cardTemplates: ef,
+  fieldTypes: tf
 };
-function Fa(e) {
+function Bs(e) {
   return {
     primaryField: e?.primaryField || "name",
     secondaryFields: e?.secondaryFields || [],
@@ -11283,26 +8241,22 @@ function Fa(e) {
       className: "adaptive-card__badge"
     })) || [],
     hiddenFields: e?.hiddenFields || [],
-    cardTemplate: e?.cardTemplate ? (t, r, a) => e.cardTemplate(t, r) : void 0,
+    cardTemplate: e?.cardTemplate ? (t, n, a) => e.cardTemplate(t, n) : void 0,
     classPrefix: "adaptive-card--generic"
   };
 }
-function Ea(e) {
+function As(e) {
   if (!e || e.length === 0) return !1;
   const t = e[0];
   return t.ews_score !== void 0 || t.nhs_number !== void 0 || t.patient_name !== void 0 || t.ward !== void 0 || t.consultant !== void 0;
 }
-<<<<<<< Updated upstream
-function Kc(e, t) {
-=======
-function zc(e, t) {
->>>>>>> Stashed changes
+function nf(e, t) {
   switch (t.type) {
     case "SET_SELECTED_INDEX":
       return { ...e, selectedIndex: t.payload };
     case "SET_TAB_LOADING":
-      const r = [...e.tabLoadingStates];
-      return r[t.payload.tabIndex] = t.payload.isLoading, { ...e, tabLoadingStates: r };
+      const n = [...e.tabLoadingStates];
+      return n[t.payload.tabIndex] = t.payload.isLoading, { ...e, tabLoadingStates: n };
     case "SET_TAB_ERROR":
       const a = [...e.tabErrors];
       return a[t.payload.tabIndex] = t.payload.error, { ...e, tabErrors: a };
@@ -11316,14 +8270,14 @@ function zc(e, t) {
     case "SET_FILTERS":
       return { ...e, filters: t.payload };
     case "ADJUST_ARRAYS":
-      const { newLength: s } = t.payload, i = new Array(s).fill(!1), l = new Array(s).fill(null), c = new Array(s).fill([]);
-      for (let d = 0; d < Math.min(e.tabLoadingStates.length, s); d++)
-        i[d] = e.tabLoadingStates[d], l[d] = e.tabErrors[d], c[d] = e.selectedRows[d];
+      const { newLength: s } = t.payload, i = new Array(s).fill(!1), l = new Array(s).fill(null), d = new Array(s).fill([]);
+      for (let c = 0; c < Math.min(e.tabLoadingStates.length, s); c++)
+        i[c] = e.tabLoadingStates[c], l[c] = e.tabErrors[c], d[c] = e.selectedRows[c];
       return {
         ...e,
         tabLoadingStates: i,
         tabErrors: l,
-        selectedRows: c
+        selectedRows: d
       };
     case "RESET_STATE":
       return {
@@ -11339,15 +8293,9 @@ function zc(e, t) {
       return e;
   }
 }
-<<<<<<< Updated upstream
-function Zc(e, t) {
-  const [r, a] = we("cards");
-  return Fe(() => {
-=======
-function Wc(e, t) {
-  const [r, a] = Se("cards");
-  return Ie(() => {
->>>>>>> Stashed changes
+function rf(e, t) {
+  const [n, a] = Ne("cards");
+  return Ee(() => {
     if (t) {
       a(t);
       return;
@@ -11357,25 +8305,15 @@ function Wc(e, t) {
       s < e.mobile ? a("cards") : s < e.desktop ? a("hybrid") : a("table");
     };
     return o(), window.addEventListener("resize", o), () => window.removeEventListener("resize", o);
-  }, [e, t]), r;
+  }, [e, t]), n;
 }
-<<<<<<< Updated upstream
-function Jc(e) {
+function af(e) {
   return !e || typeof e != "object" ? null : e.appointment_type || e.appointment_time || e.clinic ? "appointment" : e.medication_name || e.medication || e.dose || e.frequency ? "medication" : e.ews_score !== void 0 || e.respiratory_rate !== void 0 || e.spo2 !== void 0 || e.temperature !== void 0 || e.systolic_bp !== void 0 || e.heart_rate !== void 0 ? "vitals" : e.name || e.patient_name || e.nhs_number || e.ward || e.bed ? "patient" : null;
 }
-function Xc(e, t, r, a) {
-  const o = a ? { ...a.defaultCardConfig, ...r } : { ...$c, ...r };
+function sf(e, t, n, a) {
+  const o = a ? { ...a.defaultCardConfig, ...n } : { ...Gu, ...n };
   if (a && a.cardTemplates) {
-    const s = Jc(e);
-=======
-function Oc(e) {
-  return !e || typeof e != "object" ? null : e.appointment_type || e.appointment_time || e.clinic ? "appointment" : e.medication_name || e.medication || e.dose || e.frequency ? "medication" : e.ews_score !== void 0 || e.respiratory_rate !== void 0 || e.spo2 !== void 0 || e.temperature !== void 0 || e.systolic_bp !== void 0 || e.heart_rate !== void 0 ? "vitals" : e.name || e.patient_name || e.nhs_number || e.ward || e.bed ? "patient" : null;
-}
-function Uc(e, t, r, a) {
-  const o = a ? { ...a.defaultCardConfig, ...r } : { ...Ic, ...r };
-  if (a && a.cardTemplates) {
-    const s = Oc(e);
->>>>>>> Stashed changes
+    const s = af(e);
     if (s && a.cardTemplates[s]) {
       const i = a.cardTemplates[s](e, t, o);
       if (i)
@@ -11385,84 +8323,54 @@ function Uc(e, t, r, a) {
         };
     }
   }
-  return o.cardTemplate && o.cardTemplate(e, t, o), Ra(e, t, o);
+  return o.cardTemplate && o.cardTemplate(e, t, o), Ms(e, t, o);
 }
-<<<<<<< Updated upstream
-const Im = ({
-=======
-const Cm = ({
->>>>>>> Stashed changes
+const q0 = ({
   // Responsive-specific props
   breakpoints: e = { mobile: 768, tablet: 1024, desktop: 1200 },
   forceLayout: t,
-  cardConfig: r = {},
+  cardConfig: n = {},
   experimental: a = {},
   enableAdvancedSorting: o = !1,
   topActions: s,
   bottomActions: i,
   gridActions: l,
-  forceGridActionsAbove: c,
+  forceGridActionsAbove: d,
   // Standard AriaTabsDataGrid props
-  tabPanels: d,
-  dataConfig: u,
-  selectedIndex: f,
-  onTabChange: p,
-  ariaLabel: m = "Data grid",
-<<<<<<< Updated upstream
-  ariaDescription: v,
-  orientation: g = "horizontal",
-  id: _,
-  disabled: G = !1,
-  className: j,
-  ...I
-}) => {
-  const k = Zc(e, t), H = f !== void 0, A = f ?? 0, V = De(() => {
-    if (c.some(
-=======
+  tabPanels: c,
+  dataConfig: f,
+  selectedIndex: h,
+  onTabChange: m,
+  ariaLabel: g = "Data grid",
   ariaDescription: C,
-  orientation: g = "horizontal",
-  id: _,
-  disabled: V = !1,
-  className: B,
-  ...k
+  orientation: p = "horizontal",
+  id: u,
+  disabled: R = !1,
+  className: F,
+  ...T
 }) => {
-  const y = Wc(e, t), L = f !== void 0, v = f ?? 0, $ = Re(() => {
-    if (d.some(
->>>>>>> Stashed changes
-      (S) => S.data && S.data.length > 0 && Ea(S.data)
+  const S = rf(e, t), B = h !== void 0, _ = h ?? 0, L = je(() => {
+    if (c.some(
+      (U) => U.data && U.data.length > 0 && As(U.data)
     )) {
-      const S = Fa(r);
+      const U = Bs(n);
       return {
-        ...Ba.defaultCardConfig,
-        ...S
+        ...Fs.defaultCardConfig,
+        ...U
       };
     } else
-<<<<<<< Updated upstream
-      return Fa(r);
-  }, [r, c]), M = De(() => c.some(
-    (S) => S.data && S.data.length > 0 && Ea(S.data)
-  ) ? Ba : void 0, [c]), R = De(() => ({
-    selectedIndex: A,
+      return Bs(n);
+  }, [n, c]), j = je(() => c.some(
+    (U) => U.data && U.data.length > 0 && As(U.data)
+  ) ? Fs : void 0, [c]), D = je(() => ({
+    selectedIndex: _,
     tabLoadingStates: new Array(c.length).fill(!1),
     tabErrors: new Array(c.length).fill(null),
-=======
-      return La(r);
-  }, [r, d]), A = Re(() => d.some(
-    (S) => S.data && S.data.length > 0 && Ea(S.data)
-  ) ? Ba : void 0, [d]), I = Re(() => ({
-    selectedIndex: v,
-    tabLoadingStates: new Array(d.length).fill(!1),
-    tabErrors: new Array(d.length).fill(null),
->>>>>>> Stashed changes
     sortConfig: [],
-    selectedRows: new Array(d.length).fill([]),
+    selectedRows: new Array(c.length).fill([]),
     globalSelectedRowData: null,
     filters: void 0
-<<<<<<< Updated upstream
-  }), [A, c.length]), [x, B] = Wa(Kc, R), Z = Te([]), ce = Te([]), K = Te([]), y = Te(null), [b, N] = we({
-=======
-  }), [v, d.length]), [b, F] = Ua(zc, I), X = Ce([]), de = Ce([]), J = Ce([]), R = Ce(null), [x, N] = Se({
->>>>>>> Stashed changes
+  }), [_, c.length]), [v, x] = no(nf, D), y = Ie([]), P = Ie([]), E = Ie([]), M = Ie(null), [k, b] = Ne({
     focusArea: "tabs",
     focusedTabIndex: 0,
     focusedCardIndex: 0,
@@ -11476,118 +8384,78 @@ const Cm = ({
     cardSortConfig: null,
     focusedSortControlIndex: 0,
     isSortControlsActive: !1
-  }), ue = ee((D) => {
-    if (!D.current)
+  }), A = ie((q) => {
+    if (!q.current)
       return { columns: 1, rows: 0 };
-    const S = D.current, z = S.querySelectorAll(".aria-tabs-datagrid-adaptive__card-wrapper");
-    if (z.length === 0)
+    const U = q.current, ee = U.querySelectorAll(".aria-tabs-datagrid-adaptive__card-wrapper");
+    if (ee.length === 0)
       return { columns: 1, rows: 0 };
-<<<<<<< Updated upstream
-    const L = S.offsetWidth, w = z[0].offsetWidth, W = Math.floor(L / w) || 1, O = Math.ceil(z.length / W);
-    return { columns: W, rows: O };
-  }, []), $ = ee((D, S) => ({
-    row: Math.floor(D / S),
-    col: D % S
-  }), []), C = ee((D, S, z) => D * z + S, []), te = ee((D, S, z, L) => {
-    const { row: h, col: w } = $(D, L);
-    let W = h, O = w;
-=======
-    const H = S.offsetWidth, w = W[0].offsetWidth, O = Math.floor(H / w) || 1, q = Math.ceil(W.length / O);
-    return { columns: O, rows: q };
-  }, []), P = re((T, S) => ({
-    row: Math.floor(T / S),
-    col: T % S
-  }), []), j = re((T, S, W) => T * W + S, []), ae = re((T, S, W, H) => {
-    const { row: h, col: w } = P(T, H);
-    let O = h, q = w;
->>>>>>> Stashed changes
-    switch (S) {
+    const Z = U.offsetWidth, z = ee[0].offsetWidth, te = Math.floor(Z / z) || 1, re = Math.ceil(ee.length / te);
+    return { columns: te, rows: re };
+  }, []), w = ie((q, U) => ({
+    row: Math.floor(q / U),
+    col: q % U
+  }), []), $ = ie((q, U, ee) => q * ee + U, []), W = ie((q, U, ee, Z) => {
+    const { row: N, col: z } = w(q, Z);
+    let te = N, re = z;
+    switch (U) {
       case "up":
-        W = Math.max(0, h - 1);
+        te = Math.max(0, N - 1);
         break;
       case "down":
-        W = Math.min(Math.floor((z - 1) / L), h + 1);
+        te = Math.min(Math.floor((ee - 1) / Z), N + 1);
         break;
       case "left":
-<<<<<<< Updated upstream
-        O = Math.max(0, w - 1);
+        re = Math.max(0, z - 1);
         break;
       case "right":
-        O = Math.min(L - 1, w + 1);
+        re = Math.min(Z - 1, z + 1);
         break;
     }
-    const T = C(W, O, L);
-    return Math.min(T, z - 1);
-  }, [$, C]);
-  Fe(() => {
-    b.isCardNavigationActive && b.focusedCardElementIndex >= 0 && b.cardElements.length > 0 && setTimeout(() => {
-      const D = b.cardElements[b.focusedCardElementIndex];
-      D && (D.element.focus(), D.element.scrollIntoView({ block: "nearest", behavior: "smooth" }));
-=======
-        q = Math.max(0, w - 1);
-        break;
-      case "right":
-        q = Math.min(H - 1, w + 1);
-        break;
-    }
-    const D = j(O, q, H);
-    return Math.min(D, W - 1);
-  }, [P, j]);
-  Ie(() => {
-    x.isCardNavigationActive && x.focusedCardElementIndex >= 0 && x.cardElements.length > 0 && setTimeout(() => {
-      const T = x.cardElements[x.focusedCardElementIndex];
-      T && (T.element.focus(), T.element.scrollIntoView({ block: "nearest", behavior: "smooth" }));
->>>>>>> Stashed changes
+    const Y = $(te, re, Z);
+    return Math.min(Y, ee - 1);
+  }, [w, $]);
+  Ee(() => {
+    k.isCardNavigationActive && k.focusedCardElementIndex >= 0 && k.cardElements.length > 0 && setTimeout(() => {
+      const q = k.cardElements[k.focusedCardElementIndex];
+      q && (q.element.focus(), q.element.scrollIntoView({ block: "nearest", behavior: "smooth" }));
     }, 0);
-  }, [b.isCardNavigationActive, b.focusedCardElementIndex, b.cardElements.length]), Fe(() => {
-    const D = () => {
-      if (k === "cards" && y.current) {
-        const { columns: L, rows: h } = ue(y);
-        N((w) => ({
-          ...w,
-          gridColumns: L,
-          gridRows: h
+  }, [k.isCardNavigationActive, k.focusedCardElementIndex, k.cardElements.length]), Ee(() => {
+    const q = () => {
+      if (S === "cards" && M.current) {
+        const { columns: Z, rows: N } = A(M);
+        b((z) => ({
+          ...z,
+          gridColumns: Z,
+          gridRows: N
         }));
       }
-    }, S = setTimeout(D, 200), z = () => {
-      setTimeout(D, 100);
+    }, U = setTimeout(q, 200), ee = () => {
+      setTimeout(q, 100);
     };
-    return window.addEventListener("resize", z), () => {
-      clearTimeout(S), window.removeEventListener("resize", z);
+    return window.addEventListener("resize", ee), () => {
+      clearTimeout(U), window.removeEventListener("resize", ee);
     };
-<<<<<<< Updated upstream
-  }, [k, c, ue]), Fe(() => {
-    const D = x.tabLoadingStates.length, S = c.length;
-    D !== S && B({ type: "ADJUST_ARRAYS", payload: { newLength: S } });
-  }, [c.length, x.tabLoadingStates.length]), Fe(() => {
-    H && f !== x.selectedIndex && B({ type: "SET_SELECTED_INDEX", payload: f });
-  }, [H, f, x.selectedIndex]);
-  const E = ee((D) => {
-    D >= 0 && D < c.length && !c[D].disabled && (B({ type: "SET_SELECTED_INDEX", payload: D }), p?.(D));
-  }, [c, p]), Q = ee((D) => {
-    console.log("Card selected:", D), B({
-=======
-  }, [y, d, ue]), Ie(() => {
-    const T = b.tabLoadingStates.length, S = d.length;
-    T !== S && F({ type: "ADJUST_ARRAYS", payload: { newLength: S } });
-  }, [d.length, b.tabLoadingStates.length]), Ie(() => {
-    L && f !== b.selectedIndex && F({ type: "SET_SELECTED_INDEX", payload: f });
-  }, [L, f, b.selectedIndex]);
-  const M = re((T) => {
-    T >= 0 && T < d.length && !d[T].disabled && (F({ type: "SET_SELECTED_INDEX", payload: T }), p?.(T));
-  }, [d, p]), te = re((T) => {
-    console.log("Card selected:", T), F({
->>>>>>> Stashed changes
+  }, [S, c, A]), Ee(() => {
+    const q = v.tabLoadingStates.length, U = c.length;
+    q !== U && x({ type: "ADJUST_ARRAYS", payload: { newLength: U } });
+  }, [c.length, v.tabLoadingStates.length]), Ee(() => {
+    B && h !== v.selectedIndex && x({ type: "SET_SELECTED_INDEX", payload: h });
+  }, [B, h, v.selectedIndex]);
+  const I = ie((q) => {
+    q >= 0 && q < c.length && !c[q].disabled && (x({ type: "SET_SELECTED_INDEX", payload: q }), m?.(q));
+  }, [c, m]), O = ie((q) => {
+    console.log("Card selected:", q), x({
       type: "SET_GLOBAL_SELECTED_ROW_DATA",
-      payload: D
+      payload: q
     });
-  }, []), F = ee((D) => {
-    const S = ce.current[D];
-    S && (S.focus(), S.scrollIntoView({ block: "nearest", behavior: "smooth" }));
-  }, []), ae = ee((D) => {
-    const S = ce.current[D];
-    if (!S) return [];
-    const z = [
+  }, []), H = ie((q) => {
+    const U = P.current[q];
+    U && (U.focus(), U.scrollIntoView({ block: "nearest", behavior: "smooth" }));
+  }, []), Q = ie((q) => {
+    const U = P.current[q];
+    if (!U) return [];
+    const ee = [
       'button:not([disabled]):not([aria-hidden="true"])',
       'a[href]:not([disabled]):not([aria-hidden="true"])',
       'input:not([disabled]):not([aria-hidden="true"])',
@@ -11597,627 +8465,429 @@ const Cm = ({
       '.healthcare-card__detail[tabindex]:not([tabindex="-1"])',
       ".healthcare-card__action:not([disabled])",
       ".tag:not([disabled])"
-    ].join(", "), L = S.querySelectorAll(z);
-    return Array.from(L).map((h, w) => ({
-      id: h.id || `card-${D}-element-${w}`,
-      element: h,
-      label: h.getAttribute("aria-label") || h.textContent?.trim() || h.getAttribute("title") || `Element ${w + 1}`,
-      type: h.tagName.toLowerCase() === "button" ? "button" : h.tagName.toLowerCase() === "a" ? "link" : ["input", "select", "textarea"].includes(h.tagName.toLowerCase()) ? "input" : "generic"
+    ].join(", "), Z = U.querySelectorAll(ee);
+    return Array.from(Z).map((N, z) => ({
+      id: N.id || `card-${q}-element-${z}`,
+      element: N,
+      label: N.getAttribute("aria-label") || N.textContent?.trim() || N.getAttribute("title") || `Element ${z + 1}`,
+      type: N.tagName.toLowerCase() === "button" ? "button" : N.tagName.toLowerCase() === "a" ? "link" : ["input", "select", "textarea"].includes(N.tagName.toLowerCase()) ? "input" : "generic"
     }));
-<<<<<<< Updated upstream
-  }, []), Ce = Te(null), se = ee((D) => {
-    const S = Ce.current;
-=======
-  }, []), Q = Ce(null), Y = re((T) => {
-    const S = Q.current;
->>>>>>> Stashed changes
-    if (!S) return;
-    const z = document.createElement("div");
-    z.setAttribute("aria-live", "polite"), z.setAttribute("aria-atomic", "true"), z.className = "sr-only", z.textContent = D, S.appendChild(z), setTimeout(() => {
-      S.contains(z) && S.removeChild(z);
+  }, []), fe = Ie(null), oe = ie((q) => {
+    const U = fe.current;
+    if (!U) return;
+    const ee = document.createElement("div");
+    ee.setAttribute("aria-live", "polite"), ee.setAttribute("aria-atomic", "true"), ee.className = "sr-only", ee.textContent = q, U.appendChild(ee), setTimeout(() => {
+      U.contains(ee) && U.removeChild(ee);
     }, 1e3);
-  }, []), X = ee((D) => {
-    const S = D.filter((L) => L.sortable !== !1), z = [
+  }, []), K = ie((q) => {
+    const U = q.filter((Z) => Z.sortable !== !1), ee = [
       { value: "", label: "Sort by..." }
     ];
-    return S.forEach((L) => {
-      const h = L.label || L.key;
-      L.key === "name" ? z.push(
-        { value: `${L.key}-asc`, label: `${h} (A-Z)` },
-        { value: `${L.key}-desc`, label: `${h} (Z-A)` }
-      ) : L.key === "ews_score" || L.key.includes("score") ? z.push(
-        { value: `${L.key}-desc`, label: `${h} (High-Low)` },
-        { value: `${L.key}-asc`, label: `${h} (Low-High)` }
-      ) : L.key === "age" || L.key.includes("date") || L.key.includes("time") ? z.push(
-        { value: `${L.key}-desc`, label: `${h} (Oldest-Youngest)` },
-        { value: `${L.key}-asc`, label: `${h} (Youngest-Oldest)` }
-      ) : z.push(
-        { value: `${L.key}-asc`, label: `${h} (A-Z)` },
-        { value: `${L.key}-desc`, label: `${h} (Z-A)` }
+    return U.forEach((Z) => {
+      const N = Z.label || Z.key;
+      Z.key === "name" ? ee.push(
+        { value: `${Z.key}-asc`, label: `${N} (A-Z)` },
+        { value: `${Z.key}-desc`, label: `${N} (Z-A)` }
+      ) : Z.key === "ews_score" || Z.key.includes("score") ? ee.push(
+        { value: `${Z.key}-desc`, label: `${N} (High-Low)` },
+        { value: `${Z.key}-asc`, label: `${N} (Low-High)` }
+      ) : Z.key === "age" || Z.key.includes("date") || Z.key.includes("time") ? ee.push(
+        { value: `${Z.key}-desc`, label: `${N} (Oldest-Youngest)` },
+        { value: `${Z.key}-asc`, label: `${N} (Youngest-Oldest)` }
+      ) : ee.push(
+        { value: `${Z.key}-asc`, label: `${N} (A-Z)` },
+        { value: `${Z.key}-desc`, label: `${N} (Z-A)` }
       );
-    }), z;
-  }, []), Y = ee((D, S) => S ? [...D].sort((z, L) => {
-    const h = z[S.key], w = L[S.key];
-    if (h == null && w == null) return 0;
-    if (h == null) return 1;
-    if (w == null) return -1;
-<<<<<<< Updated upstream
-    const W = Number(h), O = Number(w);
-    if (!isNaN(W) && !isNaN(O))
-      return S.direction === "asc" ? W - O : O - W;
-    const T = String(h).toLowerCase(), U = String(w).toLowerCase(), xe = T.localeCompare(U);
-    return S.direction === "asc" ? xe : -xe;
-  }) : D, []), re = ee((D) => {
-    if (!D) {
-      N((T) => ({ ...T, cardSortConfig: null })), se("Card sorting cleared");
+    }), ee;
+  }, []), V = ie((q, U) => U ? [...q].sort((ee, Z) => {
+    const N = ee[U.key], z = Z[U.key];
+    if (N == null && z == null) return 0;
+    if (N == null) return 1;
+    if (z == null) return -1;
+    const te = Number(N), re = Number(z);
+    if (!isNaN(te) && !isNaN(re))
+      return U.direction === "asc" ? te - re : re - te;
+    const Y = String(N).toLowerCase(), ne = String(z).toLowerCase(), _e = Y.localeCompare(ne);
+    return U.direction === "asc" ? _e : -_e;
+  }) : q, []), J = ie((q) => {
+    if (!q) {
+      b((Y) => ({ ...Y, cardSortConfig: null })), oe("Card sorting cleared");
       return;
     }
-    const [S, z] = D.split("-"), L = { key: S, direction: z };
-    N((T) => ({ ...T, cardSortConfig: L }));
-    const W = c[x.selectedIndex]?.columns.find((T) => T.key === S)?.label || S;
-    se(`Cards sorted by ${W} in ${z === "asc" ? "ascending" : "descending"} order`);
-  }, [c, x.selectedIndex, se]), me = ee((D) => {
-    const L = c[x.selectedIndex]?.columns.find((w) => w.key === D.key)?.label || D.key, h = D.direction === "asc" ? "ascending" : "descending";
-    return `${L} (${h})`;
-  }, [c, x.selectedIndex]), P = ee((D) => {
-    const S = c[x.selectedIndex];
+    const [U, ee] = q.split("-"), Z = { key: U, direction: ee };
+    b((Y) => ({ ...Y, cardSortConfig: Z }));
+    const te = c[v.selectedIndex]?.columns.find((Y) => Y.key === U)?.label || U;
+    oe(`Cards sorted by ${te} in ${ee === "asc" ? "ascending" : "descending"} order`);
+  }, [c, v.selectedIndex, oe]), ae = ie((q) => {
+    const Z = c[v.selectedIndex]?.columns.find((z) => z.key === q.key)?.label || q.key, N = q.direction === "asc" ? "ascending" : "descending";
+    return `${Z} (${N})`;
+  }, [c, v.selectedIndex]), G = ie((q) => {
+    const U = c[v.selectedIndex];
     if (o) {
-      const z = x.sortConfig;
-      return !z || z.length === 0 ? D : [...D].sort((L, h) => {
-        for (const { key: w, direction: W } of z) {
-          let O = L[w], T = h[w];
-          const U = S?.columns.find((_e) => _e.key === w);
-          if (U?.cardRenderer ? (O = U.cardRenderer(L), T = U.cardRenderer(h)) : U?.render && (O = U.render(L), T = U.render(h)), O == null && T == null) continue;
-          if (O == null) return W === "asc" ? -1 : 1;
-          if (T == null) return W === "asc" ? 1 : -1;
-          const xe = Number(O), he = Number(T);
-          if (!isNaN(xe) && !isNaN(he)) {
-            const _e = xe - he;
-            if (_e !== 0) return W === "asc" ? _e : -_e;
+      const ee = v.sortConfig;
+      return !ee || ee.length === 0 ? q : [...q].sort((Z, N) => {
+        for (const { key: z, direction: te } of ee) {
+          let re = Z[z], Y = N[z];
+          const ne = U?.columns.find((Ce) => Ce.key === z);
+          if (ne?.cardRenderer ? (re = ne.cardRenderer(Z), Y = ne.cardRenderer(N)) : ne?.render && (re = ne.render(Z), Y = ne.render(N)), re == null && Y == null) continue;
+          if (re == null) return te === "asc" ? -1 : 1;
+          if (Y == null) return te === "asc" ? 1 : -1;
+          const _e = Number(re), ye = Number(Y);
+          if (!isNaN(_e) && !isNaN(ye)) {
+            const Ce = _e - ye;
+            if (Ce !== 0) return te === "asc" ? Ce : -Ce;
             continue;
           }
-          const ve = String(O).toLowerCase(), ke = String(T).toLowerCase(), ne = ve.localeCompare(ke);
-          if (ne !== 0) return W === "asc" ? ne : -ne;
-=======
-    const O = Number(h), q = Number(w);
-    if (!isNaN(O) && !isNaN(q))
-      return S.direction === "asc" ? O - q : q - O;
-    const D = String(h).toLowerCase(), G = String(w).toLowerCase(), ye = D.localeCompare(G);
-    return S.direction === "asc" ? ye : -ye;
-  }) : T, []), se = re((T) => {
-    if (!T) {
-      N((D) => ({ ...D, cardSortConfig: null })), Y("Card sorting cleared");
-      return;
-    }
-    const [S, W] = T.split("-"), H = { key: S, direction: W };
-    N((D) => ({ ...D, cardSortConfig: H }));
-    const O = d[b.selectedIndex]?.columns.find((D) => D.key === S)?.label || S;
-    Y(`Cards sorted by ${O} in ${W === "asc" ? "ascending" : "descending"} order`);
-  }, [d, b.selectedIndex, Y]), me = re((T) => {
-    const H = d[b.selectedIndex]?.columns.find((w) => w.key === T.key)?.label || T.key, h = T.direction === "asc" ? "ascending" : "descending";
-    return `${H} (${h})`;
-  }, [d, b.selectedIndex]), z = re((T) => {
-    const S = d[b.selectedIndex];
-    if (o) {
-      const W = b.sortConfig;
-      return !W || W.length === 0 ? T : [...T].sort((H, h) => {
-        for (const { key: w, direction: O } of W) {
-          let q = H[w], D = h[w];
-          const G = S?.columns.find((ke) => ke.key === w);
-          if (G?.cardRenderer ? (q = G.cardRenderer(H), D = G.cardRenderer(h)) : G?.render && (q = G.render(H), D = G.render(h)), q == null && D == null) continue;
-          if (q == null) return O === "asc" ? -1 : 1;
-          if (D == null) return O === "asc" ? 1 : -1;
-          const ye = Number(q), ge = Number(D);
-          if (!isNaN(ye) && !isNaN(ge)) {
-            const ke = ye - ge;
-            if (ke !== 0) return O === "asc" ? ke : -ke;
-            continue;
-          }
-          const _e = String(q).toLowerCase(), we = String(D).toLowerCase(), oe = _e.localeCompare(we);
-          if (oe !== 0) return O === "asc" ? oe : -oe;
->>>>>>> Stashed changes
+          const ke = String(re).toLowerCase(), Te = String(Y).toLowerCase(), ce = ke.localeCompare(Te);
+          if (ce !== 0) return te === "asc" ? ce : -ce;
         }
         return 0;
       });
     } else
-<<<<<<< Updated upstream
-      return Y(D, b.cardSortConfig);
-  }, [o, x.sortConfig, b.cardSortConfig, Y, c, x.selectedIndex]), je = ee((D, S) => {
-    const z = ae(D), L = z[S];
-    if (L) {
-      L.element.scrollIntoView({ block: "nearest", behavior: "smooth" });
-      const h = `Focused on ${L.label}, ${L.type} ${S + 1} of ${z.length} within card`;
-      se(h);
+      return V(q, k.cardSortConfig);
+  }, [o, v.sortConfig, k.cardSortConfig, V, c, v.selectedIndex]), me = ie((q, U) => {
+    const ee = Q(q), Z = ee[U];
+    if (Z) {
+      Z.element.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      const N = `Focused on ${Z.label}, ${Z.type} ${U + 1} of ${ee.length} within card`;
+      oe(N);
     }
-  }, [ae, se]), ge = ee((D) => {
-    Z.current[D]?.focus();
-  }, []), pe = ee(() => {
-    const D = K.current[0];
-    if (!D) return [];
-=======
-      return U(T, x.cardSortConfig);
-  }, [o, b.sortConfig, x.cardSortConfig, U, d, b.selectedIndex]), je = re((T, S) => {
-    const W = ie(T), H = W[S];
-    if (H) {
-      H.element.scrollIntoView({ block: "nearest", behavior: "smooth" });
-      const h = `Focused on ${H.label}, ${H.type} ${S + 1} of ${W.length} within card`;
-      Y(h);
-    }
-  }, [ie, Y]), fe = re((T) => {
-    X.current[T]?.focus();
-  }, []), pe = re(() => {
-    const T = J.current[0];
-    if (!T) return [];
->>>>>>> Stashed changes
-    const S = [
+  }, [Q, oe]), he = ie((q) => {
+    y.current[q]?.focus();
+  }, []), xe = ie(() => {
+    const q = E.current[0];
+    if (!q) return [];
+    const U = [
       'select:not([disabled]):not([aria-hidden="true"])',
       'button:not([disabled]):not([aria-hidden="true"])',
       'input:not([disabled]):not([aria-hidden="true"])',
       '[tabindex]:not([tabindex="-1"]):not([disabled]):not([aria-hidden="true"])'
-    ].join(", "), z = D.querySelectorAll(S);
-    return Array.from(z);
-  }, []), de = ee((D) => {
-    if (D === 0) {
-      const S = K.current[0], z = S?.querySelector(".sort-controls-row");
-      if (z) {
-        z.setAttribute("tabindex", "-1"), z.focus();
-        const h = `Sort controls group with ${pe().length} interactive elements. Press Enter or Space to begin navigating controls.`;
-<<<<<<< Updated upstream
-        se(h);
-      } else S && S.focus();
+    ].join(", "), ee = q.querySelectorAll(U);
+    return Array.from(ee);
+  }, []), pe = ie((q) => {
+    if (q === 0) {
+      const U = E.current[0], ee = U?.querySelector(".sort-controls-row");
+      if (ee) {
+        ee.setAttribute("tabindex", "-1"), ee.focus();
+        const N = `Sort controls group with ${xe().length} interactive elements. Press Enter or Space to begin navigating controls.`;
+        oe(N);
+      } else U && U.focus();
     } else {
-      const S = pe(), z = D - 1, L = S[z];
-      if (L) {
-        L.focus();
-        const h = L.tagName.toLowerCase() === "select", w = L.tagName.toLowerCase() === "button", W = h ? "dropdown" : w ? "button" : "control", O = h ? ". Use Space key to open dropdown" : "", T = `${W} ${z + 1} of ${S.length}${O}`;
-        se(T);
+      const U = xe(), ee = q - 1, Z = U[ee];
+      if (Z) {
+        Z.focus();
+        const N = Z.tagName.toLowerCase() === "select", z = Z.tagName.toLowerCase() === "button", te = N ? "dropdown" : z ? "button" : "control", re = N ? ". Use Space key to open dropdown" : "", Y = `${te} ${ee + 1} of ${U.length}${re}`;
+        oe(Y);
       }
     }
-  }, [pe, se]), be = ee((D, S) => {
-    const { key: z } = D, L = c[x.selectedIndex], h = L?.data.length || 0;
-    if (z === "ArrowLeft" && D.shiftKey) {
-      D.preventDefault(), D.currentTarget.scrollBy({ left: -30, behavior: "smooth" });
-=======
-        Y(h);
-      } else S && S.focus();
-    } else {
-      const S = pe(), W = T - 1, H = S[W];
-      if (H) {
-        H.focus();
-        const h = H.tagName.toLowerCase() === "select", w = H.tagName.toLowerCase() === "button", O = h ? "dropdown" : w ? "button" : "control", q = h ? ". Use Space key to open dropdown" : "", D = `${O} ${W + 1} of ${S.length}${q}`;
-        Y(D);
-      }
-    }
-  }, [pe, Y]), xe = re((T, S) => {
-    const { key: W } = T, H = d[b.selectedIndex], h = H?.data.length || 0;
-    if (W === "ArrowLeft" && T.shiftKey) {
-      T.preventDefault(), T.currentTarget.scrollBy({ left: -30, behavior: "smooth" });
->>>>>>> Stashed changes
+  }, [xe, oe]), be = ie((q, U) => {
+    const { key: ee } = q, Z = c[v.selectedIndex], N = Z?.data.length || 0;
+    if (ee === "ArrowLeft" && q.shiftKey) {
+      q.preventDefault(), q.currentTarget.scrollBy({ left: -30, behavior: "smooth" });
       return;
-    } else if (z === "ArrowRight" && D.shiftKey) {
-      D.preventDefault(), D.currentTarget.scrollBy({ left: 30, behavior: "smooth" });
+    } else if (ee === "ArrowRight" && q.shiftKey) {
+      q.preventDefault(), q.currentTarget.scrollBy({ left: 30, behavior: "smooth" });
       return;
     }
-    if (!b.isCardNavigationActive) {
-      switch (z) {
+    if (!k.isCardNavigationActive) {
+      switch (ee) {
         case "ArrowUp":
-          if (D.preventDefault(), S === 0)
-            N((T) => ({ ...T, focusArea: "sort-controls", focusedSortControlIndex: 0, isSortControlsActive: !1 })), de(0);
+          if (q.preventDefault(), U === 0)
+            b((Y) => ({ ...Y, focusArea: "sort-controls", focusedSortControlIndex: 0, isSortControlsActive: !1 })), pe(0);
           else {
-<<<<<<< Updated upstream
-            const T = te(S, "up", h, b.gridColumns);
-            T !== S && (N((U) => ({ ...U, focusedCardIndex: T })), F(T), se(`Moved to card ${T + 1} of ${h}`));
+            const Y = W(U, "up", N, k.gridColumns);
+            Y !== U && (b((ne) => ({ ...ne, focusedCardIndex: Y })), H(Y), oe(`Moved to card ${Y + 1} of ${N}`));
           }
           break;
         case "ArrowDown":
-          D.preventDefault();
-          const w = te(S, "down", h, b.gridColumns);
-          w !== S && (N((T) => ({ ...T, focusedCardIndex: w })), F(w), se(`Moved to card ${w + 1} of ${h}`));
+          q.preventDefault();
+          const z = W(U, "down", N, k.gridColumns);
+          z !== U && (b((Y) => ({ ...Y, focusedCardIndex: z })), H(z), oe(`Moved to card ${z + 1} of ${N}`));
           break;
         case "ArrowLeft":
-          D.preventDefault();
-          const W = te(S, "left", h, b.gridColumns);
-          W !== S ? (N((T) => ({ ...T, focusedCardIndex: W })), F(W), se(`Moved to card ${W + 1} of ${h}`)) : x.selectedIndex > 0 && (B({ type: "SET_SELECTED_INDEX", payload: x.selectedIndex - 1 }), N((T) => ({ ...T, focusArea: "tabs" })), setTimeout(() => ge(x.selectedIndex - 1), 0));
+          q.preventDefault();
+          const te = W(U, "left", N, k.gridColumns);
+          te !== U ? (b((Y) => ({ ...Y, focusedCardIndex: te })), H(te), oe(`Moved to card ${te + 1} of ${N}`)) : v.selectedIndex > 0 && (x({ type: "SET_SELECTED_INDEX", payload: v.selectedIndex - 1 }), b((Y) => ({ ...Y, focusArea: "tabs" })), setTimeout(() => he(v.selectedIndex - 1), 0));
           break;
         case "ArrowRight":
-          D.preventDefault();
-          const O = te(S, "right", h, b.gridColumns);
-          O !== S ? (N((T) => ({ ...T, focusedCardIndex: O })), F(O), se(`Moved to card ${O + 1} of ${h}`)) : x.selectedIndex < c.length - 1 && (B({ type: "SET_SELECTED_INDEX", payload: x.selectedIndex + 1 }), N((T) => ({ ...T, focusArea: "tabs" })), setTimeout(() => ge(x.selectedIndex + 1), 0));
-=======
-            const D = ae(S, "up", h, x.gridColumns);
-            D !== S && (N((G) => ({ ...G, focusedCardIndex: D })), E(D), Y(`Moved to card ${D + 1} of ${h}`));
-          }
-          break;
-        case "ArrowDown":
-          T.preventDefault();
-          const w = ae(S, "down", h, x.gridColumns);
-          w !== S && (N((D) => ({ ...D, focusedCardIndex: w })), E(w), Y(`Moved to card ${w + 1} of ${h}`));
-          break;
-        case "ArrowLeft":
-          T.preventDefault();
-          const O = ae(S, "left", h, x.gridColumns);
-          O !== S ? (N((D) => ({ ...D, focusedCardIndex: O })), E(O), Y(`Moved to card ${O + 1} of ${h}`)) : b.selectedIndex > 0 && (F({ type: "SET_SELECTED_INDEX", payload: b.selectedIndex - 1 }), N((D) => ({ ...D, focusArea: "tabs" })), setTimeout(() => fe(b.selectedIndex - 1), 0));
-          break;
-        case "ArrowRight":
-          T.preventDefault();
-          const q = ae(S, "right", h, x.gridColumns);
-          q !== S ? (N((D) => ({ ...D, focusedCardIndex: q })), E(q), Y(`Moved to card ${q + 1} of ${h}`)) : b.selectedIndex < d.length - 1 && (F({ type: "SET_SELECTED_INDEX", payload: b.selectedIndex + 1 }), N((D) => ({ ...D, focusArea: "tabs" })), setTimeout(() => fe(b.selectedIndex + 1), 0));
->>>>>>> Stashed changes
+          q.preventDefault();
+          const re = W(U, "right", N, k.gridColumns);
+          re !== U ? (b((Y) => ({ ...Y, focusedCardIndex: re })), H(re), oe(`Moved to card ${re + 1} of ${N}`)) : v.selectedIndex < c.length - 1 && (x({ type: "SET_SELECTED_INDEX", payload: v.selectedIndex + 1 }), b((Y) => ({ ...Y, focusArea: "tabs" })), setTimeout(() => he(v.selectedIndex + 1), 0));
           break;
         case "Enter":
-          if (L?.data[S]) {
-            D.preventDefault(), N((U) => ({
-              ...U,
-              selectedCardIndex: S
+          if (Z?.data[U]) {
+            q.preventDefault(), b((ne) => ({
+              ...ne,
+              selectedCardIndex: U
             }));
-            const T = ae(S);
-            T.length > 0 ? (N((U) => ({
-              ...U,
+            const Y = Q(U);
+            Y.length > 0 ? (b((ne) => ({
+              ...ne,
               focusArea: "card",
               isCardNavigationActive: !0,
               focusedCardElementIndex: 0,
-              cardElements: T,
-              selectedCardIndex: S
+              cardElements: Y,
+              selectedCardIndex: U
               // Ensure selection is maintained
-<<<<<<< Updated upstream
-            })), se(`Card ${S + 1} selected and navigation activated. ${T.length} interactive elements available. Use arrow keys to navigate, Enter to activate, Escape to exit.`)) : se(`Card ${S + 1} selected.`);
-=======
-            })), Y(`Card ${S + 1} selected and navigation activated. ${D.length} interactive elements available. Use arrow keys to navigate, Enter to activate, Escape to exit.`)) : Y(`Card ${S + 1} selected.`);
->>>>>>> Stashed changes
+            })), oe(`Card ${U + 1} selected and navigation activated. ${Y.length} interactive elements available. Use arrow keys to navigate, Enter to activate, Escape to exit.`)) : oe(`Card ${U + 1} selected.`);
           }
           break;
         case " ":
-          if (L?.data[S]) {
-            D.preventDefault(), N((U) => ({
-              ...U,
-              selectedCardIndex: U.selectedCardIndex === S ? -1 : S
+          if (Z?.data[U]) {
+            q.preventDefault(), b((ne) => ({
+              ...ne,
+              selectedCardIndex: ne.selectedCardIndex === U ? -1 : U
             }));
-<<<<<<< Updated upstream
-            const T = b.selectedCardIndex === S;
-            se(`Card ${S + 1} ${T ? "deselected" : "selected"}.`);
-=======
-            const D = x.selectedCardIndex === S;
-            Y(`Card ${S + 1} ${D ? "deselected" : "selected"}.`);
->>>>>>> Stashed changes
+            const Y = k.selectedCardIndex === U;
+            oe(`Card ${U + 1} ${Y ? "deselected" : "selected"}.`);
           }
           break;
       }
       return;
     }
-    switch (z) {
+    switch (ee) {
       case "ArrowUp":
       case "ArrowLeft":
-        D.preventDefault();
-        const w = Math.max(0, b.focusedCardElementIndex - 1);
-        N((U) => ({ ...U, focusedCardElementIndex: w })), je(S, w);
+        q.preventDefault();
+        const z = Math.max(0, k.focusedCardElementIndex - 1);
+        b((ne) => ({ ...ne, focusedCardElementIndex: z })), me(U, z);
         break;
       case "ArrowDown":
       case "ArrowRight":
-        D.preventDefault();
-        const W = Math.min(b.cardElements.length - 1, b.focusedCardElementIndex + 1);
-        N((U) => ({ ...U, focusedCardElementIndex: W })), je(S, W);
+        q.preventDefault();
+        const te = Math.min(k.cardElements.length - 1, k.focusedCardElementIndex + 1);
+        b((ne) => ({ ...ne, focusedCardElementIndex: te })), me(U, te);
         break;
       case "Enter":
-<<<<<<< Updated upstream
-        D.preventDefault();
-        const O = b.cardElements[b.focusedCardElementIndex];
-        O && (O.element.click(), se(`Activated ${O.label}`));
+        q.preventDefault();
+        const re = k.cardElements[k.focusedCardElementIndex];
+        re && (re.element.click(), oe(`Activated ${re.label}`));
         break;
       case " ":
-        D.preventDefault();
-        const T = b.cardElements[b.focusedCardElementIndex];
-        if (T) {
-          const U = new MouseEvent("dblclick", { bubbles: !0 });
-          T.element.dispatchEvent(U), se(`Double-clicked ${T.label}`);
-=======
-        T.preventDefault();
-        const q = x.cardElements[x.focusedCardElementIndex];
-        q && (q.element.click(), Y(`Activated ${q.label}`));
-        break;
-      case " ":
-        T.preventDefault();
-        const D = x.cardElements[x.focusedCardElementIndex];
-        if (D) {
-          const G = new MouseEvent("dblclick", { bubbles: !0 });
-          D.element.dispatchEvent(G), Y(`Double-clicked ${D.label}`);
->>>>>>> Stashed changes
+        q.preventDefault();
+        const Y = k.cardElements[k.focusedCardElementIndex];
+        if (Y) {
+          const ne = new MouseEvent("dblclick", { bubbles: !0 });
+          Y.element.dispatchEvent(ne), oe(`Double-clicked ${Y.label}`);
         }
         break;
       case "Escape":
-        D.preventDefault(), N((U) => ({
-          ...U,
+        q.preventDefault(), b((ne) => ({
+          ...ne,
           focusArea: "cards",
           isCardNavigationActive: !1,
           focusedCardElementIndex: 0,
           cardElements: []
-<<<<<<< Updated upstream
-        })), setTimeout(() => F(S), 0), se("Exited card navigation, returned to card level");
-=======
-        })), setTimeout(() => E(S), 0), Y("Exited card navigation, returned to card level");
->>>>>>> Stashed changes
+        })), setTimeout(() => H(U), 0), oe("Exited card navigation, returned to card level");
         break;
       case "Home":
-        D.preventDefault(), b.cardElements.length > 0 && (N((U) => ({ ...U, focusedCardElementIndex: 0 })), je(S, 0));
+        q.preventDefault(), k.cardElements.length > 0 && (b((ne) => ({ ...ne, focusedCardElementIndex: 0 })), me(U, 0));
         break;
       case "End":
-        if (D.preventDefault(), b.cardElements.length > 0) {
-          const U = b.cardElements.length - 1;
-          N((xe) => ({ ...xe, focusedCardElementIndex: U })), je(S, U);
+        if (q.preventDefault(), k.cardElements.length > 0) {
+          const ne = k.cardElements.length - 1;
+          b((_e) => ({ ..._e, focusedCardElementIndex: ne })), me(U, ne);
         }
         break;
     }
-<<<<<<< Updated upstream
-  }, [b, x.selectedIndex, c, Q, F, ge, N, ae, je, se]), Ve = ee((D) => {
-    const S = Z.current[D], z = S?.parentElement;
-    if (!S || !z) {
-=======
-  }, [x, b.selectedIndex, d, te, E, fe, N, ie, je, Y]), $e = re((T) => {
-    const S = X.current[T], W = S?.parentElement;
-    if (!S || !W) {
->>>>>>> Stashed changes
+  }, [k, v.selectedIndex, c, O, H, he, b, Q, me, oe]), We = ie((q) => {
+    const U = y.current[q], ee = U?.parentElement;
+    if (!U || !ee) {
       console.log("Tab or container not found for mobile scroll");
       return;
     }
-    const L = S.getBoundingClientRect(), h = z.getBoundingClientRect();
-    L.left >= h.left && L.right <= h.right || (console.log("Tab not visible, scrolling into view (mobile)"), S.scrollIntoView({
+    const Z = U.getBoundingClientRect(), N = ee.getBoundingClientRect();
+    Z.left >= N.left && Z.right <= N.right || (console.log("Tab not visible, scrolling into view (mobile)"), U.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
       inline: "center"
     }));
-  }, []), Le = ee((D, S) => {
-    if (k !== "cards")
+  }, []), Me = ie((q, U) => {
+    if (S !== "cards")
       return;
-    const { key: z } = D;
-    switch (z) {
+    const { key: ee } = q;
+    switch (ee) {
       case "ArrowLeft":
-<<<<<<< Updated upstream
-        D.preventDefault();
-        const L = S > 0 ? S - 1 : c.length - 1;
-        E(L), N((O) => ({ ...O, focusedTabIndex: L })), Z.current[L]?.focus(), Ve(L);
+        q.preventDefault();
+        const Z = U > 0 ? U - 1 : c.length - 1;
+        I(Z), b((re) => ({ ...re, focusedTabIndex: Z })), y.current[Z]?.focus(), We(Z);
         break;
       case "ArrowRight":
-        D.preventDefault();
-        const h = S < c.length - 1 ? S + 1 : 0;
-        E(h), N((O) => ({ ...O, focusedTabIndex: h })), Z.current[h]?.focus(), Ve(h);
+        q.preventDefault();
+        const N = U < c.length - 1 ? U + 1 : 0;
+        I(N), b((re) => ({ ...re, focusedTabIndex: N })), y.current[N]?.focus(), We(N);
         break;
       case "ArrowDown":
-        D.preventDefault();
-        const w = c[x.selectedIndex];
-        w && w.columns && w.columns.length > 0 ? (N((O) => ({
-          ...O,
+        q.preventDefault();
+        const z = c[v.selectedIndex];
+        z && z.columns && z.columns.length > 0 ? (b((re) => ({
+          ...re,
           focusArea: "sort-controls",
           focusedSortControlIndex: 0
-        })), de(0)) : (N((O) => ({
-          ...O,
-=======
-        T.preventDefault();
-        const H = S > 0 ? S - 1 : d.length - 1;
-        M(H), N((q) => ({ ...q, focusedTabIndex: H })), X.current[H]?.focus(), $e(H);
-        break;
-      case "ArrowRight":
-        T.preventDefault();
-        const h = S < d.length - 1 ? S + 1 : 0;
-        M(h), N((q) => ({ ...q, focusedTabIndex: h })), X.current[h]?.focus(), $e(h);
-        break;
-      case "ArrowDown":
-        T.preventDefault();
-        const w = d[b.selectedIndex];
-        w && w.columns && w.columns.length > 0 ? (N((q) => ({
-          ...q,
-          focusArea: "sort-controls",
-          focusedSortControlIndex: 0
-        })), he(0)) : (N((q) => ({
-          ...q,
->>>>>>> Stashed changes
+        })), pe(0)) : (b((re) => ({
+          ...re,
           focusArea: "cards",
           focusedCardIndex: 0
-        })), F(0));
+        })), H(0));
         break;
       case "Home":
-<<<<<<< Updated upstream
-        D.preventDefault(), E(0), N((O) => ({ ...O, focusedTabIndex: 0 })), Z.current[0]?.focus(), Ve(0);
+        q.preventDefault(), I(0), b((re) => ({ ...re, focusedTabIndex: 0 })), y.current[0]?.focus(), We(0);
         break;
       case "End":
-        D.preventDefault();
-        const W = c.length - 1;
-        E(W), N((O) => ({ ...O, focusedTabIndex: W })), Z.current[W]?.focus(), Ve(W);
-=======
-        T.preventDefault(), M(0), N((q) => ({ ...q, focusedTabIndex: 0 })), X.current[0]?.focus(), $e(0);
-        break;
-      case "End":
-        T.preventDefault();
-        const O = d.length - 1;
-        M(O), N((q) => ({ ...q, focusedTabIndex: O })), X.current[O]?.focus(), $e(O);
->>>>>>> Stashed changes
+        q.preventDefault();
+        const te = c.length - 1;
+        I(te), b((re) => ({ ...re, focusedTabIndex: te })), y.current[te]?.focus(), We(te);
         break;
       case "Enter":
       case " ":
-        D.preventDefault(), E(S);
+        q.preventDefault(), I(U);
         break;
     }
-<<<<<<< Updated upstream
-  }, [c.length, E, k, F, N, Ve]), Ne = ee((D, S) => {
-    if (k !== "cards")
+  }, [c.length, I, S, H, b, We]), Le = ie((q, U) => {
+    if (S !== "cards")
       return;
-    const { key: z } = D, L = c[x.selectedIndex];
-    if (S === 0 && !b.isSortControlsActive) {
-      switch (z) {
-=======
-  }, [d.length, M, y, E, N, $e]), Ne = re((T, S) => {
-    if (y !== "cards")
-      return;
-    const { key: W } = T, H = d[b.selectedIndex];
-    if (S === 0 && !x.isSortControlsActive) {
-      switch (W) {
->>>>>>> Stashed changes
+    const { key: ee } = q, Z = c[v.selectedIndex];
+    if (U === 0 && !k.isSortControlsActive) {
+      switch (ee) {
         case "ArrowUp":
-          D.preventDefault(), N((w) => ({
-            ...w,
+          q.preventDefault(), b((z) => ({
+            ...z,
             focusArea: "tabs",
             isSortControlsActive: !1
-          })), ge(x.selectedIndex);
+          })), he(v.selectedIndex);
           break;
         case "ArrowDown":
-          D.preventDefault(), L?.data && L.data.length > 0 && (N((w) => ({
-            ...w,
+          q.preventDefault(), Z?.data && Z.data.length > 0 && (b((z) => ({
+            ...z,
             focusArea: "cards",
             focusedCardIndex: 0,
             isSortControlsActive: !1
-          })), F(0));
+          })), H(0));
           break;
         case "Enter":
         case " ":
-          D.preventDefault();
-          const h = pe();
-          if (h.length > 0) {
-            N((W) => ({
-              ...W,
+          q.preventDefault();
+          const N = xe();
+          if (N.length > 0) {
+            b((te) => ({
+              ...te,
               isSortControlsActive: !0,
               focusedSortControlIndex: 1
               // Start with the first actual control (skip container)
-            })), de(1);
-            const w = `Entered sort controls navigation mode. ${h.length} controls available. Use arrow keys to navigate between controls.`;
-<<<<<<< Updated upstream
-            se(w);
-=======
-            Y(w);
->>>>>>> Stashed changes
+            })), pe(1);
+            const z = `Entered sort controls navigation mode. ${N.length} controls available. Use arrow keys to navigate between controls.`;
+            oe(z);
           }
           break;
         case "Escape":
-          D.preventDefault(), N((w) => ({
-            ...w,
+          q.preventDefault(), b((z) => ({
+            ...z,
             isSortControlsActive: !1,
             focusArea: "tabs"
-          })), ge(x.selectedIndex);
+          })), he(v.selectedIndex);
           break;
       }
       return;
     }
-    if (b.isSortControlsActive) {
-      const w = pe().length;
-      switch (z) {
+    if (k.isSortControlsActive) {
+      const z = xe().length;
+      switch (ee) {
         case "ArrowLeft":
-          D.preventDefault();
-          const W = b.focusedSortControlIndex > 1 ? b.focusedSortControlIndex - 1 : w;
-          N((T) => ({ ...T, focusedSortControlIndex: W })), de(W);
+          q.preventDefault();
+          const te = k.focusedSortControlIndex > 1 ? k.focusedSortControlIndex - 1 : z;
+          b((Y) => ({ ...Y, focusedSortControlIndex: te })), pe(te);
           break;
         case "ArrowRight":
-<<<<<<< Updated upstream
-          D.preventDefault();
-          const O = b.focusedSortControlIndex < w ? b.focusedSortControlIndex + 1 : 1;
-          N((T) => ({ ...T, focusedSortControlIndex: O })), de(O);
-=======
-          T.preventDefault();
-          const q = x.focusedSortControlIndex < w ? x.focusedSortControlIndex + 1 : 1;
-          N((D) => ({ ...D, focusedSortControlIndex: q })), he(q);
->>>>>>> Stashed changes
+          q.preventDefault();
+          const re = k.focusedSortControlIndex < z ? k.focusedSortControlIndex + 1 : 1;
+          b((Y) => ({ ...Y, focusedSortControlIndex: re })), pe(re);
           break;
         case "ArrowDown":
-          if (D.preventDefault(), b.isSortControlsActive) {
-            const T = b.focusedSortControlIndex < w ? b.focusedSortControlIndex + 1 : 1;
-            N((U) => ({ ...U, focusedSortControlIndex: T })), de(T);
+          if (q.preventDefault(), k.isSortControlsActive) {
+            const Y = k.focusedSortControlIndex < z ? k.focusedSortControlIndex + 1 : 1;
+            b((ne) => ({ ...ne, focusedSortControlIndex: Y })), pe(Y);
           } else
-            L?.data && L.data.length > 0 && (N((T) => ({
-              ...T,
+            Z?.data && Z.data.length > 0 && (b((Y) => ({
+              ...Y,
               focusArea: "cards",
               focusedCardIndex: 0,
               isSortControlsActive: !1
-            })), F(0));
+            })), H(0));
           break;
         case "ArrowUp":
-          D.preventDefault(), N((T) => ({
-            ...T,
+          q.preventDefault(), b((Y) => ({
+            ...Y,
             isSortControlsActive: !1,
             focusArea: "sort-controls"
-          })), de(0);
+          })), pe(0);
           break;
         case "Escape":
-          D.preventDefault(), N((T) => ({
-            ...T,
+          q.preventDefault(), b((Y) => ({
+            ...Y,
             isSortControlsActive: !1,
             focusArea: "sort-controls",
             focusedSortControlIndex: 0
-          })), de(0);
+          })), pe(0);
           break;
       }
     }
-<<<<<<< Updated upstream
-  }, [k, c, x.selectedIndex, b.isSortControlsActive, b.focusedSortControlIndex, de, ge, F, N, se]);
-  if (k === "cards") {
-    const D = c[x.selectedIndex];
-    return /* @__PURE__ */ n.jsxs("div", { className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--cards ${j || ""}`, children: [
-=======
-  }, [y, d, b.selectedIndex, x.isSortControlsActive, x.focusedSortControlIndex, he, fe, E, N, Y]);
-  if (y === "cards") {
-    const T = d[b.selectedIndex];
-    return /* @__PURE__ */ n.jsxs("div", { className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--cards ${B || ""}`, children: [
->>>>>>> Stashed changes
-      /* @__PURE__ */ n.jsxs("div", { className: "aria-tabs-datagrid-adaptive__header", children: [
-        /* @__PURE__ */ n.jsx(
+  }, [S, c, v.selectedIndex, k.isSortControlsActive, k.focusedSortControlIndex, pe, he, H, b, oe]);
+  if (S === "cards") {
+    const q = c[v.selectedIndex];
+    return /* @__PURE__ */ r.jsxs("div", { className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--cards ${F || ""}`, children: [
+      /* @__PURE__ */ r.jsxs("div", { className: "aria-tabs-datagrid-adaptive__header", children: [
+        /* @__PURE__ */ r.jsx(
           "div",
           {
             role: "tablist",
-            "aria-label": m,
-<<<<<<< Updated upstream
-            "aria-describedby": `${v || ""} ${_ ? `${_}-navigation-help` : ""}`.trim(),
-            "aria-orientation": g,
+            "aria-label": g,
+            "aria-describedby": `${C || ""} ${u ? `${u}-navigation-help` : ""}`.trim(),
+            "aria-orientation": p,
             className: "aria-tabs-datagrid__tabs",
-            children: c.map((S, z) => {
-              const L = z === x.selectedIndex, h = S.disabled || G;
-=======
-            "aria-describedby": `${C || ""} ${_ ? `${_}-navigation-help` : ""}`.trim(),
-            "aria-orientation": g,
-            className: "aria-tabs-datagrid__tabs",
-            children: d.map((S, W) => {
-              const H = W === b.selectedIndex, h = S.disabled || V;
->>>>>>> Stashed changes
-              return /* @__PURE__ */ n.jsxs(
+            children: c.map((U, ee) => {
+              const Z = ee === v.selectedIndex, N = U.disabled || R;
+              return /* @__PURE__ */ r.jsxs(
                 "button",
                 {
                   role: "tab",
-                  id: `tab-${S.id}`,
-                  "aria-controls": `panel-${S.id}`,
-                  "aria-selected": L,
-                  "aria-disabled": h,
-                  tabIndex: L ? 0 : -1,
-                  ref: (w) => {
-                    Z.current[z] = w;
+                  id: `tab-${U.id}`,
+                  "aria-controls": `panel-${U.id}`,
+                  "aria-selected": Z,
+                  "aria-disabled": N,
+                  tabIndex: Z ? 0 : -1,
+                  ref: (z) => {
+                    y.current[ee] = z;
                   },
-                  onClick: () => E(z),
-                  onKeyDown: (w) => Le(w, z),
-                  disabled: h,
+                  onClick: () => I(ee),
+                  onKeyDown: (z) => Me(z, ee),
+                  disabled: N,
                   className: [
                     "aria-tabs-datagrid__tab",
-                    L ? "aria-tabs-datagrid__tab--selected" : "",
-                    h ? "aria-tabs-datagrid__tab--disabled" : ""
+                    Z ? "aria-tabs-datagrid__tab--selected" : "",
+                    N ? "aria-tabs-datagrid__tab--disabled" : ""
                   ].filter(Boolean).join(" "),
                   children: [
-                    /* @__PURE__ */ n.jsx("span", { className: "aria-tabs-datagrid__tab-label", children: S.label }),
-                    x.tabLoadingStates[z] && /* @__PURE__ */ n.jsx("span", { className: "aria-tabs-datagrid__tab-loading", "aria-hidden": "true", children: "⏳" }),
-                    x.tabErrors[z] && /* @__PURE__ */ n.jsx("span", { className: "aria-tabs-datagrid__tab-error", "aria-hidden": "true", children: "⚠️" })
+                    /* @__PURE__ */ r.jsx("span", { className: "aria-tabs-datagrid__tab-label", children: U.label }),
+                    v.tabLoadingStates[ee] && /* @__PURE__ */ r.jsx("span", { className: "aria-tabs-datagrid__tab-loading", "aria-hidden": "true", children: "⏳" }),
+                    v.tabErrors[ee] && /* @__PURE__ */ r.jsx("span", { className: "aria-tabs-datagrid__tab-error", "aria-hidden": "true", children: "⚠️" })
                   ]
                 },
-                S.id
+                U.id
               );
             })
           }
         ),
-        s && /* @__PURE__ */ n.jsx("div", { className: "aria-tabs-datagrid-adaptive__top-actions", children: s })
+        s && /* @__PURE__ */ r.jsx("div", { className: "aria-tabs-datagrid-adaptive__top-actions", children: s })
       ] }),
-      D && D.columns && /* @__PURE__ */ n.jsx(n.Fragment, { children: o ? (
+      q && q.columns && /* @__PURE__ */ r.jsx(r.Fragment, { children: o ? (
         /* Advanced sorting with SortStatusControl */
-        /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-          ds,
-=======
-          hs,
->>>>>>> Stashed changes
+        /* @__PURE__ */ r.jsx(
+          Lo,
           {
-            sortConfig: x.sortConfig || [],
-            columns: D.columns.map((S) => ({ key: S.key, label: S.label })),
-            onSortChange: (S) => {
-              B({ type: "SET_SORT", payload: S });
+            sortConfig: v.sortConfig || [],
+            columns: q.columns.map((U) => ({ key: U.key, label: U.label })),
+            onSortChange: (U) => {
+              x({ type: "SET_SORT", payload: U });
             },
             ariaLabel: "Card view sort configuration",
             className: "aria-tabs-datagrid-adaptive__advanced-sort-controls"
@@ -12225,43 +8895,43 @@ const Cm = ({
         )
       ) : (
         /* Simple card sorting */
-        /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx(
           "div",
           {
             className: "aria-tabs-datagrid-adaptive__sort-controls",
             role: "region",
             "aria-label": "Sort controls",
-            tabIndex: b.focusArea === "sort-controls" ? 0 : -1,
-            ref: (S) => {
-              K.current[0] = S;
+            tabIndex: k.focusArea === "sort-controls" ? 0 : -1,
+            ref: (U) => {
+              E.current[0] = U;
             },
-            onKeyDown: (S) => Ne(S, 0),
-            children: /* @__PURE__ */ n.jsxs("div", { className: "sort-controls-row", children: [
-              /* @__PURE__ */ n.jsxs("div", { className: "sort-select-container", children: [
-                /* @__PURE__ */ n.jsx("label", { htmlFor: `card-sort-${D.id}`, className: "sort-label", children: "Sort cards by" }),
-                /* @__PURE__ */ n.jsx(
-                  cn,
+            onKeyDown: (U) => Le(U, 0),
+            children: /* @__PURE__ */ r.jsxs("div", { className: "sort-controls-row", children: [
+              /* @__PURE__ */ r.jsxs("div", { className: "sort-select-container", children: [
+                /* @__PURE__ */ r.jsx("label", { htmlFor: `card-sort-${q.id}`, className: "sort-label", children: "Sort cards by" }),
+                /* @__PURE__ */ r.jsx(
+                  Fn,
                   {
-                    id: `card-sort-${D.id}`,
-                    name: `card-sort-${D.id}`,
-                    value: b.cardSortConfig ? `${b.cardSortConfig.key}-${b.cardSortConfig.direction}` : "",
-                    onChange: (S) => re(S.target.value),
+                    id: `card-sort-${q.id}`,
+                    name: `card-sort-${q.id}`,
+                    value: k.cardSortConfig ? `${k.cardSortConfig.key}-${k.cardSortConfig.direction}` : "",
+                    onChange: (U) => J(U.target.value),
                     className: "sort-select",
-                    children: X(D.columns).map((S) => /* @__PURE__ */ n.jsx("option", { value: S.value, children: S.label }, S.value))
+                    children: K(q.columns).map((U) => /* @__PURE__ */ r.jsx("option", { value: U.value, children: U.label }, U.value))
                   }
                 )
               ] }),
-              b.cardSortConfig && /* @__PURE__ */ n.jsxs("div", { className: "sort-indicator", role: "status", "aria-live": "polite", children: [
-                /* @__PURE__ */ n.jsxs("span", { className: "sort-indicator-text", children: [
+              k.cardSortConfig && /* @__PURE__ */ r.jsxs("div", { className: "sort-indicator", role: "status", "aria-live": "polite", children: [
+                /* @__PURE__ */ r.jsxs("span", { className: "sort-indicator-text", children: [
                   "Sorted by ",
-                  me(b.cardSortConfig)
+                  ae(k.cardSortConfig)
                 ] }),
-                /* @__PURE__ */ n.jsx(
-                  Ge,
+                /* @__PURE__ */ r.jsx(
+                  Qe,
                   {
                     variant: "secondary",
                     size: "small",
-                    onClick: () => re(""),
+                    onClick: () => J(""),
                     "aria-label": "Clear card sorting",
                     className: "sort-clear-button",
                     children: "Clear"
@@ -12272,169 +8942,138 @@ const Cm = ({
           }
         )
       ) }),
-      /* @__PURE__ */ n.jsx(
+      /* @__PURE__ */ r.jsx(
         "div",
         {
-          ref: y,
+          ref: M,
           className: "aria-tabs-datagrid-adaptive__cards",
           role: "grid",
-<<<<<<< Updated upstream
-          "aria-label": `${D?.label || "Data"} cards in ${b.gridRows} rows and ${b.gridColumns} columns`,
-          "aria-rowcount": b.gridRows,
-          "aria-colcount": b.gridColumns,
-          id: `panel-${D?.id}`,
-          "aria-labelledby": `tab-${D?.id}`,
-          children: P(D?.data || []).map((S, z) => {
-            const L = b.selectedCardIndex === z, h = b.focusedCardIndex === z && b.focusArea === "cards", w = b.focusedCardIndex === z && b.focusArea === "card" && b.isCardNavigationActive, W = z === 0 && b.focusArea !== "cards", O = h || W, T = $(z, b.gridColumns);
-=======
-          "aria-label": `${T?.label || "Data"} cards in ${x.gridRows} rows and ${x.gridColumns} columns`,
-          "aria-rowcount": x.gridRows,
-          "aria-colcount": x.gridColumns,
-          id: `panel-${T?.id}`,
-          "aria-labelledby": `tab-${T?.id}`,
-          children: z(T?.data || []).map((S, W) => {
-            const H = x.selectedCardIndex === W, h = x.focusedCardIndex === W && x.focusArea === "cards", w = x.focusedCardIndex === W && x.focusArea === "card" && x.isCardNavigationActive, O = W === 0 && x.focusArea !== "cards", q = h || O, D = P(W, x.gridColumns);
->>>>>>> Stashed changes
-            if (r.cardTemplate) {
-              const he = r.cardTemplate(S, D.columns);
-              return /* @__PURE__ */ n.jsx(
+          "aria-label": `${q?.label || "Data"} cards in ${k.gridRows} rows and ${k.gridColumns} columns`,
+          "aria-rowcount": k.gridRows,
+          "aria-colcount": k.gridColumns,
+          id: `panel-${q?.id}`,
+          "aria-labelledby": `tab-${q?.id}`,
+          children: G(q?.data || []).map((U, ee) => {
+            const Z = k.selectedCardIndex === ee, N = k.focusedCardIndex === ee && k.focusArea === "cards", z = k.focusedCardIndex === ee && k.focusArea === "card" && k.isCardNavigationActive, te = ee === 0 && k.focusArea !== "cards", re = N || te, Y = w(ee, k.gridColumns);
+            if (n.cardTemplate) {
+              const ye = n.cardTemplate(U, q.columns);
+              return /* @__PURE__ */ r.jsx(
                 "div",
                 {
                   role: "row",
-                  "aria-rowindex": T.row + 1,
+                  "aria-rowindex": Y.row + 1,
                   className: "aria-tabs-datagrid-adaptive__row",
-                  children: /* @__PURE__ */ n.jsx(
+                  children: /* @__PURE__ */ r.jsx(
                     "div",
                     {
-                      ref: (ve) => {
-                        ce.current[z] = ve;
+                      ref: (ke) => {
+                        P.current[ee] = ke;
                       },
                       className: [
                         "aria-tabs-datagrid-adaptive__card-wrapper",
-                        L ? "aria-tabs-datagrid-adaptive__card-wrapper--selected" : "",
-                        h ? "aria-tabs-datagrid-adaptive__card-wrapper--focused" : "",
-                        w ? "aria-tabs-datagrid-adaptive__card-wrapper--card-navigation" : ""
+                        Z ? "aria-tabs-datagrid-adaptive__card-wrapper--selected" : "",
+                        N ? "aria-tabs-datagrid-adaptive__card-wrapper--focused" : "",
+                        z ? "aria-tabs-datagrid-adaptive__card-wrapper--card-navigation" : ""
                       ].filter(Boolean).join(" "),
                       role: "gridcell",
-                      "aria-colindex": T.col + 1,
-                      "aria-selected": L,
-                      "aria-expanded": w,
-<<<<<<< Updated upstream
-                      "aria-description": w ? `Card navigation active. ${b.cardElements.length} interactive elements available.` : void 0,
-                      tabIndex: O ? 0 : -1,
-=======
-                      "aria-description": w ? `Card navigation active. ${x.cardElements.length} interactive elements available.` : void 0,
-                      tabIndex: q ? 0 : -1,
->>>>>>> Stashed changes
+                      "aria-colindex": Y.col + 1,
+                      "aria-selected": Z,
+                      "aria-expanded": z,
+                      "aria-description": z ? `Card navigation active. ${k.cardElements.length} interactive elements available.` : void 0,
+                      tabIndex: re ? 0 : -1,
                       onClick: () => {
-                        N((ve) => ({
-                          ...ve,
-                          selectedCardIndex: ve.selectedCardIndex === z ? -1 : z
-                        })), Q(S);
+                        b((ke) => ({
+                          ...ke,
+                          selectedCardIndex: ke.selectedCardIndex === ee ? -1 : ee
+                        })), O(U);
                       },
-                      onKeyDown: (ve) => be(ve, z),
+                      onKeyDown: (ke) => be(ke, ee),
                       onFocus: () => {
-                        N((ve) => ve.focusedCardIndex !== z || ve.focusArea !== "cards" ? {
-                          ...ve,
-                          focusedCardIndex: z,
+                        b((ke) => ke.focusedCardIndex !== ee || ke.focusArea !== "cards" ? {
+                          ...ke,
+                          focusedCardIndex: ee,
                           focusArea: "cards"
-                        } : ve);
+                        } : ke);
                       },
-                      children: he
+                      children: ye
                     }
                   )
                 },
-                `card-${z}`
+                `card-${ee}`
               );
             }
-<<<<<<< Updated upstream
-            const U = Xc(S, D.columns, V, M), xe = [
-              U.className || "",
-              L ? "aria-tabs-datagrid-adaptive__card--selected" : "",
-=======
-            const G = Uc(S, T.columns, $, A), ye = [
-              G.className || "",
-              H ? "aria-tabs-datagrid-adaptive__card--selected" : "",
->>>>>>> Stashed changes
-              h ? "aria-tabs-datagrid-adaptive__card--focused" : "",
-              w ? "aria-tabs-datagrid-adaptive__card--card-navigation" : ""
+            const ne = sf(U, q.columns, L, j), _e = [
+              ne.className || "",
+              Z ? "aria-tabs-datagrid-adaptive__card--selected" : "",
+              N ? "aria-tabs-datagrid-adaptive__card--focused" : "",
+              z ? "aria-tabs-datagrid-adaptive__card--card-navigation" : ""
             ].filter(Boolean).join(" ");
-            return /* @__PURE__ */ n.jsx(
+            return /* @__PURE__ */ r.jsx(
               "div",
               {
                 role: "row",
-                "aria-rowindex": T.row + 1,
+                "aria-rowindex": Y.row + 1,
                 className: "aria-tabs-datagrid-adaptive__row",
-                children: /* @__PURE__ */ n.jsx(
+                children: /* @__PURE__ */ r.jsx(
                   "div",
                   {
                     className: [
                       "aria-tabs-datagrid-adaptive__card-wrapper",
-                      L ? "aria-tabs-datagrid-adaptive__card-wrapper--selected" : "",
-                      h ? "aria-tabs-datagrid-adaptive__card-wrapper--focused" : "",
-                      w ? "aria-tabs-datagrid-adaptive__card-wrapper--card-navigation" : ""
+                      Z ? "aria-tabs-datagrid-adaptive__card-wrapper--selected" : "",
+                      N ? "aria-tabs-datagrid-adaptive__card-wrapper--focused" : "",
+                      z ? "aria-tabs-datagrid-adaptive__card-wrapper--card-navigation" : ""
                     ].filter(Boolean).join(" "),
                     role: "gridcell",
-                    "aria-colindex": T.col + 1,
-                    "aria-selected": L,
-                    "aria-expanded": w,
-                    onKeyDown: (he) => {
-                      he.key === "Enter" && (he.preventDefault(), N((ve) => ({
-                        ...ve,
-                        selectedCardIndex: z
-                      }))), be(he, z);
+                    "aria-colindex": Y.col + 1,
+                    "aria-selected": Z,
+                    "aria-expanded": z,
+                    onKeyDown: (ye) => {
+                      ye.key === "Enter" && (ye.preventDefault(), b((ke) => ({
+                        ...ke,
+                        selectedCardIndex: ee
+                      }))), be(ye, ee);
                     },
-                    children: /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-                      cs,
-=======
-                      us,
->>>>>>> Stashed changes
+                    children: /* @__PURE__ */ r.jsx(
+                      Io,
                       {
-                        ...U,
-                        ref: (he) => {
-                          ce.current[z] = he;
+                        ...ne,
+                        ref: (ye) => {
+                          P.current[ee] = ye;
                         },
-<<<<<<< Updated upstream
-                        className: xe,
-                        "aria-label": `${U["aria-label"] || U.heading}. ${w ? `Card navigation active with ${b.cardElements.length} interactive elements. Use arrow keys to navigate, Enter to activate, Escape to exit.` : "Press Enter to navigate within card elements."}`,
-                        tabIndex: O ? 0 : -1,
-=======
-                        className: ye,
-                        "aria-label": `${G["aria-label"] || G.heading}. ${w ? `Card navigation active with ${x.cardElements.length} interactive elements. Use arrow keys to navigate, Enter to activate, Escape to exit.` : "Press Enter to navigate within card elements."}`,
-                        tabIndex: q ? 0 : -1,
->>>>>>> Stashed changes
+                        className: _e,
+                        "aria-label": `${ne["aria-label"] || ne.heading}. ${z ? `Card navigation active with ${k.cardElements.length} interactive elements. Use arrow keys to navigate, Enter to activate, Escape to exit.` : "Press Enter to navigate within card elements."}`,
+                        tabIndex: re ? 0 : -1,
                         onClick: () => {
-                          N((he) => ({
-                            ...he,
-                            selectedCardIndex: he.selectedCardIndex === z ? -1 : z
-                          })), Q(S);
+                          b((ye) => ({
+                            ...ye,
+                            selectedCardIndex: ye.selectedCardIndex === ee ? -1 : ee
+                          })), O(U);
                         },
-                        onKeyDown: (he) => be(he, z),
+                        onKeyDown: (ye) => be(ye, ee),
                         onFocus: () => {
-                          b.isCardNavigationActive || N((he) => he.focusedCardIndex !== z || he.focusArea !== "cards" ? {
-                            ...he,
-                            focusedCardIndex: z,
+                          k.isCardNavigationActive || b((ye) => ye.focusedCardIndex !== ee || ye.focusArea !== "cards" ? {
+                            ...ye,
+                            focusedCardIndex: ee,
                             focusArea: "cards",
                             focusedCardElementIndex: 0,
                             cardElements: []
-                          } : he);
+                          } : ye);
                         }
                       }
                     )
                   }
                 )
               },
-              `card-${z}`
+              `card-${ee}`
             );
           })
         }
       ),
-      i && /* @__PURE__ */ n.jsx("div", { className: "aria-tabs-datagrid-adaptive__bottom-actions", children: i }),
-      /* @__PURE__ */ n.jsx(
+      i && /* @__PURE__ */ r.jsx("div", { className: "aria-tabs-datagrid-adaptive__bottom-actions", children: i }),
+      /* @__PURE__ */ r.jsx(
         "div",
         {
-          ref: Ce,
+          ref: fe,
           className: "aria-tabs-datagrid-adaptive__announcements",
           "aria-hidden": "true",
           style: {
@@ -12454,100 +9093,63 @@ const Cm = ({
       )
     ] });
   }
-  return k === "hybrid" ? /* @__PURE__ */ n.jsxs("div", { className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--hybrid ${j || ""}`, children: [
-    s && /* @__PURE__ */ n.jsx("div", { className: "aria-tabs-datagrid-adaptive__top-actions aria-tabs-datagrid-adaptive__top-actions--above-table", children: s }),
-    /* @__PURE__ */ n.jsx(
-      pr,
+  return S === "hybrid" ? /* @__PURE__ */ r.jsxs("div", { className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--hybrid ${F || ""}`, children: [
+    s && /* @__PURE__ */ r.jsx("div", { className: "aria-tabs-datagrid-adaptive__top-actions aria-tabs-datagrid-adaptive__top-actions--above-table", children: s }),
+    /* @__PURE__ */ r.jsx(
+      ea,
       {
-        tabPanels: d,
-        dataConfig: u,
-        ariaLabel: m,
-<<<<<<< Updated upstream
-        ariaDescription: v,
-        orientation: g,
-        id: _,
-        disabled: G,
-=======
+        tabPanels: c,
+        dataConfig: f,
+        ariaLabel: g,
         ariaDescription: C,
-        orientation: g,
-        id: _,
-        disabled: V,
->>>>>>> Stashed changes
-        selectedIndex: f,
-        onTabChange: p,
+        orientation: p,
+        id: u,
+        disabled: R,
+        selectedIndex: h,
+        onTabChange: m,
         className: "aria-tabs-datagrid-adaptive__table--hybrid",
         actions: l,
-<<<<<<< Updated upstream
         forceActionsAbove: d,
-        ...I
-=======
-        forceActionsAbove: c,
-        ...k
->>>>>>> Stashed changes
+        ...T
       }
     ),
-    i && /* @__PURE__ */ n.jsx("div", { className: "aria-tabs-datagrid-adaptive__bottom-actions", children: i })
-  ] }) : /* @__PURE__ */ n.jsxs("div", { className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--table ${j || ""}`, children: [
-    s && /* @__PURE__ */ n.jsx("div", { className: "aria-tabs-datagrid-adaptive__top-actions aria-tabs-datagrid-adaptive__top-actions--above-table", children: s }),
-    /* @__PURE__ */ n.jsx(
-      pr,
+    i && /* @__PURE__ */ r.jsx("div", { className: "aria-tabs-datagrid-adaptive__bottom-actions", children: i })
+  ] }) : /* @__PURE__ */ r.jsxs("div", { className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--table ${F || ""}`, children: [
+    s && /* @__PURE__ */ r.jsx("div", { className: "aria-tabs-datagrid-adaptive__top-actions aria-tabs-datagrid-adaptive__top-actions--above-table", children: s }),
+    /* @__PURE__ */ r.jsx(
+      ea,
       {
-        tabPanels: d,
-        dataConfig: u,
-        ariaLabel: m,
-<<<<<<< Updated upstream
-        ariaDescription: v,
-        orientation: g,
-        id: _,
-        disabled: G,
-        selectedIndex: f,
-        onTabChange: p,
+        tabPanels: c,
+        dataConfig: f,
+        ariaLabel: g,
+        ariaDescription: C,
+        orientation: p,
+        id: u,
+        disabled: R,
+        selectedIndex: h,
+        onTabChange: m,
         actions: l,
         forceActionsAbove: d,
-        ...I
-=======
-        ariaDescription: C,
-        orientation: g,
-        id: _,
-        disabled: V,
-        selectedIndex: f,
-        onTabChange: p,
-        actions: l,
-        forceActionsAbove: c,
-        ...k
->>>>>>> Stashed changes
+        ...T
       }
     ),
-    i && /* @__PURE__ */ n.jsx("div", { className: "aria-tabs-datagrid-adaptive__bottom-actions", children: i })
+    i && /* @__PURE__ */ r.jsx("div", { className: "aria-tabs-datagrid-adaptive__bottom-actions", children: i })
   ] });
-<<<<<<< Updated upstream
-}, bs = (e) => {
-  const t = gr.find((r) => r.value === e);
+}, Po = (e) => {
+  const t = ta.find((n) => n.value === e);
   return t ? t.icon : null;
-}, Qc = {
-=======
-}, ys = (e) => {
-  const t = gr.find((r) => r.value === e);
-  return t ? t.icon : null;
-}, Gc = {
->>>>>>> Stashed changes
+}, of = {
   dataComparator: (e, t) => e.id === t.id,
-  filterFunction: (e, t) => t ? e.filter((r) => {
+  filterFunction: (e, t) => t ? e.filter((n) => {
     if (t.priceRange) {
-      const [a, o] = t.priceRange, s = r.discountedPrice || r.price;
+      const [a, o] = t.priceRange, s = n.discountedPrice || n.price;
       if (s < a || s > o) return !1;
     }
-    return !(t.categories && t.categories.length > 0 && !t.categories.includes(r.category) || t.inStock !== void 0 && r.inStock !== t.inStock || t.minRating !== void 0 && r.rating < t.minRating || t.tags && t.tags.length > 0 && !t.tags.some((a) => r.tags.includes(a)));
+    return !(t.categories && t.categories.length > 0 && !t.categories.includes(n.category) || t.inStock !== void 0 && n.inStock !== t.inStock || t.minRating !== void 0 && n.rating < t.minRating || t.tags && t.tags.length > 0 && !t.tags.some((a) => n.tags.includes(a)));
   }) : e,
-<<<<<<< Updated upstream
-  booleanRenderer: (e) => bs(e),
+  booleanRenderer: (e) => Po(e),
   getDataId: (e) => `ecommerce-${e.id}`
-}, ed = (e) => Jr(e, [
-=======
-  booleanRenderer: (e) => ys(e),
-  getDataId: (e) => `ecommerce-${e.id}`
-}, Vc = (e) => Xr(e, [
->>>>>>> Stashed changes
+}, lf = (e) => Wa(e, [
   {
     id: "all-products",
     label: "All Products",
@@ -12556,14 +9158,14 @@ const Cm = ({
       {
         key: "price",
         label: "Price",
-        render: (r) => r.discountedPrice ? `$${r.price.toFixed(2)} → $${r.discountedPrice.toFixed(2)}` : `$${r.price.toFixed(2)}`
+        render: (n) => n.discountedPrice ? `$${n.price.toFixed(2)} → $${n.discountedPrice.toFixed(2)}` : `$${n.price.toFixed(2)}`
       },
       { key: "inStock", label: "Availability" },
       { key: "category", label: "Category" },
       {
         key: "rating",
         label: "Rating",
-        render: (r) => `${r.rating}/5 (${r.reviews} reviews)`
+        render: (n) => `${n.rating}/5 (${n.reviews} reviews)`
       }
     ],
     ariaLabel: "All Products Grid",
@@ -12577,20 +9179,20 @@ const Cm = ({
       {
         key: "price",
         label: "Original Price",
-        render: (r) => `$${r.price.toFixed(2)}`
+        render: (n) => `$${n.price.toFixed(2)}`
       },
       {
         key: "discountedPrice",
         label: "Sale Price",
-        render: (r) => `$${r.discountedPrice?.toFixed(2) || "N/A"}`
+        render: (n) => `$${n.discountedPrice?.toFixed(2) || "N/A"}`
       },
       {
         key: "discount",
         label: "Discount",
-        render: (r) => r.discountedPrice ? `${((r.price - r.discountedPrice) / r.price * 100).toFixed(0)}% OFF` : "N/A"
+        render: (n) => n.discountedPrice ? `${((n.price - n.discountedPrice) / n.price * 100).toFixed(0)}% OFF` : "N/A"
       }
     ],
-    filter: (r) => r.filter((a) => a.discountedPrice !== void 0),
+    filter: (n) => n.filter((a) => a.discountedPrice !== void 0),
     ariaLabel: "Sale Products Grid",
     ariaDescription: "Products currently on sale with discounted pricing"
   },
@@ -12603,37 +9205,27 @@ const Cm = ({
       { key: "reviews", label: "Reviews" },
       { key: "category", label: "Category" }
     ],
-    filter: (r) => r.filter((a) => a.rating >= 4),
+    filter: (n) => n.filter((a) => a.rating >= 4),
     sortConfig: [{ key: "rating", direction: "desc" }],
     ariaLabel: "Top Rated Products Grid",
     ariaDescription: "Highest rated products with 4+ star ratings"
   }
-<<<<<<< Updated upstream
-]), td = {
-=======
-]), Yc = {
->>>>>>> Stashed changes
+]), cf = {
   dataComparator: (e, t) => e.id === t.id,
-  filterFunction: (e, t) => t ? e.filter((r) => {
+  filterFunction: (e, t) => t ? e.filter((n) => {
     if (t.dateRange) {
       const [a, o] = t.dateRange;
-      if (r.date < a || r.date > o) return !1;
+      if (n.date < a || n.date > o) return !1;
     }
     if (t.amountRange) {
       const [a, o] = t.amountRange;
-      if (Math.abs(r.amount) < a || Math.abs(r.amount) > o) return !1;
+      if (Math.abs(n.amount) < a || Math.abs(n.amount) > o) return !1;
     }
-    return !(t.types && t.types.length > 0 && !t.types.includes(r.type) || t.categories && t.categories.length > 0 && !t.categories.includes(r.category) || t.pending !== void 0 && r.pending !== t.pending);
+    return !(t.types && t.types.length > 0 && !t.types.includes(n.type) || t.categories && t.categories.length > 0 && !t.categories.includes(n.category) || t.pending !== void 0 && n.pending !== t.pending);
   }) : e,
-<<<<<<< Updated upstream
-  booleanRenderer: (e) => bs(e),
+  booleanRenderer: (e) => Po(e),
   getDataId: (e) => `financial-${e.id}`
-}, nd = (e) => Jr(e, [
-=======
-  booleanRenderer: (e) => ys(e),
-  getDataId: (e) => `financial-${e.id}`
-}, qc = (e) => Xr(e, [
->>>>>>> Stashed changes
+}, df = (e) => Wa(e, [
   {
     id: "all-transactions",
     label: "All Transactions",
@@ -12641,13 +9233,13 @@ const Cm = ({
       {
         key: "date",
         label: "Date",
-        render: (r) => r.date.toLocaleDateString()
+        render: (n) => n.date.toLocaleDateString()
       },
       { key: "description", label: "Description" },
       {
         key: "amount",
         label: "Amount",
-        render: (r) => `${r.type === "credit" ? "+" : "-"}$${Math.abs(r.amount).toFixed(2)}`
+        render: (n) => `${n.type === "credit" ? "+" : "-"}$${Math.abs(n.amount).toFixed(2)}`
       },
       { key: "category", label: "Category" },
       { key: "pending", label: "Status" }
@@ -12663,17 +9255,17 @@ const Cm = ({
       {
         key: "date",
         label: "Date",
-        render: (r) => r.date.toLocaleDateString()
+        render: (n) => n.date.toLocaleDateString()
       },
       { key: "description", label: "Description" },
       {
         key: "amount",
         label: "Amount",
-        render: (r) => `+$${r.amount.toFixed(2)}`
+        render: (n) => `+$${n.amount.toFixed(2)}`
       },
       { key: "category", label: "Category" }
     ],
-    filter: (r) => r.filter((a) => a.type === "credit"),
+    filter: (n) => n.filter((a) => a.type === "credit"),
     ariaLabel: "Credit Transactions Grid",
     ariaDescription: "Incoming payments and credits only"
   },
@@ -12684,17 +9276,17 @@ const Cm = ({
       {
         key: "date",
         label: "Date",
-        render: (r) => r.date.toLocaleDateString()
+        render: (n) => n.date.toLocaleDateString()
       },
       { key: "description", label: "Description" },
       {
         key: "amount",
         label: "Amount",
-        render: (r) => `-$${Math.abs(r.amount).toFixed(2)}`
+        render: (n) => `-$${Math.abs(n.amount).toFixed(2)}`
       },
       { key: "category", label: "Category" }
     ],
-    filter: (r) => r.filter((a) => a.type === "debit"),
+    filter: (n) => n.filter((a) => a.type === "debit"),
     ariaLabel: "Debit Transactions Grid",
     ariaDescription: "Outgoing payments and charges only"
   },
@@ -12705,61 +9297,40 @@ const Cm = ({
       {
         key: "date",
         label: "Date",
-        render: (r) => r.date.toLocaleDateString()
+        render: (n) => n.date.toLocaleDateString()
       },
       { key: "description", label: "Description" },
       {
         key: "amount",
         label: "Amount",
-        render: (r) => `${r.type === "credit" ? "+" : "-"}$${Math.abs(r.amount).toFixed(2)}`
+        render: (n) => `${n.type === "credit" ? "+" : "-"}$${Math.abs(n.amount).toFixed(2)}`
       },
       { key: "type", label: "Type" }
     ],
-    filter: (r) => r.filter((a) => a.pending),
+    filter: (n) => n.filter((a) => a.pending),
     ariaLabel: "Pending Transactions Grid",
     ariaDescription: "Transactions awaiting processing"
   }
-<<<<<<< Updated upstream
-]), rd = {
+]), uf = {
   ecommerce: {
     name: "E-commerce",
     description: "Product catalogs with pricing, inventory, and ratings",
-    dataConfig: Qc,
-    createTabs: ed
-=======
-]), Kc = {
-  ecommerce: {
-    name: "E-commerce",
-    description: "Product catalogs with pricing, inventory, and ratings",
-    dataConfig: Gc,
-    createTabs: Vc
->>>>>>> Stashed changes
+    dataConfig: of,
+    createTabs: lf
   },
   financial: {
     name: "Financial",
     description: "Transaction data with amounts, categories, and statuses",
-<<<<<<< Updated upstream
-    dataConfig: td,
-    createTabs: nd
+    dataConfig: cf,
+    createTabs: df
   }
-}, Aa = (e, t) => {
-  const r = rd[e];
-=======
-    dataConfig: Yc,
-    createTabs: qc
-  }
-}, Aa = (e, t) => {
-  const r = Kc[e];
->>>>>>> Stashed changes
+}, Es = (e, t) => {
+  const n = uf[e];
   return {
-    dataConfig: r.dataConfig,
-    tabPanels: r.createTabs(t)
+    dataConfig: n.dataConfig,
+    tabPanels: n.createTabs(t)
   };
-<<<<<<< Updated upstream
-}, xs = [
-=======
-}, vs = [
->>>>>>> Stashed changes
+}, Ho = [
   {
     name: "Sarah Johnson",
     age: 34,
@@ -12883,11 +9454,7 @@ const Cm = ({
     equipment: "Oxygen",
     district_nurse_referral: !1
   }
-<<<<<<< Updated upstream
-], ad = [
-=======
-], Zc = [
->>>>>>> Stashed changes
+], ff = [
   {
     id: "appt-001",
     appointment_time: "2024-01-18T09:00:00Z",
@@ -12918,11 +9485,7 @@ const Cm = ({
     duration: 45,
     status: "pending"
   }
-<<<<<<< Updated upstream
-], sd = [
-=======
-], Jc = [
->>>>>>> Stashed changes
+], hf = [
   {
     id: "med-001",
     medication: "Amlodipine",
@@ -12959,11 +9522,7 @@ const Cm = ({
     allergies: null,
     priority: "high"
   }
-<<<<<<< Updated upstream
-], od = [
-=======
-], Xc = [
->>>>>>> Stashed changes
+], pf = [
   {
     id: "vitals-001",
     patient_name: "Sarah Johnson",
@@ -13000,7 +9559,7 @@ const Cm = ({
     ews_score: 9,
     priority: "high"
   }
-], La = [
+], Rs = [
   {
     id: "PROD001",
     name: "Wireless Headphones",
@@ -13043,7 +9602,7 @@ const Cm = ({
     reviews: 234,
     tags: ["protection", "mobile", "durable"]
   }
-], Ma = [
+], Ps = [
   {
     id: "TXN001",
     date: /* @__PURE__ */ new Date("2024-01-15"),
@@ -13088,7 +9647,7 @@ const Cm = ({
     pending: !1,
     recurring: !1
   }
-], $a = [
+], Hs = [
   {
     id: "LEAD001",
     companyName: "Tech Solutions Inc",
@@ -13122,31 +9681,19 @@ const Cm = ({
     source: "Cold Call",
     isHotLead: !0
   }
-<<<<<<< Updated upstream
-], id = {
-=======
-], Qc = {
->>>>>>> Stashed changes
+], mf = {
   dataComparator: (e, t) => e.id === t.id,
-  filterFunction: (e, t) => t ? e.filter((r) => !(t.status && !t.status.includes(r.status) || t.minValue && r.value < t.minValue || t.hotLeadsOnly && !r.isHotLead)) : e,
-  booleanRenderer: (e) => /* @__PURE__ */ n.jsx("span", { style: {
+  filterFunction: (e, t) => t ? e.filter((n) => !(t.status && !t.status.includes(n.status) || t.minValue && n.value < t.minValue || t.hotLeadsOnly && !n.isHotLead)) : e,
+  booleanRenderer: (e) => /* @__PURE__ */ r.jsx("span", { style: {
     color: e ? "#dc2626" : "#6b7280",
     fontWeight: e ? "bold" : "normal"
   }, children: e ? "🔥 Hot Lead" : "📋 Standard" }),
   getDataId: (e) => `business-${e.id}`
-<<<<<<< Updated upstream
-}, ld = () => [
+}, gf = () => [
   {
     id: "patients",
     label: "Patients",
-    data: xs,
-=======
-}, ed = () => [
-  {
-    id: "patients",
-    label: "Patients",
-    data: vs,
->>>>>>> Stashed changes
+    data: Ho,
     columns: [
       { key: "name", label: "Patient Name" },
       { key: "age", label: "Age" },
@@ -13155,17 +9702,13 @@ const Cm = ({
     ],
     ariaLabel: "Patient Records",
     ariaDescription: "Healthcare patient management with EWS monitoring",
-    cardTemplate: (e, t) => /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-      us,
-=======
-      fs,
->>>>>>> Stashed changes
+    cardTemplate: (e, t) => /* @__PURE__ */ r.jsx(
+      Mo,
       {
         data: e,
         columns: t,
-        onSelect: (r) => console.log("Selected patient:", r),
-        onAction: (r, a) => console.log("Patient action:", r, a),
+        onSelect: (n) => console.log("Selected patient:", n),
+        onAction: (n, a) => console.log("Patient action:", n, a),
         priority: e.ews_score >= 7 ? "high" : e.ews_score >= 3 ? "medium" : "low"
       }
     )
@@ -13173,11 +9716,7 @@ const Cm = ({
   {
     id: "appointments",
     label: "Appointments",
-<<<<<<< Updated upstream
-    data: ad,
-=======
-    data: Zc,
->>>>>>> Stashed changes
+    data: ff,
     columns: [
       { key: "appointment_time", label: "Time" },
       { key: "patient_name", label: "Patient" },
@@ -13186,17 +9725,13 @@ const Cm = ({
     ],
     ariaLabel: "Patient Appointments",
     ariaDescription: "Scheduled appointments and consultations",
-    cardTemplate: (e, t) => /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-      hs,
-=======
-      ms,
->>>>>>> Stashed changes
+    cardTemplate: (e, t) => /* @__PURE__ */ r.jsx(
+      Fo,
       {
         data: e,
         columns: t,
-        onSelect: (r) => console.log("Selected appointment:", r),
-        onAction: (r, a) => console.log("Appointment action:", r, a),
+        onSelect: (n) => console.log("Selected appointment:", n),
+        onAction: (n, a) => console.log("Appointment action:", n, a),
         status: e.status
       }
     )
@@ -13204,11 +9739,7 @@ const Cm = ({
   {
     id: "medications",
     label: "Medications",
-<<<<<<< Updated upstream
-    data: sd,
-=======
-    data: Jc,
->>>>>>> Stashed changes
+    data: hf,
     columns: [
       { key: "medication", label: "Medication" },
       { key: "dose", label: "Dose" },
@@ -13217,17 +9748,13 @@ const Cm = ({
     ],
     ariaLabel: "Patient Medications",
     ariaDescription: "Medication administration and scheduling",
-    cardTemplate: (e, t) => /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-      fs,
-=======
-      ps,
->>>>>>> Stashed changes
+    cardTemplate: (e, t) => /* @__PURE__ */ r.jsx(
+      Bo,
       {
         data: e,
         columns: t,
-        onSelect: (r) => console.log("Selected medication:", r),
-        onAction: (r, a) => console.log("Medication action:", r, a),
+        onSelect: (n) => console.log("Selected medication:", n),
+        onAction: (n, a) => console.log("Medication action:", n, a),
         priority: e.priority
       }
     )
@@ -13235,11 +9762,7 @@ const Cm = ({
   {
     id: "vitals",
     label: "Vital Signs",
-<<<<<<< Updated upstream
-    data: od,
-=======
-    data: Xc,
->>>>>>> Stashed changes
+    data: pf,
     columns: [
       { key: "patient_name", label: "Patient" },
       { key: "recorded_time", label: "Time" },
@@ -13248,63 +9771,43 @@ const Cm = ({
     ],
     ariaLabel: "Patient Vital Signs",
     ariaDescription: "Patient vital signs monitoring and EWS scores",
-    cardTemplate: (e, t) => /* @__PURE__ */ n.jsx(
-<<<<<<< Updated upstream
-      ms,
-=======
-      gs,
->>>>>>> Stashed changes
+    cardTemplate: (e, t) => /* @__PURE__ */ r.jsx(
+      Ao,
       {
         data: e,
         columns: t,
-        onSelect: (r) => console.log("Selected vitals:", r),
-        onAction: (r, a) => console.log("Vitals action:", r, a),
+        onSelect: (n) => console.log("Selected vitals:", n),
+        onAction: (n, a) => console.log("Vitals action:", n, a),
         priority: e.ews_score >= 7 ? "high" : e.ews_score >= 3 ? "medium" : "low"
       }
     )
   }
-<<<<<<< Updated upstream
-], cd = () => {
-  const [e, t] = we("healthcare"), r = De(() => ({
+], xf = () => {
+  const [e, t] = Ne("healthcare"), n = je(() => ({
     healthcare: {
       title: "Healthcare Workflow Management",
       description: "Comprehensive healthcare workflow with patient cards, appointments, medications, and vitals",
-      dataConfig: Lc,
-      tabPanels: ld(),
-      data: xs
-=======
-], td = () => {
-  const [e, t] = Se("healthcare"), r = Re(() => ({
-    healthcare: {
-      title: "Healthcare Workflow Management",
-      description: "Comprehensive healthcare workflow with patient cards, appointments, medications, and vitals",
-      dataConfig: Tc,
-      tabPanels: ed(),
-      data: vs
->>>>>>> Stashed changes
+      dataConfig: Ou,
+      tabPanels: gf(),
+      data: Ho
     },
     ecommerce: {
       title: "E-commerce Product Catalog",
       description: "Product management with pricing and inventory",
-      ...Aa("ecommerce", La),
-      data: La
+      ...Es("ecommerce", Rs),
+      data: Rs
     },
     financial: {
       title: "Financial Transaction Dashboard",
       description: "Banking and financial data management",
-      ...Aa("financial", Ma),
-      data: Ma
+      ...Es("financial", Ps),
+      data: Ps
     },
     business: {
       title: "Sales Lead Management",
       description: "Custom CRM configuration with business logic",
-<<<<<<< Updated upstream
-      dataConfig: id,
-      tabPanels: Jr($a, [
-=======
-      dataConfig: Qc,
-      tabPanels: Xr(Ha, [
->>>>>>> Stashed changes
+      dataConfig: mf,
+      tabPanels: Wa(Hs, [
         {
           id: "all-leads",
           label: "All Leads",
@@ -13364,30 +9867,30 @@ const Cm = ({
           ariaDescription: "Leads currently in the sales pipeline"
         }
       ]),
-      data: $a
+      data: Hs
     }
-  }), []), a = r[e];
-  return /* @__PURE__ */ n.jsxs("div", { style: { padding: "2rem", maxWidth: "1200px", margin: "0 auto" }, children: [
-    /* @__PURE__ */ n.jsxs("div", { style: { marginBottom: "2rem" }, children: [
-      /* @__PURE__ */ n.jsx("h1", { style: {
+  }), []), a = n[e];
+  return /* @__PURE__ */ r.jsxs("div", { style: { padding: "2rem", maxWidth: "1200px", margin: "0 auto" }, children: [
+    /* @__PURE__ */ r.jsxs("div", { style: { marginBottom: "2rem" }, children: [
+      /* @__PURE__ */ r.jsx("h1", { style: {
         fontSize: "2rem",
         fontWeight: "bold",
         marginBottom: "1rem",
         color: "#1f2937"
       }, children: "AriaTabsDataGrid - Comprehensive Demo" }),
-      /* @__PURE__ */ n.jsx("p", { style: {
+      /* @__PURE__ */ r.jsx("p", { style: {
         fontSize: "1.1rem",
         color: "#6b7280",
         marginBottom: "2rem",
         lineHeight: "1.6"
       }, children: "This demo showcases the component's versatility across different domains: healthcare, e-commerce, financial services, and custom business applications. Each configuration demonstrates domain-specific data operations, custom renderers, and specialized filtering logic." }),
-      /* @__PURE__ */ n.jsx("div", { style: {
+      /* @__PURE__ */ r.jsx("div", { style: {
         display: "flex",
         gap: "1rem",
         marginBottom: "2rem",
         flexWrap: "wrap"
-      }, children: Object.keys(r).map((o) => /* @__PURE__ */ n.jsx(
-        Ge,
+      }, children: Object.keys(n).map((o) => /* @__PURE__ */ r.jsx(
+        Qe,
         {
           variant: e === o ? "primary" : "secondary",
           onClick: () => t(o),
@@ -13398,41 +9901,41 @@ const Cm = ({
         },
         o
       )) }),
-      /* @__PURE__ */ n.jsxs("div", { style: {
+      /* @__PURE__ */ r.jsxs("div", { style: {
         backgroundColor: "#f8fafc",
         border: "1px solid #e2e8f0",
         borderRadius: "0.5rem",
         padding: "1.5rem",
         marginBottom: "2rem"
       }, children: [
-        /* @__PURE__ */ n.jsx("h2", { style: {
+        /* @__PURE__ */ r.jsx("h2", { style: {
           fontSize: "1.5rem",
           fontWeight: "600",
           marginBottom: "0.5rem",
           color: "#1e293b"
         }, children: a.title }),
-        /* @__PURE__ */ n.jsx("p", { style: {
+        /* @__PURE__ */ r.jsx("p", { style: {
           color: "#64748b",
           marginBottom: "1rem"
         }, children: a.description }),
-        /* @__PURE__ */ n.jsxs("div", { style: {
+        /* @__PURE__ */ r.jsxs("div", { style: {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gap: "1rem",
           fontSize: "0.9rem"
         }, children: [
-          /* @__PURE__ */ n.jsxs("div", { children: [
-            /* @__PURE__ */ n.jsx("strong", { children: "Data Records:" }),
+          /* @__PURE__ */ r.jsxs("div", { children: [
+            /* @__PURE__ */ r.jsx("strong", { children: "Data Records:" }),
             " ",
             a.data.length
           ] }),
-          /* @__PURE__ */ n.jsxs("div", { children: [
-            /* @__PURE__ */ n.jsx("strong", { children: "Tab Panels:" }),
+          /* @__PURE__ */ r.jsxs("div", { children: [
+            /* @__PURE__ */ r.jsx("strong", { children: "Tab Panels:" }),
             " ",
             a.tabPanels.length
           ] }),
-          /* @__PURE__ */ n.jsxs("div", { children: [
-            /* @__PURE__ */ n.jsx("strong", { children: "Features:" }),
+          /* @__PURE__ */ r.jsxs("div", { children: [
+            /* @__PURE__ */ r.jsx("strong", { children: "Features:" }),
             " ",
             [
               "Row Selection",
@@ -13445,8 +9948,8 @@ const Cm = ({
         ] })
       ] })
     ] }),
-    /* @__PURE__ */ n.jsx(
-      pr,
+    /* @__PURE__ */ r.jsx(
+      ea,
       {
         dataConfig: a.dataConfig,
         tabPanels: a.tabPanels,
@@ -13454,177 +9957,134 @@ const Cm = ({
         ariaDescription: `Interactive data grid for ${a.description.toLowerCase()}`
       }
     ),
-    /* @__PURE__ */ n.jsxs("div", { style: {
+    /* @__PURE__ */ r.jsxs("div", { style: {
       marginTop: "3rem",
       padding: "1.5rem",
       backgroundColor: "#f1f5f9",
       borderRadius: "0.5rem",
       border: "1px solid #cbd5e1"
     }, children: [
-      /* @__PURE__ */ n.jsx("h3", { style: {
+      /* @__PURE__ */ r.jsx("h3", { style: {
         fontSize: "1.25rem",
         fontWeight: "600",
         marginBottom: "1rem",
         color: "#334155"
       }, children: "Implementation Details" }),
-      /* @__PURE__ */ n.jsxs("div", { style: { display: "grid", gap: "1rem", fontSize: "0.9rem" }, children: [
-        /* @__PURE__ */ n.jsxs("div", { children: [
-          /* @__PURE__ */ n.jsx("strong", { children: "Current Mode:" }),
+      /* @__PURE__ */ r.jsxs("div", { style: { display: "grid", gap: "1rem", fontSize: "0.9rem" }, children: [
+        /* @__PURE__ */ r.jsxs("div", { children: [
+          /* @__PURE__ */ r.jsx("strong", { children: "Current Mode:" }),
           " ",
           e,
           " configuration"
         ] }),
-        /* @__PURE__ */ n.jsxs("div", { children: [
-          /* @__PURE__ */ n.jsx("strong", { children: "Data Operations:" }),
+        /* @__PURE__ */ r.jsxs("div", { children: [
+          /* @__PURE__ */ r.jsx("strong", { children: "Data Operations:" }),
           " Custom comparator, filter function, and boolean renderer"
         ] }),
-        /* @__PURE__ */ n.jsxs("div", { children: [
-          /* @__PURE__ */ n.jsx("strong", { children: "Architecture:" }),
+        /* @__PURE__ */ r.jsxs("div", { children: [
+          /* @__PURE__ */ r.jsx("strong", { children: "Architecture:" }),
           " Generic core with domain-specific plugins and factory helpers"
         ] }),
-        /* @__PURE__ */ n.jsxs("div", { children: [
-          /* @__PURE__ */ n.jsx("strong", { children: "State Management:" }),
+        /* @__PURE__ */ r.jsxs("div", { children: [
+          /* @__PURE__ */ r.jsx("strong", { children: "State Management:" }),
           " Global row selection with data-object persistence"
         ] }),
-        /* @__PURE__ */ n.jsxs("div", { children: [
-          /* @__PURE__ */ n.jsx("strong", { children: "Accessibility:" }),
+        /* @__PURE__ */ r.jsxs("div", { children: [
+          /* @__PURE__ */ r.jsx("strong", { children: "Accessibility:" }),
           " Full ARIA support with dynamic labels and descriptions"
         ] })
       ] })
     ] })
   ] });
-<<<<<<< Updated upstream
-}, Rm = cd, ys = (e) => /* @__PURE__ */ n.jsx(Ga, { ...e }), Bm = ({
-=======
-}, jm = td, _s = (e) => /* @__PURE__ */ n.jsx(Va, { ...e }), Nm = ({
->>>>>>> Stashed changes
+}, X0 = xf, zo = (e) => /* @__PURE__ */ r.jsx(so, { ...e }), K0 = ({
   children: e,
   pageTitle: t,
-  pageHeadingProps: r,
+  pageHeadingProps: n,
   columnWidth: a = "two-thirds",
   mainWrapperSize: o,
   skipLinkProps: s,
   headerProps: i,
   footerProps: l,
-  service: c,
-  navigation: d,
-  search: u,
-  account: f,
-  organisation: p,
-  logo: m,
-<<<<<<< Updated upstream
-  className: v,
-  ...g
+  service: d,
+  navigation: c,
+  search: f,
+  account: h,
+  organisation: m,
+  logo: g,
+  className: C,
+  ...p
 }) => {
-  const _ = {
+  const u = {
     service: d,
     navigation: c,
-=======
-  className: C,
-  ...g
-}) => {
-  const _ = {
-    service: c,
-    navigation: d,
->>>>>>> Stashed changes
-    search: u,
-    account: f,
-    organisation: p,
-    logo: m,
+    search: f,
+    account: h,
+    organisation: m,
+    logo: g,
     ...i
   };
-  return /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-<<<<<<< Updated upstream
-    /* @__PURE__ */ n.jsx(ls, { ...s }),
-    /* @__PURE__ */ n.jsx(Ka, { ..._ }),
-    /* @__PURE__ */ n.jsx(ys, { className: v, ...g, children: /* @__PURE__ */ n.jsx(Va, { size: o, children: /* @__PURE__ */ n.jsx(Nt, { children: /* @__PURE__ */ n.jsxs(Kt, { width: a, children: [
-      t && /* @__PURE__ */ n.jsx(xt, { size: "l", ...r, children: t }),
+  return /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+    /* @__PURE__ */ r.jsx($o, { ...s }),
+    /* @__PURE__ */ r.jsx(uo, { ...u }),
+    /* @__PURE__ */ r.jsx(zo, { className: C, ...p, children: /* @__PURE__ */ r.jsx(oo, { size: o, children: /* @__PURE__ */ r.jsx(Wt, { children: /* @__PURE__ */ r.jsxs(pn, { width: a, children: [
+      t && /* @__PURE__ */ r.jsx(Nt, { size: "l", ...n, children: t }),
       e
     ] }) }) }) }),
-    /* @__PURE__ */ n.jsx(Za, { ...l })
+    /* @__PURE__ */ r.jsx(fo, { ...l })
   ] });
-}, Fm = ({
-=======
-    /* @__PURE__ */ n.jsx(ds, { ...s }),
-    /* @__PURE__ */ n.jsx(Ja, { ..._ }),
-    /* @__PURE__ */ n.jsx(_s, { className: C, ...g, children: /* @__PURE__ */ n.jsx(Ya, { size: o, children: /* @__PURE__ */ n.jsx(Nt, { children: /* @__PURE__ */ n.jsxs(Kt, { width: a, children: [
-      t && /* @__PURE__ */ n.jsx(xt, { size: "l", ...r, children: t }),
-      e
-    ] }) }) }) }),
-    /* @__PURE__ */ n.jsx(Xa, { ...l })
-  ] });
-}, Tm = ({
->>>>>>> Stashed changes
+}, Z0 = ({
   children: e,
   pageTitle: t,
-  pageHeadingProps: r,
+  pageHeadingProps: n,
   columnWidth: a = "two-thirds",
   mainWrapperSize: o = "small",
   // Default to small size for transactional forms
   skipLinkProps: s,
   headerProps: i,
   footerProps: l,
-  backLinkProps: c,
-  serviceName: d,
-  serviceHref: u,
-  logo: f,
-  className: p,
-  ...m
+  backLinkProps: d,
+  serviceName: c,
+  serviceHref: f,
+  logo: h,
+  className: m,
+  ...g
 }) => {
-  const v = {
+  const C = {
     service: {
-      text: d,
-      href: u
+      text: c,
+      href: f
     },
-    logo: f,
+    logo: h,
     // No navigation, search, or account for transactional pages
     navigation: void 0,
     search: void 0,
     account: void 0,
     ...i
   };
-  return /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-<<<<<<< Updated upstream
-    /* @__PURE__ */ n.jsx(ls, { ...s }),
-    /* @__PURE__ */ n.jsx(Ka, { ...v }),
-    /* @__PURE__ */ n.jsxs(ys, { className: p, ...m, children: [
-      d && /* @__PURE__ */ n.jsx(dr, { ...d }),
-      /* @__PURE__ */ n.jsx(Va, { size: o, children: /* @__PURE__ */ n.jsx(Nt, { children: /* @__PURE__ */ n.jsxs(Kt, { width: a, children: [
-=======
-    /* @__PURE__ */ n.jsx(ds, { ...s }),
-    /* @__PURE__ */ n.jsx(Ja, { ...C }),
-    /* @__PURE__ */ n.jsxs(_s, { className: p, ...m, children: [
-      c && /* @__PURE__ */ n.jsx(dr, { ...c }),
-      /* @__PURE__ */ n.jsx(Ya, { size: o, children: /* @__PURE__ */ n.jsx(Nt, { children: /* @__PURE__ */ n.jsxs(Kt, { width: a, children: [
->>>>>>> Stashed changes
-        t && /* @__PURE__ */ n.jsx(xt, { size: "l", ...r, children: t }),
+  return /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+    /* @__PURE__ */ r.jsx($o, { ...s }),
+    /* @__PURE__ */ r.jsx(uo, { ...C }),
+    /* @__PURE__ */ r.jsxs(zo, { className: m, ...g, children: [
+      d && /* @__PURE__ */ r.jsx(Yr, { ...d }),
+      /* @__PURE__ */ r.jsx(oo, { size: o, children: /* @__PURE__ */ r.jsx(Wt, { children: /* @__PURE__ */ r.jsxs(pn, { width: a, children: [
+        t && /* @__PURE__ */ r.jsx(Nt, { size: "l", ...n, children: t }),
         e
       ] }) }) })
     ] }),
-<<<<<<< Updated upstream
-    /* @__PURE__ */ n.jsx(Za, { ...l })
+    /* @__PURE__ */ r.jsx(fo, { ...l })
   ] });
-}, vs = ({
-=======
-    /* @__PURE__ */ n.jsx(Xa, { ...l })
-  ] });
-}, ks = ({
->>>>>>> Stashed changes
+}, Wo = ({
   text: e = "Next",
   html: t,
-  href: r = "#",
+  href: n = "#",
   className: a,
   element: o = "a",
   onClick: s,
   ...i
 }) => {
-<<<<<<< Updated upstream
-  const l = oe("nhsuk-back-link", a), d = oe("nhsuk-back-link__link"), c = () => /* @__PURE__ */ n.jsxs("span", { style: { display: "inline-flex", alignItems: "center", gap: 4 }, children: [
-=======
-  const l = ee("nhsuk-back-link", a), c = ee("nhsuk-back-link__link"), d = () => /* @__PURE__ */ n.jsxs("span", { style: { display: "inline-flex", alignItems: "center", gap: 4 }, children: [
->>>>>>> Stashed changes
-    t ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: t } }) : e,
-    /* @__PURE__ */ n.jsx(
+  const l = de("nhsuk-back-link", a), d = de("nhsuk-back-link__link"), c = () => /* @__PURE__ */ r.jsxs("span", { style: { display: "inline-flex", alignItems: "center", gap: 4 }, children: [
+    t ? /* @__PURE__ */ r.jsx("span", { dangerouslySetInnerHTML: { __html: t } }) : e,
+    /* @__PURE__ */ r.jsx(
       "svg",
       {
         className: "nhsuk-icon nhsuk-icon__chevron-right",
@@ -13633,19 +10093,14 @@ const Cm = ({
         "aria-hidden": "true",
         height: "24",
         width: "24",
-        children: /* @__PURE__ */ n.jsx("path", { d: "M15.5 12c0 .3-.1.5-.3.7l-5 5c-.4.4-1 .4-1.4 0s-.4-1 0-1.4L13.1 12 8.8 7.7c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l5 5c.2.2.3.4.3.7z" })
+        children: /* @__PURE__ */ r.jsx("path", { d: "M15.5 12c0 .3-.1.5-.3.7l-5 5c-.4.4-1 .4-1.4 0s-.4-1 0-1.4L13.1 12 8.8 7.7c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l5 5c.2.2.3.4.3.7z" })
       }
     )
   ] });
-  return /* @__PURE__ */ n.jsx("div", { className: l, children: o === "button" ? /* @__PURE__ */ n.jsx("button", { className: c, type: "button", onClick: s, ...i, children: d() }) : /* @__PURE__ */ n.jsx("a", { className: c, href: r, ...i, children: d() }) });
+  return /* @__PURE__ */ r.jsx("div", { className: l, children: o === "button" ? /* @__PURE__ */ r.jsx("button", { className: d, type: "button", onClick: s, ...i, children: c() }) : /* @__PURE__ */ r.jsx("a", { className: d, href: n, ...i, children: c() }) });
 };
-<<<<<<< Updated upstream
-vs.displayName = "ForwardLink";
-const Et = Object.freeze({
-=======
-ks.displayName = "ForwardLink";
-const Lt = Object.freeze({
->>>>>>> Stashed changes
+Wo.displayName = "ForwardLink";
+const Kt = Object.freeze({
   small: 320,
   smallMax: 767,
   medium: 768,
@@ -13653,73 +10108,47 @@ const Lt = Object.freeze({
   xlarge: 1200,
   xxlarge: 1440
 });
-function Ha() {
-  return typeof window > "u" ? Et.small : window.innerWidth || document.documentElement.clientWidth || 0;
+function zs() {
+  return typeof window > "u" ? Kt.small : window.innerWidth || document.documentElement.clientWidth || 0;
 }
-<<<<<<< Updated upstream
-function _s() {
-  const [e, t] = le.useState(Ha());
-  le.useEffect(() => {
-=======
-function ws() {
-  const [e, t] = ce.useState(Pa());
-  ce.useEffect(() => {
->>>>>>> Stashed changes
+function Oo() {
+  const [e, t] = X.useState(zs());
+  X.useEffect(() => {
     if (typeof window > "u") return;
-    const s = () => t(Ha());
+    const s = () => t(zs());
     return window.addEventListener("resize", s), () => window.removeEventListener("resize", s);
   }, []);
-  const r = le.useCallback((s) => e >= Et[s], [e]), a = le.useCallback((s) => e < Et[s], [e]), o = le.useCallback((s, i) => e >= Et[s] && e < Et[i], [e]);
+  const n = X.useCallback((s) => e >= Kt[s], [e]), a = X.useCallback((s) => e < Kt[s], [e]), o = X.useCallback((s, i) => e >= Kt[s] && e < Kt[i], [e]);
   return {
     width: e,
-    up: r,
+    up: n,
     down: a,
     between: o,
     /** Raw numeric values */
-    values: Et
+    values: Kt
   };
 }
-<<<<<<< Updated upstream
-function Em(e) {
-  const { width: t, values: r } = _s();
-=======
-function Dm(e) {
-  const { width: t, values: r } = ws();
->>>>>>> Stashed changes
+function J0(e) {
+  const { width: t, values: n } = Oo();
   let a = e.base;
   const o = ["small", "medium", "large", "xlarge", "xxlarge"];
   for (const s of o) {
-    const i = r[s];
+    const i = n[s];
     t >= i && e[s] !== void 0 && (a = e[s]);
   }
   return a;
 }
-<<<<<<< Updated upstream
-function dd(e = {}) {
-  const { enabled: t = !0, paramSelected: r = "nsv", paramDrill: a = "nsvDrill" } = e, [o, s] = le.useState(() => typeof window > "u" || !t ? void 0 : new URLSearchParams(window.location.search).get(r)), [i, l] = le.useState(() => typeof window > "u" || !t ? !1 : new URLSearchParams(window.location.search).get(a) === "1");
-  return le.useEffect(() => {
-=======
-function nd(e = {}) {
-  const { enabled: t = !0, paramSelected: r = "nsv", paramDrill: a = "nsvDrill" } = e, [o, s] = ce.useState(() => typeof window > "u" || !t ? void 0 : new URLSearchParams(window.location.search).get(r)), [i, l] = ce.useState(() => typeof window > "u" || !t ? !1 : new URLSearchParams(window.location.search).get(a) === "1");
-  return ce.useEffect(() => {
->>>>>>> Stashed changes
+function bf(e = {}) {
+  const { enabled: t = !0, paramSelected: n = "nsv", paramDrill: a = "nsvDrill" } = e, [o, s] = X.useState(() => typeof window > "u" || !t ? void 0 : new URLSearchParams(window.location.search).get(n)), [i, l] = X.useState(() => typeof window > "u" || !t ? !1 : new URLSearchParams(window.location.search).get(a) === "1");
+  return X.useEffect(() => {
     if (!t || typeof window > "u") return;
-    const c = new URLSearchParams(window.location.search);
-    o ? c.set(r, String(o)) : c.delete(r), c.set(a, i ? "1" : "0");
-    const d = `${window.location.pathname}?${c.toString()}${window.location.hash}`;
-    window.history.replaceState(null, "", d);
-  }, [o, i, t, r, a]), { selectedId: o, setSelectedId: s, drilledIn: i, setDrilledIn: l };
+    const d = new URLSearchParams(window.location.search);
+    o ? d.set(n, String(o)) : d.delete(n), d.set(a, i ? "1" : "0");
+    const c = `${window.location.pathname}?${d.toString()}${window.location.hash}`;
+    window.history.replaceState(null, "", c);
+  }, [o, i, t, n, a]), { selectedId: o, setSelectedId: s, drilledIn: i, setDrilledIn: l };
 }
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-const ud = ({ className: e }) => /* @__PURE__ */ n.jsx(
-=======
-<<<<<<< Updated upstream
-const td = ({ className: e }) => /* @__PURE__ */ n.jsx(
->>>>>>> Stashed changes
-=======
-const td = ({ className: e }) => /* @__PURE__ */ n.jsx(
->>>>>>> master
+const yf = ({ className: e }) => /* @__PURE__ */ r.jsx(
   "svg",
   {
     className: e,
@@ -13728,7 +10157,7 @@ const td = ({ className: e }) => /* @__PURE__ */ n.jsx(
     viewBox: "0 0 16 16",
     "aria-hidden": "true",
     focusable: "false",
-    children: /* @__PURE__ */ n.jsx(
+    children: /* @__PURE__ */ r.jsx(
       "path",
       {
         fill: "currentColor",
@@ -13736,11 +10165,7 @@ const td = ({ className: e }) => /* @__PURE__ */ n.jsx(
       }
     )
   }
-<<<<<<< HEAD
-), hd = ({ className: e }) => /* @__PURE__ */ n.jsx(
-=======
-), nd = ({ className: e }) => /* @__PURE__ */ n.jsx(
->>>>>>> master
+), vf = ({ className: e }) => /* @__PURE__ */ r.jsx(
   "svg",
   {
     className: e,
@@ -13749,7 +10174,7 @@ const td = ({ className: e }) => /* @__PURE__ */ n.jsx(
     viewBox: "0 0 16 16",
     "aria-hidden": "true",
     focusable: "false",
-    children: /* @__PURE__ */ n.jsx(
+    children: /* @__PURE__ */ r.jsx(
       "path",
       {
         fill: "currentColor",
@@ -13758,674 +10183,344 @@ const td = ({ className: e }) => /* @__PURE__ */ n.jsx(
     )
   }
 );
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-function fd(e) {
-=======
-=======
->>>>>>> master
-function rd(e) {
-=======
-const rd = ({ className: e }) => /* @__PURE__ */ n.jsx("svg", { className: e, width: "16", height: "16", viewBox: "0 0 16 16", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ n.jsx("path", { fill: "currentColor", d: "M10.7 3.3a1 1 0 0 1 0 1.4L7.41 8l3.3 3.3a1 1 0 1 1-1.42 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.42 0Z" }) }), ad = ({ className: e }) => /* @__PURE__ */ n.jsx("svg", { className: e, width: "16", height: "16", viewBox: "0 0 16 16", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ n.jsx("path", { fill: "currentColor", d: "M5.3 12.7a1 1 0 0 1 0-1.4L8.59 8l-3.3-3.3a1 1 0 0 1 1.42-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.42 0Z" }) });
-function sd(e) {
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+function wf(e) {
   const {
     items: t,
-    selectedId: r,
+    selectedId: n,
     defaultSelectedId: a,
     onSelectionChange: o,
     renderItemContent: s,
     renderContent: i,
     renderSecondaryContent: l,
-    forceLayout: c,
-    animated: d = !0,
-    backLabel: u = "Back",
-    nextLabel: f = "Next",
-    isLoading: p = !1,
-    emptyState: m,
-<<<<<<< Updated upstream
-    a11y: v,
-    className: g,
-    getId: _ = (q) => q.id,
-    orientation: G = "vertical",
-    autoEnableThirdColumn: j = !0,
-    onDrillChange: I,
-    navigationInstructions: k = "Use arrow keys to navigate, Enter to open.",
-    initialFocus: H = "first",
-    skipFocusOnSelect: A = !1,
-    skipAnnouncements: V = !1,
-    onFocusChange: M,
-    syncUrl: R = !1,
-    urlParamSelected: x = "nsv",
-    urlParamDrill: B = "nsvDrill",
-    urlSyncDebounceMs: Z = 0,
-    lazySecondary: ce = !1,
-    navFooter: K,
-    collapsibleNav: y = !1,
-    navInitiallyCollapsed: b = !1,
-    onNavCollapseChange: N,
-    collapseToggleLabelShow: ue = "Show navigation",
-    collapseToggleLabelHide: $ = "Hide navigation",
-    collapseToggleIconShow: C,
-    collapseToggleIconHide: te,
-    persistNavCollapsed: E,
-    navCollapsedStorageKey: Q = "nsvCollapsed",
-    navCollapsedUrlParam: F = "nsvCollapsed",
-    autoContentHeader: ae,
-    contentHeaderLevel: Ce = 2,
-    renderContentHeader: se,
-    contentSubheader: X,
-    secondarySubheader: Y
-  } = e, { up: re } = _s(), [me, P] = le.useState(!1);
-  le.useEffect(() => {
-    P(!0);
-=======
+    forceLayout: d,
+    animated: c = !0,
+    backLabel: f = "Back",
+    nextLabel: h = "Next",
+    isLoading: m = !1,
+    emptyState: g,
     a11y: C,
-    className: g,
-    getId: _ = (Z) => Z.id,
-    orientation: V = "vertical",
-    autoEnableThirdColumn: B = !0,
-    onDrillChange: k,
-    navigationInstructions: y = "Use arrow keys to navigate, Enter to open.",
-    initialFocus: L = "first",
-    skipFocusOnSelect: v = !1,
-    skipAnnouncements: $ = !1,
-    onFocusChange: A,
-    syncUrl: I = !1,
-    urlParamSelected: b = "nsv",
-    urlParamDrill: F = "nsvDrill",
-    urlSyncDebounceMs: X = 0,
-    lazySecondary: de = !1,
-    navFooter: J,
-    collapsibleNav: R = !1,
-    navInitiallyCollapsed: x = !1,
-    onNavCollapseChange: N,
-    collapseToggleLabelShow: ue = "Show navigation",
-    collapseToggleLabelHide: P = "Hide navigation",
-    collapseToggleIconShow: j,
-    collapseToggleIconHide: ae,
-    persistNavCollapsed: M,
-    navCollapsedStorageKey: te = "nsvCollapsed",
-    navCollapsedUrlParam: E = "nsvCollapsed",
-    autoContentHeader: ie,
-    contentHeaderLevel: Q = 2,
-    renderContentHeader: Y,
+    className: p,
+    getId: u = (se) => se.id,
+    orientation: R = "vertical",
+    autoEnableThirdColumn: F = !0,
+    onDrillChange: T,
+    navigationInstructions: S = "Use arrow keys to navigate, Enter to open.",
+    initialFocus: B = "first",
+    skipFocusOnSelect: _ = !1,
+    skipAnnouncements: L = !1,
+    onFocusChange: j,
+    syncUrl: D = !1,
+    urlParamSelected: v = "nsv",
+    urlParamDrill: x = "nsvDrill",
+    urlSyncDebounceMs: y = 0,
+    lazySecondary: P = !1,
+    navFooter: E,
+    collapsibleNav: M = !1,
+    navInitiallyCollapsed: k = !1,
+    onNavCollapseChange: b,
+    collapseToggleLabelShow: A = "Show navigation",
+    collapseToggleLabelHide: w = "Hide navigation",
+    collapseToggleIconShow: $,
+    collapseToggleIconHide: W,
+    persistNavCollapsed: I,
+    navCollapsedStorageKey: O = "nsvCollapsed",
+    navCollapsedUrlParam: H = "nsvCollapsed",
+    autoContentHeader: Q,
+    contentHeaderLevel: fe = 2,
+    renderContentHeader: oe,
     contentSubheader: K,
-    secondarySubheader: U
-  } = e, { up: se } = ws(), [me, z] = ce.useState(!1);
-  ce.useEffect(() => {
-    z(!0);
->>>>>>> Stashed changes
+    secondarySubheader: V
+  } = e, { up: J } = Oo(), [ae, G] = X.useState(!1);
+  X.useEffect(() => {
+    G(!0);
   }, []);
-  const je = me && re("medium"), ge = me && re("xlarge");
-  let pe;
-<<<<<<< Updated upstream
-  d ? pe = d : je ? pe = "two-column" : pe = "list", !d && j && l && ge && (pe = "three-column");
-  const de = dd({
-    enabled: R,
-    paramSelected: x,
-    paramDrill: B
-  }), [be, Ve] = le.useState(
-    () => de.selectedId !== void 0 ? de.selectedId : a
-  ), Le = r !== void 0 ? r : be, Ne = t.find((q) => _(q) === Le), [D, S] = le.useState(
+  const me = ae && J("medium"), he = ae && J("xlarge");
+  let xe;
+  d ? xe = d : me ? xe = "two-column" : xe = "list", !d && F && l && he && (xe = "three-column");
+  const pe = bf({
+    enabled: D,
+    paramSelected: v,
+    paramDrill: x
+  }), [be, We] = X.useState(
+    () => pe.selectedId !== void 0 ? pe.selectedId : a
+  ), Me = n !== void 0 ? n : be, Le = t.find((se) => u(se) === Me), [q, U] = X.useState(
     void 0
   );
-  le.useEffect(() => {
-    if (Le === void 0) return;
-    S(Le);
-    const q = setTimeout(() => S(void 0), 220);
-    return () => clearTimeout(q);
-  }, [Le]);
-  const z = le.useRef(null), L = le.useRef(null), h = le.useRef(null), w = le.useRef(null), [W, O] = le.useState(() => ({ contentIndex: 0, secondaryIndex: 0 })), [T, U] = le.useState(() => "nav"), [xe, he] = le.useState(0), ve = () => [
-=======
-  c ? pe = c : je ? pe = "two-column" : pe = "list", !c && B && l && fe && (pe = "three-column");
-  const he = nd({
-    enabled: I,
-    paramSelected: b,
-    paramDrill: F
-  }), [xe, $e] = ce.useState(
-    () => he.selectedId !== void 0 ? he.selectedId : a
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-  ), De = r !== void 0 ? r : xe, Ne = t.find((Z) => k(Z) === De), [T, S] = ce.useState(
-    void 0
-  );
-=======
-  ), De = r !== void 0 ? r : xe, Ne = t.find((Z) => _(Z) === De), [T, S] = ce.useState(void 0);
->>>>>>> Stashed changes
-=======
-  ), De = r !== void 0 ? r : xe, Ne = t.find((Z) => k(Z) === De), [T, S] = ce.useState(
-    void 0
-  );
->>>>>>> master
-  ce.useEffect(() => {
-    if (De === void 0) return;
-    S(De);
-    const Z = setTimeout(() => S(void 0), 220);
-    return () => clearTimeout(Z);
-  }, [De]);
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-  const W = ce.useRef(null), H = ce.useRef(null), h = ce.useRef(null), w = ce.useRef(null), [O, Y] = ce.useState(() => ({ contentIndex: 0, secondaryIndex: 0 })), [D, G] = ce.useState(() => "nav"), [ye, ge] = ce.useState(0), _e = () => [
->>>>>>> Stashed changes
-    w.current,
-    L.current,
-    h.current
-  ].filter(Boolean), ke = (q) => {
-    const ie = ve(), J = Math.max(0, Math.min(q, ie.length - 1));
-    ie[J]?.focus(), he(J);
-  }, ne = le.useCallback(
-    (q) => q ? Array.from(q.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(
-      (J) => !J.hasAttribute("disabled") && J.tabIndex !== -1
+  X.useEffect(() => {
+    if (Me === void 0) return;
+    U(Me);
+    const se = setTimeout(() => U(void 0), 220);
+    return () => clearTimeout(se);
+  }, [Me]);
+  const ee = X.useRef(null), Z = X.useRef(null), N = X.useRef(null), z = X.useRef(null), [te, re] = X.useState(() => ({ contentIndex: 0, secondaryIndex: 0 })), [Y, ne] = X.useState(() => "nav"), [_e, ye] = X.useState(0), ke = () => [
+    z.current,
+    Z.current,
+    N.current
+  ].filter(Boolean), Te = (se) => {
+    const ge = ke(), le = Math.max(0, Math.min(se, ge.length - 1));
+    ge[le]?.focus(), ye(le);
+  }, ce = X.useCallback(
+    (se) => se ? Array.from(se.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(
+      (le) => !le.hasAttribute("disabled") && le.tabIndex !== -1
     ) : [],
     []
-  ), _e = le.useCallback(
-    (q) => {
-      const ie = ne(L.current);
-      if (!ie.length) {
-        L.current?.focus();
+  ), Ce = X.useCallback(
+    (se) => {
+      const ge = ce(Z.current);
+      if (!ge.length) {
+        Z.current?.focus();
         return;
       }
-      const J = Math.max(0, Math.min(q, ie.length - 1)), fe = ie[J];
-      fe.focus(), setTimeout(() => {
-        document.activeElement !== fe && (fe.focus(), setTimeout(() => {
-          document.activeElement !== fe && fe.click();
+      const le = Math.max(0, Math.min(se, ge.length - 1)), ve = ge[le];
+      ve.focus(), setTimeout(() => {
+        document.activeElement !== ve && (ve.focus(), setTimeout(() => {
+          document.activeElement !== ve && ve.click();
         }, 10));
-      }, 10), O((Be) => ({ ...Be, contentIndex: J }));
-      const Me = (Be) => {
-        Be.key === "Escape" && (Be.preventDefault(), Be.stopPropagation(), L.current?.focus(), fe.removeEventListener("keydown", Me));
+      }, 10), re((Ae) => ({ ...Ae, contentIndex: le }));
+      const He = (Ae) => {
+        Ae.key === "Escape" && (Ae.preventDefault(), Ae.stopPropagation(), Z.current?.focus(), ve.removeEventListener("keydown", He));
       };
-      ie.forEach((Be) => {
-        const Ee = Be._escapeHandler;
-        Ee && Be.removeEventListener("keydown", Ee);
-      }), fe._escapeHandler = Me, fe.addEventListener("keydown", Me);
+      ge.forEach((Ae) => {
+        const Re = Ae._escapeHandler;
+        Re && Ae.removeEventListener("keydown", Re);
+      }), ve._escapeHandler = He, ve.addEventListener("keydown", He);
     },
-    [ne]
-  ), Ie = le.useCallback(
-    (q) => {
-      const ie = ne(h.current);
-      if (!ie.length) {
-        h.current?.focus();
+    [ce]
+  ), Fe = X.useCallback(
+    (se) => {
+      const ge = ce(N.current);
+      if (!ge.length) {
+        N.current?.focus();
         return;
       }
-      const J = Math.max(0, Math.min(q, ie.length - 1)), fe = ie[J];
-      fe.focus(), setTimeout(() => {
-        document.activeElement !== fe && (fe.focus(), setTimeout(() => {
-          document.activeElement !== fe && fe.click();
+      const le = Math.max(0, Math.min(se, ge.length - 1)), ve = ge[le];
+      ve.focus(), setTimeout(() => {
+        document.activeElement !== ve && (ve.focus(), setTimeout(() => {
+          document.activeElement !== ve && ve.click();
         }, 10));
-      }, 10), O((Be) => ({ ...Be, secondaryIndex: J }));
-      const Me = (Be) => {
-        Be.key === "Escape" && (Be.preventDefault(), Be.stopPropagation(), h.current?.focus(), fe.removeEventListener("keydown", Me));
+      }, 10), re((Ae) => ({ ...Ae, secondaryIndex: le }));
+      const He = (Ae) => {
+        Ae.key === "Escape" && (Ae.preventDefault(), Ae.stopPropagation(), N.current?.focus(), ve.removeEventListener("keydown", He));
       };
-      ie.forEach((Be) => {
-        const Ee = Be._escapeHandler;
-        Ee && Be.removeEventListener("keydown", Ee);
-      }), fe._escapeHandler = Me, fe.addEventListener("keydown", Me);
+      ge.forEach((Ae) => {
+        const Re = Ae._escapeHandler;
+        Re && Ae.removeEventListener("keydown", Re);
+      }), ve._escapeHandler = He, ve.addEventListener("keydown", He);
     },
-<<<<<<< Updated upstream
-    [ne]
-  ), He = (q) => {
-    if (q.defaultPrevented) return;
-    const ie = q.key, J = q.target, fe = !!Oe.current && Oe.current.contains(J), Me = !!L.current && L.current.contains(J), Be = !!h.current && h.current.contains(J), Ee = !!h.current, Bt = J === w.current || J === L.current || J === h.current, St = Re && (pe === "list" || pe === "cards"), nn = Me && !!J.closest(".nhs-navigation-split-view__header");
-    if (T === "containers" && Bt) {
-      if (ie === "ArrowRight") {
-        q.preventDefault();
-        const ye = ve(), Ae = Math.min(ye.length - 1, xe + 1);
-        ke(Ae);
-=======
-    [oe]
-  ), Pe = (Z) => {
-=======
-  const W = ce.useRef(null), H = ce.useRef(null), h = ce.useRef(null), w = ce.useRef(null), [O, q] = ce.useState(() => ({ contentIndex: 0, secondaryIndex: 0 })), [D, G] = ce.useState(() => "nav"), [ye, ge] = ce.useState(0), _e = () => [w.current, H.current, h.current].filter(Boolean), we = (Z) => {
-    const le = _e(), ne = Math.max(0, Math.min(Z, le.length - 1));
-    le[ne]?.focus(), ge(ne);
-  }, oe = ce.useCallback((Z) => Z ? Array.from(Z.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter((ne) => !ne.hasAttribute("disabled") && ne.tabIndex !== -1) : [], []), ke = ce.useCallback((Z) => {
-    const le = oe(H.current);
-    if (!le.length) {
-      H.current?.focus();
-      return;
-    }
-    const ne = Math.max(0, Math.min(Z, le.length - 1)), be = le[ne];
-    be.focus(), setTimeout(() => {
-      document.activeElement !== be && (be.focus(), setTimeout(() => {
-        document.activeElement !== be && be.click();
-      }, 10));
-    }, 10), q((Le) => ({ ...Le, contentIndex: ne }));
-    const Me = (Le) => {
-      Le.key === "Escape" && (Le.preventDefault(), Le.stopPropagation(), H.current?.focus(), be.removeEventListener("keydown", Me));
-    };
-    le.forEach((Le) => {
-      const Ee = Le._escapeHandler;
-      Ee && Le.removeEventListener("keydown", Ee);
-    }), be._escapeHandler = Me, be.addEventListener("keydown", Me);
-  }, [oe]), Fe = ce.useCallback((Z) => {
-    const le = oe(h.current);
-    if (!le.length) {
-      h.current?.focus();
-      return;
-    }
-    const ne = Math.max(0, Math.min(Z, le.length - 1)), be = le[ne];
-    be.focus(), setTimeout(() => {
-      document.activeElement !== be && (be.focus(), setTimeout(() => {
-        document.activeElement !== be && be.click();
-      }, 10));
-    }, 10), q((Le) => ({ ...Le, secondaryIndex: ne }));
-    const Me = (Le) => {
-      Le.key === "Escape" && (Le.preventDefault(), Le.stopPropagation(), h.current?.focus(), be.removeEventListener("keydown", Me));
-    };
-    le.forEach((Le) => {
-      const Ee = Le._escapeHandler;
-      Ee && Le.removeEventListener("keydown", Ee);
-    }), be._escapeHandler = Me, be.addEventListener("keydown", Me);
-  }, [oe]), Pe = (Z) => {
->>>>>>> Stashed changes
-=======
-  const W = ce.useRef(null), H = ce.useRef(null), h = ce.useRef(null), w = ce.useRef(null), [O, Y] = ce.useState(() => ({ contentIndex: 0, secondaryIndex: 0 })), [D, G] = ce.useState(() => "nav"), [ye, ge] = ce.useState(0), _e = () => [
-    w.current,
-    H.current,
-    h.current
-  ].filter(Boolean), we = (Z) => {
-    const le = _e(), ne = Math.max(0, Math.min(Z, le.length - 1));
-    le[ne]?.focus(), ge(ne);
-  }, oe = ce.useCallback(
-    (Z) => Z ? Array.from(Z.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(
-      (ne) => !ne.hasAttribute("disabled") && ne.tabIndex !== -1
-    ) : [],
-    []
-  ), ke = ce.useCallback(
-    (Z) => {
-      const le = oe(H.current);
-      if (!le.length) {
-        H.current?.focus();
+    [ce]
+  ), Oe = (se) => {
+    if (se.defaultPrevented) return;
+    const ge = se.key, le = se.target, ve = !!Ze.current && Ze.current.contains(le), He = !!Z.current && Z.current.contains(le), Ae = !!N.current && N.current.contains(le), Re = !!N.current, Vt = le === z.current || le === Z.current || le === N.current, Bt = Be && (xe === "list" || xe === "cards"), jn = He && !!le.closest(".nhs-navigation-split-view__header");
+    if (Y === "containers" && Vt) {
+      if (ge === "ArrowRight") {
+        se.preventDefault();
+        const Se = ke(), Pe = Math.min(Se.length - 1, _e + 1);
+        Te(Pe);
         return;
       }
-      const ne = Math.max(0, Math.min(Z, le.length - 1)), be = le[ne];
-      be.focus(), setTimeout(() => {
-        document.activeElement !== be && (be.focus(), setTimeout(() => {
-          document.activeElement !== be && be.click();
-        }, 10));
-      }, 10), Y((Le) => ({ ...Le, contentIndex: ne }));
-      const Me = (Le) => {
-        Le.key === "Escape" && (Le.preventDefault(), Le.stopPropagation(), H.current?.focus(), be.removeEventListener("keydown", Me));
-      };
-      le.forEach((Le) => {
-        const Ee = Le._escapeHandler;
-        Ee && Le.removeEventListener("keydown", Ee);
-      }), be._escapeHandler = Me, be.addEventListener("keydown", Me);
-    },
-    [oe]
-  ), Fe = ce.useCallback(
-    (Z) => {
-      const le = oe(h.current);
-      if (!le.length) {
-        h.current?.focus();
+      if (ge === "ArrowLeft") {
+        se.preventDefault();
+        const Se = Math.max(0, _e - 1);
+        Te(Se);
         return;
       }
-      const ne = Math.max(0, Math.min(Z, le.length - 1)), be = le[ne];
-      be.focus(), setTimeout(() => {
-        document.activeElement !== be && (be.focus(), setTimeout(() => {
-          document.activeElement !== be && be.click();
-        }, 10));
-      }, 10), Y((Le) => ({ ...Le, secondaryIndex: ne }));
-      const Me = (Le) => {
-        Le.key === "Escape" && (Le.preventDefault(), Le.stopPropagation(), h.current?.focus(), be.removeEventListener("keydown", Me));
-      };
-      le.forEach((Le) => {
-        const Ee = Le._escapeHandler;
-        Ee && Le.removeEventListener("keydown", Ee);
-      }), be._escapeHandler = Me, be.addEventListener("keydown", Me);
-    },
-    [oe]
-  ), Pe = (Z) => {
->>>>>>> master
-    if (Z.defaultPrevented) return;
-    const le = Z.key, ne = Z.target, be = !!Ge.current && Ge.current.contains(ne), Me = !!H.current && H.current.contains(ne), Le = !!h.current && h.current.contains(ne), Ee = !!h.current, Ft = ne === w.current || ne === H.current || ne === h.current, St = Be && (pe === "list" || pe === "cards"), nn = Me && !!ne.closest(".nhs-navigation-split-view__header");
-    if (D === "containers" && Ft) {
-      if (le === "ArrowRight") {
-        Z.preventDefault();
-        const ve = _e(), Ae = Math.min(ve.length - 1, ye + 1);
-        we(Ae);
->>>>>>> Stashed changes
+      if (ge === "Home") {
+        se.preventDefault(), Te(0);
         return;
       }
-      if (ie === "ArrowLeft") {
-        q.preventDefault();
-        const ye = Math.max(0, xe - 1);
-        ke(ye);
+      if (ge === "End") {
+        se.preventDefault(), Te(ke().length - 1);
         return;
       }
-      if (ie === "Home") {
-        q.preventDefault(), ke(0);
-        return;
-      }
-      if (ie === "End") {
-        q.preventDefault(), ke(ve().length - 1);
-        return;
-      }
-<<<<<<< HEAD
-      if (ie === "Enter" || ie === " ") {
-        if (q.preventDefault(), J === w.current) {
-          if (U("nav"), Oe.current) {
-            const ye = Array.from(
-              Oe.current.querySelectorAll("[data-nav-item]")
+      if (ge === "Enter" || ge === " ") {
+        if (se.preventDefault(), le === z.current) {
+          if (ne("nav"), Ze.current) {
+            const Se = Array.from(
+              Ze.current.querySelectorAll("[data-nav-item]")
             );
-            (ye[$e >= 0 ? $e : 0] || ye[0])?.focus();
-=======
-      if (le === "Enter" || le === " ") {
-        if (Z.preventDefault(), ne === w.current) {
-          if (G("nav"), Ge.current) {
-            const ve = Array.from(
-              Ge.current.querySelectorAll("[data-nav-item]")
-            );
-            (ve[He >= 0 ? He : 0] || ve[0])?.focus();
->>>>>>> master
+            (Se[ze >= 0 ? ze : 0] || Se[0])?.focus();
           }
-        } else J === L.current ? (U("content"), _e(W.contentIndex)) : J === h.current && (U("secondary"), Ie(W.secondaryIndex));
+        } else le === Z.current ? (ne("content"), Ce(te.contentIndex)) : le === N.current && (ne("secondary"), Fe(te.secondaryIndex));
         return;
       }
       return;
     }
-<<<<<<< HEAD
-    if (ie === "Escape") {
-      if (T === "content" || T === "secondary") {
-        if (Me || Be) {
-          if (q.preventDefault(), U("nav"), Oe.current) {
-            const Ae = Array.from(
-              Oe.current.querySelectorAll("[data-nav-item]")
-            )[$e >= 0 ? $e : 0];
-            setTimeout(() => Ae?.focus(), 10);
+    if (ge === "Escape") {
+      if (Y === "content" || Y === "secondary") {
+        if (He || Ae) {
+          if (se.preventDefault(), ne("nav"), Ze.current) {
+            const Pe = Array.from(
+              Ze.current.querySelectorAll("[data-nav-item]")
+            )[ze >= 0 ? ze : 0];
+            setTimeout(() => Pe?.focus(), 10);
           }
-        } else if ((J === L.current || J === h.current) && (q.preventDefault(), U("nav"), Oe.current)) {
-          const Ae = Array.from(
-            Oe.current.querySelectorAll("[data-nav-item]")
-          )[$e >= 0 ? $e : 0];
-=======
-    if (le === "Escape") {
-      if (D === "content" || D === "secondary") {
-        if (Me || Le) {
-          if (Z.preventDefault(), G("nav"), Ge.current) {
-            const Ae = Array.from(
-              Ge.current.querySelectorAll("[data-nav-item]")
-            )[He >= 0 ? He : 0];
-            setTimeout(() => Ae?.focus(), 10);
-          }
-        } else if ((ne === H.current || ne === h.current) && (Z.preventDefault(), G("nav"), Ge.current)) {
-          const Ae = Array.from(
-            Ge.current.querySelectorAll("[data-nav-item]")
-          )[He >= 0 ? He : 0];
->>>>>>> master
-          setTimeout(() => Ae?.focus(), 10);
+        } else if ((le === Z.current || le === N.current) && (se.preventDefault(), ne("nav"), Ze.current)) {
+          const Pe = Array.from(
+            Ze.current.querySelectorAll("[data-nav-item]")
+          )[ze >= 0 ? ze : 0];
+          setTimeout(() => Pe?.focus(), 10);
         }
       }
       return;
     }
-<<<<<<< HEAD
-    if (ie === "Enter" || ie === " ") {
-      if (J.matches(
-=======
-    if (le === "Enter" || le === " ") {
-      if (ne.matches(
->>>>>>> master
+    if (ge === "Enter" || ge === " ") {
+      if (le.matches(
         'button, a, input, select, textarea, [role="button"], [role="link"], [role="tab"]'
       ))
         return;
-      if (J === L.current && T === "content") {
-        q.preventDefault(), q.stopPropagation(), ne(L.current).length > 0 && setTimeout(() => {
-          _e(W.contentIndex);
+      if (le === Z.current && Y === "content") {
+        se.preventDefault(), se.stopPropagation(), ce(Z.current).length > 0 && setTimeout(() => {
+          Ce(te.contentIndex);
         }, 50);
         return;
       }
-<<<<<<< HEAD
-      if (J === h.current && T === "secondary") {
-        q.preventDefault(), q.stopPropagation(), ne(
-          h.current
+      if (le === N.current && Y === "secondary") {
+        se.preventDefault(), se.stopPropagation(), ce(
+          N.current
         ).length > 0 && setTimeout(() => {
-          Ie(W.secondaryIndex);
-=======
-      if (ne === h.current && D === "secondary") {
-        Z.preventDefault(), Z.stopPropagation(), oe(
-          h.current
-        ).length > 0 && setTimeout(() => {
-          Fe(O.secondaryIndex);
->>>>>>> master
+          Fe(te.secondaryIndex);
         }, 50);
         return;
       }
     }
-<<<<<<< HEAD
-    if (St && nn && !Bt && (ie === "ArrowRight" || ie === "ArrowLeft")) {
-      const ye = ne(L.current).filter(
-        (Ae) => Ae.closest(".nhs-navigation-split-view__header")
+    if (Bt && jn && !Vt && (ge === "ArrowRight" || ge === "ArrowLeft")) {
+      const Se = ce(Z.current).filter(
+        (Pe) => Pe.closest(".nhs-navigation-split-view__header")
       );
-      if (ye.length > 1) {
-        const Ae = ye.indexOf(J);
-=======
-    if (St && nn && !Ft && (le === "ArrowRight" || le === "ArrowLeft")) {
-      const ve = oe(H.current).filter(
-        (Ae) => Ae.closest(".nhs-navigation-split-view__header")
-      );
-      if (ve.length > 1) {
-        const Ae = ve.indexOf(ne);
->>>>>>> master
-        if (Ae >= 0) {
-          const ea = (Ae + (ie === "ArrowRight" ? 1 : -1) + ye.length) % ye.length;
-          q.preventDefault(), ye[ea].focus();
+      if (Se.length > 1) {
+        const Pe = Se.indexOf(le);
+        if (Pe >= 0) {
+          const Qa = (Pe + (ge === "ArrowRight" ? 1 : -1) + Se.length) % Se.length;
+          se.preventDefault(), Se[Qa].focus();
           return;
         }
       }
     }
-    if (ie === "ArrowRight") {
-      if (fe || T === "nav") {
-        q.preventDefault(), U("content"), setTimeout(() => L.current?.focus(), 10);
+    if (ge === "ArrowRight") {
+      if (ve || Y === "nav") {
+        se.preventDefault(), ne("content"), setTimeout(() => Z.current?.focus(), 10);
         return;
       }
-      if (Me || T === "content") {
-        Ee && (q.preventDefault(), U("secondary"), setTimeout(() => h.current?.focus(), 10));
+      if (He || Y === "content") {
+        Re && (se.preventDefault(), ne("secondary"), setTimeout(() => N.current?.focus(), 10));
         return;
       }
     }
-    if (ie === "ArrowLeft") {
-      if (Be || T === "secondary") {
-        q.preventDefault(), U("content"), setTimeout(() => L.current?.focus(), 10);
+    if (ge === "ArrowLeft") {
+      if (Ae || Y === "secondary") {
+        se.preventDefault(), ne("content"), setTimeout(() => Z.current?.focus(), 10);
         return;
       }
-<<<<<<< HEAD
-      if (Me || T === "content") {
-        if (q.preventDefault(), U("nav"), Oe.current) {
-          const Ae = Array.from(
-            Oe.current.querySelectorAll("[data-nav-item]")
-          )[$e >= 0 ? $e : 0];
-=======
-      if (Me || D === "content") {
-        if (Z.preventDefault(), G("nav"), Ge.current) {
-          const Ae = Array.from(
-            Ge.current.querySelectorAll("[data-nav-item]")
-          )[He >= 0 ? He : 0];
->>>>>>> master
-          setTimeout(() => Ae?.focus(), 10);
+      if (He || Y === "content") {
+        if (se.preventDefault(), ne("nav"), Ze.current) {
+          const Pe = Array.from(
+            Ze.current.querySelectorAll("[data-nav-item]")
+          )[ze >= 0 ? ze : 0];
+          setTimeout(() => Pe?.focus(), 10);
         }
         return;
       }
     }
-<<<<<<< HEAD
-    if (ie === "Home" && !fe && (q.preventDefault(), U("nav"), Oe.current)) {
-      const ye = Array.from(
-        Oe.current.querySelectorAll("[data-nav-item]")
-      ), Ae = ye[$e >= 0 ? $e : 0] || ye[0];
-=======
-    if (le === "Home" && !be && (Z.preventDefault(), G("nav"), Ge.current)) {
-      const ve = Array.from(
-        Ge.current.querySelectorAll("[data-nav-item]")
-      ), Ae = ve[He >= 0 ? He : 0] || ve[0];
->>>>>>> master
-      setTimeout(() => Ae?.focus(), 10);
+    if (ge === "Home" && !ve && (se.preventDefault(), ne("nav"), Ze.current)) {
+      const Se = Array.from(
+        Ze.current.querySelectorAll("[data-nav-item]")
+      ), Pe = Se[ze >= 0 ? ze : 0] || Se[0];
+      setTimeout(() => Pe?.focus(), 10);
     }
-    if (ie === "End") {
-      const ye = Ee ? h.current : L.current;
-      ye && !ye.contains(J) && (q.preventDefault(), Ee ? (U("secondary"), setTimeout(() => h.current?.focus(), 10)) : (U("content"), setTimeout(() => L.current?.focus(), 10)));
+    if (ge === "End") {
+      const Se = Re ? N.current : Z.current;
+      Se && !Se.contains(le) && (se.preventDefault(), Re ? (ne("secondary"), setTimeout(() => N.current?.focus(), 10)) : (ne("content"), setTimeout(() => Z.current?.focus(), 10)));
     }
-    if (ie === "ArrowDown" || ie === "ArrowUp") {
-      if (J === L.current && ie === "ArrowDown") {
-        q.preventDefault(), ne(L.current).length > 0 && _e(0);
+    if (ge === "ArrowDown" || ge === "ArrowUp") {
+      if (le === Z.current && ge === "ArrowDown") {
+        se.preventDefault(), ce(Z.current).length > 0 && Ce(0);
         return;
       }
-<<<<<<< HEAD
-      if (J === h.current && ie === "ArrowDown") {
-        q.preventDefault(), ne(
-          h.current
-        ).length > 0 && Ie(0);
-=======
-      if (ne === h.current && le === "ArrowDown") {
-        Z.preventDefault(), oe(
-          h.current
+      if (le === N.current && ge === "ArrowDown") {
+        se.preventDefault(), ce(
+          N.current
         ).length > 0 && Fe(0);
->>>>>>> master
         return;
       }
-      if (Me) {
-        const ye = ne(L.current);
-        if (ye.length) {
-          q.preventDefault();
-          const Ae = ie === "ArrowDown" ? 1 : -1, tt = (W.contentIndex + Ae + ye.length) % ye.length;
-          _e(tt);
+      if (He) {
+        const Se = ce(Z.current);
+        if (Se.length) {
+          se.preventDefault();
+          const Pe = ge === "ArrowDown" ? 1 : -1, ut = (te.contentIndex + Pe + Se.length) % Se.length;
+          Ce(ut);
         }
-      } else if (Be) {
-        const ye = ne(h.current);
-        if (ye.length) {
-          q.preventDefault();
-          const Ae = ie === "ArrowDown" ? 1 : -1, tt = (W.secondaryIndex + Ae + ye.length) % ye.length;
-          Ie(tt);
+      } else if (Ae) {
+        const Se = ce(N.current);
+        if (Se.length) {
+          se.preventDefault();
+          const Pe = ge === "ArrowDown" ? 1 : -1, ut = (te.secondaryIndex + Pe + Se.length) % Se.length;
+          Fe(ut);
         }
       }
     }
-  }, Re = !!Ne && (pe === "list" || pe === "cards"), Ye = le.useMemo(() => ae === void 0 ? { mobile: !0, tablet: !1, desktop: !1 } : ae === !0 ? { mobile: !0, tablet: !0, desktop: !0 } : ae === !1 ? { mobile: !1, tablet: !1, desktop: !1 } : {
-    mobile: ae.mobile !== void 0 ? ae.mobile : !0,
-    tablet: ae.tablet || !1,
-    desktop: ae.desktop || !1
-  }, [ae]), _t = me && re("medium") && !re("xlarge"), at = me && re("xlarge"), Qe = !!l, Pe = pe === "three-column", [We, zt] = le.useState(!1);
-  le.useEffect(() => {
-    Pe && We && zt(!1);
-  }, [Pe, We]), le.useEffect(() => {
-    We && !Pe && (U("secondary"), he(2), setTimeout(() => {
-      h.current?.focus();
+  }, Be = !!Le && (xe === "list" || xe === "cards"), tt = X.useMemo(() => Q === void 0 ? { mobile: !0, tablet: !1, desktop: !1 } : Q === !0 ? { mobile: !0, tablet: !0, desktop: !0 } : Q === !1 ? { mobile: !1, tablet: !1, desktop: !1 } : {
+    mobile: Q.mobile !== void 0 ? Q.mobile : !0,
+    tablet: Q.tablet || !1,
+    desktop: Q.desktop || !1
+  }, [Q]), $t = ae && J("medium") && !J("xlarge"), ht = ae && J("xlarge"), ct = !!l, Ue = xe === "three-column", [Ve, sn] = X.useState(!1);
+  X.useEffect(() => {
+    Ue && Ve && sn(!1);
+  }, [Ue, Ve]), X.useEffect(() => {
+    Ve && !Ue && (ne("secondary"), ye(2), setTimeout(() => {
+      N.current?.focus();
     }, 50));
-  }, [We, Pe]), le.useEffect(() => {
-    !We && !Pe && T === "secondary" && (U("content"), he(1), setTimeout(() => {
-      L.current?.focus();
+  }, [Ve, Ue]), X.useEffect(() => {
+    !Ve && !Ue && Y === "secondary" && (ne("content"), ye(1), setTimeout(() => {
+      Z.current?.focus();
     }, 50));
-<<<<<<< Updated upstream
-  }, [We, Pe, T]);
-  const Gn = !!Ne && (Re && Ye.mobile || !Re && _t && Ye.tablet || !Re && at && Ye.desktop) || Qe && !Pe, mo = `h${Ce}`, Vn = Ne ? le.createElement(
-    mo,
-=======
-  }, [Oe, ze, D]);
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-  const Gn = !!Ne && (Be && Ye.mobile || !Be && _t && Ye.tablet || !Be && at && Ye.desktop) || Qe && !ze, po = `h${Q}`, Vn = Ne ? ce.createElement(
-    po,
->>>>>>> Stashed changes
-    {
-      style: {
-        marginLeft: Re ? 32 : 0,
-        marginRight: Re ? 32 : 0
-      }
-    },
-    Ne.label
-<<<<<<< Updated upstream
-  ) : null, Xr = Re ? "mobile" : _t ? "tablet" : "desktop", po = Qe && !Pe && !We, Yn = Re && Ye.mobile ? /* @__PURE__ */ n.jsx(
-=======
-  ) : null, Qr = Be ? "mobile" : _t ? "tablet" : "desktop", go = Qe && !ze && !Oe, Yn = Be && Ye.mobile ? /* @__PURE__ */ n.jsx(
-=======
-  const Gn = !!Ne && (Be && Ye.mobile || !Be && _t && Ye.tablet || !Be && at && Ye.desktop) || Qe && !ze, go = `h${Q}`, Vn = Ne ? ce.createElement(go, { style: { marginLeft: Be ? 32 : 0, marginRight: Be ? 32 : 0 } }, Ne.label) : null, Qr = Be ? "mobile" : _t ? "tablet" : "desktop", bo = Qe && !ze && !Oe, Yn = Be && Ye.mobile ? /* @__PURE__ */ n.jsx(
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-=======
-  const Gn = !!Ne && (Be && Ye.mobile || !Be && _t && Ye.tablet || !Be && at && Ye.desktop) || Qe && !ze, po = `h${Q}`, Vn = Ne ? ce.createElement(
-    po,
+  }, [Ve, Ue, Y]);
+  const vr = !!Le && (Be && tt.mobile || !Be && $t && tt.tablet || !Be && ht && tt.desktop) || ct && !Ue, cl = `h${fe}`, wr = Le ? X.createElement(
+    cl,
     {
       style: {
         marginLeft: Be ? 32 : 0,
         marginRight: Be ? 32 : 0
       }
     },
-    Ne.label
-  ) : null, Qr = Be ? "mobile" : _t ? "tablet" : "desktop", go = Qe && !ze && !Oe, Yn = Be && Ye.mobile ? /* @__PURE__ */ n.jsx(
->>>>>>> master
-    dr,
-    {
-      element: "button",
-      text: u,
-      style: { marginRight: 16 },
-      onClick: () => Rt(void 0, void 0)
-    }
-<<<<<<< Updated upstream
-  ) : void 0, qn = po ? /* @__PURE__ */ n.jsx(
-    vs,
-=======
-  ) : void 0, qn = bo ? /* @__PURE__ */ n.jsx(
-    ks,
->>>>>>> Stashed changes
+    Le.label
+  ) : null, Za = Be ? "mobile" : $t ? "tablet" : "desktop", dl = ct && !Ue && !Ve, _r = Be && tt.mobile ? /* @__PURE__ */ r.jsx(
+    Yr,
     {
       element: "button",
       text: f,
-      onClick: () => {
-        zt(!0);
-      }
+      style: { marginRight: 16 },
+      onClick: () => Yt(void 0, void 0)
     }
-  ) : void 0, Kn = !Pe && We ? /* @__PURE__ */ n.jsx(
-    dr,
+  ) : void 0, Sr = dl ? /* @__PURE__ */ r.jsx(
+    Wo,
     {
       element: "button",
-      text: u,
-      style: { marginRight: 16 },
-      onClick: () => zt(!1)
+      text: h,
+      onClick: () => {
+        sn(!0);
+      }
     }
-<<<<<<< Updated upstream
-  ) : void 0, go = le.useMemo(() => {
-    if (!Gn || !Ne) return null;
-<<<<<<< HEAD
-    if (se)
-      return se({
-=======
-  ) : void 0, xo = ce.useMemo(() => {
-    if (!Gn || !Ne) return null;
-<<<<<<< Updated upstream
-    if (V)
-      return V({
->>>>>>> Stashed changes
-        item: Ne,
-        detailActive: Re,
-        context: Xr,
-        backLink: Yn,
-        defaultHeading: Vn
-      });
-<<<<<<< Updated upstream
-    const q = Ne && X ? typeof X == "function" ? X(Ne) : X : null;
-=======
-=======
-    if (Y) return Y({
-      item: Ne,
-      detailActive: Be,
-      context: Qr,
-      backLink: Yn,
-      defaultHeading: Vn
-    });
->>>>>>> Stashed changes
-=======
-    if (V)
-      return V({
-        item: Ne,
+  ) : void 0, kr = !Ue && Ve ? /* @__PURE__ */ r.jsx(
+    Yr,
+    {
+      element: "button",
+      text: f,
+      style: { marginRight: 16 },
+      onClick: () => sn(!1)
+    }
+  ) : void 0, ul = X.useMemo(() => {
+    if (!vr || !Le) return null;
+    if (oe)
+      return oe({
+        item: Le,
         detailActive: Be,
-        context: Qr,
-        backLink: Yn,
-        defaultHeading: Vn
+        context: Za,
+        backLink: _r,
+        defaultHeading: wr
       });
->>>>>>> master
-    const Z = Ne && K ? typeof K == "function" ? K(Ne) : K : null;
->>>>>>> Stashed changes
-    return /* @__PURE__ */ n.jsxs("div", { style: { display: "flex", alignItems: "center", width: "100%" }, children: [
-      /* @__PURE__ */ n.jsxs(
+    const se = Le && K ? typeof K == "function" ? K(Le) : K : null;
+    return /* @__PURE__ */ r.jsxs("div", { style: { display: "flex", alignItems: "center", width: "100%" }, children: [
+      /* @__PURE__ */ r.jsxs(
         "div",
         {
           style: {
@@ -14436,8 +10531,8 @@ function sd(e) {
             minWidth: 0
           },
           children: [
-            Kn || Yn,
-            /* @__PURE__ */ n.jsxs(
+            kr || _r,
+            /* @__PURE__ */ r.jsxs(
               "div",
               {
                 style: {
@@ -14447,709 +10542,337 @@ function sd(e) {
                   minWidth: 0
                 },
                 children: [
-                  Vn,
-<<<<<<< HEAD
-                  q && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__subheader", children: q })
-=======
-                  Z && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__subheader", children: Z })
->>>>>>> master
+                  wr,
+                  se && /* @__PURE__ */ r.jsx("div", { className: "nhs-navigation-split-view__subheader", children: se })
                 ]
               }
             )
           ]
         }
       ),
-      qn && /* @__PURE__ */ n.jsx("div", { style: { marginLeft: "auto" }, children: qn })
+      Sr && /* @__PURE__ */ r.jsx("div", { style: { marginLeft: "auto" }, children: Sr })
     ] });
-<<<<<<< HEAD
-<<<<<<< Updated upstream
   }, [
-    Gn,
-    Ne,
-    se,
-    Re,
-    Xr,
-=======
-  }, [
-    Gn,
-    Ne,
-    V,
+    vr,
+    Le,
+    oe,
     Be,
-    Qr,
->>>>>>> master
-    Yn,
-    Kn,
-    Vn,
-    qn,
-<<<<<<< HEAD
-    X
-  ]);
-<<<<<<< Updated upstream
-  le.useEffect(() => {
-    if (!R) return;
-    const q = pe === "three-column";
-    let ie = !1;
-    const J = () => {
-      ie || (de.selectedId !== Le && de.setSelectedId(Le), de.drilledIn !== q && de.setDrilledIn(q));
-=======
-=======
-  }, [Gn, Ne, Y, Be, Qr, Yn, Kn, Vn, qn, K]);
->>>>>>> Stashed changes
-=======
+    Za,
+    _r,
+    kr,
+    wr,
+    Sr,
     K
   ]);
->>>>>>> master
-  ce.useEffect(() => {
-    if (!I) return;
-    const Z = pe === "three-column";
-    let le = !1;
-    const ne = () => {
-      le || (he.selectedId !== De && he.setSelectedId(De), he.drilledIn !== Z && he.setDrilledIn(Z));
->>>>>>> Stashed changes
+  X.useEffect(() => {
+    if (!D) return;
+    const se = xe === "three-column";
+    let ge = !1;
+    const le = () => {
+      ge || (pe.selectedId !== Me && pe.setSelectedId(Me), pe.drilledIn !== se && pe.setDrilledIn(se));
     };
-    if (Z && Z > 0) {
-      const fe = setTimeout(J, Z);
+    if (y && y > 0) {
+      const ve = setTimeout(le, y);
       return () => {
-        ie = !0, clearTimeout(fe);
+        ge = !0, clearTimeout(ve);
       };
     } else
-      J();
-  }, [R, de, Le, pe, Z]), le.useEffect(() => {
-    if (!R) return;
-    const q = () => {
-      const ie = new URLSearchParams(window.location.search), J = ie.get(x);
-      ie.get(B), Ve(J === null ? void 0 : J);
+      le();
+  }, [D, pe, Me, xe, y]), X.useEffect(() => {
+    if (!D) return;
+    const se = () => {
+      const ge = new URLSearchParams(window.location.search), le = ge.get(v);
+      ge.get(x), We(le === null ? void 0 : le);
     };
-<<<<<<< Updated upstream
-    return window.addEventListener("popstate", q), () => window.removeEventListener("popstate", q);
-=======
-    return window.addEventListener("popstate", Z), () => window.removeEventListener("popstate", Z);
-<<<<<<< HEAD
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
+    return window.addEventListener("popstate", se), () => window.removeEventListener("popstate", se);
   }, [
-    R,
+    D,
+    v,
     x,
-    B,
     d,
     l
   ]);
-  const tn = le.useRef(0), st = le.useRef(
+  const Cn = X.useRef(0), pt = X.useRef(
     null
-  ), Rt = le.useCallback(
-    (q, ie) => {
-      q !== Le && (r === void 0 && Ve(q), o?.(q, ie));
+  ), Yt = X.useCallback(
+    (se, ge) => {
+      se !== Me && (n === void 0 && We(se), o?.(se, ge));
     },
-    [r, o, Le]
+    [n, o, Me]
   );
-<<<<<<< Updated upstream
-  le.useEffect(() => {
-    if (!A && Re && L.current) {
-      const q = setTimeout(() => L.current?.focus(), 30);
-      return () => clearTimeout(q);
-=======
-=======
-  }, [I, b, F, c, l]);
-  const tn = ce.useRef(0), st = ce.useRef(null), Rt = ce.useCallback((Z, le) => {
-    Z !== De && (r === void 0 && $e(Z), o?.(Z, le));
-  }, [r, o, De]);
->>>>>>> Stashed changes
-=======
-  }, [
-    I,
-    b,
-    F,
-    d,
-    l
-  ]);
-  const tn = ce.useRef(0), st = ce.useRef(
-    null
-  ), Rt = ce.useCallback(
-    (Z, le) => {
-      Z !== De && (r === void 0 && $e(Z), o?.(Z, le));
-    },
-    [r, o, De]
-  );
->>>>>>> master
-  ce.useEffect(() => {
-    if (!v && Be && H.current) {
-      const Z = setTimeout(() => H.current?.focus(), 30);
-      return () => clearTimeout(Z);
->>>>>>> Stashed changes
+  X.useEffect(() => {
+    if (!_ && Be && Z.current) {
+      const se = setTimeout(() => Z.current?.focus(), 30);
+      return () => clearTimeout(se);
     }
-<<<<<<< HEAD
-  }, [Re, Le, A]);
-  const Oe = le.useRef(null), [$e, Wt] = le.useState(
-    () => H === "first" ? 0 : -1
+  }, [Be, Me, _]);
+  const Ze = X.useRef(null), [ze, on] = X.useState(
+    () => B === "first" ? 0 : -1
   );
-<<<<<<< Updated upstream
-  le.useEffect(() => {
-    if ($e < 0 || !Oe.current) return;
-    const ie = Array.from(
-      Oe.current.querySelectorAll("[data-nav-item]")
-    )[$e];
-    if (ie) {
-      document.activeElement !== ie && ie.focus(), tn.current = $e;
-      const J = t[$e];
-      M?.(
-        J ? _(J) : void 0,
-        J,
-        $e
-=======
-=======
-  }, [Be, De, v]);
-  const Ge = ce.useRef(null), [He, Wt] = ce.useState(
-    () => L === "first" ? 0 : -1
-  );
->>>>>>> master
-  ce.useEffect(() => {
-    if (He < 0 || !Ge.current) return;
-    const le = Array.from(
-      Ge.current.querySelectorAll("[data-nav-item]")
-    )[He];
-    if (le) {
-      document.activeElement !== le && le.focus(), tn.current = He;
-      const ne = t[He];
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
->>>>>>> master
-      A?.(
-        ne ? k(ne) : void 0,
-        ne,
-        He
-<<<<<<< HEAD
->>>>>>> Stashed changes
+  X.useEffect(() => {
+    if (ze < 0 || !Ze.current) return;
+    const ge = Array.from(
+      Ze.current.querySelectorAll("[data-nav-item]")
+    )[ze];
+    if (ge) {
+      document.activeElement !== ge && ge.focus(), Cn.current = ze;
+      const le = t[ze];
+      j?.(
+        le ? u(le) : void 0,
+        le,
+        ze
       );
-=======
-      A?.(ne ? _(ne) : void 0, ne, He);
->>>>>>> Stashed changes
-=======
-      );
->>>>>>> master
     }
-<<<<<<< Updated upstream
-  }, [$e, t, M, _]);
-  const bo = (q) => {
-    const ie = G === "vertical" ? "ArrowDown" : "ArrowRight", J = G === "vertical" ? "ArrowUp" : "ArrowLeft";
-    if (q.key === "ArrowRight" && G === "vertical") {
-      q.preventDefault(), We ? (U("secondary"), setTimeout(() => {
-=======
-  }, [He, t, A, _]);
-  const yo = (Z) => {
-    const le = V === "vertical" ? "ArrowDown" : "ArrowRight", ne = V === "vertical" ? "ArrowUp" : "ArrowLeft";
-    if (Z.key === "ArrowRight" && V === "vertical") {
-      Z.preventDefault(), Oe ? (G("secondary"), setTimeout(() => {
->>>>>>> Stashed changes
-        h.current?.focus();
-      }, 10)) : (U("content"), setTimeout(() => {
-        L.current?.focus();
+  }, [ze, t, j, u]);
+  const fl = (se) => {
+    const ge = R === "vertical" ? "ArrowDown" : "ArrowRight", le = R === "vertical" ? "ArrowUp" : "ArrowLeft";
+    if (se.key === "ArrowRight" && R === "vertical") {
+      se.preventDefault(), Ve ? (ne("secondary"), setTimeout(() => {
+        N.current?.focus();
+      }, 10)) : (ne("content"), setTimeout(() => {
+        Z.current?.focus();
       }, 10));
       return;
     }
-<<<<<<< Updated upstream
-    if (q.key === ie)
-      q.preventDefault(), Wt((fe) => Math.min(t.length - 1, fe + 1));
-    else if (q.key === J)
-      q.preventDefault(), Wt((fe) => Math.max(0, fe - 1));
-    else if (q.key === "Home")
-      q.preventDefault(), Wt(0);
-    else if (q.key === "End")
-      q.preventDefault(), Wt(t.length - 1);
-    else if (q.key === "Enter" || q.key === " ") {
-      q.preventDefault();
-      const fe = t[$e];
-      fe && !fe.disabled && Rt(_(fe), fe);
-    } else if (q.key.length === 1 && /[a-z0-9]/i.test(q.key)) {
-=======
-    if (Z.key === le)
-      Z.preventDefault(), Wt((be) => Math.min(t.length - 1, be + 1));
-    else if (Z.key === ne)
-      Z.preventDefault(), Wt((be) => Math.max(0, be - 1));
-    else if (Z.key === "Home")
-      Z.preventDefault(), Wt(0);
-    else if (Z.key === "End")
-      Z.preventDefault(), Wt(t.length - 1);
-    else if (Z.key === "Enter" || Z.key === " ") {
-      Z.preventDefault();
-      const be = t[He];
-      be && !be.disabled && Rt(_(be), be);
-    } else if (Z.key.length === 1 && /[a-z0-9]/i.test(Z.key)) {
->>>>>>> Stashed changes
-      st.current || (st.current = { buffer: "", last: 0 });
-      const fe = Date.now(), Me = 700, Be = q.key.toLowerCase();
-      fe - st.current.last > Me ? st.current.buffer = Be : st.current.buffer += Be, st.current.last = fe;
-      let Ee = st.current.buffer;
-<<<<<<< HEAD
-      const Bt = Ee.split("").every((tt) => tt === Ee[0]), St = t.map(
-=======
-      const Ft = Ee.split("").every((tt) => tt === Ee[0]), St = t.map(
->>>>>>> master
-        (tt) => String(tt.label || "").toLowerCase()
+    if (se.key === ge)
+      se.preventDefault(), on((ve) => Math.min(t.length - 1, ve + 1));
+    else if (se.key === le)
+      se.preventDefault(), on((ve) => Math.max(0, ve - 1));
+    else if (se.key === "Home")
+      se.preventDefault(), on(0);
+    else if (se.key === "End")
+      se.preventDefault(), on(t.length - 1);
+    else if (se.key === "Enter" || se.key === " ") {
+      se.preventDefault();
+      const ve = t[ze];
+      ve && !ve.disabled && Yt(u(ve), ve);
+    } else if (se.key.length === 1 && /[a-z0-9]/i.test(se.key)) {
+      pt.current || (pt.current = { buffer: "", last: 0 });
+      const ve = Date.now(), He = 700, Ae = se.key.toLowerCase();
+      ve - pt.current.last > He ? pt.current.buffer = Ae : pt.current.buffer += Ae, pt.current.last = ve;
+      let Re = pt.current.buffer;
+      const Vt = Re.split("").every((ut) => ut === Re[0]), Bt = t.map(
+        (ut) => String(ut.label || "").toLowerCase()
       );
-      let nn = 0;
-      $e >= 0 && (nn = ($e + 1) % t.length);
-      let ye;
-      const Ae = (tt, ea) => {
-        const ta = t.length;
-        for (let Xn = 0; Xn < ta; Xn++) {
-          const Qn = (nn + Xn) % ta;
-          if (!t[Qn].disabled && St[Qn].startsWith(tt))
-            return Qn;
+      let jn = 0;
+      ze >= 0 && (jn = (ze + 1) % t.length);
+      let Se;
+      const Pe = (ut, Qa) => {
+        const es = t.length;
+        for (let Nr = 0; Nr < es; Nr++) {
+          const Tr = (jn + Nr) % es;
+          if (!t[Tr].disabled && Bt[Tr].startsWith(ut))
+            return Tr;
         }
       };
-      Bt && Ee.length > 1 ? ye = Ae(Ee[0]) : (ye = Ae(Ee), ye === void 0 && Ee.length > 1 && (ye = Ae(Ee[Ee.length - 1]), ye !== void 0 && st.current && (st.current.buffer = Ee[Ee.length - 1]))), ye !== void 0 && Wt(ye);
+      Vt && Re.length > 1 ? Se = Pe(Re[0]) : (Se = Pe(Re), Se === void 0 && Re.length > 1 && (Se = Pe(Re[Re.length - 1]), Se !== void 0 && pt.current && (pt.current.buffer = Re[Re.length - 1]))), Se !== void 0 && on(Se);
     }
-<<<<<<< Updated upstream
-  }, xo = le.useMemo(() => {
-    if (E && (E === "url" || E === "both") && typeof window < "u") {
-      const ie = new URLSearchParams(window.location.search).get(F);
-      if (ie === "1") return !0;
-      if (ie === "0") return !1;
-=======
-  }, vo = ce.useMemo(() => {
-    if (M && (M === "url" || M === "both") && typeof window < "u") {
-      const le = new URLSearchParams(window.location.search).get(E);
-      if (le === "1") return !0;
-      if (le === "0") return !1;
->>>>>>> Stashed changes
+  }, hl = X.useMemo(() => {
+    if (I && (I === "url" || I === "both") && typeof window < "u") {
+      const ge = new URLSearchParams(window.location.search).get(H);
+      if (ge === "1") return !0;
+      if (ge === "0") return !1;
     }
-    if (E && (E === "localStorage" || E === "both") && typeof window < "u")
+    if (I && (I === "localStorage" || I === "both") && typeof window < "u")
       try {
-        const q = window.localStorage.getItem(Q);
-        if (q === "1") return !0;
-        if (q === "0") return !1;
+        const se = window.localStorage.getItem(O);
+        if (se === "1") return !0;
+        if (se === "0") return !1;
       } catch {
       }
-<<<<<<< Updated upstream
-    return b;
+    return k;
   }, [
-    E,
-    b,
-    Q,
-    F
-  ]), [et, yo] = le.useState(xo);
-  le.useEffect(() => {
-    N?.(et);
-  }, [et, N]);
-  const vo = le.useCallback(() => {
-    je && y && yo((q) => !q);
-  }, [je, y]);
-  le.useEffect(() => {
-    if (E && !(typeof window > "u")) {
-      if (E === "localStorage" || E === "both")
-=======
-    return x;
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
->>>>>>> master
-  }, [
-    M,
-    x,
-    te,
-    E
-  ]), [et, vo] = ce.useState(yo);
-<<<<<<< HEAD
-=======
-  }, [M, x, te, E]), [et, _o] = ce.useState(vo);
->>>>>>> Stashed changes
-=======
->>>>>>> master
-  ce.useEffect(() => {
-    N?.(et);
-  }, [et, N]);
-  const ko = ce.useCallback(() => {
-    je && R && _o((Z) => !Z);
-  }, [je, R]);
-  ce.useEffect(() => {
-    if (M && !(typeof window > "u")) {
-      if (M === "localStorage" || M === "both")
->>>>>>> Stashed changes
+    I,
+    k,
+    O,
+    H
+  ]), [dt, pl] = X.useState(hl);
+  X.useEffect(() => {
+    b?.(dt);
+  }, [dt, b]);
+  const ml = X.useCallback(() => {
+    me && M && pl((se) => !se);
+  }, [me, M]);
+  X.useEffect(() => {
+    if (I && !(typeof window > "u")) {
+      if (I === "localStorage" || I === "both")
         try {
           window.localStorage.setItem(
-<<<<<<< HEAD
-            Q,
-=======
-            te,
->>>>>>> master
-            et ? "1" : "0"
+            O,
+            dt ? "1" : "0"
           );
         } catch {
         }
-      if (E === "url" || E === "both") {
-        const q = new URLSearchParams(window.location.search);
-        q.set(F, et ? "1" : "0");
-        const ie = `${window.location.pathname}?${q.toString()}${window.location.hash}`;
-        window.history.replaceState(null, "", ie);
+      if (I === "url" || I === "both") {
+        const se = new URLSearchParams(window.location.search);
+        se.set(H, dt ? "1" : "0");
+        const ge = `${window.location.pathname}?${se.toString()}${window.location.hash}`;
+        window.history.replaceState(null, "", ge);
       }
     }
-<<<<<<< HEAD
-<<<<<<< Updated upstream
   }, [
-    et,
-    E,
-    Q,
-    F
+    dt,
+    I,
+    O,
+    H
   ]);
-<<<<<<< Updated upstream
-  const _o = [
-=======
-  }, [
-    et,
-    M,
-    te,
-    E
-  ]);
-  const ko = [
->>>>>>> master
+  const gl = [
     "nhs-navigation-split-view",
     c ? "nhs-navigation-split-view--animated" : "",
-    Re ? "nhs-navigation-split-view--detail-active" : "",
-=======
-  const ko = [
-=======
-  }, [et, M, te, E]);
-  const wo = [
->>>>>>> Stashed changes
-    "nhs-navigation-split-view",
-    d ? "nhs-navigation-split-view--animated" : "",
     Be ? "nhs-navigation-split-view--detail-active" : "",
->>>>>>> Stashed changes
-    pe === "three-column" ? "nhs-navigation-split-view--three-column" : "",
-    y && je && et ? "nhs-navigation-split-view--nav-collapsed" : "",
-    g
-  ].filter(Boolean).join(" "), Zn = le.useRef(null);
-  le.useEffect(() => {
-    if (!V && Zn.current) {
-      const q = Ne ? `Selected ${Ne.label}` : "Selection cleared";
-      Zn.current.textContent = q;
+    xe === "three-column" ? "nhs-navigation-split-view--three-column" : "",
+    M && me && dt ? "nhs-navigation-split-view--nav-collapsed" : "",
+    p
+  ].filter(Boolean).join(" "), Cr = X.useRef(null);
+  X.useEffect(() => {
+    if (!L && Cr.current) {
+      const se = Le ? `Selected ${Le.label}` : "Selection cleared";
+      Cr.current.textContent = se;
     }
-<<<<<<< Updated upstream
-  }, [Ne, V]), le.useEffect(() => {
-    !Re && Le == null && Oe.current && Oe.current.querySelectorAll("[data-nav-item]")[tn.current]?.focus();
-  }, [Re, Le]);
-  const kt = pe === "three-column", [Jn, ko] = le.useState(!1);
-  le.useEffect(() => {
-    kt && !Jn && ko(!0);
-  }, [kt, Jn]);
-  const Qr = le.useRef(kt);
-  le.useEffect(() => {
-    Qr.current !== kt && (I?.(kt), Qr.current = kt);
-  }, [kt, I]);
-  const wo = () => {
-=======
-  }, [Ne, $]), ce.useEffect(() => {
-    !Be && De == null && Ge.current && Ge.current.querySelectorAll("[data-nav-item]")[tn.current]?.focus();
-  }, [Be, De]);
-  const kt = pe === "three-column", [Jn, So] = ce.useState(!1);
-  ce.useEffect(() => {
-    kt && !Jn && So(!0);
-  }, [kt, Jn]);
-  const ea = ce.useRef(kt);
-  ce.useEffect(() => {
-    ea.current !== kt && (k?.(kt), ea.current = kt);
-  }, [kt, k]);
-  const Co = () => {
->>>>>>> Stashed changes
-    if (pe === "cards")
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-      return /* @__PURE__ */ n.jsxs("ul", { className: "nhs-navigation-split-view__cards", role: "listbox", "aria-activedescendant": De ? String(De) : void 0, children: [
-        t.map((ne) => {
-          const be = _(ne), Me = be === De;
-          return /* @__PURE__ */ n.jsx("li", { className: "nhs-navigation-split-view__card-item", role: "option", "aria-selected": Me, children: /* @__PURE__ */ n.jsxs(
-            "button",
-            {
-              id: String(be),
-              type: "button",
-              className: "nhs-navigation-split-view__card",
-              "data-selected": Me || void 0,
-              "data-disabled": ne.disabled || void 0,
-              disabled: ne.disabled,
-              onClick: () => !ne.disabled && Rt(be, ne),
-              children: [
-                ne.icon && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: ne.icon }),
-                /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-label", children: ne.label }),
-                ne.description && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-description", children: ne.description }),
-                s?.(ne),
-                ne.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: ne.badge })
-              ]
-            }
-          ) }, be);
-        }),
-        t.length === 0 && !p && /* @__PURE__ */ n.jsx("li", { className: "nhs-navigation-split-view__card-item", "aria-disabled": "true", children: m || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" }) })
-      ] });
-    const Z = "nsv-nav-instructions", le = ce.useMemo(() => ce.memo(({ item: ne, idx: be, selected: Me, focused: Le }) => {
-      const Ee = _(ne), Ft = ne.disabled ? {
-        "aria-disabled": !0,
-        tabIndex: -1
-      } : {
-        tabIndex: Le ? 0 : -1,
-        onClick: () => {
-          tn.current = be, Rt(Ee, ne);
-        },
-        onKeyDown: (St) => {
-          (St.key === "Enter" || St.key === " ") && (St.preventDefault(), tn.current = be, Rt(Ee, ne));
-        }
-      };
->>>>>>> Stashed changes
-=======
->>>>>>> master
-      return /* @__PURE__ */ n.jsxs(
+  }, [Le, L]), X.useEffect(() => {
+    !Be && Me == null && Ze.current && Ze.current.querySelectorAll("[data-nav-item]")[Cn.current]?.focus();
+  }, [Be, Me]);
+  const It = xe === "three-column", [jr, xl] = X.useState(!1);
+  X.useEffect(() => {
+    It && !jr && xl(!0);
+  }, [It, jr]);
+  const Ja = X.useRef(It);
+  X.useEffect(() => {
+    Ja.current !== It && (T?.(It), Ja.current = It);
+  }, [It, T]);
+  const bl = () => {
+    if (xe === "cards")
+      return /* @__PURE__ */ r.jsxs(
         "ul",
         {
           className: "nhs-navigation-split-view__cards",
           role: "listbox",
-<<<<<<< HEAD
-          "aria-activedescendant": Le ? String(Le) : void 0,
+          "aria-activedescendant": Me ? String(Me) : void 0,
           children: [
-            t.map((J) => {
-              const fe = _(J), Me = fe === Le;
-=======
-          "aria-activedescendant": De ? String(De) : void 0,
-          children: [
-            t.map((ne) => {
-              const be = k(ne), Me = be === De;
->>>>>>> master
-              return /* @__PURE__ */ n.jsx(
+            t.map((le) => {
+              const ve = u(le), He = ve === Me;
+              return /* @__PURE__ */ r.jsx(
                 "li",
                 {
                   className: "nhs-navigation-split-view__card-item",
                   role: "option",
-                  "aria-selected": Me,
-                  children: /* @__PURE__ */ n.jsxs(
+                  "aria-selected": He,
+                  children: /* @__PURE__ */ r.jsxs(
                     "button",
                     {
-<<<<<<< HEAD
-                      id: String(fe),
+                      id: String(ve),
                       type: "button",
                       className: "nhs-navigation-split-view__card",
-                      "data-selected": Me || void 0,
-                      "data-disabled": J.disabled || void 0,
-                      disabled: J.disabled,
-                      onClick: () => !J.disabled && Rt(fe, J),
+                      "data-selected": He || void 0,
+                      "data-disabled": le.disabled || void 0,
+                      disabled: le.disabled,
+                      onClick: () => !le.disabled && Yt(ve, le),
                       children: [
-                        J.icon && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: J.icon }),
-                        /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-label", children: J.label }),
-                        J.description && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-description", children: J.description }),
-                        s?.(J),
-                        J.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: J.badge })
-=======
-                      id: String(be),
-                      type: "button",
-                      className: "nhs-navigation-split-view__card",
-                      "data-selected": Me || void 0,
-                      "data-disabled": ne.disabled || void 0,
-                      disabled: ne.disabled,
-                      onClick: () => !ne.disabled && Rt(be, ne),
-                      children: [
-                        ne.icon && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: ne.icon }),
-                        /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-label", children: ne.label }),
-                        ne.description && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-description", children: ne.description }),
-                        s?.(ne),
-                        ne.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: ne.badge })
->>>>>>> master
+                        le.icon && /* @__PURE__ */ r.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: le.icon }),
+                        /* @__PURE__ */ r.jsx("span", { className: "nhs-navigation-split-view__item-label", children: le.label }),
+                        le.description && /* @__PURE__ */ r.jsx("span", { className: "nhs-navigation-split-view__item-description", children: le.description }),
+                        s?.(le),
+                        le.badge !== void 0 && /* @__PURE__ */ r.jsx("span", { className: "nhs-navigation-split-view__badge", children: le.badge })
                       ]
                     }
                   )
                 },
-<<<<<<< HEAD
-                fe
+                ve
               );
             }),
-            t.length === 0 && !p && /* @__PURE__ */ n.jsx(
-=======
-                be
-              );
-            }),
-            t.length === 0 && !m && /* @__PURE__ */ n.jsx(
->>>>>>> master
+            t.length === 0 && !m && /* @__PURE__ */ r.jsx(
               "li",
               {
                 className: "nhs-navigation-split-view__card-item",
                 "aria-disabled": "true",
-<<<<<<< HEAD
-                children: m || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" })
-=======
-                children: p || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" })
->>>>>>> master
+                children: g || /* @__PURE__ */ r.jsx("div", { style: { padding: 16 }, children: "No items" })
               }
             )
           ]
         }
       );
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-    const q = "nsv-nav-instructions", ie = le.useMemo(() => le.memo(
-=======
-<<<<<<< Updated upstream
-    const Z = "nsv-nav-instructions", le = ce.useMemo(() => ce.memo(
->>>>>>> Stashed changes
+    const se = "nsv-nav-instructions", ge = X.useMemo(() => X.memo(
       ({
-        item: J,
-        idx: fe,
-        selected: Me,
-        focused: Be
+        item: le,
+        idx: ve,
+        selected: He,
+        focused: Ae
       }) => {
-        const Ee = _(J), Bt = J.disabled ? {
+        const Re = u(le), Vt = le.disabled ? {
           "aria-disabled": !0,
           tabIndex: -1
         } : {
-          tabIndex: Be ? 0 : -1,
+          tabIndex: Ae ? 0 : -1,
           onClick: () => {
-            tn.current = fe, Rt(Ee, J);
+            Cn.current = ve, Yt(Re, le);
           },
-          onKeyDown: (St) => {
-            (St.key === "Enter" || St.key === " ") && (St.preventDefault(), tn.current = fe, Rt(Ee, J));
-=======
-    const Z = "nsv-nav-instructions", le = ce.useMemo(() => ce.memo(
-      ({
-        item: ne,
-        idx: be,
-        selected: Me,
-        focused: Le
-      }) => {
-        const Ee = k(ne), Ft = ne.disabled ? {
-          "aria-disabled": !0,
-          tabIndex: -1
-        } : {
-          tabIndex: Le ? 0 : -1,
-          onClick: () => {
-            tn.current = be, Rt(Ee, ne);
-          },
-          onKeyDown: (St) => {
-            (St.key === "Enter" || St.key === " ") && (St.preventDefault(), tn.current = be, Rt(Ee, ne));
->>>>>>> master
+          onKeyDown: (Bt) => {
+            (Bt.key === "Enter" || Bt.key === " ") && (Bt.preventDefault(), Cn.current = ve, Yt(Re, le));
           }
         };
-        return /* @__PURE__ */ n.jsxs(
+        return /* @__PURE__ */ r.jsxs(
           "li",
           {
-            id: String(Ee),
+            id: String(Re),
             "data-nav-item": !0,
             className: "nhs-navigation-split-view__list-item nhs-navigation-split-view__item-button",
             role: "option",
-            "aria-selected": Me,
-            "aria-current": Me ? "true" : void 0,
-            "data-selected": Me || void 0,
-<<<<<<< HEAD
-            "data-disabled": J.disabled || void 0,
-            ...Bt,
+            "aria-selected": He,
+            "aria-current": He ? "true" : void 0,
+            "data-selected": He || void 0,
+            "data-disabled": le.disabled || void 0,
+            ...Vt,
             children: [
-              J.icon && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: J.icon }),
-              /* @__PURE__ */ n.jsxs("span", { className: "nhs-navigation-split-view__item-content", children: [
-                /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-label", children: J.label }),
-                J.description && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-description", children: J.description }),
-                s?.(J)
+              le.icon && /* @__PURE__ */ r.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: le.icon }),
+              /* @__PURE__ */ r.jsxs("span", { className: "nhs-navigation-split-view__item-content", children: [
+                /* @__PURE__ */ r.jsx("span", { className: "nhs-navigation-split-view__item-label", children: le.label }),
+                le.description && /* @__PURE__ */ r.jsx("span", { className: "nhs-navigation-split-view__item-description", children: le.description }),
+                s?.(le)
               ] }),
-              J.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: J.badge })
-=======
-            "data-disabled": ne.disabled || void 0,
-            ...Ft,
-            children: [
-              ne.icon && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: ne.icon }),
-              /* @__PURE__ */ n.jsxs("span", { className: "nhs-navigation-split-view__item-content", children: [
-                /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-label", children: ne.label }),
-                ne.description && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__item-description", children: ne.description }),
-                s?.(ne)
-              ] }),
-              ne.badge !== void 0 && /* @__PURE__ */ n.jsx("span", { className: "nhs-navigation-split-view__badge", children: ne.badge })
->>>>>>> master
+              le.badge !== void 0 && /* @__PURE__ */ r.jsx("span", { className: "nhs-navigation-split-view__badge", children: le.badge })
             ]
           }
         );
       }
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-    ), [_, Rt, s]);
-=======
-    ), [k, Rt, s]);
-=======
-    }), [_, Rt, s]);
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-=======
-    ), [k, Rt, s]);
->>>>>>> master
-    return /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-      /* @__PURE__ */ n.jsxs(
+    ), [u, Yt, s]);
+    return /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+      /* @__PURE__ */ r.jsxs(
         "ul",
         {
-          ref: Oe,
+          ref: Ze,
           className: "nhs-navigation-split-view__list",
-<<<<<<< Updated upstream
-          onKeyDown: bo,
-=======
-          onKeyDown: yo,
->>>>>>> Stashed changes
+          onKeyDown: fl,
           role: "listbox",
           "aria-label": "Navigation items",
-          "aria-describedby": q,
-          "aria-activedescendant": Le ? String(Le) : void 0,
+          "aria-describedby": se,
+          "aria-activedescendant": Me ? String(Me) : void 0,
           children: [
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-            t.map((J, fe) => /* @__PURE__ */ n.jsx(
-              ie,
-=======
-<<<<<<< Updated upstream
-            t.map((ne, be) => /* @__PURE__ */ n.jsx(
-              le,
->>>>>>> Stashed changes
+            t.map((le, ve) => /* @__PURE__ */ r.jsx(
+              ge,
               {
-                item: J,
-                idx: fe,
-                selected: _(J) === Le,
-                focused: fe === $e || $e === -1 && fe === 0 && H === "first",
-                "data-just-selected": _(J) === D ? "true" : void 0
+                item: le,
+                idx: ve,
+                selected: u(le) === Me,
+                focused: ve === ze || ze === -1 && ve === 0 && B === "first",
+                "data-just-selected": u(le) === q ? "true" : void 0
               },
-              _(J)
+              u(le)
             )),
-            t.length === 0 && !p && /* @__PURE__ */ n.jsx(
-=======
-            t.map((ne, be) => /* @__PURE__ */ n.jsx(
-              le,
-              {
-                item: ne,
-                idx: be,
-                selected: k(ne) === De,
-                focused: be === He || He === -1 && be === 0 && L === "first",
-                "data-just-selected": k(ne) === T ? "true" : void 0
-              },
-              k(ne)
-            )),
-            t.length === 0 && !m && /* @__PURE__ */ n.jsx(
->>>>>>> master
+            t.length === 0 && !m && /* @__PURE__ */ r.jsx(
               "li",
               {
                 className: "nhs-navigation-split-view__list-item",
                 "aria-disabled": "true",
-<<<<<<< HEAD
-                children: m || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" })
+                children: g || /* @__PURE__ */ r.jsx("div", { style: { padding: 16 }, children: "No items" })
               }
             )
-=======
-            t.map((ne, be) => /* @__PURE__ */ n.jsx(le, { item: ne, idx: be, selected: _(ne) === De, focused: be === He || He === -1 && be === 0 && L === "first", "data-just-selected": _(ne) === T ? "true" : void 0 }, _(ne))),
-            t.length === 0 && !p && /* @__PURE__ */ n.jsx("li", { className: "nhs-navigation-split-view__list-item", "aria-disabled": "true", children: m || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" }) })
->>>>>>> Stashed changes
-=======
-                children: p || /* @__PURE__ */ n.jsx("div", { style: { padding: 16 }, children: "No items" })
-              }
-            )
->>>>>>> master
           ]
         }
       ),
-      /* @__PURE__ */ n.jsx(
+      /* @__PURE__ */ r.jsx(
         "div",
         {
-<<<<<<< HEAD
-          id: q,
-=======
-          id: Z,
->>>>>>> master
+          id: se,
           style: {
             position: "absolute",
             width: 1,
@@ -15157,159 +10880,94 @@ function sd(e) {
             overflow: "hidden",
             clip: "rect(0 0 0 0)"
           },
-<<<<<<< HEAD
-          children: k
-=======
-          children: y
->>>>>>> master
+          children: S
         }
       )
     ] });
   };
-  return /* @__PURE__ */ n.jsx(
+  return /* @__PURE__ */ r.jsx(
     "div",
     {
-<<<<<<< Updated upstream
-      ref: z,
-      className: _o,
-      "aria-label": v?.rootLabel,
-=======
-      ref: W,
-      className: wo,
+      ref: ee,
+      className: gl,
       "aria-label": C?.rootLabel,
->>>>>>> Stashed changes
-      "data-layout": pe,
-      onKeyDown: He,
-      children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-navigation-split-view__body", children: [
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
->>>>>>> master
-        /* @__PURE__ */ n.jsxs(
+      "data-layout": xe,
+      onKeyDown: Oe,
+      children: /* @__PURE__ */ r.jsxs("div", { className: "nhs-navigation-split-view__body", children: [
+        /* @__PURE__ */ r.jsxs(
           "div",
           {
             className: "nhs-navigation-split-view__panes",
-<<<<<<< HEAD
-            "data-active-detail": Re || void 0,
-            style: { transform: Re ? "translateX(-100%)" : void 0 },
-=======
             "data-active-detail": Be || void 0,
             style: { transform: Be ? "translateX(-100%)" : void 0 },
->>>>>>> master
             children: [
-              /* @__PURE__ */ n.jsxs(
+              /* @__PURE__ */ r.jsxs(
                 "div",
                 {
-                  ref: w,
+                  ref: z,
                   className: "nhs-navigation-split-view__nav-pane",
                   role: "navigation",
-<<<<<<< HEAD
-                  "aria-label": v?.navigationLabel || "Items",
-                  "data-collapsed": et || void 0,
-                  tabIndex: 0,
-                  children: [
-                    y && je && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-collapse", children: /* @__PURE__ */ n.jsx(
-                      "button",
-                      {
-                        type: "button",
-                        onClick: vo,
-                        className: "nhs-navigation-split-view__nav-collapse-btn",
-                        "aria-label": et ? ue : $,
-                        title: et ? ue : $,
-                        children: et ? C || /* @__PURE__ */ n.jsx(hd, {}) : te || /* @__PURE__ */ n.jsx(ud, {})
-                      }
-                    ) }),
-                    /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-scroll", children: wo() }),
-                    K && /* @__PURE__ */ n.jsx(
-=======
                   "aria-label": C?.navigationLabel || "Items",
-                  "data-collapsed": et || void 0,
+                  "data-collapsed": dt || void 0,
                   tabIndex: 0,
                   children: [
-                    R && je && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-collapse", children: /* @__PURE__ */ n.jsx(
+                    M && me && /* @__PURE__ */ r.jsx("div", { className: "nhs-navigation-split-view__nav-collapse", children: /* @__PURE__ */ r.jsx(
                       "button",
                       {
                         type: "button",
-                        onClick: _o,
+                        onClick: ml,
                         className: "nhs-navigation-split-view__nav-collapse-btn",
-                        "aria-label": et ? ue : P,
-                        title: et ? ue : P,
-                        children: et ? j || /* @__PURE__ */ n.jsx(nd, {}) : ae || /* @__PURE__ */ n.jsx(td, {})
+                        "aria-label": dt ? A : w,
+                        title: dt ? A : w,
+                        children: dt ? $ || /* @__PURE__ */ r.jsx(vf, {}) : W || /* @__PURE__ */ r.jsx(yf, {})
                       }
                     ) }),
-                    /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-scroll", children: So() }),
-                    J && /* @__PURE__ */ n.jsx(
->>>>>>> master
+                    /* @__PURE__ */ r.jsx("div", { className: "nhs-navigation-split-view__nav-scroll", children: bl() }),
+                    E && /* @__PURE__ */ r.jsx(
                       "div",
                       {
                         className: "nhs-navigation-split-view__nav-footer",
                         role: "contentinfo",
-<<<<<<< HEAD
-                        children: K
-=======
-                        children: J
->>>>>>> master
+                        children: E
                       }
                     )
                   ]
                 }
               ),
-              /* @__PURE__ */ n.jsxs(
+              /* @__PURE__ */ r.jsxs(
                 "div",
                 {
-<<<<<<< HEAD
-                  ref: L,
-                  className: "nhs-navigation-split-view__content-pane",
-                  role: "region",
-                  "aria-label": v?.contentLabel || "Content",
-                  "data-has-selection": !!Ne || void 0,
-                  tabIndex: 0,
-                  style: {
-                    display: We && !Pe ? "none" : void 0
-                  },
-                  children: [
-                    Gn && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: go }),
-=======
-                  ref: H,
+                  ref: Z,
                   className: "nhs-navigation-split-view__content-pane",
                   role: "region",
                   "aria-label": C?.contentLabel || "Content",
-                  "data-has-selection": !!Ne || void 0,
+                  "data-has-selection": !!Le || void 0,
                   tabIndex: 0,
                   style: {
-                    display: Oe && !ze ? "none" : void 0
+                    display: Ve && !Ue ? "none" : void 0
                   },
                   children: [
-                    Gn && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: bo }),
->>>>>>> master
-                    /* @__PURE__ */ n.jsx(
+                    vr && /* @__PURE__ */ r.jsx("div", { className: "nhs-navigation-split-view__header", children: ul }),
+                    /* @__PURE__ */ r.jsx(
                       "div",
                       {
                         className: "nhs-navigation-split-view__content-inner",
                         style: { padding: 32, flex: 1 },
-                        children: i(Ne)
+                        children: i(Le)
                       }
                     )
                   ]
                 }
               ),
-<<<<<<< HEAD
-              pe === "three-column" && (!ce || Jn) || We && !Pe ? /* @__PURE__ */ n.jsx(
-=======
-              pe === "three-column" && (!de || Jn) || Oe && !ze ? /* @__PURE__ */ n.jsx(
->>>>>>> master
+              xe === "three-column" && (!P || jr) || Ve && !Ue ? /* @__PURE__ */ r.jsx(
                 "div",
                 {
-                  ref: h,
+                  ref: N,
                   className: "nhs-navigation-split-view__secondary-pane",
                   role: "region",
-<<<<<<< HEAD
-                  "aria-label": v?.secondaryContentLabel || "Secondary",
-=======
                   "aria-label": C?.secondaryContentLabel || "Secondary",
->>>>>>> master
                   tabIndex: 0,
-                  children: /* @__PURE__ */ n.jsxs(
+                  children: /* @__PURE__ */ r.jsxs(
                     "div",
                     {
                       className: "nhs-navigation-split-view__secondary-inner",
@@ -15320,11 +10978,7 @@ function sd(e) {
                         minWidth: 0
                       },
                       children: [
-<<<<<<< HEAD
-                        We && !Pe && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: /* @__PURE__ */ n.jsx(
-=======
-                        Oe && !ze && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: /* @__PURE__ */ n.jsx(
->>>>>>> master
+                        Ve && !Ue && /* @__PURE__ */ r.jsx("div", { className: "nhs-navigation-split-view__header", children: /* @__PURE__ */ r.jsx(
                           "div",
                           {
                             style: {
@@ -15332,7 +10986,7 @@ function sd(e) {
                               alignItems: "center",
                               width: "100%"
                             },
-                            children: /* @__PURE__ */ n.jsxs(
+                            children: /* @__PURE__ */ r.jsxs(
                               "div",
                               {
                                 style: {
@@ -15343,8 +10997,8 @@ function sd(e) {
                                   minWidth: 0
                                 },
                                 children: [
-                                  Kn,
-                                  /* @__PURE__ */ n.jsx(
+                                  kr,
+                                  /* @__PURE__ */ r.jsx(
                                     "div",
                                     {
                                       style: {
@@ -15353,7 +11007,7 @@ function sd(e) {
                                         gap: 4,
                                         minWidth: 0
                                       },
-                                      children: /* @__PURE__ */ n.jsx("h2", { style: { marginLeft: 0, marginRight: 0 }, children: Ne && typeof Ne == "object" && "label" in Ne ? Ne.label : String(Ne) })
+                                      children: /* @__PURE__ */ r.jsx("h2", { style: { marginLeft: 0, marginRight: 0 }, children: Le && typeof Le == "object" && "label" in Le ? Le.label : String(Le) })
                                     }
                                   )
                                 ]
@@ -15361,11 +11015,7 @@ function sd(e) {
                             )
                           }
                         ) }),
-<<<<<<< HEAD
-                        Ne && Y && /* @__PURE__ */ n.jsx(
-=======
-                        Ne && U && /* @__PURE__ */ n.jsx(
->>>>>>> master
+                        Le && V && /* @__PURE__ */ r.jsx(
                           "div",
                           {
                             className: "nhs-navigation-split-view__secondary-header",
@@ -15373,14 +11023,10 @@ function sd(e) {
                               padding: "16px 32px",
                               borderBottom: "1px solid var(--nsplit-divider)"
                             },
-<<<<<<< HEAD
-                            children: typeof Y == "function" ? Y(Ne) : Y
-=======
-                            children: typeof U == "function" ? U(Ne) : U
->>>>>>> master
+                            children: typeof V == "function" ? V(Le) : V
                           }
                         ),
-                        /* @__PURE__ */ n.jsx("div", { style: { padding: 32, flex: 1, minWidth: 0 }, children: l?.(Ne) })
+                        /* @__PURE__ */ r.jsx("div", { style: { padding: 32, flex: 1, minWidth: 0 }, children: l?.(Le) })
                       ]
                     }
                   )
@@ -15389,10 +11035,10 @@ function sd(e) {
             ]
           }
         ),
-        /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx(
           "div",
           {
-            ref: Zn,
+            ref: Cr,
             "aria-live": "polite",
             "aria-atomic": "true",
             style: {
@@ -15401,11 +11047,10 @@ function sd(e) {
               height: 1,
               overflow: "hidden",
               clip: "rect(0 0 0 0)"
-<<<<<<< HEAD
             }
           }
         ),
-        /* @__PURE__ */ n.jsx(
+        /* @__PURE__ */ r.jsx(
           "div",
           {
             "aria-live": "polite",
@@ -15416,797 +11061,3736 @@ function sd(e) {
               overflow: "hidden",
               clip: "rect(0 0 0 0)"
             },
-            children: kt ? "Expanded to three column layout" : "In two column layout"
+            children: It ? "Expanded to three column layout" : "In two column layout"
           }
         )
-=======
-        /* @__PURE__ */ n.jsxs("div", { className: "nhs-navigation-split-view__panes", "data-active-detail": Be || void 0, style: { transform: Be ? "translateX(-100%)" : void 0 }, children: [
-          /* @__PURE__ */ n.jsxs(
-            "div",
-            {
-              ref: w,
-              className: "nhs-navigation-split-view__nav-pane",
-              role: "navigation",
-              "aria-label": C?.navigationLabel || "Items",
-              "data-collapsed": et || void 0,
-              tabIndex: 0,
-              children: [
-                R && je && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-collapse", children: /* @__PURE__ */ n.jsx(
-                  "button",
-                  {
-                    type: "button",
-                    onClick: ko,
-                    className: "nhs-navigation-split-view__nav-collapse-btn",
-                    "aria-label": et ? ue : P,
-                    title: et ? ue : P,
-                    children: et ? j || /* @__PURE__ */ n.jsx(ad, {}) : ae || /* @__PURE__ */ n.jsx(rd, {})
-                  }
-                ) }),
-                /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-scroll", children: Co() }),
-                J && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__nav-footer", role: "contentinfo", children: J })
-              ]
-            }
-          ),
-          /* @__PURE__ */ n.jsxs(
-            "div",
-            {
-              ref: H,
-              className: "nhs-navigation-split-view__content-pane",
-              role: "region",
-              "aria-label": C?.contentLabel || "Content",
-              "data-has-selection": !!Ne || void 0,
-              tabIndex: 0,
-              style: { display: Oe && !ze ? "none" : void 0 },
-              children: [
-                Gn && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: xo }),
-                /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__content-inner", style: { padding: 32, flex: 1 }, children: i(Ne) })
-              ]
-            }
-          ),
-          pe === "three-column" && (!de || Jn) || Oe && !ze ? /* @__PURE__ */ n.jsx(
-            "div",
-            {
-              ref: h,
-              className: "nhs-navigation-split-view__secondary-pane",
-              role: "region",
-              "aria-label": C?.secondaryContentLabel || "Secondary",
-              tabIndex: 0,
-              children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-navigation-split-view__secondary-inner", style: { display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }, children: [
-                Oe && !ze && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__header", children: /* @__PURE__ */ n.jsx("div", { style: { display: "flex", alignItems: "center", width: "100%" }, children: /* @__PURE__ */ n.jsxs("div", { style: { display: "flex", alignItems: "center", gap: 0, flex: "1 1 auto", minWidth: 0 }, children: [
-                  Kn,
-                  /* @__PURE__ */ n.jsx("div", { style: { display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }, children: /* @__PURE__ */ n.jsx("h2", { style: { marginLeft: 0, marginRight: 0 }, children: Ne && typeof Ne == "object" && "label" in Ne ? Ne.label : String(Ne) }) })
-                ] }) }) }),
-                Ne && U && /* @__PURE__ */ n.jsx("div", { className: "nhs-navigation-split-view__secondary-header", style: { padding: "16px 32px", borderBottom: "1px solid var(--nsplit-divider)" }, children: typeof U == "function" ? U(Ne) : U }),
-                /* @__PURE__ */ n.jsx("div", { style: { padding: 32, flex: 1, minWidth: 0 }, children: l?.(Ne) })
-              ] })
-            }
-          ) : null
-        ] }),
-        /* @__PURE__ */ n.jsx("div", { ref: Zn, "aria-live": "polite", "aria-atomic": "true", style: { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" } }),
-        /* @__PURE__ */ n.jsx("div", { "aria-live": "polite", style: { position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }, children: kt ? "Expanded to three column layout" : "In two column layout" })
->>>>>>> Stashed changes
-=======
-            }
-          }
-        ),
-        /* @__PURE__ */ n.jsx(
-          "div",
-          {
-            "aria-live": "polite",
-            style: {
-              position: "absolute",
-              width: 1,
-              height: 1,
-              overflow: "hidden",
-              clip: "rect(0 0 0 0)"
-            },
-            children: kt ? "Expanded to three column layout" : "In two column layout"
-          }
-        )
->>>>>>> master
       ] })
     }
   );
 }
-<<<<<<< Updated upstream
-fd.displayName = "NavigationSplitView";
-const md = "150ms", pd = "300ms", gd = "500ms", bd = "cubic-bezier(0.4, 0, 1, 1)", xd = "cubic-bezier(0, 0, 0.2, 1)", yd = "cubic-bezier(0.4, 0, 0.2, 1)", vd = "cubic-bezier(0.68, -0.55, 0.265, 1.55)", _d = "background-color 300ms cubic-bezier(0, 0, 0.2, 1)", kd = "box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)", wd = "border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)", Sd = "border-color 300ms cubic-bezier(0, 0, 0.2, 1)", Cd = "1px", jd = "2px", Nd = "4px", Td = "4px", Dd = "4px", Id = "2px", Rd = "1px", Bd = "0px", Fd = "4px", Ed = "8px", Ad = "12px", ks = "#d8dde0", ws = "#4c6272", Ss = "#d8dde0", Cs = "#aeb7bd", js = "#d5281b", Ns = "#005eb8", Ts = "#ffffff", Ds = "#212b32", Is = "#007f3b", Rs = "#330072", Bs = "#7c2855", Fs = "#d5281b", Es = "#ffeb3b", As = "#fff9c4", Ls = "#ffb81c", Ms = "#ed8b00", $s = "#00a499", Hs = "#ae2573", Ps = "#4c6272", zs = "#768692", Ws = "#aeb7bd", Us = "#d8dde0", Os = "#f0f4f5", Ld = "#212b32", Md = "#4c6272", $d = "#ffffff", Hd = "#212b32", Pd = "#005eb8", zd = "#7c2855", Wd = "#003087", Ud = "#330072", Od = "#ffeb3b", Gd = "#212b32", Vd = "#d8dde0", Yd = "#ffffff33", qd = "#d5281b", Kd = "#4c6272", Zd = "#ffffff", Jd = "#007f3b", Xd = "#ffffff", Qd = "#006530", eu = "#004021", tu = "#004021", nu = "#00000000", ru = "#ffffff", au = "#005eb8", su = "#005eb8", ou = "#d9e5f2", iu = "#c7daf0", lu = "#005eb8", cu = "#ffffff", du = "#212b32", uu = "#d9dde0", hu = "#b3bcc2", fu = "#b3bcc2", mu = "#d5281b", pu = "#aa2016", gu = "#6a140e", bu = "#6a140e", xu = "#005eb8", yu = "#004b93", vu = "#002f5c", _u = "#002f5c", ku = "8px", wu = "16px", Su = "12px", Cu = "16px", ju = "4px", Nu = "40px", Tu = "4px", Du = "40px", Iu = "12px", Ru = "16px", Bu = "32px", Fu = "16px", Eu = "20px", Au = "28px", Lu = "9px", Mu = "2px", $u = "16px", Hu = "24px", Pu = "8px", zu = "24px", Wu = "16px", Uu = "4px", Ou = "4px", Gu = "4px", Vu = "8px", Yu = "4px", qu = "16px", Ku = "#007f3b", Zu = "#006530", Ju = "#004021", Xu = "#d8dde0", Qu = "#ffffff", eh = "#768692", th = "#00000000", nh = "#ffeb3b", rh = "#00000000", ah = "#ffffff", sh = "#d9e5f2", oh = "#c7daf0", ih = "#005eb8", lh = "#005eb8", Gs = "8px", Vs = "16px", Ys = "12px", qs = "16px", ch = "2px", dh = "4px", uh = "4px", hh = "600", fh = "#ffffff", mh = "#d8dde0", ph = "#aeb7bd", gh = "#f0f4f5", bh = "#212b32", xh = "#212b32", yh = "#005eb8", Ks = "16px", Zs = "32px", Js = "16px", vh = "1px", _h = "4px", kh = "none", wh = "0 2px 4px rgba(0, 0, 0, 0.1)", Sh = "#ffffff", Ch = "#ffffff", jh = "#d8dde0", Nh = "#ffffff", Th = "#4c6272", Dh = "#ffeb3b", Ih = "#d5281b", Rh = "#aeb7bd", Bh = "#212b32", Fh = "#4c6272", Eh = "#768692", Ah = "#212b32", Lh = "#ffffff", Mh = "600", $h = "#d5281b", Hh = "600", Ph = "#4c6272", Xs = "4px", Qs = "40px", eo = "40px", to = "12px", zh = "2px", Wh = "4px", Uh = "0px", Oh = "16px", Gh = "18px", Vh = "24px", Yh = "32px", qh = "34px", Kh = "32px", Zh = "40px", Jh = "48px", Xh = "5.4ex", Qh = "7.2ex", ef = "9ex", tf = "10.8ex", nf = "20ex", rf = "38ex", af = "56ex", sf = "44px", of = "40px", lf = "1020px", cf = "100%", df = "50%", uf = "33.333%", hf = "25%", ff = "20%", mf = "320px", pf = "641px", gf = "1025px", bf = "1280px", xf = "960px", yf = "32px", vf = "16px", _f = "#d5281b", kf = "#d5281b", wf = "#ffffff", Sf = "#007f3b", Cf = "#007f3b", jf = "#ffffff", Nf = "#ffeb3b", Tf = "#ffeb3b", Df = "#212b32", If = "#005eb8", Rf = "#005eb8", Bf = "#ffffff", Ff = "#d8dde0", Ef = "#aeb7bd", Af = "#768692", Lf = "0 4px 0 #004021", Mf = "0 4px 0 #005eb8", $f = "0 4px 0 #6a140e", Hf = "0 4px 0 #ffeb3b", Pf = "none", zf = "0 2px 4px rgba(0, 0, 0, 0.1)", Wf = "4px", Uf = "0px", Of = "solid", Gf = "0 0 0 3px #ffeb3b", Vf = "0 0 0 3px #ffeb3b", Yf = "none", qf = "0 1px 3px rgba(0, 0, 0, 0.12)", Kf = "0 2px 6px rgba(0, 0, 0, 0.16)", Zf = "0 4px 12px rgba(0, 0, 0, 0.20)", no = "0", ro = "4px", ao = "8px", so = "16px", oo = "24px", io = "32px", lo = "40px", co = "48px", uo = "56px", ho = "64px", br = "0", xr = "0", yr = "4px", vr = "4px", _r = "8px", kr = "8px", wr = "8px", Sr = "16px", Cr = "16px", jr = "24px", Nr = "24px", Tr = "32px", Dr = "32px", Ir = "40px", Rr = "40px", Br = "48px", Fr = "48px", Er = "56px", Ar = "56px", Lr = "64px", bn = "Frutiger W01", xn = "Arial, Helvetica, sans-serif", yn = "sans-serif", vn = "400", _n = "600", kn = "400", wn = "12px", Sn = "14px", Cn = "12pt", jn = "14px", Nn = "16px", Tn = "12pt", Dn = "16px", In = "19px", Rn = "13pt", Bn = "19px", Fn = "22px", En = "15pt", An = "22px", Ln = "26px", Mn = "17pt", $n = "27px", Hn = "36px", Pn = "20pt", zn = "33px", Wn = "48px", Un = "24pt", Mr = "16px", $r = "24px", ot = {
-=======
-sd.displayName = "NavigationSplitView";
-const za = (e, t, r, a) => e == null || Number.isNaN(e) ? a : Math.min(r, Math.max(t, e)), od = ({ item: e, maxLines: t }) => {
-  const {
-    content: r,
-    dateOffset: a = 0,
-    length: o = 1,
-    partialLength: s = 1,
-    verticalPosition: i = 1,
-    ariaLabel: l
-  } = e;
-  return /* @__PURE__ */ n.jsxs(
+wf.displayName = "NavigationSplitView";
+const Ws = (e, t, n, a) => e == null || Number.isNaN(e) ? a : Math.min(n, Math.max(t, e)), _f = ({ item: e, maxLines: t, enableDrilldown: n, onExpand: a, isActive: o, topLaneIndex: s }) => {
+  const { ariaLabel: i } = e, l = `${e._pxLeft}px`, d = `${e._pxWidth}px`, c = `calc((var(--roadmap-item-block-height) + var(--roadmap-row-gap)) * ${s})`, f = Math.floor(e._startFraction) + 2, h = Math.max(1, Math.round(e._spanColumns)), m = n && e.childItems && e.childItems.length > 0, g = (p) => {
+    m && (p.preventDefault(), a?.(e));
+  }, C = m ? {
+    role: "button",
+    tabIndex: 0,
+    "aria-haspopup": "dialog",
+    "aria-expanded": o || !1,
+    onClick: g,
+    onKeyDown: (p) => {
+      (p.key === "Enter" || p.key === " ") && g(p), p.key === "Escape" && o && g(p);
+    }
+  } : {};
+  return /* @__PURE__ */ r.jsxs(
     "div",
     {
-      className: "nhsuk-product-roadmap__item",
-      style: {
-        "--item-vertical-position": i,
-        "--item-length": o,
-        "--item-partial-length": s,
-        "--date-offset": a
-      },
-      role: "listitem",
-      "aria-label": l,
+      className: de("nhsuk-product-roadmap__item", m && "nhsuk-product-roadmap__item--expandable", o && "nhsuk-product-roadmap__item--active"),
+      style: { left: l, width: d, top: c, "--item-height": t },
+      role: "gridcell",
+      "aria-label": i,
+      "aria-colindex": f,
+      "aria-colspan": h,
+      ...C,
       children: [
-        /* @__PURE__ */ n.jsx("div", { className: "nhsuk-product-roadmap__item-bg", "aria-hidden": "true" }),
-        /* @__PURE__ */ n.jsx("div", { className: "nhsuk-product-roadmap__item-content", style: { "--item-height": t }, children: r })
+        /* @__PURE__ */ r.jsx("div", { className: "nhsuk-product-roadmap__item-bg", "aria-hidden": "true" }),
+        /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-product-roadmap__item-content", children: [
+          /* @__PURE__ */ r.jsx("span", { className: "nhsuk-product-roadmap__item-title", children: e.title }),
+          m && /* @__PURE__ */ r.jsx("span", { className: de("nhsuk-product-roadmap__item-expander", o && "nhsuk-product-roadmap__item-expander--open"), "aria-hidden": "true" })
+        ] })
       ]
     }
   );
-}, id = To(
-  ({
-    dateHeadings: e,
-    categories: t,
-    columnWidthPx: r = 400,
-    itemMaxLines: a = 2,
-    className: o,
-    ariaLabel: s = "Product roadmap",
-    ...i
-  }) => {
-    const l = ee("nhsuk-product-roadmap", o), c = za(r, 120, 1200, 400), d = za(a, 1, 6, 2);
-    return /* @__PURE__ */ n.jsx("div", { className: l, style: { "--column-width": `${c}px` }, ...i, children: /* @__PURE__ */ n.jsxs("table", { className: "nhsuk-product-roadmap__table", "aria-label": s, role: "grid", children: [
-      /* @__PURE__ */ n.jsx("thead", { children: /* @__PURE__ */ n.jsxs("tr", { className: "nhsuk-product-roadmap__row nhsuk-product-roadmap__row--dates", children: [
-        /* @__PURE__ */ n.jsx("th", { scope: "col", children: /* @__PURE__ */ n.jsx("span", { className: "nhsuk-visually-hidden", children: "Category" }) }),
-        e.map((u, f) => /* @__PURE__ */ n.jsx("th", { scope: "col", children: u }, f))
-      ] }) }),
-      /* @__PURE__ */ n.jsx("tbody", { children: t.map((u, f) => /* @__PURE__ */ n.jsxs("tr", { className: "nhsuk-product-roadmap__row", role: "row", children: [
-        /* @__PURE__ */ n.jsx("th", { scope: "row", className: "nhsuk-product-roadmap__category-cell", children: u.heading }),
-        e.map((p, m) => {
-          const C = m + 1, g = u.roadmapItems.filter((_) => _.date === C);
-          return /* @__PURE__ */ n.jsx("td", { className: "nhsuk-product-roadmap__date-cell", children: /* @__PURE__ */ n.jsx("div", { className: "nhsuk-product-roadmap__cell-container", role: "list", children: g.map((_, V) => /* @__PURE__ */ n.jsx(od, { item: _, columnWidth: c, maxLines: d }, V)) }) }, m);
-        })
-      ] }, f)) })
-    ] }) });
+}, Sf = wl(({
+  dateHeadings: e,
+  categories: t,
+  columnWidthPx: n = 400,
+  itemMaxLines: a = 2,
+  className: o,
+  ariaLabel: s = "Product roadmap",
+  enableDrilldown: i = !1,
+  onToggleItem: l,
+  drilldownMode: d = "overlay",
+  ...c
+}) => {
+  const [f, h] = Ne(() => /* @__PURE__ */ new Set()), [m, g] = Ne(() => /* @__PURE__ */ new Set()), C = Ie(/* @__PURE__ */ new Set()), p = ie((y) => f.has(y), [f]), u = ie((y) => {
+    h((P) => {
+      const E = new Set(P);
+      return E.has(y.id) ? (E.delete(y.id), g((M) => {
+        const k = new Set(M);
+        return k.add(y.id), k;
+      }), setTimeout(() => g((M) => {
+        const k = new Set(M);
+        return k.delete(y.id), k;
+      }), 240), l?.(y.id, !1)) : (E.add(y.id), l?.(y.id, !0)), E;
+    });
+  }, [l]);
+  _l(() => {
+    if (d !== "inline" || !i) return;
+    const y = [];
+    if (f.forEach((k) => {
+      C.current.has(k) || y.push(k);
+    }), C.current = new Set(f), !y.length) return;
+    const P = typeof window < "u" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches, E = y.map((k) => `.nhsuk-product-roadmap__inline-children[data-parent="${k}"] .nhsuk-product-roadmap__inline-child`).join(","), M = Array.from(document.querySelectorAll(E));
+    if (M.length) {
+      if (P) {
+        M.forEach((k) => {
+          k.style.opacity = "1", k.style.transform = "translateY(0)";
+        });
+        return;
+      }
+      import("./index-C_MjGuuK.js").then((k) => {
+        (k.gsap || k.default || k).to(M, { opacity: 1, y: 0, duration: 0.32, ease: "power2.out", stagger: 0.05 });
+      }).catch(() => {
+        M.forEach((k) => {
+          k.style.opacity = "1", k.style.transform = "translateY(0)";
+        });
+      });
+    }
+  }, [f, d, i]);
+  const R = ie(() => {
+    f.size && h(/* @__PURE__ */ new Set());
+  }, [f]), F = de("nhsuk-product-roadmap", o), T = Ws(n, 120, 1200, 400), S = Ws(a, 1, 6, 2), B = je(() => e.map((y) => /* @__PURE__ */ new Date(y + " 01")), [e]), _ = je(() => {
+    if (B.length === 0) {
+      const E = /* @__PURE__ */ new Date();
+      return [E, E];
+    }
+    const y = new Date(B[0]), P = bn.offset(new Date(B[B.length - 1]), 1);
+    return [y, P];
+  }, [B]), L = je(() => za().domain(_).range([0, B.length * T]), [_, B.length, T]), j = ie((y) => {
+    if (y.startDate) {
+      const w = new Date(y.startDate), $ = new Date(y.endDate ?? y.startDate);
+      $ < w && $.setTime(w.getTime());
+      const W = L(w), I = bn.offset(new Date($), 1);
+      let O = L(I);
+      Number.isFinite(O) || (O = W + T);
+      const H = Math.max(T * 0.25, O - W), Q = W / T, fe = H / T;
+      return { ...y, _pxLeft: W, _pxWidth: H, _startFraction: Q, _spanColumns: fe };
+    }
+    const P = y.date ?? 1, E = y.dateOffset ?? 0, M = y.length ?? 1, k = y.partialLength ?? 1, b = P - 1 + E, A = M - 1 + k;
+    return { ...y, _pxLeft: b * T, _pxWidth: A * T, _startFraction: b, _spanColumns: A };
+  }, [L, T]), D = je(() => t.map((y) => {
+    const E = y.roadmapItems.map((k) => {
+      const b = !k.childItems && k.children ? { ...k, childItems: k.children } : { ...k };
+      return j(b);
+    }).sort((k, b) => k._pxLeft !== b._pxLeft ? k._pxLeft - b._pxLeft : b._pxWidth - k._pxWidth), M = [];
+    return E.forEach((k) => {
+      const b = k._pxLeft, A = k._pxLeft + k._pxWidth;
+      let w = M.findIndex(($) => $ <= b);
+      w === -1 && (w = M.length, M.push(0)), M[w] = A, k.verticalPosition = w + 1;
+    }), { ...y, roadmapItems: E, _laneCount: M.length };
+  }), [t, j]), v = je(() => D.map((y) => y._laneCount || 1), [D]), x = je(() => `var(--category-width) ${e.map(() => "var(--column-width)").join(" ")}`, [e]);
+  return /* @__PURE__ */ r.jsxs(
+    "div",
+    {
+      className: F,
+      style: { "--column-width": `${T}px`, gridTemplateColumns: x },
+      role: "grid",
+      "aria-label": s,
+      "aria-colcount": e.length + 1,
+      "aria-rowcount": D.length + 1,
+      ...c,
+      children: [
+        /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-product-roadmap__header-row", role: "row", "aria-rowindex": 1, children: [
+          /* @__PURE__ */ r.jsx("div", { className: "nhsuk-product-roadmap__header-cell", role: "columnheader", "aria-colindex": 1, children: /* @__PURE__ */ r.jsx("span", { className: "nhsuk-visually-hidden", children: "Category" }) }),
+          e.map((y, P) => /* @__PURE__ */ r.jsx("div", { className: "nhsuk-product-roadmap__date-heading", role: "columnheader", "aria-colindex": P + 2, children: y }, y + P))
+        ] }),
+        D.map((y, P) => {
+          const E = P + 2, M = v[P];
+          let k, b = 0, A = [];
+          i && d === "inline" && (A = y.roadmapItems.filter((I) => p(I.id) && I.childItems && I.childItems.length).map((I) => ({ id: I.id, lane: I.verticalPosition || 1, count: I.childItems.length })).sort((I, O) => I.lane - O.lane), b = A.reduce((I, O) => I + O.count, 0));
+          const w = M + b;
+          k = `calc((${w} * var(--roadmap-item-block-height)) + (max(0, ${w} - 1) * var(--roadmap-row-gap)))`;
+          const $ = {};
+          let W = 0;
+          return A.forEach((I) => {
+            W += I.count, $[I.lane + 1] = W;
+          }), /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-product-roadmap__row", role: "row", "aria-rowindex": E, children: [
+            /* @__PURE__ */ r.jsx("div", { className: "nhsuk-product-roadmap__category-cell", role: "rowheader", "aria-colindex": 1, children: y.heading }),
+            /* @__PURE__ */ r.jsx("div", { className: "nhsuk-product-roadmap__items-row", style: { gridColumn: `2 / span ${e.length}`, height: k }, children: /* @__PURE__ */ r.jsx("div", { className: "nhsuk-product-roadmap__items-layer", children: y.roadmapItems.map((I) => {
+              const O = (I.verticalPosition || 1) - 1, H = A.filter((K) => K.lane - 1 < O).reduce((K, V) => K + V.count, 0), Q = O + H, fe = p(I.id), oe = m.has(I.id);
+              return /* @__PURE__ */ r.jsxs(at.Fragment, { children: [
+                /* @__PURE__ */ r.jsx(_f, { item: I, maxLines: S, enableDrilldown: i, onExpand: u, isActive: fe, topLaneIndex: Q, laneOffset: H }),
+                i && d === "inline" && (fe || oe) && I.childItems && /* @__PURE__ */ r.jsx("div", { "data-parent": I.id, className: "nhsuk-product-roadmap__inline-children", "aria-label": `${I.title} child tasks`, children: I.childItems.map((K, V) => {
+                  const J = "calc(var(--roadmap-item-block-height) * 0.75)";
+                  let ae = I._pxLeft, G = I._pxWidth;
+                  if (K.startDate) {
+                    const xe = new Date(K.startDate);
+                    let pe = K.endDate ? new Date(K.endDate) : new Date(xe);
+                    pe < xe && (pe = new Date(xe));
+                    const be = new Date(pe);
+                    be.setDate(be.getDate() + 1);
+                    const We = L(xe);
+                    let Me = L(be);
+                    (!Number.isFinite(Me) || Me <= We) && (Me = We + 6), ae = We, G = Math.max(6, Me - We);
+                  }
+                  const he = Q + 1 + V;
+                  return /* @__PURE__ */ r.jsxs(
+                    "div",
+                    {
+                      className: de("nhsuk-product-roadmap__inline-child", K.status && `nhsuk-product-roadmap__inline-child--status-${K.status}`, !fe && oe && "nhsuk-product-roadmap__inline-child--collapsing"),
+                      style: { left: `${ae}px`, width: `${G}px`, top: `calc((var(--roadmap-item-block-height) + var(--roadmap-row-gap)) * ${he})`, height: J, opacity: fe ? 0 : void 0, transform: fe ? "translateY(-6px)" : void 0 },
+                      children: [
+                        /* @__PURE__ */ r.jsx("div", { className: "nhsuk-product-roadmap__inline-child-bg" }),
+                        /* @__PURE__ */ r.jsx("div", { className: "nhsuk-product-roadmap__inline-child-content", children: K.title })
+                      ]
+                    },
+                    K.id
+                  );
+                }) })
+              ] }, I.id);
+            }) }) })
+          ] }, y.heading + P);
+        }),
+        i && d === "overlay" && f.size === 1 && (() => {
+          const y = Array.from(f)[0], P = t.flatMap((E) => E.roadmapItems).find((E) => E.id === y);
+          return !P || !P.childItems ? null : /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-product-roadmap__drilldown-overlay", role: "dialog", "aria-modal": "true", "aria-label": `${P.title} details`, children: [
+            /* @__PURE__ */ r.jsxs("div", { className: "nhsuk-product-roadmap__drilldown-panel", children: [
+              /* @__PURE__ */ r.jsxs("header", { className: "nhsuk-product-roadmap__drilldown-header", children: [
+                /* @__PURE__ */ r.jsx("h3", { className: "nhsuk-product-roadmap__drilldown-title", children: P.title }),
+                /* @__PURE__ */ r.jsx("button", { type: "button", className: "nhsuk-product-roadmap__drilldown-close", onClick: R, "aria-label": "Close details", children: "×" })
+              ] }),
+              /* @__PURE__ */ r.jsx("div", { className: "nhsuk-product-roadmap__drilldown-content", children: P.content }),
+              /* @__PURE__ */ r.jsx("ul", { className: "nhsuk-product-roadmap__drilldown-children", children: P.childItems.map((E) => /* @__PURE__ */ r.jsxs("li", { className: "nhsuk-product-roadmap__drilldown-child", children: [
+                /* @__PURE__ */ r.jsx("strong", { className: "nhsuk-product-roadmap__drilldown-child-title", children: E.title }),
+                E.content && /* @__PURE__ */ r.jsx("div", { className: "nhsuk-product-roadmap__drilldown-child-content", children: E.content })
+              ] }, E.id)) })
+            ] }),
+            /* @__PURE__ */ r.jsx("div", { className: "nhsuk-product-roadmap__drilldown-backdrop", onClick: R, "aria-hidden": "true" })
+          ] });
+        })()
+      ]
+    }
+  );
+});
+Sf.displayName = "ProductRoadmap";
+function qe(e) {
+  return function() {
+    return e;
+  };
+}
+const na = Math.PI, ra = 2 * na, Et = 1e-6, kf = ra - Et;
+function Uo(e) {
+  this._ += e[0];
+  for (let t = 1, n = e.length; t < n; ++t)
+    this._ += arguments[t] + e[t];
+}
+function Cf(e) {
+  let t = Math.floor(e);
+  if (!(t >= 0)) throw new Error(`invalid digits: ${e}`);
+  if (t > 15) return Uo;
+  const n = 10 ** t;
+  return function(a) {
+    this._ += a[0];
+    for (let o = 1, s = a.length; o < s; ++o)
+      this._ += Math.round(arguments[o] * n) / n + a[o];
+  };
+}
+class jf {
+  constructor(t) {
+    this._x0 = this._y0 = // start of current subpath
+    this._x1 = this._y1 = null, this._ = "", this._append = t == null ? Uo : Cf(t);
   }
-);
-id.displayName = "ProductRoadmap";
-const ld = "150ms", cd = "300ms", dd = "500ms", ud = "cubic-bezier(0.4, 0, 1, 1)", hd = "cubic-bezier(0, 0, 0.2, 1)", fd = "cubic-bezier(0.4, 0, 0.2, 1)", md = "cubic-bezier(0.68, -0.55, 0.265, 1.55)", pd = "background-color 300ms cubic-bezier(0, 0, 0.2, 1)", gd = "box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)", bd = "border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)", xd = "border-color 300ms cubic-bezier(0, 0, 0.2, 1)", yd = "1px", vd = "2px", _d = "4px", kd = "4px", wd = "4px", Sd = "2px", Cd = "1px", jd = "0px", Nd = "4px", Td = "8px", Dd = "12px", Ss = "#d8dde0", Cs = "#4c6272", js = "#d8dde0", Ns = "#aeb7bd", Ts = "#d5281b", Ds = "#005eb8", Is = "#ffffff", Rs = "#212b32", Fs = "#007f3b", Bs = "#330072", Ls = "#7c2855", Es = "#d5281b", As = "#ffeb3b", Ms = "#fff9c4", $s = "#ffb81c", Hs = "#ed8b00", Ps = "#00a499", zs = "#ae2573", Ws = "#4c6272", Os = "#768692", Us = "#aeb7bd", Gs = "#d8dde0", Vs = "#f0f4f5", Id = "#212b32", Rd = "#4c6272", Fd = "#ffffff", Bd = "#212b32", Ld = "#005eb8", Ed = "#7c2855", Ad = "#003087", Md = "#330072", $d = "#ffeb3b", Hd = "#212b32", Pd = "#d8dde0", zd = "#ffffff33", Wd = "#d5281b", Od = "#4c6272", Ud = "#ffffff", Gd = "#007f3b", Vd = "#ffffff", Yd = "#006530", qd = "#004021", Kd = "#004021", Zd = "#00000000", Jd = "#ffffff", Xd = "#005eb8", Qd = "#005eb8", eu = "#d9e5f2", tu = "#c7daf0", nu = "#005eb8", ru = "#ffffff", au = "#212b32", su = "#d9dde0", ou = "#b3bcc2", iu = "#b3bcc2", lu = "#d5281b", cu = "#aa2016", du = "#6a140e", uu = "#6a140e", hu = "#005eb8", fu = "#004b93", mu = "#002f5c", pu = "#002f5c", gu = "8px", bu = "16px", xu = "12px", yu = "16px", vu = "4px", _u = "40px", ku = "4px", wu = "40px", Su = "12px", Cu = "16px", ju = "32px", Nu = "16px", Tu = "20px", Du = "28px", Iu = "9px", Ru = "2px", Fu = "16px", Bu = "24px", Lu = "8px", Eu = "24px", Au = "16px", Mu = "4px", $u = "4px", Hu = "4px", Pu = "8px", zu = "4px", Wu = "16px", Ou = "#007f3b", Uu = "#006530", Gu = "#004021", Vu = "#d8dde0", Yu = "#ffffff", qu = "#768692", Ku = "#00000000", Zu = "#ffeb3b", Ju = "#00000000", Xu = "#ffffff", Qu = "#d9e5f2", eh = "#c7daf0", th = "#005eb8", nh = "#005eb8", Ys = "8px", qs = "16px", Ks = "12px", Zs = "16px", rh = "2px", ah = "4px", sh = "4px", oh = "600", ih = "#ffffff", lh = "#d8dde0", ch = "#aeb7bd", dh = "#f0f4f5", uh = "#212b32", hh = "#212b32", fh = "#005eb8", Js = "16px", Xs = "32px", Qs = "16px", mh = "1px", ph = "4px", gh = "none", bh = "0 2px 4px rgba(0, 0, 0, 0.1)", xh = "#ffffff", yh = "#ffffff", vh = "#d8dde0", _h = "#ffffff", kh = "#4c6272", wh = "#ffeb3b", Sh = "#d5281b", Ch = "#aeb7bd", jh = "#212b32", Nh = "#4c6272", Th = "#768692", Dh = "#212b32", Ih = "#ffffff", Rh = "600", Fh = "#d5281b", Bh = "600", Lh = "#4c6272", eo = "4px", to = "40px", no = "40px", ro = "12px", Eh = "2px", Ah = "4px", Mh = "0px", $h = "16px", Hh = "18px", Ph = "24px", zh = "32px", Wh = "34px", Oh = "32px", Uh = "40px", Gh = "48px", Vh = "5.4ex", Yh = "7.2ex", qh = "9ex", Kh = "10.8ex", Zh = "20ex", Jh = "38ex", Xh = "56ex", Qh = "44px", ef = "40px", tf = "1020px", nf = "100%", rf = "50%", af = "33.333%", sf = "25%", of = "20%", lf = "320px", cf = "641px", df = "1025px", uf = "1280px", hf = "960px", ff = "32px", mf = "16px", pf = "#d5281b", gf = "#d5281b", bf = "#ffffff", xf = "#007f3b", yf = "#007f3b", vf = "#ffffff", _f = "#ffeb3b", kf = "#ffeb3b", wf = "#212b32", Sf = "#005eb8", Cf = "#005eb8", jf = "#ffffff", Nf = "#d8dde0", Tf = "#aeb7bd", Df = "#768692", If = "0 4px 0 #004021", Rf = "0 4px 0 #005eb8", Ff = "0 4px 0 #6a140e", Bf = "0 4px 0 #ffeb3b", Lf = "none", Ef = "0 2px 4px rgba(0, 0, 0, 0.1)", Af = "4px", Mf = "0px", $f = "solid", Hf = "0 0 0 3px #ffeb3b", Pf = "0 0 0 3px #ffeb3b", zf = "none", Wf = "0 1px 3px rgba(0, 0, 0, 0.12)", Of = "0 2px 6px rgba(0, 0, 0, 0.16)", Uf = "0 4px 12px rgba(0, 0, 0, 0.20)", ao = "0", so = "4px", oo = "8px", io = "16px", lo = "24px", co = "32px", uo = "40px", ho = "48px", fo = "56px", mo = "64px", br = "0", xr = "0", yr = "4px", vr = "4px", _r = "8px", kr = "8px", wr = "8px", Sr = "16px", Cr = "16px", jr = "24px", Nr = "24px", Tr = "32px", Dr = "32px", Ir = "40px", Rr = "40px", Fr = "48px", Br = "48px", Lr = "56px", Er = "56px", Ar = "64px", bn = "Frutiger W01", xn = "Arial, Helvetica, sans-serif", yn = "sans-serif", vn = "400", _n = "600", kn = "400", wn = "12px", Sn = "14px", Cn = "12pt", jn = "14px", Nn = "16px", Tn = "12pt", Dn = "16px", In = "19px", Rn = "13pt", Fn = "19px", Bn = "22px", Ln = "15pt", En = "22px", An = "26px", Mn = "17pt", $n = "27px", Hn = "36px", Pn = "20pt", zn = "33px", Wn = "48px", On = "24pt", Mr = "16px", $r = "24px", ot = {
->>>>>>> Stashed changes
+  moveTo(t, n) {
+    this._append`M${this._x0 = this._x1 = +t},${this._y0 = this._y1 = +n}`;
+  }
+  closePath() {
+    this._x1 !== null && (this._x1 = this._x0, this._y1 = this._y0, this._append`Z`);
+  }
+  lineTo(t, n) {
+    this._append`L${this._x1 = +t},${this._y1 = +n}`;
+  }
+  quadraticCurveTo(t, n, a, o) {
+    this._append`Q${+t},${+n},${this._x1 = +a},${this._y1 = +o}`;
+  }
+  bezierCurveTo(t, n, a, o, s, i) {
+    this._append`C${+t},${+n},${+a},${+o},${this._x1 = +s},${this._y1 = +i}`;
+  }
+  arcTo(t, n, a, o, s) {
+    if (t = +t, n = +n, a = +a, o = +o, s = +s, s < 0) throw new Error(`negative radius: ${s}`);
+    let i = this._x1, l = this._y1, d = a - t, c = o - n, f = i - t, h = l - n, m = f * f + h * h;
+    if (this._x1 === null)
+      this._append`M${this._x1 = t},${this._y1 = n}`;
+    else if (m > Et) if (!(Math.abs(h * d - c * f) > Et) || !s)
+      this._append`L${this._x1 = t},${this._y1 = n}`;
+    else {
+      let g = a - i, C = o - l, p = d * d + c * c, u = g * g + C * C, R = Math.sqrt(p), F = Math.sqrt(m), T = s * Math.tan((na - Math.acos((p + m - u) / (2 * R * F))) / 2), S = T / F, B = T / R;
+      Math.abs(S - 1) > Et && this._append`L${t + S * f},${n + S * h}`, this._append`A${s},${s},0,0,${+(h * g > f * C)},${this._x1 = t + B * d},${this._y1 = n + B * c}`;
+    }
+  }
+  arc(t, n, a, o, s, i) {
+    if (t = +t, n = +n, a = +a, i = !!i, a < 0) throw new Error(`negative radius: ${a}`);
+    let l = a * Math.cos(o), d = a * Math.sin(o), c = t + l, f = n + d, h = 1 ^ i, m = i ? o - s : s - o;
+    this._x1 === null ? this._append`M${c},${f}` : (Math.abs(this._x1 - c) > Et || Math.abs(this._y1 - f) > Et) && this._append`L${c},${f}`, a && (m < 0 && (m = m % ra + ra), m > kf ? this._append`A${a},${a},0,1,${h},${t - l},${n - d}A${a},${a},0,1,${h},${this._x1 = c},${this._y1 = f}` : m > Et && this._append`A${a},${a},0,${+(m >= na)},${h},${this._x1 = t + a * Math.cos(s)},${this._y1 = n + a * Math.sin(s)}`);
+  }
+  rect(t, n, a, o) {
+    this._append`M${this._x0 = this._x1 = +t},${this._y0 = this._y1 = +n}h${a = +a}v${+o}h${-a}Z`;
+  }
+  toString() {
+    return this._;
+  }
+}
+function Go(e) {
+  let t = 3;
+  return e.digits = function(n) {
+    if (!arguments.length) return t;
+    if (n == null)
+      t = null;
+    else {
+      const a = Math.floor(n);
+      if (!(a >= 0)) throw new RangeError(`invalid digits: ${n}`);
+      t = a;
+    }
+    return e;
+  }, () => new jf(t);
+}
+function Yo(e) {
+  return typeof e == "object" && "length" in e ? e : Array.from(e);
+}
+function Vo(e) {
+  this._context = e;
+}
+Vo.prototype = {
+  areaStart: function() {
+    this._line = 0;
+  },
+  areaEnd: function() {
+    this._line = NaN;
+  },
+  lineStart: function() {
+    this._point = 0;
+  },
+  lineEnd: function() {
+    (this._line || this._line !== 0 && this._point === 1) && this._context.closePath(), this._line = 1 - this._line;
+  },
+  point: function(e, t) {
+    switch (e = +e, t = +t, this._point) {
+      case 0:
+        this._point = 1, this._line ? this._context.lineTo(e, t) : this._context.moveTo(e, t);
+        break;
+      case 1:
+        this._point = 2;
+      // falls through
+      default:
+        this._context.lineTo(e, t);
+        break;
+    }
+  }
+};
+function qo(e) {
+  return new Vo(e);
+}
+function Xo(e) {
+  return e[0];
+}
+function Ko(e) {
+  return e[1];
+}
+function Zo(e, t) {
+  var n = qe(!0), a = null, o = qo, s = null, i = Go(l);
+  e = typeof e == "function" ? e : e === void 0 ? Xo : qe(e), t = typeof t == "function" ? t : t === void 0 ? Ko : qe(t);
+  function l(d) {
+    var c, f = (d = Yo(d)).length, h, m = !1, g;
+    for (a == null && (s = o(g = i())), c = 0; c <= f; ++c)
+      !(c < f && n(h = d[c], c, d)) === m && ((m = !m) ? s.lineStart() : s.lineEnd()), m && s.point(+e(h, c, d), +t(h, c, d));
+    if (g) return s = null, g + "" || null;
+  }
+  return l.x = function(d) {
+    return arguments.length ? (e = typeof d == "function" ? d : qe(+d), l) : e;
+  }, l.y = function(d) {
+    return arguments.length ? (t = typeof d == "function" ? d : qe(+d), l) : t;
+  }, l.defined = function(d) {
+    return arguments.length ? (n = typeof d == "function" ? d : qe(!!d), l) : n;
+  }, l.curve = function(d) {
+    return arguments.length ? (o = d, a != null && (s = o(a)), l) : o;
+  }, l.context = function(d) {
+    return arguments.length ? (d == null ? a = s = null : s = o(a = d), l) : a;
+  }, l;
+}
+function Nf(e, t, n) {
+  var a = null, o = qe(!0), s = null, i = qo, l = null, d = Go(c);
+  e = typeof e == "function" ? e : e === void 0 ? Xo : qe(+e), t = typeof t == "function" ? t : qe(t === void 0 ? 0 : +t), n = typeof n == "function" ? n : n === void 0 ? Ko : qe(+n);
+  function c(h) {
+    var m, g, C, p = (h = Yo(h)).length, u, R = !1, F, T = new Array(p), S = new Array(p);
+    for (s == null && (l = i(F = d())), m = 0; m <= p; ++m) {
+      if (!(m < p && o(u = h[m], m, h)) === R)
+        if (R = !R)
+          g = m, l.areaStart(), l.lineStart();
+        else {
+          for (l.lineEnd(), l.lineStart(), C = m - 1; C >= g; --C)
+            l.point(T[C], S[C]);
+          l.lineEnd(), l.areaEnd();
+        }
+      R && (T[m] = +e(u, m, h), S[m] = +t(u, m, h), l.point(a ? +a(u, m, h) : T[m], n ? +n(u, m, h) : S[m]));
+    }
+    if (F) return l = null, F + "" || null;
+  }
+  function f() {
+    return Zo().defined(o).curve(i).context(s);
+  }
+  return c.x = function(h) {
+    return arguments.length ? (e = typeof h == "function" ? h : qe(+h), a = null, c) : e;
+  }, c.x0 = function(h) {
+    return arguments.length ? (e = typeof h == "function" ? h : qe(+h), c) : e;
+  }, c.x1 = function(h) {
+    return arguments.length ? (a = h == null ? null : typeof h == "function" ? h : qe(+h), c) : a;
+  }, c.y = function(h) {
+    return arguments.length ? (t = typeof h == "function" ? h : qe(+h), n = null, c) : t;
+  }, c.y0 = function(h) {
+    return arguments.length ? (t = typeof h == "function" ? h : qe(+h), c) : t;
+  }, c.y1 = function(h) {
+    return arguments.length ? (n = h == null ? null : typeof h == "function" ? h : qe(+h), c) : n;
+  }, c.lineX0 = c.lineY0 = function() {
+    return f().x(e).y(t);
+  }, c.lineY1 = function() {
+    return f().x(e).y(n);
+  }, c.lineX1 = function() {
+    return f().x(a).y(t);
+  }, c.defined = function(h) {
+    return arguments.length ? (o = typeof h == "function" ? h : qe(!!h), c) : o;
+  }, c.curve = function(h) {
+    return arguments.length ? (i = h, s != null && (l = i(s)), c) : i;
+  }, c.context = function(h) {
+    return arguments.length ? (h == null ? s = l = null : l = i(s = h), c) : s;
+  }, c;
+}
+function Os(e) {
+  return e < 0 ? -1 : 1;
+}
+function Us(e, t, n) {
+  var a = e._x1 - e._x0, o = t - e._x1, s = (e._y1 - e._y0) / (a || o < 0 && -0), i = (n - e._y1) / (o || a < 0 && -0), l = (s * o + i * a) / (a + o);
+  return (Os(s) + Os(i)) * Math.min(Math.abs(s), Math.abs(i), 0.5 * Math.abs(l)) || 0;
+}
+function Gs(e, t) {
+  var n = e._x1 - e._x0;
+  return n ? (3 * (e._y1 - e._y0) / n - t) / 2 : t;
+}
+function Pr(e, t, n) {
+  var a = e._x0, o = e._y0, s = e._x1, i = e._y1, l = (s - a) / 3;
+  e._context.bezierCurveTo(a + l, o + l * t, s - l, i - l * n, s, i);
+}
+function Gn(e) {
+  this._context = e;
+}
+Gn.prototype = {
+  areaStart: function() {
+    this._line = 0;
+  },
+  areaEnd: function() {
+    this._line = NaN;
+  },
+  lineStart: function() {
+    this._x0 = this._x1 = this._y0 = this._y1 = this._t0 = NaN, this._point = 0;
+  },
+  lineEnd: function() {
+    switch (this._point) {
+      case 2:
+        this._context.lineTo(this._x1, this._y1);
+        break;
+      case 3:
+        Pr(this, this._t0, Gs(this, this._t0));
+        break;
+    }
+    (this._line || this._line !== 0 && this._point === 1) && this._context.closePath(), this._line = 1 - this._line;
+  },
+  point: function(e, t) {
+    var n = NaN;
+    if (e = +e, t = +t, !(e === this._x1 && t === this._y1)) {
+      switch (this._point) {
+        case 0:
+          this._point = 1, this._line ? this._context.lineTo(e, t) : this._context.moveTo(e, t);
+          break;
+        case 1:
+          this._point = 2;
+          break;
+        case 2:
+          this._point = 3, Pr(this, Gs(this, n = Us(this, e, t)), n);
+          break;
+        default:
+          Pr(this, this._t0, n = Us(this, e, t));
+          break;
+      }
+      this._x0 = this._x1, this._x1 = e, this._y0 = this._y1, this._y1 = t, this._t0 = n;
+    }
+  }
+};
+Object.create(Gn.prototype).point = function(e, t) {
+  Gn.prototype.point.call(this, t, e);
+};
+function Jo(e) {
+  return new Gn(e);
+}
+function Tf(e, t, n) {
+  const a = ho(e, t);
+  return za().domain(a).range(n);
+}
+function Ys(e, t, n) {
+  const [a, o] = ho(e, t);
+  if (!(Number.isFinite(a) && Number.isFinite(o)))
+    return Qr().domain([0, 0]).range(n);
+  let i;
+  if (a <= 0)
+    i = Math.min(0, a);
+  else {
+    const d = o - a, c = (d > 0 ? d : a) * 0.1;
+    i = Math.max(0, a - c), i === a && (i = Math.max(0, a * 0.9));
+  }
+  const l = o ?? 0;
+  return Qr().domain([i, l]).nice().range(n);
+}
+function Df(e, t, n, a) {
+  const o = Zo().x(t).y(n);
+  return a?.smooth !== !1 && o.curve(Jo), o(e) ?? "";
+}
+function $f(e = {}) {
+  const t = X.useRef(null), n = X.useMemo(() => ({
+    top: e.top ?? 16,
+    right: e.right ?? 16,
+    bottom: e.bottom ?? 32,
+    left: e.left ?? 48
+  }), [e.bottom, e.left, e.right, e.top]), [a, o] = X.useState({ width: 0, height: 0 });
+  X.useLayoutEffect(() => {
+    if (!t.current) return;
+    const l = new ResizeObserver((d) => {
+      for (const c of d) {
+        const { width: f, height: h } = c.contentRect;
+        o({ width: f, height: h });
+      }
+    });
+    return l.observe(t.current), () => l.disconnect();
+  }, []);
+  const s = Math.max(0, a.width - n.left - n.right), i = Math.max(0, a.height - n.top - n.bottom);
+  return { width: a.width, height: a.height, innerWidth: s, innerHeight: i, margin: n, ref: t };
+}
+const Qo = X.createContext(null);
+function _n() {
+  return X.useContext(Qo);
+}
+const If = ({
+  height: e = 240,
+  margin: t,
+  width: n,
+  className: a = "fdp-chart",
+  // align with SCSS token application (.fdp-chart)
+  children: o,
+  role: s = "group",
+  ariaLabel: i
+}) => {
+  const l = $f(t), d = { height: e, position: "relative" };
+  return n !== void 0 && (d.width = typeof n == "number" ? `${n}px` : n), /* @__PURE__ */ r.jsx("div", { ref: l.ref, className: a, style: d, role: s, "aria-label": i, children: /* @__PURE__ */ r.jsx(Qo.Provider, { value: l, children: o }) });
+}, ei = X.createContext(null), Sn = () => X.useContext(ei), Lf = ({
+  series: e,
+  innerWidth: t,
+  innerHeight: n,
+  parseX: a,
+  children: o,
+  xTickCount: s = 6,
+  yTickCount: i = 5,
+  yDomain: l,
+  xPadding: d,
+  yPadding: c
+}) => {
+  const f = _n(), h = t ?? f?.innerWidth ?? 0, m = n ?? f?.innerHeight ?? 0, g = X.useMemo(() => e.flatMap((S) => S.data), [e]), C = X.useCallback((S) => {
+    if (a) return a(S);
+    const B = S.x;
+    return B instanceof Date ? B : new Date(B);
+  }, [a]), p = d ?? 6, u = c ?? 6, R = X.useMemo(() => Tf(g, C, [p, Math.max(0, h - p)]), [g, C, h, p]), F = X.useMemo(() => {
+    if (l) {
+      const S = Ys([], (B) => B.y, [Math.max(0, m - u), u]);
+      return S.domain(l), S;
+    }
+    return Ys(g, (S) => S.y, [Math.max(0, m - u), u]);
+  }, [g, m, l]), T = X.useMemo(() => ({
+    xScale: R,
+    yScale: F,
+    getXTicks: (S = s) => R.ticks(S),
+    getYTicks: (S = i) => F.ticks(S)
+  }), [R, F, s, i]);
+  return /* @__PURE__ */ r.jsx(ei.Provider, { value: T, children: o });
+}, Vs = ({
+  type: e,
+  scale: t,
+  tickCount: n,
+  tickValues: a,
+  formatTick: o,
+  label: s,
+  offset: i,
+  className: l,
+  minLabelSpacing: d,
+  maxTickLabelLength: c,
+  autoMinLabelSpacing: f = e === "x",
+  labelAngle: h = 0,
+  allowLabelWrap: m = !0,
+  tickFormatPreset: g
+}) => {
+  const C = Sn(), p = _n(), u = t || (e === "x" ? C?.xScale : C?.yScale), R = n ?? (e === "x" ? 6 : 5), F = typeof o == "function", T = X.useMemo(() => {
+    if (F || !g) return;
+    const _ = (L) => new Intl.DateTimeFormat(void 0, L);
+    switch (g) {
+      case "dayShortMonth":
+        return (L) => {
+          const j = L instanceof Date ? L : new Date(L);
+          return `${j.getDate()}
+${_({ month: "short" }).format(j)}`;
+        };
+      case "dayShortMonthYear":
+        return (L) => {
+          const j = L instanceof Date ? L : new Date(L);
+          return `${j.getDate()}
+${_({ month: "short" }).format(j)} ${j.getFullYear()}`;
+        };
+      case "shortMonth":
+        return (L) => {
+          const j = L instanceof Date ? L : new Date(L);
+          return _({ month: "short" }).format(j);
+        };
+      case "shortMonthYear":
+        return (L) => {
+          const j = L instanceof Date ? L : new Date(L);
+          return `${_({ month: "short" }).format(j)} ${j.getFullYear()}`;
+        };
+      case "hourMinute":
+        return (L) => {
+          const j = L instanceof Date ? L : new Date(L);
+          return _({ hour: "2-digit", minute: "2-digit" }).format(j);
+        };
+      default:
+        return;
+    }
+  }, [F, g]);
+  let S = F ? o : T || ((_) => String(_));
+  const B = X.useMemo(() => a && Array.isArray(a) ? a : u ? typeof u.ticks == "function" ? u.ticks(R) : u.domain ? u.domain() : [] : [], [u, R, a]);
+  if (e === "x" && !F && !g && B.length && B.every((_) => _ instanceof Date)) {
+    const _ = B[0], L = B[B.length - 1], j = L.getTime() - _.getTime(), D = 24 * 3600 * 1e3, v = 365 * D, x = _.getFullYear() === L.getFullYear(), y = new Intl.DateTimeFormat(void 0, { month: "short" });
+    if (j < 2 * D) {
+      const P = new Intl.DateTimeFormat(void 0, { hour: "2-digit", minute: "2-digit" });
+      S = (E) => P.format(E);
+    } else if (j < 32 * D)
+      S = (P) => {
+        const E = P;
+        return `${E.getDate()} ${y.format(E)}`;
+      };
+    else if (j < v && x)
+      S = (P) => y.format(P);
+    else if (j < 2 * v) {
+      const P = /* @__PURE__ */ new Set();
+      S = (E) => {
+        const M = E, k = M.getMonth();
+        return P.has(k) || P.add(k), `${y.format(M)} ${M.getFullYear()}`;
+      };
+    } else
+      S = (P) => String(P.getFullYear());
+  }
+  if (!u || !p) return null;
+  if (e === "x") {
+    const _ = i ?? p.innerHeight, L = typeof u.bandwidth == "function", j = L ? u.bandwidth() : 0, D = (y) => {
+      const P = u(y);
+      return L ? P + j / 2 : P;
+    };
+    let v = d ?? 0;
+    if (f && d == null) {
+      const y = B.map((E) => S(E).replace(/\n.*/g, "")), P = y.length ? y.reduce((E, M) => E + M.length, 0) / y.length : 0;
+      v = Math.max(12, Math.round(P * 6 + 4));
+    }
+    const x = X.useMemo(() => {
+      if (a && Array.isArray(a) || v <= 0) return B;
+      const y = [];
+      let P = -1 / 0;
+      for (const E of B) {
+        const M = D(E);
+        M - P >= v && (y.push(E), P = M);
+      }
+      return y;
+    }, [B, u, v, a, L, j]);
+    return /* @__PURE__ */ r.jsxs("g", { className: ["fdp-axis", "fdp-axis--x", l].filter(Boolean).join(" "), transform: `translate(0,${_})`, fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))", children: [
+      /* @__PURE__ */ r.jsx("line", { x1: 0, x2: p.innerWidth, y1: 0, y2: 0, stroke: "currentColor" }),
+      x.map((y, P) => {
+        const E = S(y), M = c && E.length > c ? E.slice(0, Math.max(1, c - 1)) + "…" : E, k = m ? M.split(/\n/) : [M.replace(/\n/g, " ")], b = h < 0 ? "end" : h > 0 ? "start" : "middle";
+        return /* @__PURE__ */ r.jsxs("g", { transform: `translate(${D(y)},0)`, children: [
+          /* @__PURE__ */ r.jsx("line", { y2: 6, stroke: "currentColor" }),
+          /* @__PURE__ */ r.jsxs("text", { y: 9, textAnchor: b, className: "fdp-axis__tick", dominantBaseline: "hanging", transform: h ? `rotate(${h})` : void 0, fontFamily: "inherit", children: [
+            k.map((A, w) => /* @__PURE__ */ r.jsx("tspan", { x: 0, dy: w === 0 ? 0 : "1.1em", children: A }, w)),
+            M !== E && /* @__PURE__ */ r.jsx("title", { children: E })
+          ] })
+        ] }, y?.toString?.() || P);
+      })
+    ] });
+  }
+  return /* @__PURE__ */ r.jsxs("g", { className: ["fdp-axis", "fdp-axis--y", l].filter(Boolean).join(" "), fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))", children: [
+    B.map((_, L) => {
+      const j = S(_), D = c && j.length > c ? j.slice(0, Math.max(1, c - 1)) + "…" : j, v = m ? D.split(/\n/) : [D.replace(/\n/g, " ")];
+      return /* @__PURE__ */ r.jsxs("g", { transform: `translate(0,${u(_)})`, children: [
+        /* @__PURE__ */ r.jsx("line", { x2: -6, stroke: "currentColor" }),
+        /* @__PURE__ */ r.jsxs("text", { x: -9, dy: "0.32em", textAnchor: "end", className: "fdp-axis__tick", fontFamily: "inherit", children: [
+          v.map((x, y) => /* @__PURE__ */ r.jsx("tspan", { x: -9, dy: y === 0 ? 0 : "1.1em", children: x }, y)),
+          D !== j && /* @__PURE__ */ r.jsx("title", { children: j })
+        ] })
+      ] }, _?.toString?.() || L);
+    }),
+    s && /* @__PURE__ */ r.jsx("text", { transform: "rotate(-90)", x: -p.innerHeight / 2, y: -p.margin.left + 12, textAnchor: "middle", className: "fdp-axis__label", fontFamily: "inherit", children: s })
+  ] });
+}, Mf = ({
+  axis: e = "y",
+  tickCount: t,
+  stroke: n = "var(--fdp-chart-grid,#e5e5e5)",
+  dasharray: a = "2 4",
+  className: o
+}) => {
+  const s = Sn(), i = _n();
+  if (!s || !i) return null;
+  const l = e === "y" ? s.getYTicks(t) : s.getXTicks(t);
+  return /* @__PURE__ */ r.jsxs("g", { className: ["fdp-grid", o].filter(Boolean).join(" "), children: [
+    e === "y" && l.map((d, c) => /* @__PURE__ */ r.jsx("line", { x1: 0, x2: i.innerWidth, y1: s.yScale(d), y2: s.yScale(d), stroke: n, strokeDasharray: a }, c)),
+    e === "x" && l.map((d, c) => /* @__PURE__ */ r.jsx("line", { y1: 0, y2: i.innerHeight, x1: s.xScale(d), x2: s.xScale(d), stroke: n, strokeDasharray: a }, c))
+  ] });
+}, Ff = { "data-viz": { $type: "color", categorical: { 1: { $value: "{color.primary.blue}", $description: "Series 1 – NHS Blue (brand core)" }, 2: { $value: "#41B6E6", $description: "Series 2 – NHS Light Blue (new)" }, 3: { $value: "{color.secondary.aqua-green}", $description: "Series 3 – NHS Aqua Green (existing)" }, 4: { $value: "#78BE20", $description: "Series 4 – NHS Light Green (new)" }, 5: { $value: "{color.primary.green}", $description: "Series 5 – NHS Green (existing)" }, 6: { $value: "{color.secondary.warm-yellow}", $description: "Series 6 – NHS Warm Yellow (existing; distinct from focus yellow)" }, 7: { $value: "#ED4F00", $description: "Series 7 – NHS Tangerine (new; warmer/deeper than existing orange)" }, 8: { $value: "{color.secondary.pink}", $description: "Series 8 – NHS Pink (existing)" }, 9: { $value: "#E317AA", $description: "Series 9 – NHS Bright Pink (new vivid accent)" }, 10: { $value: "#880FB8", $description: "Series 10 – NHS Light Purple (new mid purple)" }, 11: { $value: "{color.primary.purple}", $description: "Series 11 – NHS Purple (existing dark purple)" }, 12: { $value: "#9A6324", $description: "Series 12 – NHS Brown (new; earth neutral)" } }, neutral: { comparison: { $value: "{color.grey.1}", $description: "Neutral comparison series (optional)" } }, region: { $comment: "Fixed colours for NHS geographical regions; prefer stable mapping for maps. London colour updated (#78BE21 – light green).", "north-east": { $value: "{color.primary.blue}", $description: "North East – NHS Blue" }, "north-west": { $value: "#41B6E6", $description: "North West – NHS Light Blue" }, "east-of-england": { $value: "{color.primary.purple}", $description: "East of England – NHS Purple" }, midlands: { $value: "{color.secondary.pink}", $description: "Midlands – NHS Pink" }, london: { $value: "#78BE21", $description: "London – NHS Light Green (new)" }, "south-west": { $value: "#FAE100", $description: "South West – NHS Yellow variant (new)" }, "south-east": { $value: "#ed8b00", $description: "South East – NHS Orange (existing base orange)" } }, severity: { $comment: "Semantic severity / alert colours (light background ramp → critical).", low: { $value: "{color.secondary.pale-yellow}", $description: "Low severity – pale yellow background" }, moderate: { $value: "{color.secondary.warm-yellow}", $description: "Moderate severity – warm yellow" }, high: { $value: "{color.secondary.orange}", $description: "High severity – orange" }, critical: { $value: "{color.primary.red}", $description: "Critical severity – red" } }, "org-level": { $comment: "Organisational level semantic colours (stable NHS brand mappings).", trust: { $value: "{color.primary.blue}", $description: "Trust – NHS Blue" }, ambulance: { $value: "{color.primary.green}", $description: "Ambulance – NHS Green" }, icb: { $value: "{color.primary.dark-pink}", $description: "ICB – NHS Dark Pink" }, region: { $value: "{color.primary.purple}", $description: "Region – NHS Purple" } }, stroke: { $comment: "Automatic contrast stroke colours for overlays / borders. Light fills get dark stroke; dark fills get white stroke.", categorical: { 1: { $value: "#ffffff", $description: "Stroke for series 1 (blue)" }, 2: { $value: "#212b32", $description: "Stroke for series 2 (light blue)" }, 3: { $value: "#212b32", $description: "Stroke for series 3 (aqua green)" }, 4: { $value: "#212b32", $description: "Stroke for series 4 (light green)" }, 5: { $value: "#ffffff", $description: "Stroke for series 5 (green)" }, 6: { $value: "#212b32", $description: "Stroke for series 6 (warm yellow)" }, 7: { $value: "#ffffff", $description: "Stroke for series 7 (tangerine)" }, 8: { $value: "#ffffff", $description: "Stroke for series 8 (pink)" }, 9: { $value: "#ffffff", $description: "Stroke for series 9 (bright pink)" }, 10: { $value: "#ffffff", $description: "Stroke for series 10 (light purple)" }, 11: { $value: "#ffffff", $description: "Stroke for series 11 (purple)" }, 12: { $value: "#ffffff", $description: "Stroke for series 12 (brown)" } }, region: { $comment: "Region stroke colours derived from fill colours: dark fills lightened ~35%; light fills darkened ~25% for consistent contrast without defaulting to pure white/black.", "north-east": { $value: "#5996D1", $description: "Stroke for North East (blue lightened 35%)" }, "north-west": { $value: "#3189AD", $description: "Stroke for North West (light blue darkened 25%)" }, "east-of-england": { $value: "#7A59A3", $description: "Stroke for East of England (purple lightened 35%)" }, midlands: { $value: "#CA71A4", $description: "Stroke for Midlands (pink lightened 35%)" }, london: { $value: "#5A8F19", $description: "Stroke for London (light green darkened 25%)" }, "south-west": { $value: "#BCA900", $description: "Stroke for South West (yellow darkened 25%)" }, "south-east": { $value: "#B26800", $description: "Stroke for South East (orange darkened 25%)" } }, severity: { $comment: "Contrast strokes for severity colours (light backgrounds use dark stroke; dark backgrounds use white).", low: { $value: "#212b32", $description: "Stroke for low severity (pale yellow fill)" }, moderate: { $value: "#212b32", $description: "Stroke for moderate severity (warm yellow fill)" }, high: { $value: "#212b32", $description: "Stroke for high severity (orange fill)" }, critical: { $value: "#ffffff", $description: "Stroke for critical severity (red fill)" } }, "org-level": { $comment: "Contrast strokes for organisational level colours (all dark brand fills so white stroke for consistency).", trust: { $value: "#ffffff", $description: "Stroke for trust (blue fill)" }, ambulance: { $value: "#ffffff", $description: "Stroke for ambulance (green fill)" }, icb: { $value: "#ffffff", $description: "Stroke for ICB (dark pink fill)" }, region: { $value: "#ffffff", $description: "Stroke for region (purple fill)" } } }, spc: { $comment: "SPC (Statistical Process Control) semantic variation colours aligned to SPCChart.scss and SPCIcons.", improvement: { $value: "#00B0F0", $description: "SPC special cause improvement (favourable)" }, concern: { $value: "#E46C0A", $description: "SPC special cause concern (deteriorating)" }, "no-judgement": { $value: "#490092", $description: "SPC special cause (no directional judgement)" }, "common-cause": { $value: "#A6A6A6", $description: "SPC common cause (baseline variation)" }, "assurance-pass": { $value: "#00823B", $description: "SPC assurance pass indicator (process capable)" }, "assurance-fail": { $value: "#DA291C", $description: "SPC assurance fail indicator (process not capable)" }, gradient: { $comment: "Opacity stops for SPC icon gradient wash (applied top-left -> bottom-right). Consumers build gradients using these opacities + base colour.", stop: { "start-opacity": { $value: "0.18", $description: "Start stop opacity (0%) for classic variant wash" }, "mid-opacity": { $value: "0.06", $description: "Mid stop opacity (~65-75%)" }, "end-opacity": { $value: "0", $description: "End stop opacity (100%)" }, "triangle-start-opacity": { $value: "0.18", $description: "Start opacity for triangle variants (kept aligned)" }, "triangle-mid-opacity": { $value: "0.06", $description: "Mid opacity for triangle variants" }, "triangle-end-opacity": { $value: "0", $description: "End opacity for triangle variants" } } }, stroke: { $comment: "Contrast stroke colours for SPC variation fills.", improvement: { $value: "#000000", $description: "Stroke for improvement points" }, concern: { $value: "#000000", $description: "Stroke for concern points" }, "no-judgement": { $value: "#000000", $description: "Stroke for no-judgement points" }, "common-cause": { $value: "#ffffff", $description: "Stroke for common cause points" }, "assurance-pass": { $value: "#000000", $description: "Stroke for assurance pass points" }, "assurance-fail": { $value: "#000000", $description: "Stroke for assurance fail points" } } } } }, Oa = {
+  color: Ff
+}, Bf = { primary: { $type: "color", blue: { $value: "#005eb8", $description: "NHS Blue - Primary brand color" }, "blue-active": { $value: "#002f5c", $description: "NHS Active Blue (50% shade) – alias of button/login active; promoted for general reuse" }, white: { $value: "#ffffff", $description: "NHS White" }, black: { $value: "#212b32", $description: "NHS Black" }, green: { $value: "#007f3b", $description: "NHS Green" }, purple: { $value: "#330072", $description: "NHS Purple" }, "dark-pink": { $value: "#7c2855", $description: "NHS Dark Pink" }, red: { $value: "#d5281b", $description: "NHS Red" }, "light-purple": { $value: "#880FB8", $description: "NHS Light Purple (data viz promoted)" }, yellow: { $value: "#ffeb3b", $description: "NHS Yellow" } }, secondary: { $type: "color", "pale-yellow": { $value: "#fff9c4", $description: "NHS Pale Yellow" }, "warm-yellow": { $value: "#ffb81c", $description: "NHS Warm Yellow" }, "region-yellow": { $value: "#FAE100", $description: "NHS Region Yellow (maps)" }, orange: { $value: "#ed8b00", $description: "NHS Orange" }, tangerine: { $value: "#ED4F00", $description: "NHS Tangerine (data viz promoted)" }, "aqua-green": { $value: "#00a499", $description: "NHS Aqua Green" }, "light-blue": { $value: "#41B6E6", $description: "NHS Light Blue (data viz promoted)" }, pink: { $value: "#ae2573", $description: "NHS Pink" }, "bright-pink": { $value: "#E317AA", $description: "NHS Bright Pink (data viz promoted)" }, "light-green": { $value: "#78BE20", $description: "NHS Light Green (data viz promoted)" }, brown: { $value: "#9A6324", $description: "NHS Brown (data viz promoted neutral)" } }, grey: { 1: { $value: "#4c6272", $description: "NHS Grey 1 - Darkest grey" }, 2: { $value: "#768692", $description: "NHS Grey 2 - Darker grey" }, 3: { $value: "#aeb7bd", $description: "NHS Grey 3 - Medium grey" }, 4: { $value: "#d8dde0", $description: "NHS Grey 4 - Light grey" }, 5: { $value: "#f0f4f5", $description: "NHS Grey 5 - Lightest grey" }, $type: "color" }, accessibility: { $type: "color", $comment: "Accessibility-oriented color tokens. Includes CVD-safe pairs and Okabe–Ito colors. Use these for positive/negative semantics and colour-blind–friendly defaults.", "okabe-ito": { green: { $value: "#009E73", $description: "Okabe–Ito green (CVD-safe) – recommended positive" }, vermillion: { $value: "#D55E00", $description: "Okabe–Ito vermillion / red–orange (CVD-safe) – recommended negative" } }, "cvd-safe": { blue: { $value: "#1f77b4", $description: "CVD-safe blue (pairs with orange); widely used in Matplotlib/Tableau sets" }, orange: { $value: "#ff7f0e", $description: "CVD-safe orange (pairs with blue)" } }, positive: { $value: "{color.accessibility.okabe-ito.green}", $description: "Accessibility semantic alias – positive" }, negative: { $value: "{color.accessibility.okabe-ito.vermillion}", $description: "Accessibility semantic alias – negative" } } }, ti = {
+  color: Bf
+}, Af = [
+  "#005eb8",
+  "#0072ce",
+  "#41b6e6",
+  "#00a499",
+  "#7c2855",
+  "#330072",
+  "#d5281b",
+  "#ffb81c",
+  "#fae100",
+  "#4c6272",
+  "#768692",
+  "#aeb7bd"
+];
+let Hr = null, zr = null, Wr = null, ni = "optimized";
+function Ef() {
+  const e = { color: { ...ti.color, ...Oa.color } }, t = (a, o = /* @__PURE__ */ new Set()) => {
+    if (o.has(a)) return;
+    o.add(a);
+    const s = a.split(".").reduce((l, d) => l ? l[d] : void 0, e);
+    if (!s) return;
+    const i = s.$value || s.value;
+    if (typeof i == "string" && /^\{.+\}$/.test(i))
+      return t(i.slice(1, -1), o);
+    if (typeof i == "string") return i;
+  }, n = [];
+  try {
+    for (let a = 1; a <= 12; a++) {
+      const o = `color.data-viz.categorical.${a}`, s = t(o);
+      if (!s) throw new Error(`Missing token ${o}`);
+      n.push(s);
+    }
+    return n;
+  } catch {
+    return Af;
+  }
+}
+function Rf() {
+  return Hr || (Hr = Ef()), Hr;
+}
+function Pf(e) {
+  const t = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e.trim());
+  return t ? { r: parseInt(t[1], 16), g: parseInt(t[2], 16), b: parseInt(t[3], 16) } : null;
+}
+function Or(e) {
+  return e /= 255, e <= 0.04045 ? e / 12.92 : Math.pow((e + 0.055) / 1.055, 2.4);
+}
+function Hf(e, t, n) {
+  const a = Or(e), o = Or(t), s = Or(n), i = a * 0.4124 + o * 0.3576 + s * 0.1805, l = a * 0.2126 + o * 0.7152 + s * 0.0722, d = a * 0.0193 + o * 0.1192 + s * 0.9505;
+  return { x: i * 100, y: l * 100, z: d * 100 };
+}
+function zf(e, t, n) {
+  let i = e / 95.047, l = t / 100, d = n / 108.883;
+  const c = (f) => f > 8856e-6 ? Math.cbrt(f) : 7.787 * f + 16 / 116;
+  return i = c(i), l = c(l), d = c(d), { L: 116 * l - 16, a: 500 * (i - l), b: 200 * (l - d) };
+}
+function ri(e) {
+  const t = Pf(e);
+  if (!t) return null;
+  const n = Hf(t.r, t.g, t.b);
+  return zf(n.x, n.y, n.z);
+}
+function qs(e, t) {
+  const n = e.L - t.L, a = e.a - t.a, o = e.b - t.b;
+  return Math.sqrt(n * n + a * a + o * o);
+}
+function Wf() {
+  const e = Rf();
+  if (e.length <= 2) return e.slice();
+  const t = e.map((i) => ri(i));
+  let n = 0, a = -1;
+  for (let i = 0; i < e.length; i++) {
+    const l = t[i];
+    if (!l) continue;
+    let d = 0, c = 0;
+    for (let h = 0; h < e.length; h++) i !== h && t[h] && (d += qs(l, t[h]), c++);
+    const f = d / Math.max(1, c);
+    f > a && (a = f, n = i);
+  }
+  const o = new Set(e.map((i, l) => l)), s = [];
+  for (s.push(n), o.delete(n); o.size; ) {
+    let i = Array.from(o)[0], l = -1;
+    for (const d of o) {
+      const c = t[d];
+      if (!c) continue;
+      let f = 1 / 0;
+      for (const h of s) {
+        const m = t[h];
+        if (m) {
+          const g = qs(c, m);
+          g < f && (f = g);
+        }
+      }
+      f > l && (l = f, i = d);
+    }
+    s.push(i), o.delete(i);
+  }
+  return s.map((i) => e[i]);
+}
+function Of() {
+  return zr || (zr = Wf()), zr;
+}
+function Uf(e, t, n) {
+  const a = (e + 16) / 116, o = t / 500 + a, s = a - n / 200, i = (f) => {
+    const h = f * f * f;
+    return h > 8856e-6 ? h : (f - 16 / 116) / 7.787;
+  }, l = i(o) * 95.047, d = i(a) * 100, c = i(s) * 108.883;
+  return { X: l, Y: d, Z: c };
+}
+function Gf(e, t, n) {
+  e /= 100, t /= 100, n /= 100;
+  let a = e * 3.2406 + t * -1.5372 + n * -0.4986, o = e * -0.9689 + t * 1.8758 + n * 0.0415, s = e * 0.0557 + t * -0.204 + n * 1.057;
+  const i = (l) => l <= 31308e-7 ? 12.92 * l : 1.055 * Math.pow(l, 1 / 2.4) - 0.055;
+  return a = Math.min(1, Math.max(0, i(a))), o = Math.min(1, Math.max(0, i(o))), s = Math.min(1, Math.max(0, i(s))), { r: Math.round(a * 255), g: Math.round(o * 255), b: Math.round(s * 255) };
+}
+function Yf(e, t, n) {
+  return `#${[e, t, n].map((a) => a.toString(16).padStart(2, "0")).join("")}`;
+}
+function Vf(e, t) {
+  const n = ri(e);
+  if (!n) return e;
+  const a = Math.min(100, Math.max(0, n.L + t)), { X: o, Y: s, Z: i } = Uf(a, n.a, n.b), l = Gf(o, s, i);
+  return Yf(l.r, l.g, l.b);
+}
+function qf() {
+  const e = Of(), n = [12, -12, 24, -24].map((o) => e.map((s) => Vf(s, o))), a = [...e];
+  return n.forEach((o) => a.push(...o)), a;
+}
+function Xf() {
+  return (!Wr || Kf()) && (Wr = qf(), ai = ni), Wr;
+}
+let ai = null;
+function Kf() {
+  return ai !== ni;
+}
+function si(e) {
+  const t = Xf();
+  return t[e % t.length];
+}
+let en = null, yn = null, aa = null, sa = null;
+function Zf() {
+  const e = Oa?.color?.["data-viz"]?.stroke;
+  if (e) {
+    const t = e.categorical || {};
+    en = [];
+    for (let s = 1; s <= 12; s++) {
+      const i = t[String(s)]?.$value || t[String(s)]?.value;
+      en.push(typeof i == "string" ? i : "#212b32");
+    }
+    const n = e.region || {};
+    yn = {}, Object.keys(n).forEach((s) => {
+      const i = n[s]?.$value || n[s]?.value;
+      typeof i == "string" && (yn[s] = i);
+    });
+    const a = e.severity || {}, o = e["org-level"] || {};
+    sa = {}, Object.keys(o).forEach((s) => {
+      const i = o[s]?.$value || o[s]?.value;
+      typeof i == "string" && (sa[s] = i);
+    }), aa = {}, Object.keys(a).forEach((s) => {
+      const i = a[s]?.$value || a[s]?.value;
+      typeof i == "string" && (aa[s] = i);
+    });
+  }
+}
+function oi() {
+  (!en || !yn || !aa || !sa) && Zf();
+}
+function ii(e) {
+  return oi(), en ? en[e % en.length] : "#212b32";
+}
+function Jf(e) {
+  return oi(), yn ? yn[e] : void 0;
+}
+function Qf(e, t) {
+  return Jf(e) || ii(t);
+}
+let Ur = null;
+const eh = [
+  "north-east",
+  "north-west",
+  "east-of-england",
+  "midlands",
+  "london",
+  "south-west",
+  "south-east"
+];
+function th(e) {
+  return e.trim().toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+function nh() {
+  const e = { color: { ...ti.color, ...Oa.color } }, t = (o, s = /* @__PURE__ */ new Set()) => {
+    if (s.has(o)) return;
+    s.add(o);
+    const i = o.split(".").reduce((d, c) => d ? d[c] : void 0, e);
+    if (!i) return;
+    const l = i.$value || i.value;
+    return typeof l == "string" && /^\{.+\}$/.test(l) ? t(l.slice(1, -1), s) : typeof l == "string" ? l : void 0;
+  }, n = {}, a = [];
+  return eh.forEach((o) => {
+    const s = t(`color.data-viz.region.${o}`);
+    s ? n[o] = s : a.push(o);
+  }), process.env.NODE_ENV !== "production" && (Object.keys(n).length === 0 ? console.warn("[DataViz] Region colour tokens unresolved  falling back to categorical colours.") : a.length && console.warn(`[DataViz] Missing region colour tokens: ${a.join(", ")}.`)), n;
+}
+function rh() {
+  return Ur || (Ur = nh()), Ur;
+}
+function ah(e) {
+  return rh()[th(e)];
+}
+function sh(e, t) {
+  return ah(e) || si(t);
+}
+const oh = X.createContext(null), li = () => X.useContext(oh), ci = X.createContext(null), kn = () => X.useContext(ci), ih = ({
+  children: e,
+  maxDistance: t = 40,
+  wrapAround: n = !1
+}) => {
+  const a = Sn(), o = li(), [s, i] = X.useState(null), l = X.useRef(/* @__PURE__ */ new Map()), [d, c] = X.useState([]), f = X.useCallback(
+    (L, j) => {
+      l.current.set(L, j);
+    },
+    []
+  ), h = X.useCallback((L) => {
+    l.current.delete(L);
+  }, []), m = X.useCallback(
+    (L, j) => {
+      if (!a) return;
+      const { xScale: D, yScale: v } = a;
+      let x = null, y = 1 / 0;
+      l.current.forEach((P, E) => {
+        P.forEach((M, k) => {
+          const b = D(M.x), A = v(M.y), w = b - L, $ = A - j, W = Math.sqrt(w * w + $ * $);
+          W < y && (y = W, x = {
+            seriesId: E,
+            index: k,
+            x: M.x,
+            y: M.y,
+            clientX: b,
+            clientY: A
+          });
+        });
+      }), x && y <= t ? i(x) : i(null);
+    },
+    [a, t]
+  ), g = X.useCallback(() => i(null), []);
+  X.useEffect(() => {
+    if (!s) {
+      c([]);
+      return;
+    }
+    if (!a) return;
+    const { xScale: L, yScale: j } = a, D = [];
+    l.current.forEach((v, x) => {
+      v.forEach((y, P) => {
+        (s.x instanceof Date && y.x instanceof Date ? y.x.getTime() === s.x.getTime() : y.x === s.x) && D.push({
+          seriesId: x,
+          index: P,
+          x: y.x,
+          y: y.y,
+          clientX: L(y.x),
+          clientY: j(y.y)
+        });
+      });
+    }), D.sort((v, x) => v.seriesId.localeCompare(x.seriesId)), c(D);
+  }, [s, a]);
+  const C = X.useCallback(
+    (L) => {
+      if (!s) return;
+      const j = l.current.get(s.seriesId);
+      if (!j) return;
+      let D = s.index + L;
+      if (D < 0 || D >= j.length) {
+        if (!n) return;
+        D = (D + j.length) % j.length;
+      }
+      const v = j[D];
+      if (!a) return;
+      const { xScale: x, yScale: y } = a;
+      i({
+        seriesId: s.seriesId,
+        index: D,
+        x: v.x,
+        y: v.y,
+        clientX: x(v.x),
+        clientY: y(v.y)
+      });
+    },
+    [s, a, n]
+  ), p = X.useCallback(
+    (L) => {
+      let j = Array.from(l.current.keys());
+      if (o && (j = j.filter((b) => !o.isHidden(b))), j.length === 0) return;
+      if (!s) {
+        const b = j[0], A = l.current.get(b);
+        if (!A || !a) return;
+        const { xScale: w, yScale: $ } = a, W = A[0];
+        i({
+          seriesId: b,
+          index: 0,
+          x: W.x,
+          y: W.y,
+          clientX: w(W.x),
+          clientY: $(W.y)
+        });
+        return;
+      }
+      const D = j.indexOf(s.seriesId);
+      if (D === -1) return;
+      let v = D + L;
+      if (v < 0 || v >= j.length) {
+        if (!n) return;
+        v = (v + j.length) % j.length;
+      }
+      const x = j[v], y = l.current.get(x);
+      if (!y || !a) return;
+      const P = Math.min(s.index, y.length - 1), E = y[P], { xScale: M, yScale: k } = a;
+      i({
+        seriesId: x,
+        index: P,
+        x: E.x,
+        y: E.y,
+        clientX: M(E.x),
+        clientY: k(E.y)
+      });
+    },
+    [s, a, n, o]
+  ), u = X.useCallback(() => {
+    let L = Array.from(l.current.keys());
+    if (o && (L = L.filter((P) => !o.isHidden(P))), L.length === 0) return;
+    const j = s ? s.seriesId : L[0], D = l.current.get(j);
+    if (!D || D.length === 0 || !a) return;
+    const v = D[0], { xScale: x, yScale: y } = a;
+    i({
+      seriesId: j,
+      index: 0,
+      x: v.x,
+      y: v.y,
+      clientX: x(v.x),
+      clientY: y(v.y)
+    });
+  }, [s, a, o]), R = X.useCallback(() => {
+    let L = Array.from(l.current.keys());
+    if (o && (L = L.filter((E) => !o.isHidden(E))), L.length === 0) return;
+    const j = s ? s.seriesId : L[0], D = l.current.get(j);
+    if (!D || D.length === 0 || !a) return;
+    const v = D.length - 1, x = D[v], { xScale: y, yScale: P } = a;
+    i({
+      seriesId: j,
+      index: v,
+      x: x.x,
+      y: x.y,
+      clientX: y(x.x),
+      clientY: P(x.y)
+    });
+  }, [s, a, o]), F = X.useCallback(
+    () => C(1),
+    [C]
+  ), T = X.useCallback(
+    () => C(-1),
+    [C]
+  ), S = X.useCallback(
+    () => p(1),
+    [p]
+  ), B = X.useCallback(
+    () => p(-1),
+    [p]
+  ), _ = X.useMemo(
+    () => ({
+      focused: s,
+      setFocused: i,
+      aggregated: d,
+      focusNearest: m,
+      clear: g,
+      registerSeries: f,
+      unregisterSeries: h,
+      focusNextPoint: F,
+      focusPrevPoint: T,
+      focusNextSeries: S,
+      focusPrevSeries: B,
+      focusFirstPoint: u,
+      focusLastPoint: R
+    }),
+    [
+      s,
+      d,
+      m,
+      g,
+      f,
+      h,
+      F,
+      T,
+      S,
+      B,
+      u,
+      R
+    ]
+  );
+  return /* @__PURE__ */ r.jsx(ci.Provider, { value: _, children: e });
+}, lh = ({
+  series: e,
+  seriesIndex: t,
+  palette: n,
+  showPoints: a,
+  focusablePoints: o,
+  focusIndex: s,
+  parseX: i,
+  visibilityMode: l = "remove",
+  strokeWidth: d = 1,
+  smooth: c = !0,
+  gradientFillId: f
+}) => {
+  const h = Sn();
+  if (!h) return null;
+  const { xScale: m, yScale: g } = h, p = li()?.isHidden(e.id) ?? !1, u = p && l === "fade";
+  if (p && l === "remove")
+    return null;
+  const R = kn();
+  X.useEffect(() => {
+    if (!R) return;
+    const _ = e.data.map((L) => ({ x: i(L), y: L.y }));
+    return R.registerSeries(e.id, _), () => R.unregisterSeries(e.id);
+  }, [R, e.id, e.data, i]);
+  const F = X.useMemo(
+    () => Df(
+      e.data,
+      (_) => m(i(_)),
+      (_) => g(_.y),
+      { smooth: c }
+    ),
+    [e.data, m, g, i, c]
+  ), T = X.useMemo(() => {
+    if (!e.data.length) return "";
+    const [_] = g.domain(), L = Nf().x((j) => m(i(j))).y0(() => g(_)).y1((j) => g(j.y));
+    return c && L.curve(Jo), L(e.data) || "";
+  }, [e.data, m, g, i, c]), S = e.color || (n === "region" ? sh(e.id, t) : si(t)), B = n === "region" ? Qf(e.id, t) : ii(t);
+  return /* @__PURE__ */ r.jsxs(
+    "g",
+    {
+      className: "fdp-line-series",
+      "data-series": e.id,
+      opacity: u ? 0.25 : 1,
+      "aria-hidden": u ? !0 : void 0,
+      children: [
+        f && /* @__PURE__ */ r.jsx(
+          "path",
+          {
+            d: T,
+            fill: `url(#${f})`,
+            stroke: "none",
+            role: "presentation",
+            className: "fdp-line-series__gradient"
+          }
+        ),
+        /* @__PURE__ */ r.jsx(
+          "path",
+          {
+            d: F,
+            fill: "none",
+            stroke: S,
+            strokeWidth: d,
+            role: "presentation"
+          }
+        ),
+        a && e.data.map((_, L) => {
+          const j = m(i(_)), D = g(_.y), v = o ? 0 : -1, x = !u && (o && L === s || R?.focused?.seriesId === e.id && R.focused.index === L), y = () => {
+            R && !u && R.setFocused({
+              seriesId: e.id,
+              index: L,
+              x: i(_),
+              y: _.y,
+              clientX: j,
+              clientY: D
+            });
+          }, P = () => {
+            R && R.focused?.seriesId === e.id && R.focused.index === L && R.clear();
+          };
+          return /* @__PURE__ */ r.jsx(
+            "circle",
+            {
+              cx: j,
+              cy: D,
+              r: x ? 5 : 3.5,
+              stroke: x ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : B,
+              strokeWidth: x ? 2 : 1,
+              fill: x ? "var(--nhs-fdp-color-grey-3, #aeb7bd)" : S,
+              className: "fdp-line-point",
+              tabIndex: u ? -1 : v,
+              "aria-label": `${e.label || e.id} ${i(_).toDateString()} value ${_.y}`,
+              "data-series": e.id,
+              "data-index": L,
+              onMouseEnter: y,
+              onFocus: y,
+              onMouseLeave: P,
+              onBlur: P
+            },
+            L
+          );
+        })
+      ]
+    }
+  );
+}, ch = ({ polite: e = !0, format: t }) => {
+  const n = kn(), [a, o] = X.useState(""), s = X.useRef("");
+  return X.useEffect(() => {
+    if (!n?.focused) return;
+    const { focused: i, aggregated: l } = n;
+    let d;
+    if (l && l.length > 1) {
+      const c = l.map((h) => `${h.seriesId} ${h.y}`).join("; ");
+      d = `${i.x instanceof Date ? i.x.toDateString() : String(i.x)} – ${c}`;
+    } else
+      d = t ? t({ seriesId: i.seriesId, x: i.x, y: i.y, index: i.index }) : dh(i.seriesId, i.x, i.y, i.index);
+    if (d !== s.current) {
+      s.current = d, o("");
+      const c = setTimeout(() => o(d), 10);
+      return () => clearTimeout(c);
+    }
+  }, [n?.focused, t]), /* @__PURE__ */ r.jsx(
+    "div",
+    {
+      "aria-live": e ? "polite" : "assertive",
+      "aria-atomic": "true",
+      style: { position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", border: 0 },
+      children: a
+    }
+  );
+};
+function dh(e, t, n, a) {
+  const o = t instanceof Date ? t.toDateString() : String(t);
+  return `Series ${e}, point ${a + 1}, ${o}, value ${n}`;
+}
+var Rt = /* @__PURE__ */ ((e) => (e.Up = "Up", e.Down = "Down", e.Neither = "Neither", e))(Rt || {}), Ge = /* @__PURE__ */ ((e) => (e.Improvement = "improvement", e.Concern = "concern", e.Neither = "neither", e.None = "none", e))(Ge || {}), Ft = /* @__PURE__ */ ((e) => (e.Pass = "pass", e.Fail = "fail", e.None = "none", e))(Ft || {});
+const ue = (e) => typeof e == "number" && Number.isFinite(e), uh = (e) => e.reduce((t, n) => t + n, 0), Mt = (e) => e.length ? uh(e) / e.length : NaN;
+function fh(e) {
+  const t = [];
+  let n = [];
+  for (const a of e)
+    a.baseline && n.length && (t.push(n), n = []), n.push(a);
+  return n.length && t.push(n), t;
+}
+function di(e, t) {
+  const n = new Array(e.length).fill(null);
+  let a = null;
+  for (let o = 0; o < e.length; o++) {
+    const s = e[o];
+    if (!t[o] && ue(s)) {
+      if (a !== null) {
+        const i = e[a];
+        n[o] = ue(i) ? Math.abs(s - i) : null;
+      }
+      a = o;
+    }
+  }
+  return n;
+}
+function ui(e, t) {
+  const n = e.filter((s) => ue(s));
+  if (!n.length) return { mrMean: NaN, mrUcl: NaN };
+  let a = Mt(n), o = 3.267 * a;
+  if (t) {
+    const s = n.filter((i) => i <= o);
+    s.length && s.length !== n.length && (a = Mt(s), o = 3.267 * a);
+  }
+  return { mrMean: a, mrUcl: o };
+}
+function hh(e, t) {
+  if (!ue(e) || !ue(t))
+    return {
+      upperProcessLimit: null,
+      lowerProcessLimit: null,
+      upperTwoSigma: null,
+      lowerTwoSigma: null,
+      upperOneSigma: null,
+      lowerOneSigma: null
+    };
+  const n = 2.66, a = 2 / 3 * n, o = 1 / 3 * n;
+  return {
+    upperProcessLimit: e + n * t,
+    lowerProcessLimit: e - n * t,
+    upperTwoSigma: e + a * t,
+    lowerTwoSigma: e - a * t,
+    upperOneSigma: e + o * t,
+    lowerOneSigma: e - o * t
+  };
+}
+function Xs(e, t) {
+  return e.reduce(
+    (n, a) => n + (ue(a) && a > t ? 1 : 0),
+    0
+  );
+}
+function Ks(e, t) {
+  return e.reduce(
+    (n, a) => n + (ue(a) && a < t ? 1 : 0),
+    0
+  );
+}
+function Zs(e, t, n) {
+  const a = e.filter((s) => ue(s));
+  if (a.length < t) return !1;
+  const o = a.slice(-t);
+  for (let s = 1; s < o.length; s++)
+    if (n === "up" && !(o[s] > o[s - 1]) || n === "down" && !(o[s] < o[s - 1])) return !1;
+  return !0;
+}
+function Js(e, t, n, a) {
+  const o = e.filter((i) => ue(i));
+  if (o.length < t) return !1;
+  const s = o.slice(-t);
+  return a === "high" ? s.every((i) => i > n) : a === "low" ? s.every((i) => i < n) : !1;
+}
+const ph = 0.2777, mh = 3.6, gh = (e) => ue(e) && e >= 0 ? Math.pow(e, ph) : null, At = (e) => ue(e) && e >= 0 ? Math.pow(e, mh) : null, Xt = {
+  one: { low: 0.1586552539, high: 0.8413447461 },
+  two: { low: 0.0227501319, high: 0.9772498681 },
+  three: { low: 1349898e-9, high: 0.998650102 }
+};
+function xh(e, t) {
+  return !(e > 0 && e < 1) || !(t > 0 && t < 1) ? NaN : Math.log(1 - e) / Math.log(1 - t);
+}
+function bh(e) {
+  if (!ue(e) || e < 0)
+    return {
+      cl: null,
+      lcl: null,
+      ucl: null,
+      oneLow: null,
+      oneHigh: null,
+      twoLow: null,
+      twoHigh: null
+    };
+  const t = 1 / (e + 1), n = (f) => xh(f, t) - 1, a = n(0.5), o = Math.max(0, n(Xt.three.low)), s = n(Xt.three.high), i = Math.max(0, n(Xt.one.low)), l = n(Xt.one.high), d = Math.max(0, n(Xt.two.low)), c = n(Xt.two.high);
+  return {
+    cl: a,
+    lcl: o,
+    ucl: s,
+    oneLow: i,
+    oneHigh: l,
+    twoLow: d,
+    twoHigh: c
+  };
+}
+function yh(e, t, n) {
+  const a = e.map((j) => ue(j) ? gh(j) : null), o = di(a, t), {
+    mrMean: s
+    /*, mrUcl: _mrUclY_raw*/
+  } = ui(o, !!n), i = a.filter((j, D) => !t[D] && ue(j)), l = i.length ? Mt(i) : NaN;
+  if (!ue(l) || !ue(s))
+    return {
+      center: null,
+      upperProcessLimit: null,
+      lowerProcessLimit: null,
+      upperTwoSigma: null,
+      lowerTwoSigma: null,
+      upperOneSigma: null,
+      lowerOneSigma: null,
+      mr: o,
+      mrMean: null,
+      mrUcl: null
+    };
+  const d = 2.66, c = 2 / 3 * d, f = 1 / 3 * d, h = l + d * s, m = l - d * s, g = l + c * s, C = l - c * s, p = l + f * s, u = l - f * s, R = At(l), F = At(h), T = m <= 0 ? null : At(m), S = At(p), B = u <= 0 ? null : At(u), _ = At(g), L = C <= 0 ? null : At(C);
+  return {
+    center: R ?? null,
+    upperProcessLimit: F ?? null,
+    lowerProcessLimit: T ?? null,
+    upperTwoSigma: _ ?? null,
+    lowerTwoSigma: L ?? null,
+    upperOneSigma: S ?? null,
+    lowerOneSigma: B ?? null,
+    mr: o,
+    mrMean: s,
+    mrUcl: ue(s) ? 3.267 * s : null
+  };
+}
+function fi(e) {
+  const {
+    chartType: t,
+    metricImprovement: n,
+    data: a,
+    settings: o = {}
+  } = e, s = {
+    excludeMovingRangeOutliers: !1,
+    specialCauseShiftPoints: 6,
+    specialCauseTrendPoints: 6,
+    enableFourOfFiveRule: !1,
+    suppressIsolatedFavourablePoint: !0,
+    minimumPoints: 13,
+    minimumPointsWarning: !1,
+    minimumPointsPartition: 12,
+    maximumPointsPartition: null,
+    maximumPoints: null,
+    variationIconConflictWarning: !0,
+    nullValueWarning: !0,
+    targetSuppressedWarning: !0,
+    ghostOnRareEventWarning: !0,
+    partitionSizeWarnings: !0,
+    baselineSpecialCauseWarning: !0,
+    maximumPointsWarnings: !0,
+    assuranceCapabilityMode: !0,
+    precedenceStrategy: "legacy",
+    emergingDirectionGrace: !1,
+    collapseClusterRules: !0,
+    baselineSuggest: !1,
+    baselineSuggestMinDeltaSigma: 0.5,
+    baselineSuggestStabilityPoints: 5,
+    baselineSuggestMinGap: 12,
+    baselineSuggestScoreThreshold: 50,
+    ...o
+  };
+  if (!Array.isArray(a)) throw new Error("data must be an array of rows");
+  const i = a.map((p, u) => ({
+    rowId: u + 1,
+    x: p.x,
+    value: ue(p.value) ? p.value : null,
+    ghost: !!p.ghost,
+    baseline: !!p.baseline,
+    target: ue(p.target) ? p.target : null
+  })), l = fh(i), d = [], c = [], h = i.filter(
+    (p) => !p.ghost && ue(p.value)
+  ).length >= (s.minimumPoints ?? 13);
+  let m = 0;
+  const g = {};
+  for (const p of l) {
+    m++;
+    const u = p.map((x) => x.value), R = p.map((x) => x.ghost);
+    let F = new Array(u.length).fill(null), T = NaN, S = NaN, B = NaN, _ = {
+      upperProcessLimit: null,
+      lowerProcessLimit: null,
+      upperTwoSigma: null,
+      lowerTwoSigma: null,
+      upperOneSigma: null,
+      lowerOneSigma: null
+    };
+    if (t === "XmR") {
+      F = di(u, R);
+      const x = u.filter(
+        (P, E) => !R[E] && ue(P)
+      );
+      T = x.length ? Mt(x) : NaN;
+      const y = ui(
+        F,
+        !!s.excludeMovingRangeOutliers
+      );
+      S = y.mrMean, B = y.mrUcl, _ = hh(T, S);
+    } else if (t === "T") {
+      const x = yh(
+        u,
+        R,
+        !!s.excludeMovingRangeOutliers
+      );
+      F = x.mr, S = x.mrMean ?? NaN, B = x.mrUcl ?? NaN, T = x.center ?? NaN, _ = {
+        upperProcessLimit: x.upperProcessLimit,
+        lowerProcessLimit: x.lowerProcessLimit,
+        upperTwoSigma: x.upperTwoSigma,
+        lowerTwoSigma: x.lowerTwoSigma,
+        upperOneSigma: x.upperOneSigma,
+        lowerOneSigma: x.lowerOneSigma
+      };
+    } else if (t === "G") {
+      const x = u.filter(
+        (E, M) => !R[M] && ue(E)
+      ), y = x.length ? Mt(x) : NaN, P = bh(y);
+      T = P.cl ?? NaN, _ = {
+        upperProcessLimit: P.ucl,
+        lowerProcessLimit: P.lcl,
+        upperTwoSigma: P.twoHigh,
+        lowerTwoSigma: P.twoLow,
+        upperOneSigma: P.oneHigh,
+        lowerOneSigma: P.oneLow
+      }, F = new Array(u.length).fill(null), S = NaN, B = NaN;
+    } else
+      c.push({
+        code: "unknown_chart_type",
+        category: "config",
+        severity: "error",
+        message: `Unknown ChartType '${t}' – supported: XmR, T, G.`,
+        context: { chartType: t }
+      });
+    const L = p.map((x, y) => {
+      const P = !x.ghost && ue(x.value) ? u.slice(0, y + 1).filter((b, A) => !R[A] && ue(b)).length : 0, E = h, M = E ? _ : {
+        upperProcessLimit: null,
+        lowerProcessLimit: null,
+        upperTwoSigma: null,
+        lowerTwoSigma: null,
+        upperOneSigma: null,
+        lowerOneSigma: null
+      };
+      return {
+        rowId: x.rowId,
+        x: x.x,
+        value: ue(x.value) ? x.value : null,
+        ghost: x.ghost,
+        partitionId: m,
+        pointRank: P,
+        mean: E && ue(T) ? T : null,
+        mr: ue(F[y]) ? F[y] : null,
+        mrMean: E && ue(S) ? S : null,
+        mrUcl: E && ue(B) ? B : null,
+        upperProcessLimit: ue(M.upperProcessLimit) ? M.upperProcessLimit : null,
+        lowerProcessLimit: ue(M.lowerProcessLimit) ? M.lowerProcessLimit : null,
+        upperTwoSigma: ue(M.upperTwoSigma) ? M.upperTwoSigma : null,
+        lowerTwoSigma: ue(M.lowerTwoSigma) ? M.lowerTwoSigma : null,
+        upperOneSigma: ue(M.upperOneSigma) ? M.upperOneSigma : null,
+        lowerOneSigma: ue(M.lowerOneSigma) ? M.lowerOneSigma : null,
+        target: ue(x.target) ? x.target : null,
+        specialCauseSinglePointAbove: !1,
+        specialCauseSinglePointBelow: !1,
+        specialCauseTwoOfThreeAbove: !1,
+        specialCauseTwoOfThreeBelow: !1,
+        specialCauseFourOfFiveAbove: !1,
+        specialCauseFourOfFiveBelow: !1,
+        specialCauseShiftHigh: !1,
+        specialCauseShiftLow: !1,
+        specialCauseTrendIncreasing: !1,
+        specialCauseTrendDecreasing: !1,
+        variationIcon: "none",
+        assuranceIcon: "none",
+        upperBaseline: E && ue(T) ? T : null,
+        lowerBaseline: E && ue(T) ? T : null,
+        movingRangeHighPointValue: E && ue(B) ? B : null,
+        ghostValue: x.ghost && ue(x.value) ? x.value : null,
+        ghostFlag: !!x.ghost,
+        specialCauseImprovementValue: null,
+        specialCauseConcernValue: null,
+        specialCauseNeitherValue: null
+      };
+    });
+    g[m] = L.filter(
+      (x) => !x.ghost && ue(x.value)
+    ).length;
+    const j = s.specialCauseShiftPoints ?? 6, D = s.specialCauseTrendPoints ?? 6, v = [];
+    for (let x = 0; x < L.length; x++) {
+      const y = L[x], P = y.value;
+      if (!y.ghost && ue(P) && v.push(P), !(ue(y.mean) && ue(y.upperProcessLimit) && ue(y.lowerProcessLimit)) || y.ghost || !ue(P)) {
+        d.push(y);
+        continue;
+      }
+      y.specialCauseSinglePointAbove = ue(y.upperProcessLimit) ? P > y.upperProcessLimit : !1, y.specialCauseSinglePointBelow = ue(y.lowerProcessLimit) ? P < y.lowerProcessLimit : !1;
+      const M = (A, w) => A.every(($) => $ > w), k = (A, w) => A.every(($) => $ < w), b = v.slice(-3);
+      if (b.length === 3 && ue(y.mean)) {
+        const A = y.upperTwoSigma ?? 1 / 0, w = y.lowerTwoSigma ?? -1 / 0, $ = Xs(b, A), W = Ks(b, w);
+        $ >= 2 && M(b, y.mean) && (y.specialCauseTwoOfThreeAbove = !0), W >= 2 && k(b, y.mean) && (y.specialCauseTwoOfThreeBelow = !0);
+      }
+      if (s.enableFourOfFiveRule && ue(y.mean)) {
+        const A = v.slice(-5);
+        if (A.length === 5) {
+          const w = y.upperOneSigma ?? 1 / 0, $ = y.lowerOneSigma ?? -1 / 0, W = Xs(A, w), I = Ks(A, $);
+          W >= 4 && M(A, y.mean) && (y.specialCauseFourOfFiveAbove = !0), I >= 4 && k(A, y.mean) && (y.specialCauseFourOfFiveBelow = !0);
+        }
+      }
+      ue(y.mean) && (y.specialCauseShiftHigh = Js(
+        v,
+        j,
+        y.mean,
+        "high"
+      ), y.specialCauseShiftLow = Js(
+        v,
+        j,
+        y.mean,
+        "low"
+      )), y.specialCauseTrendIncreasing = Zs(
+        v,
+        D,
+        "up"
+      ), y.specialCauseTrendDecreasing = Zs(
+        v,
+        D,
+        "down"
+      ), d.push(y);
+    }
+    if (s.maximumPointsPartition && Number.isFinite(s.maximumPointsPartition)) {
+      const x = s.maximumPointsPartition;
+      let y = 0;
+      for (const P of d.filter((E) => E.partitionId === m))
+        !P.ghost && ue(P.value) && y++, y > x && (P.mean = P.upperProcessLimit = P.lowerProcessLimit = null, P.upperTwoSigma = P.lowerTwoSigma = P.upperOneSigma = P.lowerOneSigma = null);
+    }
+  }
+  for (let p = 0; p < d.length; p++) {
+    const u = d[p];
+    if (u.ghost || !ue(u.value) || u.mean === null) {
+      u.variationIcon = "none";
+      continue;
+    }
+    const R = u.specialCauseSinglePointAbove || u.specialCauseTwoOfThreeAbove || s.enableFourOfFiveRule && u.specialCauseFourOfFiveAbove || u.specialCauseShiftHigh || u.specialCauseTrendIncreasing, F = u.specialCauseSinglePointBelow || u.specialCauseTwoOfThreeBelow || s.enableFourOfFiveRule && u.specialCauseFourOfFiveBelow || u.specialCauseShiftLow || u.specialCauseTrendDecreasing;
+    if (s.collapseClusterRules && (u.specialCauseTwoOfThreeAbove && u.specialCauseFourOfFiveAbove && (u.specialCauseTwoOfThreeAbove = !1), u.specialCauseTwoOfThreeBelow && u.specialCauseFourOfFiveBelow && (u.specialCauseTwoOfThreeBelow = !1)), s.precedenceStrategy === "directional_first") {
+      const B = (s.specialCauseTrendPoints ?? 6) - 1;
+      let _ = !1;
+      if (B >= 3 && ue(u.value)) {
+        const D = [];
+        for (let v = p; v >= 0 && D.length < B; v--) {
+          const x = d[v].value;
+          d[v].ghost || !ue(x) || D.unshift(x);
+        }
+        if (D.length === B) {
+          let v = 0;
+          for (let x = 1; x < D.length; x++)
+            n === "Down" ? D[x] <= D[x - 1] && v++ : n === "Up" && D[x] >= D[x - 1] && v++;
+          _ = v >= B - 2;
+        }
+      }
+      const L = n === "Up" ? R : F, j = n === "Up" ? F : R;
+      if (L && !j)
+        u.variationIcon = "improvement";
+      else if (!L && j) {
+        const D = u.specialCauseSinglePointAbove || u.specialCauseSinglePointBelow || u.specialCauseTwoOfThreeAbove || u.specialCauseTwoOfThreeBelow || s.enableFourOfFiveRule && (u.specialCauseFourOfFiveAbove || u.specialCauseFourOfFiveBelow) || u.specialCauseShiftHigh || u.specialCauseShiftLow;
+        s.emergingDirectionGrace && _ && !D ? u.variationIcon = "neither" : u.variationIcon = "concern";
+      } else L && j && s.emergingDirectionGrace && (_ || u.specialCauseTrendIncreasing || u.specialCauseTrendDecreasing) ? u.variationIcon = "improvement" : u.variationIcon = "neither";
+    } else
+      n === "Up" ? u.variationIcon = R ? "improvement" : F ? "concern" : "neither" : n === "Down" ? u.variationIcon = F ? "improvement" : R ? "concern" : "neither" : u.variationIcon = "neither";
+    if (s.suppressIsolatedFavourablePoint && u.variationIcon === "improvement") {
+      const S = n === "Up" && u.specialCauseSinglePointAbove, B = n === "Down" && u.specialCauseSinglePointBelow, _ = n === "Up" && (u.specialCauseTwoOfThreeAbove || s.enableFourOfFiveRule && u.specialCauseFourOfFiveAbove || u.specialCauseShiftHigh || u.specialCauseTrendIncreasing) || n === "Down" && (u.specialCauseTwoOfThreeBelow || s.enableFourOfFiveRule && u.specialCauseFourOfFiveBelow || u.specialCauseShiftLow || u.specialCauseTrendDecreasing);
+      (S || B) && !_ && (u.variationIcon = "none", u.specialCauseImprovementValue = null);
+    }
+    const T = R || F;
+    if (u.specialCauseImprovementValue = T && u.variationIcon === "improvement" ? u.value : null, u.specialCauseConcernValue = T && u.variationIcon === "concern" ? u.value : null, u.specialCauseNeitherValue = T && u.variationIcon === "neither" ? u.value : null, ue(u.value) && u.mean !== null) {
+      u.assuranceIcon = "none";
+      const S = i[u.rowId - 1];
+      if (ue(S.target)) {
+        const B = S.target;
+        s.assuranceCapabilityMode && ue(u.upperProcessLimit) && ue(u.lowerProcessLimit) ? n === "Up" ? u.lowerProcessLimit !== null && u.lowerProcessLimit > B ? u.assuranceIcon = "pass" : u.upperProcessLimit !== null && u.upperProcessLimit < B ? u.assuranceIcon = "fail" : u.assuranceIcon = "none" : n === "Down" ? u.upperProcessLimit !== null && u.upperProcessLimit < B ? u.assuranceIcon = "pass" : u.lowerProcessLimit !== null && u.lowerProcessLimit > B ? u.assuranceIcon = "fail" : u.assuranceIcon = "none" : u.assuranceIcon = "none" : n === "Down" ? u.assuranceIcon = u.value <= B ? "pass" : "fail" : n === "Up" ? u.assuranceIcon = u.value >= B ? "pass" : "fail" : u.assuranceIcon = "none";
+      }
+    }
+  }
+  if ((s.minimumPointsWarning ?? !1) && !h) {
+    const p = i.filter(
+      (u) => !u.ghost && ue(u.value)
+    ).length;
+    c.push({
+      code: "insufficient_points_global",
+      category: "data",
+      severity: "warning",
+      message: `Only ${p} non-ghost points available; minimum required is ${s.minimumPoints}. Limits and icons suppressed.`,
+      context: { available: p, minimumRequired: s.minimumPoints }
+    });
+  }
+  if (s.variationIconConflictWarning)
+    for (const p of d)
+      p.variationIcon === "improvement" && (p.specialCauseSinglePointAbove || p.specialCauseTwoOfThreeAbove || s.enableFourOfFiveRule && p.specialCauseFourOfFiveAbove || p.specialCauseShiftHigh || p.specialCauseTrendIncreasing) && (p.specialCauseSinglePointBelow || p.specialCauseTwoOfThreeBelow || s.enableFourOfFiveRule && p.specialCauseFourOfFiveBelow || p.specialCauseShiftLow || p.specialCauseTrendDecreasing) && c.push({
+        code: "variation_conflict_row",
+        category: "logic",
+        severity: "warning",
+        message: `Row ${p.rowId}: simultaneous high/low special-cause signals – variation icon may be ambiguous.`,
+        context: { rowId: p.rowId }
+      });
+  if (s.maximumPoints && Number.isFinite(s.maximumPoints)) {
+    const p = s.maximumPoints;
+    let u = 0;
+    for (const R of d)
+      !R.ghost && ue(R.value) && u++, u > p && (R.mean = R.upperProcessLimit = R.lowerProcessLimit = null, R.upperTwoSigma = R.lowerTwoSigma = R.upperOneSigma = R.lowerOneSigma = null);
+  }
+  if (s.nullValueWarning && (t === "XmR" || t === "G")) {
+    const p = i.filter(
+      (u) => !u.ghost && (u.value === null || u.value === void 0 || !ue(u.value))
+    ).length;
+    p && c.push({
+      code: "null_values_excluded",
+      category: "data",
+      severity: "info",
+      message: `${p} null/missing value(s) excluded from calculations.`,
+      context: { nullCount: p }
+    });
+  }
+  if (s.targetSuppressedWarning && (t === "T" || t === "G") && i.some((u) => ue(u.target)) && c.push({
+    code: "target_ignored_rare_event",
+    category: "target",
+    severity: "info",
+    message: `Targets provided are ignored for ${t} charts in this port.`,
+    context: { chartType: t }
+  }), s.ghostOnRareEventWarning && (t === "T" || t === "G")) {
+    const p = i.filter((u) => u.ghost).length;
+    p && c.push({
+      code: "ghost_rows_rare_event",
+      category: "ghost",
+      severity: "info",
+      message: `${p} ghost row(s) supplied for rare-event chart (${t}); verify intent.`,
+      context: { chartType: t, ghostCount: p }
+    });
+  }
+  if (s.partitionSizeWarnings && Object.entries(g).forEach(([p, u]) => {
+    u < s.minimumPointsPartition && c.push({
+      code: "insufficient_points_partition",
+      category: "partition",
+      severity: "warning",
+      message: `Partition ${p} has only ${u} non-ghost point(s); below recommended ${s.minimumPointsPartition}.`,
+      context: {
+        partitionId: Number(p),
+        count: u,
+        minimum: s.minimumPointsPartition
+      }
+    });
+  }), s.baselineSpecialCauseWarning) {
+    const p = [];
+    d.forEach((u) => {
+      i[u.rowId - 1].baseline && (u.specialCauseSinglePointAbove || u.specialCauseSinglePointBelow || u.specialCauseTwoOfThreeAbove || u.specialCauseTwoOfThreeBelow || u.specialCauseFourOfFiveAbove || u.specialCauseFourOfFiveBelow || u.specialCauseShiftHigh || u.specialCauseShiftLow || u.specialCauseTrendIncreasing || u.specialCauseTrendDecreasing) && p.push(u.rowId);
+    }), p.length && c.push({
+      code: "baseline_with_special_cause",
+      category: "baseline",
+      severity: "warning",
+      message: `Baseline set with special-cause present at row(s): ${p.join(", ")}.`,
+      context: { rows: p }
+    });
+  }
+  s.maximumPointsWarnings && (s.maximumPointsPartition && Number.isFinite(s.maximumPointsPartition) && c.push({
+    code: "partition_cap_applied",
+    category: "limits",
+    severity: "info",
+    message: `Limits suppressed after ${s.maximumPointsPartition} non-ghost points per partition.`,
+    context: { cap: s.maximumPointsPartition }
+  }), s.maximumPoints && Number.isFinite(s.maximumPoints) && c.push({
+    code: "global_cap_applied",
+    category: "limits",
+    severity: "info",
+    message: `Limits suppressed after global cap of ${s.maximumPoints} non-ghost points.`,
+    context: { cap: s.maximumPoints }
+  }));
+  let C;
+  if (s.baselineSuggest) {
+    const p = d, u = s.baselineSuggestStabilityPoints, R = s.baselineSuggestMinGap, F = s.baselineSuggestMinDeltaSigma, T = s.baselineSuggestScoreThreshold, S = [];
+    let B = 0;
+    for (let _ = 0; _ < p.length; _++) {
+      let L = function(x) {
+        return !!j[x] && !D?.[x];
+      };
+      const j = p[_];
+      _ > 0 && p[_ - 1].partitionId !== j.partitionId && (B = _);
+      const D = p[_ - 1], v = [];
+      (L("specialCauseShiftHigh") || L("specialCauseShiftLow")) && v.push({ reason: "shift", index: _ }), (L("specialCauseTrendIncreasing") || L("specialCauseTrendDecreasing")) && v.push({ reason: "trend", index: _ }), (L("specialCauseSinglePointAbove") || L("specialCauseSinglePointBelow")) && v.push({ reason: "point", index: _ });
+      for (const x of v) {
+        if (x.index - B < R) continue;
+        const y = Math.max(0, x.index - u), P = x.index - 1;
+        if (P - y + 1 < u) continue;
+        const E = x.index, M = x.index + u - 1;
+        if (M >= p.length) continue;
+        const k = p.slice(y, P + 1).map((J) => J.value).filter(ue), b = p.slice(E, M + 1).map((J) => J.value).filter(ue);
+        if (k.length < u || b.length < u) continue;
+        const A = p[x.index];
+        let w = null;
+        if (ue(A.upperProcessLimit) && ue(A.mean)) {
+          const J = A.upperProcessLimit - A.mean;
+          J > 0 && (w = J / 3);
+        }
+        if (!w || w <= 0) continue;
+        const $ = Mt(k), W = Mt(b), I = W - $;
+        if (Math.abs(I) < F * w) continue;
+        const H = p.slice(E, M + 1).filter(
+          (J) => J.variationIcon === "concern"
+          /* Concern */
+        ).length;
+        if (H > 1) continue;
+        const Q = (J) => {
+          const ae = Mt(J);
+          return J.length ? J.reduce((G, me) => G + (me - ae) * (me - ae), 0) / J.length : 0;
+        }, fe = Q(k), oe = Q(b);
+        let K = x.reason === "shift" ? 90 : x.reason === "trend" ? 70 : 60;
+        if (oe < fe && (K += 10), K -= H * 15, K < T) continue;
+        const V = S.find((J) => J.index === x.index);
+        if (V) {
+          const J = (ae) => ae === "shift" ? 3 : ae === "trend" ? 2 : 1;
+          (J(x.reason) > J(V.reason) || K > V.score) && (V.reason = x.reason, V.score = K, V.deltaMean = I, V.oldMean = $, V.newMean = W, V.window = [E, M]);
+        } else
+          S.push({
+            index: x.index,
+            reason: x.reason,
+            score: K,
+            deltaMean: I,
+            oldMean: $,
+            newMean: W,
+            window: [E, M]
+          });
+      }
+      _ > 0 && p[_ - 1].partitionId !== p[_].partitionId && (B = _);
+    }
+    S.sort((_, L) => _.index - L.index), C = S;
+  }
+  return { rows: d, warnings: c, ...C ? { suggestedBaselines: C } : {} };
+}
+const Ua = {
+  singlePointAbove: {
+    tooltip: "Single point above upper control limit",
+    narration: "Single point beyond a control limit"
+  },
+  singlePointBelow: {
+    tooltip: "Single point below lower control limit",
+    narration: "Single point beyond a control limit"
+  },
+  twoOfThreeAbove: {
+    tooltip: "Two of three points beyond +2σ",
+    narration: "Two of three points beyond two sigma (same side)"
+  },
+  twoOfThreeBelow: {
+    tooltip: "Two of three points beyond -2σ",
+    narration: "Two of three points beyond two sigma (same side)"
+  },
+  fourOfFiveAbove: {
+    tooltip: "Four of five points beyond +1σ",
+    narration: "Four of five points beyond one sigma (same side)"
+  },
+  fourOfFiveBelow: {
+    tooltip: "Four of five points beyond -1σ",
+    narration: "Four of five points beyond one sigma (same side)"
+  },
+  shiftHigh: {
+    tooltip: "Shift: run of points above centre line",
+    narration: "Shift (run on one side of mean)"
+  },
+  shiftLow: {
+    tooltip: "Shift: run of points below centre line",
+    narration: "Shift (run on one side of mean)"
+  },
+  trendIncreasing: {
+    tooltip: "Trend: consecutive increasing points",
+    narration: "Trend (consecutive increases)"
+  },
+  trendDecreasing: {
+    tooltip: "Trend: consecutive decreasing points",
+    narration: "Trend (consecutive decreases)"
+  }
+};
+function Ga(e) {
+  if (!e) return [];
+  const t = [];
+  return e.specialCauseSinglePointAbove && t.push("singlePointAbove"), e.specialCauseSinglePointBelow && t.push("singlePointBelow"), e.specialCauseTwoOfThreeAbove && t.push("twoOfThreeAbove"), e.specialCauseTwoOfThreeBelow && t.push("twoOfThreeBelow"), e.specialCauseFourOfFiveAbove && t.push("fourOfFiveAbove"), e.specialCauseFourOfFiveBelow && t.push("fourOfFiveBelow"), e.specialCauseShiftHigh && t.push("shiftHigh"), e.specialCauseShiftLow && t.push("shiftLow"), e.specialCauseTrendIncreasing && t.push("trendIncreasing"), e.specialCauseTrendDecreasing && t.push("trendDecreasing"), t;
+}
+function Ya(e) {
+  switch (e) {
+    case Ge.Improvement:
+      return "Improvement signal";
+    case Ge.Concern:
+      return "Concern signal";
+    case Ge.Neither:
+      return "Common cause variation";
+    case Ge.None:
+      return null;
+    // suppressed / not enough data
+    default:
+      return null;
+  }
+}
+function vh(e) {
+  switch (e) {
+    case Ft.Pass:
+      return "Target met";
+    case Ft.Fail:
+      return "Target not met";
+    default:
+      return null;
+  }
+}
+function wh(e, t, n) {
+  if (e == null || !Number.isFinite(t) || t <= 0) return null;
+  const a = Math.abs((n - e) / t);
+  return a < 1 ? "Within 1σ" : a < 2 ? "Between 1–2σ" : a < 3 ? "Between 2–3σ" : "Beyond 3σ";
+}
+const lt = {
+  improvement: { token: "var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)", hex: "#00B0F0" },
+  concern: { token: "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)", hex: "#E46C0A" },
+  none: { token: "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)", hex: "#490092" },
+  neither: { token: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", hex: "#A6A6A6" }
+};
+function hi(e) {
+  return e ? lt[e]?.token ?? lt.neither.token : lt.neither.token;
+}
+function _h(e) {
+  return e ? lt[e]?.hex ?? lt.neither.hex : lt.neither.hex;
+}
+const pi = ({
+  engineRows: e,
+  limits: t,
+  pointDescriber: n,
+  measureName: a,
+  measureUnit: o,
+  dateFormatter: s
+}) => {
+  const i = kn(), l = _n(), [d, c] = X.useState(null), [f, h] = X.useState(!1), m = X.useRef(null);
+  X.useEffect(() => {
+    if (i) {
+      if (i.focused && (c(i.focused), m.current && (cancelAnimationFrame(m.current), m.current = null)), !i.focused && !f) {
+        const ae = requestAnimationFrame(() => {
+          c(null), m.current = null;
+        });
+        m.current = ae;
+      }
+      return () => {
+        m.current && (cancelAnimationFrame(m.current), m.current = null);
+      };
+    }
+  }, [i, i?.focused, f]);
+  const g = i && (i.focused || (f ? d : null) || d), [C, p] = X.useState(!1);
+  X.useEffect(() => {
+    const ae = requestAnimationFrame(() => p(!0));
+    return () => cancelAnimationFrame(ae);
+  }, [g?.index]);
+  const u = l?.innerWidth ?? 0, R = l?.innerHeight ?? 0, F = g ? Math.min(Math.max(g.clientX, 0), u) : 0, T = g ? Math.min(Math.max(g.clientY, 0), R) : 0, B = l.ref?.current;
+  if (!g)
+    return null;
+  const _ = e?.[g.index], L = Ga(_).map((ae) => Ua[ae].tooltip), j = g.x instanceof Date ? g.x : new Date(g.x), D = s ? s(j) : j.toDateString(), v = o ? `${o}` : "", x = a || v ? `${g.y}${v ? "" + v : " "}${a ? " " + a : ""}` : `${g.y}`, y = Ya(_?.variationIcon), P = vh(_?.assuranceIcon), E = wh(
+    t.mean ?? null,
+    t.sigma,
+    g.y
+  ), M = n ? n(g.index, { x: g.x, y: g.y }) : void 0, k = y || P || E, b = L.length > 0, A = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)", w = hi(_?.variationIcon), $ = 6.2, I = [
+    M || "",
+    `${D} • ${x}`
+  ].filter(Boolean).reduce(
+    (ae, G) => Math.max(ae, G.length * $ + 32),
+    0
+  ), O = 200, H = 440, Q = Math.min(H, Math.max(O, I));
+  let fe = F + 12, K = (l.margin?.top ?? 0) + T + 16;
+  fe + Q > u && (fe = F - -60 - Q), fe < 0 && (fe = Math.max(0, u - Q));
+  const V = g ? `spc-tooltip-${g.index}` : "spc-tooltip", J = B ? Sl(
+    /* @__PURE__ */ r.jsx(
+      "div",
+      {
+        id: V,
+        className: "fdp-spc-tooltip fdp-spc-tooltip-portal" + (C ? " is-visible" : ""),
+        style: {
+          position: "absolute",
+          left: fe,
+          top: K,
+          width: Q,
+          maxWidth: H,
+          zIndex: 10,
+          pointerEvents: "auto",
+          userSelect: "none"
+        },
+        role: "tooltip",
+        "aria-live": "polite",
+        "aria-hidden": C ? "false" : "true",
+        "data-floating": !0,
+        "data-placement": fe + Q + 12 > u ? "left" : "right",
+        onPointerEnter: () => {
+          h(!0), m.current && (cancelAnimationFrame(m.current), m.current = null);
+        },
+        onPointerLeave: () => {
+          if (h(!1), !i?.focused) {
+            const ae = requestAnimationFrame(() => {
+              c(null), m.current = null;
+            });
+            m.current = ae;
+          }
+        },
+        children: /* @__PURE__ */ r.jsxs("div", { className: "fdp-spc-tooltip__body", children: [
+          /* @__PURE__ */ r.jsxs("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
+            /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ r.jsx("strong", { children: "Date" }) }),
+            /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-tooltip__primary-line", children: D })
+          ] }),
+          /* @__PURE__ */ r.jsxs("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--value", children: [
+            /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ r.jsx("strong", { children: "Value" }) }),
+            /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-tooltip__primary-line", children: x })
+          ] }),
+          k && /* @__PURE__ */ r.jsxs("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
+            /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ r.jsx("strong", { children: "Signals" }) }),
+            /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: y && (y.toLowerCase().includes("concern") ? /* @__PURE__ */ r.jsx(
+              et,
+              {
+                text: y,
+                color: "default",
+                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
+              }
+            ) : y.toLowerCase().includes("improvement") ? /* @__PURE__ */ r.jsx(
+              et,
+              {
+                text: y,
+                color: "default",
+                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
+              }
+            ) : /* @__PURE__ */ r.jsx(
+              et,
+              {
+                text: y,
+                color: "default",
+                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
+              }
+            )) })
+          ] }),
+          P && /* @__PURE__ */ r.jsxs("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
+            /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ r.jsx("strong", { children: "Assurance" }) }),
+            /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: (() => {
+              const ae = P.toLowerCase(), me = !(ae.includes("not met") || ae.includes("not achieved")) && /(^|\b)(met|achieved)(\b|$)/.test(ae);
+              return /* @__PURE__ */ r.jsx(
+                et,
+                {
+                  text: P,
+                  color: "default",
+                  className: `fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--assurance ${me ? "fdp-spc-tag--improvement" : "fdp-spc-tag--concern"}`,
+                  "aria-label": `Assurance: ${P}`
+                }
+              );
+            })() })
+          ] }),
+          E && /* @__PURE__ */ r.jsxs("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
+            /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ r.jsx("strong", { children: "Control Limits & Sigma" }) }),
+            /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: /* @__PURE__ */ r.jsx(
+              et,
+              {
+                text: (() => {
+                  const ae = E.toLowerCase();
+                  return ae.startsWith("within 1") ? "≤1σ" : ae.startsWith("1–2") ? "1–2σ" : ae.startsWith("2–3") ? "2–3σ" : ae.startsWith(">3") ? ">3σ" : E;
+                })(),
+                color: E.includes(">3") ? "orange" : E.includes("2–3") ? "yellow" : "grey",
+                "aria-label": `Sigma zone: ${E}`,
+                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--zone"
+              }
+            ) })
+          ] }),
+          b && /* @__PURE__ */ r.jsxs("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
+            /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ r.jsx("strong", { children: "Special cause" }) }),
+            /* @__PURE__ */ r.jsx(
+              "div",
+              {
+                className: "fdp-spc-tooltip__rule-tags",
+                "aria-label": "Special cause rules",
+                children: L.map((ae) => {
+                  const G = y ? y.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : y.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--rule" : "fdp-spc-tag--rule";
+                  return /* @__PURE__ */ r.jsx(
+                    et,
+                    {
+                      text: ae,
+                      color: "default",
+                      className: `fdp-spc-tooltip__tag fdp-spc-tag ${G}`
+                    },
+                    ae
+                  );
+                })
+              }
+            )
+          ] })
+        ] })
+      }
+    ),
+    B
+  ) : null;
+  return /* @__PURE__ */ r.jsxs(
+    "g",
+    {
+      className: "fdp-tooltip-layer fdp-spc-tooltip",
+      pointerEvents: "none",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ r.jsx(
+          "circle",
+          {
+            cx: F,
+            cy: T,
+            r: 7,
+            fill: "none",
+            stroke: A,
+            strokeWidth: 3
+          }
+        ),
+        /* @__PURE__ */ r.jsx(
+          "circle",
+          {
+            cx: F,
+            cy: T,
+            r: 5,
+            fill: "#000",
+            stroke: A,
+            strokeWidth: 1.5
+          }
+        ),
+        /* @__PURE__ */ r.jsx(
+          "circle",
+          {
+            cx: F,
+            cy: T,
+            r: 2.5,
+            fill: w,
+            stroke: "#fff",
+            strokeWidth: 0.5
+          }
+        ),
+        J
+      ]
+    }
+  );
+};
+let oa = null;
+try {
+  oa = require("@fergusbisset/nhs-fdp-design-system/dist/js/tokens.json")?.color?.["data-viz"]?.spc || null;
+} catch {
+}
+const st = (e, t) => {
+  if (!oa) return t;
+  const n = e.split(".");
+  let a = oa;
+  for (const s of n) {
+    if (a == null) break;
+    a = a[s];
+  }
+  const o = a;
+  return o == null ? t : typeof o == "string" || typeof o == "number" ? String(o) : o.$value != null ? String(o.$value) : o.value != null ? String(o.value) : t;
+}, mi = () => ({
+  // Lightened defaults (previous 0.18 -> 0.12, 0.06 -> 0.03) to reduce intensity of wash.
+  start: st("gradient.stop.start-opacity", "0.12"),
+  mid: st("gradient.stop.mid-opacity", "0.03"),
+  end: st("gradient.stop.end-opacity", "0"),
+  triStart: st(
+    "gradient.stop.triangle-start-opacity",
+    st("gradient.stop.start-opacity", "0.12")
+  ),
+  triMid: st(
+    "gradient.stop.triangle-mid-opacity",
+    st("gradient.stop.mid-opacity", "0.03")
+  ),
+  triEnd: st(
+    "gradient.stop.triangle-end-opacity",
+    st("gradient.stop.end-opacity", "0")
+  )
+});
+var zt = /* @__PURE__ */ ((e) => (e.Pass = "pass", e.Fail = "fail", e.Uncertain = "uncertain", e))(zt || {});
+const Sh = {
+  pass: "#00B0F0",
+  // blue
+  fail: "#E46C0A",
+  // orange
+  uncertain: "#A6A6A6"
+  // grey
+}, kh = {
+  pass: "P",
+  fail: "F",
+  uncertain: "?"
+};
+var Je = /* @__PURE__ */ ((e) => (e.HigherIsBetter = "higher_is_better", e.LowerIsBetter = "lower_is_better", e.ContextDependent = "context_dependent", e))(Je || {}), we = /* @__PURE__ */ ((e) => (e.Higher = "higher", e.Lower = "lower", e))(we || {}), Xe = /* @__PURE__ */ ((e) => (e.Improving = "improving", e.Deteriorating = "deteriorating", e.No_Judgement = "no_judgement", e.None = "none", e))(Xe || {}), De = /* @__PURE__ */ ((e) => (e.SpecialCauseImproving = "special_cause_improving", e.SpecialCauseDeteriorating = "special_cause_deteriorating", e.CommonCause = "common_cause", e.SpecialCauseNoJudgement = "special_cause_no_judgement", e))(De || {});
+const Ch = (e) => {
+  const t = e.replace("#", ""), n = parseInt(t.slice(0, 2), 16) / 255, a = parseInt(t.slice(2, 4), 16) / 255, o = parseInt(t.slice(4, 6), 16) / 255, s = [n, a, o].map((l) => l <= 0.03928 ? l / 12.92 : Math.pow((l + 0.055) / 1.055, 2.4));
+  return 0.2126 * s[0] + 0.7152 * s[1] + 0.0722 * s[2] < 0.55 ? "#ffffff" : "#212b32";
+}, Va = {
+  special_cause_deteriorating: {
+    hex: lt.concern.hex,
+    judgement: "deteriorating",
+    label: "Special Cause (Deteriorating)",
+    description: "Deteriorating variation detected (special cause) relative to baseline."
+  },
+  special_cause_improving: {
+    hex: lt.improvement.hex,
+    judgement: "improving",
+    label: "Special Cause (Improving)",
+    description: "Improving variation detected (special cause) relative to baseline."
+  },
+  common_cause: {
+    hex: lt.neither.hex,
+    judgement: "none",
+    label: "Common Cause",
+    description: "Common cause variation only – no special cause detected."
+  },
+  special_cause_no_judgement: {
+    hex: lt.none.hex,
+    judgement: "no_judgement",
+    label: "Special Cause (No Judgement)",
+    description: "Special cause detected without assigning improving/deteriorating judgement."
+  }
+};
+Object.values(Va).forEach((e) => {
+  e.text || (e.text = Ch(e.hex));
+});
+const gi = (e) => Va[e], qa = (e) => Va[e].judgement || "none", Qs = {
+  special: {
+    higher: [
+      { cx: 77.5, cy: 158.5 },
+      { cx: 114, cy: 175 },
+      { cx: 150.5, cy: 158.5 },
+      { cx: 188, cy: 125 },
+      { cx: 225, cy: 137 }
+    ],
+    lower: [
+      { cx: 77.5, cy: 139.5 },
+      { cx: 114, cy: 124.5 },
+      { cx: 150.5, cy: 139.5 },
+      { cx: 188, cy: 175.5 },
+      { cx: 224.5, cy: 162 }
+    ]
+  },
+  common: [
+    { cx: 76.5, cy: 149.5 },
+    { cx: 113, cy: 179.5 },
+    { cx: 149.5, cy: 117 },
+    { cx: 187, cy: 171 },
+    { cx: 223.5, cy: 158 }
+  ]
+};
+function jh(e, t) {
+  let n;
+  return e === "common_cause" ? n = Qs.common : n = Qs.special[t === "lower" ? "lower" : "higher"], n.map((a) => ({ ...a }));
+}
+const xi = (e) => {
+  if (e.variationIcon !== void 0) {
+    const s = e, l = {
+      [Ge.Improvement]: De.SpecialCauseImproving,
+      [Ge.Concern]: De.SpecialCauseDeteriorating,
+      [Ge.Neither]: De.CommonCause,
+      [Ge.None]: De.SpecialCauseNoJudgement
+    }[s.variationIcon];
+    let d = s.trend;
+    return !d && s.polarity && (l === De.SpecialCauseImproving || l === De.SpecialCauseDeteriorating) && (l === De.SpecialCauseImproving ? d = s.polarity === Je.LowerIsBetter ? we.Lower : we.Higher : d = s.polarity === Je.LowerIsBetter ? we.Higher : we.Lower), d || (d = l === De.SpecialCauseImproving ? we.Higher : l === De.SpecialCauseDeteriorating ? we.Lower : we.Higher), {
+      state: l,
+      direction: d,
+      polarity: s.polarity ?? Je.ContextDependent
+    };
+  }
+  if (e.state !== void 0) {
+    const s = e;
+    let i = s.trend;
+    return !i && (s.state === De.SpecialCauseImproving || s.state === De.SpecialCauseDeteriorating) && s.polarity && (s.state === De.SpecialCauseImproving ? i = s.polarity === Je.LowerIsBetter ? we.Lower : we.Higher : i = s.polarity === Je.LowerIsBetter ? we.Higher : we.Lower), i || (s.state === De.SpecialCauseImproving ? i = we.Higher : s.state === De.SpecialCauseDeteriorating ? i = we.Lower : i = we.Higher), {
+      state: s.state,
+      direction: i,
+      polarity: s.polarity ?? Je.ContextDependent
+    };
+  }
+  const t = e, a = {
+    [Xe.Improving]: De.SpecialCauseImproving,
+    [Xe.Deteriorating]: De.SpecialCauseDeteriorating,
+    [Xe.No_Judgement]: De.SpecialCauseNoJudgement,
+    [Xe.None]: De.CommonCause
+  }[t.judgement];
+  let o;
+  return t.judgement === Xe.Improving ? o = t.polarity === Je.LowerIsBetter ? we.Lower : we.Higher : t.judgement === Xe.Deteriorating ? o = t.polarity === Je.LowerIsBetter ? we.Higher : we.Lower : o = t.trend ?? we.Higher, { state: a, direction: o, polarity: t.polarity };
+};
+function Nh(e, t) {
+  const { state: n, direction: a, polarity: o } = xi(e), s = qa(n), i = a === we.Higher ? "above" : "below", l = a === we.Higher ? "upwards" : "downwards", d = (() => {
+    switch (o) {
+      case Je.HigherIsBetter:
+        return "For this measure, higher values are better.";
+      case Je.LowerIsBetter:
+        return "For this measure, lower values are better.";
+      default:
+        return "Direction of improvement is context dependent.";
+    }
+  })();
+  return [
+    (() => {
+      switch (s) {
+        case Xe.Improving:
+          return `Special cause improvement: recent data show a sustained run ${i} the mean (unlikely due to random variation).`;
+        case Xe.Deteriorating:
+          return `Special cause deterioration: recent data show a sustained run ${i} the mean (unlikely due to random variation).`;
+        case Xe.No_Judgement:
+          return `Special cause detected (no value judgement): recent data show a change in level, trending ${l}.`;
+        case Xe.None:
+        default:
+          return "Common cause variation: points vary randomly around the mean; no special cause detected.";
+      }
+    })(),
+    d,
+    null,
+    null,
+    null,
+    null,
+    null
+  ].filter(Boolean).join(" ");
+}
+const Gr = (e, t, n, a, o, s) => /* @__PURE__ */ r.jsxs("defs", { children: [
+  a && /* @__PURE__ */ r.jsxs("filter", { id: t, filterUnits: "objectBoundingBox", children: [
+    /* @__PURE__ */ r.jsx("feGaussianBlur", { stdDeviation: "3" }),
+    /* @__PURE__ */ r.jsx("feOffset", { dx: "0", dy: "15", result: "blur" }),
+    /* @__PURE__ */ r.jsx("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
+    /* @__PURE__ */ r.jsx("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+    /* @__PURE__ */ r.jsx("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+  ] }),
+  o && /* @__PURE__ */ r.jsx("linearGradient", { id: n, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: s.map((i) => /* @__PURE__ */ r.jsx(
+    "stop",
+    {
+      offset: i.offset,
+      stopColor: e,
+      stopOpacity: parseFloat(i.opacity)
+    },
+    i.offset
+  )) })
+] }), Xa = ({
+  data: e,
+  size: t = 44,
+  ariaLabel: n,
+  showLetter: a = !0,
+  dropShadow: o = !0,
+  gradientWash: s = !1,
+  variant: i = "classic",
+  runLength: l = 0,
+  // Default changed to 'polarity' so letters reflect desirable direction (H = Higher is better, L = Lower is better)
+  letterMode: d = "polarity",
+  letterOverride: c,
+  ...f
+}) => {
+  const h = Mn(), m = Mn(), {
+    start: g,
+    mid: C,
+    end: p,
+    triStart: u,
+    triMid: R,
+    triEnd: F
+  } = mi(), { state: T, direction: S, polarity: B } = je(
+    () => xi(e),
+    [e]
+  ), _ = je(() => gi(T), [T]), L = je(() => qa(T), [T]), j = L === Xe.Improving || L === Xe.Deteriorating;
+  let D = "";
+  a && j && (d === "polarity" ? B === Je.HigherIsBetter ? D = "H" : B === Je.LowerIsBetter ? D = "L" : D = "" : D = S === we.Higher ? "H" : "L"), c !== void 0 && (D = c);
+  const v = T !== De.CommonCause, x = T === De.SpecialCauseNoJudgement, y = st("common-cause", "#A6A6A6"), P = v ? _.hex : y, E = je(
+    () => jh(T, S),
+    [T, S]
+  ), M = n || `${_.label}${D ? S === we.Higher ? " – Higher" : " – Lower" : ""}`, k = Nh(
+    e
+  );
+  if (i === "triangleWithRun") {
+    const W = [
+      [150, 90],
+      [100, 190],
+      [200, 190]
+    ], I = [
+      [150, 140 + 100 / 2],
+      [150 - 100 / 2, 140 - 100 / 2],
+      [150 + 100 / 2, 140 - 100 / 2]
+    ];
+    let O = null;
+    T === De.SpecialCauseImproving || T === De.SpecialCauseDeteriorating ? O = /* @__PURE__ */ r.jsx(
+      "polygon",
+      {
+        points: (S === we.Higher ? W : I).map((me) => me.join(",")).join(" "),
+        fill: _.hex,
+        stroke: _.hex,
+        strokeWidth: 6,
+        transform: S === we.Higher ? "translate(0, -15)" : "translate(0, 15)"
+      }
+    ) : T === De.SpecialCauseNoJudgement && (O = /* @__PURE__ */ r.jsx(
+      "polygon",
+      {
+        points: S === we.Higher ? W.map((me) => me.join(",")).join(" ") : I.map((me) => me.join(",")).join(" "),
+        fill: _.hex,
+        stroke: _.hex,
+        strokeWidth: 6,
+        transform: S === we.Higher ? "translate(0,-6)" : "translate(0,6)"
+      }
+    ));
+    const H = Math.max(0, Math.min(5, Math.floor(l || 0))), Q = T === De.CommonCause ? 160 : S === we.Higher ? 210 : 70, fe = 10, oe = 26, K = 150 - 2 * oe, V = T === De.SpecialCauseImproving ? st("improvement", "#00B0F0") : T === De.SpecialCauseDeteriorating ? st("concern", "#E46C0A") : y, J = Array.from({ length: 5 }).map((me, he) => {
+      const pe = (T === De.SpecialCauseImproving || T === De.SpecialCauseDeteriorating) && he >= 5 - H ? V : y;
+      return /* @__PURE__ */ r.jsx(
+        "circle",
+        {
+          cx: K + he * oe,
+          cy: Q,
+          r: fe,
+          fill: pe,
+          stroke: pe,
+          strokeWidth: 1
+        },
+        he
+      );
+    }), ae = Gr(
+      _.hex,
+      h,
+      m,
+      o,
+      s,
+      [
+        { offset: "0%", opacity: u },
+        { offset: "75%", opacity: R },
+        { offset: "100%", opacity: F }
+      ]
+    ), G = T === De.CommonCause || S === we.Higher ? "translate(0,-10)" : "translate(0,20)";
+    return /* @__PURE__ */ r.jsxs(
+      "svg",
+      {
+        width: t,
+        height: t,
+        viewBox: "0 0 300 300",
+        role: "img",
+        "aria-label": M,
+        "aria-description": k,
+        ...f,
+        children: [
+          ae,
+          /* @__PURE__ */ r.jsx(
+            "circle",
+            {
+              stroke: "none",
+              fill: s ? `url(#${m})` : "#ffffff",
+              ...o ? { filter: `url(#${h})` } : {},
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          ),
+          /* @__PURE__ */ r.jsx(
+            "circle",
+            {
+              stroke: _.hex,
+              strokeWidth: 15,
+              strokeMiterlimit: 10,
+              fill: "none",
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          ),
+          /* @__PURE__ */ r.jsxs("g", { transform: G, children: [
+            O,
+            D && /* @__PURE__ */ r.jsx(
+              "text",
+              {
+                fill: "#fff",
+                fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+                fontWeight: "bold",
+                fontSize: 64,
+                x: "150",
+                y: S === we.Higher ? 150 : 145,
+                textAnchor: "middle",
+                dominantBaseline: "middle",
+                children: D
+              }
+            ),
+            J
+          ] })
+        ]
+      }
+    );
+  }
+  if (i === "triangle") {
+    const W = [
+      [150, 75],
+      [75, 225],
+      [225, 225]
+    ], I = [
+      [150, 150 + 150 / 2],
+      [150 - 150 / 2, 150 - 150 / 2],
+      [150 + 150 / 2, 150 - 150 / 2]
+    ], O = [
+      [150 - 150 / 2, 150 + 150 / 2],
+      [150 + 150 / 2, 150 + 150 / 2]
+    ];
+    let H = null;
+    T === De.SpecialCauseImproving || T === De.SpecialCauseDeteriorating ? H = /* @__PURE__ */ r.jsx(
+      "polygon",
+      {
+        points: (S === we.Higher ? W : I).map((fe) => fe.join(",")).join(" "),
+        fill: _.hex,
+        stroke: _.hex,
+        strokeWidth: 8,
+        transform: S === we.Higher ? "translate(0, -10)" : "translate(0, 10)"
+      }
+    ) : T === De.SpecialCauseNoJudgement ? H = /* @__PURE__ */ r.jsx(
+      "polygon",
+      {
+        points: S === we.Higher ? W.map((fe) => fe.join(",")).join(" ") : I.map((fe) => fe.join(",")).join(" "),
+        fill: _.hex,
+        stroke: _.hex,
+        strokeWidth: 8,
+        transform: S === we.Higher ? "translate(0, -15)" : "translate(0, 15)"
+      }
+    ) : T === De.CommonCause && (H = /* @__PURE__ */ r.jsx(
+      "line",
+      {
+        x1: O[0][0],
+        y1: O[0][1],
+        x2: O[1][0],
+        y2: O[1][1],
+        stroke: _.hex,
+        strokeWidth: 32,
+        strokeLinecap: "square",
+        transform: "translate(0, -75)"
+      }
+    ));
+    const Q = Gr(
+      _.hex,
+      h,
+      m,
+      o,
+      s,
+      [
+        { offset: "0%", opacity: u },
+        { offset: "65%", opacity: R },
+        { offset: "100%", opacity: F }
+      ]
+    );
+    return /* @__PURE__ */ r.jsxs(
+      "svg",
+      {
+        width: t,
+        height: t,
+        viewBox: "0 0 300 300",
+        role: "img",
+        "aria-label": M,
+        "aria-description": k,
+        ...f,
+        children: [
+          Q,
+          /* @__PURE__ */ r.jsx(
+            "circle",
+            {
+              stroke: "none",
+              fill: s ? `url(#${m})` : "#ffffff",
+              ...o ? { filter: `url(#${h})` } : {},
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          ),
+          /* @__PURE__ */ r.jsx(
+            "circle",
+            {
+              stroke: _.hex,
+              strokeWidth: 15,
+              strokeMiterlimit: 10,
+              fill: "none",
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          ),
+          H,
+          D && (T === De.SpecialCauseImproving || T === De.SpecialCauseDeteriorating) && /* @__PURE__ */ r.jsx(
+            "text",
+            {
+              fill: "#fff",
+              fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+              fontWeight: "bold",
+              fontSize: 100,
+              x: "150",
+              y: S === we.Higher ? "170" : "140",
+              textAnchor: "middle",
+              dominantBaseline: "middle",
+              children: D
+            }
+          )
+        ]
+      }
+    );
+  }
+  const b = Gr(
+    _.hex,
+    h,
+    m,
+    o,
+    s,
+    [
+      { offset: "0%", opacity: g },
+      { offset: "65%", opacity: C },
+      { offset: "100%", opacity: p }
+    ]
+  );
+  return /* @__PURE__ */ r.jsxs(
+    "svg",
+    {
+      width: t,
+      height: t,
+      viewBox: "0 0 300 300",
+      role: "img",
+      "aria-label": M,
+      "aria-description": k,
+      ...f,
+      children: [
+        b,
+        /* @__PURE__ */ r.jsx(
+          "circle",
+          {
+            stroke: "none",
+            fill: s ? `url(#${m})` : "#ffffff",
+            ...o ? { filter: `url(#${h})` } : {},
+            cx: "150",
+            cy: "150",
+            r: "120"
+          }
+        ),
+        /* @__PURE__ */ r.jsx(
+          "circle",
+          {
+            stroke: _.hex,
+            strokeWidth: 15,
+            strokeMiterlimit: 10,
+            fill: "none",
+            cx: "150",
+            cy: "150",
+            r: "120"
+          }
+        ),
+        D && /* @__PURE__ */ r.jsx(
+          "text",
+          {
+            fill: _.hex,
+            fontFamily: "Arial-BoldMT, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+            fontWeight: "bold",
+            fontSize: 176,
+            transform: "translate(86.67, 54) scale(0.5, 0.5)",
+            textAnchor: "end",
+            children: /* @__PURE__ */ r.jsx("tspan", { x: "120", y: S === we.Lower ? "325" : "156", children: D })
+          }
+        ),
+        x ? /* @__PURE__ */ r.jsx(
+          "path",
+          {
+            "aria-hidden": "true",
+            fillRule: "evenodd",
+            stroke: "none",
+            fill: _.hex,
+            ...S === we.Lower ? { transform: "rotate(90 150 150)" } : { transform: "translate(-5 0) rotate(0 150 150)" },
+            d: "M 90.26,185.42 L 149.31,126.37 127.44,104.51 209.81,90.66 195.96,173.02 174.09,151.16 115.05,210.2 90.26,185.42 Z M 90.26,185.42"
+          }
+        ) : /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+          E.length === 5 && /* @__PURE__ */ r.jsx(
+            "path",
+            {
+              "aria-hidden": "true",
+              fill: "none",
+              stroke: y,
+              strokeWidth: 12,
+              strokeLinecap: "round",
+              strokeLinejoin: "round",
+              opacity: 0.9,
+              d: `M ${E.map((A) => `${A.cx} ${A.cy}`).join(" L ")}`
+            }
+          ),
+          E.map((A, w) => {
+            const W = w >= E.length - 2 && v ? P : y, I = W;
+            return /* @__PURE__ */ r.jsx(
+              "circle",
+              {
+                stroke: I,
+                strokeWidth: 2,
+                strokeMiterlimit: 10,
+                fill: W,
+                cx: A.cx,
+                cy: A.cy,
+                r: 16
+              },
+              w
+            );
+          })
+        ] })
+      ]
+    }
+  );
+};
+Xa.displayName = "SPCVariationIcon";
+const Ka = ({
+  status: e,
+  size: t = 44,
+  ariaLabel: n,
+  dropShadow: a = !0,
+  colourOverride: o,
+  gradientWash: s = !1,
+  letterOverride: i,
+  showTrendLines: l = !0,
+  ...d
+}) => {
+  const c = Mn(), f = Mn(), { start: h, mid: m, end: g } = mi(), C = o || Sh[e], p = (i || kh[e]).slice(0, 2), u = n || `Assurance ${e}`;
+  return /* @__PURE__ */ r.jsxs(
+    "svg",
+    {
+      width: t,
+      height: t,
+      viewBox: "0 0 300 300",
+      role: "img",
+      "aria-label": u,
+      ...d,
+      children: [
+        /* @__PURE__ */ r.jsxs("defs", { children: [
+          a && /* @__PURE__ */ r.jsxs("filter", { id: c, filterUnits: "objectBoundingBox", children: [
+            /* @__PURE__ */ r.jsx("feGaussianBlur", { stdDeviation: "3" }),
+            /* @__PURE__ */ r.jsx("feOffset", { dx: "-1", dy: "15", result: "blur" }),
+            /* @__PURE__ */ r.jsx("feFlood", { floodColor: "rgb(166,166,166)", floodOpacity: "1" }),
+            /* @__PURE__ */ r.jsx("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+            /* @__PURE__ */ r.jsx("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+          ] }),
+          s && /* @__PURE__ */ r.jsxs("linearGradient", { id: f, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
+            /* @__PURE__ */ r.jsx("stop", { offset: "0%", stopColor: C, stopOpacity: parseFloat(h) }),
+            /* @__PURE__ */ r.jsx("stop", { offset: "65%", stopColor: C, stopOpacity: parseFloat(m) }),
+            /* @__PURE__ */ r.jsx("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(g) })
+          ] })
+        ] }),
+        /* @__PURE__ */ r.jsx(
+          "circle",
+          {
+            stroke: "none",
+            fill: s ? `url(#${f})` : "#ffffff",
+            ...a ? { filter: `url(#${c})` } : {},
+            cx: "150",
+            cy: "150",
+            r: "120"
+          }
+        ),
+        /* @__PURE__ */ r.jsx(
+          "text",
+          {
+            fill: C,
+            fontFamily: "Arial-BoldMT, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+            fontWeight: "bold",
+            fontSize: 176,
+            x: 0,
+            y: 0,
+            transform: "translate(121.01, 32) scale(0.5, 0.5)",
+            textAnchor: "middle",
+            children: /* @__PURE__ */ r.jsx("tspan", { x: 60, y: 184, children: p })
+          }
+        ),
+        l && /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+          e === zt.Fail ? /* @__PURE__ */ r.jsx(
+            "path",
+            {
+              id: "fail-line",
+              stroke: C,
+              strokeWidth: 9.5,
+              strokeMiterlimit: 9.5,
+              strokeDasharray: "35,10",
+              strokeDashoffset: 0,
+              fill: "none",
+              d: "M 33,143 L 268,143"
+            }
+          ) : e === zt.Uncertain ? /* @__PURE__ */ r.jsx(
+            "path",
+            {
+              id: "uncertain-line",
+              stroke: "rgb(166, 166, 166)",
+              strokeWidth: 9.5,
+              strokeMiterlimit: 9.5,
+              strokeDasharray: "16.5,10",
+              strokeDashoffset: 0,
+              fill: "none",
+              d: "M 36,174 L 266,174"
+            }
+          ) : /* @__PURE__ */ r.jsx(
+            "path",
+            {
+              id: "pass-line",
+              stroke: C,
+              strokeWidth: 9.5,
+              strokeMiterlimit: 9.5,
+              strokeDasharray: "35,10",
+              strokeDashoffset: 0,
+              fill: "none",
+              d: "M 48,204 L 254,204"
+            }
+          ),
+          /* @__PURE__ */ r.jsx(
+            "path",
+            {
+              id: "data-sparkline",
+              stroke: "rgb(166, 166, 166)",
+              strokeWidth: 12,
+              strokeMiterlimit: 12,
+              fill: "none",
+              d: "M 59.9,187.91 C 72.79,171.72 87.33,158.06 104.4,157.83 121.91,158.58 140.94,187.85 153.4,189.91 164.1,192.12 163.78,171.38 169.17,170.53 172.87,169.55 174.88,187.45 184.94,189.24 197,191.86 230.54,184.47 239.01,185.9"
+            }
+          ),
+          /* @__PURE__ */ r.jsx(
+            "circle",
+            {
+              stroke: C,
+              strokeWidth: 15,
+              strokeMiterlimit: 10,
+              fill: "none",
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          )
+        ] })
+      ]
+    }
+  );
+};
+Ka.displayName = "SPCAssuranceIcon";
+const Th = ({
+  data: e,
+  ariaLabel: t = "SPC chart",
+  height: n = 260,
+  showZones: a = !0,
+  showPoints: o = !0,
+  announceFocus: s = !1,
+  className: i,
+  unit: l,
+  highlightOutOfControl: d = !0,
+  chartType: c = "XmR",
+  metricImprovement: f = Rt.Neither,
+  enableRules: h = !0,
+  showIcons: m = !1,
+  showEmbeddedIcon: g = !0,
+  targets: C,
+  baselines: p,
+  ghosts: u,
+  settings: R,
+  narrationContext: F,
+  gradientSequences: T = !1,
+  processLineWidth: S = 2
+}) => {
+  const B = X.useMemo(() => {
+    const W = e.map((I, O) => ({
+      x: I.x,
+      value: I.y,
+      target: C?.[O] ?? void 0,
+      baseline: p?.[O] ?? void 0,
+      ghost: u?.[O] ?? void 0
+    }));
+    try {
+      return fi({
+        chartType: c,
+        metricImprovement: f,
+        data: W,
+        settings: R
+      });
+    } catch {
+      return null;
+    }
+  }, [
+    e,
+    C,
+    p,
+    u,
+    c,
+    f,
+    R
+  ]), _ = B?.rows.slice().reverse().find((W) => W.mean != null), L = _?.mean ?? null, j = _?.upperProcessLimit ?? null, D = _?.lowerProcessLimit ?? null, v = _?.upperOneSigma ?? null, x = _?.lowerOneSigma ?? null, y = _?.upperTwoSigma ?? null, P = _?.lowerTwoSigma ?? null, E = L != null && v != null ? Math.abs(v - L) : 0, M = X.useMemo(
+    () => [{ id: "process", data: e, color: "#A6A6A6" }],
+    [e]
+  ), k = X.useMemo(() => {
+    const I = [...e.map((O) => O.y)];
+    if ([L, j, D, v, x, y, P].forEach((O) => {
+      O != null && I.push(O);
+    }), C && C.forEach((O) => {
+      typeof O == "number" && !isNaN(O) && I.push(O);
+    }), !!I.length)
+      return [Math.min(...I), Math.max(...I)];
+  }, [e, L, j, D, v, x, y, P, C]), b = X.useMemo(() => {
+    if (!(l || F?.measureUnit) && e.length)
+      return e.every((W) => W.y >= 0 && W.y <= 1) ? "%" : void 0;
+  }, [l, F?.measureUnit, e]), A = l ?? F?.measureUnit ?? b, w = X.useMemo(() => A ? { ...F || {}, measureUnit: A } : F, [F, A]), $ = X.useMemo(() => {
+    if (!g || !B?.rows?.length) return null;
+    const W = B.rows, I = R?.minimumPoints ?? 13;
+    if (W.filter((me) => !me.ghost && me.value != null).length < I) return null;
+    let H = -1;
+    for (let me = W.length - 1; me >= 0; me--) {
+      const he = W[me];
+      if (he && he.value != null && !he.ghost) {
+        H = me;
+        break;
+      }
+    }
+    if (H === -1) return null;
+    const Q = W[H], fe = Q.variationIcon, oe = Q.assuranceIcon, K = oe === Ft.Pass ? zt.Pass : oe === Ft.Fail ? zt.Fail : zt.Uncertain;
+    let V;
+    if (fe === Ge.None) {
+      const me = Q.specialCauseSinglePointAbove, he = Q.specialCauseSinglePointBelow;
+      f === Rt.Up ? me ? V = we.Higher : he && (V = we.Lower) : f === Rt.Down ? he ? V = we.Lower : me && (V = we.Higher) : V = we.Higher;
+    }
+    let J;
+    switch (fe) {
+      case Ge.Improvement:
+        J = Xe.Improving;
+        break;
+      case Ge.Concern:
+        J = Xe.Deteriorating;
+        break;
+      case Ge.None:
+        J = Xe.No_Judgement;
+        break;
+      case Ge.Neither:
+      default:
+        J = Xe.None;
+    }
+    let ae;
+    f === Rt.Up ? ae = Je.HigherIsBetter : f === Rt.Down ? ae = Je.LowerIsBetter : ae = Je.ContextDependent;
+    const G = 80;
+    return /* @__PURE__ */ r.jsxs("div", { style: { display: "flex", gap: 12, marginRight: 16 }, children: [
+      /* @__PURE__ */ r.jsx(
+        "div",
+        {
+          className: "fdp-spc-chart__embedded-icon",
+          "data-variation": String(fe),
+          "data-variation-judgement": String(J),
+          "data-trend-raw": V ? String(V) : "none",
+          "data-trend": V ? String(V) : "none",
+          "data-polarity": String(ae ?? "unknown"),
+          style: { width: G, height: G },
+          children: /* @__PURE__ */ r.jsx(
+            Xa,
+            {
+              dropShadow: !1,
+              data: { judgement: J, polarity: ae, ...V ? { trend: V } : {} },
+              letterMode: "direction",
+              size: G
+            }
+          )
+        }
+      ),
+      /* @__PURE__ */ r.jsx(
+        "div",
+        {
+          className: "fdp-spc-chart__embedded-assurance-icon",
+          "data-assurance": String(oe),
+          style: { width: G, height: G },
+          children: /* @__PURE__ */ r.jsx(Ka, { status: K, size: G, dropShadow: !1 })
+        }
+      )
+    ] }, `embedded-icon-${H}`);
+  }, [g, B?.rows, f, R?.minimumPoints, C]);
+  return /* @__PURE__ */ r.jsxs("div", { className: i ? `fdp-spc-chart-wrapper ${i}` : "fdp-spc-chart-wrapper", children: [
+    g && /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-chart__top-row", style: { display: "flex", justifyContent: "flex-end", marginBottom: 4 }, children: $ }),
+    /* @__PURE__ */ r.jsx(
+      If,
+      {
+        height: n,
+        ariaLabel: t,
+        margin: { bottom: 48, left: 56, right: 16, top: 12 },
+        className: void 0,
+        children: /* @__PURE__ */ r.jsx(Lf, { series: M, yDomain: k, children: /* @__PURE__ */ r.jsx(
+          Dh,
+          {
+            series: M,
+            showPoints: o,
+            announceFocus: s,
+            limits: { mean: L, ucl: j, lcl: D, sigma: E, onePos: v, oneNeg: x, twoPos: y, twoNeg: P },
+            showZones: a,
+            highlightOutOfControl: d,
+            engineRows: B?.rows || null,
+            enableRules: h,
+            showIcons: m,
+            narrationContext: w,
+            metricImprovement: f,
+            gradientSequences: T,
+            processLineWidth: S,
+            effectiveUnit: A
+          }
+        ) })
+      }
+    )
+  ] });
+}, Dh = ({
+  series: e,
+  showPoints: t,
+  announceFocus: n,
+  limits: a,
+  showZones: o,
+  highlightOutOfControl: s,
+  engineRows: i,
+  enableRules: l,
+  showIcons: d,
+  narrationContext: c,
+  gradientSequences: f,
+  processLineWidth: h,
+  effectiveUnit: m
+}) => {
+  const g = Sn(), C = _n();
+  if (!g) return null;
+  const { xScale: p, yScale: u } = g, R = kn(), F = e[0]?.data || [], T = X.useMemo(() => {
+    if (!a.ucl && !a.lcl) return /* @__PURE__ */ new Set();
+    const b = /* @__PURE__ */ new Set();
+    return F.forEach((A, w) => {
+      (a.ucl != null && A.y > a.ucl || a.lcl != null && A.y < a.lcl) && b.add(w);
+    }), b;
+  }, [F, a.ucl, a.lcl]), S = X.useMemo(() => {
+    if (!i) return null;
+    const b = {};
+    return i.forEach((A, w) => {
+      if (A.value == null || A.ghost) return;
+      const $ = A.specialCauseSinglePointAbove || A.specialCauseSinglePointBelow || A.specialCauseTwoOfThreeAbove || A.specialCauseTwoOfThreeBelow || A.specialCauseFourOfFiveAbove || A.specialCauseFourOfFiveBelow || A.specialCauseShiftHigh || A.specialCauseShiftLow || A.specialCauseTrendIncreasing || A.specialCauseTrendDecreasing;
+      b[w] = {
+        variation: A.variationIcon,
+        assurance: A.assuranceIcon,
+        special: $,
+        concern: A.variationIcon === Ge.Concern,
+        improvement: A.variationIcon === Ge.Improvement
+      };
+    }), b;
+  }, [i]), B = X.useMemo(() => {
+    if (!i || !i.length) return null;
+    const b = [];
+    for (const w of i)
+      typeof w.target == "number" && !isNaN(w.target) && b.push(w.target);
+    if (!b.length) return null;
+    const A = b[0];
+    return b.every((w) => w === A) ? A : null;
+  }, [i]), _ = X.useMemo(() => {
+    if (!S) return [];
+    const b = F.map((A, w) => {
+      const $ = S?.[w];
+      return $?.concern ? "concern" : $?.improvement ? "improvement" : "common";
+    });
+    for (let A = 1; A < b.length - 1; A++)
+      (b[A] === "concern" || b[A] === "improvement") && b[A - 1] === "common" && b[A + 1] === "common" && (b[A] = "common");
+    for (let A = 1; A < b.length - 1; A++) {
+      const w = b[A - 1], $ = b[A], W = b[A + 1];
+      $ !== "common" && w !== "common" && W !== "common" && w === W && $ !== w && (b[A] = "common");
+    }
+    return b;
+  }, [S, F]), L = X.useMemo(() => {
+    if (!f || !_.length) return [];
+    const b = [];
+    let A = 0;
+    for (let w = 1; w <= _.length; w++)
+      if (w === _.length || _[w] !== _[A]) {
+        const W = _[A], I = w - 1, O = I - A + 1;
+        W === "common" ? b.push({ start: A, end: I, category: "common" }) : O > 1 && b.push({ start: A, end: I, category: W }), A = w;
+      }
+    return b;
+  }, [f, _]), j = X.useMemo(() => F.map((b) => p(b.x instanceof Date ? b.x : new Date(b.x))), [F, p]), D = p.range()[1], v = X.useMemo(() => L.length ? /* @__PURE__ */ r.jsx("defs", { children: L.map((b, A) => {
+    const w = `spc-seq-grad-${A}`;
+    let $, W = 0.28, I = 0.12, O = 0.045;
+    switch (b.category) {
+      case "concern":
+        $ = "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)", W = 0.28, I = 0.12, O = 0.045;
+        break;
+      case "improvement":
+        $ = "var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)", W = 0.26, I = 0.11, O = 0.045;
+        break;
+      default:
+        $ = "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)";
+    }
+    return /* @__PURE__ */ r.jsxs("linearGradient", { id: w, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
+      /* @__PURE__ */ r.jsx("stop", { offset: "0%", stopColor: $, stopOpacity: W }),
+      /* @__PURE__ */ r.jsx("stop", { offset: "70%", stopColor: $, stopOpacity: I }),
+      /* @__PURE__ */ r.jsx("stop", { offset: "100%", stopColor: $, stopOpacity: O })
+    ] }, w);
+  }) }) : null, [L]), x = X.useMemo(() => {
+    if (!L.length) return null;
+    const [b] = u.domain(), A = u(b), w = L.map(($, W) => {
+      const I = $.start, O = $.end, H = j[I], Q = j[O], fe = I > 0 ? j[I - 1] : H, oe = O < j.length - 1 ? j[O + 1] : Q;
+      let K = I === 0 ? Math.max(0, H - (j.length > 1 ? (j[1] - H) / 2 : 10)) : (fe + H) / 2, V = O === j.length - 1 ? Math.min(D, Q + (j.length > 1 ? (Q - j[j.length - 2]) / 2 : 10)) : (Q + oe) / 2, J = null, ae = null;
+      if ($.category === "common")
+        I > 0 && (K = j[I - 1], J = u(F[I - 1].y)), O < F.length - 1 && (V = j[O + 1], ae = u(F[O + 1].y));
+      else if (K = H, I > 0) {
+        const he = _[I - 1];
+        he !== "common" && he !== $.category && (K = j[I - 1], J = u(F[I - 1].y));
+      }
+      let G = `M ${K} ${A}`;
+      const me = u(F[I].y);
+      J != null ? (G += ` L ${K} ${J}`, H !== K && (G += ` L ${H} ${me}`)) : (G += ` L ${K} ${me}`, H !== K && (G += ` L ${H} ${me}`));
+      for (let he = I; he <= O; he++) {
+        const xe = j[he], pe = u(F[he].y);
+        G += ` L ${xe} ${pe}`;
+      }
+      return $.category === "common" && ae != null ? (V !== Q && (G += ` L ${V} ${ae}`), G += ` L ${V} ${A} Z`) : G += ` L ${Q} ${A} L ${V} ${A} Z`, /* @__PURE__ */ r.jsx(
+        "path",
+        {
+          d: G,
+          fill: `url(#spc-seq-grad-${W})`,
+          stroke: "none",
+          className: "fdp-spc__sequence-bg",
+          "aria-hidden": "true"
+        },
+        `seq-area-${W}`
+      );
+    });
+    return /* @__PURE__ */ r.jsx("g", { className: "fdp-spc__sequence-bgs", children: w });
+  }, [L, j, D, u, F]), y = X.useMemo(() => {
+    if (!c?.timeframe && F.length >= 2) {
+      const b = F.map((O) => O.x instanceof Date ? O.x : new Date(O.x)), A = new Date(Math.min(...b.map((O) => O.getTime()))), w = new Date(Math.max(...b.map((O) => O.getTime()))), $ = Math.round((w.getTime() - A.getTime()) / 864e5) || 0;
+      if ($ < 14)
+        return `The chart shows a timeframe of ${$ + 1} days`;
+      const W = Math.round($ / 7);
+      return W < 20 ? `The chart shows a timeframe of ${W} weeks` : `The chart shows a timeframe of ${(w.getFullYear() - A.getFullYear()) * 12 + (w.getMonth() - A.getMonth()) + 1} months`;
+    }
+    if (c?.timeframe)
+      return `The chart shows a timeframe of ${c.timeframe}`;
+  }, [c?.timeframe, F]), P = (b) => {
+    const A = b % 10, w = b % 100;
+    return A === 1 && w !== 11 ? `${b}st` : A === 2 && w !== 12 ? `${b}nd` : A === 3 && w !== 13 ? `${b}rd` : `${b}th`;
+  }, E = (b) => `${P(b.getDate())} ${b.toLocaleString("en-GB", { month: "long" })}, ${b.getFullYear()}`, M = X.useCallback(
+    ({ index: b, x: A, y: w }) => {
+      const $ = i?.[b], W = A instanceof Date ? A : new Date(A), I = E(W), O = c?.measureUnit ? ` ${c.measureUnit}` : "", H = c?.measureName ? ` ${c.measureName}` : "";
+      if (!$)
+        return `General summary is: ${y ? y + ". " : ""}Point ${b + 1}, ${I}, ${w}${O}${H}`;
+      const Q = Ya($.variationIcon) || "Variation", fe = Ga($), oe = fe.length ? ` Rules: ${[...new Set(fe.map((V) => Ua[V].narration))].join("; ")}.` : " No special cause rules.", K = [];
+      return c?.measureName && K.push(`Measure: ${c.measureName}.`), c?.datasetContext && K.push(`${c.datasetContext}.`), c?.organisation && K.push(`Organisation: ${c.organisation}.`), c?.additionalNote && K.push(c.additionalNote), [
+        "General summary is:",
+        ...K,
+        `Point ${b + 1} recorded on `,
+        I + ",",
+        `with a value of ${w} ${O}${H}`,
+        Q + ".",
+        oe
+      ].join(" ").replace(/\s+/g, " ").trim();
+    },
+    [i, c, y]
+  ), k = X.useCallback(
+    (b, A) => i?.[b] ? M({
+      index: b,
+      seriesId: "process",
+      x: A.x instanceof Date ? A.x : new Date(A.x),
+      y: A.y
+    }).replace(/^General summary is:\s*/, "").replace(/^Point \d+\s*/, "") : void 0,
+    [i, M]
+  );
+  return /* @__PURE__ */ r.jsx(ih, { children: /* @__PURE__ */ r.jsxs(
+    "div",
+    {
+      className: "fdp-spc-chart",
+      role: "group",
+      "aria-label": "Statistical process control chart",
+      "aria-roledescription": "chart",
+      children: [
+        /* @__PURE__ */ r.jsx(
+          "svg",
+          {
+            width: g.xScale.range()[1] + 56 + 16,
+            height: g.yScale.range()[0] + 12 + 48,
+            role: "img",
+            children: /* @__PURE__ */ r.jsxs("g", { transform: "translate(56,12)", children: [
+              /* @__PURE__ */ r.jsx(Vs, { type: "x" }),
+              /* @__PURE__ */ r.jsx(Vs, { type: "y" }),
+              /* @__PURE__ */ r.jsx(Mf, { axis: "y" }),
+              v,
+              x,
+              a.mean != null && /* @__PURE__ */ r.jsx(
+                "line",
+                {
+                  className: "fdp-spc__cl",
+                  x1: 0,
+                  x2: p.range()[1],
+                  y1: u(a.mean),
+                  y2: u(a.mean),
+                  "aria-hidden": "true"
+                }
+              ),
+              B != null && // Render later (after limits) for stacking; temporary placeholder (moved below)
+              /* @__PURE__ */ r.jsx(r.Fragment, {}),
+              a.ucl != null && /* @__PURE__ */ r.jsx(
+                "line",
+                {
+                  className: "fdp-spc__limit fdp-spc__limit--ucl",
+                  x1: 0,
+                  x2: p.range()[1],
+                  y1: u(a.ucl),
+                  y2: u(a.ucl),
+                  "aria-hidden": "true",
+                  strokeWidth: 2
+                }
+              ),
+              a.lcl != null && /* @__PURE__ */ r.jsx(
+                "line",
+                {
+                  className: "fdp-spc__limit fdp-spc__limit--lcl",
+                  x1: 0,
+                  x2: p.range()[1],
+                  y1: u(a.lcl),
+                  y2: u(a.lcl),
+                  "aria-hidden": "true",
+                  strokeWidth: 2
+                }
+              ),
+              B != null && /* @__PURE__ */ r.jsxs("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
+                /* @__PURE__ */ r.jsx(
+                  "line",
+                  {
+                    className: "fdp-spc__target",
+                    "data-testid": "spc-target-line",
+                    x1: 0,
+                    x2: p.range()[1],
+                    y1: u(B),
+                    y2: u(B),
+                    strokeWidth: 2.5
+                  }
+                ),
+                /* @__PURE__ */ r.jsxs(
+                  "text",
+                  {
+                    "data-testid": "spc-target-label",
+                    x: p.range()[0] - 7,
+                    y: u(B) - 5,
+                    textAnchor: "start",
+                    className: "fdp-spc__target-label",
+                    fontSize: 12,
+                    children: [
+                      "Target ",
+                      B,
+                      " ",
+                      m || c?.measureUnit || ""
+                    ]
+                  }
+                )
+              ] }),
+              o && a.mean != null && /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+                a.onePos != null && /* @__PURE__ */ r.jsx(
+                  "line",
+                  {
+                    className: "fdp-spc__zone fdp-spc__zone--pos1",
+                    x1: 0,
+                    x2: p.range()[1],
+                    y1: u(a.onePos),
+                    y2: u(a.onePos),
+                    "aria-hidden": "true",
+                    strokeWidth: 2
+                  }
+                ),
+                a.oneNeg != null && /* @__PURE__ */ r.jsx(
+                  "line",
+                  {
+                    className: "fdp-spc__zone fdp-spc__zone--neg1",
+                    x1: 0,
+                    x2: p.range()[1],
+                    y1: u(a.oneNeg),
+                    y2: u(a.oneNeg),
+                    "aria-hidden": "true",
+                    strokeWidth: 2
+                  }
+                ),
+                a.twoPos != null && /* @__PURE__ */ r.jsx(
+                  "line",
+                  {
+                    className: "fdp-spc__zone fdp-spc__zone--pos2",
+                    x1: 0,
+                    x2: p.range()[1],
+                    y1: u(a.twoPos),
+                    y2: u(a.twoPos),
+                    "aria-hidden": "true",
+                    strokeWidth: 2
+                  }
+                ),
+                a.twoNeg != null && /* @__PURE__ */ r.jsx(
+                  "line",
+                  {
+                    className: "fdp-spc__zone fdp-spc__zone--neg2",
+                    x1: 0,
+                    x2: p.range()[1],
+                    y1: u(a.twoNeg),
+                    y2: u(a.twoNeg),
+                    "aria-hidden": "true",
+                    strokeWidth: 2
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ r.jsx(
+                lh,
+                {
+                  series: e[0],
+                  seriesIndex: 0,
+                  palette: "categorical",
+                  showPoints: !1,
+                  focusablePoints: !1,
+                  focusIndex: -1,
+                  parseX: (b) => b.x instanceof Date ? b.x : new Date(b.x),
+                  smooth: !1,
+                  strokeWidth: h
+                }
+              ),
+              t && F.map((b, A) => {
+                const w = p(b.x instanceof Date ? b.x : new Date(b.x)), $ = u(b.y), W = T.has(A), I = S?.[A], O = [
+                  "fdp-spc__point",
+                  W && s ? "fdp-spc__point--ooc" : null,
+                  l && I?.special && I.concern ? "fdp-spc__point--sc-concern" : null,
+                  l && I?.special && I.improvement ? "fdp-spc__point--sc-improvement" : null,
+                  I?.assurance === Ft.Pass ? "fdp-spc__point--assurance-pass" : null,
+                  I?.assurance === Ft.Fail ? "fdp-spc__point--assurance-fail" : null
+                ].filter(Boolean).join(" "), H = `Point ${A + 1} value ${b.y}` + (I?.special ? " special cause" : "") + (I?.variation === Ge.Improvement ? " improving" : I?.variation === Ge.Concern ? " concern" : ""), Q = R?.focused?.index === A;
+                return /* @__PURE__ */ r.jsx(
+                  "circle",
+                  {
+                    cx: w,
+                    cy: $,
+                    r: 5,
+                    className: O,
+                    "data-variation": I?.variation,
+                    "data-assurance": I?.assurance,
+                    "aria-label": H,
+                    ...Q ? { "aria-describedby": `spc-tooltip-${A}` } : {}
+                  },
+                  A
+                );
+              }),
+              d && l && S && F.map((b, A) => {
+                const w = S[A];
+                if (!w || !(w.concern || w.improvement)) return null;
+                const $ = p(b.x instanceof Date ? b.x : new Date(b.x)), W = u(b.y);
+                let I = W - 10;
+                const O = 12, H = u.range()[0] - 4;
+                I < O && (I = Math.min(W + 16, H));
+                const Q = p.range()[1], fe = Math.min(Math.max($, 0), Q - 0);
+                return /* @__PURE__ */ r.jsx(
+                  "text",
+                  {
+                    x: fe,
+                    y: I,
+                    textAnchor: "middle",
+                    className: `fdp-spc__icon ${w.concern ? "fdp-spc__icon--concern" : "fdp-spc__icon--improvement"}`,
+                    "aria-hidden": "true",
+                    children: w.concern ? "!" : "★"
+                  },
+                  `icon-${A}`
+                );
+              }),
+              C && /* @__PURE__ */ r.jsx(
+                $h,
+                {
+                  width: p.range()[1],
+                  height: u.range()[0]
+                }
+              ),
+              /* @__PURE__ */ r.jsx(
+                pi,
+                {
+                  engineRows: i,
+                  limits: { mean: a.mean, sigma: a.sigma },
+                  pointDescriber: k,
+                  measureName: c?.measureName,
+                  measureUnit: c?.measureUnit,
+                  dateFormatter: (b) => E(b)
+                }
+              )
+            ] })
+          }
+        ),
+        n && /* @__PURE__ */ r.jsx(
+          ch,
+          {
+            format: (b) => M({ ...b, x: b.x instanceof Date ? b.x : new Date(b.x) })
+          }
+        )
+      ]
+    }
+  ) });
+}, $h = ({
+  width: e,
+  height: t
+}) => {
+  const n = kn();
+  return n ? /* @__PURE__ */ r.jsx(
+    "rect",
+    {
+      className: "fdp-spc__interaction-layer",
+      width: e,
+      height: t,
+      fill: "transparent",
+      tabIndex: 0,
+      "aria-label": "Interactive chart area. Use arrow keys to move between points.",
+      onMouseMove: (a) => {
+        const s = a.currentTarget.getBoundingClientRect(), i = a.clientX - s.left, l = a.clientY - s.top;
+        n.focusNearest(i, l);
+      },
+      onMouseLeave: () => n.clear(),
+      onKeyDown: (a) => {
+        switch (a.key) {
+          case "ArrowRight":
+            n.focusNextPoint(), a.preventDefault();
+            break;
+          case "ArrowLeft":
+            n.focusPrevPoint(), a.preventDefault();
+            break;
+          case "ArrowDown":
+            n.focusNextSeries(), a.preventDefault();
+            break;
+          case "ArrowUp":
+            n.focusPrevSeries(), a.preventDefault();
+            break;
+          case "Home":
+            n.focusFirstPoint(), a.preventDefault();
+            break;
+          case "End":
+            n.focusLastPoint(), a.preventDefault();
+            break;
+        }
+      },
+      style: { cursor: "crosshair" }
+    }
+  ) : null;
+}, Q0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  AssuranceIcon: Ft,
+  AssuranceResult: zt,
+  Direction: we,
+  ImprovementDirection: Rt,
+  MetricPolarity: Je,
+  SPCAssuranceIcon: Ka,
+  SPCChart: Th,
+  SPCTooltipOverlay: pi,
+  SPCVariationIcon: Xa,
+  VARIATION_COLOR_TOKENS: lt,
+  VariationIcon: Ge,
+  VariationJudgement: Xe,
+  VariationState: De,
+  buildSpc: fi,
+  extractRuleIds: Ga,
+  getVariationColorHex: _h,
+  getVariationColorToken: hi,
+  getVariationColour: gi,
+  getVariationTrend: qa,
+  ruleGlossary: Ua,
+  variationLabel: Ya
+}, Symbol.toStringTag, { value: "Module" })), Ih = "150ms", Lh = "300ms", Mh = "500ms", Fh = "cubic-bezier(0.4, 0, 1, 1)", Bh = "cubic-bezier(0, 0, 0.2, 1)", Ah = "cubic-bezier(0.4, 0, 0.2, 1)", Eh = "cubic-bezier(0.68, -0.55, 0.265, 1.55)", Rh = "background-color 300ms cubic-bezier(0, 0, 0.2, 1)", Ph = "box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)", Hh = "border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)", zh = "border-color 300ms cubic-bezier(0, 0, 0.2, 1)", Wh = "1px", Oh = "2px", Uh = "4px", Gh = "4px", Yh = "4px", Vh = "2px", qh = "1px", Xh = "0px", Kh = "4px", Zh = "8px", Jh = "12px", bi = "#d8dde0", yi = "#4c6272", vi = "#d8dde0", wi = "#aeb7bd", _i = "#d5281b", Si = "#005eb8", ki = "#ffffff", Ci = "#212b32", ji = "#007f3b", Ni = "#330072", Ti = "#7c2855", Di = "#d5281b", $i = "#ffeb3b", Ii = "#fff9c4", Li = "#ffb81c", Mi = "#ed8b00", Fi = "#00a499", Bi = "#ae2573", Ai = "#4c6272", Ei = "#768692", Ri = "#aeb7bd", Pi = "#d8dde0", Hi = "#f0f4f5", Qh = "#212b32", ep = "#4c6272", tp = "#ffffff", np = "#212b32", rp = "#005eb8", ap = "#7c2855", sp = "#003087", op = "#330072", ip = "#ffeb3b", lp = "#212b32", cp = "#d8dde0", dp = "#ffffff33", up = "#d5281b", fp = "#4c6272", hp = "#ffffff", pp = "#007f3b", mp = "#ffffff", gp = "#006530", xp = "#004021", bp = "#004021", yp = "#00000000", vp = "#ffffff", wp = "#005eb8", _p = "#005eb8", Sp = "#d9e5f2", kp = "#c7daf0", Cp = "#005eb8", jp = "#ffffff", Np = "#212b32", Tp = "#d9dde0", Dp = "#b3bcc2", $p = "#b3bcc2", Ip = "#d5281b", Lp = "#aa2016", Mp = "#6a140e", Fp = "#6a140e", Bp = "#005eb8", Ap = "#004b93", Ep = "#002f5c", Rp = "#002f5c", Pp = "8px", Hp = "16px", zp = "12px", Wp = "16px", Op = "4px", Up = "40px", Gp = "4px", Yp = "40px", Vp = "12px", qp = "16px", Xp = "32px", Kp = "16px", Zp = "20px", Jp = "28px", Qp = "9px", em = "2px", tm = "16px", nm = "24px", rm = "8px", am = "24px", sm = "16px", om = "4px", im = "4px", lm = "4px", cm = "8px", dm = "4px", um = "16px", fm = "#007f3b", hm = "#006530", pm = "#004021", mm = "#d8dde0", gm = "#ffffff", xm = "#768692", bm = "#00000000", ym = "#ffeb3b", vm = "#00000000", wm = "#ffffff", _m = "#d9e5f2", Sm = "#c7daf0", km = "#005eb8", Cm = "#005eb8", zi = "8px", Wi = "16px", Oi = "12px", Ui = "16px", jm = "2px", Nm = "4px", Tm = "4px", Dm = "600", $m = "#ffffff", Im = "#d8dde0", Lm = "#aeb7bd", Mm = "#f0f4f5", Fm = "#212b32", Bm = "#212b32", Am = "#005eb8", Gi = "16px", Yi = "32px", Vi = "16px", Em = "1px", Rm = "4px", Pm = "none", Hm = "0 2px 4px rgba(0, 0, 0, 0.1)", zm = "#ffffff", Wm = "#ffffff", Om = "#d8dde0", Um = "#ffffff", Gm = "#4c6272", Ym = "#ffeb3b", Vm = "#d5281b", qm = "#aeb7bd", Xm = "#212b32", Km = "#4c6272", Zm = "#768692", Jm = "#212b32", Qm = "#ffffff", eg = "600", tg = "#d5281b", ng = "600", rg = "#4c6272", qi = "4px", Xi = "40px", Ki = "40px", Zi = "12px", ag = "2px", sg = "4px", og = "0px", ig = "16px", lg = "18px", cg = "24px", dg = "32px", ug = "34px", fg = "32px", hg = "40px", pg = "48px", mg = "5.4ex", gg = "7.2ex", xg = "9ex", bg = "10.8ex", yg = "20ex", vg = "38ex", wg = "56ex", _g = "44px", Sg = "40px", kg = "1020px", Cg = "100%", jg = "50%", Ng = "33.333%", Tg = "25%", Dg = "20%", $g = "320px", Ig = "641px", Lg = "1025px", Mg = "1280px", Fg = "960px", Bg = "32px", Ag = "16px", Eg = "#d5281b", Rg = "#d5281b", Pg = "#ffffff", Hg = "#007f3b", zg = "#007f3b", Wg = "#ffffff", Og = "#ffeb3b", Ug = "#ffeb3b", Gg = "#212b32", Yg = "#005eb8", Vg = "#005eb8", qg = "#ffffff", Xg = "#d8dde0", Kg = "#aeb7bd", Zg = "#768692", Jg = "0 4px 0 #004021", Qg = "0 4px 0 #005eb8", e0 = "0 4px 0 #6a140e", t0 = "0 4px 0 #ffeb3b", n0 = "none", r0 = "0 2px 4px rgba(0, 0, 0, 0.1)", a0 = "4px", s0 = "0px", o0 = "solid", i0 = "0 0 0 3px #ffeb3b", l0 = "0 0 0 3px #ffeb3b", c0 = "none", d0 = "0 1px 3px rgba(0, 0, 0, 0.12)", u0 = "0 2px 6px rgba(0, 0, 0, 0.16)", f0 = "0 4px 12px rgba(0, 0, 0, 0.20)", Ji = "0", Qi = "4px", el = "8px", tl = "16px", nl = "24px", rl = "32px", al = "40px", sl = "48px", ol = "56px", il = "64px", ia = "0", la = "0", ca = "4px", da = "4px", ua = "8px", fa = "8px", ha = "8px", pa = "16px", ma = "16px", ga = "24px", xa = "24px", ba = "32px", ya = "32px", va = "40px", wa = "40px", _a = "48px", Sa = "48px", ka = "56px", Ca = "56px", ja = "64px", Yn = "Frutiger W01", Vn = "Arial, Helvetica, sans-serif", qn = "sans-serif", Xn = "400", Kn = "600", Zn = "400", Jn = "12px", Qn = "14px", er = "12pt", tr = "14px", nr = "16px", rr = "12pt", ar = "16px", sr = "19px", or = "13pt", ir = "19px", lr = "22px", cr = "15pt", dr = "22px", ur = "26px", fr = "17pt", hr = "27px", pr = "36px", mr = "20pt", gr = "33px", xr = "48px", br = "24pt", Na = "16px", Ta = "24px", mt = {
   fontFamily: "Frutiger W01",
   fontWeight: "600",
   fontSize: { mobile: "33px", tablet: "48px", print: "24pt" },
   lineHeight: "1.09",
   marginTop: "0",
   marginBottom: { mobile: "40px", tablet: "48px" }
-}, it = {
+}, gt = {
   fontFamily: "Frutiger W01",
   fontWeight: "600",
   fontSize: { mobile: "27px", tablet: "36px", print: "20pt" },
   lineHeight: "1.11",
   marginTop: "0",
   marginBottom: { mobile: "16px", tablet: "24px" }
-}, lt = {
+}, xt = {
   fontFamily: "Frutiger W01",
   fontWeight: "600",
   fontSize: { mobile: "22px", tablet: "26px", print: "17pt" },
   lineHeight: "1.15",
   marginTop: "0",
   marginBottom: { mobile: "16px", tablet: "24px" }
-}, ct = {
+}, bt = {
   fontFamily: "Frutiger W01",
   fontWeight: "600",
   fontSize: { mobile: "19px", tablet: "22px", print: "15pt" },
   lineHeight: "1.18",
   marginTop: "0",
   marginBottom: { mobile: "16px", tablet: "24px" }
-}, dt = {
+}, yt = {
   fontFamily: "Frutiger W01",
   fontWeight: "600",
   fontSize: { mobile: "16px", tablet: "19px", print: "13pt" },
   lineHeight: "1.26",
   marginTop: "0",
   marginBottom: { mobile: "16px", tablet: "24px" }
-}, ut = {
+}, vt = {
   fontFamily: "Frutiger W01",
   fontWeight: "400",
   fontSize: { mobile: "16px", tablet: "19px", print: "13pt" },
   lineHeight: "1.47",
   marginTop: "0",
   marginBottom: { mobile: "16px", tablet: "24px" }
-}, ht = {
+}, wt = {
   fontFamily: "Frutiger W01",
   fontWeight: "400",
   fontSize: { mobile: "22px", tablet: "26px", print: "17pt" },
   lineHeight: "1.38",
   marginTop: "0",
   marginBottom: { mobile: "24px", tablet: "32px" }
-}, ft = {
+}, _t = {
   fontFamily: "Frutiger W01",
   fontWeight: "400",
   fontSize: { mobile: "14px", tablet: "16px", print: "12pt" },
   lineHeight: "1.5",
   marginTop: "0",
   marginBottom: { mobile: "16px", tablet: "24px" }
-}, mt = {
+}, St = {
   fontFamily: "Frutiger W01",
   fontWeight: "400",
   fontSize: { mobile: "22px", tablet: "26px", print: "17pt" },
   lineHeight: "1.38",
   marginTop: "0",
   marginBottom: { mobile: "40px", tablet: "48px" }
-}, pt = {
+}, kt = {
   fontFamily: "Frutiger W01",
   fontWeight: "400",
   fontSize: { mobile: "16px", tablet: "19px", print: "13pt" },
   lineHeight: "1.47",
   marginTop: "0",
   marginBottom: { mobile: "24px", tablet: "32px" }
-<<<<<<< Updated upstream
-}, Jf = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, h0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  AnimationDurationFast: md,
-  AnimationDurationNormal: pd,
-  AnimationDurationSlow: gd,
-  AnimationEasingBounce: vd,
-  AnimationEasingEaseIn: bd,
-  AnimationEasingEaseInOut: yd,
-  AnimationEasingEaseOut: xd,
-  BorderColorCard: Ss,
-  BorderColorCardHover: Cs,
-  BorderColorDefault: ks,
-  BorderColorError: js,
-  BorderColorForm: ws,
-  BorderRadiusLarge: Ad,
-  BorderRadiusMedium: Ed,
-  BorderRadiusNone: Bd,
-  BorderRadiusSmall: Fd,
-  BorderWidthCardBottom: Td,
-  BorderWidthDefault: Cd,
-  BorderWidthFormElement: jd,
-  BorderWidthFormElementError: Nd,
-  BorderWidthPanel: Dd,
-  BorderWidthTableCell: Rd,
-  BorderWidthTableHeader: Id,
-  BreakpointDesktop: gf,
-  BreakpointLargeDesktop: bf,
-  BreakpointMobile: mf,
-  BreakpointTablet: pf,
-  ButtonBorderRadius: dh,
-  ButtonBorderWidth: ch,
-  ButtonPrimaryBackgroundActive: Ju,
-  ButtonPrimaryBackgroundDefault: Ku,
-  ButtonPrimaryBackgroundDisabled: Xu,
-  ButtonPrimaryBackgroundHover: Zu,
-  ButtonPrimaryBorderDefault: th,
-  ButtonPrimaryBorderFocus: nh,
-  ButtonPrimaryTextDefault: Qu,
-  ButtonPrimaryTextDisabled: eh,
-  ButtonSecondaryBackgroundActive: oh,
-  ButtonSecondaryBackgroundDefault: rh,
-  ButtonSecondaryBackgroundHover: sh,
-  ButtonSecondaryBackgroundSolid: ah,
-  ButtonSecondaryBorderDefault: lh,
-  ButtonSecondaryTextDefault: ih,
-  ButtonShadowSize: uh,
-  ButtonSpacingPaddingHorizontalDesktop: qs,
-  ButtonSpacingPaddingHorizontalMobile: Vs,
-  ButtonSpacingPaddingVerticalDesktop: Ys,
-  ButtonSpacingPaddingVerticalMobile: Gs,
-  ButtonTypographyWeight: hh,
-  CardBackgroundDefault: fh,
-  CardBorderBottom: gh,
-  CardBorderDefault: mh,
-  CardBorderHover: ph,
-  CardBorderWidthBottom: _h,
-  CardBorderWidthDefault: vh,
-  CardShadowDefault: kh,
-  CardShadowHover: wh,
-  CardSpacingHeadingMargin: Js,
-  CardSpacingPaddingDesktop: Zs,
-  CardSpacingPaddingMobile: Ks,
-  CardTextDescription: xh,
-  CardTextHeading: bh,
-  CardTextLink: yh,
-  ColorBorderDefault: Vd,
-  ColorBorderSecondary: Yd,
-  ColorButtonLoginActive: vu,
-  ColorButtonLoginBackground: xu,
-  ColorButtonLoginHover: yu,
-  ColorButtonLoginShadow: _u,
-  ColorButtonPrimaryActive: eu,
-  ColorButtonPrimaryBackground: Jd,
-  ColorButtonPrimaryHover: Qd,
-  ColorButtonPrimaryShadow: tu,
-  ColorButtonPrimaryText: Xd,
-  ColorButtonReverseActive: hu,
-  ColorButtonReverseBackground: cu,
-  ColorButtonReverseHover: uu,
-  ColorButtonReverseShadow: fu,
-  ColorButtonReverseText: du,
-  ColorButtonSecondaryActive: iu,
-  ColorButtonSecondaryBackground: nu,
-  ColorButtonSecondaryBackgroundSolid: ru,
-  ColorButtonSecondaryBorder: au,
-  ColorButtonSecondaryHover: ou,
-  ColorButtonSecondaryShadow: lu,
-  ColorButtonSecondaryText: su,
-  ColorButtonWarningActive: gu,
-  ColorButtonWarningBackground: mu,
-  ColorButtonWarningHover: pu,
-  ColorButtonWarningShadow: bu,
-  ColorError: qd,
-  ColorFocusBackground: Od,
-  ColorFocusText: Gd,
-  ColorFormBackground: Zd,
-  ColorFormBorder: Kd,
-  ColorGrey1: Ps,
-  ColorGrey2: zs,
-  ColorGrey3: Ws,
-  ColorGrey4: Us,
-  ColorGrey5: Os,
-  ColorLinkActive: Wd,
-  ColorLinkDefault: Pd,
-  ColorLinkHover: zd,
-  ColorLinkVisited: Ud,
-  ColorPrimaryBlack: Ds,
-  ColorPrimaryBlue: Ns,
-  ColorPrimaryDarkPink: Bs,
-  ColorPrimaryGreen: Is,
-  ColorPrimaryPurple: Rs,
-  ColorPrimaryRed: Fs,
-  ColorPrimaryWhite: Ts,
-  ColorPrimaryYellow: Es,
-  ColorSecondaryAquaGreen: $s,
-  ColorSecondaryOrange: Ms,
-  ColorSecondaryPaleYellow: As,
-  ColorSecondaryPink: Hs,
-  ColorSecondaryWarmYellow: Ls,
-  ColorTextPrimary: Ld,
-  ColorTextPrint: Hd,
-  ColorTextReverse: $d,
-  ColorTextSecondary: Md,
-  ComponentBlur: Ou,
-  ComponentBreadcrumbChevronMarginLeft: Lu,
-  ComponentBreadcrumbChevronMarginRight: Mu,
-  ComponentBreadcrumbPaddingTopDesktop: Hu,
-  ComponentBreadcrumbPaddingTopMobile: $u,
-  ComponentButtonPaddingDesktopHorizontal: Cu,
-  ComponentButtonPaddingDesktopVertical: Su,
-  ComponentButtonPaddingMobileHorizontal: wu,
-  ComponentButtonPaddingMobileVertical: ku,
-  ComponentButtonShadowSize: ju,
-  ComponentCardHeadingMargin: Fu,
-  ComponentCardPaddingDesktop: Bu,
-  ComponentCardPaddingMobile: Ru,
-  ComponentDetails: Vu,
-  ComponentExpander: Yu,
-  ComponentFormCheckboxLabelPadding: Iu,
-  ComponentFormCheckboxSize: Du,
-  ComponentFormInputMinHeight: Nu,
-  ComponentFormInputPadding: Tu,
-  ComponentLink: Gu,
-  ComponentPagination: qu,
-  ComponentPanelPaddingDesktop: Au,
-  ComponentPanelPaddingMobile: Eu,
-  ComponentSpread: Uu,
-  ComponentSummaryListCellPaddingHorizontal: zu,
-  ComponentSummaryListCellPaddingVertical: Pu,
-  ComponentSummaryListRowMargin: Wu,
-  ElevationHigh: Zf,
-  ElevationLow: qf,
-  ElevationMedium: Kf,
-  ElevationNone: Yf,
-  FocusOutlineOffset: Uf,
-  FocusOutlineStyle: Of,
-  FocusOutlineWidth: Wf,
-  FocusShadowButton: Vf,
-  FocusShadowInput: Gf,
-=======
-}, Gf = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  AnimationDurationFast: ld,
-  AnimationDurationNormal: cd,
-  AnimationDurationSlow: dd,
-  AnimationEasingBounce: md,
-  AnimationEasingEaseIn: ud,
-  AnimationEasingEaseInOut: fd,
-  AnimationEasingEaseOut: hd,
-  BorderColorCard: js,
-  BorderColorCardHover: Ns,
-  BorderColorDefault: Ss,
-  BorderColorError: Ts,
-  BorderColorForm: Cs,
-  BorderRadiusLarge: Dd,
-  BorderRadiusMedium: Td,
-  BorderRadiusNone: jd,
-  BorderRadiusSmall: Nd,
-  BorderWidthCardBottom: kd,
-  BorderWidthDefault: yd,
-  BorderWidthFormElement: vd,
-  BorderWidthFormElementError: _d,
-  BorderWidthPanel: wd,
-  BorderWidthTableCell: Cd,
-  BorderWidthTableHeader: Sd,
-  BreakpointDesktop: df,
-  BreakpointLargeDesktop: uf,
-  BreakpointMobile: lf,
-  BreakpointTablet: cf,
-  ButtonBorderRadius: ah,
-  ButtonBorderWidth: rh,
-  ButtonPrimaryBackgroundActive: Gu,
-  ButtonPrimaryBackgroundDefault: Ou,
-  ButtonPrimaryBackgroundDisabled: Vu,
-  ButtonPrimaryBackgroundHover: Uu,
-  ButtonPrimaryBorderDefault: Ku,
-  ButtonPrimaryBorderFocus: Zu,
-  ButtonPrimaryTextDefault: Yu,
-  ButtonPrimaryTextDisabled: qu,
-  ButtonSecondaryBackgroundActive: eh,
-  ButtonSecondaryBackgroundDefault: Ju,
-  ButtonSecondaryBackgroundHover: Qu,
-  ButtonSecondaryBackgroundSolid: Xu,
-  ButtonSecondaryBorderDefault: nh,
-  ButtonSecondaryTextDefault: th,
-  ButtonShadowSize: sh,
-  ButtonSpacingPaddingHorizontalDesktop: Zs,
-  ButtonSpacingPaddingHorizontalMobile: qs,
-  ButtonSpacingPaddingVerticalDesktop: Ks,
-  ButtonSpacingPaddingVerticalMobile: Ys,
-  ButtonTypographyWeight: oh,
-  CardBackgroundDefault: ih,
-  CardBorderBottom: dh,
-  CardBorderDefault: lh,
-  CardBorderHover: ch,
-  CardBorderWidthBottom: ph,
-  CardBorderWidthDefault: mh,
-  CardShadowDefault: gh,
-  CardShadowHover: bh,
-  CardSpacingHeadingMargin: Qs,
-  CardSpacingPaddingDesktop: Xs,
-  CardSpacingPaddingMobile: Js,
-  CardTextDescription: hh,
-  CardTextHeading: uh,
-  CardTextLink: fh,
-  ColorBorderDefault: Pd,
-  ColorBorderSecondary: zd,
-  ColorButtonLoginActive: mu,
-  ColorButtonLoginBackground: hu,
-  ColorButtonLoginHover: fu,
-  ColorButtonLoginShadow: pu,
-  ColorButtonPrimaryActive: qd,
-  ColorButtonPrimaryBackground: Gd,
-  ColorButtonPrimaryHover: Yd,
-  ColorButtonPrimaryShadow: Kd,
-  ColorButtonPrimaryText: Vd,
-  ColorButtonReverseActive: ou,
-  ColorButtonReverseBackground: ru,
-  ColorButtonReverseHover: su,
-  ColorButtonReverseShadow: iu,
-  ColorButtonReverseText: au,
-  ColorButtonSecondaryActive: tu,
-  ColorButtonSecondaryBackground: Zd,
-  ColorButtonSecondaryBackgroundSolid: Jd,
-  ColorButtonSecondaryBorder: Xd,
-  ColorButtonSecondaryHover: eu,
-  ColorButtonSecondaryShadow: nu,
-  ColorButtonSecondaryText: Qd,
-  ColorButtonWarningActive: du,
-  ColorButtonWarningBackground: lu,
-  ColorButtonWarningHover: cu,
-  ColorButtonWarningShadow: uu,
-  ColorError: Wd,
-  ColorFocusBackground: $d,
-  ColorFocusText: Hd,
-  ColorFormBackground: Ud,
-  ColorFormBorder: Od,
-  ColorGrey1: Ws,
-  ColorGrey2: Os,
-  ColorGrey3: Us,
-  ColorGrey4: Gs,
-  ColorGrey5: Vs,
-  ColorLinkActive: Ad,
-  ColorLinkDefault: Ld,
-  ColorLinkHover: Ed,
-  ColorLinkVisited: Md,
-  ColorPrimaryBlack: Rs,
-  ColorPrimaryBlue: Ds,
-  ColorPrimaryDarkPink: Ls,
-  ColorPrimaryGreen: Fs,
-  ColorPrimaryPurple: Bs,
-  ColorPrimaryRed: Es,
-  ColorPrimaryWhite: Is,
-  ColorPrimaryYellow: As,
-  ColorSecondaryAquaGreen: Ps,
-  ColorSecondaryOrange: Hs,
-  ColorSecondaryPaleYellow: Ms,
-  ColorSecondaryPink: zs,
-  ColorSecondaryWarmYellow: $s,
-  ColorTextPrimary: Id,
-  ColorTextPrint: Bd,
-  ColorTextReverse: Fd,
-  ColorTextSecondary: Rd,
-  ComponentBlur: $u,
-  ComponentBreadcrumbChevronMarginLeft: Iu,
-  ComponentBreadcrumbChevronMarginRight: Ru,
-  ComponentBreadcrumbPaddingTopDesktop: Bu,
-  ComponentBreadcrumbPaddingTopMobile: Fu,
-  ComponentButtonPaddingDesktopHorizontal: yu,
-  ComponentButtonPaddingDesktopVertical: xu,
-  ComponentButtonPaddingMobileHorizontal: bu,
-  ComponentButtonPaddingMobileVertical: gu,
-  ComponentButtonShadowSize: vu,
-  ComponentCardHeadingMargin: Nu,
-  ComponentCardPaddingDesktop: ju,
-  ComponentCardPaddingMobile: Cu,
-  ComponentDetails: Pu,
-  ComponentExpander: zu,
-  ComponentFormCheckboxLabelPadding: Su,
-  ComponentFormCheckboxSize: wu,
-  ComponentFormInputMinHeight: _u,
-  ComponentFormInputPadding: ku,
-  ComponentLink: Hu,
-  ComponentPagination: Wu,
-  ComponentPanelPaddingDesktop: Du,
-  ComponentPanelPaddingMobile: Tu,
-  ComponentSpread: Mu,
-  ComponentSummaryListCellPaddingHorizontal: Eu,
-  ComponentSummaryListCellPaddingVertical: Lu,
-  ComponentSummaryListRowMargin: Au,
-  ElevationHigh: Uf,
-  ElevationLow: Wf,
-  ElevationMedium: Of,
-  ElevationNone: zf,
-  FocusOutlineOffset: Mf,
-  FocusOutlineStyle: $f,
-  FocusOutlineWidth: Af,
-  FocusShadowButton: Pf,
-  FocusShadowInput: Hf,
->>>>>>> Stashed changes
-  FontFamilyBase: bn,
-  FontFamilyFallback: xn,
-  FontFamilyPrint: yn,
-  FontLineHeightBase: $r,
-  FontSize14Mobile: wn,
-  FontSize14Print: Cn,
-  FontSize14Tablet: Sn,
-  FontSize16Mobile: jn,
-  FontSize16Print: Tn,
-  FontSize16Tablet: Nn,
-  FontSize19Mobile: Dn,
-  FontSize19Print: Rn,
-  FontSize19Tablet: In,
-  FontSize22Mobile: Bn,
-  FontSize22Print: En,
-  FontSize22Tablet: Fn,
-  FontSize26Mobile: An,
-  FontSize26Print: Mn,
-  FontSize26Tablet: Ln,
-  FontSize36Mobile: $n,
-  FontSize36Print: Pn,
-  FontSize36Tablet: Hn,
-  FontSize48Mobile: zn,
-  FontSize48Print: Un,
-  FontSize48Tablet: Wn,
-  FontSizeBase: Mr,
-  FontWeightBold: _n,
-  FontWeightLight: kn,
-  FontWeightNormal: vn,
-<<<<<<< Updated upstream
-  FormBorderRadius: Uh,
-  FormBorderWidthDefault: zh,
-  FormBorderWidthError: Wh,
-  FormErrorTextDefault: $h,
-  FormErrorTypographyWeight: Hh,
-  FormHintTextDefault: Ph,
-  FormInputBackgroundDefault: Sh,
-  FormInputBackgroundDisabled: jh,
-  FormInputBackgroundError: Nh,
-  FormInputBackgroundFocus: Ch,
-  FormInputBorderDefault: Th,
-  FormInputBorderDisabled: Rh,
-  FormInputBorderError: Ih,
-  FormInputBorderFocus: Dh,
-  FormInputTextDefault: Bh,
-  FormInputTextDisabled: Eh,
-  FormInputTextPlaceholder: Fh,
-  FormLabelTextDefault: Ah,
-  FormLabelTextRequired: Lh,
-  FormLabelTypographyWeight: Mh,
-  FormSpacingCheckboxLabelPadding: to,
-  FormSpacingCheckboxSize: eo,
-  FormSpacingInputMinHeight: Qs,
-  FormSpacingInputPadding: Xs,
-  GridGutter: yf,
-  GridGutterHalf: vf,
-  GridPageWidth: xf,
-=======
-  FormBorderRadius: Mh,
-  FormBorderWidthDefault: Eh,
-  FormBorderWidthError: Ah,
-  FormErrorTextDefault: Fh,
-  FormErrorTypographyWeight: Bh,
-  FormHintTextDefault: Lh,
-  FormInputBackgroundDefault: xh,
-  FormInputBackgroundDisabled: vh,
-  FormInputBackgroundError: _h,
-  FormInputBackgroundFocus: yh,
-  FormInputBorderDefault: kh,
-  FormInputBorderDisabled: Ch,
-  FormInputBorderError: Sh,
-  FormInputBorderFocus: wh,
-  FormInputTextDefault: jh,
-  FormInputTextDisabled: Th,
-  FormInputTextPlaceholder: Nh,
-  FormLabelTextDefault: Dh,
-  FormLabelTextRequired: Ih,
-  FormLabelTypographyWeight: Rh,
-  FormSpacingCheckboxLabelPadding: ro,
-  FormSpacingCheckboxSize: no,
-  FormSpacingInputMinHeight: to,
-  FormSpacingInputPadding: eo,
-  GridGutter: ff,
-  GridGutterHalf: mf,
-  GridPageWidth: hf,
->>>>>>> Stashed changes
-  HeadingsNhsukHeadingL: it,
-  HeadingsNhsukHeadingM: lt,
-  HeadingsNhsukHeadingS: ct,
-  HeadingsNhsukHeadingXl: ot,
-  HeadingsNhsukHeadingXs: dt,
-<<<<<<< Updated upstream
-  LayoutColumnActions: ff,
-  LayoutColumnFull: cf,
-  LayoutColumnHalf: df,
-  LayoutColumnQuarter: hf,
-  LayoutColumnThird: uf,
-  LayoutContainerMaxWidth: lf,
-=======
-  LayoutColumnActions: of,
-  LayoutColumnFull: nf,
-  LayoutColumnHalf: rf,
-  LayoutColumnQuarter: sf,
-  LayoutColumnThird: af,
-  LayoutContainerMaxWidth: tf,
->>>>>>> Stashed changes
-  ParagraphsBody: ut,
-  ParagraphsBodyLarge: ht,
-  ParagraphsBodySmall: ft,
-  ParagraphsLedeText: mt,
-  ParagraphsLedeTextSmall: pt,
-<<<<<<< Updated upstream
-  ShadowButtonDefault: Lf,
-  ShadowButtonFocus: Hf,
-  ShadowButtonSecondary: Mf,
-  ShadowButtonWarning: $f,
-  ShadowCardDefault: Pf,
-  ShadowCardHover: zf,
-  SizeButtonMinHeightDesktop: of,
-  SizeButtonMinHeightMobile: sf,
-  SizeFormControlLarge: Jh,
-  SizeFormControlMedium: Zh,
-  SizeFormControlSmall: Kh,
-  SizeFormInputWidth2xl: rf,
-  SizeFormInputWidth3xl: af,
-  SizeFormInputWidthLg: tf,
-  SizeFormInputWidthMd: ef,
-  SizeFormInputWidthSm: Qh,
-  SizeFormInputWidthXl: nf,
-  SizeFormInputWidthXs: Xh,
-  SizeIconExtraLarge: Yh,
-  SizeIconLarge: Vh,
-  SizeIconMedium: Gh,
-  SizeIconNhsDefault: qh,
-  SizeIconSmall: Oh,
-  Spacing0: no,
-  Spacing1: ro,
-  Spacing2: ao,
-  Spacing3: so,
-  Spacing4: oo,
-  Spacing5: io,
-  Spacing6: lo,
-  Spacing7: co,
-  Spacing8: uo,
-  Spacing9: ho,
-=======
-  ShadowButtonDefault: If,
-  ShadowButtonFocus: Bf,
-  ShadowButtonSecondary: Rf,
-  ShadowButtonWarning: Ff,
-  ShadowCardDefault: Lf,
-  ShadowCardHover: Ef,
-  SizeButtonMinHeightDesktop: ef,
-  SizeButtonMinHeightMobile: Qh,
-  SizeFormControlLarge: Gh,
-  SizeFormControlMedium: Uh,
-  SizeFormControlSmall: Oh,
-  SizeFormInputWidth2xl: Jh,
-  SizeFormInputWidth3xl: Xh,
-  SizeFormInputWidthLg: Kh,
-  SizeFormInputWidthMd: qh,
-  SizeFormInputWidthSm: Yh,
-  SizeFormInputWidthXl: Zh,
-  SizeFormInputWidthXs: Vh,
-  SizeIconExtraLarge: zh,
-  SizeIconLarge: Ph,
-  SizeIconMedium: Hh,
-  SizeIconNhsDefault: Wh,
-  SizeIconSmall: $h,
-  Spacing0: ao,
-  Spacing1: so,
-  Spacing2: oo,
-  Spacing3: io,
-  Spacing4: lo,
-  Spacing5: co,
-  Spacing6: uo,
-  Spacing7: ho,
-  Spacing8: fo,
-  Spacing9: mo,
->>>>>>> Stashed changes
-  SpacingResponsive0Mobile: br,
-  SpacingResponsive0Tablet: xr,
-  SpacingResponsive1Mobile: yr,
-  SpacingResponsive1Tablet: vr,
-  SpacingResponsive2Mobile: _r,
-  SpacingResponsive2Tablet: kr,
-  SpacingResponsive3Mobile: wr,
-  SpacingResponsive3Tablet: Sr,
-  SpacingResponsive4Mobile: Cr,
-  SpacingResponsive4Tablet: jr,
-  SpacingResponsive5Mobile: Nr,
-  SpacingResponsive5Tablet: Tr,
-  SpacingResponsive6Mobile: Dr,
-  SpacingResponsive6Tablet: Ir,
-  SpacingResponsive7Mobile: Rr,
-<<<<<<< Updated upstream
-  SpacingResponsive7Tablet: Br,
-  SpacingResponsive8Mobile: Fr,
-  SpacingResponsive8Tablet: Er,
-  SpacingResponsive9Mobile: Ar,
-  SpacingResponsive9Tablet: Lr,
-  StateDisabledBackground: Ff,
-  StateDisabledBorder: Ef,
-  StateDisabledText: Af,
-  StateErrorBackground: _f,
-  StateErrorBorder: kf,
-  StateErrorText: wf,
-  StateInfoBackground: If,
-  StateInfoBorder: Rf,
-  StateInfoText: Bf,
-  StateSuccessBackground: Sf,
-  StateSuccessBorder: Cf,
-  StateSuccessText: jf,
-  StateWarningBackground: Nf,
-  StateWarningBorder: Tf,
-  StateWarningText: Df,
-  TransitionButtonDefault: _d,
-  TransitionButtonShadow: kd,
-  TransitionCardHover: Sd,
-  TransitionInputFocus: wd
-}, Symbol.toStringTag, { value: "Module" })), Am = (e, t) => ({
-=======
-  SpacingResponsive7Tablet: Fr,
-  SpacingResponsive8Mobile: Br,
-  SpacingResponsive8Tablet: Lr,
-  SpacingResponsive9Mobile: Er,
-  SpacingResponsive9Tablet: Ar,
-  StateDisabledBackground: Nf,
-  StateDisabledBorder: Tf,
-  StateDisabledText: Df,
-  StateErrorBackground: pf,
-  StateErrorBorder: gf,
-  StateErrorText: bf,
-  StateInfoBackground: Sf,
-  StateInfoBorder: Cf,
-  StateInfoText: jf,
-  StateSuccessBackground: xf,
-  StateSuccessBorder: yf,
-  StateSuccessText: vf,
-  StateWarningBackground: _f,
-  StateWarningBorder: kf,
-  StateWarningText: wf,
-  TransitionButtonDefault: pd,
-  TransitionButtonShadow: gd,
-  TransitionCardHover: xd,
-  TransitionInputFocus: bd
-}, Symbol.toStringTag, { value: "Module" })), Im = (e, t) => ({
->>>>>>> Stashed changes
+  AnimationDurationFast: Ih,
+  AnimationDurationNormal: Lh,
+  AnimationDurationSlow: Mh,
+  AnimationEasingBounce: Eh,
+  AnimationEasingEaseIn: Fh,
+  AnimationEasingEaseInOut: Ah,
+  AnimationEasingEaseOut: Bh,
+  BorderColorCard: vi,
+  BorderColorCardHover: wi,
+  BorderColorDefault: bi,
+  BorderColorError: _i,
+  BorderColorForm: yi,
+  BorderRadiusLarge: Jh,
+  BorderRadiusMedium: Zh,
+  BorderRadiusNone: Xh,
+  BorderRadiusSmall: Kh,
+  BorderWidthCardBottom: Gh,
+  BorderWidthDefault: Wh,
+  BorderWidthFormElement: Oh,
+  BorderWidthFormElementError: Uh,
+  BorderWidthPanel: Yh,
+  BorderWidthTableCell: qh,
+  BorderWidthTableHeader: Vh,
+  BreakpointDesktop: Lg,
+  BreakpointLargeDesktop: Mg,
+  BreakpointMobile: $g,
+  BreakpointTablet: Ig,
+  ButtonBorderRadius: Nm,
+  ButtonBorderWidth: jm,
+  ButtonPrimaryBackgroundActive: pm,
+  ButtonPrimaryBackgroundDefault: fm,
+  ButtonPrimaryBackgroundDisabled: mm,
+  ButtonPrimaryBackgroundHover: hm,
+  ButtonPrimaryBorderDefault: bm,
+  ButtonPrimaryBorderFocus: ym,
+  ButtonPrimaryTextDefault: gm,
+  ButtonPrimaryTextDisabled: xm,
+  ButtonSecondaryBackgroundActive: Sm,
+  ButtonSecondaryBackgroundDefault: vm,
+  ButtonSecondaryBackgroundHover: _m,
+  ButtonSecondaryBackgroundSolid: wm,
+  ButtonSecondaryBorderDefault: Cm,
+  ButtonSecondaryTextDefault: km,
+  ButtonShadowSize: Tm,
+  ButtonSpacingPaddingHorizontalDesktop: Ui,
+  ButtonSpacingPaddingHorizontalMobile: Wi,
+  ButtonSpacingPaddingVerticalDesktop: Oi,
+  ButtonSpacingPaddingVerticalMobile: zi,
+  ButtonTypographyWeight: Dm,
+  CardBackgroundDefault: $m,
+  CardBorderBottom: Mm,
+  CardBorderDefault: Im,
+  CardBorderHover: Lm,
+  CardBorderWidthBottom: Rm,
+  CardBorderWidthDefault: Em,
+  CardShadowDefault: Pm,
+  CardShadowHover: Hm,
+  CardSpacingHeadingMargin: Vi,
+  CardSpacingPaddingDesktop: Yi,
+  CardSpacingPaddingMobile: Gi,
+  CardTextDescription: Bm,
+  CardTextHeading: Fm,
+  CardTextLink: Am,
+  ColorBorderDefault: cp,
+  ColorBorderSecondary: dp,
+  ColorButtonLoginActive: Ep,
+  ColorButtonLoginBackground: Bp,
+  ColorButtonLoginHover: Ap,
+  ColorButtonLoginShadow: Rp,
+  ColorButtonPrimaryActive: xp,
+  ColorButtonPrimaryBackground: pp,
+  ColorButtonPrimaryHover: gp,
+  ColorButtonPrimaryShadow: bp,
+  ColorButtonPrimaryText: mp,
+  ColorButtonReverseActive: Dp,
+  ColorButtonReverseBackground: jp,
+  ColorButtonReverseHover: Tp,
+  ColorButtonReverseShadow: $p,
+  ColorButtonReverseText: Np,
+  ColorButtonSecondaryActive: kp,
+  ColorButtonSecondaryBackground: yp,
+  ColorButtonSecondaryBackgroundSolid: vp,
+  ColorButtonSecondaryBorder: wp,
+  ColorButtonSecondaryHover: Sp,
+  ColorButtonSecondaryShadow: Cp,
+  ColorButtonSecondaryText: _p,
+  ColorButtonWarningActive: Mp,
+  ColorButtonWarningBackground: Ip,
+  ColorButtonWarningHover: Lp,
+  ColorButtonWarningShadow: Fp,
+  ColorError: up,
+  ColorFocusBackground: ip,
+  ColorFocusText: lp,
+  ColorFormBackground: hp,
+  ColorFormBorder: fp,
+  ColorGrey1: Ai,
+  ColorGrey2: Ei,
+  ColorGrey3: Ri,
+  ColorGrey4: Pi,
+  ColorGrey5: Hi,
+  ColorLinkActive: sp,
+  ColorLinkDefault: rp,
+  ColorLinkHover: ap,
+  ColorLinkVisited: op,
+  ColorPrimaryBlack: Ci,
+  ColorPrimaryBlue: Si,
+  ColorPrimaryDarkPink: Ti,
+  ColorPrimaryGreen: ji,
+  ColorPrimaryPurple: Ni,
+  ColorPrimaryRed: Di,
+  ColorPrimaryWhite: ki,
+  ColorPrimaryYellow: $i,
+  ColorSecondaryAquaGreen: Fi,
+  ColorSecondaryOrange: Mi,
+  ColorSecondaryPaleYellow: Ii,
+  ColorSecondaryPink: Bi,
+  ColorSecondaryWarmYellow: Li,
+  ColorTextPrimary: Qh,
+  ColorTextPrint: np,
+  ColorTextReverse: tp,
+  ColorTextSecondary: ep,
+  ComponentBlur: im,
+  ComponentBreadcrumbChevronMarginLeft: Qp,
+  ComponentBreadcrumbChevronMarginRight: em,
+  ComponentBreadcrumbPaddingTopDesktop: nm,
+  ComponentBreadcrumbPaddingTopMobile: tm,
+  ComponentButtonPaddingDesktopHorizontal: Wp,
+  ComponentButtonPaddingDesktopVertical: zp,
+  ComponentButtonPaddingMobileHorizontal: Hp,
+  ComponentButtonPaddingMobileVertical: Pp,
+  ComponentButtonShadowSize: Op,
+  ComponentCardHeadingMargin: Kp,
+  ComponentCardPaddingDesktop: Xp,
+  ComponentCardPaddingMobile: qp,
+  ComponentDetails: cm,
+  ComponentExpander: dm,
+  ComponentFormCheckboxLabelPadding: Vp,
+  ComponentFormCheckboxSize: Yp,
+  ComponentFormInputMinHeight: Up,
+  ComponentFormInputPadding: Gp,
+  ComponentLink: lm,
+  ComponentPagination: um,
+  ComponentPanelPaddingDesktop: Jp,
+  ComponentPanelPaddingMobile: Zp,
+  ComponentSpread: om,
+  ComponentSummaryListCellPaddingHorizontal: am,
+  ComponentSummaryListCellPaddingVertical: rm,
+  ComponentSummaryListRowMargin: sm,
+  ElevationHigh: f0,
+  ElevationLow: d0,
+  ElevationMedium: u0,
+  ElevationNone: c0,
+  FocusOutlineOffset: s0,
+  FocusOutlineStyle: o0,
+  FocusOutlineWidth: a0,
+  FocusShadowButton: l0,
+  FocusShadowInput: i0,
+  FontFamilyBase: Yn,
+  FontFamilyFallback: Vn,
+  FontFamilyPrint: qn,
+  FontLineHeightBase: Ta,
+  FontSize14Mobile: Jn,
+  FontSize14Print: er,
+  FontSize14Tablet: Qn,
+  FontSize16Mobile: tr,
+  FontSize16Print: rr,
+  FontSize16Tablet: nr,
+  FontSize19Mobile: ar,
+  FontSize19Print: or,
+  FontSize19Tablet: sr,
+  FontSize22Mobile: ir,
+  FontSize22Print: cr,
+  FontSize22Tablet: lr,
+  FontSize26Mobile: dr,
+  FontSize26Print: fr,
+  FontSize26Tablet: ur,
+  FontSize36Mobile: hr,
+  FontSize36Print: mr,
+  FontSize36Tablet: pr,
+  FontSize48Mobile: gr,
+  FontSize48Print: br,
+  FontSize48Tablet: xr,
+  FontSizeBase: Na,
+  FontWeightBold: Kn,
+  FontWeightLight: Zn,
+  FontWeightNormal: Xn,
+  FormBorderRadius: og,
+  FormBorderWidthDefault: ag,
+  FormBorderWidthError: sg,
+  FormErrorTextDefault: tg,
+  FormErrorTypographyWeight: ng,
+  FormHintTextDefault: rg,
+  FormInputBackgroundDefault: zm,
+  FormInputBackgroundDisabled: Om,
+  FormInputBackgroundError: Um,
+  FormInputBackgroundFocus: Wm,
+  FormInputBorderDefault: Gm,
+  FormInputBorderDisabled: qm,
+  FormInputBorderError: Vm,
+  FormInputBorderFocus: Ym,
+  FormInputTextDefault: Xm,
+  FormInputTextDisabled: Zm,
+  FormInputTextPlaceholder: Km,
+  FormLabelTextDefault: Jm,
+  FormLabelTextRequired: Qm,
+  FormLabelTypographyWeight: eg,
+  FormSpacingCheckboxLabelPadding: Zi,
+  FormSpacingCheckboxSize: Ki,
+  FormSpacingInputMinHeight: Xi,
+  FormSpacingInputPadding: qi,
+  GridGutter: Bg,
+  GridGutterHalf: Ag,
+  GridPageWidth: Fg,
+  HeadingsNhsukHeadingL: gt,
+  HeadingsNhsukHeadingM: xt,
+  HeadingsNhsukHeadingS: bt,
+  HeadingsNhsukHeadingXl: mt,
+  HeadingsNhsukHeadingXs: yt,
+  LayoutColumnActions: Dg,
+  LayoutColumnFull: Cg,
+  LayoutColumnHalf: jg,
+  LayoutColumnQuarter: Tg,
+  LayoutColumnThird: Ng,
+  LayoutContainerMaxWidth: kg,
+  ParagraphsBody: vt,
+  ParagraphsBodyLarge: wt,
+  ParagraphsBodySmall: _t,
+  ParagraphsLedeText: St,
+  ParagraphsLedeTextSmall: kt,
+  ShadowButtonDefault: Jg,
+  ShadowButtonFocus: t0,
+  ShadowButtonSecondary: Qg,
+  ShadowButtonWarning: e0,
+  ShadowCardDefault: n0,
+  ShadowCardHover: r0,
+  SizeButtonMinHeightDesktop: Sg,
+  SizeButtonMinHeightMobile: _g,
+  SizeFormControlLarge: pg,
+  SizeFormControlMedium: hg,
+  SizeFormControlSmall: fg,
+  SizeFormInputWidth2xl: vg,
+  SizeFormInputWidth3xl: wg,
+  SizeFormInputWidthLg: bg,
+  SizeFormInputWidthMd: xg,
+  SizeFormInputWidthSm: gg,
+  SizeFormInputWidthXl: yg,
+  SizeFormInputWidthXs: mg,
+  SizeIconExtraLarge: dg,
+  SizeIconLarge: cg,
+  SizeIconMedium: lg,
+  SizeIconNhsDefault: ug,
+  SizeIconSmall: ig,
+  Spacing0: Ji,
+  Spacing1: Qi,
+  Spacing2: el,
+  Spacing3: tl,
+  Spacing4: nl,
+  Spacing5: rl,
+  Spacing6: al,
+  Spacing7: sl,
+  Spacing8: ol,
+  Spacing9: il,
+  SpacingResponsive0Mobile: ia,
+  SpacingResponsive0Tablet: la,
+  SpacingResponsive1Mobile: ca,
+  SpacingResponsive1Tablet: da,
+  SpacingResponsive2Mobile: ua,
+  SpacingResponsive2Tablet: fa,
+  SpacingResponsive3Mobile: ha,
+  SpacingResponsive3Tablet: pa,
+  SpacingResponsive4Mobile: ma,
+  SpacingResponsive4Tablet: ga,
+  SpacingResponsive5Mobile: xa,
+  SpacingResponsive5Tablet: ba,
+  SpacingResponsive6Mobile: ya,
+  SpacingResponsive6Tablet: va,
+  SpacingResponsive7Mobile: wa,
+  SpacingResponsive7Tablet: _a,
+  SpacingResponsive8Mobile: Sa,
+  SpacingResponsive8Tablet: ka,
+  SpacingResponsive9Mobile: Ca,
+  SpacingResponsive9Tablet: ja,
+  StateDisabledBackground: Xg,
+  StateDisabledBorder: Kg,
+  StateDisabledText: Zg,
+  StateErrorBackground: Eg,
+  StateErrorBorder: Rg,
+  StateErrorText: Pg,
+  StateInfoBackground: Yg,
+  StateInfoBorder: Vg,
+  StateInfoText: qg,
+  StateSuccessBackground: Hg,
+  StateSuccessBorder: zg,
+  StateSuccessText: Wg,
+  StateWarningBackground: Og,
+  StateWarningBorder: Ug,
+  StateWarningText: Gg,
+  TransitionButtonDefault: Rh,
+  TransitionButtonShadow: Ph,
+  TransitionCardHover: zh,
+  TransitionInputFocus: Hh
+}, Symbol.toStringTag, { value: "Module" })), ex = (e, t) => ({
   fontSize: e.mobile,
   marginBottom: t.mobile,
   "@media (min-width: 768px)": {
@@ -16216,200 +14800,12 @@ const ld = "150ms", cd = "300ms", dd = "500ms", ud = "cubic-bezier(0.4, 0, 1, 1)
   "@media print": {
     fontSize: e.print || e.tablet
   }
-<<<<<<< Updated upstream
-}), Lm = ({
-=======
-}), Rm = ({
->>>>>>> Stashed changes
+}), tx = ({
   children: e,
   className: t = "",
-  style: r = {}
-}) => /* @__PURE__ */ n.jsx(
+  style: n = {}
+}) => /* @__PURE__ */ r.jsx(
   "h1",
-  {
-    className: t,
-    style: {
-      fontFamily: ot.fontFamily,
-      fontWeight: ot.fontWeight,
-      fontSize: ot.fontSize.mobile,
-      lineHeight: ot.lineHeight,
-      marginTop: ot.marginTop,
-      marginBottom: ot.marginBottom.mobile,
-      ...r
-    },
-    children: e
-  }
-<<<<<<< Updated upstream
-), Mm = ({
-=======
-), Fm = ({
->>>>>>> Stashed changes
-  children: e,
-  className: t = "",
-  style: r = {}
-}) => /* @__PURE__ */ n.jsx(
-  "h2",
-  {
-    className: t,
-    style: {
-      fontFamily: it.fontFamily,
-      fontWeight: it.fontWeight,
-      fontSize: it.fontSize.mobile,
-      lineHeight: it.lineHeight,
-      marginTop: it.marginTop,
-      marginBottom: it.marginBottom.mobile,
-      ...r
-    },
-    children: e
-  }
-<<<<<<< Updated upstream
-), $m = ({
-=======
-), Bm = ({
->>>>>>> Stashed changes
-  children: e,
-  className: t = "",
-  style: r = {}
-}) => /* @__PURE__ */ n.jsx(
-  "h3",
-  {
-    className: t,
-    style: {
-      fontFamily: lt.fontFamily,
-      fontWeight: lt.fontWeight,
-      fontSize: lt.fontSize.mobile,
-      lineHeight: lt.lineHeight,
-      marginTop: lt.marginTop,
-      marginBottom: lt.marginBottom.mobile,
-      ...r
-    },
-    children: e
-  }
-<<<<<<< Updated upstream
-), Hm = ({
-=======
-), Lm = ({
->>>>>>> Stashed changes
-  children: e,
-  className: t = "",
-  style: r = {}
-}) => /* @__PURE__ */ n.jsx(
-  "h4",
-  {
-    className: t,
-    style: {
-      fontFamily: ct.fontFamily,
-      fontWeight: ct.fontWeight,
-      fontSize: ct.fontSize.mobile,
-      lineHeight: ct.lineHeight,
-      marginTop: ct.marginTop,
-      marginBottom: ct.marginBottom.mobile,
-      ...r
-    },
-    children: e
-  }
-<<<<<<< Updated upstream
-), Pm = ({
-=======
-), Em = ({
->>>>>>> Stashed changes
-  children: e,
-  className: t = "",
-  style: r = {}
-}) => /* @__PURE__ */ n.jsx(
-  "h5",
-  {
-    className: t,
-    style: {
-      fontFamily: dt.fontFamily,
-      fontWeight: dt.fontWeight,
-      fontSize: dt.fontSize.mobile,
-      lineHeight: dt.lineHeight,
-      marginTop: dt.marginTop,
-      marginBottom: dt.marginBottom.mobile,
-      ...r
-    },
-    children: e
-  }
-<<<<<<< Updated upstream
-), zm = ({
-=======
-), Am = ({
->>>>>>> Stashed changes
-  children: e,
-  className: t = "",
-  style: r = {}
-}) => /* @__PURE__ */ n.jsx(
-  "p",
-  {
-    className: t,
-    style: {
-      fontFamily: ut.fontFamily,
-      fontWeight: ut.fontWeight,
-      fontSize: ut.fontSize.mobile,
-      lineHeight: ut.lineHeight,
-      marginTop: ut.marginTop,
-      marginBottom: ut.marginBottom.mobile,
-      ...r
-    },
-    children: e
-  }
-<<<<<<< Updated upstream
-), Wm = ({
-=======
-), Mm = ({
->>>>>>> Stashed changes
-  children: e,
-  className: t = "",
-  style: r = {}
-}) => /* @__PURE__ */ n.jsx(
-  "p",
-  {
-    className: t,
-    style: {
-      fontFamily: ht.fontFamily,
-      fontWeight: ht.fontWeight,
-      fontSize: ht.fontSize.mobile,
-      lineHeight: ht.lineHeight,
-      marginTop: ht.marginTop,
-      marginBottom: ht.marginBottom.mobile,
-      ...r
-    },
-    children: e
-  }
-<<<<<<< Updated upstream
-), Um = ({
-=======
-), $m = ({
->>>>>>> Stashed changes
-  children: e,
-  className: t = "",
-  style: r = {}
-}) => /* @__PURE__ */ n.jsx(
-  "p",
-  {
-    className: t,
-    style: {
-      fontFamily: ft.fontFamily,
-      fontWeight: ft.fontWeight,
-      fontSize: ft.fontSize.mobile,
-      lineHeight: ft.lineHeight,
-      marginTop: ft.marginTop,
-      marginBottom: ft.marginBottom.mobile,
-      ...r
-    },
-    children: e
-  }
-<<<<<<< Updated upstream
-), Om = ({
-=======
-), Hm = ({
->>>>>>> Stashed changes
-  children: e,
-  className: t = "",
-  style: r = {}
-}) => /* @__PURE__ */ n.jsx(
-  "p",
   {
     className: t,
     style: {
@@ -16419,362 +14815,426 @@ const ld = "150ms", cd = "300ms", dd = "500ms", ud = "cubic-bezier(0.4, 0, 1, 1)
       lineHeight: mt.lineHeight,
       marginTop: mt.marginTop,
       marginBottom: mt.marginBottom.mobile,
-      ...r
+      ...n
     },
     children: e
   }
-<<<<<<< Updated upstream
-), Gm = ({
-=======
-), Pm = ({
->>>>>>> Stashed changes
+), nx = ({
   children: e,
   className: t = "",
-  style: r = {}
-}) => /* @__PURE__ */ n.jsx(
+  style: n = {}
+}) => /* @__PURE__ */ r.jsx(
+  "h2",
+  {
+    className: t,
+    style: {
+      fontFamily: gt.fontFamily,
+      fontWeight: gt.fontWeight,
+      fontSize: gt.fontSize.mobile,
+      lineHeight: gt.lineHeight,
+      marginTop: gt.marginTop,
+      marginBottom: gt.marginBottom.mobile,
+      ...n
+    },
+    children: e
+  }
+), rx = ({
+  children: e,
+  className: t = "",
+  style: n = {}
+}) => /* @__PURE__ */ r.jsx(
+  "h3",
+  {
+    className: t,
+    style: {
+      fontFamily: xt.fontFamily,
+      fontWeight: xt.fontWeight,
+      fontSize: xt.fontSize.mobile,
+      lineHeight: xt.lineHeight,
+      marginTop: xt.marginTop,
+      marginBottom: xt.marginBottom.mobile,
+      ...n
+    },
+    children: e
+  }
+), ax = ({
+  children: e,
+  className: t = "",
+  style: n = {}
+}) => /* @__PURE__ */ r.jsx(
+  "h4",
+  {
+    className: t,
+    style: {
+      fontFamily: bt.fontFamily,
+      fontWeight: bt.fontWeight,
+      fontSize: bt.fontSize.mobile,
+      lineHeight: bt.lineHeight,
+      marginTop: bt.marginTop,
+      marginBottom: bt.marginBottom.mobile,
+      ...n
+    },
+    children: e
+  }
+), sx = ({
+  children: e,
+  className: t = "",
+  style: n = {}
+}) => /* @__PURE__ */ r.jsx(
+  "h5",
+  {
+    className: t,
+    style: {
+      fontFamily: yt.fontFamily,
+      fontWeight: yt.fontWeight,
+      fontSize: yt.fontSize.mobile,
+      lineHeight: yt.lineHeight,
+      marginTop: yt.marginTop,
+      marginBottom: yt.marginBottom.mobile,
+      ...n
+    },
+    children: e
+  }
+), ox = ({
+  children: e,
+  className: t = "",
+  style: n = {}
+}) => /* @__PURE__ */ r.jsx(
   "p",
   {
     className: t,
     style: {
-      fontFamily: pt.fontFamily,
-      fontWeight: pt.fontWeight,
-      fontSize: pt.fontSize.mobile,
-      lineHeight: pt.lineHeight,
-      marginTop: pt.marginTop,
-      marginBottom: pt.marginBottom.mobile,
-      ...r
+      fontFamily: vt.fontFamily,
+      fontWeight: vt.fontWeight,
+      fontSize: vt.fontSize.mobile,
+      lineHeight: vt.lineHeight,
+      marginTop: vt.marginTop,
+      marginBottom: vt.marginBottom.mobile,
+      ...n
     },
     children: e
   }
-<<<<<<< Updated upstream
-), Vm = () => De(() => Jf, []), Ym = () => De(() => ({
+), ix = ({
+  children: e,
+  className: t = "",
+  style: n = {}
+}) => /* @__PURE__ */ r.jsx(
+  "p",
+  {
+    className: t,
+    style: {
+      fontFamily: wt.fontFamily,
+      fontWeight: wt.fontWeight,
+      fontSize: wt.fontSize.mobile,
+      lineHeight: wt.lineHeight,
+      marginTop: wt.marginTop,
+      marginBottom: wt.marginBottom.mobile,
+      ...n
+    },
+    children: e
+  }
+), lx = ({
+  children: e,
+  className: t = "",
+  style: n = {}
+}) => /* @__PURE__ */ r.jsx(
+  "p",
+  {
+    className: t,
+    style: {
+      fontFamily: _t.fontFamily,
+      fontWeight: _t.fontWeight,
+      fontSize: _t.fontSize.mobile,
+      lineHeight: _t.lineHeight,
+      marginTop: _t.marginTop,
+      marginBottom: _t.marginBottom.mobile,
+      ...n
+    },
+    children: e
+  }
+), cx = ({
+  children: e,
+  className: t = "",
+  style: n = {}
+}) => /* @__PURE__ */ r.jsx(
+  "p",
+  {
+    className: t,
+    style: {
+      fontFamily: St.fontFamily,
+      fontWeight: St.fontWeight,
+      fontSize: St.fontSize.mobile,
+      lineHeight: St.lineHeight,
+      marginTop: St.marginTop,
+      marginBottom: St.marginBottom.mobile,
+      ...n
+    },
+    children: e
+  }
+), dx = ({
+  children: e,
+  className: t = "",
+  style: n = {}
+}) => /* @__PURE__ */ r.jsx(
+  "p",
+  {
+    className: t,
+    style: {
+      fontFamily: kt.fontFamily,
+      fontWeight: kt.fontWeight,
+      fontSize: kt.fontSize.mobile,
+      lineHeight: kt.lineHeight,
+      marginTop: kt.marginTop,
+      marginBottom: kt.marginBottom.mobile,
+      ...n
+    },
+    children: e
+  }
+), ux = () => je(() => h0, []), fx = () => je(() => ({
   // Border colors
-  BorderColorDefault: ks,
-  BorderColorForm: ws,
-  BorderColorCard: Ss,
-  BorderColorCardHover: Cs,
-  BorderColorError: js,
+  BorderColorDefault: bi,
+  BorderColorForm: yi,
+  BorderColorCard: vi,
+  BorderColorCardHover: wi,
+  BorderColorError: _i,
   // Primary colors
-  ColorPrimaryBlue: Ns,
-  ColorPrimaryWhite: Ts,
-  ColorPrimaryBlack: Ds,
-  ColorPrimaryGreen: Is,
-  ColorPrimaryPurple: Rs,
-  ColorPrimaryDarkPink: Bs,
-  ColorPrimaryRed: Fs,
-  ColorPrimaryYellow: Es,
+  ColorPrimaryBlue: Si,
+  ColorPrimaryWhite: ki,
+  ColorPrimaryBlack: Ci,
+  ColorPrimaryGreen: ji,
+  ColorPrimaryPurple: Ni,
+  ColorPrimaryDarkPink: Ti,
+  ColorPrimaryRed: Di,
+  ColorPrimaryYellow: $i,
   // Secondary colors
-  ColorSecondaryPaleYellow: As,
-  ColorSecondaryWarmYellow: Ls,
-  ColorSecondaryOrange: Ms,
-  ColorSecondaryAquaGreen: $s,
-  ColorSecondaryPink: Hs,
+  ColorSecondaryPaleYellow: Ii,
+  ColorSecondaryWarmYellow: Li,
+  ColorSecondaryOrange: Mi,
+  ColorSecondaryAquaGreen: Fi,
+  ColorSecondaryPink: Bi,
   // Grey scale
-  ColorGrey1: Ps,
-  ColorGrey2: zs,
-  ColorGrey3: Ws,
-  ColorGrey4: Us,
-  ColorGrey5: Os
-}), []), qm = () => De(() => ({
-  Spacing0: no,
-  Spacing1: ro,
-  Spacing2: ao,
-  Spacing3: so,
-  Spacing4: oo,
-  Spacing5: io,
-  Spacing6: lo,
-  Spacing7: co,
-  Spacing8: uo,
-  Spacing9: ho
-}), []), Km = () => De(() => ({
-=======
-), zm = () => Re(() => Gf, []), Wm = () => Re(() => ({
-  // Border colors
-  BorderColorDefault: Ss,
-  BorderColorForm: Cs,
-  BorderColorCard: js,
-  BorderColorCardHover: Ns,
-  BorderColorError: Ts,
-  // Primary colors
-  ColorPrimaryBlue: Ds,
-  ColorPrimaryWhite: Is,
-  ColorPrimaryBlack: Rs,
-  ColorPrimaryGreen: Fs,
-  ColorPrimaryPurple: Bs,
-  ColorPrimaryDarkPink: Ls,
-  ColorPrimaryRed: Es,
-  ColorPrimaryYellow: As,
-  // Secondary colors
-  ColorSecondaryPaleYellow: Ms,
-  ColorSecondaryWarmYellow: $s,
-  ColorSecondaryOrange: Hs,
-  ColorSecondaryAquaGreen: Ps,
-  ColorSecondaryPink: zs,
-  // Grey scale
-  ColorGrey1: Ws,
-  ColorGrey2: Os,
-  ColorGrey3: Us,
-  ColorGrey4: Gs,
-  ColorGrey5: Vs
-}), []), Om = () => Re(() => ({
-  Spacing0: ao,
-  Spacing1: so,
-  Spacing2: oo,
-  Spacing3: io,
-  Spacing4: lo,
-  Spacing5: co,
-  Spacing6: uo,
-  Spacing7: ho,
-  Spacing8: fo,
-  Spacing9: mo
-}), []), Um = () => Re(() => ({
->>>>>>> Stashed changes
+  ColorGrey1: Ai,
+  ColorGrey2: Ei,
+  ColorGrey3: Ri,
+  ColorGrey4: Pi,
+  ColorGrey5: Hi
+}), []), hx = () => je(() => ({
+  Spacing0: Ji,
+  Spacing1: Qi,
+  Spacing2: el,
+  Spacing3: tl,
+  Spacing4: nl,
+  Spacing5: rl,
+  Spacing6: al,
+  Spacing7: sl,
+  Spacing8: ol,
+  Spacing9: il
+}), []), px = () => je(() => ({
   // Semantic device-grouped typography
   Mobile: {
-    Size14: wn,
-    Size16: jn,
-    Size19: Dn,
-    Size22: Bn,
-    Size26: An,
-    Size36: $n,
-    Size48: zn
+    Size14: Jn,
+    Size16: tr,
+    Size19: ar,
+    Size22: ir,
+    Size26: dr,
+    Size36: hr,
+    Size48: gr
   },
   Tablet: {
-    Size14: Sn,
-    Size16: Nn,
-    Size19: In,
-    Size22: Fn,
-    Size26: Ln,
-    Size36: Hn,
-    Size48: Wn
+    Size14: Qn,
+    Size16: nr,
+    Size19: sr,
+    Size22: lr,
+    Size26: ur,
+    Size36: pr,
+    Size48: xr
   },
   Print: {
-    Size14: Cn,
-    Size16: Tn,
-    Size19: Rn,
-    Size22: En,
-    Size26: Mn,
-    Size36: Pn,
-    Size48: Un
+    Size14: er,
+    Size16: rr,
+    Size19: or,
+    Size22: cr,
+    Size26: fr,
+    Size36: mr,
+    Size48: br
   },
   Family: {
-    Base: bn,
-    Fallback: xn,
-    Print: yn
+    Base: Yn,
+    Fallback: Vn,
+    Print: qn
   },
   Weight: {
-    Normal: vn,
-    Bold: _n,
-    Light: kn
+    Normal: Xn,
+    Bold: Kn,
+    Light: Zn
   },
   Base: {
-    Size: Mr,
-    LineHeight: $r
+    Size: Na,
+    LineHeight: Ta
   },
   // Backward compatibility - individual exports
-  FontFamilyBase: bn,
-  FontFamilyFallback: xn,
-  FontFamilyPrint: yn,
-  FontWeightNormal: vn,
-  FontWeightBold: _n,
-  FontWeightLight: kn,
-  FontSize14Mobile: wn,
-  FontSize14Tablet: Sn,
-  FontSize14Print: Cn,
-  FontSize16Mobile: jn,
-  FontSize16Tablet: Nn,
-  FontSize16Print: Tn,
-  FontSize19Mobile: Dn,
-  FontSize19Tablet: In,
-  FontSize19Print: Rn,
-  FontSize22Mobile: Bn,
-  FontSize22Tablet: Fn,
-  FontSize22Print: En,
-  FontSize26Mobile: An,
-  FontSize26Tablet: Ln,
-  FontSize26Print: Mn,
-  FontSize36Mobile: $n,
-  FontSize36Tablet: Hn,
-  FontSize36Print: Pn,
-  FontSize48Mobile: zn,
-  FontSize48Tablet: Wn,
-  FontSize48Print: Un,
-  FontSizeBase: Mr,
-  FontLineHeightBase: $r
-<<<<<<< Updated upstream
-}), []), Zm = () => De(() => ({
-=======
-}), []), Gm = () => Re(() => ({
->>>>>>> Stashed changes
+  FontFamilyBase: Yn,
+  FontFamilyFallback: Vn,
+  FontFamilyPrint: qn,
+  FontWeightNormal: Xn,
+  FontWeightBold: Kn,
+  FontWeightLight: Zn,
+  FontSize14Mobile: Jn,
+  FontSize14Tablet: Qn,
+  FontSize14Print: er,
+  FontSize16Mobile: tr,
+  FontSize16Tablet: nr,
+  FontSize16Print: rr,
+  FontSize19Mobile: ar,
+  FontSize19Tablet: sr,
+  FontSize19Print: or,
+  FontSize22Mobile: ir,
+  FontSize22Tablet: lr,
+  FontSize22Print: cr,
+  FontSize26Mobile: dr,
+  FontSize26Tablet: ur,
+  FontSize26Print: fr,
+  FontSize36Mobile: hr,
+  FontSize36Tablet: pr,
+  FontSize36Print: mr,
+  FontSize48Mobile: gr,
+  FontSize48Tablet: xr,
+  FontSize48Print: br,
+  FontSizeBase: Na,
+  FontLineHeightBase: Ta
+}), []), mx = () => je(() => ({
   // Semantic device-grouped responsive spacing
   Mobile: {
-    Size0: br,
-    Size1: yr,
-    Size2: _r,
-    Size3: wr,
-    Size4: Cr,
-    Size5: Nr,
-    Size6: Dr,
-    Size7: Rr,
-    Size8: Fr,
-    Size9: Ar
+    Size0: ia,
+    Size1: ca,
+    Size2: ua,
+    Size3: ha,
+    Size4: ma,
+    Size5: xa,
+    Size6: ya,
+    Size7: wa,
+    Size8: Sa,
+    Size9: Ca
   },
   Tablet: {
-    Size0: xr,
-    Size1: vr,
-    Size2: kr,
-    Size3: Sr,
-    Size4: jr,
-    Size5: Tr,
-    Size6: Ir,
-    Size7: Br,
-    Size8: Er,
-    Size9: Lr
+    Size0: la,
+    Size1: da,
+    Size2: fa,
+    Size3: pa,
+    Size4: ga,
+    Size5: ba,
+    Size6: va,
+    Size7: _a,
+    Size8: ka,
+    Size9: ja
   },
   // Backward compatibility - individual exports
-  SpacingResponsive0Mobile: br,
-  SpacingResponsive0Tablet: xr,
-  SpacingResponsive1Mobile: yr,
-  SpacingResponsive1Tablet: vr,
-  SpacingResponsive2Mobile: _r,
-  SpacingResponsive2Tablet: kr,
-  SpacingResponsive3Mobile: wr,
-  SpacingResponsive3Tablet: Sr,
-  SpacingResponsive4Mobile: Cr,
-  SpacingResponsive4Tablet: jr,
-  SpacingResponsive5Mobile: Nr,
-  SpacingResponsive5Tablet: Tr,
-  SpacingResponsive6Mobile: Dr,
-  SpacingResponsive6Tablet: Ir,
-  SpacingResponsive7Mobile: Rr,
-<<<<<<< Updated upstream
-  SpacingResponsive7Tablet: Br,
-  SpacingResponsive8Mobile: Fr,
-  SpacingResponsive8Tablet: Er,
-  SpacingResponsive9Mobile: Ar,
-  SpacingResponsive9Tablet: Lr
-}), []), Jm = () => De(() => ({
+  SpacingResponsive0Mobile: ia,
+  SpacingResponsive0Tablet: la,
+  SpacingResponsive1Mobile: ca,
+  SpacingResponsive1Tablet: da,
+  SpacingResponsive2Mobile: ua,
+  SpacingResponsive2Tablet: fa,
+  SpacingResponsive3Mobile: ha,
+  SpacingResponsive3Tablet: pa,
+  SpacingResponsive4Mobile: ma,
+  SpacingResponsive4Tablet: ga,
+  SpacingResponsive5Mobile: xa,
+  SpacingResponsive5Tablet: ba,
+  SpacingResponsive6Mobile: ya,
+  SpacingResponsive6Tablet: va,
+  SpacingResponsive7Mobile: wa,
+  SpacingResponsive7Tablet: _a,
+  SpacingResponsive8Mobile: Sa,
+  SpacingResponsive8Tablet: ka,
+  SpacingResponsive9Mobile: Ca,
+  SpacingResponsive9Tablet: ja
+}), []), gx = () => je(() => ({
   // Button spacing
-  ButtonSpacingPaddingVerticalMobile: Gs,
-  ButtonSpacingPaddingHorizontalMobile: Vs,
-  ButtonSpacingPaddingVerticalDesktop: Ys,
-  ButtonSpacingPaddingHorizontalDesktop: qs,
+  ButtonSpacingPaddingVerticalMobile: zi,
+  ButtonSpacingPaddingHorizontalMobile: Wi,
+  ButtonSpacingPaddingVerticalDesktop: Oi,
+  ButtonSpacingPaddingHorizontalDesktop: Ui,
   // Card spacing	
-  CardSpacingPaddingMobile: Ks,
-  CardSpacingPaddingDesktop: Zs,
-  CardSpacingHeadingMargin: Js,
+  CardSpacingPaddingMobile: Gi,
+  CardSpacingPaddingDesktop: Yi,
+  CardSpacingHeadingMargin: Vi,
   // Form spacing
-  FormSpacingInputPadding: Xs,
-  FormSpacingInputMinHeight: Qs,
-  FormSpacingCheckboxSize: eo,
-  FormSpacingCheckboxLabelPadding: to
-}), []), Xm = () => De(() => ({
-=======
-  SpacingResponsive7Tablet: Fr,
-  SpacingResponsive8Mobile: Br,
-  SpacingResponsive8Tablet: Lr,
-  SpacingResponsive9Mobile: Er,
-  SpacingResponsive9Tablet: Ar
-}), []), Vm = () => Re(() => ({
-  // Button spacing
-  ButtonSpacingPaddingVerticalMobile: Ys,
-  ButtonSpacingPaddingHorizontalMobile: qs,
-  ButtonSpacingPaddingVerticalDesktop: Ks,
-  ButtonSpacingPaddingHorizontalDesktop: Zs,
-  // Card spacing	
-  CardSpacingPaddingMobile: Js,
-  CardSpacingPaddingDesktop: Xs,
-  CardSpacingHeadingMargin: Qs,
-  // Form spacing
-  FormSpacingInputPadding: eo,
-  FormSpacingInputMinHeight: to,
-  FormSpacingCheckboxSize: no,
-  FormSpacingCheckboxLabelPadding: ro
-}), []), Ym = () => Re(() => ({
->>>>>>> Stashed changes
-  xl: ot,
-  l: it,
-  m: lt,
-  s: ct,
-  xs: dt
-<<<<<<< Updated upstream
-}), []), Qm = () => De(() => ({
-=======
-}), []), qm = () => Re(() => ({
->>>>>>> Stashed changes
-  body: ut,
-  bodyLarge: ht,
-  bodySmall: ft,
-  ledeText: mt,
-  ledeTextSmall: pt
-<<<<<<< Updated upstream
-}), []), ep = () => De(() => ({
-=======
-}), []), Km = () => Re(() => ({
->>>>>>> Stashed changes
+  FormSpacingInputPadding: qi,
+  FormSpacingInputMinHeight: Xi,
+  FormSpacingCheckboxSize: Ki,
+  FormSpacingCheckboxLabelPadding: Zi
+}), []), xx = () => je(() => ({
+  xl: mt,
+  l: gt,
+  m: xt,
+  s: bt,
+  xs: yt
+}), []), bx = () => je(() => ({
+  body: vt,
+  bodyLarge: wt,
+  bodySmall: _t,
+  ledeText: St,
+  ledeTextSmall: kt
+}), []), yx = () => je(() => ({
   headings: {
-    xl: ot,
-    l: it,
-    m: lt,
-    s: ct,
-    xs: dt
+    xl: mt,
+    l: gt,
+    m: xt,
+    s: bt,
+    xs: yt
   },
   paragraphs: {
-    body: ut,
-    bodyLarge: ht,
-    bodySmall: ft,
-    ledeText: mt,
-    ledeTextSmall: pt
+    body: vt,
+    bodyLarge: wt,
+    bodySmall: _t,
+    ledeText: St,
+    ledeTextSmall: kt
   },
   fonts: {
     family: {
-      base: bn,
-      fallback: xn,
-      print: yn
+      base: Yn,
+      fallback: Vn,
+      print: qn
     },
     weight: {
-      normal: vn,
-      bold: _n,
-      light: kn
+      normal: Xn,
+      bold: Kn,
+      light: Zn
     },
     sizes: {
       mobile: {
-        size14: wn,
-        size16: jn,
-        size19: Dn,
-        size22: Bn,
-        size26: An,
-        size36: $n,
-        size48: zn
+        size14: Jn,
+        size16: tr,
+        size19: ar,
+        size22: ir,
+        size26: dr,
+        size36: hr,
+        size48: gr
       },
       tablet: {
-        size14: Sn,
-        size16: Nn,
-        size19: In,
-        size22: Fn,
-        size26: Ln,
-        size36: Hn,
-        size48: Wn
+        size14: Qn,
+        size16: nr,
+        size19: sr,
+        size22: lr,
+        size26: ur,
+        size36: pr,
+        size48: xr
       },
       print: {
-        size14: Cn,
-        size16: Tn,
-        size19: Rn,
-        size22: En,
-        size26: Mn,
-        size36: Pn,
-        size48: Un
+        size14: er,
+        size16: rr,
+        size19: or,
+        size22: cr,
+        size26: fr,
+        size36: mr,
+        size48: br
       }
     }
   }
 }), []);
-<<<<<<< Updated upstream
-function tp(e = {}) {
-  const { initialLayout: t = void 0, fallbackLayout: r = "two-column" } = e, [a, o] = le.useState(t), s = le.useCallback(() => o("three-column"), []), i = le.useCallback(() => o((d) => d === "three-column" ? r : d), [r]), l = le.useCallback(() => o((d) => d === "three-column" ? r : "three-column"), [r]);
-=======
-function Zm(e = {}) {
-  const { initialLayout: t = void 0, fallbackLayout: r = "two-column" } = e, [a, o] = ce.useState(t), s = ce.useCallback(() => o("three-column"), []), i = ce.useCallback(() => o((c) => c === "three-column" ? r : c), [r]), l = ce.useCallback(() => o((c) => c === "three-column" ? r : "three-column"), [r]);
->>>>>>> Stashed changes
+function vx(e = {}) {
+  const { initialLayout: t = void 0, fallbackLayout: n = "two-column" } = e, [a, o] = X.useState(t), s = X.useCallback(() => o("three-column"), []), i = X.useCallback(() => o((d) => d === "three-column" ? n : d), [n]), l = X.useCallback(() => o((d) => d === "three-column" ? n : "three-column"), [n]);
   return {
     forceLayout: a,
     setLayout: o,
@@ -16784,16 +15244,12 @@ function Zm(e = {}) {
     isDrilledIn: a === "three-column"
   };
 }
-<<<<<<< Updated upstream
-const fo = {
-=======
-const po = {
->>>>>>> Stashed changes
+const ll = {
   fontPath: "https://assets.nhs.uk/fonts/",
   includeFontFace: !0,
   useFallbacks: !0,
   fontWeights: [400, 600]
-}, qe = {
+}, nt = {
   normal: {
     woff2: "FrutigerLTW01-55Roman.woff2",
     woff: "FrutigerLTW01-55Roman.woff",
@@ -16807,69 +15263,53 @@ const po = {
     eot: "FrutigerLTW01-65Bold.eot"
   }
 };
-<<<<<<< Updated upstream
-function np(e = {}) {
-  const { fontPath: t, fontWeights: r } = { ...fo, ...e }, a = [];
-=======
-function Jm(e = {}) {
-  const { fontPath: t, fontWeights: r } = { ...po, ...e }, a = [];
->>>>>>> Stashed changes
-  return r?.includes(400) && a.push(`
+function wx(e = {}) {
+  const { fontPath: t, fontWeights: n } = { ...ll, ...e }, a = [];
+  return n?.includes(400) && a.push(`
 @font-face {
   font-display: swap;
   font-family: "Frutiger W01";
   font-style: normal;
   font-weight: 400;
-  src: url("${t}${qe.normal.eot}?#iefix") format("eot"),
-       url("${t}${qe.normal.woff2}") format("woff2"),
-       url("${t}${qe.normal.woff}") format("woff"),
-       url("${t}${qe.normal.ttf}") format("truetype");
-  src: url("${t}${qe.normal.eot}");
-}`), r?.includes(600) && a.push(`
+  src: url("${t}${nt.normal.eot}?#iefix") format("eot"),
+       url("${t}${nt.normal.woff2}") format("woff2"),
+       url("${t}${nt.normal.woff}") format("woff"),
+       url("${t}${nt.normal.ttf}") format("truetype");
+  src: url("${t}${nt.normal.eot}");
+}`), n?.includes(600) && a.push(`
 @font-face {
   font-display: swap;
   font-family: "Frutiger W01";
   font-style: normal;
   font-weight: 600;
-  src: url("${t}${qe.bold.eot}?#iefix") format("eot"),
-       url("${t}${qe.bold.woff2}") format("woff2"),
-       url("${t}${qe.bold.woff}") format("woff"),
-       url("${t}${qe.bold.ttf}") format("truetype");
-  src: url("${t}${qe.bold.eot}");
+  src: url("${t}${nt.bold.eot}?#iefix") format("eot"),
+       url("${t}${nt.bold.woff2}") format("woff2"),
+       url("${t}${nt.bold.woff}") format("woff"),
+       url("${t}${nt.bold.ttf}") format("truetype");
+  src: url("${t}${nt.bold.eot}");
 }`), a.join(`
 `);
 }
-<<<<<<< Updated upstream
-function rp(e = {}) {
+function _x(e = {}) {
   if (typeof document > "u") return;
-  const { fontPath: t, fontWeights: r } = { ...fo, ...e };
-=======
-function Xm(e = {}) {
-  if (typeof document > "u") return;
-  const { fontPath: t, fontWeights: r } = { ...po, ...e };
->>>>>>> Stashed changes
+  const { fontPath: t, fontWeights: n } = { ...ll, ...e };
   [
     // Preload the most important formats (woff2 first, then woff)
-    ...r?.includes(400) ? [
-      { href: `${t}${qe.normal.woff2}`, as: "font", type: "font/woff2" },
-      { href: `${t}${qe.normal.woff}`, as: "font", type: "font/woff" }
+    ...n?.includes(400) ? [
+      { href: `${t}${nt.normal.woff2}`, as: "font", type: "font/woff2" },
+      { href: `${t}${nt.normal.woff}`, as: "font", type: "font/woff" }
     ] : [],
-    ...r?.includes(600) ? [
-      { href: `${t}${qe.bold.woff2}`, as: "font", type: "font/woff2" },
-      { href: `${t}${qe.bold.woff}`, as: "font", type: "font/woff" }
+    ...n?.includes(600) ? [
+      { href: `${t}${nt.bold.woff2}`, as: "font", type: "font/woff2" },
+      { href: `${t}${nt.bold.woff}`, as: "font", type: "font/woff" }
     ] : []
   ].forEach((o) => {
     const s = document.createElement("link");
     s.rel = "preload", s.href = o.href, s.as = o.as, s.type = o.type, s.crossOrigin = "anonymous", document.head.appendChild(s);
   });
 }
-<<<<<<< Updated upstream
-const ap = '"Frutiger W01", Arial, Helvetica, sans-serif', sp = "Arial, Helvetica, sans-serif";
-async function op() {
-=======
-const Qm = '"Frutiger W01", Arial, Helvetica, sans-serif', ep = "Arial, Helvetica, sans-serif";
-async function tp() {
->>>>>>> Stashed changes
+const Sx = '"Frutiger W01", Arial, Helvetica, sans-serif', kx = "Arial, Helvetica, sans-serif";
+async function Cx() {
   if (typeof document > "u" || !document.fonts) return !1;
   try {
     return await document.fonts.load('1em "Frutiger W01"'), document.fonts.check('1em "Frutiger W01"');
@@ -16878,789 +15318,421 @@ async function tp() {
   }
 }
 export {
-<<<<<<< Updated upstream
-  Bo as Account,
-  tm as ActionLink,
-  Im as AdaptiveDataGrid,
-  md as AnimationDurationFast,
-  pd as AnimationDurationNormal,
-  gd as AnimationDurationSlow,
-  vd as AnimationEasingBounce,
-  bd as AnimationEasingEaseIn,
-  yd as AnimationEasingEaseInOut,
-  xd as AnimationEasingEaseOut,
-  hs as AppointmentCard,
-  Cc as AriaDataGrid,
-  pr as AriaTabsDataGrid,
-  Im as AriaTabsDataGridAdaptive,
-  dr as BackLink,
-  Ss as BorderColorCard,
-  Cs as BorderColorCardHover,
-  ks as BorderColorDefault,
-  js as BorderColorError,
-  ws as BorderColorForm,
-  Ad as BorderRadiusLarge,
-  Ed as BorderRadiusMedium,
-  Bd as BorderRadiusNone,
-  Fd as BorderRadiusSmall,
-  Td as BorderWidthCardBottom,
-  Cd as BorderWidthDefault,
-  jd as BorderWidthFormElement,
-  Nd as BorderWidthFormElementError,
-  Dd as BorderWidthPanel,
-  Rd as BorderWidthTableCell,
-  Id as BorderWidthTableHeader,
-  mc as Breadcrumb,
-  gf as BreakpointDesktop,
-  bf as BreakpointLargeDesktop,
-  mf as BreakpointMobile,
-  pf as BreakpointTablet,
-  Ge as Button,
-  dh as ButtonBorderRadius,
-  ch as ButtonBorderWidth,
-  Ju as ButtonPrimaryBackgroundActive,
-  Ku as ButtonPrimaryBackgroundDefault,
-  Xu as ButtonPrimaryBackgroundDisabled,
-  Zu as ButtonPrimaryBackgroundHover,
-  th as ButtonPrimaryBorderDefault,
-  nh as ButtonPrimaryBorderFocus,
-  Qu as ButtonPrimaryTextDefault,
-  eh as ButtonPrimaryTextDisabled,
-  oh as ButtonSecondaryBackgroundActive,
-  rh as ButtonSecondaryBackgroundDefault,
-  sh as ButtonSecondaryBackgroundHover,
-  ah as ButtonSecondaryBackgroundSolid,
-  lh as ButtonSecondaryBorderDefault,
-  ih as ButtonSecondaryTextDefault,
-  uh as ButtonShadowSize,
-  qs as ButtonSpacingPaddingHorizontalDesktop,
-  Vs as ButtonSpacingPaddingHorizontalMobile,
-  Ys as ButtonSpacingPaddingVerticalDesktop,
-  Gs as ButtonSpacingPaddingVerticalMobile,
-  hh as ButtonTypographyWeight,
-  cs as Card,
-  fh as CardBackgroundDefault,
-  gh as CardBorderBottom,
-  mh as CardBorderDefault,
-  ph as CardBorderHover,
-  _h as CardBorderWidthBottom,
-  vh as CardBorderWidthDefault,
-  bm as CardGroup,
-  xm as CardGroupItem,
-  kh as CardShadowDefault,
-  wh as CardShadowHover,
-  Js as CardSpacingHeadingMargin,
-  Zs as CardSpacingPaddingDesktop,
-  Ks as CardSpacingPaddingMobile,
-  xh as CardTextDescription,
-  bh as CardTextHeading,
-  yh as CardTextLink,
-  ym as CareCard,
-  nm as CharacterCount,
-  Mo as Checkbox,
-  Po as Checkboxes,
-  Vd as ColorBorderDefault,
-  Yd as ColorBorderSecondary,
-  vu as ColorButtonLoginActive,
-  xu as ColorButtonLoginBackground,
-  yu as ColorButtonLoginHover,
-  _u as ColorButtonLoginShadow,
-  eu as ColorButtonPrimaryActive,
-  Jd as ColorButtonPrimaryBackground,
-  Qd as ColorButtonPrimaryHover,
-  tu as ColorButtonPrimaryShadow,
-  Xd as ColorButtonPrimaryText,
-  hu as ColorButtonReverseActive,
-  cu as ColorButtonReverseBackground,
-  uu as ColorButtonReverseHover,
-  fu as ColorButtonReverseShadow,
-  du as ColorButtonReverseText,
-  iu as ColorButtonSecondaryActive,
-  nu as ColorButtonSecondaryBackground,
-  ru as ColorButtonSecondaryBackgroundSolid,
-  au as ColorButtonSecondaryBorder,
-  ou as ColorButtonSecondaryHover,
-  lu as ColorButtonSecondaryShadow,
-  su as ColorButtonSecondaryText,
-  gu as ColorButtonWarningActive,
-  mu as ColorButtonWarningBackground,
-  pu as ColorButtonWarningHover,
-  bu as ColorButtonWarningShadow,
-  qd as ColorError,
-  Od as ColorFocusBackground,
-  Gd as ColorFocusText,
-  Zd as ColorFormBackground,
-  Kd as ColorFormBorder,
-  Ps as ColorGrey1,
-  zs as ColorGrey2,
-  Ws as ColorGrey3,
-  Us as ColorGrey4,
-  Os as ColorGrey5,
-  Wd as ColorLinkActive,
-  Pd as ColorLinkDefault,
-  zd as ColorLinkHover,
-  Ud as ColorLinkVisited,
-  Ds as ColorPrimaryBlack,
-  Ns as ColorPrimaryBlue,
-  Bs as ColorPrimaryDarkPink,
-  Is as ColorPrimaryGreen,
-  Rs as ColorPrimaryPurple,
-  Fs as ColorPrimaryRed,
-  Ts as ColorPrimaryWhite,
-  Es as ColorPrimaryYellow,
-  $s as ColorSecondaryAquaGreen,
-  Ms as ColorSecondaryOrange,
-  As as ColorSecondaryPaleYellow,
-  Hs as ColorSecondaryPink,
-  Ls as ColorSecondaryWarmYellow,
-  Ld as ColorTextPrimary,
-  Hd as ColorTextPrint,
-  $d as ColorTextReverse,
-  Md as ColorTextSecondary,
-  Kt as Column,
-  Ou as ComponentBlur,
-  Lu as ComponentBreadcrumbChevronMarginLeft,
-  Mu as ComponentBreadcrumbChevronMarginRight,
-  Hu as ComponentBreadcrumbPaddingTopDesktop,
-  $u as ComponentBreadcrumbPaddingTopMobile,
-  Cu as ComponentButtonPaddingDesktopHorizontal,
-  Su as ComponentButtonPaddingDesktopVertical,
-  wu as ComponentButtonPaddingMobileHorizontal,
-  ku as ComponentButtonPaddingMobileVertical,
-  ju as ComponentButtonShadowSize,
-  Fu as ComponentCardHeadingMargin,
-  Bu as ComponentCardPaddingDesktop,
-  Ru as ComponentCardPaddingMobile,
-  Vu as ComponentDetails,
-  Yu as ComponentExpander,
-  Iu as ComponentFormCheckboxLabelPadding,
-  Du as ComponentFormCheckboxSize,
-  Nu as ComponentFormInputMinHeight,
-  Tu as ComponentFormInputPadding,
-  Gu as ComponentLink,
-  qu as ComponentPagination,
-  Au as ComponentPanelPaddingDesktop,
-  Eu as ComponentPanelPaddingMobile,
-  Uu as ComponentSpread,
-  zu as ComponentSummaryListCellPaddingHorizontal,
-  Pu as ComponentSummaryListCellPaddingVertical,
-  Wu as ComponentSummaryListRowMargin,
-  Ga as Container,
-  gm as ContentsList,
-  fo as DEFAULT_FONT_CONFIG,
-  Nm as DashboardSummaryGrid,
-  um as DateInput,
-  gc as Details,
-  bc as DoDontList,
-  Zf as ElevationHigh,
-  qf as ElevationLow,
-  Kf as ElevationMedium,
-  Yf as ElevationNone,
-  oa as ErrorMessage,
-  dm as ErrorSummary,
-  xc as Expander,
-  qe as FRUTIGER_FONT_FILES,
-  zr as Fieldset,
-  Uf as FocusOutlineOffset,
-  Of as FocusOutlineStyle,
-  Wf as FocusOutlineWidth,
-  Vf as FocusShadowButton,
-  Gf as FocusShadowInput,
-=======
-  Hr as Account,
-  Kf as ActionLink,
-  Cm as AdaptiveDataGrid,
-  ld as AnimationDurationFast,
-  cd as AnimationDurationNormal,
-  dd as AnimationDurationSlow,
-  md as AnimationEasingBounce,
-  ud as AnimationEasingEaseIn,
-  fd as AnimationEasingEaseInOut,
-  hd as AnimationEasingEaseOut,
-  ms as AppointmentCard,
-  bc as AriaDataGrid,
-  pr as AriaTabsDataGrid,
-  Cm as AriaTabsDataGridAdaptive,
-  dr as BackLink,
-  js as BorderColorCard,
-  Ns as BorderColorCardHover,
-  Ss as BorderColorDefault,
-  Ts as BorderColorError,
-  Cs as BorderColorForm,
-  Dd as BorderRadiusLarge,
-  Td as BorderRadiusMedium,
-  jd as BorderRadiusNone,
-  Nd as BorderRadiusSmall,
-  kd as BorderWidthCardBottom,
-  yd as BorderWidthDefault,
-  vd as BorderWidthFormElement,
-  _d as BorderWidthFormElementError,
-  wd as BorderWidthPanel,
-  Cd as BorderWidthTableCell,
-  Sd as BorderWidthTableHeader,
-  oc as Breadcrumb,
-  df as BreakpointDesktop,
-  uf as BreakpointLargeDesktop,
-  lf as BreakpointMobile,
-  cf as BreakpointTablet,
-  Ve as Button,
-  ah as ButtonBorderRadius,
-  rh as ButtonBorderWidth,
-  Gu as ButtonPrimaryBackgroundActive,
-  Ou as ButtonPrimaryBackgroundDefault,
-  Vu as ButtonPrimaryBackgroundDisabled,
-  Uu as ButtonPrimaryBackgroundHover,
-  Ku as ButtonPrimaryBorderDefault,
-  Zu as ButtonPrimaryBorderFocus,
-  Yu as ButtonPrimaryTextDefault,
-  qu as ButtonPrimaryTextDisabled,
-  eh as ButtonSecondaryBackgroundActive,
-  Ju as ButtonSecondaryBackgroundDefault,
-  Qu as ButtonSecondaryBackgroundHover,
-  Xu as ButtonSecondaryBackgroundSolid,
-  nh as ButtonSecondaryBorderDefault,
-  th as ButtonSecondaryTextDefault,
-  sh as ButtonShadowSize,
-  Zs as ButtonSpacingPaddingHorizontalDesktop,
-  qs as ButtonSpacingPaddingHorizontalMobile,
-  Ks as ButtonSpacingPaddingVerticalDesktop,
-  Ys as ButtonSpacingPaddingVerticalMobile,
-  oh as ButtonTypographyWeight,
-  us as Card,
-  ih as CardBackgroundDefault,
-  dh as CardBorderBottom,
-  lh as CardBorderDefault,
-  ch as CardBorderHover,
-  ph as CardBorderWidthBottom,
-  mh as CardBorderWidthDefault,
-  hm as CardGroup,
-  fm as CardGroupItem,
-  gh as CardShadowDefault,
-  bh as CardShadowHover,
-  Qs as CardSpacingHeadingMargin,
-  Xs as CardSpacingPaddingDesktop,
-  Js as CardSpacingPaddingMobile,
-  hh as CardTextDescription,
-  uh as CardTextHeading,
-  fh as CardTextLink,
-  mm as CareCard,
-  Zf as CharacterCount,
-  Mo as Checkbox,
-  $o as Checkboxes,
-  Pd as ColorBorderDefault,
-  zd as ColorBorderSecondary,
-  mu as ColorButtonLoginActive,
-  hu as ColorButtonLoginBackground,
-  fu as ColorButtonLoginHover,
-  pu as ColorButtonLoginShadow,
-  qd as ColorButtonPrimaryActive,
-  Gd as ColorButtonPrimaryBackground,
-  Yd as ColorButtonPrimaryHover,
-  Kd as ColorButtonPrimaryShadow,
-  Vd as ColorButtonPrimaryText,
-  ou as ColorButtonReverseActive,
-  ru as ColorButtonReverseBackground,
-  su as ColorButtonReverseHover,
-  iu as ColorButtonReverseShadow,
-  au as ColorButtonReverseText,
-  tu as ColorButtonSecondaryActive,
-  Zd as ColorButtonSecondaryBackground,
-  Jd as ColorButtonSecondaryBackgroundSolid,
-  Xd as ColorButtonSecondaryBorder,
-  eu as ColorButtonSecondaryHover,
-  nu as ColorButtonSecondaryShadow,
-  Qd as ColorButtonSecondaryText,
-  du as ColorButtonWarningActive,
-  lu as ColorButtonWarningBackground,
-  cu as ColorButtonWarningHover,
-  uu as ColorButtonWarningShadow,
-  Wd as ColorError,
-  $d as ColorFocusBackground,
-  Hd as ColorFocusText,
-  Ud as ColorFormBackground,
-  Od as ColorFormBorder,
-  Ws as ColorGrey1,
-  Os as ColorGrey2,
-  Us as ColorGrey3,
-  Gs as ColorGrey4,
-  Vs as ColorGrey5,
-  Ad as ColorLinkActive,
-  Ld as ColorLinkDefault,
-  Ed as ColorLinkHover,
-  Md as ColorLinkVisited,
-  Rs as ColorPrimaryBlack,
-  Ds as ColorPrimaryBlue,
-  Ls as ColorPrimaryDarkPink,
-  Fs as ColorPrimaryGreen,
-  Bs as ColorPrimaryPurple,
-  Es as ColorPrimaryRed,
-  Is as ColorPrimaryWhite,
-  As as ColorPrimaryYellow,
-  Ps as ColorSecondaryAquaGreen,
-  Hs as ColorSecondaryOrange,
-  Ms as ColorSecondaryPaleYellow,
-  zs as ColorSecondaryPink,
-  $s as ColorSecondaryWarmYellow,
-  Id as ColorTextPrimary,
-  Bd as ColorTextPrint,
-  Fd as ColorTextReverse,
-  Rd as ColorTextSecondary,
-  Kt as Column,
-  $u as ComponentBlur,
-  Iu as ComponentBreadcrumbChevronMarginLeft,
-  Ru as ComponentBreadcrumbChevronMarginRight,
-  Bu as ComponentBreadcrumbPaddingTopDesktop,
-  Fu as ComponentBreadcrumbPaddingTopMobile,
-  yu as ComponentButtonPaddingDesktopHorizontal,
-  xu as ComponentButtonPaddingDesktopVertical,
-  bu as ComponentButtonPaddingMobileHorizontal,
-  gu as ComponentButtonPaddingMobileVertical,
-  vu as ComponentButtonShadowSize,
-  Nu as ComponentCardHeadingMargin,
-  ju as ComponentCardPaddingDesktop,
-  Cu as ComponentCardPaddingMobile,
-  Pu as ComponentDetails,
-  zu as ComponentExpander,
-  Su as ComponentFormCheckboxLabelPadding,
-  wu as ComponentFormCheckboxSize,
-  _u as ComponentFormInputMinHeight,
-  ku as ComponentFormInputPadding,
-  Hu as ComponentLink,
-  Wu as ComponentPagination,
-  Du as ComponentPanelPaddingDesktop,
-  Tu as ComponentPanelPaddingMobile,
-  Mu as ComponentSpread,
-  Eu as ComponentSummaryListCellPaddingHorizontal,
-  Lu as ComponentSummaryListCellPaddingVertical,
-  Au as ComponentSummaryListRowMargin,
-  Va as Container,
-  um as ContentsList,
-  po as DEFAULT_FONT_CONFIG,
-  km as DashboardSummaryGrid,
-  am as DateInput,
-  lc as Details,
-  cc as DoDontList,
-  Uf as ElevationHigh,
-  Wf as ElevationLow,
-  Of as ElevationMedium,
-  zf as ElevationNone,
-  ia as ErrorMessage,
-  rm as ErrorSummary,
-  dc as Expander,
-  qe as FRUTIGER_FONT_FILES,
-  Wr as Fieldset,
-  Mf as FocusOutlineOffset,
-  $f as FocusOutlineStyle,
-  Af as FocusOutlineWidth,
-  Pf as FocusShadowButton,
-  Hf as FocusShadowInput,
->>>>>>> Stashed changes
-  bn as FontFamilyBase,
-  xn as FontFamilyFallback,
-  yn as FontFamilyPrint,
-  $r as FontLineHeightBase,
-  wn as FontSize14Mobile,
-  Cn as FontSize14Print,
-  Sn as FontSize14Tablet,
-  jn as FontSize16Mobile,
-  Tn as FontSize16Print,
-  Nn as FontSize16Tablet,
-  Dn as FontSize19Mobile,
-  Rn as FontSize19Print,
-  In as FontSize19Tablet,
-  Bn as FontSize22Mobile,
-  En as FontSize22Print,
-  Fn as FontSize22Tablet,
-  An as FontSize26Mobile,
-  Mn as FontSize26Print,
-  Ln as FontSize26Tablet,
-  $n as FontSize36Mobile,
-  Pn as FontSize36Print,
-  Hn as FontSize36Tablet,
-  zn as FontSize48Mobile,
-  Un as FontSize48Print,
-  Wn as FontSize48Tablet,
-  Mr as FontSizeBase,
-  _n as FontWeightBold,
-  kn as FontWeightLight,
-  vn as FontWeightNormal,
-<<<<<<< Updated upstream
-  Za as Footer,
-  Uh as FormBorderRadius,
-  zh as FormBorderWidthDefault,
-  Wh as FormBorderWidthError,
-  $h as FormErrorTextDefault,
-  Hh as FormErrorTypographyWeight,
-  Ph as FormHintTextDefault,
-  Sh as FormInputBackgroundDefault,
-  jh as FormInputBackgroundDisabled,
-  Nh as FormInputBackgroundError,
-  Ch as FormInputBackgroundFocus,
-  Th as FormInputBorderDefault,
-  Rh as FormInputBorderDisabled,
-  Ih as FormInputBorderError,
-  Dh as FormInputBorderFocus,
-  Bh as FormInputTextDefault,
-  Eh as FormInputTextDisabled,
-  Fh as FormInputTextPlaceholder,
-  Ah as FormLabelTextDefault,
-  Lh as FormLabelTextRequired,
-  Mh as FormLabelTypographyWeight,
-  to as FormSpacingCheckboxLabelPadding,
-  eo as FormSpacingCheckboxSize,
-  Qs as FormSpacingInputMinHeight,
-  Xs as FormSpacingInputPadding,
-  mm as GanttChart,
-  ur as Grid,
-  yf as GridGutter,
-  vf as GridGutterHalf,
-  xf as GridPageWidth,
-  Ka as Header,
-  ei as HeaderSearch,
-=======
-  Xa as Footer,
-  Mh as FormBorderRadius,
-  Eh as FormBorderWidthDefault,
-  Ah as FormBorderWidthError,
-  Fh as FormErrorTextDefault,
-  Bh as FormErrorTypographyWeight,
-  Lh as FormHintTextDefault,
-  xh as FormInputBackgroundDefault,
-  vh as FormInputBackgroundDisabled,
-  _h as FormInputBackgroundError,
-  yh as FormInputBackgroundFocus,
-  kh as FormInputBorderDefault,
-  Ch as FormInputBorderDisabled,
-  Sh as FormInputBorderError,
-  wh as FormInputBorderFocus,
-  jh as FormInputTextDefault,
-  Th as FormInputTextDisabled,
-  Nh as FormInputTextPlaceholder,
-  Dh as FormLabelTextDefault,
-  Ih as FormLabelTextRequired,
-  Rh as FormLabelTypographyWeight,
-  ro as FormSpacingCheckboxLabelPadding,
-  no as FormSpacingCheckboxSize,
-  to as FormSpacingInputMinHeight,
-  eo as FormSpacingInputPadding,
-  cm as GanttChart,
-  ur as Grid,
-  ff as GridGutter,
-  mf as GridGutterHalf,
-  hf as GridPageWidth,
-  Ja as Header,
-  im as HeaderSSR,
-  Za as HeaderSearch,
-  lm as HeaderStatic,
->>>>>>> Stashed changes
-  xt as Heading,
-  it as HeadingsNhsukHeadingL,
-  lt as HeadingsNhsukHeadingM,
-  ct as HeadingsNhsukHeadingS,
-  ot as HeadingsNhsukHeadingXl,
-  dt as HeadingsNhsukHeadingXs,
-<<<<<<< Updated upstream
-  ni as Hero,
-  Ua as Hint,
-  Cm as Images,
-  Hr as Input,
-  vm as InsetText,
-  Pr as Label,
-  ff as LayoutColumnActions,
-  cf as LayoutColumnFull,
-  df as LayoutColumnHalf,
-  hf as LayoutColumnQuarter,
-  uf as LayoutColumnThird,
-  lf as LayoutContainerMaxWidth,
-  Yo as List,
-  Va as MainWrapper,
-  fs as MedicationCard,
-  zm as NHSBodyText,
-  Wm as NHSBodyTextLarge,
-  Um as NHSBodyTextSmall,
-  Lm as NHSHeading1,
-  Mm as NHSHeading2,
-  $m as NHSHeading3,
-  Hm as NHSHeading4,
-  Pm as NHSHeading5,
-  Om as NHSLedeText,
-  Gm as NHSLedeTextSmall,
-  fm as NHSThemeProvider,
-  sp as NHS_FALLBACK_FONT_STACK,
-  ap as NHS_FONT_STACK,
-  fd as NavigationSplitView,
-  Bm as PageTemplate,
-  pm as Pagination,
-  pc as Panel,
-=======
-  qo as Hero,
-  Ga as Hint,
-  vm as Images,
-  Pr as Input,
-  pm as InsetText,
-  zr as Label,
-  of as LayoutColumnActions,
-  nf as LayoutColumnFull,
-  rf as LayoutColumnHalf,
-  sf as LayoutColumnQuarter,
-  af as LayoutColumnThird,
-  tf as LayoutContainerMaxWidth,
-  Uo as List,
-  Ya as MainWrapper,
-  ps as MedicationCard,
-  Am as NHSBodyText,
-  Mm as NHSBodyTextLarge,
-  $m as NHSBodyTextSmall,
-  Rm as NHSHeading1,
-  Fm as NHSHeading2,
-  Bm as NHSHeading3,
-  Lm as NHSHeading4,
-  Em as NHSHeading5,
-  Hm as NHSLedeText,
-  Pm as NHSLedeTextSmall,
-  om as NHSThemeProvider,
-  ep as NHS_FALLBACK_FONT_STACK,
-  Qm as NHS_FONT_STACK,
-  sd as NavigationSplitView,
-  Nm as PageTemplate,
-  dm as Pagination,
-  ic as Panel,
->>>>>>> Stashed changes
-  ut as ParagraphsBody,
-  ht as ParagraphsBodyLarge,
-  ft as ParagraphsBodySmall,
-  mt as ParagraphsLedeText,
-  pt as ParagraphsLedeTextSmall,
-<<<<<<< Updated upstream
-  us as PatientCard,
-  rm as Radios,
-  am as RadiosServer,
-  Im as ResponsiveDataGrid,
-  Rm as ResponsiveDataGridDemo,
-  Nt as Row,
-  cn as Select,
-  Uo as SelectOption,
-  Lf as ShadowButtonDefault,
-  Hf as ShadowButtonFocus,
-  Mf as ShadowButtonSecondary,
-  $f as ShadowButtonWarning,
-  Pf as ShadowCardDefault,
-  zf as ShadowCardHover,
-  of as SizeButtonMinHeightDesktop,
-  sf as SizeButtonMinHeightMobile,
-  Jh as SizeFormControlLarge,
-  Zh as SizeFormControlMedium,
-  Kh as SizeFormControlSmall,
-  rf as SizeFormInputWidth2xl,
-  af as SizeFormInputWidth3xl,
-  tf as SizeFormInputWidthLg,
-  ef as SizeFormInputWidthMd,
-  Qh as SizeFormInputWidthSm,
-  nf as SizeFormInputWidthXl,
-  Xh as SizeFormInputWidthXs,
-  Yh as SizeIconExtraLarge,
-  Vh as SizeIconLarge,
-  Gh as SizeIconMedium,
-  qh as SizeIconNhsDefault,
-  Oh as SizeIconSmall,
-  ls as SkipLink,
-  jm as SlotMatrix,
-  Tm as SortStatusControl,
-  no as Spacing0,
-  ro as Spacing1,
-  ao as Spacing2,
-  so as Spacing3,
-  oo as Spacing4,
-  io as Spacing5,
-  lo as Spacing6,
-  co as Spacing7,
-  uo as Spacing8,
-  ho as Spacing9,
-=======
-  fs as PatientCard,
-  id as ProductRoadmap,
-  Jf as Radios,
-  Cm as ResponsiveDataGrid,
-  jm as ResponsiveDataGridDemo,
-  Nt as Row,
-  cn as Select,
-  Po as SelectOption,
-  If as ShadowButtonDefault,
-  Bf as ShadowButtonFocus,
-  Rf as ShadowButtonSecondary,
-  Ff as ShadowButtonWarning,
-  Lf as ShadowCardDefault,
-  Ef as ShadowCardHover,
-  ef as SizeButtonMinHeightDesktop,
-  Qh as SizeButtonMinHeightMobile,
-  Gh as SizeFormControlLarge,
-  Uh as SizeFormControlMedium,
-  Oh as SizeFormControlSmall,
-  Jh as SizeFormInputWidth2xl,
-  Xh as SizeFormInputWidth3xl,
-  Kh as SizeFormInputWidthLg,
-  qh as SizeFormInputWidthMd,
-  Yh as SizeFormInputWidthSm,
-  Zh as SizeFormInputWidthXl,
-  Vh as SizeFormInputWidthXs,
-  zh as SizeIconExtraLarge,
-  Ph as SizeIconLarge,
-  Hh as SizeIconMedium,
-  Wh as SizeIconNhsDefault,
-  $h as SizeIconSmall,
-  ds as SkipLink,
-  _m as SlotMatrix,
-  wm as SortStatusControl,
-  ao as Spacing0,
-  so as Spacing1,
-  oo as Spacing2,
-  io as Spacing3,
-  lo as Spacing4,
-  co as Spacing5,
-  uo as Spacing6,
-  ho as Spacing7,
-  fo as Spacing8,
-  mo as Spacing9,
->>>>>>> Stashed changes
-  br as SpacingResponsive0Mobile,
-  xr as SpacingResponsive0Tablet,
-  yr as SpacingResponsive1Mobile,
-  vr as SpacingResponsive1Tablet,
-  _r as SpacingResponsive2Mobile,
-  kr as SpacingResponsive2Tablet,
-  wr as SpacingResponsive3Mobile,
-  Sr as SpacingResponsive3Tablet,
-  Cr as SpacingResponsive4Mobile,
-  jr as SpacingResponsive4Tablet,
-  Nr as SpacingResponsive5Mobile,
-  Tr as SpacingResponsive5Tablet,
-  Dr as SpacingResponsive6Mobile,
-  Ir as SpacingResponsive6Tablet,
-  Rr as SpacingResponsive7Mobile,
-<<<<<<< Updated upstream
-  Br as SpacingResponsive7Tablet,
-  Fr as SpacingResponsive8Mobile,
-  Er as SpacingResponsive8Tablet,
-  Ar as SpacingResponsive9Mobile,
-  Lr as SpacingResponsive9Tablet,
-  sm as SpacingUtilities,
-  Ff as StateDisabledBackground,
-  Ef as StateDisabledBorder,
-  Af as StateDisabledText,
-  _f as StateErrorBackground,
-  kf as StateErrorBorder,
-  wf as StateErrorText,
-  If as StateInfoBackground,
-  Rf as StateInfoBorder,
-  Bf as StateInfoText,
-  Sf as StateSuccessBackground,
-  Cf as StateSuccessBorder,
-  jf as StateSuccessText,
-  Nf as StateWarningBackground,
-  Tf as StateWarningBorder,
-  Df as StateWarningText,
-  Sc as SummaryCard,
-  _m as SummaryList,
-  km as Table,
-  wm as Tabs,
-  rt as Tag,
-  yc as TaskList,
-  zo as Textarea,
-  Fm as TransactionalPageTemplate,
-  _d as TransitionButtonDefault,
-  kd as TransitionButtonShadow,
-  Sd as TransitionCardHover,
-  wd as TransitionInputFocus,
-  ms as VitalsCard,
-  cm as WIDTH_FRACTIONS,
-  Sm as WarningCallout,
-  ys as WidthContainer,
-  im as WidthUtilities,
-  op as checkFrutigerLoaded,
-  Jr as createGenericTabsConfig,
-  Dm as createTCHTabsConfig,
-  np as generateFrutigerFontFace,
-  Am as getResponsiveStyles,
-  om as getSpacingClass,
-  lm as getWidthClass,
-  rp as preloadFrutigerFonts,
-  Lc as tchDataConfig,
-  Ym as useColors,
-  Jm as useComponentSpacing,
-  Xm as useNHSHeadings,
-  Qm as useNHSParagraphs,
-  hm as useNHSTheme,
-  ep as useNHSTypographySystem,
-  tp as useNavigationSplitDrill,
-  dd as useNavigationSplitUrlSync,
-  _s as useNhsFdpBreakpoints,
-  Zm as useResponsiveSpacing,
-  Em as useResponsiveValue,
-  qm as useSpacing,
-  Vm as useTokens,
-  Km as useTypography
-=======
-  Fr as SpacingResponsive7Tablet,
-  Br as SpacingResponsive8Mobile,
-  Lr as SpacingResponsive8Tablet,
-  Er as SpacingResponsive9Mobile,
-  Ar as SpacingResponsive9Tablet,
-  Xf as SpacingUtilities,
-  Nf as StateDisabledBackground,
-  Tf as StateDisabledBorder,
-  Df as StateDisabledText,
-  pf as StateErrorBackground,
-  gf as StateErrorBorder,
-  bf as StateErrorText,
-  Sf as StateInfoBackground,
-  Cf as StateInfoBorder,
-  jf as StateInfoText,
-  xf as StateSuccessBackground,
-  yf as StateSuccessBorder,
-  vf as StateSuccessText,
-  _f as StateWarningBackground,
-  kf as StateWarningBorder,
-  wf as StateWarningText,
-  gc as SummaryCard,
-  gm as SummaryList,
-  bm as Table,
-  xm as Tabs,
-  rt as Tag,
-  uc as TaskList,
-  Ho as Textarea,
-  Tm as TransactionalPageTemplate,
-  pd as TransitionButtonDefault,
-  gd as TransitionButtonShadow,
-  xd as TransitionCardHover,
-  bd as TransitionInputFocus,
-  gs as VitalsCard,
-  nm as WIDTH_FRACTIONS,
-  ym as WarningCallout,
-  _s as WidthContainer,
-  em as WidthUtilities,
-  tp as checkFrutigerLoaded,
-  Xr as createGenericTabsConfig,
-  Sm as createTCHTabsConfig,
-  Jm as generateFrutigerFontFace,
-  Im as getResponsiveStyles,
-  Qf as getSpacingClass,
-  tm as getWidthClass,
-  Xm as preloadFrutigerFonts,
-  Tc as tchDataConfig,
-  Wm as useColors,
-  Vm as useComponentSpacing,
-  Ym as useNHSHeadings,
-  qm as useNHSParagraphs,
-  sm as useNHSTheme,
-  Km as useNHSTypographySystem,
-  Zm as useNavigationSplitDrill,
-  nd as useNavigationSplitUrlSync,
-  ws as useNhsFdpBreakpoints,
-  Gm as useResponsiveSpacing,
-  Dm as useResponsiveValue,
-  Om as useSpacing,
-  zm as useTokens,
-  Um as useTypography
->>>>>>> Stashed changes
+  $l as Account,
+  b0 as ActionLink,
+  q0 as AdaptiveDataGrid,
+  Ih as AnimationDurationFast,
+  Lh as AnimationDurationNormal,
+  Mh as AnimationDurationSlow,
+  Eh as AnimationEasingBounce,
+  Fh as AnimationEasingEaseIn,
+  Ah as AnimationEasingEaseInOut,
+  Bh as AnimationEasingEaseOut,
+  Fo as AppointmentCard,
+  Lu as AriaDataGrid,
+  ea as AriaTabsDataGrid,
+  q0 as AriaTabsDataGridAdaptive,
+  Yr as BackLink,
+  vi as BorderColorCard,
+  wi as BorderColorCardHover,
+  bi as BorderColorDefault,
+  _i as BorderColorError,
+  yi as BorderColorForm,
+  Jh as BorderRadiusLarge,
+  Zh as BorderRadiusMedium,
+  Xh as BorderRadiusNone,
+  Kh as BorderRadiusSmall,
+  Gh as BorderWidthCardBottom,
+  Wh as BorderWidthDefault,
+  Oh as BorderWidthFormElement,
+  Uh as BorderWidthFormElementError,
+  Yh as BorderWidthPanel,
+  qh as BorderWidthTableCell,
+  Vh as BorderWidthTableHeader,
+  wu as Breadcrumb,
+  Lg as BreakpointDesktop,
+  Mg as BreakpointLargeDesktop,
+  $g as BreakpointMobile,
+  Ig as BreakpointTablet,
+  Qe as Button,
+  Nm as ButtonBorderRadius,
+  jm as ButtonBorderWidth,
+  pm as ButtonPrimaryBackgroundActive,
+  fm as ButtonPrimaryBackgroundDefault,
+  mm as ButtonPrimaryBackgroundDisabled,
+  hm as ButtonPrimaryBackgroundHover,
+  bm as ButtonPrimaryBorderDefault,
+  ym as ButtonPrimaryBorderFocus,
+  gm as ButtonPrimaryTextDefault,
+  xm as ButtonPrimaryTextDisabled,
+  Sm as ButtonSecondaryBackgroundActive,
+  vm as ButtonSecondaryBackgroundDefault,
+  _m as ButtonSecondaryBackgroundHover,
+  wm as ButtonSecondaryBackgroundSolid,
+  Cm as ButtonSecondaryBorderDefault,
+  km as ButtonSecondaryTextDefault,
+  Tm as ButtonShadowSize,
+  Ui as ButtonSpacingPaddingHorizontalDesktop,
+  Wi as ButtonSpacingPaddingHorizontalMobile,
+  Oi as ButtonSpacingPaddingVerticalDesktop,
+  zi as ButtonSpacingPaddingVerticalMobile,
+  Dm as ButtonTypographyWeight,
+  Io as Card,
+  $m as CardBackgroundDefault,
+  Mm as CardBorderBottom,
+  Im as CardBorderDefault,
+  Lm as CardBorderHover,
+  Rm as CardBorderWidthBottom,
+  Em as CardBorderWidthDefault,
+  B0 as CardGroup,
+  A0 as CardGroupItem,
+  Pm as CardShadowDefault,
+  Hm as CardShadowHover,
+  Vi as CardSpacingHeadingMargin,
+  Yi as CardSpacingPaddingDesktop,
+  Gi as CardSpacingPaddingMobile,
+  Bm as CardTextDescription,
+  Fm as CardTextHeading,
+  Am as CardTextLink,
+  E0 as CareCard,
+  y0 as CharacterCount,
+  Bl as Checkbox,
+  Rl as Checkboxes,
+  cp as ColorBorderDefault,
+  dp as ColorBorderSecondary,
+  Ep as ColorButtonLoginActive,
+  Bp as ColorButtonLoginBackground,
+  Ap as ColorButtonLoginHover,
+  Rp as ColorButtonLoginShadow,
+  xp as ColorButtonPrimaryActive,
+  pp as ColorButtonPrimaryBackground,
+  gp as ColorButtonPrimaryHover,
+  bp as ColorButtonPrimaryShadow,
+  mp as ColorButtonPrimaryText,
+  Dp as ColorButtonReverseActive,
+  jp as ColorButtonReverseBackground,
+  Tp as ColorButtonReverseHover,
+  $p as ColorButtonReverseShadow,
+  Np as ColorButtonReverseText,
+  kp as ColorButtonSecondaryActive,
+  yp as ColorButtonSecondaryBackground,
+  vp as ColorButtonSecondaryBackgroundSolid,
+  wp as ColorButtonSecondaryBorder,
+  Sp as ColorButtonSecondaryHover,
+  Cp as ColorButtonSecondaryShadow,
+  _p as ColorButtonSecondaryText,
+  Mp as ColorButtonWarningActive,
+  Ip as ColorButtonWarningBackground,
+  Lp as ColorButtonWarningHover,
+  Fp as ColorButtonWarningShadow,
+  up as ColorError,
+  ip as ColorFocusBackground,
+  lp as ColorFocusText,
+  hp as ColorFormBackground,
+  fp as ColorFormBorder,
+  Ai as ColorGrey1,
+  Ei as ColorGrey2,
+  Ri as ColorGrey3,
+  Pi as ColorGrey4,
+  Hi as ColorGrey5,
+  sp as ColorLinkActive,
+  rp as ColorLinkDefault,
+  ap as ColorLinkHover,
+  op as ColorLinkVisited,
+  Ci as ColorPrimaryBlack,
+  Si as ColorPrimaryBlue,
+  Ti as ColorPrimaryDarkPink,
+  ji as ColorPrimaryGreen,
+  Ni as ColorPrimaryPurple,
+  Di as ColorPrimaryRed,
+  ki as ColorPrimaryWhite,
+  $i as ColorPrimaryYellow,
+  Fi as ColorSecondaryAquaGreen,
+  Mi as ColorSecondaryOrange,
+  Ii as ColorSecondaryPaleYellow,
+  Bi as ColorSecondaryPink,
+  Li as ColorSecondaryWarmYellow,
+  Qh as ColorTextPrimary,
+  np as ColorTextPrint,
+  tp as ColorTextReverse,
+  ep as ColorTextSecondary,
+  pn as Column,
+  im as ComponentBlur,
+  Qp as ComponentBreadcrumbChevronMarginLeft,
+  em as ComponentBreadcrumbChevronMarginRight,
+  nm as ComponentBreadcrumbPaddingTopDesktop,
+  tm as ComponentBreadcrumbPaddingTopMobile,
+  Wp as ComponentButtonPaddingDesktopHorizontal,
+  zp as ComponentButtonPaddingDesktopVertical,
+  Hp as ComponentButtonPaddingMobileHorizontal,
+  Pp as ComponentButtonPaddingMobileVertical,
+  Op as ComponentButtonShadowSize,
+  Kp as ComponentCardHeadingMargin,
+  Xp as ComponentCardPaddingDesktop,
+  qp as ComponentCardPaddingMobile,
+  cm as ComponentDetails,
+  dm as ComponentExpander,
+  Vp as ComponentFormCheckboxLabelPadding,
+  Yp as ComponentFormCheckboxSize,
+  Up as ComponentFormInputMinHeight,
+  Gp as ComponentFormInputPadding,
+  lm as ComponentLink,
+  um as ComponentPagination,
+  Jp as ComponentPanelPaddingDesktop,
+  Zp as ComponentPanelPaddingMobile,
+  om as ComponentSpread,
+  am as ComponentSummaryListCellPaddingHorizontal,
+  rm as ComponentSummaryListCellPaddingVertical,
+  sm as ComponentSummaryListRowMargin,
+  so as Container,
+  F0 as ContentsList,
+  ll as DEFAULT_FONT_CONFIG,
+  G0 as DashboardSummaryGrid,
+  T0 as DateInput,
+  Su as Details,
+  ku as DoDontList,
+  f0 as ElevationHigh,
+  d0 as ElevationLow,
+  u0 as ElevationMedium,
+  c0 as ElevationNone,
+  ss as ErrorMessage,
+  N0 as ErrorSummary,
+  Cu as Expander,
+  nt as FRUTIGER_FONT_FILES,
+  Ia as Fieldset,
+  s0 as FocusOutlineOffset,
+  o0 as FocusOutlineStyle,
+  a0 as FocusOutlineWidth,
+  l0 as FocusShadowButton,
+  i0 as FocusShadowInput,
+  Yn as FontFamilyBase,
+  Vn as FontFamilyFallback,
+  qn as FontFamilyPrint,
+  Ta as FontLineHeightBase,
+  Jn as FontSize14Mobile,
+  er as FontSize14Print,
+  Qn as FontSize14Tablet,
+  tr as FontSize16Mobile,
+  rr as FontSize16Print,
+  nr as FontSize16Tablet,
+  ar as FontSize19Mobile,
+  or as FontSize19Print,
+  sr as FontSize19Tablet,
+  ir as FontSize22Mobile,
+  cr as FontSize22Print,
+  lr as FontSize22Tablet,
+  dr as FontSize26Mobile,
+  fr as FontSize26Print,
+  ur as FontSize26Tablet,
+  hr as FontSize36Mobile,
+  mr as FontSize36Print,
+  pr as FontSize36Tablet,
+  gr as FontSize48Mobile,
+  br as FontSize48Print,
+  xr as FontSize48Tablet,
+  Na as FontSizeBase,
+  Kn as FontWeightBold,
+  Zn as FontWeightLight,
+  Xn as FontWeightNormal,
+  fo as Footer,
+  og as FormBorderRadius,
+  ag as FormBorderWidthDefault,
+  sg as FormBorderWidthError,
+  tg as FormErrorTextDefault,
+  ng as FormErrorTypographyWeight,
+  rg as FormHintTextDefault,
+  zm as FormInputBackgroundDefault,
+  Om as FormInputBackgroundDisabled,
+  Um as FormInputBackgroundError,
+  Wm as FormInputBackgroundFocus,
+  Gm as FormInputBorderDefault,
+  qm as FormInputBorderDisabled,
+  Vm as FormInputBorderError,
+  Ym as FormInputBorderFocus,
+  Xm as FormInputTextDefault,
+  Zm as FormInputTextDisabled,
+  Km as FormInputTextPlaceholder,
+  Jm as FormLabelTextDefault,
+  Qm as FormLabelTextRequired,
+  eg as FormLabelTypographyWeight,
+  Zi as FormSpacingCheckboxLabelPadding,
+  Ki as FormSpacingCheckboxSize,
+  Xi as FormSpacingInputMinHeight,
+  qi as FormSpacingInputPadding,
+  L0 as GanttChart,
+  Vr as Grid,
+  Bg as GridGutter,
+  Ag as GridGutterHalf,
+  Fg as GridPageWidth,
+  uo as Header,
+  I0 as HeaderSSR,
+  Jl as HeaderSearch,
+  uo as HeaderStatic,
+  Nt as Heading,
+  gt as HeadingsNhsukHeadingL,
+  xt as HeadingsNhsukHeadingM,
+  bt as HeadingsNhsukHeadingS,
+  mt as HeadingsNhsukHeadingXl,
+  yt as HeadingsNhsukHeadingXs,
+  Ql as Hero,
+  ro as Hint,
+  O0 as Images,
+  Da as Input,
+  R0 as InsetText,
+  $a as Label,
+  Dg as LayoutColumnActions,
+  Cg as LayoutColumnFull,
+  jg as LayoutColumnHalf,
+  Tg as LayoutColumnQuarter,
+  Ng as LayoutColumnThird,
+  kg as LayoutContainerMaxWidth,
+  Gl as List,
+  oo as MainWrapper,
+  Bo as MedicationCard,
+  ox as NHSBodyText,
+  ix as NHSBodyTextLarge,
+  lx as NHSBodyTextSmall,
+  tx as NHSHeading1,
+  nx as NHSHeading2,
+  rx as NHSHeading3,
+  ax as NHSHeading4,
+  sx as NHSHeading5,
+  cx as NHSLedeText,
+  dx as NHSLedeTextSmall,
+  $0 as NHSThemeProvider,
+  kx as NHS_FALLBACK_FONT_STACK,
+  Sx as NHS_FONT_STACK,
+  wf as NavigationSplitView,
+  K0 as PageTemplate,
+  M0 as Pagination,
+  _u as Panel,
+  vt as ParagraphsBody,
+  wt as ParagraphsBodyLarge,
+  _t as ParagraphsBodySmall,
+  St as ParagraphsLedeText,
+  kt as ParagraphsLedeTextSmall,
+  Mo as PatientCard,
+  Sf as ProductRoadmap,
+  v0 as Radios,
+  w0 as RadiosServer,
+  q0 as ResponsiveDataGrid,
+  X0 as ResponsiveDataGridDemo,
+  Wt as Row,
+  Q0 as SPC,
+  Th as SPCChart,
+  Fn as Select,
+  zl as SelectOption,
+  Jg as ShadowButtonDefault,
+  t0 as ShadowButtonFocus,
+  Qg as ShadowButtonSecondary,
+  e0 as ShadowButtonWarning,
+  n0 as ShadowCardDefault,
+  r0 as ShadowCardHover,
+  Sg as SizeButtonMinHeightDesktop,
+  _g as SizeButtonMinHeightMobile,
+  pg as SizeFormControlLarge,
+  hg as SizeFormControlMedium,
+  fg as SizeFormControlSmall,
+  vg as SizeFormInputWidth2xl,
+  wg as SizeFormInputWidth3xl,
+  bg as SizeFormInputWidthLg,
+  xg as SizeFormInputWidthMd,
+  gg as SizeFormInputWidthSm,
+  yg as SizeFormInputWidthXl,
+  mg as SizeFormInputWidthXs,
+  dg as SizeIconExtraLarge,
+  cg as SizeIconLarge,
+  lg as SizeIconMedium,
+  ug as SizeIconNhsDefault,
+  ig as SizeIconSmall,
+  $o as SkipLink,
+  U0 as SlotMatrix,
+  Y0 as SortStatusControl,
+  Ji as Spacing0,
+  Qi as Spacing1,
+  el as Spacing2,
+  tl as Spacing3,
+  nl as Spacing4,
+  rl as Spacing5,
+  al as Spacing6,
+  sl as Spacing7,
+  ol as Spacing8,
+  il as Spacing9,
+  ia as SpacingResponsive0Mobile,
+  la as SpacingResponsive0Tablet,
+  ca as SpacingResponsive1Mobile,
+  da as SpacingResponsive1Tablet,
+  ua as SpacingResponsive2Mobile,
+  fa as SpacingResponsive2Tablet,
+  ha as SpacingResponsive3Mobile,
+  pa as SpacingResponsive3Tablet,
+  ma as SpacingResponsive4Mobile,
+  ga as SpacingResponsive4Tablet,
+  xa as SpacingResponsive5Mobile,
+  ba as SpacingResponsive5Tablet,
+  ya as SpacingResponsive6Mobile,
+  va as SpacingResponsive6Tablet,
+  wa as SpacingResponsive7Mobile,
+  _a as SpacingResponsive7Tablet,
+  Sa as SpacingResponsive8Mobile,
+  ka as SpacingResponsive8Tablet,
+  Ca as SpacingResponsive9Mobile,
+  ja as SpacingResponsive9Tablet,
+  _0 as SpacingUtilities,
+  Xg as StateDisabledBackground,
+  Kg as StateDisabledBorder,
+  Zg as StateDisabledText,
+  Eg as StateErrorBackground,
+  Rg as StateErrorBorder,
+  Pg as StateErrorText,
+  Yg as StateInfoBackground,
+  Vg as StateInfoBorder,
+  qg as StateInfoText,
+  Hg as StateSuccessBackground,
+  zg as StateSuccessBorder,
+  Wg as StateSuccessText,
+  Og as StateWarningBackground,
+  Ug as StateWarningBorder,
+  Gg as StateWarningText,
+  Iu as SummaryCard,
+  P0 as SummaryList,
+  H0 as Table,
+  z0 as Tabs,
+  et as Tag,
+  ju as TaskList,
+  Pl as Textarea,
+  Z0 as TransactionalPageTemplate,
+  Rh as TransitionButtonDefault,
+  Ph as TransitionButtonShadow,
+  zh as TransitionCardHover,
+  Hh as TransitionInputFocus,
+  Ao as VitalsCard,
+  j0 as WIDTH_FRACTIONS,
+  W0 as WarningCallout,
+  zo as WidthContainer,
+  k0 as WidthUtilities,
+  Cx as checkFrutigerLoaded,
+  Wa as createGenericTabsConfig,
+  V0 as createTCHTabsConfig,
+  wx as generateFrutigerFontFace,
+  ex as getResponsiveStyles,
+  S0 as getSpacingClass,
+  C0 as getWidthClass,
+  _x as preloadFrutigerFonts,
+  Ou as tchDataConfig,
+  fx as useColors,
+  gx as useComponentSpacing,
+  xx as useNHSHeadings,
+  bx as useNHSParagraphs,
+  D0 as useNHSTheme,
+  yx as useNHSTypographySystem,
+  vx as useNavigationSplitDrill,
+  bf as useNavigationSplitUrlSync,
+  Oo as useNhsFdpBreakpoints,
+  mx as useResponsiveSpacing,
+  J0 as useResponsiveValue,
+  hx as useSpacing,
+  ux as useTokens,
+  px as useTypography
 };
 //# sourceMappingURL=index.esm.js.map

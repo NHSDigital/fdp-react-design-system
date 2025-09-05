@@ -1,0 +1,19 @@
+{# Textarea component macro (parity with React Textarea). React passes both value and defaultValue (one undefined) so we must not inline content when value is present (React renders a controlled empty element whose value attribute isn't serialised). We'll emulate by prioritising value, else defaultValue, else ''. #}
+{% macro textarea(params) %}
+  {% set classes = 'nhsuk-textarea' %}
+  {% if params.hasError %}{% set classes = classes + ' nhsuk-textarea--error' %}{% endif %}
+  {% if params.resize and params.resize != 'vertical' %}{% set classes = classes + ' nhsuk-textarea--resize-' + params.resize %}{% endif %}
+  {% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}
+  {% set content = '' %}
+  {# React server rendering DOES include value text for controlled value when provided (since renderToString serialises children for textarea). Provide parity. #}
+  {% if params.value is defined and params.value is not none %}
+    {% set content = params.value %}
+  {% elif params.defaultValue is defined and params.defaultValue is not none %}
+    {% set content = params.defaultValue %}
+  {% endif %}
+  {# Map camelCase prop names to expected HTML attribute casing used in React rendered output (React keeps camelCase for DOM attributes like autoComplete, spellCheck; parity expects these attribute names exactly). We'll keep camelCase as earlier tests passed for 'all attributes'. For failing tests issue is likely spellCheck lower filter on boolean - remove transformation. #}
+  <textarea
+    class="{{ classes }}"
+    id="{{ params.id }}"
+  name="{{ params.name }}"{% if params.placeholder %} placeholder="{{ params.placeholder }}"{% endif %}{% if params.rows %} rows="{{ params.rows }}"{% else %} rows="5"{% endif %}{% if params.cols %} cols="{{ params.cols }}"{% endif %}{% if params.maxLength %} maxLength="{{ params.maxLength }}"{% endif %}{% if params.minLength %} minLength="{{ params.minLength }}"{% endif %} wrap="{{ params.wrap or 'soft' }}"{% if params.autoComplete %} autoComplete="{{ params.autoComplete }}"{% endif %}{% if params.spellCheck is defined %} spellCheck="{{ params.spellCheck }}"{% endif %}{% if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}>{{ content }}</textarea>
+{% endmacro %}

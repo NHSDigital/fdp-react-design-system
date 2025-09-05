@@ -192,7 +192,7 @@ Combine these props as needed:
 | `LineScalesProvider` | `series`, `parseX?`, `yDomain?` | Time/continuous / numeric domains |
 | `BandScalesProvider` | `series`, `bandPadding?` | Categorical / grouped bars |
 | `LineSeriesPrimitive` | `series`, `palette`, `showPoints`, `focusablePoints`, `parseX` | Low‑level line rendering |
-| `BarSeriesPrimitive` | `series`, `seriesIndex`, `seriesCount`, `stacked?`, `groupGap?` | Grouped or stacked bars |
+| `BarSeriesPrimitive` | `series`, `seriesIndex`, `seriesCount`, `stacked?`, `groupGap?`, `opacity?`, `fadedOpacity?`, `flatFillOpacity?` | Grouped / stacked bars with configurable opacity |
 | `AreaSeriesPrimitive` | Same shape as line plus `baseline?` | Area under line |
 | `Axis` | `type`, `formatTick?`, `tickValues?`, `autoMinLabelSpacing?` | Shared x/y axis component |
 | `GridLines` | `axis` | Horizontal or vertical grid lines |

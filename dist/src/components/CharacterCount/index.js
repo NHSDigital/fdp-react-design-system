@@ -178,7 +178,8 @@ var CharacterCount = ({
   maxWords,
   threshold = 75,
   name,
-  value = "",
+  value,
+  defaultValue,
   rows,
   className,
   countMessage,
@@ -186,7 +187,9 @@ var CharacterCount = ({
   onChange,
   ...textareaProps
 }) => {
-  const [currentValue, setCurrentValue] = useState(value);
+  var _a;
+  const initial = (_a = value != null ? value : defaultValue) != null ? _a : "";
+  const [currentValue, setCurrentValue] = useState(initial);
   const [remaining, setRemaining] = useState(0);
   const [isOverLimit, setIsOverLimit] = useState(false);
   const [showCount, setShowCount] = useState(false);
@@ -212,9 +215,7 @@ var CharacterCount = ({
   const handleChange = (event) => {
     const newValue = event.target.value;
     setCurrentValue(newValue);
-    if (onChange) {
-      onChange(event);
-    }
+    if (onChange) onChange(event);
   };
   const generateCountMessage = () => {
     const limit = maxLength || maxWords || 0;
@@ -263,7 +264,8 @@ var CharacterCount = ({
           {
             id,
             name,
-            value: currentValue,
+            value: value !== void 0 ? currentValue : void 0,
+            defaultValue: value === void 0 ? defaultValue != null ? defaultValue : currentValue : void 0,
             rows,
             className: textareaClasses,
             onChange: handleChange,

@@ -10,8 +10,10 @@ export interface CharacterCountProps extends Omit<TextareaProps, 'id' | 'onChang
     threshold?: number;
     /** Name attribute for the textarea */
     name: string;
-    /** Current value of the textarea */
+    /** Current value of the textarea (controlled) */
     value?: string;
+    /** Initial value when used uncontrolled */
+    defaultValue?: string;
     /** Number of rows for the textarea */
     rows?: number;
     /** Additional CSS classes */

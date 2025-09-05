@@ -8979,6 +8979,7 @@ export {
   TooltipProvider,
   VisibilityProvider,
   VisuallyHiddenLiveRegion_default as VisuallyHiddenLiveRegion,
+  useChartContext,
   useScaleContext,
   useTooltipContext,
   useVisibility

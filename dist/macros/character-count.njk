@@ -5,8 +5,13 @@
   {% set isWords = params.maxWords is defined %}
   {% set unit = 'word' if isWords else 'character' %}
   {% set unitPlural = 'words' if isWords else 'characters' %}
-  {# React server render leaves textarea content empty even when defaultValue provided (value attribute not serialised); parity: suppress content. #}
+  {# Determine initial value (prefer explicit value then defaultValue) so parity matches React SSR output #}
   {% set initialValue = '' %}
+  {% if params.value is defined %}
+    {% set initialValue = params.value %}
+  {% elseif params.defaultValue is defined %}
+    {% set initialValue = params.defaultValue %}
+  {% endif %}
   {# Count words manually (Nunjucks lacks regex split). Collapse whitespace first. #}
   {% if isWords %}
     {% set trimmed = initialValue | trim %}
@@ -21,15 +26,15 @@
   {% else %}
     {% set count = initialValue | length %}
   {% endif %}
+  {# For SSR parity we intentionally DO NOT apply dynamic over-limit or threshold logic yet. #}
   {% set remaining = limit - count %}
   {% set threshold = params.threshold or 75 %}
-  {% set thresholdCount = (limit * (threshold / 100)) | round(0, 'floor') %}
-  {% set showCount = count >= thresholdCount or count > limit %}
-  {% set isOver = count > limit %}
+  {% set showCount = false %}
+  {% set isOver = false %}
 
   {% set wrapperClasses = 'nhsuk-character-count' %}{% if params.className %}{% set wrapperClasses = wrapperClasses + ' ' + params.className %}{% endif %}
-  {% set textareaClasses = 'nhsuk-js-character-count' %}{% if isOver %}{% set textareaClasses = textareaClasses + ' nhsuk-textarea--error' %}{% endif %}
-  {% set messageClasses = 'nhsuk-character-count__message' %}{% if not showCount %}{% set messageClasses = messageClasses + ' nhsuk-character-count__message--disabled' %}{% endif %}{% if isOver %}{% set messageClasses = messageClasses + ' nhsuk-error-message' %}{% endif %}
+  {% set textareaClasses = 'nhsuk-js-character-count' %}
+  {% set messageClasses = 'nhsuk-character-count__message nhsuk-character-count__message--disabled' %}
 
   <div
     class="{{ wrapperClasses }}"
@@ -46,7 +51,7 @@
       rows="{{ params.rows or 5 }}"
       aria-describedby="{{ params.id }}-info"
       wrap="soft"
-    ></textarea>
+  >{{ initialValue | escape }}</textarea>
     <div
       class="nhsuk-hint {{ messageClasses }}"
       id="{{ params.id }}-info"

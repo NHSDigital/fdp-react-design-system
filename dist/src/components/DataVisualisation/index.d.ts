@@ -7,6 +7,7 @@ export { Legend };
 export type { LegendProps, LegendItem };
 export { default as FilterableLineChart, type FilterableLineChartProps } from './FilterableLineChart';
 export { default as ChartRoot, type ChartRootProps } from './core/ChartRoot';
+export { useChartContext } from './core/ChartRoot';
 export { useScaleContext, LineScalesProvider, type ScaleContextValue } from './core/ScaleContext';
 export { default as Axis, type AxisProps } from './charts/Axis/Axis.tsx';
 export { default as GridLines, type GridLinesProps } from './charts/GridlLines/GridLines.tsx';

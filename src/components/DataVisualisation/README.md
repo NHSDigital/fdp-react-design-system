@@ -191,9 +191,9 @@ Combine these props as needed:
 | `ChartRoot` | `height`, `margin`, `width`, `ariaLabel` | Provides layout + context |
 | `LineScalesProvider` | `series`, `parseX?`, `yDomain?` | Time/continuous / numeric domains |
 | `BandScalesProvider` | `series`, `bandPadding?` | Categorical / grouped bars |
-| `LineSeriesPrimitive` | `series`, `palette`, `showPoints`, `focusablePoints`, `parseX` | Low‑level line rendering |
-| `BarSeriesPrimitive` | `series`, `seriesIndex`, `seriesCount`, `stacked?`, `groupGap?`, `opacity?`, `fadedOpacity?`, `flatFillOpacity?` | Grouped / stacked bars with configurable opacity |
-| `AreaSeriesPrimitive` | Same shape as line plus `baseline?` | Area under line |
+| `LineSeriesPrimitive` | `series`, `palette`, `showPoints`, `focusablePoints`, `parseX`, `colors?` | Low‑level line rendering (custom palette via `colors`) |
+| `BarSeriesPrimitive` | `series`, `seriesIndex`, `seriesCount`, `stacked?`, `groupGap?`, `opacity?`, `fadedOpacity?`, `flatFillOpacity?`, `colors?` | Grouped / stacked bars with configurable opacity & palette override |
+| `AreaSeriesPrimitive` | Same as line plus `baseline?`, `colors?` | Area under line (custom palette) |
 | `Axis` | `type`, `formatTick?`, `tickValues?`, `autoMinLabelSpacing?` | Shared x/y axis component |
 | `GridLines` | `axis` | Horizontal or vertical grid lines |
 | `Legend` | `items`, visibility props | Integrates with `VisibilityProvider` |
@@ -233,3 +233,84 @@ If you rolled your own visibility toggling previously:
 
 ---
 Have a composition requirement not covered here? Raise an issue or PR with the desired primitive behaviour.
+
+---
+
+## Custom Colour Palettes
+
+All three series primitives (`LineSeriesPrimitive`, `AreaSeriesPrimitive`, `BarSeriesPrimitive`) now accept an optional `colors` prop (array of strings). The precedence model ensures backwards compatibility:
+
+1. `series.color` (per‑series explicit override)
+2. `colors[seriesIndex]` (for line / area / bar when `colorMode="series"`)
+3. `colors[datumIndex]` (for bars when `colorMode="category"`)
+4. Internal categorical / region palette fallbacks
+
+Example applying an 8‑colour Viridis palette (user supplied constant):
+
+```tsx
+const VIRIDIS_8 = [
+  '#440154','#482677','#3E4989','#31688E',
+  '#26828E','#1F9E89','#35B779','#73D055'
+];
+
+<ChartRoot height={300} ariaLabel="Custom palette bars">
+  <BandScalesProvider series={series}> {/* series: BarSeries[] */}
+    <svg width="100%" height="100%">
+      <g transform={`translate(56,12)`}>
+        {series.map((s,i) => (
+          <BarSeriesPrimitive
+            key={s.id}
+            series={s}
+            seriesIndex={i}
+            seriesCount={series.length}
+            palette="categorical"
+            parseX={d => d.x as string}
+            colors={VIRIDIS_8}
+          />
+        ))}
+        <Axis type="y" />
+        <Axis type="x" />
+      </g>
+    </svg>
+  </BandScalesProvider>
+</ChartRoot>
+```
+
+For a multi‑line chart:
+
+```tsx
+<LineScalesProvider series={lineSeries}>
+  <svg width="100%" height="100%">
+    <g transform={`translate(56,12)`}>
+      {lineSeries.map((s,i) => (
+        <LineSeriesPrimitive
+          key={s.id}
+          series={s}
+          seriesIndex={i}
+          palette="categorical"
+          showPoints
+          focusablePoints
+          parseX={d => d.x as Date}
+          colors={VIRIDIS_8}
+        />
+      ))}
+    </g>
+  </svg>
+</LineScalesProvider>
+```
+
+Category mode bars (different colour per datum within a single series):
+
+```tsx
+<BarSeriesPrimitive
+  series={singleSeries}
+  seriesIndex={0}
+  seriesCount={1}
+  palette="categorical"
+  parseX={d => d.x as string}
+  colorMode="category"
+  colors={VIRIDIS_8}
+/>
+```
+
+If the palette array is shorter than the number of series / categories, remaining items fall back to internal palette values.

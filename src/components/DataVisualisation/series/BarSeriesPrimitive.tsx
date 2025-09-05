@@ -65,6 +65,10 @@ export interface BarSeriesPrimitiveProps {
 	fadedOpacity?: number;
 	/** Fill opacity when gradientFill = false (flat colour mode). Default 1 (previously hard‑coded to 0.25). */
 	flatFillOpacity?: number;
+	/** Optional explicit colour palette overriding default pickSeriesColor / pickRegionColor logic.
+	 *  Precedence: series.color (single override) > colors[index] > internal palette.
+	 *  For colorMode = 'series' we use colors[seriesIndex]; for 'category' we use colors[datumIndex]. */
+	colors?: string[];
 }
 
 /** Low-level primitive for vertical bars (time / ordinal X via ScaleContext time scale). */
@@ -91,6 +95,7 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
 	opacity = 1,
 	fadedOpacity = 0.25,
 	flatFillOpacity = 1,
+	colors,
 }) => {
 	const effectiveGapRatio = Math.max(0, gapRatio);
 	const scaleCtx = useScaleContext();
@@ -322,8 +327,14 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
 
 	// innerWidth not needed after uniform span logic (bounds derived from midpoints)
 
+	// Resolve colours with explicit precedence hierarchy.
+	// series.color always wins for primary (series-level) colour. Otherwise, for series mode use colors[seriesIndex];
+	// for category mode each datum will consult colors[di] later.
+	const resolvedSeriesPaletteColor =
+		colors && colors[seriesIndex] ? colors[seriesIndex] : undefined;
 	const baseSeriesColor =
 		series.color ||
+		resolvedSeriesPaletteColor ||
 		(palette === "region"
 			? pickRegionColor(series.id, seriesIndex)
 			: pickSeriesColor(seriesIndex));
@@ -331,6 +342,11 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
 		palette === "region"
 			? pickRegionStroke(series.id, seriesIndex)
 			: pickSeriesStroke(seriesIndex);
+	// If explicit palette colour used we also adopt it for stroke when gradientStrokeMatch (unless series.color provided which is already in baseSeriesColor)
+	const effectiveBaseStroke =
+		gradientStrokeMatch && (series.color || resolvedSeriesPaletteColor)
+			? baseSeriesColor
+			: baseSeriesStroke;
 	const baselineY = Number.isFinite(yScale(0)) ? yScale(0) : yScale.range()[0];
 
 	// If stacked provided, render each datum as a single vertical rect spanning y0->y1 (ignore grouping logic beyond width allocation).
@@ -507,10 +523,12 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
 					)}
 					{colorMode === "category" &&
 						series.data.map((d, di) => {
+							const paletteOverride = colors && colors[di];
 							const catColor =
-								palette === "region"
+								paletteOverride ||
+								(palette === "region"
 									? pickRegionColor(String(d.x), di)
-									: pickSeriesColor(di);
+									: pickSeriesColor(di));
 							const gid = `${seriesGradientId}-${di}`;
 							return (
 								<linearGradient
@@ -633,11 +651,14 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
 					)
 						tooltip.clear();
 				};
+				const paletteOverride =
+					colorMode === "category" && colors ? colors[di] : undefined;
 				const catColor =
 					colorMode === "category"
-						? palette === "region"
-							? pickRegionColor(String(d.x), di)
-							: pickSeriesColor(di)
+						? paletteOverride ||
+							(palette === "region"
+								? pickRegionColor(String(d.x), di)
+								: pickSeriesColor(di))
 						: baseSeriesColor;
 				const fillId =
 					colorMode === "category"
@@ -650,7 +671,7 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
 							? palette === "region"
 								? pickRegionStroke(String(d.x), di)
 								: pickSeriesStroke(di)
-							: baseSeriesStroke;
+							: effectiveBaseStroke;
 				const barStrokeColor = isFocused
 					? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)"
 					: baseStroke || catColor;

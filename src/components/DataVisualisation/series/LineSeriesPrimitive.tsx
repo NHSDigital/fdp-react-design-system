@@ -39,6 +39,9 @@ export interface LineSeriesPrimitiveProps {
 	smooth?: boolean;
 	/** Optional gradient fill id (linearGradient) for subtle wash under line. */
 	gradientFillId?: string;
+	/** Optional explicit colour palette overriding default pickSeriesColor / pickRegionColor logic.
+	 *  Precedence: series.color > colors[seriesIndex] > internal palette pickers. */
+	colors?: string[];
 }
 
 /** Low-level renderer for a single line series (no axes, assumes ScaleContext present). */
@@ -54,6 +57,7 @@ export const LineSeriesPrimitive: React.FC<LineSeriesPrimitiveProps> = ({
 	strokeWidth = 1,
 	smooth = true,
 	gradientFillId,
+	colors,
 }) => {
 	const scaleCtx = useScaleContext();
 	if (!scaleCtx) return null; // safeguard
@@ -94,8 +98,10 @@ export const LineSeriesPrimitive: React.FC<LineSeriesPrimitiveProps> = ({
 		if (smooth) gen.curve(curveMonotoneX);
 		return gen(series.data) || "";
 	}, [series.data, xScale, yScale, parseX, smooth]);
+	const paletteOverride = colors && colors[seriesIndex];
 	const color =
 		series.color ||
+		paletteOverride ||
 		(palette === "region"
 			? pickRegionColor(series.id, seriesIndex)
 			: pickSeriesColor(seriesIndex));

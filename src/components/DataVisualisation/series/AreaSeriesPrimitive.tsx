@@ -36,6 +36,9 @@ export interface AreaSeriesPrimitiveProps {
 	stacked?: { y0: number; y1: number }[];
 	/** When true, uses a vertical gradient (solid at line, transparent at baseline) instead of flat fill. */
 	gradientFill?: boolean;
+	/** Optional explicit colour palette overriding default pickSeriesColor / pickRegionColor logic.
+	 *  Precedence: series.color > colors[seriesIndex] > internal palette. */
+	colors?: string[];
 }
 
 /** Renders an area under a line (baseline -> series y). Provides tooltip registration like LineSeriesPrimitive. */
@@ -50,6 +53,7 @@ export const AreaSeriesPrimitive: React.FC<AreaSeriesPrimitiveProps> = ({
 	smooth = true,
 	stacked,
 	gradientFill = true,
+	colors,
 }) => {
 	const scaleCtx = useScaleContext();
 	if (!scaleCtx) return null;
@@ -67,8 +71,10 @@ export const AreaSeriesPrimitive: React.FC<AreaSeriesPrimitiveProps> = ({
 		return () => tooltip.unregisterSeries(series.id);
 	}, [tooltip, series.id, series.data, parseX]);
 
+	const paletteOverride = colors && colors[seriesIndex];
 	const color =
 		series.color ||
+		paletteOverride ||
 		(palette === "region"
 			? pickRegionColor(series.id, seriesIndex)
 			: pickSeriesColor(seriesIndex));

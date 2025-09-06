@@ -35,6 +35,9 @@ $header-max-width: tokens.$nhs-fdp-breakpoint-xlarge; // single source of truth 
 // Shared navigation item (link + button) structural styles
 // $padding param allows the button variant to supply its asymmetric 20px bottom padding hack
 @mixin header-nav-item-base($padding) {
+	@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+		font-size: tokens.$nhs-fdp-font-size-16-tablet;
+	}
 	display: inline-flex;
 	align-items: flex-start;
 	position: relative;
@@ -44,9 +47,7 @@ $header-max-width: tokens.$nhs-fdp-breakpoint-xlarge; // single source of truth 
 	line-height: 1;
 	gap: tokens.$nhs-fdp-spacing-1;
 	padding: $padding;
-	@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
-		font-size: tokens.$nhs-fdp-font-size-16-tablet;
-	}
+	
 }
 
 // Vertical rhythm variables (allows independent control of top vs container internal spacing)
@@ -110,6 +111,12 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	position: relative;
 
 	&__container {
+		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+			padding-bottom: $header-vertical-pad-tablet; // match larger top padding at tablet+
+			padding-left: tokens.$nhs-fdp-spacing-7; 
+			padding-right: tokens.$nhs-fdp-spacing-7;
+			gap: tokens.$nhs-fdp-spacing-4;
+		}
 		// Use padding for internal horizontal spacing so centering via auto margins is effective
 		padding-top: tokens.$nhs-fdp-spacing-4;
 		padding-bottom: tokens.$nhs-fdp-spacing-4;
@@ -123,13 +130,6 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		align-items: center;
 		gap: tokens.$nhs-fdp-spacing-3;
 		flex-wrap: wrap;
-
-		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
-			padding-bottom: $header-vertical-pad-tablet; // match larger top padding at tablet+
-			padding-left: tokens.$nhs-fdp-spacing-7; 
-			padding-right: tokens.$nhs-fdp-spacing-7;
-			gap: tokens.$nhs-fdp-spacing-4;
-		}
 	}
 
 	// Optional width-constrained + centred container.

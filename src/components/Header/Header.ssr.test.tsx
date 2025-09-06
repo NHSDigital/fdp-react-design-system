@@ -63,7 +63,7 @@ describe("Header (SSR)", () => {
 		expect(links.length).toBe(1);
 	});
 
-	it("server variant with overflow renders all items in dropdown only", () => {
+	it("server variant with responsiveNavigation=false renders all items in dropdown and none primary", () => {
 		const navItems = [
 			{ href: "/", text: "Home", current: true },
 			{ href: "/a", text: "A" },
@@ -72,21 +72,22 @@ describe("Header (SSR)", () => {
 			{ href: "/d", text: "D" },
 			{ href: "/e", text: "E" },
 		];
-		const { container, html } = renderSSR(
-			(
-				<HeaderServer
-					maxVisibleItems={3}
-					service={{ text: "Svc", href: "/" }}
-					navigation={{ items: navItems }}
-				/>
-			) as any
+		const { container, html } = renderSSR((
+			<HeaderServer
+				service={{ text: "Svc", href: "/" }}
+				responsiveNavigation={false}
+				navigation={{ items: navItems }}
+			/>
+		) as any);
+		// Primary list exists but should have zero items because we push everything to dropdown when responsiveNavigation=false
+		const primaryList = container.querySelector(
+			".nhsuk-header__navigation-list"
 		);
-		// No primary inline nav items (list present but should be empty)
-		const primaryItems = container.querySelectorAll(
-			".nhsuk-header__navigation-list > li"
+		expect(primaryList).toBeTruthy();
+		const primaryItems = primaryList?.querySelectorAll(
+			":scope > li"
 		);
-		// Because we render an empty list when overflow triggers; ensure 0 or only current if logic changes later
-		expect(primaryItems.length === 0 || primaryItems.length === 1).toBe(true);
+		expect(primaryItems?.length).toBe(0);
 		// Dropdown present with all items
 		const dropdown = container.querySelector(
 			'.nhsuk-header__dropdown-menu[data-ssr-overflow="true"]'
@@ -94,7 +95,37 @@ describe("Header (SSR)", () => {
 		expect(dropdown).toBeTruthy();
 		const dropdownItems = dropdown?.querySelectorAll("li");
 		expect(dropdownItems?.length).toBe(navItems.length);
-		// No interactive More toggle button
+		// No interactive More toggle button (SSR server variant)
+		expect(html).not.toContain("nhsuk-header__navigation-button");
+	});
+
+	it("server variant with responsiveNavigation=true renders items inline with no dropdown", () => {
+		const navItems = [
+			{ href: "/", text: "Home", current: true },
+			{ href: "/a", text: "A" },
+			{ href: "/b", text: "B" },
+			{ href: "/c", text: "C" }
+		];
+		const { container, html } = renderSSR((
+			<HeaderServer
+				service={{ text: "Svc", href: "/" }}
+				responsiveNavigation={true}
+				navigation={{ items: navItems }}
+			/>
+		) as any);
+		// Primary list should contain all items
+		const primaryList = container.querySelector(
+			".nhsuk-header__navigation-list"
+		);
+		expect(primaryList).toBeTruthy();
+		const primaryItems = primaryList?.querySelectorAll(":scope > li");
+		expect(primaryItems?.length).toBe(navItems.length);
+		// Dropdown should NOT be rendered (no overflow when responsiveNavigation=true)
+		const dropdown = container.querySelector(
+			'.nhsuk-header__dropdown-menu[data-ssr-overflow="true"]'
+		);
+		expect(dropdown).toBeFalsy();
+		// Still no interactive toggle button in pure SSR output
 		expect(html).not.toContain("nhsuk-header__navigation-button");
 	});
 });

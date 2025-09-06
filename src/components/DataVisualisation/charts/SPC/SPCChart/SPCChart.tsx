@@ -28,6 +28,9 @@ import {
 import { VariationJudgement, MetricPolarity } from "../SPCIcons/SPCConstants";
 import { extractRuleIds, ruleGlossary, variationLabel } from './logic/spcDescriptors';
 
+// Global counter to create stable, unique gradient id bases across multiple SPCChart instances
+let spcSequenceInstanceCounter = 0;
+
 export interface SPCDatum {
 	x: Date | string | number;
 	y: number;
@@ -376,6 +379,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 	const chartCtx = useChartContext();
 	if (!scaleCtx) return null;
 	const { xScale, yScale } = scaleCtx;
+	// Stable unique base ID for gradient defs per chart instance (prevents MDX multi-chart ID collisions)
+	const gradientIdBaseRef = React.useRef<string>('spc-seq-' + (++spcSequenceInstanceCounter));
 	const tooltipCtx = useTooltipContext();
 	const all = series[0]?.data || [];
 	const outOfControl = React.useMemo(() => {
@@ -555,7 +560,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 		return (
 			<defs>
 				{sequences.map((seq, idx) => {
-					const id = `spc-seq-grad-${idx}`;
+					const id = `${gradientIdBaseRef.current}-grad-${idx}`;
 					let baseVar: string;
 					let top = 0.28, mid = 0.12, end = 0.045; // default (grey/common)
 					switch (seq.category) {
@@ -671,7 +676,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 				<path
 					key={`seq-area-${idx}`}
 					d={d}
-					fill={`url(#spc-seq-grad-${idx})`}
+					fill={`url(#${gradientIdBaseRef.current}-grad-${idx})`}
 					stroke="none"
 					className="fdp-spc__sequence-bg"
 					aria-hidden="true"

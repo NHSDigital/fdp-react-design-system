@@ -106,6 +106,8 @@ export interface SpcSettings {
 	comparativeEmulationForceTailFavourable?: boolean; // default false
 	/** In invert+invertAsCommon mode, re-tag the last N points of the original favourable shift run as concern (bespoke tail pattern). */
 	comparativeEmulationInvertTailConcernPoints?: number; // default 0
+	/** STRICT MODE: When true (recommended default), disables all non-orthodox / visually-forcing heuristic behaviours (comparativeBaselineEmulation variants, retroactive neutralisation, emergingDirectionGrace precedence alterations, suppression of isolated favourable 3σ). */
+	strictShewhartMode?: boolean; // default true
 	/** When true, automatically insert a recalculation (new partition) after a confirmed sustained shift so centre line & limits step without needing explicit baselines array. */
 	autoRecalculateAfterShift?: boolean; // default false
 	/** Minimum sustained shift length required to trigger auto recalculation (defaults to specialCauseShiftPoints). */
@@ -544,11 +546,26 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		comparativeEmulationInvertAsCommon: false,
 		comparativeEmulationForceTailFavourable: false,
 		comparativeEmulationInvertTailConcernPoints: 0,
+		strictShewhartMode: true,
 		autoRecalculateAfterShift: false,
 		autoRecalculateShiftLength: undefined,
 		autoRecalculateDeltaSigma: 0.5,
 		...userSettings,
 	} as Required<SpcSettings>;
+
+	// If strict mode is enabled, hard-disable non-orthodox heuristic / forcing behaviours regardless of user input.
+	if ((settings as any).strictShewhartMode) {
+		settings.retroactiveOppositeShiftNeutralisation = false;
+		settings.comparativeBaselineEmulation = false;
+		settings.comparativeEmulationInvert = false;
+		settings.comparativeEmulationPropagateFavourable = false;
+		settings.comparativeEmulationRetrospectiveEarlyAsConcern = false;
+		settings.comparativeEmulationInvertAsCommon = false;
+		settings.comparativeEmulationForceTailFavourable = false;
+		settings.comparativeEmulationInvertTailConcernPoints = 0;
+		settings.emergingDirectionGrace = false;
+		settings.suppressIsolatedFavourablePoint = false; // retain raw rule signal visibility
+	}
 
 	if (!Array.isArray(data)) throw new Error("data must be an array of rows");
 	const canonical: CanonicalRow[] = data.map((d, i) => ({
@@ -915,7 +932,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 	};
 
 	// Optional Heuristic: retroactively neutralise early opposite-side signals after detecting a later sustained favourable shift.
-	if (settings.retroactiveOppositeShiftNeutralisation) {
+	if (!settings.strictShewhartMode && settings.retroactiveOppositeShiftNeutralisation) {
 		const shiftN = settings.specialCauseShiftPoints ?? 6;
 		// Group rows by partition
 		const partitionIds = Array.from(new Set(output.map(r => r.partitionId)));
@@ -991,7 +1008,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 	}
 
 	// Option C: Comparative baseline emulation (retrospective concern vs improvement labelling around a later favourable shift)
-	if (settings.comparativeBaselineEmulation) {
+	if (!settings.strictShewhartMode && settings.comparativeBaselineEmulation) {
 		const shiftN = settings.specialCauseShiftPoints ?? 6;
 		const partIds = Array.from(new Set(output.map(r => r.partitionId)));
 		for (const pid of partIds) {
@@ -1138,7 +1155,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				row.specialCauseTwoOfThreeBelow = false;
 		}
 
-		if (settings.precedenceStrategy === "directional_first") {
+		if (settings.precedenceStrategy === "directional_first" && !settings.strictShewhartMode) {
 			// Emerging direction grace heuristic: detect near-trend favourable movement (trendN-1 window with majority directional steps)
 			const trendWindow = settings.specialCauseTrendPoints ?? 6;
 			const lookBack = trendWindow - 1; // emerging window
@@ -1231,6 +1248,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 
 		// Suppress isolated favourable single 3σ point if enabled (exclude only the very first data point; allow end suppression)
 		if (
+			!settings.strictShewhartMode &&
 			settings.suppressIsolatedFavourablePoint &&
 			row.variationIcon === VariationIcon.Improvement &&
 			idx > 0

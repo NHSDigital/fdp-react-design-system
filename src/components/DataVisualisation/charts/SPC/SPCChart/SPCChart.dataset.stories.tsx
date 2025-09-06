@@ -27,14 +27,19 @@ function story(metric: string): Story {
 	// Look up dataset; allow variant stories to alias an existing base metric
 	let data = (metricLookup as any)[metric];
 	if (!data) {
-		// Reuse base dataset for recalculated variant (correct key spelling)
-		if (metric === 'Recalculations (recalculated)') {
-			data = (metricLookup as any)['Recalculations / Baselines'];
-		}
-		if (metric === 'Baselines (shifted)') {
+		// Reuse base dataset for recalculated / shifted variants
+		if (metric === 'Recalculations (recalculated)' || metric === 'Baselines (shifted)') {
 			data = (metricLookup as any)['Recalculations / Baselines'];
 		}
 	}
+
+	// Infer a default improvement direction from the metric name (user can still override via controls)
+	const nameLower = metric.toLowerCase();
+	const inferredArgDir: 'neither' | 'higher' | 'lower' = nameLower.includes('high is good')
+		? 'higher'
+		: nameLower.includes('low is good')
+			? 'lower'
+			: 'neither';
   const storySpecific: Record<string,string> = {
 	'Number of points - 12': 'Exactly 12 points: below minimum; no limits or icons expected.',
 	'Number of points - 13': 'Threshold case: limits appear once the 13th valid point arrives.',
@@ -67,6 +72,7 @@ function story(metric: string): Story {
   };
 	return {
 		name: metric,
+		args: { improvementDirection: inferredArgDir },
 		parameters: {
 			docs: { description: { story: storySpecific[metric] || 'Dataset scenario.' } }
 		},

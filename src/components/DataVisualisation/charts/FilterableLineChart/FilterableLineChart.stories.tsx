@@ -1,17 +1,28 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { FilterableLineChart, ChartContainer, type LineSeries } from '../../index';
+import { day, linearSeries } from '../../stories/utils/deterministic';
 
 const meta: Meta = { title: 'Data Visualisation/LineChart/Filterable', component: FilterableLineChart };
 export default meta;
 
 type Story = StoryObj<typeof FilterableLineChart>;
 
-const makeSeries = (n: number): LineSeries[] => Array.from({ length: n }).map((_, i) => ({
-  id: `series-${i+1}`,
-  label: `Series ${i+1}`,
-  data: Array.from({ length: 14 }).map((__, j) => ({ x: new Date(Date.now() - (13-j)*86400000), y: Math.round(20 + Math.random()*60) }))
-}));
+// ---------------------------------------------------------------------------
+// Deterministic helpers (mirrors pattern used in main LineChart stories)
+// ---------------------------------------------------------------------------
+// (helpers now imported from shared deterministic util)
+
+// Primary deterministic dataset generator (replaces random makeSeries)
+const makeSeries = (n: number): LineSeries[] => Array.from({ length: n }).map((_, i) => {
+  const wobble = [0, 4, -2, 5, -1];
+  const values = linearSeries(14, 18 + i * 3, 2 + (i % 3), wobble);
+  return {
+    id: `series-${i + 1}`,
+    label: `Series ${i + 1}`,
+    data: values.map((y, j) => ({ x: day(j), y }))
+  };
+});
 
 export const Basic: Story = {
   render: () => (
@@ -23,13 +34,17 @@ export const Basic: Story = {
 
 export const RegionPalette: Story = {
   render: () => {
-    const regions: LineSeries[] = [
-      'North East','North West','East of England','Midlands','London','South West','South East'
-    ].map(label => ({
-      id: label.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
-      label,
-      data: Array.from({ length: 10 }).map((_, j) => ({ x: new Date(Date.now() - (9-j)*86400000), y: Math.round(10 + Math.random()*50) }))
-    }));
+    const regionNames = ['North East','North West','East of England','Midlands','London','South West','South East'];
+    const wobble = [0, 5, -3, 4, -2];
+    const regions: LineSeries[] = regionNames.map((label, idx) => {
+      const base = 22 + idx * 4; // staggered start
+      const values = linearSeries(10, base, 1 + (idx % 2), wobble);
+      return {
+        id: label.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
+        label,
+        data: values.map((y, j) => ({ x: day(j), y }))
+      };
+    });
     return (
       <ChartContainer title="Filterable (Region palette)" description="Region token colours with filtering" source="Synthetic data">
         <FilterableLineChart series={regions} palette="region" yLabel="Value" />
@@ -40,7 +55,7 @@ export const RegionPalette: Story = {
 
 export const Controlled: Story = {
   render: () => {
-    const s = makeSeries(4);
+  const s = makeSeries(4); // already deterministic
     const [hidden, setHidden] = React.useState<string[]>([s[2].id]);
     return (
       <ChartContainer title="Controlled hidden state" description="External control of hidden series" source="Synthetic data">

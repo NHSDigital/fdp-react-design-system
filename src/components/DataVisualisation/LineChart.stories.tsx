@@ -1,6 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChartContainer, LineChart, LineSeries, Legend, TooltipProvider } from './index';
 
+// ---------------------------------------------------------------------------
+// Static deterministic data helpers (replaces Date.now + Math.random usage)
+// ---------------------------------------------------------------------------
+const BASE_DAY = new Date(Date.UTC(2025, 0, 1)); // Fixed anchor date (UTC to avoid TZ drift)
+const day = (n: number) => new Date(Date.UTC(2025, 0, 1 + n));
+
+// Utility for generating a simple linear-ish progression with optional wobble pattern
+const linearSeries = (length: number, start: number, step: number, wobble: number[] = []): number[] =>
+  Array.from({ length }).map((_, i) => start + step * i + (wobble.length ? wobble[i % wobble.length] : 0));
+
 const meta: Meta = {
   title: 'Data Visualisation/LineChart',
   component: LineChart,
@@ -12,22 +22,19 @@ export default meta;
 
 type Story = StoryObj<typeof LineChart>;
 
+// Primary example dataset (14 days) – values chosen for a gentle upward trend
+const admissionsValues = [55, 57, 60, 62, 59, 63, 65, 66, 64, 67, 70, 72, 74, 75];
+const dischargesValues = [48, 50, 49, 51, 53, 52, 54, 56, 55, 57, 58, 60, 61, 63];
 const series: LineSeries[] = [
   {
     id: 'admissions',
     label: 'Admissions',
-    data: Array.from({ length: 14 }).map((_, i) => ({
-      x: new Date(Date.now() - (13 - i) * 86400000),
-      y: Math.round(50 + Math.random() * 40)
-    }))
+    data: admissionsValues.map((y, i) => ({ x: day(i), y }))
   },
   {
     id: 'discharges',
     label: 'Discharges',
-    data: Array.from({ length: 14 }).map((_, i) => ({
-      x: new Date(Date.now() - (13 - i) * 86400000),
-      y: Math.round(40 + Math.random() * 35)
-    }))
+    data: dischargesValues.map((y, i) => ({ x: day(i), y }))
   }
 ];
 
@@ -51,14 +58,17 @@ export const Basic: Story = {
 
 // Demonstrates automatic region colour mapping when series ids align with region token ids
 const regionIds = ['north-east','north-west','east-of-england','midlands','london','south-west','south-east'];
-const regionSeries: LineSeries[] = regionIds.map(id => ({
-  id,
-  label: id.replace(/-/g,' '),
-  data: Array.from({ length: 10 }).map((_, i) => ({
-    x: new Date(Date.now() - (9 - i) * 86400000),
-    y: Math.round(30 + Math.random() * 60)
-  }))
-}));
+// Deterministic region series: base offset per region + patterned wobble
+const regionSeries: LineSeries[] = regionIds.map((id, idx) => {
+  const base = 30 + idx * 3; // staggered starts
+  const wobblePattern = [0, 4, -2, 5, -1];
+  const values = linearSeries(10, base, 2, wobblePattern); // length 10
+  return {
+    id,
+    label: id.replace(/-/g, ' '),
+    data: values.map((y, i) => ({ x: day(i), y }))
+  };
+});
 
 export const RegionPalette: Story = {
   render: () => (
@@ -86,11 +96,17 @@ export const WithCustomFormatters: Story = {
   )
 };
 
-const manySeries: LineSeries[] = Array.from({ length: 20 }).map((_, i) => ({
-  id: `s${i+1}`,
-  label: `S${i+1}`,
-  data: Array.from({ length: 12 }).map((__, j) => ({ x: new Date(Date.now() - (11-j)*86400000), y: Math.round(10 + Math.random()*80) }))
-}));
+// Extended palette demo – 20 deterministic mini-series
+const manySeries: LineSeries[] = Array.from({ length: 20 }).map((_, i) => {
+  const start = 12 + (i % 7) * 3; // cycle start values
+  const wobble = [0, 3, -1, 5, -2, 4];
+  const values = linearSeries(12, start, (i % 5) + 1, wobble);
+  return {
+    id: `s${i + 1}`,
+    label: `S${i + 1}`,
+    data: values.map((y, j) => ({ x: day(j), y }))
+  };
+});
 
 export const ExtendedPalette: Story = {
   render: () => (
@@ -105,18 +121,12 @@ const alignmentSeries: LineSeries[] = [
   {
     id: 'a',
     label: 'Series A',
-    data: Array.from({ length: 8 }).map((_, i) => ({
-      x: new Date(Date.now() - (7 - i) * 86400000),
-      y: 20 + i * 5
-    }))
+    data: Array.from({ length: 8 }).map((_, i) => ({ x: day(i), y: 20 + i * 5 }))
   },
   {
     id: 'b',
     label: 'Series B',
-    data: Array.from({ length: 8 }).map((_, i) => ({
-      x: new Date(Date.now() - (7 - i) * 86400000),
-      y: 18 + i * 6
-    }))
+    data: Array.from({ length: 8 }).map((_, i) => ({ x: day(i), y: 18 + i * 6 }))
   }
 ];
 
@@ -193,9 +203,9 @@ export const VisibilityModes: Story = {
   name: 'Visibility Modes (remove vs fade + domain recompute)',
   render: () => {
     const visSeries: LineSeries[] = [
-      { id: 'alpha', label: 'Alpha', data: Array.from({ length: 12 }).map((_, i) => ({ x: new Date(Date.now() - (11 - i) * 86400000), y: 40 + i * 2 })) },
-      { id: 'beta', label: 'Beta', data: Array.from({ length: 12 }).map((_, i) => ({ x: new Date(Date.now() - (11 - i) * 86400000), y: 10 + (i % 4) * 6 })) },
-      { id: 'gamma', label: 'Gamma', data: Array.from({ length: 12 }).map((_, i) => ({ x: new Date(Date.now() - (11 - i) * 86400000), y: 75 - i * 3 })) }
+      { id: 'alpha', label: 'Alpha', data: Array.from({ length: 12 }).map((_, i) => ({ x: day(i), y: 40 + i * 2 })) },
+      { id: 'beta', label: 'Beta', data: Array.from({ length: 12 }).map((_, i) => ({ x: day(i), y: 10 + (i % 4) * 6 })) },
+      { id: 'gamma', label: 'Gamma', data: Array.from({ length: 12 }).map((_, i) => ({ x: day(i), y: 75 - i * 3 })) }
     ];
   const legendItems = visSeries.map(s => ({ id: s.id, label: s.label || s.id }));
     return (

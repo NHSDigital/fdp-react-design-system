@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChartRoot, LineScalesProvider, Axis, GridLines, TooltipProvider, TooltipOverlay, AreaSeriesPrimitive, LineSeriesPrimitive, Legend, type AreaSeries, useTooltipContext } from '../../index';
 import { stackSeries, normaliseStack } from '../../utils/stack';
+import { day, linearSeries as linearVals } from '../../stories/utils/deterministic';
 import { useChartContext } from '../../core/ChartRoot';
 import { useScaleContext } from '../../core/ScaleContext';
 import VisuallyHiddenLiveRegion from '../../primitives/VisuallyHiddenLiveRegion';
@@ -15,22 +16,23 @@ type Story = StoryObj;
 
 interface Datum { x: Date; y: number }
 
-// Simple generator
-const makeSeries = (id: string, points: number, amp = 60): AreaSeries => ({
+// ---------------------------------------------------------------------------
+// Deterministic helpers (aligned with LineChart stories)
+// ---------------------------------------------------------------------------
+// helpers now imported from shared deterministic util
+
+const makeSeries = (id: string, points: number, base: number, step: number, wobble: number[]): AreaSeries => ({
   id,
   label: id,
-  data: Array.from({ length: points }).map((_, i) => ({
-    x: new Date(Date.now() - (points - 1 - i) * 86400000),
-    y: Math.round(20 + Math.random() * amp)
-  }))
+  data: linearVals(points, base, step, wobble).map((y, i) => ({ x: day(i), y }))
 });
 
 export const BasicArea: Story = {
   render: () => {
     const series: AreaSeries[] = React.useMemo(() => [
-      makeSeries('alpha', 14, 50),
-      makeSeries('beta', 14, 70),
-      makeSeries('gamma', 14, 40)
+      makeSeries('alpha', 14, 28, 2, [0,4,-2,3]),
+      makeSeries('beta', 14, 34, 1, [0,5,-3,2]),
+      makeSeries('gamma', 14, 22, 3, [0,2,-1,4])
     ], []);
     const parseX = React.useCallback((d: any) => d.x instanceof Date ? d.x : new Date(d.x), []);
     return (
@@ -100,7 +102,7 @@ export const Stacked: Story = {
   render: () => {
     const series: AreaSeries[] = Array.from({ length: 3 }).map((_, si) => ({
       id: `s${si+1}`,
-      data: Array.from({ length: 10 }).map((__, j) => ({ x: new Date(Date.now() - (9-j)*86400000), y: Math.round(5 + Math.random()*20) }))
+      data: linearVals(10, 8 + si * 2, 1 + si, [0,2,-1,3]).map((y,i)=>({ x: day(i), y }))
     }));
     const stacked = stackSeries(series as any);
     const totals = stacked[0].stacked.map((_, i) => stacked.reduce((sum,s) => sum + (s.stacked[i].y1 - s.stacked[i].y0), 0));
@@ -154,7 +156,7 @@ export const StackedPercent: Story = {
   render: () => {
     const series: AreaSeries[] = Array.from({ length: 4 }).map((_, si) => ({
       id: `p${si+1}`,
-      data: Array.from({ length: 12 }).map((__, j) => ({ x: new Date(Date.now() - (11-j)*86400000), y: Math.round(5 + Math.random()*30) }))
+      data: linearVals(12, 10 + si * 3, 2, [0,3,-2,4,-1]).map((y,i)=>({ x: day(i), y }))
     }));
     // Absolute stacking first
     const stackedAbs = stackSeries(series as any);
@@ -244,7 +246,7 @@ export const StackedToggle: Story = {
     const [mode, setMode] = React.useState<'absolute' | 'percent'>('absolute');
     const series: AreaSeries[] = Array.from({ length: 3 }).map((_, si) => ({
       id: `t${si+1}`,
-      data: Array.from({ length: 14 }).map((__, j) => ({ x: new Date(Date.now() - (13-j)*86400000), y: Math.round(5 + Math.random()*25) }))
+      data: linearVals(14, 12 + si * 4, 1 + si, [0,2,-1,3,-2]).map((y,i)=>({ x: day(i), y }))
     }));
     const stackedAbs = stackSeries(series as any);
     const totals = stackedAbs[0].stacked.map((_, i) => stackedAbs.reduce((sum,s) => sum + (s.stacked[i].y1 - s.stacked[i].y0), 0));

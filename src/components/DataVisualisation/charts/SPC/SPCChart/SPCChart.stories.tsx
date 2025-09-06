@@ -7,6 +7,7 @@ import {
 	zoneLabel,
 } from "./logic/spcDescriptors";
 import React from "react";
+import { seedPRNG } from "../../../stories/utils/deterministic";
 import { ChartContainer } from "../../ChartContainer.tsx";
 // Use top-level component barrel for Heading/Table/List (navigate up to components root)
 import { Heading, Table, List } from "../../../../";
@@ -27,15 +28,12 @@ export default meta;
 type Story = StoryObj<typeof SPCChart>;
 
 const makeData = (): SPCDatum[] => {
+	const rand = seedPRNG(20250101);
 	const points: SPCDatum[] = [];
-	const start = Date.now() - 29 * 24 * 3600 * 1000;
 	for (let i = 0; i < 30; i++) {
-		const base = i < 18 ? 50 : 58; // shift
-		const noise = (Math.random() - 0.5) * 6;
-		points.push({
-			x: new Date(start + i * 24 * 3600 * 1000),
-			y: Math.round(base + noise),
-		});
+		const base = i < 18 ? 50 : 58; // engineered shift
+		const noise = (rand() - 0.5) * 6;
+		points.push({ x: i + 1, y: Math.round(base + noise) });
 	}
 	points[24].y = points[24].y + 20; // outlier
 	return points;
@@ -141,9 +139,7 @@ export const DownIsBetter: Story = {
 				<SPCChart
 					data={data}
 					chartType="XmR"
-					settings={{
-						suppressIsolatedFavourablePoint: true,
-					}}
+					// settings placeholder (no isolated favourable suppression in deterministic demo)
 					metricImprovement={ImprovementDirection.Down}
 					gradientSequences={true}
 					unit="%"
@@ -178,9 +174,7 @@ export const UpIsBetter: Story = {
 				<SPCChart
 					data={data}
 					chartType="XmR"
-					settings={{
-						suppressIsolatedFavourablePoint: true,
-					}}
+					// settings placeholder (no isolated favourable suppression in deterministic demo)
 					metricImprovement={ImprovementDirection.Up}
 					unit="%"
 					announceFocus
@@ -197,19 +191,13 @@ export const UpIsBetter: Story = {
 };
 
 // Rare event examples (T and G charts)
-function makeRareEventGaps(
-	len: number,
-	base: number,
-	volatility: number
-): SPCDatum[] {
-	const pts: SPCDatum[] = [];
-	const start = Date.now() - (len - 1) * 24 * 3600 * 1000;
-	for (let i = 0; i < len; i++) {
-		const noise = (Math.random() - 0.5) * volatility;
+function makeRareEventGaps(len: number, base: number, volatility: number, seed = 98765): SPCDatum[] {
+	const rand = seedPRNG(seed);
+	return Array.from({ length: len }).map((_, i) => {
+		const noise = (rand() - 0.5) * volatility;
 		const gap = Math.max(1, Math.round(base + noise));
-		pts.push({ x: new Date(start + i * 24 * 3600 * 1000), y: gap });
-	}
-	return pts;
+		return { x: i + 1, y: gap };
+	});
 }
 
 export const TChartRareEvents: Story = {
@@ -222,7 +210,7 @@ export const TChartRareEvents: Story = {
 		metricContext: { improvement: "up" },
 	},
 	render: () => {
-		const data = React.useMemo(() => makeRareEventGaps(20, 5, 3), []); // days between events
+		const data = React.useMemo(() => makeRareEventGaps(20, 5, 3, 34567), []); // deterministic
 		// Introduce an unusually long gap + short gap
 		const mutated = data.map((d) => ({ ...d }));
 		mutated[8].y += 10; // long gap (improvement if UP)
@@ -260,7 +248,7 @@ export const GChartRareEvents: Story = {
 		metricContext: { improvement: "up" },
 	},
 	render: () => {
-		const data = React.useMemo(() => makeRareEventGaps(20, 12, 5), []); // count between events
+		const data = React.useMemo(() => makeRareEventGaps(20, 12, 5, 45678), []); // deterministic
 		const mutated = data.map((d) => ({ ...d }));
 		mutated[5].y += 15; // high count between events
 		mutated[12].y = 1; // low count between events
@@ -298,7 +286,8 @@ export const AssuranceCapability: Story = {
 		metricContext: { improvement: "up" },
 	},
 		render: () => {
-			const baseSeq: SPCDatum[] = Array.from({ length: 20 }, (_, i) => ({ x: i + 1, y: 50 + Math.sin(i / 2) * 3 + (Math.random() - 0.5) * 2 }));
+			const rand = seedPRNG(112233);
+			const baseSeq: SPCDatum[] = Array.from({ length: 20 }, (_, i) => ({ x: i + 1, y: 50 + Math.sin(i / 2) * 3 + (rand() - 0.5) * 2 }));
 			const passData = baseSeq.map(d => ({ x: d.x as any, y: d.y + 20 }));
 			const passTargets = passData.map(() => 60); // target well below raised band -> pass
 			const failData = baseSeq.map(d => ({ x: d.x as any, y: d.y - 20 }));
@@ -326,7 +315,8 @@ export const AssuranceCapability: Story = {
 export const EmbeddedSummaryIcons: Story = {
 	parameters: { docs: { description: { story: 'Demonstrates embedded variation + assurance icons rendered together: Pass, Fail and (no icon) Uncertain scenarios.' } }, metricContext: { improvement: 'up' } },
 	render: () => {
-		const baseSeq: SPCDatum[] = Array.from({ length: 18 }, (_, i) => ({ x: i + 1, y: 40 + Math.sin(i / 2) * 2 + (Math.random() - 0.5) * 1.5 }));
+		const randIcons = seedPRNG(998877);
+		const baseSeq: SPCDatum[] = Array.from({ length: 18 }, (_, i) => ({ x: i + 1, y: 40 + Math.sin(i / 2) * 2 + (randIcons() - 0.5) * 1.5 }));
 		const passData = baseSeq.map(d => ({ x: d.x as any, y: d.y + 18 }));
 		const passTargets = passData.map(() => 55);
 		const failData = baseSeq.map(d => ({ x: d.x as any, y: d.y - 18 }));

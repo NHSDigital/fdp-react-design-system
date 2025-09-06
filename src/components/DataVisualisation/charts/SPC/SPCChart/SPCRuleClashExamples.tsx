@@ -5,14 +5,6 @@ import { ChartContainer } from "../../..";
 const toData = (series: { x: string; y: number }[]) =>
 	series.map((p) => ({ x: new Date(p.x), y: p.y }));
 
-const baseProps = {
-	chartType: "XmR" as const,
-	metricImprovement: ImprovementDirection.Down as const,
-	unit: "%",
-	announceFocus: false,
-	gradientSequences: true,
-};
-
 const chart1 = [
 	{ x: "2022-01", y: 3.53 },
 	{ x: "2022-02", y: 3.96 },
@@ -33,22 +25,22 @@ const chart1 = [
 ];
 
 const chart2 = [
-	{ x: "2022-01", y: 5.54 },
-	{ x: "2022-02", y: 5.15 },
-	{ x: "2022-03", y: 5.3 },
-	{ x: "2022-04", y: 5.91 },
-	{ x: "2022-05", y: 5.42 },
-	{ x: "2022-06", y: 5.82 },
-	{ x: "2022-07", y: 5.51 },
-	{ x: "2022-08", y: 5.82 },
-	{ x: "2022-09", y: 5.61 },
-	{ x: "2022-10", y: 5.12 },
-	{ x: "2022-11", y: 4.91 },
-	{ x: "2022-12", y: 5.7 },
-	{ x: "2023-01", y: 4.48 },
-	{ x: "2023-02", y: 5.73 },
-	{ x: "2023-03", y: 5.15 },
-	{ x: "2023-04", y: 5.61 },
+	{ x: "2022-01", y: 4.95 },
+	{ x: "2022-02", y: 5.0 },
+	{ x: "2022-03", y: 5.6 },
+	{ x: "2022-04", y: 5.5 },
+	{ x: "2022-05", y: 5.7 },
+	{ x: "2022-06", y: 5.5 },
+	{ x: "2022-07", y: 5.4 },
+	{ x: "2022-08", y: 5.3 },
+	{ x: "2022-09", y: 4.1 },
+	{ x: "2022-10", y: 4.9 },
+	{ x: "2022-11", y: 4.8 },
+	{ x: "2022-12", y: 5.5 },
+	{ x: "2023-01", y: 4.1 },
+	{ x: "2023-02", y: 5.3 },
+	{ x: "2023-03", y: 4.9 },
+	{ x: "2023-04", y: 5.3 },
 ];
 
 const chart3 = [
@@ -107,6 +99,14 @@ const chart5 = [
 	{ x: "2023-03", y: 5.2 },
 	{ x: "2023-04", y: 3.8 },
 ];
+
+const baseProps = {
+	chartType: "XmR" as const,
+	metricImprovement: ImprovementDirection.Down as const,
+	unit: "%",
+	announceFocus: false,
+	gradientSequences: true,
+};
 
 export const RuleClashChartOne = () => (
 	<ChartContainer

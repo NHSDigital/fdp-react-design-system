@@ -13,6 +13,7 @@ import {
 	useScaleContext,
 } from "../../index";
 import { computeContinuousBarChartTotalWidth } from "../../utils/computeContinuousBarWidth";
+import { day } from "../../stories/utils/deterministic";
 import { useChartContext } from "../../core/ChartRoot";
 import { stackSeries, normaliseStack } from "../../utils/stack";
 import VisuallyHiddenLiveRegion from "../../primitives/VisuallyHiddenLiveRegion";
@@ -22,6 +23,12 @@ export default meta;
 type Story = StoryObj;
 
 const parseX = (d: any) => d.x as Date; // retained for time-based stories
+
+// ---------------------------------------------------------------------------
+// Deterministic helpers (replace Math.random/Date.now)
+// ---------------------------------------------------------------------------
+// day helper imported; define simple value helper for categorical bar sets
+const val = (base: number) => base; // stable deterministic scalar
 
 export const StackedBars: Story = {
 	render: () => {
@@ -39,9 +46,9 @@ export const StackedBars: Story = {
 		];
 		const raw: BarSeries[] = Array.from({ length: 4 }).map((_, si) => ({
 			id: `b${si + 1}`,
-			data: categories.map((c) => ({
+			data: categories.map((c, idx) => ({
 				x: c,
-				y: Math.round(5 + Math.random() * 30),
+				y: val(8 + si * 3 + (idx % 3)),
 			})),
 		}));
 		const stacked = stackSeries(raw as any);
@@ -137,9 +144,9 @@ export const StackedBarsPercent: Story = {
 		];
 		const raw: BarSeries[] = Array.from({ length: 3 }).map((_, si) => ({
 			id: `pb${si + 1}`,
-			data: categories.map((c) => ({
+			data: categories.map((c, idx) => ({
 				x: c,
-				y: Math.round(5 + Math.random() * 25),
+				y: val(6 + si * 4 + (idx % 4)),
 			})),
 		}));
 		const absStack = stackSeries(raw as any);
@@ -236,9 +243,9 @@ export const StackedBarsToggle: Story = {
 		];
 		const raw: BarSeries[] = Array.from({ length: 4 }).map((_, si) => ({
 			id: `tb${si + 1}`,
-			data: categories.map((c) => ({
+			data: categories.map((c, idx) => ({
 				x: c,
-				y: Math.round(5 + Math.random() * 30),
+				y: val(10 + si * 2 + (idx % 5)),
 			})),
 		}));
 		const absStack = React.useMemo(() => stackSeries(raw as any), [raw]);
@@ -367,9 +374,9 @@ export const GenericBars: Story = {
 		];
 		const series: BarSeries[] = Array.from({ length: 3 }).map((_, si) => ({
 			id: `g${si + 1}`,
-			data: categories.map((c) => ({
+			data: categories.map((c, idx) => ({
 				x: c,
-				y: Math.round(5 + Math.random() * 30),
+				y: val(7 + si * 3 + (idx % 6)),
 			})),
 		}));
 		const margin = { left: 56, bottom: 48, right: 16, top: 12 };
@@ -441,8 +448,8 @@ export const ContinuousManyBarsScrollable: Story = {
 			{
 				id: "overflowSeries",
 				data: Array.from({ length: days }).map((_, i) => ({
-					x: new Date(Date.now() - (days - 1 - i) * 86400000),
-					y: Math.round(10 + Math.random() * 40),
+					x: day(i),
+					y: 12 + (i % 10) * 3 + Math.floor(i / 15), // gentle repeating pattern with slow drift
 				})),
 				barWidth: 18,
 			},

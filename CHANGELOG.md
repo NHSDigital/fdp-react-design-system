@@ -6,6 +6,15 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ## Unreleased
 
+### Added (Unreleased)
+
+- Shared story utilities module `src/components/DataVisualisation/stories/utils/deterministic.ts` providing date helpers, linear series generator, seeded PRNG.
+
+### Changed (Unreleased)
+
+- Storybook data visualisation stories (Line, FilterableLine, Area, Bar, SPC) now use fully deterministic synthetic datasets (removed all Math.random/Date.now) for stable visual regression and reproducible docs.
+- Header SCSS refactor: eliminated Sass mixed-decls deprecation warnings by reordering declarations and splitting `header-link-style` into base + state mixins.
+
 _No unreleased changes yet._
 
 ## 0.0.34-alpha.4 - 2025-09-06

@@ -312,6 +312,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						processLineWidth={processLineWidth}
 						effectiveUnit={effectiveUnit}
 						partitionMarkers={partitionMarkers}
+						ariaLabel={ariaLabel}
 					/>
 				</LineScalesProvider>
 			</ChartRoot>
@@ -351,6 +352,7 @@ interface InternalProps {
 	processLineWidth: number;
 	effectiveUnit?: string;
 	partitionMarkers: number[];
+	ariaLabel?: string;
 }
 
 const InternalSPC: React.FC<InternalProps> = ({
@@ -368,6 +370,7 @@ const InternalSPC: React.FC<InternalProps> = ({
  	processLineWidth,
 	effectiveUnit,
 	partitionMarkers,
+	ariaLabel,
 }) => {
 	const scaleCtx = useScaleContext();
 	const chartCtx = useChartContext();
@@ -439,56 +442,60 @@ const InternalSPC: React.FC<InternalProps> = ({
 
 	// Preprocess categories with singleton coloured point absorption
 	const categories = React.useMemo(() => {
-		if (!engineSignals) return [] as ('concern' | 'improvement' | 'common')[];
+		if (!engineSignals || !all.length) return [] as ('concern' | 'improvement' | 'common')[];
 		const raw: ('concern' | 'improvement' | 'common')[] = all.map((_d, i) => {
 			const sig = engineSignals?.[i];
 			if (sig?.concern) return 'concern';
 			if (sig?.improvement) return 'improvement';
 			return 'common';
 		});
-		// Absorb single coloured point interruptions (concern/improvement) flanked by identical common segments
-		for (let i = 1; i < raw.length - 1; i++) {
-			if ((raw[i] === 'concern' || raw[i] === 'improvement') && raw[i - 1] === 'common' && raw[i + 1] === 'common') {
-				raw[i] = 'common';
-			}
+		
+		// Debug logging for Rule Clash charts
+		const isRuleClash = ariaLabel?.includes('Rule Clash');
+		if (isRuleClash) {
+			console.log(`[${ariaLabel}] Raw categories:`, raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(', '));
 		}
-		// New rule: absorb a single coloured point of one category that sits between two of the *other* coloured category
-		// e.g. improvement (blue) between two concern (orange) points, or vice versa – treat as inconclusive (common) for wash fill
-		for (let i = 1; i < raw.length - 1; i++) {
-			const left = raw[i - 1];
-			const mid = raw[i];
-			const right = raw[i + 1];
-			if (mid !== 'common' && left !== 'common' && right !== 'common' && left === right && mid !== left) {
-				// Pattern: A B A with A,B both coloured -> make B common
-				raw[i] = 'common';
-			}
-		}
+		
 		return raw;
-	}, [engineSignals, all]);
+	}, [engineSignals, all, ariaLabel]);
 
 	// Derive contiguous sequences after absorption
 	const sequences = React.useMemo(() => {
-		if (!gradientSequences || !categories.length) return [] as { start: number; end: number; category: 'concern' | 'improvement' | 'common' }[];
-		const result: { start: number; end: number; category: 'concern' | 'improvement' | 'common' }[] = [];
-		let runStart = 0;
-		for (let i = 1; i <= categories.length; i++) {
-			const changed = i === categories.length || categories[i] !== categories[runStart];
-			if (changed) {
-				const cat = categories[runStart];
-				const runEnd = i - 1;
-				const runLen = runEnd - runStart + 1;
-				if (cat === 'common') {
-					// Include all common runs (even single) to avoid gaps.
-					result.push({ start: runStart, end: runEnd, category: 'common' });
-				} else {
-					// For coloured runs require length > 1 to show wash (skip isolated coloured point already absorbed earlier if flanked by common)
-					if (runLen > 1) result.push({ start: runStart, end: runEnd, category: cat });
+		if (!gradientSequences || !categories.length) return [];
+		// Copy categories so we can absorb single coloured points unconditionally
+		const cats = [...categories];
+		// Absorb ANY single coloured point (length-1 run) regardless of neighbours
+		let i = 0;
+		while (i < cats.length) {
+			const cat = cats[i];
+			let j = i + 1;
+			while (j < cats.length && cats[j] === cat) j++;
+			const runLen = j - i;
+			if (runLen === 1 && cat !== 'common') {
+				cats[i] = 'common';
+			}
+			i = j;
+		}
+		// Build sequences (coloured runs must be length >=2 after absorption)
+		const out: { start: number; end: number; category: 'concern' | 'improvement' | 'common' }[] = [];
+		if (cats.length) {
+			let start = 0;
+			for (let k = 1; k <= cats.length; k++) {
+				if (k === cats.length || cats[k] !== cats[start]) {
+					const runCat = cats[start];
+					const end = k - 1;
+					const len = end - start + 1;
+					if (runCat === 'common' || len >= 2) out.push({ start, end, category: runCat });
+					start = k;
 				}
-				runStart = i;
 			}
 		}
-		return result;
-	}, [gradientSequences, categories]);
+		const isRuleClash = ariaLabel?.includes('Rule Clash');
+		if (isRuleClash) {
+			console.log(`[${ariaLabel}] Final sequences:`, out.map(s => `${s.start}-${s.end}:${s.category}`).join(', '));
+		}
+		return out;
+	}, [gradientSequences, categories, ariaLabel]);
 
 	// Precompute x positions for boundary calculations (after scales + data available)
 	const xPositions = React.useMemo(() => all.map(d => xScale(d.x instanceof Date ? d.x : new Date(d.x))), [all, xScale]);
@@ -520,7 +527,9 @@ const InternalSPC: React.FC<InternalProps> = ({
 					// still same segment
 				} else {
 					// close previous
-					segs.push({ x1: xPositions[start], x2: xPositions[i - 1], y: yScale(current as number) });
+					if (current != null) {
+						segs.push({ x1: xPositions[start], x2: xPositions[i - 1], y: yScale(current) });
+					}
 					start = i; current = v;
 				}
 			}
@@ -576,75 +585,88 @@ const InternalSPC: React.FC<InternalProps> = ({
 
 	const sequenceAreas = React.useMemo(() => {
 		if (!sequences.length) return null;
+		
 		const [domainMin] = yScale.domain();
 		const baseY = yScale(domainMin);
+
 		const areas = sequences.map((seq, idx) => {
-			const firstIdx = seq.start;
-			const lastIdx = seq.end;
+			const { start: firstIdx, end: lastIdx, category } = seq;
+			
+			if (firstIdx < 0 || lastIdx >= xPositions.length || firstIdx > lastIdx) return null;
+			
 			const firstX = xPositions[firstIdx];
 			const lastX = xPositions[lastIdx];
-			const prevX = firstIdx > 0 ? xPositions[firstIdx - 1] : firstX;
-			const nextX = lastIdx < xPositions.length - 1 ? xPositions[lastIdx + 1] : lastX;
-			// Boundary midpoints (default behaviour for coloured runs)
-			let left = firstIdx === 0 ? Math.max(0, firstX - (xPositions.length > 1 ? (xPositions[1] - firstX) / 2 : 10)) : (prevX + firstX) / 2;
-			let right = lastIdx === xPositions.length - 1 ? Math.min(plotWidth, lastX + (xPositions.length > 1 ? (lastX - xPositions[xPositions.length - 2]) / 2 : 10)) : (lastX + nextX) / 2;
-			// For common-cause (grey) sequences, extend to neighbouring actual point x positions so wash meets coloured washes directly.
-			let extendLeftY: number | null = null;
-			let extendRightY: number | null = null;
-			if (seq.category === 'common') {
-				if (firstIdx > 0) {
-					left = xPositions[firstIdx - 1];
-					// Always anchor left vertical to previous point's y so wash top aligns with preceding colour block
-					extendLeftY = yScale(all[firstIdx - 1].y);
+
+			let d = '';
+
+			if (category === 'common') {
+				// --- Common Cause (Grey) Gradient ---
+				const prevSeq = idx > 0 ? sequences[idx - 1] : null;
+				const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
+
+				const leftX = prevSeq ? xPositions[prevSeq.end] : 0;
+				const leftY = prevSeq ? yScale(all[prevSeq.end].y) : baseY;
+				
+				const rightX = nextSeq ? xPositions[nextSeq.start] : plotWidth;
+				const rightY = nextSeq ? yScale(all[nextSeq.start].y) : baseY;
+
+				d = `M ${leftX} ${baseY}`;
+				d += ` L ${leftX} ${leftY}`;
+				
+				for (let i = firstIdx; i <= lastIdx; i++) {
+					d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
 				}
-				if (lastIdx < all.length - 1) {
-					right = xPositions[lastIdx + 1];
-					// Always anchor forward to next point height (even single-point run) for seamless bridge
-					extendRightY = yScale(all[lastIdx + 1].y);
-				}
+
+				d += ` L ${rightX} ${rightY}`;
+				d += ` L ${rightX} ${baseY} Z`;
+
 			} else {
-				// For coloured sequences (concern/improvement) start exactly under first point normally
-				left = firstX;
-				// But if previous point is a different coloured category, extend back to that previous point so seams align at point instead of midpoint
-				if (firstIdx > 0) {
-					const prevCat = categories[firstIdx - 1];
-					if (prevCat !== 'common' && prevCat !== seq.category) {
-						left = xPositions[firstIdx - 1];
-						extendLeftY = yScale(all[firstIdx - 1].y);
-					}
+				// --- Special Cause (Colored) Gradient ---
+				const prevSeq = idx > 0 ? sequences[idx - 1] : null;
+				const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
+				const prevColoured = prevSeq && prevSeq.category !== 'common';
+				const nextColoured = nextSeq && nextSeq.category !== 'common';
+				// When a coloured sequence follows another coloured sequence we start the polyline at the previous
+				// sequence's last point (prevX, prevY) instead of introducing a vertical colour switch. This creates
+				// a continuous sloped join between coloured regions (concern -> improvement or vice versa) per spec.
+				const firstY = yScale(all[firstIdx].y);
+				const lastY = yScale(all[lastIdx].y);
+
+				if (prevColoured) {
+					const prevX = xPositions[prevSeq!.end];
+					const prevY = yScale(all[prevSeq!.end].y);
+					// Start path at previous coloured sequence last data point
+					d = `M ${prevX} ${prevY} L ${firstX} ${firstY}`;
+				} else {
+					// Standard start: baseline up to first point
+					d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
+				}
+
+				for (let i = firstIdx + 1; i <= lastIdx; i++) {
+					d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
+				}
+				// Ensure path includes last point explicitly
+				d += ` L ${lastX} ${lastY}`;
+
+				// End: if next sequence coloured, do vertical switch at line height by creating a minimal-width closure
+				if (nextColoured) {
+					// For a following coloured sequence we finish at last point only (no vertical switch) and drop to baseline
+					d += ` L ${lastX} ${lastY} L ${lastX} ${baseY}`;
+				} else {
+					// Standard termination: last point then vertical to baseline
+					d += ` L ${lastX} ${lastY} L ${lastX} ${baseY}`;
+				}
+				// Baseline closure: return to baseline under start reference
+				if (prevColoured) {
+					const prevX = xPositions[prevSeq!.end];
+					// baseline back to previous coloured point's x
+					d += ` L ${prevX} ${baseY} Z`;
+				} else {
+					// baseline back to firstX
+					d += ` L ${firstX} ${baseY} Z`;
 				}
 			}
-			// Build polygon: left baseline -> vertical up to first point -> through points -> down to baseline at lastX & right midpoint -> close
-			let d = `M ${left} ${baseY}`;
-			// Left side ascent: if we extended into previous point (common cause) use its Y, then go to first point
-			const firstY = yScale(all[firstIdx].y);
-			if (extendLeftY != null) {
-				// vertical lift to previous point height
-				d += ` L ${left} ${extendLeftY}`;
-				if (firstX !== left) d += ` L ${firstX} ${firstY}`;
-			} else {
-				// standard: lift to first point height at left boundary (midpoint)
-				d += ` L ${left} ${firstY}`;
-				if (firstX !== left) d += ` L ${firstX} ${firstY}`;
-			}
-			for (let i = firstIdx; i <= lastIdx; i++) {
-				const x = xPositions[i];
-				const y = yScale(all[i].y);
-				d += ` L ${x} ${y}`;
-			}
-			// Right descent: if common run and we extended to next point's x, bridge to that point height before dropping
-			if (seq.category === 'common' && extendRightY != null) {
-				// ensure path includes last point already; connect to next point height to avoid gap
-				if (right !== lastX) {
-					// draw towards next point height (straight line)
-					d += ` L ${right} ${extendRightY}`;
-				}
-				// then drop to baseline at right boundary
-				d += ` L ${right} ${baseY} Z`;
-			} else {
-				// standard closure via last point down to baseline then to right boundary baseline
-				d += ` L ${lastX} ${baseY} L ${right} ${baseY} Z`;
-			}
+			
 			return (
 				<path
 					key={`seq-area-${idx}`}
@@ -655,7 +677,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 					aria-hidden="true"
 				/>
 			);
-		});
+		}).filter(Boolean);
+		
 		return <g className="fdp-spc__sequence-bgs">{areas}</g>;
 	}, [sequences, xPositions, plotWidth, yScale, all]);
 

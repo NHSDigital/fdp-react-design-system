@@ -35,19 +35,20 @@ $header-max-width: tokens.$nhs-fdp-breakpoint-xlarge; // single source of truth 
 // Shared navigation item (link + button) structural styles
 // $padding param allows the button variant to supply its asymmetric 20px bottom padding hack
 @mixin header-nav-item-base($padding) {
-	@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
-		font-size: tokens.$nhs-fdp-font-size-16-tablet;
-	}
 	display: inline-flex;
 	align-items: flex-start;
 	position: relative;
 	white-space: nowrap;
-	font-size: tokens.$nhs-fdp-font-size-16-tablet;
+	// Mobile-first base font size; overridden at tablet breakpoint below
+	font-size: tokens.$nhs-fdp-font-size-16-mobile;
 	font-weight: tokens.$nhs-fdp-font-weight-normal;
 	line-height: 1;
 	gap: tokens.$nhs-fdp-spacing-1;
 	padding: $padding;
-	
+
+	@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+		font-size: tokens.$nhs-fdp-font-size-16-tablet;
+	}
 }
 
 // Vertical rhythm variables (allows independent control of top vs container internal spacing)
@@ -71,34 +72,37 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	height: tokens.$nhs-fdp-spacing-4;
 }
 
-// Header link styling mixin
-@mixin header-link-style(
-	$link-color: tokens.$nhs-fdp-semantic-color-link-default,
+// Header link styling mixins (split to avoid mixed-decls warnings when order matters)
+@mixin header-link-style-base(
+	$link-color: tokens.$nhs-fdp-semantic-color-link-default
+) {
+	color: $link-color;
+	text-decoration: underline;
+}
+
+@mixin header-link-style-states(
 	$link-hover-color: $header-item-hover-color,
 	$link-active-color: $header-item-active-color
 ) {
-
-	&:hover {
-		color: $link-hover-color;
-	}
-
-	&:active {
-		color: $link-active-color;
-	}
-
+	&:hover { color: $link-hover-color; }
+	&:active { color: $link-active-color; }
 	&:focus {
 		outline-offset: 0;
 		background-color: tokens.$nhs-fdp-semantic-color-focus-background;
 		color: tokens.$nhs-fdp-semantic-color-focus-text;
 		box-shadow: inset 0 -#{tokens.$nhs-fdp-focus-outline-width} tokens.$nhs-fdp-semantic-color-focus-text;
 	}
+	&:focus:visited { color: tokens.$nhs-fdp-semantic-color-focus-text; }
+}
 
-	&:focus:visited {
-		color: tokens.$nhs-fdp-semantic-color-focus-text;
-	}
-
-	color: $link-color;
-	text-decoration: underline;
+// Backwards-compatible wrapper (if any legacy includes remain elsewhere)
+@mixin header-link-style(
+	$link-color: tokens.$nhs-fdp-semantic-color-link-default,
+	$link-hover-color: $header-item-hover-color,
+	$link-active-color: $header-item-active-color
+) {
+	@include header-link-style-base($link-color: $link-color);
+	@include header-link-style-states($link-hover-color: $link-hover-color, $link-active-color: $link-active-color);
 }
 
 // Main header component with hierarchical structure
@@ -111,13 +115,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	position: relative;
 
 	&__container {
-		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
-			padding-bottom: $header-vertical-pad-tablet; // match larger top padding at tablet+
-			padding-left: tokens.$nhs-fdp-spacing-7; 
-			padding-right: tokens.$nhs-fdp-spacing-7;
-			gap: tokens.$nhs-fdp-spacing-4;
-		}
-		// Use padding for internal horizontal spacing so centering via auto margins is effective
+		// Base (mobile-first) container spacings
 		padding-top: tokens.$nhs-fdp-spacing-4;
 		padding-bottom: tokens.$nhs-fdp-spacing-4;
 		padding-left: tokens.$nhs-fdp-spacing-4;
@@ -130,6 +128,14 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		align-items: center;
 		gap: tokens.$nhs-fdp-spacing-3;
 		flex-wrap: wrap;
+
+		// Tablet+ overrides (placed after base declarations to intentionally override values)
+		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+			padding-bottom: $header-vertical-pad-tablet; // match larger top padding at tablet+
+			padding-left: tokens.$nhs-fdp-spacing-7; 
+			padding-right: tokens.$nhs-fdp-spacing-7;
+			gap: tokens.$nhs-fdp-spacing-4;
+		}
 	}
 
 	// Optional width-constrained + centred container.
@@ -224,8 +230,8 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		width: 64px;
 		line-height: 0;
 		margin-right: tokens.$nhs-fdp-spacing-3;
-		@include header-link-style(
-			$link-color: tokens.$nhs-fdp-color-primary-white,
+		@include header-link-style-base($link-color: tokens.$nhs-fdp-color-primary-white);
+		@include header-link-style-states(
 			$link-hover-color: tokens.$nhs-fdp-color-primary-white,
 			$link-active-color: tokens.$nhs-fdp-color-primary-white
 		);
@@ -283,8 +289,8 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		&[href] {
 			// Move plain declarations before mixin includes to avoid mixed-decls warnings (mixin outputs nested pseudo rules)
 			// (header-link-style already sets text-decoration: none; so redundant declaration removed)
-			@include header-link-style(
-				$link-color: tokens.$nhs-fdp-color-primary-white,
+			@include header-link-style-base($link-color: tokens.$nhs-fdp-color-primary-white);
+			@include header-link-style-states(
 				$link-hover-color: tokens.$nhs-fdp-color-primary-white,
 				$link-active-color: tokens.$nhs-fdp-color-primary-white
 			);
@@ -491,13 +497,13 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	}
 
 	&__navigation-link {
-		@include header-nav-item-base(tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3);
-		// (No baseline underline; rely on hover/focus styles for emphasis)
-		@include header-link-style(
-			$link-color: tokens.$nhs-fdp-color-primary-white,
+		// Order: link style declarations first, then structural mixin (which emits nested @media), then interactive pseudo rules
+		@include header-link-style-base($link-color: tokens.$nhs-fdp-color-primary-white);
+		@include header-link-style-states(
 			$link-hover-color: tokens.$nhs-fdp-color-primary-white,
 			$link-active-color: tokens.$nhs-fdp-color-primary-white
 		);
+		@include header-nav-item-base(tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3);
 		@include header-nav-interactive-base;
 	}
 
@@ -507,13 +513,13 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		border: none;
 		cursor: pointer;
 		font-family: inherit;
-		@include header-nav-item-base(tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 20px tokens.$nhs-fdp-spacing-3); // keep 20px bottom padding hack
-		@include header-link-style(
-			$link-color: tokens.$nhs-fdp-color-primary-white,
+		// Declarations (link styling) first, then structural (emits @media), to avoid mixed-decls warnings.
+		@include header-link-style-base($link-color: tokens.$nhs-fdp-color-primary-white);
+		@include header-link-style-states(
 			$link-hover-color: tokens.$nhs-fdp-color-primary-white,
 			$link-active-color: tokens.$nhs-fdp-color-primary-white
 		);
-
+		@include header-nav-item-base(tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-3 20px tokens.$nhs-fdp-spacing-3); // top padding 4, custom 20px bottom
 		&:focus {
 			outline-offset: 0;
 			background-color: tokens.$nhs-fdp-semantic-color-focus-background;
@@ -536,7 +542,6 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		&[aria-expanded="true"] .nhsuk-icon__chevron-down { transform: rotate(270deg); }
 		&[aria-expanded="true"]::before { border-bottom-width: $header-item-active-size; }
 
-		padding-top: tokens.$nhs-fdp-spacing-4; // match link vertical padding
 	}
 
 	// Dropdown menu - hierarchical structure
@@ -576,8 +581,8 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		position: relative;
 		white-space: nowrap;
 		padding: tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-2;
-		@include header-link-style(
-			$link-color: tokens.$nhs-fdp-color-primary-blue,
+		@include header-link-style-base($link-color: tokens.$nhs-fdp-color-primary-blue);
+		@include header-link-style-states(
 			$link-hover-color: tokens.$nhs-fdp-color-primary-blue,
 			$link-active-color: tokens.$nhs-fdp-color-primary-blue
 		);
@@ -735,8 +740,8 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 
 		.nhsuk-header__navigation-link,
 		.nhsuk-header__navigation-button {
-			@include header-link-style(
-				$link-color: tokens.$nhs-fdp-color-primary-blue,
+			@include header-link-style-base($link-color: tokens.$nhs-fdp-color-primary-blue);
+			@include header-link-style-states(
 				$link-hover-color: tokens.$nhs-fdp-color-primary-blue,
 				$link-active-color: tokens.$nhs-fdp-color-primary-blue
 			);

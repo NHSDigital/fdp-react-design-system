@@ -75,8 +75,6 @@ export interface SpcSettings {
     /** Minimum score threshold (0-100) for emitting suggestion */
     baselineSuggestScoreThreshold?: number;
     /** Option C: Comparative baseline emulation. When true, a later favourable sustained shift can retrospectively label earlier stable points as concern relative to new level (or invert behaviour). */
-    /** STRICT MODE: When true (recommended default), disables all non-orthodox / visually-forcing heuristic behaviours (comparativeBaselineEmulation variants, retroactive neutralisation, emergingDirectionGrace precedence alterations, suppression of isolated favourable 3σ). */
-    strictShewhartMode?: boolean;
     /** When true, automatically insert a recalculation (new partition) after a confirmed sustained shift so centre line & limits step without needing explicit baselines array. */
     autoRecalculateAfterShift?: boolean;
     /** Minimum sustained shift length required to trigger auto recalculation (defaults to specialCauseShiftPoints). */
@@ -130,7 +128,6 @@ export interface SpcRow {
     specialCauseConcernValue: number | null;
     specialCauseNeitherValue: number | null;
     ruleTags?: string[];
-    heuristicTags?: string[];
 }
 export interface SpcWarning {
     code: string;

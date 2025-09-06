@@ -234,6 +234,7 @@
   /* Match default tag sizing; reapply base tag padding */
   display: inline-flex !important;
   align-items: center !important;
+  color: #000 !important;
   justify-content: center !important;
   padding: 4px 8px !important;
   line-height: 1 !important;

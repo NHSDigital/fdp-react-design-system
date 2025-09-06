@@ -343,22 +343,17 @@
   position: relative;
 }
 .nhsuk-header__navigation-link {
+  color: #ffffff;
+  text-decoration: underline;
   display: inline-flex;
   align-items: flex-start;
   position: relative;
   white-space: nowrap;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1;
   gap: 4px;
   padding: 16px 16px 16px 16px;
-  color: #ffffff;
-  text-decoration: underline;
-}
-@media (min-width: 768px) {
-  .nhsuk-header__navigation-link {
-    font-size: 16px;
-  }
 }
 .nhsuk-header__navigation-link:hover {
   color: #ffffff;
@@ -380,6 +375,11 @@
     font-size: 16px;
   }
 }
+@media (min-width: 768px) {
+  .nhsuk-header__navigation-link {
+    font-size: 16px;
+  }
+}
 .nhsuk-header__navigation-link[aria-current=page]::before, .nhsuk-header__navigation-link[aria-current=true]::before {
   border-bottom-width: 4px;
 }
@@ -388,23 +388,17 @@
   border: none;
   cursor: pointer;
   font-family: inherit;
+  color: #ffffff;
+  text-decoration: underline;
   display: inline-flex;
   align-items: flex-start;
   position: relative;
   white-space: nowrap;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1;
   gap: 4px;
-  padding: 16px 16px 20px 16px;
-  color: #ffffff;
-  text-decoration: underline;
-  padding-top: 24px;
-}
-@media (min-width: 768px) {
-  .nhsuk-header__navigation-button {
-    font-size: 16px;
-  }
+  padding: 24px 16px 20px 16px;
 }
 .nhsuk-header__navigation-button:hover {
   color: #ffffff;
@@ -420,6 +414,11 @@
 }
 .nhsuk-header__navigation-button:focus:visited {
   color: #212b32;
+}
+@media (min-width: 768px) {
+  .nhsuk-header__navigation-button {
+    font-size: 16px;
+  }
 }
 .nhsuk-header__navigation-button:focus {
   outline-offset: 0;

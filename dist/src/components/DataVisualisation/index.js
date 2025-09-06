@@ -6502,14 +6502,11 @@ function buildSpc(args) {
     baselineSuggestStabilityPoints: 5,
     baselineSuggestMinGap: 12,
     baselineSuggestScoreThreshold: 50,
-    strictShewhartMode: true,
     autoRecalculateAfterShift: false,
     autoRecalculateShiftLength: void 0,
     autoRecalculateDeltaSigma: 0.5,
     ...userSettings
   };
-  if (settings.strictShewhartMode) {
-  }
   if (!Array.isArray(data)) throw new Error("data must be an array of rows");
   const canonical = data.map((d, i) => ({
     rowId: i + 1,
@@ -6657,8 +6654,7 @@ function buildSpc(args) {
         specialCauseImprovementValue: null,
         specialCauseConcernValue: null,
         specialCauseNeitherValue: null,
-        ruleTags: [],
-        heuristicTags: []
+        ruleTags: []
       };
       return row;
     });
@@ -7246,50 +7242,6 @@ var Tag = ({
   ] });
 };
 
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcProvenance.ts
-var ruleMetas = [
-  { id: "shift_high", label: "Shift (high run)", kind: "rule", taxonomy: "orthodox", description: "Run of consecutive points above the mean exceeding shift length threshold." },
-  { id: "shift_low", label: "Shift (low run)", kind: "rule", taxonomy: "orthodox", description: "Run of consecutive points below the mean exceeding shift length threshold." },
-  { id: "trend_inc", label: "Trend (increasing)", kind: "rule", taxonomy: "orthodox", description: "Consecutive increasing values meeting trend length threshold." },
-  { id: "trend_dec", label: "Trend (decreasing)", kind: "rule", taxonomy: "orthodox", description: "Consecutive decreasing values meeting trend length threshold." },
-  { id: "single_above", label: "Single >3\u03C3 (above)", kind: "rule", taxonomy: "orthodox", description: "Single point beyond upper 3-sigma limit." },
-  { id: "single_below", label: "Single >3\u03C3 (below)", kind: "rule", taxonomy: "orthodox", description: "Single point beyond lower 3-sigma limit." },
-  { id: "two_of_three_high", label: "2 of 3 >2\u03C3 (high)", kind: "rule", taxonomy: "orthodox", description: "Two of three consecutive points above +2\u03C3." },
-  { id: "two_of_three_low", label: "2 of 3 >2\u03C3 (low)", kind: "rule", taxonomy: "orthodox", description: "Two of three consecutive points below -2\u03C3." },
-  { id: "four_of_five_high", label: "4 of 5 >1\u03C3 (high)", kind: "rule", taxonomy: "orthodox", description: "Four of five consecutive points above +1\u03C3." },
-  { id: "four_of_five_low", label: "4 of 5 >1\u03C3 (low)", kind: "rule", taxonomy: "orthodox", description: "Four of five consecutive points below -1\u03C3." }
-];
-var heuristicMetas = [
-  // All heuristics removed – retaining empty array for forward compatibility
-];
-var META_BY_ID = /* @__PURE__ */ new Map();
-for (const m of [...ruleMetas, ...heuristicMetas]) META_BY_ID.set(m.id, m);
-function getProvenanceMeta(tag) {
-  if (META_BY_ID.has(tag)) return META_BY_ID.get(tag);
-  for (const m of heuristicMetas) {
-    if (m.pattern && m.pattern.test(tag)) {
-      const match = tag.match(m.pattern);
-      const n = match[1];
-      return { ...m, dynamic: true, dynamicLabel: m.label.replace("N", n) };
-    }
-  }
-  return void 0;
-}
-function prettyPrintProvenanceTag(tag) {
-  const m = getProvenanceMeta(tag);
-  if (!m) return tag.replace(/_/g, " ");
-  return m.dynamic ? m.dynamicLabel || m.label : m.label;
-}
-function provenanceTaxonomy(tag) {
-  const m = getProvenanceMeta(tag);
-  return m ? m.taxonomy : "unknown";
-}
-function provenanceKind(tag) {
-  const m = getProvenanceMeta(tag);
-  return m ? m.kind : "unknown";
-}
-var ALL_PROVENANCE_META = [...ruleMetas, ...heuristicMetas];
-
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
 import { jsx as jsx27, jsxs as jsxs18 } from "react/jsx-runtime";
 var SPCTooltipOverlay = ({
@@ -7360,9 +7312,6 @@ var SPCTooltipOverlay = ({
   const narrative = pointDescriber ? pointDescriber(focused.index, { x: focused.x, y: focused.y }) : void 0;
   const showBadges = variationDesc || assuranceDesc || zone;
   const hasRules = rules.length > 0;
-  const provenanceRuleTags = Array.isArray(row == null ? void 0 : row.ruleTags) ? Array.from(new Set(row.ruleTags)) : [];
-  const provenanceHeuristicTags = Array.isArray(row == null ? void 0 : row.heuristicTags) ? Array.from(new Set(row.heuristicTags)) : [];
-  const hasProvenance = provenanceRuleTags.length > 0 || provenanceHeuristicTags.length > 0;
   const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
   const spcDotColor = getVariationColorToken(row == null ? void 0 : row.variationIcon);
   const charPx = 6.2;
@@ -7515,25 +7464,6 @@ var SPCTooltipOverlay = ({
                 })
               }
             )
-          ] }),
-          hasProvenance && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--provenance", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Provenance" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signal provenance", children: [...provenanceRuleTags, ...provenanceHeuristicTags].map((tag) => {
-              const kind = provenanceKind(tag);
-              const taxonomy = provenanceTaxonomy(tag);
-              const taxClass = taxonomy !== "unknown" ? `fdp-spc-tag--prov-${taxonomy}` : "fdp-spc-tag--prov-unknown";
-              const baseClass = kind === "rule" ? "fdp-spc-tag--rule" : "fdp-spc-tag--heuristic";
-              return /* @__PURE__ */ jsx27(
-                Tag,
-                {
-                  text: prettyPrintProvenanceTag(tag),
-                  color: "default",
-                  className: `fdp-spc-tooltip__tag fdp-spc-tag ${baseClass} ${taxClass}`,
-                  "aria-label": `Provenance ${kind} (${taxonomy}): ${tag}`
-                },
-                `prov-${tag}`
-              );
-            }) })
           ] })
         ] })
       }

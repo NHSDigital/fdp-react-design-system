@@ -34,19 +34,7 @@ const ruleMetas: ProvenanceMeta[] = [
 
 // Heuristic tags (post-rule mutations / augmentations)
 const heuristicMetas: ProvenanceMeta[] = [
-  { id: 'comparative_retrospective_early_as_concern', label: 'Retrospective early concern', kind: 'heuristic', taxonomy: 'interpretive', description: 'Back-labels pre-shift opposite-side stability as concern for comparative phase framing.' },
-  { id: 'comparative_force_tail_favourable', label: 'Force tail favourable', kind: 'heuristic', taxonomy: 'interpretive', description: 'Extends favourable shift classification across tail section for consistent narrative.' },
-  { id: 'comparative_propagate_favourable', label: 'Propagate favourable run', kind: 'heuristic', taxonomy: 'interpretive', description: 'Annotates rows within sustained favourable run (already flagged) for provenance.' },
-  { id: 'comparative_invert', label: 'Invert favourable shift', kind: 'heuristic', taxonomy: 'interpretive', description: 'Treats favourable shift window as concern/common per emulation mode.' },
-  { id: 'comparative_invert_as_common', label: 'Invert as common', kind: 'heuristic', taxonomy: 'aggressive', description: 'Neutralises all special-cause flags in the shift window to force common-cause classification.' },
-  { id: 'comparative_invert_clear_pre_shift', label: 'Clear pre-shift flags', kind: 'heuristic', taxonomy: 'aggressive', description: 'Removes existing flags before shift start when in invert-as-common mode.' },
-  { id: 'retro_neutralised_opposite_low_cluster', label: 'Neutralise early low cluster', kind: 'heuristic', taxonomy: 'aggressive', description: 'Retroactively neutralises earlier opposite-side low cluster after sustained favourable shift established.' },
-  { id: 'retro_neutralised_opposite_high_cluster', label: 'Neutralise early high cluster', kind: 'heuristic', taxonomy: 'aggressive', description: 'Retroactively neutralises earlier opposite-side high cluster after sustained favourable shift established.' },
-  { id: 'emerging_direction_grace_neutralised', label: 'Emerging direction grace (neutral)', kind: 'heuristic', taxonomy: 'interpretive', description: 'Downgrades weak unfavourable signals to neutral when emerging favourable direction detected.' },
-  { id: 'emerging_direction_grace_conflict_favourable', label: 'Emerging direction resolves conflict', kind: 'heuristic', taxonomy: 'interpretive', description: 'Resolves conflicting signals in favour of emerging direction / trend.' },
-  { id: 'suppress_isolated_favourable_single_3sigma', label: 'Suppress isolated favourable 3σ', kind: 'heuristic', taxonomy: 'aggressive', description: 'Suppresses isolated single favourable 3σ point without corroboration.' },
-  // Dynamic pattern: comparative_invert_tail_concern_{N}
-  { id: 'comparative_invert_tail_concern_N', pattern: /^comparative_invert_tail_concern_(\d+)$/i, label: 'Invert tail concern (last N)', kind: 'heuristic', taxonomy: 'interpretive', description: 'Tags final N points as concern following inversion for bespoke comparative tail emphasis.' },
+  // All heuristics removed – retaining empty array for forward compatibility
 ];
 
 const META_BY_ID = new Map<string, ProvenanceMeta>();

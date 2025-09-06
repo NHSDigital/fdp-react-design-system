@@ -58,7 +58,7 @@ describe('SPC engine golden snapshot parity', () => {
   (['XmR','T','G'] as const).forEach(key => {
     it(`${key} chart rows match golden snapshot`, () => {
       const input = datasets[key];
-      const { rows } = spcModule.buildSpc({ chartType: input.chartType, metricImprovement: ImprovementDirection.Up, data: input.data, settings: { enableFourOfFiveRule: true, suppressIsolatedFavourablePoint: false } });
+      const { rows } = spcModule.buildSpc({ chartType: input.chartType, metricImprovement: ImprovementDirection.Up, data: input.data, settings: { enableFourOfFiveRule: true } });
       const projected = project(rows);
       const expected = golden[key];
       expect(projected.length).toBe(expected.length);

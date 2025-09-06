@@ -45,8 +45,6 @@ export interface SpcSettings {
     specialCauseTrendPoints?: number;
     /** Enable the four-of-five beyond 1σ rule (not in headline public four rules). Default: false */
     enableFourOfFiveRule?: boolean;
-    /** Suppress isolated favourable single 3σ point without corroboration. Default: true */
-    suppressIsolatedFavourablePoint?: boolean;
     minimumPoints?: number;
     minimumPointsWarning?: boolean;
     minimumPointsPartition?: number;
@@ -62,10 +60,6 @@ export interface SpcSettings {
     maximumPointsWarnings?: boolean;
     /** Capability mode: classify assurance by full process band vs target. Default: true */
     assuranceCapabilityMode?: boolean;
-    /** Precedence strategy for classifying variation when multiple rule types overlap */
-    precedenceStrategy?: "legacy" | "directional_first";
-    /** When true (with directional_first), allow early favourable emerging trend to neutralise/downgrade concern before full trend rule fires */
-    emergingDirectionGrace?: boolean;
     /** Points difference buffer when resolving simultaneous opposing sustained indications */
     transitionBufferPoints?: number;
     /** Collapse lower-severity cluster rules (2-of-3 vs 4-of-5) keeping only strongest */
@@ -80,10 +74,15 @@ export interface SpcSettings {
     baselineSuggestMinGap?: number;
     /** Minimum score threshold (0-100) for emitting suggestion */
     baselineSuggestScoreThreshold?: number;
-    /** Option B heuristic: retroactively neutralise earlier opposite-side sustained signals when a later sustained favourable shift establishes a higher (or lower for Down) level without explicit baseline. Default: false */
-    retroactiveOppositeShiftNeutralisation?: boolean;
-    /** Minimum shift mean delta (in sigma units) required to apply retroactive neutralisation. Default: 0.5 */
-    retroactiveShiftDeltaSigmaThreshold?: number;
+    /** Option C: Comparative baseline emulation. When true, a later favourable sustained shift can retrospectively label earlier stable points as concern relative to new level (or invert behaviour). */
+    /** STRICT MODE: When true (recommended default), disables all non-orthodox / visually-forcing heuristic behaviours (comparativeBaselineEmulation variants, retroactive neutralisation, emergingDirectionGrace precedence alterations, suppression of isolated favourable 3σ). */
+    strictShewhartMode?: boolean;
+    /** When true, automatically insert a recalculation (new partition) after a confirmed sustained shift so centre line & limits step without needing explicit baselines array. */
+    autoRecalculateAfterShift?: boolean;
+    /** Minimum sustained shift length required to trigger auto recalculation (defaults to specialCauseShiftPoints). */
+    autoRecalculateShiftLength?: number;
+    /** Require the post-shift window mean to differ from pre-shift mean by at least this many sigma to trigger auto recalculation. Default 0.5 */
+    autoRecalculateDeltaSigma?: number;
 }
 export interface BuildSpcArgs {
     chartType: ChartType;
@@ -130,6 +129,8 @@ export interface SpcRow {
     specialCauseImprovementValue: number | null;
     specialCauseConcernValue: number | null;
     specialCauseNeitherValue: number | null;
+    ruleTags?: string[];
+    heuristicTags?: string[];
 }
 export interface SpcWarning {
     code: string;

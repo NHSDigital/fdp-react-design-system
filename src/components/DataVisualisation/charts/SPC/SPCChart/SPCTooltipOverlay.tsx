@@ -145,11 +145,7 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 	const provenanceRuleTags: string[] = Array.isArray(row?.ruleTags)
 		? Array.from(new Set(row.ruleTags))
 		: [];
-	const provenanceHeuristicTags: string[] = Array.isArray(row?.heuristicTags)
-		? Array.from(new Set(row.heuristicTags))
-		: [];
-	const hasProvenance =
-		provenanceRuleTags.length > 0 || provenanceHeuristicTags.length > 0;
+	const hasProvenance = provenanceRuleTags.length > 0;
 
 	// focus ring colour
 	const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
@@ -367,7 +363,7 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 									<strong>Provenance</strong>
 								</div>
 								<div className="fdp-spc-tooltip__badges" aria-label="Signal provenance">
-									{[...provenanceRuleTags, ...provenanceHeuristicTags].map((tag) => {
+									{[...provenanceRuleTags].map((tag) => {
 										const kind = provenanceKind(tag); // rule | heuristic
 										const taxonomy = provenanceTaxonomy(tag); // orthodox | interpretive | aggressive | unknown
 										const taxClass = taxonomy !== 'unknown' ? `fdp-spc-tag--prov-${taxonomy}` : 'fdp-spc-tag--prov-unknown';

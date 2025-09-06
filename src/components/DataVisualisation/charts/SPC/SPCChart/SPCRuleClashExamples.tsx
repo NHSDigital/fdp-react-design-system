@@ -11,10 +11,6 @@ const baseProps = {
 	unit: "%",
 	announceFocus: false,
 	gradientSequences: true,
-	settings: {
-		precedenceStrategy: "directional_first",
-		emergingDirectionGrace: true,
-	} as const,
 };
 
 const chart1 = [
@@ -179,31 +175,7 @@ export const RuleClashChartFive = () => (
 		>
 			<SPCChart
 				data={toData(chart5)}
-				{...{
-					...baseProps,
-					settings: {
-						...baseProps.settings,
-						precedenceStrategy: "legacy" as const,
-					},
-				}}
-				targets={Array(chart5.length).fill(4.0)}
-			/>
-		</ChartContainer>
-		<ChartContainer
-			title="Staff Sickness - starting 01/01/22"
-			description="Alternating extremes then plateau and decline"
-			source="Approximate monthly data"
-		>
-			<SPCChart
-				data={toData(chart5)}
-				{...{
-					...baseProps,
-					settings: {
-						...baseProps.settings,
-						precedenceStrategy: "directional_first" as const,
-						emergingDirectionGrace: true,
-					},
-				}}
+				{...baseProps}
 				targets={Array(chart5.length).fill(4.0)}
 			/>
 		</ChartContainer>

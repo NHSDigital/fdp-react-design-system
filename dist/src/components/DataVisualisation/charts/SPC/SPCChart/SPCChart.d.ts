@@ -49,6 +49,8 @@ export interface SPCChartProps {
     gradientSequences?: boolean;
     /** Stroke width (thickness) of the main process line. Defaults to 1. */
     processLineWidth?: number;
+    /** When true, render vertical dashed markers at partition (baseline) boundaries */
+    showPartitionMarkers?: boolean;
 }
 export declare const SPCChart: React.FC<SPCChartProps>;
 export { ImprovementDirection, VariationIcon, AssuranceIcon };

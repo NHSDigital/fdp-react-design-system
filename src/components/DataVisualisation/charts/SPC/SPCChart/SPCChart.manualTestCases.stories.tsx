@@ -66,44 +66,27 @@ function buildStory(title: string): Story {
 						const isLateConcerns = title === 'Recalculations (late concerns)';
 						const isRecalculated = title === 'Recalculations (recalculated)';
 						const settings = isRecalcFamily ? {
-							retroactiveOppositeShiftNeutralisation: true,
 							// Auto recalculation drives partition (baseline) insertion for recalculated & shifted variants
 							...((isRecalculated || isShifted) ? {
 								autoRecalculateAfterShift: true,
 								autoRecalculateDeltaSigma: 0.5,
-								comparativeBaselineEmulation: true,
-								comparativeEmulationDeltaSigmaThreshold: 0.5,
-								comparativeEmulationRetrospectiveEarlyAsConcern: true,
-								comparativeEmulationPropagateFavourable: true,
+								// comparative baseline emulation removed
 							} : {}),
 							...(isOriginal ? {
 								// Original baseline: colour first phase as concern, later as improvement, no auto recalculation
-								comparativeBaselineEmulation: true,
-								comparativeEmulationRetrospectiveEarlyAsConcern: true,
-								comparativeEmulationPropagateFavourable: true,
+								// comparative baseline emulation removed
 							} : {}),
 							...(isLateConcerns ? {
-								comparativeBaselineEmulation: true,
-								comparativeEmulationInvert: true,
-								comparativeEmulationInvertAsCommon: true,
-								comparativeEmulationRetrospectiveEarlyAsConcern: false,
-								comparativeEmulationInvertTailConcernPoints: 6,
+								// comparative baseline emulation removed
 							} : {}),
 							...(isShifted ? {
-								comparativeBaselineEmulation: true,
-								comparativeEmulationInvert: false,
-								comparativeEmulationRetrospectiveEarlyAsConcern: false,
-								comparativeEmulationForceTailFavourable: true,
+								// comparative baseline emulation removed
 							} : {}),
 							...(isBaselineShifted ? {
 								// Invert tail to mark last 15 as concern per expectations
-								comparativeBaselineEmulation: true,
-								comparativeEmulationInvert: true,
-								comparativeEmulationInvertAsCommon: false,
-								comparativeEmulationRetrospectiveEarlyAsConcern: false,
-								comparativeEmulationInvertTailConcernPoints: 15,
+								// comparative baseline emulation removed
 							} : {}),
-						} : { retroactiveOppositeShiftNeutralisation: true };
+						} : { };
 						return (
 					<SPCChart
 						data={tc.values.map((y, i) => ({ x: new Date(2024, 0, i + 1), y }))}

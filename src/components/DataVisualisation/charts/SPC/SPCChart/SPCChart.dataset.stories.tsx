@@ -89,43 +89,26 @@ function story(metric: string): Story {
 			//  - Original (baseline) variant: NO auto recalculation & NO comparative retrospective relabelling (shows initial baseline limits only)
 			//  - Recalculated variant: enable autoRecalculateAfterShift + comparative emulation to recolour early phase as concern & later as improvement
 			const settings = comparativeScenario ? {
-				retroactiveOppositeShiftNeutralisation: true,
 				...(recalculated ? {
 					autoRecalculateAfterShift: true,
 					autoRecalculateDeltaSigma: 0.5,
-					comparativeBaselineEmulation: true,
-					comparativeEmulationDeltaSigmaThreshold: 0.5,
-					comparativeEmulationRetrospectiveEarlyAsConcern: true,
-					comparativeEmulationPropagateFavourable: true,
+					// comparative baseline emulation removed
 				} : {}),
 				...(original ? {
 					// Original baseline view: show early phase as concern and later as improvement (no auto recalculation)
-					comparativeBaselineEmulation: true,
-					comparativeEmulationRetrospectiveEarlyAsConcern: true,
-					comparativeEmulationPropagateFavourable: true,
+					// comparative baseline emulation removed
 				} : {}),
 				...(lateConcerns ? {
-					comparativeBaselineEmulation: true,
-					comparativeEmulationInvert: true,
-					comparativeEmulationInvertAsCommon: true,
-					comparativeEmulationRetrospectiveEarlyAsConcern: false,
-					comparativeEmulationInvertTailConcernPoints: 6,
+					// comparative baseline emulation removed
 				} : {}),
 				...(shifted ? {
-					comparativeBaselineEmulation: true,
-					comparativeEmulationInvert: false,
-					comparativeEmulationRetrospectiveEarlyAsConcern: false,
-					comparativeEmulationForceTailFavourable: true,
+					// comparative baseline emulation removed
 				} : {}),
 				...(baselinesShifted ? {
 					// For Baselines (shifted) expected tail concerns: invert tail concern points
-					comparativeBaselineEmulation: true,
-					comparativeEmulationRetrospectiveEarlyAsConcern: false,
-					comparativeEmulationInvert: true,
-					comparativeEmulationInvertAsCommon: false,
-					comparativeEmulationInvertTailConcernPoints: 15,
+					// comparative baseline emulation removed
 				} : {}),
-			} : { retroactiveOppositeShiftNeutralisation: true };
+			} : { };
 			return (
 				<ChartContainer title={metric} description={`Points: ${data.length}`} source="CSV dataset">
 					<SPCChart

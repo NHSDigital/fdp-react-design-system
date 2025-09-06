@@ -135,57 +135,6 @@ describe("SPCChart embedded icon matrix", () => {
 
 		expect(conColours.text).toContain("L");
 
-		// Suppressed favourable (purple, variation = none => no H/L letter)
-		rerender(
-			<SPCChart
-				data={buildSuppressed()}
-				metricImprovement={ImprovementDirection.Up}
-				showEmbeddedIcon
-				showIcons={false}
-			/>
-		);
-		const sup = container.querySelector(
-			'.fdp-spc-chart__embedded-icon[data-variation="none"]'
-		) as HTMLElement | null;
-
-		expect(sup).toBeTruthy();
-
-		// Expect upward orientation for suppressed favourable high outlier (metricImprovement Up)
-		expect(sup!.getAttribute("data-trend")).toBe("higher");
-		
-		const supColours = getIconColours(sup!);
-		
-		// Purple appears as path fill; ring stroke omitted for this style variant, so check fill OR stroke for hex
-		expect([supColours.stroke, supColours.fill].filter(Boolean)).toContain(
-			"#490092"
-		);
-		
-		expect(supColours.text).not.toMatch(/[HL]/);
-
-		// Downward favourable low outlier (metricImprovement Down) suppressed to purple (no judgement)
-		rerender(
-			<SPCChart
-				data={buildDownwardSuppressed()}
-				metricImprovement={ImprovementDirection.Down}
-				showEmbeddedIcon
-				showIcons={false}
-			/>
-		);
-		const downSup = container.querySelector(
-			'.fdp-spc-chart__embedded-icon[data-variation="none"]'
-		) as HTMLElement | null;
-		expect(downSup).toBeTruthy();
-		// Check mapped judgement & polarity attributes reflect downward metric context
-		expect(downSup!.getAttribute("data-variation-judgement")).toBe(
-			"no_judgement"
-		);
-		expect(downSup!.getAttribute("data-polarity")).toBe("lower_is_better");
-		// Expect downward orientation for suppressed favourable low outlier (metricImprovement Down)
-		expect(downSup!.getAttribute("data-trend")).toBe("lower");
-		const downColours = getIconColours(downSup!);
-		expect([downColours.stroke, downColours.fill].filter(Boolean)).toContain(
-			"#490092"
-		);
-		expect(downColours.text).not.toMatch(/[HL]/);
+		// Single-point high and low outliers now classify directly (no suppression heuristic). We skip explicit assertions here since covered in variation icon tests.
 	});
 });

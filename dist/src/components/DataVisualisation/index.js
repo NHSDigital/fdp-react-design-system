@@ -6284,6 +6284,46 @@ function partitionRows(data) {
   if (current.length) partitions.push(current);
   return partitions;
 }
+function applyAutoRecalculationBaselines(data, settings, metricImprovement) {
+  var _a2;
+  const shiftN = settings.autoRecalculateShiftLength || settings.specialCauseShiftPoints || 6;
+  if (data.length < shiftN * 2) return;
+  const numeric = data.map((r2, i) => ({ idx: i, value: r2.value })).filter((o) => isNumber(o.value));
+  if (numeric.length < shiftN * 2) return;
+  const favourUp = metricImprovement === "Up" /* Up */ || metricImprovement === "Neither" /* Neither */;
+  const favourDown = metricImprovement === "Down" /* Down */;
+  function windowMean(from, toExclusive) {
+    const slice2 = numeric.slice(from, toExclusive).map((o) => o.value);
+    return slice2.length ? mean(slice2) : NaN;
+  }
+  let sigma = null;
+  if (numeric.length > 1) {
+    const diffs = [];
+    for (let i = 1; i < numeric.length; i++) diffs.push(Math.abs(numeric[i].value - numeric[i - 1].value));
+    const mrBar = mean(diffs);
+    if (isNumber(mrBar) && mrBar > 0) sigma = mrBar * (2.66 / 3);
+  }
+  if (!sigma || sigma <= 0) return;
+  const deltaThreshold = (_a2 = settings.autoRecalculateDeltaSigma) != null ? _a2 : 0.5;
+  for (let start = shiftN; start <= numeric.length - shiftN; start++) {
+    const preStart = start - shiftN;
+    const preMean = windowMean(preStart, start);
+    const postMean = windowMean(start, start + shiftN);
+    if (!isNumber(preMean) || !isNumber(postMean)) continue;
+    const delta = postMean - preMean;
+    const deltaSigma = delta / sigma;
+    const favourable = favourUp ? deltaSigma >= deltaThreshold : favourDown ? -deltaSigma >= deltaThreshold : Math.abs(deltaSigma) >= deltaThreshold;
+    if (!favourable) continue;
+    const postVals = numeric.slice(start, start + shiftN).map((o) => o.value);
+    const directional = favourUp ? postVals.every((v) => v > preMean) : favourDown ? postVals.every((v) => v < preMean) : postVals.every((v) => favourUp ? v > preMean : v < preMean);
+    if (!directional) continue;
+    const baselineIdx = numeric[start].idx;
+    if (!data[baselineIdx].baseline) {
+      data[baselineIdx].baseline = true;
+    }
+    return;
+  }
+}
 function movingRanges(values, ghosts) {
   const mr = new Array(values.length).fill(null);
   let prevIdx = null;
@@ -6429,7 +6469,7 @@ function tChartLimits(tValues, ghosts, excludeOutliers) {
   };
 }
 function buildSpc(args) {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
   const {
     chartType,
     metricImprovement,
@@ -6441,7 +6481,6 @@ function buildSpc(args) {
     specialCauseShiftPoints: 6,
     specialCauseTrendPoints: 6,
     enableFourOfFiveRule: false,
-    suppressIsolatedFavourablePoint: true,
     minimumPoints: 13,
     minimumPointsWarning: false,
     minimumPointsPartition: 12,
@@ -6456,8 +6495,6 @@ function buildSpc(args) {
     baselineSpecialCauseWarning: true,
     maximumPointsWarnings: true,
     assuranceCapabilityMode: true,
-    precedenceStrategy: "legacy",
-    emergingDirectionGrace: false,
     transitionBufferPoints: 2,
     collapseClusterRules: true,
     baselineSuggest: false,
@@ -6465,10 +6502,14 @@ function buildSpc(args) {
     baselineSuggestStabilityPoints: 5,
     baselineSuggestMinGap: 12,
     baselineSuggestScoreThreshold: 50,
-    retroactiveOppositeShiftNeutralisation: false,
-    retroactiveShiftDeltaSigmaThreshold: 0.5,
+    strictShewhartMode: true,
+    autoRecalculateAfterShift: false,
+    autoRecalculateShiftLength: void 0,
+    autoRecalculateDeltaSigma: 0.5,
     ...userSettings
   };
+  if (settings.strictShewhartMode) {
+  }
   if (!Array.isArray(data)) throw new Error("data must be an array of rows");
   const canonical = data.map((d, i) => ({
     rowId: i + 1,
@@ -6478,6 +6519,12 @@ function buildSpc(args) {
     baseline: !!d.baseline,
     target: isNumber(d.target) ? d.target : null
   }));
+  if (userSettings == null ? void 0 : userSettings.autoRecalculateAfterShift) {
+    try {
+      applyAutoRecalculationBaselines(canonical, userSettings, metricImprovement);
+    } catch {
+    }
+  }
   const partitions = partitionRows(canonical);
   const output = [];
   const warnings = [];
@@ -6609,7 +6656,9 @@ function buildSpc(args) {
         ghostFlag: !!r2.ghost,
         specialCauseImprovementValue: null,
         specialCauseConcernValue: null,
-        specialCauseNeitherValue: null
+        specialCauseNeitherValue: null,
+        ruleTags: [],
+        heuristicTags: []
       };
       return row;
     });
@@ -6729,64 +6778,20 @@ function buildSpc(args) {
       }
     }
   }
-  if (settings.retroactiveOppositeShiftNeutralisation) {
-    const shiftN = (_l = settings.specialCauseShiftPoints) != null ? _l : 6;
-    const partitionIds = Array.from(new Set(output.map((r2) => r2.partitionId)));
-    for (const pid of partitionIds) {
-      const partRows = output.filter((r2) => r2.partitionId === pid);
-      if (!partRows.length) continue;
-      let earliestHigh = null;
-      let earliestLow = null;
-      for (let i = 0; i < partRows.length; i++) {
-        if (partRows[i].specialCauseShiftHigh && earliestHigh === null) earliestHigh = i;
-        if (partRows[i].specialCauseShiftLow && earliestLow === null) earliestLow = i;
-        if (earliestHigh !== null && earliestLow !== null) break;
-      }
-      if (earliestHigh === null || earliestLow === null) continue;
-      const favourUp = metricImprovement === "Up" /* Up */;
-      const favourableShiftIndex = favourUp ? earliestHigh : earliestLow;
-      const unfavourableShiftIndex = favourUp ? earliestLow : earliestHigh;
-      if (unfavourableShiftIndex >= favourableShiftIndex) continue;
-      const favourableFlagKey = favourUp ? "specialCauseShiftHigh" : "specialCauseShiftLow";
-      const favourableIndices = partRows.map((r2, idx) => ({ r: r2, idx })).filter((o) => o.r[favourableFlagKey]).map((o) => o.idx);
-      if (favourableIndices.length < shiftN) continue;
-      let sigma = null;
-      for (const r2 of partRows) {
-        if (isNumber(r2.upperProcessLimit) && isNumber(r2.mean)) {
-          const span = r2.upperProcessLimit - r2.mean;
-          if (span > 0) {
-            sigma = span / 3;
-            break;
-          }
-        }
-      }
-      if (!sigma || sigma <= 0) continue;
-      const favStart = favourableShiftIndex;
-      const preWindowValues = [];
-      for (let i = favStart - 1; i >= 0 && preWindowValues.length < shiftN; i--) {
-        const v = partRows[i].value;
-        if (isNumber(v) && !partRows[i].ghost) preWindowValues.unshift(v);
-      }
-      if (preWindowValues.length < shiftN) continue;
-      const postWindowValues = favourableIndices.map((idx) => partRows[idx].value).filter(isNumber);
-      if (!postWindowValues.length) continue;
-      const preMean = mean(preWindowValues);
-      const postMean = mean(postWindowValues);
-      const deltaSigma = favourUp ? (postMean - preMean) / sigma : (preMean - postMean) / sigma;
-      if (deltaSigma < settings.retroactiveShiftDeltaSigmaThreshold) continue;
-      for (let i = 0; i < favourableShiftIndex; i++) {
-        const r2 = partRows[i];
-        if (favourUp) {
-          r2.specialCauseShiftLow = false;
-          r2.specialCauseTwoOfThreeBelow = false;
-          r2.specialCauseFourOfFiveBelow = false;
-        } else {
-          r2.specialCauseShiftHigh = false;
-          r2.specialCauseTwoOfThreeAbove = false;
-          r2.specialCauseFourOfFiveAbove = false;
-        }
-      }
-    }
+  for (const r2 of output) {
+    if (r2.ruleTags && r2.ruleTags.length) continue;
+    const tags = [];
+    if (r2.specialCauseShiftHigh) tags.push("shift_high");
+    if (r2.specialCauseShiftLow) tags.push("shift_low");
+    if (r2.specialCauseTrendIncreasing) tags.push("trend_inc");
+    if (r2.specialCauseTrendDecreasing) tags.push("trend_dec");
+    if (r2.specialCauseSinglePointAbove) tags.push("single_above");
+    if (r2.specialCauseSinglePointBelow) tags.push("single_below");
+    if (r2.specialCauseTwoOfThreeAbove) tags.push("two_of_three_high");
+    if (r2.specialCauseTwoOfThreeBelow) tags.push("two_of_three_low");
+    if (r2.specialCauseFourOfFiveAbove) tags.push("four_of_five_high");
+    if (r2.specialCauseFourOfFiveBelow) tags.push("four_of_five_low");
+    if (tags.length) r2.ruleTags = tags;
   }
   for (let idx = 0; idx < output.length; idx++) {
     const row = output[idx];
@@ -6802,65 +6807,13 @@ function buildSpc(args) {
       if (row.specialCauseTwoOfThreeBelow && row.specialCauseFourOfFiveBelow)
         row.specialCauseTwoOfThreeBelow = false;
     }
-    if (settings.precedenceStrategy === "directional_first") {
-      const trendWindow = (_m = settings.specialCauseTrendPoints) != null ? _m : 6;
-      const lookBack = trendWindow - 1;
-      let emergingFavourable = false;
-      if (lookBack >= 3 && isNumber(row.value)) {
-        const recent = [];
-        for (let back = idx; back >= 0 && recent.length < lookBack; back--) {
-          const rv = output[back].value;
-          if (output[back].ghost || !isNumber(rv)) continue;
-          recent.unshift(rv);
-        }
-        if (recent.length === lookBack) {
-          let directionalSteps = 0;
-          for (let k = 1; k < recent.length; k++) {
-            if (metricImprovement === "Down" /* Down */) {
-              if (recent[k] <= recent[k - 1]) directionalSteps++;
-            } else if (metricImprovement === "Up" /* Up */) {
-              if (recent[k] >= recent[k - 1]) directionalSteps++;
-            }
-          }
-          emergingFavourable = directionalSteps >= lookBack - 2;
-        }
-      }
-      const favourable = metricImprovement === "Up" /* Up */ ? anyHigh : anyLow;
-      const unfavourable = metricImprovement === "Up" /* Up */ ? anyLow : anyHigh;
-      if (favourable && !unfavourable) {
-        row.variationIcon = "improvement" /* Improvement */;
-      } else if (!favourable && unfavourable) {
-        const strongUnfavourable = row.specialCauseSinglePointAbove || row.specialCauseSinglePointBelow || row.specialCauseTwoOfThreeAbove || row.specialCauseTwoOfThreeBelow || settings.enableFourOfFiveRule && (row.specialCauseFourOfFiveAbove || row.specialCauseFourOfFiveBelow) || row.specialCauseShiftHigh || row.specialCauseShiftLow;
-        if (settings.emergingDirectionGrace && emergingFavourable && !strongUnfavourable) {
-          row.variationIcon = "neither" /* Neither */;
-        } else {
-          row.variationIcon = "concern" /* Concern */;
-        }
-      } else if (favourable && unfavourable) {
-        if (settings.emergingDirectionGrace && (emergingFavourable || row.specialCauseTrendIncreasing || row.specialCauseTrendDecreasing)) {
-          row.variationIcon = "improvement" /* Improvement */;
-        } else {
-          row.variationIcon = "neither" /* Neither */;
-        }
-      } else {
-        row.variationIcon = "neither" /* Neither */;
-      }
-    } else {
+    {
       if (metricImprovement === "Up" /* Up */) {
         row.variationIcon = anyHigh ? "improvement" /* Improvement */ : anyLow ? "concern" /* Concern */ : "neither" /* Neither */;
       } else if (metricImprovement === "Down" /* Down */) {
         row.variationIcon = anyLow ? "improvement" /* Improvement */ : anyHigh ? "concern" /* Concern */ : "neither" /* Neither */;
       } else {
         row.variationIcon = "neither" /* Neither */;
-      }
-    }
-    if (settings.suppressIsolatedFavourablePoint && row.variationIcon === "improvement" /* Improvement */ && idx > 0 && idx < output.length - 1) {
-      const favourableSingleHigh = metricImprovement === "Up" /* Up */ && row.specialCauseSinglePointAbove;
-      const favourableSingleLow = metricImprovement === "Down" /* Down */ && row.specialCauseSinglePointBelow;
-      const corroborating = metricImprovement === "Up" /* Up */ && (row.specialCauseTwoOfThreeAbove || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveAbove || row.specialCauseShiftHigh || row.specialCauseTrendIncreasing) || metricImprovement === "Down" /* Down */ && (row.specialCauseTwoOfThreeBelow || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow || row.specialCauseShiftLow || row.specialCauseTrendDecreasing);
-      if ((favourableSingleHigh || favourableSingleLow) && !corroborating) {
-        row.variationIcon = "none" /* None */;
-        row.specialCauseImprovementValue = null;
       }
     }
     const anySignal = anyHigh || anyLow;
@@ -6898,7 +6851,7 @@ function buildSpc(args) {
       }
     }
   }
-  if (((_n = settings.minimumPointsWarning) != null ? _n : false) && !globalEnough) {
+  if (((_l = settings.minimumPointsWarning) != null ? _l : false) && !globalEnough) {
     const available = canonical.filter(
       (r2) => !r2.ghost && isNumber(r2.value)
     ).length;
@@ -7293,6 +7246,50 @@ var Tag = ({
   ] });
 };
 
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcProvenance.ts
+var ruleMetas = [
+  { id: "shift_high", label: "Shift (high run)", kind: "rule", taxonomy: "orthodox", description: "Run of consecutive points above the mean exceeding shift length threshold." },
+  { id: "shift_low", label: "Shift (low run)", kind: "rule", taxonomy: "orthodox", description: "Run of consecutive points below the mean exceeding shift length threshold." },
+  { id: "trend_inc", label: "Trend (increasing)", kind: "rule", taxonomy: "orthodox", description: "Consecutive increasing values meeting trend length threshold." },
+  { id: "trend_dec", label: "Trend (decreasing)", kind: "rule", taxonomy: "orthodox", description: "Consecutive decreasing values meeting trend length threshold." },
+  { id: "single_above", label: "Single >3\u03C3 (above)", kind: "rule", taxonomy: "orthodox", description: "Single point beyond upper 3-sigma limit." },
+  { id: "single_below", label: "Single >3\u03C3 (below)", kind: "rule", taxonomy: "orthodox", description: "Single point beyond lower 3-sigma limit." },
+  { id: "two_of_three_high", label: "2 of 3 >2\u03C3 (high)", kind: "rule", taxonomy: "orthodox", description: "Two of three consecutive points above +2\u03C3." },
+  { id: "two_of_three_low", label: "2 of 3 >2\u03C3 (low)", kind: "rule", taxonomy: "orthodox", description: "Two of three consecutive points below -2\u03C3." },
+  { id: "four_of_five_high", label: "4 of 5 >1\u03C3 (high)", kind: "rule", taxonomy: "orthodox", description: "Four of five consecutive points above +1\u03C3." },
+  { id: "four_of_five_low", label: "4 of 5 >1\u03C3 (low)", kind: "rule", taxonomy: "orthodox", description: "Four of five consecutive points below -1\u03C3." }
+];
+var heuristicMetas = [
+  // All heuristics removed – retaining empty array for forward compatibility
+];
+var META_BY_ID = /* @__PURE__ */ new Map();
+for (const m of [...ruleMetas, ...heuristicMetas]) META_BY_ID.set(m.id, m);
+function getProvenanceMeta(tag) {
+  if (META_BY_ID.has(tag)) return META_BY_ID.get(tag);
+  for (const m of heuristicMetas) {
+    if (m.pattern && m.pattern.test(tag)) {
+      const match = tag.match(m.pattern);
+      const n = match[1];
+      return { ...m, dynamic: true, dynamicLabel: m.label.replace("N", n) };
+    }
+  }
+  return void 0;
+}
+function prettyPrintProvenanceTag(tag) {
+  const m = getProvenanceMeta(tag);
+  if (!m) return tag.replace(/_/g, " ");
+  return m.dynamic ? m.dynamicLabel || m.label : m.label;
+}
+function provenanceTaxonomy(tag) {
+  const m = getProvenanceMeta(tag);
+  return m ? m.taxonomy : "unknown";
+}
+function provenanceKind(tag) {
+  const m = getProvenanceMeta(tag);
+  return m ? m.kind : "unknown";
+}
+var ALL_PROVENANCE_META = [...ruleMetas, ...heuristicMetas];
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
 import { jsx as jsx27, jsxs as jsxs18 } from "react/jsx-runtime";
 var SPCTooltipOverlay = ({
@@ -7363,6 +7360,9 @@ var SPCTooltipOverlay = ({
   const narrative = pointDescriber ? pointDescriber(focused.index, { x: focused.x, y: focused.y }) : void 0;
   const showBadges = variationDesc || assuranceDesc || zone;
   const hasRules = rules.length > 0;
+  const provenanceRuleTags = Array.isArray(row == null ? void 0 : row.ruleTags) ? Array.from(new Set(row.ruleTags)) : [];
+  const provenanceHeuristicTags = Array.isArray(row == null ? void 0 : row.heuristicTags) ? Array.from(new Set(row.heuristicTags)) : [];
+  const hasProvenance = provenanceRuleTags.length > 0 || provenanceHeuristicTags.length > 0;
   const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
   const spcDotColor = getVariationColorToken(row == null ? void 0 : row.variationIcon);
   const charPx = 6.2;
@@ -7515,6 +7515,25 @@ var SPCTooltipOverlay = ({
                 })
               }
             )
+          ] }),
+          hasProvenance && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--provenance", children: [
+            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Provenance" }) }),
+            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signal provenance", children: [...provenanceRuleTags, ...provenanceHeuristicTags].map((tag) => {
+              const kind = provenanceKind(tag);
+              const taxonomy = provenanceTaxonomy(tag);
+              const taxClass = taxonomy !== "unknown" ? `fdp-spc-tag--prov-${taxonomy}` : "fdp-spc-tag--prov-unknown";
+              const baseClass = kind === "rule" ? "fdp-spc-tag--rule" : "fdp-spc-tag--heuristic";
+              return /* @__PURE__ */ jsx27(
+                Tag,
+                {
+                  text: prettyPrintProvenanceTag(tag),
+                  color: "default",
+                  className: `fdp-spc-tooltip__tag fdp-spc-tag ${baseClass} ${taxClass}`,
+                  "aria-label": `Provenance ${kind} (${taxonomy}): ${tag}`
+                },
+                `prov-${tag}`
+              );
+            }) })
           ] })
         ] })
       }
@@ -8499,6 +8518,14 @@ var SPCChart = ({
   const effectiveNarrationContext = React24.useMemo(() => {
     return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
   }, [narrationContext, effectiveUnit]);
+  const partitionMarkers = React24.useMemo(() => {
+    if (!(engine == null ? void 0 : engine.rows)) return [];
+    const markers = [];
+    for (let i = 1; i < engine.rows.length; i++) {
+      if (engine.rows[i].partitionId !== engine.rows[i - 1].partitionId) markers.push(i);
+    }
+    return markers;
+  }, [engine == null ? void 0 : engine.rows]);
   const embeddedIcon = React24.useMemo(() => {
     var _a3, _b3;
     if (!showEmbeddedIcon || !((_a3 = engine == null ? void 0 : engine.rows) == null ? void 0 : _a3.length)) return null;
@@ -8615,7 +8642,8 @@ var SPCChart = ({
             metricImprovement,
             gradientSequences,
             processLineWidth,
-            effectiveUnit
+            effectiveUnit,
+            partitionMarkers
           }
         ) })
       }
@@ -8635,7 +8663,8 @@ var InternalSPC = ({
   narrationContext,
   gradientSequences,
   processLineWidth,
-  effectiveUnit
+  effectiveUnit,
+  partitionMarkers
 }) => {
   var _a2;
   const scaleCtx = useScaleContext();
@@ -8724,6 +8753,51 @@ var InternalSPC = ({
   }, [gradientSequences, categories]);
   const xPositions = React24.useMemo(() => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))), [all, xScale]);
   const plotWidth = xScale.range()[1];
+  const limitSegments = React24.useMemo(() => {
+    if (!engineRows || !engineRows.length) return null;
+    const build = (key) => {
+      const segs = [];
+      let start = null;
+      let current = null;
+      for (let i = 0; i < engineRows.length; i++) {
+        const row = engineRows[i];
+        const v = typeof row[key] === "number" ? row[key] : null;
+        if (v == null || isNaN(v)) {
+          if (start !== null && current != null) {
+            segs.push({ x1: xPositions[start], x2: xPositions[i - 1], y: yScale(current) });
+            start = null;
+            current = null;
+          }
+          continue;
+        }
+        if (start === null) {
+          start = i;
+          current = v;
+          continue;
+        }
+        const EPS = 1e-9;
+        if (current != null && Math.abs(v - current) <= EPS) {
+        } else {
+          segs.push({ x1: xPositions[start], x2: xPositions[i - 1], y: yScale(current) });
+          start = i;
+          current = v;
+        }
+      }
+      if (start !== null && current != null) {
+        segs.push({ x1: xPositions[start], x2: xPositions[engineRows.length - 1], y: yScale(current) });
+      }
+      return segs;
+    };
+    return {
+      mean: build("mean"),
+      ucl: build("upperProcessLimit"),
+      lcl: build("lowerProcessLimit"),
+      onePos: build("upperOneSigma"),
+      oneNeg: build("lowerOneSigma"),
+      twoPos: build("upperTwoSigma"),
+      twoNeg: build("lowerTwoSigma")
+    };
+  }, [engineRows, xPositions, yScale]);
   const sequenceDefs = React24.useMemo(() => {
     if (!sequences.length) return null;
     return /* @__PURE__ */ jsx30("defs", { children: sequences.map((seq, idx) => {
@@ -8913,43 +8987,31 @@ var InternalSPC = ({
               /* @__PURE__ */ jsx30(GridLines_default, { axis: "y" }),
               sequenceDefs,
               sequenceAreas,
-              limits.mean != null && /* @__PURE__ */ jsx30(
-                "line",
-                {
-                  className: "fdp-spc__cl",
-                  x1: 0,
-                  x2: xScale.range()[1],
-                  y1: yScale(limits.mean),
-                  y2: yScale(limits.mean),
-                  "aria-hidden": "true"
-                }
-              ),
+              partitionMarkers.map((idx, i) => {
+                const d = all[idx];
+                if (!d) return null;
+                const x2 = xScale(d.x instanceof Date ? d.x : new Date(d.x));
+                return /* @__PURE__ */ jsx30(
+                  "line",
+                  {
+                    x1: x2,
+                    x2,
+                    y1: 0,
+                    y2: yScale.range()[0],
+                    stroke: "#555",
+                    strokeDasharray: "4 4",
+                    strokeWidth: 1,
+                    "aria-hidden": "true",
+                    className: "fdp-spc__partition-marker"
+                  },
+                  `partition-marker-${i}`
+                );
+              }),
+              limitSegments == null ? void 0 : limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__cl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, "aria-hidden": "true" }, `mean-${i}`)),
               uniformTarget != null && // Render later (after limits) for stacking; temporary placeholder (moved below)
               /* @__PURE__ */ jsx30(Fragment5, {}),
-              limits.ucl != null && /* @__PURE__ */ jsx30(
-                "line",
-                {
-                  className: "fdp-spc__limit fdp-spc__limit--ucl",
-                  x1: 0,
-                  x2: xScale.range()[1],
-                  y1: yScale(limits.ucl),
-                  y2: yScale(limits.ucl),
-                  "aria-hidden": "true",
-                  strokeWidth: 2
-                }
-              ),
-              limits.lcl != null && /* @__PURE__ */ jsx30(
-                "line",
-                {
-                  className: "fdp-spc__limit fdp-spc__limit--lcl",
-                  x1: 0,
-                  x2: xScale.range()[1],
-                  y1: yScale(limits.lcl),
-                  y2: yScale(limits.lcl),
-                  "aria-hidden": "true",
-                  strokeWidth: 2
-                }
-              ),
+              limitSegments == null ? void 0 : limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__limit fdp-spc__limit--ucl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, "aria-hidden": "true", strokeWidth: 2 }, `ucl-${i}`)),
+              limitSegments == null ? void 0 : limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__limit fdp-spc__limit--lcl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, "aria-hidden": "true", strokeWidth: 2 }, `lcl-${i}`)),
               uniformTarget != null && /* @__PURE__ */ jsxs21("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
                 /* @__PURE__ */ jsx30(
                   "line",
@@ -8981,55 +9043,11 @@ var InternalSPC = ({
                   }
                 )
               ] }),
-              showZones && limits.mean != null && /* @__PURE__ */ jsxs21(Fragment5, { children: [
-                limits.onePos != null && /* @__PURE__ */ jsx30(
-                  "line",
-                  {
-                    className: "fdp-spc__zone fdp-spc__zone--pos1",
-                    x1: 0,
-                    x2: xScale.range()[1],
-                    y1: yScale(limits.onePos),
-                    y2: yScale(limits.onePos),
-                    "aria-hidden": "true",
-                    strokeWidth: 2
-                  }
-                ),
-                limits.oneNeg != null && /* @__PURE__ */ jsx30(
-                  "line",
-                  {
-                    className: "fdp-spc__zone fdp-spc__zone--neg1",
-                    x1: 0,
-                    x2: xScale.range()[1],
-                    y1: yScale(limits.oneNeg),
-                    y2: yScale(limits.oneNeg),
-                    "aria-hidden": "true",
-                    strokeWidth: 2
-                  }
-                ),
-                limits.twoPos != null && /* @__PURE__ */ jsx30(
-                  "line",
-                  {
-                    className: "fdp-spc__zone fdp-spc__zone--pos2",
-                    x1: 0,
-                    x2: xScale.range()[1],
-                    y1: yScale(limits.twoPos),
-                    y2: yScale(limits.twoPos),
-                    "aria-hidden": "true",
-                    strokeWidth: 2
-                  }
-                ),
-                limits.twoNeg != null && /* @__PURE__ */ jsx30(
-                  "line",
-                  {
-                    className: "fdp-spc__zone fdp-spc__zone--neg2",
-                    x1: 0,
-                    x2: xScale.range()[1],
-                    y1: yScale(limits.twoNeg),
-                    y2: yScale(limits.twoNeg),
-                    "aria-hidden": "true",
-                    strokeWidth: 2
-                  }
-                )
+              showZones && limitSegments && limitSegments.mean.length > 0 && /* @__PURE__ */ jsxs21(Fragment5, { children: [
+                limitSegments.onePos.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__zone fdp-spc__zone--pos1", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, "aria-hidden": "true", strokeWidth: 2 }, `onePos-${i}`)),
+                limitSegments.oneNeg.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__zone fdp-spc__zone--neg1", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, "aria-hidden": "true", strokeWidth: 2 }, `oneNeg-${i}`)),
+                limitSegments.twoPos.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__zone fdp-spc__zone--pos2", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, "aria-hidden": "true", strokeWidth: 2 }, `twoPos-${i}`)),
+                limitSegments.twoNeg.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__zone fdp-spc__zone--neg2", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, "aria-hidden": "true", strokeWidth: 2 }, `twoNeg-${i}`))
               ] }),
               /* @__PURE__ */ jsx30(
                 LineSeriesPrimitive_default,

@@ -18,9 +18,7 @@ const DEFAULT_COMMON = SPC_POINT_COLOURS.common;
 
 const TARGET_TITLES = [
   'Recalculations / Baselines',
-  'Recalculations (late concerns)',
-  'Baselines (original)',
-  'Baselines (shifted)'
+  'Baselines (original)'
 ];
 
 describe('SPCChart colour expectations – recalculations & baselines', () => {
@@ -30,31 +28,8 @@ describe('SPCChart colour expectations – recalculations & baselines', () => {
     if(!tc) return; // type guard
     expect(tc.expectedPointColours).toBeTruthy();
     // Scenario-specific settings (Option C comparative emulation)
-    const comparative = title.startsWith('Recalculations') || title.startsWith('Baselines');
-    const invert = title.includes('late concerns');
-    const settings = comparative ? {
-      retroactiveOppositeShiftNeutralisation: true,
-      comparativeBaselineEmulation: true,
-      comparativeEmulationDeltaSigmaThreshold: 0.5,
-      // Scenario branching:
-      ...(title === 'Recalculations / Baselines' || title === 'Baselines (original)' ? {
-        comparativeEmulationInvert: false,
-        comparativeEmulationRetrospectiveEarlyAsConcern: true,
-        comparativeEmulationForceTailFavourable: false,
-        comparativeEmulationPropagateFavourable: true,
-      } : {}),
-      ...(title === 'Recalculations (late concerns)' ? {
-        comparativeEmulationInvert: true,
-        comparativeEmulationInvertAsCommon: true, // want late run common not concern
-        comparativeEmulationRetrospectiveEarlyAsConcern: false,
-  comparativeEmulationInvertTailConcernPoints: 6, // last 6 should become concern per expectation
-      } : {}),
-      ...(title === 'Baselines (shifted)' ? {
-        comparativeEmulationInvert: false,
-        comparativeEmulationRetrospectiveEarlyAsConcern: false, // keep early common
-        comparativeEmulationForceTailFavourable: true, // extend improvement colouring to end
-      } : {}),
-    } : { retroactiveOppositeShiftNeutralisation: true };
+    // All heuristics removed – no comparative or retroactive settings applied
+    const settings = {};
     const { container } = render(
       <SPCChart 
         data={tc.values.map((y,i)=>({ x: new Date(2023,0,i+1), y }))}

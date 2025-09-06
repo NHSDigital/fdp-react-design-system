@@ -159,29 +159,21 @@ Use the optional `settings` prop (type `SpcSettings`) for deeper tuning. Default
 | `specialCauseShiftPoints` | 6 | Points required for shift rule (same side of mean) |
 | `specialCauseTrendPoints` | 6 | Points required for trend rule (strict monotonic) |
 | `enableFourOfFiveRule` | false | Enable 4‑of‑5 beyond 1σ (Zone B/A) early warning rule |
-| `suppressIsolatedFavourablePoint` | true | Avoid classifying a single favourable 3σ point as “improvement” unless another rule corroborates (reduces over‑celebration) |
+| (removed) `suppressIsolatedFavourablePoint` | – | Removed for orthodoxy (formerly suppressed isolated favourable single 3σ without corroboration) |
 | `assuranceCapabilityMode` | true | Classify assurance (Pass/Fail) using full process band vs target (capability). If false, compares current point only |
-| `strictShewhartMode` | true | Disable all non-orthodox / visually forcing heuristic behaviours (comparative baseline emulation, retroactive neutralisation, emerging direction grace, suppression of isolated favourable 3σ) ensuring pure Shewhart interpretation |
 
 Example:
 ```tsx
 <SPCChart
   data={values}
   metricImprovement={ImprovementDirection.Up}
-  settings={{ enableFourOfFiveRule: true, strictShewhartMode: true }}
+  settings={{ enableFourOfFiveRule: true }}
 />
 ```
 
-### Strict Shewhart Mode
+### Removed heuristic toggles
 
-`strictShewhartMode` (default `true`) enforces a conservative interpretation aligned with published NHS / IHI SPC literature. When enabled the engine:
-
-- Ignores comparative baseline emulation (and all its invert / propagate / tail variants)
-- Disables retroactive opposite-shift neutralisation
-- Disables emerging direction grace precedence adjustments
-- Leaves isolated favourable single 3σ points visible (does not suppress them)
-
-Rationale: These heuristics can retrospectively relabel or hide original statistical evidence, risking over‑optimistic or narrative‑driven interpretation. Keeping strict mode on by default ensures charts remain transparent and reproducible under standard Shewhart rule sets. You can opt out (set `strictShewhartMode: false`) for exploratory/internal scenarios; provenance tags (if tooltips enabled) will then surface heuristic interventions.
+All prior heuristic / forcing options (comparative emulation, emerging direction precedence, retroactive neutralisation, isolated favourable suppression, strict mode toggle) have been removed. The engine now always applies orthodox Shewhart rules without post‑hoc relabelling or suppression.
 
 ### Assurance (capability) logic
 When `assuranceCapabilityMode` is true:

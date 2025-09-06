@@ -51,8 +51,6 @@ export interface SpcSettings {
 	specialCauseTrendPoints?: number; // default: 6
 	/** Enable the four-of-five beyond 1σ rule (not in headline public four rules). Default: false */
 	enableFourOfFiveRule?: boolean; // default: false
-	/** Suppress isolated favourable single 3σ point without corroboration. Default: true */
-	suppressIsolatedFavourablePoint?: boolean; // default: true
 	minimumPoints?: number; // default: 13
 	minimumPointsWarning?: boolean; // default: false
 	minimumPointsPartition?: number; // default: 12
@@ -68,10 +66,6 @@ export interface SpcSettings {
 	maximumPointsWarnings?: boolean; // warn when max points caps applied
 	/** Capability mode: classify assurance by full process band vs target. Default: true */
 	assuranceCapabilityMode?: boolean; // default: true
-	/** Precedence strategy for classifying variation when multiple rule types overlap */
-	precedenceStrategy?: "legacy" | "directional_first"; // default legacy
-	/** When true (with directional_first), allow early favourable emerging trend to neutralise/downgrade concern before full trend rule fires */
-	emergingDirectionGrace?: boolean; // default false
 	/** Points difference buffer when resolving simultaneous opposing sustained indications */
 	transitionBufferPoints?: number; // default 2
 	/** Collapse lower-severity cluster rules (2-of-3 vs 4-of-5) keeping only strongest */
@@ -86,28 +80,11 @@ export interface SpcSettings {
 	baselineSuggestMinGap?: number; // default 12
 	/** Minimum score threshold (0-100) for emitting suggestion */
 	baselineSuggestScoreThreshold?: number; // default 50
-	/** Heuristic: retroactively neutralise earlier opposite-side sustained signals when a later sustained favourable shift establishes a higher (or lower for Down) level without explicit baseline. Default: false */
-	retroactiveOppositeShiftNeutralisation?: boolean; // default false
-	/** Minimum shift mean delta (in sigma units) required to apply retroactive neutralisation. Default: 0.5 */
-	retroactiveShiftDeltaSigmaThreshold?: number; // default 0.5
+	// Removed heuristic options: suppressIsolatedFavourablePoint, precedenceStrategy, emergingDirectionGrace,
+	// retroactiveOppositeShiftNeutralisation, retroactiveShiftDeltaSigmaThreshold for orthodoxy.
 	/** Option C: Comparative baseline emulation. When true, a later favourable sustained shift can retrospectively label earlier stable points as concern relative to new level (or invert behaviour). */
-	comparativeBaselineEmulation?: boolean; // default false
-	/** When true, invert comparative emulation: treat late shift window as concern instead of improvement (for 'late concerns' variant). */
-	comparativeEmulationInvert?: boolean; // default false
-	/** Sigma delta threshold for comparative baseline emulation (default 0.5). */
-	comparativeEmulationDeltaSigmaThreshold?: number; // default 0.5
-	/** Propagate favourable (or inverted concern) classification forward after shift until partition end. */
-	comparativeEmulationPropagateFavourable?: boolean; // default false
-	/** When false, do not retrospectively tag early stable window as concern (used for 'Baselines (shifted)' variant). Default true. */
-	comparativeEmulationRetrospectiveEarlyAsConcern?: boolean; // default true
-	/** When true with invert, mark shift window as common (neutral) instead of concern (for 'late concerns' expectation wanting common). */
-	comparativeEmulationInvertAsCommon?: boolean; // default false
-	/** When true, force all post-shift points (after sustained window) to retain favourable improvement colouring (even if rules end). */
-	comparativeEmulationForceTailFavourable?: boolean; // default false
-	/** In invert+invertAsCommon mode, re-tag the last N points of the original favourable shift run as concern (bespoke tail pattern). */
-	comparativeEmulationInvertTailConcernPoints?: number; // default 0
-	/** STRICT MODE: When true (recommended default), disables all non-orthodox / visually-forcing heuristic behaviours (comparativeBaselineEmulation variants, retroactive neutralisation, emergingDirectionGrace precedence alterations, suppression of isolated favourable 3σ). */
-	strictShewhartMode?: boolean; // default true
+	// Removed comparative baseline emulation heuristics (comparativeBaselineEmulation and related flags) for statistical orthodoxy
+	// Removed: comparativeEmulationForceTailFavourable & comparativeEmulationInvertTailConcernPoints (deprecated)
 	/** When true, automatically insert a recalculation (new partition) after a confirmed sustained shift so centre line & limits step without needing explicit baselines array. */
 	autoRecalculateAfterShift?: boolean; // default false
 	/** Minimum sustained shift length required to trigger auto recalculation (defaults to specialCauseShiftPoints). */
@@ -164,7 +141,6 @@ export interface SpcRow {
 	specialCauseConcernValue: number | null;
 	specialCauseNeitherValue: number | null;
 	ruleTags?: string[]; // Raw rule-based special cause tags (e.g. 'shift_high','trend_dec','single_above'). No heuristic relabelling.
-	heuristicTags?: string[]; // Heuristic / interpretive tags applied after base rules (e.g. 'comparative_early_concern','comparative_tail_invert','retro_neutralised').
 }
 
 export interface SpcWarning {
@@ -512,7 +488,6 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		specialCauseShiftPoints: 6,
 		specialCauseTrendPoints: 6,
 		enableFourOfFiveRule: false,
-		suppressIsolatedFavourablePoint: true,
 		minimumPoints: 13,
 		minimumPointsWarning: false,
 		minimumPointsPartition: 12,
@@ -527,8 +502,6 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		baselineSpecialCauseWarning: true,
 		maximumPointsWarnings: true,
 		assuranceCapabilityMode: true,
-		precedenceStrategy: "legacy",
-		emergingDirectionGrace: false,
 		transitionBufferPoints: 2,
 		collapseClusterRules: true,
 		baselineSuggest: false,
@@ -536,36 +509,11 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		baselineSuggestStabilityPoints: 5,
 		baselineSuggestMinGap: 12,
 		baselineSuggestScoreThreshold: 50,
-		retroactiveOppositeShiftNeutralisation: false,
-		retroactiveShiftDeltaSigmaThreshold: 0.5,
-		comparativeBaselineEmulation: false,
-		comparativeEmulationInvert: false,
-		comparativeEmulationDeltaSigmaThreshold: 0.5,
-		comparativeEmulationPropagateFavourable: false,
-		comparativeEmulationRetrospectiveEarlyAsConcern: true,
-		comparativeEmulationInvertAsCommon: false,
-		comparativeEmulationForceTailFavourable: false,
-		comparativeEmulationInvertTailConcernPoints: 0,
-		strictShewhartMode: true,
 		autoRecalculateAfterShift: false,
 		autoRecalculateShiftLength: undefined,
 		autoRecalculateDeltaSigma: 0.5,
 		...userSettings,
 	} as Required<SpcSettings>;
-
-	// If strict mode is enabled, hard-disable non-orthodox heuristic / forcing behaviours regardless of user input.
-	if ((settings as any).strictShewhartMode) {
-		settings.retroactiveOppositeShiftNeutralisation = false;
-		settings.comparativeBaselineEmulation = false;
-		settings.comparativeEmulationInvert = false;
-		settings.comparativeEmulationPropagateFavourable = false;
-		settings.comparativeEmulationRetrospectiveEarlyAsConcern = false;
-		settings.comparativeEmulationInvertAsCommon = false;
-		settings.comparativeEmulationForceTailFavourable = false;
-		settings.comparativeEmulationInvertTailConcernPoints = 0;
-		settings.emergingDirectionGrace = false;
-		settings.suppressIsolatedFavourablePoint = false; // retain raw rule signal visibility
-	}
 
 	if (!Array.isArray(data)) throw new Error("data must be an array of rows");
 	const canonical: CanonicalRow[] = data.map((d, i) => ({
@@ -757,7 +705,6 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				specialCauseConcernValue: null,
 				specialCauseNeitherValue: null,
 				ruleTags: [],
-				heuristicTags: [],
 			};
 			return row;
 		});
@@ -925,209 +872,11 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		if (tags.length) r.ruleTags = tags;
 	}
 
-	// Helper for heuristic tagging (avoid duplicates, lazily create array)
-	const addHeuristicTag = (row: SpcRow, tag: string) => {
-		if (!row.heuristicTags) row.heuristicTags = [];
-		if (!row.heuristicTags.includes(tag)) row.heuristicTags.push(tag);
-	};
+	// Heuristic tagging helper removed (no remaining heuristics mutate classification)
 
-	// Optional Heuristic: retroactively neutralise early opposite-side signals after detecting a later sustained favourable shift.
-	if (!settings.strictShewhartMode && settings.retroactiveOppositeShiftNeutralisation) {
-		const shiftN = settings.specialCauseShiftPoints ?? 6;
-		// Group rows by partition
-		const partitionIds = Array.from(new Set(output.map(r => r.partitionId)));
-		for (const pid of partitionIds) {
-			const partRows = output.filter(r => r.partitionId === pid);
-			if (!partRows.length) continue;
-			// Earliest indices for high & low shifts
-			let earliestHigh: number | null = null;
-			let earliestLow: number | null = null;
-			for (let i=0;i<partRows.length;i++) {
-				if (partRows[i].specialCauseShiftHigh && earliestHigh === null) earliestHigh = i;
-				if (partRows[i].specialCauseShiftLow && earliestLow === null) earliestLow = i;
-				if (earliestHigh !== null && earliestLow !== null) break;
-			}
-			if (earliestHigh === null || earliestLow === null) continue; // need both
-			// Determine favourable direction for metric
-			const favourUp = metricImprovement === ImprovementDirection.Up;
-			const favourableShiftIndex = favourUp ? earliestHigh : earliestLow;
-			const unfavourableShiftIndex = favourUp ? earliestLow : earliestHigh;
-			if (unfavourableShiftIndex >= favourableShiftIndex) continue; // only neutralise earlier opposite-side shift
-			// Require at least shiftN points flagged for favourable shift overall (robust run)
-			const favourableFlagKey = favourUp ? 'specialCauseShiftHigh' : 'specialCauseShiftLow';
-			const favourableIndices = partRows
-				.map((r, idx) => ({ r, idx }))
-				.filter(o => (o.r as any)[favourableFlagKey])
-				.map(o => o.idx);
-			if (favourableIndices.length < shiftN) continue;
-			// Estimate sigma from any row with limits
-			let sigma: number | null = null;
-			for (const r of partRows) {
-				if (isNumber(r.upperProcessLimit) && isNumber(r.mean)) {
-					const span = r.upperProcessLimit - r.mean;
-					if (span > 0) { sigma = span / 3; break; }
-				}
-			}
-			if (!sigma || sigma <= 0) continue;
-			// Compute pre-window mean (last shiftN non-ghost values before favourable shift start)
-			const favStart = favourableShiftIndex;
-			const preWindowValues: number[] = [];
-			for (let i=favStart - 1; i>=0 && preWindowValues.length < shiftN; i--) {
-				const v = partRows[i].value;
-				if (isNumber(v) && !partRows[i].ghost) preWindowValues.unshift(v);
-			}
-			if (preWindowValues.length < shiftN) continue; // insufficient stable pre window
-			const postWindowValues: number[] = favourableIndices.map(idx => partRows[idx].value).filter(isNumber) as number[];
-			if (!postWindowValues.length) continue;
-			const preMean = mean(preWindowValues);
-			const postMean = mean(postWindowValues);
-			const deltaSigma = favourUp ? (postMean - preMean)/sigma : (preMean - postMean)/sigma;
-			if (deltaSigma < settings.retroactiveShiftDeltaSigmaThreshold) continue; // not a large enough sustained change
-			// Neutralise earlier opposite-side sustained indicators & cluster rules before favourable shift start.
-			for (let i=0;i<favourableShiftIndex;i++) {
-				const r = partRows[i];
-				if (favourUp) {
-					// Remove low-side sustained & cluster flags (keep single 3σ outliers)
-					if (r.specialCauseShiftLow || r.specialCauseTwoOfThreeBelow || r.specialCauseFourOfFiveBelow) {
-						addHeuristicTag(r,'retro_neutralised_opposite_low_cluster');
-					}
-					r.specialCauseShiftLow = false;
-					r.specialCauseTwoOfThreeBelow = false;
-					r.specialCauseFourOfFiveBelow = false;
-				} else {
-					if (r.specialCauseShiftHigh || r.specialCauseTwoOfThreeAbove || r.specialCauseFourOfFiveAbove) {
-						addHeuristicTag(r,'retro_neutralised_opposite_high_cluster');
-					}
-					// Opposite direction scenario
-					r.specialCauseShiftHigh = false;
-					r.specialCauseTwoOfThreeAbove = false;
-					r.specialCauseFourOfFiveAbove = false;
-				}
-			}
-		}
-	}
+	// Retroactive neutralisation heuristic removed
 
-	// Option C: Comparative baseline emulation (retrospective concern vs improvement labelling around a later favourable shift)
-	if (!settings.strictShewhartMode && settings.comparativeBaselineEmulation) {
-		const shiftN = settings.specialCauseShiftPoints ?? 6;
-		const partIds = Array.from(new Set(output.map(r => r.partitionId)));
-		for (const pid of partIds) {
-			const rows = output.filter(r => r.partitionId === pid && !r.ghost && isNumber(r.value));
-			if (rows.length < shiftN * 2) continue; // need enough data
-			// Identify earliest sustained high & low shifts
-			let earliestHigh: number | null = null; let earliestLow: number | null = null;
-			for (let i=0;i<rows.length;i++) {
-				if (rows[i].specialCauseShiftHigh && earliestHigh===null) earliestHigh = i;
-				if (rows[i].specialCauseShiftLow && earliestLow===null) earliestLow = i;
-				if (earliestHigh!==null && earliestLow!==null) break;
-			}
-			if (earliestHigh===null && earliestLow===null) continue;
-			const favourUp = metricImprovement === ImprovementDirection.Up;
-			const favourDown = metricImprovement === ImprovementDirection.Down;
-			// Choose favourable shift index (or neutral treat higher as favourable default)
-			let favourableIdx: number | null = null;
-			if (favourUp) favourableIdx = earliestHigh;
-			else if (favourDown) favourableIdx = earliestLow;
-			else favourableIdx = earliestHigh ?? earliestLow; // neutral: prefer high shift
-			if (favourableIdx == null) continue;
-			// Collect indices comprising run for favourable shift
-			const favourableFlag = (r: SpcRow) => favourUp ? r.specialCauseShiftHigh : favourDown ? r.specialCauseShiftLow : (earliestHigh!=null ? r.specialCauseShiftHigh : r.specialCauseShiftLow);
-			const favourIndices: number[] = [];
-			for (let i=favourableIdx; i<rows.length; i++) if (favourableFlag(rows[i])) favourIndices.push(i); else break;
-			if (favourIndices.length < shiftN) continue; // not robust
-			// Estimate sigma from any row with limits in this partition
-			let sigma: number | null = null;
-			for (const r of rows) { if (isNumber(r.upperProcessLimit) && isNumber(r.mean)) { const span = r.upperProcessLimit - r.mean; if (span>0) { sigma = span/3; break; } } }
-			if (!sigma || sigma<=0) continue;
-			const preWindowVals: number[] = [];
-			for (let i=favourableIdx-1; i>=0 && preWindowVals.length < shiftN; i--) { const v = rows[i].value; if (isNumber(v)) preWindowVals.unshift(v); }
-			if (preWindowVals.length < shiftN) continue;
-			const postVals: number[] = favourIndices.map(i=> rows[i].value!).filter(isNumber) as number[];
-			const preMean = mean(preWindowVals); const postMean = mean(postVals);
-			let deltaSigma: number;
-			if (favourUp || (!favourDown && (earliestHigh!=null || (earliestLow==null)))) deltaSigma = (postMean - preMean)/sigma; else deltaSigma = (preMean - postMean)/sigma;
-			if (deltaSigma < (settings.comparativeEmulationDeltaSigmaThreshold ?? 0.5)) continue;
-			const invert = !!settings.comparativeEmulationInvert;
-			// Apply retrospective labelling
-			if (!invert) {
-				// Retrospective early concern tagging (optional)
-				if (settings.comparativeEmulationRetrospectiveEarlyAsConcern) {
-					for (let i=0;i<favourableIdx;i++) {
-						const r = rows[i];
-						if (r.specialCauseShiftHigh || r.specialCauseShiftLow || r.specialCauseSinglePointAbove || r.specialCauseSinglePointBelow || r.specialCauseTwoOfThreeAbove || r.specialCauseTwoOfThreeBelow || r.specialCauseFourOfFiveAbove || r.specialCauseFourOfFiveBelow) continue;
-						if (favourUp) r.specialCauseShiftLow = true; else r.specialCauseShiftHigh = true;
-						addHeuristicTag(r,'comparative_retrospective_early_as_concern');
-					}
-				}
-				// Optional tail forcing of favourable classification
-				if (settings.comparativeEmulationForceTailFavourable) {
-					// ensure all post-favourableIdx rows inherit shift flag on favourable side
-					for (let i=favourableIdx;i<rows.length;i++) {
-						const r = rows[i];
-						if (favourUp) r.specialCauseShiftHigh = true; else if (favourDown) r.specialCauseShiftLow = true; else if (earliestHigh!=null) r.specialCauseShiftHigh = true; else r.specialCauseShiftLow = true;
-						addHeuristicTag(r,'comparative_force_tail_favourable');
-					}
-				} else if (settings.comparativeEmulationPropagateFavourable) {
-					// limited propagation only across the sustained run (already true) – no op
-					for (const i of favourIndices) addHeuristicTag(rows[i],'comparative_propagate_favourable');
-				}
-			} else {
-				// Inverted: shift window becomes concern OR common if invertAsCommon set
-				for (const idx of favourIndices) {
-					const r = rows[idx];
-					addHeuristicTag(r,'comparative_invert');
-					if (settings.comparativeEmulationInvertAsCommon) {
-						addHeuristicTag(r,'comparative_invert_as_common');
-						// Neutralise both shift sides to let later variation logic classify as common
-						r.specialCauseShiftHigh = false; r.specialCauseShiftLow = false;
-						// Also clear any other special-cause indicators so variationIcon resolves to common
-						r.specialCauseSinglePointAbove = false;
-						r.specialCauseSinglePointBelow = false;
-						r.specialCauseTwoOfThreeAbove = false;
-						r.specialCauseTwoOfThreeBelow = false;
-						r.specialCauseFourOfFiveAbove = false;
-						r.specialCauseFourOfFiveBelow = false;
-						r.specialCauseTrendIncreasing = false;
-						r.specialCauseTrendDecreasing = false;
-						// Additionally, when early phase should remain neutral (no retrospective concern tagging), clear any existing flags before shift start once (first row loop trigger)
-						if (!settings.comparativeEmulationRetrospectiveEarlyAsConcern && idx === favourIndices[0]) {
-							for (let pre=0; pre < favourableIdx; pre++) {
-								const er = rows[pre];
-								er.specialCauseShiftHigh = false;
-								er.specialCauseShiftLow = false;
-								er.specialCauseTwoOfThreeAbove = false;
-								er.specialCauseTwoOfThreeBelow = false;
-								er.specialCauseFourOfFiveAbove = false;
-								er.specialCauseFourOfFiveBelow = false;
-								er.specialCauseSinglePointAbove = false;
-								er.specialCauseSinglePointBelow = false;
-								er.specialCauseTrendIncreasing = false;
-								er.specialCauseTrendDecreasing = false;
-								addHeuristicTag(er,'comparative_invert_clear_pre_shift');
-							}
-						}
-					// After clearing entire window, optionally re-tag tail subset as concern
-					const tailN = settings.comparativeEmulationInvertTailConcernPoints ?? 0;
-					if (tailN > 0) {
-						// Tag last tailN overall rows (not just within shift run) as concern to align with bespoke expectation
-						const overallCount = rows.length;
-						for (let k = Math.max(overallCount - tailN, 0); k < overallCount; k++) {
-							const tr = rows[k];
-							// Skip if already flagged (keep existing state)
-							if (tr.specialCauseShiftHigh || tr.specialCauseShiftLow || tr.specialCauseSinglePointAbove || tr.specialCauseSinglePointBelow || tr.specialCauseTwoOfThreeAbove || tr.specialCauseTwoOfThreeBelow || tr.specialCauseFourOfFiveAbove || tr.specialCauseFourOfFiveBelow) continue;
-							if (favourUp) tr.specialCauseShiftLow = true; else if (favourDown) tr.specialCauseShiftHigh = true; else if (earliestHigh!=null) tr.specialCauseShiftLow = true; else tr.specialCauseShiftHigh = true;
-							addHeuristicTag(tr,`comparative_invert_tail_concern_${tailN}`);
-						}
-					}
-					} else {
-						if (favourUp) { r.specialCauseShiftHigh = false; r.specialCauseShiftLow = true; }
-						else if (favourDown) { r.specialCauseShiftLow = false; r.specialCauseShiftHigh = true; }
-						else { if (earliestHigh!=null) { r.specialCauseShiftHigh = false; r.specialCauseShiftLow = true; } else { r.specialCauseShiftLow = false; r.specialCauseShiftHigh = true; } }
-					}
-				}
-			}
-		}
-	}
+	// Comparative baseline emulation block removed
 
 	for (let idx = 0; idx < output.length; idx++) {
 		const row = output[idx];
@@ -1155,79 +904,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				row.specialCauseTwoOfThreeBelow = false;
 		}
 
-		if (settings.precedenceStrategy === "directional_first" && !settings.strictShewhartMode) {
-			// Emerging direction grace heuristic: detect near-trend favourable movement (trendN-1 window with majority directional steps)
-			const trendWindow = settings.specialCauseTrendPoints ?? 6;
-			const lookBack = trendWindow - 1; // emerging window
-			let emergingFavourable = false;
-			if (lookBack >= 3 && isNumber(row.value)) {
-				// gather last lookBack non-ghost numeric values including current
-				const recent: number[] = [];
-				for (let back = idx; back >= 0 && recent.length < lookBack; back--) {
-					const rv = output[back].value;
-					if (output[back].ghost || !isNumber(rv)) continue;
-					recent.unshift(rv);
-				}
-				if (recent.length === lookBack) {
-					let directionalSteps = 0;
-					for (let k = 1; k < recent.length; k++) {
-						if (metricImprovement === ImprovementDirection.Down) {
-							if (recent[k] <= recent[k - 1]) directionalSteps++; // allow flat or down
-						} else if (metricImprovement === ImprovementDirection.Up) {
-							if (recent[k] >= recent[k - 1]) directionalSteps++; // allow flat or up
-						}
-					}
-					// Require all but at most one step consistent
-					emergingFavourable = directionalSteps >= lookBack - 2;
-				}
-			}
-
-			const favourable =
-				metricImprovement === ImprovementDirection.Up ? anyHigh : anyLow;
-			const unfavourable =
-				metricImprovement === ImprovementDirection.Up ? anyLow : anyHigh;
-			// When both favourable and unfavourable present for a row, directionally-first precedence chooses favourable unless clearly outweighed.
-			if (favourable && !unfavourable) {
-				row.variationIcon = VariationIcon.Improvement;
-			} else if (!favourable && unfavourable) {
-				// Allow graceful downgrade only for weaker unfavourable signals (exclude strong sigma/cluster/shift signals)
-				const strongUnfavourable =
-					row.specialCauseSinglePointAbove ||
-					row.specialCauseSinglePointBelow ||
-					row.specialCauseTwoOfThreeAbove ||
-					row.specialCauseTwoOfThreeBelow ||
-					(settings.enableFourOfFiveRule &&
-						(row.specialCauseFourOfFiveAbove ||
-							row.specialCauseFourOfFiveBelow)) ||
-					row.specialCauseShiftHigh ||
-					row.specialCauseShiftLow;
-				if (
-					settings.emergingDirectionGrace &&
-					emergingFavourable &&
-					!strongUnfavourable
-				) {
-					row.variationIcon = VariationIcon.Neither;
-					addHeuristicTag(row,'emerging_direction_grace_neutralised');
-				} else {
-					row.variationIcon = VariationIcon.Concern;
-				}
-			} else if (favourable && unfavourable) {
-				// Conflict: pick favourable if emerging direction or existing trend flagged; else neutral
-				if (
-					settings.emergingDirectionGrace &&
-					(emergingFavourable ||
-						row.specialCauseTrendIncreasing ||
-						row.specialCauseTrendDecreasing)
-				) {
-					row.variationIcon = VariationIcon.Improvement;
-					addHeuristicTag(row,'emerging_direction_grace_conflict_favourable');
-				} else {
-					row.variationIcon = VariationIcon.Neither;
-				}
-			} else {
-				row.variationIcon = VariationIcon.Neither;
-			}
-		} else {
+		{
 			// legacy logic
 			if (metricImprovement === ImprovementDirection.Up) {
 				row.variationIcon = anyHigh
@@ -1246,39 +923,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			}
 		}
 
-		// Suppress isolated favourable single 3σ point if enabled (exclude only the very first data point; allow end suppression)
-		if (
-			!settings.strictShewhartMode &&
-			settings.suppressIsolatedFavourablePoint &&
-			row.variationIcon === VariationIcon.Improvement &&
-			idx > 0
-		) {
-			const favourableSingleHigh =
-				metricImprovement === ImprovementDirection.Up &&
-				row.specialCauseSinglePointAbove;
-			const favourableSingleLow =
-				metricImprovement === ImprovementDirection.Down &&
-				row.specialCauseSinglePointBelow;
-			const corroborating =
-				(metricImprovement === ImprovementDirection.Up &&
-					(row.specialCauseTwoOfThreeAbove ||
-						(settings.enableFourOfFiveRule &&
-							row.specialCauseFourOfFiveAbove) ||
-						row.specialCauseShiftHigh ||
-						row.specialCauseTrendIncreasing)) ||
-				(metricImprovement === ImprovementDirection.Down &&
-					(row.specialCauseTwoOfThreeBelow ||
-						(settings.enableFourOfFiveRule &&
-							row.specialCauseFourOfFiveBelow) ||
-						row.specialCauseShiftLow ||
-						row.specialCauseTrendDecreasing));
-			if ((favourableSingleHigh || favourableSingleLow) && !corroborating) {
-				// Suppressed favourable single 3σ point -> show 'no judgement' (purple) icon
-				row.variationIcon = VariationIcon.None;
-				row.specialCauseImprovementValue = null;
-				addHeuristicTag(row,'suppress_isolated_favourable_single_3sigma');
-			}
-		}
+		// Removed suppression of isolated favourable single 3σ heuristic
 
 		const anySignal = anyHigh || anyLow;
 		row.specialCauseImprovementValue =

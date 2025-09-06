@@ -6,6 +6,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ## Unreleased
 
+_No unreleased changes yet._
+
+## 0.0.34-alpha.4 - 2025-09-06
+
 ### Added
 
 - Multi‑render architecture documentation (`docs/guides/multi-render-architecture.md`) describing React + Nunjucks + static HTML parity model

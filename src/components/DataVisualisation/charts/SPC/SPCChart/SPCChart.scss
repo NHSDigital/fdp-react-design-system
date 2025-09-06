@@ -256,6 +256,35 @@
 			border-color: var(--nhs-fdp-color-data-viz-spc-improvement, nhs.$nhs-fdp-color-data-viz-spc-improvement) !important;
 			font-weight: 500 !important;
 		}
+		&--heuristic {
+			/* Distinct purple tone for heuristics to visually separate from orthodox rule tags */
+			background: var(--nhs-fdp-color-data-viz-spc-heuristic, #b366ff) !important;
+			color: #000 !important;
+			border-color: var(--nhs-fdp-color-data-viz-spc-heuristic, #b366ff) !important;
+			font-weight: 500 !important;
+			text-decoration: none;
+		}
+		/* Provenance taxonomy overlays (intentionally independent so they can refine backgrounds) */
+		&--prov-orthodox { /* high statistical provenance */
+			outline: 2px solid rgba(255,255,255,0.2);
+		}
+		&--prov-interpretive { /* medium provenance */
+			background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent) !important;
+		}
+		&--prov-aggressive { /* caution: aggressive heuristic */
+			box-shadow: 0 0 0 2px var(--nhs-fdp-color-data-viz-spc-concern, nhs.$nhs-fdp-color-data-viz-spc-concern) inset;
+			position: relative;
+		}
+		&--prov-aggressive::after {
+			content: '!';
+			font-size: 11px;
+			font-weight: 700;
+			margin-left: 4px;
+		}
+		&--prov-unknown {
+			background: var(--nhs-fdp-color-grey-5, nhs.$nhs-fdp-color-grey-5) !important;
+			color: #000 !important;
+		}
 		&--common {
 			background: var(--nhs-fdp-color-grey-4, nhs.$nhs-fdp-color-grey-4) !important;
 			color: #000 !important;

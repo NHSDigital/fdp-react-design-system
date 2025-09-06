@@ -31,6 +31,9 @@ export interface AreaSeriesPrimitiveProps {
     }[];
     /** When true, uses a vertical gradient (solid at line, transparent at baseline) instead of flat fill. */
     gradientFill?: boolean;
+    /** Optional explicit colour palette overriding default pickSeriesColor / pickRegionColor logic.
+     *  Precedence: series.color > colors[seriesIndex] > internal palette. */
+    colors?: string[];
 }
 /** Renders an area under a line (baseline -> series y). Provides tooltip registration like LineSeriesPrimitive. */
 export declare const AreaSeriesPrimitive: React.FC<AreaSeriesPrimitiveProps>;

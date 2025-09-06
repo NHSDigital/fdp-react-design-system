@@ -26,6 +26,9 @@ export interface LineSeriesPrimitiveProps {
     smooth?: boolean;
     /** Optional gradient fill id (linearGradient) for subtle wash under line. */
     gradientFillId?: string;
+    /** Optional explicit colour palette overriding default pickSeriesColor / pickRegionColor logic.
+     *  Precedence: series.color > colors[seriesIndex] > internal palette pickers. */
+    colors?: string[];
 }
 /** Low-level renderer for a single line series (no axes, assumes ScaleContext present). */
 export declare const LineSeriesPrimitive: React.FC<LineSeriesPrimitiveProps>;

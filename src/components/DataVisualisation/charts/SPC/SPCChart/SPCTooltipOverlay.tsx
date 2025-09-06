@@ -14,6 +14,7 @@ import {
 } from "./logic/spcDescriptors";
 import { getVariationColorToken } from "./logic/spcDescriptors";
 import { Tag } from "../../../../Tag";
+import { prettyPrintProvenanceTag, provenanceKind, provenanceTaxonomy } from "./logic/spcProvenance";
 
 interface SPCTooltipOverlayProps {
 	engineRows: any[] | null;
@@ -141,6 +142,14 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 		: undefined;
 	const showBadges = variationDesc || assuranceDesc || zone;
 	const hasRules = rules.length > 0;
+	const provenanceRuleTags: string[] = Array.isArray(row?.ruleTags)
+		? Array.from(new Set(row.ruleTags))
+		: [];
+	const provenanceHeuristicTags: string[] = Array.isArray(row?.heuristicTags)
+		? Array.from(new Set(row.heuristicTags))
+		: [];
+	const hasProvenance =
+		provenanceRuleTags.length > 0 || provenanceHeuristicTags.length > 0;
 
 	// focus ring colour
 	const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
@@ -346,6 +355,30 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 												text={r}
 												color="default"
 												className={`fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`}
+											/>
+										);
+									})}
+								</div>
+							</div>
+						)}
+						{hasProvenance && (
+							<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--provenance">
+								<div className="fdp-spc-tooltip__section-label">
+									<strong>Provenance</strong>
+								</div>
+								<div className="fdp-spc-tooltip__badges" aria-label="Signal provenance">
+									{[...provenanceRuleTags, ...provenanceHeuristicTags].map((tag) => {
+										const kind = provenanceKind(tag); // rule | heuristic
+										const taxonomy = provenanceTaxonomy(tag); // orthodox | interpretive | aggressive | unknown
+										const taxClass = taxonomy !== 'unknown' ? `fdp-spc-tag--prov-${taxonomy}` : 'fdp-spc-tag--prov-unknown';
+										const baseClass = kind === 'rule' ? 'fdp-spc-tag--rule' : 'fdp-spc-tag--heuristic';
+										return (
+											<Tag
+												key={`prov-${tag}`}
+												text={prettyPrintProvenanceTag(tag)}
+												color="default"
+												className={`fdp-spc-tooltip__tag fdp-spc-tag ${baseClass} ${taxClass}`}
+												aria-label={`Provenance ${kind} (${taxonomy}): ${tag}`}
 											/>
 										);
 									})}

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 export interface BarDatum {
     x: Date | string | number;
     y: number;
@@ -14,7 +14,7 @@ export interface BarSeriesPrimitiveProps {
     series: BarSeries;
     seriesIndex: number;
     seriesCount: number;
-    palette: 'categorical' | 'region';
+    palette: "categorical" | "region";
     /** Provide parseX so callers can reuse memoised function across series */
     parseX: (d: BarDatum) => Date;
     /** All series in the grouped chart (used for global x step inference on continuous scales to avoid overlap). */
@@ -36,9 +36,9 @@ export interface BarSeriesPrimitiveProps {
     /** Minimum bar width (px) for continuous scales. If the inferred uniform bar width would be smaller and it is possible to satisfy the constraint within slot bounds, it will be raised to this value. (No effect for band scales or when explicit barWidth provided.) */
     minBarWidth?: number;
     /** Presentation for hidden series (consistency with line). */
-    visibilityMode?: 'remove' | 'fade';
+    visibilityMode?: "remove" | "fade";
     /** Color assignment mode: by entire series (default) or per category (datum index within a single series). */
-    colorMode?: 'series' | 'category';
+    colorMode?: "series" | "category";
     /** Optional stacked data: for a stacked vertical bar each datum gets y0,y1 absolute values (pre-normalised if percent). Mutually exclusive with grouped multi-series at same x (i.e., set seriesCount=1 for stacked multi-layer). */
     stacked?: {
         y0: number;
@@ -50,6 +50,16 @@ export interface BarSeriesPrimitiveProps {
     gradientFill?: boolean;
     /** When gradientFill is true, match stroke to primary bar colour. If false, fall back to token/dark stroke. Default true. */
     gradientStrokeMatch?: boolean;
+    /** Overall opacity for visible bars (applied to wrapper group). Default 1 (was previously 0.25 in some non‑gradient cases). */
+    opacity?: number;
+    /** Opacity applied when visibilityMode === 'fade'. Default 0.25 (existing visual behaviour). */
+    fadedOpacity?: number;
+    /** Fill opacity when gradientFill = false (flat colour mode). Default 1 (previously hard‑coded to 0.25). */
+    flatFillOpacity?: number;
+    /** Optional explicit colour palette overriding default pickSeriesColor / pickRegionColor logic.
+     *  Precedence: series.color (single override) > colors[index] > internal palette.
+     *  For colorMode = 'series' we use colors[seriesIndex]; for 'category' we use colors[datumIndex]. */
+    colors?: string[];
 }
 /** Low-level primitive for vertical bars (time / ordinal X via ScaleContext time scale). */
 export declare const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps>;

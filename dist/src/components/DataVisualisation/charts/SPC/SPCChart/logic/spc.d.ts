@@ -80,6 +80,10 @@ export interface SpcSettings {
     baselineSuggestMinGap?: number;
     /** Minimum score threshold (0-100) for emitting suggestion */
     baselineSuggestScoreThreshold?: number;
+    /** Option B heuristic: retroactively neutralise earlier opposite-side sustained signals when a later sustained favourable shift establishes a higher (or lower for Down) level without explicit baseline. Default: false */
+    retroactiveOppositeShiftNeutralisation?: boolean;
+    /** Minimum shift mean delta (in sigma units) required to apply retroactive neutralisation. Default: 0.5 */
+    retroactiveShiftDeltaSigmaThreshold?: number;
 }
 export interface BuildSpcArgs {
     chartType: ChartType;

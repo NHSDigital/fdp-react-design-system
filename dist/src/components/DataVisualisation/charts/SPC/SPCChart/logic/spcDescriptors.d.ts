@@ -1,5 +1,5 @@
-import { VariationIcon, AssuranceIcon, SpcRow } from './spc';
-export type SpcRuleId = 'singlePointAbove' | 'singlePointBelow' | 'twoOfThreeAbove' | 'twoOfThreeBelow' | 'fourOfFiveAbove' | 'fourOfFiveBelow' | 'shiftHigh' | 'shiftLow' | 'trendIncreasing' | 'trendDecreasing';
+import { VariationIcon, AssuranceIcon, SpcRow } from "./spc";
+export type SpcRuleId = "singlePointAbove" | "singlePointBelow" | "twoOfThreeAbove" | "twoOfThreeBelow" | "fourOfFiveAbove" | "fourOfFiveBelow" | "shiftHigh" | "shiftLow" | "trendIncreasing" | "trendDecreasing";
 export interface SpcRuleGlossaryEntry {
     /** Short label suitable for dense tooltip list */
     tooltip: string;

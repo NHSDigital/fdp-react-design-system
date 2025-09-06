@@ -13,14 +13,14 @@
       "l2": 39.65630434782608,
       "u1": 52.60934782608695,
       "l1": 43.973985507246375,
-      "vIcon": "neither",
+      "vIcon": "improvement",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
       "sc23Low": false,
       "sc45High": false,
       "sc45Low": false,
-      "shiftHigh": false,
+      "shiftHigh": true,
       "shiftLow": false,
       "trendUp": false,
       "trendDown": false
@@ -38,14 +38,14 @@
       "l2": 39.65630434782608,
       "u1": 52.60934782608695,
       "l1": 43.973985507246375,
-      "vIcon": "neither",
+      "vIcon": "improvement",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
       "sc23Low": false,
       "sc45High": false,
       "sc45Low": false,
-      "shiftHigh": false,
+      "shiftHigh": true,
       "shiftLow": false,
       "trendUp": false,
       "trendDown": false
@@ -63,14 +63,14 @@
       "l2": 39.65630434782608,
       "u1": 52.60934782608695,
       "l1": 43.973985507246375,
-      "vIcon": "neither",
+      "vIcon": "improvement",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
       "sc23Low": false,
       "sc45High": false,
       "sc45Low": false,
-      "shiftHigh": false,
+      "shiftHigh": true,
       "shiftLow": false,
       "trendUp": false,
       "trendDown": false
@@ -88,14 +88,14 @@
       "l2": 39.65630434782608,
       "u1": 52.60934782608695,
       "l1": 43.973985507246375,
-      "vIcon": "neither",
+      "vIcon": "improvement",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
       "sc23Low": false,
       "sc45High": false,
       "sc45Low": false,
-      "shiftHigh": false,
+      "shiftHigh": true,
       "shiftLow": false,
       "trendUp": false,
       "trendDown": false
@@ -113,14 +113,14 @@
       "l2": 39.65630434782608,
       "u1": 52.60934782608695,
       "l1": 43.973985507246375,
-      "vIcon": "neither",
+      "vIcon": "improvement",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
       "sc23Low": false,
       "sc45High": false,
       "sc45Low": false,
-      "shiftHigh": false,
+      "shiftHigh": true,
       "shiftLow": false,
       "trendUp": false,
       "trendDown": false
@@ -266,7 +266,7 @@
       "vIcon": "improvement",
       "sc3High": false,
       "sc3Low": false,
-      "sc23High": false,
+      "sc23High": true,
       "sc23Low": false,
       "sc45High": false,
       "sc45Low": false,
@@ -413,7 +413,7 @@
       "l2": 39.65630434782608,
       "u1": 52.60934782608695,
       "l1": 43.973985507246375,
-      "vIcon": "neither",
+      "vIcon": "concern",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
@@ -423,7 +423,7 @@
       "shiftHigh": false,
       "shiftLow": false,
       "trendUp": false,
-      "trendDown": false
+      "trendDown": true
     },
     {
       "rowId": 18,
@@ -438,7 +438,7 @@
       "l2": 39.65630434782608,
       "u1": 52.60934782608695,
       "l1": 43.973985507246375,
-      "vIcon": "neither",
+      "vIcon": "concern",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
@@ -446,9 +446,9 @@
       "sc45High": false,
       "sc45Low": false,
       "shiftHigh": false,
-      "shiftLow": false,
+      "shiftLow": true,
       "trendUp": false,
-      "trendDown": false
+      "trendDown": true
     },
     {
       "rowId": 19,
@@ -463,7 +463,7 @@
       "l2": 39.65630434782608,
       "u1": 52.60934782608695,
       "l1": 43.973985507246375,
-      "vIcon": "neither",
+      "vIcon": "concern",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
@@ -471,9 +471,9 @@
       "sc45High": false,
       "sc45Low": false,
       "shiftHigh": false,
-      "shiftLow": false,
+      "shiftLow": true,
       "trendUp": false,
-      "trendDown": false
+      "trendDown": true
     },
     {
       "rowId": 20,
@@ -488,17 +488,17 @@
       "l2": 39.65630434782608,
       "u1": 52.60934782608695,
       "l1": 43.973985507246375,
-      "vIcon": "neither",
+      "vIcon": "concern",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
       "sc23Low": false,
       "sc45High": false,
-      "sc45Low": false,
+      "sc45Low": true,
       "shiftHigh": false,
-      "shiftLow": false,
+      "shiftLow": true,
       "trendUp": false,
-      "trendDown": false
+      "trendDown": true
     },
     {
       "rowId": 21,
@@ -513,17 +513,17 @@
       "l2": 39.65630434782608,
       "u1": 52.60934782608695,
       "l1": 43.973985507246375,
-      "vIcon": "neither",
+      "vIcon": "concern",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
       "sc23Low": false,
       "sc45High": false,
-      "sc45Low": false,
+      "sc45Low": true,
       "shiftHigh": false,
-      "shiftLow": false,
+      "shiftLow": true,
       "trendUp": false,
-      "trendDown": false
+      "trendDown": true
     },
     {
       "rowId": 22,
@@ -544,9 +544,9 @@
       "sc23High": false,
       "sc23Low": false,
       "sc45High": false,
-      "sc45Low": false,
+      "sc45Low": true,
       "shiftHigh": false,
-      "shiftLow": false,
+      "shiftLow": true,
       "trendUp": false,
       "trendDown": true
     },
@@ -775,7 +775,7 @@
       "shiftHigh": false,
       "shiftLow": false,
       "trendUp": false,
-      "trendDown": false
+      "trendDown": true
     },
     {
       "rowId": 8,
@@ -790,7 +790,7 @@
       "l2": 1.4409720340212195,
       "u1": 9.037161449882735,
       "l1": 2.9635683393412235,
-      "vIcon": "neither",
+      "vIcon": "concern",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
@@ -800,7 +800,7 @@
       "shiftHigh": false,
       "shiftLow": false,
       "trendUp": false,
-      "trendDown": false
+      "trendDown": true
     },
     {
       "rowId": 9,
@@ -815,7 +815,7 @@
       "l2": 1.4409720340212195,
       "u1": 9.037161449882735,
       "l1": 2.9635683393412235,
-      "vIcon": "neither",
+      "vIcon": "concern",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
@@ -825,7 +825,7 @@
       "shiftHigh": false,
       "shiftLow": false,
       "trendUp": false,
-      "trendDown": false
+      "trendDown": true
     },
     {
       "rowId": 10,
@@ -840,7 +840,7 @@
       "l2": 1.4409720340212195,
       "u1": 9.037161449882735,
       "l1": 2.9635683393412235,
-      "vIcon": "neither",
+      "vIcon": "concern",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
@@ -850,7 +850,7 @@
       "shiftHigh": false,
       "shiftLow": false,
       "trendUp": false,
-      "trendDown": false
+      "trendDown": true
     },
     {
       "rowId": 11,
@@ -865,7 +865,7 @@
       "l2": 1.4409720340212195,
       "u1": 9.037161449882735,
       "l1": 2.9635683393412235,
-      "vIcon": "neither",
+      "vIcon": "concern",
       "sc3High": false,
       "sc3Low": false,
       "sc23High": false,
@@ -875,7 +875,7 @@
       "shiftHigh": false,
       "shiftLow": false,
       "trendUp": false,
-      "trendDown": false
+      "trendDown": true
     },
     {
       "rowId": 12,

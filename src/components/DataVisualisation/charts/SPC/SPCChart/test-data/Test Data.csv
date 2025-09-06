@@ -49,36 +49,96 @@ Process limits - 10,07/01/2023,18
 Process limits - 10,08/01/2023,16
 Process limits - 10,09/01/2023,31
 Process limits - 10,10/01/2023,28
-Special cause,01/01/2023,8
-Special cause,02/01/2023,27
-Special cause,03/01/2023,32
-Special cause,04/01/2023,26
-Special cause,05/01/2023,20
-Special cause,06/01/2023,21
-Special cause,07/01/2023,23
-Special cause,08/01/2023,21
-Special cause,09/01/2023,23
-Special cause,10/01/2023,22
-Special cause,11/01/2023,26
-Special cause,12/01/2023,23
-Special cause,13/01/2023,20
-Special cause,14/01/2023,20
-Special cause,15/01/2023,29
-Special cause,16/01/2023,28
-Special cause,17/01/2023,22
-Special cause,18/01/2023,23
-Special cause,19/01/2023,25
-Special cause,20/01/2023,26
-Special cause,21/01/2023,28
-Special cause,22/01/2023,29
-Special cause,23/01/2023,26
-Special cause,24/01/2023,24
-Special cause,25/01/2023,36
-Special cause,26/01/2023,29
-Special cause,27/01/2023,35
-Special cause,28/01/2023,22
-Special cause,29/01/2023,30
-Special cause,30/01/2023,18
+Special cause - High is good,01/01/2023,8
+Special cause - High is good,02/01/2023,27
+Special cause - High is good,03/01/2023,32
+Special cause - High is good,04/01/2023,26
+Special cause - High is good,05/01/2023,20
+Special cause - High is good,06/01/2023,21
+Special cause - High is good,07/01/2023,23
+Special cause - High is good,08/01/2023,21
+Special cause - High is good,09/01/2023,23
+Special cause - High is good,10/01/2023,22
+Special cause - High is good,11/01/2023,26
+Special cause - High is good,12/01/2023,23
+Special cause - High is good,13/01/2023,20
+Special cause - High is good,14/01/2023,20
+Special cause - High is good,15/01/2023,29
+Special cause - High is good,16/01/2023,28
+Special cause - High is good,17/01/2023,22
+Special cause - High is good,18/01/2023,23
+Special cause - High is good,19/01/2023,25
+Special cause - High is good,20/01/2023,26
+Special cause - High is good,21/01/2023,28
+Special cause - High is good,22/01/2023,29
+Special cause - High is good,23/01/2023,26
+Special cause - High is good,24/01/2023,24
+Special cause - High is good,25/01/2023,36
+Special cause - High is good,26/01/2023,29
+Special cause - High is good,27/01/2023,35
+Special cause - High is good,28/01/2023,22
+Special cause - High is good,29/01/2023,30
+Special cause - High is good,30/01/2023,18
+Special cause - Low is good,01/01/2023,8
+Special cause - Low is good,02/01/2023,27
+Special cause - Low is good,03/01/2023,32
+Special cause - Low is good,04/01/2023,26
+Special cause - Low is good,05/01/2023,20
+Special cause - Low is good,06/01/2023,21
+Special cause - Low is good,07/01/2023,23
+Special cause - Low is good,08/01/2023,21
+Special cause - Low is good,09/01/2023,23
+Special cause - Low is good,10/01/2023,22
+Special cause - Low is good,11/01/2023,26
+Special cause - Low is good,12/01/2023,23
+Special cause - Low is good,13/01/2023,20
+Special cause - Low is good,14/01/2023,20
+Special cause - Low is good,15/01/2023,29
+Special cause - Low is good,16/01/2023,28
+Special cause - Low is good,17/01/2023,22
+Special cause - Low is good,18/01/2023,23
+Special cause - Low is good,19/01/2023,25
+Special cause - Low is good,20/01/2023,26
+Special cause - Low is good,21/01/2023,28
+Special cause - Low is good,22/01/2023,29
+Special cause - Low is good,23/01/2023,26
+Special cause - Low is good,24/01/2023,24
+Special cause - Low is good,25/01/2023,36
+Special cause - Low is good,26/01/2023,29
+Special cause - Low is good,27/01/2023,35
+Special cause - Low is good,28/01/2023,22
+Special cause - Low is good,29/01/2023,30
+Special cause - Low is good,30/01/2023,18
+Special cause - Neither,01/01/2023,8
+Special cause - Neither,02/01/2023,27
+Special cause - Neither,03/01/2023,32
+Special cause - Neither,04/01/2023,26
+Special cause - Neither,05/01/2023,20
+Special cause - Neither,06/01/2023,21
+Special cause - Neither,07/01/2023,23
+Special cause - Neither,08/01/2023,21
+Special cause - Neither,09/01/2023,23
+Special cause - Neither,10/01/2023,22
+Special cause - Neither,11/01/2023,26
+Special cause - Neither,12/01/2023,23
+Special cause - Neither,13/01/2023,20
+Special cause - Neither,14/01/2023,20
+Special cause - Neither,15/01/2023,29
+Special cause - Neither,16/01/2023,28
+Special cause - Neither,17/01/2023,22
+Special cause - Neither,18/01/2023,23
+Special cause - Neither,19/01/2023,25
+Special cause - Neither,20/01/2023,26
+Special cause - Neither,21/01/2023,28
+Special cause - Neither,22/01/2023,29
+Special cause - Neither,23/01/2023,26
+Special cause - Neither,24/01/2023,24
+Special cause - Neither,25/01/2023,36
+Special cause - Neither,26/01/2023,29
+Special cause - Neither,27/01/2023,35
+Special cause - Neither,28/01/2023,22
+Special cause - Neither,29/01/2023,30
+Special cause - Neither,30/01/2023,18
 Special cause - single point - ends,01/01/2023,45
 Special cause - single point - ends,02/01/2023,29
 Special cause - single point - ends,03/01/2023,20
@@ -258,26 +318,46 @@ Special cause - two-sigma - 3,20/01/2023,26
 Special cause - two-sigma - 3,21/01/2023,7
 Special cause - two-sigma - 3,22/01/2023,7
 Special cause - two-sigma - 3,23/01/2023,32
-Special cause conflict,01/01/2023,43
-Special cause conflict,02/01/2023,41
-Special cause conflict,03/01/2023,37
-Special cause conflict,04/01/2023,36
-Special cause conflict,05/01/2023,31
-Special cause conflict,06/01/2023,23
-Special cause conflict,07/01/2023,15
-Special cause conflict,08/01/2023,13
-Special cause conflict,09/01/2023,15
-Special cause conflict,10/01/2023,18
-Special cause conflict,11/01/2023,23
-Special cause conflict,12/01/2023,27
-Special cause conflict,13/01/2023,31
-Special cause conflict,14/01/2023,36
-Special cause conflict,15/01/2023,27
-Special cause conflict,16/01/2023,19
-Special cause conflict,17/01/2023,17
-Special cause conflict,18/01/2023,27
-Special cause conflict,19/01/2023,15
-Special cause conflict,20/01/2023,22
+Special cause conflict - High is good,01/01/2023,43
+Special cause conflict - High is good,02/01/2023,41
+Special cause conflict - High is good,03/01/2023,37
+Special cause conflict - High is good,04/01/2023,36
+Special cause conflict - High is good,05/01/2023,31
+Special cause conflict - High is good,06/01/2023,23
+Special cause conflict - High is good,07/01/2023,15
+Special cause conflict - High is good,08/01/2023,13
+Special cause conflict - High is good,09/01/2023,15
+Special cause conflict - High is good,10/01/2023,18
+Special cause conflict - High is good,11/01/2023,23
+Special cause conflict - High is good,12/01/2023,27
+Special cause conflict - High is good,13/01/2023,31
+Special cause conflict - High is good,14/01/2023,36
+Special cause conflict - High is good,15/01/2023,27
+Special cause conflict - High is good,16/01/2023,19
+Special cause conflict - High is good,17/01/2023,17
+Special cause conflict - High is good,18/01/2023,27
+Special cause conflict - High is good,19/01/2023,15
+Special cause conflict - High is good,20/01/2023,22
+Special cause conflict - Low is good,01/01/2023,43
+Special cause conflict - Low is good,02/01/2023,41
+Special cause conflict - Low is good,03/01/2023,37
+Special cause conflict - Low is good,04/01/2023,36
+Special cause conflict - Low is good,05/01/2023,31
+Special cause conflict - Low is good,06/01/2023,23
+Special cause conflict - Low is good,07/01/2023,15
+Special cause conflict - Low is good,08/01/2023,13
+Special cause conflict - Low is good,09/01/2023,15
+Special cause conflict - Low is good,10/01/2023,18
+Special cause conflict - Low is good,11/01/2023,23
+Special cause conflict - Low is good,12/01/2023,27
+Special cause conflict - Low is good,13/01/2023,31
+Special cause conflict - Low is good,14/01/2023,36
+Special cause conflict - Low is good,15/01/2023,27
+Special cause conflict - Low is good,16/01/2023,19
+Special cause conflict - Low is good,17/01/2023,17
+Special cause conflict - Low is good,18/01/2023,27
+Special cause conflict - Low is good,19/01/2023,15
+Special cause conflict - Low is good,20/01/2023,22
 Recalculations / Baselines,01/01/2023,16
 Recalculations / Baselines,02/01/2023,24
 Recalculations / Baselines,03/01/2023,22

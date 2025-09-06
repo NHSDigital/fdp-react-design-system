@@ -4077,7 +4077,8 @@ var LineSeriesPrimitive = ({
   visibilityMode = "remove",
   strokeWidth = 1,
   smooth = true,
-  gradientFillId
+  gradientFillId,
+  colors
 }) => {
   var _a2;
   const scaleCtx = useScaleContext();
@@ -4112,7 +4113,8 @@ var LineSeriesPrimitive = ({
     if (smooth) gen.curve(monotoneX);
     return gen(series.data) || "";
   }, [series.data, xScale, yScale, parseX, smooth]);
-  const color2 = series.color || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
+  const paletteOverride = colors && colors[seriesIndex];
+  const color2 = series.color || paletteOverride || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
   const stroke = palette === "region" ? pickRegionStroke(series.id, seriesIndex) : pickSeriesStroke(seriesIndex);
   return /* @__PURE__ */ jsxs4(
     "g",
@@ -5400,7 +5402,8 @@ var AreaSeriesPrimitive = ({
   baselineY = 0,
   smooth = true,
   stacked,
-  gradientFill = true
+  gradientFill = true,
+  colors
 }) => {
   var _a2;
   const scaleCtx = useScaleContext();
@@ -5417,7 +5420,8 @@ var AreaSeriesPrimitive = ({
     tooltip.registerSeries(series.id, normalized);
     return () => tooltip.unregisterSeries(series.id);
   }, [tooltip, series.id, series.data, parseX]);
-  const color2 = series.color || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
+  const paletteOverride = colors && colors[seriesIndex];
+  const color2 = series.color || paletteOverride || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
   const linePath = React16.useMemo(() => {
     if (stacked && stacked.length === series.data.length) {
       return createLinePath(
@@ -5503,7 +5507,11 @@ var BarSeriesPrimitive = ({
   gapRatio = 0.15,
   minBarWidth,
   gradientFill = true,
-  gradientStrokeMatch = true
+  gradientStrokeMatch = true,
+  opacity = 1,
+  fadedOpacity = 0.25,
+  flatFillOpacity = 1,
+  colors
 }) => {
   var _a2;
   const effectiveGapRatio = Math.max(0, gapRatio);
@@ -5537,7 +5545,8 @@ var BarSeriesPrimitive = ({
     const pxPositions = posSet.sort((a, b) => a - b);
     if (pxPositions.length <= 1) return 40;
     const diffs = [];
-    for (let i = 1; i < pxPositions.length; i++) diffs.push(pxPositions[i] - pxPositions[i - 1]);
+    for (let i = 1; i < pxPositions.length; i++)
+      diffs.push(pxPositions[i] - pxPositions[i - 1]);
     diffs.sort((a, b) => a - b);
     const median = diffs[Math.floor(diffs.length / 2)] || 40;
     return median * widthFactor;
@@ -5546,32 +5555,47 @@ var BarSeriesPrimitive = ({
     var _a3, _b2;
     if (isBandScale) {
       const bw = inferredPixelWidth;
-      const autoPerBar = Math.max(1, (bw - groupGap * (seriesCount - 1)) / seriesCount);
+      const autoPerBar = Math.max(
+        1,
+        (bw - groupGap * (seriesCount - 1)) / seriesCount
+      );
       const explicit2 = (_a3 = series.barWidth) != null ? _a3 : barWidth;
       let finalPerBar = explicit2 ? Math.min(explicit2, bw) : autoPerBar;
       if (adaptive) {
         const targetGroup = bw * Math.min(1, Math.max(0.05, adaptiveGroupOccupancy));
-        const adaptedPerBar = Math.max(1, (targetGroup - groupGap * (seriesCount - 1)) / seriesCount);
+        const adaptedPerBar = Math.max(
+          1,
+          (targetGroup - groupGap * (seriesCount - 1)) / seriesCount
+        );
         finalPerBar = explicit2 ? Math.min(finalPerBar, adaptedPerBar) : adaptedPerBar;
       }
       return { basePerBar: finalPerBar };
     }
     const explicit = (_b2 = series.barWidth) != null ? _b2 : barWidth;
-    const maxAutoPer = Math.max(1, (inferredPixelWidth - groupGap * (seriesCount - 1)) / seriesCount);
+    const maxAutoPer = Math.max(
+      1,
+      (inferredPixelWidth - groupGap * (seriesCount - 1)) / seriesCount
+    );
     if (adaptive) {
       const sourceSeries = allSeries && allSeries.length ? allSeries : [series];
       const positions = [];
-      sourceSeries.forEach((s) => s.data.forEach((d) => {
-        const v = xScale(parseX(d));
-        if (Number.isFinite(v)) positions.push(v);
-      }));
+      sourceSeries.forEach(
+        (s) => s.data.forEach((d) => {
+          const v = xScale(parseX(d));
+          if (Number.isFinite(v)) positions.push(v);
+        })
+      );
       positions.sort((a, b) => a - b);
       const diffs = [];
-      for (let i = 1; i < positions.length; i++) diffs.push(positions[i] - positions[i - 1]);
+      for (let i = 1; i < positions.length; i++)
+        diffs.push(positions[i] - positions[i - 1]);
       diffs.sort((a, b) => a - b);
       const step = diffs[Math.floor(diffs.length / 2)] || inferredPixelWidth;
       const targetGroup = step * Math.min(1, Math.max(0.05, adaptiveGroupOccupancy));
-      const adaptivePer = Math.max(1, (targetGroup - groupGap * (seriesCount - 1)) / seriesCount);
+      const adaptivePer = Math.max(
+        1,
+        (targetGroup - groupGap * (seriesCount - 1)) / seriesCount
+      );
       const finalPer = explicit ? Math.min(explicit, adaptivePer) : adaptivePer;
       return { basePerBar: finalPer };
     }
@@ -5580,38 +5604,62 @@ var BarSeriesPrimitive = ({
       return { basePerBar: finalPer };
     }
     return { basePerBar: maxAutoPer };
-  }, [isBandScale, inferredPixelWidth, groupGap, seriesCount, barWidth, series.barWidth, adaptive, adaptiveGroupOccupancy, allSeries, xScale, parseX]);
+  }, [
+    isBandScale,
+    inferredPixelWidth,
+    groupGap,
+    seriesCount,
+    barWidth,
+    series.barWidth,
+    adaptive,
+    adaptiveGroupOccupancy,
+    allSeries,
+    xScale,
+    parseX
+  ]);
   const globalCenters = React17.useMemo(() => {
     if (isBandScale) return [];
     const pts = [];
     const src = allSeries && allSeries.length ? allSeries : [series];
-    src.forEach((s) => s.data.forEach((pt) => {
-      const v = xScale(parseX(pt));
-      if (Number.isFinite(v)) pts.push(v);
-    }));
+    src.forEach(
+      (s) => s.data.forEach((pt) => {
+        const v = xScale(parseX(pt));
+        if (Number.isFinite(v)) pts.push(v);
+      })
+    );
     pts.sort((a, b) => a - b);
     return Array.from(new Set(pts));
   }, [isBandScale, allSeries, series, xScale, parseX]);
   const continuousSlots = React17.useMemo(() => {
-    if (isBandScale) return [];
+    if (isBandScale)
+      return [];
     if (!globalCenters.length) return [];
     if (globalCenters.length === 1) {
-      return [{ center: globalCenters[0], left: 0, right: chartDims.innerWidth }];
+      return [
+        { center: globalCenters[0], left: 0, right: chartDims.innerWidth }
+      ];
     }
     const slots = [];
     for (let i = 0; i < globalCenters.length; i++) {
       const c = globalCenters[i];
       const left = i === 0 ? 0 : (globalCenters[i - 1] + c) / 2;
       const right = i === globalCenters.length - 1 ? chartDims.innerWidth : (c + globalCenters[i + 1]) / 2;
-      slots.push({ center: c, left: Math.max(0, left), right: Math.min(chartDims.innerWidth, right) });
+      slots.push({
+        center: c,
+        left: Math.max(0, left),
+        right: Math.min(chartDims.innerWidth, right)
+      });
     }
     return slots;
   }, [isBandScale, globalCenters, chartDims.innerWidth]);
   const continuousUniforms = React17.useMemo(() => {
-    if (isBandScale || !continuousSlots.length) return void 0;
+    if (isBandScale || !continuousSlots.length)
+      return void 0;
     const occupancy = Math.min(1, Math.max(0.05, widthFactor));
     const slotSpans = continuousSlots.map((s) => Math.max(2, s.right - s.left));
-    const candidates = slotSpans.map((span) => Math.max(2, Math.min(span - 1, span * occupancy)));
+    const candidates = slotSpans.map(
+      (span) => Math.max(2, Math.min(span - 1, span * occupancy))
+    );
     let uniformGroupWidth = Math.min(...candidates);
     if (minBarWidth) {
       if (seriesCount <= 1) {
@@ -5630,7 +5678,8 @@ var BarSeriesPrimitive = ({
     if (seriesCount <= 1) {
       if (minBarWidth && uniformGroupWidth < minBarWidth) {
         const canAllFit = slotSpans.every((span) => span >= minBarWidth);
-        if (canAllFit) return { groupWidth: minBarWidth, barWidth: minBarWidth };
+        if (canAllFit)
+          return { groupWidth: minBarWidth, barWidth: minBarWidth };
       }
       return { groupWidth: uniformGroupWidth, barWidth: uniformGroupWidth };
     }
@@ -5644,211 +5693,336 @@ var BarSeriesPrimitive = ({
     }
     const groupWidth = b * seriesCount + (seriesCount - 1) * (b * effectiveGapRatio);
     return { groupWidth, barWidth: b };
-  }, [isBandScale, continuousSlots, widthFactor, seriesCount, effectiveGapRatio, minBarWidth]);
-  const baseSeriesColor = series.color || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
+  }, [
+    isBandScale,
+    continuousSlots,
+    widthFactor,
+    seriesCount,
+    effectiveGapRatio,
+    minBarWidth
+  ]);
+  const resolvedSeriesPaletteColor = colors && colors[seriesIndex] ? colors[seriesIndex] : void 0;
+  const baseSeriesColor = series.color || resolvedSeriesPaletteColor || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
   const baseSeriesStroke = palette === "region" ? pickRegionStroke(series.id, seriesIndex) : pickSeriesStroke(seriesIndex);
+  const effectiveBaseStroke = gradientStrokeMatch && (series.color || resolvedSeriesPaletteColor) ? baseSeriesColor : baseSeriesStroke;
   const baselineY = Number.isFinite(yScale(0)) ? yScale(0) : yScale.range()[0];
   const seriesGradientId = React17.useId();
   if (stacked && stacked.length === series.data.length) {
-    return /* @__PURE__ */ jsxs14("g", { className: "fdp-bar-series fdp-bar-series--stacked", "data-series": series.id, opacity: faded ? 0.25 : 1, "aria-hidden": faded ? true : void 0, children: [
-      gradientFill && /* @__PURE__ */ jsx21("defs", { children: /* @__PURE__ */ jsxs14("linearGradient", { id: seriesGradientId, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-        /* @__PURE__ */ jsx21("stop", { offset: "0%", stopColor: baseSeriesColor, stopOpacity: 0.3 }),
-        /* @__PURE__ */ jsx21("stop", { offset: "60%", stopColor: baseSeriesColor, stopOpacity: 0.14 }),
-        /* @__PURE__ */ jsx21("stop", { offset: "100%", stopColor: baseSeriesColor, stopOpacity: 0.06 })
-      ] }) }),
-      series.data.map((d, di) => {
-        var _a3;
-        const rawX = parseX(d);
-        const xPos = isBandScale ? xScale(d.x) : xScale(rawX);
-        let fullWidth;
-        let barX;
-        if (isBandScale) {
-          fullWidth = inferredPixelWidth;
-          barX = xPos;
-        } else {
-          const slot = continuousSlots.find((s) => Math.abs(s.center - xPos) < 0.5);
-          if (!slot || !continuousUniforms) {
-            fullWidth = basePerBar;
-            barX = xPos - basePerBar / 2;
-          } else {
-            const { groupWidth } = continuousUniforms;
-            fullWidth = groupWidth;
-            let groupLeft = xPos - groupWidth / 2;
-            if (groupLeft < slot.left) groupLeft = slot.left;
-            if (groupLeft + groupWidth > slot.right) groupLeft = Math.max(slot.left, slot.right - groupWidth);
-            barX = groupLeft;
-          }
-        }
-        const seg = stacked[di];
-        const y0 = yScale(seg.y0);
-        const y1 = yScale(seg.y1);
-        const y2 = Math.min(y0, y1);
-        const height = Math.abs(y1 - y0) || 1;
-        if (!isBandScale && minBarWidth && fullWidth < minBarWidth) {
-          const slot = continuousSlots.find((s) => Math.abs(s.center - xPos) < 0.5);
-          if (slot) {
-            const maxFeasible = Math.max(2, slot.right - slot.left - 1);
-            const target = Math.min(maxFeasible, minBarWidth);
-            if (target > fullWidth) {
-              fullWidth = target;
-              barX = Math.max(slot.left, Math.min(slot.right - fullWidth, xPos - fullWidth / 2));
+    return /* @__PURE__ */ jsxs14(
+      "g",
+      {
+        className: "fdp-bar-series fdp-bar-series--stacked",
+        "data-series": series.id,
+        opacity: faded ? fadedOpacity : opacity,
+        "aria-hidden": faded ? true : void 0,
+        children: [
+          gradientFill && /* @__PURE__ */ jsx21("defs", { children: /* @__PURE__ */ jsxs14(
+            "linearGradient",
+            {
+              id: seriesGradientId,
+              x1: "0%",
+              y1: "0%",
+              x2: "0%",
+              y2: "100%",
+              children: [
+                /* @__PURE__ */ jsx21("stop", { offset: "0%", stopColor: baseSeriesColor, stopOpacity: 0.3 }),
+                /* @__PURE__ */ jsx21(
+                  "stop",
+                  {
+                    offset: "60%",
+                    stopColor: baseSeriesColor,
+                    stopOpacity: 0.14
+                  }
+                ),
+                /* @__PURE__ */ jsx21(
+                  "stop",
+                  {
+                    offset: "100%",
+                    stopColor: baseSeriesColor,
+                    stopOpacity: 0.06
+                  }
+                )
+              ]
             }
-          }
-        }
-        const isFocused = !faded && ((_a3 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a3.seriesId) === series.id && tooltip.focused.index === di;
-        const onEnter = () => {
-          if (!tooltip || faded) return;
-          tooltip.setFocused({ seriesId: series.id, index: di, x: rawX, y: seg.y1 - seg.y0, clientX: barX + fullWidth / 2, clientY: y2 });
-        };
-        const onLeave = () => {
-          var _a4;
-          if (((_a4 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a4.seriesId) === series.id && tooltip.focused.index === di) tooltip.clear();
-        };
-        return /* @__PURE__ */ jsx21(
-          "rect",
-          {
-            x: barX,
-            y: y2,
-            width: fullWidth,
-            height,
-            fill: gradientFill ? `url(#${seriesGradientId})` : baseSeriesColor,
-            ...!gradientFill ? { fillOpacity: 0.25 } : {},
-            stroke: isFocused ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : gradientFill && gradientStrokeMatch ? baseSeriesColor : void 0,
-            strokeWidth: isFocused ? 2 : 1,
-            className: "fdp-bar fdp-bar--stacked",
-            tabIndex: faded || !focusable ? -1 : 0,
-            role: "graphics-symbol",
-            "aria-label": `${series.label || series.id} ${rawX instanceof Date ? rawX.toDateString() : rawX} value ${seg.y1 - seg.y0}`,
-            onMouseEnter: onEnter,
-            onFocus: onEnter,
-            onMouseLeave: onLeave,
-            onBlur: onLeave
-          },
-          di
-        );
-      })
-    ] });
-  }
-  return /* @__PURE__ */ jsxs14("g", { className: "fdp-bar-series", "data-series": series.id, opacity: faded ? 0.25 : 1, "aria-hidden": faded ? true : void 0, children: [
-    gradientFill && /* @__PURE__ */ jsxs14("defs", { children: [
-      colorMode === "series" && /* @__PURE__ */ jsxs14("linearGradient", { id: seriesGradientId, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-        /* @__PURE__ */ jsx21("stop", { offset: "0%", stopColor: baseSeriesColor, stopOpacity: 0.3 }),
-        /* @__PURE__ */ jsx21("stop", { offset: "60%", stopColor: baseSeriesColor, stopOpacity: 0.14 }),
-        /* @__PURE__ */ jsx21("stop", { offset: "100%", stopColor: baseSeriesColor, stopOpacity: 0.06 })
-      ] }),
-      colorMode === "category" && series.data.map((d, di) => {
-        const catColor = palette === "region" ? pickRegionColor(String(d.x), di) : pickSeriesColor(di);
-        const gid = `${seriesGradientId}-${di}`;
-        return /* @__PURE__ */ jsxs14("linearGradient", { id: gid, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-          /* @__PURE__ */ jsx21("stop", { offset: "0%", stopColor: catColor, stopOpacity: 0.3 }),
-          /* @__PURE__ */ jsx21("stop", { offset: "60%", stopColor: catColor, stopOpacity: 0.14 }),
-          /* @__PURE__ */ jsx21("stop", { offset: "100%", stopColor: catColor, stopOpacity: 0.06 })
-        ] }, gid);
-      })
-    ] }),
-    series.data.map((d, di) => {
-      var _a3;
-      const rawX = parseX(d);
-      const xPos = isBandScale ? xScale(d.x) : xScale(rawX);
-      let barX;
-      let barWidth2;
-      if (isBandScale) {
-        const bw = inferredPixelWidth;
-        if (seriesCount <= 1) {
-          barWidth2 = bw;
-          barX = xPos;
-        } else {
-          barWidth2 = Math.max(1, bw / (seriesCount + (seriesCount - 1) * effectiveGapRatio));
-          const gap = barWidth2 * effectiveGapRatio;
-          const groupWidth = barWidth2 * seriesCount + gap * (seriesCount - 1);
-          const groupLeft = xPos + (bw - groupWidth) / 2;
-          barX = groupLeft + seriesIndex * (barWidth2 + gap);
-        }
-      } else {
-        const slot = continuousSlots.find((s) => s.center === xPos);
-        if (!slot || !continuousUniforms) {
-          barWidth2 = basePerBar;
-          barX = xPos - basePerBar / 2;
-          if (minBarWidth && barWidth2 < minBarWidth) {
-            barWidth2 = minBarWidth;
-            barX = xPos - barWidth2 / 2;
-          }
-        } else {
-          const { barWidth: uBar } = continuousUniforms;
-          barWidth2 = uBar;
-          const gap = seriesCount > 1 ? uBar * effectiveGapRatio : 0;
-          const computedGroupWidth = barWidth2 * seriesCount + gap * (seriesCount - 1);
-          let groupLeft = xPos - computedGroupWidth / 2;
-          if (groupLeft < slot.left) groupLeft = slot.left;
-          if (groupLeft + computedGroupWidth > slot.right) groupLeft = Math.max(slot.left, slot.right - computedGroupWidth);
-          barX = groupLeft + seriesIndex * (barWidth2 + gap);
-        }
-        if (minBarWidth && barWidth2 < minBarWidth) {
-          const slot2 = continuousSlots.find((s) => Math.abs(s.center - xPos) < 0.5);
-          if (slot2) {
-            const maxFeasible = Math.max(2, slot2.right - slot2.left - 1);
-            const target = Math.min(maxFeasible, minBarWidth);
-            if (target > barWidth2) {
-              if (seriesCount <= 1) {
-                barWidth2 = target;
-                barX = Math.max(slot2.left, Math.min(slot2.right - barWidth2, xPos - barWidth2 / 2));
+          ) }),
+          series.data.map((d, di) => {
+            var _a3;
+            const rawX = parseX(d);
+            const xPos = isBandScale ? xScale(d.x) : xScale(rawX);
+            let fullWidth;
+            let barX;
+            if (isBandScale) {
+              fullWidth = inferredPixelWidth;
+              barX = xPos;
+            } else {
+              const slot = continuousSlots.find(
+                (s) => Math.abs(s.center - xPos) < 0.5
+              );
+              if (!slot || !continuousUniforms) {
+                fullWidth = basePerBar;
+                barX = xPos - basePerBar / 2;
               } else {
-                const gap = target * effectiveGapRatio;
-                const neededGroup = target * seriesCount + gap * (seriesCount - 1);
-                if (neededGroup <= slot2.right - slot2.left - 1) {
-                  barWidth2 = target;
-                  const groupWidth = neededGroup;
-                  let groupLeft = xPos - groupWidth / 2;
-                  if (groupLeft < slot2.left) groupLeft = slot2.left;
-                  if (groupLeft + groupWidth > slot2.right) groupLeft = Math.max(slot2.left, slot2.right - groupWidth);
-                  barX = groupLeft + seriesIndex * (barWidth2 + gap);
+                const { groupWidth } = continuousUniforms;
+                fullWidth = groupWidth;
+                let groupLeft = xPos - groupWidth / 2;
+                if (groupLeft < slot.left) groupLeft = slot.left;
+                if (groupLeft + groupWidth > slot.right)
+                  groupLeft = Math.max(slot.left, slot.right - groupWidth);
+                barX = groupLeft;
+              }
+            }
+            const seg = stacked[di];
+            const y0 = yScale(seg.y0);
+            const y1 = yScale(seg.y1);
+            const y2 = Math.min(y0, y1);
+            const height = Math.abs(y1 - y0) || 1;
+            if (!isBandScale && minBarWidth && fullWidth < minBarWidth) {
+              const slot = continuousSlots.find(
+                (s) => Math.abs(s.center - xPos) < 0.5
+              );
+              if (slot) {
+                const maxFeasible = Math.max(2, slot.right - slot.left - 1);
+                const target = Math.min(maxFeasible, minBarWidth);
+                if (target > fullWidth) {
+                  fullWidth = target;
+                  barX = Math.max(
+                    slot.left,
+                    Math.min(slot.right - fullWidth, xPos - fullWidth / 2)
+                  );
+                }
+              }
+            }
+            const isFocused = !faded && ((_a3 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a3.seriesId) === series.id && tooltip.focused.index === di;
+            const onEnter = () => {
+              if (!tooltip || faded) return;
+              tooltip.setFocused({
+                seriesId: series.id,
+                index: di,
+                x: rawX,
+                y: seg.y1 - seg.y0,
+                clientX: barX + fullWidth / 2,
+                clientY: y2
+              });
+            };
+            const onLeave = () => {
+              var _a4;
+              if (((_a4 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a4.seriesId) === series.id && tooltip.focused.index === di)
+                tooltip.clear();
+            };
+            return /* @__PURE__ */ jsx21(
+              "rect",
+              {
+                x: barX,
+                y: y2,
+                width: fullWidth,
+                height,
+                fill: gradientFill ? `url(#${seriesGradientId})` : baseSeriesColor,
+                ...!gradientFill ? { fillOpacity: flatFillOpacity } : {},
+                stroke: isFocused ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : gradientFill && gradientStrokeMatch ? baseSeriesColor : void 0,
+                strokeWidth: isFocused ? 2 : 1,
+                className: "fdp-bar fdp-bar--stacked",
+                tabIndex: faded || !focusable ? -1 : 0,
+                role: "graphics-symbol",
+                "aria-label": `${series.label || series.id} ${rawX instanceof Date ? rawX.toDateString() : rawX} value ${seg.y1 - seg.y0}`,
+                onMouseEnter: onEnter,
+                onFocus: onEnter,
+                onMouseLeave: onLeave,
+                onBlur: onLeave
+              },
+              di
+            );
+          })
+        ]
+      }
+    );
+  }
+  return /* @__PURE__ */ jsxs14(
+    "g",
+    {
+      className: "fdp-bar-series",
+      "data-series": series.id,
+      opacity: faded ? fadedOpacity : opacity,
+      "aria-hidden": faded ? true : void 0,
+      children: [
+        gradientFill && /* @__PURE__ */ jsxs14("defs", { children: [
+          colorMode === "series" && /* @__PURE__ */ jsxs14(
+            "linearGradient",
+            {
+              id: seriesGradientId,
+              x1: "0%",
+              y1: "0%",
+              x2: "0%",
+              y2: "100%",
+              children: [
+                /* @__PURE__ */ jsx21("stop", { offset: "0%", stopColor: baseSeriesColor, stopOpacity: 0.3 }),
+                /* @__PURE__ */ jsx21(
+                  "stop",
+                  {
+                    offset: "60%",
+                    stopColor: baseSeriesColor,
+                    stopOpacity: 0.14
+                  }
+                ),
+                /* @__PURE__ */ jsx21(
+                  "stop",
+                  {
+                    offset: "100%",
+                    stopColor: baseSeriesColor,
+                    stopOpacity: 0.06
+                  }
+                )
+              ]
+            }
+          ),
+          colorMode === "category" && series.data.map((d, di) => {
+            const paletteOverride = colors && colors[di];
+            const catColor = paletteOverride || (palette === "region" ? pickRegionColor(String(d.x), di) : pickSeriesColor(di));
+            const gid = `${seriesGradientId}-${di}`;
+            return /* @__PURE__ */ jsxs14(
+              "linearGradient",
+              {
+                id: gid,
+                x1: "0%",
+                y1: "0%",
+                x2: "0%",
+                y2: "100%",
+                children: [
+                  /* @__PURE__ */ jsx21("stop", { offset: "0%", stopColor: catColor, stopOpacity: 0.3 }),
+                  /* @__PURE__ */ jsx21("stop", { offset: "60%", stopColor: catColor, stopOpacity: 0.14 }),
+                  /* @__PURE__ */ jsx21("stop", { offset: "100%", stopColor: catColor, stopOpacity: 0.06 })
+                ]
+              },
+              gid
+            );
+          })
+        ] }),
+        series.data.map((d, di) => {
+          var _a3;
+          const rawX = parseX(d);
+          const xPos = isBandScale ? xScale(d.x) : xScale(rawX);
+          let barX;
+          let barWidth2;
+          if (isBandScale) {
+            const bw = inferredPixelWidth;
+            if (seriesCount <= 1) {
+              barWidth2 = bw;
+              barX = xPos;
+            } else {
+              barWidth2 = Math.max(
+                1,
+                bw / (seriesCount + (seriesCount - 1) * effectiveGapRatio)
+              );
+              const gap = barWidth2 * effectiveGapRatio;
+              const groupWidth = barWidth2 * seriesCount + gap * (seriesCount - 1);
+              const groupLeft = xPos + (bw - groupWidth) / 2;
+              barX = groupLeft + seriesIndex * (barWidth2 + gap);
+            }
+          } else {
+            const slot = continuousSlots.find((s) => s.center === xPos);
+            if (!slot || !continuousUniforms) {
+              barWidth2 = basePerBar;
+              barX = xPos - basePerBar / 2;
+              if (minBarWidth && barWidth2 < minBarWidth) {
+                barWidth2 = minBarWidth;
+                barX = xPos - barWidth2 / 2;
+              }
+            } else {
+              const { barWidth: uBar } = continuousUniforms;
+              barWidth2 = uBar;
+              const gap = seriesCount > 1 ? uBar * effectiveGapRatio : 0;
+              const computedGroupWidth = barWidth2 * seriesCount + gap * (seriesCount - 1);
+              let groupLeft = xPos - computedGroupWidth / 2;
+              if (groupLeft < slot.left) groupLeft = slot.left;
+              if (groupLeft + computedGroupWidth > slot.right)
+                groupLeft = Math.max(slot.left, slot.right - computedGroupWidth);
+              barX = groupLeft + seriesIndex * (barWidth2 + gap);
+            }
+            if (minBarWidth && barWidth2 < minBarWidth) {
+              const slot2 = continuousSlots.find(
+                (s) => Math.abs(s.center - xPos) < 0.5
+              );
+              if (slot2) {
+                const maxFeasible = Math.max(2, slot2.right - slot2.left - 1);
+                const target = Math.min(maxFeasible, minBarWidth);
+                if (target > barWidth2) {
+                  if (seriesCount <= 1) {
+                    barWidth2 = target;
+                    barX = Math.max(
+                      slot2.left,
+                      Math.min(slot2.right - barWidth2, xPos - barWidth2 / 2)
+                    );
+                  } else {
+                    const gap = target * effectiveGapRatio;
+                    const neededGroup = target * seriesCount + gap * (seriesCount - 1);
+                    if (neededGroup <= slot2.right - slot2.left - 1) {
+                      barWidth2 = target;
+                      const groupWidth = neededGroup;
+                      let groupLeft = xPos - groupWidth / 2;
+                      if (groupLeft < slot2.left) groupLeft = slot2.left;
+                      if (groupLeft + groupWidth > slot2.right)
+                        groupLeft = Math.max(
+                          slot2.left,
+                          slot2.right - groupWidth
+                        );
+                      barX = groupLeft + seriesIndex * (barWidth2 + gap);
+                    }
+                  }
                 }
               }
             }
           }
-        }
-      }
-      const barCenterX = barX + barWidth2 / 2;
-      const valueY = yScale(d.y);
-      const y2 = Math.min(baselineY, valueY);
-      const height = Math.abs(baselineY - valueY);
-      const isFocused = !faded && ((_a3 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a3.seriesId) === series.id && tooltip.focused.index === di;
-      const onEnter = () => {
-        if (!tooltip || faded) return;
-        tooltip.setFocused({ seriesId: series.id, index: di, x: rawX, y: d.y, clientX: barCenterX, clientY: valueY });
-      };
-      const onLeave = () => {
-        var _a4;
-        if (((_a4 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a4.seriesId) === series.id && tooltip.focused.index === di) tooltip.clear();
-      };
-      const catColor = colorMode === "category" ? palette === "region" ? pickRegionColor(String(d.x), di) : pickSeriesColor(di) : baseSeriesColor;
-      const fillId = colorMode === "category" ? `${seriesGradientId}-${di}` : seriesGradientId;
-      const baseStroke = gradientFill && gradientStrokeMatch ? catColor : colorMode === "category" ? palette === "region" ? pickRegionStroke(String(d.x), di) : pickSeriesStroke(di) : baseSeriesStroke;
-      const barStrokeColor = isFocused ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : baseStroke || catColor;
-      return /* @__PURE__ */ jsx21(
-        "rect",
-        {
-          x: barX,
-          y: y2,
-          width: barWidth2,
-          height: height || 1,
-          fill: gradientFill ? `url(#${fillId})` : catColor,
-          ...!gradientFill ? { fillOpacity: 0.25 } : {},
-          stroke: barStrokeColor,
-          strokeWidth: isFocused ? 2 : 1,
-          className: "fdp-bar",
-          tabIndex: faded || !focusable ? -1 : 0,
-          role: "graphics-symbol",
-          "aria-label": `${series.label || series.id} ${rawX instanceof Date ? rawX.toDateString() : rawX} value ${d.y}`,
-          onMouseEnter: onEnter,
-          onFocus: onEnter,
-          onMouseLeave: onLeave,
-          onBlur: onLeave
-        },
-        di
-      );
-    })
-  ] });
+          const barCenterX = barX + barWidth2 / 2;
+          const valueY = yScale(d.y);
+          const y2 = Math.min(baselineY, valueY);
+          const height = Math.abs(baselineY - valueY);
+          const isFocused = !faded && ((_a3 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a3.seriesId) === series.id && tooltip.focused.index === di;
+          const onEnter = () => {
+            if (!tooltip || faded) return;
+            tooltip.setFocused({
+              seriesId: series.id,
+              index: di,
+              x: rawX,
+              y: d.y,
+              clientX: barCenterX,
+              clientY: valueY
+            });
+          };
+          const onLeave = () => {
+            var _a4;
+            if (((_a4 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a4.seriesId) === series.id && tooltip.focused.index === di)
+              tooltip.clear();
+          };
+          const paletteOverride = colorMode === "category" && colors ? colors[di] : void 0;
+          const catColor = colorMode === "category" ? paletteOverride || (palette === "region" ? pickRegionColor(String(d.x), di) : pickSeriesColor(di)) : baseSeriesColor;
+          const fillId = colorMode === "category" ? `${seriesGradientId}-${di}` : seriesGradientId;
+          const baseStroke = gradientFill && gradientStrokeMatch ? catColor : colorMode === "category" ? palette === "region" ? pickRegionStroke(String(d.x), di) : pickSeriesStroke(di) : effectiveBaseStroke;
+          const barStrokeColor = isFocused ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : baseStroke || catColor;
+          return /* @__PURE__ */ jsx21(
+            "rect",
+            {
+              x: barX,
+              y: y2,
+              width: barWidth2,
+              height: height || 1,
+              fill: gradientFill ? `url(#${fillId})` : catColor,
+              ...!gradientFill ? { fillOpacity: flatFillOpacity } : {},
+              stroke: barStrokeColor,
+              strokeWidth: isFocused ? 2 : 1,
+              className: "fdp-bar",
+              tabIndex: faded || !focusable ? -1 : 0,
+              role: "graphics-symbol",
+              "aria-label": `${series.label || series.id} ${rawX instanceof Date ? rawX.toDateString() : rawX} value ${d.y}`,
+              onMouseEnter: onEnter,
+              onFocus: onEnter,
+              onMouseLeave: onLeave,
+              onBlur: onLeave
+            },
+            di
+          );
+        })
+      ]
+    }
+  );
 };
 var BarSeriesPrimitive_default = BarSeriesPrimitive;
 
@@ -5874,15 +6048,27 @@ var BandScalesProvider = ({
     allData.forEach((d) => set.add(d.x));
     return Array.from(set);
   }, [allData]);
-  const yMax = React18.useMemo(() => Math.max(0, ...allData.map((d) => d.y)), [allData]);
-  const xScale = React18.useMemo(() => band().domain(xDomain).range([0, innerWidth]).paddingInner(paddingInner).paddingOuter(paddingOuter), [xDomain, innerWidth, paddingInner, paddingOuter]);
-  const yScale = React18.useMemo(() => linear2().domain([0, yMax]).nice().range([innerHeight, 0]), [yMax, innerHeight]);
-  const value = React18.useMemo(() => ({
-    xScale,
-    yScale,
-    getXTicks: () => xDomain,
-    getYTicks: (c = yTickCount) => yScale.ticks(c)
-  }), [xScale, yScale, xDomain, yTickCount]);
+  const yMax = React18.useMemo(
+    () => Math.max(0, ...allData.map((d) => d.y)),
+    [allData]
+  );
+  const xScale = React18.useMemo(
+    () => band().domain(xDomain).range([0, innerWidth]).paddingInner(paddingInner).paddingOuter(paddingOuter),
+    [xDomain, innerWidth, paddingInner, paddingOuter]
+  );
+  const yScale = React18.useMemo(
+    () => linear2().domain([0, yMax]).nice().range([innerHeight, 0]),
+    [yMax, innerHeight]
+  );
+  const value = React18.useMemo(
+    () => ({
+      xScale,
+      yScale,
+      getXTicks: () => xDomain,
+      getYTicks: (c = yTickCount) => yScale.ticks(c)
+    }),
+    [xScale, yScale, xDomain, yTickCount]
+  );
   return /* @__PURE__ */ jsx22(ScaleContext_default.Provider, { value, children });
 };
 
@@ -6149,36 +6335,6 @@ function xmrLimits(centerMean, mrMeanVal) {
     lowerOneSigma: centerMean - k1 * mrMeanVal
   };
 }
-function countAbove(values, ref) {
-  return values.reduce(
-    (c, v) => c + (isNumber(v) && v > ref ? 1 : 0),
-    0
-  );
-}
-function countBelow(values, ref) {
-  return values.reduce(
-    (c, v) => c + (isNumber(v) && v < ref ? 1 : 0),
-    0
-  );
-}
-function isTrend(seq, n, direction) {
-  const vals = seq.filter((v) => isNumber(v));
-  if (vals.length < n) return false;
-  const tail = vals.slice(-n);
-  for (let i = 1; i < tail.length; i++) {
-    if (direction === "up" && !(tail[i] > tail[i - 1])) return false;
-    if (direction === "down" && !(tail[i] < tail[i - 1])) return false;
-  }
-  return true;
-}
-function isRunOnOneSide(seq, n, ref, side) {
-  const vals = seq.filter((v) => isNumber(v));
-  if (vals.length < n) return false;
-  const tail = vals.slice(-n);
-  if (side === "high") return tail.every((v) => v > ref);
-  if (side === "low") return tail.every((v) => v < ref);
-  return false;
-}
 var T_ALPHA = 0.2777;
 var T_INV_ALPHA = 3.6;
 var toTTransformed = (t) => isNumber(t) && t >= 0 ? Math.pow(t, T_ALPHA) : null;
@@ -6273,7 +6429,7 @@ function tChartLimits(tValues, ghosts, excludeOutliers) {
   };
 }
 function buildSpc(args) {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
   const {
     chartType,
     metricImprovement,
@@ -6309,6 +6465,8 @@ function buildSpc(args) {
     baselineSuggestStabilityPoints: 5,
     baselineSuggestMinGap: 12,
     baselineSuggestScoreThreshold: 50,
+    retroactiveOppositeShiftNeutralisation: false,
+    retroactiveShiftDeltaSigmaThreshold: 0.5,
     ...userSettings
   };
   if (!Array.isArray(data)) throw new Error("data must be an array of rows");
@@ -6460,11 +6618,15 @@ function buildSpc(args) {
     ).length;
     const shiftN = (_f = settings.specialCauseShiftPoints) != null ? _f : 6;
     const trendN = (_g = settings.specialCauseTrendPoints) != null ? _g : 6;
-    const runningNonGhostValues = [];
+    const nonGhostIndices = [];
+    const nonGhostValues = [];
     for (let i = 0; i < withLines.length; i++) {
       const row = withLines[i];
       const v = row.value;
-      if (!row.ghost && isNumber(v)) runningNonGhostValues.push(v);
+      if (!row.ghost && isNumber(v)) {
+        nonGhostIndices.push(i);
+        nonGhostValues.push(v);
+      }
       const hasLimits = isNumber(row.mean) && isNumber(row.upperProcessLimit) && isNumber(row.lowerProcessLimit);
       if (!hasLimits || row.ghost || !isNumber(v)) {
         output.push(row);
@@ -6472,61 +6634,88 @@ function buildSpc(args) {
       }
       row.specialCauseSinglePointAbove = isNumber(row.upperProcessLimit) ? v > row.upperProcessLimit : false;
       row.specialCauseSinglePointBelow = isNumber(row.lowerProcessLimit) ? v < row.lowerProcessLimit : false;
-      const allAboveMean = (vals, meanVal) => vals.every((val) => val > meanVal);
-      const allBelowMean = (vals, meanVal) => vals.every((val) => val < meanVal);
-      const last3 = runningNonGhostValues.slice(-3);
-      if (last3.length === 3 && isNumber(row.mean)) {
-        const u2 = (_h = row.upperTwoSigma) != null ? _h : Infinity;
-        const l2 = (_i = row.lowerTwoSigma) != null ? _i : -Infinity;
-        const highCount = countAbove(last3, u2);
-        const lowCount = countBelow(last3, l2);
-        if (highCount >= 2 && allAboveMean(last3, row.mean)) {
-          row.specialCauseTwoOfThreeAbove = true;
-        }
-        if (lowCount >= 2 && allBelowMean(last3, row.mean)) {
-          row.specialCauseTwoOfThreeBelow = true;
-        }
-      }
-      if (settings.enableFourOfFiveRule && isNumber(row.mean)) {
-        const last5 = runningNonGhostValues.slice(-5);
-        if (last5.length === 5) {
-          const u1 = (_j = row.upperOneSigma) != null ? _j : Infinity;
-          const l1 = (_k = row.lowerOneSigma) != null ? _k : -Infinity;
-          const highCount = countAbove(last5, u1);
-          const lowCount = countBelow(last5, l1);
-          if (highCount >= 4 && allAboveMean(last5, row.mean)) {
-            row.specialCauseFourOfFiveAbove = true;
-          }
-          if (lowCount >= 4 && allBelowMean(last5, row.mean)) {
-            row.specialCauseFourOfFiveBelow = true;
-          }
-        }
-      }
-      if (isNumber(row.mean)) {
-        row.specialCauseShiftHigh = isRunOnOneSide(
-          runningNonGhostValues,
-          shiftN,
-          row.mean,
-          "high"
-        );
-        row.specialCauseShiftLow = isRunOnOneSide(
-          runningNonGhostValues,
-          shiftN,
-          row.mean,
-          "low"
-        );
-      }
-      row.specialCauseTrendIncreasing = isTrend(
-        runningNonGhostValues,
-        trendN,
-        "up"
-      );
-      row.specialCauseTrendDecreasing = isTrend(
-        runningNonGhostValues,
-        trendN,
-        "down"
-      );
       output.push(row);
+    }
+    if (nonGhostIndices.length) {
+      const getRow = (idx) => withLines[idx];
+      let runHigh = [];
+      let runLow = [];
+      for (const idxLocal of nonGhostIndices) {
+        const r2 = getRow(idxLocal);
+        if (!isNumber(r2.mean) || !isNumber(r2.value)) {
+          runHigh = [];
+          runLow = [];
+          continue;
+        }
+        if (r2.value > r2.mean) {
+          runHigh.push(idxLocal);
+          runLow = [];
+        } else if (r2.value < r2.mean) {
+          runLow.push(idxLocal);
+          runHigh = [];
+        } else {
+          runHigh = [];
+          runLow = [];
+        }
+        if (runHigh.length >= shiftN) {
+          for (const j of runHigh) getRow(j).specialCauseShiftHigh = true;
+        }
+        if (runLow.length >= shiftN) {
+          for (const j of runLow) getRow(j).specialCauseShiftLow = true;
+        }
+      }
+      for (let w = 0; w <= nonGhostIndices.length - 3; w++) {
+        const windowIdx = nonGhostIndices.slice(w, w + 3);
+        const rows3 = windowIdx.map(getRow);
+        if (!rows3.every((r2) => isNumber(r2.mean) && isNumber(r2.value))) continue;
+        const meanVal = rows3[0].mean;
+        const allHighSide = rows3.every((r2) => r2.value > meanVal);
+        const allLowSide = rows3.every((r2) => r2.value < meanVal);
+        if (!allHighSide && !allLowSide) continue;
+        const u2 = (_h = rows3[0].upperTwoSigma) != null ? _h : Infinity;
+        const l2 = (_i = rows3[0].lowerTwoSigma) != null ? _i : -Infinity;
+        const highExceed = rows3.filter((r2) => r2.value > u2);
+        const lowExceed = rows3.filter((r2) => r2.value < l2);
+        if (allHighSide && highExceed.length >= 2) {
+          for (const r2 of highExceed) r2.specialCauseTwoOfThreeAbove = true;
+        }
+        if (allLowSide && lowExceed.length >= 2) {
+          for (const r2 of lowExceed) r2.specialCauseTwoOfThreeBelow = true;
+        }
+      }
+      if (settings.enableFourOfFiveRule) {
+        for (let w = 0; w <= nonGhostIndices.length - 5; w++) {
+          const windowIdx = nonGhostIndices.slice(w, w + 5);
+          const rows5 = windowIdx.map(getRow);
+          if (!rows5.every((r2) => isNumber(r2.mean) && isNumber(r2.value))) continue;
+          const meanVal = rows5[0].mean;
+          if (!rows5.every((r2) => r2.value > meanVal) && !rows5.every((r2) => r2.value < meanVal)) continue;
+          const u1 = (_j = rows5[0].upperOneSigma) != null ? _j : Infinity;
+          const l1 = (_k = rows5[0].lowerOneSigma) != null ? _k : -Infinity;
+          const highExceed = rows5.filter((r2) => r2.value > u1);
+          const lowExceed = rows5.filter((r2) => r2.value < l1);
+          if (rows5.every((r2) => r2.value > meanVal) && highExceed.length >= 4) {
+            for (const r2 of highExceed) r2.specialCauseFourOfFiveAbove = true;
+          }
+          if (rows5.every((r2) => r2.value < meanVal) && lowExceed.length >= 4) {
+            for (const r2 of lowExceed) r2.specialCauseFourOfFiveBelow = true;
+          }
+        }
+      }
+      for (let w = 0; w <= nonGhostIndices.length - trendN; w++) {
+        const windowIdx = nonGhostIndices.slice(w, w + trendN);
+        const rowsN = windowIdx.map(getRow);
+        if (!rowsN.every((r2) => isNumber(r2.value))) continue;
+        let inc = true;
+        let dec = true;
+        for (let k = 1; k < rowsN.length; k++) {
+          if (!(rowsN[k].value > rowsN[k - 1].value)) inc = false;
+          if (!(rowsN[k].value < rowsN[k - 1].value)) dec = false;
+          if (!inc && !dec) break;
+        }
+        if (inc) for (const j of windowIdx) getRow(j).specialCauseTrendIncreasing = true;
+        if (dec) for (const j of windowIdx) getRow(j).specialCauseTrendDecreasing = true;
+      }
     }
     if (settings.maximumPointsPartition && Number.isFinite(settings.maximumPointsPartition)) {
       const cap = settings.maximumPointsPartition;
@@ -6536,6 +6725,65 @@ function buildSpc(args) {
         if (seen > cap) {
           row.mean = row.upperProcessLimit = row.lowerProcessLimit = null;
           row.upperTwoSigma = row.lowerTwoSigma = row.upperOneSigma = row.lowerOneSigma = null;
+        }
+      }
+    }
+  }
+  if (settings.retroactiveOppositeShiftNeutralisation) {
+    const shiftN = (_l = settings.specialCauseShiftPoints) != null ? _l : 6;
+    const partitionIds = Array.from(new Set(output.map((r2) => r2.partitionId)));
+    for (const pid of partitionIds) {
+      const partRows = output.filter((r2) => r2.partitionId === pid);
+      if (!partRows.length) continue;
+      let earliestHigh = null;
+      let earliestLow = null;
+      for (let i = 0; i < partRows.length; i++) {
+        if (partRows[i].specialCauseShiftHigh && earliestHigh === null) earliestHigh = i;
+        if (partRows[i].specialCauseShiftLow && earliestLow === null) earliestLow = i;
+        if (earliestHigh !== null && earliestLow !== null) break;
+      }
+      if (earliestHigh === null || earliestLow === null) continue;
+      const favourUp = metricImprovement === "Up" /* Up */;
+      const favourableShiftIndex = favourUp ? earliestHigh : earliestLow;
+      const unfavourableShiftIndex = favourUp ? earliestLow : earliestHigh;
+      if (unfavourableShiftIndex >= favourableShiftIndex) continue;
+      const favourableFlagKey = favourUp ? "specialCauseShiftHigh" : "specialCauseShiftLow";
+      const favourableIndices = partRows.map((r2, idx) => ({ r: r2, idx })).filter((o) => o.r[favourableFlagKey]).map((o) => o.idx);
+      if (favourableIndices.length < shiftN) continue;
+      let sigma = null;
+      for (const r2 of partRows) {
+        if (isNumber(r2.upperProcessLimit) && isNumber(r2.mean)) {
+          const span = r2.upperProcessLimit - r2.mean;
+          if (span > 0) {
+            sigma = span / 3;
+            break;
+          }
+        }
+      }
+      if (!sigma || sigma <= 0) continue;
+      const favStart = favourableShiftIndex;
+      const preWindowValues = [];
+      for (let i = favStart - 1; i >= 0 && preWindowValues.length < shiftN; i--) {
+        const v = partRows[i].value;
+        if (isNumber(v) && !partRows[i].ghost) preWindowValues.unshift(v);
+      }
+      if (preWindowValues.length < shiftN) continue;
+      const postWindowValues = favourableIndices.map((idx) => partRows[idx].value).filter(isNumber);
+      if (!postWindowValues.length) continue;
+      const preMean = mean(preWindowValues);
+      const postMean = mean(postWindowValues);
+      const deltaSigma = favourUp ? (postMean - preMean) / sigma : (preMean - postMean) / sigma;
+      if (deltaSigma < settings.retroactiveShiftDeltaSigmaThreshold) continue;
+      for (let i = 0; i < favourableShiftIndex; i++) {
+        const r2 = partRows[i];
+        if (favourUp) {
+          r2.specialCauseShiftLow = false;
+          r2.specialCauseTwoOfThreeBelow = false;
+          r2.specialCauseFourOfFiveBelow = false;
+        } else {
+          r2.specialCauseShiftHigh = false;
+          r2.specialCauseTwoOfThreeAbove = false;
+          r2.specialCauseFourOfFiveAbove = false;
         }
       }
     }
@@ -6555,7 +6803,7 @@ function buildSpc(args) {
         row.specialCauseTwoOfThreeBelow = false;
     }
     if (settings.precedenceStrategy === "directional_first") {
-      const trendWindow = (_l = settings.specialCauseTrendPoints) != null ? _l : 6;
+      const trendWindow = (_m = settings.specialCauseTrendPoints) != null ? _m : 6;
       const lookBack = trendWindow - 1;
       let emergingFavourable = false;
       if (lookBack >= 3 && isNumber(row.value)) {
@@ -6606,7 +6854,7 @@ function buildSpc(args) {
         row.variationIcon = "neither" /* Neither */;
       }
     }
-    if (settings.suppressIsolatedFavourablePoint && row.variationIcon === "improvement" /* Improvement */) {
+    if (settings.suppressIsolatedFavourablePoint && row.variationIcon === "improvement" /* Improvement */ && idx > 0 && idx < output.length - 1) {
       const favourableSingleHigh = metricImprovement === "Up" /* Up */ && row.specialCauseSinglePointAbove;
       const favourableSingleLow = metricImprovement === "Down" /* Down */ && row.specialCauseSinglePointBelow;
       const corroborating = metricImprovement === "Up" /* Up */ && (row.specialCauseTwoOfThreeAbove || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveAbove || row.specialCauseShiftHigh || row.specialCauseTrendIncreasing) || metricImprovement === "Down" /* Down */ && (row.specialCauseTwoOfThreeBelow || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow || row.specialCauseShiftLow || row.specialCauseTrendDecreasing);
@@ -6650,7 +6898,7 @@ function buildSpc(args) {
       }
     }
   }
-  if (((_m = settings.minimumPointsWarning) != null ? _m : false) && !globalEnough) {
+  if (((_n = settings.minimumPointsWarning) != null ? _n : false) && !globalEnough) {
     const available = canonical.filter(
       (r2) => !r2.ghost && isNumber(r2.value)
     ).length;
@@ -6964,10 +7212,22 @@ function zoneLabel(mean2, sigma, value) {
   return "Beyond 3\u03C3";
 }
 var VARIATION_COLOR_TOKENS = {
-  improvement: { token: "var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)", hex: "#00B0F0" },
-  concern: { token: "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)", hex: "#E46C0A" },
-  none: { token: "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)", hex: "#490092" },
-  neither: { token: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", hex: "#A6A6A6" }
+  improvement: {
+    token: "var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)",
+    hex: "#00B0F0"
+  },
+  concern: {
+    token: "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)",
+    hex: "#E46C0A"
+  },
+  none: {
+    token: "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)",
+    hex: "#490092"
+  },
+  neither: {
+    token: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
+    hex: "#A6A6A6"
+  }
 };
 function getVariationColorToken(icon) {
   var _a2, _b2;

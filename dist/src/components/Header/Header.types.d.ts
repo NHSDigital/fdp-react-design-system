@@ -37,6 +37,8 @@ export interface HeaderProps {
     /** Header variant */
     variant?: 'default' | 'white' | 'organisation';
     maxVisibleItems?: number;
+    /** If true (default), navigation is responsive and client enhancement will manage overflow; if false, render all items into dropdown on server */
+    responsiveNavigation?: boolean;
     /** Additional HTML attributes */
     attributes?: Record<string, any>;
 }

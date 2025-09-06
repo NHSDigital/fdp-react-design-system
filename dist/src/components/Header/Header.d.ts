@@ -1,5 +1,5 @@
-import React from 'react';
-import { HeaderProps } from './Header.types';
+import React from "react";
+import { HeaderProps } from "./Header.types";
 /**
  * SSR-compatible Header Component with Progressive Enhancement
  *

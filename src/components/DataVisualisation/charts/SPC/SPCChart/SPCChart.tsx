@@ -75,6 +75,8 @@ export interface SPCChartProps {
 	gradientSequences?: boolean;
 	/** Stroke width (thickness) of the main process line. Defaults to 1. */
 	processLineWidth?: number;
+	/** When true, render vertical dashed markers at partition (baseline) boundaries */
+	showPartitionMarkers?: boolean;
 }
 
 export const SPCChart: React.FC<SPCChartProps> = ({
@@ -98,7 +100,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	settings,
 	narrationContext,
 	gradientSequences = false,
- 	processLineWidth = 2,
+	processLineWidth = 2,
 }) => {
 	const engine = React.useMemo(() => {
 		const rowsInput = data.map((d, i) => ({
@@ -169,6 +171,16 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			? { ...(narrationContext || {}), measureUnit: effectiveUnit }
 			: narrationContext;
 	}, [narrationContext, effectiveUnit]);
+
+	// Partition markers (after engine available)
+	const partitionMarkers = React.useMemo(() => {
+		if (!engine?.rows) return [] as number[];
+		const markers: number[] = [];
+		for (let i=1;i<engine.rows.length;i++) {
+			if (engine.rows[i].partitionId !== engine.rows[i-1].partitionId) markers.push(i);
+		}
+		return markers;
+	}, [engine?.rows]);
 
 	// Derive embedded variation icon (now rendered above chart instead of inside SVG)
 	const embeddedIcon = React.useMemo(() => {
@@ -299,6 +311,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						gradientSequences={gradientSequences}
 						processLineWidth={processLineWidth}
 						effectiveUnit={effectiveUnit}
+						partitionMarkers={partitionMarkers}
 					/>
 				</LineScalesProvider>
 			</ChartRoot>
@@ -337,6 +350,7 @@ interface InternalProps {
 	gradientSequences: boolean;
 	processLineWidth: number;
 	effectiveUnit?: string;
+	partitionMarkers: number[];
 }
 
 const InternalSPC: React.FC<InternalProps> = ({
@@ -353,6 +367,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 	gradientSequences,
  	processLineWidth,
 	effectiveUnit,
+	partitionMarkers,
 }) => {
 	const scaleCtx = useScaleContext();
 	const chartCtx = useChartContext();
@@ -478,6 +493,52 @@ const InternalSPC: React.FC<InternalProps> = ({
 	// Precompute x positions for boundary calculations (after scales + data available)
 	const xPositions = React.useMemo(() => all.map(d => xScale(d.x instanceof Date ? d.x : new Date(d.x))), [all, xScale]);
 	const plotWidth = xScale.range()[1];
+
+	// Build horizontal line segments for limits that can change across partitions (means/limits per row)
+	const limitSegments = React.useMemo(() => {
+		if (!engineRows || !engineRows.length) return null;
+		// Helper to extract segments for a given numeric accessor key present on each row
+		const build = (key: keyof typeof engineRows[number]) => {
+			const segs: { x1: number; x2: number; y: number }[] = [];
+			let start: number | null = null;
+			let current: number | null = null;
+			for (let i = 0; i < engineRows.length; i++) {
+				const row = engineRows[i];
+				const v = typeof row[key] === 'number' ? (row[key] as number) : null;
+				if (v == null || isNaN(v)) {
+					// flush any active segment
+					if (start !== null && current != null) {
+						segs.push({ x1: xPositions[start], x2: xPositions[i - 1], y: yScale(current) });
+						start = null; current = null;
+					}
+					continue;
+				}
+				if (start === null) { start = i; current = v; continue; }
+				// continue segment if value unchanged (within epsilon) else close & start new
+				const EPS = 1e-9;
+				if (current != null && Math.abs(v - current) <= EPS) {
+					// still same segment
+				} else {
+					// close previous
+					segs.push({ x1: xPositions[start], x2: xPositions[i - 1], y: yScale(current as number) });
+					start = i; current = v;
+				}
+			}
+			if (start !== null && current != null) {
+				segs.push({ x1: xPositions[start], x2: xPositions[engineRows.length - 1], y: yScale(current) });
+			}
+			return segs;
+		};
+		return {
+			mean: build('mean'),
+			ucl: build('upperProcessLimit'),
+			lcl: build('lowerProcessLimit'),
+			onePos: build('upperOneSigma'),
+			oneNeg: build('lowerOneSigma'),
+			twoPos: build('upperTwoSigma'),
+			twoNeg: build('lowerTwoSigma'),
+		};
+	}, [engineRows, xPositions, yScale]);
 
 	// Build gradient definitions + rects
 	const sequenceDefs = React.useMemo(() => {
@@ -708,42 +769,39 @@ const InternalSPC: React.FC<InternalProps> = ({
 						<GridLines axis="y" />
 						{sequenceDefs}
 						{sequenceAreas}
-						{limits.mean != null && (
-							<line
-								className="fdp-spc__cl"
-								x1={0}
-								x2={xScale.range()[1]}
-								y1={yScale(limits.mean)}
-								y2={yScale(limits.mean)}
-								aria-hidden="true"
-							/>
-						)}
+						{partitionMarkers.map((idx: number, i: number) => {
+							const d = all[idx];
+							if (!d) return null;
+							const x = xScale(d.x instanceof Date ? d.x : new Date(d.x));
+							return (
+								<line
+									key={`partition-marker-${i}`}
+									x1={x}
+									x2={x}
+									y1={0}
+									y2={yScale.range()[0]}
+									stroke="#555"
+									strokeDasharray="4 4"
+									strokeWidth={1}
+									aria-hidden="true"
+									className="fdp-spc__partition-marker"
+								/>
+							);
+						})}
+						{/* Partition-aware mean (centre line) rendering */}
+						{limitSegments?.mean.map((s, i) => (
+							<line key={`mean-${i}`} className="fdp-spc__cl" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" />
+						))}
 						{uniformTarget != null && (
 							// Render later (after limits) for stacking; temporary placeholder (moved below)
 							<></>
 						)}
-						{limits.ucl != null && (
-							<line
-								className="fdp-spc__limit fdp-spc__limit--ucl"
-								x1={0}
-								x2={xScale.range()[1]}
-								y1={yScale(limits.ucl)}
-								y2={yScale(limits.ucl)}
-								aria-hidden="true"
-								strokeWidth={2}
-							/>
-						)}
-						{limits.lcl != null && (
-							<line
-								className="fdp-spc__limit fdp-spc__limit--lcl"
-								x1={0}
-								x2={xScale.range()[1]}
-								y1={yScale(limits.lcl)}
-								y2={yScale(limits.lcl)}
-								aria-hidden="true"
-								strokeWidth={2}
-							/>
-						)}
+						{limitSegments?.ucl.map((s, i) => (
+							<line key={`ucl-${i}`} className="fdp-spc__limit fdp-spc__limit--ucl" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" strokeWidth={2} />
+						))}
+						{limitSegments?.lcl.map((s, i) => (
+							<line key={`lcl-${i}`} className="fdp-spc__limit fdp-spc__limit--lcl" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" strokeWidth={2} />
+						))}
 						{/* Target line drawn after limits for clear visibility */}
 						{uniformTarget != null && (
 							<g aria-hidden="true" className="fdp-spc__target-group">
@@ -768,52 +826,20 @@ const InternalSPC: React.FC<InternalProps> = ({
 								</text>
 							</g>
 						)}
-						{showZones && limits.mean != null && (
+						{showZones && limitSegments && limitSegments.mean.length > 0 && (
 							<>
-								{limits.onePos != null && (
-									<line
-										className="fdp-spc__zone fdp-spc__zone--pos1"
-										x1={0}
-										x2={xScale.range()[1]}
-										y1={yScale(limits.onePos)}
-										y2={yScale(limits.onePos)}
-										aria-hidden="true"
-										strokeWidth={2}
-									/>
-								)}
-								{limits.oneNeg != null && (
-									<line
-										className="fdp-spc__zone fdp-spc__zone--neg1"
-										x1={0}
-										x2={xScale.range()[1]}
-										y1={yScale(limits.oneNeg)}
-										y2={yScale(limits.oneNeg)}
-										aria-hidden="true"
-										strokeWidth={2}
-									/>
-								)}
-								{limits.twoPos != null && (
-									<line
-										className="fdp-spc__zone fdp-spc__zone--pos2"
-										x1={0}
-										x2={xScale.range()[1]}
-										y1={yScale(limits.twoPos)}
-										y2={yScale(limits.twoPos)}
-										aria-hidden="true"
-										strokeWidth={2}
-									/>
-								)}
-								{limits.twoNeg != null && (
-									<line
-										className="fdp-spc__zone fdp-spc__zone--neg2"
-										x1={0}
-										x2={xScale.range()[1]}
-										y1={yScale(limits.twoNeg)}
-										y2={yScale(limits.twoNeg)}
-										aria-hidden="true"
-										strokeWidth={2}
-									/>
-								)}
+								{limitSegments.onePos.map((s, i) => (
+									<line key={`onePos-${i}`} className="fdp-spc__zone fdp-spc__zone--pos1" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" strokeWidth={2} />
+								))}
+								{limitSegments.oneNeg.map((s, i) => (
+									<line key={`oneNeg-${i}`} className="fdp-spc__zone fdp-spc__zone--neg1" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" strokeWidth={2} />
+								))}
+								{limitSegments.twoPos.map((s, i) => (
+									<line key={`twoPos-${i}`} className="fdp-spc__zone fdp-spc__zone--pos2" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" strokeWidth={2} />
+								))}
+								{limitSegments.twoNeg.map((s, i) => (
+									<line key={`twoNeg-${i}`} className="fdp-spc__zone fdp-spc__zone--neg2" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" strokeWidth={2} />
+								))}
 							</>
 						)}
 						<LineSeriesPrimitive

@@ -8573,7 +8573,8 @@ var SPCChart = ({
             gradientSequences,
             processLineWidth,
             effectiveUnit,
-            partitionMarkers
+            partitionMarkers,
+            ariaLabel
           }
         ) })
       }
@@ -8594,7 +8595,8 @@ var InternalSPC = ({
   gradientSequences,
   processLineWidth,
   effectiveUnit,
-  partitionMarkers
+  partitionMarkers,
+  ariaLabel
 }) => {
   var _a2;
   const scaleCtx = useScaleContext();
@@ -8639,48 +8641,52 @@ var InternalSPC = ({
     return values.every((v) => v === first) ? first : null;
   }, [engineRows]);
   const categories = React24.useMemo(() => {
-    if (!engineSignals) return [];
+    if (!engineSignals || !all.length) return [];
     const raw = all.map((_d, i) => {
       const sig = engineSignals == null ? void 0 : engineSignals[i];
       if (sig == null ? void 0 : sig.concern) return "concern";
       if (sig == null ? void 0 : sig.improvement) return "improvement";
       return "common";
     });
-    for (let i = 1; i < raw.length - 1; i++) {
-      if ((raw[i] === "concern" || raw[i] === "improvement") && raw[i - 1] === "common" && raw[i + 1] === "common") {
-        raw[i] = "common";
-      }
-    }
-    for (let i = 1; i < raw.length - 1; i++) {
-      const left = raw[i - 1];
-      const mid = raw[i];
-      const right = raw[i + 1];
-      if (mid !== "common" && left !== "common" && right !== "common" && left === right && mid !== left) {
-        raw[i] = "common";
-      }
+    const isRuleClash = ariaLabel == null ? void 0 : ariaLabel.includes("Rule Clash");
+    if (isRuleClash) {
+      console.log(`[${ariaLabel}] Raw categories:`, raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", "));
     }
     return raw;
-  }, [engineSignals, all]);
+  }, [engineSignals, all, ariaLabel]);
   const sequences = React24.useMemo(() => {
     if (!gradientSequences || !categories.length) return [];
-    const result = [];
-    let runStart = 0;
-    for (let i = 1; i <= categories.length; i++) {
-      const changed = i === categories.length || categories[i] !== categories[runStart];
-      if (changed) {
-        const cat = categories[runStart];
-        const runEnd = i - 1;
-        const runLen = runEnd - runStart + 1;
-        if (cat === "common") {
-          result.push({ start: runStart, end: runEnd, category: "common" });
-        } else {
-          if (runLen > 1) result.push({ start: runStart, end: runEnd, category: cat });
+    const cats = [...categories];
+    let i = 0;
+    while (i < cats.length) {
+      const cat = cats[i];
+      let j = i + 1;
+      while (j < cats.length && cats[j] === cat) j++;
+      const runLen = j - i;
+      if (runLen === 1 && cat !== "common") {
+        cats[i] = "common";
+      }
+      i = j;
+    }
+    const out = [];
+    if (cats.length) {
+      let start = 0;
+      for (let k = 1; k <= cats.length; k++) {
+        if (k === cats.length || cats[k] !== cats[start]) {
+          const runCat = cats[start];
+          const end = k - 1;
+          const len = end - start + 1;
+          if (runCat === "common" || len >= 2) out.push({ start, end, category: runCat });
+          start = k;
         }
-        runStart = i;
       }
     }
-    return result;
-  }, [gradientSequences, categories]);
+    const isRuleClash = ariaLabel == null ? void 0 : ariaLabel.includes("Rule Clash");
+    if (isRuleClash) {
+      console.log(`[${ariaLabel}] Final sequences:`, out.map((s) => `${s.start}-${s.end}:${s.category}`).join(", "));
+    }
+    return out;
+  }, [gradientSequences, categories, ariaLabel]);
   const xPositions = React24.useMemo(() => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))), [all, xScale]);
   const plotWidth = xScale.range()[1];
   const limitSegments = React24.useMemo(() => {
@@ -8708,7 +8714,9 @@ var InternalSPC = ({
         const EPS = 1e-9;
         if (current != null && Math.abs(v - current) <= EPS) {
         } else {
-          segs.push({ x1: xPositions[start], x2: xPositions[i - 1], y: yScale(current) });
+          if (current != null) {
+            segs.push({ x1: xPositions[start], x2: xPositions[i - 1], y: yScale(current) });
+          }
           start = i;
           current = v;
         }
@@ -8762,56 +8770,54 @@ var InternalSPC = ({
     const [domainMin] = yScale.domain();
     const baseY = yScale(domainMin);
     const areas = sequences.map((seq, idx) => {
-      const firstIdx = seq.start;
-      const lastIdx = seq.end;
+      const { start: firstIdx, end: lastIdx, category } = seq;
+      if (firstIdx < 0 || lastIdx >= xPositions.length || firstIdx > lastIdx) return null;
       const firstX = xPositions[firstIdx];
       const lastX = xPositions[lastIdx];
-      const prevX = firstIdx > 0 ? xPositions[firstIdx - 1] : firstX;
-      const nextX = lastIdx < xPositions.length - 1 ? xPositions[lastIdx + 1] : lastX;
-      let left = firstIdx === 0 ? Math.max(0, firstX - (xPositions.length > 1 ? (xPositions[1] - firstX) / 2 : 10)) : (prevX + firstX) / 2;
-      let right = lastIdx === xPositions.length - 1 ? Math.min(plotWidth, lastX + (xPositions.length > 1 ? (lastX - xPositions[xPositions.length - 2]) / 2 : 10)) : (lastX + nextX) / 2;
-      let extendLeftY = null;
-      let extendRightY = null;
-      if (seq.category === "common") {
-        if (firstIdx > 0) {
-          left = xPositions[firstIdx - 1];
-          extendLeftY = yScale(all[firstIdx - 1].y);
+      let d = "";
+      if (category === "common") {
+        const prevSeq = idx > 0 ? sequences[idx - 1] : null;
+        const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
+        const leftX = prevSeq ? xPositions[prevSeq.end] : 0;
+        const leftY = prevSeq ? yScale(all[prevSeq.end].y) : baseY;
+        const rightX = nextSeq ? xPositions[nextSeq.start] : plotWidth;
+        const rightY = nextSeq ? yScale(all[nextSeq.start].y) : baseY;
+        d = `M ${leftX} ${baseY}`;
+        d += ` L ${leftX} ${leftY}`;
+        for (let i = firstIdx; i <= lastIdx; i++) {
+          d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
         }
-        if (lastIdx < all.length - 1) {
-          right = xPositions[lastIdx + 1];
-          extendRightY = yScale(all[lastIdx + 1].y);
-        }
+        d += ` L ${rightX} ${rightY}`;
+        d += ` L ${rightX} ${baseY} Z`;
       } else {
-        left = firstX;
-        if (firstIdx > 0) {
-          const prevCat = categories[firstIdx - 1];
-          if (prevCat !== "common" && prevCat !== seq.category) {
-            left = xPositions[firstIdx - 1];
-            extendLeftY = yScale(all[firstIdx - 1].y);
-          }
+        const prevSeq = idx > 0 ? sequences[idx - 1] : null;
+        const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
+        const prevColoured = prevSeq && prevSeq.category !== "common";
+        const nextColoured = nextSeq && nextSeq.category !== "common";
+        const firstY = yScale(all[firstIdx].y);
+        const lastY = yScale(all[lastIdx].y);
+        if (prevColoured) {
+          const prevX = xPositions[prevSeq.end];
+          const prevY = yScale(all[prevSeq.end].y);
+          d = `M ${prevX} ${prevY} L ${firstX} ${firstY}`;
+        } else {
+          d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
         }
-      }
-      let d = `M ${left} ${baseY}`;
-      const firstY = yScale(all[firstIdx].y);
-      if (extendLeftY != null) {
-        d += ` L ${left} ${extendLeftY}`;
-        if (firstX !== left) d += ` L ${firstX} ${firstY}`;
-      } else {
-        d += ` L ${left} ${firstY}`;
-        if (firstX !== left) d += ` L ${firstX} ${firstY}`;
-      }
-      for (let i = firstIdx; i <= lastIdx; i++) {
-        const x2 = xPositions[i];
-        const y2 = yScale(all[i].y);
-        d += ` L ${x2} ${y2}`;
-      }
-      if (seq.category === "common" && extendRightY != null) {
-        if (right !== lastX) {
-          d += ` L ${right} ${extendRightY}`;
+        for (let i = firstIdx + 1; i <= lastIdx; i++) {
+          d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
         }
-        d += ` L ${right} ${baseY} Z`;
-      } else {
-        d += ` L ${lastX} ${baseY} L ${right} ${baseY} Z`;
+        d += ` L ${lastX} ${lastY}`;
+        if (nextColoured) {
+          d += ` L ${lastX} ${lastY} L ${lastX} ${baseY}`;
+        } else {
+          d += ` L ${lastX} ${lastY} L ${lastX} ${baseY}`;
+        }
+        if (prevColoured) {
+          const prevX = xPositions[prevSeq.end];
+          d += ` L ${prevX} ${baseY} Z`;
+        } else {
+          d += ` L ${firstX} ${baseY} Z`;
+        }
       }
       return /* @__PURE__ */ jsx30(
         "path",
@@ -8824,7 +8830,7 @@ var InternalSPC = ({
         },
         `seq-area-${idx}`
       );
-    });
+    }).filter(Boolean);
     return /* @__PURE__ */ jsx30("g", { className: "fdp-spc__sequence-bgs", children: areas });
   }, [sequences, xPositions, plotWidth, yScale, all]);
   const computedTimeframe = React24.useMemo(() => {
@@ -9007,7 +9013,7 @@ var InternalSPC = ({
                   (sig == null ? void 0 : sig.assurance) === "pass" /* Pass */ ? "fdp-spc__point--assurance-pass" : null,
                   (sig == null ? void 0 : sig.assurance) === "fail" /* Fail */ ? "fdp-spc__point--assurance-fail" : null
                 ].filter(Boolean).join(" ");
-                const ariaLabel = `Point ${i + 1} value ${d.y}` + ((sig == null ? void 0 : sig.special) ? " special cause" : "") + ((sig == null ? void 0 : sig.variation) === "improvement" /* Improvement */ ? " improving" : (sig == null ? void 0 : sig.variation) === "concern" /* Concern */ ? " concern" : "");
+                const ariaLabel2 = `Point ${i + 1} value ${d.y}` + ((sig == null ? void 0 : sig.special) ? " special cause" : "") + ((sig == null ? void 0 : sig.variation) === "improvement" /* Improvement */ ? " improving" : (sig == null ? void 0 : sig.variation) === "concern" /* Concern */ ? " concern" : "");
                 const isFocused = ((_a3 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a3.index) === i;
                 return /* @__PURE__ */ jsx30(
                   "circle",
@@ -9018,7 +9024,7 @@ var InternalSPC = ({
                     className: classes,
                     "data-variation": sig == null ? void 0 : sig.variation,
                     "data-assurance": sig == null ? void 0 : sig.assurance,
-                    "aria-label": ariaLabel,
+                    "aria-label": ariaLabel2,
                     ...isFocused ? { "aria-describedby": `spc-tooltip-${i}` } : {}
                   },
                   i

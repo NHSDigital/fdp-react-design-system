@@ -294,6 +294,7 @@
 			/* Match default tag sizing; reapply base tag padding */
 			display: inline-flex !important;
 			align-items: center !important;
+			color: #000 !important;
 			justify-content: center !important;
 			padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2 !important; // same as base .nhsuk-tag
 			line-height: 1 !important; // use base line-height for vertical centering

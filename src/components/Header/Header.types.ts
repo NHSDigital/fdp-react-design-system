@@ -40,6 +40,8 @@ export interface HeaderProps {
   variant?: 'default' | 'white' | 'organisation';
   // Deprecated: maxVisibleItems (previously for HeaderStatic) retained for backward compatibility but ignored.
   maxVisibleItems?: number; // no-op
+  /** If true (default), navigation is responsive and client enhancement will manage overflow; if false, render all items into dropdown on server */
+  responsiveNavigation?: boolean;
   /** Additional HTML attributes */
   attributes?: Record<string, any>;
 }

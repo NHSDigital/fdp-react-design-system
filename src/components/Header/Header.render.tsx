@@ -14,6 +14,8 @@ export interface RenderHeaderOptions {
 	visibleItems?: number;
 	dropdownVisible?: boolean;
 	toggleMenu?: (e?: React.MouseEvent) => void;
+	navContainerRef?: React.RefObject<HTMLDivElement>;
+	navListRef?: React.RefObject<HTMLUListElement>;
 }
 
 export function renderHeaderMarkup(
@@ -26,6 +28,8 @@ export function renderHeaderMarkup(
 		visibleItems,
 		dropdownVisible,
 		toggleMenu,
+		navContainerRef,
+		navListRef,
 	}: RenderHeaderOptions
 ) {
 	const {
@@ -39,7 +43,8 @@ export function renderHeaderMarkup(
 		containerClasses,
 		variant: headerVariant = "default",
 		attributes = {},
-		maxVisibleItems,
+		maxVisibleItems, // deprecated (ignored)
+		responsiveNavigation = true,
 		...rest
 	} = props;
 
@@ -152,25 +157,18 @@ export function renderHeaderMarkup(
 		<svg
 			className="nhsuk-icon nhsuk-icon__chevron-down"
 			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 12 7"
+			viewBox="0 0 24 24"
 			aria-hidden="true"
 			focusable="false"
 		>
-			<path d="M1.414 0 6 4.586 10.586 0 12 1.414 6 7 0 1.414 1.414 0Z" />
+			<path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" />
 		</svg>
 	);
 
-	// Server variant fallback overflow handling:
-	// If maxVisibleItems is provided (default 4) and navigation contains more items,
-	// we pre-render a split: first N items in the main list, remaining in an always-visible
-	// dropdown menu so that all navigation is accessible without JS. Once enhanced,
-	// the client variant will recompute actual widths and may adjust.
-	const serverTrigger = maxVisibleItems ?? 4; // threshold to decide if we collapse entirely into dropdown
-	const serverHasOverflow =
-		variant === "server" &&
-		navigation?.items &&
-		navigation.items.length > serverTrigger;
-	// New behaviour: when overflow triggers on server we show NO primary items; everything appears in dropdown
+	// Server variant fallback overflow handling (boolean-based)
+	// If responsiveNavigation is false, we render everything in dropdown (no primary items)
+	// This avoids brittle numeric thresholds server-side.
+	const serverHasOverflow = variant === "server" && navigation?.items && !responsiveNavigation;
 	const serverPrimaryItems = serverHasOverflow ? [] : navigation?.items;
 	const serverOverflowItems = serverHasOverflow ? navigation!.items! : [];
 
@@ -225,15 +223,13 @@ export function renderHeaderMarkup(
 							},
 							containerClasses
 						)}
+						ref={variant === "client" ? navContainerRef : undefined}
 					>
-						<ul className="nhsuk-header__navigation-list">
-							{(variant === "server"
-								? serverPrimaryItems || []
-								: (navigation?.items || []).slice(
-										0,
-										visibleItems ?? (navigation?.items?.length || 0)
-									)
-							).map((item, index) => (
+						<ul
+							className="nhsuk-header__navigation-list"
+							ref={variant === "client" ? navListRef : undefined}
+						>
+							{(variant === "server" ? serverPrimaryItems || [] : navigation?.items || []).map((item, index) => (
 								<li
 									key={index}
 									className={classNames(
@@ -241,6 +237,11 @@ export function renderHeaderMarkup(
 										{
 											"nhsuk-header__navigation-item--current":
 												item.active || item.current,
+											"nhsuk-header__navigation-item--hidden":
+												variant === "client" &&
+												showMoreButton &&
+												visibleItems !== undefined &&
+												index >= (visibleItems ?? 0),
 										},
 										item.className
 									)}
@@ -259,19 +260,20 @@ export function renderHeaderMarkup(
 							))}
 							{variant === "client" &&
 								showMoreButton &&
-								visibleItems !== undefined &&
-								navigation?.items &&
-								visibleItems < navigation.items.length && (
+								visibleItems !== undefined && (
 									<li className="nhsuk-header__navigation-item nhsuk-header__navigation-item--more">
-										<a
+										<button
 											className="nhsuk-header__navigation-button"
 											id="toggle-more-menu"
-											onClick={toggleMenu}
 											type="button"
+											aria-haspopup="true"
+											aria-expanded={menuOpen ? "true" : "false"}
+											aria-controls="nhsuk-header-more-menu"
+											onClick={toggleMenu}
 										>
 											<span>More</span>
 											{renderChevronIcon()}
-										</a>
+										</button>
 									</li>
 								)}
 						</ul>
@@ -288,6 +290,7 @@ export function renderHeaderMarkup(
 					<div
 						className="nhsuk-header__dropdown-menu"
 						hidden={!dropdownVisible}
+						id="nhsuk-header-more-menu"
 					>
 						<ul className="nhsuk-header__dropdown-list">
 							{navigation.items.slice(visibleItems ?? 0).map((item, index) => (

@@ -39,7 +39,7 @@ $header-max-width: tokens.$nhs-fdp-breakpoint-xlarge; // single source of truth 
 	align-items: flex-start;
 	position: relative;
 	white-space: nowrap;
-	font-size: tokens.$nhs-fdp-font-size-16-mobile;
+	font-size: tokens.$nhs-fdp-font-size-16-tablet;
 	font-weight: tokens.$nhs-fdp-font-weight-normal;
 	line-height: 1;
 	gap: tokens.$nhs-fdp-spacing-1;
@@ -76,8 +76,6 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	$link-hover-color: $header-item-hover-color,
 	$link-active-color: $header-item-active-color
 ) {
-	color: $link-color;
-	text-decoration: none;
 
 	&:hover {
 		color: $link-hover-color;
@@ -97,6 +95,9 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	&:focus:visited {
 		color: tokens.$nhs-fdp-semantic-color-focus-text;
 	}
+
+	color: $link-color;
+	text-decoration: underline;
 }
 
 // Main header component with hierarchical structure
@@ -111,20 +112,21 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	&__container {
 		// Use padding for internal horizontal spacing so centering via auto margins is effective
 		padding-top: tokens.$nhs-fdp-spacing-4;
-		padding-left: tokens.$nhs-fdp-spacing-2;
-		padding-right: tokens.$nhs-fdp-spacing-2;
+		padding-bottom: tokens.$nhs-fdp-spacing-4;
+		padding-left: tokens.$nhs-fdp-spacing-4;
+		padding-right: tokens.$nhs-fdp-spacing-4;
 		margin-left: auto; // allow centering when width constrained
 		margin-right: auto;
 		max-width: $header-max-width; // width cap (previously hard-coded 1200px)
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		gap: tokens.$nhs-fdp-spacing-2;
+		gap: tokens.$nhs-fdp-spacing-3;
 		flex-wrap: wrap;
 
 		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
 			padding-bottom: $header-vertical-pad-tablet; // match larger top padding at tablet+
-			padding-left: tokens.$nhs-fdp-spacing-7; // maintain previous visual inset
+			padding-left: tokens.$nhs-fdp-spacing-7; 
 			padding-right: tokens.$nhs-fdp-spacing-7;
 			gap: tokens.$nhs-fdp-spacing-4;
 		}
@@ -157,7 +159,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 				padding-bottom: $header-vertical-pad-tablet;
 			}
 		}
-		padding: tokens.$nhs-fdp-spacing-3 0;
+		//padding: tokens.$nhs-fdp-spacing-3 0;
 
 		// Prevent layout shift during initialization with subtle opacity transition
 		&--initializing {
@@ -172,7 +174,6 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 
 		@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
 			// On mobile, remove box shadow and add better spacing
-			box-shadow: none;
 			margin-top: 0;
 		}
 
@@ -190,7 +191,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		&,
 		#{&}--white #{&}__navigation--white & {
 			@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
-				box-shadow: none;
+				//box-shadow: none;
 				margin-top: -#{tokens.$nhs-fdp-spacing-3};
 			}
 		}
@@ -205,6 +206,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		gap: tokens.$nhs-fdp-spacing-3;
 		flex: 1 0 auto; // Fixed logical width buckets per breakpoint
 		width: 300px;
+		text-decoration: none;
 
 		@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-small} - 1px)) {
 			width: 200px;
@@ -222,12 +224,12 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		width: 64px;
 		line-height: 0;
 		margin-right: tokens.$nhs-fdp-spacing-3;
-		text-decoration: none;
 		@include header-link-style(
 			$link-color: tokens.$nhs-fdp-color-primary-white,
 			$link-hover-color: tokens.$nhs-fdp-color-primary-white,
 			$link-active-color: tokens.$nhs-fdp-color-primary-white
 		);
+		text-decoration: none;
 
 		&:only-child {
 			display: flex;
@@ -261,6 +263,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		padding-left: tokens.$nhs-fdp-spacing-3;
 		// default (very small) width calc
 		width: calc(200px - 64px - #{tokens.$nhs-fdp-spacing-3});
+		text-decoration: none;
 
 		@media (min-width: calc(#{tokens.$nhs-fdp-breakpoint-small})) {
 			width: calc(300px - 64px - #{tokens.$nhs-fdp-spacing-3});
@@ -478,7 +481,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 			display: inline-block; // predictable box for baseline alignment
 		}
 
-		a { padding: tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-3; }
+		a { padding: tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-3 tokens.$nhs-fdp-spacing-4 tokens.$nhs-fdp-spacing-3; }
 
 		// More button functionality
 		&--more {
@@ -518,20 +521,22 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 			box-shadow: inset 0 -#{tokens.$nhs-fdp-focus-outline-width} tokens.$nhs-fdp-semantic-color-focus-text;
 		}
 
-		.nhsuk-icon {
-			margin-top: -4px;
-			&__chevron-down {
-				@include header-icon-small;
-				display: block;
-				transform: rotate(90deg);
-				transition: transform #{tokens.$nhs-fdp-animation-duration-fast} #{tokens.$nhs-fdp-animation-easing-ease-out};
-			}
+		// Chevron icon (shared between server & client variants) – fixed size, rotates only when expanded
+		.nhsuk-icon__chevron-down {
+			display: inline-block;
+			width: 24px;
+			height: 24px;
+			margin-left: tokens.$nhs-fdp-spacing-1;
+			margin-top: -4px; // optical alignment
+			vertical-align: middle;
+			transform: rotate(90deg); // closed: points down
+			transition: transform #{tokens.$nhs-fdp-animation-duration-fast} #{tokens.$nhs-fdp-animation-easing-ease-out};
+			fill: currentColor;
 		}
-
 		&[aria-expanded="true"] .nhsuk-icon__chevron-down { transform: rotate(270deg); }
 		&[aria-expanded="true"]::before { border-bottom-width: $header-item-active-size; }
 
-		// font-size at breakpoints handled by mixin
+		padding-top: tokens.$nhs-fdp-spacing-4; // match link vertical padding
 	}
 
 	// Dropdown menu - hierarchical structure
@@ -748,4 +753,13 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 			border-top-color: tokens.$nhs-fdp-color-grey-5;
 		}
 	}
+}
+
+// Hidden primary navigation items that overflow and are moved into the More dropdown (client enhancement)
+.nhsuk-header__navigation-item--hidden { display: none !important; }
+
+// During measurement we temporarily need widths of all items; make hidden items inline but invisible to user
+.nhsuk-header__navigation-container--measuring .nhsuk-header__navigation-item--hidden {
+	display: inline-block !important;
+	visibility: hidden; // retains width; prevents flicker
 }

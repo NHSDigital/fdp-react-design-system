@@ -122,4 +122,29 @@ describe('Table', () => {
     const pre = screen.getByText(/line1[\n\s]+line2/);
     expect(pre).toBeInTheDocument();
   });
+
+  it('renders inline code when code prop single line provided', () => {
+    const rows = [[{ code: 'npm install nhs-fdp-design-system', codeLanguage: 'bash' }]];
+    render(<Table rows={rows} />);
+    const codeEl = screen.getByText('npm install nhs-fdp-design-system');
+    expect(codeEl.tagName).toBe('CODE');
+    expect(codeEl).toHaveClass('nhsuk-table__code--inline');
+  });
+
+  it('renders block code when multi-line code string provided', () => {
+    const rows = [[{ code: 'line1\nline2', codeLanguage: 'text' }]];
+    render(<Table rows={rows} />);
+  // Entire multiline code is a single text node; assert via regex
+  const codeEl = screen.getByText(/line1[\n\s]+line2/);
+  expect(codeEl.tagName).toBe('CODE');
+  expect(codeEl.closest('pre')).toBeInTheDocument();
+  });
+
+  it('renders block code when code array provided', () => {
+    const rows = [[{ code: ['alpha', 'beta', 'gamma'] }]];
+    render(<Table rows={rows} />);
+  const codeEl = screen.getByText(/alpha[\n\s]+beta[\n\s]+gamma/);
+  expect(codeEl.tagName).toBe('CODE');
+  expect(codeEl.closest('pre')).toBeInTheDocument();
+  });
 });

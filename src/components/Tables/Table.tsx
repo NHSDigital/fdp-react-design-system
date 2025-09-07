@@ -49,7 +49,54 @@ const Table: React.FC<TableProps> = ({
   // Build container classes
   const containerClassList = classNames(classes);
 
-  const renderHeaderCell = (cell: TableHeaderCell, index: number) => {
+	// Prism + highlighting utilities (shared by header & body cells)
+	const prismRef = React.useRef<any | null>(null);
+	const ensurePrism = () => {
+		if (prismRef.current) return prismRef.current;
+		try {
+			// eslint-disable-next-line @typescript-eslint/no-var-requires
+			prismRef.current = require('prismjs');
+			try { require('prismjs/components/prism-typescript'); } catch { /* ignore */ }
+			try { require('prismjs/components/prism-tsx'); } catch { /* ignore */ }
+			try { require('prismjs/components/prism-json'); } catch { /* ignore */ }
+		} catch {
+			prismRef.current = null;
+		}
+		return prismRef.current;
+	};
+
+	const fallbackHighlight = (code: string) => {
+		const patterns: { regex: RegExp; cls: string }[] = [
+			{ regex: /\b(import|from|export|const|let|var|return|if|else|for|while|switch|case|break|new|throw|try|catch|finally|class|extends|implements|interface|type|as|async|await|function)\b/g, cls: 'kw' },
+			{ regex: /(['"`])(?:\\.|(?!\1).)*\1/g, cls: 'str' },
+			{ regex: /\/\*[^]*?\*\/|\/\/.*$/gm, cls: 'com' },
+			{ regex: /\b([0-9]+(?:\.[0-9]+)?)\b/g, cls: 'num' },
+		];
+		let html = code;
+		patterns.forEach(p => { html = html.replace(p.regex, m => `<span class=\"nhsuk-code-${p.cls}\">${m}</span>`); });
+		return html;
+	};
+
+	const highlightCode = (code: string, lang?: string, disable?: boolean) => {
+		if (disable) return code;
+		if (!lang) return code;
+		const Prism = ensurePrism();
+		if (Prism && Prism.languages) {
+			const resolvedLang = Prism.languages[lang]
+				? lang
+				: (Prism.languages.typescript && (lang === 'ts' || lang === 'tsx' || lang === 'typescript')
+					? 'typescript'
+					: (Prism.languages.json && lang === 'json' ? 'json' : undefined));
+			if (resolvedLang) {
+				try {
+					return Prism.highlight(code, Prism.languages[resolvedLang], resolvedLang);
+				} catch { /* swallow & fallback */ }
+			}
+		}
+		return fallbackHighlight(code);
+	};
+
+	const renderHeaderCell = (cell: TableHeaderCell, index: number) => {
 	const headerClasses = classNames('nhsuk-table__header', {
 	  [`nhsuk-table__header--${cell.format}`]: cell.format,
 	}, cell.classes);
@@ -62,20 +109,40 @@ const Table: React.FC<TableProps> = ({
 		...cell.attributes,
 	};
 
+	// Determine content precedence: node > html > code > text
+	let content: React.ReactNode;
+	if (cell.node != null) {
+		content = <>{cell.node}</>;
+	} else if (cell.html) {
+		content = <span dangerouslySetInnerHTML={{ __html: cell.html }} />;
+	} else if (cell.code != null) {
+		const isArray = Array.isArray(cell.code);
+		const codeString = isArray ? (cell.code as string[]).join('\n') : (cell.code as string);
+		const isMultiline = isArray || codeString.includes('\n');
+		const codeProps = {
+			className: classNames('nhsuk-table__code', cell.codeClassName, {
+				'nhsuk-table__code--block': isMultiline,
+				'nhsuk-table__code--inline': !isMultiline,
+			}),
+			...(cell.codeLanguage ? { 'data-language': cell.codeLanguage } : {}),
+		};
+		const highlighted = highlightCode(codeString, (cell as any).codeLanguage); // header cells don't support disableHighlight currently
+		content = isMultiline ? (
+			<pre className="nhsuk-table__pre"><code {...codeProps} dangerouslySetInnerHTML={{ __html: highlighted }} /></pre>
+		) : (
+			<code {...codeProps} dangerouslySetInnerHTML={{ __html: highlighted }} />
+		);
+	} else {
+		content = cell.text;
+	}
 	return (
 	  <th key={index} className={headerClasses} {...headerAttributes}>
-		{cell.node != null ? (
-		  <>{cell.node}</>
-		) : cell.html ? (
-		  <span dangerouslySetInnerHTML={{ __html: cell.html }} />
-		) : (
-		  cell.text
-		)}
+		{content}
 	  </th>
 	);
   };
 
-  const renderCell = (cell: TableCellData, cellIndex: number, isFirstCell: boolean) => {
+	const renderCell = (cell: TableCellData, cellIndex: number, isFirstCell: boolean) => {
 	const isHeaderCell = firstCellIsHeader && isFirstCell;
 	
 	const cellClasses = classNames(
@@ -97,6 +164,34 @@ const Table: React.FC<TableProps> = ({
 		...cell.attributes,
 	};
 
+	let inner: React.ReactNode;
+	// (highlighting utilities now hoisted above)
+
+	if (cell.node != null) {
+		inner = <>{cell.node}</>;
+	} else if (cell.html) {
+		inner = <span dangerouslySetInnerHTML={{ __html: cell.html }} />;
+	} else if (cell.code != null) {
+		const isArray = Array.isArray(cell.code);
+		const codeString = isArray ? (cell.code as string[]).join('\n') : (cell.code as string);
+		const isMultiline = isArray || codeString.includes('\n');
+		const codeProps = {
+			className: classNames('nhsuk-table__code', cell.codeClassName, {
+				'nhsuk-table__code--block': isMultiline,
+				'nhsuk-table__code--inline': !isMultiline,
+			}),
+			...(cell.codeLanguage ? { 'data-language': cell.codeLanguage } : {}),
+		};
+		const highlighted = highlightCode(codeString, cell.codeLanguage, cell.disableHighlight);
+		inner = isMultiline ? (
+			<pre className="nhsuk-table__pre"><code {...codeProps} dangerouslySetInnerHTML={{ __html: highlighted }} /></pre>
+		) : (
+			<code {...codeProps} dangerouslySetInnerHTML={{ __html: highlighted }} />
+		);
+	} else {
+		inner = cell.text;
+	}
+
 	const cellContent = (
 	  <>
 		{responsive && cell.header && (
@@ -104,13 +199,7 @@ const Table: React.FC<TableProps> = ({
 			{cell.header}{' '}
 		  </span>
 		)}
-		{cell.node != null ? (
-		  <>{cell.node}</>
-		) : cell.html ? (
-		  <span dangerouslySetInnerHTML={{ __html: cell.html }} />
-		) : (
-		  cell.text
-		)}
+		{inner}
 	  </>
 	);
 

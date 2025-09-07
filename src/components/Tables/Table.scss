@@ -217,6 +217,22 @@ $mobile-large: 640px; // breakpoint.enhanced.mobile.large
         }
       }
     }
+
+    // Inline code / preformatted blocks inside table cells (documentation usage)
+    code, pre code {
+      font-family: monospace;
+      font-size: 0.85em;
+    }
+    pre {
+      background: nhs.$nhs-fdp-color-grey-5;
+      border: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+      border-radius: 4px;
+      padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+      margin: nhs.$nhs-fdp-spacing-1 0 0;
+      overflow: auto;
+      max-width: 100%;
+      line-height: 1.4;
+    }
   }
 
   // Table variants

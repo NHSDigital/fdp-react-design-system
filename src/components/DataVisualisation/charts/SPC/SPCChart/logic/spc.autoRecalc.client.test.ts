@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { buildSpc, ImprovementDirection } from "./spc";
+import { ChartType } from './spc';
 
 /** Helper */
 const make = (vals: number[]) => vals.map((v, i) => ({ x: i + 1, value: v }));
@@ -17,7 +18,7 @@ const shifted = [
 describe("autoRecalculateAfterShift", () => {
 	it("does not create extra partition when disabled", () => {
 		const res = buildSpc({
-			chartType: "XmR",
+			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Up,
 			data: make(shifted),
 		});
@@ -29,7 +30,7 @@ describe("autoRecalculateAfterShift", () => {
 
 	it("creates new partition after sustained shift when enabled", () => {
 		const res = buildSpc({
-			chartType: "XmR",
+			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Up,
 			data: make(shifted),
 			settings: { autoRecalculateAfterShift: true, specialCauseShiftPoints: 6 },
@@ -46,11 +47,11 @@ describe("autoRecalculateAfterShift", () => {
 
 			it('respects delta sigma threshold (higher threshold suppresses recalculation)', () => {
 				// deltaSigma for this shift ~20; using 50 ensures suppression
-				const resHigh = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Up, data: make(shifted), settings: { autoRecalculateAfterShift: true, autoRecalculateDeltaSigma: 50 } });
+				const resHigh = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: make(shifted), settings: { autoRecalculateAfterShift: true, autoRecalculateDeltaSigma: 50 } });
 			const partsHigh = Array.from(new Set(resHigh.rows.map(r=>r.partitionId)));
 			expect(partsHigh.length).toBe(1);
 
-			const resLow = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Up, data: make(shifted), settings: { autoRecalculateAfterShift: true, autoRecalculateDeltaSigma: 0.1 } });
+			const resLow = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: make(shifted), settings: { autoRecalculateAfterShift: true, autoRecalculateDeltaSigma: 0.1 } });
 			const partsLow = Array.from(new Set(resLow.rows.map(r=>r.partitionId)));
 			expect(partsLow.length).toBeGreaterThan(1);
 		});

@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { SPCChart, ImprovementDirection } from './SPCChart';
+import { ChartType } from './logic/spc';
 // Updated relative path after introducing SPC nesting structure
 import { ChartContainer } from '../../ChartContainer.tsx';
 
@@ -52,7 +53,7 @@ export const ShiftExample: Story = {
         <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
           <SPCChart
             data={data}
-            chartType="XmR"
+            chartType={ChartType.XmR}
             metricImprovement={ImprovementDirection.Up}
             enableRules
             showIcons
@@ -70,13 +71,11 @@ export const ShiftExample: Story = {
 };
 
 // Lightweight inspector component that re-runs the engine to extract suggestions and renders annotations + list.
-import { buildSpc } from './logic/spc';
-
-const annotationColor = '#005eb8'; // NHS blue
+import { buildSpc, ChartType as EngineChartType } from './logic/spc';
 
 interface InspectorProps { data: { x: Date; y: number }[]; baselines: (boolean | undefined)[]; onApply: (idx: number)=> void; onReset: ()=> void; }
 const SuggestionInspector: React.FC<InspectorProps> = ({ data, baselines, onApply, onReset }) => {
-  const engine = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Up, data: data.map(d=> ({ x: d.x, value: d.y, baseline: undefined })), settings: { baselineSuggest: true } });
+  const engine = buildSpc({ chartType: EngineChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d=> ({ x: d.x, value: d.y, baseline: undefined })), settings: { baselineSuggest: true } });
   const suggestions = (engine.suggestedBaselines || []).filter(s => !baselines[s.index]); // filter out already applied
   return (
     <div style={{ marginTop: 8, border:'1px solid #d8dde0', borderRadius:4, padding:12 }}>

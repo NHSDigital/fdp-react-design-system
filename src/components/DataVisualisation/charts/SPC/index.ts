@@ -5,8 +5,8 @@ export { default as SPCChart } from './SPCChart/SPCChart';
 export type { SPCChartProps, SPCDatum } from './SPCChart/SPCChart';
 
 // Engine logic & enums
-export { buildSpc, ImprovementDirection, VariationIcon, AssuranceIcon } from './SPCChart/logic/spc';
-export type { ChartType, SpcSettings, SpcResult } from './SPCChart/logic/spc';
+export { buildSpc, ImprovementDirection, VariationIcon, AssuranceIcon, ChartType, SpcWarningSeverity, SpcWarningCategory, SpcWarningCode, BaselineSuggestionReason } from './SPCChart/logic/spc';
+export type { SpcSettings, SpcResult, SpcWarning } from './SPCChart/logic/spc';
 
 // Descriptors & helpers (colour tokens, labels)
 export { variationLabel, extractRuleIds, ruleGlossary, VARIATION_COLOR_TOKENS, getVariationColorHex, getVariationColorToken } from './SPCChart/logic/spcDescriptors';

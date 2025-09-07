@@ -18,7 +18,13 @@
  *    - No moving range; limits derived directly from geometric distribution quantiles around the mean count.
  *    - Provides probability‑based 1σ/2σ/3σ style bands using inverse CDF (no MR / d2 constants involved).
  */
-export type ChartType = "XmR" | "T" | "G";
+// Chart types supported by the SPC engine.
+// Converted from string union to enum for stronger typing / refactor safety.
+export enum ChartType {
+	XmR = "XmR",
+	T = "T",
+	G = "G",
+}
 // Core enums (replacing prior string union types) to share with icon layer.
 export enum ImprovementDirection {
 	Up = "Up",
@@ -143,20 +149,43 @@ export interface SpcRow {
 	ruleTags?: string[]; // Raw rule-based special cause tags (e.g. 'shift_high','trend_dec','single_above'). No heuristic relabelling.
 }
 
+// Warning metadata enums for stronger typing and refactor safety
+export enum SpcWarningSeverity {
+	Info = "info",
+	Warning = "warning",
+	Error = "error",
+}
+export enum SpcWarningCategory {
+	Config = "config",
+	Data = "data",
+	Limits = "limits",
+	SpecialCause = "special_cause",
+	Baseline = "baseline",
+	Logic = "logic",
+	Target = "target",
+	Ghost = "ghost",
+	Partition = "partition",
+}
+
+// Stable catalog of warning codes (public surface)
+export enum SpcWarningCode {
+	UnknownChartType = 'unknown_chart_type',
+	InsufficientPointsGlobal = 'insufficient_points_global',
+	VariationConflictRow = 'variation_conflict_row',
+	NullValuesExcluded = 'null_values_excluded',
+	TargetIgnoredRareEvent = 'target_ignored_rare_event',
+	GhostRowsRareEvent = 'ghost_rows_rare_event',
+	InsufficientPointsPartition = 'insufficient_points_partition',
+	BaselineWithSpecialCause = 'baseline_with_special_cause',
+	PartitionCapApplied = 'partition_cap_applied',
+	GlobalCapApplied = 'global_cap_applied',
+}
+
 export interface SpcWarning {
-	code: string; // short stable identifier
+	code: SpcWarningCode; // stable identifier
 	message: string; // human-readable text
-	severity?: "info" | "warning" | "error";
-	category?:
-		| "config"
-		| "data"
-		| "limits"
-		| "special_cause"
-		| "baseline"
-		| "logic"
-		| "target"
-		| "ghost"
-		| "partition";
+	severity?: SpcWarningSeverity;
+	category?: SpcWarningCategory;
 	context?: Record<string, unknown>; // optional structured data (counts, ids, etc.)
 }
 export interface SpcResult {
@@ -165,7 +194,7 @@ export interface SpcResult {
 	/** Optional heuristic suggestions for candidate new baseline starting points (phase changes) */
 	suggestedBaselines?: Array<{
 		index: number; // 0-based index into rows
-		reason: 'shift' | 'trend' | 'point';
+		reason: BaselineSuggestionReason;
 		score: number; // relative confidence 0-100
 		deltaMean: number; // absolute difference in means (new - old)
 		oldMean: number;
@@ -174,13 +203,18 @@ export interface SpcResult {
 	}>;
 }
 
+// Baseline suggestion trigger reason ordering (higher severity first for tie-break logic)
+export enum BaselineSuggestionReason {
+	Shift = 'shift',
+	Trend = 'trend',
+	Point = 'point',
+}
+
 // ------------------------- Utility functions -------------------------
 
-const isNumber = (v: unknown): v is number =>
-	typeof v === "number" && Number.isFinite(v);
+const isNumber = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v);
 const sum = (arr: number[]): number => arr.reduce((a, b) => a + b, 0);
-const mean = (arr: number[]): number =>
-	arr.length ? sum(arr) / arr.length : NaN;
+const mean = (arr: number[]): number => arr.length ? sum(arr) / arr.length : NaN;
 
 type CanonicalRow = {
 	rowId: number;
@@ -342,10 +376,8 @@ function xmrLimits(
 // T chart (time-between events): y = t^0.2777; XmR on y; back-transform t = y^3.6; no LCL if lower transform ≤ 0.
 const T_ALPHA = 0.2777;
 const T_INV_ALPHA = 3.6;
-const toTTransformed = (t: number | null): number | null =>
-	isNumber(t) && t >= 0 ? Math.pow(t, T_ALPHA) : null;
-const fromTTransformed = (y: number | null): number | null =>
-	isNumber(y) && y >= 0 ? Math.pow(y, T_INV_ALPHA) : null;
+const toTTransformed = (t: number | null): number | null => isNumber(t) && t >= 0 ? Math.pow(t, T_ALPHA) : null;
+const fromTTransformed = (y: number | null): number | null => isNumber(y) && y >= 0 ? Math.pow(y, T_INV_ALPHA) : null;
 
 // Normal CDF quantile probabilities for 1σ, 2σ, 3σ used by probability-based G chart limits
 const SIGMA_PROBS = {
@@ -624,9 +656,9 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			mrUcl = NaN;
 		} else {
 			warnings.push({
-				code: "unknown_chart_type",
-				category: "config",
-				severity: "error",
+				code: SpcWarningCode.UnknownChartType,
+				category: SpcWarningCategory.Config,
+				severity: SpcWarningSeverity.Error,
 				message: `Unknown ChartType '${chartType}' – supported: XmR, T, G.`,
 				context: { chartType },
 			});
@@ -749,7 +781,6 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 
 			// Trend of N strictly increasing/decreasing
 			// (deferred to second pass)
-
 
 			output.push(row);
 		}
@@ -990,9 +1021,9 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			(r) => !r.ghost && isNumber(r.value)
 		).length;
 		warnings.push({
-			code: "insufficient_points_global",
-			category: "data",
-			severity: "warning",
+			code: SpcWarningCode.InsufficientPointsGlobal,
+			category: SpcWarningCategory.Data,
+			severity: SpcWarningSeverity.Warning,
 			message: `Only ${available} non-ghost points available; minimum required is ${settings.minimumPoints}. Limits and icons suppressed.`,
 			context: { available, minimumRequired: settings.minimumPoints },
 		});
@@ -1016,9 +1047,9 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 						row.specialCauseTrendDecreasing);
 				if (highAndLow)
 					warnings.push({
-						code: "variation_conflict_row",
-						category: "logic",
-						severity: "warning",
+						code: SpcWarningCode.VariationConflictRow,
+						category: SpcWarningCategory.Logic,
+						severity: SpcWarningSeverity.Warning,
 						message: `Row ${row.rowId}: simultaneous high/low special-cause signals – variation icon may be ambiguous.`,
 						context: { rowId: row.rowId },
 					});
@@ -1052,9 +1083,9 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		).length;
 		if (nullCount)
 			warnings.push({
-				code: "null_values_excluded",
-				category: "data",
-				severity: "info",
+				code: SpcWarningCode.NullValuesExcluded,
+				category: SpcWarningCategory.Data,
+				severity: SpcWarningSeverity.Info,
 				message: `${nullCount} null/missing value(s) excluded from calculations.`,
 				context: { nullCount },
 			});
@@ -1066,9 +1097,9 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		const hasTarget = canonical.some((r) => isNumber(r.target));
 		if (hasTarget)
 			warnings.push({
-				code: "target_ignored_rare_event",
-				category: "target",
-				severity: "info",
+				code: SpcWarningCode.TargetIgnoredRareEvent,
+				category: SpcWarningCategory.Target,
+				severity: SpcWarningSeverity.Info,
 				message: `Targets provided are ignored for ${chartType} charts in this port.`,
 				context: { chartType },
 			});
@@ -1080,9 +1111,9 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		const ghostCount = canonical.filter((r) => r.ghost).length;
 		if (ghostCount)
 			warnings.push({
-				code: "ghost_rows_rare_event",
-				category: "ghost",
-				severity: "info",
+				code: SpcWarningCode.GhostRowsRareEvent,
+				category: SpcWarningCategory.Ghost,
+				severity: SpcWarningSeverity.Info,
 				message: `${ghostCount} ghost row(s) supplied for rare-event chart (${chartType}); verify intent.`,
 				context: { chartType, ghostCount },
 			});
@@ -1091,9 +1122,9 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		Object.entries(partitionNonGhostCounts).forEach(([pid, count]) => {
 			if (count < settings.minimumPointsPartition)
 				warnings.push({
-					code: "insufficient_points_partition",
-					category: "partition",
-					severity: "warning",
+					code: SpcWarningCode.InsufficientPointsPartition,
+					category: SpcWarningCategory.Partition,
+					severity: SpcWarningSeverity.Warning,
 					message: `Partition ${pid} has only ${count} non-ghost point(s); below recommended ${settings.minimumPointsPartition}.`,
 					context: {
 						partitionId: Number(pid),
@@ -1124,9 +1155,9 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		});
 		if (issueRows.length)
 			warnings.push({
-				code: "baseline_with_special_cause",
-				category: "baseline",
-				severity: "warning",
+				code: SpcWarningCode.BaselineWithSpecialCause,
+				category: SpcWarningCategory.Baseline,
+				severity: SpcWarningSeverity.Warning,
 				message: `Baseline set with special-cause present at row(s): ${issueRows.join(", ")}.`,
 				context: { rows: issueRows },
 			});
@@ -1137,17 +1168,17 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			Number.isFinite(settings.maximumPointsPartition)
 		)
 			warnings.push({
-				code: "partition_cap_applied",
-				category: "limits",
-				severity: "info",
+				code: SpcWarningCode.PartitionCapApplied,
+				category: SpcWarningCategory.Limits,
+				severity: SpcWarningSeverity.Info,
 				message: `Limits suppressed after ${settings.maximumPointsPartition} non-ghost points per partition.`,
 				context: { cap: settings.maximumPointsPartition },
 			});
 		if (settings.maximumPoints && Number.isFinite(settings.maximumPoints))
 			warnings.push({
-				code: "global_cap_applied",
-				category: "limits",
-				severity: "info",
+				code: SpcWarningCode.GlobalCapApplied,
+				category: SpcWarningCategory.Limits,
+				severity: SpcWarningSeverity.Info,
 				message: `Limits suppressed after global cap of ${settings.maximumPoints} non-ghost points.`,
 				context: { cap: settings.maximumPoints },
 			});
@@ -1175,16 +1206,16 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			function becameTrue(flag: keyof SpcRow): boolean {
 				return !!(r as any)[flag] && !(prev as any)?.[flag];
 			}
-			const candidates: { reason: 'shift' | 'trend' | 'point'; index: number }[] = [];
+			const candidates: { reason: BaselineSuggestionReason; index: number }[] = [];
 			if (becameTrue('specialCauseShiftHigh') || becameTrue('specialCauseShiftLow')) {
-				candidates.push({ reason: 'shift', index: i });
+				candidates.push({ reason: BaselineSuggestionReason.Shift, index: i });
 			}
 			if (becameTrue('specialCauseTrendIncreasing') || becameTrue('specialCauseTrendDecreasing')) {
-				candidates.push({ reason: 'trend', index: i });
+				candidates.push({ reason: BaselineSuggestionReason.Trend, index: i });
 			}
 			// Single 3σ point candidate – only if not already part of shift/trend suggestion
 			if (becameTrue('specialCauseSinglePointAbove') || becameTrue('specialCauseSinglePointBelow')) {
-				candidates.push({ reason: 'point', index: i });
+				candidates.push({ reason: BaselineSuggestionReason.Point, index: i });
 			}
 			for (const c of candidates) {
 				// Enforce minimum gap
@@ -1222,14 +1253,14 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				};
 				const oldVar = variance(oldVals);
 				const newVar = variance(newVals);
-				let scoreBase = c.reason === 'shift' ? 90 : c.reason === 'trend' ? 70 : 60;
+				let scoreBase = c.reason === BaselineSuggestionReason.Shift ? 90 : c.reason === BaselineSuggestionReason.Trend ? 70 : 60;
 				if (newVar < oldVar) scoreBase += 10;
 				scoreBase -= concernCount * 15;
 				if (scoreBase < scoreThreshold) continue;
 				// Avoid duplicates at same index (keep highest score / more significant reason ordering shift>trend>point)
 				const existing = suggestions.find(s => s.index === c.index);
 				if (existing) {
-					const priority = (reason: 'shift'|'trend'|'point') => reason === 'shift' ? 3 : reason === 'trend' ? 2 : 1;
+					const priority = (reason: BaselineSuggestionReason) => reason === BaselineSuggestionReason.Shift ? 3 : reason === BaselineSuggestionReason.Trend ? 2 : 1;
 					if (priority(c.reason) > priority(existing.reason) || scoreBase > existing.score) {
 						existing.reason = c.reason;
 						existing.score = scoreBase;

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { buildSpc, ImprovementDirection, VariationIcon } from "./spc";
+import { ChartType } from './spc';
 
 function stableSeries(n: number, base = 100, jitter = 1): number[] {
 	return Array.from(
@@ -25,12 +26,12 @@ describe("SPC variation icon matrix (orthodox rule behaviour)", () => {
 		const values = datasetWithExtreme({ extremeValue: 500 }); // very high
 		const data = values.map((v, i) => ({ x: i + 1, value: v }));
 		const { rows } = buildSpc({
-			chartType: "XmR",
+			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Up,
 			data,
 			// strictShewhartMode removed – engine now always orthodox
 		});
-		const last = rows.at(-1)!;
+		const last = rows[rows.length - 1]!;
 		expect(last.specialCauseSinglePointAbove).toBe(true);
 		expect(last.variationIcon).toBe(VariationIcon.Improvement);
 	});
@@ -39,12 +40,12 @@ describe("SPC variation icon matrix (orthodox rule behaviour)", () => {
 		const values = datasetWithExtreme({ extremeValue: -200 });
 		const data = values.map((v, i) => ({ x: i + 1, value: v }));
 		const { rows } = buildSpc({
-			chartType: "XmR",
+			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Up,
 			data,
 			// strictShewhartMode removed – engine now always orthodox
 		});
-		const last = rows.at(-1)!;
+		const last = rows[rows.length - 1]!;
 		expect(last.specialCauseSinglePointBelow).toBe(true);
 		expect(last.variationIcon).toBe(VariationIcon.Concern);
 	});
@@ -53,12 +54,12 @@ describe("SPC variation icon matrix (orthodox rule behaviour)", () => {
 		const values = datasetWithExtreme({ extremeValue: -200 });
 		const data = values.map((v, i) => ({ x: i + 1, value: v }));
 		const { rows } = buildSpc({
-			chartType: "XmR",
+			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Down,
 			data,
 			// strictShewhartMode removed – engine now always orthodox
 		});
-		const last = rows.at(-1)!;
+		const last = rows[rows.length - 1]!;
 		expect(last.specialCauseSinglePointBelow).toBe(true);
 		expect(last.variationIcon).toBe(VariationIcon.Improvement);
 	});
@@ -67,12 +68,12 @@ describe("SPC variation icon matrix (orthodox rule behaviour)", () => {
 		const values = datasetWithExtreme({ extremeValue: 500 });
 		const data = values.map((v, i) => ({ x: i + 1, value: v }));
 		const { rows } = buildSpc({
-			chartType: "XmR",
+			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Down,
 			data,
 			// strictShewhartMode removed – engine now always orthodox
 		});
-		const last = rows.at(-1)!;
+		const last = rows[rows.length - 1]!;
 		expect(last.specialCauseSinglePointAbove).toBe(true);
 		expect(last.variationIcon).toBe(VariationIcon.Concern);
 	});
@@ -83,20 +84,20 @@ describe("SPC variation icon matrix (orthodox rule behaviour)", () => {
 		const highData = highValues.map((v, i) => ({ x: i + 1, value: v }));
 		const lowData = lowValues.map((v, i) => ({ x: i + 1, value: v }));
 		const { rows: highRows } = buildSpc({
-			chartType: "XmR",
+			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Neither,
 			data: highData,
 			// strictShewhartMode removed – engine now always orthodox
 		});
 		const { rows: lowRows } = buildSpc({
-			chartType: "XmR",
+			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Neither,
 			data: lowData,
 			// strictShewhartMode removed – engine now always orthodox
 		});
 		expect(highRows.at(-1)!.specialCauseSinglePointAbove).toBe(true);
-		expect(highRows.at(-1)!.variationIcon).toBe(VariationIcon.Neither);
+		expect(highRows[highRows.length - 1]!.variationIcon).toBe(VariationIcon.Neither);
 		expect(lowRows.at(-1)!.specialCauseSinglePointBelow).toBe(true);
-		expect(lowRows.at(-1)!.variationIcon).toBe(VariationIcon.Neither);
+		expect(lowRows[lowRows.length - 1]!.variationIcon).toBe(VariationIcon.Neither);
 	});
 });

@@ -1,0 +1,146 @@
+@use "../../../../../../packages/nhs-fdp/dist/scss/tokens" as nhs;
+
+p {
+	font-family: '#{nhs.$nhs-fdp-font-family-base}', #{nhs.$nhs-fdp-font-family-fallback};
+}
+
+/* Scoped styles for SPCChart documentation page */
+.spc-docs {
+	/* General layout */
+	display: block;
+	max-width: 1200px;
+	margin-inline: auto;
+	padding-block-end: nhs.$nhs-fdp-spacing-8;
+	/* Use base + fallback font family tokens (no quotes around interpolated value) */
+	font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+
+	h1 {
+		margin-top: nhs.$nhs-fdp-spacing-4;
+		padding-bottom: nhs.$nhs-fdp-spacing-4;
+		font-size: 2rem;
+		line-height: 1.2;
+		font-family: '#{nhs.$nhs-fdp-font-family-base}', #{nhs.$nhs-fdp-font-family-fallback};
+	}
+	h2 {
+		margin-top: nhs.$nhs-fdp-spacing-8!important;
+		padding-top: nhs.$nhs-fdp-spacing-2;
+		padding-bottom: nhs.$nhs-fdp-spacing-4;
+		font-family: '#{nhs.$nhs-fdp-font-family-base}', #{nhs.$nhs-fdp-font-family-fallback};
+		border-bottom: 0;
+	}
+	h3 {
+		margin-top: nhs.$nhs-fdp-spacing-4;
+		font-family: '#{nhs.$nhs-fdp-font-family-base}', #{nhs.$nhs-fdp-font-family-fallback};
+	}
+
+	p,
+	li {
+		max-width: 75ch;
+		font-family: '#{nhs.$nhs-fdp-font-family-base}', #{nhs.$nhs-fdp-font-family-fallback};
+		font-size: 1.15em;
+		line-height: 1.5em;
+	}
+	code:not([class*="language-"]) {
+		background: var(--nhs-fdp-color-grey-5, nhs.$nhs-fdp-color-grey-5);
+		padding: 2px 4px;
+		border-radius: 3px;
+		font-size: 0.875em;
+	}
+
+	pre code {
+		background: transparent;
+		padding: 0;
+	}
+	pre {
+		border: 1px solid var(--nhs-fdp-color-grey-5, nhs.$nhs-fdp-color-grey-5);
+		background: var(--nhs-fdp-color-grey-5, nhs.$nhs-fdp-color-grey-5);
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: nhs.$nhs-fdp-spacing-4 0 nhs.$nhs-fdp-spacing-6;
+		font-size: 0.95rem;
+	}
+	table th,
+	table td {
+		border: 1px solid var(--nhs-fdp-color-grey-5, nhs.$nhs-fdp-color-grey-5);
+		padding: 6px 10px;
+		vertical-align: top;
+	}
+	table th {
+		background: var(--nhs-fdp-color-grey-5, nhs.$nhs-fdp-color-grey-5);
+		text-align: left;
+	}
+	table code {
+		font-size: 0.8rem;
+	}
+	table thead th {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+	}
+
+	.mermaid-diagram {
+		margin: nhs.$nhs-fdp-spacing-5 0;
+	}
+
+	blockquote {
+		margin: nhs.$nhs-fdp-spacing-5 0;
+		padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4;
+		background: var(--nhs-fdp-color-grey-5, nhs.$nhs-fdp-color-grey-5);
+		border-left: 4px solid
+			var(--nhs-fdp-color-primary-blue, nhs.$nhs-fdp-color-primary-blue);
+	}
+
+	.spc-inline-badge {
+		display: inline-block;
+		background: var(
+			--nhs-fdp-color-primary-blue,
+			nhs.$nhs-fdp-color-primary-blue
+		);
+		color: #fff;
+		padding: 2px 6px;
+		border-radius: 4px;
+		font-size: 0.75rem;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	/* Two-column layout helper for future enhancements */
+	&.wide-layout {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 300px;
+		gap: nhs.$nhs-fdp-spacing-8;
+	}
+}
+
+/* Dark mode hook (if Storybook theme provides a body class later) */
+.theme-dark .spc-docs {
+	table th {
+		background: var(--nhs-fdp-color-grey-5, nhs.$nhs-fdp-color-grey-5);
+	}
+	blockquote {
+		background: var(--nhs-fdp-color-grey-5, nhs.$nhs-fdp-color-grey-5);
+	}
+}
+
+/* ------------------------------------------------------------------ */
+/* Override Storybook Docs hashed container typography defaults       */
+/* Storybook applies e.g. .css-xxxxxx :where(p:not(.sb-anchor,...))   */
+/* We increase specificity using an additional class + :not filter.   */
+/* ------------------------------------------------------------------ */
+.spc-docs {
+	p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p),
+	li:not(.sb-anchor, .sb-unstyled, .sb-unstyled li) {
+		max-width: 75ch; /* re‑assert desired measure */
+	}
+
+	/* Example: adjust spacing if Storybook resets margins */
+	p + p { margin-top: 0.75em; }
+	h2 + p, h3 + p { margin-top: 0.5em; }
+}
+
+/* Optional: if still overridden, append !important selectively (commented)
+.spc-docs p { max-width:75ch !important; }
+*/

@@ -22,9 +22,14 @@ import {
 	ImprovementDirection,
 	VariationIcon,
 	AssuranceIcon,
-	type ChartType,
+	ChartType,
+	SpcWarningSeverity,
+	SpcWarningCategory,
+	SpcWarningCode,
 	type SpcSettings,
 } from "./logic/spc";
+import { Tag } from '../../../../Tag/Tag';
+import Table from '../../../../Tables/Table';
 import { VariationJudgement, MetricPolarity } from "../SPCIcons/SPCConstants";
 import { extractRuleIds, ruleGlossary, variationLabel } from './logic/spcDescriptors';
 
@@ -80,6 +85,14 @@ export interface SPCChartProps {
 	processLineWidth?: number;
 	/** When true, render vertical dashed markers at partition (baseline) boundaries */
 	showPartitionMarkers?: boolean;
+	/** When true, renders a diagnostics warnings panel below the icon row */
+	showWarningsPanel?: boolean;
+	/** Filter for warnings rendered in the panel */
+	warningsFilter?: {
+		severities?: SpcWarningSeverity[];
+		categories?: SpcWarningCategory[];
+		codes?: SpcWarningCode[];
+	};
 }
 
 export const SPCChart: React.FC<SPCChartProps> = ({
@@ -92,7 +105,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	className,
 	unit,
 	highlightOutOfControl = true,
-	chartType = "XmR",
+	chartType = ChartType.XmR,
 	metricImprovement = ImprovementDirection.Neither,
 	enableRules = true,
 	showIcons = false,
@@ -104,7 +117,32 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	narrationContext,
 	gradientSequences = false,
 	processLineWidth = 2,
+	showWarningsPanel = false,
+	warningsFilter,
 }) => {
+	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
+	const formatWarningCode = React.useCallback((code: SpcWarningCode | string): string => {
+		const raw = String(code);
+		return raw
+			.replace(/^spc_warning_code\.?/i, '') // defensive: strip enum prefix if ever serialized
+			.replace(/[_\-]+/g, ' ') // underscores/hyphens -> space
+			.trim()
+			.split(' ')
+			.filter(Boolean)
+			.map(w => w.length ? w[0].toUpperCase() + w.slice(1) : w)
+			.join(' ');
+	}, []);
+
+	// Human friendly label for SpcWarningCategory values (snake_case -> Capitalised words)
+	const formatWarningCategory = React.useCallback((cat: SpcWarningCategory | string): string => {
+		return String(cat)
+			.replace(/[_\-]+/g, ' ')
+			.trim()
+			.split(' ')
+			.filter(Boolean)
+			.map(w => w.length ? w[0].toUpperCase() + w.slice(1) : w)
+			.join(' ');
+	}, []);
 	const engine = React.useMemo(() => {
 		const rowsInput = data.map((d, i) => ({
 			x: d.x,
@@ -136,6 +174,53 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	// Representative row with populated limits (last available)
 	const engineRepresentative = engine?.rows.slice().reverse().find((r) => r.mean != null);
 	const mean = engineRepresentative?.mean ?? null;
+	const warnings = engine?.warnings || [];
+	const filteredWarnings = React.useMemo(() => {
+		if (!warnings.length) return [] as typeof warnings;
+		if (!warningsFilter) return warnings;
+		return warnings.filter(w => {
+			if (warningsFilter.severities && w.severity && !warningsFilter.severities.includes(w.severity)) return false;
+			if (warningsFilter.categories && w.category && !warningsFilter.categories.includes(w.category)) return false;
+			if (warningsFilter.codes && !warningsFilter.codes.includes(w.code as SpcWarningCode)) return false;
+			return true;
+		});
+	}, [warnings, warningsFilter]);
+
+	// Accessible live announcement for diagnostics panel updates
+	const [diagnosticsMessage, setDiagnosticsMessage] = React.useState<string>('');
+	const lastDiagnosticsRef = React.useRef<string>('');
+	React.useEffect(() => {
+		if (!showWarningsPanel) {
+			if (lastDiagnosticsRef.current !== '') {
+				lastDiagnosticsRef.current = '';
+				setDiagnosticsMessage('');
+			}
+			return;
+		}
+		const total = filteredWarnings.length;
+		if (!total) {
+			const msg = 'Diagnostics: no warnings.';
+			if (msg !== lastDiagnosticsRef.current) {
+				lastDiagnosticsRef.current = msg;
+				setDiagnosticsMessage(msg);
+			}
+			return;
+		}
+		const counts = {
+			error: filteredWarnings.filter(w => w.severity === SpcWarningSeverity.Error).length,
+			warning: filteredWarnings.filter(w => w.severity === SpcWarningSeverity.Warning).length,
+			info: filteredWarnings.filter(w => w.severity === SpcWarningSeverity.Info).length,
+		};
+		const breakdownParts: string[] = [];
+		if (counts.error) breakdownParts.push(`${counts.error} error${counts.error === 1 ? '' : 's'}`);
+		if (counts.warning) breakdownParts.push(`${counts.warning} warning${counts.warning === 1 ? '' : 's'}`);
+		if (counts.info) breakdownParts.push(`${counts.info} info`);
+		const msg = `Diagnostics updated: ${total} warning${total === 1 ? '' : 's'} (${breakdownParts.join(', ')}).`;
+		if (msg !== lastDiagnosticsRef.current) {
+			lastDiagnosticsRef.current = msg;
+			setDiagnosticsMessage(msg);
+		}
+	}, [showWarningsPanel, filteredWarnings]);
 	const ucl = engineRepresentative?.upperProcessLimit ?? null;
 	const lcl = engineRepresentative?.lowerProcessLimit ?? null;
 	const onePos = engineRepresentative?.upperOneSigma ?? null;
@@ -292,6 +377,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 					{embeddedIcon}
 				</div>
 			)}
+			
 			<ChartRoot
 				height={height}
 				ariaLabel={ariaLabel}
@@ -319,6 +405,46 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 					/>
 				</LineScalesProvider>
 			</ChartRoot>
+			{/* Live diagnostics announcement (visually hidden) */}
+			{showWarningsPanel && diagnosticsMessage && (
+				<div
+					data-testid="spc-diagnostics-live"
+					aria-live="polite"
+					style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: 0, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }}
+				>
+					{diagnosticsMessage}
+				</div>
+			)}
+			{showWarningsPanel && filteredWarnings.length > 0 && (
+				<div className="fdp-spc-chart__warnings" role="region" aria-label="SPC diagnostics">
+					<p className="fdp-spc-chart__warnings-heading">Diagnostics</p>
+					<Table
+						firstCellIsHeader={false}
+						panel={false}
+						responsive={false}
+						head={[
+							{ text: 'Severity' },
+							{ text: 'Category' },
+							{ text: 'Code' },
+							{ text: 'Details' },
+						]}
+						rows={filteredWarnings.map((w) => {
+							let severityColor: any = 'grey';
+							if (w.severity === SpcWarningSeverity.Error) severityColor = 'red';
+							else if (w.severity === SpcWarningSeverity.Warning) severityColor = 'orange';
+							else if (w.severity === SpcWarningSeverity.Info) severityColor = 'blue';
+							return [
+								{ node: <Tag color={severityColor} text={(w.severity ? String(w.severity) : 'Info').replace(/^[a-z]/, c => c.toUpperCase())} />, classes: 'fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--severity' },
+								{ node: w.category ? <Tag color='purple' text={formatWarningCategory(w.category)} /> : <span className="fdp-spc-chart__warning-empty">–</span>, classes: 'fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--category' },
+								{ node: <Tag color='grey' text={formatWarningCode(w.code)} />, classes: 'fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--code' },
+								{ node: <div className="fdp-spc-chart__warning-message"><span>{w.message}</span>{w.context && Object.keys(w.context).length>0 && (<details className="fdp-spc-chart__warning-context" style={{ marginTop:4 }}><summary>context</summary><pre>{JSON.stringify(w.context, null, 2)}</pre></details>)}</div>, classes: 'fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--message' },
+							];
+						})}
+						classes="fdp-spc-chart__warnings-table-wrapper"
+						tableClasses="fdp-spc-chart__warnings-table"
+					/>
+				</div>
+			)}
 		</div>
 	);
 };

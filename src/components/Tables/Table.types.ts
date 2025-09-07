@@ -1,8 +1,10 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
 export interface TableCellData {
   text?: string;
   html?: string;
+  /** Optional React node content (takes precedence over html/text) */
+  node?: ReactNode;
   format?: string;
   classes?: string;
   colspan?: number;

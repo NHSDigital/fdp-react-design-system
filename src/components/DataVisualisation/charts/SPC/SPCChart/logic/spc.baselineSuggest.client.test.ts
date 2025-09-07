@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import spcModule, { ImprovementDirection } from './spc';
+import spcModule, { ImprovementDirection, BaselineSuggestionReason, ChartType } from './spc';
 const buildSpc = (spcModule as any).buildSpc as typeof import('./spc').buildSpc;
 
 // Helper to make an upward shift dataset: stable 20 points at 100 then shift to 112
@@ -22,26 +22,26 @@ function makeNoise() {
 describe('baseline suggestion heuristic', () => {
   it('suggests a baseline at the start of a sustained shift', () => {
     const data = makeShiftUp();
-    const r = buildSpc({ chartType:'XmR', metricImprovement: ImprovementDirection.Up, data, settings:{ baselineSuggest:true } });
+  const r = buildSpc({ chartType:ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ baselineSuggest:true } });
     expect(r.suggestedBaselines && r.suggestedBaselines.length).toBeGreaterThan(0);
     // first suggestion should appear after initial window (>=20 index)
     const first = r.suggestedBaselines![0];
     expect(first.index).toBeGreaterThan(15);
-    expect(first.reason === 'shift' || first.reason === 'point' || first.reason==='trend').toBe(true);
+  expect(first.reason === BaselineSuggestionReason.Shift || first.reason === BaselineSuggestionReason.Point || first.reason===BaselineSuggestionReason.Trend).toBe(true);
     expect(first.score).toBeGreaterThanOrEqual(50);
   });
   it('may suggest a baseline after a trend consolidates (trend or shift)', () => {
     const data = makeTrend();
-    const r = buildSpc({ chartType:'XmR', metricImprovement: ImprovementDirection.Up, data, settings:{ baselineSuggest:true } });
+  const r = buildSpc({ chartType:ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ baselineSuggest:true } });
     // Might yield either trend or shift suggestion depending on rule firing specifics
     if (r.suggestedBaselines && r.suggestedBaselines.length) {
       // Accept either trend or shift classification depending on overlap precedence
-      expect(r.suggestedBaselines.some(s=> s.reason==='trend' || s.reason==='shift' || s.reason==='point')).toBe(true);
+  expect(r.suggestedBaselines.some(s=> s.reason===BaselineSuggestionReason.Trend || s.reason===BaselineSuggestionReason.Shift || s.reason===BaselineSuggestionReason.Point)).toBe(true);
     }
   });
   it('does not suggest baselines for pure noise', () => {
     const data = makeNoise();
-    const r = buildSpc({ chartType:'XmR', metricImprovement: ImprovementDirection.Up, data, settings:{ baselineSuggest:true } });
+  const r = buildSpc({ chartType:ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ baselineSuggest:true } });
     // Allow zero or very low count (<2) suggestions; noise may occasionally trigger a point but stability filter should minimise
     if (r.suggestedBaselines) {
       expect(r.suggestedBaselines.length).toBeLessThan(2);

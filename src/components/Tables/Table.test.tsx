@@ -111,4 +111,15 @@ describe('Table', () => {
     const table = document.querySelector('table');
     expect(table).toBeInTheDocument();
   });
+
+  it('renders node-based cell content with code block', () => {
+    const rows = [
+      [{ node: <div><code>npm run build</code><pre><code>{`line1\nline2`}</code></pre></div> }]
+    ];
+    render(<Table rows={rows} />);
+    expect(screen.getByText('npm run build')).toBeInTheDocument();
+    // Multiline pre content: assert combined textContent contains both lines
+    const pre = screen.getByText(/line1[\n\s]+line2/);
+    expect(pre).toBeInTheDocument();
+  });
 });

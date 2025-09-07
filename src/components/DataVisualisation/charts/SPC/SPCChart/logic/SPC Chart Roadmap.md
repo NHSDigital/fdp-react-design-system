@@ -1,157 +1,116 @@
-Below is a focused gap analysis and an action roadmap to evolve SPCChart (and the wider data‑viz layer) toward a world‑leading, clinically robust health indicators platform.
+# SPCChart Roadmap (Updated)
 
-## 1. Parity gaps vs SQL v2.6 (from the shown TypeScript port)
+Updated snapshot (already implemented: rules engine, warnings framework, baseline suggestion & auto‑recalculation, configurable shift/trend thresholds, diagnostics panel UI, Storybook rich tables, assurance capability mode).
 
-Current spc.ts still has placeholder ellipses {…} in critical sections:
+---
 
-- Partition logic: Splitting rows, carrying partition IDs, recomputing means & MR per partition.
-- Moving range computation & optional outlier exclusion (MR UCL 3.267 * MRbar).
-- XmR limit derivation actually not wired to output rows (only helper functions defined).
-- T chart: Transform / back‑transform path exists, but not integrated into per-row loop.
-- G chart: Probability limits helper present; not yet applied to rows.
-- Special cause rule evaluations (all eight+) absent in code body (shift, trend, 2 of 3, 4 of 5, single 3σ, high MR, etc.).
-- Assurance (pass/fail) logic not implemented (target vs capability bands, suppression cases).
-- Suppression rule: “isolated favourable single 3σ point” – not applied.
-- Warning generation blocks placeholders (minimum points, targets suppressed, nulls, ghosts on T/G, baseline special cause).
-- Variation icon resolution (Improvement / Concern / Neither / None) not applied.
-- Ghost handling (excluded from calc but emitted) incomplete.
-- Baseline recalculation segments (re-centering and re-limiting) missing.
-- Point rank & derived helper columns (mr, mrMean, mrUcl, upper/lower sigma bands) not populated.
+## 1. Current status (Implemented)
 
-## 2. Statistical / methodological enhancements (beyond parity)
+Already delivered in codebase:
 
-### High impact
+* Core SPC engine for XmR + rare‑event T / G types (limits, centre line, sigma estimation).
+* Special cause rules: single 3σ point, shift, trend, two‑of‑three (optional four‑of‑five via settings).
+* Configurable rule thresholds: `specialCauseShiftPoints`, `specialCauseTrendPoints`, four‑of‑five toggle.
+* Auto recalculation & baseline suggestion heuristics (`autoRecalculateAfterShift`, `baselineSuggest*`).
+* Assurance / capability evaluation (band‑based pass/fail vs target).
+* Structured warnings system (severities, categories, codes) + filtering & diagnostics panel.
+* Variation / assurance icon surfacing (text glyph layer) & improvement vs concern highlighting.
+* Ghost, baseline and target handling with related warnings.
+* Table‑driven Storybook docs & enriched prop/settings reference.
+* Accessibility: live region announcements for warning panel changes & keyboard focus narration.
 
-Robust center option: allow median-based “trial” phase when < recommended points, auto-promote to mean after threshold.
-Adaptive shift/trend rule lengths configurable per measure volatility.
-Optional Western Electric vs NHS MDfC (Making Data Count) rule sets toggle.
-Partition auto-suggestion (detect sustained mean shift & propose a baseline marker).
-Capability indices (Cp, Cpk analogues) for metrics with defined spec ranges (especially physiological indicators).
-Distribution-aware safeguards:
-Apply log or Box-Cox suggestion for heavily skewed positive metrics (before forcing T chart).
-Flag overdispersion in counts (suggest C/U chart vs XmR).
-Add P, U, C charts (proportions, rates, counts per unit) for infection rates, compliance %, incident counts.
-Bayesian smoothing option (hierarchical shrinkage) for low-volume segments (reduce volatility misclassification).
-Data quality scoring (missingness, ghost density, irregular intervals) surfaced as warnings & meta layer.
+## 2. Remaining parity & near‑term functional gaps
 
-### Moderate
+These close the last pieces of foundational robustness and user clarity:
 
-Empirical sigma recalibration after outlier removal (iterative until stable or max iterations).
-Option to freeze limits after an “establishment” phase (lock historic baseline).
-Weighted limits when unequal subgroup sizes (future multi-value subgroups).
-Moving window re-baselining (rolling stability detection).
-Advanced (strategic):
+| Area | Gap | Priority |
+| ---- | ---- | -------- |
+| Moving Range panel | Visual mR panel for XmR not rendered (logic internal only) | High |
+| Icon set | Replace placeholder text icons with semantic SVG + legend | High |
+| Enhanced warning a11y | Plain‑language per‑warning narration summaries | Medium |
+| Trial limits styling | Distinct visual for provisional limits before stability threshold | Medium |
+| Baseline visual affordance | Segment boundary styling + inline “Baseline start” label | Medium |
+| Code export / reproducibility | Embed engine version + hash in result for audit | Medium |
+| Performance benchmarks | Automated timing for large N & incremental append path | Medium |
+| Fuzz / golden datasets | Canonical dataset parity + randomised invariant tests | High |
+| Run→SPC auto promotion | Automatic narration & state change once stability threshold reached | Medium |
+| Educational narrative API | `summarizeSpc(result)` helper producing structured explanation tokens | Medium |
+| Trial limit warnings | Dedicated Stability warning category when interpreting < threshold points | Medium |
 
-Signal probability scoring (posterior probability improvement vs concern).
-Causal annotation hooks (interventions) integrated into narration & risk of false attribution highlight.
-Multi-series SPC comparison (benchmark peer organisations) with controlled false discovery rate.
+## 3. Short‑term (0–30 days) plan
 
-## 3. Visual encoding & UI improvements
+1. mR panel rendering (dual panel layout, shared x scale, responsive collapse on small width).
+2. Golden parity & fuzz test harness (establish baseline statistical invariants).
+3. SVG icon component set + legend (variation + assurance states, rule glyph differentiation groundwork).
+4. Baseline segment visual styling + accessible labels.
+5. Trial vs established limits style + `limitState` flag in output rows.
 
-Distinguish baseline segments with subtle dashed mean & small “Baseline starts” tag.
-Per-signal glyph layer (already basic) upgraded: different shapes for rule types (shift, trend, 2-of-3).
-Optional “trial limits” styling (faded) until min points threshold reached.
-Capability band shading (target inside/outside process) for assurance clarity.
-Intervention annotation primitive (vertical marker + label + optional confidence shading).
-Small-multiples layout primitive for dashboards (consistent scales + synchronized cursors).
+## 4. Mid‑term (31–90 days)
 
-## 4. Accessibility & narrative
+| Theme | Items |
+| ----- | ----- |
+| Additional chart families | P, U, C charts (proportion, rate per unit, count per unit) + auto suggestion helper |
+| Narrative & accessibility | Structured ARIA summary, per‑signal explanation strings, keyboard jump between signals |
+| Performance & architecture | Cache (input signature → result), streaming append API, extract pure `@spc-core` package |
+| Visual primitives | LimitBands, SignalMarkers, BaselineSegmenter, DataQualityBanner |
+| Data quality & scoring | Aggregate quality score (missingness, ghost density, undersized partitions) surfaced in result |
+| Educational assist | Auto run→SPC promotion, trial→established limit narration, capability explanation helper |
 
-Structured ARIA summary segments: Data quality, last signal, stability status, capability vs target.
-Add plain-language explanation for each detected special cause (mapped once, referenced per point).
-Keyboard jump between “signals only”.
-“Explain this chart” export: a machine-readable JSON summary + natural language paragraph.
-Color vision safe palette toggle (already started); extend to patterns for grey fill removal when printing B/W.
+## 5. Longer‑term / advanced
 
-## 5. Architecture & performance
+* Capability indices (Cp/Cpk analogue) & capability band shading.
+* Bayesian / robust options (median trial centre, shrinkage for low‑volume series).
+* Distribution advisory helpers (log/Box‑Cox hint, over‑dispersion flags with chart type suggestion).
+* Intervention / annotation layer + narrative integration and simulated outcome preview.
+* Multi‑series benchmarking & false discovery rate control across dashboards.
+* Signal probability scoring (posterior improvement vs concern) layer.
 
-Separate pure calculation module (no React) with full unit tests; React layer only maps outputs.
-Immutable calculation result cache keyed by JSON signature of inputs (data + settings) for reuse across views.
-Typed discriminated unions for chart type outputs (XmR vs T vs G vs P etc.).
-Plug-in rule registry (array of rule evaluators returning signal objects).
-Streaming / incremental update path (append point without recomputing entire history—maintain rolling aggregates).
-Tree‑shakeable sub-package: @…/spc-core (logic) vs @…/spc-react.
+## 6. Data model refinements (proposed extensions)
 
-## 6. Testing & validation
+Add to `SpcRow` output (some partially present):
 
-Add:
+* `specialCauseCodes: string[]` (if multiple simultaneous triggers).
+* `favourability: 'favourable' | 'unfavourable' | 'neutral'`.
+* `isBaselineStart: boolean`.
+* `capability: 'capable' | 'incapable' | 'uncertain'`.
+* `limitState: 'trial' | 'established'`.
+* `engineVersion: string` & `signature: string` (hash of inputs/settings) at result root.
 
-Golden parity tests: ingest canonical SQL v2.6 sample datasets; assert identical flags/limits within tolerance.
-Fuzz tests (random series under controlled seeds) verifying invariants (e.g., no limits when insufficient points).
-Regression snapshots for complex partition sequences.
-Performance benchmark (N=5k points incremental update < X ms).
-Accessibility snapshot tests (axe) per story variant.
+## 7. Testing & quality strategy
 
-## 7. Additional primitives & helpers roadmap
+| Layer | Tests |
+| ----- | ----- |
+| Deterministic parity | Golden fixture datasets (XmR, T, G, edge cases) expecting signals & limits within tolerance |
+| Invariants / fuzz | Random sequences: ensure no limits before min points; no negative LCL for count charts; stability invariants |
+| Performance | Time incremental append for N=1k, 5k; report p95 ms budget |
+| Accessibility | Axe snapshot for key Storybook stories + narration assertions |
+| Visual regression | Storybook image diffs (limits, icons, baseline transitions) |
 
-Core primitives:
+## 8. Quick wins (next commits)
 
-LimitBands component (renders mean + sigma zones from provided spec).
-SignalMarkers component (icons / tooltips for rule triggers).
-BaselineSegmenter (visual separators + labels).
-CapabilityBadge (pass/fail ring summarizing target relationship).
-AnnotationLayer (events/interventions, shading windows).
-DataQualityBanner (surfaced warnings). Utilities:
-suggestChartType(dataProfile) – inspects distribution & recommends chart.
-summarizeSpc(result) – returns narrative tokens.
-detectShiftCandidates(data, minLength) – propose baseline breakpoints.
-simulateIntervention(result, newTarget) – hypothetical capability preview.
+1. Implement `limitState` derivation & styling hook.
+2. Add engine version + signature hash emission.
+3. Introduce golden dataset fixture folder + initial parity spec.
+4. Replace text icons with temporary SVG placeholders + legend scaffold.
+5. Basic BaselineSegmenter visual using existing SCSS tokens.
+6. Run→SPC promotion logic (threshold detection + narration placeholder).
+7. Stability warning when interpreting < 20 points (new category or subcode).
 
-## 8. Implementation phases (illustrative 90‑day plan)
+## 9. Risk & safeguards
 
-### Phase 1 (Weeks 1‑3)
+* Over‑sensitivity: keep default NHS MDfC rule lengths; isolate advanced toggles under settings.
+* Drift after auto recalculation: mark synthetic baseline insertions in output & docs.
+* Regression risk: require golden parity test green before publishing releases.
+* Governance: embed reproducibility hash for exported analytic outputs.
 
-Complete parity implementation (all rules, warnings, limits, partitions).
-Golden dataset tests vs SQL outputs.
-Refactor pure logic module + unit test coverage ≥90% critical paths. Phase 2 (Weeks 4‑6):
-Add P/U/C chart types; chart type auto-suggestion helper.
-Baseline & signal annotation UI components.
-Accessible narration upgrade & data quality warnings surface. Phase 3 (Weeks 7‑9):
-Capability indices & lock/freeze limit mode.
-Advanced color/texture accessibility options.
-Performance optimizations + incremental update API. Phase 4 (Weeks 10‑12):
-Bayesian / robust options (opt‑in).
-Intervention annotation + narrative integration.
-Documentation deep dive: methodology pages & clinical interpretation guide.
+## 10. Summary priority stack
 
-## 9. Risk & quality safeguards
+High: mR panel, golden tests & fuzz harness, SVG icons/legend, baseline styling, limit state flag.
 
-Statistical drift risk: lock baseline after acceptance; mark recalculation events.
-False positive inflation: central rule registry can implement FDR control for bulk monitoring dashboards.
-Governance: version tag logic engine output with engineVersion; store in result for reproducibility.
-Auditing: provide reproducibility hash (inputs + settings + version) to embed in exported dashboards.
+Medium: performance cache + streaming append, narrative summary block, additional chart families.
 
-## 10. Quick win recommendations to start immediately
+Later: Bayesian / robust modes, benchmarking dashboards, probability scoring.
 
-Finish core rule + partition implementation (replace placeholders).
-Add comprehensive parity tests using a fixture replicating SQL expected outputs.
-Extract buildSpc into its own package with strict, immutable result object.
-Introduce ruleEvaluators[] pattern for extensibility.
-Emit structured warnings & meta (counts, first/last special cause index).
-Enhance Storybook docs: “How SPC works” panel with interactive toggle of rules.
+---
 
-## 11. Data model refinements
-
-Add to SpcRow:
-
-specialCauseCodes: string[] (direct rule IDs)
-favourability: 'favourable' | 'unfavourable' | 'neutral'
-isBaselineStart: boolean
-capability: 'capable' | 'incapable' | 'unknown'
-limitState: 'trial' | 'established'
-
-## 12. Documentation & education
-
-Embed abridged “Understanding Variation” excerpts (permission permitting) into methodology docs.
-Glossary component (sigma, partition, capability).
-Decision tree: selecting chart type.
-FAQ: “Why did my limits change?”, “When to add a baseline?”
-Concise priority summary:
-
-Close SQL parity gaps (rules, limits, warnings).
-Add auto-suggest & additional SPC chart families (P/U/C).
-Build extensible rule + annotation architecture.
-Elevate accessibility & narrative clarity.
-Harden with parity tests, benchmarks, and governance metadata.
-Layer advanced statistical options (robust/Bayesian) after core stability.
-Let me know if you’d like me to start by filling the parity gaps (I can draft the completed buildSpc implementation next), or generate the golden test harness first.
+This roadmap is intentionally living; update after each milestone (or release tag) by moving completed bullets into the status section and refining next 30‑day scope.

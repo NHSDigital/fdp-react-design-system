@@ -64,7 +64,9 @@ const Table: React.FC<TableProps> = ({
 
 	return (
 	  <th key={index} className={headerClasses} {...headerAttributes}>
-		{cell.html ? (
+		{cell.node != null ? (
+		  <>{cell.node}</>
+		) : cell.html ? (
 		  <span dangerouslySetInnerHTML={{ __html: cell.html }} />
 		) : (
 		  cell.text
@@ -102,7 +104,9 @@ const Table: React.FC<TableProps> = ({
 			{cell.header}{' '}
 		  </span>
 		)}
-		{cell.html ? (
+		{cell.node != null ? (
+		  <>{cell.node}</>
+		) : cell.html ? (
 		  <span dangerouslySetInnerHTML={{ __html: cell.html }} />
 		) : (
 		  cell.text

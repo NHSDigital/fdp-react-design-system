@@ -146,6 +146,39 @@
 	}
 }
 
+// Warnings / diagnostics panel
+.fdp-spc-chart__warnings {
+	border: 1px solid var(--nhs-fdp-color-border, #d8dde0);
+	border-radius: 4px;
+	padding: 8px 12px;
+	margin-bottom: 12px;
+	background: var(--nhs-fdp-color-surface-muted, #f8f8f8);
+	font-family: var(--nhs-fdp-font-family, "Frutiger W01", "Frutiger", Arial, sans-serif);
+}
+.fdp-spc-chart__warnings-heading {
+	font-size: 12px;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	margin: 0 0 6px;
+	font-weight: 600;
+}
+// .fdp-spc-chart__warnings-list { list-style: none; margin:0; padding:0; display:flex; flex-direction:column; gap:4px; } // legacy (pre-table)
+// .fdp-spc-chart__warning-item { font-size:12px; line-height:1.45; display:flex; gap:8px; align-items:flex-start; } // legacy
+
+// .fdp-spc-chart__warning-cell--severity { width:90px; }
+// .fdp-spc-chart__warning-cell--category { width:120px; }
+// .fdp-spc-chart__warning-cell--code { width:160px; }
+// .fdp-spc-chart__warning-cell--message { width:auto; }
+// .fdp-spc-chart__warning-empty { color:#666; font-style:italic; }
+// .fdp-spc-chart__warning-message { display:flex; flex-direction:column; gap:4px; }
+// .fdp-spc-chart__warning-badge { display:inline-block; font-size:10px; padding:2px 6px; border-radius:12px; font-weight:600; text-transform:lowercase; background:#d9dde0; color:#000; }
+// .fdp-spc-chart__warning-badge--warning { background: var(--nhs-fdp-color-status-warning-bg, #ffbf47); color:#000; }
+// .fdp-spc-chart__warning-badge--error { background: var(--nhs-fdp-color-status-error, #d5281b); color:#fff; }
+// .fdp-spc-chart__warning-code { font-size:11px; }
+// .fdp-spc-chart__warning-context { margin-top:2px; }
+// .fdp-spc-chart__warning-context summary { cursor:pointer; font-size:11px; }
+// .fdp-spc-chart__warning-context pre { margin:0; font-size:10px; background:#f3f3f3; padding:4px; border-radius:4px; max-width:100%; overflow:auto; }
+
 // Tooltip namespace (hierarchical). Root: .fdp-spc-tooltip-portal
 .fdp-spc-tooltip-portal {
 	background: var(--nhs-fdp-color-data-viz-tooltip-bg, #0b0c0c);

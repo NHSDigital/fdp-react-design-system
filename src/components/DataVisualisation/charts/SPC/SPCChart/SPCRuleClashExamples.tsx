@@ -1,4 +1,5 @@
 import { SPCChart, ImprovementDirection } from "./SPCChart";
+import { ChartType } from './logic/spc';
 import { ChartContainer } from "../../..";
 
 // Helper to convert lightweight month/value objects to SPCChart datapoints
@@ -101,7 +102,7 @@ const chart5 = [
 ];
 
 const baseProps = {
-	chartType: "XmR" as const,
+	chartType: ChartType.XmR,
 	metricImprovement: ImprovementDirection.Down as const,
 	unit: "%",
 	announceFocus: false,

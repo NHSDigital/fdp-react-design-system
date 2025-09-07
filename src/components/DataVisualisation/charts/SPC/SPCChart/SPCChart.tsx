@@ -1024,6 +1024,10 @@ const InternalSPC: React.FC<InternalProps> = ({
 									enableRules && sig?.special && sig.improvement
 										? "fdp-spc__point--sc-improvement"
 										: null,
+									// Neutral (context-dependent) metrics: show purple when special cause present but neither improvement nor concern
+									enableRules && sig?.special && sig.variation === VariationIcon.Neither
+										? "fdp-spc__point--sc-no-judgement"
+										: null,
 									sig?.assurance === AssuranceIcon.Pass
 										? "fdp-spc__point--assurance-pass"
 										: null,

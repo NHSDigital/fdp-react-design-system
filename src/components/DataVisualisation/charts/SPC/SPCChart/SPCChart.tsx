@@ -316,6 +316,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			}
 		}
 		let judgement: VariationJudgement;
+		const hasNeutralSpecialCause = variation === VariationIcon.Neither && !!lastRow.specialCauseNeitherValue;
 		switch (variation) {
 			case VariationIcon.Improvement:
 				judgement = VariationJudgement.Improving;
@@ -328,7 +329,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				break;
 			case VariationIcon.Neither:
 			default:
-				judgement = VariationJudgement.None;
+				judgement = hasNeutralSpecialCause ? VariationJudgement.No_Judgement : VariationJudgement.None;
 		}
 		let polarity: MetricPolarity;
 		if (metricImprovement === ImprovementDirection.Up) {
@@ -572,12 +573,15 @@ const InternalSPC: React.FC<InternalProps> = ({
 	}, [engineRows]);
 
 	// Preprocess categories with singleton coloured point absorption
+	// Added 'noJudgement' (purple) for neutral special-cause sequences (variation === Neither & special cause present)
 	const categories = React.useMemo(() => {
-		if (!engineSignals || !all.length) return [] as ('concern' | 'improvement' | 'common')[];
-		const raw: ('concern' | 'improvement' | 'common')[] = all.map((_d, i) => {
+		if (!engineSignals || !all.length) return [] as ('concern' | 'improvement' | 'noJudgement' | 'common')[];
+		const raw: ('concern' | 'improvement' | 'noJudgement' | 'common')[] = all.map((_d, i) => {
 			const sig = engineSignals?.[i];
 			if (sig?.concern) return 'concern';
 			if (sig?.improvement) return 'improvement';
+			// Neutral special cause (purple) when variation icon is Neither but flagged special
+			if (sig?.special && sig.variation === VariationIcon.Neither) return 'noJudgement';
 			return 'common';
 		});
 		
@@ -592,7 +596,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 
 	// Derive contiguous sequences after absorption
 	const sequences = React.useMemo(() => {
-		if (!gradientSequences || !categories.length) return [];
+		if (!gradientSequences || !categories.length) return [] as { start: number; end: number; category: 'concern' | 'improvement' | 'noJudgement' | 'common' }[];
 		// Copy categories so we can absorb single coloured points unconditionally
 		const cats = [...categories];
 		// Absorb ANY single coloured point (length-1 run) regardless of neighbours
@@ -608,7 +612,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 			i = j;
 		}
 		// Build sequences (coloured runs must be length >=2 after absorption)
-		const out: { start: number; end: number; category: 'concern' | 'improvement' | 'common' }[] = [];
+		const out: { start: number; end: number; category: 'concern' | 'improvement' | 'noJudgement' | 'common' }[] = [];
 		if (cats.length) {
 			let start = 0;
 			for (let k = 1; k <= cats.length; k++) {
@@ -687,8 +691,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 			<defs>
 				{sequences.map((seq, idx) => {
 					const id = `${gradientIdBaseRef.current}-grad-${idx}`;
-					let baseVar: string;
-					let top = 0.28, mid = 0.12, end = 0.045; // default (grey/common)
+						let baseVar: string;
+						let top = 0.28, mid = 0.12, end = 0.045; // default (grey/common)
 					switch (seq.category) {
 						case 'concern':
 							baseVar = 'var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)';
@@ -699,6 +703,11 @@ const InternalSPC: React.FC<InternalProps> = ({
 							baseVar = 'var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)';
 							top = 0.26; mid = 0.11; end = 0.045;
 							break;
+							case 'noJudgement':
+								baseVar = 'var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)';
+								// Use similar opacity profile to improvement for balance
+								top = 0.26; mid = 0.11; end = 0.045;
+								break;
 						default:
 							baseVar = 'var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)';
 					}

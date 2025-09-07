@@ -2,7 +2,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 <Meta title="Data Visualisation/SPC/SPC Test Coverage" />
 
-# SPC Engine Test Coverage
+## SPC Engine Test Coverage
 
 This document maps the Statistical Process Control (SPC) engine behaviours to the implemented automated test suites. It provides:
 
@@ -16,7 +16,7 @@ This document maps the Statistical Process Control (SPC) engine behaviours to th
 
 ---
 
-## 1. Trend Gating (Prevent premature favourable classification)
+### 1. Trend Gating (Prevent premature favourable classification)
 
 **Goal:** Ensure increasing/decreasing trends only contribute to Improvement / Concern once the current point is on the favourable side of the mean.
 
@@ -44,7 +44,7 @@ expect(window.some(r => r.variationIcon === VariationIcon.Improvement)).toBe(fal
 
 ---
 
-## 2. Two-of-Three Rule (Exclude >3σ Points)
+### 2. Two-of-Three Rule (Exclude >3σ Points)
 
 **Change:** Points beyond 3σ (process limits) are excluded from the 2-of-3 (between 2σ & 3σ) cluster count, aligning with MDC guidance to avoid double counting extreme outliers.
 
@@ -73,7 +73,7 @@ expect(extreme.specialCauseSinglePointBelow).toBe(true);
 
 ---
 
-## 3. Four-of-Five Rule & Cluster Collapse
+### 3. Four-of-Five Rule & Cluster Collapse
 
 **Behaviours:**
 * Four-of-five beyond ±1σ flagged when all 5 points on same side of mean.
@@ -103,7 +103,7 @@ expect(after.ruleTags).toContain('four_of_five_high');
 
 ---
 
-## 4. Shift Detection & Auto Baseline Recalculation
+### 4. Shift Detection & Auto Baseline Recalculation
 
 **Behaviour:** Automatic insertion of a synthetic baseline flag after a sustained favourable shift (configurable length & delta-sigma).
 
@@ -124,7 +124,7 @@ expect(prevMean).not.toBe(newMean);
 
 ---
 
-## 5. Assurance Icons (Capability vs Fallback)
+### 5. Assurance Icons (Capability vs Fallback)
 
 **Behaviour:**
 * Capability mode: Entire 3σ band above/below target → Pass/Fail else Uncertain.
@@ -142,7 +142,7 @@ expect(last.assuranceIcon).toBe(AssuranceIcon.Pass); // value === target in Up m
 
 ---
 
-## 6. Mixed Signal Precedence
+### 6. Mixed Signal Precedence
 
 **Behaviour:** Combined scenario verifying coexistence & correct prioritisation / gating:
 * Below-mean increasing trend (no premature Improvement)
@@ -164,7 +164,7 @@ expect(last.variationIcon).toBe(VariationIcon.Concern);
 
 ---
 
-## 7. Rule Tags Provenance
+### 7. Rule Tags Provenance
 
 **Behaviour:** `ruleTags` capture original raw rule detections prior to heuristic mutation (e.g., cluster collapse) for diagnostics.
 
@@ -180,7 +180,7 @@ expect(after.ruleTags).toEqual(expect.arrayContaining(['four_of_five_high','two_
 
 ---
 
-## 8. Edge / Defensive Trend Cases
+### 8. Edge / Defensive Trend Cases
 
 **Scenarios:**
 * Alternating equal/above mean sequence – prevents false shift or trend.
@@ -196,7 +196,7 @@ expect(alternatingRows.every(r => !r.specialCauseShiftHigh && !r.specialCauseTre
 
 ---
 
-## 9. Regression: ED 4h Compliance Misclassification
+### 9. Regression: ED 4h Compliance Misclassification
 
 **Issue:** Early favourable classification due to ungated trend while values still below mean.
 
@@ -211,7 +211,7 @@ expect(improvements.slice(0, anomalyIndex).some(Boolean)).toBe(false);
 
 ---
 
-## 10. Symmetry Validation (High vs Low)
+### 10. Symmetry Validation (High vs Low)
 
 **Goal:** Guarantee logic parity for both sides of the mean (no directional bias).
 
@@ -228,7 +228,7 @@ expect(lowSideFlags.filter(Boolean).length).toBeGreaterThanOrEqual(4); // four-o
 
 ---
 
-## 11. Precedence Logic (Legacy vs Directional First) – Historical Reference
+### 11. Precedence Logic (Legacy vs Directional First) – Historical Reference
 
 **File:** `spc.precedence.logic.test.ts`
 
@@ -242,7 +242,7 @@ expect(directionalConcernIndices.length).toBeLessThanOrEqual(legacyConcernIndice
 
 ---
 
-## 12. Future Opportunities
+### 12. Future Opportunities
 
 | Potential Addition | Rationale |
 | ------------------ | --------- |
@@ -252,7 +252,7 @@ expect(directionalConcernIndices.length).toBeLessThanOrEqual(legacyConcernIndice
 
 ---
 
-## 13. Quick Reference Matrix
+### 13. Quick Reference Matrix
 
 | Behaviour | High Side | Low Side | Mixed | Provenance | Recalc | Assurance |
 | --------- | --------- | -------- | ----- | ---------- | ------ | --------- |
@@ -267,38 +267,17 @@ expect(directionalConcernIndices.length).toBeLessThanOrEqual(legacyConcernIndice
 
 ---
 
-## 14. Validation Summary
+### 14. Validation Summary
 
 All critical SPC special-cause patterns have:
 * Direct unit tests (favourable & adverse sides where applicable)
 * Edge case protection (trend interruptions, exclusion logic)
 * Provenance retention via `ruleTags` for diagnostic introspection
 
-This suite aims to minimise accidental semantic regressions during future optimisation or heuristic refinement.
-
 ---
 
-### Appendix: Minimal Pattern Construction Recipe
 
-```ts
-// Baseline stabilisation (ensures reliable sigma estimates)
-const baseline = Array.from({length: 60}, (_,i)=> [100,101,99][i%3]);
-
-// High-side mid-band cluster (2-of-3): pick values in (u2, u3)
-const mid1 = u2 + (u3-u2)*0.3;
-const mid2 = u2 + (u3-u2)*0.6;
-
-// Extreme >3σ (single point only)
-const extreme = u3 + (u3-u2)*0.5;
-```
-
----
-
-_End of document._
-
----
-
-## 15. Baselines & Recalculation Mechanics
+### 15. Baselines & Recalculation Mechanics
 
 Why it matters: Correct segmentation (manual baseline flags, auto-recalculation after sustained shifts) prevents dilution of new process performance and avoids false special-cause carry‑over.
 
@@ -309,7 +288,7 @@ Tests & Rationale:
 * `spc.baselineWarning.client.test.ts` – Emits `baseline_with_special_cause` warning when a baseline is placed on an outlier, prompting data quality / analyst review.
 * `spc.baselineSuggest.client.test.ts` – Heuristic suggestion scoring (Shift / Trend / Point reasons) to guide users where recalculation may stabilise interpretation; noise case confirms low false‑positive rate.
 
-## 16. Assurance Icons (Capability & Fallback) – Expanded
+### 16. Assurance Icons (Capability & Fallback) – Expanded
 
 Why it matters: Communicates process capability vs simple latest-point attainment; incorrect logic biases assurance dashboards.
 
@@ -317,13 +296,13 @@ Additional Tests:
 * `spc.assurance.client.test.ts` – Full matrix of Pass/Fail/None for Up/Down/Neither directions using band vs target spatial relationship.
 * `spc.assurance.fallback.client.test.ts` – Distinguishes capability mode (band entirely favourable) from fallback (latest point on favourable side) ensuring graceful degradation when limits suppressed.
 
-## 17. Minimum Points Threshold & Suppression
+### 17. Minimum Points Threshold & Suppression
 
 Why it matters: XmR statistical constants unreliable with insufficient points; early limit drawing inflates false signals.
 
 * `spc.threshold.client.test.ts` – Guards 12/13 point boundary (&lt;=12 hides limits & icons, &gt;=13 enables) preventing regression that might surface premature limits.
 
-## 18. Data Integrity & Hygiene (Null, Ghost, Moving Range)
+### 18. Data Integrity & Hygiene (Null, Ghost, Moving Range)
 
 Why it matters: Inclusion of nulls, ghost placeholders, or MR outliers distorts sigma and cascades into every special-cause rule.
 
@@ -331,13 +310,13 @@ Why it matters: Inclusion of nulls, ghost placeholders, or MR outliers distorts 
 * `spc.rareEventGhost.client.test.ts` (G & T) – Rare-event charts treat large gap outliers as ghosted events; validates pointRank semantics (ghost rank=0) and `ghost_rows_rare_event` warning payload.
 * `spc.mrOutlier.client.test.ts` – Verifies optional exclusion tightens limits (span reduction) without widening; protects sensitivity improvement feature.
 
-## 19. Cap Suppression (Performance / UX Safety)
+### 19. Cap Suppression (Performance / UX Safety)
 
 Why it matters: Extremely long partitions widen limits gradually; capping limits computational cost and preserves interpretability.
 
 * `spc.capSuppression.client.test.ts` – Partition cap, global cap, and combined sequence each emit correct warnings and null out statistics post cap boundary.
 
-## 20. Cluster & Precedence Nuances – Additional Tests
+### 20. Cluster & Precedence Nuances – Additional Tests
 
 Beyond sections 2 & 3:
 * `spc.precedence.logic.test.ts` – Demonstrates legacy vs directional-first strategy (historical comparison) + explicit cluster collapse verification (overlap enforcement baseline dataset).
@@ -345,30 +324,30 @@ Beyond sections 2 & 3:
 * `spc.ruleClash.client.test.ts` & `spc.ruleClashHigh.client.test.ts` – Low and high side simultaneous shift+trend backfill behaviour; ensures consistent multi-flag propagation over the qualifying window.
 * `spc.conflictInvariant.client.test.ts` – Proves impossible to get conflicting (simultaneous high & low) signals on one row; guards invariants after rule engine refactors.
 
-## 21. Variation Icon Semantics – Orthodoxy Matrix
+### 21. Variation Icon Semantics – Orthodoxy Matrix
 
 Why it matters: Icons drive end-user interpretation; any direction/inversion mistake misleads improvement focus.
 
 * `spc.variationIcons.client.test.ts` – Exhaustive single 3σ point classification across Up/Down/Neither directions; neutral invariance ensures policy neutrality for metrics without defined direction.
 
-## 22. Snapshot / Golden Parity & Statistical Fidelity
+### 22. Snapshot / Golden Parity & Statistical Fidelity
 
 Why it matters: Protects numerical stability (floating tolerance) of sigma, limits, MR-bar across refactors and library upgrades.
 
 * `spc.golden.client.test.ts` – External CSV parity (mean, MR-bar, limits) with tolerance; validates deterministic reproduction of published reference dataset.
 * `spc.golden.snapshot.client.test.ts` – Multi-chart (XmR, G, T) full-row JSON projection verifying every rule flag + zone boundary; single source fails fast if algorithm drifts.
 
-## 23. Provenance & Rule Tag Integrity – Extended
+### 23. Provenance & Rule Tag Integrity – Extended
 
 Supplements section 7:
 * `spc.provenance.client.test.ts` – Ensures only raw rule tags emitted (no deprecated heuristic prefixes) simplifying downstream analytics filter logic.
 * `spc.ruleTags.persistence.client.test.ts` – Confirms cluster collapse never erases historical rule evidence (two-of-three tags retained) maintaining audit trail.
 
-## 24. Mixed / Integrated Scenario – Already Covered
+### 24. Mixed / Integrated Scenario – Already Covered
 
 * `spc.mixedPrecedence.client.test.ts` – Serves as integration smoke for gating, collapse, precedence, and divergent final opposite-side signal.
 
-## 25. Backfill Diagnostics (Non-Normative)
+### 25. Backfill Diagnostics (Non-Normative)
 
 Why it matters: Internal guard that retroactive propagation of shift/trend flags remains consistent; outputs logged only when discrepancies found.
 
@@ -376,12 +355,12 @@ Why it matters: Internal guard that retroactive propagation of shift/trend flags
 * `spc.singlePointEndsDiagnostics.test.ts` – Surface-level logging harness for edge windows (debug regression reproduction).
 * Placeholders `spc.colourActual.temp.test.ts`, `spc.temp.diagnostic.test.ts` – Intentional no-op to keep suite structural placeholders until replaced.
 
-## 26. Additional / Legacy Regression Guards
+### 26. Additional / Legacy Regression Guards
 
 * `__tests__/spc.ed4h.debug.test.ts` – Real-world metric reproduction ensuring gating prevented previously observed premature classification.
 * `spc.trendCrossMeanEdge.client.test.ts`, `spc.trendAlternatingMixed.client.test.ts`, `spc.trendEdgeCases.client.test.ts` – Collectively enforce monotonic + cross-mean + neutralisation semantics beyond primary gating test, reducing accidental simplified trend logic regressions.
 
-## 27. Requirement–Test Mapping (Completeness Review)
+### 27. Requirement–Test Mapping (Completeness Review)
 
 | Requirement Domain | Covered Tests (Primary) | Status |
 | ------------------- | ----------------------- | ------ |
@@ -408,7 +387,7 @@ Why it matters: Internal guard that retroactive propagation of shift/trend flags
 | Rare-event charts (G/T) basics | rareEventGhost, golden.snapshot | ✓ (future deep tests noted) |
 | Diagnostic non-blocking | backfillDiagnostics, singlePointEndsDiagnostics | ✓ |
 
-## 28. Identified Potential Future Enhancements
+### 28. Identified Potential Future Enhancements
 
 | Gap Candidate | Justification | Suggested Test Idea |
 | ------------- | ------------- | ------------------- |
@@ -419,7 +398,23 @@ Why it matters: Internal guard that retroactive propagation of shift/trend flags
 
 Current judgement: Core SPC interpretive semantics are comprehensively covered; remaining items are value-add rather than correctness blockers.
 
+This suite aims to minimise accidental semantic regressions during future optimisation or heuristic refinement.
+
 ---
+
+### Appendix A: Minimal Pattern Construction Recipe
+
+```ts
+// Baseline stabilisation (ensures reliable sigma estimates)
+const baseline = Array.from({length: 60}, (_,i)=> [100,101,99][i%3]);
+
+// High-side mid-band cluster (2-of-3): pick values in (u2, u3)
+const mid1 = u2 + (u3-u2)*0.3;
+const mid2 = u2 + (u3-u2)*0.6;
+
+// Extreme >3σ (single point only)
+const extreme = u3 + (u3-u2)*0.5;
+```
 
 ### Appendix B: Test Classification Legend
 

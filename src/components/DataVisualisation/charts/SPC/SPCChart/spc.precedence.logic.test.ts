@@ -78,12 +78,26 @@ describe("precedenceStrategy directional_first vs legacy", () => {
 
 	it("cluster rule collapse removes 2-of-3 when 4-of-5 present (comparison between collapse on/off)", () => {
 		// Dataset engineered for deterministic overlap of 2-of-3 and 4-of-5 rules.
-		// Strategy: Baseline of 12 stable points at 10 (establish mean near 10). Then 10 elevated points:
-		//  - Values alternate between two bands: A: ~11.9 (between 1σ and 2σ above mean) and B: ~12.3 (between 2σ and 3σ above mean)
-		//  - Ensures every sliding 5-window contains at least four >1σ values (triggering 4-of-5) and multiple 3-point windows with two >2σ values (triggering 2-of-3) without any >3σ single points.
-		const baseline = Array.from({ length: 12 }, () => 10);
-		// Adjust pattern to widen spread slightly.
-		const elevated = [12.35, 11.85, 12.4, 12.05, 11.9, 12.38, 11.88, 12.36, 12.02, 11.92];
+		// Strategy revision: Original attempt produced only >3σ points (excluding them from 2-of-3 count).
+		// New approach keeps elevated points below 3σ, with a mix:
+		//  - Several points between 2σ and 3σ (eligible for 2-of-3 marking)
+		//  - Remaining points between 1σ and 2σ (needed so 4-of-5 fires while not all are >2σ)
+		// Baseline: slight noise to yield a stable mean & reasonable MR-based sigma estimation.
+		const baseline = [10.0, 10.1, 9.95, 10.05, 9.9, 10.02, 10.08, 9.97, 10.12, 9.93, 10.04, 9.98];
+		// Elevated cluster: tuned after observing typical XmR derived bands with similar baselines (u1≈10.25, u2≈10.45, u3≈10.65 for this spread).
+		// All values < expected u3 but ≥ u1; values marked * anticipated > u2.
+		const elevated = [
+			10.52, /* * >2σ */
+			10.36, /* between 1σ-2σ */
+			10.55, /* * >2σ */
+			10.41, /* 1σ-2σ */
+			10.5,  /* * >2σ */
+			10.38, /* 1σ-2σ */
+			10.54, /* * >2σ */
+			10.40, /* 1σ-2σ */
+			10.49, /* * >2σ (close) */
+			10.37, /* 1σ-2σ */
+		];
 		const values = [...baseline, ...elevated];
 		const data = values.map((v, i) => ({ x: i + 1, value: v }));
 
@@ -115,12 +129,7 @@ describe("precedenceStrategy directional_first vs legacy", () => {
 			)
 			.filter((i) => i >= 0);
 
-		// Debug snapshot (remove after stable):
-		// eslint-disable-next-line no-console
-		console.log('cluster-overlap-debug', noCollapse.rows.slice(baseline.length).map(r=>({
-			row:r.rowId, val:r.value, mean:r.mean, u1:r.upperOneSigma, u2:r.upperTwoSigma, u3:r.upperProcessLimit,
-			to3:r.specialCauseTwoOfThreeAbove, fo5:r.specialCauseFourOfFiveAbove, s3:r.specialCauseSinglePointAbove
-		}))); 
+		// (If this ever becomes flaky, re-enable debug logging to inspect band thresholds)
 
 		// Overlap MUST exist for the engineered dataset; fail hard if not.
 		expect(overlapIndices.length).toBeGreaterThan(0);

@@ -1,7 +1,6 @@
 import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import Mermaid from '../../../../_internal/Mermaid';
 import Table from '../../../../Tables/Table';
-import './SPCChart.docs.scss';
 import SPCChartStableWaitTimeExample from './SPCChartStableWaitTimeExample';
 import SPCChartEarlyWaitTimeExample from './SPCChartEarlyWaitTimeExample';
 import SPCChartIndividualsExample from './SPCChartIndividualsExample';
@@ -59,7 +58,6 @@ All calculations and rule detection paths are enabled by default. (Limits/icons 
 `metricImprovement` tells the engine which side is “good” so that special causes on the favourable side can be styled as improvement rather than concern. Values: `UP` (higher is better), `DOWN` (lower is better), `NEITHER` (no directional semantics - all special causes flagged uniformly).
 
 ### `ImprovementDirection` enum
-
 For strong typing prefer importing and using the enum instead of raw strings:
 
 ```ts

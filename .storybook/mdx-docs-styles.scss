@@ -8,45 +8,45 @@ $ds-font-stack:
 $heading-sizes: (
 	// Map semantic heading levels to DS heading variant tokens (approximate mapping)
 	h1: (
-			size: xxl,
-			font-mobile: tokens.$nhs-fdp-font-size-48-mobile,
-			lh-mobile: tokens.$nhs-fdp-font-line-height-48-mobile,
-			mb-mobile: tokens.$nhs-fdp-spacing-responsive-8-mobile,
-			font-tablet: tokens.$nhs-fdp-font-size-48-tablet,
-			lh-tablet: tokens.$nhs-fdp-font-line-height-48-tablet,
-			mb-tablet: tokens.$nhs-fdp-spacing-responsive-8-tablet,
-			mt-mobile: tokens.$nhs-fdp-spacing-responsive-7-mobile,
-			mt-tablet: tokens.$nhs-fdp-spacing-responsive-7-tablet,
-		),
-	h2: (
 		size: xl,
-		font-mobile: tokens.$nhs-fdp-font-size-36-mobile,
-		lh-mobile: tokens.$nhs-fdp-font-line-height-36-mobile,
-		mb-mobile: tokens.$nhs-fdp-spacing-responsive-7-mobile,
+		font-mobile: tokens.$nhs-fdp-font-size-48-mobile,
+		lh-mobile: tokens.$nhs-fdp-font-line-height-48-mobile,
+		mb-mobile: tokens.$nhs-fdp-spacing-responsive-8-mobile,
 		font-tablet: tokens.$nhs-fdp-font-size-48-tablet,
 		lh-tablet: tokens.$nhs-fdp-font-line-height-48-tablet,
 		mb-tablet: tokens.$nhs-fdp-spacing-responsive-7-tablet,
-		mt-mobile: tokens.$nhs-fdp-spacing-responsive-6-mobile,
-		mt-tablet: tokens.$nhs-fdp-spacing-responsive-6-tablet,
-	),
-	h3: (
+		mt-mobile: tokens.$nhs-fdp-spacing-responsive-8-mobile,
+		mt-tablet: tokens.$nhs-fdp-spacing-responsive-8-tablet,
+		),
+	h2: (
 		size: l,
-		font-mobile: tokens.$nhs-fdp-font-size-26-mobile,
-		lh-mobile: tokens.$nhs-fdp-font-line-height-26-mobile,
+		font-mobile: tokens.$nhs-fdp-font-size-36-mobile,
+		lh-mobile: tokens.$nhs-fdp-font-line-height-36-mobile,
 		mb-mobile: tokens.$nhs-fdp-spacing-responsive-7-mobile,
 		font-tablet: tokens.$nhs-fdp-font-size-36-tablet,
 		lh-tablet: tokens.$nhs-fdp-font-line-height-36-tablet,
-		mb-tablet: tokens.$nhs-fdp-spacing-responsive-7-tablet,
+		mb-tablet: tokens.$nhs-fdp-spacing-responsive-5-tablet,
+		mt-mobile: tokens.$nhs-fdp-spacing-responsive-7-mobile,
+		mt-tablet: tokens.$nhs-fdp-spacing-responsive-7-tablet,
+	),
+	h3: (
+		size: m,
+		font-mobile: tokens.$nhs-fdp-font-size-26-mobile,
+		lh-mobile: tokens.$nhs-fdp-font-line-height-26-mobile,
+		mb-mobile: tokens.$nhs-fdp-spacing-responsive-7-mobile,
+		font-tablet: tokens.$nhs-fdp-font-size-26-tablet,
+		lh-tablet: tokens.$nhs-fdp-font-line-height-26-tablet,
+		mb-tablet: tokens.$nhs-fdp-spacing-responsive-3-tablet,
 		mt-mobile: tokens.$nhs-fdp-spacing-responsive-5-mobile,
-		mt-tablet: tokens.$nhs-fdp-spacing-responsive-5-tablet,
+		mt-tablet: tokens.$nhs-fdp-spacing-responsive-6-tablet,
 	),
 	h4: (
-		size: m,
+		size: s,
 		font-mobile: tokens.$nhs-fdp-font-size-22-mobile,
 		lh-mobile: tokens.$nhs-fdp-font-line-height-22-mobile,
 		mb-mobile: tokens.$nhs-fdp-spacing-responsive-4-mobile,
-		font-tablet: tokens.$nhs-fdp-font-size-26-tablet,
-		lh-tablet: tokens.$nhs-fdp-font-line-height-26-tablet,
+		font-tablet: tokens.$nhs-fdp-font-size-22-tablet,
+		lh-tablet: tokens.$nhs-fdp-font-line-height-22-tablet,
 		mb-tablet: tokens.$nhs-fdp-spacing-responsive-4-tablet,
 		mt-mobile: tokens.$nhs-fdp-spacing-responsive-4-mobile,
 		mt-tablet: tokens.$nhs-fdp-spacing-responsive-4-tablet,
@@ -56,8 +56,8 @@ $heading-sizes: (
 		font-mobile: tokens.$nhs-fdp-font-size-19-mobile,
 		lh-mobile: tokens.$nhs-fdp-font-line-height-19-mobile,
 		mb-mobile: tokens.$nhs-fdp-spacing-responsive-4-mobile,
-		font-tablet: tokens.$nhs-fdp-font-size-22-tablet,
-		lh-tablet: tokens.$nhs-fdp-font-line-height-22-tablet,
+		font-tablet: tokens.$nhs-fdp-font-size-19-tablet,
+		lh-tablet: tokens.$nhs-fdp-font-line-height-19-tablet,
 		mb-tablet: tokens.$nhs-fdp-spacing-responsive-4-tablet,
 		mt-mobile: tokens.$nhs-fdp-spacing-responsive-4-mobile,
 		mt-tablet: tokens.$nhs-fdp-spacing-responsive-4-tablet,
@@ -131,6 +131,7 @@ $heading-sizes: (
 	li,
 	table,
 	pre,
+	code,
 	blockquote {
 		margin-top: 0;
 		margin-bottom: tokens.$nhs-fdp-spacing-4;
@@ -140,8 +141,13 @@ $heading-sizes: (
 
 	p,
 	em,
+	table,
 	li {
 		font-family: $ds-font-stack;
+
+		code {
+			font-size: 1rem;
+		}
 	}
 
 	a {
@@ -151,9 +157,12 @@ $heading-sizes: (
 		}
 	}
 
-	code,
-	pre code {
-		font-size: 0.875em;
+	pre {
+		font-size: 1rem;
+
+		code {
+			font-size: 1rem;
+		}
 	}
 
 	table {

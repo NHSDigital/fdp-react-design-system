@@ -15,7 +15,11 @@
  *    - No moving range; limits derived directly from geometric distribution quantiles around the mean count.
  *    - Provides probability‑based 1σ/2σ/3σ style bands using inverse CDF (no MR / d2 constants involved).
  */
-export type ChartType = "XmR" | "T" | "G";
+export declare enum ChartType {
+    XmR = "XmR",
+    T = "T",
+    G = "G"
+}
 export declare enum ImprovementDirection {
     Up = "Up",
     Down = "Down",
@@ -32,6 +36,10 @@ export declare enum AssuranceIcon {
     Fail = "fail",
     None = "none"
 }
+export declare enum PrecedenceStrategy {
+    Legacy = "legacy",
+    DirectionalFirst = "directional_first"
+}
 export interface SpcInputRow {
     x: string | number | Date;
     value?: number | null;
@@ -45,6 +53,10 @@ export interface SpcSettings {
     specialCauseTrendPoints?: number;
     /** Enable the four-of-five beyond 1σ rule (not in headline public four rules). Default: false */
     enableFourOfFiveRule?: boolean;
+    /** Precedence / classification strategy. legacy = original side aggregation; directional_first = favour directionally consistent emerging improvement & apply grace. Default: 'legacy' */
+    precedenceStrategy?: PrecedenceStrategy;
+    /** When using directional_first, enable early neutralisation (downgrade Concern -> Neither) for near-complete (N-1) favourable monotonic runs before the formal trend rule fires. */
+    emergingDirectionGrace?: boolean;
     minimumPoints?: number;
     minimumPointsWarning?: boolean;
     minimumPointsPartition?: number;
@@ -64,6 +76,8 @@ export interface SpcSettings {
     transitionBufferPoints?: number;
     /** Collapse lower-severity cluster rules (2-of-3 vs 4-of-5) keeping only strongest */
     collapseClusterRules?: boolean;
+    /** Enable detection of stability: fifteen consecutive points within inner one-third band (|value-mean| < 1σ) with mixture (not all on one side). Default: false */
+    enableFifteenInInnerThirdRule?: boolean;
     /** Enable heuristic baseline (phase) change suggestions */
     baselineSuggest?: boolean;
     /** Minimum change in mean (in sigma units) between old & new stable windows */
@@ -117,6 +131,8 @@ export interface SpcRow {
     specialCauseShiftLow: boolean;
     specialCauseTrendIncreasing: boolean;
     specialCauseTrendDecreasing: boolean;
+    /** Fifteen consecutive points within inner third (±1σ) with at least one on each side of mean */
+    specialCauseFifteenInnerThird: boolean;
     variationIcon: VariationIcon;
     assuranceIcon: AssuranceIcon;
     upperBaseline: number | null;
@@ -129,11 +145,39 @@ export interface SpcRow {
     specialCauseNeitherValue: number | null;
     ruleTags?: string[];
 }
+export declare enum SpcWarningSeverity {
+    Info = "info",
+    Warning = "warning",
+    Error = "error"
+}
+export declare enum SpcWarningCategory {
+    Config = "config",
+    Data = "data",
+    Limits = "limits",
+    SpecialCause = "special_cause",
+    Baseline = "baseline",
+    Logic = "logic",
+    Target = "target",
+    Ghost = "ghost",
+    Partition = "partition"
+}
+export declare enum SpcWarningCode {
+    UnknownChartType = "unknown_chart_type",
+    InsufficientPointsGlobal = "insufficient_points_global",
+    VariationConflictRow = "variation_conflict_row",
+    NullValuesExcluded = "null_values_excluded",
+    TargetIgnoredRareEvent = "target_ignored_rare_event",
+    GhostRowsRareEvent = "ghost_rows_rare_event",
+    InsufficientPointsPartition = "insufficient_points_partition",
+    BaselineWithSpecialCause = "baseline_with_special_cause",
+    PartitionCapApplied = "partition_cap_applied",
+    GlobalCapApplied = "global_cap_applied"
+}
 export interface SpcWarning {
-    code: string;
+    code: SpcWarningCode;
     message: string;
-    severity?: "info" | "warning" | "error";
-    category?: "config" | "data" | "limits" | "special_cause" | "baseline" | "logic" | "target" | "ghost" | "partition";
+    severity?: SpcWarningSeverity;
+    category?: SpcWarningCategory;
     context?: Record<string, unknown>;
 }
 export interface SpcResult {
@@ -142,13 +186,18 @@ export interface SpcResult {
     /** Optional heuristic suggestions for candidate new baseline starting points (phase changes) */
     suggestedBaselines?: Array<{
         index: number;
-        reason: 'shift' | 'trend' | 'point';
+        reason: BaselineSuggestionReason;
         score: number;
         deltaMean: number;
         oldMean: number;
         newMean: number;
         window: [number, number];
     }>;
+}
+export declare enum BaselineSuggestionReason {
+    Shift = "shift",
+    Trend = "trend",
+    Point = "point"
 }
 export declare function buildSpc(args: BuildSpcArgs): SpcResult;
 declare const _default: {

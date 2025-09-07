@@ -94,6 +94,1558 @@ var require_classnames = __commonJS({
   }
 });
 
+// node_modules/prismjs/prism.js
+var require_prism = __commonJS({
+  "node_modules/prismjs/prism.js"(exports, module) {
+    var _self = typeof window !== "undefined" ? window : typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope ? self : {};
+    var Prism2 = function(_self2) {
+      var lang = /(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i;
+      var uniqueId = 0;
+      var plainTextGrammar = {};
+      var _ = {
+        /**
+         * By default, Prism will attempt to highlight all code elements (by calling {@link Prism.highlightAll}) on the
+         * current page after the page finished loading. This might be a problem if e.g. you wanted to asynchronously load
+         * additional languages or plugins yourself.
+         *
+         * By setting this value to `true`, Prism will not automatically highlight all code elements on the page.
+         *
+         * You obviously have to change this value before the automatic highlighting started. To do this, you can add an
+         * empty Prism object into the global scope before loading the Prism script like this:
+         *
+         * ```js
+         * window.Prism = window.Prism || {};
+         * Prism.manual = true;
+         * // add a new <script> to load Prism's script
+         * ```
+         *
+         * @default false
+         * @type {boolean}
+         * @memberof Prism
+         * @public
+         */
+        manual: _self2.Prism && _self2.Prism.manual,
+        /**
+         * By default, if Prism is in a web worker, it assumes that it is in a worker it created itself, so it uses
+         * `addEventListener` to communicate with its parent instance. However, if you're using Prism manually in your
+         * own worker, you don't want it to do this.
+         *
+         * By setting this value to `true`, Prism will not add its own listeners to the worker.
+         *
+         * You obviously have to change this value before Prism executes. To do this, you can add an
+         * empty Prism object into the global scope before loading the Prism script like this:
+         *
+         * ```js
+         * window.Prism = window.Prism || {};
+         * Prism.disableWorkerMessageHandler = true;
+         * // Load Prism's script
+         * ```
+         *
+         * @default false
+         * @type {boolean}
+         * @memberof Prism
+         * @public
+         */
+        disableWorkerMessageHandler: _self2.Prism && _self2.Prism.disableWorkerMessageHandler,
+        /**
+         * A namespace for utility methods.
+         *
+         * All function in this namespace that are not explicitly marked as _public_ are for __internal use only__ and may
+         * change or disappear at any time.
+         *
+         * @namespace
+         * @memberof Prism
+         */
+        util: {
+          encode: function encode(tokens) {
+            if (tokens instanceof Token) {
+              return new Token(tokens.type, encode(tokens.content), tokens.alias);
+            } else if (Array.isArray(tokens)) {
+              return tokens.map(encode);
+            } else {
+              return tokens.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\u00a0/g, " ");
+            }
+          },
+          /**
+           * Returns the name of the type of the given value.
+           *
+           * @param {any} o
+           * @returns {string}
+           * @example
+           * type(null)      === 'Null'
+           * type(undefined) === 'Undefined'
+           * type(123)       === 'Number'
+           * type('foo')     === 'String'
+           * type(true)      === 'Boolean'
+           * type([1, 2])    === 'Array'
+           * type({})        === 'Object'
+           * type(String)    === 'Function'
+           * type(/abc+/)    === 'RegExp'
+           */
+          type: function(o) {
+            return Object.prototype.toString.call(o).slice(8, -1);
+          },
+          /**
+           * Returns a unique number for the given object. Later calls will still return the same number.
+           *
+           * @param {Object} obj
+           * @returns {number}
+           */
+          objId: function(obj) {
+            if (!obj["__id"]) {
+              Object.defineProperty(obj, "__id", { value: ++uniqueId });
+            }
+            return obj["__id"];
+          },
+          /**
+           * Creates a deep clone of the given object.
+           *
+           * The main intended use of this function is to clone language definitions.
+           *
+           * @param {T} o
+           * @param {Record<number, any>} [visited]
+           * @returns {T}
+           * @template T
+           */
+          clone: function deepClone(o, visited) {
+            visited = visited || {};
+            var clone;
+            var id;
+            switch (_.util.type(o)) {
+              case "Object":
+                id = _.util.objId(o);
+                if (visited[id]) {
+                  return visited[id];
+                }
+                clone = /** @type {Record<string, any>} */
+                {};
+                visited[id] = clone;
+                for (var key in o) {
+                  if (o.hasOwnProperty(key)) {
+                    clone[key] = deepClone(o[key], visited);
+                  }
+                }
+                return (
+                  /** @type {any} */
+                  clone
+                );
+              case "Array":
+                id = _.util.objId(o);
+                if (visited[id]) {
+                  return visited[id];
+                }
+                clone = [];
+                visited[id] = clone;
+                /** @type {Array} */
+                /** @type {any} */
+                o.forEach(function(v, i) {
+                  clone[i] = deepClone(v, visited);
+                });
+                return (
+                  /** @type {any} */
+                  clone
+                );
+              default:
+                return o;
+            }
+          },
+          /**
+           * Returns the Prism language of the given element set by a `language-xxxx` or `lang-xxxx` class.
+           *
+           * If no language is set for the element or the element is `null` or `undefined`, `none` will be returned.
+           *
+           * @param {Element} element
+           * @returns {string}
+           */
+          getLanguage: function(element) {
+            while (element) {
+              var m = lang.exec(element.className);
+              if (m) {
+                return m[1].toLowerCase();
+              }
+              element = element.parentElement;
+            }
+            return "none";
+          },
+          /**
+           * Sets the Prism `language-xxxx` class of the given element.
+           *
+           * @param {Element} element
+           * @param {string} language
+           * @returns {void}
+           */
+          setLanguage: function(element, language) {
+            element.className = element.className.replace(RegExp(lang, "gi"), "");
+            element.classList.add("language-" + language);
+          },
+          /**
+           * Returns the script element that is currently executing.
+           *
+           * This does __not__ work for line script element.
+           *
+           * @returns {HTMLScriptElement | null}
+           */
+          currentScript: function() {
+            if (typeof document === "undefined") {
+              return null;
+            }
+            if ("currentScript" in document && 1 < 2) {
+              return (
+                /** @type {any} */
+                document.currentScript
+              );
+            }
+            try {
+              throw new Error();
+            } catch (err) {
+              var src = (/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(err.stack) || [])[1];
+              if (src) {
+                var scripts = document.getElementsByTagName("script");
+                for (var i in scripts) {
+                  if (scripts[i].src == src) {
+                    return scripts[i];
+                  }
+                }
+              }
+              return null;
+            }
+          },
+          /**
+           * Returns whether a given class is active for `element`.
+           *
+           * The class can be activated if `element` or one of its ancestors has the given class and it can be deactivated
+           * if `element` or one of its ancestors has the negated version of the given class. The _negated version_ of the
+           * given class is just the given class with a `no-` prefix.
+           *
+           * Whether the class is active is determined by the closest ancestor of `element` (where `element` itself is
+           * closest ancestor) that has the given class or the negated version of it. If neither `element` nor any of its
+           * ancestors have the given class or the negated version of it, then the default activation will be returned.
+           *
+           * In the paradoxical situation where the closest ancestor contains __both__ the given class and the negated
+           * version of it, the class is considered active.
+           *
+           * @param {Element} element
+           * @param {string} className
+           * @param {boolean} [defaultActivation=false]
+           * @returns {boolean}
+           */
+          isActive: function(element, className, defaultActivation) {
+            var no = "no-" + className;
+            while (element) {
+              var classList = element.classList;
+              if (classList.contains(className)) {
+                return true;
+              }
+              if (classList.contains(no)) {
+                return false;
+              }
+              element = element.parentElement;
+            }
+            return !!defaultActivation;
+          }
+        },
+        /**
+         * This namespace contains all currently loaded languages and the some helper functions to create and modify languages.
+         *
+         * @namespace
+         * @memberof Prism
+         * @public
+         */
+        languages: {
+          /**
+           * The grammar for plain, unformatted text.
+           */
+          plain: plainTextGrammar,
+          plaintext: plainTextGrammar,
+          text: plainTextGrammar,
+          txt: plainTextGrammar,
+          /**
+           * Creates a deep copy of the language with the given id and appends the given tokens.
+           *
+           * If a token in `redef` also appears in the copied language, then the existing token in the copied language
+           * will be overwritten at its original position.
+           *
+           * ## Best practices
+           *
+           * Since the position of overwriting tokens (token in `redef` that overwrite tokens in the copied language)
+           * doesn't matter, they can technically be in any order. However, this can be confusing to others that trying to
+           * understand the language definition because, normally, the order of tokens matters in Prism grammars.
+           *
+           * Therefore, it is encouraged to order overwriting tokens according to the positions of the overwritten tokens.
+           * Furthermore, all non-overwriting tokens should be placed after the overwriting ones.
+           *
+           * @param {string} id The id of the language to extend. This has to be a key in `Prism.languages`.
+           * @param {Grammar} redef The new tokens to append.
+           * @returns {Grammar} The new language created.
+           * @public
+           * @example
+           * Prism.languages['css-with-colors'] = Prism.languages.extend('css', {
+           *     // Prism.languages.css already has a 'comment' token, so this token will overwrite CSS' 'comment' token
+           *     // at its original position
+           *     'comment': { ... },
+           *     // CSS doesn't have a 'color' token, so this token will be appended
+           *     'color': /\b(?:red|green|blue)\b/
+           * });
+           */
+          extend: function(id, redef) {
+            var lang2 = _.util.clone(_.languages[id]);
+            for (var key in redef) {
+              lang2[key] = redef[key];
+            }
+            return lang2;
+          },
+          /**
+           * Inserts tokens _before_ another token in a language definition or any other grammar.
+           *
+           * ## Usage
+           *
+           * This helper method makes it easy to modify existing languages. For example, the CSS language definition
+           * not only defines CSS highlighting for CSS documents, but also needs to define highlighting for CSS embedded
+           * in HTML through `<style>` elements. To do this, it needs to modify `Prism.languages.markup` and add the
+           * appropriate tokens. However, `Prism.languages.markup` is a regular JavaScript object literal, so if you do
+           * this:
+           *
+           * ```js
+           * Prism.languages.markup.style = {
+           *     // token
+           * };
+           * ```
+           *
+           * then the `style` token will be added (and processed) at the end. `insertBefore` allows you to insert tokens
+           * before existing tokens. For the CSS example above, you would use it like this:
+           *
+           * ```js
+           * Prism.languages.insertBefore('markup', 'cdata', {
+           *     'style': {
+           *         // token
+           *     }
+           * });
+           * ```
+           *
+           * ## Special cases
+           *
+           * If the grammars of `inside` and `insert` have tokens with the same name, the tokens in `inside`'s grammar
+           * will be ignored.
+           *
+           * This behavior can be used to insert tokens after `before`:
+           *
+           * ```js
+           * Prism.languages.insertBefore('markup', 'comment', {
+           *     'comment': Prism.languages.markup.comment,
+           *     // tokens after 'comment'
+           * });
+           * ```
+           *
+           * ## Limitations
+           *
+           * The main problem `insertBefore` has to solve is iteration order. Since ES2015, the iteration order for object
+           * properties is guaranteed to be the insertion order (except for integer keys) but some browsers behave
+           * differently when keys are deleted and re-inserted. So `insertBefore` can't be implemented by temporarily
+           * deleting properties which is necessary to insert at arbitrary positions.
+           *
+           * To solve this problem, `insertBefore` doesn't actually insert the given tokens into the target object.
+           * Instead, it will create a new object and replace all references to the target object with the new one. This
+           * can be done without temporarily deleting properties, so the iteration order is well-defined.
+           *
+           * However, only references that can be reached from `Prism.languages` or `insert` will be replaced. I.e. if
+           * you hold the target object in a variable, then the value of the variable will not change.
+           *
+           * ```js
+           * var oldMarkup = Prism.languages.markup;
+           * var newMarkup = Prism.languages.insertBefore('markup', 'comment', { ... });
+           *
+           * assert(oldMarkup !== Prism.languages.markup);
+           * assert(newMarkup === Prism.languages.markup);
+           * ```
+           *
+           * @param {string} inside The property of `root` (e.g. a language id in `Prism.languages`) that contains the
+           * object to be modified.
+           * @param {string} before The key to insert before.
+           * @param {Grammar} insert An object containing the key-value pairs to be inserted.
+           * @param {Object<string, any>} [root] The object containing `inside`, i.e. the object that contains the
+           * object to be modified.
+           *
+           * Defaults to `Prism.languages`.
+           * @returns {Grammar} The new grammar object.
+           * @public
+           */
+          insertBefore: function(inside, before, insert, root) {
+            root = root || /** @type {any} */
+            _.languages;
+            var grammar = root[inside];
+            var ret = {};
+            for (var token in grammar) {
+              if (grammar.hasOwnProperty(token)) {
+                if (token == before) {
+                  for (var newToken in insert) {
+                    if (insert.hasOwnProperty(newToken)) {
+                      ret[newToken] = insert[newToken];
+                    }
+                  }
+                }
+                if (!insert.hasOwnProperty(token)) {
+                  ret[token] = grammar[token];
+                }
+              }
+            }
+            var old = root[inside];
+            root[inside] = ret;
+            _.languages.DFS(_.languages, function(key, value) {
+              if (value === old && key != inside) {
+                this[key] = ret;
+              }
+            });
+            return ret;
+          },
+          // Traverse a language definition with Depth First Search
+          DFS: function DFS(o, callback, type, visited) {
+            visited = visited || {};
+            var objId = _.util.objId;
+            for (var i in o) {
+              if (o.hasOwnProperty(i)) {
+                callback.call(o, i, o[i], type || i);
+                var property = o[i];
+                var propertyType = _.util.type(property);
+                if (propertyType === "Object" && !visited[objId(property)]) {
+                  visited[objId(property)] = true;
+                  DFS(property, callback, null, visited);
+                } else if (propertyType === "Array" && !visited[objId(property)]) {
+                  visited[objId(property)] = true;
+                  DFS(property, callback, i, visited);
+                }
+              }
+            }
+          }
+        },
+        plugins: {},
+        /**
+         * This is the most high-level function in Prism’s API.
+         * It fetches all the elements that have a `.language-xxxx` class and then calls {@link Prism.highlightElement} on
+         * each one of them.
+         *
+         * This is equivalent to `Prism.highlightAllUnder(document, async, callback)`.
+         *
+         * @param {boolean} [async=false] Same as in {@link Prism.highlightAllUnder}.
+         * @param {HighlightCallback} [callback] Same as in {@link Prism.highlightAllUnder}.
+         * @memberof Prism
+         * @public
+         */
+        highlightAll: function(async, callback) {
+          _.highlightAllUnder(document, async, callback);
+        },
+        /**
+         * Fetches all the descendants of `container` that have a `.language-xxxx` class and then calls
+         * {@link Prism.highlightElement} on each one of them.
+         *
+         * The following hooks will be run:
+         * 1. `before-highlightall`
+         * 2. `before-all-elements-highlight`
+         * 3. All hooks of {@link Prism.highlightElement} for each element.
+         *
+         * @param {ParentNode} container The root element, whose descendants that have a `.language-xxxx` class will be highlighted.
+         * @param {boolean} [async=false] Whether each element is to be highlighted asynchronously using Web Workers.
+         * @param {HighlightCallback} [callback] An optional callback to be invoked on each element after its highlighting is done.
+         * @memberof Prism
+         * @public
+         */
+        highlightAllUnder: function(container, async, callback) {
+          var env = {
+            callback,
+            container,
+            selector: 'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'
+          };
+          _.hooks.run("before-highlightall", env);
+          env.elements = Array.prototype.slice.apply(env.container.querySelectorAll(env.selector));
+          _.hooks.run("before-all-elements-highlight", env);
+          for (var i = 0, element; element = env.elements[i++]; ) {
+            _.highlightElement(element, async === true, env.callback);
+          }
+        },
+        /**
+         * Highlights the code inside a single element.
+         *
+         * The following hooks will be run:
+         * 1. `before-sanity-check`
+         * 2. `before-highlight`
+         * 3. All hooks of {@link Prism.highlight}. These hooks will be run by an asynchronous worker if `async` is `true`.
+         * 4. `before-insert`
+         * 5. `after-highlight`
+         * 6. `complete`
+         *
+         * Some the above hooks will be skipped if the element doesn't contain any text or there is no grammar loaded for
+         * the element's language.
+         *
+         * @param {Element} element The element containing the code.
+         * It must have a class of `language-xxxx` to be processed, where `xxxx` is a valid language identifier.
+         * @param {boolean} [async=false] Whether the element is to be highlighted asynchronously using Web Workers
+         * to improve performance and avoid blocking the UI when highlighting very large chunks of code. This option is
+         * [disabled by default](https://prismjs.com/faq.html#why-is-asynchronous-highlighting-disabled-by-default).
+         *
+         * Note: All language definitions required to highlight the code must be included in the main `prism.js` file for
+         * asynchronous highlighting to work. You can build your own bundle on the
+         * [Download page](https://prismjs.com/download.html).
+         * @param {HighlightCallback} [callback] An optional callback to be invoked after the highlighting is done.
+         * Mostly useful when `async` is `true`, since in that case, the highlighting is done asynchronously.
+         * @memberof Prism
+         * @public
+         */
+        highlightElement: function(element, async, callback) {
+          var language = _.util.getLanguage(element);
+          var grammar = _.languages[language];
+          _.util.setLanguage(element, language);
+          var parent = element.parentElement;
+          if (parent && parent.nodeName.toLowerCase() === "pre") {
+            _.util.setLanguage(parent, language);
+          }
+          var code = element.textContent;
+          var env = {
+            element,
+            language,
+            grammar,
+            code
+          };
+          function insertHighlightedCode(highlightedCode) {
+            env.highlightedCode = highlightedCode;
+            _.hooks.run("before-insert", env);
+            env.element.innerHTML = env.highlightedCode;
+            _.hooks.run("after-highlight", env);
+            _.hooks.run("complete", env);
+            callback && callback.call(env.element);
+          }
+          _.hooks.run("before-sanity-check", env);
+          parent = env.element.parentElement;
+          if (parent && parent.nodeName.toLowerCase() === "pre" && !parent.hasAttribute("tabindex")) {
+            parent.setAttribute("tabindex", "0");
+          }
+          if (!env.code) {
+            _.hooks.run("complete", env);
+            callback && callback.call(env.element);
+            return;
+          }
+          _.hooks.run("before-highlight", env);
+          if (!env.grammar) {
+            insertHighlightedCode(_.util.encode(env.code));
+            return;
+          }
+          if (async && _self2.Worker) {
+            var worker = new Worker(_.filename);
+            worker.onmessage = function(evt) {
+              insertHighlightedCode(evt.data);
+            };
+            worker.postMessage(JSON.stringify({
+              language: env.language,
+              code: env.code,
+              immediateClose: true
+            }));
+          } else {
+            insertHighlightedCode(_.highlight(env.code, env.grammar, env.language));
+          }
+        },
+        /**
+         * Low-level function, only use if you know what you’re doing. It accepts a string of text as input
+         * and the language definitions to use, and returns a string with the HTML produced.
+         *
+         * The following hooks will be run:
+         * 1. `before-tokenize`
+         * 2. `after-tokenize`
+         * 3. `wrap`: On each {@link Token}.
+         *
+         * @param {string} text A string with the code to be highlighted.
+         * @param {Grammar} grammar An object containing the tokens to use.
+         *
+         * Usually a language definition like `Prism.languages.markup`.
+         * @param {string} language The name of the language definition passed to `grammar`.
+         * @returns {string} The highlighted HTML.
+         * @memberof Prism
+         * @public
+         * @example
+         * Prism.highlight('var foo = true;', Prism.languages.javascript, 'javascript');
+         */
+        highlight: function(text, grammar, language) {
+          var env = {
+            code: text,
+            grammar,
+            language
+          };
+          _.hooks.run("before-tokenize", env);
+          if (!env.grammar) {
+            throw new Error('The language "' + env.language + '" has no grammar.');
+          }
+          env.tokens = _.tokenize(env.code, env.grammar);
+          _.hooks.run("after-tokenize", env);
+          return Token.stringify(_.util.encode(env.tokens), env.language);
+        },
+        /**
+         * This is the heart of Prism, and the most low-level function you can use. It accepts a string of text as input
+         * and the language definitions to use, and returns an array with the tokenized code.
+         *
+         * When the language definition includes nested tokens, the function is called recursively on each of these tokens.
+         *
+         * This method could be useful in other contexts as well, as a very crude parser.
+         *
+         * @param {string} text A string with the code to be highlighted.
+         * @param {Grammar} grammar An object containing the tokens to use.
+         *
+         * Usually a language definition like `Prism.languages.markup`.
+         * @returns {TokenStream} An array of strings and tokens, a token stream.
+         * @memberof Prism
+         * @public
+         * @example
+         * let code = `var foo = 0;`;
+         * let tokens = Prism.tokenize(code, Prism.languages.javascript);
+         * tokens.forEach(token => {
+         *     if (token instanceof Prism.Token && token.type === 'number') {
+         *         console.log(`Found numeric literal: ${token.content}`);
+         *     }
+         * });
+         */
+        tokenize: function(text, grammar) {
+          var rest = grammar.rest;
+          if (rest) {
+            for (var token in rest) {
+              grammar[token] = rest[token];
+            }
+            delete grammar.rest;
+          }
+          var tokenList = new LinkedList();
+          addAfter(tokenList, tokenList.head, text);
+          matchGrammar(text, tokenList, grammar, tokenList.head, 0);
+          return toArray(tokenList);
+        },
+        /**
+         * @namespace
+         * @memberof Prism
+         * @public
+         */
+        hooks: {
+          all: {},
+          /**
+           * Adds the given callback to the list of callbacks for the given hook.
+           *
+           * The callback will be invoked when the hook it is registered for is run.
+           * Hooks are usually directly run by a highlight function but you can also run hooks yourself.
+           *
+           * One callback function can be registered to multiple hooks and the same hook multiple times.
+           *
+           * @param {string} name The name of the hook.
+           * @param {HookCallback} callback The callback function which is given environment variables.
+           * @public
+           */
+          add: function(name, callback) {
+            var hooks = _.hooks.all;
+            hooks[name] = hooks[name] || [];
+            hooks[name].push(callback);
+          },
+          /**
+           * Runs a hook invoking all registered callbacks with the given environment variables.
+           *
+           * Callbacks will be invoked synchronously and in the order in which they were registered.
+           *
+           * @param {string} name The name of the hook.
+           * @param {Object<string, any>} env The environment variables of the hook passed to all callbacks registered.
+           * @public
+           */
+          run: function(name, env) {
+            var callbacks = _.hooks.all[name];
+            if (!callbacks || !callbacks.length) {
+              return;
+            }
+            for (var i = 0, callback; callback = callbacks[i++]; ) {
+              callback(env);
+            }
+          }
+        },
+        Token
+      };
+      _self2.Prism = _;
+      function Token(type, content, alias, matchedStr) {
+        this.type = type;
+        this.content = content;
+        this.alias = alias;
+        this.length = (matchedStr || "").length | 0;
+      }
+      Token.stringify = function stringify(o, language) {
+        if (typeof o == "string") {
+          return o;
+        }
+        if (Array.isArray(o)) {
+          var s = "";
+          o.forEach(function(e) {
+            s += stringify(e, language);
+          });
+          return s;
+        }
+        var env = {
+          type: o.type,
+          content: stringify(o.content, language),
+          tag: "span",
+          classes: ["token", o.type],
+          attributes: {},
+          language
+        };
+        var aliases = o.alias;
+        if (aliases) {
+          if (Array.isArray(aliases)) {
+            Array.prototype.push.apply(env.classes, aliases);
+          } else {
+            env.classes.push(aliases);
+          }
+        }
+        _.hooks.run("wrap", env);
+        var attributes = "";
+        for (var name in env.attributes) {
+          attributes += " " + name + '="' + (env.attributes[name] || "").replace(/"/g, "&quot;") + '"';
+        }
+        return "<" + env.tag + ' class="' + env.classes.join(" ") + '"' + attributes + ">" + env.content + "</" + env.tag + ">";
+      };
+      function matchPattern(pattern, pos, text, lookbehind) {
+        pattern.lastIndex = pos;
+        var match = pattern.exec(text);
+        if (match && lookbehind && match[1]) {
+          var lookbehindLength = match[1].length;
+          match.index += lookbehindLength;
+          match[0] = match[0].slice(lookbehindLength);
+        }
+        return match;
+      }
+      function matchGrammar(text, tokenList, grammar, startNode, startPos, rematch) {
+        for (var token in grammar) {
+          if (!grammar.hasOwnProperty(token) || !grammar[token]) {
+            continue;
+          }
+          var patterns = grammar[token];
+          patterns = Array.isArray(patterns) ? patterns : [patterns];
+          for (var j = 0; j < patterns.length; ++j) {
+            if (rematch && rematch.cause == token + "," + j) {
+              return;
+            }
+            var patternObj = patterns[j];
+            var inside = patternObj.inside;
+            var lookbehind = !!patternObj.lookbehind;
+            var greedy = !!patternObj.greedy;
+            var alias = patternObj.alias;
+            if (greedy && !patternObj.pattern.global) {
+              var flags = patternObj.pattern.toString().match(/[imsuy]*$/)[0];
+              patternObj.pattern = RegExp(patternObj.pattern.source, flags + "g");
+            }
+            var pattern = patternObj.pattern || patternObj;
+            for (var currentNode = startNode.next, pos = startPos; currentNode !== tokenList.tail; pos += currentNode.value.length, currentNode = currentNode.next) {
+              if (rematch && pos >= rematch.reach) {
+                break;
+              }
+              var str = currentNode.value;
+              if (tokenList.length > text.length) {
+                return;
+              }
+              if (str instanceof Token) {
+                continue;
+              }
+              var removeCount = 1;
+              var match;
+              if (greedy) {
+                match = matchPattern(pattern, pos, text, lookbehind);
+                if (!match || match.index >= text.length) {
+                  break;
+                }
+                var from = match.index;
+                var to = match.index + match[0].length;
+                var p = pos;
+                p += currentNode.value.length;
+                while (from >= p) {
+                  currentNode = currentNode.next;
+                  p += currentNode.value.length;
+                }
+                p -= currentNode.value.length;
+                pos = p;
+                if (currentNode.value instanceof Token) {
+                  continue;
+                }
+                for (var k = currentNode; k !== tokenList.tail && (p < to || typeof k.value === "string"); k = k.next) {
+                  removeCount++;
+                  p += k.value.length;
+                }
+                removeCount--;
+                str = text.slice(pos, p);
+                match.index -= pos;
+              } else {
+                match = matchPattern(pattern, 0, str, lookbehind);
+                if (!match) {
+                  continue;
+                }
+              }
+              var from = match.index;
+              var matchStr = match[0];
+              var before = str.slice(0, from);
+              var after = str.slice(from + matchStr.length);
+              var reach = pos + str.length;
+              if (rematch && reach > rematch.reach) {
+                rematch.reach = reach;
+              }
+              var removeFrom = currentNode.prev;
+              if (before) {
+                removeFrom = addAfter(tokenList, removeFrom, before);
+                pos += before.length;
+              }
+              removeRange(tokenList, removeFrom, removeCount);
+              var wrapped = new Token(token, inside ? _.tokenize(matchStr, inside) : matchStr, alias, matchStr);
+              currentNode = addAfter(tokenList, removeFrom, wrapped);
+              if (after) {
+                addAfter(tokenList, currentNode, after);
+              }
+              if (removeCount > 1) {
+                var nestedRematch = {
+                  cause: token + "," + j,
+                  reach
+                };
+                matchGrammar(text, tokenList, grammar, currentNode.prev, pos, nestedRematch);
+                if (rematch && nestedRematch.reach > rematch.reach) {
+                  rematch.reach = nestedRematch.reach;
+                }
+              }
+            }
+          }
+        }
+      }
+      function LinkedList() {
+        var head = { value: null, prev: null, next: null };
+        var tail = { value: null, prev: head, next: null };
+        head.next = tail;
+        this.head = head;
+        this.tail = tail;
+        this.length = 0;
+      }
+      function addAfter(list, node, value) {
+        var next = node.next;
+        var newNode = { value, prev: node, next };
+        node.next = newNode;
+        next.prev = newNode;
+        list.length++;
+        return newNode;
+      }
+      function removeRange(list, node, count) {
+        var next = node.next;
+        for (var i = 0; i < count && next !== list.tail; i++) {
+          next = next.next;
+        }
+        node.next = next;
+        next.prev = node;
+        list.length -= i;
+      }
+      function toArray(list) {
+        var array = [];
+        var node = list.head.next;
+        while (node !== list.tail) {
+          array.push(node.value);
+          node = node.next;
+        }
+        return array;
+      }
+      if (!_self2.document) {
+        if (!_self2.addEventListener) {
+          return _;
+        }
+        if (!_.disableWorkerMessageHandler) {
+          _self2.addEventListener("message", function(evt) {
+            var message = JSON.parse(evt.data);
+            var lang2 = message.language;
+            var code = message.code;
+            var immediateClose = message.immediateClose;
+            _self2.postMessage(_.highlight(code, _.languages[lang2], lang2));
+            if (immediateClose) {
+              _self2.close();
+            }
+          }, false);
+        }
+        return _;
+      }
+      var script = _.util.currentScript();
+      if (script) {
+        _.filename = script.src;
+        if (script.hasAttribute("data-manual")) {
+          _.manual = true;
+        }
+      }
+      function highlightAutomaticallyCallback() {
+        if (!_.manual) {
+          _.highlightAll();
+        }
+      }
+      if (!_.manual) {
+        var readyState = document.readyState;
+        if (readyState === "loading" || readyState === "interactive" && script && script.defer) {
+          document.addEventListener("DOMContentLoaded", highlightAutomaticallyCallback);
+        } else {
+          if (window.requestAnimationFrame) {
+            window.requestAnimationFrame(highlightAutomaticallyCallback);
+          } else {
+            window.setTimeout(highlightAutomaticallyCallback, 16);
+          }
+        }
+      }
+      return _;
+    }(_self);
+    if (typeof module !== "undefined" && module.exports) {
+      module.exports = Prism2;
+    }
+    if (typeof global !== "undefined") {
+      global.Prism = Prism2;
+    }
+    Prism2.languages.markup = {
+      "comment": {
+        pattern: /<!--(?:(?!<!--)[\s\S])*?-->/,
+        greedy: true
+      },
+      "prolog": {
+        pattern: /<\?[\s\S]+?\?>/,
+        greedy: true
+      },
+      "doctype": {
+        // https://www.w3.org/TR/xml/#NT-doctypedecl
+        pattern: /<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,
+        greedy: true,
+        inside: {
+          "internal-subset": {
+            pattern: /(^[^\[]*\[)[\s\S]+(?=\]>$)/,
+            lookbehind: true,
+            greedy: true,
+            inside: null
+            // see below
+          },
+          "string": {
+            pattern: /"[^"]*"|'[^']*'/,
+            greedy: true
+          },
+          "punctuation": /^<!|>$|[[\]]/,
+          "doctype-tag": /^DOCTYPE/i,
+          "name": /[^\s<>'"]+/
+        }
+      },
+      "cdata": {
+        pattern: /<!\[CDATA\[[\s\S]*?\]\]>/i,
+        greedy: true
+      },
+      "tag": {
+        pattern: /<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,
+        greedy: true,
+        inside: {
+          "tag": {
+            pattern: /^<\/?[^\s>\/]+/,
+            inside: {
+              "punctuation": /^<\/?/,
+              "namespace": /^[^\s>\/:]+:/
+            }
+          },
+          "special-attr": [],
+          "attr-value": {
+            pattern: /=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,
+            inside: {
+              "punctuation": [
+                {
+                  pattern: /^=/,
+                  alias: "attr-equals"
+                },
+                {
+                  pattern: /^(\s*)["']|["']$/,
+                  lookbehind: true
+                }
+              ]
+            }
+          },
+          "punctuation": /\/?>/,
+          "attr-name": {
+            pattern: /[^\s>\/]+/,
+            inside: {
+              "namespace": /^[^\s>\/:]+:/
+            }
+          }
+        }
+      },
+      "entity": [
+        {
+          pattern: /&[\da-z]{1,8};/i,
+          alias: "named-entity"
+        },
+        /&#x?[\da-f]{1,8};/i
+      ]
+    };
+    Prism2.languages.markup["tag"].inside["attr-value"].inside["entity"] = Prism2.languages.markup["entity"];
+    Prism2.languages.markup["doctype"].inside["internal-subset"].inside = Prism2.languages.markup;
+    Prism2.hooks.add("wrap", function(env) {
+      if (env.type === "entity") {
+        env.attributes["title"] = env.content.replace(/&amp;/, "&");
+      }
+    });
+    Object.defineProperty(Prism2.languages.markup.tag, "addInlined", {
+      /**
+       * Adds an inlined language to markup.
+       *
+       * An example of an inlined language is CSS with `<style>` tags.
+       *
+       * @param {string} tagName The name of the tag that contains the inlined language. This name will be treated as
+       * case insensitive.
+       * @param {string} lang The language key.
+       * @example
+       * addInlined('style', 'css');
+       */
+      value: function addInlined(tagName, lang) {
+        var includedCdataInside = {};
+        includedCdataInside["language-" + lang] = {
+          pattern: /(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,
+          lookbehind: true,
+          inside: Prism2.languages[lang]
+        };
+        includedCdataInside["cdata"] = /^<!\[CDATA\[|\]\]>$/i;
+        var inside = {
+          "included-cdata": {
+            pattern: /<!\[CDATA\[[\s\S]*?\]\]>/i,
+            inside: includedCdataInside
+          }
+        };
+        inside["language-" + lang] = {
+          pattern: /[\s\S]+/,
+          inside: Prism2.languages[lang]
+        };
+        var def = {};
+        def[tagName] = {
+          pattern: RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g, function() {
+            return tagName;
+          }), "i"),
+          lookbehind: true,
+          greedy: true,
+          inside
+        };
+        Prism2.languages.insertBefore("markup", "cdata", def);
+      }
+    });
+    Object.defineProperty(Prism2.languages.markup.tag, "addAttribute", {
+      /**
+       * Adds an pattern to highlight languages embedded in HTML attributes.
+       *
+       * An example of an inlined language is CSS with `style` attributes.
+       *
+       * @param {string} attrName The name of the tag that contains the inlined language. This name will be treated as
+       * case insensitive.
+       * @param {string} lang The language key.
+       * @example
+       * addAttribute('style', 'css');
+       */
+      value: function(attrName, lang) {
+        Prism2.languages.markup.tag.inside["special-attr"].push({
+          pattern: RegExp(
+            /(^|["'\s])/.source + "(?:" + attrName + ")" + /\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,
+            "i"
+          ),
+          lookbehind: true,
+          inside: {
+            "attr-name": /^[^\s=]+/,
+            "attr-value": {
+              pattern: /=[\s\S]+/,
+              inside: {
+                "value": {
+                  pattern: /(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,
+                  lookbehind: true,
+                  alias: [lang, "language-" + lang],
+                  inside: Prism2.languages[lang]
+                },
+                "punctuation": [
+                  {
+                    pattern: /^=/,
+                    alias: "attr-equals"
+                  },
+                  /"|'/
+                ]
+              }
+            }
+          }
+        });
+      }
+    });
+    Prism2.languages.html = Prism2.languages.markup;
+    Prism2.languages.mathml = Prism2.languages.markup;
+    Prism2.languages.svg = Prism2.languages.markup;
+    Prism2.languages.xml = Prism2.languages.extend("markup", {});
+    Prism2.languages.ssml = Prism2.languages.xml;
+    Prism2.languages.atom = Prism2.languages.xml;
+    Prism2.languages.rss = Prism2.languages.xml;
+    (function(Prism3) {
+      var string = /(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;
+      Prism3.languages.css = {
+        "comment": /\/\*[\s\S]*?\*\//,
+        "atrule": {
+          pattern: RegExp("@[\\w-](?:" + /[^;{\s"']|\s+(?!\s)/.source + "|" + string.source + ")*?" + /(?:;|(?=\s*\{))/.source),
+          inside: {
+            "rule": /^@[\w-]+/,
+            "selector-function-argument": {
+              pattern: /(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,
+              lookbehind: true,
+              alias: "selector"
+            },
+            "keyword": {
+              pattern: /(^|[^\w-])(?:and|not|only|or)(?![\w-])/,
+              lookbehind: true
+            }
+            // See rest below
+          }
+        },
+        "url": {
+          // https://drafts.csswg.org/css-values-3/#urls
+          pattern: RegExp("\\burl\\((?:" + string.source + "|" + /(?:[^\\\r\n()"']|\\[\s\S])*/.source + ")\\)", "i"),
+          greedy: true,
+          inside: {
+            "function": /^url/i,
+            "punctuation": /^\(|\)$/,
+            "string": {
+              pattern: RegExp("^" + string.source + "$"),
+              alias: "url"
+            }
+          }
+        },
+        "selector": {
+          pattern: RegExp(`(^|[{}\\s])[^{}\\s](?:[^{};"'\\s]|\\s+(?![\\s{])|` + string.source + ")*(?=\\s*\\{)"),
+          lookbehind: true
+        },
+        "string": {
+          pattern: string,
+          greedy: true
+        },
+        "property": {
+          pattern: /(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,
+          lookbehind: true
+        },
+        "important": /!important\b/i,
+        "function": {
+          pattern: /(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,
+          lookbehind: true
+        },
+        "punctuation": /[(){};:,]/
+      };
+      Prism3.languages.css["atrule"].inside.rest = Prism3.languages.css;
+      var markup = Prism3.languages.markup;
+      if (markup) {
+        markup.tag.addInlined("style", "css");
+        markup.tag.addAttribute("style", "css");
+      }
+    })(Prism2);
+    Prism2.languages.clike = {
+      "comment": [
+        {
+          pattern: /(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,
+          lookbehind: true,
+          greedy: true
+        },
+        {
+          pattern: /(^|[^\\:])\/\/.*/,
+          lookbehind: true,
+          greedy: true
+        }
+      ],
+      "string": {
+        pattern: /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+        greedy: true
+      },
+      "class-name": {
+        pattern: /(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,
+        lookbehind: true,
+        inside: {
+          "punctuation": /[.\\]/
+        }
+      },
+      "keyword": /\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,
+      "boolean": /\b(?:false|true)\b/,
+      "function": /\b\w+(?=\()/,
+      "number": /\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,
+      "operator": /[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,
+      "punctuation": /[{}[\];(),.:]/
+    };
+    Prism2.languages.javascript = Prism2.languages.extend("clike", {
+      "class-name": [
+        Prism2.languages.clike["class-name"],
+        {
+          pattern: /(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,
+          lookbehind: true
+        }
+      ],
+      "keyword": [
+        {
+          pattern: /((?:^|\})\s*)catch\b/,
+          lookbehind: true
+        },
+        {
+          pattern: /(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,
+          lookbehind: true
+        }
+      ],
+      // Allow for all non-ASCII characters (See http://stackoverflow.com/a/2008444)
+      "function": /#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,
+      "number": {
+        pattern: RegExp(
+          /(^|[^\w$])/.source + "(?:" + // constant
+          (/NaN|Infinity/.source + "|" + // binary integer
+          /0[bB][01]+(?:_[01]+)*n?/.source + "|" + // octal integer
+          /0[oO][0-7]+(?:_[0-7]+)*n?/.source + "|" + // hexadecimal integer
+          /0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source + "|" + // decimal bigint
+          /\d+(?:_\d+)*n/.source + "|" + // decimal number (integer or float) but no bigint
+          /(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source) + ")" + /(?![\w$])/.source
+        ),
+        lookbehind: true
+      },
+      "operator": /--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/
+    });
+    Prism2.languages.javascript["class-name"][0].pattern = /(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/;
+    Prism2.languages.insertBefore("javascript", "keyword", {
+      "regex": {
+        pattern: RegExp(
+          // lookbehind
+          // eslint-disable-next-line regexp/no-dupe-characters-character-class
+          /((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source + // Regex pattern:
+          // There are 2 regex patterns here. The RegExp set notation proposal added support for nested character
+          // classes if the `v` flag is present. Unfortunately, nested CCs are both context-free and incompatible
+          // with the only syntax, so we have to define 2 different regex patterns.
+          /\//.source + "(?:" + /(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source + "|" + // `v` flag syntax. This supports 3 levels of nested character classes.
+          /(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source + ")" + // lookahead
+          /(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source
+        ),
+        lookbehind: true,
+        greedy: true,
+        inside: {
+          "regex-source": {
+            pattern: /^(\/)[\s\S]+(?=\/[a-z]*$)/,
+            lookbehind: true,
+            alias: "language-regex",
+            inside: Prism2.languages.regex
+          },
+          "regex-delimiter": /^\/|\/$/,
+          "regex-flags": /^[a-z]+$/
+        }
+      },
+      // This must be declared before keyword because we use "function" inside the look-forward
+      "function-variable": {
+        pattern: /#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,
+        alias: "function"
+      },
+      "parameter": [
+        {
+          pattern: /(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,
+          lookbehind: true,
+          inside: Prism2.languages.javascript
+        },
+        {
+          pattern: /(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,
+          lookbehind: true,
+          inside: Prism2.languages.javascript
+        },
+        {
+          pattern: /(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,
+          lookbehind: true,
+          inside: Prism2.languages.javascript
+        },
+        {
+          pattern: /((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,
+          lookbehind: true,
+          inside: Prism2.languages.javascript
+        }
+      ],
+      "constant": /\b[A-Z](?:[A-Z_]|\dx?)*\b/
+    });
+    Prism2.languages.insertBefore("javascript", "string", {
+      "hashbang": {
+        pattern: /^#!.*/,
+        greedy: true,
+        alias: "comment"
+      },
+      "template-string": {
+        pattern: /`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,
+        greedy: true,
+        inside: {
+          "template-punctuation": {
+            pattern: /^`|`$/,
+            alias: "string"
+          },
+          "interpolation": {
+            pattern: /((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,
+            lookbehind: true,
+            inside: {
+              "interpolation-punctuation": {
+                pattern: /^\$\{|\}$/,
+                alias: "punctuation"
+              },
+              rest: Prism2.languages.javascript
+            }
+          },
+          "string": /[\s\S]+/
+        }
+      },
+      "string-property": {
+        pattern: /((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,
+        lookbehind: true,
+        greedy: true,
+        alias: "property"
+      }
+    });
+    Prism2.languages.insertBefore("javascript", "operator", {
+      "literal-property": {
+        pattern: /((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,
+        lookbehind: true,
+        alias: "property"
+      }
+    });
+    if (Prism2.languages.markup) {
+      Prism2.languages.markup.tag.addInlined("script", "javascript");
+      Prism2.languages.markup.tag.addAttribute(
+        /on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,
+        "javascript"
+      );
+    }
+    Prism2.languages.js = Prism2.languages.javascript;
+    (function() {
+      if (typeof Prism2 === "undefined" || typeof document === "undefined") {
+        return;
+      }
+      if (!Element.prototype.matches) {
+        Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+      }
+      var LOADING_MESSAGE = "Loading\u2026";
+      var FAILURE_MESSAGE = function(status, message) {
+        return "\u2716 Error " + status + " while fetching file: " + message;
+      };
+      var FAILURE_EMPTY_MESSAGE = "\u2716 Error: File does not exist or is empty";
+      var EXTENSIONS = {
+        "js": "javascript",
+        "py": "python",
+        "rb": "ruby",
+        "ps1": "powershell",
+        "psm1": "powershell",
+        "sh": "bash",
+        "bat": "batch",
+        "h": "c",
+        "tex": "latex"
+      };
+      var STATUS_ATTR = "data-src-status";
+      var STATUS_LOADING = "loading";
+      var STATUS_LOADED = "loaded";
+      var STATUS_FAILED = "failed";
+      var SELECTOR = "pre[data-src]:not([" + STATUS_ATTR + '="' + STATUS_LOADED + '"]):not([' + STATUS_ATTR + '="' + STATUS_LOADING + '"])';
+      function loadFile(src, success, error) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", src, true);
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4) {
+            if (xhr.status < 400 && xhr.responseText) {
+              success(xhr.responseText);
+            } else {
+              if (xhr.status >= 400) {
+                error(FAILURE_MESSAGE(xhr.status, xhr.statusText));
+              } else {
+                error(FAILURE_EMPTY_MESSAGE);
+              }
+            }
+          }
+        };
+        xhr.send(null);
+      }
+      function parseRange(range2) {
+        var m = /^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(range2 || "");
+        if (m) {
+          var start = Number(m[1]);
+          var comma = m[2];
+          var end = m[3];
+          if (!comma) {
+            return [start, start];
+          }
+          if (!end) {
+            return [start, void 0];
+          }
+          return [start, Number(end)];
+        }
+        return void 0;
+      }
+      Prism2.hooks.add("before-highlightall", function(env) {
+        env.selector += ", " + SELECTOR;
+      });
+      Prism2.hooks.add("before-sanity-check", function(env) {
+        var pre = (
+          /** @type {HTMLPreElement} */
+          env.element
+        );
+        if (pre.matches(SELECTOR)) {
+          env.code = "";
+          pre.setAttribute(STATUS_ATTR, STATUS_LOADING);
+          var code = pre.appendChild(document.createElement("CODE"));
+          code.textContent = LOADING_MESSAGE;
+          var src = pre.getAttribute("data-src");
+          var language = env.language;
+          if (language === "none") {
+            var extension = (/\.(\w+)$/.exec(src) || [, "none"])[1];
+            language = EXTENSIONS[extension] || extension;
+          }
+          Prism2.util.setLanguage(code, language);
+          Prism2.util.setLanguage(pre, language);
+          var autoloader = Prism2.plugins.autoloader;
+          if (autoloader) {
+            autoloader.loadLanguages(language);
+          }
+          loadFile(
+            src,
+            function(text) {
+              pre.setAttribute(STATUS_ATTR, STATUS_LOADED);
+              var range2 = parseRange(pre.getAttribute("data-range"));
+              if (range2) {
+                var lines = text.split(/\r\n?|\n/g);
+                var start = range2[0];
+                var end = range2[1] == null ? lines.length : range2[1];
+                if (start < 0) {
+                  start += lines.length;
+                }
+                start = Math.max(0, Math.min(start - 1, lines.length));
+                if (end < 0) {
+                  end += lines.length;
+                }
+                end = Math.max(0, Math.min(end, lines.length));
+                text = lines.slice(start, end).join("\n");
+                if (!pre.hasAttribute("data-start")) {
+                  pre.setAttribute("data-start", String(start + 1));
+                }
+              }
+              code.textContent = text;
+              Prism2.highlightElement(code);
+            },
+            function(error) {
+              pre.setAttribute(STATUS_ATTR, STATUS_FAILED);
+              code.textContent = error;
+            }
+          );
+        }
+      });
+      Prism2.plugins.fileHighlight = {
+        /**
+         * Executes the File Highlight plugin for all matching `pre` elements under the given container.
+         *
+         * Note: Elements which are already loaded or currently loading will not be touched by this method.
+         *
+         * @param {ParentNode} [container=document]
+         */
+        highlight: function highlight(container) {
+          var elements = (container || document).querySelectorAll(SELECTOR);
+          for (var i = 0, element; element = elements[i++]; ) {
+            Prism2.highlightElement(element);
+          }
+        }
+      };
+      var logged = false;
+      Prism2.fileHighlight = function() {
+        if (!logged) {
+          console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead.");
+          logged = true;
+        }
+        Prism2.plugins.fileHighlight.highlight.apply(this, arguments);
+      };
+    })();
+  }
+});
+
+// node_modules/prismjs/components/prism-typescript.js
+var require_prism_typescript = __commonJS({
+  "node_modules/prismjs/components/prism-typescript.js"() {
+    (function(Prism2) {
+      Prism2.languages.typescript = Prism2.languages.extend("javascript", {
+        "class-name": {
+          pattern: /(\b(?:class|extends|implements|instanceof|interface|new|type)\s+)(?!keyof\b)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?:\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)?/,
+          lookbehind: true,
+          greedy: true,
+          inside: null
+          // see below
+        },
+        "builtin": /\b(?:Array|Function|Promise|any|boolean|console|never|number|string|symbol|unknown)\b/
+      });
+      Prism2.languages.typescript.keyword.push(
+        /\b(?:abstract|declare|is|keyof|readonly|require)\b/,
+        // keywords that have to be followed by an identifier
+        /\b(?:asserts|infer|interface|module|namespace|type)\b(?=\s*(?:[{_$a-zA-Z\xA0-\uFFFF]|$))/,
+        // This is for `import type *, {}`
+        /\btype\b(?=\s*(?:[\{*]|$))/
+      );
+      delete Prism2.languages.typescript["parameter"];
+      delete Prism2.languages.typescript["literal-property"];
+      var typeInside = Prism2.languages.extend("typescript", {});
+      delete typeInside["class-name"];
+      Prism2.languages.typescript["class-name"].inside = typeInside;
+      Prism2.languages.insertBefore("typescript", "function", {
+        "decorator": {
+          pattern: /@[$\w\xA0-\uFFFF]+/,
+          inside: {
+            "at": {
+              pattern: /^@/,
+              alias: "operator"
+            },
+            "function": /^[\s\S]+/
+          }
+        },
+        "generic-function": {
+          // e.g. foo<T extends "bar" | "baz">( ...
+          pattern: /#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>(?=\s*\()/,
+          greedy: true,
+          inside: {
+            "function": /^#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*/,
+            "generic": {
+              pattern: /<[\s\S]+/,
+              // everything after the first <
+              alias: "class-name",
+              inside: typeInside
+            }
+          }
+        }
+      });
+      Prism2.languages.ts = Prism2.languages.typescript;
+    })(Prism);
+  }
+});
+
+// node_modules/prismjs/components/prism-tsx.js
+var require_prism_tsx = __commonJS({
+  "node_modules/prismjs/components/prism-tsx.js"() {
+    (function(Prism2) {
+      var typescript = Prism2.util.clone(Prism2.languages.typescript);
+      Prism2.languages.tsx = Prism2.languages.extend("jsx", typescript);
+      delete Prism2.languages.tsx["parameter"];
+      delete Prism2.languages.tsx["literal-property"];
+      var tag = Prism2.languages.tsx.tag;
+      tag.pattern = RegExp(/(^|[^\w$]|(?=<\/))/.source + "(?:" + tag.pattern.source + ")", tag.pattern.flags);
+      tag.lookbehind = true;
+    })(Prism);
+  }
+});
+
+// node_modules/prismjs/components/prism-json.js
+var require_prism_json = __commonJS({
+  "node_modules/prismjs/components/prism-json.js"() {
+    Prism.languages.json = {
+      "property": {
+        pattern: /(^|[^\\])"(?:\\.|[^\\"\r\n])*"(?=\s*:)/,
+        lookbehind: true,
+        greedy: true
+      },
+      "string": {
+        pattern: /(^|[^\\])"(?:\\.|[^\\"\r\n])*"(?!\s*:)/,
+        lookbehind: true,
+        greedy: true
+      },
+      "comment": {
+        pattern: /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)/,
+        greedy: true
+      },
+      "number": /-?\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
+      "punctuation": /[{}[\],]/,
+      "operator": /:/,
+      "boolean": /\b(?:false|true)\b/,
+      "null": {
+        pattern: /\bnull\b/,
+        alias: "keyword"
+      }
+    };
+    Prism.languages.webmanifest = Prism.languages.json;
+  }
+});
+
 // src/components/DataVisualisation/charts/ChartContainer.tsx
 import * as React from "react";
 
@@ -4883,6 +6435,7 @@ var Button_default = Button;
 
 // src/components/Tables/Table.tsx
 var import_classnames3 = __toESM(require_classnames(), 1);
+import React14 from "react";
 
 // src/components/Panel/Panel.tsx
 var import_classnames2 = __toESM(require_classnames(), 1);
@@ -5022,6 +6575,56 @@ var Table = ({
     tableClasses
   );
   const containerClassList = (0, import_classnames3.default)(classes);
+  const prismRef = React14.useRef(null);
+  const ensurePrism = () => {
+    if (prismRef.current) return prismRef.current;
+    try {
+      prismRef.current = require_prism();
+      try {
+        require_prism_typescript();
+      } catch {
+      }
+      try {
+        require_prism_tsx();
+      } catch {
+      }
+      try {
+        require_prism_json();
+      } catch {
+      }
+    } catch {
+      prismRef.current = null;
+    }
+    return prismRef.current;
+  };
+  const fallbackHighlight = (code) => {
+    const patterns = [
+      { regex: /\b(import|from|export|const|let|var|return|if|else|for|while|switch|case|break|new|throw|try|catch|finally|class|extends|implements|interface|type|as|async|await|function)\b/g, cls: "kw" },
+      { regex: /(['"`])(?:\\.|(?!\1).)*\1/g, cls: "str" },
+      { regex: /\/\*[^]*?\*\/|\/\/.*$/gm, cls: "com" },
+      { regex: /\b([0-9]+(?:\.[0-9]+)?)\b/g, cls: "num" }
+    ];
+    let html = code;
+    patterns.forEach((p) => {
+      html = html.replace(p.regex, (m) => `<span class="nhsuk-code-${p.cls}">${m}</span>`);
+    });
+    return html;
+  };
+  const highlightCode = (code, lang, disable) => {
+    if (disable) return code;
+    if (!lang) return code;
+    const Prism2 = ensurePrism();
+    if (Prism2 && Prism2.languages) {
+      const resolvedLang = Prism2.languages[lang] ? lang : Prism2.languages.typescript && (lang === "ts" || lang === "tsx" || lang === "typescript") ? "typescript" : Prism2.languages.json && lang === "json" ? "json" : void 0;
+      if (resolvedLang) {
+        try {
+          return Prism2.highlight(code, Prism2.languages[resolvedLang], resolvedLang);
+        } catch {
+        }
+      }
+    }
+    return fallbackHighlight(code);
+  };
   const renderHeaderCell = (cell, index) => {
     const headerClasses = (0, import_classnames3.default)("nhsuk-table__header", {
       [`nhsuk-table__header--${cell.format}`]: cell.format
@@ -5033,7 +6636,28 @@ var Table = ({
       ...responsive && { role: "columnheader" },
       ...cell.attributes
     };
-    return /* @__PURE__ */ jsx16("th", { className: headerClasses, ...headerAttributes, children: cell.html ? /* @__PURE__ */ jsx16("span", { dangerouslySetInnerHTML: { __html: cell.html } }) : cell.text }, index);
+    let content;
+    if (cell.node != null) {
+      content = /* @__PURE__ */ jsx16(Fragment, { children: cell.node });
+    } else if (cell.html) {
+      content = /* @__PURE__ */ jsx16("span", { dangerouslySetInnerHTML: { __html: cell.html } });
+    } else if (cell.code != null) {
+      const isArray = Array.isArray(cell.code);
+      const codeString = isArray ? cell.code.join("\n") : cell.code;
+      const isMultiline = isArray || codeString.includes("\n");
+      const codeProps = {
+        className: (0, import_classnames3.default)("nhsuk-table__code", cell.codeClassName, {
+          "nhsuk-table__code--block": isMultiline,
+          "nhsuk-table__code--inline": !isMultiline
+        }),
+        ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
+      };
+      const highlighted = highlightCode(codeString, cell.codeLanguage);
+      content = isMultiline ? /* @__PURE__ */ jsx16("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+    } else {
+      content = cell.text;
+    }
+    return /* @__PURE__ */ jsx16("th", { className: headerClasses, ...headerAttributes, children: content }, index);
   };
   const renderCell = (cell, cellIndex, isFirstCell) => {
     const isHeaderCell = firstCellIsHeader && isFirstCell;
@@ -5054,12 +6678,33 @@ var Table = ({
       },
       ...cell.attributes
     };
+    let inner;
+    if (cell.node != null) {
+      inner = /* @__PURE__ */ jsx16(Fragment, { children: cell.node });
+    } else if (cell.html) {
+      inner = /* @__PURE__ */ jsx16("span", { dangerouslySetInnerHTML: { __html: cell.html } });
+    } else if (cell.code != null) {
+      const isArray = Array.isArray(cell.code);
+      const codeString = isArray ? cell.code.join("\n") : cell.code;
+      const isMultiline = isArray || codeString.includes("\n");
+      const codeProps = {
+        className: (0, import_classnames3.default)("nhsuk-table__code", cell.codeClassName, {
+          "nhsuk-table__code--block": isMultiline,
+          "nhsuk-table__code--inline": !isMultiline
+        }),
+        ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
+      };
+      const highlighted = highlightCode(codeString, cell.codeLanguage, cell.disableHighlight);
+      inner = isMultiline ? /* @__PURE__ */ jsx16("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+    } else {
+      inner = cell.text;
+    }
     const cellContent = /* @__PURE__ */ jsxs9(Fragment, { children: [
       responsive && cell.header && /* @__PURE__ */ jsxs9("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true", children: [
         cell.header,
         " "
       ] }),
-      cell.html ? /* @__PURE__ */ jsx16("span", { dangerouslySetInnerHTML: { __html: cell.html } }) : cell.text
+      inner
     ] });
     const Component = isHeaderCell ? "th" : "td";
     return /* @__PURE__ */ jsx16(Component, { className: cellClasses, ...cellAttributes, children: cellContent }, cellIndex);
@@ -5259,7 +6904,7 @@ var ChartWithTableTabs = ({
 var ChartWithTableTabs_default = ChartWithTableTabs;
 
 // src/components/DataVisualisation/charts/Legend/Legend.tsx
-import * as React14 from "react";
+import * as React15 from "react";
 import { jsx as jsx18, jsxs as jsxs11 } from "react/jsx-runtime";
 var Legend = ({
   items: itemsProp,
@@ -5277,9 +6922,9 @@ var Legend = ({
   const effectiveInteractive = interactive || contextInteractive;
   const items = itemsProp || [];
   const controlled = hiddenIds !== void 0;
-  const [internalHidden, setInternalHidden] = React14.useState(new Set(defaultHiddenIds));
+  const [internalHidden, setInternalHidden] = React15.useState(new Set(defaultHiddenIds));
   const effectiveHidden = controlled ? new Set(hiddenIds) : internalHidden;
-  const [announcement, setAnnouncement] = React14.useState("");
+  const [announcement, setAnnouncement] = React15.useState("");
   const toggle = (id) => {
     if (contextInteractive && visibility) {
       const wasHidden2 = visibility.isHidden(id);
@@ -5345,7 +6990,7 @@ var Legend = ({
 var Legend_default = Legend;
 
 // src/components/DataVisualisation/FilterableLineChart.tsx
-import * as React15 from "react";
+import * as React16 from "react";
 import { jsx as jsx19, jsxs as jsxs12 } from "react/jsx-runtime";
 var FilterableLineChart = ({
   series,
@@ -5358,17 +7003,17 @@ var FilterableLineChart = ({
   palette = "categorical",
   ...lineChartProps
 }) => {
-  const coloured = React15.useMemo(() => assignColors ? assignSeriesColors(series, { palette }) : series, [series, assignColors, palette]);
+  const coloured = React16.useMemo(() => assignColors ? assignSeriesColors(series, { palette }) : series, [series, assignColors, palette]);
   const controlled = hiddenIds !== void 0;
-  const [internalHidden, setInternalHidden] = React15.useState(new Set(initialHiddenIds));
+  const [internalHidden, setInternalHidden] = React16.useState(new Set(initialHiddenIds));
   const hiddenSet = controlled ? new Set(hiddenIds) : internalHidden;
-  const visibleSeries = React15.useMemo(() => coloured.filter((s) => !hiddenSet.has(s.id)), [coloured, hiddenSet]);
-  const handleVisibilityChange = React15.useCallback((_visibleIds, nextHiddenIds) => {
+  const visibleSeries = React16.useMemo(() => coloured.filter((s) => !hiddenSet.has(s.id)), [coloured, hiddenSet]);
+  const handleVisibilityChange = React16.useCallback((_visibleIds, nextHiddenIds) => {
     if (!controlled) setInternalHidden(new Set(nextHiddenIds));
     const visibleIds = coloured.filter((s) => !nextHiddenIds.includes(s.id)).map((s) => s.id);
     onHiddenChange == null ? void 0 : onHiddenChange(nextHiddenIds, visibleIds);
   }, [controlled, coloured, onHiddenChange]);
-  const legendItems = React15.useMemo(() => coloured.map((s) => ({ id: s.id, label: s.label || s.id, color: s.color })), [coloured]);
+  const legendItems = React16.useMemo(() => coloured.map((s) => ({ id: s.id, label: s.label || s.id, color: s.color })), [coloured]);
   const chartEl = /* @__PURE__ */ jsx19(LineChart_default, { ...lineChartProps, series: visibleSeries, palette });
   const legendEl = /* @__PURE__ */ jsx19(
     Legend_default,
@@ -5390,7 +7035,7 @@ var FilterableLineChart = ({
 var FilterableLineChart_default = FilterableLineChart;
 
 // src/components/DataVisualisation/series/AreaSeriesPrimitive.tsx
-import * as React16 from "react";
+import * as React17 from "react";
 import { jsx as jsx20, jsxs as jsxs13 } from "react/jsx-runtime";
 var AreaSeriesPrimitive = ({
   series,
@@ -5414,7 +7059,7 @@ var AreaSeriesPrimitive = ({
   const faded = isHidden && visibilityMode === "fade";
   if (isHidden && visibilityMode === "remove") return null;
   const tooltip = useTooltipContext();
-  React16.useEffect(() => {
+  React17.useEffect(() => {
     if (!tooltip) return;
     const normalized = series.data.map((d) => ({ x: parseX(d), y: d.y }));
     tooltip.registerSeries(series.id, normalized);
@@ -5422,7 +7067,7 @@ var AreaSeriesPrimitive = ({
   }, [tooltip, series.id, series.data, parseX]);
   const paletteOverride = colors && colors[seriesIndex];
   const color2 = series.color || paletteOverride || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
-  const linePath = React16.useMemo(() => {
+  const linePath = React17.useMemo(() => {
     if (stacked && stacked.length === series.data.length) {
       return createLinePath(
         series.data,
@@ -5441,7 +7086,7 @@ var AreaSeriesPrimitive = ({
       { smooth }
     );
   }, [series.data, stacked, xScale, yScale, parseX, smooth]);
-  const areaPath = React16.useMemo(() => {
+  const areaPath = React17.useMemo(() => {
     if (stacked && stacked.length === series.data.length) {
       const gen2 = area_default().x((d) => xScale(parseX(d))).y0((_, i) => yScale(stacked[i].y0)).y1((_, i) => yScale(stacked[i].y1));
       if (smooth) gen2.curve(monotoneX);
@@ -5455,7 +7100,7 @@ var AreaSeriesPrimitive = ({
     if (smooth) gen.curve(monotoneX);
     return gen(series.data) || "";
   }, [series.data, stacked, xScale, yScale, parseX, baselineY, smooth]);
-  const gradientId = React16.useId();
+  const gradientId = React17.useId();
   return /* @__PURE__ */ jsxs13(
     "g",
     {
@@ -5486,7 +7131,7 @@ var AreaSeriesPrimitive = ({
 var AreaSeriesPrimitive_default = AreaSeriesPrimitive;
 
 // src/components/DataVisualisation/series/BarSeriesPrimitive.tsx
-import * as React17 from "react";
+import * as React18 from "react";
 import { jsx as jsx21, jsxs as jsxs14 } from "react/jsx-runtime";
 var BarSeriesPrimitive = ({
   series,
@@ -5524,7 +7169,7 @@ var BarSeriesPrimitive = ({
   const faded = isHidden && visibilityMode === "fade";
   if (isHidden && visibilityMode === "remove") return null;
   const tooltip = useTooltipContext();
-  React17.useEffect(() => {
+  React18.useEffect(() => {
     if (!tooltip) return;
     const normalized = series.data.map((d) => ({ x: parseX(d), y: d.y }));
     tooltip.registerSeries(series.id, normalized);
@@ -5532,7 +7177,7 @@ var BarSeriesPrimitive = ({
   }, [tooltip, series.id, series.data, parseX]);
   const isBandScale = typeof xScale.bandwidth === "function";
   const bandwidth = isBandScale ? xScale.bandwidth() : void 0;
-  const inferredPixelWidth = React17.useMemo(() => {
+  const inferredPixelWidth = React18.useMemo(() => {
     if (bandwidth != null) return bandwidth;
     const sourceSeries = allSeries && allSeries.length ? allSeries : [series];
     const posSet = [];
@@ -5551,7 +7196,7 @@ var BarSeriesPrimitive = ({
     const median = diffs[Math.floor(diffs.length / 2)] || 40;
     return median * widthFactor;
   }, [series.data, allSeries, xScale, parseX, widthFactor, bandwidth]);
-  const { basePerBar } = React17.useMemo(() => {
+  const { basePerBar } = React18.useMemo(() => {
     var _a3, _b2;
     if (isBandScale) {
       const bw = inferredPixelWidth;
@@ -5617,7 +7262,7 @@ var BarSeriesPrimitive = ({
     xScale,
     parseX
   ]);
-  const globalCenters = React17.useMemo(() => {
+  const globalCenters = React18.useMemo(() => {
     if (isBandScale) return [];
     const pts = [];
     const src = allSeries && allSeries.length ? allSeries : [series];
@@ -5630,7 +7275,7 @@ var BarSeriesPrimitive = ({
     pts.sort((a, b) => a - b);
     return Array.from(new Set(pts));
   }, [isBandScale, allSeries, series, xScale, parseX]);
-  const continuousSlots = React17.useMemo(() => {
+  const continuousSlots = React18.useMemo(() => {
     if (isBandScale)
       return [];
     if (!globalCenters.length) return [];
@@ -5652,7 +7297,7 @@ var BarSeriesPrimitive = ({
     }
     return slots;
   }, [isBandScale, globalCenters, chartDims.innerWidth]);
-  const continuousUniforms = React17.useMemo(() => {
+  const continuousUniforms = React18.useMemo(() => {
     if (isBandScale || !continuousSlots.length)
       return void 0;
     const occupancy = Math.min(1, Math.max(0.05, widthFactor));
@@ -5706,7 +7351,7 @@ var BarSeriesPrimitive = ({
   const baseSeriesStroke = palette === "region" ? pickRegionStroke(series.id, seriesIndex) : pickSeriesStroke(seriesIndex);
   const effectiveBaseStroke = gradientStrokeMatch && (series.color || resolvedSeriesPaletteColor) ? baseSeriesColor : baseSeriesStroke;
   const baselineY = Number.isFinite(yScale(0)) ? yScale(0) : yScale.range()[0];
-  const seriesGradientId = React17.useId();
+  const seriesGradientId = React18.useId();
   if (stacked && stacked.length === series.data.length) {
     return /* @__PURE__ */ jsxs14(
       "g",
@@ -6027,7 +7672,7 @@ var BarSeriesPrimitive = ({
 var BarSeriesPrimitive_default = BarSeriesPrimitive;
 
 // src/components/DataVisualisation/core/BandScalesProvider.tsx
-import * as React18 from "react";
+import * as React19 from "react";
 import { jsx as jsx22 } from "react/jsx-runtime";
 var BandScalesProvider = ({
   series,
@@ -6042,25 +7687,25 @@ var BandScalesProvider = ({
   const chart = useChartContext();
   const innerWidth = (_a2 = iw != null ? iw : chart == null ? void 0 : chart.innerWidth) != null ? _a2 : 0;
   const innerHeight = (_b2 = ih != null ? ih : chart == null ? void 0 : chart.innerHeight) != null ? _b2 : 0;
-  const allData = React18.useMemo(() => series.flatMap((s) => s.data), [series]);
-  const xDomain = React18.useMemo(() => {
+  const allData = React19.useMemo(() => series.flatMap((s) => s.data), [series]);
+  const xDomain = React19.useMemo(() => {
     const set = /* @__PURE__ */ new Set();
     allData.forEach((d) => set.add(d.x));
     return Array.from(set);
   }, [allData]);
-  const yMax = React18.useMemo(
+  const yMax = React19.useMemo(
     () => Math.max(0, ...allData.map((d) => d.y)),
     [allData]
   );
-  const xScale = React18.useMemo(
+  const xScale = React19.useMemo(
     () => band().domain(xDomain).range([0, innerWidth]).paddingInner(paddingInner).paddingOuter(paddingOuter),
     [xDomain, innerWidth, paddingInner, paddingOuter]
   );
-  const yScale = React18.useMemo(
+  const yScale = React19.useMemo(
     () => linear2().domain([0, yMax]).nice().range([innerHeight, 0]),
     [yMax, innerHeight]
   );
-  const value = React18.useMemo(
+  const value = React19.useMemo(
     () => ({
       xScale,
       yScale,
@@ -6073,7 +7718,7 @@ var BandScalesProvider = ({
 };
 
 // src/components/DataVisualisation/charts/ChartNoScript/ChartNoScript.tsx
-import * as React19 from "react";
+import * as React20 from "react";
 import { jsx as jsx23, jsxs as jsxs15 } from "react/jsx-runtime";
 var ChartNoScript = ({
   title,
@@ -6085,7 +7730,7 @@ var ChartNoScript = ({
   message = "Interactive chart loading\u2026",
   forceFallback = false
 }) => {
-  const figureId = React19.useId();
+  const figureId = React20.useId();
   const resolvedId = id || figureId;
   const descId = description ? `${resolvedId}-desc` : void 0;
   const sourceId = source ? `${resolvedId}-src` : void 0;
@@ -6117,11 +7762,11 @@ var ChartNoScript = ({
 var ChartNoScript_default = ChartNoScript;
 
 // src/components/DataVisualisation/charts/ChartEnhancer/ChartEnhancer.tsx
-import * as React20 from "react";
+import * as React21 from "react";
 import { jsx as jsx24 } from "react/jsx-runtime";
 var ChartEnhancer = ({ selector = "figure.fdp-chart", onEnhanced, delay = 0, children }) => {
-  const ref = React20.useRef(null);
-  React20.useEffect(() => {
+  const ref = React21.useRef(null);
+  React21.useEffect(() => {
     const root = ref.current;
     if (!root) return;
     const apply = () => {
@@ -6147,7 +7792,7 @@ var ChartEnhancer = ({ selector = "figure.fdp-chart", onEnhanced, delay = 0, chi
 var ChartEnhancer_default = ChartEnhancer;
 
 // src/components/DataVisualisation/components/MetricCard/MetricCard.tsx
-import * as React21 from "react";
+import * as React22 from "react";
 import { Fragment as Fragment2, jsx as jsx25, jsxs as jsxs16 } from "react/jsx-runtime";
 var MetricCard = ({
   label,
@@ -6166,7 +7811,7 @@ var MetricCard = ({
   id,
   announceDelta = true
 }) => {
-  const internalId = React21.useId();
+  const internalId = React22.useId();
   const baseId = id || internalId;
   const labelId = `${baseId}-label`;
   const valueId = `${baseId}-value`;
@@ -6242,13 +7887,19 @@ var MetricCard = ({
 var MetricCard_default = MetricCard;
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import * as React24 from "react";
+import * as React25 from "react";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
-import * as React22 from "react";
+import * as React23 from "react";
 import { createPortal } from "react-dom";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc.ts
+var ChartType = /* @__PURE__ */ ((ChartType2) => {
+  ChartType2["XmR"] = "XmR";
+  ChartType2["T"] = "T";
+  ChartType2["G"] = "G";
+  return ChartType2;
+})(ChartType || {});
 var ImprovementDirection = /* @__PURE__ */ ((ImprovementDirection2) => {
   ImprovementDirection2["Up"] = "Up";
   ImprovementDirection2["Down"] = "Down";
@@ -6268,6 +7919,43 @@ var AssuranceIcon = /* @__PURE__ */ ((AssuranceIcon2) => {
   AssuranceIcon2["None"] = "none";
   return AssuranceIcon2;
 })(AssuranceIcon || {});
+var SpcWarningSeverity = /* @__PURE__ */ ((SpcWarningSeverity2) => {
+  SpcWarningSeverity2["Info"] = "info";
+  SpcWarningSeverity2["Warning"] = "warning";
+  SpcWarningSeverity2["Error"] = "error";
+  return SpcWarningSeverity2;
+})(SpcWarningSeverity || {});
+var SpcWarningCategory = /* @__PURE__ */ ((SpcWarningCategory3) => {
+  SpcWarningCategory3["Config"] = "config";
+  SpcWarningCategory3["Data"] = "data";
+  SpcWarningCategory3["Limits"] = "limits";
+  SpcWarningCategory3["SpecialCause"] = "special_cause";
+  SpcWarningCategory3["Baseline"] = "baseline";
+  SpcWarningCategory3["Logic"] = "logic";
+  SpcWarningCategory3["Target"] = "target";
+  SpcWarningCategory3["Ghost"] = "ghost";
+  SpcWarningCategory3["Partition"] = "partition";
+  return SpcWarningCategory3;
+})(SpcWarningCategory || {});
+var SpcWarningCode = /* @__PURE__ */ ((SpcWarningCode3) => {
+  SpcWarningCode3["UnknownChartType"] = "unknown_chart_type";
+  SpcWarningCode3["InsufficientPointsGlobal"] = "insufficient_points_global";
+  SpcWarningCode3["VariationConflictRow"] = "variation_conflict_row";
+  SpcWarningCode3["NullValuesExcluded"] = "null_values_excluded";
+  SpcWarningCode3["TargetIgnoredRareEvent"] = "target_ignored_rare_event";
+  SpcWarningCode3["GhostRowsRareEvent"] = "ghost_rows_rare_event";
+  SpcWarningCode3["InsufficientPointsPartition"] = "insufficient_points_partition";
+  SpcWarningCode3["BaselineWithSpecialCause"] = "baseline_with_special_cause";
+  SpcWarningCode3["PartitionCapApplied"] = "partition_cap_applied";
+  SpcWarningCode3["GlobalCapApplied"] = "global_cap_applied";
+  return SpcWarningCode3;
+})(SpcWarningCode || {});
+var BaselineSuggestionReason = /* @__PURE__ */ ((BaselineSuggestionReason2) => {
+  BaselineSuggestionReason2["Shift"] = "shift";
+  BaselineSuggestionReason2["Trend"] = "trend";
+  BaselineSuggestionReason2["Point"] = "point";
+  return BaselineSuggestionReason2;
+})(BaselineSuggestionReason || {});
 var isNumber = (v) => typeof v === "number" && Number.isFinite(v);
 var sum = (arr) => arr.reduce((a, b) => a + b, 0);
 var mean = (arr) => arr.length ? sum(arr) / arr.length : NaN;
@@ -6469,7 +8157,7 @@ function tChartLimits(tValues, ghosts, excludeOutliers) {
   };
 }
 function buildSpc(args) {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
   const {
     chartType,
     metricImprovement,
@@ -6502,6 +8190,8 @@ function buildSpc(args) {
     baselineSuggestStabilityPoints: 5,
     baselineSuggestMinGap: 12,
     baselineSuggestScoreThreshold: 50,
+    precedenceStrategy: "legacy" /* Legacy */,
+    emergingDirectionGrace: false,
     autoRecalculateAfterShift: false,
     autoRecalculateShiftLength: void 0,
     autoRecalculateDeltaSigma: 0.5,
@@ -6598,9 +8288,9 @@ function buildSpc(args) {
       mrUcl = NaN;
     } else {
       warnings.push({
-        code: "unknown_chart_type",
-        category: "config",
-        severity: "error",
+        code: "unknown_chart_type" /* UnknownChartType */,
+        category: "config" /* Config */,
+        severity: "error" /* Error */,
         message: `Unknown ChartType '${chartType}' \u2013 supported: XmR, T, G.`,
         context: { chartType }
       });
@@ -6644,6 +8334,7 @@ function buildSpc(args) {
         specialCauseShiftLow: false,
         specialCauseTrendIncreasing: false,
         specialCauseTrendDecreasing: false,
+        specialCauseFifteenInnerThird: false,
         variationIcon: "none" /* None */,
         assuranceIcon: "none" /* None */,
         upperBaseline: limitsAllowed && isNumber(centerLine) ? centerLine : null,
@@ -6719,8 +8410,10 @@ function buildSpc(args) {
         if (!allHighSide && !allLowSide) continue;
         const u2 = (_h = rows3[0].upperTwoSigma) != null ? _h : Infinity;
         const l2 = (_i = rows3[0].lowerTwoSigma) != null ? _i : -Infinity;
-        const highExceed = rows3.filter((r2) => r2.value > u2);
-        const lowExceed = rows3.filter((r2) => r2.value < l2);
+        const u3 = (_j = rows3[0].upperProcessLimit) != null ? _j : Infinity;
+        const l3 = (_k = rows3[0].lowerProcessLimit) != null ? _k : -Infinity;
+        const highExceed = rows3.filter((r2) => r2.value > u2 && r2.value <= u3);
+        const lowExceed = rows3.filter((r2) => r2.value < l2 && r2.value >= l3);
         if (allHighSide && highExceed.length >= 2) {
           for (const r2 of highExceed) r2.specialCauseTwoOfThreeAbove = true;
         }
@@ -6735,8 +8428,8 @@ function buildSpc(args) {
           if (!rows5.every((r2) => isNumber(r2.mean) && isNumber(r2.value))) continue;
           const meanVal = rows5[0].mean;
           if (!rows5.every((r2) => r2.value > meanVal) && !rows5.every((r2) => r2.value < meanVal)) continue;
-          const u1 = (_j = rows5[0].upperOneSigma) != null ? _j : Infinity;
-          const l1 = (_k = rows5[0].lowerOneSigma) != null ? _k : -Infinity;
+          const u1 = (_l = rows5[0].upperOneSigma) != null ? _l : Infinity;
+          const l1 = (_m = rows5[0].lowerOneSigma) != null ? _m : -Infinity;
           const highExceed = rows5.filter((r2) => r2.value > u1);
           const lowExceed = rows5.filter((r2) => r2.value < l1);
           if (rows5.every((r2) => r2.value > meanVal) && highExceed.length >= 4) {
@@ -6760,6 +8453,30 @@ function buildSpc(args) {
         }
         if (inc) for (const j of windowIdx) getRow(j).specialCauseTrendIncreasing = true;
         if (dec) for (const j of windowIdx) getRow(j).specialCauseTrendDecreasing = true;
+      }
+      if (settings.enableFifteenInInnerThirdRule) {
+        let innerRun = [];
+        for (const idxLocal of nonGhostIndices) {
+          const r2 = getRow(idxLocal);
+          if (!isNumber(r2.value) || !isNumber(r2.mean) || !isNumber(r2.upperOneSigma) || !isNumber(r2.lowerOneSigma)) {
+            innerRun = [];
+            continue;
+          }
+          const inBand = r2.value < r2.upperOneSigma && r2.value > r2.lowerOneSigma;
+          if (!inBand) {
+            innerRun = [];
+            continue;
+          }
+          innerRun.push(idxLocal);
+          if (innerRun.length >= 15) {
+            const rowsRun = innerRun.map(getRow);
+            const anyAbove = rowsRun.some((rr) => rr.value > rr.mean);
+            const anyBelow = rowsRun.some((rr) => rr.value < rr.mean);
+            if (anyAbove && anyBelow) {
+              for (const j of innerRun) getRow(j).specialCauseFifteenInnerThird = true;
+            }
+          }
+        }
       }
     }
     if (settings.maximumPointsPartition && Number.isFinite(settings.maximumPointsPartition)) {
@@ -6787,6 +8504,7 @@ function buildSpc(args) {
     if (r2.specialCauseTwoOfThreeBelow) tags.push("two_of_three_low");
     if (r2.specialCauseFourOfFiveAbove) tags.push("four_of_five_high");
     if (r2.specialCauseFourOfFiveBelow) tags.push("four_of_five_low");
+    if (r2.specialCauseFifteenInnerThird) tags.push("fifteen_inner_third");
     if (tags.length) r2.ruleTags = tags;
   }
   for (let idx = 0; idx < output.length; idx++) {
@@ -6795,24 +8513,61 @@ function buildSpc(args) {
       row.variationIcon = "none" /* None */;
       continue;
     }
-    const anyHigh = row.specialCauseSinglePointAbove || row.specialCauseTwoOfThreeAbove || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveAbove || row.specialCauseShiftHigh || row.specialCauseTrendIncreasing;
-    const anyLow = row.specialCauseSinglePointBelow || row.specialCauseTwoOfThreeBelow || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow || row.specialCauseShiftLow || row.specialCauseTrendDecreasing;
+    const onHighSide = isNumber(row.value) && isNumber(row.mean) && row.value > row.mean;
+    const onLowSide = isNumber(row.value) && isNumber(row.mean) && row.value < row.mean;
     if (settings.collapseClusterRules) {
-      if (row.specialCauseTwoOfThreeAbove && row.specialCauseFourOfFiveAbove)
-        row.specialCauseTwoOfThreeAbove = false;
-      if (row.specialCauseTwoOfThreeBelow && row.specialCauseFourOfFiveBelow)
-        row.specialCauseTwoOfThreeBelow = false;
+      if (row.specialCauseTwoOfThreeAbove && row.specialCauseFourOfFiveAbove) row.specialCauseTwoOfThreeAbove = false;
+      if (row.specialCauseTwoOfThreeBelow && row.specialCauseFourOfFiveBelow) row.specialCauseTwoOfThreeBelow = false;
     }
-    {
+    const highSignals = row.specialCauseSinglePointAbove || row.specialCauseTwoOfThreeAbove || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveAbove || row.specialCauseShiftHigh || row.specialCauseTrendIncreasing && onHighSide;
+    const lowSignals = row.specialCauseSinglePointBelow || row.specialCauseTwoOfThreeBelow || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow || row.specialCauseShiftLow || row.specialCauseTrendDecreasing && onLowSide;
+    let emergingFavourable = false;
+    if (settings.precedenceStrategy === "directional_first" /* DirectionalFirst */ && settings.emergingDirectionGrace) {
+      const trendN = settings.specialCauseTrendPoints || 6;
+      if (trendN > 1 && !(row.specialCauseTrendIncreasing || row.specialCauseTrendDecreasing)) {
+        const needed = trendN - 1;
+        const seq = [];
+        for (let back = idx; back >= 0 && seq.length < needed; back--) {
+          const rPrev = output[back];
+          if (!rPrev.ghost && isNumber(rPrev.value) && rPrev.mean !== null) seq.unshift(rPrev);
+        }
+        if (seq.length === needed) {
+          let monotonic = true;
+          for (let k = 1; k < seq.length && monotonic; k++) {
+            if (metricImprovement === "Up" /* Up */) {
+              if (!(seq[k].value > seq[k - 1].value)) monotonic = false;
+            } else if (metricImprovement === "Down" /* Down */) {
+              if (!(seq[k].value < seq[k - 1].value)) monotonic = false;
+            } else {
+              monotonic = false;
+            }
+          }
+          emergingFavourable = monotonic;
+        }
+      }
+    }
+    if (settings.precedenceStrategy === "directional_first" /* DirectionalFirst */) {
+      const favourable = metricImprovement === "Up" /* Up */ ? highSignals : metricImprovement === "Down" /* Down */ ? lowSignals : false;
+      const unfavourable = metricImprovement === "Up" /* Up */ ? lowSignals : metricImprovement === "Down" /* Down */ ? highSignals : false;
+      if (favourable && !unfavourable) {
+        row.variationIcon = "improvement" /* Improvement */;
+      } else if (unfavourable && !favourable) {
+        row.variationIcon = emergingFavourable ? "neither" /* Neither */ : "concern" /* Concern */;
+      } else if (favourable && unfavourable) {
+        row.variationIcon = emergingFavourable || row.specialCauseTrendIncreasing || row.specialCauseTrendDecreasing ? "improvement" /* Improvement */ : "neither" /* Neither */;
+      } else {
+        row.variationIcon = "neither" /* Neither */;
+      }
+    } else {
       if (metricImprovement === "Up" /* Up */) {
-        row.variationIcon = anyHigh ? "improvement" /* Improvement */ : anyLow ? "concern" /* Concern */ : "neither" /* Neither */;
+        row.variationIcon = highSignals ? "improvement" /* Improvement */ : lowSignals ? "concern" /* Concern */ : "neither" /* Neither */;
       } else if (metricImprovement === "Down" /* Down */) {
-        row.variationIcon = anyLow ? "improvement" /* Improvement */ : anyHigh ? "concern" /* Concern */ : "neither" /* Neither */;
+        row.variationIcon = lowSignals ? "improvement" /* Improvement */ : highSignals ? "concern" /* Concern */ : "neither" /* Neither */;
       } else {
         row.variationIcon = "neither" /* Neither */;
       }
     }
-    const anySignal = anyHigh || anyLow;
+    const anySignal = highSignals || lowSignals;
     row.specialCauseImprovementValue = anySignal && row.variationIcon === "improvement" /* Improvement */ ? row.value : null;
     row.specialCauseConcernValue = anySignal && row.variationIcon === "concern" /* Concern */ ? row.value : null;
     row.specialCauseNeitherValue = anySignal && row.variationIcon === "neither" /* Neither */ ? row.value : null;
@@ -6847,14 +8602,14 @@ function buildSpc(args) {
       }
     }
   }
-  if (((_l = settings.minimumPointsWarning) != null ? _l : false) && !globalEnough) {
+  if (((_n = settings.minimumPointsWarning) != null ? _n : false) && !globalEnough) {
     const available = canonical.filter(
       (r2) => !r2.ghost && isNumber(r2.value)
     ).length;
     warnings.push({
-      code: "insufficient_points_global",
-      category: "data",
-      severity: "warning",
+      code: "insufficient_points_global" /* InsufficientPointsGlobal */,
+      category: "data" /* Data */,
+      severity: "warning" /* Warning */,
       message: `Only ${available} non-ghost points available; minimum required is ${settings.minimumPoints}. Limits and icons suppressed.`,
       context: { available, minimumRequired: settings.minimumPoints }
     });
@@ -6865,9 +8620,9 @@ function buildSpc(args) {
         const highAndLow = (row.specialCauseSinglePointAbove || row.specialCauseTwoOfThreeAbove || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveAbove || row.specialCauseShiftHigh || row.specialCauseTrendIncreasing) && (row.specialCauseSinglePointBelow || row.specialCauseTwoOfThreeBelow || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow || row.specialCauseShiftLow || row.specialCauseTrendDecreasing);
         if (highAndLow)
           warnings.push({
-            code: "variation_conflict_row",
-            category: "logic",
-            severity: "warning",
+            code: "variation_conflict_row" /* VariationConflictRow */,
+            category: "logic" /* Logic */,
+            severity: "warning" /* Warning */,
             message: `Row ${row.rowId}: simultaneous high/low special-cause signals \u2013 variation icon may be ambiguous.`,
             context: { rowId: row.rowId }
           });
@@ -6891,9 +8646,9 @@ function buildSpc(args) {
     ).length;
     if (nullCount)
       warnings.push({
-        code: "null_values_excluded",
-        category: "data",
-        severity: "info",
+        code: "null_values_excluded" /* NullValuesExcluded */,
+        category: "data" /* Data */,
+        severity: "info" /* Info */,
         message: `${nullCount} null/missing value(s) excluded from calculations.`,
         context: { nullCount }
       });
@@ -6902,9 +8657,9 @@ function buildSpc(args) {
     const hasTarget = canonical.some((r2) => isNumber(r2.target));
     if (hasTarget)
       warnings.push({
-        code: "target_ignored_rare_event",
-        category: "target",
-        severity: "info",
+        code: "target_ignored_rare_event" /* TargetIgnoredRareEvent */,
+        category: "target" /* Target */,
+        severity: "info" /* Info */,
         message: `Targets provided are ignored for ${chartType} charts in this port.`,
         context: { chartType }
       });
@@ -6913,9 +8668,9 @@ function buildSpc(args) {
     const ghostCount = canonical.filter((r2) => r2.ghost).length;
     if (ghostCount)
       warnings.push({
-        code: "ghost_rows_rare_event",
-        category: "ghost",
-        severity: "info",
+        code: "ghost_rows_rare_event" /* GhostRowsRareEvent */,
+        category: "ghost" /* Ghost */,
+        severity: "info" /* Info */,
         message: `${ghostCount} ghost row(s) supplied for rare-event chart (${chartType}); verify intent.`,
         context: { chartType, ghostCount }
       });
@@ -6924,9 +8679,9 @@ function buildSpc(args) {
     Object.entries(partitionNonGhostCounts).forEach(([pid, count]) => {
       if (count < settings.minimumPointsPartition)
         warnings.push({
-          code: "insufficient_points_partition",
-          category: "partition",
-          severity: "warning",
+          code: "insufficient_points_partition" /* InsufficientPointsPartition */,
+          category: "partition" /* Partition */,
+          severity: "warning" /* Warning */,
           message: `Partition ${pid} has only ${count} non-ghost point(s); below recommended ${settings.minimumPointsPartition}.`,
           context: {
             partitionId: Number(pid),
@@ -6947,9 +8702,9 @@ function buildSpc(args) {
     });
     if (issueRows.length)
       warnings.push({
-        code: "baseline_with_special_cause",
-        category: "baseline",
-        severity: "warning",
+        code: "baseline_with_special_cause" /* BaselineWithSpecialCause */,
+        category: "baseline" /* Baseline */,
+        severity: "warning" /* Warning */,
         message: `Baseline set with special-cause present at row(s): ${issueRows.join(", ")}.`,
         context: { rows: issueRows }
       });
@@ -6957,17 +8712,17 @@ function buildSpc(args) {
   if (settings.maximumPointsWarnings) {
     if (settings.maximumPointsPartition && Number.isFinite(settings.maximumPointsPartition))
       warnings.push({
-        code: "partition_cap_applied",
-        category: "limits",
-        severity: "info",
+        code: "partition_cap_applied" /* PartitionCapApplied */,
+        category: "limits" /* Limits */,
+        severity: "info" /* Info */,
         message: `Limits suppressed after ${settings.maximumPointsPartition} non-ghost points per partition.`,
         context: { cap: settings.maximumPointsPartition }
       });
     if (settings.maximumPoints && Number.isFinite(settings.maximumPoints))
       warnings.push({
-        code: "global_cap_applied",
-        category: "limits",
-        severity: "info",
+        code: "global_cap_applied" /* GlobalCapApplied */,
+        category: "limits" /* Limits */,
+        severity: "info" /* Info */,
         message: `Limits suppressed after global cap of ${settings.maximumPoints} non-ghost points.`,
         context: { cap: settings.maximumPoints }
       });
@@ -6993,13 +8748,13 @@ function buildSpc(args) {
       const prev = rows[i - 1];
       const candidates = [];
       if (becameTrue2("specialCauseShiftHigh") || becameTrue2("specialCauseShiftLow")) {
-        candidates.push({ reason: "shift", index: i });
+        candidates.push({ reason: "shift" /* Shift */, index: i });
       }
       if (becameTrue2("specialCauseTrendIncreasing") || becameTrue2("specialCauseTrendDecreasing")) {
-        candidates.push({ reason: "trend", index: i });
+        candidates.push({ reason: "trend" /* Trend */, index: i });
       }
       if (becameTrue2("specialCauseSinglePointAbove") || becameTrue2("specialCauseSinglePointBelow")) {
-        candidates.push({ reason: "point", index: i });
+        candidates.push({ reason: "point" /* Point */, index: i });
       }
       for (const c of candidates) {
         if (c.index - lastBaselineIndex < minGap) continue;
@@ -7032,13 +8787,13 @@ function buildSpc(args) {
         };
         const oldVar = variance(oldVals);
         const newVar = variance(newVals);
-        let scoreBase = c.reason === "shift" ? 90 : c.reason === "trend" ? 70 : 60;
+        let scoreBase = c.reason === "shift" /* Shift */ ? 90 : c.reason === "trend" /* Trend */ ? 70 : 60;
         if (newVar < oldVar) scoreBase += 10;
         scoreBase -= concernCount * 15;
         if (scoreBase < scoreThreshold) continue;
         const existing = suggestions.find((s) => s.index === c.index);
         if (existing) {
-          const priority = (reason) => reason === "shift" ? 3 : reason === "trend" ? 2 : 1;
+          const priority = (reason) => reason === "shift" /* Shift */ ? 3 : reason === "trend" /* Trend */ ? 2 : 1;
           if (priority(c.reason) > priority(existing.reason) || scoreBase > existing.score) {
             existing.reason = c.reason;
             existing.score = scoreBase;
@@ -7255,10 +9010,10 @@ var SPCTooltipOverlay = ({
   var _a2, _b2, _c, _d, _e, _f;
   const tooltip = useTooltipContext();
   const chart = useChartContext();
-  const [cachedFocus, setCachedFocus] = React22.useState(null);
-  const [hoveringTooltip, setHoveringTooltip] = React22.useState(false);
-  const hideTimeoutRef = React22.useRef(null);
-  React22.useEffect(() => {
+  const [cachedFocus, setCachedFocus] = React23.useState(null);
+  const [hoveringTooltip, setHoveringTooltip] = React23.useState(false);
+  const hideTimeoutRef = React23.useRef(null);
+  React23.useEffect(() => {
     if (!tooltip) return;
     if (tooltip.focused) {
       setCachedFocus(tooltip.focused);
@@ -7282,8 +9037,8 @@ var SPCTooltipOverlay = ({
     };
   }, [tooltip, tooltip == null ? void 0 : tooltip.focused, hoveringTooltip]);
   const focused = tooltip && (tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
-  const [visible, setVisible] = React22.useState(false);
-  React22.useEffect(() => {
+  const [visible, setVisible] = React23.useState(false);
+  React23.useEffect(() => {
     const id = requestAnimationFrame(() => setVisible(true));
     return () => cancelAnimationFrame(id);
   }, [focused == null ? void 0 : focused.index]);
@@ -7297,7 +9052,8 @@ var SPCTooltipOverlay = ({
     return null;
   }
   const row = engineRows == null ? void 0 : engineRows[focused.index];
-  const rules = extractRuleIds(row).map((r2) => ruleGlossary[r2].tooltip);
+  const ruleIds = extractRuleIds(row);
+  const rules = ruleIds.map((r2) => ({ id: r2, label: ruleGlossary[r2].tooltip }));
   const dateObj = focused.x instanceof Date ? focused.x : new Date(focused.x);
   const dateLabel = dateFormatter ? dateFormatter(dateObj) : dateObj.toDateString();
   const unit2 = measureUnit ? `${measureUnit}` : "";
@@ -7311,7 +9067,11 @@ var SPCTooltipOverlay = ({
   );
   const narrative = pointDescriber ? pointDescriber(focused.index, { x: focused.x, y: focused.y }) : void 0;
   const showBadges = variationDesc || assuranceDesc || zone;
+  const trendFlag = (row == null ? void 0 : row.specialCauseTrendIncreasing) || (row == null ? void 0 : row.specialCauseTrendDecreasing);
+  const variationNeutral = (row == null ? void 0 : row.variationIcon) === "neither" /* Neither */ && trendFlag;
+  const gatingExplanation = variationNeutral ? "Trend detected (monotonic run) \u2013 held neutral until values cross onto the favourable side of the mean." : null;
   const hasRules = rules.length > 0;
+  const isNoJudgement = (row == null ? void 0 : row.variationIcon) === "neither" /* Neither */ && hasRules;
   const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
   const spcDotColor = getVariationColorToken(row == null ? void 0 : row.variationIcon);
   const charPx = 6.2;
@@ -7384,28 +9144,50 @@ var SPCTooltipOverlay = ({
           ] }),
           showBadges && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
             /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Signals" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: variationDesc && (variationDesc.toLowerCase().includes("concern") ? /* @__PURE__ */ jsx27(
-              Tag,
-              {
-                text: variationDesc,
-                color: "default",
-                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
+            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: (() => {
+              if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
+                return /* @__PURE__ */ jsx27(
+                  Tag,
+                  {
+                    text: variationDesc,
+                    color: "default",
+                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
+                  }
+                );
               }
-            ) : variationDesc.toLowerCase().includes("improvement") ? /* @__PURE__ */ jsx27(
-              Tag,
-              {
-                text: variationDesc,
-                color: "default",
-                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
+              if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
+                return /* @__PURE__ */ jsx27(
+                  Tag,
+                  {
+                    text: variationDesc,
+                    color: "default",
+                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
+                  }
+                );
               }
-            ) : /* @__PURE__ */ jsx27(
-              Tag,
-              {
-                text: variationDesc,
-                color: "default",
-                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
+              if (isNoJudgement) {
+                return /* @__PURE__ */ jsx27(
+                  Tag,
+                  {
+                    text: "No judgement",
+                    color: "default",
+                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--no-judgement",
+                    "aria-label": "Neutral special cause (no directional judgement)"
+                  }
+                );
               }
-            )) })
+              if (variationDesc) {
+                return /* @__PURE__ */ jsx27(
+                  Tag,
+                  {
+                    text: variationDesc,
+                    color: "default",
+                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
+                  }
+                );
+              }
+              return null;
+            })() })
           ] }),
           assuranceDesc && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
             /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Assurance" }) }),
@@ -7443,6 +9225,10 @@ var SPCTooltipOverlay = ({
               }
             ) })
           ] }),
+          gatingExplanation && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--gating", "data-gating": true, children: [
+            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Trend gating" }) }),
+            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__explanation", "aria-live": "off", children: gatingExplanation })
+          ] }),
           hasRules && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
             /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Special cause" }) }),
             /* @__PURE__ */ jsx27(
@@ -7450,16 +9236,19 @@ var SPCTooltipOverlay = ({
               {
                 className: "fdp-spc-tooltip__rule-tags",
                 "aria-label": "Special cause rules",
-                children: rules.map((r2) => {
-                  const ruleColorClass = variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--rule" : "fdp-spc-tag--rule";
+                children: rules.map(({ id, label }) => {
+                  const idStr = String(id);
+                  const isTrend = idStr === "trend_inc" || idStr === "trend_dec";
+                  const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
                   return /* @__PURE__ */ jsx27(
                     Tag,
                     {
-                      text: r2,
+                      text: label,
                       color: "default",
-                      className: `fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`
+                      className: `fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`,
+                      "data-rule-id": idStr
                     },
-                    r2
+                    idStr
                   );
                 })
               }
@@ -7682,34 +9471,57 @@ function computePointPositions(state, direction) {
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
 import { Fragment as Fragment3, jsx as jsx28, jsxs as jsxs19 } from "react/jsx-runtime";
 var resolveStateAndLayout = (input) => {
-  var _a2, _b2, _c;
+  var _a2, _b2;
+  const emitDeprecation = () => {
+    if (!globalThis.__spcIconDeprecationEmitted) {
+      console.warn(
+        "[SPCVariationIcon] Deprecated payload shape detected. Migrate to { variationIcon, improvementDirection, specialCauseNeutral?, trend? }."
+      );
+      globalThis.__spcIconDeprecationEmitted = true;
+    }
+  };
   if (input.variationIcon !== void 0) {
     const eng = input;
-    const mapping = {
-      ["improvement" /* Improvement */]: "special_cause_improving" /* SpecialCauseImproving */,
-      ["concern" /* Concern */]: "special_cause_deteriorating" /* SpecialCauseDeteriorating */,
-      ["neither" /* Neither */]: "common_cause" /* CommonCause */,
-      ["none" /* None */]: "special_cause_no_judgement" /* SpecialCauseNoJudgement */
-    };
-    const state2 = mapping[eng.variationIcon];
+    let polarity = void 0;
+    if (eng.improvementDirection !== void 0) {
+      polarity = eng.improvementDirection === "Up" /* Up */ ? "higher_is_better" /* HigherIsBetter */ : eng.improvementDirection === "Down" /* Down */ ? "lower_is_better" /* LowerIsBetter */ : "context_dependent" /* ContextDependent */;
+    } else if (eng.polarity) {
+      polarity = eng.polarity;
+    }
+    let state2;
+    switch (eng.variationIcon) {
+      case "improvement" /* Improvement */:
+        state2 = "special_cause_improving" /* SpecialCauseImproving */;
+        break;
+      case "concern" /* Concern */:
+        state2 = "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
+        break;
+      case "neither" /* Neither */:
+        state2 = eng.specialCauseNeutral ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
+        break;
+      case "none" /* None */:
+      default:
+        state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
+        break;
+    }
     let direction2 = eng.trend;
-    if (!direction2 && eng.polarity && (state2 === "special_cause_improving" /* SpecialCauseImproving */ || state2 === "special_cause_deteriorating" /* SpecialCauseDeteriorating */)) {
+    if (!direction2) {
       if (state2 === "special_cause_improving" /* SpecialCauseImproving */) {
-        direction2 = eng.polarity === "lower_is_better" /* LowerIsBetter */ ? "lower" /* Lower */ : "higher" /* Higher */;
+        direction2 = polarity === "lower_is_better" /* LowerIsBetter */ ? "lower" /* Lower */ : "higher" /* Higher */;
+      } else if (state2 === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
+        direction2 = polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
+      } else if (state2 === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
+        if (eng.highSideSignal && !eng.lowSideSignal) direction2 = "higher" /* Higher */;
+        else if (eng.lowSideSignal && !eng.highSideSignal) direction2 = "lower" /* Lower */;
+        else direction2 = "higher" /* Higher */;
       } else {
-        direction2 = eng.polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
+        direction2 = "higher" /* Higher */;
       }
     }
-    if (!direction2) {
-      direction2 = state2 === "special_cause_improving" /* SpecialCauseImproving */ ? "higher" /* Higher */ : state2 === "special_cause_deteriorating" /* SpecialCauseDeteriorating */ ? "lower" /* Lower */ : "higher" /* Higher */;
-    }
-    return {
-      state: state2,
-      direction: direction2,
-      polarity: (_a2 = eng.polarity) != null ? _a2 : "context_dependent" /* ContextDependent */
-    };
+    return { state: state2, direction: direction2, polarity: polarity != null ? polarity : "context_dependent" /* ContextDependent */ };
   }
   if (input.state !== void 0) {
+    emitDeprecation();
     const v1 = input;
     let direction2 = v1.trend;
     if (!direction2 && (v1.state === "special_cause_improving" /* SpecialCauseImproving */ || v1.state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && v1.polarity) {
@@ -7729,10 +9541,11 @@ var resolveStateAndLayout = (input) => {
     return {
       state: v1.state,
       direction: direction2,
-      polarity: (_b2 = v1.polarity) != null ? _b2 : "context_dependent" /* ContextDependent */
+      polarity: (_a2 = v1.polarity) != null ? _a2 : "context_dependent" /* ContextDependent */
     };
   }
   const v2 = input;
+  emitDeprecation();
   const map2 = {
     ["improving" /* Improving */]: "special_cause_improving" /* SpecialCauseImproving */,
     ["deteriorating" /* Deteriorating */]: "special_cause_deteriorating" /* SpecialCauseDeteriorating */,
@@ -7746,7 +9559,7 @@ var resolveStateAndLayout = (input) => {
   } else if (v2.judgement === "deteriorating" /* Deteriorating */) {
     direction = v2.polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
   } else {
-    direction = (_c = v2.trend) != null ? _c : "higher" /* Higher */;
+    direction = (_b2 = v2.trend) != null ? _b2 : "higher" /* Higher */;
   }
   return { state, direction, polarity: v2.polarity };
 };
@@ -8169,7 +9982,7 @@ var SPCVariationIcon = ({
             fontSize: 176,
             transform: "translate(86.67, 54) scale(0.5, 0.5)",
             textAnchor: "end",
-            children: /* @__PURE__ */ jsx28("tspan", { x: "120", y: direction === "lower" /* Lower */ ? "325" : "156", children: letter })
+            children: /* @__PURE__ */ jsx28("tspan", { x: "120", y: direction === "lower" /* Lower */ ? "340" : "155", children: letter })
           }
         ),
         isNoJudgement ? /* @__PURE__ */ jsx28(
@@ -8360,6 +10173,7 @@ SPCAssuranceIcon.displayName = "SPCAssuranceIcon";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
 import { Fragment as Fragment5, jsx as jsx30, jsxs as jsxs21 } from "react/jsx-runtime";
+var spcSequenceInstanceCounter = 0;
 var SPCChart = ({
   data,
   ariaLabel = "SPC chart",
@@ -8370,21 +10184,32 @@ var SPCChart = ({
   className,
   unit: unit2,
   highlightOutOfControl = true,
-  chartType = "XmR",
+  chartType = "XmR" /* XmR */,
   metricImprovement = "Neither" /* Neither */,
   enableRules = true,
   showIcons = false,
   showEmbeddedIcon = true,
+  embeddedIconVariant = "classic",
+  embeddedIconRunLength,
   targets: targetsProp,
   baselines,
   ghosts,
   settings,
   narrationContext,
   gradientSequences = false,
-  processLineWidth = 2
+  processLineWidth = 2,
+  showWarningsPanel = false,
+  warningsFilter
 }) => {
   var _a2, _b2, _c, _d, _e, _f, _g, _h;
-  const engine = React24.useMemo(() => {
+  const formatWarningCode = React25.useCallback((code) => {
+    const raw = String(code);
+    return raw.replace(/^spc_warning_code\.?/i, "").replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
+  }, []);
+  const formatWarningCategory = React25.useCallback((cat) => {
+    return String(cat).replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
+  }, []);
+  const engine = React25.useMemo(() => {
     const rowsInput = data.map((d, i) => {
       var _a3, _b3, _c2;
       return {
@@ -8416,6 +10241,51 @@ var SPCChart = ({
   ]);
   const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r2) => r2.mean != null);
   const mean2 = (_a2 = engineRepresentative == null ? void 0 : engineRepresentative.mean) != null ? _a2 : null;
+  const warnings = (engine == null ? void 0 : engine.warnings) || [];
+  const filteredWarnings = React25.useMemo(() => {
+    if (!warnings.length) return [];
+    if (!warningsFilter) return warnings;
+    return warnings.filter((w) => {
+      if (warningsFilter.severities && w.severity && !warningsFilter.severities.includes(w.severity)) return false;
+      if (warningsFilter.categories && w.category && !warningsFilter.categories.includes(w.category)) return false;
+      if (warningsFilter.codes && !warningsFilter.codes.includes(w.code)) return false;
+      return true;
+    });
+  }, [warnings, warningsFilter]);
+  const [diagnosticsMessage, setDiagnosticsMessage] = React25.useState("");
+  const lastDiagnosticsRef = React25.useRef("");
+  React25.useEffect(() => {
+    if (!showWarningsPanel) {
+      if (lastDiagnosticsRef.current !== "") {
+        lastDiagnosticsRef.current = "";
+        setDiagnosticsMessage("");
+      }
+      return;
+    }
+    const total = filteredWarnings.length;
+    if (!total) {
+      const msg2 = "Diagnostics: no warnings.";
+      if (msg2 !== lastDiagnosticsRef.current) {
+        lastDiagnosticsRef.current = msg2;
+        setDiagnosticsMessage(msg2);
+      }
+      return;
+    }
+    const counts = {
+      error: filteredWarnings.filter((w) => w.severity === "error" /* Error */).length,
+      warning: filteredWarnings.filter((w) => w.severity === "warning" /* Warning */).length,
+      info: filteredWarnings.filter((w) => w.severity === "info" /* Info */).length
+    };
+    const breakdownParts = [];
+    if (counts.error) breakdownParts.push(`${counts.error} error${counts.error === 1 ? "" : "s"}`);
+    if (counts.warning) breakdownParts.push(`${counts.warning} warning${counts.warning === 1 ? "" : "s"}`);
+    if (counts.info) breakdownParts.push(`${counts.info} info`);
+    const msg = `Diagnostics updated: ${total} warning${total === 1 ? "" : "s"} (${breakdownParts.join(", ")}).`;
+    if (msg !== lastDiagnosticsRef.current) {
+      lastDiagnosticsRef.current = msg;
+      setDiagnosticsMessage(msg);
+    }
+  }, [showWarningsPanel, filteredWarnings]);
   const ucl = (_b2 = engineRepresentative == null ? void 0 : engineRepresentative.upperProcessLimit) != null ? _b2 : null;
   const lcl = (_c = engineRepresentative == null ? void 0 : engineRepresentative.lowerProcessLimit) != null ? _c : null;
   const onePos = (_d = engineRepresentative == null ? void 0 : engineRepresentative.upperOneSigma) != null ? _d : null;
@@ -8423,11 +10293,11 @@ var SPCChart = ({
   const twoPos = (_f = engineRepresentative == null ? void 0 : engineRepresentative.upperTwoSigma) != null ? _f : null;
   const twoNeg = (_g = engineRepresentative == null ? void 0 : engineRepresentative.lowerTwoSigma) != null ? _g : null;
   const sigma = mean2 != null && onePos != null ? Math.abs(onePos - mean2) : 0;
-  const series = React24.useMemo(
+  const series = React25.useMemo(
     () => [{ id: "process", data, color: "#A6A6A6" }],
     [data]
   );
-  const yDomain = React24.useMemo(() => {
+  const yDomain = React25.useMemo(() => {
     const values = data.map((d) => d.y);
     const base = [...values];
     [mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg].forEach((v) => {
@@ -8439,16 +10309,16 @@ var SPCChart = ({
     if (!base.length) return void 0;
     return [Math.min(...base), Math.max(...base)];
   }, [data, mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp]);
-  const autoUnit = React24.useMemo(() => {
+  const autoUnit = React25.useMemo(() => {
     if (unit2 || (narrationContext == null ? void 0 : narrationContext.measureUnit)) return void 0;
     if (!data.length) return void 0;
     return data.every((d) => d.y >= 0 && d.y <= 1) ? "%" : void 0;
   }, [unit2, narrationContext == null ? void 0 : narrationContext.measureUnit, data]);
   const effectiveUnit = (_h = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _h : autoUnit;
-  const effectiveNarrationContext = React24.useMemo(() => {
+  const effectiveNarrationContext = React25.useMemo(() => {
     return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
   }, [narrationContext, effectiveUnit]);
-  const partitionMarkers = React24.useMemo(() => {
+  const partitionMarkers = React25.useMemo(() => {
     if (!(engine == null ? void 0 : engine.rows)) return [];
     const markers = [];
     for (let i = 1; i < engine.rows.length; i++) {
@@ -8456,7 +10326,7 @@ var SPCChart = ({
     }
     return markers;
   }, [engine == null ? void 0 : engine.rows]);
-  const embeddedIcon = React24.useMemo(() => {
+  const embeddedIcon = React25.useMemo(() => {
     var _a3, _b3;
     if (!showEmbeddedIcon || !((_a3 = engine == null ? void 0 : engine.rows) == null ? void 0 : _a3.length)) return null;
     const engineRows = engine.rows;
@@ -8475,6 +10345,7 @@ var SPCChart = ({
     const lastRow = engineRows[lastIdx];
     const variation = lastRow.variationIcon;
     const assuranceRaw = lastRow.assuranceIcon;
+    const hasNeutralSpecialCause = variation === "neither" /* Neither */ && !!lastRow.specialCauseNeitherValue;
     const assuranceRenderStatus = assuranceRaw === "pass" /* Pass */ ? "pass" /* Pass */ : assuranceRaw === "fail" /* Fail */ ? "fail" /* Fail */ : "uncertain" /* Uncertain */;
     let trend = void 0;
     if (variation === "none" /* None */) {
@@ -8489,30 +10360,17 @@ var SPCChart = ({
       } else {
         trend = "higher" /* Higher */;
       }
-    }
-    let judgement;
-    switch (variation) {
-      case "improvement" /* Improvement */:
-        judgement = "improving" /* Improving */;
-        break;
-      case "concern" /* Concern */:
-        judgement = "deteriorating" /* Deteriorating */;
-        break;
-      case "none" /* None */:
-        judgement = "no_judgement" /* No_Judgement */;
-        break;
-      case "neither" /* Neither */:
-      default:
-        judgement = "none" /* None */;
+    } else if (variation === "neither" /* Neither */ && hasNeutralSpecialCause) {
+      const anyHighSide = lastRow.specialCauseSinglePointAbove || lastRow.specialCauseTwoOfThreeAbove || lastRow.specialCauseFourOfFiveAbove || lastRow.specialCauseShiftHigh || lastRow.specialCauseTrendIncreasing;
+      const anyLowSide = lastRow.specialCauseSinglePointBelow || lastRow.specialCauseTwoOfThreeBelow || lastRow.specialCauseFourOfFiveBelow || lastRow.specialCauseShiftLow || lastRow.specialCauseTrendDecreasing;
+      if (anyHighSide && !anyLowSide) trend = "higher" /* Higher */;
+      else if (anyLowSide && !anyHighSide) trend = "lower" /* Lower */;
+      else trend = "higher" /* Higher */;
     }
     let polarity;
-    if (metricImprovement === "Up" /* Up */) {
-      polarity = "higher_is_better" /* HigherIsBetter */;
-    } else if (metricImprovement === "Down" /* Down */) {
-      polarity = "lower_is_better" /* LowerIsBetter */;
-    } else {
-      polarity = "context_dependent" /* ContextDependent */;
-    }
+    if (metricImprovement === "Up" /* Up */) polarity = "higher_is_better" /* HigherIsBetter */;
+    else if (metricImprovement === "Down" /* Down */) polarity = "lower_is_better" /* LowerIsBetter */;
+    else polarity = "context_dependent" /* ContextDependent */;
     const iconSize = 80;
     return /* @__PURE__ */ jsxs21("div", { style: { display: "flex", gap: 12, marginRight: 16 }, children: [
       /* @__PURE__ */ jsx30(
@@ -8520,7 +10378,6 @@ var SPCChart = ({
         {
           className: "fdp-spc-chart__embedded-icon",
           "data-variation": String(variation),
-          "data-variation-judgement": String(judgement),
           "data-trend-raw": trend ? String(trend) : "none",
           "data-trend": trend ? String(trend) : "none",
           "data-polarity": String(polarity != null ? polarity : "unknown"),
@@ -8529,9 +10386,11 @@ var SPCChart = ({
             SPCVariationIcon,
             {
               dropShadow: false,
-              data: { judgement, polarity, ...trend ? { trend } : {} },
-              letterMode: "direction",
-              size: iconSize
+              data: { variationIcon: variation, improvementDirection: metricImprovement, polarity, specialCauseNeutral: hasNeutralSpecialCause, highSideSignal: lastRow.specialCauseSinglePointAbove || lastRow.specialCauseTwoOfThreeAbove || lastRow.specialCauseFourOfFiveAbove || lastRow.specialCauseShiftHigh || lastRow.specialCauseTrendIncreasing, lowSideSignal: lastRow.specialCauseSinglePointBelow || lastRow.specialCauseTwoOfThreeBelow || lastRow.specialCauseFourOfFiveBelow || lastRow.specialCauseShiftLow || lastRow.specialCauseTrendDecreasing, ...trend ? { trend } : {} },
+              letterMode: metricImprovement === "Neither" /* Neither */ ? "direction" : "polarity",
+              size: iconSize,
+              variant: embeddedIconVariant,
+              runLength: embeddedIconVariant === "triangleWithRun" ? embeddedIconRunLength : void 0
             }
           )
         }
@@ -8546,7 +10405,7 @@ var SPCChart = ({
         }
       )
     ] }, `embedded-icon-${lastIdx}`);
-  }, [showEmbeddedIcon, engine == null ? void 0 : engine.rows, metricImprovement, settings == null ? void 0 : settings.minimumPoints, targetsProp]);
+  }, [showEmbeddedIcon, engine == null ? void 0 : engine.rows, metricImprovement, settings == null ? void 0 : settings.minimumPoints, targetsProp, embeddedIconVariant, embeddedIconRunLength]);
   return /* @__PURE__ */ jsxs21("div", { className: className ? `fdp-spc-chart-wrapper ${className}` : "fdp-spc-chart-wrapper", children: [
     showEmbeddedIcon && /* @__PURE__ */ jsx30("div", { className: "fdp-spc-chart__top-row", style: { display: "flex", justifyContent: "flex-end", marginBottom: 4 }, children: embeddedIcon }),
     /* @__PURE__ */ jsx30(
@@ -8578,7 +10437,53 @@ var SPCChart = ({
           }
         ) })
       }
-    )
+    ),
+    showWarningsPanel && diagnosticsMessage && /* @__PURE__ */ jsx30(
+      "div",
+      {
+        "data-testid": "spc-diagnostics-live",
+        "aria-live": "polite",
+        style: { position: "absolute", width: 1, height: 1, padding: 0, margin: 0, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap", border: 0 },
+        children: diagnosticsMessage
+      }
+    ),
+    showWarningsPanel && filteredWarnings.length > 0 && /* @__PURE__ */ jsxs21("div", { className: "fdp-spc-chart__warnings", role: "region", "aria-label": "SPC diagnostics", children: [
+      /* @__PURE__ */ jsx30("p", { className: "fdp-spc-chart__warnings-heading", children: "Diagnostics" }),
+      /* @__PURE__ */ jsx30(
+        Table_default,
+        {
+          firstCellIsHeader: false,
+          panel: false,
+          responsive: false,
+          head: [
+            { text: "Severity" },
+            { text: "Category" },
+            { text: "Code" },
+            { text: "Details" }
+          ],
+          rows: filteredWarnings.map((w) => {
+            let severityColor = "grey";
+            if (w.severity === "error" /* Error */) severityColor = "red";
+            else if (w.severity === "warning" /* Warning */) severityColor = "orange";
+            else if (w.severity === "info" /* Info */) severityColor = "blue";
+            return [
+              { node: /* @__PURE__ */ jsx30(Tag, { color: severityColor, text: (w.severity ? String(w.severity) : "Info").replace(/^[a-z]/, (c) => c.toUpperCase()) }), classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--severity" },
+              { node: w.category ? /* @__PURE__ */ jsx30(Tag, { color: "purple", text: formatWarningCategory(w.category) }) : /* @__PURE__ */ jsx30("span", { className: "fdp-spc-chart__warning-empty", children: "\u2013" }), classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--category" },
+              { node: /* @__PURE__ */ jsx30(Tag, { color: "grey", text: formatWarningCode(w.code) }), classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--code" },
+              { node: /* @__PURE__ */ jsxs21("div", { className: "fdp-spc-chart__warning-message", children: [
+                /* @__PURE__ */ jsx30("span", { children: w.message }),
+                w.context && Object.keys(w.context).length > 0 && /* @__PURE__ */ jsxs21("details", { className: "fdp-spc-chart__warning-context", style: { marginTop: 4 }, children: [
+                  /* @__PURE__ */ jsx30("summary", { children: "context" }),
+                  /* @__PURE__ */ jsx30("pre", { children: JSON.stringify(w.context, null, 2) })
+                ] })
+              ] }), classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--message" }
+            ];
+          }),
+          classes: "fdp-spc-chart__warnings-table-wrapper",
+          tableClasses: "fdp-spc-chart__warnings-table"
+        }
+      )
+    ] })
   ] });
 };
 var InternalSPC = ({
@@ -8603,9 +10508,10 @@ var InternalSPC = ({
   const chartCtx = useChartContext();
   if (!scaleCtx) return null;
   const { xScale, yScale } = scaleCtx;
+  const gradientIdBaseRef = React25.useRef("spc-seq-" + ++spcSequenceInstanceCounter);
   const tooltipCtx = useTooltipContext();
   const all = ((_a2 = series[0]) == null ? void 0 : _a2.data) || [];
-  const outOfControl = React24.useMemo(() => {
+  const outOfControl = React25.useMemo(() => {
     if (!limits.ucl && !limits.lcl) return /* @__PURE__ */ new Set();
     const set = /* @__PURE__ */ new Set();
     all.forEach((d, i) => {
@@ -8614,7 +10520,7 @@ var InternalSPC = ({
     });
     return set;
   }, [all, limits.ucl, limits.lcl]);
-  const engineSignals = React24.useMemo(() => {
+  const engineSignals = React25.useMemo(() => {
     if (!engineRows) return null;
     const map2 = {};
     engineRows.forEach((r2, idx) => {
@@ -8630,7 +10536,7 @@ var InternalSPC = ({
     });
     return map2;
   }, [engineRows]);
-  const uniformTarget = React24.useMemo(() => {
+  const uniformTarget = React25.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const values = [];
     for (const r2 of engineRows) {
@@ -8640,12 +10546,13 @@ var InternalSPC = ({
     const first = values[0];
     return values.every((v) => v === first) ? first : null;
   }, [engineRows]);
-  const categories = React24.useMemo(() => {
+  const categories = React25.useMemo(() => {
     if (!engineSignals || !all.length) return [];
     const raw = all.map((_d, i) => {
       const sig = engineSignals == null ? void 0 : engineSignals[i];
       if (sig == null ? void 0 : sig.concern) return "concern";
       if (sig == null ? void 0 : sig.improvement) return "improvement";
+      if ((sig == null ? void 0 : sig.special) && sig.variation === "neither" /* Neither */) return "noJudgement";
       return "common";
     });
     const isRuleClash = ariaLabel == null ? void 0 : ariaLabel.includes("Rule Clash");
@@ -8654,7 +10561,7 @@ var InternalSPC = ({
     }
     return raw;
   }, [engineSignals, all, ariaLabel]);
-  const sequences = React24.useMemo(() => {
+  const sequences = React25.useMemo(() => {
     if (!gradientSequences || !categories.length) return [];
     const cats = [...categories];
     let i = 0;
@@ -8687,9 +10594,9 @@ var InternalSPC = ({
     }
     return out;
   }, [gradientSequences, categories, ariaLabel]);
-  const xPositions = React24.useMemo(() => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))), [all, xScale]);
+  const xPositions = React25.useMemo(() => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))), [all, xScale]);
   const plotWidth = xScale.range()[1];
-  const limitSegments = React24.useMemo(() => {
+  const limitSegments = React25.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const build = (key) => {
       const segs = [];
@@ -8736,10 +10643,10 @@ var InternalSPC = ({
       twoNeg: build("lowerTwoSigma")
     };
   }, [engineRows, xPositions, yScale]);
-  const sequenceDefs = React24.useMemo(() => {
+  const sequenceDefs = React25.useMemo(() => {
     if (!sequences.length) return null;
     return /* @__PURE__ */ jsx30("defs", { children: sequences.map((seq, idx) => {
-      const id = `spc-seq-grad-${idx}`;
+      const id = `${gradientIdBaseRef.current}-grad-${idx}`;
       let baseVar;
       let top = 0.28, mid = 0.12, end = 0.045;
       switch (seq.category) {
@@ -8755,6 +10662,12 @@ var InternalSPC = ({
           mid = 0.11;
           end = 0.045;
           break;
+        case "noJudgement":
+          baseVar = "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)";
+          top = 0.26;
+          mid = 0.11;
+          end = 0.045;
+          break;
         default:
           baseVar = "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)";
       }
@@ -8765,7 +10678,7 @@ var InternalSPC = ({
       ] }, id);
     }) });
   }, [sequences]);
-  const sequenceAreas = React24.useMemo(() => {
+  const sequenceAreas = React25.useMemo(() => {
     if (!sequences.length) return null;
     const [domainMin] = yScale.domain();
     const baseY = yScale(domainMin);
@@ -8823,7 +10736,7 @@ var InternalSPC = ({
         "path",
         {
           d,
-          fill: `url(#spc-seq-grad-${idx})`,
+          fill: `url(#${gradientIdBaseRef.current}-grad-${idx})`,
           stroke: "none",
           className: "fdp-spc__sequence-bg",
           "aria-hidden": "true"
@@ -8833,7 +10746,7 @@ var InternalSPC = ({
     }).filter(Boolean);
     return /* @__PURE__ */ jsx30("g", { className: "fdp-spc__sequence-bgs", children: areas });
   }, [sequences, xPositions, plotWidth, yScale, all]);
-  const computedTimeframe = React24.useMemo(() => {
+  const computedTimeframe = React25.useMemo(() => {
     if (!(narrationContext == null ? void 0 : narrationContext.timeframe) && all.length >= 2) {
       const xs = all.map((d) => d.x instanceof Date ? d.x : new Date(d.x));
       const min = new Date(Math.min(...xs.map((d) => d.getTime())));
@@ -8859,7 +10772,7 @@ var InternalSPC = ({
     return `${n}th`;
   };
   const formatDateLong = (d) => `${ordinal2(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
-  const formatLive = React24.useCallback(
+  const formatLive = React25.useCallback(
     ({ index, x: x2, y: y2 }) => {
       const row = engineRows == null ? void 0 : engineRows[index];
       const dateObj = x2 instanceof Date ? x2 : new Date(x2);
@@ -8889,7 +10802,7 @@ var InternalSPC = ({
     },
     [engineRows, narrationContext, computedTimeframe]
   );
-  const describePoint = React24.useCallback(
+  const describePoint = React25.useCallback(
     (index, d) => {
       const row = engineRows == null ? void 0 : engineRows[index];
       if (!row) return void 0;
@@ -9010,6 +10923,8 @@ var InternalSPC = ({
                   ooc && highlightOutOfControl ? "fdp-spc__point--ooc" : null,
                   enableRules && (sig == null ? void 0 : sig.special) && sig.concern ? "fdp-spc__point--sc-concern" : null,
                   enableRules && (sig == null ? void 0 : sig.special) && sig.improvement ? "fdp-spc__point--sc-improvement" : null,
+                  // Neutral (context-dependent) metrics: show purple when special cause present but neither improvement nor concern
+                  enableRules && (sig == null ? void 0 : sig.special) && sig.variation === "neither" /* Neither */ ? "fdp-spc__point--sc-no-judgement" : null,
                   (sig == null ? void 0 : sig.assurance) === "pass" /* Pass */ ? "fdp-spc__point--assurance-pass" : null,
                   (sig == null ? void 0 : sig.assurance) === "fail" /* Fail */ ? "fdp-spc__point--assurance-fail" : null
                 ].filter(Boolean).join(" ");
@@ -9150,6 +11065,8 @@ var SPC_exports = {};
 __export(SPC_exports, {
   AssuranceIcon: () => AssuranceIcon,
   AssuranceResult: () => AssuranceResult,
+  BaselineSuggestionReason: () => BaselineSuggestionReason,
+  ChartType: () => ChartType,
   Direction: () => Direction,
   ImprovementDirection: () => ImprovementDirection,
   MetricPolarity: () => MetricPolarity,
@@ -9157,6 +11074,9 @@ __export(SPC_exports, {
   SPCChart: () => SPCChart_default,
   SPCTooltipOverlay: () => SPCTooltipOverlay_default,
   SPCVariationIcon: () => SPCVariationIcon,
+  SpcWarningCategory: () => SpcWarningCategory,
+  SpcWarningCode: () => SpcWarningCode,
+  SpcWarningSeverity: () => SpcWarningSeverity,
   VARIATION_COLOR_TOKENS: () => VARIATION_COLOR_TOKENS,
   VariationIcon: () => VariationIcon,
   VariationJudgement: () => VariationJudgement,
@@ -9206,5 +11126,15 @@ classnames/index.js:
   	Licensed under the MIT License (MIT), see
   	http://jedwatson.github.io/classnames
   *)
+
+prismjs/prism.js:
+  (**
+   * Prism: Lightweight, robust, elegant syntax highlighting
+   *
+   * @license MIT <https://opensource.org/licenses/MIT>
+   * @author Lea Verou <https://lea.verou.me>
+   * @namespace
+   * @public
+   *)
 */
 //# sourceMappingURL=index.js.map

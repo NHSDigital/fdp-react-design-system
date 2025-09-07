@@ -153,7 +153,9 @@
     "./macros": "./dist/macros",
     "./components/DataVisualisation/charts/SPC/SPCChart/SPCChart/css": "./dist/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.css",
     "./components/Header/Header2/css": "./dist/components/Header/Header2.css",
-    "./components/ProductRoadmap/css": "./dist/components/ProductRoadmap/ProductRoadmap.css"
+    "./components/ProductRoadmap/css": "./dist/components/ProductRoadmap/ProductRoadmap.css",
+    "./components/DataVisualisation/charts/SPC/SPCChart/SPCChart2/css": "./dist/components/DataVisualisation/charts/SPC/SPCChart/SPCChart2.css",
+    "./components/_internal/Mermaid/css": "./dist/components/_internal/Mermaid.css"
   },
   "sideEffects": [
     "dist/**/*.css"
@@ -266,7 +268,6 @@
     "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
-    "@theguild/remark-mermaid": "^0.0.5",
     "@types/d3": "^7.4.3",
     "@types/jest-axe": "^3.5.9",
     "@types/jsdom": "^21.1.7",

@@ -845,7 +845,7 @@ export const SPCVariationIcon = ({
 					transform="translate(86.67, 54) scale(0.5, 0.5)"
 					textAnchor="end"
 				>
-					<tspan x="120" y={direction === Direction.Lower ? "325" : "156"}>
+					<tspan x="120" y={direction === Direction.Lower ? "340" : "155"}>
 						{letter}
 					</tspan>
 				</text>

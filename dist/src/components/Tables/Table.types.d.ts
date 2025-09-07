@@ -1,7 +1,21 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 export interface TableCellData {
     text?: string;
     html?: string;
+    /** Optional React node content (takes precedence over html/text) */
+    node?: ReactNode;
+    /**
+     * Code content to render. If provided (and no `node` / `html`), the cell will render
+     * either an inline <code> element (single line) or a <pre><code> block (multi‑line or array).
+     * Accepts a string (can include newlines) or an array of lines.
+     */
+    code?: string | string[];
+    /** Optional language hint (for downstream syntax highlighting hooks). */
+    codeLanguage?: string;
+    /** Optional additional className for the <code> element. */
+    codeClassName?: string;
+    /** Disable automatic syntax highlighting for this cell (even if codeLanguage present). */
+    disableHighlight?: boolean;
     format?: string;
     classes?: string;
     colspan?: number;

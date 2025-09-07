@@ -1,5 +1,5 @@
 import { Direction, MetricPolarity, VariationJudgement, VariationState } from "./SPCConstants";
-import { VariationIcon as SpcEngineVariationIcon } from "../SPCChart/logic/spc";
+import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from "../SPCChart/logic/spc";
 export type SpcEngineIconPayload = {
     variationIcon: SpcEngineVariationIcon;
     trend?: Direction;
@@ -19,6 +19,10 @@ export type SpcEngineIconPayload = {
  * `polarity` is retained for alt‑text copy but has no effect on colour or
  * letter rendering.
  */
+/**
+ * @deprecated Use engine-aligned payload: { variationIcon, improvementDirection, specialCauseNeutral?, trend? }
+ * Retained temporarily for backward compatibility. Will be removed in a future minor version once downstream usages migrate.
+ */
 export interface SpcVariationPayload {
     state: VariationState;
     trend?: Direction;
@@ -28,6 +32,10 @@ export interface SpcVariationEngineIconPayload {
     variationIcon: SpcEngineVariationIcon;
     trend?: Direction;
     polarity?: MetricPolarity;
+    improvementDirection?: ImprovementDirection;
+    specialCauseNeutral?: boolean;
+    highSideSignal?: boolean;
+    lowSideSignal?: boolean;
 }
 /**
  * V2 (derivable) payload – supply semantic "what we know" and let the icon infer "how to draw".
@@ -76,6 +84,9 @@ export interface SpcVariationEngineIconPayload {
  *  { judgement: No_Judgement, polarity: HigherIsBetter, trend: Lower } -> state special_cause_no_judgement, direction lower, arrow rotated, no letter
  *  { judgement: None, polarity: ContextDependent, trend: Higher } -> state common_cause, direction higher, grey ring, no letter
  */
+/**
+ * @deprecated Supply engine payload instead. If you still need automatic letter orientation, pass improvementDirection and omit trend.
+ */
 export interface SpcVariationDerivePayload {
     judgement: VariationJudgement;
     polarity: MetricPolarity;
@@ -85,6 +96,9 @@ export type SpcVariationInput = SpcVariationPayload | SpcVariationDerivePayload 
 /**
  * Strict, parsimonious V2 shape — requires orientation when judgement is neutral
  * or when polarity is context-dependent. This enforces compile-time clarity.
+ */
+/**
+ * @deprecated Parsimonious form superseded by engine payload. Prefer { variationIcon, improvementDirection, specialCauseNeutral }.
  */
 export type SpcVariationParsimonious = {
     judgement: VariationJudgement.Improving;

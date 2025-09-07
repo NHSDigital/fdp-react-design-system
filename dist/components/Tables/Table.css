@@ -265,6 +265,80 @@ span .nhsuk-u-visually-hidden {
     margin-right: 8px;
   }
 }
+.nhsuk-table__cell code, .nhsuk-table__cell pre code {
+  font-family: Frutiger W01, Arial, sans-serif, monospace;
+  font-size: 0.85em;
+  -webkit-font-smoothing: auto;
+}
+.nhsuk-table__cell pre {
+  background: #f0f4f5;
+  border: 1px solid #d8dde0;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin: 4px 0 0;
+  overflow: auto;
+  max-width: 100%;
+  line-height: 1.4;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.02);
+}
+.nhsuk-table__cell .nhsuk-table__code {
+  background: #f0f4f5;
+  color: #212b32;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  border: 1px solid #d8dde0;
+  line-height: 1.3;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.nhsuk-table__cell .nhsuk-table__code--inline {
+  display: inline-block;
+  background: #f0f4f5;
+  font-size: 1rem;
+}
+.nhsuk-table__cell .nhsuk-table__code--block {
+  display: block;
+  background: transparent;
+  padding: 0;
+  border: 0;
+  white-space: pre;
+}
+.nhsuk-table__cell .nhsuk-table__pre {
+  background: #f0f4f5;
+  border: 1px solid #d8dde0;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin: 4px 0 0;
+  overflow: auto;
+  max-width: 100%;
+  line-height: 1.4;
+  font-size: 1rem;
+  position: relative;
+}
+.nhsuk-table__cell .nhsuk-table__pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  white-space: pre;
+}
+.nhsuk-table__cell .nhsuk-code-kw, .nhsuk-table__cell .token.keyword {
+  color: #005eb8;
+  font-weight: 600;
+}
+.nhsuk-table__cell .nhsuk-code-str, .nhsuk-table__cell .token.string {
+  color: #007f3b;
+}
+.nhsuk-table__cell .nhsuk-code-num, .nhsuk-table__cell .token.number {
+  color: #005eb8;
+}
+.nhsuk-table__cell .nhsuk-code-lit, .nhsuk-table__cell .token.boolean, .nhsuk-table__cell .token.null, .nhsuk-table__cell .token.undefined {
+  color: #d5281b;
+  font-style: italic;
+}
+.nhsuk-table__cell .nhsuk-code-com, .nhsuk-table__cell .token.comment {
+  color: #4c6272;
+  font-style: italic;
+}
 .nhsuk-table--panel {
   border: 1px solid #d8dde0;
   padding: 16px;

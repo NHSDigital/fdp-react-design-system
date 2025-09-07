@@ -1,7 +1,7 @@
 import * as React from "react";
 import "../../../DataVisualisation.scss";
 import "./SPCChart.scss";
-import { ImprovementDirection, VariationIcon, AssuranceIcon, type ChartType, type SpcSettings } from "./logic/spc";
+import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType, SpcWarningSeverity, SpcWarningCategory, SpcWarningCode, type SpcSettings } from "./logic/spc";
 export interface SPCDatum {
     x: Date | string | number;
     y: number;
@@ -28,6 +28,10 @@ export interface SPCChartProps {
     showIcons?: boolean;
     /** Render embedded SPC variation icon in chart corner (defaults to true) */
     showEmbeddedIcon?: boolean;
+    /** Variant style for embedded SPC variation icon (classic triangle / triangleWithRun). */
+    embeddedIconVariant?: 'classic' | 'triangle' | 'triangleWithRun';
+    /** Run length (0-5) for triangleWithRun embedded variation icon variant. Ignored otherwise. */
+    embeddedIconRunLength?: number;
     /** Optional targets per point (same length order as data) */
     targets?: (number | null | undefined)[];
     /** Baseline flags per point to start new partitions */
@@ -51,6 +55,14 @@ export interface SPCChartProps {
     processLineWidth?: number;
     /** When true, render vertical dashed markers at partition (baseline) boundaries */
     showPartitionMarkers?: boolean;
+    /** When true, renders a diagnostics warnings panel below the icon row */
+    showWarningsPanel?: boolean;
+    /** Filter for warnings rendered in the panel */
+    warningsFilter?: {
+        severities?: SpcWarningSeverity[];
+        categories?: SpcWarningCategory[];
+        codes?: SpcWarningCode[];
+    };
 }
 export declare const SPCChart: React.FC<SPCChartProps>;
 export { ImprovementDirection, VariationIcon, AssuranceIcon };

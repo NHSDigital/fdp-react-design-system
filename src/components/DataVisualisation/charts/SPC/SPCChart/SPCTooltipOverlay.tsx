@@ -12,6 +12,7 @@ import {
 	assuranceLabel,
 	zoneLabel,
 } from "./logic/spcDescriptors";
+import { VariationIcon } from './logic/spc';
 import { getVariationColorToken } from "./logic/spcDescriptors";
 import { Tag } from "../../../../Tag";
 
@@ -112,7 +113,9 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 
 	// Single series assumption for SPCChart; index aligns with engineRows order used earlier.
 	const row = engineRows?.[focused.index];
-	const rules = extractRuleIds(row).map((r) => ruleGlossary[r].tooltip);
+	// Keep rule ids and labels so we can apply colour logic per rule (e.g. trend always purple)
+	const ruleIds = extractRuleIds(row);
+	const rules = ruleIds.map((r) => ({ id: r, label: ruleGlossary[r].tooltip })); // structured for per-rule styling
 	const dateObj = focused.x instanceof Date ? focused.x : new Date(focused.x);
 	const dateLabel = dateFormatter
 		? dateFormatter(dateObj)
@@ -140,7 +143,17 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 		? pointDescriber(focused.index, { x: focused.x, y: focused.y })
 		: undefined;
 	const showBadges = variationDesc || assuranceDesc || zone;
+
+	// Determine if trend side-gating applies (trend flag present but variation neutral)
+	const trendFlag = row?.specialCauseTrendIncreasing || row?.specialCauseTrendDecreasing;
+	const variationNeutral = row?.variationIcon === VariationIcon.Neither && trendFlag;
+	// Side-gating explanatory line (only when neutrality due to being on unfavourable side)
+	const gatingExplanation = variationNeutral
+		? 'Trend detected (monotonic run) – held neutral until values cross onto the favourable side of the mean.'
+		: null;
 	const hasRules = rules.length > 0;
+	// "No judgement" (neutral special cause) state: underlying variation classified as Neither but special cause rules fired
+	const isNoJudgement = row?.variationIcon === VariationIcon.Neither && hasRules;
 	// Provenance (ruleTags) removed from tooltip to avoid duplication with Special cause section.
 
 	// focus ring colour
@@ -248,26 +261,47 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 									<strong>Signals</strong>
 								</div>
 								<div className="fdp-spc-tooltip__badges" aria-label="Signals">
-									{variationDesc &&
-										(variationDesc.toLowerCase().includes("concern") ? (
-											<Tag
-												text={variationDesc}
-												color="default"
-												className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
-											/>
-										) : variationDesc.toLowerCase().includes("improvement") ? (
-											<Tag
-												text={variationDesc}
-												color="default"
-												className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
-											/>
-										) : (
-											<Tag
-												text={variationDesc}
-												color="default"
-												className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
-											/>
-										))}
+									{(() => {
+										// Prefer explicit improvement/concern wording; override with purple no-judgement if neutral + special cause
+										if (variationDesc?.toLowerCase().includes("concern")) {
+											return (
+												<Tag
+													text={variationDesc}
+													color="default"
+													className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
+												/>
+											);
+										}
+										if (variationDesc?.toLowerCase().includes("improvement")) {
+											return (
+												<Tag
+													text={variationDesc}
+													color="default"
+													className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
+												/>
+											);
+										}
+										if (isNoJudgement) {
+											return (
+												<Tag
+													text={"No judgement"}
+													color="default"
+													className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--no-judgement"
+													aria-label="Neutral special cause (no directional judgement)"
+												/>
+											);
+										}
+										if (variationDesc) {
+											return (
+												<Tag
+													text={variationDesc}
+													color="default"
+													className="fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
+												/>
+											);
+										}
+										return null;
+									})()}
 								</div>
 							</div>
 						)}
@@ -324,6 +358,12 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 								</div>
 							</div>
 						)}
+						{gatingExplanation && (
+							<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--gating" data-gating>
+								<div className="fdp-spc-tooltip__section-label"><strong>Trend gating</strong></div>
+								<div className="fdp-spc-tooltip__explanation" aria-live="off">{gatingExplanation}</div>
+							</div>
+						)}
 						{hasRules && (
 							<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--rules">
 								<div className="fdp-spc-tooltip__section-label">
@@ -333,20 +373,28 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 									className="fdp-spc-tooltip__rule-tags"
 									aria-label="Special cause rules"
 								>
-									{rules.map((r) => {
-										const ruleColorClass = variationDesc
-											? variationDesc.toLowerCase().includes("concern")
-												? "fdp-spc-tag--concern"
-												: variationDesc.toLowerCase().includes("improvement")
-													? "fdp-spc-tag--improvement"
-													: "fdp-spc-tag--rule"
-											: "fdp-spc-tag--rule";
+									{rules.map(({ id, label }) => {
+										const idStr = String(id);
+										const isTrend = idStr === 'trend_inc' || idStr === 'trend_dec';
+										// Trend special cause stays purple (common) even if overall variation is improvement/concern (side-gated neutrality visual cue)
+										const ruleColorClass = isTrend
+											? 'fdp-spc-tag--trend'
+											: isNoJudgement
+												? 'fdp-spc-tag--no-judgement'
+												: variationDesc
+													? variationDesc.toLowerCase().includes('concern')
+														? 'fdp-spc-tag--concern'
+														: variationDesc.toLowerCase().includes('improvement')
+															? 'fdp-spc-tag--improvement'
+															: 'fdp-spc-tag--common'
+													: 'fdp-spc-tag--common';
 										return (
 											<Tag
-												key={r}
-												text={r}
+												key={idStr}
+												text={label}
 												color="default"
 												className={`fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`}
+												data-rule-id={idStr}
 											/>
 										);
 									})}

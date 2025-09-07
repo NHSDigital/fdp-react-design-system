@@ -32,7 +32,6 @@ export const TrendGatingEmbeddedHigh: React.FC = () => {
 		<>
 			<ChartContainer
 				title={"Special cause"}
-				description="Embedded reproduction used in trend gating rationale doc."
 				source="CSV dummy dataset"
 			>
 			<SPCChart

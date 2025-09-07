@@ -30,6 +30,30 @@ The same logic mirrors for *Low is good* (favourable side inverted). Neutral dir
 3. **Consistency With Other Side‑Sensitive Rules** – Shift and two‑of‑three logic already require being stably on one side of the mean; trend gating brings parity.
 4. **Diagnostic Transparency** – Purple indicates *“emerging special cause pattern detected, but not yet favourable/unfavourable in outcome terms”*.
 
+### Academic & Methodological Basis
+
+Side‑gated trend interpretation layers a decision/utility frame over orthodox symmetric detection. Core detection uses classic Shewhart / Nelson style rules (monotonic run of length N) without altering Type I error properties. The post‑detection gating then maps the raw trend flag to a directional semantic only when the observed values sit on the favourable side of the centre line (or cross into it), otherwise holding a neutral “emerging” state.
+
+Key supporting sources / analogues:
+- Shewhart, W.A. (1931) Economic Control of Quality of Manufactured Product – establishes symmetric control concepts (trend signalling independent of goal direction).
+- Western Electric Company (1956) Statistical Quality Control Handbook – formalises supplementary rules (precursor to Nelson) used here unchanged.
+- Nelson, L.S. (1984–1985) Journal of Quality Technology rule set – provides monotonic run detection; side‑gating does not modify underlying detection criteria.
+- Provost & Murray (2011) The Health Care Data Guide – emphasises aim statements and narrative framing in healthcare SPC, supporting decoupling detection from interpretation when communicating improvement vs deterioration.
+- NHS England / NHS Improvement “Making Data Count” guidance – prioritises actionable interpretation and avoiding misleading early colour shifts.
+- Benneyan (various healthcare SPC papers) – highlights aligning signal response to clinical objectives (utility weighting of signals).
+- Economic design of control charts (Montgomery, 7th ed.) – conceptual analogue: asymmetric costs for false improvement vs false deterioration narratives justify post‑processing utility mapping.
+
+Interpretive principles applied:
+1. Maintain statistical neutrality in detection (no change to run length N, no one‑sided selection bias in flag generation).
+2. Apply polarity only in classification (semantic layer) to reduce misclassification cost for early, not‑yet‑favourable sequences.
+3. Provide explicit neutral state (purple) rather than suppressing information, preserving analyst situational awareness.
+4. Preserve auditability via retained underlying rule flags (trend_inc / trend_dec in `ruleTags`).
+
+Limitations / scope:
+- Does not produce a formal probability adjustment; neutrality is an interpretive state, not a statistical “non‑signal”.
+- Users seeking pure symmetric SPC can disable precedence strategy enhancements or rely on raw rule tags.
+- Future extension could parameterise the gating (e.g. require M points on favourable side post‑cross before upgrading) – currently immediate upon any favourable-side inclusion after run continuation.
+
 ### Illustration (Dataset Story)
 
 Below, view the story: the mid‑series increasing points (e.g. 17 & 18 January) are *still below the mean* so they are purple although the trend rule has fired. Once later points rise above the mean, Improvement (blue) icons appear.

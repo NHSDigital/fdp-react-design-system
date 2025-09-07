@@ -86,6 +86,8 @@ export interface SpcSettings {
 	transitionBufferPoints?: number; // default 2
 	/** Collapse lower-severity cluster rules (2-of-3 vs 4-of-5) keeping only strongest */
 	collapseClusterRules?: boolean; // default true
+	/** Enable detection of stability: fifteen consecutive points within inner one-third band (|value-mean| < 1σ) with mixture (not all on one side). Default: false */
+	enableFifteenInInnerThirdRule?: boolean; // default false
 	/** Enable heuristic baseline (phase) change suggestions */
 	baselineSuggest?: boolean; // default false
 	/** Minimum change in mean (in sigma units) between old & new stable windows */
@@ -145,6 +147,8 @@ export interface SpcRow {
 	specialCauseShiftLow: boolean;
 	specialCauseTrendIncreasing: boolean;
 	specialCauseTrendDecreasing: boolean;
+	/** Fifteen consecutive points within inner third (±1σ) with at least one on each side of mean */
+	specialCauseFifteenInnerThird: boolean;
 	variationIcon: VariationIcon; // never null; use VariationIcon.None when suppressed
 	assuranceIcon: AssuranceIcon; // 'none' when no target / not assessed
 	// Parity/helper columns
@@ -735,6 +739,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				specialCauseShiftLow: false,
 				specialCauseTrendIncreasing: false,
 				specialCauseTrendDecreasing: false,
+				specialCauseFifteenInnerThird: false,
 				variationIcon: VariationIcon.None,
 				assuranceIcon: AssuranceIcon.None,
 				upperBaseline:
@@ -874,6 +879,26 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				if (dec) for (const j of windowIdx) getRow(j).specialCauseTrendDecreasing = true;
 			}
 
+			// Fifteen consecutive points within inner third (optional)
+			if (settings.enableFifteenInInnerThirdRule) {
+				let innerRun: number[] = [];
+				for (const idxLocal of nonGhostIndices) {
+					const r = getRow(idxLocal);
+					if (!isNumber(r.value) || !isNumber(r.mean) || !isNumber(r.upperOneSigma) || !isNumber(r.lowerOneSigma)) { innerRun = []; continue; }
+					const inBand = r.value < r.upperOneSigma! && r.value > r.lowerOneSigma!;
+					if (!inBand) { innerRun = []; continue; }
+					innerRun.push(idxLocal);
+					if (innerRun.length >= 15) {
+						const rowsRun = innerRun.map(getRow);
+						const anyAbove = rowsRun.some(rr => rr.value! > rr.mean!);
+						const anyBelow = rowsRun.some(rr => rr.value! < rr.mean!);
+						if (anyAbove && anyBelow) {
+							for (const j of innerRun) getRow(j).specialCauseFifteenInnerThird = true;
+						}
+					}
+				}
+			}
+
 			// (No pruning needed under selective flagging semantics)
 		}
 
@@ -915,6 +940,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		if (r.specialCauseTwoOfThreeBelow) tags.push('two_of_three_low');
 		if (r.specialCauseFourOfFiveAbove) tags.push('four_of_five_high');
 		if (r.specialCauseFourOfFiveBelow) tags.push('four_of_five_low');
+		if (r.specialCauseFifteenInnerThird) tags.push('fifteen_inner_third');
 		// Only persist if any tags present for compactness
 		if (tags.length) r.ruleTags = tags;
 	}

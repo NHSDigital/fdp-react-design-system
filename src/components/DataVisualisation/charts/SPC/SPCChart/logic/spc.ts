@@ -43,6 +43,12 @@ export enum AssuranceIcon {
 	None = "none",
 }
 
+// Precedence strategies for variation classification
+export enum PrecedenceStrategy {
+	Legacy = 'legacy',
+	DirectionalFirst = 'directional_first',
+}
+
 export interface SpcInputRow {
 	x: string | number | Date; // period label or date
 	value?: number | null; // numeric value (null/undefined treated as missing)
@@ -57,6 +63,10 @@ export interface SpcSettings {
 	specialCauseTrendPoints?: number; // default: 6
 	/** Enable the four-of-five beyond 1σ rule (not in headline public four rules). Default: false */
 	enableFourOfFiveRule?: boolean; // default: false
+	/** Precedence / classification strategy. legacy = original side aggregation; directional_first = favour directionally consistent emerging improvement & apply grace. Default: 'legacy' */
+	precedenceStrategy?: PrecedenceStrategy; // default: PrecedenceStrategy.Legacy
+	/** When using directional_first, enable early neutralisation (downgrade Concern -> Neither) for near-complete (N-1) favourable monotonic runs before the formal trend rule fires. */
+	emergingDirectionGrace?: boolean; // default: false
 	minimumPoints?: number; // default: 13
 	minimumPointsWarning?: boolean; // default: false
 	minimumPointsPartition?: number; // default: 12
@@ -541,6 +551,8 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		baselineSuggestStabilityPoints: 5,
 		baselineSuggestMinGap: 12,
 		baselineSuggestScoreThreshold: 50,
+		precedenceStrategy: PrecedenceStrategy.Legacy,
+		emergingDirectionGrace: false,
 		autoRecalculateAfterShift: false,
 		autoRecalculateShiftLength: undefined,
 		autoRecalculateDeltaSigma: 0.5,
@@ -804,6 +816,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				}
 			}
 			// Two-of-three 2-sigma (high/low): flag ONLY the points beyond ±2σ within a qualifying same-side triple
+			// NOTE: Points beyond 3σ (process limits) are excluded from counting for this rule (they are handled by the single-point rule).
 			for (let w = 0; w <= nonGhostIndices.length - 3; w++) {
 				const windowIdx = nonGhostIndices.slice(w, w + 3);
 				const rows3 = windowIdx.map(getRow);
@@ -814,8 +827,11 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				if (!allHighSide && !allLowSide) continue;
 				const u2 = rows3[0].upperTwoSigma ?? Infinity;
 				const l2 = rows3[0].lowerTwoSigma ?? -Infinity;
-				const highExceed = rows3.filter(r => r.value! > u2);
-				const lowExceed = rows3.filter(r => r.value! < l2);
+				const u3 = rows3[0].upperProcessLimit ?? Infinity;
+				const l3 = rows3[0].lowerProcessLimit ?? -Infinity;
+				// Exclude >3σ (single-point) from candidate sets so they do not contribute to the 2-of-3 count
+				const highExceed = rows3.filter(r => r.value! > u2 && r.value! <= u3);
+				const lowExceed = rows3.filter(r => r.value! < l2 && r.value! >= l3);
 				if (allHighSide && highExceed.length >= 2) {
 					for (const r of highExceed) r.specialCauseTwoOfThreeAbove = true; // flag only exceeding points
 				}
@@ -915,48 +931,94 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			row.variationIcon = VariationIcon.None;
 			continue;
 		}
-		const anyHigh =
+		// Directional aggregation of signals. Previously trend flags were side-agnostic and
+		// caused early points in an emerging (cross-mean) trend to be classified as favourable
+		// even while still on the adverse side of the mean. We now require the current point
+		// itself to be on the favourable side for trend-based contribution.
+		const onHighSide = isNumber(row.value) && isNumber(row.mean) && row.value! > row.mean!;
+		const onLowSide  = isNumber(row.value) && isNumber(row.mean) && row.value! < row.mean!;
+		// Optional cluster rule collapse (retain stronger 4-of-5 over 2-of-3 when both same side)
+		if (settings.collapseClusterRules) {
+			if (row.specialCauseTwoOfThreeAbove && row.specialCauseFourOfFiveAbove) row.specialCauseTwoOfThreeAbove = false;
+			if (row.specialCauseTwoOfThreeBelow && row.specialCauseFourOfFiveBelow) row.specialCauseTwoOfThreeBelow = false;
+		}
+		// Recompute high/low aggregates after any collapse so they reflect final flags
+		const highSignals =
 			row.specialCauseSinglePointAbove ||
 			row.specialCauseTwoOfThreeAbove ||
 			(settings.enableFourOfFiveRule && row.specialCauseFourOfFiveAbove) ||
 			row.specialCauseShiftHigh ||
-			row.specialCauseTrendIncreasing;
-		const anyLow =
+			(row.specialCauseTrendIncreasing && onHighSide);
+		const lowSignals =
 			row.specialCauseSinglePointBelow ||
 			row.specialCauseTwoOfThreeBelow ||
 			(settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow) ||
 			row.specialCauseShiftLow ||
-			row.specialCauseTrendDecreasing;
-		// Optional cluster rule collapse (retain stronger 4-of-5 over 2-of-3 when both same side)
-		if (settings.collapseClusterRules) {
-			if (row.specialCauseTwoOfThreeAbove && row.specialCauseFourOfFiveAbove)
-				row.specialCauseTwoOfThreeAbove = false;
-			if (row.specialCauseTwoOfThreeBelow && row.specialCauseFourOfFiveBelow)
-				row.specialCauseTwoOfThreeBelow = false;
+			(row.specialCauseTrendDecreasing && onLowSide);
+
+		// Emerging favourable detection (N-1 monotonic run in favourable direction before trend flag fires)
+		let emergingFavourable = false;
+		if (settings.precedenceStrategy === PrecedenceStrategy.DirectionalFirst && settings.emergingDirectionGrace) {
+			const trendN = settings.specialCauseTrendPoints || 6;
+			if (trendN > 1 && !(row.specialCauseTrendIncreasing || row.specialCauseTrendDecreasing)) {
+				const needed = trendN - 1;
+				// Collect last needed non-ghost numeric rows including current row
+				const seq: SpcRow[] = [];
+				for (let back = idx; back >= 0 && seq.length < needed; back--) {
+					const rPrev = output[back];
+					if (!rPrev.ghost && isNumber(rPrev.value) && rPrev.mean !== null) seq.unshift(rPrev);
+				}
+				if (seq.length === needed) {
+					let monotonic = true;
+					for (let k = 1; k < seq.length && monotonic; k++) {
+						if (metricImprovement === ImprovementDirection.Up) {
+							if (!(seq[k].value! > seq[k-1].value!)) monotonic = false;
+						} else if (metricImprovement === ImprovementDirection.Down) {
+							if (!(seq[k].value! < seq[k-1].value!)) monotonic = false;
+						} else {
+							monotonic = false; // neutral metrics do not use emerging grace
+						}
+					}
+					emergingFavourable = monotonic;
+				}
+			}
 		}
 
-		{
-			// legacy logic
-			if (metricImprovement === ImprovementDirection.Up) {
-				row.variationIcon = anyHigh
+		if (settings.precedenceStrategy === PrecedenceStrategy.DirectionalFirst) {
+			// Map signals to favourable/unfavourable sides
+			const favourable = metricImprovement === ImprovementDirection.Up ? highSignals
+				: metricImprovement === ImprovementDirection.Down ? lowSignals
+				: false;
+			const unfavourable = metricImprovement === ImprovementDirection.Up ? lowSignals
+				: metricImprovement === ImprovementDirection.Down ? highSignals
+				: false;
+			if (favourable && !unfavourable) {
+				row.variationIcon = VariationIcon.Improvement;
+			} else if (unfavourable && !favourable) {
+				// Grace: downgrade concern -> neither if emerging favourable direction underway
+				row.variationIcon = emergingFavourable ? VariationIcon.Neither : VariationIcon.Concern;
+			} else if (favourable && unfavourable) {
+				// Mixed signals – if emerging or confirmed favourable trend present treat as Improvement, else Neither
+				row.variationIcon = (emergingFavourable || row.specialCauseTrendIncreasing || row.specialCauseTrendDecreasing)
 					? VariationIcon.Improvement
-					: anyLow
-						? VariationIcon.Concern
-						: VariationIcon.Neither;
-			} else if (metricImprovement === ImprovementDirection.Down) {
-				row.variationIcon = anyLow
-					? VariationIcon.Improvement
-					: anyHigh
-						? VariationIcon.Concern
-						: VariationIcon.Neither;
+					: VariationIcon.Neither;
 			} else {
-				row.variationIcon = VariationIcon.Neither; // neutral metric
+				row.variationIcon = VariationIcon.Neither;
+			}
+		} else {
+			// Legacy side-based aggregation
+			if (metricImprovement === ImprovementDirection.Up) {
+				row.variationIcon = highSignals ? VariationIcon.Improvement : lowSignals ? VariationIcon.Concern : VariationIcon.Neither;
+			} else if (metricImprovement === ImprovementDirection.Down) {
+				row.variationIcon = lowSignals ? VariationIcon.Improvement : highSignals ? VariationIcon.Concern : VariationIcon.Neither;
+			} else {
+				row.variationIcon = VariationIcon.Neither;
 			}
 		}
 
 		// Removed suppression of isolated favourable single 3σ heuristic
 
-		const anySignal = anyHigh || anyLow;
+		const anySignal = highSignals || lowSignals;
 		row.specialCauseImprovementValue =
 			anySignal && row.variationIcon === VariationIcon.Improvement
 				? row.value

@@ -13,7 +13,7 @@ import {
 // Token utilities now sourced from shared tokenUtils module.
 // Import VariationIcon enum from SPC engine to permit direct usage with icon component.
 // Updated: point to advanced SPC engine (legacy ../../xmr/spc path removed during refactor)
-import { VariationIcon as SpcEngineVariationIcon } from "../SPCChart/logic/spc";
+import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from "../SPCChart/logic/spc";
 
 // Friendly alias exported for consumers who want to pass just the engine icon key
 export type SpcEngineIconPayload = {
@@ -47,6 +47,10 @@ export type SpcEngineIconPayload = {
  * `polarity` is retained for alt‑text copy but has no effect on colour or
  * letter rendering.
  */
+/**
+ * @deprecated Use engine-aligned payload: { variationIcon, improvementDirection, specialCauseNeutral?, trend? }
+ * Retained temporarily for backward compatibility. Will be removed in a future minor version once downstream usages migrate.
+ */
 export interface SpcVariationPayload {
 	state: VariationState;
 	trend?: Direction; // explicitly choose geometry (higher/lower)
@@ -56,8 +60,12 @@ export interface SpcVariationPayload {
 // New: direct engine variation icon payload (maps engine-level VariationIcon enum to a state)
 export interface SpcVariationEngineIconPayload {
 	variationIcon: SpcEngineVariationIcon;
-	trend?: Direction; // required for neutral/none if you want lower layout
-	polarity?: MetricPolarity;
+	trend?: Direction; // orientation override
+	polarity?: MetricPolarity; // optional explicit polarity
+	improvementDirection?: ImprovementDirection; // engine-style polarity input (preferred over polarity when provided)
+	specialCauseNeutral?: boolean; // distinguishes neutral special-cause (purple) from common cause when variationIcon === Neither
+	highSideSignal?: boolean; // optional side hint for neutral special-cause arrow orientation
+	lowSideSignal?: boolean; // optional side hint for neutral special-cause arrow orientation
 }
 
 /**
@@ -107,6 +115,9 @@ export interface SpcVariationEngineIconPayload {
  *  { judgement: No_Judgement, polarity: HigherIsBetter, trend: Lower } -> state special_cause_no_judgement, direction lower, arrow rotated, no letter
  *  { judgement: None, polarity: ContextDependent, trend: Higher } -> state common_cause, direction higher, grey ring, no letter
  */
+/**
+ * @deprecated Supply engine payload instead. If you still need automatic letter orientation, pass improvementDirection and omit trend.
+ */
 export interface SpcVariationDerivePayload {
 	judgement: VariationJudgement;
 	polarity: MetricPolarity;
@@ -122,6 +133,9 @@ export type SpcVariationInput =
 /**
  * Strict, parsimonious V2 shape — requires orientation when judgement is neutral
  * or when polarity is context-dependent. This enforces compile-time clarity.
+ */
+/**
+ * @deprecated Parsimonious form superseded by engine payload. Prefer { variationIcon, improvementDirection, specialCauseNeutral }.
  */
 export type SpcVariationParsimonious =
 	| {
@@ -157,53 +171,66 @@ const resolveStateAndLayout = (
 	direction: Direction;
 	polarity: MetricPolarity;
 } => {
+	// Runtime deprecation warning (fires once) for legacy payloads (state / judgement forms)
+	const emitDeprecation = () => {
+		if (!(globalThis as any).__spcIconDeprecationEmitted) {
+			// eslint-disable-next-line no-console
+			console.warn(
+				"[SPCVariationIcon] Deprecated payload shape detected. Migrate to { variationIcon, improvementDirection, specialCauseNeutral?, trend? }."
+			);
+			(globalThis as any).__spcIconDeprecationEmitted = true;
+		}
+	};
 	// Engine VariationIcon mapping support
 	if ((input as SpcVariationEngineIconPayload).variationIcon !== undefined) {
 		const eng = input as SpcVariationEngineIconPayload;
-		const mapping: Record<SpcEngineVariationIcon, VariationState> = {
-			[SpcEngineVariationIcon.Improvement]:
-				VariationState.SpecialCauseImproving,
-			[SpcEngineVariationIcon.Concern]:
-				VariationState.SpecialCauseDeteriorating,
-			[SpcEngineVariationIcon.Neither]: VariationState.CommonCause,
-			[SpcEngineVariationIcon.None]: VariationState.SpecialCauseNoJudgement,
-		};
-		const state = mapping[eng.variationIcon];
+		// Determine polarity preference: improvementDirection overrides explicit polarity prop.
+		let polarity: MetricPolarity | undefined = undefined;
+		if (eng.improvementDirection !== undefined) {
+			polarity =
+				eng.improvementDirection === ImprovementDirection.Up
+					? MetricPolarity.HigherIsBetter
+					: eng.improvementDirection === ImprovementDirection.Down
+						? MetricPolarity.LowerIsBetter
+						: MetricPolarity.ContextDependent;
+		} else if (eng.polarity) {
+			polarity = eng.polarity;
+		}
+		// Map engine variation icon to internal state, injecting neutral special-cause purple when flagged.
+		let state: VariationState;
+		switch (eng.variationIcon) {
+			case SpcEngineVariationIcon.Improvement:
+				state = VariationState.SpecialCauseImproving; break;
+			case SpcEngineVariationIcon.Concern:
+				state = VariationState.SpecialCauseDeteriorating; break;
+			case SpcEngineVariationIcon.Neither:
+				state = eng.specialCauseNeutral
+					? VariationState.SpecialCauseNoJudgement
+					: VariationState.CommonCause; break;
+			case SpcEngineVariationIcon.None:
+			default:
+				state = VariationState.SpecialCauseNoJudgement; break;
+		}
 		let direction: Direction | undefined = eng.trend as Direction | undefined;
-		if (
-			!direction &&
-			eng.polarity &&
-			(state === VariationState.SpecialCauseImproving ||
-				state === VariationState.SpecialCauseDeteriorating)
-		) {
+		if (!direction) {
 			if (state === VariationState.SpecialCauseImproving) {
-				direction =
-					eng.polarity === MetricPolarity.LowerIsBetter
-						? Direction.Lower
-						: Direction.Higher;
+				direction = polarity === MetricPolarity.LowerIsBetter ? Direction.Lower : Direction.Higher;
+			} else if (state === VariationState.SpecialCauseDeteriorating) {
+				direction = polarity === MetricPolarity.LowerIsBetter ? Direction.Higher : Direction.Lower;
+			} else if (state === VariationState.SpecialCauseNoJudgement) {
+				// Prefer explicit side hints when supplied
+				if (eng.highSideSignal && !eng.lowSideSignal) direction = Direction.Higher;
+				else if (eng.lowSideSignal && !eng.highSideSignal) direction = Direction.Lower;
+				else direction = Direction.Higher; // fallback
 			} else {
-				direction =
-					eng.polarity === MetricPolarity.LowerIsBetter
-						? Direction.Higher
-						: Direction.Lower;
+				direction = Direction.Higher;
 			}
 		}
-		if (!direction) {
-			direction =
-				state === VariationState.SpecialCauseImproving
-					? Direction.Higher
-					: state === VariationState.SpecialCauseDeteriorating
-						? Direction.Lower
-						: Direction.Higher;
-		}
-		return {
-			state,
-			direction,
-			polarity: eng.polarity ?? MetricPolarity.ContextDependent,
-		};
+		return { state, direction, polarity: polarity ?? MetricPolarity.ContextDependent };
 	}
 	// Legacy explicit state payload
 	if ((input as SpcVariationPayload).state !== undefined) {
+		emitDeprecation();
 		const v1 = input as SpcVariationPayload;
 		let direction: Direction | undefined = v1.trend as Direction | undefined;
 		if (
@@ -239,6 +266,7 @@ const resolveStateAndLayout = (
 	}
 	// Derivation payload based on judgement + polarity
 	const v2 = input as SpcVariationDerivePayload;
+	emitDeprecation();
 	const map: Record<VariationJudgement, VariationState> = {
 		[VariationJudgement.Improving]: VariationState.SpecialCauseImproving,
 		[VariationJudgement.Deteriorating]:

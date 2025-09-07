@@ -414,6 +414,18 @@ The table below mirrors the TypeScript interface declared in `SPCChart.tsx` (see
       { code: 'true', codeLanguage: 'typescript' },
     ],
     [
+      { code: 'embeddedIconVariant', codeLanguage: 'typescript' },
+      { text: 'Visual style for embedded variation icon: classic / triangle / triangleWithRun.' },
+      { code: "'classic' | 'triangle' | 'triangleWithRun'", codeLanguage: 'typescript' },
+      { code: 'classic', codeLanguage: 'typescript' },
+    ],
+    [
+      { code: 'embeddedIconRunLength', codeLanguage: 'typescript' },
+      { text: 'Recent run length (0–5) dots for triangleWithRun variant (ignored otherwise).' },
+      { code: 'number', codeLanguage: 'typescript' },
+      { text: '–' },
+    ],
+    [
       { code: 'targets', codeLanguage: 'typescript' },
       { text: 'Per-point numeric target (assurance + optional target line when constant).' },
       { code: 'number | null | undefined)[]', codeLanguage: 'typescript' },
@@ -476,6 +488,23 @@ The table below mirrors the TypeScript interface declared in `SPCChart.tsx` (see
   ]}
   firstCellIsHeader
 />
+
+### Embedded summary icon lettering semantics
+
+The large embedded variation icon (top‑right) now adapts its letter logic:
+
+- When `metricImprovement` is `ImprovementDirection.Up` or `ImprovementDirection.Down`, `letterMode="polarity"` is applied:  
+  - `H` = Higher is better metric (polarity)  
+  - `L` = Lower is better metric.  
+  The letter communicates the business *polarity* (context of what “better” means) while the triangle/arrow orientation still shows which SIDE the current special‑cause signal sits (above / below the mean) and colour shows favourability (blue improvement / orange concern / purple neutral / grey common cause).
+- When `metricImprovement` is `ImprovementDirection.Neither`, the component falls back to `letterMode="direction"`:  
+  - `H` = High‑side signal (special cause above mean)  
+  - `L` = Low‑side signal (special cause below mean).  
+  For neutral metrics, business polarity is intentionally omitted (no inherent better side) so letters revert to describing the *signal side*.
+
+Rationale: separates two concepts that were previously conflated—signal side and performance polarity—reducing misinterpretation when users flip the improvement direction in Storybook or downstream dashboards.
+
+If you need legacy behaviour (letters always side‑of‑signal) you can wrap `SPCVariationIcon` directly and set `letterMode="direction"` explicitly.
 
 ## Advanced settings (`SpcSettings`)
 

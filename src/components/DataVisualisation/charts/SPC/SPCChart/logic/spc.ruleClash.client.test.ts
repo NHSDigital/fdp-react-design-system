@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { buildSpc, ImprovementDirection, VariationIcon } from './spc';
 
+import { ChartType } from './spc';
+
 // Rule clash test inspired by SPCRuleClashExplanationV1.0 docs.
 // We construct a dataset where a decreasing monotonic run of 6 points all lie below the mean
 // so that BOTH the trend (strictly decreasing) and shift (run on one side of mean) rules fire
@@ -28,7 +30,7 @@ describe('SPC rule clash: simultaneous shift + trend (low side, improvement dire
     const values = [130,131,132,129,128,130,131, 95,90,85,80,75,70];
     const data = values.map((v, i) => ({ x: i + 1, value: v }));
 
-    const { rows, warnings } = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Down, data });
+    const { rows, warnings } = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down, data });
 
     const terminal = rows.find(r => r.rowId === values.length)!; // row 13
     const preTerminal = rows.find(r => r.rowId === values.length - 1)!; // row 12

@@ -95,9 +95,9 @@ describe("SPC variation icon matrix (orthodox rule behaviour)", () => {
 			data: lowData,
 			// strictShewhartMode removed – engine now always orthodox
 		});
-		expect(highRows.at(-1)!.specialCauseSinglePointAbove).toBe(true);
+		expect(highRows[highRows.length - 1]!.specialCauseSinglePointAbove).toBe(true);
 		expect(highRows[highRows.length - 1]!.variationIcon).toBe(VariationIcon.Neither);
-		expect(lowRows.at(-1)!.specialCauseSinglePointBelow).toBe(true);
+		expect(lowRows[lowRows.length - 1]!.specialCauseSinglePointBelow).toBe(true);
 		expect(lowRows[lowRows.length - 1]!.variationIcon).toBe(VariationIcon.Neither);
 	});
 });

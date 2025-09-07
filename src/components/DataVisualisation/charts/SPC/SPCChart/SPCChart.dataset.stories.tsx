@@ -76,7 +76,7 @@ function story(metric: string): Story {
 		parameters: {
 			docs: { description: { story: storySpecific[metric] || 'Dataset scenario.' } }
 		},
-			render: ({ improvementDirection = 'neither' }) => {
+			render: ({ improvementDirection = 'neither', embeddedIconVariant, embeddedIconRunLength }: any) => {
 			const dir = improvementDirection === 'higher' ? ImprovementDirection.Up : improvementDirection === 'lower' ? ImprovementDirection.Down : ImprovementDirection.Neither;
 			// Inject comparative heuristic settings for recalculation/baseline scenarios so Storybook matches test expectations
 			const comparativeScenario = metric.startsWith('Recalculations') || metric.startsWith('Baseline') || metric.startsWith('Baselines');
@@ -119,6 +119,8 @@ function story(metric: string): Story {
 						settings={settings as any}
 						showPoints
 						enableRules
+						embeddedIconVariant={embeddedIconVariant}
+						embeddedIconRunLength={embeddedIconRunLength}
 						gradientSequences={true}
 					/>
 				</ChartContainer>
@@ -156,3 +158,37 @@ export const Summary_icons_variation_1 = story('Summary icons - variation - 1');
 export const Summary_icons_variation_2 = story('Summary icons - variation - 2');
 export const Summary_icons_variation_3 = story('Summary icons - variation - 3');
 export const Summary_icons_variation_too_few_points = story('Summary icons - variation - too few points');
+
+// Triangle variant duplicates (reuse underlying data sets; Storybook grouping keeps canonical names concise)
+export const Summary_icons_variation_1_triangle: Story = {
+	...story('Summary icons - variation - 1'),
+	name: 'Summary icons - variation - 1 (triangle)',
+	render: (args: any) => (Summary_icons_variation_1.render as any)({ ...args, embeddedIconVariant: 'triangle' })
+};
+export const Summary_icons_variation_2_triangle: Story = {
+	...story('Summary icons - variation - 2'),
+	name: 'Summary icons - variation - 2 (triangle)',
+	render: (args: any) => (Summary_icons_variation_2.render as any)({ ...args, embeddedIconVariant: 'triangle' })
+};
+export const Summary_icons_variation_3_triangle: Story = {
+	...story('Summary icons - variation - 3'),
+	name: 'Summary icons - variation - 3 (triangle)',
+	render: (args: any) => (Summary_icons_variation_3.render as any)({ ...args, embeddedIconVariant: 'triangle' })
+};
+
+// TriangleWithRun (provide sample run lengths for variety)
+export const Summary_icons_variation_1_triangleRun: Story = {
+	...story('Summary icons - variation - 1'),
+	name: 'Summary icons - variation - 1 (triangleWithRun)',
+	render: (args: any) => (Summary_icons_variation_1.render as any)({ ...args, embeddedIconVariant: 'triangleWithRun', embeddedIconRunLength: 3 })
+};
+export const Summary_icons_variation_2_triangleRun: Story = {
+	...story('Summary icons - variation - 2'),
+	name: 'Summary icons - variation - 2 (triangleWithRun)',
+	render: (args: any) => (Summary_icons_variation_2.render as any)({ ...args, embeddedIconVariant: 'triangleWithRun', embeddedIconRunLength: 4 })
+};
+export const Summary_icons_variation_3_triangleRun: Story = {
+	...story('Summary icons - variation - 3'),
+	name: 'Summary icons - variation - 3 (triangleWithRun)',
+	render: (args: any) => (Summary_icons_variation_3.render as any)({ ...args, embeddedIconVariant: 'triangleWithRun', embeddedIconRunLength: 2 })
+};

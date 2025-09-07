@@ -56,7 +56,6 @@ export const ShiftExample: Story = {
             chartType={ChartType.XmR}
             metricImprovement={ImprovementDirection.Up}
             enableRules
-            showIcons
             targets={targets}
             baselines={baselines}
             settings={{ baselineSuggest: true }}

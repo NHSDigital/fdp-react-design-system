@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SPCChart, ImprovementDirection } from './SPCChart';
 import { ChartContainer } from '../../..';
+import { ChartType } from './logic/spc';
 
 const meta: Meta<typeof SPCChart> = {
 	title: 'Data Visualisation/SPC/Rule Clash Examples',
@@ -29,8 +30,8 @@ const toData = (series: { x: string; y: number }[]) =>
 	series.map((p) => ({ x: new Date(p.x), y: p.y }));
 
 const baseProps = {
-	chartType: "XmR" as const,
-	metricImprovement: ImprovementDirection.Down as const,
+	chartType: ChartType.XmR,
+	metricImprovement: ImprovementDirection.Down,
 	unit: "%",
 	announceFocus: false,
 	gradientSequences: true,

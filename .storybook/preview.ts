@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/react';
 import '../src/styles/fonts.css';
 import '../src/styles/utilities.scss';
+import './mdx-docs-styles.scss';
 
 const preview: Preview = {
   parameters: {

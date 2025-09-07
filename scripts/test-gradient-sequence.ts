@@ -7,9 +7,12 @@ const testCategories = [
 ];
 
 // Current logic (copied from the component)
-function getCurrentSequenceLogic(categories, gradientSequences = true) {
+function getCurrentSequenceLogic(
+  categories: string[],
+  gradientSequences = true
+): { start: number; end: number; category: string }[] {
   if (!gradientSequences || !categories.length) return [];
-  const result = [];
+  const result: { start: number; end: number; category: string }[] = [];
   let runStart = 0;
   
   for (let i = 1; i <= categories.length; i++) {

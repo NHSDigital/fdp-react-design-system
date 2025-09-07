@@ -1,0 +1,175 @@
+@use "../src/styles/utilities.scss";
+@use "../packages/nhs-fdp/dist/scss/tokens" as tokens;
+
+// Shared variables / maps
+$ds-font-stack:
+	"#{tokens.$nhs-fdp-font-family-base}",
+	#{tokens.$nhs-fdp-font-family-fallback};
+$heading-sizes: (
+	// Map semantic heading levels to DS heading variant tokens (approximate mapping)
+	h1: (
+			size: xxl,
+			font-mobile: tokens.$nhs-fdp-font-size-48-mobile,
+			lh-mobile: tokens.$nhs-fdp-font-line-height-48-mobile,
+			mb-mobile: tokens.$nhs-fdp-spacing-responsive-8-mobile,
+			font-tablet: tokens.$nhs-fdp-font-size-48-tablet,
+			lh-tablet: tokens.$nhs-fdp-font-line-height-48-tablet,
+			mb-tablet: tokens.$nhs-fdp-spacing-responsive-8-tablet,
+			mt-mobile: tokens.$nhs-fdp-spacing-responsive-7-mobile,
+			mt-tablet: tokens.$nhs-fdp-spacing-responsive-7-tablet,
+		),
+	h2: (
+		size: xl,
+		font-mobile: tokens.$nhs-fdp-font-size-36-mobile,
+		lh-mobile: tokens.$nhs-fdp-font-line-height-36-mobile,
+		mb-mobile: tokens.$nhs-fdp-spacing-responsive-7-mobile,
+		font-tablet: tokens.$nhs-fdp-font-size-48-tablet,
+		lh-tablet: tokens.$nhs-fdp-font-line-height-48-tablet,
+		mb-tablet: tokens.$nhs-fdp-spacing-responsive-7-tablet,
+		mt-mobile: tokens.$nhs-fdp-spacing-responsive-6-mobile,
+		mt-tablet: tokens.$nhs-fdp-spacing-responsive-6-tablet,
+	),
+	h3: (
+		size: l,
+		font-mobile: tokens.$nhs-fdp-font-size-26-mobile,
+		lh-mobile: tokens.$nhs-fdp-font-line-height-26-mobile,
+		mb-mobile: tokens.$nhs-fdp-spacing-responsive-7-mobile,
+		font-tablet: tokens.$nhs-fdp-font-size-36-tablet,
+		lh-tablet: tokens.$nhs-fdp-font-line-height-36-tablet,
+		mb-tablet: tokens.$nhs-fdp-spacing-responsive-7-tablet,
+		mt-mobile: tokens.$nhs-fdp-spacing-responsive-5-mobile,
+		mt-tablet: tokens.$nhs-fdp-spacing-responsive-5-tablet,
+	),
+	h4: (
+		size: m,
+		font-mobile: tokens.$nhs-fdp-font-size-22-mobile,
+		lh-mobile: tokens.$nhs-fdp-font-line-height-22-mobile,
+		mb-mobile: tokens.$nhs-fdp-spacing-responsive-4-mobile,
+		font-tablet: tokens.$nhs-fdp-font-size-26-tablet,
+		lh-tablet: tokens.$nhs-fdp-font-line-height-26-tablet,
+		mb-tablet: tokens.$nhs-fdp-spacing-responsive-4-tablet,
+		mt-mobile: tokens.$nhs-fdp-spacing-responsive-4-mobile,
+		mt-tablet: tokens.$nhs-fdp-spacing-responsive-4-tablet,
+	),
+	h5: (
+		size: s,
+		font-mobile: tokens.$nhs-fdp-font-size-19-mobile,
+		lh-mobile: tokens.$nhs-fdp-font-line-height-19-mobile,
+		mb-mobile: tokens.$nhs-fdp-spacing-responsive-4-mobile,
+		font-tablet: tokens.$nhs-fdp-font-size-22-tablet,
+		lh-tablet: tokens.$nhs-fdp-font-line-height-22-tablet,
+		mb-tablet: tokens.$nhs-fdp-spacing-responsive-4-tablet,
+		mt-mobile: tokens.$nhs-fdp-spacing-responsive-4-mobile,
+		mt-tablet: tokens.$nhs-fdp-spacing-responsive-4-tablet,
+	),
+	h6: (
+		size: xs,
+		font-mobile: tokens.$nhs-fdp-font-size-16-mobile,
+		lh-mobile: tokens.$nhs-fdp-font-line-height-16-mobile,
+		mb-mobile: tokens.$nhs-fdp-spacing-responsive-4-mobile,
+		font-tablet: tokens.$nhs-fdp-font-size-19-tablet,
+		lh-tablet: tokens.$nhs-fdp-font-line-height-19-tablet,
+		mb-tablet: tokens.$nhs-fdp-spacing-responsive-4-tablet,
+		mt-mobile: tokens.$nhs-fdp-spacing-responsive-3-mobile,
+		mt-tablet: tokens.$nhs-fdp-spacing-responsive-3-tablet,
+	)
+);
+
+// Root docs scope
+.sbdocs {
+	// Base wrapper contexts Storybook applies (defensive grouping)
+	&,
+	&.sbdocs-wrapper,
+	.docs-story,
+	.sbdocs-content,
+	.docs-container {
+		font-family: $ds-font-stack;
+		color: tokens.$nhs-fdp-semantic-color-text-primary;
+		line-height: 1.5;
+		font-size: 16px;
+	}
+
+	// Typography
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: $ds-font-stack;
+		font-weight: 600;
+		line-height: 1.25;
+		margin-top: tokens.$nhs-fdp-spacing-7;
+		margin-bottom: tokens.$nhs-fdp-spacing-3;
+		color: tokens.$nhs-fdp-semantic-color-text-primary;
+		border-bottom: 0;
+	}
+
+	// Size + responsive line-height & margins loop
+	@each $tag, $cfg in $heading-sizes {
+		#{$tag} {
+			font-size: map-get($cfg, font-mobile);
+			line-height: map-get($cfg, lh-mobile);
+			margin-bottom: map-get($cfg, mb-mobile);
+			&:not(:first-child) {
+				margin-top: map-get($cfg, mt-mobile);
+			}
+			@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+				font-size: map-get($cfg, font-tablet);
+				line-height: map-get($cfg, lh-tablet);
+				margin-bottom: map-get($cfg, mb-tablet);
+				&:not(:first-child) {
+					margin-top: map-get($cfg, mt-tablet);
+				}
+			}
+		}
+	}
+
+	p,
+	ul,
+	ol,
+	li,
+	table,
+	pre,
+	blockquote {
+		margin-top: 0;
+		margin-bottom: tokens.$nhs-fdp-spacing-4;
+		font-size: tokens.$nhs-fdp-font-size-19-desktop;
+		line-height: tokens.$nhs-fdp-font-line-height-19-desktop;
+	}
+
+	p,
+	em,
+	li {
+		font-family: $ds-font-stack;
+	}
+
+	a {
+		color: tokens.$nhs-fdp-semantic-color-link-default;
+		&:hover {
+			color: tokens.$nhs-fdp-semantic-color-link-hover;
+		}
+	}
+
+	code,
+	pre code {
+		font-size: 0.875em;
+	}
+
+	table {
+		border-collapse: collapse;
+
+		th,
+		td {
+			padding: tokens.$nhs-fdp-spacing-2 tokens.$nhs-fdp-spacing-3;
+			border: 1px solid tokens.$nhs-fdp-semantic-color-border-default;
+		}
+	}
+
+	// Mermaid diagram tweaks within docs
+	.mermaid-diagram {
+		svg .node rect {
+			rx: 4px;
+		}
+	}
+}

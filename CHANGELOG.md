@@ -6,6 +6,12 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ## Unreleased
 
+### Fixed (Unreleased)
+
+- SPC engine: Corrected early Improvement classification where an increasing trend spanning the mean would mark points still on the adverse side as Improvement. Trend signals now only contribute to Improvement/Concern when the current point lies on the favourable side of the mean (prevents premature positive signalling in datasets like ED 4h Compliance).
+- SPC engine: Two-of-three (2σ) rule now excludes points beyond 3σ from contributing to the 2-of-3 count, aligning with Making Data Count guidance (3σ points remain single-point only).
+
+
 ### Added (Unreleased)
 
 - Shared story utilities module `src/components/DataVisualisation/stories/utils/deterministic.ts` providing date helpers, linear series generator, seeded PRNG.
@@ -14,8 +20,13 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 - Storybook data visualisation stories (Line, FilterableLine, Area, Bar, SPC) now use fully deterministic synthetic datasets (removed all Math.random/Date.now) for stable visual regression and reproducible docs.
 - Header SCSS refactor: eliminated Sass mixed-decls deprecation warnings by reordering declarations and splitting `header-link-style` into base + state mixins.
+- Embedded SPC summary variation icon now shows business polarity letter (H/L = higher-/lower-is-better) instead of side-of-signal when `metricImprovement` is Higher or Lower; retains side-of-signal lettering only for neutral metrics.
 
-_No unreleased changes yet._
+### Deprecated (Unreleased)
+
+- SPCVariationIcon legacy payload shapes `{ state, ... }`, `{ judgement, polarity, trend? }`, and parsimonious union variants are deprecated. Use engine-aligned payload `{ variationIcon, improvementDirection, specialCauseNeutral?, trend? }`. A one-time runtime `console.warn` is emitted when deprecated shapes are detected. Removal planned after stabilising engine-aligned API (target: post 0.0.35 minor).
+
+_No other unreleased changes yet._
 
 ## 0.0.34-alpha.4 - 2025-09-06
 

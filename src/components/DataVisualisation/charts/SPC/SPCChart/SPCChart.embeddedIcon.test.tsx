@@ -129,4 +129,27 @@ describe("SPC embedded icon rendering (deterministic unit)", () => {
 		const path = svg!.querySelector('path[fill="#490092"]');
 		expect(path).toBeTruthy();
 	});
+
+	it("orients neutral special-cause purple arrow downward for low-side signal", () => {
+		// Create descending trend triggering low-side special cause (simulate shift/trend below mean)
+		const start = Date.now();
+		const data = Array.from({ length: 18 }, (_, i) => ({
+			x: new Date(start + i * 86400000),
+			y: 50 - i - (i > 10 ? 5 : 0), // tail drops further to create low signals
+		}));
+		const { container } = renderSSR(
+			<SPCChart
+				data={data}
+				metricImprovement={ImprovementDirection.Neither}
+				showEmbeddedIcon
+				showPoints={false}
+				enableRules
+			/>
+		);
+		const wrapper = container.querySelector('.fdp-spc-chart__embedded-icon');
+		expect(wrapper).toBeTruthy();
+		// Heuristic: downward orientation should include data-trend="lower"
+		const trendAttr = wrapper!.getAttribute('data-trend');
+		expect(trendAttr).toBe('lower');
+	});
 });

@@ -30,7 +30,7 @@ import {
 } from "./logic/spc";
 import { Tag } from '../../../../Tag/Tag';
 import Table from '../../../../Tables/Table';
-import { VariationJudgement, MetricPolarity } from "../SPCIcons/SPCConstants";
+import { MetricPolarity } from "../SPCIcons/SPCConstants";
 import { extractRuleIds, ruleGlossary, variationLabel } from './logic/spcDescriptors';
 
 // Global counter to create stable, unique gradient id bases across multiple SPCChart instances
@@ -62,6 +62,10 @@ export interface SPCChartProps {
 	showIcons?: boolean;
 	/** Render embedded SPC variation icon in chart corner (defaults to true) */
 	showEmbeddedIcon?: boolean;
+	/** Variant style for embedded SPC variation icon (classic triangle / triangleWithRun). */
+	embeddedIconVariant?: 'classic' | 'triangle' | 'triangleWithRun';
+	/** Run length (0-5) for triangleWithRun embedded variation icon variant. Ignored otherwise. */
+	embeddedIconRunLength?: number;
 	/** Optional targets per point (same length order as data) */
 	targets?: (number | null | undefined)[];
 	/** Baseline flags per point to start new partitions */
@@ -110,6 +114,8 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	enableRules = true,
 	showIcons = false,
 	showEmbeddedIcon = true,
+	embeddedIconVariant = 'classic',
+	embeddedIconRunLength,
 	targets: targetsProp,
 	baselines,
 	ghosts,
@@ -290,6 +296,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		const lastRow = engineRows[lastIdx];
 		const variation = lastRow.variationIcon as VariationIcon | undefined;
 		const assuranceRaw = lastRow.assuranceIcon as AssuranceIcon | undefined;
+		const hasNeutralSpecialCause = variation === VariationIcon.Neither && !!lastRow.specialCauseNeitherValue;
 		// Map engine assurance icon (which can be None) to visual AssuranceResult (None -> Uncertain placeholder glyph)
 		const assuranceRenderStatus: AssuranceResult = assuranceRaw === AssuranceIcon.Pass
 			? AssuranceResult.Pass
@@ -314,48 +321,57 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				// Neutral metrics: default to higher to preserve legacy layout
 				trend = Direction.Higher;
 			}
-		}
-		let judgement: VariationJudgement;
-		const hasNeutralSpecialCause = variation === VariationIcon.Neither && !!lastRow.specialCauseNeitherValue;
-		switch (variation) {
-			case VariationIcon.Improvement:
-				judgement = VariationJudgement.Improving;
-				break;
-			case VariationIcon.Concern:
-				judgement = VariationJudgement.Deteriorating;
-				break;
-			case VariationIcon.None:
-				judgement = VariationJudgement.No_Judgement;
-				break;
-			case VariationIcon.Neither:
-			default:
-				judgement = hasNeutralSpecialCause ? VariationJudgement.No_Judgement : VariationJudgement.None;
+		} else if (variation === VariationIcon.Neither && hasNeutralSpecialCause) {
+			// Neutral special-cause (purple) orientation should reflect side of signal (high-side vs low-side)
+			const anyHighSide =
+				lastRow.specialCauseSinglePointAbove ||
+				lastRow.specialCauseTwoOfThreeAbove ||
+				lastRow.specialCauseFourOfFiveAbove ||
+				lastRow.specialCauseShiftHigh ||
+				lastRow.specialCauseTrendIncreasing;
+			const anyLowSide =
+				lastRow.specialCauseSinglePointBelow ||
+				lastRow.specialCauseTwoOfThreeBelow ||
+				lastRow.specialCauseFourOfFiveBelow ||
+				lastRow.specialCauseShiftLow ||
+				lastRow.specialCauseTrendDecreasing;
+			if (anyHighSide && !anyLowSide) trend = Direction.Higher;
+			else if (anyLowSide && !anyHighSide) trend = Direction.Lower;
+			else trend = Direction.Higher; // conflicting or none -> default higher
 		}
 		let polarity: MetricPolarity;
-		if (metricImprovement === ImprovementDirection.Up) {
-			polarity = MetricPolarity.HigherIsBetter;
-		} else if (metricImprovement === ImprovementDirection.Down) {
-			polarity = MetricPolarity.LowerIsBetter;
-		} else {
-			polarity = MetricPolarity.ContextDependent;
-		}
+		if (metricImprovement === ImprovementDirection.Up) polarity = MetricPolarity.HigherIsBetter; else if (metricImprovement === ImprovementDirection.Down) polarity = MetricPolarity.LowerIsBetter; else polarity = MetricPolarity.ContextDependent;
 		const iconSize = 80;
 		return (
 			<div key={`embedded-icon-${lastIdx}`} style={{ display: 'flex', gap: 12, marginRight: 16 }}>
 				<div
 					className="fdp-spc-chart__embedded-icon"
 					data-variation={String(variation)}
-					data-variation-judgement={String(judgement)}
 					data-trend-raw={trend ? String(trend) : 'none'}
 					data-trend={trend ? String(trend) : 'none'}
 					data-polarity={String(polarity ?? 'unknown')}
 					style={{ width: iconSize, height: iconSize }}
 				>
-					<SPCVariationIcon
+						<SPCVariationIcon
 						dropShadow={false}
-						data={{ judgement, polarity, ...(trend ? { trend } : {}) }}
-						letterMode="direction"
+						data={{ variationIcon: variation!, improvementDirection: metricImprovement, polarity, specialCauseNeutral: hasNeutralSpecialCause, highSideSignal: (
+							lastRow.specialCauseSinglePointAbove ||
+							lastRow.specialCauseTwoOfThreeAbove ||
+							lastRow.specialCauseFourOfFiveAbove ||
+							lastRow.specialCauseShiftHigh ||
+							lastRow.specialCauseTrendIncreasing
+						), lowSideSignal: (
+							lastRow.specialCauseSinglePointBelow ||
+							lastRow.specialCauseTwoOfThreeBelow ||
+							lastRow.specialCauseFourOfFiveBelow ||
+							lastRow.specialCauseShiftLow ||
+							lastRow.specialCauseTrendDecreasing
+						), ...(trend ? { trend } : {}) }}
+						// Letter semantics: use polarity (business improvement direction) when specified; fall back to signal side for neutral metrics
+						letterMode={metricImprovement === ImprovementDirection.Neither ? 'direction' : 'polarity'}
 						size={iconSize}
+						variant={embeddedIconVariant}
+						runLength={embeddedIconVariant === 'triangleWithRun' ? embeddedIconRunLength : undefined}
 					/>
 				</div>
 				{/* Always render assurance icon (mapping 'none' -> Uncertain placeholder) for consistent dual-icon display */}
@@ -368,7 +384,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				</div>
 			</div>
 		);
-	}, [showEmbeddedIcon, engine?.rows, metricImprovement, settings?.minimumPoints, targetsProp]);
+	}, [showEmbeddedIcon, engine?.rows, metricImprovement, settings?.minimumPoints, targetsProp, embeddedIconVariant, embeddedIconRunLength]);
 
 	return (
 		<div className={className ? `fdp-spc-chart-wrapper ${className}` : 'fdp-spc-chart-wrapper'}>

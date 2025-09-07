@@ -1,10 +1,13 @@
 import { AllVariationIcons, AllAssuranceIcons } from './SPCIcons.stories';
 import { SPCVariationIcon } from './SPCIcon';
 import { SPCAssuranceIcon } from './SPCAssuranceIcon';
+import { SPCChart, ImprovementDirection } from '../SPCChart/SPCChart';
+import ShiftPolarityExamples from './examples/ShiftPolarityExamples';
 import React from 'react';
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Data Visualisation/SPC/Guides/SPC Icons" name="SPC Icons Guide" />
+
+<Meta title="Data Visualisation/SPC/SPCIcons/Documentation" name="SPC Icons Guide" />
 
 # SPC Icons
 
@@ -34,11 +37,40 @@ They may appear:
 
 A single favourable 3σ point (isolated spike) is *suppressed* (mapped from Improvement/Concern to `None`) to avoid over‑interpreting an uncorroborated outlier. The purple arrow still conveys direction (based on metric improvement polarity and which single‑point rule fired) but removes value judgement.
 
-### Direction / Trend Orientation
+### Direction / Letter Semantics
 
-- Improvement / Concern states derive direction from variation judgement & metric polarity and display letter **H**/**L**.
-- No Judgement (`None`) arrow orientation is inferred so that it points toward the favourable side when suppression occurred.
-- Common Cause renders neutral grey points and ring; no letter or arrow.
+The icon encodes TWO orthogonal concepts: (a) which *side* of the mean the special cause signal sits (high‑side vs low‑side) and (b) the *business polarity* (is higher or lower preferable for this metric). To reduce ambiguity the embedded (summary) icon now chooses the letter dynamically:
+
+| Context | Letter Mode | Meaning of **H** | Meaning of **L** |
+|---------|-------------|------------------|------------------|
+| Embedded summary icon & `metricImprovement = higher` | Polarity | "Higher is better" metric | – (will rarely render L unless a deteriorating low‑side signal has a letter) |
+| Embedded summary icon & `metricImprovement = lower` | Polarity | – | "Lower is better" metric |
+| Embedded summary icon & `metricImprovement = neither` | Signal side | High‑side special cause | Low‑side special cause |
+| Standalone `SPCVariationIcon` (default) | Direction (unless you pass `letterMode`) | High‑side signal | Low‑side signal |
+
+Additional rules:
+- Suppressed favourable single 3σ points (purple) still orient the arrow/triangle toward the favourable side, but their letter follows the same mode logic above.
+- Common cause (no special cause) has no directional letter.
+- You can always override by supplying `letterMode` (`'direction' | 'polarity'`) directly to `SPCVariationIcon`.
+
+#### Why this change?
+
+Early feedback showed users misread **H**/**L** as business polarity when in fact they sometimes meant signal side. Aligning letters with polarity when one exists (higher or lower is better) removes that mismatch; in neutral contexts we revert to side labelling because there is no intrinsic polarity to show.
+
+#### Embedded Summary Examples (Shift Scenario)
+
+The following example component renders the same shift dataset three times with different polarity settings to illustrate colour + letter changes:
+
+```tsx
+<ShiftPolarityExamples />
+```
+
+<ShiftPolarityExamples />
+
+Notice:
+1. Colour flips from blue (improvement) to orange (concern) when business polarity reverses, but the shift is the same data.
+2. The letter reports polarity when defined (first two charts) and reverts to side (high‑side) when polarity is neutral (third chart).
+3. Orientation (triangle / arrow direction) is always the side of the signal; letter overlays business semantics only when meaningful.
 
 ## Assurance States
 
@@ -85,22 +117,38 @@ Avoid using the wash if icons sit on coloured backgrounds that already provide s
 
 ## Usage Examples
 
-### Basic Variation Icon
+### Basic Variation Icon (Engine Payload)
 
 ```tsx
 <SPCVariationIcon data={{ variationIcon: 'improvement' }} />
 ```
 
-### Variation Icon With Explicit Direction (No Judgement)
+### Variation Icon With Explicit Direction (No Judgement / Suppressed)
 
 ```tsx
 <SPCVariationIcon data={{ variationIcon: 'none', trend: 'lower' }} />
 ```
 
-### Derived (Judgement + Polarity) Form
+### Deprecated Forms
 
+The following input shapes are deprecated and will be removed in a future minor release:
+
+| Deprecated | Replacement |
+|------------|-------------|
+| `{ judgement, polarity, trend? }` | `{ variationIcon, improvementDirection, trend? }` |
+| `{ state, trend, polarity }` | `{ variationIcon, improvementDirection }` |
+| Parsimonious union variants | Engine payload |
+
+Rationale: aligning the icon API with the SPC engine (`VariationIcon` + `ImprovementDirection`) removes duplicate mapping logic and ambiguity between judgement vs icon enum terminology. Neutral purple behaviour now uses `variationIcon: 'neither'` with `specialCauseNeutral: true`.
+
+Legacy example (deprecated):
 ```tsx
+// Deprecated
 <SPCVariationIcon data={{ judgement: 'improving', polarity: 'lower_is_better' }} />
+```
+Engine-aligned replacement:
+```tsx
+<SPCVariationIcon data={{ variationIcon: 'improvement', improvementDirection: 'down' }} />
 ```
 
 ### Assurance Icon Standalone
@@ -163,6 +211,9 @@ Below are the live icon matrices (sourced from `SPCIcons.stories`).
 
 ## Accessibility
 
+### Deprecation Impact
+No accessibility changes are required for migration. Engine payload keeps existing aria logic; deprecated forms continue to work until removal but emit TypeScript @deprecated warnings.
+
 - Icons supply `aria-label` and rich `aria-description` strings derived from variation judgement, direction, and optional narrative context.
 - Purple suppression state deliberately omits value judgement words (“improvement” / “deterioration”) to prevent misleading assistive narration.
 - Gradient wash maintains WCAG AA contrast for glyphs (letters/arrow) because glyphs use solid state colour, not gradient stops.
@@ -189,3 +240,4 @@ Below are the live icon matrices (sourced from `SPCIcons.stories`).
 | 2025-08-XX | Added `gradientWash` option to all SPC icons. |
 | 2025-08-XX | Introduced suppression mapping to `None` for isolated favourable 3σ points & orientation logic. |
 | 2025-08-XX | Embedded dual Variation + Assurance icons in `SPCChart`. |
+| 2025-09-XX | Embedded summary icon letters switch to business polarity (H/L) except when metric improvement is neutral (side labelling retained). |

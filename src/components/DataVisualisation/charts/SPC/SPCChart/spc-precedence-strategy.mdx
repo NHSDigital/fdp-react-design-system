@@ -1,16 +1,30 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import Table from '../../../../Tables/Table';
+
+<Meta title="Data Visualisation/SPC/SPC Precedence & Directional Strategy"/>
+
 ## SPC Precedence & Directional Strategy
 
 ### Background
 
 Legacy variation classification picked the icon per row using a simple side-based rule aggregation:
 
-```text
-anyHigh = (single 3σ above) OR (2 of 3 above 2σ) OR (4 of 5 above 1σ) OR (shift high) OR (trend increasing)
-anyLow  = (mirrored low-side rules)
+```ts
+import { ImprovementDirection, VariationIcon } from './logic/spc';
 
-metricImprovement = Down:
-  Improvement if anyLow else Concern if anyHigh else Neither
-metricImprovement = Up swaps sides.
+// Legacy side aggregation (conceptual)
+const anyHigh = singlePointHigh || twoOfThreeHigh || fourOfFiveHigh || shiftHigh || (trendIncreasing && currentPointAboveMean);
+const anyLow  = singlePointLow  || twoOfThreeLow  || fourOfFiveLow  || shiftLow  || (trendDecreasing && currentPointBelowMean);
+
+function classify(metricImprovement: ImprovementDirection): VariationIcon {
+  if (metricImprovement === ImprovementDirection.Down) {
+    return anyLow ? VariationIcon.Improvement : anyHigh ? VariationIcon.Concern : VariationIcon.Neither;
+  }
+  if (metricImprovement === ImprovementDirection.Up) {
+    return anyHigh ? VariationIcon.Improvement : anyLow ? VariationIcon.Concern : VariationIcon.Neither;
+  }
+  return VariationIcon.Neither; // ImprovementDirection.Neither
+}
 ```
 
 This produced unintuitive colouring in transitional phases – e.g. a *progressive decline* (favourable for metrics where lower is better) still coloured several points as Concern because high-side location-based rules (shift/cluster) remained active before a formal monotonic trend rule triggered.
@@ -25,14 +39,52 @@ New behaviour aligns with internal guidance:
 
 ### New Settings (Opt‑In)
 
-Added to `SpcSettings` (defaults preserve legacy behaviour):
+Added to `SpcSettings` (defaults preserve legacy behaviour). The string union has been replaced by the `PrecedenceStrategy` enum for stronger typing:
 
-| Setting | Type | Default | Purpose |
-|---------|------|---------|---------|
-| `precedenceStrategy` | `'legacy' \| 'directional_first'` | `legacy` | Enables new precedence algorithm |
-| `emergingDirectionGrace` | `boolean` | `false` | Allows near-complete (N-1) favourable run to neutralise unfavourable classification early |
-| `transitionBufferPoints` | `number` | `2` | Grace buffer before flipping when opposing sustained signals compete |
-| `collapseClusterRules` | `boolean` | `true` | Removes weaker cluster rule (2-of-3) when 4-of-5 also fires on same side |
+```ts
+export enum PrecedenceStrategy {
+  Legacy = 'legacy',
+  DirectionalFirst = 'directional_first',
+}
+```
+
+<Table 
+  caption="SPC precedence & directional settings"
+  captionSize="m"
+  firstCellIsHeader
+  head={[
+    { text: 'Setting' },
+    { text: 'Purpose' },
+    { text: 'Type' },
+    { text: 'Default' },
+  ]}
+  rows={[
+    [
+      { code: 'precedenceStrategy' },
+      { text: 'Select precedence algorithm' },
+      { text: 'PrecedenceStrategy (Legacy / DirectionalFirst)' },
+      { code: 'Legacy' },
+    ],
+    [
+      { code: 'emergingDirectionGrace' },
+      { text: 'Allows near-complete (N-1) favourable run to neutralise unfavourable classification early' },
+      { code: 'boolean' },
+      { code: 'false' },
+    ],
+    [
+      { code: 'transitionBufferPoints' },
+      { text: 'Grace buffer before flipping when opposing sustained signals compete' },
+      { code: 'number' },
+      { code: '2' },
+    ],
+    [
+      { code: 'collapseClusterRules' },
+      { text: 'Removes weaker cluster rule (2-of-3) when 4-of-5 also fires on same side' },
+      { code: 'boolean' },
+      { code: 'true' },
+    ],
+  ]}
+/>
 
 ### Directional First Algorithm (Simplified)
 
@@ -61,9 +113,15 @@ The directional-first approach reduces “false negative” perception where use
 
 ### Migration Guidance
 
-1. Enable per chart via `settings={{ precedenceStrategy: 'directional_first', emergingDirectionGrace: true }}`.
-2. Validate narrative & colour alignment on representative metrics (improvement vs deterioration examples).
-3. Optionally display a legend / footnote indicating precedence mode if mixed strategies are deployed across dashboards.
+1. Enable per chart via:
+
+```tsx
+<SPCChart settings={{ precedenceStrategy: PrecedenceStrategy.DirectionalFirst, emergingDirectionGrace: true }} />
+```
+
+1. Validate narrative & colour alignment on representative metrics (improvement vs deterioration examples).
+
+1. Optionally display a legend / footnote indicating precedence mode if mixed strategies are deployed across dashboards.
 
 ### Future Enhancements (Not Yet Implemented)
 
@@ -80,4 +138,4 @@ New tests (see `spc.precedence.logic.test.ts`) assert:
 
 ### Opt-Out
 
-Remain on `precedenceStrategy: 'legacy'` for unchanged historical behaviour while evaluating impact.
+Remain on `precedenceStrategy: PrecedenceStrategy.Legacy` for unchanged historical behaviour while evaluating impact.

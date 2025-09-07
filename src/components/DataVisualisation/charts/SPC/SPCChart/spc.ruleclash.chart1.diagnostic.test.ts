@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildSpc, ImprovementDirection, VariationIcon } from './logic/spc';
+import { buildSpc, ImprovementDirection, VariationIcon, PrecedenceStrategy, ChartType } from './logic/spc';
 
 // Chart1 dataset from SPCRuleClashExamples (staff sickness) – dates as YYYY-MM
 const chart1 = [
@@ -14,8 +14,8 @@ const toData = (series: { x: string; y: number }[]) => series.map(p => ({ x: new
 describe('RuleClash Chart1 diagnostic (directional_first vs legacy)', () => {
   it('logs per-row flags and validates concern classification for high months', () => {
     const data = toData(chart1);
-    const legacy = buildSpc({ chartType:'XmR', metricImprovement: ImprovementDirection.Down, data, settings:{ precedenceStrategy:'legacy' }});
-    const directional = buildSpc({ chartType:'XmR', metricImprovement: ImprovementDirection.Down, data, settings:{ precedenceStrategy:'directional_first', emergingDirectionGrace:true }});
+  const legacy = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down, data, settings:{ precedenceStrategy: PrecedenceStrategy.Legacy }});
+  const directional = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down, data, settings:{ precedenceStrategy: PrecedenceStrategy.DirectionalFirst, emergingDirectionGrace:true }});
 
     // Build a compact table of key fields for directional strategy
     const rows = directional.rows.map((r,i) => ({

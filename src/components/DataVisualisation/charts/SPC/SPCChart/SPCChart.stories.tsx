@@ -11,6 +11,7 @@ import { seedPRNG } from "../../../stories/utils/deterministic";
 import { ChartContainer } from "../../ChartContainer.tsx";
 // Use top-level component barrel for Heading/Table/List (navigate up to components root)
 import { Heading, Table, List } from "../../../../";
+import { ChartType } from './logic/spc';
 
 const meta: Meta<typeof SPCChart> = {
 	title: "Data Visualisation/SPC/Individuals",
@@ -95,7 +96,7 @@ export const Signals: Story = {
 			>
 				<SPCChart
 					data={mutated}
-					chartType="XmR"
+					chartType={ChartType.XmR}
 					metricImprovement={ImprovementDirection.Up}
 					announceFocus
 					gradientSequences={true}
@@ -138,7 +139,7 @@ export const DownIsBetter: Story = {
 			>
 				<SPCChart
 					data={data}
-					chartType="XmR"
+					chartType={ChartType.XmR}
 					// settings placeholder (no isolated favourable suppression in deterministic demo)
 					metricImprovement={ImprovementDirection.Down}
 					gradientSequences={true}
@@ -173,7 +174,7 @@ export const UpIsBetter: Story = {
 			>
 				<SPCChart
 					data={data}
-					chartType="XmR"
+					chartType={ChartType.XmR}
 					// settings placeholder (no isolated favourable suppression in deterministic demo)
 					metricImprovement={ImprovementDirection.Up}
 					unit="%"
@@ -223,7 +224,7 @@ export const TChartRareEvents: Story = {
 			>
 				<SPCChart
 					data={mutated}
-					chartType="T"
+					chartType={ChartType.T}
 					metricImprovement={ImprovementDirection.Up}
 					announceFocus
 					gradientSequences={true}
@@ -260,7 +261,7 @@ export const GChartRareEvents: Story = {
 			>
 				<SPCChart
 					data={mutated}
-					chartType="G"
+					chartType={ChartType.G}
 					metricImprovement={ImprovementDirection.Up}
 					announceFocus
 					gradientSequences={true}
@@ -298,13 +299,13 @@ export const AssuranceCapability: Story = {
 			return (
 				<div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 					<ChartContainer title="Capability: Pass" description="Process consistently above target" source="Synthetic data">
-						<SPCChart data={passData} targets={passTargets} chartType="XmR" metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences narrationContext={{ measureName: 'Capability metric', datasetContext: 'Process band entirely favourable', additionalNote: 'Pass scenario' }} />
+						<SPCChart data={passData} targets={passTargets} chartType={ChartType.XmR} metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences narrationContext={{ measureName: 'Capability metric', datasetContext: 'Process band entirely favourable', additionalNote: 'Pass scenario' }} />
 					</ChartContainer>
 					<ChartContainer title="Capability: Fail" description="Process consistently below target" source="Synthetic data">
-						<SPCChart data={failData} targets={failTargets} chartType="XmR" metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences narrationContext={{ measureName: 'Capability metric', datasetContext: 'Process band entirely unfavourable', additionalNote: 'Fail scenario' }} />
+						<SPCChart data={failData} targets={failTargets} chartType={ChartType.XmR} metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences narrationContext={{ measureName: 'Capability metric', datasetContext: 'Process band entirely unfavourable', additionalNote: 'Fail scenario' }} />
 					</ChartContainer>
 					<ChartContainer title="Capability: Uncertain" description="Process band overlaps target (no assurance icon)" source="Synthetic data">
-						<SPCChart data={uncertainData} targets={uncertainTargets} chartType="XmR" metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences narrationContext={{ measureName: 'Capability metric', datasetContext: 'Process band overlaps target', additionalNote: 'Uncertain scenario' }} />
+						<SPCChart data={uncertainData} targets={uncertainTargets} chartType={ChartType.XmR} metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences narrationContext={{ measureName: 'Capability metric', datasetContext: 'Process band overlaps target', additionalNote: 'Uncertain scenario' }} />
 					</ChartContainer>
 				</div>
 			);
@@ -439,7 +440,7 @@ Disable via gradientSequences={false} (default). Useful for storytelling views h
 			>
 				<SPCChart
 					data={mutated}
-					chartType="XmR"
+					chartType={ChartType.XmR}
 					metricImprovement={ImprovementDirection.Up}
 					gradientSequences
 					announceFocus

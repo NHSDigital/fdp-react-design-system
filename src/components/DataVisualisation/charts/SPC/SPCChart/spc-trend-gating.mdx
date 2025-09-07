@@ -1,0 +1,91 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { TrendGatingEmbeddedHigh } from './TrendGatingEmbeddedHighStory';
+import Mermaid from '../../../../_internal/Mermaid';
+
+<Meta title="Data Visualisation/SPC/Trend Gating Rationale"/>
+
+## Trend Side‑Gating & Neutral (Purple) Points
+
+This note explains why **early monotonic trend points that are still on the *unfavourable* side of the mean** now render in the **neutral purple special‑cause colour** (instead of immediately showing Improvement / Concern).
+
+### What Changed
+
+Previously a strictly increasing (or decreasing) 6‑point run would immediately colour as Improvement (or Concern) once the rule length threshold was reached, *even if those points had not yet crossed onto the favourable side of the mean*.
+
+The engine now applies **side gating**:
+
+| Rule Flag | Value Side vs Mean | Metric Direction (example: High is good) | Variation Icon | Colour |
+|-----------|--------------------|-------------------------------------------|----------------|--------|
+| `specialCauseTrendIncreasing` | Below mean | High is good | Neither (neutral special cause) | Purple |
+| `specialCauseTrendIncreasing` | Above mean | High is good | Improvement | Blue |
+| `specialCauseTrendDecreasing` | Above mean | High is good | Neither (neutral) | Purple |
+| `specialCauseTrendDecreasing` | Below mean | High is good | Concern | Orange |
+
+The same logic mirrors for *Low is good* (favourable side inverted). Neutral direction always yields `Neither`.
+
+### Rationale
+
+1. **Avoid Premature Conclusions** – A rising sequence while still below the mean has not yet demonstrated improved performance; classifying too early biases interpretation.
+2. **Reduces False Celebrations / Alerts** – Analysts were previously seeing “Improvement” icons before any actual favourable shift materialised.
+3. **Consistency With Other Side‑Sensitive Rules** – Shift and two‑of‑three logic already require being stably on one side of the mean; trend gating brings parity.
+4. **Diagnostic Transparency** – Purple indicates *“emerging special cause pattern detected, but not yet favourable/unfavourable in outcome terms”*.
+
+### Illustration (Dataset Story)
+
+Below, view the story: the mid‑series increasing points (e.g. 17 & 18 January) are *still below the mean* so they are purple although the trend rule has fired. Once later points rise above the mean, Improvement (blue) icons appear.
+
+<TrendGatingEmbeddedHigh />
+
+### Visual Decision Flow
+
+<Mermaid>{`flowchart TD
+  A[Trend length >= N & Monotonic] --> B{Metric Direction};
+  B -->|Neutral| C[Neutral • Purple];
+
+  B -->|High is good| D{Value > Mean?};
+  D -->|Yes| E[Improvement];
+  D -->|No| C;
+
+  B -->|Low is good| F{Value < Mean?};
+  F -->|Yes| E2[Improvement];
+  F -->|No| C;
+`}</Mermaid>
+
+### Under the Hood
+
+Pseudocode of the gating step (conceptual):
+
+```ts
+for (const row of rows) {
+  if (row.specialCauseTrendIncreasing) {
+    const favourable = direction === 'Up' ? row.value > mean : direction === 'Down' ? row.value < mean : false;
+    if (!favourable) row.variationIcon = 'neither';
+  }
+  if (row.specialCauseTrendDecreasing) {
+    const favourable = direction === 'Up' ? row.value < mean : direction === 'Down' ? row.value > mean : false;
+    if (!favourable) row.variationIcon = 'neither';
+  }
+}
+```
+
+### Test Coverage
+
+Trend side‑gating behaviour is enforced by multiple tests:
+
+| Test File | Purpose |
+|-----------|---------|
+| `spc.trendSideGate.client.test.ts` | Core regression: trend while on adverse side stays neutral. |
+| `spc.trendEdgeCases.client.test.ts` | Entire trend below elevated mean → no premature Improvement. |
+| `spc.trendCrossMeanEdge.client.test.ts` | Crossing the mean: only post‑cross points classed as Improvement. |
+| `spc.trendAlternatingMixed.client.test.ts` | Alternating / partial trends don’t leak Improvement/Concern early. |
+| `spc.mixedPrecedence.client.test.ts` | Integrated scenario (trend + clusters + final opposite signal). |
+| `__tests__/spc.ed4h.debug.test.ts` | Real metric regression (ED 4h) – blocks prior premature Improvement. |
+
+
+
+### Summary
+
+Purple trend points = **valid special cause detection** held in *neutral* state until outcome is evidenced by crossing the mean into the favourable zone. This preserves statistical sensitivity (rule still fires at 6 points) while delaying directional interpretation for better analytical accuracy.
+
+---
+**See also:** `spc-test-coverage.mdx` (sections 1 & 8) for broader trend rule context.

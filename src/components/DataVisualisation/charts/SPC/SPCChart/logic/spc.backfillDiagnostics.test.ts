@@ -1,6 +1,8 @@
 import { buildSpc, ImprovementDirection } from './spc';
 import { resolvedSpcTestCases, mapDirection } from '../test-data/spcTestCases';
 
+import { ChartType } from './spc';
+
 // Default rule lengths (mirrors code defaults)
 const SHIFT_N = 6;
 const TREND_N = 6;
@@ -15,7 +17,7 @@ describe('SPC special cause retroactive flag diagnostics', () => {
 
     for (const tc of resolvedSpcTestCases) {
       const data = tc.values.map((v,idx)=> ({ x: idx+1, value: v }));
-      const res = buildSpc({ chartType: 'XmR', metricImprovement: mapDirection(tc.direction), data });
+      const res = buildSpc({ chartType: ChartType.XmR, metricImprovement: mapDirection(tc.direction), data });
       const rows = res.rows;
       const nonGhostIdx = getNonGhostNumericIndices(rows);
 

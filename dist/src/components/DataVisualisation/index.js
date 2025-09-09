@@ -12447,6 +12447,7 @@ __export(SPC_exports, {
   BaselineSuggestionReason: () => BaselineSuggestionReason,
   ChartType: () => ChartType,
   Direction: () => Direction,
+  Icons: () => icons_exports,
   ImprovementDirection: () => ImprovementDirection,
   MetricPolarity: () => MetricPolarity,
   SPCAssuranceIcon: () => SPCAssuranceIcon,
@@ -12468,6 +12469,20 @@ __export(SPC_exports, {
   getVariationTrend: () => getVariationTrend,
   ruleGlossary: () => ruleGlossary,
   variationLabel: () => variationLabel
+});
+
+// src/components/DataVisualisation/charts/SPC/icons.ts
+var icons_exports = {};
+__export(icons_exports, {
+  AssuranceResult: () => AssuranceResult,
+  Direction: () => Direction,
+  MetricPolarity: () => MetricPolarity,
+  SPCAssuranceIcon: () => SPCAssuranceIcon,
+  SPCVariationIcon: () => SPCVariationIcon,
+  VariationJudgement: () => VariationJudgement,
+  VariationState: () => VariationState,
+  getVariationColour: () => getVariationColour,
+  getVariationTrend: () => getVariationTrend
 });
 export {
   AreaSeriesPrimitive_default as AreaSeriesPrimitive,

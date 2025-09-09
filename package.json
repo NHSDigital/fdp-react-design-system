@@ -139,6 +139,11 @@
       "import": "./dist/src/components/DataVisualisation/charts/SPC/index.js",
       "require": "./dist/src/components/DataVisualisation/charts/SPC/index.js"
     },
+    "./components/DataVisualisation/charts/SPC/icons": {
+      "types": "./dist/src/components/DataVisualisation/charts/SPC/icons.d.ts",
+      "import": "./dist/src/components/DataVisualisation/charts/SPC/icons.js",
+      "require": "./dist/src/components/DataVisualisation/charts/SPC/icons.js"
+    },
     "./components/DataVisualisation/css": "./dist/components/DataVisualisation/DataVisualisation.css",
     "./components/SortableDataTable/SortStatusControl/SortStatusControl/css": "./dist/components/SortableDataTable/SortStatusControl/SortStatusControl.css",
     "./pure": {

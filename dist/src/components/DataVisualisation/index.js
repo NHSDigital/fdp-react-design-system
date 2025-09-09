@@ -4,13 +4,7 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __require = /* @__PURE__ */ ((x2) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x2, {
-  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
-}) : x2)(function(x2) {
-  if (typeof require !== "undefined") return require.apply(this, arguments);
-  throw Error('Dynamic require of "' + x2 + '" is not supported');
-});
-var __commonJS = (cb, mod) => function __require2() {
+var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 var __export = (target, all) => {
@@ -1643,6 +1637,1125 @@ var require_prism_json = __commonJS({
       }
     };
     Prism.languages.webmanifest = Prism.languages.json;
+  }
+});
+
+// packages/nhs-fdp/dist/js/tokens.json
+var require_tokens = __commonJS({
+  "packages/nhs-fdp/dist/js/tokens.json"(exports, module) {
+    module.exports = {
+      animation: {
+        duration: {
+          fast: "150ms",
+          normal: "300ms",
+          slow: "500ms"
+        },
+        easing: {
+          "ease-in": "cubic-bezier(0.4, 0, 1, 1)",
+          "ease-out": "cubic-bezier(0, 0, 0.2, 1)",
+          "ease-in-out": "cubic-bezier(0.4, 0, 0.2, 1)",
+          bounce: "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
+        }
+      },
+      transition: {
+        button: {
+          default: "background-color 300ms cubic-bezier(0, 0, 0.2, 1)",
+          shadow: "box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)"
+        },
+        input: {
+          focus: "border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)"
+        },
+        card: {
+          hover: "border-color 300ms cubic-bezier(0, 0, 0.2, 1)"
+        }
+      },
+      border: {
+        width: {
+          default: "1px",
+          "form-element": "2px",
+          "form-element-error": "4px",
+          "card-bottom": "4px",
+          panel: "8px",
+          "table-header": "2px",
+          "table-cell": "1px",
+          semantic: {
+            thin: "1px",
+            standard: "2px",
+            thick: "4px"
+          }
+        },
+        radius: {
+          none: "0px",
+          small: "4px",
+          medium: "8px",
+          large: "12px"
+        },
+        color: {
+          default: "#d8dde0",
+          form: "#4c6272",
+          card: "#d8dde0",
+          "card-hover": "#aeb7bd",
+          error: "#d5281b"
+        }
+      },
+      color: {
+        primary: {
+          blue: "#005eb8",
+          "blue-active": "#002f5c",
+          white: "#ffffff",
+          black: "#212b32",
+          green: "#007f3b",
+          purple: "#330072",
+          "dark-pink": "#7c2855",
+          red: "#d5281b",
+          "light-purple": "#880fb8",
+          yellow: "#ffeb3b"
+        },
+        secondary: {
+          "pale-yellow": "#fff9c4",
+          "warm-yellow": "#ffb81c",
+          "region-yellow": "#fae100",
+          orange: "#ed8b00",
+          tangerine: "#ed4f00",
+          "aqua-green": "#00a499",
+          "light-blue": "#41b6e6",
+          pink: "#ae2573",
+          "bright-pink": "#e317aa",
+          "light-green": "#78be20",
+          brown: "#9a6324"
+        },
+        grey: {
+          "1": "#4c6272",
+          "2": "#768692",
+          "3": "#aeb7bd",
+          "4": "#d8dde0",
+          "5": "#f0f4f5"
+        },
+        accessibility: {
+          "okabe-ito": {
+            green: "#009e73",
+            vermillion: "#d55e00"
+          },
+          "cvd-safe": {
+            blue: "#1f77b4",
+            orange: "#ff7f0e"
+          },
+          positive: "#009e73",
+          negative: "#d55e00"
+        },
+        "data-viz": {
+          categorical: {
+            "1": "#005eb8",
+            "2": "#41b6e6",
+            "3": "#00a499",
+            "4": "#78be20",
+            "5": "#007f3b",
+            "6": "#ffb81c",
+            "7": "#ed4f00",
+            "8": "#ae2573",
+            "9": "#e317aa",
+            "10": "#880fb8",
+            "11": "#330072",
+            "12": "#9a6324"
+          },
+          neutral: {
+            comparison: "#4c6272"
+          },
+          region: {
+            "north-east": "#005eb8",
+            "north-west": "#41b6e6",
+            "east-of-england": "#330072",
+            midlands: "#ae2573",
+            london: "#78be21",
+            "south-west": "#fae100",
+            "south-east": "#ed8b00"
+          },
+          severity: {
+            low: "#fff9c4",
+            moderate: "#ffb81c",
+            high: "#ed8b00",
+            critical: "#d5281b"
+          },
+          "org-level": {
+            trust: "#005eb8",
+            ambulance: "#007f3b",
+            icb: "#7c2855",
+            region: "#330072"
+          },
+          stroke: {
+            categorical: {
+              "1": "#ffffff",
+              "2": "#212b32",
+              "3": "#212b32",
+              "4": "#212b32",
+              "5": "#ffffff",
+              "6": "#212b32",
+              "7": "#ffffff",
+              "8": "#ffffff",
+              "9": "#ffffff",
+              "10": "#ffffff",
+              "11": "#ffffff",
+              "12": "#ffffff"
+            },
+            region: {
+              "north-east": "#5996d1",
+              "north-west": "#3189ad",
+              "east-of-england": "#7a59a3",
+              midlands: "#ca71a4",
+              london: "#5a8f19",
+              "south-west": "#bca900",
+              "south-east": "#b26800"
+            },
+            severity: {
+              low: "#212b32",
+              moderate: "#212b32",
+              high: "#212b32",
+              critical: "#ffffff"
+            },
+            "org-level": {
+              trust: "#ffffff",
+              ambulance: "#ffffff",
+              icb: "#ffffff",
+              region: "#ffffff"
+            }
+          },
+          spc: {
+            improvement: "#00b0f0",
+            concern: "#e46c0a",
+            "no-judgement": "#490092",
+            "common-cause": "#a6a6a6",
+            "assurance-pass": "#00823b",
+            "assurance-fail": "#da291c",
+            gradient: {
+              stop: {
+                "start-opacity": "0.18",
+                "mid-opacity": "0.06",
+                "end-opacity": "0",
+                "triangle-start-opacity": "0.18",
+                "triangle-mid-opacity": "0.06",
+                "triangle-end-opacity": "0"
+              }
+            },
+            stroke: {
+              improvement: "#000000",
+              concern: "#000000",
+              "no-judgement": "#000000",
+              "common-cause": "#ffffff",
+              "assurance-pass": "#000000",
+              "assurance-fail": "#000000"
+            }
+          }
+        }
+      },
+      component: {
+        button: {
+          padding: {
+            mobile: {
+              vertical: "8px",
+              horizontal: "16px"
+            },
+            desktop: {
+              vertical: "12px",
+              horizontal: "16px"
+            }
+          },
+          shadow: {
+            size: "4px"
+          }
+        },
+        form: {
+          input: {
+            "min-height": "40px",
+            padding: "4px"
+          },
+          checkbox: {
+            size: "40px",
+            "label-padding": "12px"
+          }
+        },
+        card: {
+          padding: {
+            mobile: "16px",
+            desktop: "32px"
+          },
+          "heading-margin": "16px"
+        },
+        panel: {
+          padding: {
+            mobile: "20px",
+            desktop: "28px"
+          }
+        },
+        breadcrumb: {
+          chevron: {
+            "margin-left": "9px",
+            "margin-right": "2px"
+          },
+          "padding-top": {
+            mobile: "16px",
+            desktop: "24px"
+          }
+        },
+        "summary-list": {
+          "cell-padding": {
+            vertical: "8px",
+            horizontal: "24px"
+          },
+          "row-margin": "16px"
+        },
+        disclosure: {
+          "icon-offset": "20px",
+          "icon-size": "32px",
+          "icon-position-offset": "16px"
+        },
+        "icon-text": {
+          gap: "38px",
+          "gap-small": "26px"
+        },
+        warning: {
+          "icon-offset": "33px",
+          "icon-offset-mobile": "25px",
+          "icon-top": "16px",
+          "icon-top-mobile": "8px"
+        },
+        guidance: {
+          "icon-size": "34px",
+          "icon-position-top": "2px",
+          "icon-position-top-print": "4px",
+          "content-padding": "40px",
+          "content-padding-small": "32px",
+          "tick-size": "28px"
+        },
+        header: {
+          "logo-min-width": "100px",
+          "logo-height": "40px",
+          "search-button-width": "44px",
+          "search-icon-size": "24px",
+          "menu-icon-size": "28px"
+        },
+        task: {
+          "padding-adjustment": "4px"
+        },
+        tag: {
+          "padding-adjustment": "2px"
+        },
+        tabs: {
+          "border-width": "1px",
+          "border-compensation": "1px",
+          "padding-multiplier": "1.5"
+        },
+        details: "8px",
+        navigation: {
+          dropdown: {
+            "item-padding": "6px",
+            "logo-margin": "32px"
+          }
+        },
+        expander: "4px",
+        print: {
+          "icon-adjustment": "4px",
+          "logo-height": "32px"
+        },
+        spread: "4px",
+        blur: "4px",
+        link: "4px",
+        pagination: "16px"
+      },
+      button: {
+        primary: {
+          background: {
+            default: "#007f3b",
+            hover: "#006530",
+            active: "#00401e",
+            disabled: "#d8dde0"
+          },
+          text: {
+            default: "#ffffff",
+            disabled: "#768692"
+          },
+          border: {
+            default: "#00000000",
+            focus: "#ffeb3b"
+          }
+        },
+        secondary: {
+          background: {
+            default: "#00000000",
+            solid: "#ffffff",
+            hover: "#d9e5f2",
+            active: "#c7daf0"
+          },
+          text: {
+            default: "#005eb8"
+          },
+          border: {
+            default: "#005eb8"
+          }
+        },
+        spacing: {
+          "padding-vertical-mobile": "8px",
+          "padding-horizontal-mobile": "16px",
+          "padding-vertical-desktop": "12px",
+          "padding-horizontal-desktop": "16px"
+        },
+        border: {
+          width: "2px",
+          radius: "4px"
+        },
+        shadow: {
+          size: "4px"
+        },
+        typography: {
+          weight: "600"
+        }
+      },
+      card: {
+        background: {
+          default: "#ffffff"
+        },
+        border: {
+          default: "#d8dde0",
+          hover: "#aeb7bd",
+          bottom: "#f0f4f5"
+        },
+        text: {
+          heading: "#212b32",
+          description: "#212b32",
+          link: "#005eb8"
+        },
+        spacing: {
+          "padding-mobile": "16px",
+          "padding-desktop": "32px",
+          "heading-margin": "16px"
+        },
+        "border-width": {
+          default: "1px",
+          bottom: "4px"
+        },
+        shadow: {
+          default: "none",
+          hover: "0 2px 4px rgba(0, 0, 0, 0.1)"
+        }
+      },
+      form: {
+        input: {
+          background: {
+            default: "#ffffff",
+            focus: "#ffffff",
+            disabled: "#f0f4f5",
+            error: "#ffffff"
+          },
+          border: {
+            default: "#4c6272",
+            focus: "#ffeb3b",
+            error: "#d5281b",
+            disabled: "#aeb7bd"
+          },
+          text: {
+            default: "#212b32",
+            placeholder: "#4c6272",
+            disabled: "#768692"
+          }
+        },
+        label: {
+          text: {
+            default: "#212b32",
+            required: "#d5281b"
+          },
+          typography: {
+            weight: "600"
+          }
+        },
+        error: {
+          text: {
+            default: "#d5281b"
+          },
+          typography: {
+            weight: "600"
+          }
+        },
+        hint: {
+          text: {
+            default: "#4c6272"
+          }
+        },
+        spacing: {
+          "input-padding": "4px",
+          "input-min-height": "40px",
+          "checkbox-size": "40px",
+          "checkbox-label-padding": "12px"
+        },
+        border: {
+          "width-default": "2px",
+          "width-error": "4px",
+          radius: "0px"
+        }
+      },
+      tag: {
+        default: {
+          background: "#004c96",
+          border: "#004c96",
+          text: "#ffffff"
+        },
+        white: {
+          background: "#ffffff",
+          border: "#212b32",
+          text: "#212b32"
+        },
+        grey: {
+          background: "#dbe0e3",
+          border: "#354550",
+          text: "#354550"
+        },
+        green: {
+          background: "#cce5d8",
+          border: "#004c23",
+          text: "#004c23"
+        },
+        "aqua-green": {
+          background: "#ccedeb",
+          border: "#00524d",
+          text: "#00524d"
+        },
+        blue: {
+          background: "#ccdff1",
+          border: "#004281",
+          text: "#004281"
+        },
+        purple: {
+          background: "#d6cce3",
+          border: "#240050",
+          text: "#240050"
+        },
+        pink: {
+          background: "#efd3e3",
+          border: "#57133a",
+          text: "#57133a"
+        },
+        red: {
+          background: "#f7d4d1",
+          border: "#6b140e",
+          text: "#6b140e"
+        },
+        orange: {
+          background: "#ffdc8e",
+          border: "#4d3708",
+          text: "#4d3708"
+        },
+        yellow: {
+          background: "#fff59d",
+          border: "#4d4712",
+          text: "#4d4712"
+        }
+      },
+      size: {
+        icon: {
+          small: "16px",
+          medium: "18px",
+          large: "24px",
+          "extra-large": "32px",
+          "nhs-default": "34px"
+        },
+        form: {
+          control: {
+            small: "32px",
+            medium: "40px",
+            large: "48px"
+          },
+          "input-width": {
+            xs: "5.4ex",
+            sm: "7.2ex",
+            md: "9ex",
+            lg: "10.8ex",
+            xl: "20ex",
+            "2xl": "38ex",
+            "3xl": "56ex"
+          }
+        },
+        button: {
+          "min-height": {
+            mobile: "44px",
+            desktop: "40px"
+          }
+        }
+      },
+      layout: {
+        container: {
+          "max-width": "1020px"
+        },
+        column: {
+          full: "100%",
+          half: "50%",
+          third: "33.333%",
+          quarter: "25%",
+          actions: "20%"
+        },
+        margin: {
+          "negative-thin": "-1px",
+          "negative-standard": "-2px"
+        },
+        gap: {
+          minimal: "1px",
+          small: "6px"
+        }
+      },
+      breakpoint: {
+        small: "320px",
+        "small-max": "767px",
+        medium: "768px",
+        large: "1025px",
+        xlarge: "1200px",
+        xxlarge: "1440px"
+      },
+      grid: {
+        "page-width": "960px",
+        gutter: "32px",
+        "gutter-half": "16px"
+      },
+      gradient: {
+        "metric-card": {
+          primary: "linear-gradient(135deg, rgba(0,94,184,0.05), #ffffff)",
+          secondary: "linear-gradient(135deg, rgba(136,15,184,0.06), #ffffff)",
+          accent: "linear-gradient(135deg, rgba(255,184,28,0.10), #ffffff)",
+          success: "linear-gradient(135deg, rgba(0,164,153,0.10), #ffffff)",
+          warning: "linear-gradient(135deg, rgba(237,79,0,0.10), #ffffff)",
+          error: "linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff)"
+        }
+      },
+      semantic: {
+        "intent-hover": {
+          primary: "darken(#007f3b, 10%)",
+          secondary: "darken(#005eb8, 10%)",
+          warning: "darken(#d5281b, 10%)"
+        },
+        "intent-active": {
+          primary: "darken(#007f3b, 20%)",
+          secondary: "darken(#005eb8, 20%)",
+          warning: "darken(#d5281b, 20%)"
+        },
+        "intent-light": {
+          primary: "lighten(#007f3b, 40%)",
+          secondary: "lighten(#005eb8, 40%)",
+          warning: "lighten(#d5281b, 40%)"
+        },
+        context: {
+          form: {
+            background: {
+              error: "lighten(#d5281b, 40%)",
+              success: "lighten(#007f3b, 40%)",
+              default: "#ffffff",
+              disabled: "#d8dde0",
+              readonly: "#e8edee"
+            },
+            border: {
+              default: "#4c6272",
+              focus: "#005eb8",
+              error: "#d5281b",
+              success: "#007f3b"
+            },
+            text: {
+              default: "#212b32",
+              placeholder: "#768692",
+              disabled: "#768692",
+              error: "#d5281b"
+            }
+          },
+          navigation: {
+            background: {
+              header: "#005eb8",
+              footer: "#005eb8",
+              sidebar: "#ffffff"
+            },
+            text: {
+              primary: "#ffffff",
+              secondary: "#ffffffcc",
+              active: "#ffeb3b"
+            },
+            accent: {
+              hover: "#ffffff1a",
+              active: "#ffffff33",
+              border: "#ffeb3b"
+            }
+          },
+          content: {
+            background: {
+              primary: "#ffffff",
+              secondary: "#d8dde0",
+              elevated: "#ffffff"
+            },
+            text: {
+              primary: "#212b32",
+              secondary: "#4c6272",
+              tertiary: "#768692"
+            },
+            accent: {
+              link: "#005eb8",
+              highlight: "#ffeb3b",
+              border: "#e8edee"
+            }
+          }
+        },
+        intent: {
+          primary: "#007f3b",
+          secondary: "#005eb8",
+          warning: "#d5281b",
+          success: "#007f3b",
+          neutral: "#4c6272",
+          info: "#005eb8"
+        },
+        surface: {
+          elevation: {
+            "0": "#ffffff",
+            "1": "#ffffff",
+            "2": "#ffffff",
+            "3": "#ffffff"
+          },
+          interactive: {
+            default: "#ffffff",
+            hover: "#d8dde0",
+            active: "#e8edee",
+            selected: "#005eb81a"
+          }
+        },
+        "data-viz": {
+          series: {
+            "1": "#005eb8",
+            "2": "#41b6e6",
+            "3": "#00a499",
+            "4": "#78be20",
+            "5": "#007f3b",
+            "6": "#ffb81c",
+            "7": "#ed4f00",
+            "8": "#ae2573",
+            "9": "#e317aa",
+            "10": "#880fb8",
+            "11": "#330072",
+            "12": "#9a6324"
+          },
+          region: {
+            "north-east": "#005eb8",
+            "north-west": "#41b6e6",
+            "east-of-england": "#330072",
+            midlands: "#ae2573",
+            london: "#78be21",
+            "south-west": "#fae100",
+            "south-east": "#ed8b00"
+          },
+          severity: {
+            low: "#fff9c4",
+            moderate: "#ffb81c",
+            high: "#ed8b00",
+            critical: "#d5281b"
+          },
+          "org-level": {
+            trust: "#005eb8",
+            ambulance: "#007f3b",
+            icb: "#7c2855",
+            region: "#330072"
+          },
+          stroke: {
+            series: {
+              "1": "#ffffff",
+              "2": "#212b32",
+              "3": "#212b32",
+              "4": "#212b32",
+              "5": "#ffffff",
+              "6": "#212b32",
+              "7": "#ffffff",
+              "8": "#ffffff",
+              "9": "#ffffff",
+              "10": "#ffffff",
+              "11": "#ffffff",
+              "12": "#ffffff"
+            },
+            region: {
+              "north-east": "#5996d1",
+              "north-west": "#3189ad",
+              "east-of-england": "#7a59a3",
+              midlands: "#ca71a4",
+              london: "#5a8f19",
+              "south-west": "#bca900",
+              "south-east": "#b26800"
+            },
+            severity: {
+              low: "#212b32",
+              moderate: "#212b32",
+              high: "#212b32",
+              critical: "#ffffff"
+            },
+            "org-level": {
+              trust: "#ffffff",
+              ambulance: "#ffffff",
+              icb: "#ffffff",
+              region: "#ffffff"
+            }
+          }
+        },
+        relationship: {
+          "parent-child": {
+            card: {
+              background: "#ffffff",
+              content: {
+                background: "calculated-lighten(#ffffff, 2%)",
+                text: "auto-contrast(calculated-lighten(#ffffff, 2%))"
+              },
+              header: {
+                background: "calculated-darken(#ffffff, 3%)",
+                text: "auto-contrast(calculated-darken(#ffffff, 3%))"
+              }
+            },
+            panel: {
+              background: "#ffffff",
+              border: "calculated-darken(#ffffff, 15%)",
+              content: {
+                text: "auto-contrast(#ffffff)"
+              }
+            }
+          },
+          "state-propagation": {
+            interactive: {
+              default: "#007f3b",
+              hover: "calculated-darken(#007f3b, 10%)",
+              active: "calculated-darken(#007f3b, 20%)",
+              disabled: "calculated-fade(#007f3b, 40%)"
+            },
+            button: {
+              primary: {
+                background: "#007f3b",
+                hover: "calculated-darken(#007f3b, 10%)",
+                active: "calculated-darken(#007f3b, 20%)"
+              },
+              secondary: {
+                background: "#00000000",
+                border: "#005eb8",
+                hover: "calculated-tint(#005eb8, 90%)"
+              }
+            }
+          }
+        },
+        color: {
+          text: {
+            primary: "#212b32",
+            secondary: "#4c6272",
+            reverse: "#ffffff",
+            print: "#212b32"
+          },
+          link: {
+            default: "#005eb8",
+            hover: "#7c2855",
+            active: "#003087",
+            visited: "#330072"
+          },
+          focus: {
+            background: "#ffeb3b",
+            text: "#212b32"
+          },
+          border: {
+            default: "#d8dde0",
+            secondary: "#ffffff33"
+          },
+          error: "#d5281b",
+          form: {
+            border: "#4c6272",
+            background: "#ffffff"
+          },
+          hover: {
+            subtle: "#e8edee",
+            "header-link": "#3a71a6"
+          },
+          active: {
+            "header-link": "#002c5c"
+          },
+          button: {
+            primary: {
+              background: "#007f3b",
+              text: "#ffffff",
+              hover: "#006530",
+              active: "#00401e",
+              shadow: "#00401e"
+            },
+            secondary: {
+              background: "#00000000",
+              "background-solid": "#ffffff",
+              border: "#005eb8",
+              text: "#005eb8",
+              hover: "#d9e5f2",
+              active: "#c7daf0",
+              shadow: "#005eb8"
+            },
+            reverse: {
+              background: "#ffffff",
+              text: "#212b32",
+              hover: "#d9dde0",
+              active: "#b3bcc2",
+              shadow: "#b3bcc2"
+            },
+            warning: {
+              background: "#d5281b",
+              hover: "#aa2016",
+              active: "#6a140e",
+              shadow: "#6a140e"
+            },
+            login: {
+              background: "#005eb8",
+              hover: "#004b93",
+              active: "#002f5c",
+              shadow: "#002f5c"
+            }
+          }
+        }
+      },
+      shadow: {
+        button: {
+          default: "0 4px 0 #00401e",
+          secondary: "0 4px 0 #005eb8",
+          warning: "0 4px 0 #6a140e",
+          focus: "0 4px 0 #ffeb3b"
+        },
+        card: {
+          default: "none",
+          hover: "0 2px 4px rgba(0, 0, 0, 0.1)"
+        }
+      },
+      "focus-outline": {
+        width: "4px",
+        offset: "0px",
+        style: "solid"
+      },
+      "focus-shadow": {
+        input: "0 0 0 3px #ffeb3b",
+        button: "0 0 0 3px #ffeb3b",
+        "link-pattern": "0 -2px #ffeb3b, 0 4px #212b32"
+      },
+      "focus-box-shadow": {
+        "offset-top": "-2px",
+        "offset-bottom": "4px"
+      },
+      elevation: {
+        none: "none",
+        low: "0 1px 3px rgba(0, 0, 0, 0.12)",
+        medium: "0 2px 6px rgba(0, 0, 0, 0.16)",
+        high: "0 4px 12px rgba(0, 0, 0, 0.20)"
+      },
+      spacing: {
+        "0": "0",
+        "1": "4px",
+        "2": "8px",
+        "3": "16px",
+        "4": "24px",
+        "5": "32px",
+        "6": "40px",
+        "7": "48px",
+        "8": "56px",
+        "9": "64px"
+      },
+      "spacing-responsive": {
+        "0": {
+          mobile: "0",
+          tablet: "0"
+        },
+        "1": {
+          mobile: "4px",
+          tablet: "4px"
+        },
+        "2": {
+          mobile: "8px",
+          tablet: "8px"
+        },
+        "3": {
+          mobile: "8px",
+          tablet: "16px"
+        },
+        "4": {
+          mobile: "16px",
+          tablet: "24px"
+        },
+        "5": {
+          mobile: "24px",
+          tablet: "32px"
+        },
+        "6": {
+          mobile: "32px",
+          tablet: "40px"
+        },
+        "7": {
+          mobile: "40px",
+          tablet: "48px"
+        },
+        "8": {
+          mobile: "48px",
+          tablet: "56px"
+        },
+        "9": {
+          mobile: "56px",
+          tablet: "64px"
+        }
+      },
+      theme: {
+        light: {
+          semantic: {
+            intent: {
+              primary: "#007f3b",
+              secondary: "#005eb8",
+              warning: "#d5281b",
+              success: "#007f3b",
+              neutral: "#4c6272",
+              info: "#005eb8"
+            },
+            surface: {
+              background: {
+                primary: "#ffffff",
+                secondary: "#f0f4f5",
+                elevated: "#ffffff"
+              },
+              text: {
+                primary: "#212b32",
+                secondary: "#4c6272",
+                tertiary: "#768692",
+                inverse: "#ffffff"
+              },
+              border: {
+                default: "#d8dde0",
+                subtle: "#f0f4f5",
+                strong: "#768692"
+              }
+            }
+          }
+        },
+        dark: {
+          semantic: {
+            intent: {
+              primary: "lighten(#007f3b, 20%)",
+              secondary: "lighten(#005eb8, 25%)",
+              warning: "lighten(#d5281b, 15%)",
+              success: "lighten(#007f3b, 20%)",
+              neutral: "#aeb7bd",
+              info: "lighten(#005eb8, 25%)"
+            },
+            surface: {
+              background: {
+                primary: "darken(#212b32, 5%)",
+                secondary: "lighten(#212b32, 8%)",
+                elevated: "lighten(#212b32, 12%)"
+              },
+              text: {
+                primary: "fade(#ffffff, 95%)",
+                secondary: "fade(#ffffff, 80%)",
+                tertiary: "fade(#ffffff, 60%)",
+                inverse: "#212b32"
+              },
+              border: {
+                default: "fade(#ffffff, 20%)",
+                subtle: "fade(#ffffff, 10%)",
+                strong: "fade(#ffffff, 40%)"
+              }
+            }
+          }
+        }
+      },
+      font: {
+        family: {
+          base: "Frutiger W01",
+          fallback: "Arial, sans-serif",
+          print: "sans-serif"
+        },
+        weight: {
+          normal: "400",
+          bold: "600",
+          light: "400"
+        },
+        size: {
+          "14": {
+            desktop: "14px",
+            mobile: "12px",
+            tablet: "14px",
+            print: "12pt"
+          },
+          "16": {
+            desktop: "16px",
+            mobile: "14px",
+            tablet: "16px",
+            print: "12pt"
+          },
+          "19": {
+            desktop: "19px",
+            mobile: "16px",
+            tablet: "19px",
+            print: "13pt"
+          },
+          "22": {
+            desktop: "22px",
+            mobile: "19px",
+            tablet: "22px",
+            print: "15pt"
+          },
+          "26": {
+            desktop: "26px",
+            mobile: "22px",
+            tablet: "26px",
+            print: "17pt"
+          },
+          "36": {
+            desktop: "36px",
+            mobile: "27px",
+            tablet: "36px",
+            print: "20pt"
+          },
+          "48": {
+            desktop: "48px",
+            mobile: "33px",
+            tablet: "48px",
+            print: "24pt"
+          },
+          base: "16px"
+        },
+        "line-height": {
+          "14": {
+            desktop: "24px",
+            mobile: "20px",
+            tablet: "24px",
+            print: "1.3"
+          },
+          "16": {
+            desktop: "24px",
+            mobile: "24px",
+            tablet: "24px",
+            print: "1.3"
+          },
+          "19": {
+            desktop: "24px",
+            mobile: "24px",
+            tablet: "28px",
+            print: "1.25"
+          },
+          "22": {
+            desktop: "30px",
+            mobile: "27px",
+            tablet: "30px",
+            print: "1.25"
+          },
+          "26": {
+            desktop: "32px",
+            mobile: "29px",
+            tablet: "32px",
+            print: "1.25"
+          },
+          "36": {
+            desktop: "42px",
+            mobile: "33px",
+            tablet: "42px",
+            print: "1.2"
+          },
+          "48": {
+            desktop: "54px",
+            mobile: "38px",
+            tablet: "54px",
+            print: "1.15"
+          },
+          base: "24px"
+        }
+      }
+    };
   }
 });
 
@@ -9318,7 +10431,7 @@ import { useId as useId6, useMemo as useMemo12 } from "react";
 var spcTokenRoot = null;
 var _a, _b;
 try {
-  const tokens = __require("@fergusbisset/nhs-fdp-design-system/dist/js/tokens.json");
+  const tokens = require_tokens();
   spcTokenRoot = ((_b = (_a = tokens == null ? void 0 : tokens.color) == null ? void 0 : _a["data-viz"]) == null ? void 0 : _b.spc) || null;
 } catch {
 }

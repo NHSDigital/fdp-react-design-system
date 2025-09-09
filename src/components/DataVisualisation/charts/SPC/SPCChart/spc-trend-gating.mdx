@@ -2,6 +2,8 @@ import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
 import { TrendGatingEmbeddedHigh } from './TrendGatingEmbeddedHighStory';
 import { TrendGatingEmbeddedHighNoGate } from './TrendGatingEmbeddedHighNoGateStory';
 import Mermaid from '../../../../_internal/Mermaid';
+import { ED4hTrendGatingEmbedded } from './ED4hTrendGatingEmbeddedStory';
+import { ED4hTrendGatingEmbeddedNoGate } from './ED4hTrendGatingEmbeddedNoGateStory';
 
 <Meta title="Data Visualisation/SPC/Trend Gating Rationale"/>
 
@@ -69,6 +71,18 @@ First, the same dataset with visuals turned OFF and engine side‑gating disable
 Below, one can see the same dataset with the trend side-gating on: the mid‑series increasing points (e.g. 17 & 18 January) are *still below the mean* so they are purple although the trend rule has fired. Once later points rise above the mean, Improvement (blue) icons appear.
 
 <TrendGatingEmbeddedHigh />
+
+### Further Examples (ED 4h Compliance)
+
+Below are two examples using an ED 4-hour compliance series to show the practical difference between disabling and enabling trend side-gating:
+
+1. ED 4h compliance — gating OFF (directional classification occurs immediately once the trend rule triggers, regardless of side):
+
+<ED4hTrendGatingEmbeddedNoGate />
+
+2. ED 4h compliance — gating ON (early trend points remain neutral until the series reaches the favourable side of the mean):
+
+<ED4hTrendGatingEmbedded />
 
 ### Visual Decision Flow
 

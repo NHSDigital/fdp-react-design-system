@@ -17,7 +17,6 @@ const values = [...baseline, ...stable];
 const data = values.map((v,i)=> ({ x: i+1, y: v }));
 
 export const Enabled: Story = {
-  name: 'Enabled',
   args: {
     chartType: ChartType.XmR,
     metricImprovement: ImprovementDirection.Up,
@@ -27,7 +26,6 @@ export const Enabled: Story = {
 };
 
 export const Disabled: Story = {
-  name: 'Disabled (contrast)',
   args: {
     chartType: ChartType.XmR,
     metricImprovement: ImprovementDirection.Up,

@@ -103,8 +103,9 @@ export const spcTestCases: SpcTestCase[] = [
 			SPC_POINT_COLOURS.common,
 			SPC_POINT_COLOURS.common,
 			SPC_POINT_COLOURS.common,
-			SPC_POINT_COLOURS.improvement,
-			SPC_POINT_COLOURS.improvement,
+			// Early favourable run is now neutralised (directional-first + grace), surfacing as no-judgement (purple)
+			SPC_POINT_COLOURS.noJudgement,
+			SPC_POINT_COLOURS.noJudgement,
 			SPC_POINT_COLOURS.improvement,
 			SPC_POINT_COLOURS.improvement,
 			SPC_POINT_COLOURS.improvement,

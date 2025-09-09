@@ -157,14 +157,14 @@
     },
     "./macros": "./dist/macros",
     "./components/DataVisualisation/charts/SPC/SPCChart/SPCChart/css": "./dist/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.css",
-    "./components/Header/Header2/css": "./dist/components/Header/Header2.css",
     "./components/ProductRoadmap/css": "./dist/components/ProductRoadmap/ProductRoadmap.css",
     "./components/_internal/Mermaid/css": "./dist/components/_internal/Mermaid.css",
     "./tokens": {
       "import": "./packages/nhs-fdp/dist/js/tokens.js",
       "require": "./packages/nhs-fdp/dist/js/tokens.js"
     },
-    "./tokens/json": "./packages/nhs-fdp/dist/js/tokens.json"
+  "./tokens/json": "./packages/nhs-fdp/dist/js/tokens.json",
+  "./dist/js/tokens.json": "./packages/nhs-fdp/dist/js/tokens.json"
   },
   "sideEffects": [
     "dist/**/*.css"

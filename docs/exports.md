@@ -114,7 +114,6 @@ Each of the above maps to `dist/src/components/<Name>/index.{d.ts,js}`.
 - Grid: `./components/Grid/css`
 - Header: `./components/Header/css`
 - Header (index styles): `./components/Header/index/css`
-- Header2 (alt header styles): `./components/Header/Header2/css`
 - HeaderSearch: `./components/HeaderSearch/css`
 - Heading: `./components/Heading/css`
 - Hero: `./components/Hero/css`

@@ -35,6 +35,11 @@ function findScssFiles(dir: string, componentName: string, subPath: string = '')
       if (item.name.includes('.docs.')) {
         return;
       }
+      // Skip SSR-only stylesheets; these are aggregated via the component index.scss
+      // and should not be emitted as a separate CSS bundle (prevents Header2/Header.ssr duplicates)
+      if (item.name.includes('.ssr.')) {
+        return;
+      }
       // Skip alias components – they intentionally re-use provider CSS via exports
       if (aliasComponentNames.has(componentName)) {
         return; // do not create an entry for this alias's SCSS

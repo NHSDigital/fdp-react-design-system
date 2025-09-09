@@ -41,6 +41,8 @@ export const TrendGatingEmbeddedHigh: React.FC = () => {
 				showPoints
 				narrationContext={{ measureName: metricKey }}
 				gradientSequences
+				// Explicitly enable trend side-gating for this illustrative example
+				disableTrendSideGating={false}
 			/>
 			</ChartContainer>
 			<div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center' }}>

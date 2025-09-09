@@ -59,12 +59,12 @@ Limitations / scope:
 
 ### Toggling this behaviour in SPCChart
 
-- Engine-level (classification): set `disableTrendSideGating` on `SPCChart` to make early trend points classify directionally (Concern/Improvement) even before crossing the mean. Internally, this maps to `settings.trendSideGatingEnabled = false` in the SPC engine.
+- Engine-level (classification): set `disableTrendSideGating` on `SPCChart` to control gating. When `true` (default), early trend points classify directionally (Concern/Improvement) even before crossing the mean. Set to `false` to enable side‑gating. Internally, this maps to `settings.trendSideGatingEnabled = !disableTrendSideGating` in the SPC engine.
 - Visual-only (styling/copy): `enableNeutralNoJudgement={false}` hides the purple neutral styling, and `showTrendGatingExplanation={false}` hides the tooltip rationale. These do not change the classification unless side-gating is also disabled.
 
 ### Illustration (Dataset Story)
 
-First, the same dataset with visuals turned OFF and engine side‑gating disabled via `disableTrendSideGating`. This shows how points immediately colour as Improvement/Concern once the trend rule length is reached, regardless of being on the favourable side yet.
+First, the same dataset with visuals turned OFF and engine side‑gating disabled via `disableTrendSideGating` (the default). This shows how points immediately colour as Improvement/Concern once the trend rule length is reached, regardless of being on the favourable side yet.
 
 <TrendGatingEmbeddedHighNoGate />
 

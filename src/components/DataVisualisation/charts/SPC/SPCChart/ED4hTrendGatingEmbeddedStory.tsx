@@ -19,7 +19,8 @@ export const ED4hTrendGatingEmbedded: React.FC = () => {
         showPoints
         narrationContext={{ measureName: metricName, measureUnit: "%" }}
         gradientSequences
-        // trend side-gating ON by default
+  // Explicitly enable trend side-gating for clarity now that default is OFF
+  disableTrendSideGating={false}
       />
     </ChartContainer>
   );

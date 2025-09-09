@@ -108,7 +108,7 @@ export interface SPCChartProps {
 	enableNeutralNoJudgement?: boolean;
 	/** Show the trend side-gating explanation text in the tooltip. Defaults to true. */
 	showTrendGatingExplanation?: boolean;
-	/** Engine-level: when true, disables trend side-gating so early trend points classify directionally (Concern/Improvement) even before crossing the mean. Defaults to false. */
+	/** Engine-level: when true, disables trend side-gating so early trend points classify directionally (Concern/Improvement) even before crossing the mean. Defaults to true. */
 	disableTrendSideGating?: boolean;
 }
 
@@ -140,7 +140,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	warningsFilter,
 	enableNeutralNoJudgement = true,
 	showTrendGatingExplanation = true,
-	disableTrendSideGating = false,
+	disableTrendSideGating = true,
 }) => {
 	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)

@@ -1039,9 +1039,9 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		} else {
 			// Legacy side-based aggregation
 			if (metricImprovement === ImprovementDirection.Up) {
-				row.variationIcon = highSignals ? VariationIcon.Improvement : lowSignals ? VariationIcon.Concern : VariationIcon.Neither;
+				row.variationIcon = highSignals ? VariationIcon.Improvement : VariationIcon.Concern;
 			} else if (metricImprovement === ImprovementDirection.Down) {
-				row.variationIcon = lowSignals ? VariationIcon.Improvement : highSignals ? VariationIcon.Concern : VariationIcon.Neither;
+				row.variationIcon = lowSignals ? VariationIcon.Improvement : VariationIcon.Concern;
 			} else {
 				row.variationIcon = VariationIcon.Neither;
 			}

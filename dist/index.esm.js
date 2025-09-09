@@ -14591,7 +14591,7 @@ const ua = (e, t, r, a, o, s) => /* @__PURE__ */ n.jsxs("defs", { children: [
         fill: N.hex,
         stroke: N.hex,
         strokeWidth: 6,
-        transform: S === ke.Higher ? "translate(0, -15)" : "translate(0, 15)"
+        transform: S === ke.Higher ? "translate(0, -8)" : "translate(0, 15)"
       }
     ) : I === Me.SpecialCauseNoJudgement && (M = /* @__PURE__ */ n.jsx(
       "polygon",
@@ -14600,10 +14600,10 @@ const ua = (e, t, r, a, o, s) => /* @__PURE__ */ n.jsxs("defs", { children: [
         fill: N.hex,
         stroke: N.hex,
         strokeWidth: 6,
-        transform: S === ke.Higher ? "translate(0,-6)" : "translate(0,6)"
+        transform: S === ke.Higher ? "translate(0,-7)" : "translate(0,14)"
       }
     ));
-    const j = Math.max(0, Math.min(5, Math.floor(l || 0))), K = I === Me.CommonCause ? 160 : S === ke.Higher ? 210 : 70, re = 10, J = 26, U = 150 - 2 * J, O = I === Me.SpecialCauseImproving ? st("improvement", "#00B0F0") : I === Me.SpecialCauseDeteriorating ? st("concern", "#E46C0A") : y, Y = Array.from({ length: 5 }).map((oe, ae) => {
+    const j = Math.max(0, Math.min(5, Math.floor(l || 0))), K = I === Me.CommonCause ? 160 : S === ke.Higher ? 220 : 70, re = 10, J = 26, U = 150 - 2 * J, O = I === Me.SpecialCauseImproving ? st("improvement", "#00B0F0") : I === Me.SpecialCauseDeteriorating ? st("concern", "#E46C0A") : y, Y = Array.from({ length: 5 }).map((oe, ae) => {
       const Q = (I === Me.SpecialCauseImproving || I === Me.SpecialCauseDeteriorating) && ae >= 5 - j ? O : y;
       return /* @__PURE__ */ n.jsx(
         "circle",
@@ -14628,7 +14628,7 @@ const ua = (e, t, r, a, o, s) => /* @__PURE__ */ n.jsxs("defs", { children: [
         { offset: "75%", opacity: P },
         { offset: "100%", opacity: A }
       ]
-    ), W = I === Me.CommonCause || S === ke.Higher ? "translate(0,-10)" : "translate(0,20)";
+    ), W = I === Me.CommonCause || S === ke.Higher ? "translate(0,-10)" : "translate(0,25)";
     return /* @__PURE__ */ n.jsxs(
       "svg",
       {
@@ -14674,7 +14674,7 @@ const ua = (e, t, r, a, o, s) => /* @__PURE__ */ n.jsxs("defs", { children: [
                 fontWeight: "bold",
                 fontSize: 64,
                 x: "150",
-                y: S === ke.Higher ? 150 : 145,
+                y: S === ke.Higher ? 155 : 145,
                 textAnchor: "middle",
                 dominantBaseline: "middle",
                 children: C

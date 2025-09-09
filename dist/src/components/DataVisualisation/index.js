@@ -10815,7 +10815,7 @@ var SPCVariationIcon = ({
           fill: colour.hex,
           stroke: colour.hex,
           strokeWidth: 6,
-          transform: direction === "higher" /* Higher */ ? "translate(0, -15)" : "translate(0, 15)"
+          transform: direction === "higher" /* Higher */ ? "translate(0, -8)" : "translate(0, 15)"
         }
       );
     } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
@@ -10826,12 +10826,12 @@ var SPCVariationIcon = ({
           fill: colour.hex,
           stroke: colour.hex,
           strokeWidth: 6,
-          transform: direction === "higher" /* Higher */ ? "translate(0,-6)" : "translate(0,6)"
+          transform: direction === "higher" /* Higher */ ? "translate(0,-7)" : "translate(0,14)"
         }
       );
     }
     const runLen = Math.max(0, Math.min(5, Math.floor(runLength || 0)));
-    const runY = state === "common_cause" /* CommonCause */ ? 160 : direction === "higher" /* Higher */ ? 210 : 70;
+    const runY = state === "common_cause" /* CommonCause */ ? 160 : direction === "higher" /* Higher */ ? 220 : 70;
     const runRadius = 10;
     const runGap = 26;
     const runStartX = centerX - 2 * runGap;
@@ -10864,7 +10864,7 @@ var SPCVariationIcon = ({
         { offset: "100%", opacity: triGradEnd }
       ]
     );
-    const groupTransform = state === "common_cause" /* CommonCause */ ? "translate(0,-10)" : direction === "higher" /* Higher */ ? "translate(0,-10)" : "translate(0,20)";
+    const groupTransform = state === "common_cause" /* CommonCause */ ? "translate(0,-10)" : direction === "higher" /* Higher */ ? "translate(0,-10)" : "translate(0,25)";
     return /* @__PURE__ */ jsxs19(
       "svg",
       {
@@ -10910,7 +10910,7 @@ var SPCVariationIcon = ({
                 fontWeight: "bold",
                 fontSize: 64,
                 x: "150",
-                y: direction === "higher" /* Higher */ ? 150 : 145,
+                y: direction === "higher" /* Higher */ ? 155 : 145,
                 textAnchor: "middle",
                 dominantBaseline: "middle",
                 children: letter

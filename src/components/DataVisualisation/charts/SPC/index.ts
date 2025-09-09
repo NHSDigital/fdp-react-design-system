@@ -20,3 +20,6 @@ export type { SPCVariationIconProps, SpcVariationAltIconProps, SpcAssuranceIconP
 
 // Tooltip overlay (specialised)
 export { default as SPCTooltipOverlay } from './SPCChart/SPCTooltipOverlay';
+
+// Icons-only barrel re-export (optional convenience)
+export * as Icons from './icons';

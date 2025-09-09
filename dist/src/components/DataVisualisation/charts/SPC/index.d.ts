@@ -9,3 +9,4 @@ export { AssuranceResult, Direction, MetricPolarity, VariationJudgement, Variati
 export type { VariationColourDef } from './SPCIcons/SPCConstants';
 export type { SPCVariationIconProps, SpcVariationAltIconProps, SpcAssuranceIconProps, SpcIconsProps, SpcIconBaseProps } from './SPCIcons/SPCIcon';
 export { default as SPCTooltipOverlay } from './SPCChart/SPCTooltipOverlay';
+export * as Icons from './icons';

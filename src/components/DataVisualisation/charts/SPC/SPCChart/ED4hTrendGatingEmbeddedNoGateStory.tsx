@@ -20,7 +20,7 @@ export const ED4hTrendGatingEmbeddedNoGate: React.FC = () => {
         gradientSequences
         enableNeutralNoJudgement={false}
         showTrendGatingExplanation={false}
-        disableTrendSideGating
+  // enableTrendSideGating not provided (default false)
       />
     </ChartContainer>
   );

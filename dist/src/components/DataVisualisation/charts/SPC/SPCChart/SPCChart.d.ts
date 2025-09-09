@@ -67,7 +67,12 @@ export interface SPCChartProps {
     enableNeutralNoJudgement?: boolean;
     /** Show the trend side-gating explanation text in the tooltip. Defaults to true. */
     showTrendGatingExplanation?: boolean;
-    /** Engine-level: when true, disables trend side-gating so early trend points classify directionally (Concern/Improvement) even before crossing the mean. Defaults to false. */
+    /** Engine-level: when true, enables trend side-gating so early trend points on the unfavourable side remain neutral until the trend crosses the mean. Defaults to false. */
+    enableTrendSideGating?: boolean;
+    /**
+     * @deprecated Use `enableTrendSideGating` instead (inverted semantics). If provided and
+     * `enableTrendSideGating` is not set, the effective value will be `!disableTrendSideGating`.
+     */
     disableTrendSideGating?: boolean;
 }
 export declare const SPCChart: React.FC<SPCChartProps>;

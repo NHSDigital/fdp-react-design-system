@@ -42,7 +42,7 @@ describe("SPCChart colour expectations", () => {
 						precedenceStrategy: PrecedenceStrategy.DirectionalFirst,
 						emergingDirectionGrace: true,
 					}}
-				disableTrendSideGating={false}
+				enableTrendSideGating
 			/>
 		);
 		const circles = Array.from(
@@ -92,7 +92,7 @@ describe("SPCChart colour expectations", () => {
 				metricImprovement={mapDirection(tc.direction)}
 				enableRules
 				showPoints
-				disableTrendSideGating={false}
+				enableTrendSideGating
 			/>
 		);
 		const circles = Array.from(

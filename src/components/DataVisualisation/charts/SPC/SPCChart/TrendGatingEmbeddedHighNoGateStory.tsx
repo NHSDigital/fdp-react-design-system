@@ -43,7 +43,7 @@ export const TrendGatingEmbeddedHighNoGate: React.FC = () => {
           enableNeutralNoJudgement={false}
           showTrendGatingExplanation={false}
           // Also disable engine side-gating so early trend points classify directionally
-          disableTrendSideGating
+          // enableTrendSideGating not provided (default false)
         />
       </ChartContainer>
       <div style={{ marginTop: "1rem", display: "flex", justifyContent: "center" }}>

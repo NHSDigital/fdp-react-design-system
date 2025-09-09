@@ -1,5 +1,5 @@
-import React from 'react';
-import './Mermaid.scss';
+import React from "react";
+import "./Mermaid.scss";
 export interface MermaidProps {
     code?: string;
     children?: string;

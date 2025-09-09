@@ -11320,7 +11320,8 @@ var SPCChart = ({
   warningsFilter,
   enableNeutralNoJudgement = true,
   showTrendGatingExplanation = true,
-  disableTrendSideGating = false
+  enableTrendSideGating,
+  disableTrendSideGating
 }) => {
   var _a2, _b2, _c, _d, _e, _f, _g, _h;
   const formatWarningCode = React25.useCallback(
@@ -11336,6 +11337,12 @@ var SPCChart = ({
     },
     []
   );
+  const effectiveEnableTrendSideGating = enableTrendSideGating != null ? enableTrendSideGating : disableTrendSideGating !== void 0 ? !disableTrendSideGating : false;
+  if (disableTrendSideGating !== void 0) {
+    console.warn(
+      "SPCChart: 'disableTrendSideGating' is deprecated. Use 'enableTrendSideGating' instead (inverted semantics)."
+    );
+  }
   const engine = React25.useMemo(() => {
     var _a3;
     const rowsInput = data.map((d, i) => {
@@ -11349,7 +11356,7 @@ var SPCChart = ({
       };
     });
     try {
-      const engineSettings = settings ? { ...settings, trendSideGatingEnabled: (_a3 = settings.trendSideGatingEnabled) != null ? _a3 : !disableTrendSideGating } : { trendSideGatingEnabled: !disableTrendSideGating };
+      const engineSettings = settings ? { ...settings, trendSideGatingEnabled: (_a3 = settings.trendSideGatingEnabled) != null ? _a3 : effectiveEnableTrendSideGating } : { trendSideGatingEnabled: effectiveEnableTrendSideGating };
       return buildSpc({
         chartType,
         metricImprovement,
@@ -11367,6 +11374,7 @@ var SPCChart = ({
     chartType,
     metricImprovement,
     settings,
+    enableTrendSideGating,
     disableTrendSideGating
   ]);
   const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r2) => r2.mean != null);

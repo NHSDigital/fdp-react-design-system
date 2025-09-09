@@ -108,7 +108,12 @@ export interface SPCChartProps {
 	enableNeutralNoJudgement?: boolean;
 	/** Show the trend side-gating explanation text in the tooltip. Defaults to true. */
 	showTrendGatingExplanation?: boolean;
-	/** Engine-level: when true, disables trend side-gating so early trend points classify directionally (Concern/Improvement) even before crossing the mean. Defaults to true. */
+	/** Engine-level: when true, enables trend side-gating so early trend points on the unfavourable side remain neutral until the trend crosses the mean. Defaults to false. */
+	enableTrendSideGating?: boolean;
+	/**
+	 * @deprecated Use `enableTrendSideGating` instead (inverted semantics). If provided and
+	 * `enableTrendSideGating` is not set, the effective value will be `!disableTrendSideGating`.
+	 */
 	disableTrendSideGating?: boolean;
 }
 
@@ -140,7 +145,8 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	warningsFilter,
 	enableNeutralNoJudgement = true,
 	showTrendGatingExplanation = true,
-	disableTrendSideGating = true,
+	enableTrendSideGating,
+	disableTrendSideGating,
 }) => {
 	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
@@ -172,6 +178,16 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		},
 		[]
 	);
+	// Compute effective gating flag with backwards-compatible alias support.
+	const effectiveEnableTrendSideGating =
+		enableTrendSideGating ?? (disableTrendSideGating !== undefined ? !disableTrendSideGating : false);
+
+	if (process.env.NODE_ENV !== "production" && disableTrendSideGating !== undefined) {
+		console.warn(
+			"SPCChart: 'disableTrendSideGating' is deprecated. Use 'enableTrendSideGating' instead (inverted semantics)."
+		);
+	}
+
 	const engine = React.useMemo(() => {
 		const rowsInput = data.map((d, i) => ({
 			x: d.x,
@@ -183,8 +199,8 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		try {
 			// Merge settings shallowly and apply trendSideGatingEnabled override if requested.
 			const engineSettings: SpcSettings | undefined = settings
-				? { ...settings, trendSideGatingEnabled: settings.trendSideGatingEnabled ?? !disableTrendSideGating }
-				: { trendSideGatingEnabled: !disableTrendSideGating };
+				? { ...settings, trendSideGatingEnabled: settings.trendSideGatingEnabled ?? effectiveEnableTrendSideGating }
+				: { trendSideGatingEnabled: effectiveEnableTrendSideGating };
 			return buildSpc({
 				chartType,
 				metricImprovement,
@@ -202,6 +218,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		chartType,
 		metricImprovement,
 		settings,
+		enableTrendSideGating,
 		disableTrendSideGating,
 	]);
 

@@ -2,7 +2,8 @@ import { describe, it, expect, afterEach } from 'vitest';
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { SPCVariationIcon } from './SPCIcon';
-import { VariationJudgement, MetricPolarity, Direction } from './SPCConstants';
+import { Direction } from './SPCConstants';
+import { VariationIcon, ImprovementDirection } from '../SPCChart/logic/spc';
 
 // Utility to extract letters H/L from rendered SVG
 function extractLetters(container: HTMLElement) {
@@ -11,25 +12,25 @@ function extractLetters(container: HTMLElement) {
 }
 
 type Expectation = {
-  judgement: VariationJudgement;
-  polarity: MetricPolarity;
+  icon: VariationIcon;
+  improvement: ImprovementDirection;
   expectedPolarityMode: '' | 'H' | 'L';
   expectedDirectionMode: '' | 'H' | 'L';
 };
 
 const improving: Expectation[] = [
-  { judgement: VariationJudgement.Improving, polarity: MetricPolarity.HigherIsBetter, expectedPolarityMode: 'H', expectedDirectionMode: 'H' },
-  { judgement: VariationJudgement.Improving, polarity: MetricPolarity.LowerIsBetter, expectedPolarityMode: 'L', expectedDirectionMode: 'L' },
-  { judgement: VariationJudgement.Improving, polarity: MetricPolarity.ContextDependent, expectedPolarityMode: '', expectedDirectionMode: 'H' },
+  { icon: VariationIcon.Improvement, improvement: ImprovementDirection.Up, expectedPolarityMode: 'H', expectedDirectionMode: 'H' },
+  { icon: VariationIcon.Improvement, improvement: ImprovementDirection.Down, expectedPolarityMode: 'L', expectedDirectionMode: 'L' },
+  { icon: VariationIcon.Improvement, improvement: ImprovementDirection.Neither, expectedPolarityMode: '', expectedDirectionMode: 'H' },
 ];
 
 const deteriorating: Expectation[] = [
-  { judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.HigherIsBetter, expectedPolarityMode: 'H', expectedDirectionMode: 'L' },
-  { judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.LowerIsBetter, expectedPolarityMode: 'L', expectedDirectionMode: 'H' },
-  { judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.ContextDependent, expectedPolarityMode: '', expectedDirectionMode: 'L' },
+  { icon: VariationIcon.Concern, improvement: ImprovementDirection.Up, expectedPolarityMode: 'H', expectedDirectionMode: 'L' },
+  { icon: VariationIcon.Concern, improvement: ImprovementDirection.Down, expectedPolarityMode: 'L', expectedDirectionMode: 'H' },
+  { icon: VariationIcon.Concern, improvement: ImprovementDirection.Neither, expectedPolarityMode: '', expectedDirectionMode: 'L' },
 ];
 
-const neutralJudgements = [VariationJudgement.No_Judgement, VariationJudgement.None] as const;
+const neutralIcons = [VariationIcon.Neither] as const;
 
 const variants: Array<'classic' | 'triangle' | 'triangleWithRun'> = ['classic', 'triangle', 'triangleWithRun'];
 
@@ -39,10 +40,10 @@ describe('SPCVariationIcon permutations', () => {
   variants.forEach(variant => {
     describe(`${variant} variant`, () => {
       [...improving, ...deteriorating].forEach(exp => {
-        it(`${exp.judgement} / ${exp.polarity} polarity-mode`, () => {
+        it(`${exp.icon} / ${exp.improvement} polarity-mode`, () => {
           const { container } = render(
             <SPCVariationIcon
-              data={{ judgement: exp.judgement, polarity: exp.polarity }}
+      data={{ variationIcon: exp.icon, improvementDirection: exp.improvement }}
               variant={variant}
               runLength={variant === 'triangleWithRun' ? 3 : undefined}
             />
@@ -55,10 +56,10 @@ describe('SPCVariationIcon permutations', () => {
           }
         });
 
-        it(`${exp.judgement} / ${exp.polarity} direction-mode`, () => {
+        it(`${exp.icon} / ${exp.improvement} direction-mode`, () => {
           const { container } = render(
             <SPCVariationIcon
-              data={{ judgement: exp.judgement, polarity: exp.polarity }}
+      data={{ variationIcon: exp.icon, improvementDirection: exp.improvement }}
               variant={variant}
               letterMode="direction"
               runLength={variant === 'triangleWithRun' ? 3 : undefined}
@@ -73,13 +74,13 @@ describe('SPCVariationIcon permutations', () => {
         });
       });
 
-      neutralJudgements.forEach(j => {
-        (['higher', 'lower'] as const).forEach(dirKey => {
-          const trend = dirKey === 'higher' ? Direction.Higher : Direction.Lower;
-          it(`${j} (${dirKey}) has no letter (polarity mode)`, () => {
+  neutralIcons.forEach(() => {
+    (['higher', 'lower'] as const).forEach(dirKey => {
+      const trend = dirKey === 'higher' ? Direction.Higher : Direction.Lower;
+      it(`neutral (${dirKey}) has no letter (polarity mode)`, () => {
             const { container } = render(
               <SPCVariationIcon
-                data={{ judgement: j, polarity: MetricPolarity.HigherIsBetter, trend }}
+        data={{ variationIcon: VariationIcon.Neither, trend }}
                 variant={variant}
                 runLength={variant === 'triangleWithRun' ? 2 : undefined}
               />
@@ -87,10 +88,10 @@ describe('SPCVariationIcon permutations', () => {
             const letters = extractLetters(container);
             expect(letters).not.toMatch(/[HL]/);
           });
-          it(`${j} (${dirKey}) has no letter (direction mode)`, () => {
+      it(`neutral (${dirKey}) has no letter (direction mode)`, () => {
             const { container } = render(
               <SPCVariationIcon
-                data={{ judgement: j, polarity: MetricPolarity.LowerIsBetter, trend }}
+        data={{ variationIcon: VariationIcon.Neither, trend }}
                 variant={variant}
                 letterMode="direction"
                 runLength={variant === 'triangleWithRun' ? 2 : undefined}
@@ -105,7 +106,7 @@ describe('SPCVariationIcon permutations', () => {
       it('letterOverride forces value even when polarity would suppress', () => {
         const { container } = render(
           <SPCVariationIcon
-            data={{ judgement: VariationJudgement.Improving, polarity: MetricPolarity.ContextDependent }}
+    data={{ variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Neither }}
             variant={variant}
             letterOverride="H"
             runLength={variant === 'triangleWithRun' ? 3 : undefined}

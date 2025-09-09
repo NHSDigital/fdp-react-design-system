@@ -3688,6 +3688,7 @@ var ResponsiveDataGrid = ({
                       onKeyDown: (event) => handleCardKeyDown(event, index),
                       onFocus: () => {
                         setCardNavState((prev) => {
+                          if (prev.isCardNavigationActive) return prev;
                           if (prev.focusedCardIndex !== index || prev.focusArea !== "cards") {
                             return {
                               ...prev,

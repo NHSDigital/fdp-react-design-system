@@ -2,10 +2,15 @@ import React from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { SPCVariationIcon } from './SPCIcon';
-import { VariationState, Direction, MetricPolarity, VariationJudgement } from './SPCConstants';
+import { Direction } from './SPCConstants';
+import { VariationIcon, ImprovementDirection } from '../SPCChart/logic/spc';
 
 describe('SPCVariationIcon', () => {
-  const base = { state: VariationState.SpecialCauseImproving, direction: Direction.Higher, polarity: MetricPolarity.HigherIsBetter } as const;
+  const base = {
+    variationIcon: VariationIcon.Improvement,
+    trend: Direction.Higher,
+    improvementDirection: ImprovementDirection.Up,
+  } as const;
 
   it('renders classic variant with accessible label', () => {
     render(<SPCVariationIcon data={base} ariaLabel="Improving" variant="classic" />);
@@ -32,31 +37,31 @@ describe('SPCVariationIcon', () => {
     expect(circles.length).toBeGreaterThan(2); // outer + inner + run points
   });
 
-  it('infers direction from polarity for legacy payload when trend omitted (improving + LowerIsBetter -> L)', () => {
-    const payload = { state: VariationState.SpecialCauseImproving, polarity: MetricPolarity.LowerIsBetter } as const;
+  it('infers direction from improvementDirection when trend omitted (improving + Down -> L)', () => {
+    const payload = { variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Down } as const;
     render(<SPCVariationIcon data={payload} ariaLabel="Improving" />);
     const text = screen.getByText('L');
     expect(text).not.toBeNull();
   });
 
   it('letterMode=polarity uses polarity not direction', () => {
-    // Deteriorating with polarity HigherIsBetter => inferred direction Lower (so direction letter would be L)
-    // polarity HigherIsBetter -> expect H when letterMode=polarity
-    const derivePayload = { judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.HigherIsBetter } as const;
+    // Deteriorating with improvementDirection Up => inferred direction Lower (so direction letter would be L)
+    // polarity derived from improvementDirection Up -> expect H when letterMode=polarity
+    const derivePayload = { variationIcon: VariationIcon.Concern, improvementDirection: ImprovementDirection.Up } as const;
     render(<SPCVariationIcon data={derivePayload} ariaLabel="Det" letterMode="polarity" />);
     const text = screen.getByText('H');
     expect(text).not.toBeNull();
   });
 
   it('letterOverride takes precedence', () => {
-    const derivePayload = { judgement: VariationJudgement.Improving, polarity: MetricPolarity.LowerIsBetter } as const; // would normally show L (direction Lower)
+    const derivePayload = { variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Down } as const; // would normally show L (direction Lower)
     render(<SPCVariationIcon data={derivePayload} ariaLabel="Imp" letterOverride="H" />);
     const text = screen.getByText('H');
     expect(text).not.toBeNull();
   });
 
   it('default polarity mapping: deteriorating + HigherIsBetter yields H (polarity-based)', () => {
-    const payload = { judgement: VariationJudgement.Deteriorating, polarity: MetricPolarity.HigherIsBetter } as const;
+    const payload = { variationIcon: VariationIcon.Concern, improvementDirection: ImprovementDirection.Up } as const;
     render(<SPCVariationIcon data={payload} ariaLabel="Det" />);
     const text = screen.getByText('H');
     expect(text).not.toBeNull();

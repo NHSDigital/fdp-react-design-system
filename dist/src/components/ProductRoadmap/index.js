@@ -6303,7 +6303,7 @@ var ProductRoadmap = memo(({
       children: [
         /* @__PURE__ */ jsxs("div", { className: "nhsuk-product-roadmap__header-row", role: "row", "aria-rowindex": 1, children: [
           /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__header-cell", role: "columnheader", "aria-colindex": 1, children: /* @__PURE__ */ jsx("span", { className: "nhsuk-visually-hidden", children: "Category" }) }),
-          dateHeadings.map((heading, i) => /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__date-heading", role: "columnheader", "aria-colindex": i + 2, children: heading }, heading + i))
+          dateHeadings.map((heading, i) => /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__date-heading", role: "columnheader", "aria-colindex": i + 2, children: heading }, `${heading}-${i}`))
         ] }),
         packedCategories.map((cat, ci) => {
           const rowIndex = ci + 2;
@@ -6325,7 +6325,8 @@ var ProductRoadmap = memo(({
           });
           return /* @__PURE__ */ jsxs("div", { className: "nhsuk-product-roadmap__row", role: "row", "aria-rowindex": rowIndex, children: [
             /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__category-cell", role: "rowheader", "aria-colindex": 1, children: cat.heading }),
-            /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__items-row", style: { gridColumn: `2 / span ${dateHeadings.length}`, height: containerHeightExpr }, children: /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__items-layer", children: cat.roadmapItems.map((it) => {
+            /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__items-row", style: { gridColumn: `2 / span ${dateHeadings.length}`, height: containerHeightExpr }, children: /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__items-layer", children: cat.roadmapItems.map((it, idx) => {
+              var _a;
               const baseLaneIndex = (it.verticalPosition || 1) - 1;
               const extraAbove = expandedMeta.filter((m) => m.lane - 1 < baseLaneIndex).reduce((s, m) => s + m.count, 0);
               const topLaneIndex = baseLaneIndex + extraAbove;
@@ -6334,6 +6335,7 @@ var ProductRoadmap = memo(({
               return /* @__PURE__ */ jsxs(React.Fragment, { children: [
                 /* @__PURE__ */ jsx(RoadmapItem, { item: it, maxLines, enableDrilldown, onExpand: handleExpand, isActive: active, topLaneIndex, laneOffset: extraAbove }),
                 enableDrilldown && drilldownMode === "inline" && (active || collapsing) && it.childItems && /* @__PURE__ */ jsx("div", { "data-parent": it.id, className: "nhsuk-product-roadmap__inline-children", "aria-label": `${it.title} child tasks`, children: it.childItems.map((child, cIdx) => {
+                  var _a2;
                   const itemHeight = "calc(var(--roadmap-item-block-height) * 0.75)";
                   let childLeft = it._pxLeft;
                   let childWidth = it._pxWidth;
@@ -6361,12 +6363,12 @@ var ProductRoadmap = memo(({
                         /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__inline-child-content", children: child.title })
                       ]
                     },
-                    child.id
+                    (_a2 = child.id) != null ? _a2 : cIdx
                   );
                 }) })
-              ] }, it.id);
+              ] }, (_a = it.id) != null ? _a : idx);
             }) }) })
-          ] }, cat.heading + ci);
+          ] }, `${cat.heading}-${ci}`);
         }),
         enableDrilldown && drilldownMode === "overlay" && activeItemIds.size === 1 && (() => {
           const onlyId = Array.from(activeItemIds)[0];
@@ -6379,10 +6381,13 @@ var ProductRoadmap = memo(({
                 /* @__PURE__ */ jsx("button", { type: "button", className: "nhsuk-product-roadmap__drilldown-close", onClick: closePanel, "aria-label": "Close details", children: "\xD7" })
               ] }),
               /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__drilldown-content", children: item.content }),
-              /* @__PURE__ */ jsx("ul", { className: "nhsuk-product-roadmap__drilldown-children", children: item.childItems.map((child) => /* @__PURE__ */ jsxs("li", { className: "nhsuk-product-roadmap__drilldown-child", children: [
-                /* @__PURE__ */ jsx("strong", { className: "nhsuk-product-roadmap__drilldown-child-title", children: child.title }),
-                child.content && /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__drilldown-child-content", children: child.content })
-              ] }, child.id)) })
+              /* @__PURE__ */ jsx("ul", { className: "nhsuk-product-roadmap__drilldown-children", children: item.childItems.map((child, idx) => {
+                var _a;
+                return /* @__PURE__ */ jsxs("li", { className: "nhsuk-product-roadmap__drilldown-child", children: [
+                  /* @__PURE__ */ jsx("strong", { className: "nhsuk-product-roadmap__drilldown-child-title", children: child.title }),
+                  child.content && /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__drilldown-child-content", children: child.content })
+                ] }, (_a = child.id) != null ? _a : idx);
+              }) })
             ] }),
             /* @__PURE__ */ jsx("div", { className: "nhsuk-product-roadmap__drilldown-backdrop", onClick: closePanel, "aria-hidden": "true" })
           ] });

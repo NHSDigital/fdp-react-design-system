@@ -1427,7 +1427,9 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 					}}
 					onKeyDown={(event) => handleCardKeyDown(event, index)}
 					onFocus={() => {
+					  // Do not reset focus state when in card-internal navigation; React onFocus bubbles from children
 					  setCardNavState(prev => {
+						if (prev.isCardNavigationActive) return prev;
 						if (prev.focusedCardIndex !== index || prev.focusArea !== 'cards') {
 						  return { 
 							...prev, 

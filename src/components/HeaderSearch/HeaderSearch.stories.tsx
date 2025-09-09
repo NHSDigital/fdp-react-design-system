@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { HeaderSearch } from '../src/components/HeaderSearch/HeaderSearch';
-import { HeaderSearchProps, SearchQuery, SearchResult } from '../src/components/HeaderSearch/HeaderSearch.types';
+import { HeaderSearch } from './HeaderSearch';
+import { HeaderSearchProps, SearchQuery, SearchResult } from './HeaderSearch.types';
 
 const meta: Meta<typeof HeaderSearch> = {
   title: 'Components/Header/HeaderSearch',

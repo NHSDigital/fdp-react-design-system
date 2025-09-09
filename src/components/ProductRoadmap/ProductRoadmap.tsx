@@ -222,7 +222,7 @@ export const ProductRoadmap: React.FC<ProductRoadmapProps> = memo(({
 					<span className="nhsuk-visually-hidden">Category</span>
 				</div>
 				{dateHeadings.map((heading, i) => (
-					<div key={heading + i} className="nhsuk-product-roadmap__date-heading" role="columnheader" aria-colindex={i + 2}>
+					<div key={`${heading}-${i}`} className="nhsuk-product-roadmap__date-heading" role="columnheader" aria-colindex={i + 2}>
 						{heading}
 					</div>
 				))}
@@ -255,11 +255,11 @@ export const ProductRoadmap: React.FC<ProductRoadmapProps> = memo(({
 				// For fast lookup produce prefix for all lane indices
 				// (If needed later) cumulative extra lanes helper removed to avoid unused variable.
 				return (
-					<div key={cat.heading + ci} className="nhsuk-product-roadmap__row" role="row" aria-rowindex={rowIndex}>
+					<div key={`${cat.heading}-${ci}`} className="nhsuk-product-roadmap__row" role="row" aria-rowindex={rowIndex}>
 						<div className="nhsuk-product-roadmap__category-cell" role="rowheader" aria-colindex={1}>{cat.heading}</div>
 						<div className="nhsuk-product-roadmap__items-row" style={{ gridColumn: `2 / span ${dateHeadings.length}`, height: containerHeightExpr }}>
 							<div className="nhsuk-product-roadmap__items-layer">
-								{(cat.roadmapItems as PositionedItem[]).map(it => {
+								{(cat.roadmapItems as PositionedItem[]).map((it, idx) => {
 									const baseLaneIndex = (it.verticalPosition || 1) - 1;
 									// Extra lanes inserted before this lane come from expanded items with lane < current lane
 									const extraAbove = expandedMeta.filter(m => m.lane - 1 < baseLaneIndex).reduce((s, m) => s + m.count, 0);
@@ -267,7 +267,7 @@ export const ProductRoadmap: React.FC<ProductRoadmapProps> = memo(({
 									const active = isItemActive(it.id);
 									const collapsing = collapsingIds.has(it.id);
 									return (
-										<React.Fragment key={it.id}>
+										<React.Fragment key={it.id ?? idx}>
 											<RoadmapItem item={it} maxLines={maxLines} enableDrilldown={enableDrilldown} onExpand={handleExpand} isActive={active} topLaneIndex={topLaneIndex} laneOffset={extraAbove} />
 											{enableDrilldown && drilldownMode === 'inline' && (active || collapsing) && it.childItems && (
 												<div data-parent={it.id} className="nhsuk-product-roadmap__inline-children" aria-label={`${it.title} child tasks`}>
@@ -293,7 +293,7 @@ export const ProductRoadmap: React.FC<ProductRoadmapProps> = memo(({
 														const childTopLane = childBaseLane + cIdx;
 														return (
 															<div
-																key={child.id}
+																key={child.id ?? cIdx}
 																className={classNames('nhsuk-product-roadmap__inline-child', child.status && `nhsuk-product-roadmap__inline-child--status-${child.status}`, !active && collapsing && 'nhsuk-product-roadmap__inline-child--collapsing')}
 																style={{ left: `${childLeft}px`, width: `${childWidth}px`, top: `calc((var(--roadmap-item-block-height) + var(--roadmap-row-gap)) * ${childTopLane})`, height: itemHeight, opacity: active ? 0 : undefined, transform: active ? 'translateY(-6px)' : undefined }}
 															>
@@ -327,8 +327,8 @@ export const ProductRoadmap: React.FC<ProductRoadmapProps> = memo(({
 							</header>
 							<div className="nhsuk-product-roadmap__drilldown-content">{item.content}</div>
 							<ul className="nhsuk-product-roadmap__drilldown-children">
-								{item.childItems.map(child => (
-									<li key={child.id} className="nhsuk-product-roadmap__drilldown-child">
+								{item.childItems.map((child, idx) => (
+									<li key={child.id ?? idx} className="nhsuk-product-roadmap__drilldown-child">
 										<strong className="nhsuk-product-roadmap__drilldown-child-title">{child.title}</strong>
 										{child.content && <div className="nhsuk-product-roadmap__drilldown-child-content">{child.content}</div>}
 									</li>

@@ -1,7 +1,8 @@
 import { SPCVariationIcon } from "./SPCIcon";
 import { SPCAssuranceIcon } from "./SPCAssuranceIcon";
-import { Direction, VariationJudgement, MetricPolarity } from "./SPCConstants";
+import { Direction } from "./SPCConstants";
 import { AssuranceResult } from "./SPCConstants";
+import { VariationIcon, ImprovementDirection } from "../SPCChart/logic/spc";
 import { Grid, Row, Column } from "../../../../../core";
 import { Heading } from "../../../../Heading";
 
@@ -21,8 +22,9 @@ export const VariationIconInteractive = {
 		gradientWash: false,
 		dropShadow: false,
 		runLength: 3,
-		judgement: VariationJudgement.Improving,
-		polarity: MetricPolarity.HigherIsBetter,
+		variationIcon: VariationIcon.Improvement,
+		improvementDirection: ImprovementDirection.Up,
+		specialCauseNeutral: false,
 		trend: undefined as undefined | Direction,
 	},
 	argTypes: {
@@ -31,22 +33,23 @@ export const VariationIconInteractive = {
 		gradientWash: { control: 'boolean' },
 		dropShadow: { control: 'boolean' },
 		runLength: { control: { type: 'number', min: 1, max: 10, step: 1 } },
-		judgement: { control: { type: 'radio' }, options: [
-			VariationJudgement.Improving,
-			VariationJudgement.Deteriorating,
-			VariationJudgement.No_Judgement,
-			VariationJudgement.None,
+		variationIcon: { control: { type: 'radio' }, options: [
+			VariationIcon.Improvement,
+			VariationIcon.Concern,
+			VariationIcon.Neither,
 		] },
-		polarity: { control: { type: 'radio' }, options: [
-			MetricPolarity.HigherIsBetter,
-			MetricPolarity.LowerIsBetter,
+		improvementDirection: { control: { type: 'radio' }, options: [
+			ImprovementDirection.Up,
+			ImprovementDirection.Down,
+			ImprovementDirection.Neither,
 		] },
+		specialCauseNeutral: { control: 'boolean' },
 		trend: { control: { type: 'radio' }, options: [undefined, Direction.Higher, Direction.Lower] },
 	},
-	render: ({ variant, size, gradientWash, dropShadow, runLength, judgement, polarity, trend }: any) => (
+	render: ({ variant, size, gradientWash, dropShadow, runLength, variationIcon, improvementDirection, specialCauseNeutral, trend }: any) => (
 		<div style={{ textAlign: 'center' }}>
 			<SPCVariationIcon
-				data={{ judgement, polarity, trend }}
+				data={{ variationIcon, improvementDirection, specialCauseNeutral, trend }}
 				variant={variant}
 				size={size}
 				gradientWash={gradientWash}
@@ -54,7 +57,7 @@ export const VariationIconInteractive = {
 				runLength={variant === 'triangleWithRun' ? runLength : undefined}
 			/>
 			<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif", fontSize: 12 }}>
-				Toggle variant, judgement, polarity, and trend to preview all icon states.
+				Toggle variant, icon, improvement direction or trend to preview all icon states.
 			</div>
 		</div>
 	),
@@ -117,35 +120,19 @@ interface MatrixConfig {
 	gradientWash?: boolean;
 }
 
-const judgements = [
-	VariationJudgement.Improving,
-	VariationJudgement.Deteriorating,
-	VariationJudgement.No_Judgement,
-	VariationJudgement.None,
-] as const;
-
-const polarities = [
-	MetricPolarity.HigherIsBetter,
-	MetricPolarity.LowerIsBetter,
-] as const; // context dependent excluded for brevity
-
-const judgementLabel = (j: VariationJudgement) => {
-	switch (j) {
-		case VariationJudgement.Improving: return 'Improving';
-		case VariationJudgement.Deteriorating: return 'Deteriorating';
-		case VariationJudgement.No_Judgement: return 'No Judgement';
-		case VariationJudgement.None: return 'Common Cause';
-		default: return String(j);
-	}
-};
-
-const polarityLabel = (p: MetricPolarity) => p === MetricPolarity.HigherIsBetter ? 'Higher better' : 'Lower better';
+type ConceptId = 'improve' | 'deteriorate' | 'no-judgement' | 'common-cause';
+const concepts: { id: ConceptId; label: string }[] = [
+	{ id: 'improve', label: 'Improving' },
+	{ id: 'deteriorate', label: 'Deteriorating' },
+	{ id: 'no-judgement', label: 'Special Cause (No Judgement)' },
+	{ id: 'common-cause', label: 'Common Cause' },
+];
 
 function VariationMatrix({ variant, runLength, gradientWash }: MatrixConfig) {
-	// Chunk judgements into rows of two for nicer layout using the design system Grid
-	const rows: typeof judgements[] = [] as any;
-	for (let i = 0; i < judgements.length; i += 2) {
-		rows.push(judgements.slice(i, i + 2) as any);
+	// Chunk concepts into rows of two for nicer layout using the design system Grid
+	const rows: typeof concepts[] = [] as any;
+	for (let i = 0; i < concepts.length; i += 2) {
+		rows.push(concepts.slice(i, i + 2) as any);
 	}
 
 	return (
@@ -155,48 +142,67 @@ function VariationMatrix({ variant, runLength, gradientWash }: MatrixConfig) {
 					<Heading level={2}>{`Variant: ${variant}${gradientWash ? ' (wash)' : ''}`}</Heading>
 				</Column>
 			</Row>
-			{rows.map((group, rowIdx) => (
+					{rows.map((group, rowIdx) => (
 				<Row key={rowIdx} style={{ gap: 24, marginBottom: 32 }}>
-					{group.map(j => {
+							{group.map(({ id, label }) => {
 						return (
-							<Column key={j} width="one-half">
+									<Column key={id} width="one-half">
 								<div style={{ border: '1px solid #e0e0e0', padding: 12, borderRadius: 8 }}>
-									<div style={{ fontWeight: 'bold', marginBottom: 8 }}>{judgementLabel(j)}</div>
+											<div style={{ fontWeight: 'bold', marginBottom: 8 }}>{label}</div>
 									<Grid>
 										<Row style={{ rowGap: 16, columnGap: 16 }}>
-											{polarities.map(p => {
-												const basePayload: any = { judgement: j, polarity: p };
-												const needsTrend = j === VariationJudgement.No_Judgement || j === VariationJudgement.None;
-												const payloads = needsTrend ? [
-													{ ...basePayload, trend: Direction.Higher },
-													{ ...basePayload, trend: Direction.Lower }
-												] : [basePayload];
-												// Column width adapts: when trend variants (two payloads) we keep each polarity column half width; when single we allow full width
-												const columnWidth = 'one-half';
-												return (
-													<Column key={p + '-' + j} width={columnWidth}>
-														<Row style={{ gap: 12 }}>
-															{payloads.map((pl, idx) => (
-																<Column key={idx} width={needsTrend ? 'one-half' : 'full'}>
-																	<div style={cellStyle}>
-																		<SPCVariationIcon
-																			data={pl}
-																			size={72}
-																			variant={variant}
-																			runLength={variant === 'triangleWithRun' ? (runLength ?? 3) : undefined}
-																			gradientWash={gradientWash}
-																			dropShadow={false}
-																		/>
-																		<div style={labelStyle}>
-																			{polarityLabel(p)}{needsTrend ? ` / ${pl.trend === Direction.Higher ? 'Higher' : 'Lower'}` : ''}
-																		</div>
-																	</div>
-																</Column>
-															))}
-														</Row>
-													</Column>
-												);
-											})}
+													{(() => {
+														// Build column payloads depending on the concept
+														type Col = { key: string; label: string; payloads: any[] };
+														const cols: Col[] = [];
+														if (id === 'improve' || id === 'deteriorate') {
+															const icon = id === 'improve' ? VariationIcon.Improvement : VariationIcon.Concern;
+															cols.push({
+																key: 'up',
+																label: 'Up',
+																payloads: [{ variationIcon: icon, improvementDirection: ImprovementDirection.Up }],
+															});
+															cols.push({
+																key: 'down',
+																label: 'Down',
+																payloads: [{ variationIcon: icon, improvementDirection: ImprovementDirection.Down }],
+															});
+														} else if (id === 'no-judgement' || id === 'common-cause') {
+															const specialCauseNeutral = id === 'no-judgement';
+															const icon = VariationIcon.Neither;
+															cols.push({
+																key: 'higher',
+																label: 'Higher',
+																payloads: [{ variationIcon: icon, specialCauseNeutral, trend: Direction.Higher }],
+															});
+															cols.push({
+																key: 'lower',
+																label: 'Lower',
+																payloads: [{ variationIcon: icon, specialCauseNeutral, trend: Direction.Lower }],
+															});
+														}
+														return cols.map(col => (
+															<Column key={`${id}-${col.key}`} width={'one-half'}>
+																<Row style={{ gap: 12 }}>
+																	{col.payloads.map((pl, idx) => (
+																		<Column key={idx} width={'full'}>
+																			<div style={cellStyle}>
+																				<SPCVariationIcon
+																					data={pl}
+																					size={72}
+																					variant={variant}
+																					runLength={variant === 'triangleWithRun' ? (runLength ?? 3) : undefined}
+																					gradientWash={gradientWash}
+																					dropShadow={false}
+																				/>
+																				<div style={labelStyle}>{col.label}</div>
+																			</div>
+																		</Column>
+																	))}
+																</Row>
+															</Column>
+														));
+													})()}
 										</Row>
 									</Grid>
 								</div>

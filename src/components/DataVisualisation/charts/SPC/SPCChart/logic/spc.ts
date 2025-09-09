@@ -1039,9 +1039,10 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		} else {
 			// Legacy side-based aggregation
 			if (metricImprovement === ImprovementDirection.Up) {
-				row.variationIcon = highSignals ? VariationIcon.Improvement : VariationIcon.Concern;
+				// Reverted the ternaries to restore VariationIcon.Neither for neutral special‑cause
+				row.variationIcon = highSignals ? VariationIcon.Improvement : lowSignals ? VariationIcon.Concern : VariationIcon.Neither;
 			} else if (metricImprovement === ImprovementDirection.Down) {
-				row.variationIcon = lowSignals ? VariationIcon.Improvement : VariationIcon.Concern;
+				row.variationIcon = lowSignals ? VariationIcon.Improvement : highSignals ? VariationIcon.Concern : VariationIcon.Neither;
 			} else {
 				row.variationIcon = VariationIcon.Neither;
 			}

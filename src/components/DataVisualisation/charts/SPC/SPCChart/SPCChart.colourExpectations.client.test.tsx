@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { SPCChart } from "./SPCChart";
+import { PrecedenceStrategy } from "./logic/spc";
 import {
 	resolvedSpcTestCases,
 	SPC_POINT_COLOURS,
@@ -36,6 +37,12 @@ describe("SPCChart colour expectations", () => {
 				metricImprovement={mapDirection(tc.direction)}
 				enableRules
 				showPoints
+					// Enforce engine behavior expected by this suite: directional-first + grace
+					settings={{
+						precedenceStrategy: PrecedenceStrategy.DirectionalFirst,
+						emergingDirectionGrace: true,
+					}}
+				disableTrendSideGating={false}
 			/>
 		);
 		const circles = Array.from(
@@ -85,6 +92,7 @@ describe("SPCChart colour expectations", () => {
 				metricImprovement={mapDirection(tc.direction)}
 				enableRules
 				showPoints
+				disableTrendSideGating={false}
 			/>
 		);
 		const circles = Array.from(

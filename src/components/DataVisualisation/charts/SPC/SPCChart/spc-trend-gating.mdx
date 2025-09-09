@@ -1,5 +1,6 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
 import { TrendGatingEmbeddedHigh } from './TrendGatingEmbeddedHighStory';
+import { TrendGatingEmbeddedHighNoGate } from './TrendGatingEmbeddedHighNoGateStory';
 import Mermaid from '../../../../_internal/Mermaid';
 
 <Meta title="Data Visualisation/SPC/Trend Gating Rationale"/>
@@ -54,9 +55,18 @@ Limitations / scope:
 - Users seeking pure symmetric SPC can disable precedence strategy enhancements or rely on raw rule tags.
 - Future extension could parameterise the gating (e.g. require M points on favourable side post‑cross before upgrading) – currently immediate upon any favourable-side inclusion after run continuation.
 
+### Toggling this behaviour in SPCChart
+
+- Engine-level (classification): set `disableTrendSideGating` on `SPCChart` to make early trend points classify directionally (Concern/Improvement) even before crossing the mean. Internally, this maps to `settings.trendSideGatingEnabled = false` in the SPC engine.
+- Visual-only (styling/copy): `enableNeutralNoJudgement={false}` hides the purple neutral styling, and `showTrendGatingExplanation={false}` hides the tooltip rationale. These do not change the classification unless side-gating is also disabled.
+
 ### Illustration (Dataset Story)
 
-Below, view the story: the mid‑series increasing points (e.g. 17 & 18 January) are *still below the mean* so they are purple although the trend rule has fired. Once later points rise above the mean, Improvement (blue) icons appear.
+First, the same dataset with visuals turned OFF and engine side‑gating disabled via `disableTrendSideGating`. This shows how points immediately colour as Improvement/Concern once the trend rule length is reached, regardless of being on the favourable side yet.
+
+<TrendGatingEmbeddedHighNoGate />
+
+Below, view the story with the default gating ON: the mid‑series increasing points (e.g. 17 & 18 January) are *still below the mean* so they are purple although the trend rule has fired. Once later points rise above the mean, Improvement (blue) icons appear.
 
 <TrendGatingEmbeddedHigh />
 

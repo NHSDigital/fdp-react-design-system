@@ -1,3 +1,4 @@
+@use "sass:map";
 // NHS FDP Enhanced Breakpoint System
 // Provides systematic responsive design utilities
 
@@ -39,8 +40,8 @@ $nhs-fdp-legacy-breakpoints: (
 
 // Enhanced responsive mixin with systematic breakpoint support
 @mixin nhs-fdp-responsive($breakpoint) {
-  @if map-has-key($nhs-fdp-breakpoints, $breakpoint) {
-    $bp-value: map-get($nhs-fdp-breakpoints, $breakpoint);
+  @if map.has-key($nhs-fdp-breakpoints, $breakpoint) {
+    $bp-value: map.get($nhs-fdp-breakpoints, $breakpoint);
     @if $bp-value == 0px {
       @content;
     } @else {
@@ -48,8 +49,8 @@ $nhs-fdp-legacy-breakpoints: (
         @content;
       }
     }
-  } @else if map-has-key($nhs-fdp-legacy-breakpoints, $breakpoint) {
-    $bp-value: map-get($nhs-fdp-legacy-breakpoints, $breakpoint);
+  } @else if map.has-key($nhs-fdp-legacy-breakpoints, $breakpoint) {
+    $bp-value: map.get($nhs-fdp-legacy-breakpoints, $breakpoint);
     @if $bp-value == 0px {
       @content;
     } @else {
@@ -67,12 +68,12 @@ $nhs-fdp-legacy-breakpoints: (
   $min-value: null;
   $max-value: null;
   
-  @if map-has-key($nhs-fdp-breakpoints, $min-breakpoint) {
-    $min-value: map-get($nhs-fdp-breakpoints, $min-breakpoint);
+  @if map.has-key($nhs-fdp-breakpoints, $min-breakpoint) {
+    $min-value: map.get($nhs-fdp-breakpoints, $min-breakpoint);
   }
   
-  @if map-has-key($nhs-fdp-breakpoints, $max-breakpoint) {
-    $max-value: map-get($nhs-fdp-breakpoints, $max-breakpoint) - 1px;
+  @if map.has-key($nhs-fdp-breakpoints, $max-breakpoint) {
+    $max-value: map.get($nhs-fdp-breakpoints, $max-breakpoint) - 1px;
   }
   
   @if $min-value and $max-value {

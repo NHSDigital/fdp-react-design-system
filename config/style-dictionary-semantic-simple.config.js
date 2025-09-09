@@ -156,6 +156,7 @@ StyleDictionary.registerFormat({
     // Add helper functions
     const helpers = `
 // Semantic token helper functions
+@use "sass:map";
 @function semantic-intent($key) {
   $intent-map: (
     primary: $semantic-intent-primary,
@@ -165,7 +166,7 @@ StyleDictionary.registerFormat({
     neutral: $semantic-intent-neutral,
     info: $semantic-intent-info
   );
-  @return map-get($intent-map, $key);
+  @return map.get($intent-map, $key);
 }
 
 @function semantic-form-border($state: default) {
@@ -175,7 +176,7 @@ StyleDictionary.registerFormat({
     error: $semantic-context-form-border-error,
     success: $semantic-context-form-border-success
   );
-  @return map-get($form-border-map, $state);
+  @return map.get($form-border-map, $state);
 }
 
 @function semantic-form-text($state: default) {
@@ -185,7 +186,7 @@ StyleDictionary.registerFormat({
     disabled: $semantic-context-form-text-disabled,
     error: $semantic-context-form-text-error
   );
-  @return map-get($form-text-map, $state);
+  @return map.get($form-text-map, $state);
 }
 `;
     

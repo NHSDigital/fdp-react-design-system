@@ -30,6 +30,11 @@ function findScssFiles(dir: string, componentName: string, subPath: string = '')
         subPath ? `${subPath}/${item.name}` : item.name
       );
     } else if (item.name.endsWith('.scss') && !item.name.startsWith('_')) {
+      // Skip docs-only stylesheets to avoid emitting duplicate component CSS bundles
+      // e.g. files named like Component.docs.scss should not be shipped as component CSS
+      if (item.name.includes('.docs.')) {
+        return;
+      }
       // Skip alias components – they intentionally re-use provider CSS via exports
       if (aliasComponentNames.has(componentName)) {
         return; // do not create an entry for this alias's SCSS

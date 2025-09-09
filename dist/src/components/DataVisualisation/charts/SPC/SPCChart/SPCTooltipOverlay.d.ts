@@ -16,6 +16,10 @@ interface SPCTooltipOverlayProps {
     measureUnit?: string;
     /** Optional date formatter (defaults to toDateString) */
     dateFormatter?: (d: Date) => string;
+    /** Show neutral special-cause (no-judgement) purple styling in tooltip. Defaults to true. */
+    enableNeutralNoJudgement?: boolean;
+    /** Show trend side-gating explanation text. Defaults to true. */
+    showTrendGatingExplanation?: boolean;
 }
 /**
  * SPC specific tooltip overlay enriching the basic overlay with:

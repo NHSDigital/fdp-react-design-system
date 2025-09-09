@@ -54,7 +54,6 @@ const Table: React.FC<TableProps> = ({
 	const ensurePrism = () => {
 		if (prismRef.current) return prismRef.current;
 		try {
-			// eslint-disable-next-line @typescript-eslint/no-var-requires
 			prismRef.current = require('prismjs');
 			try { require('prismjs/components/prism-typescript'); } catch { /* ignore */ }
 			try { require('prismjs/components/prism-tsx'); } catch { /* ignore */ }

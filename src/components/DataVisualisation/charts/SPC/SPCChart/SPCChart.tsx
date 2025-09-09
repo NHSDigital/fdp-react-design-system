@@ -2,7 +2,10 @@ import * as React from "react";
 import "../../../DataVisualisation.scss";
 import "./SPCChart.scss";
 import { ChartRoot } from "../../../core/ChartRoot";
-import { LineScalesProvider, useScaleContext } from "../../../core/ScaleContext";
+import {
+	LineScalesProvider,
+	useScaleContext,
+} from "../../../core/ScaleContext";
 import { useChartContext } from "../../../core/ChartRoot";
 import { useTooltipContext } from "../../../core/TooltipContext";
 import Axis from "../../Axis/Axis";
@@ -28,10 +31,14 @@ import {
 	SpcWarningCode,
 	type SpcSettings,
 } from "./logic/spc";
-import { Tag } from '../../../../Tag/Tag';
-import Table from '../../../../Tables/Table';
+import { Tag } from "../../../../Tag/Tag";
+import Table from "../../../../Tables/Table";
 import { MetricPolarity } from "../SPCIcons/SPCConstants";
-import { extractRuleIds, ruleGlossary, variationLabel } from './logic/spcDescriptors';
+import {
+	extractRuleIds,
+	ruleGlossary,
+	variationLabel,
+} from "./logic/spcDescriptors";
 
 // Global counter to create stable, unique gradient id bases across multiple SPCChart instances
 let spcSequenceInstanceCounter = 0;
@@ -63,7 +70,7 @@ export interface SPCChartProps {
 	/** Render embedded SPC variation icon in chart corner (defaults to true) */
 	showEmbeddedIcon?: boolean;
 	/** Variant style for embedded SPC variation icon (classic triangle / triangleWithRun). */
-	embeddedIconVariant?: 'classic' | 'triangle' | 'triangleWithRun';
+	embeddedIconVariant?: "classic" | "triangle" | "triangleWithRun";
 	/** Run length (0-5) for triangleWithRun embedded variation icon variant. Ignored otherwise. */
 	embeddedIconRunLength?: number;
 	/** Optional targets per point (same length order as data) */
@@ -97,6 +104,12 @@ export interface SPCChartProps {
 		categories?: SpcWarningCategory[];
 		codes?: SpcWarningCode[];
 	};
+	/** Show neutral special-cause (no-judgement) purple styling on points and tooltip. Defaults to true. */
+	enableNeutralNoJudgement?: boolean;
+	/** Show the trend side-gating explanation text in the tooltip. Defaults to true. */
+	showTrendGatingExplanation?: boolean;
+	/** Engine-level: when true, disables trend side-gating so early trend points classify directionally (Concern/Improvement) even before crossing the mean. Defaults to false. */
+	disableTrendSideGating?: boolean;
 }
 
 export const SPCChart: React.FC<SPCChartProps> = ({
@@ -114,7 +127,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	enableRules = true,
 	showIcons = false,
 	showEmbeddedIcon = true,
-	embeddedIconVariant = 'classic',
+	embeddedIconVariant = "classic",
 	embeddedIconRunLength,
 	targets: targetsProp,
 	baselines,
@@ -125,30 +138,40 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	processLineWidth = 2,
 	showWarningsPanel = false,
 	warningsFilter,
+	enableNeutralNoJudgement = true,
+	showTrendGatingExplanation = true,
+	disableTrendSideGating = false,
 }) => {
+	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
-	const formatWarningCode = React.useCallback((code: SpcWarningCode | string): string => {
-		const raw = String(code);
-		return raw
-			.replace(/^spc_warning_code\.?/i, '') // defensive: strip enum prefix if ever serialized
-			.replace(/[_\-]+/g, ' ') // underscores/hyphens -> space
-			.trim()
-			.split(' ')
-			.filter(Boolean)
-			.map(w => w.length ? w[0].toUpperCase() + w.slice(1) : w)
-			.join(' ');
-	}, []);
+	const formatWarningCode = React.useCallback(
+		(code: SpcWarningCode | string): string => {
+			const raw = String(code);
+			return raw
+				.replace(/^spc_warning_code\.?/i, "") // defensive: strip enum prefix if ever serialized
+				.replace(/[_\-]+/g, " ") // underscores/hyphens -> space
+				.trim()
+				.split(" ")
+				.filter(Boolean)
+				.map((w) => (w.length ? w[0].toUpperCase() + w.slice(1) : w))
+				.join(" ");
+		},
+		[]
+	);
 
 	// Human friendly label for SpcWarningCategory values (snake_case -> Capitalised words)
-	const formatWarningCategory = React.useCallback((cat: SpcWarningCategory | string): string => {
-		return String(cat)
-			.replace(/[_\-]+/g, ' ')
-			.trim()
-			.split(' ')
-			.filter(Boolean)
-			.map(w => w.length ? w[0].toUpperCase() + w.slice(1) : w)
-			.join(' ');
-	}, []);
+	const formatWarningCategory = React.useCallback(
+		(cat: SpcWarningCategory | string): string => {
+			return String(cat)
+				.replace(/[_\-]+/g, " ")
+				.trim()
+				.split(" ")
+				.filter(Boolean)
+				.map((w) => (w.length ? w[0].toUpperCase() + w.slice(1) : w))
+				.join(" ");
+		},
+		[]
+	);
 	const engine = React.useMemo(() => {
 		const rowsInput = data.map((d, i) => ({
 			x: d.x,
@@ -158,11 +181,15 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			ghost: ghosts?.[i] ?? undefined,
 		}));
 		try {
+			// Merge settings shallowly and apply trendSideGatingEnabled override if requested.
+			const engineSettings: SpcSettings | undefined = settings
+				? { ...settings, trendSideGatingEnabled: settings.trendSideGatingEnabled ?? !disableTrendSideGating }
+				: { trendSideGatingEnabled: !disableTrendSideGating };
 			return buildSpc({
 				chartType,
 				metricImprovement,
 				data: rowsInput,
-				settings,
+				settings: engineSettings,
 			});
 		} catch {
 			return null;
@@ -175,37 +202,56 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		chartType,
 		metricImprovement,
 		settings,
+		disableTrendSideGating,
 	]);
 
 	// Representative row with populated limits (last available)
-	const engineRepresentative = engine?.rows.slice().reverse().find((r) => r.mean != null);
+	const engineRepresentative = engine?.rows
+		.slice()
+		.reverse()
+		.find((r) => r.mean != null);
 	const mean = engineRepresentative?.mean ?? null;
 	const warnings = engine?.warnings || [];
 	const filteredWarnings = React.useMemo(() => {
 		if (!warnings.length) return [] as typeof warnings;
 		if (!warningsFilter) return warnings;
-		return warnings.filter(w => {
-			if (warningsFilter.severities && w.severity && !warningsFilter.severities.includes(w.severity)) return false;
-			if (warningsFilter.categories && w.category && !warningsFilter.categories.includes(w.category)) return false;
-			if (warningsFilter.codes && !warningsFilter.codes.includes(w.code as SpcWarningCode)) return false;
+		return warnings.filter((w) => {
+			if (
+				warningsFilter.severities &&
+				w.severity &&
+				!warningsFilter.severities.includes(w.severity)
+			)
+				return false;
+			if (
+				warningsFilter.categories &&
+				w.category &&
+				!warningsFilter.categories.includes(w.category)
+			)
+				return false;
+			if (
+				warningsFilter.codes &&
+				!warningsFilter.codes.includes(w.code as SpcWarningCode)
+			)
+				return false;
 			return true;
 		});
 	}, [warnings, warningsFilter]);
 
 	// Accessible live announcement for diagnostics panel updates
-	const [diagnosticsMessage, setDiagnosticsMessage] = React.useState<string>('');
-	const lastDiagnosticsRef = React.useRef<string>('');
+	const [diagnosticsMessage, setDiagnosticsMessage] =
+		React.useState<string>("");
+	const lastDiagnosticsRef = React.useRef<string>("");
 	React.useEffect(() => {
 		if (!showWarningsPanel) {
-			if (lastDiagnosticsRef.current !== '') {
-				lastDiagnosticsRef.current = '';
-				setDiagnosticsMessage('');
+			if (lastDiagnosticsRef.current !== "") {
+				lastDiagnosticsRef.current = "";
+				setDiagnosticsMessage("");
 			}
 			return;
 		}
 		const total = filteredWarnings.length;
 		if (!total) {
-			const msg = 'Diagnostics: no warnings.';
+			const msg = "Diagnostics: no warnings.";
 			if (msg !== lastDiagnosticsRef.current) {
 				lastDiagnosticsRef.current = msg;
 				setDiagnosticsMessage(msg);
@@ -213,15 +259,27 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			return;
 		}
 		const counts = {
-			error: filteredWarnings.filter(w => w.severity === SpcWarningSeverity.Error).length,
-			warning: filteredWarnings.filter(w => w.severity === SpcWarningSeverity.Warning).length,
-			info: filteredWarnings.filter(w => w.severity === SpcWarningSeverity.Info).length,
+			error: filteredWarnings.filter(
+				(w) => w.severity === SpcWarningSeverity.Error
+			).length,
+			warning: filteredWarnings.filter(
+				(w) => w.severity === SpcWarningSeverity.Warning
+			).length,
+			info: filteredWarnings.filter(
+				(w) => w.severity === SpcWarningSeverity.Info
+			).length,
 		};
 		const breakdownParts: string[] = [];
-		if (counts.error) breakdownParts.push(`${counts.error} error${counts.error === 1 ? '' : 's'}`);
-		if (counts.warning) breakdownParts.push(`${counts.warning} warning${counts.warning === 1 ? '' : 's'}`);
+		if (counts.error)
+			breakdownParts.push(
+				`${counts.error} error${counts.error === 1 ? "" : "s"}`
+			);
+		if (counts.warning)
+			breakdownParts.push(
+				`${counts.warning} warning${counts.warning === 1 ? "" : "s"}`
+			);
 		if (counts.info) breakdownParts.push(`${counts.info} info`);
-		const msg = `Diagnostics updated: ${total} warning${total === 1 ? '' : 's'} (${breakdownParts.join(', ')}).`;
+		const msg = `Diagnostics updated: ${total} warning${total === 1 ? "" : "s"} (${breakdownParts.join(", ")}).`;
 		if (msg !== lastDiagnosticsRef.current) {
 			lastDiagnosticsRef.current = msg;
 			setDiagnosticsMessage(msg);
@@ -247,7 +305,10 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			if (v != null) base.push(v);
 		});
 		// Include any numeric targets so target line never sits outside vertical range
-		if (targetsProp) targetsProp.forEach((t: number | null | undefined) => { if (typeof t === 'number' && !isNaN(t)) base.push(t); });
+		if (targetsProp)
+			targetsProp.forEach((t: number | null | undefined) => {
+				if (typeof t === "number" && !isNaN(t)) base.push(t);
+			});
 		if (!base.length) return undefined;
 		return [Math.min(...base), Math.max(...base)];
 	}, [data, mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp]);
@@ -256,7 +317,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	const autoUnit = React.useMemo(() => {
 		if (unit || narrationContext?.measureUnit) return undefined;
 		if (!data.length) return undefined;
-		return data.every(d => d.y >= 0 && d.y <= 1) ? '%' : undefined;
+		return data.every((d) => d.y >= 0 && d.y <= 1) ? "%" : undefined;
 	}, [unit, narrationContext?.measureUnit, data]);
 
 	const effectiveUnit = unit ?? narrationContext?.measureUnit ?? autoUnit;
@@ -270,8 +331,9 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	const partitionMarkers = React.useMemo(() => {
 		if (!engine?.rows) return [] as number[];
 		const markers: number[] = [];
-		for (let i=1;i<engine.rows.length;i++) {
-			if (engine.rows[i].partitionId !== engine.rows[i-1].partitionId) markers.push(i);
+		for (let i = 1; i < engine.rows.length; i++) {
+			if (engine.rows[i].partitionId !== engine.rows[i - 1].partitionId)
+				markers.push(i);
 		}
 		return markers;
 	}, [engine?.rows]);
@@ -282,27 +344,34 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		const engineRows = engine.rows;
 		// Suppress embedded icon entirely when insufficient non-ghost points to establish stable limits
 		const minPoints = settings?.minimumPoints ?? 13;
-		const nonGhostCount = engineRows.filter(r => !r.ghost && r.value != null).length;
-		
+		const nonGhostCount = engineRows.filter(
+			(r) => !r.ghost && r.value != null
+		).length;
+
 		if (nonGhostCount < minPoints) return null;
 		// Determine if targets exist (no longer used to suppress placeholder; kept for potential future diagnostics)
 		// const hasAnyTargets = (targetsProp?.some(t => typeof t === 'number' && !isNaN(t as any))) ?? false;
 		let lastIdx = -1;
 		for (let i = engineRows.length - 1; i >= 0; i--) {
 			const r = engineRows[i];
-			if (r && r.value != null && !r.ghost) { lastIdx = i; break; }
+			if (r && r.value != null && !r.ghost) {
+				lastIdx = i;
+				break;
+			}
 		}
 		if (lastIdx === -1) return null;
 		const lastRow = engineRows[lastIdx];
 		const variation = lastRow.variationIcon as VariationIcon | undefined;
 		const assuranceRaw = lastRow.assuranceIcon as AssuranceIcon | undefined;
-		const hasNeutralSpecialCause = variation === VariationIcon.Neither && !!lastRow.specialCauseNeitherValue;
+		const hasNeutralSpecialCause =
+			variation === VariationIcon.Neither && !!lastRow.specialCauseNeitherValue;
 		// Map engine assurance icon (which can be None) to visual AssuranceResult (None -> Uncertain placeholder glyph)
-		const assuranceRenderStatus: AssuranceResult = assuranceRaw === AssuranceIcon.Pass
-			? AssuranceResult.Pass
-			: assuranceRaw === AssuranceIcon.Fail
-				? AssuranceResult.Fail
-				: AssuranceResult.Uncertain;
+		const assuranceRenderStatus: AssuranceResult =
+			assuranceRaw === AssuranceIcon.Pass
+				? AssuranceResult.Pass
+				: assuranceRaw === AssuranceIcon.Fail
+					? AssuranceResult.Fail
+					: AssuranceResult.Uncertain;
 		// Derive a trend/orientation hint for suppressed 'no judgement' cases so the purple arrow points towards the favourable direction
 		let trend: Direction | undefined = undefined;
 		if (variation === VariationIcon.None) {
@@ -340,38 +409,59 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			else trend = Direction.Higher; // conflicting or none -> default higher
 		}
 		let polarity: MetricPolarity;
-		if (metricImprovement === ImprovementDirection.Up) polarity = MetricPolarity.HigherIsBetter; else if (metricImprovement === ImprovementDirection.Down) polarity = MetricPolarity.LowerIsBetter; else polarity = MetricPolarity.ContextDependent;
+		if (metricImprovement === ImprovementDirection.Up)
+			polarity = MetricPolarity.HigherIsBetter;
+		else if (metricImprovement === ImprovementDirection.Down)
+			polarity = MetricPolarity.LowerIsBetter;
+		else polarity = MetricPolarity.ContextDependent;
 		const iconSize = 80;
 		return (
-			<div key={`embedded-icon-${lastIdx}`} style={{ display: 'flex', gap: 12, marginRight: 16 }}>
+			<div
+				key={`embedded-icon-${lastIdx}`}
+				style={{ display: "flex", gap: 12, marginRight: 16 }}
+			>
 				<div
 					className="fdp-spc-chart__embedded-icon"
 					data-variation={String(variation)}
-					data-trend-raw={trend ? String(trend) : 'none'}
-					data-trend={trend ? String(trend) : 'none'}
-					data-polarity={String(polarity ?? 'unknown')}
+					data-trend-raw={trend ? String(trend) : "none"}
+					data-trend={trend ? String(trend) : "none"}
+					data-polarity={String(polarity ?? "unknown")}
 					style={{ width: iconSize, height: iconSize }}
 				>
-						<SPCVariationIcon
+					<SPCVariationIcon
 						dropShadow={false}
-						data={{ variationIcon: variation!, improvementDirection: metricImprovement, polarity, specialCauseNeutral: hasNeutralSpecialCause, highSideSignal: (
-							lastRow.specialCauseSinglePointAbove ||
-							lastRow.specialCauseTwoOfThreeAbove ||
-							lastRow.specialCauseFourOfFiveAbove ||
-							lastRow.specialCauseShiftHigh ||
-							lastRow.specialCauseTrendIncreasing
-						), lowSideSignal: (
-							lastRow.specialCauseSinglePointBelow ||
-							lastRow.specialCauseTwoOfThreeBelow ||
-							lastRow.specialCauseFourOfFiveBelow ||
-							lastRow.specialCauseShiftLow ||
-							lastRow.specialCauseTrendDecreasing
-						), ...(trend ? { trend } : {}) }}
+						data={{
+							variationIcon: variation!,
+							improvementDirection: metricImprovement,
+							polarity,
+							specialCauseNeutral: hasNeutralSpecialCause,
+							highSideSignal:
+								lastRow.specialCauseSinglePointAbove ||
+								lastRow.specialCauseTwoOfThreeAbove ||
+								lastRow.specialCauseFourOfFiveAbove ||
+								lastRow.specialCauseShiftHigh ||
+								lastRow.specialCauseTrendIncreasing,
+							lowSideSignal:
+								lastRow.specialCauseSinglePointBelow ||
+								lastRow.specialCauseTwoOfThreeBelow ||
+								lastRow.specialCauseFourOfFiveBelow ||
+								lastRow.specialCauseShiftLow ||
+								lastRow.specialCauseTrendDecreasing,
+							...(trend ? { trend } : {}),
+						}}
 						// Letter semantics: use polarity (business improvement direction) when specified; fall back to signal side for neutral metrics
-						letterMode={metricImprovement === ImprovementDirection.Neither ? 'direction' : 'polarity'}
+						letterMode={
+							metricImprovement === ImprovementDirection.Neither
+								? "direction"
+								: "polarity"
+						}
 						size={iconSize}
 						variant={embeddedIconVariant}
-						runLength={embeddedIconVariant === 'triangleWithRun' ? embeddedIconRunLength : undefined}
+						runLength={
+							embeddedIconVariant === "triangleWithRun"
+								? embeddedIconRunLength
+								: undefined
+						}
 					/>
 				</div>
 				{/* Always render assurance icon (mapping 'none' -> Uncertain placeholder) for consistent dual-icon display */}
@@ -380,21 +470,46 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 					data-assurance={String(assuranceRaw)}
 					style={{ width: iconSize, height: iconSize }}
 				>
-					<SPCAssuranceIcon status={assuranceRenderStatus} size={iconSize} dropShadow={false} />
+					<SPCAssuranceIcon
+						status={assuranceRenderStatus}
+						size={iconSize}
+						dropShadow={false}
+					/>
 				</div>
 			</div>
 		);
-	}, [showEmbeddedIcon, engine?.rows, metricImprovement, settings?.minimumPoints, targetsProp, embeddedIconVariant, embeddedIconRunLength]);
+	}, [
+		showEmbeddedIcon,
+		engine?.rows,
+		metricImprovement,
+		settings?.minimumPoints,
+		targetsProp,
+		embeddedIconVariant,
+		embeddedIconRunLength,
+	]);
 
 	return (
-		<div className={className ? `fdp-spc-chart-wrapper ${className}` : 'fdp-spc-chart-wrapper'}>
+		<div
+			className={
+				className
+					? `fdp-spc-chart-wrapper ${className}`
+					: "fdp-spc-chart-wrapper"
+			}
+		>
 			{/* Top row containing right-aligned embedded variation icon */}
 			{showEmbeddedIcon && (
-				<div className="fdp-spc-chart__top-row" style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 4 }}>
+				<div
+					className="fdp-spc-chart__top-row"
+					style={{
+						display: "flex",
+						justifyContent: "flex-end",
+						marginBottom: 4,
+					}}
+				>
 					{embeddedIcon}
 				</div>
 			)}
-			
+
 			<ChartRoot
 				height={height}
 				ariaLabel={ariaLabel}
@@ -419,6 +534,8 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						effectiveUnit={effectiveUnit}
 						partitionMarkers={partitionMarkers}
 						ariaLabel={ariaLabel}
+						enableNeutralNoJudgement={enableNeutralNoJudgement}
+						showTrendGatingExplanation={showTrendGatingExplanation}
 					/>
 				</LineScalesProvider>
 			</ChartRoot>
@@ -427,34 +544,95 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				<div
 					data-testid="spc-diagnostics-live"
 					aria-live="polite"
-					style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: 0, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 }}
+					style={{
+						position: "absolute",
+						width: 1,
+						height: 1,
+						padding: 0,
+						margin: 0,
+						overflow: "hidden",
+						clip: "rect(0 0 0 0)",
+						whiteSpace: "nowrap",
+						border: 0,
+					}}
 				>
 					{diagnosticsMessage}
 				</div>
 			)}
 			{showWarningsPanel && filteredWarnings.length > 0 && (
-				<div className="fdp-spc-chart__warnings" role="region" aria-label="SPC diagnostics">
+				<div
+					className="fdp-spc-chart__warnings"
+					role="region"
+					aria-label="SPC diagnostics"
+				>
 					<p className="fdp-spc-chart__warnings-heading">Diagnostics</p>
 					<Table
 						firstCellIsHeader={false}
 						panel={false}
 						responsive={false}
 						head={[
-							{ text: 'Severity' },
-							{ text: 'Category' },
-							{ text: 'Code' },
-							{ text: 'Details' },
+							{ text: "Severity" },
+							{ text: "Category" },
+							{ text: "Code" },
+							{ text: "Details" },
 						]}
 						rows={filteredWarnings.map((w) => {
-							let severityColor: any = 'grey';
-							if (w.severity === SpcWarningSeverity.Error) severityColor = 'red';
-							else if (w.severity === SpcWarningSeverity.Warning) severityColor = 'orange';
-							else if (w.severity === SpcWarningSeverity.Info) severityColor = 'blue';
+							let severityColor: any = "grey";
+							if (w.severity === SpcWarningSeverity.Error)
+								severityColor = "red";
+							else if (w.severity === SpcWarningSeverity.Warning)
+								severityColor = "orange";
+							else if (w.severity === SpcWarningSeverity.Info)
+								severityColor = "blue";
 							return [
-								{ node: <Tag color={severityColor} text={(w.severity ? String(w.severity) : 'Info').replace(/^[a-z]/, c => c.toUpperCase())} />, classes: 'fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--severity' },
-								{ node: w.category ? <Tag color='purple' text={formatWarningCategory(w.category)} /> : <span className="fdp-spc-chart__warning-empty">–</span>, classes: 'fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--category' },
-								{ node: <Tag color='grey' text={formatWarningCode(w.code)} />, classes: 'fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--code' },
-								{ node: <div className="fdp-spc-chart__warning-message"><span>{w.message}</span>{w.context && Object.keys(w.context).length>0 && (<details className="fdp-spc-chart__warning-context" style={{ marginTop:4 }}><summary>context</summary><pre>{JSON.stringify(w.context, null, 2)}</pre></details>)}</div>, classes: 'fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--message' },
+								{
+									node: (
+										<Tag
+											color={severityColor}
+											text={(w.severity ? String(w.severity) : "Info").replace(
+												/^[a-z]/,
+												(c) => c.toUpperCase()
+											)}
+										/>
+									),
+									classes:
+										"fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--severity",
+								},
+								{
+									node: w.category ? (
+										<Tag
+											color="purple"
+											text={formatWarningCategory(w.category)}
+										/>
+									) : (
+										<span className="fdp-spc-chart__warning-empty">–</span>
+									),
+									classes:
+										"fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--category",
+								},
+								{
+									node: <Tag color="grey" text={formatWarningCode(w.code)} />,
+									classes:
+										"fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--code",
+								},
+								{
+									node: (
+										<div className="fdp-spc-chart__warning-message">
+											<span>{w.message}</span>
+											{w.context && Object.keys(w.context).length > 0 && (
+												<details
+													className="fdp-spc-chart__warning-context"
+													style={{ marginTop: 4 }}
+												>
+													<summary>context</summary>
+													<pre>{JSON.stringify(w.context, null, 2)}</pre>
+												</details>
+											)}
+										</div>
+									),
+									classes:
+										"fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--message",
+								},
 							];
 						})}
 						classes="fdp-spc-chart__warnings-table-wrapper"
@@ -499,6 +677,9 @@ interface InternalProps {
 	effectiveUnit?: string;
 	partitionMarkers: number[];
 	ariaLabel?: string;
+	// Feature flags to control neutral purple and gating explanation behaviour
+	enableNeutralNoJudgement?: boolean;
+	showTrendGatingExplanation?: boolean;
 }
 
 const InternalSPC: React.FC<InternalProps> = ({
@@ -513,17 +694,21 @@ const InternalSPC: React.FC<InternalProps> = ({
 	showIcons,
 	narrationContext,
 	gradientSequences,
- 	processLineWidth,
+	processLineWidth,
 	effectiveUnit,
 	partitionMarkers,
 	ariaLabel,
+	enableNeutralNoJudgement = true,
+	showTrendGatingExplanation = true,
 }) => {
 	const scaleCtx = useScaleContext();
 	const chartCtx = useChartContext();
 	if (!scaleCtx) return null;
 	const { xScale, yScale } = scaleCtx;
 	// Stable unique base ID for gradient defs per chart instance (prevents MDX multi-chart ID collisions)
-	const gradientIdBaseRef = React.useRef<string>('spc-seq-' + (++spcSequenceInstanceCounter));
+	const gradientIdBaseRef = React.useRef<string>(
+		"spc-seq-" + ++spcSequenceInstanceCounter
+	);
 	const tooltipCtx = useTooltipContext();
 	const all = series[0]?.data || [];
 	const outOfControl = React.useMemo(() => {
@@ -581,38 +766,54 @@ const InternalSPC: React.FC<InternalProps> = ({
 		if (!engineRows || !engineRows.length) return null;
 		const values: number[] = [];
 		for (const r of engineRows) {
-			if (typeof r.target === 'number' && !isNaN(r.target)) values.push(r.target);
+			if (typeof r.target === "number" && !isNaN(r.target))
+				values.push(r.target);
 		}
 		if (!values.length) return null;
 		const first = values[0];
-		return values.every(v => v === first) ? first : null; // only render when constant across series
+		return values.every((v) => v === first) ? first : null; // only render when constant across series
 	}, [engineRows]);
 
 	// Preprocess categories with singleton coloured point absorption
 	// Added 'noJudgement' (purple) for neutral special-cause sequences (variation === Neither & special cause present)
 	const categories = React.useMemo(() => {
-		if (!engineSignals || !all.length) return [] as ('concern' | 'improvement' | 'noJudgement' | 'common')[];
-		const raw: ('concern' | 'improvement' | 'noJudgement' | 'common')[] = all.map((_d, i) => {
-			const sig = engineSignals?.[i];
-			if (sig?.concern) return 'concern';
-			if (sig?.improvement) return 'improvement';
-			// Neutral special cause (purple) when variation icon is Neither but flagged special
-			if (sig?.special && sig.variation === VariationIcon.Neither) return 'noJudgement';
-			return 'common';
-		});
-		
+		if (!engineSignals || !all.length)
+			return [] as ("concern" | "improvement" | "noJudgement" | "common")[];
+		const raw: ("concern" | "improvement" | "noJudgement" | "common")[] =
+			all.map((_d, i) => {
+				const sig = engineSignals?.[i];
+				if (sig?.concern) return "concern";
+				if (sig?.improvement) return "improvement";
+				// Neutral special cause (purple) when variation icon is Neither but flagged special (only when enabled)
+				if (
+					enableNeutralNoJudgement &&
+					sig?.special &&
+					sig.variation === VariationIcon.Neither
+				)
+					return "noJudgement";
+				return "common";
+			});
+
 		// Debug logging for Rule Clash charts
-		const isRuleClash = ariaLabel?.includes('Rule Clash');
+		const isRuleClash = ariaLabel?.includes("Rule Clash");
 		if (isRuleClash) {
-			console.log(`[${ariaLabel}] Raw categories:`, raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(', '));
+			console.log(
+				`[${ariaLabel}] Raw categories:`,
+				raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
+			);
 		}
-		
+
 		return raw;
-	}, [engineSignals, all, ariaLabel]);
+	}, [engineSignals, all, ariaLabel, enableNeutralNoJudgement]);
 
 	// Derive contiguous sequences after absorption
 	const sequences = React.useMemo(() => {
-		if (!gradientSequences || !categories.length) return [] as { start: number; end: number; category: 'concern' | 'improvement' | 'noJudgement' | 'common' }[];
+		if (!gradientSequences || !categories.length)
+			return [] as {
+				start: number;
+				end: number;
+				category: "concern" | "improvement" | "noJudgement" | "common";
+			}[];
 		// Copy categories so we can absorb single coloured points unconditionally
 		const cats = [...categories];
 		// Absorb ANY single coloured point (length-1 run) regardless of neighbours
@@ -622,13 +823,17 @@ const InternalSPC: React.FC<InternalProps> = ({
 			let j = i + 1;
 			while (j < cats.length && cats[j] === cat) j++;
 			const runLen = j - i;
-			if (runLen === 1 && cat !== 'common') {
-				cats[i] = 'common';
+			if (runLen === 1 && cat !== "common") {
+				cats[i] = "common";
 			}
 			i = j;
 		}
 		// Build sequences (coloured runs must be length >=2 after absorption)
-		const out: { start: number; end: number; category: 'concern' | 'improvement' | 'noJudgement' | 'common' }[] = [];
+		const out: {
+			start: number;
+			end: number;
+			category: "concern" | "improvement" | "noJudgement" | "common";
+		}[] = [];
 		if (cats.length) {
 			let start = 0;
 			for (let k = 1; k <= cats.length; k++) {
@@ -636,42 +841,58 @@ const InternalSPC: React.FC<InternalProps> = ({
 					const runCat = cats[start];
 					const end = k - 1;
 					const len = end - start + 1;
-					if (runCat === 'common' || len >= 2) out.push({ start, end, category: runCat });
+					if (runCat === "common" || len >= 2)
+						out.push({ start, end, category: runCat });
 					start = k;
 				}
 			}
 		}
-		const isRuleClash = ariaLabel?.includes('Rule Clash');
+		const isRuleClash = ariaLabel?.includes("Rule Clash");
 		if (isRuleClash) {
-			console.log(`[${ariaLabel}] Final sequences:`, out.map(s => `${s.start}-${s.end}:${s.category}`).join(', '));
+			console.log(
+				`[${ariaLabel}] Final sequences:`,
+				out.map((s) => `${s.start}-${s.end}:${s.category}`).join(", ")
+			);
 		}
 		return out;
 	}, [gradientSequences, categories, ariaLabel]);
 
 	// Precompute x positions for boundary calculations (after scales + data available)
-	const xPositions = React.useMemo(() => all.map(d => xScale(d.x instanceof Date ? d.x : new Date(d.x))), [all, xScale]);
+	const xPositions = React.useMemo(
+		() => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))),
+		[all, xScale]
+	);
 	const plotWidth = xScale.range()[1];
 
 	// Build horizontal line segments for limits that can change across partitions (means/limits per row)
 	const limitSegments = React.useMemo(() => {
 		if (!engineRows || !engineRows.length) return null;
 		// Helper to extract segments for a given numeric accessor key present on each row
-		const build = (key: keyof typeof engineRows[number]) => {
+		const build = (key: keyof (typeof engineRows)[number]) => {
 			const segs: { x1: number; x2: number; y: number }[] = [];
 			let start: number | null = null;
 			let current: number | null = null;
 			for (let i = 0; i < engineRows.length; i++) {
 				const row = engineRows[i];
-				const v = typeof row[key] === 'number' ? (row[key] as number) : null;
+				const v = typeof row[key] === "number" ? (row[key] as number) : null;
 				if (v == null || isNaN(v)) {
 					// flush any active segment
 					if (start !== null && current != null) {
-						segs.push({ x1: xPositions[start], x2: xPositions[i - 1], y: yScale(current) });
-						start = null; current = null;
+						segs.push({
+							x1: xPositions[start],
+							x2: xPositions[i - 1],
+							y: yScale(current),
+						});
+						start = null;
+						current = null;
 					}
 					continue;
 				}
-				if (start === null) { start = i; current = v; continue; }
+				if (start === null) {
+					start = i;
+					current = v;
+					continue;
+				}
 				// continue segment if value unchanged (within epsilon) else close & start new
 				const EPS = 1e-9;
 				if (current != null && Math.abs(v - current) <= EPS) {
@@ -679,24 +900,33 @@ const InternalSPC: React.FC<InternalProps> = ({
 				} else {
 					// close previous
 					if (current != null) {
-						segs.push({ x1: xPositions[start], x2: xPositions[i - 1], y: yScale(current) });
+						segs.push({
+							x1: xPositions[start],
+							x2: xPositions[i - 1],
+							y: yScale(current),
+						});
 					}
-					start = i; current = v;
+					start = i;
+					current = v;
 				}
 			}
 			if (start !== null && current != null) {
-				segs.push({ x1: xPositions[start], x2: xPositions[engineRows.length - 1], y: yScale(current) });
+				segs.push({
+					x1: xPositions[start],
+					x2: xPositions[engineRows.length - 1],
+					y: yScale(current),
+				});
 			}
 			return segs;
 		};
 		return {
-			mean: build('mean'),
-			ucl: build('upperProcessLimit'),
-			lcl: build('lowerProcessLimit'),
-			onePos: build('upperOneSigma'),
-			oneNeg: build('lowerOneSigma'),
-			twoPos: build('upperTwoSigma'),
-			twoNeg: build('lowerTwoSigma'),
+			mean: build("mean"),
+			ucl: build("upperProcessLimit"),
+			lcl: build("lowerProcessLimit"),
+			onePos: build("upperOneSigma"),
+			oneNeg: build("lowerOneSigma"),
+			twoPos: build("upperTwoSigma"),
+			twoNeg: build("lowerTwoSigma"),
 		};
 	}, [engineRows, xPositions, yScale]);
 
@@ -707,25 +937,36 @@ const InternalSPC: React.FC<InternalProps> = ({
 			<defs>
 				{sequences.map((seq, idx) => {
 					const id = `${gradientIdBaseRef.current}-grad-${idx}`;
-						let baseVar: string;
-						let top = 0.28, mid = 0.12, end = 0.045; // default (grey/common)
+					let baseVar: string;
+					let top = 0.28,
+						mid = 0.12,
+						end = 0.045; // default (grey/common)
 					switch (seq.category) {
-						case 'concern':
-							baseVar = 'var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)';
+						case "concern":
+							baseVar = "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)";
 							// stronger wash for coloured sequences
-							top = 0.28; mid = 0.12; end = 0.045;
+							top = 0.28;
+							mid = 0.12;
+							end = 0.045;
 							break;
-						case 'improvement':
-							baseVar = 'var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)';
-							top = 0.26; mid = 0.11; end = 0.045;
+						case "improvement":
+							baseVar =
+								"var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)";
+							top = 0.26;
+							mid = 0.11;
+							end = 0.045;
 							break;
-							case 'noJudgement':
-								baseVar = 'var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)';
-								// Use similar opacity profile to improvement for balance
-								top = 0.26; mid = 0.11; end = 0.045;
-								break;
+						case "noJudgement":
+							baseVar =
+								"var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)";
+							// Use similar opacity profile to improvement for balance
+							top = 0.26;
+							mid = 0.11;
+							end = 0.045;
+							break;
 						default:
-							baseVar = 'var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)';
+							baseVar =
+								"var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)";
 					}
 					return (
 						<linearGradient key={id} id={id} x1="0%" y1="0%" x2="0%" y2="100%">
@@ -741,100 +982,104 @@ const InternalSPC: React.FC<InternalProps> = ({
 
 	const sequenceAreas = React.useMemo(() => {
 		if (!sequences.length) return null;
-		
+
 		const [domainMin] = yScale.domain();
 		const baseY = yScale(domainMin);
 
-		const areas = sequences.map((seq, idx) => {
-			const { start: firstIdx, end: lastIdx, category } = seq;
-			
-			if (firstIdx < 0 || lastIdx >= xPositions.length || firstIdx > lastIdx) return null;
-			
-			const firstX = xPositions[firstIdx];
-			const lastX = xPositions[lastIdx];
+		const areas = sequences
+			.map((seq, idx) => {
+				const { start: firstIdx, end: lastIdx, category } = seq;
 
-			let d = '';
+				if (firstIdx < 0 || lastIdx >= xPositions.length || firstIdx > lastIdx)
+					return null;
 
-			if (category === 'common') {
-				// --- Common Cause (Grey) Gradient ---
-				const prevSeq = idx > 0 ? sequences[idx - 1] : null;
-				const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
+				const firstX = xPositions[firstIdx];
+				const lastX = xPositions[lastIdx];
 
-				const leftX = prevSeq ? xPositions[prevSeq.end] : 0;
-				const leftY = prevSeq ? yScale(all[prevSeq.end].y) : baseY;
-				
-				const rightX = nextSeq ? xPositions[nextSeq.start] : plotWidth;
-				const rightY = nextSeq ? yScale(all[nextSeq.start].y) : baseY;
+				let d = "";
 
-				d = `M ${leftX} ${baseY}`;
-				d += ` L ${leftX} ${leftY}`;
-				
-				for (let i = firstIdx; i <= lastIdx; i++) {
-					d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
-				}
+				if (category === "common") {
+					// --- Common Cause (Grey) Gradient ---
+					const prevSeq = idx > 0 ? sequences[idx - 1] : null;
+					const nextSeq =
+						idx < sequences.length - 1 ? sequences[idx + 1] : null;
 
-				d += ` L ${rightX} ${rightY}`;
-				d += ` L ${rightX} ${baseY} Z`;
+					const leftX = prevSeq ? xPositions[prevSeq.end] : 0;
+					const leftY = prevSeq ? yScale(all[prevSeq.end].y) : baseY;
 
-			} else {
-				// --- Special Cause (Colored) Gradient ---
-				const prevSeq = idx > 0 ? sequences[idx - 1] : null;
-				const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
-				const prevColoured = prevSeq && prevSeq.category !== 'common';
-				const nextColoured = nextSeq && nextSeq.category !== 'common';
-				// When a coloured sequence follows another coloured sequence we start the polyline at the previous
-				// sequence's last point (prevX, prevY) instead of introducing a vertical colour switch. This creates
-				// a continuous sloped join between coloured regions (concern -> improvement or vice versa) per spec.
-				const firstY = yScale(all[firstIdx].y);
-				const lastY = yScale(all[lastIdx].y);
+					const rightX = nextSeq ? xPositions[nextSeq.start] : plotWidth;
+					const rightY = nextSeq ? yScale(all[nextSeq.start].y) : baseY;
 
-				if (prevColoured) {
-					const prevX = xPositions[prevSeq!.end];
-					const prevY = yScale(all[prevSeq!.end].y);
-					// Start path at previous coloured sequence last data point
-					d = `M ${prevX} ${prevY} L ${firstX} ${firstY}`;
+					d = `M ${leftX} ${baseY}`;
+					d += ` L ${leftX} ${leftY}`;
+
+					for (let i = firstIdx; i <= lastIdx; i++) {
+						d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
+					}
+
+					d += ` L ${rightX} ${rightY}`;
+					d += ` L ${rightX} ${baseY} Z`;
 				} else {
-					// Standard start: baseline up to first point
-					d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
+					// --- Special Cause (Colored) Gradient ---
+					const prevSeq = idx > 0 ? sequences[idx - 1] : null;
+					const nextSeq =
+						idx < sequences.length - 1 ? sequences[idx + 1] : null;
+					const prevColoured = prevSeq && prevSeq.category !== "common";
+					const nextColoured = nextSeq && nextSeq.category !== "common";
+					// When a coloured sequence follows another coloured sequence we start the polyline at the previous
+					// sequence's last point (prevX, prevY) instead of introducing a vertical colour switch. This creates
+					// a continuous sloped join between coloured regions (concern -> improvement or vice versa) per spec.
+					const firstY = yScale(all[firstIdx].y);
+					const lastY = yScale(all[lastIdx].y);
+
+					if (prevColoured) {
+						const prevX = xPositions[prevSeq!.end];
+						const prevY = yScale(all[prevSeq!.end].y);
+						// Start path at previous coloured sequence last data point
+						d = `M ${prevX} ${prevY} L ${firstX} ${firstY}`;
+					} else {
+						// Standard start: baseline up to first point
+						d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
+					}
+
+					for (let i = firstIdx + 1; i <= lastIdx; i++) {
+						d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
+					}
+					// Ensure path includes last point explicitly
+					d += ` L ${lastX} ${lastY}`;
+
+					// End: if next sequence coloured, do vertical switch at line height by creating a minimal-width closure
+					if (nextColoured) {
+						// For a following coloured sequence we finish at last point only (no vertical switch) and drop to baseline
+						d += ` L ${lastX} ${lastY} L ${lastX} ${baseY}`;
+					} else {
+						// Standard termination: last point then vertical to baseline
+						d += ` L ${lastX} ${lastY} L ${lastX} ${baseY}`;
+					}
+					// Baseline closure: return to baseline under start reference
+					if (prevColoured) {
+						const prevX = xPositions[prevSeq!.end];
+						// baseline back to previous coloured point's x
+						d += ` L ${prevX} ${baseY} Z`;
+					} else {
+						// baseline back to firstX
+						d += ` L ${firstX} ${baseY} Z`;
+					}
 				}
 
-				for (let i = firstIdx + 1; i <= lastIdx; i++) {
-					d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
-				}
-				// Ensure path includes last point explicitly
-				d += ` L ${lastX} ${lastY}`;
+				return (
+					<path
+						key={`seq-area-${idx}`}
+						d={d}
+						fill={`url(#${gradientIdBaseRef.current}-grad-${idx})`}
+						stroke="none"
+						className="fdp-spc__sequence-bg"
+						aria-hidden="true"
+					/>
+				);
+			})
+			.filter(Boolean);
 
-				// End: if next sequence coloured, do vertical switch at line height by creating a minimal-width closure
-				if (nextColoured) {
-					// For a following coloured sequence we finish at last point only (no vertical switch) and drop to baseline
-					d += ` L ${lastX} ${lastY} L ${lastX} ${baseY}`;
-				} else {
-					// Standard termination: last point then vertical to baseline
-					d += ` L ${lastX} ${lastY} L ${lastX} ${baseY}`;
-				}
-				// Baseline closure: return to baseline under start reference
-				if (prevColoured) {
-					const prevX = xPositions[prevSeq!.end];
-					// baseline back to previous coloured point's x
-					d += ` L ${prevX} ${baseY} Z`;
-				} else {
-					// baseline back to firstX
-					d += ` L ${firstX} ${baseY} Z`;
-				}
-			}
-			
-			return (
-				<path
-					key={`seq-area-${idx}`}
-					d={d}
-					fill={`url(#${gradientIdBaseRef.current}-grad-${idx})`}
-					stroke="none"
-					className="fdp-spc__sequence-bg"
-					aria-hidden="true"
-				/>
-			);
-		}).filter(Boolean);
-		
 		return <g className="fdp-spc__sequence-bgs">{areas}</g>;
 	}, [sequences, xPositions, plotWidth, yScale, all]);
 
@@ -875,25 +1120,42 @@ const InternalSPC: React.FC<InternalProps> = ({
 		`${ordinal(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
 
 	const formatLive = React.useCallback(
-		({ index, x, y }: { seriesId: string; x: Date; y: number; index: number }) => {
+		({
+			index,
+			x,
+			y,
+		}: {
+			seriesId: string;
+			x: Date;
+			y: number;
+			index: number;
+		}) => {
 			const row = engineRows?.[index];
 			const dateObj = x instanceof Date ? x : new Date(x);
 			const dateLabel = formatDateLong(dateObj);
-			const unit = narrationContext?.measureUnit ? ` ${narrationContext.measureUnit}` : "";
-			const measure = narrationContext?.measureName ? ` ${narrationContext.measureName}` : "";
+			const unit = narrationContext?.measureUnit
+				? ` ${narrationContext.measureUnit}`
+				: "";
+			const measure = narrationContext?.measureName
+				? ` ${narrationContext.measureName}`
+				: "";
 			if (!row) {
 				return `General summary is: ${computedTimeframe ? computedTimeframe + ". " : ""}Point ${index + 1}, ${dateLabel}, ${y}${unit}${measure}`;
 			}
 			const varLabel = variationLabel(row.variationIcon) || "Variation";
 			const ruleIds = extractRuleIds(row);
 			const ruleNarr = ruleIds.length
-				? ` Rules: ${[...new Set(ruleIds.map(r => ruleGlossary[r].narration))].join("; ")}.`
+				? ` Rules: ${[...new Set(ruleIds.map((r) => ruleGlossary[r].narration))].join("; ")}.`
 				: " No special cause rules.";
 			const ctxParts: string[] = [];
-			if (narrationContext?.measureName) ctxParts.push(`Measure: ${narrationContext.measureName}.`);
-			if (narrationContext?.datasetContext) ctxParts.push(`${narrationContext.datasetContext}.`);
-			if (narrationContext?.organisation) ctxParts.push(`Organisation: ${narrationContext.organisation}.`);
-			if (narrationContext?.additionalNote) ctxParts.push(narrationContext.additionalNote);
+			if (narrationContext?.measureName)
+				ctxParts.push(`Measure: ${narrationContext.measureName}.`);
+			if (narrationContext?.datasetContext)
+				ctxParts.push(`${narrationContext.datasetContext}.`);
+			if (narrationContext?.organisation)
+				ctxParts.push(`Organisation: ${narrationContext.organisation}.`);
+			if (narrationContext?.additionalNote)
+				ctxParts.push(narrationContext.additionalNote);
 			return [
 				`General summary is:`,
 				...ctxParts,
@@ -969,17 +1231,43 @@ const InternalSPC: React.FC<InternalProps> = ({
 						})}
 						{/* Partition-aware mean (centre line) rendering */}
 						{limitSegments?.mean.map((s, i) => (
-							<line key={`mean-${i}`} className="fdp-spc__cl" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" />
+							<line
+								key={`mean-${i}`}
+								className="fdp-spc__cl"
+								x1={s.x1}
+								x2={s.x2}
+								y1={s.y}
+								y2={s.y}
+								aria-hidden="true"
+							/>
 						))}
 						{uniformTarget != null && (
 							// Render later (after limits) for stacking; temporary placeholder (moved below)
 							<></>
 						)}
 						{limitSegments?.ucl.map((s, i) => (
-							<line key={`ucl-${i}`} className="fdp-spc__limit fdp-spc__limit--ucl" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" strokeWidth={2} />
+							<line
+								key={`ucl-${i}`}
+								className="fdp-spc__limit fdp-spc__limit--ucl"
+								x1={s.x1}
+								x2={s.x2}
+								y1={s.y}
+								y2={s.y}
+								aria-hidden="true"
+								strokeWidth={2}
+							/>
 						))}
 						{limitSegments?.lcl.map((s, i) => (
-							<line key={`lcl-${i}`} className="fdp-spc__limit fdp-spc__limit--lcl" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" strokeWidth={2} />
+							<line
+								key={`lcl-${i}`}
+								className="fdp-spc__limit fdp-spc__limit--lcl"
+								x1={s.x1}
+								x2={s.x2}
+								y1={s.y}
+								y2={s.y}
+								aria-hidden="true"
+								strokeWidth={2}
+							/>
 						))}
 						{/* Target line drawn after limits for clear visibility */}
 						{uniformTarget != null && (
@@ -1001,23 +1289,60 @@ const InternalSPC: React.FC<InternalProps> = ({
 									className="fdp-spc__target-label"
 									fontSize={12}
 								>
-									Target {uniformTarget} {effectiveUnit || narrationContext?.measureUnit || ''}
+									Target {uniformTarget}{" "}
+									{effectiveUnit || narrationContext?.measureUnit || ""}
 								</text>
 							</g>
 						)}
 						{showZones && limitSegments && limitSegments.mean.length > 0 && (
 							<>
 								{limitSegments.onePos.map((s, i) => (
-									<line key={`onePos-${i}`} className="fdp-spc__zone fdp-spc__zone--pos1" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" strokeWidth={2} />
+									<line
+										key={`onePos-${i}`}
+										className="fdp-spc__zone fdp-spc__zone--pos1"
+										x1={s.x1}
+										x2={s.x2}
+										y1={s.y}
+										y2={s.y}
+										aria-hidden="true"
+										strokeWidth={2}
+									/>
 								))}
 								{limitSegments.oneNeg.map((s, i) => (
-									<line key={`oneNeg-${i}`} className="fdp-spc__zone fdp-spc__zone--neg1" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" strokeWidth={2} />
+									<line
+										key={`oneNeg-${i}`}
+										className="fdp-spc__zone fdp-spc__zone--neg1"
+										x1={s.x1}
+										x2={s.x2}
+										y1={s.y}
+										y2={s.y}
+										aria-hidden="true"
+										strokeWidth={2}
+									/>
 								))}
 								{limitSegments.twoPos.map((s, i) => (
-									<line key={`twoPos-${i}`} className="fdp-spc__zone fdp-spc__zone--pos2" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" strokeWidth={2} />
+									<line
+										key={`twoPos-${i}`}
+										className="fdp-spc__zone fdp-spc__zone--pos2"
+										x1={s.x1}
+										x2={s.x2}
+										y1={s.y}
+										y2={s.y}
+										aria-hidden="true"
+										strokeWidth={2}
+									/>
 								))}
 								{limitSegments.twoNeg.map((s, i) => (
-									<line key={`twoNeg-${i}`} className="fdp-spc__zone fdp-spc__zone--neg2" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} aria-hidden="true" strokeWidth={2} />
+									<line
+										key={`twoNeg-${i}`}
+										className="fdp-spc__zone fdp-spc__zone--neg2"
+										x1={s.x1}
+										x2={s.x2}
+										y1={s.y}
+										y2={s.y}
+										aria-hidden="true"
+										strokeWidth={2}
+									/>
 								))}
 							</>
 						)}
@@ -1050,7 +1375,10 @@ const InternalSPC: React.FC<InternalProps> = ({
 										? "fdp-spc__point--sc-improvement"
 										: null,
 									// Neutral (context-dependent) metrics: show purple when special cause present but neither improvement nor concern
-									enableRules && sig?.special && sig.variation === VariationIcon.Neither
+									enableRules &&
+									enableNeutralNoJudgement &&
+									sig?.special &&
+									sig.variation === VariationIcon.Neither
 										? "fdp-spc__point--sc-no-judgement"
 										: null,
 									sig?.assurance === AssuranceIcon.Pass
@@ -1082,7 +1410,9 @@ const InternalSPC: React.FC<InternalProps> = ({
 										data-variation={sig?.variation}
 										data-assurance={sig?.assurance}
 										aria-label={ariaLabel}
-										{...(isFocused ? { 'aria-describedby': `spc-tooltip-${i}` } : {})}
+										{...(isFocused
+											? { "aria-describedby": `spc-tooltip-${i}` }
+											: {})}
 									/>
 								);
 							})}
@@ -1133,13 +1463,16 @@ const InternalSPC: React.FC<InternalProps> = ({
 							measureName={narrationContext?.measureName}
 							measureUnit={narrationContext?.measureUnit}
 							dateFormatter={(d: Date) => formatDateLong(d)}
+							enableNeutralNoJudgement={enableNeutralNoJudgement}
+							showTrendGatingExplanation={showTrendGatingExplanation}
 						/>
-
-						</g>
+					</g>
 				</svg>
 				{announceFocus && (
 					<VisuallyHiddenLiveRegion
-						format={(d: any) => formatLive({ ...d, x: d.x instanceof Date ? d.x : new Date(d.x) })}
+						format={(d: any) =>
+							formatLive({ ...d, x: d.x instanceof Date ? d.x : new Date(d.x) })
+						}
 					/>
 				)}
 			</div>

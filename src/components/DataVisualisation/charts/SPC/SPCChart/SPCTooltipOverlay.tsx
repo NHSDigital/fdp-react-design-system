@@ -30,6 +30,10 @@ interface SPCTooltipOverlayProps {
 	measureUnit?: string;
 	/** Optional date formatter (defaults to toDateString) */
 	dateFormatter?: (d: Date) => string;
+	/** Show neutral special-cause (no-judgement) purple styling in tooltip. Defaults to true. */
+	enableNeutralNoJudgement?: boolean;
+	/** Show trend side-gating explanation text. Defaults to true. */
+	showTrendGatingExplanation?: boolean;
 }
 
 /**
@@ -45,6 +49,8 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 	measureName,
 	measureUnit,
 	dateFormatter,
+	enableNeutralNoJudgement = true,
+	showTrendGatingExplanation = true,
 }) => {
 	const tooltip = useTooltipContext();
 	const chart = useChartContext();
@@ -148,12 +154,12 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 	const trendFlag = row?.specialCauseTrendIncreasing || row?.specialCauseTrendDecreasing;
 	const variationNeutral = row?.variationIcon === VariationIcon.Neither && trendFlag;
 	// Side-gating explanatory line (only when neutrality due to being on unfavourable side)
-	const gatingExplanation = variationNeutral
+	const gatingExplanation = showTrendGatingExplanation && variationNeutral
 		? 'Trend detected (monotonic run) – held neutral until values cross onto the favourable side of the mean.'
 		: null;
 	const hasRules = rules.length > 0;
 	// "No judgement" (neutral special cause) state: underlying variation classified as Neither but special cause rules fired
-	const isNoJudgement = row?.variationIcon === VariationIcon.Neither && hasRules;
+	const isNoJudgement = enableNeutralNoJudgement && row?.variationIcon === VariationIcon.Neither && hasRules;
 	// Provenance (ruleTags) removed from tooltip to avoid duplication with Special cause section.
 
 	// focus ring colour

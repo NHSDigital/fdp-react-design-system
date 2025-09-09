@@ -325,8 +325,9 @@ StyleDictionary.registerFormat({
     });
     
     // Generate semantic maps for easier access
-    output += `
+  output += `
 // Semantic token maps for programmatic access
+@use "sass:map";
 $semantic-intent: (
   primary: $semantic-intent-primary,
   secondary: $semantic-intent-secondary,
@@ -352,11 +353,11 @@ $semantic-context-form: (
 
 // Helper functions for semantic token access
 @function semantic-intent($key) {
-  @return map-get($semantic-intent, $key);
+  @return map.get($semantic-intent, $key);
 }
 
 @function semantic-form($key) {
-  @return map-get($semantic-context-form, $key);
+  @return map.get($semantic-context-form, $key);
 }
 `;
     

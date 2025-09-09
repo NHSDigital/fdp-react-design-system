@@ -20,7 +20,8 @@ function getJsComponents() {
 function getCssComponents() {
   if (!fs.existsSync(distCssComponents)) return [];
   return fs.readdirSync(distCssComponents)
-    .filter(name => !name.startsWith('.') && fs.statSync(path.join(distCssComponents, name)).isDirectory())
+  // Skip hidden and internal folders (e.g. _internal) from parity checks
+  .filter(name => !name.startsWith('.') && !name.startsWith('_') && fs.statSync(path.join(distCssComponents, name)).isDirectory())
     .filter(name => {
       const files = fs.readdirSync(path.join(distCssComponents, name));
       // Count component if it has at least one .css file directly under its directory

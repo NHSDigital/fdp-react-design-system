@@ -57,6 +57,8 @@ export interface SpcSettings {
     precedenceStrategy?: PrecedenceStrategy;
     /** When using directional_first, enable early neutralisation (downgrade Concern -> Neither) for near-complete (N-1) favourable monotonic runs before the formal trend rule fires. */
     emergingDirectionGrace?: boolean;
+    /** Trend side-gating: when true, only count trend flags (increasing/decreasing) towards signals on the favourable side of the mean. When false, trend flags contribute irrespective of side (restores pre-gating behaviour). Default: true */
+    trendSideGatingEnabled?: boolean;
     minimumPoints?: number;
     minimumPointsWarning?: boolean;
     minimumPointsPartition?: number;

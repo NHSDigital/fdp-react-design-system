@@ -14,10 +14,25 @@ if (!fs.existsSync(srcComponentsDir)) {
   process.exit(1);
 }
 
-const entries = fs.readdirSync(srcComponentsDir)
-  .filter(name => !name.startsWith('.') && fs.statSync(path.join(srcComponentsDir, name)).isDirectory())
-  .map(name => ({ name, indexPath: path.join(srcComponentsDir, name, 'index.ts') }))
-  .filter(e => fs.existsSync(e.indexPath));
+function findIndexEntries(dir, rel = '') {
+  const results = [];
+  const items = fs.readdirSync(dir, { withFileTypes: true });
+  for (const item of items) {
+    if (!item.isDirectory()) continue;
+    if (item.name.startsWith('.')) continue;
+    const full = path.join(dir, item.name);
+    const relDir = rel ? path.join(rel, item.name) : item.name;
+    const indexPath = path.join(full, 'index.ts');
+    if (fs.existsSync(indexPath)) {
+      results.push({ relDir, indexPath });
+    }
+    // Recurse
+    results.push(...findIndexEntries(full, relDir));
+  }
+  return results;
+}
+
+const entries = findIndexEntries(srcComponentsDir);
 
 if (!entries.length) {
   console.warn('[build-component-js] No component index.ts files found');
@@ -34,7 +49,7 @@ const ignoreScssPlugin = {
 async function run() {
   let built = 0;
   for (const e of entries) {
-    const outdir = path.join(outRoot, e.name);
+    const outdir = path.join(outRoot, e.relDir);
     fs.mkdirSync(outdir, { recursive: true });
     try {
       await build({
@@ -45,7 +60,7 @@ async function run() {
         sourcemap: true,
         target: 'es2019',
         treeShaking: true,
-        outfile: path.join(outdir, 'index.js'),
+  outfile: path.join(outdir, 'index.js'),
         logLevel: 'silent',
         external: ['react', 'react-dom'],
         plugins: [ignoreScssPlugin]

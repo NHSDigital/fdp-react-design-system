@@ -29,7 +29,7 @@ export interface SPCChartProps {
     /** Render embedded SPC variation icon in chart corner (defaults to true) */
     showEmbeddedIcon?: boolean;
     /** Variant style for embedded SPC variation icon (classic triangle / triangleWithRun). */
-    embeddedIconVariant?: 'classic' | 'triangle' | 'triangleWithRun';
+    embeddedIconVariant?: "classic" | "triangle" | "triangleWithRun";
     /** Run length (0-5) for triangleWithRun embedded variation icon variant. Ignored otherwise. */
     embeddedIconRunLength?: number;
     /** Optional targets per point (same length order as data) */
@@ -63,6 +63,12 @@ export interface SPCChartProps {
         categories?: SpcWarningCategory[];
         codes?: SpcWarningCode[];
     };
+    /** Show neutral special-cause (no-judgement) purple styling on points and tooltip. Defaults to true. */
+    enableNeutralNoJudgement?: boolean;
+    /** Show the trend side-gating explanation text in the tooltip. Defaults to true. */
+    showTrendGatingExplanation?: boolean;
+    /** Engine-level: when true, disables trend side-gating so early trend points classify directionally (Concern/Improvement) even before crossing the mean. Defaults to false. */
+    disableTrendSideGating?: boolean;
 }
 export declare const SPCChart: React.FC<SPCChartProps>;
 export { ImprovementDirection, VariationIcon, AssuranceIcon };

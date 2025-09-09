@@ -174,7 +174,6 @@ const resolveStateAndLayout = (
 	// Runtime deprecation warning (fires once) for legacy payloads (state / judgement forms)
 	const emitDeprecation = () => {
 		if (!(globalThis as any).__spcIconDeprecationEmitted) {
-			// eslint-disable-next-line no-console
 			console.warn(
 				"[SPCVariationIcon] Deprecated payload shape detected. Migrate to { variationIcon, improvementDirection, specialCauseNeutral?, trend? }."
 			);

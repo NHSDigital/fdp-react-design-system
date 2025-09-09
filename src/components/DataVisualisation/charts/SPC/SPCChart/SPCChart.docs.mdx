@@ -16,6 +16,47 @@ import SPCChartWarningsPanelExample from './SPCChartWarningsPanelExample';
 
 An SPC (Shewhart) chart is a time‑series chart that distinguishes common cause (natural) variation from special cause (signal) variation so teams can decide when to investigate, hold, or change a process. It extends a simple run chart by adding a statistically derived centre line (mean), control limits and (optionally) rule logic that classifies patterns of points.
 
+## Importing SPC
+
+Recommended import (SPC barrel):
+
+```ts
+import {
+  SPCChart,
+  buildSpc,
+  ImprovementDirection,
+  SPCVariationIcon,
+  SPCAssuranceIcon,
+} from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+```
+
+Alternatively, as a namespace:
+
+```ts
+import * as SPC from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+
+// Example
+<SPC.SPCChart data={series} metricImprovement={SPC.ImprovementDirection.Up} />
+```
+
+CSS options:
+
+- Global CSS (pulls in everything):
+
+```ts
+import '@fergusbisset/nhs-fdp-design-system/css';
+```
+
+- Per‑component CSS (SPCChart only):
+
+```ts
+import '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC/SPCChart/SPCChart/css';
+```
+
+Notes:
+- The SPC barrel also exports engine helpers (buildSpc, enums), icons, and descriptor utilities.
+- SPCChart supports SSR; use your usual SSR setup and include CSS either globally or per‑component.
+
 ## When to use
 
 Use the SPCChart when you need to:

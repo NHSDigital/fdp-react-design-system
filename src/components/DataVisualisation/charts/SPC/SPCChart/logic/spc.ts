@@ -67,6 +67,8 @@ export interface SpcSettings {
 	precedenceStrategy?: PrecedenceStrategy; // default: PrecedenceStrategy.Legacy
 	/** When using directional_first, enable early neutralisation (downgrade Concern -> Neither) for near-complete (N-1) favourable monotonic runs before the formal trend rule fires. */
 	emergingDirectionGrace?: boolean; // default: false
+	/** Trend side-gating: when true, only count trend flags (increasing/decreasing) towards signals on the favourable side of the mean. When false, trend flags contribute irrespective of side (restores pre-gating behaviour). Default: true */
+	trendSideGatingEnabled?: boolean; // default: true
 	minimumPoints?: number; // default: 13
 	minimumPointsWarning?: boolean; // default: false
 	minimumPointsPartition?: number; // default: 12
@@ -557,6 +559,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		baselineSuggestScoreThreshold: 50,
 		precedenceStrategy: PrecedenceStrategy.Legacy,
 		emergingDirectionGrace: false,
+		trendSideGatingEnabled: true,
 		autoRecalculateAfterShift: false,
 		autoRecalculateShiftLength: undefined,
 		autoRecalculateDeltaSigma: 0.5,
@@ -957,10 +960,9 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			row.variationIcon = VariationIcon.None;
 			continue;
 		}
-		// Directional aggregation of signals. Previously trend flags were side-agnostic and
-		// caused early points in an emerging (cross-mean) trend to be classified as favourable
-		// even while still on the adverse side of the mean. We now require the current point
-		// itself to be on the favourable side for trend-based contribution.
+		// Directional aggregation of signals. By default, trend flags only contribute when the
+		// current point is on the favourable side of the mean (side-gated). When trendSideGatingEnabled
+		// is false, trend flags contribute irrespective of side (legacy side-agnostic behaviour).
 		const onHighSide = isNumber(row.value) && isNumber(row.mean) && row.value! > row.mean!;
 		const onLowSide  = isNumber(row.value) && isNumber(row.mean) && row.value! < row.mean!;
 		// Optional cluster rule collapse (retain stronger 4-of-5 over 2-of-3 when both same side)
@@ -969,18 +971,21 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			if (row.specialCauseTwoOfThreeBelow && row.specialCauseFourOfFiveBelow) row.specialCauseTwoOfThreeBelow = false;
 		}
 		// Recompute high/low aggregates after any collapse so they reflect final flags
+		const highTrendContrib = row.specialCauseTrendIncreasing && (settings.trendSideGatingEnabled ? onHighSide : true);
+		const lowTrendContrib = row.specialCauseTrendDecreasing && (settings.trendSideGatingEnabled ? onLowSide : true);
+
 		const highSignals =
 			row.specialCauseSinglePointAbove ||
 			row.specialCauseTwoOfThreeAbove ||
 			(settings.enableFourOfFiveRule && row.specialCauseFourOfFiveAbove) ||
 			row.specialCauseShiftHigh ||
-			(row.specialCauseTrendIncreasing && onHighSide);
+			highTrendContrib;
 		const lowSignals =
 			row.specialCauseSinglePointBelow ||
 			row.specialCauseTwoOfThreeBelow ||
 			(settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow) ||
 			row.specialCauseShiftLow ||
-			(row.specialCauseTrendDecreasing && onLowSide);
+			lowTrendContrib;
 
 		// Emerging favourable detection (N-1 monotonic run in favourable direction before trend flag fires)
 		let emergingFavourable = false;

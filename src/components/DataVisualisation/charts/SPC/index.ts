@@ -16,6 +16,7 @@ export { SPCVariationIcon } from './SPCIcons/SPCIcon';
 export { SPCAssuranceIcon } from './SPCIcons/SPCAssuranceIcon';
 export { AssuranceResult, Direction, MetricPolarity, VariationJudgement, VariationState, getVariationColour, getVariationTrend } from './SPCIcons/SPCConstants';
 export type { VariationColourDef } from './SPCIcons/SPCConstants';
+export type { SPCVariationIconProps, SpcVariationAltIconProps, SpcAssuranceIconProps, SpcIconsProps, SpcIconBaseProps } from './SPCIcons/SPCIcon';
 
 // Tooltip overlay (specialised)
 export { default as SPCTooltipOverlay } from './SPCChart/SPCTooltipOverlay';

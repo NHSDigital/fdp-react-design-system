@@ -13,10 +13,6 @@ var __require = /* @__PURE__ */ ((x2) => typeof require !== "undefined" ? requir
 var __commonJS = (cb, mod) => function __require2() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
@@ -40,7 +36,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames4() {
+      function classNames3() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -58,7 +54,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames4.apply(null, arg);
+          return classNames3.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -81,14 +77,14 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames4.default = classNames4;
-        module.exports = classNames4;
+        classNames3.default = classNames3;
+        module.exports = classNames3;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames4;
+          return classNames3;
         });
       } else {
-        window.classNames = classNames4;
+        window.classNames = classNames3;
       }
     })();
   }
@@ -1443,8 +1439,8 @@ var require_prism = __commonJS({
         };
         xhr.send(null);
       }
-      function parseRange(range2) {
-        var m = /^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(range2 || "");
+      function parseRange(range) {
+        var m = /^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(range || "");
         if (m) {
           var start = Number(m[1]);
           var comma = m[2];
@@ -1488,11 +1484,11 @@ var require_prism = __commonJS({
             src,
             function(text) {
               pre.setAttribute(STATUS_ATTR, STATUS_LOADED);
-              var range2 = parseRange(pre.getAttribute("data-range"));
-              if (range2) {
+              var range = parseRange(pre.getAttribute("data-range"));
+              if (range) {
                 var lines = text.split(/\r\n?|\n/g);
-                var start = range2[0];
-                var end = range2[1] == null ? lines.length : range2[1];
+                var start = range[0];
+                var end = range[1] == null ? lines.length : range[1];
                 if (start < 0) {
                   start += lines.length;
                 }
@@ -1646,98 +1642,66 @@ var require_prism_json = __commonJS({
   }
 });
 
-// src/components/DataVisualisation/charts/ChartContainer.tsx
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
+import * as React13 from "react";
+
+// src/components/DataVisualisation/core/ChartRoot.tsx
+import * as React2 from "react";
+
+// src/components/DataVisualisation/hooks/useChartDimensions.ts
 import * as React from "react";
-
-// node_modules/clsx/dist/clsx.mjs
-function r(e) {
-  var t, f, n = "";
-  if ("string" == typeof e || "number" == typeof e) n += e;
-  else if ("object" == typeof e) if (Array.isArray(e)) {
-    var o = e.length;
-    for (t = 0; t < o; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
-  } else for (f in e) e[f] && (n && (n += " "), n += f);
-  return n;
+function useChartDimensions(initial = {}) {
+  const ref = React.useRef(null);
+  const margin = React.useMemo(() => {
+    var _a2, _b2, _c, _d;
+    return {
+      top: (_a2 = initial.top) != null ? _a2 : 16,
+      right: (_b2 = initial.right) != null ? _b2 : 16,
+      bottom: (_c = initial.bottom) != null ? _c : 32,
+      left: (_d = initial.left) != null ? _d : 48
+    };
+  }, [initial.bottom, initial.left, initial.right, initial.top]);
+  const [dims, setDims] = React.useState({ width: 0, height: 0 });
+  React.useLayoutEffect(() => {
+    if (!ref.current) return;
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        setDims({ width, height });
+      }
+    });
+    ro.observe(ref.current);
+    return () => ro.disconnect();
+  }, []);
+  const innerWidth = Math.max(0, dims.width - margin.left - margin.right);
+  const innerHeight = Math.max(0, dims.height - margin.top - margin.bottom);
+  return { width: dims.width, height: dims.height, innerWidth, innerHeight, margin, ref };
 }
-function clsx() {
-  for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
-  return n;
-}
-var clsx_default = clsx;
 
-// src/components/DataVisualisation/charts/ChartContainer.tsx
-import { jsx, jsxs } from "react/jsx-runtime";
-var ChartContainer = ({
-  title,
-  description,
-  source,
+// src/components/DataVisualisation/core/ChartRoot.tsx
+import { jsx } from "react/jsx-runtime";
+var ChartContext = React2.createContext(null);
+function useChartContext() {
+  return React2.useContext(ChartContext);
+}
+var ChartRoot = ({
+  height = 240,
+  margin,
+  width,
+  className = "fdp-chart",
+  // align with SCSS token application (.fdp-chart)
   children,
-  width = "100%",
-  height = 320,
-  className,
-  id,
-  tabularData,
-  showTableToggle,
-  onToggleTable,
-  initiallyShowTable = false
+  role = "group",
+  ariaLabel
 }) => {
-  const figureId = React.useId();
-  const resolvedId = id || figureId;
-  const descId = description ? `${resolvedId}-desc` : void 0;
-  const sourceId = source ? `${resolvedId}-src` : void 0;
-  const [showTable, setShowTable] = React.useState(initiallyShowTable);
-  const handleToggle = React.useCallback(() => {
-    setShowTable((s) => !s);
-    onToggleTable == null ? void 0 : onToggleTable();
-  }, [onToggleTable]);
-  return /* @__PURE__ */ jsxs(
-    "figure",
-    {
-      id: resolvedId,
-      className: clsx_default("fdp-chart", className),
-      style: { width },
-      "aria-labelledby": `${resolvedId}-title`,
-      "aria-describedby": clsx_default(descId, sourceId),
-      children: [
-        /* @__PURE__ */ jsxs("header", { className: "fdp-chart__header", children: [
-          /* @__PURE__ */ jsx("h3", { id: `${resolvedId}-title`, className: "fdp-chart__title", children: title }),
-          showTableToggle && /* @__PURE__ */ jsx(
-            "button",
-            {
-              type: "button",
-              className: "fdp-chart__toggle",
-              "aria-expanded": showTable,
-              onClick: handleToggle,
-              children: showTable ? "Hide table" : "Show table"
-            }
-          )
-        ] }),
-        description && /* @__PURE__ */ jsx("p", { id: descId, className: "fdp-chart__description", children: description }),
-        /* @__PURE__ */ jsx(
-          "div",
-          {
-            className: "fdp-chart__viz",
-            style: { height },
-            role: "group",
-            "aria-label": title,
-            children
-          }
-        ),
-        (source || tabularData) && /* @__PURE__ */ jsxs("figcaption", { className: "fdp-chart__caption", children: [
-          source && /* @__PURE__ */ jsxs("small", { id: sourceId, className: "fdp-chart__source", children: [
-            "Source: ",
-            source
-          ] }),
-          showTable && tabularData
-        ] })
-      ]
-    }
-  );
+  const dims = useChartDimensions(margin);
+  const style = { height, position: "relative" };
+  if (width !== void 0) style.width = typeof width === "number" ? `${width}px` : width;
+  return /* @__PURE__ */ jsx("div", { ref: dims.ref, className, style, role, "aria-label": ariaLabel, children: /* @__PURE__ */ jsx(ChartContext.Provider, { value: dims, children }) });
 };
-var ChartContainer_default = ChartContainer;
 
-// src/components/DataVisualisation/charts/LineChart/LineChart.tsx
-import * as React10 from "react";
+// src/components/DataVisualisation/core/ScaleContext.tsx
+import * as React3 from "react";
 
 // node_modules/d3-array/src/ascending.js
 function ascending(a, b) {
@@ -1836,48 +1800,6 @@ function extent(values, valueof) {
   return [min, max];
 }
 
-// node_modules/internmap/src/index.js
-var InternMap = class extends Map {
-  constructor(entries, key = keyof) {
-    super();
-    Object.defineProperties(this, { _intern: { value: /* @__PURE__ */ new Map() }, _key: { value: key } });
-    if (entries != null) for (const [key2, value] of entries) this.set(key2, value);
-  }
-  get(key) {
-    return super.get(intern_get(this, key));
-  }
-  has(key) {
-    return super.has(intern_get(this, key));
-  }
-  set(key, value) {
-    return super.set(intern_set(this, key), value);
-  }
-  delete(key) {
-    return super.delete(intern_delete(this, key));
-  }
-};
-function intern_get({ _intern, _key }, value) {
-  const key = _key(value);
-  return _intern.has(key) ? _intern.get(key) : value;
-}
-function intern_set({ _intern, _key }, value) {
-  const key = _key(value);
-  if (_intern.has(key)) return _intern.get(key);
-  _intern.set(key, value);
-  return value;
-}
-function intern_delete({ _intern, _key }, value) {
-  const key = _key(value);
-  if (_intern.has(key)) {
-    value = _intern.get(key);
-    _intern.delete(key);
-  }
-  return value;
-}
-function keyof(value) {
-  return value !== null && typeof value === "object" ? value.valueOf() : value;
-}
-
 // node_modules/d3-array/src/ticks.js
 var e10 = Math.sqrt(50);
 var e5 = Math.sqrt(10);
@@ -1928,18 +1850,8 @@ function tickStep(start, stop, count) {
   return (reverse ? -1 : 1) * (inc < 0 ? 1 / -inc : inc);
 }
 
-// node_modules/d3-array/src/range.js
-function range(start, stop, step) {
-  start = +start, stop = +stop, step = (n = arguments.length) < 2 ? (stop = start, start = 0, 1) : n < 3 ? 1 : +step;
-  var i = -1, n = Math.max(0, Math.ceil((stop - start) / step)) | 0, range2 = new Array(n);
-  while (++i < n) {
-    range2[i] = start + i * step;
-  }
-  return range2;
-}
-
 // node_modules/d3-scale/src/init.js
-function initRange(domain, range2) {
+function initRange(domain, range) {
   switch (arguments.length) {
     case 0:
       break;
@@ -1947,96 +1859,10 @@ function initRange(domain, range2) {
       this.range(domain);
       break;
     default:
-      this.range(range2).domain(domain);
+      this.range(range).domain(domain);
       break;
   }
   return this;
-}
-
-// node_modules/d3-scale/src/ordinal.js
-var implicit = Symbol("implicit");
-function ordinal() {
-  var index = new InternMap(), domain = [], range2 = [], unknown = implicit;
-  function scale(d) {
-    let i = index.get(d);
-    if (i === void 0) {
-      if (unknown !== implicit) return unknown;
-      index.set(d, i = domain.push(d) - 1);
-    }
-    return range2[i % range2.length];
-  }
-  scale.domain = function(_) {
-    if (!arguments.length) return domain.slice();
-    domain = [], index = new InternMap();
-    for (const value of _) {
-      if (index.has(value)) continue;
-      index.set(value, domain.push(value) - 1);
-    }
-    return scale;
-  };
-  scale.range = function(_) {
-    return arguments.length ? (range2 = Array.from(_), scale) : range2.slice();
-  };
-  scale.unknown = function(_) {
-    return arguments.length ? (unknown = _, scale) : unknown;
-  };
-  scale.copy = function() {
-    return ordinal(domain, range2).unknown(unknown);
-  };
-  initRange.apply(scale, arguments);
-  return scale;
-}
-
-// node_modules/d3-scale/src/band.js
-function band() {
-  var scale = ordinal().unknown(void 0), domain = scale.domain, ordinalRange = scale.range, r0 = 0, r1 = 1, step, bandwidth, round = false, paddingInner = 0, paddingOuter = 0, align = 0.5;
-  delete scale.unknown;
-  function rescale() {
-    var n = domain().length, reverse = r1 < r0, start = reverse ? r1 : r0, stop = reverse ? r0 : r1;
-    step = (stop - start) / Math.max(1, n - paddingInner + paddingOuter * 2);
-    if (round) step = Math.floor(step);
-    start += (stop - start - step * (n - paddingInner)) * align;
-    bandwidth = step * (1 - paddingInner);
-    if (round) start = Math.round(start), bandwidth = Math.round(bandwidth);
-    var values = range(n).map(function(i) {
-      return start + step * i;
-    });
-    return ordinalRange(reverse ? values.reverse() : values);
-  }
-  scale.domain = function(_) {
-    return arguments.length ? (domain(_), rescale()) : domain();
-  };
-  scale.range = function(_) {
-    return arguments.length ? ([r0, r1] = _, r0 = +r0, r1 = +r1, rescale()) : [r0, r1];
-  };
-  scale.rangeRound = function(_) {
-    return [r0, r1] = _, r0 = +r0, r1 = +r1, round = true, rescale();
-  };
-  scale.bandwidth = function() {
-    return bandwidth;
-  };
-  scale.step = function() {
-    return step;
-  };
-  scale.round = function(_) {
-    return arguments.length ? (round = !!_, rescale()) : round;
-  };
-  scale.padding = function(_) {
-    return arguments.length ? (paddingInner = Math.min(1, paddingOuter = +_), rescale()) : paddingInner;
-  };
-  scale.paddingInner = function(_) {
-    return arguments.length ? (paddingInner = Math.min(1, _), rescale()) : paddingInner;
-  };
-  scale.paddingOuter = function(_) {
-    return arguments.length ? (paddingOuter = +_, rescale()) : paddingOuter;
-  };
-  scale.align = function(_) {
-    return arguments.length ? (align = Math.max(0, Math.min(1, _)), rescale()) : align;
-  };
-  scale.copy = function() {
-    return band(domain(), [r0, r1]).round(round).paddingInner(paddingInner).paddingOuter(paddingOuter).align(align);
-  };
-  return initRange.apply(rescale(), arguments);
 }
 
 // node_modules/d3-color/src/define.js
@@ -2250,9 +2076,9 @@ function color(format2) {
 function rgbn(n) {
   return new Rgb(n >> 16 & 255, n >> 8 & 255, n & 255, 1);
 }
-function rgba(r2, g, b, a) {
-  if (a <= 0) r2 = g = b = NaN;
-  return new Rgb(r2, g, b, a);
+function rgba(r, g, b, a) {
+  if (a <= 0) r = g = b = NaN;
+  return new Rgb(r, g, b, a);
 }
 function rgbConvert(o) {
   if (!(o instanceof Color)) o = color(o);
@@ -2260,11 +2086,11 @@ function rgbConvert(o) {
   o = o.rgb();
   return new Rgb(o.r, o.g, o.b, o.opacity);
 }
-function rgb(r2, g, b, opacity) {
-  return arguments.length === 1 ? rgbConvert(r2) : new Rgb(r2, g, b, opacity == null ? 1 : opacity);
+function rgb(r, g, b, opacity) {
+  return arguments.length === 1 ? rgbConvert(r) : new Rgb(r, g, b, opacity == null ? 1 : opacity);
 }
-function Rgb(r2, g, b, opacity) {
-  this.r = +r2;
+function Rgb(r, g, b, opacity) {
+  this.r = +r;
   this.g = +g;
   this.b = +b;
   this.opacity = +opacity;
@@ -2326,11 +2152,11 @@ function hslConvert(o) {
   if (!o) return new Hsl();
   if (o instanceof Hsl) return o;
   o = o.rgb();
-  var r2 = o.r / 255, g = o.g / 255, b = o.b / 255, min = Math.min(r2, g, b), max = Math.max(r2, g, b), h = NaN, s = max - min, l = (max + min) / 2;
+  var r = o.r / 255, g = o.g / 255, b = o.b / 255, min = Math.min(r, g, b), max = Math.max(r, g, b), h = NaN, s = max - min, l = (max + min) / 2;
   if (s) {
-    if (r2 === max) h = (g - b) / s + (g < b) * 6;
-    else if (g === max) h = (b - r2) / s + 2;
-    else h = (r2 - g) / s + 4;
+    if (r === max) h = (g - b) / s + (g < b) * 6;
+    else if (g === max) h = (b - r) / s + 2;
+    else h = (r - g) / s + 4;
     s /= l < 0.5 ? max + min : 2 - max - min;
     h *= 60;
   } else {
@@ -2437,9 +2263,9 @@ function nogamma(a, b) {
 var rgb_default = function rgbGamma(y2) {
   var color2 = gamma(y2);
   function rgb2(start, end) {
-    var r2 = color2((start = rgb(start)).r, (end = rgb(end)).r), g = color2(start.g, end.g), b = color2(start.b, end.b), opacity = nogamma(start.opacity, end.opacity);
+    var r = color2((start = rgb(start)).r, (end = rgb(end)).r), g = color2(start.g, end.g), b = color2(start.b, end.b), opacity = nogamma(start.opacity, end.opacity);
     return function(t) {
-      start.r = r2(t);
+      start.r = r(t);
       start.g = g(t);
       start.b = b(t);
       start.opacity = opacity(t);
@@ -2451,19 +2277,19 @@ var rgb_default = function rgbGamma(y2) {
 }(1);
 function rgbSpline(spline) {
   return function(colors) {
-    var n = colors.length, r2 = new Array(n), g = new Array(n), b = new Array(n), i, color2;
+    var n = colors.length, r = new Array(n), g = new Array(n), b = new Array(n), i, color2;
     for (i = 0; i < n; ++i) {
       color2 = rgb(colors[i]);
-      r2[i] = color2.r || 0;
+      r[i] = color2.r || 0;
       g[i] = color2.g || 0;
       b[i] = color2.b || 0;
     }
-    r2 = spline(r2);
+    r = spline(r);
     g = spline(g);
     b = spline(b);
     color2.opacity = 1;
     return function(t) {
-      color2.r = r2(t);
+      color2.r = r(t);
       color2.g = g(t);
       color2.b = b(t);
       return color2 + "";
@@ -2614,55 +2440,55 @@ function clamper(a, b) {
     return Math.max(a, Math.min(b, x2));
   };
 }
-function bimap(domain, range2, interpolate) {
-  var d0 = domain[0], d1 = domain[1], r0 = range2[0], r1 = range2[1];
+function bimap(domain, range, interpolate) {
+  var d0 = domain[0], d1 = domain[1], r0 = range[0], r1 = range[1];
   if (d1 < d0) d0 = normalize(d1, d0), r0 = interpolate(r1, r0);
   else d0 = normalize(d0, d1), r0 = interpolate(r0, r1);
   return function(x2) {
     return r0(d0(x2));
   };
 }
-function polymap(domain, range2, interpolate) {
-  var j = Math.min(domain.length, range2.length) - 1, d = new Array(j), r2 = new Array(j), i = -1;
+function polymap(domain, range, interpolate) {
+  var j = Math.min(domain.length, range.length) - 1, d = new Array(j), r = new Array(j), i = -1;
   if (domain[j] < domain[0]) {
     domain = domain.slice().reverse();
-    range2 = range2.slice().reverse();
+    range = range.slice().reverse();
   }
   while (++i < j) {
     d[i] = normalize(domain[i], domain[i + 1]);
-    r2[i] = interpolate(range2[i], range2[i + 1]);
+    r[i] = interpolate(range[i], range[i + 1]);
   }
   return function(x2) {
     var i2 = bisect_default(domain, x2, 1, j) - 1;
-    return r2[i2](d[i2](x2));
+    return r[i2](d[i2](x2));
   };
 }
 function copy(source, target) {
   return target.domain(source.domain()).range(source.range()).interpolate(source.interpolate()).clamp(source.clamp()).unknown(source.unknown());
 }
 function transformer() {
-  var domain = unit, range2 = unit, interpolate = value_default, transform, untransform, unknown, clamp = identity, piecewise, output, input;
+  var domain = unit, range = unit, interpolate = value_default, transform, untransform, unknown, clamp = identity, piecewise, output, input;
   function rescale() {
-    var n = Math.min(domain.length, range2.length);
+    var n = Math.min(domain.length, range.length);
     if (clamp !== identity) clamp = clamper(domain[0], domain[n - 1]);
     piecewise = n > 2 ? polymap : bimap;
     output = input = null;
     return scale;
   }
   function scale(x2) {
-    return x2 == null || isNaN(x2 = +x2) ? unknown : (output || (output = piecewise(domain.map(transform), range2, interpolate)))(transform(clamp(x2)));
+    return x2 == null || isNaN(x2 = +x2) ? unknown : (output || (output = piecewise(domain.map(transform), range, interpolate)))(transform(clamp(x2)));
   }
   scale.invert = function(y2) {
-    return clamp(untransform((input || (input = piecewise(range2, domain.map(transform), number_default)))(y2)));
+    return clamp(untransform((input || (input = piecewise(range, domain.map(transform), number_default)))(y2)));
   };
   scale.domain = function(_) {
     return arguments.length ? (domain = Array.from(_, number2), rescale()) : domain.slice();
   };
   scale.range = function(_) {
-    return arguments.length ? (range2 = Array.from(_), rescale()) : range2.slice();
+    return arguments.length ? (range = Array.from(_), rescale()) : range.slice();
   };
   scale.rangeRound = function(_) {
-    return range2 = Array.from(_), interpolate = round_default, rescale();
+    return range = Array.from(_), interpolate = round_default, rescale();
   };
   scale.clamp = function(_) {
     return arguments.length ? (clamp = _ ? true : identity, rescale()) : clamp !== identity;
@@ -3039,15 +2865,15 @@ function timeInterval(floori, offseti, count, field) {
     return offseti(date2 = /* @__PURE__ */ new Date(+date2), step == null ? 1 : Math.floor(step)), date2;
   };
   interval.range = (start, stop, step) => {
-    const range2 = [];
+    const range = [];
     start = interval.ceil(start);
     step = step == null ? 1 : Math.floor(step);
-    if (!(start < stop) || !(step > 0)) return range2;
+    if (!(start < stop) || !(step > 0)) return range;
     let previous;
     do
-      range2.push(previous = /* @__PURE__ */ new Date(+start)), offseti(start, step), floori(start);
+      range.push(previous = /* @__PURE__ */ new Date(+start)), offseti(start, step), floori(start);
     while (previous < start && start < stop);
-    return range2;
+    return range;
   };
   interval.filter = (test) => {
     return timeInterval((date2) => {
@@ -4013,38 +3839,38 @@ var Path = class {
   bezierCurveTo(x1, y1, x2, y2, x3, y3) {
     this._append`C${+x1},${+y1},${+x2},${+y2},${this._x1 = +x3},${this._y1 = +y3}`;
   }
-  arcTo(x1, y1, x2, y2, r2) {
-    x1 = +x1, y1 = +y1, x2 = +x2, y2 = +y2, r2 = +r2;
-    if (r2 < 0) throw new Error(`negative radius: ${r2}`);
+  arcTo(x1, y1, x2, y2, r) {
+    x1 = +x1, y1 = +y1, x2 = +x2, y2 = +y2, r = +r;
+    if (r < 0) throw new Error(`negative radius: ${r}`);
     let x0 = this._x1, y0 = this._y1, x21 = x2 - x1, y21 = y2 - y1, x01 = x0 - x1, y01 = y0 - y1, l01_2 = x01 * x01 + y01 * y01;
     if (this._x1 === null) {
       this._append`M${this._x1 = x1},${this._y1 = y1}`;
     } else if (!(l01_2 > epsilon)) ;
-    else if (!(Math.abs(y01 * x21 - y21 * x01) > epsilon) || !r2) {
+    else if (!(Math.abs(y01 * x21 - y21 * x01) > epsilon) || !r) {
       this._append`L${this._x1 = x1},${this._y1 = y1}`;
     } else {
-      let x20 = x2 - x0, y20 = y2 - y0, l21_2 = x21 * x21 + y21 * y21, l20_2 = x20 * x20 + y20 * y20, l21 = Math.sqrt(l21_2), l01 = Math.sqrt(l01_2), l = r2 * Math.tan((pi - Math.acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2), t01 = l / l01, t21 = l / l21;
+      let x20 = x2 - x0, y20 = y2 - y0, l21_2 = x21 * x21 + y21 * y21, l20_2 = x20 * x20 + y20 * y20, l21 = Math.sqrt(l21_2), l01 = Math.sqrt(l01_2), l = r * Math.tan((pi - Math.acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2), t01 = l / l01, t21 = l / l21;
       if (Math.abs(t01 - 1) > epsilon) {
         this._append`L${x1 + t01 * x01},${y1 + t01 * y01}`;
       }
-      this._append`A${r2},${r2},0,0,${+(y01 * x20 > x01 * y20)},${this._x1 = x1 + t21 * x21},${this._y1 = y1 + t21 * y21}`;
+      this._append`A${r},${r},0,0,${+(y01 * x20 > x01 * y20)},${this._x1 = x1 + t21 * x21},${this._y1 = y1 + t21 * y21}`;
     }
   }
-  arc(x2, y2, r2, a0, a1, ccw) {
-    x2 = +x2, y2 = +y2, r2 = +r2, ccw = !!ccw;
-    if (r2 < 0) throw new Error(`negative radius: ${r2}`);
-    let dx = r2 * Math.cos(a0), dy = r2 * Math.sin(a0), x0 = x2 + dx, y0 = y2 + dy, cw = 1 ^ ccw, da = ccw ? a0 - a1 : a1 - a0;
+  arc(x2, y2, r, a0, a1, ccw) {
+    x2 = +x2, y2 = +y2, r = +r, ccw = !!ccw;
+    if (r < 0) throw new Error(`negative radius: ${r}`);
+    let dx = r * Math.cos(a0), dy = r * Math.sin(a0), x0 = x2 + dx, y0 = y2 + dy, cw = 1 ^ ccw, da = ccw ? a0 - a1 : a1 - a0;
     if (this._x1 === null) {
       this._append`M${x0},${y0}`;
     } else if (Math.abs(this._x1 - x0) > epsilon || Math.abs(this._y1 - y0) > epsilon) {
       this._append`L${x0},${y0}`;
     }
-    if (!r2) return;
+    if (!r) return;
     if (da < 0) da = da % tau + tau;
     if (da > tauEpsilon) {
-      this._append`A${r2},${r2},0,1,${cw},${x2 - dx},${y2 - dy}A${r2},${r2},0,1,${cw},${this._x1 = x0},${this._y1 = y0}`;
+      this._append`A${r},${r},0,1,${cw},${x2 - dx},${y2 - dy}A${r},${r},0,1,${cw},${this._x1 = x0},${this._y1 = y0}`;
     } else if (da > epsilon) {
-      this._append`A${r2},${r2},0,${+(da >= pi)},${cw},${this._x1 = x2 + r2 * Math.cos(a1)},${this._y1 = y2 + r2 * Math.sin(a1)}`;
+      this._append`A${r},${r},0,${+(da >= pi)},${cw},${this._x1 = x2 + r * Math.cos(a1)},${this._y1 = y2 + r * Math.sin(a1)}`;
     }
   }
   rect(x2, y2, w, h) {
@@ -4249,7 +4075,7 @@ function slope2(that, t) {
   var h = that._x1 - that._x0;
   return h ? (3 * (that._y1 - that._y0) / h - t) / 2 : t;
 }
-function point2(that, t02, t12) {
+function point(that, t02, t12) {
   var x0 = that._x0, y0 = that._y0, x1 = that._x1, y1 = that._y1, dx = (x1 - x0) / 3;
   that._context.bezierCurveTo(x0 + dx, y0 + dx * t02, x1 - dx, y1 - dx * t12, x1, y1);
 }
@@ -4273,7 +4099,7 @@ MonotoneX.prototype = {
         this._context.lineTo(this._x1, this._y1);
         break;
       case 3:
-        point2(this, this._t0, slope2(this, this._t0));
+        point(this, this._t0, slope2(this, this._t0));
         break;
     }
     if (this._line || this._line !== 0 && this._point === 1) this._context.closePath();
@@ -4293,10 +4119,10 @@ MonotoneX.prototype = {
         break;
       case 2:
         this._point = 3;
-        point2(this, slope2(this, t12 = slope3(this, x2, y2)), t12);
+        point(this, slope2(this, t12 = slope3(this, x2, y2)), t12);
         break;
       default:
-        point2(this, this._t0, t12 = slope3(this, x2, y2));
+        point(this, this._t0, t12 = slope3(this, x2, y2));
         break;
     }
     this._x0 = this._x1, this._x1 = x2;
@@ -4332,15 +4158,15 @@ function monotoneX(context) {
 }
 
 // src/components/DataVisualisation/utils/scales.ts
-function createXTimeScale(data, accessor, range2) {
+function createXTimeScale(data, accessor, range) {
   const domain = extent(data, accessor);
-  return time().domain(domain).range(range2);
+  return time().domain(domain).range(range);
 }
-function createYLinearScale(data, accessor, range2) {
+function createYLinearScale(data, accessor, range) {
   const [min, max] = extent(data, accessor);
   const hasData = Number.isFinite(min) && Number.isFinite(max);
   if (!hasData) {
-    return linear2().domain([0, 0]).range(range2);
+    return linear2().domain([0, 0]).range(range);
   }
   let lower;
   if (min <= 0) {
@@ -4352,7 +4178,7 @@ function createYLinearScale(data, accessor, range2) {
     if (lower === min) lower = Math.max(0, min * 0.9);
   }
   const upper = max != null ? max : 0;
-  return linear2().domain([lower, upper]).nice().range(range2);
+  return linear2().domain([lower, upper]).nice().range(range);
 }
 function createLinePath(data, x2, y2, options) {
   var _a2;
@@ -4363,65 +4189,10 @@ function createLinePath(data, x2, y2, options) {
   return (_a2 = lineGen(data)) != null ? _a2 : "";
 }
 
-// src/components/DataVisualisation/hooks/useChartDimensions.ts
-import * as React2 from "react";
-function useChartDimensions(initial = {}) {
-  const ref = React2.useRef(null);
-  const margin = React2.useMemo(() => {
-    var _a2, _b2, _c, _d;
-    return {
-      top: (_a2 = initial.top) != null ? _a2 : 16,
-      right: (_b2 = initial.right) != null ? _b2 : 16,
-      bottom: (_c = initial.bottom) != null ? _c : 32,
-      left: (_d = initial.left) != null ? _d : 48
-    };
-  }, [initial.bottom, initial.left, initial.right, initial.top]);
-  const [dims, setDims] = React2.useState({ width: 0, height: 0 });
-  React2.useLayoutEffect(() => {
-    if (!ref.current) return;
-    const ro = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const { width, height } = entry.contentRect;
-        setDims({ width, height });
-      }
-    });
-    ro.observe(ref.current);
-    return () => ro.disconnect();
-  }, []);
-  const innerWidth = Math.max(0, dims.width - margin.left - margin.right);
-  const innerHeight = Math.max(0, dims.height - margin.top - margin.bottom);
-  return { width: dims.width, height: dims.height, innerWidth, innerHeight, margin, ref };
-}
-
-// src/components/DataVisualisation/core/ChartRoot.tsx
-import * as React3 from "react";
-import { jsx as jsx2 } from "react/jsx-runtime";
-var ChartContext = React3.createContext(null);
-function useChartContext() {
-  return React3.useContext(ChartContext);
-}
-var ChartRoot = ({
-  height = 240,
-  margin,
-  width,
-  className = "fdp-chart",
-  // align with SCSS token application (.fdp-chart)
-  children,
-  role = "group",
-  ariaLabel
-}) => {
-  const dims = useChartDimensions(margin);
-  const style = { height, position: "relative" };
-  if (width !== void 0) style.width = typeof width === "number" ? `${width}px` : width;
-  return /* @__PURE__ */ jsx2("div", { ref: dims.ref, className, style, role, "aria-label": ariaLabel, children: /* @__PURE__ */ jsx2(ChartContext.Provider, { value: dims, children }) });
-};
-var ChartRoot_default = ChartRoot;
-
 // src/components/DataVisualisation/core/ScaleContext.tsx
-import * as React4 from "react";
-import { jsx as jsx3 } from "react/jsx-runtime";
-var ScaleContext = React4.createContext(null);
-var useScaleContext = () => React4.useContext(ScaleContext);
+import { jsx as jsx2 } from "react/jsx-runtime";
+var ScaleContext = React3.createContext(null);
+var useScaleContext = () => React3.useContext(ScaleContext);
 var LineScalesProvider = ({
   series,
   innerWidth: innerWidthProp,
@@ -4438,16 +4209,16 @@ var LineScalesProvider = ({
   const chartDims = useChartContext();
   const innerWidth = (_a2 = innerWidthProp != null ? innerWidthProp : chartDims == null ? void 0 : chartDims.innerWidth) != null ? _a2 : 0;
   const innerHeight = (_b2 = innerHeightProp != null ? innerHeightProp : chartDims == null ? void 0 : chartDims.innerHeight) != null ? _b2 : 0;
-  const allData = React4.useMemo(() => series.flatMap((s) => s.data), [series]);
-  const parseX = React4.useCallback((d) => {
+  const allData = React3.useMemo(() => series.flatMap((s) => s.data), [series]);
+  const parseX = React3.useCallback((d) => {
     if (parseXProp) return parseXProp(d);
     const raw = d.x;
     return raw instanceof Date ? raw : new Date(raw);
   }, [parseXProp]);
   const xPad = xPadding != null ? xPadding : 6;
   const yPad = yPadding != null ? yPadding : 6;
-  const xScale = React4.useMemo(() => createXTimeScale(allData, parseX, [xPad, Math.max(0, innerWidth - xPad)]), [allData, parseX, innerWidth, xPad]);
-  const yScale = React4.useMemo(() => {
+  const xScale = React3.useMemo(() => createXTimeScale(allData, parseX, [xPad, Math.max(0, innerWidth - xPad)]), [allData, parseX, innerWidth, xPad]);
+  const yScale = React3.useMemo(() => {
     if (yDomain) {
       const scale = createYLinearScale([], (d) => d.y, [Math.max(0, innerHeight - yPad), yPad]);
       scale.domain(yDomain);
@@ -4455,19 +4226,268 @@ var LineScalesProvider = ({
     }
     return createYLinearScale(allData, (d) => d.y, [Math.max(0, innerHeight - yPad), yPad]);
   }, [allData, innerHeight, yDomain]);
-  const value = React4.useMemo(() => ({
+  const value = React3.useMemo(() => ({
     xScale,
     yScale,
     getXTicks: (count = xTickCount) => xScale.ticks(count),
     getYTicks: (count = yTickCount) => yScale.ticks(count)
   }), [xScale, yScale, xTickCount, yTickCount]);
-  return /* @__PURE__ */ jsx3(ScaleContext.Provider, { value, children });
+  return /* @__PURE__ */ jsx2(ScaleContext.Provider, { value, children });
 };
-var ScaleContext_default = ScaleContext;
+
+// src/components/DataVisualisation/core/TooltipContext.tsx
+import * as React5 from "react";
+
+// src/components/DataVisualisation/core/VisibilityContext.tsx
+import * as React4 from "react";
+import { jsx as jsx3 } from "react/jsx-runtime";
+var VisibilityContext = React4.createContext(null);
+var useVisibility = () => React4.useContext(VisibilityContext);
+
+// src/components/DataVisualisation/core/TooltipContext.tsx
+import { jsx as jsx4 } from "react/jsx-runtime";
+var TooltipContext = React5.createContext(null);
+var useTooltipContext = () => React5.useContext(TooltipContext);
+var TooltipProvider = ({
+  children,
+  maxDistance = 40,
+  wrapAround = false
+}) => {
+  const scaleCtx = useScaleContext();
+  const visibility = useVisibility();
+  const [focused, setFocused] = React5.useState(null);
+  const seriesRef = React5.useRef(/* @__PURE__ */ new Map());
+  const [aggregated, setAggregated] = React5.useState([]);
+  const registerSeries = React5.useCallback(
+    (seriesId, data) => {
+      seriesRef.current.set(seriesId, data);
+    },
+    []
+  );
+  const unregisterSeries = React5.useCallback((seriesId) => {
+    seriesRef.current.delete(seriesId);
+  }, []);
+  const focusNearest = React5.useCallback(
+    (plotX, plotY) => {
+      if (!scaleCtx) return;
+      const { xScale, yScale } = scaleCtx;
+      let best = null;
+      let bestDist = Infinity;
+      seriesRef.current.forEach((data, sid) => {
+        data.forEach((d, i) => {
+          const px = xScale(d.x);
+          const py = yScale(d.y);
+          const dx = px - plotX;
+          const dy = py - plotY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < bestDist) {
+            bestDist = dist;
+            best = {
+              seriesId: sid,
+              index: i,
+              x: d.x,
+              y: d.y,
+              clientX: px,
+              clientY: py
+            };
+          }
+        });
+      });
+      if (best && bestDist <= maxDistance) setFocused(best);
+      else setFocused(null);
+    },
+    [scaleCtx, maxDistance]
+  );
+  const clear = React5.useCallback(() => setFocused(null), []);
+  React5.useEffect(() => {
+    if (!focused) {
+      setAggregated([]);
+      return;
+    }
+    if (!scaleCtx) return;
+    const { xScale, yScale } = scaleCtx;
+    const agg = [];
+    seriesRef.current.forEach((data, sid) => {
+      data.forEach((d, i) => {
+        const match = (() => {
+          if (focused.x instanceof Date && d.x instanceof Date)
+            return d.x.getTime() === focused.x.getTime();
+          return d.x === focused.x;
+        })();
+        if (match) {
+          agg.push({
+            seriesId: sid,
+            index: i,
+            x: d.x,
+            y: d.y,
+            clientX: xScale(d.x),
+            clientY: yScale(d.y)
+          });
+        }
+      });
+    });
+    agg.sort((a, b) => a.seriesId.localeCompare(b.seriesId));
+    setAggregated(agg);
+  }, [focused, scaleCtx]);
+  const focusRelativePoint = React5.useCallback(
+    (delta) => {
+      if (!focused) return;
+      const data = seriesRef.current.get(focused.seriesId);
+      if (!data) return;
+      let nextIndex = focused.index + delta;
+      if (nextIndex < 0 || nextIndex >= data.length) {
+        if (!wrapAround) return;
+        nextIndex = (nextIndex + data.length) % data.length;
+      }
+      const d = data[nextIndex];
+      if (!scaleCtx) return;
+      const { xScale, yScale } = scaleCtx;
+      setFocused({
+        seriesId: focused.seriesId,
+        index: nextIndex,
+        x: d.x,
+        y: d.y,
+        clientX: xScale(d.x),
+        clientY: yScale(d.y)
+      });
+    },
+    [focused, scaleCtx, wrapAround]
+  );
+  const focusSeriesAtIndex = React5.useCallback(
+    (seriesDelta) => {
+      let ids = Array.from(seriesRef.current.keys());
+      if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
+      if (ids.length === 0) return;
+      if (!focused) {
+        const first = ids[0];
+        const data = seriesRef.current.get(first);
+        if (!data || !scaleCtx) return;
+        const { xScale: xScale2, yScale: yScale2 } = scaleCtx;
+        const d2 = data[0];
+        setFocused({
+          seriesId: first,
+          index: 0,
+          x: d2.x,
+          y: d2.y,
+          clientX: xScale2(d2.x),
+          clientY: yScale2(d2.y)
+        });
+        return;
+      }
+      const currentSeriesIdx = ids.indexOf(focused.seriesId);
+      if (currentSeriesIdx === -1) return;
+      let nextSeriesIdx = currentSeriesIdx + seriesDelta;
+      if (nextSeriesIdx < 0 || nextSeriesIdx >= ids.length) {
+        if (!wrapAround) return;
+        nextSeriesIdx = (nextSeriesIdx + ids.length) % ids.length;
+      }
+      const nextSeriesId = ids[nextSeriesIdx];
+      const nextData = seriesRef.current.get(nextSeriesId);
+      if (!nextData || !scaleCtx) return;
+      const idx = Math.min(focused.index, nextData.length - 1);
+      const d = nextData[idx];
+      const { xScale, yScale } = scaleCtx;
+      setFocused({
+        seriesId: nextSeriesId,
+        index: idx,
+        x: d.x,
+        y: d.y,
+        clientX: xScale(d.x),
+        clientY: yScale(d.y)
+      });
+    },
+    [focused, scaleCtx, wrapAround, visibility]
+  );
+  const focusFirstPoint = React5.useCallback(() => {
+    let ids = Array.from(seriesRef.current.keys());
+    if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
+    if (ids.length === 0) return;
+    const targetSeriesId = focused ? focused.seriesId : ids[0];
+    const data = seriesRef.current.get(targetSeriesId);
+    if (!data || data.length === 0 || !scaleCtx) return;
+    const d = data[0];
+    const { xScale, yScale } = scaleCtx;
+    setFocused({
+      seriesId: targetSeriesId,
+      index: 0,
+      x: d.x,
+      y: d.y,
+      clientX: xScale(d.x),
+      clientY: yScale(d.y)
+    });
+  }, [focused, scaleCtx, visibility]);
+  const focusLastPoint = React5.useCallback(() => {
+    let ids = Array.from(seriesRef.current.keys());
+    if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
+    if (ids.length === 0) return;
+    const targetSeriesId = focused ? focused.seriesId : ids[0];
+    const data = seriesRef.current.get(targetSeriesId);
+    if (!data || data.length === 0 || !scaleCtx) return;
+    const lastIndex = data.length - 1;
+    const d = data[lastIndex];
+    const { xScale, yScale } = scaleCtx;
+    setFocused({
+      seriesId: targetSeriesId,
+      index: lastIndex,
+      x: d.x,
+      y: d.y,
+      clientX: xScale(d.x),
+      clientY: yScale(d.y)
+    });
+  }, [focused, scaleCtx, visibility]);
+  const focusNextPoint = React5.useCallback(
+    () => focusRelativePoint(1),
+    [focusRelativePoint]
+  );
+  const focusPrevPoint = React5.useCallback(
+    () => focusRelativePoint(-1),
+    [focusRelativePoint]
+  );
+  const focusNextSeries = React5.useCallback(
+    () => focusSeriesAtIndex(1),
+    [focusSeriesAtIndex]
+  );
+  const focusPrevSeries = React5.useCallback(
+    () => focusSeriesAtIndex(-1),
+    [focusSeriesAtIndex]
+  );
+  const value = React5.useMemo(
+    () => ({
+      focused,
+      setFocused,
+      aggregated,
+      focusNearest,
+      clear,
+      registerSeries,
+      unregisterSeries,
+      focusNextPoint,
+      focusPrevPoint,
+      focusNextSeries,
+      focusPrevSeries,
+      focusFirstPoint,
+      focusLastPoint
+    }),
+    [
+      focused,
+      aggregated,
+      focusNearest,
+      clear,
+      registerSeries,
+      unregisterSeries,
+      focusNextPoint,
+      focusPrevPoint,
+      focusNextSeries,
+      focusPrevSeries,
+      focusFirstPoint,
+      focusLastPoint
+    ]
+  );
+  return /* @__PURE__ */ jsx4(TooltipContext.Provider, { value, children });
+};
 
 // src/components/DataVisualisation/charts/Axis/Axis.tsx
-import * as React5 from "react";
-import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
+import * as React6 from "react";
+import { jsx as jsx5, jsxs } from "react/jsx-runtime";
 var Axis = ({
   type,
   scale,
@@ -4489,7 +4509,7 @@ var Axis = ({
   const resolvedScale = scale || (type === "x" ? scaleCtx == null ? void 0 : scaleCtx.xScale : scaleCtx == null ? void 0 : scaleCtx.yScale);
   const defaultCount = tickCount != null ? tickCount : type === "x" ? 6 : 5;
   const hasUserFormatter = typeof rawFormatTick === "function";
-  const presetFormatter = React5.useMemo(() => {
+  const presetFormatter = React6.useMemo(() => {
     if (hasUserFormatter) return void 0;
     if (!tickFormatPreset) return void 0;
     const dtf = (opts) => new Intl.DateTimeFormat(void 0, opts);
@@ -4526,7 +4546,7 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
     }
   }, [hasUserFormatter, tickFormatPreset]);
   let effectiveFormatTick = hasUserFormatter ? rawFormatTick : presetFormatter || ((v) => String(v));
-  const ticks2 = React5.useMemo(() => {
+  const ticks2 = React6.useMemo(() => {
     if (tickValues && Array.isArray(tickValues)) return tickValues;
     if (!resolvedScale) return [];
     if (typeof resolvedScale.ticks === "function") return resolvedScale.ticks(defaultCount);
@@ -4579,7 +4599,7 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
       const avgLen = labels.length ? labels.reduce((a, b) => a + b.length, 0) / labels.length : 0;
       resolvedMinSpacing = Math.max(12, Math.round(avgLen * 6 + 4));
     }
-    const filteredTicks = React5.useMemo(() => {
+    const filteredTicks = React6.useMemo(() => {
       if (tickValues && Array.isArray(tickValues)) return ticks2;
       if (resolvedMinSpacing <= 0) return ticks2;
       const accepted = [];
@@ -4593,45 +4613,45 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
       }
       return accepted;
     }, [ticks2, resolvedScale, resolvedMinSpacing, tickValues, isBandScale, bandwidth]);
-    return /* @__PURE__ */ jsxs2("g", { className: ["fdp-axis", "fdp-axis--x", className].filter(Boolean).join(" "), transform: `translate(0,${y2})`, fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))", children: [
-      /* @__PURE__ */ jsx4("line", { x1: 0, x2: dims.innerWidth, y1: 0, y2: 0, stroke: "currentColor" }),
+    return /* @__PURE__ */ jsxs("g", { className: ["fdp-axis", "fdp-axis--x", className].filter(Boolean).join(" "), transform: `translate(0,${y2})`, fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))", children: [
+      /* @__PURE__ */ jsx5("line", { x1: 0, x2: dims.innerWidth, y1: 0, y2: 0, stroke: "currentColor" }),
       filteredTicks.map((t, i) => {
         var _a2;
         const rawLabel = effectiveFormatTick(t);
         const displayLabel = maxTickLabelLength && rawLabel.length > maxTickLabelLength ? rawLabel.slice(0, Math.max(1, maxTickLabelLength - 1)) + "\u2026" : rawLabel;
         const lines = allowLabelWrap ? displayLabel.split(/\n/) : [displayLabel.replace(/\n/g, " ")];
         const anchor = labelAngle < 0 ? "end" : labelAngle > 0 ? "start" : "middle";
-        return /* @__PURE__ */ jsxs2("g", { transform: `translate(${tickPos(t)},0)`, children: [
-          /* @__PURE__ */ jsx4("line", { y2: 6, stroke: "currentColor" }),
-          /* @__PURE__ */ jsxs2("text", { y: 9, textAnchor: anchor, className: "fdp-axis__tick", dominantBaseline: "hanging", transform: labelAngle ? `rotate(${labelAngle})` : void 0, fontFamily: "inherit", children: [
-            lines.map((ln, li) => /* @__PURE__ */ jsx4("tspan", { x: 0, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
-            displayLabel !== rawLabel && /* @__PURE__ */ jsx4("title", { children: rawLabel })
+        return /* @__PURE__ */ jsxs("g", { transform: `translate(${tickPos(t)},0)`, children: [
+          /* @__PURE__ */ jsx5("line", { y2: 6, stroke: "currentColor" }),
+          /* @__PURE__ */ jsxs("text", { y: 9, textAnchor: anchor, className: "fdp-axis__tick", dominantBaseline: "hanging", transform: labelAngle ? `rotate(${labelAngle})` : void 0, fontFamily: "inherit", children: [
+            lines.map((ln, li) => /* @__PURE__ */ jsx5("tspan", { x: 0, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
+            displayLabel !== rawLabel && /* @__PURE__ */ jsx5("title", { children: rawLabel })
           ] })
         ] }, ((_a2 = t == null ? void 0 : t.toString) == null ? void 0 : _a2.call(t)) || i);
       })
     ] });
   }
-  return /* @__PURE__ */ jsxs2("g", { className: ["fdp-axis", "fdp-axis--y", className].filter(Boolean).join(" "), fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))", children: [
+  return /* @__PURE__ */ jsxs("g", { className: ["fdp-axis", "fdp-axis--y", className].filter(Boolean).join(" "), fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))", children: [
     ticks2.map((t, i) => {
       var _a2;
       const rawLabel = effectiveFormatTick(t);
       const displayLabel = maxTickLabelLength && rawLabel.length > maxTickLabelLength ? rawLabel.slice(0, Math.max(1, maxTickLabelLength - 1)) + "\u2026" : rawLabel;
       const lines = allowLabelWrap ? displayLabel.split(/\n/) : [displayLabel.replace(/\n/g, " ")];
-      return /* @__PURE__ */ jsxs2("g", { transform: `translate(0,${resolvedScale(t)})`, children: [
-        /* @__PURE__ */ jsx4("line", { x2: -6, stroke: "currentColor" }),
-        /* @__PURE__ */ jsxs2("text", { x: -9, dy: "0.32em", textAnchor: "end", className: "fdp-axis__tick", fontFamily: "inherit", children: [
-          lines.map((ln, li) => /* @__PURE__ */ jsx4("tspan", { x: -9, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
-          displayLabel !== rawLabel && /* @__PURE__ */ jsx4("title", { children: rawLabel })
+      return /* @__PURE__ */ jsxs("g", { transform: `translate(0,${resolvedScale(t)})`, children: [
+        /* @__PURE__ */ jsx5("line", { x2: -6, stroke: "currentColor" }),
+        /* @__PURE__ */ jsxs("text", { x: -9, dy: "0.32em", textAnchor: "end", className: "fdp-axis__tick", fontFamily: "inherit", children: [
+          lines.map((ln, li) => /* @__PURE__ */ jsx5("tspan", { x: -9, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
+          displayLabel !== rawLabel && /* @__PURE__ */ jsx5("title", { children: rawLabel })
         ] })
       ] }, ((_a2 = t == null ? void 0 : t.toString) == null ? void 0 : _a2.call(t)) || i);
     }),
-    label && /* @__PURE__ */ jsx4("text", { transform: "rotate(-90)", x: -dims.innerHeight / 2, y: -dims.margin.left + 12, textAnchor: "middle", className: "fdp-axis__label", fontFamily: "inherit", children: label })
+    label && /* @__PURE__ */ jsx5("text", { transform: "rotate(-90)", x: -dims.innerHeight / 2, y: -dims.margin.left + 12, textAnchor: "middle", className: "fdp-axis__label", fontFamily: "inherit", children: label })
   ] });
 };
 var Axis_default = Axis;
 
 // src/components/DataVisualisation/charts/GridlLines/GridLines.tsx
-import { jsx as jsx5, jsxs as jsxs3 } from "react/jsx-runtime";
+import { jsx as jsx6, jsxs as jsxs2 } from "react/jsx-runtime";
 var GridLines = ({
   axis = "y",
   tickCount,
@@ -4643,15 +4663,15 @@ var GridLines = ({
   const dims = useChartContext();
   if (!scaleCtx || !dims) return null;
   const ticks2 = axis === "y" ? scaleCtx.getYTicks(tickCount) : scaleCtx.getXTicks(tickCount);
-  return /* @__PURE__ */ jsxs3("g", { className: ["fdp-grid", className].filter(Boolean).join(" "), children: [
-    axis === "y" && ticks2.map((t, i) => /* @__PURE__ */ jsx5("line", { x1: 0, x2: dims.innerWidth, y1: scaleCtx.yScale(t), y2: scaleCtx.yScale(t), stroke, strokeDasharray: dasharray }, i)),
-    axis === "x" && ticks2.map((t, i) => /* @__PURE__ */ jsx5("line", { y1: 0, y2: dims.innerHeight, x1: scaleCtx.xScale(t), x2: scaleCtx.xScale(t), stroke, strokeDasharray: dasharray }, i))
+  return /* @__PURE__ */ jsxs2("g", { className: ["fdp-grid", className].filter(Boolean).join(" "), children: [
+    axis === "y" && ticks2.map((t, i) => /* @__PURE__ */ jsx6("line", { x1: 0, x2: dims.innerWidth, y1: scaleCtx.yScale(t), y2: scaleCtx.yScale(t), stroke, strokeDasharray: dasharray }, i)),
+    axis === "x" && ticks2.map((t, i) => /* @__PURE__ */ jsx6("line", { y1: 0, y2: dims.innerHeight, x1: scaleCtx.xScale(t), x2: scaleCtx.xScale(t), stroke, strokeDasharray: dasharray }, i))
   ] });
 };
 var GridLines_default = GridLines;
 
 // src/components/DataVisualisation/series/LineSeriesPrimitive.tsx
-import * as React8 from "react";
+import * as React7 from "react";
 
 // packages/nhs-fdp/tokens/data-viz.json
 var data_viz_default = {
@@ -4983,8 +5003,8 @@ function srgbToLinear(x2) {
   x2 /= 255;
   return x2 <= 0.04045 ? x2 / 12.92 : Math.pow((x2 + 0.055) / 1.055, 2.4);
 }
-function rgbToXyz(r2, g, b) {
-  const R = srgbToLinear(r2);
+function rgbToXyz(r, g, b) {
+  const R = srgbToLinear(r);
   const G = srgbToLinear(g);
   const B = srgbToLinear(b);
   const x2 = R * 0.4124 + G * 0.3576 + B * 0.1805;
@@ -5095,8 +5115,8 @@ function xyzToRgb(x2, y2, z) {
   B = Math.min(1, Math.max(0, linToSrgb(B)));
   return { r: Math.round(R * 255), g: Math.round(G * 255), b: Math.round(B * 255) };
 }
-function rgbToHex(r2, g, b) {
-  return `#${[r2, g, b].map((v) => v.toString(16).padStart(2, "0")).join("")}`;
+function rgbToHex(r, g, b) {
+  return `#${[r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("")}`;
 }
 function adjustLightness(hex2, deltaL) {
   const lab = hexToLab(hex2);
@@ -5128,15 +5148,6 @@ function extendedPaletteCacheStrategyMismatch() {
 function pickSeriesColor(i) {
   const ext = getExtendedPalette();
   return ext[i % ext.length];
-}
-function getOptimizedCategoricalPalette() {
-  return [...getOptimizedPalette()];
-}
-function getRawCategoricalPalette() {
-  return [...getRawPalette()];
-}
-function getExtendedCategoricalPalette() {
-  return [...getExtendedPalette()];
 }
 var categoricalStrokeMap = null;
 var regionStrokeMap = null;
@@ -5190,80 +5201,6 @@ function getRegionStroke(id) {
 function pickRegionStroke(id, fallbackIndex) {
   return getRegionStroke(id) || pickSeriesStroke(fallbackIndex);
 }
-var SEVERITY_IDS = ["low", "moderate", "high", "critical"];
-var severityMap = null;
-function buildSeverityMap() {
-  const root = { color: { ...colors_default.color, ...data_viz_default.color } };
-  const resolve = (path2, seen = /* @__PURE__ */ new Set()) => {
-    if (seen.has(path2)) return void 0;
-    seen.add(path2);
-    const node = path2.split(".").reduce((acc, k) => acc ? acc[k] : void 0, root);
-    if (!node) return void 0;
-    const value = node.$value || node.value;
-    if (typeof value === "string" && /^\{.+\}$/.test(value)) return resolve(value.slice(1, -1), seen);
-    return typeof value === "string" ? value : void 0;
-  };
-  const map2 = {};
-  SEVERITY_IDS.forEach((id) => {
-    const hex2 = resolve(`color.data-viz.severity.${id}`);
-    if (hex2) map2[id] = hex2;
-  });
-  return map2;
-}
-function getSeverityMap() {
-  if (!severityMap) severityMap = buildSeverityMap();
-  return severityMap;
-}
-function getSeverityColor(id) {
-  return getSeverityMap()[id.toLowerCase()];
-}
-function pickSeverityColor(id, fallbackIndex) {
-  return getSeverityColor(id) || getSeverityMap()[SEVERITY_IDS[fallbackIndex % SEVERITY_IDS.length]] || pickSeriesColor(fallbackIndex);
-}
-function getSeverityStroke(id) {
-  ensureStrokeMaps();
-  return severityStrokeMap ? severityStrokeMap[id] : void 0;
-}
-function pickSeverityStroke(id, fallbackIndex) {
-  return getSeverityStroke(id) || pickSeriesStroke(fallbackIndex);
-}
-var ORG_LEVEL_IDS = ["trust", "ambulance", "icb", "region"];
-var orgLevelMap = null;
-function buildOrgLevelMap() {
-  const root = { color: { ...colors_default.color, ...data_viz_default.color } };
-  const resolve = (path2, seen = /* @__PURE__ */ new Set()) => {
-    if (seen.has(path2)) return void 0;
-    seen.add(path2);
-    const node = path2.split(".").reduce((acc, k) => acc ? acc[k] : void 0, root);
-    if (!node) return void 0;
-    const value = node.$value || node.value;
-    if (typeof value === "string" && /^\{.+\}$/.test(value)) return resolve(value.slice(1, -1), seen);
-    return typeof value === "string" ? value : void 0;
-  };
-  const map2 = {};
-  ORG_LEVEL_IDS.forEach((id) => {
-    const hex2 = resolve(`color.data-viz.org-level.${id}`);
-    if (hex2) map2[id] = hex2;
-  });
-  return map2;
-}
-function getOrgLevelMap() {
-  if (!orgLevelMap) orgLevelMap = buildOrgLevelMap();
-  return orgLevelMap;
-}
-function getOrgLevelColor(id) {
-  return getOrgLevelMap()[id.toLowerCase()];
-}
-function pickOrgLevelColor(id, fallbackIndex) {
-  return getOrgLevelColor(id) || getOrgLevelMap()[ORG_LEVEL_IDS[fallbackIndex % ORG_LEVEL_IDS.length]] || pickSeriesColor(fallbackIndex);
-}
-function getOrgLevelStroke(id) {
-  ensureStrokeMaps();
-  return orgLevelStrokeMap ? orgLevelStrokeMap[id] : void 0;
-}
-function pickOrgLevelStroke(id, fallbackIndex) {
-  return getOrgLevelStroke(id) || pickSeriesStroke(fallbackIndex);
-}
 var regionMap = null;
 var REGION_IDS = [
   "north-east",
@@ -5314,310 +5251,9 @@ function getRegionColor(id) {
 function pickRegionColor(id, fallbackIndex) {
   return getRegionColor(id) || pickSeriesColor(fallbackIndex);
 }
-function assignSeriesColors(series, { palette = "categorical", random = false } = {}) {
-  const copy2 = series.map((s) => ({ ...s }));
-  const paletteValues = palette === "region" ? copy2.map((s, i) => pickRegionColor(s.id, i)) : palette === "severity" ? copy2.map((s, i) => pickSeverityColor(s.id, i)) : palette === "org-level" ? copy2.map((s, i) => pickOrgLevelColor(s.id, i)) : series.length > getOptimizedCategoricalPalette().length ? getExtendedCategoricalPalette() : categoricalStrategy === "optimized" ? getOptimizedCategoricalPalette() : getRawCategoricalPalette();
-  let order = palette === "region" ? copy2.map((_, i) => i) : palette === "severity" ? copy2.map((_, i) => i) : palette === "org-level" ? copy2.map((_, i) => i) : [...Array(paletteValues.length).keys()];
-  if (random) {
-    for (let i = order.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [order[i], order[j]] = [order[j], order[i]];
-    }
-  }
-  let cursor = 0;
-  copy2.forEach((s, si) => {
-    if (!s.color) {
-      if (palette === "region") {
-        s.color = paletteValues[si];
-      } else {
-        const idx = order[cursor % order.length];
-        s.color = paletteValues[idx];
-        cursor++;
-      }
-    }
-  });
-  return copy2;
-}
-
-// src/components/DataVisualisation/core/VisibilityContext.tsx
-import * as React6 from "react";
-import { jsx as jsx6 } from "react/jsx-runtime";
-var VisibilityContext = React6.createContext(null);
-var useVisibility = () => React6.useContext(VisibilityContext);
-var VisibilityProvider = ({
-  initialHiddenIds = [],
-  children,
-  hiddenIds: controlledHidden,
-  onChange
-}) => {
-  const [uncontrolled, setUncontrolled] = React6.useState(() => new Set(initialHiddenIds));
-  const isControlled = controlledHidden !== void 0;
-  const hiddenSet = React6.useMemo(() => isControlled ? new Set(controlledHidden) : uncontrolled, [isControlled, controlledHidden, uncontrolled]);
-  const update = React6.useCallback((next) => {
-    if (!isControlled) setUncontrolled(new Set(next));
-    onChange == null ? void 0 : onChange(Array.from(next));
-  }, [isControlled, onChange]);
-  const api = React6.useMemo(() => ({
-    hiddenIds: hiddenSet,
-    isHidden: (id) => hiddenSet.has(id),
-    toggle: (id) => {
-      const next = new Set(hiddenSet);
-      next.has(id) ? next.delete(id) : next.add(id);
-      update(next);
-    },
-    showOnly: (_id) => {
-      update(/* @__PURE__ */ new Set());
-    },
-    showAll: () => update(/* @__PURE__ */ new Set()),
-    setHidden: (ids) => update(new Set(Array.isArray(ids) ? ids : Array.from(ids)))
-  }), [hiddenSet, update]);
-  return /* @__PURE__ */ jsx6(VisibilityContext.Provider, { value: api, children });
-};
-
-// src/components/DataVisualisation/core/TooltipContext.tsx
-import * as React7 from "react";
-import { jsx as jsx7 } from "react/jsx-runtime";
-var TooltipContext = React7.createContext(null);
-var useTooltipContext = () => React7.useContext(TooltipContext);
-var TooltipProvider = ({
-  children,
-  maxDistance = 40,
-  wrapAround = false
-}) => {
-  const scaleCtx = useScaleContext();
-  const visibility = useVisibility();
-  const [focused, setFocused] = React7.useState(null);
-  const seriesRef = React7.useRef(/* @__PURE__ */ new Map());
-  const [aggregated, setAggregated] = React7.useState([]);
-  const registerSeries = React7.useCallback(
-    (seriesId, data) => {
-      seriesRef.current.set(seriesId, data);
-    },
-    []
-  );
-  const unregisterSeries = React7.useCallback((seriesId) => {
-    seriesRef.current.delete(seriesId);
-  }, []);
-  const focusNearest = React7.useCallback(
-    (plotX, plotY) => {
-      if (!scaleCtx) return;
-      const { xScale, yScale } = scaleCtx;
-      let best = null;
-      let bestDist = Infinity;
-      seriesRef.current.forEach((data, sid) => {
-        data.forEach((d, i) => {
-          const px = xScale(d.x);
-          const py = yScale(d.y);
-          const dx = px - plotX;
-          const dy = py - plotY;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < bestDist) {
-            bestDist = dist;
-            best = {
-              seriesId: sid,
-              index: i,
-              x: d.x,
-              y: d.y,
-              clientX: px,
-              clientY: py
-            };
-          }
-        });
-      });
-      if (best && bestDist <= maxDistance) setFocused(best);
-      else setFocused(null);
-    },
-    [scaleCtx, maxDistance]
-  );
-  const clear = React7.useCallback(() => setFocused(null), []);
-  React7.useEffect(() => {
-    if (!focused) {
-      setAggregated([]);
-      return;
-    }
-    if (!scaleCtx) return;
-    const { xScale, yScale } = scaleCtx;
-    const agg = [];
-    seriesRef.current.forEach((data, sid) => {
-      data.forEach((d, i) => {
-        const match = (() => {
-          if (focused.x instanceof Date && d.x instanceof Date)
-            return d.x.getTime() === focused.x.getTime();
-          return d.x === focused.x;
-        })();
-        if (match) {
-          agg.push({
-            seriesId: sid,
-            index: i,
-            x: d.x,
-            y: d.y,
-            clientX: xScale(d.x),
-            clientY: yScale(d.y)
-          });
-        }
-      });
-    });
-    agg.sort((a, b) => a.seriesId.localeCompare(b.seriesId));
-    setAggregated(agg);
-  }, [focused, scaleCtx]);
-  const focusRelativePoint = React7.useCallback(
-    (delta) => {
-      if (!focused) return;
-      const data = seriesRef.current.get(focused.seriesId);
-      if (!data) return;
-      let nextIndex = focused.index + delta;
-      if (nextIndex < 0 || nextIndex >= data.length) {
-        if (!wrapAround) return;
-        nextIndex = (nextIndex + data.length) % data.length;
-      }
-      const d = data[nextIndex];
-      if (!scaleCtx) return;
-      const { xScale, yScale } = scaleCtx;
-      setFocused({
-        seriesId: focused.seriesId,
-        index: nextIndex,
-        x: d.x,
-        y: d.y,
-        clientX: xScale(d.x),
-        clientY: yScale(d.y)
-      });
-    },
-    [focused, scaleCtx, wrapAround]
-  );
-  const focusSeriesAtIndex = React7.useCallback(
-    (seriesDelta) => {
-      let ids = Array.from(seriesRef.current.keys());
-      if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
-      if (ids.length === 0) return;
-      if (!focused) {
-        const first = ids[0];
-        const data = seriesRef.current.get(first);
-        if (!data || !scaleCtx) return;
-        const { xScale: xScale2, yScale: yScale2 } = scaleCtx;
-        const d2 = data[0];
-        setFocused({
-          seriesId: first,
-          index: 0,
-          x: d2.x,
-          y: d2.y,
-          clientX: xScale2(d2.x),
-          clientY: yScale2(d2.y)
-        });
-        return;
-      }
-      const currentSeriesIdx = ids.indexOf(focused.seriesId);
-      if (currentSeriesIdx === -1) return;
-      let nextSeriesIdx = currentSeriesIdx + seriesDelta;
-      if (nextSeriesIdx < 0 || nextSeriesIdx >= ids.length) {
-        if (!wrapAround) return;
-        nextSeriesIdx = (nextSeriesIdx + ids.length) % ids.length;
-      }
-      const nextSeriesId = ids[nextSeriesIdx];
-      const nextData = seriesRef.current.get(nextSeriesId);
-      if (!nextData || !scaleCtx) return;
-      const idx = Math.min(focused.index, nextData.length - 1);
-      const d = nextData[idx];
-      const { xScale, yScale } = scaleCtx;
-      setFocused({
-        seriesId: nextSeriesId,
-        index: idx,
-        x: d.x,
-        y: d.y,
-        clientX: xScale(d.x),
-        clientY: yScale(d.y)
-      });
-    },
-    [focused, scaleCtx, wrapAround, visibility]
-  );
-  const focusFirstPoint = React7.useCallback(() => {
-    let ids = Array.from(seriesRef.current.keys());
-    if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
-    if (ids.length === 0) return;
-    const targetSeriesId = focused ? focused.seriesId : ids[0];
-    const data = seriesRef.current.get(targetSeriesId);
-    if (!data || data.length === 0 || !scaleCtx) return;
-    const d = data[0];
-    const { xScale, yScale } = scaleCtx;
-    setFocused({
-      seriesId: targetSeriesId,
-      index: 0,
-      x: d.x,
-      y: d.y,
-      clientX: xScale(d.x),
-      clientY: yScale(d.y)
-    });
-  }, [focused, scaleCtx, visibility]);
-  const focusLastPoint = React7.useCallback(() => {
-    let ids = Array.from(seriesRef.current.keys());
-    if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
-    if (ids.length === 0) return;
-    const targetSeriesId = focused ? focused.seriesId : ids[0];
-    const data = seriesRef.current.get(targetSeriesId);
-    if (!data || data.length === 0 || !scaleCtx) return;
-    const lastIndex = data.length - 1;
-    const d = data[lastIndex];
-    const { xScale, yScale } = scaleCtx;
-    setFocused({
-      seriesId: targetSeriesId,
-      index: lastIndex,
-      x: d.x,
-      y: d.y,
-      clientX: xScale(d.x),
-      clientY: yScale(d.y)
-    });
-  }, [focused, scaleCtx, visibility]);
-  const focusNextPoint = React7.useCallback(
-    () => focusRelativePoint(1),
-    [focusRelativePoint]
-  );
-  const focusPrevPoint = React7.useCallback(
-    () => focusRelativePoint(-1),
-    [focusRelativePoint]
-  );
-  const focusNextSeries = React7.useCallback(
-    () => focusSeriesAtIndex(1),
-    [focusSeriesAtIndex]
-  );
-  const focusPrevSeries = React7.useCallback(
-    () => focusSeriesAtIndex(-1),
-    [focusSeriesAtIndex]
-  );
-  const value = React7.useMemo(
-    () => ({
-      focused,
-      setFocused,
-      aggregated,
-      focusNearest,
-      clear,
-      registerSeries,
-      unregisterSeries,
-      focusNextPoint,
-      focusPrevPoint,
-      focusNextSeries,
-      focusPrevSeries,
-      focusFirstPoint,
-      focusLastPoint
-    }),
-    [
-      focused,
-      aggregated,
-      focusNearest,
-      clear,
-      registerSeries,
-      unregisterSeries,
-      focusNextPoint,
-      focusPrevPoint,
-      focusNextSeries,
-      focusPrevSeries,
-      focusFirstPoint,
-      focusLastPoint
-    ]
-  );
-  return /* @__PURE__ */ jsx7(TooltipContext.Provider, { value, children });
-};
 
 // src/components/DataVisualisation/series/LineSeriesPrimitive.tsx
-import { jsx as jsx8, jsxs as jsxs4 } from "react/jsx-runtime";
+import { jsx as jsx7, jsxs as jsxs3 } from "react/jsx-runtime";
 var LineSeriesPrimitive = ({
   series,
   seriesIndex,
@@ -5643,13 +5279,13 @@ var LineSeriesPrimitive = ({
     return null;
   }
   const tooltip = useTooltipContext();
-  React8.useEffect(() => {
+  React7.useEffect(() => {
     if (!tooltip) return;
     const normalized = series.data.map((d) => ({ x: parseX(d), y: d.y }));
     tooltip.registerSeries(series.id, normalized);
     return () => tooltip.unregisterSeries(series.id);
   }, [tooltip, series.id, series.data, parseX]);
-  const path2 = React8.useMemo(
+  const path2 = React7.useMemo(
     () => createLinePath(
       series.data,
       (d) => xScale(parseX(d)),
@@ -5658,7 +5294,7 @@ var LineSeriesPrimitive = ({
     ),
     [series.data, xScale, yScale, parseX, smooth]
   );
-  const areaPath = React8.useMemo(() => {
+  const areaPath = React7.useMemo(() => {
     if (!series.data.length) return "";
     const [domainMin] = yScale.domain();
     const gen = area_default().x((d) => xScale(parseX(d))).y0(() => yScale(domainMin)).y1((d) => yScale(d.y));
@@ -5668,7 +5304,7 @@ var LineSeriesPrimitive = ({
   const paletteOverride = colors && colors[seriesIndex];
   const color2 = series.color || paletteOverride || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
   const stroke = palette === "region" ? pickRegionStroke(series.id, seriesIndex) : pickSeriesStroke(seriesIndex);
-  return /* @__PURE__ */ jsxs4(
+  return /* @__PURE__ */ jsxs3(
     "g",
     {
       className: "fdp-line-series",
@@ -5676,7 +5312,7 @@ var LineSeriesPrimitive = ({
       opacity: faded ? 0.25 : 1,
       "aria-hidden": faded ? true : void 0,
       children: [
-        gradientFillId && /* @__PURE__ */ jsx8(
+        gradientFillId && /* @__PURE__ */ jsx7(
           "path",
           {
             d: areaPath,
@@ -5686,7 +5322,7 @@ var LineSeriesPrimitive = ({
             className: "fdp-line-series__gradient"
           }
         ),
-        /* @__PURE__ */ jsx8(
+        /* @__PURE__ */ jsx7(
           "path",
           {
             d: path2,
@@ -5719,7 +5355,7 @@ var LineSeriesPrimitive = ({
             if (tooltip && ((_a4 = tooltip.focused) == null ? void 0 : _a4.seriesId) === series.id && tooltip.focused.index === di)
               tooltip.clear();
           };
-          return /* @__PURE__ */ jsx8(
+          return /* @__PURE__ */ jsx7(
             "circle",
             {
               cx,
@@ -5747,2150 +5383,8 @@ var LineSeriesPrimitive = ({
 };
 var LineSeriesPrimitive_default = LineSeriesPrimitive;
 
-// src/components/DataVisualisation/primitives/VisuallyHiddenLiveRegion.tsx
-import * as React9 from "react";
-import { jsx as jsx9 } from "react/jsx-runtime";
-var VisuallyHiddenLiveRegion = ({ polite = true, format: format2 }) => {
-  const tooltip = useTooltipContext();
-  const [message, setMessage] = React9.useState("");
-  const lastRef = React9.useRef("");
-  React9.useEffect(() => {
-    if (!(tooltip == null ? void 0 : tooltip.focused)) return;
-    const { focused, aggregated } = tooltip;
-    let msg;
-    if (aggregated && aggregated.length > 1) {
-      const parts = aggregated.map((a) => `${a.seriesId} ${a.y}`).join("; ");
-      const xLabel = focused.x instanceof Date ? focused.x.toDateString() : String(focused.x);
-      msg = `${xLabel} \u2013 ${parts}`;
-    } else {
-      msg = format2 ? format2({ seriesId: focused.seriesId, x: focused.x, y: focused.y, index: focused.index }) : defaultFormatter(focused.seriesId, focused.x, focused.y, focused.index);
-    }
-    if (msg !== lastRef.current) {
-      lastRef.current = msg;
-      setMessage("");
-      const timeout = setTimeout(() => setMessage(msg), 10);
-      return () => clearTimeout(timeout);
-    }
-  }, [tooltip == null ? void 0 : tooltip.focused, format2]);
-  return /* @__PURE__ */ jsx9(
-    "div",
-    {
-      "aria-live": polite ? "polite" : "assertive",
-      "aria-atomic": "true",
-      style: { position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", border: 0 },
-      children: message
-    }
-  );
-};
-function defaultFormatter(seriesId, x2, y2, index) {
-  const xLabel = x2 instanceof Date ? x2.toDateString() : String(x2);
-  return `Series ${seriesId}, point ${index + 1}, ${xLabel}, value ${y2}`;
-}
-var VisuallyHiddenLiveRegion_default = VisuallyHiddenLiveRegion;
-
-// src/components/DataVisualisation/primitives/TooltipOverlay.tsx
-import { jsx as jsx10, jsxs as jsxs5 } from "react/jsx-runtime";
-var TooltipOverlay = () => {
-  const tooltip = useTooltipContext();
-  const chart = useChartContext();
-  if (!tooltip || !chart || !tooltip.focused) return null;
-  const { focused, aggregated } = tooltip;
-  const { innerWidth, innerHeight } = chart;
-  const clampX = Math.min(Math.max(focused.clientX, 0), innerWidth);
-  const clampY = Math.min(Math.max(focused.clientY, 0), innerHeight);
-  const bgX = clampX + 8;
-  const bgY = clampY - 8;
-  const multi = aggregated.length > 1;
-  const dateLabel = focused.x instanceof Date ? focused.x.toDateString() : String(focused.x);
-  const label = multi ? dateLabel : `${dateLabel} \u2022 ${focused.y}`;
-  const idDigits = /\d+$/.exec(focused.seriesId || "");
-  const seriesIdx = idDigits ? parseInt(idDigits[0], 10) - 1 : 0;
-  const seriesColor = pickSeriesColor(seriesIdx >= 0 ? seriesIdx : 0) || "#005eb8";
-  const focusYellow = "var(--nhs-fdp-color-primary-yellow,#ffeb3b)";
-  return /* @__PURE__ */ jsxs5("g", { className: "fdp-tooltip-layer", pointerEvents: "none", children: [
-    /* @__PURE__ */ jsx10("circle", { cx: clampX, cy: clampY, r: 7, fill: "none", stroke: focusYellow, strokeWidth: 3 }),
-    /* @__PURE__ */ jsx10("circle", { cx: clampX, cy: clampY, r: 5, fill: "#000", stroke: focusYellow, strokeWidth: 1.5 }),
-    /* @__PURE__ */ jsx10("circle", { cx: clampX, cy: clampY, r: 2.5, fill: seriesColor, stroke: "#fff", strokeWidth: 0.5 }),
-    multi ? (() => {
-      const lineHeight = 16;
-      const rows = aggregated.map((a) => `${a.seriesId}: ${a.y}`);
-      const content = [label, ...rows];
-      const maxChars = content.reduce((m, s) => Math.max(m, s.length), 0);
-      const width = Math.max(90, maxChars * 6.2 + 16);
-      const height = lineHeight * content.length + 8;
-      return /* @__PURE__ */ jsxs5("g", { children: [
-        /* @__PURE__ */ jsx10("rect", { x: bgX, y: bgY - height, rx: 4, ry: 4, width, height, fill: "#212b32", opacity: 0.92 }),
-        content.map((t, i) => /* @__PURE__ */ jsx10("text", { x: bgX + 8, y: bgY - height + 6 + lineHeight * (i + 0.7), fill: "#fff", fontSize: 12, children: t }, i))
-      ] });
-    })() : /* @__PURE__ */ jsxs5("g", { children: [
-      /* @__PURE__ */ jsx10("rect", { x: bgX, y: bgY - 24, rx: 4, ry: 4, width: Math.max(60, label.length * 6.2), height: 24, fill: "#212b32", opacity: 0.92 }),
-      /* @__PURE__ */ jsx10("text", { x: bgX + 8, y: bgY - 8, fill: "#fff", fontSize: 12, children: label })
-    ] })
-  ] });
-};
-var TooltipOverlay_default = TooltipOverlay;
-
-// src/components/DataVisualisation/charts/LineChart/LineChart.tsx
-import { jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
-var InternalLineChart = ({
-  series,
-  yLabel,
-  ariaLabel = "Line chart",
-  showPoints = true,
-  focusablePoints = true,
-  palette = "categorical",
-  dateFormatter,
-  valueFormatter,
-  xTickValues,
-  alignXTicksToData = false,
-  announceFocus = true,
-  showTooltipOverlay = true,
-  padXDomain = true,
-  wrapAroundNav = false,
-  keyboardNav = false,
-  visibilityMode = "remove",
-  recomputeYDomainOnHidden = false,
-  strokeWidth = 1,
-  smooth = true,
-  gradientFills = true,
-  providedDims
-}) => {
-  const contextDims = useChartContext();
-  const dims = providedDims || contextDims || useChartDimensions({ bottom: 48, left: 56, right: 16, top: 12 });
-  const scaleCtx = useScaleContext();
-  const visibility = useVisibility();
-  const visibleSeries = React10.useMemo(() => {
-    if (!visibility) return series;
-    return series.filter((s) => !visibility.isHidden(s.id));
-  }, [series, visibility]);
-  const allData = React10.useMemo(() => {
-    if (recomputeYDomainOnHidden && visibility) return visibleSeries.flatMap((s) => s.data);
-    return series.flatMap((s) => s.data);
-  }, [series, visibleSeries, recomputeYDomainOnHidden, visibility]);
-  const parseX = React10.useCallback((d) => d.x instanceof Date ? d.x : new Date(d.x), []);
-  const xScale = scaleCtx ? scaleCtx.xScale : React10.useMemo(() => {
-    if (!padXDomain) return createXTimeScale(allData, parseX, [0, dims.innerWidth]);
-    const times = allData.map((d) => parseX(d).getTime()).sort((a, b) => a - b);
-    if (times.length === 0) return createXTimeScale(allData, parseX, [0, dims.innerWidth]);
-    let step;
-    if (times.length === 1) {
-      step = 24 * 3600 * 1e3;
-    } else {
-      const diffs = [];
-      for (let i = 1; i < times.length; i++) diffs.push(times[i] - times[i - 1]);
-      diffs.sort((a, b) => a - b);
-      step = diffs[Math.floor(diffs.length / 2)] || (times[times.length - 1] - times[0]) / (times.length - 1);
-    }
-    const pad2 = step / 2;
-    const domain = [new Date(times[0] - pad2), new Date(times[times.length - 1] + pad2)];
-    return time().domain(domain).range([0, dims.innerWidth]);
-  }, [allData, parseX, dims.innerWidth, padXDomain]);
-  const yScale = scaleCtx ? scaleCtx.yScale : React10.useMemo(() => createYLinearScale(allData, (d) => d.y, [dims.innerHeight, 0]), [allData, dims.innerHeight]);
-  const formatDate = dateFormatter || ((d) => d.toLocaleDateString(void 0, { month: "short", day: "numeric" }));
-  const computedDataTickValues = React10.useMemo(() => {
-    if (xTickValues && xTickValues.length) return xTickValues.map((v) => v instanceof Date ? v : new Date(v));
-    if (!alignXTicksToData) return [];
-    const set = /* @__PURE__ */ new Set();
-    for (const d of allData) set.add(parseX(d).getTime());
-    return Array.from(set).sort((a, b) => a - b).map((ms) => new Date(ms));
-  }, [xTickValues, alignXTicksToData, allData, parseX]);
-  const formatValue = valueFormatter || ((v) => String(v));
-  const gradientIds = React10.useMemo(() => series.map((s) => `fdp-line-grad-${s.id}`), [series]);
-  const svgContent = /* @__PURE__ */ jsx11("svg", { width: dims.width, height: dims.height, role: "img", children: /* @__PURE__ */ jsxs6("g", { transform: `translate(${dims.margin.left},${dims.margin.top})`, children: [
-    gradientFills && /* @__PURE__ */ jsx11("defs", { children: series.map((s, i) => {
-      const lineColor = s.color || (palette === "region" ? pickRegionColor(s.id, i) : pickSeriesColor(i));
-      return /* @__PURE__ */ jsxs6("linearGradient", { id: gradientIds[i], x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-        /* @__PURE__ */ jsx11("stop", { offset: "0%", stopColor: lineColor, stopOpacity: 0.25 }),
-        /* @__PURE__ */ jsx11("stop", { offset: "100%", stopColor: lineColor, stopOpacity: 0 })
-      ] }, s.id);
-    }) }),
-    /* @__PURE__ */ jsx11(Axis_default, { type: "x", formatTick: formatDate, tickValues: computedDataTickValues.length ? computedDataTickValues : void 0 }),
-    /* @__PURE__ */ jsx11(Axis_default, { type: "y", formatTick: formatValue, label: yLabel }),
-    /* @__PURE__ */ jsx11(GridLines_default, { axis: "y" }),
-    series.map((s, si) => /* @__PURE__ */ jsx11(
-      LineSeriesPrimitive_default,
-      {
-        series: s,
-        seriesIndex: si,
-        palette,
-        showPoints,
-        focusablePoints,
-        focusIndex: -1,
-        parseX,
-        visibilityMode,
-        strokeWidth,
-        smooth,
-        gradientFillId: gradientFills ? gradientIds[si] : void 0
-      },
-      s.id
-    )),
-    showTooltipOverlay && /* @__PURE__ */ jsx11(TooltipOverlay_default, {})
-  ] }) });
-  const KeyboardNavWrapper = ({ children }) => {
-    const t = useTooltipContext();
-    const onKeyDown = React10.useCallback((e) => {
-      if (!t) return;
-      switch (e.key) {
-        case "ArrowRight":
-          t.focusNextPoint();
-          e.preventDefault();
-          break;
-        case "ArrowLeft":
-          t.focusPrevPoint();
-          e.preventDefault();
-          break;
-        case "ArrowDown":
-          t.focusNextSeries();
-          e.preventDefault();
-          break;
-        case "ArrowUp":
-          t.focusPrevSeries();
-          e.preventDefault();
-          break;
-        case "Home":
-          t.focusFirstPoint();
-          e.preventDefault();
-          break;
-        case "End":
-          t.focusLastPoint();
-          e.preventDefault();
-          break;
-        case "Escape":
-          t.clear();
-          e.preventDefault();
-          break;
-        default:
-          break;
-      }
-    }, [t]);
-    return /* @__PURE__ */ jsx11("div", { className: "fdp-line-chart", role: "group", "aria-label": ariaLabel, tabIndex: 0, onKeyDown, children });
-  };
-  const body = /* @__PURE__ */ jsx11(TooltipProvider, { wrapAround: wrapAroundNav, children: keyboardNav ? /* @__PURE__ */ jsxs6(KeyboardNavWrapper, { children: [
-    svgContent,
-    announceFocus && /* @__PURE__ */ jsx11(VisuallyHiddenLiveRegion_default, {})
-  ] }) : /* @__PURE__ */ jsxs6("div", { className: "fdp-line-chart", role: "group", "aria-label": ariaLabel, children: [
-    svgContent,
-    announceFocus && /* @__PURE__ */ jsx11(VisuallyHiddenLiveRegion_default, {})
-  ] }) });
-  if (scaleCtx) return body;
-  const value = {
-    xScale,
-    yScale,
-    getXTicks: (c = 6) => xScale.ticks(c),
-    getYTicks: (c = 5) => yScale.ticks(c)
-  };
-  return /* @__PURE__ */ jsx11(ScaleContext_default.Provider, { value, children: body });
-};
-var LineChart = (props) => {
-  var _a2;
-  const ctx = useChartContext();
-  const content = /* @__PURE__ */ jsx11(InternalLineChart, { ...props, providedDims: ctx });
-  if (ctx) {
-    return useScaleContext() ? content : /* @__PURE__ */ jsx11(LineScalesProvider, { series: props.series, innerWidth: ctx.innerWidth, innerHeight: ctx.innerHeight, children: content });
-  }
-  const ariaLabel = props.ariaLabel;
-  return /* @__PURE__ */ jsx11(ChartRoot, { height: (_a2 = props.height) != null ? _a2 : 240, ariaLabel, margin: { bottom: 48, left: 56, right: 16, top: 12 }, children: /* @__PURE__ */ jsx11(InternalLineChart, { ...props }) });
-};
-var LineChart_default = LineChart;
-
-// src/components/Tabs/Tabs.tsx
-var import_classnames = __toESM(require_classnames(), 1);
-import { useState as useState6, useCallback as useCallback6, useRef as useRef4, forwardRef, useImperativeHandle } from "react";
-import { jsx as jsx12, jsxs as jsxs7 } from "react/jsx-runtime";
-var Tabs = forwardRef(({
-  items,
-  defaultActiveTab,
-  activeTab: controlledActiveTab,
-  onTabChange,
-  onTabFocus,
-  onTabListBlur,
-  onEscape,
-  autoActivate = true,
-  className,
-  id,
-  "data-testid": testId,
-  ...props
-}, ref) => {
-  const isControlled = controlledActiveTab !== void 0;
-  const [internalActiveTab, setInternalActiveTab] = useState6(() => {
-    var _a2;
-    return defaultActiveTab || ((_a2 = items[0]) == null ? void 0 : _a2.id) || "";
-  });
-  const activeTab = isControlled ? controlledActiveTab : internalActiveTab;
-  const tabListRef = useRef4(null);
-  const tabRefs = useRef4(/* @__PURE__ */ new Map());
-  const handleTabClick = useCallback6((tabId) => {
-    if (!isControlled) {
-      setInternalActiveTab(tabId);
-    }
-    onTabChange == null ? void 0 : onTabChange(tabId);
-  }, [isControlled, onTabChange]);
-  const handleTabFocus = useCallback6((tabId) => {
-    onTabFocus == null ? void 0 : onTabFocus(tabId);
-    if (autoActivate) {
-      handleTabClick(tabId);
-    }
-  }, [onTabFocus, autoActivate, handleTabClick]);
-  const handleKeyDown = useCallback6((event, tabId) => {
-    const tabIds = items.filter((item) => !item.disabled).map((item) => item.id);
-    const currentIndex = tabIds.indexOf(tabId);
-    let newIndex = null;
-    switch (event.key) {
-      case "ArrowLeft":
-        newIndex = currentIndex > 0 ? currentIndex - 1 : tabIds.length - 1;
-        break;
-      case "ArrowRight":
-        newIndex = currentIndex < tabIds.length - 1 ? currentIndex + 1 : 0;
-        break;
-      case "Home":
-        newIndex = 0;
-        break;
-      case "End":
-        newIndex = tabIds.length - 1;
-        break;
-      case "Escape":
-        event.preventDefault();
-        onEscape == null ? void 0 : onEscape();
-        return;
-      default:
-        return;
-    }
-    if (newIndex !== null) {
-      event.preventDefault();
-      const newTabId = tabIds[newIndex];
-      const newTabRef = tabRefs.current.get(newTabId);
-      if (newTabRef) {
-        newTabRef.focus();
-        handleTabFocus(newTabId);
-      }
-    }
-  }, [items, handleTabFocus, onEscape]);
-  const setTabRef = useCallback6((tabId, element) => {
-    if (element) {
-      tabRefs.current.set(tabId, element);
-    } else {
-      tabRefs.current.delete(tabId);
-    }
-  }, []);
-  const focusTab = useCallback6((tabId) => {
-    const tabRef = tabRefs.current.get(tabId);
-    if (tabRef) {
-      tabRef.focus();
-    }
-  }, []);
-  useImperativeHandle(ref, () => ({
-    focusTab,
-    getActiveTab: () => activeTab,
-    getTabListElement: () => tabListRef.current
-  }), [focusTab, activeTab]);
-  const handleTabListBlur = useCallback6((event) => {
-    var _a2;
-    const relatedTarget = event.relatedTarget;
-    if (!((_a2 = tabListRef.current) == null ? void 0 : _a2.contains(relatedTarget))) {
-      onTabListBlur == null ? void 0 : onTabListBlur();
-    }
-  }, [onTabListBlur]);
-  const tabsClasses = (0, import_classnames.default)("nhsuk-tabs", className);
-  return /* @__PURE__ */ jsxs7(
-    "div",
-    {
-      className: tabsClasses,
-      id,
-      "data-testid": testId,
-      ...props,
-      children: [
-        /* @__PURE__ */ jsx12("h2", { className: "nhsuk-tabs__title", children: "Contents" }),
-        /* @__PURE__ */ jsx12(
-          "div",
-          {
-            className: "nhsuk-tabs__list-container",
-            ref: tabListRef,
-            children: /* @__PURE__ */ jsx12(
-              "ul",
-              {
-                className: "nhsuk-tabs__list",
-                role: "tablist",
-                onBlur: handleTabListBlur,
-                children: items.map((item) => {
-                  const isActive = item.id === activeTab;
-                  const isDisabled = item.disabled;
-                  const tabClasses = (0, import_classnames.default)("nhsuk-tabs__list-item", {
-                    "nhsuk-tabs__list-item--selected": isActive,
-                    "nhsuk-tabs__list-item--disabled": isDisabled
-                  });
-                  return /* @__PURE__ */ jsx12("li", { className: tabClasses, role: "presentation", children: /* @__PURE__ */ jsx12(
-                    "button",
-                    {
-                      ref: (element) => setTabRef(item.id, element),
-                      className: "nhsuk-tabs__tab",
-                      role: "tab",
-                      "aria-selected": isActive,
-                      "aria-controls": `${item.id}-panel`,
-                      id: `${item.id}-tab`,
-                      tabIndex: isActive ? 0 : -1,
-                      disabled: isDisabled,
-                      onClick: () => !isDisabled && handleTabClick(item.id),
-                      onKeyDown: (event) => !isDisabled && handleKeyDown(event, item.id),
-                      onFocus: () => !isDisabled && handleTabFocus(item.id),
-                      ...item.attributes,
-                      children: item.label
-                    }
-                  ) }, item.id);
-                })
-              }
-            )
-          }
-        ),
-        items.map((item) => {
-          const isActive = item.id === activeTab;
-          return /* @__PURE__ */ jsx12(
-            "div",
-            {
-              className: "nhsuk-tabs__panel",
-              role: "tabpanel",
-              "aria-labelledby": `${item.id}-tab`,
-              id: `${item.id}-panel`,
-              hidden: !isActive,
-              children: item.content
-            },
-            item.id
-          );
-        })
-      ]
-    }
-  );
-});
-
-// src/components/Button/Button.tsx
-import * as React12 from "react";
-
-// src/mapping/button.ts
-function mapButtonProps(input) {
-  const variant = input.variant || "primary";
-  const size = input.size || "default";
-  const fullWidth = !!input.fullWidth;
-  const classes = [
-    "nhs-aria-button",
-    `nhs-aria-button--${variant}`,
-    size !== "default" ? `nhs-aria-button--${size}` : "",
-    fullWidth ? "nhs-aria-button--full-width" : "",
-    input.className || ""
-  ].filter(Boolean).join(" ");
-  const tag = input.href ? "a" : "button";
-  return {
-    tag,
-    classes,
-    data: { module: "nhs-button" },
-    attrs: input.href ? { href: input.href, role: "button" } : { type: "button" },
-    preventDoubleClick: !!input.preventDoubleClick
-  };
-}
-
-// src/components/Button/Button.tsx
-import { jsx as jsx13 } from "react/jsx-runtime";
-var { forwardRef: forwardRef2, useCallback: useCallback7, useState: useState7 } = React12;
-function ButtonComponent(props, ref) {
-  const {
-    children,
-    variant = "primary",
-    size = "default",
-    fullWidth = false,
-    className = "",
-    preventDoubleClick = false,
-    ...rest
-  } = props;
-  const [isPressed, setIsPressed] = useState7(false);
-  const [isHovered, setIsHovered] = useState7(false);
-  const [isFocused, setIsFocused] = useState7(false);
-  const model = mapButtonProps({
-    variant,
-    size,
-    fullWidth,
-    className,
-    preventDoubleClick,
-    href: "href" in rest ? rest.href : void 0
-  });
-  const isDisabled = "disabled" in rest ? rest.disabled : rest["aria-disabled"] === "true";
-  const dataAttributes = {
-    ...isPressed && { "data-pressed": "true" },
-    ...isHovered && { "data-hovered": "true" },
-    ...isFocused && { "data-focused": "true" },
-    ...isDisabled && { "data-disabled": "true" }
-  };
-  const handleMouseDown = useCallback7(
-    () => !isDisabled && setIsPressed(true),
-    [isDisabled]
-  );
-  const handleMouseUp = useCallback7(() => setIsPressed(false), []);
-  const handleMouseEnter = useCallback7(
-    () => !isDisabled && setIsHovered(true),
-    [isDisabled]
-  );
-  const handleMouseLeave = useCallback7(() => {
-    setIsHovered(false);
-    setIsPressed(false);
-  }, []);
-  const handleFocus = useCallback7(() => setIsFocused(true), []);
-  const handleBlur = useCallback7(() => setIsFocused(false), []);
-  const handleKeyDown = useCallback7(
-    (event) => {
-      if (event.key === " " && ("href" in rest || event.currentTarget.getAttribute("role") === "button")) {
-        event.preventDefault();
-        event.currentTarget.click();
-      }
-    },
-    [rest]
-  );
-  const handleClick = useCallback7(
-    (event) => {
-      if (preventDoubleClick) {
-        const target = event.currentTarget;
-        const isAlreadyProcessing = target.getAttribute("data-processing") === "true";
-        if (isAlreadyProcessing) {
-          event.preventDefault();
-          return;
-        }
-        target.setAttribute("data-processing", "true");
-        setTimeout(() => {
-          target.removeAttribute("data-processing");
-        }, 1e3);
-      }
-    },
-    [preventDoubleClick]
-  );
-  if ("href" in rest && rest.href) {
-    const {
-      id: id2,
-      style: style2,
-      title: title2,
-      ["aria-label"]: ariaLabel2,
-      ["aria-describedby"]: ariaDescribedBy2,
-      ["aria-labelledby"]: ariaLabelledBy2,
-      tabIndex: tabIndex2,
-      ...anchorRest
-    } = rest;
-    const anchorProps = rest;
-    return /* @__PURE__ */ jsx13(
-      "a",
-      {
-        ref,
-        href: anchorProps.href,
-        target: anchorProps.target,
-        rel: anchorProps.rel,
-        className: model.classes,
-        role: "button",
-        draggable: "false",
-        "data-module": "nhs-button",
-        ...dataAttributes,
-        ...preventDoubleClick && { "data-prevent-double-click": "true" },
-        ...anchorRest,
-        onKeyDown: (event) => {
-          var _a2;
-          (_a2 = anchorProps.onKeyDown) == null ? void 0 : _a2.call(anchorProps, event);
-          handleKeyDown(event);
-        },
-        onClick: (event) => {
-          var _a2;
-          (_a2 = anchorProps.onClick) == null ? void 0 : _a2.call(anchorProps, event);
-          handleClick(event);
-        },
-        onMouseDown: (event) => {
-          var _a2;
-          (_a2 = anchorProps.onMouseDown) == null ? void 0 : _a2.call(anchorProps, event);
-          handleMouseDown();
-        },
-        onMouseUp: (event) => {
-          var _a2;
-          (_a2 = anchorProps.onMouseUp) == null ? void 0 : _a2.call(anchorProps, event);
-          handleMouseUp();
-        },
-        onMouseEnter: (event) => {
-          var _a2;
-          (_a2 = anchorProps.onMouseEnter) == null ? void 0 : _a2.call(anchorProps, event);
-          handleMouseEnter();
-        },
-        onMouseLeave: (event) => {
-          var _a2;
-          (_a2 = anchorProps.onMouseLeave) == null ? void 0 : _a2.call(anchorProps, event);
-          handleMouseLeave();
-        },
-        onFocus: (event) => {
-          var _a2;
-          (_a2 = anchorProps.onFocus) == null ? void 0 : _a2.call(anchorProps, event);
-          handleFocus();
-        },
-        onBlur: (event) => {
-          var _a2;
-          (_a2 = anchorProps.onBlur) == null ? void 0 : _a2.call(anchorProps, event);
-          handleBlur();
-        },
-        "aria-disabled": anchorProps["aria-disabled"],
-        ...anchorProps["aria-disabled"] === "true" && { tabIndex: -1 },
-        id: id2,
-        style: style2,
-        title: title2,
-        "aria-label": ariaLabel2,
-        "aria-describedby": ariaDescribedBy2,
-        "aria-labelledby": ariaLabelledBy2,
-        tabIndex: tabIndex2,
-        children
-      }
-    );
-  }
-  const {
-    id,
-    style,
-    title,
-    ["aria-label"]: ariaLabel,
-    ["aria-describedby"]: ariaDescribedBy,
-    ["aria-labelledby"]: ariaLabelledBy,
-    tabIndex,
-    name,
-    value: valueProp,
-    form,
-    formAction,
-    formEncType,
-    formMethod,
-    formNoValidate,
-    formTarget,
-    autoFocus,
-    ...buttonRest
-  } = rest;
-  const buttonProps = rest;
-  return /* @__PURE__ */ jsx13(
-    "button",
-    {
-      ref,
-      type: buttonProps.type || "button",
-      disabled: buttonProps.disabled,
-      className: model.classes,
-      "data-module": "nhs-button",
-      ...dataAttributes,
-      ...preventDoubleClick && { "data-prevent-double-click": "true" },
-      ...buttonProps.disabled && { "aria-disabled": "true" },
-      ...buttonRest,
-      onKeyDown: (event) => {
-        var _a2;
-        (_a2 = buttonProps.onKeyDown) == null ? void 0 : _a2.call(buttonProps, event);
-        handleKeyDown(event);
-      },
-      onClick: (event) => {
-        var _a2;
-        (_a2 = buttonProps.onClick) == null ? void 0 : _a2.call(buttonProps, event);
-        handleClick(event);
-      },
-      onMouseDown: (event) => {
-        var _a2;
-        (_a2 = buttonProps.onMouseDown) == null ? void 0 : _a2.call(buttonProps, event);
-        handleMouseDown();
-      },
-      onMouseUp: (event) => {
-        var _a2;
-        (_a2 = buttonProps.onMouseUp) == null ? void 0 : _a2.call(buttonProps, event);
-        handleMouseUp();
-      },
-      onMouseEnter: (event) => {
-        var _a2;
-        (_a2 = buttonProps.onMouseEnter) == null ? void 0 : _a2.call(buttonProps, event);
-        handleMouseEnter();
-      },
-      onMouseLeave: (event) => {
-        var _a2;
-        (_a2 = buttonProps.onMouseLeave) == null ? void 0 : _a2.call(buttonProps, event);
-        handleMouseLeave();
-      },
-      onFocus: (event) => {
-        var _a2;
-        (_a2 = buttonProps.onFocus) == null ? void 0 : _a2.call(buttonProps, event);
-        handleFocus();
-      },
-      onBlur: (event) => {
-        var _a2;
-        (_a2 = buttonProps.onBlur) == null ? void 0 : _a2.call(buttonProps, event);
-        handleBlur();
-      },
-      id,
-      style,
-      title,
-      "aria-label": ariaLabel,
-      "aria-describedby": ariaDescribedBy,
-      "aria-labelledby": ariaLabelledBy,
-      tabIndex,
-      name,
-      value: valueProp,
-      form,
-      formAction,
-      formEncType,
-      formMethod,
-      formNoValidate,
-      formTarget,
-      autoFocus,
-      children
-    }
-  );
-}
-var Button = forwardRef2(ButtonComponent);
-Button.displayName = "Button";
-var Button_default = Button;
-
-// src/components/Tables/Table.tsx
-var import_classnames3 = __toESM(require_classnames(), 1);
-import React14 from "react";
-
-// src/components/Panel/Panel.tsx
-var import_classnames2 = __toESM(require_classnames(), 1);
-
-// src/components/Heading/Heading.tsx
-import { createElement } from "react";
-
-// src/mapping/heading.ts
-function deriveLevel(size) {
-  switch (size) {
-    case "xxl":
-    case "xl":
-      return 1;
-    case "l":
-      return 2;
-    case "m":
-      return 3;
-    case "s":
-      return 4;
-    case "xs":
-      return 5;
-    default:
-      return 2;
-  }
-}
-function mapHeadingProps(input) {
-  var _a2;
-  const level = (_a2 = input.level) != null ? _a2 : deriveLevel(input.size);
-  const classes = [
-    "nhsuk-heading",
-    input.size ? `nhsuk-heading--${input.size}` : "",
-    input.className || ""
-  ].filter(Boolean).join(" ");
-  const style = input.marginBottom ? { marginBottom: input.marginBottom } : void 0;
-  return { tag: `h${level}`, classes, style };
-}
-
-// src/components/Heading/Heading.tsx
-import { jsx as jsx14 } from "react/jsx-runtime";
-var Heading = ({ level, className, text, html, children, size, marginBottom, ...rest }) => {
-  const model = mapHeadingProps({ level, size, className, marginBottom });
-  const content = children || (html ? /* @__PURE__ */ jsx14("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
-  return createElement(model.tag, { className: model.classes, style: model.style, ...rest }, content);
-};
-
-// src/components/Panel/Panel.tsx
-import { jsx as jsx15, jsxs as jsxs8 } from "react/jsx-runtime";
-var Panel = ({
-  id,
-  className,
-  headingText,
-  headingHtml,
-  headingLevel = 2,
-  bodyText,
-  bodyHtml,
-  children,
-  ...props
-}) => {
-  const panelClasses = (0, import_classnames2.default)(
-    "nhsuk-panel",
-    className
-  );
-  const renderHeading = () => {
-    if (!headingText && !headingHtml && !children) return null;
-    if (headingHtml) {
-      return /* @__PURE__ */ jsx15(
-        Heading,
-        {
-          level: headingLevel,
-          className: "nhsuk-panel__heading",
-          html: headingHtml,
-          marginBottom: "var(--panel-heading-margin, 24px)"
-        }
-      );
-    }
-    if (headingText) {
-      return /* @__PURE__ */ jsx15(
-        Heading,
-        {
-          level: headingLevel,
-          className: "nhsuk-panel__heading",
-          text: headingText,
-          marginBottom: "var(--panel-heading-margin, 24px)"
-        }
-      );
-    }
-    return null;
-  };
-  const renderBody = () => {
-    if (children) {
-      return /* @__PURE__ */ jsx15("div", { className: "nhsuk-panel__body", children });
-    }
-    if (bodyHtml) {
-      return /* @__PURE__ */ jsx15(
-        "div",
-        {
-          className: "nhsuk-panel__body",
-          dangerouslySetInnerHTML: { __html: bodyHtml }
-        }
-      );
-    }
-    if (bodyText) {
-      return /* @__PURE__ */ jsx15("div", { className: "nhsuk-panel__body", children: /* @__PURE__ */ jsx15("p", { children: bodyText }) });
-    }
-    return null;
-  };
-  return /* @__PURE__ */ jsxs8("div", { className: panelClasses, id, ...props, children: [
-    renderHeading(),
-    renderBody()
-  ] });
-};
-
-// src/components/Tables/Table.tsx
-import { Fragment, jsx as jsx16, jsxs as jsxs9 } from "react/jsx-runtime";
-var Table = ({
-  rows,
-  head,
-  caption,
-  captionSize,
-  firstCellIsHeader = false,
-  responsive = false,
-  heading,
-  headingLevel = 3,
-  panel = false,
-  panelClasses,
-  tableClasses,
-  classes,
-  attributes,
-  "data-testid": testId
-}) => {
-  const captionClass = `nhsuk-table__caption ${captionSize ? `nhsuk-table__caption--${captionSize}` : ""}`.trim();
-  const tableClassList = (0, import_classnames3.default)(
-    "nhsuk-table",
-    {
-      "nhsuk-table-responsive": responsive
-    },
-    tableClasses
-  );
-  const containerClassList = (0, import_classnames3.default)(classes);
-  const prismRef = React14.useRef(null);
-  const ensurePrism = () => {
-    if (prismRef.current) return prismRef.current;
-    try {
-      prismRef.current = require_prism();
-      try {
-        require_prism_typescript();
-      } catch {
-      }
-      try {
-        require_prism_tsx();
-      } catch {
-      }
-      try {
-        require_prism_json();
-      } catch {
-      }
-    } catch {
-      prismRef.current = null;
-    }
-    return prismRef.current;
-  };
-  const fallbackHighlight = (code) => {
-    const patterns = [
-      { regex: /\b(import|from|export|const|let|var|return|if|else|for|while|switch|case|break|new|throw|try|catch|finally|class|extends|implements|interface|type|as|async|await|function)\b/g, cls: "kw" },
-      { regex: /(['"`])(?:\\.|(?!\1).)*\1/g, cls: "str" },
-      { regex: /\/\*[^]*?\*\/|\/\/.*$/gm, cls: "com" },
-      { regex: /\b([0-9]+(?:\.[0-9]+)?)\b/g, cls: "num" }
-    ];
-    let html = code;
-    patterns.forEach((p) => {
-      html = html.replace(p.regex, (m) => `<span class="nhsuk-code-${p.cls}">${m}</span>`);
-    });
-    return html;
-  };
-  const highlightCode = (code, lang, disable) => {
-    if (disable) return code;
-    if (!lang) return code;
-    const Prism2 = ensurePrism();
-    if (Prism2 && Prism2.languages) {
-      const resolvedLang = Prism2.languages[lang] ? lang : Prism2.languages.typescript && (lang === "ts" || lang === "tsx" || lang === "typescript") ? "typescript" : Prism2.languages.json && lang === "json" ? "json" : void 0;
-      if (resolvedLang) {
-        try {
-          return Prism2.highlight(code, Prism2.languages[resolvedLang], resolvedLang);
-        } catch {
-        }
-      }
-    }
-    return fallbackHighlight(code);
-  };
-  const renderHeaderCell = (cell, index) => {
-    const headerClasses = (0, import_classnames3.default)("nhsuk-table__header", {
-      [`nhsuk-table__header--${cell.format}`]: cell.format
-    }, cell.classes);
-    const headerAttributes = {
-      scope: "col",
-      ...cell.colspan && { colSpan: cell.colspan },
-      ...cell.rowspan && { rowSpan: cell.rowspan },
-      ...responsive && { role: "columnheader" },
-      ...cell.attributes
-    };
-    let content;
-    if (cell.node != null) {
-      content = /* @__PURE__ */ jsx16(Fragment, { children: cell.node });
-    } else if (cell.html) {
-      content = /* @__PURE__ */ jsx16("span", { dangerouslySetInnerHTML: { __html: cell.html } });
-    } else if (cell.code != null) {
-      const isArray = Array.isArray(cell.code);
-      const codeString = isArray ? cell.code.join("\n") : cell.code;
-      const isMultiline = isArray || codeString.includes("\n");
-      const codeProps = {
-        className: (0, import_classnames3.default)("nhsuk-table__code", cell.codeClassName, {
-          "nhsuk-table__code--block": isMultiline,
-          "nhsuk-table__code--inline": !isMultiline
-        }),
-        ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
-      };
-      const highlighted = highlightCode(codeString, cell.codeLanguage);
-      content = isMultiline ? /* @__PURE__ */ jsx16("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
-    } else {
-      content = cell.text;
-    }
-    return /* @__PURE__ */ jsx16("th", { className: headerClasses, ...headerAttributes, children: content }, index);
-  };
-  const renderCell = (cell, cellIndex, isFirstCell) => {
-    const isHeaderCell = firstCellIsHeader && isFirstCell;
-    const cellClasses = (0, import_classnames3.default)(
-      isHeaderCell ? "nhsuk-table__header" : "nhsuk-table__cell",
-      {
-        [`nhsuk-table__${isHeaderCell ? "header" : "cell"}--${cell.format}`]: cell.format
-      },
-      cell.classes
-    );
-    const cellAttributes = {
-      ...isHeaderCell && { scope: "row" },
-      ...cell.colspan && { colSpan: cell.colspan },
-      ...cell.rowspan && { rowSpan: cell.rowspan },
-      ...responsive && {
-        role: isHeaderCell ? "rowheader" : "cell",
-        ...cell.header && { "data-label": cell.header }
-      },
-      ...cell.attributes
-    };
-    let inner;
-    if (cell.node != null) {
-      inner = /* @__PURE__ */ jsx16(Fragment, { children: cell.node });
-    } else if (cell.html) {
-      inner = /* @__PURE__ */ jsx16("span", { dangerouslySetInnerHTML: { __html: cell.html } });
-    } else if (cell.code != null) {
-      const isArray = Array.isArray(cell.code);
-      const codeString = isArray ? cell.code.join("\n") : cell.code;
-      const isMultiline = isArray || codeString.includes("\n");
-      const codeProps = {
-        className: (0, import_classnames3.default)("nhsuk-table__code", cell.codeClassName, {
-          "nhsuk-table__code--block": isMultiline,
-          "nhsuk-table__code--inline": !isMultiline
-        }),
-        ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
-      };
-      const highlighted = highlightCode(codeString, cell.codeLanguage, cell.disableHighlight);
-      inner = isMultiline ? /* @__PURE__ */ jsx16("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
-    } else {
-      inner = cell.text;
-    }
-    const cellContent = /* @__PURE__ */ jsxs9(Fragment, { children: [
-      responsive && cell.header && /* @__PURE__ */ jsxs9("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true", children: [
-        cell.header,
-        " "
-      ] }),
-      inner
-    ] });
-    const Component = isHeaderCell ? "th" : "td";
-    return /* @__PURE__ */ jsx16(Component, { className: cellClasses, ...cellAttributes, children: cellContent }, cellIndex);
-  };
-  const renderTable = () => /* @__PURE__ */ jsxs9(
-    "table",
-    {
-      className: tableClassList,
-      ...responsive && { role: "table" },
-      ...attributes,
-      ...testId && { "data-testid": testId },
-      children: [
-        caption && /* @__PURE__ */ jsx16("caption", { className: captionClass, children: caption }),
-        head && head.length > 0 && /* @__PURE__ */ jsx16(
-          "thead",
-          {
-            className: "nhsuk-table__head",
-            ...responsive && { role: "rowgroup" },
-            children: /* @__PURE__ */ jsx16("tr", { ...responsive && { role: "row" }, children: head.map((cell, index) => renderHeaderCell(cell, index)) })
-          }
-        ),
-        /* @__PURE__ */ jsx16("tbody", { className: "nhsuk-table__body", children: rows && rows.map((row, rowIndex) => /* @__PURE__ */ jsx16(
-          "tr",
-          {
-            className: "nhsuk-table__row",
-            ...responsive && { role: "row" },
-            children: row.map(
-              (cell, cellIndex) => renderCell(cell, cellIndex, cellIndex === 0)
-            )
-          },
-          rowIndex
-        )) })
-      ]
-    }
-  );
-  if (panel) {
-    return /* @__PURE__ */ jsxs9(Panel, { className: panelClasses, children: [
-      heading && /* @__PURE__ */ jsx16(Heading, { level: headingLevel, className: "nhsuk-table__heading-tab", children: heading }),
-      renderTable()
-    ] });
-  }
-  if (containerClassList) {
-    return /* @__PURE__ */ jsx16("div", { className: containerClassList, children: renderTable() });
-  }
-  return renderTable();
-};
-var Table_default = Table;
-
-// src/components/DataVisualisation/charts/ChartWithTableTabs/ChartWithTableTabs.tsx
-import { jsx as jsx17, jsxs as jsxs10 } from "react/jsx-runtime";
-var ChartWithTableTabs = ({
-  chart,
-  table,
-  autoTableFromSeries,
-  columnAlign,
-  enableDownload = false,
-  downloadFilename,
-  chartTabLabel = "Chart",
-  tableTabLabel = "Data table",
-  initialView = "chart",
-  disableTabs = false,
-  hideTable = false,
-  additionalTabs,
-  onViewChange,
-  title,
-  description,
-  source,
-  width,
-  height,
-  className,
-  id,
-  initiallyShowTable,
-  ...restContainer
-}) => {
-  let resolvedTable = table;
-  if (!resolvedTable && autoTableFromSeries && autoTableFromSeries.length > 0 && !hideTable) {
-    const heads = [
-      { text: "Date", classes: "nhsuk-table__header--align-left" },
-      ...autoTableFromSeries.map((s) => ({
-        text: s.label || s.id,
-        classes: "nhsuk-table__header--align-left"
-      }))
-    ];
-    const longest = autoTableFromSeries.reduce((a, b) => b.data.length > a.data.length ? b : a, autoTableFromSeries[0]);
-    const rows = longest.data.map((d, rowIdx) => {
-      const dateCell = { text: new Date(d.x).toLocaleDateString(), classes: "nhsuk-table__cell--align-left" };
-      const seriesCells = autoTableFromSeries.map((s) => {
-        const point3 = s.data[rowIdx];
-        const yVal = point3 ? point3.y : void 0;
-        return {
-          text: yVal === void 0 || yVal === null ? "\u2013" : String(yVal),
-          classes: "nhsuk-table__cell--align-left",
-          header: s.label || s.id
-        };
-      });
-      return [dateCell, ...seriesCells];
-    });
-    const filenameBase = downloadFilename || (title ? title.replace(/[^a-z0-9]+/gi, "-").toLowerCase() : "chart-data");
-    const toCsv = () => {
-      const headerLine = heads.map((h) => '"' + (h.text || "") + '"').join(",");
-      const body = rows.map((r2) => r2.map((c) => {
-        var _a2;
-        return '"' + ((_a2 = c.text) != null ? _a2 : "") + '"';
-      }).join(",")).join("\n");
-      return headerLine + "\n" + body + "\n";
-    };
-    const handleDownload = () => {
-      try {
-        const blob = new Blob([toCsv()], { type: "text/csv;charset=utf-8;" });
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(blob);
-        link.href = url;
-        link.download = `${filenameBase}.csv`;
-        link.style.display = "none";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-      } catch (e) {
-        console.warn("CSV download failed", e);
-      }
-    };
-    resolvedTable = /* @__PURE__ */ jsxs10("div", { className: "fdp-chart__auto-table", children: [
-      enableDownload && /* @__PURE__ */ jsx17("div", { className: "fdp-chart__download-row", children: /* @__PURE__ */ jsx17(Button_default, { variant: "secondary", onClick: handleDownload, size: "small", children: "Download CSV" }) }),
-      /* @__PURE__ */ jsx17(
-        Table_default,
-        {
-          caption: `${title} data`,
-          head: heads,
-          rows,
-          responsive: true
-        }
-      )
-    ] });
-  }
-  const hasTable = !!resolvedTable && !hideTable;
-  const shouldUseTabs = !disableTabs && hasTable;
-  if (!shouldUseTabs) {
-    return /* @__PURE__ */ jsx17(
-      ChartContainer_default,
-      {
-        title,
-        description,
-        source,
-        width,
-        height,
-        className,
-        id,
-        initiallyShowTable: false,
-        ...restContainer,
-        children: chart
-      }
-    );
-  }
-  const baseTabs = [
-    {
-      id: "chart",
-      label: chartTabLabel,
-      content: /* @__PURE__ */ jsx17(
-        ChartContainer_default,
-        {
-          title,
-          description,
-          source,
-          width,
-          height,
-          className,
-          id,
-          initiallyShowTable: false,
-          ...restContainer,
-          children: chart
-        }
-      )
-    },
-    {
-      id: "table",
-      label: tableTabLabel,
-      content: /* @__PURE__ */ jsx17("div", { className: "fdp-chart-table-wrapper", "aria-label": `${title} data table`, children: resolvedTable })
-    }
-  ];
-  const items = additionalTabs ? [...baseTabs, ...additionalTabs] : baseTabs;
-  return /* @__PURE__ */ jsx17("div", { className: "fdp-chart-tabs", "data-chart-with-table": true, children: /* @__PURE__ */ jsx17(
-    Tabs,
-    {
-      items,
-      defaultActiveTab: initialView,
-      onTabChange: (tabId) => {
-        if (tabId === "chart" || tabId === "table") {
-          onViewChange == null ? void 0 : onViewChange(tabId);
-        } else {
-          onViewChange == null ? void 0 : onViewChange(tabId);
-        }
-      }
-    }
-  ) });
-};
-var ChartWithTableTabs_default = ChartWithTableTabs;
-
-// src/components/DataVisualisation/charts/Legend/Legend.tsx
-import * as React15 from "react";
-import { jsx as jsx18, jsxs as jsxs11 } from "react/jsx-runtime";
-var Legend = ({
-  items: itemsProp,
-  palette = "categorical",
-  direction = "row",
-  interactive = false,
-  adjustStrokeForWhiteBackground = true,
-  hiddenIds,
-  defaultHiddenIds = [],
-  onVisibilityChange,
-  formatAnnouncement
-}) => {
-  const visibility = useVisibility();
-  const contextInteractive = !!(visibility && !interactive && !onVisibilityChange && hiddenIds === void 0);
-  const effectiveInteractive = interactive || contextInteractive;
-  const items = itemsProp || [];
-  const controlled = hiddenIds !== void 0;
-  const [internalHidden, setInternalHidden] = React15.useState(new Set(defaultHiddenIds));
-  const effectiveHidden = controlled ? new Set(hiddenIds) : internalHidden;
-  const [announcement, setAnnouncement] = React15.useState("");
-  const toggle = (id) => {
-    if (contextInteractive && visibility) {
-      const wasHidden2 = visibility.isHidden(id);
-      visibility.toggle(id);
-      const item2 = items.find((i) => i.id === id);
-      const label2 = (item2 == null ? void 0 : item2.label) || id;
-      const msg2 = formatAnnouncement ? formatAnnouncement(id, wasHidden2, label2) : `${label2} ${wasHidden2 ? "shown" : "hidden"}`;
-      setAnnouncement(msg2);
-      return;
-    }
-    if (!effectiveInteractive) return;
-    const next = new Set(effectiveHidden);
-    const wasHidden = next.has(id);
-    if (wasHidden) next.delete(id);
-    else next.add(id);
-    if (!controlled) setInternalHidden(next);
-    const visibleIds = items.filter((i) => !next.has(i.id)).map((i) => i.id);
-    const hiddenNow = Array.from(next);
-    onVisibilityChange == null ? void 0 : onVisibilityChange(visibleIds, hiddenNow);
-    const item = items.find((i) => i.id === id);
-    const label = (item == null ? void 0 : item.label) || id;
-    const msg = formatAnnouncement ? formatAnnouncement(id, wasHidden, label) : `${label} ${wasHidden ? "shown" : "hidden"}`;
-    setAnnouncement(msg);
-  };
-  return /* @__PURE__ */ jsxs11("div", { className: "fdp-legend-wrapper", children: [
-    /* @__PURE__ */ jsx18("ul", { className: `fdp-legend fdp-legend--${direction}`, children: items.map((item, i) => {
-      const effectivePalette = item.palette || palette;
-      const fill = item.color || (effectivePalette === "region" ? pickRegionColor(item.id, i) : effectivePalette === "severity" ? pickSeverityColor(item.id, i) : effectivePalette === "org-level" ? pickOrgLevelColor(item.id, i) : pickSeriesColor(i));
-      let stroke = item.stroke || (effectivePalette === "region" ? pickRegionStroke(item.id, i) : effectivePalette === "severity" ? pickSeverityStroke(item.id, i) : effectivePalette === "org-level" ? pickOrgLevelStroke(item.id, i) : pickSeriesStroke(i));
-      if (adjustStrokeForWhiteBackground && stroke) {
-        const norm = stroke.trim().toLowerCase();
-        if (norm === "#fff" || norm === "#ffffff" || norm === "white" || /^rgb\(\s*255\s*,\s*255\s*,\s*255\s*\)$/.test(norm)) {
-          stroke = "#212b32";
-        }
-      }
-      const hidden = contextInteractive && visibility ? visibility.isHidden(item.id) : effectiveHidden.has(item.id);
-      const btnProps = effectiveInteractive ? {
-        "aria-pressed": !hidden,
-        "aria-label": `${item.label} (${hidden ? "show" : "hide"})`,
-        onClick: () => toggle(item.id)
-      } : { "aria-label": item.label };
-      return /* @__PURE__ */ jsxs11("li", { className: `fdp-legend__item${hidden ? " fdp-legend__item--hidden" : ""}`, children: [
-        /* @__PURE__ */ jsx18(
-          "button",
-          {
-            type: "button",
-            className: "fdp-legend__swatch",
-            style: {
-              backgroundColor: fill,
-              backgroundImage: item.patternDataUrl ? `url(${item.patternDataUrl})` : void 0,
-              backgroundSize: item.patternDataUrl ? "auto" : void 0,
-              borderColor: stroke
-            },
-            ...btnProps
-          }
-        ),
-        /* @__PURE__ */ jsx18("span", { className: "fdp-legend__label", children: item.label })
-      ] }, item.id);
-    }) }),
-    effectiveInteractive && /* @__PURE__ */ jsx18("div", { className: "fdp-visually-hidden", "aria-live": "polite", "aria-atomic": "true", children: announcement })
-  ] });
-};
-var Legend_default = Legend;
-
-// src/components/DataVisualisation/FilterableLineChart.tsx
-import * as React16 from "react";
-import { jsx as jsx19, jsxs as jsxs12 } from "react/jsx-runtime";
-var FilterableLineChart = ({
-  series,
-  legendPosition = "top",
-  initialHiddenIds = [],
-  hiddenIds,
-  onHiddenChange,
-  legendProps,
-  assignColors = true,
-  palette = "categorical",
-  ...lineChartProps
-}) => {
-  const coloured = React16.useMemo(() => assignColors ? assignSeriesColors(series, { palette }) : series, [series, assignColors, palette]);
-  const controlled = hiddenIds !== void 0;
-  const [internalHidden, setInternalHidden] = React16.useState(new Set(initialHiddenIds));
-  const hiddenSet = controlled ? new Set(hiddenIds) : internalHidden;
-  const visibleSeries = React16.useMemo(() => coloured.filter((s) => !hiddenSet.has(s.id)), [coloured, hiddenSet]);
-  const handleVisibilityChange = React16.useCallback((_visibleIds, nextHiddenIds) => {
-    if (!controlled) setInternalHidden(new Set(nextHiddenIds));
-    const visibleIds = coloured.filter((s) => !nextHiddenIds.includes(s.id)).map((s) => s.id);
-    onHiddenChange == null ? void 0 : onHiddenChange(nextHiddenIds, visibleIds);
-  }, [controlled, coloured, onHiddenChange]);
-  const legendItems = React16.useMemo(() => coloured.map((s) => ({ id: s.id, label: s.label || s.id, color: s.color })), [coloured]);
-  const chartEl = /* @__PURE__ */ jsx19(LineChart_default, { ...lineChartProps, series: visibleSeries, palette });
-  const legendEl = /* @__PURE__ */ jsx19(
-    Legend_default,
-    {
-      ...legendProps,
-      palette,
-      items: legendItems,
-      interactive: true,
-      hiddenIds: Array.from(hiddenSet),
-      onVisibilityChange: (visible, hidden) => handleVisibilityChange(visible, hidden)
-    }
-  );
-  return /* @__PURE__ */ jsxs12("div", { className: "fdp-filterable-line-chart", children: [
-    legendPosition === "top" && legendEl,
-    chartEl,
-    legendPosition === "bottom" && legendEl
-  ] });
-};
-var FilterableLineChart_default = FilterableLineChart;
-
-// src/components/DataVisualisation/series/AreaSeriesPrimitive.tsx
-import * as React17 from "react";
-import { jsx as jsx20, jsxs as jsxs13 } from "react/jsx-runtime";
-var AreaSeriesPrimitive = ({
-  series,
-  seriesIndex,
-  palette,
-  parseX,
-  areaOnly = false,
-  visibilityMode = "remove",
-  baselineY = 0,
-  smooth = true,
-  stacked,
-  gradientFill = true,
-  colors
-}) => {
-  var _a2;
-  const scaleCtx = useScaleContext();
-  if (!scaleCtx) return null;
-  const { xScale, yScale } = scaleCtx;
-  const visibility = useVisibility();
-  const isHidden = (_a2 = visibility == null ? void 0 : visibility.isHidden(series.id)) != null ? _a2 : false;
-  const faded = isHidden && visibilityMode === "fade";
-  if (isHidden && visibilityMode === "remove") return null;
-  const tooltip = useTooltipContext();
-  React17.useEffect(() => {
-    if (!tooltip) return;
-    const normalized = series.data.map((d) => ({ x: parseX(d), y: d.y }));
-    tooltip.registerSeries(series.id, normalized);
-    return () => tooltip.unregisterSeries(series.id);
-  }, [tooltip, series.id, series.data, parseX]);
-  const paletteOverride = colors && colors[seriesIndex];
-  const color2 = series.color || paletteOverride || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
-  const linePath = React17.useMemo(() => {
-    if (stacked && stacked.length === series.data.length) {
-      return createLinePath(
-        series.data,
-        (d) => xScale(parseX(d)),
-        (d) => {
-          const idx = series.data.indexOf(d);
-          return yScale(stacked[idx].y1);
-        },
-        { smooth }
-      );
-    }
-    return createLinePath(
-      series.data,
-      (d) => xScale(parseX(d)),
-      (d) => yScale(d.y),
-      { smooth }
-    );
-  }, [series.data, stacked, xScale, yScale, parseX, smooth]);
-  const areaPath = React17.useMemo(() => {
-    if (stacked && stacked.length === series.data.length) {
-      const gen2 = area_default().x((d) => xScale(parseX(d))).y0((_, i) => yScale(stacked[i].y0)).y1((_, i) => yScale(stacked[i].y1));
-      if (smooth) gen2.curve(monotoneX);
-      return gen2(series.data) || "";
-    }
-    const [domainMin, domainMax] = yScale.domain();
-    let effectiveBaseline = baselineY;
-    if (effectiveBaseline < domainMin) effectiveBaseline = domainMin;
-    else if (effectiveBaseline > domainMax) effectiveBaseline = domainMax;
-    const gen = area_default().x((d) => xScale(parseX(d))).y0(() => yScale(effectiveBaseline)).y1((d) => yScale(d.y));
-    if (smooth) gen.curve(monotoneX);
-    return gen(series.data) || "";
-  }, [series.data, stacked, xScale, yScale, parseX, baselineY, smooth]);
-  const gradientId = React17.useId();
-  return /* @__PURE__ */ jsxs13(
-    "g",
-    {
-      className: "fdp-area-series",
-      "data-series": series.id,
-      opacity: faded ? 0.25 : 1,
-      "aria-hidden": faded ? true : void 0,
-      children: [
-        gradientFill && /* @__PURE__ */ jsx20("defs", { children: /* @__PURE__ */ jsxs13("linearGradient", { id: gradientId, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-          /* @__PURE__ */ jsx20("stop", { offset: "0%", stopColor: color2, stopOpacity: 0.25 }),
-          /* @__PURE__ */ jsx20("stop", { offset: "100%", stopColor: color2, stopOpacity: 0 })
-        ] }) }),
-        /* @__PURE__ */ jsx20(
-          "path",
-          {
-            className: "fdp-area-series__fill",
-            d: areaPath,
-            fill: gradientFill ? `url(#${gradientId})` : color2,
-            ...gradientFill ? {} : { fillOpacity: 0.25 },
-            stroke: "none"
-          }
-        ),
-        !areaOnly && /* @__PURE__ */ jsx20("path", { d: linePath, fill: "none", stroke: color2, strokeWidth: 1 })
-      ]
-    }
-  );
-};
-var AreaSeriesPrimitive_default = AreaSeriesPrimitive;
-
-// src/components/DataVisualisation/series/BarSeriesPrimitive.tsx
-import * as React18 from "react";
-import { jsx as jsx21, jsxs as jsxs14 } from "react/jsx-runtime";
-var BarSeriesPrimitive = ({
-  series,
-  seriesIndex,
-  seriesCount,
-  palette,
-  parseX,
-  focusable = true,
-  widthFactor = 0.8,
-  groupGap = 2,
-  barWidth,
-  adaptive = false,
-  adaptiveGroupOccupancy = 0.9,
-  visibilityMode = "remove",
-  colorMode = "series",
-  allSeries,
-  stacked,
-  gapRatio = 0.15,
-  minBarWidth,
-  gradientFill = true,
-  gradientStrokeMatch = true,
-  opacity = 1,
-  fadedOpacity = 0.25,
-  flatFillOpacity = 1,
-  colors
-}) => {
-  var _a2;
-  const effectiveGapRatio = Math.max(0, gapRatio);
-  const scaleCtx = useScaleContext();
-  const chartDims = useChartContext();
-  if (!scaleCtx || !chartDims) return null;
-  const { xScale, yScale } = scaleCtx;
-  const visibility = useVisibility();
-  const isHidden = (_a2 = visibility == null ? void 0 : visibility.isHidden(series.id)) != null ? _a2 : false;
-  const faded = isHidden && visibilityMode === "fade";
-  if (isHidden && visibilityMode === "remove") return null;
-  const tooltip = useTooltipContext();
-  React18.useEffect(() => {
-    if (!tooltip) return;
-    const normalized = series.data.map((d) => ({ x: parseX(d), y: d.y }));
-    tooltip.registerSeries(series.id, normalized);
-    return () => tooltip.unregisterSeries(series.id);
-  }, [tooltip, series.id, series.data, parseX]);
-  const isBandScale = typeof xScale.bandwidth === "function";
-  const bandwidth = isBandScale ? xScale.bandwidth() : void 0;
-  const inferredPixelWidth = React18.useMemo(() => {
-    if (bandwidth != null) return bandwidth;
-    const sourceSeries = allSeries && allSeries.length ? allSeries : [series];
-    const posSet = [];
-    sourceSeries.forEach((s) => {
-      s.data.forEach((d) => {
-        const v = xScale(parseX(d));
-        if (Number.isFinite(v)) posSet.push(v);
-      });
-    });
-    const pxPositions = posSet.sort((a, b) => a - b);
-    if (pxPositions.length <= 1) return 40;
-    const diffs = [];
-    for (let i = 1; i < pxPositions.length; i++)
-      diffs.push(pxPositions[i] - pxPositions[i - 1]);
-    diffs.sort((a, b) => a - b);
-    const median = diffs[Math.floor(diffs.length / 2)] || 40;
-    return median * widthFactor;
-  }, [series.data, allSeries, xScale, parseX, widthFactor, bandwidth]);
-  const { basePerBar } = React18.useMemo(() => {
-    var _a3, _b2;
-    if (isBandScale) {
-      const bw = inferredPixelWidth;
-      const autoPerBar = Math.max(
-        1,
-        (bw - groupGap * (seriesCount - 1)) / seriesCount
-      );
-      const explicit2 = (_a3 = series.barWidth) != null ? _a3 : barWidth;
-      let finalPerBar = explicit2 ? Math.min(explicit2, bw) : autoPerBar;
-      if (adaptive) {
-        const targetGroup = bw * Math.min(1, Math.max(0.05, adaptiveGroupOccupancy));
-        const adaptedPerBar = Math.max(
-          1,
-          (targetGroup - groupGap * (seriesCount - 1)) / seriesCount
-        );
-        finalPerBar = explicit2 ? Math.min(finalPerBar, adaptedPerBar) : adaptedPerBar;
-      }
-      return { basePerBar: finalPerBar };
-    }
-    const explicit = (_b2 = series.barWidth) != null ? _b2 : barWidth;
-    const maxAutoPer = Math.max(
-      1,
-      (inferredPixelWidth - groupGap * (seriesCount - 1)) / seriesCount
-    );
-    if (adaptive) {
-      const sourceSeries = allSeries && allSeries.length ? allSeries : [series];
-      const positions = [];
-      sourceSeries.forEach(
-        (s) => s.data.forEach((d) => {
-          const v = xScale(parseX(d));
-          if (Number.isFinite(v)) positions.push(v);
-        })
-      );
-      positions.sort((a, b) => a - b);
-      const diffs = [];
-      for (let i = 1; i < positions.length; i++)
-        diffs.push(positions[i] - positions[i - 1]);
-      diffs.sort((a, b) => a - b);
-      const step = diffs[Math.floor(diffs.length / 2)] || inferredPixelWidth;
-      const targetGroup = step * Math.min(1, Math.max(0.05, adaptiveGroupOccupancy));
-      const adaptivePer = Math.max(
-        1,
-        (targetGroup - groupGap * (seriesCount - 1)) / seriesCount
-      );
-      const finalPer = explicit ? Math.min(explicit, adaptivePer) : adaptivePer;
-      return { basePerBar: finalPer };
-    }
-    if (explicit) {
-      const finalPer = Math.min(explicit, maxAutoPer);
-      return { basePerBar: finalPer };
-    }
-    return { basePerBar: maxAutoPer };
-  }, [
-    isBandScale,
-    inferredPixelWidth,
-    groupGap,
-    seriesCount,
-    barWidth,
-    series.barWidth,
-    adaptive,
-    adaptiveGroupOccupancy,
-    allSeries,
-    xScale,
-    parseX
-  ]);
-  const globalCenters = React18.useMemo(() => {
-    if (isBandScale) return [];
-    const pts = [];
-    const src = allSeries && allSeries.length ? allSeries : [series];
-    src.forEach(
-      (s) => s.data.forEach((pt) => {
-        const v = xScale(parseX(pt));
-        if (Number.isFinite(v)) pts.push(v);
-      })
-    );
-    pts.sort((a, b) => a - b);
-    return Array.from(new Set(pts));
-  }, [isBandScale, allSeries, series, xScale, parseX]);
-  const continuousSlots = React18.useMemo(() => {
-    if (isBandScale)
-      return [];
-    if (!globalCenters.length) return [];
-    if (globalCenters.length === 1) {
-      return [
-        { center: globalCenters[0], left: 0, right: chartDims.innerWidth }
-      ];
-    }
-    const slots = [];
-    for (let i = 0; i < globalCenters.length; i++) {
-      const c = globalCenters[i];
-      const left = i === 0 ? 0 : (globalCenters[i - 1] + c) / 2;
-      const right = i === globalCenters.length - 1 ? chartDims.innerWidth : (c + globalCenters[i + 1]) / 2;
-      slots.push({
-        center: c,
-        left: Math.max(0, left),
-        right: Math.min(chartDims.innerWidth, right)
-      });
-    }
-    return slots;
-  }, [isBandScale, globalCenters, chartDims.innerWidth]);
-  const continuousUniforms = React18.useMemo(() => {
-    if (isBandScale || !continuousSlots.length)
-      return void 0;
-    const occupancy = Math.min(1, Math.max(0.05, widthFactor));
-    const slotSpans = continuousSlots.map((s) => Math.max(2, s.right - s.left));
-    const candidates = slotSpans.map(
-      (span) => Math.max(2, Math.min(span - 1, span * occupancy))
-    );
-    let uniformGroupWidth = Math.min(...candidates);
-    if (minBarWidth) {
-      if (seriesCount <= 1) {
-        const maxFeasible = Math.min(...slotSpans.map((span) => span - 1));
-        if (maxFeasible >= minBarWidth && uniformGroupWidth < minBarWidth) {
-          uniformGroupWidth = Math.min(maxFeasible, minBarWidth);
-        }
-      } else {
-        const maxFeasibleGroup = Math.min(...slotSpans.map((span) => span - 1));
-        const requiredGroupForMin = minBarWidth * seriesCount + (seriesCount - 1) * (minBarWidth * effectiveGapRatio);
-        if (requiredGroupForMin <= maxFeasibleGroup && uniformGroupWidth < requiredGroupForMin) {
-          uniformGroupWidth = requiredGroupForMin;
-        }
-      }
-    }
-    if (seriesCount <= 1) {
-      if (minBarWidth && uniformGroupWidth < minBarWidth) {
-        const canAllFit = slotSpans.every((span) => span >= minBarWidth);
-        if (canAllFit)
-          return { groupWidth: minBarWidth, barWidth: minBarWidth };
-      }
-      return { groupWidth: uniformGroupWidth, barWidth: uniformGroupWidth };
-    }
-    let b = uniformGroupWidth / (seriesCount + (seriesCount - 1) * effectiveGapRatio);
-    if (b < 1) b = 1;
-    if (minBarWidth && b < minBarWidth) {
-      const requiredGroup = minBarWidth * seriesCount + (seriesCount - 1) * (minBarWidth * effectiveGapRatio);
-      if (requiredGroup <= uniformGroupWidth) {
-        b = minBarWidth;
-      }
-    }
-    const groupWidth = b * seriesCount + (seriesCount - 1) * (b * effectiveGapRatio);
-    return { groupWidth, barWidth: b };
-  }, [
-    isBandScale,
-    continuousSlots,
-    widthFactor,
-    seriesCount,
-    effectiveGapRatio,
-    minBarWidth
-  ]);
-  const resolvedSeriesPaletteColor = colors && colors[seriesIndex] ? colors[seriesIndex] : void 0;
-  const baseSeriesColor = series.color || resolvedSeriesPaletteColor || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
-  const baseSeriesStroke = palette === "region" ? pickRegionStroke(series.id, seriesIndex) : pickSeriesStroke(seriesIndex);
-  const effectiveBaseStroke = gradientStrokeMatch && (series.color || resolvedSeriesPaletteColor) ? baseSeriesColor : baseSeriesStroke;
-  const baselineY = Number.isFinite(yScale(0)) ? yScale(0) : yScale.range()[0];
-  const seriesGradientId = React18.useId();
-  if (stacked && stacked.length === series.data.length) {
-    return /* @__PURE__ */ jsxs14(
-      "g",
-      {
-        className: "fdp-bar-series fdp-bar-series--stacked",
-        "data-series": series.id,
-        opacity: faded ? fadedOpacity : opacity,
-        "aria-hidden": faded ? true : void 0,
-        children: [
-          gradientFill && /* @__PURE__ */ jsx21("defs", { children: /* @__PURE__ */ jsxs14(
-            "linearGradient",
-            {
-              id: seriesGradientId,
-              x1: "0%",
-              y1: "0%",
-              x2: "0%",
-              y2: "100%",
-              children: [
-                /* @__PURE__ */ jsx21("stop", { offset: "0%", stopColor: baseSeriesColor, stopOpacity: 0.3 }),
-                /* @__PURE__ */ jsx21(
-                  "stop",
-                  {
-                    offset: "60%",
-                    stopColor: baseSeriesColor,
-                    stopOpacity: 0.14
-                  }
-                ),
-                /* @__PURE__ */ jsx21(
-                  "stop",
-                  {
-                    offset: "100%",
-                    stopColor: baseSeriesColor,
-                    stopOpacity: 0.06
-                  }
-                )
-              ]
-            }
-          ) }),
-          series.data.map((d, di) => {
-            var _a3;
-            const rawX = parseX(d);
-            const xPos = isBandScale ? xScale(d.x) : xScale(rawX);
-            let fullWidth;
-            let barX;
-            if (isBandScale) {
-              fullWidth = inferredPixelWidth;
-              barX = xPos;
-            } else {
-              const slot = continuousSlots.find(
-                (s) => Math.abs(s.center - xPos) < 0.5
-              );
-              if (!slot || !continuousUniforms) {
-                fullWidth = basePerBar;
-                barX = xPos - basePerBar / 2;
-              } else {
-                const { groupWidth } = continuousUniforms;
-                fullWidth = groupWidth;
-                let groupLeft = xPos - groupWidth / 2;
-                if (groupLeft < slot.left) groupLeft = slot.left;
-                if (groupLeft + groupWidth > slot.right)
-                  groupLeft = Math.max(slot.left, slot.right - groupWidth);
-                barX = groupLeft;
-              }
-            }
-            const seg = stacked[di];
-            const y0 = yScale(seg.y0);
-            const y1 = yScale(seg.y1);
-            const y2 = Math.min(y0, y1);
-            const height = Math.abs(y1 - y0) || 1;
-            if (!isBandScale && minBarWidth && fullWidth < minBarWidth) {
-              const slot = continuousSlots.find(
-                (s) => Math.abs(s.center - xPos) < 0.5
-              );
-              if (slot) {
-                const maxFeasible = Math.max(2, slot.right - slot.left - 1);
-                const target = Math.min(maxFeasible, minBarWidth);
-                if (target > fullWidth) {
-                  fullWidth = target;
-                  barX = Math.max(
-                    slot.left,
-                    Math.min(slot.right - fullWidth, xPos - fullWidth / 2)
-                  );
-                }
-              }
-            }
-            const isFocused = !faded && ((_a3 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a3.seriesId) === series.id && tooltip.focused.index === di;
-            const onEnter = () => {
-              if (!tooltip || faded) return;
-              tooltip.setFocused({
-                seriesId: series.id,
-                index: di,
-                x: rawX,
-                y: seg.y1 - seg.y0,
-                clientX: barX + fullWidth / 2,
-                clientY: y2
-              });
-            };
-            const onLeave = () => {
-              var _a4;
-              if (((_a4 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a4.seriesId) === series.id && tooltip.focused.index === di)
-                tooltip.clear();
-            };
-            return /* @__PURE__ */ jsx21(
-              "rect",
-              {
-                x: barX,
-                y: y2,
-                width: fullWidth,
-                height,
-                fill: gradientFill ? `url(#${seriesGradientId})` : baseSeriesColor,
-                ...!gradientFill ? { fillOpacity: flatFillOpacity } : {},
-                stroke: isFocused ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : gradientFill && gradientStrokeMatch ? baseSeriesColor : void 0,
-                strokeWidth: isFocused ? 2 : 1,
-                className: "fdp-bar fdp-bar--stacked",
-                tabIndex: faded || !focusable ? -1 : 0,
-                role: "graphics-symbol",
-                "aria-label": `${series.label || series.id} ${rawX instanceof Date ? rawX.toDateString() : rawX} value ${seg.y1 - seg.y0}`,
-                onMouseEnter: onEnter,
-                onFocus: onEnter,
-                onMouseLeave: onLeave,
-                onBlur: onLeave
-              },
-              di
-            );
-          })
-        ]
-      }
-    );
-  }
-  return /* @__PURE__ */ jsxs14(
-    "g",
-    {
-      className: "fdp-bar-series",
-      "data-series": series.id,
-      opacity: faded ? fadedOpacity : opacity,
-      "aria-hidden": faded ? true : void 0,
-      children: [
-        gradientFill && /* @__PURE__ */ jsxs14("defs", { children: [
-          colorMode === "series" && /* @__PURE__ */ jsxs14(
-            "linearGradient",
-            {
-              id: seriesGradientId,
-              x1: "0%",
-              y1: "0%",
-              x2: "0%",
-              y2: "100%",
-              children: [
-                /* @__PURE__ */ jsx21("stop", { offset: "0%", stopColor: baseSeriesColor, stopOpacity: 0.3 }),
-                /* @__PURE__ */ jsx21(
-                  "stop",
-                  {
-                    offset: "60%",
-                    stopColor: baseSeriesColor,
-                    stopOpacity: 0.14
-                  }
-                ),
-                /* @__PURE__ */ jsx21(
-                  "stop",
-                  {
-                    offset: "100%",
-                    stopColor: baseSeriesColor,
-                    stopOpacity: 0.06
-                  }
-                )
-              ]
-            }
-          ),
-          colorMode === "category" && series.data.map((d, di) => {
-            const paletteOverride = colors && colors[di];
-            const catColor = paletteOverride || (palette === "region" ? pickRegionColor(String(d.x), di) : pickSeriesColor(di));
-            const gid = `${seriesGradientId}-${di}`;
-            return /* @__PURE__ */ jsxs14(
-              "linearGradient",
-              {
-                id: gid,
-                x1: "0%",
-                y1: "0%",
-                x2: "0%",
-                y2: "100%",
-                children: [
-                  /* @__PURE__ */ jsx21("stop", { offset: "0%", stopColor: catColor, stopOpacity: 0.3 }),
-                  /* @__PURE__ */ jsx21("stop", { offset: "60%", stopColor: catColor, stopOpacity: 0.14 }),
-                  /* @__PURE__ */ jsx21("stop", { offset: "100%", stopColor: catColor, stopOpacity: 0.06 })
-                ]
-              },
-              gid
-            );
-          })
-        ] }),
-        series.data.map((d, di) => {
-          var _a3;
-          const rawX = parseX(d);
-          const xPos = isBandScale ? xScale(d.x) : xScale(rawX);
-          let barX;
-          let barWidth2;
-          if (isBandScale) {
-            const bw = inferredPixelWidth;
-            if (seriesCount <= 1) {
-              barWidth2 = bw;
-              barX = xPos;
-            } else {
-              barWidth2 = Math.max(
-                1,
-                bw / (seriesCount + (seriesCount - 1) * effectiveGapRatio)
-              );
-              const gap = barWidth2 * effectiveGapRatio;
-              const groupWidth = barWidth2 * seriesCount + gap * (seriesCount - 1);
-              const groupLeft = xPos + (bw - groupWidth) / 2;
-              barX = groupLeft + seriesIndex * (barWidth2 + gap);
-            }
-          } else {
-            const slot = continuousSlots.find((s) => s.center === xPos);
-            if (!slot || !continuousUniforms) {
-              barWidth2 = basePerBar;
-              barX = xPos - basePerBar / 2;
-              if (minBarWidth && barWidth2 < minBarWidth) {
-                barWidth2 = minBarWidth;
-                barX = xPos - barWidth2 / 2;
-              }
-            } else {
-              const { barWidth: uBar } = continuousUniforms;
-              barWidth2 = uBar;
-              const gap = seriesCount > 1 ? uBar * effectiveGapRatio : 0;
-              const computedGroupWidth = barWidth2 * seriesCount + gap * (seriesCount - 1);
-              let groupLeft = xPos - computedGroupWidth / 2;
-              if (groupLeft < slot.left) groupLeft = slot.left;
-              if (groupLeft + computedGroupWidth > slot.right)
-                groupLeft = Math.max(slot.left, slot.right - computedGroupWidth);
-              barX = groupLeft + seriesIndex * (barWidth2 + gap);
-            }
-            if (minBarWidth && barWidth2 < minBarWidth) {
-              const slot2 = continuousSlots.find(
-                (s) => Math.abs(s.center - xPos) < 0.5
-              );
-              if (slot2) {
-                const maxFeasible = Math.max(2, slot2.right - slot2.left - 1);
-                const target = Math.min(maxFeasible, minBarWidth);
-                if (target > barWidth2) {
-                  if (seriesCount <= 1) {
-                    barWidth2 = target;
-                    barX = Math.max(
-                      slot2.left,
-                      Math.min(slot2.right - barWidth2, xPos - barWidth2 / 2)
-                    );
-                  } else {
-                    const gap = target * effectiveGapRatio;
-                    const neededGroup = target * seriesCount + gap * (seriesCount - 1);
-                    if (neededGroup <= slot2.right - slot2.left - 1) {
-                      barWidth2 = target;
-                      const groupWidth = neededGroup;
-                      let groupLeft = xPos - groupWidth / 2;
-                      if (groupLeft < slot2.left) groupLeft = slot2.left;
-                      if (groupLeft + groupWidth > slot2.right)
-                        groupLeft = Math.max(
-                          slot2.left,
-                          slot2.right - groupWidth
-                        );
-                      barX = groupLeft + seriesIndex * (barWidth2 + gap);
-                    }
-                  }
-                }
-              }
-            }
-          }
-          const barCenterX = barX + barWidth2 / 2;
-          const valueY = yScale(d.y);
-          const y2 = Math.min(baselineY, valueY);
-          const height = Math.abs(baselineY - valueY);
-          const isFocused = !faded && ((_a3 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a3.seriesId) === series.id && tooltip.focused.index === di;
-          const onEnter = () => {
-            if (!tooltip || faded) return;
-            tooltip.setFocused({
-              seriesId: series.id,
-              index: di,
-              x: rawX,
-              y: d.y,
-              clientX: barCenterX,
-              clientY: valueY
-            });
-          };
-          const onLeave = () => {
-            var _a4;
-            if (((_a4 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a4.seriesId) === series.id && tooltip.focused.index === di)
-              tooltip.clear();
-          };
-          const paletteOverride = colorMode === "category" && colors ? colors[di] : void 0;
-          const catColor = colorMode === "category" ? paletteOverride || (palette === "region" ? pickRegionColor(String(d.x), di) : pickSeriesColor(di)) : baseSeriesColor;
-          const fillId = colorMode === "category" ? `${seriesGradientId}-${di}` : seriesGradientId;
-          const baseStroke = gradientFill && gradientStrokeMatch ? catColor : colorMode === "category" ? palette === "region" ? pickRegionStroke(String(d.x), di) : pickSeriesStroke(di) : effectiveBaseStroke;
-          const barStrokeColor = isFocused ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : baseStroke || catColor;
-          return /* @__PURE__ */ jsx21(
-            "rect",
-            {
-              x: barX,
-              y: y2,
-              width: barWidth2,
-              height: height || 1,
-              fill: gradientFill ? `url(#${fillId})` : catColor,
-              ...!gradientFill ? { fillOpacity: flatFillOpacity } : {},
-              stroke: barStrokeColor,
-              strokeWidth: isFocused ? 2 : 1,
-              className: "fdp-bar",
-              tabIndex: faded || !focusable ? -1 : 0,
-              role: "graphics-symbol",
-              "aria-label": `${series.label || series.id} ${rawX instanceof Date ? rawX.toDateString() : rawX} value ${d.y}`,
-              onMouseEnter: onEnter,
-              onFocus: onEnter,
-              onMouseLeave: onLeave,
-              onBlur: onLeave
-            },
-            di
-          );
-        })
-      ]
-    }
-  );
-};
-var BarSeriesPrimitive_default = BarSeriesPrimitive;
-
-// src/components/DataVisualisation/core/BandScalesProvider.tsx
-import * as React19 from "react";
-import { jsx as jsx22 } from "react/jsx-runtime";
-var BandScalesProvider = ({
-  series,
-  innerWidth: iw,
-  innerHeight: ih,
-  paddingInner = 0.1,
-  paddingOuter = 0.05,
-  children,
-  yTickCount = 5
-}) => {
-  var _a2, _b2;
-  const chart = useChartContext();
-  const innerWidth = (_a2 = iw != null ? iw : chart == null ? void 0 : chart.innerWidth) != null ? _a2 : 0;
-  const innerHeight = (_b2 = ih != null ? ih : chart == null ? void 0 : chart.innerHeight) != null ? _b2 : 0;
-  const allData = React19.useMemo(() => series.flatMap((s) => s.data), [series]);
-  const xDomain = React19.useMemo(() => {
-    const set = /* @__PURE__ */ new Set();
-    allData.forEach((d) => set.add(d.x));
-    return Array.from(set);
-  }, [allData]);
-  const yMax = React19.useMemo(
-    () => Math.max(0, ...allData.map((d) => d.y)),
-    [allData]
-  );
-  const xScale = React19.useMemo(
-    () => band().domain(xDomain).range([0, innerWidth]).paddingInner(paddingInner).paddingOuter(paddingOuter),
-    [xDomain, innerWidth, paddingInner, paddingOuter]
-  );
-  const yScale = React19.useMemo(
-    () => linear2().domain([0, yMax]).nice().range([innerHeight, 0]),
-    [yMax, innerHeight]
-  );
-  const value = React19.useMemo(
-    () => ({
-      xScale,
-      yScale,
-      getXTicks: () => xDomain,
-      getYTicks: (c = yTickCount) => yScale.ticks(c)
-    }),
-    [xScale, yScale, xDomain, yTickCount]
-  );
-  return /* @__PURE__ */ jsx22(ScaleContext_default.Provider, { value, children });
-};
-
-// src/components/DataVisualisation/charts/ChartNoScript/ChartNoScript.tsx
-import * as React20 from "react";
-import { jsx as jsx23, jsxs as jsxs15 } from "react/jsx-runtime";
-var ChartNoScript = ({
-  title,
-  description,
-  source,
-  table,
-  className,
-  id,
-  message = "Interactive chart loading\u2026",
-  forceFallback = false
-}) => {
-  const figureId = React20.useId();
-  const resolvedId = id || figureId;
-  const descId = description ? `${resolvedId}-desc` : void 0;
-  const sourceId = source ? `${resolvedId}-src` : void 0;
-  const isHydrated = typeof window !== "undefined" && !forceFallback;
-  return /* @__PURE__ */ jsxs15(
-    "figure",
-    {
-      id: resolvedId,
-      className: clsx_default("fdp-chart fdp-chart--noscript", className),
-      "aria-labelledby": `${resolvedId}-title`,
-      "aria-describedby": clsx_default(descId, sourceId),
-      "data-component": "ChartNoScript",
-      children: [
-        /* @__PURE__ */ jsx23("header", { className: "fdp-chart__header", children: /* @__PURE__ */ jsx23("h3", { id: `${resolvedId}-title`, className: "fdp-chart__title", children: title }) }),
-        description && /* @__PURE__ */ jsx23("p", { id: descId, className: "fdp-chart__description", children: description }),
-        !isHydrated && /* @__PURE__ */ jsx23("div", { className: "fdp-chart__loading", role: "status", "aria-live": "polite", children: message }),
-        /* @__PURE__ */ jsxs15("div", { className: "fdp-chart__fallback", role: "group", "aria-label": title, children: [
-          /* @__PURE__ */ jsx23("noscript", { children: /* @__PURE__ */ jsx23("div", { className: "fdp-chart__noscript-wrapper", children: /* @__PURE__ */ jsx23(Table_default, { ...table }) }) }),
-          /* @__PURE__ */ jsx23("div", { className: "fdp-chart__table", "data-fallback-table": true, children: /* @__PURE__ */ jsx23(Table_default, { ...table }) })
-        ] }),
-        source && /* @__PURE__ */ jsx23("figcaption", { className: "fdp-chart__caption", children: source && /* @__PURE__ */ jsxs15("small", { id: sourceId, className: "fdp-chart__source", children: [
-          "Source: ",
-          source
-        ] }) })
-      ]
-    }
-  );
-};
-var ChartNoScript_default = ChartNoScript;
-
-// src/components/DataVisualisation/charts/ChartEnhancer/ChartEnhancer.tsx
-import * as React21 from "react";
-import { jsx as jsx24 } from "react/jsx-runtime";
-var ChartEnhancer = ({ selector = "figure.fdp-chart", onEnhanced, delay = 0, children }) => {
-  const ref = React21.useRef(null);
-  React21.useEffect(() => {
-    const root = ref.current;
-    if (!root) return;
-    const apply = () => {
-      const figures = Array.from(root.querySelectorAll(selector));
-      if (figures.length === 0) return;
-      const newlyEnhanced = [];
-      figures.forEach((fig) => {
-        if (!fig.classList.contains("fdp-chart--enhanced")) {
-          fig.classList.add("fdp-chart--enhanced");
-          newlyEnhanced.push(fig);
-        }
-      });
-      if (newlyEnhanced.length && onEnhanced) onEnhanced(newlyEnhanced);
-    };
-    if (delay > 0) {
-      const t = window.setTimeout(apply, delay);
-      return () => window.clearTimeout(t);
-    }
-    apply();
-  }, [selector, onEnhanced, delay]);
-  return /* @__PURE__ */ jsx24("div", { ref, children });
-};
-var ChartEnhancer_default = ChartEnhancer;
-
-// src/components/DataVisualisation/components/MetricCard/MetricCard.tsx
-import * as React22 from "react";
-import { Fragment as Fragment2, jsx as jsx25, jsxs as jsxs16 } from "react/jsx-runtime";
-var MetricCard = ({
-  label,
-  value,
-  unit: unit2,
-  delta,
-  status = "neutral",
-  variant = "default",
-  subtitle,
-  metadata,
-  trendData,
-  loading = false,
-  error,
-  valueFormatter,
-  className,
-  id,
-  announceDelta = true
-}) => {
-  const internalId = React22.useId();
-  const baseId = id || internalId;
-  const labelId = `${baseId}-label`;
-  const valueId = `${baseId}-value`;
-  const deltaId = `${baseId}-delta`;
-  const isNumber2 = typeof value === "number" && !Number.isNaN(value);
-  const formattedValue = loading ? "\u2014" : error ? "" : isNumber2 ? valueFormatter ? valueFormatter(value) : value.toLocaleString() : value;
-  let deltaDirection;
-  let visualDelta = "";
-  let deltaAria = "";
-  if (delta && !loading && !error) {
-    deltaDirection = delta.direction || (delta.value > 0 ? "up" : delta.value < 0 ? "down" : "neutral");
-    const absVal = Math.abs(delta.value);
-    const signedDisplay = deltaDirection === "up" ? `+${absVal}` : deltaDirection === "down" ? `-${absVal}` : "0";
-    const suffix = delta.isPercent ? "%" : "";
-    visualDelta = `${signedDisplay}${suffix}`;
-    if (delta.ariaLabel) {
-      deltaAria = delta.ariaLabel;
-    } else {
-      const better = delta.invert ? deltaDirection === "down" : deltaDirection === "up";
-      const dirWord = deltaDirection === "neutral" ? "no change" : deltaDirection === "up" ? "up" : "down";
-      deltaAria = `${dirWord} ${absVal}${suffix}${deltaDirection === "neutral" ? "" : better ? " (improvement)" : " (worse)"}`;
-    }
-  }
-  return /* @__PURE__ */ jsx25(
-    "div",
-    {
-      className: clsx_default(
-        "fdp-metric-card",
-        variant && `fdp-metric-card--${variant}`,
-        status && `fdp-metric-card--status-${status}`,
-        loading && "fdp-metric-card--loading",
-        error && "fdp-metric-card--error",
-        className
-      ),
-      role: "group",
-      "aria-labelledby": labelId,
-      "data-component": "MetricCard",
-      children: /* @__PURE__ */ jsxs16("div", { className: "fdp-metric-card__inner", children: [
-        /* @__PURE__ */ jsxs16("div", { className: "fdp-metric-card__header", children: [
-          /* @__PURE__ */ jsx25("h3", { id: labelId, className: "fdp-metric-card__label", children: label }),
-          metadata && /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__metadata", children: metadata })
-        ] }),
-        /* @__PURE__ */ jsxs16("div", { className: "fdp-metric-card__content", children: [
-          /* @__PURE__ */ jsxs16("div", { className: "fdp-metric-card__value-section", children: [
-            /* @__PURE__ */ jsx25("div", { id: valueId, className: "fdp-metric-card__value", children: loading ? /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__skeleton", "aria-hidden": "true", children: /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__skeleton-line fdp-metric-card__skeleton-line--value" }) }) : error ? /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__error", role: "alert", children: error }) : /* @__PURE__ */ jsxs16(Fragment2, { children: [
-              /* @__PURE__ */ jsx25("span", { className: "fdp-metric-card__number", children: formattedValue }),
-              unit2 && /* @__PURE__ */ jsx25("span", { className: "fdp-metric-card__unit", children: unit2 })
-            ] }) }),
-            subtitle && !loading && !error && /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__subtitle", children: subtitle })
-          ] }),
-          delta && !loading && !error && /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__delta-section", children: /* @__PURE__ */ jsxs16(
-            "div",
-            {
-              id: deltaId,
-              "aria-label": deltaAria,
-              className: clsx_default(
-                "fdp-metric-card__delta",
-                deltaDirection && `fdp-metric-card__delta--${deltaDirection}`
-              ),
-              children: [
-                /* @__PURE__ */ jsx25("span", { className: "fdp-metric-card__delta-value", children: visualDelta }),
-                delta.period && /* @__PURE__ */ jsx25("span", { className: "fdp-metric-card__delta-period", children: delta.period })
-              ]
-            }
-          ) }),
-          trendData && trendData.length > 0 && !loading && !error && /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__trend", "aria-hidden": "true" })
-        ] }),
-        announceDelta && delta && !delta.ariaLabel && !loading && !error && /* @__PURE__ */ jsx25("div", { className: "fdp-visually-hidden", "aria-live": "polite", children: deltaAria })
-      ] })
-    }
-  );
-};
-var MetricCard_default = MetricCard;
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import * as React25 from "react";
-
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
-import * as React23 from "react";
+import * as React8 from "react";
 import { createPortal } from "react-dom";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc.ts
@@ -7976,7 +5470,7 @@ function applyAutoRecalculationBaselines(data, settings, metricImprovement) {
   var _a2;
   const shiftN = settings.autoRecalculateShiftLength || settings.specialCauseShiftPoints || 6;
   if (data.length < shiftN * 2) return;
-  const numeric = data.map((r2, i) => ({ idx: i, value: r2.value })).filter((o) => isNumber(o.value));
+  const numeric = data.map((r, i) => ({ idx: i, value: r.value })).filter((o) => isNumber(o.value));
   if (numeric.length < shiftN * 2) return;
   const favourUp = metricImprovement === "Up" /* Up */ || metricImprovement === "Neither" /* Neither */;
   const favourDown = metricImprovement === "Down" /* Down */;
@@ -8217,15 +5711,15 @@ function buildSpc(args) {
   const output = [];
   const warnings = [];
   const nonGhostGlobalCount = canonical.filter(
-    (r2) => !r2.ghost && isNumber(r2.value)
+    (r) => !r.ghost && isNumber(r.value)
   ).length;
   const globalEnough = nonGhostGlobalCount >= ((_a2 = settings.minimumPoints) != null ? _a2 : 13);
   let partitionId = 0;
   const partitionNonGhostCounts = {};
   for (const part of partitions) {
     partitionId++;
-    const values = part.map((r2) => r2.value);
-    const ghosts = part.map((r2) => r2.ghost);
+    const values = part.map((r) => r.value);
+    const ghosts = part.map((r) => r.ghost);
     let mr = new Array(values.length).fill(null);
     let centerLine = NaN;
     let mrMean = NaN;
@@ -8296,8 +5790,8 @@ function buildSpc(args) {
         context: { chartType }
       });
     }
-    const withLines = part.map((r2, i) => {
-      const pointRank = !r2.ghost && isNumber(r2.value) ? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber(v)).length : 0;
+    const withLines = part.map((r, i) => {
+      const pointRank = !r.ghost && isNumber(r.value) ? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber(v)).length : 0;
       const limitsAllowed = globalEnough;
       const limits = limitsAllowed ? lim : {
         upperProcessLimit: null,
@@ -8308,10 +5802,10 @@ function buildSpc(args) {
         lowerOneSigma: null
       };
       const row = {
-        rowId: r2.rowId,
-        x: r2.x,
-        value: isNumber(r2.value) ? r2.value : null,
-        ghost: r2.ghost,
+        rowId: r.rowId,
+        x: r.x,
+        value: isNumber(r.value) ? r.value : null,
+        ghost: r.ghost,
         partitionId,
         pointRank,
         mean: limitsAllowed && isNumber(centerLine) ? centerLine : null,
@@ -8324,7 +5818,7 @@ function buildSpc(args) {
         lowerTwoSigma: isNumber(limits.lowerTwoSigma) ? limits.lowerTwoSigma : null,
         upperOneSigma: isNumber(limits.upperOneSigma) ? limits.upperOneSigma : null,
         lowerOneSigma: isNumber(limits.lowerOneSigma) ? limits.lowerOneSigma : null,
-        target: isNumber(r2.target) ? r2.target : null,
+        target: isNumber(r.target) ? r.target : null,
         specialCauseSinglePointAbove: false,
         specialCauseSinglePointBelow: false,
         specialCauseTwoOfThreeAbove: false,
@@ -8341,8 +5835,8 @@ function buildSpc(args) {
         upperBaseline: limitsAllowed && isNumber(centerLine) ? centerLine : null,
         lowerBaseline: limitsAllowed && isNumber(centerLine) ? centerLine : null,
         movingRangeHighPointValue: limitsAllowed && isNumber(mrUcl) ? mrUcl : null,
-        ghostValue: r2.ghost && isNumber(r2.value) ? r2.value : null,
-        ghostFlag: !!r2.ghost,
+        ghostValue: r.ghost && isNumber(r.value) ? r.value : null,
+        ghostFlag: !!r.ghost,
         specialCauseImprovementValue: null,
         specialCauseConcernValue: null,
         specialCauseNeitherValue: null,
@@ -8351,7 +5845,7 @@ function buildSpc(args) {
       return row;
     });
     partitionNonGhostCounts[partitionId] = withLines.filter(
-      (r2) => !r2.ghost && isNumber(r2.value)
+      (r) => !r.ghost && isNumber(r.value)
     ).length;
     const shiftN = (_f = settings.specialCauseShiftPoints) != null ? _f : 6;
     const trendN = (_g = settings.specialCauseTrendPoints) != null ? _g : 6;
@@ -8378,16 +5872,16 @@ function buildSpc(args) {
       let runHigh = [];
       let runLow = [];
       for (const idxLocal of nonGhostIndices) {
-        const r2 = getRow(idxLocal);
-        if (!isNumber(r2.mean) || !isNumber(r2.value)) {
+        const r = getRow(idxLocal);
+        if (!isNumber(r.mean) || !isNumber(r.value)) {
           runHigh = [];
           runLow = [];
           continue;
         }
-        if (r2.value > r2.mean) {
+        if (r.value > r.mean) {
           runHigh.push(idxLocal);
           runLow = [];
-        } else if (r2.value < r2.mean) {
+        } else if (r.value < r.mean) {
           runLow.push(idxLocal);
           runHigh = [];
         } else {
@@ -8404,47 +5898,47 @@ function buildSpc(args) {
       for (let w = 0; w <= nonGhostIndices.length - 3; w++) {
         const windowIdx = nonGhostIndices.slice(w, w + 3);
         const rows3 = windowIdx.map(getRow);
-        if (!rows3.every((r2) => isNumber(r2.mean) && isNumber(r2.value))) continue;
+        if (!rows3.every((r) => isNumber(r.mean) && isNumber(r.value))) continue;
         const meanVal = rows3[0].mean;
-        const allHighSide = rows3.every((r2) => r2.value > meanVal);
-        const allLowSide = rows3.every((r2) => r2.value < meanVal);
+        const allHighSide = rows3.every((r) => r.value > meanVal);
+        const allLowSide = rows3.every((r) => r.value < meanVal);
         if (!allHighSide && !allLowSide) continue;
         const u2 = (_h = rows3[0].upperTwoSigma) != null ? _h : Infinity;
         const l2 = (_i = rows3[0].lowerTwoSigma) != null ? _i : -Infinity;
         const u3 = (_j = rows3[0].upperProcessLimit) != null ? _j : Infinity;
         const l3 = (_k = rows3[0].lowerProcessLimit) != null ? _k : -Infinity;
-        const highExceed = rows3.filter((r2) => r2.value > u2 && r2.value <= u3);
-        const lowExceed = rows3.filter((r2) => r2.value < l2 && r2.value >= l3);
+        const highExceed = rows3.filter((r) => r.value > u2 && r.value <= u3);
+        const lowExceed = rows3.filter((r) => r.value < l2 && r.value >= l3);
         if (allHighSide && highExceed.length >= 2) {
-          for (const r2 of highExceed) r2.specialCauseTwoOfThreeAbove = true;
+          for (const r of highExceed) r.specialCauseTwoOfThreeAbove = true;
         }
         if (allLowSide && lowExceed.length >= 2) {
-          for (const r2 of lowExceed) r2.specialCauseTwoOfThreeBelow = true;
+          for (const r of lowExceed) r.specialCauseTwoOfThreeBelow = true;
         }
       }
       if (settings.enableFourOfFiveRule) {
         for (let w = 0; w <= nonGhostIndices.length - 5; w++) {
           const windowIdx = nonGhostIndices.slice(w, w + 5);
           const rows5 = windowIdx.map(getRow);
-          if (!rows5.every((r2) => isNumber(r2.mean) && isNumber(r2.value))) continue;
+          if (!rows5.every((r) => isNumber(r.mean) && isNumber(r.value))) continue;
           const meanVal = rows5[0].mean;
-          if (!rows5.every((r2) => r2.value > meanVal) && !rows5.every((r2) => r2.value < meanVal)) continue;
+          if (!rows5.every((r) => r.value > meanVal) && !rows5.every((r) => r.value < meanVal)) continue;
           const u1 = (_l = rows5[0].upperOneSigma) != null ? _l : Infinity;
           const l1 = (_m = rows5[0].lowerOneSigma) != null ? _m : -Infinity;
-          const highExceed = rows5.filter((r2) => r2.value > u1);
-          const lowExceed = rows5.filter((r2) => r2.value < l1);
-          if (rows5.every((r2) => r2.value > meanVal) && highExceed.length >= 4) {
-            for (const r2 of highExceed) r2.specialCauseFourOfFiveAbove = true;
+          const highExceed = rows5.filter((r) => r.value > u1);
+          const lowExceed = rows5.filter((r) => r.value < l1);
+          if (rows5.every((r) => r.value > meanVal) && highExceed.length >= 4) {
+            for (const r of highExceed) r.specialCauseFourOfFiveAbove = true;
           }
-          if (rows5.every((r2) => r2.value < meanVal) && lowExceed.length >= 4) {
-            for (const r2 of lowExceed) r2.specialCauseFourOfFiveBelow = true;
+          if (rows5.every((r) => r.value < meanVal) && lowExceed.length >= 4) {
+            for (const r of lowExceed) r.specialCauseFourOfFiveBelow = true;
           }
         }
       }
       for (let w = 0; w <= nonGhostIndices.length - trendN; w++) {
         const windowIdx = nonGhostIndices.slice(w, w + trendN);
         const rowsN = windowIdx.map(getRow);
-        if (!rowsN.every((r2) => isNumber(r2.value))) continue;
+        if (!rowsN.every((r) => isNumber(r.value))) continue;
         let inc = true;
         let dec = true;
         for (let k = 1; k < rowsN.length; k++) {
@@ -8458,12 +5952,12 @@ function buildSpc(args) {
       if (settings.enableFifteenInInnerThirdRule) {
         let innerRun = [];
         for (const idxLocal of nonGhostIndices) {
-          const r2 = getRow(idxLocal);
-          if (!isNumber(r2.value) || !isNumber(r2.mean) || !isNumber(r2.upperOneSigma) || !isNumber(r2.lowerOneSigma)) {
+          const r = getRow(idxLocal);
+          if (!isNumber(r.value) || !isNumber(r.mean) || !isNumber(r.upperOneSigma) || !isNumber(r.lowerOneSigma)) {
             innerRun = [];
             continue;
           }
-          const inBand = r2.value < r2.upperOneSigma && r2.value > r2.lowerOneSigma;
+          const inBand = r.value < r.upperOneSigma && r.value > r.lowerOneSigma;
           if (!inBand) {
             innerRun = [];
             continue;
@@ -8483,7 +5977,7 @@ function buildSpc(args) {
     if (settings.maximumPointsPartition && Number.isFinite(settings.maximumPointsPartition)) {
       const cap = settings.maximumPointsPartition;
       let seen = 0;
-      for (const row of output.filter((r2) => r2.partitionId === partitionId)) {
+      for (const row of output.filter((r) => r.partitionId === partitionId)) {
         if (!row.ghost && isNumber(row.value)) seen++;
         if (seen > cap) {
           row.mean = row.upperProcessLimit = row.lowerProcessLimit = null;
@@ -8492,21 +5986,21 @@ function buildSpc(args) {
       }
     }
   }
-  for (const r2 of output) {
-    if (r2.ruleTags && r2.ruleTags.length) continue;
+  for (const r of output) {
+    if (r.ruleTags && r.ruleTags.length) continue;
     const tags = [];
-    if (r2.specialCauseShiftHigh) tags.push("shift_high");
-    if (r2.specialCauseShiftLow) tags.push("shift_low");
-    if (r2.specialCauseTrendIncreasing) tags.push("trend_inc");
-    if (r2.specialCauseTrendDecreasing) tags.push("trend_dec");
-    if (r2.specialCauseSinglePointAbove) tags.push("single_above");
-    if (r2.specialCauseSinglePointBelow) tags.push("single_below");
-    if (r2.specialCauseTwoOfThreeAbove) tags.push("two_of_three_high");
-    if (r2.specialCauseTwoOfThreeBelow) tags.push("two_of_three_low");
-    if (r2.specialCauseFourOfFiveAbove) tags.push("four_of_five_high");
-    if (r2.specialCauseFourOfFiveBelow) tags.push("four_of_five_low");
-    if (r2.specialCauseFifteenInnerThird) tags.push("fifteen_inner_third");
-    if (tags.length) r2.ruleTags = tags;
+    if (r.specialCauseShiftHigh) tags.push("shift_high");
+    if (r.specialCauseShiftLow) tags.push("shift_low");
+    if (r.specialCauseTrendIncreasing) tags.push("trend_inc");
+    if (r.specialCauseTrendDecreasing) tags.push("trend_dec");
+    if (r.specialCauseSinglePointAbove) tags.push("single_above");
+    if (r.specialCauseSinglePointBelow) tags.push("single_below");
+    if (r.specialCauseTwoOfThreeAbove) tags.push("two_of_three_high");
+    if (r.specialCauseTwoOfThreeBelow) tags.push("two_of_three_low");
+    if (r.specialCauseFourOfFiveAbove) tags.push("four_of_five_high");
+    if (r.specialCauseFourOfFiveBelow) tags.push("four_of_five_low");
+    if (r.specialCauseFifteenInnerThird) tags.push("fifteen_inner_third");
+    if (tags.length) r.ruleTags = tags;
   }
   for (let idx = 0; idx < output.length; idx++) {
     const row = output[idx];
@@ -8607,7 +6101,7 @@ function buildSpc(args) {
   }
   if (((_n = settings.minimumPointsWarning) != null ? _n : false) && !globalEnough) {
     const available = canonical.filter(
-      (r2) => !r2.ghost && isNumber(r2.value)
+      (r) => !r.ghost && isNumber(r.value)
     ).length;
     warnings.push({
       code: "insufficient_points_global" /* InsufficientPointsGlobal */,
@@ -8645,7 +6139,7 @@ function buildSpc(args) {
   }
   if (settings.nullValueWarning && (chartType === "XmR" || chartType === "G")) {
     const nullCount = canonical.filter(
-      (r2) => !r2.ghost && (r2.value === null || r2.value === void 0 || !isNumber(r2.value))
+      (r) => !r.ghost && (r.value === null || r.value === void 0 || !isNumber(r.value))
     ).length;
     if (nullCount)
       warnings.push({
@@ -8657,7 +6151,7 @@ function buildSpc(args) {
       });
   }
   if (settings.targetSuppressedWarning && (chartType === "T" || chartType === "G")) {
-    const hasTarget = canonical.some((r2) => isNumber(r2.target));
+    const hasTarget = canonical.some((r) => isNumber(r.target));
     if (hasTarget)
       warnings.push({
         code: "target_ignored_rare_event" /* TargetIgnoredRareEvent */,
@@ -8668,7 +6162,7 @@ function buildSpc(args) {
       });
   }
   if (settings.ghostOnRareEventWarning && (chartType === "T" || chartType === "G")) {
-    const ghostCount = canonical.filter((r2) => r2.ghost).length;
+    const ghostCount = canonical.filter((r) => r.ghost).length;
     if (ghostCount)
       warnings.push({
         code: "ghost_rows_rare_event" /* GhostRowsRareEvent */,
@@ -8696,11 +6190,11 @@ function buildSpc(args) {
   }
   if (settings.baselineSpecialCauseWarning) {
     const issueRows = [];
-    output.forEach((r2) => {
-      const input = canonical[r2.rowId - 1];
+    output.forEach((r) => {
+      const input = canonical[r.rowId - 1];
       if (input.baseline) {
-        const anySignal = r2.specialCauseSinglePointAbove || r2.specialCauseSinglePointBelow || r2.specialCauseTwoOfThreeAbove || r2.specialCauseTwoOfThreeBelow || r2.specialCauseFourOfFiveAbove || r2.specialCauseFourOfFiveBelow || r2.specialCauseShiftHigh || r2.specialCauseShiftLow || r2.specialCauseTrendIncreasing || r2.specialCauseTrendDecreasing;
-        if (anySignal) issueRows.push(r2.rowId);
+        const anySignal = r.specialCauseSinglePointAbove || r.specialCauseSinglePointBelow || r.specialCauseTwoOfThreeAbove || r.specialCauseTwoOfThreeBelow || r.specialCauseFourOfFiveAbove || r.specialCauseFourOfFiveBelow || r.specialCauseShiftHigh || r.specialCauseShiftLow || r.specialCauseTrendIncreasing || r.specialCauseTrendDecreasing;
+        if (anySignal) issueRows.push(r.rowId);
       }
     });
     if (issueRows.length)
@@ -8741,11 +6235,11 @@ function buildSpc(args) {
     let lastBaselineIndex = 0;
     for (let i = 0; i < rows.length; i++) {
       let becameTrue2 = function(flag) {
-        return !!r2[flag] && !(prev == null ? void 0 : prev[flag]);
+        return !!r[flag] && !(prev == null ? void 0 : prev[flag]);
       };
       var becameTrue = becameTrue2;
-      const r2 = rows[i];
-      if (i > 0 && rows[i - 1].partitionId !== r2.partitionId) {
+      const r = rows[i];
+      if (i > 0 && rows[i - 1].partitionId !== r.partitionId) {
         lastBaselineIndex = i;
       }
       const prev = rows[i - 1];
@@ -8962,7 +6456,7 @@ function mapTagProps(input) {
 }
 
 // src/components/Tag/Tag.tsx
-import { jsx as jsx26, jsxs as jsxs17 } from "react/jsx-runtime";
+import { jsx as jsx8, jsxs as jsxs4 } from "react/jsx-runtime";
 var Tag = ({
   text,
   html,
@@ -8983,9 +6477,9 @@ var Tag = ({
       onClose();
     }
   };
-  return /* @__PURE__ */ jsxs17("strong", { className: model.classes, ...props, children: [
-    children ? children : html ? /* @__PURE__ */ jsx26("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
-    closable && /* @__PURE__ */ jsx26(
+  return /* @__PURE__ */ jsxs4("strong", { className: model.classes, ...props, children: [
+    children ? children : html ? /* @__PURE__ */ jsx8("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
+    closable && /* @__PURE__ */ jsx8(
       "button",
       {
         type: "button",
@@ -9001,7 +6495,7 @@ var Tag = ({
 };
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
-import { jsx as jsx27, jsxs as jsxs18 } from "react/jsx-runtime";
+import { jsx as jsx9, jsxs as jsxs5 } from "react/jsx-runtime";
 var SPCTooltipOverlay = ({
   engineRows,
   limits,
@@ -9015,10 +6509,10 @@ var SPCTooltipOverlay = ({
   var _a2, _b2, _c, _d, _e, _f;
   const tooltip = useTooltipContext();
   const chart = useChartContext();
-  const [cachedFocus, setCachedFocus] = React23.useState(null);
-  const [hoveringTooltip, setHoveringTooltip] = React23.useState(false);
-  const hideTimeoutRef = React23.useRef(null);
-  React23.useEffect(() => {
+  const [cachedFocus, setCachedFocus] = React8.useState(null);
+  const [hoveringTooltip, setHoveringTooltip] = React8.useState(false);
+  const hideTimeoutRef = React8.useRef(null);
+  React8.useEffect(() => {
     if (!tooltip) return;
     if (tooltip.focused) {
       setCachedFocus(tooltip.focused);
@@ -9042,8 +6536,8 @@ var SPCTooltipOverlay = ({
     };
   }, [tooltip, tooltip == null ? void 0 : tooltip.focused, hoveringTooltip]);
   const focused = tooltip && (tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
-  const [visible, setVisible] = React23.useState(false);
-  React23.useEffect(() => {
+  const [visible, setVisible] = React8.useState(false);
+  React8.useEffect(() => {
     const id = requestAnimationFrame(() => setVisible(true));
     return () => cancelAnimationFrame(id);
   }, [focused == null ? void 0 : focused.index]);
@@ -9058,7 +6552,7 @@ var SPCTooltipOverlay = ({
   }
   const row = engineRows == null ? void 0 : engineRows[focused.index];
   const ruleIds = extractRuleIds(row);
-  const rules = ruleIds.map((r2) => ({ id: r2, label: ruleGlossary[r2].tooltip }));
+  const rules = ruleIds.map((r) => ({ id: r, label: ruleGlossary[r].tooltip }));
   const dateObj = focused.x instanceof Date ? focused.x : new Date(focused.x);
   const dateLabel = dateFormatter ? dateFormatter(dateObj) : dateObj.toDateString();
   const unit2 = measureUnit ? `${measureUnit}` : "";
@@ -9101,7 +6595,7 @@ var SPCTooltipOverlay = ({
   if (left < 0) left = Math.max(0, innerWidth - boxWidth);
   const tooltipId = focused ? `spc-tooltip-${focused.index}` : "spc-tooltip";
   const portal = host ? createPortal(
-    /* @__PURE__ */ jsx27(
+    /* @__PURE__ */ jsx9(
       "div",
       {
         id: tooltipId,
@@ -9138,20 +6632,20 @@ var SPCTooltipOverlay = ({
             hideTimeoutRef.current = id;
           }
         },
-        children: /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__body", children: [
-          /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Date" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
+        children: /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__body", children: [
+          /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Date" }) }),
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
           ] }),
-          /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--value", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Value" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__primary-line", children: valueLabel })
+          /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--value", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Value" }) }),
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__primary-line", children: valueLabel })
           ] }),
-          showBadges && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Signals" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: (() => {
+          showBadges && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Signals" }) }),
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: (() => {
               if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
-                return /* @__PURE__ */ jsx27(
+                return /* @__PURE__ */ jsx9(
                   Tag,
                   {
                     text: variationDesc,
@@ -9161,7 +6655,7 @@ var SPCTooltipOverlay = ({
                 );
               }
               if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
-                return /* @__PURE__ */ jsx27(
+                return /* @__PURE__ */ jsx9(
                   Tag,
                   {
                     text: variationDesc,
@@ -9171,7 +6665,7 @@ var SPCTooltipOverlay = ({
                 );
               }
               if (isNoJudgement) {
-                return /* @__PURE__ */ jsx27(
+                return /* @__PURE__ */ jsx9(
                   Tag,
                   {
                     text: "No judgement",
@@ -9182,7 +6676,7 @@ var SPCTooltipOverlay = ({
                 );
               }
               if (variationDesc) {
-                return /* @__PURE__ */ jsx27(
+                return /* @__PURE__ */ jsx9(
                   Tag,
                   {
                     text: variationDesc,
@@ -9194,13 +6688,13 @@ var SPCTooltipOverlay = ({
               return null;
             })() })
           ] }),
-          assuranceDesc && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Assurance" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: (() => {
+          assuranceDesc && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Assurance" }) }),
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: (() => {
               const lower = assuranceDesc.toLowerCase();
               const isFail = lower.includes("not met") || lower.includes("not achieved");
               const isPass = !isFail && /(^|\b)(met|achieved)(\b|$)/.test(lower);
-              return /* @__PURE__ */ jsx27(
+              return /* @__PURE__ */ jsx9(
                 Tag,
                 {
                   text: assuranceDesc,
@@ -9211,9 +6705,9 @@ var SPCTooltipOverlay = ({
               );
             })() })
           ] }),
-          zone && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Control Limits & Sigma" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: /* @__PURE__ */ jsx27(
+          zone && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Control Limits & Sigma" }) }),
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: /* @__PURE__ */ jsx9(
               Tag,
               {
                 text: (() => {
@@ -9230,13 +6724,13 @@ var SPCTooltipOverlay = ({
               }
             ) })
           ] }),
-          gatingExplanation && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--gating", "data-gating": true, children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Trend gating" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__explanation", "aria-live": "off", children: gatingExplanation })
+          gatingExplanation && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--gating", "data-gating": true, children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Trend gating" }) }),
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__explanation", "aria-live": "off", children: gatingExplanation })
           ] }),
-          hasRules && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Special cause" }) }),
-            /* @__PURE__ */ jsx27(
+          hasRules && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Special cause" }) }),
+            /* @__PURE__ */ jsx9(
               "div",
               {
                 className: "fdp-spc-tooltip__rule-tags",
@@ -9245,7 +6739,7 @@ var SPCTooltipOverlay = ({
                   const idStr = String(id);
                   const isTrend = idStr === "trend_inc" || idStr === "trend_dec";
                   const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
-                  return /* @__PURE__ */ jsx27(
+                  return /* @__PURE__ */ jsx9(
                     Tag,
                     {
                       text: label,
@@ -9264,14 +6758,14 @@ var SPCTooltipOverlay = ({
     ),
     host
   ) : null;
-  return /* @__PURE__ */ jsxs18(
+  return /* @__PURE__ */ jsxs5(
     "g",
     {
       className: "fdp-tooltip-layer fdp-spc-tooltip",
       pointerEvents: "none",
       "aria-hidden": "true",
       children: [
-        /* @__PURE__ */ jsx27(
+        /* @__PURE__ */ jsx9(
           "circle",
           {
             cx: clampX,
@@ -9282,7 +6776,7 @@ var SPCTooltipOverlay = ({
             strokeWidth: 3
           }
         ),
-        /* @__PURE__ */ jsx27(
+        /* @__PURE__ */ jsx9(
           "circle",
           {
             cx: clampX,
@@ -9293,7 +6787,7 @@ var SPCTooltipOverlay = ({
             strokeWidth: 1.5
           }
         ),
-        /* @__PURE__ */ jsx27(
+        /* @__PURE__ */ jsx9(
           "circle",
           {
             cx: clampX,
@@ -9311,8 +6805,49 @@ var SPCTooltipOverlay = ({
 };
 var SPCTooltipOverlay_default = SPCTooltipOverlay;
 
+// src/components/DataVisualisation/primitives/VisuallyHiddenLiveRegion.tsx
+import * as React9 from "react";
+import { jsx as jsx10 } from "react/jsx-runtime";
+var VisuallyHiddenLiveRegion = ({ polite = true, format: format2 }) => {
+  const tooltip = useTooltipContext();
+  const [message, setMessage] = React9.useState("");
+  const lastRef = React9.useRef("");
+  React9.useEffect(() => {
+    if (!(tooltip == null ? void 0 : tooltip.focused)) return;
+    const { focused, aggregated } = tooltip;
+    let msg;
+    if (aggregated && aggregated.length > 1) {
+      const parts = aggregated.map((a) => `${a.seriesId} ${a.y}`).join("; ");
+      const xLabel = focused.x instanceof Date ? focused.x.toDateString() : String(focused.x);
+      msg = `${xLabel} \u2013 ${parts}`;
+    } else {
+      msg = format2 ? format2({ seriesId: focused.seriesId, x: focused.x, y: focused.y, index: focused.index }) : defaultFormatter(focused.seriesId, focused.x, focused.y, focused.index);
+    }
+    if (msg !== lastRef.current) {
+      lastRef.current = msg;
+      setMessage("");
+      const timeout = setTimeout(() => setMessage(msg), 10);
+      return () => clearTimeout(timeout);
+    }
+  }, [tooltip == null ? void 0 : tooltip.focused, format2]);
+  return /* @__PURE__ */ jsx10(
+    "div",
+    {
+      "aria-live": polite ? "polite" : "assertive",
+      "aria-atomic": "true",
+      style: { position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", border: 0 },
+      children: message
+    }
+  );
+};
+function defaultFormatter(seriesId, x2, y2, index) {
+  const xLabel = x2 instanceof Date ? x2.toDateString() : String(x2);
+  return `Series ${seriesId}, point ${index + 1}, ${xLabel}, value ${y2}`;
+}
+var VisuallyHiddenLiveRegion_default = VisuallyHiddenLiveRegion;
+
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
-import { useId as useId6, useMemo as useMemo12 } from "react";
+import { useId, useMemo as useMemo7 } from "react";
 
 // src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts
 var spcTokenRoot = null;
@@ -9403,10 +6938,10 @@ var VariationState = /* @__PURE__ */ ((VariationState2) => {
 })(VariationState || {});
 var pickTextColour = (hex2) => {
   const c = hex2.replace("#", "");
-  const r2 = parseInt(c.slice(0, 2), 16) / 255;
+  const r = parseInt(c.slice(0, 2), 16) / 255;
   const g = parseInt(c.slice(2, 4), 16) / 255;
   const b = parseInt(c.slice(4, 6), 16) / 255;
-  const srgb = [r2, g, b].map((v) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+  const srgb = [r, g, b].map((v) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
   const L = 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
   return L < 0.55 ? "#ffffff" : "#212b32";
 };
@@ -9474,7 +7009,7 @@ function computePointPositions(state, direction) {
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
-import { Fragment as Fragment3, jsx as jsx28, jsxs as jsxs19 } from "react/jsx-runtime";
+import { Fragment, jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
 var resolveStateAndLayout = (input) => {
   var _a2, _b2;
   const emitDeprecation = () => {
@@ -9607,15 +7142,15 @@ function deriveVariationAriaDescription(input, context) {
   ];
   return parts.filter(Boolean).join(" ");
 }
-var buildDefs = (colourHex, shadowId, washId, dropShadow, gradientWash, stops) => /* @__PURE__ */ jsxs19("defs", { children: [
-  dropShadow && /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-    /* @__PURE__ */ jsx28("feGaussianBlur", { stdDeviation: "3" }),
-    /* @__PURE__ */ jsx28("feOffset", { dx: "0", dy: "15", result: "blur" }),
-    /* @__PURE__ */ jsx28("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
-    /* @__PURE__ */ jsx28("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-    /* @__PURE__ */ jsx28("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+var buildDefs = (colourHex, shadowId, washId, dropShadow, gradientWash, stops) => /* @__PURE__ */ jsxs6("defs", { children: [
+  dropShadow && /* @__PURE__ */ jsxs6("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+    /* @__PURE__ */ jsx11("feGaussianBlur", { stdDeviation: "3" }),
+    /* @__PURE__ */ jsx11("feOffset", { dx: "0", dy: "15", result: "blur" }),
+    /* @__PURE__ */ jsx11("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
+    /* @__PURE__ */ jsx11("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+    /* @__PURE__ */ jsx11("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
   ] }),
-  gradientWash && /* @__PURE__ */ jsx28("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: stops.map((s) => /* @__PURE__ */ jsx28(
+  gradientWash && /* @__PURE__ */ jsx11("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: stops.map((s) => /* @__PURE__ */ jsx11(
     "stop",
     {
       offset: s.offset,
@@ -9639,8 +7174,8 @@ var SPCVariationIcon = ({
   letterOverride,
   ...rest
 }) => {
-  const shadowId = useId6();
-  const washId = useId6();
+  const shadowId = useId();
+  const washId = useId();
   const {
     start: gradStart,
     mid: gradMid,
@@ -9649,12 +7184,12 @@ var SPCVariationIcon = ({
     triMid: triGradMid,
     triEnd: triGradEnd
   } = getGradientOpacities();
-  const { state, direction, polarity } = useMemo12(
+  const { state, direction, polarity } = useMemo7(
     () => resolveStateAndLayout(data),
     [data]
   );
-  const colour = useMemo12(() => getVariationColour(state), [state]);
-  const judgement = useMemo12(() => getVariationTrend(state), [state]);
+  const colour = useMemo7(() => getVariationColour(state), [state]);
+  const judgement = useMemo7(() => getVariationTrend(state), [state]);
   const showLetterForJudgement = judgement === "improving" /* Improving */ || judgement === "deteriorating" /* Deteriorating */;
   let letter = "";
   if (showLetter && showLetterForJudgement) {
@@ -9671,7 +7206,7 @@ var SPCVariationIcon = ({
   const isNoJudgement = state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
   const neutralGrey = tokenColour("common-cause", "#A6A6A6");
   const pointColour = isSpecial ? colour.hex : neutralGrey;
-  const points = useMemo12(
+  const points = useMemo7(
     () => computePointPositions(state, direction),
     [state, direction]
   );
@@ -9695,7 +7230,7 @@ var SPCVariationIcon = ({
     ];
     let shape = null;
     if (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
-      shape = /* @__PURE__ */ jsx28(
+      shape = /* @__PURE__ */ jsx11(
         "polygon",
         {
           points: (direction === "higher" /* Higher */ ? upTriangle : downTriangle).map((p) => p.join(",")).join(" "),
@@ -9706,7 +7241,7 @@ var SPCVariationIcon = ({
         }
       );
     } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
-      shape = /* @__PURE__ */ jsx28(
+      shape = /* @__PURE__ */ jsx11(
         "polygon",
         {
           points: direction === "higher" /* Higher */ ? upTriangle.map((p) => p.join(",")).join(" ") : downTriangle.map((p) => p.join(",")).join(" "),
@@ -9726,7 +7261,7 @@ var SPCVariationIcon = ({
     const runCircles = Array.from({ length: 5 }).map((_, i) => {
       const filled = (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && i >= 5 - runLen;
       const fill = filled ? runColor : neutralGrey;
-      return /* @__PURE__ */ jsx28(
+      return /* @__PURE__ */ jsx11(
         "circle",
         {
           cx: runStartX + i * runGap,
@@ -9752,7 +7287,7 @@ var SPCVariationIcon = ({
       ]
     );
     const groupTransform = state === "common_cause" /* CommonCause */ ? "translate(0,-10)" : direction === "higher" /* Higher */ ? "translate(0,-10)" : "translate(0,20)";
-    return /* @__PURE__ */ jsxs19(
+    return /* @__PURE__ */ jsxs6(
       "svg",
       {
         width: size,
@@ -9764,7 +7299,7 @@ var SPCVariationIcon = ({
         ...rest,
         children: [
           defs2,
-          /* @__PURE__ */ jsx28(
+          /* @__PURE__ */ jsx11(
             "circle",
             {
               stroke: "none",
@@ -9775,7 +7310,7 @@ var SPCVariationIcon = ({
               r: "120"
             }
           ),
-          /* @__PURE__ */ jsx28(
+          /* @__PURE__ */ jsx11(
             "circle",
             {
               stroke: colour.hex,
@@ -9787,9 +7322,9 @@ var SPCVariationIcon = ({
               r: "120"
             }
           ),
-          /* @__PURE__ */ jsxs19("g", { transform: groupTransform, children: [
+          /* @__PURE__ */ jsxs6("g", { transform: groupTransform, children: [
             shape,
-            letter && /* @__PURE__ */ jsx28(
+            letter && /* @__PURE__ */ jsx11(
               "text",
               {
                 fill: "#fff",
@@ -9829,7 +7364,7 @@ var SPCVariationIcon = ({
     ];
     let shape = null;
     if (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
-      shape = /* @__PURE__ */ jsx28(
+      shape = /* @__PURE__ */ jsx11(
         "polygon",
         {
           points: (direction === "higher" /* Higher */ ? upTriangle : downTriangle).map((p) => p.join(",")).join(" "),
@@ -9840,7 +7375,7 @@ var SPCVariationIcon = ({
         }
       );
     } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
-      shape = /* @__PURE__ */ jsx28(
+      shape = /* @__PURE__ */ jsx11(
         "polygon",
         {
           points: direction === "higher" /* Higher */ ? upTriangle.map((p) => p.join(",")).join(" ") : downTriangle.map((p) => p.join(",")).join(" "),
@@ -9851,7 +7386,7 @@ var SPCVariationIcon = ({
         }
       );
     } else if (state === "common_cause" /* CommonCause */) {
-      shape = /* @__PURE__ */ jsx28(
+      shape = /* @__PURE__ */ jsx11(
         "line",
         {
           x1: flatLine[0][0],
@@ -9877,7 +7412,7 @@ var SPCVariationIcon = ({
         { offset: "100%", opacity: triGradEnd }
       ]
     );
-    return /* @__PURE__ */ jsxs19(
+    return /* @__PURE__ */ jsxs6(
       "svg",
       {
         width: size,
@@ -9889,7 +7424,7 @@ var SPCVariationIcon = ({
         ...rest,
         children: [
           defs2,
-          /* @__PURE__ */ jsx28(
+          /* @__PURE__ */ jsx11(
             "circle",
             {
               stroke: "none",
@@ -9900,7 +7435,7 @@ var SPCVariationIcon = ({
               r: "120"
             }
           ),
-          /* @__PURE__ */ jsx28(
+          /* @__PURE__ */ jsx11(
             "circle",
             {
               stroke: colour.hex,
@@ -9913,7 +7448,7 @@ var SPCVariationIcon = ({
             }
           ),
           shape,
-          letter && (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && /* @__PURE__ */ jsx28(
+          letter && (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && /* @__PURE__ */ jsx11(
             "text",
             {
               fill: "#fff",
@@ -9943,7 +7478,7 @@ var SPCVariationIcon = ({
       { offset: "100%", opacity: gradEnd }
     ]
   );
-  return /* @__PURE__ */ jsxs19(
+  return /* @__PURE__ */ jsxs6(
     "svg",
     {
       width: size,
@@ -9955,7 +7490,7 @@ var SPCVariationIcon = ({
       ...rest,
       children: [
         defs,
-        /* @__PURE__ */ jsx28(
+        /* @__PURE__ */ jsx11(
           "circle",
           {
             stroke: "none",
@@ -9966,7 +7501,7 @@ var SPCVariationIcon = ({
             r: "120"
           }
         ),
-        /* @__PURE__ */ jsx28(
+        /* @__PURE__ */ jsx11(
           "circle",
           {
             stroke: colour.hex,
@@ -9978,7 +7513,7 @@ var SPCVariationIcon = ({
             r: "120"
           }
         ),
-        letter && /* @__PURE__ */ jsx28(
+        letter && /* @__PURE__ */ jsx11(
           "text",
           {
             fill: colour.hex,
@@ -9987,10 +7522,10 @@ var SPCVariationIcon = ({
             fontSize: 176,
             transform: "translate(86.67, 54) scale(0.5, 0.5)",
             textAnchor: "end",
-            children: /* @__PURE__ */ jsx28("tspan", { x: "120", y: direction === "lower" /* Lower */ ? "340" : "155", children: letter })
+            children: /* @__PURE__ */ jsx11("tspan", { x: "120", y: direction === "lower" /* Lower */ ? "340" : "155", children: letter })
           }
         ),
-        isNoJudgement ? /* @__PURE__ */ jsx28(
+        isNoJudgement ? /* @__PURE__ */ jsx11(
           "path",
           {
             "aria-hidden": "true",
@@ -10000,8 +7535,8 @@ var SPCVariationIcon = ({
             ...direction === "lower" /* Lower */ ? { transform: "rotate(90 150 150)" } : { transform: "translate(-5 0) rotate(0 150 150)" },
             d: "M 90.26,185.42 L 149.31,126.37 127.44,104.51 209.81,90.66 195.96,173.02 174.09,151.16 115.05,210.2 90.26,185.42 Z M 90.26,185.42"
           }
-        ) : /* @__PURE__ */ jsxs19(Fragment3, { children: [
-          points.length === 5 && /* @__PURE__ */ jsx28(
+        ) : /* @__PURE__ */ jsxs6(Fragment, { children: [
+          points.length === 5 && /* @__PURE__ */ jsx11(
             "path",
             {
               "aria-hidden": "true",
@@ -10018,7 +7553,7 @@ var SPCVariationIcon = ({
             const specialIdx = i >= points.length - 2 && isSpecial;
             const fill = specialIdx ? pointColour : neutralGrey;
             const stroke = fill;
-            return /* @__PURE__ */ jsx28(
+            return /* @__PURE__ */ jsx11(
               "circle",
               {
                 stroke,
@@ -10040,8 +7575,8 @@ var SPCVariationIcon = ({
 SPCVariationIcon.displayName = "SPCVariationIcon";
 
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCAssuranceIcon.tsx
-import { useId as useId7 } from "react";
-import { Fragment as Fragment4, jsx as jsx29, jsxs as jsxs20 } from "react/jsx-runtime";
+import { useId as useId2 } from "react";
+import { Fragment as Fragment2, jsx as jsx12, jsxs as jsxs7 } from "react/jsx-runtime";
 var SPCAssuranceIcon = ({
   status,
   size = 44,
@@ -10053,13 +7588,13 @@ var SPCAssuranceIcon = ({
   showTrendLines = true,
   ...rest
 }) => {
-  const shadowId = useId7();
-  const washId = useId7();
+  const shadowId = useId2();
+  const washId = useId2();
   const { start: gradStart, mid: gradMid, end: gradEnd } = getGradientOpacities();
   const colour = colourOverride || DEFAULT_COLOURS[status];
   const letter = (letterOverride || DEFAULT_LETTERS[status]).slice(0, 2);
   const aria = ariaLabel || `Assurance ${status}`;
-  return /* @__PURE__ */ jsxs20(
+  return /* @__PURE__ */ jsxs7(
     "svg",
     {
       width: size,
@@ -10069,21 +7604,21 @@ var SPCAssuranceIcon = ({
       "aria-label": aria,
       ...rest,
       children: [
-        /* @__PURE__ */ jsxs20("defs", { children: [
-          dropShadow && /* @__PURE__ */ jsxs20("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-            /* @__PURE__ */ jsx29("feGaussianBlur", { stdDeviation: "3" }),
-            /* @__PURE__ */ jsx29("feOffset", { dx: "-1", dy: "15", result: "blur" }),
-            /* @__PURE__ */ jsx29("feFlood", { floodColor: "rgb(166,166,166)", floodOpacity: "1" }),
-            /* @__PURE__ */ jsx29("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-            /* @__PURE__ */ jsx29("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+        /* @__PURE__ */ jsxs7("defs", { children: [
+          dropShadow && /* @__PURE__ */ jsxs7("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+            /* @__PURE__ */ jsx12("feGaussianBlur", { stdDeviation: "3" }),
+            /* @__PURE__ */ jsx12("feOffset", { dx: "-1", dy: "15", result: "blur" }),
+            /* @__PURE__ */ jsx12("feFlood", { floodColor: "rgb(166,166,166)", floodOpacity: "1" }),
+            /* @__PURE__ */ jsx12("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+            /* @__PURE__ */ jsx12("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
           ] }),
-          gradientWash && /* @__PURE__ */ jsxs20("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
-            /* @__PURE__ */ jsx29("stop", { offset: "0%", stopColor: colour, stopOpacity: parseFloat(gradStart) }),
-            /* @__PURE__ */ jsx29("stop", { offset: "65%", stopColor: colour, stopOpacity: parseFloat(gradMid) }),
-            /* @__PURE__ */ jsx29("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(gradEnd) })
+          gradientWash && /* @__PURE__ */ jsxs7("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
+            /* @__PURE__ */ jsx12("stop", { offset: "0%", stopColor: colour, stopOpacity: parseFloat(gradStart) }),
+            /* @__PURE__ */ jsx12("stop", { offset: "65%", stopColor: colour, stopOpacity: parseFloat(gradMid) }),
+            /* @__PURE__ */ jsx12("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(gradEnd) })
           ] })
         ] }),
-        /* @__PURE__ */ jsx29(
+        /* @__PURE__ */ jsx12(
           "circle",
           {
             stroke: "none",
@@ -10094,7 +7629,7 @@ var SPCAssuranceIcon = ({
             r: "120"
           }
         ),
-        /* @__PURE__ */ jsx29(
+        /* @__PURE__ */ jsx12(
           "text",
           {
             fill: colour,
@@ -10105,11 +7640,11 @@ var SPCAssuranceIcon = ({
             y: 0,
             transform: "translate(121.01, 32) scale(0.5, 0.5)",
             textAnchor: "middle",
-            children: /* @__PURE__ */ jsx29("tspan", { x: 60, y: 184, children: letter })
+            children: /* @__PURE__ */ jsx12("tspan", { x: 60, y: 184, children: letter })
           }
         ),
-        showTrendLines && /* @__PURE__ */ jsxs20(Fragment4, { children: [
-          status === "fail" /* Fail */ ? /* @__PURE__ */ jsx29(
+        showTrendLines && /* @__PURE__ */ jsxs7(Fragment2, { children: [
+          status === "fail" /* Fail */ ? /* @__PURE__ */ jsx12(
             "path",
             {
               id: "fail-line",
@@ -10121,7 +7656,7 @@ var SPCAssuranceIcon = ({
               fill: "none",
               d: "M 33,143 L 268,143"
             }
-          ) : status === "uncertain" /* Uncertain */ ? /* @__PURE__ */ jsx29(
+          ) : status === "uncertain" /* Uncertain */ ? /* @__PURE__ */ jsx12(
             "path",
             {
               id: "uncertain-line",
@@ -10133,7 +7668,7 @@ var SPCAssuranceIcon = ({
               fill: "none",
               d: "M 36,174 L 266,174"
             }
-          ) : /* @__PURE__ */ jsx29(
+          ) : /* @__PURE__ */ jsx12(
             "path",
             {
               id: "pass-line",
@@ -10146,7 +7681,7 @@ var SPCAssuranceIcon = ({
               d: "M 48,204 L 254,204"
             }
           ),
-          /* @__PURE__ */ jsx29(
+          /* @__PURE__ */ jsx12(
             "path",
             {
               id: "data-sparkline",
@@ -10157,7 +7692,7 @@ var SPCAssuranceIcon = ({
               d: "M 59.9,187.91 C 72.79,171.72 87.33,158.06 104.4,157.83 121.91,158.58 140.94,187.85 153.4,189.91 164.1,192.12 163.78,171.38 169.17,170.53 172.87,169.55 174.88,187.45 184.94,189.24 197,191.86 230.54,184.47 239.01,185.9"
             }
           ),
-          /* @__PURE__ */ jsx29(
+          /* @__PURE__ */ jsx12(
             "circle",
             {
               stroke: colour,
@@ -10176,8 +7711,328 @@ var SPCAssuranceIcon = ({
 };
 SPCAssuranceIcon.displayName = "SPCAssuranceIcon";
 
+// src/components/Tables/Table.tsx
+var import_classnames2 = __toESM(require_classnames(), 1);
+import React12 from "react";
+
+// src/components/Panel/Panel.tsx
+var import_classnames = __toESM(require_classnames(), 1);
+
+// src/components/Heading/Heading.tsx
+import { createElement } from "react";
+
+// src/mapping/heading.ts
+function deriveLevel(size) {
+  switch (size) {
+    case "xxl":
+    case "xl":
+      return 1;
+    case "l":
+      return 2;
+    case "m":
+      return 3;
+    case "s":
+      return 4;
+    case "xs":
+      return 5;
+    default:
+      return 2;
+  }
+}
+function mapHeadingProps(input) {
+  var _a2;
+  const level = (_a2 = input.level) != null ? _a2 : deriveLevel(input.size);
+  const classes = [
+    "nhsuk-heading",
+    input.size ? `nhsuk-heading--${input.size}` : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const style = input.marginBottom ? { marginBottom: input.marginBottom } : void 0;
+  return { tag: `h${level}`, classes, style };
+}
+
+// src/components/Heading/Heading.tsx
+import { jsx as jsx13 } from "react/jsx-runtime";
+var Heading = ({ level, className, text, html, children, size, marginBottom, ...rest }) => {
+  const model = mapHeadingProps({ level, size, className, marginBottom });
+  const content = children || (html ? /* @__PURE__ */ jsx13("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
+  return createElement(model.tag, { className: model.classes, style: model.style, ...rest }, content);
+};
+
+// src/components/Panel/Panel.tsx
+import { jsx as jsx14, jsxs as jsxs8 } from "react/jsx-runtime";
+var Panel = ({
+  id,
+  className,
+  headingText,
+  headingHtml,
+  headingLevel = 2,
+  bodyText,
+  bodyHtml,
+  children,
+  ...props
+}) => {
+  const panelClasses = (0, import_classnames.default)(
+    "nhsuk-panel",
+    className
+  );
+  const renderHeading = () => {
+    if (!headingText && !headingHtml && !children) return null;
+    if (headingHtml) {
+      return /* @__PURE__ */ jsx14(
+        Heading,
+        {
+          level: headingLevel,
+          className: "nhsuk-panel__heading",
+          html: headingHtml,
+          marginBottom: "var(--panel-heading-margin, 24px)"
+        }
+      );
+    }
+    if (headingText) {
+      return /* @__PURE__ */ jsx14(
+        Heading,
+        {
+          level: headingLevel,
+          className: "nhsuk-panel__heading",
+          text: headingText,
+          marginBottom: "var(--panel-heading-margin, 24px)"
+        }
+      );
+    }
+    return null;
+  };
+  const renderBody = () => {
+    if (children) {
+      return /* @__PURE__ */ jsx14("div", { className: "nhsuk-panel__body", children });
+    }
+    if (bodyHtml) {
+      return /* @__PURE__ */ jsx14(
+        "div",
+        {
+          className: "nhsuk-panel__body",
+          dangerouslySetInnerHTML: { __html: bodyHtml }
+        }
+      );
+    }
+    if (bodyText) {
+      return /* @__PURE__ */ jsx14("div", { className: "nhsuk-panel__body", children: /* @__PURE__ */ jsx14("p", { children: bodyText }) });
+    }
+    return null;
+  };
+  return /* @__PURE__ */ jsxs8("div", { className: panelClasses, id, ...props, children: [
+    renderHeading(),
+    renderBody()
+  ] });
+};
+
+// src/components/Tables/Table.tsx
+import { Fragment as Fragment3, jsx as jsx15, jsxs as jsxs9 } from "react/jsx-runtime";
+var Table = ({
+  rows,
+  head,
+  caption,
+  captionSize,
+  firstCellIsHeader = false,
+  responsive = false,
+  heading,
+  headingLevel = 3,
+  panel = false,
+  panelClasses,
+  tableClasses,
+  classes,
+  attributes,
+  "data-testid": testId
+}) => {
+  const captionClass = `nhsuk-table__caption ${captionSize ? `nhsuk-table__caption--${captionSize}` : ""}`.trim();
+  const tableClassList = (0, import_classnames2.default)(
+    "nhsuk-table",
+    {
+      "nhsuk-table-responsive": responsive
+    },
+    tableClasses
+  );
+  const containerClassList = (0, import_classnames2.default)(classes);
+  const prismRef = React12.useRef(null);
+  const ensurePrism = () => {
+    if (prismRef.current) return prismRef.current;
+    try {
+      prismRef.current = require_prism();
+      try {
+        require_prism_typescript();
+      } catch {
+      }
+      try {
+        require_prism_tsx();
+      } catch {
+      }
+      try {
+        require_prism_json();
+      } catch {
+      }
+    } catch {
+      prismRef.current = null;
+    }
+    return prismRef.current;
+  };
+  const fallbackHighlight = (code) => {
+    const patterns = [
+      { regex: /\b(import|from|export|const|let|var|return|if|else|for|while|switch|case|break|new|throw|try|catch|finally|class|extends|implements|interface|type|as|async|await|function)\b/g, cls: "kw" },
+      { regex: /(['"`])(?:\\.|(?!\1).)*\1/g, cls: "str" },
+      { regex: /\/\*[^]*?\*\/|\/\/.*$/gm, cls: "com" },
+      { regex: /\b([0-9]+(?:\.[0-9]+)?)\b/g, cls: "num" }
+    ];
+    let html = code;
+    patterns.forEach((p) => {
+      html = html.replace(p.regex, (m) => `<span class="nhsuk-code-${p.cls}">${m}</span>`);
+    });
+    return html;
+  };
+  const highlightCode = (code, lang, disable) => {
+    if (disable) return code;
+    if (!lang) return code;
+    const Prism2 = ensurePrism();
+    if (Prism2 && Prism2.languages) {
+      const resolvedLang = Prism2.languages[lang] ? lang : Prism2.languages.typescript && (lang === "ts" || lang === "tsx" || lang === "typescript") ? "typescript" : Prism2.languages.json && lang === "json" ? "json" : void 0;
+      if (resolvedLang) {
+        try {
+          return Prism2.highlight(code, Prism2.languages[resolvedLang], resolvedLang);
+        } catch {
+        }
+      }
+    }
+    return fallbackHighlight(code);
+  };
+  const renderHeaderCell = (cell, index) => {
+    const headerClasses = (0, import_classnames2.default)("nhsuk-table__header", {
+      [`nhsuk-table__header--${cell.format}`]: cell.format
+    }, cell.classes);
+    const headerAttributes = {
+      scope: "col",
+      ...cell.colspan && { colSpan: cell.colspan },
+      ...cell.rowspan && { rowSpan: cell.rowspan },
+      ...responsive && { role: "columnheader" },
+      ...cell.attributes
+    };
+    let content;
+    if (cell.node != null) {
+      content = /* @__PURE__ */ jsx15(Fragment3, { children: cell.node });
+    } else if (cell.html) {
+      content = /* @__PURE__ */ jsx15("span", { dangerouslySetInnerHTML: { __html: cell.html } });
+    } else if (cell.code != null) {
+      const isArray = Array.isArray(cell.code);
+      const codeString = isArray ? cell.code.join("\n") : cell.code;
+      const isMultiline = isArray || codeString.includes("\n");
+      const codeProps = {
+        className: (0, import_classnames2.default)("nhsuk-table__code", cell.codeClassName, {
+          "nhsuk-table__code--block": isMultiline,
+          "nhsuk-table__code--inline": !isMultiline
+        }),
+        ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
+      };
+      const highlighted = highlightCode(codeString, cell.codeLanguage);
+      content = isMultiline ? /* @__PURE__ */ jsx15("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx15("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx15("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+    } else {
+      content = cell.text;
+    }
+    return /* @__PURE__ */ jsx15("th", { className: headerClasses, ...headerAttributes, children: content }, index);
+  };
+  const renderCell = (cell, cellIndex, isFirstCell) => {
+    const isHeaderCell = firstCellIsHeader && isFirstCell;
+    const cellClasses = (0, import_classnames2.default)(
+      isHeaderCell ? "nhsuk-table__header" : "nhsuk-table__cell",
+      {
+        [`nhsuk-table__${isHeaderCell ? "header" : "cell"}--${cell.format}`]: cell.format
+      },
+      cell.classes
+    );
+    const cellAttributes = {
+      ...isHeaderCell && { scope: "row" },
+      ...cell.colspan && { colSpan: cell.colspan },
+      ...cell.rowspan && { rowSpan: cell.rowspan },
+      ...responsive && {
+        role: isHeaderCell ? "rowheader" : "cell",
+        ...cell.header && { "data-label": cell.header }
+      },
+      ...cell.attributes
+    };
+    let inner;
+    if (cell.node != null) {
+      inner = /* @__PURE__ */ jsx15(Fragment3, { children: cell.node });
+    } else if (cell.html) {
+      inner = /* @__PURE__ */ jsx15("span", { dangerouslySetInnerHTML: { __html: cell.html } });
+    } else if (cell.code != null) {
+      const isArray = Array.isArray(cell.code);
+      const codeString = isArray ? cell.code.join("\n") : cell.code;
+      const isMultiline = isArray || codeString.includes("\n");
+      const codeProps = {
+        className: (0, import_classnames2.default)("nhsuk-table__code", cell.codeClassName, {
+          "nhsuk-table__code--block": isMultiline,
+          "nhsuk-table__code--inline": !isMultiline
+        }),
+        ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
+      };
+      const highlighted = highlightCode(codeString, cell.codeLanguage, cell.disableHighlight);
+      inner = isMultiline ? /* @__PURE__ */ jsx15("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx15("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx15("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+    } else {
+      inner = cell.text;
+    }
+    const cellContent = /* @__PURE__ */ jsxs9(Fragment3, { children: [
+      responsive && cell.header && /* @__PURE__ */ jsxs9("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true", children: [
+        cell.header,
+        " "
+      ] }),
+      inner
+    ] });
+    const Component = isHeaderCell ? "th" : "td";
+    return /* @__PURE__ */ jsx15(Component, { className: cellClasses, ...cellAttributes, children: cellContent }, cellIndex);
+  };
+  const renderTable = () => /* @__PURE__ */ jsxs9(
+    "table",
+    {
+      className: tableClassList,
+      ...responsive && { role: "table" },
+      ...attributes,
+      ...testId && { "data-testid": testId },
+      children: [
+        caption && /* @__PURE__ */ jsx15("caption", { className: captionClass, children: caption }),
+        head && head.length > 0 && /* @__PURE__ */ jsx15(
+          "thead",
+          {
+            className: "nhsuk-table__head",
+            ...responsive && { role: "rowgroup" },
+            children: /* @__PURE__ */ jsx15("tr", { ...responsive && { role: "row" }, children: head.map((cell, index) => renderHeaderCell(cell, index)) })
+          }
+        ),
+        /* @__PURE__ */ jsx15("tbody", { className: "nhsuk-table__body", children: rows && rows.map((row, rowIndex) => /* @__PURE__ */ jsx15(
+          "tr",
+          {
+            className: "nhsuk-table__row",
+            ...responsive && { role: "row" },
+            children: row.map(
+              (cell, cellIndex) => renderCell(cell, cellIndex, cellIndex === 0)
+            )
+          },
+          rowIndex
+        )) })
+      ]
+    }
+  );
+  if (panel) {
+    return /* @__PURE__ */ jsxs9(Panel, { className: panelClasses, children: [
+      heading && /* @__PURE__ */ jsx15(Heading, { level: headingLevel, className: "nhsuk-table__heading-tab", children: heading }),
+      renderTable()
+    ] });
+  }
+  if (containerClassList) {
+    return /* @__PURE__ */ jsx15("div", { className: containerClassList, children: renderTable() });
+  }
+  return renderTable();
+};
+var Table_default = Table;
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import { Fragment as Fragment5, jsx as jsx30, jsxs as jsxs21 } from "react/jsx-runtime";
+import { Fragment as Fragment4, jsx as jsx16, jsxs as jsxs10 } from "react/jsx-runtime";
 var spcSequenceInstanceCounter = 0;
 var SPCChart = ({
   data,
@@ -10210,20 +8065,20 @@ var SPCChart = ({
   disableTrendSideGating = false
 }) => {
   var _a2, _b2, _c, _d, _e, _f, _g, _h;
-  const formatWarningCode = React25.useCallback(
+  const formatWarningCode = React13.useCallback(
     (code) => {
       const raw = String(code);
       return raw.replace(/^spc_warning_code\.?/i, "").replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
     []
   );
-  const formatWarningCategory = React25.useCallback(
+  const formatWarningCategory = React13.useCallback(
     (cat) => {
       return String(cat).replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
     []
   );
-  const engine = React25.useMemo(() => {
+  const engine = React13.useMemo(() => {
     var _a3;
     const rowsInput = data.map((d, i) => {
       var _a4, _b3, _c2;
@@ -10256,10 +8111,10 @@ var SPCChart = ({
     settings,
     disableTrendSideGating
   ]);
-  const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r2) => r2.mean != null);
+  const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r) => r.mean != null);
   const mean2 = (_a2 = engineRepresentative == null ? void 0 : engineRepresentative.mean) != null ? _a2 : null;
   const warnings = (engine == null ? void 0 : engine.warnings) || [];
-  const filteredWarnings = React25.useMemo(() => {
+  const filteredWarnings = React13.useMemo(() => {
     if (!warnings.length) return [];
     if (!warningsFilter) return warnings;
     return warnings.filter((w) => {
@@ -10272,9 +8127,9 @@ var SPCChart = ({
       return true;
     });
   }, [warnings, warningsFilter]);
-  const [diagnosticsMessage, setDiagnosticsMessage] = React25.useState("");
-  const lastDiagnosticsRef = React25.useRef("");
-  React25.useEffect(() => {
+  const [diagnosticsMessage, setDiagnosticsMessage] = React13.useState("");
+  const lastDiagnosticsRef = React13.useRef("");
+  React13.useEffect(() => {
     if (!showWarningsPanel) {
       if (lastDiagnosticsRef.current !== "") {
         lastDiagnosticsRef.current = "";
@@ -10325,11 +8180,11 @@ var SPCChart = ({
   const twoPos = (_f = engineRepresentative == null ? void 0 : engineRepresentative.upperTwoSigma) != null ? _f : null;
   const twoNeg = (_g = engineRepresentative == null ? void 0 : engineRepresentative.lowerTwoSigma) != null ? _g : null;
   const sigma = mean2 != null && onePos != null ? Math.abs(onePos - mean2) : 0;
-  const series = React25.useMemo(
+  const series = React13.useMemo(
     () => [{ id: "process", data, color: "#A6A6A6" }],
     [data]
   );
-  const yDomain = React25.useMemo(() => {
+  const yDomain = React13.useMemo(() => {
     const values = data.map((d) => d.y);
     const base = [...values];
     [mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg].forEach((v) => {
@@ -10342,16 +8197,16 @@ var SPCChart = ({
     if (!base.length) return void 0;
     return [Math.min(...base), Math.max(...base)];
   }, [data, mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp]);
-  const autoUnit = React25.useMemo(() => {
+  const autoUnit = React13.useMemo(() => {
     if (unit2 || (narrationContext == null ? void 0 : narrationContext.measureUnit)) return void 0;
     if (!data.length) return void 0;
     return data.every((d) => d.y >= 0 && d.y <= 1) ? "%" : void 0;
   }, [unit2, narrationContext == null ? void 0 : narrationContext.measureUnit, data]);
   const effectiveUnit = (_h = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _h : autoUnit;
-  const effectiveNarrationContext = React25.useMemo(() => {
+  const effectiveNarrationContext = React13.useMemo(() => {
     return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
   }, [narrationContext, effectiveUnit]);
-  const partitionMarkers = React25.useMemo(() => {
+  const partitionMarkers = React13.useMemo(() => {
     if (!(engine == null ? void 0 : engine.rows)) return [];
     const markers = [];
     for (let i = 1; i < engine.rows.length; i++) {
@@ -10360,19 +8215,19 @@ var SPCChart = ({
     }
     return markers;
   }, [engine == null ? void 0 : engine.rows]);
-  const embeddedIcon = React25.useMemo(() => {
+  const embeddedIcon = React13.useMemo(() => {
     var _a3, _b3;
     if (!showEmbeddedIcon || !((_a3 = engine == null ? void 0 : engine.rows) == null ? void 0 : _a3.length)) return null;
     const engineRows = engine.rows;
     const minPoints = (_b3 = settings == null ? void 0 : settings.minimumPoints) != null ? _b3 : 13;
     const nonGhostCount = engineRows.filter(
-      (r2) => !r2.ghost && r2.value != null
+      (r) => !r.ghost && r.value != null
     ).length;
     if (nonGhostCount < minPoints) return null;
     let lastIdx = -1;
     for (let i = engineRows.length - 1; i >= 0; i--) {
-      const r2 = engineRows[i];
-      if (r2 && r2.value != null && !r2.ghost) {
+      const r = engineRows[i];
+      if (r && r.value != null && !r.ghost) {
         lastIdx = i;
         break;
       }
@@ -10410,12 +8265,12 @@ var SPCChart = ({
       polarity = "lower_is_better" /* LowerIsBetter */;
     else polarity = "context_dependent" /* ContextDependent */;
     const iconSize = 80;
-    return /* @__PURE__ */ jsxs21(
+    return /* @__PURE__ */ jsxs10(
       "div",
       {
         style: { display: "flex", gap: 12, marginRight: 16 },
         children: [
-          /* @__PURE__ */ jsx30(
+          /* @__PURE__ */ jsx16(
             "div",
             {
               className: "fdp-spc-chart__embedded-icon",
@@ -10424,7 +8279,7 @@ var SPCChart = ({
               "data-trend": trend ? String(trend) : "none",
               "data-polarity": String(polarity != null ? polarity : "unknown"),
               style: { width: iconSize, height: iconSize },
-              children: /* @__PURE__ */ jsx30(
+              children: /* @__PURE__ */ jsx16(
                 SPCVariationIcon,
                 {
                   dropShadow: false,
@@ -10445,13 +8300,13 @@ var SPCChart = ({
               )
             }
           ),
-          /* @__PURE__ */ jsx30(
+          /* @__PURE__ */ jsx16(
             "div",
             {
               className: "fdp-spc-chart__embedded-assurance-icon",
               "data-assurance": String(assuranceRaw),
               style: { width: iconSize, height: iconSize },
-              children: /* @__PURE__ */ jsx30(
+              children: /* @__PURE__ */ jsx16(
                 SPCAssuranceIcon,
                 {
                   status: assuranceRenderStatus,
@@ -10474,12 +8329,12 @@ var SPCChart = ({
     embeddedIconVariant,
     embeddedIconRunLength
   ]);
-  return /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsxs10(
     "div",
     {
       className: className ? `fdp-spc-chart-wrapper ${className}` : "fdp-spc-chart-wrapper",
       children: [
-        showEmbeddedIcon && /* @__PURE__ */ jsx30(
+        showEmbeddedIcon && /* @__PURE__ */ jsx16(
           "div",
           {
             className: "fdp-spc-chart__top-row",
@@ -10491,14 +8346,14 @@ var SPCChart = ({
             children: embeddedIcon
           }
         ),
-        /* @__PURE__ */ jsx30(
+        /* @__PURE__ */ jsx16(
           ChartRoot,
           {
             height,
             ariaLabel,
             margin: { bottom: 48, left: 56, right: 16, top: 12 },
             className: void 0,
-            children: /* @__PURE__ */ jsx30(LineScalesProvider, { series, yDomain, children: /* @__PURE__ */ jsx30(
+            children: /* @__PURE__ */ jsx16(LineScalesProvider, { series, yDomain, children: /* @__PURE__ */ jsx16(
               InternalSPC,
               {
                 series,
@@ -10523,7 +8378,7 @@ var SPCChart = ({
             ) })
           }
         ),
-        showWarningsPanel && diagnosticsMessage && /* @__PURE__ */ jsx30(
+        showWarningsPanel && diagnosticsMessage && /* @__PURE__ */ jsx16(
           "div",
           {
             "data-testid": "spc-diagnostics-live",
@@ -10542,15 +8397,15 @@ var SPCChart = ({
             children: diagnosticsMessage
           }
         ),
-        showWarningsPanel && filteredWarnings.length > 0 && /* @__PURE__ */ jsxs21(
+        showWarningsPanel && filteredWarnings.length > 0 && /* @__PURE__ */ jsxs10(
           "div",
           {
             className: "fdp-spc-chart__warnings",
             role: "region",
             "aria-label": "SPC diagnostics",
             children: [
-              /* @__PURE__ */ jsx30("p", { className: "fdp-spc-chart__warnings-heading", children: "Diagnostics" }),
-              /* @__PURE__ */ jsx30(
+              /* @__PURE__ */ jsx16("p", { className: "fdp-spc-chart__warnings-heading", children: "Diagnostics" }),
+              /* @__PURE__ */ jsx16(
                 Table_default,
                 {
                   firstCellIsHeader: false,
@@ -10572,7 +8427,7 @@ var SPCChart = ({
                       severityColor = "blue";
                     return [
                       {
-                        node: /* @__PURE__ */ jsx30(
+                        node: /* @__PURE__ */ jsx16(
                           Tag,
                           {
                             color: severityColor,
@@ -10585,30 +8440,30 @@ var SPCChart = ({
                         classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--severity"
                       },
                       {
-                        node: w.category ? /* @__PURE__ */ jsx30(
+                        node: w.category ? /* @__PURE__ */ jsx16(
                           Tag,
                           {
                             color: "purple",
                             text: formatWarningCategory(w.category)
                           }
-                        ) : /* @__PURE__ */ jsx30("span", { className: "fdp-spc-chart__warning-empty", children: "\u2013" }),
+                        ) : /* @__PURE__ */ jsx16("span", { className: "fdp-spc-chart__warning-empty", children: "\u2013" }),
                         classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--category"
                       },
                       {
-                        node: /* @__PURE__ */ jsx30(Tag, { color: "grey", text: formatWarningCode(w.code) }),
+                        node: /* @__PURE__ */ jsx16(Tag, { color: "grey", text: formatWarningCode(w.code) }),
                         classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--code"
                       },
                       {
-                        node: /* @__PURE__ */ jsxs21("div", { className: "fdp-spc-chart__warning-message", children: [
-                          /* @__PURE__ */ jsx30("span", { children: w.message }),
-                          w.context && Object.keys(w.context).length > 0 && /* @__PURE__ */ jsxs21(
+                        node: /* @__PURE__ */ jsxs10("div", { className: "fdp-spc-chart__warning-message", children: [
+                          /* @__PURE__ */ jsx16("span", { children: w.message }),
+                          w.context && Object.keys(w.context).length > 0 && /* @__PURE__ */ jsxs10(
                             "details",
                             {
                               className: "fdp-spc-chart__warning-context",
                               style: { marginTop: 4 },
                               children: [
-                                /* @__PURE__ */ jsx30("summary", { children: "context" }),
-                                /* @__PURE__ */ jsx30("pre", { children: JSON.stringify(w.context, null, 2) })
+                                /* @__PURE__ */ jsx16("summary", { children: "context" }),
+                                /* @__PURE__ */ jsx16("pre", { children: JSON.stringify(w.context, null, 2) })
                               ]
                             }
                           )
@@ -10652,12 +8507,12 @@ var InternalSPC = ({
   const chartCtx = useChartContext();
   if (!scaleCtx) return null;
   const { xScale, yScale } = scaleCtx;
-  const gradientIdBaseRef = React25.useRef(
+  const gradientIdBaseRef = React13.useRef(
     "spc-seq-" + ++spcSequenceInstanceCounter
   );
   const tooltipCtx = useTooltipContext();
   const all = ((_a2 = series[0]) == null ? void 0 : _a2.data) || [];
-  const outOfControl = React25.useMemo(() => {
+  const outOfControl = React13.useMemo(() => {
     if (!limits.ucl && !limits.lcl) return /* @__PURE__ */ new Set();
     const set = /* @__PURE__ */ new Set();
     all.forEach((d, i) => {
@@ -10666,34 +8521,34 @@ var InternalSPC = ({
     });
     return set;
   }, [all, limits.ucl, limits.lcl]);
-  const engineSignals = React25.useMemo(() => {
+  const engineSignals = React13.useMemo(() => {
     if (!engineRows) return null;
     const map2 = {};
-    engineRows.forEach((r2, idx) => {
-      if (r2.value == null || r2.ghost) return;
-      const anySpecial = r2.specialCauseSinglePointAbove || r2.specialCauseSinglePointBelow || r2.specialCauseTwoOfThreeAbove || r2.specialCauseTwoOfThreeBelow || r2.specialCauseFourOfFiveAbove || r2.specialCauseFourOfFiveBelow || r2.specialCauseShiftHigh || r2.specialCauseShiftLow || r2.specialCauseTrendIncreasing || r2.specialCauseTrendDecreasing;
+    engineRows.forEach((r, idx) => {
+      if (r.value == null || r.ghost) return;
+      const anySpecial = r.specialCauseSinglePointAbove || r.specialCauseSinglePointBelow || r.specialCauseTwoOfThreeAbove || r.specialCauseTwoOfThreeBelow || r.specialCauseFourOfFiveAbove || r.specialCauseFourOfFiveBelow || r.specialCauseShiftHigh || r.specialCauseShiftLow || r.specialCauseTrendIncreasing || r.specialCauseTrendDecreasing;
       map2[idx] = {
-        variation: r2.variationIcon,
-        assurance: r2.assuranceIcon,
+        variation: r.variationIcon,
+        assurance: r.assuranceIcon,
         special: anySpecial,
-        concern: r2.variationIcon === "concern" /* Concern */,
-        improvement: r2.variationIcon === "improvement" /* Improvement */
+        concern: r.variationIcon === "concern" /* Concern */,
+        improvement: r.variationIcon === "improvement" /* Improvement */
       };
     });
     return map2;
   }, [engineRows]);
-  const uniformTarget = React25.useMemo(() => {
+  const uniformTarget = React13.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const values = [];
-    for (const r2 of engineRows) {
-      if (typeof r2.target === "number" && !isNaN(r2.target))
-        values.push(r2.target);
+    for (const r of engineRows) {
+      if (typeof r.target === "number" && !isNaN(r.target))
+        values.push(r.target);
     }
     if (!values.length) return null;
     const first = values[0];
     return values.every((v) => v === first) ? first : null;
   }, [engineRows]);
-  const categories = React25.useMemo(() => {
+  const categories = React13.useMemo(() => {
     if (!engineSignals || !all.length)
       return [];
     const raw = all.map((_d, i) => {
@@ -10713,7 +8568,7 @@ var InternalSPC = ({
     }
     return raw;
   }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement]);
-  const sequences = React25.useMemo(() => {
+  const sequences = React13.useMemo(() => {
     if (!gradientSequences || !categories.length)
       return [];
     const cats = [...categories];
@@ -10751,12 +8606,12 @@ var InternalSPC = ({
     }
     return out;
   }, [gradientSequences, categories, ariaLabel]);
-  const xPositions = React25.useMemo(
+  const xPositions = React13.useMemo(
     () => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))),
     [all, xScale]
   );
   const plotWidth = xScale.range()[1];
-  const limitSegments = React25.useMemo(() => {
+  const limitSegments = React13.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const build = (key) => {
       const segs = [];
@@ -10815,9 +8670,9 @@ var InternalSPC = ({
       twoNeg: build("lowerTwoSigma")
     };
   }, [engineRows, xPositions, yScale]);
-  const sequenceDefs = React25.useMemo(() => {
+  const sequenceDefs = React13.useMemo(() => {
     if (!sequences.length) return null;
-    return /* @__PURE__ */ jsx30("defs", { children: sequences.map((seq, idx) => {
+    return /* @__PURE__ */ jsx16("defs", { children: sequences.map((seq, idx) => {
       const id = `${gradientIdBaseRef.current}-grad-${idx}`;
       let baseVar;
       let top = 0.28, mid = 0.12, end = 0.045;
@@ -10843,14 +8698,14 @@ var InternalSPC = ({
         default:
           baseVar = "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)";
       }
-      return /* @__PURE__ */ jsxs21("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-        /* @__PURE__ */ jsx30("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
-        /* @__PURE__ */ jsx30("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
-        /* @__PURE__ */ jsx30("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
+      return /* @__PURE__ */ jsxs10("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
+        /* @__PURE__ */ jsx16("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
+        /* @__PURE__ */ jsx16("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
+        /* @__PURE__ */ jsx16("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
       ] }, id);
     }) });
   }, [sequences]);
-  const sequenceAreas = React25.useMemo(() => {
+  const sequenceAreas = React13.useMemo(() => {
     if (!sequences.length) return null;
     const [domainMin] = yScale.domain();
     const baseY = yScale(domainMin);
@@ -10905,7 +8760,7 @@ var InternalSPC = ({
           d += ` L ${firstX} ${baseY} Z`;
         }
       }
-      return /* @__PURE__ */ jsx30(
+      return /* @__PURE__ */ jsx16(
         "path",
         {
           d,
@@ -10917,9 +8772,9 @@ var InternalSPC = ({
         `seq-area-${idx}`
       );
     }).filter(Boolean);
-    return /* @__PURE__ */ jsx30("g", { className: "fdp-spc__sequence-bgs", children: areas });
+    return /* @__PURE__ */ jsx16("g", { className: "fdp-spc__sequence-bgs", children: areas });
   }, [sequences, xPositions, plotWidth, yScale, all]);
-  const computedTimeframe = React25.useMemo(() => {
+  const computedTimeframe = React13.useMemo(() => {
     if (!(narrationContext == null ? void 0 : narrationContext.timeframe) && all.length >= 2) {
       const xs = all.map((d) => d.x instanceof Date ? d.x : new Date(d.x));
       const min = new Date(Math.min(...xs.map((d) => d.getTime())));
@@ -10937,15 +8792,15 @@ var InternalSPC = ({
     }
     return void 0;
   }, [narrationContext == null ? void 0 : narrationContext.timeframe, all]);
-  const ordinal2 = (n) => {
+  const ordinal = (n) => {
     const mod10 = n % 10, mod100 = n % 100;
     if (mod10 === 1 && mod100 !== 11) return `${n}st`;
     if (mod10 === 2 && mod100 !== 12) return `${n}nd`;
     if (mod10 === 3 && mod100 !== 13) return `${n}rd`;
     return `${n}th`;
   };
-  const formatDateLong = (d) => `${ordinal2(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
-  const formatLive = React25.useCallback(
+  const formatDateLong = (d) => `${ordinal(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
+  const formatLive = React13.useCallback(
     ({
       index,
       x: x2,
@@ -10961,7 +8816,7 @@ var InternalSPC = ({
       }
       const varLabel = variationLabel(row.variationIcon) || "Variation";
       const ruleIds = extractRuleIds(row);
-      const ruleNarr = ruleIds.length ? ` Rules: ${[...new Set(ruleIds.map((r2) => ruleGlossary[r2].narration))].join("; ")}.` : " No special cause rules.";
+      const ruleNarr = ruleIds.length ? ` Rules: ${[...new Set(ruleIds.map((r) => ruleGlossary[r].narration))].join("; ")}.` : " No special cause rules.";
       const ctxParts = [];
       if (narrationContext == null ? void 0 : narrationContext.measureName)
         ctxParts.push(`Measure: ${narrationContext.measureName}.`);
@@ -10983,7 +8838,7 @@ var InternalSPC = ({
     },
     [engineRows, narrationContext, computedTimeframe]
   );
-  const describePoint = React25.useCallback(
+  const describePoint = React13.useCallback(
     (index, d) => {
       const row = engineRows == null ? void 0 : engineRows[index];
       if (!row) return void 0;
@@ -10997,7 +8852,7 @@ var InternalSPC = ({
     },
     [engineRows, formatLive]
   );
-  return /* @__PURE__ */ jsx30(TooltipProvider, { children: /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsx16(TooltipProvider, { children: /* @__PURE__ */ jsxs10(
     "div",
     {
       className: "fdp-spc-chart",
@@ -11005,23 +8860,23 @@ var InternalSPC = ({
       "aria-label": "Statistical process control chart",
       "aria-roledescription": "chart",
       children: [
-        /* @__PURE__ */ jsx30(
+        /* @__PURE__ */ jsx16(
           "svg",
           {
             width: scaleCtx.xScale.range()[1] + 56 + 16,
             height: scaleCtx.yScale.range()[0] + 12 + 48,
             role: "img",
-            children: /* @__PURE__ */ jsxs21("g", { transform: `translate(56,12)`, children: [
-              /* @__PURE__ */ jsx30(Axis_default, { type: "x" }),
-              /* @__PURE__ */ jsx30(Axis_default, { type: "y" }),
-              /* @__PURE__ */ jsx30(GridLines_default, { axis: "y" }),
+            children: /* @__PURE__ */ jsxs10("g", { transform: `translate(56,12)`, children: [
+              /* @__PURE__ */ jsx16(Axis_default, { type: "x" }),
+              /* @__PURE__ */ jsx16(Axis_default, { type: "y" }),
+              /* @__PURE__ */ jsx16(GridLines_default, { axis: "y" }),
               sequenceDefs,
               sequenceAreas,
               partitionMarkers.map((idx, i) => {
                 const d = all[idx];
                 if (!d) return null;
                 const x2 = xScale(d.x instanceof Date ? d.x : new Date(d.x));
-                return /* @__PURE__ */ jsx30(
+                return /* @__PURE__ */ jsx16(
                   "line",
                   {
                     x1: x2,
@@ -11037,7 +8892,7 @@ var InternalSPC = ({
                   `partition-marker-${i}`
                 );
               }),
-              limitSegments == null ? void 0 : limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx30(
+              limitSegments == null ? void 0 : limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx16(
                 "line",
                 {
                   className: "fdp-spc__cl",
@@ -11050,8 +8905,8 @@ var InternalSPC = ({
                 `mean-${i}`
               )),
               uniformTarget != null && // Render later (after limits) for stacking; temporary placeholder (moved below)
-              /* @__PURE__ */ jsx30(Fragment5, {}),
-              limitSegments == null ? void 0 : limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx30(
+              /* @__PURE__ */ jsx16(Fragment4, {}),
+              limitSegments == null ? void 0 : limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx16(
                 "line",
                 {
                   className: "fdp-spc__limit fdp-spc__limit--ucl",
@@ -11064,7 +8919,7 @@ var InternalSPC = ({
                 },
                 `ucl-${i}`
               )),
-              limitSegments == null ? void 0 : limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx30(
+              limitSegments == null ? void 0 : limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx16(
                 "line",
                 {
                   className: "fdp-spc__limit fdp-spc__limit--lcl",
@@ -11077,8 +8932,8 @@ var InternalSPC = ({
                 },
                 `lcl-${i}`
               )),
-              uniformTarget != null && /* @__PURE__ */ jsxs21("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
-                /* @__PURE__ */ jsx30(
+              uniformTarget != null && /* @__PURE__ */ jsxs10("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
+                /* @__PURE__ */ jsx16(
                   "line",
                   {
                     className: "fdp-spc__target",
@@ -11090,7 +8945,7 @@ var InternalSPC = ({
                     strokeWidth: 2.5
                   }
                 ),
-                /* @__PURE__ */ jsxs21(
+                /* @__PURE__ */ jsxs10(
                   "text",
                   {
                     "data-testid": "spc-target-label",
@@ -11108,8 +8963,8 @@ var InternalSPC = ({
                   }
                 )
               ] }),
-              showZones && limitSegments && limitSegments.mean.length > 0 && /* @__PURE__ */ jsxs21(Fragment5, { children: [
-                limitSegments.onePos.map((s, i) => /* @__PURE__ */ jsx30(
+              showZones && limitSegments && limitSegments.mean.length > 0 && /* @__PURE__ */ jsxs10(Fragment4, { children: [
+                limitSegments.onePos.map((s, i) => /* @__PURE__ */ jsx16(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--pos1",
@@ -11122,7 +8977,7 @@ var InternalSPC = ({
                   },
                   `onePos-${i}`
                 )),
-                limitSegments.oneNeg.map((s, i) => /* @__PURE__ */ jsx30(
+                limitSegments.oneNeg.map((s, i) => /* @__PURE__ */ jsx16(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--neg1",
@@ -11135,7 +8990,7 @@ var InternalSPC = ({
                   },
                   `oneNeg-${i}`
                 )),
-                limitSegments.twoPos.map((s, i) => /* @__PURE__ */ jsx30(
+                limitSegments.twoPos.map((s, i) => /* @__PURE__ */ jsx16(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--pos2",
@@ -11148,7 +9003,7 @@ var InternalSPC = ({
                   },
                   `twoPos-${i}`
                 )),
-                limitSegments.twoNeg.map((s, i) => /* @__PURE__ */ jsx30(
+                limitSegments.twoNeg.map((s, i) => /* @__PURE__ */ jsx16(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--neg2",
@@ -11162,7 +9017,7 @@ var InternalSPC = ({
                   `twoNeg-${i}`
                 ))
               ] }),
-              /* @__PURE__ */ jsx30(
+              /* @__PURE__ */ jsx16(
                 LineSeriesPrimitive_default,
                 {
                   series: series[0],
@@ -11194,7 +9049,7 @@ var InternalSPC = ({
                 ].filter(Boolean).join(" ");
                 const ariaLabel2 = `Point ${i + 1} value ${d.y}` + ((sig == null ? void 0 : sig.special) ? " special cause" : "") + ((sig == null ? void 0 : sig.variation) === "improvement" /* Improvement */ ? " improving" : (sig == null ? void 0 : sig.variation) === "concern" /* Concern */ ? " concern" : "");
                 const isFocused = ((_a3 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a3.index) === i;
-                return /* @__PURE__ */ jsx30(
+                return /* @__PURE__ */ jsx16(
                   "circle",
                   {
                     cx,
@@ -11223,7 +9078,7 @@ var InternalSPC = ({
                 }
                 const plotWidth2 = xScale.range()[1];
                 const iconX = Math.min(Math.max(rawX, 0), plotWidth2 - 0);
-                return /* @__PURE__ */ jsx30(
+                return /* @__PURE__ */ jsx16(
                   "text",
                   {
                     x: iconX,
@@ -11236,14 +9091,14 @@ var InternalSPC = ({
                   `icon-${i}`
                 );
               }),
-              chartCtx && /* @__PURE__ */ jsx30(
+              chartCtx && /* @__PURE__ */ jsx16(
                 InteractionLayer,
                 {
                   width: xScale.range()[1],
                   height: yScale.range()[0]
                 }
               ),
-              /* @__PURE__ */ jsx30(
+              /* @__PURE__ */ jsx16(
                 SPCTooltipOverlay_default,
                 {
                   engineRows,
@@ -11259,7 +9114,7 @@ var InternalSPC = ({
             ] })
           }
         ),
-        announceFocus && /* @__PURE__ */ jsx30(
+        announceFocus && /* @__PURE__ */ jsx16(
           VisuallyHiddenLiveRegion_default,
           {
             format: (d) => formatLive({ ...d, x: d.x instanceof Date ? d.x : new Date(d.x) })
@@ -11275,7 +9130,7 @@ var InteractionLayer = ({
 }) => {
   const t = useTooltipContext();
   if (!t) return null;
-  return /* @__PURE__ */ jsx30(
+  return /* @__PURE__ */ jsx16(
     "rect",
     {
       className: "fdp-spc__interaction-layer",
@@ -11325,64 +9180,33 @@ var InteractionLayer = ({
   );
 };
 var SPCChart_default = SPCChart;
-
-// src/components/DataVisualisation/charts/SPC/index.ts
-var SPC_exports = {};
-__export(SPC_exports, {
-  AssuranceIcon: () => AssuranceIcon,
-  AssuranceResult: () => AssuranceResult,
-  BaselineSuggestionReason: () => BaselineSuggestionReason,
-  ChartType: () => ChartType,
-  Direction: () => Direction,
-  ImprovementDirection: () => ImprovementDirection,
-  MetricPolarity: () => MetricPolarity,
-  SPCAssuranceIcon: () => SPCAssuranceIcon,
-  SPCChart: () => SPCChart_default,
-  SPCTooltipOverlay: () => SPCTooltipOverlay_default,
-  SPCVariationIcon: () => SPCVariationIcon,
-  SpcWarningCategory: () => SpcWarningCategory,
-  SpcWarningCode: () => SpcWarningCode,
-  SpcWarningSeverity: () => SpcWarningSeverity,
-  VARIATION_COLOR_TOKENS: () => VARIATION_COLOR_TOKENS,
-  VariationIcon: () => VariationIcon,
-  VariationJudgement: () => VariationJudgement,
-  VariationState: () => VariationState,
-  buildSpc: () => buildSpc,
-  extractRuleIds: () => extractRuleIds,
-  getVariationColorHex: () => getVariationColorHex,
-  getVariationColorToken: () => getVariationColorToken,
-  getVariationColour: () => getVariationColour,
-  getVariationTrend: () => getVariationTrend,
-  ruleGlossary: () => ruleGlossary,
-  variationLabel: () => variationLabel
-});
 export {
-  AreaSeriesPrimitive_default as AreaSeriesPrimitive,
-  Axis_default as Axis,
-  BandScalesProvider,
-  BarSeriesPrimitive_default as BarSeriesPrimitive,
-  ChartContainer_default as ChartContainer,
-  ChartEnhancer_default as ChartEnhancer,
-  ChartNoScript_default as ChartNoScript,
-  ChartRoot_default as ChartRoot,
-  ChartWithTableTabs_default as ChartWithTableTabs,
-  FilterableLineChart_default as FilterableLineChart,
-  GridLines_default as GridLines,
-  Legend_default as Legend,
-  LineChart_default as LineChart,
-  LineScalesProvider,
-  LineSeriesPrimitive_default as LineSeriesPrimitive,
-  MetricCard_default as MetricCard,
-  SPC_exports as SPC,
+  AssuranceIcon,
+  AssuranceResult,
+  BaselineSuggestionReason,
+  ChartType,
+  Direction,
+  ImprovementDirection,
+  MetricPolarity,
+  SPCAssuranceIcon,
   SPCChart_default as SPCChart,
-  TooltipOverlay_default as TooltipOverlay,
-  TooltipProvider,
-  VisibilityProvider,
-  VisuallyHiddenLiveRegion_default as VisuallyHiddenLiveRegion,
-  useChartContext,
-  useScaleContext,
-  useTooltipContext,
-  useVisibility
+  SPCTooltipOverlay_default as SPCTooltipOverlay,
+  SPCVariationIcon,
+  SpcWarningCategory,
+  SpcWarningCode,
+  SpcWarningSeverity,
+  VARIATION_COLOR_TOKENS,
+  VariationIcon,
+  VariationJudgement,
+  VariationState,
+  buildSpc,
+  extractRuleIds,
+  getVariationColorHex,
+  getVariationColorToken,
+  getVariationColour,
+  getVariationTrend,
+  ruleGlossary,
+  variationLabel
 };
 /*! Bundled license information:
 

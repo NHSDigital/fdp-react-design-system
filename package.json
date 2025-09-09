@@ -134,6 +134,11 @@
       "import": "./dist/src/components/DataVisualisation/index.js",
       "require": "./dist/src/components/DataVisualisation/index.js"
     },
+    "./components/DataVisualisation/charts/SPC": {
+      "types": "./dist/src/components/DataVisualisation/charts/SPC/index.d.ts",
+      "import": "./dist/src/components/DataVisualisation/charts/SPC/index.js",
+      "require": "./dist/src/components/DataVisualisation/charts/SPC/index.js"
+    },
     "./components/DataVisualisation/css": "./dist/components/DataVisualisation/DataVisualisation.css",
     "./components/SortableDataTable/SortStatusControl/SortStatusControl/css": "./dist/components/SortableDataTable/SortStatusControl/SortStatusControl.css",
     "./pure": {
@@ -154,8 +159,12 @@
     "./components/DataVisualisation/charts/SPC/SPCChart/SPCChart/css": "./dist/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.css",
     "./components/Header/Header2/css": "./dist/components/Header/Header2.css",
     "./components/ProductRoadmap/css": "./dist/components/ProductRoadmap/ProductRoadmap.css",
-    "./components/DataVisualisation/charts/SPC/SPCChart/SPCChart2/css": "./dist/components/DataVisualisation/charts/SPC/SPCChart/SPCChart2.css",
-    "./components/_internal/Mermaid/css": "./dist/components/_internal/Mermaid.css"
+    "./components/_internal/Mermaid/css": "./dist/components/_internal/Mermaid.css",
+    "./tokens": {
+      "import": "./packages/nhs-fdp/dist/js/tokens.js",
+      "require": "./packages/nhs-fdp/dist/js/tokens.js"
+    },
+    "./tokens/json": "./packages/nhs-fdp/dist/js/tokens.json"
   },
   "sideEffects": [
     "dist/**/*.css"

@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "../src/styles/utilities.scss";
 @use "../packages/nhs-fdp/dist/scss/tokens" as tokens;
 
@@ -108,18 +109,18 @@ $heading-sizes: (
 	// Size + responsive line-height & margins loop
 	@each $tag, $cfg in $heading-sizes {
 		#{$tag} {
-			font-size: map-get($cfg, font-mobile);
-			line-height: map-get($cfg, lh-mobile);
-			margin-bottom: map-get($cfg, mb-mobile);
+			font-size: map.get($cfg, font-mobile);
+			line-height: map.get($cfg, lh-mobile);
+			margin-bottom: map.get($cfg, mb-mobile);
 			&:not(:first-child) {
-				margin-top: map-get($cfg, mt-mobile);
+				margin-top: map.get($cfg, mt-mobile);
 			}
 			@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
-				font-size: map-get($cfg, font-tablet);
-				line-height: map-get($cfg, lh-tablet);
-				margin-bottom: map-get($cfg, mb-tablet);
+				font-size: map.get($cfg, font-tablet);
+				line-height: map.get($cfg, lh-tablet);
+				margin-bottom: map.get($cfg, mb-tablet);
 				&:not(:first-child) {
-					margin-top: map-get($cfg, mt-tablet);
+					margin-top: map.get($cfg, mt-tablet);
 				}
 			}
 		}

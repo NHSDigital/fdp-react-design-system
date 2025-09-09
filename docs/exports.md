@@ -1,6 +1,6 @@
 # Exports Inventory
 
-Version: 0.0.34-alpha.5
+Version: 0.0.34-alpha.6
 Date: 2025-09-09
 
 - SortableDataTable exports:
@@ -85,6 +85,7 @@ These can be imported as `@fergusbisset/nhs-fdp-design-system/<subpath>`.
 - `./components/SortableDataTable`
 - `./components/DataVisualisation`
 - `./components/DataVisualisation/charts/SPC` (SPC barrel: SPCChart, engine, types, icons)
+- `./components/DataVisualisation/charts/SPC/icons` (SPC icons-only barrel: SPCVariationIcon, SPCAssuranceIcon, enums, prop types)
 
 Each of the above maps to `dist/src/components/<Name>/index.{d.ts,js}`.
 
@@ -210,5 +211,15 @@ import '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/
 ```
 
 ---
+
+SPC icons-only subpath (minimal icon imports):
+
+```ts
+// Components
+import { SPCVariationIcon, SPCAssuranceIcon } from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC/icons';
+
+// Enums and types (optional)
+import { VariationIcon, AssuranceIcon, ImprovementDirection } from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC/icons';
+```
 
 If you want this inventory emitted programmatically, see the script `npm run inventory` (generates `inventory.md` and `inventory.json`).

@@ -10,6 +10,81 @@ export default {
 	component: SPCVariationIcon,
 };
 
+// ---- Single-icon interactive stories --------------------------------------
+
+// A single SPCVariationIcon with controls to explore every state
+export const VariationIconInteractive = {
+	name: 'Interactive Variation Icon',
+	args: {
+		variant: 'classic' as const,
+		size: 96,
+		gradientWash: false,
+		dropShadow: false,
+		runLength: 3,
+		judgement: VariationJudgement.Improving,
+		polarity: MetricPolarity.HigherIsBetter,
+		trend: undefined as undefined | Direction,
+	},
+	argTypes: {
+		variant: { control: { type: 'radio' }, options: ['classic', 'triangle', 'triangleWithRun'] },
+		size: { control: { type: 'range', min: 24, max: 160, step: 4 } },
+		gradientWash: { control: 'boolean' },
+		dropShadow: { control: 'boolean' },
+		runLength: { control: { type: 'number', min: 1, max: 10, step: 1 } },
+		judgement: { control: { type: 'radio' }, options: [
+			VariationJudgement.Improving,
+			VariationJudgement.Deteriorating,
+			VariationJudgement.No_Judgement,
+			VariationJudgement.None,
+		] },
+		polarity: { control: { type: 'radio' }, options: [
+			MetricPolarity.HigherIsBetter,
+			MetricPolarity.LowerIsBetter,
+		] },
+		trend: { control: { type: 'radio' }, options: [undefined, Direction.Higher, Direction.Lower] },
+	},
+	render: ({ variant, size, gradientWash, dropShadow, runLength, judgement, polarity, trend }: any) => (
+		<div style={{ textAlign: 'center' }}>
+			<SPCVariationIcon
+				data={{ judgement, polarity, trend }}
+				variant={variant}
+				size={size}
+				gradientWash={gradientWash}
+				dropShadow={dropShadow}
+				runLength={variant === 'triangleWithRun' ? runLength : undefined}
+			/>
+			<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif", fontSize: 12 }}>
+				Toggle variant, judgement, polarity, and trend to preview all icon states.
+			</div>
+		</div>
+	),
+};
+
+// A single SPCAssuranceIcon with controls to explore pass/fail/uncertain
+export const AssuranceIconInteractive = {
+	name: 'Interactive Assurance Icon',
+	args: {
+		status: AssuranceResult.Uncertain,
+		size: 96,
+		gradientWash: false,
+		dropShadow: false,
+	},
+	argTypes: {
+		status: { control: { type: 'radio' }, options: [AssuranceResult.Pass, AssuranceResult.Fail, AssuranceResult.Uncertain] },
+		size: { control: { type: 'range', min: 24, max: 160, step: 4 } },
+		gradientWash: { control: 'boolean' },
+		dropShadow: { control: 'boolean' },
+	},
+	render: ({ status, size, gradientWash, dropShadow }: any) => (
+		<div style={{ textAlign: 'center' }}>
+			<SPCAssuranceIcon status={status} size={size} gradientWash={gradientWash} dropShadow={dropShadow} />
+			<div style={{ marginTop: 8, fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif", fontSize: 12 }}>
+				Toggle status to view Pass / Fail / Uncertain.
+			</div>
+		</div>
+	),
+};
+
 export const AllAssuranceIcons = () => (
 	<div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
 		<div style={{ display: 'flex', gap: 32 }}>

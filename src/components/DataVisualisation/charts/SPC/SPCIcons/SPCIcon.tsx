@@ -532,7 +532,7 @@ export const SPCVariationIcon = ({
 					strokeWidth={6}
 					transform={
 						direction === Direction.Higher
-							? "translate(0, -15)"
+							? "translate(0, -8)"
 							: "translate(0, 15)"
 					}
 				/>
@@ -550,15 +550,15 @@ export const SPCVariationIcon = ({
 					strokeWidth={6}
 					transform={
 						direction === Direction.Higher
-							? "translate(0,-6)"
-							: "translate(0,6)"
+							? "translate(0,-7)"
+							: "translate(0,14)"
 					}
 				/>
 			);
 		}
 		// Run circles
 		const runLen = Math.max(0, Math.min(5, Math.floor(runLength || 0)));
-		const runY = state === VariationState.CommonCause ? 160 : direction === Direction.Higher ? 210 : 70;
+		const runY = state === VariationState.CommonCause ? 160 : direction === Direction.Higher ? 220 : 70;
 		const runRadius = 10;
 		const runGap = 26;
 		const runStartX = centerX - 2 * runGap;
@@ -602,7 +602,7 @@ export const SPCVariationIcon = ({
 			? "translate(0,-10)" // mimic the higher layout centring
 			: direction === Direction.Higher
 			? "translate(0,-10)"
-			: "translate(0,20)";
+			: "translate(0,25)";
 		return (
 			<svg
 				width={size}
@@ -640,7 +640,7 @@ export const SPCVariationIcon = ({
 							fontWeight="bold"
 							fontSize={64}
 							x="150"
-							y={direction === Direction.Higher ? 150 : 145}
+							y={direction === Direction.Higher ? 155 : 145}
 							textAnchor="middle"
 							dominantBaseline="middle"
 						>

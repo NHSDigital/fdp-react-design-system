@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 import { SPCChart, type SPCDatum, ImprovementDirection } from "./SPCChart";
 import { ChartContainer } from "../../ChartContainer.tsx";
 
@@ -26,17 +25,18 @@ type Builder = {
 };
 
 const makeStable = (len = 18, base = 50): SPCDatum[] => {
-	const start = Date.now() - (len - 1) * 86400000;
+	// Deterministic base date to avoid story variability across runs
+	const start = new Date("2024-01-01T00:00:00Z").getTime();
 	return Array.from({ length: len }, (_, i) => ({
 		x: new Date(start + i * 86400000),
-		y: base + Math.sin(i / 3) * 0.5,
+		y: base, // perfectly flat baseline to eliminate special-cause risk
 	}));
 };
 
 // Scenarios
 const common: Builder = {
 	label: "Common Cause (grey)",
-	description: "No special cause signals; variation icon = neither",
+	description: "No special cause signals; variation icon = neither (grey)",
 	data: makeStable(),
 	improvement: ImprovementDirection.Neither,
 };
@@ -46,8 +46,9 @@ const improvement: Builder = (() => {
 	// Create upward shift (last 6 points high) to exceed shift rule and avoid suppression
 	for (let i = d.length - 6; i < d.length; i++) d[i].y += 8;
 	return {
-		label: "Improvement (blue H)",
-		description: "High-side special cause (shift) – improvement",
+			label: "Improvement (blue H)",
+			description:
+				"High-side special cause (sustained shift) – improvement. Letters reflect polarity (H = Higher is better).",
 		data: d,
 		improvement: ImprovementDirection.Up,
 	} as Builder;
@@ -58,8 +59,9 @@ const concern: Builder = (() => {
 	// Single low outlier (unfavourable) will classify as concern
 	d[d.length - 1].y -= 10;
 	return {
-		label: "Concern (orange L)",
-		description: "Low-side special cause (single point)",
+			label: "Concern (orange H)",
+			description:
+				"Low-side special cause (single point). Letters reflect polarity, not side (H = Higher is better metric).",
 		data: d,
 		improvement: ImprovementDirection.Up,
 	} as Builder;
@@ -67,11 +69,12 @@ const concern: Builder = (() => {
 
 const suppressed: Builder = (() => {
 	const d = makeStable();
-	// Large single high outlier (favourable) to trigger isolated 3σ and suppression -> VariationIcon.None (purple)
+	// Large single high outlier (favourable) – now classifies directly as Improvement (blue), suppression removed
 	d[d.length - 1].y += 40;
 	return {
-		label: "Suppressed favourable (purple)",
-		description: "Isolated high favourable point suppressed (no judgement)",
+			label: "Favourable special cause (blue H)",
+			description:
+				"Isolated high favourable point classifies directly as improvement (suppression removed).",
 		data: d,
 		improvement: ImprovementDirection.Up,
 	} as Builder;
@@ -79,11 +82,12 @@ const suppressed: Builder = (() => {
 
 const suppressedDown: Builder = (() => {
 	const d = makeStable();
-	// Large single low outlier (favourable because Lower is Better) to trigger suppression
+	// Large single low outlier (favourable because Lower is Better) – classifies as Improvement (blue)
 	d[d.length - 1].y -= 40;
 	return {
-		label: "Suppressed favourable (Down metric, purple)",
-		description: "Isolated low favourable point suppressed (no judgement)",
+			label: "Favourable special cause (Down metric, blue L)",
+			description:
+				"Isolated low favourable point (Lower is better) classifies as improvement (blue). Letter reflects polarity (L).",
 		data: d,
 		improvement: ImprovementDirection.Down,
 	} as Builder;

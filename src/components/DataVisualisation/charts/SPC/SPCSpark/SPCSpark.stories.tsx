@@ -19,6 +19,8 @@ export default meta;
 type Story = StoryObj<typeof SPCSpark>;
 
 const sampleData = Array.from({length: 20}).map((_,i)=>({ value: Math.round(60 + Math.sin(i/2)*10 + (i>14? 8:0)) }));
+// Deterministic stable series for Common Cause visuals (perfectly flat)
+const stableCommonCauseData = Array.from({ length: 20 }).map(() => ({ value: 60 }));
 
 export const Basic: Story = {
   args: {
@@ -31,7 +33,7 @@ export const Basic: Story = {
 
 export const CommonCause: Story = {
   args: {
-    data: sampleData,
+  data: stableCommonCauseData,
     variationState: VariationState.CommonCause,
     showMean: true,
   }

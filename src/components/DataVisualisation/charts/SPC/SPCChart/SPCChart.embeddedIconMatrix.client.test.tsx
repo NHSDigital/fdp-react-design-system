@@ -5,10 +5,11 @@ import { SPCChart, type SPCDatum, ImprovementDirection } from "./SPCChart";
 
 // Utility builders replicate story scenarios but with deterministic values to drive engine states.
 const makeStable = (len = 18, base = 50): SPCDatum[] => {
-	const start = Date.now() - (len - 1) * 86400000;
+	// Deterministic base date and lower amplitude to minimise accidental special-cause
+	const start = new Date("2024-01-01T00:00:00Z").getTime();
 	return Array.from({ length: len }, (_, i) => ({
 		x: new Date(start + i * 86400000),
-		y: base + Math.sin(i / 3) * 0.5,
+		y: base, // perfectly flat to avoid any special cause
 	}));
 };
 
@@ -23,17 +24,7 @@ const buildConcern = () => {
 	d[d.length - 1].y -= 10;
 	return d;
 };
-const buildSuppressed = () => {
-	const d = makeStable();
-	d[d.length - 1].y += 40;
-	return d;
-};
-// Downward favourable (low) isolated single 3σ point for metricImprovement Down that should suppress to no judgement (purple)
-const buildDownwardSuppressed = () => {
-	const d = makeStable();
-	d[d.length - 1].y -= 40;
-	return d;
-};
+// Note: favourable single 3σ points now classify directly as improvement; those cases are covered in other variation tests.
 
 // Helper to extract stroke/fill colour from embedded icon container
 const getIconColours = (container: HTMLElement) => {
@@ -58,16 +49,21 @@ describe("SPCChart embedded icon matrix", () => {
 				showIcons={false}
 			/>
 		);
-	
+
 		const assertCommon = () => {
 			const icon = container.querySelector(
 				'.fdp-spc-chart__embedded-icon[data-variation="neither"]'
 			) as HTMLElement | null;
 			expect(icon).toBeTruthy();
-				const { text } = getIconColours(icon!);
-				// Rendering may rely on CSS variables so inline stroke/fill attributes can be absent in JSDOM.
-				// We assert semantics via data-variation and letter content (no H/L for common cause).
+			const { text } = getIconColours(icon!);
+			// Rendering may rely on CSS variables so inline stroke/fill attributes can be absent in JSDOM.
+			// Assert semantics via data-variation and letter content (no H/L for common cause),
+			// and ensure no special-cause classes are present on any points.
 			expect(text).not.toMatch(/[HL]/);
+			const specialPoints = container.querySelectorAll(
+				'.fdp-spc__point--sc-concern, .fdp-spc__point--sc-improvement, .fdp-spc__point--sc-no-judgement'
+			);
+			expect(specialPoints.length).toBe(0);
 		};
 		assertCommon();
 

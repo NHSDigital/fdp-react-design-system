@@ -219,7 +219,7 @@ These were selected to balance: recognisability at small size (≥10px), minimal
 |----------|----------|
 | >8 categorical series | Add patterns only to the later series where colour distance narrows. |
 | Critical vs baseline band | Apply a dense hatch (e.g. `diagonal-dense`) to the critical band; retain flat colour for baseline. |
-| Severity overlay + region fills | Keep region purely colour; apply pattern to severity mask to avoid cognitive overload. |
+| Severity overlay and region fills | Keep region purely colour; apply pattern to severity mask to avoid cognitive overload. |
 | Printing (B/W) | Enable patterns for all non-neutral series to preserve distinction when hues collapse to similar greys. |
 
 ### Accessibility Principles

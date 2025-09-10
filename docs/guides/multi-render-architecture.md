@@ -1,8 +1,8 @@
-# Multi‑Render Architecture (React + Nunjucks + Static HTML)
+# Multi‑Render Architecture (React and Nunjucks and Static HTML)
 
 This design system now supports three interoperable rendering paths:
 
-1. React (SSR + hydration) – canonical implementation used in applications
+1. React (SSR and hydration) – canonical implementation used in applications
 2. Nunjucks macros – schema‑driven generation for server templating environments
 3. Static / plain HTML enhanced progressively by the behaviour layer
 

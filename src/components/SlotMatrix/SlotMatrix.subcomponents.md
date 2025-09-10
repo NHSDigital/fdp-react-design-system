@@ -6,10 +6,10 @@ This document outlines the planned internal / companion components that will evo
 | --------- | ----- | -------------- | ----- |
 | SlotMatrixToolbar | Container | Hosts filters, date navigation, density & a11y toggles | Reusable with external state injection |
 | DateNavigator | Toolbar | Move date range (prev/next/jump) | Keyboard accessible buttons / menu |
-| SlotFilterBar | Toolbar | Filter chips + advanced filter popover | Emits structured filter object |
-| LegendBar | Toolbar | Visual explanation of statuses / thresholds | Token-driven color squares + text |
-| VirtualGridFrame | Grid infra | Windowing + overscan management | Possibly built on react-virtualized like primitive (custom) |
-| TimebandHeaderRow | Grid structure | Renders timeband labels & sticky behavior | Accepts interval + locale |
+| SlotFilterBar | Toolbar | Filter chips and advanced filter popover | Emits structured filter object |
+| LegendBar | Toolbar | Visual explanation of statuses / thresholds | Token-driven color squares and text |
+| VirtualGridFrame | Grid infra | Windowing and overscan management | Possibly built on react-virtualized like primitive (custom) |
+| TimebandHeaderRow | Grid structure | Renders timeband labels & sticky behavior | Accepts interval and locale |
 | SessionHeaderCell | Grid structure | Display session meta (specialty, consultant, site) | Tooltip for overflow |
 | SlotCell | Cell | Base slot status, remaining capacity, selection state | Stateless; receives callbacks |
 | CapacityBar | Cell decoration | Visual capacity remaining indicator | Horizontal bar or sparkline |
@@ -24,22 +24,22 @@ This document outlines the planned internal / companion components that will evo
 | useKeyboardGridNav | Hook | Arrow, page, home/end navigation | Focus roving with aria-activedescendant (future) |
 | useLiveAnnouncements | Hook | SR announcements for changes | Aggregates updates politely |
 | useVirtualGridMetrics | Hook | Calculates visible windows & cell measurements | IntersectionObserver fallback |
-| SlotMatrixA11yDocs | Docs | Storybook MDX describing patterns | References WCAG + NHS guidelines |
+| SlotMatrixA11yDocs | Docs | Storybook MDX describing patterns | References WCAG and NHS guidelines |
 
 Additional future composites:
 
-- SlotMatrixWithFilters (composition example exporting toolbar + grid)
+- SlotMatrixWithFilters (composition example exporting toolbar and grid)
 - SlotMatrixSkeleton (loading shimmer layout)
 - SlotMatrixErrorBoundary (contextual error state)
 
 Iteration Phases:
 
 1. Baseline ARIA grid & selection (this scaffold)
-2. Toolbar + filters + custom labels
-3. Virtualisation + performance instrumentation
-4. Multi / contiguous selection + marquee
-5. Live updates + announcement buffer
-6. Overbooking + conflict indicators
-7. Alternative list view parity + a11y audit
-8. Theming & token integration + density modes
+2. Toolbar and filters and custom labels
+3. Virtualisation and performance instrumentation
+4. Multi / contiguous selection and marquee
+5. Live updates and announcement buffer
+6. Overbooking and conflict indicators
+7. Alternative list view parity and a11y audit
+8. Theming & token integration and density modes
 9. Comprehensive tests (SSR, hydration, a11y)

@@ -5,8 +5,8 @@ Mobile-first master–detail navigation component inspired by SwiftUI `Navigatio
 ## Features
 
 - Mobile: Single column list (or cards) with slide-in detail view
-- Tablet: Two-column (navigation + content) layout
-- Desktop: Optional or automatic three-column layout (navigation + content + secondary) when `autoEnableThirdColumn` and a secondary renderer are present
+- Tablet: Two-column (navigation and content) layout
+- Desktop: Optional or automatic three-column layout (navigation and content and secondary) when `autoEnableThirdColumn` and a secondary renderer are present
 - Accessible listbox semantics for navigation
 - Animations (optional) using GPU-friendly transforms (respects `prefers-reduced-motion`)
 - Design tokens for spacing, colours, typography
@@ -22,7 +22,7 @@ Import CSS in the correct order so design tokens and utilities are available bef
 ### Option 1: Full Bundle (easiest)
 
 ```tsx
-// Provides core tokens + all component styles (order handled for you)
+// Provides core tokens and all component styles (order handled for you)
 import '@fergusbisset/nhs-fdp-design-system/css';
 ```
 
@@ -319,7 +319,7 @@ By default a header bar containing a BackLink and the selected item label is onl
 Enable a consistent title bar on wider breakpoints via `autoContentHeader`:
 
 ```tsx
-// Always show a header (mobile + tablet + desktop)
+// Always show a header (mobile and tablet and desktop)
 <NavigationSplitView autoContentHeader {...props} />
 
 // Disable all automatic headers (you will render your own in renderContent)

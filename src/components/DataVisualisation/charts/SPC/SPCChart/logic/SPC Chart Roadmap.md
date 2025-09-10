@@ -8,12 +8,12 @@ Updated snapshot (already implemented: rules engine, warnings framework, baselin
 
 Already delivered in codebase:
 
-* Core SPC engine for XmR + rare‑event T / G types (limits, centre line, sigma estimation).
+* Core SPC engine for XmR and rare‑event T / G types (limits, centre line, sigma estimation).
 * Special cause rules: single 3σ point, shift, trend, two‑of‑three (optional four‑of‑five via settings).
 * Configurable rule thresholds: `specialCauseShiftPoints`, `specialCauseTrendPoints`, four‑of‑five toggle.
 * Auto recalculation & baseline suggestion heuristics (`autoRecalculateAfterShift`, `baselineSuggest*`).
 * Assurance / capability evaluation (band‑based pass/fail vs target).
-* Structured warnings system (severities, categories, codes) + filtering & diagnostics panel.
+* Structured warnings system (severities, categories, codes) and filtering & diagnostics panel.
 * Variation / assurance icon surfacing (text glyph layer) & improvement vs concern highlighting.
 * Ghost, baseline and target handling with related warnings.
 * Table‑driven Storybook docs & enriched prop/settings reference.
@@ -26,13 +26,13 @@ These close the last pieces of foundational robustness and user clarity:
 | Area | Gap | Priority |
 | ---- | ---- | -------- |
 | Moving Range panel | Visual mR panel for XmR not rendered (logic internal only) | High |
-| Icon set | Replace placeholder text icons with semantic SVG + legend | High |
+| Icon set | Replace placeholder text icons with semantic SVG and legend | High |
 | Enhanced warning a11y | Plain‑language per‑warning narration summaries | Medium |
 | Trial limits styling | Distinct visual for provisional limits before stability threshold | Medium |
-| Baseline visual affordance | Segment boundary styling + inline “Baseline start” label | Medium |
-| Code export / reproducibility | Embed engine version + hash in result for audit | Medium |
+| Baseline visual affordance | Segment boundary styling and inline “Baseline start” label | Medium |
+| Code export / reproducibility | Embed engine version and hash in result for audit | Medium |
 | Performance benchmarks | Automated timing for large N & incremental append path | Medium |
-| Fuzz / golden datasets | Canonical dataset parity + randomised invariant tests | High |
+| Fuzz / golden datasets | Canonical dataset parity and randomised invariant tests | High |
 | Run→SPC auto promotion | Automatic narration & state change once stability threshold reached | Medium |
 | Educational narrative API | `summarizeSpc(result)` helper producing structured explanation tokens | Medium |
 | Trial limit warnings | Dedicated Stability warning category when interpreting < threshold points | Medium |
@@ -41,15 +41,15 @@ These close the last pieces of foundational robustness and user clarity:
 
 1. mR panel rendering (dual panel layout, shared x scale, responsive collapse on small width).
 2. Golden parity & fuzz test harness (establish baseline statistical invariants).
-3. SVG icon component set + legend (variation + assurance states, rule glyph differentiation groundwork).
-4. Baseline segment visual styling + accessible labels.
-5. Trial vs established limits style + `limitState` flag in output rows.
+3. SVG icon component set and legend (variation and assurance states, rule glyph differentiation groundwork).
+4. Baseline segment visual styling and accessible labels.
+5. Trial vs established limits style and `limitState` flag in output rows.
 
 ## 4. Mid‑term (31–90 days)
 
 | Theme | Items |
 | ----- | ----- |
-| Additional chart families | P, U, C charts (proportion, rate per unit, count per unit) + auto suggestion helper |
+| Additional chart families | P, U, C charts (proportion, rate per unit, count per unit) and auto suggestion helper |
 | Narrative & accessibility | Structured ARIA summary, per‑signal explanation strings, keyboard jump between signals |
 | Performance & architecture | Cache (input signature → result), streaming append API, extract pure `@spc-core` package |
 | Visual primitives | LimitBands, SignalMarkers, BaselineSegmenter, DataQualityBanner |
@@ -61,7 +61,7 @@ These close the last pieces of foundational robustness and user clarity:
 * Capability indices (Cp/Cpk analogue) & capability band shading.
 * Bayesian / robust options (median trial centre, shrinkage for low‑volume series).
 * Distribution advisory helpers (log/Box‑Cox hint, over‑dispersion flags with chart type suggestion).
-* Intervention / annotation layer + narrative integration and simulated outcome preview.
+* Intervention / annotation layer and narrative integration and simulated outcome preview.
 * Multi‑series benchmarking & false discovery rate control across dashboards.
 * Signal probability scoring (posterior improvement vs concern) layer.
 
@@ -83,17 +83,17 @@ Add to `SpcRow` output (some partially present):
 | Deterministic parity | Golden fixture datasets (XmR, T, G, edge cases) expecting signals & limits within tolerance |
 | Invariants / fuzz | Random sequences: ensure no limits before min points; no negative LCL for count charts; stability invariants |
 | Performance | Time incremental append for N=1k, 5k; report p95 ms budget |
-| Accessibility | Axe snapshot for key Storybook stories + narration assertions |
+| Accessibility | Axe snapshot for key Storybook stories and narration assertions |
 | Visual regression | Storybook image diffs (limits, icons, baseline transitions) |
 
 ## 8. Quick wins (next commits)
 
 1. Implement `limitState` derivation & styling hook.
-2. Add engine version + signature hash emission.
-3. Introduce golden dataset fixture folder + initial parity spec.
-4. Replace text icons with temporary SVG placeholders + legend scaffold.
+2. Add engine version and signature hash emission.
+3. Introduce golden dataset fixture folder and initial parity spec.
+4. Replace text icons with temporary SVG placeholders and legend scaffold.
 5. Basic BaselineSegmenter visual using existing SCSS tokens.
-6. Run→SPC promotion logic (threshold detection + narration placeholder).
+6. Run→SPC promotion logic (threshold detection and narration placeholder).
 7. Stability warning when interpreting < 20 points (new category or subcode).
 
 ## 9. Risk & safeguards
@@ -107,7 +107,7 @@ Add to `SpcRow` output (some partially present):
 
 High: mR panel, golden tests & fuzz harness, SVG icons/legend, baseline styling, limit state flag.
 
-Medium: performance cache + streaming append, narrative summary block, additional chart families.
+Medium: performance cache and streaming append, narrative summary block, additional chart families.
 
 Later: Bayesian / robust modes, benchmarking dashboards, probability scoring.
 

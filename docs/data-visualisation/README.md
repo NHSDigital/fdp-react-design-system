@@ -6,7 +6,7 @@ High-level guidance, architecture, and conventions for data visualisation compon
 
 1. Consistent visual language (tokens, typography, spacing)
 2. Accessibility-first (keyboard, screen reader, colour contrast)
-3. Composability (low-level primitives + ergonomic chart wrappers)
+3. Composability (low-level primitives and ergonomic chart wrappers)
 4. Predictable scaling & layout (deterministic axes, margins, responsive behaviour)
 5. Progressive enhancement (core information available without interaction; richer context via tooltips / legends / focus states)
 6. Extensibility (easy to introduce new series / chart types without rewriting core infrastructure)
@@ -15,7 +15,7 @@ High-level guidance, architecture, and conventions for data visualisation compon
 
 | Layer | Purpose | Examples |
 |-------|---------|----------|
-| Context Foundations | Provide shared measurement + scaling + state | `ChartRoot`, `ScaleContext` |
+| Context Foundations | Provide shared measurement and scaling and state | `ChartRoot`, `ScaleContext` |
 | Data / Visibility State | Track series presence & hidden state | `VisibilityContext` |
 | Interaction State | Pointer focus, keyboard navigation, nearest-point logic | `TooltipContext` |
 | Primitives | Low-level render units | `Axis`, `GridLines`, `LineSeriesPrimitive`, `Legend`, `TooltipOverlay` |
@@ -49,7 +49,7 @@ Central state for the currently "focused" datum (via pointer hover, keyboard nav
 | Category | Component | Notes |
 |----------|-----------|-------|
 | High-level | `LineChart` | Aggregates axes, grid, series, legend, tooltip overlay; exposes convenience props (e.g. tick alignment) |
-| Primitive | `LineSeriesPrimitive` | Renders path + focusable points; registers with tooltip & visibility contexts |
+| Primitive | `LineSeriesPrimitive` | Renders path and focusable points; registers with tooltip & visibility contexts |
 | Primitive | `Axis` | Supports collision strategies (wrap, rotate, truncate), explicit tick values, formatting hooks |
 | Primitive | `GridLines` | Visual reference lines (tied to scale ticks) |
 | Interaction | `Legend` | Toggles visibility (auto-wires to `VisibilityContext`) |
@@ -86,10 +86,10 @@ Pointer movement snaps to the nearest point (Euclidean distance) within a pixel 
 
 | Aspect | Current | Planned Enhancements |
 |--------|---------|----------------------|
-| Focus Indicators | Visible highlight circle + tooltip overlay | High-contrast outline & motion reduction variant |
-| Screen Reader Output | (WIP) Basic aria-label on points | Live region announcements on focus + summary description |
+| Focus Indicators | Visible highlight circle and tooltip overlay | High-contrast outline & motion reduction variant |
+| Screen Reader Output | (WIP) Basic aria-label on points | Live region announcements on focus and summary description |
 | Colour Contrast | Palette derived from tokens with contrast validation | Automated audit in CI |
-| Keyboard Navigation | Horizontal + vertical movement across points/series | Home/End, Page Up/Down semantics; skip hidden series |
+| Keyboard Navigation | Horizontal and vertical movement across points/series | Home/End, Page Up/Down semantics; skip hidden series |
 | Hidden Series | Removed from DOM | Optional faded style with aria-hidden |
 
 Guidance: Always accompany a chart with a textual summary (key trend / anomaly) for users who cannot or do not consume visual detail.

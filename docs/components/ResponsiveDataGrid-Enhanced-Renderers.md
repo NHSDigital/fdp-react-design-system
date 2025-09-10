@@ -98,7 +98,7 @@ const columns: ColumnDefinition[] = [
     tableRenderer: (data) => {
       const name = data.patient_name || 'Unknown';
       return name.split(' ')
-        .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+        .map(part => part.charAt(0).toUpperCase() and part.slice(1).toLowerCase())
         .join(' ');
     },
     // Card view: Show abbreviated name for space efficiency

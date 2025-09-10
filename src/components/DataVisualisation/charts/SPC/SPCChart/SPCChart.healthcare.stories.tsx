@@ -5,6 +5,12 @@ import { ChartContainer } from "../../ChartContainer.tsx";
 import { ChartType } from "./logic/spc.ts";
 import { buildSpcSqlCompat } from "./logic/spcSqlCompat";
 
+// Helper: summarise prime direction annotations for a compact story footer
+function primeDirectionSummary(rows: { primeDirection?: string; rowId: number }[]) {
+	const parts = rows.filter(r => r.primeDirection).map(r => `${r.rowId}:${r.primeDirection}`);
+	return parts.join(', ') || 'none';
+}
+
 // Healthcare representative SPC examples (deterministic, no randomness)
 // Each dataset contains >= 20 points (monthly) to ensure stable limits and illustrates
 // common real-world improvement / deterioration / special-cause patterns.
@@ -97,54 +103,39 @@ export const ED4HourCompliance: Story = {
 		},
 		metricContext: { improvement: "up" },
 	},
-	render: () => {
+	render: (_args, { globals }) => {
 		const data = series(ed4hValues);
-		const sql = buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) });
+		const sqlMode = globals?.sqlCompatMode === 'sql';
+		const sql = sqlMode ? buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) }) : null;
 		return (
-			<div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-				<ChartContainer
-					title="ED 4h Compliance – Base"
-					description="% patients seen/admitted/discharged within 4h (Base engine)"
-					source="Synthetic"
-				>
-					<SPCChart
-						data={data}
-						chartType={ChartType.XmR}
-						metricImprovement={ImprovementDirection.Up}
-						unit="%"
-						enableRules
-						announceFocus
-						targets={Array(ed4hValues.length).fill(75)}
-						gradientSequences
-						narrationContext={{
-							measureName: 'ED 4h compliance',
-							datasetContext: 'Monthly trust-wide data',
-							timeframe: '24 months',
-							additionalNote: 'Intervention at month 13'
-						}}
-					/>
-				</ChartContainer>
-				<ChartContainer
-					title="ED 4h Compliance – SQL Compat"
-					description="% patients within 4h (SQL directional pruning)"
-					source="Synthetic"
-				>
-					<SPCChart
-						data={data}
-						chartType={ChartType.XmR}
-						metricImprovement={ImprovementDirection.Up}
-						unit="%"
-						enableRules
-						announceFocus
-						targets={Array(ed4hValues.length).fill(75)}
-						gradientSequences
-						useSqlCompatEngine
-					/>
+			<ChartContainer
+				title={`ED 4h Compliance – ${sqlMode ? 'SQL Compat' : 'Base'}`}
+				description="% patients seen/admitted/discharged within 4h"
+				source="Synthetic"
+			>
+				<SPCChart
+					data={data}
+					chartType={ChartType.XmR}
+					metricImprovement={ImprovementDirection.Up}
+					unit="%"
+					enableRules
+					announceFocus
+					targets={Array(ed4hValues.length).fill(75)}
+					gradientSequences
+					useSqlCompatEngine={sqlMode}
+					narrationContext={{
+						measureName: 'ED 4h compliance',
+						datasetContext: 'Monthly trust-wide data',
+						timeframe: '24 months',
+						additionalNote: 'Intervention at month 13'
+					}}
+				/>
+				{sqlMode && sql && (
 					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {sql.rows.filter(r => r.primeDirection).map(r => `${r.rowId}:${r.primeDirection}`).join(', ') || 'none'}
+						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
 					</div>
-				</ChartContainer>
-			</div>
+				)}
+			</ChartContainer>
 		);
 	},
 };
@@ -159,41 +150,30 @@ export const LengthOfStay: Story = {
 		},
 		metricContext: { improvement: "down" },
 	},
-	render: () => {
+	render: (_args, { globals }) => {
 		const data = series(losValues);
-		const sql = buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down, data: data.map(d => ({ x: d.x, value: d.y })) });
+		const sqlMode = globals?.sqlCompatMode === 'sql';
+		const sql = sqlMode ? buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down, data: data.map(d => ({ x: d.x, value: d.y })) }) : null;
 		return (
-			<div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-				<ChartContainer title="Average Length of Stay – Base" description="Acute ward LOS (days)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.XmR}
-						metricImprovement={ImprovementDirection.Down}
-						enableRules
-						targets={Array(losValues.length).fill(6.2)}
-						unit="days"
-						announceFocus
-						gradientSequences
-						narrationContext={{ measureName: 'Average length of stay', datasetContext: 'Monthly acute admissions', timeframe: '24 months' }}
-					/>
-				</ChartContainer>
-				<ChartContainer title="Average Length of Stay – SQL Compat" description="Acute ward LOS (SQL directional pruning)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.XmR}
-						metricImprovement={ImprovementDirection.Down}
-						enableRules
-						targets={Array(losValues.length).fill(6.2)}
-						unit="days"
-						announceFocus
-						gradientSequences
-						useSqlCompatEngine
-					/>
+			<ChartContainer title={`Average Length of Stay – ${sqlMode ? 'SQL Compat' : 'Base'}`} description="Acute ward LOS (days)" source="Synthetic">
+				<SPCChart
+					data={data}
+					chartType={ChartType.XmR}
+					metricImprovement={ImprovementDirection.Down}
+					enableRules
+					targets={Array(losValues.length).fill(6.2)}
+					unit="days"
+					announceFocus
+					gradientSequences
+					useSqlCompatEngine={sqlMode}
+					narrationContext={{ measureName: 'Average length of stay', datasetContext: 'Monthly acute admissions', timeframe: '24 months' }}
+				/>
+				{sqlMode && sql && (
 					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {sql.rows.filter(r => r.primeDirection).map(r => `${r.rowId}:${r.primeDirection}`).join(', ') || 'none'}
+						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
 					</div>
-				</ChartContainer>
-			</div>
+				)}
+			</ChartContainer>
 		);
 	},
 };
@@ -208,41 +188,30 @@ export const ReadmissionRate: Story = {
 		},
 		metricContext: { improvement: "down" },
 	},
-	render: () => {
+	render: (_args, { globals }) => {
 		const data = series(readmitValues);
-		const sql = buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down, data: data.map(d => ({ x: d.x, value: d.y })) });
+		const sqlMode = globals?.sqlCompatMode === 'sql';
+		const sql = sqlMode ? buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down, data: data.map(d => ({ x: d.x, value: d.y })) }) : null;
 		return (
-			<div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-				<ChartContainer title="Readmission Rate – Base" description="30-day emergency readmissions (%)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.XmR}
-						metricImprovement={ImprovementDirection.Down}
-						enableRules
-						targets={Array(readmitValues.length).fill(9.1)}
-						unit="%"
-						announceFocus
-						gradientSequences
-						narrationContext={{ measureName: '30-day readmission rate', datasetContext: 'Monthly trust-wide data', timeframe: '24 months' }}
-					/>
-				</ChartContainer>
-				<ChartContainer title="Readmission Rate – SQL Compat" description="Readmissions (%) (SQL directional pruning)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.XmR}
-						metricImprovement={ImprovementDirection.Down}
-						enableRules
-						targets={Array(readmitValues.length).fill(9.1)}
-						unit="%"
-						announceFocus
-						gradientSequences
-						useSqlCompatEngine
-					/>
+			<ChartContainer title={`Readmission Rate – ${sqlMode ? 'SQL Compat' : 'Base'}`} description="30-day emergency readmissions (%)" source="Synthetic">
+				<SPCChart
+					data={data}
+					chartType={ChartType.XmR}
+					metricImprovement={ImprovementDirection.Down}
+					enableRules
+					targets={Array(readmitValues.length).fill(9.1)}
+					unit="%"
+					announceFocus
+					gradientSequences
+					useSqlCompatEngine={sqlMode}
+					narrationContext={{ measureName: '30-day readmission rate', datasetContext: 'Monthly trust-wide data', timeframe: '24 months' }}
+				/>
+				{sqlMode && sql && (
 					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {sql.rows.filter(r => r.primeDirection).map(r => `${r.rowId}:${r.primeDirection}`).join(', ') || 'none'}
+						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
 					</div>
-				</ChartContainer>
-			</div>
+				)}
+			</ChartContainer>
 		);
 	},
 };
@@ -257,41 +226,30 @@ export const HandHygieneCompliance: Story = {
 		},
 		metricContext: { improvement: "up" },
 	},
-	render: () => {
+	render: (_args, { globals }) => {
 		const data = series(handHygieneValues);
-		const sql = buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) });
+		const sqlMode = globals?.sqlCompatMode === 'sql';
+		const sql = sqlMode ? buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) }) : null;
 		return (
-			<div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-				<ChartContainer title="Hand Hygiene Compliance – Base" description="Audit compliance (%)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.XmR}
-						metricImprovement={ImprovementDirection.Up}
-						enableRules
-						targets={Array(handHygieneValues.length).fill(90)}
-						unit="%"
-						announceFocus
-						gradientSequences
-						narrationContext={{ measureName: 'Hand hygiene compliance', datasetContext: 'Monthly audits', timeframe: '24 months', additionalNote: 'Sustained high shift after month 12' }}
-					/>
-				</ChartContainer>
-				<ChartContainer title="Hand Hygiene Compliance – SQL Compat" description="Audit compliance (%) (SQL directional pruning)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.XmR}
-						metricImprovement={ImprovementDirection.Up}
-						enableRules
-						targets={Array(handHygieneValues.length).fill(90)}
-						unit="%"
-						announceFocus
-						gradientSequences
-						useSqlCompatEngine
-					/>
+			<ChartContainer title={`Hand Hygiene Compliance – ${sqlMode ? 'SQL Compat' : 'Base'}`} description="Audit compliance (%)" source="Synthetic">
+				<SPCChart
+					data={data}
+					chartType={ChartType.XmR}
+					metricImprovement={ImprovementDirection.Up}
+					enableRules
+					targets={Array(handHygieneValues.length).fill(90)}
+					unit="%"
+					announceFocus
+					gradientSequences
+					useSqlCompatEngine={sqlMode}
+					narrationContext={{ measureName: 'Hand hygiene compliance', datasetContext: 'Monthly audits', timeframe: '24 months', additionalNote: 'Sustained high shift after month 12' }}
+				/>
+				{sqlMode && sql && (
 					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {sql.rows.filter(r => r.primeDirection).map(r => `${r.rowId}:${r.primeDirection}`).join(', ') || 'none'}
+						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
 					</div>
-				</ChartContainer>
-			</div>
+				)}
+			</ChartContainer>
 		);
 	},
 };
@@ -300,45 +258,34 @@ export const FallsPer1000BedDays: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story:
-					"Inpatient falls per 1000 bed days. Downward trend with one special-cause high point (month 17). Lower is better.",
+				story: "Inpatient falls per 1000 bed days. Downward trend with one special-cause high point (month 17). Lower is better.",
 			},
 		},
-		metricContext: { improvement: "down" },
+		metricContext: { improvement: 'down' },
 	},
-	render: () => {
+	render: (_args, { globals }) => {
 		const data = series(fallsValues);
-		const sql = buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down, data: data.map(d => ({ x: d.x, value: d.y })) });
+		const sqlMode = globals?.sqlCompatMode === 'sql';
+		const sql = sqlMode ? buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down, data: data.map(d => ({ x: d.x, value: d.y })) }) : null;
 		return (
-			<div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-				<ChartContainer title="Falls per 1000 Bed Days – Base" description="Inpatient falls rate" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.XmR}
-						metricImprovement={ImprovementDirection.Down}
-						enableRules
-						targets={Array(fallsValues.length).fill(4.6)}
-						announceFocus
-						gradientSequences
-						narrationContext={{ measureName: 'Inpatient falls per 1000 bed days', datasetContext: 'Monthly trust-wide data', timeframe: '24 months' }}
-					/>
-				</ChartContainer>
-				<ChartContainer title="Falls per 1000 Bed Days – SQL Compat" description="Falls rate (SQL directional pruning)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.XmR}
-						metricImprovement={ImprovementDirection.Down}
-						enableRules
-						targets={Array(fallsValues.length).fill(4.6)}
-						announceFocus
-						gradientSequences
-						useSqlCompatEngine
-					/>
+			<ChartContainer title={`Falls per 1000 Bed Days – ${sqlMode ? 'SQL Compat' : 'Base'}`} description="Inpatient falls rate" source="Synthetic">
+				<SPCChart
+					data={data}
+					chartType={ChartType.XmR}
+					metricImprovement={ImprovementDirection.Down}
+					enableRules
+					targets={Array(fallsValues.length).fill(4.6)}
+					announceFocus
+					gradientSequences
+					useSqlCompatEngine={sqlMode}
+					narrationContext={{ measureName: 'Inpatient falls per 1000 bed days', datasetContext: 'Monthly trust-wide data', timeframe: '24 months' }}
+				/>
+				{sqlMode && sql && (
 					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {sql.rows.filter(r => r.primeDirection).map(r => `${r.rowId}:${r.primeDirection}`).join(', ') || 'none'}
+						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
 					</div>
-				</ChartContainer>
-			</div>
+				)}
+			</ChartContainer>
 		);
 	},
 };
@@ -347,45 +294,34 @@ export const TimeBetweenMedicationErrors: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story:
-					"Time between medication administration errors (days) – T chart. Longer gaps indicate improvement; notable very long gap (month 21).",
+				story: 'Time between medication administration errors (days) – T chart. Longer gaps indicate improvement; notable very long gap (month 21).',
 			},
 		},
-		metricContext: { improvement: "up" },
+		metricContext: { improvement: 'up' },
 	},
-	render: () => {
+	render: (_args, { globals }) => {
 		const data = series(medErrorGaps);
-		const sql = buildSpcSqlCompat({ chartType: ChartType.T, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) });
+		const sqlMode = globals?.sqlCompatMode === 'sql';
+		const sql = sqlMode ? buildSpcSqlCompat({ chartType: ChartType.T, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) }) : null;
 		return (
-			<div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-				<ChartContainer title="Time Between Medication Errors – Base" description="Days between events (T chart)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.T}
-						metricImprovement={ImprovementDirection.Up}
-						enableRules
-						announceFocus
-						targets={Array(medErrorGaps.length).fill(10)}
-						gradientSequences
-						narrationContext={{ measureName: 'Days between medication errors', datasetContext: 'Trust-wide events', timeframe: '24 events', additionalNote: 'Improvement phase with long gap' }}
-					/>
-				</ChartContainer>
-				<ChartContainer title="Time Between Medication Errors – SQL Compat" description="Days between events (T chart, SQL directional pruning)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.T}
-						metricImprovement={ImprovementDirection.Up}
-						enableRules
-						announceFocus
-						targets={Array(medErrorGaps.length).fill(10)}
-						gradientSequences
-						useSqlCompatEngine
-					/>
+			<ChartContainer title={`Time Between Medication Errors – ${sqlMode ? 'SQL Compat' : 'Base'}`} description="Days between events (T chart)" source="Synthetic">
+				<SPCChart
+					data={data}
+					chartType={ChartType.T}
+					metricImprovement={ImprovementDirection.Up}
+					enableRules
+					announceFocus
+					targets={Array(medErrorGaps.length).fill(10)}
+					gradientSequences
+					useSqlCompatEngine={sqlMode}
+					narrationContext={{ measureName: 'Days between medication errors', datasetContext: 'Trust-wide events', timeframe: '24 events', additionalNote: 'Improvement phase with long gap' }}
+				/>
+				{sqlMode && sql && (
 					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {sql.rows.filter(r => r.primeDirection).map(r => `${r.rowId}:${r.primeDirection}`).join(', ') || 'none'}
+						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
 					</div>
-				</ChartContainer>
-			</div>
+				)}
+			</ChartContainer>
 		);
 	},
 };
@@ -394,49 +330,36 @@ export const CountBetweenPressureUlcers: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story:
-					"Count between hospital-acquired pressure ulcers – G chart. Increased counts showing improvement; short count (month 21) then recovery.",
+				story: 'Count between hospital-acquired pressure ulcers – G chart. Increased counts showing improvement; short count (month 21) then recovery.',
 			},
 		},
-		metricContext: { improvement: "up" },
+		metricContext: { improvement: 'up' },
 	},
-	render: () => {
+	render: (_args, { globals }) => {
 		const data = series(pressureUlcerCounts);
-		const sql = buildSpcSqlCompat({ chartType: ChartType.G, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) });
+		const sqlMode = globals?.sqlCompatMode === 'sql';
+		const sql = sqlMode ? buildSpcSqlCompat({ chartType: ChartType.G, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) }) : null;
 		return (
-			<div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-				<ChartContainer title="Count Between Pressure Ulcers – Base" description="Opportunities/units between events (G chart)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.G}
-						metricImprovement={ImprovementDirection.Up}
-						enableRules
-						announceFocus
-						targets={Array(pressureUlcerCounts.length).fill(14)}
-						gradientSequences
-						narrationContext={{ measureName: 'Count between pressure ulcers', datasetContext: 'Trust-wide events', timeframe: '24 events' }}
-						percentScale={false}
-						alwaysShowHundredY={false}
-					/>
-				</ChartContainer>
-				<ChartContainer title="Count Between Pressure Ulcers – SQL Compat" description="G chart (SQL directional pruning)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.G}
-						metricImprovement={ImprovementDirection.Up}
-						enableRules
-						announceFocus
-						targets={Array(pressureUlcerCounts.length).fill(14)}
-						gradientSequences
-						percentScale={false}
-						alwaysShowHundredY={false}
-						useSqlCompatEngine
-					/>
+			<ChartContainer title={`Count Between Pressure Ulcers – ${sqlMode ? 'SQL Compat' : 'Base'}`} description="Opportunities/units between events (G chart)" source="Synthetic">
+				<SPCChart
+					data={data}
+					chartType={ChartType.G}
+					metricImprovement={ImprovementDirection.Up}
+					enableRules
+					announceFocus
+					targets={Array(pressureUlcerCounts.length).fill(14)}
+					gradientSequences
+					percentScale={false}
+					alwaysShowHundredY={false}
+					useSqlCompatEngine={sqlMode}
+					narrationContext={{ measureName: 'Count between pressure ulcers', datasetContext: 'Trust-wide events', timeframe: '24 events' }}
+				/>
+				{sqlMode && sql && (
 					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {sql.rows.filter(r => r.primeDirection).map(r => `${r.rowId}:${r.primeDirection}`).join(', ') || 'none'}
+						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
 					</div>
-				</ChartContainer>
-			</div>
+				)}
+			</ChartContainer>
 		);
 	},
 };
@@ -445,47 +368,35 @@ export const RTTPatientsWaiting: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story:
-					"Indicative RTT % patients waiting less than 18 weeks. Higher is better.",
+				story: 'Indicative RTT % patients waiting less than 18 weeks. Higher is better.',
 			},
 		},
-		metricContext: { improvement: "up" },
+		metricContext: { improvement: 'up' },
 	},
-	render: () => {
+	render: (_args, { globals }) => {
 		const data = series(rttValues);
-		const sql = buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) });
+		const sqlMode = globals?.sqlCompatMode === 'sql';
+		const sql = sqlMode ? buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) }) : null;
 		return (
-			<div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-				<ChartContainer title="RTT % < 18 weeks – Base" description="(XmR chart)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.XmR}
-						metricImprovement={ImprovementDirection.Up}
-						enableRules
-						unit="%"
-						announceFocus
-						targets={Array(rttValues.length).fill(80)}
-						gradientSequences
-						narrationContext={{ measureName: 'RTT % Patients Waiting < 18 weeks', datasetContext: 'National RTT Waiting List Target', timeframe: '25 events' }}
-					/>
-				</ChartContainer>
-				<ChartContainer title="RTT % < 18 weeks – SQL Compat" description="(XmR chart, SQL directional pruning)" source="Synthetic">
-					<SPCChart
-						data={data}
-						chartType={ChartType.XmR}
-						metricImprovement={ImprovementDirection.Up}
-						enableRules
-						unit="%"
-						announceFocus
-						targets={Array(rttValues.length).fill(80)}
-						gradientSequences
-						useSqlCompatEngine
-					/>
+			<ChartContainer title={`RTT % < 18 weeks – ${sqlMode ? 'SQL Compat' : 'Base'}`} description="(XmR chart)" source="Synthetic">
+				<SPCChart
+					data={data}
+					chartType={ChartType.XmR}
+					metricImprovement={ImprovementDirection.Up}
+					enableRules
+					unit="%"
+					announceFocus
+					targets={Array(rttValues.length).fill(80)}
+					gradientSequences
+					useSqlCompatEngine={sqlMode}
+					narrationContext={{ measureName: 'RTT % Patients Waiting < 18 weeks', datasetContext: 'National RTT Waiting List Target', timeframe: '25 events' }}
+				/>
+				{sqlMode && sql && (
 					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {sql.rows.filter(r => r.primeDirection).map(r => `${r.rowId}:${r.primeDirection}`).join(', ') || 'none'}
+						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
 					</div>
-				</ChartContainer>
-			</div>
+				)}
+			</ChartContainer>
 		);
 	},
 };

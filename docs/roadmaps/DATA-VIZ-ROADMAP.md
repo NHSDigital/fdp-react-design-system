@@ -40,26 +40,26 @@ Foundational components & infra:
 
 Colour & palette system:
 
-- 12 categorical series tokens (raw + optimised order strategies)
-- Region colour tokens (stable geographic mapping) + neutral comparison token
-- Severity palette tokens (low / moderate / high / critical) + semantic aliases
-- Organisational level palette tokens (trust / ambulance / icb / region) + semantic aliases
+- 12 categorical series tokens (raw and optimised order strategies)
+- Region colour tokens (stable geographic mapping) and neutral comparison token
+- Severity palette tokens (low / moderate / high / critical) and semantic aliases
+- Organisational level palette tokens (trust / ambulance / icb / region) and semantic aliases
 - Stroke (contrast outline) tokens for categorical, region, severity & org‑level palettes
-- Semantic alias tokens (series, region, severity, org‑level + stroke groups)
+- Semantic alias tokens (series, region, severity, org‑level and stroke groups)
 - Extended palette for >12 series (lightness variant rounds) & optimisation tests (ΔE adjacency threshold)
-- Sequential & diverging colour scale utilities (factory functions) + palette & token documentation stories
-- Token layering refactor (core / calculated / enhanced / data‑viz) eliminating 200+ collisions + automated collision guard script
+- Sequential & diverging colour scale utilities (factory functions) and palette & token documentation stories
+- Token layering refactor (core / calculated / enhanced / data‑viz) eliminating 200+ collisions and automated collision guard script
 
 Interaction & accessibility:
 
-- Tooltip (pointer + keyboard focus) with live region announcements & keyboard navigation (Arrow/Home/End/Escape, optional wrap)
-- Legend (static + interactive) with series toggling (remove vs fade modes) & visibility-driven domain recompute
-- Visibility modes: `remove` (default) vs `fade` + optional recompute of y-domain on visible series
+- Tooltip (pointer and keyboard focus) with live region announcements & keyboard navigation (Arrow/Home/End/Escape, optional wrap)
+- Legend (static and interactive) with series toggling (remove vs fade modes) & visibility-driven domain recompute
+- Visibility modes: `remove` (default) vs `fade` and optional recompute of y-domain on visible series
 - Uniform keyboard focus management across series points via Tooltip context
 - Live region announcements for focused data points
 - Pattern utility & gallery (18 hatch / dot / structural patterns) with dual colour+pattern legend support
-- Legend pattern overlay (retains aria-pressed semantics) + a11y & snapshot tests
-- ChartNoScript SSR fallback (table + noscript) with hydration hide rule
+- Legend pattern overlay (retains aria-pressed semantics) and a11y & snapshot tests
+- ChartNoScript SSR fallback (table and noscript) with hydration hide rule
 - ChartEnhancer helper (auto applies .fdp-chart--enhanced, optional delay for demos)
 
 Chart types & primitives:
@@ -67,16 +67,16 @@ Chart types & primitives:
 - Line series (points optional, focusable)
 - Bar series primitive (time and categorical band scales) with:
   - Adaptive & explicit width control
-  - Uniform grouped width algorithm (median step + proportional gaps)
+  - Uniform grouped width algorithm (median step and proportional gaps)
   - Non-overlap clamping
   - Category colour mode (single-series categorical)
-- Area series primitive (with optional line overlay) + smoothing toggle
+- Area series primitive (with optional line overlay) and smoothing toggle
 
 Customisation:
 
 - Smoothing toggle (`smooth`) & stroke width (`strokeWidth`) on `LineSeriesPrimitive` and exposed via `LineChart`
 - Smoothing toggle on `AreaSeriesPrimitive`
-- Date & value formatter props on `LineChart` + automatic axis date formatting heuristic
+- Date & value formatter props on `LineChart` and automatic axis date formatting heuristic
 
 Documentation & stories:
 
@@ -109,44 +109,44 @@ NOTE: Earlier "Newly Added" subsection folded into this consolidated Delivered l
 |-------|------------|----------------|
 | **SPC Charts** | Enhanced rule configuration & custom thresholds | In Progress – engine supports; surface advanced UI & MDX examples |
 | **SPC Charts** | Baseline change detection automation | Planned – scheduled Sprint 2; build on existing baseline segmentation |
-| **MetricCard** | Value + delta + status variants (trend spark placeholder) | Planned – Sprint 2 priority (analyst KPI surfacing) |
-| **FilterBar** | DataVizFilterBar skeleton (layout & slot props) | Planned – Sprint 2 (followed by interactive state + keyboard in Sprint 2/3) |
-| **Export** | ExportMenu contract (types + placeholder impl) | Planned – Sprint 2 precursor to PNG/SVG |
+| **MetricCard** | Value and delta and status variants (trend spark placeholder) | Planned – Sprint 2 priority (analyst KPI surfacing) |
+| **FilterBar** | DataVizFilterBar skeleton (layout & slot props) | Planned – Sprint 2 (followed by interactive state and keyboard in Sprint 2/3) |
+| **Export** | ExportMenu contract (types and placeholder impl) | Planned – Sprint 2 precursor to PNG/SVG |
 | **Export** | PNG/SVG utility | Not started – depends on contract & canvas/SVG strategy decision |
-| **Severity Guidance** | Exception / severity visual mapping doc + legend story updates | Planned – Sprint 2 documentation item |
+| **Severity Guidance** | Exception / severity visual mapping doc and legend story updates | Planned – Sprint 2 documentation item |
 | **KPI** | FreshnessBadge component (relative time) | Planned – Sprint 2 (supports MetricCard) |
-| Interaction | Aggregated tooltip summary + debounce & layout refinements | Planned – groundwork (SPCTooltipOverlay) in place |
+| Interaction | Aggregated tooltip summary and debounce & layout refinements | Planned – groundwork (SPCTooltipOverlay) in place |
 | Interaction | Legend announcement enhancements (custom SR phrasing) | Planned – base live updates present |
 | Legend | Grouping & search (design spike then implementation) | Planned – spike Sprint 2; build Sprint 3 |
 | Legend | Advanced ordering API | Not started – after grouping/search |
 | Chart Types | Stacked Area / Stacked Bar | Not started – requires stacking util / baseline offsets |
 | Chart Types | Scatter & point density guidance | Not started |
-| Accessibility | Aggregated / debounced announcements | Partial – point-level + timeframe summary; aggregation pending |
-| Accessibility | Pattern + colour dual encoding rollout guidance | Partial – utility & docs shipped; need adoption guide & CVD matrix |
+| Accessibility | Aggregated / debounced announcements | Partial – point-level and timeframe summary; aggregation pending |
+| Accessibility | Pattern and colour dual encoding rollout guidance | Partial – utility & docs shipped; need adoption guide & CVD matrix |
 | Accessibility | Focus order & ARIA roles audit | Enhanced – current charts & grids compliant; re-audit post new components |
-| Internationalisation | Global number/date formatting context + table locale alignment | Partial – per-chart formatters exist |
-| Performance | Large series sampling / down-sampling helper + docs | Not started |
+| Internationalisation | Global number/date formatting context and table locale alignment | Partial – per-chart formatters exist |
+| Performance | Large series sampling / down-sampling helper and docs | Not started |
 | Visual Regression | Chromatic story expansion (areas, bar width edge cases, visibility modes, SPC washes) | Partial – add wash & upcoming MetricCard stories |
-| Theming | Dark mode token themes + adaptive stroke logic | Not started |
+| Theming | Dark mode token themes and adaptive stroke logic | Not started |
 | Mapping | Map wrapper MVP (projection, controls, SSR boundary) | Planned – spike Sprint 2; MVP Sprint 3 |
-| Mapping | Choropleth (region scale legend + geo integration) | Not started – after map wrapper MVP |
+| Mapping | Choropleth (region scale legend and geo integration) | Not started – after map wrapper MVP |
 | Layout | Stacked & overlapping area transition smoothing | Not started |
 | Documentation | High-contrast & pattern usage deep dive (CVD scenarios, do/don't) | Planned |
 | Documentation | SPC sequence wash rationale & absorption rules (diagrams) | Planned – diagrams pending |
 | QA | Additional unit tests for bar width & smoothing toggles | Planned |
 | QA | Sequence wash path geometry edge cases (single/leading/trailing) | Planned |
-| Patterns | Deterministic pattern ids + semantic pattern tokens | Planned |
+| Patterns | Deterministic pattern ids and semantic pattern tokens | Planned |
 | Governance | Versioned changelog entries for data-viz primitives | Planned |
 
 ## Phased Migration Plan
 
-1. **Adopt LineChart + ChartContainer for existing time‑series** (replace bespoke implementations) using optimised palette (default)
+1. **Adopt LineChart and ChartContainer for existing time‑series** (replace bespoke implementations) using optimised palette (default)
 2. **Introduce SPC charts for process monitoring and to support some statistical workflows** – Deploy SPCChart for mortality rates, A&E wait times, infection surveillance with rule detection
-3. **Enable Legend + tooltip & CSV download** for transparency and enhanced keyboard navigation
+3. **Enable Legend and tooltip & CSV download** for transparency and enhanced keyboard navigation
 4. **Integrate enhanced data grids** – Use NavigationSplitView with keyboard navigation for dashboard drill-down scenarios
 5. Add additional chart types (Bar / Area) and unify legend & interaction patterns
 6. Implement high‑contrast mode & pattern fills; integrate analytics events (interaction telemetry)
-7. Add image export + performance sampling guidance + full i18n wrappers
+7. Add image export and performance sampling guidance and full i18n wrappers
 8. Introduce Choropleth / map visualisations and dark mode theme support
 
 ## Risks / Considerations
@@ -161,14 +161,14 @@ NOTE: Earlier "Newly Added" subsection folded into this consolidated Delivered l
 2. **Enhanced data grid filtering** – Build on NavigationSplitView keyboard navigation with search/filter capabilities  
 3. Export (PNG/SVG) utility
 4. Stacked area & bar (shared stacking util)
-5. Aggregated tooltip summary + debounce
-6. Performance sampling / down-sampling helper + doc
-7. Choropleth baseline (TopoJSON ingestion + region colouring + legend)
+5. Aggregated tooltip summary and debounce
+6. Performance sampling / down-sampling helper and doc
+7. Choropleth baseline (TopoJSON ingestion and region colouring and legend)
 8. Dark mode token prototype (minimal inversion, stroke adaptation)
 9. Deterministic pattern id generation & semantic pattern tokens (optional)
-10. High-contrast override mode (force stroke + pattern strategy)
+10. High-contrast override mode (force stroke and pattern strategy)
 11. Advanced legend: grouping, search/filter, ordering API
-12. Internationalisation context (locale cascades to axis + tooltip + table)
+12. Internationalisation context (locale cascades to axis and tooltip and table)
 
 ---
 Last updated: 2025-09-01

@@ -133,7 +133,7 @@ nhs-fdp-design-system/
 - **[Component Library](http://localhost:6006)** - Interactive Storybook
 - **[SSR Testing Guide](./docs/testing/ssr-testing.md)** - Unified server-side test patterns
 - **[Hydration Testing](./docs/guides/testing-hydration.mdx)** - Split SSR / client / hydration test pattern & helper
-- **[Multi‑Render Architecture](./docs/guides/multi-render-architecture.md)** - React + Nunjucks macro generation & parity
+- **[Multi‑Render Architecture](./docs/guides/multi-render-architecture.md)** - React and Nunjucks macro generation & parity
 - **[Behaviour Layer](./docs/guides/behaviours.md)** - Progressive enhancement, events & teardown API
 
 ### Server / Client Variant Pattern

@@ -35,20 +35,20 @@ Re-usable slice components to assemble marketing pages.
 
 - Hero (variants: centered, split media, minimal)
 - Value proposition trio / grid
-- Feature grid (icon + heading + body)
+- Feature grid (icon and heading and body)
 - “How it works” step sequence
 - Metrics / KPI highlight banner
 - Testimonial / quote (single, carousel, wall)
 - Customer logo strip / trust badges
 - Case study teaser card
-- Pricing table + plan comparison matrix
+- Pricing table and plan comparison matrix
 - FAQ accordion group
 - Timeline / roadmap strip
 - Resource card grid (filterable)
 - CTA band (primary/secondary)
 - Newsletter signup block
 - Security & compliance badges section
-- Partner / integration gallery (logo + category filter)
+- Partner / integration gallery (logo and category filter)
 - Media embed (video / responsive iframe wrapper)
 - Announcement / promo ribbon
 
@@ -57,10 +57,10 @@ Re-usable slice components to assemble marketing pages.
 ## 3. Navigation & Discovery Patterns
 
 - Global marketing nav (mega menu support)
-- Footer (multi-column + micro legal bar)
+- Footer (multi-column and micro legal bar)
 - In‑page table of contents (auto-generated from headings)
-- Breadcrumbs (marketing + app variants)
-- Site search bar + results list (result type tagging)
+- Breadcrumbs (marketing and app variants)
+- Site search bar and results list (result type tagging)
 - Tag/category chips (filter & active state)
 - Side rail (affixed TOC / related / actions)
 
@@ -68,12 +68,12 @@ Re-usable slice components to assemble marketing pages.
 
 ## 4. Onboarding & Activation
 
-- Stepper / progress indicator (linear + non-linear)
+- Stepper / progress indicator (linear and non-linear)
 - Onboarding checklist (track completion; accessible state changes)
-- Guided tour / hotspots (beacon + popover)
+- Guided tour / hotspots (beacon and popover)
 - Contextual inline tips (dismissible; preference persistence)
 - Empty states (taxonomy: informational, permission, action, error)
-- Data import panel (drag/drop + progress + error list)
+- Data import panel (drag/drop and progress and error list)
 - Success / celebration state (confetti hook or subtle animation)
 - Usage milestone nudge component
 
@@ -84,11 +84,11 @@ Re-usable slice components to assemble marketing pages.
 - Multi-step signup form (progressive disclosure)
 - Password strength meter
 - Email / code verification input (auto-focus advance)
-- 2FA enrollment flow (QR + backup codes)
+- 2FA enrollment flow (QR and backup codes)
 - Consent acknowledgment block (policies, versioning)
 - Role / persona selection stage
 - Avatar menu (profile, org switch, sign out)
-- Usage quota indicator (progress bar + thresholds)
+- Usage quota indicator (progress bar and thresholds)
 - Billing summary card & payment method form
 - Plan upgrade / downgrade modal (diff highlights)
 - Session timeout warning modal
@@ -97,14 +97,14 @@ Re-usable slice components to assemble marketing pages.
 
 ## 6. Form & Data Capture Enhancements
 
-- Form section header + description pattern
+- Form section header and description pattern
 - Inline validation with summary error panel
 - Save & resume draft banner
 - Autosave status indicator (idle / saving / error)
 - Input masks (org codes, phone, NHS specific)
 - Multi-select with token chips
-- Tag input (create + select with keyboard)
-- Rich text editor (minimal + docs variant)
+- Tag input (create and select with keyboard)
+- Rich text editor (minimal and docs variant)
 - Address finder (suggestions)
 - File uploader (drag-drop, queue, statuses)
 - Verification code 6-cell input
@@ -118,9 +118,9 @@ Re-usable slice components to assemble marketing pages.
 - Toast notifications (stack manager)
 - Inline status pill (new / beta / deprecated)
 - Feedback widget (page helpful? / NPS micro form)
-- Contact/support card (channels + SLA)
+- Contact/support card (channels and SLA)
 - “Was this helpful?” doc feedback controls
-- Changelog entry component (version badge + tags)
+- Changelog entry component (version badge and tags)
 - Release badge component (NEW / UPDATED) for nav items
 
 ---
@@ -131,7 +131,7 @@ Re-usable slice components to assemble marketing pages.
 - Illustration component (token-based palette)
 - Code snippet block (copy button, language badge)
 - Definition list styling (glossary)
-- Comparison table (column highlight + mobile stacking)
+- Comparison table (column highlight and mobile stacking)
 - Expandable “Read more” truncation
 - Structured data (JSON-LD injector helper)
 
@@ -139,11 +139,11 @@ Re-usable slice components to assemble marketing pages.
 
 ## 9. Data Visualisation Onboarding Extensions
 
-- Skeleton loaders (charts + tables)
+- Skeleton loaders (charts and tables)
 - Sample data placeholder overlay
-- Data freshness badge (timestamp + relative label)
+- Data freshness badge (timestamp and relative label)
 - Export actions dropdown (CSV/PDF/image)
-- Inline anomaly flag + tooltip pattern
+- Inline anomaly flag and tooltip pattern
 
 ---
 
@@ -157,7 +157,7 @@ Re-usable slice components to assemble marketing pages.
 - Dark mode / high contrast roadmap placeholder
 - Performance budget guidelines (image, LCP targets)
 - SEO metadata helper (title, meta, OG, canonical, schema)
-- Analytics event naming conventions + hook
+- Analytics event naming conventions and hook
 - Accessibility checklist integration (page preflight)
 
 ---
@@ -170,7 +170,7 @@ Re-usable slice components to assemble marketing pages.
 | Elevation | Shadow tiers (card, overlay, floating nav) |
 | Motion | Duration & easing tokens (enter/exit/subtle) |
 | Gradients | Hero, CTA, overlay gradient tokens |
-| Accent Palette | Illustrations / highlights (softer neutrals + brights) |
+| Accent Palette | Illustrations / highlights (softer neutrals and brights) |
 | Opacity / Blur | Backdrop surfaces (modals, tours) |
 | Layout Widths | Content container, wide, full‑bleed max-width tokens |
 | Z-Index Map | Layer roles (nav, dropdown, modal, toast, beacon) |
@@ -242,12 +242,12 @@ Feature Flag Wrapper, Cookie Center, Audit Log, Security Incident Banner, Intern
 
 - **Section Components First**: Implement marketing slices as isolated section components with well-defined props (content, media alignment, theme variant).
 - **Token-Driven Spacing & Color**: Avoid hardcoded pixel values; introduce marketing spacing / gradient / elevation tokens early.
-- **Composable Over Monolithic**: Pricing table = core `<PricingTable>` + `<PlanCard>` + optional `<FeatureMatrix>`; each unit testable.
+- **Composable Over Monolithic**: Pricing table = core `<PricingTable>` and `<PlanCard>` and optional `<FeatureMatrix>`; each unit testable.
 - **A11y baked-in**: TOC auto-generates from heading map; steppers announce progress; carousels provide reduced motion fallback.
 - **Responsive Strategy**: Document content reflow rules (hero swaps illustration variant; pricing matrix stacks into accordion on narrow viewports).
 - **Content Skeletons**: Provide `<SkeletonBlock>` primitives (rect, text line, circular) for consistent loading states.
 - **Analytics Hook**: Single `useAnalytics()` hook orchestrating event dispatch with typed event catalog.
-- **Feature Flags**: `FeatureGate` component receiving flag key + fallback UI ensures consistent gating semantics.
+- **Feature Flags**: `FeatureGate` component receiving flag key and fallback UI ensures consistent gating semantics.
 
 ---
 
@@ -256,15 +256,15 @@ Feature Flag Wrapper, Cookie Center, Audit Log, Security Incident Banner, Intern
 | Needed | Potential Reuse / Baseline | Gap |
 | ------ | -------------------------- | --- |
 | Hero / Feature Sections | Grid, Heading, Typography tokens | Need composite layout components |
-| FAQ | Existing Accordion (if available) | Style + semantics enhancements |
+| FAQ | Existing Accordion (if available) | Style and semantics enhancements |
 | Stepper | Progress (if exists) | New component |
 | Pricing Table | Table tokens | Complex comparison styling, mobile behavior |
 | Testimonials / Quotes | Blockquote styles | Carousel / rotation mechanics |
 | Logo Strip | Flex / grid utilities | Auto scroll / wrap, contrast tokens |
-| Onboarding Checklist | List + Checkbox | Progress logic & persistence |
+| Onboarding Checklist | List and Checkbox | Progress logic & persistence |
 | Toasts | Alert styles | Portal manager & stacking |
 | File Uploader | Button, Progress, Icon | Drag/drop, file list states |
-| Rich Text Editor | Typography | External integration + DS theming |
+| Rich Text Editor | Typography | External integration and DS theming |
 
 ---
 
@@ -286,7 +286,7 @@ notes: Mobile stacking pattern to finalise
 
 | Risk | Impact | Mitigation |
 | ---- | ------ | ---------- |
-| Over-specified early | Rework cost | Phase delivery + usage feedback loops |
+| Over-specified early | Rework cost | Phase delivery and usage feedback loops |
 | Token sprawl | Inconsistency | Token naming taxonomy & review gate |
 | Accessibility regressions | User exclusion | A11y checklist & axe CI pass gates |
 | Fragmented analytics events | Poor insights | Central typed event registry |
@@ -298,7 +298,7 @@ notes: Mobile stacking pattern to finalise
 
 1. Approve Phase 1 scope & token additions (spacing, elevation, gradients).
 2. Define prop contracts for: HeroSection, FeatureGrid, TestimonialBlock, PricingTable.
-3. Create skeleton loaders + usage guidelines.
+3. Create skeleton loaders and usage guidelines.
 4. Establish analytics event schema baseline.
 5. Introduce FeatureGate primitive (simple boolean flag) for future extensibility.
 

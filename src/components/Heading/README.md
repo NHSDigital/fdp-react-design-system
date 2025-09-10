@@ -6,7 +6,7 @@ Semantic heading wrapper that decouples visual size from HTML heading level whil
 
 - Size variants (`xs`, `s`, `m`, `l`, `xl`, `xxl`) independent of semantic level
 - Automatic level inference from size (override with `level` prop)
-- Token-driven vertical rhythm (bottom margin + conditional top margin)
+- Token-driven vertical rhythm (bottom margin and conditional top margin)
 - Optional raw HTML injection (`html`) or plain text / children
 - Customisable bottom margin via `marginBottom` prop
 

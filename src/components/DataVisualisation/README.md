@@ -96,7 +96,7 @@ const series = [
 const categories = ['Alpha','Bravo','Charlie'];
 const raw = [0,1,2].map(i => ({
   id: `s${i+1}`,
-  data: categories.map(c => ({ x: c, y: Math.round(5 + Math.random()*30) }))
+  data: categories.map(c => ({ x: c, y: Math.round(5 and Math.random()*30) }))
 }));
 const stacked = stackSeries(raw as any); // helper provided in utils/stack
 
@@ -134,7 +134,7 @@ const stacked = stackSeries(raw as any); // helper provided in utils/stack
  
 ### Scrollable Continuous Bars
 
-See `BarChart.stories.tsx` (export `ContinuousManyBarsScrollable`) for a wide time‑series bar configuration using `LineScalesProvider` + `computeContinuousBarChartTotalWidth`.
+See `BarChart.stories.tsx` (export `ContinuousManyBarsScrollable`) for a wide time‑series bar configuration using `LineScalesProvider` and `computeContinuousBarChartTotalWidth`.
 
 ---
  
@@ -153,7 +153,7 @@ See `BarChart.stories.tsx` (export `ContinuousManyBarsScrollable`) for a wide ti
 
 Provided by `VisibilityProvider` and automatically consumed by primitives & `Legend`.
 
-Hidden IDs are stored internally (uncontrolled) unless you supply `hiddenIds` + `onChange` for a controlled pattern.
+Hidden IDs are stored internally (uncontrolled) unless you supply `hiddenIds` and `onChange` for a controlled pattern.
 
 Legend behaviour:
  
@@ -190,7 +190,7 @@ Combine these props as needed:
 
 | Component | Key Props | Notes |
 |-----------|-----------|-------|
-| `ChartRoot` | `height`, `margin`, `width`, `ariaLabel` | Provides layout + context |
+| `ChartRoot` | `height`, `margin`, `width`, `ariaLabel` | Provides layout and context |
 | `LineScalesProvider` | `series`, `parseX?`, `yDomain?` | Time/continuous / numeric domains |
 | `BandScalesProvider` | `series`, `bandPadding?` | Categorical / grouped bars |
 | `LineSeriesPrimitive` | `series`, `palette`, `showPoints`, `focusablePoints`, `parseX`, `colors?` | Low‑level line rendering (custom palette via `colors`) |
@@ -209,9 +209,9 @@ Combine these props as needed:
 
 If you rolled your own visibility toggling previously:
  
-1. Wrap chart + legend with `VisibilityProvider`.
+1. Wrap chart and legend with `VisibilityProvider`.
 2. Remove manual filtering; pass full series list to scales provider.
-3. (Optional) implement controlled mode via `hiddenIds` + `onChange`.
+3. (Optional) implement controlled mode via `hiddenIds` and `onChange`.
 
 ---
  
@@ -221,13 +221,13 @@ If you rolled your own visibility toggling previously:
 |------|--------------|
 | `CompositionalLineChart.stories.tsx` | Multi‑series line composition |
 | `BarChart.stories.tsx` | Stacked, percent, grouped & scrollable bars |
-| `SPCChart` + `SPC` namespace | Statistical process control primitives |
+| `SPCChart` and `SPC` namespace | Statistical process control primitives |
 
 ---
  
 ## Roadmap (Next Iterations)
 
-- Shared tooltip interactions (pointer + keyboard parity)
+- Shared tooltip interactions (pointer and keyboard parity)
 - Live announcements of focused datum
 - Optional fade for hidden series instead of removal
 - Export utilities (CSV / PNG)

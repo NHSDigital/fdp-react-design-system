@@ -30,7 +30,7 @@ Pros: Namespaced (`SPC.*`) keeps imports tidy when mixing chart primitives.  Con
 import { SPCVariationIcon, SPCAssuranceIcon, VariationJudgement, MetricPolarity } from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
 ```
 
-Pros: Only SPC related code; concise; stable surface (icons + engine + descriptors).
+Pros: Only SPC related code; concise; stable surface (icons and engine and descriptors).
 
 ### 4. Deep path (maximal tree‑shaking / micro import)
 
@@ -86,7 +86,7 @@ import { VariationJudgement, MetricPolarity, Direction } from '@fergusbisset/nhs
 | SPC dashboard / analytics view | SPC sub‑barrel |
 | Performance‑sensitive micro import | Deep path (internal only) |
 | SSR constrained environment | `ssr` entry |
-| Micro‑frontend controlling CSS separately | `pure` + explicit CSS import |
+| Micro‑frontend controlling CSS separately | `pure` and explicit CSS import |
 
 > Tip: keep a single consistent pattern per app to avoid duplicate bundles in some bundlers.
 
@@ -148,15 +148,15 @@ import { VariationJudgement, MetricPolarity, Direction } from "./SPCConstants";
 
 | Variant | Prop Value | Purpose | Notes |
 |---------|------------|---------|-------|
-| Classic (default) | `variant="classic"` | Original ring + 5 points | Last two points recoloured for special cause states. |
+| Classic (default) | `variant="classic"` | Original ring and 5 points | Last two points recoloured for special cause states. |
 | Triangle | `variant="triangle"` | Large directional triangle / flat line | Orientation driven by inferred `direction` (not merely judgement). |
-| Triangle + Run | `variant="triangleWithRun"` | Compact triangle plus 5 recent run markers | `runLength` (0–5) highlights most recent sequence consistent with special cause state. |
+| Triangle and Run | `variant="triangleWithRun"` | Compact triangle plus 5 recent run markers | `runLength` (0–5) highlights most recent sequence consistent with special cause state. |
 
 Shared options: `gradientWash` (lighter v2 wash), `dropShadow`, `size`.
 
 ### Rendering Logic (Summary)
 
-* Special cause (improving/deteriorating): coloured ring + two highlighted points (classic) or a triangle (triangle variants) and optional letter.
+* Special cause (improving/deteriorating): coloured ring and two highlighted points (classic) or a triangle (triangle variants) and optional letter.
 * Special cause no judgement: arrow glyph (classic) or oriented triangle (triangle variants) – no letter.
 * Common cause: neutral grey ring & points; no letter or arrow glyph.
 * Triangle variants: orientation reflects `direction` so an improving metric where “lower is better” points **downwards** (direction = lower) – aligns visual semantics with actual statistical movement.

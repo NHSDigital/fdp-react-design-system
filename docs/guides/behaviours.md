@@ -91,13 +91,13 @@ teardownAll();
 
 ### Character Count Notes
 
-Initial server / macro render shows the baseline message (disabled state). Dynamic remaining / over‑limit messaging appears only after the first input event, matching the React SSR + hydration timing.
+Initial server / macro render shows the baseline message (disabled state). Dynamic remaining / over‑limit messaging appears only after the first input event, matching the React SSR and hydration timing.
 
 ### Extending with a New Behaviour
 
 1. Implement an `enhanceX` function that returns `{ detach() }`.
 2. Attach handles to DOM nodes with a unique property name to guarantee idempotence.
-3. Export `initX` / `detachX` and add to `behaviours/index.ts` `initAll` + `teardownAll`.
+3. Export `initX` / `detachX` and add to `behaviours/index.ts` `initAll` and `teardownAll`.
 4. Emit a custom namespaced event (`nhs:component:action`) for parity and observability.
 5. Add minimal tests (SSR unaffected; consider DOM jsdom interaction tests).
 

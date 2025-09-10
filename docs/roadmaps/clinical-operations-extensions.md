@@ -172,12 +172,12 @@ This guide enumerates the additional components, patterns, workflows, tokens, ev
 
 | Pattern | Description | Notes |
 | ------- | ----------- | ----- |
-| High-Density Data Tables | Condensed row height + responsive column priority | Keyboard nav, accessible focus outlines |
+| High-Density Data Tables | Condensed row height and responsive column priority | Keyboard nav, accessible focus outlines |
 | Progressive Filtering | Filters applied incrementally with recalc summary | Show counts for each filter chip |
 | Inline Validation & Impact Preview | Show RTT & priority impacts before commit | Use diff-style preview panel |
 | Conflict Resolution Dialogues | Standard layout: issue list → recommended actions → apply | Reusable for room, slot, resource conflicts |
 | Batch Operations with Undo | Bulk actions enqueue with timed undo | Server event queue feedback |
-| Timeline & Swimlane Views | Visual sessions/rooms/equipment occupancy | Scroll + sticky current time indicator |
+| Timeline & Swimlane Views | Visual sessions/rooms/equipment occupancy | Scroll and sticky current time indicator |
 | State Badges Set | Standard visual semantics for statuses & risks | Align with token color scale |
 | Wizard Stepper Consistency | Uniform step structure; summary at end | Use Step pattern across all wizards |
 | Optimistic Updates | Immediate UI feedback for booking edits | Rollback on error surfaced in toast |
@@ -298,18 +298,18 @@ KPIs: response rate, invalid removal count, backlog delta.
 | Risk | Impact | Mitigation |
 | ---- | ------ | ---------- |
 | Overly complex booking UI | User errors, slow throughput | Progressive disclosure, contextual help, keyboard flows |
-| Data quality drift (RTT clocks) | Breach reporting errors | Scheduled validation drives + diff alerts |
-| Performance on large lists | Slow rendering | Virtualisation + column pruning tokens |
+| Data quality drift (RTT clocks) | Breach reporting errors | Scheduled validation drives and diff alerts |
+| Performance on large lists | Slow rendering | Virtualisation and column pruning tokens |
 | Audit gaps | Compliance exposure | Central audit middleware & required event assertions in tests |
 | Excessive color for risk states | Accessibility issues | Token contrast thresholds, semantic grouping |
-| Overbooking misuse | Clinic overruns | Policy reinforcement UI + limit tokens + alerts |
-| Inconsistent priority logic | Unsafe clinical delays | Priority rule engine + controlled vocab tokens |
+| Overbooking misuse | Clinic overruns | Policy reinforcement UI and limit tokens and alerts |
+| Inconsistent priority logic | Unsafe clinical delays | Priority rule engine and controlled vocab tokens |
 
 ---
 
 ## 11. Immediate Next Actions
 
-1. Confirm Phase 1 scope + priority token definitions.
+1. Confirm Phase 1 scope and priority token definitions.
 2. Draft TypeScript interfaces for Patient, Referral, WaitingListEntry, Appointment, ClinicSession.
 3. Create design tokens for priority & RTT statuses (align with accessibility contrast).
 4. Scaffold WaitingListTable & SlotMatrix stories (data mocks, a11y notes).

@@ -47,7 +47,7 @@ Status Legend:
 
 ⏭️ SummaryList  
 ⏭️ TaskList  
-⏭️ Tabs (will need ARIA roles + behaviour parity)  
+⏭️ Tabs (will need ARIA roles and behaviour parity)  
 ⏭️ WarningCallout  
 ⏭️ CareCard  
 
@@ -74,7 +74,7 @@ Status Legend:
 ## React‑Only (Initial Phase)
 
 🚫 DataVisualisation (charts & metrics – dynamic rendering, data joins)  
-🚫 SortableDataTable (complex ARIA + stateful sorting & focus management)  
+🚫 SortableDataTable (complex ARIA and stateful sorting & focus management)  
 🚫 ResponsiveDataGrid  
 🚫 SlotMatrix  
 🚫 GanttChart  

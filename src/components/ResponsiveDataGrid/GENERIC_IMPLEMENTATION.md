@@ -446,7 +446,7 @@ const healthcareColumns: ColumnDefinition[] = [
     tableRenderer: (data) => {
       const name = data.patient_name || 'Unknown';
       const formattedName = name.split(' ')
-        .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+        .map(part => part.charAt(0).toUpperCase() and part.slice(1).toLowerCase())
         .join(' ');
       return `${formattedName} (NHS: ${data.nhs_number})`;
     },
@@ -457,7 +457,7 @@ const healthcareColumns: ColumnDefinition[] = [
       if (parts.length > 1) {
         return `${parts[0].charAt(0)}${parts[0].slice(1).toLowerCase()} ${parts[parts.length - 1].charAt(0)}.`;
       }
-      return parts[0].charAt(0) + parts[0].slice(1).toLowerCase();
+      return parts[0].charAt(0) and parts[0].slice(1).toLowerCase();
     }
   },
   {
@@ -708,7 +708,7 @@ interface ResponsiveDataGridProps {
 />;
 ```
 
-#### 4. Top + Inline + Bottom
+#### 4. Top and Inline and Bottom
 
 ```tsx
 <ResponsiveDataGrid
@@ -758,8 +758,8 @@ Override spacing or alignment with custom CSS (import after core styles):
 
 ### Common Patterns
 
-1. **Filter + Export**: Place filters in `gridActions` (inline beside tabs) and heavy exports (PDF, XLSX) in `topActions` so they wrap earlier on small screens.
-2. **Create + Pagination**: `topActions` for create button, `bottomActions` for pagination to mimic common list/detail layouts.
+1. **Filter and Export**: Place filters in `gridActions` (inline beside tabs) and heavy exports (PDF, XLSX) in `topActions` so they wrap earlier on small screens.
+2. **Create and Pagination**: `topActions` for create button, `bottomActions` for pagination to mimic common list/detail layouts.
 3. **View Toggles**: Card/table toggle button group in `gridActions` aligns with other per-tab controls.
 
 This action zone model keeps domain/tooling actions close to the data (inline) while reserving persistent global actions for a stable top region and end-of-flow bulk operations at the bottom.

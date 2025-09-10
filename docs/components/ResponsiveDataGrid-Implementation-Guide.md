@@ -193,7 +193,7 @@ import '@fergusbisset/nhs-fdp-design-system/components/Tag/css';
 | Mode | Use Case | CSS Dependencies | Features |
 |------|----------|------------------|----------|
 | **Simple** | Basic data display with dropdown sorting | ResponsiveDataGrid.css only* | Single column sorting via dropdown |
-| **Advanced** | Complex data grids requiring multi-column sorting | ResponsiveDataGrid.css + SortStatusControl.css + Tag.css | Multi-column sorting, visual indicators, enhanced UX |
+| **Advanced** | Complex data grids requiring multi-column sorting | ResponsiveDataGrid.css and SortStatusControl.css and Tag.css | Multi-column sorting, visual indicators, enhanced UX |
 
 *ResponsiveDataGrid.css automatically includes Select and Button styling needed for simple sorting controls.
 

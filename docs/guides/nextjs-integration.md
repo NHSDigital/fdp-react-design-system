@@ -14,7 +14,7 @@ Ensure `react` / `react-dom` versions match those required by the design system 
 
 ## 2. Global Styles (App Router)
 
-In `app/layout.tsx` (server component) import the lightweight Next entry (core tokens + resets only):
+In `app/layout.tsx` (server component) import the lightweight Next entry (core tokens and resets only):
 
 ```tsx
 // app/layout.tsx

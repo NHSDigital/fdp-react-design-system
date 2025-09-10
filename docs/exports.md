@@ -72,7 +72,7 @@ These can be imported as `@fergusbisset/nhs-fdp-design-system/<subpath>`.
 - `./css` → same global CSS
 - `./core/css` → `dist/nhs-fdp-design-system-core.css`
 
-### Component code subpaths (ESM/JS + types)
+### Component code subpaths (ESM/JS and types)
 
 - `./components/Button`
 - `./components/Card`

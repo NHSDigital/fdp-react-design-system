@@ -22,7 +22,7 @@ This document outlines the evolving architecture for the FDP Data Visualisation 
 ---
 ## 2. Current State Snapshot
 
-- Implemented: colour/token service (categorical optimisation, extended palette, region & stroke tokens), `Legend` (interactive + announcements), early `LineChart`, `FilterableLineChart` composite, colour stability (`assignSeriesColors`).
+- Implemented: colour/token service (categorical optimisation, extended palette, region & stroke tokens), `Legend` (interactive and announcements), early `LineChart`, `FilterableLineChart` composite, colour stability (`assignSeriesColors`).
 
 - Pending extraction: Axes & grid out of `LineChart`; dimensions provider; visibility context baked into composites; tooltip and crosshair; additional series types.
 
@@ -31,7 +31,7 @@ This document outlines the evolving architecture for the FDP Data Visualisation 
 
 ```tsx
 <DataVizProvider theme="light">
-  <ChartRoot height={240} data={series}>  // dimensions + series registry
+  <ChartRoot height={240} data={series}>  // dimensions and series registry
     <ScaleProvider x={{ type:'time' }} y={{ type:'linear' }}>
       <VisibilityProvider>
         <TooltipProvider>
@@ -74,7 +74,7 @@ interface SeriesSpec {
 Renderer responsibilities:
 
 - Generate path / glyphs (memo on (dataRef, scale ranges, accessor identity)).
-- Register interactive points (for keyboard + tooltip).
+- Register interactive points (for keyboard and tooltip).
 - Honour visibility context (short‑circuit render when hidden).
 
 ---
@@ -83,7 +83,7 @@ Renderer responsibilities:
 - Centralised in `colors.ts` (already implemented):
   - Raw vs optimized categorical strategy.
   - Extended palette (> base length) via lightness deltas.
-  - Region mapping with normalisation + warning on missing tokens.
+  - Region mapping with normalisation and warning on missing tokens.
   - Stroke tokens for contrast outlines (with a white‑on‑white override prop in `Legend`).
   - Future: dark / high‑contrast variants → either token alias sets or theme suffix (e.g. `color.data-viz-dark.categorical.1`).
 
@@ -92,11 +92,11 @@ Renderer responsibilities:
 
 | Feature | Mechanism |
 |---------|-----------|
-| Legend toggling | `aria-pressed` + live region announcement |
+| Legend toggling | `aria-pressed` and live region announcement |
 | Keyboard navigation of points | Focus cycle (arrow keys) via `FocusNavContext` |
 | Tooltip narration | Live region diff (planned) |
 | Data table alternative | Hidden `<AriaSummary>` summarising series & latest values |
-| High contrast strokes | Stroke tokens + conditional override |
+| High contrast strokes | Stroke tokens and conditional override |
 | Screen reader axis context | Offscreen description elements referenced by `aria-describedby` |
 
 ---
@@ -111,8 +111,8 @@ Renderer responsibilities:
  
 | Step | Goal | Deliverable |
 |------|------|-------------|
-| 1 | Dimension abstraction | `ChartRoot` + migrate `useChartDimensions` logic |
-| 2 | Scale isolation | `ScaleContext` + adopt in `LineChart` |
+| 1 | Dimension abstraction | `ChartRoot` and migrate `useChartDimensions` logic |
+| 2 | Scale isolation | `ScaleContext` and adopt in `LineChart` |
 | 3 | Axis extraction | `<Axis>` & `<GridLines>` replacing inline SVG code |
 | 4 | Series modularity | `<LineSeries>` used by rewritten composite |
 | 5 | Visibility context | `Legend` auto-wires when `items` omitted |
@@ -120,7 +120,7 @@ Renderer responsibilities:
 | 7 | Keyboard enhancements | Centralised focus nav context consumed by points |
 | 8 | Additional series | Bar / Area / Scatter leveraging same contexts |
 | 9 | Accessibility table | `<AriaSummary>` auto generated |
-| 10 | Dark/HC themes | Theme context + palette switching |
+| 10 | Dark/HC themes | Theme context and palette switching |
 
 Each step preserves public API of existing composites wherever feasible.
 
@@ -130,14 +130,14 @@ Each step preserves public API of existing composites wherever feasible.
 - Unit: colour utilities, scale factory, region normalization, visibility reducer.
 - Component: axis snapshot, legend ↔ visibility, tooltip appearance, keyboard traversal.
 - Accessibility: axe integration against composites & interactive states.
-- Visual Regression: baseline stories for primitives + composites (hidden states, region palette, dense series).
+- Visual Regression: baseline stories for primitives and composites (hidden states, region palette, dense series).
 
 ---
 ## 10. Performance Considerations
  
 | Concern | Mitigation |
 |---------|-----------|
-| Large series (thousands of points) | Path generation memo + optional data thinning (Douglas–Peucker / moving average); potential canvas layer swap |
+| Large series (thousands of points) | Path generation memo and optional data thinning (Douglas–Peucker / moving average); potential canvas layer swap |
 | Tooltip nearest search | Index points by x (binary search) then local linear scan; spatial kd-tree if scatter |
 | Re-render churn | Context value segmentation (visibility separate from tooltip, etc.) |
 | Theming | Token resolution cached; palette arrays precomputed |
@@ -152,7 +152,7 @@ Each step preserves public API of existing composites wherever feasible.
 ## 12. Usage Modes
 1. **Quick**: `<FilterableLineChart series={...} />`
 2. **Semi‑custom**: Compose `<ChartRoot><LineSeries/><Axis/></ChartRoot>`.
-3. **Advanced**: Supply your own series + overlays, optional custom contexts.
+3. **Advanced**: Supply your own series and overlays, optional custom contexts.
 
 ---
 ## 13. Open Questions
@@ -171,4 +171,4 @@ Each step preserves public API of existing composites wherever feasible.
 ## 15. Summary
 This architecture shifts us from a one-off chart implementation to a **framework of interoperable primitives**. It balances developer ergonomics (quick presets) with depth (fine-grained composition) while embedding accessibility and theming from the ground up.
 
-> Next actionable step: implement `ChartRoot` + `ScaleContext` and retrofit `LineChart` internally without breaking its public API.
+> Next actionable step: implement `ChartRoot` and `ScaleContext` and retrofit `LineChart` internally without breaking its public API.

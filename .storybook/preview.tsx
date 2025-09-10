@@ -63,12 +63,29 @@ const preview: Preview = {
       ],
     },
   },
+  globalTypes: {
+    sqlCompatMode: {
+      name: 'SPC Engine',
+      description: 'Toggle between base SPC engine and SQL compatibility wrapper for SPCChart stories',
+      defaultValue: 'base',
+      toolbar: {
+        icon: 'graphline',
+        items: [
+          { value: 'base', title: 'Base' },
+          { value: 'sql', title: 'SQL Compat' }
+        ],
+        dynamicTitle: true
+      }
+    }
+  },
   decorators: [
-    (Story) => (
-      <NHSThemeProvider>
-        <Story />
-      </NHSThemeProvider>
-    ),
+    (Story, ctx) => {
+      return (
+        <NHSThemeProvider>
+          <Story {...ctx} />
+        </NHSThemeProvider>
+      );
+    },
   ],
 };
 

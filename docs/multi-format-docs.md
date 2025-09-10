@@ -12,7 +12,7 @@ This design system now generates documentation pages that show each component in
 
 ## Sources of Truth
 
-React SSR output is treated as the canonical HTML. Nunjucks macros are generated / updated to achieve *HTML parity* with the React version (enforced by macro parity tests + the HTML normaliser). Static HTML snippets are derived from SSR-rendering the React component with representative props and then normalising.
+React SSR output is treated as the canonical HTML. Nunjucks macros are generated / updated to achieve *HTML parity* with the React version (enforced by macro parity tests and the HTML normaliser). Static HTML snippets are derived from SSR-rendering the React component with representative props and then normalising.
 
 ### Normalisation Rules
 
@@ -65,7 +65,7 @@ Two environments expose docs pages:
 | Environment | Route | Purpose |
 |-------------|-------|---------|
 | Next.js | `/components/radios` | React example, macro snippet string, static HTML (read from generated file) |
-| Express + Nunjucks | `/components/radios` | Live macro render + static HTML snippet |
+| Express and Nunjucks | `/components/radios` | Live macro render and static HTML snippet |
 
 Next.js page (`examples/nextjs/app/components/radios/page.tsx`) attempts to read the generated file on the server (falling back to a placeholder). Express route (`examples/express-njk/server.mjs`) reads file and injects `staticHtml` into the template (`views/radios.njk`).
 

@@ -28,7 +28,7 @@ NHS FDP Design System is a comprehensive React component library with TypeScript
 ### Testing Infrastructure
 - **Component tests**: `npm run test:components`
   - **TIMING**: Takes ~4 minutes, ~1000 tests. NEVER CANCEL. Set timeout to 300+ seconds.
-  - Uses Vitest + React Testing Library + JSDOM
+  - Uses Vitest and React Testing Library and JSDOM
   - One expected test failure in AriaTabsDataGrid (aria-describedby assertion)
 - **SSR tests**: `npm run test:ssr-components` 
   - **TIMING**: Takes ~5 seconds, 153 tests. Set timeout to 30+ seconds.
@@ -67,7 +67,7 @@ NHS FDP Design System is a comprehensive React component library with TypeScript
    - Test keyboard navigation
    Built with Style Dictionary (source definitions → generated SCSS & TS in `packages/nhs-fdp/dist/`)
    Smart build: `npm run build:tokens:smart` (skips when source hash unchanged) – ALWAYS prefer in incremental builds
-   Force rebuild: `npm run build:tokens` (full Style Dictionary run + post-processing script)
+   Force rebuild: `npm run build:tokens` (full Style Dictionary run and post-processing script)
    Outputs (do not hand edit):
      * SCSS: `packages/nhs-fdp/dist/scss/_tokens.scss` (master), plus categorical files (`_colors.scss`, `_spacing.scss`, etc.)
      * Component-specific token bundles in `packages/nhs-fdp/dist/scss/components/`
@@ -101,7 +101,7 @@ Follow the established 3-tier testing pattern:
 
 - **Client tests**: Interactive behavior, events, keyboard, accessibility
 - **SSR tests**: Structural output, roles, semantics, conditional rendering
-- **Hydration tests**: SSR → client integrity + post-hydration interaction
+- **Hydration tests**: SSR → client integrity and post-hydration interaction
 
 Use React Testing Library query priority:
 1. `getByRole` (with `name` option)
@@ -209,7 +209,7 @@ The package is published to GitHub Packages. To install:
 2. Verify setup: `npm whoami --registry=https://npm.pkg.github.com`
 
 ### Key Dependencies
-- **React 19** + TypeScript
+- **React 19** and TypeScript
 - **Vite 7** for building
 - **Vitest 3** for testing
 - **Storybook 9** for documentation

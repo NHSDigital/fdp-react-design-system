@@ -11,10 +11,10 @@ Compared codebases:
 ## 1. Executive Summary
 
 Our design system provides a rich generic charting & data-table accessibility layer (charts, palettes, scales, legend patterns, Gantt, sortable data grid).  
-UKHSA’s frontend provides a mature interactive map + domain‑specific controls, key/legend, filters, and metric discovery patterns but lacks reusable generic chart primitives and colour scale utilities.  
+UKHSA’s frontend provides a mature interactive map and domain‑specific controls, key/legend, filters, and metric discovery patterns but lacks reusable generic chart primitives and colour scale utilities.  
 
-**We need (to reach UKHSA feature coverage):** Map wrapper + controls, map legend/key, severity colour tokens, chart filter bar, metric card variant, choropleth helpers, noscript fallback helper.  
-**UKHSA could adopt (to leverage our strengths):** Accessible chart+table tabs, perceptual colour scales, categorical/region palettes, data grid + multi-sort, Gantt, sequential/diverging scales.
+**We need (to reach UKHSA feature coverage):** Map wrapper and controls, map legend/key, severity colour tokens, chart filter bar, metric card variant, choropleth helpers, noscript fallback helper.  
+**UKHSA could adopt (to leverage our strengths):** Accessible chart+table tabs, perceptual colour scales, categorical/region palettes, data grid and multi-sort, Gantt, sequential/diverging scales.
 
 ## 2. Inventories
 
@@ -25,7 +25,7 @@ Core & Stories:
 * LineChart / CompositionalLineChart / FilterableLineChart / BarChart / Area (via primitives)
 * ChartWithTableTabs (chart ↔ data table accessibility pattern)
 * Legends: `Legend`, `RegionLegend`
-* Palettes & Colour Utilities: categorical (raw/optimized), extended palette, sequential & diverging scales, region + stroke tokens
+* Palettes & Colour Utilities: categorical (raw/optimized), extended palette, sequential & diverging scales, region and stroke tokens
 * Series utilities: colour assignment, lightness variants, cache invalidation
 * Tables: SortableDataTable, ResponsiveDataGrid, multi-sort / tab integration
 * GanttChart (timeline/task visualization)
@@ -46,13 +46,13 @@ No generic reusable chart primitives or colour scale utilities identified in the
 | Capability | Our DS | UKHSA | Status |
 |------------|--------|-------|--------|
 | Generic charts (line/bar/filtered) | Yes | No | We surpass |
-| Chart + data table tabs (a11y) | Yes | No | UKHSA gap |
-| Palettes (categorical + extended) | Yes | Hardcoded severity | UKHSA gap |
+| Chart and data table tabs (a11y) | Yes | No | UKHSA gap |
+| Palettes (categorical and extended) | Yes | Hardcoded severity | UKHSA gap |
 | Sequential / diverging scales | Yes | No | UKHSA gap |
-| Legend (generic + region) | Yes | Map key only | Both can unify |
+| Legend (generic and region) | Yes | Map key only | Both can unify |
 | Gantt / timeline | Yes | No | UKHSA gap |
 | Sortable multi-tab data grid | Yes | Not generic | UKHSA gap |
-| Map wrapper + pluggable controls | No | Yes (mature) | Our gap |
+| Map wrapper and pluggable controls | No | Yes (mature) | Our gap |
 | Map legend/key toggle | No | Yes | Our gap |
 | Map severity colour domain | No tokens | Yes (implicit) | Our gap |
 | Chart filter suite (time/metric) | Basic (external) | Yes (multiple) | Our gap |
@@ -78,7 +78,7 @@ No generic reusable chart primitives or colour scale utilities identified in the
 
 ### 4.3 Health Alert / Severity Tokens
 
-Add semantic tokens: `color.data-viz.alert.low|moderate|high|critical` + accessible contrast guidelines.  
+Add semantic tokens: `color.data-viz.alert.low|moderate|high|critical` and accessible contrast guidelines.  
 Support mapping (Green/Yellow/Amber/Red) to brand-consistent palette with WCAG AA text contrast.
 
 ### 4.4 Noscript Chart Fallback (`ChartNoScript`)
@@ -87,7 +87,7 @@ Component that renders a hidden anchor / fallback text in `<noscript>` block ref
 
 ### 4.5 DataVizFilterBar
 
-Composable filter shell (slotting select/multi-select/date/period) + change callback; integrate with our chart stories to standardize usage.
+Composable filter shell (slotting select/multi-select/date/period) and change callback; integrate with our chart stories to standardize usage.
 
 ### 4.6 MetricCard Variant
 
@@ -110,21 +110,21 @@ Interface: `{ type: 'choropleth' | 'points'; data; getValue(feature): number; sc
 
 | Asset | Benefit |
 |-------|---------|
-| ChartWithTableTabs | Immediate accessible pairing of visual + tabular data (WCAG compliance) |
-| assignSeriesColors + palettes | Consistent, distinct colour assignment scaling beyond 12 categories |
+| ChartWithTableTabs | Immediate accessible pairing of visual and tabular data (WCAG compliance) |
+| assignSeriesColors and palettes | Consistent, distinct colour assignment scaling beyond 12 categories |
 | Sequential/diverging scales | Perceptually uniform map or chart ramps |
 | SortableDataTable / ResponsiveDataGrid | Rich sorting & responsive behaviour without bespoke code |
 | GanttChart | Timeline view for operational / capacity data |
-| Legend + RegionLegend | Uniform handling of categories vs. regions (aligns with map legend styling) |
+| Legend and RegionLegend | Uniform handling of categories vs. regions (aligns with map legend styling) |
 
 ## 6. Implementation Sequencing (Our Side)
 
 | Phase | Items | Rationale | Effort |
 |-------|-------|-----------|--------|
 | 1 | ChartNoScript, DataVizLegend refactor (generic), Severity tokens | Fast parity enablers | S |
-| 2 | Map wrapper + Key + core controls | Core missing capability | M |
+| 2 | Map wrapper and Key and core controls | Core missing capability | M |
 | 3 | DataVizFilterBar, MetricCard | Enhances dashboard integration | M |
-| 4 | Choropleth helper + Layer abstraction | Advanced power features | M-L |
+| 4 | Choropleth helper and Layer abstraction | Advanced power features | M-L |
 
 ## 7. Risks & Mitigations
 
@@ -175,7 +175,7 @@ type MapLayer = ChoroplethLayer | PointLayer;
 
 ## 9. Definition of Done (Per New Component)
 
-1. Component folder with `.tsx`, `.types.ts`, `.scss`, stories, tests (client + SSR if relevant).  
+1. Component folder with `.tsx`, `.types.ts`, `.scss`, stories, tests (client and SSR if relevant).  
 2. A11y review (keyboard, roles, aria relationships).  
 3. Tokens defined & built (if new colours).  
 4. Added to public exports & documented in Storybook.  
@@ -189,8 +189,8 @@ type MapLayer = ChoroplethLayer | PointLayer;
 | DataVizLegend (generic) | TODO | Refactor existing Legend |
 | Severity tokens | TODO | Green/Yellow/Amber/Red semantic mapping |
 | ChartNoScript | TODO | Simple wrapper component |
-| Map wrapper | TODO | SSR guard + control slots |
-| Map Key / Legend control | TODO | Collapsible + keyboard toggling |
+| Map wrapper | TODO | SSR guard and control slots |
+| Map Key / Legend control | TODO | Collapsible and keyboard toggling |
 | Core map controls (zoom/attrib/fullscreen) | TODO | Compose wrappers over Leaflet APIs |
 | DataVizFilterBar | TODO | Composition shell |
 | MetricCard | TODO | Extend SummaryCard pattern |
@@ -200,7 +200,7 @@ type MapLayer = ChoroplethLayer | PointLayer;
 ## 11. Next Actions
 
 1. Approve scope & sequencing (Phases 1–4).  
-2. Implement Phase 1 PR (Legend refactor + tokens + ChartNoScript).  
+2. Implement Phase 1 PR (Legend refactor and tokens and ChartNoScript).  
 3. Begin Map wrapper spike (confirm Leaflet SSR strategy).  
 4. Draft filter bar & metric card design tokens.  
 5. Document adoption guide for UKHSA (mapping existing map key to LegendItem model).  

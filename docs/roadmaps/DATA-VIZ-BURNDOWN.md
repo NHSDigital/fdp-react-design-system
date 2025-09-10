@@ -13,19 +13,19 @@ Goal: Reach a "usable analyst kit" enabling KPI tiles, exception surfacing, filt
 
 Core Epics (indicative sizing):
 
-1. ChartNoScript fallback (SSR + a11y) – 5 (Done)
-2. MetricCard (base + variants) – 5+5
+1. ChartNoScript fallback (SSR and a11y) – 5 (Done)
+2. MetricCard (base and variants) – 5+5
 3. **SPC Charts (Statistical Process Control)** – **8+5 (Done)**
 4. **Enhanced Data Grid Navigation** – **5+3 (Done)**
-5. DataVizFilterBar (scaffold + interactions) – 3+5
-6. ExportMenu (contract + CSV + PNG) – 3+5
+5. DataVizFilterBar (scaffold and interactions) – 3+5
+6. ExportMenu (contract and CSV and PNG) – 3+5
 7. Severity / exception visual mapping guidance – 2
 8. Freshness badge (KPI) – 2
 9. Map wrapper (MVP) – 8
-10. Choropleth helpers (quantisation + auto legend) – 5
+10. Choropleth helpers (quantisation and auto legend) – 5
 11. Legend grouping & search – 5
 12. Series metadata interface (for grouping) – 2
-13. Layer abstraction (points + polygons) – 8
+13. Layer abstraction (points and polygons) – 8
 14. Performance sampling / down-sampling helper – 5
 15. Accessibility extensions (CVD pattern mapping, announcements debounce) – 5
 16. Export enhancements (SVG) – 3
@@ -44,21 +44,21 @@ Done (≈63 points / ~52%):
 
 - **SPC Charts Complete (13 points)**: Full SPCChart component with XmR/T/G chart types, rule detection engine, improvement direction support, healthcare examples, 25+ tests
 - **Enhanced Data Grid Navigation (8 points)**: NavigationSplitView keyboard navigation, AriaTabsDataGrid actions area, responsive placement, tablet breakpoint fixes
-- Palettes (categorical, region, severity, org-level) + stroke & semantic alias tokens
-- Legend refactor (unified palettes + pattern overlays)
+- Palettes (categorical, region, severity, org-level) and stroke & semantic alias tokens
+- Legend refactor (unified palettes and pattern overlays)
 - Pattern system (18+) with a11y tests
-- Stacking + 100% normalisation utilities & percent mode stories
-- Tooltip resilience (mixed x domains) + percent formatting
+- Stacking and 100% normalisation utilities & percent mode stories
+- Tooltip resilience (mixed x domains) and percent formatting
 - Axis/bar layout improvements (gapRatio, minBarWidth, overflow handling)
 - Core tests (palettes, patterns, stacking integrity, bar invariants)
 - Chart↔Table accessibility pattern (ChartWithTableTabs)
-- ChartNoScript fallback + ChartEnhancer helper
+- ChartNoScript fallback and ChartEnhancer helper
 
 Recent refinements (no additional story points allocated – folded into SPC epic scope):
 
-- SPC embedded icon refactor (variation + conditional assurance) moved outside SVG for layout stability
+- SPC embedded icon refactor (variation and conditional assurance) moved outside SVG for layout stability
 - Assurance uncertainty behaviour (icon suppressed when target lies within process band) – regression test added/fixed
-- Gradient sequence washes (improvement / concern / common) with singleton absorption + A–B–A neutralisation
+- Gradient sequence washes (improvement / concern / common) with singleton absorption and A–B–A neutralisation
 - Trend orientation heuristic for suppressed favourable single points
 - Timeframe auto‑narration in live region (days/weeks/months inference)
 - Enriched SPCTooltipOverlay groundwork for aggregated summaries
@@ -87,7 +87,7 @@ Next (Immediate Build Enablers):
 1. ~~ChartNoScript wrapper~~ (Done)
 2. ~~SPC Charts~~ (Done)
 3. ~~Enhanced Data Grid Navigation~~ (Done)
-4. MetricCard (base + delta/status variant)
+4. MetricCard (base and delta/status variant)
 5. DataVizFilterBar skeleton
 6. ExportMenu API contract (types only)
 7. Exception severity mapping doc
@@ -95,7 +95,7 @@ Next (Immediate Build Enablers):
 
 Backlog (Post-enablers):
 
-- Map wrapper + controls; Choropleth helpers; Export implementations; Legend grouping/search; Performance sampling; Accessibility guidance extension; Layer abstraction
+- Map wrapper and controls; Choropleth helpers; Export implementations; Legend grouping/search; Performance sampling; Accessibility guidance extension; Layer abstraction
 
 Deferred / Nice-to-have:
 
@@ -107,7 +107,7 @@ Deferred / Nice-to-have:
 
 ### Sprint 1 (Weeks 1–2) ✅ COMPLETED AHEAD OF SCHEDULE
 
-- ~~ChartNoScript (feat + SSR/hydration tests)~~ – 5 ✅
+- ~~ChartNoScript (feat and SSR/hydration tests)~~ – 5 ✅
 - ~~SPC Charts (full implementation)~~ – 13 ✅  
 - ~~Enhanced Data Grid Navigation~~ – 8 ✅
 - ~~Package publication & documentation updates~~ – 2 ✅
@@ -115,28 +115,28 @@ Deferred / Nice-to-have:
 
 ### Sprint 2 (Weeks 3–4) – **REVISED SCHEDULE (Plan A)**
 
-- MetricCard base + delta variant (+ stories) – 5
+- MetricCard base and delta variant (+ stories) – 5
 - DataVizFilterBar skeleton (layout, slot props) – 3  
-- Severity token mapping doc + legend story updates – 2
+- Severity token mapping doc and legend story updates – 2
 - FreshnessBadge (relative time util) – 2
 - SPC chart baseline analysis automation – 3
 (Target 15)
 
 ### Sprint 2 (Weeks 3–4) – **Stretch (Plan B if capacity)**
 
-- ExportMenu contract (types + placeholder) – 3
+- ExportMenu contract (types and placeholder) – 3
 - MetricCard KPI/status variants (trend sparkline placeholder) – 5
-- FilterBar interactive state handling (org/period) + keyboard tests – 5
+- FilterBar interactive state handling (org/period) and keyboard tests – 5
 - Legend grouping design spike – 1
-- Map wrapper spike (SSR boundary + projection decision) – 3
+- Map wrapper spike (SSR boundary and projection decision) – 3
 (Target 17 / Cumulative 34 new → ~69% core)
 
 ### Sprint 3 (Weeks 5–6)
 
-- Map wrapper MVP (static geo layer + basic controls) – 8
-- Choropleth scale + auto legend – 5
-- Legend grouping + search implementation – 5
-- ExportMenu basic CSV + PNG (client approach) – 5
+- Map wrapper MVP (static geo layer and basic controls) – 8
+- Choropleth scale and auto legend – 5
+- Legend grouping and search implementation – 5
+- ExportMenu basic CSV and PNG (client approach) – 5
 (Target 23)
 
 ## 5. Critical Path
@@ -149,8 +149,8 @@ ChartNoScript → MetricCard → FilterBar → Export contract → Map wrapper �
 |----------|-----------|---------|----------------|
 | Geo data format | End Sprint 2 | GeoJSON vs TopoJSON | TopoJSON (smaller, pre-simplify) with build-time convert fallback |
 | Map projection | Sprint 2 | Albers UK, Mercator | Use Albers UK (distortion balanced for UK regions) |
-| Export strategy | Sprint 2 | Client canvas, SVG serialization, server render | Phase 1: CSV + client canvas PNG; Phase 2: SVG; Defer server |
-| Legend grouping metadata shape | Sprint 1 | Flat array vs hierarchical tree | Flat array + optional group key & order index |
+| Export strategy | Sprint 2 | Client canvas, SVG serialization, server render | Phase 1: CSV and client canvas PNG; Phase 2: SVG; Defer server |
+| Legend grouping metadata shape | Sprint 1 | Flat array vs hierarchical tree | Flat array and optional group key & order index |
 | KPI trending sparkline source | Sprint 2 | Inline mini-chart vs pre-computed spark values | Pre-compute small array (last 8 periods) |
 
 ## 7. Risk Register
@@ -159,17 +159,17 @@ ChartNoScript → MetricCard → FilterBar → Export contract → Map wrapper �
 |---|------|--------|------------|------------|-------------|---------|
 | 1 | Geo SSR mismatch | High | Medium | Conditional client enhancement; precompute bbox |  | Hydration warnings |
 | 2 | Export complexity delays | High | Medium | Stage CSV→PNG→SVG; abstraction layer early |  | Slipping past Sprint 3 |
-| 3 | FilterBar scope creep | Medium | High | Minimal contract + facet slot extension |  | PRs adding bespoke logic |
-| 4 | Legend overcrowding (>12) | Medium | Medium | Threshold triggers grouping + search; virtualization |  | Story with 15 series |
-| 5 | Large stack perf issues | Medium | Medium | Baseline metrics + design down-sampler API |  | CPU >100ms render traces |
+| 3 | FilterBar scope creep | Medium | High | Minimal contract and facet slot extension |  | PRs adding bespoke logic |
+| 4 | Legend overcrowding (>12) | Medium | Medium | Threshold triggers grouping and search; virtualization |  | Story with 15 series |
+| 5 | Large stack perf issues | Medium | Medium | Baseline metrics and design down-sampler API |  | CPU >100ms render traces |
 | 6 | CVD colour ambiguity | Low | Medium | Pattern auto-subst matrix; doc decision tree |  | A11y review flags contrast |
-| 7 | KPI volatile updates | Medium | Medium | Diff + debounce + reduced-motion guard |  | Rapid refresh telemetry |
+| 7 | KPI volatile updates | Medium | Medium | Diff and debounce and reduced-motion guard |  | Rapid refresh telemetry |
 
 ## 8. Immediate (Next 2 Weeks) Action List
 
-1. Implement ChartNoScript + SSR/hydration tests
+1. Implement ChartNoScript and SSR/hydration tests
 2. Build MetricCard (value, label, delta, status, optional trendData prop)
-3. Scaffold DataVizFilterBar (structural only) + story
+3. Scaffold DataVizFilterBar (structural only) and story
 4. Write severity mapping guidance & update legend stories
 5. Implement FreshnessBadge (relative time util; story with manual now override)
 6. Define `SeriesMeta` interface (id, label, group?, order?, severity?)
@@ -177,18 +177,18 @@ ChartNoScript → MetricCard → FilterBar → Export contract → Map wrapper �
 ## 9. Definition of Done (Augmented for New Components)
 
 - Stories: base, loading, empty/error, a11y (prefers-reduced-motion if any animation)
-- Tests: SSR + hydration + keyboard + roles/labels
+- Tests: SSR and hydration and keyboard and roles/labels
 - Tokens: colours/spacing/elevation only via design tokens (no raw hex except temp prototypes)
 - Types: strict & discriminated where variants diverge
 - Accessibility: visible focus states, ARIA labels, announced deltas
 - Performance: renders under 16ms for medium dataset (baseline recorded) where feasible
-- Documentation: prop table + usage guidance + a11y considerations + performance notes
+- Documentation: prop table and usage guidance and a11y considerations and performance notes
 
 ## 10. Estimation Mapping (Appendix)
 
 - Small (2): Docs-only, token mapping, simple wrapper
 - Medium (5): New component (base) or logic enhancement with tests
-- Large (8): Complex component with SSR + interaction + perf considerations (Map, Layer abstraction)
+- Large (8): Complex component with SSR and interaction and perf considerations (Map, Layer abstraction)
 
 ## 11. Links & Cross References
 

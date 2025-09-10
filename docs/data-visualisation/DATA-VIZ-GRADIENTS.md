@@ -78,7 +78,7 @@ The gradients are intentionally low‑alpha at the starting colour stop (~5–10
 ## Future Extensions
 
 1. Semantic aliases (`semantic.surface.card.[variant].wash`) if usage expands beyond MetricCard.
-2. Dark mode variants (e.g. hue shift + transparent overlay on dark base).
+2. Dark mode variants (e.g. hue shift and transparent overlay on dark base).
 3. Animated state overlays (pulse / shimmer) leveraging same gradient directions for loading states.
 4. Generator utility for programmatic light‐tint gradient creation based on any brand colour.
 

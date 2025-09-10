@@ -15,7 +15,7 @@ Users (booking clerks, validators, service managers) need to rapidly locate and 
 1. Single specialty, single day slot selection.
 2. Multi‑day horizontal scroll (week view) to find earliest capacity.
 3. Filtering by site / consultant / modality / room type.
-4. Identifying and selecting multiple linked slots (e.g. pre‑op + imaging same day).
+4. Identifying and selecting multiple linked slots (e.g. pre‑op and imaging same day).
 5. Handling partial / overbooked sessions & highlighting low remaining capacity.
 6. Real‑time capacity updates (slots held or booked by others).
 7. Rebooking after cancellation with suggested alternatives.
@@ -110,8 +110,8 @@ interface SlotMatrixProps {
 | SM-01 | SingleDayBasic | Basic day view single specialty | default props | Baseline regression |
 | SM-02 | WeekScrollable | Horizontal multi-day scroll | extended dateRange | Show sticky time column |
 | SM-03 | WithFilters | Interactive filter bar | filters, onFiltersChange | Controls in toolbar |
-| SM-04 | LowCapacityHighlight | Threshold highlight (<=1 remaining) | highlightThresholds | Red / warning token + aria label |
-| SM-05 | OverbookingEnabled | Display overbooked slots | showOverbook | OverbookBadge + tooltip rationale |
+| SM-04 | LowCapacityHighlight | Threshold highlight (<=1 remaining) | highlightThresholds | Red / warning token and aria label |
+| SM-05 | OverbookingEnabled | Display overbooked slots | showOverbook | OverbookBadge and tooltip rationale |
 | SM-06 | MultiSelectLinked | Selecting multiple linked slots | selectionMode='multi' | Selection summary bar |
 | SM-07 | ContiguousSelection | Drag to select contiguous band | selectionMode='contiguous' | Marquee |
 | SM-08 | LiveUpdating | Simulated live capacity updates | liveUpdates.enabled | Announce changes |
@@ -120,7 +120,7 @@ interface SlotMatrixProps {
 | SM-11 | ErrorState | Show data retrieval error | error injection | ErrorBanner |
 | SM-12 | LoadingSkeleton | Loading placeholder | loading | Skeleton shimmer cells |
 | SM-13 | EmptyState | No slots after filter | filters applied | EmptyStatePanel messaging |
-| SM-14 | WithCustomTooltip | Rich slot tooltip | renderSlotTooltip | Include consultant + equipment |
+| SM-14 | WithCustomTooltip | Rich slot tooltip | renderSlotTooltip | Include consultant and equipment |
 
 ---
 
@@ -134,7 +134,7 @@ interface GenerateSlotsOptions {
   overbookProbability?: number; holdProbability?: number;
 }
 
-function generateMockSessions(opts: GenerateSlotsOptions): Session[] { /* deterministic seed + specialty rotation */ }
+function generateMockSessions(opts: GenerateSlotsOptions): Session[] { /* deterministic seed and specialty rotation */ }
 function generateMockSlots(sessions: Session[], opts: GenerateSlotsOptions): Slot[] { /* derive slots per session, random fill */ }
 ```
 
@@ -152,7 +152,7 @@ Deterministic seeding (e.g. mulberry32) avoids visual churn in Chromatic.
 | Live Updates | Polite announcements of changed slots | useLiveAnnouncements: aria-live region summarising changes (e.g. "Slot 09:30 Dr Smith now full") |
 | Color Independence | Non-color cues for capacity | Text badges (Full, 1 left), patterns or icons for overbook |
 | Hit Target Size | Minimum 44x44 CSS pixels | Compact mode still respects minimum interactive area |
-| Overbooking & Warnings | Clear semantics + explanation | aria-describedby linking to tooltip content id |
+| Overbooking & Warnings | Clear semantics and explanation | aria-describedby linking to tooltip content id |
 | Time Formats | Localised, 24h preference toggle | Provide accessible formatting with date-fns/Intl |
 | Selection Feedback | SR announcement of count | Live region: "3 slots selected" on change |
 | Keyboard Multi-Select | Space toggles slot, Shift+Arrow extends selection | Documented in Storybook notes |
@@ -160,7 +160,7 @@ Deterministic seeding (e.g. mulberry32) avoids visual churn in Chromatic.
 ## 9. Performance & Virtualisation
 
 - Windowing: Only render visible timebands × sessions subset.
-- Memoisation: group slots by (sessionId + timebandKey).
+- Memoisation: group slots by (sessionId and timebandKey).
 - Off-thread precomputation (Web Worker optional) for large datasets.
 - Avoid layout thrash: precompute cell heights; CSS grid or virtualised absolute positioning.
 - Batched live updates: aggregate changes per animation frame.
@@ -198,7 +198,7 @@ Deterministic seeding (e.g. mulberry32) avoids visual churn in Chromatic.
 
 ## 13. Initial Storybook Implementation Checklist
 
-- [ ] Create SlotMatrix root component + types.
+- [ ] Create SlotMatrix root component and types.
 - [ ] Implement deterministic mock generator.
 - [ ] Story SM-01 through SM-05 (foundational set).
 - [ ] Add a11y notes (docs page) referencing keyboard map & live updates.

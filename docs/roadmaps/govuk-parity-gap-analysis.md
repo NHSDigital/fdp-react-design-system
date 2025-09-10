@@ -30,7 +30,7 @@ Most GOV.UK baseline components already exist (often with enhanced variants). Ei
 | details | Done | `Details` |
 | error-message | Done | `ErrorMessage` |
 | error-summary | Done | `ErrorSummary` |
-| exit-this-page | Missing | Safety/rapid-exit control (keyboard shortcut + redirect) |
+| exit-this-page | Missing | Safety/rapid-exit control (keyboard shortcut and redirect) |
 | fieldset | Done | `Fieldset` |
 | file-upload | Missing | Styled file input with accessible focus, error, hint integration |
 | footer | Done | `Footer` |
@@ -40,13 +40,13 @@ Most GOV.UK baseline components already exist (often with enhanced variants). Ei
 | pagination | Done | `Pagination` |
 | panel | Done | `Panel` |
 | password-input | Missing | Extend `Input` with show/hide toggle & a11y labelling |
-| phase-banner | Missing | Simple banner with `Tag` (alpha/beta) + feedback link |
+| phase-banner | Missing | Simple banner with `Tag` (alpha/beta) and feedback link |
 | radios | Done | `Radios` |
 | select | Done | `Select` |
 | service-navigation | Missing | Distinct service-level nav element; could extend header layout |
 | skip-link | Done | `SkipLink` |
 | summary-list | Done | `SummaryList` |
-| table | Done | `Tables` + advanced: `SortableDataTable`, `ResponsiveDataGrid` |
+| table | Done | `Tables` and advanced: `SortableDataTable`, `ResponsiveDataGrid` |
 | tabs | Done | `Tabs` |
 | tag | Done | `Tag` |
 | task-list | Done | `TaskList` |
@@ -74,7 +74,7 @@ Most GOV.UK baseline components already exist (often with enhanced variants). Ei
 
 ### 3.3 PhaseBanner
 
-**Purpose:** Display product phase (Alpha/Beta) + feedback link.  
+**Purpose:** Display product phase (Alpha/Beta) and feedback link.  
 **Acceptance:** Uses existing `Tag` tokens; accessible landmark or simple container with `aria-label` as necessary; responsive spacing.
 
 ### 3.4 FileUpload
@@ -84,7 +84,7 @@ Most GOV.UK baseline components already exist (often with enhanced variants). Ei
 
 * Supports multiple, single, accept filters.
 * Drag & drop enhancement (progressive, not required for MVP).
-* Error + hint integration (ties into `ErrorMessage` / `Hint` semantics via `aria-describedby`).
+* Error and hint integration (ties into `ErrorMessage` / `Hint` semantics via `aria-describedby`).
 * Shows selected file list with remove buttons (keyboard operable).
 
 ### 3.5 PasswordInput
@@ -107,8 +107,8 @@ Most GOV.UK baseline components already exist (often with enhanced variants). Ei
 **Purpose:** Rapid conceal / redirect for user safety.  
 **Acceptance (MVP):**
 
-* Prominent button; configurable target URL (e.g. generic site) + optional blank tab.
-* (Optional) Keyboard shortcut (e.g. Shift + Esc) – announce capability to screen readers.
+* Prominent button; configurable target URL (e.g. generic site) and optional blank tab.
+* (Optional) Keyboard shortcut (e.g. Shift and Esc) – announce capability to screen readers.
 * Minimal state storage; no tracking.
 * Provide guidance note about ethical/legal implications.
 
@@ -139,17 +139,17 @@ Alias quick wins (very low effort): `WarningText` re-export; `TextInput` alias f
 ## 5. Reuse & Architecture Notes
 
 * **Banner variants** can share a base `<Banner>` with variant prop → tokens for colour & icon.
-* **FileUpload** can leverage existing form control styling + error/hint pattern used by `Input`, `Textarea`.
-* **PasswordInput** extends Input: internal state + toggle button appended (flex container pattern consistent with potential future adornments).
-* **Accordion**: determine if a context provider + item composition around `Expander` is sufficient (avoid duplication).
-* **ServiceNavigation**: evaluate existing `Header` slot APIs; may just need a documented pattern + wrapper.
+* **FileUpload** can leverage existing form control styling and error/hint pattern used by `Input`, `Textarea`.
+* **PasswordInput** extends Input: internal state and toggle button appended (flex container pattern consistent with potential future adornments).
+* **Accordion**: determine if a context provider and item composition around `Expander` is sufficient (avoid duplication).
+* **ServiceNavigation**: evaluate existing `Header` slot APIs; may just need a documented pattern and wrapper.
 * **ExitThisPage** demands content & security review; consider deferring until product/legal sign-off.
 
 ## 6. Token & Accessibility Considerations
 
 * Introduce tokens for banner background / border / icon colours (info, success, warning) – align naming with any existing alert tokens.
-* PhaseBanner likely reuses neutral background + subtle border; only Tag needs semantic variant (alpha/beta) already available or trivial to add.
-* FileUpload requires focus ring + drag-over state tokens (e.g. `--file-upload-border-active`).
+* PhaseBanner likely reuses neutral background and subtle border; only Tag needs semantic variant (alpha/beta) already available or trivial to add.
+* FileUpload requires focus ring and drag-over state tokens (e.g. `--file-upload-border-active`).
 * Provide live region announcements for: NotificationBanner insertion (if role="alert"), PasswordInput visibility toggle (optional polite), ExitThisPage activation.
 
 ## 7. Risks & Mitigations
@@ -163,8 +163,8 @@ Alias quick wins (very low effort): `WarningText` re-export; `TextInput` alias f
 
 ## 8. Definition of Done (per gap component)
 
-1. Component directory with .tsx, .types.ts, .scss, stories, tests (client + SSR + hydration if applicable).  
-2. A11y: keyboard + screen reader semantics verified (Storybook a11y + unit tests).  
+1. Component directory with .tsx, .types.ts, .scss, stories, tests (client and SSR and hydration if applicable).  
+2. A11y: keyboard and screen reader semantics verified (Storybook a11y and unit tests).  
 3. Design tokens (if new) added & built.  
 4. Added to `src/components/index.ts` & package exports if CSS required.  
 5. Storybook docs include usage, a11y notes, GOV.UK parity reference.  
@@ -188,8 +188,8 @@ Alias quick wins (very low effort): `WarningText` re-export; `TextInput` alias f
 ## 10. Next Actions
 
 1. Confirm Expander capability for grouped accordion pattern (add open-all if missing).  
-2. Draft CookieBanner + NotificationBanner + PhaseBanner (batch PR).  
-3. Implement FileUpload + PasswordInput.  
+2. Draft CookieBanner and NotificationBanner and PhaseBanner (batch PR).  
+3. Implement FileUpload and PasswordInput.  
 4. Decide on alias exports (WarningText/TextInput) and add.  
 5. Architectural decision: ServiceNavigation vs. enhancing existing Header.  
 6. Draft ExitThisPage RFC (requirements, compliance).  

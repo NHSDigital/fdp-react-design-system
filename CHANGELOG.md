@@ -50,7 +50,7 @@ The golden SPC fixture (`test-data/golden-all.json`) and related snapshot tests 
 ### Added (Unreleased – Components & Docs)
 
 - Shared story utilities module `src/components/DataVisualisation/stories/utils/deterministic.ts` providing date helpers, linear series generator, seeded PRNG.
-- Table: Declarative columns + data API (auto-generates head and rows when explicit `head`/`rows` omitted).
+- Table: Declarative columns and data API (auto-generates head and rows when explicit `head`/`rows` omitted).
 - Table: `visuallyHiddenCaption` prop to retain semantic caption for assistive tech while hiding visually.
 - Table: New sub-component `Table.Cell` supporting `rowHeader` plus code / html / node content (joins existing `Caption`, `BodyRow`, `HeaderCell`).
 - Table: Focused test coverage for columns+data generation & visually hidden caption rendering.
@@ -67,7 +67,7 @@ The golden SPC fixture (`test-data/golden-all.json`) and related snapshot tests 
 
 - Storybook data visualisation stories (Line, FilterableLine, Area, Bar, SPC) now use fully deterministic synthetic datasets (removed all Math.random/Date.now) for stable visual regression and reproducible docs.
 - SPCChart: Mean (centre) line and UCL/LCL control limits retain discrete horizontal segments; added subtle curved join paths only where recalculations change the level, improving visual continuity without misrepresenting flat spans (no semantic/ARIA change).
-- Header SCSS refactor: eliminated Sass mixed-decls deprecation warnings by reordering declarations and splitting `header-link-style` into base + state mixins.
+- Header SCSS refactor: eliminated Sass mixed-decls deprecation warnings by reordering declarations and splitting `header-link-style` into base and state mixins.
 - Embedded SPC summary variation icon now shows business polarity letter (H/L = higher-/lower-is-better) instead of side-of-signal when `metricImprovement` is Higher or Lower; retains side-of-signal lettering only for neutral metrics.
 - Table: Story and MDX docs consolidated & updated to document new columns API and sub-components.
 - SPC engine: Shift & Trend rule flags now backfill across the entire qualifying run (rather than only the terminal point). Downstream logic expecting terminal-only flags should adjust (see Migration Guide). Golden SPC snapshot fixture updated accordingly.
@@ -83,7 +83,7 @@ _No other unreleased changes yet._
 
 ### Added
 
-- Multi‑render architecture documentation (`docs/guides/multi-render-architecture.md`) describing React + Nunjucks + static HTML parity model
+- Multi‑render architecture documentation (`docs/guides/multi-render-architecture.md`) describing React and Nunjucks and static HTML parity model
 - Behaviour layer documentation (`docs/guides/behaviours.md`) including init / teardown APIs & custom events
 - Schema‑generated Nunjucks macros for CharacterCount & Checkboxes
 - Macro parity tests for CharacterCount and Checkboxes ensuring deterministic HTML output across renderers
@@ -146,7 +146,7 @@ These breaking removals harden the SPC engine to statistically orthodox Shewhart
 
 ### Parity Coverage (Tracking)
 
-Current schema + macro + parity test coverage:
+Current schema and macro and parity test coverage:
 
 - Covered: Button, Tag, Label, Hint, Heading, ErrorMessage, Input, Textarea, Select, Radios, CharacterCount, Checkboxes, Fieldset, ErrorSummary, DateInput, Panel, InsetText, Details
 - Next (Batch 1 target): (completed)

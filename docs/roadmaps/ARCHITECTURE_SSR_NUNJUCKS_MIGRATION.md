@@ -1,4 +1,4 @@
-# SSR + Nunjucks + Behaviour Layer Migration Plan
+# SSR and Nunjucks and Behaviour Layer Migration Plan
 
 This document outlines the staged migration of the NHS FDP Design System from a React-only component model to a **multi-renderer architecture** supporting:
 
@@ -13,7 +13,7 @@ This document outlines the staged migration of the NHS FDP Design System from a 
 - **Single Source of Truth for Semantics**: Each component defines a canonical props schema / shape. Renderers (React, Nunjucks, HTML generator) consume that schema.
 - **Behaviour Extraction**: Interactive logic (event handling, state toggles, ARIA management) moves to `src/behaviours/*` small, framework-agnostic modules.
 - **Deterministic Parity Verification**: Scripts enforce that every React component has a macro and (eventually) an HTML snapshot.
-- **Incremental & Backwards Compatible**: No breaking changes until all Tier‑1 components have parallel Nunjucks + behaviour coverage.
+- **Incremental & Backwards Compatible**: No breaking changes until all Tier‑1 components have parallel Nunjucks and behaviour coverage.
 - **Progressive Enhancement First**: Server renders accessible baseline; JS enhances features (e.g. double click prevention) when present.
 
 ---
@@ -35,9 +35,9 @@ src/
 
 ### Phase 0 (Bootstrapped in this commit)
 
-- Add behaviour layer folder + sample (`buttonBehaviour.ts`).
+- Add behaviour layer folder and sample (`buttonBehaviour.ts`).
 - Add initial Nunjucks macro (`button.njk`).
-- Add build + verify scripts: `build:behaviours`, `generate:nunjucks`, `verify:macro-parity`.
+- Add build and verify scripts: `build:behaviours`, `generate:nunjucks`, `verify:macro-parity`.
 - Add architecture doc (this file).
 
 ### Phase 1 – Formalise Component Metadata
@@ -48,7 +48,7 @@ src/
 
 ### Phase 2 – Schema Driven Macro Generation
 
-- For simple components (Button, Tag, Hint, Label, Heading, Link) auto-generate `.njk` from schema + a template DSL.
+- For simple components (Button, Tag, Hint, Label, Heading, Link) auto-generate `.njk` from schema and a template DSL.
 - Keep manually curated macros for complex layouts (Tables, DataVisualisation) initially.
 - Extend `generate-nunjucks-macros.ts` to: read schema -> produce macro with docs comment including prop table.
 
@@ -99,7 +99,7 @@ Add these into the main build once stable (e.g. extend `build:parity`).
 ---
 \n## Proposed Component Tiering
 
-- Tier‑1 (High usage + simple): Button, Tag, Hint, Label, Heading, Link, Input, Textarea, Select, Radios, Checkbox, ErrorMessage
+- Tier‑1 (High usage and simple): Button, Tag, Hint, Label, Heading, Link, Input, Textarea, Select, Radios, Checkbox, ErrorMessage
 - Tier‑2 (Composed, moderate complexity): Breadcrumb, Pagination, SummaryList, Panel, Tabs
 - Tier‑3 (Complex / data-heavy): DataVisualisation, SortableDataTable, ResponsiveDataGrid
 
@@ -108,7 +108,7 @@ Migration order: Tier‑1 -> Tier‑2 -> Tier‑3.
 ---
 \n## Testing Strategy Additions
 
-1. `macroParity.test.ts`: For each fixture, render React (SSR) + Nunjucks -> normalise -> expect equality.
+1. `macroParity.test.ts`: For each fixture, render React (SSR) and Nunjucks -> normalise -> expect equality.
 2. Behaviour tests mounting static HTML, running `initAll()`, simulating user events.
 3. Visual parity: integrate Chromatic diff of React vs static HTML screenshot (optional advanced step).
 
@@ -123,7 +123,7 @@ Migration order: Tier‑1 -> Tier‑2 -> Tier‑3.
 \n## Immediate Next Actions (After This Commit)
 
 1. Add export path for behaviours & macros in `package.json` once stable.
-2. Implement schema for Button + update macro generation script to optionally regenerate button macro.
+2. Implement schema for Button and update macro generation script to optionally regenerate button macro.
 3. Add macro parity test harness.
 4. Integrate behaviour build & macro generation into `build:parity` pipeline (behind feature flag env var `DS_MULTI_RENDER=1`).
 5. Add behaviour smoke tests (initAll) & extend for interactive cases. (Partially done)

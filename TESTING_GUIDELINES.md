@@ -1,6 +1,6 @@
 # Testing Guidelines
 
-This document defines standards for the component test suite (Vitest + React Testing Library + SSR helpers).
+This document defines standards for the component test suite (Vitest and React Testing Library and SSR helpers).
 
 ## Test File Pattern
 
@@ -8,7 +8,7 @@ Split by concern:
 
 - `Component.client.test.tsx` – interactive behavior, events, keyboard, accessibility.
 - `Component.ssr.test.tsx` – structural SSR output (roles, landmark semantics, critical classes, conditional omission).
-- `Component.hydration.test.tsx` – SSR → client integrity + one post-hydration interaction.
+- `Component.hydration.test.tsx` – SSR → client integrity and one post-hydration interaction.
 
 Monolithic `Component.test.tsx` files are deprecated. A `Component.test.deprecated` placeholder documents migration.
 
@@ -97,7 +97,7 @@ Introduce thresholds and ratchet gradually:
 
 ## Roadmap (Adoption Steps)
 
-1. Add axe utility + initial smoke tests for 3–5 core components.
+1. Add axe utility and initial smoke tests for 3–5 core components.
 2. Introduce builders and refactor Radios / Select tests.
 3. Enhance hydration tests with an interaction.
 4. Add keyboard navigation tests to Radios, Tabs, Menu-like components.
@@ -117,7 +117,7 @@ it('changes selection with ArrowDown', () => {
 
 ## Maintenance
 
-- New component PRs MUST ship the triad + a11y smoke + at least one keyboard or negative path test if interactive.
+- New component PRs MUST ship the triad and a11y smoke and at least one keyboard or negative path test if interactive.
 - Any refactor altering accessible name/role must update or add corresponding assertions.
 
 ---

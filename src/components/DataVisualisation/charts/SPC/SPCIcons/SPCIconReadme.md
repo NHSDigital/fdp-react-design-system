@@ -11,10 +11,10 @@ It visualises:
 | Goal | Rationale |
 | ---- | --------- |
 | Single, glanceable object | Reduce table column clutter |
-| Encodes both classification + direction | Faster triage vs text labels |
+| Encodes both classification and direction | Faster triage vs text labels |
 | Accessible & screen‑reader meaningful | Full sentence description auto‑derived |
-| Flexible input models (V1 + V2) | Supports legacy “state” calls & new semantic API |
-| Neutral about statistical engine | Consumes only judgements + polarity, not raw series |
+| Flexible input models (V1 and V2) | Supports legacy “state” calls & new semantic API |
+| Neutral about statistical engine | Consumes only judgements and polarity, not raw series |
 | Vector-based (SVG) | Avoids rasterisation and given the challenges of legibility of the existing icon, at least avoids rasterisation. |
 | Consistency with existing icons | Ensures consistency with previous SPC work of MDC team whilst creating a flexible API for potential redesign of the icons in future |
 ---
@@ -23,7 +23,7 @@ It visualises:
 
 ### Judgement vs State
 - **Judgement** (`VariationJudgement`): semantic SPC outcome at the latest point (Improving, Deteriorating, No_Judgement, None).
-- **State** (`VariationState`): visual classification bucket used for colour + glyph.
+- **State** (`VariationState`): visual classification bucket used for colour and glyph.
 - The icon maps judgement → state internally. You normally supply a *judgement* (V2 API).
 
 ### Direction (Trend Geometry)
@@ -40,7 +40,7 @@ Used only for derived ARIA description (not colour or letter).
 ## Input Shapes (APIs)
 
 ### 1. V2 Derivable (recommended)
-Provide what you *know*; icon infers state + direction:
+Provide what you *know*; icon infers state and direction:
 ```ts
 import { SPCVariationIcon } from "./SPCIcon";
 // Recommended: import the engine enum for variation keys
@@ -69,7 +69,7 @@ const payload: SpcVariationParsimonious = {
 ```
 
 ### 3. Legacy / Explicit (V1)
-Directly specify visual state + trend (bypasses derivation):
+Directly specify visual state and trend (bypasses derivation):
 ```ts
 <SPCVariationIcon
   data={{
@@ -82,7 +82,7 @@ Directly specify visual state + trend (bypasses derivation):
 
 ---
 
-## Derivation Rules (Judgement → State + Direction)
+## Derivation Rules (Judgement → State and Direction)
 
 | Judgement | Polarity | Inferred Direction | Resulting State |
 | --------- | -------- | ----------------- | --------------- |
@@ -174,7 +174,7 @@ To extend (e.g., light backgrounds) you can add ramp shades or computed variants
 
 - SVG viewBox: `0 0 300 300`
 - Outer ring radius: 120
-- Five recent data points plotted; layout chosen by state + direction (`computePointPositions`).
+- Five recent data points plotted; layout chosen by state and direction (`computePointPositions`).
 - Last two points highlighted for special cause states.
 
 ---
@@ -183,7 +183,7 @@ To extend (e.g., light backgrounds) you can add ramp shades or computed variants
 
 | Situation | Recommended Input |
 | --------- | ----------------- |
-| You have SPC judgement + polarity | V2 (derivable) |
+| You have SPC judgement and polarity | V2 (derivable) |
 | You are migrating legacy code that already computes `VariationState` | V1 |
 | You want compile‑time enforcement of required trends | Parsimonious |
 
@@ -194,7 +194,7 @@ To extend (e.g., light backgrounds) you can add ramp shades or computed variants
 | Issue | Guidance |
 | ----- | -------- |
 | Missing `trend` for neutral judgement | Provide `trend` explicitly or geometry defaults to Higher |
-| Overriding inferred direction (e.g., Improving + LowerIsBetter but passing Higher) | Avoid – semantics become inconsistent |
+| Overriding inferred direction (e.g., Improving and LowerIsBetter but passing Higher) | Avoid – semantics become inconsistent |
 | Using colour to imply good/bad | Colours indicate variation class, not performance vs target |
 
 ---
@@ -241,15 +241,15 @@ export const Cell = () => (
 
 | Aspect | Check |
 | ------ | ----- |
-| Accessibility | VoiceOver reads both label + description |
+| Accessibility | VoiceOver reads both label and description |
 | Colour contrast | `pickTextColour` chooses legible text colour |
-| Direction inference | Deteriorating + LowerIsBetter → direction Higher |
+| Direction inference | Deteriorating and LowerIsBetter → direction Higher |
 | Neutral trend | No_Judgement with provided trend rotates arrow |
 
 ---
 
 ## Change Log (local)
-- V2 derivation model introduced (judgement + polarity + optional trend).
+- V2 derivation model introduced (judgement and polarity and optional trend).
 - Arrow glyph for No_Judgement.
 - ARIA description generator.
 

@@ -38,7 +38,7 @@ Atomic & composite building blocks for lesson material.
 - MediaPlayer (audio/video) with speed, captions, transcript toggle
 - InteractiveEmbed (scorm/xapi/lti wrapper, sandboxed iframe)
 - SlideDeckViewer (pagination, keyboard nav)
-- CodeExercisePanel (editor + run/test area) *if technical training*
+- CodeExercisePanel (editor and run/test area) *if technical training*
 - TranscriptPanel (searchable, highlight sync)
 - ReadingProgressBar (scroll-based for articles)
 - GlossaryTerm (popover definition, inline)
@@ -57,7 +57,7 @@ Atomic & composite building blocks for lesson material.
 - SectionJumpMenu / in-page TOC for long-form lessons
 - LearningPathRoadmap (visual track with milestones)
 - RecentlyViewedList
-- Bookmark / Favorites system (toggle + list)
+- Bookmark / Favorites system (toggle and list)
 
 ---
 ## 4. Enrollment & Access Control
@@ -66,7 +66,7 @@ Atomic & composite building blocks for lesson material.
 - EnrollmentStatusBanner (e.g., ‘Pending manager approval’)
 - SeatAvailabilityIndicator
 - CohortSelector (role-based visibility)
-- AccessGate (prerequisites unmet messaging + CTA)
+- AccessGate (prerequisites unmet messaging and CTA)
 - LicenseAllocationMeter (org-wide usage)
 
 ---
@@ -79,7 +79,7 @@ Atomic & composite building blocks for lesson material.
 - AnswerFeedbackPanel (correct/incorrect rationale)
 - SubmissionSummary (score, time spent, breakdown)
 - Rubric (criteria rows, performance levels, weightings, inline rating capture)
-- InlineGrader (navigate submissions + quick grade entry)
+- InlineGrader (navigate submissions and quick grade entry)
 - PlagiarismStatusBadge
 - RetakeRulesNotice
 
@@ -94,7 +94,7 @@ Components / Patterns:
 - FileSubmissionWidget (drag/drop, version list, virus scan status, progress)
 - TextSubmissionEditor (rich text, word count, autosave)
 - SubmissionStatusPanel (states: draft, submitted, returned, graded, late)
-- PeerReviewAllocation (assignment of peers + anonymity notice)
+- PeerReviewAllocation (assignment of peers and anonymity notice)
 - FeedbackThread (annotated comments, resolved status)
 - RubricInlineViewer
 - LateSubmissionBadge & GracePeriodNotice
@@ -106,8 +106,8 @@ Components / Patterns:
 - ReactionBar (like/helpful flags with accessible counts)
 - QandAAccordion (question with accepted answer highlighting)
 - Poll / MicroSurvey component
-- LivePresenceAvatars (count + overflow indicator)
-- NoteTakingPanel (learner private notes + export)
+- LivePresenceAvatars (count and overflow indicator)
+- NoteTakingPanel (learner private notes and export)
 - In-lesson InlineQuiz (low-stakes knowledge checks)
 - Gamification: PointsBadge, StreakIndicator, LevelProgressBar, AchievementUnlockToast
 - ShareCertificateModal (social share metadata)
@@ -146,7 +146,7 @@ Components / Patterns:
 ## 11. Accessibility & Inclusive Design Enhancements
 - AdjustableFontSizeControl (persisted preference)
 - MediaAccessibilityPanel (captions, transcript, audio description toggle)
-- KeyboardShortcutPalette (list + enable/disable)
+- KeyboardShortcutPalette (list and enable/disable)
 - ReducedMotionModeNotice
 - DyslexiaFriendlyTheme toggle (token theme variant)
 - HighContrastTheme tokens
@@ -171,10 +171,10 @@ Components / Patterns:
 ---
 ## 14. Administrative & Authoring Tools
 - CourseBuilder (drag reorder modules, inline edit)
-- ModuleEditor (metadata + schedule)
+- ModuleEditor (metadata and schedule)
 - LessonEditor (rich text / media embed / assessments insertion toolbar)
 - QuestionEditor (type-specific forms, validation, preview)
-- BulkImportWizard (CSV mapping + validation errors table)
+- BulkImportWizard (CSV mapping and validation errors table)
 - ContentVersionHistory (diff view)
 - PermissionMatrixEditor (roles × actions grid)
 - EnrollmentBulkActionBar (assign, revoke, waitlist)
@@ -273,7 +273,7 @@ Components: PeerReviewAllocation, FeedbackThread, RubricInlineViewer.
 | ---- | ------ | ---------- |
 | Scope creep on question types | Delays core launch | Phase gating & prioritisation | 
 | Media performance (video heavy) | Poor UX | Lazy load, adaptive bitrate, prefetch manifest |
-| Accessibility regressions | Exclusion | Automated audits + manual testing scripts |
+| Accessibility regressions | Exclusion | Automated audits and manual testing scripts |
 | Fragmented analytics naming | Low insight | Central schema & typed event helpers |
 | Authoring complexity | Steep learning curve | Progressive disclosure; inline validation |
 | Gamification misuse | Superficial engagement | Align badges with meaningful outcomes |
@@ -284,7 +284,7 @@ Components: PeerReviewAllocation, FeedbackThread, RubricInlineViewer.
 2. Define API contracts for LessonPlayer, Question components, CourseOutlineTree.
 3. Draft analytics event schema & TypeScript enums.
 4. Establish accessibility acceptance criteria for player & assessments.
-5. Prototype CourseOverview + LessonPlayer integration with progress tracking.
+5. Prototype CourseOverview and LessonPlayer integration with progress tracking.
 
 ---
 ## 23. Glossary (Selective)

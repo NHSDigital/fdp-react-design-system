@@ -40,7 +40,7 @@ Tooltip provenance tags use layered classes:
 - `fdp-spc-tag--rule` / `fdp-spc-tag--heuristic` (base colour family)
 - `fdp-spc-tag--prov-orthodox` (subtle outline)
 - `fdp-spc-tag--prov-interpretive` (light gradient overlay)
-- `fdp-spc-tag--prov-aggressive` (inset red outline + ! marker)
+- `fdp-spc-tag--prov-aggressive` (inset red outline and ! marker)
 - `fdp-spc-tag--prov-unknown` (neutral grey fallback)
 
 A dynamic tail concern tag `comparative_invert_tail_concern_{N}` replaces `N` with the numeric tail length in its pretty label.

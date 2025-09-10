@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { VariationIcon, AssuranceIcon, SpcRow } from './spc';
-import { extractRuleIds, variationLabel, assuranceLabel, zoneLabel, ruleGlossary } from './spcDescriptors';
+import { extractRuleIds, variationLabel, assuranceLabel, zoneLabel, ruleGlossary, SpcRuleId } from './spcDescriptors';
 
 // Minimal helper to fabricate a SpcRow with flags
 const baseRow = (): SpcRow => ({
@@ -8,11 +8,13 @@ const baseRow = (): SpcRow => ({
   mean: 10, mr: null, mrMean: null, mrUcl: null,
   upperProcessLimit: 20, lowerProcessLimit: 0,
   upperTwoSigma: 18, upperOneSigma: 16, lowerOneSigma: 4, lowerTwoSigma: 2,
+  target: null,
   specialCauseSinglePointAbove: false, specialCauseSinglePointBelow: false,
   specialCauseTwoOfThreeAbove: false, specialCauseTwoOfThreeBelow: false,
   specialCauseFourOfFiveAbove: false, specialCauseFourOfFiveBelow: false,
   specialCauseShiftHigh: false, specialCauseShiftLow: false,
   specialCauseTrendIncreasing: false, specialCauseTrendDecreasing: false,
+  specialCauseFifteenInnerThird: false,
   variationIcon: VariationIcon.Neither, assuranceIcon: AssuranceIcon.None,
   upperBaseline: null, lowerBaseline: null, movingRangeHighPointValue: null,
   ghostValue: null, ghostFlag: false,
@@ -27,9 +29,9 @@ describe('spcDescriptors', () => {
     const r = baseRow();
     r.specialCauseSinglePointAbove = true;
     r.specialCauseTrendDecreasing = true;
-    expect(extractRuleIds(r)).toEqual(['singlePointAbove','trendDecreasing']);
+    expect(extractRuleIds(r)).toEqual([SpcRuleId.SinglePointAbove, SpcRuleId.TrendDecreasing]);
     // Ensure glossary entries exist
-    expect(ruleGlossary.singlePointAbove.tooltip).toBeTruthy();
+    expect(ruleGlossary[SpcRuleId.SinglePointAbove].tooltip).toBeTruthy();
   });
   it('variationLabel maps icons correctly', () => {
     expect(variationLabel(VariationIcon.Improvement)).toContain('Improvement');

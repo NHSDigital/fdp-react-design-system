@@ -13,6 +13,10 @@ describe('SPCChart SSR', () => {
     expect(html).toContain('fdp-spc-chart');
     // Should include at least one circle (points suppressed until hydrate? ensure showPoints true by default)
     expect(html).toContain('fdp-spc__point');
+  // New consolidated polyline rendering for mean / limits
+  expect(html).toContain('fdp-spc__cl');
+  expect(html).toContain('fdp-spc__limit--ucl');
+  expect(html).toContain('fdp-spc__limit--lcl');
   });
 
   test('renders external source container when source prop provided (outside SVG)', () => {

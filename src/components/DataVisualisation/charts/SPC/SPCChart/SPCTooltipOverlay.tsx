@@ -12,7 +12,7 @@ import {
 	assuranceLabel,
 	zoneLabel,
 } from "./logic/spcDescriptors";
-import { VariationIcon } from './logic/spc';
+import { VariationIcon, SpcRuleId, SpcRawRuleTag } from './logic/spc';
 import { getVariationColorToken } from "./logic/spcDescriptors";
 import { Tag } from "../../../../Tag";
 
@@ -158,6 +158,9 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 		? 'Trend detected (monotonic run) – held neutral until values cross onto the favourable side of the mean.'
 		: null;
 	const hasRules = rules.length > 0;
+	// SQL compatibility metadata (present only when wrapper used). We defensively gate on property existence.
+	const primeDirection: string | undefined = row?.primeDirection;
+	const primeRuleId: SpcRuleId | undefined = row?.primeRuleId;
 	// "No judgement" (neutral special cause) state: underlying variation classified as Neither but special cause rules fired
 	const isNoJudgement = enableNeutralNoJudgement && row?.variationIcon === VariationIcon.Neither && hasRules;
 	// Provenance (ruleTags) removed from tooltip to avoid duplication with Special cause section.
@@ -381,7 +384,7 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 								>
 									{rules.map(({ id, label }) => {
 										const idStr = String(id);
-										const isTrend = idStr === 'trend_inc' || idStr === 'trend_dec';
+										const isTrend = idStr === SpcRawRuleTag.TrendIncreasing || idStr === SpcRawRuleTag.TrendDecreasing;
 										// Trend special cause stays purple (common) even if overall variation is improvement/concern (side-gated neutrality visual cue)
 										const ruleColorClass = isTrend
 											? 'fdp-spc-tag--trend'
@@ -405,6 +408,33 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 										);
 									})}
 								</div>
+								{ primeDirection && (
+									<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--rules" style={{ marginTop: 16 }}>
+										<div className="fdp-spc-tooltip__section-label" style={{ marginBottom: 6 }}>
+											<strong>Prime Direction</strong>
+										</div>
+										{(() => {
+											const primeColorClass = isNoJudgement
+												? 'fdp-spc-tag--no-judgement'
+												: variationDesc
+													? variationDesc.toLowerCase().includes('concern')
+														? 'fdp-spc-tag--concern'
+														: variationDesc.toLowerCase().includes('improvement')
+															? 'fdp-spc-tag--improvement'
+															: 'fdp-spc-tag--common'
+													: 'fdp-spc-tag--common';
+											const primeLabel = `${primeDirection}${primeRuleId ? ` (${primeRuleId})` : ''}`;
+											return (
+												<Tag
+													text={primeLabel}
+													color="default"
+													className={`fdp-spc-tooltip__tag fdp-spc-tag ${primeColorClass}`}
+													aria-label={`Prime direction ${primeDirection}${primeRuleId ? ` via ${primeRuleId}` : ''}`}
+												/>
+											);
+										})()}
+									</div>
+								)}
 							</div>
 						)}
 					</div>

@@ -2,6 +2,7 @@ import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCChart, ImprovementDirection, type SPCDatum } from "./SPCChart";
 import { ChartContainer } from "../../ChartContainer.tsx";
+import { ChartType } from "./logic/spc.ts";
 
 // Healthcare representative SPC examples (deterministic, no randomness)
 // Each dataset contains >= 20 points (monthly) to ensure stable limits and illustrates
@@ -103,7 +104,7 @@ export const ED4HourCompliance: Story = {
 		>
 			<SPCChart
 				data={series(ed4hValues)}
-				chartType="XmR"
+				chartType={ChartType.XmR}
 				metricImprovement={ImprovementDirection.Up}
 				unit="%"
 				enableRules
@@ -139,7 +140,7 @@ export const LengthOfStay: Story = {
 		>
 			<SPCChart
 				data={series(losValues)}
-				chartType="XmR"
+				chartType={ChartType.XmR}
 				metricImprovement={ImprovementDirection.Down}
 				enableRules
 				targets={Array(losValues.length).fill(6.2)} // Target 6.2 days -> PASS (latest 6.0)
@@ -174,7 +175,7 @@ export const ReadmissionRate: Story = {
 		>
 			<SPCChart
 				data={series(readmitValues)}
-				chartType="XmR"
+				chartType={ChartType.XmR}
 				metricImprovement={ImprovementDirection.Down}
 				enableRules
 				targets={Array(readmitValues.length).fill(9.1)} // Target 9.1% -> PASS (latest 9.0)
@@ -209,7 +210,7 @@ export const HandHygieneCompliance: Story = {
 		>
 			<SPCChart
 				data={series(handHygieneValues)}
-				chartType="XmR"
+				chartType={ChartType.XmR}
 				metricImprovement={ImprovementDirection.Up}
 				enableRules
 				targets={Array(handHygieneValues.length).fill(90)} // Target 90% -> PASS (latest 93%)
@@ -245,7 +246,7 @@ export const FallsPer1000BedDays: Story = {
 		>
 			<SPCChart
 				data={series(fallsValues)}
-				chartType="XmR"
+				chartType={ChartType.XmR}
 				metricImprovement={ImprovementDirection.Down}
 				enableRules
 				targets={Array(fallsValues.length).fill(4.6)} // Target 4.6 falls/1000 bed days -> PASS (latest 4.3)
@@ -279,7 +280,7 @@ export const TimeBetweenMedicationErrors: Story = {
 		>
 			<SPCChart
 				data={series(medErrorGaps)}
-				chartType="T"
+				chartType={ChartType.T}
 				metricImprovement={ImprovementDirection.Up}
 				enableRules
 				announceFocus
@@ -314,7 +315,7 @@ export const CountBetweenPressureUlcers: Story = {
 		>
 			<SPCChart
 				data={series(pressureUlcerCounts)}
-				chartType="G"
+				chartType={ChartType.G}
 				metricImprovement={ImprovementDirection.Up}
 				enableRules
 				announceFocus
@@ -325,6 +326,8 @@ export const CountBetweenPressureUlcers: Story = {
 					datasetContext: "Trust-wide events",
 					timeframe: "24 events",
 				}}
+				percentScale={false}
+				alwaysShowHundredY={false}
 			/>
 		</ChartContainer>
 	),
@@ -348,7 +351,7 @@ export const RTTPatientsWaiting: Story = {
 		>
 			<SPCChart
 				data={series(rttValues)}
-				chartType="XmR"
+				chartType={ChartType.XmR}
 				metricImprovement={ImprovementDirection.Up}
 				enableRules
 				unit="%"

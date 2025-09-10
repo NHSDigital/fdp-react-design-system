@@ -1,3 +1,4 @@
+import { PrimeDirection } from "./spcSqlCompat";
 /**
  * Chart type meanings (high‑level):
  *  XmR (Individuals & Moving Range):
@@ -31,6 +32,31 @@ export declare enum VariationIcon {
     Neither = "neither",
     None = "none"
 }
+export declare enum SpcRuleId {
+    SinglePoint = "single_point",
+    TwoSigma = "two_sigma",
+    Shift = "shift",
+    Trend = "trend"
+}
+export declare enum Side {
+    Up = "up",
+    Down = "down"
+}
+export declare enum SpcRawRuleTag {
+    SinglePointAbove = "single_above",
+    SinglePointBelow = "single_below",
+    TwoOfThreeAbove = "two_of_three_above",
+    TwoOfThreeBelow = "two_of_three_below",
+    FourOfFiveAbove = "four_of_five_above",
+    FourOfFiveBelow = "four_of_five_below",
+    ShiftHigh = "shift_high",
+    ShiftLow = "shift_low",
+    TrendIncreasing = "trend_inc",
+    TrendDecreasing = "trend_dec",
+    FifteenInnerThird = "fifteen_inner_third"
+}
+export declare const RULE_RANK_BY_ID: Record<SpcRuleId, number>;
+export declare const RAW_TAG_TO_RULE_ID: Partial<Record<SpcRawRuleTag, SpcRuleId>>;
 export declare enum AssuranceIcon {
     Pass = "pass",
     Fail = "fail",
@@ -39,6 +65,10 @@ export declare enum AssuranceIcon {
 export declare enum PrecedenceStrategy {
     Legacy = "legacy",
     DirectionalFirst = "directional_first"
+}
+export declare enum ConflictPrecedenceMode {
+    None = "none",
+    SqlRankingV26a = "sql_ranking_v2_6a"
 }
 export interface SpcInputRow {
     x: string | number | Date;
@@ -90,13 +120,14 @@ export interface SpcSettings {
     baselineSuggestMinGap?: number;
     /** Minimum score threshold (0-100) for emitting suggestion */
     baselineSuggestScoreThreshold?: number;
-    /** Option C: Comparative baseline emulation. When true, a later favourable sustained shift can retrospectively label earlier stable points as concern relative to new level (or invert behaviour). */
     /** When true, automatically insert a recalculation (new partition) after a confirmed sustained shift so centre line & limits step without needing explicit baselines array. */
     autoRecalculateAfterShift?: boolean;
     /** Minimum sustained shift length required to trigger auto recalculation (defaults to specialCauseShiftPoints). */
     autoRecalculateShiftLength?: number;
     /** Require the post-shift window mean to differ from pre-shift mean by at least this many sigma to trigger auto recalculation. Default 0.5 */
     autoRecalculateDeltaSigma?: number;
+    /** Optional conflict precedence mode: when set to sql_ranking_v2_6a applies deterministic rule ranking to prune simultaneous improvement & concern values. */
+    conflictPrecedenceMode?: ConflictPrecedenceMode;
 }
 export interface BuildSpcArgs {
     chartType: ChartType;
@@ -145,7 +176,14 @@ export interface SpcRow {
     specialCauseImprovementValue: number | null;
     specialCauseConcernValue: number | null;
     specialCauseNeitherValue: number | null;
-    ruleTags?: string[];
+    /** Raw rule-based special cause tags (orthodox flags; snake_case) for audit trail */
+    ruleTags?: SpcRawRuleTag[];
+    conflictPrimeDirection?: PrimeDirection;
+    conflictResolvedByRuleId?: SpcRuleId;
+    conflictResolvedRank?: number;
+    conflictResolved?: boolean;
+    originalSpecialCauseImprovementValue?: number | null;
+    originalSpecialCauseConcernValue?: number | null;
 }
 export declare enum SpcWarningSeverity {
     Info = "info",

@@ -1,0 +1,269 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Data Visualisation/SPC/SQL Compatibility/SQL Conflict Precedence" />
+
+# SQL Conflict Precedence (NHSE v2.6a)
+
+## Gap Analysis: v2.6 (Predecessor) vs v2.6a (Current)
+
+| Aspect | v2.6 (predecessor) | v2.6a | Impact |
+|--------|--------------------|-------|--------|
+| Conflict resolution presence | None by default (dual values could persist). Two commented optional UPDATE blocks relying solely on `MetricConflictRule`. | Explicit ranked conflict module with `#ConflictRanking` + `#ConflictRankingSummary`. | Deterministic pruning removes ambiguity and enforces single side (except genuine tie). |
+| Rule ranking | Not defined. | Numeric primacy: Trend (4) > Shift (3) > Two-sigma (2) > Single point (1). | Sustained directional evidence overrides transient extremes. |
+| Direction abstraction | Not present; no `PrimeDirection`. | Introduces `PrimeDirection` (Upwards / Downwards / Same). | Enables auditing & explanatory UI messaging. |
+| Tie handling | Would depend entirely on manual uncommented logic using `MetricConflictRule`; otherwise unresolved. | `PrimeDirection = 'Same'` then apply `MetricConflictRule` to choose which side survives. | Predictable, documented fallback. |
+| Data flow to icons | Icons must infer side from two populated values or rely on app logic. | Single surviving value simplifies classification and narrative generation. | Less downstream branching; more consistent user interpretation. |
+| Domain preference scope (`MetricConflictRule`) | Primary (and only) mechanism if used. | Secondary—only applied when ranks tie. | Reduced influence; clearer statistical precedence. |
+| Reproducibility vs earlier extracts | Legacy exports may show simultaneous improvement & concern. | Backfilling data using v2.6a will collapse many conflicts to one side. | Potential historical diffs; needs change log note. |
+| Explainability of suppression | Not encoded (cannot say *why* one side removed). | Rank + direction can be surfaced (e.g. "Trend (rank 4) dominated single point (rank 1)"). | Better transparency / audit trail potential. |
+| Implementation complexity | Simpler (no extra temp tables). | Adds lightweight UNION ALL + GROUP BY restricted to conflict rows. | Negligible performance overhead. |
+| Risk of misclassification noise | Higher (outlier may mask emerging shift/trend in UI if app picks wrong side). | Lower (trend/shift dominate outlier automatically). | Improved signal fidelity. |
+
+### Practical Behaviour Changes
+
+1. Outlier opposite a trend: trend wins (previously both may coexist or outlier could dominate).
+2. Shift vs two-sigma opposite sides: shift wins (rank 3 > 2) instead of ambiguous dual flags.
+3. Symmetric low-level clashes (e.g. opposing single points) resolve via `MetricConflictRule` instead of surfacing both.
+
+### Migration Considerations
+
+* Communicate to stakeholders that historical conflict rows will now display a single side.
+* Include a one-off reconciliation report enumerating rows where pruning changed output.
+* Provide toggle (in app / engine) if backward comparison is required during transition.
+
+---
+
+## Statistical Provenance & Defensibility Analysis
+
+### Evaluation Criteria
+
+1. Reproducibility (deterministic re-run yields identical classification)
+2. Alignment with SPC canon (Shewhart / Western Electric style guidance: rules are independent triggers)
+3. Transparency & auditability (ability to explain a colouring decision plainly)
+4. Misclassification risk (false favourable / false concern) from premature emphasis or suppression
+5. Cognitive load for consumers (clarity of narrative at point of use)
+6. Extensibility (adding new rules without creating interpretation ambiguity)
+
+### SQL v2.6a Ranked Conflict Resolution
+
+Strengths:
+- Deterministic single outcome via explicit rank ordering (Trend 4 > Shift 3 > Two-sigma 2 > Single 1)
+- Clear narrative: higher-rank sustained evidence dominates transient or weaker evidence
+- Conflict flag + potential `PrimeDirection` gives a traceable audit trail
+- Reduces UI ambiguity and divergent downstream ad‑hoc heuristics
+- Embeds a pragmatic clinical communication principle: sustained change outweighs isolated excursion
+
+Limitations:
+- Rank ordering is a domain convention, not mandated by original Shewhart texts (needs documentation for provenance)
+- Information loss: suppressed secondary rule evidence unless raw flags also exposed
+- Tie fallback (`MetricConflictRule`) is policy, not statistical evidence evaluation
+- Ranks are ordinal; they do not express calibrated probabilities or error rates
+
+### Current TypeScript Engine (Side Aggregation / Precedence Strategy)
+
+Strengths:
+- Preserves independence of rule detections (all raw signals visible for analytical post-processing)
+- Avoids embedding subjective hierarchy (closer to a “pure” multi-rule SPC interpretation)
+- Flexible for experimentation (consumer layer free to test alternative precedence algorithms)
+
+Limitations:
+- Ambiguous simultaneous improvement & concern states complicate icon and colour explanation
+- Inconsistent resolutions possible across consuming apps (weak provenance story if not standardised)
+- Harder auditing: must recompute context to justify classification decisions
+- Risk of user confusion when conflicting arrows / colour narratives appear
+
+### Comparative Defensibility
+
+| Aspect | More defensible mode | Rationale |
+|--------|----------------------|-----------|
+| User-facing clarity | SQL v2.6a | Single resolved side lowers cognitive load |
+| Statistical purity (retain all evidence) | Current engine | All rule firings preserved |
+| Audit trail (why chosen) | SQL v2.6a | Explicit rank + conflict flag |
+| Consistency across dashboards | SQL v2.6a | Deterministic universal logic |
+| Risk of hiding meaningful secondary signal | Current engine | No suppression |
+| Ease of extension (add new rule without re-ranking) | Current engine | No need to alter ordering table |
+
+### Risks & Mitigation
+
+| Risk (SQL mode) | Mitigation |
+|-----------------|------------|
+| Loss of secondary signal context | Always export raw per-rule flags alongside resolved values |
+| Domain rank challenged by stakeholders | Publish rationale + reference MDX (this file) + allow opt-out setting |
+| Breaking historical comparisons | Provide diff report (rows where resolution changed outcome); gate behind opt-in feature flag |
+| Overconfidence in deterministic result | Display conflict indicator (e.g. tooltip: resolved from 2 competing rules) |
+
+| Risk (Engine legacy mode) | Mitigation |
+|--------------------------|------------|
+| Ambiguous dual signalling | Implement optional SQL alignment toggle |
+| Divergent consumer heuristics | Centralise resolution in engine library |
+| Poor explainability | Add derived `primeDirection` even if not pruning |
+
+### Recommended Approach
+
+Adopt a hybrid: retain raw rule flags (statistical provenance) and layer an **optional** SQL v2.6a style conflict resolver producing:
+
+```
+{ rawRules: [...], primeDirection, resolvedByRuleId, conflictResolved, improvementValue, concernValue }
+```
+
+Expose both views in Storybook examples. Default to legacy (no pruning) until consumers validate minimal adverse narrative shifts; then consider flipping default with a major version bump.
+
+### Implementation Checklist (Engine)
+
+1. Add RULE_RANK map (single_point:1, two_sigma:2, shift:3, trend:4)
+2. Collect active rule IDs + side per row into `activeRules`
+3. Derive per-side max rank; compute `primeDirection`
+4. On conflict (both improvement & concern) apply SQL nullification logic when `conflictPrecedenceMode === 'sql_ranking'`
+5. Set metadata: `conflictResolved=true`, `resolvedByRuleId=<highestRankRule>`
+6. Preserve original flags unchanged
+7. Add tests covering each cross-side rule pair and tie path
+8. Document setting & add MDX comparison story
+
+### Overall Verdict
+
+For end-user coloured classification the SQL v2.6a approach (with raw evidence retained) is the more defensible default: it is consistent, auditable, and communicable. The current engine approach is valuable analytically and should be preserved as the underlying data layer.
+
+---
+
+This guide documents the NHSE SPC SQL (v2.6a) algorithm for resolving **simultaneous improvement and concern special cause signals** at the same observation (row) and contrasts it with the current TypeScript engine implementation. It focuses on the conflict ranking block (`#ConflictRanking`, `#ConflictRankingSummary`) and subsequent update logic that prunes either the Improvement or Concern value.
+
+## Why This Matters
+
+Occasionally a single point can satisfy at least one rule implying improvement (relative to the defined metric polarity) *and* one implying concern. Example: an **ascending trend below the mean** (direction favourable once it crosses) combined with a **single low outlier** or early **two-sigma cluster** in the unfavourable direction. Without conflict resolution both `SpecialCauseImprovementValue` and `SpecialCauseConcernValue` would be populated and an icon decision becomes ambiguous.
+
+The SQL introduces an explicit numeric ranking of rule primacy and a directional tie-break to select which side (Upwards / Downwards) should dominate.
+
+## Source Excerpt (Simplified)
+
+```sql
+-- Assign ranked rows for each rule when BOTH improvement & concern values are currently present
+SELECT RowID, CASE WHEN SinglePointHigh = 1 THEN 1 ELSE 0 END UpwardsRank, CASE WHEN SinglePointLow = 1 THEN 1 ELSE 0 END DownwardsRank FROM Combined ...
+UNION ALL
+SELECT RowID, CASE WHEN TwoSigmaHigh   = 1 THEN 2 ELSE 0 END,        CASE WHEN TwoSigmaLow   = 1 THEN 2 ELSE 0 END FROM Combined ...
+UNION ALL
+SELECT RowID, CASE WHEN ShiftHigh      = 1 THEN 3 ELSE 0 END,        CASE WHEN ShiftLow      = 1 THEN 3 ELSE 0 END FROM Combined ...
+UNION ALL
+SELECT RowID, CASE WHEN TrendInc       = 1 THEN 4 ELSE 0 END,        CASE WHEN TrendDec      = 1 THEN 4 ELSE 0 END FROM Combined ...;
+
+-- Collapse to prime direction by comparing max upward vs max downward rank
+SELECT RowID,
+       CASE WHEN MAX(UpwardsRank) > MAX(DownwardsRank) THEN 'Upwards'
+            WHEN MAX(UpwardsRank) = MAX(DownwardsRank) THEN 'Same'
+            ELSE 'Downwards' END AS PrimeDirection
+INTO #ConflictRankingSummary
+FROM #ConflictRanking GROUP BY RowID;
+
+-- Use PrimeDirection + MetricImprovement + MetricConflictRule to null one side
+UPDATE Combined SET ... (preserve only side consistent with prime) , SpecialCauseConflictFlag = 1
+WHERE ImprovementValue IS NOT NULL AND ConcernValue IS NOT NULL;
+```
+
+## Rank Hierarchy
+
+Highest number wins within a side:
+
+1. Single point beyond limit (rank 1)
+2. Two-sigma (2 of 3 beyond ±2σ, same side) (rank 2)
+3. Shift (sustained run above/below mean) (rank 3)
+4. Trend (monotonic increasing / decreasing) (rank 4)
+
+Directional dominance is decided by comparing the **maximum upward rank** to the **maximum downward rank** among rules currently active on that row.
+
+| Rank | Rule | Rationale for Position |
+|------|------|------------------------|
+| 4 | Trend | Strongest sustained directional evidence (longest temporal coherence) |
+| 3 | Shift | Sustained location change, but not strictly monotonic |
+| 2 | Two-sigma (2 of 3) | Clustered extreme proximity; transient vs shift |
+| 1 | Single point | Least stable – could be noise/outlier |
+
+If both sides share the **same highest rank** (e.g. upward trend and downward trend simultaneously is impossible, but upward shift vs downward two-sigma resolved by rank 3 > 2; tie examples arise when symmetrical lower-ranked rules fire on both sides at same row) the algorithm labels `PrimeDirection = 'Same'` and defers to `MetricConflictRule` (domain preference) to choose which side to keep.
+
+## Nullification Logic
+
+The update stage then applies:
+
+- If PrimeDirection = Upwards:
+  - For metrics where Improvement = Up: drop Concern, keep Improvement.
+  - For metrics where Improvement = Down: drop Improvement, keep Concern.
+- If PrimeDirection = Downwards: mirror of above.
+- If PrimeDirection = Same: use `MetricConflictRule` ("Improvement" or "Concern") to decide which value to preserve.
+
+Sets `SpecialCauseConflictFlag = 1` to mark a resolved clash.
+
+## Engine Contrast (Current TypeScript)
+
+The current engine (as of this documentation) still uses side aggregation without per-rule numeric ranking. Core points:
+
+- Directional precedence handled via `precedenceStrategy` (e.g. `DirectionalFirst`) focuses on sustained vs point rules, but does not numeric-rank each rule instance inside a single row conflict.
+- Concurrent improvement & concern signals may both persist transiently; icon classification then reduces using favourability logic (improvement direction polarity) rather than explicit rank.
+- No explicit equivalent of `PrimeDirection` persisted per row; conflict is implicit via aggregated booleans.
+
+## When Do SQL & Engine Differ?
+
+| Scenario | SQL Outcome | Current Engine Outcome | Notes |
+|----------|-------------|------------------------|-------|
+| Shift (Up) + Two-sigma (Down) | Upwards (rank 3 > 2) -> Keep Improvement or Concern depending on metric polarity | Potentially both side booleans true; classification depends on polarity & strategy, could yield Neither or side chosen by higher-level strategy | SQL produces deterministic directional dominance |
+| Trend (Down) + Single point (Up) | Downwards (4 > 1) | Engine may show emerging improvement if grace flags active | Divergence if grace neutralises concern |
+| Two-sigma both sides (rare overlapping windows) | PrimeDirection = Same -> apply MetricConflictRule | Both sides true → strategy might yield Neither | SQL guarantees one surviving side |
+
+## Design Implications
+
+Adopting the SQL model would:
+
+- Provide deterministic, explainable selection of a single side when both present.
+- Allow UI disclosure: "Conflict resolved in favour of Trend (Upwards)" by exposing surviving rule rank.
+- Potentially change historical icon series (breaking change) unless gated behind a new setting.
+
+## Proposed Integration Approach
+
+1. Extend internal rule result data with per-row `activeRules` array (rule identifiers & side).
+2. Compute per-side max rank using the SQL ordering table.
+3. Derive `primeDirection` as in SQL and store in row metadata.
+4. If both improvement & concern special-cause values exist, prune using same logic; tag row with `conflictResolved = true` and `conflictResolvedBy = <ruleId>`.
+5. Gate behind new setting, e.g. `conflictPrecedenceMode: 'none' | 'sql_ranking'` (default 'none').
+6. Update stories to show comparison (toggle) and add regression tests with synthetic datasets hitting each conflict path.
+
+### Rule Identifier Mapping
+
+| SQL Column | Engine Concept | Suggested ID |
+|------------|----------------|--------------|
+| SpecialCauseRuleTrendIncreasing/DecreasingFlag | Trend | `trend` |
+| SpecialCauseRuleShiftAbove/BelowMeanFlag | Shift | `shift` |
+| SpecialCauseRuleTwoSigmaAbove/BelowMeanFlag | TwoSigma (2 of 3) | `two_sigma` |
+| SpecialCauseRuleSinglePointAbove/BelowUpper/LowerProcessLimitFlag | SinglePoint | `single_point` |
+
+### Rank Table (to implement)
+
+```ts
+const RULE_RANK: Record<SpecialCauseRuleId, number> = {
+  single_point: 1,
+  two_sigma: 2,
+  shift: 3,
+  trend: 4,
+};
+```
+
+## Migration / Communication
+
+- Document as optional enhancement first; collect feedback on interpretability.
+- Provide a one-off script / story that diffs icon series under legacy vs SQL ranking for representative metrics.
+- Capture metrics: percentage of rows where conflict resolution alters classification.
+
+## Testing Checklist
+
+- Unit: each synthetic combination (e.g. shift up + two-sigma down) yields expected `primeDirection`.
+- Property-based: random flags sets → `primeDirection` always in `{"Upwards" | "Downwards" | "Same"}` and consistent with max rank rules.
+- Snapshot: Story renders identical icons for legacy mode, only changed when `sql_ranking` enabled.
+- Accessibility: Conflict indicator (if surfaced) has appropriate aria-label describing resolution.
+
+## Open Questions
+
+- Should four-of-five (if retained) sit between two-sigma and shift (rank 2.5 / 3)? If implemented, extend ordering without re-numbering by assigning 0.5 increments or re-basing ranks.
+- Should a tie on different rule compositions but same top rank still honour `MetricConflictRule`, or should we look at secondary rank depth (e.g. compare full sorted rank vectors)? Current SQL stops at first-level max comparison.
+- Is a visual annotation (e.g. chevron overlay) desirable on points where conflicts were auto-resolved?
+
+## Summary
+
+The NHSE SQL precedence formalises conflict handling with a simple, deterministic ranking (Trend > Shift > Two-sigma > Single point). Implementing an equivalent optional mode in the TypeScript engine would align analytical outputs and improve explainability when opposing signals co-occur.
+
+> Status: This document describes specification & proposed integration only; implementation not yet merged.

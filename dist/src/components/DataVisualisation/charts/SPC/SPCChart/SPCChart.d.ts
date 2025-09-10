@@ -2,6 +2,11 @@ import * as React from "react";
 import "../../../DataVisualisation.scss";
 import "./SPCChart.scss";
 import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType, SpcWarningSeverity, SpcWarningCategory, SpcWarningCode, type SpcSettings } from "./logic/spc";
+export declare enum SequenceTransition {
+    Slope = "slope",// attribute join to rising (next) or falling/flat (prev) based on delta
+    Neutral = "neutral",// draw a neutral (grey) wedge between coloured runs
+    Extend = "extend"
+}
 export interface SPCDatum {
     x: Date | string | number;
     y: number;
@@ -51,6 +56,8 @@ export interface SPCChartProps {
     };
     /** When true, render light gradient band fills behind contiguous sequences of similarly coloured points (concern / improvement / common). */
     gradientSequences?: boolean;
+    /** Strategy for how coloured gradient sequences join at boundaries. */
+    sequenceTransition?: SequenceTransition;
     /** Stroke width (thickness) of the main process line. Defaults to 1. */
     processLineWidth?: number;
     /** When true, render vertical dashed markers at partition (baseline) boundaries */
@@ -74,6 +81,16 @@ export interface SPCChartProps {
      * `enableTrendSideGating` is not set, the effective value will be `!disableTrendSideGating`.
      */
     disableTrendSideGating?: boolean;
+    /** Optional source / citation text rendered below the chart outside the SVG for reliable layout */
+    source?: React.ReactNode;
+    /** Force y-axis to include zero as the lower bound even if all values are strictly positive. Default false. */
+    alwaysShowZeroY?: boolean;
+    /** Force y-axis to include 100 as the upper bound (useful for percentages). Default false. */
+    alwaysShowHundredY?: boolean;
+    /** Convenience flag: treat series as percentage scale (enforces 0–100 domain). Overrides alwaysShowZeroY / alwaysShowHundredY when true. */
+    percentScale?: boolean;
+    /** When true, run experimental SQL compatibility wrapper (post-hoc per-side ranking & pruning) instead of native aggregation. */
+    useSqlCompatEngine?: boolean;
 }
 export declare const SPCChart: React.FC<SPCChartProps>;
 export { ImprovementDirection, VariationIcon, AssuranceIcon };

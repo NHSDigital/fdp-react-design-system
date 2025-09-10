@@ -7548,7 +7548,6 @@ var Button_default = Button;
 
 // src/components/Tables/Table.tsx
 var import_classnames3 = __toESM(require_classnames(), 1);
-import React14 from "react";
 
 // src/components/Panel/Panel.tsx
 var import_classnames2 = __toESM(require_classnames(), 1);
@@ -7663,7 +7662,57 @@ var Panel = ({
 
 // src/components/Tables/Table.tsx
 import { Fragment, jsx as jsx16, jsxs as jsxs9 } from "react/jsx-runtime";
-var Table = ({
+var prismGlobalRef = { current: null };
+var ensurePrismGlobal = () => {
+  if (prismGlobalRef.current) return prismGlobalRef.current;
+  try {
+    prismGlobalRef.current = require_prism();
+    try {
+      require_prism_typescript();
+    } catch {
+    }
+    try {
+      require_prism_tsx();
+    } catch {
+    }
+    try {
+      require_prism_json();
+    } catch {
+    }
+  } catch {
+    prismGlobalRef.current = null;
+  }
+  return prismGlobalRef.current;
+};
+var fallbackHighlight = (code) => {
+  const patterns = [
+    { regex: /\b(import|from|export|const|let|var|return|if|else|for|while|switch|case|break|new|throw|try|catch|finally|class|extends|implements|interface|type|as|async|await|function)\b/g, cls: "kw" },
+    { regex: /(['"`])(?:\\.|(?!\1).)*\1/g, cls: "str" },
+    { regex: /\/\*[^]*?\*\/|\/\/.*$/gm, cls: "com" },
+    { regex: /\b([0-9]+(?:\.[0-9]+)?)\b/g, cls: "num" }
+  ];
+  let html = code;
+  patterns.forEach((p) => {
+    html = html.replace(p.regex, (m) => `<span class="nhsuk-code-${p.cls}">${m}</span>`);
+  });
+  return html;
+};
+var highlightCode = (code, lang, disable) => {
+  if (disable) return code;
+  if (!lang) return code;
+  const Prism2 = ensurePrismGlobal();
+  if (Prism2 && Prism2.languages) {
+    const resolvedLang = Prism2.languages[lang] ? lang : Prism2.languages.typescript && (lang === "ts" || lang === "tsx" || lang === "typescript") ? "typescript" : Prism2.languages.json && lang === "json" ? "json" : void 0;
+    if (resolvedLang) {
+      try {
+        return Prism2.highlight(code, Prism2.languages[resolvedLang], resolvedLang);
+      } catch {
+      }
+    }
+  }
+  return fallbackHighlight(code);
+};
+var TableBase = ({
   rows,
   head,
   caption,
@@ -7677,7 +7726,10 @@ var Table = ({
   tableClasses,
   classes,
   attributes,
-  "data-testid": testId
+  "data-testid": testId,
+  columns,
+  data,
+  visuallyHiddenCaption = false
 }) => {
   const captionClass = `nhsuk-table__caption ${captionSize ? `nhsuk-table__caption--${captionSize}` : ""}`.trim();
   const tableClassList = (0, import_classnames3.default)(
@@ -7688,60 +7740,14 @@ var Table = ({
     tableClasses
   );
   const containerClassList = (0, import_classnames3.default)(classes);
-  const prismRef = React14.useRef(null);
-  const ensurePrism = () => {
-    if (prismRef.current) return prismRef.current;
-    try {
-      prismRef.current = require_prism();
-      try {
-        require_prism_typescript();
-      } catch {
-      }
-      try {
-        require_prism_tsx();
-      } catch {
-      }
-      try {
-        require_prism_json();
-      } catch {
-      }
-    } catch {
-      prismRef.current = null;
-    }
-    return prismRef.current;
-  };
-  const fallbackHighlight = (code) => {
-    const patterns = [
-      { regex: /\b(import|from|export|const|let|var|return|if|else|for|while|switch|case|break|new|throw|try|catch|finally|class|extends|implements|interface|type|as|async|await|function)\b/g, cls: "kw" },
-      { regex: /(['"`])(?:\\.|(?!\1).)*\1/g, cls: "str" },
-      { regex: /\/\*[^]*?\*\/|\/\/.*$/gm, cls: "com" },
-      { regex: /\b([0-9]+(?:\.[0-9]+)?)\b/g, cls: "num" }
-    ];
-    let html = code;
-    patterns.forEach((p) => {
-      html = html.replace(p.regex, (m) => `<span class="nhsuk-code-${p.cls}">${m}</span>`);
-    });
-    return html;
-  };
-  const highlightCode = (code, lang, disable) => {
-    if (disable) return code;
-    if (!lang) return code;
-    const Prism2 = ensurePrism();
-    if (Prism2 && Prism2.languages) {
-      const resolvedLang = Prism2.languages[lang] ? lang : Prism2.languages.typescript && (lang === "ts" || lang === "tsx" || lang === "typescript") ? "typescript" : Prism2.languages.json && lang === "json" ? "json" : void 0;
-      if (resolvedLang) {
-        try {
-          return Prism2.highlight(code, Prism2.languages[resolvedLang], resolvedLang);
-        } catch {
-        }
-      }
-    }
-    return fallbackHighlight(code);
-  };
   const renderHeaderCell = (cell, index) => {
-    const headerClasses = (0, import_classnames3.default)("nhsuk-table__header", {
-      [`nhsuk-table__header--${cell.format}`]: cell.format
-    }, cell.classes);
+    const headerClasses = (0, import_classnames3.default)(
+      "nhsuk-table__header",
+      {
+        [`nhsuk-table__header--${cell.format}`]: cell.format
+      },
+      cell.classes
+    );
     const headerAttributes = {
       scope: "col",
       ...cell.colspan && { colSpan: cell.colspan },
@@ -7766,14 +7772,26 @@ var Table = ({
         ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
       };
       const highlighted = highlightCode(codeString, cell.codeLanguage);
-      content = isMultiline ? /* @__PURE__ */ jsx16("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+      content = isMultiline ? /* @__PURE__ */ jsx16("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx16(
+        "code",
+        {
+          ...codeProps,
+          dangerouslySetInnerHTML: { __html: highlighted }
+        }
+      ) }) : /* @__PURE__ */ jsx16(
+        "code",
+        {
+          ...codeProps,
+          dangerouslySetInnerHTML: { __html: highlighted }
+        }
+      );
     } else {
       content = cell.text;
     }
     return /* @__PURE__ */ jsx16("th", { className: headerClasses, ...headerAttributes, children: content }, index);
   };
   const renderCell = (cell, cellIndex, isFirstCell) => {
-    const isHeaderCell = firstCellIsHeader && isFirstCell;
+    const isHeaderCell = firstCellIsHeader && isFirstCell || cell.rowHeader;
     const cellClasses = (0, import_classnames3.default)(
       isHeaderCell ? "nhsuk-table__header" : "nhsuk-table__cell",
       {
@@ -7807,8 +7825,24 @@ var Table = ({
         }),
         ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
       };
-      const highlighted = highlightCode(codeString, cell.codeLanguage, cell.disableHighlight);
-      inner = isMultiline ? /* @__PURE__ */ jsx16("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+      const highlighted = highlightCode(
+        codeString,
+        cell.codeLanguage,
+        cell.disableHighlight
+      );
+      inner = isMultiline ? /* @__PURE__ */ jsx16("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx16(
+        "code",
+        {
+          ...codeProps,
+          dangerouslySetInnerHTML: { __html: highlighted }
+        }
+      ) }) : /* @__PURE__ */ jsx16(
+        "code",
+        {
+          ...codeProps,
+          dangerouslySetInnerHTML: { __html: highlighted }
+        }
+      );
     } else {
       inner = cell.text;
     }
@@ -7822,6 +7856,34 @@ var Table = ({
     const Component = isHeaderCell ? "th" : "td";
     return /* @__PURE__ */ jsx16(Component, { className: cellClasses, ...cellAttributes, children: cellContent }, cellIndex);
   };
+  let derivedHead = head;
+  let derivedRows = rows;
+  if (!derivedHead && columns && columns.length) {
+    derivedHead = columns.map((c) => ({
+      text: c.title,
+      format: c.format,
+      classes: c.headerClasses,
+      attributes: c.headerAttributes
+    }));
+  }
+  if (!derivedRows && columns && data && data.length) {
+    derivedRows = data.map((rowObj, rIdx) => {
+      return columns.map((c) => {
+        const raw = c.accessor ? c.accessor(rowObj, rIdx) : rowObj[c.key];
+        let base = { format: c.format, classes: c.cellClasses, attributes: c.cellAttributes };
+        if (c.rowHeader) base.rowHeader = true;
+        if (c.render) {
+          const rendered = c.render(raw, rowObj, rIdx, c);
+          if (rendered == null || typeof rendered === "boolean") return { ...base, text: "" };
+          if (typeof rendered === "string" || typeof rendered === "number") {
+            return { ...base, text: String(rendered) };
+          }
+          return { ...base, ...rendered };
+        }
+        return { ...base, text: raw != null ? String(raw) : "" };
+      });
+    });
+  }
   const renderTable = () => /* @__PURE__ */ jsxs9(
     "table",
     {
@@ -7830,16 +7892,18 @@ var Table = ({
       ...attributes,
       ...testId && { "data-testid": testId },
       children: [
-        caption && /* @__PURE__ */ jsx16("caption", { className: captionClass, children: caption }),
-        head && head.length > 0 && /* @__PURE__ */ jsx16(
+        caption && /* @__PURE__ */ jsx16("caption", { className: (0, import_classnames3.default)(captionClass, visuallyHiddenCaption && "nhsuk-u-visually-hidden"), children: caption }),
+        derivedHead && derivedHead.length > 0 && /* @__PURE__ */ jsx16(
           "thead",
           {
             className: "nhsuk-table__head",
             ...responsive && { role: "rowgroup" },
-            children: /* @__PURE__ */ jsx16("tr", { ...responsive && { role: "row" }, children: head.map((cell, index) => renderHeaderCell(cell, index)) })
+            children: /* @__PURE__ */ jsx16("tr", { ...responsive && { role: "row" }, children: derivedHead.map(
+              (cell, index) => renderHeaderCell(cell, index)
+            ) })
           }
         ),
-        /* @__PURE__ */ jsx16("tbody", { className: "nhsuk-table__body", children: rows && rows.map((row, rowIndex) => /* @__PURE__ */ jsx16(
+        /* @__PURE__ */ jsx16("tbody", { className: "nhsuk-table__body", children: derivedRows && derivedRows.map((row, rowIndex) => /* @__PURE__ */ jsx16(
           "tr",
           {
             className: "nhsuk-table__row",
@@ -7864,6 +7928,149 @@ var Table = ({
   }
   return renderTable();
 };
+var TableCaption = ({
+  children,
+  size,
+  className
+}) => {
+  const cls = (0, import_classnames3.default)(
+    "nhsuk-table__caption",
+    size && `nhsuk-table__caption--${size}`,
+    className
+  );
+  return /* @__PURE__ */ jsx16("caption", { className: cls, children });
+};
+var TableBodyRow = ({
+  responsive,
+  className,
+  children,
+  ...rest
+}) => {
+  const roleAttrs = responsive ? { role: "row" } : {};
+  return /* @__PURE__ */ jsx16("tr", { className, ...roleAttrs, ...rest, children });
+};
+var TableHeaderCell = ({
+  text,
+  html,
+  node,
+  code,
+  codeLanguage,
+  codeClassName,
+  disableHighlight,
+  format: format2,
+  classes,
+  colspan,
+  rowspan,
+  attributes,
+  responsive,
+  as = "th"
+}) => {
+  const headerClasses = (0, import_classnames3.default)(
+    "nhsuk-table__header",
+    { [`nhsuk-table__header--${format2}`]: format2 },
+    classes
+  );
+  const headerAttributes = {
+    scope: "col",
+    ...colspan && { colSpan: colspan },
+    ...rowspan && { rowSpan: rowspan },
+    ...responsive && { role: "columnheader" },
+    ...attributes
+  };
+  let content;
+  if (node != null) content = /* @__PURE__ */ jsx16(Fragment, { children: node });
+  else if (html) content = /* @__PURE__ */ jsx16("span", { dangerouslySetInnerHTML: { __html: html } });
+  else if (code != null) {
+    const isArray = Array.isArray(code);
+    const codeString = isArray ? code.join("\n") : code;
+    const isMultiline = isArray || codeString.includes("\n");
+    const codeProps = {
+      className: (0, import_classnames3.default)("nhsuk-table__code", codeClassName, {
+        "nhsuk-table__code--block": isMultiline,
+        "nhsuk-table__code--inline": !isMultiline
+      }),
+      ...codeLanguage ? { "data-language": codeLanguage } : {}
+    };
+    const highlighted = highlightCode(
+      codeString,
+      codeLanguage,
+      disableHighlight
+    );
+    content = isMultiline ? /* @__PURE__ */ jsx16("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx16(
+      "code",
+      {
+        ...codeProps,
+        dangerouslySetInnerHTML: { __html: highlighted }
+      }
+    ) }) : /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+  } else content = text;
+  const Component = as;
+  return /* @__PURE__ */ jsx16(Component, { className: headerClasses, ...headerAttributes, children: content });
+};
+var TableCell = ({
+  text,
+  html,
+  node,
+  code,
+  codeLanguage,
+  codeClassName,
+  disableHighlight,
+  format: format2,
+  classes,
+  colspan,
+  rowspan,
+  attributes,
+  responsive,
+  rowHeader
+}) => {
+  const isHeader = !!rowHeader;
+  const Tag2 = isHeader ? "th" : "td";
+  const cls = (0, import_classnames3.default)(
+    isHeader ? "nhsuk-table__header" : "nhsuk-table__cell",
+    format2 && `nhsuk-table__${isHeader ? "header" : "cell"}--${format2}`,
+    classes
+  );
+  const cellAttrs = {
+    ...colspan && { colSpan: colspan },
+    ...rowspan && { rowSpan: rowspan },
+    ...isHeader && { scope: "row" },
+    ...responsive && { role: isHeader ? "rowheader" : "cell" },
+    ...attributes
+  };
+  let content;
+  if (node != null) content = /* @__PURE__ */ jsx16(Fragment, { children: node });
+  else if (html) content = /* @__PURE__ */ jsx16("span", { dangerouslySetInnerHTML: { __html: html } });
+  else if (code != null) {
+    const isArray = Array.isArray(code);
+    const codeString = isArray ? code.join("\n") : code;
+    const isMultiline = isArray || codeString.includes("\n");
+    const codeProps = {
+      className: (0, import_classnames3.default)("nhsuk-table__code", codeClassName, {
+        "nhsuk-table__code--block": isMultiline,
+        "nhsuk-table__code--inline": !isMultiline
+      }),
+      ...codeLanguage ? { "data-language": codeLanguage } : {}
+    };
+    const highlighted = highlightCode(codeString, codeLanguage, disableHighlight);
+    content = isMultiline ? /* @__PURE__ */ jsx16("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx16("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+  } else content = text;
+  return /* @__PURE__ */ jsx16(Tag2, { className: cls, ...cellAttrs, children: content });
+};
+var Table = TableBase;
+Table.Caption = TableCaption;
+Table.BodyRow = TableBodyRow;
+Table.HeaderCell = TableHeaderCell;
+Table.Cell = TableCell;
+Table.Row = TableBodyRow;
+Table.TH = TableHeaderCell;
+if (true) {
+  if (Table.Row) {
+    console.warn("Table.Row is deprecated. Use Table.BodyRow instead.");
+  }
+  if (Table.TH) {
+    console.warn("Table.TH is deprecated. Use Table.HeaderCell instead.");
+  }
+}
 var Table_default = Table;
 
 // src/components/DataVisualisation/charts/ChartWithTableTabs/ChartWithTableTabs.tsx
@@ -8017,7 +8224,7 @@ var ChartWithTableTabs = ({
 var ChartWithTableTabs_default = ChartWithTableTabs;
 
 // src/components/DataVisualisation/charts/Legend/Legend.tsx
-import * as React15 from "react";
+import * as React14 from "react";
 import { jsx as jsx18, jsxs as jsxs11 } from "react/jsx-runtime";
 var Legend = ({
   items: itemsProp,
@@ -8035,9 +8242,9 @@ var Legend = ({
   const effectiveInteractive = interactive || contextInteractive;
   const items = itemsProp || [];
   const controlled = hiddenIds !== void 0;
-  const [internalHidden, setInternalHidden] = React15.useState(new Set(defaultHiddenIds));
+  const [internalHidden, setInternalHidden] = React14.useState(new Set(defaultHiddenIds));
   const effectiveHidden = controlled ? new Set(hiddenIds) : internalHidden;
-  const [announcement, setAnnouncement] = React15.useState("");
+  const [announcement, setAnnouncement] = React14.useState("");
   const toggle = (id) => {
     if (contextInteractive && visibility) {
       const wasHidden2 = visibility.isHidden(id);
@@ -8103,7 +8310,7 @@ var Legend = ({
 var Legend_default = Legend;
 
 // src/components/DataVisualisation/FilterableLineChart.tsx
-import * as React16 from "react";
+import * as React15 from "react";
 import { jsx as jsx19, jsxs as jsxs12 } from "react/jsx-runtime";
 var FilterableLineChart = ({
   series,
@@ -8116,17 +8323,17 @@ var FilterableLineChart = ({
   palette = "categorical",
   ...lineChartProps
 }) => {
-  const coloured = React16.useMemo(() => assignColors ? assignSeriesColors(series, { palette }) : series, [series, assignColors, palette]);
+  const coloured = React15.useMemo(() => assignColors ? assignSeriesColors(series, { palette }) : series, [series, assignColors, palette]);
   const controlled = hiddenIds !== void 0;
-  const [internalHidden, setInternalHidden] = React16.useState(new Set(initialHiddenIds));
+  const [internalHidden, setInternalHidden] = React15.useState(new Set(initialHiddenIds));
   const hiddenSet = controlled ? new Set(hiddenIds) : internalHidden;
-  const visibleSeries = React16.useMemo(() => coloured.filter((s) => !hiddenSet.has(s.id)), [coloured, hiddenSet]);
-  const handleVisibilityChange = React16.useCallback((_visibleIds, nextHiddenIds) => {
+  const visibleSeries = React15.useMemo(() => coloured.filter((s) => !hiddenSet.has(s.id)), [coloured, hiddenSet]);
+  const handleVisibilityChange = React15.useCallback((_visibleIds, nextHiddenIds) => {
     if (!controlled) setInternalHidden(new Set(nextHiddenIds));
     const visibleIds = coloured.filter((s) => !nextHiddenIds.includes(s.id)).map((s) => s.id);
     onHiddenChange == null ? void 0 : onHiddenChange(nextHiddenIds, visibleIds);
   }, [controlled, coloured, onHiddenChange]);
-  const legendItems = React16.useMemo(() => coloured.map((s) => ({ id: s.id, label: s.label || s.id, color: s.color })), [coloured]);
+  const legendItems = React15.useMemo(() => coloured.map((s) => ({ id: s.id, label: s.label || s.id, color: s.color })), [coloured]);
   const chartEl = /* @__PURE__ */ jsx19(LineChart_default, { ...lineChartProps, series: visibleSeries, palette });
   const legendEl = /* @__PURE__ */ jsx19(
     Legend_default,
@@ -8148,7 +8355,7 @@ var FilterableLineChart = ({
 var FilterableLineChart_default = FilterableLineChart;
 
 // src/components/DataVisualisation/series/AreaSeriesPrimitive.tsx
-import * as React17 from "react";
+import * as React16 from "react";
 import { jsx as jsx20, jsxs as jsxs13 } from "react/jsx-runtime";
 var AreaSeriesPrimitive = ({
   series,
@@ -8172,7 +8379,7 @@ var AreaSeriesPrimitive = ({
   const faded = isHidden && visibilityMode === "fade";
   if (isHidden && visibilityMode === "remove") return null;
   const tooltip = useTooltipContext();
-  React17.useEffect(() => {
+  React16.useEffect(() => {
     if (!tooltip) return;
     const normalized = series.data.map((d) => ({ x: parseX(d), y: d.y }));
     tooltip.registerSeries(series.id, normalized);
@@ -8180,7 +8387,7 @@ var AreaSeriesPrimitive = ({
   }, [tooltip, series.id, series.data, parseX]);
   const paletteOverride = colors && colors[seriesIndex];
   const color2 = series.color || paletteOverride || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
-  const linePath = React17.useMemo(() => {
+  const linePath = React16.useMemo(() => {
     if (stacked && stacked.length === series.data.length) {
       return createLinePath(
         series.data,
@@ -8199,7 +8406,7 @@ var AreaSeriesPrimitive = ({
       { smooth }
     );
   }, [series.data, stacked, xScale, yScale, parseX, smooth]);
-  const areaPath = React17.useMemo(() => {
+  const areaPath = React16.useMemo(() => {
     if (stacked && stacked.length === series.data.length) {
       const gen2 = area_default().x((d) => xScale(parseX(d))).y0((_, i) => yScale(stacked[i].y0)).y1((_, i) => yScale(stacked[i].y1));
       if (smooth) gen2.curve(monotoneX);
@@ -8213,7 +8420,7 @@ var AreaSeriesPrimitive = ({
     if (smooth) gen.curve(monotoneX);
     return gen(series.data) || "";
   }, [series.data, stacked, xScale, yScale, parseX, baselineY, smooth]);
-  const gradientId = React17.useId();
+  const gradientId = React16.useId();
   return /* @__PURE__ */ jsxs13(
     "g",
     {
@@ -8244,7 +8451,7 @@ var AreaSeriesPrimitive = ({
 var AreaSeriesPrimitive_default = AreaSeriesPrimitive;
 
 // src/components/DataVisualisation/series/BarSeriesPrimitive.tsx
-import * as React18 from "react";
+import * as React17 from "react";
 import { jsx as jsx21, jsxs as jsxs14 } from "react/jsx-runtime";
 var BarSeriesPrimitive = ({
   series,
@@ -8282,7 +8489,7 @@ var BarSeriesPrimitive = ({
   const faded = isHidden && visibilityMode === "fade";
   if (isHidden && visibilityMode === "remove") return null;
   const tooltip = useTooltipContext();
-  React18.useEffect(() => {
+  React17.useEffect(() => {
     if (!tooltip) return;
     const normalized = series.data.map((d) => ({ x: parseX(d), y: d.y }));
     tooltip.registerSeries(series.id, normalized);
@@ -8290,7 +8497,7 @@ var BarSeriesPrimitive = ({
   }, [tooltip, series.id, series.data, parseX]);
   const isBandScale = typeof xScale.bandwidth === "function";
   const bandwidth = isBandScale ? xScale.bandwidth() : void 0;
-  const inferredPixelWidth = React18.useMemo(() => {
+  const inferredPixelWidth = React17.useMemo(() => {
     if (bandwidth != null) return bandwidth;
     const sourceSeries = allSeries && allSeries.length ? allSeries : [series];
     const posSet = [];
@@ -8309,7 +8516,7 @@ var BarSeriesPrimitive = ({
     const median = diffs[Math.floor(diffs.length / 2)] || 40;
     return median * widthFactor;
   }, [series.data, allSeries, xScale, parseX, widthFactor, bandwidth]);
-  const { basePerBar } = React18.useMemo(() => {
+  const { basePerBar } = React17.useMemo(() => {
     var _a3, _b2;
     if (isBandScale) {
       const bw = inferredPixelWidth;
@@ -8375,7 +8582,7 @@ var BarSeriesPrimitive = ({
     xScale,
     parseX
   ]);
-  const globalCenters = React18.useMemo(() => {
+  const globalCenters = React17.useMemo(() => {
     if (isBandScale) return [];
     const pts = [];
     const src = allSeries && allSeries.length ? allSeries : [series];
@@ -8388,7 +8595,7 @@ var BarSeriesPrimitive = ({
     pts.sort((a, b) => a - b);
     return Array.from(new Set(pts));
   }, [isBandScale, allSeries, series, xScale, parseX]);
-  const continuousSlots = React18.useMemo(() => {
+  const continuousSlots = React17.useMemo(() => {
     if (isBandScale)
       return [];
     if (!globalCenters.length) return [];
@@ -8410,7 +8617,7 @@ var BarSeriesPrimitive = ({
     }
     return slots;
   }, [isBandScale, globalCenters, chartDims.innerWidth]);
-  const continuousUniforms = React18.useMemo(() => {
+  const continuousUniforms = React17.useMemo(() => {
     if (isBandScale || !continuousSlots.length)
       return void 0;
     const occupancy = Math.min(1, Math.max(0.05, widthFactor));
@@ -8464,7 +8671,7 @@ var BarSeriesPrimitive = ({
   const baseSeriesStroke = palette === "region" ? pickRegionStroke(series.id, seriesIndex) : pickSeriesStroke(seriesIndex);
   const effectiveBaseStroke = gradientStrokeMatch && (series.color || resolvedSeriesPaletteColor) ? baseSeriesColor : baseSeriesStroke;
   const baselineY = Number.isFinite(yScale(0)) ? yScale(0) : yScale.range()[0];
-  const seriesGradientId = React18.useId();
+  const seriesGradientId = React17.useId();
   if (stacked && stacked.length === series.data.length) {
     return /* @__PURE__ */ jsxs14(
       "g",
@@ -8785,7 +8992,7 @@ var BarSeriesPrimitive = ({
 var BarSeriesPrimitive_default = BarSeriesPrimitive;
 
 // src/components/DataVisualisation/core/BandScalesProvider.tsx
-import * as React19 from "react";
+import * as React18 from "react";
 import { jsx as jsx22 } from "react/jsx-runtime";
 var BandScalesProvider = ({
   series,
@@ -8800,25 +9007,25 @@ var BandScalesProvider = ({
   const chart = useChartContext();
   const innerWidth = (_a2 = iw != null ? iw : chart == null ? void 0 : chart.innerWidth) != null ? _a2 : 0;
   const innerHeight = (_b2 = ih != null ? ih : chart == null ? void 0 : chart.innerHeight) != null ? _b2 : 0;
-  const allData = React19.useMemo(() => series.flatMap((s) => s.data), [series]);
-  const xDomain = React19.useMemo(() => {
+  const allData = React18.useMemo(() => series.flatMap((s) => s.data), [series]);
+  const xDomain = React18.useMemo(() => {
     const set = /* @__PURE__ */ new Set();
     allData.forEach((d) => set.add(d.x));
     return Array.from(set);
   }, [allData]);
-  const yMax = React19.useMemo(
+  const yMax = React18.useMemo(
     () => Math.max(0, ...allData.map((d) => d.y)),
     [allData]
   );
-  const xScale = React19.useMemo(
+  const xScale = React18.useMemo(
     () => band().domain(xDomain).range([0, innerWidth]).paddingInner(paddingInner).paddingOuter(paddingOuter),
     [xDomain, innerWidth, paddingInner, paddingOuter]
   );
-  const yScale = React19.useMemo(
+  const yScale = React18.useMemo(
     () => linear2().domain([0, yMax]).nice().range([innerHeight, 0]),
     [yMax, innerHeight]
   );
-  const value = React19.useMemo(
+  const value = React18.useMemo(
     () => ({
       xScale,
       yScale,
@@ -8831,7 +9038,7 @@ var BandScalesProvider = ({
 };
 
 // src/components/DataVisualisation/charts/ChartNoScript/ChartNoScript.tsx
-import * as React20 from "react";
+import * as React19 from "react";
 import { jsx as jsx23, jsxs as jsxs15 } from "react/jsx-runtime";
 var ChartNoScript = ({
   title,
@@ -8843,7 +9050,7 @@ var ChartNoScript = ({
   message = "Interactive chart loading\u2026",
   forceFallback = false
 }) => {
-  const figureId = React20.useId();
+  const figureId = React19.useId();
   const resolvedId = id || figureId;
   const descId = description ? `${resolvedId}-desc` : void 0;
   const sourceId = source ? `${resolvedId}-src` : void 0;
@@ -8875,11 +9082,11 @@ var ChartNoScript = ({
 var ChartNoScript_default = ChartNoScript;
 
 // src/components/DataVisualisation/charts/ChartEnhancer/ChartEnhancer.tsx
-import * as React21 from "react";
+import * as React20 from "react";
 import { jsx as jsx24 } from "react/jsx-runtime";
 var ChartEnhancer = ({ selector = "figure.fdp-chart", onEnhanced, delay = 0, children }) => {
-  const ref = React21.useRef(null);
-  React21.useEffect(() => {
+  const ref = React20.useRef(null);
+  React20.useEffect(() => {
     const root = ref.current;
     if (!root) return;
     const apply = () => {
@@ -8905,7 +9112,7 @@ var ChartEnhancer = ({ selector = "figure.fdp-chart", onEnhanced, delay = 0, chi
 var ChartEnhancer_default = ChartEnhancer;
 
 // src/components/DataVisualisation/components/MetricCard/MetricCard.tsx
-import * as React22 from "react";
+import * as React21 from "react";
 import { Fragment as Fragment2, jsx as jsx25, jsxs as jsxs16 } from "react/jsx-runtime";
 var MetricCard = ({
   label,
@@ -8924,7 +9131,7 @@ var MetricCard = ({
   id,
   announceDelta = true
 }) => {
-  const internalId = React22.useId();
+  const internalId = React21.useId();
   const baseId = id || internalId;
   const labelId = `${baseId}-label`;
   const valueId = `${baseId}-value`;
@@ -9000,19 +9207,115 @@ var MetricCard = ({
 var MetricCard_default = MetricCard;
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import * as React25 from "react";
+import * as React24 from "react";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
-import * as React23 from "react";
+import * as React22 from "react";
 import { createPortal } from "react-dom";
 
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcSqlCompat.ts
+function collectSideRanks(r2) {
+  const high = [];
+  const low = [];
+  const push = (arr, id) => {
+    arr.push({ id, rank: RULE_RANK_BY_ID[id] });
+  };
+  if (r2.specialCauseSinglePointAbove) push(high, "single_point" /* SinglePoint */);
+  if (r2.specialCauseSinglePointBelow) push(low, "single_point" /* SinglePoint */);
+  if (r2.specialCauseTwoOfThreeAbove) push(high, "two_sigma" /* TwoSigma */);
+  if (r2.specialCauseTwoOfThreeBelow) push(low, "two_sigma" /* TwoSigma */);
+  if (r2.specialCauseShiftHigh) push(high, "shift" /* Shift */);
+  if (r2.specialCauseShiftLow) push(low, "shift" /* Shift */);
+  if (r2.specialCauseTrendIncreasing) push(high, "trend" /* Trend */);
+  if (r2.specialCauseTrendDecreasing) push(low, "trend" /* Trend */);
+  return { high, low };
+}
+function sqlDirectionalPrune(row, metricImprovement) {
+  const { high, low } = collectSideRanks(row);
+  const upMax = high.reduce((m, a) => Math.max(m, a.rank), 0);
+  const downMax = low.reduce((m, a) => Math.max(m, a.rank), 0);
+  let prime;
+  if (upMax > downMax) prime = "Upwards" /* Upwards */;
+  else if (downMax > upMax) prime = "Downwards" /* Downwards */;
+  else prime = "Same" /* Same */;
+  const anyHigh = upMax > 0;
+  const anyLow = downMax > 0;
+  const originalImprovement = metricImprovement === "Up" /* Up */ && anyHigh || metricImprovement === "Down" /* Down */ && anyLow ? row.value : null;
+  const originalConcern = metricImprovement === "Up" /* Up */ && anyLow || metricImprovement === "Down" /* Down */ && anyHigh ? row.value : null;
+  row.sqlOriginalImprovementValue = originalImprovement;
+  row.sqlOriginalConcernValue = originalConcern;
+  if (originalImprovement !== null && originalConcern !== null) {
+    row.sqlPruned = true;
+    if (prime === "Upwards" /* Upwards */) {
+      if (metricImprovement === "Up" /* Up */) {
+      } else if (metricImprovement === "Down" /* Down */) {
+        row.sqlOriginalImprovementValue = null;
+      }
+    } else if (prime === "Downwards" /* Downwards */) {
+      if (metricImprovement === "Up" /* Up */) {
+        row.sqlOriginalImprovementValue = null;
+      } else if (metricImprovement === "Down" /* Down */) {
+      }
+    } else {
+      if (originalImprovement !== null) {
+        row.sqlOriginalConcernValue = null;
+      } else if (originalConcern !== null) {
+        row.sqlOriginalImprovementValue = null;
+      }
+    }
+  }
+  if (row.sqlOriginalImprovementValue && !row.sqlOriginalConcernValue) {
+    row.variationIcon = "improvement" /* Improvement */;
+  } else if (!row.sqlOriginalImprovementValue && row.sqlOriginalConcernValue) {
+    row.variationIcon = "concern" /* Concern */;
+  } else if (!row.sqlOriginalImprovementValue && !row.sqlOriginalConcernValue) {
+    row.variationIcon = "neither" /* Neither */;
+  } else {
+    row.variationIcon = "improvement" /* Improvement */;
+  }
+  row.primeDirection = prime;
+  row.primeRank = Math.max(upMax, downMax) || void 0;
+  const winningSide = row.variationIcon === "concern" /* Concern */ ? metricImprovement === "Up" /* Up */ ? "down" /* Down */ : "up" /* Up */ : metricImprovement === "Up" /* Up */ ? "up" /* Up */ : "down" /* Down */;
+  const winnerSet = winningSide === "up" /* Up */ ? high : low;
+  const top = winnerSet.reduce(
+    (best, a) => !best || a.rank > best.rank ? a : best,
+    void 0
+  );
+  if (top) row.primeRuleId = top.id;
+}
+function buildSpcSqlCompat(args) {
+  var _a2;
+  const {
+    chartType,
+    metricImprovement,
+    data,
+    settings = {},
+    disableTrendSideGating
+  } = args;
+  const base = buildSpc({
+    chartType,
+    metricImprovement,
+    data,
+    settings: {
+      ...settings,
+      trendSideGatingEnabled: disableTrendSideGating ? false : (_a2 = settings.trendSideGatingEnabled) != null ? _a2 : true,
+      conflictPrecedenceMode: "none" /* None */
+    }
+  });
+  const rows = base.rows.map((r2) => ({ ...r2 }));
+  for (const r2 of rows) {
+    sqlDirectionalPrune(r2, metricImprovement);
+  }
+  return { rows, warnings: base.warnings };
+}
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc.ts
-var ChartType = /* @__PURE__ */ ((ChartType2) => {
-  ChartType2["XmR"] = "XmR";
-  ChartType2["T"] = "T";
-  ChartType2["G"] = "G";
-  return ChartType2;
-})(ChartType || {});
+var ChartType2 = /* @__PURE__ */ ((ChartType3) => {
+  ChartType3["XmR"] = "XmR";
+  ChartType3["T"] = "T";
+  ChartType3["G"] = "G";
+  return ChartType3;
+})(ChartType2 || {});
 var ImprovementDirection = /* @__PURE__ */ ((ImprovementDirection2) => {
   ImprovementDirection2["Up"] = "Up";
   ImprovementDirection2["Down"] = "Down";
@@ -9026,6 +9329,12 @@ var VariationIcon = /* @__PURE__ */ ((VariationIcon2) => {
   VariationIcon2["None"] = "none";
   return VariationIcon2;
 })(VariationIcon || {});
+var RULE_RANK_BY_ID = {
+  ["single_point" /* SinglePoint */]: 1,
+  ["two_sigma" /* TwoSigma */]: 2,
+  ["shift" /* Shift */]: 3,
+  ["trend" /* Trend */]: 4
+};
 var AssuranceIcon = /* @__PURE__ */ ((AssuranceIcon2) => {
   AssuranceIcon2["Pass"] = "pass";
   AssuranceIcon2["Fail"] = "fail";
@@ -9608,17 +9917,17 @@ function buildSpc(args) {
   for (const r2 of output) {
     if (r2.ruleTags && r2.ruleTags.length) continue;
     const tags = [];
-    if (r2.specialCauseShiftHigh) tags.push("shift_high");
-    if (r2.specialCauseShiftLow) tags.push("shift_low");
-    if (r2.specialCauseTrendIncreasing) tags.push("trend_inc");
-    if (r2.specialCauseTrendDecreasing) tags.push("trend_dec");
-    if (r2.specialCauseSinglePointAbove) tags.push("single_above");
-    if (r2.specialCauseSinglePointBelow) tags.push("single_below");
-    if (r2.specialCauseTwoOfThreeAbove) tags.push("two_of_three_high");
-    if (r2.specialCauseTwoOfThreeBelow) tags.push("two_of_three_low");
-    if (r2.specialCauseFourOfFiveAbove) tags.push("four_of_five_high");
-    if (r2.specialCauseFourOfFiveBelow) tags.push("four_of_five_low");
-    if (r2.specialCauseFifteenInnerThird) tags.push("fifteen_inner_third");
+    if (r2.specialCauseShiftHigh) tags.push("shift_high" /* ShiftHigh */);
+    if (r2.specialCauseShiftLow) tags.push("shift_low" /* ShiftLow */);
+    if (r2.specialCauseTrendIncreasing) tags.push("trend_inc" /* TrendIncreasing */);
+    if (r2.specialCauseTrendDecreasing) tags.push("trend_dec" /* TrendDecreasing */);
+    if (r2.specialCauseSinglePointAbove) tags.push("single_above" /* SinglePointAbove */);
+    if (r2.specialCauseSinglePointBelow) tags.push("single_below" /* SinglePointBelow */);
+    if (r2.specialCauseTwoOfThreeAbove) tags.push("two_of_three_above" /* TwoOfThreeAbove */);
+    if (r2.specialCauseTwoOfThreeBelow) tags.push("two_of_three_below" /* TwoOfThreeBelow */);
+    if (r2.specialCauseFourOfFiveAbove) tags.push("four_of_five_above" /* FourOfFiveAbove */);
+    if (r2.specialCauseFourOfFiveBelow) tags.push("four_of_five_below" /* FourOfFiveBelow */);
+    if (r2.specialCauseFifteenInnerThird) tags.push("fifteen_inner_third" /* FifteenInnerThird */);
     if (tags.length) r2.ruleTags = tags;
   }
   for (let idx = 0; idx < output.length; idx++) {
@@ -9687,6 +9996,62 @@ function buildSpc(args) {
     row.specialCauseImprovementValue = anySignal && row.variationIcon === "improvement" /* Improvement */ ? row.value : null;
     row.specialCauseConcernValue = anySignal && row.variationIcon === "concern" /* Concern */ ? row.value : null;
     row.specialCauseNeitherValue = anySignal && row.variationIcon === "neither" /* Neither */ ? row.value : null;
+    if (settings.conflictPrecedenceMode === "sql_ranking_v2_6a" /* SqlRankingV26a */ && row.specialCauseImprovementValue !== null && row.specialCauseConcernValue !== null) {
+      const active = [];
+      if (row.specialCauseSinglePointAbove) active.push({ id: "single_point" /* SinglePoint */, rank: 1, side: "up" /* Up */ });
+      if (row.specialCauseSinglePointBelow) active.push({ id: "single_point" /* SinglePoint */, rank: 1, side: "down" /* Down */ });
+      if (row.specialCauseTwoOfThreeAbove) active.push({ id: "two_sigma" /* TwoSigma */, rank: 2, side: "up" /* Up */ });
+      if (row.specialCauseTwoOfThreeBelow) active.push({ id: "two_sigma" /* TwoSigma */, rank: 2, side: "down" /* Down */ });
+      if (row.specialCauseShiftHigh) active.push({ id: "shift" /* Shift */, rank: 3, side: "up" /* Up */ });
+      if (row.specialCauseShiftLow) active.push({ id: "shift" /* Shift */, rank: 3, side: "down" /* Down */ });
+      if (row.specialCauseTrendIncreasing) active.push({ id: "trend" /* Trend */, rank: 4, side: "up" /* Up */ });
+      if (row.specialCauseTrendDecreasing) active.push({ id: "trend" /* Trend */, rank: 4, side: "down" /* Down */ });
+      const upMax = active.filter((a) => a.side === "up" /* Up */).reduce((m, a) => Math.max(m, a.rank), 0);
+      const downMax = active.filter((a) => a.side === "down" /* Down */).reduce((m, a) => Math.max(m, a.rank), 0);
+      let prime;
+      if (upMax > downMax) prime = "Upwards" /* Upwards */;
+      else if (downMax > upMax) prime = "Downwards" /* Downwards */;
+      else prime = "Same" /* Same */;
+      const originalImprovement = row.specialCauseImprovementValue;
+      const originalConcern = row.specialCauseConcernValue;
+      if (prime === "Upwards" /* Upwards */) {
+        if (metricImprovement === "Up" /* Up */) {
+          row.specialCauseConcernValue = null;
+        } else if (metricImprovement === "Down" /* Down */) {
+          row.specialCauseImprovementValue = null;
+        }
+      } else if (prime === "Downwards" /* Downwards */) {
+        if (metricImprovement === "Up" /* Up */) {
+          row.specialCauseImprovementValue = null;
+        } else if (metricImprovement === "Down" /* Down */) {
+          row.specialCauseConcernValue = null;
+        }
+      } else {
+        if (row.variationIcon === "improvement" /* Improvement */) {
+          row.specialCauseConcernValue = null;
+        } else if (row.variationIcon === "concern" /* Concern */) {
+          row.specialCauseImprovementValue = null;
+        } else {
+          row.specialCauseConcernValue = null;
+        }
+      }
+      if (row.specialCauseImprovementValue !== null && row.specialCauseConcernValue === null) {
+        row.variationIcon = "improvement" /* Improvement */;
+      } else if (row.specialCauseConcernValue !== null && row.specialCauseImprovementValue === null) {
+        row.variationIcon = "concern" /* Concern */;
+      } else if (row.specialCauseImprovementValue === null && row.specialCauseConcernValue === null) {
+        row.variationIcon = "neither" /* Neither */;
+      }
+      const winningSide = row.specialCauseImprovementValue !== null ? "up" /* Up */ : row.specialCauseConcernValue !== null ? "down" /* Down */ : void 0;
+      const winningRank = winningSide === "up" /* Up */ ? upMax : winningSide === "down" /* Down */ ? downMax : Math.max(upMax, downMax);
+      const winner = active.find((a) => a.rank === winningRank && (!winningSide || a.side === winningSide));
+      row.conflictPrimeDirection = prime;
+      row.conflictResolved = true;
+      row.conflictResolvedRank = winningRank || void 0;
+      if (winner) row.conflictResolvedByRuleId = winner.id;
+      row.originalSpecialCauseImprovementValue = originalImprovement;
+      row.originalSpecialCauseConcernValue = originalConcern;
+    }
     if (isNumber(row.value) && row.mean !== null) {
       row.assuranceIcon = "none" /* None */;
       const inputRow = canonical[row.rowId - 1];
@@ -9942,43 +10307,43 @@ function buildSpc(args) {
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcDescriptors.ts
 var ruleGlossary = {
-  singlePointAbove: {
+  ["singlePointAbove" /* SinglePointAbove */]: {
     tooltip: "Single point above upper control limit",
     narration: "Single point beyond a control limit"
   },
-  singlePointBelow: {
+  ["singlePointBelow" /* SinglePointBelow */]: {
     tooltip: "Single point below lower control limit",
     narration: "Single point beyond a control limit"
   },
-  twoOfThreeAbove: {
+  ["twoOfThreeAbove" /* TwoOfThreeAbove */]: {
     tooltip: "Two of three points beyond +2\u03C3",
     narration: "Two of three points beyond two sigma (same side)"
   },
-  twoOfThreeBelow: {
+  ["twoOfThreeBelow" /* TwoOfThreeBelow */]: {
     tooltip: "Two of three points beyond -2\u03C3",
     narration: "Two of three points beyond two sigma (same side)"
   },
-  fourOfFiveAbove: {
+  ["fourOfFiveAbove" /* FourOfFiveAbove */]: {
     tooltip: "Four of five points beyond +1\u03C3",
     narration: "Four of five points beyond one sigma (same side)"
   },
-  fourOfFiveBelow: {
+  ["fourOfFiveBelow" /* FourOfFiveBelow */]: {
     tooltip: "Four of five points beyond -1\u03C3",
     narration: "Four of five points beyond one sigma (same side)"
   },
-  shiftHigh: {
+  ["shiftHigh" /* ShiftHigh */]: {
     tooltip: "Shift: run of points above centre line",
     narration: "Shift (run on one side of mean)"
   },
-  shiftLow: {
+  ["shiftLow" /* ShiftLow */]: {
     tooltip: "Shift: run of points below centre line",
     narration: "Shift (run on one side of mean)"
   },
-  trendIncreasing: {
+  ["trendIncreasing" /* TrendIncreasing */]: {
     tooltip: "Trend: consecutive increasing points",
     narration: "Trend (consecutive increases)"
   },
-  trendDecreasing: {
+  ["trendDecreasing" /* TrendDecreasing */]: {
     tooltip: "Trend: consecutive decreasing points",
     narration: "Trend (consecutive decreases)"
   }
@@ -9986,16 +10351,16 @@ var ruleGlossary = {
 function extractRuleIds(row) {
   if (!row) return [];
   const ids = [];
-  if (row.specialCauseSinglePointAbove) ids.push("singlePointAbove");
-  if (row.specialCauseSinglePointBelow) ids.push("singlePointBelow");
-  if (row.specialCauseTwoOfThreeAbove) ids.push("twoOfThreeAbove");
-  if (row.specialCauseTwoOfThreeBelow) ids.push("twoOfThreeBelow");
-  if (row.specialCauseFourOfFiveAbove) ids.push("fourOfFiveAbove");
-  if (row.specialCauseFourOfFiveBelow) ids.push("fourOfFiveBelow");
-  if (row.specialCauseShiftHigh) ids.push("shiftHigh");
-  if (row.specialCauseShiftLow) ids.push("shiftLow");
-  if (row.specialCauseTrendIncreasing) ids.push("trendIncreasing");
-  if (row.specialCauseTrendDecreasing) ids.push("trendDecreasing");
+  if (row.specialCauseSinglePointAbove) ids.push("singlePointAbove" /* SinglePointAbove */);
+  if (row.specialCauseSinglePointBelow) ids.push("singlePointBelow" /* SinglePointBelow */);
+  if (row.specialCauseTwoOfThreeAbove) ids.push("twoOfThreeAbove" /* TwoOfThreeAbove */);
+  if (row.specialCauseTwoOfThreeBelow) ids.push("twoOfThreeBelow" /* TwoOfThreeBelow */);
+  if (row.specialCauseFourOfFiveAbove) ids.push("fourOfFiveAbove" /* FourOfFiveAbove */);
+  if (row.specialCauseFourOfFiveBelow) ids.push("fourOfFiveBelow" /* FourOfFiveBelow */);
+  if (row.specialCauseShiftHigh) ids.push("shiftHigh" /* ShiftHigh */);
+  if (row.specialCauseShiftLow) ids.push("shiftLow" /* ShiftLow */);
+  if (row.specialCauseTrendIncreasing) ids.push("trendIncreasing" /* TrendIncreasing */);
+  if (row.specialCauseTrendDecreasing) ids.push("trendDecreasing" /* TrendDecreasing */);
   return ids;
 }
 function variationLabel(icon) {
@@ -10128,10 +10493,10 @@ var SPCTooltipOverlay = ({
   var _a2, _b2, _c, _d, _e, _f;
   const tooltip = useTooltipContext();
   const chart = useChartContext();
-  const [cachedFocus, setCachedFocus] = React23.useState(null);
-  const [hoveringTooltip, setHoveringTooltip] = React23.useState(false);
-  const hideTimeoutRef = React23.useRef(null);
-  React23.useEffect(() => {
+  const [cachedFocus, setCachedFocus] = React22.useState(null);
+  const [hoveringTooltip, setHoveringTooltip] = React22.useState(false);
+  const hideTimeoutRef = React22.useRef(null);
+  React22.useEffect(() => {
     if (!tooltip) return;
     if (tooltip.focused) {
       setCachedFocus(tooltip.focused);
@@ -10155,8 +10520,8 @@ var SPCTooltipOverlay = ({
     };
   }, [tooltip, tooltip == null ? void 0 : tooltip.focused, hoveringTooltip]);
   const focused = tooltip && (tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
-  const [visible, setVisible] = React23.useState(false);
-  React23.useEffect(() => {
+  const [visible, setVisible] = React22.useState(false);
+  React22.useEffect(() => {
     const id = requestAnimationFrame(() => setVisible(true));
     return () => cancelAnimationFrame(id);
   }, [focused == null ? void 0 : focused.index]);
@@ -10189,6 +10554,8 @@ var SPCTooltipOverlay = ({
   const variationNeutral = (row == null ? void 0 : row.variationIcon) === "neither" /* Neither */ && trendFlag;
   const gatingExplanation = showTrendGatingExplanation && variationNeutral ? "Trend detected (monotonic run) \u2013 held neutral until values cross onto the favourable side of the mean." : null;
   const hasRules = rules.length > 0;
+  const primeDirection = row == null ? void 0 : row.primeDirection;
+  const primeRuleId = row == null ? void 0 : row.primeRuleId;
   const isNoJudgement = enableNeutralNoJudgement && (row == null ? void 0 : row.variationIcon) === "neither" /* Neither */ && hasRules;
   const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
   const spcDotColor = getVariationColorToken(row == null ? void 0 : row.variationIcon);
@@ -10356,7 +10723,7 @@ var SPCTooltipOverlay = ({
                 "aria-label": "Special cause rules",
                 children: rules.map(({ id, label }) => {
                   const idStr = String(id);
-                  const isTrend = idStr === "trend_inc" || idStr === "trend_dec";
+                  const isTrend = idStr === "trend_inc" /* TrendIncreasing */ || idStr === "trend_dec" /* TrendDecreasing */;
                   const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
                   return /* @__PURE__ */ jsx27(
                     Tag,
@@ -10370,7 +10737,23 @@ var SPCTooltipOverlay = ({
                   );
                 })
               }
-            )
+            ),
+            primeDirection && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", style: { marginTop: 16 }, children: [
+              /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", style: { marginBottom: 6 }, children: /* @__PURE__ */ jsx27("strong", { children: "Prime Direction" }) }),
+              (() => {
+                const primeColorClass = isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
+                const primeLabel = `${primeDirection}${primeRuleId ? ` (${primeRuleId})` : ""}`;
+                return /* @__PURE__ */ jsx27(
+                  Tag,
+                  {
+                    text: primeLabel,
+                    color: "default",
+                    className: `fdp-spc-tooltip__tag fdp-spc-tag ${primeColorClass}`,
+                    "aria-label": `Prime direction ${primeDirection}${primeRuleId ? ` via ${primeRuleId}` : ""}`
+                  }
+                );
+              })()
+            ] })
           ] })
         ] })
       }
@@ -11315,23 +11698,29 @@ var SPCChart = ({
   settings,
   narrationContext,
   gradientSequences = false,
+  sequenceTransition = "slope" /* Slope */,
   processLineWidth = 2,
   showWarningsPanel = false,
   warningsFilter,
   enableNeutralNoJudgement = true,
   showTrendGatingExplanation = true,
   enableTrendSideGating,
-  disableTrendSideGating
+  disableTrendSideGating,
+  source,
+  alwaysShowZeroY = false,
+  alwaysShowHundredY = false,
+  percentScale = false,
+  useSqlCompatEngine = false
 }) => {
   var _a2, _b2, _c, _d, _e, _f, _g, _h;
-  const formatWarningCode = React25.useCallback(
+  const formatWarningCode = React24.useCallback(
     (code) => {
       const raw = String(code);
       return raw.replace(/^spc_warning_code\.?/i, "").replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
     []
   );
-  const formatWarningCategory = React25.useCallback(
+  const formatWarningCategory = React24.useCallback(
     (cat) => {
       return String(cat).replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
@@ -11343,7 +11732,7 @@ var SPCChart = ({
       "SPCChart: 'disableTrendSideGating' is deprecated. Use 'enableTrendSideGating' instead (inverted semantics)."
     );
   }
-  const engine = React25.useMemo(() => {
+  const engine = React24.useMemo(() => {
     var _a3;
     const rowsInput = data.map((d, i) => {
       var _a4, _b3, _c2;
@@ -11357,12 +11746,16 @@ var SPCChart = ({
     });
     try {
       const engineSettings = settings ? { ...settings, trendSideGatingEnabled: (_a3 = settings.trendSideGatingEnabled) != null ? _a3 : effectiveEnableTrendSideGating } : { trendSideGatingEnabled: effectiveEnableTrendSideGating };
-      return buildSpc({
-        chartType,
-        metricImprovement,
-        data: rowsInput,
-        settings: engineSettings
-      });
+      if (useSqlCompatEngine) {
+        return buildSpcSqlCompat({
+          chartType,
+          metricImprovement,
+          data: rowsInput,
+          disableTrendSideGating: engineSettings.trendSideGatingEnabled === false,
+          settings: engineSettings
+        });
+      }
+      return buildSpc({ chartType, metricImprovement, data: rowsInput, settings: engineSettings });
     } catch {
       return null;
     }
@@ -11375,12 +11768,13 @@ var SPCChart = ({
     metricImprovement,
     settings,
     enableTrendSideGating,
-    disableTrendSideGating
+    disableTrendSideGating,
+    useSqlCompatEngine
   ]);
   const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r2) => r2.mean != null);
   const mean2 = (_a2 = engineRepresentative == null ? void 0 : engineRepresentative.mean) != null ? _a2 : null;
   const warnings = (engine == null ? void 0 : engine.warnings) || [];
-  const filteredWarnings = React25.useMemo(() => {
+  const filteredWarnings = React24.useMemo(() => {
     if (!warnings.length) return [];
     if (!warningsFilter) return warnings;
     return warnings.filter((w) => {
@@ -11393,9 +11787,9 @@ var SPCChart = ({
       return true;
     });
   }, [warnings, warningsFilter]);
-  const [diagnosticsMessage, setDiagnosticsMessage] = React25.useState("");
-  const lastDiagnosticsRef = React25.useRef("");
-  React25.useEffect(() => {
+  const [diagnosticsMessage, setDiagnosticsMessage] = React24.useState("");
+  const lastDiagnosticsRef = React24.useRef("");
+  React24.useEffect(() => {
     if (!showWarningsPanel) {
       if (lastDiagnosticsRef.current !== "") {
         lastDiagnosticsRef.current = "";
@@ -11446,11 +11840,17 @@ var SPCChart = ({
   const twoPos = (_f = engineRepresentative == null ? void 0 : engineRepresentative.upperTwoSigma) != null ? _f : null;
   const twoNeg = (_g = engineRepresentative == null ? void 0 : engineRepresentative.lowerTwoSigma) != null ? _g : null;
   const sigma = mean2 != null && onePos != null ? Math.abs(onePos - mean2) : 0;
-  const series = React25.useMemo(
+  const series = React24.useMemo(
     () => [{ id: "process", data, color: "#A6A6A6" }],
     [data]
   );
-  const yDomain = React25.useMemo(() => {
+  const yDomain = React24.useMemo(() => {
+    if (percentScale) {
+      const allVals = data.map((d) => d.y);
+      const overMax = Math.max(100, ...allVals);
+      const underMin = Math.min(0, ...allVals);
+      return [underMin < 0 ? underMin : 0, overMax > 100 ? overMax : 100];
+    }
     const values = data.map((d) => d.y);
     const base = [...values];
     [mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg].forEach((v) => {
@@ -11461,18 +11861,22 @@ var SPCChart = ({
         if (typeof t === "number" && !isNaN(t)) base.push(t);
       });
     if (!base.length) return void 0;
-    return [Math.min(...base), Math.max(...base)];
-  }, [data, mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp]);
-  const autoUnit = React25.useMemo(() => {
+    let min = Math.min(...base);
+    let max = Math.max(...base);
+    if (alwaysShowZeroY) min = Math.min(0, min);
+    if (alwaysShowHundredY) max = Math.max(100, max);
+    return [min, max];
+  }, [data, mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp, alwaysShowZeroY, alwaysShowHundredY, percentScale]);
+  const autoUnit = React24.useMemo(() => {
     if (unit2 || (narrationContext == null ? void 0 : narrationContext.measureUnit)) return void 0;
     if (!data.length) return void 0;
     return data.every((d) => d.y >= 0 && d.y <= 1) ? "%" : void 0;
   }, [unit2, narrationContext == null ? void 0 : narrationContext.measureUnit, data]);
   const effectiveUnit = (_h = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _h : autoUnit;
-  const effectiveNarrationContext = React25.useMemo(() => {
+  const effectiveNarrationContext = React24.useMemo(() => {
     return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
   }, [narrationContext, effectiveUnit]);
-  const partitionMarkers = React25.useMemo(() => {
+  const partitionMarkers = React24.useMemo(() => {
     if (!(engine == null ? void 0 : engine.rows)) return [];
     const markers = [];
     for (let i = 1; i < engine.rows.length; i++) {
@@ -11481,7 +11885,7 @@ var SPCChart = ({
     }
     return markers;
   }, [engine == null ? void 0 : engine.rows]);
-  const embeddedIcon = React25.useMemo(() => {
+  const embeddedIcon = React24.useMemo(() => {
     var _a3, _b3;
     if (!showEmbeddedIcon || !((_a3 = engine == null ? void 0 : engine.rows) == null ? void 0 : _a3.length)) return null;
     const engineRows = engine.rows;
@@ -11634,6 +12038,7 @@ var SPCChart = ({
                 narrationContext: effectiveNarrationContext,
                 metricImprovement,
                 gradientSequences,
+                sequenceTransition,
                 processLineWidth,
                 effectiveUnit,
                 partitionMarkers,
@@ -11644,6 +12049,10 @@ var SPCChart = ({
             ) })
           }
         ),
+        source && /* @__PURE__ */ jsx30("div", { className: "fdp-spc-chart__source", "aria-label": "Chart data source", children: typeof source === "string" ? /* @__PURE__ */ jsxs21("small", { children: [
+          "Source: ",
+          source
+        ] }) : source }),
         showWarningsPanel && diagnosticsMessage && /* @__PURE__ */ jsx30(
           "div",
           {
@@ -11761,6 +12170,7 @@ var InternalSPC = ({
   showIcons,
   narrationContext,
   gradientSequences,
+  sequenceTransition,
   processLineWidth,
   effectiveUnit,
   partitionMarkers,
@@ -11773,12 +12183,12 @@ var InternalSPC = ({
   const chartCtx = useChartContext();
   if (!scaleCtx) return null;
   const { xScale, yScale } = scaleCtx;
-  const gradientIdBaseRef = React25.useRef(
+  const gradientIdBaseRef = React24.useRef(
     "spc-seq-" + ++spcSequenceInstanceCounter
   );
   const tooltipCtx = useTooltipContext();
   const all = ((_a2 = series[0]) == null ? void 0 : _a2.data) || [];
-  const outOfControl = React25.useMemo(() => {
+  const outOfControl = React24.useMemo(() => {
     if (!limits.ucl && !limits.lcl) return /* @__PURE__ */ new Set();
     const set = /* @__PURE__ */ new Set();
     all.forEach((d, i) => {
@@ -11787,7 +12197,7 @@ var InternalSPC = ({
     });
     return set;
   }, [all, limits.ucl, limits.lcl]);
-  const engineSignals = React25.useMemo(() => {
+  const engineSignals = React24.useMemo(() => {
     if (!engineRows) return null;
     const map2 = {};
     engineRows.forEach((r2, idx) => {
@@ -11803,7 +12213,7 @@ var InternalSPC = ({
     });
     return map2;
   }, [engineRows]);
-  const uniformTarget = React25.useMemo(() => {
+  const uniformTarget = React24.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const values = [];
     for (const r2 of engineRows) {
@@ -11814,7 +12224,7 @@ var InternalSPC = ({
     const first = values[0];
     return values.every((v) => v === first) ? first : null;
   }, [engineRows]);
-  const categories = React25.useMemo(() => {
+  const categories = React24.useMemo(() => {
     if (!engineSignals || !all.length)
       return [];
     const raw = all.map((_d, i) => {
@@ -11834,7 +12244,7 @@ var InternalSPC = ({
     }
     return raw;
   }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement]);
-  const sequences = React25.useMemo(() => {
+  const sequences = React24.useMemo(() => {
     if (!gradientSequences || !categories.length)
       return [];
     const cats = [...categories];
@@ -11872,12 +12282,12 @@ var InternalSPC = ({
     }
     return out;
   }, [gradientSequences, categories, ariaLabel]);
-  const xPositions = React25.useMemo(
+  const xPositions = React24.useMemo(
     () => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))),
     [all, xScale]
   );
   const plotWidth = xScale.range()[1];
-  const limitSegments = React25.useMemo(() => {
+  const limitSegments = React24.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const build = (key) => {
       const segs = [];
@@ -11936,7 +12346,7 @@ var InternalSPC = ({
       twoNeg: build("lowerTwoSigma")
     };
   }, [engineRows, xPositions, yScale]);
-  const sequenceDefs = React25.useMemo(() => {
+  const sequenceDefs = React24.useMemo(() => {
     if (!sequences.length) return null;
     return /* @__PURE__ */ jsxs21("defs", { children: [
       /* @__PURE__ */ jsxs21("linearGradient", { id: `${gradientIdBaseRef.current}-grad-common`, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
@@ -11978,7 +12388,7 @@ var InternalSPC = ({
       })
     ] });
   }, [sequences]);
-  const sequenceAreas = React25.useMemo(() => {
+  const sequenceAreas = React24.useMemo(() => {
     if (!sequences.length) return null;
     const [domainMin] = yScale.domain();
     const baseY = yScale(domainMin);
@@ -12005,17 +12415,43 @@ var InternalSPC = ({
         d += ` L ${rightX} ${baseY} Z`;
       } else {
         const prevSeq = idx > 0 ? sequences[idx - 1] : null;
+        const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
         const prevColoured = prevSeq && prevSeq.category !== "common";
+        const nextColoured = nextSeq && nextSeq.category !== "common";
         const firstY = yScale(all[firstIdx].y);
         const lastY = yScale(all[lastIdx].y);
-        d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
+        let startBaselineX = firstX;
+        let endBaselineX = lastX;
+        if (prevColoured) {
+          const prevX = xPositions[prevSeq.end];
+          const prevY = yScale(all[prevSeq.end].y);
+          const deltaPrev = all[firstIdx].y - all[prevSeq.end].y;
+          if (sequenceTransition === "slope" /* Slope */ && deltaPrev > 0) {
+            d = `M ${prevX} ${prevY} L ${firstX} ${firstY}`;
+            startBaselineX = prevX;
+          } else {
+            d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
+            startBaselineX = firstX;
+          }
+        } else {
+          d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
+        }
         for (let i = firstIdx + 1; i <= lastIdx; i++) {
           d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
         }
         d += ` L ${lastX} ${lastY}`;
-        d += ` L ${lastX} ${baseY}`;
-        d += ` L ${firstX} ${baseY} Z`;
-        if (prevColoured) {
+        if (nextColoured) {
+          const nextFirstX = xPositions[nextSeq.start];
+          const nextFirstY = yScale(all[nextSeq.start].y);
+          const deltaNext = all[nextSeq.start].y - all[lastIdx].y;
+          if (sequenceTransition === "slope" /* Slope */ && deltaNext <= 0 || sequenceTransition === "extend" /* Extend */) {
+            d += ` L ${nextFirstX} ${nextFirstY}`;
+            endBaselineX = nextFirstX;
+          }
+        }
+        d += ` L ${endBaselineX} ${baseY}`;
+        d += ` L ${startBaselineX} ${baseY} Z`;
+        if (sequenceTransition === "neutral" /* Neutral */ && prevColoured) {
           const prevX = xPositions[prevSeq.end];
           const prevY = yScale(all[prevSeq.end].y);
           const wedge = /* @__PURE__ */ jsx30(
@@ -12058,8 +12494,8 @@ var InternalSPC = ({
       );
     }).filter(Boolean);
     return /* @__PURE__ */ jsx30("g", { className: "fdp-spc__sequence-bgs", children: areas });
-  }, [sequences, xPositions, plotWidth, yScale, all]);
-  const computedTimeframe = React25.useMemo(() => {
+  }, [sequences, xPositions, plotWidth, yScale, all, sequenceTransition]);
+  const computedTimeframe = React24.useMemo(() => {
     if (!(narrationContext == null ? void 0 : narrationContext.timeframe) && all.length >= 2) {
       const xs = all.map((d) => d.x instanceof Date ? d.x : new Date(d.x));
       const min = new Date(Math.min(...xs.map((d) => d.getTime())));
@@ -12085,7 +12521,7 @@ var InternalSPC = ({
     return `${n}th`;
   };
   const formatDateLong = (d) => `${ordinal2(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
-  const formatLive = React25.useCallback(
+  const formatLive = React24.useCallback(
     ({
       index,
       x: x2,
@@ -12123,7 +12559,7 @@ var InternalSPC = ({
     },
     [engineRows, narrationContext, computedTimeframe]
   );
-  const describePoint = React25.useCallback(
+  const describePoint = React24.useCallback(
     (index, d) => {
       const row = engineRows == null ? void 0 : engineRows[index];
       if (!row) return void 0;
@@ -12177,46 +12613,49 @@ var InternalSPC = ({
                   `partition-marker-${i}`
                 );
               }),
-              limitSegments == null ? void 0 : limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx30(
-                "line",
-                {
-                  className: "fdp-spc__cl",
-                  x1: s.x1,
-                  x2: s.x2,
-                  y1: s.y,
-                  y2: s.y,
-                  "aria-hidden": "true"
-                },
-                `mean-${i}`
-              )),
+              (limitSegments == null ? void 0 : limitSegments.mean.length) ? (() => {
+                return /* @__PURE__ */ jsxs21("g", { "aria-hidden": "true", className: "fdp-spc__cl-group", children: [
+                  limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__cl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y }, `mean-${i}`)),
+                  limitSegments.mean.map((s, i) => {
+                    if (i === limitSegments.mean.length - 1) return null;
+                    const next = limitSegments.mean[i + 1];
+                    if (!next) return null;
+                    if (s.y === next.y) return null;
+                    const gap = Math.max(4, next.x1 - s.x2 || 0);
+                    const k = gap * 0.5;
+                    const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
+                    return /* @__PURE__ */ jsx30("path", { className: "fdp-spc__cl fdp-spc__cl-join", d, fill: "none" }, `mean-join-${i}`);
+                  })
+                ] });
+              })() : null,
               uniformTarget != null && // Render later (after limits) for stacking; temporary placeholder (moved below)
               /* @__PURE__ */ jsx30(Fragment5, {}),
-              limitSegments == null ? void 0 : limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx30(
-                "line",
-                {
-                  className: "fdp-spc__limit fdp-spc__limit--ucl",
-                  x1: s.x1,
-                  x2: s.x2,
-                  y1: s.y,
-                  y2: s.y,
-                  "aria-hidden": "true",
-                  strokeWidth: 2
-                },
-                `ucl-${i}`
-              )),
-              limitSegments == null ? void 0 : limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx30(
-                "line",
-                {
-                  className: "fdp-spc__limit fdp-spc__limit--lcl",
-                  x1: s.x1,
-                  x2: s.x2,
-                  y1: s.y,
-                  y2: s.y,
-                  "aria-hidden": "true",
-                  strokeWidth: 2
-                },
-                `lcl-${i}`
-              )),
+              (limitSegments == null ? void 0 : limitSegments.ucl.length) ? (() => /* @__PURE__ */ jsxs21("g", { "aria-hidden": "true", className: "fdp-spc__limit-group fdp-spc__limit-group--ucl", children: [
+                limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__limit fdp-spc__limit--ucl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, strokeWidth: 2 }, `ucl-${i}`)),
+                limitSegments.ucl.map((s, i) => {
+                  if (i === limitSegments.ucl.length - 1) return null;
+                  const next = limitSegments.ucl[i + 1];
+                  if (!next) return null;
+                  if (s.y === next.y) return null;
+                  const gap = Math.max(4, next.x1 - s.x2 || 0);
+                  const k = gap * 0.5;
+                  const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
+                  return /* @__PURE__ */ jsx30("path", { className: "fdp-spc__limit fdp-spc__limit--ucl fdp-spc__limit-join", d, fill: "none", strokeWidth: 2 }, `ucl-join-${i}`);
+                })
+              ] }))() : null,
+              (limitSegments == null ? void 0 : limitSegments.lcl.length) ? (() => /* @__PURE__ */ jsxs21("g", { "aria-hidden": "true", className: "fdp-spc__limit-group fdp-spc__limit-group--lcl", children: [
+                limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__limit fdp-spc__limit--lcl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, strokeWidth: 2 }, `lcl-${i}`)),
+                limitSegments.lcl.map((s, i) => {
+                  if (i === limitSegments.lcl.length - 1) return null;
+                  const next = limitSegments.lcl[i + 1];
+                  if (!next) return null;
+                  if (s.y === next.y) return null;
+                  const gap = Math.max(4, next.x1 - s.x2 || 0);
+                  const k = gap * 0.5;
+                  const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
+                  return /* @__PURE__ */ jsx30("path", { className: "fdp-spc__limit fdp-spc__limit--lcl fdp-spc__limit-join", d, fill: "none", strokeWidth: 2 }, `lcl-join-${i}`);
+                })
+              ] }))() : null,
               uniformTarget != null && /* @__PURE__ */ jsxs21("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
                 /* @__PURE__ */ jsx30(
                   "line",
@@ -12472,7 +12911,7 @@ __export(SPC_exports, {
   AssuranceIcon: () => AssuranceIcon,
   AssuranceResult: () => AssuranceResult,
   BaselineSuggestionReason: () => BaselineSuggestionReason,
-  ChartType: () => ChartType,
+  ChartType: () => ChartType2,
   Direction: () => Direction,
   Icons: () => icons_exports,
   ImprovementDirection: () => ImprovementDirection,

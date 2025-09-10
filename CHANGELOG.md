@@ -21,10 +21,17 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 - Table: Focused test coverage for columns+data generation & visually hidden caption rendering.
 - Table: `TableColumn.rowHeader` flag allows per-column row header generation (no need for global `firstCellIsHeader`).
 - SPCChart: Added `source` prop rendering citation below chart (outside SVG) to prevent overlaps with axes.
+- SPCChart: `alwaysShowZeroY` prop to force y-axis lower bound to include zero (useful for percentage / rate charts where anchoring at 0 improves interpretability).
+- SPCChart: `alwaysShowHundredY` prop to force y-axis upper bound to include 100 (for percentage charts that should always show full 0–100% context).
+- SPCChart: `percentScale` convenience prop (enforces 0–100 domain, supersedes `alwaysShowZeroY`/`alwaysShowHundredY`).
+- SPC engine: Optional `conflictPrecedenceMode` setting with value `sql_ranking_v2_6a` added (experimental). Currently inert for orthodox Shewhart rule geometry (no single row can simultaneously satisfy high- and low-side rule predicates), but reserved for forward compatibility / parity with historical SQL outputs that performed post-hoc directional pruning. Metadata fields (`conflictPrimeDirection`, `conflictResolvedByRuleId`, `conflictResolvedRank`, `originalSpecialCauseImprovementValue`, `originalSpecialCauseConcernValue`) will remain undefined until a future mixed-side conflict scenario or extended rule set makes them relevant.
+- SPC: Experimental SQL compatibility wrapper (`buildSpcSqlCompat`) providing post-hoc per-side rule ranking (single=1, two-sigma=2, shift=3, trend=4), PrimeDirection derivation, and directional pruning metadata (`primeDirection`, `primeRank`, `primeRuleId`, `sqlOriginalImprovementValue`, `sqlOriginalConcernValue`, `sqlPruned`).
+- SPC: Storybook comparison story `SQL Compatibility / Base vs SQL compatibility (experimental)` and docs page `spc-sql-compatibility.mdx` detailing behaviour, usage and limitations.
 
 ### Changed (Unreleased)
 
 - Storybook data visualisation stories (Line, FilterableLine, Area, Bar, SPC) now use fully deterministic synthetic datasets (removed all Math.random/Date.now) for stable visual regression and reproducible docs.
+- SPCChart: Mean (centre) line and UCL/LCL control limits retain discrete horizontal segments; added subtle curved join paths only where recalculations change the level, improving visual continuity without misrepresenting flat spans (no semantic/ARIA change).
 - Header SCSS refactor: eliminated Sass mixed-decls deprecation warnings by reordering declarations and splitting `header-link-style` into base + state mixins.
 - Embedded SPC summary variation icon now shows business polarity letter (H/L = higher-/lower-is-better) instead of side-of-signal when `metricImprovement` is Higher or Lower; retains side-of-signal lettering only for neutral metrics.
 - Table: Story and MDX docs consolidated & updated to document new columns API and sub-components.

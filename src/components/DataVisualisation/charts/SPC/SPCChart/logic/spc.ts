@@ -1,6 +1,8 @@
 // NHSE "Making Data Count" SPC Charts – TypeScript port of SQL v2.6
 // Supports XmR, T, and G charts with special-cause rules and variation/assurance icons.
 
+import { PrimeDirection } from "./spcSqlCompat";
+
 /**
  * Chart type meanings (high‑level):
  *  XmR (Individuals & Moving Range):
@@ -37,6 +39,55 @@ export enum VariationIcon {
 	Neither = "neither",
 	None = "none", // used where previously null (ghost/missing or suppressed)
 }
+// Stable identifiers for individual special-cause rule categories used in ranking / conflict metadata
+export enum SpcRuleId {
+	SinglePoint = 'single_point',
+	TwoSigma = 'two_sigma',
+	Shift = 'shift',
+	Trend = 'trend'
+}
+// Directional side (high vs low) for special-cause classification
+export enum Side {
+	Up = 'up',
+	Down = 'down'
+}
+// Raw rule tag identifiers (snake_case) used in ruleTags audit trail
+export enum SpcRawRuleTag {
+	SinglePointAbove = 'single_above',
+	SinglePointBelow = 'single_below',
+	TwoOfThreeAbove = 'two_of_three_above',
+	TwoOfThreeBelow = 'two_of_three_below',
+	FourOfFiveAbove = 'four_of_five_above',
+	FourOfFiveBelow = 'four_of_five_below',
+	ShiftHigh = 'shift_high',
+	ShiftLow = 'shift_low',
+	TrendIncreasing = 'trend_inc',
+	TrendDecreasing = 'trend_dec',
+	FifteenInnerThird = 'fifteen_inner_third'
+}
+
+// Ranking for core NHS rule precedence (excludes four-of-five & fifteen-inner-third which are ancillary)
+export const RULE_RANK_BY_ID: Record<SpcRuleId, number> = {
+	[SpcRuleId.SinglePoint]: 1,
+	[SpcRuleId.TwoSigma]: 2,
+	[SpcRuleId.Shift]: 3,
+	[SpcRuleId.Trend]: 4,
+};
+
+// Map raw rule tags (side-specific flags) to canonical ranked rule ids when applicable.
+// Undefined entries indicate tags that do not participate directly in precedence ranking.
+export const RAW_TAG_TO_RULE_ID: Partial<Record<SpcRawRuleTag, SpcRuleId>> = {
+	[SpcRawRuleTag.SinglePointAbove]: SpcRuleId.SinglePoint,
+	[SpcRawRuleTag.SinglePointBelow]: SpcRuleId.SinglePoint,
+	[SpcRawRuleTag.TwoOfThreeAbove]: SpcRuleId.TwoSigma,
+	[SpcRawRuleTag.TwoOfThreeBelow]: SpcRuleId.TwoSigma,
+	[SpcRawRuleTag.ShiftHigh]: SpcRuleId.Shift,
+	[SpcRawRuleTag.ShiftLow]: SpcRuleId.Shift,
+	[SpcRawRuleTag.TrendIncreasing]: SpcRuleId.Trend,
+	[SpcRawRuleTag.TrendDecreasing]: SpcRuleId.Trend,
+	// FourOfFiveAbove / FourOfFiveBelow intentionally omitted from ranking
+	// FifteenInnerThird intentionally omitted from ranking
+};
 export enum AssuranceIcon {
 	Pass = "pass",
 	Fail = "fail",
@@ -47,6 +98,12 @@ export enum AssuranceIcon {
 export enum PrecedenceStrategy {
 	Legacy = 'legacy',
 	DirectionalFirst = 'directional_first',
+}
+
+// Optional conflict precedence mode (SQL v2.6a style ranking)
+export enum ConflictPrecedenceMode {
+	None = 'none',
+	SqlRankingV26a = 'sql_ranking_v2_6a',
 }
 
 export interface SpcInputRow {
@@ -102,7 +159,6 @@ export interface SpcSettings {
 	baselineSuggestScoreThreshold?: number; // default 50
 	// Removed heuristic options: suppressIsolatedFavourablePoint, precedenceStrategy, emergingDirectionGrace,
 	// retroactiveOppositeShiftNeutralisation, retroactiveShiftDeltaSigmaThreshold for orthodoxy.
-	/** Option C: Comparative baseline emulation. When true, a later favourable sustained shift can retrospectively label earlier stable points as concern relative to new level (or invert behaviour). */
 	// Removed comparative baseline emulation heuristics (comparativeBaselineEmulation and related flags) for statistical orthodoxy
 	// Removed: comparativeEmulationForceTailFavourable & comparativeEmulationInvertTailConcernPoints (deprecated)
 	/** When true, automatically insert a recalculation (new partition) after a confirmed sustained shift so centre line & limits step without needing explicit baselines array. */
@@ -111,6 +167,8 @@ export interface SpcSettings {
 	autoRecalculateShiftLength?: number; // optional
 	/** Require the post-shift window mean to differ from pre-shift mean by at least this many sigma to trigger auto recalculation. Default 0.5 */
 	autoRecalculateDeltaSigma?: number; // default 0.5
+	/** Optional conflict precedence mode: when set to sql_ranking_v2_6a applies deterministic rule ranking to prune simultaneous improvement & concern values. */
+	conflictPrecedenceMode?: ConflictPrecedenceMode; // default: ConflictPrecedenceMode.None
 }
 
 export interface BuildSpcArgs {
@@ -162,7 +220,15 @@ export interface SpcRow {
 	specialCauseImprovementValue: number | null;
 	specialCauseConcernValue: number | null;
 	specialCauseNeitherValue: number | null;
-	ruleTags?: string[]; // Raw rule-based special cause tags (e.g. 'shift_high','trend_dec','single_above'). No heuristic relabelling.
+	/** Raw rule-based special cause tags (orthodox flags; snake_case) for audit trail */
+	ruleTags?: SpcRawRuleTag[];
+	// Conflict resolution metadata (populated only when conflictPrecedenceMode active & a conflict was resolved)
+	conflictPrimeDirection?: PrimeDirection;
+	conflictResolvedByRuleId?: SpcRuleId; // winning rule id (ranked)
+	conflictResolvedRank?: number; // 1..4
+	conflictResolved?: boolean; // true if pruning occurred
+	originalSpecialCauseImprovementValue?: number | null; // preserve prior to pruning
+	originalSpecialCauseConcernValue?: number | null; // preserve prior to pruning
 }
 
 // Warning metadata enums for stronger typing and refactor safety
@@ -431,9 +497,9 @@ function gChartProbabilityLimits(gMean: number): {
 	const p = 1 / (gMean + 1); // from E[G_between] = (1-p)/p
 	const qToGbetween = (q: number) => geomInvCdfReal(q, p) - 1; // convert from "until" to "between"
 
-	const cl = qToGbetween(0.5);
-	const lcl = Math.max(0, qToGbetween(SIGMA_PROBS.three.low));
-	const ucl = qToGbetween(SIGMA_PROBS.three.high);
+	const cl   = qToGbetween(0.5);
+	const lcl  = Math.max(0, qToGbetween(SIGMA_PROBS.three.low));
+	const ucl  = qToGbetween(SIGMA_PROBS.three.high);
 	const oneL = Math.max(0, qToGbetween(SIGMA_PROBS.one.low));
 	const oneH = qToGbetween(SIGMA_PROBS.one.high);
 	const twoL = Math.max(0, qToGbetween(SIGMA_PROBS.two.low));
@@ -933,19 +999,19 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 	for (const r of output) {
 		if (r.ruleTags && r.ruleTags.length) continue; // already captured
 		const tags: string[] = [];
-		if (r.specialCauseShiftHigh) tags.push('shift_high');
-		if (r.specialCauseShiftLow) tags.push('shift_low');
-		if (r.specialCauseTrendIncreasing) tags.push('trend_inc');
-		if (r.specialCauseTrendDecreasing) tags.push('trend_dec');
-		if (r.specialCauseSinglePointAbove) tags.push('single_above');
-		if (r.specialCauseSinglePointBelow) tags.push('single_below');
-		if (r.specialCauseTwoOfThreeAbove) tags.push('two_of_three_high');
-		if (r.specialCauseTwoOfThreeBelow) tags.push('two_of_three_low');
-		if (r.specialCauseFourOfFiveAbove) tags.push('four_of_five_high');
-		if (r.specialCauseFourOfFiveBelow) tags.push('four_of_five_low');
-		if (r.specialCauseFifteenInnerThird) tags.push('fifteen_inner_third');
+		if (r.specialCauseShiftHigh) tags.push(SpcRawRuleTag.ShiftHigh);
+		if (r.specialCauseShiftLow) tags.push(SpcRawRuleTag.ShiftLow);
+		if (r.specialCauseTrendIncreasing) tags.push(SpcRawRuleTag.TrendIncreasing);
+		if (r.specialCauseTrendDecreasing) tags.push(SpcRawRuleTag.TrendDecreasing);
+		if (r.specialCauseSinglePointAbove) tags.push(SpcRawRuleTag.SinglePointAbove);
+		if (r.specialCauseSinglePointBelow) tags.push(SpcRawRuleTag.SinglePointBelow);
+		if (r.specialCauseTwoOfThreeAbove) tags.push(SpcRawRuleTag.TwoOfThreeAbove);
+		if (r.specialCauseTwoOfThreeBelow) tags.push(SpcRawRuleTag.TwoOfThreeBelow);
+		if (r.specialCauseFourOfFiveAbove) tags.push(SpcRawRuleTag.FourOfFiveAbove);
+		if (r.specialCauseFourOfFiveBelow) tags.push(SpcRawRuleTag.FourOfFiveBelow);
+		if (r.specialCauseFifteenInnerThird) tags.push(SpcRawRuleTag.FifteenInnerThird);
 		// Only persist if any tags present for compactness
-		if (tags.length) r.ruleTags = tags;
+		if (tags.length) r.ruleTags = tags as SpcRawRuleTag[];
 	}
 
 	// Heuristic tagging helper removed (no remaining heuristics mutate classification)
@@ -1063,6 +1129,79 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			anySignal && row.variationIcon === VariationIcon.Neither
 				? row.value
 				: null;
+
+		// --- Optional SQL-style conflict resolution (applies AFTER icon decision so we can inspect simultaneous signals) ---
+		if (
+			settings.conflictPrecedenceMode === ConflictPrecedenceMode.SqlRankingV26a &&
+			row.specialCauseImprovementValue !== null &&
+			row.specialCauseConcernValue !== null
+		) {
+			// Collect active rule ids per side (only those that contribute to current high/low signals)
+			// We purposefully do not attempt to reconstruct historical intermediate heuristics; rely on raw specialCause* booleans.
+			const active: { id: SpcRuleId; rank: number; side: Side }[] = [];
+			// Rank mapping: single_point=1, two_sigma=2, shift=3, trend=4 (four_of_five not part of NHS primary ranking)
+			if (row.specialCauseSinglePointAbove) active.push({ id: SpcRuleId.SinglePoint, rank: 1, side: Side.Up });
+			if (row.specialCauseSinglePointBelow) active.push({ id: SpcRuleId.SinglePoint, rank: 1, side: Side.Down });
+			if (row.specialCauseTwoOfThreeAbove) active.push({ id: SpcRuleId.TwoSigma, rank: 2, side: Side.Up });
+			if (row.specialCauseTwoOfThreeBelow) active.push({ id: SpcRuleId.TwoSigma, rank: 2, side: Side.Down });
+			if (row.specialCauseShiftHigh) active.push({ id: SpcRuleId.Shift, rank: 3, side: Side.Up });
+			if (row.specialCauseShiftLow) active.push({ id: SpcRuleId.Shift, rank: 3, side: Side.Down });
+			if (row.specialCauseTrendIncreasing) active.push({ id: SpcRuleId.Trend, rank: 4, side: Side.Up });
+			if (row.specialCauseTrendDecreasing) active.push({ id: SpcRuleId.Trend, rank: 4, side: Side.Down });
+			// Compute side maxima
+			const upMax = active.filter(a => a.side === Side.Up).reduce((m,a)=> Math.max(m,a.rank), 0);
+			const downMax = active.filter(a => a.side === Side.Down).reduce((m,a)=> Math.max(m,a.rank), 0);
+			let prime: PrimeDirection;
+			if (upMax > downMax) prime = PrimeDirection.Upwards; else if (downMax > upMax) prime = PrimeDirection.Downwards; else prime = PrimeDirection.Same;
+			const originalImprovement = row.specialCauseImprovementValue;
+			const originalConcern = row.specialCauseConcernValue;
+			// Decide pruning per SQL logic using metricImprovement direction (outer scope)
+			if (prime === PrimeDirection.Upwards) {
+				if (metricImprovement === ImprovementDirection.Up) {
+					row.specialCauseConcernValue = null;
+				} else if (metricImprovement === ImprovementDirection.Down) {
+					row.specialCauseImprovementValue = null;
+				}
+			} else if (prime === PrimeDirection.Downwards) {
+				if (metricImprovement === ImprovementDirection.Up) {
+					row.specialCauseImprovementValue = null;
+				} else if (metricImprovement === ImprovementDirection.Down) {
+					row.specialCauseConcernValue = null;
+				}
+			} else { // Same
+				// Use metricConflictRule concept: replicate by favouring the existing variationIcon side if decisive, else prefer Improvement if present
+				// (We do not have explicit metricConflictRule setting in TS port; infer from current variationIcon bias)
+				if (row.variationIcon === VariationIcon.Improvement) {
+					row.specialCauseConcernValue = null;
+				} else if (row.variationIcon === VariationIcon.Concern) {
+					row.specialCauseImprovementValue = null;
+				} else {
+					// Neutral icon -> default to preserving improvement side for positive framing
+					row.specialCauseConcernValue = null;
+				}
+			}
+			// Update variationIcon if both sides were not reduced to Neither earlier
+			if (row.specialCauseImprovementValue !== null && row.specialCauseConcernValue === null) {
+				row.variationIcon = VariationIcon.Improvement;
+			} else if (row.specialCauseConcernValue !== null && row.specialCauseImprovementValue === null) {
+				row.variationIcon = VariationIcon.Concern;
+			} else if (row.specialCauseImprovementValue === null && row.specialCauseConcernValue === null) {
+				// Both suppressed – fallback to neither to avoid stale icon
+				row.variationIcon = VariationIcon.Neither;
+			}
+			// Persist metadata
+			const winningSide: Side | undefined = row.specialCauseImprovementValue !== null ? Side.Up
+				: row.specialCauseConcernValue !== null ? Side.Down
+				: undefined;
+			const winningRank = winningSide === Side.Up ? upMax : winningSide === Side.Down ? downMax : Math.max(upMax, downMax);
+			const winner = active.find(a => a.rank === winningRank && (!winningSide || a.side === winningSide));
+			row.conflictPrimeDirection = prime;
+			row.conflictResolved = true;
+			row.conflictResolvedRank = winningRank || undefined;
+			if (winner) row.conflictResolvedByRuleId = winner.id;
+			row.originalSpecialCauseImprovementValue = originalImprovement;
+			row.originalSpecialCauseConcernValue = originalConcern;
+		}
 
 		// Assurance icon – capability mode (limits vs target) or fallback single-point
 		if (isNumber(row.value) && row.mean !== null) {

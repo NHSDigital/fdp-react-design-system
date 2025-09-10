@@ -1,5 +1,16 @@
 import { VariationIcon, AssuranceIcon, SpcRow } from "./spc";
-export type SpcRuleId = "singlePointAbove" | "singlePointBelow" | "twoOfThreeAbove" | "twoOfThreeBelow" | "fourOfFiveAbove" | "fourOfFiveBelow" | "shiftHigh" | "shiftLow" | "trendIncreasing" | "trendDecreasing";
+export declare enum SpcRuleId {
+    SinglePointAbove = "singlePointAbove",
+    SinglePointBelow = "singlePointBelow",
+    TwoOfThreeAbove = "twoOfThreeAbove",
+    TwoOfThreeBelow = "twoOfThreeBelow",
+    FourOfFiveAbove = "fourOfFiveAbove",
+    FourOfFiveBelow = "fourOfFiveBelow",
+    ShiftHigh = "shiftHigh",
+    ShiftLow = "shiftLow",
+    TrendIncreasing = "trendIncreasing",
+    TrendDecreasing = "trendDecreasing"
+}
 export interface SpcRuleGlossaryEntry {
     /** Short label suitable for dense tooltip list */
     tooltip: string;

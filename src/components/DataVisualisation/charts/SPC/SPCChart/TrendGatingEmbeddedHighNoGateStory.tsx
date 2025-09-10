@@ -39,8 +39,7 @@ export const TrendGatingEmbeddedHighNoGate: React.FC = () => {
           showPoints
           narrationContext={{ measureName: metricKey }}
           gradientSequences
-          // Turn off trend gating visuals for this illustrative example
-          enableNeutralNoJudgement={false}
+          enableNeutralNoJudgement={true}
           showTrendGatingExplanation={false}
           // Also disable engine side-gating so early trend points classify directionally
           // enableTrendSideGating not provided (default false)

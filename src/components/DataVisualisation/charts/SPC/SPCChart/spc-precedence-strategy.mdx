@@ -29,6 +29,19 @@ function classify(metricImprovement: ImprovementDirection): VariationIcon {
 
 This produced unintuitive colouring in transitional phases – e.g. a *progressive decline* (favourable for metrics where lower is better) still coloured several points as Concern because high-side location-based rules (shift/cluster) remained active before a formal monotonic trend rule triggered.
 
+### Relationship to SQL Compatibility Wrapper
+
+An experimental SQL compatibility wrapper (`buildSpcSqlCompat`) now exists to emulate historic SQL post‑processing (per‑side rule ranking + directional pruning). It leaves the core engine logic (including `precedenceStrategy`) unchanged and applies ranking afterwards, emitting additional metadata for parity / diagnostics (`primeDirection`, `primeRuleId`, `primeRank`, `sqlOriginalImprovementValue`, `sqlOriginalConcernValue`, `sqlPruned`).
+
+Key distinctions:
+
+| Layer | Purpose | Inputs influencing it | Outputs |
+|-------|---------|-----------------------|---------|
+| Engine + `precedenceStrategy` | Primary statistical interpretation & user-facing icon selection | `SpcSettings` (incl. `precedenceStrategy`, grace flags) | `variationIcon`, rule booleans, `ruleTags` |
+| SQL Wrapper (`buildSpcSqlCompat`) | Legacy directional pruning parity & audit | Base engine rows (conflict mode suppressed) | Above plus SQL metadata (prime* fields) |
+
+Use the wrapper only when migration / reconciliation against legacy SQL outputs is required; for day‑to‑day narrative choose the appropriate engine `precedenceStrategy`.
+
 ### Guidance Considered
 
 New behaviour aligns with internal guidance:
@@ -125,9 +138,21 @@ The directional-first approach reduces “false negative” perception where use
 
 ### Future Enhancements (Not Yet Implemented)
 
-- Recency weighting to resolve simultaneous opposing sustained runs explicitly using start indices & `transitionBufferPoints`.
-- Exposure of consolidated primary rule id for narration (currently implicit via icon).
-- Configurable emerging run tolerance (allow flat vs strictly directional steps).
+
+### Terminology & Enum Consolidation
+
+Recent refactors replaced loosely typed literals with shared enums:
+
+- Directional side strings `"high" / "low"` → `Side.Up` / `Side.Down`.
+- Rule id union → `SpcRuleId` (`single_point`, `two_sigma`, `shift`, `trend`).
+- Raw granular audit tags → `SpcRawRuleTag` (e.g. `single_above`, `trend_inc`, `fifteen_inner_third`).
+
+Ranking numbers (Trend 4 > Shift 3 > TwoSigma 2 > SinglePoint 1) are centralised in `RULE_RANK_BY_ID` so both the engine precedence logic and SQL wrapper stay aligned—no duplicated numeric literals.
+
+Benefits:
+- Stronger type safety & easier future rule insertion.
+- Unified side semantics across engine, wrapper, tooltip logic.
+- Clear separation: raw event tags vs consolidated precedence decision.
 
 ### Testing Additions
 
@@ -139,3 +164,6 @@ New tests (see `spc.precedence.logic.test.ts`) assert:
 ### Opt-Out
 
 Remain on `precedenceStrategy: PrecedenceStrategy.Legacy` for unchanged historical behaviour while evaluating impact.
+
+- Extended SQL parity (optional inclusion of ancillary rules like Fifteen-in-Inner-Third in ranking if legacy procedures evolve).
+- Harmonised conflict pathway ensuring wrapper never silently reclassifies an outcome conflicting with engine precedence (future alignment task).

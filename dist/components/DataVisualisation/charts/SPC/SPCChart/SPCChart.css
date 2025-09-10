@@ -348,3 +348,10 @@
 rect:focus {
   outline: none;
 }
+
+.fdp-spc-chart__source {
+  margin-top: 4px;
+  font-size: 19px;
+  line-height: 1.4;
+  color: var(--nhs-fdp-color-text-secondary, #555);
+}

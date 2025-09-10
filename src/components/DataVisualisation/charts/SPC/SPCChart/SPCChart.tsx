@@ -31,6 +31,7 @@ import {
 	SpcWarningCode,
 	type SpcSettings,
 } from "./logic/spc";
+import { buildSpcSqlCompat } from './logic/spcSqlCompat';
 import { Tag } from "../../../../Tag/Tag";
 import Table from "../../../../Tables/Table";
 import { MetricPolarity } from "../SPCIcons/SPCConstants";
@@ -126,6 +127,14 @@ export interface SPCChartProps {
 	disableTrendSideGating?: boolean;
 	/** Optional source / citation text rendered below the chart outside the SVG for reliable layout */
 	source?: React.ReactNode;
+	/** Force y-axis to include zero as the lower bound even if all values are strictly positive. Default false. */
+	alwaysShowZeroY?: boolean;
+	/** Force y-axis to include 100 as the upper bound (useful for percentages). Default false. */
+	alwaysShowHundredY?: boolean;
+	/** Convenience flag: treat series as percentage scale (enforces 0–100 domain). Overrides alwaysShowZeroY / alwaysShowHundredY when true. */
+	percentScale?: boolean;
+	/** When true, run experimental SQL compatibility wrapper (post-hoc per-side ranking & pruning) instead of native aggregation. */
+	useSqlCompatEngine?: boolean;
 }
 
 export const SPCChart: React.FC<SPCChartProps> = ({
@@ -160,6 +169,10 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	enableTrendSideGating,
 	disableTrendSideGating,
 	source,
+	alwaysShowZeroY = false,
+	alwaysShowHundredY = false,
+	percentScale = false,
+	useSqlCompatEngine = false,
 }) => {
 	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
@@ -214,12 +227,17 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			const engineSettings: SpcSettings | undefined = settings
 				? { ...settings, trendSideGatingEnabled: settings.trendSideGatingEnabled ?? effectiveEnableTrendSideGating }
 				: { trendSideGatingEnabled: effectiveEnableTrendSideGating };
-			return buildSpc({
-				chartType,
-				metricImprovement,
-				data: rowsInput,
-				settings: engineSettings,
-			});
+			if (useSqlCompatEngine) {
+				// Use wrapper (conflict mode in base forcibly disabled inside wrapper)
+				return buildSpcSqlCompat({
+					chartType,
+					metricImprovement,
+					data: rowsInput,
+					disableTrendSideGating: engineSettings.trendSideGatingEnabled === false,
+					settings: engineSettings,
+				});
+			}
+			return buildSpc({ chartType, metricImprovement, data: rowsInput, settings: engineSettings });
 		} catch {
 			return null;
 		}
@@ -233,6 +251,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		settings,
 		enableTrendSideGating,
 		disableTrendSideGating,
+		useSqlCompatEngine,
 	]);
 
 	// Representative row with populated limits (last available)
@@ -329,6 +348,13 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		[data]
 	);
 	const yDomain = React.useMemo(() => {
+		if (percentScale) {
+			// If any values slightly exceed bounds (e.g. 100.2 due to rounding), widen just enough.
+			const allVals = data.map(d => d.y);
+			const overMax = Math.max(100, ...allVals);
+			const underMin = Math.min(0, ...allVals);
+			return [underMin < 0 ? underMin : 0, overMax > 100 ? overMax : 100] as [number, number];
+		}
 		const values = data.map((d) => d.y);
 		const base = [...values];
 		[mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg].forEach((v) => {
@@ -340,8 +366,12 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				if (typeof t === "number" && !isNaN(t)) base.push(t);
 			});
 		if (!base.length) return undefined;
-		return [Math.min(...base), Math.max(...base)];
-	}, [data, mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp]);
+		let min = Math.min(...base);
+		let max = Math.max(...base);
+		if (alwaysShowZeroY) min = Math.min(0, min);
+		if (alwaysShowHundredY) max = Math.max(100, max);
+		return [min, max];
+	}, [data, mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp, alwaysShowZeroY, alwaysShowHundredY, percentScale]);
 
 	// Auto-detect percentage unit when all values in [0,1] and no explicit unit supplied
 	const autoUnit = React.useMemo(() => {
@@ -1309,46 +1339,65 @@ const InternalSPC: React.FC<InternalProps> = ({
 								/>
 							);
 						})}
-						{/* Partition-aware mean (centre line) rendering */}
-						{limitSegments?.mean.map((s, i) => (
-							<line
-								key={`mean-${i}`}
-								className="fdp-spc__cl"
-								x1={s.x1}
-								x2={s.x2}
-								y1={s.y}
-								y2={s.y}
-								aria-hidden="true"
-							/>
-						))}
+						{/* Partition-aware mean (centre line) rendering with curved joins between recalculations */}
+						{limitSegments?.mean.length ? (() => {
+							return (
+								<g aria-hidden="true" className="fdp-spc__cl-group">
+									{limitSegments.mean.map((s,i) => (
+										<line key={`mean-${i}`} className="fdp-spc__cl" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} />
+									))}
+									{limitSegments.mean.map((s,i) => {
+										if (i === limitSegments.mean.length - 1) return null;
+										const next = limitSegments.mean[i+1];
+										if (!next) return null;
+										if (s.y === next.y) return null; // no join needed if level unchanged
+										const gap = Math.max(4, (next.x1 - s.x2) || 0); // pixel gap (may be 0 if contiguous)
+										const k = gap * 0.5; // control point offset
+										// Build cubic bezier from end of current to start of next
+										const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
+										return <path key={`mean-join-${i}`} className="fdp-spc__cl fdp-spc__cl-join" d={d} fill="none" />;
+									})}
+								</g>
+							);
+						})() : null}
 						{uniformTarget != null && (
 							// Render later (after limits) for stacking; temporary placeholder (moved below)
 							<></>
 						)}
-						{limitSegments?.ucl.map((s, i) => (
-							<line
-								key={`ucl-${i}`}
-								className="fdp-spc__limit fdp-spc__limit--ucl"
-								x1={s.x1}
-								x2={s.x2}
-								y1={s.y}
-								y2={s.y}
-								aria-hidden="true"
-								strokeWidth={2}
-							/>
-						))}
-						{limitSegments?.lcl.map((s, i) => (
-							<line
-								key={`lcl-${i}`}
-								className="fdp-spc__limit fdp-spc__limit--lcl"
-								x1={s.x1}
-								x2={s.x2}
-								y1={s.y}
-								y2={s.y}
-								aria-hidden="true"
-								strokeWidth={2}
-							/>
-						))}
+						{limitSegments?.ucl.length ? (() => (
+							<g aria-hidden="true" className="fdp-spc__limit-group fdp-spc__limit-group--ucl">
+								{limitSegments.ucl.map((s,i) => (
+									<line key={`ucl-${i}`} className="fdp-spc__limit fdp-spc__limit--ucl" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} strokeWidth={2} />
+								))}
+								{limitSegments.ucl.map((s,i) => {
+									if (i === limitSegments.ucl.length - 1) return null;
+									const next = limitSegments.ucl[i+1];
+									if (!next) return null;
+									if (s.y === next.y) return null;
+									const gap = Math.max(4, (next.x1 - s.x2) || 0);
+									const k = gap * 0.5;
+									const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
+									return <path key={`ucl-join-${i}`} className="fdp-spc__limit fdp-spc__limit--ucl fdp-spc__limit-join" d={d} fill="none" strokeWidth={2} />;
+								})}
+							</g>
+						))() : null}
+						{limitSegments?.lcl.length ? (() => (
+							<g aria-hidden="true" className="fdp-spc__limit-group fdp-spc__limit-group--lcl">
+								{limitSegments.lcl.map((s,i) => (
+									<line key={`lcl-${i}`} className="fdp-spc__limit fdp-spc__limit--lcl" x1={s.x1} x2={s.x2} y1={s.y} y2={s.y} strokeWidth={2} />
+								))}
+								{limitSegments.lcl.map((s,i) => {
+									if (i === limitSegments.lcl.length - 1) return null;
+									const next = limitSegments.lcl[i+1];
+									if (!next) return null;
+									if (s.y === next.y) return null;
+									const gap = Math.max(4, (next.x1 - s.x2) || 0);
+									const k = gap * 0.5;
+									const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
+									return <path key={`lcl-join-${i}`} className="fdp-spc__limit fdp-spc__limit--lcl fdp-spc__limit-join" d={d} fill="none" strokeWidth={2} />;
+								})}
+							</g>
+						))() : null}
 						{/* Target line drawn after limits for clear visibility */}
 						{uniformTarget != null && (
 							<g aria-hidden="true" className="fdp-spc__target-group">

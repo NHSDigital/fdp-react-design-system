@@ -1,0 +1,85 @@
+---
+title: Data Visualisation/SPC/SQL Compatibility Guide
+---
+# SPC SQL Compatibility (Experimental)
+
+This guide explains the experimental SQL compatibility wrapper (`buildSpcSqlCompat`) that emulates the v2.6a SQL directional pruning phase (PrimeDirection + rank-based resolution) on top of the orthodox TypeScript SPC engine.
+
+## Why this exists
+
+Historic SQL outputs exposed simultaneous candidate Improvement and Concern values then applied a deterministic ranking:
+
+1. Trend (rank 4)
+2. Shift (rank 3)
+3. Two-sigma (2 of 3 beyond 2σ) (rank 2)
+4. Single-point beyond 3σ (rank 1)
+
+A PrimeDirection (Upwards / Downwards / Same) was computed from the strongest rule per side, then improvement / concern values were pruned according to metric improvement polarity.
+
+The TypeScript engine performs side aggregation earlier, so rows normally never surface both sides simultaneously. The wrapper replays ranking post hoc for analytical / parity comparisons.
+
+## Key exports
+
+- `buildSpcSqlCompat(args)` → `{ rows, warnings }` (rows extended with:
+  - `primeDirection`, `primeRank`, `primeRuleId`
+  - `sqlOriginalImprovementValue`, `sqlOriginalConcernValue`
+  - `sqlPruned` flag when pruning occurred
+- `sqlDirectionalPrune(row, metricImprovement)` (utility used internally; exported for focused unit tests)
+
+## Behaviour notes
+
+- Uses underlying `buildSpc` (with conflictPrecedenceMode disabled) then recomputes per-side rule ranks.
+- Optional `disableTrendSideGating` flag sets `trendSideGatingEnabled=false` to mimic historical SQL treatment of trends irrespective of side-of-mean location.
+- Biases toward Improvement framing on perfect rank ties (PrimeDirection = Same) when both sides present, mirroring optimistic resolution strategy.
+- If the orthodox rule geometry yields only one side of signals (usual case) metadata fields remain mostly undefined and variationIcon matches the base engine.
+
+## Backfill semantics (Shift & Trend)
+
+The main SPC engine now BACKFILLS shift and trend flags across the entire qualifying run (all N points), not only the terminal detection point. This wrapper simply reads those backfilled flags – it does not alter backfill logic. See the migration guide section in the changelog for rationale and migration steps: [Backfill Semantics (Shift & Trend)](../../CHANGELOG.md#backfill-semantics-shift--trend).
+
+## When to use
+
+- Regression / parity analysis against legacy SQL extracts.
+- Diagnostic transparency (surfacing which rule would "win" under SQL ranking).
+- Migration support for consumers expecting SQL-style columns.
+
+Not recommended for routine production classification; prefer the native engine for statistically orthodox interpretation.
+
+## Storybook demo
+
+See the story: “Data Visualisation / SPC / SQL Compatibility / Base vs SQL compatibility (experimental)” for a side-by-side comparison.
+
+## Limitations / Future
+
+- Does not currently simulate scenarios impossible under orthodox Shewhart geometry (true simultaneous high & low rule satisfaction on one row).
+- No attempt to recreate historical warning codes tied to conflict pruning.
+- Future extensions could emit a structured `conflict` object if a broader rule set introduces mixed-side signals.
+
+## Example usage
+
+```ts
+import { buildSpcSqlCompat } from '.../spcSqlCompat';
+import { ChartType, ImprovementDirection } from '.../spc';
+
+const { rows } = buildSpcSqlCompat({
+  chartType: ChartType.XmR,
+  metricImprovement: ImprovementDirection.Up,
+  data: series.map(p => ({ x: p.x, value: p.y })),
+  disableTrendSideGating: true,
+});
+
+rows.forEach(r => {
+  if (r.sqlPruned) {
+    console.log(r.rowId, r.primeDirection, r.primeRuleId);
+  }
+});
+```
+
+## Testing
+
+Unit tests (`spcSqlCompat.client.test.ts`) cover:
+- Basic generation & icon assignment.
+- Tie scenario handling (non-fatal / improvement biased if both sides present).
+
+Add further tests for edge-case synthetic data if extending rule inventory.
+

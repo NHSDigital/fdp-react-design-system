@@ -4,12 +4,9 @@ import { SPCChart, ImprovementDirection, type SPCDatum } from "./SPCChart";
 import { ChartContainer } from "../../ChartContainer.tsx";
 import { ChartType } from "./logic/spc.ts";
 import { buildSpcSqlCompat } from "./logic/spcSqlCompat";
+import { PrimeDirectionSummary } from "./PrimeDirectionSummary";
 
-// Helper: summarise prime direction annotations for a compact story footer
-function primeDirectionSummary(rows: { primeDirection?: string; rowId: number }[]) {
-	const parts = rows.filter(r => r.primeDirection).map(r => `${r.rowId}:${r.primeDirection}`);
-	return parts.join(', ') || 'none';
-}
+// PrimeDirection summary now provided via reusable <PrimeDirectionSummary /> component.
 
 // Healthcare representative SPC examples (deterministic, no randomness)
 // Each dataset contains >= 20 points (monthly) to ensure stable limits and illustrates
@@ -94,7 +91,12 @@ const rttValues = [
 ];
 
 export const ED4HourCompliance: Story = {
-	parameters: {
+    args: {
+        sequenceTransition: undefined,
+        useSqlCompatEngine: true
+    },
+
+    parameters: {
 		docs: {
 			description: {
 				story:
@@ -103,7 +105,8 @@ export const ED4HourCompliance: Story = {
 		},
 		metricContext: { improvement: "up" },
 	},
-	render: (_args, { globals }) => {
+
+    render: (_args, { globals }) => {
 		const data = series(ed4hValues);
 		const sqlMode = globals?.sqlCompatMode === 'sql';
 		const sql = sqlMode ? buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) }) : null;
@@ -130,14 +133,10 @@ export const ED4HourCompliance: Story = {
 						additionalNote: 'Intervention at month 13'
 					}}
 				/>
-				{sqlMode && sql && (
-					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
-					</div>
-				)}
+				{sqlMode && sql && <PrimeDirectionSummary rows={sql.rows as any} data-testid="prime-direction-ed4h" />}
 			</ChartContainer>
 		);
-	},
+	}
 };
 
 export const LengthOfStay: Story = {
@@ -168,11 +167,7 @@ export const LengthOfStay: Story = {
 					useSqlCompatEngine={sqlMode}
 					narrationContext={{ measureName: 'Average length of stay', datasetContext: 'Monthly acute admissions', timeframe: '24 months' }}
 				/>
-				{sqlMode && sql && (
-					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
-					</div>
-				)}
+				{sqlMode && sql && <PrimeDirectionSummary rows={sql.rows as any} data-testid="prime-direction-los" />}
 			</ChartContainer>
 		);
 	},
@@ -206,11 +201,7 @@ export const ReadmissionRate: Story = {
 					useSqlCompatEngine={sqlMode}
 					narrationContext={{ measureName: '30-day readmission rate', datasetContext: 'Monthly trust-wide data', timeframe: '24 months' }}
 				/>
-				{sqlMode && sql && (
-					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
-					</div>
-				)}
+				{sqlMode && sql && <PrimeDirectionSummary rows={sql.rows as any} data-testid="prime-direction-readmit" />}
 			</ChartContainer>
 		);
 	},
@@ -244,11 +235,7 @@ export const HandHygieneCompliance: Story = {
 					useSqlCompatEngine={sqlMode}
 					narrationContext={{ measureName: 'Hand hygiene compliance', datasetContext: 'Monthly audits', timeframe: '24 months', additionalNote: 'Sustained high shift after month 12' }}
 				/>
-				{sqlMode && sql && (
-					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
-					</div>
-				)}
+				{sqlMode && sql && <PrimeDirectionSummary rows={sql.rows as any} data-testid="prime-direction-handhygiene" />}
 			</ChartContainer>
 		);
 	},
@@ -280,11 +267,7 @@ export const FallsPer1000BedDays: Story = {
 					useSqlCompatEngine={sqlMode}
 					narrationContext={{ measureName: 'Inpatient falls per 1000 bed days', datasetContext: 'Monthly trust-wide data', timeframe: '24 months' }}
 				/>
-				{sqlMode && sql && (
-					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
-					</div>
-				)}
+				{sqlMode && sql && <PrimeDirectionSummary rows={sql.rows as any} data-testid="prime-direction-falls" />}
 			</ChartContainer>
 		);
 	},
@@ -316,11 +299,7 @@ export const TimeBetweenMedicationErrors: Story = {
 					useSqlCompatEngine={sqlMode}
 					narrationContext={{ measureName: 'Days between medication errors', datasetContext: 'Trust-wide events', timeframe: '24 events', additionalNote: 'Improvement phase with long gap' }}
 				/>
-				{sqlMode && sql && (
-					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
-					</div>
-				)}
+				{sqlMode && sql && <PrimeDirectionSummary rows={sql.rows as any} data-testid="prime-direction-mederrors" />}
 			</ChartContainer>
 		);
 	},
@@ -354,11 +333,7 @@ export const CountBetweenPressureUlcers: Story = {
 					useSqlCompatEngine={sqlMode}
 					narrationContext={{ measureName: 'Count between pressure ulcers', datasetContext: 'Trust-wide events', timeframe: '24 events' }}
 				/>
-				{sqlMode && sql && (
-					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
-					</div>
-				)}
+				{sqlMode && sql && <PrimeDirectionSummary rows={sql.rows as any} data-testid="prime-direction-pressureulcers" />}
 			</ChartContainer>
 		);
 	},
@@ -391,11 +366,7 @@ export const RTTPatientsWaiting: Story = {
 					useSqlCompatEngine={sqlMode}
 					narrationContext={{ measureName: 'RTT % Patients Waiting < 18 weeks', datasetContext: 'National RTT Waiting List Target', timeframe: '25 events' }}
 				/>
-				{sqlMode && sql && (
-					<div style={{ fontSize: '0.7rem', marginTop: '0.4rem', opacity: 0.8 }}>
-						PrimeDirection points: {primeDirectionSummary(sql.rows as any)}
-					</div>
-				)}
+				{sqlMode && sql && <PrimeDirectionSummary rows={sql.rows as any} data-testid="prime-direction-rtt" />}
 			</ChartContainer>
 		);
 	},

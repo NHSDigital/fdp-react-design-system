@@ -31,7 +31,7 @@ This produced unintuitive colouring in transitional phases – e.g. a *progressi
 
 ### Relationship to SQL Compatibility Wrapper
 
-An experimental SQL compatibility wrapper (`buildSpcSqlCompat`) now exists to emulate historic SQL post‑processing (per‑side rule ranking + directional pruning). It leaves the core engine logic (including `precedenceStrategy`) unchanged and applies ranking afterwards, emitting additional metadata for parity / diagnostics (`primeDirection`, `primeRuleId`, `primeRank`, `sqlOriginalImprovementValue`, `sqlOriginalConcernValue`, `sqlPruned`).
+An experimental SQL compatibility wrapper (`buildSpcSqlCompat`) now exists to emulate historic SQL post‑processing (per‑side rule ranking and directional pruning). It leaves the core engine logic (including `precedenceStrategy`) unchanged and applies ranking afterwards, emitting additional metadata for parity / diagnostics (`primeDirection`, `primeRuleId`, `primeRank`, `sqlOriginalImprovementValue`, `sqlOriginalConcernValue`, `sqlPruned`).
 
 Key distinctions:
 

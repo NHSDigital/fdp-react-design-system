@@ -124,6 +124,8 @@ export interface SPCChartProps {
 	 * `enableTrendSideGating` is not set, the effective value will be `!disableTrendSideGating`.
 	 */
 	disableTrendSideGating?: boolean;
+	/** Optional source / citation text rendered below the chart outside the SVG for reliable layout */
+	source?: React.ReactNode;
 }
 
 export const SPCChart: React.FC<SPCChartProps> = ({
@@ -157,6 +159,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	showTrendGatingExplanation = true,
 	enableTrendSideGating,
 	disableTrendSideGating,
+	source,
 }) => {
 	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
@@ -567,6 +570,11 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 					/>
 				</LineScalesProvider>
 			</ChartRoot>
+			{source && (
+				<div className="fdp-spc-chart__source" aria-label="Chart data source">
+					{typeof source === 'string' ? <small>Source: {source}</small> : source}
+				</div>
+			)}
 			{/* Live diagnostics announcement (visually hidden) */}
 			{showWarningsPanel && diagnosticsMessage && (
 				<div

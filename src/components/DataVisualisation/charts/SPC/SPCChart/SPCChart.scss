@@ -435,3 +435,11 @@
 rect:focus {
 	outline: none;
 }
+
+// External source (citation) block rendered below chart
+.fdp-spc-chart__source {
+	margin-top: 4px;
+	font-size:  nhs.$nhs-fdp-font-size-19-desktop;
+	line-height: 1.4;
+	color: var(--nhs-fdp-color-text-secondary, #555);
+}

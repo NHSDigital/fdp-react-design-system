@@ -1,18 +1,19 @@
-import React from 'react';
-import { TableProps } from './Table.types';
-import './Table.scss';
-/**
- * Table component for displaying structured data
- *
- * Features:
- * - Responsive design with mobile-friendly stacked layout
- * - Accessible table structure with proper headers
- * - Support for complex cell types (headers, numeric, spans)
- * - Optional panel wrapper with heading
- * - Customizable caption and styling
- *
- * @param props - Table component props
- * @returns JSX element
- */
-declare const Table: React.FC<TableProps>;
+import React from "react";
+import type { TableProps, TableCaptionProps, TableBodyRowProps, TableHeaderCellComponentProps, TableDataCellComponentProps } from "./Table.types";
+import "./Table.scss";
+export declare const fallbackHighlight: (code: string) => string;
+export declare const highlightCode: (code: string, lang?: string, disable?: boolean) => any;
+export declare const TableCaption: React.FC<TableCaptionProps>;
+export declare const TableBodyRow: React.FC<TableBodyRowProps>;
+export declare const TableHeaderCell: React.FC<TableHeaderCellComponentProps>;
+export declare const TableCell: React.FC<TableDataCellComponentProps>;
+export interface TableComposite extends React.FC<TableProps> {
+    Caption: typeof TableCaption;
+    BodyRow: typeof TableBodyRow;
+    HeaderCell: typeof TableHeaderCell;
+    Cell: typeof TableCell;
+    Row: typeof TableBodyRow;
+    TH: typeof TableHeaderCell;
+}
+declare const Table: TableComposite;
 export default Table;

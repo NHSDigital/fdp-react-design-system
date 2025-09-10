@@ -1,4 +1,3 @@
-import React from 'react';
 import { describe, test, expect } from 'vitest';
 import { renderToString } from 'react-dom/server';
 import { SPCChart, type SPCDatum } from './SPCChart';
@@ -14,5 +13,18 @@ describe('SPCChart SSR', () => {
     expect(html).toContain('fdp-spc-chart');
     // Should include at least one circle (points suppressed until hydrate? ensure showPoints true by default)
     expect(html).toContain('fdp-spc__point');
+  });
+
+  test('renders external source container when source prop provided (outside SVG)', () => {
+    const html = renderToString(<SPCChart data={data()} source="NHS England | SUS extracts" />);
+    // Source wrapper div
+    expect(html).toContain('fdp-spc-chart__source');
+  // Prefixed source text (allow optional React inserted comment separator)
+  expect(html).toMatch(/Source:\s*(?:<!-- -->)?NHS England \| SUS extracts/);
+    // Ensure it is not inside the <svg> by checking order: wrapper appears after an </svg>
+    const svgCloseIdx = html.indexOf('</svg>');
+    const sourceIdx = html.indexOf('fdp-spc-chart__source');
+    expect(svgCloseIdx).toBeGreaterThan(0);
+    expect(sourceIdx).toBeGreaterThan(svgCloseIdx);
   });
 });

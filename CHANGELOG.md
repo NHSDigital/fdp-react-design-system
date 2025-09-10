@@ -15,16 +15,24 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 ### Added (Unreleased)
 
 - Shared story utilities module `src/components/DataVisualisation/stories/utils/deterministic.ts` providing date helpers, linear series generator, seeded PRNG.
+- Table: Declarative columns + data API (auto-generates head and rows when explicit `head`/`rows` omitted).
+- Table: `visuallyHiddenCaption` prop to retain semantic caption for assistive tech while hiding visually.
+- Table: New sub-component `Table.Cell` supporting `rowHeader` plus code / html / node content (joins existing `Caption`, `BodyRow`, `HeaderCell`).
+- Table: Focused test coverage for columns+data generation & visually hidden caption rendering.
+- Table: `TableColumn.rowHeader` flag allows per-column row header generation (no need for global `firstCellIsHeader`).
+- SPCChart: Added `source` prop rendering citation below chart (outside SVG) to prevent overlaps with axes.
 
 ### Changed (Unreleased)
 
 - Storybook data visualisation stories (Line, FilterableLine, Area, Bar, SPC) now use fully deterministic synthetic datasets (removed all Math.random/Date.now) for stable visual regression and reproducible docs.
 - Header SCSS refactor: eliminated Sass mixed-decls deprecation warnings by reordering declarations and splitting `header-link-style` into base + state mixins.
 - Embedded SPC summary variation icon now shows business polarity letter (H/L = higher-/lower-is-better) instead of side-of-signal when `metricImprovement` is Higher or Lower; retains side-of-signal lettering only for neutral metrics.
+- Table: Story and MDX docs consolidated & updated to document new columns API and sub-components.
 
 ### Deprecated (Unreleased)
 
 - SPCVariationIcon legacy payload shapes `{ state, ... }`, `{ judgement, polarity, trend? }`, and parsimonious union variants are deprecated. Use engine-aligned payload `{ variationIcon, improvementDirection, specialCauseNeutral?, trend? }`. A one-time runtime `console.warn` is emitted when deprecated shapes are detected. Removal planned after stabilising engine-aligned API (target: post 0.0.35 minor).
+- Table: Legacy aliases `Table.Row` and `Table.TH` deprecated in favour of `Table.BodyRow` and `Table.HeaderCell` (runtime dev warnings emitted).
 
 _No other unreleased changes yet._
 

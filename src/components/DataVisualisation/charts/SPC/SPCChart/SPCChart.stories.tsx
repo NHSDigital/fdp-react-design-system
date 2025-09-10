@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { SPCChart, type SPCDatum, ImprovementDirection } from "./SPCChart";
+import { SPCChart, type SPCDatum, ImprovementDirection, SequenceTransition } from "./SPCChart";
 import {
 	ruleGlossary,
 	variationLabel,
@@ -16,6 +16,14 @@ import { ChartType } from './logic/spc';
 const meta: Meta<typeof SPCChart> = {
 	title: "Data Visualisation/SPC/Individuals",
 	component: SPCChart,
+	argTypes: {
+		sequenceTransition: {
+			control: { type: 'select' },
+			options: [SequenceTransition.Slope, SequenceTransition.Neutral, SequenceTransition.Extend],
+			description: 'Strategy for joining adjacent coloured gradient sequences (slope | neutral | extend).',
+			defaultValue: SequenceTransition.Slope,
+		},
+	},
 	parameters: {
 		docs: {
 			description: {
@@ -62,6 +70,7 @@ export const Basic: Story = {
 					announceFocus
 					unit="%"
 					gradientSequences
+					sequenceTransition={SequenceTransition.Slope}
 					narrationContext={{
 						measureName: "Daily metric",
 						datasetContext: "Synthetic 30-day sample",
@@ -100,6 +109,7 @@ export const Signals: Story = {
 					metricImprovement={ImprovementDirection.Up}
 					announceFocus
 					gradientSequences={true}
+					sequenceTransition={SequenceTransition.Slope}
 					unit="%"
 					narrationContext={{
 						measureName: "Process metric",
@@ -143,6 +153,7 @@ export const DownIsBetter: Story = {
 					// settings placeholder (no isolated favourable suppression in deterministic demo)
 					metricImprovement={ImprovementDirection.Down}
 					gradientSequences={true}
+					sequenceTransition={SequenceTransition.Slope}
 					unit="%"
 					announceFocus
 					narrationContext={{
@@ -180,6 +191,7 @@ export const UpIsBetter: Story = {
 					unit="%"
 					announceFocus
 					gradientSequences={true}
+					sequenceTransition={SequenceTransition.Slope}
 					narrationContext={{
 						measureName: "Process metric",
 						datasetContext: "Synthetic direction example",
@@ -228,6 +240,7 @@ export const TChartRareEvents: Story = {
 					metricImprovement={ImprovementDirection.Up}
 					announceFocus
 					gradientSequences={true}
+					sequenceTransition={SequenceTransition.Slope}
 					narrationContext={{
 						measureName: "Days between events",
 						datasetContext: "Rare event monitoring",
@@ -265,6 +278,7 @@ export const GChartRareEvents: Story = {
 					metricImprovement={ImprovementDirection.Up}
 					announceFocus
 					gradientSequences={true}
+					sequenceTransition={SequenceTransition.Slope}
 					narrationContext={{
 						measureName: "Count between events",
 						datasetContext: "Rare event monitoring",
@@ -300,12 +314,15 @@ export const AssuranceCapability: Story = {
 				<div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 					<ChartContainer title="Capability: Pass" description="Process consistently above target" source="Synthetic data">
 						<SPCChart data={passData} targets={passTargets} chartType={ChartType.XmR} metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences narrationContext={{ measureName: 'Capability metric', datasetContext: 'Process band entirely favourable', additionalNote: 'Pass scenario' }} />
+						<SPCChart data={passData} targets={passTargets} chartType={ChartType.XmR} metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences sequenceTransition={SequenceTransition.Slope} narrationContext={{ measureName: 'Capability metric (slope join)', datasetContext: 'Process band entirely favourable', additionalNote: 'Pass scenario slope' }} />
 					</ChartContainer>
 					<ChartContainer title="Capability: Fail" description="Process consistently below target" source="Synthetic data">
 						<SPCChart data={failData} targets={failTargets} chartType={ChartType.XmR} metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences narrationContext={{ measureName: 'Capability metric', datasetContext: 'Process band entirely unfavourable', additionalNote: 'Fail scenario' }} />
+						<SPCChart data={failData} targets={failTargets} chartType={ChartType.XmR} metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences sequenceTransition={SequenceTransition.Slope} narrationContext={{ measureName: 'Capability metric (slope join)', datasetContext: 'Process band entirely unfavourable', additionalNote: 'Fail scenario slope' }} />
 					</ChartContainer>
 					<ChartContainer title="Capability: Uncertain" description="Process band overlaps target (no assurance icon)" source="Synthetic data">
 						<SPCChart data={uncertainData} targets={uncertainTargets} chartType={ChartType.XmR} metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences narrationContext={{ measureName: 'Capability metric', datasetContext: 'Process band overlaps target', additionalNote: 'Uncertain scenario' }} />
+						<SPCChart data={uncertainData} targets={uncertainTargets} chartType={ChartType.XmR} metricImprovement={ImprovementDirection.Up} announceFocus gradientSequences sequenceTransition={SequenceTransition.Slope} narrationContext={{ measureName: 'Capability metric (slope join)', datasetContext: 'Process band overlaps target', additionalNote: 'Uncertain scenario slope' }} />
 					</ChartContainer>
 				</div>
 			);
@@ -329,12 +346,15 @@ export const EmbeddedSummaryIcons: Story = {
 			<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(360px,1fr))', gap: 24 }}>
 				<ChartContainer title="Embedded: Pass" description="Variation + assurance pass" source="Synthetic">
 					<SPCChart data={passData} targets={passTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon />
+					<SPCChart data={passData} targets={passTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon sequenceTransition={SequenceTransition.Slope} />
 				</ChartContainer>
 				<ChartContainer title="Embedded: Fail" description="Variation + assurance fail" source="Synthetic">
 					<SPCChart data={failData} targets={failTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon />
+					<SPCChart data={failData} targets={failTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon sequenceTransition={SequenceTransition.Slope} />
 				</ChartContainer>
 				<ChartContainer title="Embedded: Uncertain" description="No assurance icon (band overlaps target)" source="Synthetic">
 					<SPCChart data={uncertainData} targets={uncertainTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon />
+					<SPCChart data={uncertainData} targets={uncertainTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon sequenceTransition={SequenceTransition.Slope} />
 				</ChartContainer>
 			</div>
 		);
@@ -443,6 +463,7 @@ Disable via gradientSequences={false} (default). Useful for storytelling views h
 					chartType={ChartType.XmR}
 					metricImprovement={ImprovementDirection.Up}
 					gradientSequences
+					sequenceTransition={SequenceTransition.Slope}
 					announceFocus
 					narrationContext={{
 						measureName: 'Process metric',

@@ -147,4 +147,63 @@ describe('Table', () => {
   expect(codeEl.tagName).toBe('CODE');
   expect(codeEl.closest('pre')).toBeInTheDocument();
   });
+
+  it('auto-generates head and rows from columns + data', () => {
+    render(
+      <Table
+        caption="Monthly metrics"
+        visuallyHiddenCaption
+        firstCellIsHeader
+        columns={[
+          { key: 'metric', title: 'Metric' },
+          { key: 'value', title: 'Value', format: 'numeric' as const },
+          { key: 'delta', title: 'Δ vs prev', render: (v: number) => `${v > 0 ? '+' : ''}${v}` },
+        ]}
+        data={[
+          { metric: 'Admissions', value: 120, delta: 5 },
+          { metric: 'Discharges', value: 95, delta: -2 },
+        ]}
+      />
+    );
+
+    // Caption should exist but be visually hidden
+    const caption = screen.getByText('Monthly metrics');
+    expect(caption.tagName).toBe('CAPTION');
+    expect(caption).toHaveClass('nhsuk-u-visually-hidden');
+
+    // Auto header cells
+    expect(screen.getByText('Metric').closest('th')).toBeInTheDocument();
+    expect(screen.getByText('Value').closest('th')).toBeInTheDocument();
+    expect(screen.getByText('Δ vs prev').closest('th')).toBeInTheDocument();
+
+    // Data rows
+    expect(screen.getByText('Admissions')).toBeInTheDocument();
+    expect(screen.getByText('120')).toBeInTheDocument();
+    expect(screen.getByText('+5')).toBeInTheDocument();
+    expect(screen.getByText('Discharges')).toBeInTheDocument();
+    expect(screen.getByText('95')).toBeInTheDocument();
+    expect(screen.getByText('-2')).toBeInTheDocument();
+  });
+
+  it('treats only specified column as row headers via column.rowHeader (without global firstCellIsHeader)', () => {
+    render(
+      <Table
+        caption="Selective headers"
+        columns={[
+          { key: 'metric', title: 'Metric', rowHeader: true },
+          { key: 'value', title: 'Value', format: 'numeric' as const },
+        ]}
+        data={[
+          { metric: 'Admissions', value: 120 },
+          { metric: 'Discharges', value: 95 },
+        ]}
+      />
+    );
+
+    const admissionsHeader = screen.getByText('Admissions').closest('th');
+    expect(admissionsHeader).toBeInTheDocument();
+    expect(admissionsHeader).toHaveAttribute('scope', 'row');
+    const valueCell = screen.getByText('120').closest('td');
+    expect(valueCell).toBeInTheDocument();
+  });
 });

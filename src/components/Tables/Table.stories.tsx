@@ -10,33 +10,72 @@ const meta: Meta<typeof Table> = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: `
-Tables are used to display structured data in rows and columns, making it easy for users to scan, compare, and analyze information.
+  component: `
+Tables present structured data for comparison and scanning.
 
-## When to use this component
+## When to use
+Use when users need to compare values across categorical columns, scan a matrix of results, or export/tabulate data.
 
-Use tables when you need to:
-- Display structured data with multiple columns
-- Help users compare data across different categories
-- Present data that users might need to sort or filter
-- Show relationships between different pieces of information
+## Accessibility
+- Always provide a caption (may be visually hidden with \`visuallyHiddenCaption\`)
+- Mark row headers with \`scope="row"\` (or use \`<Table.Cell rowHeader />\`)
+- Use semantic \`<th>\` for column headers; we generate them when you use the declarative columns API
+- Prefer shorter cell contents on small screens; enable \`responsive\` when appropriate
 
-## Accessibility considerations
+## Two authoring styles
+1. Manual: supply \`head\` + \`rows\` arrays (existing behaviour)
+2. Declarative columns API: supply \`columns\` + \`data\` for auto head/row generation
 
-- Use table headers (\`<th>\`) to identify row and column headers
-- Use the \`scope\` attribute to associate headers with their data cells
-- Provide a table caption when the table needs additional context
-- Ensure tables are readable when linearized (screen readers read row by row)
-- Consider responsive alternatives for complex tables on mobile devices
+Manual still works and takes precedence if provided. If \`head\`/\`rows\` are omitted we derive them from \`columns\` + \`data\`.
 
-## Technical implementation
+### Sub-components
+| Sub-component | Purpose | Notes |
+| ------------- | ------- | ----- |
+| \`Table.Caption\` | Semantic caption element | Size prop (s/m/l/xl) mirrors NHS styles; can be visually hidden via main prop \`visuallyHiddenCaption\` |
+| \`Table.BodyRow\` | Row wrapper | Back-compat alias \`Table.Row\` (deprecated) |
+| \`Table.HeaderCell\` | Column header cell | Back-compat alias \`Table.TH\` (deprecated) |
+| \`Table.Cell\` | Data or row-header cell | Set \`rowHeader\` to output a \`<th scope="row">\` |
 
-The Table component supports:
-- Responsive design with mobile-friendly stacked layout
-- Accessible table structure with proper headers and ARIA labels
-- Support for complex cell types (headers, numeric alignment, colspan/rowspan)
-- Optional panel wrapper with heading
-- Customizable caption and styling variants
+### Declarative columns API
+
+~~~tsx
+<Table
+  caption="Monthly metrics"
+  visuallyHiddenCaption
+  columns={[
+    { key: 'metric', title: 'Metric' },
+    { key: 'value', title: 'Value', format: 'numeric' },
+  { key: 'delta', title: 'Δ vs prev', render: (v) => \`\${v > 0 ? '+' : ''}\${v}\` }
+  ]}
+  data={[
+    { metric: 'Admissions', value: 120, delta: 5 },
+    { metric: 'Discharges', value: 95, delta: -2 }
+  ]}
+  firstCellIsHeader
+  responsive
+/>
+~~~
+
+### Using Table.Cell directly
+Useful when you want to mix manual structure with richer cells:
+~~~tsx
+<Table caption="Custom cells">
+  <thead>
+    <Table.BodyRow>
+      <Table.HeaderCell text="Item" />
+      <Table.HeaderCell text="Value" />
+    </Table.BodyRow>
+  </thead>
+  <tbody>
+    <Table.BodyRow>
+      <Table.Cell rowHeader text="Admissions" />
+  <Table.Cell format=\"numeric\" text=\"120\" />
+    </Table.BodyRow>
+  </tbody>
+</Table>
+~~~
+
+Legacy aliases: Table.Row → BodyRow, Table.TH → HeaderCell (emit console warnings in dev and will be removed in a later release).
         `,
       },
     },
@@ -80,6 +119,18 @@ The Table component supports:
       control: { type: 'select' },
       options: [1, 2, 3, 4, 5, 6],
     },
+    columns: {
+      description: 'Declarative column definitions (auto-generates head & rows when data provided)',
+      control: { type: 'object' },
+    },
+    data: {
+      description: 'Raw data items consumed by declarative columns API',
+      control: { type: 'object' },
+    },
+    visuallyHiddenCaption: {
+      description: 'Render caption for assistive tech only (keeps semantics)',
+      control: { type: 'boolean' },
+    },
   },
 };
 
@@ -105,37 +156,32 @@ const basicData = [
   ]
 ];
 
-const patientData = [
-  [
-    { text: 'Name' },
-    { text: 'Date of birth' },
-    { text: 'Phone' },
-    { text: 'Last appointment' }
-  ],
-  [
-    { text: 'Sarah Phillips' },
-    { text: '14 May 1965' },
-    { text: '07700 900362' },
-    { text: '22 Oct 2021' }
-  ],
-  [
-    { text: 'Kerry Francis' },
-    { text: '18 September 1954' },
-    { text: '07700 900364' },
-    { text: '10 Jan 2022' }
-  ],
-  [
-    { text: 'Ashley Sanderson' },
-    { text: '20 June 1976' },
-    { text: '07700 900365' },
-    { text: '15 Dec 2021' }
-  ]
-];
 
 export const Default: Story = {
   args: {
     rows: basicData.slice(1),
     head: basicData[0].map(cell => ({ ...cell })),
     caption: 'Basic table example',
+  },
+};
+
+// Declarative columns + data
+export const ColumnsApi: Story = {
+  name: 'Declarative / Columns API',
+  args: {
+    caption: 'Monthly metrics',
+    visuallyHiddenCaption: true,
+    firstCellIsHeader: false,
+    responsive: true,
+    columns: [
+      { key: 'metric', title: 'Metric' },
+      { key: 'value', title: 'Value', format: 'numeric' as const },
+      { key: 'delta', title: 'Δ vs prev', render: (v: number) => `${v > 0 ? '+' : ''}${v}` },
+    ],
+    data: [
+      { metric: 'Admissions', value: 120, delta: 5 },
+      { metric: 'Discharges', value: 95, delta: -2 },
+      { metric: 'Transfers', value: 30, delta: 0 },
+    ],
   },
 };

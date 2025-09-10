@@ -501,6 +501,12 @@ The table below mirrors the TypeScript interface declared in `SPCChart.tsx` (see
       { code: 'false', codeLanguage: 'typescript' },
     ],
     [
+      { code: 'sequenceTransition', codeLanguage: 'typescript' },
+      { text: 'Join strategy between adjacent coloured gradient runs when gradientSequences is true: slope (default continuous join), neutral (insert grey wedge), extend (always extend previous run to next start).' },
+      { code: 'SequenceTransition', codeLanguage: 'typescript' },
+      { code: 'SequenceTransition.Slope', codeLanguage: 'typescript' },
+    ],
+    [
       { code: 'processLineWidth', codeLanguage: 'typescript' },
       { text: 'Stroke width of process (mean) line.' },
       { code: 'number', codeLanguage: 'typescript' },
@@ -524,6 +530,12 @@ The table below mirrors the TypeScript interface declared in `SPCChart.tsx` (see
       { code: '{ severities?; categories?; codes?; }', codeLanguage: 'typescript' },
       { text: '–' },
     ],
+    [
+      { code: 'enableTrendSideGating', codeLanguage: 'typescript' },
+      { text: 'Enables trend side-gating: early trend points on the unfavourable side remain neutral until trend crosses mean (reduces premature concern/improvement labelling).', codeLanguage: 'typescript' },
+      { code: 'boolean', codeLanguage: 'typescript' },
+      { code: 'false', codeLanguage: 'typescript' },
+    ],
   ]}
   firstCellIsHeader
 />
@@ -546,6 +558,28 @@ Rationale: separates two concepts that were previously conflated—signal side a
 If you need legacy behaviour (letters always side‑of‑signal) you can wrap `SPCVariationIcon` directly and set `letterMode="direction"` explicitly.
 
 ## Advanced settings (`SpcSettings`)
+
+### Gradient sequence transition strategies
+
+When `gradientSequences` is enabled you can tune how coloured (improvement / concern / neutral special‑cause) background runs visually connect using `sequenceTransition`:
+
+```ts
+import { SequenceTransition } from './SPCChart';
+
+<SPCChart
+  data={series}
+  gradientSequences
+  sequenceTransition={SequenceTransition.Slope} // or Neutral | Extend
+/>;
+```
+
+| Strategy | Visual join | Use when | Notes |
+| -------- | ----------- | -------- | ----- |
+| `Slope` (default) | Continuous polygon joins attributed to rising next run (if upward delta) or previous if flat/falling | Desire seamless colour continuity reflecting direction of change | Minimises visual segmentation; favours readable contiguous areas. |
+| `Neutral` | Inserts a thin grey (common‑cause) wedge between coloured runs | Want explicit separation of distinct runs without implying directional continuity | Wedge uses common‑cause gradient; decorative only. |
+| `Extend` | Always extends previous coloured run shape to the first point of the next run | Highlight persistence of prior state until definite new run length achieved | Can over‑emphasise earlier run on sharp reversals; stylistic option. |
+
+All variants remain purely decorative (aria-hidden) and do not alter engine logic, narration, or rule detection.
 
 These map directly to the `SpcSettings` interface in `logic/spc.ts` (lines ~1–130). Defaults (in engine) shown in parentheses.
 

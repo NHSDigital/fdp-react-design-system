@@ -167,7 +167,7 @@ Each of the above maps to `dist/src/components/<Name>/index.{d.ts,js}`.
 Top-level (recommended for most apps):
 
 ```ts
-import { Button, Grid, SPCChart, useNHSTheme } from '@fergusbisset/nhs-fdp-design-system';
+import { Button, Grid, SPCChart } from '@fergusbisset/nhs-fdp-design-system';
 ```
 
 Component code subpath (tree-shaking friendly where applicable):

@@ -1638,7 +1638,6 @@ var require_prism_json = __commonJS({
 
 // src/components/Tables/Table.tsx
 var import_classnames2 = __toESM(require_classnames(), 1);
-import React2 from "react";
 
 // src/components/Panel/Panel.tsx
 var import_classnames = __toESM(require_classnames(), 1);
@@ -1753,7 +1752,57 @@ var Panel = ({
 
 // src/components/Tables/Table.tsx
 import { Fragment, jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
-var Table = ({
+var prismGlobalRef = { current: null };
+var ensurePrismGlobal = () => {
+  if (prismGlobalRef.current) return prismGlobalRef.current;
+  try {
+    prismGlobalRef.current = require_prism();
+    try {
+      require_prism_typescript();
+    } catch {
+    }
+    try {
+      require_prism_tsx();
+    } catch {
+    }
+    try {
+      require_prism_json();
+    } catch {
+    }
+  } catch {
+    prismGlobalRef.current = null;
+  }
+  return prismGlobalRef.current;
+};
+var fallbackHighlight = (code) => {
+  const patterns = [
+    { regex: /\b(import|from|export|const|let|var|return|if|else|for|while|switch|case|break|new|throw|try|catch|finally|class|extends|implements|interface|type|as|async|await|function)\b/g, cls: "kw" },
+    { regex: /(['"`])(?:\\.|(?!\1).)*\1/g, cls: "str" },
+    { regex: /\/\*[^]*?\*\/|\/\/.*$/gm, cls: "com" },
+    { regex: /\b([0-9]+(?:\.[0-9]+)?)\b/g, cls: "num" }
+  ];
+  let html = code;
+  patterns.forEach((p) => {
+    html = html.replace(p.regex, (m) => `<span class="nhsuk-code-${p.cls}">${m}</span>`);
+  });
+  return html;
+};
+var highlightCode = (code, lang, disable) => {
+  if (disable) return code;
+  if (!lang) return code;
+  const Prism2 = ensurePrismGlobal();
+  if (Prism2 && Prism2.languages) {
+    const resolvedLang = Prism2.languages[lang] ? lang : Prism2.languages.typescript && (lang === "ts" || lang === "tsx" || lang === "typescript") ? "typescript" : Prism2.languages.json && lang === "json" ? "json" : void 0;
+    if (resolvedLang) {
+      try {
+        return Prism2.highlight(code, Prism2.languages[resolvedLang], resolvedLang);
+      } catch {
+      }
+    }
+  }
+  return fallbackHighlight(code);
+};
+var TableBase = ({
   rows,
   head,
   caption,
@@ -1767,7 +1816,10 @@ var Table = ({
   tableClasses,
   classes,
   attributes,
-  "data-testid": testId
+  "data-testid": testId,
+  columns,
+  data,
+  visuallyHiddenCaption = false
 }) => {
   const captionClass = `nhsuk-table__caption ${captionSize ? `nhsuk-table__caption--${captionSize}` : ""}`.trim();
   const tableClassList = (0, import_classnames2.default)(
@@ -1778,60 +1830,14 @@ var Table = ({
     tableClasses
   );
   const containerClassList = (0, import_classnames2.default)(classes);
-  const prismRef = React2.useRef(null);
-  const ensurePrism = () => {
-    if (prismRef.current) return prismRef.current;
-    try {
-      prismRef.current = require_prism();
-      try {
-        require_prism_typescript();
-      } catch {
-      }
-      try {
-        require_prism_tsx();
-      } catch {
-      }
-      try {
-        require_prism_json();
-      } catch {
-      }
-    } catch {
-      prismRef.current = null;
-    }
-    return prismRef.current;
-  };
-  const fallbackHighlight = (code) => {
-    const patterns = [
-      { regex: /\b(import|from|export|const|let|var|return|if|else|for|while|switch|case|break|new|throw|try|catch|finally|class|extends|implements|interface|type|as|async|await|function)\b/g, cls: "kw" },
-      { regex: /(['"`])(?:\\.|(?!\1).)*\1/g, cls: "str" },
-      { regex: /\/\*[^]*?\*\/|\/\/.*$/gm, cls: "com" },
-      { regex: /\b([0-9]+(?:\.[0-9]+)?)\b/g, cls: "num" }
-    ];
-    let html = code;
-    patterns.forEach((p) => {
-      html = html.replace(p.regex, (m) => `<span class="nhsuk-code-${p.cls}">${m}</span>`);
-    });
-    return html;
-  };
-  const highlightCode = (code, lang, disable) => {
-    if (disable) return code;
-    if (!lang) return code;
-    const Prism2 = ensurePrism();
-    if (Prism2 && Prism2.languages) {
-      const resolvedLang = Prism2.languages[lang] ? lang : Prism2.languages.typescript && (lang === "ts" || lang === "tsx" || lang === "typescript") ? "typescript" : Prism2.languages.json && lang === "json" ? "json" : void 0;
-      if (resolvedLang) {
-        try {
-          return Prism2.highlight(code, Prism2.languages[resolvedLang], resolvedLang);
-        } catch {
-        }
-      }
-    }
-    return fallbackHighlight(code);
-  };
   const renderHeaderCell = (cell, index) => {
-    const headerClasses = (0, import_classnames2.default)("nhsuk-table__header", {
-      [`nhsuk-table__header--${cell.format}`]: cell.format
-    }, cell.classes);
+    const headerClasses = (0, import_classnames2.default)(
+      "nhsuk-table__header",
+      {
+        [`nhsuk-table__header--${cell.format}`]: cell.format
+      },
+      cell.classes
+    );
     const headerAttributes = {
       scope: "col",
       ...cell.colspan && { colSpan: cell.colspan },
@@ -1856,14 +1862,26 @@ var Table = ({
         ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
       };
       const highlighted = highlightCode(codeString, cell.codeLanguage);
-      content = isMultiline ? /* @__PURE__ */ jsx3("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx3("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx3("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+      content = isMultiline ? /* @__PURE__ */ jsx3("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx3(
+        "code",
+        {
+          ...codeProps,
+          dangerouslySetInnerHTML: { __html: highlighted }
+        }
+      ) }) : /* @__PURE__ */ jsx3(
+        "code",
+        {
+          ...codeProps,
+          dangerouslySetInnerHTML: { __html: highlighted }
+        }
+      );
     } else {
       content = cell.text;
     }
     return /* @__PURE__ */ jsx3("th", { className: headerClasses, ...headerAttributes, children: content }, index);
   };
   const renderCell = (cell, cellIndex, isFirstCell) => {
-    const isHeaderCell = firstCellIsHeader && isFirstCell;
+    const isHeaderCell = firstCellIsHeader && isFirstCell || cell.rowHeader;
     const cellClasses = (0, import_classnames2.default)(
       isHeaderCell ? "nhsuk-table__header" : "nhsuk-table__cell",
       {
@@ -1897,8 +1915,24 @@ var Table = ({
         }),
         ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
       };
-      const highlighted = highlightCode(codeString, cell.codeLanguage, cell.disableHighlight);
-      inner = isMultiline ? /* @__PURE__ */ jsx3("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx3("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx3("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+      const highlighted = highlightCode(
+        codeString,
+        cell.codeLanguage,
+        cell.disableHighlight
+      );
+      inner = isMultiline ? /* @__PURE__ */ jsx3("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx3(
+        "code",
+        {
+          ...codeProps,
+          dangerouslySetInnerHTML: { __html: highlighted }
+        }
+      ) }) : /* @__PURE__ */ jsx3(
+        "code",
+        {
+          ...codeProps,
+          dangerouslySetInnerHTML: { __html: highlighted }
+        }
+      );
     } else {
       inner = cell.text;
     }
@@ -1912,6 +1946,34 @@ var Table = ({
     const Component = isHeaderCell ? "th" : "td";
     return /* @__PURE__ */ jsx3(Component, { className: cellClasses, ...cellAttributes, children: cellContent }, cellIndex);
   };
+  let derivedHead = head;
+  let derivedRows = rows;
+  if (!derivedHead && columns && columns.length) {
+    derivedHead = columns.map((c) => ({
+      text: c.title,
+      format: c.format,
+      classes: c.headerClasses,
+      attributes: c.headerAttributes
+    }));
+  }
+  if (!derivedRows && columns && data && data.length) {
+    derivedRows = data.map((rowObj, rIdx) => {
+      return columns.map((c) => {
+        const raw = c.accessor ? c.accessor(rowObj, rIdx) : rowObj[c.key];
+        let base = { format: c.format, classes: c.cellClasses, attributes: c.cellAttributes };
+        if (c.rowHeader) base.rowHeader = true;
+        if (c.render) {
+          const rendered = c.render(raw, rowObj, rIdx, c);
+          if (rendered == null || typeof rendered === "boolean") return { ...base, text: "" };
+          if (typeof rendered === "string" || typeof rendered === "number") {
+            return { ...base, text: String(rendered) };
+          }
+          return { ...base, ...rendered };
+        }
+        return { ...base, text: raw != null ? String(raw) : "" };
+      });
+    });
+  }
   const renderTable = () => /* @__PURE__ */ jsxs2(
     "table",
     {
@@ -1920,16 +1982,18 @@ var Table = ({
       ...attributes,
       ...testId && { "data-testid": testId },
       children: [
-        caption && /* @__PURE__ */ jsx3("caption", { className: captionClass, children: caption }),
-        head && head.length > 0 && /* @__PURE__ */ jsx3(
+        caption && /* @__PURE__ */ jsx3("caption", { className: (0, import_classnames2.default)(captionClass, visuallyHiddenCaption && "nhsuk-u-visually-hidden"), children: caption }),
+        derivedHead && derivedHead.length > 0 && /* @__PURE__ */ jsx3(
           "thead",
           {
             className: "nhsuk-table__head",
             ...responsive && { role: "rowgroup" },
-            children: /* @__PURE__ */ jsx3("tr", { ...responsive && { role: "row" }, children: head.map((cell, index) => renderHeaderCell(cell, index)) })
+            children: /* @__PURE__ */ jsx3("tr", { ...responsive && { role: "row" }, children: derivedHead.map(
+              (cell, index) => renderHeaderCell(cell, index)
+            ) })
           }
         ),
-        /* @__PURE__ */ jsx3("tbody", { className: "nhsuk-table__body", children: rows && rows.map((row, rowIndex) => /* @__PURE__ */ jsx3(
+        /* @__PURE__ */ jsx3("tbody", { className: "nhsuk-table__body", children: derivedRows && derivedRows.map((row, rowIndex) => /* @__PURE__ */ jsx3(
           "tr",
           {
             className: "nhsuk-table__row",
@@ -1954,9 +2018,156 @@ var Table = ({
   }
   return renderTable();
 };
+var TableCaption = ({
+  children,
+  size,
+  className
+}) => {
+  const cls = (0, import_classnames2.default)(
+    "nhsuk-table__caption",
+    size && `nhsuk-table__caption--${size}`,
+    className
+  );
+  return /* @__PURE__ */ jsx3("caption", { className: cls, children });
+};
+var TableBodyRow = ({
+  responsive,
+  className,
+  children,
+  ...rest
+}) => {
+  const roleAttrs = responsive ? { role: "row" } : {};
+  return /* @__PURE__ */ jsx3("tr", { className, ...roleAttrs, ...rest, children });
+};
+var TableHeaderCell = ({
+  text,
+  html,
+  node,
+  code,
+  codeLanguage,
+  codeClassName,
+  disableHighlight,
+  format,
+  classes,
+  colspan,
+  rowspan,
+  attributes,
+  responsive,
+  as = "th"
+}) => {
+  const headerClasses = (0, import_classnames2.default)(
+    "nhsuk-table__header",
+    { [`nhsuk-table__header--${format}`]: format },
+    classes
+  );
+  const headerAttributes = {
+    scope: "col",
+    ...colspan && { colSpan: colspan },
+    ...rowspan && { rowSpan: rowspan },
+    ...responsive && { role: "columnheader" },
+    ...attributes
+  };
+  let content;
+  if (node != null) content = /* @__PURE__ */ jsx3(Fragment, { children: node });
+  else if (html) content = /* @__PURE__ */ jsx3("span", { dangerouslySetInnerHTML: { __html: html } });
+  else if (code != null) {
+    const isArray = Array.isArray(code);
+    const codeString = isArray ? code.join("\n") : code;
+    const isMultiline = isArray || codeString.includes("\n");
+    const codeProps = {
+      className: (0, import_classnames2.default)("nhsuk-table__code", codeClassName, {
+        "nhsuk-table__code--block": isMultiline,
+        "nhsuk-table__code--inline": !isMultiline
+      }),
+      ...codeLanguage ? { "data-language": codeLanguage } : {}
+    };
+    const highlighted = highlightCode(
+      codeString,
+      codeLanguage,
+      disableHighlight
+    );
+    content = isMultiline ? /* @__PURE__ */ jsx3("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx3(
+      "code",
+      {
+        ...codeProps,
+        dangerouslySetInnerHTML: { __html: highlighted }
+      }
+    ) }) : /* @__PURE__ */ jsx3("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+  } else content = text;
+  const Component = as;
+  return /* @__PURE__ */ jsx3(Component, { className: headerClasses, ...headerAttributes, children: content });
+};
+var TableCell = ({
+  text,
+  html,
+  node,
+  code,
+  codeLanguage,
+  codeClassName,
+  disableHighlight,
+  format,
+  classes,
+  colspan,
+  rowspan,
+  attributes,
+  responsive,
+  rowHeader
+}) => {
+  const isHeader = !!rowHeader;
+  const Tag = isHeader ? "th" : "td";
+  const cls = (0, import_classnames2.default)(
+    isHeader ? "nhsuk-table__header" : "nhsuk-table__cell",
+    format && `nhsuk-table__${isHeader ? "header" : "cell"}--${format}`,
+    classes
+  );
+  const cellAttrs = {
+    ...colspan && { colSpan: colspan },
+    ...rowspan && { rowSpan: rowspan },
+    ...isHeader && { scope: "row" },
+    ...responsive && { role: isHeader ? "rowheader" : "cell" },
+    ...attributes
+  };
+  let content;
+  if (node != null) content = /* @__PURE__ */ jsx3(Fragment, { children: node });
+  else if (html) content = /* @__PURE__ */ jsx3("span", { dangerouslySetInnerHTML: { __html: html } });
+  else if (code != null) {
+    const isArray = Array.isArray(code);
+    const codeString = isArray ? code.join("\n") : code;
+    const isMultiline = isArray || codeString.includes("\n");
+    const codeProps = {
+      className: (0, import_classnames2.default)("nhsuk-table__code", codeClassName, {
+        "nhsuk-table__code--block": isMultiline,
+        "nhsuk-table__code--inline": !isMultiline
+      }),
+      ...codeLanguage ? { "data-language": codeLanguage } : {}
+    };
+    const highlighted = highlightCode(codeString, codeLanguage, disableHighlight);
+    content = isMultiline ? /* @__PURE__ */ jsx3("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx3("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx3("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+  } else content = text;
+  return /* @__PURE__ */ jsx3(Tag, { className: cls, ...cellAttrs, children: content });
+};
+var Table = TableBase;
+Table.Caption = TableCaption;
+Table.BodyRow = TableBodyRow;
+Table.HeaderCell = TableHeaderCell;
+Table.Cell = TableCell;
+Table.Row = TableBodyRow;
+Table.TH = TableHeaderCell;
+if (true) {
+  if (Table.Row) {
+    console.warn("Table.Row is deprecated. Use Table.BodyRow instead.");
+  }
+  if (Table.TH) {
+    console.warn("Table.TH is deprecated. Use Table.HeaderCell instead.");
+  }
+}
 var Table_default = Table;
 export {
-  Table_default as Table
+  Table_default as Table,
+  TableBodyRow,
+  TableCaption,
+  TableCell,
+  TableHeaderCell
 };
 /*! Bundled license information:
 

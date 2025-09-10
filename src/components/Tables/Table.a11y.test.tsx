@@ -54,4 +54,24 @@ describe('Table (a11y)', () => {
     );
     await expectAccessible(container);
   });
+
+  it('no axe violations (columns + data + visuallyHiddenCaption)', async () => {
+    const { container } = render(
+      <Table
+        caption="Monthly metrics"
+        visuallyHiddenCaption
+        firstCellIsHeader
+        columns={[
+          { key: 'metric', title: 'Metric' },
+          { key: 'value', title: 'Value', format: 'numeric' as const },
+          { key: 'delta', title: 'Δ vs prev', render: (v: number) => `${v > 0 ? '+' : ''}${v}` },
+        ]}
+        data={[
+          { metric: 'Admissions', value: 120, delta: 5 },
+          { metric: 'Discharges', value: 95, delta: -2 },
+        ]}
+      />
+    );
+    await expectAccessible(container);
+  });
 });

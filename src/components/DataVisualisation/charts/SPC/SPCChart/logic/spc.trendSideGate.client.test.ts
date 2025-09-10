@@ -28,7 +28,7 @@ describe('SPC trend side gating (regression)', () => {
     for (let i=0;i<6;i++) {
       const r = rows[i]!;
       expect(r.value! > (r.mean ?? meanApprox)).toBe(true); // above mean
-      expect(r.specialCauseTrendDecreasing).toBe(true);      // trend flagged
+  expect(r.specialCauseTrendDown).toBe(true);      // trend flagged
       expect(r.variationIcon).toBe(VariationIcon.Concern);   // NOT Improvement (regression check)
     }
 
@@ -58,7 +58,7 @@ describe('SPC trend side gating (regression)', () => {
       settings: { enableFourOfFiveRule: false }
     });
     // Collect any rows that have trend flags
-    const trendRows = rows.filter(r => r.specialCauseTrendIncreasing || r.specialCauseTrendDecreasing);
+  const trendRows = rows.filter(r => r.specialCauseTrendUp || r.specialCauseTrendDown);
     // For neutral metrics variationIcon should always be Neither (even when rules fire)
     for (const r of trendRows) {
       expect(r.variationIcon).toBe(VariationIcon.Neither);

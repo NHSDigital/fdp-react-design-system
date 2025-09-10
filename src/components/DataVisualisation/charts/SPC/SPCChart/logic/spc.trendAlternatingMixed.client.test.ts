@@ -26,7 +26,7 @@ describe('SPC trend gating – alternating equal/above & mixed-direction partial
       const r = rows[i]!;
       expect(r.variationIcon).not.toBe(VariationIcon.Improvement);
       // Ensure no false shift flagging
-      expect(r.specialCauseShiftHigh).toBe(false);
+  expect(r.specialCauseShiftUp).toBe(false);
     }
     // Tail should eventually yield Improvement (due to shiftHigh or pattern rules)
     const tailImprovement = rows.slice(tailStart).some(r => r.variationIcon === VariationIcon.Improvement);
@@ -49,7 +49,7 @@ describe('SPC trend gating – alternating equal/above & mixed-direction partial
       settings: { minimumPoints: 12 }
     });
     // Collect any rows marked with trendDecreasing
-    const decRows = rows.filter(r => r.specialCauseTrendDecreasing);
+  const decRows = rows.filter(r => r.specialCauseTrendDown);
     // Ensure none of these are classified as Concern (since still on/above mean for Up metric)
     for (const r of decRows) {
       if (r.mean !== null && r.value !== null && r.value >= r.mean) {

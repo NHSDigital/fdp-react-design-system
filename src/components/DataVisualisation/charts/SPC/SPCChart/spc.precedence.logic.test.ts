@@ -44,7 +44,7 @@ describe("precedenceStrategy directional_first vs legacy", () => {
 
 		// Identify first index where trend decreasing becomes true (for reference)
 		const trendStart = resultDirectional.rows.findIndex(
-			(r) => r.specialCauseTrendDecreasing
+			(r) => r.specialCauseTrendDown
 		);
 
 		// Legacy: expect several early rows marked concern
@@ -125,7 +125,7 @@ describe("precedenceStrategy directional_first vs legacy", () => {
 		// Identify indices where both rules co-exist without collapse.
 		const overlapIndices = noCollapse.rows
 			.map((r, i) =>
-				r.specialCauseFourOfFiveAbove && r.specialCauseTwoOfThreeAbove ? i : -1
+				r.specialCauseFourOfFiveUp && r.specialCauseTwoOfThreeUp ? i : -1
 			)
 			.filter((i) => i >= 0);
 
@@ -138,10 +138,10 @@ describe("precedenceStrategy directional_first vs legacy", () => {
 		overlapIndices.forEach((i) => {
 			const before = noCollapse.rows[i];
 			const after = collapse.rows[i];
-			expect(before.specialCauseFourOfFiveAbove).toBe(true);
-			expect(before.specialCauseTwoOfThreeAbove).toBe(true);
-			expect(after.specialCauseFourOfFiveAbove).toBe(true);
-			expect(after.specialCauseTwoOfThreeAbove).toBe(false);
+			expect(before.specialCauseFourOfFiveUp).toBe(true);
+			expect(before.specialCauseTwoOfThreeUp).toBe(true);
+			expect(after.specialCauseFourOfFiveUp).toBe(true);
+			expect(after.specialCauseTwoOfThreeUp).toBe(false);
 		});
 	});
 });

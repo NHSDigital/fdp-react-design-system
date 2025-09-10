@@ -6,13 +6,48 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ## Unreleased
 
+### Added (Unreleased – Directional Flags & Engine)
+
+- Directional alias special-cause flags (`specialCause<Rule>Up` / `specialCause<Rule>Down`) for single point, two-of-three, four-of-five, shift and trend rules. These mirror the legacy Above/Below/High/Low/Increasing/Decreasing booleans.
+
+### Deprecated (Unreleased – Directional Flags)
+
+- BREAKING: Removed legacy directional special-cause fields (`specialCauseSinglePointAbove/Below`, `specialCauseTwoOfThreeAbove/Below`, `specialCauseFourOfFiveAbove/Below`, `specialCauseShiftHigh/Low`, `specialCauseTrendIncreasing/Decreasing`). Use the unified `*Up` / `*Down` flags instead (e.g. `specialCauseSinglePointUp`).
+
+### Migration Guide (Directional Flags)
+
+| Legacy | New Alias | Notes |
+|--------|-----------|-------|
+| specialCauseSinglePointAbove | specialCauseSinglePointUp | identical boolean meaning |
+| specialCauseSinglePointBelow | specialCauseSinglePointDown | |
+| specialCauseTwoOfThreeAbove | specialCauseTwoOfThreeUp | |
+| specialCauseTwoOfThreeBelow | specialCauseTwoOfThreeDown | |
+| specialCauseFourOfFiveAbove | specialCauseFourOfFiveUp | only set when four-of-five rule enabled |
+| specialCauseFourOfFiveBelow | specialCauseFourOfFiveDown | |
+| specialCauseShiftHigh | specialCauseShiftUp | |
+| specialCauseShiftLow | specialCauseShiftDown | |
+| specialCauseTrendIncreasing | specialCauseTrendUp | |
+| specialCauseTrendDecreasing | specialCauseTrendDown | |
+
+All existing consumers continue to work. Prefer the alias names for new code and when writing generic directional logic (e.g., building summaries or applying deterministic precedence rules). The helper `getDirectionalSignalSummary(row)` returns canonical directional lists and maximum ranked rule per side.
+
+#### Backfill Semantics (Shift & Trend)
+
+As part of the directional flag consolidation the SPC engine now BACKFILLS the `shift` and `trend` special‑cause flags across the entire qualifying run (all N points) instead of marking only the terminal (N-th) point where the rule first becomes knowable. This brings parity with typical run‑length visual explanations and simplifies downstream logic (any point flagged `specialCauseShiftUp/Down` or `specialCauseTrendUp/Down` is unambiguously part of the run). If your code previously relied on the terminal point being the only flagged point, update it to either:
+
+1. Derive the terminal point via the last consecutively flagged index in the run, or
+2. Treat the earliest flagged index in that contiguous block as the start of the run.
+
+The golden SPC fixture (`test-data/golden-all.json`) and related snapshot tests were regenerated to encode this new canonical behaviour.
+
+
 ### Fixed (Unreleased)
 
 - SPC engine: Corrected early Improvement classification where an increasing trend spanning the mean would mark points still on the adverse side as Improvement. Trend signals now only contribute to Improvement/Concern when the current point lies on the favourable side of the mean (prevents premature positive signalling in datasets like ED 4h Compliance).
 - SPC engine: Two-of-three (2σ) rule now excludes points beyond 3σ from contributing to the 2-of-3 count, aligning with Making Data Count guidance (3σ points remain single-point only).
 
 
-### Added (Unreleased)
+### Added (Unreleased – Components & Docs)
 
 - Shared story utilities module `src/components/DataVisualisation/stories/utils/deterministic.ts` providing date helpers, linear series generator, seeded PRNG.
 - Table: Declarative columns + data API (auto-generates head and rows when explicit `head`/`rows` omitted).
@@ -35,8 +70,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 - Header SCSS refactor: eliminated Sass mixed-decls deprecation warnings by reordering declarations and splitting `header-link-style` into base + state mixins.
 - Embedded SPC summary variation icon now shows business polarity letter (H/L = higher-/lower-is-better) instead of side-of-signal when `metricImprovement` is Higher or Lower; retains side-of-signal lettering only for neutral metrics.
 - Table: Story and MDX docs consolidated & updated to document new columns API and sub-components.
+- SPC engine: Shift & Trend rule flags now backfill across the entire qualifying run (rather than only the terminal point). Downstream logic expecting terminal-only flags should adjust (see Migration Guide). Golden SPC snapshot fixture updated accordingly.
 
-### Deprecated (Unreleased)
+### Deprecated (Unreleased – Components & Docs)
 
 - SPCVariationIcon legacy payload shapes `{ state, ... }`, `{ judgement, polarity, trend? }`, and parsimonious union variants are deprecated. Use engine-aligned payload `{ variationIcon, improvementDirection, specialCauseNeutral?, trend? }`. A one-time runtime `console.warn` is emitted when deprecated shapes are detected. Removal planned after stabilising engine-aligned API (target: post 0.0.35 minor).
 - Table: Legacy aliases `Table.Row` and `Table.TH` deprecated in favour of `Table.BodyRow` and `Table.HeaderCell` (runtime dev warnings emitted).

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import spcModule, { ImprovementDirection } from './spc';
+import spcModule, { ImprovementDirection, ChartType } from './spc';
 
 describe('SPC baseline special cause warning', () => {
   it('emits baseline_with_special_cause when baseline row is special cause single point', () => {
@@ -7,9 +7,9 @@ describe('SPC baseline special cause warning', () => {
     const baselineVal = 200;
     const rest = Array.from({length:20}, (_,i)=> (i%2?50:51));
     const data = [ { x:1, value: baselineVal, baseline:true }, ...rest.map((v,i)=>({ x:i+2, value:v })) ];
-    const { warnings, rows } = spcModule.buildSpc({ chartType:'XmR', metricImprovement: ImprovementDirection.Up, data });
+  const { warnings, rows } = spcModule.buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data });
     const baselineRow = rows.find(r=>r.rowId===1)!;
-    expect(baselineRow.specialCauseSinglePointAbove).toBe(true);
+  expect(baselineRow.specialCauseSinglePointUp).toBe(true);
     expect(warnings.some(w=>w.code==='baseline_with_special_cause')).toBe(true);
   });
 });

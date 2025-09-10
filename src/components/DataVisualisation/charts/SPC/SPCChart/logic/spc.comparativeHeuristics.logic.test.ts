@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { buildSpc, ImprovementDirection } from './spc';
-
+import { ChartType } from './spc';
 /** Utility to build simple XmR rows */
 function makeData(levels: number[]): { x: number; value: number }[] {
   return levels.map((v, i) => ({ x: i + 1, value: v }));
@@ -14,9 +14,9 @@ const twoPhaseValues = [
 
 describe('buildSpc – heuristics removed (rule-only)', () => {
   it('retains both early low and later high shift flags without heuristic suppression', () => {
-    const res = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Up, data: makeData(twoPhaseValues) });
-    const earlyLow = res.rows.slice(0,6).filter(r => r.specialCauseShiftLow).length;
-    const lateHigh = res.rows.slice(10).filter(r => r.specialCauseShiftHigh).length;
+    const res = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: makeData(twoPhaseValues) });
+  const earlyLow = res.rows.slice(0,6).filter(r => r.specialCauseShiftDown).length;
+  const lateHigh = res.rows.slice(10).filter(r => r.specialCauseShiftUp).length;
     expect(earlyLow).toBeGreaterThan(0);
     expect(lateHigh).toBeGreaterThan(0);
   });

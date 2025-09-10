@@ -24,9 +24,9 @@ describe('SPC two-of-three rule excludes 3σ points from counting (low side symm
     const extremePt = last3.find(r => r.value! < l3)!;
     expect(midBand.length).toBe(2);
     expect(extremePt).toBeTruthy();
-    expect(midBand.every(r => r.specialCauseTwoOfThreeBelow)).toBe(true);
-    expect(extremePt.specialCauseSinglePointBelow).toBe(true);
-    expect(extremePt.specialCauseTwoOfThreeBelow).toBe(false);
+  expect(midBand.every(r => r.specialCauseTwoOfThreeDown)).toBe(true);
+  expect(extremePt.specialCauseSinglePointDown).toBe(true);
+  expect(extremePt.specialCauseTwoOfThreeDown).toBe(false);
   });
 
   it('does not fire two-of-three when only one point between -2σ and -3σ and another is < -3σ', () => {
@@ -42,7 +42,7 @@ describe('SPC two-of-three rule excludes 3σ points from counting (low side symm
     const values = [...baseline, mid, extreme, inside];
     const { rows } = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: toRows(values) });
     const last3 = rows.slice(-3); // extreme, inside plus maybe mid depending on order
-    const flags = last3.map(r => r.specialCauseTwoOfThreeBelow);
+  const flags = last3.map(r => r.specialCauseTwoOfThreeDown);
     expect(flags.filter(Boolean).length).toBeLessThan(2);
   });
 });

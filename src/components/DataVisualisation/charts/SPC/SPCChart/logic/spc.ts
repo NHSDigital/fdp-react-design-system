@@ -197,18 +197,27 @@ export interface SpcRow {
 	lowerTwoSigma: number | null;
 	/** Target value for this row (if provided in input). Exposed for rendering reference lines. */
 	target: number | null;
-	specialCauseSinglePointAbove: boolean;
-	specialCauseSinglePointBelow: boolean;
-	specialCauseTwoOfThreeAbove: boolean;
-	specialCauseTwoOfThreeBelow: boolean;
-	specialCauseFourOfFiveAbove: boolean;
-	specialCauseFourOfFiveBelow: boolean;
-	specialCauseShiftHigh: boolean;
-	specialCauseShiftLow: boolean;
-	specialCauseTrendIncreasing: boolean;
-	specialCauseTrendDecreasing: boolean;
 	/** Fifteen consecutive points within inner third (±1σ) with at least one on each side of mean */
 	specialCauseFifteenInnerThird: boolean;
+	/**
+	 * Unified directional aliases (Up/Down) for all special cause rule flags.
+	 * These replace the legacy Above/Below/High/Low/Increasing/Decreasing fields (removed in vNEXT breaking change).
+	 */
+	// Single point
+	specialCauseSinglePointUp: boolean;
+	specialCauseSinglePointDown: boolean;
+	// Two of three beyond 2σ
+	specialCauseTwoOfThreeUp: boolean;
+	specialCauseTwoOfThreeDown: boolean;
+	// Four of five beyond 1σ (optional rule)
+	specialCauseFourOfFiveUp: boolean;
+	specialCauseFourOfFiveDown: boolean;
+	// Shift (run) rule
+	specialCauseShiftUp: boolean;
+	specialCauseShiftDown: boolean;
+	// Trend (monotonic) rule
+	specialCauseTrendUp: boolean;
+	specialCauseTrendDown: boolean;
 	variationIcon: VariationIcon; // never null; use VariationIcon.None when suppressed
 	assuranceIcon: AssuranceIcon; // 'none' when no target / not assessed
 	// Parity/helper columns
@@ -283,6 +292,23 @@ export interface SpcResult {
 		newMean: number;
 		window: [number, number]; // stability window used
 	}>;
+}
+
+// ------------------------- Directional summary helper -------------------------
+export function getDirectionalSignalSummary(row: SpcRow) {
+	const upRules: SpcRuleId[] = [];
+	const downRules: SpcRuleId[] = [];
+	if (row.specialCauseSinglePointUp) upRules.push(SpcRuleId.SinglePoint);
+	if (row.specialCauseSinglePointDown) downRules.push(SpcRuleId.SinglePoint);
+	if (row.specialCauseTwoOfThreeUp) upRules.push(SpcRuleId.TwoSigma);
+	if (row.specialCauseTwoOfThreeDown) downRules.push(SpcRuleId.TwoSigma);
+	if (row.specialCauseShiftUp) upRules.push(SpcRuleId.Shift);
+	if (row.specialCauseShiftDown) downRules.push(SpcRuleId.Shift);
+	if (row.specialCauseTrendUp) upRules.push(SpcRuleId.Trend);
+	if (row.specialCauseTrendDown) downRules.push(SpcRuleId.Trend);
+	const upMax = upRules.reduce((m, id) => Math.max(m, RULE_RANK_BY_ID[id]), 0);
+	const downMax = downRules.reduce((m, id) => Math.max(m, RULE_RANK_BY_ID[id]), 0);
+	return { upRules, downRules, upMax, downMax, hasUp: upRules.length>0, hasDown: downRules.length>0 };
 }
 
 // Baseline suggestion trigger reason ordering (higher severity first for tie-break logic)
@@ -798,17 +824,18 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 					? limits.lowerOneSigma
 					: null,
 				target: isNumber(r.target) ? r.target : null,
-				specialCauseSinglePointAbove: false,
-				specialCauseSinglePointBelow: false,
-				specialCauseTwoOfThreeAbove: false,
-				specialCauseTwoOfThreeBelow: false,
-				specialCauseFourOfFiveAbove: false,
-				specialCauseFourOfFiveBelow: false,
-				specialCauseShiftHigh: false,
-				specialCauseShiftLow: false,
-				specialCauseTrendIncreasing: false,
-				specialCauseTrendDecreasing: false,
 				specialCauseFifteenInnerThird: false,
+				// Unified directional alias initialisers (kept in sync post-detection)
+				specialCauseSinglePointUp: false,
+				specialCauseSinglePointDown: false,
+				specialCauseTwoOfThreeUp: false,
+				specialCauseTwoOfThreeDown: false,
+				specialCauseFourOfFiveUp: false,
+				specialCauseFourOfFiveDown: false,
+				specialCauseShiftUp: false,
+				specialCauseShiftDown: false,
+				specialCauseTrendUp: false,
+				specialCauseTrendDown: false,
 				variationIcon: VariationIcon.None,
 				assuranceIcon: AssuranceIcon.None,
 				upperBaseline:
@@ -855,11 +882,11 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				continue;
 			}
 
-			// Single point beyond 3-sigma
-			row.specialCauseSinglePointAbove = isNumber(row.upperProcessLimit)
+			// Single point beyond 3-sigma (populate directional flags directly)
+			row.specialCauseSinglePointUp = isNumber(row.upperProcessLimit)
 				? v > row.upperProcessLimit
 				: false;
-			row.specialCauseSinglePointBelow = isNumber(row.lowerProcessLimit)
+			row.specialCauseSinglePointDown = isNumber(row.lowerProcessLimit)
 				? v < row.lowerProcessLimit
 				: false;
 
@@ -883,10 +910,10 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				if (!isNumber(r.mean) || !isNumber(r.value)) { runHigh = []; runLow = []; continue; }
 				if (r.value > r.mean) { runHigh.push(idxLocal); runLow = []; } else if (r.value < r.mean) { runLow.push(idxLocal); runHigh = []; } else { runHigh = []; runLow = []; }
 				if (runHigh.length >= shiftN) {
-					for (const j of runHigh) getRow(j).specialCauseShiftHigh = true;
+					for (const j of runHigh) { const rr = getRow(j); rr.specialCauseShiftUp = true; }
 				}
 				if (runLow.length >= shiftN) {
-					for (const j of runLow) getRow(j).specialCauseShiftLow = true;
+					for (const j of runLow) { const rr = getRow(j); rr.specialCauseShiftDown = true; }
 				}
 			}
 			// Two-of-three 2-sigma (high/low): flag ONLY the points beyond ±2σ within a qualifying same-side triple
@@ -907,10 +934,10 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				const highExceed = rows3.filter(r => r.value! > u2 && r.value! <= u3);
 				const lowExceed = rows3.filter(r => r.value! < l2 && r.value! >= l3);
 				if (allHighSide && highExceed.length >= 2) {
-					for (const r of highExceed) r.specialCauseTwoOfThreeAbove = true; // flag only exceeding points
+					for (const r of highExceed) { r.specialCauseTwoOfThreeUp = true; }
 				}
 				if (allLowSide && lowExceed.length >= 2) {
-					for (const r of lowExceed) r.specialCauseTwoOfThreeBelow = true;
+					for (const r of lowExceed) { r.specialCauseTwoOfThreeDown = true; }
 				}
 			}
 			// Four-of-five 1-sigma (if enabled): flag ONLY the points beyond ±1σ within qualifying window
@@ -926,10 +953,10 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 					const highExceed = rows5.filter(r => r.value! > u1);
 					const lowExceed = rows5.filter(r => r.value! < l1);
 					if (rows5.every(r => r.value! > meanVal) && highExceed.length >= 4) {
-						for (const r of highExceed) r.specialCauseFourOfFiveAbove = true;
+						for (const r of highExceed) { r.specialCauseFourOfFiveUp = true; }
 					}
 					if (rows5.every(r => r.value! < meanVal) && lowExceed.length >= 4) {
-						for (const r of lowExceed) r.specialCauseFourOfFiveBelow = true;
+						for (const r of lowExceed) { r.specialCauseFourOfFiveDown = true; }
 					}
 				}
 			}
@@ -944,8 +971,8 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 					if (!(rowsN[k].value! < rowsN[k-1].value!)) dec = false;
 					if (!inc && !dec) break;
 				}
-				if (inc) for (const j of windowIdx) getRow(j).specialCauseTrendIncreasing = true;
-				if (dec) for (const j of windowIdx) getRow(j).specialCauseTrendDecreasing = true;
+				if (inc) for (const j of windowIdx) { const rr = getRow(j); rr.specialCauseTrendUp = true; }
+				if (dec) for (const j of windowIdx) { const rr = getRow(j); rr.specialCauseTrendDown = true; }
 			}
 
 			// Fifteen consecutive points within inner third (optional)
@@ -990,6 +1017,8 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				}
 			}
 		}
+
+		// (Removed) legacy → alias sync loop: aliases now set inline during detection
 	}
 
 	// Variation icon per row based on improvement direction
@@ -999,16 +1028,16 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 	for (const r of output) {
 		if (r.ruleTags && r.ruleTags.length) continue; // already captured
 		const tags: string[] = [];
-		if (r.specialCauseShiftHigh) tags.push(SpcRawRuleTag.ShiftHigh);
-		if (r.specialCauseShiftLow) tags.push(SpcRawRuleTag.ShiftLow);
-		if (r.specialCauseTrendIncreasing) tags.push(SpcRawRuleTag.TrendIncreasing);
-		if (r.specialCauseTrendDecreasing) tags.push(SpcRawRuleTag.TrendDecreasing);
-		if (r.specialCauseSinglePointAbove) tags.push(SpcRawRuleTag.SinglePointAbove);
-		if (r.specialCauseSinglePointBelow) tags.push(SpcRawRuleTag.SinglePointBelow);
-		if (r.specialCauseTwoOfThreeAbove) tags.push(SpcRawRuleTag.TwoOfThreeAbove);
-		if (r.specialCauseTwoOfThreeBelow) tags.push(SpcRawRuleTag.TwoOfThreeBelow);
-		if (r.specialCauseFourOfFiveAbove) tags.push(SpcRawRuleTag.FourOfFiveAbove);
-		if (r.specialCauseFourOfFiveBelow) tags.push(SpcRawRuleTag.FourOfFiveBelow);
+		if (r.specialCauseShiftUp) tags.push(SpcRawRuleTag.ShiftHigh);
+		if (r.specialCauseShiftDown) tags.push(SpcRawRuleTag.ShiftLow);
+		if (r.specialCauseTrendUp) tags.push(SpcRawRuleTag.TrendIncreasing);
+		if (r.specialCauseTrendDown) tags.push(SpcRawRuleTag.TrendDecreasing);
+		if (r.specialCauseSinglePointUp) tags.push(SpcRawRuleTag.SinglePointAbove);
+		if (r.specialCauseSinglePointDown) tags.push(SpcRawRuleTag.SinglePointBelow);
+		if (r.specialCauseTwoOfThreeUp) tags.push(SpcRawRuleTag.TwoOfThreeAbove);
+		if (r.specialCauseTwoOfThreeDown) tags.push(SpcRawRuleTag.TwoOfThreeBelow);
+		if (r.specialCauseFourOfFiveUp) tags.push(SpcRawRuleTag.FourOfFiveAbove);
+		if (r.specialCauseFourOfFiveDown) tags.push(SpcRawRuleTag.FourOfFiveBelow);
 		if (r.specialCauseFifteenInnerThird) tags.push(SpcRawRuleTag.FifteenInnerThird);
 		// Only persist if any tags present for compactness
 		if (tags.length) r.ruleTags = tags as SpcRawRuleTag[];
@@ -1026,38 +1055,26 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			row.variationIcon = VariationIcon.None;
 			continue;
 		}
-		// Directional aggregation of signals. By default, trend flags only contribute when the
-		// current point is on the favourable side of the mean (side-gated). When trendSideGatingEnabled
-		// is false, trend flags contribute irrespective of side (legacy side-agnostic behaviour).
-		const onHighSide = isNumber(row.value) && isNumber(row.mean) && row.value! > row.mean!;
-		const onLowSide  = isNumber(row.value) && isNumber(row.mean) && row.value! < row.mean!;
+		// Directional aggregation now sourced from alias Up/Down flags to unify internal logic.
+		// Trend side-gating behaviour preserved exactly (only contribute if on favourable side when enabled).
+		const onHighSide = row.value! > row.mean!;
+		const onLowSide  = row.value! < row.mean!;
 		// Optional cluster rule collapse (retain stronger 4-of-5 over 2-of-3 when both same side)
+		// Ensure both legacy and alias flags are cleared to preserve parity tests.
 		if (settings.collapseClusterRules) {
-			if (row.specialCauseTwoOfThreeAbove && row.specialCauseFourOfFiveAbove) row.specialCauseTwoOfThreeAbove = false;
-			if (row.specialCauseTwoOfThreeBelow && row.specialCauseFourOfFiveBelow) row.specialCauseTwoOfThreeBelow = false;
+			if (row.specialCauseTwoOfThreeUp && row.specialCauseFourOfFiveUp) { row.specialCauseTwoOfThreeUp = false; }
+			if (row.specialCauseTwoOfThreeDown && row.specialCauseFourOfFiveDown) { row.specialCauseTwoOfThreeDown = false; }
 		}
-		// Recompute high/low aggregates after any collapse so they reflect final flags
-		const highTrendContrib = row.specialCauseTrendIncreasing && (settings.trendSideGatingEnabled ? onHighSide : true);
-		const lowTrendContrib = row.specialCauseTrendDecreasing && (settings.trendSideGatingEnabled ? onLowSide : true);
-
-		const highSignals =
-			row.specialCauseSinglePointAbove ||
-			row.specialCauseTwoOfThreeAbove ||
-			(settings.enableFourOfFiveRule && row.specialCauseFourOfFiveAbove) ||
-			row.specialCauseShiftHigh ||
-			highTrendContrib;
-		const lowSignals =
-			row.specialCauseSinglePointBelow ||
-			row.specialCauseTwoOfThreeBelow ||
-			(settings.enableFourOfFiveRule && row.specialCauseFourOfFiveBelow) ||
-			row.specialCauseShiftLow ||
-			lowTrendContrib;
+		const trendUp = row.specialCauseTrendUp && (settings.trendSideGatingEnabled ? onHighSide : true);
+		const trendDown = row.specialCauseTrendDown && (settings.trendSideGatingEnabled ? onLowSide : true);
+		const highSignals = (row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || (settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp) || row.specialCauseShiftUp || trendUp);
+		const lowSignals = (row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || (settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown) || row.specialCauseShiftDown || trendDown);
 
 		// Emerging favourable detection (N-1 monotonic run in favourable direction before trend flag fires)
 		let emergingFavourable = false;
 		if (settings.precedenceStrategy === PrecedenceStrategy.DirectionalFirst && settings.emergingDirectionGrace) {
 			const trendN = settings.specialCauseTrendPoints || 6;
-			if (trendN > 1 && !(row.specialCauseTrendIncreasing || row.specialCauseTrendDecreasing)) {
+			if (trendN > 1 && !(row.specialCauseTrendUp || row.specialCauseTrendDown)) {
 				const needed = trendN - 1;
 				// Collect last needed non-ghost numeric rows including current row
 				const seq: SpcRow[] = [];
@@ -1082,36 +1099,16 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		}
 
 		if (settings.precedenceStrategy === PrecedenceStrategy.DirectionalFirst) {
-			// Map signals to favourable/unfavourable sides
-			const favourable = metricImprovement === ImprovementDirection.Up ? highSignals
-				: metricImprovement === ImprovementDirection.Down ? lowSignals
-				: false;
-			const unfavourable = metricImprovement === ImprovementDirection.Up ? lowSignals
-				: metricImprovement === ImprovementDirection.Down ? highSignals
-				: false;
-			if (favourable && !unfavourable) {
-				row.variationIcon = VariationIcon.Improvement;
-			} else if (unfavourable && !favourable) {
-				// Grace: downgrade concern -> neither if emerging favourable direction underway
-				row.variationIcon = emergingFavourable ? VariationIcon.Neither : VariationIcon.Concern;
-			} else if (favourable && unfavourable) {
-				// Mixed signals – if emerging or confirmed favourable trend present treat as Improvement, else Neither
-				row.variationIcon = (emergingFavourable || row.specialCauseTrendIncreasing || row.specialCauseTrendDecreasing)
-					? VariationIcon.Improvement
-					: VariationIcon.Neither;
-			} else {
-				row.variationIcon = VariationIcon.Neither;
-			}
+			const favourable = metricImprovement === ImprovementDirection.Up ? highSignals : metricImprovement === ImprovementDirection.Down ? lowSignals : false;
+			const unfavourable = metricImprovement === ImprovementDirection.Up ? lowSignals : metricImprovement === ImprovementDirection.Down ? highSignals : false;
+			if (favourable && !unfavourable) row.variationIcon = VariationIcon.Improvement;
+			else if (unfavourable && !favourable) row.variationIcon = emergingFavourable ? VariationIcon.Neither : VariationIcon.Concern;
+			else if (favourable && unfavourable) row.variationIcon = (emergingFavourable || row.specialCauseTrendUp || row.specialCauseTrendDown) ? VariationIcon.Improvement : VariationIcon.Neither;
+			else row.variationIcon = VariationIcon.Neither;
 		} else {
-			// Legacy side-based aggregation
-			if (metricImprovement === ImprovementDirection.Up) {
-				// Reverted the ternaries to restore VariationIcon.Neither for neutral special‑cause
-				row.variationIcon = highSignals ? VariationIcon.Improvement : lowSignals ? VariationIcon.Concern : VariationIcon.Neither;
-			} else if (metricImprovement === ImprovementDirection.Down) {
-				row.variationIcon = lowSignals ? VariationIcon.Improvement : highSignals ? VariationIcon.Concern : VariationIcon.Neither;
-			} else {
-				row.variationIcon = VariationIcon.Neither;
-			}
+			if (metricImprovement === ImprovementDirection.Up) row.variationIcon = highSignals ? VariationIcon.Improvement : lowSignals ? VariationIcon.Concern : VariationIcon.Neither;
+			else if (metricImprovement === ImprovementDirection.Down) row.variationIcon = lowSignals ? VariationIcon.Improvement : highSignals ? VariationIcon.Concern : VariationIcon.Neither;
+			else row.variationIcon = VariationIcon.Neither;
 		}
 
 		// Removed suppression of isolated favourable single 3σ heuristic
@@ -1140,14 +1137,14 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			// We purposefully do not attempt to reconstruct historical intermediate heuristics; rely on raw specialCause* booleans.
 			const active: { id: SpcRuleId; rank: number; side: Side }[] = [];
 			// Rank mapping: single_point=1, two_sigma=2, shift=3, trend=4 (four_of_five not part of NHS primary ranking)
-			if (row.specialCauseSinglePointAbove) active.push({ id: SpcRuleId.SinglePoint, rank: 1, side: Side.Up });
-			if (row.specialCauseSinglePointBelow) active.push({ id: SpcRuleId.SinglePoint, rank: 1, side: Side.Down });
-			if (row.specialCauseTwoOfThreeAbove) active.push({ id: SpcRuleId.TwoSigma, rank: 2, side: Side.Up });
-			if (row.specialCauseTwoOfThreeBelow) active.push({ id: SpcRuleId.TwoSigma, rank: 2, side: Side.Down });
-			if (row.specialCauseShiftHigh) active.push({ id: SpcRuleId.Shift, rank: 3, side: Side.Up });
-			if (row.specialCauseShiftLow) active.push({ id: SpcRuleId.Shift, rank: 3, side: Side.Down });
-			if (row.specialCauseTrendIncreasing) active.push({ id: SpcRuleId.Trend, rank: 4, side: Side.Up });
-			if (row.specialCauseTrendDecreasing) active.push({ id: SpcRuleId.Trend, rank: 4, side: Side.Down });
+			if (row.specialCauseSinglePointUp) active.push({ id: SpcRuleId.SinglePoint, rank: 1, side: Side.Up });
+			if (row.specialCauseSinglePointDown) active.push({ id: SpcRuleId.SinglePoint, rank: 1, side: Side.Down });
+			if (row.specialCauseTwoOfThreeUp) active.push({ id: SpcRuleId.TwoSigma, rank: 2, side: Side.Up });
+			if (row.specialCauseTwoOfThreeDown) active.push({ id: SpcRuleId.TwoSigma, rank: 2, side: Side.Down });
+			if (row.specialCauseShiftUp) active.push({ id: SpcRuleId.Shift, rank: 3, side: Side.Up });
+			if (row.specialCauseShiftDown) active.push({ id: SpcRuleId.Shift, rank: 3, side: Side.Down });
+			if (row.specialCauseTrendUp) active.push({ id: SpcRuleId.Trend, rank: 4, side: Side.Up });
+			if (row.specialCauseTrendDown) active.push({ id: SpcRuleId.Trend, rank: 4, side: Side.Down });
 			// Compute side maxima
 			const upMax = active.filter(a => a.side === Side.Up).reduce((m,a)=> Math.max(m,a.rank), 0);
 			const downMax = active.filter(a => a.side === Side.Down).reduce((m,a)=> Math.max(m,a.rank), 0);
@@ -1264,20 +1261,20 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 
 	if (settings.variationIconConflictWarning) {
 		for (const row of output) {
-			if (row.variationIcon === VariationIcon.Improvement) {
-				const highAndLow =
-					(row.specialCauseSinglePointAbove ||
-						row.specialCauseTwoOfThreeAbove ||
-						(settings.enableFourOfFiveRule &&
-							row.specialCauseFourOfFiveAbove) ||
-						row.specialCauseShiftHigh ||
-						row.specialCauseTrendIncreasing) &&
-					(row.specialCauseSinglePointBelow ||
-						row.specialCauseTwoOfThreeBelow ||
-						(settings.enableFourOfFiveRule &&
-							row.specialCauseFourOfFiveBelow) ||
-						row.specialCauseShiftLow ||
-						row.specialCauseTrendDecreasing);
+				if (row.variationIcon === VariationIcon.Improvement) {
+					const highAndLow =
+						(row.specialCauseSinglePointUp ||
+							row.specialCauseTwoOfThreeUp ||
+							(settings.enableFourOfFiveRule &&
+								row.specialCauseFourOfFiveUp) ||
+							row.specialCauseShiftUp ||
+							row.specialCauseTrendUp) &&
+						(row.specialCauseSinglePointDown ||
+							row.specialCauseTwoOfThreeDown ||
+							(settings.enableFourOfFiveRule &&
+								row.specialCauseFourOfFiveDown) ||
+							row.specialCauseShiftDown ||
+							row.specialCauseTrendDown);
 				if (highAndLow)
 					warnings.push({
 						code: SpcWarningCode.VariationConflictRow,
@@ -1373,16 +1370,16 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			const input = canonical[r.rowId - 1];
 			if (input.baseline) {
 				const anySignal =
-					r.specialCauseSinglePointAbove ||
-					r.specialCauseSinglePointBelow ||
-					r.specialCauseTwoOfThreeAbove ||
-					r.specialCauseTwoOfThreeBelow ||
-					r.specialCauseFourOfFiveAbove ||
-					r.specialCauseFourOfFiveBelow ||
-					r.specialCauseShiftHigh ||
-					r.specialCauseShiftLow ||
-					r.specialCauseTrendIncreasing ||
-					r.specialCauseTrendDecreasing;
+					r.specialCauseSinglePointUp ||
+					r.specialCauseSinglePointDown ||
+					r.specialCauseTwoOfThreeUp ||
+					r.specialCauseTwoOfThreeDown ||
+					r.specialCauseFourOfFiveUp ||
+					r.specialCauseFourOfFiveDown ||
+					r.specialCauseShiftUp ||
+					r.specialCauseShiftDown ||
+					r.specialCauseTrendUp ||
+					r.specialCauseTrendDown;
 				if (anySignal) issueRows.push(r.rowId);
 			}
 		});
@@ -1440,14 +1437,14 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				return !!(r as any)[flag] && !(prev as any)?.[flag];
 			}
 			const candidates: { reason: BaselineSuggestionReason; index: number }[] = [];
-			if (becameTrue('specialCauseShiftHigh') || becameTrue('specialCauseShiftLow')) {
+			if (becameTrue('specialCauseShiftUp') || becameTrue('specialCauseShiftDown')) {
 				candidates.push({ reason: BaselineSuggestionReason.Shift, index: i });
 			}
-			if (becameTrue('specialCauseTrendIncreasing') || becameTrue('specialCauseTrendDecreasing')) {
+			if (becameTrue('specialCauseTrendUp') || becameTrue('specialCauseTrendDown')) {
 				candidates.push({ reason: BaselineSuggestionReason.Trend, index: i });
 			}
 			// Single 3σ point candidate – only if not already part of shift/trend suggestion
-			if (becameTrue('specialCauseSinglePointAbove') || becameTrue('specialCauseSinglePointBelow')) {
+			if (becameTrue('specialCauseSinglePointUp') || becameTrue('specialCauseSinglePointDown')) {
 				candidates.push({ reason: BaselineSuggestionReason.Point, index: i });
 			}
 			for (const c of candidates) {

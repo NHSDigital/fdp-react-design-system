@@ -1,7 +1,10 @@
-import { describe, it, expect } from 'vitest';
-import { buildSpc, ImprovementDirection, VariationIcon } from './spc';
-
-import { ChartType } from './spc';
+import { describe, it, expect } from "vitest";
+import {
+	buildSpc,
+	ImprovementDirection,
+	VariationIcon,
+	ChartType,
+} from "./spc";
 
 // Rule clash test inspired by SPCRuleClashExplanationV1.0 docs.
 // We construct a dataset where a decreasing monotonic run of 6 points all lie below the mean
@@ -23,29 +26,34 @@ import { ChartType } from './spc';
 //  4. Variation icon for those rows is Improvement (direction Down + low-side signals). Earlier rows remain unflagged.
 //  5. No variation_conflict_row warning is emitted (would require mixed-side signals).
 
-describe('SPC rule clash: simultaneous shift + trend (low side, improvement direction = Down)', () => {
-  it('flags both shiftLow and trendDecreasing on terminal point of qualifying run without conflict warning', () => {
-    // Build a dataset of 13 points (>= global minimumPoints default 13) so limits are calculated.
-    // First 7 high values elevate the mean; last 6 form a strictly decreasing sequence all below the mean.
-    const values = [130,131,132,129,128,130,131, 95,90,85,80,75,70];
-    const data = values.map((v, i) => ({ x: i + 1, value: v }));
+describe("SPC rule clash: simultaneous shift + trend (low side, improvement direction = Down)", () => {
+	it("flags both shiftLow and trendDecreasing on terminal point of qualifying run without conflict warning", () => {
+		// Build a dataset of 13 points (>= global minimumPoints default 13) so limits are calculated.
+		// First 7 high values elevate the mean; last 6 form a strictly decreasing sequence all below the mean.
+		const values = [130, 131, 132, 129, 128, 130, 131, 95, 90, 85, 80, 75, 70];
+		const data = values.map((v, i) => ({ x: i + 1, value: v }));
 
-    const { rows, warnings } = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down, data });
+		const { rows, warnings } = buildSpc({
+			chartType: ChartType.XmR,
+			metricImprovement: ImprovementDirection.Down,
+			data,
+		});
 
-    const terminal = rows.find(r => r.rowId === values.length)!; // row 13
-    const preTerminal = rows.find(r => r.rowId === values.length - 1)!; // row 12
-    expect(terminal.mean).not.toBeNull();
+		const terminal = rows.find((r) => r.rowId === values.length)!; // row 13
+		expect(terminal.mean).not.toBeNull();
 
-    // Rows 8-13: both shift & trend after run completes
-    for (let rid = 8; rid <= 13; rid++) {
-      const r = rows.find(rr => rr.rowId === rid)!;
-      expect(r.specialCauseShiftLow).toBe(true);
-      expect(r.specialCauseTrendDecreasing).toBe(true);
-      expect(r.variationIcon).toBe(VariationIcon.Improvement);
-    }
+		// Rows 8-13: both shift & trend after run completes
+		for (let rid = 8; rid <= 13; rid++) {
+			const r = rows.find((rr) => rr.rowId === rid)!;
+			expect(r.specialCauseShiftDown).toBe(true);
+			expect(r.specialCauseTrendDown).toBe(true);
+			expect(r.variationIcon).toBe(VariationIcon.Improvement);
+		}
 
-  // Conflict warning may appear if backfill produced transient both-side flags; tolerate its presence
-  const conflict = warnings.find(w => w.code === 'variation_conflict_row');
-  expect(conflict?.code === 'variation_conflict_row' || conflict === undefined).toBe(true);
-  });
+		// Conflict warning may appear if backfill produced transient both-side flags; tolerate its presence
+		const conflict = warnings.find((w) => w.code === "variation_conflict_row");
+		expect(
+			conflict?.code === "variation_conflict_row" || conflict === undefined
+		).toBe(true);
+	});
 });

@@ -2,16 +2,16 @@ import { VariationIcon, AssuranceIcon, SpcRow } from "./spc";
 
 // Stable identifiers for rule flags mapped from SpcRow boolean properties (enum for stronger typing)
 export enum SpcRuleId {
-	SinglePointAbove = 'singlePointAbove',
-	SinglePointBelow = 'singlePointBelow',
-	TwoOfThreeAbove = 'twoOfThreeAbove',
-	TwoOfThreeBelow = 'twoOfThreeBelow',
-	FourOfFiveAbove = 'fourOfFiveAbove',
-	FourOfFiveBelow = 'fourOfFiveBelow',
-	ShiftHigh = 'shiftHigh',
-	ShiftLow = 'shiftLow',
-	TrendIncreasing = 'trendIncreasing',
-	TrendDecreasing = 'trendDecreasing'
+	SinglePointUp = 'singlePointUp',
+	SinglePointDown = 'singlePointDown',
+	TwoOfThreeUp = 'twoOfThreeUp',
+	TwoOfThreeDown = 'twoOfThreeDown',
+	FourOfFiveUp = 'fourOfFiveUp',
+	FourOfFiveDown = 'fourOfFiveDown',
+	ShiftUp = 'shiftUp',
+	ShiftDown = 'shiftDown',
+	TrendUp = 'trendUp',
+	TrendDown = 'trendDown'
 }
 
 export interface SpcRuleGlossaryEntry {
@@ -22,43 +22,43 @@ export interface SpcRuleGlossaryEntry {
 }
 
 	export const ruleGlossary: Record<SpcRuleId, SpcRuleGlossaryEntry> = {
-		[SpcRuleId.SinglePointAbove]: {
+		[SpcRuleId.SinglePointUp]: {
 		tooltip: "Single point above upper control limit",
 		narration: "Single point beyond a control limit",
 	},
-		[SpcRuleId.SinglePointBelow]: {
+			[SpcRuleId.SinglePointDown]: {
 		tooltip: "Single point below lower control limit",
 		narration: "Single point beyond a control limit",
 	},
-		[SpcRuleId.TwoOfThreeAbove]: {
+			[SpcRuleId.TwoOfThreeUp]: {
 		tooltip: "Two of three points beyond +2σ",
 		narration: "Two of three points beyond two sigma (same side)",
 	},
-		[SpcRuleId.TwoOfThreeBelow]: {
+			[SpcRuleId.TwoOfThreeDown]: {
 		tooltip: "Two of three points beyond -2σ",
 		narration: "Two of three points beyond two sigma (same side)",
 	},
-		[SpcRuleId.FourOfFiveAbove]: {
+			[SpcRuleId.FourOfFiveUp]: {
 		tooltip: "Four of five points beyond +1σ",
 		narration: "Four of five points beyond one sigma (same side)",
 	},
-		[SpcRuleId.FourOfFiveBelow]: {
+			[SpcRuleId.FourOfFiveDown]: {
 		tooltip: "Four of five points beyond -1σ",
 		narration: "Four of five points beyond one sigma (same side)",
 	},
-		[SpcRuleId.ShiftHigh]: {
+			[SpcRuleId.ShiftUp]: {
 		tooltip: "Shift: run of points above centre line",
 		narration: "Shift (run on one side of mean)",
 	},
-		[SpcRuleId.ShiftLow]: {
+			[SpcRuleId.ShiftDown]: {
 		tooltip: "Shift: run of points below centre line",
 		narration: "Shift (run on one side of mean)",
 	},
-		[SpcRuleId.TrendIncreasing]: {
+			[SpcRuleId.TrendUp]: {
 		tooltip: "Trend: consecutive increasing points",
 		narration: "Trend (consecutive increases)",
 	},
-		[SpcRuleId.TrendDecreasing]: {
+			[SpcRuleId.TrendDown]: {
 		tooltip: "Trend: consecutive decreasing points",
 		narration: "Trend (consecutive decreases)",
 	},
@@ -68,16 +68,16 @@ export interface SpcRuleGlossaryEntry {
 export function extractRuleIds(row: SpcRow | undefined | null): SpcRuleId[] {
 	if (!row) return [];
 	const ids: SpcRuleId[] = [];
-	if (row.specialCauseSinglePointAbove) ids.push(SpcRuleId.SinglePointAbove);
-	if (row.specialCauseSinglePointBelow) ids.push(SpcRuleId.SinglePointBelow);
-	if (row.specialCauseTwoOfThreeAbove) ids.push(SpcRuleId.TwoOfThreeAbove);
-	if (row.specialCauseTwoOfThreeBelow) ids.push(SpcRuleId.TwoOfThreeBelow);
-	if (row.specialCauseFourOfFiveAbove) ids.push(SpcRuleId.FourOfFiveAbove);
-	if (row.specialCauseFourOfFiveBelow) ids.push(SpcRuleId.FourOfFiveBelow);
-	if (row.specialCauseShiftHigh) ids.push(SpcRuleId.ShiftHigh);
-	if (row.specialCauseShiftLow) ids.push(SpcRuleId.ShiftLow);
-	if (row.specialCauseTrendIncreasing) ids.push(SpcRuleId.TrendIncreasing);
-	if (row.specialCauseTrendDecreasing) ids.push(SpcRuleId.TrendDecreasing);
+	if (row.specialCauseSinglePointUp) ids.push(SpcRuleId.SinglePointUp);
+	if (row.specialCauseSinglePointDown) ids.push(SpcRuleId.SinglePointDown);
+	if (row.specialCauseTwoOfThreeUp) ids.push(SpcRuleId.TwoOfThreeUp);
+	if (row.specialCauseTwoOfThreeDown) ids.push(SpcRuleId.TwoOfThreeDown);
+	if (row.specialCauseFourOfFiveUp) ids.push(SpcRuleId.FourOfFiveUp);
+	if (row.specialCauseFourOfFiveDown) ids.push(SpcRuleId.FourOfFiveDown);
+	if (row.specialCauseShiftUp) ids.push(SpcRuleId.ShiftUp);
+	if (row.specialCauseShiftDown) ids.push(SpcRuleId.ShiftDown);
+	if (row.specialCauseTrendUp) ids.push(SpcRuleId.TrendUp);
+	if (row.specialCauseTrendDown) ids.push(SpcRuleId.TrendDown);
 	return ids;
 }
 

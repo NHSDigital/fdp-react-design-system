@@ -29,7 +29,7 @@ describe('SPC mixed precedence & signal interaction', () => {
     const belowTrendStart = values.indexOf(90); // first of belowTrend
     const belowTrendWindow = rows.slice(belowTrendStart, belowTrendStart + 6);
     // All should have trendIncreasing flagged
-    expect(belowTrendWindow.every(r=> r.specialCauseTrendIncreasing)).toBe(true);
+  expect(belowTrendWindow.every(r=> r.specialCauseTrendUp)).toBe(true);
     // None should be Improvement while still below mean (gating)
     const anyImprovementInBelowTrend = belowTrendWindow.some(r=> r.variationIcon === VariationIcon.Improvement);
     expect(anyImprovementInBelowTrend).toBe(false);
@@ -39,14 +39,14 @@ describe('SPC mixed precedence & signal interaction', () => {
     const clusterRows = rows.slice(clusterStart, clusterStart + 8);
     expect(clusterRows.some(r=> r.variationIcon === VariationIcon.Improvement)).toBe(true);
     // At least one four-of-five flag present
-    expect(clusterRows.some(r=> r.specialCauseFourOfFiveAbove)).toBe(true);
+  expect(clusterRows.some(r=> r.specialCauseFourOfFiveUp)).toBe(true);
     // collapseClusterRules=true should clear two-of-three when four-of-five also set
-    const overlapCleared = clusterRows.filter(r=> r.specialCauseFourOfFiveAbove).every(r=> !r.specialCauseTwoOfThreeAbove);
+  const overlapCleared = clusterRows.filter(r=> r.specialCauseFourOfFiveUp).every(r=> !r.specialCauseTwoOfThreeUp);
     expect(overlapCleared).toBe(true);
 
     // Final extreme low should produce Concern icon and single point below
     const last = rows[rows.length -1];
-    expect(last.specialCauseSinglePointBelow).toBe(true);
+  expect(last.specialCauseSinglePointDown).toBe(true);
     expect(last.variationIcon).toBe(VariationIcon.Concern);
   });
 
@@ -58,10 +58,10 @@ describe('SPC mixed precedence & signal interaction', () => {
     const clusterStart = values.indexOf(110);
     const clusterRows = rows.slice(clusterStart, clusterStart + 8);
     // Expect at least one row where both flags true
-    const overlaps = clusterRows.filter(r=> r.specialCauseFourOfFiveAbove && r.specialCauseTwoOfThreeAbove);
+  const overlaps = clusterRows.filter(r=> r.specialCauseFourOfFiveUp && r.specialCauseTwoOfThreeUp);
     // Soft assertion: ensure dataset produced overlaps; if not, ensure four-of-five present
     if (!overlaps.length) {
-      expect(clusterRows.some(r=> r.specialCauseFourOfFiveAbove)).toBe(true);
+      expect(clusterRows.some(r=> r.specialCauseFourOfFiveUp)).toBe(true);
       return; // acceptable variance due to limit calculations
     }
     overlaps.forEach(r => {

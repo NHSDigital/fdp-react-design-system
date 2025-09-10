@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import spcModule, { ImprovementDirection, VariationIcon } from "./spc";
+import spcModule, { ImprovementDirection, VariationIcon, ChartType } from "./spc";
 
 // Golden parity test for rare-event charts T and G using deterministic synthetic datasets.
 describe("SPC rare-event golden parity (T & G)", () => {
@@ -16,7 +16,7 @@ describe("SPC rare-event golden parity (T & G)", () => {
 
 	it("T chart matches expected transformed mean, MR-based limits, and signals", () => {
 		const { rows, warnings } = spcModule.buildSpc({
-			chartType: "T",
+			chartType: ChartType.T,
 			metricImprovement: ImprovementDirection.Up,
 			data: tData,
 			settings: { enableFourOfFiveRule: true },
@@ -46,11 +46,11 @@ describe("SPC rare-event golden parity (T & G)", () => {
 		).toBeLessThan(tol);
 		// Special cause single point above at row 7
 		const row7 = rows.find((r) => r.rowId === 7)!;
-		expect(row7.specialCauseSinglePointAbove).toBe(true);
+		expect(row7.specialCauseSinglePointUp).toBe(true);
 		// Decreasing trend flagged on last three rows (12,13,14)
 		[12, 13, 14].forEach((id) =>
 			expect(
-				rows.find((r) => r.rowId === id)!.specialCauseTrendDecreasing
+				rows.find((r) => r.rowId === id)!.specialCauseTrendDown
 			).toBe(true)
 		);
 		// Variation icon for row 7: allow 'improvement', 'neither' or suppressed 'none' (purple no‑judgement) depending on suppression/orientation logic revisions
@@ -73,7 +73,7 @@ describe("SPC rare-event golden parity (T & G)", () => {
 
 	it("G chart matches expected probability-based limits and emits expected warnings", () => {
 		const { rows, warnings } = spcModule.buildSpc({
-			chartType: "G",
+			chartType: ChartType.G,
 			metricImprovement: ImprovementDirection.Up,
 			data: gData,
 			settings: { enableFourOfFiveRule: true },
@@ -96,8 +96,8 @@ describe("SPC rare-event golden parity (T & G)", () => {
 			Math.abs((last.lowerOneSigma ?? 0) - 1.0253069072922854)
 		).toBeLessThan(tol);
 		// No single point signals expected
-		expect(rows.some((r) => r.specialCauseSinglePointAbove)).toBe(false);
-		expect(rows.some((r) => r.specialCauseSinglePointBelow)).toBe(false);
+		expect(rows.some((r) => r.specialCauseSinglePointUp)).toBe(false);
+		expect(rows.some((r) => r.specialCauseSinglePointDown)).toBe(false);
 		const codes = warnings.map((w) => w.code).sort();
 		expect(codes).toEqual([
 			"ghost_rows_rare_event",

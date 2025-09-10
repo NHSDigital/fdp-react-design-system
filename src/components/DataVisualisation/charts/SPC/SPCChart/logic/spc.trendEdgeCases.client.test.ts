@@ -15,11 +15,11 @@ describe('SPC trend side gating – additional edge cases', () => {
       const r = rows[i]!;
   expect(globalMean).not.toBeNull();
   expect(r.value! < (globalMean as number)).toBe(true);
-      expect(r.specialCauseTrendIncreasing).toBe(true);
+  expect(r.specialCauseTrendUp).toBe(true);
       expect(r.variationIcon).not.toBe(VariationIcon.Improvement); // gating should block
     }
     // Later high phase points should get Improvement due to shiftHigh (all above mean) or trend
-    const anyImprovementHigh = rows.slice(6).some(r => r.variationIcon === VariationIcon.Improvement);
+  const anyImprovementHigh = rows.slice(6).some(r => r.variationIcon === VariationIcon.Improvement);
     expect(anyImprovementHigh).toBe(true);
   });
 
@@ -36,7 +36,7 @@ describe('SPC trend side gating – additional edge cases', () => {
     for (let i=0;i<crossing;i++) {
       const r = rows[i]!;
       expect(r.value! < meanVal).toBe(true);
-      if (r.specialCauseTrendIncreasing) {
+  if (r.specialCauseTrendUp) {
         expect(r.variationIcon).not.toBe(VariationIcon.Improvement);
       }
     }

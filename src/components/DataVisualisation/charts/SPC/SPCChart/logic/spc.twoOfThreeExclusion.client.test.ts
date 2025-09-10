@@ -28,10 +28,10 @@ describe('SPC two-of-three rule excludes 3σ points from counting', () => {
   expect(midBand.length).toBe(2);
   expect(extremePt).toBeTruthy();
   // Mid-band points should be two-of-three flagged
-  expect(midBand.every(r => r.specialCauseTwoOfThreeAbove)).toBe(true);
+  expect(midBand.every(r => r.specialCauseTwoOfThreeUp)).toBe(true);
   // Extreme should only be single point
-  expect(extremePt.specialCauseSinglePointAbove).toBe(true);
-  expect(extremePt.specialCauseTwoOfThreeAbove).toBe(false);
+  expect(extremePt.specialCauseSinglePointUp).toBe(true);
+  expect(extremePt.specialCauseTwoOfThreeUp).toBe(false);
   });
 
   it('does not fire two-of-three when only one point between 2σ and 3σ and another is >3σ', () => {
@@ -47,7 +47,7 @@ describe('SPC two-of-three rule excludes 3σ points from counting', () => {
     const values = [...baseline, mid, extreme, inside];
     const { rows } = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: toRows(values) });
     const last3 = rows.slice(-3); // mid, extreme, inside (order differs due to append order; we appended mid, extreme, inside)
-    const bandFlags = last3.map(r => r.specialCauseTwoOfThreeAbove);
+  const bandFlags = last3.map(r => r.specialCauseTwoOfThreeUp);
     expect(bandFlags.filter(Boolean).length).toBeLessThan(2);
   });
 });

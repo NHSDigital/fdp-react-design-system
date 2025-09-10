@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { buildSpc, ImprovementDirection, VariationIcon } from "./spc";
-import { ChartType } from './spc';
+import { ChartType } from "./spc";
 
 function stableSeries(n: number, base = 100, jitter = 1): number[] {
 	return Array.from(
@@ -32,7 +32,7 @@ describe("SPC variation icon matrix (orthodox rule behaviour)", () => {
 			// strictShewhartMode removed – engine now always orthodox
 		});
 		const last = rows[rows.length - 1]!;
-		expect(last.specialCauseSinglePointAbove).toBe(true);
+		expect(last.specialCauseSinglePointUp).toBe(true);
 		expect(last.variationIcon).toBe(VariationIcon.Improvement);
 	});
 
@@ -46,7 +46,7 @@ describe("SPC variation icon matrix (orthodox rule behaviour)", () => {
 			// strictShewhartMode removed – engine now always orthodox
 		});
 		const last = rows[rows.length - 1]!;
-		expect(last.specialCauseSinglePointBelow).toBe(true);
+		expect(last.specialCauseSinglePointDown).toBe(true);
 		expect(last.variationIcon).toBe(VariationIcon.Concern);
 	});
 
@@ -60,7 +60,7 @@ describe("SPC variation icon matrix (orthodox rule behaviour)", () => {
 			// strictShewhartMode removed – engine now always orthodox
 		});
 		const last = rows[rows.length - 1]!;
-		expect(last.specialCauseSinglePointBelow).toBe(true);
+		expect(last.specialCauseSinglePointDown).toBe(true);
 		expect(last.variationIcon).toBe(VariationIcon.Improvement);
 	});
 
@@ -74,7 +74,7 @@ describe("SPC variation icon matrix (orthodox rule behaviour)", () => {
 			// strictShewhartMode removed – engine now always orthodox
 		});
 		const last = rows[rows.length - 1]!;
-		expect(last.specialCauseSinglePointAbove).toBe(true);
+		expect(last.specialCauseSinglePointUp).toBe(true);
 		expect(last.variationIcon).toBe(VariationIcon.Concern);
 	});
 
@@ -95,9 +95,17 @@ describe("SPC variation icon matrix (orthodox rule behaviour)", () => {
 			data: lowData,
 			// strictShewhartMode removed – engine now always orthodox
 		});
-		expect(highRows[highRows.length - 1]!.specialCauseSinglePointAbove).toBe(true);
-		expect(highRows[highRows.length - 1]!.variationIcon).toBe(VariationIcon.Neither);
-		expect(lowRows[lowRows.length - 1]!.specialCauseSinglePointBelow).toBe(true);
-		expect(lowRows[lowRows.length - 1]!.variationIcon).toBe(VariationIcon.Neither);
+		expect(highRows[highRows.length - 1]!.specialCauseSinglePointUp).toBe(
+			true
+		);
+		expect(highRows[highRows.length - 1]!.variationIcon).toBe(
+			VariationIcon.Neither
+		);
+		expect(lowRows[lowRows.length - 1]!.specialCauseSinglePointDown).toBe(
+			true
+		);
+		expect(lowRows[lowRows.length - 1]!.variationIcon).toBe(
+			VariationIcon.Neither
+		);
 	});
 });

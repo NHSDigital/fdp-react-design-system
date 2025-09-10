@@ -19,10 +19,10 @@ describe('SPC four-of-five 1σ rule symmetry (high & low side)', () => {
     });
     const last6 = rows.slice(-6);
     // Collect flags in final 5-window spans; we expect at least one window where >=4 flagged
-    const flagged = last6.filter(r => r.specialCauseFourOfFiveAbove);
+  const flagged = last6.filter(r => r.specialCauseFourOfFiveUp);
     expect(flagged.length).toBeGreaterThanOrEqual(4);
     // Sanity: two-of-three may also flag some; ensure four-of-five present
-    expect(last6.some(r => r.specialCauseFourOfFiveAbove)).toBe(true);
+  expect(last6.some(r => r.specialCauseFourOfFiveUp)).toBe(true);
   });
 
   it('low side: flags points beyond -1σ when >=4 of 5 consecutive are below mean', () => {
@@ -37,9 +37,9 @@ describe('SPC four-of-five 1σ rule symmetry (high & low side)', () => {
       settings: { enableFourOfFiveRule: true, collapseClusterRules: false, specialCauseShiftPoints: 6 }
     });
     const last6 = rows.slice(-6);
-    const flagged = last6.filter(r => r.specialCauseFourOfFiveBelow);
+  const flagged = last6.filter(r => r.specialCauseFourOfFiveDown);
     expect(flagged.length).toBeGreaterThanOrEqual(4);
-    expect(last6.some(r => r.specialCauseFourOfFiveBelow)).toBe(true);
+  expect(last6.some(r => r.specialCauseFourOfFiveDown)).toBe(true);
   });
 
   it('low side: cluster rule collapse removes 2-of-3 when 4-of-5 present', () => {
@@ -56,22 +56,22 @@ describe('SPC four-of-five 1σ rule symmetry (high & low side)', () => {
     const noCollapse = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, collapseClusterRules:false, specialCauseShiftPoints:6 }});
     const collapse    = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, collapseClusterRules:true,  specialCauseShiftPoints:6 }});
     const overlapIndices = noCollapse.rows
-      .map((r,i)=> (r.specialCauseFourOfFiveBelow && r.specialCauseTwoOfThreeBelow) ? i : -1)
+  .map((r,i)=> (r.specialCauseFourOfFiveDown && r.specialCauseTwoOfThreeDown) ? i : -1)
       .filter(i=>i>=0);
     // If overlap not produced (variance smaller than anticipated), fall back to informative assertion skip
     if (!overlapIndices.length) {
       // Soft assertion: ensure at least four-of-five fired (core rule) so dataset valid
-      const anyFour = noCollapse.rows.some(r=> r.specialCauseFourOfFiveBelow);
+  const anyFour = noCollapse.rows.some(r=> r.specialCauseFourOfFiveDown);
       expect(anyFour).toBe(true);
       return; // accept pass without collapse overlap demonstration
     }
     overlapIndices.forEach(i => {
       const before = noCollapse.rows[i];
       const after  = collapse.rows[i];
-      expect(before.specialCauseFourOfFiveBelow).toBe(true);
-      expect(before.specialCauseTwoOfThreeBelow).toBe(true);
-      expect(after.specialCauseFourOfFiveBelow).toBe(true);
-      expect(after.specialCauseTwoOfThreeBelow).toBe(false);
+  expect(before.specialCauseFourOfFiveDown).toBe(true);
+  expect(before.specialCauseTwoOfThreeDown).toBe(true);
+  expect(after.specialCauseFourOfFiveDown).toBe(true);
+  expect(after.specialCauseTwoOfThreeDown).toBe(false);
     });
   });
 });

@@ -19,10 +19,10 @@ The engine now applies **side gating**:
 
 | Rule Flag | Value Side vs Mean | Metric Direction (example: High is good) | Variation Icon | Colour |
 |-----------|--------------------|-------------------------------------------|----------------|--------|
-| `specialCauseTrendIncreasing` | Below mean | High is good | Neither (neutral special cause) | Purple |
-| `specialCauseTrendIncreasing` | Above mean | High is good | Improvement | Blue |
-| `specialCauseTrendDecreasing` | Above mean | High is good | Neither (neutral) | Purple |
-| `specialCauseTrendDecreasing` | Below mean | High is good | Concern | Orange |
+| `specialCauseTrendUp` | Below mean | High is good | Neither (neutral special cause) | Purple |
+| `specialCauseTrendUp` | Above mean | High is good | Improvement | Blue |
+| `specialCauseTrendDown` | Above mean | High is good | Neither (neutral) | Purple |
+| `specialCauseTrendDown` | Below mean | High is good | Concern | Orange |
 
 The same logic mirrors for *Low is good* (favourable side inverted). Neutral direction always yields `Neither`.
 
@@ -107,11 +107,11 @@ Pseudocode of the gating step (conceptual):
 
 ```ts
 for (const row of rows) {
-  if (row.specialCauseTrendIncreasing) {
+  if (row.specialCauseTrendUp) {
     const favourable = direction === 'Up' ? row.value > mean : direction === 'Down' ? row.value < mean : false;
     if (!favourable) row.variationIcon = 'neither';
   }
-  if (row.specialCauseTrendDecreasing) {
+  if (row.specialCauseTrendDown) {
     const favourable = direction === 'Up' ? row.value < mean : direction === 'Down' ? row.value > mean : false;
     if (!favourable) row.variationIcon = 'neither';
   }

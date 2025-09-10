@@ -58,18 +58,17 @@ export enum PrimeDirection {
 function collectSideRanks(r: SpcRow) {
 	const high: { id: SpcRuleId; rank: number }[] = [];
 	const low: { id: SpcRuleId; rank: number }[] = [];
-	// Helper to push with centralised rank mapping (ensures parity with engine precedence constants)
 	const push = (arr: { id: SpcRuleId; rank: number }[], id: SpcRuleId) => {
 		arr.push({ id, rank: RULE_RANK_BY_ID[id] });
 	};
-	if (r.specialCauseSinglePointAbove) push(high, SpcRuleId.SinglePoint);
-	if (r.specialCauseSinglePointBelow) push(low, SpcRuleId.SinglePoint);
-	if (r.specialCauseTwoOfThreeAbove) push(high, SpcRuleId.TwoSigma);
-	if (r.specialCauseTwoOfThreeBelow) push(low, SpcRuleId.TwoSigma);
-	if (r.specialCauseShiftHigh) push(high, SpcRuleId.Shift);
-	if (r.specialCauseShiftLow) push(low, SpcRuleId.Shift);
-	if (r.specialCauseTrendIncreasing) push(high, SpcRuleId.Trend);
-	if (r.specialCauseTrendDecreasing) push(low, SpcRuleId.Trend);
+	if (r.specialCauseSinglePointUp) push(high, SpcRuleId.SinglePoint);
+	if (r.specialCauseSinglePointDown) push(low, SpcRuleId.SinglePoint);
+	if (r.specialCauseTwoOfThreeUp) push(high, SpcRuleId.TwoSigma);
+	if (r.specialCauseTwoOfThreeDown) push(low, SpcRuleId.TwoSigma);
+	if (r.specialCauseShiftUp) push(high, SpcRuleId.Shift);
+	if (r.specialCauseShiftDown) push(low, SpcRuleId.Shift);
+	if (r.specialCauseTrendUp) push(high, SpcRuleId.Trend);
+	if (r.specialCauseTrendDown) push(low, SpcRuleId.Trend);
 	return { high, low };
 }
 

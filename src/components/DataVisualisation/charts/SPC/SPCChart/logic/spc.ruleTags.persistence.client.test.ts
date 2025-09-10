@@ -13,20 +13,20 @@ describe('SPC ruleTags persistence after cluster rule collapse', () => {
     const noCollapse = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, collapseClusterRules:false, specialCauseShiftPoints:6 }});
     const collapse    = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, collapseClusterRules:true,  specialCauseShiftPoints:6 }});
     const overlapIndices = noCollapse.rows
-      .map((r,i)=> (r.specialCauseFourOfFiveAbove && r.specialCauseTwoOfThreeAbove) ? i : -1)
+  .map((r,i)=> (r.specialCauseFourOfFiveUp && r.specialCauseTwoOfThreeUp) ? i : -1)
       .filter(i=>i>=0);
     if (!overlapIndices.length) {
       // Ensure at least four-of-five fired so dataset valid for purpose
-      expect(noCollapse.rows.some(r=>r.specialCauseFourOfFiveAbove)).toBe(true);
+  expect(noCollapse.rows.some(r=>r.specialCauseFourOfFiveUp)).toBe(true);
       return; // accept soft pass without overlap
     }
     for (const idx of overlapIndices) {
       const before = noCollapse.rows[idx];
       const after  = collapse.rows[idx];
-      expect(before.specialCauseFourOfFiveAbove).toBe(true);
-      expect(before.specialCauseTwoOfThreeAbove).toBe(true);
-      expect(after.specialCauseFourOfFiveAbove).toBe(true);
-      expect(after.specialCauseTwoOfThreeAbove).toBe(false);
+  expect(before.specialCauseFourOfFiveUp).toBe(true);
+  expect(before.specialCauseTwoOfThreeUp).toBe(true);
+  expect(after.specialCauseFourOfFiveUp).toBe(true);
+  expect(after.specialCauseTwoOfThreeUp).toBe(false);
       expect(after.ruleTags).toContain('four_of_five_high');
       expect(after.ruleTags).toContain('two_of_three_high');
     }

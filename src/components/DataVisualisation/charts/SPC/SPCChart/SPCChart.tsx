@@ -435,9 +435,9 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		// Derive a trend/orientation hint for suppressed 'no judgement' cases so the purple arrow points towards the favourable direction
 		let trend: Direction | undefined = undefined;
 		if (variation === VariationIcon.None) {
-			// A suppressed favourable single point will have exactly one of the singlePointAbove/Below flags set
-			const singleHigh = lastRow.specialCauseSinglePointAbove;
-			const singleLow = lastRow.specialCauseSinglePointBelow;
+			// A suppressed favourable single point will have exactly one of the singlePointUp/Down flags set
+			const singleHigh = lastRow.specialCauseSinglePointUp;
+			const singleLow = lastRow.specialCauseSinglePointDown;
 			if (metricImprovement === ImprovementDirection.Up) {
 				// Higher is favourable: a suppressed high point should orient higher
 				if (singleHigh) trend = Direction.Higher;
@@ -453,17 +453,17 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		} else if (variation === VariationIcon.Neither && hasNeutralSpecialCause) {
 			// Neutral special-cause (purple) orientation should reflect side of signal (high-side vs low-side)
 			const anyHighSide =
-				lastRow.specialCauseSinglePointAbove ||
-				lastRow.specialCauseTwoOfThreeAbove ||
-				lastRow.specialCauseFourOfFiveAbove ||
-				lastRow.specialCauseShiftHigh ||
-				lastRow.specialCauseTrendIncreasing;
+				lastRow.specialCauseSinglePointUp ||
+				lastRow.specialCauseTwoOfThreeUp ||
+				lastRow.specialCauseFourOfFiveUp ||
+				lastRow.specialCauseShiftUp ||
+				lastRow.specialCauseTrendUp;
 			const anyLowSide =
-				lastRow.specialCauseSinglePointBelow ||
-				lastRow.specialCauseTwoOfThreeBelow ||
-				lastRow.specialCauseFourOfFiveBelow ||
-				lastRow.specialCauseShiftLow ||
-				lastRow.specialCauseTrendDecreasing;
+				lastRow.specialCauseSinglePointDown ||
+				lastRow.specialCauseTwoOfThreeDown ||
+				lastRow.specialCauseFourOfFiveDown ||
+				lastRow.specialCauseShiftDown ||
+				lastRow.specialCauseTrendDown;
 			if (anyHighSide && !anyLowSide) trend = Direction.Higher;
 			else if (anyLowSide && !anyHighSide) trend = Direction.Lower;
 			else trend = Direction.Higher; // conflicting or none -> default higher
@@ -496,17 +496,17 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 							polarity,
 							specialCauseNeutral: hasNeutralSpecialCause,
 							highSideSignal:
-								lastRow.specialCauseSinglePointAbove ||
-								lastRow.specialCauseTwoOfThreeAbove ||
-								lastRow.specialCauseFourOfFiveAbove ||
-								lastRow.specialCauseShiftHigh ||
-								lastRow.specialCauseTrendIncreasing,
+								lastRow.specialCauseSinglePointUp ||
+									lastRow.specialCauseTwoOfThreeUp ||
+									lastRow.specialCauseFourOfFiveUp ||
+									lastRow.specialCauseShiftUp ||
+									lastRow.specialCauseTrendUp,
 							lowSideSignal:
-								lastRow.specialCauseSinglePointBelow ||
-								lastRow.specialCauseTwoOfThreeBelow ||
-								lastRow.specialCauseFourOfFiveBelow ||
-								lastRow.specialCauseShiftLow ||
-								lastRow.specialCauseTrendDecreasing,
+								lastRow.specialCauseSinglePointDown ||
+									lastRow.specialCauseTwoOfThreeDown ||
+									lastRow.specialCauseFourOfFiveDown ||
+									lastRow.specialCauseShiftDown ||
+									lastRow.specialCauseTrendDown,
 							...(trend ? { trend } : {}),
 						}}
 						// Letter semantics: use polarity (business improvement direction) when specified; fall back to signal side for neutral metrics
@@ -808,16 +808,16 @@ const InternalSPC: React.FC<InternalProps> = ({
 		engineRows.forEach((r, idx) => {
 			if (r.value == null || r.ghost) return;
 			const anySpecial =
-				r.specialCauseSinglePointAbove ||
-				r.specialCauseSinglePointBelow ||
-				r.specialCauseTwoOfThreeAbove ||
-				r.specialCauseTwoOfThreeBelow ||
-				r.specialCauseFourOfFiveAbove ||
-				r.specialCauseFourOfFiveBelow ||
-				r.specialCauseShiftHigh ||
-				r.specialCauseShiftLow ||
-				r.specialCauseTrendIncreasing ||
-				r.specialCauseTrendDecreasing;
+				r.specialCauseSinglePointUp ||
+				r.specialCauseSinglePointDown ||
+				r.specialCauseTwoOfThreeUp ||
+				r.specialCauseTwoOfThreeDown ||
+				r.specialCauseFourOfFiveUp ||
+				r.specialCauseFourOfFiveDown ||
+				r.specialCauseShiftUp ||
+				r.specialCauseShiftDown ||
+				r.specialCauseTrendUp ||
+				r.specialCauseTrendDown;
 			map[idx] = {
 				variation: r.variationIcon,
 				assurance: r.assuranceIcon,

@@ -151,7 +151,7 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 	const showBadges = variationDesc || assuranceDesc || zone;
 
 	// Determine if trend side-gating applies (trend flag present but variation neutral)
-	const trendFlag = row?.specialCauseTrendIncreasing || row?.specialCauseTrendDecreasing;
+	const trendFlag = row?.specialCauseTrendUp || row?.specialCauseTrendDown;
 	const variationNeutral = row?.variationIcon === VariationIcon.Neither && trendFlag;
 	// Side-gating explanatory line (only when neutrality due to being on unfavourable side)
 	const gatingExplanation = showTrendGatingExplanation && variationNeutral

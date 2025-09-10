@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildSpc, ImprovementDirection, VariationIcon } from './spc';
+import { buildSpc, ChartType, ImprovementDirection, VariationIcon } from './spc';
 
 // High-side rule clash test: simultaneous trendIncreasing + shiftHigh.
 // Mirror of low-side test but with improvement direction = Up.
@@ -16,7 +16,7 @@ describe('SPC rule clash (high side): simultaneous shiftHigh + trendIncreasing (
     const values = [70,69,71,68,72,69,70, 110,115,120,125,130,135];
     const data = values.map((v, i) => ({ x: i + 1, value: v }));
 
-    const { rows, warnings } = buildSpc({ chartType: 'XmR', metricImprovement: ImprovementDirection.Up, data });
+    const { rows, warnings } = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data });
 
   const terminal = rows.find(r => r.rowId === values.length)!; // row 13
   const row12 = rows.find(r => r.rowId === 12)!;
@@ -26,8 +26,8 @@ describe('SPC rule clash (high side): simultaneous shiftHigh + trendIncreasing (
   // Increasing run rows 8-13: both flags true
   for (let rid = 8; rid <= 13; rid++) {
     const r = rows.find(rr => rr.rowId === rid)!;
-    expect(r.specialCauseShiftHigh).toBe(true);
-    expect(r.specialCauseTrendIncreasing).toBe(true);
+    expect(r.specialCauseShiftUp).toBe(true);
+    expect(r.specialCauseTrendUp).toBe(true);
     expect(r.variationIcon).toBe(VariationIcon.Improvement);
   }
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import spcModule, { ImprovementDirection, VariationIcon } from './spc';
+import spcModule, { ImprovementDirection, VariationIcon, ChartType } from './spc';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -26,7 +26,7 @@ describe('SPC XmR golden dataset parity', () => {
 
     const data = values.map((v, i) => ({ x: i + 1, value: v }));
     const { rows, warnings } = spcModule.buildSpc({
-      chartType: 'XmR',
+      chartType: ChartType.XmR,
       metricImprovement: ImprovementDirection.Up, // arbitrary for this dataset
       data,
       settings: { enableFourOfFiveRule: true } // exercise extra rule (should not trigger here)
@@ -57,10 +57,10 @@ describe('SPC XmR golden dataset parity', () => {
     const belowIds = belowLimitRows.map(r => r.rowId);
     // In dataset: values 35,30,25 are below LCL
     expect(belowIds).toEqual([22, 23, 24]);
-    belowLimitRows.forEach(r => expect(r.specialCauseSinglePointBelow).toBe(true));
+  belowLimitRows.forEach(r => expect(r.specialCauseSinglePointDown).toBe(true));
 
     // Trend: Expect decreasing trend flagged on last two rows (once >= 6 strictly decreasing points collected)
-    const trendDecreasingIds = rows.filter(r => r.specialCauseTrendDecreasing).map(r => r.rowId);
+  const trendDecreasingIds = rows.filter(r => r.specialCauseTrendDown).map(r => r.rowId);
     expect(trendDecreasingIds).toContain(23);
     expect(trendDecreasingIds).toContain(24);
 

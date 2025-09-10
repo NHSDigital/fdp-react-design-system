@@ -43,6 +43,13 @@ import {
 // Global counter to create stable, unique gradient id bases across multiple SPCChart instances
 let spcSequenceInstanceCounter = 0;
 
+// Gradient transition strategy between adjacent coloured sequences
+export enum SequenceTransition {
+	Slope = "slope",   // attribute join to rising (next) or falling/flat (prev) based on delta
+	Neutral = "neutral", // draw a neutral (grey) wedge between coloured runs
+	Extend = "extend", // always extend previous coloured run to the next first point
+}
+
 export interface SPCDatum {
 	x: Date | string | number;
 	y: number;
@@ -92,6 +99,8 @@ export interface SPCChartProps {
 	};
 	/** When true, render light gradient band fills behind contiguous sequences of similarly coloured points (concern / improvement / common). */
 	gradientSequences?: boolean;
+	/** Strategy for how coloured gradient sequences join at boundaries. */
+	sequenceTransition?: SequenceTransition;
 	/** Stroke width (thickness) of the main process line. Defaults to 1. */
 	processLineWidth?: number;
 	/** When true, render vertical dashed markers at partition (baseline) boundaries */
@@ -140,6 +149,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	settings,
 	narrationContext,
 	gradientSequences = false,
+	sequenceTransition = SequenceTransition.Slope,
 	processLineWidth = 2,
 	showWarningsPanel = false,
 	warningsFilter,
@@ -547,6 +557,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						narrationContext={effectiveNarrationContext}
 						metricImprovement={metricImprovement}
 						gradientSequences={gradientSequences}
+						sequenceTransition={sequenceTransition}
 						processLineWidth={processLineWidth}
 						effectiveUnit={effectiveUnit}
 						partitionMarkers={partitionMarkers}
@@ -690,6 +701,7 @@ interface InternalProps {
 	};
 	metricImprovement?: ImprovementDirection;
 	gradientSequences: boolean;
+	sequenceTransition: SequenceTransition;
 	processLineWidth: number;
 	effectiveUnit?: string;
 	partitionMarkers: number[];
@@ -711,6 +723,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 	showIcons,
 	narrationContext,
 	gradientSequences,
+	sequenceTransition,
 	processLineWidth,
 	effectiveUnit,
 	partitionMarkers,
@@ -952,6 +965,12 @@ const InternalSPC: React.FC<InternalProps> = ({
 		if (!sequences.length) return null;
 		return (
 			<defs>
+				{/* Reusable common-cause gradient for transition wedges between coloured sequences */}
+				<linearGradient id={`${gradientIdBaseRef.current}-grad-common`} x1="0%" y1="0%" x2="0%" y2="100%">
+					<stop offset="0%" stopColor={"var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)"} stopOpacity={0.28} />
+					<stop offset="70%" stopColor={"var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)"} stopOpacity={0.12} />
+					<stop offset="100%" stopColor={"var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)"} stopOpacity={0.045} />
+				</linearGradient>
 				{sequences.map((seq, idx) => {
 					const id = `${gradientIdBaseRef.current}-grad-${idx}`;
 					let baseVar: string;
@@ -1018,8 +1037,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 				if (category === "common") {
 					// --- Common Cause (Grey) Gradient ---
 					const prevSeq = idx > 0 ? sequences[idx - 1] : null;
-					const nextSeq =
-						idx < sequences.length - 1 ? sequences[idx + 1] : null;
+					const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
 
 					const leftX = prevSeq ? xPositions[prevSeq.end] : 0;
 					const leftY = prevSeq ? yScale(all[prevSeq.end].y) : baseY;
@@ -1039,23 +1057,30 @@ const InternalSPC: React.FC<InternalProps> = ({
 				} else {
 					// --- Special Cause (Colored) Gradient ---
 					const prevSeq = idx > 0 ? sequences[idx - 1] : null;
-					const nextSeq =
-						idx < sequences.length - 1 ? sequences[idx + 1] : null;
+					const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
 					const prevColoured = prevSeq && prevSeq.category !== "common";
 					const nextColoured = nextSeq && nextSeq.category !== "common";
-					// When a coloured sequence follows another coloured sequence we start the polyline at the previous
-					// sequence's last point (prevX, prevY) instead of introducing a vertical colour switch. This creates
-					// a continuous sloped join between coloured regions (concern -> improvement or vice versa) per spec.
 					const firstY = yScale(all[firstIdx].y);
 					const lastY = yScale(all[lastIdx].y);
+					let startBaselineX = firstX;
+					let endBaselineX = lastX;
 
+					// Start logic based on transition mode
 					if (prevColoured) {
 						const prevX = xPositions[prevSeq!.end];
 						const prevY = yScale(all[prevSeq!.end].y);
-						// Start path at previous coloured sequence last data point
-						d = `M ${prevX} ${prevY} L ${firstX} ${firstY}`;
+						const deltaPrev = all[firstIdx].y - all[prevSeq!.end].y;
+						if (sequenceTransition === SequenceTransition.Slope && deltaPrev > 0) {
+							// slope: rising -> attribute join to current colour
+							d = `M ${prevX} ${prevY} L ${firstX} ${firstY}`;
+							startBaselineX = prevX;
+						} else {
+							// neutral/extend/slope (falling or flat): start from baseline at first point
+							d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
+							startBaselineX = firstX;
+						}
 					} else {
-						// Standard start: baseline up to first point
+						// no coloured predecessor
 						d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
 					}
 
@@ -1065,22 +1090,52 @@ const InternalSPC: React.FC<InternalProps> = ({
 					// Ensure path includes last point explicitly
 					d += ` L ${lastX} ${lastY}`;
 
-					// End: if next sequence coloured, do vertical switch at line height by creating a minimal-width closure
+					// End logic based on transition mode
 					if (nextColoured) {
-						// For a following coloured sequence we finish at last point only (no vertical switch) and drop to baseline
-						d += ` L ${lastX} ${lastY} L ${lastX} ${baseY}`;
-					} else {
-						// Standard termination: last point then vertical to baseline
-						d += ` L ${lastX} ${lastY} L ${lastX} ${baseY}`;
+						const nextFirstX = xPositions[nextSeq!.start];
+						const nextFirstY = yScale(all[nextSeq!.start].y);
+						const deltaNext = all[nextSeq!.start].y - all[lastIdx].y;
+						if (
+							(sequenceTransition === SequenceTransition.Slope && deltaNext <= 0) ||
+							sequenceTransition === SequenceTransition.Extend
+						) {
+							// attribute join to current (previous) colour by extending to next first
+							d += ` L ${nextFirstX} ${nextFirstY}`;
+							endBaselineX = nextFirstX;
+						}
 					}
-					// Baseline closure: return to baseline under start reference
-					if (prevColoured) {
+
+					// Baseline closure
+					d += ` L ${endBaselineX} ${baseY}`;
+					d += ` L ${startBaselineX} ${baseY} Z`;
+
+					// For neutral mode, insert a grey wedge at the start boundary (previous coloured -> current coloured)
+					if (sequenceTransition === SequenceTransition.Neutral && prevColoured) {
 						const prevX = xPositions[prevSeq!.end];
-						// baseline back to previous coloured point's x
-						d += ` L ${prevX} ${baseY} Z`;
-					} else {
-						// baseline back to firstX
-						d += ` L ${firstX} ${baseY} Z`;
+						const prevY = yScale(all[prevSeq!.end].y);
+						const wedge = (
+							<path
+								key={`seq-wedge-${idx}`}
+								d={`M ${prevX} ${baseY} L ${prevX} ${prevY} L ${firstX} ${firstY} L ${firstX} ${baseY} Z`}
+								fill={`url(#${gradientIdBaseRef.current}-grad-common)`}
+								stroke="none"
+								className="fdp-spc__sequence-bg"
+								aria-hidden="true"
+							/>
+						);
+						return (
+							<g key={`seq-group-${idx}`}>
+								{wedge}
+								<path
+									key={`seq-area-${idx}`}
+									d={d}
+									fill={`url(#${gradientIdBaseRef.current}-grad-${idx})`}
+									stroke="none"
+									className="fdp-spc__sequence-bg"
+									aria-hidden="true"
+								/>
+							</g>
+						);
 					}
 				}
 
@@ -1098,7 +1153,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 			.filter(Boolean);
 
 		return <g className="fdp-spc__sequence-bgs">{areas}</g>;
-	}, [sequences, xPositions, plotWidth, yScale, all]);
+	}, [sequences, xPositions, plotWidth, yScale, all, sequenceTransition]);
 
 	// Live region formatter (invoked only when announceFocus prop true)
 	// Derive descriptive timeframe if not explicitly provided

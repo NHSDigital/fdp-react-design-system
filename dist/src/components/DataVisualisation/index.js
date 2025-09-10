@@ -11938,38 +11938,45 @@ var InternalSPC = ({
   }, [engineRows, xPositions, yScale]);
   const sequenceDefs = React25.useMemo(() => {
     if (!sequences.length) return null;
-    return /* @__PURE__ */ jsx30("defs", { children: sequences.map((seq, idx) => {
-      const id = `${gradientIdBaseRef.current}-grad-${idx}`;
-      let baseVar;
-      let top = 0.28, mid = 0.12, end = 0.045;
-      switch (seq.category) {
-        case "concern":
-          baseVar = "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)";
-          top = 0.28;
-          mid = 0.12;
-          end = 0.045;
-          break;
-        case "improvement":
-          baseVar = "var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)";
-          top = 0.26;
-          mid = 0.11;
-          end = 0.045;
-          break;
-        case "noJudgement":
-          baseVar = "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)";
-          top = 0.26;
-          mid = 0.11;
-          end = 0.045;
-          break;
-        default:
-          baseVar = "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)";
-      }
-      return /* @__PURE__ */ jsxs21("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-        /* @__PURE__ */ jsx30("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
-        /* @__PURE__ */ jsx30("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
-        /* @__PURE__ */ jsx30("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
-      ] }, id);
-    }) });
+    return /* @__PURE__ */ jsxs21("defs", { children: [
+      /* @__PURE__ */ jsxs21("linearGradient", { id: `${gradientIdBaseRef.current}-grad-common`, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
+        /* @__PURE__ */ jsx30("stop", { offset: "0%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.28 }),
+        /* @__PURE__ */ jsx30("stop", { offset: "70%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.12 }),
+        /* @__PURE__ */ jsx30("stop", { offset: "100%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.045 })
+      ] }),
+      sequences.map((seq, idx) => {
+        const id = `${gradientIdBaseRef.current}-grad-${idx}`;
+        let baseVar;
+        let top = 0.28, mid = 0.12, end = 0.045;
+        switch (seq.category) {
+          case "concern":
+            baseVar = "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)";
+            top = 0.28;
+            mid = 0.12;
+            end = 0.045;
+            break;
+          case "improvement":
+            baseVar = "var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)";
+            top = 0.26;
+            mid = 0.11;
+            end = 0.045;
+            break;
+          case "noJudgement":
+            baseVar = "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)";
+            top = 0.26;
+            mid = 0.11;
+            end = 0.045;
+            break;
+          default:
+            baseVar = "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)";
+        }
+        return /* @__PURE__ */ jsxs21("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
+          /* @__PURE__ */ jsx30("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
+          /* @__PURE__ */ jsx30("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
+          /* @__PURE__ */ jsx30("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
+        ] }, id);
+      })
+    ] });
   }, [sequences]);
   const sequenceAreas = React25.useMemo(() => {
     if (!sequences.length) return null;
@@ -11998,32 +12005,44 @@ var InternalSPC = ({
         d += ` L ${rightX} ${baseY} Z`;
       } else {
         const prevSeq = idx > 0 ? sequences[idx - 1] : null;
-        const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
         const prevColoured = prevSeq && prevSeq.category !== "common";
-        const nextColoured = nextSeq && nextSeq.category !== "common";
         const firstY = yScale(all[firstIdx].y);
         const lastY = yScale(all[lastIdx].y);
-        if (prevColoured) {
-          const prevX = xPositions[prevSeq.end];
-          const prevY = yScale(all[prevSeq.end].y);
-          d = `M ${prevX} ${prevY} L ${firstX} ${firstY}`;
-        } else {
-          d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
-        }
+        d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
         for (let i = firstIdx + 1; i <= lastIdx; i++) {
           d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
         }
         d += ` L ${lastX} ${lastY}`;
-        if (nextColoured) {
-          d += ` L ${lastX} ${lastY} L ${lastX} ${baseY}`;
-        } else {
-          d += ` L ${lastX} ${lastY} L ${lastX} ${baseY}`;
-        }
+        d += ` L ${lastX} ${baseY}`;
+        d += ` L ${firstX} ${baseY} Z`;
         if (prevColoured) {
           const prevX = xPositions[prevSeq.end];
-          d += ` L ${prevX} ${baseY} Z`;
-        } else {
-          d += ` L ${firstX} ${baseY} Z`;
+          const prevY = yScale(all[prevSeq.end].y);
+          const wedge = /* @__PURE__ */ jsx30(
+            "path",
+            {
+              d: `M ${prevX} ${baseY} L ${prevX} ${prevY} L ${firstX} ${firstY} L ${firstX} ${baseY} Z`,
+              fill: `url(#${gradientIdBaseRef.current}-grad-common)`,
+              stroke: "none",
+              className: "fdp-spc__sequence-bg",
+              "aria-hidden": "true"
+            },
+            `seq-wedge-${idx}`
+          );
+          return /* @__PURE__ */ jsxs21("g", { children: [
+            wedge,
+            /* @__PURE__ */ jsx30(
+              "path",
+              {
+                d,
+                fill: `url(#${gradientIdBaseRef.current}-grad-${idx})`,
+                stroke: "none",
+                className: "fdp-spc__sequence-bg",
+                "aria-hidden": "true"
+              },
+              `seq-area-${idx}`
+            )
+          ] }, `seq-group-${idx}`);
         }
       }
       return /* @__PURE__ */ jsx30(

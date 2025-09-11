@@ -6808,7 +6808,7 @@ function applyAutoRecalculationBaselines(data, settings, metricImprovement) {
   }
 }
 function normaliseSpcSettings(user) {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q;
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S;
   if (!user) return {};
   const legacy = user;
   const v2 = user;
@@ -6821,8 +6821,8 @@ function normaliseSpcSettings(user) {
   const grace = (_g = v2.grace) != null ? _g : {};
   const baselineSuggest = (_h = v2.baselineSuggest) != null ? _h : {};
   const autoRecalc = (_i = v2.autoRecalc) != null ? _i : {};
-  const emergingGraceEnabled = (_k = (_j = grace.emergingEnabled) != null ? _j : v2.emergingGraceEnabled) != null ? _k : legacy.emergingDirectionGrace;
-  const collapseWeakerClusterRules = (_m = (_l = rules.collapseWeakerClusterRules) != null ? _l : v2.collapseWeakerClusterRules) != null ? _m : legacy.collapseClusterRules;
+  const emergingGraceEnabled = (_l = (_k = (_j = grace.emergingEnabled) != null ? _j : v2.emergingGraceEnabled) != null ? _k : legacy.emergingGraceEnabled) != null ? _l : legacy.emergingDirectionGrace;
+  const collapseWeakerClusterRules = (_o = (_n = (_m = rules.collapseWeakerClusterRules) != null ? _m : v2.collapseWeakerClusterRules) != null ? _n : legacy.collapseWeakerClusterRules) != null ? _o : legacy.collapseClusterRules;
   const globalAny = globalThis;
   if (legacy.emergingDirectionGrace !== void 0 && v2.emergingGraceEnabled === void 0 && grace.emergingEnabled === void 0 && !globalAny.__spc_warn_emergingDirectionGrace) {
     globalAny.__spc_warn_emergingDirectionGrace = true;
@@ -6842,61 +6842,62 @@ function normaliseSpcSettings(user) {
   };
   const flattened = pruneUndefined({
     // Rare event / MR
-    excludeMovingRangeOutliers: (_n = rareEvent.excludeMovingRangeOutliers) != null ? _n : legacy.excludeMovingRangeOutliers,
+    excludeMovingRangeOutliers: (_p = rareEvent.excludeMovingRangeOutliers) != null ? _p : legacy.excludeMovingRangeOutliers,
     // Rules
-    specialCauseShiftPoints: (_o = rules.shiftPoints) != null ? _o : legacy.specialCauseShiftPoints,
-    specialCauseTrendPoints: (_p = rules.trendPoints) != null ? _p : legacy.specialCauseTrendPoints,
-    enableFourOfFiveRule: (_q = rules.fourOfFiveEnabled) != null ? _q : legacy.enableFourOfFiveRule,
-    enableFifteenInInnerThirdRule: (_r = rules.fifteenInnerThirdEnabled) != null ? _r : legacy.enableFifteenInInnerThirdRule,
+    specialCauseShiftPoints: (_q = rules.shiftPoints) != null ? _q : legacy.specialCauseShiftPoints,
+    specialCauseTrendPoints: (_r = rules.trendPoints) != null ? _r : legacy.specialCauseTrendPoints,
+    enableFourOfFiveRule: (_s = rules.fourOfFiveEnabled) != null ? _s : legacy.enableFourOfFiveRule,
+    enableFifteenInInnerThirdRule: (_t = rules.fifteenInnerThirdEnabled) != null ? _t : legacy.enableFifteenInInnerThirdRule,
     collapseWeakerClusterRules: collapseWeakerClusterRules != null ? collapseWeakerClusterRules : legacy.collapseWeakerClusterRules,
     // Precedence
-    precedenceStrategy: (_s = precedence.strategy) != null ? _s : legacy.precedenceStrategy,
-    conflictPrecedenceMode: (_t = precedence.conflictMode) != null ? _t : legacy.conflictPrecedenceMode,
+    precedenceStrategy: (_u = precedence.strategy) != null ? _u : legacy.precedenceStrategy,
+    conflictPrecedenceMode: (_v = precedence.conflictMode) != null ? _v : legacy.conflictPrecedenceMode,
     // Thresholds
-    minimumPoints: (_u = thresholds.minimumPoints) != null ? _u : legacy.minimumPoints,
-    minimumPointsPartition: (_v = thresholds.minimumPointsPartition) != null ? _v : legacy.minimumPointsPartition,
-    maximumPointsPartition: (_w = thresholds.maximumPointsPartition) != null ? _w : legacy.maximumPointsPartition,
-    maximumPoints: (_x = thresholds.maximumPoints) != null ? _x : legacy.maximumPoints,
-    transitionBufferPoints: (_y = thresholds.transitionBufferPoints) != null ? _y : legacy.transitionBufferPoints,
+    minimumPoints: (_w = thresholds.minimumPoints) != null ? _w : legacy.minimumPoints,
+    minimumPointsPartition: (_x = thresholds.minimumPointsPartition) != null ? _x : legacy.minimumPointsPartition,
+    maximumPointsPartition: (_y = thresholds.maximumPointsPartition) != null ? _y : legacy.maximumPointsPartition,
+    maximumPoints: (_z = thresholds.maximumPoints) != null ? _z : legacy.maximumPoints,
+    transitionBufferPoints: (_A = thresholds.transitionBufferPoints) != null ? _A : legacy.transitionBufferPoints,
     // Warnings
-    minimumPointsWarning: (_z = warnings.minimumPointsWarning) != null ? _z : legacy.minimumPointsWarning,
-    pointConflictWarning: (_A = warnings.pointConflictWarning) != null ? _A : legacy.pointConflictWarning,
-    variationIconConflictWarning: (_B = warnings.variationIconConflictWarning) != null ? _B : legacy.variationIconConflictWarning,
-    nullValueWarning: (_C = warnings.nullValueWarning) != null ? _C : legacy.nullValueWarning,
-    targetSuppressedWarning: (_D = warnings.targetSuppressedWarning) != null ? _D : legacy.targetSuppressedWarning,
-    ghostOnRareEventWarning: (_E = warnings.ghostOnRareEventWarning) != null ? _E : legacy.ghostOnRareEventWarning,
-    partitionSizeWarnings: (_F = warnings.partitionSizeWarnings) != null ? _F : legacy.partitionSizeWarnings,
-    baselineSpecialCauseWarning: (_G = warnings.baselineSpecialCauseWarning) != null ? _G : legacy.baselineSpecialCauseWarning,
-    maximumPointsWarnings: (_H = warnings.maximumPointsWarnings) != null ? _H : legacy.maximumPointsWarnings,
+    minimumPointsWarning: (_B = warnings.minimumPointsWarning) != null ? _B : legacy.minimumPointsWarning,
+    pointConflictWarning: (_C = warnings.pointConflictWarning) != null ? _C : legacy.pointConflictWarning,
+    variationIconConflictWarning: (_D = warnings.variationIconConflictWarning) != null ? _D : legacy.variationIconConflictWarning,
+    nullValueWarning: (_E = warnings.nullValueWarning) != null ? _E : legacy.nullValueWarning,
+    targetSuppressedWarning: (_F = warnings.targetSuppressedWarning) != null ? _F : legacy.targetSuppressedWarning,
+    ghostOnRareEventWarning: (_G = warnings.ghostOnRareEventWarning) != null ? _G : legacy.ghostOnRareEventWarning,
+    partitionSizeWarnings: (_H = warnings.partitionSizeWarnings) != null ? _H : legacy.partitionSizeWarnings,
+    baselineSpecialCauseWarning: (_I = warnings.baselineSpecialCauseWarning) != null ? _I : legacy.baselineSpecialCauseWarning,
+    maximumPointsWarnings: (_J = warnings.maximumPointsWarnings) != null ? _J : legacy.maximumPointsWarnings,
     // Capability
-    assuranceCapabilityMode: (_I = capability.assuranceCapabilityMode) != null ? _I : legacy.assuranceCapabilityMode,
+    assuranceCapabilityMode: (_K = capability.assuranceCapabilityMode) != null ? _K : legacy.assuranceCapabilityMode,
     // Grace
     emergingGraceEnabled,
     emergingDirectionGrace: emergingGraceEnabled,
     // Baseline suggestions
-    baselineSuggest: (_J = baselineSuggest.enabled) != null ? _J : legacy.baselineSuggest,
-    baselineSuggestMinDeltaSigma: (_K = baselineSuggest.minDeltaSigma) != null ? _K : legacy.baselineSuggestMinDeltaSigma,
-    baselineSuggestStabilityPoints: (_L = baselineSuggest.stabilityPoints) != null ? _L : legacy.baselineSuggestStabilityPoints,
-    baselineSuggestMinGap: (_M = baselineSuggest.minGap) != null ? _M : legacy.baselineSuggestMinGap,
-    baselineSuggestScoreThreshold: (_N = baselineSuggest.scoreThreshold) != null ? _N : legacy.baselineSuggestScoreThreshold,
+    baselineSuggest: (_L = baselineSuggest.enabled) != null ? _L : legacy.baselineSuggest,
+    baselineSuggestMinDeltaSigma: (_M = baselineSuggest.minDeltaSigma) != null ? _M : legacy.baselineSuggestMinDeltaSigma,
+    baselineSuggestStabilityPoints: (_N = baselineSuggest.stabilityPoints) != null ? _N : legacy.baselineSuggestStabilityPoints,
+    baselineSuggestMinGap: (_O = baselineSuggest.minGap) != null ? _O : legacy.baselineSuggestMinGap,
+    baselineSuggestScoreThreshold: (_P = baselineSuggest.scoreThreshold) != null ? _P : legacy.baselineSuggestScoreThreshold,
     // Auto recalculation
-    autoRecalculateAfterShift: (_O = autoRecalc.enabled) != null ? _O : legacy.autoRecalculateAfterShift,
-    autoRecalculateShiftLength: (_P = autoRecalc.shiftLength) != null ? _P : legacy.autoRecalculateShiftLength,
-    autoRecalculateDeltaSigma: (_Q = autoRecalc.deltaSigma) != null ? _Q : legacy.autoRecalculateDeltaSigma
+    autoRecalculateAfterShift: (_Q = autoRecalc.enabled) != null ? _Q : legacy.autoRecalculateAfterShift,
+    autoRecalculateShiftLength: (_R = autoRecalc.shiftLength) != null ? _R : legacy.autoRecalculateShiftLength,
+    autoRecalculateDeltaSigma: (_S = autoRecalc.deltaSigma) != null ? _S : legacy.autoRecalculateDeltaSigma
   });
   const merged = { ...flattened, ...pruneUndefined(legacy) };
   if (emergingGraceEnabled !== void 0) {
     merged.emergingGraceEnabled = emergingGraceEnabled;
-    merged.emergingDirectionGrace = emergingGraceEnabled;
+    merged.grace = { ...merged.grace, emergingEnabled: emergingGraceEnabled };
   }
   if (flattened.collapseWeakerClusterRules !== void 0) {
-    merged.collapseWeakerClusterRules = flattened.collapseWeakerClusterRules;
-    merged.collapseClusterRules = flattened.collapseWeakerClusterRules;
+    const v = flattened.collapseWeakerClusterRules;
+    merged.collapseWeakerClusterRules = v;
+    merged.rules = { ...merged.rules, collapseWeakerClusterRules: v };
   }
   return pruneUndefined(merged);
 }
 function buildSpc(args) {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p;
   const {
     chartType,
     metricImprovement,
@@ -6932,6 +6933,8 @@ function buildSpc(args) {
     baselineSuggestScoreThreshold: 50,
     precedenceStrategy: "directional_first" /* DirectionalFirst */,
     emergingDirectionGrace: false,
+    rules: {},
+    grace: {},
     // REMOVED: trendSideGatingEnabled default (always on)
     autoRecalculateAfterShift: false,
     autoRecalculateShiftLength: void 0,
@@ -7297,7 +7300,7 @@ function buildSpc(args) {
     }
     const onHighSide = row.value > row.mean;
     const onLowSide = row.value < row.mean;
-    if (settings.collapseClusterRules) {
+    if ((_n = settings.rules) == null ? void 0 : _n.collapseWeakerClusterRules) {
       if (row.specialCauseTwoOfThreeUp && row.specialCauseFourOfFiveUp) {
         row.specialCauseTwoOfThreeUp = false;
       }
@@ -7310,7 +7313,7 @@ function buildSpc(args) {
     const highSignals = row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp || row.specialCauseShiftUp || trendUpQualified;
     const lowSignals = row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown || row.specialCauseShiftDown || trendDownQualified;
     let emergingFavourable = false;
-    if (settings.precedenceStrategy === "directional_first" /* DirectionalFirst */ && settings.emergingDirectionGrace) {
+    if (settings.precedenceStrategy === "directional_first" /* DirectionalFirst */ && (((_o = settings.grace) == null ? void 0 : _o.emergingEnabled) || settings.emergingGraceEnabled || settings.emergingDirectionGrace)) {
       const trendN = settings.specialCauseTrendPoints || 6;
       if (trendN > 1 && !(row.specialCauseTrendUp || row.specialCauseTrendDown)) {
         const needed = trendN - 1;
@@ -7439,7 +7442,7 @@ function buildSpc(args) {
       }
     }
   }
-  if (((_n = settings.minimumPointsWarning) != null ? _n : false) && !globalEnough) {
+  if (((_p = settings.minimumPointsWarning) != null ? _p : false) && !globalEnough) {
     const available = canonical.filter(
       (r) => !r.ghost && isNumber(r.value)
     ).length;

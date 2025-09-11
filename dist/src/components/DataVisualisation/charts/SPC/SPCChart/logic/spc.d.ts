@@ -146,6 +146,16 @@ export interface SpcSettings {
     autoRecalculateShiftLength?: number;
     autoRecalculateDeltaSigma?: number;
     conflictPrecedenceMode?: ConflictPrecedenceMode;
+    rules?: {
+        collapseWeakerClusterRules?: boolean;
+        shiftPoints?: number;
+        trendPoints?: number;
+        fourOfFiveEnabled?: boolean;
+        fifteenInnerThirdEnabled?: boolean;
+    };
+    grace?: {
+        emergingEnabled?: boolean;
+    };
 }
 export interface SpcSettingsV2 {
     rules?: {

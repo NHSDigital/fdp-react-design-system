@@ -13786,7 +13786,7 @@ function mp(e, t, n) {
 }
 function Gi(e) {
   if (!e) return {};
-  const t = e, n = e, a = n.rules ?? {}, s = n.precedence ?? {}, o = n.thresholds ?? {}, i = n.warnings ?? {}, l = n.rareEvent ?? {}, d = n.capability ?? {}, c = n.grace ?? {}, u = n.baselineSuggest ?? {}, h = n.autoRecalc ?? {}, m = c.emergingEnabled ?? n.emergingGraceEnabled ?? t.emergingDirectionGrace, b = a.collapseWeakerClusterRules ?? n.collapseWeakerClusterRules ?? t.collapseClusterRules, C = globalThis;
+  const t = e, n = e, a = n.rules ?? {}, s = n.precedence ?? {}, o = n.thresholds ?? {}, i = n.warnings ?? {}, l = n.rareEvent ?? {}, d = n.capability ?? {}, c = n.grace ?? {}, u = n.baselineSuggest ?? {}, h = n.autoRecalc ?? {}, m = c.emergingEnabled ?? n.emergingGraceEnabled ?? t.emergingGraceEnabled ?? t.emergingDirectionGrace, b = a.collapseWeakerClusterRules ?? n.collapseWeakerClusterRules ?? t.collapseWeakerClusterRules ?? t.collapseClusterRules, C = globalThis;
   t.emergingDirectionGrace !== void 0 && n.emergingGraceEnabled === void 0 && c.emergingEnabled === void 0 && !C.__spc_warn_emergingDirectionGrace && (C.__spc_warn_emergingDirectionGrace = !0, console.warn("[spc] emergingDirectionGrace is deprecated; use grace.emergingEnabled")), t.collapseClusterRules !== void 0 && a.collapseWeakerClusterRules === void 0 && n.collapseWeakerClusterRules === void 0 && !C.__spc_warn_collapseClusterRules && (C.__spc_warn_collapseClusterRules = !0, console.warn("[spc] collapseClusterRules is deprecated; use rules.collapseWeakerClusterRules"));
   const v = (A) => {
     const L = {};
@@ -13839,7 +13839,11 @@ function Gi(e) {
     autoRecalculateShiftLength: h.shiftLength ?? t.autoRecalculateShiftLength,
     autoRecalculateDeltaSigma: h.deltaSigma ?? t.autoRecalculateDeltaSigma
   }), p = { ...f, ...v(t) };
-  return m !== void 0 && (p.emergingGraceEnabled = m, p.emergingDirectionGrace = m), f.collapseWeakerClusterRules !== void 0 && (p.collapseWeakerClusterRules = f.collapseWeakerClusterRules, p.collapseClusterRules = f.collapseWeakerClusterRules), v(p);
+  if (m !== void 0 && (p.emergingGraceEnabled = m, p.grace = { ...p.grace, emergingEnabled: m }), f.collapseWeakerClusterRules !== void 0) {
+    const A = f.collapseWeakerClusterRules;
+    p.collapseWeakerClusterRules = A, p.rules = { ...p.rules, collapseWeakerClusterRules: A };
+  }
+  return v(p);
 }
 function vs(e) {
   const {
@@ -13872,6 +13876,8 @@ function vs(e) {
     baselineSuggestScoreThreshold: 50,
     precedenceStrategy: "directional_first",
     emergingDirectionGrace: !1,
+    rules: {},
+    grace: {},
     ...o
   };
   if (!Array.isArray(a)) throw new Error("data must be an array of rows");
@@ -14167,10 +14173,10 @@ function vs(e) {
       continue;
     }
     const A = p.value > p.mean, L = p.value < p.mean;
-    i.collapseClusterRules && (p.specialCauseTwoOfThreeUp && p.specialCauseFourOfFiveUp && (p.specialCauseTwoOfThreeUp = !1), p.specialCauseTwoOfThreeDown && p.specialCauseFourOfFiveDown && (p.specialCauseTwoOfThreeDown = !1));
+    i.rules?.collapseWeakerClusterRules && (p.specialCauseTwoOfThreeUp && p.specialCauseFourOfFiveUp && (p.specialCauseTwoOfThreeUp = !1), p.specialCauseTwoOfThreeDown && p.specialCauseFourOfFiveDown && (p.specialCauseTwoOfThreeDown = !1));
     const D = p.specialCauseTrendUp && A, H = p.specialCauseTrendDown && L, M = p.specialCauseSinglePointUp || p.specialCauseTwoOfThreeUp || i.enableFourOfFiveRule && p.specialCauseFourOfFiveUp || p.specialCauseShiftUp || D, F = p.specialCauseSinglePointDown || p.specialCauseTwoOfThreeDown || i.enableFourOfFiveRule && p.specialCauseFourOfFiveDown || p.specialCauseShiftDown || H;
     let N = !1;
-    if (i.precedenceStrategy === "directional_first" && i.emergingDirectionGrace) {
+    if (i.precedenceStrategy === "directional_first" && (i.grace?.emergingEnabled || i.emergingGraceEnabled || i.emergingDirectionGrace)) {
       const w = i.specialCauseTrendPoints || 6;
       if (w > 1 && !(p.specialCauseTrendUp || p.specialCauseTrendDown)) {
         const k = w - 1, g = [];

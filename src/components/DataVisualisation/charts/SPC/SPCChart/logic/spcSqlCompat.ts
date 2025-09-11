@@ -7,7 +7,6 @@ import {
 	ChartType,
 	ImprovementDirection,
 	VariationIcon,
-	ConflictPrecedenceMode,
 	SpcSettings,
 	SpcRow,
 	SpcRuleId,
@@ -159,7 +158,6 @@ export function buildSpcSqlCompat(
 		metricImprovement,
 		data,
 		settings = {},
-		disableTrendSideGating,
 	} = args;
 	const base = buildSpc({
 		chartType,
@@ -167,10 +165,6 @@ export function buildSpcSqlCompat(
 		data,
 		settings: {
 			...settings,
-			trendSideGatingEnabled: disableTrendSideGating
-				? false
-				: (settings.trendSideGatingEnabled ?? true),
-			conflictPrecedenceMode: ConflictPrecedenceMode.None,
 		},
 	});
 	const rows: SpcSqlCompatRow[] = base.rows.map((r) => ({ ...r }));

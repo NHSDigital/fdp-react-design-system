@@ -206,10 +206,9 @@ export interface SpcSettings {
 	precedenceStrategy?: PrecedenceStrategy;
 	/** @deprecated Use emergingGraceEnabled */
 	emergingDirectionGrace?: boolean;
-	/** @deprecated Use trendFavourableSideOnly */
-	trendSideGatingEnabled?: boolean;
+	// REMOVED: trendSideGatingEnabled (now unconditional side qualification)
 	emergingGraceEnabled?: boolean; // V2 canonical
-	trendFavourableSideOnly?: boolean; // V2 canonical
+	// REMOVED: trendFavourableSideOnly (behaviour now always on)
 	minimumPoints?: number;
 	minimumPointsWarning?: boolean;
 	minimumPointsPartition?: number;
@@ -242,12 +241,9 @@ export interface SpcSettings {
 
 // Phase 2 forward-looking settings shape with renamed flags (non-breaking adapter provided)
 // New names (V2): emergingGraceEnabled, trendFavourableSideOnly, collapseWeakerClusterRules
-export interface SpcSettingsV2 extends Omit<SpcSettings,
-	'emergingDirectionGrace' | 'trendSideGatingEnabled' | 'collapseClusterRules'
-> {
+export interface SpcSettingsV2 extends Omit<SpcSettings, 'emergingDirectionGrace' | 'collapseClusterRules'> {
 	emergingGraceEnabled?: boolean;
-	trendFavourableSideOnly?: boolean; // equivalent of trendSideGatingEnabled
-	collapseWeakerClusterRules?: boolean; // equivalent of collapseClusterRules
+	collapseWeakerClusterRules?: boolean;
 }
 
 type AnySpcSettings = SpcSettings | SpcSettingsV2;
@@ -522,22 +518,15 @@ function applyAutoRecalculationBaselines(
 
 // Normalise user supplied settings (legacy + V2) into legacy internal field names for now.
 export function normaliseSpcSettings(user?: AnySpcSettings): SpcSettings {
-	if (!user) return {};
+	if (!user) return {} as SpcSettings;
 	const v2 = user as SpcSettingsV2;
 	const legacy = user as SpcSettings;
-	// Priority: if V2 names supplied use them; else fall back to legacy names.
 	const emergingGraceEnabled = v2.emergingGraceEnabled ?? legacy.emergingDirectionGrace;
-	const trendFavourableSideOnly = v2.trendFavourableSideOnly ?? legacy.trendSideGatingEnabled;
 	const collapseWeakerClusterRules = v2.collapseWeakerClusterRules ?? legacy.collapseClusterRules;
-	// One-time deprecation notices
 	const globalAny = globalThis as any;
 	if (legacy.emergingDirectionGrace !== undefined && v2.emergingGraceEnabled === undefined && !globalAny.__spc_warn_emergingDirectionGrace) {
 		globalAny.__spc_warn_emergingDirectionGrace = true;
 		console.warn('[spc] emergingDirectionGrace is deprecated; use emergingGraceEnabled');
-	}
-	if (legacy.trendSideGatingEnabled !== undefined && v2.trendFavourableSideOnly === undefined && !globalAny.__spc_warn_trendSideGatingEnabled) {
-		globalAny.__spc_warn_trendSideGatingEnabled = true;
-		console.warn('[spc] trendSideGatingEnabled is deprecated; use trendFavourableSideOnly');
 	}
 	if (legacy.collapseClusterRules !== undefined && v2.collapseWeakerClusterRules === undefined && !globalAny.__spc_warn_collapseClusterRules) {
 		globalAny.__spc_warn_collapseClusterRules = true;
@@ -546,13 +535,10 @@ export function normaliseSpcSettings(user?: AnySpcSettings): SpcSettings {
 	return {
 		...user,
 		emergingGraceEnabled,
-		trendFavourableSideOnly,
 		collapseWeakerClusterRules,
-		// Backfill legacy names for internal engine until complete migration
 		emergingDirectionGrace: emergingGraceEnabled,
-		trendSideGatingEnabled: trendFavourableSideOnly,
 		collapseClusterRules: collapseWeakerClusterRules,
-	};
+	} as SpcSettings;
 }
 
 export function buildSpc(args: BuildSpcArgs): SpcResult {
@@ -594,7 +580,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		baselineSuggestScoreThreshold: 50,
 		precedenceStrategy: PrecedenceStrategy.DirectionalFirst,
 		emergingDirectionGrace: false,
-		trendSideGatingEnabled: true,
+		// REMOVED: trendSideGatingEnabled default (always on)
 		autoRecalculateAfterShift: false,
 		autoRecalculateShiftLength: undefined,
 		autoRecalculateDeltaSigma: 0.5,

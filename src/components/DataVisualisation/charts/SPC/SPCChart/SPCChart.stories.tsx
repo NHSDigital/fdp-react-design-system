@@ -32,8 +32,8 @@ const meta: Meta<typeof SPCChart> = {
 	parameters: {
 		docs: {
 			description: {
-				component:
-					"Individuals (I) Shewhart chart. Computes mean, ±1σ/±2σ/±3σ control limits, and detects special-cause rules.",
+					component:
+						"Individuals (I) Shewhart chart. Computes mean, ±1σ/±2σ/±3σ control limits, and detects special-cause rules. Below the minimum points threshold (default 13), limits are suppressed and variation icons are suppressed; see docs/spc-thresholds.md.",
 			},
 		},
 	},
@@ -144,10 +144,11 @@ export const InspectorWithOverlays: Story = {
 		const data = React.useMemo(() => makeData(), []);
 		// Create a mild upward trend to ensure trend rule fires and overlays appear
 		const mutated = data.map((d, i) => ({ ...d, y: d.y + (i > 12 ? i - 12 : 0) }));
+			const [lastFocus, setLastFocus] = React.useState<string>("-");
 		return (
 			<ChartContainer
 				title="SPC with Signals Inspector & Trend Overlays"
-				description="Use arrow keys or the inspector buttons to move focus."
+					description={`Use arrow keys or the inspector buttons to move focus. Last focus: ${lastFocus}`}
 				source="Synthetic data"
 			>
 				<SPCChart
@@ -162,6 +163,7 @@ export const InspectorWithOverlays: Story = {
 					showTrendStartMarkers
 					showFirstFavourableCrossMarkers
 					showTrendBridgeOverlay
+						onSignalFocus={(info) => setLastFocus(`#${info.index + 1} (${info.y}${typeof info.x === 'number' ? '' : ''})`)}
 					unit="%"
 					narrationContext={{
 						measureName: 'Process metric',

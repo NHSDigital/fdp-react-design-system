@@ -1,8 +1,46 @@
 # SPC Engine Refactor & Harmonisation Plan
 
-Status: Phase 3 – complete (2025-09-11)
+Status: Engine Phases 1–3 complete; UI U1 & U2 complete (2025-09-11)
 Owner: Data Visualisation / SPC Maintainers
-Scope: `spc.ts`, `spcSqlCompat.ts`, related directional pruning & settings surface.
+Scope: `spc.ts` core engine, SPCChart UI overlays/inspector, settings migration, docs.
+
+## Executive summary — current state (2025‑09‑11)
+
+### Delivered
+
+- Engine semantics: Side‑gated trend contribution is always‑on in the engine; precedence uses DirectionalFirst; iteration delegates to the canonical partition iterator.
+- Settings: Consolidated `SpcSettingsV2` with a single normaliser accepting legacy + V2 and pruning undefineds; legacy aliases still honoured with one‑time deprecation warnings.
+- Helpers: Extracted `computeAssuranceIconRaw` and `computeBaselineSuggestionsRaw`; baseline suggestion edge cases fixed (rising edge + index alignment).
+- UI U1/U2: Trend overlays (start, first favourable cross, bridge) and a Signals Inspector panel; when the inspector is active, hover tooltips are suppressed; tag styles aligned by globalising SPC tag CSS.
+- Thresholds & canonical state: Minimum-points semantics tightened; when non‑ghost points are below the threshold, limits are null and the engine emits `variationIcon: 'suppressed'`. "Suppressed" is now the canonical no‑judgement state; legacy `None` is a deprecated alias. Alias handling is centralised at icon/descriptors and the chart boundary.
+- Descriptors: `spcDescriptors.ts` provides stable rule glossary, labels, and color tokens; aligned with enums/settings.
+- Docs & codemod: Migration guide for settings V2, roadmap updates, and a codemod with CLI help; CHANGELOG linked.
+- Validation: Typecheck/lint/build/SSR/components all green.
+
+### Notes
+
+- Trend visual gating is a UI‑only toggle via a `TrendVisualMode` enum (defaults Ungated); engine classification is unchanged and always side‑gated.
+- Governance preset added to Storybook for common configuration.
+
+## Recommended next steps
+
+### Quality & safety
+
+- Keep `npm run analyze:ssr` in your local pre‑release checklist to guard SSR regressions.
+
+### Developer experience
+
+- Add a short example snippet in the SPC docs showing how to wire `TrendVisualMode` and U1 overlays together (Ungated vs Gated visuals side‑by‑side).
+- Expose a light `onSignalFocus` callback from the Signals Inspector for analytics/a11y hooks (non‑breaking prop).
+
+### Cleanup staging (major release)
+
+- Plan Phase 4 to remove deprecated settings and legacy aliases once downstreams are migrated using the provided codemod.
+- Remove deprecated `VariationIcon.None` from the public API ("Suppressed" is already canonical); ship codemod guidance.
+
+### Future UX (optional U3)
+
+- Guided “Explain this chart” mode (start → cross → classification) with color‑blind‑friendly encodings; keep as UI‑only.
 
 ## 1. Objectives
 
@@ -68,23 +106,23 @@ Pending in Phase 2:
 
 ```ts
 export interface SpcSettingsV2 {
-	rules?: {
+rules?: {
 		shiftPoints?: number;
 		trendPoints?: number;
 		enableFourOfFive?: boolean;
-		enableFifteenInnerThird?: boolean;
+	enableFifteenInnerThird?: boolean;
 	};
-	precedence?: {
+precedence?: {
 		strategy?: PrecedenceStrategy;
 		emergingGraceEnabled?: boolean;
 		transitionBufferPoints?: number;
-		collapseWeakerClusterRules?: boolean;
+	collapseWeakerClusterRules?: boolean;
 	};
 	trend?: { favourableSideOnly?: boolean };
 	autoRecalc?: { enabled?: boolean; shiftLength?: number; deltaSigma?: number };
-	warnings?: {
-		/* mirror existing booleans */
-	};
+warnings?: {
+	/* mirror existing booleans */
+};
 }
 ```
 
@@ -95,7 +133,7 @@ export interface SpcSettingsV2 {
 ### Phase 4 (Major Version – Breaking Cleanup)
 
 1. Remove deprecated field names & settings booleans.
-2. Replace `VariationIcon.None` with `VariationIcon.Suppressed` (provide codemod guidance).
+2. Remove the legacy `VariationIcon.None` alias from types/API ("Suppressed" already canonical). Provide codemod guidance and migration notes.
 3. Optionally introduce compact `ruleFlags` structure or bitset (only if profiling shows benefit).
 4. Publish migration guide + glossary MDX.
 
@@ -134,7 +172,7 @@ For each deprecated property `fooOld` replaced by `fooNew`:
 ```ts
 Object.defineProperty(row, 'fooOld', {
 	get() {
-		return row.fooNew;
+	return row.fooNew;
 	},
 	enumerable: false,
 });
@@ -193,24 +231,27 @@ Questions / approvals: open a PR referencing this document and tick Phase 1 acce
 Goal: Help users reason about side‑gated trends without reintroducing classification toggles by adding clear, accessible visual affordances and audit trails.
 
 Principles
+
 - Classification remains unchanged (side‑gated by default).
 - Insights are computed post‑engine from existing `engine.rows` and rule tags.
 - All additions are UI‑only and backwards‑compatible (additive props).
 
 ### Phase U1 (Overlays & tooltip copy)
 
-Deliver
+- Deliver
+
 - Compute trend insights (memoised in SPCChart):
-  - `detectedAt` (first index when monotonic run reaches N)
-  - `direction` ('up'|'down')
-  - `firstFavourableCrossAt` (first index on favourable side of mean within same run, or null)
-  - `persistedAcrossMean` (boolean)
+	- `detectedAt` (first index when monotonic run reaches N)
+	- `direction` ('up'|'down')
+	- `firstFavourableCrossAt` (first index on favourable side of mean within same run, or null)
+	- `persistedAcrossMean` (boolean)
 - New props (UI only): `showTrendStartMarkers?` (default false), `showFirstFavourableCrossMarkers?` (default true), `showTrendBridgeOverlay?` (default true)
 - Render markers (hollow for start, solid for cross) and optional dashed bridge with hover label.
 - Tooltip: when purple, show “Emerging trend detected (not yet on favourable side)” + run direction/length and cross status.
 - Stories and docs linking to `spc-trend-gating.mdx`.
 
-Acceptance
+- Acceptance
+
 - Markers render only when a trend exists; no crashes with small/ghosted series.
 - Tooltip gating rationale appears for neutral trend cases.
 - Storybook includes overlay toggles; basic visual regression/snapshot tests in place.
@@ -218,23 +259,28 @@ Acceptance
 ### Phase U2 (Signals inspector + interventions)
 
 Deliver
+
 - `showSignalsInspector?` prop: panel/popover listing detected signals (trend/shift/2‑of‑3) with `detectedAt`, `firstFavourableCrossAt`, `persistedAcrossMean`, and rule tags via `extractRuleIds`/`ruleGlossary`.
 - `interventions?: Array<{ x: Date|string|number; label?: string }>`: x‑axis markers; proximity hint when an intervention lies between detection and cross.
 - `onSignalFocus?` callback for analytics/a11y.
 
 Acceptance
+
 - Inspector updates with viewport/data changes; keyboard navigation between markers; accessible labels for interventions.
 
 ### Phase U3 (Explain mode & polish)
 
 Deliver
+
 - Guided “Explain this chart” mode stepping through trend start → cross → classification change.
 - Color‑blind supportive encodings (shape/pattern) on markers; global Storybook controls for neutral styling demo.
 
 Acceptance
+
 - Explain mode is screen‑reader friendly; stable screenshot tests.
 
 Tech notes
+
 - No engine changes required; compute insights from `engine.rows`, `mean`, and `metricImprovement`.
 - Memoise insights by `rows` identity; keep props additive with safe defaults.
 

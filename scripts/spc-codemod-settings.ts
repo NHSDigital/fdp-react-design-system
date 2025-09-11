@@ -10,16 +10,42 @@
  *     trendSideGatingEnabled, trendFavourableSideOnly
  *
  * Usage:
- *   tsx scripts/spc-codemod-settings.ts --dry    # scan only (default)
- *   tsx scripts/spc-codemod-settings.ts --apply  # apply safe dot-access edits
+ *   # scan only (default)
+ *   npm run spc:codemod:scan
+ *
+ *   # apply safe dot-access edits
+ *   npm run spc:codemod:apply
+ *
+ * Flags (optional):
+ *   --apply   Apply safe edits (dot-access only). Without this flag, runs as dry-run.
+ *   --help    Show this help and exit.
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { globSync } from 'glob';
 import path from 'node:path';
 
-type Flags = { apply: boolean };
-const flags: Flags = { apply: process.argv.includes('--apply') };
+type Flags = { apply: boolean, help: boolean };
+const flags: Flags = {
+  apply: process.argv.includes('--apply'),
+  help: process.argv.includes('--help') || process.argv.includes('-h'),
+};
+
+if (flags.help) {
+  const usage = `\nSPC Settings Codemod\n\n` +
+`Scans source files for deprecated SPC settings and helps migrate to grouped SpcSettingsV2.\n` +
+`\nUsage:\n` +
+`  tsx scripts/spc-codemod-settings.ts [--apply] [--help]\n` +
+`\nWhen run via npm scripts:\n` +
+`  npm run spc:codemod:scan   # dry-run (default)\n` +
+`  npm run spc:codemod:apply  # apply safe dot-access edits\n` +
+`\nNotes:\n` +
+`- Only dot-access usages are auto-rewritten.\n` +
+`- Object literal keys and bracket-access patterns are reported for manual edits.\n` +
+`- Legacy trend gating flags are reported to remove (engine always side-gates).\n`;
+  console.log(usage);
+  process.exit(0);
+}
 
 const ROOT = process.cwd();
 const patterns = [

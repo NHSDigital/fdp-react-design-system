@@ -98,9 +98,23 @@ Expect a one‑time console.warn when legacy names are detected during tests/dev
 1. (Optional) Run the codemod to automate safe dot-access renames, then scan reported manual sites (object literals / bracket-access) and update them. Commands:
 
 ```sh
+# Dry-run (scan only): shows findings and where manual edits are required
 npm run spc:codemod:scan
+
+# Apply mode: performs only safe dot-access edits
 npm run spc:codemod:apply
 ```
+
+Codemod scope & limitations:
+
+- Auto-rewrites only safe dot-access occurrences:
+  - `.emergingDirectionGrace` → `.grace?.emergingEnabled`
+  - `.collapseClusterRules` → `.rules?.collapseWeakerClusterRules`
+- Reports (does not modify):
+  - Object literal keys: `emergingDirectionGrace:`, `collapseClusterRules:`
+  - Bracket access: `['emergingDirectionGrace']`, `['collapseClusterRules']`
+  - Legacy trend gating flags: `trendSideGatingEnabled`, `trendFavourableSideOnly` (remove)
+- Review and update reported sites manually to the grouped V2 shape.
 
 1. Run validations:
 
@@ -123,3 +137,18 @@ npm run build:parity
   - `collapseClusterRules` → replace with `rules.collapseWeakerClusterRules`
 
 Keep changes minimal; the normaliser preserves backward compatibility.
+
+## Troubleshooting
+
+- I still see deprecation warnings for `emergingDirectionGrace` or `collapseClusterRules`:
+  - Search for object literal keys and bracket access that the codemod reported; these require manual edits.
+  - In tests, warnings are one-time per run by design.
+- My UI had a toggle for trend side gating:
+  - Engine classification is always side-gated now. Use the visual-only `TrendVisualMode` toggle in `SPCChart` if you want to demonstrate ungated visuals for comparison; default is `Ungated` and does not affect classification.
+- Baseline suggestions or auto-recalc behaviour changed:
+  - Ensure you are not passing `undefined` values that override defaults; the normaliser prunes `undefined` but explicit `false` will disable toggles.
+
+## Related docs
+
+- SPC Refactor & Harmonisation Roadmap: `../spc-refactor-roadmap.md`
+- Trend gating rationale and UI overlays are documented in SPC stories and docs.

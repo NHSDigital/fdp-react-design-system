@@ -9681,7 +9681,11 @@ var Table_default = Table;
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCSignalsInspector.tsx
 import * as React12 from "react";
 import { jsx as jsx16, jsxs as jsxs10 } from "react/jsx-runtime";
-var SPCSignalsInspector = ({ engineRows, measureName, measureUnit }) => {
+var SPCSignalsInspector = ({
+  engineRows,
+  measureName,
+  measureUnit
+}) => {
   var _a2, _b2;
   const t = useTooltipContext();
   const focused = (_a2 = t == null ? void 0 : t.focused) != null ? _a2 : null;
@@ -9689,89 +9693,218 @@ var SPCSignalsInspector = ({ engineRows, measureName, measureUnit }) => {
   const row = typeof index === "number" && engineRows ? engineRows[index] : null;
   const rules = React12.useMemo(() => row ? extractRuleIds(row) : [], [row]);
   const uniqueRuleNarr = React12.useMemo(
-    () => Array.from(new Set(rules.map((r) => {
-      var _a3;
-      return (_a3 = ruleGlossary[r]) == null ? void 0 : _a3.narration;
-    }).filter(Boolean))),
+    () => Array.from(
+      new Set(rules.map((r) => {
+        var _a3;
+        return (_a3 = ruleGlossary[r]) == null ? void 0 : _a3.narration;
+      }).filter(Boolean))
+    ),
     [rules]
   );
-  return /* @__PURE__ */ jsxs10("div", { className: "fdp-spc-inspector", role: "region", "aria-label": "Signals inspector", "data-testid": "spc-signals-inspector", children: [
-    /* @__PURE__ */ jsxs10("div", { className: "fdp-spc-inspector__header", style: { display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
-      /* @__PURE__ */ jsx16("strong", { children: "Signals inspector" }),
-      /* @__PURE__ */ jsx16("div", { className: "fdp-spc-inspector__nav", "aria-hidden": !t, children: t && /* @__PURE__ */ jsxs10("div", { style: { display: "flex", gap: 8 }, children: [
-        /* @__PURE__ */ jsx16(
-          "button",
+  const variationDesc = row ? variationLabel(row.variationIcon) : null;
+  const assuranceDesc = row ? assuranceLabel(row.assuranceIcon) : null;
+  const hasRules = rules.length > 0;
+  const isNoJudgement = row ? row.variationIcon === "neither" /* Neither */ && hasRules : false;
+  return /* @__PURE__ */ jsxs10(
+    "div",
+    {
+      className: "fdp-spc-inspector",
+      role: "region",
+      "aria-label": "Signals inspector",
+      "data-testid": "spc-signals-inspector",
+      children: [
+        /* @__PURE__ */ jsxs10(
+          "div",
           {
-            type: "button",
-            className: "fdp-button fdp-button--secondary",
-            onClick: () => {
-              if (!t.focused) t.focusFirstPoint();
-              else t.focusPrevPoint();
+            className: "fdp-spc-inspector__header",
+            style: {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between"
             },
-            "aria-label": "Previous point",
-            children: "\u25C0"
+            children: [
+              /* @__PURE__ */ jsx16("strong", { children: "Signals inspector" }),
+              /* @__PURE__ */ jsx16("div", { className: "fdp-spc-inspector__nav", "aria-hidden": !t, children: t && /* @__PURE__ */ jsxs10("div", { style: { display: "flex", gap: 8 }, children: [
+                /* @__PURE__ */ jsx16(
+                  "button",
+                  {
+                    type: "button",
+                    className: "fdp-button fdp-button--secondary",
+                    onClick: () => {
+                      if (!t.focused) t.focusFirstPoint();
+                      else t.focusPrevPoint();
+                    },
+                    "aria-label": "Previous point",
+                    children: "\u25C0"
+                  }
+                ),
+                /* @__PURE__ */ jsx16(
+                  "button",
+                  {
+                    type: "button",
+                    className: "fdp-button fdp-button--secondary",
+                    onClick: () => {
+                      if (!t.focused) t.focusFirstPoint();
+                      else t.focusNextPoint();
+                    },
+                    "aria-label": "Next point",
+                    children: "\u25B6"
+                  }
+                )
+              ] }) })
+            ]
           }
         ),
-        /* @__PURE__ */ jsx16(
-          "button",
-          {
-            type: "button",
-            className: "fdp-button fdp-button--secondary",
-            onClick: () => {
-              if (!t.focused) t.focusFirstPoint();
-              else t.focusNextPoint();
-            },
-            "aria-label": "Next point",
-            children: "\u25B6"
-          }
-        )
-      ] }) })
-    ] }),
-    !row || !focused ? /* @__PURE__ */ jsx16("p", { className: "fdp-spc-inspector__empty", children: "No point selected." }) : /* @__PURE__ */ jsxs10("div", { className: "fdp-spc-inspector__body", children: [
-      /* @__PURE__ */ jsxs10("div", { className: "fdp-spc-inspector__summary", style: { display: "flex", gap: 16, flexWrap: "wrap" }, children: [
-        /* @__PURE__ */ jsxs10("span", { children: [
-          /* @__PURE__ */ jsx16("strong", { children: "Point:" }),
-          " ",
-          focused.index + 1
-        ] }),
-        /* @__PURE__ */ jsxs10("span", { children: [
-          /* @__PURE__ */ jsx16("strong", { children: "Value:" }),
-          " ",
-          focused.y,
-          measureUnit ? ` ${measureUnit}` : "",
-          measureName ? ` ${measureName}` : ""
-        ] }),
-        /* @__PURE__ */ jsxs10("span", { children: [
-          /* @__PURE__ */ jsx16("strong", { children: "Variation:" }),
-          " ",
-          variationLabel(row.variationIcon) || "Unknown"
-        ] }),
-        /* @__PURE__ */ jsxs10("span", { children: [
-          /* @__PURE__ */ jsx16("strong", { children: "Assurance:" }),
-          " ",
-          row.assuranceIcon === "pass" /* Pass */ ? "Pass" : row.assuranceIcon === "fail" /* Fail */ ? "Fail" : "None"
+        !row || !focused ? /* @__PURE__ */ jsx16("p", { className: "fdp-spc-inspector__empty", children: "No point selected." }) : /* @__PURE__ */ jsxs10("div", { className: "fdp-spc-inspector__body", children: [
+          /* @__PURE__ */ jsxs10(
+            "div",
+            {
+              className: "fdp-spc-inspector__summary",
+              style: { display: "flex", gap: 16, flexWrap: "wrap" },
+              children: [
+                /* @__PURE__ */ jsxs10("span", { children: [
+                  /* @__PURE__ */ jsx16("strong", { children: "Point:" }),
+                  " ",
+                  focused.index + 1
+                ] }),
+                /* @__PURE__ */ jsxs10("span", { children: [
+                  /* @__PURE__ */ jsx16("strong", { children: "Value:" }),
+                  " ",
+                  focused.y,
+                  measureUnit ? ` ${measureUnit}` : "",
+                  measureName ? ` ${measureName}` : ""
+                ] })
+              ]
+            }
+          ),
+          (variationDesc || isNoJudgement || assuranceDesc) && /* @__PURE__ */ jsx16(
+            "div",
+            {
+              className: "fdp-spc-inspector__signals",
+              style: { marginTop: 8 },
+              children: /* @__PURE__ */ jsxs10(
+                "div",
+                {
+                  style: {
+                    display: "flex",
+                    gap: 8,
+                    flexWrap: "wrap",
+                    alignItems: "center"
+                  },
+                  children: [
+                    (() => {
+                      if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
+                        return /* @__PURE__ */ jsx16(
+                          Tag,
+                          {
+                            text: variationDesc,
+                            color: "default",
+                            className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
+                          }
+                        );
+                      }
+                      if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
+                        return /* @__PURE__ */ jsx16(
+                          Tag,
+                          {
+                            text: variationDesc,
+                            color: "default",
+                            className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
+                          }
+                        );
+                      }
+                      if (isNoJudgement) {
+                        return /* @__PURE__ */ jsx16(
+                          Tag,
+                          {
+                            text: "No judgement",
+                            color: "default",
+                            className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--no-judgement",
+                            "aria-label": "Neutral special cause (no directional judgement)"
+                          }
+                        );
+                      }
+                      if (variationDesc) {
+                        return /* @__PURE__ */ jsx16(
+                          Tag,
+                          {
+                            text: variationDesc,
+                            color: "default",
+                            className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
+                          }
+                        );
+                      }
+                      return null;
+                    })(),
+                    assuranceDesc && (() => {
+                      const lower = assuranceDesc.toLowerCase();
+                      const isFail = lower.includes("not met") || lower.includes("not achieved");
+                      const isPass = !isFail && /^|\b(met|achieved)\b|$/.test(lower);
+                      return /* @__PURE__ */ jsx16(
+                        Tag,
+                        {
+                          text: assuranceDesc,
+                          color: "default",
+                          className: `fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--assurance ${isPass ? "fdp-spc-tag--improvement" : "fdp-spc-tag--concern"}`,
+                          "aria-label": `Assurance: ${assuranceDesc}`
+                        }
+                      );
+                    })()
+                  ]
+                }
+              )
+            }
+          ),
+          /* @__PURE__ */ jsxs10("div", { className: "fdp-spc-inspector__rules", style: { marginTop: 8 }, children: [
+            /* @__PURE__ */ jsx16("strong", { children: "Special cause:" }),
+            /* @__PURE__ */ jsx16(
+              "div",
+              {
+                className: "fdp-spc-tooltip__rule-tags",
+                "aria-label": "Special cause rules",
+                style: {
+                  display: "flex",
+                  gap: 6,
+                  flexWrap: "wrap",
+                  marginTop: 4
+                },
+                children: rules.length === 0 ? /* @__PURE__ */ jsx16("span", { children: " None" }) : rules.map((r) => {
+                  var _a3, _b3;
+                  const idStr = String(r);
+                  const isTrend = idStr === "trend_inc" /* TrendIncreasing */ || idStr === "trend_dec" /* TrendDecreasing */;
+                  const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
+                  const label = ((_a3 = ruleGlossary[r]) == null ? void 0 : _a3.tooltip) || idStr;
+                  return /* @__PURE__ */ jsx16(
+                    Tag,
+                    {
+                      text: label,
+                      color: "default",
+                      className: `fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`,
+                      "data-rule-id": idStr,
+                      title: (_b3 = ruleGlossary[r]) == null ? void 0 : _b3.tooltip
+                    },
+                    idStr
+                  );
+                })
+              }
+            )
+          ] }),
+          uniqueRuleNarr.length > 0 && /* @__PURE__ */ jsxs10(
+            "div",
+            {
+              className: "fdp-spc-inspector__narration",
+              style: { marginTop: 8 },
+              children: [
+                /* @__PURE__ */ jsx16("strong", { children: "Summary:" }),
+                " ",
+                uniqueRuleNarr.join("; ")
+              ]
+            }
+          )
         ] })
-      ] }),
-      /* @__PURE__ */ jsxs10("div", { className: "fdp-spc-inspector__rules", style: { marginTop: 8 }, children: [
-        /* @__PURE__ */ jsx16("strong", { children: "Rules:" }),
-        rules.length === 0 ? /* @__PURE__ */ jsx16("span", { children: " None" }) : /* @__PURE__ */ jsx16("ul", { style: { margin: "4px 0 0 16px" }, children: rules.map((r) => {
-          var _a3, _b3, _c;
-          return /* @__PURE__ */ jsxs10("li", { "data-rule": r, title: (_a3 = ruleGlossary[r]) == null ? void 0 : _a3.tooltip, children: [
-            ((_b3 = ruleGlossary[r]) == null ? void 0 : _b3.tooltip) || r,
-            ((_c = ruleGlossary[r]) == null ? void 0 : _c.narration) ? /* @__PURE__ */ jsxs10("span", { style: { color: "#555" }, children: [
-              " \u2014 ",
-              ruleGlossary[r].narration
-            ] }) : null
-          ] }, r);
-        }) })
-      ] }),
-      uniqueRuleNarr.length > 0 && /* @__PURE__ */ jsxs10("div", { className: "fdp-spc-inspector__narration", style: { marginTop: 8 }, children: [
-        /* @__PURE__ */ jsx16("strong", { children: "Summary:" }),
-        " ",
-        uniqueRuleNarr.join("; ")
-      ] })
-    ] })
-  ] });
+      ]
+    }
+  );
 };
 var SPCSignalsInspector_default = SPCSignalsInspector;
 
@@ -11007,7 +11140,7 @@ var InternalSPC = ({
                   height: yScale.range()[0]
                 }
               ),
-              /* @__PURE__ */ jsx17(
+              !showSignalsInspector && /* @__PURE__ */ jsx17(
                 SPCTooltipOverlay_default,
                 {
                   engineRows,

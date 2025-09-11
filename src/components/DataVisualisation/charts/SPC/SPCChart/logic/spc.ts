@@ -10,6 +10,28 @@ import {
 	tChartLimits,
 	gChartProbabilityLimits,
 } from './spcUtils';
+import { computeAssuranceIconRaw } from './spcAssurance';
+import { computeBaselineSuggestionsRaw } from './spcCandidates';
+// Phase 4 strict-mode toggle (default ON). Consumers can override via:
+// - globalThis.__SPC_PHASE4_STRICT (boolean), or
+// - process.env.SPC_PHASE4_STRICT ('1'|'true' -> true, '0'|'false' -> false).
+// This is evaluated at call-time to allow tests to override per-spec.
+function isPhase4Strict(): boolean {
+	// Explicit global override takes precedence
+	const g: any = (globalThis as any);
+	if (typeof g.__SPC_PHASE4_STRICT !== 'undefined') return !!g.__SPC_PHASE4_STRICT;
+	// Environment override if present
+	if (typeof process !== 'undefined') {
+		const v = (process as any)?.env?.SPC_PHASE4_STRICT;
+		if (typeof v !== 'undefined') {
+			const s = String(v).toLowerCase();
+			if (s === '1' || s === 'true') return true;
+			if (s === '0' || s === 'false') return false;
+		}
+	}
+	// Default: strict ON in Phase 4
+	return true;
+}
 
 /**
  * Chart type meanings (high‑level):
@@ -45,7 +67,16 @@ export enum VariationIcon {
 	Improvement = "improvement",
 	Concern = "concern",
 	Neither = "neither",
-	None = "none", // used where previously null (ghost/missing or suppressed)
+	/**
+	 * @deprecated Use `Suppressed`. Will be removed in Phase 4.
+	 * Currently emitted for ghost/missing or suppressed cases.
+	 */
+	None = "none",
+	/**
+	 * Preferred identifier for cases that should not display a variation icon (ghost/missing or explicitly suppressed).
+	 * Planned replacement for `None` in Phase 4.
+	 */
+	Suppressed = "suppressed",
 }
 // Stable ordered precedence list (index +1 gives rank) – allows future insertion/reordering
 // Stable identifiers for individual special-cause rule categories used in ranking / conflict metadata
@@ -367,7 +398,7 @@ export interface SpcRow {
 	// Trend (monotonic) rule
 	specialCauseTrendUp: boolean;
 	specialCauseTrendDown: boolean;
-	variationIcon: VariationIcon; // never null; use VariationIcon.None when suppressed
+	variationIcon: VariationIcon; // never null; use VariationIcon.Suppressed when suppressed
 	assuranceIcon: AssuranceIcon; // 'none' when no target / not assessed
 	// Parity/helper columns
 	upperBaseline: number | null;
@@ -609,13 +640,23 @@ export function normaliseSpcSettings(user?: AnySpcSettings): SpcSettings {
 	const emergingGraceEnabled = (grace.emergingEnabled ?? v2.emergingGraceEnabled ?? legacy.emergingGraceEnabled ?? legacy.emergingDirectionGrace);
 	const collapseWeakerClusterRules = (rules.collapseWeakerClusterRules ?? v2.collapseWeakerClusterRules ?? legacy.collapseWeakerClusterRules ?? legacy.collapseClusterRules);
 
+	// Phase 4 strict mode: reject legacy/deprecated fields
+	if (isPhase4Strict()) {
+		if (legacy.emergingDirectionGrace !== undefined) {
+			throw new Error('[spc][phase4] emergingDirectionGrace is no longer supported. Use settings.grace.emergingEnabled.');
+		}
+		if (legacy.collapseClusterRules !== undefined) {
+			throw new Error('[spc][phase4] collapseClusterRules is no longer supported. Use settings.rules.collapseWeakerClusterRules.');
+		}
+	}
+
 	// First-use deprecation warnings for legacy names
 	const globalAny = globalThis as any;
-	if (legacy.emergingDirectionGrace !== undefined && v2.emergingGraceEnabled === undefined && grace.emergingEnabled === undefined && !globalAny.__spc_warn_emergingDirectionGrace) {
+	if (!isPhase4Strict() && legacy.emergingDirectionGrace !== undefined && v2.emergingGraceEnabled === undefined && grace.emergingEnabled === undefined && !globalAny.__spc_warn_emergingDirectionGrace) {
 		globalAny.__spc_warn_emergingDirectionGrace = true;
 		console.warn('[spc] emergingDirectionGrace is deprecated; use grace.emergingEnabled');
 	}
-	if (legacy.collapseClusterRules !== undefined && rules.collapseWeakerClusterRules === undefined && v2.collapseWeakerClusterRules === undefined && !globalAny.__spc_warn_collapseClusterRules) {
+	if (!isPhase4Strict() && legacy.collapseClusterRules !== undefined && rules.collapseWeakerClusterRules === undefined && v2.collapseWeakerClusterRules === undefined && !globalAny.__spc_warn_collapseClusterRules) {
 		globalAny.__spc_warn_collapseClusterRules = true;
 		console.warn('[spc] collapseClusterRules is deprecated; use rules.collapseWeakerClusterRules');
 	}
@@ -931,7 +972,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				specialCauseShiftDown: false,
 				specialCauseTrendUp: false,
 				specialCauseTrendDown: false,
-				variationIcon: VariationIcon.None,
+				variationIcon: VariationIcon.Suppressed,
 				assuranceIcon: AssuranceIcon.None,
 				upperBaseline:
 					limitsAllowed && isNumber(centerLine) ? centerLine : null,
@@ -1164,7 +1205,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			});
 		}
 		if (row.ghost || !isNumber(row.value) || row.mean === null) {
-			row.variationIcon = VariationIcon.None;
+			row.variationIcon = VariationIcon.Suppressed;
 			continue;
 		}
 		// Directional aggregation now sourced from alias Up/Down flags to unify internal logic.
@@ -1325,48 +1366,19 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			row.originalSpecialCauseConcernValue = originalConcern;
 		}
 
-		// Assurance icon – capability mode (limits vs target) or fallback single-point
-		if (isNumber(row.value) && row.mean !== null) {
-			row.assuranceIcon = AssuranceIcon.None;
+		// Assurance icon via helper (capability vs fallback) – preserves existing semantics
+		{
 			const inputRow = canonical[row.rowId - 1];
-			if (isNumber(inputRow.target)) {
-				const t = inputRow.target;
-				if (
-					settings.assuranceCapabilityMode &&
-					isNumber(row.upperProcessLimit) &&
-					isNumber(row.lowerProcessLimit)
-				) {
-					if (metricImprovement === ImprovementDirection.Up) {
-						if (row.lowerProcessLimit !== null && row.lowerProcessLimit > t)
-							row.assuranceIcon = AssuranceIcon.Pass; // whole band above
-						else if (
-							row.upperProcessLimit !== null &&
-							row.upperProcessLimit < t
-						)
-							row.assuranceIcon = AssuranceIcon.Fail; // whole band below
-						else row.assuranceIcon = AssuranceIcon.None; // overlaps -> uncertain
-					} else if (metricImprovement === ImprovementDirection.Down) {
-						if (row.upperProcessLimit !== null && row.upperProcessLimit < t)
-							row.assuranceIcon = AssuranceIcon.Pass; // whole band below (good)
-						else if (
-							row.lowerProcessLimit !== null &&
-							row.lowerProcessLimit > t
-						)
-							row.assuranceIcon = AssuranceIcon.Fail; // whole band above (bad)
-						else row.assuranceIcon = AssuranceIcon.None;
-					} else {
-						row.assuranceIcon = AssuranceIcon.None;
-					}
-				} else {
-					if (metricImprovement === ImprovementDirection.Down)
-						row.assuranceIcon =
-							row.value <= t ? AssuranceIcon.Pass : AssuranceIcon.Fail;
-					else if (metricImprovement === ImprovementDirection.Up)
-						row.assuranceIcon =
-							row.value >= t ? AssuranceIcon.Pass : AssuranceIcon.Fail;
-					else row.assuranceIcon = AssuranceIcon.None;
-				}
-			}
+			const raw = computeAssuranceIconRaw({
+				metricImprovement: metricImprovement as any,
+				capabilityMode: settings.assuranceCapabilityMode,
+				value: row.value,
+				mean: row.mean,
+				upperProcessLimit: row.upperProcessLimit,
+				lowerProcessLimit: row.lowerProcessLimit,
+				target: isNumber(inputRow?.target) ? inputRow.target! : null,
+			});
+			row.assuranceIcon = raw === 'pass' ? AssuranceIcon.Pass : raw === 'fail' ? AssuranceIcon.Fail : AssuranceIcon.None;
 		}
 	}
 
@@ -1430,7 +1442,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 	}
 
 	// Extended warning suite
-	if (settings.nullValueWarning && (chartType === "XmR" || chartType === "G")) {
+	if (settings.nullValueWarning && (chartType === ChartType.XmR || chartType === ChartType.G)) {
 		const nullCount = canonical.filter(
 			(r) =>
 				!r.ghost &&
@@ -1447,7 +1459,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 	}
 	if (
 		settings.targetSuppressedWarning &&
-		(chartType === "T" || chartType === "G")
+		(chartType === ChartType.T || chartType === ChartType.G)
 	) {
 		const hasTarget = canonical.some((r) => isNumber(r.target));
 		if (hasTarget)
@@ -1461,7 +1473,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 	}
 	if (
 		settings.ghostOnRareEventWarning &&
-		(chartType === "T" || chartType === "G")
+		(chartType === ChartType.T || chartType === ChartType.G)
 	) {
 		const ghostCount = canonical.filter((r) => r.ghost).length;
 		if (ghostCount)
@@ -1541,108 +1553,40 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 
 	let suggestedBaselines: SpcResult['suggestedBaselines'];
 	if (settings.baselineSuggest) {
-		// Heuristic baseline change (phase) suggestions
-		const rows = output;
 		const W = settings.baselineSuggestStabilityPoints;
 		const minGap = settings.baselineSuggestMinGap;
 		const minDeltaSigma = settings.baselineSuggestMinDeltaSigma;
 		const scoreThreshold = settings.baselineSuggestScoreThreshold;
-		const suggestions: NonNullable<SpcResult['suggestedBaselines']> = [];
-		// Determine existing manual baseline positions (input baselines create new partitions). Use earliest row index for gap.
-		let lastBaselineIndex = 0; // treat start as baseline
-		for (let i = 0; i < rows.length; i++) {
-			const r = rows[i];
-			// If this row began a new partition (partitionId increment), treat as baseline boundary.
-			if (i > 0 && rows[i - 1].partitionId !== r.partitionId) {
-				lastBaselineIndex = i;
+		const shiftRunLength = settings.specialCauseShiftPoints ?? 6;
+		const trendRunLength = settings.specialCauseTrendPoints ?? 6;
+		const raw = computeBaselineSuggestionsRaw(
+			output.map(r => ({
+				value: r.value,
+				partitionId: r.partitionId,
+				variationIcon: r.variationIcon as any,
+				mean: r.mean,
+				upperProcessLimit: r.upperProcessLimit,
+			})),
+			{
+				W, minGap, minDeltaSigma, scoreThreshold,
+				shiftRunLength, trendRunLength,
+				isShiftUpAt: (i) => !!output[i].specialCauseShiftUp,
+				isShiftDownAt: (i) => !!output[i].specialCauseShiftDown,
+				isTrendUpAt: (i) => !!output[i].specialCauseTrendUp,
+				isTrendDownAt: (i) => !!output[i].specialCauseTrendDown,
+				isSingleUpAt: (i) => !!output[i].specialCauseSinglePointUp,
+				isSingleDownAt: (i) => !!output[i].specialCauseSinglePointDown,
 			}
-			// Collect candidate triggers only at first point where rule becomes true
-			const prev = rows[i - 1];
-			function becameTrue(flag: keyof SpcRow): boolean {
-				return !!(r as any)[flag] && !(prev as any)?.[flag];
-			}
-			const candidates: { reason: BaselineSuggestionReason; index: number }[] = [];
-			if (becameTrue('specialCauseShiftUp') || becameTrue('specialCauseShiftDown')) {
-				candidates.push({ reason: BaselineSuggestionReason.Shift, index: i });
-			}
-			if (becameTrue('specialCauseTrendUp') || becameTrue('specialCauseTrendDown')) {
-				candidates.push({ reason: BaselineSuggestionReason.Trend, index: i });
-			}
-			// Single 3σ point candidate – only if not already part of shift/trend suggestion
-			if (becameTrue('specialCauseSinglePointUp') || becameTrue('specialCauseSinglePointDown')) {
-				candidates.push({ reason: BaselineSuggestionReason.Point, index: i });
-			}
-			for (const c of candidates) {
-				// Enforce minimum gap
-				if (c.index - lastBaselineIndex < minGap) continue;
-				// Windows: previous W non-ghost points before candidate (excluding candidate) & next W points starting at candidate
-				const oldStart = Math.max(0, c.index - W);
-				const oldEnd = c.index - 1;
-				if (oldEnd - oldStart + 1 < W) continue; // insufficient history
-				const newStart = c.index;
-				const newEnd = c.index + W - 1;
-				if (newEnd >= rows.length) continue; // insufficient future stability window
-				const oldVals = rows.slice(oldStart, oldEnd + 1).map(rw => rw.value).filter(isNumber) as number[];
-				const newVals = rows.slice(newStart, newEnd + 1).map(rw => rw.value).filter(isNumber) as number[];
-				if (oldVals.length < W || newVals.length < W) continue;
-				// Sigma estimate from candidate row (if limits present)
-				const cand = rows[c.index];
-				let sigma: number | null = null;
-				if (isNumber(cand.upperProcessLimit) && isNumber(cand.mean)) {
-					const span = cand.upperProcessLimit - cand.mean;
-					if (span > 0) sigma = span / 3;
-				}
-				if (!sigma || sigma <= 0) continue;
-				const oldMean = mean(oldVals);
-				const newMean = mean(newVals);
-				const deltaMean = newMean - oldMean;
-				if (Math.abs(deltaMean) < minDeltaSigma * sigma) continue;
-				// Stability: limit number of special cause concern/improvement flags inside new window (<=1 Concern allowed, Improvement neutral)
-				const newRows = rows.slice(newStart, newEnd + 1);
-				const concernCount = newRows.filter(rw => rw.variationIcon === VariationIcon.Concern).length;
-				if (concernCount > 1) continue;
-				// Variance change (optionally reward lower variance)
-				const variance = (arr: number[]) => {
-					const m = mean(arr);
-					return arr.length ? arr.reduce((a,b)=> a + (b - m) * (b - m), 0) / arr.length : 0;
-				};
-				const oldVar = variance(oldVals);
-				const newVar = variance(newVals);
-				let scoreBase = c.reason === BaselineSuggestionReason.Shift ? 90 : c.reason === BaselineSuggestionReason.Trend ? 70 : 60;
-				if (newVar < oldVar) scoreBase += 10;
-				scoreBase -= concernCount * 15;
-				if (scoreBase < scoreThreshold) continue;
-				// Avoid duplicates at same index (keep highest score / more significant reason ordering shift>trend>point)
-				const existing = suggestions.find(s => s.index === c.index);
-				if (existing) {
-					const priority = (reason: BaselineSuggestionReason) => reason === BaselineSuggestionReason.Shift ? 3 : reason === BaselineSuggestionReason.Trend ? 2 : 1;
-					if (priority(c.reason) > priority(existing.reason) || scoreBase > existing.score) {
-						existing.reason = c.reason;
-						existing.score = scoreBase;
-						existing.deltaMean = deltaMean;
-						existing.oldMean = oldMean;
-						existing.newMean = newMean;
-						existing.window = [newStart, newEnd];
-					}
-				} else {
-					suggestions.push({
-						index: c.index,
-						reason: c.reason,
-						score: scoreBase,
-						deltaMean,
-						oldMean,
-						newMean,
-						window: [newStart, newEnd],
-					});
-				}
-			}
-			// If a manual baseline occurs update lastBaselineIndex
-			if (i > 0 && rows[i - 1].partitionId !== rows[i].partitionId) {
-				lastBaselineIndex = i;
-			}
-		}
-		suggestions.sort((a,b)=> a.index - b.index);
-		suggestedBaselines = suggestions;
+		);
+		suggestedBaselines = raw.map(s => ({
+			index: s.index,
+			reason: s.reason as any,
+			score: s.score,
+			deltaMean: s.deltaMean,
+			oldMean: s.oldMean,
+			newMean: s.newMean,
+			window: s.window,
+		}));
 	}
 	return { rows: output, warnings, ...(suggestedBaselines ? { suggestedBaselines } : {}) };
 }

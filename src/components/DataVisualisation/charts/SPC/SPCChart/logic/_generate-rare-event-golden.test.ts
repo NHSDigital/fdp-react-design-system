@@ -53,11 +53,11 @@ describe("SPC rare-event golden parity (T & G)", () => {
 				rows.find((r) => r.rowId === id)!.specialCauseTrendDown
 			).toBe(true)
 		);
-		// Variation icon for row 7: allow 'improvement', 'neither' or suppressed 'none' (purple no‑judgement) depending on suppression/orientation logic revisions
+		// Variation icon for row 7: allow 'improvement', 'neither' or 'suppressed' (purple no‑judgement)
 		expect([
 			VariationIcon.Improvement,
 			VariationIcon.Neither,
-			VariationIcon.None,
+			VariationIcon.Suppressed,
 		]).toContain(row7.variationIcon);
 		const codes = warnings.map((w) => w.code).sort();
 		const allowed = [

@@ -513,17 +513,30 @@ Table.Caption = TableCaption;
 Table.BodyRow = TableBodyRow;
 Table.HeaderCell = TableHeaderCell;
 Table.Cell = TableCell;
-// Legacy aliases
-Table.Row = TableBodyRow;
-Table.TH = TableHeaderCell;
-
-if (process.env.NODE_ENV !== 'production') {
-	if ((Table as any).Row) {
-		console.warn('Table.Row is deprecated. Use Table.BodyRow instead.');
-	}
-	if ((Table as any).TH) {
-		console.warn('Table.TH is deprecated. Use Table.HeaderCell instead.');
-	}
-}
+// Legacy aliases (deprecated): expose as lazy getters so we warn only on access
+let __warnedRow = false;
+let __warnedTH = false;
+Object.defineProperty(Table, 'Row', {
+	configurable: true,
+	enumerable: false,
+	get() {
+		if (process.env.NODE_ENV !== 'production' && !__warnedRow) {
+			console.warn('Table.Row is deprecated. Use Table.BodyRow instead.');
+			__warnedRow = true;
+		}
+		return TableBodyRow;
+	},
+});
+Object.defineProperty(Table, 'TH', {
+	configurable: true,
+	enumerable: false,
+	get() {
+		if (process.env.NODE_ENV !== 'production' && !__warnedTH) {
+			console.warn('Table.TH is deprecated. Use Table.HeaderCell instead.');
+			__warnedTH = true;
+		}
+		return TableHeaderCell;
+	},
+});
 
 export default Table;

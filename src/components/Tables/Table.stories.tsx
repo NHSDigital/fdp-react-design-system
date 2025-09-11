@@ -75,7 +75,7 @@ Useful when you want to mix manual structure with richer cells:
 </Table>
 ~~~
 
-Legacy aliases: Table.Row → BodyRow, Table.TH → HeaderCell (emit console warnings in dev and will be removed in a later release).
+Legacy aliases: Table.Row → BodyRow, Table.TH → HeaderCell (deprecated). In development, a console warning is logged when these aliases are accessed.
         `,
       },
     },

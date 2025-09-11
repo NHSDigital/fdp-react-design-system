@@ -29,7 +29,7 @@ export interface SPCChartProps {
     highlightOutOfControl?: boolean;
     /** SPC chart type */
     chartType?: ChartType;
-    /** Direction where higher/lower is better (affects variation + assurance icons) */
+    /** Direction where higher/lower is better (affects variation and assurance icons) */
     metricImprovement?: ImprovementDirection;
     /** Show special-cause coloured point classes */
     enableRules?: boolean;

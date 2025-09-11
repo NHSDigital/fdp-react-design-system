@@ -42,11 +42,14 @@ describe('normaliseSpcSettings', () => {
   });
 
   test('legacy fields still pass through unchanged when V2 absent', () => {
+    // Temporarily disable strict mode for this legacy-shape assertion
+    (globalThis as any).__SPC_PHASE4_STRICT = false;
     const legacy = normaliseSpcSettings({ emergingDirectionGrace: true, collapseClusterRules: true });
     expect((legacy as any).grace?.emergingEnabled).toBe(true);
     expect((legacy as any).rules?.collapseWeakerClusterRules).toBe(true);
     // trendSideGatingEnabled is no longer supported/mapped
     expect((legacy as any).trendSideGatingEnabled).toBeUndefined();
+    delete (globalThis as any).__SPC_PHASE4_STRICT;
   });
 
   test('buildSpc accepts grouped V2 settings producing result (smoke)', () => {

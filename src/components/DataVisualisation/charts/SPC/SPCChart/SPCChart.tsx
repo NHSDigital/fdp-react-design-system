@@ -36,6 +36,7 @@ import { Tag } from "../../../../Tag/Tag";
 import Table from "../../../../Tables/Table";
 import { MetricPolarity } from "../SPCIcons/SPCConstants";
 import SPCSignalsInspector from "./SPCSignalsInspector";
+import type { SPCSignalFocusInfo } from "./SPCChart.types";
 import {
 	extractRuleIds,
 	ruleGlossary,
@@ -153,6 +154,8 @@ export interface SPCChartProps {
 	showTrendBridgeOverlay?: boolean;
 	/** UI-only: show a minimal Signals Inspector panel under the chart reflecting the focused point. Default false. */
 	showSignalsInspector?: boolean;
+	/** UI-only: when Signals Inspector is shown, notify on focus changes. */
+	onSignalFocus?: (info: SPCSignalFocusInfo) => void;
 }
 
 export const SPCChart: React.FC<SPCChartProps> = ({
@@ -195,6 +198,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	showFirstFavourableCrossMarkers = false,
 	showTrendBridgeOverlay = false,
 	showSignalsInspector = false,
+	onSignalFocus,
 }) => {
 	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
@@ -441,9 +445,12 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		if (lastIdx === -1) return null;
 		const lastRow = engineRows[lastIdx];
 		const variation = lastRow.variationIcon as VariationIcon | undefined;
+		// Canonicalise deprecated alias: treat VariationIcon.None as VariationIcon.Suppressed at the UI boundary
+		const canonicalVariation: VariationIcon | undefined =
+			variation === VariationIcon.None ? VariationIcon.Suppressed : variation;
 		const assuranceRaw = lastRow.assuranceIcon as AssuranceIcon | undefined;
 		const hasNeutralSpecialCause =
-			variation === VariationIcon.Neither && !!lastRow.specialCauseNeitherValue;
+			canonicalVariation === VariationIcon.Neither && !!lastRow.specialCauseNeitherValue;
 		
 		// Map engine assurance icon (which can be None) to visual AssuranceResult (None -> Uncertain placeholder glyph)
 		const assuranceRenderStatus: AssuranceResult =
@@ -453,9 +460,9 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 					? AssuranceResult.Fail
 					: AssuranceResult.Uncertain;
 		
-		// Derive a trend/orientation hint for suppressed 'no judgement' cases so the purple arrow points towards the favourable direction
+	// Derive a trend/orientation hint for suppressed 'no judgement' cases so the purple arrow points towards the favourable direction
 		let trend: Direction | undefined = undefined;
-		if (variation === VariationIcon.None) {
+		if (canonicalVariation === VariationIcon.Suppressed) {
 			// A suppressed favourable single point will have exactly one of the singlePointUp/Down flags set
 			const singleHigh = lastRow.specialCauseSinglePointUp;
 			const singleLow = lastRow.specialCauseSinglePointDown;
@@ -471,7 +478,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				// Neutral metrics: default to higher to preserve legacy layout
 				trend = Direction.Higher;
 			}
-		} else if (variation === VariationIcon.Neither && hasNeutralSpecialCause) {
+	} else if (canonicalVariation === VariationIcon.Neither && hasNeutralSpecialCause) {
 			// Neutral special-cause (purple) orientation should reflect side of signal (high-side vs low-side)
 			const anyHighSide =
 				lastRow.specialCauseSinglePointUp ||
@@ -511,7 +518,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			>
 				<div
 					className="fdp-spc-chart__embedded-icon"
-					data-variation={String(variation)}
+					data-variation={String(canonicalVariation)}
 					data-trend-raw={trend ? String(trend) : "none"}
 					data-trend={trend ? String(trend) : "none"}
 					data-polarity={String(polarity ?? "unknown")}
@@ -631,6 +638,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						showFirstFavourableCrossMarkers={showFirstFavourableCrossMarkers}
 						showTrendBridgeOverlay={showTrendBridgeOverlay}
 						showSignalsInspector={showSignalsInspector}
+						onSignalFocus={onSignalFocus}
 					/>
 				</LineScalesProvider>
 			</ChartRoot>
@@ -788,6 +796,8 @@ interface InternalProps {
 	showFirstFavourableCrossMarkers?: boolean;
 	showTrendBridgeOverlay?: boolean;
 	showSignalsInspector?: boolean;
+	/** UI-only: when Signals Inspector is shown, notify on focus changes. */
+	onSignalFocus?: (info: SPCSignalFocusInfo) => void;
 }
 
 const InternalSPC: React.FC<InternalProps> = ({
@@ -815,6 +825,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 	showFirstFavourableCrossMarkers = false,
 	showTrendBridgeOverlay = false,
 	showSignalsInspector = false,
+	onSignalFocus,
 }) => {
 	const scaleCtx = useScaleContext();
 	const chartCtx = useChartContext();
@@ -1760,6 +1771,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 							engineRows={engineRows}
 							measureName={narrationContext?.measureName}
 							measureUnit={effectiveUnit || narrationContext?.measureUnit}
+							onSignalFocus={onSignalFocus}
 						/>
 					</div>
 				)}

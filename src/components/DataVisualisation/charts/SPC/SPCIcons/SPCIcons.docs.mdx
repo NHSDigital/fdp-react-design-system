@@ -30,11 +30,13 @@ They may appear:
 | `Improvement` | Blue `#00B0F0` | Special cause improvement (favourable shift/run) |
 | `Concern` | Orange `#E46C0A` | Special cause deterioration (unfavourable shift/run) |
 | `Neither` | Grey `#A6A6A6` | Common cause only (no special cause signals) |
-| `None` | Purple `#490092` | Special cause detected but judgement suppressed (no directional value) |
+| `Suppressed` | Purple `#490092` | Special cause detected but judgement suppressed (no directional value) |
 
-### Suppression to `None`
+### Suppression to `Suppressed`
 
-A single favourable 3σ point (isolated spike) is *suppressed* (mapped from Improvement/Concern to `None`) to avoid over‑interpreting an uncorroborated outlier. The purple arrow still conveys direction (based on metric improvement polarity and which single‑point rule fired) but removes value judgement.
+A single favourable 3σ point (isolated spike) is *suppressed* (mapped from Improvement/Concern to `Suppressed`) to avoid over‑interpreting an uncorroborated outlier. The purple arrow still conveys direction (based on metric improvement polarity and which single‑point rule fired) but removes value judgement.
+
+Note: `None` remains a deprecated alias for `Suppressed` during the migration window. Prefer `Suppressed` in new code and tests.
 
 ### Direction / Letter Semantics
 
@@ -85,7 +87,10 @@ The embedded Assurance icon now always renders. When the underlying engine state
 
 ## Minimum Points Gate
 
-Variation and assurance icons are gated by `settings.minimumPoints` (default 13) requiring enough non‑ghost points to form stable limits; otherwise embedded icons are hidden.
+Variation and assurance icons are gated by `settings.minimumPoints` (default 13) requiring enough non‑ghost points to form stable limits.
+
+- Engine behaviour: when non‑ghost points are fewer than `minimumPoints`, rows have `mean`, `upperProcessLimit`, and `lowerProcessLimit` as `null` and their `variationIcon` is `"suppressed"` (no judgement).
+- UI behaviour: the embedded summary icon is hidden until the minimum is met to avoid implying stability before limits exist.
 
 ## Gradient Wash
 
@@ -125,7 +130,7 @@ Avoid using the wash if icons sit on coloured backgrounds that already provide s
 ### Variation Icon With Explicit Direction (No Judgement / Suppressed)
 
 ```tsx
-<SPCVariationIcon data={{ variationIcon: 'none', trend: 'lower' }} />
+<SPCVariationIcon data={{ variationIcon: 'suppressed', trend: 'lower' }} />
 ```
 
 ### Deprecated Forms
@@ -170,7 +175,7 @@ Triangle variant replaces the circular ring and internal point motif with a fill
 <SPCVariationIcon data={{ variationIcon: 'improvement' }} variant="triangle" />
 <SPCVariationIcon data={{ variationIcon: 'concern' }} variant="triangle" />
 <SPCVariationIcon data={{ variationIcon: 'neither' }} variant="triangle" />
-<SPCVariationIcon data={{ variationIcon: 'none', trend: 'higher' }} variant="triangle" />
+<SPCVariationIcon data={{ variationIcon: 'suppressed', trend: 'higher' }} variant="triangle" />
 ```
 
 With gradient wash:
@@ -187,7 +192,7 @@ With gradient wash:
 <SPCVariationIcon data={{ variationIcon: 'improvement' }} variant="triangleWithRun" runLength={3} />
 <SPCVariationIcon data={{ variationIcon: 'concern' }} variant="triangleWithRun" runLength={2} />
 <SPCVariationIcon data={{ variationIcon: 'neither' }} variant="triangleWithRun" runLength={0} />
-<SPCVariationIcon data={{ variationIcon: 'none', trend: 'lower' }} variant="triangleWithRun" runLength={4} />
+<SPCVariationIcon data={{ variationIcon: 'suppressed', trend: 'lower' }} variant="triangleWithRun" runLength={4} />
 ```
 
 With gradient wash:

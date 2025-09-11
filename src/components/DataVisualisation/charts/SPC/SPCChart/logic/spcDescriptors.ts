@@ -26,39 +26,39 @@ export interface SpcRuleGlossaryEntry {
 		tooltip: "Single point above upper control limit",
 		narration: "Single point beyond a control limit",
 	},
-			[SpcRuleId.SinglePointDown]: {
+		[SpcRuleId.SinglePointDown]: {
 		tooltip: "Single point below lower control limit",
 		narration: "Single point beyond a control limit",
 	},
-			[SpcRuleId.TwoOfThreeUp]: {
+		[SpcRuleId.TwoOfThreeUp]: {
 		tooltip: "Two of three points beyond +2σ",
 		narration: "Two of three points beyond two sigma (same side)",
 	},
-			[SpcRuleId.TwoOfThreeDown]: {
+		[SpcRuleId.TwoOfThreeDown]: {
 		tooltip: "Two of three points beyond -2σ",
 		narration: "Two of three points beyond two sigma (same side)",
 	},
-			[SpcRuleId.FourOfFiveUp]: {
+		[SpcRuleId.FourOfFiveUp]: {
 		tooltip: "Four of five points beyond +1σ",
 		narration: "Four of five points beyond one sigma (same side)",
 	},
-			[SpcRuleId.FourOfFiveDown]: {
+		[SpcRuleId.FourOfFiveDown]: {
 		tooltip: "Four of five points beyond -1σ",
 		narration: "Four of five points beyond one sigma (same side)",
 	},
-			[SpcRuleId.ShiftUp]: {
+		[SpcRuleId.ShiftUp]: {
 		tooltip: "Shift: run of points above centre line",
 		narration: "Shift (run on one side of mean)",
 	},
-			[SpcRuleId.ShiftDown]: {
+		[SpcRuleId.ShiftDown]: {
 		tooltip: "Shift: run of points below centre line",
 		narration: "Shift (run on one side of mean)",
 	},
-			[SpcRuleId.TrendUp]: {
+		[SpcRuleId.TrendUp]: {
 		tooltip: "Trend: consecutive increasing points",
 		narration: "Trend (consecutive increases)",
 	},
-			[SpcRuleId.TrendDown]: {
+		[SpcRuleId.TrendDown]: {
 		tooltip: "Trend: consecutive decreasing points",
 		narration: "Trend (consecutive decreases)",
 	},
@@ -90,7 +90,8 @@ export function variationLabel(icon: VariationIcon | undefined): string | null {
 			return "Concern signal";
 		case VariationIcon.Neither:
 			return "Common cause variation";
-		case VariationIcon.None:
+		case VariationIcon.None: // deprecated alias
+		case VariationIcon.Suppressed:
 			return null; // suppressed / not enough data
 		default:
 			return null;
@@ -144,6 +145,10 @@ export const VARIATION_COLOR_TOKENS: Record<
 	neither: {
 		token: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
 		hex: "#A6A6A6",
+	},
+	suppressed: {
+		token: "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)",
+		hex: "#490092",
 	},
 };
 

@@ -13,6 +13,8 @@ TODO - Component-specific implementation guides and patterns:
 Migration guides and progress tracking:
 
 - [Migration Guide](./migration/migration-guide.md)
+- [SPC Settings V2 (grouped) Migration](./migration/spc-settings-v2-migration.md)
+- [Migration Index](./migration/README.md)
 
 ### Design Tokens (`/docs/tokens/`)
 

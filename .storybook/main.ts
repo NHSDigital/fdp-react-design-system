@@ -8,7 +8,6 @@ const config: StorybookConfig = {
 		"../docs/**/*.mdx",
 	],
 	addons: [
-		"@storybook/addon-essentials",
 		"@chromatic-com/storybook",
 		{
 			name: "@storybook/addon-docs",

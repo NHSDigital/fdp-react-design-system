@@ -1,3 +1,4 @@
+import type { SPCSignalFocusInfo } from "./SPCChart.types";
 import * as React from "react";
 import { useTooltipContext } from "../../../core/TooltipContext";
 import { VariationIcon, SpcRawRuleTag } from "./logic/spc";
@@ -15,6 +16,8 @@ export interface SPCSignalsInspectorProps {
 	/** Optional measure name/unit for labels */
 	measureName?: string;
 	measureUnit?: string;
+	/** Optional callback fired whenever the focused point changes (via keyboard or nav buttons). */
+	onSignalFocus?: (info: SPCSignalFocusInfo) => void;
 }
 
 /**
@@ -27,6 +30,7 @@ const SPCSignalsInspector: React.FC<SPCSignalsInspectorProps> = ({
 	engineRows,
 	measureName,
 	measureUnit,
+	onSignalFocus,
 }) => {
 	const t = useTooltipContext();
 	const focused = t?.focused ?? null;
@@ -54,6 +58,27 @@ const SPCSignalsInspector: React.FC<SPCSignalsInspectorProps> = ({
 	const isNoJudgement = row
 		? row.variationIcon === VariationIcon.Neither && hasRules
 		: false;
+
+	// Fire onSignalFocus when the focused point changes (debounced to index change)
+	const lastKeyRef = React.useRef<string | null>(null);
+	React.useEffect(() => {
+		if (!onSignalFocus) return;
+		if (!focused || row == null) return;
+		const key = `${focused.seriesId}:${focused.index}`;
+		if (lastKeyRef.current === key) return;
+		lastKeyRef.current = key;
+		try {
+			onSignalFocus({
+				index: focused.index,
+				x: focused.x,
+				y: focused.y,
+				row,
+				rules,
+			});
+		} catch {
+			// no-op: avoid throwing from effects
+		}
+	}, [focused?.seriesId, focused?.index, focused?.x, focused?.y, row, rules, onSignalFocus]);
 
 	return (
 		<div

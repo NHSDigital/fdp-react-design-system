@@ -11,6 +11,7 @@ function makeData() {
 describe("SPCSignalsInspector", () => {
 	it("renders and updates when focusing different points", async () => {
 		const data = makeData();
+		const onSignalFocus = vi.fn();
 		render(
 			<SPCChart
 				data={data}
@@ -18,6 +19,7 @@ describe("SPCSignalsInspector", () => {
 				announceFocus
 				trendVisualMode={TrendVisualMode.Ungated}
 				showSignalsInspector
+				onSignalFocus={onSignalFocus}
 				narrationContext={{ measureName: "Metric", measureUnit: "%" }}
 			/>
 		);
@@ -37,8 +39,18 @@ describe("SPCSignalsInspector", () => {
 		expect(panel).toHaveTextContent("Point: 1");
 		expect(panel).toHaveTextContent("Value:");
 
+		// onSignalFocus should be called once for the first navigation
+		expect(onSignalFocus).toHaveBeenCalledTimes(1);
+		expect(onSignalFocus.mock.calls[0][0].index).toBe(0);
+		expect(typeof onSignalFocus.mock.calls[0][0].y).toBe("number");
+
 		// Advance again and confirm index increments
 		fireEvent.click(nextBtn);
 		expect(panel).toHaveTextContent("Point: 2");
+		expect(onSignalFocus).toHaveBeenCalledTimes(2);
+		expect(onSignalFocus.mock.calls[1][0].index).toBe(1);
+
+		// Tooltip overlay should be suppressed when inspector is visible (no tooltip region)
+		expect(screen.queryByTestId(/spc-tooltip/i)).toBeNull();
 	});
 });

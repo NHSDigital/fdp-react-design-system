@@ -68,7 +68,7 @@ describe("SPC embedded icon rendering (deterministic unit)", () => {
 			<div>
 				<SPCVariationIcon
 					data={{
-						variationIcon: EngineVariationIcon.None,
+						variationIcon: EngineVariationIcon.Suppressed,
 						trend: Direction.Lower,
 					}}
 					size={80}

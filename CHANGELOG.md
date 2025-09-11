@@ -117,6 +117,7 @@ The golden SPC fixture (`test-data/golden-all.json`) and related snapshot tests 
 
 - SPC engine: (See detailed note in Changed) Corrected early Improvement/Concern classification by enforcing unconditional favourable-side qualification for trend signal contribution.
 - SPC engine: Two-of-three (2σ) rule now excludes points beyond 3σ from contributing to the 2-of-3 count, aligning with Making Data Count guidance (3σ points remain single-point only).
+- Settings normaliser: Prunes `undefined` values when flattening V2 → legacy so engine defaults aren’t accidentally overridden (restores expected warnings/assurance behaviours). Added migration doc: `docs/migration/spc-settings-v2-migration.md`.
 
 
 ### Added (Unreleased – Components & Docs)

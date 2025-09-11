@@ -23,7 +23,7 @@ describe('SPC mixed precedence & signal interaction', () => {
   it('trend gating prevents early below-mean trend rows from Improvement; high cluster shows Improvement; final low point Concern', () => {
     const values = buildMixedDataset();
     const data = toRows(values);
-    const result = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, collapseClusterRules:true, specialCauseShiftPoints:6 } });
+  const result = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, rules: { collapseWeakerClusterRules: true }, specialCauseShiftPoints:6 } });
     const rows = result.rows;
 
     const belowTrendStart = values.indexOf(90); // first of belowTrend
@@ -53,7 +53,7 @@ describe('SPC mixed precedence & signal interaction', () => {
   it('without collapseClusterRules retains two-of-three alongside four-of-five at overlapping indices (ruleTags capture both)', () => {
     const values = buildMixedDataset();
     const data = toRows(values);
-    const noCollapse = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, collapseClusterRules:false, specialCauseShiftPoints:6 } });
+  const noCollapse = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, rules: { collapseWeakerClusterRules: false }, specialCauseShiftPoints:6 } });
     const rows = noCollapse.rows;
     const clusterStart = values.indexOf(110);
     const clusterRows = rows.slice(clusterStart, clusterStart + 8);

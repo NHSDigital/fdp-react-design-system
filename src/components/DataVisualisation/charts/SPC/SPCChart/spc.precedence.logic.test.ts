@@ -36,7 +36,7 @@ describe("precedenceStrategy directional_first vs legacy", () => {
 			data,
 			settings: {
 				precedenceStrategy: PrecedenceStrategy.DirectionalFirst,
-				emergingDirectionGrace: true,
+				emergingGraceEnabled: true,
 				specialCauseTrendPoints: 6,
 				specialCauseShiftPoints: 6,
 			},
@@ -107,7 +107,7 @@ describe("precedenceStrategy directional_first vs legacy", () => {
 			data,
 			settings: {
 				enableFourOfFiveRule: true,
-				collapseClusterRules: false,
+				rules: { collapseWeakerClusterRules: false },
 				specialCauseShiftPoints: 6,
 			},
 		});
@@ -117,7 +117,7 @@ describe("precedenceStrategy directional_first vs legacy", () => {
 			data,
 			settings: {
 				enableFourOfFiveRule: true,
-				collapseClusterRules: true,
+				rules: { collapseWeakerClusterRules: true },
 				specialCauseShiftPoints: 6,
 			},
 		});

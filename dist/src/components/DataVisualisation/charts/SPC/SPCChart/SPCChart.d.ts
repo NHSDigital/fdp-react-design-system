@@ -7,6 +7,10 @@ export declare enum SequenceTransition {
     Neutral = "neutral",// draw a neutral (grey) wedge between coloured runs
     Extend = "extend"
 }
+export declare enum TrendVisualMode {
+    Ungated = "ungated",
+    Gated = "gated"
+}
 export interface SPCDatum {
     x: Date | string | number;
     y: number;
@@ -74,11 +78,14 @@ export interface SPCChartProps {
     enableNeutralNoJudgement?: boolean;
     /** Show the trend side-gating explanation text in the tooltip. Defaults to true. */
     showTrendGatingExplanation?: boolean;
-    /** Engine-level: when true, enables trend side-gating so early trend points on the unfavourable side remain neutral until the trend crosses the mean. Defaults to false. */
-    enableTrendSideGating?: boolean;
+    /** Visual-only control for trend side-gating colours.
+     * Ungated (default): Early monotonic trend points are coloured by direction (blue/orange) even before crossing the mean.
+     * Gated: Early monotonic trend points remain neutral purple until the run reaches the favourable side of the mean.
+     * Note: Classification (engine variationIcon) remains side-gated regardless; this only affects rendering.
+     */
+    trendVisualMode?: TrendVisualMode;
     /**
-     * @deprecated Use `enableTrendSideGating` instead (inverted semantics). If provided and
-     * `enableTrendSideGating` is not set, the effective value will be `!disableTrendSideGating`.
+     * @deprecated This prop is now ignored; trend side gating always on
      */
     disableTrendSideGating?: boolean;
     /** Optional source / citation text rendered below the chart outside the SVG for reliable layout */
@@ -91,6 +98,12 @@ export interface SPCChartProps {
     percentScale?: boolean;
     /** When true, run experimental SQL compatibility wrapper (post-hoc per-side ranking & pruning) instead of native aggregation. */
     useSqlCompatEngine?: boolean;
+    /** UI-only: show a hollow marker at the first index where a trend is detected (run reaches N). Default false. */
+    showTrendStartMarkers?: boolean;
+    /** UI-only: show a solid marker at the first point in the trend window that lies on the favourable side of the mean. Default false. */
+    showFirstFavourableCrossMarkers?: boolean;
+    /** UI-only: draw a dashed bridge between trend start and first favourable-side inclusion. Default false. */
+    showTrendBridgeOverlay?: boolean;
 }
 export declare const SPCChart: React.FC<SPCChartProps>;
 export { ImprovementDirection, VariationIcon, AssuranceIcon };

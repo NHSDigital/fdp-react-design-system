@@ -15,7 +15,7 @@ describe('SPC parity – suppressed favourable trend alignment', () => {
     const values = [10,10,10,10,10,15,16,17,18,19,19,19,19,19,19];
     const orthodox = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: rows(values) });
     // Force legacy behaviour (disable side gating) in SQL compat to illustrate intended difference window if any
-    const sql = buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: rows(values), disableTrendSideGating: true });
+  const sql = buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: rows(values) });
     const orthodoxIcons = orthodox.rows.map(r=>r.variationIcon);
     const sqlIcons = sql.rows.map(r=> r.variationIcon);
 

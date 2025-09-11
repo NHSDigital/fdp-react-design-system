@@ -17,7 +17,6 @@ describe("spcSqlCompat primeRuleId selection", () => {
 			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Up,
 			data,
-			disableTrendSideGating: true,
 		});
 		const last = rows[rows.length - 1];
 		// If both a trend and shift are detected upwards, primeRuleId should be Trend (highest rank 4) under winning Up side.
@@ -49,7 +48,6 @@ describe("spcSqlCompat primeRuleId selection", () => {
 			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Up,
 			data,
-			disableTrendSideGating: true,
 		});
 		const last = rows[rows.length - 1];
 		if (last.specialCauseShiftUp && !last.specialCauseTrendUp) {

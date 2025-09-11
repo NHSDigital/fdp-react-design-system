@@ -27,9 +27,7 @@ export interface BuildSpcSqlCompatArgs {
 		baseline?: boolean;
 		target?: number;
 	}[];
-	settings?: SpcSettings; // honour existing settings (e.g. shift lengths) plus ability to override trend gating
-	// When true, disables trend side gating to emulate historical SQL behaviour that counted trends irrespective of side
-	disableTrendSideGating?: boolean;
+	settings?: SpcSettings; // honour existing settings (e.g. shift lengths)
 }
 
 export interface SpcSqlCompatRow extends SpcRow {

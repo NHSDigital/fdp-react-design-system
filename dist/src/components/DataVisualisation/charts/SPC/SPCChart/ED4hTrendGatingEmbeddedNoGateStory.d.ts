@@ -1,3 +1,4 @@
-import React from "react";
-export declare const ED4hTrendGatingEmbeddedNoGate: React.FC;
-export default ED4hTrendGatingEmbeddedNoGate;
+/**
+ * Deprecated: former ED4h "NoGate" example removed. Trend side-gating is always-on at classification.
+ * This file is intentionally left without exports.
+ */

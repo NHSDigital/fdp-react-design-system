@@ -29,7 +29,7 @@ The TypeScript engine performs side aggregation earlier, so rows normally never 
 ## Behaviour notes
 
 - Uses underlying `buildSpc` (with conflictPrecedenceMode disabled) then recomputes per-side rule ranks.
-- Optional `disableTrendSideGating` flag sets `trendSideGatingEnabled=false` to mimic historical SQL treatment of trends irrespective of side-of-mean location.
+Note: Trend side-gating is always enabled in the core engine. The SQL compatibility wrapper no longer exposes a flag to disable it.
 - Biases toward Improvement framing on perfect rank ties (PrimeDirection = Same) when both sides present, mirroring optimistic resolution strategy.
 - If the orthodox rule geometry yields only one side of signals (usual case) metadata fields remain mostly undefined and variationIcon matches the base engine.
 
@@ -65,7 +65,6 @@ const { rows } = buildSpcSqlCompat({
   chartType: ChartType.XmR,
   metricImprovement: ImprovementDirection.Up,
   data: series.map(p => ({ x: p.x, value: p.y })),
-  disableTrendSideGating: true,
 });
 
 rows.forEach(r => {

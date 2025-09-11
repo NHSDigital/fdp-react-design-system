@@ -51,6 +51,12 @@ export enum SequenceTransition {
 	Extend = "extend", // always extend previous coloured run to the next first point
 }
 
+// Visual-only mode for trend colouring
+export enum TrendVisualMode {
+	Ungated = "ungated",
+	Gated = "gated",
+}
+
 export interface SPCDatum {
 	x: Date | string | number;
 	y: number;
@@ -118,6 +124,12 @@ export interface SPCChartProps {
 	enableNeutralNoJudgement?: boolean;
 	/** Show the trend side-gating explanation text in the tooltip. Defaults to true. */
 	showTrendGatingExplanation?: boolean;
+	/** Visual-only control for trend side-gating colours.
+	 * Ungated (default): Early monotonic trend points are coloured by direction (blue/orange) even before crossing the mean.
+	 * Gated: Early monotonic trend points remain neutral purple until the run reaches the favourable side of the mean.
+	 * Note: Classification (engine variationIcon) remains side-gated regardless; this only affects rendering.
+	 */
+	trendVisualMode?: TrendVisualMode;
 	/**
 	 * @deprecated This prop is now ignored; trend side gating always on
 	 */
@@ -132,6 +144,12 @@ export interface SPCChartProps {
 	percentScale?: boolean;
 	/** When true, run experimental SQL compatibility wrapper (post-hoc per-side ranking & pruning) instead of native aggregation. */
 	useSqlCompatEngine?: boolean;
+	/** UI-only: show a hollow marker at the first index where a trend is detected (run reaches N). Default false. */
+	showTrendStartMarkers?: boolean;
+	/** UI-only: show a solid marker at the first point in the trend window that lies on the favourable side of the mean. Default false. */
+	showFirstFavourableCrossMarkers?: boolean;
+	/** UI-only: draw a dashed bridge between trend start and first favourable-side inclusion. Default false. */
+	showTrendBridgeOverlay?: boolean;
 }
 
 export const SPCChart: React.FC<SPCChartProps> = ({
@@ -163,12 +181,16 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	warningsFilter,
 	enableNeutralNoJudgement = true,
 	showTrendGatingExplanation = true,
+	trendVisualMode = TrendVisualMode.Ungated,
 	disableTrendSideGating,
 	source,
 	alwaysShowZeroY = false,
 	alwaysShowHundredY = false,
 	percentScale = false,
 	useSqlCompatEngine = false,
+	showTrendStartMarkers = false,
+	showFirstFavourableCrossMarkers = false,
+	showTrendBridgeOverlay = false,
 }) => {
 	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
@@ -321,6 +343,8 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			setDiagnosticsMessage(msg);
 		}
 	}, [showWarningsPanel, filteredWarnings]);
+
+	// Y-axis domain including limits
 	const ucl = engineRepresentative?.upperProcessLimit ?? null;
 	const lcl = engineRepresentative?.lowerProcessLimit ?? null;
 	const onePos = engineRepresentative?.upperOneSigma ?? null;
@@ -335,6 +359,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		[data]
 	);
 	const yDomain = React.useMemo(() => {
+
 		if (percentScale) {
 			// If any values slightly exceed bounds (e.g. 100.2 due to rounding), widen just enough.
 			const allVals = data.map(d => d.y);
@@ -342,11 +367,13 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			const underMin = Math.min(0, ...allVals);
 			return [underMin < 0 ? underMin : 0, overMax > 100 ? overMax : 100] as [number, number];
 		}
+		
 		const values = data.map((d) => d.y);
 		const base = [...values];
 		[mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg].forEach((v) => {
 			if (v != null) base.push(v);
 		});
+		
 		// Include any numeric targets so target line never sits outside vertical range
 		if (targetsProp)
 			targetsProp.forEach((t: number | null | undefined) => {
@@ -358,6 +385,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		if (alwaysShowZeroY) min = Math.min(0, min);
 		if (alwaysShowHundredY) max = Math.max(100, max);
 		return [min, max];
+
 	}, [data, mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp, alwaysShowZeroY, alwaysShowHundredY, percentScale]);
 
 	// Auto-detect percentage unit when all values in [0,1] and no explicit unit supplied
@@ -412,6 +440,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		const assuranceRaw = lastRow.assuranceIcon as AssuranceIcon | undefined;
 		const hasNeutralSpecialCause =
 			variation === VariationIcon.Neither && !!lastRow.specialCauseNeitherValue;
+		
 		// Map engine assurance icon (which can be None) to visual AssuranceResult (None -> Uncertain placeholder glyph)
 		const assuranceRenderStatus: AssuranceResult =
 			assuranceRaw === AssuranceIcon.Pass
@@ -419,6 +448,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				: assuranceRaw === AssuranceIcon.Fail
 					? AssuranceResult.Fail
 					: AssuranceResult.Uncertain;
+		
 		// Derive a trend/orientation hint for suppressed 'no judgement' cases so the purple arrow points towards the favourable direction
 		let trend: Direction | undefined = undefined;
 		if (variation === VariationIcon.None) {
@@ -455,13 +485,21 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			else if (anyLowSide && !anyHighSide) trend = Direction.Lower;
 			else trend = Direction.Higher; // conflicting or none -> default higher
 		}
+		
+		// Determine metric polarity for embedded icon (higher/lower/context) based on improvement direction
+		// NB: this is a change from previous behaviour where neutral metrics were marked as 'context dependent'
+		// This better reflects the fact that the direction of the arrows in neutral metrics is purely indicative
+		// and does not reflect any underlying business meaning.
+		// Note: polarity is not currently used in rendering but is included in data attributes for potential future use.
 		let polarity: MetricPolarity;
 		if (metricImprovement === ImprovementDirection.Up)
 			polarity = MetricPolarity.HigherIsBetter;
 		else if (metricImprovement === ImprovementDirection.Down)
 			polarity = MetricPolarity.LowerIsBetter;
 		else polarity = MetricPolarity.ContextDependent;
+		
 		const iconSize = 80;
+		
 		return (
 			<div
 				key={`embedded-icon-${lastIdx}`}
@@ -575,7 +613,6 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						enableRules={enableRules}
 						showIcons={showIcons}
 						narrationContext={effectiveNarrationContext}
-						metricImprovement={metricImprovement}
 						gradientSequences={gradientSequences}
 						sequenceTransition={sequenceTransition}
 						processLineWidth={processLineWidth}
@@ -584,6 +621,11 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						ariaLabel={ariaLabel}
 						enableNeutralNoJudgement={enableNeutralNoJudgement}
 						showTrendGatingExplanation={showTrendGatingExplanation}
+						trendVisualMode={trendVisualMode}
+						metricImprovement={metricImprovement}
+						showTrendStartMarkers={showTrendStartMarkers}
+						showFirstFavourableCrossMarkers={showFirstFavourableCrossMarkers}
+						showTrendBridgeOverlay={showTrendBridgeOverlay}
 					/>
 				</LineScalesProvider>
 			</ChartRoot>
@@ -734,6 +776,12 @@ interface InternalProps {
 	// Feature flags to control neutral purple and gating explanation behaviour
 	enableNeutralNoJudgement?: boolean;
 	showTrendGatingExplanation?: boolean;
+	/** Visual mode for trend colouring: 'ungated' (directional colours even before crossing mean) or 'gated' (neutral purple until favourable side). */
+	trendVisualMode?: TrendVisualMode;
+	// UI overlays
+	showTrendStartMarkers?: boolean;
+	showFirstFavourableCrossMarkers?: boolean;
+	showTrendBridgeOverlay?: boolean;
 }
 
 const InternalSPC: React.FC<InternalProps> = ({
@@ -753,8 +801,13 @@ const InternalSPC: React.FC<InternalProps> = ({
 	effectiveUnit,
 	partitionMarkers,
 	ariaLabel,
+	metricImprovement,
 	enableNeutralNoJudgement = true,
 	showTrendGatingExplanation = true,
+	trendVisualMode = TrendVisualMode.Ungated,
+	showTrendStartMarkers = false,
+	showFirstFavourableCrossMarkers = false,
+	showTrendBridgeOverlay = false,
 }) => {
 	const scaleCtx = useScaleContext();
 	const chartCtx = useChartContext();
@@ -790,6 +843,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 				special?: boolean;
 				concern?: boolean;
 				improvement?: boolean;
+				trendUp?: boolean;
+				trendDown?: boolean;
 			}
 		> = {};
 		engineRows.forEach((r, idx) => {
@@ -811,6 +866,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 				special: anySpecial,
 				concern: r.variationIcon === VariationIcon.Concern,
 				improvement: r.variationIcon === VariationIcon.Improvement,
+				trendUp: !!r.specialCauseTrendUp,
+				trendDown: !!r.specialCauseTrendDown,
 			};
 		});
 		return map;
@@ -839,13 +896,19 @@ const InternalSPC: React.FC<InternalProps> = ({
 				const sig = engineSignals?.[i];
 				if (sig?.concern) return "concern";
 				if (sig?.improvement) return "improvement";
-				// Neutral special cause (purple) when variation icon is Neither but flagged special (only when enabled)
-				if (
-					enableNeutralNoJudgement &&
-					sig?.special &&
-					sig.variation === VariationIcon.Neither
-				)
-					return "noJudgement";
+				// When variation is Neither but a trend rule fired, allow visual directional colours in 'ungated' mode
+				if (sig?.special && sig.variation === VariationIcon.Neither) {
+					if (trendVisualMode === TrendVisualMode.Ungated && metricImprovement && metricImprovement !== ImprovementDirection.Neither) {
+						if (sig.trendUp) {
+							return metricImprovement === ImprovementDirection.Up ? "improvement" : "concern";
+						}
+						if (sig.trendDown) {
+							return metricImprovement === ImprovementDirection.Down ? "improvement" : "concern";
+						}
+					}
+					// Fallback: neutral purple when enabled
+					if (enableNeutralNoJudgement) return "noJudgement";
+				}
 				return "common";
 			});
 
@@ -918,6 +981,56 @@ const InternalSPC: React.FC<InternalProps> = ({
 		[all, xScale]
 	);
 	const plotWidth = xScale.range()[1];
+
+	// Compute basic trend insights (UI-only) from engine rows
+	const trendInsights = React.useMemo(() => {
+		if (!engineRows || !engineRows.length) return null as null | {
+			direction: 'up' | 'down';
+			detectedAt: number; // index in series
+			firstFavourableCrossAt: number | null;
+			persistedAcrossMean: boolean;
+		};
+		// Find earliest trend window across up/down
+		let earliestUp = Number.POSITIVE_INFINITY;
+		let earliestDown = Number.POSITIVE_INFINITY;
+		engineRows.forEach((r, i) => {
+			if (r.specialCauseTrendUp) earliestUp = Math.min(earliestUp, i);
+			if (r.specialCauseTrendDown) earliestDown = Math.min(earliestDown, i);
+		});
+		if (!Number.isFinite(earliestUp) && !Number.isFinite(earliestDown)) return null;
+		const useUp = earliestUp <= earliestDown;
+		const direction: 'up' | 'down' = useUp ? 'up' : 'down';
+		const detectedAt = useUp ? earliestUp : earliestDown;
+		// Determine favourable side relative to metricImprovement and row mean
+		const isFavourable = (row: any): boolean => {
+			if (metricImprovement == null || metricImprovement === ImprovementDirection.Neither) return false;
+			if (row == null || typeof row.value !== 'number' || typeof row.mean !== 'number') return false;
+			if (direction === 'up') {
+				return metricImprovement === ImprovementDirection.Up ? row.value > row.mean : row.value < row.mean;
+			}
+			// direction === 'down'
+			return metricImprovement === ImprovementDirection.Down ? row.value < row.mean : row.value > row.mean;
+		};
+		let firstFavourableCrossAt: number | null = null;
+		for (let i = detectedAt; i < engineRows.length; i++) {
+			const r = engineRows[i];
+			const flagged = useUp ? !!r.specialCauseTrendUp : !!r.specialCauseTrendDown;
+			if (!flagged) break; // end of contiguous trend window span
+			if (isFavourable(r)) { firstFavourableCrossAt = i; break; }
+		}
+		let persistedAcrossMean = false;
+		if (firstFavourableCrossAt != null) {
+			let favourableCount = 0;
+			for (let i = firstFavourableCrossAt; i < engineRows.length; i++) {
+				const r = engineRows[i];
+				const flagged = useUp ? !!r.specialCauseTrendUp : !!r.specialCauseTrendDown;
+				if (!flagged) break;
+				if (isFavourable(r)) favourableCount++;
+			}
+			persistedAcrossMean = favourableCount >= 2;
+		}
+		return { direction, detectedAt, firstFavourableCrossAt, persistedAcrossMean };
+	}, [engineRows, metricImprovement]);
 
 	// Build horizontal line segments for limits that can change across partitions (means/limits per row)
 	const limitSegments = React.useMemo(() => {
@@ -1462,6 +1575,34 @@ const InternalSPC: React.FC<InternalProps> = ({
 								))}
 							</>
 						)}
+						{/* Optional trend overlays: start/cross markers and bridge */}
+						{trendInsights && (showTrendStartMarkers || showFirstFavourableCrossMarkers || showTrendBridgeOverlay) && (() => {
+							const startIdx = trendInsights.detectedAt;
+							const crossIdx = trendInsights.firstFavourableCrossAt;
+							const sx = all[startIdx] ? xScale(all[startIdx].x instanceof Date ? all[startIdx].x as Date : new Date(all[startIdx].x)) : null;
+							const sy = all[startIdx] ? yScale(all[startIdx].y) : null;
+							const cx = (crossIdx != null && all[crossIdx]) ? xScale(all[crossIdx].x instanceof Date ? all[crossIdx].x as Date : new Date(all[crossIdx].x)) : null;
+							const cy = (crossIdx != null && all[crossIdx]) ? yScale(all[crossIdx].y) : null;
+							return (
+								<g aria-hidden="true" className="fdp-spc__trend-overlays">
+									{showTrendBridgeOverlay && sx != null && sy != null && cx != null && cy != null && (
+										<line x1={sx} y1={sy} x2={cx} y2={cy} stroke="#888" strokeDasharray="4 4" strokeWidth={2}>
+											<title>Trend bridge: start to first favourable-side point</title>
+										</line>
+									)}
+									{showTrendStartMarkers && sx != null && sy != null && (
+										<circle cx={sx} cy={sy} r={6} fill="white" stroke="#555" strokeWidth={2}>
+											<title>Trend start (run reached N)</title>
+										</circle>
+									)}
+									{showFirstFavourableCrossMarkers && cx != null && cy != null && (
+										<circle cx={cx} cy={cy} r={5} fill="#555">
+											<title>First favourable-side inclusion</title>
+										</circle>
+									)}
+								</g>
+							);
+						})()}
 						<LineSeriesPrimitive
 							series={series[0] as any}
 							seriesIndex={0}
@@ -1481,20 +1622,40 @@ const InternalSPC: React.FC<InternalProps> = ({
 								const cy = yScale(d.y);
 								const ooc = outOfControl.has(i);
 								const sig = engineSignals?.[i];
+								// Visual-only ungated trend colouring: when variation is Neither but a trend rule fired,
+								// map early trend points to directional colours based on metricImprovement.
+								const visualUngatedActive =
+									trendVisualMode === TrendVisualMode.Ungated &&
+									!!sig?.special &&
+									sig?.variation === VariationIcon.Neither &&
+									metricImprovement != null &&
+									metricImprovement !== ImprovementDirection.Neither;
+								const visualUngatedImprovement =
+									visualUngatedActive &&
+									((sig?.trendUp && metricImprovement === ImprovementDirection.Up) ||
+										(sig?.trendDown && metricImprovement === ImprovementDirection.Down));
+								const visualUngatedConcern =
+									visualUngatedActive &&
+									((sig?.trendUp && metricImprovement === ImprovementDirection.Down) ||
+										(sig?.trendDown && metricImprovement === ImprovementDirection.Up));
+								const isImprovement = !!(sig?.improvement || visualUngatedImprovement);
+								const isConcern = !!(sig?.concern || visualUngatedConcern);
 								const classes = [
 									"fdp-spc__point",
 									ooc && highlightOutOfControl ? "fdp-spc__point--ooc" : null,
-									enableRules && sig?.special && sig.concern
+									enableRules && sig?.special && isConcern
 										? "fdp-spc__point--sc-concern"
 										: null,
-									enableRules && sig?.special && sig.improvement
+									enableRules && sig?.special && isImprovement
 										? "fdp-spc__point--sc-improvement"
 										: null,
 									// Neutral (context-dependent) metrics: show purple when special cause present but neither improvement nor concern
 									enableRules &&
 									enableNeutralNoJudgement &&
 									sig?.special &&
-									sig.variation === VariationIcon.Neither
+									sig.variation === VariationIcon.Neither &&
+									!isImprovement &&
+									!isConcern
 										? "fdp-spc__point--sc-no-judgement"
 										: null,
 									sig?.assurance === AssuranceIcon.Pass

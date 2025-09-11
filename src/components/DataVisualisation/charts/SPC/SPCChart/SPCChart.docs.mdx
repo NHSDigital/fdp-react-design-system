@@ -544,11 +544,12 @@ The table below mirrors the TypeScript interface declared in `SPCChart.tsx` (see
       { text: '–' },
     ],
     [
-      { code: 'enableTrendSideGating', codeLanguage: 'typescript' },
-      { text: 'Enables trend side-gating: early trend points on the unfavourable side remain neutral until trend crosses mean (reduces premature concern/improvement labelling).', codeLanguage: 'typescript' },
-      { code: 'boolean', codeLanguage: 'typescript' },
-      { code: 'false', codeLanguage: 'typescript' },
+      { code: 'trendVisualMode', codeLanguage: 'typescript' },
+      { text: 'Visual-only control for trend colours: "ungated" colours early monotonic trend points by direction (blue/orange) even before crossing the mean; "gated" keeps them neutral purple until favourable side.' },
+      { code: "'ungated' | 'gated'", codeLanguage: 'typescript' },
+      { code: "'ungated'", codeLanguage: 'typescript' },
     ],
+  // Trend side-gating is always enabled in classification; visual controls remain below
   ]}
   firstCellIsHeader
 />

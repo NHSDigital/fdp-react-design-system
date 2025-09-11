@@ -6679,10 +6679,23 @@ var RULE_LABEL = {
   ["shift" /* Shift */]: "Sustained shift (run)",
   ["trend" /* Trend */]: "Monotonic trend"
 };
+var RULE_CATEGORY = {
+  ["single_point" /* SinglePoint */]: "point" /* Point */,
+  ["two_sigma" /* TwoSigma */]: "cluster" /* Cluster */,
+  ["shift" /* Shift */]: "sustained" /* Sustained */,
+  ["trend" /* Trend */]: "sustained" /* Sustained */
+};
 var RULE_METADATA = RULE_PRECEDENCE.reduce((acc, id, index) => {
-  acc[id] = { id, rank: index + 1, label: RULE_LABEL[id] };
+  acc[id] = {
+    id,
+    rank: index + 1,
+    label: RULE_LABEL[id],
+    category: RULE_CATEGORY[id],
+    participatesInRanking: true
+  };
   return acc;
 }, {});
+var RULES_IN_RANK_ORDER = RULE_PRECEDENCE.map((id) => RULE_METADATA[id]);
 var AssuranceIcon = /* @__PURE__ */ ((AssuranceIcon2) => {
   AssuranceIcon2["Pass"] = "pass";
   AssuranceIcon2["Fail"] = "fail";
@@ -6731,8 +6744,8 @@ function getDirectionalSignalSummary(row) {
   if (row.specialCauseShiftDown) downRules.push("shift" /* Shift */);
   if (row.specialCauseTrendUp) upRules.push("trend" /* Trend */);
   if (row.specialCauseTrendDown) downRules.push("trend" /* Trend */);
-  const upMax = upRules.reduce((m, id) => Math.max(m, RULE_RANK_BY_ID[id]), 0);
-  const downMax = downRules.reduce((m, id) => Math.max(m, RULE_RANK_BY_ID[id]), 0);
+  const upMax = upRules.reduce((m, id) => Math.max(m, RULE_METADATA[id].rank), 0);
+  const downMax = downRules.reduce((m, id) => Math.max(m, RULE_METADATA[id].rank), 0);
   return { upRules, downRules, upMax, downMax, hasUp: upRules.length > 0, hasDown: downRules.length > 0 };
 }
 var BaselineSuggestionReason = /* @__PURE__ */ ((BaselineSuggestionReason2) => {
@@ -6795,36 +6808,92 @@ function applyAutoRecalculationBaselines(data, settings, metricImprovement) {
   }
 }
 function normaliseSpcSettings(user) {
-  var _a2, _b2, _c;
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q;
   if (!user) return {};
-  const v2 = user;
   const legacy = user;
-  const emergingGraceEnabled = (_a2 = v2.emergingGraceEnabled) != null ? _a2 : legacy.emergingDirectionGrace;
-  const trendFavourableSideOnly = (_b2 = v2.trendFavourableSideOnly) != null ? _b2 : legacy.trendSideGatingEnabled;
-  const collapseWeakerClusterRules = (_c = v2.collapseWeakerClusterRules) != null ? _c : legacy.collapseClusterRules;
+  const v2 = user;
+  const rules = (_a2 = v2.rules) != null ? _a2 : {};
+  const precedence = (_b2 = v2.precedence) != null ? _b2 : {};
+  const thresholds = (_c = v2.thresholds) != null ? _c : {};
+  const warnings = (_d = v2.warnings) != null ? _d : {};
+  const rareEvent = (_e = v2.rareEvent) != null ? _e : {};
+  const capability = (_f = v2.capability) != null ? _f : {};
+  const grace = (_g = v2.grace) != null ? _g : {};
+  const baselineSuggest = (_h = v2.baselineSuggest) != null ? _h : {};
+  const autoRecalc = (_i = v2.autoRecalc) != null ? _i : {};
+  const emergingGraceEnabled = (_k = (_j = grace.emergingEnabled) != null ? _j : v2.emergingGraceEnabled) != null ? _k : legacy.emergingDirectionGrace;
+  const collapseWeakerClusterRules = (_m = (_l = rules.collapseWeakerClusterRules) != null ? _l : v2.collapseWeakerClusterRules) != null ? _m : legacy.collapseClusterRules;
   const globalAny = globalThis;
-  if (legacy.emergingDirectionGrace !== void 0 && v2.emergingGraceEnabled === void 0 && !globalAny.__spc_warn_emergingDirectionGrace) {
+  if (legacy.emergingDirectionGrace !== void 0 && v2.emergingGraceEnabled === void 0 && grace.emergingEnabled === void 0 && !globalAny.__spc_warn_emergingDirectionGrace) {
     globalAny.__spc_warn_emergingDirectionGrace = true;
-    console.warn("[spc] emergingDirectionGrace is deprecated; use emergingGraceEnabled");
+    console.warn("[spc] emergingDirectionGrace is deprecated; use grace.emergingEnabled");
   }
-  if (legacy.trendSideGatingEnabled !== void 0 && v2.trendFavourableSideOnly === void 0 && !globalAny.__spc_warn_trendSideGatingEnabled) {
-    globalAny.__spc_warn_trendSideGatingEnabled = true;
-    console.warn("[spc] trendSideGatingEnabled is deprecated; use trendFavourableSideOnly");
-  }
-  if (legacy.collapseClusterRules !== void 0 && v2.collapseWeakerClusterRules === void 0 && !globalAny.__spc_warn_collapseClusterRules) {
+  if (legacy.collapseClusterRules !== void 0 && rules.collapseWeakerClusterRules === void 0 && v2.collapseWeakerClusterRules === void 0 && !globalAny.__spc_warn_collapseClusterRules) {
     globalAny.__spc_warn_collapseClusterRules = true;
-    console.warn("[spc] collapseClusterRules is deprecated; use collapseWeakerClusterRules");
+    console.warn("[spc] collapseClusterRules is deprecated; use rules.collapseWeakerClusterRules");
   }
-  return {
-    ...user,
-    emergingGraceEnabled,
-    trendFavourableSideOnly,
-    collapseWeakerClusterRules,
-    // Backfill legacy names for internal engine until complete migration
-    emergingDirectionGrace: emergingGraceEnabled,
-    trendSideGatingEnabled: trendFavourableSideOnly,
-    collapseClusterRules: collapseWeakerClusterRules
+  const pruneUndefined = (obj) => {
+    const out = {};
+    for (const k of Object.keys(obj)) {
+      const v = obj[k];
+      if (v !== void 0) out[k] = v;
+    }
+    return out;
   };
+  const flattened = pruneUndefined({
+    // Rare event / MR
+    excludeMovingRangeOutliers: (_n = rareEvent.excludeMovingRangeOutliers) != null ? _n : legacy.excludeMovingRangeOutliers,
+    // Rules
+    specialCauseShiftPoints: (_o = rules.shiftPoints) != null ? _o : legacy.specialCauseShiftPoints,
+    specialCauseTrendPoints: (_p = rules.trendPoints) != null ? _p : legacy.specialCauseTrendPoints,
+    enableFourOfFiveRule: (_q = rules.fourOfFiveEnabled) != null ? _q : legacy.enableFourOfFiveRule,
+    enableFifteenInInnerThirdRule: (_r = rules.fifteenInnerThirdEnabled) != null ? _r : legacy.enableFifteenInInnerThirdRule,
+    collapseWeakerClusterRules: collapseWeakerClusterRules != null ? collapseWeakerClusterRules : legacy.collapseWeakerClusterRules,
+    // Precedence
+    precedenceStrategy: (_s = precedence.strategy) != null ? _s : legacy.precedenceStrategy,
+    conflictPrecedenceMode: (_t = precedence.conflictMode) != null ? _t : legacy.conflictPrecedenceMode,
+    // Thresholds
+    minimumPoints: (_u = thresholds.minimumPoints) != null ? _u : legacy.minimumPoints,
+    minimumPointsPartition: (_v = thresholds.minimumPointsPartition) != null ? _v : legacy.minimumPointsPartition,
+    maximumPointsPartition: (_w = thresholds.maximumPointsPartition) != null ? _w : legacy.maximumPointsPartition,
+    maximumPoints: (_x = thresholds.maximumPoints) != null ? _x : legacy.maximumPoints,
+    transitionBufferPoints: (_y = thresholds.transitionBufferPoints) != null ? _y : legacy.transitionBufferPoints,
+    // Warnings
+    minimumPointsWarning: (_z = warnings.minimumPointsWarning) != null ? _z : legacy.minimumPointsWarning,
+    pointConflictWarning: (_A = warnings.pointConflictWarning) != null ? _A : legacy.pointConflictWarning,
+    variationIconConflictWarning: (_B = warnings.variationIconConflictWarning) != null ? _B : legacy.variationIconConflictWarning,
+    nullValueWarning: (_C = warnings.nullValueWarning) != null ? _C : legacy.nullValueWarning,
+    targetSuppressedWarning: (_D = warnings.targetSuppressedWarning) != null ? _D : legacy.targetSuppressedWarning,
+    ghostOnRareEventWarning: (_E = warnings.ghostOnRareEventWarning) != null ? _E : legacy.ghostOnRareEventWarning,
+    partitionSizeWarnings: (_F = warnings.partitionSizeWarnings) != null ? _F : legacy.partitionSizeWarnings,
+    baselineSpecialCauseWarning: (_G = warnings.baselineSpecialCauseWarning) != null ? _G : legacy.baselineSpecialCauseWarning,
+    maximumPointsWarnings: (_H = warnings.maximumPointsWarnings) != null ? _H : legacy.maximumPointsWarnings,
+    // Capability
+    assuranceCapabilityMode: (_I = capability.assuranceCapabilityMode) != null ? _I : legacy.assuranceCapabilityMode,
+    // Grace
+    emergingGraceEnabled,
+    emergingDirectionGrace: emergingGraceEnabled,
+    // Baseline suggestions
+    baselineSuggest: (_J = baselineSuggest.enabled) != null ? _J : legacy.baselineSuggest,
+    baselineSuggestMinDeltaSigma: (_K = baselineSuggest.minDeltaSigma) != null ? _K : legacy.baselineSuggestMinDeltaSigma,
+    baselineSuggestStabilityPoints: (_L = baselineSuggest.stabilityPoints) != null ? _L : legacy.baselineSuggestStabilityPoints,
+    baselineSuggestMinGap: (_M = baselineSuggest.minGap) != null ? _M : legacy.baselineSuggestMinGap,
+    baselineSuggestScoreThreshold: (_N = baselineSuggest.scoreThreshold) != null ? _N : legacy.baselineSuggestScoreThreshold,
+    // Auto recalculation
+    autoRecalculateAfterShift: (_O = autoRecalc.enabled) != null ? _O : legacy.autoRecalculateAfterShift,
+    autoRecalculateShiftLength: (_P = autoRecalc.shiftLength) != null ? _P : legacy.autoRecalculateShiftLength,
+    autoRecalculateDeltaSigma: (_Q = autoRecalc.deltaSigma) != null ? _Q : legacy.autoRecalculateDeltaSigma
+  });
+  const merged = { ...flattened, ...pruneUndefined(legacy) };
+  if (emergingGraceEnabled !== void 0) {
+    merged.emergingGraceEnabled = emergingGraceEnabled;
+    merged.emergingDirectionGrace = emergingGraceEnabled;
+  }
+  if (flattened.collapseWeakerClusterRules !== void 0) {
+    merged.collapseWeakerClusterRules = flattened.collapseWeakerClusterRules;
+    merged.collapseClusterRules = flattened.collapseWeakerClusterRules;
+  }
+  return pruneUndefined(merged);
 }
 function buildSpc(args) {
   var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
@@ -6863,7 +6932,7 @@ function buildSpc(args) {
     baselineSuggestScoreThreshold: 50,
     precedenceStrategy: "directional_first" /* DirectionalFirst */,
     emergingDirectionGrace: false,
-    trendSideGatingEnabled: true,
+    // REMOVED: trendSideGatingEnabled default (always on)
     autoRecalculateAfterShift: false,
     autoRecalculateShiftLength: void 0,
     autoRecalculateDeltaSigma: 0.5,
@@ -7236,10 +7305,10 @@ function buildSpc(args) {
         row.specialCauseTwoOfThreeDown = false;
       }
     }
-    const trendUp = row.specialCauseTrendUp && (settings.trendFavourableSideOnly ? onHighSide : true);
-    const trendDown = row.specialCauseTrendDown && (settings.trendFavourableSideOnly ? onLowSide : true);
-    const highSignals = row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp || row.specialCauseShiftUp || trendUp;
-    const lowSignals = row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown || row.specialCauseShiftDown || trendDown;
+    const trendUpQualified = row.specialCauseTrendUp && onHighSide;
+    const trendDownQualified = row.specialCauseTrendDown && onLowSide;
+    const highSignals = row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp || row.specialCauseShiftUp || trendUpQualified;
+    const lowSignals = row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown || row.specialCauseShiftDown || trendDownQualified;
     let emergingFavourable = false;
     if (settings.precedenceStrategy === "directional_first" /* DirectionalFirst */ && settings.emergingDirectionGrace) {
       const trendN = settings.specialCauseTrendPoints || 6;
@@ -7266,16 +7335,8 @@ function buildSpc(args) {
       }
     }
     if (settings.precedenceStrategy === "directional_first" /* DirectionalFirst */) {
-      let suppressedTrendFavourable = false;
-      if (settings.trendSideGatingEnabled) {
-        if (metricImprovement === "Up" /* Up */ && row.specialCauseTrendUp && !row.specialCauseTrendDown && !onHighSide) {
-          suppressedTrendFavourable = true;
-        } else if (metricImprovement === "Down" /* Down */ && row.specialCauseTrendDown && !row.specialCauseTrendUp && !onLowSide) {
-          suppressedTrendFavourable = true;
-        }
-      }
       const favourableRaw = metricImprovement === "Up" /* Up */ ? highSignals : metricImprovement === "Down" /* Down */ ? lowSignals : false;
-      const favourable = favourableRaw || suppressedTrendFavourable;
+      const favourable = favourableRaw;
       const unfavourable = metricImprovement === "Up" /* Up */ ? lowSignals : metricImprovement === "Down" /* Down */ ? highSignals : false;
       if (favourable && !unfavourable) row.variationIcon = "improvement" /* Improvement */;
       else if (unfavourable && !favourable) row.variationIcon = emergingFavourable ? "neither" /* Neither */ : "concern" /* Concern */;
@@ -9066,22 +9127,18 @@ function sqlDirectionalPrune(row, metricImprovement) {
   if (top) row.primeRuleId = top.id;
 }
 function buildSpcSqlCompat(args) {
-  var _a2;
   const {
     chartType,
     metricImprovement,
     data,
-    settings = {},
-    disableTrendSideGating
+    settings = {}
   } = args;
   const base = buildSpc({
     chartType,
     metricImprovement,
     data,
     settings: {
-      ...settings,
-      trendSideGatingEnabled: disableTrendSideGating ? false : (_a2 = settings.trendSideGatingEnabled) != null ? _a2 : true,
-      conflictPrecedenceMode: "none" /* None */
+      ...settings
     }
   });
   const rows = base.rows.map((r) => ({ ...r }));
@@ -9650,13 +9707,16 @@ var SPCChart = ({
   warningsFilter,
   enableNeutralNoJudgement = true,
   showTrendGatingExplanation = true,
-  enableTrendSideGating,
+  trendVisualMode = "ungated" /* Ungated */,
   disableTrendSideGating,
   source,
   alwaysShowZeroY = false,
   alwaysShowHundredY = false,
   percentScale = false,
-  useSqlCompatEngine = false
+  useSqlCompatEngine = false,
+  showTrendStartMarkers = false,
+  showFirstFavourableCrossMarkers = false,
+  showTrendBridgeOverlay = false
 }) => {
   var _a2, _b2, _c, _d, _e, _f, _g, _h;
   const formatWarningCode = React12.useCallback(
@@ -9672,32 +9732,29 @@ var SPCChart = ({
     },
     []
   );
-  const effectiveEnableTrendSideGating = enableTrendSideGating != null ? enableTrendSideGating : disableTrendSideGating !== void 0 ? !disableTrendSideGating : false;
   if (disableTrendSideGating !== void 0) {
     console.warn(
-      "SPCChart: 'disableTrendSideGating' is deprecated. Use 'enableTrendSideGating' instead (inverted semantics)."
+      "SPCChart: 'disableTrendSideGating' prop is deprecated and ignored (trend side gating always enabled)."
     );
   }
   const engine = React12.useMemo(() => {
-    var _a3;
     const rowsInput = data.map((d, i) => {
-      var _a4, _b3, _c2;
+      var _a3, _b3, _c2;
       return {
         x: d.x,
         value: d.y,
-        target: (_a4 = targetsProp == null ? void 0 : targetsProp[i]) != null ? _a4 : void 0,
+        target: (_a3 = targetsProp == null ? void 0 : targetsProp[i]) != null ? _a3 : void 0,
         baseline: (_b3 = baselines == null ? void 0 : baselines[i]) != null ? _b3 : void 0,
         ghost: (_c2 = ghosts == null ? void 0 : ghosts[i]) != null ? _c2 : void 0
       };
     });
     try {
-      const engineSettings = settings ? { ...settings, trendSideGatingEnabled: (_a3 = settings.trendSideGatingEnabled) != null ? _a3 : effectiveEnableTrendSideGating } : { trendSideGatingEnabled: effectiveEnableTrendSideGating };
+      const engineSettings = settings ? { ...settings } : void 0;
       if (useSqlCompatEngine) {
         return buildSpcSqlCompat({
           chartType,
           metricImprovement,
           data: rowsInput,
-          disableTrendSideGating: engineSettings.trendSideGatingEnabled === false,
           settings: engineSettings
         });
       }
@@ -9713,8 +9770,6 @@ var SPCChart = ({
     chartType,
     metricImprovement,
     settings,
-    enableTrendSideGating,
-    disableTrendSideGating,
     useSqlCompatEngine
   ]);
   const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r) => r.mean != null);
@@ -9982,7 +10037,6 @@ var SPCChart = ({
                 enableRules,
                 showIcons,
                 narrationContext: effectiveNarrationContext,
-                metricImprovement,
                 gradientSequences,
                 sequenceTransition,
                 processLineWidth,
@@ -9990,7 +10044,12 @@ var SPCChart = ({
                 partitionMarkers,
                 ariaLabel,
                 enableNeutralNoJudgement,
-                showTrendGatingExplanation
+                showTrendGatingExplanation,
+                trendVisualMode,
+                metricImprovement,
+                showTrendStartMarkers,
+                showFirstFavourableCrossMarkers,
+                showTrendBridgeOverlay
               }
             ) })
           }
@@ -10121,8 +10180,13 @@ var InternalSPC = ({
   effectiveUnit,
   partitionMarkers,
   ariaLabel,
+  metricImprovement,
   enableNeutralNoJudgement = true,
-  showTrendGatingExplanation = true
+  showTrendGatingExplanation = true,
+  trendVisualMode = "ungated" /* Ungated */,
+  showTrendStartMarkers = false,
+  showFirstFavourableCrossMarkers = false,
+  showTrendBridgeOverlay = false
 }) => {
   var _a2;
   const scaleCtx = useScaleContext();
@@ -10154,7 +10218,9 @@ var InternalSPC = ({
         assurance: r.assuranceIcon,
         special: anySpecial,
         concern: r.variationIcon === "concern" /* Concern */,
-        improvement: r.variationIcon === "improvement" /* Improvement */
+        improvement: r.variationIcon === "improvement" /* Improvement */,
+        trendUp: !!r.specialCauseTrendUp,
+        trendDown: !!r.specialCauseTrendDown
       };
     });
     return map2;
@@ -10177,8 +10243,17 @@ var InternalSPC = ({
       const sig = engineSignals == null ? void 0 : engineSignals[i];
       if (sig == null ? void 0 : sig.concern) return "concern";
       if (sig == null ? void 0 : sig.improvement) return "improvement";
-      if (enableNeutralNoJudgement && (sig == null ? void 0 : sig.special) && sig.variation === "neither" /* Neither */)
-        return "noJudgement";
+      if ((sig == null ? void 0 : sig.special) && sig.variation === "neither" /* Neither */) {
+        if (trendVisualMode === "ungated" /* Ungated */ && metricImprovement && metricImprovement !== "Neither" /* Neither */) {
+          if (sig.trendUp) {
+            return metricImprovement === "Up" /* Up */ ? "improvement" : "concern";
+          }
+          if (sig.trendDown) {
+            return metricImprovement === "Down" /* Down */ ? "improvement" : "concern";
+          }
+        }
+        if (enableNeutralNoJudgement) return "noJudgement";
+      }
       return "common";
     });
     const isRuleClash = ariaLabel == null ? void 0 : ariaLabel.includes("Rule Clash");
@@ -10233,6 +10308,49 @@ var InternalSPC = ({
     [all, xScale]
   );
   const plotWidth = xScale.range()[1];
+  const trendInsights = React12.useMemo(() => {
+    if (!engineRows || !engineRows.length) return null;
+    let earliestUp = Number.POSITIVE_INFINITY;
+    let earliestDown = Number.POSITIVE_INFINITY;
+    engineRows.forEach((r, i) => {
+      if (r.specialCauseTrendUp) earliestUp = Math.min(earliestUp, i);
+      if (r.specialCauseTrendDown) earliestDown = Math.min(earliestDown, i);
+    });
+    if (!Number.isFinite(earliestUp) && !Number.isFinite(earliestDown)) return null;
+    const useUp = earliestUp <= earliestDown;
+    const direction = useUp ? "up" : "down";
+    const detectedAt = useUp ? earliestUp : earliestDown;
+    const isFavourable = (row) => {
+      if (metricImprovement == null || metricImprovement === "Neither" /* Neither */) return false;
+      if (row == null || typeof row.value !== "number" || typeof row.mean !== "number") return false;
+      if (direction === "up") {
+        return metricImprovement === "Up" /* Up */ ? row.value > row.mean : row.value < row.mean;
+      }
+      return metricImprovement === "Down" /* Down */ ? row.value < row.mean : row.value > row.mean;
+    };
+    let firstFavourableCrossAt = null;
+    for (let i = detectedAt; i < engineRows.length; i++) {
+      const r = engineRows[i];
+      const flagged = useUp ? !!r.specialCauseTrendUp : !!r.specialCauseTrendDown;
+      if (!flagged) break;
+      if (isFavourable(r)) {
+        firstFavourableCrossAt = i;
+        break;
+      }
+    }
+    let persistedAcrossMean = false;
+    if (firstFavourableCrossAt != null) {
+      let favourableCount = 0;
+      for (let i = firstFavourableCrossAt; i < engineRows.length; i++) {
+        const r = engineRows[i];
+        const flagged = useUp ? !!r.specialCauseTrendUp : !!r.specialCauseTrendDown;
+        if (!flagged) break;
+        if (isFavourable(r)) favourableCount++;
+      }
+      persistedAcrossMean = favourableCount >= 2;
+    }
+    return { direction, detectedAt, firstFavourableCrossAt, persistedAcrossMean };
+  }, [engineRows, metricImprovement]);
   const limitSegments = React12.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const build = (key) => {
@@ -10687,6 +10805,19 @@ var InternalSPC = ({
                   `twoNeg-${i}`
                 ))
               ] }),
+              trendInsights && (showTrendStartMarkers || showFirstFavourableCrossMarkers || showTrendBridgeOverlay) && (() => {
+                const startIdx = trendInsights.detectedAt;
+                const crossIdx = trendInsights.firstFavourableCrossAt;
+                const sx = all[startIdx] ? xScale(all[startIdx].x instanceof Date ? all[startIdx].x : new Date(all[startIdx].x)) : null;
+                const sy = all[startIdx] ? yScale(all[startIdx].y) : null;
+                const cx = crossIdx != null && all[crossIdx] ? xScale(all[crossIdx].x instanceof Date ? all[crossIdx].x : new Date(all[crossIdx].x)) : null;
+                const cy = crossIdx != null && all[crossIdx] ? yScale(all[crossIdx].y) : null;
+                return /* @__PURE__ */ jsxs10("g", { "aria-hidden": "true", className: "fdp-spc__trend-overlays", children: [
+                  showTrendBridgeOverlay && sx != null && sy != null && cx != null && cy != null && /* @__PURE__ */ jsx16("line", { x1: sx, y1: sy, x2: cx, y2: cy, stroke: "#888", strokeDasharray: "4 4", strokeWidth: 2, children: /* @__PURE__ */ jsx16("title", { children: "Trend bridge: start to first favourable-side point" }) }),
+                  showTrendStartMarkers && sx != null && sy != null && /* @__PURE__ */ jsx16("circle", { cx: sx, cy: sy, r: 6, fill: "white", stroke: "#555", strokeWidth: 2, children: /* @__PURE__ */ jsx16("title", { children: "Trend start (run reached N)" }) }),
+                  showFirstFavourableCrossMarkers && cx != null && cy != null && /* @__PURE__ */ jsx16("circle", { cx, cy, r: 5, fill: "#555", children: /* @__PURE__ */ jsx16("title", { children: "First favourable-side inclusion" }) })
+                ] });
+              })(),
               /* @__PURE__ */ jsx16(
                 LineSeriesPrimitive_default,
                 {
@@ -10707,13 +10838,18 @@ var InternalSPC = ({
                 const cy = yScale(d.y);
                 const ooc = outOfControl.has(i);
                 const sig = engineSignals == null ? void 0 : engineSignals[i];
+                const visualUngatedActive = trendVisualMode === "ungated" /* Ungated */ && !!(sig == null ? void 0 : sig.special) && (sig == null ? void 0 : sig.variation) === "neither" /* Neither */ && metricImprovement != null && metricImprovement !== "Neither" /* Neither */;
+                const visualUngatedImprovement = visualUngatedActive && ((sig == null ? void 0 : sig.trendUp) && metricImprovement === "Up" /* Up */ || (sig == null ? void 0 : sig.trendDown) && metricImprovement === "Down" /* Down */);
+                const visualUngatedConcern = visualUngatedActive && ((sig == null ? void 0 : sig.trendUp) && metricImprovement === "Down" /* Down */ || (sig == null ? void 0 : sig.trendDown) && metricImprovement === "Up" /* Up */);
+                const isImprovement = !!((sig == null ? void 0 : sig.improvement) || visualUngatedImprovement);
+                const isConcern = !!((sig == null ? void 0 : sig.concern) || visualUngatedConcern);
                 const classes = [
                   "fdp-spc__point",
                   ooc && highlightOutOfControl ? "fdp-spc__point--ooc" : null,
-                  enableRules && (sig == null ? void 0 : sig.special) && sig.concern ? "fdp-spc__point--sc-concern" : null,
-                  enableRules && (sig == null ? void 0 : sig.special) && sig.improvement ? "fdp-spc__point--sc-improvement" : null,
+                  enableRules && (sig == null ? void 0 : sig.special) && isConcern ? "fdp-spc__point--sc-concern" : null,
+                  enableRules && (sig == null ? void 0 : sig.special) && isImprovement ? "fdp-spc__point--sc-improvement" : null,
                   // Neutral (context-dependent) metrics: show purple when special cause present but neither improvement nor concern
-                  enableRules && enableNeutralNoJudgement && (sig == null ? void 0 : sig.special) && sig.variation === "neither" /* Neither */ ? "fdp-spc__point--sc-no-judgement" : null,
+                  enableRules && enableNeutralNoJudgement && (sig == null ? void 0 : sig.special) && sig.variation === "neither" /* Neither */ && !isImprovement && !isConcern ? "fdp-spc__point--sc-no-judgement" : null,
                   (sig == null ? void 0 : sig.assurance) === "pass" /* Pass */ ? "fdp-spc__point--assurance-pass" : null,
                   (sig == null ? void 0 : sig.assurance) === "fail" /* Fail */ ? "fdp-spc__point--assurance-fail" : null
                 ].filter(Boolean).join(" ");

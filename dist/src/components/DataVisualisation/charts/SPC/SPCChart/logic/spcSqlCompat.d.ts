@@ -10,7 +10,6 @@ export interface BuildSpcSqlCompatArgs {
         target?: number;
     }[];
     settings?: SpcSettings;
-    disableTrendSideGating?: boolean;
 }
 export interface SpcSqlCompatRow extends SpcRow {
     primeDirection?: PrimeDirection;

@@ -15,7 +15,7 @@ describe('SPC four-of-five 1σ rule symmetry (high & low side)', () => {
       chartType: ChartType.XmR,
       metricImprovement: ImprovementDirection.Up,
       data: toRows(values),
-      settings: { enableFourOfFiveRule: true, collapseClusterRules: false, specialCauseShiftPoints: 6 }
+  settings: { enableFourOfFiveRule: true, rules: { collapseWeakerClusterRules: false }, specialCauseShiftPoints: 6 }
     });
     const last6 = rows.slice(-6);
     // Collect flags in final 5-window spans; we expect at least one window where >=4 flagged
@@ -34,7 +34,7 @@ describe('SPC four-of-five 1σ rule symmetry (high & low side)', () => {
       chartType: ChartType.XmR,
       metricImprovement: ImprovementDirection.Up,
       data: toRows(values),
-      settings: { enableFourOfFiveRule: true, collapseClusterRules: false, specialCauseShiftPoints: 6 }
+  settings: { enableFourOfFiveRule: true, rules: { collapseWeakerClusterRules: false }, specialCauseShiftPoints: 6 }
     });
     const last6 = rows.slice(-6);
   const flagged = last6.filter(r => r.specialCauseFourOfFiveDown);
@@ -53,8 +53,8 @@ describe('SPC four-of-five 1σ rule symmetry (high & low side)', () => {
     const cluster = [295,294,292,293,291,292,290];
     const values = [...preRun, ...cluster];
     const data = toRows(values);
-    const noCollapse = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, collapseClusterRules:false, specialCauseShiftPoints:6 }});
-    const collapse    = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, collapseClusterRules:true,  specialCauseShiftPoints:6 }});
+  const noCollapse = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, rules: { collapseWeakerClusterRules:false }, specialCauseShiftPoints:6 }});
+  const collapse    = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, rules: { collapseWeakerClusterRules:true },  specialCauseShiftPoints:6 }});
     const overlapIndices = noCollapse.rows
   .map((r,i)=> (r.specialCauseFourOfFiveDown && r.specialCauseTwoOfThreeDown) ? i : -1)
       .filter(i=>i>=0);

@@ -8,36 +8,53 @@ const baseData = [
 ];
 
 describe('normaliseSpcSettings', () => {
-  test('maps V2 flag names onto legacy engine fields', () => {
+  test('maps grouped V2 settings onto legacy engine fields (trend gating no longer mapped)', () => {
     const v2: SpcSettingsV2 = {
-      emergingGraceEnabled: true,
-      trendFavourableSideOnly: false,
-      collapseWeakerClusterRules: false,
-      precedenceStrategy: PrecedenceStrategy.DirectionalFirst,
+      rules: {
+        shiftPoints: 7,
+        trendPoints: 6,
+        fourOfFiveEnabled: true,
+        collapseWeakerClusterRules: false,
+      },
+      precedence: {
+        strategy: PrecedenceStrategy.DirectionalFirst,
+      },
+      thresholds: {
+        minimumPoints: 14,
+      },
+      grace: {
+        emergingEnabled: true,
+      },
     };
     const legacy = normaliseSpcSettings(v2) as any;
-  expect(legacy.emergingGraceEnabled).toBe(true);
-  expect(legacy.trendFavourableSideOnly).toBe(false);
-  expect(legacy.collapseWeakerClusterRules).toBe(false);
-  // Backwards compatible legacy aliases still populated
-  expect(legacy.emergingDirectionGrace).toBe(true);
-  expect(legacy.trendSideGatingEnabled).toBe(false);
-  expect(legacy.collapseClusterRules).toBe(false);
+    expect(legacy.specialCauseShiftPoints).toBe(7);
+    expect(legacy.specialCauseTrendPoints).toBe(6);
+    expect(legacy.enableFourOfFiveRule).toBe(true);
+    expect(legacy.collapseWeakerClusterRules).toBe(false);
+    expect(legacy.precedenceStrategy).toBe(PrecedenceStrategy.DirectionalFirst);
+    expect(legacy.minimumPoints).toBe(14);
+    // Backwards compatible legacy aliases still populated (where applicable)
+    expect(legacy.emergingGraceEnabled).toBe(true);
+    expect(legacy.grace?.emergingEnabled).toBe(true);
+    // Trend side gating is now unconditional and no longer mapped/populated by the normaliser
+    expect(legacy.trendSideGatingEnabled).toBeUndefined();
+    expect(legacy.rules?.collapseWeakerClusterRules).toBe(false);
   });
 
   test('legacy fields still pass through unchanged when V2 absent', () => {
-    const legacy = normaliseSpcSettings({ emergingDirectionGrace: true, trendSideGatingEnabled: true, collapseClusterRules: true });
-    expect((legacy as any).emergingDirectionGrace).toBe(true);
-    expect((legacy as any).trendSideGatingEnabled).toBe(true);
-    expect((legacy as any).collapseClusterRules).toBe(true);
+    const legacy = normaliseSpcSettings({ emergingDirectionGrace: true, collapseClusterRules: true });
+    expect((legacy as any).grace?.emergingEnabled).toBe(true);
+    expect((legacy as any).rules?.collapseWeakerClusterRules).toBe(true);
+    // trendSideGatingEnabled is no longer supported/mapped
+    expect((legacy as any).trendSideGatingEnabled).toBeUndefined();
   });
 
-  test('buildSpc accepts V2 flags producing result (smoke)', () => {
+  test('buildSpc accepts grouped V2 settings producing result (smoke)', () => {
     const res = buildSpc({
       chartType: ChartType.XmR,
       metricImprovement: ImprovementDirection.Up,
       data: baseData,
-      settings: { emergingGraceEnabled: true, trendFavourableSideOnly: true }
+      settings: { grace: { emergingEnabled: true } }
     });
     expect(res.rows.length).toBe(baseData.length);
     // Variation icon may remain none if no special cause; just ensure property exists.

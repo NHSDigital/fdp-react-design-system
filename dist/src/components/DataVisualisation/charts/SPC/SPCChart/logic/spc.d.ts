@@ -39,13 +39,25 @@ export declare enum SpcRuleId {
 }
 export declare const RULE_PRECEDENCE: SpcRuleId[];
 export declare const RULE_RANK_BY_ID: Record<SpcRuleId, number>;
+/**
+ * @deprecated Use `RULE_METADATA[id].label` or iterate `RULES_IN_RANK_ORDER` instead.
+ * Will be removed in a future major release once downstream consumers migrate.
+ */
 export declare const RULE_LABEL: Record<SpcRuleId, string>;
+export declare enum SpcRuleCategory {
+    Point = "point",
+    Cluster = "cluster",
+    Sustained = "sustained"
+}
 export interface SpcRuleMetadataEntry {
     id: SpcRuleId;
     rank: number;
     label: string;
+    category: SpcRuleCategory;
+    participatesInRanking: boolean;
 }
 export declare const RULE_METADATA: Record<SpcRuleId, SpcRuleMetadataEntry>;
+export declare const RULES_IN_RANK_ORDER: SpcRuleMetadataEntry[];
 export declare enum Side {
     Up = "up",
     Down = "down"
@@ -105,10 +117,7 @@ export interface SpcSettings {
     precedenceStrategy?: PrecedenceStrategy;
     /** @deprecated Use emergingGraceEnabled */
     emergingDirectionGrace?: boolean;
-    /** @deprecated Use trendFavourableSideOnly */
-    trendSideGatingEnabled?: boolean;
     emergingGraceEnabled?: boolean;
-    trendFavourableSideOnly?: boolean;
     minimumPoints?: number;
     minimumPointsWarning?: boolean;
     minimumPointsPartition?: number;
@@ -138,9 +147,58 @@ export interface SpcSettings {
     autoRecalculateDeltaSigma?: number;
     conflictPrecedenceMode?: ConflictPrecedenceMode;
 }
-export interface SpcSettingsV2 extends Omit<SpcSettings, 'emergingDirectionGrace' | 'trendSideGatingEnabled' | 'collapseClusterRules'> {
+export interface SpcSettingsV2 {
+    rules?: {
+        shiftPoints?: number;
+        trendPoints?: number;
+        fourOfFiveEnabled?: boolean;
+        fifteenInnerThirdEnabled?: boolean;
+        collapseWeakerClusterRules?: boolean;
+    };
+    precedence?: {
+        strategy?: PrecedenceStrategy;
+        conflictMode?: ConflictPrecedenceMode;
+    };
+    thresholds?: {
+        minimumPoints?: number;
+        minimumPointsPartition?: number;
+        maximumPointsPartition?: number | null;
+        maximumPoints?: number | null;
+        transitionBufferPoints?: number;
+    };
+    warnings?: {
+        minimumPointsWarning?: boolean;
+        pointConflictWarning?: boolean;
+        variationIconConflictWarning?: boolean;
+        nullValueWarning?: boolean;
+        targetSuppressedWarning?: boolean;
+        ghostOnRareEventWarning?: boolean;
+        partitionSizeWarnings?: boolean;
+        baselineSpecialCauseWarning?: boolean;
+        maximumPointsWarnings?: boolean;
+    };
+    rareEvent?: {
+        excludeMovingRangeOutliers?: boolean;
+    };
+    capability?: {
+        assuranceCapabilityMode?: boolean;
+    };
+    grace?: {
+        emergingEnabled?: boolean;
+    };
+    baselineSuggest?: {
+        enabled?: boolean;
+        minDeltaSigma?: number;
+        stabilityPoints?: number;
+        minGap?: number;
+        scoreThreshold?: number;
+    };
+    autoRecalc?: {
+        enabled?: boolean;
+        shiftLength?: number;
+        deltaSigma?: number;
+    };
     emergingGraceEnabled?: boolean;
-    trendFavourableSideOnly?: boolean;
     collapseWeakerClusterRules?: boolean;
 }
 type AnySpcSettings = SpcSettings | SpcSettingsV2;

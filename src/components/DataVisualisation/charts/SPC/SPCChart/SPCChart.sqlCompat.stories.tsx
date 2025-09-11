@@ -41,7 +41,7 @@ export const Comparison: Story = {
   render: () => {
     const data = React.useMemo(() => synthData(), []);
     const [mode, setMode] = React.useState<'base' | 'sql'>('base');
-    const sql = React.useMemo(() => mode === 'sql' ? buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })), disableTrendSideGating: true }) : null, [mode, data]);
+  const sql = React.useMemo(() => mode === 'sql' ? buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) }) : null, [mode, data]);
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <div style={{ display: 'flex', gap: '0.5rem' }}>

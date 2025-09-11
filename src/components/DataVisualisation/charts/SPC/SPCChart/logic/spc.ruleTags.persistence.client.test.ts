@@ -10,8 +10,8 @@ describe('SPC ruleTags persistence after cluster rule collapse', () => {
   const elevated = [11.5,11.7,11.9,12.1,11.8,12.0,12.2,12.4,12.3,12.5,12.6];
     const values = [...baseline, ...elevated];
     const data = toRows(values);
-    const noCollapse = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, collapseClusterRules:false, specialCauseShiftPoints:6 }});
-    const collapse    = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, collapseClusterRules:true,  specialCauseShiftPoints:6 }});
+    const noCollapse = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, rules: { collapseWeakerClusterRules:false }, specialCauseShiftPoints:6 }});
+    const collapse    = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings:{ enableFourOfFiveRule:true, rules: { collapseWeakerClusterRules:true },  specialCauseShiftPoints:6 }});
     const overlapIndices = noCollapse.rows
   .map((r,i)=> (r.specialCauseFourOfFiveUp && r.specialCauseTwoOfThreeUp) ? i : -1)
       .filter(i=>i>=0);

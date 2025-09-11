@@ -1,6 +1,5 @@
-import React from "react";
 import { render } from "@testing-library/react";
-import { SPCChart } from "./SPCChart";
+import { SPCChart, TrendVisualMode } from "./SPCChart";
 import { PrecedenceStrategy } from "./logic/spc";
 import {
 	resolvedSpcTestCases,
@@ -37,12 +36,13 @@ describe("SPCChart colour expectations", () => {
 				metricImprovement={mapDirection(tc.direction)}
 				enableRules
 				showPoints
+				trendVisualMode={TrendVisualMode.Gated}
 					// Enforce engine behavior expected by this suite: directional-first + grace
 					settings={{
 						precedenceStrategy: PrecedenceStrategy.DirectionalFirst,
-						emergingDirectionGrace: true,
+						emergingGraceEnabled: true,
 					}}
-				enableTrendSideGating
+				// trend side gating is always enabled in engine
 			/>
 		);
 		const circles = Array.from(
@@ -92,7 +92,8 @@ describe("SPCChart colour expectations", () => {
 				metricImprovement={mapDirection(tc.direction)}
 				enableRules
 				showPoints
-				enableTrendSideGating
+				trendVisualMode={TrendVisualMode.Gated}
+				// trend side gating is always enabled in engine
 			/>
 		);
 		const circles = Array.from(
@@ -109,5 +110,34 @@ describe("SPCChart colour expectations", () => {
 			expect(actual[i]).toBe(expected[i]);
 		}
 		expect(actual.length).toBe(expected.length);
+	});
+
+	it('applies ungated visual trend colours for early favourable runs (higher is better)', () => {
+		// Use the canonical "Special cause - High is good" dataset where an early favourable run exists below the mean
+		const tc = resolvedSpcTestCases.find(
+			(t) => t.title === "Special cause - High is good"
+		);
+		expect(tc).toBeTruthy();
+		if (!tc) return;
+		const { container } = render(
+			<SPCChart
+				data={tc.values.map((y, i) => ({ x: new Date(2023, 0, i + 1), y }))}
+				metricImprovement={mapDirection("higher")}
+				enableRules
+				showPoints
+				trendVisualMode={TrendVisualMode.Ungated}
+			/>
+		);
+		const circles = Array.from(container.querySelectorAll("circle.fdp-spc__point"));
+		// In the legacy gated expectation for this dataset, indices 16 and 17 are purple no-judgement.
+		// With ungated visuals and higher-is-better, a rising trend there should render as improvement (blue).
+		const idxs = [16, 17];
+		for (const idx of idxs) {
+			const c = circles[idx];
+			expect(c).toBeTruthy();
+			const cls = Array.from(c.classList);
+			expect(cls).toContain("fdp-spc__point--sc-improvement");
+			expect(cls).not.toContain("fdp-spc__point--sc-no-judgement");
+		}
 	});
 });

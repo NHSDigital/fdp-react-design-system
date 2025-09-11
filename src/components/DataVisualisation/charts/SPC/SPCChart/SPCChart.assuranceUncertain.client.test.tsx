@@ -1,15 +1,15 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { SPCChart, ImprovementDirection, type SPCDatum } from './SPCChart';
 
-function makeAroundTarget(len=18): { data: SPCDatum[]; targets: number[] } {
+function makeAroundTarget(len=24): { data: SPCDatum[]; targets: number[] } {
+  // Deterministic small oscillation around 40 to ensure band straddles target
   const data: SPCDatum[] = [];
   const targets: number[] = [];
   for (let i=0;i<len;i++) {
-    const y = 40 + Math.sin(i/2)*2 + (Math.random()-0.5)*1.5; // ~40 +/- small
+    const y = 40 + Math.sin(i/3) * 1.8 + (i % 6 === 0 ? 0.2 : 0); // no randomness
     data.push({ x: i+1, y });
-    targets.push(40); // target at mean so band overlaps -> uncertain (assurance None)
+    targets.push(40);
   }
   return { data, targets };
 }

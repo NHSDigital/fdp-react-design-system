@@ -1,6 +1,6 @@
 # SPC Engine Refactor & Harmonisation Plan
 
-Status: Phase 2 – in progress (2025-09-11)
+Status: Phase 2 – complete (2025-09-11)
 Owner: Data Visualisation / SPC Maintainers
 Scope: `spc.ts`, `spcSqlCompat.ts`, related directional pruning & settings surface.
 
@@ -183,8 +183,120 @@ Object.defineProperty(row, 'fooOld', {
 ## 12. Out of Scope (for now)
 
 - Performance micro-optimisations (bitset) unless profiler indicates need.
-- UI layer / story updates beyond necessary naming alignment.
+- UI layer re-architecture beyond the additive overlays and panels listed in §13.
 
 ---
 
 Questions / approvals: open a PR referencing this document and tick Phase 1 acceptance criteria before merging.
+
+## 13. UI & UX Roadmap (SPCChart)
+
+Goal: Help users reason about side‑gated trends without reintroducing classification toggles by adding clear, accessible visual affordances and audit trails.
+
+Principles
+- Classification remains unchanged (side‑gated by default).
+- Insights are computed post‑engine from existing `engine.rows` and rule tags.
+- All additions are UI‑only and backwards‑compatible (additive props).
+
+### Phase U1 (Overlays & tooltip copy)
+
+Deliver
+- Compute trend insights (memoised in SPCChart):
+  - `detectedAt` (first index when monotonic run reaches N)
+  - `direction` ('up'|'down')
+  - `firstFavourableCrossAt` (first index on favourable side of mean within same run, or null)
+  - `persistedAcrossMean` (boolean)
+- New props (UI only): `showTrendStartMarkers?` (default false), `showFirstFavourableCrossMarkers?` (default true), `showTrendBridgeOverlay?` (default true)
+- Render markers (hollow for start, solid for cross) and optional dashed bridge with hover label.
+- Tooltip: when purple, show “Emerging trend detected (not yet on favourable side)” + run direction/length and cross status.
+- Stories and docs linking to `spc-trend-gating.mdx`.
+
+Acceptance
+- Markers render only when a trend exists; no crashes with small/ghosted series.
+- Tooltip gating rationale appears for neutral trend cases.
+- Storybook includes overlay toggles; basic visual regression/snapshot tests in place.
+
+### Phase U2 (Signals inspector + interventions)
+
+Deliver
+- `showSignalsInspector?` prop: panel/popover listing detected signals (trend/shift/2‑of‑3) with `detectedAt`, `firstFavourableCrossAt`, `persistedAcrossMean`, and rule tags via `extractRuleIds`/`ruleGlossary`.
+- `interventions?: Array<{ x: Date|string|number; label?: string }>`: x‑axis markers; proximity hint when an intervention lies between detection and cross.
+- `onSignalFocus?` callback for analytics/a11y.
+
+Acceptance
+- Inspector updates with viewport/data changes; keyboard navigation between markers; accessible labels for interventions.
+
+### Phase U3 (Explain mode & polish)
+
+Deliver
+- Guided “Explain this chart” mode stepping through trend start → cross → classification change.
+- Color‑blind supportive encodings (shape/pattern) on markers; global Storybook controls for neutral styling demo.
+
+Acceptance
+- Explain mode is screen‑reader friendly; stable screenshot tests.
+
+Tech notes
+- No engine changes required; compute insights from `engine.rows`, `mean`, and `metricImprovement`.
+- Memoise insights by `rows` identity; keep props additive with safe defaults.
+
+## 14. Recent Deliverables (2025-09-11)
+
+### Engine & Semantics
+
+- Side‑gated classification enforced always‑on in engine; trend detection remains symmetric and exposed via rule tags.
+- Settings normaliser in place; legacy flags deprecated with one‑time console warnings.
+
+### UI & Docs
+
+- Visual trend gating toggle added: `trendVisualMode` as enum `TrendVisualMode` with default `Ungated` (visual‑only; classification unchanged).
+- Storybook: control for visual mode; new governance preset `GovernanceAssurancePreset` (Gated visuals + embedded assurance icons).
+- Docs: Trend Gating Rationale MDX updated with pros/cons, rationale, stacked comparison (`TrendGatingEmbeddedComparison`) with shared direction and live caption, ED4h dual‑mode example, and quick‑start note referencing the governance preset.
+
+### Validation
+
+- Build parity PASS; SSR tests PASS; smoke tests PASS; full component test suite PASS (known non‑blocking notes unchanged).
+
+### Adoption hygiene
+
+- ED4h embedded story updated to render Ungated and Gated variants stacked using the enum.
+
+Result: Phase 2 consolidation complete; moving to Phase 3 settings evolution and UI U1 overlays.
+
+## 15. Next Steps (Actionable)
+
+### Engine & Settings (Phase 3)
+
+- Implement grouped settings shape `SpcSettingsV2` and `normaliseSettings(input): InternalSettings`.
+- Ensure public exports and docs reflect V2 names (trend.favourableSideOnly, precedence.emergingGraceEnabled, precedence.collapseWeakerClusterRules).
+- Prepare migration notes and codemod draft for eventual Phase 4 removal of deprecated fields.
+
+### UI U1 – Overlays & Tooltip (short cycle)
+
+- Compute memoised trend insights in SPCChart: `detectedAt`, `direction`, `firstFavourableCrossAt`, `persistedAcrossMean`.
+- Add additive props: `showTrendStartMarkers`, `showFirstFavourableCrossMarkers` (default true), `showTrendBridgeOverlay` (default true).
+- Tooltip copy: neutral purple states explain “emerging trend detected, not yet on favourable side” with run direction/length + cross status.
+- Stories: controls for overlay toggles; minimal structural/screenshot tests.
+
+### UI U2 – Signals Inspector & Interventions
+
+- Add `showSignalsInspector?` panel listing detected signals with timings; keyboard navigation and accessible labelling.
+- Add `interventions?` markers and proximity hints between detection and favourable cross.
+
+### UI U3 – Explain Mode
+
+- Guided explain steps (start → cross → classification); add colour‑blind supportive encodings for markers.
+
+### Docs & Examples
+
+- Add a short linkable callout near the top of the Trend Gating Rationale pointing to the governance preset (done) and overlays once delivered.
+- Expand examples with one additional dataset verifying ungated visuals vs gated (prevent regressions).
+
+### Testing & CI
+
+- Add a small snapshot/structure test for `GovernanceAssurancePreset` and for the comparison component’s caption.
+- Include `npm run spc:parity` in CI; keep SSR tests and component suite in the matrix.
+
+### Release & Communication
+
+- Update CHANGELOG (Unreleased → Released) to record Phase 2 completion and enum introduction.
+- Brief migration note: prefer `TrendVisualMode` enum; default visuals Ungated; engine classification unchanged.

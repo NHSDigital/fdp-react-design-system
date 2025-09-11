@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SPCChart, ImprovementDirection } from "./SPCChart";
+import { SPCChart, ImprovementDirection, TrendVisualMode } from "./SPCChart";
 import { metricLookup } from "./test-data/parsedDataset";
 import { ChartContainer } from "../../ChartContainer";
 // Import via components barrel: ../../../.. back to components root then index
@@ -10,7 +10,11 @@ import { Radios } from "../../../../index";
  * for inclusion in MDX documentation (trend gating rationale).
  * Kept isolated so MDX can import a concrete React component rather than Storybook's <Story /> runtime lookup.
  */
-export const TrendGatingEmbeddedHigh: React.FC = () => {
+export type TrendGatingEmbeddedHighProps = {
+	trendVisualMode?: TrendVisualMode;
+};
+
+export const TrendGatingEmbeddedHigh: React.FC<TrendGatingEmbeddedHighProps> = ({ trendVisualMode = TrendVisualMode.Ungated }) => {
 	const metricKey = "Special cause - High is good";
 	const data = (metricLookup as any)[metricKey] || [];
 	const [dir, setDir] = useState<ImprovementDirection>(ImprovementDirection.Up);
@@ -39,6 +43,7 @@ export const TrendGatingEmbeddedHigh: React.FC = () => {
 				metricImprovement={dir}
 				enableRules
 				showPoints
+				trendVisualMode={trendVisualMode}
 				narrationContext={{ measureName: metricKey }}
 				gradientSequences
 				// Trend side gating now implicit (always on)

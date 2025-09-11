@@ -25,7 +25,6 @@ describe("spcSqlCompat directional pruning", () => {
 			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Up,
 			data,
-			disableTrendSideGating: true,
 		});
 		expect(res.rows.length).toBe(data.length);
 		// Ensure no runtime errors and that icons are assigned
@@ -45,7 +44,6 @@ describe("spcSqlCompat directional pruning", () => {
 			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Up,
 			data,
-			disableTrendSideGating: true,
 		});
 		// Find any row with primeDirection === PrimeDirection.Same (may not exist; tolerate none)
 		const tie = res.rows.find((r) => r.primeDirection === PrimeDirection.Same);

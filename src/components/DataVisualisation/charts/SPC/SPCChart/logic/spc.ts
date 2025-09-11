@@ -237,13 +237,85 @@ export interface SpcSettings {
 	autoRecalculateShiftLength?: number;
 	autoRecalculateDeltaSigma?: number;
 	conflictPrecedenceMode?: ConflictPrecedenceMode;
+	// Minimal nested mirrors to support grouped access in engine code
+	rules?: {
+		collapseWeakerClusterRules?: boolean;
+		shiftPoints?: number;
+		trendPoints?: number;
+		fourOfFiveEnabled?: boolean;
+		fifteenInnerThirdEnabled?: boolean;
+	};
+	grace?: {
+		emergingEnabled?: boolean;
+	};
 }
 
 // Phase 2 forward-looking settings shape with renamed flags (non-breaking adapter provided)
 // New names (V2): emergingGraceEnabled, trendFavourableSideOnly, collapseWeakerClusterRules
-export interface SpcSettingsV2 extends Omit<SpcSettings, 'emergingDirectionGrace' | 'collapseClusterRules'> {
-	emergingGraceEnabled?: boolean;
-	collapseWeakerClusterRules?: boolean;
+// Phase 3: Grouped settings API (backward-compatible via normaliser)
+export interface SpcSettingsV2 {
+	// Rule configuration
+	rules?: {
+		shiftPoints?: number; // maps to specialCauseShiftPoints
+		trendPoints?: number; // maps to specialCauseTrendPoints
+		fourOfFiveEnabled?: boolean; // maps to enableFourOfFiveRule
+		fifteenInnerThirdEnabled?: boolean; // maps to enableFifteenInInnerThirdRule
+		collapseWeakerClusterRules?: boolean; // maps to collapseWeakerClusterRules
+	};
+	// Precedence and conflict resolution
+	precedence?: {
+		strategy?: PrecedenceStrategy; // maps to precedenceStrategy
+		conflictMode?: ConflictPrecedenceMode; // maps to conflictPrecedenceMode
+	};
+	// Data/partition thresholds
+	thresholds?: {
+		minimumPoints?: number; // maps to minimumPoints
+		minimumPointsPartition?: number; // maps to minimumPointsPartition
+		maximumPointsPartition?: number | null; // maps to maximumPointsPartition
+		maximumPoints?: number | null; // maps to maximumPoints
+		transitionBufferPoints?: number; // maps to transitionBufferPoints
+	};
+	// Warnings toggles
+	warnings?: {
+		minimumPointsWarning?: boolean;
+		pointConflictWarning?: boolean;
+		variationIconConflictWarning?: boolean;
+		nullValueWarning?: boolean;
+		targetSuppressedWarning?: boolean;
+		ghostOnRareEventWarning?: boolean;
+		partitionSizeWarnings?: boolean;
+		baselineSpecialCauseWarning?: boolean;
+		maximumPointsWarnings?: boolean;
+	};
+	// Rare event / MR exclusions
+	rareEvent?: {
+		excludeMovingRangeOutliers?: boolean;
+	};
+	// Capability/assurance
+	capability?: {
+		assuranceCapabilityMode?: boolean;
+	};
+	// Grace window semantics
+	grace?: {
+		emergingEnabled?: boolean; // maps to emergingGraceEnabled / emergingDirectionGrace
+	};
+	// Baseline suggestions configuration
+	baselineSuggest?: {
+		enabled?: boolean; // maps to baselineSuggest
+		minDeltaSigma?: number; // maps to baselineSuggestMinDeltaSigma
+		stabilityPoints?: number; // maps to baselineSuggestStabilityPoints
+		minGap?: number; // maps to baselineSuggestMinGap
+		scoreThreshold?: number; // maps to baselineSuggestScoreThreshold
+	};
+	// Auto-recalculation after sustained shift
+	autoRecalc?: {
+		enabled?: boolean; // maps to autoRecalculateAfterShift
+		shiftLength?: number; // maps to autoRecalculateShiftLength
+		deltaSigma?: number; // maps to autoRecalculateDeltaSigma
+	};
+	// Forward-compat: accept flat V2 rename fields as well (soft-deprecated but supported)
+	emergingGraceEnabled?: boolean; // same as grace.emergingEnabled
+	collapseWeakerClusterRules?: boolean; // same as rules.collapseWeakerClusterRules
 }
 
 type AnySpcSettings = SpcSettings | SpcSettingsV2;
@@ -519,26 +591,105 @@ function applyAutoRecalculationBaselines(
 // Normalise user supplied settings (legacy + V2) into legacy internal field names for now.
 export function normaliseSpcSettings(user?: AnySpcSettings): SpcSettings {
 	if (!user) return {} as SpcSettings;
-	const v2 = user as SpcSettingsV2;
 	const legacy = user as SpcSettings;
-	const emergingGraceEnabled = v2.emergingGraceEnabled ?? legacy.emergingDirectionGrace;
-	const collapseWeakerClusterRules = v2.collapseWeakerClusterRules ?? legacy.collapseClusterRules;
+	const v2 = user as SpcSettingsV2;
+
+	// Pull grouped sections (if present)
+	const rules = v2.rules ?? {};
+	const precedence = v2.precedence ?? {};
+	const thresholds = v2.thresholds ?? {};
+	const warnings = v2.warnings ?? {};
+	const rareEvent = v2.rareEvent ?? {};
+	const capability = v2.capability ?? {};
+	const grace = v2.grace ?? {};
+	const baselineSuggest = v2.baselineSuggest ?? {};
+	const autoRecalc = v2.autoRecalc ?? {};
+
+	// Resolve renamed flags and aliases
+	const emergingGraceEnabled = (grace.emergingEnabled ?? v2.emergingGraceEnabled ?? legacy.emergingGraceEnabled ?? legacy.emergingDirectionGrace);
+	const collapseWeakerClusterRules = (rules.collapseWeakerClusterRules ?? v2.collapseWeakerClusterRules ?? legacy.collapseWeakerClusterRules ?? legacy.collapseClusterRules);
+
+	// First-use deprecation warnings for legacy names
 	const globalAny = globalThis as any;
-	if (legacy.emergingDirectionGrace !== undefined && v2.emergingGraceEnabled === undefined && !globalAny.__spc_warn_emergingDirectionGrace) {
+	if (legacy.emergingDirectionGrace !== undefined && v2.emergingGraceEnabled === undefined && grace.emergingEnabled === undefined && !globalAny.__spc_warn_emergingDirectionGrace) {
 		globalAny.__spc_warn_emergingDirectionGrace = true;
-		console.warn('[spc] emergingDirectionGrace is deprecated; use emergingGraceEnabled');
+		console.warn('[spc] emergingDirectionGrace is deprecated; use grace.emergingEnabled');
 	}
-	if (legacy.collapseClusterRules !== undefined && v2.collapseWeakerClusterRules === undefined && !globalAny.__spc_warn_collapseClusterRules) {
+	if (legacy.collapseClusterRules !== undefined && rules.collapseWeakerClusterRules === undefined && v2.collapseWeakerClusterRules === undefined && !globalAny.__spc_warn_collapseClusterRules) {
 		globalAny.__spc_warn_collapseClusterRules = true;
-		console.warn('[spc] collapseClusterRules is deprecated; use collapseWeakerClusterRules');
+		console.warn('[spc] collapseClusterRules is deprecated; use rules.collapseWeakerClusterRules');
 	}
-	return {
-		...user,
+
+	// Helper to remove undefined keys so defaults in buildSpc are not overridden by undefined
+	const pruneUndefined = <T extends Record<string, any>>(obj: T): Partial<T> => {
+		const out: Record<string, any> = {};
+		for (const k of Object.keys(obj)) {
+			const v = (obj as any)[k];
+			if (v !== undefined) out[k] = v;
+		}
+		return out as Partial<T>;
+	};
+
+	// Flatten into legacy engine shape (engine remains flat for now) – keep only defined values
+	const flattened: SpcSettings = pruneUndefined<SpcSettings>({
+		// Rare event / MR
+		excludeMovingRangeOutliers: rareEvent.excludeMovingRangeOutliers ?? legacy.excludeMovingRangeOutliers,
+		// Rules
+		specialCauseShiftPoints: rules.shiftPoints ?? legacy.specialCauseShiftPoints,
+		specialCauseTrendPoints: rules.trendPoints ?? legacy.specialCauseTrendPoints,
+		enableFourOfFiveRule: rules.fourOfFiveEnabled ?? legacy.enableFourOfFiveRule,
+		enableFifteenInInnerThirdRule: rules.fifteenInnerThirdEnabled ?? legacy.enableFifteenInInnerThirdRule,
+		collapseWeakerClusterRules: collapseWeakerClusterRules ?? legacy.collapseWeakerClusterRules,
+		// Precedence
+		precedenceStrategy: precedence.strategy ?? legacy.precedenceStrategy,
+		conflictPrecedenceMode: precedence.conflictMode ?? legacy.conflictPrecedenceMode,
+		// Thresholds
+		minimumPoints: thresholds.minimumPoints ?? legacy.minimumPoints,
+		minimumPointsPartition: thresholds.minimumPointsPartition ?? legacy.minimumPointsPartition,
+		maximumPointsPartition: (thresholds.maximumPointsPartition ?? legacy.maximumPointsPartition) as any,
+		maximumPoints: (thresholds.maximumPoints ?? legacy.maximumPoints) as any,
+		transitionBufferPoints: thresholds.transitionBufferPoints ?? legacy.transitionBufferPoints,
+		// Warnings
+		minimumPointsWarning: warnings.minimumPointsWarning ?? legacy.minimumPointsWarning,
+		pointConflictWarning: warnings.pointConflictWarning ?? legacy.pointConflictWarning,
+		variationIconConflictWarning: warnings.variationIconConflictWarning ?? legacy.variationIconConflictWarning,
+		nullValueWarning: warnings.nullValueWarning ?? legacy.nullValueWarning,
+		targetSuppressedWarning: warnings.targetSuppressedWarning ?? legacy.targetSuppressedWarning,
+		ghostOnRareEventWarning: warnings.ghostOnRareEventWarning ?? legacy.ghostOnRareEventWarning,
+		partitionSizeWarnings: warnings.partitionSizeWarnings ?? legacy.partitionSizeWarnings,
+		baselineSpecialCauseWarning: warnings.baselineSpecialCauseWarning ?? legacy.baselineSpecialCauseWarning,
+		maximumPointsWarnings: warnings.maximumPointsWarnings ?? legacy.maximumPointsWarnings,
+		// Capability
+		assuranceCapabilityMode: capability.assuranceCapabilityMode ?? legacy.assuranceCapabilityMode,
+		// Grace
 		emergingGraceEnabled,
-		collapseWeakerClusterRules,
 		emergingDirectionGrace: emergingGraceEnabled,
-		collapseClusterRules: collapseWeakerClusterRules,
-	} as SpcSettings;
+		// Baseline suggestions
+		baselineSuggest: baselineSuggest.enabled ?? legacy.baselineSuggest,
+		baselineSuggestMinDeltaSigma: baselineSuggest.minDeltaSigma ?? legacy.baselineSuggestMinDeltaSigma,
+		baselineSuggestStabilityPoints: baselineSuggest.stabilityPoints ?? legacy.baselineSuggestStabilityPoints,
+		baselineSuggestMinGap: baselineSuggest.minGap ?? legacy.baselineSuggestMinGap,
+		baselineSuggestScoreThreshold: baselineSuggest.scoreThreshold ?? legacy.baselineSuggestScoreThreshold,
+		// Auto recalculation
+		autoRecalculateAfterShift: autoRecalc.enabled ?? legacy.autoRecalculateAfterShift,
+		autoRecalculateShiftLength: autoRecalc.shiftLength ?? legacy.autoRecalculateShiftLength,
+		autoRecalculateDeltaSigma: autoRecalc.deltaSigma ?? legacy.autoRecalculateDeltaSigma,
+	} as SpcSettings);
+
+	// Also spread any remaining legacy flat fields provided directly to override defaults (keep only defined)
+	const merged: SpcSettings = { ...flattened, ...pruneUndefined<SpcSettings>(legacy) } as SpcSettings;
+	// ensure canonical pairs remain consistent when explicitly provided
+	if (emergingGraceEnabled !== undefined) {
+		(merged as any).emergingGraceEnabled = emergingGraceEnabled;
+		(merged as any).grace = { ...(merged as any).grace, emergingEnabled: emergingGraceEnabled };
+	}
+	if ((flattened as any).collapseWeakerClusterRules !== undefined) {
+		const v = (flattened as any).collapseWeakerClusterRules;
+		(merged as any).collapseWeakerClusterRules = v;
+		(merged as any).rules = { ...(merged as any).rules, collapseWeakerClusterRules: v };
+	}
+	// Final prune to remove any lingering undefined keys
+	return pruneUndefined<SpcSettings>(merged) as SpcSettings;
 }
 
 export function buildSpc(args: BuildSpcArgs): SpcResult {
@@ -580,6 +731,8 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		baselineSuggestScoreThreshold: 50,
 		precedenceStrategy: PrecedenceStrategy.DirectionalFirst,
 		emergingDirectionGrace: false,
+		rules: {},
+		grace: {},
 		// REMOVED: trendSideGatingEnabled default (always on)
 		autoRecalculateAfterShift: false,
 		autoRecalculateShiftLength: undefined,
@@ -1020,7 +1173,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		const onLowSide  = row.value! < row.mean!;
 		// Optional cluster rule collapse (retain stronger 4-of-5 over 2-of-3 when both same side)
 		// Ensure both legacy and alias flags are cleared to preserve parity tests.
-		if (settings.collapseClusterRules) {
+		if (settings.rules?.collapseWeakerClusterRules) {
 			if (row.specialCauseTwoOfThreeUp && row.specialCauseFourOfFiveUp) { row.specialCauseTwoOfThreeUp = false; }
 			if (row.specialCauseTwoOfThreeDown && row.specialCauseFourOfFiveDown) { row.specialCauseTwoOfThreeDown = false; }
 		}
@@ -1033,7 +1186,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 
 		// Emerging favourable detection (N-1 monotonic run in favourable direction before trend flag fires)
 		let emergingFavourable = false;
-		if (settings.precedenceStrategy === PrecedenceStrategy.DirectionalFirst && settings.emergingDirectionGrace) {
+		if (settings.precedenceStrategy === PrecedenceStrategy.DirectionalFirst && (settings.grace?.emergingEnabled || settings.emergingGraceEnabled || settings.emergingDirectionGrace)) {
 			const trendN = settings.specialCauseTrendPoints || 6;
 			if (trendN > 1 && !(row.specialCauseTrendUp || row.specialCauseTrendDown)) {
 				const needed = trendN - 1;

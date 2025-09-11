@@ -169,8 +169,7 @@ export const TooltipProvider: React.FC<TooltipProviderProps> = ({
 		[focused, scaleCtx, wrapAround]
 	);
 
-	const focusSeriesAtIndex = React.useCallback(
-		(seriesDelta: 1 | -1) => {
+	const focusSeriesAtIndex = React.useCallback( (seriesDelta: 1 | -1) => {
 			let ids = Array.from(seriesRef.current.keys());
 			// Skip hidden series (if visibility context present)
 			if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));

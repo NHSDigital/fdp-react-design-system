@@ -59,7 +59,7 @@ Early feedback showed users misread **H**/**L** as business polarity when in fac
 
 #### Embedded Summary Examples (Shift Scenario)
 
-The following example component renders the same shift dataset three times with different polarity settings to illustrate colour + letter changes:
+The following example component renders the same shift dataset three times with different polarity settings to illustrate colour and letter changes:
 
 ```tsx
 <ShiftPolarityExamples />
@@ -86,7 +86,7 @@ The embedded Assurance icon now always renders. When the underlying engine state
 
 ## Minimum Points Gate
 
-Variation + assurance icons are gated by `settings.minimumPoints` (default 13) requiring enough non‑ghost points to form stable limits; otherwise embedded icons are hidden.
+Variation and assurance icons are gated by `settings.minimumPoints` (default 13) requiring enough non‑ghost points to form stable limits; otherwise embedded icons are hidden.
 
 ## Gradient Wash
 
@@ -139,7 +139,7 @@ The following input shapes are deprecated and will be removed in a future minor 
 | `{ state, trend, polarity }` | `{ variationIcon, improvementDirection }` |
 | Parsimonious union variants | Engine payload |
 
-Rationale: aligning the icon API with the SPC engine (`VariationIcon` + `ImprovementDirection`) removes duplicate mapping logic and ambiguity between judgement vs icon enum terminology. Neutral purple behaviour now uses `variationIcon: 'neither'` with `specialCauseNeutral: true`.
+Rationale: aligning the icon API with the SPC engine (`VariationIcon` and `ImprovementDirection`) removes duplicate mapping logic and ambiguity between judgement vs icon enum terminology. Neutral purple behaviour now uses `variationIcon: 'neither'` with `specialCauseNeutral: true`.
 
 Legacy example (deprecated):
 ```tsx
@@ -165,7 +165,7 @@ Engine-aligned replacement:
 
 ### Triangle Variant
 
-Triangle variant replaces the circular ring + internal point motif with a filled triangle (or flat line for common cause) while retaining colour + optional letter. Use `variant="triangle"`.
+Triangle variant replaces the circular ring and internal point motif with a filled triangle (or flat line for common cause) while retaining colour and optional letter. Use `variant="triangle"`.
 
 ```tsx
 <SPCVariationIcon data={{ variationIcon: 'improvement' }} variant="triangle" />
@@ -230,7 +230,7 @@ No accessibility changes are required for migration. Engine payload keeps existi
 
 ## Future Enhancements
 
-- Visual regression snapshots for gradient + triangle variants.
+- Visual regression snapshots for gradient and triangle variants.
 - Dark / high-contrast theme token overrides (validate wash subtlety).
 
 ## Changelog (Icon System)
@@ -239,5 +239,5 @@ No accessibility changes are required for migration. Engine payload keeps existi
 |------|--------|
 | 2025-08-XX | Added `gradientWash` option to all SPC icons. |
 | 2025-08-XX | Introduced suppression mapping to `None` for isolated favourable 3σ points & orientation logic. |
-| 2025-08-XX | Embedded dual Variation + Assurance icons in `SPCChart`. |
+| 2025-08-XX | Embedded dual Variation and Assurance icons in `SPCChart`. |
 | 2025-09-XX | Embedded summary icon letters switch to business polarity (H/L) except when metric improvement is neutral (side labelling retained). |

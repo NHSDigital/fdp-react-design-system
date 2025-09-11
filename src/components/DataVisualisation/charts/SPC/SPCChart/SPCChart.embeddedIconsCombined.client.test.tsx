@@ -16,7 +16,7 @@ function makePassData(): { data: SPCDatum[]; targets: number[] } {
   return { data, targets };
 }
 
-describe('SPCChart embedded variation + assurance icons', () => {
+describe('SPCChart embedded variation and assurance icons', () => {
   it('renders both variation and assurance (pass) icons when assurance criteria met', () => {
     const { data, targets } = makePassData();
     const { container } = render(<SPCChart data={data} targets={targets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon />);

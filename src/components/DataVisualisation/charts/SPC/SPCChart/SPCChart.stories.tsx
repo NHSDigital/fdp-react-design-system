@@ -24,6 +24,7 @@ const meta: Meta<typeof SPCChart> = {
 			description: 'Strategy for joining adjacent coloured gradient sequences (slope | neutral | extend).',
 			defaultValue: SequenceTransition.Slope,
 		},
+		showSignalsInspector: { control: 'boolean', description: 'Show a minimal Signals Inspector panel under the chart.', defaultValue: false },
 		showTrendStartMarkers: { control: 'boolean', description: 'Show hollow marker at trend start (when run reaches N).', defaultValue: false },
 		showFirstFavourableCrossMarkers: { control: 'boolean', description: 'Show solid marker at first favourable-side inclusion in the trend window.', defaultValue: false },
 		showTrendBridgeOverlay: { control: 'boolean', description: 'Draw dashed bridge from trend start to first favourable-side inclusion.', defaultValue: false },
@@ -76,6 +77,7 @@ export const Basic: Story = {
 					gradientSequences
 					sequenceTransition={SequenceTransition.Slope}
 					trendVisualMode={args.trendVisualMode as TrendVisualMode}
+					showSignalsInspector={args.showSignalsInspector as boolean}
 					narrationContext={{
 						measureName: "Daily metric",
 						datasetContext: "Synthetic 30-day sample",
@@ -121,6 +123,49 @@ export const Signals: Story = {
 						measureName: "Process metric",
 						datasetContext: "Engineered signal sequence",
 						additionalNote: "Injected shift and outlier for demo",
+					}}
+				/>
+			</ChartContainer>
+		);
+	},
+};
+
+export const InspectorWithOverlays: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story:
+					`Signals Inspector with trend overlays. Demonstrates UI-only overlays (trend start, first favourable cross, bridge) and the inspector panel that follows keyboard focus.`,
+			},
+		},
+		metricContext: { improvement: 'up' },
+	},
+	render: (args) => {
+		const data = React.useMemo(() => makeData(), []);
+		// Create a mild upward trend to ensure trend rule fires and overlays appear
+		const mutated = data.map((d, i) => ({ ...d, y: d.y + (i > 12 ? i - 12 : 0) }));
+		return (
+			<ChartContainer
+				title="SPC with Signals Inspector & Trend Overlays"
+				description="Use arrow keys or the inspector buttons to move focus."
+				source="Synthetic data"
+			>
+				<SPCChart
+					data={mutated}
+					chartType={ChartType.XmR}
+					metricImprovement={ImprovementDirection.Up}
+					announceFocus
+					gradientSequences
+					sequenceTransition={SequenceTransition.Slope}
+					trendVisualMode={args.trendVisualMode as TrendVisualMode}
+					showSignalsInspector
+					showTrendStartMarkers
+					showFirstFavourableCrossMarkers
+					showTrendBridgeOverlay
+					unit="%"
+					narrationContext={{
+						measureName: 'Process metric',
+						datasetContext: 'Engineered trend sequence',
 					}}
 				/>
 			</ChartContainer>
@@ -339,9 +384,9 @@ export const AssuranceCapability: Story = {
 		},
 };
 
-// New story: Embedded summary icons (variation + assurance) side-by-side examples
+// New story: Embedded summary icons (variation and assurance) side-by-side examples
 export const EmbeddedSummaryIcons: Story = {
-	parameters: { docs: { description: { story: 'Demonstrates embedded variation + assurance icons rendered together: Pass, Fail and (no icon) Uncertain scenarios.' } }, metricContext: { improvement: 'up' } },
+	parameters: { docs: { description: { story: 'Demonstrates embedded variation and assurance icons rendered together: Pass, Fail and (no icon) Uncertain scenarios.' } }, metricContext: { improvement: 'up' } },
 	render: (args) => {
 		const randIcons = seedPRNG(998877);
 		const baseSeq: SPCDatum[] = Array.from({ length: 18 }, (_, i) => ({ x: i + 1, y: 40 + Math.sin(i / 2) * 2 + (randIcons() - 0.5) * 1.5 }));
@@ -354,11 +399,11 @@ export const EmbeddedSummaryIcons: Story = {
 		const uncertainTargets = uncertainData.map(() => 40);
 		return (
 			<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(360px,1fr))', gap: 24 }}>
-				<ChartContainer title="Embedded: Pass" description="Variation + assurance pass" source="Synthetic">
+				<ChartContainer title="Embedded: Pass" description="Variation and assurance pass" source="Synthetic">
 					<SPCChart data={passData} targets={passTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon trendVisualMode={args.trendVisualMode as TrendVisualMode} />
 					<SPCChart data={passData} targets={passTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon sequenceTransition={SequenceTransition.Slope} trendVisualMode={args.trendVisualMode as TrendVisualMode} />
 				</ChartContainer>
-				<ChartContainer title="Embedded: Fail" description="Variation + assurance fail" source="Synthetic">
+				<ChartContainer title="Embedded: Fail" description="Variation and assurance fail" source="Synthetic">
 					<SPCChart data={failData} targets={failTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon trendVisualMode={args.trendVisualMode as TrendVisualMode} />
 					<SPCChart data={failData} targets={failTargets} metricImprovement={ImprovementDirection.Up} showEmbeddedIcon sequenceTransition={SequenceTransition.Slope} trendVisualMode={args.trendVisualMode as TrendVisualMode} />
 				</ChartContainer>

@@ -35,6 +35,7 @@ import { buildSpcSqlCompat } from './logic/spcSqlCompat';
 import { Tag } from "../../../../Tag/Tag";
 import Table from "../../../../Tables/Table";
 import { MetricPolarity } from "../SPCIcons/SPCConstants";
+import SPCSignalsInspector from "./SPCSignalsInspector";
 import {
 	extractRuleIds,
 	ruleGlossary,
@@ -75,7 +76,7 @@ export interface SPCChartProps {
 	highlightOutOfControl?: boolean;
 	/** SPC chart type */
 	chartType?: ChartType;
-	/** Direction where higher/lower is better (affects variation + assurance icons) */
+	/** Direction where higher/lower is better (affects variation and assurance icons) */
 	metricImprovement?: ImprovementDirection;
 	/** Show special-cause coloured point classes */
 	enableRules?: boolean;
@@ -150,6 +151,8 @@ export interface SPCChartProps {
 	showFirstFavourableCrossMarkers?: boolean;
 	/** UI-only: draw a dashed bridge between trend start and first favourable-side inclusion. Default false. */
 	showTrendBridgeOverlay?: boolean;
+	/** UI-only: show a minimal Signals Inspector panel under the chart reflecting the focused point. Default false. */
+	showSignalsInspector?: boolean;
 }
 
 export const SPCChart: React.FC<SPCChartProps> = ({
@@ -191,6 +194,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	showTrendStartMarkers = false,
 	showFirstFavourableCrossMarkers = false,
 	showTrendBridgeOverlay = false,
+	showSignalsInspector = false,
 }) => {
 	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
@@ -626,6 +630,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						showTrendStartMarkers={showTrendStartMarkers}
 						showFirstFavourableCrossMarkers={showFirstFavourableCrossMarkers}
 						showTrendBridgeOverlay={showTrendBridgeOverlay}
+						showSignalsInspector={showSignalsInspector}
 					/>
 				</LineScalesProvider>
 			</ChartRoot>
@@ -782,6 +787,7 @@ interface InternalProps {
 	showTrendStartMarkers?: boolean;
 	showFirstFavourableCrossMarkers?: boolean;
 	showTrendBridgeOverlay?: boolean;
+	showSignalsInspector?: boolean;
 }
 
 const InternalSPC: React.FC<InternalProps> = ({
@@ -808,6 +814,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 	showTrendStartMarkers = false,
 	showFirstFavourableCrossMarkers = false,
 	showTrendBridgeOverlay = false,
+	showSignalsInspector = false,
 }) => {
 	const scaleCtx = useScaleContext();
 	const chartCtx = useChartContext();
@@ -1745,6 +1752,15 @@ const InternalSPC: React.FC<InternalProps> = ({
 						/>
 					</g>
 				</svg>
+				{showSignalsInspector && (
+					<div style={{ marginTop: 8 }}>
+						<SPCSignalsInspector
+							engineRows={engineRows}
+							measureName={narrationContext?.measureName}
+							measureUnit={effectiveUnit || narrationContext?.measureUnit}
+						/>
+					</div>
+				)}
 				{announceFocus && (
 					<VisuallyHiddenLiveRegion
 						format={(d: any) =>

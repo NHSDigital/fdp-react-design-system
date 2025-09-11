@@ -63,7 +63,7 @@ describe("RuleClash Chart1 diagnostic (directional_first vs legacy)", () => {
 			variation: r.variationIcon,
 		}));
 		// Diagnostic console output: aids verifying precedence interactions during development.
-		console.table(rows);
+		//console.table(rows);
 
 		// Assert June 2022 (index 5) classified as Concern (since metricImprovement=Down higher=unfavourable)
 		expect(directional.rows[5].variationIcon).toBe(VariationIcon.Concern);

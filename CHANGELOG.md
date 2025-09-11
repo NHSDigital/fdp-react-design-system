@@ -123,6 +123,8 @@ The golden SPC fixture (`test-data/golden-all.json`) and related snapshot tests 
 ### Added (Unreleased – Components & Docs)
 
 - Shared story utilities module `src/components/DataVisualisation/stories/utils/deterministic.ts` providing date helpers, linear series generator, seeded PRNG.
+- SPCChart: Minimal Signals Inspector panel (UI-only) that mirrors keyboard focus and lists point value, variation, assurance, and triggered rules with short narration. Opt-in via `showSignalsInspector` prop; SSR-safe.
+- Storybook: New control for `showSignalsInspector` on SPC stories and a combined "Inspector with Trend Overlays" story demonstrating inspector alongside trend start/cross/bridge overlays.
 - Table: Declarative columns and data API (auto-generates head and rows when explicit `head`/`rows` omitted).
 - Table: `visuallyHiddenCaption` prop to retain semantic caption for assistive tech while hiding visually.
 - Table: New sub-component `Table.Cell` supporting `rowHeader` plus code / html / node content (joins existing `Caption`, `BodyRow`, `HeaderCell`).

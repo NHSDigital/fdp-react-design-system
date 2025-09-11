@@ -603,3 +603,44 @@ export const TrendOverlays: Story = {
 		);
 	}
 };
+
+// Governance-focused preset with Signals Inspector enabled and gated visuals
+export const GovernanceSignalsPreset: Story = {
+	args: { trendVisualMode: TrendVisualMode.Gated },
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'Governance preset with gated trend visuals and the Signals Inspector enabled for transparency. Suitable for board reporting where early trend points remain neutral until favourable-side is established; inspector exposes value, variation, assurance and rule narration.',
+			},
+		},
+		metricContext: { improvement: 'up' },
+	},
+	render: (args) => {
+		const data = React.useMemo(() => makeData(), []);
+		return (
+			<ChartContainer
+				title="Governance preset (Signals Inspector)"
+				description="Gated visuals by default; Inspector mirrors keyboard focus for auditable rule context."
+				source="Synthetic data"
+			>
+				<SPCChart
+					data={data}
+					chartType={ChartType.XmR}
+					metricImprovement={ImprovementDirection.Up}
+					trendVisualMode={args.trendVisualMode as TrendVisualMode}
+					showSignalsInspector
+					announceFocus
+					unit="%"
+					gradientSequences
+					sequenceTransition={SequenceTransition.Slope}
+					narrationContext={{
+						measureName: 'Governance metric',
+						datasetContext: 'Deterministic sample (30 points)',
+						timeframe: 'Last 30 days',
+					}}
+				/>
+			</ChartContainer>
+		);
+	},
+};

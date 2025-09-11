@@ -1,6 +1,6 @@
 # SPC Engine Refactor & Harmonisation Plan
 
-Status: Phase 2 – complete (2025-09-11)
+Status: Phase 3 – complete (2025-09-11)
 Owner: Data Visualisation / SPC Maintainers
 Scope: `spc.ts`, `spcSqlCompat.ts`, related directional pruning & settings surface.
 
@@ -26,8 +26,7 @@ PARTIAL:
 
 NOT DONE (Phase 2 / 3 Targets):
 
-- Grouped settings object shape (SpcSettingsV2 structured form – future enhancement; current V2 flat canonical flags in place).
-- Facade builder (`buildSpcWith`) and grouped settings normaliser (Phase 3).
+- Facade builder (`buildSpcWith`) (future)
 
 ## 3. Phased Migration Strategy
 
@@ -63,9 +62,9 @@ Pending in Phase 2:
 
 1. (None)
 
-### Phase 3 (Structural Settings Evolution – Planned)
+### Phase 3 (Structural Settings Evolution – Delivered)
 
-1. Add additive grouped settings shape:
+1. Add additive grouped settings shape (delivered):
 
 ```ts
 export interface SpcSettingsV2 {
@@ -90,8 +89,8 @@ export interface SpcSettingsV2 {
 ```
 
 
-1. Provide normaliser `normaliseSettings(input: SpcSettings | SpcSettingsV2): InternalSettings`.
-2. Update internal engine to read only normalised shape.
+1. Provide normaliser `normaliseSettings(input: SpcSettings | SpcSettingsV2): InternalSettings`. ✅ Delivered as `normaliseSpcSettings` with undefined-prune and nested mirrors (`rules`, `grace`).
+2. Update internal engine to read only normalised shape. ✅ Engine reads grouped mirrors for emerging grace and cluster collapse.
 
 ### Phase 4 (Major Version – Breaking Cleanup)
 

@@ -93,16 +93,33 @@ Expect a one‑time console.warn when legacy names are detected during tests/dev
 ## Adoption checklist
 
 1. Replace deprecated names with V2 paths where you touch settings.
-2. Remove any `trendSideGatingEnabled`/`trendFavourableSideOnly` usage.
-3. Prefer `SpcSettingsV2` with grouped sections for new code.
-4. Run validations:
-   - `npm run test:components`
-   - `npm run test:ssr-components`
-   - `npm run build:parity`
+1. Remove any `trendSideGatingEnabled`/`trendFavourableSideOnly` usage.
+1. Prefer `SpcSettingsV2` with grouped sections for new code.
+1. (Optional) Run the codemod to automate safe dot-access renames, then scan reported manual sites (object literals / bracket-access) and update them. Commands:
 
-## Optional codemod hints
+```sh
+npm run spc:codemod:scan
+npm run spc:codemod:apply
+```
 
-- Search: `emergingDirectionGrace` → replace with `grace.emergingEnabled`
-- Search: `collapseClusterRules` → replace with `rules.collapseWeakerClusterRules`
+1. Run validations:
+
+```sh
+npm run test:components
+npm run test:ssr-components
+npm run build:parity
+```
+
+1. Visual gating (docs pointer): Trend visuals are controlled via the `TrendVisualMode` prop on `SPCChart` (Ungated default; Gated optional). Classification remains side‑gated in the engine regardless of visuals. See the SPC Trend Gating story/docs for examples.
+
+## Codemod reference and manual hints
+
+- Commands
+  - Scan: `npm run spc:codemod:scan`
+  - Apply: `npm run spc:codemod:apply`
+
+- Manual search/replace targets (reported by the codemod for object literal or bracket-access cases):
+  - `emergingDirectionGrace` → replace with `grace.emergingEnabled`
+  - `collapseClusterRules` → replace with `rules.collapseWeakerClusterRules`
 
 Keep changes minimal; the normaliser preserves backward compatibility.

@@ -1,0 +1,232 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`getDirectionalSignalSummary snapshot > produces expected summary structure for mixed directional dataset 1`] = `
+[
+  {
+    "downMax": 3,
+    "downRules": [
+      "two_sigma",
+      "shift",
+    ],
+    "rowId": 1,
+    "upMax": 0,
+    "upRules": [],
+    "variationIcon": "concern",
+  },
+  {
+    "downMax": 3,
+    "downRules": [
+      "two_sigma",
+      "shift",
+    ],
+    "rowId": 2,
+    "upMax": 0,
+    "upRules": [],
+    "variationIcon": "concern",
+  },
+  {
+    "downMax": 3,
+    "downRules": [
+      "two_sigma",
+      "shift",
+    ],
+    "rowId": 3,
+    "upMax": 0,
+    "upRules": [],
+    "variationIcon": "concern",
+  },
+  {
+    "downMax": 3,
+    "downRules": [
+      "two_sigma",
+      "shift",
+    ],
+    "rowId": 4,
+    "upMax": 0,
+    "upRules": [],
+    "variationIcon": "concern",
+  },
+  {
+    "downMax": 3,
+    "downRules": [
+      "two_sigma",
+      "shift",
+    ],
+    "rowId": 5,
+    "upMax": 0,
+    "upRules": [],
+    "variationIcon": "concern",
+  },
+  {
+    "downMax": 3,
+    "downRules": [
+      "two_sigma",
+      "shift",
+    ],
+    "rowId": 6,
+    "upMax": 0,
+    "upRules": [],
+    "variationIcon": "concern",
+  },
+  {
+    "downMax": 3,
+    "downRules": [
+      "two_sigma",
+      "shift",
+    ],
+    "rowId": 7,
+    "upMax": 0,
+    "upRules": [],
+    "variationIcon": "concern",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 8,
+    "upMax": 3,
+    "upRules": [
+      "single_point",
+      "shift",
+    ],
+    "variationIcon": "improvement",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 9,
+    "upMax": 3,
+    "upRules": [
+      "single_point",
+      "shift",
+    ],
+    "variationIcon": "improvement",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 10,
+    "upMax": 3,
+    "upRules": [
+      "single_point",
+      "shift",
+    ],
+    "variationIcon": "improvement",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 11,
+    "upMax": 3,
+    "upRules": [
+      "single_point",
+      "shift",
+    ],
+    "variationIcon": "improvement",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 12,
+    "upMax": 3,
+    "upRules": [
+      "single_point",
+      "shift",
+    ],
+    "variationIcon": "improvement",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 13,
+    "upMax": 3,
+    "upRules": [
+      "single_point",
+      "shift",
+    ],
+    "variationIcon": "improvement",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 14,
+    "upMax": 3,
+    "upRules": [
+      "single_point",
+      "shift",
+    ],
+    "variationIcon": "improvement",
+  },
+  {
+    "downMax": 1,
+    "downRules": [
+      "single_point",
+    ],
+    "rowId": 15,
+    "upMax": 4,
+    "upRules": [
+      "trend",
+    ],
+    "variationIcon": "concern",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 16,
+    "upMax": 4,
+    "upRules": [
+      "trend",
+    ],
+    "variationIcon": "neither",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 17,
+    "upMax": 4,
+    "upRules": [
+      "trend",
+    ],
+    "variationIcon": "neither",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 18,
+    "upMax": 4,
+    "upRules": [
+      "trend",
+    ],
+    "variationIcon": "neither",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 19,
+    "upMax": 4,
+    "upRules": [
+      "trend",
+    ],
+    "variationIcon": "improvement",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 20,
+    "upMax": 4,
+    "upRules": [
+      "trend",
+    ],
+    "variationIcon": "improvement",
+  },
+  {
+    "downMax": 0,
+    "downRules": [],
+    "rowId": 21,
+    "upMax": 4,
+    "upRules": [
+      "trend",
+    ],
+    "variationIcon": "improvement",
+  },
+]
+`;

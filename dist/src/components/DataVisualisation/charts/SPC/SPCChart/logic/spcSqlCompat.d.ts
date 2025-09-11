@@ -1,4 +1,4 @@
-import { buildSpc, ChartType, ImprovementDirection, SpcSettings, SpcRow, SpcRuleId } from "./spc";
+import { buildSpc, ChartType, ImprovementDirection, SpcSettings, SpcRow, SpcRuleId, PrimeDirection, PruningMode } from './spc';
 export interface BuildSpcSqlCompatArgs {
     chartType: ChartType;
     metricImprovement: ImprovementDirection;
@@ -16,6 +16,8 @@ export interface SpcSqlCompatRow extends SpcRow {
     primeDirection?: PrimeDirection;
     primeRank?: number;
     primeRuleId?: SpcRuleId;
+    /** Indicates pruning strategy used on this row */
+    pruningMode?: PruningMode;
     sqlOriginalImprovementValue?: number | null;
     sqlOriginalConcernValue?: number | null;
     sqlPruned?: boolean;
@@ -23,11 +25,6 @@ export interface SpcSqlCompatRow extends SpcRow {
 export interface SpcSqlCompatResult {
     rows: SpcSqlCompatRow[];
     warnings: ReturnType<typeof buildSpc>["warnings"];
-}
-export declare enum PrimeDirection {
-    Upwards = "Upwards",
-    Downwards = "Downwards",
-    Same = "Same"
 }
 export declare function sqlDirectionalPrune(row: SpcSqlCompatRow, metricImprovement: ImprovementDirection): void;
 export declare function buildSpcSqlCompat(args: BuildSpcSqlCompatArgs): SpcSqlCompatResult;

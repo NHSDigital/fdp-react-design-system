@@ -1,8 +1,5 @@
-import {
-	buildSpc,
-	ImprovementDirection,
-	ChartType,
-} from "../src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc";
+import { buildSpc, ImprovementDirection, ChartType } from "../src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc";
+import { buildSpcSqlCompat } from "../src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcSqlCompat";
 
 type SPCDatum = { x: Date; y: number };
 
@@ -36,21 +33,19 @@ const buildSuppressedDown = () => {
 };
 
 function summarise(name: string, data: SPCDatum[], imp: ImprovementDirection) {
-	const res = buildSpc({
-		data: data.map((p) => ({ x: +p.x, value: p.y })),
-		metricImprovement: imp,
-		chartType: ChartType.XmR,
-	});
-	const last = res.rows.at(-1)!;
-	const variation = last.variationIcon;
-	console.log(name, {
-		variation,
-		specialCauseNeutral: !!last.specialCauseNeitherValue,
-		highAbove: last.specialCauseSinglePointAbove,
-		highTrend: last.specialCauseTrendIncreasing,
-		lowBelow: last.specialCauseSinglePointBelow,
-		lowTrend: last.specialCauseTrendDecreasing,
-	});
+	const baseInput = data.map((p) => ({ x: +p.x, value: p.y }));
+	const orthodox = buildSpc({ data: baseInput, metricImprovement: imp, chartType: ChartType.XmR });
+	const sqlCompat = buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: imp, data: baseInput });
+	const oLast = orthodox.rows.at(-1)!;
+	const sLast = sqlCompat.rows.at(-1)!;
+	const parity = {
+		orthodoxVariation: oLast.variationIcon,
+		sqlCompatImprovement: sLast.specialCauseImprovementValue,
+		sqlCompatConcern: sLast.specialCauseConcernValue,
+		orthodoxImprovement: oLast.specialCauseImprovementValue,
+		orthodoxConcern: oLast.specialCauseConcernValue,
+	};
+	console.log(`[${name}]`, parity);
 }
 
 summarise("common", makeStable(), ImprovementDirection.Neither);

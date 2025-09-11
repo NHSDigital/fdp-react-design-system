@@ -13,7 +13,10 @@ import {
 	SpcRuleId,
 	Side,
 	RULE_RANK_BY_ID,
-} from "./spc";
+	PrimeDirection,
+	PruningMode,
+	getDirectionalSignalSummary,
+} from './spc';
 
 export interface BuildSpcSqlCompatArgs {
 	chartType: ChartType;
@@ -36,6 +39,8 @@ export interface SpcSqlCompatRow extends SpcRow {
 	primeRank?: number;
 	// Winning rule id for transparency
 	primeRuleId?: SpcRuleId;
+	/** Indicates pruning strategy used on this row */
+	pruningMode?: PruningMode;
 	// Original (pre-pruning) improvement / concern prior to directional pruning
 	sqlOriginalImprovementValue?: number | null;
 	sqlOriginalConcernValue?: number | null;
@@ -49,37 +54,21 @@ export interface SpcSqlCompatResult {
 }
 
 // Internal: determine per-side rank catalogue mirroring SQL ordering
-export enum PrimeDirection {
-	Upwards = 'Upwards',
-	Downwards = 'Downwards',
-	Same = 'Same'
-}
+// PrimeDirection now exported from core spc.ts
 
-function collectSideRanks(r: SpcRow) {
-	const high: { id: SpcRuleId; rank: number }[] = [];
-	const low: { id: SpcRuleId; rank: number }[] = [];
-	const push = (arr: { id: SpcRuleId; rank: number }[], id: SpcRuleId) => {
-		arr.push({ id, rank: RULE_RANK_BY_ID[id] });
-	};
-	if (r.specialCauseSinglePointUp) push(high, SpcRuleId.SinglePoint);
-	if (r.specialCauseSinglePointDown) push(low, SpcRuleId.SinglePoint);
-	if (r.specialCauseTwoOfThreeUp) push(high, SpcRuleId.TwoSigma);
-	if (r.specialCauseTwoOfThreeDown) push(low, SpcRuleId.TwoSigma);
-	if (r.specialCauseShiftUp) push(high, SpcRuleId.Shift);
-	if (r.specialCauseShiftDown) push(low, SpcRuleId.Shift);
-	if (r.specialCauseTrendUp) push(high, SpcRuleId.Trend);
-	if (r.specialCauseTrendDown) push(low, SpcRuleId.Trend);
-	return { high, low };
-}
+// collectSideRanks replaced by shared getDirectionalSignalSummary helper.
 
 // Exported for unit tests to simulate synthetic clashes
 export function sqlDirectionalPrune(
 	row: SpcSqlCompatRow,
 	metricImprovement: ImprovementDirection
 ) {
-	const { high, low } = collectSideRanks(row);
-	const upMax = high.reduce((m, a) => Math.max(m, a.rank), 0);
-	const downMax = low.reduce((m, a) => Math.max(m, a.rank), 0);
+	const summary = getDirectionalSignalSummary(row);
+	const upMax = summary.upMax;
+	const downMax = summary.downMax;
+	// reconstruct high/low sets for winner selection using RULE_RANK_BY_ID ordering
+	const high = summary.upRules.map(id => ({ id, rank: RULE_RANK_BY_ID[id] }));
+	const low = summary.downRules.map(id => ({ id, rank: RULE_RANK_BY_ID[id] }));
 	let prime: PrimeDirection;
 	if (upMax > downMax) prime = PrimeDirection.Upwards;
 	else if (downMax > upMax) prime = PrimeDirection.Downwards;
@@ -144,6 +133,7 @@ export function sqlDirectionalPrune(
 
 	row.primeDirection = prime; // attach convenience alias names
 	row.primeRank = Math.max(upMax, downMax) || undefined;
+	row.pruningMode = PruningMode.Sql;
 	// Determine winning side using unified Side enum (Up corresponds to former 'high', Down to 'low').
 	const winningSide: Side =
 		row.variationIcon === VariationIcon.Concern

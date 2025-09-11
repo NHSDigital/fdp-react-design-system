@@ -1,12 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { buildSpc } from "../spc";
+import { buildSpc, ChartType, ImprovementDirection, getDirectionalSignalSummary, RULE_RANK_BY_ID, VariationIcon } from "../spc";
 
 // Minimal helper to build a dataset that triggers various rules
 function buildDataset(values: Array<number | null>) {
 	return values.map((v, i) => ({
-		id: String(i + 1),
+		x: `2024-01-${String(i + 1).padStart(2, "0")}`,
 		value: v,
-		date: `2024-01-${String(i + 1).padStart(2, "0")}`,
 	}));
 }
 
@@ -42,30 +41,28 @@ describe("SPC directional alias parity", () => {
 		];
 
 		const result = buildSpc({
-			chartType: "p", // any valid chart type - assume 'p' exists in ChartType enum
-			metricImprovement: "increase", // ImprovementDirection increase
+			chartType: ChartType.XmR,
+			metricImprovement: ImprovementDirection.Up,
 			data: buildDataset(values),
 			settings: { enableFifteenInInnerThirdRule: false },
-		} as any); // cast for test brevity if string enums differ
+		});
 
+		// Invariants: no row should have both up and down versions of the SAME rule simultaneously
 		for (const r of result.rows) {
-			// Single point
-			expect(r.specialCauseSinglePointUp).toBe(r.specialCauseSinglePointAbove);
-			expect(r.specialCauseSinglePointDown).toBe(
-				r.specialCauseSinglePointBelow
-			);
-			// Two of three
-			expect(r.specialCauseTwoOfThreeUp).toBe(r.specialCauseTwoOfThreeAbove);
-			expect(r.specialCauseTwoOfThreeDown).toBe(r.specialCauseTwoOfThreeBelow);
-			// Four of five
-			expect(r.specialCauseFourOfFiveUp).toBe(r.specialCauseFourOfFiveAbove);
-			expect(r.specialCauseFourOfFiveDown).toBe(r.specialCauseFourOfFiveBelow);
-			// Shift
-			expect(r.specialCauseShiftUp).toBe(r.specialCauseShiftHigh);
-			expect(r.specialCauseShiftDown).toBe(r.specialCauseShiftLow);
-			// Trend
-			expect(r.specialCauseTrendUp).toBe(r.specialCauseTrendIncreasing);
-			expect(r.specialCauseTrendDown).toBe(r.specialCauseTrendDecreasing);
+			const singleBoth = r.specialCauseSinglePointUp && r.specialCauseSinglePointDown;
+			const twoThreeBoth = r.specialCauseTwoOfThreeUp && r.specialCauseTwoOfThreeDown;
+			const fourFiveBoth = r.specialCauseFourOfFiveUp && r.specialCauseFourOfFiveDown;
+			const shiftBoth = r.specialCauseShiftUp && r.specialCauseShiftDown;
+			const trendBoth = r.specialCauseTrendUp && r.specialCauseTrendDown;
+			expect(singleBoth || twoThreeBoth || fourFiveBoth || shiftBoth || trendBoth).toBe(false);
+			// Directional summary consistency
+			const summary = getDirectionalSignalSummary(r as any);
+			for (const id of summary.upRules) expect(summary.upMax).toBeGreaterThanOrEqual(RULE_RANK_BY_ID[id]);
+			for (const id of summary.downRules) expect(summary.downMax).toBeGreaterThanOrEqual(RULE_RANK_BY_ID[id]);
+			// Mutual exclusivity of variation icon when both sides absent
+			if (!summary.hasUp && !summary.hasDown) {
+				expect(r.variationIcon === VariationIcon.Improvement || r.variationIcon === VariationIcon.Concern).toBe(false);
+			}
 		}
 	});
 });

@@ -1,4 +1,3 @@
-import { PrimeDirection } from "./spcSqlCompat";
 /**
  * Chart type meanings (high‑level):
  *  XmR (Individuals & Moving Range):
@@ -38,6 +37,15 @@ export declare enum SpcRuleId {
     Shift = "shift",
     Trend = "trend"
 }
+export declare const RULE_PRECEDENCE: SpcRuleId[];
+export declare const RULE_RANK_BY_ID: Record<SpcRuleId, number>;
+export declare const RULE_LABEL: Record<SpcRuleId, string>;
+export interface SpcRuleMetadataEntry {
+    id: SpcRuleId;
+    rank: number;
+    label: string;
+}
+export declare const RULE_METADATA: Record<SpcRuleId, SpcRuleMetadataEntry>;
 export declare enum Side {
     Up = "up",
     Down = "down"
@@ -55,7 +63,6 @@ export declare enum SpcRawRuleTag {
     TrendDecreasing = "trend_dec",
     FifteenInnerThird = "fifteen_inner_third"
 }
-export declare const RULE_RANK_BY_ID: Record<SpcRuleId, number>;
 export declare const RAW_TAG_TO_RULE_ID: Partial<Record<SpcRawRuleTag, SpcRuleId>>;
 export declare enum AssuranceIcon {
     Pass = "pass",
@@ -70,6 +77,19 @@ export declare enum ConflictPrecedenceMode {
     None = "none",
     SqlRankingV26a = "sql_ranking_v2_6a"
 }
+export declare enum PrimeDirection {
+    Upwards = "Upwards",
+    Downwards = "Downwards",
+    Same = "Same"
+}
+export declare enum PruningMode {
+    Sql = "sql",
+    Conflict = "conflict"
+}
+export declare enum SpcRowAliasField {
+    ImprovementValueBeforePruning = "improvementValueBeforePruning",
+    ConcernValueBeforePruning = "concernValueBeforePruning"
+}
 export interface SpcInputRow {
     x: string | number | Date;
     value?: number | null;
@@ -81,14 +101,14 @@ export interface SpcSettings {
     excludeMovingRangeOutliers?: boolean;
     specialCauseShiftPoints?: number;
     specialCauseTrendPoints?: number;
-    /** Enable the four-of-five beyond 1σ rule (not in headline public four rules). Default: false */
     enableFourOfFiveRule?: boolean;
-    /** Precedence / classification strategy. legacy = original side aggregation; directional_first = favour directionally consistent emerging improvement & apply grace. Default: 'legacy' */
     precedenceStrategy?: PrecedenceStrategy;
-    /** When using directional_first, enable early neutralisation (downgrade Concern -> Neither) for near-complete (N-1) favourable monotonic runs before the formal trend rule fires. */
+    /** @deprecated Use emergingGraceEnabled */
     emergingDirectionGrace?: boolean;
-    /** Trend side-gating: when true, only count trend flags (increasing/decreasing) towards signals on the favourable side of the mean. When false, trend flags contribute irrespective of side (restores pre-gating behaviour). Default: true */
+    /** @deprecated Use trendFavourableSideOnly */
     trendSideGatingEnabled?: boolean;
+    emergingGraceEnabled?: boolean;
+    trendFavourableSideOnly?: boolean;
     minimumPoints?: number;
     minimumPointsWarning?: boolean;
     minimumPointsPartition?: number;
@@ -102,38 +122,33 @@ export interface SpcSettings {
     partitionSizeWarnings?: boolean;
     baselineSpecialCauseWarning?: boolean;
     maximumPointsWarnings?: boolean;
-    /** Capability mode: classify assurance by full process band vs target. Default: true */
     assuranceCapabilityMode?: boolean;
-    /** Points difference buffer when resolving simultaneous opposing sustained indications */
     transitionBufferPoints?: number;
-    /** Collapse lower-severity cluster rules (2-of-3 vs 4-of-5) keeping only strongest */
+    /** @deprecated Use collapseWeakerClusterRules */
     collapseClusterRules?: boolean;
-    /** Enable detection of stability: fifteen consecutive points within inner one-third band (|value-mean| < 1σ) with mixture (not all on one side). Default: false */
+    collapseWeakerClusterRules?: boolean;
     enableFifteenInInnerThirdRule?: boolean;
-    /** Enable heuristic baseline (phase) change suggestions */
     baselineSuggest?: boolean;
-    /** Minimum change in mean (in sigma units) between old & new stable windows */
     baselineSuggestMinDeltaSigma?: number;
-    /** Points required in stability window after candidate change */
     baselineSuggestStabilityPoints?: number;
-    /** Minimum non-ghost points since previous accepted (or initial) baseline */
     baselineSuggestMinGap?: number;
-    /** Minimum score threshold (0-100) for emitting suggestion */
     baselineSuggestScoreThreshold?: number;
-    /** When true, automatically insert a recalculation (new partition) after a confirmed sustained shift so centre line & limits step without needing explicit baselines array. */
     autoRecalculateAfterShift?: boolean;
-    /** Minimum sustained shift length required to trigger auto recalculation (defaults to specialCauseShiftPoints). */
     autoRecalculateShiftLength?: number;
-    /** Require the post-shift window mean to differ from pre-shift mean by at least this many sigma to trigger auto recalculation. Default 0.5 */
     autoRecalculateDeltaSigma?: number;
-    /** Optional conflict precedence mode: when set to sql_ranking_v2_6a applies deterministic rule ranking to prune simultaneous improvement & concern values. */
     conflictPrecedenceMode?: ConflictPrecedenceMode;
 }
+export interface SpcSettingsV2 extends Omit<SpcSettings, 'emergingDirectionGrace' | 'trendSideGatingEnabled' | 'collapseClusterRules'> {
+    emergingGraceEnabled?: boolean;
+    trendFavourableSideOnly?: boolean;
+    collapseWeakerClusterRules?: boolean;
+}
+type AnySpcSettings = SpcSettings | SpcSettingsV2;
 export interface BuildSpcArgs {
     chartType: ChartType;
     metricImprovement: ImprovementDirection;
     data: SpcInputRow[];
-    settings?: SpcSettings;
+    settings?: AnySpcSettings;
 }
 export interface SpcRow {
     rowId: number;
@@ -154,18 +169,22 @@ export interface SpcRow {
     lowerTwoSigma: number | null;
     /** Target value for this row (if provided in input). Exposed for rendering reference lines. */
     target: number | null;
-    specialCauseSinglePointAbove: boolean;
-    specialCauseSinglePointBelow: boolean;
-    specialCauseTwoOfThreeAbove: boolean;
-    specialCauseTwoOfThreeBelow: boolean;
-    specialCauseFourOfFiveAbove: boolean;
-    specialCauseFourOfFiveBelow: boolean;
-    specialCauseShiftHigh: boolean;
-    specialCauseShiftLow: boolean;
-    specialCauseTrendIncreasing: boolean;
-    specialCauseTrendDecreasing: boolean;
     /** Fifteen consecutive points within inner third (±1σ) with at least one on each side of mean */
     specialCauseFifteenInnerThird: boolean;
+    /**
+     * Unified directional aliases (Up/Down) for all special cause rule flags.
+     * These replace the legacy Above/Below/High/Low/Increasing/Decreasing fields (removed in vNEXT breaking change).
+     */
+    specialCauseSinglePointUp: boolean;
+    specialCauseSinglePointDown: boolean;
+    specialCauseTwoOfThreeUp: boolean;
+    specialCauseTwoOfThreeDown: boolean;
+    specialCauseFourOfFiveUp: boolean;
+    specialCauseFourOfFiveDown: boolean;
+    specialCauseShiftUp: boolean;
+    specialCauseShiftDown: boolean;
+    specialCauseTrendUp: boolean;
+    specialCauseTrendDown: boolean;
     variationIcon: VariationIcon;
     assuranceIcon: AssuranceIcon;
     upperBaseline: number | null;
@@ -182,8 +201,16 @@ export interface SpcRow {
     conflictResolvedByRuleId?: SpcRuleId;
     conflictResolvedRank?: number;
     conflictResolved?: boolean;
+    /** @deprecated Use improvementValueBeforePruning (Phase 2 rename) */
     originalSpecialCauseImprovementValue?: number | null;
+    /** @deprecated Use concernValueBeforePruning (Phase 2 rename) */
     originalSpecialCauseConcernValue?: number | null;
+    /** @deprecated Use improvementValueBeforePruning (added Phase 2). Getter provided for forward compatibility. */
+    improvementValueBeforePruning?: number | null;
+    /** @deprecated Use concernValueBeforePruning (added Phase 2). Getter provided for forward compatibility. */
+    concernValueBeforePruning?: number | null;
+    /** Pruning mode applied (if any). Undefined when no pruning semantics applied. */
+    pruningMode?: PruningMode;
 }
 export declare enum SpcWarningSeverity {
     Info = "info",
@@ -234,11 +261,23 @@ export interface SpcResult {
         window: [number, number];
     }>;
 }
+export declare function getDirectionalSignalSummary(row: SpcRow): {
+    upRules: SpcRuleId[];
+    downRules: SpcRuleId[];
+    upMax: number;
+    downMax: number;
+    hasUp: boolean;
+    hasDown: boolean;
+};
 export declare enum BaselineSuggestionReason {
     Shift = "shift",
     Trend = "trend",
     Point = "point"
 }
+/** Compute moving range array relative to previous NON-GHOST, within a partition */
+/** Iterative single-pass outlier exclusion for MR using UCL = 3.267 * MRbar (1 iteration) */
+/** Build sigma/limit lines given mean and MRbar for XmR */
+export declare function normaliseSpcSettings(user?: AnySpcSettings): SpcSettings;
 export declare function buildSpc(args: BuildSpcArgs): SpcResult;
 declare const _default: {
     buildSpc: typeof buildSpc;

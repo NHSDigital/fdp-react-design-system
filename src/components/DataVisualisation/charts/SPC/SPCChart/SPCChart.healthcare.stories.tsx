@@ -133,7 +133,7 @@ export const ED4HourCompliance: Story = {
 						additionalNote: 'Intervention at month 13'
 					}}
 				/>
-				{sqlMode && sql && <PrimeDirectionSummary rows={sql.rows as any} data-testid="prime-direction-ed4h" />}
+				{/* {sqlMode && sql && <PrimeDirectionSummary rows={sql.rows as any} data-testid="prime-direction-ed4h" />} */}
 			</ChartContainer>
 		);
 	}

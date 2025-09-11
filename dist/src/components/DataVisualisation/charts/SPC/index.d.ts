@@ -1,7 +1,7 @@
 export { default as SPCChart } from './SPCChart/SPCChart';
 export type { SPCChartProps, SPCDatum } from './SPCChart/SPCChart';
-export { buildSpc, ImprovementDirection, VariationIcon, AssuranceIcon, ChartType, SpcWarningSeverity, SpcWarningCategory, SpcWarningCode, BaselineSuggestionReason } from './SPCChart/logic/spc';
-export type { SpcSettings, SpcResult, SpcWarning } from './SPCChart/logic/spc';
+export { buildSpc, normaliseSpcSettings, ImprovementDirection, VariationIcon, AssuranceIcon, ChartType, SpcWarningSeverity, SpcWarningCategory, SpcWarningCode, BaselineSuggestionReason, RULE_METADATA } from './SPCChart/logic/spc';
+export type { SpcSettings, SpcSettingsV2, SpcResult, SpcWarning } from './SPCChart/logic/spc';
 export { variationLabel, extractRuleIds, ruleGlossary, VARIATION_COLOR_TOKENS, getVariationColorHex, getVariationColorToken } from './SPCChart/logic/spcDescriptors';
 export { SPCVariationIcon } from './SPCIcons/SPCIcon';
 export { SPCAssuranceIcon } from './SPCIcons/SPCAssuranceIcon';

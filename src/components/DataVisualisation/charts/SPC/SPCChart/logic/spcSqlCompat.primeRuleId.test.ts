@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { buildSpcSqlCompat, PrimeDirection } from "./spcSqlCompat";
-import { ChartType, ImprovementDirection, SpcRuleId } from "./spc";
+import { buildSpcSqlCompat } from "./spcSqlCompat";
+import { ChartType, ImprovementDirection, SpcRuleId, PrimeDirection } from "./spc";
 
 // Synthetic data crafting overlapping rule triggers so highest rank is Trend when present, else Shift, etc.
 // We emulate this by constructing values that will satisfy multiple rule classifications over a window.

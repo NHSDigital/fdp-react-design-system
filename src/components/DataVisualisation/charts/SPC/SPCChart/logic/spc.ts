@@ -1,7 +1,15 @@
 // NHSE "Making Data Count" SPC Charts – TypeScript port of SQL v2.6
 // Supports XmR, T, and G charts with special-cause rules and variation/assurance icons.
 
-import { PrimeDirection } from "./spcSqlCompat";
+import {
+	isNumber,
+	mean,
+	movingRanges,
+	mrMeanWithOptionalExclusion,
+	xmrLimits,
+	tChartLimits,
+	gChartProbabilityLimits,
+} from './spcUtils';
 
 /**
  * Chart type meanings (high‑level):
@@ -39,6 +47,7 @@ export enum VariationIcon {
 	Neither = "neither",
 	None = "none", // used where previously null (ghost/missing or suppressed)
 }
+// Stable ordered precedence list (index +1 gives rank) – allows future insertion/reordering
 // Stable identifiers for individual special-cause rule categories used in ranking / conflict metadata
 export enum SpcRuleId {
 	SinglePoint = 'single_point',
@@ -46,6 +55,67 @@ export enum SpcRuleId {
 	Shift = 'shift',
 	Trend = 'trend'
 }
+// Stable ordered precedence list (index +1 gives rank) – allows future insertion/reordering
+export const RULE_PRECEDENCE: SpcRuleId[] = [
+	// rank 1..n (order matters)
+	SpcRuleId.SinglePoint,
+	SpcRuleId.TwoSigma,
+	SpcRuleId.Shift,
+	SpcRuleId.Trend,
+];
+
+// Derive rank map from RULE_PRECEDENCE (1-based)
+export const RULE_RANK_BY_ID: Record<SpcRuleId, number> = RULE_PRECEDENCE.reduce((acc, id, i) => {
+	acc[id] = i + 1; return acc;
+}, {} as Record<SpcRuleId, number>);
+
+// Human friendly labels (retained for backward compatibility)
+/**
+ * @deprecated Use `RULE_METADATA[id].label` or iterate `RULES_IN_RANK_ORDER` instead.
+ * Will be removed in a future major release once downstream consumers migrate.
+ */
+export const RULE_LABEL: Record<SpcRuleId, string> = {
+	[SpcRuleId.SinglePoint]: 'Single point beyond process limit',
+	[SpcRuleId.TwoSigma]: 'Two of three beyond 2σ on one side',
+	[SpcRuleId.Shift]: 'Sustained shift (run)',
+	[SpcRuleId.Trend]: 'Monotonic trend',
+};
+
+// Unified rule metadata registry – single source to extend with future attributes (e.g. category, side gating, stability impact)
+export enum SpcRuleCategory {
+	Point = 'point',
+	Cluster = 'cluster',
+	Sustained = 'sustained',
+}
+
+export interface SpcRuleMetadataEntry {
+	id: SpcRuleId;
+	rank: number; // 1..n within participatesInRanking ordering
+	label: string; // human readable
+	category: SpcRuleCategory; // semantic grouping for UI / documentation
+	participatesInRanking: boolean; // future-proof toggle (all true for now)
+}
+
+const RULE_CATEGORY: Record<SpcRuleId, SpcRuleCategory> = {
+	[SpcRuleId.SinglePoint]: SpcRuleCategory.Point,
+	[SpcRuleId.TwoSigma]: SpcRuleCategory.Cluster,
+	[SpcRuleId.Shift]: SpcRuleCategory.Sustained,
+	[SpcRuleId.Trend]: SpcRuleCategory.Sustained,
+};
+
+export const RULE_METADATA: Record<SpcRuleId, SpcRuleMetadataEntry> = RULE_PRECEDENCE.reduce((acc, id, index) => {
+	acc[id] = {
+		id,
+		rank: index + 1,
+		label: RULE_LABEL[id],
+		category: RULE_CATEGORY[id],
+		participatesInRanking: true,
+	};
+	return acc;
+}, {} as Record<SpcRuleId, SpcRuleMetadataEntry>);
+
+// Convenience ordered metadata list (rank order)
+export const RULES_IN_RANK_ORDER: SpcRuleMetadataEntry[] = RULE_PRECEDENCE.map(id => RULE_METADATA[id]);
 // Directional side (high vs low) for special-cause classification
 export enum Side {
 	Up = 'up',
@@ -67,12 +137,7 @@ export enum SpcRawRuleTag {
 }
 
 // Ranking for core NHS rule precedence (excludes four-of-five & fifteen-inner-third which are ancillary)
-export const RULE_RANK_BY_ID: Record<SpcRuleId, number> = {
-	[SpcRuleId.SinglePoint]: 1,
-	[SpcRuleId.TwoSigma]: 2,
-	[SpcRuleId.Shift]: 3,
-	[SpcRuleId.Trend]: 4,
-};
+// (RULE_RANK_BY_ID now derived above)
 
 // Map raw rule tags (side-specific flags) to canonical ranked rule ids when applicable.
 // Undefined entries indicate tags that do not participate directly in precedence ranking.
@@ -106,6 +171,25 @@ export enum ConflictPrecedenceMode {
 	SqlRankingV26a = 'sql_ranking_v2_6a',
 }
 
+// Unified prime direction (used by SQL compatibility & potential conflict pruning metadata)
+export enum PrimeDirection {
+	Upwards = 'Upwards',
+	Downwards = 'Downwards',
+	Same = 'Same'
+}
+
+// Unified pruning mode enumeration for rows
+export enum PruningMode {
+	Sql = 'sql',
+	Conflict = 'conflict'
+}
+
+// Row alias field names (forward-compatible deprecations / planned renames)
+export enum SpcRowAliasField {
+	ImprovementValueBeforePruning = 'improvementValueBeforePruning',
+	ConcernValueBeforePruning = 'concernValueBeforePruning'
+}
+
 export interface SpcInputRow {
 	x: string | number | Date; // period label or date
 	value?: number | null; // numeric value (null/undefined treated as missing)
@@ -115,67 +199,64 @@ export interface SpcInputRow {
 }
 
 export interface SpcSettings {
-	excludeMovingRangeOutliers?: boolean; // default: false
-	specialCauseShiftPoints?: number; // default: 6
-	specialCauseTrendPoints?: number; // default: 6
-	/** Enable the four-of-five beyond 1σ rule (not in headline public four rules). Default: false */
-	enableFourOfFiveRule?: boolean; // default: false
-	/** Precedence / classification strategy. legacy = original side aggregation; directional_first = favour directionally consistent emerging improvement & apply grace. Default: 'legacy' */
-	precedenceStrategy?: PrecedenceStrategy; // default: PrecedenceStrategy.Legacy
-	/** When using directional_first, enable early neutralisation (downgrade Concern -> Neither) for near-complete (N-1) favourable monotonic runs before the formal trend rule fires. */
-	emergingDirectionGrace?: boolean; // default: false
-	/** Trend side-gating: when true, only count trend flags (increasing/decreasing) towards signals on the favourable side of the mean. When false, trend flags contribute irrespective of side (restores pre-gating behaviour). Default: true */
-	trendSideGatingEnabled?: boolean; // default: true
-	minimumPoints?: number; // default: 13
-	minimumPointsWarning?: boolean; // default: false
-	minimumPointsPartition?: number; // default: 12
-	maximumPointsPartition?: number | null; // default: null
-	maximumPoints?: number | null; // default: null
-	pointConflictWarning?: boolean; // default: false
-	variationIconConflictWarning?: boolean; // default: true
-	nullValueWarning?: boolean; // warn for null data (XmR, G)
-	targetSuppressedWarning?: boolean; // warn when targets ignored for T/G
-	ghostOnRareEventWarning?: boolean; // warn when ghost rows appear on T/G
-	partitionSizeWarnings?: boolean; // warn when partition has too few points
-	baselineSpecialCauseWarning?: boolean; // warn if baseline row shows special cause
-	maximumPointsWarnings?: boolean; // warn when max points caps applied
-	/** Capability mode: classify assurance by full process band vs target. Default: true */
-	assuranceCapabilityMode?: boolean; // default: true
-	/** Points difference buffer when resolving simultaneous opposing sustained indications */
-	transitionBufferPoints?: number; // default 2
-	/** Collapse lower-severity cluster rules (2-of-3 vs 4-of-5) keeping only strongest */
-	collapseClusterRules?: boolean; // default true
-	/** Enable detection of stability: fifteen consecutive points within inner one-third band (|value-mean| < 1σ) with mixture (not all on one side). Default: false */
-	enableFifteenInInnerThirdRule?: boolean; // default false
-	/** Enable heuristic baseline (phase) change suggestions */
-	baselineSuggest?: boolean; // default false
-	/** Minimum change in mean (in sigma units) between old & new stable windows */
-	baselineSuggestMinDeltaSigma?: number; // default 0.5
-	/** Points required in stability window after candidate change */
-	baselineSuggestStabilityPoints?: number; // default 5
-	/** Minimum non-ghost points since previous accepted (or initial) baseline */
-	baselineSuggestMinGap?: number; // default 12
-	/** Minimum score threshold (0-100) for emitting suggestion */
-	baselineSuggestScoreThreshold?: number; // default 50
-	// Removed heuristic options: suppressIsolatedFavourablePoint, precedenceStrategy, emergingDirectionGrace,
-	// retroactiveOppositeShiftNeutralisation, retroactiveShiftDeltaSigmaThreshold for orthodoxy.
-	// Removed comparative baseline emulation heuristics (comparativeBaselineEmulation and related flags) for statistical orthodoxy
-	// Removed: comparativeEmulationForceTailFavourable & comparativeEmulationInvertTailConcernPoints (deprecated)
-	/** When true, automatically insert a recalculation (new partition) after a confirmed sustained shift so centre line & limits step without needing explicit baselines array. */
-	autoRecalculateAfterShift?: boolean; // default false
-	/** Minimum sustained shift length required to trigger auto recalculation (defaults to specialCauseShiftPoints). */
-	autoRecalculateShiftLength?: number; // optional
-	/** Require the post-shift window mean to differ from pre-shift mean by at least this many sigma to trigger auto recalculation. Default 0.5 */
-	autoRecalculateDeltaSigma?: number; // default 0.5
-	/** Optional conflict precedence mode: when set to sql_ranking_v2_6a applies deterministic rule ranking to prune simultaneous improvement & concern values. */
-	conflictPrecedenceMode?: ConflictPrecedenceMode; // default: ConflictPrecedenceMode.None
+	excludeMovingRangeOutliers?: boolean;
+	specialCauseShiftPoints?: number;
+	specialCauseTrendPoints?: number;
+	enableFourOfFiveRule?: boolean;
+	precedenceStrategy?: PrecedenceStrategy;
+	/** @deprecated Use emergingGraceEnabled */
+	emergingDirectionGrace?: boolean;
+	/** @deprecated Use trendFavourableSideOnly */
+	trendSideGatingEnabled?: boolean;
+	emergingGraceEnabled?: boolean; // V2 canonical
+	trendFavourableSideOnly?: boolean; // V2 canonical
+	minimumPoints?: number;
+	minimumPointsWarning?: boolean;
+	minimumPointsPartition?: number;
+	maximumPointsPartition?: number | null;
+	maximumPoints?: number | null;
+	pointConflictWarning?: boolean;
+	variationIconConflictWarning?: boolean;
+	nullValueWarning?: boolean;
+	targetSuppressedWarning?: boolean;
+	ghostOnRareEventWarning?: boolean;
+	partitionSizeWarnings?: boolean;
+	baselineSpecialCauseWarning?: boolean;
+	maximumPointsWarnings?: boolean;
+	assuranceCapabilityMode?: boolean;
+	transitionBufferPoints?: number;
+	/** @deprecated Use collapseWeakerClusterRules */
+	collapseClusterRules?: boolean;
+	collapseWeakerClusterRules?: boolean; // V2 canonical
+	enableFifteenInInnerThirdRule?: boolean;
+	baselineSuggest?: boolean;
+	baselineSuggestMinDeltaSigma?: number;
+	baselineSuggestStabilityPoints?: number;
+	baselineSuggestMinGap?: number;
+	baselineSuggestScoreThreshold?: number;
+	autoRecalculateAfterShift?: boolean;
+	autoRecalculateShiftLength?: number;
+	autoRecalculateDeltaSigma?: number;
+	conflictPrecedenceMode?: ConflictPrecedenceMode;
 }
+
+// Phase 2 forward-looking settings shape with renamed flags (non-breaking adapter provided)
+// New names (V2): emergingGraceEnabled, trendFavourableSideOnly, collapseWeakerClusterRules
+export interface SpcSettingsV2 extends Omit<SpcSettings,
+	'emergingDirectionGrace' | 'trendSideGatingEnabled' | 'collapseClusterRules'
+> {
+	emergingGraceEnabled?: boolean;
+	trendFavourableSideOnly?: boolean; // equivalent of trendSideGatingEnabled
+	collapseWeakerClusterRules?: boolean; // equivalent of collapseClusterRules
+}
+
+type AnySpcSettings = SpcSettings | SpcSettingsV2;
 
 export interface BuildSpcArgs {
 	chartType: ChartType;
 	metricImprovement: ImprovementDirection;
 	data: SpcInputRow[];
-	settings?: SpcSettings;
+	settings?: AnySpcSettings; // Accept legacy or V2 shape
 }
 
 export interface SpcRow {
@@ -236,8 +317,16 @@ export interface SpcRow {
 	conflictResolvedByRuleId?: SpcRuleId; // winning rule id (ranked)
 	conflictResolvedRank?: number; // 1..4
 	conflictResolved?: boolean; // true if pruning occurred
-	originalSpecialCauseImprovementValue?: number | null; // preserve prior to pruning
-	originalSpecialCauseConcernValue?: number | null; // preserve prior to pruning
+	/** @deprecated Use improvementValueBeforePruning (Phase 2 rename) */
+	originalSpecialCauseImprovementValue?: number | null; // legacy alias
+	/** @deprecated Use concernValueBeforePruning (Phase 2 rename) */
+	originalSpecialCauseConcernValue?: number | null; // legacy alias
+	/** @deprecated Use improvementValueBeforePruning (added Phase 2). Getter provided for forward compatibility. */
+	improvementValueBeforePruning?: number | null;
+	/** @deprecated Use concernValueBeforePruning (added Phase 2). Getter provided for forward compatibility. */
+	concernValueBeforePruning?: number | null;
+	/** Pruning mode applied (if any). Undefined when no pruning semantics applied. */
+	pruningMode?: PruningMode;
 }
 
 // Warning metadata enums for stronger typing and refactor safety
@@ -306,8 +395,8 @@ export function getDirectionalSignalSummary(row: SpcRow) {
 	if (row.specialCauseShiftDown) downRules.push(SpcRuleId.Shift);
 	if (row.specialCauseTrendUp) upRules.push(SpcRuleId.Trend);
 	if (row.specialCauseTrendDown) downRules.push(SpcRuleId.Trend);
-	const upMax = upRules.reduce((m, id) => Math.max(m, RULE_RANK_BY_ID[id]), 0);
-	const downMax = downRules.reduce((m, id) => Math.max(m, RULE_RANK_BY_ID[id]), 0);
+	const upMax = upRules.reduce((m, id) => Math.max(m, RULE_METADATA[id].rank), 0);
+	const downMax = downRules.reduce((m, id) => Math.max(m, RULE_METADATA[id].rank), 0);
 	return { upRules, downRules, upMax, downMax, hasUp: upRules.length>0, hasDown: downRules.length>0 };
 }
 
@@ -320,9 +409,7 @@ export enum BaselineSuggestionReason {
 
 // ------------------------- Utility functions -------------------------
 
-const isNumber = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v);
-const sum = (arr: number[]): number => arr.reduce((a, b) => a + b, 0);
-const mean = (arr: number[]): number => arr.length ? sum(arr) / arr.length : NaN;
+// (moved isNumber, sum, mean to spcUtils.ts)
 
 type CanonicalRow = {
 	rowId: number;
@@ -405,223 +492,79 @@ function applyAutoRecalculationBaselines(
 }
 
 /** Compute moving range array relative to previous NON-GHOST, within a partition */
-function movingRanges(
-	values: (number | null)[],
-	ghosts: boolean[]
-): (number | null)[] {
-	const mr: (number | null)[] = new Array(values.length).fill(null);
-	let prevIdx: number | null = null;
-	for (let i = 0; i < values.length; i++) {
-		const vi = values[i];
-		if (!ghosts[i] && isNumber(vi)) {
-			if (prevIdx !== null) {
-				const pv = values[prevIdx];
-				mr[i] = isNumber(pv) ? Math.abs(vi - pv) : null;
-			}
-			prevIdx = i;
-		}
-	}
-	return mr;
-}
+// (moved movingRanges to spcUtils.ts)
 
 /** Iterative single-pass outlier exclusion for MR using UCL = 3.267 * MRbar (1 iteration) */
-function mrMeanWithOptionalExclusion(
-	mr: (number | null)[],
-	excludeOutliers: boolean
-): { mrMean: number; mrUcl: number } {
-	const pool = mr.filter((v): v is number => isNumber(v));
-	if (!pool.length) return { mrMean: NaN, mrUcl: NaN };
-	let mrMeanVal = mean(pool);
-	let mrUclVal = 3.267 * mrMeanVal;
-	if (excludeOutliers) {
-		const trimmed = pool.filter((v) => v <= mrUclVal);
-		if (trimmed.length && trimmed.length !== pool.length) {
-			mrMeanVal = mean(trimmed);
-			mrUclVal = 3.267 * mrMeanVal;
-		}
-	}
-	return { mrMean: mrMeanVal, mrUcl: mrUclVal };
-}
+// (moved mrMeanWithOptionalExclusion to spcUtils.ts)
 
 /** Build sigma/limit lines given mean and MRbar for XmR */
-function xmrLimits(
-	centerMean: number,
-	mrMeanVal: number
-): {
-	upperProcessLimit: number | null;
-	lowerProcessLimit: number | null;
-	upperTwoSigma: number | null;
-	lowerTwoSigma: number | null;
-	upperOneSigma: number | null;
-	lowerOneSigma: number | null;
-} {
-	if (!isNumber(centerMean) || !isNumber(mrMeanVal))
-		return {
-			upperProcessLimit: null,
-			lowerProcessLimit: null,
-			upperTwoSigma: null,
-			lowerTwoSigma: null,
-			upperOneSigma: null,
-			lowerOneSigma: null,
-		};
-	// XmR constants (derived from d2 for n=2). 3-sigma: 2.66*MRbar; 2-sigma: (2/3)*2.66; 1-sigma: (1/3)*2.66
-	const k3 = 2.66;
-	const k2 = (2 / 3) * k3;
-	const k1 = (1 / 3) * k3;
-	return {
-		upperProcessLimit: centerMean + k3 * mrMeanVal,
-		lowerProcessLimit: centerMean - k3 * mrMeanVal,
-		upperTwoSigma: centerMean + k2 * mrMeanVal,
-		lowerTwoSigma: centerMean - k2 * mrMeanVal,
-		upperOneSigma: centerMean + k1 * mrMeanVal,
-		lowerOneSigma: centerMean - k1 * mrMeanVal,
-	};
-}
+// (moved xmrLimits to spcUtils.ts)
 
 // (Removed unused helper functions: countAbove, countBelow, isTrend, isRunOnOneSide)
 
 // ------------------------- Rare event chart helpers (T & G) -------------------------
 // T chart (time-between events): y = t^0.2777; XmR on y; back-transform t = y^3.6; no LCL if lower transform ≤ 0.
-const T_ALPHA = 0.2777;
-const T_INV_ALPHA = 3.6;
-const toTTransformed = (t: number | null): number | null => isNumber(t) && t >= 0 ? Math.pow(t, T_ALPHA) : null;
-const fromTTransformed = (y: number | null): number | null => isNumber(y) && y >= 0 ? Math.pow(y, T_INV_ALPHA) : null;
+// (moved T chart transform helpers to spcUtils.ts)
 
 // Normal CDF quantile probabilities for 1σ, 2σ, 3σ used by probability-based G chart limits
-const SIGMA_PROBS = {
-	one: { low: 0.1586552539, high: 0.8413447461 },
-	two: { low: 0.0227501319, high: 0.9772498681 },
-	three: { low: 0.001349898, high: 0.998650102 },
-};
+// (moved SIGMA_PROBS to spcUtils.ts)
 
 // Inverse CDF for geometric ("number until first success") as a real value (no ceiling)
-function geomInvCdfReal(q: number, p: number): number {
-	if (!(q > 0 && q < 1) || !(p > 0 && p < 1)) return NaN;
-	return Math.log(1 - q) / Math.log(1 - p);
-}
+// (moved geomInvCdfReal to spcUtils.ts)
 
 // Probability-based control lines for a G chart given mean g ("number between")
-function gChartProbabilityLimits(gMean: number): {
-	cl: number | null;
-	lcl: number | null;
-	ucl: number | null;
-	oneLow: number | null;
-	oneHigh: number | null;
-	twoLow: number | null;
-	twoHigh: number | null;
-} {
-	if (!isNumber(gMean) || gMean < 0)
-		return {
-			cl: null,
-			lcl: null,
-			ucl: null,
-			oneLow: null,
-			oneHigh: null,
-			twoLow: null,
-			twoHigh: null,
-		};
-	const p = 1 / (gMean + 1); // from E[G_between] = (1-p)/p
-	const qToGbetween = (q: number) => geomInvCdfReal(q, p) - 1; // convert from "until" to "between"
-
-	const cl   = qToGbetween(0.5);
-	const lcl  = Math.max(0, qToGbetween(SIGMA_PROBS.three.low));
-	const ucl  = qToGbetween(SIGMA_PROBS.three.high);
-	const oneL = Math.max(0, qToGbetween(SIGMA_PROBS.one.low));
-	const oneH = qToGbetween(SIGMA_PROBS.one.high);
-	const twoL = Math.max(0, qToGbetween(SIGMA_PROBS.two.low));
-	const twoH = qToGbetween(SIGMA_PROBS.two.high);
-
-	return {
-		cl,
-		lcl,
-		ucl,
-		oneLow: oneL,
-		oneHigh: oneH,
-		twoLow: twoL,
-		twoHigh: twoH,
-	};
-}
+// (moved gChartProbabilityLimits to spcUtils.ts)
 
 // Compute T chart limits on the original t-scale using XmR on transformed y = t^alpha
-function tChartLimits(
-	tValues: (number | null)[],
-	ghosts: boolean[],
-	excludeOutliers: boolean
-): {
-	center: number | null;
-	upperProcessLimit: number | null;
-	lowerProcessLimit: number | null;
-	upperTwoSigma: number | null;
-	lowerTwoSigma: number | null;
-	upperOneSigma: number | null;
-	lowerOneSigma: number | null;
-	mr: (number | null)[];
-	mrMean: number | null;
-	mrUcl: number | null;
-} {
-	const y = tValues.map((v) => (isNumber(v) ? toTTransformed(v)! : null));
-	const mrY = movingRanges(y, ghosts);
-	const { mrMean: mrMeanY_raw /*, mrUcl: _mrUclY_raw*/ } =
-		mrMeanWithOptionalExclusion(mrY, !!excludeOutliers);
-	const yNonGhost = y.filter((v, i) => !ghosts[i] && isNumber(v)) as number[];
-	const yBar = yNonGhost.length ? mean(yNonGhost) : NaN;
-
-	if (!isNumber(yBar) || !isNumber(mrMeanY_raw)) {
-		return {
-			center: null,
-			upperProcessLimit: null,
-			lowerProcessLimit: null,
-			upperTwoSigma: null,
-			lowerTwoSigma: null,
-			upperOneSigma: null,
-			lowerOneSigma: null,
-			mr: mrY,
-			mrMean: null,
-			mrUcl: null,
-		};
-	}
-	const k3 = 2.66,
-		k2 = (2 / 3) * k3,
-		k1 = (1 / 3) * k3;
-	const UL_y = yBar + k3 * mrMeanY_raw;
-	const LL_y = yBar - k3 * mrMeanY_raw;
-	const U2_y = yBar + k2 * mrMeanY_raw;
-	const L2_y = yBar - k2 * mrMeanY_raw;
-	const U1_y = yBar + k1 * mrMeanY_raw;
-	const L1_y = yBar - k1 * mrMeanY_raw;
-
-	const center = fromTTransformed(yBar);
-	const upl = fromTTransformed(UL_y);
-	const lpl = LL_y <= 0 ? null : fromTTransformed(LL_y); // no LCL if LL<0
-
-	const oneH = fromTTransformed(U1_y);
-	const oneL = L1_y <= 0 ? null : fromTTransformed(L1_y);
-	const twoH = fromTTransformed(U2_y);
-	const twoL = L2_y <= 0 ? null : fromTTransformed(L2_y);
-
-	return {
-		center: center ?? null,
-		upperProcessLimit: upl ?? null,
-		lowerProcessLimit: lpl ?? null,
-		upperTwoSigma: twoH ?? null,
-		lowerTwoSigma: twoL ?? null,
-		upperOneSigma: oneH ?? null,
-		lowerOneSigma: oneL ?? null,
-		mr: mrY,
-		mrMean: mrMeanY_raw,
-		mrUcl: isNumber(mrMeanY_raw) ? 3.267 * mrMeanY_raw : null,
-	};
-}
+// (moved tChartLimits to spcUtils.ts)
 
 // ------------------------- Core builder -------------------------
+
+// Normalise user supplied settings (legacy + V2) into legacy internal field names for now.
+export function normaliseSpcSettings(user?: AnySpcSettings): SpcSettings {
+	if (!user) return {};
+	const v2 = user as SpcSettingsV2;
+	const legacy = user as SpcSettings;
+	// Priority: if V2 names supplied use them; else fall back to legacy names.
+	const emergingGraceEnabled = v2.emergingGraceEnabled ?? legacy.emergingDirectionGrace;
+	const trendFavourableSideOnly = v2.trendFavourableSideOnly ?? legacy.trendSideGatingEnabled;
+	const collapseWeakerClusterRules = v2.collapseWeakerClusterRules ?? legacy.collapseClusterRules;
+	// One-time deprecation notices
+	const globalAny = globalThis as any;
+	if (legacy.emergingDirectionGrace !== undefined && v2.emergingGraceEnabled === undefined && !globalAny.__spc_warn_emergingDirectionGrace) {
+		globalAny.__spc_warn_emergingDirectionGrace = true;
+		console.warn('[spc] emergingDirectionGrace is deprecated; use emergingGraceEnabled');
+	}
+	if (legacy.trendSideGatingEnabled !== undefined && v2.trendFavourableSideOnly === undefined && !globalAny.__spc_warn_trendSideGatingEnabled) {
+		globalAny.__spc_warn_trendSideGatingEnabled = true;
+		console.warn('[spc] trendSideGatingEnabled is deprecated; use trendFavourableSideOnly');
+	}
+	if (legacy.collapseClusterRules !== undefined && v2.collapseWeakerClusterRules === undefined && !globalAny.__spc_warn_collapseClusterRules) {
+		globalAny.__spc_warn_collapseClusterRules = true;
+		console.warn('[spc] collapseClusterRules is deprecated; use collapseWeakerClusterRules');
+	}
+	return {
+		...user,
+		emergingGraceEnabled,
+		trendFavourableSideOnly,
+		collapseWeakerClusterRules,
+		// Backfill legacy names for internal engine until complete migration
+		emergingDirectionGrace: emergingGraceEnabled,
+		trendSideGatingEnabled: trendFavourableSideOnly,
+		collapseClusterRules: collapseWeakerClusterRules,
+	};
+}
 
 export function buildSpc(args: BuildSpcArgs): SpcResult {
 	const {
 		chartType,
 		metricImprovement,
 		data,
-		settings: userSettings = {},
+		settings: rawUserSettings = {},
 	} = args;
+
+	// Convert any V2 setting names to legacy internal names until engine migrates fully.
+	const userSettings = normaliseSpcSettings(rawUserSettings);
 
 	const settings = {
 		excludeMovingRangeOutliers: false,
@@ -643,13 +586,13 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		maximumPointsWarnings: true,
 		assuranceCapabilityMode: true,
 		transitionBufferPoints: 2,
-		collapseClusterRules: true,
+		collapseWeakerClusterRules: true,
 		baselineSuggest: false,
 		baselineSuggestMinDeltaSigma: 0.5,
 		baselineSuggestStabilityPoints: 5,
 		baselineSuggestMinGap: 12,
 		baselineSuggestScoreThreshold: 50,
-		precedenceStrategy: PrecedenceStrategy.Legacy,
+		precedenceStrategy: PrecedenceStrategy.DirectionalFirst,
 		emergingDirectionGrace: false,
 		trendSideGatingEnabled: true,
 		autoRecalculateAfterShift: false,
@@ -695,10 +638,15 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		const values = part.map((r) => r.value);
 		const ghosts = part.map((r) => r.ghost);
 
+		// Initialize moving range variables
 		let mr: (number | null)[] = new Array(values.length).fill(null);
 		let centerLine: number = NaN;
 		let mrMean: number = NaN;
 		let mrUcl: number = NaN;
+
+		// Control limits structure
+		// Initialized to nulls so can be used directly when limits not computable
+		// (e.g. insufficient data, or G chart with no MR concept)
 		let lim: {
 			upperProcessLimit: number | null;
 			lowerProcessLimit: number | null;
@@ -714,6 +662,11 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			upperOneSigma: null,
 			lowerOneSigma: null,
 		};
+
+		// Chart-type-specific calculations
+		// XmR: moving ranges, mean, limits
+		// T: transformed XmR, back-transform limits
+		// G: probability-based limits (no MR)
 
 		if (chartType === "XmR") {
 			mr = movingRanges(values, ghosts);
@@ -775,6 +728,9 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			});
 		}
 
+		// Build rows with lines & limits (or nulls if insufficient data)
+		// Suppress limits until global minimum points reached
+		// (per NHS SPC guidance to avoid misleading signals)
 		const withLines: SpcRow[] = part.map((r, i) => {
 			const pointRank =
 				!r.ghost && isNumber(r.value)
@@ -1051,6 +1007,23 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 
 	for (let idx = 0; idx < output.length; idx++) {
 		const row = output[idx];
+		// Alias getter scaffolding (Phase 1 optional): expose forward-compatible names
+		// improvementValueBeforePruning / concernValueBeforePruning mapping to legacy originals if defined.
+		// Non-enumerable to discourage new usage until Phase 2 formalises rename.
+		if (!(Object.prototype.hasOwnProperty.call(row, SpcRowAliasField.ImprovementValueBeforePruning))) {
+			Object.defineProperty(row, SpcRowAliasField.ImprovementValueBeforePruning, {
+				get() { return (row as any).originalSpecialCauseImprovementValue ?? null; },
+				enumerable: false,
+				configurable: true
+			});
+		}
+		if (!(Object.prototype.hasOwnProperty.call(row, SpcRowAliasField.ConcernValueBeforePruning))) {
+			Object.defineProperty(row, SpcRowAliasField.ConcernValueBeforePruning, {
+				get() { return (row as any).originalSpecialCauseConcernValue ?? null; },
+				enumerable: false,
+				configurable: true
+			});
+		}
 		if (row.ghost || !isNumber(row.value) || row.mean === null) {
 			row.variationIcon = VariationIcon.None;
 			continue;
@@ -1065,10 +1038,12 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			if (row.specialCauseTwoOfThreeUp && row.specialCauseFourOfFiveUp) { row.specialCauseTwoOfThreeUp = false; }
 			if (row.specialCauseTwoOfThreeDown && row.specialCauseFourOfFiveDown) { row.specialCauseTwoOfThreeDown = false; }
 		}
-		const trendUp = row.specialCauseTrendUp && (settings.trendSideGatingEnabled ? onHighSide : true);
-		const trendDown = row.specialCauseTrendDown && (settings.trendSideGatingEnabled ? onLowSide : true);
-		const highSignals = (row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || (settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp) || row.specialCauseShiftUp || trendUp);
-		const lowSignals = (row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || (settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown) || row.specialCauseShiftDown || trendDown);
+			// Unified (Phase 2) semantics: trend signals only contribute to high/low side when on the corresponding side of the mean.
+			// Side-gating flags (trendFavourableSideOnly / trendSideGatingEnabled) are now effectively always-on for icon classification.
+			const trendUpQualified = row.specialCauseTrendUp && onHighSide;
+			const trendDownQualified = row.specialCauseTrendDown && onLowSide;
+			const highSignals = (row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || (settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp) || row.specialCauseShiftUp || trendUpQualified);
+			const lowSignals = (row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || (settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown) || row.specialCauseShiftDown || trendDownQualified);
 
 		// Emerging favourable detection (N-1 monotonic run in favourable direction before trend flag fires)
 		let emergingFavourable = false;
@@ -1099,7 +1074,17 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		}
 
 		if (settings.precedenceStrategy === PrecedenceStrategy.DirectionalFirst) {
-			const favourable = metricImprovement === ImprovementDirection.Up ? highSignals : metricImprovement === ImprovementDirection.Down ? lowSignals : false;
+			// Parity adjustment: if a favourable trend exists but was side-gated (value still on the opposite side of mean)
+			// we still want to recognise its emerging directional weight when resolving simultaneous opposing signals.
+			// The SQL wrapper counts raw trend flags irrespective of side gating, leading to earlier Improvement framing
+			// in mixed shift+emerging trend sequences. We mirror that by treating a suppressed favourable trend as a
+			// (low-rank) favourable presence for precedence purposes only.
+			// Side gating: earlier implementation tracked suppressedTrendFavourable for precedence; no longer needed for icon logic.
+			const favourableRaw = metricImprovement === ImprovementDirection.Up ? highSignals : metricImprovement === ImprovementDirection.Down ? lowSignals : false;
+			// Regression fix: suppressed (side‑gated) favourable trend rows should NOT directly yield an Improvement icon
+			// until the series crosses the mean (tests expect gating). We retain suppressedTrendFavourable only for potential
+			// future precedence heuristics but exclude it from icon classification.
+			const favourable = favourableRaw; // intentionally excludes suppressedTrendFavourable from direct icon promotion
 			const unfavourable = metricImprovement === ImprovementDirection.Up ? lowSignals : metricImprovement === ImprovementDirection.Down ? highSignals : false;
 			if (favourable && !unfavourable) row.variationIcon = VariationIcon.Improvement;
 			else if (unfavourable && !favourable) row.variationIcon = emergingFavourable ? VariationIcon.Neither : VariationIcon.Concern;
@@ -1196,6 +1181,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			row.conflictResolved = true;
 			row.conflictResolvedRank = winningRank || undefined;
 			if (winner) row.conflictResolvedByRuleId = winner.id;
+			row.pruningMode = PruningMode.Conflict;
 			row.originalSpecialCauseImprovementValue = originalImprovement;
 			row.originalSpecialCauseConcernValue = originalConcern;
 		}

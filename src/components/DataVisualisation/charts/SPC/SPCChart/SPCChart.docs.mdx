@@ -166,13 +166,15 @@ Visual design choices (e.g. using ±3σ control limits) and rule definitions (sh
 
 Healthcare improvement contexts usually prefer a conservative balance that avoids encouraging reactive tampering while still surfacing practically meaningful sustained shifts. The canonical four public rules with ±3σ limits achieve a pragmatic middle ground that has stood up well empirically. Enable the optional two‑of‑three or four‑of‑five rules when earlier internal detection outweighs the cost of extra investigations.
 
-Why ±3σ? It empirically balances false alarms (Type I) against missed signals (Type II). Narrower bands over‑signal; wider bands under‑signal.
+#### Why ±3σ? 
+
+It empirically balances false alarms (Type I) against missed signals (Type II). Narrower bands over‑signal; wider bands under‑signal.
 
 ### Enabling rules
 
 Rules are active by default (toggle with `enableRules={false}` if you need a purely descriptive view). Internally, each candidate point is evaluated in sequence; earlier points do not retroactively change after re‑phasing unless baselines are supplied.
 
-Optional rule toggles & thresholds are exposed via the `settings` prop (see Advanced settings). The four‑of‑five rule is OFF by default to align with the simplified public narrative; turn it on for more sensitive internal monitoring.
+Optional rule toggles & thresholds are exposed via the `settings` prop (see Advanced settings). The four‑of‑five rule is OFF by default to align with the simplified NHS guidance and best practice; turn it on for more sensitive internal monitoring.
 
 ### Minimum data
 For stability the engine may defer centre line and limits until a minimal count (e.g. 10–12 points) is reached. Before that, points render without limits and icons.
@@ -189,6 +191,16 @@ No legacy (naive) calculation path is retained; all sigma values follow the appr
 ## Run chart → Shewhart chart transition
 
 Start plotting immediately even with very few points – early visualisation encourages data quality conversations. Treat the first view simply as a line (run) chart until you have enough points for meaningful SPC inference:
+
+<Mermaid chart="graph TD
+  A[<6 points] -->|Too few for SPC| B[Line / run chart only]
+  B --> C[6-11 points]
+  C -->|Run chart rules only| D[Initial SPC possible - mark limits as 'trial']
+  D --> E[12-19 points]
+  E -->|Establish / confirm SPC limits| F[20-30 points]
+  F -->|Mature phase| G[>30 points] "
+/>
+
 <Table
   caption="Run chart → SPC transition guidance"
   captionSize="s"
@@ -240,6 +252,7 @@ When there are fewer than ~20 subgroups the control limits and centre line can s
 Upcoming enhancement: an automatic `limitState` flag per row, plus distinct styling (lighter / dashed) for trial limits.
 
 ## Glossary
+
 <Table
   caption="Glossary"
   captionSize="s"

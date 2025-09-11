@@ -265,7 +265,8 @@
     "release:major": "npm version major -m 'chore(release): %s'",
     "release:prerelease": "npm version prerelease --preid=alpha -m 'chore(release): %s'",
     "check:tokens": "node scripts/check-token-collisions.cjs",
-    "inventory": "tsx scripts/inventory-design-system.ts --md inventory.md --json inventory.json"
+    "inventory": "tsx scripts/inventory-design-system.ts --md inventory.md --json inventory.json",
+    "spc:parity": "tsx scripts/spc-parity-check.ts"
   },
   "keywords": [],
   "author": "Fergus Bisset",

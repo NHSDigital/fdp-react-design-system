@@ -266,97 +266,6 @@
 		gap: 4px;
 		margin-top: 2px;
 	}
-	.fdp-spc-tooltip__tag {
-		font-size: 16px;
-		line-height: 1.2;
-	}
-	// Tag overrides (using design-system Tag with neutral base then SPC colors)
-	.fdp-spc-tag {
-		&--improvement { 
-			background: var(--nhs-fdp-color-data-viz-spc-improvement, nhs.$nhs-fdp-color-data-viz-spc-improvement) !important; 
-			color: #000 !important;
-			border-color: var(--nhs-fdp-color-data-viz-spc-improvement, nhs.$nhs-fdp-color-data-viz-spc-improvement) !important;
-		}
-		&--concern { 
-			background: var(--nhs-fdp-color-data-viz-spc-concern, nhs.$nhs-fdp-color-data-viz-spc-concern) !important; 
-			color: #fff !important; 
-			border-color: var(--nhs-fdp-color-data-viz-spc-concern, nhs.$nhs-fdp-color-data-viz-spc-concern) !important;
-		}
-		&--rule {
-			/* Fallback to improvement token for rule tags (blue token not defined) */
-			background: var(--nhs-fdp-color-data-viz-spc-improvement, nhs.$nhs-fdp-color-data-viz-spc-improvement) !important;
-			color: #000 !important;
-			border-color: var(--nhs-fdp-color-data-viz-spc-improvement, nhs.$nhs-fdp-color-data-viz-spc-improvement) !important;
-			font-weight: 500 !important;
-		}
-		&--heuristic {
-			/* Distinct purple tone for heuristics to visually separate from orthodox rule tags */
-			background: var(--nhs-fdp-color-data-viz-spc-heuristic, #b366ff) !important;
-			color: #000 !important;
-			border-color: var(--nhs-fdp-color-data-viz-spc-heuristic, #b366ff) !important;
-			font-weight: 500 !important;
-			text-decoration: none;
-		}
-		/* Provenance taxonomy overlays (intentionally independent so they can refine backgrounds) */
-		&--prov-orthodox { /* high statistical provenance */
-			outline: 2px solid rgba(255,255,255,0.2);
-		}
-		&--prov-interpretive { /* medium provenance */
-			background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent) !important;
-		}
-		&--prov-aggressive { /* caution: aggressive heuristic */
-			box-shadow: 0 0 0 2px var(--nhs-fdp-color-data-viz-spc-concern, nhs.$nhs-fdp-color-data-viz-spc-concern) inset;
-			position: relative;
-		}
-		&--prov-aggressive::after {
-			content: '!';
-			font-size: 11px;
-			font-weight: 700;
-			margin-left: 4px;
-		}
-		&--prov-unknown {
-			background: var(--nhs-fdp-color-grey-5, nhs.$nhs-fdp-color-grey-5) !important;
-			color: #000 !important;
-		}
-		&--common {
-			background: var(--nhs-fdp-color-grey-4, nhs.$nhs-fdp-color-grey-4) !important;
-			color: #000 !important;
-			border-color: var(--nhs-fdp-color-grey-4, nhs.$nhs-fdp-color-grey-4) !important;
-		}
-		&--trend {
-			/* Distinct purple for side-gated trend rules; uses heuristic token if available */
-			background: var(--nhs-fdp-color-data-viz-spc-trend, var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)) !important;
-			color: #000 !important;
-			border-color: var(--nhs-fdp-color-data-viz-spc-trend, var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)) !important;
-			font-weight: 600 !important;
-		}
-		&--no-judgement {
-			background: var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092) !important;
-			color: #fff!important;
-			border-color: var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092) !important;
-			font-weight: 600 !important;
-		}
-		/* Fallback override: if build pipeline still emits trend rule tags with --common instead of --trend,
-		   target by data-rule-id so they render in purple. This is safe (higher specificity) and will be redundant
-		   once all bundles use the dedicated --trend class consistently. */
-		.fdp-spc-tooltip__rule-tags [data-rule-id="trend_inc"].fdp-spc-tag,
-		.fdp-spc-tooltip__rule-tags [data-rule-id="trend_dec"].fdp-spc-tag {
-			background: var(--nhs-fdp-color-data-viz-spc-trend, var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)) !important;
-			border-color: var(--nhs-fdp-color-data-viz-spc-trend, var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)) !important;
-			color: #000 !important;
-			font-weight: 600 !important;
-		}
-		&--zone {
-			/* Match default tag sizing; reapply base tag padding */
-			display: inline-flex !important;
-			align-items: center !important;
-			color: #000 !important;
-			justify-content: center !important;
-			padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2 !important; // same as base .nhsuk-tag
-			line-height: 1 !important; // use base line-height for vertical centering
-			font-weight: 600 !important;
-		}
-	}
 	.fdp-spc-badge {
 		display: inline-flex;
 		align-items: center;
@@ -410,6 +319,100 @@
 			background: Canvas;
 			color: CanvasText;
 		}
+	}
+}
+
+/* Make tag sizing and color modifiers available outside tooltip portal (e.g. Signals Inspector) */
+.fdp-spc-tooltip__tag {
+	font-size: 16px;
+	line-height: 1.2;
+}
+
+// Tag overrides (using design-system Tag with neutral base then SPC colors)
+.fdp-spc-tag {
+	&--improvement { 
+		background: var(--nhs-fdp-color-data-viz-spc-improvement, nhs.$nhs-fdp-color-data-viz-spc-improvement) !important; 
+		color: #000 !important;
+		border-color: var(--nhs-fdp-color-data-viz-spc-improvement, nhs.$nhs-fdp-color-data-viz-spc-improvement) !important;
+	}
+	&--concern { 
+		background: var(--nhs-fdp-color-data-viz-spc-concern, nhs.$nhs-fdp-color-data-viz-spc-concern) !important; 
+		color: #fff !important; 
+		border-color: var(--nhs-fdp-color-data-viz-spc-concern, nhs.$nhs-fdp-color-data-viz-spc-concern) !important;
+	}
+	&--rule {
+		/* Fallback to improvement token for rule tags (blue token not defined) */
+		background: var(--nhs-fdp-color-data-viz-spc-improvement, nhs.$nhs-fdp-color-data-viz-spc-improvement) !important;
+		color: #000 !important;
+		border-color: var(--nhs-fdp-color-data-viz-spc-improvement, nhs.$nhs-fdp-color-data-viz-spc-improvement) !important;
+		font-weight: 500 !important;
+	}
+	&--heuristic {
+		/* Distinct purple tone for heuristics to visually separate from orthodox rule tags */
+		background: var(--nhs-fdp-color-data-viz-spc-heuristic, #b366ff) !important;
+		color: #000 !important;
+		border-color: var(--nhs-fdp-color-data-viz-spc-heuristic, #b366ff) !important;
+		font-weight: 500 !important;
+		text-decoration: none;
+	}
+	/* Provenance taxonomy overlays (intentionally independent so they can refine backgrounds) */
+	&--prov-orthodox { /* high statistical provenance */
+		outline: 2px solid rgba(255,255,255,0.2);
+	}
+	&--prov-interpretive { /* medium provenance */
+		background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent) !important;
+	}
+	&--prov-aggressive { /* caution: aggressive heuristic */
+		box-shadow: 0 0 0 2px var(--nhs-fdp-color-data-viz-spc-concern, nhs.$nhs-fdp-color-data-viz-spc-concern) inset;
+		position: relative;
+	}
+	&--prov-aggressive::after {
+		content: '!';
+		font-size: 11px;
+		font-weight: 700;
+		margin-left: 4px;
+	}
+	&--prov-unknown {
+		background: var(--nhs-fdp-color-grey-5, nhs.$nhs-fdp-color-grey-5) !important;
+		color: #000 !important;
+	}
+	&--common {
+		background: var(--nhs-fdp-color-grey-4, nhs.$nhs-fdp-color-grey-4) !important;
+		color: #000 !important;
+		border-color: var(--nhs-fdp-color-grey-4, nhs.$nhs-fdp-color-grey-4) !important;
+	}
+	&--trend {
+		/* Distinct purple for side-gated trend rules; uses heuristic token if available */
+		background: var(--nhs-fdp-color-data-viz-spc-trend, var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)) !important;
+		color: #000 !important;
+		border-color: var(--nhs-fdp-color-data-viz-spc-trend, var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)) !important;
+		font-weight: 600 !important;
+	}
+	&--no-judgement {
+		background: var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092) !important;
+		color: #fff!important;
+		border-color: var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092) !important;
+		font-weight: 600 !important;
+	}
+	/* Fallback override: if build pipeline still emits trend rule tags with --common instead of --trend,
+	   target by data-rule-id so they render in purple. This is safe (higher specificity) and will be redundant
+	   once all bundles use the dedicated --trend class consistently. */
+	.fdp-spc-tooltip__rule-tags [data-rule-id="trend_inc"].fdp-spc-tag,
+	.fdp-spc-tooltip__rule-tags [data-rule-id="trend_dec"].fdp-spc-tag {
+		background: var(--nhs-fdp-color-data-viz-spc-trend, var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)) !important;
+		border-color: var(--nhs-fdp-color-data-viz-spc-trend, var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)) !important;
+		color: #000 !important;
+		font-weight: 600 !important;
+	}
+	&--zone {
+		/* Match default tag sizing; reapply base tag padding */
+		display: inline-flex !important;
+		align-items: center !important;
+		color: #000 !important;
+		justify-content: center !important;
+		padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2 !important; // same as base .nhsuk-tag
+		line-height: 1 !important; // use base line-height for vertical centering
+		font-weight: 600 !important;
 	}
 }
 

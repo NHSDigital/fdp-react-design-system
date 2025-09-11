@@ -104,6 +104,8 @@ export interface SPCChartProps {
     showFirstFavourableCrossMarkers?: boolean;
     /** UI-only: draw a dashed bridge between trend start and first favourable-side inclusion. Default false. */
     showTrendBridgeOverlay?: boolean;
+    /** UI-only: show a minimal Signals Inspector panel under the chart reflecting the focused point. Default false. */
+    showSignalsInspector?: boolean;
 }
 export declare const SPCChart: React.FC<SPCChartProps>;
 export { ImprovementDirection, VariationIcon, AssuranceIcon };

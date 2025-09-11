@@ -9207,7 +9207,7 @@ var MetricCard = ({
 var MetricCard_default = MetricCard;
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import * as React24 from "react";
+import * as React25 from "react";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
 import * as React22 from "react";
@@ -11819,8 +11819,105 @@ function buildSpcSqlCompat(args) {
   return { rows, warnings: base.warnings };
 }
 
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCSignalsInspector.tsx
+import * as React24 from "react";
+import { jsx as jsx30, jsxs as jsxs21 } from "react/jsx-runtime";
+var SPCSignalsInspector = ({ engineRows, measureName, measureUnit }) => {
+  var _a2, _b2;
+  const t = useTooltipContext();
+  const focused = (_a2 = t == null ? void 0 : t.focused) != null ? _a2 : null;
+  const index = (_b2 = focused == null ? void 0 : focused.index) != null ? _b2 : null;
+  const row = typeof index === "number" && engineRows ? engineRows[index] : null;
+  const rules = React24.useMemo(() => row ? extractRuleIds(row) : [], [row]);
+  const uniqueRuleNarr = React24.useMemo(
+    () => Array.from(new Set(rules.map((r2) => {
+      var _a3;
+      return (_a3 = ruleGlossary[r2]) == null ? void 0 : _a3.narration;
+    }).filter(Boolean))),
+    [rules]
+  );
+  return /* @__PURE__ */ jsxs21("div", { className: "fdp-spc-inspector", role: "region", "aria-label": "Signals inspector", "data-testid": "spc-signals-inspector", children: [
+    /* @__PURE__ */ jsxs21("div", { className: "fdp-spc-inspector__header", style: { display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
+      /* @__PURE__ */ jsx30("strong", { children: "Signals inspector" }),
+      /* @__PURE__ */ jsx30("div", { className: "fdp-spc-inspector__nav", "aria-hidden": !t, children: t && /* @__PURE__ */ jsxs21("div", { style: { display: "flex", gap: 8 }, children: [
+        /* @__PURE__ */ jsx30(
+          "button",
+          {
+            type: "button",
+            className: "fdp-button fdp-button--secondary",
+            onClick: () => {
+              if (!t.focused) t.focusFirstPoint();
+              else t.focusPrevPoint();
+            },
+            "aria-label": "Previous point",
+            children: "\u25C0"
+          }
+        ),
+        /* @__PURE__ */ jsx30(
+          "button",
+          {
+            type: "button",
+            className: "fdp-button fdp-button--secondary",
+            onClick: () => {
+              if (!t.focused) t.focusFirstPoint();
+              else t.focusNextPoint();
+            },
+            "aria-label": "Next point",
+            children: "\u25B6"
+          }
+        )
+      ] }) })
+    ] }),
+    !row || !focused ? /* @__PURE__ */ jsx30("p", { className: "fdp-spc-inspector__empty", children: "No point selected." }) : /* @__PURE__ */ jsxs21("div", { className: "fdp-spc-inspector__body", children: [
+      /* @__PURE__ */ jsxs21("div", { className: "fdp-spc-inspector__summary", style: { display: "flex", gap: 16, flexWrap: "wrap" }, children: [
+        /* @__PURE__ */ jsxs21("span", { children: [
+          /* @__PURE__ */ jsx30("strong", { children: "Point:" }),
+          " ",
+          focused.index + 1
+        ] }),
+        /* @__PURE__ */ jsxs21("span", { children: [
+          /* @__PURE__ */ jsx30("strong", { children: "Value:" }),
+          " ",
+          focused.y,
+          measureUnit ? ` ${measureUnit}` : "",
+          measureName ? ` ${measureName}` : ""
+        ] }),
+        /* @__PURE__ */ jsxs21("span", { children: [
+          /* @__PURE__ */ jsx30("strong", { children: "Variation:" }),
+          " ",
+          variationLabel(row.variationIcon) || "Unknown"
+        ] }),
+        /* @__PURE__ */ jsxs21("span", { children: [
+          /* @__PURE__ */ jsx30("strong", { children: "Assurance:" }),
+          " ",
+          row.assuranceIcon === "pass" /* Pass */ ? "Pass" : row.assuranceIcon === "fail" /* Fail */ ? "Fail" : "None"
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxs21("div", { className: "fdp-spc-inspector__rules", style: { marginTop: 8 }, children: [
+        /* @__PURE__ */ jsx30("strong", { children: "Rules:" }),
+        rules.length === 0 ? /* @__PURE__ */ jsx30("span", { children: " None" }) : /* @__PURE__ */ jsx30("ul", { style: { margin: "4px 0 0 16px" }, children: rules.map((r2) => {
+          var _a3, _b3, _c;
+          return /* @__PURE__ */ jsxs21("li", { "data-rule": r2, title: (_a3 = ruleGlossary[r2]) == null ? void 0 : _a3.tooltip, children: [
+            ((_b3 = ruleGlossary[r2]) == null ? void 0 : _b3.tooltip) || r2,
+            ((_c = ruleGlossary[r2]) == null ? void 0 : _c.narration) ? /* @__PURE__ */ jsxs21("span", { style: { color: "#555" }, children: [
+              " \u2014 ",
+              ruleGlossary[r2].narration
+            ] }) : null
+          ] }, r2);
+        }) })
+      ] }),
+      uniqueRuleNarr.length > 0 && /* @__PURE__ */ jsxs21("div", { className: "fdp-spc-inspector__narration", style: { marginTop: 8 }, children: [
+        /* @__PURE__ */ jsx30("strong", { children: "Summary:" }),
+        " ",
+        uniqueRuleNarr.join("; ")
+      ] })
+    ] })
+  ] });
+};
+var SPCSignalsInspector_default = SPCSignalsInspector;
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import { Fragment as Fragment5, jsx as jsx30, jsxs as jsxs21 } from "react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx31, jsxs as jsxs22 } from "react/jsx-runtime";
 var spcSequenceInstanceCounter = 0;
 var SPCChart = ({
   data,
@@ -11860,17 +11957,18 @@ var SPCChart = ({
   useSqlCompatEngine = false,
   showTrendStartMarkers = false,
   showFirstFavourableCrossMarkers = false,
-  showTrendBridgeOverlay = false
+  showTrendBridgeOverlay = false,
+  showSignalsInspector = false
 }) => {
   var _a2, _b2, _c, _d, _e, _f, _g, _h;
-  const formatWarningCode = React24.useCallback(
+  const formatWarningCode = React25.useCallback(
     (code) => {
       const raw = String(code);
       return raw.replace(/^spc_warning_code\.?/i, "").replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
     []
   );
-  const formatWarningCategory = React24.useCallback(
+  const formatWarningCategory = React25.useCallback(
     (cat) => {
       return String(cat).replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
@@ -11881,7 +11979,7 @@ var SPCChart = ({
       "SPCChart: 'disableTrendSideGating' prop is deprecated and ignored (trend side gating always enabled)."
     );
   }
-  const engine = React24.useMemo(() => {
+  const engine = React25.useMemo(() => {
     const rowsInput = data.map((d, i) => {
       var _a3, _b3, _c2;
       return {
@@ -11919,7 +12017,7 @@ var SPCChart = ({
   const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r2) => r2.mean != null);
   const mean2 = (_a2 = engineRepresentative == null ? void 0 : engineRepresentative.mean) != null ? _a2 : null;
   const warnings = (engine == null ? void 0 : engine.warnings) || [];
-  const filteredWarnings = React24.useMemo(() => {
+  const filteredWarnings = React25.useMemo(() => {
     if (!warnings.length) return [];
     if (!warningsFilter) return warnings;
     return warnings.filter((w) => {
@@ -11932,9 +12030,9 @@ var SPCChart = ({
       return true;
     });
   }, [warnings, warningsFilter]);
-  const [diagnosticsMessage, setDiagnosticsMessage] = React24.useState("");
-  const lastDiagnosticsRef = React24.useRef("");
-  React24.useEffect(() => {
+  const [diagnosticsMessage, setDiagnosticsMessage] = React25.useState("");
+  const lastDiagnosticsRef = React25.useRef("");
+  React25.useEffect(() => {
     if (!showWarningsPanel) {
       if (lastDiagnosticsRef.current !== "") {
         lastDiagnosticsRef.current = "";
@@ -11985,11 +12083,11 @@ var SPCChart = ({
   const twoPos = (_f = engineRepresentative == null ? void 0 : engineRepresentative.upperTwoSigma) != null ? _f : null;
   const twoNeg = (_g = engineRepresentative == null ? void 0 : engineRepresentative.lowerTwoSigma) != null ? _g : null;
   const sigma = mean2 != null && onePos != null ? Math.abs(onePos - mean2) : 0;
-  const series = React24.useMemo(
+  const series = React25.useMemo(
     () => [{ id: "process", data, color: "#A6A6A6" }],
     [data]
   );
-  const yDomain = React24.useMemo(() => {
+  const yDomain = React25.useMemo(() => {
     if (percentScale) {
       const allVals = data.map((d) => d.y);
       const overMax = Math.max(100, ...allVals);
@@ -12012,16 +12110,16 @@ var SPCChart = ({
     if (alwaysShowHundredY) max = Math.max(100, max);
     return [min, max];
   }, [data, mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp, alwaysShowZeroY, alwaysShowHundredY, percentScale]);
-  const autoUnit = React24.useMemo(() => {
+  const autoUnit = React25.useMemo(() => {
     if (unit2 || (narrationContext == null ? void 0 : narrationContext.measureUnit)) return void 0;
     if (!data.length) return void 0;
     return data.every((d) => d.y >= 0 && d.y <= 1) ? "%" : void 0;
   }, [unit2, narrationContext == null ? void 0 : narrationContext.measureUnit, data]);
   const effectiveUnit = (_h = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _h : autoUnit;
-  const effectiveNarrationContext = React24.useMemo(() => {
+  const effectiveNarrationContext = React25.useMemo(() => {
     return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
   }, [narrationContext, effectiveUnit]);
-  const partitionMarkers = React24.useMemo(() => {
+  const partitionMarkers = React25.useMemo(() => {
     if (!(engine == null ? void 0 : engine.rows)) return [];
     const markers = [];
     for (let i = 1; i < engine.rows.length; i++) {
@@ -12030,7 +12128,7 @@ var SPCChart = ({
     }
     return markers;
   }, [engine == null ? void 0 : engine.rows]);
-  const embeddedIcon = React24.useMemo(() => {
+  const embeddedIcon = React25.useMemo(() => {
     var _a3, _b3;
     if (!showEmbeddedIcon || !((_a3 = engine == null ? void 0 : engine.rows) == null ? void 0 : _a3.length)) return null;
     const engineRows = engine.rows;
@@ -12080,12 +12178,12 @@ var SPCChart = ({
       polarity = "lower_is_better" /* LowerIsBetter */;
     else polarity = "context_dependent" /* ContextDependent */;
     const iconSize = 80;
-    return /* @__PURE__ */ jsxs21(
+    return /* @__PURE__ */ jsxs22(
       "div",
       {
         style: { display: "flex", gap: 12, marginRight: 16 },
         children: [
-          /* @__PURE__ */ jsx30(
+          /* @__PURE__ */ jsx31(
             "div",
             {
               className: "fdp-spc-chart__embedded-icon",
@@ -12094,7 +12192,7 @@ var SPCChart = ({
               "data-trend": trend ? String(trend) : "none",
               "data-polarity": String(polarity != null ? polarity : "unknown"),
               style: { width: iconSize, height: iconSize },
-              children: /* @__PURE__ */ jsx30(
+              children: /* @__PURE__ */ jsx31(
                 SPCVariationIcon,
                 {
                   dropShadow: false,
@@ -12115,13 +12213,13 @@ var SPCChart = ({
               )
             }
           ),
-          /* @__PURE__ */ jsx30(
+          /* @__PURE__ */ jsx31(
             "div",
             {
               className: "fdp-spc-chart__embedded-assurance-icon",
               "data-assurance": String(assuranceRaw),
               style: { width: iconSize, height: iconSize },
-              children: /* @__PURE__ */ jsx30(
+              children: /* @__PURE__ */ jsx31(
                 SPCAssuranceIcon,
                 {
                   status: assuranceRenderStatus,
@@ -12144,12 +12242,12 @@ var SPCChart = ({
     embeddedIconVariant,
     embeddedIconRunLength
   ]);
-  return /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsxs22(
     "div",
     {
       className: className ? `fdp-spc-chart-wrapper ${className}` : "fdp-spc-chart-wrapper",
       children: [
-        showEmbeddedIcon && /* @__PURE__ */ jsx30(
+        showEmbeddedIcon && /* @__PURE__ */ jsx31(
           "div",
           {
             className: "fdp-spc-chart__top-row",
@@ -12161,14 +12259,14 @@ var SPCChart = ({
             children: embeddedIcon
           }
         ),
-        /* @__PURE__ */ jsx30(
+        /* @__PURE__ */ jsx31(
           ChartRoot,
           {
             height,
             ariaLabel,
             margin: { bottom: 48, left: 56, right: 16, top: 12 },
             className: void 0,
-            children: /* @__PURE__ */ jsx30(LineScalesProvider, { series, yDomain, children: /* @__PURE__ */ jsx30(
+            children: /* @__PURE__ */ jsx31(LineScalesProvider, { series, yDomain, children: /* @__PURE__ */ jsx31(
               InternalSPC,
               {
                 series,
@@ -12193,16 +12291,17 @@ var SPCChart = ({
                 metricImprovement,
                 showTrendStartMarkers,
                 showFirstFavourableCrossMarkers,
-                showTrendBridgeOverlay
+                showTrendBridgeOverlay,
+                showSignalsInspector
               }
             ) })
           }
         ),
-        source && /* @__PURE__ */ jsx30("div", { className: "fdp-spc-chart__source", "aria-label": "Chart data source", children: typeof source === "string" ? /* @__PURE__ */ jsxs21("small", { children: [
+        source && /* @__PURE__ */ jsx31("div", { className: "fdp-spc-chart__source", "aria-label": "Chart data source", children: typeof source === "string" ? /* @__PURE__ */ jsxs22("small", { children: [
           "Source: ",
           source
         ] }) : source }),
-        showWarningsPanel && diagnosticsMessage && /* @__PURE__ */ jsx30(
+        showWarningsPanel && diagnosticsMessage && /* @__PURE__ */ jsx31(
           "div",
           {
             "data-testid": "spc-diagnostics-live",
@@ -12221,15 +12320,15 @@ var SPCChart = ({
             children: diagnosticsMessage
           }
         ),
-        showWarningsPanel && filteredWarnings.length > 0 && /* @__PURE__ */ jsxs21(
+        showWarningsPanel && filteredWarnings.length > 0 && /* @__PURE__ */ jsxs22(
           "div",
           {
             className: "fdp-spc-chart__warnings",
             role: "region",
             "aria-label": "SPC diagnostics",
             children: [
-              /* @__PURE__ */ jsx30("p", { className: "fdp-spc-chart__warnings-heading", children: "Diagnostics" }),
-              /* @__PURE__ */ jsx30(
+              /* @__PURE__ */ jsx31("p", { className: "fdp-spc-chart__warnings-heading", children: "Diagnostics" }),
+              /* @__PURE__ */ jsx31(
                 Table_default,
                 {
                   firstCellIsHeader: false,
@@ -12251,7 +12350,7 @@ var SPCChart = ({
                       severityColor = "blue";
                     return [
                       {
-                        node: /* @__PURE__ */ jsx30(
+                        node: /* @__PURE__ */ jsx31(
                           Tag,
                           {
                             color: severityColor,
@@ -12264,30 +12363,30 @@ var SPCChart = ({
                         classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--severity"
                       },
                       {
-                        node: w.category ? /* @__PURE__ */ jsx30(
+                        node: w.category ? /* @__PURE__ */ jsx31(
                           Tag,
                           {
                             color: "purple",
                             text: formatWarningCategory(w.category)
                           }
-                        ) : /* @__PURE__ */ jsx30("span", { className: "fdp-spc-chart__warning-empty", children: "\u2013" }),
+                        ) : /* @__PURE__ */ jsx31("span", { className: "fdp-spc-chart__warning-empty", children: "\u2013" }),
                         classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--category"
                       },
                       {
-                        node: /* @__PURE__ */ jsx30(Tag, { color: "grey", text: formatWarningCode(w.code) }),
+                        node: /* @__PURE__ */ jsx31(Tag, { color: "grey", text: formatWarningCode(w.code) }),
                         classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--code"
                       },
                       {
-                        node: /* @__PURE__ */ jsxs21("div", { className: "fdp-spc-chart__warning-message", children: [
-                          /* @__PURE__ */ jsx30("span", { children: w.message }),
-                          w.context && Object.keys(w.context).length > 0 && /* @__PURE__ */ jsxs21(
+                        node: /* @__PURE__ */ jsxs22("div", { className: "fdp-spc-chart__warning-message", children: [
+                          /* @__PURE__ */ jsx31("span", { children: w.message }),
+                          w.context && Object.keys(w.context).length > 0 && /* @__PURE__ */ jsxs22(
                             "details",
                             {
                               className: "fdp-spc-chart__warning-context",
                               style: { marginTop: 4 },
                               children: [
-                                /* @__PURE__ */ jsx30("summary", { children: "context" }),
-                                /* @__PURE__ */ jsx30("pre", { children: JSON.stringify(w.context, null, 2) })
+                                /* @__PURE__ */ jsx31("summary", { children: "context" }),
+                                /* @__PURE__ */ jsx31("pre", { children: JSON.stringify(w.context, null, 2) })
                               ]
                             }
                           )
@@ -12330,19 +12429,20 @@ var InternalSPC = ({
   trendVisualMode = "ungated" /* Ungated */,
   showTrendStartMarkers = false,
   showFirstFavourableCrossMarkers = false,
-  showTrendBridgeOverlay = false
+  showTrendBridgeOverlay = false,
+  showSignalsInspector = false
 }) => {
   var _a2;
   const scaleCtx = useScaleContext();
   const chartCtx = useChartContext();
   if (!scaleCtx) return null;
   const { xScale, yScale } = scaleCtx;
-  const gradientIdBaseRef = React24.useRef(
+  const gradientIdBaseRef = React25.useRef(
     "spc-seq-" + ++spcSequenceInstanceCounter
   );
   const tooltipCtx = useTooltipContext();
   const all = ((_a2 = series[0]) == null ? void 0 : _a2.data) || [];
-  const outOfControl = React24.useMemo(() => {
+  const outOfControl = React25.useMemo(() => {
     if (!limits.ucl && !limits.lcl) return /* @__PURE__ */ new Set();
     const set = /* @__PURE__ */ new Set();
     all.forEach((d, i) => {
@@ -12351,7 +12451,7 @@ var InternalSPC = ({
     });
     return set;
   }, [all, limits.ucl, limits.lcl]);
-  const engineSignals = React24.useMemo(() => {
+  const engineSignals = React25.useMemo(() => {
     if (!engineRows) return null;
     const map2 = {};
     engineRows.forEach((r2, idx) => {
@@ -12369,7 +12469,7 @@ var InternalSPC = ({
     });
     return map2;
   }, [engineRows]);
-  const uniformTarget = React24.useMemo(() => {
+  const uniformTarget = React25.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const values = [];
     for (const r2 of engineRows) {
@@ -12380,7 +12480,7 @@ var InternalSPC = ({
     const first = values[0];
     return values.every((v) => v === first) ? first : null;
   }, [engineRows]);
-  const categories = React24.useMemo(() => {
+  const categories = React25.useMemo(() => {
     if (!engineSignals || !all.length)
       return [];
     const raw = all.map((_d, i) => {
@@ -12409,7 +12509,7 @@ var InternalSPC = ({
     }
     return raw;
   }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement]);
-  const sequences = React24.useMemo(() => {
+  const sequences = React25.useMemo(() => {
     if (!gradientSequences || !categories.length)
       return [];
     const cats = [...categories];
@@ -12447,12 +12547,12 @@ var InternalSPC = ({
     }
     return out;
   }, [gradientSequences, categories, ariaLabel]);
-  const xPositions = React24.useMemo(
+  const xPositions = React25.useMemo(
     () => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))),
     [all, xScale]
   );
   const plotWidth = xScale.range()[1];
-  const trendInsights = React24.useMemo(() => {
+  const trendInsights = React25.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     let earliestUp = Number.POSITIVE_INFINITY;
     let earliestDown = Number.POSITIVE_INFINITY;
@@ -12495,7 +12595,7 @@ var InternalSPC = ({
     }
     return { direction, detectedAt, firstFavourableCrossAt, persistedAcrossMean };
   }, [engineRows, metricImprovement]);
-  const limitSegments = React24.useMemo(() => {
+  const limitSegments = React25.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const build = (key) => {
       const segs = [];
@@ -12554,13 +12654,13 @@ var InternalSPC = ({
       twoNeg: build("lowerTwoSigma")
     };
   }, [engineRows, xPositions, yScale]);
-  const sequenceDefs = React24.useMemo(() => {
+  const sequenceDefs = React25.useMemo(() => {
     if (!sequences.length) return null;
-    return /* @__PURE__ */ jsxs21("defs", { children: [
-      /* @__PURE__ */ jsxs21("linearGradient", { id: `${gradientIdBaseRef.current}-grad-common`, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-        /* @__PURE__ */ jsx30("stop", { offset: "0%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.28 }),
-        /* @__PURE__ */ jsx30("stop", { offset: "70%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.12 }),
-        /* @__PURE__ */ jsx30("stop", { offset: "100%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.045 })
+    return /* @__PURE__ */ jsxs22("defs", { children: [
+      /* @__PURE__ */ jsxs22("linearGradient", { id: `${gradientIdBaseRef.current}-grad-common`, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
+        /* @__PURE__ */ jsx31("stop", { offset: "0%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.28 }),
+        /* @__PURE__ */ jsx31("stop", { offset: "70%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.12 }),
+        /* @__PURE__ */ jsx31("stop", { offset: "100%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.045 })
       ] }),
       sequences.map((seq, idx) => {
         const id = `${gradientIdBaseRef.current}-grad-${idx}`;
@@ -12588,15 +12688,15 @@ var InternalSPC = ({
           default:
             baseVar = "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)";
         }
-        return /* @__PURE__ */ jsxs21("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-          /* @__PURE__ */ jsx30("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
-          /* @__PURE__ */ jsx30("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
-          /* @__PURE__ */ jsx30("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
+        return /* @__PURE__ */ jsxs22("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
+          /* @__PURE__ */ jsx31("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
+          /* @__PURE__ */ jsx31("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
+          /* @__PURE__ */ jsx31("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
         ] }, id);
       })
     ] });
   }, [sequences]);
-  const sequenceAreas = React24.useMemo(() => {
+  const sequenceAreas = React25.useMemo(() => {
     if (!sequences.length) return null;
     const [domainMin] = yScale.domain();
     const baseY = yScale(domainMin);
@@ -12662,7 +12762,7 @@ var InternalSPC = ({
         if (sequenceTransition === "neutral" /* Neutral */ && prevColoured) {
           const prevX = xPositions[prevSeq.end];
           const prevY = yScale(all[prevSeq.end].y);
-          const wedge = /* @__PURE__ */ jsx30(
+          const wedge = /* @__PURE__ */ jsx31(
             "path",
             {
               d: `M ${prevX} ${baseY} L ${prevX} ${prevY} L ${firstX} ${firstY} L ${firstX} ${baseY} Z`,
@@ -12673,9 +12773,9 @@ var InternalSPC = ({
             },
             `seq-wedge-${idx}`
           );
-          return /* @__PURE__ */ jsxs21("g", { children: [
+          return /* @__PURE__ */ jsxs22("g", { children: [
             wedge,
-            /* @__PURE__ */ jsx30(
+            /* @__PURE__ */ jsx31(
               "path",
               {
                 d,
@@ -12689,7 +12789,7 @@ var InternalSPC = ({
           ] }, `seq-group-${idx}`);
         }
       }
-      return /* @__PURE__ */ jsx30(
+      return /* @__PURE__ */ jsx31(
         "path",
         {
           d,
@@ -12701,9 +12801,9 @@ var InternalSPC = ({
         `seq-area-${idx}`
       );
     }).filter(Boolean);
-    return /* @__PURE__ */ jsx30("g", { className: "fdp-spc__sequence-bgs", children: areas });
+    return /* @__PURE__ */ jsx31("g", { className: "fdp-spc__sequence-bgs", children: areas });
   }, [sequences, xPositions, plotWidth, yScale, all, sequenceTransition]);
-  const computedTimeframe = React24.useMemo(() => {
+  const computedTimeframe = React25.useMemo(() => {
     if (!(narrationContext == null ? void 0 : narrationContext.timeframe) && all.length >= 2) {
       const xs = all.map((d) => d.x instanceof Date ? d.x : new Date(d.x));
       const min = new Date(Math.min(...xs.map((d) => d.getTime())));
@@ -12729,7 +12829,7 @@ var InternalSPC = ({
     return `${n}th`;
   };
   const formatDateLong = (d) => `${ordinal2(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
-  const formatLive = React24.useCallback(
+  const formatLive = React25.useCallback(
     ({
       index,
       x: x2,
@@ -12767,7 +12867,7 @@ var InternalSPC = ({
     },
     [engineRows, narrationContext, computedTimeframe]
   );
-  const describePoint = React24.useCallback(
+  const describePoint = React25.useCallback(
     (index, d) => {
       const row = engineRows == null ? void 0 : engineRows[index];
       if (!row) return void 0;
@@ -12781,7 +12881,7 @@ var InternalSPC = ({
     },
     [engineRows, formatLive]
   );
-  return /* @__PURE__ */ jsx30(TooltipProvider, { children: /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsx31(TooltipProvider, { children: /* @__PURE__ */ jsxs22(
     "div",
     {
       className: "fdp-spc-chart",
@@ -12789,23 +12889,23 @@ var InternalSPC = ({
       "aria-label": "Statistical process control chart",
       "aria-roledescription": "chart",
       children: [
-        /* @__PURE__ */ jsx30(
+        /* @__PURE__ */ jsx31(
           "svg",
           {
             width: scaleCtx.xScale.range()[1] + 56 + 16,
             height: scaleCtx.yScale.range()[0] + 12 + 48,
             role: "img",
-            children: /* @__PURE__ */ jsxs21("g", { transform: `translate(56,12)`, children: [
-              /* @__PURE__ */ jsx30(Axis_default, { type: "x" }),
-              /* @__PURE__ */ jsx30(Axis_default, { type: "y" }),
-              /* @__PURE__ */ jsx30(GridLines_default, { axis: "y" }),
+            children: /* @__PURE__ */ jsxs22("g", { transform: `translate(56,12)`, children: [
+              /* @__PURE__ */ jsx31(Axis_default, { type: "x" }),
+              /* @__PURE__ */ jsx31(Axis_default, { type: "y" }),
+              /* @__PURE__ */ jsx31(GridLines_default, { axis: "y" }),
               sequenceDefs,
               sequenceAreas,
               partitionMarkers.map((idx, i) => {
                 const d = all[idx];
                 if (!d) return null;
                 const x2 = xScale(d.x instanceof Date ? d.x : new Date(d.x));
-                return /* @__PURE__ */ jsx30(
+                return /* @__PURE__ */ jsx31(
                   "line",
                   {
                     x1: x2,
@@ -12822,8 +12922,8 @@ var InternalSPC = ({
                 );
               }),
               (limitSegments == null ? void 0 : limitSegments.mean.length) ? (() => {
-                return /* @__PURE__ */ jsxs21("g", { "aria-hidden": "true", className: "fdp-spc__cl-group", children: [
-                  limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__cl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y }, `mean-${i}`)),
+                return /* @__PURE__ */ jsxs22("g", { "aria-hidden": "true", className: "fdp-spc__cl-group", children: [
+                  limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx31("line", { className: "fdp-spc__cl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y }, `mean-${i}`)),
                   limitSegments.mean.map((s, i) => {
                     if (i === limitSegments.mean.length - 1) return null;
                     const next = limitSegments.mean[i + 1];
@@ -12832,14 +12932,14 @@ var InternalSPC = ({
                     const gap = Math.max(4, next.x1 - s.x2 || 0);
                     const k = gap * 0.5;
                     const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-                    return /* @__PURE__ */ jsx30("path", { className: "fdp-spc__cl fdp-spc__cl-join", d, fill: "none" }, `mean-join-${i}`);
+                    return /* @__PURE__ */ jsx31("path", { className: "fdp-spc__cl fdp-spc__cl-join", d, fill: "none" }, `mean-join-${i}`);
                   })
                 ] });
               })() : null,
               uniformTarget != null && // Render later (after limits) for stacking; temporary placeholder (moved below)
-              /* @__PURE__ */ jsx30(Fragment5, {}),
-              (limitSegments == null ? void 0 : limitSegments.ucl.length) ? (() => /* @__PURE__ */ jsxs21("g", { "aria-hidden": "true", className: "fdp-spc__limit-group fdp-spc__limit-group--ucl", children: [
-                limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__limit fdp-spc__limit--ucl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, strokeWidth: 2 }, `ucl-${i}`)),
+              /* @__PURE__ */ jsx31(Fragment5, {}),
+              (limitSegments == null ? void 0 : limitSegments.ucl.length) ? (() => /* @__PURE__ */ jsxs22("g", { "aria-hidden": "true", className: "fdp-spc__limit-group fdp-spc__limit-group--ucl", children: [
+                limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx31("line", { className: "fdp-spc__limit fdp-spc__limit--ucl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, strokeWidth: 2 }, `ucl-${i}`)),
                 limitSegments.ucl.map((s, i) => {
                   if (i === limitSegments.ucl.length - 1) return null;
                   const next = limitSegments.ucl[i + 1];
@@ -12848,11 +12948,11 @@ var InternalSPC = ({
                   const gap = Math.max(4, next.x1 - s.x2 || 0);
                   const k = gap * 0.5;
                   const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-                  return /* @__PURE__ */ jsx30("path", { className: "fdp-spc__limit fdp-spc__limit--ucl fdp-spc__limit-join", d, fill: "none", strokeWidth: 2 }, `ucl-join-${i}`);
+                  return /* @__PURE__ */ jsx31("path", { className: "fdp-spc__limit fdp-spc__limit--ucl fdp-spc__limit-join", d, fill: "none", strokeWidth: 2 }, `ucl-join-${i}`);
                 })
               ] }))() : null,
-              (limitSegments == null ? void 0 : limitSegments.lcl.length) ? (() => /* @__PURE__ */ jsxs21("g", { "aria-hidden": "true", className: "fdp-spc__limit-group fdp-spc__limit-group--lcl", children: [
-                limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx30("line", { className: "fdp-spc__limit fdp-spc__limit--lcl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, strokeWidth: 2 }, `lcl-${i}`)),
+              (limitSegments == null ? void 0 : limitSegments.lcl.length) ? (() => /* @__PURE__ */ jsxs22("g", { "aria-hidden": "true", className: "fdp-spc__limit-group fdp-spc__limit-group--lcl", children: [
+                limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx31("line", { className: "fdp-spc__limit fdp-spc__limit--lcl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, strokeWidth: 2 }, `lcl-${i}`)),
                 limitSegments.lcl.map((s, i) => {
                   if (i === limitSegments.lcl.length - 1) return null;
                   const next = limitSegments.lcl[i + 1];
@@ -12861,11 +12961,11 @@ var InternalSPC = ({
                   const gap = Math.max(4, next.x1 - s.x2 || 0);
                   const k = gap * 0.5;
                   const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-                  return /* @__PURE__ */ jsx30("path", { className: "fdp-spc__limit fdp-spc__limit--lcl fdp-spc__limit-join", d, fill: "none", strokeWidth: 2 }, `lcl-join-${i}`);
+                  return /* @__PURE__ */ jsx31("path", { className: "fdp-spc__limit fdp-spc__limit--lcl fdp-spc__limit-join", d, fill: "none", strokeWidth: 2 }, `lcl-join-${i}`);
                 })
               ] }))() : null,
-              uniformTarget != null && /* @__PURE__ */ jsxs21("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
-                /* @__PURE__ */ jsx30(
+              uniformTarget != null && /* @__PURE__ */ jsxs22("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
+                /* @__PURE__ */ jsx31(
                   "line",
                   {
                     className: "fdp-spc__target",
@@ -12877,7 +12977,7 @@ var InternalSPC = ({
                     strokeWidth: 2.5
                   }
                 ),
-                /* @__PURE__ */ jsxs21(
+                /* @__PURE__ */ jsxs22(
                   "text",
                   {
                     "data-testid": "spc-target-label",
@@ -12895,8 +12995,8 @@ var InternalSPC = ({
                   }
                 )
               ] }),
-              showZones && limitSegments && limitSegments.mean.length > 0 && /* @__PURE__ */ jsxs21(Fragment5, { children: [
-                limitSegments.onePos.map((s, i) => /* @__PURE__ */ jsx30(
+              showZones && limitSegments && limitSegments.mean.length > 0 && /* @__PURE__ */ jsxs22(Fragment5, { children: [
+                limitSegments.onePos.map((s, i) => /* @__PURE__ */ jsx31(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--pos1",
@@ -12909,7 +13009,7 @@ var InternalSPC = ({
                   },
                   `onePos-${i}`
                 )),
-                limitSegments.oneNeg.map((s, i) => /* @__PURE__ */ jsx30(
+                limitSegments.oneNeg.map((s, i) => /* @__PURE__ */ jsx31(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--neg1",
@@ -12922,7 +13022,7 @@ var InternalSPC = ({
                   },
                   `oneNeg-${i}`
                 )),
-                limitSegments.twoPos.map((s, i) => /* @__PURE__ */ jsx30(
+                limitSegments.twoPos.map((s, i) => /* @__PURE__ */ jsx31(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--pos2",
@@ -12935,7 +13035,7 @@ var InternalSPC = ({
                   },
                   `twoPos-${i}`
                 )),
-                limitSegments.twoNeg.map((s, i) => /* @__PURE__ */ jsx30(
+                limitSegments.twoNeg.map((s, i) => /* @__PURE__ */ jsx31(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--neg2",
@@ -12956,13 +13056,13 @@ var InternalSPC = ({
                 const sy = all[startIdx] ? yScale(all[startIdx].y) : null;
                 const cx = crossIdx != null && all[crossIdx] ? xScale(all[crossIdx].x instanceof Date ? all[crossIdx].x : new Date(all[crossIdx].x)) : null;
                 const cy = crossIdx != null && all[crossIdx] ? yScale(all[crossIdx].y) : null;
-                return /* @__PURE__ */ jsxs21("g", { "aria-hidden": "true", className: "fdp-spc__trend-overlays", children: [
-                  showTrendBridgeOverlay && sx != null && sy != null && cx != null && cy != null && /* @__PURE__ */ jsx30("line", { x1: sx, y1: sy, x2: cx, y2: cy, stroke: "#888", strokeDasharray: "4 4", strokeWidth: 2, children: /* @__PURE__ */ jsx30("title", { children: "Trend bridge: start to first favourable-side point" }) }),
-                  showTrendStartMarkers && sx != null && sy != null && /* @__PURE__ */ jsx30("circle", { cx: sx, cy: sy, r: 6, fill: "white", stroke: "#555", strokeWidth: 2, children: /* @__PURE__ */ jsx30("title", { children: "Trend start (run reached N)" }) }),
-                  showFirstFavourableCrossMarkers && cx != null && cy != null && /* @__PURE__ */ jsx30("circle", { cx, cy, r: 5, fill: "#555", children: /* @__PURE__ */ jsx30("title", { children: "First favourable-side inclusion" }) })
+                return /* @__PURE__ */ jsxs22("g", { "aria-hidden": "true", className: "fdp-spc__trend-overlays", children: [
+                  showTrendBridgeOverlay && sx != null && sy != null && cx != null && cy != null && /* @__PURE__ */ jsx31("line", { x1: sx, y1: sy, x2: cx, y2: cy, stroke: "#888", strokeDasharray: "4 4", strokeWidth: 2, children: /* @__PURE__ */ jsx31("title", { children: "Trend bridge: start to first favourable-side point" }) }),
+                  showTrendStartMarkers && sx != null && sy != null && /* @__PURE__ */ jsx31("circle", { cx: sx, cy: sy, r: 6, fill: "white", stroke: "#555", strokeWidth: 2, children: /* @__PURE__ */ jsx31("title", { children: "Trend start (run reached N)" }) }),
+                  showFirstFavourableCrossMarkers && cx != null && cy != null && /* @__PURE__ */ jsx31("circle", { cx, cy, r: 5, fill: "#555", children: /* @__PURE__ */ jsx31("title", { children: "First favourable-side inclusion" }) })
                 ] });
               })(),
-              /* @__PURE__ */ jsx30(
+              /* @__PURE__ */ jsx31(
                 LineSeriesPrimitive_default,
                 {
                   series: series[0],
@@ -12999,7 +13099,7 @@ var InternalSPC = ({
                 ].filter(Boolean).join(" ");
                 const ariaLabel2 = `Point ${i + 1} value ${d.y}` + ((sig == null ? void 0 : sig.special) ? " special cause" : "") + ((sig == null ? void 0 : sig.variation) === "improvement" /* Improvement */ ? " improving" : (sig == null ? void 0 : sig.variation) === "concern" /* Concern */ ? " concern" : "");
                 const isFocused = ((_a3 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a3.index) === i;
-                return /* @__PURE__ */ jsx30(
+                return /* @__PURE__ */ jsx31(
                   "circle",
                   {
                     cx,
@@ -13028,7 +13128,7 @@ var InternalSPC = ({
                 }
                 const plotWidth2 = xScale.range()[1];
                 const iconX = Math.min(Math.max(rawX, 0), plotWidth2 - 0);
-                return /* @__PURE__ */ jsx30(
+                return /* @__PURE__ */ jsx31(
                   "text",
                   {
                     x: iconX,
@@ -13041,14 +13141,14 @@ var InternalSPC = ({
                   `icon-${i}`
                 );
               }),
-              chartCtx && /* @__PURE__ */ jsx30(
+              chartCtx && /* @__PURE__ */ jsx31(
                 InteractionLayer,
                 {
                   width: xScale.range()[1],
                   height: yScale.range()[0]
                 }
               ),
-              /* @__PURE__ */ jsx30(
+              /* @__PURE__ */ jsx31(
                 SPCTooltipOverlay_default,
                 {
                   engineRows,
@@ -13064,7 +13164,15 @@ var InternalSPC = ({
             ] })
           }
         ),
-        announceFocus && /* @__PURE__ */ jsx30(
+        showSignalsInspector && /* @__PURE__ */ jsx31("div", { style: { marginTop: 8 }, children: /* @__PURE__ */ jsx31(
+          SPCSignalsInspector_default,
+          {
+            engineRows,
+            measureName: narrationContext == null ? void 0 : narrationContext.measureName,
+            measureUnit: effectiveUnit || (narrationContext == null ? void 0 : narrationContext.measureUnit)
+          }
+        ) }),
+        announceFocus && /* @__PURE__ */ jsx31(
           VisuallyHiddenLiveRegion_default,
           {
             format: (d) => formatLive({ ...d, x: d.x instanceof Date ? d.x : new Date(d.x) })
@@ -13080,7 +13188,7 @@ var InteractionLayer = ({
 }) => {
   const t = useTooltipContext();
   if (!t) return null;
-  return /* @__PURE__ */ jsx30(
+  return /* @__PURE__ */ jsx31(
     "rect",
     {
       className: "fdp-spc__interaction-layer",

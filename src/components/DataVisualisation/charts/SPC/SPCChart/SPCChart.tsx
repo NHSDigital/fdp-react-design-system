@@ -1740,16 +1740,18 @@ const InternalSPC: React.FC<InternalProps> = ({
 								height={yScale.range()[0]}
 							/>
 						)}
-						<SPCTooltipOverlay
-							engineRows={engineRows}
-							limits={{ mean: limits.mean, sigma: limits.sigma }}
-							pointDescriber={describePoint}
-							measureName={narrationContext?.measureName}
-							measureUnit={narrationContext?.measureUnit}
-							dateFormatter={(d: Date) => formatDateLong(d)}
-							enableNeutralNoJudgement={enableNeutralNoJudgement}
-							showTrendGatingExplanation={showTrendGatingExplanation}
-						/>
+						{!showSignalsInspector && (
+							<SPCTooltipOverlay
+								engineRows={engineRows}
+								limits={{ mean: limits.mean, sigma: limits.sigma }}
+								pointDescriber={describePoint}
+								measureName={narrationContext?.measureName}
+								measureUnit={narrationContext?.measureUnit}
+								dateFormatter={(d: Date) => formatDateLong(d)}
+								enableNeutralNoJudgement={enableNeutralNoJudgement}
+								showTrendGatingExplanation={showTrendGatingExplanation}
+							/>
+						)}
 					</g>
 				</svg>
 				{showSignalsInspector && (

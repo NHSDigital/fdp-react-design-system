@@ -6,6 +6,78 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ## Unreleased
 
+### Added (Unreleased – SPC Engine Refactor Phase 2)
+
+- RULE_METADATA registry consolidating rule id, rank and human label (single source of truth for precedence metadata).
+- normaliseSpcSettings helper accepting legacy and V2 setting names; exported from SPC barrel.
+- Canonical V2 setting names introduced: `emergingGraceEnabled`, `trendFavourableSideOnly`, `collapseWeakerClusterRules` (legacy names still accepted; see Deprecated).
+- Non-enumerable alias getters `improvementValueBeforePruning` / `concernValueBeforePruning` (backed by legacy `originalSpecialCause*` fields) for forward-compatible rename.
+
+### Deprecated (Unreleased – SPC Engine Refactor Phase 2)
+
+- `emergingDirectionGrace` (use `emergingGraceEnabled`).
+- `trendSideGatingEnabled` (use `trendFavourableSideOnly`).
+- `collapseClusterRules` (use `collapseWeakerClusterRules`).
+- `RULE_LABEL` mapping (use `RULE_METADATA[id].label` or iterate `RULES_IN_RANK_ORDER`). Will be removed in a future major after migration.
+
+### Removed (Unreleased – SPC Engine Refactor Phase 2)
+
+- `VariationIconString` enum (redundant; use `VariationIcon`).
+
+### Changed (Unreleased – Parity)
+
+- SPC: Parity alignment – orthodox directional classification now treats a side-gated favourable trend (trend flag present but current point still on adverse side of mean due to side gating) as a low-rank favourable presence during precedence resolution. Mirrors SQL wrapper early directional framing and removes prior mixedShiftTrend parity divergence (rows 5–6), without altering final run rule backfill semantics.
+- SPC: Unconditional side-qualified trend gating – trend sequences (increasing / decreasing) now only contribute to Improvement / Concern variation icon resolution when the CURRENT POINT of evaluation lies on the corresponding favourable side of the mean. Previously an in‑progress increasing trend that had not yet crossed the mean could still elevate a below‑mean point to an early Improvement (and analogously for decreasing trend / Concern). This semantic tightening removes premature positive or negative signalling and aligns with Making Data Count interpretability guidance (a favourable trend is only clinically meaningful once performance has actually moved into the favourable half of the distribution).
+
+#### Rationale (Trend Side Qualification)
+
+Historically the engine:
+
+1. Detected a qualifying N‑point run (trend) irrespective of mean side per point.
+2. Backfilled the trend flags across those N points (as of earlier Phase 1 change).
+3. Counted those trend flags toward the highSignals / lowSignals sets even for points still on the adverse side of the mean.
+
+This caused PREMATURE variation icons (e.g. Improvement while still below mean for a Higher‑is‑Better metric) in several golden fixture rows (notably XmR & T chart examples) and real datasets (e.g. ED 4h Compliance) where stakeholders reported misleading early optimism.
+
+The revised logic introduces explicit "qualified" trend signals:
+
+- trendUpQualified: trendUp AND point value > mean
+- trendDownQualified: trendDown AND point value < mean
+
+Only these qualified signals are now eligible for inclusion in directional signal sets used for `variationIcon` precedence. Unqualified (opposite‑side) points still retain their `specialCauseTrendUp/Down` flags (provenance intact) but do not influence classification until the run is manifest on the favourable side.
+
+#### Behavioural Impact
+
+- Some rows that previously showed `variationIcon = concern` or `improvement` during an across‑mean transition will now show `neither` until the first favourable-side point in the run.
+- No change to the detection or backfilling of trend flags themselves – only their participation in precedence ranking is side‑qualified.
+- Shift, single‑point, and (where enabled) two‑of‑three / four‑of‑five rules are unaffected.
+
+#### Snapshot / Fixture Impact
+
+- Golden SPC snapshot test currently shows updated `variationIcon` values (previous fixture expected early Concern/Improvement). Regenerate the golden fixture once you accept this semantic correction.
+
+#### Settings & Deprecation Notes
+
+- The legacy options `trendSideGatingEnabled` and the canonical v2 rename `trendFavourableSideOnly` are now effectively NO‑OP toggles (behaviour is always favourable-side qualified). They remain accepted for backward compatibility during Phase 2 but will be removed after consolidation (target: next minor after stabilising downstream consumers). A deprecation warning may be introduced in a later pre‑1.0 release.
+
+#### Migration Guidance
+
+1. Update any analytical documentation or user training materials that described early Improvement/Concern appearing before a mean crossing – that no longer occurs.
+2. If UI tests or dashboards asserted specific early variation icons, adjust expectations to `neither` for those transitional points.
+3. Remove any conditional logic that attempted to emulate side gating via settings flags – it is now implicit.
+4. Regenerate golden fixtures (e.g. `test-data/golden-all.json`) once verified; commit alongside this CHANGELOG entry.
+5. Plan removal of `trendSideGatingEnabled` / `trendFavourableSideOnly` from configuration objects (they will be ignored already).
+
+### In Progress – SPC Refactor Phase 1
+
+- Core: Moved `PrimeDirection` enum into `spc.ts` (shared by SQL wrapper & future pruning metadata).
+- Core: Added `RULE_PRECEDENCE` ordered array and derived `RULE_RANK_BY_ID` (removes manual rank duplication) plus `RULE_LABEL` mapping.
+- SQL Wrapper: Refactored pruning to consume `getDirectionalSignalSummary` (removed bespoke side ranking logic) reducing divergence risk.
+- Tests: Strengthened directional alias parity test with real invariants (no dual-side same-rule flags) and directional summary rank consistency checks.
+- Tests: Added golden snapshot `spc-directional-summary.snapshot.test.ts` to lock directional rule ordering & variation icon interplay.
+- Docs: Roadmap updated to mark completed Phase 1 tasks.
+
+
 ### Added (Unreleased – Directional Flags & Engine)
 
 - Directional alias special-cause flags (`specialCause<Rule>Up` / `specialCause<Rule>Down`) for single point, two-of-three, four-of-five, shift and trend rules. These mirror the legacy Above/Below/High/Low/Increasing/Decreasing booleans.
@@ -43,7 +115,7 @@ The golden SPC fixture (`test-data/golden-all.json`) and related snapshot tests 
 
 ### Fixed (Unreleased)
 
-- SPC engine: Corrected early Improvement classification where an increasing trend spanning the mean would mark points still on the adverse side as Improvement. Trend signals now only contribute to Improvement/Concern when the current point lies on the favourable side of the mean (prevents premature positive signalling in datasets like ED 4h Compliance).
+- SPC engine: (See detailed note in Changed) Corrected early Improvement/Concern classification by enforcing unconditional favourable-side qualification for trend signal contribution.
 - SPC engine: Two-of-three (2σ) rule now excludes points beyond 3σ from contributing to the 2-of-3 count, aligning with Making Data Count guidance (3σ points remain single-point only).
 
 

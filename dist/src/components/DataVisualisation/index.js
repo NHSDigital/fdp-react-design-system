@@ -34,7 +34,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames4() {
+      function classNames10() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -52,7 +52,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames4.apply(null, arg);
+          return classNames10.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -75,14 +75,14 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames4.default = classNames4;
-        module.exports = classNames4;
+        classNames10.default = classNames10;
+        module.exports = classNames10;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames4;
+          return classNames10;
         });
       } else {
-        window.classNames = classNames4;
+        window.classNames = classNames10;
       }
     })();
   }
@@ -9051,9 +9051,236 @@ var BandScalesProvider = ({
   return /* @__PURE__ */ jsx22(ScaleContext_default.Provider, { value, children });
 };
 
+// src/components/DataVisualisation/primitives/AlertThreshold.tsx
+import { jsx as jsx23, jsxs as jsxs15 } from "react/jsx-runtime";
+var statusColor = (s) => {
+  switch (s) {
+    case "critical":
+      return "var(--nhs-fdp-color-critical,#d5281b)";
+    case "warning":
+      return "var(--nhs-fdp-color-warning,#ff7f0e)";
+    case "info":
+      return "var(--nhs-fdp-color-info,#1d70b8)";
+    case "ok":
+      return "var(--nhs-fdp-color-success,#007f3b)";
+    default:
+      return "var(--nhs-fdp-color-warning,#ff7f0e)";
+  }
+};
+var AlertThreshold = ({
+  orientation = "horizontal",
+  value,
+  label,
+  status,
+  color: color2,
+  dashed = true,
+  strokeWidth = 2
+}) => {
+  const chart = useChartContext();
+  const scales = useScaleContext();
+  if (!chart || !scales) return null;
+  const { innerWidth, innerHeight } = chart;
+  const stroke = color2 || statusColor(status);
+  if (orientation === "horizontal") {
+    const y2 = scales.yScale(value);
+    if (Number.isNaN(y2)) return null;
+    return /* @__PURE__ */ jsxs15("g", { className: "fdp-annot-threshold fdp-annot-threshold--h", "aria-hidden": true, children: [
+      /* @__PURE__ */ jsx23(
+        "line",
+        {
+          x1: 0,
+          y1: y2,
+          x2: innerWidth,
+          y2,
+          stroke,
+          strokeWidth,
+          strokeDasharray: dashed ? "6,6" : void 0
+        }
+      ),
+      label && /* @__PURE__ */ jsx23(
+        "text",
+        {
+          x: innerWidth - 4,
+          y: y2 - 4,
+          textAnchor: "end",
+          fontSize: 12,
+          fill: stroke,
+          children: label
+        }
+      )
+    ] });
+  }
+  const x2 = scales.xScale(
+    value instanceof Date ? value : new Date(value)
+  );
+  if (Number.isNaN(x2)) return null;
+  return /* @__PURE__ */ jsxs15("g", { className: "fdp-annot-threshold fdp-annot-threshold--v", "aria-hidden": true, children: [
+    /* @__PURE__ */ jsx23(
+      "line",
+      {
+        x1: x2,
+        y1: 0,
+        x2,
+        y2: innerHeight,
+        stroke,
+        strokeWidth,
+        strokeDasharray: dashed ? "6,6" : void 0
+      }
+    ),
+    label && /* @__PURE__ */ jsx23("text", { x: x2 + 4, y: 12, fontSize: 12, fill: stroke, children: label })
+  ] });
+};
+var AlertThreshold_default = AlertThreshold;
+
+// src/components/DataVisualisation/primitives/AlertBand.tsx
+import { jsx as jsx24 } from "react/jsx-runtime";
+var statusFill = (s) => {
+  switch (s) {
+    case "critical":
+      return "var(--nhs-fdp-color-critical,#d5281b)";
+    case "warning":
+      return "var(--nhs-fdp-color-warning,#ff7f0e)";
+    case "info":
+      return "var(--nhs-fdp-color-info,#1d70b8)";
+    case "ok":
+      return "var(--nhs-fdp-color-success,#007f3b)";
+    default:
+      return "var(--nhs-fdp-color-warning,#ff7f0e)";
+  }
+};
+var AlertBand = ({
+  orientation = "horizontal",
+  from,
+  to,
+  status,
+  fill,
+  opacity = 0.12,
+  rx = 0
+}) => {
+  const chart = useChartContext();
+  const scales = useScaleContext();
+  if (!chart || !scales) return null;
+  const { innerWidth, innerHeight } = chart;
+  const color2 = fill || statusFill(status);
+  if (orientation === "horizontal") {
+    const y1 = scales.yScale(from);
+    const y2 = scales.yScale(to);
+    if ([y1, y2].some((v) => Number.isNaN(v))) return null;
+    const y3 = Math.min(y1, y2);
+    const h = Math.abs(y2 - y1);
+    return /* @__PURE__ */ jsx24(
+      "rect",
+      {
+        x: 0,
+        y: y3,
+        width: innerWidth,
+        height: h,
+        fill: color2,
+        opacity,
+        rx
+      }
+    );
+  }
+  const x1 = scales.xScale(from instanceof Date ? from : new Date(from));
+  const x2 = scales.xScale(to instanceof Date ? to : new Date(to));
+  if ([x1, x2].some((v) => Number.isNaN(v))) return null;
+  const x3 = Math.min(x1, x2);
+  const w = Math.abs(x2 - x1);
+  return /* @__PURE__ */ jsx24(
+    "rect",
+    {
+      x: x3,
+      y: 0,
+      width: w,
+      height: innerHeight,
+      fill: color2,
+      opacity,
+      rx
+    }
+  );
+};
+var AlertBand_default = AlertBand;
+
+// src/components/DataVisualisation/primitives/AlertMarkers.tsx
+import { jsx as jsx25, jsxs as jsxs16 } from "react/jsx-runtime";
+var statusColor2 = (s) => {
+  switch (s) {
+    case "critical":
+      return "var(--nhs-fdp-color-critical,#d5281b)";
+    case "warning":
+      return "var(--nhs-fdp-color-warning,#ff7f0e)";
+    case "info":
+      return "var(--nhs-fdp-color-info,#1d70b8)";
+    case "ok":
+      return "var(--nhs-fdp-color-success,#007f3b)";
+    default:
+      return "var(--nhs-fdp-color-warning,#ff7f0e)";
+  }
+};
+function Triangle({
+  cx,
+  cy,
+  size,
+  fill
+}) {
+  const h = size * 1.2;
+  const points = `${cx},${cy - h} ${cx - size},${cy + h * 0.6} ${cx + size},${cy + h * 0.6}`;
+  return /* @__PURE__ */ jsx25("polygon", { points, fill, stroke: "#fff", strokeWidth: 0.5 });
+}
+function Diamond({
+  cx,
+  cy,
+  size,
+  fill
+}) {
+  const points = `${cx},${cy - size} ${cx - size},${cy} ${cx},${cy + size} ${cx + size},${cy}`;
+  return /* @__PURE__ */ jsx25("polygon", { points, fill, stroke: "#fff", strokeWidth: 0.5 });
+}
+var AlertMarkers = ({
+  points,
+  shape = "triangle",
+  size = 5
+}) => {
+  const chart = useChartContext();
+  const scales = useScaleContext();
+  if (!chart || !scales || !points.length) return null;
+  const mapX = (x2) => x2 instanceof Date ? x2 : new Date(x2);
+  return /* @__PURE__ */ jsx25("g", { className: "fdp-annot-markers", "aria-hidden": true, children: points.map((p, i) => {
+    const cx = scales.xScale(mapX(p.x));
+    const cy = p.y === void 0 ? Math.max(10, 10) : scales.yScale(p.y);
+    const fill = statusColor2(p.status);
+    const key = `am-${i}`;
+    if (Number.isNaN(cx) || Number.isNaN(cy)) return null;
+    return /* @__PURE__ */ jsxs16("g", { children: [
+      shape === "triangle" ? /* @__PURE__ */ jsx25(Triangle, { cx, cy, size, fill }) : shape === "diamond" ? /* @__PURE__ */ jsx25(Diamond, { cx, cy, size, fill }) : /* @__PURE__ */ jsx25(
+        "circle",
+        {
+          cx,
+          cy,
+          r: size,
+          fill,
+          stroke: "#fff",
+          strokeWidth: 0.5
+        }
+      ),
+      p.label && /* @__PURE__ */ jsx25(
+        "text",
+        {
+          x: cx + size + 2,
+          y: cy - size - 2,
+          fontSize: 11,
+          fill,
+          children: p.label
+        }
+      )
+    ] }, key);
+  }) });
+};
+var AlertMarkers_default = AlertMarkers;
+
 // src/components/DataVisualisation/charts/ChartNoScript/ChartNoScript.tsx
 import * as React19 from "react";
-import { jsx as jsx23, jsxs as jsxs15 } from "react/jsx-runtime";
+import { jsx as jsx26, jsxs as jsxs17 } from "react/jsx-runtime";
 var ChartNoScript = ({
   title,
   description,
@@ -9069,7 +9296,7 @@ var ChartNoScript = ({
   const descId = description ? `${resolvedId}-desc` : void 0;
   const sourceId = source ? `${resolvedId}-src` : void 0;
   const isHydrated = typeof window !== "undefined" && !forceFallback;
-  return /* @__PURE__ */ jsxs15(
+  return /* @__PURE__ */ jsxs17(
     "figure",
     {
       id: resolvedId,
@@ -9078,14 +9305,14 @@ var ChartNoScript = ({
       "aria-describedby": clsx_default(descId, sourceId),
       "data-component": "ChartNoScript",
       children: [
-        /* @__PURE__ */ jsx23("header", { className: "fdp-chart__header", children: /* @__PURE__ */ jsx23("h3", { id: `${resolvedId}-title`, className: "fdp-chart__title", children: title }) }),
-        description && /* @__PURE__ */ jsx23("p", { id: descId, className: "fdp-chart__description", children: description }),
-        !isHydrated && /* @__PURE__ */ jsx23("div", { className: "fdp-chart__loading", role: "status", "aria-live": "polite", children: message }),
-        /* @__PURE__ */ jsxs15("div", { className: "fdp-chart__fallback", role: "group", "aria-label": title, children: [
-          /* @__PURE__ */ jsx23("noscript", { children: /* @__PURE__ */ jsx23("div", { className: "fdp-chart__noscript-wrapper", children: /* @__PURE__ */ jsx23(Table_default, { ...table }) }) }),
-          /* @__PURE__ */ jsx23("div", { className: "fdp-chart__table", "data-fallback-table": true, children: /* @__PURE__ */ jsx23(Table_default, { ...table }) })
+        /* @__PURE__ */ jsx26("header", { className: "fdp-chart__header", children: /* @__PURE__ */ jsx26("h3", { id: `${resolvedId}-title`, className: "fdp-chart__title", children: title }) }),
+        description && /* @__PURE__ */ jsx26("p", { id: descId, className: "fdp-chart__description", children: description }),
+        !isHydrated && /* @__PURE__ */ jsx26("div", { className: "fdp-chart__loading", role: "status", "aria-live": "polite", children: message }),
+        /* @__PURE__ */ jsxs17("div", { className: "fdp-chart__fallback", role: "group", "aria-label": title, children: [
+          /* @__PURE__ */ jsx26("noscript", { children: /* @__PURE__ */ jsx26("div", { className: "fdp-chart__noscript-wrapper", children: /* @__PURE__ */ jsx26(Table_default, { ...table }) }) }),
+          /* @__PURE__ */ jsx26("div", { className: "fdp-chart__table", "data-fallback-table": true, children: /* @__PURE__ */ jsx26(Table_default, { ...table }) })
         ] }),
-        source && /* @__PURE__ */ jsx23("figcaption", { className: "fdp-chart__caption", children: source && /* @__PURE__ */ jsxs15("small", { id: sourceId, className: "fdp-chart__source", children: [
+        source && /* @__PURE__ */ jsx26("figcaption", { className: "fdp-chart__caption", children: source && /* @__PURE__ */ jsxs17("small", { id: sourceId, className: "fdp-chart__source", children: [
           "Source: ",
           source
         ] }) })
@@ -9097,7 +9324,7 @@ var ChartNoScript_default = ChartNoScript;
 
 // src/components/DataVisualisation/charts/ChartEnhancer/ChartEnhancer.tsx
 import * as React20 from "react";
-import { jsx as jsx24 } from "react/jsx-runtime";
+import { jsx as jsx27 } from "react/jsx-runtime";
 var ChartEnhancer = ({ selector = "figure.fdp-chart", onEnhanced, delay = 0, children }) => {
   const ref = React20.useRef(null);
   React20.useEffect(() => {
@@ -9121,13 +9348,13 @@ var ChartEnhancer = ({ selector = "figure.fdp-chart", onEnhanced, delay = 0, chi
     }
     apply();
   }, [selector, onEnhanced, delay]);
-  return /* @__PURE__ */ jsx24("div", { ref, children });
+  return /* @__PURE__ */ jsx27("div", { ref, children });
 };
 var ChartEnhancer_default = ChartEnhancer;
 
 // src/components/DataVisualisation/components/MetricCard/MetricCard.tsx
 import * as React21 from "react";
-import { Fragment as Fragment2, jsx as jsx25, jsxs as jsxs16 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx28, jsxs as jsxs18 } from "react/jsx-runtime";
 var MetricCard = ({
   label,
   value,
@@ -9169,7 +9396,7 @@ var MetricCard = ({
       deltaAria = `${dirWord} ${absVal}${suffix}${deltaDirection === "neutral" ? "" : better ? " (improvement)" : " (worse)"}`;
     }
   }
-  return /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsx28(
     "div",
     {
       className: clsx_default(
@@ -9183,20 +9410,20 @@ var MetricCard = ({
       role: "group",
       "aria-labelledby": labelId,
       "data-component": "MetricCard",
-      children: /* @__PURE__ */ jsxs16("div", { className: "fdp-metric-card__inner", children: [
-        /* @__PURE__ */ jsxs16("div", { className: "fdp-metric-card__header", children: [
-          /* @__PURE__ */ jsx25("h3", { id: labelId, className: "fdp-metric-card__label", children: label }),
-          metadata && /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__metadata", children: metadata })
+      children: /* @__PURE__ */ jsxs18("div", { className: "fdp-metric-card__inner", children: [
+        /* @__PURE__ */ jsxs18("div", { className: "fdp-metric-card__header", children: [
+          /* @__PURE__ */ jsx28("h3", { id: labelId, className: "fdp-metric-card__label", children: label }),
+          metadata && /* @__PURE__ */ jsx28("div", { className: "fdp-metric-card__metadata", children: metadata })
         ] }),
-        /* @__PURE__ */ jsxs16("div", { className: "fdp-metric-card__content", children: [
-          /* @__PURE__ */ jsxs16("div", { className: "fdp-metric-card__value-section", children: [
-            /* @__PURE__ */ jsx25("div", { id: valueId, className: "fdp-metric-card__value", children: loading ? /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__skeleton", "aria-hidden": "true", children: /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__skeleton-line fdp-metric-card__skeleton-line--value" }) }) : error ? /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__error", role: "alert", children: error }) : /* @__PURE__ */ jsxs16(Fragment2, { children: [
-              /* @__PURE__ */ jsx25("span", { className: "fdp-metric-card__number", children: formattedValue }),
-              unit2 && /* @__PURE__ */ jsx25("span", { className: "fdp-metric-card__unit", children: unit2 })
+        /* @__PURE__ */ jsxs18("div", { className: "fdp-metric-card__content", children: [
+          /* @__PURE__ */ jsxs18("div", { className: "fdp-metric-card__value-section", children: [
+            /* @__PURE__ */ jsx28("div", { id: valueId, className: "fdp-metric-card__value", children: loading ? /* @__PURE__ */ jsx28("div", { className: "fdp-metric-card__skeleton", "aria-hidden": "true", children: /* @__PURE__ */ jsx28("div", { className: "fdp-metric-card__skeleton-line fdp-metric-card__skeleton-line--value" }) }) : error ? /* @__PURE__ */ jsx28("div", { className: "fdp-metric-card__error", role: "alert", children: error }) : /* @__PURE__ */ jsxs18(Fragment2, { children: [
+              /* @__PURE__ */ jsx28("span", { className: "fdp-metric-card__number", children: formattedValue }),
+              unit2 && /* @__PURE__ */ jsx28("span", { className: "fdp-metric-card__unit", children: unit2 })
             ] }) }),
-            subtitle && !loading && !error && /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__subtitle", children: subtitle })
+            subtitle && !loading && !error && /* @__PURE__ */ jsx28("div", { className: "fdp-metric-card__subtitle", children: subtitle })
           ] }),
-          delta && !loading && !error && /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__delta-section", children: /* @__PURE__ */ jsxs16(
+          delta && !loading && !error && /* @__PURE__ */ jsx28("div", { className: "fdp-metric-card__delta-section", children: /* @__PURE__ */ jsxs18(
             "div",
             {
               id: deltaId,
@@ -9206,25 +9433,1162 @@ var MetricCard = ({
                 deltaDirection && `fdp-metric-card__delta--${deltaDirection}`
               ),
               children: [
-                /* @__PURE__ */ jsx25("span", { className: "fdp-metric-card__delta-value", children: visualDelta }),
-                delta.period && /* @__PURE__ */ jsx25("span", { className: "fdp-metric-card__delta-period", children: delta.period })
+                /* @__PURE__ */ jsx28("span", { className: "fdp-metric-card__delta-value", children: visualDelta }),
+                delta.period && /* @__PURE__ */ jsx28("span", { className: "fdp-metric-card__delta-period", children: delta.period })
               ]
             }
           ) }),
-          trendData && trendData.length > 0 && !loading && !error && /* @__PURE__ */ jsx25("div", { className: "fdp-metric-card__trend", "aria-hidden": "true" })
+          trendData && trendData.length > 0 && !loading && !error && /* @__PURE__ */ jsx28("div", { className: "fdp-metric-card__trend", "aria-hidden": "true" })
         ] }),
-        announceDelta && delta && !delta.ariaLabel && !loading && !error && /* @__PURE__ */ jsx25("div", { className: "fdp-visually-hidden", "aria-live": "polite", children: deltaAria })
+        announceDelta && delta && !delta.ariaLabel && !loading && !error && /* @__PURE__ */ jsx28("div", { className: "fdp-visually-hidden", "aria-live": "polite", children: deltaAria })
       ] })
     }
   );
 };
 var MetricCard_default = MetricCard;
 
+// src/components/DataVisualisation/wizard/DataVizWizard.tsx
+import * as React26 from "react";
+
+// src/mapping/tag.ts
+function mapTagProps(input) {
+  const { color: color2 = "default", noBorder, closable, disabled, className } = input;
+  const classes = [
+    "nhsuk-tag",
+    color2 !== "default" ? `nhsuk-tag--${color2}` : "",
+    noBorder ? "nhsuk-tag--no-border" : "",
+    closable ? "nhsuk-tag--closable" : "",
+    disabled ? "nhsuk-tag--disabled" : "",
+    className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, showClose: !!closable, disabled: !!disabled };
+}
+
+// src/components/Tag/Tag.tsx
+import { jsx as jsx29, jsxs as jsxs19 } from "react/jsx-runtime";
+var Tag = ({
+  text,
+  html,
+  children,
+  color: color2 = "default",
+  noBorder = false,
+  closable = false,
+  onClose,
+  disabled = false,
+  className,
+  ...props
+}) => {
+  const model = mapTagProps({ color: color2, noBorder, closable, disabled, className });
+  const handleClose = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!disabled && onClose) {
+      onClose();
+    }
+  };
+  return /* @__PURE__ */ jsxs19("strong", { className: model.classes, ...props, children: [
+    children ? children : html ? /* @__PURE__ */ jsx29("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
+    closable && /* @__PURE__ */ jsx29(
+      "button",
+      {
+        type: "button",
+        className: "nhsuk-tag__close",
+        onClick: handleClose,
+        disabled,
+        "aria-label": "Remove",
+        title: "Remove",
+        children: "\xD7"
+      }
+    )
+  ] });
+};
+
+// src/components/Checkboxes/Checkboxes.tsx
+var import_classnames5 = __toESM(require_classnames(), 1);
+import { useState as useState11 } from "react";
+
+// src/components/Input/Input.tsx
+import { useState as useState10, useEffect as useEffect7 } from "react";
+
+// src/mapping/input.ts
+function mapInputProps(p) {
+  const type = p.type || "text";
+  const isRange = type === "range";
+  const classes = [
+    "nhsuk-input",
+    p.hasError ? "nhsuk-input--error" : "",
+    isRange ? "nhsuk-input--range" : "",
+    !isRange && p.width && p.width !== "full" ? `nhsuk-input--width-${p.width}` : "",
+    p.className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, isRange };
+}
+
+// src/components/Input/Input.tsx
+import { jsx as jsx30, jsxs as jsxs20 } from "react/jsx-runtime";
+var Input = ({
+  id,
+  name,
+  type = "text",
+  value,
+  defaultValue,
+  placeholder,
+  disabled = false,
+  readOnly = false,
+  required = false,
+  hasError = false,
+  describedBy,
+  className,
+  width = "full",
+  inputMode,
+  autoComplete,
+  maxLength,
+  minLength,
+  pattern,
+  step,
+  min,
+  max,
+  showValueLabels = false,
+  showCurrentValue = false,
+  valueLabels,
+  onChange,
+  onBlur,
+  onFocus,
+  onKeyDown,
+  ...props
+}) => {
+  const [currentValue, setCurrentValue] = useState10(value || defaultValue || (type === "range" ? min || "0" : ""));
+  useEffect7(() => {
+    if (value !== void 0) {
+      setCurrentValue(value);
+    }
+  }, [value]);
+  const handleChange = (event) => {
+    const el = event.target;
+    setCurrentValue(el.value);
+    if ("type" in event && event.nativeEvent) {
+      onChange == null ? void 0 : onChange(event);
+    } else if (event.type === "keydown") {
+      onChange == null ? void 0 : onChange(event);
+    }
+  };
+  const { classes: inputClasses, isRange } = mapInputProps({ id, name, type, hasError, width, className });
+  const isControlled = value !== void 0;
+  const sharedRangeProps = {
+    id,
+    name,
+    type,
+    placeholder,
+    disabled,
+    readOnly,
+    required,
+    "aria-describedby": describedBy,
+    inputMode,
+    autoComplete,
+    maxLength,
+    minLength,
+    pattern,
+    step,
+    min,
+    max,
+    onChange: handleChange,
+    onBlur,
+    onFocus,
+    onKeyDown: (e) => {
+      if (isRange && /[0-9]/.test(e.key)) {
+        const next = ((currentValue == null ? void 0 : currentValue.toString()) || "") + e.key;
+        e.target.value = next;
+        handleChange(e);
+      }
+      onKeyDown == null ? void 0 : onKeyDown(e);
+    },
+    ...props
+  };
+  const uncontrolledRangeProps = !isControlled && defaultValue !== void 0 ? { defaultValue } : {};
+  const controlledRangeProps = isControlled ? { value } : {};
+  const renderRangeInput = () => /* @__PURE__ */ jsx30(
+    "input",
+    {
+      className: inputClasses,
+      ...controlledRangeProps,
+      ...uncontrolledRangeProps,
+      "data-current-value": currentValue,
+      ...sharedRangeProps
+    }
+  );
+  const rangeWrapper = isRange ? /* @__PURE__ */ jsxs20("div", { className: "nhsuk-input-range-wrapper", children: [
+    showValueLabels && /* @__PURE__ */ jsxs20("div", { className: "nhsuk-input-range-labels", children: [
+      /* @__PURE__ */ jsx30("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min", children: (valueLabels == null ? void 0 : valueLabels.min) || min || "0" }),
+      renderRangeInput(),
+      /* @__PURE__ */ jsx30("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max", children: (valueLabels == null ? void 0 : valueLabels.max) || max || "100" })
+    ] }),
+    !showValueLabels && renderRangeInput(),
+    showCurrentValue && /* @__PURE__ */ jsx30("div", { className: "nhsuk-input-range-current-value", children: /* @__PURE__ */ jsxs20("span", { className: "nhsuk-input-range-current-label", children: [
+      (valueLabels == null ? void 0 : valueLabels.current) || "Current value:",
+      " ",
+      /* @__PURE__ */ jsx30("strong", { children: currentValue })
+    ] }) })
+  ] }) : null;
+  if (isRange) {
+    return rangeWrapper;
+  }
+  return /* @__PURE__ */ jsx30(
+    "input",
+    {
+      className: inputClasses,
+      id,
+      name,
+      type,
+      value,
+      ...value === void 0 && defaultValue !== void 0 ? { defaultValue } : {},
+      placeholder,
+      disabled,
+      readOnly,
+      required,
+      "aria-describedby": describedBy,
+      inputMode,
+      autoComplete,
+      maxLength,
+      minLength,
+      pattern,
+      step,
+      min,
+      max,
+      onChange,
+      onBlur,
+      onFocus,
+      onKeyDown,
+      ...props
+    }
+  );
+};
+
+// src/mapping/label.ts
+function mapLabelProps(input) {
+  const size = input.size || "m";
+  const classes = [
+    "nhsuk-label",
+    size !== "m" ? `nhsuk-label--${size}` : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  return {
+    tag: input.isPageHeading ? "h1" : "label",
+    classes,
+    size,
+    htmlFor: input.isPageHeading ? void 0 : input.htmlFor,
+    isPageHeading: !!input.isPageHeading
+  };
+}
+
+// src/components/Label/Label.tsx
+import { jsx as jsx31 } from "react/jsx-runtime";
+var Label = ({
+  htmlFor,
+  className,
+  isPageHeading = false,
+  size = "m",
+  children,
+  ...props
+}) => {
+  const model = mapLabelProps({ size, isPageHeading, className, htmlFor });
+  const LabelElement = model.tag;
+  return /* @__PURE__ */ jsx31(LabelElement, { className: model.classes, htmlFor: model.htmlFor, ...props, children: isPageHeading ? /* @__PURE__ */ jsx31("label", { className: "nhsuk-label-wrapper", htmlFor, children }) : children });
+};
+
+// src/components/Fieldset/Fieldset.tsx
+var import_classnames4 = __toESM(require_classnames(), 1);
+import { jsx as jsx32, jsxs as jsxs21 } from "react/jsx-runtime";
+var Fieldset = ({
+  children,
+  legend,
+  className,
+  describedBy,
+  ...fieldsetProps
+}) => {
+  const fieldsetClasses = (0, import_classnames4.default)(
+    "nhsuk-fieldset",
+    className
+  );
+  const legendClasses = (0, import_classnames4.default)(
+    "nhsuk-fieldset__legend",
+    {
+      [`nhsuk-fieldset__legend--${legend == null ? void 0 : legend.size}`]: legend == null ? void 0 : legend.size
+    },
+    legend == null ? void 0 : legend.className
+  );
+  const renderLegendContent = () => {
+    const content = (legend == null ? void 0 : legend.html) ? /* @__PURE__ */ jsx32("span", { dangerouslySetInnerHTML: { __html: legend.html } }) : legend == null ? void 0 : legend.text;
+    if (legend == null ? void 0 : legend.isPageHeading) {
+      return /* @__PURE__ */ jsx32("h1", { className: "nhsuk-fieldset__heading", children: content });
+    }
+    return content;
+  };
+  return /* @__PURE__ */ jsxs21(
+    "fieldset",
+    {
+      className: fieldsetClasses,
+      "aria-describedby": describedBy,
+      ...fieldsetProps,
+      children: [
+        legend && (legend.text || legend.html) && /* @__PURE__ */ jsx32("legend", { className: legendClasses, children: renderLegendContent() }),
+        children
+      ]
+    }
+  );
+};
+
+// src/components/Checkboxes/Checkboxes.tsx
+import { jsx as jsx33, jsxs as jsxs22 } from "react/jsx-runtime";
+var Checkboxes = ({
+  items,
+  name,
+  idPrefix,
+  legend,
+  isPageHeading = false,
+  legendSize = "l",
+  hint,
+  errorMessage,
+  className = "",
+  small = false,
+  onChange,
+  fieldsetAttributes,
+  attributes,
+  ...props
+}) => {
+  const [selectedValues, setSelectedValues] = useState11(
+    items.filter((item) => item.checked).map((item) => item.value)
+  );
+  const finalIdPrefix = idPrefix || name;
+  const hintId = hint ? `${finalIdPrefix}-hint` : void 0;
+  const errorId = errorMessage ? `${finalIdPrefix}-error` : void 0;
+  const describedBy = [hintId, errorId].filter(Boolean).join(" ") || void 0;
+  const handleCheckboxChange = (value, checked) => {
+    let newValues;
+    if (checked) {
+      newValues = [...selectedValues, value];
+    } else {
+      newValues = selectedValues.filter((v) => v !== value);
+    }
+    setSelectedValues(newValues);
+    onChange == null ? void 0 : onChange(newValues);
+  };
+  const renderItems = () => {
+    return items.map((item, index) => {
+      const itemId = `${finalIdPrefix}-${index + 1}`;
+      const conditionalId = `${itemId}-conditional`;
+      const isChecked = selectedValues.includes(item.value);
+      const isDisabled = item.disabled || false;
+      return /* @__PURE__ */ jsxs22("div", { className: "nhsuk-checkboxes__item", children: [
+        /* @__PURE__ */ jsx33(
+          "input",
+          {
+            className: "nhsuk-checkboxes__input",
+            id: itemId,
+            name,
+            type: "checkbox",
+            value: item.value,
+            checked: isChecked,
+            disabled: isDisabled,
+            onChange: (e) => handleCheckboxChange(item.value, e.target.checked),
+            "aria-describedby": item.hint ? `${itemId}-hint` : describedBy,
+            ...item.conditional && {
+              "aria-controls": conditionalId,
+              "aria-expanded": isChecked ? "true" : "false"
+            },
+            ...item.attributes
+          }
+        ),
+        /* @__PURE__ */ jsx33("label", { className: "nhsuk-checkboxes__label", htmlFor: itemId, children: item.text }),
+        item.hint && /* @__PURE__ */ jsx33("div", { id: `${itemId}-hint`, className: "nhsuk-checkboxes__hint", children: item.hint }),
+        item.conditional && /* @__PURE__ */ jsx33(
+          "div",
+          {
+            className: (0, import_classnames5.default)("nhsuk-checkboxes__conditional", {
+              "nhsuk-checkboxes__conditional--hidden": !isChecked
+            }),
+            id: conditionalId,
+            children: typeof item.conditional === "object" && item.conditional !== null && "label" in item.conditional && "id" in item.conditional && "name" in item.conditional ? /* @__PURE__ */ jsxs22("div", { style: { marginTop: "16px" }, children: [
+              item.conditional.label && /* @__PURE__ */ jsx33(Label, { htmlFor: item.conditional.id, children: item.conditional.label }),
+              /* @__PURE__ */ jsx33(Input, { ...item.conditional })
+            ] }) : item.conditional
+          }
+        )
+      ] }, item.value);
+    });
+  };
+  const checkboxesClasses = (0, import_classnames5.default)(
+    "nhsuk-checkboxes",
+    {
+      "nhsuk-checkboxes--small": small
+    },
+    className
+  );
+  const formGroupClasses = (0, import_classnames5.default)("nhsuk-form-group", {
+    "nhsuk-form-group--error": !!errorMessage
+  });
+  return /* @__PURE__ */ jsx33("div", { className: formGroupClasses, ...attributes, ...props, children: /* @__PURE__ */ jsxs22(
+    Fieldset,
+    {
+      legend: legend ? {
+        text: legend,
+        isPageHeading,
+        size: legendSize
+      } : void 0,
+      describedBy,
+      ...fieldsetAttributes,
+      children: [
+        hint && /* @__PURE__ */ jsx33("div", { id: hintId, className: "nhsuk-hint", children: hint }),
+        errorMessage && /* @__PURE__ */ jsxs22("div", { id: errorId, className: "nhsuk-error-message", children: [
+          /* @__PURE__ */ jsx33("span", { className: "nhsuk-u-visually-hidden", children: "Error:" }),
+          " ",
+          errorMessage
+        ] }),
+        /* @__PURE__ */ jsx33("div", { className: checkboxesClasses, children: renderItems() })
+      ]
+    }
+  ) });
+};
+Checkboxes.displayName = "Checkboxes";
+
+// src/components/Radios/Radios.tsx
+import { useState as useState12, useRef as useRef6, useCallback as useCallback9 } from "react";
+
+// src/components/Radios/Radios.render.tsx
+var import_classnames6 = __toESM(require_classnames(), 1);
+import { jsx as jsx34, jsxs as jsxs23 } from "react/jsx-runtime";
+function renderRadiosMarkup(props, {
+  variant,
+  selectedValue,
+  enableBehaviourAttr,
+  handleChange,
+  handleBlur,
+  handleFocus,
+  handleKeyDown,
+  itemsRef
+}) {
+  const { onChange: _omitOnChange, onBlur: _omitOnBlur, onFocus: _omitOnFocus, ...safeProps } = props;
+  const {
+    name,
+    hasError = false,
+    describedBy,
+    className,
+    size = "normal",
+    inline = false,
+    options,
+    ...rest
+  } = safeProps;
+  const radiosClasses = (0, import_classnames6.default)(
+    "nhsuk-radios",
+    {
+      "nhsuk-radios--error": hasError,
+      "nhsuk-radios--small": size === "small",
+      "nhsuk-radios--inline": inline
+    },
+    className
+  );
+  return /* @__PURE__ */ jsx34(Fieldset, { children: /* @__PURE__ */ jsx34(
+    "div",
+    {
+      className: radiosClasses,
+      ...rest,
+      ...enableBehaviourAttr ? { "data-nhs-behaviour": "radios" } : {},
+      children: options.map((option, index) => {
+        const radioId = `${name}-${index}`;
+        const conditionalId = option.conditional ? `${radioId}-conditional` : void 0;
+        const isSelected = selectedValue === option.value;
+        return /* @__PURE__ */ jsxs23("div", { className: "nhsuk-radios__item", children: [
+          /* @__PURE__ */ jsx34(
+            "input",
+            {
+              className: "nhsuk-radios__input",
+              id: radioId,
+              name,
+              type: "radio",
+              value: option.value,
+              disabled: option.disabled,
+              ...variant === "client" ? { checked: isSelected, onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, onKeyDown: handleKeyDown, ref: (el) => {
+                if (el && itemsRef) itemsRef.current[index] = el;
+              } } : { defaultChecked: isSelected, "data-nhs-radios-input": true },
+              "aria-describedby": describedBy
+            }
+          ),
+          /* @__PURE__ */ jsx34("label", { className: "nhsuk-radios__label", htmlFor: radioId, children: option.text }),
+          option.hint && /* @__PURE__ */ jsx34("div", { className: "nhsuk-radios__hint", children: option.hint }),
+          option.conditional && /* @__PURE__ */ jsx34(
+            "div",
+            {
+              className: (0, import_classnames6.default)("nhsuk-radios__conditional", {
+                "nhsuk-radios__conditional--hidden": !isSelected
+              }),
+              id: conditionalId,
+              ...variant === "server" ? { "data-nhs-radios-conditional": true } : {},
+              children: typeof option.conditional === "object" && option.conditional !== null && "label" in option.conditional && "id" in option.conditional && "name" in option.conditional ? /* @__PURE__ */ jsxs23("div", { style: { marginTop: "16px" }, children: [
+                option.conditional.label && /* @__PURE__ */ jsx34(Label, { htmlFor: option.conditional.id, children: option.conditional.label }),
+                /* @__PURE__ */ jsx34(Input, { ...option.conditional })
+              ] }) : option.conditional
+            }
+          )
+        ] }, option.value);
+      })
+    }
+  ) });
+}
+
+// src/components/Radios/Radios.tsx
+var Radios = ({ value, defaultValue, onChange, onBlur, onFocus, ...rest }) => {
+  const [selectedValue, setSelectedValue] = useState12(value || defaultValue || "");
+  const itemsRef = useRef6([]);
+  const lastValueRef = useRef6(selectedValue);
+  const handleChange = (event) => {
+    const newValue = event.target.value;
+    if (newValue === lastValueRef.current) return;
+    lastValueRef.current = newValue;
+    setSelectedValue(newValue);
+    onChange == null ? void 0 : onChange(event);
+  };
+  const handleFocus = (event) => {
+    onFocus == null ? void 0 : onFocus(event);
+  };
+  const handleKeyDown = useCallback9((event) => {
+    const { key } = event;
+    if (!["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].includes(key)) return;
+    event.preventDefault();
+    const enabledRadios = itemsRef.current.filter((r2) => r2 && !r2.disabled);
+    const current = enabledRadios.indexOf(event.currentTarget);
+    if (current === -1) return;
+    let nextIndex = current;
+    if (["ArrowDown", "ArrowRight"].includes(key)) nextIndex = (current + 1) % enabledRadios.length;
+    else if (["ArrowUp", "ArrowLeft"].includes(key)) nextIndex = (current - 1 + enabledRadios.length) % enabledRadios.length;
+    const nextRadio = enabledRadios[nextIndex];
+    if (nextRadio) {
+      nextRadio.focus();
+      if (!nextRadio.checked) nextRadio.click();
+    }
+  }, []);
+  return renderRadiosMarkup(
+    { value, defaultValue, onChange, onBlur, onFocus, ...rest },
+    {
+      variant: "client",
+      selectedValue,
+      enableBehaviourAttr: false,
+      handleChange,
+      handleBlur: onBlur,
+      handleFocus,
+      // wrapped to suppress duplicate focus calls
+      handleKeyDown,
+      itemsRef
+    }
+  );
+};
+
+// src/components/Grid/Grid.tsx
+var import_classnames7 = __toESM(require_classnames(), 1);
+import React25 from "react";
+import { jsx as jsx35 } from "react/jsx-runtime";
+var Row = ({
+  children,
+  className,
+  style,
+  ...props
+}) => {
+  const rowClasses = (0, import_classnames7.default)("nhsuk-grid-row", className);
+  return /* @__PURE__ */ jsx35("div", { className: rowClasses, style, ...props, children });
+};
+var Column = ({
+  children,
+  width = "full" /* Full */,
+  mobileWidth,
+  tabletWidth,
+  desktopWidth,
+  start,
+  className,
+  forceWidth = false,
+  style,
+  align,
+  ...props
+}) => {
+  const columnClasses = (0, import_classnames7.default)(
+    {
+      // Standard responsive grid columns
+      [`nhsuk-grid-column-${width}`]: !forceWidth,
+      // Utility classes that force width on all screen sizes
+      [`nhsuk-u-${width}`]: forceWidth,
+      // Responsive width overrides
+      [`nhsuk-u-${mobileWidth}-mobile`]: !!mobileWidth,
+      [`nhsuk-u-${tabletWidth}-tablet`]: !!tabletWidth,
+      [`nhsuk-u-${desktopWidth}-desktop`]: !!desktopWidth,
+      // Grid positioning
+      [`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7,
+      // Alignment
+      "nhsuk-grid-align-left": align === "left" /* Left */,
+      "nhsuk-grid-align-center": align === "center" /* Center */,
+      "nhsuk-grid-align-right": align === "right" /* Right */
+    },
+    className
+  );
+  return /* @__PURE__ */ jsx35("div", { className: columnClasses, style, ...props, children });
+};
+
+// src/components/InsetText/InsetText.tsx
+var import_classnames8 = __toESM(require_classnames(), 1);
+import { jsx as jsx36 } from "react/jsx-runtime";
+var InsetText = ({
+  text,
+  html,
+  children,
+  className,
+  ...rest
+}) => {
+  const insetTextClasses = (0, import_classnames8.default)("nhsuk-inset-text", className);
+  const renderContent = () => {
+    if (children) {
+      return children;
+    }
+    if (html) {
+      return /* @__PURE__ */ jsx36("div", { dangerouslySetInnerHTML: { __html: html } });
+    }
+    if (text) {
+      return /* @__PURE__ */ jsx36("p", { children: text });
+    }
+    return null;
+  };
+  return /* @__PURE__ */ jsx36("div", { className: insetTextClasses, ...rest, children: renderContent() });
+};
+
+// src/components/SummaryList/SummaryList.tsx
+var import_classnames9 = __toESM(require_classnames(), 1);
+import { jsx as jsx37, jsxs as jsxs24 } from "react/jsx-runtime";
+var SummaryList = ({
+  items,
+  noBorder = false,
+  className,
+  ...rest
+}) => {
+  const summaryListClasses = (0, import_classnames9.default)(
+    "nhsuk-summary-list",
+    {
+      "nhsuk-summary-list--no-border": noBorder
+    },
+    className
+  );
+  const renderContent = (content) => {
+    if (content.children) {
+      return content.children;
+    }
+    if (content.html) {
+      return /* @__PURE__ */ jsx37("span", { dangerouslySetInnerHTML: { __html: content.html } });
+    }
+    if (content.text) {
+      return content.text;
+    }
+    return null;
+  };
+  const renderActions = (actions) => {
+    if (!actions || !actions.items.length) {
+      return null;
+    }
+    return /* @__PURE__ */ jsx37("dd", { className: "nhsuk-summary-list__actions", children: /* @__PURE__ */ jsx37("ul", { className: "nhsuk-summary-list__actions-list", children: actions.items.map((action, actionIndex) => /* @__PURE__ */ jsx37(
+      "li",
+      {
+        className: "nhsuk-summary-list__actions-list-item",
+        children: /* @__PURE__ */ jsxs24(
+          "a",
+          {
+            href: action.href,
+            className: "nhsuk-link",
+            ...action.attributes,
+            children: [
+              renderContent(action),
+              action.visuallyHiddenText && /* @__PURE__ */ jsx37("span", { className: "nhsuk-u-visually-hidden", children: action.visuallyHiddenText })
+            ]
+          }
+        )
+      },
+      actionIndex
+    )) }) });
+  };
+  return /* @__PURE__ */ jsx37("div", { className: "nhsuk-summary-list-container", children: /* @__PURE__ */ jsx37("dl", { className: summaryListClasses, ...rest, children: items.map((item, index) => /* @__PURE__ */ jsxs24("div", { className: "nhsuk-summary-list__row", children: [
+    /* @__PURE__ */ jsx37("dt", { className: "nhsuk-summary-list__key", children: renderContent(item.key) }),
+    /* @__PURE__ */ jsx37("dd", { className: "nhsuk-summary-list__value", children: renderContent(item.value) }),
+    renderActions(item.actions)
+  ] }, index)) }) });
+};
+
+// src/components/DataVisualisation/wizard/WizardProgress.tsx
+import { jsx as jsx38, jsxs as jsxs25 } from "react/jsx-runtime";
+var WizardProgress = ({
+  items,
+  currentQuestion,
+  onJumpTo
+}) => {
+  const listItems = items.map((a, i) => ({
+    key: { text: a.question || a.nodeId },
+    value: { text: Array.isArray(a.value) ? a.value.join(", ") : a.value },
+    actions: onJumpTo ? {
+      items: [
+        {
+          href: "#",
+          text: "Change",
+          visuallyHiddenText: a.question || a.nodeId,
+          attributes: {
+            onClick: (e) => {
+              e.preventDefault();
+              onJumpTo(i);
+            }
+          }
+        }
+      ]
+    } : void 0
+  }));
+  return /* @__PURE__ */ jsxs25("aside", { "aria-label": "Progress", style: { position: "relative" }, children: [
+    currentQuestion && /* @__PURE__ */ jsx38("p", { style: { marginTop: 0, marginBottom: 12 }, children: currentQuestion }),
+    items.length > 0 && /* @__PURE__ */ jsx38(SummaryList, { items: listItems })
+  ] });
+};
+var WizardProgress_default = WizardProgress;
+
+// src/components/DataVisualisation/wizard/ReviewAnswers.tsx
+import { jsx as jsx39 } from "react/jsx-runtime";
+var ReviewAnswers = ({ items, onChange }) => {
+  const list = items.map((a, i) => ({
+    key: { text: a.question || a.nodeId },
+    value: { text: Array.isArray(a.value) ? a.value.join(", ") : a.value },
+    actions: onChange ? {
+      items: [
+        {
+          href: "#",
+          text: "Change",
+          visuallyHiddenText: a.question || a.nodeId,
+          attributes: {
+            onClick: (e) => {
+              e.preventDefault();
+              onChange(i);
+            }
+          }
+        }
+      ]
+    } : void 0
+  }));
+  return /* @__PURE__ */ jsx39("div", { children: /* @__PURE__ */ jsx39(SummaryList, { items: list }) });
+};
+var ReviewAnswers_default = ReviewAnswers;
+
+// src/components/DataVisualisation/logic/wizardEngine.ts
+function getWizard(logic, wizardId) {
+  var _a2;
+  const wiz = (_a2 = logic.wizards) == null ? void 0 : _a2[wizardId];
+  if (!wiz) throw new Error(`Wizard '${wizardId}' not found`);
+  return wiz;
+}
+function getNode(wiz, nodeId) {
+  var _a2;
+  const node = (_a2 = wiz.nodes) == null ? void 0 : _a2[nodeId];
+  if (!node) throw new Error(`Node '${nodeId}' not found`);
+  return node;
+}
+function evaluateYesNo(node, answer) {
+  const branch = answer === "yes" ? node.yes : node.no;
+  if (!branch) return {};
+  return { nextId: branch.next, recommend: branch.recommend };
+}
+function evaluateSingleChoice(node, label) {
+  const choice = (node.choices || []).find((c) => c.label === label);
+  if (!choice) return {};
+  return { nextId: choice.next, recommend: choice.recommend };
+}
+function evaluateMultiChoice(node, labels) {
+  const selected = (node.choices || []).filter(
+    (c) => labels.includes(c.label)
+  );
+  if (selected.length === 0) return {};
+  const rec = selected.flatMap(
+    (c) => c.recommend || []
+  );
+  const nextIds = Array.from(
+    new Set(selected.map((c) => c.next).filter(Boolean))
+  );
+  const nextId = nextIds.length === 1 ? nextIds[0] : void 0;
+  const recommend = Array.from(new Set(rec));
+  return { nextId, recommend };
+}
+
+// src/components/DataVisualisation/wizard/DataVizWizard.tsx
+import { Fragment as Fragment3, jsx as jsx40, jsxs as jsxs26 } from "react/jsx-runtime";
+function getWizardRoot(logic, wizardId) {
+  try {
+    return getWizard(logic, wizardId);
+  } catch {
+    return logic.wizards[wizardId];
+  }
+}
+function getNode2(logic, wizardId, nodeId) {
+  try {
+    return getNode(getWizardRoot(logic, wizardId), nodeId);
+  } catch {
+    return logic.wizards[wizardId].nodes[nodeId];
+  }
+}
+function isClient() {
+  return typeof window !== "undefined";
+}
+var DataVizWizard = ({
+  logic,
+  wizardId = "nhs_v1",
+  storageKey = "dv_wizard_state_v1"
+}) => {
+  const wiz = getWizardRoot(logic, wizardId);
+  const rootId = wiz.root;
+  const [path2, setPath] = React26.useState([rootId]);
+  const [answers, setAnswers] = React26.useState([]);
+  const [result, setResult] = React26.useState(null);
+  const [selectedValue, setSelectedValue] = React26.useState("");
+  const [selectedValues, setSelectedValues] = React26.useState([]);
+  React26.useEffect(() => {
+    var _a2;
+    if (!isClient()) return;
+    try {
+      const raw = window.localStorage.getItem(storageKey);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed.path) && Array.isArray(parsed.answers)) {
+          setPath(parsed.path);
+          setAnswers(parsed.answers);
+          setResult((_a2 = parsed.result) != null ? _a2 : null);
+        }
+      }
+    } catch {
+    }
+  }, [storageKey]);
+  React26.useEffect(() => {
+    if (!isClient()) return;
+    window.localStorage.setItem(
+      storageKey,
+      JSON.stringify({ path: path2, answers, result })
+    );
+  }, [path2, answers, result, storageKey]);
+  const currentId = path2[path2.length - 1];
+  const node = getNode2(logic, wizardId, currentId);
+  React26.useEffect(() => {
+    const prev = answers.find((a) => a.nodeId === currentId);
+    if (prev) {
+      if (Array.isArray(prev.value)) {
+        setSelectedValues(prev.value);
+        setSelectedValue("");
+      } else {
+        setSelectedValue(prev.value);
+        setSelectedValues([]);
+      }
+    } else {
+      setSelectedValue("");
+      setSelectedValues([]);
+    }
+  }, [currentId]);
+  React26.useEffect(() => {
+    if (!isClient()) return;
+    const state = { path: path2, answers, result };
+    try {
+      window.history.replaceState(state, "");
+    } catch {
+    }
+    const onPop = (e) => {
+      var _a2;
+      const st = e.state || {};
+      if (st && Array.isArray(st.path) && Array.isArray(st.answers)) {
+        setPath(st.path);
+        setAnswers(st.answers);
+        setResult((_a2 = st.result) != null ? _a2 : null);
+      }
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+  const shapeContextHelp = React26.useMemo(() => {
+    var _a2, _b2, _c;
+    if (currentId !== "components_shape") return null;
+    const prevVal = (_a2 = answers.find((a) => a.nodeId === "components_root")) == null ? void 0 : _a2.value;
+    const prevComponent = Array.isArray(prevVal) ? prevVal[0] || null : prevVal || null;
+    if (!prevComponent) return null;
+    const labelBase = prevComponent.replace(/\s*\(.*\)$/, "").trim().toLowerCase();
+    const comps = (_c = (_b2 = logic == null ? void 0 : logic.models) == null ? void 0 : _b2.abela) == null ? void 0 : _c.components;
+    if (!Array.isArray(comps)) return null;
+    let comp = comps.find(
+      (c) => (c.label || "").toLowerCase().replace(/\s*\(.*\)$/, "").trim() === labelBase
+    );
+    if (!comp && labelBase.includes("resources")) {
+      comp = comps.find((c) => c.id === "resources");
+    }
+    if (!comp) return null;
+    const shapeNames = {
+      time_series: "Time series",
+      categories: "Categories",
+      hierarchy: "Hierarchy",
+      matrix: "Matrix",
+      spatial: "Spatial",
+      distribution: "Distribution"
+    };
+    const shapes = (comp.maps_to_data_shapes || []).map((s) => shapeNames[s] || s).filter(Boolean);
+    if (shapes.length === 0 && !comp.notes) return null;
+    return /* @__PURE__ */ jsxs26(InsetText, { children: [
+      /* @__PURE__ */ jsxs26("div", { children: [
+        /* @__PURE__ */ jsx40("strong", { children: prevComponent }),
+        ": common data shapes"
+      ] }),
+      shapes.length > 0 && /* @__PURE__ */ jsx40("ul", { style: { marginTop: 8 }, children: shapes.map((s) => /* @__PURE__ */ jsx40("li", { children: s }, s)) }),
+      comp.notes && /* @__PURE__ */ jsx40("p", { style: { marginTop: 8 }, children: comp.notes })
+    ] });
+  }, [answers, currentId, logic]);
+  const pushHistoryState = (nextPath, nextAnswers, nextResult) => {
+    if (!isClient()) return;
+    const state = { path: nextPath, answers: nextAnswers, result: nextResult };
+    try {
+      window.history.pushState(state, "");
+    } catch {
+    }
+  };
+  const goBack = () => {
+    if (result) {
+      setResult(null);
+      setAnswers((a) => a.length > 0 ? a.slice(0, -1) : a);
+      return;
+    }
+    if (isClient()) {
+      window.history.back();
+    } else {
+      setPath((p) => p.length > 1 ? p.slice(0, -1) : p);
+      setAnswers((a) => a.length > 0 ? a.slice(0, -1) : a);
+    }
+  };
+  const reset = () => {
+    setPath([rootId]);
+    setAnswers([]);
+    setResult(null);
+    setSelectedValue("");
+    setSelectedValues([]);
+    if (isClient()) {
+      const state = { path: [rootId], answers: [], result: null };
+      try {
+        window.history.pushState(state, "");
+      } catch {
+      }
+    }
+  };
+  const renderEnd = (recommend) => /* @__PURE__ */ jsxs26(Fragment3, { children: [
+    /* @__PURE__ */ jsx40(Heading, { level: 2, children: "Recommended charts" }),
+    /* @__PURE__ */ jsx40(Panel, { children: /* @__PURE__ */ jsx40("ul", { children: recommend.map((r2) => /* @__PURE__ */ jsx40("li", { children: /* @__PURE__ */ jsx40("code", { children: r2 }) }, r2)) }) }),
+    /* @__PURE__ */ jsx40(Heading, { level: 3, children: "Your answers" }),
+    /* @__PURE__ */ jsx40(
+      ReviewAnswers_default,
+      {
+        items: answers,
+        onChange: (i) => {
+          setResult(null);
+          setPath((p) => p.slice(0, i + 1));
+          setAnswers((a) => a.slice(0, i));
+        }
+      }
+    ),
+    /* @__PURE__ */ jsx40(Row, { children: /* @__PURE__ */ jsxs26(Column, { width: "one-half" /* OneHalf */, children: [
+      /* @__PURE__ */ jsx40(Button_default, { onClick: goBack, variant: "secondary", children: "Back" }),
+      /* @__PURE__ */ jsx40(Button_default, { onClick: reset, style: { marginLeft: "1em" }, children: "Start again" })
+    ] }) })
+  ] });
+  let content = null;
+  if ((node == null ? void 0 : node.type) === "end" && !result) {
+    content = renderEnd(node.recommend || []);
+  } else if (result) {
+    content = renderEnd(result);
+  } else if (!node) {
+    content = /* @__PURE__ */ jsxs26(InsetText, { children: [
+      "Unknown node: ",
+      currentId
+    ] });
+  } else if (node.type === "single_choice" || node.type === "choice") {
+    const options = node.choices;
+    const multiple = node.type === "choice" ? node.mode === "multiple" : !!node.multiple;
+    content = /* @__PURE__ */ jsxs26(Row, { children: [
+      /* @__PURE__ */ jsxs26(Column, { width: "one-half" /* OneHalf */, children: [
+        /* @__PURE__ */ jsxs26(Heading, { level: 2, children: [
+          answers.length + 1,
+          ". ",
+          node.question
+        ] }),
+        node.help && /* @__PURE__ */ jsx40(InsetText, { children: node.help }),
+        shapeContextHelp,
+        multiple ? /* @__PURE__ */ jsx40(
+          Checkboxes,
+          {
+            name: currentId,
+            items: options.map((o) => ({ value: o.label, text: o.label })),
+            onChange: (vals) => setSelectedValues(vals)
+          },
+          currentId
+        ) : /* @__PURE__ */ jsx40(
+          Radios,
+          {
+            name: currentId,
+            options: options.map((o) => ({
+              label: o.label,
+              value: o.label,
+              text: o.label
+            })),
+            style: { marginBottom: "1.5em" },
+            onChange: (event) => setSelectedValue(event.target.value)
+          },
+          currentId
+        ),
+        /* @__PURE__ */ jsxs26(Row, { children: [
+          /* @__PURE__ */ jsx40(Column, { width: "one-half" /* OneHalf */, children: path2.length > 1 && /* @__PURE__ */ jsx40(Button_default, { onClick: goBack, variant: "secondary", children: "Back" }) }),
+          /* @__PURE__ */ jsx40(Column, { width: "one-half" /* OneHalf */, children: /* @__PURE__ */ jsx40(
+            Button_default,
+            {
+              onClick: () => {
+                if (multiple) {
+                  const res = evaluateMultiChoice(node, selectedValues);
+                  const nextAnswers = [
+                    ...answers,
+                    {
+                      nodeId: currentId,
+                      question: node.question,
+                      value: selectedValues,
+                      recommend: res.recommend
+                    }
+                  ];
+                  if (res.nextId) {
+                    const nextPath = [...path2, res.nextId];
+                    setAnswers(nextAnswers);
+                    setResult(null);
+                    setPath(nextPath);
+                    pushHistoryState(nextPath, nextAnswers, null);
+                  } else if (res.recommend && res.recommend.length) {
+                    setAnswers(nextAnswers);
+                    setResult(res.recommend);
+                    pushHistoryState(path2, nextAnswers, res.recommend);
+                  }
+                } else {
+                  const val = selectedValue;
+                  if (!val) return;
+                  const res = evaluateSingleChoice(node, val);
+                  const nextAnswers = [
+                    ...answers,
+                    {
+                      nodeId: currentId,
+                      question: node.question,
+                      value: val,
+                      recommend: res.recommend
+                    }
+                  ];
+                  if (res.nextId) {
+                    const nextPath = [...path2, res.nextId];
+                    setAnswers(nextAnswers);
+                    setResult(null);
+                    setPath(nextPath);
+                    pushHistoryState(nextPath, nextAnswers, null);
+                  } else if (res.recommend && res.recommend.length) {
+                    setAnswers(nextAnswers);
+                    setResult(res.recommend);
+                    pushHistoryState(path2, nextAnswers, res.recommend);
+                  }
+                }
+              },
+              disabled: multiple ? selectedValues.length === 0 : !selectedValue,
+              children: "Next"
+            }
+          ) })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx40(Column, { width: "one-half" /* OneHalf */, children: /* @__PURE__ */ jsx40(
+        WizardProgress_default,
+        {
+          items: answers,
+          onJumpTo: (i) => {
+            setPath((p) => p.slice(0, i + 1));
+            setAnswers((a) => a.slice(0, i));
+          }
+        }
+      ) })
+    ] });
+  } else if (node.type === "yes_no") {
+    content = /* @__PURE__ */ jsxs26(Row, { children: [
+      /* @__PURE__ */ jsxs26(Column, { width: "two-thirds" /* TwoThirds */, children: [
+        /* @__PURE__ */ jsx40(Heading, { level: 2, children: node.question }),
+        /* @__PURE__ */ jsx40(
+          Radios,
+          {
+            name: currentId,
+            options: [
+              { text: "Yes", value: "Yes" },
+              { text: "No", value: "No" }
+            ],
+            onChange: (event) => setSelectedValue(event.target.value)
+          },
+          currentId
+        ),
+        /* @__PURE__ */ jsxs26(Row, { children: [
+          /* @__PURE__ */ jsx40(Column, { width: "one-half" /* OneHalf */, children: /* @__PURE__ */ jsx40(Button_default, { onClick: goBack, variant: "secondary", children: "Back" }) }),
+          /* @__PURE__ */ jsx40(Column, { width: "one-half" /* OneHalf */, align: "right" /* Right */, children: /* @__PURE__ */ jsx40(
+            Button_default,
+            {
+              onClick: () => {
+                const val = selectedValue;
+                if (!val) return;
+                const res = evaluateYesNo(
+                  node,
+                  val.toLowerCase() === "yes" ? "yes" : "no"
+                );
+                const nextAnswers = [
+                  ...answers,
+                  {
+                    nodeId: currentId,
+                    question: node.question,
+                    value: val,
+                    recommend: res.recommend
+                  }
+                ];
+                if (res.nextId) {
+                  const nextPath = [...path2, res.nextId];
+                  setAnswers(nextAnswers);
+                  setResult(null);
+                  setPath(nextPath);
+                  pushHistoryState(nextPath, nextAnswers, null);
+                } else if (res.recommend && res.recommend.length) {
+                  setAnswers(nextAnswers);
+                  setResult(res.recommend);
+                  pushHistoryState(path2, nextAnswers, res.recommend);
+                }
+              },
+              disabled: !selectedValue,
+              children: "Next"
+            }
+          ) })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx40(Column, { width: "one-third" /* OneThird */, children: /* @__PURE__ */ jsx40(
+        WizardProgress_default,
+        {
+          items: answers,
+          currentQuestion: node.question,
+          onJumpTo: (i) => {
+            setPath((p) => p.slice(0, i + 1));
+            setAnswers((a) => a.slice(0, i));
+          }
+        }
+      ) })
+    ] });
+  } else {
+    content = /* @__PURE__ */ jsxs26(InsetText, { children: [
+      "Unsupported node type: ",
+      node.type
+    ] });
+  }
+  return /* @__PURE__ */ jsx40(Fragment3, { children: content });
+};
+var DataVizWizard_default = DataVizWizard;
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import * as React25 from "react";
+import * as React30 from "react";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
-import * as React22 from "react";
+import * as React27 from "react";
 import { createPortal } from "react-dom";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcConstants.ts
@@ -9421,61 +10785,8 @@ function getVariationColorHex(icon) {
   return (_b2 = (_a2 = VARIATION_COLOR_TOKENS[icon]) == null ? void 0 : _a2.hex) != null ? _b2 : VARIATION_COLOR_TOKENS.neither.hex;
 }
 
-// src/mapping/tag.ts
-function mapTagProps(input) {
-  const { color: color2 = "default", noBorder, closable, disabled, className } = input;
-  const classes = [
-    "nhsuk-tag",
-    color2 !== "default" ? `nhsuk-tag--${color2}` : "",
-    noBorder ? "nhsuk-tag--no-border" : "",
-    closable ? "nhsuk-tag--closable" : "",
-    disabled ? "nhsuk-tag--disabled" : "",
-    className || ""
-  ].filter(Boolean).join(" ");
-  return { classes, showClose: !!closable, disabled: !!disabled };
-}
-
-// src/components/Tag/Tag.tsx
-import { jsx as jsx26, jsxs as jsxs17 } from "react/jsx-runtime";
-var Tag = ({
-  text,
-  html,
-  children,
-  color: color2 = "default",
-  noBorder = false,
-  closable = false,
-  onClose,
-  disabled = false,
-  className,
-  ...props
-}) => {
-  const model = mapTagProps({ color: color2, noBorder, closable, disabled, className });
-  const handleClose = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!disabled && onClose) {
-      onClose();
-    }
-  };
-  return /* @__PURE__ */ jsxs17("strong", { className: model.classes, ...props, children: [
-    children ? children : html ? /* @__PURE__ */ jsx26("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
-    closable && /* @__PURE__ */ jsx26(
-      "button",
-      {
-        type: "button",
-        className: "nhsuk-tag__close",
-        onClick: handleClose,
-        disabled,
-        "aria-label": "Remove",
-        title: "Remove",
-        children: "\xD7"
-      }
-    )
-  ] });
-};
-
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
-import { jsx as jsx27, jsxs as jsxs18 } from "react/jsx-runtime";
+import { jsx as jsx41, jsxs as jsxs27 } from "react/jsx-runtime";
 var SPCTooltipOverlay = ({
   engineRows,
   limits,
@@ -9489,10 +10800,10 @@ var SPCTooltipOverlay = ({
   var _a2, _b2, _c, _d, _e, _f;
   const tooltip = useTooltipContext();
   const chart = useChartContext();
-  const [cachedFocus, setCachedFocus] = React22.useState(null);
-  const [hoveringTooltip, setHoveringTooltip] = React22.useState(false);
-  const hideTimeoutRef = React22.useRef(null);
-  React22.useEffect(() => {
+  const [cachedFocus, setCachedFocus] = React27.useState(null);
+  const [hoveringTooltip, setHoveringTooltip] = React27.useState(false);
+  const hideTimeoutRef = React27.useRef(null);
+  React27.useEffect(() => {
     if (!tooltip) return;
     if (tooltip.focused) {
       setCachedFocus(tooltip.focused);
@@ -9516,8 +10827,8 @@ var SPCTooltipOverlay = ({
     };
   }, [tooltip, tooltip == null ? void 0 : tooltip.focused, hoveringTooltip]);
   const focused = tooltip && (tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
-  const [visible, setVisible] = React22.useState(false);
-  React22.useEffect(() => {
+  const [visible, setVisible] = React27.useState(false);
+  React27.useEffect(() => {
     const id = requestAnimationFrame(() => setVisible(true));
     return () => cancelAnimationFrame(id);
   }, [focused == null ? void 0 : focused.index]);
@@ -9577,7 +10888,7 @@ var SPCTooltipOverlay = ({
   if (left < 0) left = Math.max(0, innerWidth - boxWidth);
   const tooltipId = focused ? `spc-tooltip-${focused.index}` : "spc-tooltip";
   const portal = host ? createPortal(
-    /* @__PURE__ */ jsx27(
+    /* @__PURE__ */ jsx41(
       "div",
       {
         id: tooltipId,
@@ -9614,20 +10925,20 @@ var SPCTooltipOverlay = ({
             hideTimeoutRef.current = id;
           }
         },
-        children: /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__body", children: [
-          /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Date" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
+        children: /* @__PURE__ */ jsxs27("div", { className: "fdp-spc-tooltip__body", children: [
+          /* @__PURE__ */ jsxs27("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx41("strong", { children: "Date" }) }),
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
           ] }),
-          /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--value", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Value" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__primary-line", children: valueLabel })
+          /* @__PURE__ */ jsxs27("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--value", children: [
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx41("strong", { children: "Value" }) }),
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__primary-line", children: valueLabel })
           ] }),
-          showBadges && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Signals" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: (() => {
+          showBadges && /* @__PURE__ */ jsxs27("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx41("strong", { children: "Signals" }) }),
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: (() => {
               if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
-                return /* @__PURE__ */ jsx27(
+                return /* @__PURE__ */ jsx41(
                   Tag,
                   {
                     text: variationDesc,
@@ -9637,7 +10948,7 @@ var SPCTooltipOverlay = ({
                 );
               }
               if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
-                return /* @__PURE__ */ jsx27(
+                return /* @__PURE__ */ jsx41(
                   Tag,
                   {
                     text: variationDesc,
@@ -9647,7 +10958,7 @@ var SPCTooltipOverlay = ({
                 );
               }
               if (isNoJudgement) {
-                return /* @__PURE__ */ jsx27(
+                return /* @__PURE__ */ jsx41(
                   Tag,
                   {
                     text: "No judgement",
@@ -9658,7 +10969,7 @@ var SPCTooltipOverlay = ({
                 );
               }
               if (variationDesc) {
-                return /* @__PURE__ */ jsx27(
+                return /* @__PURE__ */ jsx41(
                   Tag,
                   {
                     text: variationDesc,
@@ -9670,13 +10981,13 @@ var SPCTooltipOverlay = ({
               return null;
             })() })
           ] }),
-          assuranceDesc && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Assurance" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: (() => {
+          assuranceDesc && /* @__PURE__ */ jsxs27("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx41("strong", { children: "Assurance" }) }),
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: (() => {
               const lower = assuranceDesc.toLowerCase();
               const isFail = lower.includes("not met") || lower.includes("not achieved");
               const isPass = !isFail && /(^|\b)(met|achieved)(\b|$)/.test(lower);
-              return /* @__PURE__ */ jsx27(
+              return /* @__PURE__ */ jsx41(
                 Tag,
                 {
                   text: assuranceDesc,
@@ -9687,9 +10998,9 @@ var SPCTooltipOverlay = ({
               );
             })() })
           ] }),
-          zone && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Control Limits & Sigma" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: /* @__PURE__ */ jsx27(
+          zone && /* @__PURE__ */ jsxs27("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx41("strong", { children: "Control Limits & Sigma" }) }),
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: /* @__PURE__ */ jsx41(
               Tag,
               {
                 text: (() => {
@@ -9706,13 +11017,13 @@ var SPCTooltipOverlay = ({
               }
             ) })
           ] }),
-          gatingExplanation && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--gating", "data-gating": true, children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Trend gating" }) }),
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__explanation", "aria-live": "off", children: gatingExplanation })
+          gatingExplanation && /* @__PURE__ */ jsxs27("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--gating", "data-gating": true, children: [
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx41("strong", { children: "Trend gating" }) }),
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__explanation", "aria-live": "off", children: gatingExplanation })
           ] }),
-          hasRules && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
-            /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx27("strong", { children: "Special cause" }) }),
-            /* @__PURE__ */ jsx27(
+          hasRules && /* @__PURE__ */ jsxs27("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
+            /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx41("strong", { children: "Special cause" }) }),
+            /* @__PURE__ */ jsx41(
               "div",
               {
                 className: "fdp-spc-tooltip__rule-tags",
@@ -9721,7 +11032,7 @@ var SPCTooltipOverlay = ({
                   const idStr = String(id);
                   const isTrend = idStr === "trend_inc" /* TrendIncreasing */ || idStr === "trend_dec" /* TrendDecreasing */;
                   const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
-                  return /* @__PURE__ */ jsx27(
+                  return /* @__PURE__ */ jsx41(
                     Tag,
                     {
                       text: label,
@@ -9734,12 +11045,12 @@ var SPCTooltipOverlay = ({
                 })
               }
             ),
-            primeDirection && /* @__PURE__ */ jsxs18("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", style: { marginTop: 16 }, children: [
-              /* @__PURE__ */ jsx27("div", { className: "fdp-spc-tooltip__section-label", style: { marginBottom: 6 }, children: /* @__PURE__ */ jsx27("strong", { children: "Prime Direction" }) }),
+            primeDirection && /* @__PURE__ */ jsxs27("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", style: { marginTop: 16 }, children: [
+              /* @__PURE__ */ jsx41("div", { className: "fdp-spc-tooltip__section-label", style: { marginBottom: 6 }, children: /* @__PURE__ */ jsx41("strong", { children: "Prime Direction" }) }),
               (() => {
                 const primeColorClass = isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
                 const primeLabel = `${primeDirection}${primeRuleId ? ` (${primeRuleId})` : ""}`;
-                return /* @__PURE__ */ jsx27(
+                return /* @__PURE__ */ jsx41(
                   Tag,
                   {
                     text: primeLabel,
@@ -9756,14 +11067,14 @@ var SPCTooltipOverlay = ({
     ),
     host
   ) : null;
-  return /* @__PURE__ */ jsxs18(
+  return /* @__PURE__ */ jsxs27(
     "g",
     {
       className: "fdp-tooltip-layer fdp-spc-tooltip",
       pointerEvents: "none",
       "aria-hidden": "true",
       children: [
-        /* @__PURE__ */ jsx27(
+        /* @__PURE__ */ jsx41(
           "circle",
           {
             cx: clampX,
@@ -9774,7 +11085,7 @@ var SPCTooltipOverlay = ({
             strokeWidth: 3
           }
         ),
-        /* @__PURE__ */ jsx27(
+        /* @__PURE__ */ jsx41(
           "circle",
           {
             cx: clampX,
@@ -9785,7 +11096,7 @@ var SPCTooltipOverlay = ({
             strokeWidth: 1.5
           }
         ),
-        /* @__PURE__ */ jsx27(
+        /* @__PURE__ */ jsx41(
           "circle",
           {
             cx: clampX,
@@ -9804,7 +11115,7 @@ var SPCTooltipOverlay = ({
 var SPCTooltipOverlay_default = SPCTooltipOverlay;
 
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
-import { useId as useId6, useMemo as useMemo12 } from "react";
+import { useId as useId6, useMemo as useMemo13 } from "react";
 
 // src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts
 var spcTokenRoot = null;
@@ -9985,7 +11296,7 @@ var SpcEmbeddedIconVariant = /* @__PURE__ */ ((SpcEmbeddedIconVariant2) => {
 var SPCChart_constants_default = SpcGradientCategory;
 
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
-import { Fragment as Fragment3, jsx as jsx28, jsxs as jsxs19 } from "react/jsx-runtime";
+import { Fragment as Fragment4, jsx as jsx42, jsxs as jsxs28 } from "react/jsx-runtime";
 var resolveStateAndLayout = (input) => {
   var _a2, _b2;
   const emitDeprecation = () => {
@@ -10118,15 +11429,15 @@ function deriveVariationAriaDescription(input, context) {
   ];
   return parts.filter(Boolean).join(" ");
 }
-var buildDefs = (colourHex, shadowId, washId, dropShadow, gradientWash, stops) => /* @__PURE__ */ jsxs19("defs", { children: [
-  dropShadow && /* @__PURE__ */ jsxs19("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-    /* @__PURE__ */ jsx28("feGaussianBlur", { stdDeviation: "3" }),
-    /* @__PURE__ */ jsx28("feOffset", { dx: "0", dy: "15", result: "blur" }),
-    /* @__PURE__ */ jsx28("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
-    /* @__PURE__ */ jsx28("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-    /* @__PURE__ */ jsx28("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+var buildDefs = (colourHex, shadowId, washId, dropShadow, gradientWash, stops) => /* @__PURE__ */ jsxs28("defs", { children: [
+  dropShadow && /* @__PURE__ */ jsxs28("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+    /* @__PURE__ */ jsx42("feGaussianBlur", { stdDeviation: "3" }),
+    /* @__PURE__ */ jsx42("feOffset", { dx: "0", dy: "15", result: "blur" }),
+    /* @__PURE__ */ jsx42("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
+    /* @__PURE__ */ jsx42("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+    /* @__PURE__ */ jsx42("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
   ] }),
-  gradientWash && /* @__PURE__ */ jsx28("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: stops.map((s) => /* @__PURE__ */ jsx28(
+  gradientWash && /* @__PURE__ */ jsx42("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: stops.map((s) => /* @__PURE__ */ jsx42(
     "stop",
     {
       offset: s.offset,
@@ -10160,12 +11471,12 @@ var SPCVariationIcon = ({
     triMid: triGradMid,
     triEnd: triGradEnd
   } = getGradientOpacities();
-  const { state, direction, polarity } = useMemo12(
+  const { state, direction, polarity } = useMemo13(
     () => resolveStateAndLayout(data),
     [data]
   );
-  const colour = useMemo12(() => getVariationColour(state), [state]);
-  const judgement = useMemo12(() => getVariationTrend(state), [state]);
+  const colour = useMemo13(() => getVariationColour(state), [state]);
+  const judgement = useMemo13(() => getVariationTrend(state), [state]);
   const showLetterForJudgement = judgement === "improving" /* Improving */ || judgement === "deteriorating" /* Deteriorating */;
   let letter = "";
   if (showLetter && showLetterForJudgement) {
@@ -10182,7 +11493,7 @@ var SPCVariationIcon = ({
   const isNoJudgement = state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
   const neutralGrey = tokenColour("common-cause", "#A6A6A6");
   const pointColour = isSpecial ? colour.hex : neutralGrey;
-  const points = useMemo12(
+  const points = useMemo13(
     () => computePointPositions(state, direction),
     [state, direction]
   );
@@ -10206,7 +11517,7 @@ var SPCVariationIcon = ({
     ];
     let shape = null;
     if (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
-      shape = /* @__PURE__ */ jsx28(
+      shape = /* @__PURE__ */ jsx42(
         "polygon",
         {
           points: (direction === "higher" /* Higher */ ? upTriangle : downTriangle).map((p) => p.join(",")).join(" "),
@@ -10217,7 +11528,7 @@ var SPCVariationIcon = ({
         }
       );
     } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
-      shape = /* @__PURE__ */ jsx28(
+      shape = /* @__PURE__ */ jsx42(
         "polygon",
         {
           points: direction === "higher" /* Higher */ ? upTriangle.map((p) => p.join(",")).join(" ") : downTriangle.map((p) => p.join(",")).join(" "),
@@ -10237,7 +11548,7 @@ var SPCVariationIcon = ({
     const runCircles = Array.from({ length: 5 }).map((_, i) => {
       const filled = (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && i >= 5 - runLen;
       const fill = filled ? runColor : neutralGrey;
-      return /* @__PURE__ */ jsx28(
+      return /* @__PURE__ */ jsx42(
         "circle",
         {
           cx: runStartX + i * runGap,
@@ -10263,7 +11574,7 @@ var SPCVariationIcon = ({
       ]
     );
     const groupTransform = state === "common_cause" /* CommonCause */ ? "translate(0,-10)" : direction === "higher" /* Higher */ ? "translate(0,-10)" : "translate(0,25)";
-    return /* @__PURE__ */ jsxs19(
+    return /* @__PURE__ */ jsxs28(
       "svg",
       {
         width: size,
@@ -10275,7 +11586,7 @@ var SPCVariationIcon = ({
         ...rest,
         children: [
           defs2,
-          /* @__PURE__ */ jsx28(
+          /* @__PURE__ */ jsx42(
             "circle",
             {
               stroke: "none",
@@ -10286,7 +11597,7 @@ var SPCVariationIcon = ({
               r: "120"
             }
           ),
-          /* @__PURE__ */ jsx28(
+          /* @__PURE__ */ jsx42(
             "circle",
             {
               stroke: colour.hex,
@@ -10298,9 +11609,9 @@ var SPCVariationIcon = ({
               r: "120"
             }
           ),
-          /* @__PURE__ */ jsxs19("g", { transform: groupTransform, children: [
+          /* @__PURE__ */ jsxs28("g", { transform: groupTransform, children: [
             shape,
-            letter && /* @__PURE__ */ jsx28(
+            letter && /* @__PURE__ */ jsx42(
               "text",
               {
                 fill: "#fff",
@@ -10340,7 +11651,7 @@ var SPCVariationIcon = ({
     ];
     let shape = null;
     if (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
-      shape = /* @__PURE__ */ jsx28(
+      shape = /* @__PURE__ */ jsx42(
         "polygon",
         {
           points: (direction === "higher" /* Higher */ ? upTriangle : downTriangle).map((p) => p.join(",")).join(" "),
@@ -10351,7 +11662,7 @@ var SPCVariationIcon = ({
         }
       );
     } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
-      shape = /* @__PURE__ */ jsx28(
+      shape = /* @__PURE__ */ jsx42(
         "polygon",
         {
           points: direction === "higher" /* Higher */ ? upTriangle.map((p) => p.join(",")).join(" ") : downTriangle.map((p) => p.join(",")).join(" "),
@@ -10362,7 +11673,7 @@ var SPCVariationIcon = ({
         }
       );
     } else if (state === "common_cause" /* CommonCause */) {
-      shape = /* @__PURE__ */ jsx28(
+      shape = /* @__PURE__ */ jsx42(
         "line",
         {
           x1: flatLine[0][0],
@@ -10388,7 +11699,7 @@ var SPCVariationIcon = ({
         { offset: "100%", opacity: triGradEnd }
       ]
     );
-    return /* @__PURE__ */ jsxs19(
+    return /* @__PURE__ */ jsxs28(
       "svg",
       {
         width: size,
@@ -10400,7 +11711,7 @@ var SPCVariationIcon = ({
         ...rest,
         children: [
           defs2,
-          /* @__PURE__ */ jsx28(
+          /* @__PURE__ */ jsx42(
             "circle",
             {
               stroke: "none",
@@ -10411,7 +11722,7 @@ var SPCVariationIcon = ({
               r: "120"
             }
           ),
-          /* @__PURE__ */ jsx28(
+          /* @__PURE__ */ jsx42(
             "circle",
             {
               stroke: colour.hex,
@@ -10424,7 +11735,7 @@ var SPCVariationIcon = ({
             }
           ),
           shape,
-          letter && (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && /* @__PURE__ */ jsx28(
+          letter && (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && /* @__PURE__ */ jsx42(
             "text",
             {
               fill: "#fff",
@@ -10454,7 +11765,7 @@ var SPCVariationIcon = ({
       { offset: "100%", opacity: gradEnd }
     ]
   );
-  return /* @__PURE__ */ jsxs19(
+  return /* @__PURE__ */ jsxs28(
     "svg",
     {
       width: size,
@@ -10466,7 +11777,7 @@ var SPCVariationIcon = ({
       ...rest,
       children: [
         defs,
-        /* @__PURE__ */ jsx28(
+        /* @__PURE__ */ jsx42(
           "circle",
           {
             stroke: "none",
@@ -10477,7 +11788,7 @@ var SPCVariationIcon = ({
             r: "120"
           }
         ),
-        /* @__PURE__ */ jsx28(
+        /* @__PURE__ */ jsx42(
           "circle",
           {
             stroke: colour.hex,
@@ -10489,7 +11800,7 @@ var SPCVariationIcon = ({
             r: "120"
           }
         ),
-        letter && /* @__PURE__ */ jsx28(
+        letter && /* @__PURE__ */ jsx42(
           "text",
           {
             fill: colour.hex,
@@ -10498,10 +11809,10 @@ var SPCVariationIcon = ({
             fontSize: 176,
             transform: "translate(86.67, 54) scale(0.5, 0.5)",
             textAnchor: "end",
-            children: /* @__PURE__ */ jsx28("tspan", { x: "120", y: direction === "lower" /* Lower */ ? "340" : "155", children: letter })
+            children: /* @__PURE__ */ jsx42("tspan", { x: "120", y: direction === "lower" /* Lower */ ? "340" : "155", children: letter })
           }
         ),
-        isNoJudgement ? /* @__PURE__ */ jsx28(
+        isNoJudgement ? /* @__PURE__ */ jsx42(
           "path",
           {
             "aria-hidden": "true",
@@ -10511,8 +11822,8 @@ var SPCVariationIcon = ({
             ...direction === "lower" /* Lower */ ? { transform: "rotate(90 150 150)" } : { transform: "translate(-5 0) rotate(0 150 150)" },
             d: "M 90.26,185.42 L 149.31,126.37 127.44,104.51 209.81,90.66 195.96,173.02 174.09,151.16 115.05,210.2 90.26,185.42 Z M 90.26,185.42"
           }
-        ) : /* @__PURE__ */ jsxs19(Fragment3, { children: [
-          points.length === 5 && /* @__PURE__ */ jsx28(
+        ) : /* @__PURE__ */ jsxs28(Fragment4, { children: [
+          points.length === 5 && /* @__PURE__ */ jsx42(
             "path",
             {
               "aria-hidden": "true",
@@ -10529,7 +11840,7 @@ var SPCVariationIcon = ({
             const specialIdx = i >= points.length - 2 && isSpecial;
             const fill = specialIdx ? pointColour : neutralGrey;
             const stroke = fill;
-            return /* @__PURE__ */ jsx28(
+            return /* @__PURE__ */ jsx42(
               "circle",
               {
                 stroke,
@@ -10552,7 +11863,7 @@ SPCVariationIcon.displayName = "SPCVariationIcon";
 
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCAssuranceIcon.tsx
 import { useId as useId7 } from "react";
-import { Fragment as Fragment4, jsx as jsx29, jsxs as jsxs20 } from "react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx43, jsxs as jsxs29 } from "react/jsx-runtime";
 var SPCAssuranceIcon = ({
   status,
   size = 44,
@@ -10570,7 +11881,7 @@ var SPCAssuranceIcon = ({
   const colour = colourOverride || DEFAULT_COLOURS[status];
   const letter = (letterOverride || DEFAULT_LETTERS[status]).slice(0, 2);
   const aria = ariaLabel || `Assurance ${status}`;
-  return /* @__PURE__ */ jsxs20(
+  return /* @__PURE__ */ jsxs29(
     "svg",
     {
       width: size,
@@ -10580,21 +11891,21 @@ var SPCAssuranceIcon = ({
       "aria-label": aria,
       ...rest,
       children: [
-        /* @__PURE__ */ jsxs20("defs", { children: [
-          dropShadow && /* @__PURE__ */ jsxs20("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-            /* @__PURE__ */ jsx29("feGaussianBlur", { stdDeviation: "3" }),
-            /* @__PURE__ */ jsx29("feOffset", { dx: "-1", dy: "15", result: "blur" }),
-            /* @__PURE__ */ jsx29("feFlood", { floodColor: "rgb(166,166,166)", floodOpacity: "1" }),
-            /* @__PURE__ */ jsx29("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-            /* @__PURE__ */ jsx29("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+        /* @__PURE__ */ jsxs29("defs", { children: [
+          dropShadow && /* @__PURE__ */ jsxs29("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+            /* @__PURE__ */ jsx43("feGaussianBlur", { stdDeviation: "3" }),
+            /* @__PURE__ */ jsx43("feOffset", { dx: "-1", dy: "15", result: "blur" }),
+            /* @__PURE__ */ jsx43("feFlood", { floodColor: "rgb(166,166,166)", floodOpacity: "1" }),
+            /* @__PURE__ */ jsx43("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+            /* @__PURE__ */ jsx43("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
           ] }),
-          gradientWash && /* @__PURE__ */ jsxs20("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
-            /* @__PURE__ */ jsx29("stop", { offset: "0%", stopColor: colour, stopOpacity: parseFloat(gradStart) }),
-            /* @__PURE__ */ jsx29("stop", { offset: "65%", stopColor: colour, stopOpacity: parseFloat(gradMid) }),
-            /* @__PURE__ */ jsx29("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(gradEnd) })
+          gradientWash && /* @__PURE__ */ jsxs29("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
+            /* @__PURE__ */ jsx43("stop", { offset: "0%", stopColor: colour, stopOpacity: parseFloat(gradStart) }),
+            /* @__PURE__ */ jsx43("stop", { offset: "65%", stopColor: colour, stopOpacity: parseFloat(gradMid) }),
+            /* @__PURE__ */ jsx43("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(gradEnd) })
           ] })
         ] }),
-        /* @__PURE__ */ jsx29(
+        /* @__PURE__ */ jsx43(
           "circle",
           {
             stroke: "none",
@@ -10605,7 +11916,7 @@ var SPCAssuranceIcon = ({
             r: "120"
           }
         ),
-        /* @__PURE__ */ jsx29(
+        /* @__PURE__ */ jsx43(
           "text",
           {
             fill: colour,
@@ -10616,11 +11927,11 @@ var SPCAssuranceIcon = ({
             y: 0,
             transform: "translate(121.01, 32) scale(0.5, 0.5)",
             textAnchor: "middle",
-            children: /* @__PURE__ */ jsx29("tspan", { x: 60, y: 184, children: letter })
+            children: /* @__PURE__ */ jsx43("tspan", { x: 60, y: 184, children: letter })
           }
         ),
-        showTrendLines && /* @__PURE__ */ jsxs20(Fragment4, { children: [
-          status === "fail" /* Fail */ ? /* @__PURE__ */ jsx29(
+        showTrendLines && /* @__PURE__ */ jsxs29(Fragment5, { children: [
+          status === "fail" /* Fail */ ? /* @__PURE__ */ jsx43(
             "path",
             {
               id: "fail-line",
@@ -10632,7 +11943,7 @@ var SPCAssuranceIcon = ({
               fill: "none",
               d: "M 33,143 L 268,143"
             }
-          ) : status === "uncertain" /* Uncertain */ ? /* @__PURE__ */ jsx29(
+          ) : status === "uncertain" /* Uncertain */ ? /* @__PURE__ */ jsx43(
             "path",
             {
               id: "uncertain-line",
@@ -10644,7 +11955,7 @@ var SPCAssuranceIcon = ({
               fill: "none",
               d: "M 36,174 L 266,174"
             }
-          ) : /* @__PURE__ */ jsx29(
+          ) : /* @__PURE__ */ jsx43(
             "path",
             {
               id: "pass-line",
@@ -10657,7 +11968,7 @@ var SPCAssuranceIcon = ({
               d: "M 48,204 L 254,204"
             }
           ),
-          /* @__PURE__ */ jsx29(
+          /* @__PURE__ */ jsx43(
             "path",
             {
               id: "data-sparkline",
@@ -10668,7 +11979,7 @@ var SPCAssuranceIcon = ({
               d: "M 59.9,187.91 C 72.79,171.72 87.33,158.06 104.4,157.83 121.91,158.58 140.94,187.85 153.4,189.91 164.1,192.12 163.78,171.38 169.17,170.53 172.87,169.55 174.88,187.45 184.94,189.24 197,191.86 230.54,184.47 239.01,185.9"
             }
           ),
-          /* @__PURE__ */ jsx29(
+          /* @__PURE__ */ jsx43(
             "circle",
             {
               stroke: colour,
@@ -11961,8 +13272,8 @@ function buildSpcSqlCompat(args) {
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCSignalsInspector.tsx
-import * as React24 from "react";
-import { jsx as jsx30, jsxs as jsxs21 } from "react/jsx-runtime";
+import * as React29 from "react";
+import { jsx as jsx44, jsxs as jsxs30 } from "react/jsx-runtime";
 var SPCSignalsInspector = ({
   engineRows,
   measureName,
@@ -11974,8 +13285,8 @@ var SPCSignalsInspector = ({
   const focused = (_a2 = t == null ? void 0 : t.focused) != null ? _a2 : null;
   const index = (_b2 = focused == null ? void 0 : focused.index) != null ? _b2 : null;
   const row = typeof index === "number" && engineRows ? engineRows[index] : null;
-  const rules = React24.useMemo(() => row ? extractRuleIds(row) : [], [row]);
-  const uniqueRuleNarr = React24.useMemo(
+  const rules = React29.useMemo(() => row ? extractRuleIds(row) : [], [row]);
+  const uniqueRuleNarr = React29.useMemo(
     () => Array.from(
       new Set(rules.map((r2) => {
         var _a3;
@@ -11988,8 +13299,8 @@ var SPCSignalsInspector = ({
   const assuranceDesc = row ? assuranceLabel(row.assuranceIcon) : null;
   const hasRules = rules.length > 0;
   const isNoJudgement = row ? row.variationIcon === "neither" /* Neither */ && hasRules : false;
-  const lastKeyRef = React24.useRef(null);
-  React24.useEffect(() => {
+  const lastKeyRef = React29.useRef(null);
+  React29.useEffect(() => {
     if (!onSignalFocus) return;
     if (!focused || row == null) return;
     const key = `${focused.seriesId}:${focused.index}`;
@@ -12006,7 +13317,7 @@ var SPCSignalsInspector = ({
     } catch {
     }
   }, [focused == null ? void 0 : focused.seriesId, focused == null ? void 0 : focused.index, focused == null ? void 0 : focused.x, focused == null ? void 0 : focused.y, row, rules, onSignalFocus]);
-  return /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsxs30(
     "div",
     {
       className: "fdp-spc-inspector",
@@ -12014,7 +13325,7 @@ var SPCSignalsInspector = ({
       "aria-label": "Signals inspector",
       "data-testid": "spc-signals-inspector",
       children: [
-        /* @__PURE__ */ jsxs21(
+        /* @__PURE__ */ jsxs30(
           "div",
           {
             className: "fdp-spc-inspector__header",
@@ -12024,9 +13335,9 @@ var SPCSignalsInspector = ({
               justifyContent: "space-between"
             },
             children: [
-              /* @__PURE__ */ jsx30("strong", { children: "Signals inspector" }),
-              /* @__PURE__ */ jsx30("div", { className: "fdp-spc-inspector__nav", "aria-hidden": !t, children: t && /* @__PURE__ */ jsxs21("div", { style: { display: "flex", gap: 8 }, children: [
-                /* @__PURE__ */ jsx30(
+              /* @__PURE__ */ jsx44("strong", { children: "Signals inspector" }),
+              /* @__PURE__ */ jsx44("div", { className: "fdp-spc-inspector__nav", "aria-hidden": !t, children: t && /* @__PURE__ */ jsxs30("div", { style: { display: "flex", gap: 8 }, children: [
+                /* @__PURE__ */ jsx44(
                   "button",
                   {
                     type: "button",
@@ -12039,7 +13350,7 @@ var SPCSignalsInspector = ({
                     children: "\u25C0"
                   }
                 ),
-                /* @__PURE__ */ jsx30(
+                /* @__PURE__ */ jsx44(
                   "button",
                   {
                     type: "button",
@@ -12056,20 +13367,20 @@ var SPCSignalsInspector = ({
             ]
           }
         ),
-        !row || !focused ? /* @__PURE__ */ jsx30("p", { className: "fdp-spc-inspector__empty", children: "No point selected." }) : /* @__PURE__ */ jsxs21("div", { className: "fdp-spc-inspector__body", children: [
-          /* @__PURE__ */ jsxs21(
+        !row || !focused ? /* @__PURE__ */ jsx44("p", { className: "fdp-spc-inspector__empty", children: "No point selected." }) : /* @__PURE__ */ jsxs30("div", { className: "fdp-spc-inspector__body", children: [
+          /* @__PURE__ */ jsxs30(
             "div",
             {
               className: "fdp-spc-inspector__summary",
               style: { display: "flex", gap: 16, flexWrap: "wrap" },
               children: [
-                /* @__PURE__ */ jsxs21("span", { children: [
-                  /* @__PURE__ */ jsx30("strong", { children: "Point:" }),
+                /* @__PURE__ */ jsxs30("span", { children: [
+                  /* @__PURE__ */ jsx44("strong", { children: "Point:" }),
                   " ",
                   focused.index + 1
                 ] }),
-                /* @__PURE__ */ jsxs21("span", { children: [
-                  /* @__PURE__ */ jsx30("strong", { children: "Value:" }),
+                /* @__PURE__ */ jsxs30("span", { children: [
+                  /* @__PURE__ */ jsx44("strong", { children: "Value:" }),
                   " ",
                   focused.y,
                   measureUnit ? ` ${measureUnit}` : "",
@@ -12078,12 +13389,12 @@ var SPCSignalsInspector = ({
               ]
             }
           ),
-          (variationDesc || isNoJudgement || assuranceDesc) && /* @__PURE__ */ jsx30(
+          (variationDesc || isNoJudgement || assuranceDesc) && /* @__PURE__ */ jsx44(
             "div",
             {
               className: "fdp-spc-inspector__signals",
               style: { marginTop: 8 },
-              children: /* @__PURE__ */ jsxs21(
+              children: /* @__PURE__ */ jsxs30(
                 "div",
                 {
                   style: {
@@ -12095,7 +13406,7 @@ var SPCSignalsInspector = ({
                   children: [
                     (() => {
                       if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
-                        return /* @__PURE__ */ jsx30(
+                        return /* @__PURE__ */ jsx44(
                           Tag,
                           {
                             text: variationDesc,
@@ -12105,7 +13416,7 @@ var SPCSignalsInspector = ({
                         );
                       }
                       if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
-                        return /* @__PURE__ */ jsx30(
+                        return /* @__PURE__ */ jsx44(
                           Tag,
                           {
                             text: variationDesc,
@@ -12115,7 +13426,7 @@ var SPCSignalsInspector = ({
                         );
                       }
                       if (isNoJudgement) {
-                        return /* @__PURE__ */ jsx30(
+                        return /* @__PURE__ */ jsx44(
                           Tag,
                           {
                             text: "No judgement",
@@ -12126,7 +13437,7 @@ var SPCSignalsInspector = ({
                         );
                       }
                       if (variationDesc) {
-                        return /* @__PURE__ */ jsx30(
+                        return /* @__PURE__ */ jsx44(
                           Tag,
                           {
                             text: variationDesc,
@@ -12141,7 +13452,7 @@ var SPCSignalsInspector = ({
                       const lower = assuranceDesc.toLowerCase();
                       const isFail = lower.includes("not met") || lower.includes("not achieved");
                       const isPass = !isFail && /^|\b(met|achieved)\b|$/.test(lower);
-                      return /* @__PURE__ */ jsx30(
+                      return /* @__PURE__ */ jsx44(
                         Tag,
                         {
                           text: assuranceDesc,
@@ -12156,9 +13467,9 @@ var SPCSignalsInspector = ({
               )
             }
           ),
-          /* @__PURE__ */ jsxs21("div", { className: "fdp-spc-inspector__rules", style: { marginTop: 8 }, children: [
-            /* @__PURE__ */ jsx30("strong", { children: "Special cause:" }),
-            /* @__PURE__ */ jsx30(
+          /* @__PURE__ */ jsxs30("div", { className: "fdp-spc-inspector__rules", style: { marginTop: 8 }, children: [
+            /* @__PURE__ */ jsx44("strong", { children: "Special cause:" }),
+            /* @__PURE__ */ jsx44(
               "div",
               {
                 className: "fdp-spc-tooltip__rule-tags",
@@ -12169,13 +13480,13 @@ var SPCSignalsInspector = ({
                   flexWrap: "wrap",
                   marginTop: 4
                 },
-                children: rules.length === 0 ? /* @__PURE__ */ jsx30("span", { children: " None" }) : rules.map((r2) => {
+                children: rules.length === 0 ? /* @__PURE__ */ jsx44("span", { children: " None" }) : rules.map((r2) => {
                   var _a3, _b3;
                   const idStr = String(r2);
                   const isTrend = idStr === "trend_inc" /* TrendIncreasing */ || idStr === "trend_dec" /* TrendDecreasing */;
                   const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
                   const label = ((_a3 = ruleGlossary[r2]) == null ? void 0 : _a3.tooltip) || idStr;
-                  return /* @__PURE__ */ jsx30(
+                  return /* @__PURE__ */ jsx44(
                     Tag,
                     {
                       text: label,
@@ -12190,13 +13501,13 @@ var SPCSignalsInspector = ({
               }
             )
           ] }),
-          uniqueRuleNarr.length > 0 && /* @__PURE__ */ jsxs21(
+          uniqueRuleNarr.length > 0 && /* @__PURE__ */ jsxs30(
             "div",
             {
               className: "fdp-spc-inspector__narration",
               style: { marginTop: 8 },
               children: [
-                /* @__PURE__ */ jsx30("strong", { children: "Summary:" }),
+                /* @__PURE__ */ jsx44("strong", { children: "Summary:" }),
                 " ",
                 uniqueRuleNarr.join("; ")
               ]
@@ -12210,7 +13521,7 @@ var SPCSignalsInspector = ({
 var SPCSignalsInspector_default = SPCSignalsInspector;
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import { Fragment as Fragment5, jsx as jsx31, jsxs as jsxs22 } from "react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx45, jsxs as jsxs31 } from "react/jsx-runtime";
 var spcSequenceInstanceCounter = 0;
 var SPCChart = ({
   data,
@@ -12255,14 +13566,14 @@ var SPCChart = ({
   onSignalFocus
 }) => {
   var _a2, _b2, _c, _d, _e, _f, _g, _h;
-  const formatWarningCode = React25.useCallback(
+  const formatWarningCode = React30.useCallback(
     (code) => {
       const raw = String(code);
       return raw.replace(/^spc_warning_code\.?/i, "").replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
     []
   );
-  const formatWarningCategory = React25.useCallback(
+  const formatWarningCategory = React30.useCallback(
     (cat) => {
       return String(cat).replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
@@ -12273,7 +13584,7 @@ var SPCChart = ({
       "SPCChart: 'disableTrendSideGating' prop is deprecated and ignored (trend side gating always enabled)."
     );
   }
-  const engine = React25.useMemo(() => {
+  const engine = React30.useMemo(() => {
     const rowsInput = data.map((d, i) => {
       var _a3, _b3, _c2;
       return {
@@ -12311,7 +13622,7 @@ var SPCChart = ({
   const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r2) => r2.mean != null);
   const mean2 = (_a2 = engineRepresentative == null ? void 0 : engineRepresentative.mean) != null ? _a2 : null;
   const warnings = (engine == null ? void 0 : engine.warnings) || [];
-  const filteredWarnings = React25.useMemo(() => {
+  const filteredWarnings = React30.useMemo(() => {
     if (!warnings.length) return [];
     if (!warningsFilter) return warnings;
     return warnings.filter((w) => {
@@ -12324,9 +13635,9 @@ var SPCChart = ({
       return true;
     });
   }, [warnings, warningsFilter]);
-  const [diagnosticsMessage, setDiagnosticsMessage] = React25.useState("");
-  const lastDiagnosticsRef = React25.useRef("");
-  React25.useEffect(() => {
+  const [diagnosticsMessage, setDiagnosticsMessage] = React30.useState("");
+  const lastDiagnosticsRef = React30.useRef("");
+  React30.useEffect(() => {
     if (!showWarningsPanel) {
       if (lastDiagnosticsRef.current !== "") {
         lastDiagnosticsRef.current = "";
@@ -12377,11 +13688,11 @@ var SPCChart = ({
   const twoPos = (_f = engineRepresentative == null ? void 0 : engineRepresentative.upperTwoSigma) != null ? _f : null;
   const twoNeg = (_g = engineRepresentative == null ? void 0 : engineRepresentative.lowerTwoSigma) != null ? _g : null;
   const sigma = mean2 != null && onePos != null ? Math.abs(onePos - mean2) : 0;
-  const series = React25.useMemo(
+  const series = React30.useMemo(
     () => [{ id: "process", data, color: "#A6A6A6" }],
     [data]
   );
-  const yDomain = React25.useMemo(() => {
+  const yDomain = React30.useMemo(() => {
     if (percentScale) {
       const allVals = data.map((d) => d.y);
       const overMax = Math.max(100, ...allVals);
@@ -12404,16 +13715,16 @@ var SPCChart = ({
     if (alwaysShowHundredY) max = Math.max(100, max);
     return [min, max];
   }, [data, mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp, alwaysShowZeroY, alwaysShowHundredY, percentScale]);
-  const autoUnit = React25.useMemo(() => {
+  const autoUnit = React30.useMemo(() => {
     if (unit2 || (narrationContext == null ? void 0 : narrationContext.measureUnit)) return void 0;
     if (!data.length) return void 0;
     return data.every((d) => d.y >= 0 && d.y <= 1) ? "%" : void 0;
   }, [unit2, narrationContext == null ? void 0 : narrationContext.measureUnit, data]);
   const effectiveUnit = (_h = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _h : autoUnit;
-  const effectiveNarrationContext = React25.useMemo(() => {
+  const effectiveNarrationContext = React30.useMemo(() => {
     return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
   }, [narrationContext, effectiveUnit]);
-  const partitionMarkers = React25.useMemo(() => {
+  const partitionMarkers = React30.useMemo(() => {
     if (!(engine == null ? void 0 : engine.rows)) return [];
     const markers = [];
     for (let i = 1; i < engine.rows.length; i++) {
@@ -12422,7 +13733,7 @@ var SPCChart = ({
     }
     return markers;
   }, [engine == null ? void 0 : engine.rows]);
-  const embeddedIcon = React25.useMemo(() => {
+  const embeddedIcon = React30.useMemo(() => {
     var _a3, _b3;
     if (!showEmbeddedIcon || !((_a3 = engine == null ? void 0 : engine.rows) == null ? void 0 : _a3.length)) return null;
     const engineRows = engine.rows;
@@ -12473,12 +13784,12 @@ var SPCChart = ({
       polarity = "lower_is_better" /* LowerIsBetter */;
     else polarity = "context_dependent" /* ContextDependent */;
     const iconSize = 80;
-    return /* @__PURE__ */ jsxs22(
+    return /* @__PURE__ */ jsxs31(
       "div",
       {
         style: { display: "flex", gap: 12, marginRight: 16 },
         children: [
-          /* @__PURE__ */ jsx31(
+          /* @__PURE__ */ jsx45(
             "div",
             {
               className: "fdp-spc-chart__embedded-icon",
@@ -12487,7 +13798,7 @@ var SPCChart = ({
               "data-trend": trend ? String(trend) : "none",
               "data-polarity": String(polarity != null ? polarity : "unknown"),
               style: { width: iconSize, height: iconSize },
-              children: /* @__PURE__ */ jsx31(
+              children: /* @__PURE__ */ jsx45(
                 SPCVariationIcon,
                 {
                   dropShadow: false,
@@ -12508,13 +13819,13 @@ var SPCChart = ({
               )
             }
           ),
-          /* @__PURE__ */ jsx31(
+          /* @__PURE__ */ jsx45(
             "div",
             {
               className: "fdp-spc-chart__embedded-assurance-icon",
               "data-assurance": String(assuranceRaw),
               style: { width: iconSize, height: iconSize },
-              children: /* @__PURE__ */ jsx31(
+              children: /* @__PURE__ */ jsx45(
                 SPCAssuranceIcon,
                 {
                   status: assuranceRenderStatus,
@@ -12537,12 +13848,12 @@ var SPCChart = ({
     embeddedIconVariant,
     embeddedIconRunLength
   ]);
-  return /* @__PURE__ */ jsxs22(
+  return /* @__PURE__ */ jsxs31(
     "div",
     {
       className: className ? `fdp-spc-chart-wrapper ${className}` : "fdp-spc-chart-wrapper",
       children: [
-        showEmbeddedIcon && /* @__PURE__ */ jsx31(
+        showEmbeddedIcon && /* @__PURE__ */ jsx45(
           "div",
           {
             className: "fdp-spc-chart__top-row",
@@ -12554,14 +13865,14 @@ var SPCChart = ({
             children: embeddedIcon
           }
         ),
-        /* @__PURE__ */ jsx31(
+        /* @__PURE__ */ jsx45(
           ChartRoot,
           {
             height,
             ariaLabel,
             margin: { bottom: 48, left: 56, right: 16, top: 12 },
             className: void 0,
-            children: /* @__PURE__ */ jsx31(LineScalesProvider, { series, yDomain, children: /* @__PURE__ */ jsx31(
+            children: /* @__PURE__ */ jsx45(LineScalesProvider, { series, yDomain, children: /* @__PURE__ */ jsx45(
               InternalSPC,
               {
                 series,
@@ -12593,11 +13904,11 @@ var SPCChart = ({
             ) })
           }
         ),
-        source && /* @__PURE__ */ jsx31("div", { className: "fdp-spc-chart__source", "aria-label": "Chart data source", children: typeof source === "string" ? /* @__PURE__ */ jsxs22("small", { children: [
+        source && /* @__PURE__ */ jsx45("div", { className: "fdp-spc-chart__source", "aria-label": "Chart data source", children: typeof source === "string" ? /* @__PURE__ */ jsxs31("small", { children: [
           "Source: ",
           source
         ] }) : source }),
-        showWarningsPanel && diagnosticsMessage && /* @__PURE__ */ jsx31(
+        showWarningsPanel && diagnosticsMessage && /* @__PURE__ */ jsx45(
           "div",
           {
             "data-testid": "spc-diagnostics-live",
@@ -12616,15 +13927,15 @@ var SPCChart = ({
             children: diagnosticsMessage
           }
         ),
-        showWarningsPanel && filteredWarnings.length > 0 && /* @__PURE__ */ jsxs22(
+        showWarningsPanel && filteredWarnings.length > 0 && /* @__PURE__ */ jsxs31(
           "div",
           {
             className: "fdp-spc-chart__warnings",
             role: "region",
             "aria-label": "SPC diagnostics",
             children: [
-              /* @__PURE__ */ jsx31("p", { className: "fdp-spc-chart__warnings-heading", children: "Diagnostics" }),
-              /* @__PURE__ */ jsx31(
+              /* @__PURE__ */ jsx45("p", { className: "fdp-spc-chart__warnings-heading", children: "Diagnostics" }),
+              /* @__PURE__ */ jsx45(
                 Table_default,
                 {
                   firstCellIsHeader: false,
@@ -12646,7 +13957,7 @@ var SPCChart = ({
                       severityColor = "blue";
                     return [
                       {
-                        node: /* @__PURE__ */ jsx31(
+                        node: /* @__PURE__ */ jsx45(
                           Tag,
                           {
                             color: severityColor,
@@ -12659,30 +13970,30 @@ var SPCChart = ({
                         classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--severity"
                       },
                       {
-                        node: w.category ? /* @__PURE__ */ jsx31(
+                        node: w.category ? /* @__PURE__ */ jsx45(
                           Tag,
                           {
                             color: "purple",
                             text: formatWarningCategory(w.category)
                           }
-                        ) : /* @__PURE__ */ jsx31("span", { className: "fdp-spc-chart__warning-empty", children: "\u2013" }),
+                        ) : /* @__PURE__ */ jsx45("span", { className: "fdp-spc-chart__warning-empty", children: "\u2013" }),
                         classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--category"
                       },
                       {
-                        node: /* @__PURE__ */ jsx31(Tag, { color: "grey", text: formatWarningCode(w.code) }),
+                        node: /* @__PURE__ */ jsx45(Tag, { color: "grey", text: formatWarningCode(w.code) }),
                         classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--code"
                       },
                       {
-                        node: /* @__PURE__ */ jsxs22("div", { className: "fdp-spc-chart__warning-message", children: [
-                          /* @__PURE__ */ jsx31("span", { children: w.message }),
-                          w.context && Object.keys(w.context).length > 0 && /* @__PURE__ */ jsxs22(
+                        node: /* @__PURE__ */ jsxs31("div", { className: "fdp-spc-chart__warning-message", children: [
+                          /* @__PURE__ */ jsx45("span", { children: w.message }),
+                          w.context && Object.keys(w.context).length > 0 && /* @__PURE__ */ jsxs31(
                             "details",
                             {
                               className: "fdp-spc-chart__warning-context",
                               style: { marginTop: 4 },
                               children: [
-                                /* @__PURE__ */ jsx31("summary", { children: "context" }),
-                                /* @__PURE__ */ jsx31("pre", { children: JSON.stringify(w.context, null, 2) })
+                                /* @__PURE__ */ jsx45("summary", { children: "context" }),
+                                /* @__PURE__ */ jsx45("pre", { children: JSON.stringify(w.context, null, 2) })
                               ]
                             }
                           )
@@ -12734,12 +14045,12 @@ var InternalSPC = ({
   const chartCtx = useChartContext();
   if (!scaleCtx) return null;
   const { xScale, yScale } = scaleCtx;
-  const gradientIdBaseRef = React25.useRef(
+  const gradientIdBaseRef = React30.useRef(
     "spc-seq-" + ++spcSequenceInstanceCounter
   );
   const tooltipCtx = useTooltipContext();
   const all = ((_a2 = series[0]) == null ? void 0 : _a2.data) || [];
-  const outOfControl = React25.useMemo(() => {
+  const outOfControl = React30.useMemo(() => {
     if (!limits.ucl && !limits.lcl) return /* @__PURE__ */ new Set();
     const set = /* @__PURE__ */ new Set();
     all.forEach((d, i) => {
@@ -12748,7 +14059,7 @@ var InternalSPC = ({
     });
     return set;
   }, [all, limits.ucl, limits.lcl]);
-  const engineSignals = React25.useMemo(() => {
+  const engineSignals = React30.useMemo(() => {
     if (!engineRows) return null;
     const map2 = {};
     engineRows.forEach((r2, idx) => {
@@ -12766,7 +14077,7 @@ var InternalSPC = ({
     });
     return map2;
   }, [engineRows]);
-  const uniformTarget = React25.useMemo(() => {
+  const uniformTarget = React30.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const values = [];
     for (const r2 of engineRows) {
@@ -12777,7 +14088,7 @@ var InternalSPC = ({
     const first = values[0];
     return values.every((v) => v === first) ? first : null;
   }, [engineRows]);
-  const categories = React25.useMemo(() => {
+  const categories = React30.useMemo(() => {
     if (!engineSignals || !all.length)
       return [];
     const raw = all.map((_d, i) => {
@@ -12806,7 +14117,7 @@ var InternalSPC = ({
     }
     return raw;
   }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement]);
-  const sequences = React25.useMemo(() => {
+  const sequences = React30.useMemo(() => {
     if (!gradientSequences || !categories.length)
       return [];
     const cats = [...categories];
@@ -12844,12 +14155,12 @@ var InternalSPC = ({
     }
     return out;
   }, [gradientSequences, categories, ariaLabel]);
-  const xPositions = React25.useMemo(
+  const xPositions = React30.useMemo(
     () => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))),
     [all, xScale]
   );
   const plotWidth = xScale.range()[1];
-  const trendInsights = React25.useMemo(() => {
+  const trendInsights = React30.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     let earliestUp = Number.POSITIVE_INFINITY;
     let earliestDown = Number.POSITIVE_INFINITY;
@@ -12892,7 +14203,7 @@ var InternalSPC = ({
     }
     return { direction, detectedAt, firstFavourableCrossAt, persistedAcrossMean };
   }, [engineRows, metricImprovement]);
-  const limitSegments = React25.useMemo(() => {
+  const limitSegments = React30.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const build = (key) => {
       const segs = [];
@@ -12951,13 +14262,13 @@ var InternalSPC = ({
       twoNeg: build("lowerTwoSigma")
     };
   }, [engineRows, xPositions, yScale]);
-  const sequenceDefs = React25.useMemo(() => {
+  const sequenceDefs = React30.useMemo(() => {
     if (!sequences.length) return null;
-    return /* @__PURE__ */ jsxs22("defs", { children: [
-      /* @__PURE__ */ jsxs22("linearGradient", { id: `${gradientIdBaseRef.current}-grad-common`, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-        /* @__PURE__ */ jsx31("stop", { offset: "0%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.28 }),
-        /* @__PURE__ */ jsx31("stop", { offset: "70%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.12 }),
-        /* @__PURE__ */ jsx31("stop", { offset: "100%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.045 })
+    return /* @__PURE__ */ jsxs31("defs", { children: [
+      /* @__PURE__ */ jsxs31("linearGradient", { id: `${gradientIdBaseRef.current}-grad-common`, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
+        /* @__PURE__ */ jsx45("stop", { offset: "0%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.28 }),
+        /* @__PURE__ */ jsx45("stop", { offset: "70%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.12 }),
+        /* @__PURE__ */ jsx45("stop", { offset: "100%", stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)", stopOpacity: 0.045 })
       ] }),
       sequences.map((seq, idx) => {
         const id = `${gradientIdBaseRef.current}-grad-${idx}`;
@@ -12985,15 +14296,15 @@ var InternalSPC = ({
           default:
             baseVar = "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)";
         }
-        return /* @__PURE__ */ jsxs22("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-          /* @__PURE__ */ jsx31("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
-          /* @__PURE__ */ jsx31("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
-          /* @__PURE__ */ jsx31("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
+        return /* @__PURE__ */ jsxs31("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
+          /* @__PURE__ */ jsx45("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
+          /* @__PURE__ */ jsx45("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
+          /* @__PURE__ */ jsx45("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
         ] }, id);
       })
     ] });
   }, [sequences]);
-  const sequenceAreas = React25.useMemo(() => {
+  const sequenceAreas = React30.useMemo(() => {
     if (!sequences.length) return null;
     const [domainMin] = yScale.domain();
     const baseY = yScale(domainMin);
@@ -13059,7 +14370,7 @@ var InternalSPC = ({
         if (sequenceTransition === "neutral" /* Neutral */ && prevColoured) {
           const prevX = xPositions[prevSeq.end];
           const prevY = yScale(all[prevSeq.end].y);
-          const wedge = /* @__PURE__ */ jsx31(
+          const wedge = /* @__PURE__ */ jsx45(
             "path",
             {
               d: `M ${prevX} ${baseY} L ${prevX} ${prevY} L ${firstX} ${firstY} L ${firstX} ${baseY} Z`,
@@ -13070,9 +14381,9 @@ var InternalSPC = ({
             },
             `seq-wedge-${idx}`
           );
-          return /* @__PURE__ */ jsxs22("g", { children: [
+          return /* @__PURE__ */ jsxs31("g", { children: [
             wedge,
-            /* @__PURE__ */ jsx31(
+            /* @__PURE__ */ jsx45(
               "path",
               {
                 d,
@@ -13086,7 +14397,7 @@ var InternalSPC = ({
           ] }, `seq-group-${idx}`);
         }
       }
-      return /* @__PURE__ */ jsx31(
+      return /* @__PURE__ */ jsx45(
         "path",
         {
           d,
@@ -13098,9 +14409,9 @@ var InternalSPC = ({
         `seq-area-${idx}`
       );
     }).filter(Boolean);
-    return /* @__PURE__ */ jsx31("g", { className: "fdp-spc__sequence-bgs", children: areas });
+    return /* @__PURE__ */ jsx45("g", { className: "fdp-spc__sequence-bgs", children: areas });
   }, [sequences, xPositions, plotWidth, yScale, all, sequenceTransition]);
-  const computedTimeframe = React25.useMemo(() => {
+  const computedTimeframe = React30.useMemo(() => {
     if (!(narrationContext == null ? void 0 : narrationContext.timeframe) && all.length >= 2) {
       const xs = all.map((d) => d.x instanceof Date ? d.x : new Date(d.x));
       const min = new Date(Math.min(...xs.map((d) => d.getTime())));
@@ -13126,7 +14437,7 @@ var InternalSPC = ({
     return `${n}th`;
   };
   const formatDateLong = (d) => `${ordinal2(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
-  const formatLive = React25.useCallback(
+  const formatLive = React30.useCallback(
     ({
       index,
       x: x2,
@@ -13164,7 +14475,7 @@ var InternalSPC = ({
     },
     [engineRows, narrationContext, computedTimeframe]
   );
-  const describePoint = React25.useCallback(
+  const describePoint = React30.useCallback(
     (index, d) => {
       const row = engineRows == null ? void 0 : engineRows[index];
       if (!row) return void 0;
@@ -13178,7 +14489,7 @@ var InternalSPC = ({
     },
     [engineRows, formatLive]
   );
-  return /* @__PURE__ */ jsx31(TooltipProvider, { children: /* @__PURE__ */ jsxs22(
+  return /* @__PURE__ */ jsx45(TooltipProvider, { children: /* @__PURE__ */ jsxs31(
     "div",
     {
       className: "fdp-spc-chart",
@@ -13186,23 +14497,23 @@ var InternalSPC = ({
       "aria-label": "Statistical process control chart",
       "aria-roledescription": "chart",
       children: [
-        /* @__PURE__ */ jsx31(
+        /* @__PURE__ */ jsx45(
           "svg",
           {
             width: scaleCtx.xScale.range()[1] + 56 + 16,
             height: scaleCtx.yScale.range()[0] + 12 + 48,
             role: "img",
-            children: /* @__PURE__ */ jsxs22("g", { transform: `translate(56,12)`, children: [
-              /* @__PURE__ */ jsx31(Axis_default, { type: "x" }),
-              /* @__PURE__ */ jsx31(Axis_default, { type: "y" }),
-              /* @__PURE__ */ jsx31(GridLines_default, { axis: "y" }),
+            children: /* @__PURE__ */ jsxs31("g", { transform: `translate(56,12)`, children: [
+              /* @__PURE__ */ jsx45(Axis_default, { type: "x" }),
+              /* @__PURE__ */ jsx45(Axis_default, { type: "y" }),
+              /* @__PURE__ */ jsx45(GridLines_default, { axis: "y" }),
               sequenceDefs,
               sequenceAreas,
               partitionMarkers.map((idx, i) => {
                 const d = all[idx];
                 if (!d) return null;
                 const x2 = xScale(d.x instanceof Date ? d.x : new Date(d.x));
-                return /* @__PURE__ */ jsx31(
+                return /* @__PURE__ */ jsx45(
                   "line",
                   {
                     x1: x2,
@@ -13219,8 +14530,8 @@ var InternalSPC = ({
                 );
               }),
               (limitSegments == null ? void 0 : limitSegments.mean.length) ? (() => {
-                return /* @__PURE__ */ jsxs22("g", { "aria-hidden": "true", className: "fdp-spc__cl-group", children: [
-                  limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx31("line", { className: "fdp-spc__cl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y }, `mean-${i}`)),
+                return /* @__PURE__ */ jsxs31("g", { "aria-hidden": "true", className: "fdp-spc__cl-group", children: [
+                  limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx45("line", { className: "fdp-spc__cl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y }, `mean-${i}`)),
                   limitSegments.mean.map((s, i) => {
                     if (i === limitSegments.mean.length - 1) return null;
                     const next = limitSegments.mean[i + 1];
@@ -13229,14 +14540,14 @@ var InternalSPC = ({
                     const gap = Math.max(4, next.x1 - s.x2 || 0);
                     const k = gap * 0.5;
                     const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-                    return /* @__PURE__ */ jsx31("path", { className: "fdp-spc__cl fdp-spc__cl-join", d, fill: "none" }, `mean-join-${i}`);
+                    return /* @__PURE__ */ jsx45("path", { className: "fdp-spc__cl fdp-spc__cl-join", d, fill: "none" }, `mean-join-${i}`);
                   })
                 ] });
               })() : null,
               uniformTarget != null && // Render later (after limits) for stacking; temporary placeholder (moved below)
-              /* @__PURE__ */ jsx31(Fragment5, {}),
-              (limitSegments == null ? void 0 : limitSegments.ucl.length) ? (() => /* @__PURE__ */ jsxs22("g", { "aria-hidden": "true", className: "fdp-spc__limit-group fdp-spc__limit-group--ucl", children: [
-                limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx31("line", { className: "fdp-spc__limit fdp-spc__limit--ucl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, strokeWidth: 2 }, `ucl-${i}`)),
+              /* @__PURE__ */ jsx45(Fragment6, {}),
+              (limitSegments == null ? void 0 : limitSegments.ucl.length) ? (() => /* @__PURE__ */ jsxs31("g", { "aria-hidden": "true", className: "fdp-spc__limit-group fdp-spc__limit-group--ucl", children: [
+                limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx45("line", { className: "fdp-spc__limit fdp-spc__limit--ucl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, strokeWidth: 2 }, `ucl-${i}`)),
                 limitSegments.ucl.map((s, i) => {
                   if (i === limitSegments.ucl.length - 1) return null;
                   const next = limitSegments.ucl[i + 1];
@@ -13245,11 +14556,11 @@ var InternalSPC = ({
                   const gap = Math.max(4, next.x1 - s.x2 || 0);
                   const k = gap * 0.5;
                   const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-                  return /* @__PURE__ */ jsx31("path", { className: "fdp-spc__limit fdp-spc__limit--ucl fdp-spc__limit-join", d, fill: "none", strokeWidth: 2 }, `ucl-join-${i}`);
+                  return /* @__PURE__ */ jsx45("path", { className: "fdp-spc__limit fdp-spc__limit--ucl fdp-spc__limit-join", d, fill: "none", strokeWidth: 2 }, `ucl-join-${i}`);
                 })
               ] }))() : null,
-              (limitSegments == null ? void 0 : limitSegments.lcl.length) ? (() => /* @__PURE__ */ jsxs22("g", { "aria-hidden": "true", className: "fdp-spc__limit-group fdp-spc__limit-group--lcl", children: [
-                limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx31("line", { className: "fdp-spc__limit fdp-spc__limit--lcl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, strokeWidth: 2 }, `lcl-${i}`)),
+              (limitSegments == null ? void 0 : limitSegments.lcl.length) ? (() => /* @__PURE__ */ jsxs31("g", { "aria-hidden": "true", className: "fdp-spc__limit-group fdp-spc__limit-group--lcl", children: [
+                limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx45("line", { className: "fdp-spc__limit fdp-spc__limit--lcl", x1: s.x1, x2: s.x2, y1: s.y, y2: s.y, strokeWidth: 2 }, `lcl-${i}`)),
                 limitSegments.lcl.map((s, i) => {
                   if (i === limitSegments.lcl.length - 1) return null;
                   const next = limitSegments.lcl[i + 1];
@@ -13258,11 +14569,11 @@ var InternalSPC = ({
                   const gap = Math.max(4, next.x1 - s.x2 || 0);
                   const k = gap * 0.5;
                   const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-                  return /* @__PURE__ */ jsx31("path", { className: "fdp-spc__limit fdp-spc__limit--lcl fdp-spc__limit-join", d, fill: "none", strokeWidth: 2 }, `lcl-join-${i}`);
+                  return /* @__PURE__ */ jsx45("path", { className: "fdp-spc__limit fdp-spc__limit--lcl fdp-spc__limit-join", d, fill: "none", strokeWidth: 2 }, `lcl-join-${i}`);
                 })
               ] }))() : null,
-              uniformTarget != null && /* @__PURE__ */ jsxs22("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
-                /* @__PURE__ */ jsx31(
+              uniformTarget != null && /* @__PURE__ */ jsxs31("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
+                /* @__PURE__ */ jsx45(
                   "line",
                   {
                     className: "fdp-spc__target",
@@ -13274,7 +14585,7 @@ var InternalSPC = ({
                     strokeWidth: 2.5
                   }
                 ),
-                /* @__PURE__ */ jsxs22(
+                /* @__PURE__ */ jsxs31(
                   "text",
                   {
                     "data-testid": "spc-target-label",
@@ -13292,8 +14603,8 @@ var InternalSPC = ({
                   }
                 )
               ] }),
-              showZones && limitSegments && limitSegments.mean.length > 0 && /* @__PURE__ */ jsxs22(Fragment5, { children: [
-                limitSegments.onePos.map((s, i) => /* @__PURE__ */ jsx31(
+              showZones && limitSegments && limitSegments.mean.length > 0 && /* @__PURE__ */ jsxs31(Fragment6, { children: [
+                limitSegments.onePos.map((s, i) => /* @__PURE__ */ jsx45(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--pos1",
@@ -13306,7 +14617,7 @@ var InternalSPC = ({
                   },
                   `onePos-${i}`
                 )),
-                limitSegments.oneNeg.map((s, i) => /* @__PURE__ */ jsx31(
+                limitSegments.oneNeg.map((s, i) => /* @__PURE__ */ jsx45(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--neg1",
@@ -13319,7 +14630,7 @@ var InternalSPC = ({
                   },
                   `oneNeg-${i}`
                 )),
-                limitSegments.twoPos.map((s, i) => /* @__PURE__ */ jsx31(
+                limitSegments.twoPos.map((s, i) => /* @__PURE__ */ jsx45(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--pos2",
@@ -13332,7 +14643,7 @@ var InternalSPC = ({
                   },
                   `twoPos-${i}`
                 )),
-                limitSegments.twoNeg.map((s, i) => /* @__PURE__ */ jsx31(
+                limitSegments.twoNeg.map((s, i) => /* @__PURE__ */ jsx45(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--neg2",
@@ -13353,13 +14664,13 @@ var InternalSPC = ({
                 const sy = all[startIdx] ? yScale(all[startIdx].y) : null;
                 const cx = crossIdx != null && all[crossIdx] ? xScale(all[crossIdx].x instanceof Date ? all[crossIdx].x : new Date(all[crossIdx].x)) : null;
                 const cy = crossIdx != null && all[crossIdx] ? yScale(all[crossIdx].y) : null;
-                return /* @__PURE__ */ jsxs22("g", { "aria-hidden": "true", className: "fdp-spc__trend-overlays", children: [
-                  showTrendBridgeOverlay && sx != null && sy != null && cx != null && cy != null && /* @__PURE__ */ jsx31("line", { x1: sx, y1: sy, x2: cx, y2: cy, stroke: "#888", strokeDasharray: "4 4", strokeWidth: 2, children: /* @__PURE__ */ jsx31("title", { children: "Trend bridge: start to first favourable-side point" }) }),
-                  showTrendStartMarkers && sx != null && sy != null && /* @__PURE__ */ jsx31("circle", { cx: sx, cy: sy, r: 6, fill: "white", stroke: "#555", strokeWidth: 2, children: /* @__PURE__ */ jsx31("title", { children: "Trend start (run reached N)" }) }),
-                  showFirstFavourableCrossMarkers && cx != null && cy != null && /* @__PURE__ */ jsx31("circle", { cx, cy, r: 5, fill: "#555", children: /* @__PURE__ */ jsx31("title", { children: "First favourable-side inclusion" }) })
+                return /* @__PURE__ */ jsxs31("g", { "aria-hidden": "true", className: "fdp-spc__trend-overlays", children: [
+                  showTrendBridgeOverlay && sx != null && sy != null && cx != null && cy != null && /* @__PURE__ */ jsx45("line", { x1: sx, y1: sy, x2: cx, y2: cy, stroke: "#888", strokeDasharray: "4 4", strokeWidth: 2, children: /* @__PURE__ */ jsx45("title", { children: "Trend bridge: start to first favourable-side point" }) }),
+                  showTrendStartMarkers && sx != null && sy != null && /* @__PURE__ */ jsx45("circle", { cx: sx, cy: sy, r: 6, fill: "white", stroke: "#555", strokeWidth: 2, children: /* @__PURE__ */ jsx45("title", { children: "Trend start (run reached N)" }) }),
+                  showFirstFavourableCrossMarkers && cx != null && cy != null && /* @__PURE__ */ jsx45("circle", { cx, cy, r: 5, fill: "#555", children: /* @__PURE__ */ jsx45("title", { children: "First favourable-side inclusion" }) })
                 ] });
               })(),
-              /* @__PURE__ */ jsx31(
+              /* @__PURE__ */ jsx45(
                 LineSeriesPrimitive_default,
                 {
                   series: series[0],
@@ -13396,7 +14707,7 @@ var InternalSPC = ({
                 ].filter(Boolean).join(" ");
                 const ariaLabel2 = `Point ${i + 1} value ${d.y}` + ((sig == null ? void 0 : sig.special) ? " special cause" : "") + ((sig == null ? void 0 : sig.variation) === "improvement" /* Improvement */ ? " improving" : (sig == null ? void 0 : sig.variation) === "concern" /* Concern */ ? " concern" : "");
                 const isFocused = ((_a3 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a3.index) === i;
-                return /* @__PURE__ */ jsx31(
+                return /* @__PURE__ */ jsx45(
                   "circle",
                   {
                     cx,
@@ -13425,7 +14736,7 @@ var InternalSPC = ({
                 }
                 const plotWidth2 = xScale.range()[1];
                 const iconX = Math.min(Math.max(rawX, 0), plotWidth2 - 0);
-                return /* @__PURE__ */ jsx31(
+                return /* @__PURE__ */ jsx45(
                   "text",
                   {
                     x: iconX,
@@ -13438,14 +14749,14 @@ var InternalSPC = ({
                   `icon-${i}`
                 );
               }),
-              chartCtx && /* @__PURE__ */ jsx31(
+              chartCtx && /* @__PURE__ */ jsx45(
                 InteractionLayer,
                 {
                   width: xScale.range()[1],
                   height: yScale.range()[0]
                 }
               ),
-              !showSignalsInspector && /* @__PURE__ */ jsx31(
+              !showSignalsInspector && /* @__PURE__ */ jsx45(
                 SPCTooltipOverlay_default,
                 {
                   engineRows,
@@ -13461,7 +14772,7 @@ var InternalSPC = ({
             ] })
           }
         ),
-        showSignalsInspector && /* @__PURE__ */ jsx31("div", { style: { marginTop: 8 }, children: /* @__PURE__ */ jsx31(
+        showSignalsInspector && /* @__PURE__ */ jsx45("div", { style: { marginTop: 8 }, children: /* @__PURE__ */ jsx45(
           SPCSignalsInspector_default,
           {
             engineRows,
@@ -13470,7 +14781,7 @@ var InternalSPC = ({
             onSignalFocus
           }
         ) }),
-        announceFocus && /* @__PURE__ */ jsx31(
+        announceFocus && /* @__PURE__ */ jsx45(
           VisuallyHiddenLiveRegion_default,
           {
             format: (d) => formatLive({ ...d, x: d.x instanceof Date ? d.x : new Date(d.x) })
@@ -13486,7 +14797,7 @@ var InteractionLayer = ({
 }) => {
   const t = useTooltipContext();
   if (!t) return null;
-  return /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx45(
     "rect",
     {
       className: "fdp-spc__interaction-layer",
@@ -13586,6 +14897,9 @@ __export(icons_exports, {
   getVariationTrend: () => getVariationTrend
 });
 export {
+  AlertBand_default as AlertBand,
+  AlertMarkers_default as AlertMarkers,
+  AlertThreshold_default as AlertThreshold,
   AreaSeriesPrimitive_default as AreaSeriesPrimitive,
   Axis_default as Axis,
   BandScalesProvider,
@@ -13595,6 +14909,7 @@ export {
   ChartNoScript_default as ChartNoScript,
   ChartRoot_default as ChartRoot,
   ChartWithTableTabs_default as ChartWithTableTabs,
+  DataVizWizard_default as DataVizWizard,
   FilterableLineChart_default as FilterableLineChart,
   GridLines_default as GridLines,
   Legend_default as Legend,

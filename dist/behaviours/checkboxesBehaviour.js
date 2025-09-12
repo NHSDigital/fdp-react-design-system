@@ -1,4 +1,4 @@
-import { attachConditionalReveals } from "./conditionalRevealUtil";
+import { attachConditionalReveals } from "./conditionalRevealUtil.js";
 function enhance(container) {
   return attachConditionalReveals({
     inputSelector: 'input.nhsuk-checkboxes__input[type="checkbox"]',

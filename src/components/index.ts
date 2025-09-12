@@ -27,11 +27,9 @@ export type {
   ContainerProps, 
   RowProps, 
   ColumnProps, 
-  GridProps,
-  GridWidth,
-  Breakpoint,
-  Float
+  GridProps
 } from './Grid';
+export { GridWidth, Breakpoint, Float, ColumnAlign } from './Grid/Grid.types';
 export { List } from './List';
 export type { ListProps, ListItemProps } from './List';
 export { SpacingUtilities, getSpacingClass } from './SpacingUtilities';

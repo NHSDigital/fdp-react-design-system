@@ -42,6 +42,8 @@ export interface RadiosProps {
     describedBy?: string;
     /** Additional CSS classes */
     className?: string;
+    /** Inline style applied to the radios container */
+    style?: React.CSSProperties;
     /** Size variant */
     size?: 'normal' | 'small';
     /** Whether to display radios inline */

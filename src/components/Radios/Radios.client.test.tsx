@@ -32,6 +32,14 @@ describe('Radios (client)', () => {
     expect(container?.className).toContain('extra');
   });
 
+  it('applies inline style to the container', () => {
+    render(<Radios name="styled" options={base} style={{ marginBottom: '32px' }} />);
+    const container = document.querySelector('.nhsuk-radios') as HTMLElement | null;
+    expect(container).not.toBeNull();
+    // JSDOM serialises style as an inline string
+    expect(container!.getAttribute('style') || '').toContain('margin-bottom');
+  });
+
   it('handles conditional reveal content toggling', () => {
     const conditional = [
       { value: 'a', text: 'A', conditional: 'Shown A' },

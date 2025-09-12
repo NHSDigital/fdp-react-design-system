@@ -1,7 +1,7 @@
 // Behaviour layer for Radios component (progressive enhancement)
 // Mirrors keyboard navigation and conditional reveal logic from React implementation.
 
-import { attachConditionalReveals } from './conditionalRevealUtil';
+import { attachConditionalReveals } from './conditionalRevealUtil.js';
 
 interface RadiosBehaviourHandles { detach: () => void }
 

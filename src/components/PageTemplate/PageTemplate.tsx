@@ -104,7 +104,7 @@ export const PageTemplate: React.FC<PageTemplateProps> = ({
   children,
   pageTitle,
   pageHeadingProps,
-  columnWidth = "two-thirds",
+  columnWidth = GridWidth.TwoThirds,
   mainWrapperSize,
   skipLinkProps,
   headerProps,

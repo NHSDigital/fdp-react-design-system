@@ -1,26 +1,26 @@
-import React from 'react';
-import { DashboardSummaryGridProps } from './DashboardSummaryGrid.types';
-import { SummaryCard } from '../SummaryCard';
-import { Grid, Row, Column } from '../Grid';
-import './DashboardSummaryGrid.scss';
+import React from "react";
+import { DashboardSummaryGridProps } from "./DashboardSummaryGrid.types";
+import { SummaryCard } from "../SummaryCard";
+import { Grid, Row, Column, GridWidth } from "../Grid";
+import "./DashboardSummaryGrid.scss";
 
 /**
  * NHS Dashboard Summary Grid Component
- * 
- * A pre-configured grid layout that displays four summary cards in a responsive 
- * 1x4 grid on desktop and stacked layout on mobile. Perfect for dashboard KPIs 
+ *
+ * A pre-configured grid layout that displays four summary cards in a responsive
+ * 1x4 grid on desktop and stacked layout on mobile. Perfect for dashboard KPIs
  * and data overviews.
- * 
+ *
  * Features:
  * - Responsive grid layout using NHS Grid components
  * - Consistent spacing and alignment
  * - Optimized for exactly four summary cards
  * - Mobile-first responsive design
  * - Accessibility compliant
- * 
+ *
  * @example
  * ```tsx
- * <DashboardSummaryGrid 
+ * <DashboardSummaryGrid
  *   cards={[
  *     { title: "Patient Records", value: "1,247" },
  *     { title: "Appointments Today", value: "89" },
@@ -31,31 +31,30 @@ import './DashboardSummaryGrid.scss';
  * ```
  */
 export const DashboardSummaryGrid: React.FC<DashboardSummaryGridProps> = ({
-  cards,
-  className = '',
-  ...props
+	cards,
+	className = "",
+	...props
 }) => {
-  const baseClasses = [
-    'nhs-fdp-dashboard-summary-grid',
-    className
-  ].filter(Boolean).join(' ');
+	const baseClasses = ["nhs-fdp-dashboard-summary-grid", className]
+		.filter(Boolean)
+		.join(" ");
 
-  return (
-    <div className={baseClasses} {...props}>
-      <Grid /* container applies width constraints */>
-        <Row>
-          {cards.map((cardProps, index) => (
-            <Column
-              key={index}
-              width="one-quarter"
-              className="nhs-fdp-dashboard-summary-grid__column"
-              data-card-index={index}
-            >
-              <SummaryCard {...cardProps} />
-            </Column>
-          ))}
-        </Row>
-      </Grid>
-    </div>
-  );
+	return (
+		<div className={baseClasses} {...props}>
+			<Grid /* container applies width constraints */>
+				<Row>
+					{cards.map((cardProps, index) => (
+						<Column
+							key={index}
+							width={GridWidth.OneQuarter}
+							className="nhs-fdp-dashboard-summary-grid__column"
+							data-card-index={index}
+						>
+							<SummaryCard {...cardProps} />
+						</Column>
+					))}
+				</Row>
+			</Grid>
+		</div>
+	);
 };

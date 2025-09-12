@@ -1,6 +1,6 @@
-import React from 'react';
-import { DashboardSummaryGridProps } from './DashboardSummaryGrid.types';
-import './DashboardSummaryGrid.scss';
+import React from "react";
+import { DashboardSummaryGridProps } from "./DashboardSummaryGrid.types";
+import "./DashboardSummaryGrid.scss";
 /**
  * NHS Dashboard Summary Grid Component
  *

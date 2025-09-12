@@ -88,6 +88,24 @@ span .nhsuk-u-visually-hidden {
   flex-shrink: 0;
 }
 
+.nhsuk-grid-align-left {
+  text-align: left;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.nhsuk-grid-align-center {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.nhsuk-grid-align-right {
+  text-align: right;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
 .nhsuk-width-container {
   max-width: 960px;
   margin: 0 auto;

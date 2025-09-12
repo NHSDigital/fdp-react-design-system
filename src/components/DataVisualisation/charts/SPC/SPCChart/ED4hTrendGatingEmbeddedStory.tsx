@@ -14,8 +14,8 @@ export const ED4hTrendGatingEmbedded: React.FC = () => {
 		x: new Date(start.getFullYear(), start.getMonth() + i, 1),
 		y: v,
 	}));
-	const titleUngated = "ED 4h compliance — ungated visuals (default)";
-	const titleGated = "ED 4h compliance — gated visuals";
+	const titleUngated = "ED 4h compliance (base)";
+	const titleGated = "ED 4h compliance (sql)";
 
 	return (
 		<div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
@@ -29,6 +29,7 @@ export const ED4hTrendGatingEmbedded: React.FC = () => {
 					enableRules
 					showPoints
 					trendVisualMode={TrendVisualMode.Ungated}
+					useSqlCompatEngine={false}
 					narrationContext={{ measureName: titleUngated, measureUnit: "%" }}
 					gradientSequences
 				/>
@@ -44,6 +45,7 @@ export const ED4hTrendGatingEmbedded: React.FC = () => {
 					enableRules
 					showPoints
 					trendVisualMode={TrendVisualMode.Gated}
+					useSqlCompatEngine={true}
 					narrationContext={{ measureName: titleGated, measureUnit: "%" }}
 					gradientSequences
 				/>

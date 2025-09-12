@@ -2,6 +2,24 @@
 // Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { Container, Row, Column, Grid } from './Grid';
+import { ColumnAlign, GridWidth } from './Grid.types';
+export const AlignmentDemo: Story = {
+  render: () => (
+    <Container>
+      <Row>
+  <Column width={GridWidth.OneThird} align={ColumnAlign.Left}>
+          <SampleContent>Left aligned</SampleContent>
+        </Column>
+  <Column width={GridWidth.OneThird} align={ColumnAlign.Center}>
+          <SampleContent>Center aligned</SampleContent>
+        </Column>
+  <Column width={GridWidth.OneThird} align={ColumnAlign.Right}>
+          <SampleContent>Right aligned</SampleContent>
+        </Column>
+      </Row>
+    </Container>
+  ),
+};
 
 const meta: Meta<typeof Grid> = {
   title: 'Layout/Grid',
@@ -67,10 +85,10 @@ export const BasicGrid: Story = {
   render: () => (
     <Container>
       <Row>
-        <Column width="one-half">
+  <Column width={GridWidth.OneHalf}>
           <SampleContent>One Half</SampleContent>
         </Column>
-        <Column width="one-half">
+  <Column width={GridWidth.OneHalf}>
           <SampleContent>One Half</SampleContent>
         </Column>
       </Row>

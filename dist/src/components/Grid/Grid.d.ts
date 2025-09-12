@@ -1,6 +1,6 @@
-import React from 'react';
-import './Grid.scss';
-import { ContainerProps, RowProps, ColumnProps, GridProps } from './Grid.types';
+import React from "react";
+import "./Grid.scss";
+import { ContainerProps, RowProps, ColumnProps, GridProps } from "./Grid.types";
 /**
  * Grid Container Component
  *
@@ -15,12 +15,6 @@ export declare const Container: React.FC<ContainerProps>;
  * Based on NHS UK's grid-row object.
  */
 export declare const Row: React.FC<RowProps>;
-/**
- * Grid Column Component
- *
- * Creates responsive grid columns with CSS Grid layout.
- * Supports different widths at different breakpoints and grid positioning.
- */
 export declare const Column: React.FC<ColumnProps>;
 /**
  * Grid Wrapper Component

@@ -302,6 +302,18 @@
                     "notes": "Often analysed via distributions (e.g., LOS), counts, or rates over time."
                 },
                 {
+                    "id": "resources",
+                    "label": "Resources/Capacity",
+                    "summary": "Staff, beds, theatres, equipment and other capacity elements.",
+                    "examples": [
+                        "Theatres and sessions",
+                        "MRI/CT scanners",
+                        "Beds by ward"
+                    ],
+                    "maps_to_data_shapes": ["matrix", "time_series", "categories"],
+                    "notes": "Use matrix for schedules (e.g., hour × weekday utilisation); time series for capacity vs demand over time; categories for unit‑level comparison."
+                },
+                {
                     "id": "events",
                     "label": "Events (attendances, harms)",
                     "summary": "Discrete occurrences logged over time.",
@@ -1286,14 +1298,16 @@
             "root": "components_root",
             "nodes": {
                 "components_root": {
-                    "type": "single_choice",
+                    "type": "choice",
+                    "mode": "multiple",
                     "question": "What are your components (unit of analysis)?",
-                    "help": "Components are the 'things' being visualised (e.g., providers, patients, events, geographies).",
+                    "help": "Components are the 'things' being visualised (e.g., providers, patients, events, geographies, resources/capacity) and analysed.",
                     "choices": [
+						{ "label": "Services/Pathways", "next": "components_shape" },
                         { "label": "People (patients, staff)", "next": "components_shape" },
-                        { "label": "Events (attendances, harms)", "next": "components_shape" },
                         { "label": "Organisations/Units (trust/site/PCN)", "next": "components_shape" },
-                        { "label": "Services/Pathways", "next": "components_shape" },
+                        { "label": "Resources/Capacity (staff, beds, theatres, equipment)", "next": "components_shape" },
+						{ "label": "Events (attendances, harms)", "next": "components_shape" },
                         { "label": "Geographic areas", "next": "components_shape" },
                         { "label": "Time periods (days/weeks/months)", "next": "components_shape" },
                         { "label": "Categories/Reasons", "next": "components_shape" }
@@ -1302,7 +1316,7 @@
                 "components_shape": {
                     "type": "single_choice",
                     "question": "Which best describes your data shape?",
-                    "help": "Shape is the structure of your data, not the subject matter.",
+                    "help": "Shape is the structure of your data, not the subject matter (e.g., matrix for utilisation schedules across hour × weekday; time series for capacity vs demand).",
                     "choices": [
                         { "label": "Time series (observations over time)", "next": "components_measure" },
                         { "label": "Categories (groups like trusts/specialties)", "next": "components_measure" },

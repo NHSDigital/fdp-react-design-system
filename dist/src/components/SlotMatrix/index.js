@@ -623,7 +623,7 @@ var Row = ({
 };
 var Column = ({
   children,
-  width = "full",
+  width = "full" /* Full */,
   mobileWidth,
   tabletWidth,
   desktopWidth,
@@ -631,6 +631,7 @@ var Column = ({
   className,
   forceWidth = false,
   style,
+  align,
   ...props
 }) => {
   const columnClasses = (0, import_classnames2.default)(
@@ -640,11 +641,15 @@ var Column = ({
       // Utility classes that force width on all screen sizes
       [`nhsuk-u-${width}`]: forceWidth,
       // Responsive width overrides
-      [`nhsuk-u-${mobileWidth}-mobile`]: mobileWidth,
-      [`nhsuk-u-${tabletWidth}-tablet`]: tabletWidth,
-      [`nhsuk-u-${desktopWidth}-desktop`]: desktopWidth,
+      [`nhsuk-u-${mobileWidth}-mobile`]: !!mobileWidth,
+      [`nhsuk-u-${tabletWidth}-tablet`]: !!tabletWidth,
+      [`nhsuk-u-${desktopWidth}-desktop`]: !!desktopWidth,
       // Grid positioning
-      [`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7
+      [`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7,
+      // Alignment
+      "nhsuk-grid-align-left": align === "left" /* Left */,
+      "nhsuk-grid-align-center": align === "center" /* Center */,
+      "nhsuk-grid-align-right": align === "right" /* Right */
     },
     className
   );

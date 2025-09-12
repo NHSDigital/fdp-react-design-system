@@ -1,6 +1,8 @@
 function enhanceRangeInput(input) {
   const wrapper = input.closest(".nhsuk-input-range-wrapper");
-  const currentValueEl = wrapper == null ? void 0 : wrapper.querySelector(".nhsuk-input-range-current-value strong");
+  const currentValueEl = wrapper == null ? void 0 : wrapper.querySelector(
+    ".nhsuk-input-range-current-value strong"
+  );
   const update = () => {
     const val = input.value;
     input.setAttribute("data-current-value", val);
@@ -12,12 +14,18 @@ function enhanceRangeInput(input) {
   };
   input.addEventListener("input", listener);
   update();
-  return { detach() {
-    input.removeEventListener("input", listener);
-  } };
+  return {
+    detach() {
+      input.removeEventListener("input", listener);
+    }
+  };
 }
 function initRanges(scope = document) {
-  const inputs = Array.from(scope.querySelectorAll("input.nhsuk-input--range[data-current-value]"));
+  const inputs = Array.from(
+    scope.querySelectorAll(
+      "input.nhsuk-input--range[data-current-value]"
+    )
+  );
   inputs.forEach((inp) => {
     if (!inp.__nhsRangeBehaviour) {
       inp.__nhsRangeBehaviour = enhanceRangeInput(inp);
@@ -25,7 +33,11 @@ function initRanges(scope = document) {
   });
 }
 function detachRanges(scope = document) {
-  const inputs = Array.from(scope.querySelectorAll("input.nhsuk-input--range[data-current-value]"));
+  const inputs = Array.from(
+    scope.querySelectorAll(
+      "input.nhsuk-input--range[data-current-value]"
+    )
+  );
   inputs.forEach((inp) => {
     var _a;
     (_a = inp.__nhsRangeBehaviour) == null ? void 0 : _a.detach();

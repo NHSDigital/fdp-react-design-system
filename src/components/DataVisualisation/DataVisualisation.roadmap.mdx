@@ -23,7 +23,7 @@ The plan favours composable primitives first, then thin, ergonomic wrappers for 
 
 ### Notes
 
-- Primitives intentionally mirror the underlying logic file concepts: dimensions (comparison, composition, distribution, relationship, rank, deviation, spatial, change_over_time) and data shapes (time_series, categories, hierarchy, matrix, spatial).
+Primitives intentionally mirror the underlying logic file concepts: dimensions (comparison, composition, distribution, relationship, rank, deviation, spatial, change_over_time) and data shapes (time_series, categories, hierarchy, matrix, spatial).
 
 ---
 
@@ -31,7 +31,7 @@ The plan favours composable primitives first, then thin, ergonomic wrappers for 
 
 Each subsection maps recommended chart types to required primitives and wrapper components. Status reflects current codebase state: Exists, WIP, Planned.
 
-### 1) Analyse Trends (change over time)
+### 1. Analyse Trends (change over time)
 
 #### Core components
 
@@ -53,7 +53,7 @@ Each subsection maps recommended chart types to required primitives and wrapper 
 - Run vs SPC side‑by‑side with same series and narrative
 - EWMA/CUSUM demo detecting smaller shifts than SPC
 
-### 2) Demonstrate Deviation (from target/baseline)
+### 2. Demonstrate Deviation (from target/baseline)
 
 #### Core components
 
@@ -109,7 +109,53 @@ Each subsection maps recommended chart types to required primitives and wrapper 
 - Part‑to‑whole over time (100% stacked) alongside totals
 - Hierarchical view (treemap) drilling into pathway composition
 
-### 5) Understand Distribution
+### 5) Manage Capacity & Utilisation (operational)
+
+#### Core components (Planned)
+
+- `UtilisationHeatmap` (hour × weekday/session), `CalendarHeatmap`, `Calendar`
+- `ComboLineColumn` (capacity vs demand), `ProgressBar`, `KPI Tile`
+
+#### Needed primitives/enhancements
+
+- Time‑of‑day binning utilities; capacity normalisation helpers
+- Roster/scheduling grid building blocks (labels, spans, session templates)
+- Alert annotations to flag thresholds and exceptions
+
+#### Acceptance examples
+
+- Theatre utilisation across sessions with under/over thresholds
+- Capacity vs demand by day with over‑capacity highlighting
+
+### 6) Improve Patient/Service Flow (operational)
+
+#### Core components (Planned)
+
+- `Sankey`/`Alluvial` (stage transitions), `CumulativeFlowDiagram` (WIP bands), `Gantt` (stage durations)
+
+#### Needed primitives/enhancements
+
+- Sankey layout util with node/edge aggregation
+- Stacked WIP banding over time; stage colour tokens
+
+#### Acceptance examples
+
+- Referral→Triage→OP→Admission→Discharge sankey with volumes
+- CFD showing where WIP widens (bottleneck) by stage
+
+### 7) Monitor Operational Status (operational)
+
+#### Core components (Planned)
+
+- `RunChart`/`SPCChart` with thresholds, `BurnDown` (backlog vs target)
+- `KPI Tile` + `SPCSpark` for status; exceptions watchlist `Table`
+
+#### Needed primitives/enhancements
+
+- Alert annotations (threshold lines, bands, markers)
+- Exception tagging and watchlist patterns (icons, colour semantics)
+
+### 8) Understand Distribution
 
 #### Core components (Planned)
 
@@ -125,9 +171,10 @@ Each subsection maps recommended chart types to required primitives and wrapper 
 - LOS distribution (histogram + violin) by specialty
 - Split distribution small multiples for equity analysis
 
-### 6) Better Understand Relationships
+### 9) Better Understand Relationships
 
 #### Core components (Planned)
+
 - `ScatterPlot`, `BubbleChart`, `ParallelCoordinates`, `Heatmap`
 
 #### Needed primitives/enhancements
@@ -140,7 +187,7 @@ Each subsection maps recommended chart types to required primitives and wrapper 
 - Bed occupancy vs 4‑hour breaches with stratification
 - Parallel coordinates for multi‑metric trust comparison
 
-### 7) Geographical Patterns
+### 10) Geographical Patterns
 
 #### Core components (Planned)
 
@@ -170,12 +217,30 @@ Each subsection maps recommended chart types to required primitives and wrapper 
 
 ---
 
+## Transactional Templates (SSR‑Friendly)
+
+High‑value generics to support transactional journeys (SSR by default) and reuse across data tools and forms:
+
+- Stepper/ProgressIndicator: consistent “Step n of m” header with ARIA semantics and optional side navigation.
+- FormWizard scaffolding: wrapper that manages path, state, validation, save/return, and ErrorSummary patterns using DS components.
+- Save & return pattern: cookie/localStorage persistence, “return to draft” banner, and recovery link design.
+- Review (“Check your answers”): SummaryList with change links and an action panel for confirmation screens.
+- Roster/Scheduling recipes: session/slot grids (build on `SlotMatrix`) with spans, labels, and accessibility affordances.
+- ErrorSummary wiring helpers: utilities to tie field errors to the ErrorSummary list (focus management and id mapping).
+- WizardEngine utilities: typed JSON schema, traversal, and analytics hooks for wizard flows (partially added as `wizardTypes`/`wizardEngine`).
+- Operational alert annotations: thresholds, shaded bands, and exception markers (shipped as `AlertThreshold`, `AlertBand`, `AlertMarkers`).
+
+These patterns enable building transactional, action‑oriented dashboards and wizards with consistent UX, while keeping client interactivity layered over SSR templates.
+
+---
+
 ## Phasing
 
 ### Phase A – Foundations and Trends (Now)
 - Harden primitives (`Axis`, `GridLines`, `Legend`, providers)
 - Ship `RunChart` thin wrapper and `SPCSpark` examples across common NHS metrics
 - Narrative/annotation API for SPC baseline changes and signals
+ - Alert annotation primitives (`AlertThreshold`, `AlertBand`, `AlertMarkers`) and examples
 
 ### Phase B – Deviation & Magnitude (Next)
 - Diverging/Waterfall/Spine wrappers

@@ -3,8 +3,6 @@ export type {
   ContainerProps, 
   RowProps, 
   ColumnProps, 
-  GridProps,
-  GridWidth,
-  Breakpoint,
-  Float
+  GridProps
 } from './Grid.types';
+export { GridWidth, Breakpoint, Float, ColumnAlign } from './Grid.types';

@@ -87,6 +87,37 @@ var require_classnames = __commonJS({
 // src/components/Grid/Grid.tsx
 var import_classnames = __toESM(require_classnames(), 1);
 import React from "react";
+
+// src/components/Grid/Grid.types.ts
+var GridWidth = /* @__PURE__ */ ((GridWidth2) => {
+  GridWidth2["OneQuarter"] = "one-quarter";
+  GridWidth2["OneThird"] = "one-third";
+  GridWidth2["OneHalf"] = "one-half";
+  GridWidth2["TwoThirds"] = "two-thirds";
+  GridWidth2["ThreeQuarters"] = "three-quarters";
+  GridWidth2["Full"] = "full";
+  return GridWidth2;
+})(GridWidth || {});
+var Breakpoint = /* @__PURE__ */ ((Breakpoint2) => {
+  Breakpoint2["Mobile"] = "mobile";
+  Breakpoint2["Tablet"] = "tablet";
+  Breakpoint2["Desktop"] = "desktop";
+  Breakpoint2["LargeDesktop"] = "large-desktop";
+  return Breakpoint2;
+})(Breakpoint || {});
+var Float = /* @__PURE__ */ ((Float2) => {
+  Float2["Left"] = "left";
+  Float2["Right"] = "right";
+  return Float2;
+})(Float || {});
+var ColumnAlign = /* @__PURE__ */ ((ColumnAlign2) => {
+  ColumnAlign2["Left"] = "left";
+  ColumnAlign2["Center"] = "center";
+  ColumnAlign2["Right"] = "right";
+  return ColumnAlign2;
+})(ColumnAlign || {});
+
+// src/components/Grid/Grid.tsx
 import { jsx } from "react/jsx-runtime";
 var Container = ({
   children,
@@ -117,7 +148,7 @@ var Row = ({
 };
 var Column = ({
   children,
-  width = "full",
+  width = "full" /* Full */,
   mobileWidth,
   tabletWidth,
   desktopWidth,
@@ -125,6 +156,7 @@ var Column = ({
   className,
   forceWidth = false,
   style,
+  align,
   ...props
 }) => {
   const columnClasses = (0, import_classnames.default)(
@@ -134,11 +166,15 @@ var Column = ({
       // Utility classes that force width on all screen sizes
       [`nhsuk-u-${width}`]: forceWidth,
       // Responsive width overrides
-      [`nhsuk-u-${mobileWidth}-mobile`]: mobileWidth,
-      [`nhsuk-u-${tabletWidth}-tablet`]: tabletWidth,
-      [`nhsuk-u-${desktopWidth}-desktop`]: desktopWidth,
+      [`nhsuk-u-${mobileWidth}-mobile`]: !!mobileWidth,
+      [`nhsuk-u-${tabletWidth}-tablet`]: !!tabletWidth,
+      [`nhsuk-u-${desktopWidth}-desktop`]: !!desktopWidth,
       // Grid positioning
-      [`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7
+      [`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7,
+      // Alignment
+      "nhsuk-grid-align-left": align === "left" /* Left */,
+      "nhsuk-grid-align-center": align === "center" /* Center */,
+      "nhsuk-grid-align-right": align === "right" /* Right */
     },
     className
   );
@@ -156,9 +192,13 @@ var Grid = ({
   return /* @__PURE__ */ jsx(Container, { className, style, ...props, children: hasRowAsFirstChild ? children : /* @__PURE__ */ jsx(Row, { children }) });
 };
 export {
+  Breakpoint,
   Column,
+  ColumnAlign,
   Container,
+  Float,
   Grid,
+  GridWidth,
   Row
 };
 /*! Bundled license information:

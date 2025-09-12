@@ -1,5 +1,24 @@
 // NHS Grid SCSS - Modern CSS Grid implementation
-@use '../../../packages/nhs-fdp/scss' as nhs;
+@use "../../../packages/nhs-fdp/scss" as nhs;
+
+// Alignment utility classes for Column
+.nhsuk-grid-align-left {
+	text-align: left;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.nhsuk-grid-align-center {
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+}
+
+.nhsuk-grid-align-right {
+	text-align: right;
+	justify-content: flex-end;
+	align-items: flex-end;
+}
 
 // Breakpoints (based on NHS UK)
 $tablet: 641px;
@@ -7,394 +26,398 @@ $desktop: 769px;
 
 // Container styles
 .nhsuk-width-container {
-  max-width: 960px; // NHS UK page width
-  margin: 0 auto;
-  padding: 0 nhs.$nhs-fdp-spacing-2; // 16px on mobile
-  
-  // Typography defaults
-  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
-  
-  @include nhs.nhs-fdp-font(19);
-  
-  @media (min-width: #{$desktop}) {
-    padding: 0 nhs.$nhs-fdp-spacing-4; // 32px on desktop
-  }
+	max-width: 960px; // NHS UK page width
+	margin: 0 auto;
+	padding: 0 nhs.$nhs-fdp-spacing-2; // 16px on mobile
+
+	// Typography defaults
+	font-family:
+		#{nhs.$nhs-fdp-font-family-base},
+		#{nhs.$nhs-fdp-font-family-fallback};
+
+	@include nhs.nhs-fdp-font(19);
+
+	@media (min-width: #{$desktop}) {
+		padding: 0 nhs.$nhs-fdp-spacing-4; // 32px on desktop
+	}
 }
 
 .nhsuk-width-container-fluid {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 nhs.$nhs-fdp-spacing-2; // 16px on mobile
-  
-  // Typography defaults
-  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
-  
-  @include nhs.nhs-fdp-font(19);
-  
-  @media (min-width: #{$desktop}) {
-    padding: 0 nhs.$nhs-fdp-spacing-4; // 32px on desktop
-  }
+	max-width: 100%;
+	margin: 0 auto;
+	padding: 0 nhs.$nhs-fdp-spacing-2; // 16px on mobile
+
+	// Typography defaults
+	font-family:
+		#{nhs.$nhs-fdp-font-family-base},
+		#{nhs.$nhs-fdp-font-family-fallback};
+
+	@include nhs.nhs-fdp-font(19);
+
+	@media (min-width: #{$desktop}) {
+		padding: 0 nhs.$nhs-fdp-spacing-4; // 32px on desktop
+	}
 }
 
 // Grid row using CSS Grid
 .nhsuk-grid-row {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: nhs.$nhs-fdp-spacing-2; // 16px gap between columns
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-  
-  @media (min-width: #{$desktop}) {
-    gap: nhs.$nhs-fdp-spacing-4; // 32px gap on desktop
-  }
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	gap: nhs.$nhs-fdp-spacing-2; // 16px gap between columns
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
+
+	@media (min-width: #{$desktop}) {
+		gap: nhs.$nhs-fdp-spacing-4; // 32px gap on desktop
+	}
 }
 
 // Grid columns using grid-column
 .nhsuk-grid-column-full {
-  grid-column: 1 / -1; // Full width (all 12 columns)
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+	grid-column: 1 / -1; // Full width (all 12 columns)
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
 
 .nhsuk-grid-column-three-quarters {
-  grid-column: span 12; // Full width on mobile
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-  
-  @media (min-width: #{$desktop}) {
-    grid-column: span 9; // 9/12 columns on desktop
-  }
+	grid-column: span 12; // Full width on mobile
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
+
+	@media (min-width: #{$desktop}) {
+		grid-column: span 9; // 9/12 columns on desktop
+	}
 }
 
 .nhsuk-grid-column-two-thirds {
-  grid-column: span 12; // Full width on mobile
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-  
-  @media (min-width: #{$desktop}) {
-    grid-column: span 8; // 8/12 columns on desktop
-  }
+	grid-column: span 12; // Full width on mobile
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
+
+	@media (min-width: #{$desktop}) {
+		grid-column: span 8; // 8/12 columns on desktop
+	}
 }
 
 .nhsuk-grid-column-one-half {
-  grid-column: span 12; // Full width on mobile
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-  
-  @media (min-width: #{$tablet}) {
-    grid-column: span 6; // 6/12 columns from tablet up
-  }
+	grid-column: span 12; // Full width on mobile
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
+
+	@media (min-width: #{$tablet}) {
+		grid-column: span 6; // 6/12 columns from tablet up
+	}
 }
 
 .nhsuk-grid-column-one-third {
-  grid-column: span 12; // Full width on mobile
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-  
-  @media (min-width: #{$desktop}) {
-    grid-column: span 4; // 4/12 columns on desktop
-  }
+	grid-column: span 12; // Full width on mobile
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
+
+	@media (min-width: #{$desktop}) {
+		grid-column: span 4; // 4/12 columns on desktop
+	}
 }
 
 .nhsuk-grid-column-one-quarter {
-  grid-column: span 12; // Full width on mobile
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-  
-  @media (min-width: #{$desktop}) {
-    grid-column: span 3; // 3/12 columns on desktop
-  }
+	grid-column: span 12; // Full width on mobile
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
+
+	@media (min-width: #{$desktop}) {
+		grid-column: span 3; // 3/12 columns on desktop
+	}
 }
 
 // Utility classes for forced widths at all screen sizes
 .nhsuk-u-full {
-  grid-column: 1 / -1 !important;
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+	grid-column: 1 / -1 !important;
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
 
 .nhsuk-u-three-quarters {
-  grid-column: span 9 !important;
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+	grid-column: span 9 !important;
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
 
 .nhsuk-u-two-thirds {
-  grid-column: span 8 !important;
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+	grid-column: span 8 !important;
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
 
 .nhsuk-u-one-half {
-  grid-column: span 6 !important;
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+	grid-column: span 6 !important;
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
 
 .nhsuk-u-one-third {
-  grid-column: span 4 !important;
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+	grid-column: span 4 !important;
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
 
 .nhsuk-u-one-quarter {
-  grid-column: span 3 !important;
-  
-  // Typography inheritance
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+	grid-column: span 3 !important;
+
+	// Typography inheritance
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
 
 // Responsive utilities for specific breakpoints
 @media (max-width: #{$tablet - 1px}) {
-  .nhsuk-u-full-mobile { 
-    grid-column: 1 / -1 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
-  .nhsuk-u-one-half-mobile { 
-    grid-column: span 6 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
-  .nhsuk-u-one-third-mobile { 
-    grid-column: span 4 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
-  .nhsuk-u-one-quarter-mobile { 
-    grid-column: span 3 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
+	.nhsuk-u-full-mobile {
+		grid-column: 1 / -1 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
+	.nhsuk-u-one-half-mobile {
+		grid-column: span 6 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
+	.nhsuk-u-one-third-mobile {
+		grid-column: span 4 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
+	.nhsuk-u-one-quarter-mobile {
+		grid-column: span 3 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
 }
 
 @media (min-width: #{$tablet}) and (max-width: #{$desktop - 1px}) {
-  .nhsuk-u-full-tablet { 
-    grid-column: 1 / -1 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
-  .nhsuk-u-two-thirds-tablet { 
-    grid-column: span 8 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
-  .nhsuk-u-one-half-tablet { 
-    grid-column: span 6 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
-  .nhsuk-u-one-third-tablet { 
-    grid-column: span 4 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
+	.nhsuk-u-full-tablet {
+		grid-column: 1 / -1 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
+	.nhsuk-u-two-thirds-tablet {
+		grid-column: span 8 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
+	.nhsuk-u-one-half-tablet {
+		grid-column: span 6 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
+	.nhsuk-u-one-third-tablet {
+		grid-column: span 4 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
 }
 
 @media (min-width: #{$desktop}) {
-  .nhsuk-u-full-desktop { 
-    grid-column: 1 / -1 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
-  .nhsuk-u-three-quarters-desktop { 
-    grid-column: span 9 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
-  .nhsuk-u-two-thirds-desktop { 
-    grid-column: span 8 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
-  .nhsuk-u-one-half-desktop { 
-    grid-column: span 6 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
-  .nhsuk-u-one-third-desktop { 
-    grid-column: span 4 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
-  .nhsuk-u-one-quarter-desktop { 
-    grid-column: span 3 !important; 
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-  }
+	.nhsuk-u-full-desktop {
+		grid-column: 1 / -1 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
+	.nhsuk-u-three-quarters-desktop {
+		grid-column: span 9 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
+	.nhsuk-u-two-thirds-desktop {
+		grid-column: span 8 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
+	.nhsuk-u-one-half-desktop {
+		grid-column: span 6 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
+	.nhsuk-u-one-third-desktop {
+		grid-column: span 4 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
+	.nhsuk-u-one-quarter-desktop {
+		grid-column: span 3 !important;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		color: inherit;
+	}
 }
 
 // Column positioning utilities
-.nhsuk-grid-column-start-1 { 
-  grid-column-start: 1; 
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+.nhsuk-grid-column-start-1 {
+	grid-column-start: 1;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
-.nhsuk-grid-column-start-2 { 
-  grid-column-start: 2; 
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+.nhsuk-grid-column-start-2 {
+	grid-column-start: 2;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
-.nhsuk-grid-column-start-3 { 
-  grid-column-start: 3; 
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+.nhsuk-grid-column-start-3 {
+	grid-column-start: 3;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
-.nhsuk-grid-column-start-4 { 
-  grid-column-start: 4; 
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+.nhsuk-grid-column-start-4 {
+	grid-column-start: 4;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
-.nhsuk-grid-column-start-5 { 
-  grid-column-start: 5; 
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+.nhsuk-grid-column-start-5 {
+	grid-column-start: 5;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
-.nhsuk-grid-column-start-6 { 
-  grid-column-start: 6; 
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+.nhsuk-grid-column-start-6 {
+	grid-column-start: 6;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
-.nhsuk-grid-column-start-7 { 
-  grid-column-start: 7; 
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+.nhsuk-grid-column-start-7 {
+	grid-column-start: 7;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
 }
 
 // Grid debugging utility
 .nhsuk-grid-debug {
-  .nhsuk-grid-row {
-    background: rgba(255, 0, 0, 0.1);
-    outline: 1px solid red;
-    position: relative;
-    
-    &::before {
-      content: 'Grid Row';
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: red;
-      color: white;
-      padding: 2px 4px;
-      font-size: 10px;
-      z-index: 1000;
-    }
-  }
-  
-  [class*="nhsuk-grid-column-"],
-  [class*="nhsuk-u-"] {
-    background: rgba(0, 255, 0, 0.1) !important;
-    outline: 1px solid green !important;
-    min-height: 50px;
-    position: relative;
-    
-    &::before {
-      content: attr(class);
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: green;
-      color: white;
-      padding: 2px 4px;
-      font-size: 10px;
-      z-index: 1000;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-    }
-  }
+	.nhsuk-grid-row {
+		background: rgba(255, 0, 0, 0.1);
+		outline: 1px solid red;
+		position: relative;
+
+		&::before {
+			content: "Grid Row";
+			position: absolute;
+			top: 0;
+			left: 0;
+			background: red;
+			color: white;
+			padding: 2px 4px;
+			font-size: 10px;
+			z-index: 1000;
+		}
+	}
+
+	[class*="nhsuk-grid-column-"],
+	[class*="nhsuk-u-"] {
+		background: rgba(0, 255, 0, 0.1) !important;
+		outline: 1px solid green !important;
+		min-height: 50px;
+		position: relative;
+
+		&::before {
+			content: attr(class);
+			position: absolute;
+			top: 0;
+			left: 0;
+			background: green;
+			color: white;
+			padding: 2px 4px;
+			font-size: 10px;
+			z-index: 1000;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			max-width: 100%;
+		}
+	}
 }

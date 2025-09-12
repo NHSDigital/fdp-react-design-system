@@ -4,6 +4,7 @@ import { SlotMatrixProps, SlotMatrixSlot, InternalSlotCellData, LegendItem } fro
 import { SlotMatrixToolbar } from './SlotMatrixToolbar';
 import { SlotMatrixLegend } from './SlotMatrixLegend';
 import { Grid, Row, Column } from '../Grid';
+import { GridWidth } from '../Grid/Grid.types';
 import './SlotMatrix.scss';
 
 /**
@@ -104,7 +105,7 @@ export const SlotMatrix: React.FC<SlotMatrixProps> = ({
     <div style={style} className={classNames(className)}>
       <Grid className={classNames('nhs-slot-matrix-grid-wrapper')}>
       <Row>
-        <Column width="full">
+  <Column width={GridWidth.Full}>
           <div className="nhs-slot-matrix">
             {toolbarNode}
             {legendPlacement === 'top' && legendNode}
@@ -130,7 +131,7 @@ export const SlotMatrix: React.FC<SlotMatrixProps> = ({
     <div style={style} className={classNames(className)}>
       <Grid className={classNames('nhs-slot-matrix-grid-wrapper')}>
       <Row>
-        <Column width="full">
+  <Column width={GridWidth.Full}>
           <div className="nhs-slot-matrix">
             {toolbarNode}
             {legendPlacement === 'top' && legendNode}

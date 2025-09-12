@@ -85,6 +85,7 @@ export {
 	type MetricDelta,
 	type MetricStatus,
 } from "./components/MetricCard/MetricCard.tsx";
+export { default as DataVizWizard, type DataVizWizardProps } from "./wizard/DataVizWizard";
 export {
 	default as SPCChart,
 	type SPCChartProps,

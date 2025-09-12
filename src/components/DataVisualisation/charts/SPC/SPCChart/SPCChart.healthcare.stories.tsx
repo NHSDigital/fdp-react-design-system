@@ -89,13 +89,10 @@ const rttValues = [
 	80.7, 81.2, 81, 80.8, 81, 81.3, 81.6, 82, 83.2, 84.5, 84,
 ];
 
-export const ED4HourCompliance: Story = {
-    args: {
-        sequenceTransition: undefined,
-        useSqlCompatEngine: true
-    },
-
-    parameters: {
+export const ED4HourComplianceBase: Story = {
+	args: { sequenceTransition: undefined },
+	name: 'ED 4h compliance — ungated visuals (base)',
+	parameters: {
 		docs: {
 			description: {
 				story:
@@ -105,13 +102,11 @@ export const ED4HourCompliance: Story = {
 		metricContext: { improvement: "up" },
 	},
 
-    render: (_args, { globals }) => {
+	render: (_args) => {
 		const data = series(ed4hValues);
-		const sqlMode = globals?.sqlCompatMode === 'sql';
-		//const sql = sqlMode ? buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) }) : null;
 		return (
 			<ChartContainer
-				title={`ED 4h Compliance – ${sqlMode ? 'SQL Compat' : 'Base'}`}
+				title={`ED 4h compliance — ungated visuals (base)`}
 				description="% patients seen/admitted/discharged within 4h"
 				source="Synthetic"
 			>
@@ -124,7 +119,7 @@ export const ED4HourCompliance: Story = {
 					announceFocus
 					targets={Array(ed4hValues.length).fill(75)}
 					gradientSequences
-					useSqlCompatEngine={sqlMode}
+					useSqlCompatEngine={false}
 					narrationContext={{
 						measureName: 'ED 4h compliance',
 						datasetContext: 'Monthly trust-wide data',
@@ -132,7 +127,43 @@ export const ED4HourCompliance: Story = {
 						additionalNote: 'Intervention at month 13'
 					}}
 				/>
-				{/* {sqlMode && sql && <PrimeDirectionSummary rows={sql.rows as any} data-testid="prime-direction-ed4h" />} */}
+			</ChartContainer>
+		);
+	}
+};
+
+export const ED4HourComplianceSql: Story = {
+	args: { sequenceTransition: undefined },
+	name: 'ED 4h compliance — gated visuals (sql)',
+	parameters: {
+		docs: { description: { story: "Same dataset rendered with SQL compatibility filter (gated visuals)." } },
+		metricContext: { improvement: 'up' }
+	},
+	render: () => {
+		const data = series(ed4hValues);
+		return (
+			<ChartContainer
+				title={`ED 4h compliance — gated visuals (sql)`}
+				description="% patients seen/admitted/discharged within 4h"
+				source="Synthetic"
+			>
+				<SPCChart
+					data={data}
+					chartType={ChartType.XmR}
+					metricImprovement={ImprovementDirection.Up}
+					unit="%"
+					enableRules
+					announceFocus
+					targets={Array(ed4hValues.length).fill(75)}
+					gradientSequences
+					useSqlCompatEngine={true}
+					narrationContext={{
+						measureName: 'ED 4h compliance',
+						datasetContext: 'Monthly trust-wide data',
+						timeframe: '24 months',
+						additionalNote: 'Intervention at month 13'
+					}}
+				/>
 			</ChartContainer>
 		);
 	}

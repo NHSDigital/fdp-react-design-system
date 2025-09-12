@@ -2252,6 +2252,155 @@
           "endDate": "2025-12-24"
         }
       ]
+    },
+    {
+      "heading": "Transactional Patterns (SSR by default)",
+      "roadmapItems": [
+        {
+          "id": "txn-phase-1",
+          "title": "Wizard & Review",
+          "content": "FormWizard scaffolding; Check your answers; Save & return",
+          "date": 2,
+          "length": 2,
+          "partialLength": 1,
+          "ariaLabel": "Transactional Phase 1: Wizard scaffolding, Review, Save & return Oct–Nov 2025",
+          "childItems": [
+            {
+              "id": "txn-phase-1__wizard-scaffold",
+              "parentId": "txn-phase-1",
+              "position": 1,
+              "title": "FormWizard scaffolding",
+              "startDate": "2025-10-01",
+              "endDate": "2025-10-20",
+              "startColumn": 2,
+              "endColumn": 3,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "txn-phase-1__check-answers",
+              "parentId": "txn-phase-1",
+              "position": 2,
+              "title": "Check your answers template",
+              "startDate": "2025-10-21",
+              "endDate": "2025-11-05",
+              "startColumn": 2,
+              "endColumn": 3,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "txn-phase-1__save-return",
+              "parentId": "txn-phase-1",
+              "position": 3,
+              "title": "Save & return pattern",
+              "startDate": "2025-11-06",
+              "endDate": "2025-11-20",
+              "startColumn": 2,
+              "endColumn": 3,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-10-01",
+          "endDate": "2025-11-20"
+        },
+        {
+          "id": "txn-phase-2",
+          "title": "Stepper & Error wiring",
+          "content": "Stepper/ProgressIndicator; ErrorSummary wiring helpers",
+          "date": 4,
+          "length": 2,
+          "partialLength": 1,
+          "ariaLabel": "Transactional Phase 2: Stepper & Error wiring Dec 2025–Jan 2026",
+          "childItems": [
+            {
+              "id": "txn-phase-2__stepper",
+              "parentId": "txn-phase-2",
+              "position": 1,
+              "title": "Stepper/ProgressIndicator",
+              "startDate": "2025-12-01",
+              "endDate": "2025-12-18",
+              "startColumn": 4,
+              "endColumn": 5,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "txn-phase-2__error-wiring",
+              "parentId": "txn-phase-2",
+              "position": 2,
+              "title": "ErrorSummary wiring helpers",
+              "startDate": "2025-12-19",
+              "endDate": "2026-01-08",
+              "startColumn": 4,
+              "endColumn": 5,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2025-12-01",
+          "endDate": "2026-01-08"
+        },
+        {
+          "id": "txn-phase-3",
+          "title": "Roster/Scheduling recipes",
+          "content": "SlotMatrix recipes: spans, labels, accessibility; docs",
+          "date": 6,
+          "length": 2,
+          "partialLength": 1,
+          "ariaLabel": "Transactional Phase 3: Roster & scheduling recipes Feb–Mar 2026",
+          "childItems": [
+            {
+              "id": "txn-phase-3__slotmatrix-recipes",
+              "parentId": "txn-phase-3",
+              "position": 1,
+              "title": "SlotMatrix recipes",
+              "startDate": "2026-02-01",
+              "endDate": "2026-02-19",
+              "startColumn": 6,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            },
+            {
+              "id": "txn-phase-3__docs-examples",
+              "parentId": "txn-phase-3",
+              "position": 2,
+              "title": "Docs & examples",
+              "startDate": "2026-02-20",
+              "endDate": "2026-03-10",
+              "startColumn": 6,
+              "endColumn": 7,
+              "status": "planned",
+              "type": "task",
+              "labels": [],
+              "estimate": null,
+              "priority": "medium"
+            }
+          ],
+          "startDate": "2026-02-01",
+          "endDate": "2026-03-10"
+        }
+      ]
     }
   ],
   "drilldown": {
@@ -2965,6 +3114,59 @@
           "type": "atom",
           "name": "DataFreshnessBadge",
           "description": "Last updated timestamp"
+        }
+      ]
+    },
+    "txn-phase-1": {
+      "workstream": "Transactional Patterns (SSR by default)",
+      "programme": "Wizard & Review",
+      "components": [
+        {
+          "type": "organism",
+          "name": "FormWizard",
+          "description": "Scaffold: path/state, validation, save & return, ErrorSummary"
+        },
+        {
+          "type": "molecule",
+          "name": "ReviewAnswers",
+          "description": "SummaryList with change links and action panel"
+        },
+        {
+          "type": "molecule",
+          "name": "SaveReturnBanner",
+          "description": "Return-to-draft banner with persistence notice"
+        }
+      ]
+    },
+    "txn-phase-2": {
+      "workstream": "Transactional Patterns (SSR by default)",
+      "programme": "Stepper & Error wiring",
+      "components": [
+        {
+          "type": "molecule",
+          "name": "Stepper",
+          "description": "Progress indicator ‘Step n of m’ with ARIA semantics"
+        },
+        {
+          "type": "utility",
+          "name": "ErrorSummaryHelpers",
+          "description": "Map field errors to summary; focus management utilities"
+        }
+      ]
+    },
+    "txn-phase-3": {
+      "workstream": "Transactional Patterns (SSR by default)",
+      "programme": "Roster/Scheduling recipes",
+      "components": [
+        {
+          "type": "organism",
+          "name": "SlotMatrixRecipes",
+          "description": "Session/slot spans, labels, a11y patterns built on SlotMatrix"
+        },
+        {
+          "type": "docs",
+          "name": "Examples",
+          "description": "Guides and examples for scheduling patterns"
         }
       ]
     }

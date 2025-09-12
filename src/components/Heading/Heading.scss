@@ -1,111 +1,145 @@
 // NHS Heading SCSS - Reusable heading component with size variants
-@use '../../../packages/nhs-fdp/scss' as nhs;
+@use "../../../packages/nhs-fdp/scss" as nhs;
 
 // Reusable mixin for size variants
 // $name: modifier suffix (without leading --)
 // $font-mobile / $font-tablet: font-size tokens
 // $lh-mobile / $lh-tablet: line-height tokens
 // $mb-mobile / $mb-tablet: margin-bottom tokens
-@mixin heading-variant($name, $font-mobile, $lh-mobile, $mb-mobile, $font-tablet, $lh-tablet, $mb-tablet) {
-  &--#{$name} {
-    font-size: $font-mobile;
-    line-height: $lh-mobile;
-    margin-bottom: $mb-mobile;
-    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-      font-size: $font-tablet;
-      line-height: $lh-tablet;
-      margin-bottom: $mb-tablet;
-    }
-  }
+@mixin heading-variant(
+	$name,
+	$font-mobile,
+	$lh-mobile,
+	$mb-mobile,
+	$font-tablet,
+	$lh-tablet,
+	$mb-tablet
+) {
+	&--#{$name} {
+		font-size: $font-mobile;
+		line-height: $lh-mobile;
+		margin-bottom: $mb-mobile;
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			font-size: $font-tablet;
+			line-height: $lh-tablet;
+			margin-bottom: $mb-tablet;
+		}
+	}
 }
 
 .nhsuk-heading {
-  font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
-  font-weight: nhs.$nhs-fdp-font-weight-bold;
-  // Base line-height (fallback if a size modifier not used)
-  line-height: nhs.$nhs-fdp-font-line-height-19-mobile;
-  // Top margin is applied conditionally (not first-child) using size-based token mapping below
-  margin-top: 0;
-  margin-bottom: nhs.$nhs-fdp-spacing-responsive-3-mobile;
-  // Base (unmodified) heading fallback custom properties declared early to avoid
-  // Sass mixed-decls deprecation (declarations must precede nested rules).
-  --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-3-mobile};
-  --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-3-tablet};
-  
-  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-    margin-bottom: nhs.$nhs-fdp-spacing-responsive-3-tablet;
-  }
+	font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+	font-weight: nhs.$nhs-fdp-font-weight-bold;
+	// Base line-height (fallback if a size modifier not used)
+	line-height: nhs.$nhs-fdp-font-line-height-36-desktop;
+	// Top margin is applied conditionally (not first-child) using size-based token mapping below
+	margin-top: 0;
+	margin-bottom: nhs.$nhs-fdp-spacing-responsive-3-mobile;
+	// Base (unmodified) heading fallback custom properties declared early to avoid
+	// Sass mixed-decls deprecation (declarations must precede nested rules).
+	--nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-3-mobile};
+	--nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-3-tablet};
 
-  // Size variants (independent of semantic level)
-  // Size variants via mixin
-  @include heading-variant(xs,
-    nhs.$nhs-fdp-font-size-16-mobile,
-    nhs.$nhs-fdp-font-line-height-16-mobile,
-    nhs.$nhs-fdp-spacing-responsive-4-mobile,
-    nhs.$nhs-fdp-font-size-19-tablet,
-    nhs.$nhs-fdp-font-line-height-19-tablet,
-    nhs.$nhs-fdp-spacing-responsive-4-tablet
-  );
-  @include heading-variant(s,
-    nhs.$nhs-fdp-font-size-19-mobile,
-    nhs.$nhs-fdp-font-line-height-19-mobile,
-    nhs.$nhs-fdp-spacing-responsive-4-mobile,
-    nhs.$nhs-fdp-font-size-22-tablet,
-    nhs.$nhs-fdp-font-line-height-22-tablet,
-    nhs.$nhs-fdp-spacing-responsive-4-tablet
-  );
-  @include heading-variant(m,
-    nhs.$nhs-fdp-font-size-22-mobile,
-    nhs.$nhs-fdp-font-line-height-22-mobile,
-    nhs.$nhs-fdp-spacing-responsive-4-mobile,
-    nhs.$nhs-fdp-font-size-26-tablet,
-    nhs.$nhs-fdp-font-line-height-26-tablet,
-    nhs.$nhs-fdp-spacing-responsive-4-tablet
-  );
-  @include heading-variant(l,
-    nhs.$nhs-fdp-font-size-26-mobile,
-    nhs.$nhs-fdp-font-line-height-26-mobile,
-    nhs.$nhs-fdp-spacing-responsive-7-mobile,
-    nhs.$nhs-fdp-font-size-36-tablet,
-    nhs.$nhs-fdp-font-line-height-36-tablet,
-    nhs.$nhs-fdp-spacing-responsive-7-tablet
-  );
-  @include heading-variant(xl,
-    nhs.$nhs-fdp-font-size-36-mobile,
-    nhs.$nhs-fdp-font-line-height-36-mobile,
-    nhs.$nhs-fdp-spacing-responsive-7-mobile,
-    nhs.$nhs-fdp-font-size-48-tablet,
-    nhs.$nhs-fdp-font-line-height-48-tablet,
-    nhs.$nhs-fdp-spacing-responsive-7-tablet
-  );
-  @include heading-variant(xxl,
-    nhs.$nhs-fdp-font-size-48-mobile,
-    nhs.$nhs-fdp-font-line-height-48-mobile,
-    nhs.$nhs-fdp-spacing-responsive-8-mobile,
-    nhs.$nhs-fdp-font-size-48-tablet,
-    nhs.$nhs-fdp-font-line-height-48-tablet,
-    nhs.$nhs-fdp-spacing-responsive-8-tablet
-  );
+	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+		margin-bottom: nhs.$nhs-fdp-spacing-responsive-3-tablet;
+	}
 
-  // ---------------------------------------------------------------------------
-  // Responsive top margin tokens declared per size variant via custom props.
-  // Reordered: base custom properties first (declarations), then nested variant
-  // selectors to satisfy forthcoming Sass mixed-decls rule.
-  // Variant overrides
-  &--xs { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-3-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-3-tablet}; }
-  &--s  { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-4-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-4-tablet}; }
-  &--m  { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-4-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-4-tablet}; }
-  &--l  { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-5-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-5-tablet}; }
-  &--xl { --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-6-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-6-tablet}; }
-  &--xxl{ --nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-7-mobile}; --nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-7-tablet}; }
+	// Size variants (independent of semantic level)
+	// Size variants via mixin
+	@include heading-variant(
+		xs,
+		nhs.$nhs-fdp-font-size-16-mobile,
+		nhs.$nhs-fdp-font-line-height-16-mobile,
+		nhs.$nhs-fdp-spacing-responsive-4-mobile,
+		nhs.$nhs-fdp-font-size-19-tablet,
+		nhs.$nhs-fdp-font-line-height-19-tablet,
+		nhs.$nhs-fdp-spacing-responsive-4-tablet
+	);
+	@include heading-variant(
+		s,
+		nhs.$nhs-fdp-font-size-19-mobile,
+		nhs.$nhs-fdp-font-line-height-19-mobile,
+		nhs.$nhs-fdp-spacing-responsive-4-mobile,
+		nhs.$nhs-fdp-font-size-22-tablet,
+		nhs.$nhs-fdp-font-line-height-22-tablet,
+		nhs.$nhs-fdp-spacing-responsive-4-tablet
+	);
+	@include heading-variant(
+		m,
+		nhs.$nhs-fdp-font-size-22-mobile,
+		nhs.$nhs-fdp-font-line-height-22-mobile,
+		nhs.$nhs-fdp-spacing-responsive-4-mobile,
+		nhs.$nhs-fdp-font-size-26-tablet,
+		nhs.$nhs-fdp-font-line-height-26-tablet,
+		nhs.$nhs-fdp-spacing-responsive-4-tablet
+	);
+	@include heading-variant(
+		l,
+		nhs.$nhs-fdp-font-size-26-mobile,
+		nhs.$nhs-fdp-font-line-height-26-mobile,
+		nhs.$nhs-fdp-spacing-responsive-7-mobile,
+		nhs.$nhs-fdp-font-size-36-tablet,
+		nhs.$nhs-fdp-font-line-height-36-tablet,
+		nhs.$nhs-fdp-spacing-responsive-7-tablet
+	);
+	@include heading-variant(
+		xl,
+		nhs.$nhs-fdp-font-size-36-mobile,
+		nhs.$nhs-fdp-font-line-height-36-mobile,
+		nhs.$nhs-fdp-spacing-responsive-7-mobile,
+		nhs.$nhs-fdp-font-size-48-tablet,
+		nhs.$nhs-fdp-font-line-height-48-tablet,
+		nhs.$nhs-fdp-spacing-responsive-7-tablet
+	);
+	@include heading-variant(
+		xxl,
+		nhs.$nhs-fdp-font-size-48-mobile,
+		nhs.$nhs-fdp-font-line-height-48-mobile,
+		nhs.$nhs-fdp-spacing-responsive-8-mobile,
+		nhs.$nhs-fdp-font-size-48-tablet,
+		nhs.$nhs-fdp-font-line-height-48-tablet,
+		nhs.$nhs-fdp-spacing-responsive-8-tablet
+	);
 
-  &:not(:first-child) {
-    margin-top: var(--nhs-heading-mt-mobile);
-    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-      margin-top: var(--nhs-heading-mt-tablet);
-    }
-  }
+	// ---------------------------------------------------------------------------
+	// Responsive top margin tokens declared per size variant via custom props.
+	// Reordered: base custom properties first (declarations), then nested variant
+	// selectors to satisfy forthcoming Sass mixed-decls rule.
+	// Variant overrides
+	&--xs {
+		--nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-3-mobile};
+		--nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-3-tablet};
+	}
+	&--s {
+		--nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-4-mobile};
+		--nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-4-tablet};
+	}
+	&--m {
+		--nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-4-mobile};
+		--nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-4-tablet};
+	}
+	&--l {
+		--nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-5-mobile};
+		--nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-5-tablet};
+	}
+	&--xl {
+		--nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-6-mobile};
+		--nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-6-tablet};
+	}
+	&--xxl {
+		--nhs-heading-mt-mobile: #{nhs.$nhs-fdp-spacing-responsive-7-mobile};
+		--nhs-heading-mt-tablet: #{nhs.$nhs-fdp-spacing-responsive-7-tablet};
+	}
 
-  // Utility modifier to explicitly suppress top margin when applied after another block
-  &--no-mt { margin-top: 0 !important; }
+	&:not(:first-child) {
+		margin-top: var(--nhs-heading-mt-mobile);
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			margin-top: var(--nhs-heading-mt-tablet);
+		}
+	}
+
+	// Utility modifier to explicitly suppress top margin when applied after another block
+	&--no-mt {
+		margin-top: 0 !important;
+	}
 }

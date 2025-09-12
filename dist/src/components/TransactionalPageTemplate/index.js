@@ -949,7 +949,7 @@ var Row = ({
 };
 var Column = ({
   children,
-  width = "full",
+  width = "full" /* Full */,
   mobileWidth,
   tabletWidth,
   desktopWidth,
@@ -957,6 +957,7 @@ var Column = ({
   className,
   forceWidth = false,
   style,
+  align,
   ...props
 }) => {
   const columnClasses = (0, import_classnames5.default)(
@@ -966,11 +967,15 @@ var Column = ({
       // Utility classes that force width on all screen sizes
       [`nhsuk-u-${width}`]: forceWidth,
       // Responsive width overrides
-      [`nhsuk-u-${mobileWidth}-mobile`]: mobileWidth,
-      [`nhsuk-u-${tabletWidth}-tablet`]: tabletWidth,
-      [`nhsuk-u-${desktopWidth}-desktop`]: desktopWidth,
+      [`nhsuk-u-${mobileWidth}-mobile`]: !!mobileWidth,
+      [`nhsuk-u-${tabletWidth}-tablet`]: !!tabletWidth,
+      [`nhsuk-u-${desktopWidth}-desktop`]: !!desktopWidth,
       // Grid positioning
-      [`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7
+      [`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7,
+      // Alignment
+      "nhsuk-grid-align-left": align === "left" /* Left */,
+      "nhsuk-grid-align-center": align === "center" /* Center */,
+      "nhsuk-grid-align-right": align === "right" /* Right */
     },
     className
   );
@@ -1171,7 +1176,7 @@ var BackLink = ({
 import { Fragment as Fragment5, jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
 var TransactionalPageTemplate = ({
   children,
-  pageTitle,
+  title,
   pageHeadingProps,
   columnWidth = "two-thirds",
   mainWrapperSize = "small",
@@ -1204,7 +1209,7 @@ var TransactionalPageTemplate = ({
     /* @__PURE__ */ jsxs6(WidthContainer, { className, ...containerProps, children: [
       backLinkProps && /* @__PURE__ */ jsx11(BackLink, { ...backLinkProps }),
       /* @__PURE__ */ jsx11(MainWrapper, { size: mainWrapperSize, children: /* @__PURE__ */ jsx11(Row, { children: /* @__PURE__ */ jsxs6(Column, { width: columnWidth, children: [
-        pageTitle && /* @__PURE__ */ jsx11(Heading, { size: "l", ...pageHeadingProps, children: pageTitle }),
+        title && /* @__PURE__ */ jsx11(Heading, { style: { marginTop: "3rem" }, size: "l", ...pageHeadingProps, children: title }),
         children
       ] }) }) })
     ] }),

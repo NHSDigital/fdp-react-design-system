@@ -91,6 +91,7 @@ span .nhsuk-u-visually-hidden {
 .nhsuk-summary-list-container {
   background-color: #f0f4f5;
   padding: 16px;
+  margin-bottom: 40px;
 }
 @media (min-width: 768px) {
   .nhsuk-summary-list-container {
@@ -107,7 +108,6 @@ span .nhsuk-u-visually-hidden {
 }
 @media (min-width: 768px) {
   .nhsuk-summary-list {
-    margin-bottom: 40px;
     border-collapse: collapse;
     display: table;
     table-layout: fixed;

@@ -1,32 +1,32 @@
-import React from 'react';
-import { ContainerProps, GridWidth } from '../Grid/Grid.types';
-import { MainWrapperProps } from '../MainWrapper/MainWrapper.types';
-import { SkipLinkProps } from '../SkipLink/SkipLink.types';
-import { HeaderProps } from '../Header/Header.types';
-import { FooterProps } from '../Footer/Footer.types';
-import { HeadingProps } from '../Heading/Heading.types';
-import { BackLinkProps } from '../BackLink/BackLink.types';
+import React from "react";
+import { ContainerProps, GridWidth } from "../Grid/Grid.types";
+import { MainWrapperProps } from "../MainWrapper/MainWrapper.types";
+import { SkipLinkProps } from "../SkipLink/SkipLink.types";
+import { HeaderProps } from "../Header/Header.types";
+import { FooterProps } from "../Footer/Footer.types";
+import { HeadingProps } from "../Heading/Heading.types";
+import { BackLinkProps } from "../BackLink/BackLink.types";
 /**
  * TransactionalPageTemplate Component Props
  *
  * Complete transactional page template following NHS Service Manual guidance.
  * Used for transactional services like forms, applications, and user journeys.
  */
-export interface TransactionalPageTemplateProps extends Omit<ContainerProps, 'children'> {
+export interface TransactionalPageTemplateProps extends Omit<ContainerProps, "children"> {
     /** Content to render inside the page template */
     children: React.ReactNode;
     /** Main page title/heading */
-    pageTitle?: string;
+    title?: string;
     /** Props to customize the page heading */
-    pageHeadingProps?: Omit<HeadingProps, 'level' | 'size' | 'children'>;
+    pageHeadingProps?: Omit<HeadingProps, "level" | "size" | "children">;
     /** Column width for main content area */
     columnWidth?: GridWidth;
     /** Size variant for MainWrapper */
-    mainWrapperSize?: MainWrapperProps['size'];
+    mainWrapperSize?: MainWrapperProps["size"];
     /** Skip link configuration */
     skipLinkProps?: SkipLinkProps;
     /** Header configuration (simplified for transactional use) */
-    headerProps?: Omit<HeaderProps, 'navigation' | 'search' | 'account'>;
+    headerProps?: Omit<HeaderProps, "navigation" | "search" | "account">;
     /** Footer configuration */
     footerProps?: FooterProps;
     /** Back link configuration */
@@ -36,7 +36,7 @@ export interface TransactionalPageTemplateProps extends Omit<ContainerProps, 'ch
     /** Service URL for the transactional header */
     serviceHref?: string;
     /** Logo configuration for header */
-    logo?: HeaderProps['logo'];
+    logo?: HeaderProps["logo"];
 }
 /**
  * TransactionalPageTemplate Component

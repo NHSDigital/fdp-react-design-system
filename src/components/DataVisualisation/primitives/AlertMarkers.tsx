@@ -75,7 +75,7 @@ export const AlertMarkers: React.FC<AlertMarkersProps> = ({
 	const chart = useChartContext();
 	const scales = useScaleContext();
 	if (!chart || !scales || !points.length) return null;
-	const { innerHeight } = chart;
+	// Note: innerHeight available on chart, not currently used here
 	const mapX = (x: any) => (x instanceof Date ? x : new Date(x));
 	return (
 		<g className="fdp-annot-markers" aria-hidden>

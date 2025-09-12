@@ -1,15 +1,25 @@
-import { createButtonBehaviour, initButtons, detachButtons } from "./buttonBehaviour";
-import { initRadios, detachRadios } from "./radiosBehaviour";
-import { initRanges, detachRanges } from "./rangeBehaviour";
-import { initCharacterCounts, detachCharacterCounts } from "./characterCountBehaviour";
-import { initCheckboxes, detachCheckboxes } from "./checkboxesBehaviour";
-import { initHeaders, detachHeaders } from "./headerBehaviour";
-import { initButtons as initButtons2, detachButtons as detachButtons2 } from "./buttonBehaviour";
-import { initRadios as initRadios2, detachRadios as detachRadios2 } from "./radiosBehaviour";
-import { initRanges as initRanges2, detachRanges as detachRanges2 } from "./rangeBehaviour";
-import { initCharacterCounts as initCharacterCounts2, detachCharacterCounts as detachCharacterCounts2 } from "./characterCountBehaviour";
-import { initCheckboxes as initCheckboxes2, detachCheckboxes as detachCheckboxes2 } from "./checkboxesBehaviour";
-import { initHeaders as initHeaders2, detachHeaders as detachHeaders2 } from "./headerBehaviour";
+import {
+  createButtonBehaviour,
+  initButtons,
+  detachButtons
+} from "./buttonBehaviour.js";
+import { initRadios, detachRadios } from "./radiosBehaviour.js";
+import { initRanges, detachRanges } from "./rangeBehaviour.js";
+import {
+  initCharacterCounts,
+  detachCharacterCounts
+} from "./characterCountBehaviour.js";
+import { initCheckboxes, detachCheckboxes } from "./checkboxesBehaviour.js";
+import { initHeaders, detachHeaders } from "./headerBehaviour.js";
+import { initButtons as initButtons2, detachButtons as detachButtons2 } from "./buttonBehaviour.js";
+import { initRadios as initRadios2, detachRadios as detachRadios2 } from "./radiosBehaviour.js";
+import { initRanges as initRanges2, detachRanges as detachRanges2 } from "./rangeBehaviour.js";
+import {
+  initCharacterCounts as initCharacterCounts2,
+  detachCharacterCounts as detachCharacterCounts2
+} from "./characterCountBehaviour.js";
+import { initCheckboxes as initCheckboxes2, detachCheckboxes as detachCheckboxes2 } from "./checkboxesBehaviour.js";
+import { initHeaders as initHeaders2, detachHeaders as detachHeaders2 } from "./headerBehaviour.js";
 function initAll(scope = document) {
   initButtons2(scope);
   initRadios2(scope);

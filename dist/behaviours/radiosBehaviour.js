@@ -1,4 +1,4 @@
-import { attachConditionalReveals } from "./conditionalRevealUtil";
+import { attachConditionalReveals } from "./conditionalRevealUtil.js";
 function enhanceRadiosContainer(container) {
   var _a;
   const inputs = Array.from(container.querySelectorAll('input.nhsuk-radios__input[type="radio"][name]'));

@@ -2817,6 +2817,9 @@ var ChartRoot = ({
   return /* @__PURE__ */ jsx("div", { ref: dims.ref, className, style, role, "aria-label": ariaLabel, children: /* @__PURE__ */ jsx(ChartContext.Provider, { value: dims, children }) });
 };
 
+// src/components/DataVisualisation/core/TooltipContext.tsx
+import * as React5 from "react";
+
 // src/components/DataVisualisation/core/ScaleContext.tsx
 import * as React3 from "react";
 
@@ -5352,9 +5355,6 @@ var LineScalesProvider = ({
   return /* @__PURE__ */ jsx2(ScaleContext.Provider, { value, children });
 };
 
-// src/components/DataVisualisation/core/TooltipContext.tsx
-import * as React5 from "react";
-
 // src/components/DataVisualisation/core/VisibilityContext.tsx
 import * as React4 from "react";
 import { jsx as jsx3 } from "react/jsx-runtime";
@@ -6521,7 +6521,6 @@ var VariationIcon = /* @__PURE__ */ ((VariationIcon2) => {
   VariationIcon2["Improvement"] = "improvement";
   VariationIcon2["Concern"] = "concern";
   VariationIcon2["Neither"] = "neither";
-  VariationIcon2["None"] = "none";
   VariationIcon2["Suppressed"] = "suppressed";
   return VariationIcon2;
 })(VariationIcon || {});
@@ -6572,6 +6571,12 @@ var AssuranceIcon = /* @__PURE__ */ ((AssuranceIcon2) => {
   AssuranceIcon2["None"] = "none";
   return AssuranceIcon2;
 })(AssuranceIcon || {});
+var BaselineSuggestionReason = /* @__PURE__ */ ((BaselineSuggestionReason3) => {
+  BaselineSuggestionReason3["Shift"] = "shift";
+  BaselineSuggestionReason3["Trend"] = "trend";
+  BaselineSuggestionReason3["Point"] = "point";
+  return BaselineSuggestionReason3;
+})(BaselineSuggestionReason || {});
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcDescriptors.ts
 var ruleGlossary = {
@@ -6639,8 +6644,6 @@ function variationLabel(icon) {
       return "Concern signal";
     case "neither" /* Neither */:
       return "Common cause variation";
-    case "none" /* None */:
-    // deprecated alias
     case "suppressed" /* Suppressed */:
       return null;
     // suppressed / not enough data
@@ -6675,10 +6678,6 @@ var VARIATION_COLOR_TOKENS = {
     token: "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)",
     hex: "#E46C0A"
   },
-  none: {
-    token: "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)",
-    hex: "#490092"
-  },
   neither: {
     token: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
     hex: "#A6A6A6"
@@ -6698,6 +6697,1297 @@ function getVariationColorHex(icon) {
   if (!icon) return VARIATION_COLOR_TOKENS.neither.hex;
   return (_b2 = (_a2 = VARIATION_COLOR_TOKENS[icon]) == null ? void 0 : _a2.hex) != null ? _b2 : VARIATION_COLOR_TOKENS.neither.hex;
 }
+
+// src/mapping/tag.ts
+function mapTagProps(input) {
+  const { color: color2 = "default", noBorder, closable, disabled, className } = input;
+  const classes = [
+    "nhsuk-tag",
+    color2 !== "default" ? `nhsuk-tag--${color2}` : "",
+    noBorder ? "nhsuk-tag--no-border" : "",
+    closable ? "nhsuk-tag--closable" : "",
+    disabled ? "nhsuk-tag--disabled" : "",
+    className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, showClose: !!closable, disabled: !!disabled };
+}
+
+// src/components/Tag/Tag.tsx
+import { jsx as jsx8, jsxs as jsxs4 } from "react/jsx-runtime";
+var Tag = ({
+  text,
+  html,
+  children,
+  color: color2 = "default",
+  noBorder = false,
+  closable = false,
+  onClose,
+  disabled = false,
+  className,
+  ...props
+}) => {
+  const model = mapTagProps({ color: color2, noBorder, closable, disabled, className });
+  const handleClose = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!disabled && onClose) {
+      onClose();
+    }
+  };
+  return /* @__PURE__ */ jsxs4("strong", { className: model.classes, ...props, children: [
+    children ? children : html ? /* @__PURE__ */ jsx8("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
+    closable && /* @__PURE__ */ jsx8(
+      "button",
+      {
+        type: "button",
+        className: "nhsuk-tag__close",
+        onClick: handleClose,
+        disabled,
+        "aria-label": "Remove",
+        title: "Remove",
+        children: "\xD7"
+      }
+    )
+  ] });
+};
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
+import { jsx as jsx9, jsxs as jsxs5 } from "react/jsx-runtime";
+var SPCTooltipOverlay = ({
+  engineRows,
+  limits,
+  pointDescriber,
+  measureName,
+  measureUnit,
+  dateFormatter,
+  enableNeutralNoJudgement = true,
+  showTrendGatingExplanation = true
+}) => {
+  var _a2, _b2, _c, _d, _e, _f;
+  const tooltip = useTooltipContext();
+  const chart = useChartContext();
+  const [cachedFocus, setCachedFocus] = React8.useState(null);
+  const [hoveringTooltip, setHoveringTooltip] = React8.useState(false);
+  const hideTimeoutRef = React8.useRef(null);
+  React8.useEffect(() => {
+    if (!tooltip) return;
+    if (tooltip.focused) {
+      setCachedFocus(tooltip.focused);
+      if (hideTimeoutRef.current) {
+        cancelAnimationFrame(hideTimeoutRef.current);
+        hideTimeoutRef.current = null;
+      }
+    }
+    if (!tooltip.focused && !hoveringTooltip) {
+      const id = requestAnimationFrame(() => {
+        setCachedFocus(null);
+        hideTimeoutRef.current = null;
+      });
+      hideTimeoutRef.current = id;
+    }
+    return () => {
+      if (hideTimeoutRef.current) {
+        cancelAnimationFrame(hideTimeoutRef.current);
+        hideTimeoutRef.current = null;
+      }
+    };
+  }, [tooltip, tooltip == null ? void 0 : tooltip.focused, hoveringTooltip]);
+  const focused = tooltip && (tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
+  const [visible, setVisible] = React8.useState(false);
+  React8.useEffect(() => {
+    const id = requestAnimationFrame(() => setVisible(true));
+    return () => cancelAnimationFrame(id);
+  }, [focused == null ? void 0 : focused.index]);
+  const innerWidth = (_a2 = chart == null ? void 0 : chart.innerWidth) != null ? _a2 : 0;
+  const innerHeight = (_b2 = chart == null ? void 0 : chart.innerHeight) != null ? _b2 : 0;
+  const clampX = focused ? Math.min(Math.max(focused.clientX, 0), innerWidth) : 0;
+  const clampY = focused ? Math.min(Math.max(focused.clientY, 0), innerHeight) : 0;
+  const containerEl = (_c = chart.ref) == null ? void 0 : _c.current;
+  const host = containerEl;
+  if (!focused) {
+    return null;
+  }
+  const row = engineRows == null ? void 0 : engineRows[focused.index];
+  const ruleIds = extractRuleIds(row);
+  const rules = ruleIds.map((r) => ({ id: r, label: ruleGlossary[r].tooltip }));
+  const dateObj = focused.x instanceof Date ? focused.x : new Date(focused.x);
+  const dateLabel = dateFormatter ? dateFormatter(dateObj) : dateObj.toDateString();
+  const unit2 = measureUnit ? `${measureUnit}` : "";
+  const valueLabel = measureName || unit2 ? `${focused.y}${unit2 ? "" + unit2 : " "}${measureName ? " " + measureName : ""}` : `${focused.y}`;
+  const variationDesc = variationLabel(row == null ? void 0 : row.variationIcon);
+  const assuranceDesc = assuranceLabel(row == null ? void 0 : row.assuranceIcon);
+  const zone = zoneLabel(
+    (_d = limits.mean) != null ? _d : null,
+    limits.sigma,
+    focused.y
+  );
+  const narrative = pointDescriber ? pointDescriber(focused.index, { x: focused.x, y: focused.y }) : void 0;
+  const showBadges = variationDesc || assuranceDesc || zone;
+  const trendFlag = (row == null ? void 0 : row.specialCauseTrendUp) || (row == null ? void 0 : row.specialCauseTrendDown);
+  const variationNeutral = (row == null ? void 0 : row.variationIcon) === "neither" /* Neither */ && trendFlag;
+  const gatingExplanation = showTrendGatingExplanation && variationNeutral ? "Trend detected (monotonic run) \u2013 held neutral until values cross onto the favourable side of the mean." : null;
+  const hasRules = rules.length > 0;
+  const primeDirection = row == null ? void 0 : row.primeDirection;
+  const primeRuleId = row == null ? void 0 : row.primeRuleId;
+  const isNoJudgement = enableNeutralNoJudgement && (row == null ? void 0 : row.variationIcon) === "neither" /* Neither */ && hasRules;
+  const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
+  const spcDotColor = getVariationColorToken(row == null ? void 0 : row.variationIcon);
+  const charPx = 6.2;
+  const baseLinesForMeasure = [
+    narrative || "",
+    `${dateLabel} \u2022 ${valueLabel}`
+  ].filter(Boolean);
+  const contentWidthEstimate = baseLinesForMeasure.reduce(
+    (m, s) => Math.max(m, s.length * charPx + 32),
+    0
+  );
+  const minWidth = 200;
+  const maxWidth = 440;
+  const boxWidth = Math.min(maxWidth, Math.max(minWidth, contentWidthEstimate));
+  let left = clampX + 12;
+  const marginTop = (_f = (_e = chart.margin) == null ? void 0 : _e.top) != null ? _f : 0;
+  let top = marginTop + clampY + 16;
+  if (left + boxWidth > innerWidth) {
+    const flipGap = -60;
+    left = clampX - flipGap - boxWidth;
+  }
+  if (left < 0) left = Math.max(0, innerWidth - boxWidth);
+  const tooltipId = focused ? `spc-tooltip-${focused.index}` : "spc-tooltip";
+  const portal = host ? createPortal(
+    /* @__PURE__ */ jsx9(
+      "div",
+      {
+        id: tooltipId,
+        className: "fdp-spc-tooltip fdp-spc-tooltip-portal" + (visible ? " is-visible" : ""),
+        style: {
+          position: "absolute",
+          left,
+          top,
+          width: boxWidth,
+          maxWidth,
+          zIndex: 10,
+          pointerEvents: "auto",
+          userSelect: "none"
+        },
+        role: "tooltip",
+        "aria-live": "polite",
+        "aria-hidden": visible ? "false" : "true",
+        "data-floating": true,
+        "data-placement": left + boxWidth + 12 > innerWidth ? "left" : "right",
+        onPointerEnter: () => {
+          setHoveringTooltip(true);
+          if (hideTimeoutRef.current) {
+            cancelAnimationFrame(hideTimeoutRef.current);
+            hideTimeoutRef.current = null;
+          }
+        },
+        onPointerLeave: () => {
+          setHoveringTooltip(false);
+          if (!(tooltip == null ? void 0 : tooltip.focused)) {
+            const id = requestAnimationFrame(() => {
+              setCachedFocus(null);
+              hideTimeoutRef.current = null;
+            });
+            hideTimeoutRef.current = id;
+          }
+        },
+        children: /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__body", children: [
+          /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Date" }) }),
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
+          ] }),
+          /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--value", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Value" }) }),
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__primary-line", children: valueLabel })
+          ] }),
+          showBadges && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Signals" }) }),
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: (() => {
+              if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
+                return /* @__PURE__ */ jsx9(
+                  Tag,
+                  {
+                    text: variationDesc,
+                    color: "default",
+                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
+                  }
+                );
+              }
+              if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
+                return /* @__PURE__ */ jsx9(
+                  Tag,
+                  {
+                    text: variationDesc,
+                    color: "default",
+                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
+                  }
+                );
+              }
+              if (isNoJudgement) {
+                return /* @__PURE__ */ jsx9(
+                  Tag,
+                  {
+                    text: "No judgement",
+                    color: "default",
+                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--no-judgement",
+                    "aria-label": "Neutral special cause (no directional judgement)"
+                  }
+                );
+              }
+              if (variationDesc) {
+                return /* @__PURE__ */ jsx9(
+                  Tag,
+                  {
+                    text: variationDesc,
+                    color: "default",
+                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
+                  }
+                );
+              }
+              return null;
+            })() })
+          ] }),
+          assuranceDesc && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Assurance" }) }),
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: (() => {
+              const lower = assuranceDesc.toLowerCase();
+              const isFail = lower.includes("not met") || lower.includes("not achieved");
+              const isPass = !isFail && /(^|\b)(met|achieved)(\b|$)/.test(lower);
+              return /* @__PURE__ */ jsx9(
+                Tag,
+                {
+                  text: assuranceDesc,
+                  color: "default",
+                  className: `fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--assurance ${isPass ? "fdp-spc-tag--improvement" : "fdp-spc-tag--concern"}`,
+                  "aria-label": `Assurance: ${assuranceDesc}`
+                }
+              );
+            })() })
+          ] }),
+          zone && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Control Limits & Sigma" }) }),
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: /* @__PURE__ */ jsx9(
+              Tag,
+              {
+                text: (() => {
+                  const z = zone.toLowerCase();
+                  if (z.startsWith("within 1")) return "\u22641\u03C3";
+                  if (z.startsWith("1\u20132")) return "1\u20132\u03C3";
+                  if (z.startsWith("2\u20133")) return "2\u20133\u03C3";
+                  if (z.startsWith(">3")) return ">3\u03C3";
+                  return zone;
+                })(),
+                color: zone.includes(">3") ? "orange" : zone.includes("2\u20133") ? "yellow" : "grey",
+                "aria-label": `Sigma zone: ${zone}`,
+                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--zone"
+              }
+            ) })
+          ] }),
+          gatingExplanation && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--gating", "data-gating": true, children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Trend gating" }) }),
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__explanation", "aria-live": "off", children: gatingExplanation })
+          ] }),
+          hasRules && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Special cause" }) }),
+            /* @__PURE__ */ jsx9(
+              "div",
+              {
+                className: "fdp-spc-tooltip__rule-tags",
+                "aria-label": "Special cause rules",
+                children: rules.map(({ id, label }) => {
+                  const idStr = String(id);
+                  const isTrend = idStr === "trend_inc" /* TrendIncreasing */ || idStr === "trend_dec" /* TrendDecreasing */;
+                  const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
+                  return /* @__PURE__ */ jsx9(
+                    Tag,
+                    {
+                      text: label,
+                      color: "default",
+                      className: `fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`,
+                      "data-rule-id": idStr
+                    },
+                    idStr
+                  );
+                })
+              }
+            ),
+            primeDirection && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", style: { marginTop: 16 }, children: [
+              /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", style: { marginBottom: 6 }, children: /* @__PURE__ */ jsx9("strong", { children: "Prime Direction" }) }),
+              (() => {
+                const primeColorClass = isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
+                const primeLabel = `${primeDirection}${primeRuleId ? ` (${primeRuleId})` : ""}`;
+                return /* @__PURE__ */ jsx9(
+                  Tag,
+                  {
+                    text: primeLabel,
+                    color: "default",
+                    className: `fdp-spc-tooltip__tag fdp-spc-tag ${primeColorClass}`,
+                    "aria-label": `Prime direction ${primeDirection}${primeRuleId ? ` via ${primeRuleId}` : ""}`
+                  }
+                );
+              })()
+            ] })
+          ] })
+        ] })
+      }
+    ),
+    host
+  ) : null;
+  return /* @__PURE__ */ jsxs5(
+    "g",
+    {
+      className: "fdp-tooltip-layer fdp-spc-tooltip",
+      pointerEvents: "none",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsx9(
+          "circle",
+          {
+            cx: clampX,
+            cy: clampY,
+            r: 7,
+            fill: "none",
+            stroke: focusYellow,
+            strokeWidth: 3
+          }
+        ),
+        /* @__PURE__ */ jsx9(
+          "circle",
+          {
+            cx: clampX,
+            cy: clampY,
+            r: 5,
+            fill: "#000",
+            stroke: focusYellow,
+            strokeWidth: 1.5
+          }
+        ),
+        /* @__PURE__ */ jsx9(
+          "circle",
+          {
+            cx: clampX,
+            cy: clampY,
+            r: 2.5,
+            fill: spcDotColor,
+            stroke: "#fff",
+            strokeWidth: 0.5
+          }
+        ),
+        portal
+      ]
+    }
+  );
+};
+var SPCTooltipOverlay_default = SPCTooltipOverlay;
+
+// src/components/DataVisualisation/primitives/VisuallyHiddenLiveRegion.tsx
+import * as React9 from "react";
+import { jsx as jsx10 } from "react/jsx-runtime";
+var VisuallyHiddenLiveRegion = ({ polite = true, format: format2 }) => {
+  const tooltip = useTooltipContext();
+  const [message, setMessage] = React9.useState("");
+  const lastRef = React9.useRef("");
+  React9.useEffect(() => {
+    if (!(tooltip == null ? void 0 : tooltip.focused)) return;
+    const { focused, aggregated } = tooltip;
+    let msg;
+    if (aggregated && aggregated.length > 1) {
+      const parts = aggregated.map((a) => `${a.seriesId} ${a.y}`).join("; ");
+      const xLabel = focused.x instanceof Date ? focused.x.toDateString() : String(focused.x);
+      msg = `${xLabel} \u2013 ${parts}`;
+    } else {
+      msg = format2 ? format2({ seriesId: focused.seriesId, x: focused.x, y: focused.y, index: focused.index }) : defaultFormatter(focused.seriesId, focused.x, focused.y, focused.index);
+    }
+    if (msg !== lastRef.current) {
+      lastRef.current = msg;
+      setMessage("");
+      const timeout = setTimeout(() => setMessage(msg), 10);
+      return () => clearTimeout(timeout);
+    }
+  }, [tooltip == null ? void 0 : tooltip.focused, format2]);
+  return /* @__PURE__ */ jsx10(
+    "div",
+    {
+      "aria-live": polite ? "polite" : "assertive",
+      "aria-atomic": "true",
+      style: { position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", border: 0 },
+      children: message
+    }
+  );
+};
+function defaultFormatter(seriesId, x2, y2, index) {
+  const xLabel = x2 instanceof Date ? x2.toDateString() : String(x2);
+  return `Series ${seriesId}, point ${index + 1}, ${xLabel}, value ${y2}`;
+}
+var VisuallyHiddenLiveRegion_default = VisuallyHiddenLiveRegion;
+
+// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
+import { useId, useMemo as useMemo7 } from "react";
+
+// src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts
+var spcTokenRoot = null;
+var _a, _b;
+try {
+  const tokens = require_tokens();
+  spcTokenRoot = ((_b = (_a = tokens == null ? void 0 : tokens.color) == null ? void 0 : _a["data-viz"]) == null ? void 0 : _b.spc) || null;
+} catch {
+}
+var tokenColour = (key, fallback) => {
+  if (!spcTokenRoot) return fallback;
+  const parts = key.split(".");
+  let current = spcTokenRoot;
+  for (const p of parts) {
+    if (current == null) break;
+    current = current[p];
+  }
+  const val = current;
+  if (val == null) return fallback;
+  if (typeof val === "string" || typeof val === "number") return String(val);
+  if (val.$value != null) return String(val.$value);
+  if (val.value != null) return String(val.value);
+  return fallback;
+};
+var getGradientOpacities = () => ({
+  // Lightened defaults (previous 0.18 -> 0.12, 0.06 -> 0.03) to reduce intensity of wash.
+  start: tokenColour("gradient.stop.start-opacity", "0.12"),
+  mid: tokenColour("gradient.stop.mid-opacity", "0.03"),
+  end: tokenColour("gradient.stop.end-opacity", "0"),
+  triStart: tokenColour(
+    "gradient.stop.triangle-start-opacity",
+    tokenColour("gradient.stop.start-opacity", "0.12")
+  ),
+  triMid: tokenColour(
+    "gradient.stop.triangle-mid-opacity",
+    tokenColour("gradient.stop.mid-opacity", "0.03")
+  ),
+  triEnd: tokenColour(
+    "gradient.stop.triangle-end-opacity",
+    tokenColour("gradient.stop.end-opacity", "0")
+  )
+});
+
+// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCConstants.ts
+var AssuranceResult = /* @__PURE__ */ ((AssuranceResult2) => {
+  AssuranceResult2["Pass"] = "pass";
+  AssuranceResult2["Fail"] = "fail";
+  AssuranceResult2["Uncertain"] = "uncertain";
+  return AssuranceResult2;
+})(AssuranceResult || {});
+var DEFAULT_COLOURS = {
+  ["pass" /* Pass */]: "#00B0F0",
+  // blue
+  ["fail" /* Fail */]: "#E46C0A",
+  // orange
+  ["uncertain" /* Uncertain */]: "#A6A6A6"
+  // grey
+};
+var DEFAULT_LETTERS = {
+  ["pass" /* Pass */]: "P",
+  ["fail" /* Fail */]: "F",
+  ["uncertain" /* Uncertain */]: "?"
+};
+var MetricPolarity = /* @__PURE__ */ ((MetricPolarity2) => {
+  MetricPolarity2["HigherIsBetter"] = "higher_is_better";
+  MetricPolarity2["LowerIsBetter"] = "lower_is_better";
+  MetricPolarity2["ContextDependent"] = "context_dependent";
+  return MetricPolarity2;
+})(MetricPolarity || {});
+var Direction = /* @__PURE__ */ ((Direction2) => {
+  Direction2["Higher"] = "higher";
+  Direction2["Lower"] = "lower";
+  return Direction2;
+})(Direction || {});
+var VariationJudgement = /* @__PURE__ */ ((VariationJudgement2) => {
+  VariationJudgement2["Improving"] = "improving";
+  VariationJudgement2["Deteriorating"] = "deteriorating";
+  VariationJudgement2["No_Judgement"] = "no_judgement";
+  VariationJudgement2["None"] = "none";
+  return VariationJudgement2;
+})(VariationJudgement || {});
+var VariationState = /* @__PURE__ */ ((VariationState2) => {
+  VariationState2["SpecialCauseImproving"] = "special_cause_improving";
+  VariationState2["SpecialCauseDeteriorating"] = "special_cause_deteriorating";
+  VariationState2["CommonCause"] = "common_cause";
+  VariationState2["SpecialCauseNoJudgement"] = "special_cause_no_judgement";
+  return VariationState2;
+})(VariationState || {});
+var pickTextColour = (hex2) => {
+  const c = hex2.replace("#", "");
+  const r = parseInt(c.slice(0, 2), 16) / 255;
+  const g = parseInt(c.slice(2, 4), 16) / 255;
+  const b = parseInt(c.slice(4, 6), 16) / 255;
+  const srgb = [r, g, b].map(
+    (v) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
+  );
+  const L = 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
+  return L < 0.55 ? "#ffffff" : "#212b32";
+};
+var VARIATION_COLOURS = {
+  ["special_cause_deteriorating" /* SpecialCauseDeteriorating */]: {
+    hex: VARIATION_COLOR_TOKENS.concern.hex,
+    judgement: "deteriorating" /* Deteriorating */,
+    label: "Special Cause (Deteriorating)",
+    description: "Deteriorating variation detected (special cause) relative to baseline."
+  },
+  ["special_cause_improving" /* SpecialCauseImproving */]: {
+    hex: VARIATION_COLOR_TOKENS.improvement.hex,
+    judgement: "improving" /* Improving */,
+    label: "Special Cause (Improving)",
+    description: "Improving variation detected (special cause) relative to baseline."
+  },
+  ["common_cause" /* CommonCause */]: {
+    hex: VARIATION_COLOR_TOKENS.neither.hex,
+    judgement: "none" /* None */,
+    label: "Common Cause",
+    description: "Common cause variation only \u2013 no special cause detected."
+  },
+  ["special_cause_no_judgement" /* SpecialCauseNoJudgement */]: {
+    hex: VARIATION_COLOR_TOKENS.suppressed.hex,
+    judgement: "no_judgement" /* No_Judgement */,
+    label: "Special Cause (No Judgement)",
+    description: "Special cause detected without assigning improving/deteriorating judgement."
+  }
+};
+Object.values(VARIATION_COLOURS).forEach((def) => {
+  if (!def.text) def.text = pickTextColour(def.hex);
+});
+var getVariationColour = (state) => VARIATION_COLOURS[state];
+var getVariationTrend = (state) => VARIATION_COLOURS[state].judgement || "none" /* None */;
+var POINT_LAYOUTS = {
+  special: {
+    higher: [
+      { cx: 77.5, cy: 158.5 },
+      { cx: 114, cy: 175 },
+      { cx: 150.5, cy: 158.5 },
+      { cx: 188, cy: 125 },
+      { cx: 225, cy: 137 }
+    ],
+    lower: [
+      { cx: 77.5, cy: 139.5 },
+      { cx: 114, cy: 124.5 },
+      { cx: 150.5, cy: 139.5 },
+      { cx: 188, cy: 175.5 },
+      { cx: 224.5, cy: 162 }
+    ]
+  },
+  common: [
+    { cx: 76.5, cy: 149.5 },
+    { cx: 113, cy: 179.5 },
+    { cx: 149.5, cy: 117 },
+    { cx: 187, cy: 171 },
+    { cx: 223.5, cy: 158 }
+  ]
+};
+function computePointPositions(state, direction) {
+  let src;
+  if (state === "common_cause" /* CommonCause */) src = POINT_LAYOUTS.common;
+  else
+    src = POINT_LAYOUTS.special[direction === "lower" /* Lower */ ? "lower" : "higher"];
+  return src.map((p) => ({ ...p }));
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
+import { Fragment, jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
+var resolveStateAndLayout = (input) => {
+  var _a2, _b2;
+  const emitDeprecation = () => {
+    if (!globalThis.__spcIconDeprecationEmitted) {
+      console.warn(
+        "[SPCVariationIcon] Deprecated payload shape detected. Migrate to { variationIcon, improvementDirection, specialCauseNeutral?, trend? }."
+      );
+      globalThis.__spcIconDeprecationEmitted = true;
+    }
+  };
+  if (input.variationIcon !== void 0) {
+    const eng = input;
+    let polarity = void 0;
+    if (eng.improvementDirection !== void 0) {
+      polarity = eng.improvementDirection === "Up" /* Up */ ? "higher_is_better" /* HigherIsBetter */ : eng.improvementDirection === "Down" /* Down */ ? "lower_is_better" /* LowerIsBetter */ : "context_dependent" /* ContextDependent */;
+    } else if (eng.polarity) {
+      polarity = eng.polarity;
+    }
+    let state2;
+    switch (eng.variationIcon) {
+      case "improvement" /* Improvement */:
+        state2 = "special_cause_improving" /* SpecialCauseImproving */;
+        break;
+      case "concern" /* Concern */:
+        state2 = "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
+        break;
+      case "neither" /* Neither */:
+        state2 = eng.specialCauseNeutral ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
+        break;
+      case "suppressed" /* Suppressed */:
+      default:
+        state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
+        break;
+    }
+    let direction2 = eng.trend;
+    if (!direction2) {
+      if (state2 === "special_cause_improving" /* SpecialCauseImproving */) {
+        direction2 = polarity === "lower_is_better" /* LowerIsBetter */ ? "lower" /* Lower */ : "higher" /* Higher */;
+      } else if (state2 === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
+        direction2 = polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
+      } else if (state2 === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
+        if (eng.highSideSignal && !eng.lowSideSignal) direction2 = "higher" /* Higher */;
+        else if (eng.lowSideSignal && !eng.highSideSignal) direction2 = "lower" /* Lower */;
+        else direction2 = "higher" /* Higher */;
+      } else {
+        direction2 = "higher" /* Higher */;
+      }
+    }
+    return { state: state2, direction: direction2, polarity: polarity != null ? polarity : "context_dependent" /* ContextDependent */ };
+  }
+  if (input.state !== void 0) {
+    emitDeprecation();
+    const v1 = input;
+    let direction2 = v1.trend;
+    if (!direction2 && (v1.state === "special_cause_improving" /* SpecialCauseImproving */ || v1.state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && v1.polarity) {
+      if (v1.state === "special_cause_improving" /* SpecialCauseImproving */) {
+        direction2 = v1.polarity === "lower_is_better" /* LowerIsBetter */ ? "lower" /* Lower */ : "higher" /* Higher */;
+      } else {
+        direction2 = v1.polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
+      }
+    }
+    if (!direction2) {
+      if (v1.state === "special_cause_improving" /* SpecialCauseImproving */)
+        direction2 = "higher" /* Higher */;
+      else if (v1.state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */)
+        direction2 = "lower" /* Lower */;
+      else direction2 = "higher" /* Higher */;
+    }
+    return {
+      state: v1.state,
+      direction: direction2,
+      polarity: (_a2 = v1.polarity) != null ? _a2 : "context_dependent" /* ContextDependent */
+    };
+  }
+  const v2 = input;
+  emitDeprecation();
+  const map2 = {
+    ["improving" /* Improving */]: "special_cause_improving" /* SpecialCauseImproving */,
+    ["deteriorating" /* Deteriorating */]: "special_cause_deteriorating" /* SpecialCauseDeteriorating */,
+    ["no_judgement" /* No_Judgement */]: "special_cause_no_judgement" /* SpecialCauseNoJudgement */,
+    ["none" /* None */]: "common_cause" /* CommonCause */
+  };
+  const state = map2[v2.judgement];
+  let direction;
+  if (v2.judgement === "improving" /* Improving */) {
+    direction = v2.polarity === "lower_is_better" /* LowerIsBetter */ ? "lower" /* Lower */ : "higher" /* Higher */;
+  } else if (v2.judgement === "deteriorating" /* Deteriorating */) {
+    direction = v2.polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
+  } else {
+    direction = (_b2 = v2.trend) != null ? _b2 : "higher" /* Higher */;
+  }
+  return { state, direction, polarity: v2.polarity };
+};
+function deriveVariationAriaDescription(input, context) {
+  const { state, direction, polarity } = resolveStateAndLayout(input);
+  const judgement = getVariationTrend(state);
+  const sideWord = direction === "higher" /* Higher */ ? "above" : "below";
+  const trendWord = direction === "higher" /* Higher */ ? "upwards" : "downwards";
+  const polarityClause = (() => {
+    switch (polarity) {
+      case "higher_is_better" /* HigherIsBetter */:
+        return "For this measure, higher values are better.";
+      case "lower_is_better" /* LowerIsBetter */:
+        return "For this measure, lower values are better.";
+      default:
+        return "Direction of improvement is context dependent.";
+    }
+  })();
+  const base = (() => {
+    switch (judgement) {
+      case "improving" /* Improving */:
+        return `Special cause improvement: recent data show a sustained run ${sideWord} the mean (unlikely due to random variation).`;
+      case "deteriorating" /* Deteriorating */:
+        return `Special cause deterioration: recent data show a sustained run ${sideWord} the mean (unlikely due to random variation).`;
+      case "no_judgement" /* No_Judgement */:
+        return `Special cause detected (no value judgement): recent data show a change in level, trending ${trendWord}.`;
+      case "none" /* None */:
+      default:
+        return `Common cause variation: points vary randomly around the mean; no special cause detected.`;
+    }
+  })();
+  const parts = [
+    base,
+    polarityClause,
+    (context == null ? void 0 : context.measureName) ? `Measure: ${context.measureName}.` : null,
+    (context == null ? void 0 : context.datasetContext) ? `${context.datasetContext}.` : null,
+    (context == null ? void 0 : context.organisation) ? `Organisation: ${context.organisation}.` : null,
+    (context == null ? void 0 : context.timeframe) ? `Timeframe: ${context.timeframe}.` : null,
+    (context == null ? void 0 : context.additionalNote) ? context.additionalNote : null
+  ];
+  return parts.filter(Boolean).join(" ");
+}
+var buildDefs = (colourHex, shadowId, washId, dropShadow, gradientWash, stops) => /* @__PURE__ */ jsxs6("defs", { children: [
+  dropShadow && /* @__PURE__ */ jsxs6("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+    /* @__PURE__ */ jsx11("feGaussianBlur", { stdDeviation: "3" }),
+    /* @__PURE__ */ jsx11("feOffset", { dx: "0", dy: "15", result: "blur" }),
+    /* @__PURE__ */ jsx11("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
+    /* @__PURE__ */ jsx11("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+    /* @__PURE__ */ jsx11("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+  ] }),
+  gradientWash && /* @__PURE__ */ jsx11("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: stops.map((s) => /* @__PURE__ */ jsx11(
+    "stop",
+    {
+      offset: s.offset,
+      stopColor: colourHex,
+      stopOpacity: parseFloat(s.opacity)
+    },
+    s.offset
+  )) })
+] });
+var SPCVariationIcon = ({
+  data,
+  size = 44,
+  ariaLabel,
+  showLetter = true,
+  dropShadow = true,
+  gradientWash = false,
+  variant = "classic",
+  runLength = 0,
+  // Default changed to 'polarity' so letters reflect desirable direction (H = Higher is better, L = Lower is better)
+  letterMode = "polarity",
+  letterOverride,
+  ...rest
+}) => {
+  const shadowId = useId();
+  const washId = useId();
+  const {
+    start: gradStart,
+    mid: gradMid,
+    end: gradEnd,
+    triStart: triGradStart,
+    triMid: triGradMid,
+    triEnd: triGradEnd
+  } = getGradientOpacities();
+  const { state, direction, polarity } = useMemo7(
+    () => resolveStateAndLayout(data),
+    [data]
+  );
+  const colour = useMemo7(() => getVariationColour(state), [state]);
+  const judgement = useMemo7(() => getVariationTrend(state), [state]);
+  const showLetterForJudgement = judgement === "improving" /* Improving */ || judgement === "deteriorating" /* Deteriorating */;
+  let letter = "";
+  if (showLetter && showLetterForJudgement) {
+    if (letterMode === "polarity") {
+      if (polarity === "higher_is_better" /* HigherIsBetter */) letter = "H";
+      else if (polarity === "lower_is_better" /* LowerIsBetter */) letter = "L";
+      else letter = "";
+    } else {
+      letter = direction === "higher" /* Higher */ ? "H" : "L";
+    }
+  }
+  if (letterOverride !== void 0) letter = letterOverride;
+  const isSpecial = state !== "common_cause" /* CommonCause */;
+  const isNoJudgement = state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
+  const neutralGrey = tokenColour("common-cause", "#A6A6A6");
+  const pointColour = isSpecial ? colour.hex : neutralGrey;
+  const points = useMemo7(
+    () => computePointPositions(state, direction),
+    [state, direction]
+  );
+  const aria = ariaLabel || `${colour.label}${letter ? direction === "higher" /* Higher */ ? " \u2013 Higher" : " \u2013 Lower" : ""}`;
+  const ariaDescription = deriveVariationAriaDescription(
+    data
+  );
+  if (variant === "triangleWithRun") {
+    const triSize = 100;
+    const centerX = 150;
+    const centerY = 140;
+    const upTriangle = [
+      [centerX, centerY - triSize / 2],
+      [centerX - triSize / 2, centerY + triSize / 2],
+      [centerX + triSize / 2, centerY + triSize / 2]
+    ];
+    const downTriangle = [
+      [centerX, centerY + triSize / 2],
+      [centerX - triSize / 2, centerY - triSize / 2],
+      [centerX + triSize / 2, centerY - triSize / 2]
+    ];
+    let shape = null;
+    if (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
+      shape = /* @__PURE__ */ jsx11(
+        "polygon",
+        {
+          points: (direction === "higher" /* Higher */ ? upTriangle : downTriangle).map((p) => p.join(",")).join(" "),
+          fill: colour.hex,
+          stroke: colour.hex,
+          strokeWidth: 6,
+          transform: direction === "higher" /* Higher */ ? "translate(0, -8)" : "translate(0, 15)"
+        }
+      );
+    } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
+      shape = /* @__PURE__ */ jsx11(
+        "polygon",
+        {
+          points: direction === "higher" /* Higher */ ? upTriangle.map((p) => p.join(",")).join(" ") : downTriangle.map((p) => p.join(",")).join(" "),
+          fill: colour.hex,
+          stroke: colour.hex,
+          strokeWidth: 6,
+          transform: direction === "higher" /* Higher */ ? "translate(0,-7)" : "translate(0,14)"
+        }
+      );
+    }
+    const runLen = Math.max(0, Math.min(5, Math.floor(runLength || 0)));
+    const runY = state === "common_cause" /* CommonCause */ ? 160 : direction === "higher" /* Higher */ ? 220 : 70;
+    const runRadius = 10;
+    const runGap = 26;
+    const runStartX = centerX - 2 * runGap;
+    const runColor = state === "special_cause_improving" /* SpecialCauseImproving */ ? tokenColour("improvement", "#00B0F0") : state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */ ? tokenColour("concern", "#E46C0A") : neutralGrey;
+    const runCircles = Array.from({ length: 5 }).map((_, i) => {
+      const filled = (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && i >= 5 - runLen;
+      const fill = filled ? runColor : neutralGrey;
+      return /* @__PURE__ */ jsx11(
+        "circle",
+        {
+          cx: runStartX + i * runGap,
+          cy: runY,
+          r: runRadius,
+          fill,
+          stroke: fill,
+          strokeWidth: 1
+        },
+        i
+      );
+    });
+    const defs2 = buildDefs(
+      colour.hex,
+      shadowId,
+      washId,
+      dropShadow,
+      gradientWash,
+      [
+        { offset: "0%", opacity: triGradStart },
+        { offset: "75%", opacity: triGradMid },
+        { offset: "100%", opacity: triGradEnd }
+      ]
+    );
+    const groupTransform = state === "common_cause" /* CommonCause */ ? "translate(0,-10)" : direction === "higher" /* Higher */ ? "translate(0,-10)" : "translate(0,25)";
+    return /* @__PURE__ */ jsxs6(
+      "svg",
+      {
+        width: size,
+        height: size,
+        viewBox: "0 0 300 300",
+        role: "img",
+        "aria-label": aria,
+        "aria-description": ariaDescription,
+        ...rest,
+        children: [
+          defs2,
+          /* @__PURE__ */ jsx11(
+            "circle",
+            {
+              stroke: "none",
+              fill: gradientWash ? `url(#${washId})` : "#ffffff",
+              ...dropShadow ? { filter: `url(#${shadowId})` } : {},
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          ),
+          /* @__PURE__ */ jsx11(
+            "circle",
+            {
+              stroke: colour.hex,
+              strokeWidth: 15,
+              strokeMiterlimit: 10,
+              fill: "none",
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          ),
+          /* @__PURE__ */ jsxs6("g", { transform: groupTransform, children: [
+            shape,
+            letter && /* @__PURE__ */ jsx11(
+              "text",
+              {
+                fill: "#fff",
+                fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+                fontWeight: "bold",
+                fontSize: 64,
+                x: "150",
+                y: direction === "higher" /* Higher */ ? 155 : 145,
+                textAnchor: "middle",
+                dominantBaseline: "middle",
+                children: letter
+              }
+            ),
+            runCircles
+          ] })
+        ]
+      }
+    );
+  }
+  if (variant === "triangle") {
+    const triSize = 150;
+    const centerX = 150;
+    const centerY = 150;
+    const upTriangle = [
+      [centerX, centerY - triSize / 2],
+      [centerX - triSize / 2, centerY + triSize / 2],
+      [centerX + triSize / 2, centerY + triSize / 2]
+    ];
+    const downTriangle = [
+      [centerX, centerY + triSize / 2],
+      [centerX - triSize / 2, centerY - triSize / 2],
+      [centerX + triSize / 2, centerY - triSize / 2]
+    ];
+    const flatLine = [
+      [centerX - triSize / 2, centerY + triSize / 2],
+      [centerX + triSize / 2, centerY + triSize / 2]
+    ];
+    let shape = null;
+    if (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
+      shape = /* @__PURE__ */ jsx11(
+        "polygon",
+        {
+          points: (direction === "higher" /* Higher */ ? upTriangle : downTriangle).map((p) => p.join(",")).join(" "),
+          fill: colour.hex,
+          stroke: colour.hex,
+          strokeWidth: 8,
+          transform: direction === "higher" /* Higher */ ? "translate(0, -10)" : "translate(0, 10)"
+        }
+      );
+    } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
+      shape = /* @__PURE__ */ jsx11(
+        "polygon",
+        {
+          points: direction === "higher" /* Higher */ ? upTriangle.map((p) => p.join(",")).join(" ") : downTriangle.map((p) => p.join(",")).join(" "),
+          fill: colour.hex,
+          stroke: colour.hex,
+          strokeWidth: 8,
+          transform: direction === "higher" /* Higher */ ? "translate(0, -15)" : "translate(0, 15)"
+        }
+      );
+    } else if (state === "common_cause" /* CommonCause */) {
+      shape = /* @__PURE__ */ jsx11(
+        "line",
+        {
+          x1: flatLine[0][0],
+          y1: flatLine[0][1],
+          x2: flatLine[1][0],
+          y2: flatLine[1][1],
+          stroke: colour.hex,
+          strokeWidth: 32,
+          strokeLinecap: "square",
+          transform: "translate(0, -75)"
+        }
+      );
+    }
+    const defs2 = buildDefs(
+      colour.hex,
+      shadowId,
+      washId,
+      dropShadow,
+      gradientWash,
+      [
+        { offset: "0%", opacity: triGradStart },
+        { offset: "65%", opacity: triGradMid },
+        { offset: "100%", opacity: triGradEnd }
+      ]
+    );
+    return /* @__PURE__ */ jsxs6(
+      "svg",
+      {
+        width: size,
+        height: size,
+        viewBox: "0 0 300 300",
+        role: "img",
+        "aria-label": aria,
+        "aria-description": ariaDescription,
+        ...rest,
+        children: [
+          defs2,
+          /* @__PURE__ */ jsx11(
+            "circle",
+            {
+              stroke: "none",
+              fill: gradientWash ? `url(#${washId})` : "#ffffff",
+              ...dropShadow ? { filter: `url(#${shadowId})` } : {},
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          ),
+          /* @__PURE__ */ jsx11(
+            "circle",
+            {
+              stroke: colour.hex,
+              strokeWidth: 15,
+              strokeMiterlimit: 10,
+              fill: "none",
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          ),
+          shape,
+          letter && (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && /* @__PURE__ */ jsx11(
+            "text",
+            {
+              fill: "#fff",
+              fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+              fontWeight: "bold",
+              fontSize: 100,
+              x: "150",
+              y: direction === "higher" /* Higher */ ? "170" : "140",
+              textAnchor: "middle",
+              dominantBaseline: "middle",
+              children: letter
+            }
+          )
+        ]
+      }
+    );
+  }
+  const defs = buildDefs(
+    colour.hex,
+    shadowId,
+    washId,
+    dropShadow,
+    gradientWash,
+    [
+      { offset: "0%", opacity: gradStart },
+      { offset: "65%", opacity: gradMid },
+      { offset: "100%", opacity: gradEnd }
+    ]
+  );
+  return /* @__PURE__ */ jsxs6(
+    "svg",
+    {
+      width: size,
+      height: size,
+      viewBox: "0 0 300 300",
+      role: "img",
+      "aria-label": aria,
+      "aria-description": ariaDescription,
+      ...rest,
+      children: [
+        defs,
+        /* @__PURE__ */ jsx11(
+          "circle",
+          {
+            stroke: "none",
+            fill: gradientWash ? `url(#${washId})` : "#ffffff",
+            ...dropShadow ? { filter: `url(#${shadowId})` } : {},
+            cx: "150",
+            cy: "150",
+            r: "120"
+          }
+        ),
+        /* @__PURE__ */ jsx11(
+          "circle",
+          {
+            stroke: colour.hex,
+            strokeWidth: 15,
+            strokeMiterlimit: 10,
+            fill: "none",
+            cx: "150",
+            cy: "150",
+            r: "120"
+          }
+        ),
+        letter && /* @__PURE__ */ jsx11(
+          "text",
+          {
+            fill: colour.hex,
+            fontFamily: "Arial-BoldMT, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+            fontWeight: "bold",
+            fontSize: 176,
+            transform: "translate(86.67, 54) scale(0.5, 0.5)",
+            textAnchor: "end",
+            children: /* @__PURE__ */ jsx11("tspan", { x: "120", y: direction === "lower" /* Lower */ ? "340" : "155", children: letter })
+          }
+        ),
+        isNoJudgement ? /* @__PURE__ */ jsx11(
+          "path",
+          {
+            "aria-hidden": "true",
+            fillRule: "evenodd",
+            stroke: "none",
+            fill: colour.hex,
+            ...direction === "lower" /* Lower */ ? { transform: "rotate(90 150 150)" } : { transform: "translate(-5 0) rotate(0 150 150)" },
+            d: "M 90.26,185.42 L 149.31,126.37 127.44,104.51 209.81,90.66 195.96,173.02 174.09,151.16 115.05,210.2 90.26,185.42 Z M 90.26,185.42"
+          }
+        ) : /* @__PURE__ */ jsxs6(Fragment, { children: [
+          points.length === 5 && /* @__PURE__ */ jsx11(
+            "path",
+            {
+              "aria-hidden": "true",
+              fill: "none",
+              stroke: neutralGrey,
+              strokeWidth: 12,
+              strokeLinecap: "round",
+              strokeLinejoin: "round",
+              opacity: 0.9,
+              d: `M ${points.map((p) => `${p.cx} ${p.cy}`).join(" L ")}`
+            }
+          ),
+          points.map((p, i) => {
+            const specialIdx = i >= points.length - 2 && isSpecial;
+            const fill = specialIdx ? pointColour : neutralGrey;
+            const stroke = fill;
+            return /* @__PURE__ */ jsx11(
+              "circle",
+              {
+                stroke,
+                strokeWidth: 2,
+                strokeMiterlimit: 10,
+                fill,
+                cx: p.cx,
+                cy: p.cy,
+                r: 16
+              },
+              i
+            );
+          })
+        ] })
+      ]
+    }
+  );
+};
+SPCVariationIcon.displayName = "SPCVariationIcon";
+
+// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCAssuranceIcon.tsx
+import { useId as useId2 } from "react";
+import { Fragment as Fragment2, jsx as jsx12, jsxs as jsxs7 } from "react/jsx-runtime";
+var SPCAssuranceIcon = ({
+  status,
+  size = 44,
+  ariaLabel,
+  dropShadow = true,
+  colourOverride,
+  gradientWash = false,
+  letterOverride,
+  showTrendLines = true,
+  ...rest
+}) => {
+  const shadowId = useId2();
+  const washId = useId2();
+  const { start: gradStart, mid: gradMid, end: gradEnd } = getGradientOpacities();
+  const colour = colourOverride || DEFAULT_COLOURS[status];
+  const letter = (letterOverride || DEFAULT_LETTERS[status]).slice(0, 2);
+  const aria = ariaLabel || `Assurance ${status}`;
+  return /* @__PURE__ */ jsxs7(
+    "svg",
+    {
+      width: size,
+      height: size,
+      viewBox: "0 0 300 300",
+      role: "img",
+      "aria-label": aria,
+      ...rest,
+      children: [
+        /* @__PURE__ */ jsxs7("defs", { children: [
+          dropShadow && /* @__PURE__ */ jsxs7("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+            /* @__PURE__ */ jsx12("feGaussianBlur", { stdDeviation: "3" }),
+            /* @__PURE__ */ jsx12("feOffset", { dx: "-1", dy: "15", result: "blur" }),
+            /* @__PURE__ */ jsx12("feFlood", { floodColor: "rgb(166,166,166)", floodOpacity: "1" }),
+            /* @__PURE__ */ jsx12("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+            /* @__PURE__ */ jsx12("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+          ] }),
+          gradientWash && /* @__PURE__ */ jsxs7("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
+            /* @__PURE__ */ jsx12("stop", { offset: "0%", stopColor: colour, stopOpacity: parseFloat(gradStart) }),
+            /* @__PURE__ */ jsx12("stop", { offset: "65%", stopColor: colour, stopOpacity: parseFloat(gradMid) }),
+            /* @__PURE__ */ jsx12("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(gradEnd) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsx12(
+          "circle",
+          {
+            stroke: "none",
+            fill: gradientWash ? `url(#${washId})` : "#ffffff",
+            ...dropShadow ? { filter: `url(#${shadowId})` } : {},
+            cx: "150",
+            cy: "150",
+            r: "120"
+          }
+        ),
+        /* @__PURE__ */ jsx12(
+          "text",
+          {
+            fill: colour,
+            fontFamily: "Arial-BoldMT, Arial, 'Helvetica Neue', Helvetica, sans-serif",
+            fontWeight: "bold",
+            fontSize: 176,
+            x: 0,
+            y: 0,
+            transform: "translate(121.01, 32) scale(0.5, 0.5)",
+            textAnchor: "middle",
+            children: /* @__PURE__ */ jsx12("tspan", { x: 60, y: 184, children: letter })
+          }
+        ),
+        showTrendLines && /* @__PURE__ */ jsxs7(Fragment2, { children: [
+          status === "fail" /* Fail */ ? /* @__PURE__ */ jsx12(
+            "path",
+            {
+              id: "fail-line",
+              stroke: colour,
+              strokeWidth: 9.5,
+              strokeMiterlimit: 9.5,
+              strokeDasharray: "35,10",
+              strokeDashoffset: 0,
+              fill: "none",
+              d: "M 33,143 L 268,143"
+            }
+          ) : status === "uncertain" /* Uncertain */ ? /* @__PURE__ */ jsx12(
+            "path",
+            {
+              id: "uncertain-line",
+              stroke: "rgb(166, 166, 166)",
+              strokeWidth: 9.5,
+              strokeMiterlimit: 9.5,
+              strokeDasharray: "16.5,10",
+              strokeDashoffset: 0,
+              fill: "none",
+              d: "M 36,174 L 266,174"
+            }
+          ) : /* @__PURE__ */ jsx12(
+            "path",
+            {
+              id: "pass-line",
+              stroke: colour,
+              strokeWidth: 9.5,
+              strokeMiterlimit: 9.5,
+              strokeDasharray: "35,10",
+              strokeDashoffset: 0,
+              fill: "none",
+              d: "M 48,204 L 254,204"
+            }
+          ),
+          /* @__PURE__ */ jsx12(
+            "path",
+            {
+              id: "data-sparkline",
+              stroke: "rgb(166, 166, 166)",
+              strokeWidth: 12,
+              strokeMiterlimit: 12,
+              fill: "none",
+              d: "M 59.9,187.91 C 72.79,171.72 87.33,158.06 104.4,157.83 121.91,158.58 140.94,187.85 153.4,189.91 164.1,192.12 163.78,171.38 169.17,170.53 172.87,169.55 174.88,187.45 184.94,189.24 197,191.86 230.54,184.47 239.01,185.9"
+            }
+          ),
+          /* @__PURE__ */ jsx12(
+            "circle",
+            {
+              stroke: colour,
+              strokeWidth: 15,
+              strokeMiterlimit: 10,
+              fill: "none",
+              cx: "150",
+              cy: "150",
+              r: "120"
+            }
+          )
+        ] })
+      ]
+    }
+  );
+};
+SPCAssuranceIcon.displayName = "SPCAssuranceIcon";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcUtils.ts
 var isNumber = (v) => typeof v === "number" && Number.isFinite(v);
@@ -6908,12 +8198,12 @@ function computeBaselineSuggestionsRaw(rows, params) {
     const isSingleUp = isSingleUpAt(i);
     const isSingleDown = isSingleDownAt(i);
     const candidates = [];
-    if (isShiftUp && !wasShiftUp) candidates.push({ reason: "shift", index: i });
-    if (isShiftDown && !wasShiftDown) candidates.push({ reason: "shift", index: i });
-    if (isTrendUp && !wasTrendUp) candidates.push({ reason: "trend", index: i });
-    if (isTrendDown && !wasTrendDown) candidates.push({ reason: "trend", index: i });
-    if (isSingleUp && !wasSingleUp) candidates.push({ reason: "point", index: i });
-    if (isSingleDown && !wasSingleDown) candidates.push({ reason: "point", index: i });
+    if (isShiftUp && !wasShiftUp) candidates.push({ reason: "shift" /* Shift */, index: i });
+    if (isShiftDown && !wasShiftDown) candidates.push({ reason: "shift" /* Shift */, index: i });
+    if (isTrendUp && !wasTrendUp) candidates.push({ reason: "trend" /* Trend */, index: i });
+    if (isTrendDown && !wasTrendDown) candidates.push({ reason: "trend" /* Trend */, index: i });
+    if (isSingleUp && !wasSingleUp) candidates.push({ reason: "point" /* Point */, index: i });
+    if (isSingleDown && !wasSingleDown) candidates.push({ reason: "point" /* Point */, index: i });
     for (const c of candidates) {
       if (c.index - lastBaselineIndex < minGap) continue;
       const oldStart = Math.max(0, c.index - W);
@@ -6942,7 +8232,7 @@ function computeBaselineSuggestionsRaw(rows, params) {
       if (Math.abs(deltaMean) < minDeltaSigma * sigma) continue;
       const newRows = rows.slice(newStart, newEnd + 1);
       const concernCount = newRows.filter(
-        (rw) => rw.variationIcon === "concern"
+        (rw) => rw.variationIcon === "concern" /* Concern */
       ).length;
       if (concernCount > 1) continue;
       const variance = (arr) => {
@@ -6951,13 +8241,13 @@ function computeBaselineSuggestionsRaw(rows, params) {
       };
       const oldVar = variance(oldVals);
       const newVar = variance(newVals);
-      let scoreBase = c.reason === "shift" ? 90 : c.reason === "trend" ? 70 : 60;
+      let scoreBase = c.reason === "shift" /* Shift */ ? 90 : c.reason === "trend" /* Trend */ ? 70 : 60;
       if (newVar < oldVar) scoreBase += 10;
       scoreBase -= concernCount * 15;
       if (scoreBase < scoreThreshold) continue;
       const existing = suggestions.find((s) => s.index === c.index);
       if (existing) {
-        const priority = (reason) => reason === "shift" ? 3 : reason === "trend" ? 2 : 1;
+        const priority = (reason) => reason === "shift" /* Shift */ ? 3 : reason === "trend" /* Trend */ ? 2 : 1;
         if (priority(c.reason) > priority(existing.reason) || scoreBase > existing.score) {
           existing.reason = c.reason;
           existing.score = scoreBase;
@@ -7044,12 +8334,6 @@ function getDirectionalSignalSummary(row) {
   const downMax = downRules.reduce((m, id) => Math.max(m, RULE_METADATA[id].rank), 0);
   return { upRules, downRules, upMax, downMax, hasUp: upRules.length > 0, hasDown: downRules.length > 0 };
 }
-var BaselineSuggestionReason = /* @__PURE__ */ ((BaselineSuggestionReason2) => {
-  BaselineSuggestionReason2["Shift"] = "shift";
-  BaselineSuggestionReason2["Trend"] = "trend";
-  BaselineSuggestionReason2["Point"] = "point";
-  return BaselineSuggestionReason2;
-})(BaselineSuggestionReason || {});
 function partitionRows(data) {
   const partitions = [];
   let current = [];
@@ -7899,1304 +9183,15 @@ function buildSpc(args) {
   return { rows: output, warnings, ...suggestedBaselines ? { suggestedBaselines } : {} };
 }
 
-// src/mapping/tag.ts
-function mapTagProps(input) {
-  const { color: color2 = "default", noBorder, closable, disabled, className } = input;
-  const classes = [
-    "nhsuk-tag",
-    color2 !== "default" ? `nhsuk-tag--${color2}` : "",
-    noBorder ? "nhsuk-tag--no-border" : "",
-    closable ? "nhsuk-tag--closable" : "",
-    disabled ? "nhsuk-tag--disabled" : "",
-    className || ""
-  ].filter(Boolean).join(" ");
-  return { classes, showClose: !!closable, disabled: !!disabled };
-}
-
-// src/components/Tag/Tag.tsx
-import { jsx as jsx8, jsxs as jsxs4 } from "react/jsx-runtime";
-var Tag = ({
-  text,
-  html,
-  children,
-  color: color2 = "default",
-  noBorder = false,
-  closable = false,
-  onClose,
-  disabled = false,
-  className,
-  ...props
-}) => {
-  const model = mapTagProps({ color: color2, noBorder, closable, disabled, className });
-  const handleClose = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!disabled && onClose) {
-      onClose();
-    }
-  };
-  return /* @__PURE__ */ jsxs4("strong", { className: model.classes, ...props, children: [
-    children ? children : html ? /* @__PURE__ */ jsx8("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
-    closable && /* @__PURE__ */ jsx8(
-      "button",
-      {
-        type: "button",
-        className: "nhsuk-tag__close",
-        onClick: handleClose,
-        disabled,
-        "aria-label": "Remove",
-        title: "Remove",
-        children: "\xD7"
-      }
-    )
-  ] });
-};
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
-import { jsx as jsx9, jsxs as jsxs5 } from "react/jsx-runtime";
-var SPCTooltipOverlay = ({
-  engineRows,
-  limits,
-  pointDescriber,
-  measureName,
-  measureUnit,
-  dateFormatter,
-  enableNeutralNoJudgement = true,
-  showTrendGatingExplanation = true
-}) => {
-  var _a2, _b2, _c, _d, _e, _f;
-  const tooltip = useTooltipContext();
-  const chart = useChartContext();
-  const [cachedFocus, setCachedFocus] = React8.useState(null);
-  const [hoveringTooltip, setHoveringTooltip] = React8.useState(false);
-  const hideTimeoutRef = React8.useRef(null);
-  React8.useEffect(() => {
-    if (!tooltip) return;
-    if (tooltip.focused) {
-      setCachedFocus(tooltip.focused);
-      if (hideTimeoutRef.current) {
-        cancelAnimationFrame(hideTimeoutRef.current);
-        hideTimeoutRef.current = null;
-      }
-    }
-    if (!tooltip.focused && !hoveringTooltip) {
-      const id = requestAnimationFrame(() => {
-        setCachedFocus(null);
-        hideTimeoutRef.current = null;
-      });
-      hideTimeoutRef.current = id;
-    }
-    return () => {
-      if (hideTimeoutRef.current) {
-        cancelAnimationFrame(hideTimeoutRef.current);
-        hideTimeoutRef.current = null;
-      }
-    };
-  }, [tooltip, tooltip == null ? void 0 : tooltip.focused, hoveringTooltip]);
-  const focused = tooltip && (tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
-  const [visible, setVisible] = React8.useState(false);
-  React8.useEffect(() => {
-    const id = requestAnimationFrame(() => setVisible(true));
-    return () => cancelAnimationFrame(id);
-  }, [focused == null ? void 0 : focused.index]);
-  const innerWidth = (_a2 = chart == null ? void 0 : chart.innerWidth) != null ? _a2 : 0;
-  const innerHeight = (_b2 = chart == null ? void 0 : chart.innerHeight) != null ? _b2 : 0;
-  const clampX = focused ? Math.min(Math.max(focused.clientX, 0), innerWidth) : 0;
-  const clampY = focused ? Math.min(Math.max(focused.clientY, 0), innerHeight) : 0;
-  const containerEl = (_c = chart.ref) == null ? void 0 : _c.current;
-  const host = containerEl;
-  if (!focused) {
-    return null;
-  }
-  const row = engineRows == null ? void 0 : engineRows[focused.index];
-  const ruleIds = extractRuleIds(row);
-  const rules = ruleIds.map((r) => ({ id: r, label: ruleGlossary[r].tooltip }));
-  const dateObj = focused.x instanceof Date ? focused.x : new Date(focused.x);
-  const dateLabel = dateFormatter ? dateFormatter(dateObj) : dateObj.toDateString();
-  const unit2 = measureUnit ? `${measureUnit}` : "";
-  const valueLabel = measureName || unit2 ? `${focused.y}${unit2 ? "" + unit2 : " "}${measureName ? " " + measureName : ""}` : `${focused.y}`;
-  const variationDesc = variationLabel(row == null ? void 0 : row.variationIcon);
-  const assuranceDesc = assuranceLabel(row == null ? void 0 : row.assuranceIcon);
-  const zone = zoneLabel(
-    (_d = limits.mean) != null ? _d : null,
-    limits.sigma,
-    focused.y
-  );
-  const narrative = pointDescriber ? pointDescriber(focused.index, { x: focused.x, y: focused.y }) : void 0;
-  const showBadges = variationDesc || assuranceDesc || zone;
-  const trendFlag = (row == null ? void 0 : row.specialCauseTrendUp) || (row == null ? void 0 : row.specialCauseTrendDown);
-  const variationNeutral = (row == null ? void 0 : row.variationIcon) === "neither" /* Neither */ && trendFlag;
-  const gatingExplanation = showTrendGatingExplanation && variationNeutral ? "Trend detected (monotonic run) \u2013 held neutral until values cross onto the favourable side of the mean." : null;
-  const hasRules = rules.length > 0;
-  const primeDirection = row == null ? void 0 : row.primeDirection;
-  const primeRuleId = row == null ? void 0 : row.primeRuleId;
-  const isNoJudgement = enableNeutralNoJudgement && (row == null ? void 0 : row.variationIcon) === "neither" /* Neither */ && hasRules;
-  const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
-  const spcDotColor = getVariationColorToken(row == null ? void 0 : row.variationIcon);
-  const charPx = 6.2;
-  const baseLinesForMeasure = [
-    narrative || "",
-    `${dateLabel} \u2022 ${valueLabel}`
-  ].filter(Boolean);
-  const contentWidthEstimate = baseLinesForMeasure.reduce(
-    (m, s) => Math.max(m, s.length * charPx + 32),
-    0
-  );
-  const minWidth = 200;
-  const maxWidth = 440;
-  const boxWidth = Math.min(maxWidth, Math.max(minWidth, contentWidthEstimate));
-  let left = clampX + 12;
-  const marginTop = (_f = (_e = chart.margin) == null ? void 0 : _e.top) != null ? _f : 0;
-  let top = marginTop + clampY + 16;
-  if (left + boxWidth > innerWidth) {
-    const flipGap = -60;
-    left = clampX - flipGap - boxWidth;
-  }
-  if (left < 0) left = Math.max(0, innerWidth - boxWidth);
-  const tooltipId = focused ? `spc-tooltip-${focused.index}` : "spc-tooltip";
-  const portal = host ? createPortal(
-    /* @__PURE__ */ jsx9(
-      "div",
-      {
-        id: tooltipId,
-        className: "fdp-spc-tooltip fdp-spc-tooltip-portal" + (visible ? " is-visible" : ""),
-        style: {
-          position: "absolute",
-          left,
-          top,
-          width: boxWidth,
-          maxWidth,
-          zIndex: 10,
-          pointerEvents: "auto",
-          userSelect: "none"
-        },
-        role: "tooltip",
-        "aria-live": "polite",
-        "aria-hidden": visible ? "false" : "true",
-        "data-floating": true,
-        "data-placement": left + boxWidth + 12 > innerWidth ? "left" : "right",
-        onPointerEnter: () => {
-          setHoveringTooltip(true);
-          if (hideTimeoutRef.current) {
-            cancelAnimationFrame(hideTimeoutRef.current);
-            hideTimeoutRef.current = null;
-          }
-        },
-        onPointerLeave: () => {
-          setHoveringTooltip(false);
-          if (!(tooltip == null ? void 0 : tooltip.focused)) {
-            const id = requestAnimationFrame(() => {
-              setCachedFocus(null);
-              hideTimeoutRef.current = null;
-            });
-            hideTimeoutRef.current = id;
-          }
-        },
-        children: /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__body", children: [
-          /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Date" }) }),
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
-          ] }),
-          /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--value", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Value" }) }),
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__primary-line", children: valueLabel })
-          ] }),
-          showBadges && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Signals" }) }),
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: (() => {
-              if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
-                return /* @__PURE__ */ jsx9(
-                  Tag,
-                  {
-                    text: variationDesc,
-                    color: "default",
-                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
-                  }
-                );
-              }
-              if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
-                return /* @__PURE__ */ jsx9(
-                  Tag,
-                  {
-                    text: variationDesc,
-                    color: "default",
-                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
-                  }
-                );
-              }
-              if (isNoJudgement) {
-                return /* @__PURE__ */ jsx9(
-                  Tag,
-                  {
-                    text: "No judgement",
-                    color: "default",
-                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--no-judgement",
-                    "aria-label": "Neutral special cause (no directional judgement)"
-                  }
-                );
-              }
-              if (variationDesc) {
-                return /* @__PURE__ */ jsx9(
-                  Tag,
-                  {
-                    text: variationDesc,
-                    color: "default",
-                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
-                  }
-                );
-              }
-              return null;
-            })() })
-          ] }),
-          assuranceDesc && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Assurance" }) }),
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: (() => {
-              const lower = assuranceDesc.toLowerCase();
-              const isFail = lower.includes("not met") || lower.includes("not achieved");
-              const isPass = !isFail && /(^|\b)(met|achieved)(\b|$)/.test(lower);
-              return /* @__PURE__ */ jsx9(
-                Tag,
-                {
-                  text: assuranceDesc,
-                  color: "default",
-                  className: `fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--assurance ${isPass ? "fdp-spc-tag--improvement" : "fdp-spc-tag--concern"}`,
-                  "aria-label": `Assurance: ${assuranceDesc}`
-                }
-              );
-            })() })
-          ] }),
-          zone && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Control Limits & Sigma" }) }),
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: /* @__PURE__ */ jsx9(
-              Tag,
-              {
-                text: (() => {
-                  const z = zone.toLowerCase();
-                  if (z.startsWith("within 1")) return "\u22641\u03C3";
-                  if (z.startsWith("1\u20132")) return "1\u20132\u03C3";
-                  if (z.startsWith("2\u20133")) return "2\u20133\u03C3";
-                  if (z.startsWith(">3")) return ">3\u03C3";
-                  return zone;
-                })(),
-                color: zone.includes(">3") ? "orange" : zone.includes("2\u20133") ? "yellow" : "grey",
-                "aria-label": `Sigma zone: ${zone}`,
-                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--zone"
-              }
-            ) })
-          ] }),
-          gatingExplanation && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--gating", "data-gating": true, children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Trend gating" }) }),
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__explanation", "aria-live": "off", children: gatingExplanation })
-          ] }),
-          hasRules && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Special cause" }) }),
-            /* @__PURE__ */ jsx9(
-              "div",
-              {
-                className: "fdp-spc-tooltip__rule-tags",
-                "aria-label": "Special cause rules",
-                children: rules.map(({ id, label }) => {
-                  const idStr = String(id);
-                  const isTrend = idStr === "trend_inc" /* TrendIncreasing */ || idStr === "trend_dec" /* TrendDecreasing */;
-                  const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
-                  return /* @__PURE__ */ jsx9(
-                    Tag,
-                    {
-                      text: label,
-                      color: "default",
-                      className: `fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`,
-                      "data-rule-id": idStr
-                    },
-                    idStr
-                  );
-                })
-              }
-            ),
-            primeDirection && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", style: { marginTop: 16 }, children: [
-              /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", style: { marginBottom: 6 }, children: /* @__PURE__ */ jsx9("strong", { children: "Prime Direction" }) }),
-              (() => {
-                const primeColorClass = isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
-                const primeLabel = `${primeDirection}${primeRuleId ? ` (${primeRuleId})` : ""}`;
-                return /* @__PURE__ */ jsx9(
-                  Tag,
-                  {
-                    text: primeLabel,
-                    color: "default",
-                    className: `fdp-spc-tooltip__tag fdp-spc-tag ${primeColorClass}`,
-                    "aria-label": `Prime direction ${primeDirection}${primeRuleId ? ` via ${primeRuleId}` : ""}`
-                  }
-                );
-              })()
-            ] })
-          ] })
-        ] })
-      }
-    ),
-    host
-  ) : null;
-  return /* @__PURE__ */ jsxs5(
-    "g",
-    {
-      className: "fdp-tooltip-layer fdp-spc-tooltip",
-      pointerEvents: "none",
-      "aria-hidden": "true",
-      children: [
-        /* @__PURE__ */ jsx9(
-          "circle",
-          {
-            cx: clampX,
-            cy: clampY,
-            r: 7,
-            fill: "none",
-            stroke: focusYellow,
-            strokeWidth: 3
-          }
-        ),
-        /* @__PURE__ */ jsx9(
-          "circle",
-          {
-            cx: clampX,
-            cy: clampY,
-            r: 5,
-            fill: "#000",
-            stroke: focusYellow,
-            strokeWidth: 1.5
-          }
-        ),
-        /* @__PURE__ */ jsx9(
-          "circle",
-          {
-            cx: clampX,
-            cy: clampY,
-            r: 2.5,
-            fill: spcDotColor,
-            stroke: "#fff",
-            strokeWidth: 0.5
-          }
-        ),
-        portal
-      ]
-    }
-  );
-};
-var SPCTooltipOverlay_default = SPCTooltipOverlay;
-
-// src/components/DataVisualisation/primitives/VisuallyHiddenLiveRegion.tsx
-import * as React9 from "react";
-import { jsx as jsx10 } from "react/jsx-runtime";
-var VisuallyHiddenLiveRegion = ({ polite = true, format: format2 }) => {
-  const tooltip = useTooltipContext();
-  const [message, setMessage] = React9.useState("");
-  const lastRef = React9.useRef("");
-  React9.useEffect(() => {
-    if (!(tooltip == null ? void 0 : tooltip.focused)) return;
-    const { focused, aggregated } = tooltip;
-    let msg;
-    if (aggregated && aggregated.length > 1) {
-      const parts = aggregated.map((a) => `${a.seriesId} ${a.y}`).join("; ");
-      const xLabel = focused.x instanceof Date ? focused.x.toDateString() : String(focused.x);
-      msg = `${xLabel} \u2013 ${parts}`;
-    } else {
-      msg = format2 ? format2({ seriesId: focused.seriesId, x: focused.x, y: focused.y, index: focused.index }) : defaultFormatter(focused.seriesId, focused.x, focused.y, focused.index);
-    }
-    if (msg !== lastRef.current) {
-      lastRef.current = msg;
-      setMessage("");
-      const timeout = setTimeout(() => setMessage(msg), 10);
-      return () => clearTimeout(timeout);
-    }
-  }, [tooltip == null ? void 0 : tooltip.focused, format2]);
-  return /* @__PURE__ */ jsx10(
-    "div",
-    {
-      "aria-live": polite ? "polite" : "assertive",
-      "aria-atomic": "true",
-      style: { position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", border: 0 },
-      children: message
-    }
-  );
-};
-function defaultFormatter(seriesId, x2, y2, index) {
-  const xLabel = x2 instanceof Date ? x2.toDateString() : String(x2);
-  return `Series ${seriesId}, point ${index + 1}, ${xLabel}, value ${y2}`;
-}
-var VisuallyHiddenLiveRegion_default = VisuallyHiddenLiveRegion;
-
-// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
-import { useId, useMemo as useMemo7 } from "react";
-
-// src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts
-var spcTokenRoot = null;
-var _a, _b;
-try {
-  const tokens = require_tokens();
-  spcTokenRoot = ((_b = (_a = tokens == null ? void 0 : tokens.color) == null ? void 0 : _a["data-viz"]) == null ? void 0 : _b.spc) || null;
-} catch {
-}
-var tokenColour = (key, fallback) => {
-  if (!spcTokenRoot) return fallback;
-  const parts = key.split(".");
-  let current = spcTokenRoot;
-  for (const p of parts) {
-    if (current == null) break;
-    current = current[p];
-  }
-  const val = current;
-  if (val == null) return fallback;
-  if (typeof val === "string" || typeof val === "number") return String(val);
-  if (val.$value != null) return String(val.$value);
-  if (val.value != null) return String(val.value);
-  return fallback;
-};
-var getGradientOpacities = () => ({
-  // Lightened defaults (previous 0.18 -> 0.12, 0.06 -> 0.03) to reduce intensity of wash.
-  start: tokenColour("gradient.stop.start-opacity", "0.12"),
-  mid: tokenColour("gradient.stop.mid-opacity", "0.03"),
-  end: tokenColour("gradient.stop.end-opacity", "0"),
-  triStart: tokenColour(
-    "gradient.stop.triangle-start-opacity",
-    tokenColour("gradient.stop.start-opacity", "0.12")
-  ),
-  triMid: tokenColour(
-    "gradient.stop.triangle-mid-opacity",
-    tokenColour("gradient.stop.mid-opacity", "0.03")
-  ),
-  triEnd: tokenColour(
-    "gradient.stop.triangle-end-opacity",
-    tokenColour("gradient.stop.end-opacity", "0")
-  )
-});
-
-// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCConstants.ts
-var AssuranceResult = /* @__PURE__ */ ((AssuranceResult2) => {
-  AssuranceResult2["Pass"] = "pass";
-  AssuranceResult2["Fail"] = "fail";
-  AssuranceResult2["Uncertain"] = "uncertain";
-  return AssuranceResult2;
-})(AssuranceResult || {});
-var DEFAULT_COLOURS = {
-  ["pass" /* Pass */]: "#00B0F0",
-  // blue
-  ["fail" /* Fail */]: "#E46C0A",
-  // orange
-  ["uncertain" /* Uncertain */]: "#A6A6A6"
-  // grey
-};
-var DEFAULT_LETTERS = {
-  ["pass" /* Pass */]: "P",
-  ["fail" /* Fail */]: "F",
-  ["uncertain" /* Uncertain */]: "?"
-};
-var MetricPolarity = /* @__PURE__ */ ((MetricPolarity2) => {
-  MetricPolarity2["HigherIsBetter"] = "higher_is_better";
-  MetricPolarity2["LowerIsBetter"] = "lower_is_better";
-  MetricPolarity2["ContextDependent"] = "context_dependent";
-  return MetricPolarity2;
-})(MetricPolarity || {});
-var Direction = /* @__PURE__ */ ((Direction2) => {
-  Direction2["Higher"] = "higher";
-  Direction2["Lower"] = "lower";
-  return Direction2;
-})(Direction || {});
-var VariationJudgement = /* @__PURE__ */ ((VariationJudgement2) => {
-  VariationJudgement2["Improving"] = "improving";
-  VariationJudgement2["Deteriorating"] = "deteriorating";
-  VariationJudgement2["No_Judgement"] = "no_judgement";
-  VariationJudgement2["None"] = "none";
-  return VariationJudgement2;
-})(VariationJudgement || {});
-var VariationState = /* @__PURE__ */ ((VariationState2) => {
-  VariationState2["SpecialCauseImproving"] = "special_cause_improving";
-  VariationState2["SpecialCauseDeteriorating"] = "special_cause_deteriorating";
-  VariationState2["CommonCause"] = "common_cause";
-  VariationState2["SpecialCauseNoJudgement"] = "special_cause_no_judgement";
-  return VariationState2;
-})(VariationState || {});
-var pickTextColour = (hex2) => {
-  const c = hex2.replace("#", "");
-  const r = parseInt(c.slice(0, 2), 16) / 255;
-  const g = parseInt(c.slice(2, 4), 16) / 255;
-  const b = parseInt(c.slice(4, 6), 16) / 255;
-  const srgb = [r, g, b].map(
-    (v) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
-  );
-  const L = 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
-  return L < 0.55 ? "#ffffff" : "#212b32";
-};
-var VARIATION_COLOURS = {
-  ["special_cause_deteriorating" /* SpecialCauseDeteriorating */]: {
-    hex: VARIATION_COLOR_TOKENS.concern.hex,
-    judgement: "deteriorating" /* Deteriorating */,
-    label: "Special Cause (Deteriorating)",
-    description: "Deteriorating variation detected (special cause) relative to baseline."
-  },
-  ["special_cause_improving" /* SpecialCauseImproving */]: {
-    hex: VARIATION_COLOR_TOKENS.improvement.hex,
-    judgement: "improving" /* Improving */,
-    label: "Special Cause (Improving)",
-    description: "Improving variation detected (special cause) relative to baseline."
-  },
-  ["common_cause" /* CommonCause */]: {
-    hex: VARIATION_COLOR_TOKENS.neither.hex,
-    judgement: "none" /* None */,
-    label: "Common Cause",
-    description: "Common cause variation only \u2013 no special cause detected."
-  },
-  ["special_cause_no_judgement" /* SpecialCauseNoJudgement */]: {
-    hex: VARIATION_COLOR_TOKENS.none.hex,
-    judgement: "no_judgement" /* No_Judgement */,
-    label: "Special Cause (No Judgement)",
-    description: "Special cause detected without assigning improving/deteriorating judgement."
-  }
-};
-Object.values(VARIATION_COLOURS).forEach((def) => {
-  if (!def.text) def.text = pickTextColour(def.hex);
-});
-var getVariationColour = (state) => VARIATION_COLOURS[state];
-var getVariationTrend = (state) => VARIATION_COLOURS[state].judgement || "none" /* None */;
-var POINT_LAYOUTS = {
-  special: {
-    higher: [
-      { cx: 77.5, cy: 158.5 },
-      { cx: 114, cy: 175 },
-      { cx: 150.5, cy: 158.5 },
-      { cx: 188, cy: 125 },
-      { cx: 225, cy: 137 }
-    ],
-    lower: [
-      { cx: 77.5, cy: 139.5 },
-      { cx: 114, cy: 124.5 },
-      { cx: 150.5, cy: 139.5 },
-      { cx: 188, cy: 175.5 },
-      { cx: 224.5, cy: 162 }
-    ]
-  },
-  common: [
-    { cx: 76.5, cy: 149.5 },
-    { cx: 113, cy: 179.5 },
-    { cx: 149.5, cy: 117 },
-    { cx: 187, cy: 171 },
-    { cx: 223.5, cy: 158 }
-  ]
-};
-function computePointPositions(state, direction) {
-  let src;
-  if (state === "common_cause" /* CommonCause */) src = POINT_LAYOUTS.common;
-  else
-    src = POINT_LAYOUTS.special[direction === "lower" /* Lower */ ? "lower" : "higher"];
-  return src.map((p) => ({ ...p }));
-}
-
-// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
-import { Fragment, jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
-var resolveStateAndLayout = (input) => {
-  var _a2, _b2;
-  const emitDeprecation = () => {
-    if (!globalThis.__spcIconDeprecationEmitted) {
-      console.warn(
-        "[SPCVariationIcon] Deprecated payload shape detected. Migrate to { variationIcon, improvementDirection, specialCauseNeutral?, trend? }."
-      );
-      globalThis.__spcIconDeprecationEmitted = true;
-    }
-  };
-  if (input.variationIcon !== void 0) {
-    const eng = input;
-    if (eng.variationIcon === "none" /* None */ && !globalThis.__spcIconNoneDeprecationEmitted) {
-      try {
-        console.warn("[SPCVariationIcon] VariationIcon.None is deprecated; use VariationIcon.Suppressed.");
-      } catch {
-      }
-      globalThis.__spcIconNoneDeprecationEmitted = true;
-    }
-    let polarity = void 0;
-    if (eng.improvementDirection !== void 0) {
-      polarity = eng.improvementDirection === "Up" /* Up */ ? "higher_is_better" /* HigherIsBetter */ : eng.improvementDirection === "Down" /* Down */ ? "lower_is_better" /* LowerIsBetter */ : "context_dependent" /* ContextDependent */;
-    } else if (eng.polarity) {
-      polarity = eng.polarity;
-    }
-    let state2;
-    switch (eng.variationIcon) {
-      case "improvement" /* Improvement */:
-        state2 = "special_cause_improving" /* SpecialCauseImproving */;
-        break;
-      case "concern" /* Concern */:
-        state2 = "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
-        break;
-      case "neither" /* Neither */:
-        state2 = eng.specialCauseNeutral ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
-        break;
-      case "suppressed" /* Suppressed */:
-      case "none" /* None */:
-      default:
-        state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
-        break;
-    }
-    let direction2 = eng.trend;
-    if (!direction2) {
-      if (state2 === "special_cause_improving" /* SpecialCauseImproving */) {
-        direction2 = polarity === "lower_is_better" /* LowerIsBetter */ ? "lower" /* Lower */ : "higher" /* Higher */;
-      } else if (state2 === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
-        direction2 = polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
-      } else if (state2 === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
-        if (eng.highSideSignal && !eng.lowSideSignal) direction2 = "higher" /* Higher */;
-        else if (eng.lowSideSignal && !eng.highSideSignal) direction2 = "lower" /* Lower */;
-        else direction2 = "higher" /* Higher */;
-      } else {
-        direction2 = "higher" /* Higher */;
-      }
-    }
-    return { state: state2, direction: direction2, polarity: polarity != null ? polarity : "context_dependent" /* ContextDependent */ };
-  }
-  if (input.state !== void 0) {
-    emitDeprecation();
-    const v1 = input;
-    let direction2 = v1.trend;
-    if (!direction2 && (v1.state === "special_cause_improving" /* SpecialCauseImproving */ || v1.state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && v1.polarity) {
-      if (v1.state === "special_cause_improving" /* SpecialCauseImproving */) {
-        direction2 = v1.polarity === "lower_is_better" /* LowerIsBetter */ ? "lower" /* Lower */ : "higher" /* Higher */;
-      } else {
-        direction2 = v1.polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
-      }
-    }
-    if (!direction2) {
-      if (v1.state === "special_cause_improving" /* SpecialCauseImproving */)
-        direction2 = "higher" /* Higher */;
-      else if (v1.state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */)
-        direction2 = "lower" /* Lower */;
-      else direction2 = "higher" /* Higher */;
-    }
-    return {
-      state: v1.state,
-      direction: direction2,
-      polarity: (_a2 = v1.polarity) != null ? _a2 : "context_dependent" /* ContextDependent */
-    };
-  }
-  const v2 = input;
-  emitDeprecation();
-  const map2 = {
-    ["improving" /* Improving */]: "special_cause_improving" /* SpecialCauseImproving */,
-    ["deteriorating" /* Deteriorating */]: "special_cause_deteriorating" /* SpecialCauseDeteriorating */,
-    ["no_judgement" /* No_Judgement */]: "special_cause_no_judgement" /* SpecialCauseNoJudgement */,
-    ["none" /* None */]: "common_cause" /* CommonCause */
-  };
-  const state = map2[v2.judgement];
-  let direction;
-  if (v2.judgement === "improving" /* Improving */) {
-    direction = v2.polarity === "lower_is_better" /* LowerIsBetter */ ? "lower" /* Lower */ : "higher" /* Higher */;
-  } else if (v2.judgement === "deteriorating" /* Deteriorating */) {
-    direction = v2.polarity === "lower_is_better" /* LowerIsBetter */ ? "higher" /* Higher */ : "lower" /* Lower */;
-  } else {
-    direction = (_b2 = v2.trend) != null ? _b2 : "higher" /* Higher */;
-  }
-  return { state, direction, polarity: v2.polarity };
-};
-function deriveVariationAriaDescription(input, context) {
-  const { state, direction, polarity } = resolveStateAndLayout(input);
-  const judgement = getVariationTrend(state);
-  const sideWord = direction === "higher" /* Higher */ ? "above" : "below";
-  const trendWord = direction === "higher" /* Higher */ ? "upwards" : "downwards";
-  const polarityClause = (() => {
-    switch (polarity) {
-      case "higher_is_better" /* HigherIsBetter */:
-        return "For this measure, higher values are better.";
-      case "lower_is_better" /* LowerIsBetter */:
-        return "For this measure, lower values are better.";
-      default:
-        return "Direction of improvement is context dependent.";
-    }
-  })();
-  const base = (() => {
-    switch (judgement) {
-      case "improving" /* Improving */:
-        return `Special cause improvement: recent data show a sustained run ${sideWord} the mean (unlikely due to random variation).`;
-      case "deteriorating" /* Deteriorating */:
-        return `Special cause deterioration: recent data show a sustained run ${sideWord} the mean (unlikely due to random variation).`;
-      case "no_judgement" /* No_Judgement */:
-        return `Special cause detected (no value judgement): recent data show a change in level, trending ${trendWord}.`;
-      case "none" /* None */:
-      default:
-        return `Common cause variation: points vary randomly around the mean; no special cause detected.`;
-    }
-  })();
-  const parts = [
-    base,
-    polarityClause,
-    (context == null ? void 0 : context.measureName) ? `Measure: ${context.measureName}.` : null,
-    (context == null ? void 0 : context.datasetContext) ? `${context.datasetContext}.` : null,
-    (context == null ? void 0 : context.organisation) ? `Organisation: ${context.organisation}.` : null,
-    (context == null ? void 0 : context.timeframe) ? `Timeframe: ${context.timeframe}.` : null,
-    (context == null ? void 0 : context.additionalNote) ? context.additionalNote : null
-  ];
-  return parts.filter(Boolean).join(" ");
-}
-var buildDefs = (colourHex, shadowId, washId, dropShadow, gradientWash, stops) => /* @__PURE__ */ jsxs6("defs", { children: [
-  dropShadow && /* @__PURE__ */ jsxs6("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-    /* @__PURE__ */ jsx11("feGaussianBlur", { stdDeviation: "3" }),
-    /* @__PURE__ */ jsx11("feOffset", { dx: "0", dy: "15", result: "blur" }),
-    /* @__PURE__ */ jsx11("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
-    /* @__PURE__ */ jsx11("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-    /* @__PURE__ */ jsx11("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
-  ] }),
-  gradientWash && /* @__PURE__ */ jsx11("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: stops.map((s) => /* @__PURE__ */ jsx11(
-    "stop",
-    {
-      offset: s.offset,
-      stopColor: colourHex,
-      stopOpacity: parseFloat(s.opacity)
-    },
-    s.offset
-  )) })
-] });
-var SPCVariationIcon = ({
-  data,
-  size = 44,
-  ariaLabel,
-  showLetter = true,
-  dropShadow = true,
-  gradientWash = false,
-  variant = "classic",
-  runLength = 0,
-  // Default changed to 'polarity' so letters reflect desirable direction (H = Higher is better, L = Lower is better)
-  letterMode = "polarity",
-  letterOverride,
-  ...rest
-}) => {
-  const shadowId = useId();
-  const washId = useId();
-  const {
-    start: gradStart,
-    mid: gradMid,
-    end: gradEnd,
-    triStart: triGradStart,
-    triMid: triGradMid,
-    triEnd: triGradEnd
-  } = getGradientOpacities();
-  const { state, direction, polarity } = useMemo7(
-    () => resolveStateAndLayout(data),
-    [data]
-  );
-  const colour = useMemo7(() => getVariationColour(state), [state]);
-  const judgement = useMemo7(() => getVariationTrend(state), [state]);
-  const showLetterForJudgement = judgement === "improving" /* Improving */ || judgement === "deteriorating" /* Deteriorating */;
-  let letter = "";
-  if (showLetter && showLetterForJudgement) {
-    if (letterMode === "polarity") {
-      if (polarity === "higher_is_better" /* HigherIsBetter */) letter = "H";
-      else if (polarity === "lower_is_better" /* LowerIsBetter */) letter = "L";
-      else letter = "";
-    } else {
-      letter = direction === "higher" /* Higher */ ? "H" : "L";
-    }
-  }
-  if (letterOverride !== void 0) letter = letterOverride;
-  const isSpecial = state !== "common_cause" /* CommonCause */;
-  const isNoJudgement = state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
-  const neutralGrey = tokenColour("common-cause", "#A6A6A6");
-  const pointColour = isSpecial ? colour.hex : neutralGrey;
-  const points = useMemo7(
-    () => computePointPositions(state, direction),
-    [state, direction]
-  );
-  const aria = ariaLabel || `${colour.label}${letter ? direction === "higher" /* Higher */ ? " \u2013 Higher" : " \u2013 Lower" : ""}`;
-  const ariaDescription = deriveVariationAriaDescription(
-    data
-  );
-  if (variant === "triangleWithRun") {
-    const triSize = 100;
-    const centerX = 150;
-    const centerY = 140;
-    const upTriangle = [
-      [centerX, centerY - triSize / 2],
-      [centerX - triSize / 2, centerY + triSize / 2],
-      [centerX + triSize / 2, centerY + triSize / 2]
-    ];
-    const downTriangle = [
-      [centerX, centerY + triSize / 2],
-      [centerX - triSize / 2, centerY - triSize / 2],
-      [centerX + triSize / 2, centerY - triSize / 2]
-    ];
-    let shape = null;
-    if (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
-      shape = /* @__PURE__ */ jsx11(
-        "polygon",
-        {
-          points: (direction === "higher" /* Higher */ ? upTriangle : downTriangle).map((p) => p.join(",")).join(" "),
-          fill: colour.hex,
-          stroke: colour.hex,
-          strokeWidth: 6,
-          transform: direction === "higher" /* Higher */ ? "translate(0, -8)" : "translate(0, 15)"
-        }
-      );
-    } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
-      shape = /* @__PURE__ */ jsx11(
-        "polygon",
-        {
-          points: direction === "higher" /* Higher */ ? upTriangle.map((p) => p.join(",")).join(" ") : downTriangle.map((p) => p.join(",")).join(" "),
-          fill: colour.hex,
-          stroke: colour.hex,
-          strokeWidth: 6,
-          transform: direction === "higher" /* Higher */ ? "translate(0,-7)" : "translate(0,14)"
-        }
-      );
-    }
-    const runLen = Math.max(0, Math.min(5, Math.floor(runLength || 0)));
-    const runY = state === "common_cause" /* CommonCause */ ? 160 : direction === "higher" /* Higher */ ? 220 : 70;
-    const runRadius = 10;
-    const runGap = 26;
-    const runStartX = centerX - 2 * runGap;
-    const runColor = state === "special_cause_improving" /* SpecialCauseImproving */ ? tokenColour("improvement", "#00B0F0") : state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */ ? tokenColour("concern", "#E46C0A") : neutralGrey;
-    const runCircles = Array.from({ length: 5 }).map((_, i) => {
-      const filled = (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && i >= 5 - runLen;
-      const fill = filled ? runColor : neutralGrey;
-      return /* @__PURE__ */ jsx11(
-        "circle",
-        {
-          cx: runStartX + i * runGap,
-          cy: runY,
-          r: runRadius,
-          fill,
-          stroke: fill,
-          strokeWidth: 1
-        },
-        i
-      );
-    });
-    const defs2 = buildDefs(
-      colour.hex,
-      shadowId,
-      washId,
-      dropShadow,
-      gradientWash,
-      [
-        { offset: "0%", opacity: triGradStart },
-        { offset: "75%", opacity: triGradMid },
-        { offset: "100%", opacity: triGradEnd }
-      ]
-    );
-    const groupTransform = state === "common_cause" /* CommonCause */ ? "translate(0,-10)" : direction === "higher" /* Higher */ ? "translate(0,-10)" : "translate(0,25)";
-    return /* @__PURE__ */ jsxs6(
-      "svg",
-      {
-        width: size,
-        height: size,
-        viewBox: "0 0 300 300",
-        role: "img",
-        "aria-label": aria,
-        "aria-description": ariaDescription,
-        ...rest,
-        children: [
-          defs2,
-          /* @__PURE__ */ jsx11(
-            "circle",
-            {
-              stroke: "none",
-              fill: gradientWash ? `url(#${washId})` : "#ffffff",
-              ...dropShadow ? { filter: `url(#${shadowId})` } : {},
-              cx: "150",
-              cy: "150",
-              r: "120"
-            }
-          ),
-          /* @__PURE__ */ jsx11(
-            "circle",
-            {
-              stroke: colour.hex,
-              strokeWidth: 15,
-              strokeMiterlimit: 10,
-              fill: "none",
-              cx: "150",
-              cy: "150",
-              r: "120"
-            }
-          ),
-          /* @__PURE__ */ jsxs6("g", { transform: groupTransform, children: [
-            shape,
-            letter && /* @__PURE__ */ jsx11(
-              "text",
-              {
-                fill: "#fff",
-                fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
-                fontWeight: "bold",
-                fontSize: 64,
-                x: "150",
-                y: direction === "higher" /* Higher */ ? 155 : 145,
-                textAnchor: "middle",
-                dominantBaseline: "middle",
-                children: letter
-              }
-            ),
-            runCircles
-          ] })
-        ]
-      }
-    );
-  }
-  if (variant === "triangle") {
-    const triSize = 150;
-    const centerX = 150;
-    const centerY = 150;
-    const upTriangle = [
-      [centerX, centerY - triSize / 2],
-      [centerX - triSize / 2, centerY + triSize / 2],
-      [centerX + triSize / 2, centerY + triSize / 2]
-    ];
-    const downTriangle = [
-      [centerX, centerY + triSize / 2],
-      [centerX - triSize / 2, centerY - triSize / 2],
-      [centerX + triSize / 2, centerY - triSize / 2]
-    ];
-    const flatLine = [
-      [centerX - triSize / 2, centerY + triSize / 2],
-      [centerX + triSize / 2, centerY + triSize / 2]
-    ];
-    let shape = null;
-    if (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
-      shape = /* @__PURE__ */ jsx11(
-        "polygon",
-        {
-          points: (direction === "higher" /* Higher */ ? upTriangle : downTriangle).map((p) => p.join(",")).join(" "),
-          fill: colour.hex,
-          stroke: colour.hex,
-          strokeWidth: 8,
-          transform: direction === "higher" /* Higher */ ? "translate(0, -10)" : "translate(0, 10)"
-        }
-      );
-    } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
-      shape = /* @__PURE__ */ jsx11(
-        "polygon",
-        {
-          points: direction === "higher" /* Higher */ ? upTriangle.map((p) => p.join(",")).join(" ") : downTriangle.map((p) => p.join(",")).join(" "),
-          fill: colour.hex,
-          stroke: colour.hex,
-          strokeWidth: 8,
-          transform: direction === "higher" /* Higher */ ? "translate(0, -15)" : "translate(0, 15)"
-        }
-      );
-    } else if (state === "common_cause" /* CommonCause */) {
-      shape = /* @__PURE__ */ jsx11(
-        "line",
-        {
-          x1: flatLine[0][0],
-          y1: flatLine[0][1],
-          x2: flatLine[1][0],
-          y2: flatLine[1][1],
-          stroke: colour.hex,
-          strokeWidth: 32,
-          strokeLinecap: "square",
-          transform: "translate(0, -75)"
-        }
-      );
-    }
-    const defs2 = buildDefs(
-      colour.hex,
-      shadowId,
-      washId,
-      dropShadow,
-      gradientWash,
-      [
-        { offset: "0%", opacity: triGradStart },
-        { offset: "65%", opacity: triGradMid },
-        { offset: "100%", opacity: triGradEnd }
-      ]
-    );
-    return /* @__PURE__ */ jsxs6(
-      "svg",
-      {
-        width: size,
-        height: size,
-        viewBox: "0 0 300 300",
-        role: "img",
-        "aria-label": aria,
-        "aria-description": ariaDescription,
-        ...rest,
-        children: [
-          defs2,
-          /* @__PURE__ */ jsx11(
-            "circle",
-            {
-              stroke: "none",
-              fill: gradientWash ? `url(#${washId})` : "#ffffff",
-              ...dropShadow ? { filter: `url(#${shadowId})` } : {},
-              cx: "150",
-              cy: "150",
-              r: "120"
-            }
-          ),
-          /* @__PURE__ */ jsx11(
-            "circle",
-            {
-              stroke: colour.hex,
-              strokeWidth: 15,
-              strokeMiterlimit: 10,
-              fill: "none",
-              cx: "150",
-              cy: "150",
-              r: "120"
-            }
-          ),
-          shape,
-          letter && (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && /* @__PURE__ */ jsx11(
-            "text",
-            {
-              fill: "#fff",
-              fontFamily: "'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
-              fontWeight: "bold",
-              fontSize: 100,
-              x: "150",
-              y: direction === "higher" /* Higher */ ? "170" : "140",
-              textAnchor: "middle",
-              dominantBaseline: "middle",
-              children: letter
-            }
-          )
-        ]
-      }
-    );
-  }
-  const defs = buildDefs(
-    colour.hex,
-    shadowId,
-    washId,
-    dropShadow,
-    gradientWash,
-    [
-      { offset: "0%", opacity: gradStart },
-      { offset: "65%", opacity: gradMid },
-      { offset: "100%", opacity: gradEnd }
-    ]
-  );
-  return /* @__PURE__ */ jsxs6(
-    "svg",
-    {
-      width: size,
-      height: size,
-      viewBox: "0 0 300 300",
-      role: "img",
-      "aria-label": aria,
-      "aria-description": ariaDescription,
-      ...rest,
-      children: [
-        defs,
-        /* @__PURE__ */ jsx11(
-          "circle",
-          {
-            stroke: "none",
-            fill: gradientWash ? `url(#${washId})` : "#ffffff",
-            ...dropShadow ? { filter: `url(#${shadowId})` } : {},
-            cx: "150",
-            cy: "150",
-            r: "120"
-          }
-        ),
-        /* @__PURE__ */ jsx11(
-          "circle",
-          {
-            stroke: colour.hex,
-            strokeWidth: 15,
-            strokeMiterlimit: 10,
-            fill: "none",
-            cx: "150",
-            cy: "150",
-            r: "120"
-          }
-        ),
-        letter && /* @__PURE__ */ jsx11(
-          "text",
-          {
-            fill: colour.hex,
-            fontFamily: "Arial-BoldMT, Arial, 'Helvetica Neue', Helvetica, sans-serif",
-            fontWeight: "bold",
-            fontSize: 176,
-            transform: "translate(86.67, 54) scale(0.5, 0.5)",
-            textAnchor: "end",
-            children: /* @__PURE__ */ jsx11("tspan", { x: "120", y: direction === "lower" /* Lower */ ? "340" : "155", children: letter })
-          }
-        ),
-        isNoJudgement ? /* @__PURE__ */ jsx11(
-          "path",
-          {
-            "aria-hidden": "true",
-            fillRule: "evenodd",
-            stroke: "none",
-            fill: colour.hex,
-            ...direction === "lower" /* Lower */ ? { transform: "rotate(90 150 150)" } : { transform: "translate(-5 0) rotate(0 150 150)" },
-            d: "M 90.26,185.42 L 149.31,126.37 127.44,104.51 209.81,90.66 195.96,173.02 174.09,151.16 115.05,210.2 90.26,185.42 Z M 90.26,185.42"
-          }
-        ) : /* @__PURE__ */ jsxs6(Fragment, { children: [
-          points.length === 5 && /* @__PURE__ */ jsx11(
-            "path",
-            {
-              "aria-hidden": "true",
-              fill: "none",
-              stroke: neutralGrey,
-              strokeWidth: 12,
-              strokeLinecap: "round",
-              strokeLinejoin: "round",
-              opacity: 0.9,
-              d: `M ${points.map((p) => `${p.cx} ${p.cy}`).join(" L ")}`
-            }
-          ),
-          points.map((p, i) => {
-            const specialIdx = i >= points.length - 2 && isSpecial;
-            const fill = specialIdx ? pointColour : neutralGrey;
-            const stroke = fill;
-            return /* @__PURE__ */ jsx11(
-              "circle",
-              {
-                stroke,
-                strokeWidth: 2,
-                strokeMiterlimit: 10,
-                fill,
-                cx: p.cx,
-                cy: p.cy,
-                r: 16
-              },
-              i
-            );
-          })
-        ] })
-      ]
-    }
-  );
-};
-SPCVariationIcon.displayName = "SPCVariationIcon";
-
-// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCAssuranceIcon.tsx
-import { useId as useId2 } from "react";
-import { Fragment as Fragment2, jsx as jsx12, jsxs as jsxs7 } from "react/jsx-runtime";
-var SPCAssuranceIcon = ({
-  status,
-  size = 44,
-  ariaLabel,
-  dropShadow = true,
-  colourOverride,
-  gradientWash = false,
-  letterOverride,
-  showTrendLines = true,
-  ...rest
-}) => {
-  const shadowId = useId2();
-  const washId = useId2();
-  const { start: gradStart, mid: gradMid, end: gradEnd } = getGradientOpacities();
-  const colour = colourOverride || DEFAULT_COLOURS[status];
-  const letter = (letterOverride || DEFAULT_LETTERS[status]).slice(0, 2);
-  const aria = ariaLabel || `Assurance ${status}`;
-  return /* @__PURE__ */ jsxs7(
-    "svg",
-    {
-      width: size,
-      height: size,
-      viewBox: "0 0 300 300",
-      role: "img",
-      "aria-label": aria,
-      ...rest,
-      children: [
-        /* @__PURE__ */ jsxs7("defs", { children: [
-          dropShadow && /* @__PURE__ */ jsxs7("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-            /* @__PURE__ */ jsx12("feGaussianBlur", { stdDeviation: "3" }),
-            /* @__PURE__ */ jsx12("feOffset", { dx: "-1", dy: "15", result: "blur" }),
-            /* @__PURE__ */ jsx12("feFlood", { floodColor: "rgb(166,166,166)", floodOpacity: "1" }),
-            /* @__PURE__ */ jsx12("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-            /* @__PURE__ */ jsx12("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
-          ] }),
-          gradientWash && /* @__PURE__ */ jsxs7("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
-            /* @__PURE__ */ jsx12("stop", { offset: "0%", stopColor: colour, stopOpacity: parseFloat(gradStart) }),
-            /* @__PURE__ */ jsx12("stop", { offset: "65%", stopColor: colour, stopOpacity: parseFloat(gradMid) }),
-            /* @__PURE__ */ jsx12("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(gradEnd) })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsx12(
-          "circle",
-          {
-            stroke: "none",
-            fill: gradientWash ? `url(#${washId})` : "#ffffff",
-            ...dropShadow ? { filter: `url(#${shadowId})` } : {},
-            cx: "150",
-            cy: "150",
-            r: "120"
-          }
-        ),
-        /* @__PURE__ */ jsx12(
-          "text",
-          {
-            fill: colour,
-            fontFamily: "Arial-BoldMT, Arial, 'Helvetica Neue', Helvetica, sans-serif",
-            fontWeight: "bold",
-            fontSize: 176,
-            x: 0,
-            y: 0,
-            transform: "translate(121.01, 32) scale(0.5, 0.5)",
-            textAnchor: "middle",
-            children: /* @__PURE__ */ jsx12("tspan", { x: 60, y: 184, children: letter })
-          }
-        ),
-        showTrendLines && /* @__PURE__ */ jsxs7(Fragment2, { children: [
-          status === "fail" /* Fail */ ? /* @__PURE__ */ jsx12(
-            "path",
-            {
-              id: "fail-line",
-              stroke: colour,
-              strokeWidth: 9.5,
-              strokeMiterlimit: 9.5,
-              strokeDasharray: "35,10",
-              strokeDashoffset: 0,
-              fill: "none",
-              d: "M 33,143 L 268,143"
-            }
-          ) : status === "uncertain" /* Uncertain */ ? /* @__PURE__ */ jsx12(
-            "path",
-            {
-              id: "uncertain-line",
-              stroke: "rgb(166, 166, 166)",
-              strokeWidth: 9.5,
-              strokeMiterlimit: 9.5,
-              strokeDasharray: "16.5,10",
-              strokeDashoffset: 0,
-              fill: "none",
-              d: "M 36,174 L 266,174"
-            }
-          ) : /* @__PURE__ */ jsx12(
-            "path",
-            {
-              id: "pass-line",
-              stroke: colour,
-              strokeWidth: 9.5,
-              strokeMiterlimit: 9.5,
-              strokeDasharray: "35,10",
-              strokeDashoffset: 0,
-              fill: "none",
-              d: "M 48,204 L 254,204"
-            }
-          ),
-          /* @__PURE__ */ jsx12(
-            "path",
-            {
-              id: "data-sparkline",
-              stroke: "rgb(166, 166, 166)",
-              strokeWidth: 12,
-              strokeMiterlimit: 12,
-              fill: "none",
-              d: "M 59.9,187.91 C 72.79,171.72 87.33,158.06 104.4,157.83 121.91,158.58 140.94,187.85 153.4,189.91 164.1,192.12 163.78,171.38 169.17,170.53 172.87,169.55 174.88,187.45 184.94,189.24 197,191.86 230.54,184.47 239.01,185.9"
-            }
-          ),
-          /* @__PURE__ */ jsx12(
-            "circle",
-            {
-              stroke: colour,
-              strokeWidth: 15,
-              strokeMiterlimit: 10,
-              fill: "none",
-              cx: "150",
-              cy: "150",
-              r: "120"
-            }
-          )
-        ] })
-      ]
-    }
-  );
-};
-SPCAssuranceIcon.displayName = "SPCAssuranceIcon";
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.constants.ts
+var SpcGradientCategory = /* @__PURE__ */ ((SpcGradientCategory2) => {
+  SpcGradientCategory2["Concern"] = "concern";
+  SpcGradientCategory2["Improvement"] = "improvement";
+  SpcGradientCategory2["NoJudgement"] = "noJudgement";
+  SpcGradientCategory2["Common"] = "common";
+  return SpcGradientCategory2;
+})(SpcGradientCategory || {});
+var SPCChart_constants_default = SpcGradientCategory;
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcSqlCompat.ts
 function sqlDirectionalPrune(row, metricImprovement) {
@@ -10300,7 +10295,7 @@ var SPCChart = ({
     if (lastIdx === -1) return null;
     const lastRow = engineRows[lastIdx];
     const variation = lastRow.variationIcon;
-    const canonicalVariation = variation === "none" /* None */ ? "suppressed" /* Suppressed */ : variation;
+    const canonicalVariation = variation;
     const assuranceRaw = lastRow.assuranceIcon;
     const hasNeutralSpecialCause = canonicalVariation === "neither" /* Neither */ && !!lastRow.specialCauseNeitherValue;
     const assuranceRenderStatus = assuranceRaw === "pass" /* Pass */ ? "pass" /* Pass */ : assuranceRaw === "fail" /* Fail */ ? "fail" /* Fail */ : "uncertain" /* Uncertain */;
@@ -10640,20 +10635,20 @@ var InternalSPC = ({
       return [];
     const raw = all.map((_d, i) => {
       const sig = engineSignals == null ? void 0 : engineSignals[i];
-      if (sig == null ? void 0 : sig.concern) return "concern";
-      if (sig == null ? void 0 : sig.improvement) return "improvement";
+      if (sig == null ? void 0 : sig.concern) return SPCChart_constants_default.Concern;
+      if (sig == null ? void 0 : sig.improvement) return SPCChart_constants_default.Improvement;
       if ((sig == null ? void 0 : sig.special) && sig.variation === "neither" /* Neither */) {
         if (trendVisualMode === "ungated" /* Ungated */ && metricImprovement && metricImprovement !== "Neither" /* Neither */) {
           if (sig.trendUp) {
-            return metricImprovement === "Up" /* Up */ ? "improvement" : "concern";
+            return metricImprovement === "Up" /* Up */ ? SPCChart_constants_default.Improvement : SPCChart_constants_default.Concern;
           }
           if (sig.trendDown) {
-            return metricImprovement === "Down" /* Down */ ? "improvement" : "concern";
+            return metricImprovement === "Down" /* Down */ ? SPCChart_constants_default.Improvement : SPCChart_constants_default.Concern;
           }
         }
-        if (enableNeutralNoJudgement) return "noJudgement";
+        if (enableNeutralNoJudgement) return SPCChart_constants_default.NoJudgement;
       }
-      return "common";
+      return SPCChart_constants_default.Common;
     });
     const isRuleClash = ariaLabel == null ? void 0 : ariaLabel.includes("Rule Clash");
     if (isRuleClash) {
@@ -10663,7 +10658,7 @@ var InternalSPC = ({
       );
     }
     return raw;
-  }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement]);
+  }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement]);
   const sequences = React13.useMemo(() => {
     if (!gradientSequences || !categories.length)
       return [];
@@ -10674,8 +10669,8 @@ var InternalSPC = ({
       let j = i + 1;
       while (j < cats.length && cats[j] === cat) j++;
       const runLen = j - i;
-      if (runLen === 1 && cat !== "common") {
-        cats[i] = "common";
+      if (runLen === 1 && cat !== SPCChart_constants_default.Common) {
+        cats[i] = SPCChart_constants_default.Common;
       }
       i = j;
     }
@@ -10687,7 +10682,7 @@ var InternalSPC = ({
           const runCat = cats[start];
           const end = k - 1;
           const len = end - start + 1;
-          if (runCat === "common" || len >= 2)
+          if (runCat === SPCChart_constants_default.Common || len >= 2)
             out.push({ start, end, category: runCat });
           start = k;
         }
@@ -10822,19 +10817,19 @@ var InternalSPC = ({
         let baseVar;
         let top = 0.28, mid = 0.12, end = 0.045;
         switch (seq.category) {
-          case "concern":
+          case SPCChart_constants_default.Concern:
             baseVar = "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)";
             top = 0.28;
             mid = 0.12;
             end = 0.045;
             break;
-          case "improvement":
+          case SPCChart_constants_default.Improvement:
             baseVar = "var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)";
             top = 0.26;
             mid = 0.11;
             end = 0.045;
             break;
-          case "noJudgement":
+          case SPCChart_constants_default.NoJudgement:
             baseVar = "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)";
             top = 0.26;
             mid = 0.11;
@@ -10862,7 +10857,7 @@ var InternalSPC = ({
       const firstX = xPositions[firstIdx];
       const lastX = xPositions[lastIdx];
       let d = "";
-      if (category === "common") {
+      if (category === SPCChart_constants_default.Common) {
         const prevSeq = idx > 0 ? sequences[idx - 1] : null;
         const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
         const leftX = prevSeq ? xPositions[prevSeq.end] : 0;
@@ -10879,8 +10874,8 @@ var InternalSPC = ({
       } else {
         const prevSeq = idx > 0 ? sequences[idx - 1] : null;
         const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
-        const prevColoured = prevSeq && prevSeq.category !== "common";
-        const nextColoured = nextSeq && nextSeq.category !== "common";
+        const prevColoured = prevSeq && prevSeq.category !== SPCChart_constants_default.Common;
+        const nextColoured = nextSeq && nextSeq.category !== SPCChart_constants_default.Common;
         const firstY = yScale(all[firstIdx].y);
         const lastY = yScale(all[lastIdx].y);
         let startBaselineX = firstX;

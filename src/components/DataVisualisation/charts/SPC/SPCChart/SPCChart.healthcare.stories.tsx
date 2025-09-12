@@ -2,7 +2,7 @@ import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCChart, ImprovementDirection, type SPCDatum } from "./SPCChart";
 import { ChartContainer } from "../../ChartContainer.tsx";
-import { ChartType } from "./logic/spc.ts";
+import { ChartType } from "./logic/spcConstants";
 import { buildSpcSqlCompat } from "./logic/spcSqlCompat";
 import { PrimeDirectionSummary } from "./PrimeDirectionSummary";
 

@@ -5,7 +5,9 @@ export { default as SPCChart } from './SPCChart/SPCChart';
 export type { SPCChartProps, SPCDatum } from './SPCChart/SPCChart';
 
 // Engine logic & enums
-export { buildSpc, normaliseSpcSettings, ImprovementDirection, VariationIcon, AssuranceIcon, ChartType, SpcWarningSeverity, SpcWarningCategory, SpcWarningCode, BaselineSuggestionReason, RULE_METADATA } from './SPCChart/logic/spc';
+export { buildSpc, normaliseSpcSettings } from './SPCChart/logic/spc';
+export { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType, BaselineSuggestionReason, RULE_METADATA } from './SPCChart/logic/spcConstants';
+export { SpcWarningSeverity, SpcWarningCategory, SpcWarningCode } from './SPCChart/logic/spc';
 export type { SpcSettings, SpcSettingsV2, SpcResult, SpcWarning } from './SPCChart/logic/spc';
 
 // Descriptors & helpers (colour tokens, labels)
@@ -20,6 +22,7 @@ export type { SPCVariationIconProps, SpcVariationAltIconProps, SpcAssuranceIconP
 
 // Tooltip overlay (specialised)
 export { default as SPCTooltipOverlay } from './SPCChart/SPCTooltipOverlay';
+export { SpcEmbeddedIconVariant } from './SPCChart/SPCChart.constants';
 
 // Icons-only barrel re-export (optional convenience)
 export * as Icons from './icons';

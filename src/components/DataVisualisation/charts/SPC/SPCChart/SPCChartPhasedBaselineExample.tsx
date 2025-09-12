@@ -1,5 +1,5 @@
 import { SPCChart } from "./SPCChart";
-import { ImprovementDirection } from "./logic/spc";
+import { ImprovementDirection } from "./logic/spcConstants";
 
 /**
  * Live implementation of the "Phased baseline" usage example.

@@ -183,13 +183,6 @@ const resolveStateAndLayout = (
 	// Engine VariationIcon mapping support
 	if ((input as SpcVariationEngineIconPayload).variationIcon !== undefined) {
 		const eng = input as SpcVariationEngineIconPayload;
-		// One-time deprecation warning for legacy VariationIcon.None
-		if (eng.variationIcon === SpcEngineVariationIcon.None && !(globalThis as any).__spcIconNoneDeprecationEmitted) {
-			try {
-				console.warn("[SPCVariationIcon] VariationIcon.None is deprecated; use VariationIcon.Suppressed.");
-			} catch {}
-			(globalThis as any).__spcIconNoneDeprecationEmitted = true;
-		}
 		// Determine polarity preference: improvementDirection overrides explicit polarity prop.
 		let polarity: MetricPolarity | undefined = undefined;
 		if (eng.improvementDirection !== undefined) {
@@ -214,7 +207,6 @@ const resolveStateAndLayout = (
 					? VariationState.SpecialCauseNoJudgement
 					: VariationState.CommonCause; break;
 			case SpcEngineVariationIcon.Suppressed:
-			case SpcEngineVariationIcon.None:
 			default:
 				state = VariationState.SpecialCauseNoJudgement; break;
 		}
@@ -398,7 +390,7 @@ export interface SpcIconsProps {
 // return null to allow callers to specify their own direction.
 
 export interface SPCVariationIconPropsAlt extends SPCVariationIconProps {
-	variant?: "classic" | "triangle" | "triangleWithRun";
+	variant?: "classic" | "triangle" | "triangleWithRun" | import("../SPCChart/SPCChart.constants").SpcEmbeddedIconVariant;
 	runLength?: number;
 	/** How to derive H/L when shown (default: direction). */
 	letterMode?: "direction" | "polarity";

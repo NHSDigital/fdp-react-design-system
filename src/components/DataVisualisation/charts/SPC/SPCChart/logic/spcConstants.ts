@@ -18,10 +18,6 @@ export enum VariationIcon {
 	Improvement = "improvement",
 	Concern = "concern",
 	Neither = "neither",
-	/**
-	 * @deprecated Use `Suppressed`. Will be removed in Phase 4.
-	 */
-	None = "none",
 	/** Preferred identifier for no‑judgement/suppressed cases. */
 	Suppressed = "suppressed",
 }

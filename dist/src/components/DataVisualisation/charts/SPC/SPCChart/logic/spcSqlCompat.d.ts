@@ -1,4 +1,5 @@
-import { buildSpc, ChartType, ImprovementDirection, SpcSettings, SpcRow, SpcRuleId, PrimeDirection, PruningMode } from './spc';
+import { buildSpc, SpcSettings, SpcRow } from './spc';
+import { ChartType, ImprovementDirection, SpcRuleId, PrimeDirection, PruningMode } from './spcConstants';
 export interface BuildSpcSqlCompatArgs {
     chartType: ChartType;
     metricImprovement: ImprovementDirection;

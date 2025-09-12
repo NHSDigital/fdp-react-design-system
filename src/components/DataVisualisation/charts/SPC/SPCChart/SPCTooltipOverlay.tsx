@@ -12,7 +12,7 @@ import {
 	assuranceLabel,
 	zoneLabel,
 } from "./logic/spcDescriptors";
-import { VariationIcon, SpcRuleId, SpcRawRuleTag } from './logic/spc';
+import { VariationIcon, SpcRuleId, SpcRawRuleTag } from './logic/spcConstants';
 import { getVariationColorToken } from "./logic/spcDescriptors";
 import { Tag } from "../../../../Tag";
 

@@ -91,7 +91,6 @@ export function variationLabel(icon: VariationIcon | undefined): string | null {
 			return "Concern signal";
 		case VariationIcon.Neither:
 			return "Common cause variation";
-		case VariationIcon.None: // deprecated alias
 		case VariationIcon.Suppressed:
 			return null; // suppressed / not enough data
 		default:
@@ -138,10 +137,6 @@ export const VARIATION_COLOR_TOKENS: Record<
 	concern: {
 		token: "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)",
 		hex: "#E46C0A",
-	},
-	none: {
-		token: "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)",
-		hex: "#490092",
 	},
 	neither: {
 		token: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",

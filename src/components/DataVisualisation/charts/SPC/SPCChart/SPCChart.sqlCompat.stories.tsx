@@ -3,7 +3,7 @@ import React from 'react';
 import { SPCChart, ImprovementDirection, SequenceTransition, type SPCDatum } from './SPCChart';
 import { ChartContainer } from '../../ChartContainer.tsx';
 import { buildSpcSqlCompat } from './logic/spcSqlCompat';
-import { ChartType } from './logic/spc';
+import { ChartType } from './logic/spcConstants';
 import { seedPRNG } from '../../../stories/utils/deterministic';
 
 const meta: Meta<typeof SPCChart> = {

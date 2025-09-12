@@ -2,7 +2,7 @@ import { SPCVariationIcon } from "./SPCIcon";
 import { SPCAssuranceIcon } from "./SPCAssuranceIcon";
 import { Direction } from "./SPCConstants";
 import { AssuranceResult } from "./SPCConstants";
-import { VariationIcon, ImprovementDirection } from "../SPCChart/logic/spc";
+import { VariationIcon, ImprovementDirection } from "../SPCChart/logic/spcConstants";
 import { Grid, Row, Column } from "../../../../../core";
 import { Heading } from "../../../../Heading";
 

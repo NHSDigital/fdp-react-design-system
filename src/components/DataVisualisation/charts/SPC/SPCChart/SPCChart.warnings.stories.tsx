@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SPCChart } from './SPCChart';
-import { ImprovementDirection, ChartType, SpcWarningSeverity } from './logic/spc';
+import { ChartType, ImprovementDirection } from './logic/spcConstants';
+import { SpcWarningSeverity } from './logic/spc';
 
 const meta: Meta = {
   title: 'Data Visualisation/SPC/Diagnostics',

@@ -7,4 +7,12 @@ export enum SpcGradientCategory {
   Common = "common",
 }
 
+// UI-only enum for embedded SPCVariationIcon variants used by SPCChart
+// Keep string values stable for compatibility with existing props and docs.
+export enum SpcEmbeddedIconVariant {
+  Classic = "classic",
+  Triangle = "triangle",
+  TriangleWithRun = "triangleWithRun",
+}
+
 export default SpcGradientCategory;

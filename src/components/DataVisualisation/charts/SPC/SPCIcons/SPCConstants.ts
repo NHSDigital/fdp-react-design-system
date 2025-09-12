@@ -106,7 +106,7 @@ export const VARIATION_COLOURS: Record<VariationState, VariationColourDef> = {
 		description: "Common cause variation only – no special cause detected.",
 	},
 	[VariationState.SpecialCauseNoJudgement]: {
-		hex: VARIATION_COLOR_TOKENS.none.hex,
+		hex: VARIATION_COLOR_TOKENS.suppressed.hex,
 		judgement: VariationJudgement.No_Judgement,
 		label: "Special Cause (No Judgement)",
 		description:
@@ -272,4 +272,4 @@ export {
 	getVariationColorToken,
 	getVariationColorHex,
 } from "../SPCChart/logic/spcDescriptors";
-export type { VariationIcon } from "../SPCChart/logic/spc";
+export type { VariationIcon } from "../SPCChart/logic/spcConstants";

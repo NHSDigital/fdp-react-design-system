@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { SpcRow, VariationIcon, AssuranceIcon } from "./spc";
+import { SpcRow } from "./spc";
+import { VariationIcon, AssuranceIcon } from "./spcConstants";
 import {
 	extractRuleIds,
 	variationLabel,
@@ -71,7 +72,7 @@ describe("spcDescriptors", () => {
 		expect(variationLabel(VariationIcon.Improvement)).toContain("Improvement");
 		expect(variationLabel(VariationIcon.Concern)).toContain("Concern");
 		expect(variationLabel(VariationIcon.Neither)).toContain("Common");
-		expect(variationLabel(VariationIcon.None)).toBeNull();
+		expect(variationLabel(VariationIcon.Suppressed)).toBeNull();
 	});
 	it("assuranceLabel maps pass/fail", () => {
 		expect(assuranceLabel(AssuranceIcon.Pass)).toBe("Target met");

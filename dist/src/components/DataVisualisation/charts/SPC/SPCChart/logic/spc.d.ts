@@ -1,4 +1,4 @@
-import { ChartType, ImprovementDirection, VariationIcon, SpcRuleId, RULE_PRECEDENCE, RULE_RANK_BY_ID, RULE_LABEL, SpcRuleCategory, SpcRuleMetadataEntry, RULE_METADATA, RULES_IN_RANK_ORDER, Side, SpcRawRuleTag, RAW_TAG_TO_RULE_ID, AssuranceIcon, PrecedenceStrategy, ConflictPrecedenceMode, PrimeDirection, PruningMode, SpcRowAliasField } from './spcConstants';
+import { ChartType, ImprovementDirection, VariationIcon, SpcRuleId, SpcRawRuleTag, AssuranceIcon, PrecedenceStrategy, ConflictPrecedenceMode, PrimeDirection, PruningMode, BaselineSuggestionReason } from './spcConstants';
 /**
  * Chart type meanings (high‑level):
  *  XmR (Individuals & Moving Range):
@@ -16,7 +16,6 @@ import { ChartType, ImprovementDirection, VariationIcon, SpcRuleId, RULE_PRECEDE
  *    - No moving range; limits derived directly from geometric distribution quantiles around the mean count.
  *    - Provides probability‑based 1σ/2σ/3σ style bands using inverse CDF (no MR / d2 constants involved).
  */
-export { ChartType, ImprovementDirection, VariationIcon, SpcRuleId, RULE_PRECEDENCE, RULE_RANK_BY_ID, RULE_LABEL, SpcRuleCategory, type SpcRuleMetadataEntry, RULE_METADATA, RULES_IN_RANK_ORDER, Side, SpcRawRuleTag, RAW_TAG_TO_RULE_ID, AssuranceIcon, PrecedenceStrategy, ConflictPrecedenceMode, PrimeDirection, PruningMode, SpcRowAliasField, };
 export interface SpcInputRow {
     x: string | number | Date;
     value?: number | null;
@@ -252,11 +251,6 @@ export declare function getDirectionalSignalSummary(row: SpcRow): {
     hasUp: boolean;
     hasDown: boolean;
 };
-export declare enum BaselineSuggestionReason {
-    Shift = "shift",
-    Trend = "trend",
-    Point = "point"
-}
 /** Compute moving range array relative to previous NON-GHOST, within a partition */
 /** Iterative single-pass outlier exclusion for MR using UCL = 3.267 * MRbar (1 iteration) */
 /** Build sigma/limit lines given mean and MRbar for XmR */

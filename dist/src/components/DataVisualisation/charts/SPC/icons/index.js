@@ -1177,10 +1177,6 @@ var VARIATION_COLOR_TOKENS = {
     token: "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)",
     hex: "#E46C0A"
   },
-  none: {
-    token: "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)",
-    hex: "#490092"
-  },
   neither: {
     token: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
     hex: "#A6A6A6"
@@ -1267,7 +1263,7 @@ var VARIATION_COLOURS = {
     description: "Common cause variation only \u2013 no special cause detected."
   },
   ["special_cause_no_judgement" /* SpecialCauseNoJudgement */]: {
-    hex: VARIATION_COLOR_TOKENS.none.hex,
+    hex: VARIATION_COLOR_TOKENS.suppressed.hex,
     judgement: "no_judgement" /* No_Judgement */,
     label: "Special Cause (No Judgement)",
     description: "Special cause detected without assigning improving/deteriorating judgement."
@@ -1325,13 +1321,6 @@ var resolveStateAndLayout = (input) => {
   };
   if (input.variationIcon !== void 0) {
     const eng = input;
-    if (eng.variationIcon === "none" /* None */ && !globalThis.__spcIconNoneDeprecationEmitted) {
-      try {
-        console.warn("[SPCVariationIcon] VariationIcon.None is deprecated; use VariationIcon.Suppressed.");
-      } catch {
-      }
-      globalThis.__spcIconNoneDeprecationEmitted = true;
-    }
     let polarity = void 0;
     if (eng.improvementDirection !== void 0) {
       polarity = eng.improvementDirection === "Up" /* Up */ ? "higher_is_better" /* HigherIsBetter */ : eng.improvementDirection === "Down" /* Down */ ? "lower_is_better" /* LowerIsBetter */ : "context_dependent" /* ContextDependent */;
@@ -1350,7 +1339,6 @@ var resolveStateAndLayout = (input) => {
         state2 = eng.specialCauseNeutral ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
         break;
       case "suppressed" /* Suppressed */:
-      case "none" /* None */:
       default:
         state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
         break;

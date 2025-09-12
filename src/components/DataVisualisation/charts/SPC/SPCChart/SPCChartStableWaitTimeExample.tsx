@@ -1,5 +1,5 @@
 import { SPCChart } from './SPCChart';
-import { ImprovementDirection } from './logic/spc';
+import { ImprovementDirection } from './logic/spcConstants';
 
 /**
  * Live rendering of the stable wait time SPC example shown in the documentation code block.

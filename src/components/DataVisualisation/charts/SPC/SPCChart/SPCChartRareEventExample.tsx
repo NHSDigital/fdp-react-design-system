@@ -1,5 +1,5 @@
 import { SPCChart } from "./SPCChart";
-import { ChartType, ImprovementDirection } from "./logic/spc";
+import { ChartType, ImprovementDirection } from "./logic/spcConstants";
 
 /**
  * Live implementation of the "Rare event (T chart)" usage example.

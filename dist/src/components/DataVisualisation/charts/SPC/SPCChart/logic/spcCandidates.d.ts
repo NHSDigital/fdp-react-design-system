@@ -1,8 +1,7 @@
-export type VariationIconRaw = "improvement" | "concern" | "neither" | "suppressed" | "none";
-export type BaselineReasonRaw = "shift" | "trend" | "point";
+import { VariationIcon, BaselineSuggestionReason } from "./spcConstants";
 export interface BaselineSuggestionRaw {
     index: number;
-    reason: BaselineReasonRaw;
+    reason: BaselineSuggestionReason;
     score: number;
     deltaMean: number;
     oldMean: number;
@@ -12,7 +11,7 @@ export interface BaselineSuggestionRaw {
 export interface BaselineRowMinimal {
     value: number | null;
     partitionId: number;
-    variationIcon: VariationIconRaw;
+    variationIcon: VariationIcon;
     mean: number | null;
     upperProcessLimit: number | null;
 }

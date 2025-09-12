@@ -2,20 +2,17 @@
 // without relying on mutually exclusive side aggregation. This aims to mirror the v2.6a SQL post-processing
 // steps (PrimeDirection + pruning) while leveraging the existing orthodox rule detection from buildSpc.
 
+import { buildSpc, SpcSettings, SpcRow, getDirectionalSignalSummary } from './spc';
 import {
-	buildSpc,
 	ChartType,
 	ImprovementDirection,
 	VariationIcon,
-	SpcSettings,
-	SpcRow,
 	SpcRuleId,
 	Side,
 	RULE_RANK_BY_ID,
 	PrimeDirection,
 	PruningMode,
-	getDirectionalSignalSummary,
-} from './spc';
+} from './spcConstants';
 
 export interface BuildSpcSqlCompatArgs {
 	chartType: ChartType;

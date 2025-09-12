@@ -1,6 +1,7 @@
 import React from 'react';
 import { SPCChart } from './SPCChart';
-import { ImprovementDirection, SpcWarningSeverity } from './logic/spc';
+import { SpcWarningSeverity } from './logic/spc';
+import { ImprovementDirection } from './logic/spcConstants';
 
 /**
  * Demonstrates the warnings diagnostics panel with intentionally insufficient

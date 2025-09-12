@@ -22,16 +22,9 @@ import {
 	ImprovementDirection,
 	VariationIcon,
 	SpcRuleId,
-	RULE_PRECEDENCE,
-	RULE_RANK_BY_ID,
-	RULE_LABEL,
-	SpcRuleCategory,
-	SpcRuleMetadataEntry,
 	RULE_METADATA,
-	RULES_IN_RANK_ORDER,
 	Side,
 	SpcRawRuleTag,
-	RAW_TAG_TO_RULE_ID,
 	AssuranceIcon,
 	PrecedenceStrategy,
 	ConflictPrecedenceMode,
@@ -40,8 +33,6 @@ import {
 	SpcRowAliasField,
 	BaselineSuggestionReason,
 } from './spcConstants';
-// Re-export for public API compatibility
-export { BaselineSuggestionReason } from './spcConstants';
 // Phase 4 strict-mode toggle (default ON). Consumers can override via:
 // - globalThis.__SPC_PHASE4_STRICT (boolean), or
 // - process.env.SPC_PHASE4_STRICT ('1'|'true' -> true, '0'|'false' -> false).
@@ -82,29 +73,6 @@ function isPhase4Strict(): boolean {
  */
 // Chart types supported by the SPC engine.
 // Converted from string union to enum for stronger typing / refactor safety.
-// Re-export for backwards compatibility (external imports of './spc' remain valid)
-export {
-	ChartType,
-	ImprovementDirection,
-	VariationIcon,
-	SpcRuleId,
-	RULE_PRECEDENCE,
-	RULE_RANK_BY_ID,
-	RULE_LABEL,
-	SpcRuleCategory,
-	type SpcRuleMetadataEntry,
-	RULE_METADATA,
-	RULES_IN_RANK_ORDER,
-	Side,
-	SpcRawRuleTag,
-	RAW_TAG_TO_RULE_ID,
-	AssuranceIcon,
-	PrecedenceStrategy,
-	ConflictPrecedenceMode,
-	PrimeDirection,
-	PruningMode,
-	SpcRowAliasField,
-};
 
 export interface SpcInputRow {
 	x: string | number | Date; // period label or date

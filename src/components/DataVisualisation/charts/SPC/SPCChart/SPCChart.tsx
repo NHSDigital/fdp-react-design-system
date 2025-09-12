@@ -1,19 +1,17 @@
 import * as React from "react";
 import "../../../DataVisualisation.scss";
 import "./SPCChart.scss";
-import { ChartRoot } from "../../../core/ChartRoot";
+import { ChartRoot, useChartContext } from "../../../core/ChartRoot";
+import { TooltipProvider, useTooltipContext } from "../../../core/TooltipContext";
 import {
 	LineScalesProvider,
 	useScaleContext,
 } from "../../../core/ScaleContext";
-import { useChartContext } from "../../../core/ChartRoot";
-import { useTooltipContext } from "../../../core/TooltipContext";
 import Axis from "../../Axis/Axis";
 import GridLines from "../../GridlLines/GridLines";
 import LineSeriesPrimitive from "../../../series/LineSeriesPrimitive";
 // Replaced generic TooltipOverlay with SPC-specific enriched overlay
 import SPCTooltipOverlay from "./SPCTooltipOverlay";
-import { TooltipProvider } from "../../../core/TooltipContext";
 import VisuallyHiddenLiveRegion from "../../../primitives/VisuallyHiddenLiveRegion";
 import { SPCVariationIcon } from "../SPCIcons/SPCIcon";
 import { SPCAssuranceIcon } from "../SPCIcons/SPCAssuranceIcon";
@@ -27,7 +25,7 @@ import {
 	type SpcSettings,
 } from "./logic/spc";
 import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType } from "./logic/spcConstants";
-import SpcGradientCategory from "./SPCChart.constants";
+import SpcGradientCategory, { SpcEmbeddedIconVariant } from "./SPCChart.constants";
 import { buildSpcSqlCompat } from './logic/spcSqlCompat';
 import { Tag } from "../../../../Tag/Tag";
 import Table from "../../../../Tables/Table";
@@ -82,7 +80,7 @@ export interface SPCChartProps {
 	/** Render embedded SPC variation icon in chart corner (defaults to true) */
 	showEmbeddedIcon?: boolean;
 	/** Variant style for embedded SPC variation icon (classic triangle / triangleWithRun). */
-	embeddedIconVariant?: "classic" | "triangle" | "triangleWithRun";
+	embeddedIconVariant?: SpcEmbeddedIconVariant;
 	/** Run length (0-5) for triangleWithRun embedded variation icon variant. Ignored otherwise. */
 	embeddedIconRunLength?: number;
 	/** Optional targets per point (same length order as data) */
@@ -169,7 +167,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	enableRules = true,
 	showIcons = false,
 	showEmbeddedIcon = true,
-	embeddedIconVariant = "classic",
+	embeddedIconVariant = SpcEmbeddedIconVariant.Classic,
 	embeddedIconRunLength,
 	targets: targetsProp,
 	baselines,
@@ -453,9 +451,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		if (lastIdx === -1) return null;
 		const lastRow = engineRows[lastIdx];
 		const variation = lastRow.variationIcon as VariationIcon | undefined;
-		// Canonicalise deprecated alias: treat VariationIcon.None as VariationIcon.Suppressed at the UI boundary
-		const canonicalVariation: VariationIcon | undefined =
-			variation === VariationIcon.None ? VariationIcon.Suppressed : variation;
+		const canonicalVariation: VariationIcon | undefined = variation;
 		const assuranceRaw = lastRow.assuranceIcon as AssuranceIcon | undefined;
 		const hasNeutralSpecialCause =
 			canonicalVariation === VariationIcon.Neither && !!lastRow.specialCauseNeitherValue;
@@ -562,7 +558,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						size={iconSize}
 						variant={embeddedIconVariant}
 						runLength={
-							embeddedIconVariant === "triangleWithRun"
+							embeddedIconVariant === SpcEmbeddedIconVariant.TriangleWithRun
 								? embeddedIconRunLength
 								: undefined
 						}

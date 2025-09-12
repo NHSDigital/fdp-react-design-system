@@ -12,10 +12,6 @@ export declare enum VariationIcon {
     Improvement = "improvement",
     Concern = "concern",
     Neither = "neither",
-    /**
-     * @deprecated Use `Suppressed`. Will be removed in Phase 4.
-     */
-    None = "none",
     /** Preferred identifier for no‑judgement/suppressed cases. */
     Suppressed = "suppressed"
 }
@@ -67,6 +63,11 @@ export declare enum AssuranceIcon {
     Pass = "pass",
     Fail = "fail",
     None = "none"
+}
+export declare enum BaselineSuggestionReason {
+    Shift = "shift",
+    Trend = "trend",
+    Point = "point"
 }
 export declare enum PrecedenceStrategy {
     Legacy = "legacy",

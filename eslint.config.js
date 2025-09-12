@@ -18,13 +18,54 @@ export default [
       parserOptions: { ecmaVersion: 2022, sourceType: 'module' }
     },
   plugins: { '@typescript-eslint': tsPlugin, storybook },
-  rules: {}
+  rules: {
+    // Guardrail: engine enums/constants must come from spcConstants, not spc.ts
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: [
+          {
+            group: ['**/spc', '**/spc.ts', '**/spc.js'],
+            importNames: [
+              'ChartType',
+              'ImprovementDirection',
+              'VariationIcon',
+              'AssuranceIcon',
+              'SpcRuleId',
+              'SpcRawRuleTag',
+              'RAW_TAG_TO_RULE_ID',
+              'RULE_METADATA',
+              'RULES_IN_RANK_ORDER',
+              'RULE_RANK_BY_ID',
+              'RULE_PRECEDENCE',
+              'PrimeDirection',
+              'PrecedenceStrategy',
+              'ConflictPrecedenceMode',
+              'Side',
+              'PruningMode',
+              'SpcRowAliasField',
+              'BaselineSuggestionReason'
+            ],
+            message:
+              'Import engine enums/constants from spcConstants instead of spc.ts (functions/types only from spc.ts).'
+          }
+        ]
+      }
+    ]
+  }
   },
   {
     files: ['src/**/*.stories.@(ts|tsx)'],
     rules: {
       // Allow direct renderer import for now until migration to framework-specific package
       'storybook/no-renderer-packages': 'off'
+    }
+  },
+  // Allow the SPC barrel re-export in the DataVisualisation index without triggering restricted-imports
+  {
+    files: ['src/components/DataVisualisation/index.ts'],
+    rules: {
+      'no-restricted-imports': 'off'
     }
   }
 ];

@@ -25,7 +25,7 @@ import {
 	type SpcSettings,
 } from "./logic/spc";
 import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType } from "./logic/spcConstants";
-import SpcGradientCategory, { SpcEmbeddedIconVariant } from "./SPCChart.constants";
+import SpcGradientCategory, { SpcEmbeddedIconVariant, LetterMode } from "./SPCChart.constants";
 import { buildSpcSqlCompat } from './logic/spcSqlCompat';
 import { Tag } from "../../../../Tag/Tag";
 import Table from "../../../../Tables/Table";
@@ -552,8 +552,8 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						// Letter semantics: use polarity (business improvement direction) when specified; fall back to signal side for neutral metrics
 						letterMode={
 							metricImprovement === ImprovementDirection.Neither
-								? "direction"
-								: "polarity"
+								? LetterMode.Direction
+								: LetterMode.Polarity
 						}
 						size={iconSize}
 						variant={embeddedIconVariant}

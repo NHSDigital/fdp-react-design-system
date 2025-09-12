@@ -10,10 +10,12 @@ import {
 	VariationJudgement,
 	VariationState,
 } from "./SPCConstants";
+
 // Token utilities now sourced from shared tokenUtils module.
 // Import VariationIcon enum from SPC engine to permit direct usage with icon component.
 // Updated: point to advanced SPC engine (legacy ../../xmr/spc path removed during refactor)
 import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from "../SPCChart/logic/spcConstants";
+import { SpcEmbeddedIconVariant, LetterMode, SpcLetterGlyph } from "../SPCChart/SPCChart.constants";
 
 // Friendly alias exported for consumers who want to pass just the engine icon key
 export type SpcEngineIconPayload = {
@@ -390,13 +392,14 @@ export interface SpcIconsProps {
 // return null to allow callers to specify their own direction.
 
 export interface SPCVariationIconPropsAlt extends SPCVariationIconProps {
-	variant?: "classic" | "triangle" | "triangleWithRun" | import("../SPCChart/SPCChart.constants").SpcEmbeddedIconVariant;
+	variant?: SpcEmbeddedIconVariant;
 	runLength?: number;
 	/** How to derive H/L when shown (default: direction). */
-	letterMode?: "direction" | "polarity";
+	letterMode?: LetterMode;
 	/** Explicit override for the letter (takes precedence). Use '' to suppress. */
-	letterOverride?: "H" | "L" | "";
+	letterOverride?: SpcLetterGlyph;
 }
+// (imports consolidated above)
 
 // Shared defs (filter + gradient) helper to avoid repetition across variants
 const buildDefs = (
@@ -439,10 +442,10 @@ export const SPCVariationIcon = ({
 	showLetter = true,
 	dropShadow = true,
 	gradientWash = false,
-	variant = "classic",
+	variant = SpcEmbeddedIconVariant.Classic,
 	runLength = 0,
 	// Default changed to 'polarity' so letters reflect desirable direction (H = Higher is better, L = Lower is better)
-	letterMode = "polarity",
+	letterMode = LetterMode.Polarity,
 	letterOverride,
 	...rest
 }: SPCVariationIconPropsAlt & Record<string, unknown>) => {
@@ -471,7 +474,7 @@ export const SPCVariationIcon = ({
 	let letter = "";
 	
 	if (showLetter && showLetterForJudgement) {
-		if (letterMode === "polarity") {
+		if (letterMode === LetterMode.Polarity) {
 			if (polarity === MetricPolarity.HigherIsBetter) letter = "H";
 			else if (polarity === MetricPolarity.LowerIsBetter) letter = "L";
 			else letter = "";
@@ -499,7 +502,7 @@ export const SPCVariationIcon = ({
 	);
 
 	// --- Triangle with run rendering (new) ---
-	if (variant === "triangleWithRun") {
+	if (variant === SpcEmbeddedIconVariant.TriangleWithRun) {
 		// Short triangle with run indicator (five small circles)
 		const triSize = 100;
 		const centerX = 150;
@@ -654,7 +657,7 @@ export const SPCVariationIcon = ({
 	}
 
 	// --- Alternative triangle rendering ---
-	if (variant === "triangle") {
+	if (variant === SpcEmbeddedIconVariant.Triangle) {
 		// Triangle geometry
 		// Upward triangle: base at bottom, tip at top
 		// Downward triangle: base at top, tip at bottom

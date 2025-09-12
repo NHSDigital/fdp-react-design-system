@@ -1,5 +1,6 @@
 import { Direction, MetricPolarity, VariationJudgement, VariationState } from "./SPCConstants";
 import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from "../SPCChart/logic/spcConstants";
+import { SpcEmbeddedIconVariant, LetterMode, SpcLetterGlyph } from "../SPCChart/SPCChart.constants";
 export type SpcEngineIconPayload = {
     variationIcon: SpcEngineVariationIcon;
     trend?: Direction;
@@ -158,12 +159,12 @@ export interface SpcIconsProps {
     ariaLabel?: string;
 }
 export interface SPCVariationIconPropsAlt extends SPCVariationIconProps {
-    variant?: "classic" | "triangle" | "triangleWithRun";
+    variant?: SpcEmbeddedIconVariant;
     runLength?: number;
     /** How to derive H/L when shown (default: direction). */
-    letterMode?: "direction" | "polarity";
+    letterMode?: LetterMode;
     /** Explicit override for the letter (takes precedence). Use '' to suppress. */
-    letterOverride?: "H" | "L" | "";
+    letterOverride?: SpcLetterGlyph;
 }
 export declare const SPCVariationIcon: {
     ({ data, size, ariaLabel, showLetter, dropShadow, gradientWash, variant, runLength, letterMode, letterOverride, ...rest }: SPCVariationIconPropsAlt & Record<string, unknown>): import("react/jsx-runtime").JSX.Element;

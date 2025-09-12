@@ -3,6 +3,7 @@ import "../../../DataVisualisation.scss";
 import "./SPCChart.scss";
 import { SpcWarningSeverity, SpcWarningCategory, SpcWarningCode, type SpcSettings } from "./logic/spc";
 import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType } from "./logic/spcConstants";
+import { SpcEmbeddedIconVariant } from "./SPCChart.constants";
 import type { SPCSignalFocusInfo } from "./SPCChart.types";
 export declare enum SequenceTransition {
     Slope = "slope",// attribute join to rising (next) or falling/flat (prev) based on delta
@@ -40,7 +41,7 @@ export interface SPCChartProps {
     /** Render embedded SPC variation icon in chart corner (defaults to true) */
     showEmbeddedIcon?: boolean;
     /** Variant style for embedded SPC variation icon (classic triangle / triangleWithRun). */
-    embeddedIconVariant?: "classic" | "triangle" | "triangleWithRun";
+    embeddedIconVariant?: SpcEmbeddedIconVariant;
     /** Run length (0-5) for triangleWithRun embedded variation icon variant. Ignored otherwise. */
     embeddedIconRunLength?: number;
     /** Optional targets per point (same length order as data) */

@@ -4,6 +4,7 @@ import { renderSSR } from "../../../../../test-utils/renderSSR";
 import { SPCChart } from "./SPCChart";
 import { ImprovementDirection, VariationIcon as EngineVariationIcon } from "./logic/spcConstants";
 import { SPCVariationIcon } from "../SPCIcons/SPCIcon";
+import { LetterMode } from "./SPCChart.constants";
 import { Direction } from "../SPCIcons/SPCConstants";
 
 type SPCDatum = { x: Date | string | number; y: number };
@@ -26,7 +27,7 @@ describe("SPC embedded icon rendering (deterministic unit)", () => {
 						trend: Direction.Higher,
 					}}
 					size={80}
-					letterMode="direction"
+					letterMode={LetterMode.Direction}
 				/>
 			</div>
 		);
@@ -47,7 +48,7 @@ describe("SPC embedded icon rendering (deterministic unit)", () => {
 						trend: Direction.Lower,
 					}}
 					size={80}
-					letterMode="direction"
+					letterMode={LetterMode.Direction}
 				/>
 			</div>
 		);

@@ -1466,10 +1466,10 @@ var SPCVariationIcon = ({
   showLetter = true,
   dropShadow = true,
   gradientWash = false,
-  variant = "classic",
+  variant = "classic" /* Classic */,
   runLength = 0,
   // Default changed to 'polarity' so letters reflect desirable direction (H = Higher is better, L = Lower is better)
-  letterMode = "polarity",
+  letterMode = "polarity" /* Polarity */,
   letterOverride,
   ...rest
 }) => {
@@ -1492,7 +1492,7 @@ var SPCVariationIcon = ({
   const showLetterForJudgement = judgement === "improving" /* Improving */ || judgement === "deteriorating" /* Deteriorating */;
   let letter = "";
   if (showLetter && showLetterForJudgement) {
-    if (letterMode === "polarity") {
+    if (letterMode === "polarity" /* Polarity */) {
       if (polarity === "higher_is_better" /* HigherIsBetter */) letter = "H";
       else if (polarity === "lower_is_better" /* LowerIsBetter */) letter = "L";
       else letter = "";
@@ -1513,7 +1513,7 @@ var SPCVariationIcon = ({
   const ariaDescription = deriveVariationAriaDescription(
     data
   );
-  if (variant === "triangleWithRun") {
+  if (variant === "triangleWithRun" /* TriangleWithRun */) {
     const triSize = 100;
     const centerX = 150;
     const centerY = 140;
@@ -1643,7 +1643,7 @@ var SPCVariationIcon = ({
       }
     );
   }
-  if (variant === "triangle") {
+  if (variant === "triangle" /* Triangle */) {
     const triSize = 150;
     const centerX = 150;
     const centerY = 150;

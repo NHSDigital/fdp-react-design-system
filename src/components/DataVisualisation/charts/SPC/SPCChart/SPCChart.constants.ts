@@ -15,4 +15,17 @@ export enum SpcEmbeddedIconVariant {
   TriangleWithRun = "triangleWithRun",
 }
 
+// UI-only enum controlling how H/L letters are derived in SPC icons
+export enum LetterMode {
+  Direction = "direction",
+  Polarity = "polarity",
+}
+
+// UI-only enum for explicit letter override glyphs
+export enum SpcLetterGlyph {
+  H = "H",
+  L = "L",
+  None = "",
+}
+
 export default SpcGradientCategory;

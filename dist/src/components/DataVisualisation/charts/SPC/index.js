@@ -7286,6 +7286,22 @@ function computePointPositions(state, direction) {
   return src.map((p) => ({ ...p }));
 }
 
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.constants.ts
+var SpcGradientCategory = /* @__PURE__ */ ((SpcGradientCategory2) => {
+  SpcGradientCategory2["Concern"] = "concern";
+  SpcGradientCategory2["Improvement"] = "improvement";
+  SpcGradientCategory2["NoJudgement"] = "noJudgement";
+  SpcGradientCategory2["Common"] = "common";
+  return SpcGradientCategory2;
+})(SpcGradientCategory || {});
+var SpcEmbeddedIconVariant = /* @__PURE__ */ ((SpcEmbeddedIconVariant2) => {
+  SpcEmbeddedIconVariant2["Classic"] = "classic";
+  SpcEmbeddedIconVariant2["Triangle"] = "triangle";
+  SpcEmbeddedIconVariant2["TriangleWithRun"] = "triangleWithRun";
+  return SpcEmbeddedIconVariant2;
+})(SpcEmbeddedIconVariant || {});
+var SPCChart_constants_default = SpcGradientCategory;
+
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
 import { Fragment, jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
 var resolveStateAndLayout = (input) => {
@@ -7445,10 +7461,10 @@ var SPCVariationIcon = ({
   showLetter = true,
   dropShadow = true,
   gradientWash = false,
-  variant = "classic",
+  variant = "classic" /* Classic */,
   runLength = 0,
   // Default changed to 'polarity' so letters reflect desirable direction (H = Higher is better, L = Lower is better)
-  letterMode = "polarity",
+  letterMode = "polarity" /* Polarity */,
   letterOverride,
   ...rest
 }) => {
@@ -7471,7 +7487,7 @@ var SPCVariationIcon = ({
   const showLetterForJudgement = judgement === "improving" /* Improving */ || judgement === "deteriorating" /* Deteriorating */;
   let letter = "";
   if (showLetter && showLetterForJudgement) {
-    if (letterMode === "polarity") {
+    if (letterMode === "polarity" /* Polarity */) {
       if (polarity === "higher_is_better" /* HigherIsBetter */) letter = "H";
       else if (polarity === "lower_is_better" /* LowerIsBetter */) letter = "L";
       else letter = "";
@@ -7492,7 +7508,7 @@ var SPCVariationIcon = ({
   const ariaDescription = deriveVariationAriaDescription(
     data
   );
-  if (variant === "triangleWithRun") {
+  if (variant === "triangleWithRun" /* TriangleWithRun */) {
     const triSize = 100;
     const centerX = 150;
     const centerY = 140;
@@ -7622,7 +7638,7 @@ var SPCVariationIcon = ({
       }
     );
   }
-  if (variant === "triangle") {
+  if (variant === "triangle" /* Triangle */) {
     const triSize = 150;
     const centerX = 150;
     const centerY = 150;
@@ -9183,16 +9199,6 @@ function buildSpc(args) {
   return { rows: output, warnings, ...suggestedBaselines ? { suggestedBaselines } : {} };
 }
 
-// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.constants.ts
-var SpcGradientCategory = /* @__PURE__ */ ((SpcGradientCategory2) => {
-  SpcGradientCategory2["Concern"] = "concern";
-  SpcGradientCategory2["Improvement"] = "improvement";
-  SpcGradientCategory2["NoJudgement"] = "noJudgement";
-  SpcGradientCategory2["Common"] = "common";
-  return SpcGradientCategory2;
-})(SpcGradientCategory || {});
-var SPCChart_constants_default = SpcGradientCategory;
-
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcSqlCompat.ts
 function sqlDirectionalPrune(row, metricImprovement) {
   const summary = getDirectionalSignalSummary(row);
@@ -10080,7 +10086,7 @@ var SPCChart = ({
   enableRules = true,
   showIcons = false,
   showEmbeddedIcon = true,
-  embeddedIconVariant = "classic",
+  embeddedIconVariant = "classic" /* Classic */,
   embeddedIconRunLength,
   targets: targetsProp,
   baselines,
@@ -10353,10 +10359,10 @@ var SPCChart = ({
                     lowSideSignal: lastRow.specialCauseSinglePointDown || lastRow.specialCauseTwoOfThreeDown || lastRow.specialCauseFourOfFiveDown || lastRow.specialCauseShiftDown || lastRow.specialCauseTrendDown,
                     ...trend ? { trend } : {}
                   },
-                  letterMode: metricImprovement === "Neither" /* Neither */ ? "direction" : "polarity",
+                  letterMode: metricImprovement === "Neither" /* Neither */ ? "direction" /* Direction */ : "polarity" /* Polarity */,
                   size: iconSize,
                   variant: embeddedIconVariant,
-                  runLength: embeddedIconVariant === "triangleWithRun" ? embeddedIconRunLength : void 0
+                  runLength: embeddedIconVariant === "triangleWithRun" /* TriangleWithRun */ ? embeddedIconRunLength : void 0
                 }
               )
             }
@@ -11417,6 +11423,7 @@ export {
   SPCChart_default as SPCChart,
   SPCTooltipOverlay_default as SPCTooltipOverlay,
   SPCVariationIcon,
+  SpcEmbeddedIconVariant,
   SpcWarningCategory,
   SpcWarningCode,
   SpcWarningSeverity,

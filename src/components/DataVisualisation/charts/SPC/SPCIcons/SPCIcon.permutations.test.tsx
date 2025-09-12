@@ -3,6 +3,7 @@ import { render, cleanup } from '@testing-library/react';
 import { SPCVariationIcon } from './SPCIcon';
 import { Direction } from './SPCConstants';
 import { VariationIcon, ImprovementDirection } from '../SPCChart/logic/spcConstants';
+import { LetterMode, SpcEmbeddedIconVariant, SpcLetterGlyph } from '../SPCChart/SPCChart.constants';
 
 // Utility to extract letters H/L from rendered SVG
 function extractLetters(container: HTMLElement) {
@@ -31,7 +32,7 @@ const deteriorating: Expectation[] = [
 
 const neutralIcons = [VariationIcon.Neither] as const;
 
-const variants: Array<'classic' | 'triangle' | 'triangleWithRun'> = ['classic', 'triangle', 'triangleWithRun'];
+const variants: Array<SpcEmbeddedIconVariant> = [SpcEmbeddedIconVariant.Classic, SpcEmbeddedIconVariant.Triangle, SpcEmbeddedIconVariant.TriangleWithRun];
 
 describe('SPCVariationIcon permutations', () => {
   afterEach(() => cleanup());
@@ -44,7 +45,7 @@ describe('SPCVariationIcon permutations', () => {
             <SPCVariationIcon
       data={{ variationIcon: exp.icon, improvementDirection: exp.improvement }}
               variant={variant}
-              runLength={variant === 'triangleWithRun' ? 3 : undefined}
+              runLength={variant === SpcEmbeddedIconVariant.TriangleWithRun ? 3 : undefined}
             />
           );
           const letters = extractLetters(container);
@@ -60,8 +61,8 @@ describe('SPCVariationIcon permutations', () => {
             <SPCVariationIcon
       data={{ variationIcon: exp.icon, improvementDirection: exp.improvement }}
               variant={variant}
-              letterMode="direction"
-              runLength={variant === 'triangleWithRun' ? 3 : undefined}
+              letterMode={LetterMode.Direction}
+              runLength={variant === SpcEmbeddedIconVariant.TriangleWithRun ? 3 : undefined}
             />
           );
           const letters = extractLetters(container);
@@ -81,7 +82,7 @@ describe('SPCVariationIcon permutations', () => {
               <SPCVariationIcon
         data={{ variationIcon: VariationIcon.Neither, trend }}
                 variant={variant}
-                runLength={variant === 'triangleWithRun' ? 2 : undefined}
+                runLength={variant === SpcEmbeddedIconVariant.TriangleWithRun ? 2 : undefined}
               />
             );
             const letters = extractLetters(container);
@@ -92,8 +93,8 @@ describe('SPCVariationIcon permutations', () => {
               <SPCVariationIcon
         data={{ variationIcon: VariationIcon.Neither, trend }}
                 variant={variant}
-                letterMode="direction"
-                runLength={variant === 'triangleWithRun' ? 2 : undefined}
+                letterMode={LetterMode.Direction}
+                runLength={variant === SpcEmbeddedIconVariant.TriangleWithRun ? 2 : undefined}
               />
             );
             const letters = extractLetters(container);
@@ -107,8 +108,8 @@ describe('SPCVariationIcon permutations', () => {
           <SPCVariationIcon
     data={{ variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Neither }}
             variant={variant}
-            letterOverride="H"
-            runLength={variant === 'triangleWithRun' ? 3 : undefined}
+            letterOverride={SpcLetterGlyph.H}
+            runLength={variant === SpcEmbeddedIconVariant.TriangleWithRun ? 3 : undefined}
           />
         );
         const letters = extractLetters(container);

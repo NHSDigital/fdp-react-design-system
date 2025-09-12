@@ -1178,7 +1178,7 @@ var TransactionalPageTemplate = ({
   children,
   title,
   pageHeadingProps,
-  columnWidth = "two-thirds",
+  columnWidth = "two-thirds" /* TwoThirds */,
   mainWrapperSize = "small",
   // Default to small size for transactional forms
   skipLinkProps,

@@ -2,8 +2,8 @@
 // used by both React & Nunjucks renderers (future).
 
 export interface ButtonInputProps {
-  variant?: string;
-  size?: string;
+  variant?: string; // Accepts ButtonVariant enum values (string)
+  size?: string;    // Accepts ButtonSize enum values (string)
   fullWidth?: boolean;
   className?: string;
   preventDoubleClick?: boolean;

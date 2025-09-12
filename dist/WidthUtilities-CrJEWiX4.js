@@ -1,100 +1,100 @@
-import { c as l, j as r } from "./SkipLink-CFQznirl.js";
+import { c as g, j as r } from "./SkipLink-CFQznirl.js";
 import h from "react";
-var m = /* @__PURE__ */ ((s) => (s.OneQuarter = "one-quarter", s.OneThird = "one-third", s.OneHalf = "one-half", s.TwoThirds = "two-thirds", s.ThreeQuarters = "three-quarters", s.Full = "full", s))(m || {}), p = /* @__PURE__ */ ((s) => (s.Left = "left", s.Center = "center", s.Right = "right", s))(p || {});
-const $ = ({
+var m = /* @__PURE__ */ ((s) => (s.OneQuarter = "one-quarter", s.OneThird = "one-third", s.OneHalf = "one-half", s.TwoThirds = "two-thirds", s.ThreeQuarters = "three-quarters", s.Full = "full", s))(m || {}), v = /* @__PURE__ */ ((s) => (s.Mobile = "mobile", s.Tablet = "tablet", s.Desktop = "desktop", s.LargeDesktop = "large-desktop", s))(v || {}), $ = /* @__PURE__ */ ((s) => (s.Left = "left", s.Right = "right", s))($ || {}), p = /* @__PURE__ */ ((s) => (s.Left = "left", s.Center = "center", s.Right = "right", s))(p || {});
+const R = ({
   children: s,
-  className: i,
+  className: t,
   fluid: n = !1,
-  maxWidth: t,
+  maxWidth: i,
   style: a,
   ...e
 }) => {
-  const o = l(
+  const o = g(
     {
       "nhsuk-width-container": !n,
       "nhsuk-width-container-fluid": n
     },
-    i
-  ), u = t ? { maxWidth: t, ...a || {} } : a;
+    t
+  ), u = i ? { maxWidth: i, ...a || {} } : a;
   return /* @__PURE__ */ r.jsx("div", { className: o, style: u, ...e, children: s });
 }, d = ({
   children: s,
-  className: i,
+  className: t,
   style: n,
-  ...t
+  ...i
 }) => {
-  const a = l("nhsuk-grid-row", i);
-  return /* @__PURE__ */ r.jsx("div", { className: a, style: n, ...t, children: s });
-}, w = ({
+  const a = g("nhsuk-grid-row", t);
+  return /* @__PURE__ */ r.jsx("div", { className: a, style: n, ...i, children: s });
+}, j = ({
   children: s,
-  width: i = m.Full,
+  width: t = m.Full,
   mobileWidth: n,
-  tabletWidth: t,
+  tabletWidth: i,
   desktopWidth: a,
   start: e,
   className: o,
   forceWidth: u = !1,
   style: c,
-  align: g,
+  align: l,
   ...k
 }) => {
-  const f = l(
+  const f = g(
     {
       // Standard responsive grid columns
-      [`nhsuk-grid-column-${i}`]: !u,
+      [`nhsuk-grid-column-${t}`]: !u,
       // Utility classes that force width on all screen sizes
-      [`nhsuk-u-${i}`]: u,
+      [`nhsuk-u-${t}`]: u,
       // Responsive width overrides
       [`nhsuk-u-${n}-mobile`]: !!n,
-      [`nhsuk-u-${t}-tablet`]: !!t,
+      [`nhsuk-u-${i}-tablet`]: !!i,
       [`nhsuk-u-${a}-desktop`]: !!a,
       // Grid positioning
       [`nhsuk-grid-column-start-${e}`]: e && e >= 1 && e <= 7,
       // Alignment
-      "nhsuk-grid-align-left": g === p.Left,
-      "nhsuk-grid-align-center": g === p.Center,
-      "nhsuk-grid-align-right": g === p.Right
+      "nhsuk-grid-align-left": l === p.Left,
+      "nhsuk-grid-align-center": l === p.Center,
+      "nhsuk-grid-align-right": l === p.Right
     },
     o
   );
   return /* @__PURE__ */ r.jsx("div", { className: f, style: c, ...k, children: s });
-}, j = ({
+}, C = ({
   children: s,
-  className: i,
+  className: t,
   style: n,
-  ...t
+  ...i
 }) => {
   const e = h.Children.toArray(s)[0], o = h.isValidElement(e) && (e.type === d || typeof e.props == "object" && e.props && "className" in e.props && typeof e.props.className == "string" && e.props.className.includes("nhsuk-grid-row"));
-  return /* @__PURE__ */ r.jsx($, { className: i, style: n, ...t, children: o ? s : /* @__PURE__ */ r.jsx(d, { children: s }) });
-}, C = ({
+  return /* @__PURE__ */ r.jsx(R, { className: t, style: n, ...i, children: o ? s : /* @__PURE__ */ r.jsx(d, { children: s }) });
+}, T = ({
   as: s = "main",
-  size: i = "default",
+  size: t = "default",
   className: n,
-  children: t,
+  children: i,
   ...a
 }) => {
   const e = [
     "nhsuk-main-wrapper",
-    i === "large" && "nhsuk-main-wrapper--l",
-    i === "small" && "nhsuk-main-wrapper--s",
+    t === "large" && "nhsuk-main-wrapper--l",
+    t === "small" && "nhsuk-main-wrapper--s",
     n
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ r.jsx(s, { className: e, ...a, children: t });
+  return /* @__PURE__ */ r.jsx(s, { className: e, ...a, children: i });
 }, N = ({
   debug: s = !1,
-  className: i,
+  className: t,
   children: n,
-  ...t
+  ...i
 }) => {
   if (!n)
     return null;
   const a = [
     "nhsuk-spacing-utilities",
     s && "nhsuk-spacing-utilities--debug",
-    i
+    t
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ r.jsx("div", { className: a, ...t, children: n });
-}, T = {
+  return /* @__PURE__ */ r.jsx("div", { className: a, ...i, children: n });
+}, x = {
   margin: (s) => `nhsuk-u-margin-${s}`,
   marginTop: (s) => `nhsuk-u-margin-top-${s}`,
   marginRight: (s) => `nhsuk-u-margin-right-${s}`,
@@ -116,24 +116,24 @@ const $ = ({
   paddingRightResponsive: (s) => `nhsuk-u-padding-right-responsive-${s}`,
   paddingBottomResponsive: (s) => `nhsuk-u-padding-bottom-responsive-${s}`,
   paddingLeftResponsive: (s) => `nhsuk-u-padding-left-responsive-${s}`
-}, b = ({
+}, L = ({
   debug: s = !1,
-  className: i,
+  className: t,
   children: n,
-  ...t
+  ...i
 }) => {
   if (!n)
     return null;
   const a = [
     "nhsuk-width-utilities",
     s && "nhsuk-width-utilities--debug",
-    i
+    t
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ r.jsx("div", { className: a, ...t, children: n });
-}, x = {
+  return /* @__PURE__ */ r.jsx("div", { className: a, ...i, children: n });
+}, y = {
   width: (s) => `nhsuk-u-width-${s}`,
   widthTablet: (s) => `nhsuk-u-width-${s}-tablet`
-}, y = [
+}, B = [
   "full",
   "three-quarters",
   "two-thirds",
@@ -142,15 +142,18 @@ const $ = ({
   "one-quarter"
 ];
 export {
-  $ as C,
-  j as G,
-  C as M,
+  v as B,
+  R as C,
+  $ as F,
+  C as G,
+  T as M,
   d as R,
   N as S,
-  b as W,
-  w as a,
-  x as b,
+  L as W,
+  j as a,
+  m as b,
   y as c,
-  T as g
+  B as d,
+  x as g
 };
-//# sourceMappingURL=WidthUtilities-BBRQkGiZ.js.map
+//# sourceMappingURL=WidthUtilities-CrJEWiX4.js.map

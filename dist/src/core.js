@@ -1,16 +1,19 @@
-import { a as i, C as t, G as e, M as r, R as n, S as o, c as p, W as C, g as S, b as g } from "../WidthUtilities-BBRQkGiZ.js";
-import { S as W } from "../SkipLink-CFQznirl.js";
+import { B as i, a as t, C as r, F as e, G as o, b as n, M as p, R as d, S as l, d as C, W as S, g as W, c as g } from "../WidthUtilities-CrJEWiX4.js";
+import { S as h } from "../SkipLink-CFQznirl.js";
 export {
-  i as Column,
-  t as Container,
-  e as Grid,
-  r as MainWrapper,
-  n as Row,
-  W as SkipLink,
-  o as SpacingUtilities,
-  p as WIDTH_FRACTIONS,
-  C as WidthUtilities,
-  S as getSpacingClass,
+  i as Breakpoint,
+  t as Column,
+  r as Container,
+  e as Float,
+  o as Grid,
+  n as GridWidth,
+  p as MainWrapper,
+  d as Row,
+  h as SkipLink,
+  l as SpacingUtilities,
+  C as WIDTH_FRACTIONS,
+  S as WidthUtilities,
+  W as getSpacingClass,
   g as getWidthClass
 };
 //# sourceMappingURL=core.js.map

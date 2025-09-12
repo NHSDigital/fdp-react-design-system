@@ -1304,12 +1304,12 @@
                     "help": "Components are the 'things' being visualised (e.g., providers, patients, events, geographies, resources/capacity) and analysed.",
                     "choices": [
 						{ "label": "Services/Pathways", "next": "components_shape" },
-                        { "label": "People (patients, staff)", "next": "components_shape" },
-                        { "label": "Organisations/Units (trust/site/PCN)", "next": "components_shape" },
-                        { "label": "Resources/Capacity (staff, beds, theatres, equipment)", "next": "components_shape" },
-						{ "label": "Events (attendances, harms)", "next": "components_shape" },
-                        { "label": "Geographic areas", "next": "components_shape" },
-                        { "label": "Time periods (days/weeks/months)", "next": "components_shape" },
+                        { "label": "People (Patients, Staff)", "next": "components_shape" },
+                        { "label": "Organisations/Units (Trust/Site/PCN)", "next": "components_shape" },
+                        { "label": "Resources/Capacity (Staff, Beds, Theatres, Equipment)", "next": "components_shape" },
+						{ "label": "Events (Attendances, Harms)", "next": "components_shape" },
+                        { "label": "Geographic Areas", "next": "components_shape" },
+                        { "label": "Time Periods (Days/Weeks/Months)", "next": "components_shape" },
                         { "label": "Categories/Reasons", "next": "components_shape" }
                     ]
                 },

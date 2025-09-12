@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ButtonVariant, ButtonSize } from "./Button.types";
+import { ButtonVariantLike, ButtonSizeLike } from "./Button.types";
 import "./Button.scss";
 /**
  * Base props for NHS Button component
@@ -9,12 +9,12 @@ interface BaseButtonProps {
      * The variant of the button
      * @default 'primary'
      */
-    variant?: ButtonVariant;
+    variant?: ButtonVariantLike;
     /**
      * The size of the button
      * @default 'default'
      */
-    size?: ButtonSize;
+    size?: ButtonSizeLike;
     /**
      * Whether the button should take up the full width of its container
      * @default false

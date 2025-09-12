@@ -1122,7 +1122,7 @@ var PageTemplate = ({
   children,
   pageTitle,
   pageHeadingProps,
-  columnWidth = "two-thirds",
+  columnWidth = "two-thirds" /* TwoThirds */,
   mainWrapperSize,
   skipLinkProps,
   headerProps,

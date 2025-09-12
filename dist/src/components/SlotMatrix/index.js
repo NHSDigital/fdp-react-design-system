@@ -119,8 +119,8 @@ var { forwardRef, useCallback, useState } = React;
 function ButtonComponent(props, ref) {
   const {
     children,
-    variant = "primary",
-    size = "default",
+    variant = "primary" /* Primary */,
+    size = "default" /* Default */,
     fullWidth = false,
     className = "",
     preventDoubleClick = false,
@@ -748,7 +748,7 @@ var SlotMatrix = ({
       onA11yModeChange: handleA11yModeChange
     }
   ) : null);
-  const ListView = /* @__PURE__ */ jsx7("div", { style, className: (0, import_classnames3.default)(className), children: /* @__PURE__ */ jsx7(Grid, { className: (0, import_classnames3.default)("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ jsx7(Row, { children: /* @__PURE__ */ jsx7(Column, { width: "full", children: /* @__PURE__ */ jsxs3("div", { className: "nhs-slot-matrix", children: [
+  const ListView = /* @__PURE__ */ jsx7("div", { style, className: (0, import_classnames3.default)(className), children: /* @__PURE__ */ jsx7(Grid, { className: (0, import_classnames3.default)("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ jsx7(Row, { children: /* @__PURE__ */ jsx7(Column, { width: "full" /* Full */, children: /* @__PURE__ */ jsxs3("div", { className: "nhs-slot-matrix", children: [
     toolbarNode,
     legendPlacement === "top" && legendNode,
     /* @__PURE__ */ jsx7("ul", { "aria-label": "Appointment slots list", children: slots.map((s) => /* @__PURE__ */ jsx7("li", { children: /* @__PURE__ */ jsxs3("button", { type: "button", onClick: () => toggleSelect(s), "aria-pressed": selected.includes(s.id), children: [
@@ -762,7 +762,7 @@ var SlotMatrix = ({
     legendPlacement === "bottom" && legendNode
   ] }) }) }) }) });
   if (a11yMode === "list") return ListView;
-  return /* @__PURE__ */ jsx7("div", { style, className: (0, import_classnames3.default)(className), children: /* @__PURE__ */ jsx7(Grid, { className: (0, import_classnames3.default)("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ jsx7(Row, { children: /* @__PURE__ */ jsx7(Column, { width: "full", children: /* @__PURE__ */ jsxs3("div", { className: "nhs-slot-matrix", children: [
+  return /* @__PURE__ */ jsx7("div", { style, className: (0, import_classnames3.default)(className), children: /* @__PURE__ */ jsx7(Grid, { className: (0, import_classnames3.default)("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ jsx7(Row, { children: /* @__PURE__ */ jsx7(Column, { width: "full" /* Full */, children: /* @__PURE__ */ jsxs3("div", { className: "nhs-slot-matrix", children: [
     toolbarNode,
     legendPlacement === "top" && legendNode,
     /* @__PURE__ */ jsxs3("div", { role: "grid", "aria-rowcount": timebandKeys.length + 1, "aria-colcount": sessions.length + 1, children: [

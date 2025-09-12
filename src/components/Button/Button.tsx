@@ -1,6 +1,6 @@
 import * as React from "react";
 const { forwardRef, useCallback, useState } = React;
-import { ButtonVariant, ButtonSize } from "./Button.types";
+import { ButtonVariant, ButtonSize, ButtonVariantLike, ButtonSizeLike } from "./Button.types";
 import "./Button.scss";
 import { mapButtonProps } from "../../mapping/button";
 
@@ -12,13 +12,13 @@ interface BaseButtonProps {
 	 * The variant of the button
 	 * @default 'primary'
 	 */
-	variant?: ButtonVariant;
+	variant?: ButtonVariantLike;
 
 	/**
 	 * The size of the button
 	 * @default 'default'
 	 */
-	size?: ButtonSize;
+	size?: ButtonSizeLike;
 
 	/**
 	 * Whether the button should take up the full width of its container
@@ -120,8 +120,8 @@ function ButtonComponent(
 ): React.ReactElement {
 	const {
 		children,
-		variant = "primary",
-		size = "default",
+		variant = ButtonVariant.Primary,
+		size = ButtonSize.Default,
 		fullWidth = false,
 		className = "",
 		preventDoubleClick = false,

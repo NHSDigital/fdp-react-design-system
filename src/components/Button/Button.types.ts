@@ -1,17 +1,41 @@
 /**
  * Button variant options following NHS design guidelines
  */
-export type ButtonVariant = 
-  | 'primary'      // Green button for main actions
-  | 'secondary'    // Blue outlined button for secondary actions
-  | 'reverse'      // White button for use on colored backgrounds
-  | 'warning'      // Orange/red button for warning actions
-  | 'login';       // Blue button for authentication
+export enum ButtonVariant {
+	/** Green button for main actions */
+	Primary = "primary",
+	/** Blue outlined button for secondary actions */
+	Secondary = "secondary",
+	/** White button for use on colored backgrounds */
+	Reverse = "reverse",
+	/** Orange/red button for warning actions */
+	Warning = "warning",
+	/** Blue button for authentication */
+	Login = "login",
+}
 
 /**
  * Button size options
  */
-export type ButtonSize = 
-  | 'small'        // Compact button for tight spaces
-  | 'default'      // Standard button size
-  | 'large';       // Larger button for emphasis
+export enum ButtonSize {
+	/** Compact button for tight spaces */
+	Small = "small",
+	/** Standard button size */
+	Default = "default",
+	/** Larger button for emphasis */
+	Large = "large",
+}
+
+/**
+ * Backward-compatible prop typing that accepts either enum values or legacy string literals
+ * Useful while migrating call sites to use enums explicitly.
+ */
+export type ButtonVariantLike =
+  | ButtonVariant
+  | "primary"
+  | "secondary"
+  | "reverse"
+  | "warning"
+  | "login";
+
+export type ButtonSizeLike = ButtonSize | "small" | "default" | "large";

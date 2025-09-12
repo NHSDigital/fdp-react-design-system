@@ -133,8 +133,8 @@ var { forwardRef, useCallback, useState } = React;
 function ButtonComponent(props, ref) {
   const {
     children,
-    variant = "primary",
-    size = "default",
+    variant = "primary" /* Primary */,
+    size = "default" /* Default */,
     fullWidth = false,
     className = "",
     preventDoubleClick = false,

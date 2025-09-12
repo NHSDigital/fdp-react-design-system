@@ -1,6 +1,22 @@
 // src/components/Button/Button.tsx
 import * as React from "react";
 
+// src/components/Button/Button.types.ts
+var ButtonVariant = /* @__PURE__ */ ((ButtonVariant2) => {
+  ButtonVariant2["Primary"] = "primary";
+  ButtonVariant2["Secondary"] = "secondary";
+  ButtonVariant2["Reverse"] = "reverse";
+  ButtonVariant2["Warning"] = "warning";
+  ButtonVariant2["Login"] = "login";
+  return ButtonVariant2;
+})(ButtonVariant || {});
+var ButtonSize = /* @__PURE__ */ ((ButtonSize2) => {
+  ButtonSize2["Small"] = "small";
+  ButtonSize2["Default"] = "default";
+  ButtonSize2["Large"] = "large";
+  return ButtonSize2;
+})(ButtonSize || {});
+
 // src/mapping/button.ts
 function mapButtonProps(input) {
   const variant = input.variant || "primary";
@@ -29,8 +45,8 @@ var { forwardRef, useCallback, useState } = React;
 function ButtonComponent(props, ref) {
   const {
     children,
-    variant = "primary",
-    size = "default",
+    variant = "primary" /* Primary */,
+    size = "default" /* Default */,
     fullWidth = false,
     className = "",
     preventDoubleClick = false,
@@ -270,6 +286,8 @@ var Button = forwardRef(ButtonComponent);
 Button.displayName = "Button";
 var Button_default = Button;
 export {
-  Button_default as Button
+  Button_default as Button,
+  ButtonSize,
+  ButtonVariant
 };
 //# sourceMappingURL=index.js.map

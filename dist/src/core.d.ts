@@ -1,6 +1,7 @@
 import './styles/core.scss';
 export { Container, Row, Column, Grid } from './components/Grid';
-export type { ContainerProps, RowProps, ColumnProps, GridProps, GridWidth, Breakpoint, Float } from './components/Grid';
+export type { ContainerProps, RowProps, ColumnProps, GridProps } from './components/Grid';
+export { GridWidth, Breakpoint, Float } from './components/Grid';
 export { MainWrapper } from './components/MainWrapper';
 export type { MainWrapperProps } from './components/MainWrapper';
 export { SpacingUtilities, getSpacingClass } from './components/SpacingUtilities';

@@ -45,8 +45,8 @@ export interface ButtonSSRProps extends Omit<React.ButtonHTMLAttributes<HTMLButt
  */
 export const ButtonSSR = React.forwardRef<HTMLButtonElement, ButtonSSRProps>(
   ({ 
-    variant = 'primary', 
-    size = 'default', 
+    variant = ButtonVariant.Primary, 
+    size = ButtonSize.Default, 
     fullWidth = false, 
     className, 
     children, 

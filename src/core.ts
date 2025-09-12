@@ -11,11 +11,9 @@ export type {
   ContainerProps, 
   RowProps, 
   ColumnProps, 
-  GridProps,
-  GridWidth,
-  Breakpoint,
-  Float
+  GridProps
 } from './components/Grid';
+export { GridWidth, Breakpoint, Float } from './components/Grid';
 
 export { MainWrapper } from './components/MainWrapper';
 export type { MainWrapperProps } from './components/MainWrapper';

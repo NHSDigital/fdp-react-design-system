@@ -1,2 +1,2 @@
 export { default as Button, type NHSButtonProps } from './Button';
-export type { ButtonVariant, ButtonSize } from './Button.types';
+export { ButtonVariant, ButtonSize, type ButtonVariantLike, type ButtonSizeLike } from './Button.types';

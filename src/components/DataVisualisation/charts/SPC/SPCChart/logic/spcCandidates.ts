@@ -1,12 +1,9 @@
 import { mean } from "./spcUtils";
-
-// Raw variation icon and reason literals to avoid importing enums
-export type VariationIconRaw = "improvement" | "concern" | "neither" | "suppressed" | "none";
-export type BaselineReasonRaw = "shift" | "trend" | "point";
+import { VariationIcon, BaselineSuggestionReason } from "./spcConstants";
 
 export interface BaselineSuggestionRaw {
 	index: number;
-	reason: BaselineReasonRaw;
+	reason: BaselineSuggestionReason;
 	score: number;
 	deltaMean: number;
 	oldMean: number;
@@ -17,11 +14,12 @@ export interface BaselineSuggestionRaw {
 export interface BaselineRowMinimal {
 	value: number | null;
 	partitionId: number;
-	variationIcon: VariationIconRaw;
+	variationIcon: VariationIcon;
 	mean: number | null;
 	upperProcessLimit: number | null;
 }
 
+// Compute baseline suggestions for a given set of rows and parameters
 export function computeBaselineSuggestionsRaw(
 	rows: BaselineRowMinimal[],
 	params: {
@@ -41,6 +39,7 @@ export function computeBaselineSuggestionsRaw(
 		trendRunLength?: number;
 	}
 ): BaselineSuggestionRaw[] {
+	// Destructure params for easier access
 	const {
 		W,
 		minGap,
@@ -63,6 +62,7 @@ export function computeBaselineSuggestionsRaw(
 		if (i > 0 && rows[i - 1].partitionId !== r.partitionId) {
 			lastBaselineIndex = i;
 		}
+
 		const wasShiftUp = i > 0 && isShiftUpAt(i - 1);
 		const wasShiftDown = i > 0 && isShiftDownAt(i - 1);
 		const wasTrendUp = i > 0 && isTrendUpAt(i - 1);
@@ -75,14 +75,15 @@ export function computeBaselineSuggestionsRaw(
 		const isTrendDown = isTrendDownAt(i);
 		const isSingleUp = isSingleUpAt(i);
 		const isSingleDown = isSingleDownAt(i);
-		const candidates: { reason: BaselineReasonRaw; index: number }[] = [];
-		if (isShiftUp && !wasShiftUp) candidates.push({ reason: 'shift', index: i });
-		if (isShiftDown && !wasShiftDown) candidates.push({ reason: 'shift', index: i });
-		if (isTrendUp && !wasTrendUp) candidates.push({ reason: 'trend', index: i });
-		if (isTrendDown && !wasTrendDown) candidates.push({ reason: 'trend', index: i });
-		if (isSingleUp && !wasSingleUp) candidates.push({ reason: 'point', index: i });
-		if (isSingleDown && !wasSingleDown) candidates.push({ reason: 'point', index: i });
+		const candidates: { reason: BaselineSuggestionReason; index: number }[] = [];
+		if (isShiftUp && !wasShiftUp) candidates.push({ reason: BaselineSuggestionReason.Shift, index: i });
+		if (isShiftDown && !wasShiftDown) candidates.push({ reason: BaselineSuggestionReason.Shift, index: i });
+		if (isTrendUp && !wasTrendUp) candidates.push({ reason: BaselineSuggestionReason.Trend, index: i });
+		if (isTrendDown && !wasTrendDown) candidates.push({ reason: BaselineSuggestionReason.Trend, index: i });
+		if (isSingleUp && !wasSingleUp) candidates.push({ reason: BaselineSuggestionReason.Point, index: i });
+		if (isSingleDown && !wasSingleDown) candidates.push({ reason: BaselineSuggestionReason.Point, index: i });
 
+		// Evaluate each candidate
 		for (const c of candidates) {
 			if (c.index - lastBaselineIndex < minGap) continue;
 			const oldStart = Math.max(0, c.index - W);
@@ -122,7 +123,7 @@ export function computeBaselineSuggestionsRaw(
 			// Stability: count concern icons only in the new window
 			const newRows = rows.slice(newStart, newEnd + 1);
 			const concernCount = newRows.filter(
-				(rw) => rw.variationIcon === "concern"
+				(rw) => rw.variationIcon === VariationIcon.Concern
 			).length;
 			if (concernCount > 1) continue;
 			// Variance scoring bonus
@@ -135,14 +136,22 @@ export function computeBaselineSuggestionsRaw(
 			const oldVar = variance(oldVals);
 			const newVar = variance(newVals);
 			let scoreBase =
-				c.reason === "shift" ? 90 : c.reason === "trend" ? 70 : 60;
+				c.reason === BaselineSuggestionReason.Shift
+					? 90
+					: c.reason === BaselineSuggestionReason.Trend
+					? 70
+					: 60;
 			if (newVar < oldVar) scoreBase += 10;
 			scoreBase -= concernCount * 15;
 			if (scoreBase < scoreThreshold) continue;
 			const existing = suggestions.find((s) => s.index === c.index);
 			if (existing) {
-				const priority = (reason: BaselineReasonRaw) =>
-					reason === "shift" ? 3 : reason === "trend" ? 2 : 1;
+				const priority = (reason: BaselineSuggestionReason) =>
+					reason === BaselineSuggestionReason.Shift
+						? 3
+						: reason === BaselineSuggestionReason.Trend
+						? 2
+						: 1;
 				if (
 					priority(c.reason) > priority(existing.reason) ||
 					scoreBase > existing.score

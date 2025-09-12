@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { SPCChart, TrendVisualMode } from "./SPCChart";
-import { ChartType } from "./logic/spc";
+import { ChartType } from "./logic/spcConstants";
 
 function makeData() {
 	// Simple ascending trend with enough points; values are arbitrary

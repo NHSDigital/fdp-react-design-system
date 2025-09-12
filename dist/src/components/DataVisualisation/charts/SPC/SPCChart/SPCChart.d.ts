@@ -1,7 +1,9 @@
 import * as React from "react";
 import "../../../DataVisualisation.scss";
 import "./SPCChart.scss";
-import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType, SpcWarningSeverity, SpcWarningCategory, SpcWarningCode, type SpcSettings } from "./logic/spc";
+import { SpcWarningSeverity, SpcWarningCategory, SpcWarningCode, type SpcSettings } from "./logic/spc";
+import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType } from "./logic/spcConstants";
+import type { SPCSignalFocusInfo } from "./SPCChart.types";
 export declare enum SequenceTransition {
     Slope = "slope",// attribute join to rising (next) or falling/flat (prev) based on delta
     Neutral = "neutral",// draw a neutral (grey) wedge between coloured runs
@@ -106,6 +108,8 @@ export interface SPCChartProps {
     showTrendBridgeOverlay?: boolean;
     /** UI-only: show a minimal Signals Inspector panel under the chart reflecting the focused point. Default false. */
     showSignalsInspector?: boolean;
+    /** UI-only: when Signals Inspector is shown, notify on focus changes. */
+    onSignalFocus?: (info: SPCSignalFocusInfo) => void;
 }
 export declare const SPCChart: React.FC<SPCChartProps>;
 export { ImprovementDirection, VariationIcon, AssuranceIcon };

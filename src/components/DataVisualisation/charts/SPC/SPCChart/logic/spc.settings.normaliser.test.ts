@@ -1,4 +1,5 @@
-import { buildSpc, normaliseSpcSettings, SpcSettingsV2, PrecedenceStrategy, VariationIcon, ImprovementDirection, ChartType } from './spc';
+import { buildSpc, normaliseSpcSettings, SpcSettingsV2 } from './spc';
+import { PrecedenceStrategy, VariationIcon, ImprovementDirection, ChartType } from './spcConstants';
 
 const baseData = [
   { x: 1, value: 10 }, { x: 2, value: 11 }, { x: 3, value: 12 }, { x: 4, value: 13 },

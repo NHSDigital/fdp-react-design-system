@@ -2151,16 +2151,30 @@ Table.Caption = TableCaption;
 Table.BodyRow = TableBodyRow;
 Table.HeaderCell = TableHeaderCell;
 Table.Cell = TableCell;
-Table.Row = TableBodyRow;
-Table.TH = TableHeaderCell;
-if (true) {
-  if (Table.Row) {
-    console.warn("Table.Row is deprecated. Use Table.BodyRow instead.");
+var __warnedRow = false;
+var __warnedTH = false;
+Object.defineProperty(Table, "Row", {
+  configurable: true,
+  enumerable: false,
+  get() {
+    if (!__warnedRow) {
+      console.warn("Table.Row is deprecated. Use Table.BodyRow instead.");
+      __warnedRow = true;
+    }
+    return TableBodyRow;
   }
-  if (Table.TH) {
-    console.warn("Table.TH is deprecated. Use Table.HeaderCell instead.");
+});
+Object.defineProperty(Table, "TH", {
+  configurable: true,
+  enumerable: false,
+  get() {
+    if (!__warnedTH) {
+      console.warn("Table.TH is deprecated. Use Table.HeaderCell instead.");
+      __warnedTH = true;
+    }
+    return TableHeaderCell;
   }
-}
+});
 var Table_default = Table;
 export {
   Table_default as Table,

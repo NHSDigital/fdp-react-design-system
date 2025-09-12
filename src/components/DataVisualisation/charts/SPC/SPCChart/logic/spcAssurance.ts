@@ -1,53 +1,66 @@
-// Assurance icon helper – returns a raw string to avoid enum imports and circular deps
+// Assurance icon helper – now returns engine enum (single source of truth via spcConstants)
 // Contract:
 // - Inputs: metricImprovement, capabilityMode, row value/limits, target
-// - Output: 'pass' | 'fail' | 'none' matching existing semantics in spc.ts
+// - Output: AssuranceIcon (Pass | Fail | None) matching existing semantics in spc.ts
 
-export type ImprovementDir = 'Up' | 'Down' | 'Neither';
+import { AssuranceIcon, ImprovementDirection } from "./spcConstants";
 
-export type AssuranceResult = 'pass' | 'fail' | 'none';
+// Backward compatible type aliases (prefer importing enums from spcConstants directly)
+export type ImprovementDir = ImprovementDirection;
+export type AssuranceResult = AssuranceIcon;
 
-export function computeAssuranceIconRaw(args: {
-  metricImprovement: ImprovementDir;
-  capabilityMode: boolean | undefined;
-  value: number | null;
-  mean: number | null;
-  upperProcessLimit: number | null;
-  lowerProcessLimit: number | null;
-  target: number | null;
-}): AssuranceResult {
-  const {
-    metricImprovement,
-    capabilityMode,
-    value,
-    mean,
-    upperProcessLimit,
-    lowerProcessLimit,
-    target,
-  } = args;
+export function computeAssuranceIcon(args: {
+	metricImprovement: ImprovementDirection;
+	capabilityMode: boolean | undefined;
+	value: number | null;
+	mean: number | null;
+	upperProcessLimit: number | null;
+	lowerProcessLimit: number | null;
+	target: number | null;
+}): AssuranceIcon {
+	const {
+		metricImprovement,
+		capabilityMode,
+		value,
+		mean,
+		upperProcessLimit,
+		lowerProcessLimit,
+		target,
+	} = args;
 
-  const isNumber = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v as number);
+	const isNumber = (v: unknown): v is number =>
+		typeof v === "number" && Number.isFinite(v as number);
 
-  if (!isNumber(value) || mean === null || !isNumber(target)) return 'none';
+	if (!isNumber(value) || mean === null || !isNumber(target)) return AssuranceIcon.None;
 
-  if (capabilityMode && isNumber(upperProcessLimit) && isNumber(lowerProcessLimit)) {
-    if (metricImprovement === 'Up') {
-      if (isNumber(lowerProcessLimit) && lowerProcessLimit > target) return 'pass';
-      if (isNumber(upperProcessLimit) && upperProcessLimit < target) return 'fail';
-      return 'none';
-    }
-    if (metricImprovement === 'Down') {
-      if (isNumber(upperProcessLimit) && upperProcessLimit < target) return 'pass';
-      if (isNumber(lowerProcessLimit) && lowerProcessLimit > target) return 'fail';
-      return 'none';
-    }
-    return 'none';
-  }
+	if (
+		capabilityMode &&
+		isNumber(upperProcessLimit) &&
+		isNumber(lowerProcessLimit)
+	) {
+		if (metricImprovement === ImprovementDirection.Up) {
+			if (isNumber(lowerProcessLimit) && lowerProcessLimit > target)
+				return AssuranceIcon.Pass;
+			if (isNumber(upperProcessLimit) && upperProcessLimit < target)
+				return AssuranceIcon.Fail;
+			return AssuranceIcon.None;
+		}
+		if (metricImprovement === ImprovementDirection.Down) {
+			if (isNumber(upperProcessLimit) && upperProcessLimit < target)
+				return AssuranceIcon.Pass;
+			if (isNumber(lowerProcessLimit) && lowerProcessLimit > target)
+				return AssuranceIcon.Fail;
+			return AssuranceIcon.None;
+		}
+		return AssuranceIcon.None;
+	}
 
-  // Fallback: single-point vs target
-  if (metricImprovement === 'Down') return value <= target ? 'pass' : 'fail';
-  if (metricImprovement === 'Up') return value >= target ? 'pass' : 'fail';
-  return 'none';
+	// Fallback: single-point vs target
+	if (metricImprovement === ImprovementDirection.Down)
+		return value <= target ? AssuranceIcon.Pass : AssuranceIcon.Fail;
+	if (metricImprovement === ImprovementDirection.Up)
+		return value >= target ? AssuranceIcon.Pass : AssuranceIcon.Fail;
+	return AssuranceIcon.None;
 }
 
-export default { computeAssuranceIconRaw };
+export default { computeAssuranceIcon };

@@ -6,7 +6,7 @@ import { seedPRNG } from "../../../stories/utils/deterministic";
 import { ChartContainer } from "../../ChartContainer.tsx";
 // Use top-level component barrel for Heading/Table/List (navigate up to components root)
 import { Heading, Table, List } from "../../../../";
-import { ChartType } from './logic/spc';
+import { ChartType } from './logic/spcConstants';
 
 const meta: Meta<typeof SPCChart> = {
 	title: "Data Visualisation/SPC/Individuals",

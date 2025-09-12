@@ -17,24 +17,20 @@ import { TooltipProvider } from "../../../core/TooltipContext";
 import VisuallyHiddenLiveRegion from "../../../primitives/VisuallyHiddenLiveRegion";
 import { SPCVariationIcon } from "../SPCIcons/SPCIcon";
 import { SPCAssuranceIcon } from "../SPCIcons/SPCAssuranceIcon";
-import { AssuranceResult } from "../SPCIcons/SPCConstants";
-import { Direction } from "../SPCIcons/SPCConstants";
-// Design tokens (accessibility colors)
+import { AssuranceResult, Direction, MetricPolarity } from "../SPCIcons/SPCConstants";
+// SPC Logic & types
 import {
 	buildSpc,
-	ImprovementDirection,
-	VariationIcon,
-	AssuranceIcon,
-	ChartType,
 	SpcWarningSeverity,
 	SpcWarningCategory,
 	SpcWarningCode,
 	type SpcSettings,
 } from "./logic/spc";
+import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType } from "./logic/spcConstants";
+import SpcGradientCategory from "./SPCChart.constants";
 import { buildSpcSqlCompat } from './logic/spcSqlCompat';
 import { Tag } from "../../../../Tag/Tag";
 import Table from "../../../../Tables/Table";
-import { MetricPolarity } from "../SPCIcons/SPCConstants";
 import SPCSignalsInspector from "./SPCSignalsInspector";
 import type { SPCSignalFocusInfo } from "./SPCChart.types";
 import {
@@ -230,6 +226,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		},
 		[]
 	);
+
 	// Removed effectiveEnableTrendSideGating constant)
 	if (process.env.NODE_ENV !== "production" && disableTrendSideGating !== undefined) {
 		console.warn(
@@ -237,6 +234,17 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		);
 	}
 
+	// Build SPC engine instance (memoised)
+	// NB: settings object is assumed stable if not changing reference (no deep equality check)
+	// NB: data array is assumed stable if not changing reference (no deep equality check)
+	// NB: targets/baselines/ghosts are assumed stable if not changing reference (no deep equality check)
+	// NB: chartType and metricImprovement are primitive values
+	// NB: useSqlCompatEngine is a primitive value
+	// If any of the above change by reference/value, a new engine is built.
+	// If the build fails (e.g. insufficient data), engine will be null.
+	// This is a best-effort attempt to avoid unnecessary rebuilds while still responding to changes.
+	// Parent components should memoise props where possible to avoid unnecessary rebuilds.
+	// If more granular control is needed, consider memoising settings and data at a higher level.
 	const engine = React.useMemo(() => {
 		const rowsInput = data.map((d, i) => ({
 			x: d.x,
@@ -908,26 +916,26 @@ const InternalSPC: React.FC<InternalProps> = ({
 	// Added 'noJudgement' (purple) for neutral special-cause sequences (variation === Neither & special cause present)
 	const categories = React.useMemo(() => {
 		if (!engineSignals || !all.length)
-			return [] as ("concern" | "improvement" | "noJudgement" | "common")[];
-		const raw: ("concern" | "improvement" | "noJudgement" | "common")[] =
+			return [] as SpcGradientCategory[];
+		const raw: SpcGradientCategory[] =
 			all.map((_d, i) => {
 				const sig = engineSignals?.[i];
-				if (sig?.concern) return "concern";
-				if (sig?.improvement) return "improvement";
+				if (sig?.concern) return SpcGradientCategory.Concern;
+				if (sig?.improvement) return SpcGradientCategory.Improvement;
 				// When variation is Neither but a trend rule fired, allow visual directional colours in 'ungated' mode
 				if (sig?.special && sig.variation === VariationIcon.Neither) {
 					if (trendVisualMode === TrendVisualMode.Ungated && metricImprovement && metricImprovement !== ImprovementDirection.Neither) {
 						if (sig.trendUp) {
-							return metricImprovement === ImprovementDirection.Up ? "improvement" : "concern";
+							return metricImprovement === ImprovementDirection.Up ? SpcGradientCategory.Improvement : SpcGradientCategory.Concern;
 						}
 						if (sig.trendDown) {
-							return metricImprovement === ImprovementDirection.Down ? "improvement" : "concern";
+							return metricImprovement === ImprovementDirection.Down ? SpcGradientCategory.Improvement : SpcGradientCategory.Concern;
 						}
 					}
 					// Fallback: neutral purple when enabled
-					if (enableNeutralNoJudgement) return "noJudgement";
+					if (enableNeutralNoJudgement) return SpcGradientCategory.NoJudgement;
 				}
-				return "common";
+				return SpcGradientCategory.Common;
 			});
 
 		// Debug logging for Rule Clash charts
@@ -940,7 +948,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 		}
 
 		return raw;
-	}, [engineSignals, all, ariaLabel, enableNeutralNoJudgement]);
+	}, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement]);
 
 	// Derive contiguous sequences after absorption
 	const sequences = React.useMemo(() => {
@@ -948,7 +956,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 			return [] as {
 				start: number;
 				end: number;
-				category: "concern" | "improvement" | "noJudgement" | "common";
+				category: SpcGradientCategory;
 			}[];
 		// Copy categories so we can absorb single coloured points unconditionally
 		const cats = [...categories];
@@ -959,8 +967,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 			let j = i + 1;
 			while (j < cats.length && cats[j] === cat) j++;
 			const runLen = j - i;
-			if (runLen === 1 && cat !== "common") {
-				cats[i] = "common";
+			if (runLen === 1 && cat !== SpcGradientCategory.Common) {
+				cats[i] = SpcGradientCategory.Common;
 			}
 			i = j;
 		}
@@ -968,7 +976,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 		const out: {
 			start: number;
 			end: number;
-			category: "concern" | "improvement" | "noJudgement" | "common";
+			category: SpcGradientCategory;
 		}[] = [];
 		if (cats.length) {
 			let start = 0;
@@ -977,7 +985,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 					const runCat = cats[start];
 					const end = k - 1;
 					const len = end - start + 1;
-					if (runCat === "common" || len >= 2)
+					if (runCat === SpcGradientCategory.Common || len >= 2)
 						out.push({ start, end, category: runCat });
 					start = k;
 				}
@@ -1134,21 +1142,21 @@ const InternalSPC: React.FC<InternalProps> = ({
 						mid = 0.12,
 						end = 0.045; // default (grey/common)
 					switch (seq.category) {
-						case "concern":
+						case SpcGradientCategory.Concern:
 							baseVar = "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)";
 							// stronger wash for coloured sequences
 							top = 0.28;
 							mid = 0.12;
 							end = 0.045;
 							break;
-						case "improvement":
+						case SpcGradientCategory.Improvement:
 							baseVar =
 								"var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)";
 							top = 0.26;
 							mid = 0.11;
 							end = 0.045;
 							break;
-						case "noJudgement":
+						case SpcGradientCategory.NoJudgement:
 							baseVar =
 								"var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)";
 							// Use similar opacity profile to improvement for balance
@@ -1190,7 +1198,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 
 				let d = "";
 
-				if (category === "common") {
+				if (category === SpcGradientCategory.Common) {
 					// --- Common Cause (Grey) Gradient ---
 					const prevSeq = idx > 0 ? sequences[idx - 1] : null;
 					const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
@@ -1214,8 +1222,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 					// --- Special Cause (Colored) Gradient ---
 					const prevSeq = idx > 0 ? sequences[idx - 1] : null;
 					const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
-					const prevColoured = prevSeq && prevSeq.category !== "common";
-					const nextColoured = nextSeq && nextSeq.category !== "common";
+					const prevColoured = prevSeq && prevSeq.category !== SpcGradientCategory.Common;
+					const nextColoured = nextSeq && nextSeq.category !== SpcGradientCategory.Common;
 					const firstY = yScale(all[firstIdx].y);
 					const lastY = yScale(all[lastIdx].y);
 					let startBaselineX = firstX;

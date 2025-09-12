@@ -1,6 +1,7 @@
 // NHSE "Making Data Count" SPC Charts – TypeScript port of SQL v2.6
 // Supports XmR, T, and G charts with special-cause rules and variation/assurance icons.
 
+// Utility functions
 import {
 	isNumber,
 	mean,
@@ -10,8 +11,37 @@ import {
 	tChartLimits,
 	gChartProbabilityLimits,
 } from './spcUtils';
-import { computeAssuranceIconRaw } from './spcAssurance';
+
+// Modularised logic components
+import { computeAssuranceIcon } from './spcAssurance';
 import { computeBaselineSuggestionsRaw } from './spcCandidates';
+
+// Centralised constants/enums
+import {
+	ChartType,
+	ImprovementDirection,
+	VariationIcon,
+	SpcRuleId,
+	RULE_PRECEDENCE,
+	RULE_RANK_BY_ID,
+	RULE_LABEL,
+	SpcRuleCategory,
+	SpcRuleMetadataEntry,
+	RULE_METADATA,
+	RULES_IN_RANK_ORDER,
+	Side,
+	SpcRawRuleTag,
+	RAW_TAG_TO_RULE_ID,
+	AssuranceIcon,
+	PrecedenceStrategy,
+	ConflictPrecedenceMode,
+	PrimeDirection,
+	PruningMode,
+	SpcRowAliasField,
+	BaselineSuggestionReason,
+} from './spcConstants';
+// Re-export for public API compatibility
+export { BaselineSuggestionReason } from './spcConstants';
 // Phase 4 strict-mode toggle (default ON). Consumers can override via:
 // - globalThis.__SPC_PHASE4_STRICT (boolean), or
 // - process.env.SPC_PHASE4_STRICT ('1'|'true' -> true, '0'|'false' -> false).
@@ -52,174 +82,29 @@ function isPhase4Strict(): boolean {
  */
 // Chart types supported by the SPC engine.
 // Converted from string union to enum for stronger typing / refactor safety.
-export enum ChartType {
-	XmR = "XmR",
-	T = "T",
-	G = "G",
-}
-// Core enums (replacing prior string union types) to share with icon layer.
-export enum ImprovementDirection {
-	Up = "Up",
-	Down = "Down",
-	Neither = "Neither",
-}
-export enum VariationIcon {
-	Improvement = "improvement",
-	Concern = "concern",
-	Neither = "neither",
-	/**
-	 * @deprecated Use `Suppressed`. Will be removed in Phase 4.
-	 * Currently emitted for ghost/missing or suppressed cases.
-	 */
-	None = "none",
-	/**
-	 * Preferred identifier for cases that should not display a variation icon (ghost/missing or explicitly suppressed).
-	 * Planned replacement for `None` in Phase 4.
-	 */
-	Suppressed = "suppressed",
-}
-// Stable ordered precedence list (index +1 gives rank) – allows future insertion/reordering
-// Stable identifiers for individual special-cause rule categories used in ranking / conflict metadata
-export enum SpcRuleId {
-	SinglePoint = 'single_point',
-	TwoSigma = 'two_sigma',
-	Shift = 'shift',
-	Trend = 'trend'
-}
-// Stable ordered precedence list (index +1 gives rank) – allows future insertion/reordering
-export const RULE_PRECEDENCE: SpcRuleId[] = [
-	// rank 1..n (order matters)
-	SpcRuleId.SinglePoint,
-	SpcRuleId.TwoSigma,
-	SpcRuleId.Shift,
-	SpcRuleId.Trend,
-];
-
-// Derive rank map from RULE_PRECEDENCE (1-based)
-export const RULE_RANK_BY_ID: Record<SpcRuleId, number> = RULE_PRECEDENCE.reduce((acc, id, i) => {
-	acc[id] = i + 1; return acc;
-}, {} as Record<SpcRuleId, number>);
-
-// Human friendly labels (retained for backward compatibility)
-/**
- * @deprecated Use `RULE_METADATA[id].label` or iterate `RULES_IN_RANK_ORDER` instead.
- * Will be removed in a future major release once downstream consumers migrate.
- */
-export const RULE_LABEL: Record<SpcRuleId, string> = {
-	[SpcRuleId.SinglePoint]: 'Single point beyond process limit',
-	[SpcRuleId.TwoSigma]: 'Two of three beyond 2σ on one side',
-	[SpcRuleId.Shift]: 'Sustained shift (run)',
-	[SpcRuleId.Trend]: 'Monotonic trend',
+// Re-export for backwards compatibility (external imports of './spc' remain valid)
+export {
+	ChartType,
+	ImprovementDirection,
+	VariationIcon,
+	SpcRuleId,
+	RULE_PRECEDENCE,
+	RULE_RANK_BY_ID,
+	RULE_LABEL,
+	SpcRuleCategory,
+	type SpcRuleMetadataEntry,
+	RULE_METADATA,
+	RULES_IN_RANK_ORDER,
+	Side,
+	SpcRawRuleTag,
+	RAW_TAG_TO_RULE_ID,
+	AssuranceIcon,
+	PrecedenceStrategy,
+	ConflictPrecedenceMode,
+	PrimeDirection,
+	PruningMode,
+	SpcRowAliasField,
 };
-
-// Unified rule metadata registry – single source to extend with future attributes (e.g. category, side gating, stability impact)
-export enum SpcRuleCategory {
-	Point = 'point',
-	Cluster = 'cluster',
-	Sustained = 'sustained',
-}
-
-export interface SpcRuleMetadataEntry {
-	id: SpcRuleId;
-	rank: number; // 1..n within participatesInRanking ordering
-	label: string; // human readable
-	category: SpcRuleCategory; // semantic grouping for UI / documentation
-	participatesInRanking: boolean; // future-proof toggle (all true for now)
-}
-
-const RULE_CATEGORY: Record<SpcRuleId, SpcRuleCategory> = {
-	[SpcRuleId.SinglePoint]: SpcRuleCategory.Point,
-	[SpcRuleId.TwoSigma]: SpcRuleCategory.Cluster,
-	[SpcRuleId.Shift]: SpcRuleCategory.Sustained,
-	[SpcRuleId.Trend]: SpcRuleCategory.Sustained,
-};
-
-export const RULE_METADATA: Record<SpcRuleId, SpcRuleMetadataEntry> = RULE_PRECEDENCE.reduce((acc, id, index) => {
-	acc[id] = {
-		id,
-		rank: index + 1,
-		label: RULE_LABEL[id],
-		category: RULE_CATEGORY[id],
-		participatesInRanking: true,
-	};
-	return acc;
-}, {} as Record<SpcRuleId, SpcRuleMetadataEntry>);
-
-// Convenience ordered metadata list (rank order)
-export const RULES_IN_RANK_ORDER: SpcRuleMetadataEntry[] = RULE_PRECEDENCE.map(id => RULE_METADATA[id]);
-// Directional side (high vs low) for special-cause classification
-export enum Side {
-	Up = 'up',
-	Down = 'down'
-}
-// Raw rule tag identifiers (snake_case) used in ruleTags audit trail
-export enum SpcRawRuleTag {
-	SinglePointAbove = 'single_above',
-	SinglePointBelow = 'single_below',
-	TwoOfThreeAbove = 'two_of_three_above',
-	TwoOfThreeBelow = 'two_of_three_below',
-	FourOfFiveAbove = 'four_of_five_above',
-	FourOfFiveBelow = 'four_of_five_below',
-	ShiftHigh = 'shift_high',
-	ShiftLow = 'shift_low',
-	TrendIncreasing = 'trend_inc',
-	TrendDecreasing = 'trend_dec',
-	FifteenInnerThird = 'fifteen_inner_third'
-}
-
-// Ranking for core NHS rule precedence (excludes four-of-five & fifteen-inner-third which are ancillary)
-// (RULE_RANK_BY_ID now derived above)
-
-// Map raw rule tags (side-specific flags) to canonical ranked rule ids when applicable.
-// Undefined entries indicate tags that do not participate directly in precedence ranking.
-export const RAW_TAG_TO_RULE_ID: Partial<Record<SpcRawRuleTag, SpcRuleId>> = {
-	[SpcRawRuleTag.SinglePointAbove]: SpcRuleId.SinglePoint,
-	[SpcRawRuleTag.SinglePointBelow]: SpcRuleId.SinglePoint,
-	[SpcRawRuleTag.TwoOfThreeAbove]: SpcRuleId.TwoSigma,
-	[SpcRawRuleTag.TwoOfThreeBelow]: SpcRuleId.TwoSigma,
-	[SpcRawRuleTag.ShiftHigh]: SpcRuleId.Shift,
-	[SpcRawRuleTag.ShiftLow]: SpcRuleId.Shift,
-	[SpcRawRuleTag.TrendIncreasing]: SpcRuleId.Trend,
-	[SpcRawRuleTag.TrendDecreasing]: SpcRuleId.Trend,
-	// FourOfFiveAbove / FourOfFiveBelow intentionally omitted from ranking
-	// FifteenInnerThird intentionally omitted from ranking
-};
-export enum AssuranceIcon {
-	Pass = "pass",
-	Fail = "fail",
-	None = "none",
-}
-
-// Precedence strategies for variation classification
-export enum PrecedenceStrategy {
-	Legacy = 'legacy',
-	DirectionalFirst = 'directional_first',
-}
-
-// Optional conflict precedence mode (SQL v2.6a style ranking)
-export enum ConflictPrecedenceMode {
-	None = 'none',
-	SqlRankingV26a = 'sql_ranking_v2_6a',
-}
-
-// Unified prime direction (used by SQL compatibility & potential conflict pruning metadata)
-export enum PrimeDirection {
-	Upwards = 'Upwards',
-	Downwards = 'Downwards',
-	Same = 'Same'
-}
-
-// Unified pruning mode enumeration for rows
-export enum PruningMode {
-	Sql = 'sql',
-	Conflict = 'conflict'
-}
-
-// Row alias field names (forward-compatible deprecations / planned renames)
-export enum SpcRowAliasField {
-	ImprovementValueBeforePruning = 'improvementValueBeforePruning',
-	ConcernValueBeforePruning = 'concernValueBeforePruning'
-}
 
 export interface SpcInputRow {
 	x: string | number | Date; // period label or date
@@ -499,12 +384,7 @@ export function getDirectionalSignalSummary(row: SpcRow) {
 	return { upRules, downRules, upMax, downMax, hasUp: upRules.length>0, hasDown: downRules.length>0 };
 }
 
-// Baseline suggestion trigger reason ordering (higher severity first for tie-break logic)
-export enum BaselineSuggestionReason {
-	Shift = 'shift',
-	Trend = 'trend',
-	Point = 'point',
-}
+// BaselineSuggestionReason moved to spcConstants.ts (single source of truth)
 
 // ------------------------- Utility functions -------------------------
 
@@ -1218,12 +1098,15 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			if (row.specialCauseTwoOfThreeUp && row.specialCauseFourOfFiveUp) { row.specialCauseTwoOfThreeUp = false; }
 			if (row.specialCauseTwoOfThreeDown && row.specialCauseFourOfFiveDown) { row.specialCauseTwoOfThreeDown = false; }
 		}
-			// Unified (Phase 2) semantics: trend signals only contribute to high/low side when on the corresponding side of the mean.
-			// Side-gating flags (trendFavourableSideOnly / trendSideGatingEnabled) are now effectively always-on for icon classification.
-			const trendUpQualified = row.specialCauseTrendUp && onHighSide;
-			const trendDownQualified = row.specialCauseTrendDown && onLowSide;
-			const highSignals = (row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || (settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp) || row.specialCauseShiftUp || trendUpQualified);
-			const lowSignals = (row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || (settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown) || row.specialCauseShiftDown || trendDownQualified);
+
+		// Side-gated trend contribution to icon classification
+		// NOTE: trendSideGatingEnabled setting is deprecated and has no effect; trend is always side-gated for icon classification.
+		// Unified (Phase 2) semantics: trend signals only contribute to high/low side when on the corresponding side of the mean.
+		// Side-gating flags (trendFavourableSideOnly / trendSideGatingEnabled) are now effectively always-on for icon classification.
+		const trendUpQualified = row.specialCauseTrendUp && onHighSide;
+		const trendDownQualified = row.specialCauseTrendDown && onLowSide;
+		const highSignals = (row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || (settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp) || row.specialCauseShiftUp || trendUpQualified);
+		const lowSignals = (row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || (settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown) || row.specialCauseShiftDown || trendDownQualified);
 
 		// Emerging favourable detection (N-1 monotonic run in favourable direction before trend flag fires)
 		let emergingFavourable = false;
@@ -1369,8 +1252,8 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		// Assurance icon via helper (capability vs fallback) – preserves existing semantics
 		{
 			const inputRow = canonical[row.rowId - 1];
-			const raw = computeAssuranceIconRaw({
-				metricImprovement: metricImprovement as any,
+			const result = computeAssuranceIcon({
+				metricImprovement,
 				capabilityMode: settings.assuranceCapabilityMode,
 				value: row.value,
 				mean: row.mean,
@@ -1378,7 +1261,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 				lowerProcessLimit: row.lowerProcessLimit,
 				target: isNumber(inputRow?.target) ? inputRow.target! : null,
 			});
-			row.assuranceIcon = raw === 'pass' ? AssuranceIcon.Pass : raw === 'fail' ? AssuranceIcon.Fail : AssuranceIcon.None;
+			row.assuranceIcon = result;
 		}
 	}
 
@@ -1396,6 +1279,17 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		});
 	}
 
+	// Variation icon conflict warnings (simultaneous high/low signals)
+	// NOTE: does not consider pruning mode; flags any row with both high and low special-cause signals.
+	// This is a heuristic alert only; no automatic mutation of icons or values.
+	// Users should inspect such rows to ensure the icon reflects their interpretation of the data.
+	// This is most relevant when using the DirectionalFirst precedence strategy which can yield mixed signals.
+	// The SQL port does not currently have an equivalent warning.
+	// We do not consider suppressedTrendFavourable here as it does not affect icon classification directly.
+	// We do consider all other specialCause* flags as they directly contribute to icon classification.
+	// We do not consider emergingFavourable here as it is a transient heuristic that does not reflect actual signals present.
+	// Users should inspect the actual specialCause* flags to understand the nature of the conflict.
+	// This warning is primarily intended to catch cases where both high and low shift/trend signals are present simultaneously,
 	if (settings.variationIconConflictWarning) {
 		for (const row of output) {
 				if (row.variationIcon === VariationIcon.Improvement) {
@@ -1412,14 +1306,15 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 								row.specialCauseFourOfFiveDown) ||
 							row.specialCauseShiftDown ||
 							row.specialCauseTrendDown);
-				if (highAndLow)
-					warnings.push({
-						code: SpcWarningCode.VariationConflictRow,
-						category: SpcWarningCategory.Logic,
-						severity: SpcWarningSeverity.Warning,
-						message: `Row ${row.rowId}: simultaneous high/low special-cause signals – variation icon may be ambiguous.`,
-						context: { rowId: row.rowId },
-					});
+					if (highAndLow) {
+						warnings.push({
+							code: SpcWarningCode.VariationConflictRow,
+							category: SpcWarningCategory.Logic,
+							severity: SpcWarningSeverity.Warning,
+							message: `Row ${row.rowId}: simultaneous high/low special-cause signals – variation icon may be ambiguous.`,
+							context: { rowId: row.rowId },
+						});
+					}
 			}
 		}
 	}
@@ -1563,7 +1458,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 			output.map(r => ({
 				value: r.value,
 				partitionId: r.partitionId,
-				variationIcon: r.variationIcon as any,
+				variationIcon: r.variationIcon,
 				mean: r.mean,
 				upperProcessLimit: r.upperProcessLimit,
 			})),
@@ -1580,7 +1475,7 @@ export function buildSpc(args: BuildSpcArgs): SpcResult {
 		);
 		suggestedBaselines = raw.map(s => ({
 			index: s.index,
-			reason: s.reason as any,
+			reason: s.reason,
 			score: s.score,
 			deltaMean: s.deltaMean,
 			oldMean: s.oldMean,

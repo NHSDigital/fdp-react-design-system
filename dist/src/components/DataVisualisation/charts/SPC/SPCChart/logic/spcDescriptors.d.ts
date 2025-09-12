@@ -1,4 +1,5 @@
-import { VariationIcon, AssuranceIcon, SpcRow } from "./spc";
+import { SpcRow } from "./spc";
+import { VariationIcon, AssuranceIcon } from "./spcConstants";
 export declare enum SpcRuleId {
     SinglePointUp = "singlePointUp",
     SinglePointDown = "singlePointDown",

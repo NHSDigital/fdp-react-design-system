@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import spcModule, { ImprovementDirection, VariationIcon, ChartType } from "./spc";
+import spcModule from "./spc";
+import { ImprovementDirection, VariationIcon, ChartType } from "./spcConstants";
 
 // Golden parity test for rare-event charts T and G using deterministic synthetic datasets.
 describe("SPC rare-event golden parity (T & G)", () => {

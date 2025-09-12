@@ -8,6 +8,8 @@ This folder collects migration guides for the NHS FDP Design System.
   - See `spc-settings-v2-migration.md`.
 - Variation icon canonicalisation — migrate `VariationIcon.None` to `VariationIcon.Suppressed`:
   - See `spc-variationicon-none-to-suppressed.md`.
+- Constants centralisation — prefer importing enums/registries from `spcConstants.ts` (re-exported via `spc.ts` for compatibility):
+  - See `spc-constants-centralisation.md`.
 
 Quick commands:
 

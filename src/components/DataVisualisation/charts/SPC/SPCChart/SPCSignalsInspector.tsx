@@ -1,7 +1,7 @@
 import type { SPCSignalFocusInfo } from "./SPCChart.types";
 import * as React from "react";
 import { useTooltipContext } from "../../../core/TooltipContext";
-import { VariationIcon, SpcRawRuleTag } from "./logic/spc";
+import { VariationIcon, SpcRawRuleTag } from "./logic/spcConstants";
 import {
 	extractRuleIds,
 	ruleGlossary,

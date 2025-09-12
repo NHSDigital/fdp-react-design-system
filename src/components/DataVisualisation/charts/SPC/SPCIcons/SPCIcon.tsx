@@ -13,7 +13,7 @@ import {
 // Token utilities now sourced from shared tokenUtils module.
 // Import VariationIcon enum from SPC engine to permit direct usage with icon component.
 // Updated: point to advanced SPC engine (legacy ../../xmr/spc path removed during refactor)
-import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from "../SPCChart/logic/spc";
+import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from "../SPCChart/logic/spcConstants";
 
 // Friendly alias exported for consumers who want to pass just the engine icon key
 export type SpcEngineIconPayload = {

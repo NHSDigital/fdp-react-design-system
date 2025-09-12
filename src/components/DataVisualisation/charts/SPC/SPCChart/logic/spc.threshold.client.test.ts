@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import spcModule, { ImprovementDirection, ChartType } from "./spc";
+import spcModule from "./spc";
+import { ImprovementDirection, ChartType } from "./spcConstants";
 
 describe("SPC XmR threshold behaviour", () => {
 	it("suppresses limits and icons when <=12 non-ghost points", () => {

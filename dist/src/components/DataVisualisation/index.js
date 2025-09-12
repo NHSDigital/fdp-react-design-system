@@ -8061,16 +8061,30 @@ Table.Caption = TableCaption;
 Table.BodyRow = TableBodyRow;
 Table.HeaderCell = TableHeaderCell;
 Table.Cell = TableCell;
-Table.Row = TableBodyRow;
-Table.TH = TableHeaderCell;
-if (true) {
-  if (Table.Row) {
-    console.warn("Table.Row is deprecated. Use Table.BodyRow instead.");
+var __warnedRow = false;
+var __warnedTH = false;
+Object.defineProperty(Table, "Row", {
+  configurable: true,
+  enumerable: false,
+  get() {
+    if (!__warnedRow) {
+      console.warn("Table.Row is deprecated. Use Table.BodyRow instead.");
+      __warnedRow = true;
+    }
+    return TableBodyRow;
   }
-  if (Table.TH) {
-    console.warn("Table.TH is deprecated. Use Table.HeaderCell instead.");
+});
+Object.defineProperty(Table, "TH", {
+  configurable: true,
+  enumerable: false,
+  get() {
+    if (!__warnedTH) {
+      console.warn("Table.TH is deprecated. Use Table.HeaderCell instead.");
+      __warnedTH = true;
+    }
+    return TableHeaderCell;
   }
-}
+});
 var Table_default = Table;
 
 // src/components/DataVisualisation/charts/ChartWithTableTabs/ChartWithTableTabs.tsx
@@ -9213,6 +9227,201 @@ import * as React25 from "react";
 import * as React22 from "react";
 import { createPortal } from "react-dom";
 
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcConstants.ts
+var ChartType = /* @__PURE__ */ ((ChartType3) => {
+  ChartType3["XmR"] = "XmR";
+  ChartType3["T"] = "T";
+  ChartType3["G"] = "G";
+  return ChartType3;
+})(ChartType || {});
+var ImprovementDirection = /* @__PURE__ */ ((ImprovementDirection2) => {
+  ImprovementDirection2["Up"] = "Up";
+  ImprovementDirection2["Down"] = "Down";
+  ImprovementDirection2["Neither"] = "Neither";
+  return ImprovementDirection2;
+})(ImprovementDirection || {});
+var VariationIcon = /* @__PURE__ */ ((VariationIcon2) => {
+  VariationIcon2["Improvement"] = "improvement";
+  VariationIcon2["Concern"] = "concern";
+  VariationIcon2["Neither"] = "neither";
+  VariationIcon2["None"] = "none";
+  VariationIcon2["Suppressed"] = "suppressed";
+  return VariationIcon2;
+})(VariationIcon || {});
+var RULE_PRECEDENCE = [
+  "single_point" /* SinglePoint */,
+  "two_sigma" /* TwoSigma */,
+  "shift" /* Shift */,
+  "trend" /* Trend */
+];
+var RULE_RANK_BY_ID = RULE_PRECEDENCE.reduce(
+  (acc, id, i) => {
+    acc[id] = i + 1;
+    return acc;
+  },
+  {}
+);
+var RULE_LABEL = {
+  ["single_point" /* SinglePoint */]: "Single point beyond process limit",
+  ["two_sigma" /* TwoSigma */]: "Two of three beyond 2\u03C3 on one side",
+  ["shift" /* Shift */]: "Sustained shift (run)",
+  ["trend" /* Trend */]: "Monotonic trend"
+};
+var RULE_CATEGORY = {
+  ["single_point" /* SinglePoint */]: "point" /* Point */,
+  ["two_sigma" /* TwoSigma */]: "cluster" /* Cluster */,
+  ["shift" /* Shift */]: "sustained" /* Sustained */,
+  ["trend" /* Trend */]: "sustained" /* Sustained */
+};
+var RULE_METADATA = RULE_PRECEDENCE.reduce(
+  (acc, id, index) => {
+    acc[id] = {
+      id,
+      rank: index + 1,
+      label: RULE_LABEL[id],
+      category: RULE_CATEGORY[id],
+      participatesInRanking: true
+    };
+    return acc;
+  },
+  {}
+);
+var RULES_IN_RANK_ORDER = RULE_PRECEDENCE.map(
+  (id) => RULE_METADATA[id]
+);
+var AssuranceIcon = /* @__PURE__ */ ((AssuranceIcon2) => {
+  AssuranceIcon2["Pass"] = "pass";
+  AssuranceIcon2["Fail"] = "fail";
+  AssuranceIcon2["None"] = "none";
+  return AssuranceIcon2;
+})(AssuranceIcon || {});
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcDescriptors.ts
+var ruleGlossary = {
+  ["singlePointUp" /* SinglePointUp */]: {
+    tooltip: "Single point above upper control limit",
+    narration: "Single point beyond a control limit"
+  },
+  ["singlePointDown" /* SinglePointDown */]: {
+    tooltip: "Single point below lower control limit",
+    narration: "Single point beyond a control limit"
+  },
+  ["twoOfThreeUp" /* TwoOfThreeUp */]: {
+    tooltip: "Two of three points beyond +2\u03C3",
+    narration: "Two of three points beyond two sigma (same side)"
+  },
+  ["twoOfThreeDown" /* TwoOfThreeDown */]: {
+    tooltip: "Two of three points beyond -2\u03C3",
+    narration: "Two of three points beyond two sigma (same side)"
+  },
+  ["fourOfFiveUp" /* FourOfFiveUp */]: {
+    tooltip: "Four of five points beyond +1\u03C3",
+    narration: "Four of five points beyond one sigma (same side)"
+  },
+  ["fourOfFiveDown" /* FourOfFiveDown */]: {
+    tooltip: "Four of five points beyond -1\u03C3",
+    narration: "Four of five points beyond one sigma (same side)"
+  },
+  ["shiftUp" /* ShiftUp */]: {
+    tooltip: "Shift: run of points above centre line",
+    narration: "Shift (run on one side of mean)"
+  },
+  ["shiftDown" /* ShiftDown */]: {
+    tooltip: "Shift: run of points below centre line",
+    narration: "Shift (run on one side of mean)"
+  },
+  ["trendUp" /* TrendUp */]: {
+    tooltip: "Trend: consecutive increasing points",
+    narration: "Trend (consecutive increases)"
+  },
+  ["trendDown" /* TrendDown */]: {
+    tooltip: "Trend: consecutive decreasing points",
+    narration: "Trend (consecutive decreases)"
+  }
+};
+function extractRuleIds(row) {
+  if (!row) return [];
+  const ids = [];
+  if (row.specialCauseSinglePointUp) ids.push("singlePointUp" /* SinglePointUp */);
+  if (row.specialCauseSinglePointDown) ids.push("singlePointDown" /* SinglePointDown */);
+  if (row.specialCauseTwoOfThreeUp) ids.push("twoOfThreeUp" /* TwoOfThreeUp */);
+  if (row.specialCauseTwoOfThreeDown) ids.push("twoOfThreeDown" /* TwoOfThreeDown */);
+  if (row.specialCauseFourOfFiveUp) ids.push("fourOfFiveUp" /* FourOfFiveUp */);
+  if (row.specialCauseFourOfFiveDown) ids.push("fourOfFiveDown" /* FourOfFiveDown */);
+  if (row.specialCauseShiftUp) ids.push("shiftUp" /* ShiftUp */);
+  if (row.specialCauseShiftDown) ids.push("shiftDown" /* ShiftDown */);
+  if (row.specialCauseTrendUp) ids.push("trendUp" /* TrendUp */);
+  if (row.specialCauseTrendDown) ids.push("trendDown" /* TrendDown */);
+  return ids;
+}
+function variationLabel(icon) {
+  switch (icon) {
+    case "improvement" /* Improvement */:
+      return "Improvement signal";
+    case "concern" /* Concern */:
+      return "Concern signal";
+    case "neither" /* Neither */:
+      return "Common cause variation";
+    case "none" /* None */:
+    // deprecated alias
+    case "suppressed" /* Suppressed */:
+      return null;
+    // suppressed / not enough data
+    default:
+      return null;
+  }
+}
+function assuranceLabel(icon) {
+  switch (icon) {
+    case "pass" /* Pass */:
+      return "Target met";
+    case "fail" /* Fail */:
+      return "Target not met";
+    default:
+      return null;
+  }
+}
+function zoneLabel(mean2, sigma, value) {
+  if (mean2 == null || !Number.isFinite(sigma) || sigma <= 0) return null;
+  const z = Math.abs((value - mean2) / sigma);
+  if (z < 1) return "Within 1\u03C3";
+  if (z < 2) return "Between 1\u20132\u03C3";
+  if (z < 3) return "Between 2\u20133\u03C3";
+  return "Beyond 3\u03C3";
+}
+var VARIATION_COLOR_TOKENS = {
+  improvement: {
+    token: "var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)",
+    hex: "#00B0F0"
+  },
+  concern: {
+    token: "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)",
+    hex: "#E46C0A"
+  },
+  none: {
+    token: "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)",
+    hex: "#490092"
+  },
+  neither: {
+    token: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
+    hex: "#A6A6A6"
+  },
+  suppressed: {
+    token: "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)",
+    hex: "#490092"
+  }
+};
+function getVariationColorToken(icon) {
+  var _a2, _b2;
+  if (!icon) return VARIATION_COLOR_TOKENS.neither.token;
+  return (_b2 = (_a2 = VARIATION_COLOR_TOKENS[icon]) == null ? void 0 : _a2.token) != null ? _b2 : VARIATION_COLOR_TOKENS.neither.token;
+}
+function getVariationColorHex(icon) {
+  var _a2, _b2;
+  if (!icon) return VARIATION_COLOR_TOKENS.neither.hex;
+  return (_b2 = (_a2 = VARIATION_COLOR_TOKENS[icon]) == null ? void 0 : _a2.hex) != null ? _b2 : VARIATION_COLOR_TOKENS.neither.hex;
+}
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcUtils.ts
 var isNumber = (v) => typeof v === "number" && Number.isFinite(v);
 var sum = (arr) => arr.reduce((a, b) => a + b, 0);
@@ -9351,66 +9560,167 @@ function tChartLimits(tValues, ghosts, excludeOutliers) {
   };
 }
 
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcAssurance.ts
+function computeAssuranceIcon(args) {
+  const {
+    metricImprovement,
+    capabilityMode,
+    value,
+    mean: mean2,
+    upperProcessLimit,
+    lowerProcessLimit,
+    target
+  } = args;
+  const isNumber2 = (v) => typeof v === "number" && Number.isFinite(v);
+  if (!isNumber2(value) || mean2 === null || !isNumber2(target)) return "none" /* None */;
+  if (capabilityMode && isNumber2(upperProcessLimit) && isNumber2(lowerProcessLimit)) {
+    if (metricImprovement === "Up" /* Up */) {
+      if (isNumber2(lowerProcessLimit) && lowerProcessLimit > target)
+        return "pass" /* Pass */;
+      if (isNumber2(upperProcessLimit) && upperProcessLimit < target)
+        return "fail" /* Fail */;
+      return "none" /* None */;
+    }
+    if (metricImprovement === "Down" /* Down */) {
+      if (isNumber2(upperProcessLimit) && upperProcessLimit < target)
+        return "pass" /* Pass */;
+      if (isNumber2(lowerProcessLimit) && lowerProcessLimit > target)
+        return "fail" /* Fail */;
+      return "none" /* None */;
+    }
+    return "none" /* None */;
+  }
+  if (metricImprovement === "Down" /* Down */)
+    return value <= target ? "pass" /* Pass */ : "fail" /* Fail */;
+  if (metricImprovement === "Up" /* Up */)
+    return value >= target ? "pass" /* Pass */ : "fail" /* Fail */;
+  return "none" /* None */;
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcCandidates.ts
+function computeBaselineSuggestionsRaw(rows, params) {
+  const {
+    W,
+    minGap,
+    minDeltaSigma,
+    scoreThreshold,
+    isShiftUpAt,
+    isShiftDownAt,
+    isTrendUpAt,
+    isTrendDownAt,
+    isSingleUpAt,
+    isSingleDownAt
+  } = params;
+  const suggestions = [];
+  let lastBaselineIndex = 0;
+  for (let i = 0; i < rows.length; i++) {
+    const r2 = rows[i];
+    if (i > 0 && rows[i - 1].partitionId !== r2.partitionId) {
+      lastBaselineIndex = i;
+    }
+    const wasShiftUp = i > 0 && isShiftUpAt(i - 1);
+    const wasShiftDown = i > 0 && isShiftDownAt(i - 1);
+    const wasTrendUp = i > 0 && isTrendUpAt(i - 1);
+    const wasTrendDown = i > 0 && isTrendDownAt(i - 1);
+    const wasSingleUp = i > 0 && isSingleUpAt(i - 1);
+    const wasSingleDown = i > 0 && isSingleDownAt(i - 1);
+    const isShiftUp = isShiftUpAt(i);
+    const isShiftDown = isShiftDownAt(i);
+    const isTrendUp = isTrendUpAt(i);
+    const isTrendDown = isTrendDownAt(i);
+    const isSingleUp = isSingleUpAt(i);
+    const isSingleDown = isSingleDownAt(i);
+    const candidates = [];
+    if (isShiftUp && !wasShiftUp) candidates.push({ reason: "shift", index: i });
+    if (isShiftDown && !wasShiftDown) candidates.push({ reason: "shift", index: i });
+    if (isTrendUp && !wasTrendUp) candidates.push({ reason: "trend", index: i });
+    if (isTrendDown && !wasTrendDown) candidates.push({ reason: "trend", index: i });
+    if (isSingleUp && !wasSingleUp) candidates.push({ reason: "point", index: i });
+    if (isSingleDown && !wasSingleDown) candidates.push({ reason: "point", index: i });
+    for (const c of candidates) {
+      if (c.index - lastBaselineIndex < minGap) continue;
+      const oldStart = Math.max(0, c.index - W);
+      const oldEnd = c.index - 1;
+      if (oldEnd - oldStart + 1 < W) continue;
+      const newStart = c.index;
+      const newEnd = c.index + W - 1;
+      if (newEnd >= rows.length) continue;
+      const oldVals = rows.slice(oldStart, oldEnd + 1).map((rw) => rw.value).filter(
+        (v) => typeof v === "number" && Number.isFinite(v)
+      );
+      const newVals = rows.slice(newStart, newEnd + 1).map((rw) => rw.value).filter(
+        (v) => typeof v === "number" && Number.isFinite(v)
+      );
+      if (oldVals.length < W || newVals.length < W) continue;
+      const cand = rows[c.index];
+      let sigma = null;
+      if (typeof cand.upperProcessLimit === "number" && typeof cand.mean === "number") {
+        const span = cand.upperProcessLimit - cand.mean;
+        if (span > 0) sigma = span / 3;
+      }
+      if (!sigma || sigma <= 0) continue;
+      const oldMean = mean(oldVals);
+      const newMean = mean(newVals);
+      const deltaMean = newMean - oldMean;
+      if (Math.abs(deltaMean) < minDeltaSigma * sigma) continue;
+      const newRows = rows.slice(newStart, newEnd + 1);
+      const concernCount = newRows.filter(
+        (rw) => rw.variationIcon === "concern"
+      ).length;
+      if (concernCount > 1) continue;
+      const variance = (arr) => {
+        const m = mean(arr);
+        return arr.length ? arr.reduce((a, b) => a + (b - m) * (b - m), 0) / arr.length : 0;
+      };
+      const oldVar = variance(oldVals);
+      const newVar = variance(newVals);
+      let scoreBase = c.reason === "shift" ? 90 : c.reason === "trend" ? 70 : 60;
+      if (newVar < oldVar) scoreBase += 10;
+      scoreBase -= concernCount * 15;
+      if (scoreBase < scoreThreshold) continue;
+      const existing = suggestions.find((s) => s.index === c.index);
+      if (existing) {
+        const priority = (reason) => reason === "shift" ? 3 : reason === "trend" ? 2 : 1;
+        if (priority(c.reason) > priority(existing.reason) || scoreBase > existing.score) {
+          existing.reason = c.reason;
+          existing.score = scoreBase;
+          existing.deltaMean = deltaMean;
+          existing.oldMean = oldMean;
+          existing.newMean = newMean;
+          existing.window = [newStart, newEnd];
+        }
+      } else {
+        suggestions.push({
+          index: c.index,
+          reason: c.reason,
+          score: scoreBase,
+          deltaMean,
+          oldMean,
+          newMean,
+          window: [newStart, newEnd]
+        });
+      }
+    }
+  }
+  suggestions.sort((a, b) => a.index - b.index);
+  return suggestions;
+}
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc.ts
-var ChartType = /* @__PURE__ */ ((ChartType3) => {
-  ChartType3["XmR"] = "XmR";
-  ChartType3["T"] = "T";
-  ChartType3["G"] = "G";
-  return ChartType3;
-})(ChartType || {});
-var ImprovementDirection = /* @__PURE__ */ ((ImprovementDirection2) => {
-  ImprovementDirection2["Up"] = "Up";
-  ImprovementDirection2["Down"] = "Down";
-  ImprovementDirection2["Neither"] = "Neither";
-  return ImprovementDirection2;
-})(ImprovementDirection || {});
-var VariationIcon = /* @__PURE__ */ ((VariationIcon2) => {
-  VariationIcon2["Improvement"] = "improvement";
-  VariationIcon2["Concern"] = "concern";
-  VariationIcon2["Neither"] = "neither";
-  VariationIcon2["None"] = "none";
-  return VariationIcon2;
-})(VariationIcon || {});
-var RULE_PRECEDENCE = [
-  // rank 1..n (order matters)
-  "single_point" /* SinglePoint */,
-  "two_sigma" /* TwoSigma */,
-  "shift" /* Shift */,
-  "trend" /* Trend */
-];
-var RULE_RANK_BY_ID = RULE_PRECEDENCE.reduce((acc, id, i) => {
-  acc[id] = i + 1;
-  return acc;
-}, {});
-var RULE_LABEL = {
-  ["single_point" /* SinglePoint */]: "Single point beyond process limit",
-  ["two_sigma" /* TwoSigma */]: "Two of three beyond 2\u03C3 on one side",
-  ["shift" /* Shift */]: "Sustained shift (run)",
-  ["trend" /* Trend */]: "Monotonic trend"
-};
-var RULE_CATEGORY = {
-  ["single_point" /* SinglePoint */]: "point" /* Point */,
-  ["two_sigma" /* TwoSigma */]: "cluster" /* Cluster */,
-  ["shift" /* Shift */]: "sustained" /* Sustained */,
-  ["trend" /* Trend */]: "sustained" /* Sustained */
-};
-var RULE_METADATA = RULE_PRECEDENCE.reduce((acc, id, index) => {
-  acc[id] = {
-    id,
-    rank: index + 1,
-    label: RULE_LABEL[id],
-    category: RULE_CATEGORY[id],
-    participatesInRanking: true
-  };
-  return acc;
-}, {});
-var RULES_IN_RANK_ORDER = RULE_PRECEDENCE.map((id) => RULE_METADATA[id]);
-var AssuranceIcon = /* @__PURE__ */ ((AssuranceIcon2) => {
-  AssuranceIcon2["Pass"] = "pass";
-  AssuranceIcon2["Fail"] = "fail";
-  AssuranceIcon2["None"] = "none";
-  return AssuranceIcon2;
-})(AssuranceIcon || {});
+function isPhase4Strict() {
+  var _a2;
+  const g = globalThis;
+  if (typeof g.__SPC_PHASE4_STRICT !== "undefined") return !!g.__SPC_PHASE4_STRICT;
+  if (typeof process !== "undefined") {
+    const v = (_a2 = process == null ? void 0 : process.env) == null ? void 0 : _a2.SPC_PHASE4_STRICT;
+    if (typeof v !== "undefined") {
+      const s = String(v).toLowerCase();
+      if (s === "1" || s === "true") return true;
+      if (s === "0" || s === "false") return false;
+    }
+  }
+  return true;
+}
 var SpcWarningSeverity = /* @__PURE__ */ ((SpcWarningSeverity2) => {
   SpcWarningSeverity2["Info"] = "info";
   SpcWarningSeverity2["Warning"] = "warning";
@@ -9532,12 +9842,20 @@ function normaliseSpcSettings(user) {
   const autoRecalc = (_i = v2.autoRecalc) != null ? _i : {};
   const emergingGraceEnabled = (_l = (_k = (_j = grace.emergingEnabled) != null ? _j : v2.emergingGraceEnabled) != null ? _k : legacy.emergingGraceEnabled) != null ? _l : legacy.emergingDirectionGrace;
   const collapseWeakerClusterRules = (_o = (_n = (_m = rules.collapseWeakerClusterRules) != null ? _m : v2.collapseWeakerClusterRules) != null ? _n : legacy.collapseWeakerClusterRules) != null ? _o : legacy.collapseClusterRules;
+  if (isPhase4Strict()) {
+    if (legacy.emergingDirectionGrace !== void 0) {
+      throw new Error("[spc][phase4] emergingDirectionGrace is no longer supported. Use settings.grace.emergingEnabled.");
+    }
+    if (legacy.collapseClusterRules !== void 0) {
+      throw new Error("[spc][phase4] collapseClusterRules is no longer supported. Use settings.rules.collapseWeakerClusterRules.");
+    }
+  }
   const globalAny = globalThis;
-  if (legacy.emergingDirectionGrace !== void 0 && v2.emergingGraceEnabled === void 0 && grace.emergingEnabled === void 0 && !globalAny.__spc_warn_emergingDirectionGrace) {
+  if (!isPhase4Strict() && legacy.emergingDirectionGrace !== void 0 && v2.emergingGraceEnabled === void 0 && grace.emergingEnabled === void 0 && !globalAny.__spc_warn_emergingDirectionGrace) {
     globalAny.__spc_warn_emergingDirectionGrace = true;
     console.warn("[spc] emergingDirectionGrace is deprecated; use grace.emergingEnabled");
   }
-  if (legacy.collapseClusterRules !== void 0 && rules.collapseWeakerClusterRules === void 0 && v2.collapseWeakerClusterRules === void 0 && !globalAny.__spc_warn_collapseClusterRules) {
+  if (!isPhase4Strict() && legacy.collapseClusterRules !== void 0 && rules.collapseWeakerClusterRules === void 0 && v2.collapseWeakerClusterRules === void 0 && !globalAny.__spc_warn_collapseClusterRules) {
     globalAny.__spc_warn_collapseClusterRules = true;
     console.warn("[spc] collapseClusterRules is deprecated; use rules.collapseWeakerClusterRules");
   }
@@ -9606,7 +9924,7 @@ function normaliseSpcSettings(user) {
   return pruneUndefined(merged);
 }
 function buildSpc(args) {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p;
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r;
   const {
     chartType,
     metricImprovement,
@@ -9789,7 +10107,7 @@ function buildSpc(args) {
         specialCauseShiftDown: false,
         specialCauseTrendUp: false,
         specialCauseTrendDown: false,
-        variationIcon: "none" /* None */,
+        variationIcon: "suppressed" /* Suppressed */,
         assuranceIcon: "none" /* None */,
         upperBaseline: limitsAllowed && isNumber(centerLine) ? centerLine : null,
         lowerBaseline: limitsAllowed && isNumber(centerLine) ? centerLine : null,
@@ -10004,7 +10322,7 @@ function buildSpc(args) {
       });
     }
     if (row.ghost || !isNumber(row.value) || row.mean === null) {
-      row.variationIcon = "none" /* None */;
+      row.variationIcon = "suppressed" /* Suppressed */;
       continue;
     }
     const onHighSide = row.value > row.mean;
@@ -10120,35 +10438,18 @@ function buildSpc(args) {
       row.originalSpecialCauseImprovementValue = originalImprovement;
       row.originalSpecialCauseConcernValue = originalConcern;
     }
-    if (isNumber(row.value) && row.mean !== null) {
-      row.assuranceIcon = "none" /* None */;
+    {
       const inputRow = canonical[row.rowId - 1];
-      if (isNumber(inputRow.target)) {
-        const t = inputRow.target;
-        if (settings.assuranceCapabilityMode && isNumber(row.upperProcessLimit) && isNumber(row.lowerProcessLimit)) {
-          if (metricImprovement === "Up" /* Up */) {
-            if (row.lowerProcessLimit !== null && row.lowerProcessLimit > t)
-              row.assuranceIcon = "pass" /* Pass */;
-            else if (row.upperProcessLimit !== null && row.upperProcessLimit < t)
-              row.assuranceIcon = "fail" /* Fail */;
-            else row.assuranceIcon = "none" /* None */;
-          } else if (metricImprovement === "Down" /* Down */) {
-            if (row.upperProcessLimit !== null && row.upperProcessLimit < t)
-              row.assuranceIcon = "pass" /* Pass */;
-            else if (row.lowerProcessLimit !== null && row.lowerProcessLimit > t)
-              row.assuranceIcon = "fail" /* Fail */;
-            else row.assuranceIcon = "none" /* None */;
-          } else {
-            row.assuranceIcon = "none" /* None */;
-          }
-        } else {
-          if (metricImprovement === "Down" /* Down */)
-            row.assuranceIcon = row.value <= t ? "pass" /* Pass */ : "fail" /* Fail */;
-          else if (metricImprovement === "Up" /* Up */)
-            row.assuranceIcon = row.value >= t ? "pass" /* Pass */ : "fail" /* Fail */;
-          else row.assuranceIcon = "none" /* None */;
-        }
-      }
+      const result = computeAssuranceIcon({
+        metricImprovement,
+        capabilityMode: settings.assuranceCapabilityMode,
+        value: row.value,
+        mean: row.mean,
+        upperProcessLimit: row.upperProcessLimit,
+        lowerProcessLimit: row.lowerProcessLimit,
+        target: isNumber(inputRow == null ? void 0 : inputRow.target) ? inputRow.target : null
+      });
+      row.assuranceIcon = result;
     }
   }
   if (((_p = settings.minimumPointsWarning) != null ? _p : false) && !globalEnough) {
@@ -10167,7 +10468,7 @@ function buildSpc(args) {
     for (const row of output) {
       if (row.variationIcon === "improvement" /* Improvement */) {
         const highAndLow = (row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp || row.specialCauseShiftUp || row.specialCauseTrendUp) && (row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown || row.specialCauseShiftDown || row.specialCauseTrendDown);
-        if (highAndLow)
+        if (highAndLow) {
           warnings.push({
             code: "variation_conflict_row" /* VariationConflictRow */,
             category: "logic" /* Logic */,
@@ -10175,6 +10476,7 @@ function buildSpc(args) {
             message: `Row ${row.rowId}: simultaneous high/low special-cause signals \u2013 variation icon may be ambiguous.`,
             context: { rowId: row.rowId }
           });
+        }
       }
     }
   }
@@ -10189,7 +10491,7 @@ function buildSpc(args) {
       }
     }
   }
-  if (settings.nullValueWarning && (chartType === "XmR" || chartType === "G")) {
+  if (settings.nullValueWarning && (chartType === "XmR" /* XmR */ || chartType === "G" /* G */)) {
     const nullCount = canonical.filter(
       (r2) => !r2.ghost && (r2.value === null || r2.value === void 0 || !isNumber(r2.value))
     ).length;
@@ -10202,7 +10504,7 @@ function buildSpc(args) {
         context: { nullCount }
       });
   }
-  if (settings.targetSuppressedWarning && (chartType === "T" || chartType === "G")) {
+  if (settings.targetSuppressedWarning && (chartType === "T" /* T */ || chartType === "G" /* G */)) {
     const hasTarget = canonical.some((r2) => isNumber(r2.target));
     if (hasTarget)
       warnings.push({
@@ -10213,7 +10515,7 @@ function buildSpc(args) {
         context: { chartType }
       });
   }
-  if (settings.ghostOnRareEventWarning && (chartType === "T" || chartType === "G")) {
+  if (settings.ghostOnRareEventWarning && (chartType === "T" /* T */ || chartType === "G" /* G */)) {
     const ghostCount = canonical.filter((r2) => r2.ghost).length;
     if (ghostCount)
       warnings.push({
@@ -10278,219 +10580,46 @@ function buildSpc(args) {
   }
   let suggestedBaselines;
   if (settings.baselineSuggest) {
-    const rows = output;
     const W = settings.baselineSuggestStabilityPoints;
     const minGap = settings.baselineSuggestMinGap;
     const minDeltaSigma = settings.baselineSuggestMinDeltaSigma;
     const scoreThreshold = settings.baselineSuggestScoreThreshold;
-    const suggestions = [];
-    let lastBaselineIndex = 0;
-    for (let i = 0; i < rows.length; i++) {
-      let becameTrue2 = function(flag) {
-        return !!r2[flag] && !(prev == null ? void 0 : prev[flag]);
-      };
-      var becameTrue = becameTrue2;
-      const r2 = rows[i];
-      if (i > 0 && rows[i - 1].partitionId !== r2.partitionId) {
-        lastBaselineIndex = i;
+    const shiftRunLength = (_q = settings.specialCauseShiftPoints) != null ? _q : 6;
+    const trendRunLength = (_r = settings.specialCauseTrendPoints) != null ? _r : 6;
+    const raw = computeBaselineSuggestionsRaw(
+      output.map((r2) => ({
+        value: r2.value,
+        partitionId: r2.partitionId,
+        variationIcon: r2.variationIcon,
+        mean: r2.mean,
+        upperProcessLimit: r2.upperProcessLimit
+      })),
+      {
+        W,
+        minGap,
+        minDeltaSigma,
+        scoreThreshold,
+        shiftRunLength,
+        trendRunLength,
+        isShiftUpAt: (i) => !!output[i].specialCauseShiftUp,
+        isShiftDownAt: (i) => !!output[i].specialCauseShiftDown,
+        isTrendUpAt: (i) => !!output[i].specialCauseTrendUp,
+        isTrendDownAt: (i) => !!output[i].specialCauseTrendDown,
+        isSingleUpAt: (i) => !!output[i].specialCauseSinglePointUp,
+        isSingleDownAt: (i) => !!output[i].specialCauseSinglePointDown
       }
-      const prev = rows[i - 1];
-      const candidates = [];
-      if (becameTrue2("specialCauseShiftUp") || becameTrue2("specialCauseShiftDown")) {
-        candidates.push({ reason: "shift" /* Shift */, index: i });
-      }
-      if (becameTrue2("specialCauseTrendUp") || becameTrue2("specialCauseTrendDown")) {
-        candidates.push({ reason: "trend" /* Trend */, index: i });
-      }
-      if (becameTrue2("specialCauseSinglePointUp") || becameTrue2("specialCauseSinglePointDown")) {
-        candidates.push({ reason: "point" /* Point */, index: i });
-      }
-      for (const c of candidates) {
-        if (c.index - lastBaselineIndex < minGap) continue;
-        const oldStart = Math.max(0, c.index - W);
-        const oldEnd = c.index - 1;
-        if (oldEnd - oldStart + 1 < W) continue;
-        const newStart = c.index;
-        const newEnd = c.index + W - 1;
-        if (newEnd >= rows.length) continue;
-        const oldVals = rows.slice(oldStart, oldEnd + 1).map((rw) => rw.value).filter(isNumber);
-        const newVals = rows.slice(newStart, newEnd + 1).map((rw) => rw.value).filter(isNumber);
-        if (oldVals.length < W || newVals.length < W) continue;
-        const cand = rows[c.index];
-        let sigma = null;
-        if (isNumber(cand.upperProcessLimit) && isNumber(cand.mean)) {
-          const span = cand.upperProcessLimit - cand.mean;
-          if (span > 0) sigma = span / 3;
-        }
-        if (!sigma || sigma <= 0) continue;
-        const oldMean = mean(oldVals);
-        const newMean = mean(newVals);
-        const deltaMean = newMean - oldMean;
-        if (Math.abs(deltaMean) < minDeltaSigma * sigma) continue;
-        const newRows = rows.slice(newStart, newEnd + 1);
-        const concernCount = newRows.filter((rw) => rw.variationIcon === "concern" /* Concern */).length;
-        if (concernCount > 1) continue;
-        const variance = (arr) => {
-          const m = mean(arr);
-          return arr.length ? arr.reduce((a, b) => a + (b - m) * (b - m), 0) / arr.length : 0;
-        };
-        const oldVar = variance(oldVals);
-        const newVar = variance(newVals);
-        let scoreBase = c.reason === "shift" /* Shift */ ? 90 : c.reason === "trend" /* Trend */ ? 70 : 60;
-        if (newVar < oldVar) scoreBase += 10;
-        scoreBase -= concernCount * 15;
-        if (scoreBase < scoreThreshold) continue;
-        const existing = suggestions.find((s) => s.index === c.index);
-        if (existing) {
-          const priority = (reason) => reason === "shift" /* Shift */ ? 3 : reason === "trend" /* Trend */ ? 2 : 1;
-          if (priority(c.reason) > priority(existing.reason) || scoreBase > existing.score) {
-            existing.reason = c.reason;
-            existing.score = scoreBase;
-            existing.deltaMean = deltaMean;
-            existing.oldMean = oldMean;
-            existing.newMean = newMean;
-            existing.window = [newStart, newEnd];
-          }
-        } else {
-          suggestions.push({
-            index: c.index,
-            reason: c.reason,
-            score: scoreBase,
-            deltaMean,
-            oldMean,
-            newMean,
-            window: [newStart, newEnd]
-          });
-        }
-      }
-      if (i > 0 && rows[i - 1].partitionId !== rows[i].partitionId) {
-        lastBaselineIndex = i;
-      }
-    }
-    suggestions.sort((a, b) => a.index - b.index);
-    suggestedBaselines = suggestions;
+    );
+    suggestedBaselines = raw.map((s) => ({
+      index: s.index,
+      reason: s.reason,
+      score: s.score,
+      deltaMean: s.deltaMean,
+      oldMean: s.oldMean,
+      newMean: s.newMean,
+      window: s.window
+    }));
   }
   return { rows: output, warnings, ...suggestedBaselines ? { suggestedBaselines } : {} };
-}
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcDescriptors.ts
-var ruleGlossary = {
-  ["singlePointUp" /* SinglePointUp */]: {
-    tooltip: "Single point above upper control limit",
-    narration: "Single point beyond a control limit"
-  },
-  ["singlePointDown" /* SinglePointDown */]: {
-    tooltip: "Single point below lower control limit",
-    narration: "Single point beyond a control limit"
-  },
-  ["twoOfThreeUp" /* TwoOfThreeUp */]: {
-    tooltip: "Two of three points beyond +2\u03C3",
-    narration: "Two of three points beyond two sigma (same side)"
-  },
-  ["twoOfThreeDown" /* TwoOfThreeDown */]: {
-    tooltip: "Two of three points beyond -2\u03C3",
-    narration: "Two of three points beyond two sigma (same side)"
-  },
-  ["fourOfFiveUp" /* FourOfFiveUp */]: {
-    tooltip: "Four of five points beyond +1\u03C3",
-    narration: "Four of five points beyond one sigma (same side)"
-  },
-  ["fourOfFiveDown" /* FourOfFiveDown */]: {
-    tooltip: "Four of five points beyond -1\u03C3",
-    narration: "Four of five points beyond one sigma (same side)"
-  },
-  ["shiftUp" /* ShiftUp */]: {
-    tooltip: "Shift: run of points above centre line",
-    narration: "Shift (run on one side of mean)"
-  },
-  ["shiftDown" /* ShiftDown */]: {
-    tooltip: "Shift: run of points below centre line",
-    narration: "Shift (run on one side of mean)"
-  },
-  ["trendUp" /* TrendUp */]: {
-    tooltip: "Trend: consecutive increasing points",
-    narration: "Trend (consecutive increases)"
-  },
-  ["trendDown" /* TrendDown */]: {
-    tooltip: "Trend: consecutive decreasing points",
-    narration: "Trend (consecutive decreases)"
-  }
-};
-function extractRuleIds(row) {
-  if (!row) return [];
-  const ids = [];
-  if (row.specialCauseSinglePointUp) ids.push("singlePointUp" /* SinglePointUp */);
-  if (row.specialCauseSinglePointDown) ids.push("singlePointDown" /* SinglePointDown */);
-  if (row.specialCauseTwoOfThreeUp) ids.push("twoOfThreeUp" /* TwoOfThreeUp */);
-  if (row.specialCauseTwoOfThreeDown) ids.push("twoOfThreeDown" /* TwoOfThreeDown */);
-  if (row.specialCauseFourOfFiveUp) ids.push("fourOfFiveUp" /* FourOfFiveUp */);
-  if (row.specialCauseFourOfFiveDown) ids.push("fourOfFiveDown" /* FourOfFiveDown */);
-  if (row.specialCauseShiftUp) ids.push("shiftUp" /* ShiftUp */);
-  if (row.specialCauseShiftDown) ids.push("shiftDown" /* ShiftDown */);
-  if (row.specialCauseTrendUp) ids.push("trendUp" /* TrendUp */);
-  if (row.specialCauseTrendDown) ids.push("trendDown" /* TrendDown */);
-  return ids;
-}
-function variationLabel(icon) {
-  switch (icon) {
-    case "improvement" /* Improvement */:
-      return "Improvement signal";
-    case "concern" /* Concern */:
-      return "Concern signal";
-    case "neither" /* Neither */:
-      return "Common cause variation";
-    case "none" /* None */:
-      return null;
-    // suppressed / not enough data
-    default:
-      return null;
-  }
-}
-function assuranceLabel(icon) {
-  switch (icon) {
-    case "pass" /* Pass */:
-      return "Target met";
-    case "fail" /* Fail */:
-      return "Target not met";
-    default:
-      return null;
-  }
-}
-function zoneLabel(mean2, sigma, value) {
-  if (mean2 == null || !Number.isFinite(sigma) || sigma <= 0) return null;
-  const z = Math.abs((value - mean2) / sigma);
-  if (z < 1) return "Within 1\u03C3";
-  if (z < 2) return "Between 1\u20132\u03C3";
-  if (z < 3) return "Between 2\u20133\u03C3";
-  return "Beyond 3\u03C3";
-}
-var VARIATION_COLOR_TOKENS = {
-  improvement: {
-    token: "var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)",
-    hex: "#00B0F0"
-  },
-  concern: {
-    token: "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)",
-    hex: "#E46C0A"
-  },
-  none: {
-    token: "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)",
-    hex: "#490092"
-  },
-  neither: {
-    token: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
-    hex: "#A6A6A6"
-  }
-};
-function getVariationColorToken(icon) {
-  var _a2, _b2;
-  if (!icon) return VARIATION_COLOR_TOKENS.neither.token;
-  return (_b2 = (_a2 = VARIATION_COLOR_TOKENS[icon]) == null ? void 0 : _a2.token) != null ? _b2 : VARIATION_COLOR_TOKENS.neither.token;
-}
-function getVariationColorHex(icon) {
-  var _a2, _b2;
-  if (!icon) return VARIATION_COLOR_TOKENS.neither.hex;
-  return (_b2 = (_a2 = VARIATION_COLOR_TOKENS[icon]) == null ? void 0 : _a2.hex) != null ? _b2 : VARIATION_COLOR_TOKENS.neither.hex;
 }
 
 // src/mapping/tag.ts
@@ -10970,7 +11099,9 @@ var pickTextColour = (hex2) => {
   const r2 = parseInt(c.slice(0, 2), 16) / 255;
   const g = parseInt(c.slice(2, 4), 16) / 255;
   const b = parseInt(c.slice(4, 6), 16) / 255;
-  const srgb = [r2, g, b].map((v) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+  const srgb = [r2, g, b].map(
+    (v) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
+  );
   const L = 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
   return L < 0.55 ? "#ffffff" : "#212b32";
 };
@@ -11033,7 +11164,8 @@ var POINT_LAYOUTS = {
 function computePointPositions(state, direction) {
   let src;
   if (state === "common_cause" /* CommonCause */) src = POINT_LAYOUTS.common;
-  else src = POINT_LAYOUTS.special[direction === "lower" /* Lower */ ? "lower" : "higher"];
+  else
+    src = POINT_LAYOUTS.special[direction === "lower" /* Lower */ ? "lower" : "higher"];
   return src.map((p) => ({ ...p }));
 }
 
@@ -11051,6 +11183,13 @@ var resolveStateAndLayout = (input) => {
   };
   if (input.variationIcon !== void 0) {
     const eng = input;
+    if (eng.variationIcon === "none" /* None */ && !globalThis.__spcIconNoneDeprecationEmitted) {
+      try {
+        console.warn("[SPCVariationIcon] VariationIcon.None is deprecated; use VariationIcon.Suppressed.");
+      } catch {
+      }
+      globalThis.__spcIconNoneDeprecationEmitted = true;
+    }
     let polarity = void 0;
     if (eng.improvementDirection !== void 0) {
       polarity = eng.improvementDirection === "Up" /* Up */ ? "higher_is_better" /* HigherIsBetter */ : eng.improvementDirection === "Down" /* Down */ ? "lower_is_better" /* LowerIsBetter */ : "context_dependent" /* ContextDependent */;
@@ -11068,6 +11207,7 @@ var resolveStateAndLayout = (input) => {
       case "neither" /* Neither */:
         state2 = eng.specialCauseNeutral ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
         break;
+      case "suppressed" /* Suppressed */:
       case "none" /* None */:
       default:
         state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
@@ -11825,7 +11965,8 @@ import { jsx as jsx30, jsxs as jsxs21 } from "react/jsx-runtime";
 var SPCSignalsInspector = ({
   engineRows,
   measureName,
-  measureUnit
+  measureUnit,
+  onSignalFocus
 }) => {
   var _a2, _b2;
   const t = useTooltipContext();
@@ -11846,6 +11987,24 @@ var SPCSignalsInspector = ({
   const assuranceDesc = row ? assuranceLabel(row.assuranceIcon) : null;
   const hasRules = rules.length > 0;
   const isNoJudgement = row ? row.variationIcon === "neither" /* Neither */ && hasRules : false;
+  const lastKeyRef = React24.useRef(null);
+  React24.useEffect(() => {
+    if (!onSignalFocus) return;
+    if (!focused || row == null) return;
+    const key = `${focused.seriesId}:${focused.index}`;
+    if (lastKeyRef.current === key) return;
+    lastKeyRef.current = key;
+    try {
+      onSignalFocus({
+        index: focused.index,
+        x: focused.x,
+        y: focused.y,
+        row,
+        rules
+      });
+    } catch {
+    }
+  }, [focused == null ? void 0 : focused.seriesId, focused == null ? void 0 : focused.index, focused == null ? void 0 : focused.x, focused == null ? void 0 : focused.y, row, rules, onSignalFocus]);
   return /* @__PURE__ */ jsxs21(
     "div",
     {
@@ -12091,7 +12250,8 @@ var SPCChart = ({
   showTrendStartMarkers = false,
   showFirstFavourableCrossMarkers = false,
   showTrendBridgeOverlay = false,
-  showSignalsInspector = false
+  showSignalsInspector = false,
+  onSignalFocus
 }) => {
   var _a2, _b2, _c, _d, _e, _f, _g, _h;
   const formatWarningCode = React25.useCallback(
@@ -12281,11 +12441,12 @@ var SPCChart = ({
     if (lastIdx === -1) return null;
     const lastRow = engineRows[lastIdx];
     const variation = lastRow.variationIcon;
+    const canonicalVariation = variation === "none" /* None */ ? "suppressed" /* Suppressed */ : variation;
     const assuranceRaw = lastRow.assuranceIcon;
-    const hasNeutralSpecialCause = variation === "neither" /* Neither */ && !!lastRow.specialCauseNeitherValue;
+    const hasNeutralSpecialCause = canonicalVariation === "neither" /* Neither */ && !!lastRow.specialCauseNeitherValue;
     const assuranceRenderStatus = assuranceRaw === "pass" /* Pass */ ? "pass" /* Pass */ : assuranceRaw === "fail" /* Fail */ ? "fail" /* Fail */ : "uncertain" /* Uncertain */;
     let trend = void 0;
-    if (variation === "none" /* None */) {
+    if (canonicalVariation === "suppressed" /* Suppressed */) {
       const singleHigh = lastRow.specialCauseSinglePointUp;
       const singleLow = lastRow.specialCauseSinglePointDown;
       if (metricImprovement === "Up" /* Up */) {
@@ -12297,7 +12458,7 @@ var SPCChart = ({
       } else {
         trend = "higher" /* Higher */;
       }
-    } else if (variation === "neither" /* Neither */ && hasNeutralSpecialCause) {
+    } else if (canonicalVariation === "neither" /* Neither */ && hasNeutralSpecialCause) {
       const anyHighSide = lastRow.specialCauseSinglePointUp || lastRow.specialCauseTwoOfThreeUp || lastRow.specialCauseFourOfFiveUp || lastRow.specialCauseShiftUp || lastRow.specialCauseTrendUp;
       const anyLowSide = lastRow.specialCauseSinglePointDown || lastRow.specialCauseTwoOfThreeDown || lastRow.specialCauseFourOfFiveDown || lastRow.specialCauseShiftDown || lastRow.specialCauseTrendDown;
       if (anyHighSide && !anyLowSide) trend = "higher" /* Higher */;
@@ -12320,7 +12481,7 @@ var SPCChart = ({
             "div",
             {
               className: "fdp-spc-chart__embedded-icon",
-              "data-variation": String(variation),
+              "data-variation": String(canonicalVariation),
               "data-trend-raw": trend ? String(trend) : "none",
               "data-trend": trend ? String(trend) : "none",
               "data-polarity": String(polarity != null ? polarity : "unknown"),
@@ -12425,7 +12586,8 @@ var SPCChart = ({
                 showTrendStartMarkers,
                 showFirstFavourableCrossMarkers,
                 showTrendBridgeOverlay,
-                showSignalsInspector
+                showSignalsInspector,
+                onSignalFocus
               }
             ) })
           }
@@ -12563,7 +12725,8 @@ var InternalSPC = ({
   showTrendStartMarkers = false,
   showFirstFavourableCrossMarkers = false,
   showTrendBridgeOverlay = false,
-  showSignalsInspector = false
+  showSignalsInspector = false,
+  onSignalFocus
 }) => {
   var _a2;
   const scaleCtx = useScaleContext();
@@ -13302,7 +13465,8 @@ var InternalSPC = ({
           {
             engineRows,
             measureName: narrationContext == null ? void 0 : narrationContext.measureName,
-            measureUnit: effectiveUnit || (narrationContext == null ? void 0 : narrationContext.measureUnit)
+            measureUnit: effectiveUnit || (narrationContext == null ? void 0 : narrationContext.measureUnit),
+            onSignalFocus
           }
         ) }),
         announceFocus && /* @__PURE__ */ jsx31(

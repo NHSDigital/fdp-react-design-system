@@ -1,4 +1,5 @@
-import { VariationIcon, AssuranceIcon, SpcRow } from "./spc";
+import { SpcRow } from "./spc";
+import { VariationIcon, AssuranceIcon } from "./spcConstants";
 
 // Stable identifiers for rule flags mapped from SpcRow boolean properties (enum for stronger typing)
 export enum SpcRuleId {

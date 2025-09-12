@@ -1184,6 +1184,10 @@ var VARIATION_COLOR_TOKENS = {
   neither: {
     token: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
     hex: "#A6A6A6"
+  },
+  suppressed: {
+    token: "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)",
+    hex: "#490092"
   }
 };
 
@@ -1237,7 +1241,9 @@ var pickTextColour = (hex) => {
   const r = parseInt(c.slice(0, 2), 16) / 255;
   const g = parseInt(c.slice(2, 4), 16) / 255;
   const b = parseInt(c.slice(4, 6), 16) / 255;
-  const srgb = [r, g, b].map((v) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+  const srgb = [r, g, b].map(
+    (v) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
+  );
   const L = 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
   return L < 0.55 ? "#ffffff" : "#212b32";
 };
@@ -1300,7 +1306,8 @@ var POINT_LAYOUTS = {
 function computePointPositions(state, direction) {
   let src;
   if (state === "common_cause" /* CommonCause */) src = POINT_LAYOUTS.common;
-  else src = POINT_LAYOUTS.special[direction === "lower" /* Lower */ ? "lower" : "higher"];
+  else
+    src = POINT_LAYOUTS.special[direction === "lower" /* Lower */ ? "lower" : "higher"];
   return src.map((p) => ({ ...p }));
 }
 
@@ -1318,6 +1325,13 @@ var resolveStateAndLayout = (input) => {
   };
   if (input.variationIcon !== void 0) {
     const eng = input;
+    if (eng.variationIcon === "none" /* None */ && !globalThis.__spcIconNoneDeprecationEmitted) {
+      try {
+        console.warn("[SPCVariationIcon] VariationIcon.None is deprecated; use VariationIcon.Suppressed.");
+      } catch {
+      }
+      globalThis.__spcIconNoneDeprecationEmitted = true;
+    }
     let polarity = void 0;
     if (eng.improvementDirection !== void 0) {
       polarity = eng.improvementDirection === "Up" /* Up */ ? "higher_is_better" /* HigherIsBetter */ : eng.improvementDirection === "Down" /* Down */ ? "lower_is_better" /* LowerIsBetter */ : "context_dependent" /* ContextDependent */;
@@ -1335,6 +1349,7 @@ var resolveStateAndLayout = (input) => {
       case "neither" /* Neither */:
         state2 = eng.specialCauseNeutral ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
         break;
+      case "suppressed" /* Suppressed */:
       case "none" /* None */:
       default:
         state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;

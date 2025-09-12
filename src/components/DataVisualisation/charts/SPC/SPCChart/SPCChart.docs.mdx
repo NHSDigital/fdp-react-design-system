@@ -82,7 +82,7 @@ Use a plain line / run chart instead when you have very few points (typically < 
 `chartType` selects the underlying statistical method. Use the `ChartType` enum for type‑safe values (string literals still work via Storybook controls):
 
 ```ts
-import { ChartType } from './logic/spc';
+import { ChartType } from './logic/spcConstants';
 
 <SPCChart data={series} chartType={ChartType.XmR} />
 ```
@@ -102,7 +102,7 @@ All calculations and rule detection paths are enabled by default. (Limits/icons 
 For strong typing prefer importing and using the enum instead of raw strings:
 
 ```ts
-import { ImprovementDirection } from './logic/spc';
+import { ImprovementDirection } from './logic/spcConstants';
 
 // Enum definition (source of truth in logic/spc.ts):
 // export enum ImprovementDirection { Up = 'Up', Down = 'Down', Neither = 'Neither' }
@@ -282,7 +282,7 @@ Example chart (stable process; target outside capability band):
 
 ```tsx
 import { SPCChart } from './SPCChart';
-import { ImprovementDirection } from './logic/spc';
+import { ImprovementDirection } from './logic/spcConstants';
 
 // Synthetic weekly wait time series (~35 mean, natural variation)
 const waitTimes = [
@@ -679,7 +679,8 @@ The engine emits structured warnings (array on `SpcResult.warnings`) to surface 
 Access via a direct engine call (advanced usage) or by enabling the built‑in panel (`showWarningsPanel`).
 
 ```ts
-import { buildSpc, ChartType, ImprovementDirection, SpcWarningSeverity, SpcWarningCategory } from './logic/spc';
+import { buildSpc, SpcWarningSeverity, SpcWarningCategory } from './logic/spc';
+import { ChartType, ImprovementDirection } from './logic/spcConstants';
 
 const { rows, warnings } = buildSpc({
   chartType: ChartType.XmR,
@@ -822,7 +823,7 @@ Forward compatibility: New codes may be added; existing code string values will 
 ## Usage examples
 ### Individuals chart with rule detection
 ```tsx
-import { ChartType, ImprovementDirection } from './logic/spc';
+import { ChartType, ImprovementDirection } from './logic/spcConstants';
 
 <SPCChart
   data={weeklyValues}

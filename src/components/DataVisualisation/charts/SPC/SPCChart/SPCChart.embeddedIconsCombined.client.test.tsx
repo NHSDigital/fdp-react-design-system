@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { SPCChart, ImprovementDirection, type SPCDatum } from './SPCChart';

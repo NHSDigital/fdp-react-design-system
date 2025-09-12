@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { SPCChart, ImprovementDirection } from "./SPCChart";
-import { ChartType } from "./logic/spc";
+import { ChartType } from "./logic/spcConstants";
 
 /**
  * Smoke test: when overlay props are enabled and a monotonic run exists,

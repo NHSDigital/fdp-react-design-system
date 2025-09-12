@@ -1,6 +1,7 @@
 # SPC Variation Icon (`SPCVariationIcon`)
 
 A React SVG component that renders a compact Statistical Process Control (SPC) “variation” glyph for performance dashboards.  
+
 It visualises:  
 - SPC classification (special cause improving / deteriorating / no‑judgement, or common cause)  
 - Direction of movement (higher / lower)  
@@ -44,7 +45,7 @@ Provide what you *know*; icon infers state and direction:
 ```ts
 import { SPCVariationIcon } from "./SPCIcon";
 // Recommended: import the engine enum for variation keys
-import { VariationIcon as EngineVariationIcon } from "../SPCChart/logic/spc";
+import { VariationIcon as EngineVariationIcon } from "../SPCChart/logic/spcConstants";
 
 <SPCVariationIcon data={{ variationIcon: EngineVariationIcon.Improvement }} />
 

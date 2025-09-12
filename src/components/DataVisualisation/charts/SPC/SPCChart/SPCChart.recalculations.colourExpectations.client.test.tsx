@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { SPCChart } from './SPCChart';
 import { resolvedSpcTestCases, SPC_POINT_COLOURS, mapDirection } from './test-data/spcTestCases';

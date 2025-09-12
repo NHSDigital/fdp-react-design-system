@@ -1,10 +1,6 @@
 import { describe, it, expect } from "vitest";
-import {
-	buildSpc,
-	ImprovementDirection,
-	VariationIcon,
-	ChartType,
-} from "./spc";
+import { buildSpc } from "./spc";
+import { ImprovementDirection, VariationIcon, ChartType } from "./spcConstants";
 
 // Rule clash test inspired by SPCRuleClashExplanationV1.0 docs.
 // We construct a dataset where a decreasing monotonic run of 6 points all lie below the mean

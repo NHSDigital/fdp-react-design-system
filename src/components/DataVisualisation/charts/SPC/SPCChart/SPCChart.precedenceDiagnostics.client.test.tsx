@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { buildSpc, ImprovementDirection, VariationIcon, ChartType } from "./logic/spc";
+import { buildSpc } from "./logic/spc";
+import { ImprovementDirection, VariationIcon, ChartType } from "./logic/spcConstants";
 // Construct a "progressive decline" that includes minor upticks so formal monotonic trend rule may delay firing
 // while a shift-high (points above mean) rule triggers early, reproducing orange concern colouring.
 function makeProgressiveDeclineWithNoise() {

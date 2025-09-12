@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import React from 'react';
 import { render } from '@testing-library/react';
 import { SPCVariationIcon } from './SPCIcon';
 import { Direction } from './SPCConstants';
-import { VariationIcon } from '../SPCChart/logic/spc';
+import { VariationIcon } from '../SPCChart/logic/spcConstants';
 
 function getRunCircleYs(container: HTMLElement) {
   return Array.from(container.querySelectorAll('circle'))

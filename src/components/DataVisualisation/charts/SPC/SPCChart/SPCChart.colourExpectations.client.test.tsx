@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { SPCChart, TrendVisualMode } from "./SPCChart";
-import { PrecedenceStrategy } from "./logic/spc";
+import { PrecedenceStrategy } from "./logic/spcConstants";
 import {
 	resolvedSpcTestCases,
 	SPC_POINT_COLOURS,

@@ -1,5 +1,6 @@
 import { describe, it } from "vitest";
-import spcModule, { ImprovementDirection, ChartType } from "./spc";
+import spcModule from "./spc";
+import { ImprovementDirection, ChartType } from "./spcConstants";
 import fs from "node:fs";
 import path from "node:path";
 

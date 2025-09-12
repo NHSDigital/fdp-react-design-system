@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { buildSpc, ChartType, ImprovementDirection, PrecedenceStrategy, VariationIcon } from '../spc';
+import { buildSpc } from '../spc';
+import { ChartType, ImprovementDirection, PrecedenceStrategy, VariationIcon } from '../spcConstants';
 
 function mk(values: number[]) {
   return values.map((v,i)=>({ x: new Date(2024,0,i+1), value: v }));

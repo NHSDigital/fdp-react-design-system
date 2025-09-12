@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { buildSpc, ImprovementDirection, ChartType } from "../spc";
+import { buildSpc } from "../spc";
+import { ChartType, ImprovementDirection } from "../spcConstants";
 
 // Dataset copied from SPCChart.healthcare.stories.tsx (ED 4h compliance)
 const ed4hValues = [
@@ -25,9 +26,7 @@ describe("ED4H classification regression guard", () => {
 		});
 		const shiftHigh = result.rows.map((r) => r.specialCauseShiftUp);
 		const shiftLow = result.rows.map((r) => r.specialCauseShiftDown);
-		const twoOfThreeHigh = result.rows.map(
-			(r) => r.specialCauseTwoOfThreeUp
-		);
+		const twoOfThreeHigh = result.rows.map((r) => r.specialCauseTwoOfThreeUp);
 		const twoOfThreeLow = result.rows.map((r) => r.specialCauseTwoOfThreeDown);
 		const trendInc = result.rows.map((r) => r.specialCauseTrendUp);
 		const trendDec = result.rows.map((r) => r.specialCauseTrendDown);
@@ -37,7 +36,8 @@ describe("ED4H classification regression guard", () => {
 			i,
 			v: r.value,
 			mean: r.mean,
-			aboveMean: r.mean !== null && r.value !== null ? r.value > r.mean : undefined,
+			aboveMean:
+				r.mean !== null && r.value !== null ? r.value > r.mean : undefined,
 			icon: r.variationIcon,
 			sh: shiftHigh[i],
 			sl: shiftLow[i],

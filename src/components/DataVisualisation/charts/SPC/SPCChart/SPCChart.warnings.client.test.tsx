@@ -1,7 +1,8 @@
 import { render, screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SPCChart, { ImprovementDirection } from './SPCChart';
-import { ChartType, SpcWarningSeverity } from './logic/spc';
+import SPCChart from './SPCChart';
+import { ChartType, ImprovementDirection } from './logic/spcConstants';
+import { SpcWarningSeverity } from './logic/spc';
 
 // Minimal mock data purposely triggering insufficient points warnings etc.
 // We rely on engine behaviour: enabling minimumPointsWarning in settings will emit an InsufficientPointsGlobal warning when points < minimum.

@@ -1,5 +1,4 @@
 import { describe, it, expect } from "vitest";
-import React from "react";
 // Adjusted relative path (one level too shallow previously) to locate shared test SSR renderer
 import { renderSSR } from "../../../../../test-utils/renderSSR";
 import { SPCChart } from "./SPCChart";

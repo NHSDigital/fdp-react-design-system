@@ -1,5 +1,4 @@
 import { render } from "@testing-library/react";
-import React from "react";
 import { describe, test, expect } from "vitest";
 import { SPCChart, ImprovementDirection, type SPCDatum } from "./SPCChart";
 
@@ -23,7 +22,6 @@ describe("SPCChart settings extensions", () => {
 				metricImprovement={ImprovementDirection.Up}
 				settings={{
 					enableFourOfFiveRule: false,
-					suppressIsolatedFavourablePoint: false,
 				}}
 			/>
 		);
@@ -36,7 +34,6 @@ describe("SPCChart settings extensions", () => {
 				metricImprovement={ImprovementDirection.Up}
 				settings={{
 					enableFourOfFiveRule: true,
-					suppressIsolatedFavourablePoint: false,
 				}}
 			/>
 		);

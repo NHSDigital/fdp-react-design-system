@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { buildSpc, ImprovementDirection } from "./spc";
-import { ChartType } from './spc';
+import { buildSpc } from "./spc";
+import { ImprovementDirection, ChartType } from './spcConstants';
 
 /** Helper */
 const make = (vals: number[]) => vals.map((v, i) => ({ x: i + 1, value: v }));

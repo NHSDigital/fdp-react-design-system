@@ -1,4 +1,3 @@
-import React from 'react'; // keep for JSX
 import { render } from '@testing-library/react';
 import { SPCChart, ImprovementDirection } from './SPCChart';
 

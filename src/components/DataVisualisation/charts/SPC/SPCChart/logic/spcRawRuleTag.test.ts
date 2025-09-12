@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { SpcRawRuleTag, RAW_TAG_TO_RULE_ID, RULE_RANK_BY_ID, SpcRuleId } from './spc';
+import { SpcRawRuleTag, RAW_TAG_TO_RULE_ID, RULE_RANK_BY_ID, SpcRuleId } from './spcConstants';
 
 describe('SpcRawRuleTag mapping', () => {
   it('maps side-specific tags to canonical rule ids', () => {

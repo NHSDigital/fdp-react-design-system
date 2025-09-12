@@ -1,10 +1,6 @@
 import { describe, it, expect } from "vitest";
-import {
-	buildSpc,
-	ChartType,
-	ImprovementDirection,
-	VariationIcon,
-} from "./spc";
+import { buildSpc } from "./spc";
+import { ImprovementDirection, VariationIcon, ChartType } from "./spcConstants";
 
 // High-side rule clash test: simultaneous trendIncreasing + shiftHigh.
 // Mirror of low-side test but with improvement direction = Up.

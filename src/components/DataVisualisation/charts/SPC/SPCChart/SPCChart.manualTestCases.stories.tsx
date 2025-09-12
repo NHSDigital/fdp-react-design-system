@@ -1,4 +1,3 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCChart, ImprovementDirection } from "./SPCChart";
 import { ChartContainer } from "../../ChartContainer.tsx";

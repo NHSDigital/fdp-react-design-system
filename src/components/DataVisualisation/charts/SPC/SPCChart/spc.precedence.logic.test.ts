@@ -1,11 +1,6 @@
 import { describe, it, expect } from "vitest";
-import {
-	buildSpc,
-	ImprovementDirection,
-	VariationIcon,
-	ChartType,
-	PrecedenceStrategy,
-} from "./logic/spc";
+import { buildSpc } from "./logic/spc";
+import { ImprovementDirection, VariationIcon, ChartType, PrecedenceStrategy } from "./logic/spcConstants";
 
 function progressiveDecline(): { legacy: number[] } {
 	// Same series as diagnostic (values generally drifting downward with small noise while above mean initially)

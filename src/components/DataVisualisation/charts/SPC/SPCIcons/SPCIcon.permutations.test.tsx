@@ -1,9 +1,8 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { SPCVariationIcon } from './SPCIcon';
 import { Direction } from './SPCConstants';
-import { VariationIcon, ImprovementDirection } from '../SPCChart/logic/spc';
+import { VariationIcon, ImprovementDirection } from '../SPCChart/logic/spcConstants';
 
 // Utility to extract letters H/L from rendered SVG
 function extractLetters(container: HTMLElement) {

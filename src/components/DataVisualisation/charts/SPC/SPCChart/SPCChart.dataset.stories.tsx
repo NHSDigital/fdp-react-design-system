@@ -1,8 +1,8 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCChart, ImprovementDirection } from "./SPCChart";
 import { ChartContainer } from "../../ChartContainer.tsx";
 import { metricLookup } from "./test-data/parsedDataset";
+import { SpcEmbeddedIconVariant } from "./SPCChart.constants.ts";
 
 const metricNames = Object.keys(metricLookup) as string[];
 // Collapse special-cause polarity variants into a single option. Direction control drives semantics.
@@ -106,11 +106,11 @@ export const Dataset: Story = {
 					narrationContext={{ measureName: displayMetric }}
 					showPoints
 					enableRules
-					embeddedIconVariant={embeddedIconVariant}
+					embeddedIconVariant={embeddedIconVariant as SpcEmbeddedIconVariant}
 					embeddedIconRunLength={embeddedIconRunLength}
 					gradientSequences
 				/>
 			</ChartContainer>
 		);
-	},
+	},	
 };

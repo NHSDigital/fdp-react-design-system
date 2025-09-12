@@ -1,11 +1,6 @@
 import { describe, it, expect } from "vitest";
-import {
-	buildSpc,
-	ImprovementDirection,
-	VariationIcon,
-	PrecedenceStrategy,
-	ChartType,
-} from "./logic/spc";
+import { buildSpc } from "./logic/spc";
+import { ImprovementDirection, VariationIcon, PrecedenceStrategy, ChartType } from "./logic/spcConstants";
 
 // Chart1 dataset from SPCRuleClashExamples (staff sickness) – dates as YYYY-MM
 const chart1 = [

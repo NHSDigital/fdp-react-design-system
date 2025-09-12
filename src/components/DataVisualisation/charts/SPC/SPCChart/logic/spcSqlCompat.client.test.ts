@@ -1,11 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { buildSpcSqlCompat } from "./spcSqlCompat";
-import {
-	ChartType,
-	ImprovementDirection,
-	VariationIcon,
-	PrimeDirection,
-} from "./spc";
+import { ChartType, ImprovementDirection, VariationIcon, PrimeDirection } from "./spcConstants";
 
 // Tests for SQL-compatible directional pruning wrapper.
 // We synthesise contrived data to emulate both high-side and low-side rule strengths on the same row by

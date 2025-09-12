@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { buildSpc, ImprovementDirection, VariationIcon } from "./spc";
-import { ChartType } from "./spc";
+import { buildSpc } from "./spc";
+import { ImprovementDirection, VariationIcon, ChartType } from "./spcConstants";
 
 function stableSeries(n: number, base = 100, jitter = 1): number[] {
 	return Array.from(

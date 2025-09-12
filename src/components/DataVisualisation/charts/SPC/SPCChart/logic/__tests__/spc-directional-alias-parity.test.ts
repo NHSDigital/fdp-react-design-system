@@ -1,6 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { buildSpc, ChartType, ImprovementDirection, getDirectionalSignalSummary, RULE_RANK_BY_ID, VariationIcon } from "../spc";
-
+import { buildSpc, getDirectionalSignalSummary } from "../spc";
+import {
+	ChartType,
+	ImprovementDirection,
+	RULE_RANK_BY_ID,
+	VariationIcon
+} from "../spcConstants";
 // Minimal helper to build a dataset that triggers various rules
 function buildDataset(values: Array<number | null>) {
 	return values.map((v, i) => ({

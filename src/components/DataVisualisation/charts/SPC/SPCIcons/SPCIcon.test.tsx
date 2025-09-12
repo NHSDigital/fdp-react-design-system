@@ -1,9 +1,8 @@
-import React from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { SPCVariationIcon } from './SPCIcon';
 import { Direction } from './SPCConstants';
-import { VariationIcon, ImprovementDirection } from '../SPCChart/logic/spc';
+import { VariationIcon, ImprovementDirection } from '../SPCChart/logic/spcConstants';
 
 describe('SPCVariationIcon', () => {
   const base = {

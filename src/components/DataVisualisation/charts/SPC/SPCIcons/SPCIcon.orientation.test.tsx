@@ -1,8 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import React from 'react';
 import { render } from '@testing-library/react';
 import { SPCVariationIcon } from './SPCIcon';
-import { VariationIcon, ImprovementDirection } from '../SPCChart/logic/spc';
+import { VariationIcon, ImprovementDirection } from '../SPCChart/logic/spcConstants';
 
 // Helper to get polygon points from SVG
 function getPolygonPoints(container: HTMLElement) {

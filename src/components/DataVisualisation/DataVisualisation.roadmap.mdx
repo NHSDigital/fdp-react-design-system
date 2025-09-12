@@ -1,0 +1,208 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Data Visualisation/Roadmap" />
+
+# Data Visualisation Roadmap
+
+This roadmap aligns our chart components and primitives with NHS healthcare analytics goals and the taxonomy maintained in `logic/data-viz-logic.json`. It groups work by analytical need (dimensions/goals) and lists the primitives required to implement and sustain the components.
+
+The plan favours composable primitives first, then thin, ergonomic wrappers for common chart types.
+
+---
+
+## Foundations (Delivered / In‑Progress)
+
+- Layout: `ChartRoot`, `ChartContainer`, `ChartNoScript`
+- Context & scales: `useChartContext`, `LineScalesProvider`, `BandScalesProvider`, `useScaleContext`
+- Series primitives: `LineSeriesPrimitive`, `AreaSeriesPrimitive`, `BarSeriesPrimitive`
+- Structure & chrome: `Axis`, `GridLines`, `Legend`
+- State & UX: `VisibilityProvider`, `TooltipProvider`, `TooltipOverlay`
+- High‑level wrappers: `LineChart`, `BarChart`, `AreaChart`, `FilterableLineChart`, `ChartWithTableTabs`, `SortableDataTable`
+- Summary UI: `MetricCard`/KPI tile, `DashboardSummaryGrid`
+- SPC: `SPCChart` (full), `SPCSpark` (compact), SPC icons and descriptors
+
+### Notes
+
+- Primitives intentionally mirror the underlying logic file concepts: dimensions (comparison, composition, distribution, relationship, rank, deviation, spatial, change_over_time) and data shapes (time_series, categories, hierarchy, matrix, spatial).
+
+---
+
+## Roadmap by Analytical Goal
+
+Each subsection maps recommended chart types to required primitives and wrapper components. Status reflects current codebase state: Exists, WIP, Planned.
+
+### 1) Analyse Trends (change over time)
+
+#### Core components
+
+- Exists: `LineChart`, `AreaChart`, `ChartContainer`
+- Exists: `SPCChart` (Individuals/XmR) and `SPCSpark`
+- Planned: `RunChart` (thin wrapper around Line + median + runs annotations)
+- Planned: `CUSUMChart`, `EWMAChart`
+- Planned: `CalendarHeatmap`, `Calendar` (events/scheduling), `PriestleyTimeline`, `RadialTimeline`, `Seismogram`
+
+#### Needed primitives/enhancements
+
+- Baselines: horizontal mean/median helpers; multiple partitions
+- Statistical overlays: control limits, runs/shift rules, annotations API (Exists in SPC)
+- Series thinning and windowing helpers (Exists in SPC Spark)
+- Calendar/time bin utilities for `CalendarHeatmap`
+
+#### Acceptance examples
+
+- Run vs SPC side‑by‑side with same series and narrative
+- EWMA/CUSUM demo detecting smaller shifts than SPC
+
+### 2) Demonstrate Deviation (from target/baseline)
+
+#### Core components
+
+- Exists/WIP: Diverging bars via `BarSeriesPrimitive` with signed values; `Waterfall` planned
+- Planned: `SurplusDeficitArea` (area baseline sign fill), `SpineChart`
+- Planned: `FunnelPlot` (providers with varying denominators)
+- Planned: `ForestPlot` (estimates with CIs)
+
+#### Needed primitives/enhancements
+
+- Baseline banding and signed area fill helpers
+- Error bars / interval glyph primitive (for Forest)
+- Control‑like widening limits by denominator (for Funnel)
+
+#### Acceptance examples
+
+- Trust‑level rate comparison showing funnel limits/outliers
+- Forest plot with consistent effect scales and CI rendering
+
+### 3) Demonstrate Magnitude (comparison / rank)
+
+#### Core components
+
+- Exists: `BarChart` / `Column` (via band scales + `BarSeriesPrimitive`)
+- Planned: `Lollipop` wrapper, `OrderedProportionalSymbol`
+- Planned: `Pareto` (bars + cumulative line), `Table` (precise values), `Card`/`Card List` (responsive summaries), `KPI Tile` (headline + delta)
+
+#### Needed primitives/enhancements
+
+- Sorting helpers, label collision strategies (rotate/wrap/truncate)
+- Dual‑axis support (Exists in logic; wrapper planned: `ComboLineColumn`)
+
+#### Acceptance examples
+
+- Pareto for breach reasons with 80/20 line
+- Rank list with highlighting and long label handling
+
+### 4) Show Composition (part‑to‑whole)
+
+#### Core components
+
+- Exists: Stacked/percent bars (requires or extends `stackSeries` util)
+- Planned: `Treemap`, `Sunburst`, `Donut`, `Waffle`, `Waterfall`
+
+#### Needed primitives/enhancements
+
+- Stacking/normalisation utils (percent of total)
+- Hierarchical layout engines (squarified treemap, partition for sunburst)
+- `PivotTable` engine for interactive roll‑ups (rows/cols, subtotals)
+
+#### Acceptance examples
+
+- Part‑to‑whole over time (100% stacked) alongside totals
+- Hierarchical view (treemap) drilling into pathway composition
+
+### 5) Understand Distribution
+
+#### Core components (Planned)
+
+- `Histogram`, `Boxplot`, `Violin`, `Dotplot`, `CDFCurve`, `BarcodePlot`, `PopulationPyramid`
+
+#### Needed primitives/enhancements
+
+- Binning/density utilities (freedman–diaconis, kernel density)
+- Quartile/quantile computation helpers
+
+#### Acceptance examples
+
+- LOS distribution (histogram + violin) by specialty
+- Split distribution small multiples for equity analysis
+
+### 6) Better Understand Relationships
+
+#### Core components (Planned)
+- `ScatterPlot`, `BubbleChart`, `ParallelCoordinates`, `Heatmap`
+
+#### Needed primitives/enhancements
+
+- Point aggregation (hex/bin) for overplotting
+- Trendline options (linear/loess), small multiples/faceting helpers
+
+#### Acceptance examples
+
+- Bed occupancy vs 4‑hour breaches with stratification
+- Parallel coordinates for multi‑metric trust comparison
+
+### 7) Geographical Patterns
+
+#### Core components (Planned)
+
+- `Choropleth`, `ProportionalSymbolMap`, `DotDensityMap`, `FlowMap`, `ScaledCartogram`, `GeospatialHeatmap`, `ContourMap`, `EqualisedCartogram`
+
+#### Needed primitives/enhancements
+
+- Geo projection and topojson ingestion
+- Choropleth scales with population normalisation helpers
+- Kernel density estimation for hot‑spotting
+
+#### Acceptance examples
+
+- Vaccination coverage choropleth (LSOA) with sensible colour scale
+- Patient flows between sites (desire lines)
+
+---
+
+## Primitive Backlog (Cross‑Cutting)
+
+- Data transforms: stack/percent, binning, density, small‑multiple layout
+- Statistical overlays: medians, CIs, control/funnel limits, baseline partitions
+- Annotation system: callouts, rule flags, baseline/phase markers, narrative captions
+- Interaction: focus/hover tooltips, keyboard exploration across series, cross‑filter hooks
+- Accessibility: aria labels/descriptions, live regions, colour contrast tokens, patterns for uncertainty and state
+- Theming: categorical/sequential/diverging palettes, SPC state tokens, spatial palettes
+
+---
+
+## Phasing
+
+### Phase A – Foundations and Trends (Now)
+- Harden primitives (`Axis`, `GridLines`, `Legend`, providers)
+- Ship `RunChart` thin wrapper and `SPCSpark` examples across common NHS metrics
+- Narrative/annotation API for SPC baseline changes and signals
+
+### Phase B – Deviation & Magnitude (Next)
+- Diverging/Waterfall/Spine wrappers
+- `FunnelPlot` (providers with varying denominators), `ForestPlot` for CIs
+- `Pareto` with cumulative line
+
+### Phase C – Composition & Distribution (Next)
+- Stacked/percent utilities, `Treemap`, `Sunburst`, `Donut`, `Waffle`
+- `Histogram`, `Boxplot`, `Violin`, `Dotplot`, `CDFCurve`, `PopulationPyramid`
+
+### Phase D – Relationships & Spatial (Later)
+- `Scatter`, `Bubble`, `ParallelCoordinates`, `Heatmap`
+- Mapping primitives and `Choropleth`/`Symbol`/`Flow`/`Cartogram`
+
+### Phase E – Advanced Monitoring (Later)
+- `EWMAChart`, `CUSUMChart`, `GChart`/`TChart` for rare events
+
+---
+
+## Traceability to logic.json
+
+The logic file enumerates dimensions and recommended charts with NHS context. This roadmap covers all chart IDs currently listed under:
+
+- change_over_time: line, column, area, slope, run_chart, spc_chart, cusum_chart, ewma_chart, g_chart, t_chart, spc_spark, priestley_timeline, calendar_heatmap, radial_timeline, seismogram, combo_line_column
+- deviation: diverging_bar, diverging_stacked_bar, surplus_deficit_area, spine_chart, bullet, funnel_plot, forest_plot
+- comparison/rank: bar, column, lollipop, paired_bar, paired_column, radar, ordered_proportional_symbol, pareto, bullet
+- composition: stacked_bar, percent_stacked_bar, treemap, sunburst, donut, waffle, waterfall, venn
+- distribution: histogram, boxplot, violin, dotplot, dot_strip, population_pyramid, cdf_curve, barcode_plot
+- relationship: scatter, bubble, parallel_coordinates, heatmap, combo_line_column
+- spatial: choropleth, proportional_symbol_map, dot_density_map, flow_map, scaled_cartogram, geospatial_heatmap, contour_map, equalized_cartogram

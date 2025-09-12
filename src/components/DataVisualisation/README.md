@@ -186,6 +186,16 @@ Combine these props as needed:
 
 ---
  
+## Components vs Data Shape
+
+- Components: the “what” you’re visualising — e.g., people (patients, staff), events (attendances, harms), organisations (trust/site/PCN), services/pathways, geographies, time periods, or categorical reasons. This is the unit of analysis.
+- Data shape: the “form/structure” — `time_series` (over time), `categories` (groups), `hierarchy` (nested categories), `matrix` (multiple variables per item), `spatial` (areas/points).
+- Measure type: the “how measured” — counts, rates/proportions/percentages, continuous values (e.g., LOS), categorical outcomes.
+
+The wizard captures components → shape → measure → cardinality early to steer recommendations (e.g., funnel plots when comparing unit rates with varying denominators; run/SPC for time series; Pareto for contributor prioritisation).
+
+---
+ 
 ## API Snapshot (Selected Props)
 
 | Component | Key Props | Notes |

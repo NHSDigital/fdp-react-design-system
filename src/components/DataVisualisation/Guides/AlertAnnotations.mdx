@@ -1,0 +1,53 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import React from 'react';
+import { ChartRoot, LineScalesProvider, Axis, GridLines, LineSeriesPrimitive, AlertThreshold, AlertBand, AlertMarkers } from '../../DataVisualisation';
+
+<Meta title="Data Visualisation/Guides/Alert Annotations" />
+
+# Alert Annotations
+
+Primitives to overlay thresholds, shaded bands and exception markers on charts. These render inside the plot area using the current scales from `LineScalesProvider`.
+
+## Example
+
+```tsx
+const series = [
+  { id: 'admissions', data: Array.from({length: 30}).map((_,i) => ({ x: new Date(2025,0,i+1), y: 80 + Math.round(Math.random()*40) })) }
+];
+
+<ChartRoot height={300} ariaLabel="Admissions with target and alerts">
+  <LineScalesProvider series={series}>
+    <svg width="100%" height="100%" role="img">
+      <g transform={`translate(56,12)`}>
+        <Axis type="x" />
+        <Axis type="y" label="Count" />
+        <GridLines axis="y" />
+        {/* Shaded target band (80–100) */}
+        <AlertBand orientation="horizontal" from={80} to={100} status="ok" opacity={0.10} />
+        {/* Threshold line at 120 */}
+        <AlertThreshold orientation="horizontal" value={120} status="warning" label="Threshold 120" />
+        {/* Exception markers */}
+        <AlertMarkers shape="triangle" points={[
+          { x: new Date(2025,0,7), status: 'critical', label: 'Spike' },
+          { x: new Date(2025,0,18), status: 'warning' }
+        ]} />
+        <LineSeriesPrimitive series={series[0]} seriesIndex={0} showPoints parseX={d => d.x} />
+      </g>
+    </svg>
+  </LineScalesProvider>
+  </ChartRoot>
+```
+
+## API
+
+- `AlertThreshold`
+  - Props: `orientation` ('horizontal'|'vertical'), `value`, `label?`, `status?` ('ok'|'warning'|'critical'|'info'), `color?`, `dashed?`, `strokeWidth?`
+- `AlertBand`
+  - Props: `orientation` ('horizontal'|'vertical'), `from`, `to`, `status?`, `fill?`, `opacity?`, `rx?`
+- `AlertMarkers`
+  - Props: `points: { x, y?, status?, label? }[]`, `shape?` ('triangle'|'diamond'|'dot'), `size?`
+
+Notes
+- Use inside the plot `<g>` to align with scales (like `Axis` and series primitives).
+- Colours use CSS variables with safe fallbacks: `--nhs-fdp-color-critical`, `--nhs-fdp-color-warning`, `--nhs-fdp-color-success`, `--nhs-fdp-color-info`.
+

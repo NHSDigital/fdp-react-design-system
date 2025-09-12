@@ -45,18 +45,18 @@ describe("RuleClash Chart1 diagnostic (directional_first vs legacy)", () => {
 		});
 
 		// Build a compact table of key fields for directional strategy
-		const rows = directional.rows.map((r, i) => ({
-			i,
-			date: chart1[i].x,
-			value: r.value,
-			mean: r.mean,
-			sp1High: r.specialCauseSinglePointUp,
-			twoOf3High: r.specialCauseTwoOfThreeUp,
-			fourOf5High: r.specialCauseFourOfFiveUp,
-			shiftHigh: r.specialCauseShiftUp,
-			trendInc: r.specialCauseTrendUp,
-			variation: r.variationIcon,
-		}));
+		// const rows = directional.rows.map((r, i) => ({
+		// 	i,
+		// 	date: chart1[i].x,
+		// 	value: r.value,
+		// 	mean: r.mean,
+		// 	sp1High: r.specialCauseSinglePointUp,
+		// 	twoOf3High: r.specialCauseTwoOfThreeUp,
+		// 	fourOf5High: r.specialCauseFourOfFiveUp,
+		// 	shiftHigh: r.specialCauseShiftUp,
+		// 	trendInc: r.specialCauseTrendUp,
+		// 	variation: r.variationIcon,
+		// }));
 		// Diagnostic console output: aids verifying precedence interactions during development.
 		//console.table(rows);
 

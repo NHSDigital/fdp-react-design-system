@@ -185,10 +185,10 @@ Letters appear only for improving or deteriorating judgements *and* when derivab
 2. If not overridden and `showLetter=false` → suppressed
 3. If judgement is not Improving/Deteriorating → suppressed
 4. Else derive via `letterMode`:
- * `polarity` (default): H if `HigherIsBetter`, L if `LowerIsBetter`, suppressed otherwise
- * `direction`: H if `direction===Higher` else L
 
-- `direction`: H if inferred direction is Higher, L if Lower (legacy behaviour).
+* `polarity` (default): H if `HigherIsBetter`, L if `LowerIsBetter`, suppressed otherwise
+* `direction`: H if `direction===Higher` else L
+* `direction`: H if inferred direction is Higher, L if Lower (legacy behaviour).
 * `polarity`: H if `polarity === HigherIsBetter`, L if `polarity === LowerIsBetter`, suppressed if `ContextDependent`.
 
 ### Key Props (Current API)
@@ -196,14 +196,14 @@ Letters appear only for improving or deteriorating judgements *and* when derivab
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `data` | `SpcVariationInput` | — | Any supported payload shape. |
-| `variant` | `'classic' | 'triangle' | 'triangleWithRun'` | `'classic'` | Selects visual style. |
+| `variant` | `'classic' | 'triangle' \| 'triangleWithRun'` \| `'classic'` | Selects visual style. |
 | `runLength` | `number` | `0` | Highlight count (0–5) for `triangleWithRun`. Clamped internally. |
 | `size` | `number` | `44` | Render size in px (square). |
 | `gradientWash` | `boolean` | `false` | Apply diagonal colour wash (lighter opacity v2). |
 | `dropShadow` | `boolean` | `true` | Adds subtle outer circle shadow. |
 | `showLetter` | `boolean` | `true` | Global toggle for letter feature. |
-| `letterMode` | `'polarity' | 'direction'` | `'polarity'` | How to derive H/L when a letter is shown. |
-| `letterOverride` | `'H' | 'L' | ''` | `undefined` | Explicit override ("" to suppress). |
+| `letterMode` | `'polarity' | 'direction'` \| `'polarity'` | How to derive H/L when a letter is shown. |
+| `letterOverride` | `'H' \| 'L' | ''` \| `undefined` | Explicit override ("" to suppress). |
 | `ariaLabel` | `string` | auto | Override generated aria-label. |
 
 | State/Judgement | Polarity              | Inferred Direction |

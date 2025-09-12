@@ -8,18 +8,17 @@ Understanding Variation with Shewhart Charts
 
 For many teams just beginning their quality measurement journey (QMJ) the run chart provides an excellent starting point. It is easy to construct with paper and pencil, it does not require a software package in order to make one, and it can be used with any type of data (i.e., time, money, counts of errors, percentages, rates, scores, or days between adverse events). Also, the four run chart rules are easy to understand and apply. So, why would I want to use a Shewhart chart instead of a run chart?* 1 There are basically three reasons why Shewhart charts are preferable over run charts:
 
-1.	Shewhart charts are more sensitive than run charts.
+1. Shewhart charts are more sensitive than run charts.
 
-2.	Shewhart charts have the added feature of control limits and zones, which run charts do not have.
+2. Shewhart charts have the added feature of control limits and zones, which run charts do not have.
 
-3.	Shewhart charts allow us to more accurately predict process behavior, future performance, and process capability than do run charts.
+3. Shewhart charts allow us to more accurately predict process behavior, future performance, and process capability than do run charts.
 
 The details related to these differences are discussed in the remaining sections of this chapter.
 
 ## What Is a Shewhart Chart?
 
 Like run charts, Shewhart charts are graphic displays of process variation as it lays itself out overtime. FIGURE 9*1 shows the basic elements of a Shewhart chart and one of the tests to identify a special cause (i.e., a data point exceeded the upper control limit [UCL], signaling too much variation in the data, which, by the way, you should recognize as an astronomical data point on the run chart). A run chart and a Shewhart chart look similar in that the indicator of interest and its values are plotted on the vertical or y axis and the chronological order of the data are organized by what are called subgroups (e.g., by individual patients, by day, week, or month) along the horizontal or x axis. The data points are then connected by a line and the mean of the data points is then plotted as the centerline (CL) on the Shewhart chart. The presence of control limits on Shewhart charts are major points that separate it from a run chart.
-
 
 The unit of time is plotted along the horizontal axis
 
@@ -269,18 +268,19 @@ FIGURE 9-11 provides an easy way to remember the differences between defectives 
 
 After determining whether your data are variables or attributes, the next step is to decide which Shewhart chart is most appropriate for the type of data you have collected. Seven basic control charts are regularly described in the literature and taught in most classes and seminars on SPC. After working with the charts for over 15 years, however, I have found that five of the seven charts are the most
 
-EXERCISE 9-1 Defective or defect? You make the call!		
-Indicator	Defective (Classification)	Defect (Count)
+EXERCISE 9-1 Defective or defect? You make the call!  
+Indicator Defective (Classification) Defect (Count)
 
-Indicator	Defective (Classification)	Defect (Count)
-1. Number of accidents per 1,000 employee days		
-2. Number of errors per 25 food trays		
-3. Percentage of acute myocardial infarction (AMI) patients receiving aspirin within 24 hours of arrival in ED		
-4. Percentage of inpatient deaths each month		
-5. Number of surgical complications per 1,000 surgeries performed		
-6. Proportion of hand hygiene observations done incorrectly		
-7. Number of falls per 1,000 patient days		
-8. Number of medication errors per 10,000 doses dispensed		
+Indicator Defective (Classification) Defect (Count)
+
+1. Number of accidents per 1,000 employee days  
+2. Number of errors per 25 food trays  
+3. Percentage of acute myocardial infarction (AMI) patients receiving aspirin within 24 hours of arrival in ED  
+4. Percentage of inpatient deaths each month  
+5. Number of surgical complications per 1,000 surgeries performed  
+6. Proportion of hand hygiene observations done incorrectly  
+7. Number of falls per 1,000 patient days  
+8. Number of medication errors per 10,000 doses dispensed  
 
 relevant and frequently used with healthcare, social services, and educational indicators. I focus on these five Shewhart charts but encourage you to explore the full range of charts as discussed in the Western Electric Statistical Quality Control Handbook (1985), Wheeler (1993,1995), Wheeler and Chambers (1992), Carey and Lloyd (2001), Carey (2003), Duncan (1986), Pyzdek (1990), Kume (1996), and Provost and Murray (2011).7
 
@@ -298,8 +298,8 @@ Defining the Key Terms
 
 FIGURE9-12 The Shewhart chart decision tree
 
-Subgroup	Observation	Area of Opportunity
-How you organize your data (e.g., by day, week, or month) The label of your horizontal axis Can be patients in chronological order  Can be of equal or unequal sizes Applies to all the charts	The actual value (data) you collect  The label of your vertical axis  May be single or multiple  points  Applies to all the charts	Applies to all attributes or counts charts  Defines the area of frame in which a defective or defect can occur  Can be of equal or unequal sizes
+Subgroup Observation Area of Opportunity
+How you organize your data (e.g., by day, week, or month) The label of your horizontal axis Can be patients in chronological order  Can be of equal or unequal sizes Applies to all the charts The actual value (data) you collect  The label of your vertical axis  May be single or multiple  points  Applies to all the charts Applies to all attributes or counts charts  Defines the area of frame in which a defective or defect can occur  Can be of equal or unequal sizes
 
 FIGURE 9-13 Defining Subgroup, Observation, and Area of Opportunity
 
@@ -397,15 +397,15 @@ EXERCISE - 2 (You make the call: Is it an X-bar and S chart or XmR chart?) will 
 
 When we move to the Attributes side of the Shewhart chart decision tree (Figure 9-12), we need to address two questions:
 
-EXERCISE 9-2 Is it an XmR (1) or X-bar and S? You make the call!		
-Indicator	X-Barand S Chart	XmR (1 Chart)
-Time to clean an inpatient room (in minutes)		
-Patient satisfaction scores for subgroups of 15 patients in the outpatient clinic		
-Average turnaround time for all STAT labs done each day		
-Cost for each normal delivery		
-A diabetic patient's 3x a day blood sugar readings		
-Average length of stay for a subgroup of 20 intensive care unit (ICU) patients		
-The distance (in feet) that a sample of 10 knee replacement patients can walk in 15 seconds		
+EXERCISE 9-2 Is it an XmR (1) or X-bar and S? You make the call!  
+Indicator X-Barand S Chart XmR (1 Chart)
+Time to clean an inpatient room (in minutes)  
+Patient satisfaction scores for subgroups of 15 patients in the outpatient clinic  
+Average turnaround time for all STAT labs done each day  
+Cost for each normal delivery  
+A diabetic patient's 3x a day blood sugar readings  
+Average length of stay for a subgroup of 20 intensive care unit (ICU) patients  
+The distance (in feet) that a sample of 10 knee replacement patients can walk in 15 seconds  
 
 - Do we have the occurrence and nonoccurrences of an event? If “yes” then we make a p-chart (i.e., a percentage chart)
 
@@ -475,25 +475,25 @@ TABLE 9-1 provides an overview of the five charts just described and offers exam
 
 Now that you are familiar with the basic ideas behind the Shewhart charts, the next step is to apply this knowledge to your own indicators. The study questions in BOX 91 will serve as a quick overview of some of the central issues related to Shewhart chart development and as a test of your current knowledge. If you struggle with some of the questions you can review the material presented in this chapter and then explore some of the listed references for additional explanations. Another way to enhance your knowledge base is to attend workshops
 
-on SPC. The ASQ, for example, offers public seminars on SPC. You may want to check with your local ASQ chapter to see when such courses will be offered. The IHI also offers workshops on building effective measurement systems and SPC. The various program offerings that I and my colleagues teach throughout the year can be reviewed on the IHI home page (www.ihi.org). Finally, if you have the opportunity to attend a local or national quality conference (e.g., the IHI National Forum on Quality Improvement in Healthcare or the IHI-BMJ International Forum on Quality and Safety in Healthcare), make sure that you sit in on sessions that are discussing Shewhart charts and SPC. Hearing about control charts from multiple sources will be very beneficial.
+on SPC. The ASQ, for example, offers public seminars on SPC. You may want to check with your local ASQ chapter to see when such courses will be offered. The IHI also offers workshops on building effective measurement systems and SPC. The various program offerings that I and my colleagues teach throughout the year can be reviewed on the IHI home page (<www.ihi.org>). Finally, if you have the opportunity to attend a local or national quality conference (e.g., the IHI National Forum on Quality Improvement in Healthcare or the IHI-BMJ International Forum on Quality and Safety in Healthcare), make sure that you sit in on sessions that are discussing Shewhart charts and SPC. Hearing about control charts from multiple sources will be very beneficial.
 
 You can also test your knowledge of the various charts by completing the You Make the Call exercise found in EXERCISE 9 3 When I teach my classes on Shewhart chart applications, I give the participants this exercise at the end of the class to provide a final test of their understanding of the selection of appropriate Shewhart charts. It gives them a chance “make the call!” and tests their control chart knowledge. The indicators listed in this exercise are taken from actual teams I have had the opportunity to facilitate or coach. Start the exercise by determining the subgroup. Remember that the subgroup is the label for the horizontal axis and reflects how you have organized your data (e.g., by day or week). Next decide if you have variables or attributes data. Finally, list the chart you think is most appropriate for this situation. You may want to refer to the Shewhart Decision Tree shown in Figure 9-12 to assist you in thinking through the chart options. The answers to the You Make the Call exercise can be found at the end of this chapter.
 
-TABLE 9-1 Shewhart chart summary		
-Type of Control Chart	Type of Data and Data Collection Issues	Examples of Indicators Used on This Type of Chart
-X-bar and S chart  This is known as the Average (X-bar) and Standard Deviation (S) chart. Most SPC software programs will give you two charts when you select this chart: one for the X-bar portion and one for the S portion. This is considered to be the most statistically powerful of all the charts. The X-bar and S chart can have straight or stair-step control limits.	Variables data  The X-bar and S chart usually involves drawing a sample of observations (e.g., 3-10 per subgroup). Rational subgrouping is frequently used with this chart.The statistical principles behind this chart are based on the assumptions of the normal (Gaussian) bell-shaped distribution.	- Actual turnaround time for five lab tests or three pharmacy orders each day  - Blood pressure readings (e.g., three to five per day)  - Diabetes monitoring (e.g., three fasting blood sugar readings each day)  - Anesthesia time for a sample of cases each day  - Patient satisfaction scores
-XmR chart  This chart is known as the Individual values (X) and moving range (mR) chart. Sometimes it will be referred to as the Individuals or l-chart. It does not have the statistical rigor or power of the X-bar and S chart because each dot on the chart is representing only one observation.This chart is used frequently to answer questions related to volume, for example,"How many surgeries did we do this week?"The XmR chart does not address the question as to whether these surgeries were started on time (this would require a p-chart). Instead, the XmR chart is answering a neutral question,"How many?" or "How much?"The XmR chart will always have straight control limits.	Variables data  The XmR chart is used when you have a single observation for each subgroup (i.e., n = 1). Sampling typically is not done but might be if the process being monitored has an extremely large volume. Because this chart frequently uses aggregates as the plotted number (e.g., days in accounts receivable this month), it is important to make sure that the data are consistently collected from one time period to the next. This chart is used to evaluate questions related to process outcomes (volumes), with no concern as to whether the outcomes of the process are acceptable or not acceptable.	- Patient wait time to see the physician or to be seen in the ED  - The number of days to mail a patient bill after discharge  - The number of calls coming into a clinic each day  - Average length of stay by week for a particular diagnosis-related group (DRG)  - The number of surgeries done each week  - Operating margin by month  - Pounds of laundry each day  - Average turnaround time by day  - The number of food trays produced  - Patient satisfaction score
+TABLE 9-1 Shewhart chart summary  
+Type of Control Chart Type of Data and Data Collection Issues Examples of Indicators Used on This Type of Chart
+X-bar and S chart  This is known as the Average (X-bar) and Standard Deviation (S) chart. Most SPC software programs will give you two charts when you select this chart: one for the X-bar portion and one for the S portion. This is considered to be the most statistically powerful of all the charts. The X-bar and S chart can have straight or stair-step control limits. Variables data  The X-bar and S chart usually involves drawing a sample of observations (e.g., 3-10 per subgroup). Rational subgrouping is frequently used with this chart.The statistical principles behind this chart are based on the assumptions of the normal (Gaussian) bell-shaped distribution. - Actual turnaround time for five lab tests or three pharmacy orders each day  - Blood pressure readings (e.g., three to five per day)  - Diabetes monitoring (e.g., three fasting blood sugar readings each day)  - Anesthesia time for a sample of cases each day  - Patient satisfaction scores
+XmR chart  This chart is known as the Individual values (X) and moving range (mR) chart. Sometimes it will be referred to as the Individuals or l-chart. It does not have the statistical rigor or power of the X-bar and S chart because each dot on the chart is representing only one observation.This chart is used frequently to answer questions related to volume, for example,"How many surgeries did we do this week?"The XmR chart does not address the question as to whether these surgeries were started on time (this would require a p-chart). Instead, the XmR chart is answering a neutral question,"How many?" or "How much?"The XmR chart will always have straight control limits. Variables data  The XmR chart is used when you have a single observation for each subgroup (i.e., n = 1). Sampling typically is not done but might be if the process being monitored has an extremely large volume. Because this chart frequently uses aggregates as the plotted number (e.g., days in accounts receivable this month), it is important to make sure that the data are consistently collected from one time period to the next. This chart is used to evaluate questions related to process outcomes (volumes), with no concern as to whether the outcomes of the process are acceptable or not acceptable. - Patient wait time to see the physician or to be seen in the ED  - The number of days to mail a patient bill after discharge  - The number of calls coming into a clinic each day  - Average length of stay by week for a particular diagnosis-related group (DRG)  - The number of surgeries done each week  - Operating margin by month  - Pounds of laundry each day  - Average turnaround time by day  - The number of food trays produced  - Patient satisfaction score
 
 (continues)
 
-TABLE 9-1 Shewhart chart summary		(continued)
-Type of Control Chart	Type of Data and Data Collection Issues	Examples of Indicators Used on This Type of Chart
-p-chart  The p-chart is used frequently in health care to compute the percentage (or proportion) of defective products or services. The p-chart requires being able to count both the numerator and the denominator.The p-chart is the weakest of the attributes charts because it is based on the binomial distribution (i.e., there are only two outcomes such as yes/no, acceptable/ not acceptable, or complete/ not complete.The p-chart can have straight or stair-step control limits.	Attributes data  These data are classified as defectives or nonconforming units because they reflect the percentage (or proportion) of things or events that do not meet specifications or criteria (the numerators).The denominators usually (but not always) are of varying sizes, which produce stair-step control limits. Data of this type reflect the binomial distribution.The denominators need to be sufficiently large (e.g., usually greater than 12) to enable a reasonable percentage to be calculated yet not too large (e.g., over 5,000).	- Percentage of cesarean sections  - Percentage of late food trays  - Percentage of incomplete charts  - Percentage of late surgery starts  - Percentage of bills that are inaccurate  - Percentage of mortality  - Percentage of staff turnover  - Percentage of patients responding "Very Good "to a survey question  - Percentage of x-rays that had to be redone  - Percentage of did not attends (DNAs) at an outpatient clinic
-c-chart  The c-chart is used to count the number of defects that occur within an equal area of opportunity when the nondefects are unknown. In this case, each observed unit (e.g., a patient) can have multiple defects (e.g., falls). Genera 1 ly spea king, defects are the specific reasons why a product or service is classified as defective (i.e., a defective product or service will suffer from one or more defects). Generally speaking, indicators appropriate for a c-chart should be considered "rare events."The c-chart will always have straight control limits.	Attributes data  The key to using a c-chart is that there should be an equal area of opportunity for a defect to occur. This condition frequently makes it difficult to use this chart in health care because the conditions under which we provide care do not always remain constant. One way to address this inequality in the area of opportunity is to apply stratification. For example, if the conclusion is that there is not an equal area of opportunity for an inpatient fall because the hospital functions differently on weekends than weekdays then separating the data by weekdays versus weekends may be sufficient to conclude that there is a relatively equal area of opportunity for a fall during each of these periods.The c-chart is based on the Poisson distribution.	- The number of falls  - The number of restraints  - The number of needle sticks  - The number of lawsuits filed  - The number of ventilator-associated pneumonias  - The number of nosocomial infections  - The number of medication errors  - The number of returns to surgery  - The number of surgical site infections  - The number of violent events in a mental health ward  - The number of central line infections
+TABLE 9-1 Shewhart chart summary  (continued)
+Type of Control Chart Type of Data and Data Collection Issues Examples of Indicators Used on This Type of Chart
+p-chart  The p-chart is used frequently in health care to compute the percentage (or proportion) of defective products or services. The p-chart requires being able to count both the numerator and the denominator.The p-chart is the weakest of the attributes charts because it is based on the binomial distribution (i.e., there are only two outcomes such as yes/no, acceptable/ not acceptable, or complete/ not complete.The p-chart can have straight or stair-step control limits. Attributes data  These data are classified as defectives or nonconforming units because they reflect the percentage (or proportion) of things or events that do not meet specifications or criteria (the numerators).The denominators usually (but not always) are of varying sizes, which produce stair-step control limits. Data of this type reflect the binomial distribution.The denominators need to be sufficiently large (e.g., usually greater than 12) to enable a reasonable percentage to be calculated yet not too large (e.g., over 5,000). - Percentage of cesarean sections  - Percentage of late food trays  - Percentage of incomplete charts  - Percentage of late surgery starts  - Percentage of bills that are inaccurate  - Percentage of mortality  - Percentage of staff turnover  - Percentage of patients responding "Very Good "to a survey question  - Percentage of x-rays that had to be redone  - Percentage of did not attends (DNAs) at an outpatient clinic
+c-chart  The c-chart is used to count the number of defects that occur within an equal area of opportunity when the nondefects are unknown. In this case, each observed unit (e.g., a patient) can have multiple defects (e.g., falls). Genera 1 ly spea king, defects are the specific reasons why a product or service is classified as defective (i.e., a defective product or service will suffer from one or more defects). Generally speaking, indicators appropriate for a c-chart should be considered "rare events."The c-chart will always have straight control limits. Attributes data  The key to using a c-chart is that there should be an equal area of opportunity for a defect to occur. This condition frequently makes it difficult to use this chart in health care because the conditions under which we provide care do not always remain constant. One way to address this inequality in the area of opportunity is to apply stratification. For example, if the conclusion is that there is not an equal area of opportunity for an inpatient fall because the hospital functions differently on weekends than weekdays then separating the data by weekdays versus weekends may be sufficient to conclude that there is a relatively equal area of opportunity for a fall during each of these periods.The c-chart is based on the Poisson distribution. - The number of falls  - The number of restraints  - The number of needle sticks  - The number of lawsuits filed  - The number of ventilator-associated pneumonias  - The number of nosocomial infections  - The number of medication errors  - The number of returns to surgery  - The number of surgical site infections  - The number of violent events in a mental health ward  - The number of central line infections
 
-TABLE 9-1 Shewhart chart summary		(continued)
-Type of Control Chart	Type of Data and Data Collection Issues	Examples of Indicators Used on This Type of Chart
-u-chart  The u-chart is used to track defects when the area of opportunity is not equal. For this reason, the u-chart is typically used more often in health care than the c-chart. This chart is based on rates rather than simple counts.The u-chart can have straight or stair-step control limits.	Attributes data  The Poisson distribution is also used as the frame of reference for this chart. The u-chart presents rates (e.g., so many falls per 1,000 patient days). Knowledge of how to collect data to form rates is essential.	- Medication errors per  10,000 doses dispensed  - VAP per 1,000 vent days  - Total falls per 1,000 patient days  - Total readmissions per 1,000 discharges  - Bloodstream infections per 1,000 line days
+TABLE 9-1 Shewhart chart summary  (continued)
+Type of Control Chart Type of Data and Data Collection Issues Examples of Indicators Used on This Type of Chart
+u-chart  The u-chart is used to track defects when the area of opportunity is not equal. For this reason, the u-chart is typically used more often in health care than the c-chart. This chart is based on rates rather than simple counts.The u-chart can have straight or stair-step control limits. Attributes data  The Poisson distribution is also used as the frame of reference for this chart. The u-chart presents rates (e.g., so many falls per 1,000 patient days). Knowledge of how to collect data to form rates is essential. - Medication errors per  10,000 doses dispensed  - VAP per 1,000 vent days  - Total falls per 1,000 patient days  - Total readmissions per 1,000 discharges  - Bloodstream infections per 1,000 line days
 
 BOX 9-1 Shewhart charts study questions
 
@@ -527,28 +527,29 @@ BOX 9-1 Shewhart charts study questions
 
 - Do I really have to investigate a special cause? Can't I just remove the data point from the chart and get on with making changes?
 
-EXERCISE 9-3 You make the call! Selecting the right chart			
-Situation	Subgroup?	Type of Data?	Type of Chart?
-1. Each day you record the number of films processed in the radiology department.		VorA	
-2. Each day you record the number of films requested and the number that cannot be found in the radiology library.		VorA	
-3. The number of inpatient restraints each month is placed over the total inpatient days each month.		VorA	
-4. Each day you pull a stratified random sample of 15 complete blood counts (CBCs) and record the turnaround time (in minutes) for each CBC.		VorA	
-5. The number of minutes it takes to get a stat med order administered to the patient (order time to administration time).		VorA	
-6. Every 2 weeks you pull a sample of 30 medication	VorA  orders and count the total number of orders that have one or more errors.			
-7. The wait time in the ED (door to discharge) is tracked for each patient.		VorA	
-8. The clinic receptionist notes the time ofcheck-in for each patient. The physician notes the time when he/ she first sees the patient in the exam room. An analyst compiles the data daily and reports the percentage of patients who had to wait more than 30 minutes.			
-9. The director of surgery keeps track of the total number of surgical procedures performed each week.		VorA	
-10. The dietary department records the number of food trays that come back uneaten each day and the total number of trays they produced for that day.		VorA	
-11. You are interested in the average time patients spend in your waiting area, so every day a student randomly picks eight patients and measures their actual waiting time in whole minutes.		VorA	
+EXERCISE 9-3 You make the call! Selecting the right chart
+Situation Subgroup? Type of Data? Type of Chart?
+
+1. Each day you record the number of films processed in the radiology department.  VorA
+2. Each day you record the number of films requested and the number that cannot be found in the radiology library.  VorA
+3. The number of inpatient restraints each month is placed over the total inpatient days each month.  VorA
+4. Each day you pull a stratified random sample of 15 complete blood counts (CBCs) and record the turnaround time (in minutes) for each CBC.  VorA
+5. The number of minutes it takes to get a stat med order administered to the patient (order time to administration time).  VorA
+6. Every 2 weeks you pull a sample of 30 medication VorA  orders and count the total number of orders that have one or more errors.
+7. The wait time in the ED (door to discharge) is tracked for each patient.  VorA
+8. The clinic receptionist notes the time ofcheck-in for each patient. The physician notes the time when he/ she first sees the patient in the exam room. An analyst compiles the data daily and reports the percentage of patients who had to wait more than 30 minutes.
+9. The director of surgery keeps track of the total number of surgical procedures performed each week.  VorA
+10. The dietary department records the number of food trays that come back uneaten each day and the total number of trays they produced for that day.  VorA
+11. You are interested in the average time patients spend in your waiting area, so every day a student randomly picks eight patients and measures their actual waiting time in whole minutes.  VorA
 
 (continues)
 
-EXERCISE 9-3 You make the call! selecting the right chart		(continued)	
-12. The ICU nurses want to evaluate the ventilator-associated pneumonia (VAP) rate. So every 2 weeks they record the total number of pneumonia episodes and the total number of vent days.		VorA	
-13. Each week patient satisfaction scores for three units are compiled and an average is calculated for the three units.		VorA	
-14. The finance department tracks the total number of business days it takes to process a vendor's request for payment. Process time starts when the request for payment is received in the finance department and ends when the payment is sent (electronically or posted in the mail) to the vendor.			
-15. Every week each medication order is checked against five potential types of errors. The total number of errors for the week is divided by the total number of orders submitted that week.		VorA	
-16. You know the number of people who come to the ED complaining of chest pain and the number who are actually diagnosed with an AMI or unstable angina.		VorA	
+EXERCISE 9-3 You make the call! selecting the right chart  (continued)
+12. The ICU nurses want to evaluate the ventilator-associated pneumonia (VAP) rate. So every 2 weeks they record the total number of pneumonia episodes and the total number of vent days.  VorA
+13. Each week patient satisfaction scores for three units are compiled and an average is calculated for the three units.  VorA
+14. The finance department tracks the total number of business days it takes to process a vendor's request for payment. Process time starts when the request for payment is received in the finance department and ends when the payment is sent (electronically or posted in the mail) to the vendor.
+15. Every week each medication order is checked against five potential types of errors. The total number of errors for the week is divided by the total number of orders submitted that week.  VorA
+16. You know the number of people who come to the ED complaining of chest pain and the number who are actually diagnosed with an AMI or unstable angina.  VorA
 
 ## Additional Shewhart Charts
 
@@ -616,13 +617,13 @@ QI starts with making the correct decision about the variation that lives in you
 
 Notes
 
-1.	Historically these charts have been known as control charts. Shewhart himself even referred to them as control charts as have many writers since Shewhart s time. But as Blank (1998, p. 1) points out, “It is important to understand that SPC does not control processes. People control processes. SPC is merely a tool that provides you with information you need to reduce variation and tell you whether or not your processes can meet the customers expectations.” In more recent times, the charts have been referred to more and more as Shewhart charts (Provost & Murray, 2011, p. 113) to emphasize their use primarily in understanding variation and to facilitate learning about process capability rather conveying images of “control.” The term Shewhart chart is also used to recognize the significant contributions of Dr. Shewhart to the field of SPC. A final note on the use of the word “control.” The ASQ was originally called the American Society for Quality Control (ASQC). In 1997, the membership voted to drop the word “control” from the organizations name. This was to recognize that quality was becoming a broader concept and used in many other fields besides manufacturing where initially in the early 1900s control was used as a key operative word. Shewhart’s book, Economic Control of Quality of Manufactured Product (1931) provides a classic reference to the initial use of the term “control.” So for a variety of reasons I use the term Shewhart chart (s) in this text rather than control charts.
+1. Historically these charts have been known as control charts. Shewhart himself even referred to them as control charts as have many writers since Shewhart s time. But as Blank (1998, p. 1) points out, “It is important to understand that SPC does not control processes. People control processes. SPC is merely a tool that provides you with information you need to reduce variation and tell you whether or not your processes can meet the customers expectations.” In more recent times, the charts have been referred to more and more as Shewhart charts (Provost & Murray, 2011, p. 113) to emphasize their use primarily in understanding variation and to facilitate learning about process capability rather conveying images of “control.” The term Shewhart chart is also used to recognize the significant contributions of Dr. Shewhart to the field of SPC. A final note on the use of the word “control.” The ASQ was originally called the American Society for Quality Control (ASQC). In 1997, the membership voted to drop the word “control” from the organizations name. This was to recognize that quality was becoming a broader concept and used in many other fields besides manufacturing where initially in the early 1900s control was used as a key operative word. Shewhart’s book, Economic Control of Quality of Manufactured Product (1931) provides a classic reference to the initial use of the term “control.” So for a variety of reasons I use the term Shewhart chart (s) in this text rather than control charts.
 
-2.	The USL and LSL are frequently referred to in manufacturing as “tolerance limits” and are also frequently referred to as the voice of the customer (VOC, i.e., what the customer wants, needs, or expects from the product or service). There are many different types of indices that have been developed to capture statistically process
+2. The USL and LSL are frequently referred to in manufacturing as “tolerance limits” and are also frequently referred to as the voice of the customer (VOC, i.e., what the customer wants, needs, or expects from the product or service). There are many different types of indices that have been developed to capture statistically process
 
 capability. The three basic process capability indices are the process capability index (Cp), the minimum process capability index (Cpk), and the process capability index to the mean (Cpm). The traditional statistical use of process capability (Cp) is to indicate whether or not the process can meet the predetermined specifications (Blank, 1998). There are numerous 4. variations on the Cp statistic, all of which are designed to help the quality control (QC) researcher investigate special causes and get the process to perform as closely as possible to the expectations of the customer (i.e., the specifications).
 
-3. I have calculated a Cp and Cpk statistics only once for a healthcare indicator. It was when I was helping to set up an outpatient clinic designed to manage patients on anticlotting medication (i.e., warfarin sodium). Several key indicators are used in assessing clotting issues. The PT, along with its derived measures of prothrombin ratio (PR) and INR, are assays evaluating the extrinsic pathway of coagulation. This test is also called “ProTime INR” and “PT/INR” (MedlinePlus medical encyclopedia, https://medhneplus.gov/ ency/article/003652.htm). Because there are defined therapeutic limits associated with these measures they can be regarded as USL and LSL. These values would be set on the Shewhart charts as reference lines. Then the patients actual results on the PT and INR would be plotted on the chart, and the UCL and LCL of the patient would then be compared to the USL and LSL. 5. Because we had both an USL and a LSL and control limits the capability statistics could be calculated to determine how well the patient was conforming to the therapeutic limits (USL and LSL) of the drug. But in most instances in healthcare settings, there is only a single target or goal rather than the USL and LSL. Healthcare simply does not currently function at the same level of
+3. I have calculated a Cp and Cpk statistics only once for a healthcare indicator. It was when I was helping to set up an outpatient clinic designed to manage patients on anticlotting medication (i.e., warfarin sodium). Several key indicators are used in assessing clotting issues. The PT, along with its derived measures of prothrombin ratio (PR) and INR, are assays evaluating the extrinsic pathway of coagulation. This test is also called “ProTime INR” and “PT/INR” (MedlinePlus medical encyclopedia, <https://medhneplus.gov/> ency/article/003652.htm). Because there are defined therapeutic limits associated with these measures they can be regarded as USL and LSL. These values would be set on the Shewhart charts as reference lines. Then the patients actual results on the PT and INR would be plotted on the chart, and the UCL and LCL of the patient would then be compared to the USL and LSL. 5. Because we had both an USL and a LSL and control limits the capability statistics could be calculated to determine how well the patient was conforming to the therapeutic limits (USL and LSL) of the drug. But in most instances in healthcare settings, there is only a single target or goal rather than the USL and LSL. Healthcare simply does not currently function at the same level of
 
 precision for many of its indicators as the manufacturing industry. So, when I use the term process capability I am using it in a general sense to describe the variation in the process as defined by the mean (CL) and the UCL and LCL. These numbers define how well the process is performing relative to the target or goal.
 
@@ -632,50 +633,51 @@ In one of my measurement workshops, a few years ago this confusion was highlight
 
 the SD on a flipchart and asked her if this is what she used to calculate the three sigma control limits. She said “Yes, that is what I was told to use.” I then proceed to politely tell her that the control limits on her charts were wrong. The UCL and LCL would either be too wide or too narrow if she used the SD of the data. She got a very strange look on her face, was quiet for a moment, then burst out, “But this means I have been giving the charts to the senior management team and to the board! What am I going to do?” I asked her if anyone had ever noticed or commented on the fact that the limits were not properly calculated. She responded, “No.” I suggested that she learn how to make the charts correctly with SPC software (she was merely using Excel with no SPC add-on software that properly computes sigma limits) and then submit the correct charts to the senior management team and board the next time around. She still looked a little perplexed, however. She was concerned that she would lose credibility with the management team when they found out the charts were wrong. I told her that unless she tells them that her original charts had the wrong limits it does not sound like anyone on the board or the senior management team had sufficient grounding in Shewhart charts to actually discern that the charts were different. I told her to let me know how it went when she showed them the correct charts. She wrote back and said that no one asked any questions.
 
-6.	API develops methods, works with leaders
+6. API develops methods, works with leaders
 
 and teams, and provides education and training to help organizations improve their products and services and to build their capability for ongoing improvement. The principals of API have worked in industrial, educational, health, and social service settings. They have worked extensively with Dr. Deming and provided support
 
 for his 4-day seminars. They have written a number of key books on QI including The Improvement Guide (Langley, Moen, Nolan, Nolan, Norman, & Provost, 2009), Quality Improvement Through Planned Experimentation (Moen, Nolan, & Provost, 2012), and The Health Care Data Guide (Provost & Murray, 2011).
 
-7.	When Dr. Ray Carey and I first started teaching control chart applications to healthcare professionals in 1992, we taught the traditional list of seven control charts. In 1995, we wrote a book that described these seven charts and their use (Carey & Lloyd, 2001). In December, 2002, Dr. Carey and I taught a minicourse and two workshops on control charts at the 14th National Forum on Quality Improvement in Health Care sponsored by the IHI. This was the first time in the 12 years that we had been teaching for the IHI that we reduced the number of charts we taught from seven to five. The sessions were well received, and the participants found the more simplified approach to be appealing. The two charts we dropped were the X-bar and R chart and the np-chart. Our reasoning for doing this was that the X-bar and S chart can be used in any situation that calls for the X-bar and R chart (when the subgroup is greater than 2). The np-chart, which is a count of the number of defectives, requires equal subgroup sizes (i.e., the denominators), which do not happen very often in healthcare settings. The p-chart can be used effectively, however, in any situation where an np-chart could be used. If there are equal subgroup sizes then the p-chart will have straight control limits. If, on the other hand, the measure has unequal subgroups then the p-chart will have what is known as “stair-step” control limits. In this case, the control limits are different for each data point. The closer in size the denominators the smaller the
+7. When Dr. Ray Carey and I first started teaching control chart applications to healthcare professionals in 1992, we taught the traditional list of seven control charts. In 1995, we wrote a book that described these seven charts and their use (Carey & Lloyd, 2001). In December, 2002, Dr. Carey and I taught a minicourse and two workshops on control charts at the 14th National Forum on Quality Improvement in Health Care sponsored by the IHI. This was the first time in the 12 years that we had been teaching for the IHI that we reduced the number of charts we taught from seven to five. The sessions were well received, and the participants found the more simplified approach to be appealing. The two charts we dropped were the X-bar and R chart and the np-chart. Our reasoning for doing this was that the X-bar and S chart can be used in any situation that calls for the X-bar and R chart (when the subgroup is greater than 2). The np-chart, which is a count of the number of defectives, requires equal subgroup sizes (i.e., the denominators), which do not happen very often in healthcare settings. The p-chart can be used effectively, however, in any situation where an np-chart could be used. If there are equal subgroup sizes then the p-chart will have straight control limits. If, on the other hand, the measure has unequal subgroups then the p-chart will have what is known as “stair-step” control limits. In this case, the control limits are different for each data point. The closer in size the denominators the smaller the
 
 “steps” between each of the control limits. If there are large differences between the denominators the “steps” will be greater between the individual data points.
 
-8.	I wrote a commentary in JAMA a few years ago titled “A Matter of Time” (Lloyd & Goldmann, 2009) highlighting how clinicians, researchers, patients, and improvement specialists all have very different views of time. To these four categories I could add management time, which focuses on monthly aggregates of data.
+8. I wrote a commentary in JAMA a few years ago titled “A Matter of Time” (Lloyd & Goldmann, 2009) highlighting how clinicians, researchers, patients, and improvement specialists all have very different views of time. To these four categories I could add management time, which focuses on monthly aggregates of data.
 
-9.	The control chart examples presented in this chapter have been developed to demonstrate the five different charts. The substantive importance of the various charts is not the focus of this chapter. The charts have been developed for heuristic purposes, and the clinical or operational impacts of the indicators presented on the charts are not the primary objective in this chapter. Analysis and interpretation of control charts are addressed in Chapter 10.
+9. The control chart examples presented in this chapter have been developed to demonstrate the five different charts. The substantive importance of the various charts is not the focus of this chapter. The charts have been developed for heuristic purposes, and the clinical or operational impacts of the indicators presented on the charts are not the primary objective in this chapter. Analysis and interpretation of control charts are addressed in Chapter 10.
 
-10.	The idea for creating this table came from
+10. The idea for creating this table came from
 
-Dr. James Benneyan of Northeastern University in Boston. In a paper titled “Design, Use, and Preferences of Statistical Control Charts for Clinical Process Improvement” (September 16,2001), he used a table to summarize the various charts. After reading this paper, I realized that the table was something I had not used to summarize the control charts. I believe a table format works nicely to augment the utility of the decision tree shown in Figure 9-12 and the textual details. Dr. Benneyan has written extensively on the topic of control charts in health care and I would encourage readers to review his work. He can be reached at the following address: MIME Department, 334 Snell Engineering Center, Northeastern University, Boston, MA 02115; phone 617-373-2975; email benneyan@coe.neu.edu.
+Dr. James Benneyan of Northeastern University in Boston. In a paper titled “Design, Use, and Preferences of Statistical Control Charts for Clinical Process Improvement” (September 16,2001), he used a table to summarize the various charts. After reading this paper, I realized that the table was something I had not used to summarize the control charts. I believe a table format works nicely to augment the utility of the decision tree shown in Figure 9-12 and the textual details. Dr. Benneyan has written extensively on the topic of control charts in health care and I would encourage readers to review his work. He can be reached at the following address: MIME Department, 334 Snell Engineering Center, Northeastern University, Boston, MA 02115; phone 617-373-2975; email <benneyan@coe.neu.edu>.
 
-11.	There are many good examples of how people have ignored special causes when they first occurred and then decided to deal with them when they popped up again. The terrorist attacks on our nation on September 11,2001 provide a classic example. Several years prior to 9/11 the World Trade Center was bombed by terrorists. Although this seemed to draw the nations attention for a while, interest in this special cause soon faded into the “old news” category and steps were not taken to extricate the factors that led to the special cause. The conditions for 9/11 were still existing within our system. The September 11 special cause, however, generated a completely different reaction. Our nation mobilized not only to investigate the special cause but also take steps to literally try to eliminate the origin of the special cause. Every day there are stories in the news that should prompt a discussion as to whether the event is a special cause or part of a common cause system. All too often, however, we overreact to a special cause and want to change the system without fully investigating the reasons why it occurred. Other times, however, we ignore a special cause and “hope” that it will not happen again. Hope is not a plan. Knowing how to appropriately react to common and special causes is a much better approach than hoping a special cause will not pop up again.
+11. There are many good examples of how people have ignored special causes when they first occurred and then decided to deal with them when they popped up again. The terrorist attacks on our nation on September 11,2001 provide a classic example. Several years prior to 9/11 the World Trade Center was bombed by terrorists. Although this seemed to draw the nations attention for a while, interest in this special cause soon faded into the “old news” category and steps were not taken to extricate the factors that led to the special cause. The conditions for 9/11 were still existing within our system. The September 11 special cause, however, generated a completely different reaction. Our nation mobilized not only to investigate the special cause but also take steps to literally try to eliminate the origin of the special cause. Every day there are stories in the news that should prompt a discussion as to whether the event is a special cause or part of a common cause system. All too often, however, we overreact to a special cause and want to change the system without fully investigating the reasons why it occurred. Other times, however, we ignore a special cause and “hope” that it will not happen again. Hope is not a plan. Knowing how to appropriately react to common and special causes is a much better approach than hoping a special cause will not pop up again.
 
 Answers to the Chapter 9 Exercises
 
 This section provides the answers to the exercises presented earlier in this chapter. The first (EXERCISE 9-1) deals with differentiating defectives from defects. EXERCISE 9 2 provides indicators that could be placed on either an X-bar and S chart or an XmR chart. The answers to these two exercises are shown here.
 
-EXERCISE 9-1 Defective or defect? You make the call! (Answers)		
-Indicator	Defective (Classification)	Defect (Count)
-1. Number of accidents per 1,000 employee days	*		
-2. Number of errors per 25 food trays		*
-3. Percentage of AMI patients receiving aspirin within	*  24 hours of arrival in the ED		
-4. Percentage of inpatient deaths each month	*	
-5. Number of surgical complications per 1,000 surgeries	*  performed		
-6. Proportion of hand hygiene observations done incorrectly	*	
-7. Number of falls per 1,000 patient days	*		
-8. Number of medication errors per 10,000 doses dispensed		*
+EXERCISE 9-1 Defective or defect? You make the call! (Answers)  
+Indicator Defective (Classification) Defect (Count)
 
-EXERCISE 9-2 You make the call: Is it an X-bar and S chart or XmR chart? (Answers)		
-Indicator	XBarandS Chart	XmR (1 Chart)
-Time to clean an inpatient room (in minutes)		*
-Patient satisfaction scores for subgroups of 15 patients in the outpatient clinic	*	
-Average turnaround time for all STAT labs done each day		*
-Cost for each normal delivery		
-A diabetic patient's 3x a day blood sugar readings	*	
-Average length of stay for a subgroup of 20 ICU patients		*
-The distance (in feet) that a sample of 10 knee replacement patients can walk in 15 seconds	*	
+1. Number of accidents per 1,000 employee days *  
+2. Number of errors per 25 food trays  *
+3. Percentage of AMI patients receiving aspirin within *  24 hours of arrival in the ED  
+4. Percentage of inpatient deaths each month *
+5. Number of surgical complications per 1,000 surgeries *  performed  
+6. Proportion of hand hygiene observations done incorrectly *
+7. Number of falls per 1,000 patient days *  
+8. Number of medication errors per 10,000 doses dispensed  *
+
+EXERCISE 9-2 You make the call: Is it an X-bar and S chart or XmR chart? (Answers)  
+Indicator XBarandS Chart XmR (1 Chart)
+Time to clean an inpatient room (in minutes)  *
+Patient satisfaction scores for subgroups of 15 patients in the outpatient clinic*
+Average turnaround time for all STAT labs done each day  *
+Cost for each normal delivery  
+A diabetic patient's 3x a day blood sugar readings*
+Average length of stay for a subgroup of 20 ICU patients  *
+The distance (in feet) that a sample of 10 knee replacement patients can walk in 15 seconds*
 
 The final (EXERCISE 9*3) brings together the key issues related to selecting the most appropriate Shewhart chart for different measurement situations. In this exercise, the subgroup, type of data, and type of chart all need to be specified. Depending on how you interpret the wording describing the situations in Exercise 9-3, you might think that a type of chart other than that I have listed could be selected. A key leaning point for this exercise is that slight changes to the wording of the situation could lead you to selecting a different chart. For example, take a close look at situations 8 and 11 in Exercise 9-3. The wording for situation 8 points you to select a p-chart because they decided to focus on patients who had to wait more than 30 minutes. Even though they had variables data (i.e., time) they basically turned it into attributes data because of the 30-minute target. They have taken the more powerful form of data (variables data) and relegated it to a binomial condition, over 30 minutes and under 30 minutes. They will never understand the true variation in wait time. What is the longest wait? You have no idea. All we know is that a certain percentage of patients had to wait more than 30 minutes. The longest wait could be 31 minutes or 13,184 minutes. The more appropriate approach is found in situation 11. Here they are taking a sample of eight patients each day and recording their actual wait times. The chart of preference in this situation is the X-bar and S chart. We will now have the average wait time for a given day and the SD from this average. We can lay a separate line of the chart showing the target of 30 minutes. This gives us much more information about the process variation and how capable it is of achieving the target, which cannot be determined by using the p-chart. The final aspect
 
@@ -683,32 +685,33 @@ of this situation is that if the target is to have all patients be seen in 30 mi
 
 The most appropriate chart for each situation described in Exercise 9-3 is shown here. Note that situation 16 is a trick question. Did you determine that a chart cannot be identified? Why? Because there is no subgroup identified in the situation description. Remember, a Shewhart chart must have a subgroup and an observation as minimum requirements. In this situation, there is no subgroup. But if the situation had been worded as follows then we would have a subgroup: “You know the number of people who come to the ED complaining of chest pain EACH MONTH and the number who are actually diagnosed with an AMI or unstable angina.” Now you would be able to determine which chart is most appropriate. In this situation, the Shewhart chart of choice would be the p-chart because we know the denominator (i.e., the number of people coming to the ED complaining of chest pain) and the numerator (i.e., the number who were actually diagnosed with an AMI or unstable angina). Without a subgroup, however, we cannot make a decision about which chart is most appropriate.
 
-EXERCISE 9-3 You make the call!: Selecting the right chart (Answers)			
-Situation	Subgroup?	Type of Data?	Type of Chart?
-1. Each day you record the number of films processed in the radiology department.	Day	V	XmR
-2. Each day you record the number of films requested and the number that cannot be found in the radiology library.	Day	A	p-chart
-3. The number of inpatient restraints each month is placed over the total inpatient days each month.	Month	A	u-chart
-4. Each day you pull a stratified random sample of  15 ds and record the turnaround time (in minutes) for each CSC.	Day	V	X-bar&S
-5. The number of minutes it tal<es to get a stat med order administered to the patient (order time to administration time).	Stat med order	V	XmR
-6. Every 2 weeks you pull a stratified sample of 30 medication orders and count the total number of orders that have one or more errors.	Two weeks	A	p-chart
-7. The wait time in the ED (door to discharge) is tracked for each patient.	Patient	V	XmR
-8. The clinic receptionist notes the time ofcheck-in for each patient. The physician notes the time when he/ she first sees the patient in the exam room. An analyst compiles the data daily and reports the percentage of patients who had to wait more than 30 minutes.	Day	A	p-chart
-9. The director of surgery keeps track of the total number of surgical procedures performed each week.	Week	V	XmR
-10. The dietary department records the number of food trays that come back uneaten each day and the total number of trays they produced for that day.	Day	A	p-chart
-11. You are interested in the average time patients spend in your waiting area, so every day a student randomly picks eight patients and measures their actual waiting time in whole minutes.	Day	V	X-bar&S
+EXERCISE 9-3 You make the call!: Selecting the right chart (Answers)
+Situation Subgroup? Type of Data? Type of Chart?
 
-EXERCISE 9-3 You make the call!: Selecting the right chart (Answers)		(continued)	
-Situation	Subgroup?	Type of Data?	Type of Chart?
-12. The ICU nurses want to evaluate the ventilator-associated pneumonia (VAP) rate. So every 2 weeks they record the total number of pneumonia episodes and the total number of vent days.	Two weeks	A	u-chart
-13. Each week patient satisfaction scores for three units are compiled and an average is calculated for the three units.	Week	V	XmR
-14. The finance department tracks the total number of business days it takes to process a vendor's request for payment. Process time starts when the request for payment is received in the finance department and ends when the payment is sent (electronically or posted in the mail) to the vendor.	A request for payment	V	XmR
-15. Every week each medication order is checked against five potential types of errors. The total number of errors for the week is divided by the total number of orders submitted that week.	Week	A	u-chart
-15. You know the number of people who come to the ED complaining of chest pain and the number who are actually diagnosed with an AMI or unstable angina.	Unknown*	A	Unknown*
-*NOTE: Item 16 is a trick question. A subgroup is not specified. Without a subgroup you cannot make a decision about the most appropriate chart. If this description indicated that"You know the number of people who come to the emergency department EACH MONTH.. .“you would have a subgroup. The chart of choice would then be a p-chart.			
+1. Each day you record the number of films processed in the radiology department. Day V XmR
+2. Each day you record the number of films requested and the number that cannot be found in the radiology library. Day A p-chart
+3. The number of inpatient restraints each month is placed over the total inpatient days each month. Month A u-chart
+4. Each day you pull a stratified random sample of  15 ds and record the turnaround time (in minutes) for each CSC. Day V X-bar&S
+5. The number of minutes it tal<es to get a stat med order administered to the patient (order time to administration time). Stat med order V XmR
+6. Every 2 weeks you pull a stratified sample of 30 medication orders and count the total number of orders that have one or more errors. Two weeks A p-chart
+7. The wait time in the ED (door to discharge) is tracked for each patient. Patient V XmR
+8. The clinic receptionist notes the time ofcheck-in for each patient. The physician notes the time when he/ she first sees the patient in the exam room. An analyst compiles the data daily and reports the percentage of patients who had to wait more than 30 minutes. Day A p-chart
+9. The director of surgery keeps track of the total number of surgical procedures performed each week. Week V XmR
+10. The dietary department records the number of food trays that come back uneaten each day and the total number of trays they produced for that day. Day A p-chart
+11. You are interested in the average time patients spend in your waiting area, so every day a student randomly picks eight patients and measures their actual waiting time in whole minutes. Day V X-bar&S
+
+EXERCISE 9-3 You make the call!: Selecting the right chart (Answers)  (continued)
+Situation Subgroup? Type of Data? Type of Chart?
+12. The ICU nurses want to evaluate the ventilator-associated pneumonia (VAP) rate. So every 2 weeks they record the total number of pneumonia episodes and the total number of vent days. Two weeks A u-chart
+13. Each week patient satisfaction scores for three units are compiled and an average is calculated for the three units. Week V XmR
+14. The finance department tracks the total number of business days it takes to process a vendor's request for payment. Process time starts when the request for payment is received in the finance department and ends when the payment is sent (electronically or posted in the mail) to the vendor. A request for payment V XmR
+15. Every week each medication order is checked against five potential types of errors. The total number of errors for the week is divided by the total number of orders submitted that week. Week A u-chart
+15. You know the number of people who come to the ED complaining of chest pain and the number who are actually diagnosed with an AMI or unstable angina. Unknown*A Unknown*
+*NOTE: Item 16 is a trick question. A subgroup is not specified. Without a subgroup you cannot make a decision about the most appropriate chart. If this description indicated that"You know the number of people who come to the emergency department EACH MONTH.. .“you would have a subgroup. The chart of choice would then be a p-chart.
 
 References
 
-ASQ Statistics Division. Glossary and Tables for Statistical Quality Control, 4th ed. Milwaukee: ASQ Press, 2005 Benneyan, J. “Design, Use and Performance of Statistical Control Charts for Clinical Process Improvement.” Unpublished paper, Northeastern University, September 2001. For access to this paper contact Professor James C. Benneyan, Ph.D„ MIME Department, 334 Snell Engineering Center, Northeastern University, Boston MA 02115; tel: 617-373-2975; fax: 617-373-2921; e-mail: benneyan@coe.neu.edu.
+ASQ Statistics Division. Glossary and Tables for Statistical Quality Control, 4th ed. Milwaukee: ASQ Press, 2005 Benneyan, J. “Design, Use and Performance of Statistical Control Charts for Clinical Process Improvement.” Unpublished paper, Northeastern University, September 2001. For access to this paper contact Professor James C. Benneyan, Ph.D„ MIME Department, 334 Snell Engineering Center, Northeastern University, Boston MA 02115; tel: 617-373-2975; fax: 617-373-2921; e-mail: <benneyan@coe.neu.edu>.
 
 Benneyan, J., R. Lloyd, and P. Pisek. “Statistical Process Control as a Tool for Research and Health Care Improvement.” Journal of Quality and Safety in Healthcare 12, no. 6 (December, 2003): 458-464.
 

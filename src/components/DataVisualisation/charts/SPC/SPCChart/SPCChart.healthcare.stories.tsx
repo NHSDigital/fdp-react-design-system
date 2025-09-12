@@ -108,7 +108,7 @@ export const ED4HourCompliance: Story = {
     render: (_args, { globals }) => {
 		const data = series(ed4hValues);
 		const sqlMode = globals?.sqlCompatMode === 'sql';
-		const sql = sqlMode ? buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) }) : null;
+		//const sql = sqlMode ? buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: data.map(d => ({ x: d.x, value: d.y })) }) : null;
 		return (
 			<ChartContainer
 				title={`ED 4h Compliance – ${sqlMode ? 'SQL Compat' : 'Base'}`}

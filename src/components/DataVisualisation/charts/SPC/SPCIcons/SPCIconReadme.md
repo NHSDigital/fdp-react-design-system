@@ -3,12 +3,14 @@
 A React SVG component that renders a compact Statistical Process Control (SPC) “variation” glyph for performance dashboards.  
 
 It visualises:  
+
 - SPC classification (special cause improving / deteriorating / no‑judgement, or common cause)  
 - Direction of movement (higher / lower)  
 - Optional H / L letter (contextual to direction)  
 - Recent pattern of five data points with emphasised last two when a special cause exists  
 
 ## Design Goals
+
 | Goal | Rationale |
 | ---- | --------- |
 | Single, glanceable object | Reduce table column clutter |
@@ -18,21 +20,26 @@ It visualises:
 | Neutral about statistical engine | Consumes only judgements and polarity, not raw series |
 | Vector-based (SVG) | Avoids rasterisation and given the challenges of legibility of the existing icon, at least avoids rasterisation. |
 | Consistency with existing icons | Ensures consistency with previous SPC work of MDC team whilst creating a flexible API for potential redesign of the icons in future |
+
 ---
 
 ## Core Concepts
 
 ### Judgement vs State
+
 - **Judgement** (`VariationJudgement`): semantic SPC outcome at the latest point (Improving, Deteriorating, No_Judgement, None).
 - **State** (`VariationState`): visual classification bucket used for colour and glyph.
 - The icon maps judgement → state internally. You normally supply a *judgement* (V2 API).
 
 ### Direction (Trend Geometry)
+
 Determines which point layout is used (higher vs lower run) and which letter (H/L) appears.
+
 - Inferred automatically for Improving / Deteriorating using *polarity*.
 - Must be provided (`trend`) when judgement is `No_Judgement` or `None` (or when polarity is ambiguous).
 
 ### Polarity (`MetricPolarity`)
+
 Explains which way is desirable (HigherIsBetter, LowerIsBetter, ContextDependent).  
 Used only for derived ARIA description (not colour or letter).
 
@@ -41,7 +48,9 @@ Used only for derived ARIA description (not colour or letter).
 ## Input Shapes (APIs)
 
 ### 1. V2 Derivable (recommended)
+
 Provide what you *know*; icon infers state and direction:
+
 ```ts
 import { SPCVariationIcon } from "./SPCIcon";
 // Recommended: import the engine enum for variation keys
@@ -59,7 +68,9 @@ import { VariationIcon as EngineVariationIcon } from "../SPCChart/logic/spcConst
 ```
 
 ### 2. Parsimonious Helper Type
+
 Compile‑time enforcement that neutral states supply `trend`:
+
 ```ts
 const payload: SpcVariationParsimonious = {
   judgement: VariationJudgement.None,
@@ -70,7 +81,9 @@ const payload: SpcVariationParsimonious = {
 ```
 
 ### 3. Legacy / Explicit (V1)
+
 Directly specify visual state and trend (bypasses derivation):
+
 ```ts
 <SPCVariationIcon
   data={{
@@ -127,6 +140,7 @@ interface SPCVariationIconProps extends SpcIconBaseProps {
 ```
 
 Example:
+
 ```tsx
 <SPCVariationIcon
   size={64}
@@ -140,6 +154,7 @@ Example:
 ## Accessibility
 
 The component sets:
+
 - `role="img"`
 - `aria-label`: Short label (e.g. “Special Cause (Improving) – Higher”)
 - `aria-description`: Full sentence from `deriveVariationAriaDescription()` (e.g. “Special cause improvement: recent data…”)
@@ -147,6 +162,7 @@ The component sets:
 Override short label with `ariaLabel`. For custom narration you may also wrap with additional contextual text.
 
 Utility exposed:
+
 ```ts
 deriveVariationAriaDescription(data: SpcVariationInput): string;
 ```
@@ -156,6 +172,7 @@ deriveVariationAriaDescription(data: SpcVariationInput): string;
 ## Colour System
 
 Defined in `VARIATION_COLOURS` keyed by `VariationState`. Each entry:
+
 ```ts
 interface VariationColourDef {
   hex: string;
@@ -167,6 +184,7 @@ interface VariationColourDef {
   judgement?: VariationJudgement;
 }
 ```
+
 To extend (e.g., light backgrounds) you can add ramp shades or computed variants.
 
 ---
@@ -250,6 +268,7 @@ export const Cell = () => (
 ---
 
 ## Change Log (local)
+
 - V2 derivation model introduced (judgement and polarity and optional trend).
 - Arrow glyph for No_Judgement.
 - ARIA description generator.
@@ -257,4 +276,5 @@ export const Cell = () => (
 ---
 
 ## License / Ownership
+
 Internal prototype component; ensure alignment with NHS design system guidelines before external publication.

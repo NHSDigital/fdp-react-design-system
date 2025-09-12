@@ -157,6 +157,15 @@ The golden SPC fixture (`test-data/golden-all.json`) and related snapshot tests 
 
 _No other unreleased changes yet._
 
+### Breaking (Unreleased – SPC V2 Cutover)
+
+- Engine enums/constants are no longer re-exported from `spc.ts`. Import from `spcConstants` instead (e.g., `ChartType`, `ImprovementDirection`, `VariationIcon`, `PrimeDirection`, `SpcRuleId`, `SpcRawRuleTag`, `RULE_METADATA`, etc.).
+- `VariationIcon.None` removed; use `VariationIcon.Suppressed` for neutral/no-judgement.
+- Directional flags should use the `*Up`/`*Down` aliases instead of legacy Above/Below/High/Low names.
+- UI enums (`SpcGradientCategory`, `SpcEmbeddedIconVariant`) are defined in `SPCChart.constants.ts` and re-exported via the SPC barrel.
+
+See migration guide: `docs/migration/spc-v2-cutover.md`.
+
 ## 0.0.34-alpha.4 - 2025-09-06
 
 ### Added

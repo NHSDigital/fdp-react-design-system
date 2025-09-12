@@ -646,10 +646,8 @@ var Column = ({
       [`nhsuk-u-${desktopWidth}-desktop`]: !!desktopWidth,
       // Grid positioning
       [`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7,
-      // Alignment
-      "nhsuk-grid-align-left": align === "left" /* Left */,
-      "nhsuk-grid-align-center": align === "center" /* Center */,
-      "nhsuk-grid-align-right": align === "right" /* Right */
+      // Alignment (robust string-based class to avoid enum identity issues)
+      ...align ? { [`nhsuk-grid-align-${align}`]: true } : {}
     },
     className
   );

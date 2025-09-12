@@ -10,6 +10,7 @@ import {
 	Checkboxes,
 	GridWidth,
 	ColumnAlign,
+	ButtonVariant,
 } from "../../../components";
 import WizardProgress from "./WizardProgress";
 import ReviewAnswers from "./ReviewAnswers";
@@ -326,7 +327,7 @@ export const DataVizWizard: React.FC<DataVizWizardProps> = ({
 								</Button>
 							)}
 						</Column>
-						<Column width={GridWidth.OneHalf}>
+						<Column width={GridWidth.OneHalf} align={ColumnAlign.Right}>
 							<Button
 								onClick={() => {
 									if (multiple) {
@@ -415,7 +416,7 @@ export const DataVizWizard: React.FC<DataVizWizardProps> = ({
 					/>
 					<Row>
 						<Column width={GridWidth.OneHalf}>
-							<Button onClick={goBack} variant="secondary">
+							<Button onClick={goBack} variant={ButtonVariant.Secondary}>
 								Back
 							</Button>
 						</Column>

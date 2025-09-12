@@ -16,14 +16,17 @@ if (!fs.existsSync(srcDir)) {
 }
 fs.mkdirSync(destDir, { recursive: true });
 
-const files = fs.readdirSync(srcDir).filter(f => f.endsWith('.js'));
-if (!files.length) {
-  console.warn('[sync-next-behaviours] No JS files found to copy.');
+// Copy both JS bundles and their source maps to avoid 404s in dev tools
+const allFiles = fs.readdirSync(srcDir).filter(f => f.endsWith('.js') || f.endsWith('.js.map'));
+if (!allFiles.length) {
+  console.warn('[sync-next-behaviours] No behaviour build artefacts found to copy.');
   process.exit(0);
 }
-for (const f of files) {
+for (const f of allFiles) {
   const src = path.join(srcDir, f);
   const dest = path.join(destDir, f);
   fs.copyFileSync(src, dest);
 }
-console.log(`[sync-next-behaviours] Copied ${files.length} behaviour file(s) to next public dist.`);
+const jsCount = allFiles.filter(f => f.endsWith('.js')).length;
+const mapCount = allFiles.filter(f => f.endsWith('.js.map')).length;
+console.log(`[sync-next-behaviours] Copied ${jsCount} JS and ${mapCount} source map file(s) to next public dist.`);

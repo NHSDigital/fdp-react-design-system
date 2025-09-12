@@ -6,7 +6,6 @@ import {
 	RowProps,
 	ColumnProps,
 	GridProps,
-	ColumnAlign,
 } from "./Grid.types";
 
 /**
@@ -95,10 +94,8 @@ export const Column: React.FC<ColumnProps> = ({
 
 			// Grid positioning
 			[`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7,
-			// Alignment
-			"nhsuk-grid-align-left": align === ColumnAlign.Left,
-			"nhsuk-grid-align-center": align === ColumnAlign.Center,
-			"nhsuk-grid-align-right": align === ColumnAlign.Right,
+			// Alignment (robust string-based class to avoid enum identity issues)
+			...(align ? { [`nhsuk-grid-align-${align}`]: true } : {}),
 		},
 		className
 	);

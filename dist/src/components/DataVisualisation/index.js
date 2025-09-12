@@ -10019,10 +10019,8 @@ var Column = ({
       [`nhsuk-u-${desktopWidth}-desktop`]: !!desktopWidth,
       // Grid positioning
       [`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7,
-      // Alignment
-      "nhsuk-grid-align-left": align === "left" /* Left */,
-      "nhsuk-grid-align-center": align === "center" /* Center */,
-      "nhsuk-grid-align-right": align === "right" /* Right */
+      // Alignment (robust string-based class to avoid enum identity issues)
+      ...align ? { [`nhsuk-grid-align-${align}`]: true } : {}
     },
     className
   );
@@ -10438,7 +10436,7 @@ var DataVizWizard = ({
         ),
         /* @__PURE__ */ jsxs26(Row, { children: [
           /* @__PURE__ */ jsx40(Column, { width: "one-half" /* OneHalf */, children: path2.length > 1 && /* @__PURE__ */ jsx40(Button_default, { onClick: goBack, variant: "secondary", children: "Back" }) }),
-          /* @__PURE__ */ jsx40(Column, { width: "one-half" /* OneHalf */, children: /* @__PURE__ */ jsx40(
+          /* @__PURE__ */ jsx40(Column, { width: "one-half" /* OneHalf */, align: "right" /* Right */, children: /* @__PURE__ */ jsx40(
             Button_default,
             {
               onClick: () => {
@@ -10524,7 +10522,7 @@ var DataVizWizard = ({
           currentId
         ),
         /* @__PURE__ */ jsxs26(Row, { children: [
-          /* @__PURE__ */ jsx40(Column, { width: "one-half" /* OneHalf */, children: /* @__PURE__ */ jsx40(Button_default, { onClick: goBack, variant: "secondary", children: "Back" }) }),
+          /* @__PURE__ */ jsx40(Column, { width: "one-half" /* OneHalf */, children: /* @__PURE__ */ jsx40(Button_default, { onClick: goBack, variant: "secondary" /* Secondary */, children: "Back" }) }),
           /* @__PURE__ */ jsx40(Column, { width: "one-half" /* OneHalf */, align: "right" /* Right */, children: /* @__PURE__ */ jsx40(
             Button_default,
             {

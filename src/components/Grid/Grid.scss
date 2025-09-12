@@ -3,20 +3,26 @@
 
 // Alignment utility classes for Column
 .nhsuk-grid-align-left {
+	/* Horizontal alignment of inline content */
 	text-align: left;
-	justify-content: flex-start;
+	/* Make column a flex container so align-items affects children */
+	display: flex;
+	flex-direction: column;
+	/* Horizontal alignment of block/flex children */
 	align-items: flex-start;
 }
 
 .nhsuk-grid-align-center {
 	text-align: center;
-	justify-content: center;
+	display: flex;
+	flex-direction: column;
 	align-items: center;
 }
 
 .nhsuk-grid-align-right {
 	text-align: right;
-	justify-content: flex-end;
+	display: flex;
+	flex-direction: column;
 	align-items: flex-end;
 }
 

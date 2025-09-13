@@ -3,7 +3,7 @@ import { SPCChart, type SPCDatum, ImprovementDirection } from "./SPCChart";
 import { ChartContainer } from "../../ChartContainer.tsx";
 
 const meta: Meta<typeof SPCChart> = {
-	title: "Data Visualisation/SPC/SPCIcons/Embedded Icon Matrix",
+	title: "Data Visualisation/SPC/SPC Icons/Embedded Icon Matrix",
 	component: SPCChart,
 	parameters: {
 		docs: {

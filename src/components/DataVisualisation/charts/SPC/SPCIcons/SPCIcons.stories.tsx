@@ -12,7 +12,7 @@ import { Grid, Row, Column, GridWidth } from "../../../../../core";
 import { Heading } from "../../../../Heading";
 
 export default {
-	title: "Data Visualisation/SPC/SPCIcons",
+	title: "Data Visualisation/SPC/SPC Icons",
 	component: SPCVariationIcon,
 };
 
@@ -145,7 +145,7 @@ export const AssuranceIconInteractive = {
 					marginTop: 8,
 					fontFamily:
 						"'Frutiger W01', Frutiger, Arial, 'Helvetica Neue', Helvetica, sans-serif",
-					fontSize: 12,
+					fontSize: 16,
 				}}
 			>
 				Toggle status to view Pass / Fail / Uncertain.

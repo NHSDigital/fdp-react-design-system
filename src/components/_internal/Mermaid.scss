@@ -18,6 +18,22 @@
 		nhs.$nhs-fdp-color-data-viz-spc-concern
 	);
 	--_mm-radius: 6px;
+
+	/* Defaults for node padding used by the TS adjuster (in px numbers) */
+	--mermaid-node-base-padding-x: 12;
+	--mermaid-node-base-padding-y: 8;
+	/* Extra padding you can add on top per diagram/context */
+	--mermaid-node-extra-padding-x: 0;
+	--mermaid-node-extra-padding-y: 0;
+
+	/* Extra padding to apply to the SVG viewBox (in px) to avoid edge clipping */
+	--mermaid-svg-extra-padding-x: 6;
+	--mermaid-svg-extra-padding-y: 4;
+
+	/* Edge label sizing controls */
+	--mermaid-edge-label-padding-x: 4;
+	--mermaid-edge-label-padding-y: 2;
+	--mermaid-edge-label-bg: #{nhs.$nhs-fdp-color-primary-white};
 	background: var(--_mm-bg);
 	border: 1px solid var(--_mm-border);
 	border-radius: var(--_mm-radius);
@@ -40,6 +56,28 @@
 	);
 }
 
+/* Optional utility variants to quickly tweak padding per-diagram */
+.mermaid-diagram.is-compact {
+	--mermaid-node-base-padding-x: 8;
+	--mermaid-node-base-padding-y: 6;
+}
+
+.mermaid-diagram.is-cozy {
+	--mermaid-node-base-padding-x: 16;
+	--mermaid-node-base-padding-y: 10;
+}
+
+.mermaid-diagram.is-spacious {
+	--mermaid-node-base-padding-x: 20;
+	--mermaid-node-base-padding-y: 14;
+}
+
+/* Extra roomy */
+.mermaid-diagram.is-airy {
+	--mermaid-node-base-padding-x: 24;
+	--mermaid-node-base-padding-y: 16;
+}
+
 .mermaid-error {
 	background: var(
 		--nhs-fdp-color-data-viz-spc-concern,
@@ -52,47 +90,9 @@
 	overflow-x: auto;
 }
 
-/* Core mermaid-generated element overrides */
-.mermaid-diagram svg {
-	width: 100%;
-	height: auto;
-}
-/* Base node shapes (extra specificity + !important to beat Mermaid injected <style>) */
-.mermaid-diagram svg .node rect,
-.mermaid-diagram svg .node polygon,
-.mermaid-diagram svg .node circle,
-.mermaid-diagram svg .node ellipse {
-	fill: var(
-		--nhs-fdp-color-primary-blue,
-		nhs.$nhs-fdp-color-primary-blue
-	) !important;
-	stroke: var(--_mm-border) !important;
-	stroke-width: 1px !important;
-	rx: var(--_mm-radius);
-	ry: var(--_mm-radius);
-}
-
-.mermaid-diagram svg .node text {
-	fill: var(--_mm-text) !important;
-	font-size: 13px;
-	font-family:
-		#{nhs.$nhs-fdp-font-family-base},
-		#{nhs.$nhs-fdp-font-family-fallback} !important;
-}
-
-/* Decision nodes (rhombus) */
-.mermaid-diagram .node .label foreignObject > div {
-	padding: 2px 4px;
-}
+/* (Removed duplicate top-level node/label overrides in favour of the consolidated block below) */
 /* Mermaid generated structure overrides (hierarchical nesting) */
 .mermaid-diagram {
-	
-	font-family: '#{nhs.$nhs-fdp-font-family-base}', nhs.$nhs-fdp-font-family-fallback;
-	
-	svg {
-		width: 100%;
-		height: auto;
-	}
 
 	span {
 		&.nodeLabel {
@@ -102,8 +102,10 @@
 		}
 	}
 
-	/* Nodes */
+	/* Nodes and edges (single authoritative block) */
 	svg {
+		width: 100%;
+		height: auto;
 		.node {
 			/* Base shapes (specificity via svg .node + !important) */
 			rect,
@@ -121,17 +123,15 @@
 				ry: var(--_mm-radius);
 			}
 
-			text {
-				/* Use standard diagram text colour; 12px matches Mermaid default to avoid bbox truncation */
-				fill: var(
-					--nhs-fdp-color-primary-white,
-					nhs.$nhs-fdp-color-primary-white
-				) !important;
-				font-size: 12px;
-				font-family:
-					'#{nhs.$nhs-fdp-font-family-base}',
-					#{nhs.$nhs-fdp-font-family-fallback} !important;
-			}
+				text {
+					/* Keep fill only; allow Mermaid-measured font to define node sizing */
+					fill: var(
+						--nhs-fdp-color-primary-white,
+						nhs.$nhs-fdp-color-primary-white
+					) !important;
+					/* Avoid overriding font-size/family to prevent bbox mismatch */
+					white-space: pre; /* only break on explicit \n */
+				}
 
 			/* Accent nodes (start/end/terminal) */
 			&[id^="A"],
@@ -166,9 +166,19 @@
 			}
 
 			.label {
-				foreignObject > div {
-					padding: 2px 4px;
+				foreignObject {
+					overflow: visible; /* allow expansion */
+
+					div {
+						display: contents !important;
+					}
 				}
+
+				// & > div {
+				// 	padding: 2px 4px;
+				// 	white-space: normal;
+				// 	word-wrap: break-word;
+				// }
 
 				/* Decision emphasis for threshold-related content */
 				&:has(div:contains("threshold")),
@@ -189,15 +199,31 @@
 		}
 		.edgeLabel {
 			background-color: nhs.$nhs-fdp-color-primary-white !important; /* optional background */
-			margin: 0 4px;
-			padding: 0 2px;
-			overflow: visible; /* allow expansion */
-			font-size: 11px;
+			overflow: visible !important; /* allow expansion */
+			font-size: 18px;
 			text {
 				fill: var(--_mm-text) !important;
 				white-space: nowrap;
 				font-size: 12px;
 				font-weight: bold;
+			}
+
+			rect {
+				background-color: nhs.$nhs-fdp-color-primary-white !important; /* optional background */
+				fill: nhs.$nhs-fdp-color-primary-white !important; /* optional background */
+			}
+
+			foreignObject {
+				overflow: visible !important; /* allow expansion */
+
+				div {
+					display: contents !important;
+					padding: var(--mermaid-edge-label-padding-y)
+						var(--mermaid-edge-label-padding-x);
+					background: var(--mermaid-edge-label-bg);
+					white-space: normal;
+					word-wrap: break-word;
+				}
 			}
 		}
 	}

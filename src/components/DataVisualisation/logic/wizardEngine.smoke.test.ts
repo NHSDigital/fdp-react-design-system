@@ -10,7 +10,8 @@ describe('wizardEngine', () => {
     expect(wiz.title).toBeDefined();
     expect(typeof wiz.root).toBe('string');
     const root = getNode(wiz, wiz.root);
-    expect((root as any).type).toBe('single_choice');
+    // Accept both legacy 'single_choice' and new unified 'choice' node types
+    expect(['single_choice', 'choice']).toContain((root as any).type);
     expect(((root as any).choices || []).length).toBeGreaterThan(0);
   });
 

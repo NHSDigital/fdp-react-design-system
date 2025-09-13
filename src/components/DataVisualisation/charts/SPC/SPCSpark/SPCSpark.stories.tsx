@@ -4,7 +4,7 @@ import { SPCSpark } from './SPCSpark';
 import { VariationState } from '../SPCIcons/SPCConstants';
 
 const meta: Meta<typeof SPCSpark> = {
-  title: 'Data Visualisation/SPC/SPCSpark',
+  title: 'Data Visualisation/SPC/SPC Spark',
   component: SPCSpark,
   decorators: [
     (Story) => (

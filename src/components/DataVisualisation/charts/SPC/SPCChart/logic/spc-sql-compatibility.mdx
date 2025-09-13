@@ -1,23 +1,28 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Data Visualisation/SPC/SQL Compatibility/SQL Compatibility Guide" />
+<Meta title="Data Visualisation/SPC/Guides/SPC SQL Compatibility" />
 
-# SPC SQL Compatibility (Experimental)
+# SPC Implementation and Compatibility with NHS SQL v2.6a
 
-This guide explains the experimental SQL compatibility wrapper (`buildSpcSqlCompat`) that emulates the v2.6a SQL directional pruning phase (PrimeDirection + rank-based resolution) on top of the orthodox TypeScript SPC engine.
+This guide explains the optional SQL compatibility wrapper (`buildSpcSqlCompat`) that emulates the v2.6a SQL directional pruning phase (PrimeDirection and rank‑based resolution) on top of the orthodox TypeScript SPC engine.
 
 ## Why this exists
 
-Historic SQL outputs exposed simultaneous candidate Improvement and Concern values then applied a deterministic ranking (now centralised in the engine constant `RULE_RANK_BY_ID`):
+NHS Guidance and previous SQL outputs (v2.6 / 2.6a) exposed simultaneous candidate `Improvement` and `Concern` values then applied a deterministic ranking:
 
 1. Trend (rank 4)
 2. Shift (rank 3)
 3. Two-sigma (2 of 3 beyond 2σ) (rank 2)
 4. Single-point beyond 3σ (rank 1)
 
-A PrimeDirection (Upwards / Downwards / Same) was computed from the strongest rule per side (sides now expressed via the shared `Side` enum: `Side.Up` / `Side.Down`), then improvement / concern values were pruned according to metric improvement polarity.
+A PrimeDirection (Upwards / Downwards / Same) was computed from the strongest rule per side, then improvement / concern values were pruned according to metric improvement polarity.
 
 The TypeScript engine performs side aggregation earlier, so rows normally never surface both sides simultaneously. The wrapper replays ranking post hoc for analytical / parity comparisons.
+
+### Notes:
+
+- The ranking source of truth lives in `RULE_METADATA` / `RULE_RANK_BY_ID` inside the engine. The wrapper consumes that mapping; there is no duplicated hard‑coded ordering here.
+- An engine setting `conflictPrecedenceMode: 'sql_ranking_v2_6a'` exists for forward compatibility, but it is currently inert for orthodox Shewhart geometry (no single row can truly satisfy opposing sides). Prefer this wrapper when strict SQL parity is required.
 
 ## Key exports
 
@@ -29,11 +34,15 @@ The TypeScript engine performs side aggregation earlier, so rows normally never 
 
 ## Behaviour notes
 
-- Uses underlying `buildSpc` (with conflictPrecedenceMode disabled) then recomputes per-side rule ranks using the shared `RULE_RANK_BY_ID` mapping (no duplicated numeric literals).
-  
-Note: Trend side-gating is always enabled in the core engine. The SQL compatibility wrapper no longer accepts a flag to disable it; parity analysis should focus on rank/pruning transparency rather than mutating core semantics.
-- Biases toward Improvement framing on perfect rank ties (PrimeDirection = Same) when both sides present, mirroring optimistic resolution strategy.
-- If the orthodox rule geometry yields only one side of signals (usual case) metadata fields remain mostly undefined and variationIcon matches the base engine.
+- Uses underlying `buildSpc` (with conflictPrecedenceMode disabled) then recomputes per‑side rule ranks.
+
+> #### Note: Trend side‑gating is always enabled in the core engine. The SQL compatibility wrapper no longer exposes a flag to disable it.
+> - Biases toward Improvement framing on perfect rank ties (PrimeDirection = Same) when both sides present, mirroring optimistic resolution strategy.
+> - If the orthodox rule geometry yields only one side of signals (usual case) metadata fields remain mostly undefined and variationIcon matches the base engine.
+
+## Backfill semantics (Shift & Trend)
+
+The main SPC engine now BACKFILLS shift and trend flags across the entire qualifying run (all N points), not only the terminal detection point. This wrapper simply reads those backfilled flags – it does not alter backfill logic. See the migration guide section in the changelog for rationale and migration steps: [Backfill Semantics (Shift & Trend)](https://github.com/fergusbisset/nhs-fdp-design-system/blob/master/CHANGELOG.md#backfill-semantics-shift--trend).
 
 ## When to use
 
@@ -43,15 +52,38 @@ Note: Trend side-gating is always enabled in the core engine. The SQL compatibil
 
 Not recommended for routine production classification; prefer the native engine for statistically orthodox interpretation.
 
+See also:
+
+- [Precedence & Directional Strategy guide](?path=/docs/data-visualisation-spc-guides-trend-gating-rationale--docs) for engine‑level icon resolution
+- Trend Gating rationale for how trend contributes to classification and visuals
+
 ## Storybook demo
 
-See the story: “Data Visualisation / SPC / SQL Compatibility / Base vs SQL compatibility (experimental)” for a side-by-side comparison.
+See the story: “Data Visualisation / SPC / SQL Compatibility / Base vs SQL compatibility” for a side‑by‑side comparison.
 
 ## Limitations / Future
 
-- Does not currently simulate scenarios impossible under orthodox Shewhart geometry (true simultaneous high & low rule satisfaction on one row); the shared `Side` enum unifies terminology with the core engine (formerly "high"/"low").
+- Does not currently simulate scenarios impossible under orthodox Shewhart geometry (true simultaneous high & low rule satisfaction on one row).
 - No attempt to recreate historical warning codes tied to conflict pruning.
 - Future extensions could emit a structured `conflict` object if a broader rule set introduces mixed-side signals.
+
+## Deep dive: SQL v2.6a conflict resolution (merged)
+
+For reference, the wrapper mirrors the SQL v2.6a “conflict precedence” module when both Improvement and Concern candidates exist on the same row.
+
+Rank hierarchy (per side): Trend (4) > Shift (3) > Two‑sigma (2) > Single‑point (1). The engine exposes this via `RULE_METADATA` and the wrapper reads it directly.
+
+### PrimeDirection derivation:
+
+- Compute the maximum rank on the Upwards side and the maximum rank on the Downwards side for the row.
+- If Up > Down → `primeDirection = 'Upwards'`; if Down > Up → `'Downwards'`; if equal → `'Same'`.
+
+### Directional pruning:
+
+- If `primeDirection` picks a side, prune the opposite side’s value according to metric polarity (higher‑is‑better vs lower‑is‑better).
+- If `primeDirection = 'Same'`, break the tie optimistically toward Improvement (legacy behaviour), and mark `sqlPruned = true` when a value was removed.
+
+Outputs per row include `primeDirection`, `primeRank`, `primeRuleId`, `sqlOriginalImprovementValue`, `sqlOriginalConcernValue`, and a `sqlPruned` flag for auditability.
 
 ## Example usage
 
@@ -78,7 +110,5 @@ Unit tests (`spcSqlCompat.client.test.ts`) cover:
 - Basic generation & icon assignment.
 - Tie scenario handling (non-fatal / improvement biased if both sides present).
 
-Add further tests for edge-case synthetic data if extending rule inventory.
+TODO: Add further tests for edge-case synthetic data if extending rule inventory.
 
----
-_Status: Experimental / internal. Stabilisation pending empirical validation against production SQL outputs._

@@ -36,43 +36,10 @@
   overflow-x: auto;
 }
 
-/* Core mermaid-generated element overrides */
-.mermaid-diagram svg {
-  width: 100%;
-  height: auto;
-}
-
-/* Base node shapes (extra specificity + !important to beat Mermaid injected <style>) */
-.mermaid-diagram svg .node rect,
-.mermaid-diagram svg .node polygon,
-.mermaid-diagram svg .node circle,
-.mermaid-diagram svg .node ellipse {
-  fill: var(--nhs-fdp-color-primary-blue, #005eb8) !important;
-  stroke: var(--_mm-border) !important;
-  stroke-width: 1px !important;
-  rx: var(--_mm-radius);
-  ry: var(--_mm-radius);
-}
-
-.mermaid-diagram svg .node text {
-  fill: var(--_mm-text) !important;
-  font-size: 13px;
-  font-family: Frutiger W01, Arial, sans-serif !important;
-}
-
-/* Decision nodes (rhombus) */
-.mermaid-diagram .node .label foreignObject > div {
-  padding: 2px 4px;
-}
-
+/* (Removed duplicate top-level node/label overrides in favour of the consolidated block below) */
 /* Mermaid generated structure overrides (hierarchical nesting) */
 .mermaid-diagram {
-  font-family: "Frutiger W01", Arial, sans-serif;
-  /* Nodes */
-}
-.mermaid-diagram svg {
-  width: 100%;
-  height: auto;
+  /* Nodes and edges (single authoritative block) */
 }
 .mermaid-diagram span.nodeLabel {
   font-size: 14px !important;
@@ -80,6 +47,8 @@
   font-family: "Frutiger W01", Arial, sans-serif;
 }
 .mermaid-diagram svg {
+  width: 100%;
+  height: auto;
   /* Edges */
 }
 .mermaid-diagram svg .node {
@@ -98,10 +67,10 @@
   ry: var(--_mm-radius);
 }
 .mermaid-diagram svg .node text {
-  /* Use standard diagram text colour; 12px matches Mermaid default to avoid bbox truncation */
+  /* Keep fill only; allow Mermaid-measured font to define node sizing */
   fill: var(--nhs-fdp-color-primary-white, #ffffff) !important;
-  font-size: 12px;
-  font-family: "Frutiger W01", Arial, sans-serif !important;
+  /* Avoid overriding font-size/family to prevent bbox mismatch */
+  white-space: pre; /* only break on explicit \n */
 }
 .mermaid-diagram svg .node[id^=A] rect,
 .mermaid-diagram svg .node[id^=A] polygon,
@@ -136,8 +105,13 @@
 .mermaid-diagram svg .node .label {
   /* Decision emphasis for threshold-related content */
 }
-.mermaid-diagram svg .node .label foreignObject > div {
+.mermaid-diagram svg .node .label foreignObject {
+  overflow: visible; /* allow expansion */
+}
+.mermaid-diagram svg .node .label > div {
   padding: 2px 4px;
+  white-space: normal;
+  word-wrap: break-word;
 }
 .mermaid-diagram svg .node .label:has(div:contains("threshold")) rect, .mermaid-diagram svg .node .label:has(span:contains("threshold")) rect {
   stroke: var(--_mm-warn);

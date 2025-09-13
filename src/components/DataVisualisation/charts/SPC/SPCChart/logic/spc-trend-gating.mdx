@@ -1,11 +1,11 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
-import { TrendGatingEmbeddedHigh } from './TrendGatingEmbeddedHighStory';
-import { TrendGatingEmbeddedComparison } from './TrendGatingEmbeddedComparison';
-import { TrendVisualMode } from './SPCChart';
-import Mermaid from '../../../../_internal/Mermaid';
-import { ED4hTrendGatingEmbedded } from './ED4hTrendGatingEmbeddedStory';
+import { TrendGatingEmbeddedHigh } from '../TrendGatingEmbeddedHighStory';
+import { TrendGatingEmbeddedComparison } from '../TrendGatingEmbeddedComparison';
+import { TrendVisualMode } from '../SPCChart';
+import Mermaid from '../../../../../_internal/Mermaid';
+import { ED4hTrendGatingEmbedded } from '../ED4hTrendGatingEmbeddedStory';
 
-<Meta title="Data Visualisation/SPC/Trend Gating Rationale"/>
+<Meta title="Data Visualisation/SPC/Guides/Trend Gating Rationale"/>
 
 ## Trend Side‑Gating & Neutral (Purple) Points
 
@@ -25,26 +25,32 @@ This note explains why **early monotonic trend points that are still on the *unf
 
 Note: Side‑gating remains in the engine regardless of visual mode. This separates statistical classification from UI presentation.
 
+See also: Precedence & Directional Strategy for how trend interacts with icon selection under different precedence strategies.
+
 ### Pros and cons at a glance
 
-Perspective: what are we optimising for—statistical caution or improvement motivation?
+Perspective: what are we optimising for statistical caution or improvement motivation?
 
 Pros of side‑gating (classification held neutral until favourable side):
+
 - Reduces premature celebration/alert: no “Improvement” while still in unfavourable territory.
 - Clear semantics: Improvement/Concern strictly mean “directional special cause on favourable/unfavourable side of mean.”
 - Aligns with orthodox SPC interpretation and mixed‑rule precedence (trend vs shift/outlier).
 - Safer for governance/board reporting; avoids misleading positives.
 
 Cons of side‑gating:
+
 - Delayed visible recognition during recovery; long stretches of purple can be demotivating.
 - The moment an intervention starts working may be visually distant from when blue/orange appears.
 
 Pros of ungated visuals (colour by direction immediately):
+
 - Timely feedback for Quality Improvement (QI) teams; reinforces early gains.
 - Closer to NHS “Making Data Count” exemplars used in training materials.
 - Easier cause‑and‑effect storytelling around interventions and PDSA cycles.
 
 Cons of ungated visuals:
+
 - Can look like “improvement” while still below target or on the unfavourable side of the mean.
 - Risks misinterpretation if used in governance contexts without explanation.
 
@@ -113,12 +119,12 @@ Side‑gated trend interpretation layers a decision/utility frame over orthodox 
 
 Tip: Pair variation signals with target‑based assurance icons to communicate both “is the process changing?” (mean‑relative SPC) and “are we meeting the goal?” (target‑relative capability).
 
-> #### Board‑ready view
->
-> For governance dashboards and external reporting, prefer conservative visuals:
-> - Set `trendVisualMode={TrendVisualMode.Gated}` so early trends remain neutral until favourable‑side inclusion.
-> - Keep engine classification unchanged (side‑gated) for icons and data attributes.
-> - Pair with capability/assurance indicators (target‑relative) to show goal attainment alongside variation.
+#### Board‑ready view
+
+For governance dashboards and external reporting, prefer conservative visuals:
+- Set `trendVisualMode={TrendVisualMode.Gated}` so early trends remain neutral until favourable‑side inclusion.
+- Keep engine classification unchanged (side‑gated) for icons and data attributes.
+- Pair with capability/assurance indicators (target‑relative) to show goal attainment alongside variation.
 
 #### Quick start in Storybook
 

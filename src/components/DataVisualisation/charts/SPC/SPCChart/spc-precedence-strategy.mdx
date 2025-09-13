@@ -1,13 +1,50 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
 import Table from '../../../../Tables/Table';
+import Mermaid from '../../../../_internal/Mermaid';
 
-<Meta title="Data Visualisation/SPC/SPC Precedence & Directional Strategy"/>
+<Meta title="Data Visualisation/SPC/Guides/SPC Precedence & Directional Strategy"/>
 
-## SPC Precedence & Directional Strategy
+# SPC Precedence & Directional Strategy
 
-### Background
+## Quick glossary
 
-Legacy variation classification picked the icon per row using a simple side-based rule aggregation:
+- **Observation (data point)**: One measured value in sequence (a “row” on the chart).
+- **Centre line (CL)**: The process average (mean) used as the reference line.
+- **Standard deviation (σ)**: Measurement of spread; used to set control limits.
+- **Control limits (UCL/LCL)**: Upper/lower statistical bounds, typically CL ± 3σ; points beyond often indicate special cause.
+- **Sigma bands (1σ, 2σ, 3σ)**: Zones at 1, 2, and 3 standard deviations from the mean.
+- **Side (high/low)**: Whether a point lies above (high-side) or below (low-side) the centre line.
+
+### Rules and patterns
+
+- **Common cause variation**: Expected, inherent fluctuation within control limits; no specific assignable cause.
+- **Special cause variation**: Atypical variation (often signalled by rule hits) indicating a specific assignable cause.
+- **Outlier beyond 3σ**: A single point beyond CL ± 3σ (Nelson Rule 1).
+- **Run (one side of mean)**: Several consecutive points on the same side of the mean (exact threshold varies by convention, often 8–9).
+- **Trend (monotonic)**: Several consecutive points strictly increasing or strictly decreasing (often 6).
+- **Two‑of‑three beyond 2σ**: Two of the last three points beyond CL ± 2σ on the same side.
+- **Four‑of‑five beyond 1σ**: Four of the last five points beyond CL ± 1σ on the same side.
+
+### Project-specific terms
+
+- **Improvement direction**: Whether “up” or “down” is favourable for the metric (domain‑dependent).
+- **Favourable / unfavourable side**: Side of the mean that aligns (or conflicts) with the improvement direction.
+- **Side‑gating (trend)**: In this classification, trend contributes only when the current point is on the corresponding side of the mean (a deliberate deviation from a literal Nelson interpretation).
+- **Emerging grace**: Option to neutralise premature Concern when an N−1 favourable monotonic run is present; yields Neither until a full trend confirms.
+- **Cluster collapse**: If both 2‑of‑3 (2σ) and 4‑of‑5 (1σ) fire on the same side, keep 4‑of‑5 and drop 2‑of‑3.
+- **Precedence strategy**: Algorithm that consolidates signals into a single icon outcome (DirectionalFirst vs Legacy).
+- **Variation icon**: The user‑facing classification (Improvement, Concern, or Neither) after applying precedence.
+- **SQL compatibility wrapper**: Post‑processing to emulate historic SQL outputs (per‑side ranking, directional pruning) and emit audit metadata.
+
+## Background
+
+The original implementation (Legacy) drew on Nelson/Western Electric–style SPC tests (‘Nelson’s Rules’) as heuristic checks for special cause variation.
+
+- Single point beyond 3σ → Nelson Rule 1 (singlePointHigh/Low).
+- Two of three beyond 2σ on the same side → Rule 5 (twoOfThreeHigh/Low).
+- Four of five beyond 1σ on the same side → Rule 6 (fourOfFiveHigh/Low).
+- “Shift/run above/below mean” → Conceptually similar to Rule 2 (points on one side of the mean).
+- “Trend increasing/decreasing” → Conceptually similar to Rule 3 (6 points in a row increasing/decreasing).
 
 ```ts
 import { ImprovementDirection, VariationIcon } from './logic/spc';
@@ -29,30 +66,30 @@ function classify(metricImprovement: ImprovementDirection): VariationIcon {
 
 This produced unintuitive colouring in transitional phases – e.g. a *progressive decline* (favourable for metrics where lower is better) still coloured several points as Concern because high-side location-based rules (shift/cluster) remained active before a formal monotonic trend rule triggered.
 
-### Relationship to SQL Compatibility Wrapper
+## Relationship to SQL Compatibility Wrapper
 
-An experimental SQL compatibility wrapper (`buildSpcSqlCompat`) now exists to emulate historic SQL post‑processing (per‑side rule ranking and directional pruning). It leaves the core engine logic (including `precedenceStrategy`) unchanged and applies ranking afterwards, emitting additional metadata for parity / diagnostics (`primeDirection`, `primeRuleId`, `primeRank`, `sqlOriginalImprovementValue`, `sqlOriginalConcernValue`, `sqlPruned`).
+A SQL compatibility wrapper (`buildSpcSqlCompat`) now exists to emulate historic NHS SQL post‑processing (per‑side rule ranking and directional pruning). It leaves the core engine logic (including `precedenceStrategy`) unchanged and applies ranking afterwards, emitting additional metadata for parity / diagnostics (`primeDirection`, `primeRuleId`, `primeRank`, `sqlOriginalImprovementValue`, `sqlOriginalConcernValue`, `sqlPruned`).
 
 Key distinctions:
 
 | Layer | Purpose | Inputs influencing it | Outputs |
 |-------|---------|-----------------------|---------|
-| Engine + `precedenceStrategy` | Primary statistical interpretation & user-facing icon selection | `SpcSettings` (incl. `precedenceStrategy`, grace flags) | `variationIcon`, rule booleans, `ruleTags` |
+| Engine and `precedenceStrategy` | Primary statistical interpretation & user-facing icon selection | `SpcSettings` (incl. `precedenceStrategy`, grace flags) | `variationIcon`, rule booleans, `ruleTags` |
 | SQL Wrapper (`buildSpcSqlCompat`) | Legacy directional pruning parity & audit | Base engine rows (conflict mode suppressed) | Above plus SQL metadata (prime* fields) |
 
 Use the wrapper only when migration / reconciliation against legacy SQL outputs is required; for day‑to‑day narrative choose the appropriate engine `precedenceStrategy`.
 
-### Guidance Considered
+## Guidance Considered
 
-New behaviour aligns with internal guidance:
+New behaviour aligns with internal NHS guidance:
 
 1. Prioritise directionally consistent sustained rules (shift, long run) over single-point outliers.
 2. Collapse redundant signals (e.g. both 2-of-3 and 4-of-5 on same side) into the strongest narrative.
 3. Surface conflicting direction signals only if overlapping windows are partial and recency differs; emphasise the most recent sustained direction.
 
-### New Settings (Opt‑In)
+## Key settings (current)
 
-Added to `SpcSettings` (defaults preserve legacy behaviour). The string union has been replaced by the `PrecedenceStrategy` enum for stronger typing:
+These are available on `SpcSettings`. The string union has been replaced by the `PrecedenceStrategy` enum for stronger typing. Note that legacy flat flags like `emergingDirectionGrace` and `collapseClusterRules` are deprecated and rejected when strict mode is enabled (default); use the canonical names shown below instead.
 
 ```ts
 export enum PrecedenceStrategy {
@@ -76,43 +113,153 @@ export enum PrecedenceStrategy {
       { code: 'precedenceStrategy' },
       { text: 'Select precedence algorithm' },
       { text: 'PrecedenceStrategy (Legacy / DirectionalFirst)' },
-      { code: 'Legacy' },
+      { code: 'DirectionalFirst' },
     ],
     [
-      { code: 'emergingDirectionGrace' },
-      { text: 'Allows near-complete (N-1) favourable run to neutralise unfavourable classification early' },
+      { code: 'emergingGraceEnabled' },
+      { text: 'Allows early (N-1) favourable monotonic run to neutralise unfavourable classification' },
       { code: 'boolean' },
       { code: 'false' },
     ],
     [
       { code: 'transitionBufferPoints' },
-      { text: 'Grace buffer before flipping when opposing sustained signals compete' },
+      { text: 'Reserved: buffer before flipping when opposing sustained signals compete (not currently applied by engine)' },
       { code: 'number' },
       { code: '2' },
     ],
     [
-      { code: 'collapseClusterRules' },
-      { text: 'Removes weaker cluster rule (2-of-3) when 4-of-5 also fires on same side' },
+      { code: 'rules.collapseWeakerClusterRules' },
+      { text: 'Removes weaker cluster rule (2-of-3) when 4-of-5 also fires on the same side' },
       { code: 'boolean' },
       { code: 'true' },
     ],
   ]}
 />
 
-### Directional First Algorithm (Simplified)
+## Directional First Algorithm (Simplified)
 
 For each row (after standard rule detection):
 
 1. Derive boolean `favourable` / `unfavourable` sets (side depends on metric polarity).
-2. Compute `emergingFavourable` if last (trendN - 1) points are *almost* monotonically moving in favourable direction (allow ≤1 counter step).
+2. Compute `emergingFavourable` if the last (trendN - 1) points are strictly monotonically moving in the favourable direction (no allowance for counter steps).
 3. Apply precedence:
-   - Favourable only -> Improvement.
-   - Unfavourable only -> Concern (unless `emergingDirectionGrace` & `emergingFavourable` -> downgrade to Neither).
-   - Both -> Improvement if emerging or confirmed trend present and grace active, else Neither.
-   - Neither -> Neither.
+  - Favourable only -> Improvement.
+  - Unfavourable only -> Concern (unless emerging grace is enabled and `emergingFavourable` -> downgrade to Neither).
+  - Both -> Improvement if `emergingFavourable` or a confirmed trend is present (trend does not require grace), else Neither.
+  - Neither -> Neither.
 4. (Cluster collapse) If both 2-of-3 and 4-of-5 present same side keep only 4-of-5 flag.
 
-### Outcomes
+## Legacy Algorithm (Simplified)
+
+For each row (after standard rule detection):
+
+1. Build side-specific signal sets using rule booleans:
+  - High-side: single-point above 3σ, two-of-three above 2σ, four-of-five above 1σ (if enabled), shift-high (run above mean), trend-increasing. Trend contributes only when the current value is above the mean (side‑gated).
+  - Low-side: analogous set below the mean; trend contributes only when the current value is below the mean (side‑gated).
+2. Optionally collapse cluster rules on the same side: if both 2‑of‑3 and 4‑of‑5 are true, keep 4‑of‑5 and clear 2‑of‑3 (`rules.collapseWeakerClusterRules`).
+3. Classify purely by improvement direction (no emerging grace or ranking):
+  - MetricImprovement = Up: high‑side signal(s) → Improvement; else if low‑side signal(s) → Concern; else Neither.
+  - MetricImprovement = Down: low‑side signal(s) → Improvement; else if high‑side signal(s) → Concern; else Neither.
+  - MetricImprovement = Neither: Neither.
+4. If both high and low signals are present on the same row, this ordering yields Improvement (favourable side wins via first match). No directional pruning is applied.
+5. When variation‑conflict warnings are enabled, the engine may emit a warning for rows that have simultaneous high/low signals with an Improvement icon.
+
+## Algorithm flowcharts
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', alignItems: 'start' }}>
+  <div>
+    <h4>Legacy Flow</h4>
+
+    <Mermaid className="is-airy" config={{
+      theme: 'base',
+      flowchart: { htmlLabels: true, useMaxWidth: true },
+      themeVariables: { fontSize: '14px' }
+    }}>{`flowchart TD
+  A[Start: after rule detection] --> B[Side-gate trend:\ninc only if current > mean;\ndec only if current < mean]
+  B --> C[Optional: collapse cluster rules on a side\nIf 4-of-5 true, clear 2-of-3]
+  C --> D{MetricImprovement?}
+  D -- Up --> U1{Any high-side signal?}
+  U1 -- Yes --> OI([Outcome: Improvement])
+  U1 -- No --> U2{Any low-side signal?}
+  U2 -- Yes --> OC([Outcome: Concern])
+  U2 -- No --> ON([Outcome: Neither])
+
+  D -- Down --> D1{Any low-side signal?}
+  D1 -- Yes --> OI
+  D1 -- No --> D2{Any high-side signal?}
+  D2 -- Yes --> OC
+  D2 -- No --> ON
+
+  D -- Neither --> ON
+
+  %% Note: if both high & low present, ordering yields Improvement (first favourable match)
+  classDef outcome fill:#e6f7ff,stroke:#1890ff,color:#000
+  class OI,OC,ON outcome
+`}</Mermaid>
+
+  </div>
+  <div>
+		<h4>Directional First Flow</h4>
+    <Mermaid className="is-airy" config={{
+				theme: 'base',
+				flowchart: { htmlLabels: true, useMaxWidth: true },
+				themeVariables: { fontSize: '14px' }
+		}}>{`flowchart TD
+			A[Start: after rule detection] --> B[Derive favourable/unfavourable sets based on metric polarity]
+			B --> C[Optional: collapse cluster rules on a side\nIf 4-of-5 true, clear 2-of-3]
+			C --> D{Favourable only?}
+			D -- Yes --> O1([Outcome: Improvement])
+			D -- No --> E{Unfavourable only?}
+			E -- Yes --> F{emergingGraceEnabled AND \nlast N minus 1 points strictly favourable?}
+			F -- Yes --> O3([Outcome: Neither])
+			F -- No --> O2([Outcome: Concern])
+			E -- No --> G{Both favourable & unfavourable?}
+			G -- Yes --> H{Emerging favourable OR\nconfirmed trend present?}
+			H -- Yes --> O1
+			H -- No --> O3
+			G -- No --> O3
+
+			classDef outcome fill:#e6f7ff,stroke:#1890ff,color:#000
+			class O1,O2,O3 outcome
+		`}</Mermaid>
+		</div>
+</div>
+
+## Choosing a Strategy: Pros & Cons
+
+### Directional First
+
+Pros:
+
+- Better narrative in transitional phases (reduces “false negative” perception during favourable movement).
+- Can neutralise premature Concern via `emergingGraceEnabled` (N-1 strict monotonic in favourable direction).
+- Conflicting signals are resolved more intuitively when a confirmed trend is present (both → Improvement).
+- Centralised ranking and clearer semantics align with future-proofed enums and tags.
+
+Cons:
+
+- May diverge from historic SQL outputs; requires stakeholder comms when migrating.
+- Can yield earlier Neither or Improvement in mixed phases compared to legacy (intended, but different).
+
+Use when:
+
+- Building new dashboards or prioritising user narrative and interpretability.
+- You want earlier neutral/favourable framing during emerging improvement.
+- You are not constrained by strict visual parity with historic outputs (or you document the change).
+
+### Legacy
+
+Pros:
+- Simple, deterministic side-based aggregation matching historical behaviour.
+
+Cons:
+- Can colour transitional favourable movement as Concern until a full trend forms.
+- No emerging-grace neutralisation or directional pruning; both-side conflicts rely on ordering.
+
+### Note on SQL Parity
+- If strict parity with historic SQL post-processing is required, prefer running the SQL compatibility wrapper (`useSqlCompatEngine`) rather than changing precedence alone. The wrapper applies per-side ranking and directional pruning and emits `prime*` metadata for traceability.
+
+## Outcomes
 
 | Scenario | Legacy | Directional First (grace) |
 |----------|--------|---------------------------|
@@ -120,11 +267,11 @@ For each row (after standard rule detection):
 | Strong high-side shift with no directional change | Concern | Concern (unchanged) |
 | Emerging improvement with minor noise | Often Concern until full trend | Earlier neutral / faster Improvement |
 
-### Rationale
+## Rationale
 
 The directional-first approach reduces “false negative” perception where users see improving movement but chart signals deterioration. It maintains statistical discipline (full rule still required for definitive Improvement) while communicating transition more faithfully.
 
-### Migration Guidance
+## Migration Guidance
 
 1. Enable per chart via:
 
@@ -136,8 +283,7 @@ The directional-first approach reduces “false negative” perception where use
 
 1. Optionally display a legend / footnote indicating precedence mode if mixed strategies are deployed across dashboards.
 
-### Future Enhancements (Not Yet Implemented)
-
+## Future Enhancements (Not Yet Implemented)
 
 ### Terminology & Enum Consolidation
 
@@ -147,23 +293,27 @@ Recent refactors replaced loosely typed literals with shared enums:
 - Rule id union → `SpcRuleId` (`single_point`, `two_sigma`, `shift`, `trend`).
 - Raw granular audit tags → `SpcRawRuleTag` (e.g. `single_above`, `trend_inc`, `fifteen_inner_third`).
 
-Ranking numbers (Trend 4 > Shift 3 > TwoSigma 2 > SinglePoint 1) are centralised in `RULE_RANK_BY_ID` so both the engine precedence logic and SQL wrapper stay aligned—no duplicated numeric literals.
+Strict mode notes:
+- Deprecated flags `emergingDirectionGrace` and `collapseClusterRules` are rejected when strict mode is enabled (default). Use `emergingGraceEnabled` (or `grace.emergingEnabled`) and `rules.collapseWeakerClusterRules`.
+
+Ranking order (Trend 4 > Shift 3 > TwoSigma 2 > SinglePoint 1) is defined centrally via `RULE_METADATA` / `RULE_RANK_BY_ID`. The SQL wrapper uses this mapping directly; the engine’s conflict mode follows the same order.
 
 Benefits:
 - Stronger type safety & easier future rule insertion.
 - Unified side semantics across engine, wrapper, tooltip logic.
 - Clear separation: raw event tags vs consolidated precedence decision.
 
-### Testing Additions
+## Testing Additions
 
-New tests (see `spc.precedence.logic.test.ts`) assert:
+Relevant tests assert:
 
-1. Declining favourable sequence classification difference legacy vs directional.
-2. Cluster collapse (2-of-3 removed when 4-of-5 present) with toggle.
+1. Precedence diagnostics on a declining favourable sequence (`SPCChart.precedenceDiagnostics.client.test.tsx`).
+2. SQL compatibility pruning behaviour and metadata (`spcSqlCompat.client.test.ts`, `spcSqlCompat.primeRuleId.test.ts`).
+3. Overlapping sustained rules without conflict warnings (`spc.ruleClash.client.test.ts`).
 
 ### Opt-Out
 
-Remain on `precedenceStrategy: PrecedenceStrategy.Legacy` for unchanged historical behaviour while evaluating impact.
+If you need unchanged legacy behaviour,explicitly set `precedenceStrategy: PrecedenceStrategy.Legacy`; the current default is `DirectionalFirst`.
 
 - Extended SQL parity (optional inclusion of ancillary rules like Fifteen-in-Inner-Third in ranking if legacy procedures evolve).
 - Harmonised conflict pathway ensuring wrapper never silently reclassifies an outcome conflicting with engine precedence (future alignment task).

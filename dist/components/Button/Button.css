@@ -108,89 +108,190 @@ span .nhsuk-u-visually-hidden {
   box-shadow: 0 4px 0 #00401e;
   -webkit-user-select: none;
   -moz-user-select: none;
-  user-select: none;
-  vertical-align: top;
+}
+.nhs-aria-button--metric {
+  position: relative;
+  background: linear-gradient(0deg, rgba(0, 94, 184, 0.05), #ffffff);
+  color: #212b32;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
+  text-shadow: none;
   font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
 }
-@media (min-width: 768px) {
-  .nhs-aria-button {
-    font-size: 19px;
-    line-height: 28px;
-  }
-}
-.nhs-aria-button[data-focus-visible] {
-  outline: 4px solid #ffeb3b;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px #ffeb3b;
-}
-.nhs-aria-button[data-hovered], .nhs-aria-button:hover:not([data-disabled]):not(:disabled) {
-  box-shadow: 0 4px 0 #00401e;
-  color: #ffffff;
-}
-.nhs-aria-button[data-pressed], .nhs-aria-button:active:not([data-disabled]):not(:disabled) {
-  transform: translateY(4px);
-  box-shadow: 0;
-  color: #ffffff;
-}
-.nhs-aria-button[data-disabled], .nhs-aria-button:disabled, .nhs-aria-button[aria-disabled=true] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: 0 4px 0 #00401e;
-}
-.nhs-aria-button[data-focused] {
-  background-color: #ffeb3b;
-  color: #212b32;
-  box-shadow: 0 4px 0 #212b32;
-  border-color: #ffeb3b;
-}
-.nhs-aria-button:focus {
-  outline: none;
-  outline-offset: 2px;
-}
-.nhs-aria-button:focus:not(:active) {
-  background-color: #ffeb3b;
-  color: #212b32;
-  border-color: #ffeb3b;
-  box-shadow: 0 4px 0 #212b32;
-}
-.nhs-aria-button:focus:not(:focus-visible) {
-  outline: none;
-}
-.nhs-aria-button:focus-visible {
-  outline: none;
-  outline-offset: 2px;
-  box-shadow: 0 4px 0 #212b32;
-}
-.nhs-aria-button[data-focus-visible]:focus {
-  outline: none;
-  box-shadow: 0 4px 0 #212b32;
-}
-.nhs-aria-button--default, .nhs-aria-button {
-  padding: 8px 16px;
-  font-size: 16px;
-  min-height: 44px;
-}
-@media (min-width: 768px) {
-  .nhs-aria-button--default, .nhs-aria-button {
-    padding: 12px 16px;
-  }
-}
-.nhs-aria-button--small {
-  padding: 6px 12px;
-  font-size: 14px;
-  min-height: 32px;
-}
-.nhs-aria-button--large {
-  padding: 12px 24px;
-  font-size: 18px;
-  min-height: 56px;
-}
-.nhs-aria-button--full-width {
+.nhs-aria-button--metric::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4px;
   width: 100%;
-  display: flex;
+  background: linear-gradient(0deg, rgb(0, 84.6, 165.6), #005eb8);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+.nhs-aria-button--metric:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered], .nhs-aria-button--metric:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover {
+  background: linear-gradient(0deg, rgba(0, 94, 184, 0.06), #ffffff);
+  border-color: #aeb7bd;
+  color: #212b32;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+.nhs-aria-button--metric:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered]::before, .nhs-aria-button--metric:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover::before {
+  background: linear-gradient(0deg, rgb(0, 82.72, 161.92), #005eb8);
+}
+.nhs-aria-button--metric:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed], .nhs-aria-button--metric:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active {
+  transform: translateY(0);
+  background: linear-gradient(0deg, rgba(0, 94, 184, 0.1), #ffffff);
+  border-color: #aeb7bd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.nhs-aria-button--metric:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed]::before, .nhs-aria-button--metric:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active::before {
+  background: linear-gradient(0deg, rgb(0, 80.84, 158.24), #005eb8);
+}
+.nhs-aria-button--metric:focus, .nhs-aria-button--metric[data-focused], .nhs-aria-button--metric:focus-visible {
+  outline: 2px solid #005eb8;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px #ffeb3b, 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.nhs-aria-button--metric[data-disabled], .nhs-aria-button--metric:disabled, .nhs-aria-button--metric[aria-disabled=true] {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.nhs-aria-button--metric-blue {
+  position: relative;
+  background: linear-gradient(0deg, rgba(0, 94, 184, 0.05), #ffffff);
+  color: #212b32;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
+  text-shadow: none;
+  font-weight: 600;
+}
+.nhs-aria-button--metric-blue::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(0deg, rgb(0, 84.6, 165.6), #005eb8);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+.nhs-aria-button--metric-blue:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered], .nhs-aria-button--metric-blue:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover {
+  background: linear-gradient(0deg, rgba(0, 94, 184, 0.06), #ffffff);
+  border-color: #aeb7bd;
+  color: #212b32;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+.nhs-aria-button--metric-blue:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered]::before, .nhs-aria-button--metric-blue:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover::before {
+  background: linear-gradient(0deg, rgb(0, 82.72, 161.92), #005eb8);
+}
+.nhs-aria-button--metric-blue:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed], .nhs-aria-button--metric-blue:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active {
+  transform: translateY(0);
+  background: linear-gradient(0deg, rgba(0, 94, 184, 0.1), #ffffff);
+  border-color: #aeb7bd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.nhs-aria-button--metric-blue:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed]::before, .nhs-aria-button--metric-blue:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active::before {
+  background: linear-gradient(0deg, rgb(0, 80.84, 158.24), #005eb8);
+}
+.nhs-aria-button--metric-blue:focus, .nhs-aria-button--metric-blue[data-focused], .nhs-aria-button--metric-blue:focus-visible {
+  outline: 2px solid #005eb8;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px #ffeb3b, 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.nhs-aria-button--metric-blue[data-disabled], .nhs-aria-button--metric-blue:disabled, .nhs-aria-button--metric-blue[aria-disabled=true] {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.nhs-aria-button--metric-green {
+  position: relative;
+  background: linear-gradient(0deg, rgba(0, 164, 153, 0.05), #ffffff);
+  color: #212b32;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
+  text-shadow: none;
+  font-weight: 600;
+}
+.nhs-aria-button--metric-green::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(0deg, rgb(0, 147.6, 137.7), #00a499);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+.nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered], .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover {
+  background: linear-gradient(0deg, rgba(0, 164, 153, 0.06), #ffffff);
+  border-color: #aeb7bd;
+  color: #212b32;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+.nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered]::before, .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover::before {
+  background: linear-gradient(0deg, rgb(0, 144.32, 134.64), #00a499);
+}
+.nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed], .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active {
+  transform: translateY(0);
+  background: linear-gradient(0deg, rgba(0, 164, 153, 0.1), #ffffff);
+  border-color: #aeb7bd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed]::before, .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active::before {
+  background: linear-gradient(0deg, rgb(0, 141.04, 131.58), #00a499);
+}
+.nhs-aria-button--metric-green:focus, .nhs-aria-button--metric-green[data-focused], .nhs-aria-button--metric-green:focus-visible {
+  outline: 2px solid #005eb8;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px #ffeb3b, 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.nhs-aria-button--metric-green[data-disabled], .nhs-aria-button--metric-green:disabled, .nhs-aria-button--metric-green[aria-disabled=true] {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.nhs-aria-button--metric-warning {
+  position: relative;
+  background: linear-gradient(0deg, rgba(237, 79, 0, 0.05), #ffffff);
+  color: #212b32;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
+  text-shadow: none;
+  font-weight: 600;
+}
+.nhs-aria-button--metric-warning::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(0deg, rgb(213.3, 71.1, 0), #ed4f00);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+.nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered], .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover {
+  background: linear-gradient(0deg, rgba(237, 79, 0, 0.06), #ffffff);
+  border-color: #aeb7bd;
+  color: #212b32;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+.nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered]::before, .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover::before {
+  background: linear-gradient(0deg, rgb(208.56, 69.52, 0), #ed4f00);
+}
+.nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed], .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active {
+  transform: translateY(0);
+  background: linear-gradient(0deg, rgba(237, 79, 0, 0.1), #ffffff);
+  border-color: #aeb7bd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed]::before, .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active::before {
+  background: linear-gradient(0deg, rgb(203.82, 67.94, 0), #ed4f00);
+}
+.nhs-aria-button--metric-warning:focus, .nhs-aria-button--metric-warning[data-focused], .nhs-aria-button--metric-warning:focus-visible {
+  outline: 2px solid #005eb8;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px #ffeb3b, 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.nhs-aria-button--metric-warning[data-disabled], .nhs-aria-button--metric-warning:disabled, .nhs-aria-button--metric-warning[aria-disabled=true] {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 .nhs-aria-button--primary {
   background-color: #007f3b;

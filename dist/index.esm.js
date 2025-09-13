@@ -431,7 +431,7 @@ const ye = /* @__PURE__ */ gc(_c), Ux = ({
     }
   );
 };
-var Vo = /* @__PURE__ */ ((e) => (e.Primary = "primary", e.Secondary = "secondary", e.Reverse = "reverse", e.Warning = "warning", e.Login = "login", e))(Vo || {}), Yo = /* @__PURE__ */ ((e) => (e.Small = "small", e.Default = "default", e.Large = "large", e))(Yo || {});
+var Vo = /* @__PURE__ */ ((e) => (e.Primary = "primary", e.Secondary = "secondary", e.Reverse = "reverse", e.Warning = "warning", e.Login = "login", e.Metric = "metric", e))(Vo || {}), Yo = /* @__PURE__ */ ((e) => (e.Small = "small", e.Default = "default", e.Large = "large", e))(Yo || {});
 function wc(e) {
   const t = e.variant || "primary", r = e.size || "default", a = !!e.fullWidth, s = [
     "nhs-aria-button",

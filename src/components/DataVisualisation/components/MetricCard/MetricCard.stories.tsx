@@ -250,7 +250,7 @@ export const GridLayout: Story = {
 	render: () => (
 		<Grid>
 			<Row>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<MetricCard
 						label="Admissions"
 						value={1284}
@@ -258,7 +258,7 @@ export const GridLayout: Story = {
 						metadata="Daily average"
 					/>
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<MetricCard
 						label="Bed occupancy"
 						value={83.2}
@@ -268,7 +268,7 @@ export const GridLayout: Story = {
 						status="positive"
 					/>
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<MetricCard
 						label="Discharges"
 						value={542}
@@ -277,7 +277,7 @@ export const GridLayout: Story = {
 						status="positive"
 					/>
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<MetricCard
 						label="Wait time"
 						value={42}
@@ -289,7 +289,7 @@ export const GridLayout: Story = {
 				</Column>
 			</Row>
 			<Row style={{ marginTop: "2rem" }}>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<MetricCard
 						label="Infection rate"
 						value={1.2}
@@ -304,7 +304,7 @@ export const GridLayout: Story = {
 						status="positive"
 					/>
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<MetricCard
 						label="Staff satisfaction"
 						value={4.2}
@@ -315,7 +315,7 @@ export const GridLayout: Story = {
 						status="positive"
 					/>
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<MetricCard
 						label="Revenue"
 						value="£2.4M"
@@ -325,7 +325,7 @@ export const GridLayout: Story = {
 						status="negative"
 					/>
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<MetricCard
 						label="Efficiency"
 						value={94.8}

@@ -76,7 +76,17 @@ This component uses native HTML elements to provide:
 	argTypes: {
 		variant: {
 			control: "select",
-			options: ["primary", "secondary", "reverse", "warning", "login"],
+			options: [
+				"primary",
+				"secondary",
+				"reverse",
+				"warning",
+				"login",
+				"metric",
+				"metric-blue",
+				"metric-green",
+				"metric-warning",
+			],
 		},
 		size: {
 			control: "select",
@@ -134,6 +144,30 @@ export const Login: Story = {
 	args: { variant: "login", children: "Login" },
 };
 
+export const Metric: Story = {
+	args: { variant: "metric", children: "Metric action" },
+	parameters: {
+		docs: {
+			description: {
+				story:
+					"Metric-inspired button: card-like surface with left accent bar, blending MetricCard aesthetics with NHS Button semantics.",
+			},
+		},
+	},
+};
+
+	export const MetricBlue: Story = {
+		args: { variant: "metric-blue", children: "Metric blue" },
+	};
+
+	export const MetricGreen: Story = {
+		args: { variant: "metric-green", children: "Metric green" },
+	};
+
+	export const MetricWarning: Story = {
+		args: { variant: "metric-warning", children: "Metric warning" },
+	};
+
 
 
 // Layout & width
@@ -181,6 +215,10 @@ export const Gallery: Story = {
 			<Button variant="reverse">Reverse</Button>
 			<Button variant="warning">Warning</Button>
 			<Button variant="login">Login</Button>
+			<Button variant="metric">Metric</Button>
+					<Button variant="metric-blue">Metric blue</Button>
+					<Button variant="metric-green">Metric green</Button>
+					<Button variant="metric-warning">Metric warning</Button>
 			<Button variant="secondary" disabled>
 				Disabled
 			</Button>

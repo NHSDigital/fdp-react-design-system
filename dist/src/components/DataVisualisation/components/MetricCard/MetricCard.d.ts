@@ -1,13 +1,13 @@
-import * as React from 'react';
-import '../../DataVisualisation.scss';
-import './MetricCard.scss';
-export type MetricStatus = 'positive' | 'negative' | 'warning' | 'neutral';
-export type MetricVariant = 'default' | 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'error';
+import * as React from "react";
+import "../../DataVisualisation.scss";
+import "./MetricCard.scss";
+export type MetricStatus = "positive" | "negative" | "warning" | "neutral";
+export type MetricVariant = "default" | "primary" | "secondary" | "accent" | "success" | "warning" | "error";
 export interface MetricDelta {
     /** Numeric change (positive, negative or zero). Sign used if direction not supplied. */
     value: number;
     /** Override auto direction (derived from value sign when omitted). */
-    direction?: 'up' | 'down' | 'neutral';
+    direction?: "up" | "down" | "neutral";
     /** Optional accessible label (e.g. "+12% compared to last week"). Auto‑generated if omitted. */
     ariaLabel?: string;
     /** If true, invert meaning (e.g. lower is better) for auto aria text wording. */

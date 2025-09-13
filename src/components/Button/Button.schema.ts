@@ -11,10 +11,10 @@ export const ButtonSchema: ComponentSchema = {
   props: [
     {
       name: 'variant',
-      type: "'primary' | 'secondary' | 'reverse' | 'warning' | 'login'",
+      type: "'primary' | 'secondary' | 'reverse' | 'warning' | 'login' | 'metric' | 'metric-blue' | 'metric-green' | 'metric-warning'",
       defaultValue: 'primary',
-      description: 'Visual style variant',
-      enum: ['primary', 'secondary', 'reverse', 'warning', 'login'],
+      description: 'Visual style variant (metric is a card-like variant; metric defaults to blue)',
+      enum: ['primary', 'secondary', 'reverse', 'warning', 'login', 'metric', 'metric-blue', 'metric-green', 'metric-warning'],
     },
     {
       name: 'size',

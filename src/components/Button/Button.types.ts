@@ -12,6 +12,8 @@ export enum ButtonVariant {
 	Warning = "warning",
 	/** Blue button for authentication */
 	Login = "login",
+	/** Metric-inspired button: card-like with accent bar */
+	Metric = "metric",
 }
 
 /**
@@ -36,6 +38,10 @@ export type ButtonVariantLike =
   | "secondary"
   | "reverse"
   | "warning"
-  | "login";
+	| "login"
+	| "metric"
+	| "metric-blue"
+	| "metric-green"
+	| "metric-warning";
 
 export type ButtonSizeLike = ButtonSize | "small" | "default" | "large";

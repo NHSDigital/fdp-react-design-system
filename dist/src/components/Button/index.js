@@ -8,6 +8,7 @@ var ButtonVariant = /* @__PURE__ */ ((ButtonVariant2) => {
   ButtonVariant2["Reverse"] = "reverse";
   ButtonVariant2["Warning"] = "warning";
   ButtonVariant2["Login"] = "login";
+  ButtonVariant2["Metric"] = "metric";
   return ButtonVariant2;
 })(ButtonVariant || {});
 var ButtonSize = /* @__PURE__ */ ((ButtonSize2) => {

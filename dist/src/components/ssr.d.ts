@@ -65,6 +65,8 @@ export { SummaryList } from './SummaryList';
 export type { SummaryListProps, SummaryListItem } from './SummaryList';
 export { SummaryCard } from './SummaryCard';
 export type { SummaryCardProps } from './SummaryCard';
+export { MetricCard } from './DataVisualisation/components/MetricCard/MetricCard';
+export type { MetricCardProps, MetricStatus, MetricVariant, MetricDelta } from './DataVisualisation/components/MetricCard/MetricCard';
 export { Table, TableCaption, TableBodyRow, TableHeaderCell, TableCell } from './Tables';
 export type { TableProps, TableCellData, TableHeaderCellType, TableCaptionProps, TableBodyRowProps, TableHeaderCellComponentProps, TableDataCellComponentProps, TableColumn, } from './Tables';
 export { SpacingUtilities, getSpacingClass } from './SpacingUtilities';

@@ -1,4 +1,5 @@
 @use '../../../packages/nhs-fdp/scss' as nhs;
+@use 'sass:color';
 
 .nhs-aria-button {
 	// Base button styles
@@ -11,6 +12,7 @@
 	border: 2px solid transparent;
 	border-radius: 4px;
 	padding: 8px 16px;
+	font-size: 16px;
 	font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
 	text-align: center;
 	text-decoration: none;
@@ -24,115 +26,137 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	user-select: none;
-	
-	// Ensure consistent baseline
-	vertical-align: top;
+	min-height: 56px;
 
-	@include nhs.nhs-fdp-font(19, bold); // Matches NHS UK @include nhsuk-font(19, $weight: bold)
+	// Mixin to generate metric-style variants with configurable accent color
+	@mixin metric-variant($accent) {
+		position: relative;
+		// Compensate for the 4px bottom accent bar to keep overall height unchanged
+		// Base padding-bottom is 8px; 8px - 4px (bar) = 4px
+		padding-bottom: 8px;
+		// Vertical (bottom→top) gradient inspired by MetricCard
+		background: linear-gradient(
+			0deg,
+			rgba($accent, 0.05),
+			nhs.$nhs-fdp-color-primary-white
+		);
+		color: nhs.$nhs-fdp-semantic-color-text-primary;
+		box-shadow:
+			0 1px 3px rgba(0, 0, 0, 0.06),
+			0 1px 2px rgba(0, 0, 0, 0.08);
+		text-shadow: none;
 
-	// Focus styles (React Aria provides focus-visible state)
-	&[data-focus-visible] {
-		outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background;
-		outline-offset: 2px;
-		box-shadow: 0 0 0 4px nhs.$nhs-fdp-semantic-color-focus-background;
-	}
-
-	// Hover styles (data attribute from our component + standard pseudo-class fallback)
-	&[data-hovered],
-	&:hover:not([data-disabled]):not(:disabled) {
-		//transform: translateY(-2px);
-		box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
-		color: nhs.$nhs-fdp-color-primary-white;
-	}
-
-	// Press/Active styles (data attribute from our component + standard pseudo-class fallback)
-	&[data-pressed],
-	&:active:not([data-disabled]):not(:disabled) {
-		transform: translateY(4px);
-		//box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
-		box-shadow: 0;
-		color: nhs.$nhs-fdp-color-primary-white;
-	}
-
-	// Disabled styles (data attribute + standard HTML disabled)
-	&[data-disabled],
-	&:disabled,
-	&[aria-disabled="true"] {
-		opacity: 0.5;
-		cursor: not-allowed;
-		transform: none;
-		box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
-	}
-
-	// Focused state styles (data attribute from our component)
-	&[data-focused] {
-		background-color: nhs.$nhs-fdp-semantic-color-focus-background;
-		color: nhs.$nhs-fdp-semantic-color-focus-text;
-		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
-		border-color: nhs.$nhs-fdp-semantic-color-focus-background;
-	}
-
-	// Base focus (always works - accessibility baseline)
-	&:focus {
-		outline: none;
-		outline-offset: 2px;
-		
-		&:not(:active) {
-			background-color: nhs.$nhs-fdp-semantic-color-focus-background;
-			color: nhs.$nhs-fdp-semantic-color-focus-text;
-			border-color: nhs.$nhs-fdp-semantic-color-focus-background;
-			box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+		// Accent bar like MetricCard
+		&::before {
+			content: "";
+			position: absolute;
+			inset: auto 0 0 0; // stick to the bottom edge
+			height: 4px;
+			width: 100%;
+			// Subtle vertical gradient for depth: slightly darker at the very bottom edge
+			background: linear-gradient(
+				0deg,
+				color.mix(#000, $accent, 10%),
+				$accent
+			);
+			border-bottom-left-radius: inherit;
+			border-bottom-right-radius: inherit;
 		}
 
-		// Remove outline on mouse focus when focus-visible is supported
-		&:not(:focus-visible) {
-			outline: none;
+		// Typography slightly heavier to keep NHS button feel
+		font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+		// Hover
+		&:not([data-disabled]):not(:disabled):not([aria-disabled="true"]) {
+			&[data-hovered],
+			&:hover {
+				// Slightly stronger vertical gradient on hover
+				background: linear-gradient(
+					0deg,
+					rgba($accent, 0.4),
+					nhs.$nhs-fdp-color-primary-white
+				);
+				// Slightly strengthen the bar gradient on hover
+				&::before {
+					background: linear-gradient(
+						0deg,
+						color.mix(#000, $accent, 12%),
+						$accent
+					);
+				}
+				border-color: $accent;
+				color: nhs.$nhs-fdp-semantic-color-text-primary;
+				box-shadow:
+					0 4px 12px rgba(0, 0, 0, 0.1),
+					0 2px 4px rgba(0, 0, 0, 0.08);
+			}
+
+			&[data-pressed],
+			&:active {
+				transform: translateY(0); // reduce movement for card-like feel
+				// Active uses a stronger accent vertical gradient
+				background: linear-gradient(
+					0deg,
+					rgba($accent, 0.10),
+					nhs.$nhs-fdp-color-primary-white
+				);
+				// Emphasise the bar slightly more when active
+				&::before {
+					background: linear-gradient(
+						0deg,
+						color.mix(#000, $accent, 14%),
+						$accent
+					);
+				}
+				border-color: nhs.$nhs-fdp-border-color-card-hover;
+				box-shadow:
+					0 2px 6px rgba(0, 0, 0, 0.12),
+					0 1px 3px rgba(0, 0, 0, 0.1);
+			}
+		}
+
+		// Focus ring aligns to card focus
+		&:focus,
+		&[data-focused],
+		&:focus-visible {
+			outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
+			outline-offset: 2px;
+			box-shadow:
+				0 0 0 3px nhs.$nhs-fdp-semantic-color-focus-background,
+				0 1px 3px rgba(0, 0, 0, 0.06),
+				0 1px 2px rgba(0, 0, 0, 0.08);
+		}
+
+		// Disabled keeps surface but duller
+		&[data-disabled],
+		&:disabled,
+		&[aria-disabled="true"] {
+			opacity: 0.7;
+			cursor: not-allowed;
+			box-shadow:
+				0 1px 3px rgba(0, 0, 0, 0.06),
+				0 1px 2px rgba(0, 0, 0, 0.04);
 		}
 	}
 
-	// Enhanced focus-visible (modern browsers)
-	&:focus-visible {
-		outline: none;
-		outline-offset: 2px;
-		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+	// Metric-inspired modern buttons (blue/green/warning)
+	&--metric {
+		// Back-compat: "metric" defaults to blue accent
+		@include metric-variant(nhs.$nhs-fdp-color-data-viz-categorical-1);
 	}
 
-	// Remove default outline when React Aria is handling focus
-	&[data-focus-visible]:focus {
-		outline: none;
-		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+	&--metric-blue {
+		@include metric-variant(nhs.$nhs-fdp-color-data-viz-categorical-1);
 	}
 
-	// Size variants
-	&--default,
-	& {
-		// Default size (explicit for clarity)
-		padding: nhs.$nhs-fdp-component-button-padding-mobile-vertical nhs.$nhs-fdp-component-button-padding-mobile-horizontal;
-		font-size: 16px;
-		min-height: 44px;
-
-		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
-			padding: nhs.$nhs-fdp-component-button-padding-desktop-vertical nhs.$nhs-fdp-component-button-padding-desktop-horizontal;
-		}
+	&--metric-green {
+		@include metric-variant(nhs.$nhs-fdp-color-data-viz-categorical-3);
 	}
 
-	&--small {
-		padding: 6px 12px;
-		font-size: 14px;
-		min-height: 32px;
-	}
-	
-	&--large {
-		padding: 12px 24px;
-		font-size: 18px;
-		min-height: 56px;
+	&--metric-warning {
+		@include metric-variant(nhs.$nhs-fdp-color-data-viz-categorical-7);
 	}
 
-	// Width variants
-	&--full-width {
-		width: 100%;
-		display: flex;
-	}
 
 	// Color variants
 	&--primary {
@@ -249,6 +273,7 @@
 			}
 		}
 	}
+
 
 	// State variants
 	&--loading {

@@ -135,6 +135,14 @@ nhs-fdp-design-system/
 - **[Hydration Testing](./docs/guides/testing-hydration.mdx)** - Split SSR / client / hydration test pattern & helper
 - **[Multi‑Render Architecture](./docs/guides/multi-render-architecture.md)** - React and Nunjucks macro generation & parity
 - **[Behaviour Layer](./docs/guides/behaviours.md)** - Progressive enhancement, events & teardown API
+- **[SSR updates (Sep 2025)](./docs/guides/ssr-updates-2025-09.md)** - Latest SSR surface and patterns
+
+Quick SSR usage (Next.js server components):
+
+```tsx
+// Import SSR-safe components only
+import { Header, ButtonServer, SummaryList, Input, Textarea, Select } from '@fergusbisset/nhs-fdp-design-system/ssr';
+```
 
 ### Server / Client Variant Pattern
 
@@ -147,6 +155,7 @@ Some interactive components now adopt an explicit split to guarantee determinist
 Current migrated components: `Radios`, `Header` (exporting `RadiosServer`, `HeaderServer`). You can import server variants via `@fergusbisset/nhs-fdp-design-system/components/ComponentName/server`.
 
 Use cases:
+
 1. SSR (Next.js / Node) where you want stable deterministic HTML.
 2. Static HTML or Nunjucks macro generation before behaviour scripts attach.
 3. Selective progressive enhancement where only behaviour scripts, not React hydration, activate interactivity.

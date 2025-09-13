@@ -94,6 +94,13 @@ src/
 - Parity tests: Many macro parity tests in place, using a shared normaliser and harness.
 - Examples: Express and Nunjucks demo serving compiled macros and behaviours; behaviour flow verified with Playwright.
 
+SSR surface and validation:
+- Introduced a curated SSR export surface at `@fergusbisset/nhs-fdp-design-system/ssr` containing only hook‑free components.
+- Split `Header` into a pure server renderer (`HeaderServer`), re‑exported as `Header` from the SSR entry.
+- Added a pure server `SkipLink` variant; SSR entry now exports this to avoid hook leakage.
+- Prefer `ButtonServer` for SSR/SSG markup stability.
+- Next.js example `/ssr` route imports only from `/ssr` (guarded by ESLint). SSR tests green (52 files / 177 tests), smoke green, parity build passing; typecheck and lint clean.
+
 Automation and CI:
 - Schema manifest is now generated to `dist/meta/components.json` and published via `package.json` export `"./meta/components.json"`.
 - Chromatic workflow runs `docs:pre` and sets `DS_MULTI_RENDER=1`; logs, reports, and static HTML artifacts are uploaded for diagnostics.
@@ -153,6 +160,10 @@ Short‑term (low‑risk):
 1. Document and cross‑link the schema manifest (`dist/meta/components.json`) usage in component MDX; optionally auto‑generate prop tables from it.
 2. Promote `verify:schema-macro` to a CI gate (now green), with per‑component suppressions only where justified.
 3. Continue rolling the mapping layer consumption into Tier‑1 React components (Label, Heading, ErrorMessage, Hint, Input) and add/adjust SSR + hydration tests.
+4. Expand server‑first variants where safe for selected form components (Input, Select, Radios, Checkboxes) to provide stable SSR markup.
+5. Add Storybook docs showing SSR vs client‑enhanced variants (e.g., Header, SkipLink, ButtonServer vs Button).
+6. Keep SSR test suite required in CI; optionally add example Next.js `/ssr` smoke.
+7. Enforce `/ssr` imports in SSR pages (examples already guarded via ESLint; consider generalising if needed).
 4. Surface CI artifacts (macro parity + schema vs macro reports) more prominently in PR checks for quick triage.
 
 Medium‑term:
@@ -529,6 +540,17 @@ The choice of renderer affects performance, SEO, cacheability, accessibility bas
 - Updated status to reflect existing per‑component schemas for many Tier‑1 components (Button, Heading, Label, etc.).
 - Clarified that schema‑driven macro generation is enabled when `DS_MULTI_RENDER=1`.
 - Recorded verification runs: macro parity suite green (66 tests across 17 files); full `build:parity` succeeded.
+
+### 2025‑09‑13 (SSR surface hardening)
+
+- Introduced curated SSR export surface at `@fergusbisset/nhs-fdp-design-system/ssr`.
+- `Header` exported as server‑only variant from `/ssr`; client variant unchanged at root entry.
+- Added pure server `SkipLink` and wired it into the `/ssr` entry to remove hook usage from SSR paths.
+- Promoted `ButtonServer` as the preferred SSR/SSG variant for buttons.
+- Next.js example `/ssr` page updated to import exclusively from `/ssr`.
+- Added ESLint guard for the example SSR route to prevent importing from the root entry or deep component paths.
+- Validation: SSR suite all green (52 files / 177 tests), smoke tests green; full parity build, typecheck, and lint passing; `/ssr` route serves 200 with SSR‑safe components only.
+- See also: `docs/guides/ssr-updates-2025-09.md` for a concise usage summary and next steps.
 
 ### 2025‑09‑13
 

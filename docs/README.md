@@ -32,7 +32,9 @@ Testing guides and visual testing documentation:
 
 Development and workflow guides:
 
-- TODO
+- [SSR and Hydration Guide](./guides/ssr-and-hydration.mdx)
+- [Next.js Integration Guide](./guides/nextjs-integration.md)
+- [SSR updates (Sep 2025)](./guides/ssr-updates-2025-09.md)
 
 ## Quick Start
 

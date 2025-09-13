@@ -102,12 +102,20 @@ export type { CardProps, CardGroupProps, CardGroupItemProps, CardVariant, Headin
 export { CareCard } from './CareCard';
 export type { CareCardProps, CareCardType, HeadingLevel as CareCardHeadingLevel } from './CareCard';
 
+// Server-first form controls
+export { InputServer as Input } from './Input/Input.server';
+export type { InputProps } from './Input/Input.types';
+export { Textarea } from './Textarea';
+export type { TextareaProps } from './Textarea/Textarea.types';
+export { Select, SelectOption } from './Select';
+export type { SelectProps, SelectOptionProps } from './Select/Select.types';
+
 // ⚠️  REMOVED COMPONENTS (contain react-aria dependencies or other context dependencies):
-// - Input, Textarea, Select, Checkboxes, Radios (may use react-aria-components)
+// - Checkboxes, Radios (may use react-aria-components)
 
 // ⚠️  EXCLUDED COMPONENTS (contain hooks, context, or react-aria dependencies):
 // - All form input components that haven't been converted yet
-// - Input, Textarea, Select, Checkboxes, Radios (may use react-aria-components)
+// - Checkboxes, Radios (while client-enhanced paths depend on hooks/context)
 // - DataTable, SortableDataTable (use hooks and state)
 // - Any components that depend on NHSThemeProvider or react-aria dependencies
 //

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { renderSSR } from '../../test-utils/renderSSR';
-import { Input } from './Input';
+// Import from SSR-safe surface to ensure no hooks/context leak
+import { Input } from '../ssr';
 
 // Server-side rendering focused tests (static markup assertions only)
 describe('Input (SSR)', () => {

@@ -12,6 +12,6 @@
 		"node_modules",
 		"dist",
 		"**/*.test.*",
-		"**/*.stories.*"
+		"**/*.stories.*" // Removed to include stories in the editor TS program
 	]
 }

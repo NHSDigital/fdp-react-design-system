@@ -61,6 +61,40 @@ export default [
       'storybook/no-renderer-packages': 'off'
     }
   },
+    // Enforce SSR-safe imports in the Next.js example SSR route
+    {
+      files: ['examples/nextjs/app/ssr/**/*.{ts,tsx,js,jsx}'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            paths: [
+              {
+                name: '@fergusbisset/nhs-fdp-design-system',
+                message: 'SSR pages must import from @fergusbisset/nhs-fdp-design-system/ssr only.'
+              },
+              {
+                name: '@fergusbisset/nhs-fdp-design-system/nextjs',
+                message: 'Import global CSS in app/layout.tsx, not in SSR page routes.'
+              }
+            ],
+            patterns: [
+              {
+                group: [
+                  '@fergusbisset/nhs-fdp-design-system/components/**',
+                  '@fergusbisset/nhs-fdp-design-system/core',
+                  '@fergusbisset/nhs-fdp-design-system/pure',
+                  '@fergusbisset/nhs-fdp-design-system/behaviours',
+                  '@fergusbisset/nhs-fdp-design-system/css',
+                  '@fergusbisset/nhs-fdp-design-system/*/css'
+                ],
+                message: 'SSR pages must import only from @fergusbisset/nhs-fdp-design-system/ssr; move CSS to layout.'
+              }
+            ]
+          }
+        ]
+      }
+    },
   // Allow the SPC barrel re-export in the DataVisualisation index without triggering restricted-imports
   {
     files: ['src/components/DataVisualisation/index.ts'],

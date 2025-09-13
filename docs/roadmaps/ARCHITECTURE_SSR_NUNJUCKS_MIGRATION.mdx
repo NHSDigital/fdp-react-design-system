@@ -99,7 +99,9 @@ SSR surface and validation:
 - Split `Header` into a pure server renderer (`HeaderServer`), re‑exported as `Header` from the SSR entry.
 - Added a pure server `SkipLink` variant; SSR entry now exports this to avoid hook leakage.
 - Prefer `ButtonServer` for SSR/SSG markup stability.
-- Next.js example `/ssr` route imports only from `/ssr` (guarded by ESLint). SSR tests green (52 files / 177 tests), smoke green, parity build passing; typecheck and lint clean.
+- Expanded SSR-safe surface: `Input` (server-first), `Textarea`, `Select`, `Radios` (server), `Checkboxes` (server), `DateInput` (server), and `ErrorSummary` (server). All available via the `/ssr` entry.
+- Next.js example `/ssr` route imports only from `/ssr` (guarded by ESLint). New `/example-form` route demonstrates POST‑Redirect‑GET with `#errors` hash to an SSR `ErrorSummary` (no client JS).
+- Validation: SSR tests green (52 files / 177 tests), smoke green, parity build passing; typecheck and lint clean. ESLint guardrails prevent non‑SSR imports in SSR pages and within the SSR barrel.
 
 Automation and CI:
 - Schema manifest is now generated to `dist/meta/components.json` and published via `package.json` export `"./meta/components.json"`.
@@ -495,6 +497,14 @@ The choice of renderer affects performance, SEO, cacheability, accessibility bas
 ---
 
 ## Changelog
+
+### 2025‑09‑13 (SSR surface expansion + Next hash redirect)
+
+- SSR surface: Added server-first variants and SSR-safe exports for Radios, Checkboxes, DateInput, and ErrorSummary. Promoted `Input` on SSR surface and clarified usage patterns (e.g., dependency injection for form controls to avoid client imports).
+- Next.js example: Added `/example-form` route demonstrating POST‑Redirect‑GET with `#errors` hash and an SSR `ErrorSummary` – no client JS required. Optional CSS `:target` highlight documented.
+- ESLint guardrails: Enforced SSR-only imports in the Next.js `/ssr` route and restricted client-only imports within the SSR barrel and server-only files.
+- Docs: Expanded `docs/guides/ssr-updates-2025-09.md` with the full App Router validation pattern, server action guidance (omit method/encType when `action` is a function), and accessibility notes.
+- Validation: Parity build passing; SSR tests green (52 files / 177 tests); typecheck and lint clean.
 
 ### 2025‑09‑13 (schema manifest & parity automation)
 

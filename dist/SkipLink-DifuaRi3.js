@@ -1,24 +1,24 @@
-import c, { useState as f, useEffect as k } from "react";
+import c, { useState as h, useEffect as k } from "react";
 import { c as p } from "./SkipLink-Bpun0E2L.js";
 const b = ({
   as: e = "main",
   size: i = "default",
   className: s,
-  children: l,
+  children: u,
   ...r
 }) => {
-  const u = [
+  const l = [
     "nhsuk-main-wrapper",
     i === "large" && "nhsuk-main-wrapper--l",
     i === "small" && "nhsuk-main-wrapper--s",
     s
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ c.createElement(e, { className: u, ...r }, l);
-}, L = ({
+  return /* @__PURE__ */ c.createElement(e, { className: l, ...r }, u);
+}, y = ({
   debug: e = !1,
   className: i,
   children: s,
-  ...l
+  ...u
 }) => {
   if (!s)
     return null;
@@ -27,39 +27,39 @@ const b = ({
     e && "nhsuk-width-utilities--debug",
     i
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ c.createElement("div", { className: r, ...l }, s);
-}, g = {
+  return /* @__PURE__ */ c.createElement("div", { className: r, ...u }, s);
+}, L = {
   width: (e) => `nhsuk-u-width-${e}`,
   widthTablet: (e) => `nhsuk-u-width-${e}-tablet`
-}, E = [
+}, g = [
   "full",
   "three-quarters",
   "two-thirds",
   "one-half",
   "one-third",
   "one-quarter"
-], y = ({
+], E = ({
   text: e = "Skip to main content",
   href: i = "#maincontent",
   classes: s,
-  attributes: l = {}
+  attributes: u = {}
 }) => {
-  const [r, u] = f(!1);
+  const [r, l] = h(!1);
   k(() => {
-    u(!0);
+    l(!0);
   }, []), k(() => {
     if (typeof window > "u" || typeof document > "u" || !document.querySelector || !document.querySelectorAll)
       return;
     const d = (a) => {
       const t = a.target, o = t.getAttribute("href");
       if (o && o.startsWith("#")) {
-        const n = document.querySelector(o);
+        const n = typeof document < "u" && typeof document < "u" && typeof document < "u" && typeof document < "u" ? document.querySelector(o) : null;
         if (n) {
           n.hasAttribute("tabindex") || n.setAttribute("tabindex", "-1"), n.focus(), n.classList.add("nhsuk-skip-link-focused-element");
-          const h = window.setTimeout(() => {
+          const f = window.setTimeout(() => {
             n.classList.remove("nhsuk-skip-link-focused-element"), n.getAttribute("tabindex") === "-1" && n.removeAttribute("tabindex");
           }, 3e3);
-          t.__nhsSkipLinkTimeout = h;
+          t.__nhsSkipLinkTimeout = f;
         }
       }
     };
@@ -91,16 +91,16 @@ const b = ({
       href: i,
       "data-module": "nhsuk-skip-link",
       "data-enhanced": r ? "true" : "false",
-      ...l
+      ...u
     },
     e
   );
 };
 export {
   b as M,
-  y as S,
-  L as W,
-  E as a,
-  g
+  E as S,
+  y as W,
+  g as a,
+  L as g
 };
-//# sourceMappingURL=SkipLink-BMq9lcaL.js.map
+//# sourceMappingURL=SkipLink-DifuaRi3.js.map

@@ -246,6 +246,7 @@
     "clean:dist": "rimraf dist && mkdir dist",
     "analyze:ssr": "npx tsx scripts/analyze-ssr.ts",
     "analyze:ssr:verbose": "npx tsx scripts/analyze-ssr.ts ./src/components ./ssr-analysis-report",
+    "fix:ssr:quickwins": "npx tsx scripts/ssr-autofix.ts",
     "test:ssr": "vitest run tests/ssr-analysis/",
     "examples:build": "npm run build:parity",
     "examples:generate:html": "tsx scripts/generate-static-html-examples.ts",

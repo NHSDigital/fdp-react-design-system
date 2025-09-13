@@ -2,9 +2,9 @@
 
 ## Executive Summary
 
-- **Total Components Analyzed**: 223
+- **Total Components Analyzed**: 229
 - **Overall SSR Compatibility**: 92%
-- **Fully Compatible**: 201 (90%)
+- **Fully Compatible**: 207 (90%)
 - **Compatible with Hydration**: 5 (2%)
 - **Client-Only**: 1 (0%)
 - **Requires Refactoring**: 16 (7%)
@@ -61,7 +61,7 @@ Components that can be easily made SSR-compatible:
 
 ## Component Breakdown
 
-### ✅ Fully SSR Compatible (201)
+### ✅ Fully SSR Compatible (207)
 - Account
 - Account.types
 - ActionLink
@@ -84,6 +84,7 @@ Components that can be easily made SSR-compatible:
 - Checkbox
 - Checkbox.types
 - Checkboxes.schema
+- Checkboxes.server
 - Checkboxes.styles
 - Checkboxes
 - Checkboxes.types
@@ -149,6 +150,7 @@ Components that can be easily made SSR-compatible:
 - ReviewAnswers
 - WizardProgress
 - DateInput.schema
+- DateInput.server
 - DateInput
 - DateInput.types
 - Details.schema
@@ -158,6 +160,7 @@ Components that can be easily made SSR-compatible:
 - ErrorMessage
 - ErrorMessage.types
 - ErrorSummary.schema
+- ErrorSummary.server
 - ErrorSummary
 - ErrorSummary.types
 - Expander
@@ -170,6 +173,7 @@ Components that can be easily made SSR-compatible:
 - TaskBar-new
 - TaskBar
 - Grid.types
+- Header.render.server
 - Header.render
 - Header.server
 - Header.types
@@ -184,6 +188,7 @@ Components that can be easily made SSR-compatible:
 - Hint.types
 - Images
 - Input.schema
+- Input.server
 - Input
 - Input.types
 - InsetText.schema
@@ -220,6 +225,7 @@ Components that can be easily made SSR-compatible:
 - Select.schema
 - Select
 - Select.types
+- SkipLink.server
 - SkipLink.types
 - SlotMatrix
 - SlotMatrix.types
@@ -627,6 +633,21 @@ Components that can be easily made SSR-compatible:
 
 ### Checkboxes.schema
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.schema.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Checkboxes.server
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.server.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1792,6 +1813,21 @@ Components that can be easily made SSR-compatible:
 
 
 
+### DateInput.server
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DateInput/DateInput.server.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
 ### DateInput
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DateInput/DateInput.tsx`
 - **Compatibility**: fully-compatible
@@ -1914,6 +1950,21 @@ Components that can be easily made SSR-compatible:
 
 ### ErrorSummary.schema
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.schema.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### ErrorSummary.server
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.server.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2155,6 +2206,21 @@ Components that can be easily made SSR-compatible:
 
 
 
+### Header.render.server
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Header/Header.render.server.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
 ### Header.render
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Header/Header.render.tsx`
 - **Compatibility**: fully-compatible
@@ -2194,19 +2260,19 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: Yes
 
 #### Issues:
-- **useEffect** (Line 39): useEffect runs only on client side
-- **useEffect** (Line 47): useEffect runs only on client side
-- **document-object** (Line 58): Direct document object access
-- **event-listener** (Line 58): Event listener setup
+- **useEffect** (Line 40): useEffect runs only on client side
+- **useEffect** (Line 48): useEffect runs only on client side
 - **document-object** (Line 59): Direct document object access
-- **document-object** (Line 88): Direct document object access
-- **window-object** (Line 103): Direct window object access
-- **resize-observer** (Line 123): ResizeObserver API usage
-- **useEffect** (Line 124): useEffect runs only on client side
-- **window-object** (Line 132): Direct window object access
-- **resize-observer** (Line 142): ResizeObserver API usage
-- **window-object** (Line 149): Direct window object access
-- **useEffect** (Line 155): useEffect runs only on client side
+- **event-listener** (Line 59): Event listener setup
+- **document-object** (Line 60): Direct document object access
+- **document-object** (Line 89): Direct document object access
+- **window-object** (Line 104): Direct window object access
+- **resize-observer** (Line 124): ResizeObserver API usage
+- **useEffect** (Line 125): useEffect runs only on client side
+- **window-object** (Line 133): Direct window object access
+- **resize-observer** (Line 143): ResizeObserver API usage
+- **window-object** (Line 150): Direct window object access
+- **useEffect** (Line 156): useEffect runs only on client side
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
@@ -2395,6 +2461,21 @@ Components that can be easily made SSR-compatible:
 
 ### Input.schema
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Input/Input.schema.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Input.server
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Input/Input.server.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -3022,6 +3103,21 @@ Components that can be easily made SSR-compatible:
 
 ### Select.types
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Select/Select.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SkipLink.server
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SkipLink/SkipLink.server.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No

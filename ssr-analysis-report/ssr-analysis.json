@@ -1,6 +1,6 @@
 {
-  "totalComponents": 223,
-  "fullyCompatible": 201,
+  "totalComponents": 229,
+  "fullyCompatible": 207,
   "compatibleWithHydration": 5,
   "clientOnly": 1,
   "requiresRefactoring": 16,
@@ -270,6 +270,17 @@
     {
       "name": "Checkboxes.schema",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.schema.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Checkboxes.server",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.server.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1457,6 +1468,17 @@
       "refactoringNeeded": []
     },
     {
+      "name": "DateInput.server",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DateInput/DateInput.server.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
       "name": "DateInput",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DateInput/DateInput.tsx",
       "compatibilityLevel": "fully-compatible",
@@ -1547,6 +1569,17 @@
     {
       "name": "ErrorSummary.schema",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.schema.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ErrorSummary.server",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.server.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1916,6 +1949,17 @@
       "refactoringNeeded": []
     },
     {
+      "name": "Header.render.server",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Header/Header.render.server.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
       "name": "Header.render",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Header/Header.render.tsx",
       "compatibilityLevel": "fully-compatible",
@@ -1944,7 +1988,7 @@
       "issues": [
         {
           "type": "useEffect",
-          "line": 39,
+          "line": 40,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1953,7 +1997,7 @@
         },
         {
           "type": "useEffect",
-          "line": 47,
+          "line": 48,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1962,7 +2006,7 @@
         },
         {
           "type": "document-object",
-          "line": 58,
+          "line": 59,
           "code": "document.addEventListener(\"keydown\", handleEscapeKey);",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -1971,7 +2015,7 @@
         },
         {
           "type": "event-listener",
-          "line": 58,
+          "line": 59,
           "code": "document.addEventListener(\"keydown\", handleEscapeKey);",
           "severity": "medium",
           "description": "Event listener setup",
@@ -1980,7 +2024,7 @@
         },
         {
           "type": "document-object",
-          "line": 59,
+          "line": 60,
           "code": "return () => document.removeEventListener(\"keydown\", handleEscapeKey);",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -1989,7 +2033,7 @@
         },
         {
           "type": "document-object",
-          "line": 88,
+          "line": 89,
           "code": "const proto = document.createElement(\"button\");",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -1998,7 +2042,7 @@
         },
         {
           "type": "window-object",
-          "line": 103,
+          "line": 104,
           "code": "const style = window.getComputedStyle(container);",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -2007,7 +2051,7 @@
         },
         {
           "type": "resize-observer",
-          "line": 123,
+          "line": 124,
           "code": "// Attach ResizeObserver to container for responsive recalculation",
           "severity": "high",
           "description": "ResizeObserver API usage",
@@ -2016,7 +2060,7 @@
         },
         {
           "type": "useEffect",
-          "line": 124,
+          "line": 125,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -2025,7 +2069,7 @@
         },
         {
           "type": "window-object",
-          "line": 132,
+          "line": 133,
           "code": "frame = window.requestAnimationFrame(() => {",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -2034,7 +2078,7 @@
         },
         {
           "type": "resize-observer",
-          "line": 142,
+          "line": 143,
           "code": "const ro = new ResizeObserver(() => schedule());",
           "severity": "high",
           "description": "ResizeObserver API usage",
@@ -2043,7 +2087,7 @@
         },
         {
           "type": "window-object",
-          "line": 149,
+          "line": 150,
           "code": "if (frame != null) window.cancelAnimationFrame(frame);",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -2052,7 +2096,7 @@
         },
         {
           "type": "useEffect",
-          "line": 155,
+          "line": 156,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -2226,6 +2270,17 @@
     {
       "name": "Input.schema",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Input/Input.schema.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Input.server",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Input/Input.server.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -3105,6 +3160,17 @@
     {
       "name": "Select.types",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Select/Select.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SkipLink.server",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SkipLink/SkipLink.server.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,

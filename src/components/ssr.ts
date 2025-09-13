@@ -19,8 +19,9 @@ export { ActionLink } from './ActionLink';
 export type { ActionLinkProps } from './ActionLink';
 /**
  * Preferred server-first Button export for SSR and SSG. Supports both <button> and <a> via props.
+ * IMPORTANT: Import directly from the server file to avoid pulling in the client Button (which uses hooks).
  */
-export { ButtonServer } from './Button';
+export { default as ButtonServer } from './Button/Button.server';
 export type { ButtonServerProps } from './Button/Button.server';
 export { BackLink } from './BackLink';
 export type { BackLinkProps } from './BackLink';
@@ -60,6 +61,9 @@ export type { WarningCalloutProps } from './WarningCallout/WarningCallout';
 export { Grid, Container, Row, Column } from './Grid';
 export type { GridProps, ContainerProps, RowProps, ColumnProps } from './Grid';
 export { GridWidth, Breakpoint, Float, ColumnAlign } from './Grid';
+// Simple wrapper around Grid.Container – safe for SSR
+export { WidthContainer } from './WidthContainer';
+export type { ContainerProps as WidthContainerProps } from './Grid';
 
 export { ContentsList } from './ContentsList';
 export type { ContentsListProps, ContentsListItem } from './ContentsList';
@@ -109,13 +113,20 @@ export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea/Textarea.types';
 export { Select, SelectOption } from './Select';
 export type { SelectProps, SelectOptionProps } from './Select/Select.types';
+export { DateInputServer as DateInput } from './DateInput/DateInput.server';
+export type { DateInputProps, DateInputItem } from './DateInput/DateInput.types';
+export { ErrorSummaryServer as ErrorSummary } from './ErrorSummary/ErrorSummary.server';
+export type { ErrorSummaryProps } from './ErrorSummary/ErrorSummary.types';
 
-// ⚠️  REMOVED COMPONENTS (contain react-aria dependencies or other context dependencies):
-// - Checkboxes, Radios (may use react-aria-components)
+// Server-first choice inputs
+export { RadiosServer as Radios } from './Radios/Radios.server';
+export type { RadiosProps, RadioOption } from './Radios/Radios.types';
+export { CheckboxesServer as Checkboxes } from './Checkboxes/Checkboxes.server';
+export type { CheckboxesProps, CheckboxItem } from './Checkboxes/Checkboxes.types';
 
 // ⚠️  EXCLUDED COMPONENTS (contain hooks, context, or react-aria dependencies):
 // - All form input components that haven't been converted yet
-// - Checkboxes, Radios (while client-enhanced paths depend on hooks/context)
+// - Any remaining form components that still depend on hooks/context
 // - DataTable, SortableDataTable (use hooks and state)
 // - Any components that depend on NHSThemeProvider or react-aria dependencies
 //

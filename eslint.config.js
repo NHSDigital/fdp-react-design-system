@@ -54,6 +54,31 @@ export default [
     ]
   }
   },
+  // Enforce SSR barrel purity: do not allow client modules or React hooks in SSR entry or its server files
+  {
+    files: ['src/components/ssr.ts', 'src/components/**/*.{server.ts,server.tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: [
+                // Block accidental imports from client entrypoints
+                './**/index',
+                '../**/index',
+                // Block react-aria/client behaviour packages directly in server files
+                '**/react-aria/**',
+                '**/behaviours/**',
+              ],
+              message:
+                'SSR barrel/server files must not import client barrels, react-aria, or behaviours. Import direct server files only.'
+            }
+          ]
+        }
+      ]
+    }
+  },
   {
     files: ['src/**/*.stories.@(ts|tsx)'],
     rules: {

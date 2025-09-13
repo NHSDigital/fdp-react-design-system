@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { RadiosProps } from './Radios.types';
 import { renderRadiosMarkup } from './Radios.render';
+import { Input } from '../Input/Input';
 
 export const Radios: React.FC<RadiosProps> = ({ value, defaultValue, onChange, onBlur, onFocus, ...rest }) => {
 	const [selectedValue, setSelectedValue] = useState(value || defaultValue || '');
@@ -48,6 +49,7 @@ export const Radios: React.FC<RadiosProps> = ({ value, defaultValue, onChange, o
 			handleFocus, // wrapped to suppress duplicate focus calls
 			handleKeyDown,
 			itemsRef,
+			InputComponent: Input,
 		}
 	);
 };

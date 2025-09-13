@@ -106,7 +106,7 @@ var SkipLink = ({
       const target = event.target;
       const targetId = target.getAttribute("href");
       if (targetId && targetId.startsWith("#")) {
-        const targetElement = document.querySelector(targetId);
+        const targetElement = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(targetId) : null : null : null : null;
         if (targetElement) {
           if (!targetElement.hasAttribute("tabindex")) {
             targetElement.setAttribute("tabindex", "-1");

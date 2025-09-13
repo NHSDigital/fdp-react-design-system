@@ -8170,9 +8170,15 @@ var ChartWithTableTabs = ({
         classes: "nhsuk-table__header--align-left"
       }))
     ];
-    const longest = autoTableFromSeries.reduce((a, b) => b.data.length > a.data.length ? b : a, autoTableFromSeries[0]);
+    const longest = autoTableFromSeries.reduce(
+      (a, b) => b.data.length > a.data.length ? b : a,
+      autoTableFromSeries[0]
+    );
     const rows = longest.data.map((d, rowIdx) => {
-      const dateCell = { text: new Date(d.x).toLocaleDateString(), classes: "nhsuk-table__cell--align-left" };
+      const dateCell = {
+        text: new Date(d.x).toLocaleDateString(),
+        classes: "nhsuk-table__cell--align-left"
+      };
       const seriesCells = autoTableFromSeries.map((s) => {
         const point3 = s.data[rowIdx];
         const yVal = point3 ? point3.y : void 0;
@@ -8196,7 +8202,9 @@ var ChartWithTableTabs = ({
     const handleDownload = () => {
       if (typeof window === "undefined" || typeof document === "undefined" || typeof URL === "undefined" || typeof Blob === "undefined") {
         if (true) {
-          console.warn("CSV download is only available in the browser environment.");
+          console.warn(
+            "CSV download is only available in the browser environment."
+          );
         }
         return;
       }
@@ -8217,15 +8225,7 @@ var ChartWithTableTabs = ({
     };
     resolvedTable = /* @__PURE__ */ jsxs10("div", { className: "fdp-chart__auto-table", children: [
       enableDownload && /* @__PURE__ */ jsx17("div", { className: "fdp-chart__download-row", children: /* @__PURE__ */ jsx17(Button_default, { variant: "secondary", onClick: handleDownload, size: "small", children: "Download CSV" }) }),
-      /* @__PURE__ */ jsx17(
-        Table_default,
-        {
-          caption: `${title} data`,
-          head: heads,
-          rows,
-          responsive: true
-        }
-      )
+      /* @__PURE__ */ jsx17(Table_default, { caption: `${title} data`, head: heads, rows, responsive: true })
     ] });
   }
   const hasTable = !!resolvedTable && !hideTable;
@@ -8270,7 +8270,14 @@ var ChartWithTableTabs = ({
     {
       id: "table",
       label: tableTabLabel,
-      content: /* @__PURE__ */ jsx17("div", { className: "fdp-chart-table-wrapper", "aria-label": `${title} data table`, children: resolvedTable })
+      content: /* @__PURE__ */ jsx17(
+        "div",
+        {
+          className: "fdp-chart-table-wrapper",
+          "aria-label": `${title} data table`,
+          children: resolvedTable
+        }
+      )
     }
   ];
   const items = additionalTabs ? [...baseTabs, ...additionalTabs] : baseTabs;
@@ -9952,9 +9959,15 @@ function renderRadiosMarkup(props, {
   handleBlur,
   handleFocus,
   handleKeyDown,
-  itemsRef
+  itemsRef,
+  InputComponent
 }) {
-  const { onChange: _omitOnChange, onBlur: _omitOnBlur, onFocus: _omitOnFocus, ...safeProps } = props;
+  const {
+    onChange: _omitOnChange,
+    onBlur: _omitOnBlur,
+    onFocus: _omitOnFocus,
+    ...safeProps
+  } = props;
   const {
     name,
     hasError = false,
@@ -9986,9 +9999,19 @@ function renderRadiosMarkup(props, {
               type: "radio",
               value: option.value,
               disabled: option.disabled,
-              ...variant === "client" ? { checked: isSelected, onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, onKeyDown: handleKeyDown, ref: (el) => {
-                if (el && itemsRef) itemsRef.current[index] = el;
-              } } : { defaultChecked: isSelected, "data-nhs-radios-input": true },
+              ...variant === "client" ? {
+                checked: isSelected,
+                onChange: handleChange,
+                onBlur: handleBlur,
+                onFocus: handleFocus,
+                onKeyDown: handleKeyDown,
+                ref: (el) => {
+                  if (el && itemsRef) itemsRef.current[index] = el;
+                }
+              } : {
+                defaultChecked: isSelected,
+                "data-nhs-radios-input": true
+              },
               "aria-describedby": mappedDescribedBy
             }
           ),
@@ -10003,8 +10026,19 @@ function renderRadiosMarkup(props, {
               id: conditionalId,
               ...variant === "server" ? { "data-nhs-radios-conditional": true } : {},
               children: typeof option.conditional === "object" && option.conditional !== null && "label" in option.conditional && "id" in option.conditional && "name" in option.conditional ? /* @__PURE__ */ jsxs23("div", { style: { marginTop: "16px" }, children: [
-                option.conditional.label && /* @__PURE__ */ jsx34(Label, { htmlFor: option.conditional.id, children: option.conditional.label }),
-                /* @__PURE__ */ jsx34(Input, { ...option.conditional })
+                option.conditional.label && /* @__PURE__ */ jsx34(
+                  Label,
+                  {
+                    htmlFor: option.conditional.id,
+                    children: option.conditional.label
+                  }
+                ),
+                /* @__PURE__ */ jsx34(
+                  InputComponent,
+                  {
+                    ...option.conditional
+                  }
+                )
               ] }) : option.conditional
             }
           )
@@ -10056,7 +10090,8 @@ var Radios = ({ value, defaultValue, onChange, onBlur, onFocus, ...rest }) => {
       handleFocus,
       // wrapped to suppress duplicate focus calls
       handleKeyDown,
-      itemsRef
+      itemsRef,
+      InputComponent: Input
     }
   );
 };

@@ -58,16 +58,16 @@ export function useIntelligentLayout(
 
   // Detect device capabilities
   const updateDeviceContext = useCallback(() => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    const width = typeof window !== 'undefined' ? window.innerWidth : 1024;
+    const height = typeof window !== 'undefined' ? window.innerHeight : 768;
     
     const newContext: DeviceContext = {
       viewport: width < 768 ? 'mobile' : width < 1200 ? 'tablet' : 'desktop',
       orientation: width > height ? 'landscape' : 'portrait',
-      touchCapable: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
-      highDensity: window.devicePixelRatio > 1.5,
-      reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-      forcedColors: window.matchMedia('(forced-colors: active)').matches
+      touchCapable: (typeof window !== 'undefined' && 'ontouchstart' in window) || (typeof navigator !== 'undefined' && (navigator as any).maxTouchPoints > 0),
+      highDensity: typeof window !== 'undefined' ? window.devicePixelRatio > 1.5 : false,
+      reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,
+      forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? window.matchMedia('(forced-colors: active)').matches : false
     };
     
     setDeviceContext(newContext);
@@ -179,19 +179,23 @@ export function useIntelligentLayout(
     window.addEventListener('orientationchange', handleOrientationChange);
     
     // Listen for media query changes
-    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const forcedColorsQuery = window.matchMedia('(forced-colors: active)');
+    const reducedMotionQuery = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')
+      ? window.matchMedia('(prefers-reduced-motion: reduce)')
+      : null;
+    const forcedColorsQuery = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')
+      ? window.matchMedia('(forced-colors: active)')
+      : null;
     
     const handleMediaChange = () => updateDeviceContext();
     
-    reducedMotionQuery.addEventListener('change', handleMediaChange);
-    forcedColorsQuery.addEventListener('change', handleMediaChange);
+  reducedMotionQuery?.addEventListener('change', handleMediaChange);
+  forcedColorsQuery?.addEventListener('change', handleMediaChange);
 
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('orientationchange', handleOrientationChange);
-      reducedMotionQuery.removeEventListener('change', handleMediaChange);
-      forcedColorsQuery.removeEventListener('change', handleMediaChange);
+  reducedMotionQuery?.removeEventListener('change', handleMediaChange);
+  forcedColorsQuery?.removeEventListener('change', handleMediaChange);
     };
   }, [updateDeviceContext]);
 
@@ -221,22 +225,25 @@ export function useLayoutPerformance() {
   });
 
   const measureLayoutTransition = useCallback((fromLayout: string, toLayout: string) => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return; // SSR guard
+    }
     const startTime = performance.now();
     
     // Use ResizeObserver to detect layout shifts
     let shiftCount = 0;
-    const observer = new ResizeObserver(() => {
-      shiftCount++;
-    });
+    const observer = (typeof ResizeObserver !== 'undefined')
+      ? new ResizeObserver(() => { shiftCount++; })
+      : null;
     
     // Observe the main container
-    const container = document.querySelector('.aria-tabs-datagrid-adaptive');
-    if (container) {
-      observer.observe(container);
+    const container = typeof document !== 'undefined' ? document.querySelector('.aria-tabs-datagrid-adaptive') : null;
+    if (container && observer) {
+      observer.observe(container as Element);
     }
     
     // Measure completion
-    requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
       const endTime = performance.now();
       
       setMetrics(prev => ({
@@ -245,7 +252,7 @@ export function useLayoutPerformance() {
         layoutShifts: shiftCount
       }));
       
-      observer.disconnect();
+      observer?.disconnect();
       
       // Log for analytics
       console.log(`Layout transition: ${fromLayout} → ${toLayout}`, {
@@ -263,29 +270,32 @@ export function useLayoutPerformance() {
  */
 export function useLayoutAccessibility() {
   const announceLayoutChange = useCallback((newLayout: string, reason: string) => {
+    if (typeof document === 'undefined') return; // SSR guard
     // Create live region for screen readers
     const announcement = document.createElement('div');
     announcement.setAttribute('aria-live', 'polite');
     announcement.setAttribute('aria-atomic', 'true');
     announcement.className = 'sr-only';
     announcement.textContent = `Layout changed to ${newLayout} view. ${reason}`;
-    
     document.body.appendChild(announcement);
     
     // Remove after announcement
     setTimeout(() => {
-      document.body.removeChild(announcement);
+      if (announcement.parentNode) {
+        announcement.parentNode.removeChild(announcement);
+      }
     }, 1000);
   }, []);
 
   const focusManagement = useCallback((_newLayout: string) => {
+    if (typeof document === 'undefined' || typeof window === 'undefined') return; // SSR guard
     // Maintain focus position across layout changes
     const activeElement = document.activeElement;
     const activeId = activeElement?.id;
     
     if (activeId) {
       // Try to maintain focus after layout change
-      requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
         const newActiveElement = document.getElementById(activeId);
         if (newActiveElement) {
           newActiveElement.focus();
@@ -293,7 +303,7 @@ export function useLayoutAccessibility() {
           // Focus first interactive element in new layout
           const firstFocusable = document.querySelector(
             '.aria-tabs-datagrid-adaptive [tabindex="0"], .aria-tabs-datagrid-adaptive button'
-          ) as HTMLElement;
+          ) as HTMLElement | null;
           firstFocusable?.focus();
         }
       });

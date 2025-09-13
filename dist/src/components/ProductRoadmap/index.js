@@ -6205,7 +6205,7 @@ var ProductRoadmap = memo(({
     });
     prevActiveRef.current = new Set(activeItemIds);
     if (!newlyOpened.length) return;
-    const prefersReduce = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReduce = typeof window !== "undefined" && typeof window.matchMedia === "function" ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
     const selector3 = newlyOpened.map((id) => `.nhsuk-product-roadmap__inline-children[data-parent="${id}"] .nhsuk-product-roadmap__inline-child`).join(",");
     const nodes = Array.from(document.querySelectorAll(selector3));
     if (!nodes.length) return;

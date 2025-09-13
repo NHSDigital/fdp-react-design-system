@@ -1,0 +1,93 @@
+import React from 'react';
+void React;
+import classNames from 'classnames';
+import './ErrorSummary.scss';
+import type { ErrorSummaryProps } from './ErrorSummary.types';
+
+/**
+ * ErrorSummaryServer – Server-only renderer (no focus/side effects).
+ *
+ * Mirrors the client ErrorSummary markup but avoids useRef/useEffect so it is
+ * safe to render during SSR. Progressive enhancement can attach focus on the client.
+ */
+export function ErrorSummaryServer({
+  titleText = 'There is a problem',
+  titleHtml,
+  descriptionText,
+  descriptionHtml,
+  errorList,
+  className,
+  children,
+  ...props
+}: ErrorSummaryProps) {
+  const errorSummaryClasses = classNames('nhsuk-error-summary', className);
+
+  const renderTitle = () => {
+    if (titleHtml) {
+      return <span dangerouslySetInnerHTML={{ __html: titleHtml }} />;
+    }
+    return titleText;
+  };
+
+  const renderDescription = () => {
+    if (descriptionHtml) {
+      return <span dangerouslySetInnerHTML={{ __html: descriptionHtml }} />;
+    }
+    return descriptionText;
+  };
+
+  const renderErrorItem = (item: any) => {
+    const content = item.html ? (
+      <span dangerouslySetInnerHTML={{ __html: item.html }} />
+    ) : (
+      item.text
+    );
+
+    if (item.href) {
+      return (
+        <a href={item.href} {...item.attributes}>
+          {content}
+        </a>
+      );
+    }
+
+    return content;
+  };
+
+  return (
+    <div
+      className={errorSummaryClasses}
+      aria-labelledby="error-summary-title"
+      role="alert"
+      tabIndex={-1}
+      data-module="nhsuk-error-summary"
+      {...props}
+    >
+      <h2 className="nhsuk-error-summary__title" id="error-summary-title">
+        {renderTitle()}
+      </h2>
+
+      <div className="nhsuk-error-summary__body">
+        {children && (
+          <div className="nhsuk-error-summary__description" data-role="description">
+            {children}
+          </div>
+        )}
+
+        {!children && (descriptionText || descriptionHtml) && (
+          <div className="nhsuk-error-summary__description" data-role="description">
+            {renderDescription()}
+          </div>
+        )}
+
+        <ul className="nhsuk-list nhsuk-error-summary__list" role="list">
+          {errorList.map((item, index) => (
+            <li key={index}>{renderErrorItem(item)}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+export default ErrorSummaryServer;

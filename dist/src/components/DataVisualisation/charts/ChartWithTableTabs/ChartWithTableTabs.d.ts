@@ -1,7 +1,7 @@
-import * as React from 'react';
-import type { TabItem } from '../../../Tabs/Tabs.types';
-import { type ChartContainerProps, type LineSeries } from '../../index';
-export interface ChartWithTableTabsProps extends Omit<ChartContainerProps, 'children' | 'tabularData' | 'showTableToggle'> {
+import * as React from "react";
+import type { TabItem } from "../../../Tabs/Tabs.types";
+import { type ChartContainerProps, type LineSeries } from "../../index";
+export interface ChartWithTableTabsProps extends Omit<ChartContainerProps, "children" | "tabularData" | "showTableToggle"> {
     /** The chart element to render */
     chart: React.ReactNode;
     /** Accessible data table (required for tabs; if omitted tabs are disabled) */
@@ -12,7 +12,7 @@ export interface ChartWithTableTabsProps extends Omit<ChartContainerProps, 'chil
      * Provide an array matching column order (including Date/time column if auto generated).
      * Values: 'left' | 'center' | 'right'. Missing entries default to 'left'.
      */
-    columnAlign?: Array<'left' | 'center' | 'right'>;
+    columnAlign?: Array<"left" | "center" | "right">;
     /** Enable CSV download button for auto-generated table */
     enableDownload?: boolean;
     /** Override default generated filename (without extension) */
@@ -22,7 +22,7 @@ export interface ChartWithTableTabsProps extends Omit<ChartContainerProps, 'chil
     /** Label for the table tab */
     tableTabLabel?: string;
     /** Start on table instead of chart */
-    initialView?: 'chart' | 'table';
+    initialView?: "chart" | "table";
     /** Disable tabs and render only the chart (ignores table) */
     disableTabs?: boolean;
     /** Force hide the table even if provided (e.g. embed contexts) */
@@ -30,7 +30,7 @@ export interface ChartWithTableTabsProps extends Omit<ChartContainerProps, 'chil
     /** Pass extra tab items (appended after built-ins) */
     additionalTabs?: TabItem[];
     /** Callback when active tab changes */
-    onViewChange?: (view: 'chart' | 'table' | string) => void;
+    onViewChange?: (view: "chart" | "table" | string) => void;
 }
 /**
  * Wrapper providing NHS/GDS style accessible fallback: a tabset switching between chart and underlying data table.

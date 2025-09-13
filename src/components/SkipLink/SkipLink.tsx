@@ -49,7 +49,7 @@ export const SkipLink: React.FC<SkipLinkProps> = ({
       const targetId = target.getAttribute('href');
       
       if (targetId && targetId.startsWith('#')) {
-        const targetElement = document.querySelector(targetId);
+        const targetElement = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(targetId) : null) : null) : null) : null);
         if (targetElement) {
           // Ensure the target element can receive focus
           if (!targetElement.hasAttribute('tabindex')) {

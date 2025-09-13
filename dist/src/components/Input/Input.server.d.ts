@@ -1,4 +1,5 @@
 import { InputProps } from './Input.types';
+import "./Input.scss";
 /**
  * InputServer – Pure server-only renderer (no hooks).
  *

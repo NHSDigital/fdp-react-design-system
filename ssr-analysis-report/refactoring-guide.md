@@ -215,19 +215,19 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 ### Header
 
 **Issues to Fix:**
-- useEffect runs only on client side (Line 39)
-- useEffect runs only on client side (Line 47)
-- Direct document object access (Line 58)
-- Event listener setup (Line 58)
+- useEffect runs only on client side (Line 40)
+- useEffect runs only on client side (Line 48)
 - Direct document object access (Line 59)
-- Direct document object access (Line 88)
-- Direct window object access (Line 103)
-- ResizeObserver API usage (Line 123)
-- useEffect runs only on client side (Line 124)
-- Direct window object access (Line 132)
-- ResizeObserver API usage (Line 142)
-- Direct window object access (Line 149)
-- useEffect runs only on client side (Line 155)
+- Event listener setup (Line 59)
+- Direct document object access (Line 60)
+- Direct document object access (Line 89)
+- Direct window object access (Line 104)
+- ResizeObserver API usage (Line 124)
+- useEffect runs only on client side (Line 125)
+- Direct window object access (Line 133)
+- ResizeObserver API usage (Line 143)
+- Direct window object access (Line 150)
+- useEffect runs only on client side (Line 156)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code

@@ -122,7 +122,7 @@ export function generatePattern(
   }
 }
 
-export function injectPatterns(patterns: PatternDefinition[], root: HTMLElement | null = typeof document !== 'undefined' ? document.body : null) {
+export function injectPatterns(patterns: PatternDefinition[], root: HTMLElement | null = typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null) : null) {
   if (typeof document === 'undefined') return; // SSR guard
   if (!root) return;
   let defs = root.querySelector('svg#nhs-data-viz-pattern-defs') as SVGSVGElement | null;

@@ -5,6 +5,11 @@ import { HeaderSearchProps } from '../HeaderSearch/HeaderSearch.types';
 export interface HeaderProps {
   /** Additional CSS classes */
   className?: string;
+  /**
+   * [Deprecated] Legacy convenience prop from NHS.UK examples.
+   * Prefer `service={{ text: '...' }}`. If provided, it will populate `service.text`.
+   */
+  serviceName?: string;
   /** Logo configuration */
   logo?: {
     href?: string;

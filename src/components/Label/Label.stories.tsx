@@ -2,6 +2,8 @@
 // Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { Label } from './Label';
+import labelStaticHtml from '../../../docs/static-html/Label.html?raw';
+import ParityBlock, { toNunjucksMacro } from '../../storybook/ParityBlock';
 
 const meta: Meta<typeof Label> = {
   title: 'NHS/Components/Label',
@@ -82,5 +84,40 @@ export const Default: Story = {
   args: {
     children: 'Default label',
     htmlFor: 'default-input',
+  },
+};
+
+export const Parity: Story = {
+  name: 'Parity: React | Nunjucks | Static HTML',
+  args: {
+    children: 'Full name',
+    htmlFor: 'full-name',
+    size: 'm',
+  },
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        story:
+          'Side-by-side view: React live render, Nunjucks macro invocation (code), and the canonical Static HTML snippet (generated).',
+      },
+    },
+  },
+  render: (args) => {
+    const props: Record<string, unknown> = {};
+    if (args.size && args.size !== 'm') props.size = args.size;
+    if (args.htmlFor) props.htmlFor = args.htmlFor;
+    if (args.className) props.className = args.className;
+    if (args.isPageHeading) props.isPageHeading = true;
+    props.text = typeof args.children === 'string' ? args.children : 'Label';
+
+    return (
+      <ParityBlock
+        macroCode={toNunjucksMacro('label', props)}
+        staticHtml={labelStaticHtml}
+      >
+        <Label {...args} />
+      </ParityBlock>
+    );
   },
 };

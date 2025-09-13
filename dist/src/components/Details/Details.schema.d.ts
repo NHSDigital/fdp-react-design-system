@@ -1,10 +1,3 @@
-export interface DetailsSchema {
-    summaryText?: string;
-    summaryHtml?: string;
-    text?: string;
-    html?: string;
-    open?: boolean;
-    className?: string;
-    id?: string;
-}
-export declare const detailsSchema: DetailsSchema;
+import type { ComponentSchema } from '../../schemas/componentMeta';
+export declare const DetailsSchema: ComponentSchema;
+export default DetailsSchema;

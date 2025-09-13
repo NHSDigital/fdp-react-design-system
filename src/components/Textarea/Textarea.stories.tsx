@@ -2,6 +2,8 @@
 // Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { Textarea } from './Textarea';
+import ParityBlock, { toNunjucksMacro } from '../../storybook/ParityBlock';
+import textareaStaticHtml from '../../../docs/static-html/Textarea.html?raw';
 
 const meta: Meta<typeof Textarea> = {
   title: 'NHS/Components/Textarea',
@@ -102,5 +104,54 @@ export const Default: Story = {
     id: 'textarea-default',
     name: 'textarea-default',
     placeholder: 'Enter your text here...',
+  },
+};
+
+export const Parity: Story = {
+  name: 'Parity: React | Nunjucks | Static HTML',
+  args: {
+    id: 'notes',
+    name: 'notes',
+    placeholder: 'Enter notes…',
+    rows: 4,
+  },
+  render: (args) => {
+    const keys = ['id','name','placeholder','rows','cols','hasError','disabled','readOnly','required','describedBy'];
+    const props: Record<string, unknown> = {};
+    for (const k of keys) if ((args as any)[k] !== undefined) (props as any)[k] = (args as any)[k];
+    return (
+      <ParityBlock macroCode={toNunjucksMacro('textarea', props)} staticHtml={textareaStaticHtml}>
+        <Textarea {...args} />
+      </ParityBlock>
+    );
+  },
+};
+
+export const ErrorState: Story = {
+  args: {
+    id: 'description',
+    name: 'description',
+    hasError: true,
+    describedBy: 'description-error',
+    placeholder: 'Describe the issue…',
+  },
+};
+
+export const DisabledRequired: Story = {
+  args: {
+    id: 'notes-disabled',
+    name: 'notes-disabled',
+    disabled: true,
+    required: true,
+    placeholder: 'Disabled and required (for illustration)',
+  },
+};
+
+export const PresetValue: Story = {
+  args: {
+    id: 'preset',
+    name: 'preset',
+    defaultValue: 'Pre-filled example text…',
+    rows: 6,
   },
 };

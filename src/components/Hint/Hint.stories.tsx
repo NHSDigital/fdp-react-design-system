@@ -2,6 +2,8 @@
 // Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { Hint } from './Hint';
+import hintStaticHtml from '../../../docs/static-html/Hint.html?raw';
+import ParityBlock, { toNunjucksMacro } from '../../storybook/ParityBlock';
 
 const meta: Meta<typeof Hint> = {
   title: 'NHS/Components/Hint',
@@ -77,5 +79,34 @@ export const Default: Story = {
   args: {
     id: 'default-hint',
     children: 'This is a helpful hint to guide the user.',
+  },
+};
+
+export const Parity: Story = {
+  name: 'Parity: React | Nunjucks | Static HTML',
+  args: { id: 'email-hint', children: "We'll only use this to send reminders" },
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        story:
+          'Side-by-side view: React live render, Nunjucks macro invocation (code), and the canonical Static HTML snippet (generated).',
+      },
+    },
+  },
+  render: (args) => {
+    const props: Record<string, unknown> = {};
+    if (args.id) props.id = args.id;
+    if (args.className) props.className = args.className;
+    props.html = typeof args.children === 'string' ? args.children : 'Hint text';
+
+    return (
+      <ParityBlock
+        macroCode={toNunjucksMacro('hint', props)}
+        staticHtml={hintStaticHtml}
+      >
+        <Hint {...args} />
+      </ParityBlock>
+    );
   },
 };

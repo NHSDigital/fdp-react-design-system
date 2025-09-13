@@ -116,7 +116,14 @@ var Account = ({
       textContent
     ] });
     if (item.href) {
-      return /* @__PURE__ */ jsx("a", { className: "nhsuk-account__link nhsuk-header__account-link", href: item.href, children: content });
+      return /* @__PURE__ */ jsx(
+        "a",
+        {
+          className: "nhsuk-account__link nhsuk-header__account-link",
+          href: item.href,
+          children: content
+        }
+      );
     }
     if (item.action) {
       return /* @__PURE__ */ jsx(
@@ -125,15 +132,7 @@ var Account = ({
           className: "nhsuk-account__form",
           action: item.action,
           method: item.method || "post",
-          children: /* @__PURE__ */ jsx(
-            "button",
-            {
-              className: "nhsuk-account__button",
-              type: "submit",
-              role: "button",
-              children: content
-            }
-          )
+          children: /* @__PURE__ */ jsx("button", { className: "nhsuk-account__button", type: "submit", role: "button", children: content })
         }
       );
     }
@@ -150,14 +149,19 @@ var Account = ({
         className
       ),
       "aria-label": ariaLabel,
-      children: /* @__PURE__ */ jsx("ul", { className: "nhsuk-account__list", children: items.map((item, index) => item && /* @__PURE__ */ jsx(
-        "li",
-        {
-          className: (0, import_classnames.default)("nhsuk-account__item nhsuk-header__account-item", item.className),
-          children: renderAccountItem(item)
-        },
-        index
-      )) })
+      children: /* @__PURE__ */ jsx("ul", { className: "nhsuk-account__list", children: items.map(
+        (item, index) => item && /* @__PURE__ */ jsx(
+          "li",
+          {
+            className: (0, import_classnames.default)(
+              "nhsuk-account__item nhsuk-header__account-item",
+              item.className
+            ),
+            children: renderAccountItem(item)
+          },
+          index
+        )
+      ) })
     }
   );
 };

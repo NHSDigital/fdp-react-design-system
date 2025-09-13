@@ -5,6 +5,7 @@ import { Input } from '../Input/Input';
 import { Label } from '../Label/Label';
 import { Fieldset } from '../Fieldset/Fieldset';
 import './Radios.scss';
+import { mapRadiosProps } from '../../mapping/radios';
 
 // Pure render function used by both client (interactive) and server (static) variants.
 // The caller supplies: selectedValue (string), event handlers (possibly no-ops for server),
@@ -46,15 +47,7 @@ export function renderRadiosMarkup(
     ...rest
   } = safeProps;
 
-  const radiosClasses = classNames(
-    'nhsuk-radios',
-    {
-      'nhsuk-radios--error': hasError,
-      'nhsuk-radios--small': size === 'small',
-      'nhsuk-radios--inline': inline,
-    },
-    className
-  );
+  const { classes: radiosClasses, describedBy: mappedDescribedBy } = mapRadiosProps({ hasError, size, inline, className, describedBy });
 
   return (
     <Fieldset>
@@ -79,7 +72,7 @@ export function renderRadiosMarkup(
                 {...(variant === 'client'
                   ? { checked: isSelected, onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, onKeyDown: handleKeyDown, ref: (el: HTMLInputElement) => { if (el && itemsRef) itemsRef.current[index] = el; } }
                   : { defaultChecked: isSelected, 'data-nhs-radios-input': true })}
-                aria-describedby={describedBy}
+                aria-describedby={mappedDescribedBy}
               />
               <label className="nhsuk-radios__label" htmlFor={radioId}>
                 {option.text}

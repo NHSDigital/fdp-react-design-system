@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames3() {
+      function classNames2() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames3.apply(null, arg);
+          return classNames2.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,21 +71,21 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames3.default = classNames3;
-        module.exports = classNames3;
+        classNames2.default = classNames2;
+        module.exports = classNames2;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames3;
+          return classNames2;
         });
       } else {
-        window.classNames = classNames3;
+        window.classNames = classNames2;
       }
     })();
   }
 });
 
 // src/components/Checkboxes/Checkboxes.tsx
-var import_classnames2 = __toESM(require_classnames(), 1);
+var import_classnames = __toESM(require_classnames(), 1);
 import { useState as useState2 } from "react";
 
 // src/components/Input/Input.tsx
@@ -276,8 +276,24 @@ var Label = ({
   return /* @__PURE__ */ jsx2(LabelElement, { className: model.classes, htmlFor: model.htmlFor, ...props, children: isPageHeading ? /* @__PURE__ */ jsx2("label", { className: "nhsuk-label-wrapper", htmlFor, children }) : children });
 };
 
+// src/mapping/fieldset.ts
+function mapFieldsetProps(input) {
+  var _a;
+  const fieldsetClasses = ["nhsuk-fieldset", input.className || ""].filter(Boolean).join(" ");
+  const legendClasses = input.legend ? [
+    "nhsuk-fieldset__legend",
+    input.legend.size ? `nhsuk-fieldset__legend--${input.legend.size}` : "",
+    input.legend.className || ""
+  ].filter(Boolean).join(" ") : void 0;
+  return {
+    fieldsetClasses,
+    legendClasses,
+    legendIsPageHeading: !!((_a = input.legend) == null ? void 0 : _a.isPageHeading),
+    describedBy: input.describedBy
+  };
+}
+
 // src/components/Fieldset/Fieldset.tsx
-var import_classnames = __toESM(require_classnames(), 1);
 import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
 var Fieldset = ({
   children,
@@ -286,20 +302,18 @@ var Fieldset = ({
   describedBy,
   ...fieldsetProps
 }) => {
-  const fieldsetClasses = (0, import_classnames.default)(
-    "nhsuk-fieldset",
-    className
-  );
-  const legendClasses = (0, import_classnames.default)(
-    "nhsuk-fieldset__legend",
-    {
-      [`nhsuk-fieldset__legend--${legend == null ? void 0 : legend.size}`]: legend == null ? void 0 : legend.size
-    },
-    legend == null ? void 0 : legend.className
-  );
+  const model = mapFieldsetProps({
+    className,
+    describedBy,
+    legend: legend ? {
+      size: legend.size,
+      className: legend.className,
+      isPageHeading: legend.isPageHeading
+    } : void 0
+  });
   const renderLegendContent = () => {
     const content = (legend == null ? void 0 : legend.html) ? /* @__PURE__ */ jsx3("span", { dangerouslySetInnerHTML: { __html: legend.html } }) : legend == null ? void 0 : legend.text;
-    if (legend == null ? void 0 : legend.isPageHeading) {
+    if (model.legendIsPageHeading) {
       return /* @__PURE__ */ jsx3("h1", { className: "nhsuk-fieldset__heading", children: content });
     }
     return content;
@@ -307,16 +321,30 @@ var Fieldset = ({
   return /* @__PURE__ */ jsxs2(
     "fieldset",
     {
-      className: fieldsetClasses,
-      "aria-describedby": describedBy,
+      className: model.fieldsetClasses,
+      "aria-describedby": model.describedBy,
       ...fieldsetProps,
       children: [
-        legend && (legend.text || legend.html) && /* @__PURE__ */ jsx3("legend", { className: legendClasses, children: renderLegendContent() }),
+        legend && (legend.text || legend.html) && /* @__PURE__ */ jsx3("legend", { className: model.legendClasses, children: renderLegendContent() }),
         children
       ]
     }
   );
 };
+
+// src/mapping/checkboxes.ts
+function mapCheckboxesProps(input) {
+  const classes = [
+    "nhsuk-checkboxes",
+    input.small ? "nhsuk-checkboxes--small" : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const formGroupClasses = [
+    "nhsuk-form-group",
+    input.hasError ? "nhsuk-form-group--error" : ""
+  ].filter(Boolean).join(" ");
+  return { classes, formGroupClasses };
+}
 
 // src/components/Checkboxes/Checkboxes.tsx
 import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
@@ -384,7 +412,7 @@ var Checkboxes = ({
         item.conditional && /* @__PURE__ */ jsx4(
           "div",
           {
-            className: (0, import_classnames2.default)("nhsuk-checkboxes__conditional", {
+            className: (0, import_classnames.default)("nhsuk-checkboxes__conditional", {
               "nhsuk-checkboxes__conditional--hidden": !isChecked
             }),
             id: conditionalId,
@@ -397,16 +425,7 @@ var Checkboxes = ({
       ] }, item.value);
     });
   };
-  const checkboxesClasses = (0, import_classnames2.default)(
-    "nhsuk-checkboxes",
-    {
-      "nhsuk-checkboxes--small": small
-    },
-    className
-  );
-  const formGroupClasses = (0, import_classnames2.default)("nhsuk-form-group", {
-    "nhsuk-form-group--error": !!errorMessage
-  });
+  const { classes: checkboxesClasses, formGroupClasses } = mapCheckboxesProps({ small, className, hasError: !!errorMessage });
   return /* @__PURE__ */ jsx4("div", { className: formGroupClasses, ...attributes, ...props, children: /* @__PURE__ */ jsxs3(
     Fieldset,
     {

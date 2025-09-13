@@ -1,6 +1,6 @@
-import React from 'react';
-import './Account.scss';
-import { AccountProps } from './Account.types';
+import React from "react";
+import "./Account.scss";
+import { AccountProps } from "./Account.types";
 /**
  * Account Component for NHS Design System
  *

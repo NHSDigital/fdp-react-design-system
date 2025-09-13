@@ -7,8 +7,12 @@ import { useFrutigerFonts } from '../hooks/useFrutigerFonts';
 export const FontDebugger: React.FC = () => {
   const { isLoaded, isLoading, error, fontFamily } = useFrutigerFonts();
   const [detectedFont, setDetectedFont] = useState<string>('Unknown');
+  const [fontAvailability, setFontAvailability] = useState<{ w400?: boolean; w600?: boolean }>({});
 
   useEffect(() => {
+    // SSR guard
+    if (typeof document === 'undefined') return;
+
     // Check what font is actually being used by creating a test element
     const testElement = document.createElement('span');
     testElement.style.fontFamily = fontFamily;
@@ -17,11 +21,25 @@ export const FontDebugger: React.FC = () => {
     testElement.textContent = 'Test';
     document.body.appendChild(testElement);
 
-    const computedStyle = getComputedStyle(testElement);
-    setDetectedFont(computedStyle.fontFamily);
-
-    document.body.removeChild(testElement);
+    try {
+      const computedStyle = getComputedStyle(testElement);
+      setDetectedFont(computedStyle.fontFamily);
+    } finally {
+      document.body.removeChild(testElement);
+    }
   }, [fontFamily]);
+
+  useEffect(() => {
+    // SSR guard
+    if (typeof document === 'undefined') return;
+    try {
+      const w400 = (document as any).fonts?.check?.('1em "Frutiger W01"') ?? false;
+      const w600 = (document as any).fonts?.check?.('600 1em "Frutiger W01"') ?? false;
+      setFontAvailability({ w400, w600 });
+    } catch {
+      setFontAvailability({});
+    }
+  }, []);
 
   return (
     <div style={{ 
@@ -53,8 +71,8 @@ export const FontDebugger: React.FC = () => {
       <div style={{ marginTop: '1rem' }}>
         <h4 style={{ margin: '0 0 0.5rem 0' }}>Font Availability Check:</h4>
         <div style={{ fontFamily: 'monospace', fontSize: '0.875rem' }}>
-          <div>Frutiger W01 400: {document.fonts?.check('1em "Frutiger W01"') ? '✅ Available' : '❌ Not available'}</div>
-          <div>Frutiger W01 600: {document.fonts?.check('600 1em "Frutiger W01"') ? '✅ Available' : '❌ Not available'}</div>
+          <div>Frutiger W01 400: {fontAvailability.w400 ? '✅ Available' : '❌ Not available'}</div>
+          <div>Frutiger W01 600: {fontAvailability.w600 ? '✅ Available' : '❌ Not available'}</div>
         </div>
       </div>
     </div>

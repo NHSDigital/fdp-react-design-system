@@ -84,9 +84,9 @@ function GanttHeader({ viewStart, viewEnd, dateCount }: GanttHeaderProps) {
 		} else if (e.key === 'ArrowDown') {
 			e.preventDefault();
 			// Navigate to first row's timeline
-			const firstRowTimeline = document.querySelector('.gantt-row .timeline-container') as HTMLElement;
-			if (firstRowTimeline) {
-				firstRowTimeline.focus();
+			if (typeof document !== 'undefined') {
+				const firstRowTimeline = document.querySelector('.gantt-row .timeline-container') as HTMLElement | null;
+				firstRowTimeline?.focus();
 			}
 		} else if (e.key === 'Home') {
 			e.preventDefault();
@@ -104,9 +104,9 @@ function GanttHeader({ viewStart, viewEnd, dateCount }: GanttHeaderProps) {
 		if (e.key === 'ArrowDown') {
 			e.preventDefault();
 			// Navigate to first row's resource label
-			const firstRowResource = document.querySelector('.gantt-row .resource-label') as HTMLElement;
-			if (firstRowResource) {
-				firstRowResource.focus();
+			if (typeof document !== 'undefined') {
+				const firstRowResource = document.querySelector('.gantt-row .resource-label') as HTMLElement | null;
+				firstRowResource?.focus();
 			}
 		} else if (e.key === 'ArrowRight') {
 			e.preventDefault();
@@ -236,17 +236,23 @@ function GanttRow({ resource, tasks, scale, onTaskClick, onTaskDoubleClick, rowI
 				case 'ArrowUp':
 					e.preventDefault();
 					if (rowIndex === 0) {
-						const headerTimeline = document.querySelector('.header-timeline') as HTMLElement;
-						headerTimeline?.focus();
+						if (typeof document !== 'undefined') {
+							const headerTimeline = document.querySelector('.header-timeline') as HTMLElement | null;
+							headerTimeline?.focus();
+						}
 					} else {
-						const prevRow = document.querySelector(`[aria-rowindex="${rowIndex + 1}"] .timeline-container`) as HTMLElement;
-						prevRow?.focus();
+						if (typeof document !== 'undefined') {
+							const prevRow = document.querySelector(`[aria-rowindex="${rowIndex + 1}"] .timeline-container`) as HTMLElement | null;
+							prevRow?.focus();
+						}
 					}
 					break;
 				case 'ArrowDown':
 					e.preventDefault();
-					const nextRow = document.querySelector(`[aria-rowindex="${rowIndex + 3}"] .timeline-container`) as HTMLElement;
-					nextRow?.focus();
+					if (typeof document !== 'undefined') {
+						const nextRow = document.querySelector(`[aria-rowindex="${rowIndex + 3}"] .timeline-container`) as HTMLElement | null;
+						nextRow?.focus();
+					}
 					break;
 				case 'ArrowLeft':
 					e.preventDefault();
@@ -307,17 +313,23 @@ function GanttRow({ resource, tasks, scale, onTaskClick, onTaskDoubleClick, rowI
 			case 'ArrowUp':
 				e.preventDefault();
 				if (rowIndex === 0) {
-					const headerResource = document.querySelector('.header-resource') as HTMLElement;
-					headerResource?.focus();
+					if (typeof document !== 'undefined') {
+						const headerResource = document.querySelector('.header-resource') as HTMLElement | null;
+						headerResource?.focus();
+					}
 				} else {
-					const prevRow = document.querySelector(`[aria-rowindex="${rowIndex + 1}"] .resource-label`) as HTMLElement;
-					prevRow?.focus();
+					if (typeof document !== 'undefined') {
+						const prevRow = document.querySelector(`[aria-rowindex="${rowIndex + 1}"] .resource-label`) as HTMLElement | null;
+						prevRow?.focus();
+					}
 				}
 				break;
 			case 'ArrowDown':
 				e.preventDefault();
-				const nextRow = document.querySelector(`[aria-rowindex="${rowIndex + 3}"] .resource-label`) as HTMLElement;
-				nextRow?.focus();
+				if (typeof document !== 'undefined') {
+					const nextRow = document.querySelector(`[aria-rowindex="${rowIndex + 3}"] .resource-label`) as HTMLElement | null;
+					nextRow?.focus();
+				}
 				break;
 			case 'ArrowRight':
 				e.preventDefault();
@@ -434,18 +446,20 @@ export function GanttChart({
 		return Math.ceil((endDate.getTime() - startDate.getTime()) / MS_PER_DAY) + 1;
 	}, [startDate, endDate]);
 
-	// Update timeline width when container resizes
+	// Update timeline width when container resizes (client-only)
 	useEffect(() => {
 		if (!containerRef.current) return;
-
-		const resizeObserver = new ResizeObserver((entries) => {
+		if (typeof window === 'undefined') return; // SSR guard
+		// Some SSR environments may not have ResizeObserver
+		const RO: typeof ResizeObserver | undefined = (typeof ResizeObserver !== 'undefined' ? ResizeObserver : undefined) as any;
+		if (!RO) return;
+		const resizeObserver = new RO((entries: ResizeObserverEntry[]) => {
 			const container = entries[0];
 			if (container) {
 				// Account for resource label width (200px) and some padding
 				setTimelineWidth(Math.max(container.contentRect.width - 220, 400));
 			}
 		});
-
 		resizeObserver.observe(containerRef.current);
 		return () => resizeObserver.disconnect();
 	}, []);
@@ -477,17 +491,17 @@ export function GanttChart({
 			case 'ArrowDown':
 				event.preventDefault();
 				// Focus first row's resource label
-				const firstRowResource = containerRef.current?.querySelector('.gantt-row .resource-label') as HTMLElement;
-				if (firstRowResource) {
-					firstRowResource.focus();
+				if (typeof document !== 'undefined') {
+					const firstRowResource = containerRef.current?.querySelector('.gantt-row .resource-label') as HTMLElement | null;
+					firstRowResource?.focus();
 				}
 				break;
 			case 'Home':
 				event.preventDefault();
 				// Focus header resource
-				const headerResource = containerRef.current?.querySelector('.header-resource') as HTMLElement;
-				if (headerResource) {
-					headerResource.focus();
+				if (typeof document !== 'undefined') {
+					const headerResource = containerRef.current?.querySelector('.header-resource') as HTMLElement | null;
+					headerResource?.focus();
 				}
 				break;
 			default:

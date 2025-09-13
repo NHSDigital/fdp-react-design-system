@@ -362,6 +362,18 @@ var Button_default = Button;
 
 // src/components/Select/Select.tsx
 var import_classnames = __toESM(require_classnames(), 1);
+
+// src/mapping/select.ts
+function mapSelectProps(input) {
+  const classes = [
+    "nhsuk-select",
+    input.hasError ? "nhsuk-select--error" : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  return { classes };
+}
+
+// src/components/Select/Select.tsx
 import { jsx as jsx2 } from "react/jsx-runtime";
 var SelectOption = ({
   value,
@@ -409,13 +421,7 @@ var SelectBase = ({
   ...props
 }) => {
   var _a;
-  const selectClasses = (0, import_classnames.default)(
-    "nhsuk-select",
-    {
-      "nhsuk-select--error": hasError
-    },
-    className
-  );
+  const { classes: selectClasses } = mapSelectProps({ hasError, className });
   const renderOptionsFromProp = () => {
     if (!options) return null;
     return options.map((option, index) => /* @__PURE__ */ jsx2(

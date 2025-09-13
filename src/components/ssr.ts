@@ -9,17 +9,19 @@
  */
 
 // SSR-safe Header (pure render path)
-export { Header } from './Header';
-export { Account } from './Account';
+// Server-only Header markup (no hooks) – import directly from server entry to avoid client barrel imports
+export { HeaderServer as Header } from './Header/Header.server';
 export type { HeaderProps, NavigationItem } from './Header/Header.types';
 export type { HeaderSearchProps } from './HeaderSearch';
-export type { AccountProps, AccountItem } from './Account/Account.types';
 
 // SSR-Safe Basic Components (verified to have no hooks or context usage)
 export { ActionLink } from './ActionLink';
 export type { ActionLinkProps } from './ActionLink';
-export { ButtonSSR as Button } from './Button/ButtonSSR';
-export type { ButtonSSRProps as ButtonProps } from './Button/ButtonSSR';
+/**
+ * Preferred server-first Button export for SSR and SSG. Supports both <button> and <a> via props.
+ */
+export { ButtonServer } from './Button';
+export type { ButtonServerProps } from './Button/Button.server';
 export { BackLink } from './BackLink';
 export type { BackLinkProps } from './BackLink';
 export { Tag } from './Tag';
@@ -32,8 +34,73 @@ export { Hint } from './Hint';
 export type { HintProps } from './Hint';
 export { ErrorMessage } from './ErrorMessage';
 export type { ErrorMessageProps } from './ErrorMessage';
-export { SkipLink } from './SkipLink';
-export type { SkipLinkProps } from './SkipLink';
+export { Fieldset } from './Fieldset';
+export type { FieldsetProps } from './Fieldset/Fieldset.types';
+// Server-only SkipLink variant (no hooks)
+export { SkipLinkServer as SkipLink } from './SkipLink/SkipLink.server';
+export type { SkipLinkProps } from './SkipLink/SkipLink.types';
+
+// Additional SSR-safe content components (verified pure render paths)
+export { Details } from './Details';
+export type { DetailsProps } from './Details/Details';
+export { InsetText } from './InsetText';
+export type { InsetTextProps } from './InsetText/InsetText.types';
+export { Panel } from './Panel';
+export type { PanelProps } from './Panel/Panel.types';
+export { Breadcrumb } from './Breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItemProps } from './Breadcrumb/Breadcrumb.types';
+export { List } from './List';
+export type { ListProps, ListItemProps } from './List/List.types';
+export { Footer } from './Footer';
+export type { FooterProps, FooterLinkItem } from './Footer/Footer.types';
+export { WarningCallout } from './WarningCallout';
+export type { WarningCalloutProps } from './WarningCallout/WarningCallout';
+
+// Layout and content primitives
+export { Grid, Container, Row, Column } from './Grid';
+export type { GridProps, ContainerProps, RowProps, ColumnProps } from './Grid';
+export { GridWidth, Breakpoint, Float, ColumnAlign } from './Grid';
+
+export { ContentsList } from './ContentsList';
+export type { ContentsListProps, ContentsListItem } from './ContentsList';
+export { DoDontList } from './DoDontList';
+export type { DoDontListProps, DoDontListItem } from './DoDontList';
+
+export { Images } from './Images';
+export type { ImagesProps } from './Images';
+
+export { Pagination } from './Pagination';
+export type { PaginationProps } from './Pagination';
+
+export { SummaryList } from './SummaryList';
+export type { SummaryListProps, SummaryListItem } from './SummaryList';
+
+export { SummaryCard } from './SummaryCard';
+export type { SummaryCardProps } from './SummaryCard';
+
+export { Table, TableCaption, TableBodyRow, TableHeaderCell, TableCell } from './Tables';
+export type {
+	TableProps,
+	TableCellData,
+	TableHeaderCellType,
+	TableCaptionProps,
+	TableBodyRowProps,
+	TableHeaderCellComponentProps,
+	TableDataCellComponentProps,
+	TableColumn,
+} from './Tables';
+
+export { SpacingUtilities, getSpacingClass } from './SpacingUtilities';
+export type { SpacingUtilitiesProps, SpacingUtilityClassNames } from './SpacingUtilities';
+
+export { Hero } from './Hero';
+export type { HeroProps } from './Hero';
+
+export { Card, CardGroup, CardGroupItem } from './Card';
+export type { CardProps, CardGroupProps, CardGroupItemProps, CardVariant, HeadingLevel as CardHeadingLevel } from './Card';
+
+export { CareCard } from './CareCard';
+export type { CareCardProps, CareCardType, HeadingLevel as CareCardHeadingLevel } from './CareCard';
 
 // ⚠️  REMOVED COMPONENTS (contain react-aria dependencies or other context dependencies):
 // - Input, Textarea, Select, Checkboxes, Radios (may use react-aria-components)
@@ -47,4 +114,4 @@ export type { SkipLinkProps } from './SkipLink';
 // If you need these components in SSR, consider:
 // 1. Using dynamic imports with { ssr: false }
 // 2. Wrapping in a client component with "use client"
-// 3. Using the static/SSR alternatives where available (e.g., ButtonSSR)
+// 3. Using the server-first alternatives where available (e.g., ButtonServer)

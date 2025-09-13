@@ -1,58 +1,51 @@
-import React from 'react';
-import classNames from 'classnames';
-import './Fieldset.scss';
-import { FieldsetProps } from './Fieldset.types';
+import React from "react";
+import "./Fieldset.scss";
+import { FieldsetProps } from "./Fieldset.types";
+import { mapFieldsetProps } from "../../mapping/fieldset";
 
 export const Fieldset: React.FC<FieldsetProps> = ({
-  children,
-  legend,
-  className,
-  describedBy,
-  ...fieldsetProps
+	children,
+	legend,
+	className,
+	describedBy,
+	...fieldsetProps
 }) => {
-  const fieldsetClasses = classNames(
-    'nhsuk-fieldset',
-    className
-  );
+	const model = mapFieldsetProps({
+		className,
+		describedBy,
+		legend: legend
+			? {
+					size: legend.size,
+					className: legend.className,
+					isPageHeading: legend.isPageHeading,
+				}
+			: undefined,
+	});
 
-  const legendClasses = classNames(
-    'nhsuk-fieldset__legend',
-    {
-      [`nhsuk-fieldset__legend--${legend?.size}`]: legend?.size,
-    },
-    legend?.className
-  );
+	const renderLegendContent = () => {
+		const content = legend?.html ? (
+			<span dangerouslySetInnerHTML={{ __html: legend.html }} />
+		) : (
+			legend?.text
+		);
 
-  const renderLegendContent = () => {
-    const content = legend?.html ? (
-      <span dangerouslySetInnerHTML={{ __html: legend.html }} />
-    ) : (
-      legend?.text
-    );
+		if (model.legendIsPageHeading) {
+			return <h1 className="nhsuk-fieldset__heading">{content}</h1>;
+		}
 
-    if (legend?.isPageHeading) {
-      return (
-        <h1 className="nhsuk-fieldset__heading">
-          {content}
-        </h1>
-      );
-    }
+		return content;
+	};
 
-    return content;
-  };
-
-  return (
-    <fieldset
-      className={fieldsetClasses}
-      aria-describedby={describedBy}
-      {...fieldsetProps}
-    >
-      {legend && (legend.text || legend.html) && (
-        <legend className={legendClasses}>
-          {renderLegendContent()}
-        </legend>
-      )}
-      {children}
-    </fieldset>
-  );
+	return (
+		<fieldset
+			className={model.fieldsetClasses}
+			aria-describedby={model.describedBy}
+			{...fieldsetProps}
+		>
+			{legend && (legend.text || legend.html) && (
+				<legend className={model.legendClasses}>{renderLegendContent()}</legend>
+			)}
+			{children}
+		</fieldset>
+	);
 };

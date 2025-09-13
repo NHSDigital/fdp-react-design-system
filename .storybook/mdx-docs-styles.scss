@@ -140,6 +140,33 @@ $heading-sizes: (
 		line-height: tokens.$nhs-fdp-font-line-height-19-desktop;
 	}
 
+	// Ensure nested lists inside list items have breathing room in MDX prose
+	// Use padding-top to avoid margin-collapsing with the parent <li>
+	// Prefer higher specificity and !important to win over Storybook's docs reset
+	.sbdocs-content li > ul,
+	.sbdocs-content li > ol,
+	.sbdocs-content li ul,
+	.sbdocs-content li ol,
+	li > ul,
+	li > ol,
+	li ul,
+	li ol {
+		padding-top: tokens.$nhs-fdp-spacing-4 !important; // 32px
+		margin-top: 0 !important;
+		list-style-type: square !important; // Prevent inheritance of parent list style
+	}
+
+	// Bold the parent list item if it owns a nested list, but keep nested list content normal weight
+	// Note: uses :has(), which is supported in modern Chromium, Safari, and recent Firefox
+	.sbdocs-content li:has(> ul),
+	.sbdocs-content li:has(> ol) {
+		font-weight: tokens.$nhs-fdp-font-weight-bold !important;
+	}
+	.sbdocs-content li:has(> ul) > ul,
+	.sbdocs-content li:has(> ol) > ol {
+		font-weight: tokens.$nhs-fdp-font-weight-normal !important;
+	}
+
 	p,
 	em,
 	table,

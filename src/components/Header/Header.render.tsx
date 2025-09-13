@@ -2,7 +2,6 @@ import React from "react";
 import classNames from "classnames";
 import { HeaderProps, NavigationItem } from "./Header.types";
 import { Account } from "../Account";
-import { HeaderSearch } from "../HeaderSearch";
 import "./Header.scss";
 import "./Header.ssr.scss";
 
@@ -16,6 +15,11 @@ export interface RenderHeaderOptions {
 	toggleMenu?: (e?: React.MouseEvent) => void;
 	navContainerRef?: React.RefObject<HTMLDivElement>;
 	navListRef?: React.RefObject<HTMLUListElement>;
+    /**
+     * Optional pre-rendered search node. Used by the client Header to inject the
+     * interactive HeaderSearch without importing it in this SSR-shared module.
+     */
+    searchNode?: React.ReactNode;
 }
 
 export function renderHeaderMarkup(
@@ -30,12 +34,14 @@ export function renderHeaderMarkup(
 		toggleMenu,
 		navContainerRef,
 		navListRef,
+		searchNode,
 	}: RenderHeaderOptions
 ) {
 	const {
 		className,
 		logo = {},
 		service = {},
+		serviceName,
 		organisation,
 		search,
 		account,
@@ -48,15 +54,21 @@ export function renderHeaderMarkup(
 		...rest
 	} = props;
 
+	// Map deprecated serviceName into service.text if provided
+	const effectiveService = {
+		...service,
+		text: service?.text ?? serviceName,
+	};
+
 	// Prevent internal-only props leaking to DOM
 	if ("maxVisibleItems" in (rest as any)) {
 		delete (rest as any).maxVisibleItems;
 	}
 
 	const combineLogoAndServiceNameLinks =
-		(service.href && !logo.href) ||
-		(service.href && service.href === logo.href);
-	const logoHref = combineLogoAndServiceNameLinks ? service.href : logo.href;
+		(effectiveService.href && !logo.href) ||
+		(effectiveService.href && effectiveService.href === logo.href);
+	const logoHref = combineLogoAndServiceNameLinks ? effectiveService.href : logo.href;
 
 	const headerClasses = classNames(
 		"nhsuk-header",
@@ -165,6 +177,54 @@ export function renderHeaderMarkup(
 		</svg>
 	);
 
+	// Server-only minimal search form markup to avoid importing HeaderSearch (which uses hooks)
+	const renderServerSearch = () => {
+		if (!search) return null;
+		const {
+			action = "/search",
+			method = "get",
+			name = "q",
+			placeholder = "Search",
+			visuallyHiddenLabel = "Search the NHS website",
+			visuallyHiddenButton = "Search",
+			formAttributes = {},
+			inputAttributes = {},
+			buttonAttributes = {},
+			className: searchClassName,
+		} = search as any;
+
+		return (
+			<div className={classNames('nhsuk-header__search', searchClassName)}>
+				<form
+					className="nhsuk-header__search-form"
+					id="search"
+					action={action}
+					method={method}
+					role="search"
+					{...formAttributes}
+				>
+					<label className="nhsuk-u-visually-hidden" htmlFor="search-field">
+						{visuallyHiddenLabel}
+					</label>
+					<div className="nhsuk-header__search-input-wrapper">
+						<input
+							className="nhsuk-header__search-input nhsuk-input"
+							id="search-field"
+							name={name}
+							type="search"
+							placeholder={placeholder}
+							autoComplete="off"
+							{...inputAttributes}
+						/>
+					</div>
+					<button className="nhsuk-header__search-submit" type="submit" {...buttonAttributes}>
+						<span className="nhsuk-u-visually-hidden">{visuallyHiddenButton}</span>
+					</button>
+				</form>
+			</div>
+		);
+	};
+
 	// Server variant fallback overflow handling (boolean-based)
 	// If responsiveNavigation is false, we render everything in dropdown (no primary items)
 	// This avoids brittle numeric thresholds server-side.
@@ -187,21 +247,22 @@ export function renderHeaderMarkup(
 							{renderServiceLogo()}
 							{renderOrganisationName()}
 							{combineLogoAndServiceNameLinks &&
-								renderServiceName(service.text)}
+								renderServiceName(effectiveService.text)}
 						</a>
 					) : (
 						<>
 							{renderServiceLogo()}
 							{renderOrganisationName()}
 							{combineLogoAndServiceNameLinks &&
-								renderServiceName(service.text)}
+								renderServiceName(effectiveService.text)}
 						</>
 					)}
-					{service.text &&
+					{effectiveService.text &&
 						!combineLogoAndServiceNameLinks &&
-						renderServiceName(service.text, service.href)}
+						renderServiceName(effectiveService.text, effectiveService.href)}
 				</div>
-				{search && <HeaderSearch {...search} />}
+				{/* Inject client search node when provided (client build only); otherwise render minimal server form */}
+				{variant === 'client' ? (searchNode ?? null) : renderServerSearch()}
 				<Account
 					{...account}
 					variant={headerVariant === "white" ? "white" : "default"}

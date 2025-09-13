@@ -2,9 +2,8 @@
 // Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { Fieldset } from './Fieldset';
-import { Input } from '../Input';
-import { Label } from '../Label';
-import { Radios } from '../Radios';
+import ParityBlock, { toNunjucksMacro } from '../../storybook/ParityBlock';
+import fieldsetStaticHtml from '../../../docs/static-html/Fieldset.html?raw';
 
 const meta: Meta<typeof Fieldset> = {
   title: 'NHS/Components/Fieldset',
@@ -79,15 +78,54 @@ export const Default: Story = {
     legend: {
       text: 'Contact details'
     },
+    // Keep live preview simple
     children: (
       <div>
         <div style={{ marginBottom: '20px' }}>
-          <Label htmlFor="email">Email address</Label>
-          <Input id="email" name="email" type="email" />
+          <label className="nhsuk-label" htmlFor="email">Email address</label>
+          <input className="nhsuk-input" id="email" name="email" type="email" />
         </div>
         <div>
-          <Label htmlFor="phone">Phone number</Label>
-          <Input id="phone" name="phone" type="tel" />
+          <label className="nhsuk-label" htmlFor="phone">Phone number</label>
+          <input className="nhsuk-input" id="phone" name="phone" type="tel" />
+        </div>
+      </div>
+    ),
+  },
+};
+
+export const Parity: Story = {
+  name: 'Parity: React | Nunjucks | Static HTML',
+  args: {
+    legend: { text: 'Contact details', size: 'l' },
+  },
+  render: (args) => {
+    const props: Record<string, unknown> = { legend: args.legend };
+    return (
+      <ParityBlock macroCode={toNunjucksMacro('fieldset', props)} staticHtml={fieldsetStaticHtml}>
+        <Fieldset {...args}>
+          <div>
+            <label className="nhsuk-label" htmlFor="postcode">Postcode</label>
+            <input className="nhsuk-input" id="postcode" name="postcode" type="text" />
+          </div>
+        </Fieldset>
+      </ParityBlock>
+    );
+  },
+};
+
+export const AsPageHeading: Story = {
+  args: {
+    legend: { text: 'What is your address?', size: 'xl', isPageHeading: true },
+    children: (
+      <div>
+        <div style={{ marginBottom: '20px' }}>
+          <label className="nhsuk-label" htmlFor="address-line-1">Address line 1</label>
+          <input className="nhsuk-input" id="address-line-1" name="address-line-1" type="text" />
+        </div>
+        <div>
+          <label className="nhsuk-label" htmlFor="postcode">Postcode</label>
+          <input className="nhsuk-input" id="postcode" name="postcode" type="text" />
         </div>
       </div>
     ),

@@ -5,7 +5,7 @@
   <select
     class="{{ classes }}"
     id="{{ params.id }}"
-    name="{{ params.name }}"{% if params.multiple %} multiple=""{% endif %}{% if params.size %} size="{{ params.size }}"{% endif %}{% if params.autoComplete %} autoComplete="{{ params.autoComplete }}"{% endif %}{% if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}>
+    name="{{ params.name }}"{% if params.multiple %} multiple=""{% endif %}{% if params.size %} size="{{ params.size }}"{% endif %}{% if params.autoComplete %} autoComplete="{{ params.autoComplete }}"{% endif %}{% if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}{% if params.ariaLabel %} aria-label="{{ params.ariaLabel }}"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.required %} required{% endif %}>
     {# Options via params.options #}
     {% if params.options %}
       {% for o in params.options %}

@@ -23,7 +23,7 @@ const ignoreScssPlugin = (): Plugin => ({
 });
 
 export default defineConfig({
-  plugins: [ignoreScssPlugin(), react()],
+  plugins: [ignoreScssPlugin(), react({ jsxRuntime: 'classic' })],
   build: {
     lib: {
       entry: { ...libEntries },
@@ -37,7 +37,7 @@ export default defineConfig({
       }
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
       output: { globals: { react: 'React', 'react-dom': 'ReactDOM' } }
     },
     sourcemap: true,

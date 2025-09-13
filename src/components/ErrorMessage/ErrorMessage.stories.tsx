@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ErrorMessage } from './ErrorMessage';
+import errorMessageStaticHtml from '../../../docs/static-html/ErrorMessage.html?raw';
+import ParityBlock, { toNunjucksMacro } from '../../storybook/ParityBlock';
 
 const meta: Meta<typeof ErrorMessage> = {
   title: 'NHS/Components/ErrorMessage',
@@ -76,6 +78,36 @@ export const Default: Story = {
   args: {
     id: 'default-error',
     children: 'This field has an error.',
+  },
+};
+
+export const Parity: Story = {
+  name: 'Parity: React | Nunjucks | Static HTML',
+  args: { id: 'name-error', children: 'Enter your name' },
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        story:
+          'Side-by-side view: React live render, Nunjucks macro invocation (code), and the canonical Static HTML snippet (generated).',
+      },
+    },
+  },
+  render: (args) => {
+    const props: Record<string, unknown> = {};
+    if (args.id) props.id = args.id;
+    if (args.className) props.className = args.className;
+    if (args.visuallyHiddenText) props.visuallyHiddenText = args.visuallyHiddenText;
+    props.text = typeof args.children === 'string' ? args.children : 'Error message';
+
+    return (
+      <ParityBlock
+        macroCode={toNunjucksMacro('error-message', props)}
+        staticHtml={errorMessageStaticHtml}
+      >
+        <ErrorMessage {...args} />
+      </ParityBlock>
+    );
   },
 };
 

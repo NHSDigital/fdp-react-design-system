@@ -51,12 +51,71 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 ## Component-Specific Recommendations
 
 
+### ChartEnhancer
+
+**Issues to Fix:**
+- useEffect runs only on client side (Line 33)
+- Direct window object access (Line 51)
+- Direct window object access (Line 52)
+
+**Recommended Actions:**
+- Add SSR guards for browser-only code
+```typescript
+
+// Before: window.innerWidth
+// After: typeof window !== 'undefined' ? window.innerWidth : 0
+```
+
+
 ### ChartWithTableTabs
 
 **Issues to Fix:**
-- Direct document object access (Line 107)
-- Direct document object access (Line 112)
-- Direct document object access (Line 114)
+- Direct document object access (Line 115)
+- Direct document object access (Line 120)
+- Direct document object access (Line 122)
+
+**Recommended Actions:**
+- Add SSR guards for browser-only code
+```typescript
+
+// Before: window.innerWidth
+// After: typeof window !== 'undefined' ? window.innerWidth : 0
+```
+
+
+### spc
+
+**Issues to Fix:**
+- Direct window object access (Line 399)
+- Direct window object access (Line 418)
+
+**Recommended Actions:**
+- Add SSR guards for browser-only code
+```typescript
+
+// Before: window.innerWidth
+// After: typeof window !== 'undefined' ? window.innerWidth : 0
+```
+
+
+### spcTestCases
+
+**Issues to Fix:**
+- Direct document object access (Line 2)
+
+**Recommended Actions:**
+- Add SSR guards for browser-only code
+```typescript
+
+// Before: window.innerWidth
+// After: typeof window !== 'undefined' ? window.innerWidth : 0
+```
+
+
+### SPCSpark.types
+
+**Issues to Fix:**
+- Direct window object access (Line 32)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code
@@ -71,9 +130,25 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 
 **Issues to Fix:**
 - useEffect runs only on client side (Line 17)
-- Direct window object access (Line 18)
-- Event listener setup (Line 18)
 - Direct window object access (Line 19)
+- Event listener setup (Line 19)
+- Direct window object access (Line 20)
+
+**Recommended Actions:**
+- Add SSR guards for browser-only code
+```typescript
+
+// Before: window.innerWidth
+// After: typeof window !== 'undefined' ? window.innerWidth : 0
+```
+
+
+### patterns
+
+**Issues to Fix:**
+- Direct document object access (Line 125)
+- Direct document object access (Line 130)
+- Direct document object access (Line 140)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code
@@ -87,12 +162,11 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 ### FontDebugger
 
 **Issues to Fix:**
-- useEffect runs only on client side (Line 11)
-- Direct document object access (Line 13)
-- Direct document object access (Line 18)
-- Direct document object access (Line 23)
-- Direct document object access (Line 56)
-- Direct document object access (Line 57)
+- useEffect runs only on client side (Line 12)
+- Direct document object access (Line 17)
+- Direct document object access (Line 22)
+- Direct document object access (Line 28)
+- useEffect runs only on client side (Line 32)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code
@@ -101,30 +175,25 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 // Before: window.innerWidth
 // After: typeof window !== 'undefined' ? window.innerWidth : 0
 ```
-- Consider lazy loading this component
-```typescript
-
-const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
-  ssr: false,
-  loading: () => <div>Loading...</div>
-});
-```
 
 
 ### GanttChart
 
 **Issues to Fix:**
-- Direct document object access (Line 87)
-- Direct document object access (Line 107)
+- Direct document object access (Line 88)
+- Direct document object access (Line 108)
 - useEffect runs only on client side (Line 211)
-- Direct document object access (Line 239)
-- Direct document object access (Line 242)
-- Direct document object access (Line 248)
-- Direct document object access (Line 310)
-- Direct document object access (Line 313)
-- Direct document object access (Line 319)
-- useEffect runs only on client side (Line 438)
-- ResizeObserver API usage (Line 441)
+- Direct document object access (Line 240)
+- Direct document object access (Line 245)
+- Direct document object access (Line 253)
+- Direct document object access (Line 317)
+- Direct document object access (Line 322)
+- Direct document object access (Line 330)
+- useEffect runs only on client side (Line 450)
+- ResizeObserver API usage (Line 453)
+- ResizeObserver API usage (Line 454)
+- ResizeObserver API usage (Line 454)
+- ResizeObserver API usage (Line 454)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code
@@ -146,25 +215,19 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 ### Header
 
 **Issues to Fix:**
-- useEffect runs only on client side (Line 46)
-- useEffect runs only on client side (Line 54)
-- Direct window object access (Line 120)
-- useEffect runs only on client side (Line 181)
-- Direct document object access (Line 192)
-- Event listener setup (Line 192)
-- Direct document object access (Line 193)
-- useEffect runs only on client side (Line 198)
-- Direct window object access (Line 224)
-- Direct window object access (Line 225)
-- matchMedia API usage (Line 225)
-- Event listener setup (Line 236)
-- Direct window object access (Line 242)
-- Event listener setup (Line 242)
-- Direct window object access (Line 245)
-- useEffect runs only on client side (Line 263)
-- Direct document object access (Line 278)
-- Event listener setup (Line 278)
-- Direct document object access (Line 279)
+- useEffect runs only on client side (Line 39)
+- useEffect runs only on client side (Line 47)
+- Direct document object access (Line 58)
+- Event listener setup (Line 58)
+- Direct document object access (Line 59)
+- Direct document object access (Line 88)
+- Direct window object access (Line 103)
+- ResizeObserver API usage (Line 123)
+- useEffect runs only on client side (Line 124)
+- Direct window object access (Line 132)
+- ResizeObserver API usage (Line 142)
+- Direct window object access (Line 149)
+- useEffect runs only on client side (Line 155)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code
@@ -186,34 +249,44 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 ### NavigationSplitView
 
 **Issues to Fix:**
-- useEffect runs only on client side (Line 85)
-- useEffect runs only on client side (Line 153)
-- useEffect runs only on client side (Line 226)
-- useEffect runs only on client side (Line 244)
-- Direct window object access (Line 247)
-- Direct window object access (Line 256)
-- Event listener setup (Line 256)
-- Direct window object access (Line 257)
-- useEffect runs only on client side (Line 269)
-- useEffect runs only on client side (Line 280)
-- localStorage is not available during SSR (Line 363)
-- Direct window object access (Line 366)
-- localStorage is not available during SSR (Line 370)
-- Direct window object access (Line 372)
-- localStorage is not available during SSR (Line 372)
-- useEffect runs only on client side (Line 379)
-- useEffect runs only on client side (Line 383)
-- localStorage is not available during SSR (Line 386)
-- Direct window object access (Line 387)
-- localStorage is not available during SSR (Line 387)
-- Direct window object access (Line 390)
-- Direct window object access (Line 392)
-- Direct window object access (Line 392)
-- Direct window object access (Line 393)
-- useEffect runs only on client side (Line 408)
-- useEffect runs only on client side (Line 417)
-- useEffect runs only on client side (Line 428)
-- useEffect runs only on client side (Line 432)
+- useEffect runs only on client side (Line 106)
+- useEffect runs only on client side (Line 154)
+- Direct document object access (Line 220)
+- Direct document object access (Line 225)
+- Event listener setup (Line 255)
+- Direct document object access (Line 272)
+- Direct document object access (Line 275)
+- Event listener setup (Line 298)
+- useEffect runs only on client side (Line 638)
+- useEffect runs only on client side (Line 643)
+- useEffect runs only on client side (Line 656)
+- useEffect runs only on client side (Line 798)
+- useEffect runs only on client side (Line 820)
+- Direct window object access (Line 823)
+- Direct window object access (Line 832)
+- Event listener setup (Line 832)
+- Direct window object access (Line 833)
+- useEffect runs only on client side (Line 858)
+- useEffect runs only on client side (Line 872)
+- Direct document object access (Line 881)
+- localStorage is not available during SSR (Line 991)
+- Direct window object access (Line 998)
+- localStorage is not available during SSR (Line 1005)
+- Direct window object access (Line 1010)
+- localStorage is not available during SSR (Line 1010)
+- useEffect runs only on client side (Line 1023)
+- useEffect runs only on client side (Line 1031)
+- localStorage is not available during SSR (Line 1035)
+- Direct window object access (Line 1039)
+- localStorage is not available during SSR (Line 1039)
+- Direct window object access (Line 1046)
+- Direct window object access (Line 1048)
+- Direct window object access (Line 1048)
+- Direct window object access (Line 1049)
+- useEffect runs only on client side (Line 1075)
+- useEffect runs only on client side (Line 1086)
+- useEffect runs only on client side (Line 1099)
+- useEffect runs only on client side (Line 1103)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code
@@ -237,6 +310,23 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 **Issues to Fix:**
 - localStorage is not available during SSR (Line 140)
 - localStorage is not available during SSR (Line 141)
+
+**Recommended Actions:**
+- Add SSR guards for browser-only code
+```typescript
+
+// Before: window.innerWidth
+// After: typeof window !== 'undefined' ? window.innerWidth : 0
+```
+
+
+### ProductRoadmap
+
+**Issues to Fix:**
+- Direct window object access (Line 116)
+- Direct window object access (Line 116)
+- matchMedia API usage (Line 116)
+- Direct document object access (Line 118)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code
@@ -334,7 +424,7 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 ### TransactionalPageTemplate
 
 **Issues to Fix:**
-- Direct window object access (Line 106)
+- Direct window object access (Line 107)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code
@@ -354,12 +444,12 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 
 ## Implementation Phases
 
-### Phase 1: Quick Wins (7 components)
+### Phase 1: Quick Wins (11 components)
 - Apply automated fixes
 - Add basic SSR guards
 - Estimated time: 1-2 days
 
-### Phase 2: Medium Refactoring (10 components)
+### Phase 2: Medium Refactoring (16 components)
 - Restructure component logic
 - Move browser code to effects
 - Estimated time: 1-2 weeks

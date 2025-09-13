@@ -4390,7 +4390,7 @@ var init_gsap = __esm({
 
 // src/components/ProductRoadmap/ProductRoadmap.tsx
 var import_classnames = __toESM(require_classnames(), 1);
-import React, { memo, useMemo, useState, useCallback, useLayoutEffect, useRef } from "react";
+import React2, { memo, useMemo, useState, useCallback, useRef } from "react";
 
 // node_modules/d3-array/src/ascending.js
 function ascending(a, b) {
@@ -6103,6 +6103,10 @@ function time() {
   return initRange.apply(calendar(timeTicks, timeTickInterval, timeYear, timeMonth, timeSunday, timeDay, timeHour, timeMinute, second, timeFormat).domain([new Date(2e3, 0, 1), new Date(2e3, 0, 2)]), arguments);
 }
 
+// src/hooks/useIsomorphicLayoutEffect.ts
+import * as React from "react";
+var useIsomorphicLayoutEffect = typeof window !== "undefined" && !!window.document ? React.useLayoutEffect : React.useEffect;
+
 // src/components/ProductRoadmap/ProductRoadmap.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
 var clamp3 = (val, min, max, def) => {
@@ -6192,8 +6196,9 @@ var ProductRoadmap = memo(({
       return next;
     });
   }, [onToggleItem]);
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (drilldownMode !== "inline" || !enableDrilldown) return;
+    if (typeof document === "undefined") return;
     const newlyOpened = [];
     activeItemIds.forEach((id) => {
       if (!prevActiveRef.current.has(id)) newlyOpened.push(id);
@@ -6332,7 +6337,7 @@ var ProductRoadmap = memo(({
               const topLaneIndex = baseLaneIndex + extraAbove;
               const active = isItemActive(it.id);
               const collapsing = collapsingIds.has(it.id);
-              return /* @__PURE__ */ jsxs(React.Fragment, { children: [
+              return /* @__PURE__ */ jsxs(React2.Fragment, { children: [
                 /* @__PURE__ */ jsx(RoadmapItem, { item: it, maxLines, enableDrilldown, onExpand: handleExpand, isActive: active, topLaneIndex, laneOffset: extraAbove }),
                 enableDrilldown && drilldownMode === "inline" && (active || collapsing) && it.childItems && /* @__PURE__ */ jsx("div", { "data-parent": it.id, className: "nhsuk-product-roadmap__inline-children", "aria-label": `${it.title} child tasks`, children: it.childItems.map((child, cIdx) => {
                   var _a2;

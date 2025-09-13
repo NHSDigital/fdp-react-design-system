@@ -6,6 +6,17 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ## Unreleased
 
+### Added (Unreleased – SSR-first hardening)
+
+- Hook: `useIsomorphicLayoutEffect` that uses `useLayoutEffect` in the browser and falls back to `useEffect` during SSR to avoid React warnings. See docs: `docs/guides/ssr-and-hydration.mdx`.
+- Docs: New "Isomorphic layout effects" section in SSR guide with rationale, usage, and guard patterns.
+
+### Changed (Unreleased – SSR-first hardening)
+
+- ProductRoadmap: Switched drilldown animation effect to `useIsomorphicLayoutEffect` and added a `document` guard; preserves behaviour while keeping SSR/test output clean.
+- FontDebugger: Moved all DOM access behind guarded `useEffect` and render from state only, eliminating direct `document` usage during render.
+- SSR exports: Promoted several additional pure components to `src/components/ssr.ts` (Details, InsetText, Panel, Breadcrumb, List, Footer, WarningCallout, Grid/Container/Row/Column/WidthContainer, ContentsList, DoDontList, Images, Pagination, SummaryList, SummaryCard, Tables sub-components, SpacingUtilities, Hero, Card, CareCard). Intentionally excluded interactive/input components and any that use hooks in render.
+
 ### Added (Unreleased – SPC Engine Refactor Phase 2)
 
 - RULE_METADATA registry consolidating rule id, rank and human label (single source of truth for precedence metadata).
@@ -120,7 +131,7 @@ The golden SPC fixture (`test-data/golden-all.json`) and related snapshot tests 
 - SPC engine: (See detailed note in Changed) Corrected early Improvement/Concern classification by enforcing unconditional favourable-side qualification for trend signal contribution.
 - SPC engine: Two-of-three (2σ) rule now excludes points beyond 3σ from contributing to the 2-of-3 count, aligning with Making Data Count guidance (3σ points remain single-point only).
 - Settings normaliser: Prunes `undefined` values when flattening V2 → legacy so engine defaults aren’t accidentally overridden (restores expected warnings/assurance behaviours). Added migration doc: `docs/migration/spc-settings-v2-migration.md`.
-	- Codemod available to assist settings rename: `npm run spc:codemod:scan` (dry-run) and `npm run spc:codemod:apply` (safe dot-access edits only). See the migration doc for scope and limitations.
+  - Codemod available to assist settings rename: `npm run spc:codemod:scan` (dry-run) and `npm run spc:codemod:apply` (safe dot-access edits only). See the migration doc for scope and limitations.
 
 
 ### Added (Unreleased – Components & Docs)

@@ -2,6 +2,8 @@
 // Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { Select } from './Select';
+import ParityBlock, { toNunjucksMacro } from '../../storybook/ParityBlock';
+import selectStaticHtml from '../../../docs/static-html/Select.html?raw';
 
 const meta: Meta<typeof Select> = {
   title: 'NHS/Components/Select',
@@ -124,6 +126,77 @@ export const Default: Story = {
   args: {
     id: 'select-default',
     name: 'select-default',
+    options: basicOptions,
+  },
+};
+
+export const Parity: Story = {
+  name: 'Parity: React | Nunjucks | Static HTML',
+  args: {
+    id: 'country',
+    name: 'country',
+    options: basicOptions,
+  },
+  render: (args) => {
+    const props: Record<string, unknown> = { id: args.id, name: args.name, options: args.options };
+    const keys = ['value','defaultValue','ariaLabel','disabled','required','hasError','describedBy','multiple','size','autoComplete'];
+    for (const k of keys) if ((args as any)[k] !== undefined) (props as any)[k] = (args as any)[k];
+    return (
+      <ParityBlock macroCode={toNunjucksMacro('select', props)} staticHtml={selectStaticHtml}>
+        <Select {...args} />
+      </ParityBlock>
+    );
+  },
+};
+
+export const WithError: Story = {
+  args: {
+    id: 'region',
+    name: 'region',
+    hasError: true,
+    describedBy: 'region-error',
+    options: basicOptions,
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    id: 'country-disabled',
+    name: 'country-disabled',
+    disabled: true,
+    options: basicOptions,
+  },
+};
+
+export const Required: Story = {
+  args: {
+    id: 'country-required',
+    name: 'country-required',
+    required: true,
+    options: basicOptions,
+  },
+};
+
+export const Multiple: Story = {
+  args: {
+    id: 'languages',
+    name: 'languages',
+    multiple: true,
+    size: 4,
+    options: [
+      { value: 'en', text: 'English' },
+      { value: 'cy', text: 'Welsh' },
+      { value: 'gd', text: 'Scottish Gaelic' },
+      { value: 'ga', text: 'Irish' },
+    ],
+  },
+};
+
+export const WithAriaLabel: Story = {
+  args: {
+    id: 'no-visible-label',
+    name: 'no-visible-label',
+    ariaLabel: 'Select an option',
     options: basicOptions,
   },
 };

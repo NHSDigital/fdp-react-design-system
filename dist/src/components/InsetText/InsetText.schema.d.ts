@@ -1,6 +1,3 @@
-export interface InsetTextSchema {
-    text?: string;
-    html?: string;
-    className?: string;
-}
-export declare const insetTextSchema: InsetTextSchema;
+import type { ComponentSchema } from '../../schemas/componentMeta';
+export declare const InsetTextSchema: ComponentSchema;
+export default InsetTextSchema;

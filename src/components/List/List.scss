@@ -1,143 +1,160 @@
 // NHS List SCSS - Uses NHS FDP design tokens
-@use '../../../packages/nhs-fdp/scss' as nhs;
+@use "../../../packages/nhs-fdp/scss" as nhs;
 
 // Base list styles
 .nhsuk-list {
-  list-style-type: none;
-  margin-top: 0;
-  padding-left: 0;
-  margin-bottom: nhs.$nhs-fdp-spacing-4; // 32px
+	list-style-type: none;
+	margin-top: 0;
+	padding-left: 0;
+	margin-bottom: nhs.$nhs-fdp-spacing-4; // 32px
 
-  // Typography
-  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
-  color: nhs.$nhs-fdp-semantic-color-text-primary;
-  
-  @include nhs.nhs-fdp-font(19);
+	// Typography
+	font-family:
+		#{nhs.$nhs-fdp-font-family-base},
+		#{nhs.$nhs-fdp-font-family-fallback};
+	color: nhs.$nhs-fdp-semantic-color-text-primary;
 
-  // Nested lists
-  .nhsuk-list {
-    margin-bottom: 0;
-    margin-top: nhs.$nhs-fdp-spacing-2; // 16px
-  }
+	@include nhs.nhs-fdp-font(19);
+
+	// Nested lists
+	.nhsuk-list {
+		margin-bottom: 0;
+		margin-top: nhs.$nhs-fdp-spacing-2; // 16px
+	}
 }
 
 // List item styles
 .nhsuk-list__item {
-  margin-bottom: nhs.$nhs-fdp-spacing-2; // 16px
+	margin-bottom: nhs.$nhs-fdp-spacing-2; // 16px
 
-  &:last-child {
-    margin-bottom: 0;
-  }
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	// Ensure nested plain ul/ol inside list items have spacing on top
+	> ul,
+	> ol {
+		margin-top: nhs.$nhs-fdp-spacing-2; // 16px
+	}
+
+	// Also apply spacing when nested lists are wrapped (e.g., li > div > ul)
+	ul,
+	ol {
+		margin-top: nhs.$nhs-fdp-spacing-2; // 16px
+	}
 }
 
 // Bullet list variant
 .nhsuk-list--bullet {
-  list-style-type: disc;
-  padding-left: nhs.$nhs-fdp-spacing-3; // 20px
+	list-style-type: disc;
+	padding-left: nhs.$nhs-fdp-spacing-3; // 20px
 }
 
 // Numbered list variant
 .nhsuk-list--number {
-  list-style-type: decimal;
-  padding-left: nhs.$nhs-fdp-spacing-3; // 20px
+	list-style-type: decimal;
+	padding-left: nhs.$nhs-fdp-spacing-3; // 20px
 }
 
 // No list style variant
 .nhsuk-list--none {
-  list-style-type: none;
-  padding-left: 0;
+	list-style-type: none;
+	padding-left: 0;
 }
 
 // Bordered list variant
 .nhsuk-list--border {
-  .nhsuk-list__item {
-    border-bottom: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-grey-4;
-    padding: nhs.$nhs-fdp-spacing-1 0 nhs.$nhs-fdp-spacing-2; // 8px 0 16px
-    margin-bottom: 0;
+	.nhsuk-list__item {
+		border-bottom: nhs.$nhs-fdp-border-width-form-element solid
+			nhs.$nhs-fdp-color-grey-4;
+		padding: nhs.$nhs-fdp-spacing-1 0 nhs.$nhs-fdp-spacing-2; // 8px 0 16px
+		margin-bottom: 0;
 
-    &:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-  }
+		&:last-child {
+			border-bottom: none;
+			padding-bottom: 0;
+		}
+	}
 }
 
 // Size variants
 .nhsuk-list--small {
-  @include nhs.nhs-fdp-font(16);
-  
-  .nhsuk-list__item {
-    margin-bottom: nhs.$nhs-fdp-spacing-1; // 8px
-  }
+	@include nhs.nhs-fdp-font(16);
+
+	.nhsuk-list__item {
+		margin-bottom: nhs.$nhs-fdp-spacing-1; // 8px
+	}
 }
 
 .nhsuk-list--large {
-  @include nhs.nhs-fdp-font(22);
-  
-  .nhsuk-list__item {
-    margin-bottom: nhs.$nhs-fdp-spacing-3; // 20px
-  }
+	@include nhs.nhs-fdp-font(22);
+
+	.nhsuk-list__item {
+		margin-bottom: nhs.$nhs-fdp-spacing-3; // 20px
+	}
 }
 
 // Spacing after lists (when followed by headings)
 .nhsuk-list + h2,
 .nhsuk-list + .nhsuk-heading-l {
-  padding-top: nhs.$nhs-fdp-spacing-4; // 32px
+	padding-top: nhs.$nhs-fdp-spacing-4; // 32px
 }
 
 .nhsuk-list + h3,
 .nhsuk-list + h4,
 .nhsuk-list + .nhsuk-heading-m,
 .nhsuk-list + .nhsuk-heading-s {
-  padding-top: nhs.$nhs-fdp-spacing-1; // 8px
+	padding-top: nhs.$nhs-fdp-spacing-1; // 8px
 
-  @media (min-width: 641px) { // tablet breakpoint
-    padding-top: nhs.$nhs-fdp-spacing-2; // 16px
-  }
+	@media (min-width: 641px) {
+		// tablet breakpoint
+		padding-top: nhs.$nhs-fdp-spacing-2; // 16px
+	}
 }
 
 // Print styles
 @media print {
-  .nhsuk-list + h2,
-  .nhsuk-list + h3,
-  .nhsuk-list + h4,
-  .nhsuk-list + .nhsuk-heading-l,
-  .nhsuk-list + .nhsuk-heading-m,
-  .nhsuk-list + .nhsuk-heading-s {
-    padding-top: 0.45em;
-  }
+	.nhsuk-list + h2,
+	.nhsuk-list + h3,
+	.nhsuk-list + h4,
+	.nhsuk-list + .nhsuk-heading-l,
+	.nhsuk-list + .nhsuk-heading-m,
+	.nhsuk-list + .nhsuk-heading-s {
+		padding-top: 0.45em;
+	}
 }
 
 // Accessibility and focus styles
 .nhsuk-list a {
-  // Link styles inherit from NHS link styles
-  color: nhs.$nhs-fdp-semantic-color-link-default;
-  text-decoration: underline;
+	// Link styles inherit from NHS link styles
+	color: nhs.$nhs-fdp-semantic-color-link-default;
+	text-decoration: underline;
 
-  &:hover {
-    color: nhs.$nhs-fdp-semantic-color-link-hover;
-  }
+	&:hover {
+		color: nhs.$nhs-fdp-semantic-color-link-hover;
+	}
 
-  &:focus {
-    outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
-    outline-offset: 0;
-    background-color: nhs.$nhs-fdp-semantic-color-focus-background;
-    color: nhs.$nhs-fdp-semantic-color-focus-text;
-  }
+	&:focus {
+		outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style
+			nhs.$nhs-fdp-semantic-color-focus-background;
+		outline-offset: 0;
+		background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+		color: nhs.$nhs-fdp-semantic-color-focus-text;
+	}
 
-  &:active {
-    color: nhs.$nhs-fdp-semantic-color-link-active;
-  }
+	&:active {
+		color: nhs.$nhs-fdp-semantic-color-link-active;
+	}
 
-  &:visited {
-    color: nhs.$nhs-fdp-semantic-color-link-visited;
-  }
+	&:visited {
+		color: nhs.$nhs-fdp-semantic-color-link-visited;
+	}
 }
 
 // Make sure list markers align properly with content
 .nhsuk-list--bullet,
 .nhsuk-list--number {
-  li::marker {
-    color: nhs.$nhs-fdp-semantic-color-text-primary;
-  }
+	li::marker {
+		color: nhs.$nhs-fdp-semantic-color-text-primary;
+	}
 }

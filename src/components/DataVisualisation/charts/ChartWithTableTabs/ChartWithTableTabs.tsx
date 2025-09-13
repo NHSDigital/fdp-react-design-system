@@ -102,6 +102,14 @@ export const ChartWithTableTabs: React.FC<ChartWithTableTabsProps> = ({
       return headerLine + '\n' + body + '\n';
     };
     const handleDownload = () => {
+      // Guard for SSR/non-browser environments
+      if (typeof window === 'undefined' || typeof document === 'undefined' || typeof URL === 'undefined' || typeof Blob === 'undefined') {
+        // Silently no-op server-side; optionally log in dev
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn('CSV download is only available in the browser environment.');
+        }
+        return;
+      }
       try {
         const blob = new Blob([toCsv()], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');

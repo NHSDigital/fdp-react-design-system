@@ -38,6 +38,10 @@
       "import": "./dist/src/components/Button/index.js",
       "require": "./dist/src/components/Button/index.js"
     },
+    "./components/Button/server": {
+      "types": "./dist/src/components/Button/index.d.ts",
+      "import": "./dist/src/components/Button/index.js"
+    },
     "./components/Button/css": "./dist/components/Button/Button.css",
     "./components/Card": {
       "types": "./dist/src/components/Card/index.d.ts",
@@ -169,7 +173,8 @@
       "require": "./packages/nhs-fdp/dist/js/tokens.js"
     },
     "./tokens/json": "./packages/nhs-fdp/dist/js/tokens.json",
-    "./dist/js/tokens.json": "./packages/nhs-fdp/dist/js/tokens.json"
+    "./dist/js/tokens.json": "./packages/nhs-fdp/dist/js/tokens.json",
+    "./meta/components.json": "./dist/meta/components.json"
   },
   "sideEffects": [
     "dist/**/*.css"
@@ -185,7 +190,7 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run build:parity",
-    "build:parity": "npm run clean:dist && npm run build:tokens:smart && npm run build:multi && npm run build:index:esm && npm run build:index:umd && npm run build:core:css && npm run build:component-css && npm run update:css-exports && npm run verify:css-exports && npm run build:components:js && npm run build:behaviours && npm run copy:macros && npm run build:types && npm run verify:js-entries && npm run verify:component-parity && npm run verify:css-aliases && npm run build:multi-render:optional",
+    "build:parity": "npm run clean:dist && npm run build:tokens:smart && npm run build:multi && npm run build:index:esm && npm run build:index:umd && npm run build:core:css && npm run build:component-css && npm run update:css-exports && npm run verify:css-exports && npm run build:components:js && npm run build:behaviours && npm run schemas:extract && npm run copy:macros && npm run build:types && npm run verify:js-entries && npm run verify:component-parity && npm run verify:css-aliases && npm run build:multi-render:optional",
     "copy:macros": "mkdir -p dist/macros && cp src/macros/*.njk dist/macros/",
     "build:multi-render:optional": "node scripts/run-multi-render-optional.cjs",
     "build:components:js": "node scripts/build-component-js.cjs",
@@ -198,6 +203,8 @@
     "verify:server-variants": "node scripts/verify-server-variants.cjs",
     "build:behaviours": "tsx scripts/build-behaviours.ts",
     "generate:nunjucks": "tsx scripts/generate-nunjucks-macros.ts",
+    "schemas:extract": "tsx scripts/extract-schemas.ts",
+    "verify:schema-macro": "tsx scripts/verify-schema-macro-consistency.ts",
     "verify:macro-parity": "tsx scripts/verify-macro-parity.ts",
     "test:macro-parity": "vitest run tests/macroParity --config config/vitest.components.config.ts",
     "build:index:umd": "vite build --config config/vite.index.umd.config.ts",
@@ -243,15 +250,17 @@
     "examples:build": "npm run build:parity",
     "examples:generate:html": "tsx scripts/generate-static-html-examples.ts",
     "examples:next:sync:behaviours": "node scripts/sync-next-behaviours.cjs",
-    "examples:next:dev": "npm run examples:build && npm run examples:next:sync:behaviours && cd examples/nextjs && next dev -p 4100",
-    "examples:next:dev:fast": "cd examples/nextjs && rimraf .next && (cd ../.. && npm run build:behaviours && npm run examples:next:sync:behaviours) && next dev -p 4100",
+    "examples:next:dev": "npm run examples:build && npm run examples:next:sync:behaviours && npm run examples:generate:html && npm run examples:next:sync:static-html && cd examples/nextjs && next dev -p 4100",
+    "examples:next:dev:fast": "cd examples/nextjs && rimraf .next && (cd ../.. && npm run build:behaviours && npm run examples:next:sync:behaviours && npm run build:components:js && npm run examples:generate:html && npm run examples:next:sync:static-html) && next dev -p 4100",
     "examples:next:build": "npm run examples:build && npm run examples:next:sync:behaviours && cd examples/nextjs && next build",
-    "examples:next:start": "npm run examples:next:build && cd examples/nextjs && next start -p 4100",
-    "examples:next:start:fast": "cd examples/nextjs && next start -p 4100",
+    "examples:next:start": "npm run examples:next:build && npm run examples:generate:html && npm run examples:next:sync:static-html && cd examples/nextjs && next start -p 4100",
+    "examples:next:start:fast": "npm run build:components:js && npm run examples:generate:html && npm run examples:next:sync:static-html && cd examples/nextjs && next start -p 4100",
+    "docs:pre": "npm run build:components:js && npm run schemas:extract && npm run examples:generate:html && npm run examples:next:sync:static-html",
+    "examples:next:sync:static-html": "node scripts/sync-next-static-html.cjs",
     "examples:next:prebuild": "cd examples/nextjs && next build",
     "examples:express:start": "npm run examples:build && node examples/express-njk/server.mjs",
     "examples:express:serve": "node examples/express-njk/server.mjs",
-    "test:runtime": "npm run examples:build && npm run examples:generate:html && DS_RUNTIME_FAST=1 DS_NEXT_DEV=1 DS_RUNTIME_DEBUG=1 DS_SERVER_START_TIMEOUT=25000 playwright test tests/runtime --workers=1",
+    "test:runtime": "npm run examples:build && npm run examples:generate:html && DS_FORCE_RESPAWN=1 DS_KILL_STALE=1 DS_RUNTIME_FAST=1 DS_NEXT_DEV=1 DS_RUNTIME_DEBUG=1 DS_SERVER_START_TIMEOUT=25000 playwright test tests/runtime --workers=1",
     "stories:prune": "tsx scripts/prune-stories.ts",
     "stories:prune:dry": "tsx scripts/prune-stories.ts --dry-run",
     "stories:repair": "tsx scripts/repair-pruned-stories.ts",

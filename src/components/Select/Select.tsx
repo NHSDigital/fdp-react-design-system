@@ -1,7 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
 import './Select.scss';
 import { SelectProps, SelectOptionProps, type SelectComponent } from './Select.types';
+import classNames from 'classnames';
+import { mapSelectProps } from '../../mapping/select';
 
 /**
  * Select.Option Component
@@ -61,13 +62,7 @@ const SelectBase: React.FC<SelectProps> = ({
   onFocus,
   ...props
 }) => {
-  const selectClasses = classNames(
-    'nhsuk-select',
-    {
-      'nhsuk-select--error': hasError,
-    },
-    className
-  );
+  const { classes: selectClasses } = mapSelectProps({ hasError, className });
 
   // Render options from the options prop
   const renderOptionsFromProp = () => {

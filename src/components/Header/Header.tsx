@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { HeaderProps } from "./Header.types";
 import { renderHeaderMarkup } from "./Header.render";
+import { HeaderSearch } from "../HeaderSearch";
 
 /**
  * SSR-compatible Header Component with Progressive Enhancement
@@ -197,6 +198,8 @@ export const Header: React.FC<HeaderProps> = ({
 			toggleMenu,
 			navContainerRef,
 			navListRef,
+			// Provide interactive search node for client build only
+			searchNode: search ? <HeaderSearch {...search} /> : null,
 		}
 	);
 };

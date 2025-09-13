@@ -165,7 +165,7 @@ var SkipLink = ({
 import { useState as useState3, useEffect as useEffect3, useRef as useRef2, useCallback as useCallback2 } from "react";
 
 // src/components/Header/Header.render.tsx
-var import_classnames4 = __toESM(require_classnames(), 1);
+var import_classnames3 = __toESM(require_classnames(), 1);
 
 // src/components/Account/Account.tsx
 var import_classnames2 = __toESM(require_classnames(), 1);
@@ -199,7 +199,14 @@ var Account = ({
       textContent
     ] });
     if (item.href) {
-      return /* @__PURE__ */ jsx2("a", { className: "nhsuk-account__link nhsuk-header__account-link", href: item.href, children: content });
+      return /* @__PURE__ */ jsx2(
+        "a",
+        {
+          className: "nhsuk-account__link nhsuk-header__account-link",
+          href: item.href,
+          children: content
+        }
+      );
     }
     if (item.action) {
       return /* @__PURE__ */ jsx2(
@@ -208,15 +215,7 @@ var Account = ({
           className: "nhsuk-account__form",
           action: item.action,
           method: item.method || "post",
-          children: /* @__PURE__ */ jsx2(
-            "button",
-            {
-              className: "nhsuk-account__button",
-              type: "submit",
-              role: "button",
-              children: content
-            }
-          )
+          children: /* @__PURE__ */ jsx2("button", { className: "nhsuk-account__button", type: "submit", role: "button", children: content })
         }
       );
     }
@@ -233,22 +232,342 @@ var Account = ({
         className
       ),
       "aria-label": ariaLabel,
-      children: /* @__PURE__ */ jsx2("ul", { className: "nhsuk-account__list", children: items.map((item, index) => item && /* @__PURE__ */ jsx2(
-        "li",
-        {
-          className: (0, import_classnames2.default)("nhsuk-account__item nhsuk-header__account-item", item.className),
-          children: renderAccountItem(item)
-        },
-        index
-      )) })
+      children: /* @__PURE__ */ jsx2("ul", { className: "nhsuk-account__list", children: items.map(
+        (item, index) => item && /* @__PURE__ */ jsx2(
+          "li",
+          {
+            className: (0, import_classnames2.default)(
+              "nhsuk-account__item nhsuk-header__account-item",
+              item.className
+            ),
+            children: renderAccountItem(item)
+          },
+          index
+        )
+      ) })
     }
   );
 };
 
+// src/components/Header/Header.render.tsx
+import { Fragment as Fragment2, jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
+function renderHeaderMarkup(props, {
+  variant,
+  isClient,
+  menuOpen = false,
+  showMoreButton = false,
+  visibleItems,
+  dropdownVisible,
+  toggleMenu,
+  navContainerRef,
+  navListRef,
+  searchNode
+}) {
+  var _a;
+  const {
+    className,
+    logo = {},
+    service = {},
+    serviceName,
+    organisation,
+    search,
+    account,
+    navigation,
+    containerClasses,
+    variant: headerVariant = "default",
+    attributes = {},
+    maxVisibleItems,
+    // deprecated (ignored)
+    responsiveNavigation = true,
+    ...rest
+  } = props;
+  const effectiveService = {
+    ...service,
+    text: (_a = service == null ? void 0 : service.text) != null ? _a : serviceName
+  };
+  if ("maxVisibleItems" in rest) {
+    delete rest.maxVisibleItems;
+  }
+  const combineLogoAndServiceNameLinks = effectiveService.href && !logo.href || effectiveService.href && effectiveService.href === logo.href;
+  const logoHref = combineLogoAndServiceNameLinks ? effectiveService.href : logo.href;
+  const headerClasses = (0, import_classnames3.default)(
+    "nhsuk-header",
+    {
+      "nhsuk-header--organisation": headerVariant === "organisation" || organisation,
+      "nhsuk-header--white": headerVariant === "white"
+    },
+    className
+  );
+  const containerClass = (0, import_classnames3.default)(
+    "nhsuk-header__container",
+    containerClasses
+  );
+  const navigationClasses = (0, import_classnames3.default)(
+    "nhsuk-header__navigation",
+    {
+      "nhsuk-header__navigation--white": navigation == null ? void 0 : navigation.white,
+      "nhsuk-header__navigation--justified": navigation == null ? void 0 : navigation.justified
+    },
+    navigation == null ? void 0 : navigation.className
+  );
+  const renderNHSLogo = () => /* @__PURE__ */ jsxs2(
+    "svg",
+    {
+      className: "nhsuk-header__logo",
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 200 80",
+      height: "40",
+      width: "100",
+      focusable: "false",
+      role: "img",
+      "aria-label": logo.ariaLabel || "NHS",
+      children: [
+        /* @__PURE__ */ jsx3("title", { children: logo.ariaLabel || "NHS" }),
+        /* @__PURE__ */ jsx3(
+          "path",
+          {
+            fill: "#fff",
+            d: "M200 0v80H0V0h200Zm-27.5 5.5c-14.5 0-29 5-29 22 0 10.2 7.7 13.5 14.7 16.3l.7.3c5.4 2 10.1 3.9 10.1 8.4 0 6.5-8.5 7.5-14 7.5s-12.5-1.5-16-3.5L135 70c5.5 2 13.5 3.5 20 3.5 15.5 0 32-4.5 32-22.5 0-19.5-25.5-16.5-25.5-25.5 0-5.5 5.5-6.5 12.5-6.5a35 35 0 0 1 14.5 3l4-13.5c-4.5-2-12-3-20-3Zm-131 2h-22l-14 65H22l9-45h.5l13.5 45h21.5l14-65H64l-9 45h-.5l-13-45Zm63 0h-18l-13 65h17l6-28H117l-5.5 28H129l13.5-65H125L119.5 32h-20l5-24.5Z"
+          }
+        )
+      ]
+    }
+  );
+  const renderServiceLogo = () => logo.src ? /* @__PURE__ */ jsx3(
+    "img",
+    {
+      className: "nhsuk-header__organisation-logo",
+      src: logo.src,
+      width: "280",
+      alt: logo.ariaLabel || "NHS"
+    }
+  ) : renderNHSLogo();
+  const renderOrganisationName = () => organisation ? /* @__PURE__ */ jsxs2(Fragment2, { children: [
+    /* @__PURE__ */ jsxs2("span", { className: "nhsuk-header__organisation-name", children: [
+      organisation.name,
+      organisation.split && /* @__PURE__ */ jsxs2("span", { className: "nhsuk-header__organisation-name-split", children: [
+        " ",
+        organisation.split
+      ] })
+    ] }),
+    organisation.descriptor && /* @__PURE__ */ jsx3("span", { className: "nhsuk-header__organisation-name-descriptor", children: organisation.descriptor })
+  ] }) : null;
+  const renderServiceName = (text, href) => text ? href ? /* @__PURE__ */ jsx3("a", { className: "nhsuk-header__service-name", href, children: text }) : /* @__PURE__ */ jsx3("span", { className: "nhsuk-header__service-name", children: text }) : null;
+  const renderNavigationLinkContent = (item) => item.active || item.current ? /* @__PURE__ */ jsx3("strong", { className: "nhsuk-header__navigation-item-current-fallback", children: item.html ? /* @__PURE__ */ jsx3("span", { dangerouslySetInnerHTML: { __html: item.html } }) : item.text }) : item.html ? /* @__PURE__ */ jsx3("span", { dangerouslySetInnerHTML: { __html: item.html } }) : item.text;
+  const renderChevronIcon = () => /* @__PURE__ */ jsx3(
+    "svg",
+    {
+      className: "nhsuk-icon nhsuk-icon__chevron-down",
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 24 24",
+      "aria-hidden": "true",
+      focusable: "false",
+      children: /* @__PURE__ */ jsx3("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
+    }
+  );
+  const renderServerSearch = () => {
+    if (!search) return null;
+    const {
+      action = "/search",
+      method = "get",
+      name = "q",
+      placeholder = "Search",
+      visuallyHiddenLabel = "Search the NHS website",
+      visuallyHiddenButton = "Search",
+      formAttributes = {},
+      inputAttributes = {},
+      buttonAttributes = {},
+      className: searchClassName
+    } = search;
+    return /* @__PURE__ */ jsx3("div", { className: (0, import_classnames3.default)("nhsuk-header__search", searchClassName), children: /* @__PURE__ */ jsxs2(
+      "form",
+      {
+        className: "nhsuk-header__search-form",
+        id: "search",
+        action,
+        method,
+        role: "search",
+        ...formAttributes,
+        children: [
+          /* @__PURE__ */ jsx3("label", { className: "nhsuk-u-visually-hidden", htmlFor: "search-field", children: visuallyHiddenLabel }),
+          /* @__PURE__ */ jsx3("div", { className: "nhsuk-header__search-input-wrapper", children: /* @__PURE__ */ jsx3(
+            "input",
+            {
+              className: "nhsuk-header__search-input nhsuk-input",
+              id: "search-field",
+              name,
+              type: "search",
+              placeholder,
+              autoComplete: "off",
+              ...inputAttributes
+            }
+          ) }),
+          /* @__PURE__ */ jsx3("button", { className: "nhsuk-header__search-submit", type: "submit", ...buttonAttributes, children: /* @__PURE__ */ jsx3("span", { className: "nhsuk-u-visually-hidden", children: visuallyHiddenButton }) })
+        ]
+      }
+    ) });
+  };
+  const serverHasOverflow = variant === "server" && (navigation == null ? void 0 : navigation.items) && !responsiveNavigation;
+  const serverPrimaryItems = serverHasOverflow ? [] : navigation == null ? void 0 : navigation.items;
+  const serverOverflowItems = serverHasOverflow ? navigation.items : [];
+  return /* @__PURE__ */ jsxs2(
+    "header",
+    {
+      className: headerClasses,
+      role: "banner",
+      "data-module": "nhsuk-header",
+      ...attributes,
+      ...rest,
+      children: [
+        /* @__PURE__ */ jsxs2("div", { className: containerClass, children: [
+          /* @__PURE__ */ jsxs2("div", { className: "nhsuk-header__service", children: [
+            logoHref ? /* @__PURE__ */ jsxs2("a", { className: "nhsuk-header__service-logo", href: logoHref, children: [
+              renderServiceLogo(),
+              renderOrganisationName(),
+              combineLogoAndServiceNameLinks && renderServiceName(effectiveService.text)
+            ] }) : /* @__PURE__ */ jsxs2(Fragment2, { children: [
+              renderServiceLogo(),
+              renderOrganisationName(),
+              combineLogoAndServiceNameLinks && renderServiceName(effectiveService.text)
+            ] }),
+            effectiveService.text && !combineLogoAndServiceNameLinks && renderServiceName(effectiveService.text, effectiveService.href)
+          ] }),
+          variant === "client" ? searchNode != null ? searchNode : null : renderServerSearch(),
+          /* @__PURE__ */ jsx3(
+            Account,
+            {
+              ...account,
+              variant: headerVariant === "white" ? "white" : "default"
+            }
+          )
+        ] }),
+        navigation && navigation.items && navigation.items.length > 0 && /* @__PURE__ */ jsx3(
+          "nav",
+          {
+            className: navigationClasses,
+            "aria-label": navigation.ariaLabel || "Menu",
+            children: /* @__PURE__ */ jsx3(
+              "div",
+              {
+                className: (0, import_classnames3.default)(
+                  "nhsuk-header__navigation-container",
+                  "nhsuk-width-container",
+                  {
+                    "nhsuk-header__navigation-container--initializing": isClient && variant === "client",
+                    "nhsuk-header__navigation-container--ssr": !isClient
+                  },
+                  containerClasses
+                ),
+                ref: variant === "client" ? navContainerRef : void 0,
+                children: /* @__PURE__ */ jsxs2(
+                  "ul",
+                  {
+                    className: "nhsuk-header__navigation-list",
+                    ref: variant === "client" ? navListRef : void 0,
+                    children: [
+                      (variant === "server" ? serverPrimaryItems || [] : (navigation == null ? void 0 : navigation.items) || []).map((item, index) => /* @__PURE__ */ jsx3(
+                        "li",
+                        {
+                          className: (0, import_classnames3.default)(
+                            "nhsuk-header__navigation-item",
+                            {
+                              "nhsuk-header__navigation-item--current": item.active || item.current,
+                              "nhsuk-header__navigation-item--hidden": variant === "client" && showMoreButton && visibleItems !== void 0 && index >= (visibleItems != null ? visibleItems : 0)
+                            },
+                            item.className
+                          ),
+                          ...item.attributes || {},
+                          children: /* @__PURE__ */ jsx3(
+                            "a",
+                            {
+                              className: "nhsuk-header__navigation-link",
+                              href: item.href,
+                              ...item.active || item.current ? { "aria-current": item.current ? "page" : "true" } : {},
+                              children: renderNavigationLinkContent(item)
+                            }
+                          )
+                        },
+                        index
+                      )),
+                      variant === "client" && showMoreButton && visibleItems !== void 0 && /* @__PURE__ */ jsx3("li", { className: "nhsuk-header__navigation-item nhsuk-header__navigation-item--more", children: /* @__PURE__ */ jsxs2(
+                        "button",
+                        {
+                          className: "nhsuk-header__navigation-button",
+                          id: "toggle-more-menu",
+                          type: "button",
+                          "aria-haspopup": "true",
+                          "aria-expanded": menuOpen ? "true" : "false",
+                          "aria-controls": "nhsuk-header-more-menu",
+                          onClick: toggleMenu,
+                          children: [
+                            /* @__PURE__ */ jsx3("span", { children: "More" }),
+                            renderChevronIcon()
+                          ]
+                        }
+                      ) })
+                    ]
+                  }
+                )
+              }
+            )
+          }
+        ),
+        variant === "client" && isClient && navigation && navigation.items && navigation.items.length > 0 && menuOpen && dropdownVisible && /* @__PURE__ */ jsx3(
+          "div",
+          {
+            className: "nhsuk-header__dropdown-menu",
+            hidden: !dropdownVisible,
+            id: "nhsuk-header-more-menu",
+            children: /* @__PURE__ */ jsx3("ul", { className: "nhsuk-header__dropdown-list", children: navigation.items.slice(visibleItems != null ? visibleItems : 0).map((item, index) => /* @__PURE__ */ jsx3(
+              "li",
+              {
+                className: (0, import_classnames3.default)("nhsuk-header__dropdown-item", {
+                  "nhsuk-header__dropdown-item--current": item.active || item.current
+                }),
+                children: /* @__PURE__ */ jsx3(
+                  "a",
+                  {
+                    className: "nhsuk-header__dropdown-link",
+                    href: item.href,
+                    ...item.active || item.current ? { "aria-current": item.current ? "page" : "true" } : {},
+                    onClick: () => {
+                      toggleMenu == null ? void 0 : toggleMenu();
+                    },
+                    children: renderNavigationLinkContent(item)
+                  }
+                )
+              },
+              `overflow-${(visibleItems != null ? visibleItems : 0) + index}`
+            )) })
+          }
+        ),
+        variant === "server" && serverHasOverflow && serverOverflowItems.length > 0 && /* @__PURE__ */ jsx3("div", { className: "nhsuk-header__dropdown-menu", "data-ssr-overflow": "true", children: /* @__PURE__ */ jsx3("ul", { className: "nhsuk-header__dropdown-list", children: serverOverflowItems.map((item, index) => /* @__PURE__ */ jsx3(
+          "li",
+          {
+            className: (0, import_classnames3.default)("nhsuk-header__dropdown-item", {
+              "nhsuk-header__dropdown-item--current": item.active || item.current
+            }),
+            children: /* @__PURE__ */ jsx3(
+              "a",
+              {
+                className: "nhsuk-header__dropdown-link",
+                href: item.href,
+                ...item.active || item.current ? { "aria-current": item.current ? "page" : "true" } : {},
+                children: renderNavigationLinkContent(item)
+              }
+            )
+          },
+          `overflow-server-${index}`
+        )) }) })
+      ]
+    }
+  );
+}
+
 // src/components/HeaderSearch/HeaderSearch.tsx
-var import_classnames3 = __toESM(require_classnames(), 1);
+var import_classnames4 = __toESM(require_classnames(), 1);
 import { useState as useState2, useCallback, useRef, useEffect as useEffect2 } from "react";
-import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
+import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 var HeaderSearch = ({
   mode = "form",
   action = "/search",
@@ -340,20 +659,20 @@ var HeaderSearch = ({
       }
     };
   }, []);
-  const renderSearchIcon = () => /* @__PURE__ */ jsx3(
+  const renderSearchIcon = () => /* @__PURE__ */ jsx4(
     "svg",
     {
-      className: (0, import_classnames3.default)("nhsuk-icon nhsuk-icon__search", {
+      className: (0, import_classnames4.default)("nhsuk-icon nhsuk-icon__search", {
         "nhsuk-icon__search--loading": isLoading
       }),
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       "aria-hidden": "true",
       focusable: "false",
-      children: /* @__PURE__ */ jsx3("path", { d: "M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z" })
+      children: /* @__PURE__ */ jsx4("path", { d: "M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z" })
     }
   );
-  const renderLoadingSpinner = () => /* @__PURE__ */ jsx3(
+  const renderLoadingSpinner = () => /* @__PURE__ */ jsx4(
     "svg",
     {
       className: "nhsuk-icon nhsuk-icon__spinner",
@@ -361,7 +680,7 @@ var HeaderSearch = ({
       viewBox: "0 0 24 24",
       "aria-hidden": "true",
       focusable: "false",
-      children: /* @__PURE__ */ jsxs2(
+      children: /* @__PURE__ */ jsxs3(
         "circle",
         {
           cx: "12",
@@ -374,7 +693,7 @@ var HeaderSearch = ({
           strokeDasharray: "31.416",
           strokeDashoffset: "31.416",
           children: [
-            /* @__PURE__ */ jsx3(
+            /* @__PURE__ */ jsx4(
               "animate",
               {
                 attributeName: "stroke-dasharray",
@@ -383,7 +702,7 @@ var HeaderSearch = ({
                 repeatCount: "indefinite"
               }
             ),
-            /* @__PURE__ */ jsx3(
+            /* @__PURE__ */ jsx4(
               "animate",
               {
                 attributeName: "stroke-dashoffset",
@@ -399,23 +718,23 @@ var HeaderSearch = ({
   );
   const renderClearButton = () => {
     if (!currentValue || mode === "form") return null;
-    return /* @__PURE__ */ jsx3(
+    return /* @__PURE__ */ jsx4(
       "button",
       {
         type: "button",
         className: "nhsuk-header__search-clear",
         onClick: handleClear,
         "aria-label": "Clear search",
-        children: /* @__PURE__ */ jsx3("svg", { className: "nhsuk-icon nhsuk-icon__close", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ jsx3("path", { d: "M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 1.42 1.42l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42-1.42z" }) })
+        children: /* @__PURE__ */ jsx4("svg", { className: "nhsuk-icon nhsuk-icon__close", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ jsx4("path", { d: "M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 1.42 1.42l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42-1.42z" }) })
       }
     );
   };
   const renderResults = () => {
     if (!showResults || !results.length || !isFocused) return null;
-    return /* @__PURE__ */ jsx3("div", { className: "nhsuk-header__search-results", role: "listbox", children: results.map((result) => /* @__PURE__ */ jsx3("div", { className: "nhsuk-header__search-result", role: "option", children: result.href ? /* @__PURE__ */ jsxs2("a", { href: result.href, className: "nhsuk-header__search-result-link", children: [
-      /* @__PURE__ */ jsx3("span", { className: "nhsuk-header__search-result-title", children: result.title }),
-      result.description && /* @__PURE__ */ jsx3("span", { className: "nhsuk-header__search-result-description", children: result.description })
-    ] }) : /* @__PURE__ */ jsxs2(
+    return /* @__PURE__ */ jsx4("div", { className: "nhsuk-header__search-results", role: "listbox", children: results.map((result) => /* @__PURE__ */ jsx4("div", { className: "nhsuk-header__search-result", role: "option", children: result.href ? /* @__PURE__ */ jsxs3("a", { href: result.href, className: "nhsuk-header__search-result-link", children: [
+      /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__search-result-title", children: result.title }),
+      result.description && /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__search-result-description", children: result.description })
+    ] }) : /* @__PURE__ */ jsxs3(
       "button",
       {
         type: "button",
@@ -425,20 +744,20 @@ var HeaderSearch = ({
           return (_a = callbacks.onSearch) == null ? void 0 : _a.call(callbacks, { query: result.title, timestamp: Date.now() });
         },
         children: [
-          /* @__PURE__ */ jsx3("span", { className: "nhsuk-header__search-result-title", children: result.title }),
-          result.description && /* @__PURE__ */ jsx3("span", { className: "nhsuk-header__search-result-description", children: result.description })
+          /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__search-result-title", children: result.title }),
+          result.description && /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__search-result-description", children: result.description })
         ]
       }
     ) }, result.id)) });
   };
-  return /* @__PURE__ */ jsxs2("div", { className: (0, import_classnames3.default)("nhsuk-header__search", className, {
+  return /* @__PURE__ */ jsxs3("div", { className: (0, import_classnames4.default)("nhsuk-header__search", className, {
     "nhsuk-header__search--controlled": mode === "controlled",
     "nhsuk-header__search--hybrid": mode === "hybrid",
     "nhsuk-header__search--loading": isLoading,
     "nhsuk-header__search--focused": isFocused,
     "nhsuk-header__search--has-results": showResults && results.length > 0
   }), children: [
-    /* @__PURE__ */ jsxs2(
+    /* @__PURE__ */ jsxs3(
       "form",
       {
         ref: formRef,
@@ -450,7 +769,7 @@ var HeaderSearch = ({
         onSubmit: handleFormSubmit,
         ...formAttributes,
         children: [
-          /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsx4(
             "label",
             {
               className: "nhsuk-u-visually-hidden",
@@ -458,8 +777,8 @@ var HeaderSearch = ({
               children: visuallyHiddenLabel
             }
           ),
-          /* @__PURE__ */ jsxs2("div", { className: "nhsuk-header__search-input-wrapper", children: [
-            /* @__PURE__ */ jsx3(
+          /* @__PURE__ */ jsxs3("div", { className: "nhsuk-header__search-input-wrapper", children: [
+            /* @__PURE__ */ jsx4(
               "input",
               {
                 ref: inputRef,
@@ -480,7 +799,7 @@ var HeaderSearch = ({
             ),
             renderClearButton()
           ] }),
-          /* @__PURE__ */ jsxs2(
+          /* @__PURE__ */ jsxs3(
             "button",
             {
               className: "nhsuk-header__search-submit",
@@ -489,7 +808,7 @@ var HeaderSearch = ({
               ...buttonAttributes,
               children: [
                 isLoading ? renderLoadingSpinner() : renderSearchIcon(),
-                /* @__PURE__ */ jsx3("span", { className: "nhsuk-u-visually-hidden", children: isLoading ? "Searching..." : visuallyHiddenButton })
+                /* @__PURE__ */ jsx4("span", { className: "nhsuk-u-visually-hidden", children: isLoading ? "Searching..." : visuallyHiddenButton })
               ]
             }
           )
@@ -500,273 +819,8 @@ var HeaderSearch = ({
   ] });
 };
 
-// src/components/Header/Header.render.tsx
-import { Fragment as Fragment2, jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
-function renderHeaderMarkup(props, {
-  variant,
-  isClient,
-  menuOpen = false,
-  showMoreButton = false,
-  visibleItems,
-  dropdownVisible,
-  toggleMenu,
-  navContainerRef,
-  navListRef
-}) {
-  const {
-    className,
-    logo = {},
-    service = {},
-    organisation,
-    search,
-    account,
-    navigation,
-    containerClasses,
-    variant: headerVariant = "default",
-    attributes = {},
-    maxVisibleItems,
-    // deprecated (ignored)
-    responsiveNavigation = true,
-    ...rest
-  } = props;
-  if ("maxVisibleItems" in rest) {
-    delete rest.maxVisibleItems;
-  }
-  const combineLogoAndServiceNameLinks = service.href && !logo.href || service.href && service.href === logo.href;
-  const logoHref = combineLogoAndServiceNameLinks ? service.href : logo.href;
-  const headerClasses = (0, import_classnames4.default)(
-    "nhsuk-header",
-    {
-      "nhsuk-header--organisation": headerVariant === "organisation" || organisation,
-      "nhsuk-header--white": headerVariant === "white"
-    },
-    className
-  );
-  const containerClass = (0, import_classnames4.default)(
-    "nhsuk-header__container",
-    containerClasses
-  );
-  const navigationClasses = (0, import_classnames4.default)(
-    "nhsuk-header__navigation",
-    {
-      "nhsuk-header__navigation--white": navigation == null ? void 0 : navigation.white,
-      "nhsuk-header__navigation--justified": navigation == null ? void 0 : navigation.justified
-    },
-    navigation == null ? void 0 : navigation.className
-  );
-  const renderNHSLogo = () => /* @__PURE__ */ jsxs3(
-    "svg",
-    {
-      className: "nhsuk-header__logo",
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 200 80",
-      height: "40",
-      width: "100",
-      focusable: "false",
-      role: "img",
-      "aria-label": logo.ariaLabel || "NHS",
-      children: [
-        /* @__PURE__ */ jsx4("title", { children: logo.ariaLabel || "NHS" }),
-        /* @__PURE__ */ jsx4(
-          "path",
-          {
-            fill: "#fff",
-            d: "M200 0v80H0V0h200Zm-27.5 5.5c-14.5 0-29 5-29 22 0 10.2 7.7 13.5 14.7 16.3l.7.3c5.4 2 10.1 3.9 10.1 8.4 0 6.5-8.5 7.5-14 7.5s-12.5-1.5-16-3.5L135 70c5.5 2 13.5 3.5 20 3.5 15.5 0 32-4.5 32-22.5 0-19.5-25.5-16.5-25.5-25.5 0-5.5 5.5-6.5 12.5-6.5a35 35 0 0 1 14.5 3l4-13.5c-4.5-2-12-3-20-3Zm-131 2h-22l-14 65H22l9-45h.5l13.5 45h21.5l14-65H64l-9 45h-.5l-13-45Zm63 0h-18l-13 65h17l6-28H117l-5.5 28H129l13.5-65H125L119.5 32h-20l5-24.5Z"
-          }
-        )
-      ]
-    }
-  );
-  const renderServiceLogo = () => logo.src ? /* @__PURE__ */ jsx4(
-    "img",
-    {
-      className: "nhsuk-header__organisation-logo",
-      src: logo.src,
-      width: "280",
-      alt: logo.ariaLabel || "NHS"
-    }
-  ) : renderNHSLogo();
-  const renderOrganisationName = () => organisation ? /* @__PURE__ */ jsxs3(Fragment2, { children: [
-    /* @__PURE__ */ jsxs3("span", { className: "nhsuk-header__organisation-name", children: [
-      organisation.name,
-      organisation.split && /* @__PURE__ */ jsxs3("span", { className: "nhsuk-header__organisation-name-split", children: [
-        " ",
-        organisation.split
-      ] })
-    ] }),
-    organisation.descriptor && /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__organisation-name-descriptor", children: organisation.descriptor })
-  ] }) : null;
-  const renderServiceName = (text, href) => text ? href ? /* @__PURE__ */ jsx4("a", { className: "nhsuk-header__service-name", href, children: text }) : /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__service-name", children: text }) : null;
-  const renderNavigationLinkContent = (item) => item.active || item.current ? /* @__PURE__ */ jsx4("strong", { className: "nhsuk-header__navigation-item-current-fallback", children: item.html ? /* @__PURE__ */ jsx4("span", { dangerouslySetInnerHTML: { __html: item.html } }) : item.text }) : item.html ? /* @__PURE__ */ jsx4("span", { dangerouslySetInnerHTML: { __html: item.html } }) : item.text;
-  const renderChevronIcon = () => /* @__PURE__ */ jsx4(
-    "svg",
-    {
-      className: "nhsuk-icon nhsuk-icon__chevron-down",
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 24 24",
-      "aria-hidden": "true",
-      focusable: "false",
-      children: /* @__PURE__ */ jsx4("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
-    }
-  );
-  const serverHasOverflow = variant === "server" && (navigation == null ? void 0 : navigation.items) && !responsiveNavigation;
-  const serverPrimaryItems = serverHasOverflow ? [] : navigation == null ? void 0 : navigation.items;
-  const serverOverflowItems = serverHasOverflow ? navigation.items : [];
-  return /* @__PURE__ */ jsxs3(
-    "header",
-    {
-      className: headerClasses,
-      role: "banner",
-      "data-module": "nhsuk-header",
-      ...attributes,
-      ...rest,
-      children: [
-        /* @__PURE__ */ jsxs3("div", { className: containerClass, children: [
-          /* @__PURE__ */ jsxs3("div", { className: "nhsuk-header__service", children: [
-            logoHref ? /* @__PURE__ */ jsxs3("a", { className: "nhsuk-header__service-logo", href: logoHref, children: [
-              renderServiceLogo(),
-              renderOrganisationName(),
-              combineLogoAndServiceNameLinks && renderServiceName(service.text)
-            ] }) : /* @__PURE__ */ jsxs3(Fragment2, { children: [
-              renderServiceLogo(),
-              renderOrganisationName(),
-              combineLogoAndServiceNameLinks && renderServiceName(service.text)
-            ] }),
-            service.text && !combineLogoAndServiceNameLinks && renderServiceName(service.text, service.href)
-          ] }),
-          search && /* @__PURE__ */ jsx4(HeaderSearch, { ...search }),
-          /* @__PURE__ */ jsx4(
-            Account,
-            {
-              ...account,
-              variant: headerVariant === "white" ? "white" : "default"
-            }
-          )
-        ] }),
-        navigation && navigation.items && navigation.items.length > 0 && /* @__PURE__ */ jsx4(
-          "nav",
-          {
-            className: navigationClasses,
-            "aria-label": navigation.ariaLabel || "Menu",
-            children: /* @__PURE__ */ jsx4(
-              "div",
-              {
-                className: (0, import_classnames4.default)(
-                  "nhsuk-header__navigation-container",
-                  "nhsuk-width-container",
-                  {
-                    "nhsuk-header__navigation-container--initializing": isClient && variant === "client",
-                    "nhsuk-header__navigation-container--ssr": !isClient
-                  },
-                  containerClasses
-                ),
-                ref: variant === "client" ? navContainerRef : void 0,
-                children: /* @__PURE__ */ jsxs3(
-                  "ul",
-                  {
-                    className: "nhsuk-header__navigation-list",
-                    ref: variant === "client" ? navListRef : void 0,
-                    children: [
-                      (variant === "server" ? serverPrimaryItems || [] : (navigation == null ? void 0 : navigation.items) || []).map((item, index) => /* @__PURE__ */ jsx4(
-                        "li",
-                        {
-                          className: (0, import_classnames4.default)(
-                            "nhsuk-header__navigation-item",
-                            {
-                              "nhsuk-header__navigation-item--current": item.active || item.current,
-                              "nhsuk-header__navigation-item--hidden": variant === "client" && showMoreButton && visibleItems !== void 0 && index >= (visibleItems != null ? visibleItems : 0)
-                            },
-                            item.className
-                          ),
-                          ...item.attributes || {},
-                          children: /* @__PURE__ */ jsx4(
-                            "a",
-                            {
-                              className: "nhsuk-header__navigation-link",
-                              href: item.href,
-                              ...item.active || item.current ? { "aria-current": item.current ? "page" : "true" } : {},
-                              children: renderNavigationLinkContent(item)
-                            }
-                          )
-                        },
-                        index
-                      )),
-                      variant === "client" && showMoreButton && visibleItems !== void 0 && /* @__PURE__ */ jsx4("li", { className: "nhsuk-header__navigation-item nhsuk-header__navigation-item--more", children: /* @__PURE__ */ jsxs3(
-                        "button",
-                        {
-                          className: "nhsuk-header__navigation-button",
-                          id: "toggle-more-menu",
-                          type: "button",
-                          "aria-haspopup": "true",
-                          "aria-expanded": menuOpen ? "true" : "false",
-                          "aria-controls": "nhsuk-header-more-menu",
-                          onClick: toggleMenu,
-                          children: [
-                            /* @__PURE__ */ jsx4("span", { children: "More" }),
-                            renderChevronIcon()
-                          ]
-                        }
-                      ) })
-                    ]
-                  }
-                )
-              }
-            )
-          }
-        ),
-        variant === "client" && isClient && navigation && navigation.items && navigation.items.length > 0 && menuOpen && dropdownVisible && /* @__PURE__ */ jsx4(
-          "div",
-          {
-            className: "nhsuk-header__dropdown-menu",
-            hidden: !dropdownVisible,
-            id: "nhsuk-header-more-menu",
-            children: /* @__PURE__ */ jsx4("ul", { className: "nhsuk-header__dropdown-list", children: navigation.items.slice(visibleItems != null ? visibleItems : 0).map((item, index) => /* @__PURE__ */ jsx4(
-              "li",
-              {
-                className: (0, import_classnames4.default)("nhsuk-header__dropdown-item", {
-                  "nhsuk-header__dropdown-item--current": item.active || item.current
-                }),
-                children: /* @__PURE__ */ jsx4(
-                  "a",
-                  {
-                    className: "nhsuk-header__dropdown-link",
-                    href: item.href,
-                    ...item.active || item.current ? { "aria-current": item.current ? "page" : "true" } : {},
-                    onClick: () => {
-                      toggleMenu == null ? void 0 : toggleMenu();
-                    },
-                    children: renderNavigationLinkContent(item)
-                  }
-                )
-              },
-              `overflow-${(visibleItems != null ? visibleItems : 0) + index}`
-            )) })
-          }
-        ),
-        variant === "server" && serverHasOverflow && serverOverflowItems.length > 0 && /* @__PURE__ */ jsx4("div", { className: "nhsuk-header__dropdown-menu", "data-ssr-overflow": "true", children: /* @__PURE__ */ jsx4("ul", { className: "nhsuk-header__dropdown-list", children: serverOverflowItems.map((item, index) => /* @__PURE__ */ jsx4(
-          "li",
-          {
-            className: (0, import_classnames4.default)("nhsuk-header__dropdown-item", {
-              "nhsuk-header__dropdown-item--current": item.active || item.current
-            }),
-            children: /* @__PURE__ */ jsx4(
-              "a",
-              {
-                className: "nhsuk-header__dropdown-link",
-                href: item.href,
-                ...item.active || item.current ? { "aria-current": item.current ? "page" : "true" } : {},
-                children: renderNavigationLinkContent(item)
-              }
-            )
-          },
-          `overflow-server-${index}`
-        )) }) })
-      ]
-    }
-  );
-}
-
 // src/components/Header/Header.tsx
+import { jsx as jsx5 } from "react/jsx-runtime";
 var Header = ({
   className,
   logo = {},
@@ -911,7 +965,9 @@ var Header = ({
       dropdownVisible,
       toggleMenu,
       navContainerRef,
-      navListRef
+      navListRef,
+      // Provide interactive search node for client build only
+      searchNode: search ? /* @__PURE__ */ jsx5(HeaderSearch, { ...search }) : null
     }
   );
 };
@@ -919,7 +975,7 @@ var Header = ({
 // src/components/Grid/Grid.tsx
 var import_classnames5 = __toESM(require_classnames(), 1);
 import React4 from "react";
-import { jsx as jsx5 } from "react/jsx-runtime";
+import { jsx as jsx6 } from "react/jsx-runtime";
 var Container = ({
   children,
   className,
@@ -936,7 +992,7 @@ var Container = ({
     className
   );
   const mergedStyle = maxWidth ? { maxWidth, ...style || {} } : style;
-  return /* @__PURE__ */ jsx5("div", { className: containerClasses, style: mergedStyle, ...props, children });
+  return /* @__PURE__ */ jsx6("div", { className: containerClasses, style: mergedStyle, ...props, children });
 };
 var Row = ({
   children,
@@ -945,7 +1001,7 @@ var Row = ({
   ...props
 }) => {
   const rowClasses = (0, import_classnames5.default)("nhsuk-grid-row", className);
-  return /* @__PURE__ */ jsx5("div", { className: rowClasses, style, ...props, children });
+  return /* @__PURE__ */ jsx6("div", { className: rowClasses, style, ...props, children });
 };
 var Column = ({
   children,
@@ -977,17 +1033,17 @@ var Column = ({
     },
     className
   );
-  return /* @__PURE__ */ jsx5("div", { className: columnClasses, style, ...props, children });
+  return /* @__PURE__ */ jsx6("div", { className: columnClasses, style, ...props, children });
 };
 
 // src/components/WidthContainer/WidthContainer.tsx
-import { jsx as jsx6 } from "react/jsx-runtime";
+import { jsx as jsx7 } from "react/jsx-runtime";
 var WidthContainer = (props) => {
-  return /* @__PURE__ */ jsx6(Container, { ...props });
+  return /* @__PURE__ */ jsx7(Container, { ...props });
 };
 
 // src/components/MainWrapper/MainWrapper.tsx
-import { jsx as jsx7 } from "react/jsx-runtime";
+import { jsx as jsx8 } from "react/jsx-runtime";
 var MainWrapper = ({
   as: Component = "main",
   size = "default",
@@ -1001,7 +1057,7 @@ var MainWrapper = ({
     size === "small" && "nhsuk-main-wrapper--s",
     className
   ].filter(Boolean).join(" ");
-  return /* @__PURE__ */ jsx7(Component, { className: classes, ...props, children });
+  return /* @__PURE__ */ jsx8(Component, { className: classes, ...props, children });
 };
 
 // src/components/Heading/Heading.tsx
@@ -1038,16 +1094,16 @@ function mapHeadingProps(input) {
 }
 
 // src/components/Heading/Heading.tsx
-import { jsx as jsx8 } from "react/jsx-runtime";
+import { jsx as jsx9 } from "react/jsx-runtime";
 var Heading = ({ level, className, text, html, children, size, marginBottom, ...rest }) => {
   const model = mapHeadingProps({ level, size, className, marginBottom });
-  const content = children || (html ? /* @__PURE__ */ jsx8("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
+  const content = children || (html ? /* @__PURE__ */ jsx9("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
   return createElement(model.tag, { className: model.classes, style: model.style, ...rest }, content);
 };
 
 // src/components/Footer/Footer.tsx
 var import_classnames6 = __toESM(require_classnames(), 1);
-import { Fragment as Fragment3, jsx as jsx9, jsxs as jsxs4 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx10, jsxs as jsxs4 } from "react/jsx-runtime";
 var Footer = ({
   className,
   links = [],
@@ -1061,13 +1117,13 @@ var Footer = ({
   footerStyle,
   containerStyle
 }) => {
-  const renderLinkItem = (item, isDefaultLayout = false) => /* @__PURE__ */ jsx9(
+  const renderLinkItem = (item, isDefaultLayout = false) => /* @__PURE__ */ jsx10(
     "li",
     {
       className: (0, import_classnames6.default)("nhsuk-footer__list-item", {
         "nhsuk-footer-default__list-item": isDefaultLayout
       }),
-      children: /* @__PURE__ */ jsx9(
+      children: /* @__PURE__ */ jsx10(
         "a",
         {
           className: "nhsuk-footer__list-item-link",
@@ -1081,15 +1137,15 @@ var Footer = ({
     `${item.URL}-${item.label}`
   );
   const isMultiColumnLayout = !!(linksColumn2 || linksColumn3);
-  return /* @__PURE__ */ jsx9("footer", { role: "contentinfo", ...attributes, style: { ...attributes == null ? void 0 : attributes.style, ...style }, children: /* @__PURE__ */ jsxs4("div", { className: "nhsuk-footer-container", children: [
+  return /* @__PURE__ */ jsx10("footer", { role: "contentinfo", ...attributes, style: { ...attributes == null ? void 0 : attributes.style, ...style }, children: /* @__PURE__ */ jsxs4("div", { className: "nhsuk-footer-container", children: [
     /* @__PURE__ */ jsxs4(
       "div",
       {
         className: (0, import_classnames6.default)("nhsuk-width-container", containerClasses),
         style: containerStyle,
         children: [
-          /* @__PURE__ */ jsx9("h2", { className: "nhsuk-u-visually-hidden", children: "Support links" }),
-          /* @__PURE__ */ jsx9("div", { className: (0, import_classnames6.default)("nhsuk-footer", className), style: footerStyle, children: !isMultiColumnLayout ? (
+          /* @__PURE__ */ jsx10("h2", { className: "nhsuk-u-visually-hidden", children: "Support links" }),
+          /* @__PURE__ */ jsx10("div", { className: (0, import_classnames6.default)("nhsuk-footer", className), style: footerStyle, children: !isMultiColumnLayout ? (
             // Single column layout (default)
             /* @__PURE__ */ jsxs4("ul", { className: "nhsuk-footer__list", children: [
               links.map((item) => renderLinkItem(item, true)),
@@ -1100,22 +1156,22 @@ var Footer = ({
           ) : (
             // Multi-column layout
             /* @__PURE__ */ jsxs4(Fragment3, { children: [
-              links.length > 0 && /* @__PURE__ */ jsx9("ul", { className: "nhsuk-footer__list", children: links.map((item) => renderLinkItem(item)) }),
-              linksColumn2 && linksColumn2.length > 0 && /* @__PURE__ */ jsx9("ul", { className: "nhsuk-footer__list", children: linksColumn2.map((item) => renderLinkItem(item)) }),
-              linksColumn3 && linksColumn3.length > 0 && /* @__PURE__ */ jsx9("ul", { className: "nhsuk-footer__list", children: linksColumn3.map((item) => renderLinkItem(item)) }),
-              metaLinks && metaLinks.length > 0 && /* @__PURE__ */ jsx9("ul", { className: "nhsuk-footer__list nhsuk-footer__meta", children: metaLinks.map((item) => renderLinkItem(item)) })
+              links.length > 0 && /* @__PURE__ */ jsx10("ul", { className: "nhsuk-footer__list", children: links.map((item) => renderLinkItem(item)) }),
+              linksColumn2 && linksColumn2.length > 0 && /* @__PURE__ */ jsx10("ul", { className: "nhsuk-footer__list", children: linksColumn2.map((item) => renderLinkItem(item)) }),
+              linksColumn3 && linksColumn3.length > 0 && /* @__PURE__ */ jsx10("ul", { className: "nhsuk-footer__list", children: linksColumn3.map((item) => renderLinkItem(item)) }),
+              metaLinks && metaLinks.length > 0 && /* @__PURE__ */ jsx10("ul", { className: "nhsuk-footer__list nhsuk-footer__meta", children: metaLinks.map((item) => renderLinkItem(item)) })
             ] })
           ) }),
-          !isMultiColumnLayout && /* @__PURE__ */ jsx9("div", { children: /* @__PURE__ */ jsx9("p", { className: "nhsuk-footer__copyright", children: copyright }) })
+          !isMultiColumnLayout && /* @__PURE__ */ jsx10("div", { children: /* @__PURE__ */ jsx10("p", { className: "nhsuk-footer__copyright", children: copyright }) })
         ]
       }
     ),
-    isMultiColumnLayout && /* @__PURE__ */ jsx9("div", { className: "nhsuk-width-container", children: /* @__PURE__ */ jsx9("div", { children: /* @__PURE__ */ jsx9("p", { className: "nhsuk-footer__copyright", children: copyright }) }) })
+    isMultiColumnLayout && /* @__PURE__ */ jsx10("div", { className: "nhsuk-width-container", children: /* @__PURE__ */ jsx10("div", { children: /* @__PURE__ */ jsx10("p", { className: "nhsuk-footer__copyright", children: copyright }) }) })
   ] }) });
 };
 
 // src/components/PageTemplate/PageTemplate.tsx
-import { Fragment as Fragment4, jsx as jsx10, jsxs as jsxs5 } from "react/jsx-runtime";
+import { Fragment as Fragment4, jsx as jsx11, jsxs as jsxs5 } from "react/jsx-runtime";
 var PageTemplate = ({
   children,
   pageTitle,
@@ -1144,13 +1200,13 @@ var PageTemplate = ({
     ...headerProps
   };
   return /* @__PURE__ */ jsxs5(Fragment4, { children: [
-    /* @__PURE__ */ jsx10(SkipLink, { ...skipLinkProps }),
-    /* @__PURE__ */ jsx10(Header, { ...headerConfig }),
-    /* @__PURE__ */ jsx10(WidthContainer, { className, ...containerProps, children: /* @__PURE__ */ jsx10(MainWrapper, { size: mainWrapperSize, children: /* @__PURE__ */ jsx10(Row, { children: /* @__PURE__ */ jsxs5(Column, { width: columnWidth, children: [
-      pageTitle && /* @__PURE__ */ jsx10(Heading, { size: "l", ...pageHeadingProps, children: pageTitle }),
+    /* @__PURE__ */ jsx11(SkipLink, { ...skipLinkProps }),
+    /* @__PURE__ */ jsx11(Header, { ...headerConfig }),
+    /* @__PURE__ */ jsx11(WidthContainer, { className, ...containerProps, children: /* @__PURE__ */ jsx11(MainWrapper, { size: mainWrapperSize, children: /* @__PURE__ */ jsx11(Row, { children: /* @__PURE__ */ jsxs5(Column, { width: columnWidth, children: [
+      pageTitle && /* @__PURE__ */ jsx11(Heading, { size: "l", ...pageHeadingProps, children: pageTitle }),
       children
     ] }) }) }) }),
-    /* @__PURE__ */ jsx10(Footer, { ...footerProps })
+    /* @__PURE__ */ jsx11(Footer, { ...footerProps })
   ] });
 };
 var PageTemplate_default = PageTemplate;

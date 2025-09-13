@@ -1,7 +1,7 @@
 import React from 'react';
-import classNames from 'classnames';
 import './Textarea.scss';
 import { TextareaProps } from './Textarea.types';
+import { mapTextareaProps } from '../../mapping/textarea';
 
 export const Textarea: React.FC<TextareaProps> = ({
   id,
@@ -29,14 +29,7 @@ export const Textarea: React.FC<TextareaProps> = ({
   onKeyDown,
   ...props
 }) => {
-  const textareaClasses = classNames(
-    'nhsuk-textarea',
-    {
-      'nhsuk-textarea--error': hasError,
-      [`nhsuk-textarea--resize-${resize}`]: resize !== 'vertical',
-    },
-    className
-  );
+  const { classes: textareaClasses, describedBy: mappedDescribedBy } = mapTextareaProps({ hasError, resize, className, describedBy });
 
   return (
     <textarea
@@ -49,7 +42,7 @@ export const Textarea: React.FC<TextareaProps> = ({
       disabled={disabled}
       readOnly={readOnly}
       required={required}
-      aria-describedby={describedBy}
+  aria-describedby={mappedDescribedBy}
       rows={rows}
       cols={cols}
       maxLength={maxLength}

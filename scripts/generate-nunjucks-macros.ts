@@ -1,70 +1,357 @@
 #!/usr/bin/env tsx
 /** Generator for Nunjucks macros (schema + copy). */
-import fs from 'fs';
-import path from 'path';
-import { glob } from 'glob';
+import fs from "fs";
+import path from "path";
+import { glob } from "glob";
 
-interface SchemaModule { ButtonSchema?: any; TagSchema?: any; LabelSchema?: any; HintSchema?: any; HeadingSchema?: any; ErrorMessageSchema?: any; InputSchema?: any; TextareaSchema?: any; SelectSchema?: any; RadiosSchema?: any; CharacterCountSchema?: any; CheckboxesSchema?: any; FieldsetSchema?: any; ErrorSummarySchema?: any; DateInputSchema?: any }
-
-const header = (name: string, doc: string) => `{# AUTO-GENERATED: Do not edit directly (run generate:nunjucks) #}\n{#\n * ${name} macro (schema driven)\n${doc}\n #}`;
-
-const docLines = (schema: any) => schema.props.map((p: any) => ` * @param ${p.name}${p.required ? '' : '?'} {${p.type}} ${p.description || ''}${p.defaultValue ? ' (default: ' + p.defaultValue + ')' : ''}`).join('\n');
-
-function button(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro button(params) %}\n  {% set variant = params.variant or 'primary' %}\n  {% set size = params.size or 'default' %}\n  {% set fullWidth = params.fullWidth %}\n  {% set prevent = params.preventDoubleClick %}\n  {% set classes = [ 'nhs-aria-button', 'nhs-aria-button--' + variant, size != 'default' and 'nhs-aria-button--' + size or '', fullWidth and 'nhs-aria-button--full-width' or '', params.classes ] | reject('equalto','') | join(' ') %}\n  {% if params.href %}<a href=\"{{ params.href }}\" class=\"{{ classes }}\" role=\"button\" data-module=\"nhs-button\"{% if prevent %} data-prevent-double-click=\"true\"{% endif %}>{{ params.html | safe if params.html else params.text }}</a>{% else %}<button type=\"{{ params.type or 'button' }}\" class=\"{{ classes }}\" data-module=\"nhs-button\"{% if prevent %} data-prevent-double-click=\"true\"{% endif %}>{{ params.html | safe if params.html else params.text }}</button>{% endif %}\n{% endmacro %}\n`; }
-function tag(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro tag(params) %}\n  {% set color = params.color or 'default' %}\n  {% set classes = [ 'nhsuk-tag', color != 'default' and 'nhsuk-tag--' + color or '', params.noBorder and 'nhsuk-tag--no-border' or '', params.closable and 'nhsuk-tag--closable' or '', params.disabled and 'nhsuk-tag--disabled' or '', params.className ] | reject('equalto','') | join(' ') %}\n  <strong class=\"{{ classes }}\">{% if params.children %}{{ params.children | safe }}{% elif params.html %}{{ params.html | safe }}{% else %}{{ params.text }}{% endif %}{% if params.closable %}<button type=\"button\" class=\"nhsuk-tag__close\" aria-label=\"Remove\" title=\"Remove\"{% if params.disabled %} disabled{% endif %}>×</button>{% endif %}</strong>\n{% endmacro %}\n`; }
-function label(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro label(params) %}\n  {% set size = params.size or 'm' %}\n  {% set classes = [ 'nhsuk-label', size != 'm' and 'nhsuk-label--' + size or '', params.className ] | reject('equalto','') | join(' ') %}\n  {% if params.isPageHeading %}<h1 class=\"{{ classes }}\"><label class=\"nhsuk-label-wrapper\"{% if params.htmlFor %} for=\"{{ params.htmlFor }}\"{% endif %}>{{ params.text }}</label></h1>{% else %}<label class=\"{{ classes }}\"{% if params.htmlFor %} for=\"{{ params.htmlFor }}\"{% endif %}>{{ params.text }}</label>{% endif %}\n{% endmacro %}\n`; }
-function hint(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro hint(params) %}\n  <div class=\"nhsuk-hint{% if params.className %} {{ params.className }}{% endif %}\"{% if params.id %} id=\"{{ params.id }}\"{% endif %}>{{ params.html | safe if params.html else params.text }}</div>\n{% endmacro %}\n`; }
-function heading(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro heading(params) %}\n  {% set size = params.size %}\n  {% if params.level %}{% set lvl = params.level %}{% else %}{% if size == 'xxl' or size == 'xl' %}{% set lvl = 1 %}{% elif size == 'l' %}{% set lvl = 2 %}{% elif size == 'm' %}{% set lvl = 3 %}{% elif size == 's' %}{% set lvl = 4 %}{% elif size == 'xs' %}{% set lvl = 5 %}{% else %}{% set lvl = 2 %}{% endif %}{% endif %}\n  {% set classes = 'nhsuk-heading' %}{% if size %}{% set classes = classes + ' nhsuk-heading--' + size %}{% endif %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}{% set styleAttr = params.marginBottom and ('margin-bottom:' + params.marginBottom) or '' %}\n  {% set tag = 'h' + lvl %}<{{ tag }} class=\"{{ classes }}\"{% if styleAttr %} style=\"{{ styleAttr }}\"{% endif %}>{{ params.html | safe if params.html else params.text }}</{{ tag }}>\n{% endmacro %}\n`; }
-function errorMessage(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro errorMessage(params) %}\n  <span class=\"nhsuk-error-message{% if params.className %} {{ params.className }}{% endif %}\"{% if params.id %} id=\"{{ params.id }}\"{% endif %}><span class=\"nhsuk-u-visually-hidden\">{{ params.visuallyHiddenText or 'Error:' }} </span>{{ params.html | safe if params.html else params.text }}</span>\n{% endmacro %}\n`; }
-function input(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro input(params) %}\n  {% set type = params.type or 'text' %}{% set isRange = type == 'range' %}{% set classes = 'nhsuk-input' %}{% if params.hasError %}{% set classes = classes + ' nhsuk-input--error' %}{% endif %}{% if isRange %}{% set classes = classes + ' nhsuk-input--range' %}{% endif %}{% if not isRange and params.width and params.width != 'full' %}{% set classes = classes + ' nhsuk-input--width-' + params.width %}{% endif %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}\n  {% if isRange %}{% set currentVal = params.value is defined and params.value or (params.defaultValue is defined and params.defaultValue or (params.min is defined and params.min or 0)) %}<div class=\"nhsuk-input-range-wrapper\">{% if params.showValueLabels %}<div class=\"nhsuk-input-range-labels\"><span class=\"nhsuk-input-range-label nhsuk-input-range-label--min\">{{ (params.valueLabels and params.valueLabels.min) or params.min or '0' }}</span><input class=\"{{ classes }}\" id=\"{{ params.id }}\" name=\"{{ params.name }}\" type=\"{{ type }}\" data-current-value=\"{{ currentVal }}\"{% if params.min is defined %} min=\"{{ params.min }}\"{% endif %}{% if params.max is defined %} max=\"{{ params.max }}\"{% endif %}{% if params.step is defined %} step=\"{{ params.step }}\"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.readOnly %} readonly{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %} /><span class=\"nhsuk-input-range-label nhsuk-input-range-label--max\">{{ (params.valueLabels and params.valueLabels.max) or params.max or '100' }}</span></div>{% else %}<input class=\"{{ classes }}\" id=\"{{ params.id }}\" name=\"{{ params.name }}\" type=\"{{ type }}\" data-current-value=\"{{ currentVal }}\"{% if params.min is defined %} min=\"{{ params.min }}\"{% endif %}{% if params.max is defined %} max=\"{{ params.max }}\"{% endif %}{% if params.step is defined %} step=\"{{ params.step }}\"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.readOnly %} readonly{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %} />{% endif %}{% if params.showCurrentValue %}<div class=\"nhsuk-input-range-current-value\"><span class=\"nhsuk-input-range-current-label\">{{ (params.valueLabels and params.valueLabels.current) or 'Current:' }}<strong>{{ currentVal }}</strong></span></div>{% endif %}</div>{% else %}<input class=\"{{ classes }}\" id=\"{{ params.id }}\" name=\"{{ params.name }}\" type=\"{{ type }}\"{% if params.value is defined %} value=\"{{ params.value }}\"{% elif params.defaultValue is defined %} value=\"{{ params.defaultValue }}\"{% endif %}{% if params.placeholder %} placeholder=\"{{ params.placeholder }}\"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.readOnly %} readonly{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %}{% if params.inputMode %} inputmode=\"{{ params.inputMode }}\"{% endif %}{% if params.autoComplete %} autocomplete=\"{{ params.autoComplete }}\"{% endif %}{% if params.maxLength is defined %} maxlength=\"{{ params.maxLength }}\"{% endif %}{% if params.minLength is defined %} minlength=\"{{ params.minLength }}\"{% endif %}{% if params.pattern %} pattern=\"{{ params.pattern }}\"{% endif %}{% if params.step is defined %} step=\"{{ params.step }}\"{% endif %}{% if params.min is defined %} min=\"{{ params.min }}\"{% endif %}{% if params.max is defined %} max=\"{{ params.max }}\"{% endif %} />{% endif %}\n{% endmacro %}\n`; }
-function textarea(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro textarea(params) %}\n  {% set classes = 'nhsuk-textarea' %}{% if params.hasError %}{% set classes = classes + ' nhsuk-textarea--error' %}{% endif %}{% if params.resize and params.resize != 'vertical' %}{% set classes = classes + ' nhsuk-textarea--resize-' + params.resize %}{% endif %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}{% set rows = params.rows is defined and params.rows or 5 %}{% set wrapMode = params.wrap or 'soft' %}\n  <textarea class=\"{{ classes }}\" id=\"{{ params.id }}\" name=\"{{ params.name }}\" rows=\"{{ rows }}\" wrap=\"{{ wrapMode }}\"{% if params.cols is defined %} cols=\"{{ params.cols }}\"{% endif %}{% if params.placeholder %} placeholder=\"{{ params.placeholder }}\"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.readOnly %} readonly{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %}{% if params.maxLength is defined %} maxLength=\"{{ params.maxLength }}\"{% endif %}{% if params.minLength is defined %} minLength=\"{{ params.minLength }}\"{% endif %}{% if params.autoComplete %} autoComplete=\"{{ params.autoComplete }}\"{% endif %}{% if params.spellCheck is defined %} spellCheck=\"{{ params.spellCheck and 'true' or 'false' }}\"{% endif %}>{{ params.value if params.value is defined else (params.defaultValue if params.defaultValue is defined else '') }}</textarea>\n{% endmacro %}\n`; }
-function select(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro select(params) %}\n  {% set classes = 'nhsuk-select' %}{% if params.hasError %}{% set classes = classes + ' nhsuk-select--error' %}{% endif %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}\n  {% set derivedDefault = (not params.defaultValue and not params.value and params.options) and (params.options | selectattr('selected') | list | first) %}\n  {% set selectedValue = params.value is defined and params.value or (params.defaultValue is defined and params.defaultValue or (derivedDefault and derivedDefault.value)) %}\n  <select class=\"{{ classes }}\" id=\"{{ params.id }}\" name=\"{{ params.name }}\"{% if params.ariaLabel %} aria-label=\"{{ params.ariaLabel }}\"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %}{% if params.multiple %} multiple=\"\"{% endif %}{% if params.size is defined %} size=\"{{ params.size }}\"{% endif %}{% if params.autoComplete %} autoComplete=\"{{ params.autoComplete }}\"{% endif %}>\n    {% if params.options %}{% for o in params.options %}<option value=\"{{ o.value }}\"{% if o.disabled %} disabled{% endif %}{% if o.selected %} data-initial-selected=\"true\"{% endif %}{% if selectedValue and o.value == selectedValue %} selected=\"\"{% endif %}>{{ o.text }}</option>{% endfor %}{% else %}{{ params.children | safe }}{% endif %}\n  </select>\n{% endmacro %}\n`; }
-function characterCount(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro characterCount(params) %}\n  {# Server-side parity with React SSR: initial state BEFORE effect runs. #}\n  {% set rows = params.rows is defined and params.rows or 5 %}\n  {% set threshold = params.threshold is defined and params.threshold or 75 %}\n  {% set limit = params.maxLength is defined and params.maxLength or (params.maxWords is defined and params.maxWords or 0) %}\n  {% set initialValue = params.value is defined and params.value or '' %}\n  {# React initial render always has message disabled and no error class until client effect runs. #}\n  <div class=\"nhsuk-character-count{% if params.className %} {{ params.className }}{% endif %}\" data-module=\"nhsuk-character-count\" data-testid=\"character-count\"{% if params.maxLength is defined %} data-maxlength=\"{{ params.maxLength }}\"{% endif %}{% if params.maxWords is defined %} data-maxwords=\"{{ params.maxWords }}\"{% endif %} data-threshold=\"{{ threshold }}\">\n    <textarea class=\"nhsuk-textarea nhsuk-js-character-count\" id=\"{{ params.id }}\" name=\"{{ params.name }}\" rows=\"{{ rows }}\" wrap=\"soft\" aria-describedby=\"{{ params.id }}-info\">{{ initialValue }}</textarea>\n    <div id=\"{{ params.id }}-info\" class=\"nhsuk-hint nhsuk-character-count__message nhsuk-character-count__message--disabled{% if params.countMessageClasses %} {{ params.countMessageClasses }}{% endif %}\" role=\"status\" aria-live=\"polite\">You can enter up to {{ limit }} {{ params.maxWords is defined and (limit == 1 and 'word' or 'words') or (limit == 1 and 'character' or 'characters') }}</div>\n  </div>\n{% endmacro %}\n`; }
-function checkboxes(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro checkboxes(params) %}\n  {% set idPrefix = params.idPrefix or params.name %}\n  {% set hintId = params.hint and (idPrefix + '-hint') %}\n  {% set errorId = params.errorMessage and (idPrefix + '-error') %}\n  {% set describedBy = [hintId, errorId] | select | join(' ') %}\n  <div class=\"nhsuk-form-group{% if params.errorMessage %} nhsuk-form-group--error{% endif %}\">\n    <fieldset class=\"nhsuk-fieldset\"{% if describedBy %} aria-describedby=\"{{ describedBy }}\"{% endif %}>\n      {% if params.legend %}<legend class=\"nhsuk-fieldset__legend nhsuk-fieldset__legend--{{ params.legendSize or 'l' }}\">{{ params.legend }}</legend>{% endif %}\n      {% if params.hint %}<div id=\"{{ hintId }}\" class=\"nhsuk-hint\">{{ params.hint }}</div>{% endif %}\n      {% if params.errorMessage %}<div id=\"{{ errorId }}\" class=\"nhsuk-error-message\"><span class=\"nhsuk-u-visually-hidden\">Error:</span> {{ params.errorMessage }}</div>{% endif %}\n      <div class=\"nhsuk-checkboxes{% if params.small %} nhsuk-checkboxes--small{% endif %}{% if params.className %} {{ params.className }}{% endif %}\">\n        {% for item in params.items %}{% set idx = loop.index %}{% set itemId = idPrefix + '-' + idx %}{% set conditionalId = itemId + '-conditional' %}<div class=\"nhsuk-checkboxes__item\">\n          <input class=\"nhsuk-checkboxes__input\" id=\"{{ itemId }}\" name=\"{{ params.name }}\" type=\"checkbox\" value=\"{{ item.value }}\"{% if item.checked %} checked=\"\"{% endif %}{% if item.disabled %} disabled=\"\"{% endif %}{% if item.hint %} aria-describedby=\"{{ itemId }}-hint\"{% elif describedBy %} aria-describedby=\"{{ describedBy }}\"{% endif %}{% if item.conditional %} aria-controls=\"{{ conditionalId }}\" aria-expanded=\"{{ item.checked and 'true' or 'false' }}\"{% endif %} />\n          <label class=\"nhsuk-checkboxes__label\" for=\"{{ itemId }}\">{{ item.text }}\n          </label>{% if item.hint %}<div id=\"{{ itemId }}-hint\" class=\"nhsuk-checkboxes__hint\">{{ item.hint }}\n          </div>{% endif %}{% if item.conditional %}<div class=\"nhsuk-checkboxes__conditional{% if not item.checked %} nhsuk-checkboxes__conditional--hidden{% endif %}\" id=\"{{ conditionalId }}\">{{ item.conditional | escape }}\n          </div>{% endif %}\n        </div>{% endfor %}\n      </div>\n    </fieldset>\n  </div>\n{% endmacro %}\n`; }
-function radios(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro radios(params) %}\n  {# Radios group (fieldset wrapper for parity with React Fieldset) #}\n  {% set classes = 'nhsuk-radios' %}{% if params.hasError %}{% set classes = classes + ' nhsuk-radios--error' %}{% endif %}{% if params.size == 'small' %}{% set classes = classes + ' nhsuk-radios--small' %}{% endif %}{% if params.inline %}{% set classes = classes + ' nhsuk-radios--inline' %}{% endif %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}\n  {% set selectedValue = params.value is defined and params.value or (params.defaultValue is defined and params.defaultValue or '') %}\n  <fieldset class=\"nhsuk-fieldset\">\n    <div class=\"{{ classes }}\">\n    {% for o in params.options %}{% set idx = loop.index0 %}{% set id = params.name + '-' + idx %}{% set isSelected = selectedValue and selectedValue == o.value %}<div class=\"nhsuk-radios__item\">\n        <input class=\"nhsuk-radios__input\" id=\"{{ id }}\" name=\"{{ params.name }}\" type=\"radio\" value=\"{{ o.value }}\"{% if o.disabled %} disabled{% endif %}{% if isSelected %} checked=\"\"{% endif %}{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %} />\n        <label class=\"nhsuk-radios__label\" for=\"{{ id }}\">{{ o.text }}</label>{% if o.hint %}\n        <div class=\"nhsuk-radios__hint\">{{ o.hint }}</div>{% endif %}{% if o.conditional %}\n        {% set condId = id + '-conditional' %}\n        <div class=\"nhsuk-radios__conditional{% if not isSelected %} nhsuk-radios__conditional--hidden{% endif %}\" id=\"{{ condId }}\">{{ o.conditional }}</div>{% endif %}\n      </div>{% endfor %}\n    </div>\n  </fieldset>\n{% endmacro %}\n`; }
-function fieldset(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro fieldset(params) %}\n  {% set classes = 'nhsuk-fieldset' %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}\n  <fieldset class=\"{{ classes }}\"{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %}>\n  {% if params.legend and (params.legend.text or params.legend.html) %}\n    {% set legendClasses = 'nhsuk-fieldset__legend' %}{% if params.legend.size %}{% set legendClasses = legendClasses + ' nhsuk-fieldset__legend--' + params.legend.size %}{% endif %}{% if params.legend.className %}{% set legendClasses = legendClasses + ' ' + params.legend.className %}{% endif %}\n    <legend class=\"{{ legendClasses }}\">\n      {% if params.legend.isPageHeading %}\n        <h1 class=\"nhsuk-fieldset__heading\">{% if params.legend.html %}{{ params.legend.html | safe }}{% else %}{{ params.legend.text }}{% endif %}</h1>\n      {% else %}\n        {% if params.legend.html %}{{ params.legend.html | safe }}{% else %}{{ params.legend.text }}{% endif %}\n      {% endif %}\n    </legend>\n  {% endif %}\n  {% if params.children %}{{ params.children | safe }}{% elif params.html %}{{ params.html | safe }}{% endif %}\n  </fieldset>\n{% endmacro %}\n`; }
-function errorSummary(schema: any) { return `${header(schema.name, docLines(schema))}\n{% macro errorSummary(params) %}\n  {% set titleText = params.titleHtml and '' or (params.titleText or 'There is a problem') %}\n  <div class=\"nhsuk-error-summary{% if params.className %} {{ params.className }}{% endif %}\" aria-labelledby=\"error-summary-title\" role=\"alert\" tabindex=\"-1\" data-module=\"nhsuk-error-summary\">\n    <h2 class=\"nhsuk-error-summary__title\" id=\"error-summary-title\">{% if params.titleHtml %}{{ params.titleHtml | safe }}{% else %}{{ titleText }}{% endif %}</h2>\n    <div class=\"nhsuk-error-summary__body\">\n      {% if params.children %}<div class=\"nhsuk-error-summary__description\" data-role=\"description\">{{ params.children | safe }}</div>{% elif params.descriptionHtml or params.descriptionText %}<div class=\"nhsuk-error-summary__description\" data-role=\"description\">{% if params.descriptionHtml %}{{ params.descriptionHtml | safe }}{% else %}{{ params.descriptionText }}{% endif %}</div>{% endif %}\n      <ul class=\"nhsuk-list nhsuk-error-summary__list\" role=\"list\">\n        {% for item in params.errorList %}<li>{% if item.href %}<a href=\"{{ item.href }}\"{% if item.attributes %}{% for k,v in item.attributes %} {{ k }}=\"{{ v }}\"{% endfor %}{% endif %}>{% if item.html %}{{ item.html | safe }}{% else %}{{ item.text }}{% endif %}</a>{% else %}{% if item.html %}{{ item.html | safe }}{% else %}{{ item.text }}{% endif %}{% endif %}</li>{% endfor %}\n      </ul>\n    </div>\n  </div>\n{% endmacro %}\n`; }
-
-async function run() {
-  const generate = process.argv.includes('--generate');
-  const macroFiles = await glob('src/macros/**/*.njk');
-  await fs.promises.mkdir('dist/macros', { recursive: true });
-
-  if (generate) {
-    const attempts: Array<[string, () => Promise<void>]> = [
-      ['Button', async () => { const m: SchemaModule = await import(path.resolve('src/components/Button/Button.schema.ts')) as any; if (m.ButtonSchema) await fs.promises.writeFile('dist/macros/button.njk', button(m.ButtonSchema)); }],
-      ['Tag', async () => { const m: SchemaModule = await import(path.resolve('src/components/Tag/Tag.schema.ts')) as any; if (m.TagSchema) await fs.promises.writeFile('dist/macros/tag.njk', tag(m.TagSchema)); }],
-      ['Label', async () => { const m: SchemaModule = await import(path.resolve('src/components/Label/Label.schema.ts')) as any; if (m.LabelSchema) await fs.promises.writeFile('dist/macros/label.njk', label(m.LabelSchema)); }],
-      ['Hint', async () => { const m: SchemaModule = await import(path.resolve('src/components/Hint/Hint.schema.ts')) as any; if (m.HintSchema) await fs.promises.writeFile('dist/macros/hint.njk', hint(m.HintSchema)); }],
-      ['Heading', async () => { const m: SchemaModule = await import(path.resolve('src/components/Heading/Heading.schema.ts')) as any; if (m.HeadingSchema) await fs.promises.writeFile('dist/macros/heading.njk', heading(m.HeadingSchema)); }],
-      ['ErrorMessage', async () => { const m: SchemaModule = await import(path.resolve('src/components/ErrorMessage/ErrorMessage.schema.ts')) as any; if (m.ErrorMessageSchema) await fs.promises.writeFile('dist/macros/error-message.njk', errorMessage(m.ErrorMessageSchema)); }],
-      ['Input', async () => { const m: SchemaModule = await import(path.resolve('src/components/Input/Input.schema.ts')) as any; if (m.InputSchema) await fs.promises.writeFile('dist/macros/input.njk', input(m.InputSchema)); }],
-  ['Textarea', async () => { const m: SchemaModule = await import(path.resolve('src/components/Textarea/Textarea.schema.ts')) as any; if (m.TextareaSchema) await fs.promises.writeFile('dist/macros/textarea.njk', textarea(m.TextareaSchema)); }],
-  ['Select', async () => { const m: SchemaModule = await import(path.resolve('src/components/Select/Select.schema.ts')) as any; if (m.SelectSchema) await fs.promises.writeFile('dist/macros/select.njk', select(m.SelectSchema)); }],
-  ['Radios', async () => { const m: SchemaModule = await import(path.resolve('src/components/Radios/Radios.schema.ts')) as any; if (m.RadiosSchema) await fs.promises.writeFile('dist/macros/radios.njk', radios(m.RadiosSchema)); }],
-  ['CharacterCount', async () => { const m: SchemaModule = await import(path.resolve('src/components/CharacterCount/CharacterCount.schema.ts')) as any; if (m.CharacterCountSchema) await fs.promises.writeFile('dist/macros/character-count.njk', characterCount(m.CharacterCountSchema)); }],
-  ['Checkboxes', async () => { const m: SchemaModule = await import(path.resolve('src/components/Checkboxes/Checkboxes.schema.ts')) as any; if (m.CheckboxesSchema) await fs.promises.writeFile('dist/macros/checkboxes.njk', checkboxes(m.CheckboxesSchema)); }],
-  ['Fieldset', async () => { const m: SchemaModule = await import(path.resolve('src/components/Fieldset/Fieldset.schema.ts')) as any; if (m.FieldsetSchema) await fs.promises.writeFile('dist/macros/fieldset.njk', fieldset(m.FieldsetSchema)); }],
-  ['ErrorSummary', async () => { const m: SchemaModule = await import(path.resolve('src/components/ErrorSummary/ErrorSummary.schema.ts')) as any; if (m.ErrorSummarySchema) await fs.promises.writeFile('dist/macros/error-summary.njk', errorSummary(m.ErrorSummarySchema)); }],
-  ['DateInput', async () => { const m: SchemaModule = await import(path.resolve('src/components/DateInput/DateInput.schema.ts')) as any; if (m.DateInputSchema) await fs.promises.writeFile('dist/macros/date-input.njk', await fs.promises.readFile('src/macros/date-input.njk')); }],
-    ];
-    for (const [name, fn] of attempts) {
-      try { await fn(); console.log(`Generated ${name} macro from schema`); } catch (e) { console.warn(`Schema-based generation for ${name} failed (non-fatal):`, e); }
-    }
-  }
-
-  for (const file of macroFiles) {
-    const dest = path.join('dist', file.replace('src/', ''));
-    await fs.promises.mkdir(path.dirname(dest), { recursive: true });
-  if (generate && ['button.njk','tag.njk','label.njk','hint.njk','heading.njk','error-message.njk','input.njk','textarea.njk','select.njk','fieldset.njk'].includes(path.basename(file).toLowerCase())) {
-      console.log('Skipping manual copy of', path.basename(file), '(schema generated version present)');
-      continue;
-    }
-    await fs.promises.copyFile(file, dest);
-    console.log('Copied macro', file, '->', dest);
-  }
-  await fs.promises.writeFile('dist/macros/index.json', JSON.stringify(macroFiles.map(f => path.basename(f)), null, 2));
-  console.log('Wrote macro index dist/macros/index.json');
+interface SchemaModule {
+	ButtonSchema?: any;
+	TagSchema?: any;
+	LabelSchema?: any;
+	HintSchema?: any;
+	HeadingSchema?: any;
+	ErrorMessageSchema?: any;
+	InputSchema?: any;
+	TextareaSchema?: any;
+	SelectSchema?: any;
+	RadiosSchema?: any;
+	CharacterCountSchema?: any;
+	CheckboxesSchema?: any;
+	FieldsetSchema?: any;
+	ErrorSummarySchema?: any;
+	DateInputSchema?: any;
 }
 
-run().catch(e => { console.error(e); process.exit(1); });
+const header = (name: string, doc: string) =>
+	`{# AUTO-GENERATED: Do not edit directly (run generate:nunjucks) #}\n{#\n * ${name} macro (schema driven)\n${doc}\n #}`;
+
+const docLines = (schema: any) =>
+	schema.props
+		.map(
+			(p: any) =>
+				` * @param ${p.name}${p.required ? "" : "?"} {${p.type}} ${p.description || ""}${p.defaultValue ? " (default: " + p.defaultValue + ")" : ""}`
+		)
+		.join("\n");
+
+function button(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro button(params) %}\n  {% set variant = params.variant or 'primary' %}\n  {% set size = params.size or 'default' %}\n  {% set fullWidth = params.fullWidth %}\n  {% set prevent = params.preventDoubleClick %}\n  {% set classes = [ 'nhs-aria-button', 'nhs-aria-button--' + variant, size != 'default' and 'nhs-aria-button--' + size or '', fullWidth and 'nhs-aria-button--full-width' or '', params.classes ] | reject('equalto','') | join(' ') %}\n  {% if params.href %}<a href=\"{{ params.href }}\" class=\"{{ classes }}\" role=\"button\" data-module=\"nhs-button\"{% if prevent %} data-prevent-double-click=\"true\"{% endif %}>{{ params.html | safe if params.html else params.text }}</a>{% else %}<button type=\"{{ params.type or 'button' }}\" class=\"{{ classes }}\" data-module=\"nhs-button\"{% if prevent %} data-prevent-double-click=\"true\"{% endif %}>{{ params.html | safe if params.html else params.text }}</button>{% endif %}\n{% endmacro %}\n`;
+}
+function tag(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro tag(params) %}\n  {% set color = params.color or 'default' %}\n  {% set classes = [ 'nhsuk-tag', color != 'default' and 'nhsuk-tag--' + color or '', params.noBorder and 'nhsuk-tag--no-border' or '', params.closable and 'nhsuk-tag--closable' or '', params.disabled and 'nhsuk-tag--disabled' or '', params.className ] | reject('equalto','') | join(' ') %}\n  <strong class=\"{{ classes }}\">{% if params.children %}{{ params.children | safe }}{% elif params.html %}{{ params.html | safe }}{% else %}{{ params.text }}{% endif %}{% if params.closable %}<button type=\"button\" class=\"nhsuk-tag__close\" aria-label=\"Remove\" title=\"Remove\"{% if params.disabled %} disabled{% endif %}>×</button>{% endif %}</strong>\n{% endmacro %}\n`;
+}
+function label(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro label(params) %}\n  {% set size = params.size or 'm' %}\n  {% set classes = [ 'nhsuk-label', size != 'm' and 'nhsuk-label--' + size or '', params.className ] | reject('equalto','') | join(' ') %}\n  {% if params.isPageHeading %}<h1 class=\"{{ classes }}\"><label class=\"nhsuk-label-wrapper\"{% if params.htmlFor %} for=\"{{ params.htmlFor }}\"{% endif %}>{{ params.text }}</label></h1>{% else %}<label class=\"{{ classes }}\"{% if params.htmlFor %} for=\"{{ params.htmlFor }}\"{% endif %}>{{ params.text }}</label>{% endif %}\n{% endmacro %}\n`;
+}
+function hint(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro hint(params) %}\n  <div class=\"nhsuk-hint{% if params.className %} {{ params.className }}{% endif %}\"{% if params.id %} id=\"{{ params.id }}\"{% endif %}>{{ params.html | safe if params.html else params.text }}</div>\n{% endmacro %}\n`;
+}
+function heading(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro heading(params) %}\n  {% set size = params.size %}\n  {% if params.level %}{% set lvl = params.level %}{% else %}{% if size == 'xxl' or size == 'xl' %}{% set lvl = 1 %}{% elif size == 'l' %}{% set lvl = 2 %}{% elif size == 'm' %}{% set lvl = 3 %}{% elif size == 's' %}{% set lvl = 4 %}{% elif size == 'xs' %}{% set lvl = 5 %}{% else %}{% set lvl = 2 %}{% endif %}{% endif %}\n  {% set classes = 'nhsuk-heading' %}{% if size %}{% set classes = classes + ' nhsuk-heading--' + size %}{% endif %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}{% set styleAttr = params.marginBottom and ('margin-bottom:' + params.marginBottom) or '' %}\n  {% set tag = 'h' + lvl %}<{{ tag }} class=\"{{ classes }}\"{% if styleAttr %} style=\"{{ styleAttr }}\"{% endif %}>{{ params.html | safe if params.html else params.text }}</{{ tag }}>\n{% endmacro %}\n`;
+}
+function errorMessage(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro errorMessage(params) %}\n  <span class=\"nhsuk-error-message{% if params.className %} {{ params.className }}{% endif %}\"{% if params.id %} id=\"{{ params.id }}\"{% endif %}><span class=\"nhsuk-u-visually-hidden\">{{ params.visuallyHiddenText or 'Error:' }} </span>{{ params.html | safe if params.html else params.text }}</span>\n{% endmacro %}\n`;
+}
+function input(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro input(params) %}\n  {% set type = params.type or 'text' %}{% set isRange = type == 'range' %}{% set classes = 'nhsuk-input' %}{% if params.hasError %}{% set classes = classes + ' nhsuk-input--error' %}{% endif %}{% if isRange %}{% set classes = classes + ' nhsuk-input--range' %}{% endif %}{% if not isRange and params.width and params.width != 'full' %}{% set classes = classes + ' nhsuk-input--width-' + params.width %}{% endif %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}\n  {% if isRange %}{% set currentVal = params.value is defined and params.value or (params.defaultValue is defined and params.defaultValue or (params.min is defined and params.min or 0)) %}<div class=\"nhsuk-input-range-wrapper\">{% if params.showValueLabels %}<div class=\"nhsuk-input-range-labels\"><span class=\"nhsuk-input-range-label nhsuk-input-range-label--min\">{{ (params.valueLabels and params.valueLabels.min) or params.min or '0' }}</span><input class=\"{{ classes }}\" id=\"{{ params.id }}\" name=\"{{ params.name }}\" type=\"{{ type }}\" data-current-value=\"{{ currentVal }}\"{% if params.min is defined %} min=\"{{ params.min }}\"{% endif %}{% if params.max is defined %} max=\"{{ params.max }}\"{% endif %}{% if params.step is defined %} step=\"{{ params.step }}\"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.readOnly %} readonly{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %} /><span class=\"nhsuk-input-range-label nhsuk-input-range-label--max\">{{ (params.valueLabels and params.valueLabels.max) or params.max or '100' }}</span></div>{% else %}<input class=\"{{ classes }}\" id=\"{{ params.id }}\" name=\"{{ params.name }}\" type=\"{{ type }}\" data-current-value=\"{{ currentVal }}\"{% if params.min is defined %} min=\"{{ params.min }}\"{% endif %}{% if params.max is defined %} max=\"{{ params.max }}\"{% endif %}{% if params.step is defined %} step=\"{{ params.step }}\"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.readOnly %} readonly{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %} />{% endif %}{% if params.showCurrentValue %}<div class=\"nhsuk-input-range-current-value\"><span class=\"nhsuk-input-range-current-label\">{{ (params.valueLabels and params.valueLabels.current) or 'Current:' }}<strong>{{ currentVal }}</strong></span></div>{% endif %}</div>{% else %}<input class=\"{{ classes }}\" id=\"{{ params.id }}\" name=\"{{ params.name }}\" type=\"{{ type }}\"{% if params.value is defined %} value=\"{{ params.value }}\"{% elif params.defaultValue is defined %} value=\"{{ params.defaultValue }}\"{% endif %}{% if params.placeholder %} placeholder=\"{{ params.placeholder }}\"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.readOnly %} readonly{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %}{% if params.inputMode %} inputmode=\"{{ params.inputMode }}\"{% endif %}{% if params.autoComplete %} autocomplete=\"{{ params.autoComplete }}\"{% endif %}{% if params.maxLength is defined %} maxlength=\"{{ params.maxLength }}\"{% endif %}{% if params.minLength is defined %} minlength=\"{{ params.minLength }}\"{% endif %}{% if params.pattern %} pattern=\"{{ params.pattern }}\"{% endif %}{% if params.step is defined %} step=\"{{ params.step }}\"{% endif %}{% if params.min is defined %} min=\"{{ params.min }}\"{% endif %}{% if params.max is defined %} max=\"{{ params.max }}\"{% endif %} />{% endif %}\n{% endmacro %}\n`;
+}
+function textarea(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro textarea(params) %}\n  {% set classes = 'nhsuk-textarea' %}{% if params.hasError %}{% set classes = classes + ' nhsuk-textarea--error' %}{% endif %}{% if params.resize and params.resize != 'vertical' %}{% set classes = classes + ' nhsuk-textarea--resize-' + params.resize %}{% endif %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}{% set rows = params.rows is defined and params.rows or 5 %}{% set wrapMode = params.wrap or 'soft' %}\n  <textarea class=\"{{ classes }}\" id=\"{{ params.id }}\" name=\"{{ params.name }}\" rows=\"{{ rows }}\" wrap=\"{{ wrapMode }}\"{% if params.cols is defined %} cols=\"{{ params.cols }}\"{% endif %}{% if params.placeholder %} placeholder=\"{{ params.placeholder }}\"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.readOnly %} readonly{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %}{% if params.maxLength is defined %} maxLength=\"{{ params.maxLength }}\"{% endif %}{% if params.minLength is defined %} minLength=\"{{ params.minLength }}\"{% endif %}{% if params.autoComplete %} autoComplete=\"{{ params.autoComplete }}\"{% endif %}{% if params.spellCheck is defined %} spellCheck=\"{{ params.spellCheck and 'true' or 'false' }}\"{% endif %}>{{ params.value if params.value is defined else (params.defaultValue if params.defaultValue is defined else '') }}</textarea>\n{% endmacro %}\n`;
+}
+function select(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro select(params) %}\n  {% set classes = 'nhsuk-select' %}{% if params.hasError %}{% set classes = classes + ' nhsuk-select--error' %}{% endif %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}\n  {% set derivedDefault = (not params.defaultValue and not params.value and params.options) and (params.options | selectattr('selected') | list | first) %}\n  {% set selectedValue = params.value is defined and params.value or (params.defaultValue is defined and params.defaultValue or (derivedDefault and derivedDefault.value)) %}\n  <select class=\"{{ classes }}\" id=\"{{ params.id }}\" name=\"{{ params.name }}\"{% if params.ariaLabel %} aria-label=\"{{ params.ariaLabel }}\"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %}{% if params.multiple %} multiple=\"\"{% endif %}{% if params.size is defined %} size=\"{{ params.size }}\"{% endif %}{% if params.autoComplete %} autoComplete=\"{{ params.autoComplete }}\"{% endif %}>\n    {% if params.options %}{% for o in params.options %}<option value=\"{{ o.value }}\"{% if o.disabled %} disabled{% endif %}{% if o.selected %} data-initial-selected=\"true\"{% endif %}{% if selectedValue and o.value == selectedValue %} selected=\"\"{% endif %}>{{ o.text }}</option>{% endfor %}{% else %}{{ params.children | safe }}{% endif %}\n  </select>\n{% endmacro %}\n`;
+}
+function characterCount(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro characterCount(params) %}\n  {# Server-side parity with React SSR: initial state BEFORE effect runs. #}\n  {% set rows = params.rows is defined and params.rows or 5 %}\n  {% set threshold = params.threshold is defined and params.threshold or 75 %}\n  {% set limit = params.maxLength is defined and params.maxLength or (params.maxWords is defined and params.maxWords or 0) %}\n  {% set initialValue = params.value is defined and params.value or '' %}\n  {# React initial render always has message disabled and no error class until client effect runs. #}\n  <div class=\"nhsuk-character-count{% if params.className %} {{ params.className }}{% endif %}\" data-module=\"nhsuk-character-count\" data-testid=\"character-count\"{% if params.maxLength is defined %} data-maxlength=\"{{ params.maxLength }}\"{% endif %}{% if params.maxWords is defined %} data-maxwords=\"{{ params.maxWords }}\"{% endif %} data-threshold=\"{{ threshold }}\">\n    <textarea class=\"nhsuk-textarea nhsuk-js-character-count\" id=\"{{ params.id }}\" name=\"{{ params.name }}\" rows=\"{{ rows }}\" wrap=\"soft\" aria-describedby=\"{{ params.id }}-info\">{{ initialValue }}</textarea>\n    <div id=\"{{ params.id }}-info\" class=\"nhsuk-hint nhsuk-character-count__message nhsuk-character-count__message--disabled{% if params.countMessageClasses %} {{ params.countMessageClasses }}{% endif %}\" role=\"status\" aria-live=\"polite\">You can enter up to {{ limit }} {{ params.maxWords is defined and (limit == 1 and 'word' or 'words') or (limit == 1 and 'character' or 'characters') }}</div>\n  </div>\n{% endmacro %}\n`;
+}
+function checkboxes(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro checkboxes(params) %}\n  {% set idPrefix = params.idPrefix or params.name %}\n  {% set hintId = params.hint and (idPrefix + '-hint') %}\n  {% set errorId = params.errorMessage and (idPrefix + '-error') %}\n  {% set describedBy = [hintId, errorId] | select | join(' ') %}\n  <div class=\"nhsuk-form-group{% if params.errorMessage %} nhsuk-form-group--error{% endif %}\">\n    <fieldset class=\"nhsuk-fieldset\"{% if describedBy %} aria-describedby=\"{{ describedBy }}\"{% endif %}>\n      {% if params.legend %}<legend class=\"nhsuk-fieldset__legend nhsuk-fieldset__legend--{{ params.legendSize or 'l' }}\">{{ params.legend }}</legend>{% endif %}\n      {% if params.hint %}<div id=\"{{ hintId }}\" class=\"nhsuk-hint\">{{ params.hint }}</div>{% endif %}\n      {% if params.errorMessage %}<div id=\"{{ errorId }}\" class=\"nhsuk-error-message\"><span class=\"nhsuk-u-visually-hidden\">Error:</span> {{ params.errorMessage }}</div>{% endif %}\n      <div class=\"nhsuk-checkboxes{% if params.small %} nhsuk-checkboxes--small{% endif %}{% if params.className %} {{ params.className }}{% endif %}\">\n        {% for item in params.items %}{% set idx = loop.index %}{% set itemId = idPrefix + '-' + idx %}{% set conditionalId = itemId + '-conditional' %}<div class=\"nhsuk-checkboxes__item\">\n          <input class=\"nhsuk-checkboxes__input\" id=\"{{ itemId }}\" name=\"{{ params.name }}\" type=\"checkbox\" value=\"{{ item.value }}\"{% if item.checked %} checked=\"\"{% endif %}{% if item.disabled %} disabled=\"\"{% endif %}{% if item.hint %} aria-describedby=\"{{ itemId }}-hint\"{% elif describedBy %} aria-describedby=\"{{ describedBy }}\"{% endif %}{% if item.conditional %} aria-controls=\"{{ conditionalId }}\" aria-expanded=\"{{ item.checked and 'true' or 'false' }}\"{% endif %} />\n          <label class=\"nhsuk-checkboxes__label\" for=\"{{ itemId }}\">{{ item.text }}\n          </label>{% if item.hint %}<div id=\"{{ itemId }}-hint\" class=\"nhsuk-checkboxes__hint\">{{ item.hint }}\n          </div>{% endif %}{% if item.conditional %}<div class=\"nhsuk-checkboxes__conditional{% if not item.checked %} nhsuk-checkboxes__conditional--hidden{% endif %}\" id=\"{{ conditionalId }}\">{{ item.conditional | escape }}\n          </div>{% endif %}\n        </div>{% endfor %}\n      </div>\n    </fieldset>\n  </div>\n{% endmacro %}\n`;
+}
+function radios(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro radios(params) %}\n  {# Radios group (fieldset wrapper for parity with React Fieldset) #}\n  {% set classes = 'nhsuk-radios' %}{% if params.hasError %}{% set classes = classes + ' nhsuk-radios--error' %}{% endif %}{% if params.size == 'small' %}{% set classes = classes + ' nhsuk-radios--small' %}{% endif %}{% if params.inline %}{% set classes = classes + ' nhsuk-radios--inline' %}{% endif %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}\n  {% set selectedValue = params.value is defined and params.value or (params.defaultValue is defined and params.defaultValue or '') %}\n  <fieldset class=\"nhsuk-fieldset\">\n    <div class=\"{{ classes }}\">\n    {% for o in params.options %}{% set idx = loop.index0 %}{% set id = params.name + '-' + idx %}{% set isSelected = selectedValue and selectedValue == o.value %}<div class=\"nhsuk-radios__item\">\n        <input class=\"nhsuk-radios__input\" id=\"{{ id }}\" name=\"{{ params.name }}\" type=\"radio\" value=\"{{ o.value }}\"{% if o.disabled %} disabled{% endif %}{% if isSelected %} checked=\"\"{% endif %}{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %} />\n        <label class=\"nhsuk-radios__label\" for=\"{{ id }}\">{{ o.text }}</label>{% if o.hint %}\n        <div class=\"nhsuk-radios__hint\">{{ o.hint }}</div>{% endif %}{% if o.conditional %}\n        {% set condId = id + '-conditional' %}\n        <div class=\"nhsuk-radios__conditional{% if not isSelected %} nhsuk-radios__conditional--hidden{% endif %}\" id=\"{{ condId }}\">{{ o.conditional }}</div>{% endif %}\n      </div>{% endfor %}\n    </div>\n  </fieldset>\n{% endmacro %}\n`;
+}
+function fieldset(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro fieldset(params) %}\n  {% set classes = 'nhsuk-fieldset' %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}\n  <fieldset class=\"{{ classes }}\"{% if params.describedBy %} aria-describedby=\"{{ params.describedBy }}\"{% endif %}>\n  {% if params.legend and (params.legend.text or params.legend.html) %}\n    {% set legendClasses = 'nhsuk-fieldset__legend' %}{% if params.legend.size %}{% set legendClasses = legendClasses + ' nhsuk-fieldset__legend--' + params.legend.size %}{% endif %}{% if params.legend.className %}{% set legendClasses = legendClasses + ' ' + params.legend.className %}{% endif %}\n    <legend class=\"{{ legendClasses }}\">\n      {% if params.legend.isPageHeading %}\n        <h1 class=\"nhsuk-fieldset__heading\">{% if params.legend.html %}{{ params.legend.html | safe }}{% else %}{{ params.legend.text }}{% endif %}</h1>\n      {% else %}\n        {% if params.legend.html %}{{ params.legend.html | safe }}{% else %}{{ params.legend.text }}{% endif %}\n      {% endif %}\n    </legend>\n  {% endif %}\n  {% if params.children %}{{ params.children | safe }}{% elif params.html %}{{ params.html | safe }}{% endif %}\n  </fieldset>\n{% endmacro %}\n`;
+}
+function errorSummary(schema: any) {
+	return `${header(schema.name, docLines(schema))}\n{% macro errorSummary(params) %}\n  {% set titleText = params.titleHtml and '' or (params.titleText or 'There is a problem') %}\n  <div class=\"nhsuk-error-summary{% if params.className %} {{ params.className }}{% endif %}\" aria-labelledby=\"error-summary-title\" role=\"alert\" tabindex=\"-1\" data-module=\"nhsuk-error-summary\">\n    <h2 class=\"nhsuk-error-summary__title\" id=\"error-summary-title\">{% if params.titleHtml %}{{ params.titleHtml | safe }}{% else %}{{ titleText }}{% endif %}</h2>\n    <div class=\"nhsuk-error-summary__body\">\n      {% if params.children %}<div class=\"nhsuk-error-summary__description\" data-role=\"description\">{{ params.children | safe }}</div>{% elif params.descriptionHtml or params.descriptionText %}<div class=\"nhsuk-error-summary__description\" data-role=\"description\">{% if params.descriptionHtml %}{{ params.descriptionHtml | safe }}{% else %}{{ params.descriptionText }}{% endif %}</div>{% endif %}\n      <ul class=\"nhsuk-list nhsuk-error-summary__list\" role=\"list\">\n        {% for item in params.errorList %}<li>{% if item.href %}<a href=\"{{ item.href }}\"{% if item.attributes %}{% for k,v in item.attributes %} {{ k }}=\"{{ v }}\"{% endfor %}{% endif %}>{% if item.html %}{{ item.html | safe }}{% else %}{{ item.text }}{% endif %}</a>{% else %}{% if item.html %}{{ item.html | safe }}{% else %}{{ item.text }}{% endif %}{% endif %}</li>{% endfor %}\n      </ul>\n    </div>\n  </div>\n{% endmacro %}\n`;
+}
+
+async function run() {
+	const generate = process.argv.includes("--generate");
+	const macroFiles = await glob("src/macros/**/*.njk");
+	await fs.promises.mkdir("dist/macros", { recursive: true });
+
+	// Optional: validate presence of meta manifest to aid debugging (non-fatal)
+	try {
+		const metaRaw = await fs.promises.readFile(
+			"dist/meta/components.json",
+			"utf-8"
+		);
+		const meta = JSON.parse(metaRaw);
+		if (meta && meta.count >= 1) {
+			console.log(
+				`[generate-nunjucks] Found schema meta for ${meta.count} components`
+			);
+		}
+	} catch {
+		console.warn(
+			"[generate-nunjucks] Schema meta not found (dist/meta/components.json) — proceeding without it"
+		);
+	}
+
+	if (generate) {
+		const attempts: Array<[string, () => Promise<void>]> = [
+			[
+				"Button",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/Button/Button.schema.ts")
+					)) as any;
+					if (m.ButtonSchema)
+						await fs.promises.writeFile(
+							"dist/macros/button.njk",
+							button(m.ButtonSchema)
+						);
+				},
+			],
+			[
+				"Tag",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/Tag/Tag.schema.ts")
+					)) as any;
+					if (m.TagSchema)
+						await fs.promises.writeFile(
+							"dist/macros/tag.njk",
+							tag(m.TagSchema)
+						);
+				},
+			],
+			[
+				"Label",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/Label/Label.schema.ts")
+					)) as any;
+					if (m.LabelSchema)
+						await fs.promises.writeFile(
+							"dist/macros/label.njk",
+							label(m.LabelSchema)
+						);
+				},
+			],
+			[
+				"Hint",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/Hint/Hint.schema.ts")
+					)) as any;
+					if (m.HintSchema)
+						await fs.promises.writeFile(
+							"dist/macros/hint.njk",
+							hint(m.HintSchema)
+						);
+				},
+			],
+			[
+				"Heading",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/Heading/Heading.schema.ts")
+					)) as any;
+					if (m.HeadingSchema)
+						await fs.promises.writeFile(
+							"dist/macros/heading.njk",
+							heading(m.HeadingSchema)
+						);
+				},
+			],
+			[
+				"ErrorMessage",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/ErrorMessage/ErrorMessage.schema.ts")
+					)) as any;
+					if (m.ErrorMessageSchema)
+						await fs.promises.writeFile(
+							"dist/macros/error-message.njk",
+							errorMessage(m.ErrorMessageSchema)
+						);
+				},
+			],
+			[
+				"Input",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/Input/Input.schema.ts")
+					)) as any;
+					if (m.InputSchema)
+						await fs.promises.writeFile(
+							"dist/macros/input.njk",
+							input(m.InputSchema)
+						);
+				},
+			],
+			[
+				"Textarea",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/Textarea/Textarea.schema.ts")
+					)) as any;
+					if (m.TextareaSchema)
+						await fs.promises.writeFile(
+							"dist/macros/textarea.njk",
+							textarea(m.TextareaSchema)
+						);
+				},
+			],
+			[
+				"Select",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/Select/Select.schema.ts")
+					)) as any;
+					if (m.SelectSchema)
+						await fs.promises.writeFile(
+							"dist/macros/select.njk",
+							select(m.SelectSchema)
+						);
+				},
+			],
+			[
+				"Radios",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/Radios/Radios.schema.ts")
+					)) as any;
+					if (m.RadiosSchema)
+						await fs.promises.writeFile(
+							"dist/macros/radios.njk",
+							radios(m.RadiosSchema)
+						);
+				},
+			],
+			[
+				"CharacterCount",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve(
+							"src/components/CharacterCount/CharacterCount.schema.ts"
+						)
+					)) as any;
+					if (m.CharacterCountSchema)
+						await fs.promises.writeFile(
+							"dist/macros/character-count.njk",
+							characterCount(m.CharacterCountSchema)
+						);
+				},
+			],
+			[
+				"Checkboxes",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/Checkboxes/Checkboxes.schema.ts")
+					)) as any;
+					if (m.CheckboxesSchema)
+						await fs.promises.writeFile(
+							"dist/macros/checkboxes.njk",
+							checkboxes(m.CheckboxesSchema)
+						);
+				},
+			],
+			[
+				"Fieldset",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/Fieldset/Fieldset.schema.ts")
+					)) as any;
+					if (m.FieldsetSchema)
+						await fs.promises.writeFile(
+							"dist/macros/fieldset.njk",
+							fieldset(m.FieldsetSchema)
+						);
+				},
+			],
+			[
+				"ErrorSummary",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/ErrorSummary/ErrorSummary.schema.ts")
+					)) as any;
+					if (m.ErrorSummarySchema)
+						await fs.promises.writeFile(
+							"dist/macros/error-summary.njk",
+							errorSummary(m.ErrorSummarySchema)
+						);
+				},
+			],
+			[
+				"DateInput",
+				async () => {
+					const m: SchemaModule = (await import(
+						path.resolve("src/components/DateInput/DateInput.schema.ts")
+					)) as any;
+					if (m.DateInputSchema)
+						await fs.promises.writeFile(
+							"dist/macros/date-input.njk",
+							await fs.promises.readFile("src/macros/date-input.njk")
+						);
+				},
+			],
+		];
+		for (const [name, fn] of attempts) {
+			try {
+				await fn();
+				console.log(`Generated ${name} macro from schema`);
+			} catch (e) {
+				console.warn(
+					`Schema-based generation for ${name} failed (non-fatal):`,
+					e
+				);
+			}
+		}
+	}
+
+	for (const file of macroFiles) {
+		const dest = path.join("dist", file.replace("src/", ""));
+		await fs.promises.mkdir(path.dirname(dest), { recursive: true });
+		if (
+			generate &&
+			[
+				"button.njk",
+				"tag.njk",
+				"label.njk",
+				"hint.njk",
+				"heading.njk",
+				"error-message.njk",
+				"input.njk",
+				"textarea.njk",
+				"select.njk",
+				"fieldset.njk",
+			].includes(path.basename(file).toLowerCase())
+		) {
+			console.log(
+				"Skipping manual copy of",
+				path.basename(file),
+				"(schema generated version present)"
+			);
+			continue;
+		}
+		await fs.promises.copyFile(file, dest);
+		console.log("Copied macro", file, "->", dest);
+	}
+	await fs.promises.writeFile(
+		"dist/macros/index.json",
+		JSON.stringify(
+			macroFiles.map((f) => path.basename(f)),
+			null,
+			2
+		)
+	);
+	console.log("Wrote macro index dist/macros/index.json");
+}
+
+run().catch((e) => {
+	console.error(e);
+	process.exit(1);
+});

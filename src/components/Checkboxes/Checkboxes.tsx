@@ -5,6 +5,7 @@ import { Input } from '../Input/Input';
 import { Label } from '../Label/Label';
 import { Fieldset } from '../Fieldset/Fieldset';
 import './Checkboxes.scss';
+import { mapCheckboxesProps } from '../../mapping/checkboxes';
 
 /**
  * NHS Checkboxes Component
@@ -129,17 +130,7 @@ export const Checkboxes: React.FC<CheckboxesProps> = ({
     });
   };
 
-  const checkboxesClasses = classNames(
-    'nhsuk-checkboxes',
-    {
-      'nhsuk-checkboxes--small': small,
-    },
-    className
-  );
-
-  const formGroupClasses = classNames('nhsuk-form-group', {
-    'nhsuk-form-group--error': !!errorMessage,
-  });
+  const { classes: checkboxesClasses, formGroupClasses } = mapCheckboxesProps({ small, className, hasError: !!errorMessage });
 
   return (
     <div className={formGroupClasses} {...attributes} {...props}>

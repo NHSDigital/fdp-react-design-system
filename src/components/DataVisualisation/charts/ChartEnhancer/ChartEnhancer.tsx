@@ -46,6 +46,8 @@ const ChartEnhancer: React.FC<ChartEnhancerProps> = ({ selector = 'figure.fdp-ch
       if (newlyEnhanced.length && onEnhanced) onEnhanced(newlyEnhanced);
     };
     if (delay > 0) {
+      // Guard setTimeout in non-browser environments (no-op on server)
+      if (typeof window === 'undefined') return;
       const t = window.setTimeout(apply, delay);
       return () => window.clearTimeout(t);
     }

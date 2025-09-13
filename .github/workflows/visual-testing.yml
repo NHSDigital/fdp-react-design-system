@@ -10,6 +10,9 @@ jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event_name == 'pull_request'
+    env:
+      # Enable optional multi-render generation/verification in scripts
+      DS_MULTI_RENDER: '1'
     
     steps:
     - name: Checkout code
@@ -29,6 +32,17 @@ jobs:
     - name: Build design tokens
       run: npm run build:tokens
 
+    - name: Prepare docs for multi-render (docs:pre)
+      run: npm run docs:pre
+
+    - name: Verify schema ↔ macro consistency (gating)
+      run: |
+        npm run verify:schema-macro
+        npm run verify:macro-parity
+
+    - name: SSR test suite (gating)
+      run: npm run test:ssr-components
+
     - name: Publish to Chromatic
       uses: chromaui/action@v1
       with:
@@ -37,3 +51,16 @@ jobs:
         onlyChanged: true
         externals: |
           - "packages/nhs-fdp/dist/**"
+
+    - name: Upload multi-render logs and reports (always)
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: multi-render-artifacts
+        if-no-files-found: ignore
+        retention-days: 7
+        path: |
+          reports/**
+          logs/**
+          ssr-analysis-report/**
+          docs/static-html/**

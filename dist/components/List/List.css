@@ -116,6 +116,14 @@ span .nhsuk-u-visually-hidden {
 .nhsuk-list__item:last-child {
   margin-bottom: 0;
 }
+.nhsuk-list__item > ul,
+.nhsuk-list__item > ol {
+  margin-top: 8px;
+}
+.nhsuk-list__item ul,
+.nhsuk-list__item ol {
+  margin-top: 8px;
+}
 
 .nhsuk-list--bullet {
   list-style-type: disc;

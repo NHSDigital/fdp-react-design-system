@@ -2,6 +2,8 @@
 // Original duplicates commented out to minimise Storybook surface area.
 import type { Meta, StoryObj } from '@storybook/react';
 import { Input } from './Input';
+import inputStaticHtml from '../../../docs/static-html/Input.html?raw';
+import ParityBlock, { toNunjucksMacro } from '../../storybook/ParityBlock';
 
 const meta: Meta<typeof Input> = {
   title: 'NHS/Components/Input',
@@ -95,5 +97,49 @@ export const Default: Story = {
     id: 'input-default',
     name: 'input-default',
     placeholder: 'Enter text here',
+  },
+};
+
+export const Parity: Story = {
+  name: 'Parity: React | Nunjucks | Static HTML',
+  args: {
+    id: 'age-range',
+    name: 'age',
+    type: 'range',
+    min: '18',
+    max: '100',
+    defaultValue: '30',
+    showValueLabels: true,
+    showCurrentValue: true,
+  },
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        story:
+          'Side-by-side view: React live render, Nunjucks macro invocation (code), and the canonical Static HTML snippet (generated).',
+      },
+    },
+  },
+  render: (args) => {
+    const props: Record<string, unknown> = {
+      id: args.id,
+      name: args.name,
+      type: args.type,
+    };
+    const keys = [
+      'min','max','step','defaultValue','value','width','hasError','disabled','readOnly','required','describedBy','inputMode','autoComplete','maxLength','minLength','pattern','showValueLabels','showCurrentValue'
+    ];
+    for (const k of keys) if ((args as any)[k] !== undefined) (props as any)[k] = (args as any)[k];
+    if ((args as any).valueLabels) (props as any).valueLabels = (args as any).valueLabels;
+
+    return (
+      <ParityBlock
+        macroCode={toNunjucksMacro('input', props)}
+        staticHtml={inputStaticHtml}
+      >
+        <Input {...args} />
+      </ParityBlock>
+    );
   },
 };

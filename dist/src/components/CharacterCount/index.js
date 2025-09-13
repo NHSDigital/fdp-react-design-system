@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames3() {
+      function classNames2() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames3.apply(null, arg);
+          return classNames2.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,25 +71,37 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames3.default = classNames3;
-        module.exports = classNames3;
+        classNames2.default = classNames2;
+        module.exports = classNames2;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames3;
+          return classNames2;
         });
       } else {
-        window.classNames = classNames3;
+        window.classNames = classNames2;
       }
     })();
   }
 });
 
 // src/components/CharacterCount/CharacterCount.tsx
-var import_classnames2 = __toESM(require_classnames(), 1);
+var import_classnames = __toESM(require_classnames(), 1);
 import { useState, useEffect, useCallback } from "react";
 
+// src/mapping/textarea.ts
+function mapTextareaProps(input) {
+  var _a;
+  const resize = (_a = input.resize) != null ? _a : "vertical";
+  const classes = [
+    "nhsuk-textarea",
+    input.hasError ? "nhsuk-textarea--error" : "",
+    resize !== "vertical" ? `nhsuk-textarea--resize-${resize}` : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, describedBy: input.describedBy };
+}
+
 // src/components/Textarea/Textarea.tsx
-var import_classnames = __toESM(require_classnames(), 1);
 import { jsx } from "react/jsx-runtime";
 var Textarea = ({
   id,
@@ -117,14 +129,7 @@ var Textarea = ({
   onKeyDown,
   ...props
 }) => {
-  const textareaClasses = (0, import_classnames.default)(
-    "nhsuk-textarea",
-    {
-      "nhsuk-textarea--error": hasError,
-      [`nhsuk-textarea--resize-${resize}`]: resize !== "vertical"
-    },
-    className
-  );
+  const { classes: textareaClasses, describedBy: mappedDescribedBy } = mapTextareaProps({ hasError, resize, className, describedBy });
   return /* @__PURE__ */ jsx(
     "textarea",
     {
@@ -137,7 +142,7 @@ var Textarea = ({
       disabled,
       readOnly,
       required,
-      "aria-describedby": describedBy,
+      "aria-describedby": mappedDescribedBy,
       rows,
       cols,
       maxLength,
@@ -231,11 +236,11 @@ var CharacterCount = ({
       return `You have ${remaining} ${remaining === 1 ? unit : unitPlural} remaining`;
     }
   };
-  const characterCountClasses = (0, import_classnames2.default)(
+  const characterCountClasses = (0, import_classnames.default)(
     "nhsuk-character-count",
     className
   );
-  const messageClasses = (0, import_classnames2.default)(
+  const messageClasses = (0, import_classnames.default)(
     "nhsuk-character-count__message",
     {
       "nhsuk-character-count__message--disabled": !showCount,
@@ -243,7 +248,7 @@ var CharacterCount = ({
     },
     countMessage == null ? void 0 : countMessage.classes
   );
-  const textareaClasses = (0, import_classnames2.default)(
+  const textareaClasses = (0, import_classnames.default)(
     "nhsuk-js-character-count",
     {
       "nhsuk-textarea--error": isOverLimit

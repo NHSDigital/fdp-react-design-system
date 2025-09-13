@@ -1,0 +1,569 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Mermaid from '../../src/components/_internal/Mermaid';
+
+<Meta title="Guides/SSR and Nunjucks and Behaviour Layer Migration" />
+
+# SSR and Nunjucks and Behaviour Layer Migration
+
+This document maintains a running changelog for the multi‑renderer migration across React, Nunjucks, static HTML, and the behaviour layer.
+
+---
+
+## Core Principles
+
+- Single source of truth for semantics via a canonical props schema per component
+- Behaviour extraction into framework‑agnostic modules under `src/behaviours/*`
+- Deterministic parity verification across React SSR and Nunjucks outputs
+- Incremental, backwards‑compatible rollout
+- Progressive enhancement: server renders accessible baseline; JS enhances
+
+---
+
+## Target Directory Layout (End State)
+
+```text
+src/
+  components/              # React implementations (thin wrappers calling shared mapping utilities)
+  schemas/                 # (NEW) TS schema definitions per component
+  mapping/                 # (NEW) Functions: props -> normalised internal model
+  behaviours/              # Framework agnostic enhancement modules (already started)
+  macros/                  # Nunjucks macros (.njk)
+  html/                    # (OPTIONAL) Precompiled static HTML examples (build artifact)
+  adapters/                # (FUTURE) Runtime environment hooks (Next.js, etc.)
+```
+
+---
+
+## Phased Migration Plan
+
+### Phase 0 — Bootstrapping
+
+- Behaviour layer scaffold (e.g., `buttonBehaviour.ts`) ✓
+- Initial macros (e.g., `button.njk`) ✓
+- Scripts: `build:behaviours`, `generate:nunjucks`, `verify:macro-parity` ✓
+- Architecture doc ✓
+
+### Phase 1 — Formalise Component Metadata
+
+- Introduce `src/schemas/componentMeta.ts` ✓
+- Per‑component `<Component>.schema.ts` files ✓ (present for many components: Button, Heading, Label, Hint, ErrorMessage, Input, Textarea, Select, Radios, Checkboxes, Fieldset, ErrorSummary, CharacterCount, DateInput, Panel, Tag, Details, InsetText, …). Continue adding/aligning where missing.
+- Schema extraction `scripts/extract-schemas.ts` ✓ (aggregates to `dist/meta/components.json`; exported via `package.json` at `"./meta/components.json"`)
+
+### Phase 2 — Schema‑Driven Macro Generation
+
+- Generator present `scripts/generate-nunjucks-macros.ts` (reads schema; otherwise falls back) ✓
+- Auto‑generate for: Button, Tag, Hint, Label, Heading, ErrorMessage, Input, Textarea, Select, Radios, CharacterCount, Checkboxes, Fieldset, ErrorSummary, DateInput (supported paths in generator) ✓
+- Enabled when `DS_MULTI_RENDER=1`; schema‑based generation is used where schemas exist ✓
+
+### Phase 3 — React Refactor to Mapping Layer
+
+- Mapping functions created for several Tier‑1 components: `src/mapping/{button,heading,errorMessage,label,input,hint,tag}.ts` ✓
+- React Button now consumes `mapButtonProps()` ✓; remaining components to be refactored incrementally ✗ (pending)
+
+### Phase 4 — Behaviour Distribution
+
+- Bundled as ESM to `dist/behaviours` via `scripts/build-behaviours.ts` ✓
+- Exported path `"./behaviours"` in `package.json` ✓
+- Aggregated `initAll()`/`teardownAll()` in `src/behaviours/index.ts` with auto‑init ✓
+- Runtime verification via Playwright (`tests/runtime/behaviours.spec.ts`) ✓
+
+### Phase 5 — Parity & Regression Tooling
+
+- Heuristic parity script `scripts/verify-macro-parity.ts` ✓
+- Comprehensive Vitest parity suite under `tests/macroParity/*` ✓
+- Report output to `ssr-analysis-report/macro-parity/*` ✓ (includes schema↔macro report from `scripts/verify-schema-macro-consistency.ts` → `schema-vs-macro.json`)
+
+### Phase 6 — Documentation & Consumption
+
+- Express and Nunjucks example with behaviours: `examples/express-njk` ✓
+- Static HTML generator: `scripts/generate-static-html-examples.ts` ✓ (writes to `docs/static-html/`)
+- Storybook parity harness: `ParityBlock` added and adopted for Button, Label, Heading, Hint, ErrorMessage, Input, Fieldset, Textarea, Select, Radios, and Checkboxes ✓
+
+### Phase 7 — Rollout & Deprecation
+
+- Coverage targets and deprecation messaging ✗ (pending)
+
+---
+
+## Current Progress Snapshot (as of 2025‑09‑13)
+
+- Behaviours: Implemented, bundled, exported, tested. Auto‑init available for PE.
+- Macros: Broad set implemented in `src/macros/*.njk` (Button, Label, Hint, Heading, ErrorMessage, Input, Textarea, Select, Radios, Checkboxes, Fieldset, ErrorSummary, CharacterCount, DateInput, Details, Panel, InsetText, etc.).
+- Mapping: Present for several Tier‑1 components; React Button refactored to consume mapping (establishes the pattern); others pending.
+- Schemas: Present for many Tier‑1 components including Button, Heading, Label, Hint, ErrorMessage, Input, Textarea, Select, Radios, Checkboxes, Fieldset, ErrorSummary, CharacterCount, DateInput, Panel, Tag, Details, InsetText; continue filling gaps.
+- Parity tests: Many macro parity tests in place, using a shared normaliser and harness.
+- Examples: Express and Nunjucks demo serving compiled macros and behaviours; behaviour flow verified with Playwright.
+
+Automation and CI:
+- Schema manifest is now generated to `dist/meta/components.json` and published via `package.json` export `"./meta/components.json"`.
+- Chromatic workflow runs `docs:pre` and sets `DS_MULTI_RENDER=1`; logs, reports, and static HTML artifacts are uploaded for diagnostics.
+- Storybook `ParityBlock` harness renders React | Nunjucks | Static HTML side‑by‑side for selected components.
+
+Documentation & examples status:
+- Next.js docs app (App Router): Introduced a shared `DocsPageScaffold` using design‑system layout components; added a CSS module to wrap long code/pre blocks; refactored component docs pages (Button, Label, Heading, Hint, ErrorMessage, ErrorSummary, Radios) to use the scaffold and render canonical static HTML fetched via a reusable `useStaticHtml` hook.
+- Static HTML flow: `scripts/generate-static-html-examples.ts` outputs to `docs/static-html/`; a sync step publishes these to the Next app `public/` for zero‑coupling fetch at serve time.
+- Added a `docs:pre` step to always build component JS, generate static HTML, and sync it to the Next app before docs run (wired into dev/start scripts).
+- Express and Nunjucks docs: Updated templates to include consistent code/pre wrapping styles; button docs now cover additional variants (Reverse, Warning, Login) alongside Primary/Secondary/Link.
+- Parity across demos: Button variant parity achieved in both Next and Express demos (Primary, Secondary, Link, Reverse, Warning, Login).
+ - Storybook parity stories now cover: Fieldset, Textarea, Select, Radios, and Checkboxes (in addition to Button, Label, Heading, Hint, ErrorMessage, Input). Example variants added (error, required/disabled, inline/small, page heading).
+
+Recent verification:
+- Macro parity suite: 66 tests passed across 17 files (green)
+- Macro presence check: `verify:macro-parity` passing (manifest‑aware; kebab‑case matching).
+- Schema vs macro consistency: `verify:schema-macro` checked 18 components; Issues: 0 (after aligning macros). Report at `ssr-analysis-report/macro-parity/schema-vs-macro.json`.
+- Full build pipeline `build:parity`: succeeded (multi‑render optional step skipped unless `DS_MULTI_RENDER=1`)
+ - Next docs pages compile and serve successfully; static HTML snippets resolve via fetch (pre‑synced by docs:pre).
+ - Express server renders docs with behaviours; occasional port conflicts mitigated by freeing the port before restart.
+ - Runtime Playwright docs tests: 17/17 passing, including assertions for the Button “Login” variant in both Next and Express docs.
+
+---
+
+## Coverage by Component (selected)
+
+- Button
+  - Behaviour: `src/behaviours/buttonBehaviour.ts` ✓
+  - Macro: `src/macros/button.njk` ✓
+  - Mapping: `src/mapping/button.ts` ✓
+  - Schema: `src/components/Button/Button.schema.ts` ✓
+  - Variants parity (demos): Primary, Secondary, Link, Reverse, Warning, Login ✓
+- Header
+  - Behaviour: `src/behaviours/headerBehaviour.ts` ✓
+  - Macro: `header.njk` ✗
+  - React server variant: exported; static HTML example covers overflow ✓
+  - Schema/Mapping: ✗
+- Forms (Label, Hint, Heading, ErrorMessage, Input, Textarea, Select, Radios, Checkboxes, Fieldset, ErrorSummary, CharacterCount, DateInput)
+  - Macros: ✓
+  - Parity tests: Broadly present ✓
+  - Mapping: some present (e.g., input) ✓/partial
+  - Schemas: ✓ for many (Label, Heading, Hint, ErrorMessage, Input, Textarea, Select, Radios, Checkboxes, Fieldset, ErrorSummary, CharacterCount, DateInput); continue aligning where needed
+
+---
+
+## Gaps and Next Actions
+
+Recently completed (short‑term):
+
+- Deduplicated Express docs styles via `_shared-styles.njk`, included across all docs views. ✓
+- Expanded Playwright docs tests to include Button “Login” variant checks in both Next and Express. ✓
+- Refactored React Button to consume `mapButtonProps()` and validated builds/tests. ✓
+- Added `docs:pre` workflow to build + generate + sync static HTML ahead of Next docs. ✓
+
+Short‑term (low‑risk):
+
+1. Document and cross‑link the schema manifest (`dist/meta/components.json`) usage in component MDX; optionally auto‑generate prop tables from it.
+2. Promote `verify:schema-macro` to a CI gate (now green), with per‑component suppressions only where justified.
+3. Continue rolling the mapping layer consumption into Tier‑1 React components (Label, Heading, ErrorMessage, Hint, Input) and add/adjust SSR + hydration tests.
+4. Surface CI artifacts (macro parity + schema vs macro reports) more prominently in PR checks for quick triage.
+
+Medium‑term:
+
+- Complete schemas for all Tier‑1 components; expand mapping and refactor React components to consume mapping.
+- Extend Storybook parity harness adoption to Tier‑2 components and polish controls.
+- Leverage the published manifest in docs tooling (MDX/Storybook) to reduce duplication.
+- Introduce server‑first React wrappers where appropriate (no `"use client"`), with thin client facades only when interactivity requires it; ensure behaviours enhance SSR markup.
+
+Longer‑term:
+
+- Share mapping logic directly with macro generation (code‑gen or runtime import) to guarantee class/attrs parity.
+- Publish guidance for macros in Express/Next/Edge/static builds.
+
+---
+
+## Integration Guidelines (React × Behaviours)
+
+These patterns help avoid duplicating logic between React and the behaviour layer, while preserving best‑in‑class progressive enhancement.
+
+### When to use behaviours vs React hooks
+
+- Use behaviours when the interaction must work without React/hydration (e.g., radios conditional reveal, character count, double‑click prevention).
+- Use React hooks when the interaction is highly stateful and React‑native (e.g., complex data flows, virtualised lists, heavy charts). Keep a meaningful server baseline.
+
+### Markup contract for behaviours
+
+- Behaviours attach to semantic HTML with expected classes and optional `data-*` attributes (e.g., `data-module`), matching the macros/SSR output.
+- Keep attributes stable and document them in the component README/MDX.
+- Example: Button
+  - Classes: `nhs-aria-button`, `nhs-aria-button--{variant}`, size modifiers.
+  - Data: `data-module="nhs-button"`, `data-prevent-double-click="true"`.
+
+### React wrappers: attach/detach without duplicating logic
+
+- Prefer letting behaviours attach naturally to SSR/React DOM output.
+- If you must coordinate explicitly from React:
+
+```tsx
+// Pseudocode in a React component
+useEffect(() => {
+  // Import behaviour module boundary once
+  import('@fergusbisset/nhs-fdp-design-system/behaviours').then(({ initAll, teardownAll }) => {
+    initAll(ref.current ?? document);
+  });
+  return () => {
+    // Optional: narrowed detach
+    import('@fergusbisset/nhs-fdp-design-system/behaviours').then(({ teardownAll }) => {
+      teardownAll(ref.current ?? document);
+    });
+  };
+}, []);
+```
+
+- Do not replicate the behaviour logic in hooks; call the behaviour API to keep a single source of truth.
+
+### Opt‑in / Opt‑out patterns
+
+- Opt‑in: include `data-module` and required attributes; behaviour will auto‑initialise on DOM ready.
+- Opt‑out: omit `data-module` or guard with a prop (e.g., `noEnhance`) if React is fully owning a more complex mode.
+
+### Testing matrix
+
+- SSR parity tests: React SSR vs macro output using the normaliser.
+- Behaviour runtime tests: static HTML and `initAll()` and user events (Playwright).
+- Hydration tests: SSR → client integrity and interaction.
+
+---
+
+### Detailed example: Server‑first Button across contexts
+
+Goal: render the same canonical Button markup in multiple environments (React SSR, Nunjucks, and static HTML) and progressively enhance it, without duplicating logic.
+
+1) React (Server‑first) — Next.js App Router
+
+```tsx
+// app/example/page.tsx (server component by default)
+import { ButtonServer } from '@fergusbisset/nhs-fdp-design-system/components/Button/server';
+
+export default function Page() {
+  return (
+    <main>
+      <h1>Server-first Button</h1>
+      <ButtonServer variant="primary" fullWidth data-module="nhs-button">
+        Continue
+      </ButtonServer>
+    </main>
+  );
+}
+```
+
+Optional: If your app shell controls navigation and you want to ensure progressive enhancement runs after route changes, add a tiny client-only enhancer at a narrow boundary:
+
+```tsx
+'use client';
+import { useEffect, useRef } from 'react';
+
+export function EnhanceOnMount({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    import('@fergusbisset/nhs-fdp-design-system/behaviours').then(({ initAll }) => {
+      if (ref.current) initAll(ref.current);
+    });
+  }, []);
+  return <div ref={ref}>{children}</div>;
+}
+```
+
+2) Nunjucks (Express) — same semantics, different renderer
+
+```njk
+{# views/button.njk #}
+{% from "button.njk" import nhsButton %}
+
+<main>
+  <h1>Server-rendered Button (Nunjucks)</h1>
+  {{ nhsButton({
+    text: "Continue",
+    variant: "primary",
+    fullWidth: true,
+    // behaviours attach to this marker
+    attributes: { "data-module": "nhs-button" }
+  }) }}
+</main>
+```
+
+Initialise behaviours once in your server app (or hydrate at a container):
+
+```js
+// examples/express-njk/server.mjs (snippet)
+import { initAll } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+
+app.use((req, res, next) => {
+  // for SSR-only delivery, no-op; for client pages, your base JS can call initAll(document)
+  next();
+});
+```
+
+3) Static HTML (generated)
+
+```html
+<!-- docs/static-html/Button.html (generated) -->
+<button class="nhs-aria-button nhs-aria-button--primary nhs-aria-button--full-width"
+        data-module="nhs-button" type="button">
+  Continue
+  </button>
+```
+
+All three paths share mapping logic to produce the same classes/attributes; behaviours enhance consistently in the browser.
+
+---
+
+## Typical runtime sequence (modern browsers)
+
+### 1. HTML arrives and is parsed
+
+- If JS is disabled, scripts don’t run. You remain on the baseline SSR HTML.
+- While parsing, synchronous scripts block parsing; defer/module scripts wait until parsing completes.
+
+### 2. Defer/module scripts execute (after parsing, before DOMContentLoaded)
+
+- Most modern apps ship client code as type="module" (defer-like semantics).
+- At this point the DOM is fully parsed (document.readyState === 'interactive').
+
+### 3. App code runs and decides hydration vs client render
+
+- If your entry calls hydrateRoot on an SSR’d container, React hydrates (Hydration boundary present? = Yes).
+- If no SSR container exists, call createRoot(...).render(...) (client-only render).
+- React attaches its event system early and can replay events captured during hydration.
+
+### 4. DOMContentLoaded fires
+
+- Fires after parsing completes and after all deferred/module scripts have run.
+- If behaviours initialise on DOMContentLoaded, they run here (often after hydration has already started; sometimes after it’s finished on small trees).
+
+### 5. Load completes; React effects run
+
+- useLayoutEffect runs after DOM mutations for a hydrated or client-rendered subtree, before paint of that commit.
+- useEffect/componentDidMount run after paint.
+
+Notes
+- Async scripts (async or dynamic import()) don’t block DOMContentLoaded; exact interleaving can vary.
+- Selective/lazy hydration means subtrees may hydrate later on demand.
+
+### Conceptual model: decisions vs automations
+
+This diagram is split into two subgraphs: Server Render (build or request) and Client Runtime (browser). Orange = decisions you make, Blue = automatic by environment/runtime/build, Green = outcomes or explicit actions.
+
+
+<Mermaid>
+{`flowchart TD
+  A[Start: Implement a component] --> B{Choose render path}
+
+  %% Server-side generation and decisions
+  subgraph server["Server Runtime or Build"]
+    direction TB
+    B -->|Static HTML| E[Use generator output]
+    B -->|Nunjucks macro| D[Render via macro schema mapping]
+    B -->|Server-side React| C[Use server variant or server-first render]
+    B -->|Client React| X[Client React component chosen]
+
+    %% Progressive enhancement choice for SSR-able paths
+    C --> P{Progressive enhancement desired?}
+    D --> P
+    E --> P
+    P -->|Yes| M[Emit behaviour contract: classes + data-module]
+    P -->|No| Q[No behaviour markers emitted]
+
+    %% Pre-render decision for React (both server-side and client-chosen)
+    C --> Y{Pre-rendered HTML SSR SSG?}
+    X --> Y
+    Y -->|Yes| AA[SSR HTML emitted for hydration]
+    Y -->|No| Z[No SSR - client-only]
+
+    %% Subgraph anchor to encourage vertical stacking
+    SR_ANCHOR[ ]
+  end
+
+  %% Client-side environment and outcomes (linear sequence)
+  subgraph client["Client Runtime"]
+    direction TB
+    CR_ANCHOR[ ]
+
+    %% Entry points into client runtime (from server outcomes)
+    M --> F{Is JS enabled?}
+    AA --> F
+    Z --> F
+
+    %% If JS is disabled, rely on SSR baseline if present
+    F -->|No| S{SSR HTML available?}
+    S -->|No| U[No content - avoid]
+    S -->|Yes| G[Baseline: accessible SSR HTML]
+
+    %% JS enabled → linear sequence
+    F -->|Yes| R{DOM parsed - interactive}
+    R --> H{Hydration boundary present?}
+      H -->|Yes| N[React hydrates and manages interactivity]
+      H -->|No| C1[Client render CSR]
+
+    %% After hydration or CSR, optionally init behaviours
+    N --> BJS{Behaviours bundle available?}
+    C1 --> BJS
+      BJS -->|No| K[Done: React only or SSR+HTML]
+      BJS -->|Yes| I[Init behaviours: initAll]
+      I --> J{Extra interactivity beyond behaviours?}
+        J -->|No| K[Done: PE only]
+		J -->|Yes| L[Opt-in thin client wrapper]
+
+  end
+
+  %% Force subgraphs to stack top-to-bottom with a hidden anchor link
+  SR_ANCHOR --> CR_ANCHOR
+  style SR_ANCHOR fill:transparent,stroke:transparent,stroke-width:0
+  style CR_ANCHOR fill:transparent,stroke:transparent,stroke-width:0
+
+  class B,P,Y,F,S,BJS,H,J,R decision;
+  class I,N auto;
+  class C,D,E,X,G,K,L,Q,M,AA,C1 action;
+  class U,Z warning;
+`}
+</Mermaid>
+
+---
+
+## Architectural implications by render path
+
+The choice of renderer affects performance, SEO, cacheability, accessibility baseline, interactivity model, and deployment ergonomics.
+
+### React SSR (server-first)
+- Performance/SEO: Fast FMP/TTFB with meaningful HTML; SEO-friendly out of the box.
+- Interactivity: Hydrate only where needed; keep most components server-first and use thin client wrappers for rich UI.
+- Progressive enhancement: Behaviours can attach to SSR markup; mapping ensures class/attr parity.
+- Ops: Works well with CDNs; partial caching at page/fragment level; requires SSR infra.
+- Risks: Hydration cost where applied; boundaries between server and client code must be respected.
+
+### Nunjucks (server templates)
+- Performance/SEO: Excellent TTFB and baseline HTML; no React runtime required.
+- Interactivity: Behaviours provide enhancement; no React needed for common UX.
+- Progressive enhancement: First-class; contract via `data-module` and classes.
+- Ops: Simple to cache; integrates with existing Node/Express stacks.
+- Risks: Ensure mapping/schema drive classes/attrs to avoid drift; React-only features need separate strategy.
+
+### Static HTML (generated)
+- Performance/SEO: Max cacheability (CDN/static hosting); zero server cost at runtime.
+- Interactivity: Requires behaviours (or no JS) unless wrapped by an app shell.
+- Progressive enhancement: Strong; but ensure behaviours are loaded where needed.
+- Ops: Great for documentation, snapshots, and embed targets.
+- Risks: Staleness unless generation is part of CI; no dynamic data without rebuild.
+
+### Client React (CSR)
+- Performance/SEO: JS required to render interactive UI; FMP can be slower on low-power devices; SEO depends on pre-rendering.
+- Interactivity: React manages interaction; behaviours usually unnecessary (but can coexist in mixed environments).
+- Progressive enhancement: Weak by default; consider a server shell or RSC for baseline content.
+- Ops: Simpler mental model for app teams; bundle size and runtime errors directly impact UX.
+- Risks: Blank screens if JS fails; hydration is all-or-nothing in fully client-driven routes.
+
+### Decision checkpoints (explicit vs automatic)
+- Explicit decisions you make:
+  - Pick renderer per page/component (React SSR, Nunjucks, Static HTML, Client React).
+  - Emit behaviour contract (classes + `data-module`) when you want progressive enhancement.
+  - Introduce thin client wrappers only where necessary; keep server-first otherwise.
+  - Define SSR/client boundaries and avoid browser APIs in server paths.
+- Automatic/inferred by environment/runtime:
+  - Hydration runs when `window`/`document` are available and a client boundary exists.
+  - Behaviours auto-init when JS is enabled and `data-module` markers are present.
+  - Mapping/schema ensure class/attr parity across renderers.
+
+---
+
+## How to Build and Test (quick reference)
+
+- Full build: `npm run build:parity`
+- Optional multi‑render steps: set `DS_MULTI_RENDER=1` (runs generator and macro parity presence)
+- Macro parity tests: `npm run test:macro-parity`
+- Behaviour runtime tests (starts Express example): `npm run test:runtime`
+- Schema manifest: `npm run schemas:extract` (normally called by build/docs)
+- Schema vs macro verification: `npm run verify:schema-macro`
+
+---
+
+## SSR + Hydration Validation (what “good” looks like)
+
+- React SSR tests: Each component has `*.ssr.test.tsx` verifying semantics and structure in a server render.
+- Hydration tests: `*.hydration.test.tsx` ensure SSR → client hydration preserves DOM and enables interactions.
+- Macro parity: `tests/macroParity/*` ensures Nunjucks output matches React SSR under the shared normaliser.
+- Runtime (Playwright): Docs pages render server content; behaviours auto‑init and interactions work (e.g., prevent double‑click, conditional reveals).
+- New guide: See “Guides/SSR and Hydration” for patterns, contracts, and examples.
+
+---
+
+## Changelog
+
+### 2025‑09‑13 (schema manifest & parity automation)
+
+- Schemas: Added `scripts/extract-schemas.ts` to aggregate per‑component schemas into `dist/meta/components.json` and exported it via `package.json` at `"./meta/components.json"`.
+- Parity automation: Introduced `scripts/verify-schema-macro-consistency.ts` producing `ssr-analysis-report/macro-parity/schema-vs-macro.json`; integrated into the optional multi‑render pipeline.
+- Storybook: Implemented `ParityBlock` harness and refactored Button, Label, Heading, Hint, ErrorMessage, and Input stories to use it.
+- CI: Chromatic workflow updated to run `docs:pre`, set `DS_MULTI_RENDER=1`, and upload logs/reports/static HTML artifacts for diagnostics.
+- Cleanup: Deprecated legacy ButtonSSR story/export paths in favour of server‑first `ButtonServer`.
+- Verification: Macro presence check passing; schema↔macro report shows 3 remaining issues out of 18 components scanned.
+
+### 2025‑09‑13 (drift fixes)
+
+- Resolved schema↔macro drifts:
+  - Tag: expose `onClose` via a `data-on-close` marker on the close button for parity and detection.
+  - Select: added support for `ariaLabel`, `disabled`, and `required` attributes.
+  - Checkboxes: implemented `isPageHeading` to wrap legend text in an `h1` when true.
+- Re-ran `verify:schema-macro`: 18 components checked; Issues: 0 (green).
+
+### 2025‑09‑13 (parity stories expansion)
+
+- Storybook: Added ParityBlock stories for Fieldset, Textarea, Select, Radios, and Checkboxes. Included illustrative variants (error/required/disabled, inline/small, page heading).
+- Static HTML: Extended generator to output canonical snippets for the same components; synced to Next example.
+- Validation: Typecheck/lint passing; docs pre-step generates and syncs all snippets.
+
+### 2025‑09‑13 (docs & examples parity update)
+
+- Next.js docs app:
+  - Introduced `DocsPageScaffold` (WidthContainer and MainWrapper and Heading) to DRY page chrome.
+  - Added CSS module to wrap long code/pre; applied across component docs.
+  - Refactored Button, Label, Heading, Hint, ErrorMessage, ErrorSummary, Radios docs pages to use scaffold.
+  - Implemented `useStaticHtml` fetch of canonical static HTML from `public/static-html/*` (synced from generator).
+- Express and Nunjucks docs:
+  - Added consistent code/pre wrapping in all docs templates.
+  - Extended Button examples with Reverse, Warning, and Login variants; aligned macro snippet.
+- Parity:
+  - Achieved Button variants parity across Next and Express (Primary, Secondary, Link, Reverse, Warning, Login).
+- Operations:
+  - Addressed occasional EADDRINUSE on Express and Next ports by freeing the process group before restart.
+  - Added `docs:pre` so Next docs always show fresh static HTML.
+
+### 2025‑09‑13 (later update)
+
+- Updated status to reflect existing per‑component schemas for many Tier‑1 components (Button, Heading, Label, etc.).
+- Clarified that schema‑driven macro generation is enabled when `DS_MULTI_RENDER=1`.
+- Recorded verification runs: macro parity suite green (66 tests across 17 files); full `build:parity` succeeded.
+
+### 2025‑09‑13
+
+- Added this MDX document consolidating the plan, live progress, and changelog.
+- Verified status:
+  - Behaviours present and bundled; `initAll()` auto‑init and Playwright test coverage.
+  - Macros implemented across many Tier‑1 components.
+  - Mapping layer authored for several components but not yet wired into React.
+  - Schema interface present; per‑component schemas pending.
+  - Parity suite in Vitest operational; heuristic parity script in scripts.
+  - Express and Nunjucks example working and used by runtime tests.
+- Identified near‑term tasks (schemas for Button/Heading/Label/Hint/ErrorMessage) and Storybook improvement.
+
+### Earlier (cumulative foundation)
+
+- Introduced behaviour layer and bundling script (`scripts/build-behaviours.ts`).
+- Added Nunjucks macros under `src/macros/` and copy step (`copy:macros`).
+- Implemented macro generation prototype (`scripts/generate-nunjucks-macros.ts`).
+- Added optional multi‑render step controlled by `DS_MULTI_RENDER` (`scripts/run-multi-render-optional.cjs`).
+- Wrote macro parity harness and tests (`tests/macroParity/*`).
+- Created Express and Nunjucks example (`examples/express-njk`) with health endpoint.
+- Implemented static HTML generator (`scripts/generate-static-html-examples.ts`).
+
+- Added Integration Guidelines (React × Behaviours) section to clarify when to use behaviours vs hooks, how to attach/detach without duplication, and the testing matrix.
+
+---
+
+## Appendix
+
+- Glossary
+  - Mapping Layer: Pure functions mapping external props to an internal render model.
+  - Behaviour Layer: Progressive enhancement modules binding DOM events post‑render.
+  - Renderer: React JSX, Nunjucks template, or static HTML generator that outputs markup from the model.
+
+- Success Metrics
+  - 0 additional SSR test failures after refactors.
+  - Macro parity passing for 80% of Tier‑1.
+  - Behaviour bundle size < 5kb gzip for Tier‑1 (excluding D3 heavy components).

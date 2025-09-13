@@ -34,7 +34,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames10() {
+      function classNames9() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -52,7 +52,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames10.apply(null, arg);
+          return classNames9.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -75,14 +75,14 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames10.default = classNames10;
-        module.exports = classNames10;
+        classNames9.default = classNames9;
+        module.exports = classNames9;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames10;
+          return classNames9;
         });
       } else {
-        window.classNames = classNames10;
+        window.classNames = classNames9;
       }
     })();
   }
@@ -2146,6 +2146,54 @@ var require_tokens = __commonJS({
           background: "#fff59d",
           border: "#4d4712",
           text: "#4d4712"
+        }
+      },
+      diagram: {
+        flowchart: {
+          decision: {
+            fill: "#fff3e0",
+            stroke: "#f57c00",
+            text: "#4e342e"
+          },
+          auto: {
+            fill: "#e3f2fd",
+            stroke: "#1976d2",
+            text: "#0d47a1"
+          },
+          action: {
+            fill: "#e8f5e9",
+            stroke: "#388e3c",
+            text: "#1b5e20"
+          },
+          warning: {
+            fill: "#ffebee",
+            stroke: "#d32f2f",
+            text: "#b71c1c"
+          }
+        },
+        mermaid: {
+          class: {
+            decision: {
+              fill: "#fff3e0",
+              stroke: "#f57c00",
+              text: "#4e342e"
+            },
+            auto: {
+              fill: "#e3f2fd",
+              stroke: "#1976d2",
+              text: "#0d47a1"
+            },
+            action: {
+              fill: "#e8f5e9",
+              stroke: "#388e3c",
+              text: "#1b5e20"
+            },
+            warning: {
+              fill: "#ffebee",
+              stroke: "#d32f2f",
+              text: "#b71c1c"
+            }
+          }
         }
       },
       size: {
@@ -8146,6 +8194,12 @@ var ChartWithTableTabs = ({
       return headerLine + "\n" + body + "\n";
     };
     const handleDownload = () => {
+      if (typeof window === "undefined" || typeof document === "undefined" || typeof URL === "undefined" || typeof Blob === "undefined") {
+        if (true) {
+          console.warn("CSV download is only available in the browser environment.");
+        }
+        return;
+      }
       try {
         const blob = new Blob([toCsv()], { type: "text/csv;charset=utf-8;" });
         const link = document.createElement("a");
@@ -9343,6 +9397,7 @@ var ChartEnhancer = ({ selector = "figure.fdp-chart", onEnhanced, delay = 0, chi
       if (newlyEnhanced.length && onEnhanced) onEnhanced(newlyEnhanced);
     };
     if (delay > 0) {
+      if (typeof window === "undefined") return;
       const t = window.setTimeout(apply, delay);
       return () => window.clearTimeout(t);
     }
@@ -9504,7 +9559,7 @@ var Tag = ({
 };
 
 // src/components/Checkboxes/Checkboxes.tsx
-var import_classnames5 = __toESM(require_classnames(), 1);
+var import_classnames4 = __toESM(require_classnames(), 1);
 import { useState as useState11 } from "react";
 
 // src/components/Input/Input.tsx
@@ -9695,8 +9750,24 @@ var Label = ({
   return /* @__PURE__ */ jsx31(LabelElement, { className: model.classes, htmlFor: model.htmlFor, ...props, children: isPageHeading ? /* @__PURE__ */ jsx31("label", { className: "nhsuk-label-wrapper", htmlFor, children }) : children });
 };
 
+// src/mapping/fieldset.ts
+function mapFieldsetProps(input) {
+  var _a2;
+  const fieldsetClasses = ["nhsuk-fieldset", input.className || ""].filter(Boolean).join(" ");
+  const legendClasses = input.legend ? [
+    "nhsuk-fieldset__legend",
+    input.legend.size ? `nhsuk-fieldset__legend--${input.legend.size}` : "",
+    input.legend.className || ""
+  ].filter(Boolean).join(" ") : void 0;
+  return {
+    fieldsetClasses,
+    legendClasses,
+    legendIsPageHeading: !!((_a2 = input.legend) == null ? void 0 : _a2.isPageHeading),
+    describedBy: input.describedBy
+  };
+}
+
 // src/components/Fieldset/Fieldset.tsx
-var import_classnames4 = __toESM(require_classnames(), 1);
 import { jsx as jsx32, jsxs as jsxs21 } from "react/jsx-runtime";
 var Fieldset = ({
   children,
@@ -9705,20 +9776,18 @@ var Fieldset = ({
   describedBy,
   ...fieldsetProps
 }) => {
-  const fieldsetClasses = (0, import_classnames4.default)(
-    "nhsuk-fieldset",
-    className
-  );
-  const legendClasses = (0, import_classnames4.default)(
-    "nhsuk-fieldset__legend",
-    {
-      [`nhsuk-fieldset__legend--${legend == null ? void 0 : legend.size}`]: legend == null ? void 0 : legend.size
-    },
-    legend == null ? void 0 : legend.className
-  );
+  const model = mapFieldsetProps({
+    className,
+    describedBy,
+    legend: legend ? {
+      size: legend.size,
+      className: legend.className,
+      isPageHeading: legend.isPageHeading
+    } : void 0
+  });
   const renderLegendContent = () => {
     const content = (legend == null ? void 0 : legend.html) ? /* @__PURE__ */ jsx32("span", { dangerouslySetInnerHTML: { __html: legend.html } }) : legend == null ? void 0 : legend.text;
-    if (legend == null ? void 0 : legend.isPageHeading) {
+    if (model.legendIsPageHeading) {
       return /* @__PURE__ */ jsx32("h1", { className: "nhsuk-fieldset__heading", children: content });
     }
     return content;
@@ -9726,16 +9795,30 @@ var Fieldset = ({
   return /* @__PURE__ */ jsxs21(
     "fieldset",
     {
-      className: fieldsetClasses,
-      "aria-describedby": describedBy,
+      className: model.fieldsetClasses,
+      "aria-describedby": model.describedBy,
       ...fieldsetProps,
       children: [
-        legend && (legend.text || legend.html) && /* @__PURE__ */ jsx32("legend", { className: legendClasses, children: renderLegendContent() }),
+        legend && (legend.text || legend.html) && /* @__PURE__ */ jsx32("legend", { className: model.legendClasses, children: renderLegendContent() }),
         children
       ]
     }
   );
 };
+
+// src/mapping/checkboxes.ts
+function mapCheckboxesProps(input) {
+  const classes = [
+    "nhsuk-checkboxes",
+    input.small ? "nhsuk-checkboxes--small" : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const formGroupClasses = [
+    "nhsuk-form-group",
+    input.hasError ? "nhsuk-form-group--error" : ""
+  ].filter(Boolean).join(" ");
+  return { classes, formGroupClasses };
+}
 
 // src/components/Checkboxes/Checkboxes.tsx
 import { jsx as jsx33, jsxs as jsxs22 } from "react/jsx-runtime";
@@ -9803,7 +9886,7 @@ var Checkboxes = ({
         item.conditional && /* @__PURE__ */ jsx33(
           "div",
           {
-            className: (0, import_classnames5.default)("nhsuk-checkboxes__conditional", {
+            className: (0, import_classnames4.default)("nhsuk-checkboxes__conditional", {
               "nhsuk-checkboxes__conditional--hidden": !isChecked
             }),
             id: conditionalId,
@@ -9816,16 +9899,7 @@ var Checkboxes = ({
       ] }, item.value);
     });
   };
-  const checkboxesClasses = (0, import_classnames5.default)(
-    "nhsuk-checkboxes",
-    {
-      "nhsuk-checkboxes--small": small
-    },
-    className
-  );
-  const formGroupClasses = (0, import_classnames5.default)("nhsuk-form-group", {
-    "nhsuk-form-group--error": !!errorMessage
-  });
+  const { classes: checkboxesClasses, formGroupClasses } = mapCheckboxesProps({ small, className, hasError: !!errorMessage });
   return /* @__PURE__ */ jsx33("div", { className: formGroupClasses, ...attributes, ...props, children: /* @__PURE__ */ jsxs22(
     Fieldset,
     {
@@ -9854,7 +9928,21 @@ Checkboxes.displayName = "Checkboxes";
 import { useState as useState12, useRef as useRef6, useCallback as useCallback9 } from "react";
 
 // src/components/Radios/Radios.render.tsx
-var import_classnames6 = __toESM(require_classnames(), 1);
+var import_classnames5 = __toESM(require_classnames(), 1);
+
+// src/mapping/radios.ts
+function mapRadiosProps(input) {
+  const classes = [
+    "nhsuk-radios",
+    input.hasError ? "nhsuk-radios--error" : "",
+    input.size === "small" ? "nhsuk-radios--small" : "",
+    input.inline ? "nhsuk-radios--inline" : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, describedBy: input.describedBy };
+}
+
+// src/components/Radios/Radios.render.tsx
 import { jsx as jsx34, jsxs as jsxs23 } from "react/jsx-runtime";
 function renderRadiosMarkup(props, {
   variant,
@@ -9877,15 +9965,7 @@ function renderRadiosMarkup(props, {
     options,
     ...rest
   } = safeProps;
-  const radiosClasses = (0, import_classnames6.default)(
-    "nhsuk-radios",
-    {
-      "nhsuk-radios--error": hasError,
-      "nhsuk-radios--small": size === "small",
-      "nhsuk-radios--inline": inline
-    },
-    className
-  );
+  const { classes: radiosClasses, describedBy: mappedDescribedBy } = mapRadiosProps({ hasError, size, inline, className, describedBy });
   return /* @__PURE__ */ jsx34(Fieldset, { children: /* @__PURE__ */ jsx34(
     "div",
     {
@@ -9909,7 +9989,7 @@ function renderRadiosMarkup(props, {
               ...variant === "client" ? { checked: isSelected, onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, onKeyDown: handleKeyDown, ref: (el) => {
                 if (el && itemsRef) itemsRef.current[index] = el;
               } } : { defaultChecked: isSelected, "data-nhs-radios-input": true },
-              "aria-describedby": describedBy
+              "aria-describedby": mappedDescribedBy
             }
           ),
           /* @__PURE__ */ jsx34("label", { className: "nhsuk-radios__label", htmlFor: radioId, children: option.text }),
@@ -9917,7 +9997,7 @@ function renderRadiosMarkup(props, {
           option.conditional && /* @__PURE__ */ jsx34(
             "div",
             {
-              className: (0, import_classnames6.default)("nhsuk-radios__conditional", {
+              className: (0, import_classnames5.default)("nhsuk-radios__conditional", {
                 "nhsuk-radios__conditional--hidden": !isSelected
               }),
               id: conditionalId,
@@ -9982,7 +10062,7 @@ var Radios = ({ value, defaultValue, onChange, onBlur, onFocus, ...rest }) => {
 };
 
 // src/components/Grid/Grid.tsx
-var import_classnames7 = __toESM(require_classnames(), 1);
+var import_classnames6 = __toESM(require_classnames(), 1);
 import React25 from "react";
 import { jsx as jsx35 } from "react/jsx-runtime";
 var Row = ({
@@ -9991,7 +10071,7 @@ var Row = ({
   style,
   ...props
 }) => {
-  const rowClasses = (0, import_classnames7.default)("nhsuk-grid-row", className);
+  const rowClasses = (0, import_classnames6.default)("nhsuk-grid-row", className);
   return /* @__PURE__ */ jsx35("div", { className: rowClasses, style, ...props, children });
 };
 var Column = ({
@@ -10007,7 +10087,7 @@ var Column = ({
   align,
   ...props
 }) => {
-  const columnClasses = (0, import_classnames7.default)(
+  const columnClasses = (0, import_classnames6.default)(
     {
       // Standard responsive grid columns
       [`nhsuk-grid-column-${width}`]: !forceWidth,
@@ -10028,7 +10108,7 @@ var Column = ({
 };
 
 // src/components/InsetText/InsetText.tsx
-var import_classnames8 = __toESM(require_classnames(), 1);
+var import_classnames7 = __toESM(require_classnames(), 1);
 import { jsx as jsx36 } from "react/jsx-runtime";
 var InsetText = ({
   text,
@@ -10037,7 +10117,7 @@ var InsetText = ({
   className,
   ...rest
 }) => {
-  const insetTextClasses = (0, import_classnames8.default)("nhsuk-inset-text", className);
+  const insetTextClasses = (0, import_classnames7.default)("nhsuk-inset-text", className);
   const renderContent = () => {
     if (children) {
       return children;
@@ -10054,7 +10134,7 @@ var InsetText = ({
 };
 
 // src/components/SummaryList/SummaryList.tsx
-var import_classnames9 = __toESM(require_classnames(), 1);
+var import_classnames8 = __toESM(require_classnames(), 1);
 import { jsx as jsx37, jsxs as jsxs24 } from "react/jsx-runtime";
 var SummaryList = ({
   items,
@@ -10062,7 +10142,7 @@ var SummaryList = ({
   className,
   ...rest
 }) => {
-  const summaryListClasses = (0, import_classnames9.default)(
+  const summaryListClasses = (0, import_classnames8.default)(
     "nhsuk-summary-list",
     {
       "nhsuk-summary-list--no-border": noBorder

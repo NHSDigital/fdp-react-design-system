@@ -15,6 +15,7 @@ export function useFocusNav(length: number) {
     });
   }, [length]);
   React.useEffect(() => {
+    if (typeof window === 'undefined') return; // SSR guard
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [onKey]);

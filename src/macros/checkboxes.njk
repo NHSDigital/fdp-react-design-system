@@ -14,7 +14,9 @@
   <div class="{{ formGroupClasses }}">
     <fieldset class="nhsuk-fieldset"{% if describedByAttr %} aria-describedby="{{ describedByAttr }}"{% endif %}>
       {% if params.legend %}
-        <legend class="nhsuk-fieldset__legend{% if params.legendSize %} nhsuk-fieldset__legend--{{ params.legendSize }}{% else %} nhsuk-fieldset__legend--l{% endif %}">{{ params.legend }}</legend>
+        <legend class="nhsuk-fieldset__legend{% if params.legendSize %} nhsuk-fieldset__legend--{{ params.legendSize }}{% else %} nhsuk-fieldset__legend--l{% endif %}">
+          {% if params.isPageHeading %}<h1 class="nhsuk-fieldset__heading">{{ params.legend }}</h1>{% else %}{{ params.legend }}{% endif %}
+        </legend>
       {% endif %}
       {% if params.hint %}<div class="nhsuk-hint" id="{{ hintId }}">{{ params.hint }}</div>{% endif %}
       {% if params.errorMessage %}<div class="nhsuk-error-message" id="{{ errorId }}"><span class="nhsuk-u-visually-hidden">Error:</span>{{ params.errorMessage }}</div>{% endif %}

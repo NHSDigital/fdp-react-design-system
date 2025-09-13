@@ -1,13 +1,13 @@
 {
-  "totalComponents": 149,
-  "fullyCompatible": 135,
-  "compatibleWithHydration": 3,
+  "totalComponents": 223,
+  "fullyCompatible": 201,
+  "compatibleWithHydration": 5,
   "clientOnly": 1,
-  "requiresRefactoring": 10,
+  "requiresRefactoring": 16,
   "components": [
     {
       "name": "Account",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Account/Account.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Account/Account.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -18,7 +18,7 @@
     },
     {
       "name": "Account.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Account/Account.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Account/Account.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -29,7 +29,7 @@
     },
     {
       "name": "ActionLink",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ActionLink/ActionLink.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ActionLink/ActionLink.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -40,7 +40,7 @@
     },
     {
       "name": "ActionLink.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ActionLink/ActionLink.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ActionLink/ActionLink.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -51,7 +51,7 @@
     },
     {
       "name": "BackLink",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/BackLink/BackLink.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/BackLink/BackLink.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -62,7 +62,7 @@
     },
     {
       "name": "BackLink.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/BackLink/BackLink.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/BackLink/BackLink.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -73,7 +73,7 @@
     },
     {
       "name": "ForwardLink",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/BackLink/ForwardLink.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/BackLink/ForwardLink.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -84,7 +84,7 @@
     },
     {
       "name": "Breadcrumb",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Breadcrumb/Breadcrumb.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Breadcrumb/Breadcrumb.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -95,7 +95,29 @@
     },
     {
       "name": "Breadcrumb.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Breadcrumb/Breadcrumb.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Breadcrumb/Breadcrumb.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Button.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/Button.schema.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Button.server",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/Button.server.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -106,7 +128,7 @@
     },
     {
       "name": "Button.test-types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/Button.test-types.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/Button.test-types.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -117,7 +139,7 @@
     },
     {
       "name": "Button",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/Button.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/Button.tsx",
       "compatibilityLevel": "compatible-with-hydration",
       "issues": [],
       "hasHooks": true,
@@ -128,7 +150,7 @@
     },
     {
       "name": "Button.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/Button.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/Button.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -139,18 +161,7 @@
     },
     {
       "name": "ButtonExamples",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/ButtonExamples.tsx",
-      "compatibilityLevel": "fully-compatible",
-      "issues": [],
-      "hasHooks": false,
-      "usesBrowserAPIs": false,
-      "usesDOM": false,
-      "canBeServerSide": true,
-      "refactoringNeeded": []
-    },
-    {
-      "name": "ButtonSSR",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/ButtonSSR.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/ButtonExamples.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -161,7 +172,7 @@
     },
     {
       "name": "Card.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Card/Card.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Card/Card.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -172,7 +183,18 @@
     },
     {
       "name": "CareCard.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/CareCard/CareCard.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/CareCard/CareCard.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "CharacterCount.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/CharacterCount/CharacterCount.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -183,12 +205,12 @@
     },
     {
       "name": "CharacterCount",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/CharacterCount/CharacterCount.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/CharacterCount/CharacterCount.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [
         {
           "type": "useEffect",
-          "line": 39,
+          "line": 42,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -204,7 +226,7 @@
     },
     {
       "name": "CharacterCount.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/CharacterCount/CharacterCount.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/CharacterCount/CharacterCount.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -215,7 +237,7 @@
     },
     {
       "name": "Checkbox",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkbox/Checkbox.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkbox/Checkbox.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [
         {
@@ -236,7 +258,18 @@
     },
     {
       "name": "Checkbox.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkbox/Checkbox.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkbox/Checkbox.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Checkboxes.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -247,7 +280,7 @@
     },
     {
       "name": "Checkboxes.styles",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.styles.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.styles.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -258,7 +291,7 @@
     },
     {
       "name": "Checkboxes",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -269,7 +302,7 @@
     },
     {
       "name": "Checkboxes.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -280,7 +313,7 @@
     },
     {
       "name": "CheckboxesCSS",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkboxes/CheckboxesCSS.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/CheckboxesCSS.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -291,7 +324,7 @@
     },
     {
       "name": "ContentsList",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ContentsList/ContentsList.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ContentsList/ContentsList.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -302,7 +335,7 @@
     },
     {
       "name": "ContentsList.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ContentsList/ContentsList.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ContentsList/ContentsList.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -313,7 +346,7 @@
     },
     {
       "name": "DashboardSummaryGrid.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DashboardSummaryGrid/DashboardSummaryGrid.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DashboardSummaryGrid/DashboardSummaryGrid.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -323,13 +356,104 @@
       "refactoringNeeded": []
     },
     {
+      "name": "FilterableLineChart",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/FilterableLineChart.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Axis",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/Axis/Axis.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ChartContainer",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/ChartContainer.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ChartEnhancer",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/ChartEnhancer/ChartEnhancer.tsx",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 33,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "window-object",
+          "line": 51,
+          "code": "const t = window.setTimeout(apply, delay);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 52,
+          "code": "return () => window.clearTimeout(t);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": true,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
+      "name": "ChartNoScript",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/ChartNoScript/ChartNoScript.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
       "name": "ChartWithTableTabs",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/ChartWithTableTabs.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/ChartWithTableTabs/ChartWithTableTabs.tsx",
       "compatibilityLevel": "requires-refactoring",
       "issues": [
         {
           "type": "document-object",
-          "line": 107,
+          "line": 115,
           "code": "const link = document.createElement('a');",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -338,7 +462,7 @@
         },
         {
           "type": "document-object",
-          "line": 112,
+          "line": 120,
           "code": "document.body.appendChild(link);",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -347,7 +471,7 @@
         },
         {
           "type": "document-object",
-          "line": 114,
+          "line": 122,
           "code": "document.body.removeChild(link);",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -371,7 +495,18 @@
     },
     {
       "name": "FilterableLineChart",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/FilterableLineChart.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/FilterableLineChart/FilterableLineChart.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "GridLines",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/GridlLines/GridLines.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -382,7 +517,7 @@
     },
     {
       "name": "LineChart",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/charts/LineChart.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/LineChart/LineChart.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -392,8 +527,516 @@
       "refactoringNeeded": []
     },
     {
+      "name": "ED4hTrendGatingEmbeddedNoGateStory",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/ED4hTrendGatingEmbeddedNoGateStory.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ED4hTrendGatingEmbeddedStory",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/ED4hTrendGatingEmbeddedStory.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "PrimeDirectionSummary",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/PrimeDirectionSummary.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChart.constants",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.constants.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChart",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx",
+      "compatibilityLevel": "compatible-with-hydration",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 316,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": true,
+      "canBeServerSide": false,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChart.types",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartEarlyWaitTimeExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartEarlyWaitTimeExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartIndividualsExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartIndividualsExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartPhasedBaselineExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartPhasedBaselineExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartRareEventExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartRareEventExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartStableWaitTimeExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartStableWaitTimeExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartWarningsPanelExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartWarningsPanelExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCSignalsInspector",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCSignalsInspector.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 64,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCTooltipOverlay",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx",
+      "compatibilityLevel": "compatible-with-hydration",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 65,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 96,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": true,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "TrendGatingEmbeddedComparison",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/TrendGatingEmbeddedComparison.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "TrendGatingEmbeddedHighNoGateStory",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/TrendGatingEmbeddedHighNoGateStory.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "TrendGatingEmbeddedHighStory",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/TrendGatingEmbeddedHighStory.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCRuleClashExamples",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/SPCRuleClashExamples.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "spc",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc.ts",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "window-object",
+          "line": 399,
+          "code": "// 2. For each candidate start, test shiftN consecutive points all above (or below) the global mean of previous window.",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 418,
+          "code": "// Scan for first sustained favourable window after an initial stable window.",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
+      "name": "spcAssurance",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcAssurance.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "spcCandidates",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcCandidates.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "spcConstants",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcConstants.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "spcDescriptors",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcDescriptors.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "spcProvenance",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcProvenance.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "spcSqlCompat",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcSqlCompat.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "spcUtils",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcUtils.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "parsedDataset",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/test-data/parsedDataset.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "spcTestCases",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/test-data/spcTestCases.ts",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "document-object",
+          "line": 2,
+          "code": "* Structured SPC test/story definitions derived from the XmR testing specification document.",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
+      "name": "SPCAssuranceIcon",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCIcons/SPCAssuranceIcon.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCConstants",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCIcons/SPCConstants.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCIcon",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ShiftPolarityExamples",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCIcons/examples/ShiftPolarityExamples.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "tokenUtils",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCSpark",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 240,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCSpark.types",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark.types.ts",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "window-object",
+          "line": 32,
+          "code": "/** Maximum number of points to render (thinning for performance). Classification still uses full window. */",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
+      "name": "icons",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/icons.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
       "name": "BandScalesProvider",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/BandScalesProvider.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/core/BandScalesProvider.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -404,7 +1047,7 @@
     },
     {
       "name": "ChartRoot",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/ChartRoot.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/core/ChartRoot.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -415,7 +1058,7 @@
     },
     {
       "name": "ScaleContext",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/ScaleContext.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/core/ScaleContext.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -426,12 +1069,12 @@
     },
     {
       "name": "TooltipContext",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/TooltipContext.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/core/TooltipContext.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [
         {
           "type": "useEffect",
-          "line": 90,
+          "line": 113,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -447,7 +1090,7 @@
     },
     {
       "name": "VisibilityContext",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/VisibilityContext.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/core/VisibilityContext.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -458,7 +1101,7 @@
     },
     {
       "name": "useChartDimensions",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/hooks/useChartDimensions.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/hooks/useChartDimensions.ts",
       "compatibilityLevel": "client-only",
       "issues": [
         {
@@ -496,7 +1139,7 @@
     },
     {
       "name": "useFocusNav",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/hooks/useFocusNav.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/hooks/useFocusNav.ts",
       "compatibilityLevel": "requires-refactoring",
       "issues": [
         {
@@ -510,7 +1153,7 @@
         },
         {
           "type": "window-object",
-          "line": 18,
+          "line": 19,
           "code": "window.addEventListener('keydown', onKey);",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -519,7 +1162,7 @@
         },
         {
           "type": "event-listener",
-          "line": 18,
+          "line": 19,
           "code": "window.addEventListener('keydown', onKey);",
           "severity": "medium",
           "description": "Event listener setup",
@@ -528,7 +1171,7 @@
         },
         {
           "type": "window-object",
-          "line": 19,
+          "line": 20,
           "code": "return () => window.removeEventListener('keydown', onKey);",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -551,30 +1194,30 @@
       ]
     },
     {
-      "name": "Axis",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/Axis.tsx",
+      "name": "wizardEngine",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/logic/wizardEngine.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
-      "hasHooks": true,
+      "hasHooks": false,
       "usesBrowserAPIs": false,
       "usesDOM": false,
       "canBeServerSide": true,
       "refactoringNeeded": []
     },
     {
-      "name": "ChartContainer",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/ChartContainer.tsx",
+      "name": "wizardTypes",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/logic/wizardTypes.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
-      "hasHooks": true,
+      "hasHooks": false,
       "usesBrowserAPIs": false,
       "usesDOM": false,
       "canBeServerSide": true,
       "refactoringNeeded": []
     },
     {
-      "name": "GridLines",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/GridLines.tsx",
+      "name": "AlertMarkers",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/primitives/AlertMarkers.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -585,7 +1228,7 @@
     },
     {
       "name": "TooltipOverlay",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/TooltipOverlay.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/primitives/TooltipOverlay.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -596,7 +1239,7 @@
     },
     {
       "name": "VisuallyHiddenLiveRegion",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/VisuallyHiddenLiveRegion.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/primitives/VisuallyHiddenLiveRegion.tsx",
       "compatibilityLevel": "compatible-with-hydration",
       "issues": [
         {
@@ -617,12 +1260,12 @@
     },
     {
       "name": "AreaSeriesPrimitive",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/series/AreaSeriesPrimitive.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/series/AreaSeriesPrimitive.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [
         {
           "type": "useEffect",
-          "line": 49,
+          "line": 67,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -638,12 +1281,12 @@
     },
     {
       "name": "BarSeriesPrimitive",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/series/BarSeriesPrimitive.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/series/BarSeriesPrimitive.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [
         {
           "type": "useEffect",
-          "line": 66,
+          "line": 112,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -659,12 +1302,12 @@
     },
     {
       "name": "LineSeriesPrimitive",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/series/LineSeriesPrimitive.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/series/LineSeriesPrimitive.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [
         {
           "type": "useEffect",
-          "line": 53,
+          "line": 74,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -679,8 +1322,8 @@
       "refactoringNeeded": []
     },
     {
-      "name": "colors",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/utils/colors.ts",
+      "name": "deterministic",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/stories/utils/deterministic.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -690,8 +1333,121 @@
       "refactoringNeeded": []
     },
     {
+      "name": "colors",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/utils/colors.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "computeContinuousBarWidth",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/utils/computeContinuousBarWidth.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "patterns",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/utils/patterns.ts",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "document-object",
+          "line": 125,
+          "code": "export function injectPatterns(patterns: PatternDefinition[], root: HTMLElement | null = typeof document !== 'undefined' ? document.body : null) {",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 130,
+          "code": "defs = document.createElementNS('http://www.w3.org/2000/svg', 'svg') as SVGSVGElement;",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 140,
+          "code": "const frag = document.createElement('div');",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": true,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
       "name": "scales",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/utils/scales.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/utils/scales.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "stack",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/utils/stack.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ReviewAnswers",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/wizard/ReviewAnswers.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "WizardProgress",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/wizard/WizardProgress.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "DateInput.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DateInput/DateInput.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -702,7 +1458,7 @@
     },
     {
       "name": "DateInput",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DateInput/DateInput.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DateInput/DateInput.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -713,7 +1469,18 @@
     },
     {
       "name": "DateInput.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DateInput/DateInput.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DateInput/DateInput.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Details.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Details/Details.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -724,7 +1491,7 @@
     },
     {
       "name": "Details",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Details/Details.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Details/Details.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -735,7 +1502,18 @@
     },
     {
       "name": "DoDontList",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DoDontList/DoDontList.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DoDontList/DoDontList.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ErrorMessage.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorMessage/ErrorMessage.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -746,7 +1524,7 @@
     },
     {
       "name": "ErrorMessage",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ErrorMessage/ErrorMessage.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorMessage/ErrorMessage.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -757,7 +1535,18 @@
     },
     {
       "name": "ErrorMessage.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ErrorMessage/ErrorMessage.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorMessage/ErrorMessage.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ErrorSummary.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -768,7 +1557,7 @@
     },
     {
       "name": "ErrorSummary",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [
         {
@@ -789,7 +1578,7 @@
     },
     {
       "name": "ErrorSummary.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -800,7 +1589,18 @@
     },
     {
       "name": "Expander",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Expander/Expander.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Expander/Expander.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Fieldset.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Fieldset/Fieldset.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -811,7 +1611,7 @@
     },
     {
       "name": "Fieldset",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Fieldset/Fieldset.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Fieldset/Fieldset.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -822,7 +1622,7 @@
     },
     {
       "name": "Fieldset.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Fieldset/Fieldset.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Fieldset/Fieldset.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -833,12 +1633,12 @@
     },
     {
       "name": "FontDebugger",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/FontDebugger.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/FontDebugger.tsx",
       "compatibilityLevel": "requires-refactoring",
       "issues": [
         {
           "type": "useEffect",
-          "line": 11,
+          "line": 12,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -847,7 +1647,7 @@
         },
         {
           "type": "document-object",
-          "line": 13,
+          "line": 17,
           "code": "const testElement = document.createElement('span');",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -856,7 +1656,7 @@
         },
         {
           "type": "document-object",
-          "line": 18,
+          "line": 22,
           "code": "document.body.appendChild(testElement);",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -865,7 +1665,7 @@
         },
         {
           "type": "document-object",
-          "line": 23,
+          "line": 28,
           "code": "document.body.removeChild(testElement);",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -873,22 +1673,13 @@
           "canAutoFix": true
         },
         {
-          "type": "document-object",
-          "line": 56,
-          "code": "<div>Frutiger W01 400: {document.fonts?.check('1em \"Frutiger W01\"') ? '✅ Available' : '❌ Not available'}</div>",
-          "severity": "blocking",
-          "description": "Direct document object access",
-          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "document-object",
-          "line": 57,
-          "code": "<div>Frutiger W01 600: {document.fonts?.check('600 1em \"Frutiger W01\"') ? '✅ Available' : '❌ Not available'}</div>",
-          "severity": "blocking",
-          "description": "Direct document object access",
-          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
+          "type": "useEffect",
+          "line": 32,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
         }
       ],
       "hasHooks": true,
@@ -902,19 +1693,12 @@
           "automated": true,
           "complexity": "medium",
           "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
-        },
-        {
-          "type": "dynamic-import",
-          "description": "Consider lazy loading this component",
-          "automated": false,
-          "complexity": "medium",
-          "example": "\nconst HeavyComponent = dynamic(() => import('./HeavyComponent'), {\n  ssr: false,\n  loading: () => <div>Loading...</div>\n});"
         }
       ]
     },
     {
       "name": "Footer",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Footer/Footer.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Footer/Footer.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -925,7 +1709,7 @@
     },
     {
       "name": "Footer.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Footer/Footer.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Footer/Footer.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -936,7 +1720,7 @@
     },
     {
       "name": "GanttChart-new",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/GanttChart-new.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/GanttChart/GanttChart-new.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -947,13 +1731,13 @@
     },
     {
       "name": "GanttChart",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/GanttChart.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/GanttChart/GanttChart.tsx",
       "compatibilityLevel": "requires-refactoring",
       "issues": [
         {
           "type": "document-object",
-          "line": 87,
-          "code": "const firstRowTimeline = document.querySelector('.gantt-row .timeline-container') as HTMLElement;",
+          "line": 88,
+          "code": "const firstRowTimeline = document.querySelector('.gantt-row .timeline-container') as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -961,8 +1745,8 @@
         },
         {
           "type": "document-object",
-          "line": 107,
-          "code": "const firstRowResource = document.querySelector('.gantt-row .resource-label') as HTMLElement;",
+          "line": 108,
+          "code": "const firstRowResource = document.querySelector('.gantt-row .resource-label') as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -979,8 +1763,8 @@
         },
         {
           "type": "document-object",
-          "line": 239,
-          "code": "const headerTimeline = document.querySelector('.header-timeline') as HTMLElement;",
+          "line": 240,
+          "code": "const headerTimeline = document.querySelector('.header-timeline') as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -988,8 +1772,8 @@
         },
         {
           "type": "document-object",
-          "line": 242,
-          "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .timeline-container`) as HTMLElement;",
+          "line": 245,
+          "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .timeline-container`) as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -997,8 +1781,8 @@
         },
         {
           "type": "document-object",
-          "line": 248,
-          "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .timeline-container`) as HTMLElement;",
+          "line": 253,
+          "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .timeline-container`) as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1006,8 +1790,8 @@
         },
         {
           "type": "document-object",
-          "line": 310,
-          "code": "const headerResource = document.querySelector('.header-resource') as HTMLElement;",
+          "line": 317,
+          "code": "const headerResource = document.querySelector('.header-resource') as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1015,8 +1799,8 @@
         },
         {
           "type": "document-object",
-          "line": 313,
-          "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .resource-label`) as HTMLElement;",
+          "line": 322,
+          "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .resource-label`) as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1024,8 +1808,8 @@
         },
         {
           "type": "document-object",
-          "line": 319,
-          "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .resource-label`) as HTMLElement;",
+          "line": 330,
+          "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .resource-label`) as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1033,7 +1817,7 @@
         },
         {
           "type": "useEffect",
-          "line": 438,
+          "line": 450,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1042,8 +1826,35 @@
         },
         {
           "type": "resize-observer",
-          "line": 441,
-          "code": "const resizeObserver = new ResizeObserver((entries) => {",
+          "line": 453,
+          "code": "// Some SSR environments may not have ResizeObserver",
+          "severity": "high",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
+          "canAutoFix": true
+        },
+        {
+          "type": "resize-observer",
+          "line": 454,
+          "code": "const RO: typeof ResizeObserver | undefined = (typeof ResizeObserver !== 'undefined' ? ResizeObserver : undefined) as any;",
+          "severity": "high",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
+          "canAutoFix": true
+        },
+        {
+          "type": "resize-observer",
+          "line": 454,
+          "code": "const RO: typeof ResizeObserver | undefined = (typeof ResizeObserver !== 'undefined' ? ResizeObserver : undefined) as any;",
+          "severity": "high",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
+          "canAutoFix": true
+        },
+        {
+          "type": "resize-observer",
+          "line": 454,
+          "code": "const RO: typeof ResizeObserver | undefined = (typeof ResizeObserver !== 'undefined' ? ResizeObserver : undefined) as any;",
           "severity": "high",
           "description": "ResizeObserver API usage",
           "suggestion": "Add feature detection and fallbacks",
@@ -1073,7 +1884,7 @@
     },
     {
       "name": "TaskBar-new",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/TaskBar-new.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/GanttChart/TaskBar-new.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1084,7 +1895,7 @@
     },
     {
       "name": "TaskBar",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/TaskBar.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/GanttChart/TaskBar.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -1095,7 +1906,29 @@
     },
     {
       "name": "Grid.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Grid/Grid.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Grid/Grid.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Header.render",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Header/Header.render.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Header.server",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Header/Header.server.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1106,12 +1939,12 @@
     },
     {
       "name": "Header",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Header/Header.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Header/Header.tsx",
       "compatibilityLevel": "requires-refactoring",
       "issues": [
         {
           "type": "useEffect",
-          "line": 46,
+          "line": 39,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1120,25 +1953,7 @@
         },
         {
           "type": "useEffect",
-          "line": 54,
-          "code": "useEffect(() => {",
-          "severity": "medium",
-          "description": "useEffect runs only on client side",
-          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
-          "canAutoFix": false
-        },
-        {
-          "type": "window-object",
-          "line": 120,
-          "code": "const mobile = window.innerWidth < 768;",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "useEffect",
-          "line": 181,
+          "line": 47,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1147,8 +1962,8 @@
         },
         {
           "type": "document-object",
-          "line": 192,
-          "code": "document.addEventListener('keydown', handleEscapeKey);",
+          "line": 58,
+          "code": "document.addEventListener(\"keydown\", handleEscapeKey);",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1156,8 +1971,8 @@
         },
         {
           "type": "event-listener",
-          "line": 192,
-          "code": "document.addEventListener('keydown', handleEscapeKey);",
+          "line": 58,
+          "code": "document.addEventListener(\"keydown\", handleEscapeKey);",
           "severity": "medium",
           "description": "Event listener setup",
           "suggestion": "Move to useEffect hook",
@@ -1165,88 +1980,43 @@
         },
         {
           "type": "document-object",
-          "line": 193,
-          "code": "return () => document.removeEventListener('keydown', handleEscapeKey);",
+          "line": 59,
+          "code": "return () => document.removeEventListener(\"keydown\", handleEscapeKey);",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
           "canAutoFix": true
         },
         {
-          "type": "useEffect",
-          "line": 198,
-          "code": "useEffect(() => {",
-          "severity": "medium",
-          "description": "useEffect runs only on client side",
-          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
-          "canAutoFix": false
+          "type": "document-object",
+          "line": 88,
+          "code": "const proto = document.createElement(\"button\");",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
         },
         {
           "type": "window-object",
-          "line": 224,
-          "code": "if (window.matchMedia) {",
+          "line": 103,
+          "code": "const style = window.getComputedStyle(container);",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
           "canAutoFix": true
         },
         {
-          "type": "window-object",
-          "line": 225,
-          "code": "mediaQueryList = window.matchMedia('(max-width: 767px)');",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "media-query",
-          "line": 225,
-          "code": "mediaQueryList = window.matchMedia('(max-width: 767px)');",
+          "type": "resize-observer",
+          "line": 123,
+          "code": "// Attach ResizeObserver to container for responsive recalculation",
           "severity": "high",
-          "description": "matchMedia API usage",
-          "suggestion": "Add window check and use CSS media queries for initial render",
-          "canAutoFix": true
-        },
-        {
-          "type": "event-listener",
-          "line": 236,
-          "code": "mediaQueryList.addEventListener('change', handleBreakpointChange);",
-          "severity": "medium",
-          "description": "Event listener setup",
-          "suggestion": "Move to useEffect hook",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 242,
-          "code": "window.addEventListener('resize', handleResize);",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "event-listener",
-          "line": 242,
-          "code": "window.addEventListener('resize', handleResize);",
-          "severity": "medium",
-          "description": "Event listener setup",
-          "suggestion": "Move to useEffect hook",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 245,
-          "code": "window.removeEventListener('resize', handleResize);",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
           "canAutoFix": true
         },
         {
           "type": "useEffect",
-          "line": 263,
+          "line": 124,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1254,31 +2024,40 @@
           "canAutoFix": false
         },
         {
-          "type": "document-object",
-          "line": 278,
-          "code": "document.addEventListener('mousedown', handleClickOutside);",
+          "type": "window-object",
+          "line": 132,
+          "code": "frame = window.requestAnimationFrame(() => {",
           "severity": "blocking",
-          "description": "Direct document object access",
-          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
           "canAutoFix": true
         },
         {
-          "type": "event-listener",
-          "line": 278,
-          "code": "document.addEventListener('mousedown', handleClickOutside);",
+          "type": "resize-observer",
+          "line": 142,
+          "code": "const ro = new ResizeObserver(() => schedule());",
+          "severity": "high",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 149,
+          "code": "if (frame != null) window.cancelAnimationFrame(frame);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "useEffect",
+          "line": 155,
+          "code": "useEffect(() => {",
           "severity": "medium",
-          "description": "Event listener setup",
-          "suggestion": "Move to useEffect hook",
-          "canAutoFix": true
-        },
-        {
-          "type": "document-object",
-          "line": 279,
-          "code": "return () => document.removeEventListener('mousedown', handleClickOutside);",
-          "severity": "blocking",
-          "description": "Direct document object access",
-          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
         }
       ],
       "hasHooks": true,
@@ -1304,29 +2083,7 @@
     },
     {
       "name": "Header.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Header/Header.types.ts",
-      "compatibilityLevel": "fully-compatible",
-      "issues": [],
-      "hasHooks": false,
-      "usesBrowserAPIs": false,
-      "usesDOM": false,
-      "canBeServerSide": true,
-      "refactoringNeeded": []
-    },
-    {
-      "name": "HeaderSSR",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Header/HeaderSSR.tsx",
-      "compatibilityLevel": "fully-compatible",
-      "issues": [],
-      "hasHooks": false,
-      "usesBrowserAPIs": false,
-      "usesDOM": false,
-      "canBeServerSide": true,
-      "refactoringNeeded": []
-    },
-    {
-      "name": "HeaderStatic",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Header/HeaderStatic.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Header/Header.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1337,7 +2094,7 @@
     },
     {
       "name": "HeaderSearch",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/HeaderSearch/HeaderSearch.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/HeaderSearch/HeaderSearch.tsx",
       "compatibilityLevel": "compatible-with-hydration",
       "issues": [
         {
@@ -1358,7 +2115,18 @@
     },
     {
       "name": "HeaderSearch.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/HeaderSearch/HeaderSearch.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/HeaderSearch/HeaderSearch.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Heading.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Heading/Heading.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1369,7 +2137,7 @@
     },
     {
       "name": "Heading",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Heading/Heading.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Heading/Heading.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1380,7 +2148,7 @@
     },
     {
       "name": "Heading.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Heading/Heading.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Heading/Heading.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1391,7 +2159,7 @@
     },
     {
       "name": "Hero",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Hero/Hero.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Hero/Hero.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1402,7 +2170,18 @@
     },
     {
       "name": "Hero.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Hero/Hero.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Hero/Hero.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Hint.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Hint/Hint.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1413,7 +2192,7 @@
     },
     {
       "name": "Hint",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Hint/Hint.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Hint/Hint.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1424,7 +2203,7 @@
     },
     {
       "name": "Hint.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Hint/Hint.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Hint/Hint.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1435,7 +2214,18 @@
     },
     {
       "name": "Images",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Images/Images.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Images/Images.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Input.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Input/Input.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1446,7 +2236,7 @@
     },
     {
       "name": "Input",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Input/Input.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Input/Input.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [
         {
@@ -1467,7 +2257,18 @@
     },
     {
       "name": "Input.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Input/Input.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Input/Input.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "InsetText.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/InsetText/InsetText.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1478,7 +2279,7 @@
     },
     {
       "name": "InsetText",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/InsetText/InsetText.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/InsetText/InsetText.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1489,7 +2290,18 @@
     },
     {
       "name": "InsetText.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/InsetText/InsetText.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/InsetText/InsetText.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Label.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Label/Label.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1500,7 +2312,7 @@
     },
     {
       "name": "Label",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Label/Label.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Label/Label.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1511,7 +2323,7 @@
     },
     {
       "name": "Label.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Label/Label.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Label/Label.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1522,7 +2334,7 @@
     },
     {
       "name": "List",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/List/List.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/List/List.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1533,7 +2345,7 @@
     },
     {
       "name": "List.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/List/List.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/List/List.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1544,7 +2356,7 @@
     },
     {
       "name": "MainWrapper",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/MainWrapper/MainWrapper.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/MainWrapper/MainWrapper.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1555,7 +2367,7 @@
     },
     {
       "name": "MainWrapper.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/MainWrapper/MainWrapper.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/MainWrapper/MainWrapper.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1566,7 +2378,7 @@
     },
     {
       "name": "NHSThemeProvider",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/NHSThemeProvider.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/NHSThemeProvider.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [
         {
@@ -1587,30 +2399,12 @@
     },
     {
       "name": "NavigationSplitView",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.tsx",
       "compatibilityLevel": "requires-refactoring",
       "issues": [
         {
           "type": "useEffect",
-          "line": 85,
-          "code": "React.useEffect(() => { setHydrated(true); }, []);",
-          "severity": "medium",
-          "description": "useEffect runs only on client side",
-          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
-          "canAutoFix": false
-        },
-        {
-          "type": "useEffect",
-          "line": 153,
-          "code": "React.useEffect(() => { if (tertiaryVisible && tertiaryInlineActive) setTertiaryInlineActive(false); }, [tertiaryVisible, tertiaryInlineActive]);",
-          "severity": "medium",
-          "description": "useEffect runs only on client side",
-          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
-          "canAutoFix": false
-        },
-        {
-          "type": "useEffect",
-          "line": 226,
+          "line": 106,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1619,7 +2413,106 @@
         },
         {
           "type": "useEffect",
-          "line": 244,
+          "line": 154,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "document-object",
+          "line": 220,
+          "code": "if (document.activeElement !== targetElement) {",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 225,
+          "code": "if (document.activeElement !== targetElement) {",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 255,
+          "code": "targetElement.addEventListener(\"keydown\", handleChildEscape);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 272,
+          "code": "if (document.activeElement !== targetElement) {",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 275,
+          "code": "if (document.activeElement !== targetElement) {",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 298,
+          "code": "targetElement.addEventListener(\"keydown\", handleChildEscape);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "useEffect",
+          "line": 638,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 643,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 656,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 798,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        },
+        {
+          "type": "useEffect",
+          "line": 820,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1628,7 +2521,7 @@
         },
         {
           "type": "window-object",
-          "line": 247,
+          "line": 823,
           "code": "const sp = new URLSearchParams(window.location.search);",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -1637,8 +2530,8 @@
         },
         {
           "type": "window-object",
-          "line": 256,
-          "code": "window.addEventListener('popstate', handler);",
+          "line": 832,
+          "code": "window.addEventListener(\"popstate\", handler);",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -1646,8 +2539,8 @@
         },
         {
           "type": "event-listener",
-          "line": 256,
-          "code": "window.addEventListener('popstate', handler);",
+          "line": 832,
+          "code": "window.addEventListener(\"popstate\", handler);",
           "severity": "medium",
           "description": "Event listener setup",
           "suggestion": "Move to useEffect hook",
@@ -1655,8 +2548,8 @@
         },
         {
           "type": "window-object",
-          "line": 257,
-          "code": "return () => window.removeEventListener('popstate', handler);",
+          "line": 833,
+          "code": "return () => window.removeEventListener(\"popstate\", handler);",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -1664,7 +2557,7 @@
         },
         {
           "type": "useEffect",
-          "line": 269,
+          "line": 858,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1673,7 +2566,7 @@
         },
         {
           "type": "useEffect",
-          "line": 280,
+          "line": 872,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1681,8 +2574,17 @@
           "canAutoFix": false
         },
         {
+          "type": "document-object",
+          "line": 881,
+          "code": "if (document.activeElement !== node) {",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
           "type": "localStorage",
-          "line": 363,
+          "line": 991,
           "code": "// Collapsed state initialisation with persistence sources (URL overrides localStorage overrides prop)",
           "severity": "blocking",
           "description": "localStorage is not available during SSR",
@@ -1691,7 +2593,7 @@
         },
         {
           "type": "window-object",
-          "line": 366,
+          "line": 998,
           "code": "const sp = new URLSearchParams(window.location.search);",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -1700,8 +2602,8 @@
         },
         {
           "type": "localStorage",
-          "line": 370,
-          "code": "if (persistNavCollapsed && (persistNavCollapsed === 'localStorage' || persistNavCollapsed === 'both') && typeof window !== 'undefined') {",
+          "line": 1005,
+          "code": "(persistNavCollapsed === \"localStorage\" ||",
           "severity": "blocking",
           "description": "localStorage is not available during SSR",
           "suggestion": "Add browser check or use a library like use-local-storage-state",
@@ -1709,7 +2611,7 @@
         },
         {
           "type": "window-object",
-          "line": 372,
+          "line": 1010,
           "code": "const raw = window.localStorage.getItem(navCollapsedStorageKey);",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -1718,7 +2620,7 @@
         },
         {
           "type": "localStorage",
-          "line": 372,
+          "line": 1010,
           "code": "const raw = window.localStorage.getItem(navCollapsedStorageKey);",
           "severity": "blocking",
           "description": "localStorage is not available during SSR",
@@ -1727,8 +2629,8 @@
         },
         {
           "type": "useEffect",
-          "line": 379,
-          "code": "React.useEffect(() => { onNavCollapseChange?.(navCollapsed); }, [navCollapsed, onNavCollapseChange]);",
+          "line": 1023,
+          "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
           "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
@@ -1736,7 +2638,7 @@
         },
         {
           "type": "useEffect",
-          "line": 383,
+          "line": 1031,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1745,8 +2647,8 @@
         },
         {
           "type": "localStorage",
-          "line": 386,
-          "code": "if (persistNavCollapsed === 'localStorage' || persistNavCollapsed === 'both') {",
+          "line": 1035,
+          "code": "persistNavCollapsed === \"localStorage\" ||",
           "severity": "blocking",
           "description": "localStorage is not available during SSR",
           "suggestion": "Add browser check or use a library like use-local-storage-state",
@@ -1754,8 +2656,8 @@
         },
         {
           "type": "window-object",
-          "line": 387,
-          "code": "try { window.localStorage.setItem(navCollapsedStorageKey, navCollapsed ? '1' : '0'); } catch {}",
+          "line": 1039,
+          "code": "window.localStorage.setItem(",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -1763,8 +2665,8 @@
         },
         {
           "type": "localStorage",
-          "line": 387,
-          "code": "try { window.localStorage.setItem(navCollapsedStorageKey, navCollapsed ? '1' : '0'); } catch {}",
+          "line": 1039,
+          "code": "window.localStorage.setItem(",
           "severity": "blocking",
           "description": "localStorage is not available during SSR",
           "suggestion": "Add browser check or use a library like use-local-storage-state",
@@ -1772,7 +2674,7 @@
         },
         {
           "type": "window-object",
-          "line": 390,
+          "line": 1046,
           "code": "const sp = new URLSearchParams(window.location.search);",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -1781,7 +2683,7 @@
         },
         {
           "type": "window-object",
-          "line": 392,
+          "line": 1048,
           "code": "const newUrl = `${window.location.pathname}?${sp.toString()}${window.location.hash}`;",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -1790,7 +2692,7 @@
         },
         {
           "type": "window-object",
-          "line": 392,
+          "line": 1048,
           "code": "const newUrl = `${window.location.pathname}?${sp.toString()}${window.location.hash}`;",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -1799,8 +2701,8 @@
         },
         {
           "type": "window-object",
-          "line": 393,
-          "code": "window.history.replaceState(null, '', newUrl);",
+          "line": 1049,
+          "code": "window.history.replaceState(null, \"\", newUrl);",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -1808,7 +2710,7 @@
         },
         {
           "type": "useEffect",
-          "line": 408,
+          "line": 1075,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1817,7 +2719,7 @@
         },
         {
           "type": "useEffect",
-          "line": 417,
+          "line": 1086,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1826,7 +2728,7 @@
         },
         {
           "type": "useEffect",
-          "line": 428,
+          "line": 1099,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1835,7 +2737,7 @@
         },
         {
           "type": "useEffect",
-          "line": 432,
+          "line": 1103,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1866,7 +2768,7 @@
     },
     {
       "name": "NavigationSplitView.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.types.ts",
       "compatibilityLevel": "requires-refactoring",
       "issues": [
         {
@@ -1904,7 +2806,7 @@
     },
     {
       "name": "PageTemplate",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/PageTemplate/PageTemplate.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/PageTemplate/PageTemplate.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1915,7 +2817,7 @@
     },
     {
       "name": "PageTemplate.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/PageTemplate/PageTemplate.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/PageTemplate/PageTemplate.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1926,7 +2828,7 @@
     },
     {
       "name": "Pagination",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Pagination/Pagination.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Pagination/Pagination.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1937,7 +2839,18 @@
     },
     {
       "name": "Pagination.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Pagination/Pagination.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Pagination/Pagination.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Panel.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Panel/Panel.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1948,7 +2861,7 @@
     },
     {
       "name": "Panel",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Panel/Panel.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Panel/Panel.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1959,7 +2872,107 @@
     },
     {
       "name": "Panel.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Panel/Panel.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Panel/Panel.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ProductRoadmap",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ProductRoadmap/ProductRoadmap.tsx",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "window-object",
+          "line": 116,
+          "code": "const prefersReduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 116,
+          "code": "const prefersReduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "media-query",
+          "line": 116,
+          "code": "const prefersReduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+          "severity": "high",
+          "description": "matchMedia API usage",
+          "suggestion": "Add window check and use CSS media queries for initial render",
+          "canAutoFix": true
+        },
+        {
+          "type": "document-object",
+          "line": 118,
+          "code": "const nodes = Array.from(document.querySelectorAll(selector)) as HTMLElement[];",
+          "severity": "blocking",
+          "description": "Direct document object access",
+          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": true,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
+      "name": "ProductRoadmap.types",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ProductRoadmap/ProductRoadmap.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Radios.render",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Radios/Radios.render.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Radios.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Radios/Radios.schema.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Radios.server",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Radios/Radios.server.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1970,7 +2983,7 @@
     },
     {
       "name": "Radios",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Radios/Radios.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Radios/Radios.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -1981,7 +2994,7 @@
     },
     {
       "name": "Radios.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Radios/Radios.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Radios/Radios.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1992,7 +3005,7 @@
     },
     {
       "name": "GenericCardRenderer",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/GenericCardRenderer.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/GenericCardRenderer.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2003,7 +3016,7 @@
     },
     {
       "name": "HealthcareCardTemplates",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/HealthcareCardTemplates.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/HealthcareCardTemplates.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2014,7 +3027,7 @@
     },
     {
       "name": "HealthcarePlugin",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/HealthcarePlugin.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/HealthcarePlugin.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2025,7 +3038,7 @@
     },
     {
       "name": "ResponsiveDataGridDemo",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridDemo.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridDemo.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -2036,7 +3049,7 @@
     },
     {
       "name": "ResponsiveDataGridGeneric.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridGeneric.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridGeneric.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2047,7 +3060,7 @@
     },
     {
       "name": "ResponsiveDataGridHelpers",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridHelpers.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridHelpers.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2058,7 +3071,18 @@
     },
     {
       "name": "ResponsiveDataGridTypes",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridTypes.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridTypes.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Select.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Select/Select.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2069,7 +3093,7 @@
     },
     {
       "name": "Select",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Select/Select.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Select/Select.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2080,7 +3104,7 @@
     },
     {
       "name": "Select.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Select/Select.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Select/Select.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2091,7 +3115,7 @@
     },
     {
       "name": "SkipLink",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SkipLink/SkipLink.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SkipLink/SkipLink.tsx",
       "compatibilityLevel": "requires-refactoring",
       "issues": [
         {
@@ -2217,7 +3241,51 @@
     },
     {
       "name": "SkipLink.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SkipLink/SkipLink.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SkipLink/SkipLink.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SlotMatrix",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SlotMatrix/SlotMatrix.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SlotMatrix.types",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SlotMatrix/SlotMatrix.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SlotMatrixToolbar",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SlotMatrix/SlotMatrixToolbar.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "generateSlotMatrixMocks",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SlotMatrix/generateSlotMatrixMocks.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2228,7 +3296,7 @@
     },
     {
       "name": "AriaDataGridTypes",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaDataGridTypes.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaDataGridTypes.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2239,7 +3307,7 @@
     },
     {
       "name": "AriaTabsDataGridDemo",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridDemo.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridDemo.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -2250,7 +3318,7 @@
     },
     {
       "name": "AriaTabsDataGridEnhancedDemo",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridEnhancedDemo.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridEnhancedDemo.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -2261,7 +3329,7 @@
     },
     {
       "name": "AriaTabsDataGridFactory",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridFactory.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridFactory.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2272,7 +3340,7 @@
     },
     {
       "name": "AriaTabsDataGridPlugins",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridPlugins.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridPlugins.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2283,7 +3351,7 @@
     },
     {
       "name": "AriaTabsDataGridTCH",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridTCH.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridTCH.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2294,7 +3362,7 @@
     },
     {
       "name": "AriaTabsDataGridTypes",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridTypes.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridTypes.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2305,7 +3373,7 @@
     },
     {
       "name": "HealthcareCardTemplates",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/HealthcareCardTemplates.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/HealthcareCardTemplates.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2316,7 +3384,7 @@
     },
     {
       "name": "SortStatusControl",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControl/SortStatusControl.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControl/SortStatusControl.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -2327,7 +3395,7 @@
     },
     {
       "name": "SortStatusControl",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControl.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControl.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -2338,7 +3406,7 @@
     },
     {
       "name": "SortStatusControlTypes",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControlTypes.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControlTypes.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2349,7 +3417,7 @@
     },
     {
       "name": "useIntelligentLayout",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/hooks/useIntelligentLayout.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/hooks/useIntelligentLayout.ts",
       "compatibilityLevel": "requires-refactoring",
       "issues": [
         {
@@ -2655,7 +3723,7 @@
     },
     {
       "name": "icons",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/icons.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/icons.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2666,7 +3734,7 @@
     },
     {
       "name": "patient",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/patient.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/patient.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2677,7 +3745,7 @@
     },
     {
       "name": "utils",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/utils.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/utils.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2688,7 +3756,7 @@
     },
     {
       "name": "SpacingUtilities",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SpacingUtilities/SpacingUtilities.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SpacingUtilities/SpacingUtilities.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2699,7 +3767,7 @@
     },
     {
       "name": "SpacingUtilities.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SpacingUtilities/SpacingUtilities.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SpacingUtilities/SpacingUtilities.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2710,7 +3778,7 @@
     },
     {
       "name": "SummaryCard.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SummaryCard/SummaryCard.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SummaryCard/SummaryCard.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2721,7 +3789,7 @@
     },
     {
       "name": "SummaryList",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SummaryList/SummaryList.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SummaryList/SummaryList.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2732,7 +3800,7 @@
     },
     {
       "name": "SummaryList.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SummaryList/SummaryList.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SummaryList/SummaryList.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2743,7 +3811,7 @@
     },
     {
       "name": "Table",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tables/Table.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tables/Table.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2754,7 +3822,7 @@
     },
     {
       "name": "Table.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tables/Table.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tables/Table.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2765,7 +3833,7 @@
     },
     {
       "name": "AriaTabs",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tabs/AriaTabs.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tabs/AriaTabs.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2776,7 +3844,7 @@
     },
     {
       "name": "AriaTabsTypes",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tabs/AriaTabsTypes.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tabs/AriaTabsTypes.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2787,7 +3855,7 @@
     },
     {
       "name": "Tabs",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tabs/Tabs.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tabs/Tabs.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
@@ -2798,7 +3866,18 @@
     },
     {
       "name": "Tabs.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tabs/Tabs.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tabs/Tabs.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Tag.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tag/Tag.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2809,7 +3888,7 @@
     },
     {
       "name": "Tag",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tag/Tag.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tag/Tag.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2820,7 +3899,7 @@
     },
     {
       "name": "Tag.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tag/Tag.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tag/Tag.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2831,7 +3910,18 @@
     },
     {
       "name": "TaskList",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/TaskList/TaskList.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/TaskList/TaskList.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Textarea.schema",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Textarea/Textarea.schema.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2842,7 +3932,7 @@
     },
     {
       "name": "Textarea",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Textarea/Textarea.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Textarea/Textarea.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2853,7 +3943,7 @@
     },
     {
       "name": "Textarea.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Textarea/Textarea.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Textarea/Textarea.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2864,12 +3954,12 @@
     },
     {
       "name": "TransactionalPageTemplate",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/TransactionalPageTemplate/TransactionalPageTemplate.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/TransactionalPageTemplate/TransactionalPageTemplate.tsx",
       "compatibilityLevel": "requires-refactoring",
       "issues": [
         {
           "type": "window-object",
-          "line": 106,
+          "line": 107,
           "code": "*     onClick: () => window.history.back()",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -2893,7 +3983,7 @@
     },
     {
       "name": "WarningCallout",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/WarningCallout/WarningCallout.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/WarningCallout/WarningCallout.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2904,7 +3994,7 @@
     },
     {
       "name": "WidthContainer",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/WidthContainer/WidthContainer.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/WidthContainer/WidthContainer.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2915,7 +4005,7 @@
     },
     {
       "name": "WidthUtilities",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/WidthUtilities/WidthUtilities.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/WidthUtilities/WidthUtilities.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2926,7 +4016,7 @@
     },
     {
       "name": "WidthUtilities.types",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/WidthUtilities/WidthUtilities.types.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/WidthUtilities/WidthUtilities.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2937,7 +4027,7 @@
     },
     {
       "name": "ssr",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ssr.ts",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ssr.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2948,7 +4038,7 @@
     },
     {
       "name": "test-account-icon",
-      "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/test-account-icon.tsx",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/test-account-icon.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -2962,8 +4052,26 @@
     "overallCompatibility": 92,
     "majorIssues": [
       {
+        "type": "window-object",
+        "line": 51,
+        "code": "const t = window.setTimeout(apply, delay);",
+        "severity": "blocking",
+        "description": "Direct window object access",
+        "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "window-object",
+        "line": 52,
+        "code": "return () => window.clearTimeout(t);",
+        "severity": "blocking",
+        "description": "Direct window object access",
+        "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
         "type": "document-object",
-        "line": 107,
+        "line": 115,
         "code": "const link = document.createElement('a');",
         "severity": "blocking",
         "description": "Direct document object access",
@@ -2972,7 +4080,7 @@
       },
       {
         "type": "document-object",
-        "line": 112,
+        "line": 120,
         "code": "document.body.appendChild(link);",
         "severity": "blocking",
         "description": "Direct document object access",
@@ -2981,11 +4089,47 @@
       },
       {
         "type": "document-object",
-        "line": 114,
+        "line": 122,
         "code": "document.body.removeChild(link);",
         "severity": "blocking",
         "description": "Direct document object access",
         "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "window-object",
+        "line": 399,
+        "code": "// 2. For each candidate start, test shiftN consecutive points all above (or below) the global mean of previous window.",
+        "severity": "blocking",
+        "description": "Direct window object access",
+        "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "window-object",
+        "line": 418,
+        "code": "// Scan for first sustained favourable window after an initial stable window.",
+        "severity": "blocking",
+        "description": "Direct window object access",
+        "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "document-object",
+        "line": 2,
+        "code": "* Structured SPC test/story definitions derived from the XmR testing specification document.",
+        "severity": "blocking",
+        "description": "Direct document object access",
+        "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "window-object",
+        "line": 32,
+        "code": "/** Maximum number of points to render (thinning for performance). Classification still uses full window. */",
+        "severity": "blocking",
+        "description": "Direct window object access",
+        "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
         "canAutoFix": true
       },
       {
@@ -2996,71 +4140,17 @@
         "description": "useLayoutEffect does not run during SSR",
         "suggestion": "Add SSR guard or use useEffect with proper fallbacks",
         "canAutoFix": true
-      },
-      {
-        "type": "resize-observer",
-        "line": 25,
-        "code": "const ro = new ResizeObserver(entries => {",
-        "severity": "high",
-        "description": "ResizeObserver API usage",
-        "suggestion": "Add feature detection and fallbacks",
-        "canAutoFix": true
-      },
-      {
-        "type": "window-object",
-        "line": 18,
-        "code": "window.addEventListener('keydown', onKey);",
-        "severity": "blocking",
-        "description": "Direct window object access",
-        "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-        "canAutoFix": true
-      },
-      {
-        "type": "window-object",
-        "line": 19,
-        "code": "return () => window.removeEventListener('keydown', onKey);",
-        "severity": "blocking",
-        "description": "Direct window object access",
-        "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-        "canAutoFix": true
-      },
-      {
-        "type": "document-object",
-        "line": 13,
-        "code": "const testElement = document.createElement('span');",
-        "severity": "blocking",
-        "description": "Direct document object access",
-        "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
-        "canAutoFix": true
-      },
-      {
-        "type": "document-object",
-        "line": 18,
-        "code": "document.body.appendChild(testElement);",
-        "severity": "blocking",
-        "description": "Direct document object access",
-        "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
-        "canAutoFix": true
-      },
-      {
-        "type": "document-object",
-        "line": 23,
-        "code": "document.body.removeChild(testElement);",
-        "severity": "blocking",
-        "description": "Direct document object access",
-        "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
-        "canAutoFix": true
       }
     ],
     "quickWins": [
       {
         "name": "ChartWithTableTabs",
-        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/ChartWithTableTabs.tsx",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/ChartWithTableTabs/ChartWithTableTabs.tsx",
         "compatibilityLevel": "requires-refactoring",
         "issues": [
           {
             "type": "document-object",
-            "line": 107,
+            "line": 115,
             "code": "const link = document.createElement('a');",
             "severity": "blocking",
             "description": "Direct document object access",
@@ -3069,7 +4159,7 @@
           },
           {
             "type": "document-object",
-            "line": 112,
+            "line": 120,
             "code": "document.body.appendChild(link);",
             "severity": "blocking",
             "description": "Direct document object access",
@@ -3078,7 +4168,7 @@
           },
           {
             "type": "document-object",
-            "line": 114,
+            "line": 122,
             "code": "document.body.removeChild(link);",
             "severity": "blocking",
             "description": "Direct document object access",
@@ -3101,67 +4191,31 @@
         ]
       },
       {
-        "name": "FontDebugger",
-        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/FontDebugger.tsx",
+        "name": "spc",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc.ts",
         "compatibilityLevel": "requires-refactoring",
         "issues": [
           {
-            "type": "useEffect",
-            "line": 11,
-            "code": "useEffect(() => {",
-            "severity": "medium",
-            "description": "useEffect runs only on client side",
-            "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
-            "canAutoFix": false
-          },
-          {
-            "type": "document-object",
-            "line": 13,
-            "code": "const testElement = document.createElement('span');",
+            "type": "window-object",
+            "line": 399,
+            "code": "// 2. For each candidate start, test shiftN consecutive points all above (or below) the global mean of previous window.",
             "severity": "blocking",
-            "description": "Direct document object access",
-            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
             "canAutoFix": true
           },
           {
-            "type": "document-object",
-            "line": 18,
-            "code": "document.body.appendChild(testElement);",
+            "type": "window-object",
+            "line": 418,
+            "code": "// Scan for first sustained favourable window after an initial stable window.",
             "severity": "blocking",
-            "description": "Direct document object access",
-            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "document-object",
-            "line": 23,
-            "code": "document.body.removeChild(testElement);",
-            "severity": "blocking",
-            "description": "Direct document object access",
-            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "document-object",
-            "line": 56,
-            "code": "<div>Frutiger W01 400: {document.fonts?.check('1em \"Frutiger W01\"') ? '✅ Available' : '❌ Not available'}</div>",
-            "severity": "blocking",
-            "description": "Direct document object access",
-            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "document-object",
-            "line": 57,
-            "code": "<div>Frutiger W01 600: {document.fonts?.check('600 1em \"Frutiger W01\"') ? '✅ Available' : '❌ Not available'}</div>",
-            "severity": "blocking",
-            "description": "Direct document object access",
-            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
             "canAutoFix": true
           }
         ],
-        "hasHooks": true,
-        "usesBrowserAPIs": true,
+        "hasHooks": false,
+        "usesBrowserAPIs": false,
         "usesDOM": false,
         "canBeServerSide": false,
         "refactoringNeeded": [
@@ -3171,25 +4225,76 @@
             "automated": true,
             "complexity": "medium",
             "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
-          },
-          {
-            "type": "dynamic-import",
-            "description": "Consider lazy loading this component",
-            "automated": false,
-            "complexity": "medium",
-            "example": "\nconst HeavyComponent = dynamic(() => import('./HeavyComponent'), {\n  ssr: false,\n  loading: () => <div>Loading...</div>\n});"
           }
         ]
       },
       {
-        "name": "GanttChart",
-        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/GanttChart.tsx",
+        "name": "spcTestCases",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/test-data/spcTestCases.ts",
         "compatibilityLevel": "requires-refactoring",
         "issues": [
           {
             "type": "document-object",
-            "line": 87,
-            "code": "const firstRowTimeline = document.querySelector('.gantt-row .timeline-container') as HTMLElement;",
+            "line": 2,
+            "code": "* Structured SPC test/story definitions derived from the XmR testing specification document.",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": false,
+        "usesBrowserAPIs": false,
+        "usesDOM": false,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          }
+        ]
+      },
+      {
+        "name": "SPCSpark.types",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark.types.ts",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "window-object",
+            "line": 32,
+            "code": "/** Maximum number of points to render (thinning for performance). Classification still uses full window. */",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": false,
+        "usesBrowserAPIs": false,
+        "usesDOM": false,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          }
+        ]
+      },
+      {
+        "name": "patterns",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/utils/patterns.ts",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "document-object",
+            "line": 125,
+            "code": "export function injectPatterns(patterns: PatternDefinition[], root: HTMLElement | null = typeof document !== 'undefined' ? document.body : null) {",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3197,8 +4302,55 @@
           },
           {
             "type": "document-object",
-            "line": 107,
-            "code": "const firstRowResource = document.querySelector('.gantt-row .resource-label') as HTMLElement;",
+            "line": 130,
+            "code": "defs = document.createElementNS('http://www.w3.org/2000/svg', 'svg') as SVGSVGElement;",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 140,
+            "code": "const frag = document.createElement('div');",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": false,
+        "usesBrowserAPIs": false,
+        "usesDOM": true,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          }
+        ]
+      },
+      {
+        "name": "GanttChart",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/GanttChart/GanttChart.tsx",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "document-object",
+            "line": 88,
+            "code": "const firstRowTimeline = document.querySelector('.gantt-row .timeline-container') as HTMLElement | null;",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 108,
+            "code": "const firstRowResource = document.querySelector('.gantt-row .resource-label') as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3215,8 +4367,8 @@
           },
           {
             "type": "document-object",
-            "line": 239,
-            "code": "const headerTimeline = document.querySelector('.header-timeline') as HTMLElement;",
+            "line": 240,
+            "code": "const headerTimeline = document.querySelector('.header-timeline') as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3224,8 +4376,8 @@
           },
           {
             "type": "document-object",
-            "line": 242,
-            "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .timeline-container`) as HTMLElement;",
+            "line": 245,
+            "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .timeline-container`) as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3233,8 +4385,8 @@
           },
           {
             "type": "document-object",
-            "line": 248,
-            "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .timeline-container`) as HTMLElement;",
+            "line": 253,
+            "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .timeline-container`) as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3242,8 +4394,8 @@
           },
           {
             "type": "document-object",
-            "line": 310,
-            "code": "const headerResource = document.querySelector('.header-resource') as HTMLElement;",
+            "line": 317,
+            "code": "const headerResource = document.querySelector('.header-resource') as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3251,8 +4403,8 @@
           },
           {
             "type": "document-object",
-            "line": 313,
-            "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .resource-label`) as HTMLElement;",
+            "line": 322,
+            "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .resource-label`) as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3260,8 +4412,8 @@
           },
           {
             "type": "document-object",
-            "line": 319,
-            "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .resource-label`) as HTMLElement;",
+            "line": 330,
+            "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .resource-label`) as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3269,7 +4421,7 @@
           },
           {
             "type": "useEffect",
-            "line": 438,
+            "line": 450,
             "code": "useEffect(() => {",
             "severity": "medium",
             "description": "useEffect runs only on client side",
@@ -3278,8 +4430,35 @@
           },
           {
             "type": "resize-observer",
-            "line": 441,
-            "code": "const resizeObserver = new ResizeObserver((entries) => {",
+            "line": 453,
+            "code": "// Some SSR environments may not have ResizeObserver",
+            "severity": "high",
+            "description": "ResizeObserver API usage",
+            "suggestion": "Add feature detection and fallbacks",
+            "canAutoFix": true
+          },
+          {
+            "type": "resize-observer",
+            "line": 454,
+            "code": "const RO: typeof ResizeObserver | undefined = (typeof ResizeObserver !== 'undefined' ? ResizeObserver : undefined) as any;",
+            "severity": "high",
+            "description": "ResizeObserver API usage",
+            "suggestion": "Add feature detection and fallbacks",
+            "canAutoFix": true
+          },
+          {
+            "type": "resize-observer",
+            "line": 454,
+            "code": "const RO: typeof ResizeObserver | undefined = (typeof ResizeObserver !== 'undefined' ? ResizeObserver : undefined) as any;",
+            "severity": "high",
+            "description": "ResizeObserver API usage",
+            "suggestion": "Add feature detection and fallbacks",
+            "canAutoFix": true
+          },
+          {
+            "type": "resize-observer",
+            "line": 454,
+            "code": "const RO: typeof ResizeObserver | undefined = (typeof ResizeObserver !== 'undefined' ? ResizeObserver : undefined) as any;",
             "severity": "high",
             "description": "ResizeObserver API usage",
             "suggestion": "Add feature detection and fallbacks",
@@ -3309,7 +4488,7 @@
       },
       {
         "name": "NavigationSplitView.types",
-        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.types.ts",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.types.ts",
         "compatibilityLevel": "requires-refactoring",
         "issues": [
           {
@@ -3346,8 +4525,64 @@
         ]
       },
       {
+        "name": "ProductRoadmap",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ProductRoadmap/ProductRoadmap.tsx",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "window-object",
+            "line": 116,
+            "code": "const prefersReduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 116,
+            "code": "const prefersReduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "media-query",
+            "line": 116,
+            "code": "const prefersReduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+            "severity": "high",
+            "description": "matchMedia API usage",
+            "suggestion": "Add window check and use CSS media queries for initial render",
+            "canAutoFix": true
+          },
+          {
+            "type": "document-object",
+            "line": 118,
+            "code": "const nodes = Array.from(document.querySelectorAll(selector)) as HTMLElement[];",
+            "severity": "blocking",
+            "description": "Direct document object access",
+            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": true,
+        "usesBrowserAPIs": true,
+        "usesDOM": false,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          }
+        ]
+      },
+      {
         "name": "SkipLink",
-        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SkipLink/SkipLink.tsx",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SkipLink/SkipLink.tsx",
         "compatibilityLevel": "requires-refactoring",
         "issues": [
           {
@@ -3473,7 +4708,7 @@
       },
       {
         "name": "useIntelligentLayout",
-        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/hooks/useIntelligentLayout.ts",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/hooks/useIntelligentLayout.ts",
         "compatibilityLevel": "requires-refactoring",
         "issues": [
           {
@@ -3779,12 +5014,12 @@
       },
       {
         "name": "TransactionalPageTemplate",
-        "filePath": "/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/TransactionalPageTemplate/TransactionalPageTemplate.tsx",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/TransactionalPageTemplate/TransactionalPageTemplate.tsx",
         "compatibilityLevel": "requires-refactoring",
         "issues": [
           {
             "type": "window-object",
-            "line": 106,
+            "line": 107,
             "code": "*     onClick: () => window.history.back()",
             "severity": "blocking",
             "description": "Direct window object access",

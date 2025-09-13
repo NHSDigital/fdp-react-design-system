@@ -32,6 +32,28 @@ const outputDir = path.join(__dirname, '..', 'docs', 'static-html');
 
 const components: ComponentSpec[] = [
   {
+    name: 'Fieldset',
+    importPath: 'Fieldset',
+    elementExport: 'Fieldset',
+    props: {
+      legend: { text: 'Contact details', size: 'l', isPageHeading: false },
+      // Minimal native children to avoid importing nested DS components
+      children: React.createElement(
+        'div',
+        null,
+        React.createElement('div', { style: { marginBottom: '20px' } },
+          React.createElement('label', { className: 'nhsuk-label', htmlFor: 'email' }, 'Email address'),
+          React.createElement('input', { className: 'nhsuk-input', id: 'email', name: 'email', type: 'email' })
+        ),
+        React.createElement('div', null,
+          React.createElement('label', { className: 'nhsuk-label', htmlFor: 'phone' }, 'Phone number'),
+          React.createElement('input', { className: 'nhsuk-input', id: 'phone', name: 'phone', type: 'tel' })
+        )
+      )
+    },
+    outFile: 'Fieldset.html'
+  },
+  {
     name: 'Radios',
     importPath: 'Radios',
     elementExport: 'Radios',
@@ -44,6 +66,114 @@ const components: ComponentSpec[] = [
       value: 'email'
     },
     outFile: 'Radios.html'
+  },
+  {
+    name: 'Textarea',
+    importPath: 'Textarea',
+    elementExport: 'Textarea',
+    props: {
+      id: 'textarea-default',
+      name: 'textarea-default',
+      placeholder: 'Enter your text here…',
+      rows: 4,
+    },
+    outFile: 'Textarea.html'
+  },
+  {
+    name: 'Select',
+    importPath: 'Select',
+    elementExport: 'Select',
+    props: {
+      id: 'select-default',
+      name: 'select-default',
+      options: [
+        { value: '', text: 'Please select an option' },
+        { value: 'england', text: 'England' },
+        { value: 'scotland', text: 'Scotland' },
+        { value: 'wales', text: 'Wales' }
+      ]
+    },
+    outFile: 'Select.html'
+  },
+  {
+    name: 'Checkboxes',
+    importPath: 'Checkboxes',
+    elementExport: 'Checkboxes',
+    props: {
+      name: 'example',
+      legend: 'Which do you have?',
+      items: [
+        { value: 'asthma', text: 'Asthma' },
+        { value: 'diabetes', text: 'Diabetes' },
+        { value: 'hypertension', text: 'High blood pressure' }
+      ]
+    },
+    outFile: 'Checkboxes.html'
+  },
+  {
+    name: 'Input',
+    importPath: 'Input',
+    elementExport: 'Input',
+    props: {
+      id: 'age-range',
+      name: 'age',
+      type: 'range',
+      min: '18',
+      max: '100',
+      defaultValue: '30',
+      showValueLabels: true,
+      showCurrentValue: true,
+    },
+    outFile: 'Input.html'
+  },
+  {
+    name: 'Button',
+    importPath: 'Button',
+    elementExport: 'Button',
+    props: { children: 'Continue' },
+    outFile: 'Button.html'
+  },
+  {
+    name: 'Label',
+    importPath: 'Label',
+    elementExport: 'Label',
+    props: { htmlFor: 'full-name', children: 'Full name' },
+    outFile: 'Label.html'
+  },
+  {
+    name: 'Heading',
+    importPath: 'Heading',
+    elementExport: 'Heading',
+    props: { size: 'xl', children: 'Page title (xl -> h1)' },
+    outFile: 'Heading.html'
+  },
+  {
+    name: 'ErrorMessage',
+    importPath: 'ErrorMessage',
+    elementExport: 'ErrorMessage',
+    props: { id: 'name-error', children: 'There is a problem with this field' },
+    outFile: 'ErrorMessage.html'
+  },
+  {
+    name: 'Hint',
+    importPath: 'Hint',
+    elementExport: 'Hint',
+    props: { children: 'We will only use this to contact you about your appointment' },
+    outFile: 'Hint.html'
+  },
+  {
+    name: 'ErrorSummary',
+    importPath: 'ErrorSummary',
+    elementExport: 'ErrorSummary',
+    props: {
+      titleText: 'There is a problem',
+      descriptionText: 'Check the following fields:',
+      errorList: [
+        { text: 'Enter your name', href: '#name' },
+        { text: 'Enter a valid email address', href: '#email' }
+      ]
+    },
+    outFile: 'ErrorSummary.html'
   },
   {
     name: 'HeaderServerOverflow',

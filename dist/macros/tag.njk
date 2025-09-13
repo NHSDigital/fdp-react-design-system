@@ -14,7 +14,7 @@
     {% elif params.html %}{{ params.html | safe }}
     {% else %}{{ params.text }}{% endif %}
     {% if params.closable %}
-      <button type="button" class="nhsuk-tag__close" aria-label="Remove" title="Remove"{% if params.disabled %} disabled{% endif %}>×</button>
+      <button type="button" class="nhsuk-tag__close" aria-label="Remove" title="Remove"{% if params.onClose %} data-on-close="true"{% endif %}{% if params.disabled %} disabled{% endif %}>×</button>
     {% endif %}
   </strong>
 {% endmacro %}

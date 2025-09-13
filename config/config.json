@@ -146,6 +146,18 @@
 				}
 			},
 			{
+				"destination": "components/_diagram.scss",
+				"format": "scss/variables",
+				"filter": {
+					"attributes": {
+						"category": "diagram"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
 				"destination": "components/_tag.scss",
 				"format": "scss/variables",
 				"filter": {
@@ -276,6 +288,18 @@
 				}
 			},
 			{
+				"destination": "components/diagram.js",
+				"format": "javascript/es6",
+				"filter": {
+					"attributes": {
+						"category": "diagram"
+					}
+				},
+				"options": {
+					"showFileHeader": true
+				}
+			},
+			{
 				"destination": "components/tag.js",
 				"format": "javascript/es6",
 				"filter": {
@@ -295,6 +319,15 @@
 						"category": "semantic",
 						"type": "color",
 						"item": "button"
+					}
+				}
+			},
+			{
+				"destination": "components/diagram.json",
+				"format": "json/nested",
+				"filter": {
+					"attributes": {
+						"category": "diagram"
 					}
 				}
 			},

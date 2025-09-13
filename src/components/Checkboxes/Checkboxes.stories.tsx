@@ -1,6 +1,8 @@
 // PRUNE: KEEP_ALL (Expanded to include conditional content example)
 import type { Meta, StoryObj } from '@storybook/react';
 import { Checkboxes } from './Checkboxes';
+import ParityBlock, { toNunjucksMacro } from '../../storybook/ParityBlock';
+import checkboxesStaticHtml from '../../../docs/static-html/Checkboxes.html?raw';
 
 const meta: Meta<typeof Checkboxes> = {
   title: 'NHS/Components/Checkboxes',
@@ -137,4 +139,63 @@ export const WithConditionalInformation: Story = {
       }
     }
   }
+};
+
+export const Small: Story = {
+  args: {
+    name: 'conditions-small',
+    legend: 'Select any conditions you have',
+    small: true,
+    items: [
+      { value: 'asthma', text: 'Asthma' },
+      { value: 'diabetes', text: 'Diabetes' },
+    ],
+  },
+};
+
+export const AsPageHeading: Story = {
+  args: {
+    name: 'as-page-heading',
+    legend: 'How would you like us to contact you?',
+    legendSize: 'xl',
+    isPageHeading: true,
+    items: [
+      { value: 'email', text: 'Email' },
+      { value: 'sms', text: 'Text message' },
+    ],
+  },
+};
+
+export const WithError: Story = {
+  args: {
+    name: 'with-error',
+    legend: 'Select at least one option',
+    errorMessage: 'You must select at least one option',
+    items: [
+      { value: 'opt1', text: 'Option 1' },
+      { value: 'opt2', text: 'Option 2' },
+    ],
+  },
+};
+
+export const Parity: Story = {
+  name: 'Parity: React | Nunjucks | Static HTML',
+  args: {
+    name: 'health-conditions',
+    legend: 'Which do you have?',
+    items: [
+      { value: 'asthma', text: 'Asthma' },
+      { value: 'diabetes', text: 'Diabetes' }
+    ],
+  },
+  render: (args) => {
+    const props: Record<string, unknown> = { name: args.name, legend: args.legend, items: args.items };
+    const keys = ['idPrefix','legendSize','isPageHeading','hint','errorMessage','small'];
+    for (const k of keys) if ((args as any)[k] !== undefined) (props as any)[k] = (args as any)[k];
+    return (
+      <ParityBlock macroCode={toNunjucksMacro('checkboxes', props)} staticHtml={checkboxesStaticHtml}>
+        <Checkboxes {...args} />
+      </ParityBlock>
+    );
+  },
 };

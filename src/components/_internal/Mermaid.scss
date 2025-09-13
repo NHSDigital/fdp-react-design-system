@@ -1,4 +1,5 @@
 @use "../../../packages/nhs-fdp/dist/scss/tokens" as nhs;
+@use "../../../packages/nhs-fdp/dist/scss/components/diagram" as diagram;
 
 // Mermaid diagram base wrapper
 .mermaid-diagram {
@@ -187,6 +188,70 @@
 						stroke: var(--_mm-warn);
 					}
 				}
+			}
+		}
+		
+		.clusters {
+
+			foreignObject {
+				overflow: visible !important; /* allow expansion */
+				y: nhs.$nhs-fdp-spacing-2 !important; /* slight nudge down */
+			}
+
+			span.nodeLabel {
+				margin-top: nhs.$nhs-fdp-spacing-1; // 8px
+				font-size: 16px !important;
+				font-weight: 600 !important;
+				fill: var(--nhs-fdp-color-primary-blue, nhs.$nhs-fdp-color-primary-blue) !important;
+				color: var(--nhs-fdp-color-primary-blue, nhs.$nhs-fdp-color-primary-blue) !important;
+			}
+		}
+		
+		/* Token-driven class styles (no need for Mermaid classDef colours) */
+		.node.decision {
+			rect, polygon, circle, ellipse {
+				fill: #{diagram.$nhs-fdp-diagram-flowchart-decision-fill} !important;
+				stroke: #{diagram.$nhs-fdp-diagram-flowchart-decision-stroke} !important;
+				color: #{diagram.$nhs-fdp-diagram-flowchart-decision-text} !important;
+			}
+			text { 
+				fill: #{diagram.$nhs-fdp-diagram-flowchart-decision-text} !important; 
+			}
+			.nodeLabel {
+				color: #{diagram.$nhs-fdp-diagram-flowchart-decision-text} !important;
+			}
+		}
+
+		.node.auto {
+			rect, polygon, circle, ellipse {
+				fill: #{diagram.$nhs-fdp-diagram-flowchart-auto-fill} !important;
+				stroke: #{diagram.$nhs-fdp-diagram-flowchart-auto-stroke} !important;
+			}
+			text { fill: #{diagram.$nhs-fdp-diagram-flowchart-auto-text} !important; }
+			.nodeLabel {
+				color: #{diagram.$nhs-fdp-diagram-flowchart-auto-text} !important;
+			}
+		}
+
+		.node.action {
+			rect, polygon, circle, ellipse {
+				fill: #{diagram.$nhs-fdp-diagram-flowchart-action-fill} !important;
+				stroke: #{diagram.$nhs-fdp-diagram-flowchart-action-stroke} !important;
+			}
+			text { fill: #{diagram.$nhs-fdp-diagram-flowchart-action-text} !important; }
+			.nodeLabel {
+				color: #{diagram.$nhs-fdp-diagram-flowchart-action-text} !important;
+			}
+		}
+
+		.node.warning {
+			rect, polygon, circle, ellipse {
+				fill: #{diagram.$nhs-fdp-diagram-flowchart-warning-fill} !important;
+				stroke: #{diagram.$nhs-fdp-diagram-flowchart-warning-stroke} !important;
+			}
+			text { fill: #{diagram.$nhs-fdp-diagram-flowchart-warning-text} !important; }
+			.nodeLabel {
+				color: #{diagram.$nhs-fdp-diagram-flowchart-warning-text} !important;
 			}
 		}
 

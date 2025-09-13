@@ -30,7 +30,7 @@ var require_classnames = __commonJS({
     (function() {
       "use strict";
       var hasOwn = {}.hasOwnProperty;
-      function classNames3() {
+      function classNames2() {
         var classes = "";
         for (var i = 0; i < arguments.length; i++) {
           var arg = arguments[i];
@@ -48,7 +48,7 @@ var require_classnames = __commonJS({
           return "";
         }
         if (Array.isArray(arg)) {
-          return classNames3.apply(null, arg);
+          return classNames2.apply(null, arg);
         }
         if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
           return arg.toString();
@@ -71,14 +71,14 @@ var require_classnames = __commonJS({
         return value + newClass;
       }
       if (typeof module !== "undefined" && module.exports) {
-        classNames3.default = classNames3;
-        module.exports = classNames3;
+        classNames2.default = classNames2;
+        module.exports = classNames2;
       } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
         define("classnames", [], function() {
-          return classNames3;
+          return classNames2;
         });
       } else {
-        window.classNames = classNames3;
+        window.classNames = classNames2;
       }
     })();
   }
@@ -88,7 +88,7 @@ var require_classnames = __commonJS({
 import { useState as useState2, useRef, useCallback } from "react";
 
 // src/components/Radios/Radios.render.tsx
-var import_classnames2 = __toESM(require_classnames(), 1);
+var import_classnames = __toESM(require_classnames(), 1);
 
 // src/components/Input/Input.tsx
 import { useState, useEffect } from "react";
@@ -278,8 +278,24 @@ var Label = ({
   return /* @__PURE__ */ jsx2(LabelElement, { className: model.classes, htmlFor: model.htmlFor, ...props, children: isPageHeading ? /* @__PURE__ */ jsx2("label", { className: "nhsuk-label-wrapper", htmlFor, children }) : children });
 };
 
+// src/mapping/fieldset.ts
+function mapFieldsetProps(input) {
+  var _a;
+  const fieldsetClasses = ["nhsuk-fieldset", input.className || ""].filter(Boolean).join(" ");
+  const legendClasses = input.legend ? [
+    "nhsuk-fieldset__legend",
+    input.legend.size ? `nhsuk-fieldset__legend--${input.legend.size}` : "",
+    input.legend.className || ""
+  ].filter(Boolean).join(" ") : void 0;
+  return {
+    fieldsetClasses,
+    legendClasses,
+    legendIsPageHeading: !!((_a = input.legend) == null ? void 0 : _a.isPageHeading),
+    describedBy: input.describedBy
+  };
+}
+
 // src/components/Fieldset/Fieldset.tsx
-var import_classnames = __toESM(require_classnames(), 1);
 import { jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
 var Fieldset = ({
   children,
@@ -288,20 +304,18 @@ var Fieldset = ({
   describedBy,
   ...fieldsetProps
 }) => {
-  const fieldsetClasses = (0, import_classnames.default)(
-    "nhsuk-fieldset",
-    className
-  );
-  const legendClasses = (0, import_classnames.default)(
-    "nhsuk-fieldset__legend",
-    {
-      [`nhsuk-fieldset__legend--${legend == null ? void 0 : legend.size}`]: legend == null ? void 0 : legend.size
-    },
-    legend == null ? void 0 : legend.className
-  );
+  const model = mapFieldsetProps({
+    className,
+    describedBy,
+    legend: legend ? {
+      size: legend.size,
+      className: legend.className,
+      isPageHeading: legend.isPageHeading
+    } : void 0
+  });
   const renderLegendContent = () => {
     const content = (legend == null ? void 0 : legend.html) ? /* @__PURE__ */ jsx3("span", { dangerouslySetInnerHTML: { __html: legend.html } }) : legend == null ? void 0 : legend.text;
-    if (legend == null ? void 0 : legend.isPageHeading) {
+    if (model.legendIsPageHeading) {
       return /* @__PURE__ */ jsx3("h1", { className: "nhsuk-fieldset__heading", children: content });
     }
     return content;
@@ -309,16 +323,28 @@ var Fieldset = ({
   return /* @__PURE__ */ jsxs2(
     "fieldset",
     {
-      className: fieldsetClasses,
-      "aria-describedby": describedBy,
+      className: model.fieldsetClasses,
+      "aria-describedby": model.describedBy,
       ...fieldsetProps,
       children: [
-        legend && (legend.text || legend.html) && /* @__PURE__ */ jsx3("legend", { className: legendClasses, children: renderLegendContent() }),
+        legend && (legend.text || legend.html) && /* @__PURE__ */ jsx3("legend", { className: model.legendClasses, children: renderLegendContent() }),
         children
       ]
     }
   );
 };
+
+// src/mapping/radios.ts
+function mapRadiosProps(input) {
+  const classes = [
+    "nhsuk-radios",
+    input.hasError ? "nhsuk-radios--error" : "",
+    input.size === "small" ? "nhsuk-radios--small" : "",
+    input.inline ? "nhsuk-radios--inline" : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, describedBy: input.describedBy };
+}
 
 // src/components/Radios/Radios.render.tsx
 import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
@@ -343,15 +369,7 @@ function renderRadiosMarkup(props, {
     options,
     ...rest
   } = safeProps;
-  const radiosClasses = (0, import_classnames2.default)(
-    "nhsuk-radios",
-    {
-      "nhsuk-radios--error": hasError,
-      "nhsuk-radios--small": size === "small",
-      "nhsuk-radios--inline": inline
-    },
-    className
-  );
+  const { classes: radiosClasses, describedBy: mappedDescribedBy } = mapRadiosProps({ hasError, size, inline, className, describedBy });
   return /* @__PURE__ */ jsx4(Fieldset, { children: /* @__PURE__ */ jsx4(
     "div",
     {
@@ -375,7 +393,7 @@ function renderRadiosMarkup(props, {
               ...variant === "client" ? { checked: isSelected, onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, onKeyDown: handleKeyDown, ref: (el) => {
                 if (el && itemsRef) itemsRef.current[index] = el;
               } } : { defaultChecked: isSelected, "data-nhs-radios-input": true },
-              "aria-describedby": describedBy
+              "aria-describedby": mappedDescribedBy
             }
           ),
           /* @__PURE__ */ jsx4("label", { className: "nhsuk-radios__label", htmlFor: radioId, children: option.text }),
@@ -383,7 +401,7 @@ function renderRadiosMarkup(props, {
           option.conditional && /* @__PURE__ */ jsx4(
             "div",
             {
-              className: (0, import_classnames2.default)("nhsuk-radios__conditional", {
+              className: (0, import_classnames.default)("nhsuk-radios__conditional", {
                 "nhsuk-radios__conditional--hidden": !isSelected
               }),
               id: conditionalId,

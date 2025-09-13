@@ -1,0 +1,166 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/SSR and Hydration" />
+
+# SSR and Hydration Guide
+
+This guide explains how to use the design system in server-rendered environments and progressively enhance with behaviours.
+
+---
+
+## Goals
+
+- Server renders accessible, fully semantic HTML for every component
+- Client enhances behaviour without changing markup contracts
+- One source of truth: schema + mapping drive both React and Nunjucks
+
+---
+
+## Components: server vs client
+
+- Prefer server components (no "use client") for presentational components.
+- Use thin client wrappers only when interactivity is required; keep markup server-compatible.
+- Behaviours attach to SSR markup via classes and data attributes.
+
+### Importing server-first variants
+
+For components that offer an explicit server export path, import the server variant to keep your trees hook‑free by default:
+
+```tsx
+// Server component (Next.js App Router default)
+import { ButtonServer } from '@fergusbisset/nhs-fdp-design-system/components/Button/server';
+
+export default function Example() {
+  return (
+    <ButtonServer variant="primary" data-module="nhs-button">
+      Continue
+    </ButtonServer>
+  );
+}
+```
+
+This emits stable markup suitable for progressive enhancement; behaviours will attach on the client when initialised.
+
+### Recommended folder pattern
+
+```text
+src/components/Button/
+  Button.tsx            # server-first react component (no "use client" if possible)
+  Button.client.tsx     # optional thin client wrapper for interactive needs
+  Button.schema.ts      # canonical schema
+  Button.types.ts
+```
+
+---
+
+## Mapping and schemas
+
+- Define a schema per component (`src/components/*/*.schema.ts`).
+- Use mapping functions (`src/mapping/*`) in both React and macro generation to produce stable classes/attrs.
+- Example: `mapButtonProps()` normalises variant, size, and attributes.
+
+---
+
+## Progressive enhancement contract
+
+- Include required classes and any `data-*` attributes used by behaviours.
+- Keep these attributes stable and documented; avoid runtime-generated IDs where deterministic server IDs can be provided.
+- Behaviours should:
+  - initialise idempotently
+  - tolerate SSR-only (no JS) environments
+  - teardown cleanly on unmount/navigation
+
+---
+
+## Using behaviours from React
+
+Behaviours auto-init on DOM ready when `data-module` markers are present. In React apps that control navigation, it can help to re-run init on container updates:
+
+```tsx
+// Example pattern for a page shell
+'use client';
+import { useEffect, useRef } from 'react';
+
+export function EnhanceOnMount({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    // dynamic import keeps SSR safe
+    import('@fergusbisset/nhs-fdp-design-system/behaviours').then(({ initAll }) => {
+      if (ref.current) initAll(ref.current);
+    });
+  }, []);
+  return <div ref={ref}>{children}</div>;
+}
+```
+
+---
+
+## Testing matrix
+
+- SSR tests: `*.ssr.test.tsx` render components with `renderToString` and assert roles, names, and structural output.
+- Hydration tests: `*.hydration.test.tsx` render on server, hydrate on client, assert DOM is preserved and interactions work.
+- Macro parity tests: Ensure Nunjucks output matches React SSR output using the normaliser.
+- Runtime tests (Playwright): Start example apps, verify behaviours and user flows.
+
+---
+
+## Common pitfalls
+
+- Accessing `window`/`document` during render: guard with `typeof window !== 'undefined'` or move to effects.
+- Generating non-deterministic IDs server-side: use a seeded ID factory or accept IDs as props.
+- Divergent class/attr logic between React and macros: centralise in mapping.
+
+---
+
+## Isomorphic layout effects (SSR-safe)
+
+When you need a layout effect (post-paint DOM reads/writes) but also want to support SSR without React warnings, use our isomorphic layout effect helper.
+
+Why: `useLayoutEffect` runs only in the browser. Using it during SSR logs a warning (it does nothing on the server) and can be noisy in tests. The isomorphic helper switches to `useEffect` on the server and `useLayoutEffect` in the browser.
+
+API
+
+```ts
+// src/hooks/useIsomorphicLayoutEffect.ts
+export const useIsomorphicLayoutEffect: typeof React.useLayoutEffect;
+```
+
+Usage
+
+```tsx
+import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
+
+function Example() {
+  useIsomorphicLayoutEffect(() => {
+    if (typeof document === 'undefined') return; // extra guard for tests/SSR
+    const el = document.querySelector('#thing');
+    // read/write layout here safely
+  }, []);
+  return <div id="thing" />;
+}
+```
+
+Guidelines
+
+- Prefer moving DOM access to effects. Do not touch `window`/`document` during render.
+- Add a `typeof document !== 'undefined'` check inside effects that query the DOM (helps test environments and non-browser renderers).
+- Use `matchMedia` checks defensively: `typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches`.
+
+Example in this repo
+
+- `ProductRoadmap` uses `useIsomorphicLayoutEffect` to animate inline drilldown children, with a `document` guard and a reduced motion fallback.
+
+---
+
+## Checklists
+
+- Server component emits complete, accessible HTML without client JS.
+- Behaviour enhances only via opt-in markers (`data-module`, classes), not by mutating semantics.
+- SSR, hydration, macro parity, and runtime tests all pass for the component.
+
+---
+
+## See also
+
+- Roadmap: SSR and Nunjucks and Behaviour Layer Migration
+- Examples: `examples/express-njk`, Next.js docs app (App Router)

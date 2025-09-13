@@ -285,8 +285,121 @@ function ButtonComponent(props, ref) {
 var Button = forwardRef(ButtonComponent);
 Button.displayName = "Button";
 var Button_default = Button;
+
+// src/components/Button/Button.server.tsx
+import * as React2 from "react";
+import { jsx as jsx2 } from "react/jsx-runtime";
+var ButtonServer = React2.forwardRef(function ButtonServer2(props, ref) {
+  const {
+    children,
+    variant = "primary" /* Primary */,
+    size = "default" /* Default */,
+    fullWidth = false,
+    className = "",
+    preventDoubleClick = false,
+    ...rest
+  } = props;
+  const model = mapButtonProps({
+    variant,
+    size,
+    fullWidth,
+    className,
+    href: "href" in rest ? rest.href : void 0,
+    preventDoubleClick
+  });
+  if ("href" in rest && rest.href) {
+    const anchorProps = rest;
+    const {
+      id: id2,
+      style: style2,
+      title: title2,
+      ["aria-label"]: ariaLabel2,
+      ["aria-describedby"]: ariaDescribedBy2,
+      ["aria-labelledby"]: ariaLabelledBy2,
+      tabIndex: tabIndex2,
+      ...anchorRest
+    } = anchorProps;
+    return /* @__PURE__ */ jsx2(
+      "a",
+      {
+        ref,
+        href: anchorProps.href,
+        target: anchorProps.target,
+        rel: anchorProps.rel,
+        className: model.classes,
+        role: "button",
+        draggable: "false",
+        "data-module": "nhs-button",
+        ...preventDoubleClick && { "data-prevent-double-click": "true" },
+        id: id2,
+        style: style2,
+        title: title2,
+        "aria-label": ariaLabel2,
+        "aria-describedby": ariaDescribedBy2,
+        "aria-labelledby": ariaLabelledBy2,
+        tabIndex: tabIndex2,
+        ...anchorRest,
+        children
+      }
+    );
+  }
+  const buttonProps = rest;
+  const {
+    id,
+    style,
+    title,
+    ["aria-label"]: ariaLabel,
+    ["aria-describedby"]: ariaDescribedBy,
+    ["aria-labelledby"]: ariaLabelledBy,
+    tabIndex,
+    name,
+    value: valueProp,
+    form,
+    formAction,
+    formEncType,
+    formMethod,
+    formNoValidate,
+    formTarget,
+    autoFocus,
+    type,
+    disabled,
+    ...buttonRest
+  } = buttonProps;
+  return /* @__PURE__ */ jsx2(
+    "button",
+    {
+      ref,
+      type: type || "button",
+      disabled,
+      className: model.classes,
+      "data-module": "nhs-button",
+      ...preventDoubleClick && { "data-prevent-double-click": "true" },
+      id,
+      style,
+      title,
+      "aria-label": ariaLabel,
+      "aria-describedby": ariaDescribedBy,
+      "aria-labelledby": ariaLabelledBy,
+      tabIndex,
+      name,
+      value: valueProp,
+      form,
+      formAction,
+      formEncType,
+      formMethod,
+      formNoValidate,
+      formTarget,
+      autoFocus,
+      ...buttonRest,
+      children
+    }
+  );
+});
+ButtonServer.displayName = "ButtonServer";
+var Button_server_default = ButtonServer;
 export {
   Button_default as Button,
+  Button_server_default as ButtonServer,
   ButtonSize,
   ButtonVariant
 };

@@ -1,9 +1,10 @@
-import React, { memo, useMemo, useState, useCallback, useLayoutEffect, useRef } from 'react';
+import React, { memo, useMemo, useState, useCallback, useRef } from 'react';
 import classNames from 'classnames';
 import { scaleTime } from 'd3-scale';
 import { timeMonth } from 'd3-time';
 import './ProductRoadmap.scss';
 import { ProductRoadmapProps, ProductRoadmapItem } from './ProductRoadmap.types';
+import { useIsomorphicLayoutEffect } from '../../hooks/useIsomorphicLayoutEffect';
 
 // Utility to clamp numeric props
 const clamp = (val: number | undefined, min: number, max: number, def: number): number => {
@@ -105,8 +106,9 @@ export const ProductRoadmap: React.FC<ProductRoadmapProps> = memo(({
 	}, [onToggleItem]);
 
 	// Inline child animations (cascade for any newly opened groups)
-	useLayoutEffect(() => {
+	useIsomorphicLayoutEffect(() => {
 		if (drilldownMode !== 'inline' || !enableDrilldown) return;
+		if (typeof document === 'undefined') return; // SSR/test guard
 		const newlyOpened: string[] = [];
 		activeItemIds.forEach(id => { if (!prevActiveRef.current.has(id)) newlyOpened.push(id); });
 		prevActiveRef.current = new Set(activeItemIds);

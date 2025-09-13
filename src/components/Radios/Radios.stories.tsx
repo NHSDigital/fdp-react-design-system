@@ -2,6 +2,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Radios } from './Radios';
 import { Input } from '../Input';
+import ParityBlock, { toNunjucksMacro } from '../../storybook/ParityBlock';
+import radiosStaticHtml from '../../../docs/static-html/Radios.html?raw';
 
 const meta: Meta<typeof Radios> = {
   title: 'NHS/Components/Radios',
@@ -207,4 +209,49 @@ export const WithConditionalInteractiveFields: Story = {
 			}
 		}
 	}
+};
+
+export const Inline: Story = {
+	args: {
+		name: 'yes-no-inline',
+		inline: true,
+		options: [
+			{ value: 'yes', text: 'Yes' },
+			{ value: 'no', text: 'No' },
+		],
+	},
+};
+
+export const Small: Story = {
+	args: {
+		name: 'small-example',
+		size: 'small',
+		options: basicOptions,
+	},
+};
+
+export const WithError: Story = {
+	args: {
+		name: 'error-example',
+		hasError: true,
+		options: basicOptions,
+	},
+};
+
+export const Parity: Story = {
+	name: 'Parity: React | Nunjucks | Static HTML',
+	args: {
+		name: 'contact-method',
+		options: basicOptions,
+	},
+	render: (args) => {
+		const props: Record<string, unknown> = { name: args.name, options: args.options };
+		const keys = ['value','defaultValue','hasError','inline','size','describedBy'];
+		for (const k of keys) if ((args as any)[k] !== undefined) (props as any)[k] = (args as any)[k];
+		return (
+			<ParityBlock macroCode={toNunjucksMacro('radios', props)} staticHtml={radiosStaticHtml}>
+				<Radios {...args} />
+			</ParityBlock>
+		);
+	},
 };

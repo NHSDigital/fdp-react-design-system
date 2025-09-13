@@ -15,6 +15,19 @@
   	nhs.$nhs-fdp-color-data-viz-spc-concern
   );
   --_mm-radius: 6px;
+  /* Defaults for node padding used by the TS adjuster (in px numbers) */
+  --mermaid-node-base-padding-x: 12;
+  --mermaid-node-base-padding-y: 8;
+  /* Extra padding you can add on top per diagram/context */
+  --mermaid-node-extra-padding-x: 0;
+  --mermaid-node-extra-padding-y: 0;
+  /* Extra padding to apply to the SVG viewBox (in px) to avoid edge clipping */
+  --mermaid-svg-extra-padding-x: 6;
+  --mermaid-svg-extra-padding-y: 4;
+  /* Edge label sizing controls */
+  --mermaid-edge-label-padding-x: 4;
+  --mermaid-edge-label-padding-y: 2;
+  --mermaid-edge-label-bg: #ffffff;
   background: var(--_mm-bg);
   border: 1px solid var(--_mm-border);
   border-radius: var(--_mm-radius);
@@ -25,6 +38,28 @@
   position: relative;
   /* Scroll hint (fade) */
   mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+}
+
+/* Optional utility variants to quickly tweak padding per-diagram */
+.mermaid-diagram.is-compact {
+  --mermaid-node-base-padding-x: 8;
+  --mermaid-node-base-padding-y: 6;
+}
+
+.mermaid-diagram.is-cozy {
+  --mermaid-node-base-padding-x: 16;
+  --mermaid-node-base-padding-y: 10;
+}
+
+.mermaid-diagram.is-spacious {
+  --mermaid-node-base-padding-x: 20;
+  --mermaid-node-base-padding-y: 14;
+}
+
+/* Extra roomy */
+.mermaid-diagram.is-airy {
+  --mermaid-node-base-padding-x: 24;
+  --mermaid-node-base-padding-y: 16;
 }
 
 .mermaid-error {
@@ -49,6 +84,7 @@
 .mermaid-diagram svg {
   width: 100%;
   height: auto;
+  /* Token-driven class styles (no need for Mermaid classDef colours) */
   /* Edges */
 }
 .mermaid-diagram svg .node {
@@ -108,13 +144,63 @@
 .mermaid-diagram svg .node .label foreignObject {
   overflow: visible; /* allow expansion */
 }
-.mermaid-diagram svg .node .label > div {
-  padding: 2px 4px;
-  white-space: normal;
-  word-wrap: break-word;
+.mermaid-diagram svg .node .label foreignObject div {
+  display: contents !important;
 }
 .mermaid-diagram svg .node .label:has(div:contains("threshold")) rect, .mermaid-diagram svg .node .label:has(span:contains("threshold")) rect {
   stroke: var(--_mm-warn);
+}
+.mermaid-diagram svg .clusters foreignObject {
+  overflow: visible !important; /* allow expansion */
+  y: 8px !important; /* slight nudge down */
+}
+.mermaid-diagram svg .clusters span.nodeLabel {
+  margin-top: 4px;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  fill: var(--nhs-fdp-color-primary-blue, #005eb8) !important;
+  color: var(--nhs-fdp-color-primary-blue, #005eb8) !important;
+}
+.mermaid-diagram svg .node.decision rect, .mermaid-diagram svg .node.decision polygon, .mermaid-diagram svg .node.decision circle, .mermaid-diagram svg .node.decision ellipse {
+  fill: #fff3e0 !important;
+  stroke: #f57c00 !important;
+  color: #4e342e !important;
+}
+.mermaid-diagram svg .node.decision text {
+  fill: #4e342e !important;
+}
+.mermaid-diagram svg .node.decision .nodeLabel {
+  color: #4e342e !important;
+}
+.mermaid-diagram svg .node.auto rect, .mermaid-diagram svg .node.auto polygon, .mermaid-diagram svg .node.auto circle, .mermaid-diagram svg .node.auto ellipse {
+  fill: #e3f2fd !important;
+  stroke: #1976d2 !important;
+}
+.mermaid-diagram svg .node.auto text {
+  fill: #0d47a1 !important;
+}
+.mermaid-diagram svg .node.auto .nodeLabel {
+  color: #0d47a1 !important;
+}
+.mermaid-diagram svg .node.action rect, .mermaid-diagram svg .node.action polygon, .mermaid-diagram svg .node.action circle, .mermaid-diagram svg .node.action ellipse {
+  fill: #e8f5e9 !important;
+  stroke: #388e3c !important;
+}
+.mermaid-diagram svg .node.action text {
+  fill: #1b5e20 !important;
+}
+.mermaid-diagram svg .node.action .nodeLabel {
+  color: #1b5e20 !important;
+}
+.mermaid-diagram svg .node.warning rect, .mermaid-diagram svg .node.warning polygon, .mermaid-diagram svg .node.warning circle, .mermaid-diagram svg .node.warning ellipse {
+  fill: #ffebee !important;
+  stroke: #d32f2f !important;
+}
+.mermaid-diagram svg .node.warning text {
+  fill: #b71c1c !important;
+}
+.mermaid-diagram svg .node.warning .nodeLabel {
+  color: #b71c1c !important;
 }
 .mermaid-diagram svg .edgePath path.path {
   stroke: var(--_mm-border) !important;
@@ -122,16 +208,28 @@
 }
 .mermaid-diagram svg .edgeLabel {
   background-color: #ffffff !important; /* optional background */
-  margin: 0 4px;
-  padding: 0 2px;
-  overflow: visible; /* allow expansion */
-  font-size: 11px;
+  overflow: visible !important; /* allow expansion */
+  font-size: 18px;
 }
 .mermaid-diagram svg .edgeLabel text {
   fill: var(--_mm-text) !important;
   white-space: nowrap;
   font-size: 12px;
   font-weight: bold;
+}
+.mermaid-diagram svg .edgeLabel rect {
+  background-color: #ffffff !important; /* optional background */
+  fill: #ffffff !important; /* optional background */
+}
+.mermaid-diagram svg .edgeLabel foreignObject {
+  overflow: visible !important; /* allow expansion */
+}
+.mermaid-diagram svg .edgeLabel foreignObject div {
+  display: contents !important;
+  padding: var(--mermaid-edge-label-padding-y) var(--mermaid-edge-label-padding-x);
+  background: var(--mermaid-edge-label-bg);
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 /* Dark mode */

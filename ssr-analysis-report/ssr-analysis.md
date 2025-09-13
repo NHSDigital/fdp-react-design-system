@@ -2,21 +2,25 @@
 
 ## Executive Summary
 
-- **Total Components Analyzed**: 149
+- **Total Components Analyzed**: 223
 - **Overall SSR Compatibility**: 92%
-- **Fully Compatible**: 135 (91%)
-- **Compatible with Hydration**: 3 (2%)
-- **Client-Only**: 1 (1%)
-- **Requires Refactoring**: 10 (7%)
+- **Fully Compatible**: 201 (90%)
+- **Compatible with Hydration**: 5 (2%)
+- **Client-Only**: 1 (0%)
+- **Requires Refactoring**: 16 (7%)
 
 ## Quick Wins 🚀
 
 Components that can be easily made SSR-compatible:
 
 - **ChartWithTableTabs**: 3/3 issues auto-fixable
-- **FontDebugger**: 5/6 issues auto-fixable
-- **GanttChart**: 9/11 issues auto-fixable
+- **spc**: 2/2 issues auto-fixable
+- **spcTestCases**: 1/1 issues auto-fixable
+- **SPCSpark.types**: 1/1 issues auto-fixable
+- **patterns**: 3/3 issues auto-fixable
+- **GanttChart**: 12/14 issues auto-fixable
 - **NavigationSplitView.types**: 2/2 issues auto-fixable
+- **ProductRoadmap**: 4/4 issues auto-fixable
 - **SkipLink**: 9/11 issues auto-fixable
 - **useIntelligentLayout**: 29/31 issues auto-fixable
 - **TransactionalPageTemplate**: 1/1 issues auto-fixable
@@ -24,6 +28,18 @@ Components that can be easily made SSR-compatible:
 ## Priority Issues
 
 ### Blocking Issues (Prevent SSR)
+- **window-object**: Direct window object access
+  ```
+  const t = window.setTimeout(apply, delay);
+  ```
+  **Fix**: Add typeof window !== "undefined" check or use in useEffect
+
+- **window-object**: Direct window object access
+  ```
+  return () => window.clearTimeout(t);
+  ```
+  **Fix**: Add typeof window !== "undefined" check or use in useEffect
+
 - **document-object**: Direct document object access
   ```
   const link = document.createElement('a');
@@ -42,22 +58,10 @@ Components that can be easily made SSR-compatible:
   ```
   **Fix**: Add typeof document !== "undefined" check or use in useEffect
 
-- **window-object**: Direct window object access
-  ```
-  window.addEventListener('keydown', onKey);
-  ```
-  **Fix**: Add typeof window !== "undefined" check or use in useEffect
-
-- **window-object**: Direct window object access
-  ```
-  return () => window.removeEventListener('keydown', onKey);
-  ```
-  **Fix**: Add typeof window !== "undefined" check or use in useEffect
-
 
 ## Component Breakdown
 
-### ✅ Fully SSR Compatible (135)
+### ✅ Fully SSR Compatible (201)
 - Account
 - Account.types
 - ActionLink
@@ -67,16 +71,19 @@ Components that can be easily made SSR-compatible:
 - ForwardLink
 - Breadcrumb
 - Breadcrumb.types
+- Button.schema
+- Button.server
 - Button.test-types
 - Button.types
 - ButtonExamples
-- ButtonSSR
 - Card.types
 - CareCard.types
+- CharacterCount.schema
 - CharacterCount
 - CharacterCount.types
 - Checkbox
 - Checkbox.types
+- Checkboxes.schema
 - Checkboxes.styles
 - Checkboxes
 - Checkboxes.types
@@ -85,30 +92,76 @@ Components that can be easily made SSR-compatible:
 - ContentsList.types
 - DashboardSummaryGrid.types
 - FilterableLineChart
+- Axis
+- ChartContainer
+- ChartNoScript
+- FilterableLineChart
+- GridLines
 - LineChart
+- ED4hTrendGatingEmbeddedNoGateStory
+- ED4hTrendGatingEmbeddedStory
+- PrimeDirectionSummary
+- SPCChart.constants
+- SPCChart.types
+- SPCChartEarlyWaitTimeExample
+- SPCChartIndividualsExample
+- SPCChartPhasedBaselineExample
+- SPCChartRareEventExample
+- SPCChartStableWaitTimeExample
+- SPCChartWarningsPanelExample
+- SPCSignalsInspector
+- TrendGatingEmbeddedComparison
+- TrendGatingEmbeddedHighNoGateStory
+- TrendGatingEmbeddedHighStory
+- SPCRuleClashExamples
+- spcAssurance
+- spcCandidates
+- spcConstants
+- spcDescriptors
+- spcProvenance
+- spcSqlCompat
+- spcUtils
+- parsedDataset
+- SPCAssuranceIcon
+- SPCConstants
+- SPCIcon
+- ShiftPolarityExamples
+- tokenUtils
+- SPCSpark
+- icons
 - BandScalesProvider
 - ChartRoot
 - ScaleContext
 - TooltipContext
 - VisibilityContext
-- Axis
-- ChartContainer
-- GridLines
+- wizardEngine
+- wizardTypes
+- AlertMarkers
 - TooltipOverlay
 - AreaSeriesPrimitive
 - BarSeriesPrimitive
 - LineSeriesPrimitive
+- deterministic
 - colors
+- computeContinuousBarWidth
 - scales
+- stack
+- ReviewAnswers
+- WizardProgress
+- DateInput.schema
 - DateInput
 - DateInput.types
+- Details.schema
 - Details
 - DoDontList
+- ErrorMessage.schema
 - ErrorMessage
 - ErrorMessage.types
+- ErrorSummary.schema
 - ErrorSummary
 - ErrorSummary.types
 - Expander
+- Fieldset.schema
 - Fieldset
 - Fieldset.types
 - Footer
@@ -117,21 +170,26 @@ Components that can be easily made SSR-compatible:
 - TaskBar-new
 - TaskBar
 - Grid.types
+- Header.render
+- Header.server
 - Header.types
-- HeaderSSR
-- HeaderStatic
 - HeaderSearch.types
+- Heading.schema
 - Heading
 - Heading.types
 - Hero
 - Hero.types
+- Hint.schema
 - Hint
 - Hint.types
 - Images
+- Input.schema
 - Input
 - Input.types
+- InsetText.schema
 - InsetText
 - InsetText.types
+- Label.schema
 - Label
 - Label.types
 - List
@@ -143,8 +201,13 @@ Components that can be easily made SSR-compatible:
 - PageTemplate.types
 - Pagination
 - Pagination.types
+- Panel.schema
 - Panel
 - Panel.types
+- ProductRoadmap.types
+- Radios.render
+- Radios.schema
+- Radios.server
 - Radios
 - Radios.types
 - GenericCardRenderer
@@ -154,9 +217,14 @@ Components that can be easily made SSR-compatible:
 - ResponsiveDataGridGeneric.types
 - ResponsiveDataGridHelpers
 - ResponsiveDataGridTypes
+- Select.schema
 - Select
 - Select.types
 - SkipLink.types
+- SlotMatrix
+- SlotMatrix.types
+- SlotMatrixToolbar
+- generateSlotMatrixMocks
 - AriaDataGridTypes
 - AriaTabsDataGridDemo
 - AriaTabsDataGridEnhancedDemo
@@ -182,9 +250,11 @@ Components that can be easily made SSR-compatible:
 - AriaTabsTypes
 - Tabs
 - Tabs.types
+- Tag.schema
 - Tag
 - Tag.types
 - TaskList
+- Textarea.schema
 - Textarea
 - Textarea.types
 - WarningCallout
@@ -194,19 +264,27 @@ Components that can be easily made SSR-compatible:
 - ssr
 - test-account-icon
 
-### 🔄 Compatible with Hydration (3)
+### 🔄 Compatible with Hydration (5)
 - Button - 0 minor issues
+- SPCChart - 1 minor issues
+- SPCTooltipOverlay - 2 minor issues
 - VisuallyHiddenLiveRegion - 1 minor issues
 - HeaderSearch - 1 minor issues
 
-### 🔧 Requires Refactoring (10)
+### 🔧 Requires Refactoring (16)
+- **ChartEnhancer**: 3 issues (2 blocking)
 - **ChartWithTableTabs**: 3 issues (3 blocking)
+- **spc**: 2 issues (2 blocking)
+- **spcTestCases**: 1 issues (1 blocking)
+- **SPCSpark.types**: 1 issues (1 blocking)
 - **useFocusNav**: 4 issues (2 blocking)
-- **FontDebugger**: 6 issues (5 blocking)
-- **GanttChart**: 11 issues (8 blocking)
-- **Header**: 19 issues (9 blocking)
-- **NavigationSplitView**: 28 issues (15 blocking)
+- **patterns**: 3 issues (3 blocking)
+- **FontDebugger**: 5 issues (3 blocking)
+- **GanttChart**: 14 issues (8 blocking)
+- **Header**: 13 issues (6 blocking)
+- **NavigationSplitView**: 38 issues (20 blocking)
 - **NavigationSplitView.types**: 2 issues (2 blocking)
+- **ProductRoadmap**: 4 issues (3 blocking)
 - **SkipLink**: 11 issues (8 blocking)
 - **useIntelligentLayout**: 31 issues (18 blocking)
 - **TransactionalPageTemplate**: 1 issues (1 blocking)
@@ -218,7 +296,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Account
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Account/Account.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Account/Account.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -233,7 +311,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Account.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Account/Account.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Account/Account.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -248,7 +326,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ActionLink
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ActionLink/ActionLink.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ActionLink/ActionLink.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -263,7 +341,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ActionLink.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ActionLink/ActionLink.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ActionLink/ActionLink.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -278,7 +356,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### BackLink
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/BackLink/BackLink.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/BackLink/BackLink.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -293,7 +371,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### BackLink.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/BackLink/BackLink.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/BackLink/BackLink.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -308,7 +386,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ForwardLink
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/BackLink/ForwardLink.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/BackLink/ForwardLink.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -323,7 +401,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Breadcrumb
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Breadcrumb/Breadcrumb.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Breadcrumb/Breadcrumb.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -338,7 +416,37 @@ Components that can be easily made SSR-compatible:
 
 
 ### Breadcrumb.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Breadcrumb/Breadcrumb.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Breadcrumb/Breadcrumb.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Button.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/Button.schema.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Button.server
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/Button.server.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -353,7 +461,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Button.test-types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/Button.test-types.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/Button.test-types.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -368,7 +476,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Button
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/Button.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/Button.tsx`
 - **Compatibility**: compatible-with-hydration
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -383,7 +491,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Button.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/Button.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/Button.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -398,22 +506,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ButtonExamples
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/ButtonExamples.tsx`
-- **Compatibility**: fully-compatible
-- **Issues**: 0
-- **Uses Hooks**: No
-- **Browser APIs**: No
-- **DOM Access**: No
-
-#### Issues:
-
-
-#### Refactoring Actions:
-
-
-
-### ButtonSSR
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Button/ButtonSSR.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/ButtonExamples.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -428,7 +521,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Card.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Card/Card.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Card/Card.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -443,7 +536,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### CareCard.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/CareCard/CareCard.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/CareCard/CareCard.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### CharacterCount.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/CharacterCount/CharacterCount.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -458,7 +566,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### CharacterCount
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/CharacterCount/CharacterCount.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/CharacterCount/CharacterCount.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 1
 - **Uses Hooks**: Yes
@@ -466,14 +574,14 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **useEffect** (Line 39): useEffect runs only on client side
+- **useEffect** (Line 42): useEffect runs only on client side
 
 #### Refactoring Actions:
 
 
 
 ### CharacterCount.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/CharacterCount/CharacterCount.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/CharacterCount/CharacterCount.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -488,7 +596,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Checkbox
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkbox/Checkbox.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkbox/Checkbox.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 1
 - **Uses Hooks**: Yes
@@ -503,7 +611,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### Checkbox.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkbox/Checkbox.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkbox/Checkbox.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Checkboxes.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -518,7 +641,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Checkboxes.styles
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.styles.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.styles.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -533,7 +656,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Checkboxes
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -548,7 +671,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Checkboxes.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/Checkboxes.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -563,7 +686,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### CheckboxesCSS
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Checkboxes/CheckboxesCSS.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Checkboxes/CheckboxesCSS.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -578,7 +701,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ContentsList
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ContentsList/ContentsList.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ContentsList/ContentsList.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -593,7 +716,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ContentsList.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ContentsList/ContentsList.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ContentsList/ContentsList.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -608,7 +731,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### DashboardSummaryGrid.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DashboardSummaryGrid/DashboardSummaryGrid.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DashboardSummaryGrid/DashboardSummaryGrid.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -622,8 +745,85 @@ Components that can be easily made SSR-compatible:
 
 
 
+### FilterableLineChart
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/FilterableLineChart.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Axis
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/Axis/Axis.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### ChartContainer
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/ChartContainer.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### ChartEnhancer
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/ChartEnhancer/ChartEnhancer.tsx`
+- **Compatibility**: requires-refactoring
+- **Issues**: 3
+- **Uses Hooks**: Yes
+- **Browser APIs**: Yes
+- **DOM Access**: No
+
+#### Issues:
+- **useEffect** (Line 33): useEffect runs only on client side
+- **window-object** (Line 51): Direct window object access
+- **window-object** (Line 52): Direct window object access
+
+#### Refactoring Actions:
+- add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
+
+
+### ChartNoScript
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/ChartNoScript/ChartNoScript.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
 ### ChartWithTableTabs
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/ChartWithTableTabs.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/ChartWithTableTabs/ChartWithTableTabs.tsx`
 - **Compatibility**: requires-refactoring
 - **Issues**: 3
 - **Uses Hooks**: No
@@ -631,16 +831,31 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **document-object** (Line 107): Direct document object access
-- **document-object** (Line 112): Direct document object access
-- **document-object** (Line 114): Direct document object access
+- **document-object** (Line 115): Direct document object access
+- **document-object** (Line 120): Direct document object access
+- **document-object** (Line 122): Direct document object access
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
 
 
 ### FilterableLineChart
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/FilterableLineChart.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/FilterableLineChart/FilterableLineChart.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### GridLines
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/GridlLines/GridLines.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -655,7 +870,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### LineChart
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/charts/LineChart.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/LineChart/LineChart.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -669,8 +884,550 @@ Components that can be easily made SSR-compatible:
 
 
 
+### ED4hTrendGatingEmbeddedNoGateStory
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/ED4hTrendGatingEmbeddedNoGateStory.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### ED4hTrendGatingEmbeddedStory
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/ED4hTrendGatingEmbeddedStory.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### PrimeDirectionSummary
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/PrimeDirectionSummary.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChart.constants
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.constants.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChart
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx`
+- **Compatibility**: compatible-with-hydration
+- **Issues**: 1
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: Yes
+
+#### Issues:
+- **useEffect** (Line 316): useEffect runs only on client side
+
+#### Refactoring Actions:
+
+
+
+### SPCChart.types
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartEarlyWaitTimeExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartEarlyWaitTimeExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartIndividualsExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartIndividualsExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartPhasedBaselineExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartPhasedBaselineExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartRareEventExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartRareEventExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartStableWaitTimeExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartStableWaitTimeExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartWarningsPanelExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartWarningsPanelExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCSignalsInspector
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCSignalsInspector.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 1
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+- **useEffect** (Line 64): useEffect runs only on client side
+
+#### Refactoring Actions:
+
+
+
+### SPCTooltipOverlay
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx`
+- **Compatibility**: compatible-with-hydration
+- **Issues**: 2
+- **Uses Hooks**: Yes
+- **Browser APIs**: Yes
+- **DOM Access**: No
+
+#### Issues:
+- **useEffect** (Line 65): useEffect runs only on client side
+- **useEffect** (Line 96): useEffect runs only on client side
+
+#### Refactoring Actions:
+
+
+
+### TrendGatingEmbeddedComparison
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/TrendGatingEmbeddedComparison.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### TrendGatingEmbeddedHighNoGateStory
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/TrendGatingEmbeddedHighNoGateStory.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### TrendGatingEmbeddedHighStory
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/TrendGatingEmbeddedHighStory.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCRuleClashExamples
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/SPCRuleClashExamples.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### spc
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc.ts`
+- **Compatibility**: requires-refactoring
+- **Issues**: 2
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+- **window-object** (Line 399): Direct window object access
+- **window-object** (Line 418): Direct window object access
+
+#### Refactoring Actions:
+- add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
+
+
+### spcAssurance
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcAssurance.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### spcCandidates
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcCandidates.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### spcConstants
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcConstants.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### spcDescriptors
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcDescriptors.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### spcProvenance
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcProvenance.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### spcSqlCompat
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcSqlCompat.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### spcUtils
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcUtils.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### parsedDataset
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/test-data/parsedDataset.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### spcTestCases
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/test-data/spcTestCases.ts`
+- **Compatibility**: requires-refactoring
+- **Issues**: 1
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+- **document-object** (Line 2): Direct document object access
+
+#### Refactoring Actions:
+- add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
+
+
+### SPCAssuranceIcon
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCIcons/SPCAssuranceIcon.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCConstants
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCIcons/SPCConstants.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCIcon
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### ShiftPolarityExamples
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCIcons/examples/ShiftPolarityExamples.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### tokenUtils
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCSpark
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 1
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+- **useEffect** (Line 240): useEffect runs only on client side
+
+#### Refactoring Actions:
+
+
+
+### SPCSpark.types
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark.types.ts`
+- **Compatibility**: requires-refactoring
+- **Issues**: 1
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+- **window-object** (Line 32): Direct window object access
+
+#### Refactoring Actions:
+- add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
+
+
+### icons
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/icons.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
 ### BandScalesProvider
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/BandScalesProvider.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/core/BandScalesProvider.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -685,7 +1442,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ChartRoot
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/ChartRoot.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/core/ChartRoot.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -700,7 +1457,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ScaleContext
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/ScaleContext.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/core/ScaleContext.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -715,7 +1472,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### TooltipContext
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/TooltipContext.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/core/TooltipContext.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 1
 - **Uses Hooks**: Yes
@@ -723,14 +1480,14 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **useEffect** (Line 90): useEffect runs only on client side
+- **useEffect** (Line 113): useEffect runs only on client side
 
 #### Refactoring Actions:
 
 
 
 ### VisibilityContext
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/core/VisibilityContext.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/core/VisibilityContext.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -745,7 +1502,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### useChartDimensions
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/hooks/useChartDimensions.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/hooks/useChartDimensions.ts`
 - **Compatibility**: client-only
 - **Issues**: 2
 - **Uses Hooks**: Yes
@@ -761,7 +1518,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### useFocusNav
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/hooks/useFocusNav.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/hooks/useFocusNav.ts`
 - **Compatibility**: requires-refactoring
 - **Issues**: 4
 - **Uses Hooks**: Yes
@@ -770,19 +1527,19 @@ Components that can be easily made SSR-compatible:
 
 #### Issues:
 - **useEffect** (Line 17): useEffect runs only on client side
-- **window-object** (Line 18): Direct window object access
-- **event-listener** (Line 18): Event listener setup
 - **window-object** (Line 19): Direct window object access
+- **event-listener** (Line 19): Event listener setup
+- **window-object** (Line 20): Direct window object access
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
 
 
-### Axis
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/Axis.tsx`
+### wizardEngine
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/logic/wizardEngine.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
-- **Uses Hooks**: Yes
+- **Uses Hooks**: No
 - **Browser APIs**: No
 - **DOM Access**: No
 
@@ -793,11 +1550,11 @@ Components that can be easily made SSR-compatible:
 
 
 
-### ChartContainer
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/ChartContainer.tsx`
+### wizardTypes
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/logic/wizardTypes.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
-- **Uses Hooks**: Yes
+- **Uses Hooks**: No
 - **Browser APIs**: No
 - **DOM Access**: No
 
@@ -808,8 +1565,8 @@ Components that can be easily made SSR-compatible:
 
 
 
-### GridLines
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/GridLines.tsx`
+### AlertMarkers
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/primitives/AlertMarkers.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -824,7 +1581,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### TooltipOverlay
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/TooltipOverlay.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/primitives/TooltipOverlay.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -839,7 +1596,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### VisuallyHiddenLiveRegion
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/primitives/VisuallyHiddenLiveRegion.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/primitives/VisuallyHiddenLiveRegion.tsx`
 - **Compatibility**: compatible-with-hydration
 - **Issues**: 1
 - **Uses Hooks**: Yes
@@ -854,7 +1611,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### AreaSeriesPrimitive
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/series/AreaSeriesPrimitive.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/series/AreaSeriesPrimitive.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 1
 - **Uses Hooks**: Yes
@@ -862,14 +1619,14 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **useEffect** (Line 49): useEffect runs only on client side
+- **useEffect** (Line 67): useEffect runs only on client side
 
 #### Refactoring Actions:
 
 
 
 ### BarSeriesPrimitive
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/series/BarSeriesPrimitive.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/series/BarSeriesPrimitive.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 1
 - **Uses Hooks**: Yes
@@ -877,14 +1634,14 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **useEffect** (Line 66): useEffect runs only on client side
+- **useEffect** (Line 112): useEffect runs only on client side
 
 #### Refactoring Actions:
 
 
 
 ### LineSeriesPrimitive
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/series/LineSeriesPrimitive.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/series/LineSeriesPrimitive.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 1
 - **Uses Hooks**: Yes
@@ -892,14 +1649,14 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **useEffect** (Line 53): useEffect runs only on client side
+- **useEffect** (Line 74): useEffect runs only on client side
 
 #### Refactoring Actions:
 
 
 
-### colors
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/utils/colors.ts`
+### deterministic
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/stories/utils/deterministic.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -913,8 +1670,115 @@ Components that can be easily made SSR-compatible:
 
 
 
+### colors
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/utils/colors.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### computeContinuousBarWidth
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/utils/computeContinuousBarWidth.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### patterns
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/utils/patterns.ts`
+- **Compatibility**: requires-refactoring
+- **Issues**: 3
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: Yes
+
+#### Issues:
+- **document-object** (Line 125): Direct document object access
+- **document-object** (Line 130): Direct document object access
+- **document-object** (Line 140): Direct document object access
+
+#### Refactoring Actions:
+- add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
+
+
 ### scales
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DataVisualisation/utils/scales.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/utils/scales.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### stack
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/utils/stack.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### ReviewAnswers
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/wizard/ReviewAnswers.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### WizardProgress
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/wizard/WizardProgress.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### DateInput.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DateInput/DateInput.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -929,7 +1793,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### DateInput
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DateInput/DateInput.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DateInput/DateInput.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -944,7 +1808,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### DateInput.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DateInput/DateInput.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DateInput/DateInput.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Details.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Details/Details.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -959,7 +1838,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Details
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Details/Details.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Details/Details.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -974,7 +1853,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### DoDontList
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/DoDontList/DoDontList.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DoDontList/DoDontList.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### ErrorMessage.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorMessage/ErrorMessage.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -989,7 +1883,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ErrorMessage
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ErrorMessage/ErrorMessage.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorMessage/ErrorMessage.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1004,7 +1898,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### ErrorMessage.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ErrorMessage/ErrorMessage.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorMessage/ErrorMessage.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### ErrorSummary.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1019,7 +1928,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ErrorSummary
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 1
 - **Uses Hooks**: Yes
@@ -1034,7 +1943,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ErrorSummary.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ErrorSummary/ErrorSummary.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1049,7 +1958,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### Expander
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Expander/Expander.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Expander/Expander.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Fieldset.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Fieldset/Fieldset.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1064,7 +1988,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Fieldset
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Fieldset/Fieldset.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Fieldset/Fieldset.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1079,7 +2003,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Fieldset.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Fieldset/Fieldset.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Fieldset/Fieldset.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1094,28 +2018,26 @@ Components that can be easily made SSR-compatible:
 
 
 ### FontDebugger
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/FontDebugger.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/FontDebugger.tsx`
 - **Compatibility**: requires-refactoring
-- **Issues**: 6
+- **Issues**: 5
 - **Uses Hooks**: Yes
 - **Browser APIs**: Yes
 - **DOM Access**: No
 
 #### Issues:
-- **useEffect** (Line 11): useEffect runs only on client side
-- **document-object** (Line 13): Direct document object access
-- **document-object** (Line 18): Direct document object access
-- **document-object** (Line 23): Direct document object access
-- **document-object** (Line 56): Direct document object access
-- **document-object** (Line 57): Direct document object access
+- **useEffect** (Line 12): useEffect runs only on client side
+- **document-object** (Line 17): Direct document object access
+- **document-object** (Line 22): Direct document object access
+- **document-object** (Line 28): Direct document object access
+- **useEffect** (Line 32): useEffect runs only on client side
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
-- dynamic-import: Consider lazy loading this component (medium complexity)
 
 
 ### Footer
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Footer/Footer.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Footer/Footer.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1130,7 +2052,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Footer.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Footer/Footer.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Footer/Footer.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1145,7 +2067,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### GanttChart-new
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/GanttChart-new.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/GanttChart/GanttChart-new.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1160,25 +2082,28 @@ Components that can be easily made SSR-compatible:
 
 
 ### GanttChart
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/GanttChart.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/GanttChart/GanttChart.tsx`
 - **Compatibility**: requires-refactoring
-- **Issues**: 11
+- **Issues**: 14
 - **Uses Hooks**: Yes
 - **Browser APIs**: Yes
 - **DOM Access**: Yes
 
 #### Issues:
-- **document-object** (Line 87): Direct document object access
-- **document-object** (Line 107): Direct document object access
+- **document-object** (Line 88): Direct document object access
+- **document-object** (Line 108): Direct document object access
 - **useEffect** (Line 211): useEffect runs only on client side
-- **document-object** (Line 239): Direct document object access
-- **document-object** (Line 242): Direct document object access
-- **document-object** (Line 248): Direct document object access
-- **document-object** (Line 310): Direct document object access
-- **document-object** (Line 313): Direct document object access
-- **document-object** (Line 319): Direct document object access
-- **useEffect** (Line 438): useEffect runs only on client side
-- **resize-observer** (Line 441): ResizeObserver API usage
+- **document-object** (Line 240): Direct document object access
+- **document-object** (Line 245): Direct document object access
+- **document-object** (Line 253): Direct document object access
+- **document-object** (Line 317): Direct document object access
+- **document-object** (Line 322): Direct document object access
+- **document-object** (Line 330): Direct document object access
+- **useEffect** (Line 450): useEffect runs only on client side
+- **resize-observer** (Line 453): ResizeObserver API usage
+- **resize-observer** (Line 454): ResizeObserver API usage
+- **resize-observer** (Line 454): ResizeObserver API usage
+- **resize-observer** (Line 454): ResizeObserver API usage
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
@@ -1186,7 +2111,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### TaskBar-new
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/TaskBar-new.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/GanttChart/TaskBar-new.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1201,7 +2126,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### TaskBar
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/GanttChart/TaskBar.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/GanttChart/TaskBar.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -1216,7 +2141,37 @@ Components that can be easily made SSR-compatible:
 
 
 ### Grid.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Grid/Grid.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Grid/Grid.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Header.render
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Header/Header.render.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Header.server
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Header/Header.server.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1231,33 +2186,27 @@ Components that can be easily made SSR-compatible:
 
 
 ### Header
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Header/Header.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Header/Header.tsx`
 - **Compatibility**: requires-refactoring
-- **Issues**: 19
+- **Issues**: 13
 - **Uses Hooks**: Yes
 - **Browser APIs**: Yes
 - **DOM Access**: Yes
 
 #### Issues:
-- **useEffect** (Line 46): useEffect runs only on client side
-- **useEffect** (Line 54): useEffect runs only on client side
-- **window-object** (Line 120): Direct window object access
-- **useEffect** (Line 181): useEffect runs only on client side
-- **document-object** (Line 192): Direct document object access
-- **event-listener** (Line 192): Event listener setup
-- **document-object** (Line 193): Direct document object access
-- **useEffect** (Line 198): useEffect runs only on client side
-- **window-object** (Line 224): Direct window object access
-- **window-object** (Line 225): Direct window object access
-- **media-query** (Line 225): matchMedia API usage
-- **event-listener** (Line 236): Event listener setup
-- **window-object** (Line 242): Direct window object access
-- **event-listener** (Line 242): Event listener setup
-- **window-object** (Line 245): Direct window object access
-- **useEffect** (Line 263): useEffect runs only on client side
-- **document-object** (Line 278): Direct document object access
-- **event-listener** (Line 278): Event listener setup
-- **document-object** (Line 279): Direct document object access
+- **useEffect** (Line 39): useEffect runs only on client side
+- **useEffect** (Line 47): useEffect runs only on client side
+- **document-object** (Line 58): Direct document object access
+- **event-listener** (Line 58): Event listener setup
+- **document-object** (Line 59): Direct document object access
+- **document-object** (Line 88): Direct document object access
+- **window-object** (Line 103): Direct window object access
+- **resize-observer** (Line 123): ResizeObserver API usage
+- **useEffect** (Line 124): useEffect runs only on client side
+- **window-object** (Line 132): Direct window object access
+- **resize-observer** (Line 142): ResizeObserver API usage
+- **window-object** (Line 149): Direct window object access
+- **useEffect** (Line 155): useEffect runs only on client side
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
@@ -1265,37 +2214,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Header.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Header/Header.types.ts`
-- **Compatibility**: fully-compatible
-- **Issues**: 0
-- **Uses Hooks**: No
-- **Browser APIs**: No
-- **DOM Access**: No
-
-#### Issues:
-
-
-#### Refactoring Actions:
-
-
-
-### HeaderSSR
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Header/HeaderSSR.tsx`
-- **Compatibility**: fully-compatible
-- **Issues**: 0
-- **Uses Hooks**: No
-- **Browser APIs**: No
-- **DOM Access**: No
-
-#### Issues:
-
-
-#### Refactoring Actions:
-
-
-
-### HeaderStatic
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Header/HeaderStatic.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Header/Header.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1310,7 +2229,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### HeaderSearch
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/HeaderSearch/HeaderSearch.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/HeaderSearch/HeaderSearch.tsx`
 - **Compatibility**: compatible-with-hydration
 - **Issues**: 1
 - **Uses Hooks**: Yes
@@ -1325,7 +2244,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### HeaderSearch.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/HeaderSearch/HeaderSearch.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/HeaderSearch/HeaderSearch.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Heading.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Heading/Heading.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1340,7 +2274,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Heading
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Heading/Heading.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Heading/Heading.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1355,7 +2289,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Heading.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Heading/Heading.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Heading/Heading.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1370,7 +2304,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Hero
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Hero/Hero.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Hero/Hero.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1385,7 +2319,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### Hero.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Hero/Hero.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Hero/Hero.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Hint.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Hint/Hint.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1400,7 +2349,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Hint
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Hint/Hint.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Hint/Hint.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1415,7 +2364,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Hint.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Hint/Hint.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Hint/Hint.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1430,7 +2379,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### Images
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Images/Images.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Images/Images.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Input.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Input/Input.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1445,7 +2409,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Input
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Input/Input.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Input/Input.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 1
 - **Uses Hooks**: Yes
@@ -1460,7 +2424,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### Input.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Input/Input.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Input/Input.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### InsetText.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/InsetText/InsetText.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1475,7 +2454,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### InsetText
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/InsetText/InsetText.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/InsetText/InsetText.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1490,7 +2469,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### InsetText.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/InsetText/InsetText.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/InsetText/InsetText.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Label.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Label/Label.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1505,7 +2499,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Label
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Label/Label.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Label/Label.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1520,7 +2514,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Label.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Label/Label.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Label/Label.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1535,7 +2529,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### List
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/List/List.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/List/List.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1550,7 +2544,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### List.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/List/List.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/List/List.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1565,7 +2559,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### MainWrapper
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/MainWrapper/MainWrapper.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/MainWrapper/MainWrapper.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1580,7 +2574,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### MainWrapper.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/MainWrapper/MainWrapper.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/MainWrapper/MainWrapper.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1595,7 +2589,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### NHSThemeProvider
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/NHSThemeProvider.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/NHSThemeProvider.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 1
 - **Uses Hooks**: Yes
@@ -1610,42 +2604,52 @@ Components that can be easily made SSR-compatible:
 
 
 ### NavigationSplitView
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.tsx`
 - **Compatibility**: requires-refactoring
-- **Issues**: 28
+- **Issues**: 38
 - **Uses Hooks**: Yes
 - **Browser APIs**: Yes
 - **DOM Access**: No
 
 #### Issues:
-- **useEffect** (Line 85): useEffect runs only on client side
-- **useEffect** (Line 153): useEffect runs only on client side
-- **useEffect** (Line 226): useEffect runs only on client side
-- **useEffect** (Line 244): useEffect runs only on client side
-- **window-object** (Line 247): Direct window object access
-- **window-object** (Line 256): Direct window object access
-- **event-listener** (Line 256): Event listener setup
-- **window-object** (Line 257): Direct window object access
-- **useEffect** (Line 269): useEffect runs only on client side
-- **useEffect** (Line 280): useEffect runs only on client side
-- **localStorage** (Line 363): localStorage is not available during SSR
-- **window-object** (Line 366): Direct window object access
-- **localStorage** (Line 370): localStorage is not available during SSR
-- **window-object** (Line 372): Direct window object access
-- **localStorage** (Line 372): localStorage is not available during SSR
-- **useEffect** (Line 379): useEffect runs only on client side
-- **useEffect** (Line 383): useEffect runs only on client side
-- **localStorage** (Line 386): localStorage is not available during SSR
-- **window-object** (Line 387): Direct window object access
-- **localStorage** (Line 387): localStorage is not available during SSR
-- **window-object** (Line 390): Direct window object access
-- **window-object** (Line 392): Direct window object access
-- **window-object** (Line 392): Direct window object access
-- **window-object** (Line 393): Direct window object access
-- **useEffect** (Line 408): useEffect runs only on client side
-- **useEffect** (Line 417): useEffect runs only on client side
-- **useEffect** (Line 428): useEffect runs only on client side
-- **useEffect** (Line 432): useEffect runs only on client side
+- **useEffect** (Line 106): useEffect runs only on client side
+- **useEffect** (Line 154): useEffect runs only on client side
+- **document-object** (Line 220): Direct document object access
+- **document-object** (Line 225): Direct document object access
+- **event-listener** (Line 255): Event listener setup
+- **document-object** (Line 272): Direct document object access
+- **document-object** (Line 275): Direct document object access
+- **event-listener** (Line 298): Event listener setup
+- **useEffect** (Line 638): useEffect runs only on client side
+- **useEffect** (Line 643): useEffect runs only on client side
+- **useEffect** (Line 656): useEffect runs only on client side
+- **useEffect** (Line 798): useEffect runs only on client side
+- **useEffect** (Line 820): useEffect runs only on client side
+- **window-object** (Line 823): Direct window object access
+- **window-object** (Line 832): Direct window object access
+- **event-listener** (Line 832): Event listener setup
+- **window-object** (Line 833): Direct window object access
+- **useEffect** (Line 858): useEffect runs only on client side
+- **useEffect** (Line 872): useEffect runs only on client side
+- **document-object** (Line 881): Direct document object access
+- **localStorage** (Line 991): localStorage is not available during SSR
+- **window-object** (Line 998): Direct window object access
+- **localStorage** (Line 1005): localStorage is not available during SSR
+- **window-object** (Line 1010): Direct window object access
+- **localStorage** (Line 1010): localStorage is not available during SSR
+- **useEffect** (Line 1023): useEffect runs only on client side
+- **useEffect** (Line 1031): useEffect runs only on client side
+- **localStorage** (Line 1035): localStorage is not available during SSR
+- **window-object** (Line 1039): Direct window object access
+- **localStorage** (Line 1039): localStorage is not available during SSR
+- **window-object** (Line 1046): Direct window object access
+- **window-object** (Line 1048): Direct window object access
+- **window-object** (Line 1048): Direct window object access
+- **window-object** (Line 1049): Direct window object access
+- **useEffect** (Line 1075): useEffect runs only on client side
+- **useEffect** (Line 1086): useEffect runs only on client side
+- **useEffect** (Line 1099): useEffect runs only on client side
+- **useEffect** (Line 1103): useEffect runs only on client side
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
@@ -1653,7 +2657,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### NavigationSplitView.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/NavigationSplitView/NavigationSplitView.types.ts`
 - **Compatibility**: requires-refactoring
 - **Issues**: 2
 - **Uses Hooks**: No
@@ -1669,7 +2673,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### PageTemplate
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/PageTemplate/PageTemplate.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/PageTemplate/PageTemplate.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1684,7 +2688,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### PageTemplate.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/PageTemplate/PageTemplate.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/PageTemplate/PageTemplate.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1699,7 +2703,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Pagination
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Pagination/Pagination.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Pagination/Pagination.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1714,7 +2718,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### Pagination.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Pagination/Pagination.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Pagination/Pagination.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Panel.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Panel/Panel.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1729,7 +2748,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Panel
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Panel/Panel.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Panel/Panel.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1744,7 +2763,85 @@ Components that can be easily made SSR-compatible:
 
 
 ### Panel.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Panel/Panel.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Panel/Panel.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### ProductRoadmap
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ProductRoadmap/ProductRoadmap.tsx`
+- **Compatibility**: requires-refactoring
+- **Issues**: 4
+- **Uses Hooks**: Yes
+- **Browser APIs**: Yes
+- **DOM Access**: No
+
+#### Issues:
+- **window-object** (Line 116): Direct window object access
+- **window-object** (Line 116): Direct window object access
+- **media-query** (Line 116): matchMedia API usage
+- **document-object** (Line 118): Direct document object access
+
+#### Refactoring Actions:
+- add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
+
+
+### ProductRoadmap.types
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ProductRoadmap/ProductRoadmap.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Radios.render
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Radios/Radios.render.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Radios.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Radios/Radios.schema.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Radios.server
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Radios/Radios.server.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1759,7 +2856,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Radios
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Radios/Radios.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Radios/Radios.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -1774,7 +2871,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Radios.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Radios/Radios.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Radios/Radios.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1789,7 +2886,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### GenericCardRenderer
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/GenericCardRenderer.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/GenericCardRenderer.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1804,7 +2901,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### HealthcareCardTemplates
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/HealthcareCardTemplates.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/HealthcareCardTemplates.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1819,7 +2916,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### HealthcarePlugin
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/HealthcarePlugin.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/HealthcarePlugin.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1834,7 +2931,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ResponsiveDataGridDemo
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridDemo.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridDemo.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -1849,7 +2946,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ResponsiveDataGridGeneric.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridGeneric.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridGeneric.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1864,7 +2961,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ResponsiveDataGridHelpers
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridHelpers.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridHelpers.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1879,7 +2976,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### ResponsiveDataGridTypes
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridTypes.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ResponsiveDataGrid/ResponsiveDataGridTypes.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Select.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Select/Select.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1894,7 +3006,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Select
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Select/Select.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Select/Select.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1909,7 +3021,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Select.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Select/Select.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Select/Select.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1924,7 +3036,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### SkipLink
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SkipLink/SkipLink.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SkipLink/SkipLink.tsx`
 - **Compatibility**: requires-refactoring
 - **Issues**: 11
 - **Uses Hooks**: Yes
@@ -1950,7 +3062,67 @@ Components that can be easily made SSR-compatible:
 
 
 ### SkipLink.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SkipLink/SkipLink.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SkipLink/SkipLink.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SlotMatrix
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SlotMatrix/SlotMatrix.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SlotMatrix.types
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SlotMatrix/SlotMatrix.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SlotMatrixToolbar
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SlotMatrix/SlotMatrixToolbar.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### generateSlotMatrixMocks
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SlotMatrix/generateSlotMatrixMocks.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1965,7 +3137,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### AriaDataGridTypes
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaDataGridTypes.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaDataGridTypes.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1980,7 +3152,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### AriaTabsDataGridDemo
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridDemo.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridDemo.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -1995,7 +3167,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### AriaTabsDataGridEnhancedDemo
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridEnhancedDemo.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridEnhancedDemo.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -2010,7 +3182,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### AriaTabsDataGridFactory
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridFactory.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridFactory.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2025,7 +3197,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### AriaTabsDataGridPlugins
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridPlugins.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridPlugins.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2040,7 +3212,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### AriaTabsDataGridTCH
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridTCH.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridTCH.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2055,7 +3227,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### AriaTabsDataGridTypes
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridTypes.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/AriaTabsDataGridTypes.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2070,7 +3242,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### HealthcareCardTemplates
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/HealthcareCardTemplates.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/HealthcareCardTemplates.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2085,7 +3257,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### SortStatusControl
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControl/SortStatusControl.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControl/SortStatusControl.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -2100,7 +3272,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### SortStatusControl
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControl.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControl.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -2115,7 +3287,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### SortStatusControlTypes
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControlTypes.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/SortStatusControlTypes.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2130,7 +3302,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### useIntelligentLayout
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/hooks/useIntelligentLayout.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/hooks/useIntelligentLayout.ts`
 - **Compatibility**: requires-refactoring
 - **Issues**: 31
 - **Uses Hooks**: Yes
@@ -2176,7 +3348,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### icons
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/icons.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/icons.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2191,7 +3363,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### patient
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/patient.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/patient.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2206,7 +3378,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### utils
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SortableDataTable/utils.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/utils.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2221,7 +3393,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### SpacingUtilities
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SpacingUtilities/SpacingUtilities.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SpacingUtilities/SpacingUtilities.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2236,7 +3408,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### SpacingUtilities.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SpacingUtilities/SpacingUtilities.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SpacingUtilities/SpacingUtilities.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2251,7 +3423,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### SummaryCard.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SummaryCard/SummaryCard.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SummaryCard/SummaryCard.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2266,7 +3438,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### SummaryList
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SummaryList/SummaryList.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SummaryList/SummaryList.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2281,7 +3453,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### SummaryList.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/SummaryList/SummaryList.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SummaryList/SummaryList.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2296,7 +3468,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Table
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tables/Table.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tables/Table.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2311,7 +3483,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Table.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tables/Table.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tables/Table.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2326,7 +3498,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### AriaTabs
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tabs/AriaTabs.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tabs/AriaTabs.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2341,7 +3513,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### AriaTabsTypes
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tabs/AriaTabsTypes.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tabs/AriaTabsTypes.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2356,7 +3528,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Tabs
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tabs/Tabs.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tabs/Tabs.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -2371,7 +3543,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### Tabs.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tabs/Tabs.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tabs/Tabs.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Tag.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tag/Tag.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2386,7 +3573,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Tag
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tag/Tag.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tag/Tag.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2401,7 +3588,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Tag.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Tag/Tag.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Tag/Tag.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2416,7 +3603,22 @@ Components that can be easily made SSR-compatible:
 
 
 ### TaskList
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/TaskList/TaskList.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/TaskList/TaskList.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Textarea.schema
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Textarea/Textarea.schema.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2431,7 +3633,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Textarea
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Textarea/Textarea.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Textarea/Textarea.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2446,7 +3648,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### Textarea.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/Textarea/Textarea.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Textarea/Textarea.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2461,7 +3663,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### TransactionalPageTemplate
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/TransactionalPageTemplate/TransactionalPageTemplate.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/TransactionalPageTemplate/TransactionalPageTemplate.tsx`
 - **Compatibility**: requires-refactoring
 - **Issues**: 1
 - **Uses Hooks**: No
@@ -2469,14 +3671,14 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **window-object** (Line 106): Direct window object access
+- **window-object** (Line 107): Direct window object access
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
 
 
 ### WarningCallout
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/WarningCallout/WarningCallout.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/WarningCallout/WarningCallout.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2491,7 +3693,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### WidthContainer
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/WidthContainer/WidthContainer.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/WidthContainer/WidthContainer.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2506,7 +3708,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### WidthUtilities
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/WidthUtilities/WidthUtilities.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/WidthUtilities/WidthUtilities.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2521,7 +3723,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### WidthUtilities.types
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/WidthUtilities/WidthUtilities.types.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/WidthUtilities/WidthUtilities.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2536,7 +3738,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### ssr
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/ssr.ts`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ssr.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2551,7 +3753,7 @@ Components that can be easily made SSR-compatible:
 
 
 ### test-account-icon
-- **File**: `/home/runner/work/nhs-fdp-design-system/nhs-fdp-design-system/src/components/test-account-icon.tsx`
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/test-account-icon.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -2567,11 +3769,11 @@ Components that can be easily made SSR-compatible:
 
 ## Next Steps
 
-1. **Quick Wins**: Fix auto-fixable issues in 7 components
+1. **Quick Wins**: Fix auto-fixable issues in 11 components
 2. **High Priority**: Address blocking issues in refactoring-required components
 3. **Client Components**: Convert 1 components to client-only
 4. **Testing**: Set up SSR testing pipeline for all compatible components
 
 ## Automated Fixes Available
 
-93 issues can be automatically fixed.
+109 issues can be automatically fixed.

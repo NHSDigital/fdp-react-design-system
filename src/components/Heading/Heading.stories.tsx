@@ -1,6 +1,8 @@
 // PRUNE: KEEP_ALL (Expanded single-story gallery showcasing all Heading variants)
 import type { Meta, StoryObj } from '@storybook/react';
 import { Heading } from '.';
+import headingStaticHtml from '../../../docs/static-html/Heading.html?raw';
+import ParityBlock, { toNunjucksMacro } from '../../storybook/ParityBlock';
 
 const meta: Meta<typeof Heading> = {
   title: 'NHS/Components/Heading',
@@ -102,4 +104,35 @@ export const AllVariants: Story = {
       </div>
     );
   }
+};
+
+export const Parity: Story = {
+  name: 'Parity: React | Nunjucks | Static HTML',
+  args: { size: 'xl', text: 'Page title (xl → h1)' },
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        story:
+          'Side-by-side view: React live render, Nunjucks macro invocation (code), and the canonical Static HTML snippet (generated).',
+      },
+    },
+  },
+  render: (args) => {
+    const props: Record<string, unknown> = {};
+    if (args.level) props.level = args.level;
+    if (args.size) props.size = args.size;
+    if (args.className) props.className = args.className;
+    if (args.marginBottom) props.marginBottom = args.marginBottom;
+    props.text = args.text || (typeof args.children === 'string' ? args.children : 'Heading');
+
+    return (
+      <ParityBlock
+        macroCode={toNunjucksMacro('heading', props)}
+        staticHtml={headingStaticHtml}
+      >
+        <Heading {...args} />
+      </ParityBlock>
+    );
+  },
 };

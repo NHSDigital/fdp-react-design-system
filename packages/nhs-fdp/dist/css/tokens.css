@@ -287,6 +287,30 @@
   --tag-yellow-background: #fff59d; /** Yellow tag background (50% tint of NHS yellow) */
   --tag-yellow-border: #4d4712; /** Yellow tag border (70% shade of NHS yellow) */
   --tag-yellow-text: #4d4712; /** Yellow tag text color (70% shade of NHS yellow) */
+  --diagram-flowchart-decision-fill: #fff3e0; /** Flowchart/Mermaid decision node fill */
+  --diagram-flowchart-decision-stroke: #f57c00; /** Flowchart/Mermaid decision node border/stroke */
+  --diagram-flowchart-decision-text: #4e342e; /** Flowchart/Mermaid decision node text */
+  --diagram-flowchart-auto-fill: #e3f2fd; /** Flowchart/Mermaid automation node fill */
+  --diagram-flowchart-auto-stroke: #1976d2; /** Flowchart/Mermaid automation node border/stroke */
+  --diagram-flowchart-auto-text: #0d47a1; /** Flowchart/Mermaid automation node text */
+  --diagram-flowchart-action-fill: #e8f5e9; /** Flowchart/Mermaid action/outcome node fill */
+  --diagram-flowchart-action-stroke: #388e3c; /** Flowchart/Mermaid action/outcome node border/stroke */
+  --diagram-flowchart-action-text: #1b5e20; /** Flowchart/Mermaid action/outcome node text */
+  --diagram-flowchart-warning-fill: #ffebee; /** Flowchart/Mermaid warning node fill */
+  --diagram-flowchart-warning-stroke: #d32f2f; /** Flowchart/Mermaid warning node border/stroke */
+  --diagram-flowchart-warning-text: #b71c1c; /** Flowchart/Mermaid warning node text */
+  --diagram-mermaid-class-decision-fill: #fff3e0; /** Mermaid class decision fill alias */
+  --diagram-mermaid-class-decision-stroke: #f57c00; /** Mermaid class decision stroke alias */
+  --diagram-mermaid-class-decision-text: #4e342e; /** Mermaid class decision text alias */
+  --diagram-mermaid-class-auto-fill: #e3f2fd; /** Mermaid class automation fill alias */
+  --diagram-mermaid-class-auto-stroke: #1976d2; /** Mermaid class automation stroke alias */
+  --diagram-mermaid-class-auto-text: #0d47a1; /** Mermaid class automation text alias */
+  --diagram-mermaid-class-action-fill: #e8f5e9; /** Mermaid class action fill alias */
+  --diagram-mermaid-class-action-stroke: #388e3c; /** Mermaid class action stroke alias */
+  --diagram-mermaid-class-action-text: #1b5e20; /** Mermaid class action text alias */
+  --diagram-mermaid-class-warning-fill: #ffebee; /** Mermaid class warning fill alias */
+  --diagram-mermaid-class-warning-stroke: #d32f2f; /** Mermaid class warning stroke alias */
+  --diagram-mermaid-class-warning-text: #b71c1c; /** Mermaid class warning text alias */
   --size-icon-small: 16px; /** Small icon size */
   --size-icon-medium: 18px; /** Medium icon size (breadcrumb chevrons) */
   --size-icon-large: 24px; /** Large icon size (back links) */

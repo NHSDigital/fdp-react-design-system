@@ -1,0 +1,146 @@
+{
+  "diagram": {
+    "flowchart": {
+      "decision": {
+        "fill": {
+          "$type": "color",
+          "$value": "#FFF3E0",
+          "$description": "Flowchart/Mermaid decision node fill"
+        },
+        "stroke": {
+          "$type": "color",
+          "$value": "#F57C00",
+          "$description": "Flowchart/Mermaid decision node border/stroke"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "#4E342E",
+          "$description": "Flowchart/Mermaid decision node text"
+        }
+      },
+      "auto": {
+        "fill": {
+          "$type": "color",
+          "$value": "#E3F2FD",
+          "$description": "Flowchart/Mermaid automation node fill"
+        },
+        "stroke": {
+          "$type": "color",
+          "$value": "#1976D2",
+          "$description": "Flowchart/Mermaid automation node border/stroke"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "#0D47A1",
+          "$description": "Flowchart/Mermaid automation node text"
+        }
+      },
+      "action": {
+        "fill": {
+          "$type": "color",
+          "$value": "#E8F5E9",
+          "$description": "Flowchart/Mermaid action/outcome node fill"
+        },
+        "stroke": {
+          "$type": "color",
+          "$value": "#388E3C",
+          "$description": "Flowchart/Mermaid action/outcome node border/stroke"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "#1B5E20",
+          "$description": "Flowchart/Mermaid action/outcome node text"
+        }
+      },
+      "warning": {
+        "fill": {
+          "$type": "color",
+          "$value": "#FFEBEE",
+          "$description": "Flowchart/Mermaid warning node fill"
+        },
+        "stroke": {
+          "$type": "color",
+          "$value": "#D32F2F",
+          "$description": "Flowchart/Mermaid warning node border/stroke"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "#B71C1C",
+          "$description": "Flowchart/Mermaid warning node text"
+        }
+      }
+    },
+    "mermaid": {
+      "class": {
+        "decision": {
+          "fill": {
+            "$type": "color",
+            "$value": "{diagram.flowchart.decision.fill}",
+            "$description": "Mermaid class decision fill alias"
+          },
+          "stroke": {
+            "$type": "color",
+            "$value": "{diagram.flowchart.decision.stroke}",
+            "$description": "Mermaid class decision stroke alias"
+          },
+          "text": {
+            "$type": "color",
+            "$value": "{diagram.flowchart.decision.text}",
+            "$description": "Mermaid class decision text alias"
+          }
+        },
+        "auto": {
+          "fill": {
+            "$type": "color",
+            "$value": "{diagram.flowchart.auto.fill}",
+            "$description": "Mermaid class automation fill alias"
+          },
+          "stroke": {
+            "$type": "color",
+            "$value": "{diagram.flowchart.auto.stroke}",
+            "$description": "Mermaid class automation stroke alias"
+          },
+          "text": {
+            "$type": "color",
+            "$value": "{diagram.flowchart.auto.text}",
+            "$description": "Mermaid class automation text alias"
+          }
+        },
+        "action": {
+          "fill": {
+            "$type": "color",
+            "$value": "{diagram.flowchart.action.fill}",
+            "$description": "Mermaid class action fill alias"
+          },
+          "stroke": {
+            "$type": "color",
+            "$value": "{diagram.flowchart.action.stroke}",
+            "$description": "Mermaid class action stroke alias"
+          },
+          "text": {
+            "$type": "color",
+            "$value": "{diagram.flowchart.action.text}",
+            "$description": "Mermaid class action text alias"
+          }
+        },
+        "warning": {
+          "fill": {
+            "$type": "color",
+            "$value": "{diagram.flowchart.warning.fill}",
+            "$description": "Mermaid class warning fill alias"
+          },
+          "stroke": {
+            "$type": "color",
+            "$value": "{diagram.flowchart.warning.stroke}",
+            "$description": "Mermaid class warning stroke alias"
+          },
+          "text": {
+            "$type": "color",
+            "$value": "{diagram.flowchart.warning.text}",
+            "$description": "Mermaid class warning text alias"
+          }
+        }
+      }
+    }
+  }
+}

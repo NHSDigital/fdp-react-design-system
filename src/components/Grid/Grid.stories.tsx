@@ -52,13 +52,13 @@ export const AlignmentDemo: Story = {
 	render: () => (
 		<Container>
 			<Row>
-				<Column width={GridWidth.OneThird} align={ColumnAlign.Left}>
+				<Column style={{background: "#f0f4f7", border: "1px solid #d4e7ed", padding: "16px"}} width={GridWidth.OneThird} align={ColumnAlign.Left}>
 					<SampleContent>Left aligned</SampleContent>
 				</Column>
-				<Column width={GridWidth.OneThird} align={ColumnAlign.Center}>
+				<Column style={{background: "#f0f4f7", border: "1px solid #d4e7ed", padding: "16px"}} width={GridWidth.OneThird} align={ColumnAlign.Center}>
 					<SampleContent>Center aligned</SampleContent>
 				</Column>
-				<Column width={GridWidth.OneThird} align={ColumnAlign.Right}>
+				<Column style={{background: "#f0f4f7", border: "1px solid #d4e7ed", padding: "16px"}} width={GridWidth.OneThird} align={ColumnAlign.Right}>
 					<SampleContent>Right aligned</SampleContent>
 				</Column>
 			</Row>
@@ -76,9 +76,6 @@ const SampleContent = ({
 }) => (
 	<div
 		style={{
-			background: "#f0f4f7",
-			border: "1px solid #d4e7ed",
-			padding: "16px",
 			minHeight: height,
 		}}
 	>

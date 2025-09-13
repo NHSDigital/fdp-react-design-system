@@ -37,7 +37,31 @@ If you prefer full component baseline styles (potentially larger initial CSS) yo
 import '@fergusbisset/nhs-fdp-design-system/css';
 ```
 
-## 3. Using Components (Client Components)
+## 3. Using Components (Server vs Client)
+
+Prefer the curated SSR surface in server components. This keeps imports hook‑free and avoids client boundaries:
+
+```tsx
+// app/ssr/page.tsx (server component)
+import {
+  Header,
+  ButtonServer,
+  SkipLink,
+  SummaryList,
+  Pagination,
+  Input,
+  Textarea,
+  Select,
+  Radios,
+  Checkboxes,
+  DateInput,
+  ErrorSummary,
+  WidthContainer,
+  MetricCard,
+} from '@fergusbisset/nhs-fdp-design-system/ssr';
+```
+
+Use the root entry in client components for interactive widgets (those that rely on hooks/DOM APIs):
 
 Any component that uses hooks (e.g. `NavigationSplitView`) must be rendered in a client component:
 
@@ -56,6 +80,28 @@ export default function PatientsPage() {
     />
   );
 }
+
+### Behaviours (progressive enhancement)
+
+Defer behaviours until after hydration to avoid pre‑hydration DOM mutations:
+
+```tsx
+// app/BehavioursLoader.tsx
+'use client';
+import { useEffect, useRef } from 'react';
+
+export function BehavioursLoader({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    import('@fergusbisset/nhs-fdp-design-system/behaviours').then(({ initAll }) => {
+      if (ref.current) initAll(ref.current);
+    });
+  }, []);
+  return <div ref={ref}>{children}</div>;
+}
+```
+
+Wrap your page body with this in the root layout or specific pages.
 ```
 
 ## 4. URL State Synchronisation (Next Router Friendly)

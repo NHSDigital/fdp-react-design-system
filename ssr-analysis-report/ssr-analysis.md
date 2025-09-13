@@ -20,9 +20,9 @@ Components that can be easily made SSR-compatible:
 - **patterns**: 3/3 issues auto-fixable
 - **GanttChart**: 12/14 issues auto-fixable
 - **NavigationSplitView.types**: 2/2 issues auto-fixable
-- **ProductRoadmap**: 4/4 issues auto-fixable
+- **ProductRoadmap**: 5/5 issues auto-fixable
 - **SkipLink**: 9/11 issues auto-fixable
-- **useIntelligentLayout**: 29/31 issues auto-fixable
+- **useIntelligentLayout**: 53/55 issues auto-fixable
 - **TransactionalPageTemplate**: 1/1 issues auto-fixable
 
 ## Priority Issues
@@ -42,19 +42,19 @@ Components that can be easily made SSR-compatible:
 
 - **document-object**: Direct document object access
   ```
-  const link = document.createElement('a');
+  const link = document.createElement("a");
   ```
   **Fix**: Add typeof document !== "undefined" check or use in useEffect
 
 - **document-object**: Direct document object access
   ```
-  document.body.appendChild(link);
+  (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).appendChild(link);
   ```
   **Fix**: Add typeof document !== "undefined" check or use in useEffect
 
 - **document-object**: Direct document object access
   ```
-  document.body.removeChild(link);
+  (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).removeChild(link);
   ```
   **Fix**: Add typeof document !== "undefined" check or use in useEffect
 
@@ -290,9 +290,9 @@ Components that can be easily made SSR-compatible:
 - **Header**: 13 issues (6 blocking)
 - **NavigationSplitView**: 38 issues (20 blocking)
 - **NavigationSplitView.types**: 2 issues (2 blocking)
-- **ProductRoadmap**: 4 issues (3 blocking)
+- **ProductRoadmap**: 5 issues (4 blocking)
 - **SkipLink**: 11 issues (8 blocking)
-- **useIntelligentLayout**: 31 issues (18 blocking)
+- **useIntelligentLayout**: 55 issues (39 blocking)
 - **TransactionalPageTemplate**: 1 issues (1 blocking)
 
 ### 🖥️ Client-Only (1)
@@ -852,9 +852,9 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **document-object** (Line 115): Direct document object access
-- **document-object** (Line 120): Direct document object access
-- **document-object** (Line 122): Direct document object access
+- **document-object** (Line 145): Direct document object access
+- **document-object** (Line 150): Direct document object access
+- **document-object** (Line 152): Direct document object access
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
@@ -2861,16 +2861,17 @@ Components that can be easily made SSR-compatible:
 ### ProductRoadmap
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ProductRoadmap/ProductRoadmap.tsx`
 - **Compatibility**: requires-refactoring
-- **Issues**: 4
+- **Issues**: 5
 - **Uses Hooks**: Yes
 - **Browser APIs**: Yes
 - **DOM Access**: No
 
 #### Issues:
 - **window-object** (Line 116): Direct window object access
-- **window-object** (Line 116): Direct window object access
-- **media-query** (Line 116): matchMedia API usage
-- **document-object** (Line 118): Direct document object access
+- **window-object** (Line 117): Direct window object access
+- **window-object** (Line 117): Direct window object access
+- **media-query** (Line 117): matchMedia API usage
+- **document-object** (Line 120): Direct document object access
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
@@ -3400,7 +3401,7 @@ Components that can be easily made SSR-compatible:
 ### useIntelligentLayout
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/hooks/useIntelligentLayout.ts`
 - **Compatibility**: requires-refactoring
-- **Issues**: 31
+- **Issues**: 55
 - **Uses Hooks**: Yes
 - **Browser APIs**: Yes
 - **DOM Access**: Yes
@@ -3408,10 +3409,19 @@ Components that can be easily made SSR-compatible:
 #### Issues:
 - **window-object** (Line 61): Direct window object access
 - **window-object** (Line 62): Direct window object access
-- **navigator** (Line 67): Navigator API access
 - **window-object** (Line 68): Direct window object access
 - **window-object** (Line 69): Direct window object access
+- **window-object** (Line 69): Direct window object access
+- **window-object** (Line 69): Direct window object access
+- **window-object** (Line 69): Direct window object access
+- **window-object** (Line 69): Direct window object access
+- **window-object** (Line 69): Direct window object access
 - **media-query** (Line 69): matchMedia API usage
+- **window-object** (Line 70): Direct window object access
+- **window-object** (Line 70): Direct window object access
+- **window-object** (Line 70): Direct window object access
+- **window-object** (Line 70): Direct window object access
+- **window-object** (Line 70): Direct window object access
 - **window-object** (Line 70): Direct window object access
 - **media-query** (Line 70): matchMedia API usage
 - **useEffect** (Line 167): useEffect runs only on client side
@@ -3420,23 +3430,38 @@ Components that can be easily made SSR-compatible:
 - **window-object** (Line 179): Direct window object access
 - **event-listener** (Line 179): Event listener setup
 - **window-object** (Line 182): Direct window object access
-- **media-query** (Line 182): matchMedia API usage
+- **window-object** (Line 183): Direct window object access
+- **window-object** (Line 183): Direct window object access
+- **window-object** (Line 183): Direct window object access
+- **window-object** (Line 183): Direct window object access
 - **window-object** (Line 183): Direct window object access
 - **media-query** (Line 183): matchMedia API usage
-- **event-listener** (Line 187): Event listener setup
-- **event-listener** (Line 188): Event listener setup
-- **window-object** (Line 191): Direct window object access
-- **window-object** (Line 192): Direct window object access
-- **useEffect** (Line 200): useEffect runs only on client side
-- **resize-observer** (Line 226): ResizeObserver API usage
-- **resize-observer** (Line 228): ResizeObserver API usage
-- **document-object** (Line 233): Direct document object access
-- **document-object** (Line 267): Direct document object access
-- **document-object** (Line 273): Direct document object access
-- **document-object** (Line 277): Direct document object access
-- **document-object** (Line 283): Direct document object access
-- **document-object** (Line 289): Direct document object access
-- **document-object** (Line 294): Direct document object access
+- **window-object** (Line 185): Direct window object access
+- **window-object** (Line 186): Direct window object access
+- **window-object** (Line 186): Direct window object access
+- **window-object** (Line 186): Direct window object access
+- **window-object** (Line 186): Direct window object access
+- **window-object** (Line 186): Direct window object access
+- **media-query** (Line 186): matchMedia API usage
+- **event-listener** (Line 191): Event listener setup
+- **event-listener** (Line 192): Event listener setup
+- **window-object** (Line 195): Direct window object access
+- **window-object** (Line 196): Direct window object access
+- **useEffect** (Line 204): useEffect runs only on client side
+- **resize-observer** (Line 233): ResizeObserver API usage
+- **resize-observer** (Line 235): ResizeObserver API usage
+- **resize-observer** (Line 236): ResizeObserver API usage
+- **resize-observer** (Line 236): ResizeObserver API usage
+- **resize-observer** (Line 236): ResizeObserver API usage
+- **resize-observer** (Line 236): ResizeObserver API usage
+- **document-object** (Line 240): Direct document object access
+- **window-object** (Line 246): Direct window object access
+- **document-object** (Line 275): Direct document object access
+- **document-object** (Line 280): Direct document object access
+- **document-object** (Line 293): Direct document object access
+- **window-object** (Line 298): Direct window object access
+- **document-object** (Line 299): Direct document object access
+- **document-object** (Line 304): Direct document object access
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
@@ -3872,4 +3897,4 @@ Components that can be easily made SSR-compatible:
 
 ## Automated Fixes Available
 
-109 issues can be automatically fixed.
+134 issues can be automatically fixed.

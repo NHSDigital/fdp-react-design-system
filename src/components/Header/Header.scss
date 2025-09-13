@@ -210,24 +210,16 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		flex-direction: row;
 		align-items: center;
 		gap: tokens.$nhs-fdp-spacing-3;
-		flex: 1 0 auto; // Fixed logical width buckets per breakpoint
-		width: 300px;
+		flex: 1 1 auto; // Allow to grow and shrink based on available space
+		min-width: 0; // Let children wrap instead of forcing overflow
+		max-width: 100%;
 		text-decoration: none;
-
-		@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-small} - 1px)) {
-			width: 200px;
-		}
-		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
-			width: 350px;
-			
-		}
 	}
 
 	&__service-logo {
 		position: relative;
 		display: inline-flex;
 		flex: 0 0 auto;
-		width: 64px;
 		line-height: 0;
 		margin-right: tokens.$nhs-fdp-spacing-3;
 		@include header-link-style-base($link-color: tokens.$nhs-fdp-color-primary-white);
@@ -258,7 +250,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	&__service-name {
 		display: inline-flex;
 		flex-direction: column;
-		flex: 0 0 auto;
+		flex: 1 1 auto; // take remaining space within service container
 		justify-content: center;
 		min-width: 0;
 		text-wrap: balance;
@@ -267,23 +259,18 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		font-weight: tokens.$nhs-fdp-font-weight-normal;
 		line-height: 1.1;
 		padding-left: tokens.$nhs-fdp-spacing-3;
-		// default (very small) width calc
-		width: calc(200px - 64px - #{tokens.$nhs-fdp-spacing-3});
+		max-width: 100%; // prevent overflow; rely on flex + min-width:0
 		text-decoration: none;
 
-		@media (min-width: calc(#{tokens.$nhs-fdp-breakpoint-small})) {
-			width: calc(300px - 64px - #{tokens.$nhs-fdp-spacing-3});
-		}
-		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
-			font-size: tokens.$nhs-fdp-font-size-19-tablet;
-			width: calc(350px - 64px - #{tokens.$nhs-fdp-spacing-3});
-		}
+		// @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+		// 	font-size: tokens.$nhs-fdp-font-size-19-tablet;
+		// }
 
 		&:only-child {
 			// take full container width when logo missing
-			width: 200px;
-			@media (min-width: calc(#{tokens.$nhs-fdp-breakpoint-small})) { width: 300px; }
-			@media (min-width: tokens.$nhs-fdp-breakpoint-medium) { width: 350px; }
+			flex: 1 1 auto;
+			width: 100%;
+			padding-left: 0;
 		}
 
 		&[href] {
@@ -660,16 +647,23 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 
 	// Organisation name classes - hierarchical structure
 	&__organisation-name {
-		display: block;
-		font-size: tokens.$nhs-fdp-font-size-22-mobile;
+		display: flex;
+		font-size: tokens.$nhs-fdp-font-size-19-mobile;
 		font-weight: tokens.$nhs-fdp-font-weight-bold;
 		line-height: 1.1;
+		padding-left: tokens.$nhs-fdp-spacing-3;
+		width: 30%; // Ensure it takes at least 30% of the header width
+		flex: 1 1 auto; // Allow to grow and shrink based on available space
+		text-wrap: balance;
+		overflow-wrap: break-word;
 
 		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
-			font-size: tokens.$nhs-fdp-font-size-22-tablet;
+			font-size: tokens.$nhs-fdp-font-size-19-tablet;
 		}
 		@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
-			max-width: 14ch; // Limit width on mobile
+			visibility: hidden; // hide on small screens to save space
+			width: 0;
+			height: 0;
 		}
 
 		&-split {

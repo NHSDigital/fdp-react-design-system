@@ -100,8 +100,16 @@ SSR surface and validation:
 - Added a pure server `SkipLink` variant; SSR entry now exports this to avoid hook leakage.
 - Prefer `ButtonServer` for SSR/SSG markup stability.
 - Expanded SSR-safe surface: `Input` (server-first), `Textarea`, `Select`, `Radios` (server), `Checkboxes` (server), `DateInput` (server), and `ErrorSummary` (server). All available via the `/ssr` entry.
+- Added `WidthContainer` to the SSR surface (layout helper) and `MetricCard` (pure render; SSR test present). Import directly from `/ssr`.
 - Next.js example `/ssr` route imports only from `/ssr` (guarded by ESLint). New `/example-form` route demonstrates POST‑Redirect‑GET with `#errors` hash to an SSR `ErrorSummary` (no client JS).
 - Validation: SSR tests green (52 files / 177 tests), smoke green, parity build passing; typecheck and lint clean. ESLint guardrails prevent non‑SSR imports in SSR pages and within the SSR barrel.
+
+Automation:
+- SSR analyzer run and “quick win” autofixes applied to guard against browser API usage (feature-detect `window`, `document`, `matchMedia`, and `ResizeObserver`). Follow‑up refactors completed for `ProductRoadmap`, `ChartWithTableTabs`, and `useIntelligentLayout` to stabilise SSR paths.
+
+Next.js example improvements:
+- Switched to granular CSS imports on the example app (core styles once + component styles as needed). Added `Fieldset` CSS.
+- Added a `BehavioursLoader` to defer behaviours initialisation until after hydration to avoid server/client mismatches.
 
 Automation and CI:
 - Schema manifest is now generated to `dist/meta/components.json` and published via `package.json` export `"./meta/components.json"`.

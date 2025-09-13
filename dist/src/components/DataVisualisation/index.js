@@ -8215,9 +8215,14 @@ var ChartWithTableTabs = ({
         link.href = url;
         link.download = `${filenameBase}.csv`;
         link.style.display = "none";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const parent = document.body || document.documentElement;
+        if (parent) {
+          parent.appendChild(link);
+          link.click();
+          parent.removeChild(link);
+        } else {
+          link.click();
+        }
         URL.revokeObjectURL(url);
       } catch (e) {
         console.warn("CSV download failed", e);

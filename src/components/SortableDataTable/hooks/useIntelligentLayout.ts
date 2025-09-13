@@ -51,7 +51,7 @@ export function useIntelligentLayout(
     touchCapable: false,
     highDensity: false,
     reducedMotion: false,
-    forcedColors: false
+    forcedColors: false,
   });
 
   const [layoutHistory, setLayoutHistory] = useState<string[]>([]);
@@ -60,16 +60,28 @@ export function useIntelligentLayout(
   const updateDeviceContext = useCallback(() => {
     const width = typeof window !== 'undefined' ? window.innerWidth : 1024;
     const height = typeof window !== 'undefined' ? window.innerHeight : 768;
-    
+
+    const reducedMotion =
+      typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+        ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        : false;
+
+    const forcedColors =
+      typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+        ? window.matchMedia('(forced-colors: active)').matches
+        : false;
+
     const newContext: DeviceContext = {
       viewport: width < 768 ? 'mobile' : width < 1200 ? 'tablet' : 'desktop',
       orientation: width > height ? 'landscape' : 'portrait',
-      touchCapable: (typeof window !== 'undefined' && 'ontouchstart' in window) || (typeof navigator !== 'undefined' && (navigator as any).maxTouchPoints > 0),
+      touchCapable:
+        (typeof window !== 'undefined' && 'ontouchstart' in window) ||
+        (typeof navigator !== 'undefined' && (navigator as any).maxTouchPoints > 0),
       highDensity: typeof window !== 'undefined' ? window.devicePixelRatio > 1.5 : false,
-      reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,
-      forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? window.matchMedia('(forced-colors: active)').matches : false
+      reducedMotion,
+      forcedColors,
     };
-    
+
     setDeviceContext(newContext);
   }, []);
 
@@ -85,24 +97,24 @@ export function useIntelligentLayout(
           primary: 'cards',
           fallback: 'cards',
           reason: 'Mobile viewport with simple data structure optimized for cards',
-          confidence: 0.95
+          confidence: 0.95,
         };
       }
-      
+
       if (hasPriorityData) {
         return {
           primary: 'cards',
           fallback: 'table',
           reason: 'Priority healthcare data displays better in card format on mobile',
-          confidence: 0.9
+          confidence: 0.9,
         };
       }
-      
+
       return {
         primary: 'cards',
         fallback: 'table',
         reason: 'Mobile viewport defaults to card layout for better UX',
-        confidence: 0.8
+        confidence: 0.8,
       };
     }
 
@@ -113,24 +125,24 @@ export function useIntelligentLayout(
           primary: 'hybrid',
           fallback: 'cards',
           reason: 'Touch tablet in portrait benefits from hybrid card-table layout',
-          confidence: 0.85
+          confidence: 0.85,
         };
       }
-      
+
       if (columnCount > 5) {
         return {
           primary: 'table',
           fallback: 'hybrid',
           reason: 'Many columns require table layout even on tablet',
-          confidence: 0.8
+          confidence: 0.8,
         };
       }
-      
+
       return {
         primary: 'hybrid',
         fallback: 'table',
         reason: 'Tablet viewport optimized for hybrid layout',
-        confidence: 0.75
+        confidence: 0.75,
       };
     }
 
@@ -140,15 +152,15 @@ export function useIntelligentLayout(
         primary: 'table',
         fallback: 'hybrid',
         reason: 'Large datasets require full table functionality',
-        confidence: 0.9
+        confidence: 0.9,
       };
     }
-    
+
     return {
       primary: 'table',
       fallback: 'table',
       reason: 'Desktop viewport with standard data complexity',
-      confidence: 0.8
+      confidence: 0.8,
     };
   }, [deviceContext, dataCharacteristics]);
 
@@ -158,7 +170,7 @@ export function useIntelligentLayout(
     if (userPreference && userPreference !== 'auto') {
       return userPreference;
     }
-    
+
     const recommendation = getLayoutRecommendation();
     return recommendation.primary;
   }, [userPreference, getLayoutRecommendation]);
@@ -166,36 +178,42 @@ export function useIntelligentLayout(
   // Update device context on mount and resize
   useEffect(() => {
     updateDeviceContext();
-    
+
     const handleResize = () => {
       updateDeviceContext();
     };
-    
+
     const handleOrientationChange = () => {
       setTimeout(updateDeviceContext, 100); // Small delay for orientation change
     };
 
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleOrientationChange);
-    
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+      window.addEventListener('orientationchange', handleOrientationChange);
+    }
+
     // Listen for media query changes
-    const reducedMotionQuery = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')
-      ? window.matchMedia('(prefers-reduced-motion: reduce)')
-      : null;
-    const forcedColorsQuery = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')
-      ? window.matchMedia('(forced-colors: active)')
-      : null;
-    
+    const reducedMotionQuery =
+      typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+        ? window.matchMedia('(prefers-reduced-motion: reduce)')
+        : null;
+    const forcedColorsQuery =
+      typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+        ? window.matchMedia('(forced-colors: active)')
+        : null;
+
     const handleMediaChange = () => updateDeviceContext();
-    
-  reducedMotionQuery?.addEventListener('change', handleMediaChange);
-  forcedColorsQuery?.addEventListener('change', handleMediaChange);
+
+    reducedMotionQuery?.addEventListener('change', handleMediaChange);
+    forcedColorsQuery?.addEventListener('change', handleMediaChange);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', handleOrientationChange);
-  reducedMotionQuery?.removeEventListener('change', handleMediaChange);
-  forcedColorsQuery?.removeEventListener('change', handleMediaChange);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+        window.removeEventListener('orientationchange', handleOrientationChange);
+      }
+      reducedMotionQuery?.removeEventListener('change', handleMediaChange);
+      forcedColorsQuery?.removeEventListener('change', handleMediaChange);
     };
   }, [updateDeviceContext]);
 
@@ -203,14 +221,14 @@ export function useIntelligentLayout(
   const currentLayout = getCurrentLayout();
   useEffect(() => {
     const layoutId = `${currentLayout}-${deviceContext.viewport}-${Date.now()}`;
-    setLayoutHistory(prev => [...prev.slice(-9), layoutId]); // Keep last 10 changes
+    setLayoutHistory((prev) => [...prev.slice(-9), layoutId]); // Keep last 10 changes
   }, [currentLayout, deviceContext.viewport]);
 
   return {
     deviceContext,
     recommendedLayout: getLayoutRecommendation(),
     currentLayout,
-    layoutHistory
+    layoutHistory,
   };
 }
 
@@ -221,7 +239,7 @@ export function useLayoutPerformance() {
   const [metrics, setMetrics] = useState({
     renderTime: 0,
     layoutShifts: 0,
-    interactionTime: 0
+    interactionTime: 0,
   });
 
   const measureLayoutTransition = useCallback((fromLayout: string, toLayout: string) => {
@@ -229,35 +247,35 @@ export function useLayoutPerformance() {
       return; // SSR guard
     }
     const startTime = performance.now();
-    
+
     // Use ResizeObserver to detect layout shifts
     let shiftCount = 0;
-    const observer = (typeof ResizeObserver !== 'undefined')
-      ? new ResizeObserver(() => { shiftCount++; })
-      : null;
-    
+    const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => {
+      shiftCount++;
+    }) : null;
+
     // Observe the main container
-    const container = typeof document !== 'undefined' ? document.querySelector('.aria-tabs-datagrid-adaptive') : null;
+    const container = document.querySelector('.aria-tabs-datagrid-adaptive') as Element | null;
     if (container && observer) {
-      observer.observe(container as Element);
+      observer.observe(container);
     }
-    
+
     // Measure completion
     window.requestAnimationFrame(() => {
       const endTime = performance.now();
-      
-      setMetrics(prev => ({
+
+      setMetrics((prev) => ({
         ...prev,
         renderTime: endTime - startTime,
-        layoutShifts: shiftCount
+        layoutShifts: shiftCount,
       }));
-      
+
       observer?.disconnect();
-      
+
       // Log for analytics
       console.log(`Layout transition: ${fromLayout} → ${toLayout}`, {
         renderTime: endTime - startTime,
-        layoutShifts: shiftCount
+        layoutShifts: shiftCount,
       });
     });
   }, []);
@@ -278,7 +296,7 @@ export function useLayoutAccessibility() {
     announcement.className = 'sr-only';
     announcement.textContent = `Layout changed to ${newLayout} view. ${reason}`;
     document.body.appendChild(announcement);
-    
+
     // Remove after announcement
     setTimeout(() => {
       if (announcement.parentNode) {
@@ -290,15 +308,15 @@ export function useLayoutAccessibility() {
   const focusManagement = useCallback((_newLayout: string) => {
     if (typeof document === 'undefined' || typeof window === 'undefined') return; // SSR guard
     // Maintain focus position across layout changes
-    const activeElement = document.activeElement;
+    const activeElement = document.activeElement as HTMLElement | null;
     const activeId = activeElement?.id;
-    
+
     if (activeId) {
       // Try to maintain focus after layout change
       window.requestAnimationFrame(() => {
         const newActiveElement = document.getElementById(activeId);
         if (newActiveElement) {
-          newActiveElement.focus();
+          (newActiveElement as HTMLElement).focus();
         } else {
           // Focus first interactive element in new layout
           const firstFocusable = document.querySelector(

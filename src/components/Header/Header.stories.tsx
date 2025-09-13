@@ -86,7 +86,7 @@ export const WhiteVariant: Story = {
 };
 
 export const OrganisationVariant: Story = {
-	args: { ...baseArgs, variant: "organisation" },
+	args: { ...baseArgs, variant: "organisation", organisation: { name: "NHS Trust with a Long Name" } },
 	parameters: {
 		docs: {
 			description: {

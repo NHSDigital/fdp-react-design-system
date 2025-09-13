@@ -24,11 +24,11 @@ This guide explains how to use the design system in server-rendered environments
 
 ### Importing server-first variants
 
-For components that offer an explicit server export path, import the server variant to keep your trees hook‑free by default:
+Prefer the curated SSR surface for server components to keep your trees hook‑free by default:
 
 ```tsx
 // Server component (Next.js App Router default)
-import { ButtonServer } from '@fergusbisset/nhs-fdp-design-system/components/Button/server';
+import { ButtonServer, Header, SkipLink, Input, Textarea, Select, Radios, Checkboxes, DateInput, ErrorSummary, MetricCard, WidthContainer } from '@fergusbisset/nhs-fdp-design-system/ssr';
 
 export default function Example() {
   return (
@@ -40,6 +40,8 @@ export default function Example() {
 ```
 
 This emits stable markup suitable for progressive enhancement; behaviours will attach on the client when initialised.
+
+Tip (Next.js): load core CSS once and defer behaviours until after hydration to avoid pre‑hydration DOM mutations. A small client wrapper that runs `initAll(container)` on mount is sufficient.
 
 ### Recommended folder pattern
 

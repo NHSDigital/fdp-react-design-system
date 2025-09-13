@@ -1853,7 +1853,7 @@ function GanttHeader({ viewStart, viewEnd, dateCount }) {
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
       if (typeof document !== "undefined") {
-        const firstRowTimeline = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(".gantt-row .timeline-container") : null : null : null : null : null : null : null : null;
+        const firstRowTimeline = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(".gantt-row .timeline-container") : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null;
         firstRowTimeline == null ? void 0 : firstRowTimeline.focus();
       }
     } else if (e.key === "Home") {
@@ -1871,7 +1871,7 @@ function GanttHeader({ viewStart, viewEnd, dateCount }) {
     if (e.key === "ArrowDown") {
       e.preventDefault();
       if (typeof document !== "undefined") {
-        const firstRowResource = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(".gantt-row .resource-label") : null : null : null : null : null : null : null : null;
+        const firstRowResource = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(".gantt-row .resource-label") : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null;
         firstRowResource == null ? void 0 : firstRowResource.focus();
       }
     } else if (e.key === "ArrowRight") {
@@ -1988,12 +1988,12 @@ function GanttRow({ resource, tasks, scale, onTaskClick, onTaskDoubleClick, rowI
           e.preventDefault();
           if (rowIndex === 0) {
             if (typeof document !== "undefined") {
-              const headerTimeline = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(".header-timeline") : null : null : null : null : null : null : null : null;
+              const headerTimeline = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(".header-timeline") : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null;
               headerTimeline == null ? void 0 : headerTimeline.focus();
             }
           } else {
             if (typeof document !== "undefined") {
-              const prevRow = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(`[aria-rowindex="${rowIndex + 1}"] .timeline-container`) : null : null : null : null : null : null : null : null;
+              const prevRow = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(`[aria-rowindex="${rowIndex + 1}"] .timeline-container`) : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null;
               prevRow == null ? void 0 : prevRow.focus();
             }
           }
@@ -2001,7 +2001,7 @@ function GanttRow({ resource, tasks, scale, onTaskClick, onTaskDoubleClick, rowI
         case "ArrowDown":
           e.preventDefault();
           if (typeof document !== "undefined") {
-            const nextRow = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(`[aria-rowindex="${rowIndex + 3}"] .timeline-container`) : null : null : null : null : null : null : null : null;
+            const nextRow = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(`[aria-rowindex="${rowIndex + 3}"] .timeline-container`) : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null;
             nextRow == null ? void 0 : nextRow.focus();
           }
           break;
@@ -2062,12 +2062,12 @@ function GanttRow({ resource, tasks, scale, onTaskClick, onTaskDoubleClick, rowI
         e.preventDefault();
         if (rowIndex === 0) {
           if (typeof document !== "undefined") {
-            const headerResource = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(".header-resource") : null : null : null : null : null : null : null : null;
+            const headerResource = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(".header-resource") : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null;
             headerResource == null ? void 0 : headerResource.focus();
           }
         } else {
           if (typeof document !== "undefined") {
-            const prevRow = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(`[aria-rowindex="${rowIndex + 1}"] .resource-label`) : null : null : null : null : null : null : null : null;
+            const prevRow = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(`[aria-rowindex="${rowIndex + 1}"] .resource-label`) : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null;
             prevRow == null ? void 0 : prevRow.focus();
           }
         }
@@ -2075,7 +2075,7 @@ function GanttRow({ resource, tasks, scale, onTaskClick, onTaskDoubleClick, rowI
       case "ArrowDown":
         e.preventDefault();
         if (typeof document !== "undefined") {
-          const nextRow = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(`[aria-rowindex="${rowIndex + 3}"] .resource-label`) : null : null : null : null : null : null : null : null;
+          const nextRow = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(`[aria-rowindex="${rowIndex + 3}"] .resource-label`) : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null : null;
           nextRow == null ? void 0 : nextRow.focus();
         }
         break;

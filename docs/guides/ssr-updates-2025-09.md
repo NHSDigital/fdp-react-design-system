@@ -12,9 +12,12 @@ This note summarises the recent SSR improvements and how to use them in Next.js 
   - New: `Textarea` and `Select` are available directly from the SSR surface (no hooks/state).
   - New: server-first `Radios` and `Checkboxes` now available from the SSR surface. These render pure markup with the appropriate `data-nhs-behaviour` attributes for progressive enhancement, without importing any client hooks or context.
   - New: server-first `DateInput` and `ErrorSummary` now available from the SSR surface. `ErrorSummary` in SSR omits autofocus side effects; client pages can enhance focus when needed.
+  - New: `MetricCard` is available from the SSR surface (pure render, no browser APIs). Import directly from the SSR entry to avoid the broader Data Visualisation barrel.
+  - New: `WidthContainer` is exported on the SSR surface as a simple layout helper.
 - Split `Header` into a server renderer (`HeaderServer`) and kept the client variant separate. The SSR entry re-exports the server one as `Header`.
 - Added a pure server `SkipLink` variant and wired it into the SSR export surface to avoid hook leakage.
 - Tightened example app imports so SSR pages only import from the `/ssr` entry.
+- Next.js example updated to load core styles once and use granular component CSS where possible; behaviours are deferred post-hydration via a small loader to avoid pre-hydration DOM mutations.
 - Fixed a legacy DOM prop leak (`serviceName`) by mapping internally and not passing unknown props to DOM.
 
 ## How to use
@@ -36,6 +39,8 @@ import {
   Checkboxes,
   DateInput,
   ErrorSummary,
+  WidthContainer,
+  MetricCard,
 } from '@fergusbisset/nhs-fdp-design-system/ssr';
 ```
 

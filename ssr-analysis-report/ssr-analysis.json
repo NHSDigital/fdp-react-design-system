@@ -464,8 +464,8 @@
       "issues": [
         {
           "type": "document-object",
-          "line": 115,
-          "code": "const link = document.createElement('a');",
+          "line": 145,
+          "code": "const link = document.createElement(\"a\");",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -473,8 +473,8 @@
         },
         {
           "type": "document-object",
-          "line": 120,
-          "code": "document.body.appendChild(link);",
+          "line": 150,
+          "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).appendChild(link);",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -482,8 +482,8 @@
         },
         {
           "type": "document-object",
-          "line": 122,
-          "code": "document.body.removeChild(link);",
+          "line": 152,
+          "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).removeChild(link);",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1373,7 +1373,7 @@
         {
           "type": "document-object",
           "line": 125,
-          "code": "export function injectPatterns(patterns: PatternDefinition[], root: HTMLElement | null = typeof document !== 'undefined' ? document.body : null) {",
+          "code": "export function injectPatterns(patterns: PatternDefinition[], root: HTMLElement | null = typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null) : null) : null) : null) : null) {",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1770,7 +1770,7 @@
         {
           "type": "document-object",
           "line": 88,
-          "code": "const firstRowTimeline = document.querySelector('.gantt-row .timeline-container') as HTMLElement | null;",
+          "code": "const firstRowTimeline = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector('.gantt-row .timeline-container') : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1779,7 +1779,7 @@
         {
           "type": "document-object",
           "line": 108,
-          "code": "const firstRowResource = document.querySelector('.gantt-row .resource-label') as HTMLElement | null;",
+          "code": "const firstRowResource = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector('.gantt-row .resource-label') : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1797,7 +1797,7 @@
         {
           "type": "document-object",
           "line": 240,
-          "code": "const headerTimeline = document.querySelector('.header-timeline') as HTMLElement | null;",
+          "code": "const headerTimeline = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector('.header-timeline') : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1806,7 +1806,7 @@
         {
           "type": "document-object",
           "line": 245,
-          "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .timeline-container`) as HTMLElement | null;",
+          "code": "const prevRow = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .timeline-container`) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1815,7 +1815,7 @@
         {
           "type": "document-object",
           "line": 253,
-          "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .timeline-container`) as HTMLElement | null;",
+          "code": "const nextRow = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .timeline-container`) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1824,7 +1824,7 @@
         {
           "type": "document-object",
           "line": 317,
-          "code": "const headerResource = document.querySelector('.header-resource') as HTMLElement | null;",
+          "code": "const headerResource = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector('.header-resource') : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1833,7 +1833,7 @@
         {
           "type": "document-object",
           "line": 322,
-          "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .resource-label`) as HTMLElement | null;",
+          "code": "const prevRow = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .resource-label`) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -1842,7 +1842,7 @@
         {
           "type": "document-object",
           "line": 330,
-          "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .resource-label`) as HTMLElement | null;",
+          "code": "const nextRow = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .resource-label`) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -2944,7 +2944,7 @@
         {
           "type": "window-object",
           "line": 116,
-          "code": "const prefersReduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+          "code": "const prefersReduce = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -2952,8 +2952,17 @@
         },
         {
           "type": "window-object",
-          "line": 116,
-          "code": "const prefersReduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+          "line": 117,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 117,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -2961,8 +2970,8 @@
         },
         {
           "type": "media-query",
-          "line": 116,
-          "code": "const prefersReduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+          "line": 117,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
           "severity": "high",
           "description": "matchMedia API usage",
           "suggestion": "Add window check and use CSS media queries for initial render",
@@ -2970,7 +2979,7 @@
         },
         {
           "type": "document-object",
-          "line": 118,
+          "line": 120,
           "code": "const nodes = Array.from(document.querySelectorAll(selector)) as HTMLElement[];",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -3223,7 +3232,7 @@
         {
           "type": "document-object",
           "line": 52,
-          "code": "const targetElement = document.querySelector(targetId);",
+          "code": "const targetElement = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(targetId) : null) : null) : null) : null) : null) : null) : null) : null);",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3489,7 +3498,7 @@
         {
           "type": "window-object",
           "line": 61,
-          "code": "const width = window.innerWidth;",
+          "code": "const width = typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? window.innerWidth : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024;",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -3498,25 +3507,16 @@
         {
           "type": "window-object",
           "line": 62,
-          "code": "const height = window.innerHeight;",
+          "code": "const height = typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? window.innerHeight : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768;",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
           "canAutoFix": true
         },
         {
-          "type": "navigator",
-          "line": 67,
-          "code": "touchCapable: 'ontouchstart' in window || navigator.maxTouchPoints > 0,",
-          "severity": "high",
-          "description": "Navigator API access",
-          "suggestion": "Add browser check and fallback values",
-          "canAutoFix": true
-        },
-        {
           "type": "window-object",
           "line": 68,
-          "code": "highDensity: window.devicePixelRatio > 1.5,",
+          "code": "highDensity: typeof window !== 'undefined' ? window.devicePixelRatio > 1.5 : false,",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -3525,7 +3525,52 @@
         {
           "type": "window-object",
           "line": 69,
-          "code": "reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,",
+          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 69,
+          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 69,
+          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 69,
+          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 69,
+          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 69,
+          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -3534,7 +3579,7 @@
         {
           "type": "media-query",
           "line": 69,
-          "code": "reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,",
+          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
           "severity": "high",
           "description": "matchMedia API usage",
           "suggestion": "Add window check and use CSS media queries for initial render",
@@ -3543,7 +3588,52 @@
         {
           "type": "window-object",
           "line": 70,
-          "code": "forcedColors: window.matchMedia('(forced-colors: active)').matches",
+          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 70,
+          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 70,
+          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 70,
+          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 70,
+          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 70,
+          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -3552,7 +3642,7 @@
         {
           "type": "media-query",
           "line": 70,
-          "code": "forcedColors: window.matchMedia('(forced-colors: active)').matches",
+          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
           "severity": "high",
           "description": "matchMedia API usage",
           "suggestion": "Add window check and use CSS media queries for initial render",
@@ -3606,7 +3696,52 @@
         {
           "type": "window-object",
           "line": 182,
-          "code": "const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');",
+          "code": "const reducedMotionQuery = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 183,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 183,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 183,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 183,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 183,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -3614,8 +3749,8 @@
         },
         {
           "type": "media-query",
-          "line": 182,
-          "code": "const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');",
+          "line": 183,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
           "severity": "high",
           "description": "matchMedia API usage",
           "suggestion": "Add window check and use CSS media queries for initial render",
@@ -3623,8 +3758,53 @@
         },
         {
           "type": "window-object",
-          "line": 183,
-          "code": "const forcedColorsQuery = window.matchMedia('(forced-colors: active)');",
+          "line": 185,
+          "code": "const forcedColorsQuery = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 186,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 186,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 186,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 186,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 186,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -3632,8 +3812,8 @@
         },
         {
           "type": "media-query",
-          "line": 183,
-          "code": "const forcedColorsQuery = window.matchMedia('(forced-colors: active)');",
+          "line": 186,
+          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
           "severity": "high",
           "description": "matchMedia API usage",
           "suggestion": "Add window check and use CSS media queries for initial render",
@@ -3641,25 +3821,25 @@
         },
         {
           "type": "event-listener",
-          "line": 187,
-          "code": "reducedMotionQuery.addEventListener('change', handleMediaChange);",
-          "severity": "medium",
-          "description": "Event listener setup",
-          "suggestion": "Move to useEffect hook",
-          "canAutoFix": true
-        },
-        {
-          "type": "event-listener",
-          "line": 188,
-          "code": "forcedColorsQuery.addEventListener('change', handleMediaChange);",
-          "severity": "medium",
-          "description": "Event listener setup",
-          "suggestion": "Move to useEffect hook",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
           "line": 191,
+          "code": "reducedMotionQuery?.addEventListener('change', handleMediaChange);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 192,
+          "code": "forcedColorsQuery?.addEventListener('change', handleMediaChange);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 195,
           "code": "window.removeEventListener('resize', handleResize);",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -3668,7 +3848,7 @@
         },
         {
           "type": "window-object",
-          "line": 192,
+          "line": 196,
           "code": "window.removeEventListener('orientationchange', handleOrientationChange);",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -3677,7 +3857,7 @@
         },
         {
           "type": "useEffect",
-          "line": 200,
+          "line": 204,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -3686,7 +3866,7 @@
         },
         {
           "type": "resize-observer",
-          "line": 226,
+          "line": 233,
           "code": "// Use ResizeObserver to detect layout shifts",
           "severity": "high",
           "description": "ResizeObserver API usage",
@@ -3695,8 +3875,44 @@
         },
         {
           "type": "resize-observer",
-          "line": 228,
-          "code": "const observer = new ResizeObserver(() => {",
+          "line": 235,
+          "code": "const observer = (typeof ResizeObserver !== 'undefined')",
+          "severity": "high",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
+          "canAutoFix": true
+        },
+        {
+          "type": "resize-observer",
+          "line": 236,
+          "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
+          "severity": "high",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
+          "canAutoFix": true
+        },
+        {
+          "type": "resize-observer",
+          "line": 236,
+          "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
+          "severity": "high",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
+          "canAutoFix": true
+        },
+        {
+          "type": "resize-observer",
+          "line": 236,
+          "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
+          "severity": "high",
+          "description": "ResizeObserver API usage",
+          "suggestion": "Add feature detection and fallbacks",
+          "canAutoFix": true
+        },
+        {
+          "type": "resize-observer",
+          "line": 236,
+          "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
           "severity": "high",
           "description": "ResizeObserver API usage",
           "suggestion": "Add feature detection and fallbacks",
@@ -3704,16 +3920,25 @@
         },
         {
           "type": "document-object",
-          "line": 233,
-          "code": "const container = document.querySelector('.aria-tabs-datagrid-adaptive');",
+          "line": 240,
+          "code": "const container = typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector('.aria-tabs-datagrid-adaptive') : null) : null) : null) : null) : null) : null) : null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
           "canAutoFix": true
         },
         {
+          "type": "window-object",
+          "line": 246,
+          "code": "window.requestAnimationFrame(() => {",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
           "type": "document-object",
-          "line": 267,
+          "line": 275,
           "code": "const announcement = document.createElement('div');",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -3722,8 +3947,8 @@
         },
         {
           "type": "document-object",
-          "line": 273,
-          "code": "document.body.appendChild(announcement);",
+          "line": 280,
+          "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null) : null) : null) : null).appendChild(announcement);",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3731,16 +3956,7 @@
         },
         {
           "type": "document-object",
-          "line": 277,
-          "code": "document.body.removeChild(announcement);",
-          "severity": "blocking",
-          "description": "Direct document object access",
-          "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "document-object",
-          "line": 283,
+          "line": 293,
           "code": "const activeElement = document.activeElement;",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -3748,9 +3964,18 @@
           "canAutoFix": true
         },
         {
+          "type": "window-object",
+          "line": 298,
+          "code": "window.requestAnimationFrame(() => {",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
           "type": "document-object",
-          "line": 289,
-          "code": "const newActiveElement = document.getElementById(activeId);",
+          "line": 299,
+          "code": "const newActiveElement = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.getElementById(activeId) : null) : null) : null) : null) : null) : null);",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3758,8 +3983,8 @@
         },
         {
           "type": "document-object",
-          "line": 294,
-          "code": "const firstFocusable = document.querySelector(",
+          "line": 304,
+          "code": "const firstFocusable = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4137,8 +4362,8 @@
       },
       {
         "type": "document-object",
-        "line": 115,
-        "code": "const link = document.createElement('a');",
+        "line": 145,
+        "code": "const link = document.createElement(\"a\");",
         "severity": "blocking",
         "description": "Direct document object access",
         "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4146,8 +4371,8 @@
       },
       {
         "type": "document-object",
-        "line": 120,
-        "code": "document.body.appendChild(link);",
+        "line": 150,
+        "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).appendChild(link);",
         "severity": "blocking",
         "description": "Direct document object access",
         "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4155,8 +4380,8 @@
       },
       {
         "type": "document-object",
-        "line": 122,
-        "code": "document.body.removeChild(link);",
+        "line": 152,
+        "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).removeChild(link);",
         "severity": "blocking",
         "description": "Direct document object access",
         "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4216,8 +4441,8 @@
         "issues": [
           {
             "type": "document-object",
-            "line": 115,
-            "code": "const link = document.createElement('a');",
+            "line": 145,
+            "code": "const link = document.createElement(\"a\");",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4225,8 +4450,8 @@
           },
           {
             "type": "document-object",
-            "line": 120,
-            "code": "document.body.appendChild(link);",
+            "line": 150,
+            "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).appendChild(link);",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4234,8 +4459,8 @@
           },
           {
             "type": "document-object",
-            "line": 122,
-            "code": "document.body.removeChild(link);",
+            "line": 152,
+            "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).removeChild(link);",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4360,7 +4585,7 @@
           {
             "type": "document-object",
             "line": 125,
-            "code": "export function injectPatterns(patterns: PatternDefinition[], root: HTMLElement | null = typeof document !== 'undefined' ? document.body : null) {",
+            "code": "export function injectPatterns(patterns: PatternDefinition[], root: HTMLElement | null = typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null) : null) : null) : null) : null) {",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4407,7 +4632,7 @@
           {
             "type": "document-object",
             "line": 88,
-            "code": "const firstRowTimeline = document.querySelector('.gantt-row .timeline-container') as HTMLElement | null;",
+            "code": "const firstRowTimeline = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector('.gantt-row .timeline-container') : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4416,7 +4641,7 @@
           {
             "type": "document-object",
             "line": 108,
-            "code": "const firstRowResource = document.querySelector('.gantt-row .resource-label') as HTMLElement | null;",
+            "code": "const firstRowResource = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector('.gantt-row .resource-label') : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4434,7 +4659,7 @@
           {
             "type": "document-object",
             "line": 240,
-            "code": "const headerTimeline = document.querySelector('.header-timeline') as HTMLElement | null;",
+            "code": "const headerTimeline = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector('.header-timeline') : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4443,7 +4668,7 @@
           {
             "type": "document-object",
             "line": 245,
-            "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .timeline-container`) as HTMLElement | null;",
+            "code": "const prevRow = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .timeline-container`) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4452,7 +4677,7 @@
           {
             "type": "document-object",
             "line": 253,
-            "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .timeline-container`) as HTMLElement | null;",
+            "code": "const nextRow = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .timeline-container`) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4461,7 +4686,7 @@
           {
             "type": "document-object",
             "line": 317,
-            "code": "const headerResource = document.querySelector('.header-resource') as HTMLElement | null;",
+            "code": "const headerResource = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector('.header-resource') : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4470,7 +4695,7 @@
           {
             "type": "document-object",
             "line": 322,
-            "code": "const prevRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .resource-label`) as HTMLElement | null;",
+            "code": "const prevRow = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(`[aria-rowindex=\"${rowIndex + 1}\"] .resource-label`) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4479,7 +4704,7 @@
           {
             "type": "document-object",
             "line": 330,
-            "code": "const nextRow = document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .resource-label`) as HTMLElement | null;",
+            "code": "const nextRow = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(`[aria-rowindex=\"${rowIndex + 3}\"] .resource-label`) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) : null) as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4598,7 +4823,7 @@
           {
             "type": "window-object",
             "line": 116,
-            "code": "const prefersReduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+            "code": "const prefersReduce = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -4606,8 +4831,17 @@
           },
           {
             "type": "window-object",
-            "line": 116,
-            "code": "const prefersReduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+            "line": 117,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 117,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -4615,8 +4849,8 @@
           },
           {
             "type": "media-query",
-            "line": 116,
-            "code": "const prefersReduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+            "line": 117,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
             "severity": "high",
             "description": "matchMedia API usage",
             "suggestion": "Add window check and use CSS media queries for initial render",
@@ -4624,7 +4858,7 @@
           },
           {
             "type": "document-object",
-            "line": 118,
+            "line": 120,
             "code": "const nodes = Array.from(document.querySelectorAll(selector)) as HTMLElement[];",
             "severity": "blocking",
             "description": "Direct document object access",
@@ -4690,7 +4924,7 @@
           {
             "type": "document-object",
             "line": 52,
-            "code": "const targetElement = document.querySelector(targetId);",
+            "code": "const targetElement = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(targetId) : null) : null) : null) : null) : null) : null) : null) : null);",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4780,7 +5014,7 @@
           {
             "type": "window-object",
             "line": 61,
-            "code": "const width = window.innerWidth;",
+            "code": "const width = typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? window.innerWidth : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024;",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -4789,25 +5023,16 @@
           {
             "type": "window-object",
             "line": 62,
-            "code": "const height = window.innerHeight;",
+            "code": "const height = typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? window.innerHeight : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768;",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
             "canAutoFix": true
           },
           {
-            "type": "navigator",
-            "line": 67,
-            "code": "touchCapable: 'ontouchstart' in window || navigator.maxTouchPoints > 0,",
-            "severity": "high",
-            "description": "Navigator API access",
-            "suggestion": "Add browser check and fallback values",
-            "canAutoFix": true
-          },
-          {
             "type": "window-object",
             "line": 68,
-            "code": "highDensity: window.devicePixelRatio > 1.5,",
+            "code": "highDensity: typeof window !== 'undefined' ? window.devicePixelRatio > 1.5 : false,",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -4816,7 +5041,52 @@
           {
             "type": "window-object",
             "line": 69,
-            "code": "reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,",
+            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 69,
+            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 69,
+            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 69,
+            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 69,
+            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 69,
+            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -4825,7 +5095,7 @@
           {
             "type": "media-query",
             "line": 69,
-            "code": "reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,",
+            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
             "severity": "high",
             "description": "matchMedia API usage",
             "suggestion": "Add window check and use CSS media queries for initial render",
@@ -4834,7 +5104,52 @@
           {
             "type": "window-object",
             "line": 70,
-            "code": "forcedColors: window.matchMedia('(forced-colors: active)').matches",
+            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 70,
+            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 70,
+            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 70,
+            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 70,
+            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 70,
+            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -4843,7 +5158,7 @@
           {
             "type": "media-query",
             "line": 70,
-            "code": "forcedColors: window.matchMedia('(forced-colors: active)').matches",
+            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
             "severity": "high",
             "description": "matchMedia API usage",
             "suggestion": "Add window check and use CSS media queries for initial render",
@@ -4897,7 +5212,52 @@
           {
             "type": "window-object",
             "line": 182,
-            "code": "const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');",
+            "code": "const reducedMotionQuery = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 183,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 183,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 183,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 183,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 183,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -4905,8 +5265,8 @@
           },
           {
             "type": "media-query",
-            "line": 182,
-            "code": "const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');",
+            "line": 183,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
             "severity": "high",
             "description": "matchMedia API usage",
             "suggestion": "Add window check and use CSS media queries for initial render",
@@ -4914,8 +5274,53 @@
           },
           {
             "type": "window-object",
-            "line": 183,
-            "code": "const forcedColorsQuery = window.matchMedia('(forced-colors: active)');",
+            "line": 185,
+            "code": "const forcedColorsQuery = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 186,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 186,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 186,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 186,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 186,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -4923,8 +5328,8 @@
           },
           {
             "type": "media-query",
-            "line": 183,
-            "code": "const forcedColorsQuery = window.matchMedia('(forced-colors: active)');",
+            "line": 186,
+            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
             "severity": "high",
             "description": "matchMedia API usage",
             "suggestion": "Add window check and use CSS media queries for initial render",
@@ -4932,25 +5337,25 @@
           },
           {
             "type": "event-listener",
-            "line": 187,
-            "code": "reducedMotionQuery.addEventListener('change', handleMediaChange);",
-            "severity": "medium",
-            "description": "Event listener setup",
-            "suggestion": "Move to useEffect hook",
-            "canAutoFix": true
-          },
-          {
-            "type": "event-listener",
-            "line": 188,
-            "code": "forcedColorsQuery.addEventListener('change', handleMediaChange);",
-            "severity": "medium",
-            "description": "Event listener setup",
-            "suggestion": "Move to useEffect hook",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
             "line": 191,
+            "code": "reducedMotionQuery?.addEventListener('change', handleMediaChange);",
+            "severity": "medium",
+            "description": "Event listener setup",
+            "suggestion": "Move to useEffect hook",
+            "canAutoFix": true
+          },
+          {
+            "type": "event-listener",
+            "line": 192,
+            "code": "forcedColorsQuery?.addEventListener('change', handleMediaChange);",
+            "severity": "medium",
+            "description": "Event listener setup",
+            "suggestion": "Move to useEffect hook",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 195,
             "code": "window.removeEventListener('resize', handleResize);",
             "severity": "blocking",
             "description": "Direct window object access",
@@ -4959,7 +5364,7 @@
           },
           {
             "type": "window-object",
-            "line": 192,
+            "line": 196,
             "code": "window.removeEventListener('orientationchange', handleOrientationChange);",
             "severity": "blocking",
             "description": "Direct window object access",
@@ -4968,7 +5373,7 @@
           },
           {
             "type": "useEffect",
-            "line": 200,
+            "line": 204,
             "code": "useEffect(() => {",
             "severity": "medium",
             "description": "useEffect runs only on client side",
@@ -4977,7 +5382,7 @@
           },
           {
             "type": "resize-observer",
-            "line": 226,
+            "line": 233,
             "code": "// Use ResizeObserver to detect layout shifts",
             "severity": "high",
             "description": "ResizeObserver API usage",
@@ -4986,8 +5391,44 @@
           },
           {
             "type": "resize-observer",
-            "line": 228,
-            "code": "const observer = new ResizeObserver(() => {",
+            "line": 235,
+            "code": "const observer = (typeof ResizeObserver !== 'undefined')",
+            "severity": "high",
+            "description": "ResizeObserver API usage",
+            "suggestion": "Add feature detection and fallbacks",
+            "canAutoFix": true
+          },
+          {
+            "type": "resize-observer",
+            "line": 236,
+            "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
+            "severity": "high",
+            "description": "ResizeObserver API usage",
+            "suggestion": "Add feature detection and fallbacks",
+            "canAutoFix": true
+          },
+          {
+            "type": "resize-observer",
+            "line": 236,
+            "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
+            "severity": "high",
+            "description": "ResizeObserver API usage",
+            "suggestion": "Add feature detection and fallbacks",
+            "canAutoFix": true
+          },
+          {
+            "type": "resize-observer",
+            "line": 236,
+            "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
+            "severity": "high",
+            "description": "ResizeObserver API usage",
+            "suggestion": "Add feature detection and fallbacks",
+            "canAutoFix": true
+          },
+          {
+            "type": "resize-observer",
+            "line": 236,
+            "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
             "severity": "high",
             "description": "ResizeObserver API usage",
             "suggestion": "Add feature detection and fallbacks",
@@ -4995,16 +5436,25 @@
           },
           {
             "type": "document-object",
-            "line": 233,
-            "code": "const container = document.querySelector('.aria-tabs-datagrid-adaptive');",
+            "line": 240,
+            "code": "const container = typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector('.aria-tabs-datagrid-adaptive') : null) : null) : null) : null) : null) : null) : null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
             "canAutoFix": true
           },
           {
+            "type": "window-object",
+            "line": 246,
+            "code": "window.requestAnimationFrame(() => {",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
             "type": "document-object",
-            "line": 267,
+            "line": 275,
             "code": "const announcement = document.createElement('div');",
             "severity": "blocking",
             "description": "Direct document object access",
@@ -5013,8 +5463,8 @@
           },
           {
             "type": "document-object",
-            "line": 273,
-            "code": "document.body.appendChild(announcement);",
+            "line": 280,
+            "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null) : null) : null) : null).appendChild(announcement);",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -5022,16 +5472,7 @@
           },
           {
             "type": "document-object",
-            "line": 277,
-            "code": "document.body.removeChild(announcement);",
-            "severity": "blocking",
-            "description": "Direct document object access",
-            "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "document-object",
-            "line": 283,
+            "line": 293,
             "code": "const activeElement = document.activeElement;",
             "severity": "blocking",
             "description": "Direct document object access",
@@ -5039,9 +5480,18 @@
             "canAutoFix": true
           },
           {
+            "type": "window-object",
+            "line": 298,
+            "code": "window.requestAnimationFrame(() => {",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
             "type": "document-object",
-            "line": 289,
-            "code": "const newActiveElement = document.getElementById(activeId);",
+            "line": 299,
+            "code": "const newActiveElement = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.getElementById(activeId) : null) : null) : null) : null) : null) : null);",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -5049,8 +5499,8 @@
           },
           {
             "type": "document-object",
-            "line": 294,
-            "code": "const firstFocusable = document.querySelector(",
+            "line": 304,
+            "code": "const firstFocusable = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",

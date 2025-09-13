@@ -82,6 +82,11 @@ export type { SummaryListProps, SummaryListItem } from './SummaryList';
 export { SummaryCard } from './SummaryCard';
 export type { SummaryCardProps } from './SummaryCard';
 
+// Data visualisation: MetricCard is SSR-safe (no browser APIs, SSR test present)
+// Export directly from implementation to avoid importing the full DataVisualisation barrel
+export { MetricCard } from './DataVisualisation/components/MetricCard/MetricCard';
+export type { MetricCardProps, MetricStatus, MetricVariant, MetricDelta } from './DataVisualisation/components/MetricCard/MetricCard';
+
 export { Table, TableCaption, TableBodyRow, TableHeaderCell, TableCell } from './Tables';
 export type {
 	TableProps,

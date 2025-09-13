@@ -147,9 +147,15 @@ export const ChartWithTableTabs: React.FC<ChartWithTableTabsProps> = ({
 				link.href = url;
 				link.download = `${filenameBase}.csv`;
 				link.style.display = "none";
-				document.body.appendChild(link);
-				link.click();
-				document.body.removeChild(link);
+				const parent: HTMLElement | null = (document.body as HTMLElement | null) || (document.documentElement as HTMLElement | null);
+				if (parent) {
+					parent.appendChild(link);
+					link.click();
+					parent.removeChild(link);
+				} else {
+					// Fallback: try clicking without attaching to DOM
+					link.click();
+				}
 				URL.revokeObjectURL(url);
 			} catch (e) {
 				console.warn("CSV download failed", e);

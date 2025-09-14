@@ -6,6 +6,26 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ## Unreleased
 
+### Added (Unreleased – Data Visualisation / SPC)
+
+- Hook: `useSpc` now powers an engine‑first flow for `SPCSpark` and `SPCMetricCard`, exposing centre line, control limits, inner sigma bands, and per‑point signals (SSR‑safe). Optional `useSqlCompatEngine` flag enables parity with the SPC SQL compatibility wrapper.
+- `SPCMetricCard`: accepts `useSqlCompatEngine` (default: true) and threads it to `useSpc`; gradient/accent colour now derived from the latest point’s SPC classification (polarity‑aware) with a clear No‑Judgement override.
+- Storybook: Added an SPC “Base vs SQL compatibility (experimental)” comparison showcasing `SPCMetricCard` in both modes alongside `SPCChart`.
+
+### Changed (Unreleased – Data Visualisation / SPC)
+
+- `SPCSpark`: Colouring semantics aligned with `SPCChart`.
+  - Improvement → NHS blue; Concern → NHS orange; Neutral special‑cause only → purple; Common‑cause → grey
+  - Series‑level “No judgement” no longer recolours improvement/concern points to purple; purple is strictly per‑point when neutral special‑cause is present
+  - Added inner sigma bands; applied XmR fallback when band data are absent
+  - Fixed window indexing with a global index base to ensure correct band/limit alignment
+- `useSpc`: Polarity‑aware mapping for directional signals prevents inversion on lower‑is‑better metrics (fixes Bed Occupancy spark colour inversion vs `SPCChart`). When `useSqlCompatEngine` is true, point signals derive from post‑pruning `variationIcon` to match wrapper parity.
+
+### Fixed (Unreleased – Data Visualisation / SPC)
+
+- `SPCSpark`: No‑Judgement parity corrected so that purple adorns only true neutral special‑cause points; removed series‑level over‑marking. Also tightened the fallback 3σ heuristic only when explicit signals are absent.
+- `SPCMetricCard`: Gradient state now mirrors the latest point’s SPC classification reliably; reuses last real data row and applies NJ override deterministically.
+
 ### Added (Data Visualisation – Sep 2025)
 
 - RunChart component (thin wrapper over Line) with:

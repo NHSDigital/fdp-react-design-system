@@ -1,0 +1,65 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Data Visualisation/SPC/SPCMetricCard/Documentation" />
+
+# SPCMetricCard
+
+A specialised MetricCard that embeds an SPCSpark and automatically derives the headline value, delta, and "latest" metadata from the provided data.
+
+## Auto-derived metrics
+
+By default, SPCMetricCard computes:
+
+- Value: the final non-null data point
+- Delta: the change relative to a baseline (configurable)
+- Metadata: a "Latest: …" string formatted from the inferred/supplied period
+
+These behaviours can be controlled via props:
+
+- `autoValue` (default: true)
+- `autoDelta` (default: true)
+- `autoMetadata` (default: true)
+
+## Time and frequency inference
+
+Provide dates on each data point or supply `intervalHint` + `startDate` to synthesize a date series. The component infers frequency to format metadata appropriately (hourly, daily, weekly, monthly, quarterly, annually).
+
+- `sparkData`: `{ value: number | null, date?: string | number | Date }[]`
+- `intervalHint`: "hourly" | "daily" | "weekly" | "monthly" | "quarterly" | "annually"
+- `startDate`: Date|string|number (used when dates are not attached to each point)
+
+## Unit handling
+
+- If `unit` is passed, it is used.
+- Otherwise `defaultUnit` can provide a fallback (e.g. `%`, `ms`).
+- If neither is set, `%` is inferred when values fall in [0, 100].
+
+## Delta configuration
+
+Use `deltaConfig` to choose the comparison baseline and representation.
+
+```
+{
+  strategy?: 'previous' | 'n-points' | 'year-over-year';
+  n?: number;           // used with 'n-points', default 1
+  absolute?: boolean;   // default true; false yields % change vs baseline
+  skipNulls?: boolean;  // default true
+}
+```
+
+- `previous`: compare to the most recent non-null prior point.
+- `n-points`: compare to N points back.
+- `year-over-year`: compare to the closest point ~1 year prior (requires dates).
+
+When `absolute` is true, deltas are shown in the same unit as the value; if the unit is `%`, the delta is displayed as percentage points with a percent sign.
+
+## Examples
+
+See stories under "Data Visualisation/SPC/SPCMetricCard":
+
+- A&E 4-hour (auto value/delta/metadata with monthly inference)
+- RTT backlog (3-month comparison)
+- Year-over-year delta (with explicit dates)
+- API latency in milliseconds (non-percent absolute delta)
+
+These demonstrate how card text and spark visuals remain aligned while the SPC engine powers limits and states.

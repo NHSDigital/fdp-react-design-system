@@ -27,6 +27,7 @@ import {
 import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType } from "./logic/spcConstants";
 import SpcGradientCategory, { SpcEmbeddedIconVariant, LetterMode } from "./SPCChart.constants";
 import { buildSpcSqlCompat } from './logic/spcSqlCompat';
+import computeAutoMetrics from "../utils/autoMetrics";
 import { Tag } from "../../../../Tag/Tag";
 import Table from "../../../../Tables/Table";
 import SPCSignalsInspector from "./SPCSignalsInspector";
@@ -402,14 +403,22 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 
 	}, [data, mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp, alwaysShowZeroY, alwaysShowHundredY, percentScale]);
 
-	// Auto-detect percentage unit when all values in [0,1] and no explicit unit supplied
-	const autoUnit = React.useMemo(() => {
-		if (unit || narrationContext?.measureUnit) return undefined;
-		if (!data.length) return undefined;
-		return data.every((d) => d.y >= 0 && d.y <= 1) ? "%" : undefined;
-	}, [unit, narrationContext?.measureUnit, data]);
+	// Use shared auto metrics helper to infer unit consistently with SPCMetricCard
+	const autoFromHelper = React.useMemo(() => {
+		// Derive dates from x if they look like dates; otherwise undefined
+		const dateCandidates = data.map((d) => (d.x instanceof Date || typeof d.x === "string" || typeof d.x === "number") ? (d.x as any) : undefined);
+		return computeAutoMetrics({
+			values: data.map((d) => d.y),
+			dates: dateCandidates,
+			providedUnit: unit || narrationContext?.measureUnit,
+			percentHeuristic: "0-1",
+			autoValue: false,
+			autoDelta: false,
+			autoMetadata: false,
+		});
+	}, [data, unit, narrationContext?.measureUnit]);
 
-	const effectiveUnit = unit ?? narrationContext?.measureUnit ?? autoUnit;
+	const effectiveUnit = unit ?? narrationContext?.measureUnit ?? autoFromHelper.unit;
 	const effectiveNarrationContext = React.useMemo(() => {
 		return effectiveUnit
 			? { ...(narrationContext || {}), measureUnit: effectiveUnit }

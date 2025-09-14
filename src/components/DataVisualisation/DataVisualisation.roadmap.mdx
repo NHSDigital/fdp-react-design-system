@@ -68,12 +68,25 @@ Each subsection maps recommended chart types to required primitives and wrapper 
 - LineChart: added matching gradient wash (`gradientFills`) using stroke colour; unique defs per instance
 - GridLines: folder name corrected (`GridlLines` → `GridLines`); imports/exports updated
 
+- SPC Spark & engine-first refactor:
+	- useSpc hook now acts as the single source of truth for SPC outputs (centre line, control limits, sigma bands, per‑point signals) used by both `SPCSpark` and `SPCMetricCard` (SSR‑safe, no DOM access in render)
+	- Inner sigma bands added to `SPCSpark`; XmR fallback applied when engine band data are not present
+	- Colouring parity aligned to `SPCChart`: improvement → blue; concern → orange; neutral special‑cause-only → purple; common‑cause → grey. Series‑level No‑Judgement no longer recolours improvement/concern points
+	- No‑Judgement parity tightened: purple now shown only on true neutral special‑cause points (not merely when the overall series is in a “no judgement” state)
+	- Polarity‑aware signal mapping ensures higher‑/lower‑is‑better metrics classify consistently (fixes Bed Occupancy inversion)
+	- SQL‑compatibility path supported in `useSpc` and used by default in `SPCMetricCard` for visual parity with `SPCChart` where desired; Storybook comparison added (Base vs SQL‑compat)
+	- Minor ergonomics: shared helpers for icon→variation mapping, special‑cause detection, and colour gradients reuse the last real data row
+
 ## Next steps (Q4 2025)
 
 ### 2. Demonstrate Deviation (from target/baseline)
 ### 1) RunChart polish & tests
 - Deliverables: unit tests for run rules hints utility; SSR/hydration tests; visual regression coverage in stories
 - Acceptance: tests green across client/SSR; a11y checks in Storybook; docs reflect gradient toggle and colour enum
+
+- SPCSpark/MetricCard validation and docs polish
+	- Deliverables: expanded datasets in stories (A&E 4h, Bed Occupancy, RTT backlog), a11y checks, and visual regression sweeps; document SQL‑compat toggle and per‑point purple semantics
+	- Acceptance: SPC stories pass a11y, SSR tests green, and SPCSpark point colours match SPCChart across examples
 
 - Exists/WIP: Diverging bars via `BarSeriesPrimitive` with signed values; `Waterfall` planned
 - Planned: `FunnelPlot` (providers with varying denominators)

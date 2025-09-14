@@ -221,7 +221,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
 
 					{trendData && trendData.length > 0 && !loading && !error && (
 						<div className="fdp-metric-card__trend" aria-hidden="true">
-							{/* Future: mini sparkline visualization */}
+							{/* Future: mini sparkline visualisation */}
 						</div>
 					)}
 				</div>

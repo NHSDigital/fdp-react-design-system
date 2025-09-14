@@ -123,16 +123,16 @@
 	}
 	&__label {
 		margin: 0;
-		font-size: nhs.$nhs-fdp-font-size-16-mobile;
-		line-height: nhs.$nhs-fdp-font-line-height-16-mobile;
+		font-size: nhs.$nhs-fdp-font-size-16-desktop;
+		line-height: nhs.$nhs-fdp-font-line-height-16-desktop;
 		font-weight: nhs.$nhs-fdp-font-weight-bold;
 		letter-spacing: 0.25px;
 		color: nhs.$nhs-fdp-semantic-color-text-primary;
 		overflow-wrap: anywhere;
 	}
 	&__metadata {
-		font-size: nhs.$nhs-fdp-font-size-14-mobile;
-		line-height: nhs.$nhs-fdp-font-line-height-14-mobile;
+		font-size: nhs.$nhs-fdp-font-size-16-desktop;
+		line-height: nhs.$nhs-fdp-font-line-height-16-desktop;
 		color: nhs.$nhs-fdp-semantic-color-text-secondary; // fallback: no tertiary token yet
 		white-space: nowrap;
 	}
@@ -170,21 +170,21 @@
 		flex-wrap: wrap;
 	}
 	&__number {
-		font-size: nhs.$nhs-fdp-font-size-36-mobile;
+		font-size: nhs.$nhs-fdp-font-size-36-desktop;
 		line-height: nhs.$nhs-fdp-font-line-height-36-mobile;
 		font-weight: nhs.$nhs-fdp-font-weight-bold;
 		color: nhs.$nhs-fdp-semantic-color-text-primary;
 		overflow-wrap: anywhere;
 	}
 	&__unit {
-		font-size: nhs.$nhs-fdp-font-size-19-mobile;
-		line-height: nhs.$nhs-fdp-font-line-height-19-mobile;
+		font-size: nhs.$nhs-fdp-font-size-19-desktop;
+		line-height: nhs.$nhs-fdp-font-line-height-19-desktop;
 		font-weight: nhs.$nhs-fdp-font-weight-normal;
 		color: nhs.$nhs-fdp-semantic-color-text-secondary;
 	}
 	&__subtitle {
-		font-size: nhs.$nhs-fdp-font-size-14-mobile;
-		line-height: nhs.$nhs-fdp-font-line-height-14-mobile;
+		font-size: nhs.$nhs-fdp-font-size-16-desktop;
+		line-height: nhs.$nhs-fdp-font-line-height-16-desktop;
 		color: nhs.$nhs-fdp-semantic-color-text-secondary;
 	}
 
@@ -199,9 +199,9 @@
 		display: inline-flex;
 		align-items: center;
 		gap: nhs.$nhs-fdp-spacing-1;
-		font-size: nhs.$nhs-fdp-font-size-14-mobile;
-		line-height: nhs.$nhs-fdp-font-line-height-14-mobile;
-		font-weight: nhs.$nhs-fdp-font-weight-normal;
+		font-size: nhs.$nhs-fdp-font-size-16-desktop;
+		line-height: nhs.$nhs-fdp-font-line-height-16-desktop;
+		font-weight: nhs.$nhs-fdp-font-weight-bold;
 		color: nhs.$nhs-fdp-semantic-color-text-secondary;
 	}
 	&__delta--up {
@@ -219,8 +219,8 @@
 		gap: 4px;
 	}
 	&__delta-period {
-		font-size: nhs.$nhs-fdp-font-size-14-mobile;
-		line-height: nhs.$nhs-fdp-font-line-height-14-mobile;
+		font-size: nhs.$nhs-fdp-font-size-16-desktop;
+		line-height: nhs.$nhs-fdp-font-line-height-16-desktop;
 		font-weight: nhs.$nhs-fdp-font-weight-normal;
 		color: nhs.$nhs-fdp-semantic-color-text-secondary;
 	}

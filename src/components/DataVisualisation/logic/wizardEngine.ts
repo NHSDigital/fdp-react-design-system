@@ -1,4 +1,4 @@
-import type { LogicFile, Wizard, WizardNode } from "./wizardTypes";
+import type { LogicFile, Wizard, WizardNode, DataVizNode } from "./wizardTypes";
 
 export function getWizard(logic: LogicFile, wizardId: string): Wizard {
 	const wiz = (logic as any).wizards?.[wizardId];
@@ -11,6 +11,11 @@ export function getNode(wiz: Wizard, nodeId: string): WizardNode {
 	if (!node) throw new Error(`Node '${nodeId}' not found`);
 	return node as WizardNode;
 }
+
+// Convenience typed accessors explicitly named for the data-viz logic
+export const getTypedWizard = getWizard;
+export const getTypedNode = (wiz: Wizard, nodeId: string): DataVizNode =>
+    getNode(wiz, nodeId) as DataVizNode;
 
 export type StepResult = { nextId?: string; recommend?: string[] };
 

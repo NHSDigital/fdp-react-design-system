@@ -1,6 +1,8 @@
-import type { LogicFile, Wizard, WizardNode } from "./wizardTypes";
+import type { LogicFile, Wizard, WizardNode, DataVizNode } from "./wizardTypes";
 export declare function getWizard(logic: LogicFile, wizardId: string): Wizard;
 export declare function getNode(wiz: Wizard, nodeId: string): WizardNode;
+export declare const getTypedWizard: typeof getWizard;
+export declare const getTypedNode: (wiz: Wizard, nodeId: string) => DataVizNode;
 export type StepResult = {
     nextId?: string;
     recommend?: string[];

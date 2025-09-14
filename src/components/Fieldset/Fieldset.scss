@@ -6,6 +6,7 @@
 	margin: 0;
 	padding-top: nhs.$nhs-fdp-spacing-4;
 	padding-bottom: nhs.$nhs-fdp-spacing-4;
+	margin-bottom: nhs.$nhs-fdp-spacing-5;
 
 	// Clearfix for legacy browser support
 	&::after {
@@ -19,7 +20,7 @@
 		box-sizing: border-box;
 		color: nhs.$nhs-fdp-semantic-color-text-primary;
 		display: table;
-		margin-bottom: nhs.$nhs-fdp-spacing-2;
+		margin-bottom: nhs.$nhs-fdp-spacing-3;
 		margin-top: 0;
 		max-width: 100%;
 		padding: 0;

@@ -1,6 +1,6 @@
 {
   "version": "0.0.34-alpha.8",
-  "generatedAt": "2025-09-13T21:05:57.222Z",
+  "generatedAt": "2025-09-14T06:50:05.915Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -281,6 +281,50 @@
       ],
       "source": "src/components/Select/Select.schema.ts"
     },
+    "Panel": {
+      "name": "Panel",
+      "category": "content",
+      "since": "0.1.1",
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Unique identifier"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "headingText",
+          "type": "string",
+          "description": "Heading text (ignored if headingHtml is provided)"
+        },
+        {
+          "name": "headingHtml",
+          "type": "string",
+          "description": "Heading HTML (overrides headingText)"
+        },
+        {
+          "name": "headingLevel",
+          "type": "1|2|3|4|5|6",
+          "defaultValue": "2",
+          "description": "Heading level to render for the heading"
+        },
+        {
+          "name": "bodyText",
+          "type": "string",
+          "description": "Body text (ignored if bodyHtml is provided)"
+        },
+        {
+          "name": "bodyHtml",
+          "type": "string",
+          "description": "Body HTML (overrides bodyText)"
+        }
+      ],
+      "source": "src/components/Panel/Panel.schema.ts"
+    },
     "Radios": {
       "name": "Radios",
       "category": "form",
@@ -342,50 +386,6 @@
         }
       ],
       "source": "src/components/Radios/Radios.schema.ts"
-    },
-    "Panel": {
-      "name": "Panel",
-      "category": "content",
-      "since": "0.1.1",
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "Unique identifier"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "headingText",
-          "type": "string",
-          "description": "Heading text (ignored if headingHtml is provided)"
-        },
-        {
-          "name": "headingHtml",
-          "type": "string",
-          "description": "Heading HTML (overrides headingText)"
-        },
-        {
-          "name": "headingLevel",
-          "type": "1|2|3|4|5|6",
-          "defaultValue": "2",
-          "description": "Heading level to render for the heading"
-        },
-        {
-          "name": "bodyText",
-          "type": "string",
-          "description": "Body text (ignored if bodyHtml is provided)"
-        },
-        {
-          "name": "bodyHtml",
-          "type": "string",
-          "description": "Body HTML (overrides bodyText)"
-        }
-      ],
-      "source": "src/components/Panel/Panel.schema.ts"
     },
     "Label": {
       "name": "Label",

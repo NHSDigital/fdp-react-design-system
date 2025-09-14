@@ -31,9 +31,6 @@
 	// Mixin to generate metric-style variants with configurable accent color
 	@mixin metric-variant($accent) {
 		position: relative;
-		// Compensate for the 4px bottom accent bar to keep overall height unchanged
-		// Base padding-bottom is 8px; 8px - 4px (bar) = 4px
-		padding-bottom: 8px;
 		// Vertical (bottom→top) gradient inspired by MetricCard
 		background: linear-gradient(
 			0deg,
@@ -139,14 +136,43 @@
 		}
 	}
 
-	// Metric-inspired modern buttons (blue/green/warning)
-	&--metric {
-		// Back-compat: "metric" defaults to blue accent
-		@include metric-variant(nhs.$nhs-fdp-color-data-viz-categorical-1);
+	// Focused state styles (data attribute from our component)
+	&[data-focused] {
+		background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+		color: nhs.$nhs-fdp-semantic-color-focus-text;
+		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+		border-color: nhs.$nhs-fdp-semantic-color-focus-background;
 	}
 
-	&--metric-blue {
-		@include metric-variant(nhs.$nhs-fdp-color-data-viz-categorical-1);
+	// Base focus (always works - accessibility baseline)
+	&:focus {
+		outline: none;
+		outline-offset: 2px;
+		
+		&:not(:active) {
+			background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+			color: nhs.$nhs-fdp-semantic-color-focus-text;
+			border-color: nhs.$nhs-fdp-semantic-color-focus-background;
+			box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+		}
+
+		// Remove outline on mouse focus when focus-visible is supported
+		&:not(:focus-visible) {
+			outline: none;
+		}
+	}
+
+	// Enhanced focus-visible (modern browsers)
+	&:focus-visible {
+		outline: none;
+		outline-offset: 2px;
+		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+	}
+
+	// Remove default outline when React Aria is handling focus
+	&[data-focus-visible]:focus {
+		outline: none;
+		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
 	}
 
 	&--metric-green {

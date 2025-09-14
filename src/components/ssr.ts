@@ -23,6 +23,9 @@ export type { ActionLinkProps } from './ActionLink';
  */
 export { default as ButtonServer } from './Button/Button.server';
 export type { ButtonServerProps } from './Button/Button.server';
+// SSR-safe re-exports of button enums/types for use in server components
+export { ButtonVariant, ButtonSize } from './Button/Button.types';
+export type { ButtonVariantLike, ButtonSizeLike } from './Button/Button.types';
 export { BackLink } from './BackLink';
 export type { BackLinkProps } from './BackLink';
 export { Tag } from './Tag';

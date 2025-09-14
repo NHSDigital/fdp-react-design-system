@@ -93,6 +93,7 @@ span .nhsuk-u-visually-hidden {
   margin: 0;
   padding-top: 24px;
   padding-bottom: 24px;
+  margin-bottom: 32px;
 }
 .nhsuk-fieldset::after {
   content: "";
@@ -103,7 +104,7 @@ span .nhsuk-u-visually-hidden {
   box-sizing: border-box;
   color: #212b32;
   display: table;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   margin-top: 0;
   max-width: 100%;
   padding: 0;

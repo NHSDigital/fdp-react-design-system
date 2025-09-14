@@ -2265,6 +2265,8 @@ export {
   we as Breadcrumb,
   ba as Breakpoint,
   me as ButtonServer,
+  te as ButtonSize,
+  ae as ButtonVariant,
   Pe as Card,
   oa as CardGroup,
   ia as CardGroupItem,

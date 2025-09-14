@@ -28,6 +28,11 @@
 	&__row {
 		border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
 
+		// If it's the last row, remove the border
+		&:last-child {	
+			border-bottom: 0;
+		}
+		
 		@media (max-width: nhs.$nhs-fdp-breakpoint-medium) {
 			margin-bottom: nhs.$nhs-fdp-spacing-3;
 		}

@@ -1,5 +1,8 @@
 export type YesNoBranch = { next?: string; recommend?: string[] };
 
+// A single selectable option within a node
+export type Choice = { label: string; next?: string; recommend?: string[] };
+
 export type ChoiceMode = 'single' | 'multiple';
 
 // New unified choice node with explicit mode
@@ -8,7 +11,7 @@ export type ChoiceNode = {
     mode: ChoiceMode;
     question: string;
     help?: string;
-    choices: { label: string; next?: string; recommend?: string[] }[];
+    choices: Choice[];
 };
 
 // Back-compat: legacy single_choice, optionally carrying a multiple flag
@@ -17,7 +20,7 @@ export type SingleChoiceNode = {
     question: string;
     help?: string;
     multiple?: boolean;
-    choices: { label: string; next?: string; recommend?: string[] }[];
+    choices: Choice[];
 };
 
 export type YesNoNode = {
@@ -35,6 +38,9 @@ export type WizardNode =
     | YesNoNode
     | EndNode
     | Record<string, any>;
+
+// Friendly alias for consumers when referring to a node from the data-viz-logic.json
+export type DataVizNode = WizardNode;
 
 export type Wizard = {
 	title: string;

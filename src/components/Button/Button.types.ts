@@ -33,11 +33,11 @@ export enum ButtonSize {
  * Useful while migrating call sites to use enums explicitly.
  */
 export type ButtonVariantLike =
-  | ButtonVariant
-  | "primary"
-  | "secondary"
-  | "reverse"
-  | "warning"
+	| ButtonVariant
+	| "primary"
+	| "secondary"
+	| "reverse"
+	| "warning"
 	| "login"
 	| "metric"
 	| "metric-blue"

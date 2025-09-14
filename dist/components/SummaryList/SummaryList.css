@@ -117,6 +117,9 @@ span .nhsuk-u-visually-hidden {
 .nhsuk-summary-list__row {
   border-bottom: 1px solid #d8dde0;
 }
+.nhsuk-summary-list__row:last-child {
+  border-bottom: 0;
+}
 @media (max-width: 768px) {
   .nhsuk-summary-list__row {
     margin-bottom: 16px;

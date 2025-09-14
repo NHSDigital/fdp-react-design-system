@@ -2,28 +2,25 @@ export type YesNoBranch = {
     next?: string;
     recommend?: string[];
 };
+export type Choice = {
+    label: string;
+    next?: string;
+    recommend?: string[];
+};
 export type ChoiceMode = 'single' | 'multiple';
 export type ChoiceNode = {
     type: "choice";
     mode: ChoiceMode;
     question: string;
     help?: string;
-    choices: {
-        label: string;
-        next?: string;
-        recommend?: string[];
-    }[];
+    choices: Choice[];
 };
 export type SingleChoiceNode = {
     type: "single_choice";
     question: string;
     help?: string;
     multiple?: boolean;
-    choices: {
-        label: string;
-        next?: string;
-        recommend?: string[];
-    }[];
+    choices: Choice[];
 };
 export type YesNoNode = {
     type: "yes_no";
@@ -36,6 +33,7 @@ export type EndNode = {
     recommend: string[];
 };
 export type WizardNode = ChoiceNode | SingleChoiceNode | YesNoNode | EndNode | Record<string, any>;
+export type DataVizNode = WizardNode;
 export type Wizard = {
     title: string;
     root: string;

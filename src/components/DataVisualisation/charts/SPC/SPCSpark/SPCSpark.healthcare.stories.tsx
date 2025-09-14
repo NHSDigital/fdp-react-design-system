@@ -1,7 +1,8 @@
 // React import omitted (automatic JSX runtime)
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCSpark } from "./SPCSpark";
-import { Grid, Row, Column } from "../../../../../";
+import { Grid, Row, Column, GridWidth } from "../../../../../";
+import { ImprovementDirection } from "../SPCChart/logic/spcConstants";
 
 // Replicates the healthcare datasets from SPCChart.healthcare.stories.tsx
 // to provide compact sparkline equivalents.
@@ -69,7 +70,7 @@ export const AllSparks: Story = {
 	render: () => (
 		<Grid>
 			<Row>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -80,15 +81,9 @@ export const AllSparks: Story = {
 					>
 						ED 4h
 					</strong>
-					<SPCSpark
-						data={wrap(ed4hValues)}
-						autoClassify
-						showLimits
-						sigmaMethod="moving-range"
-						direction="higher"
-					/>
+					<SPCSpark data={wrap(ed4hValues)} autoClassify showLimits metricImprovement={ImprovementDirection.Up} />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -99,15 +94,9 @@ export const AllSparks: Story = {
 					>
 						LOS
 					</strong>
-					<SPCSpark
-						data={wrap(losValues)}
-						autoClassify
-						showLimits
-						sigmaMethod="moving-range"
-						direction="lower"
-					/>
+					<SPCSpark data={wrap(losValues)} autoClassify showLimits metricImprovement={ImprovementDirection.Down} />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -118,15 +107,9 @@ export const AllSparks: Story = {
 					>
 						Readmit
 					</strong>
-					<SPCSpark
-						data={wrap(readmitValues)}
-						autoClassify
-						showLimits
-						sigmaMethod="moving-range"
-						direction="lower"
-					/>
+					<SPCSpark data={wrap(readmitValues)} autoClassify showLimits metricImprovement={ImprovementDirection.Down} />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -137,17 +120,11 @@ export const AllSparks: Story = {
 					>
 						Hand Hygiene
 					</strong>
-					<SPCSpark
-						data={wrap(handHygieneValues)}
-						autoClassify
-						showLimits
-						sigmaMethod="moving-range"
-						direction="higher"
-					/>
+					<SPCSpark data={wrap(handHygieneValues)} autoClassify showLimits metricImprovement={ImprovementDirection.Up} />
 				</Column>
 			</Row>
 			<Row>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -158,15 +135,9 @@ export const AllSparks: Story = {
 					>
 						Falls
 					</strong>
-					<SPCSpark
-						data={wrap(fallsValues)}
-						autoClassify
-						showLimits
-						sigmaMethod="moving-range"
-						direction="lower"
-					/>
+					<SPCSpark data={wrap(fallsValues)} autoClassify showLimits metricImprovement={2 as any} />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -177,15 +148,9 @@ export const AllSparks: Story = {
 					>
 						Med Errors
 					</strong>
-					<SPCSpark
-						data={wrap(medErrorGaps)}
-						autoClassify
-						showLimits
-						sigmaMethod="moving-range"
-						direction="higher"
-					/>
+					<SPCSpark data={wrap(medErrorGaps)} autoClassify showLimits metricImprovement={1 as any} />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -196,15 +161,9 @@ export const AllSparks: Story = {
 					>
 						Pressure Ulcers
 					</strong>
-					<SPCSpark
-						data={wrap(pressureUlcerCounts)}
-						autoClassify
-						showLimits
-						sigmaMethod="moving-range"
-						direction="higher"
-					/>
+					<SPCSpark data={wrap(pressureUlcerCounts)} autoClassify showLimits metricImprovement={1 as any} />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -215,13 +174,7 @@ export const AllSparks: Story = {
 					>
 						RTT
 					</strong>
-					<SPCSpark
-						data={wrap(rttValues)}
-						autoClassify
-						showLimits
-						sigmaMethod="moving-range"
-						direction="higher"
-					/>
+					<SPCSpark data={wrap(rttValues)} autoClassify showLimits metricImprovement={1 as any} />
 				</Column>
 			</Row>
 		</Grid>
@@ -242,7 +195,7 @@ export const AllSparksThinnedStride: Story = {
 	render: () => (
 		<Grid>
 			<Row>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -253,19 +206,9 @@ export const AllSparksThinnedStride: Story = {
 					>
 						ED 4h
 					</strong>
-					<SPCSpark
-						data={wrap(ed4hValues)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="higher"
-						showMean
-						maxPoints={24}
-						thinningStrategy="stride"
-					/>
+					<SPCSpark data={wrap(ed4hValues)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Up} showMean maxPoints={24} thinningStrategy="stride" />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -276,19 +219,9 @@ export const AllSparksThinnedStride: Story = {
 					>
 						LOS
 					</strong>
-					<SPCSpark
-						data={wrap(losValues)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="lower"
-						showMean
-						maxPoints={24}
-						thinningStrategy="stride"
-					/>
+					<SPCSpark data={wrap(losValues)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Down} showMean maxPoints={24} thinningStrategy="stride" />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -299,19 +232,9 @@ export const AllSparksThinnedStride: Story = {
 					>
 						Readmit
 					</strong>
-					<SPCSpark
-						data={wrap(readmitValues)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="lower"
-						showMean
-						maxPoints={24}
-						thinningStrategy="stride"
-					/>
+					<SPCSpark data={wrap(readmitValues)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Down} showMean maxPoints={24} thinningStrategy="stride" />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -322,21 +245,11 @@ export const AllSparksThinnedStride: Story = {
 					>
 						Hand Hygiene
 					</strong>
-					<SPCSpark
-						data={wrap(handHygieneValues)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="higher"
-						showMean
-						maxPoints={24}
-						thinningStrategy="stride"
-					/>
+					<SPCSpark data={wrap(handHygieneValues)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Up} showMean maxPoints={24} thinningStrategy="stride" />
 				</Column>
 			</Row>
 			<Row>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -347,19 +260,9 @@ export const AllSparksThinnedStride: Story = {
 					>
 						Falls
 					</strong>
-					<SPCSpark
-						data={wrap(fallsValues)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="lower"
-						showMean
-						maxPoints={24}
-						thinningStrategy="stride"
-					/>
+					<SPCSpark data={wrap(fallsValues)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Down} showMean maxPoints={24} thinningStrategy="stride" />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -370,19 +273,9 @@ export const AllSparksThinnedStride: Story = {
 					>
 						Med Errors
 					</strong>
-					<SPCSpark
-						data={wrap(medErrorGaps)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="higher"
-						showMean
-						maxPoints={24}
-						thinningStrategy="stride"
-					/>
+					<SPCSpark data={wrap(medErrorGaps)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Up} showMean maxPoints={24} thinningStrategy="stride" />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -393,19 +286,9 @@ export const AllSparksThinnedStride: Story = {
 					>
 						Pressure Ulcers
 					</strong>
-					<SPCSpark
-						data={wrap(pressureUlcerCounts)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="higher"
-						showMean
-						maxPoints={24}
-						thinningStrategy="stride"
-					/>
+					<SPCSpark data={wrap(pressureUlcerCounts)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Up} showMean maxPoints={24} thinningStrategy="stride" />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -416,17 +299,7 @@ export const AllSparksThinnedStride: Story = {
 					>
 						RTT
 					</strong>
-					<SPCSpark
-						data={wrap(rttValues)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="higher"
-						showMean
-						maxPoints={24}
-						thinningStrategy="stride"
-					/>
+					<SPCSpark data={wrap(rttValues)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Up} showMean maxPoints={24} thinningStrategy="stride" />
 				</Column>
 			</Row>
 		</Grid>
@@ -447,7 +320,7 @@ export const AllSparksThinnedRDP: Story = {
 	render: () => (
 		<Grid>
 			<Row>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -458,19 +331,9 @@ export const AllSparksThinnedRDP: Story = {
 					>
 						ED 4h
 					</strong>
-					<SPCSpark
-						data={wrap(ed4hValues)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="higher"
-						showMean
-						maxPoints={24}
-						thinningStrategy="rdp"
-					/>
+					<SPCSpark data={wrap(ed4hValues)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Up} showMean maxPoints={24} thinningStrategy="rdp" />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -481,19 +344,9 @@ export const AllSparksThinnedRDP: Story = {
 					>
 						LOS
 					</strong>
-					<SPCSpark
-						data={wrap(losValues)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="lower"
-						showMean
-						maxPoints={24}
-						thinningStrategy="rdp"
-					/>
+					<SPCSpark data={wrap(losValues)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Down} showMean maxPoints={24} thinningStrategy="rdp" />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -504,19 +357,9 @@ export const AllSparksThinnedRDP: Story = {
 					>
 						Readmit
 					</strong>
-					<SPCSpark
-						data={wrap(readmitValues)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="lower"
-						showMean
-						maxPoints={24}
-						thinningStrategy="rdp"
-					/>
+					<SPCSpark data={wrap(readmitValues)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Down} showMean maxPoints={24} thinningStrategy="rdp" />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -527,21 +370,11 @@ export const AllSparksThinnedRDP: Story = {
 					>
 						Hand Hygiene
 					</strong>
-					<SPCSpark
-						data={wrap(handHygieneValues)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="higher"
-						showMean
-						maxPoints={24}
-						thinningStrategy="rdp"
-					/>
+					<SPCSpark data={wrap(handHygieneValues)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Up} showMean maxPoints={24} thinningStrategy="rdp" />
 				</Column>
 			</Row>
 			<Row>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -552,19 +385,9 @@ export const AllSparksThinnedRDP: Story = {
 					>
 						Falls
 					</strong>
-					<SPCSpark
-						data={wrap(fallsValues)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="lower"
-						showMean
-						maxPoints={24}
-						thinningStrategy="rdp"
-					/>
+					<SPCSpark data={wrap(fallsValues)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Down} showMean maxPoints={24} thinningStrategy="rdp" />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -575,19 +398,9 @@ export const AllSparksThinnedRDP: Story = {
 					>
 						Med Errors
 					</strong>
-					<SPCSpark
-						data={wrap(medErrorGaps)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="higher"
-						showMean
-						maxPoints={24}
-						thinningStrategy="rdp"
-					/>
+					<SPCSpark data={wrap(medErrorGaps)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Up} showMean maxPoints={24} thinningStrategy="rdp" />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -598,19 +411,9 @@ export const AllSparksThinnedRDP: Story = {
 					>
 						Pressure Ulcers
 					</strong>
-					<SPCSpark
-						data={wrap(pressureUlcerCounts)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="higher"
-						showMean
-						maxPoints={24}
-						thinningStrategy="rdp"
-					/>
+					<SPCSpark data={wrap(pressureUlcerCounts)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Down} showMean maxPoints={24} thinningStrategy="rdp" />
 				</Column>
-				<Column width="one-quarter">
+				<Column width={GridWidth.OneQuarter}>
 					<strong
 						style={{
 							fontSize: 12,
@@ -621,17 +424,7 @@ export const AllSparksThinnedRDP: Story = {
 					>
 						RTT
 					</strong>
-					<SPCSpark
-						data={wrap(rttValues)}
-						autoClassify
-						showLimits
-						showLimitBand
-						sigmaMethod="moving-range"
-						direction="higher"
-						showMean
-						maxPoints={24}
-						thinningStrategy="rdp"
-					/>
+					<SPCSpark data={wrap(rttValues)} autoClassify showLimits showLimitBand metricImprovement={ImprovementDirection.Up} showMean maxPoints={24} thinningStrategy="rdp" />
 				</Column>
 			</Row>
 		</Grid>

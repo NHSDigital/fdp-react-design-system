@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 export interface LineDatum {
     x: Date | string | number;
     y: number;
@@ -17,7 +17,7 @@ export interface LineChartProps {
     showPoints?: boolean;
     focusablePoints?: boolean;
     /** Palette selection: 'categorical' (default 12‑colour data-viz set) or 'region' (maps series id to region tokens if possible) */
-    palette?: 'categorical' | 'region';
+    palette?: "categorical" | "region";
     /** Optional date tick label formatter (defaults locale month short + day) */
     dateFormatter?: (d: Date) => string;
     /** Optional y-value tick formatter */
@@ -37,7 +37,7 @@ export interface LineChartProps {
     /** Opt-in: enable built-in keyboard navigation handler (Arrow/Home/End/Escape). Default false for explicit adoption. */
     keyboardNav?: boolean;
     /** Presentation of hidden series: 'remove' (default, series omitted) or 'fade' (dim visually, non-interactive). */
-    visibilityMode?: 'remove' | 'fade';
+    visibilityMode?: "remove" | "fade";
     /** When true and some series are hidden, recompute y-domain using only visible series. */
     recomputeYDomainOnHidden?: boolean;
     /** Custom stroke width for all series (passed to LineSeriesPrimitive). */

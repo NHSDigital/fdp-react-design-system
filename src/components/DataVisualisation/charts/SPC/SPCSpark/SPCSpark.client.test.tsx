@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { SPCSpark } from './SPCSpark';
 import { VariationState } from '../SPCIcons/SPCConstants';
+import { ImprovementDirection } from '../SPCChart/logic/spcConstants';
 
 describe('SPCSpark', () => {
   const data = Array.from({length: 10}).map((_,i)=>({ value: 50 + i }));
@@ -26,9 +27,9 @@ describe('SPCSpark', () => {
 
   it('gates glyph by minPointsForSignals', () => {
     const short = data.slice(0,4);
-    const { rerender } = render(<SPCSpark data={short} variationState={VariationState.SpecialCauseImproving} direction="higher" showStateGlyph minPointsForSignals={8} />);
+    const { rerender } = render(<SPCSpark data={short} variationState={VariationState.SpecialCauseImproving} metricImprovement={ImprovementDirection.Up} showStateGlyph minPointsForSignals={8} />);
     expect(document.querySelector('text')).toBeNull();
-    rerender(<SPCSpark data={data} variationState={VariationState.SpecialCauseImproving} direction="higher" showStateGlyph minPointsForSignals={8} />);
+    rerender(<SPCSpark data={data} variationState={VariationState.SpecialCauseImproving} metricImprovement={ImprovementDirection.Up} showStateGlyph minPointsForSignals={8} />);
     expect(document.querySelector('text')).not.toBeNull();
   });
 
@@ -36,7 +37,7 @@ describe('SPCSpark', () => {
     // craft data where last point is a large spike beyond 3 sigma
     const base = Array.from({length:15}).map((_,i)=>({ value: 100 + Math.sin(i)*2 }));
     base.push({ value: 140 }); // clear special cause improving
-    render(<SPCSpark data={base} autoClassify showLimits showStateGlyph direction="higher" />);
+  render(<SPCSpark data={base} autoClassify showLimits showStateGlyph metricImprovement={ImprovementDirection.Up} />);
     // limits lines rendered
     const dashed = Array.from(document.querySelectorAll('line')).filter(l => l.getAttribute('stroke-dasharray')?.includes('4,4'));
     expect(dashed.length).toBeGreaterThanOrEqual(2);
@@ -56,7 +57,7 @@ describe('SPCSpark', () => {
   it('fires run and trend rules with callback', () => {
     const trend = [10,10.2,10.4,10.6,10.8,11,11.2,11.4,11.6,11.8];
     const fired: any[] = [];
-    render(<SPCSpark data={trend.map(v=>({value:v}))} autoClassify showLimits direction="higher" onClassification={(c)=>fired.push(c)} />);
+  render(<SPCSpark data={trend.map(v=>({value:v}))} autoClassify showLimits metricImprovement={ImprovementDirection.Up} onClassification={(c)=>fired.push(c)} />);
     expect(fired.length).toBeGreaterThan(0);
     const last = fired[fired.length-1];
     expect(last.firedRules.length).toBeGreaterThan(0);
@@ -77,7 +78,7 @@ describe('SPCSpark', () => {
     // In current meanY implementation higher numeric => lower y (since y increases downward). So to force recent points in bottom half, use higher values; expect glyph moves to top (y ~12, data-glyph-pos=top)
     const base = Array.from({length: 30}).map((_,i)=>({ value: 50 + Math.sin(i/3)*2 }));
     const highTail = base.slice(0,24).concat([ {value:90},{value:91},{value:92},{value:93},{value:94},{value:95} ]);
-  const { rerender, container } = render(<SPCSpark data={highTail} variationState={VariationState.SpecialCauseImproving} direction="higher" showStateGlyph />);
+  const { rerender, container } = render(<SPCSpark data={highTail} variationState={VariationState.SpecialCauseImproving} metricImprovement={ImprovementDirection.Up} showStateGlyph />);
   const glyph = container.querySelector('text');
     expect(glyph).not.toBeNull();
   // High recent values render near top (small y) so glyph moves to bottom half
@@ -85,7 +86,7 @@ describe('SPCSpark', () => {
 
     // Now create data whose last 6 points are very low (forcing recent cluster near top visually -> glyph should move to bottom)
     const lowTail = base.slice(0,24).concat([ {value:10},{value:9},{value:8},{value:7},{value:6},{value:5} ]);
-  rerender(<SPCSpark data={lowTail} variationState={VariationState.SpecialCauseImproving} direction="higher" showStateGlyph />);
+  rerender(<SPCSpark data={lowTail} variationState={VariationState.SpecialCauseImproving} metricImprovement={ImprovementDirection.Up} showStateGlyph />);
   const glyph2 = container.querySelector('text');
     expect(glyph2).not.toBeNull();
   // Low recent values render near bottom (large y) so glyph moves to top half

@@ -1,0 +1,26 @@
+@use "../../../packages/nhs-fdp/scss" as nhs;
+
+// Grid-based ordering that flips on mobile when modifier is present
+.nhs-form-nav {
+  margin-top: nhs.$nhs-fdp-spacing-4;
+  align-items: stretch; // stretch grid items to equal height
+
+  &--flip-mobile {
+    // On small screens, place Next first visually
+    @media (max-width: 640px) {
+      // Switch to flex to enable ordering
+      display: flex;
+      flex-wrap: wrap;
+      gap: nhs.$nhs-fdp-spacing-2;
+
+      // Make columns full width on mobile for stacked layout
+      > [class*="nhsuk-grid-column-"] {
+        flex: 1 1 100%;
+      }
+
+      .nhs-form-nav__next { order: -1; }
+      .nhs-form-nav__start-again { order: 0; }
+      .nhs-form-nav__back { order: 1; }
+    }
+  }
+}

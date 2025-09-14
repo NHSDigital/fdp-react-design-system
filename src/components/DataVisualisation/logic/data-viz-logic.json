@@ -743,23 +743,32 @@
                 "aliases": ["time-of-day heatmap", "capacity heatmap"],
                 "primary_dimensions": ["utilisation", "comparison"],
                 "data_shapes": ["matrix"],
-                "supports": { "time_of_day": true, "weekday": true }
+				"supports": { "time_of_day": true, "weekday": true },
+				"cautions": [
+					"Avoid when exact values are needed; use labels or a table instead"
+				]
             },
             {
                 "id": "sankey",
                 "name": "Sankey (alluvial)",
                 "aliases": ["alluvial"],
                 "primary_dimensions": ["flow", "comparison"],
-                "data_shapes": ["categories"],
-                "supports": { "stages": true, "throughput": true }
+				"data_shapes": ["categories"],
+				"supports": { "stages": true, "throughput": true },
+				"cautions": [
+					"Avoid too many nodes/links; diagrams become unreadable"
+				]
             },
             {
                 "id": "cumulative_flow",
                 "name": "Cumulative flow diagram",
                 "aliases": ["CFD"],
                 "primary_dimensions": ["flow", "change_over_time"],
-                "data_shapes": ["time_series"],
-                "supports": { "change_over_time": true }
+				"data_shapes": ["time_series"],
+				"supports": { "change_over_time": true },
+				"cautions": [
+					"Avoid very short time windows; accumulation needs stable categories"
+				]
             },
             {
                 "id": "burndown",
@@ -767,15 +776,21 @@
                 "aliases": ["backlog burn-down"],
                 "primary_dimensions": ["change_over_time"],
                 "data_shapes": ["time_series"],
-                "supports": { "change_over_time": true, "baseline": true }
+				"supports": { "change_over_time": true, "baseline": true },
+				"cautions": [
+					"Avoid accumulated totals; use cumulative flow for work-in-progress"
+				]
             },
             {
                 "id": "progress_bar",
                 "name": "Progress bar",
                 "aliases": ["utilisation bar", "capacity bar"],
                 "primary_dimensions": ["utilisation", "comparison"],
-                "data_shapes": ["categories"],
-                "supports": { "percent_of_total": true }
+				"data_shapes": ["categories"],
+				"supports": { "percent_of_total": true },
+				"cautions": [
+					"Avoid dense comparisons across many items; use a table or bars"
+				]
             },
             {
                 "id": "card",
@@ -799,10 +814,11 @@
                 "aliases": ["cards", "summary cards"],
                 "primary_dimensions": ["comparison", "rank"],
                 "data_shapes": ["categories", "matrix"],
-                "supports": { "sorting": true, "filtering": true, "responsive": true },
+				"supports": { "sorting": true, "filtering": true, "responsive": true, "row_actions": true },
                 "good_for": [
                     "Mobile‑friendly alternative to wide tables",
-                    "Showing richer metadata per item (owner, tags, actions)"
+					"Showing richer metadata per item (owner, tags, actions)",
+					"Actionable worklists on mobile (triage/assign/fix)"
                 ],
                 "cautions": [
                     "Harder to compare values column‑wise than a table",
@@ -847,11 +863,12 @@
                 "aliases": ["data table", "data grid", "sortable table"],
                 "primary_dimensions": ["comparison", "rank", "composition"],
                 "data_shapes": ["categories", "matrix", "time_series"],
-                "supports": { "exact_values": true, "sorting": true, "pagination": true, "row_details": true },
+				"supports": { "exact_values": true, "sorting": true, "pagination": true, "row_details": true, "filtering": true, "bulk_select": true, "row_actions": true, "validation_flags": true },
                 "good_for": [
                     "Precise values and long labels",
                     "Mixed units and contextual notes",
-                    "Accessible alternative or complement to charts"
+					"Accessible alternative or complement to charts",
+					"Triage workflows (duplicates, invalid codes, missing fields)"
                 ],
                 "cautions": [
                     "Patterns less evident than charts; add sorting or highlights",
@@ -1036,16 +1053,22 @@
 			"name": "Fan chart",
 			"aliases": ["forecast cone", "prediction interval band"],
 			"primary_dimensions": ["comparison"],
-			"data_shapes": ["time_series"],
-			"supports": { "change_over_time": true, "uncertainty": true }
+				"data_shapes": ["time_series"],
+				"supports": { "change_over_time": true, "uncertainty": true },
+				"cautions": [
+					"Avoid implying precision with short histories; bands may be unreliable"
+				]
 		},
             {
                 "id": "priestley_timeline",
                 "name": "Priestley timeline",
                 "aliases": ["Priestly timeline", "lifespan timeline"],
                 "primary_dimensions": ["comparison"],
-                "data_shapes": ["time_series"],
-                "supports": { "change_over_time": true, "duration": true }
+				"data_shapes": ["time_series"],
+				"supports": { "change_over_time": true, "duration": true },
+				"cautions": [
+					"Avoid many overlapping intervals; prefer Gantt or small multiples"
+				]
             },
             {
                 "id": "gantt",
@@ -1068,21 +1091,30 @@
 			"name": "Calendar heatmap",
 			"aliases": ["calendar view"],
 			"primary_dimensions": ["comparison", "distribution"],
-			"data_shapes": ["time_series"]
+			"data_shapes": ["time_series"],
+			"cautions": [
+				"Avoid direct rate comparisons across months; month lengths vary"
+			]
 		},
 		{
 			"id": "radial_timeline",
 			"name": "Circle timeline",
 			"aliases": ["radial timeline"],
 			"primary_dimensions": ["comparison"],
-			"data_shapes": ["time_series"]
+			"data_shapes": ["time_series"],
+			"cautions": [
+				"Avoid when precise length comparison matters; use a linear timeline"
+			]
 		},
 		{
 			"id": "area",
 			"name": "Area chart",
 			"aliases": ["filled line"],
 			"primary_dimensions": ["comparison", "composition"],
-			"data_shapes": ["time_series"]
+			"data_shapes": ["time_series"],
+			"cautions": [
+				"Avoid comparing many overlapping series; consider lines or stacked area"
+			]
 		},
 		{
 			"id": "dual_axis",
@@ -1090,49 +1122,76 @@
 			"aliases": ["secondary axis"],
 			"primary_dimensions": ["comparison", "relationship"],
 			"data_shapes": ["time_series", "categories"],
-			"cautions": ["Risk of misreading due to scale mismatch; use sparingly"]
+			"good_for": [
+				"Capacity vs demand when metrics have different units (e.g., slots vs attendances)",
+				"Two series with distinct natural scales where normalisation isn't possible"
+			],
+			"cautions": [
+				"Risk of misreading due to scale mismatch; use sparingly",
+				"Align or normalise scales; clearly label axes and units",
+				"Avoid implying correlation from co-trending due to shared time axis",
+				"Consider small multiples as a safer alternative"
+			]
 		},
 		{
 			"id": "combo_line_column",
-			"name": "Line + Column (combo)",
+			"name": "Line and Column (combo)",
 			"aliases": ["line and column"],
 			"primary_dimensions": ["comparison", "relationship"],
-			"data_shapes": ["time_series"]
+			"data_shapes": ["time_series"],
+			"cautions": [
+				"Avoid mixing different units on one axis; normalise or split charts"
+			]
 		},
 		{
 			"id": "diverging_bar",
 			"name": "Diverging bar",
 			"aliases": ["positive/negative bar"],
 			"primary_dimensions": ["comparison", "deviation"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid many categories; labels and interpretation become crowded"
+			]
 		},
 		{
 			"id": "surplus_deficit_area",
 			"name": "Surplus/Deficit filled line",
 			"aliases": ["baseline-signed area"],
 			"primary_dimensions": ["comparison", "deviation"],
-			"data_shapes": ["time_series"]
+			"data_shapes": ["time_series"],
+			"cautions": [
+				"Avoid when series rarely crosses baseline; a simple area may suffice"
+			]
 		},
 		{
 			"id": "diverging_stacked_bar",
 			"name": "Diverging stacked bar",
 			"aliases": ["diverging 100% bar"],
 			"primary_dimensions": ["comparison", "deviation"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid many segments; hard to compare non-aligned stacks"
+			]
 		},
 		{
 			"id": "spine_chart",
 			"name": "Spine chart",
 			"aliases": ["back-to-back bar", "butterfly chart"],
 			"primary_dimensions": ["comparison", "deviation"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid when values aren’t naturally opposing; a standard bar may be clearer"
+			]
 		},
 		{
 			"id": "lollipop",
 			"name": "Lollipop chart",
 			"aliases": [],
 			"primary_dimensions": ["comparison"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid when tiny differences must be read precisely; bars can be clearer"
+			]
 		},
 		{
 			"id": "radar",
@@ -1149,331 +1208,596 @@
 			"name": "Isotype pictogram",
 			"aliases": ["isotopes", "pictogram chart"],
 			"primary_dimensions": ["comparison", "composition"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid precise comparisons; unit rounding can distort totals"
+			]
 		},
 		{
 			"id": "parallel_coordinates",
 			"name": "Parallel coordinates",
 			"aliases": [],
 			"primary_dimensions": ["relationship", "comparison"],
-			"data_shapes": ["matrix"]
+			"data_shapes": ["matrix"],
+			"cautions": [
+				"Avoid too many dimensions or rows; overplotting requires interaction or sampling"
+			]
 		},
 		{
 			"id": "paired_bar",
 			"name": "Paired bar chart",
 			"aliases": [],
 			"primary_dimensions": ["comparison"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid large category counts; pairing becomes cluttered"
+			]
 		},
 		{
 			"id": "paired_column",
 			"name": "Paired column chart",
 			"aliases": [],
 			"primary_dimensions": ["comparison"],
-			"data_shapes": ["categories", "time_series"]
+			"data_shapes": ["categories", "time_series"],
+			"cautions": [
+				"Avoid long labels and many pairs; readability suffers"
+			]
 		},
 		{
 			"id": "dot_density_map",
 			"name": "Dot density map",
 			"aliases": [],
 			"primary_dimensions": ["distribution", "comparison"],
-			"data_shapes": ["spatial"]
+			"data_shapes": ["spatial"],
+			"cautions": [
+				"Avoid when precise counts or rates are needed; dot placement is illustrative"
+			]
 		},
 		{
 			"id": "flow_map",
 			"name": "Flow map",
 			"aliases": ["desire lines", "movement map"],
 			"primary_dimensions": ["relationship", "comparison"],
-			"data_shapes": ["spatial"]
+			"data_shapes": ["spatial"],
+            "good_for": [
+                "Showing movement between locations (origins and destinations)",
+                "Comparing volumes along routes or corridors",
+                "Highlighting dominant flows after aggregating small ones"
+            ],
+			"cautions": [
+				"Avoid dense overlaps; aggregate or filter flows for clarity"
+			]
 		},
 		{
 			"id": "contour_map",
 			"name": "Contour map",
 			"aliases": ["isoline map"],
 			"primary_dimensions": ["distribution"],
-			"data_shapes": ["spatial"]
+			"data_shapes": ["spatial"],
+            "good_for": [
+                "Visualising continuous fields as bands or lines",
+                "Showing equal-value contours (e.g., travel time isochrones)"
+            ],
+			"cautions": [
+				"Avoid sparse input points; interpolation can mislead"
+			]
 		},
 		{
 			"id": "geospatial_heatmap",
 			"name": "Geospatial heat map",
 			"aliases": ["kernel density map"],
 			"primary_dimensions": ["distribution"],
-			"data_shapes": ["spatial"]
+			"data_shapes": ["spatial"],
+            "good_for": [
+                "Revealing hotspots and concentration patterns",
+                "Exploring spatial intensity when exact counts aren't required"
+            ],
+			"cautions": [
+				"Avoid implying totals; density shows concentration, not counts"
+			]
 		},
 		{
 			"id": "equalized_cartogram",
 			"name": "Equalised cartogram",
 			"aliases": ["equal-area cartogram"],
 			"primary_dimensions": ["comparison"],
-			"data_shapes": ["spatial"]
+			"data_shapes": ["spatial"],
+            "good_for": [
+                "Comparing regions without area bias using equal-sized shapes",
+                "Displaying categorical status or rates with fair visual weighting"
+            ],
+			"cautions": [
+				"Avoid tasks needing geographic accuracy; shapes are distorted"
+			]
 		},
 		{
 			"id": "proportional_symbol_map",
 			"name": "Proportional symbol map",
 			"aliases": ["graduated symbol map"],
 			"primary_dimensions": ["comparison"],
-			"data_shapes": ["spatial"]
+			"data_shapes": ["spatial"],
+            "good_for": [
+                "Comparing magnitudes at specific locations",
+                "Overlaying counts or rates on a base map"
+            ],
+			"cautions": [
+				"Avoid severe overlap; use clustering or alternate map types"
+			]
 		},
 		{
 			"id": "scaled_cartogram",
 			"name": "Scaled cartogram",
 			"aliases": ["value-by-area cartogram"],
 			"primary_dimensions": ["comparison"],
-			"data_shapes": ["spatial"]
+			"data_shapes": ["spatial"],
+            "good_for": [
+                "Emphasising totals by scaling region area to value",
+                "Communicating relative importance of regions despite geographic size differences"
+            ],
+			"cautions": [
+				"Avoid unfamiliar audiences; pair with a reference map"
+			]
 		},
 		{
 			"id": "donut",
 			"name": "Donut chart",
 			"aliases": ["doughnut"],
 			"primary_dimensions": ["composition"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid many slices or close values; bars compare proportions more clearly"
+			]
 		},
 		{
 			"id": "waffle",
 			"name": "Grid plot (waffle)",
 			"aliases": ["unit chart"],
 			"primary_dimensions": ["composition"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid many categories or large totals; grids become unwieldy"
+			]
 		},
 		{
 			"id": "sunburst",
 			"name": "Sunburst",
 			"aliases": ["radial partition"],
 			"primary_dimensions": ["composition"],
-			"data_shapes": ["hierarchy"]
+			"data_shapes": ["hierarchy"],
+			"cautions": [
+				"Avoid deep hierarchies; inner rings dominate perception"
+			]
 		},
 		{
 			"id": "venn",
 			"name": "Venn diagram",
 			"aliases": [],
 			"primary_dimensions": ["relationship", "composition"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid more than 3 sets; readability drops sharply"
+			]
 		},
 		{
 			"id": "bullet",
 			"name": "Bullet graph",
 			"aliases": [],
 			"primary_dimensions": ["comparison", "rank"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid inconsistent scales across items; standardise axes"
+			]
 		},
 		{
 			"id": "dot_strip",
 			"name": "Dot strip plot",
 			"aliases": ["strip plot", "dot strip"],
 			"primary_dimensions": ["distribution", "rank"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid very large n without jitter/transparency; overplotting hides density"
+			]
 		},
 		{
 			"id": "population_pyramid",
 			"name": "Population pyramid",
 			"aliases": ["back-to-back histogram"],
 			"primary_dimensions": ["distribution", "comparison"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid unequal group sizes without normalising; consider rates per population"
+			]
 		},
 		{
 			"id": "cdf_curve",
 			"name": "Cumulative curve",
 			"aliases": ["CDF"],
 			"primary_dimensions": ["distribution"],
-			"data_shapes": ["categories", "time_series"]
+			"data_shapes": ["categories", "time_series"],
+			"cautions": [
+				"Avoid non-specialist audiences without explanation; interpretation is less intuitive"
+			]
 		},
 		{
 			"id": "barcode_plot",
 			"name": "Barcode plot",
 			"aliases": ["rug plot"],
 			"primary_dimensions": ["distribution"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid high-density datasets without transparency; lines merge into blocks"
+			]
 		},
 		{
 			"id": "ordered_proportional_symbol",
 			"name": "Ordered proportional symbol",
 			"aliases": ["ordered bubble"],
 			"primary_dimensions": ["comparison", "rank"],
-			"data_shapes": ["categories"]
+			"data_shapes": ["categories"],
+			"cautions": [
+				"Avoid overlapping symbols; ensure ordering and spacing aid comparison"
+			]
 		}
+			,
+			{
+				"id": "kanban_board",
+				"name": "Kanban board",
+				"aliases": ["swimlane board"],
+				"primary_dimensions": ["comparison", "rank"],
+				"data_shapes": ["categories", "matrix"],
+				"supports": { "sorting": true, "filtering": true, "row_actions": true, "drag_drop": true, "swimlanes": true },
+				"good_for": [
+					"Triage/assignment workflows with status columns",
+					"Visual WIP limits and SLA ageing by lane"
+				],
+				"cautions": [
+					"Avoid very large item counts; prefer list/table for bulk ops"
+				]
+			},
+			{
+				"id": "master_detail",
+				"name": "Master–detail view",
+				"aliases": ["split view"],
+				"primary_dimensions": ["comparison"],
+				"data_shapes": ["categories", "matrix"],
+				"supports": { "sorting": true, "filtering": true, "row_details": true, "row_actions": true },
+				"good_for": [
+					"Fast review and disposition with details panel",
+					"Approve/clear exceptions with context"
+				],
+				"cautions": ["Avoid overloading detail pane; keep actions focused"]
+			},
+			{
+				"id": "editable_grid",
+				"name": "Editable grid",
+				"aliases": ["inline editable table"],
+				"primary_dimensions": ["comparison", "composition"],
+				"data_shapes": ["matrix", "categories"],
+				"supports": { "exact_values": true, "sorting": true, "filtering": true, "bulk_edit": true, "validation_flags": true, "row_actions": true },
+				"good_for": [
+					"Bulk validation and recoding with inline edits",
+					"Resolve missing/invalid values efficiently"
+				],
+				"cautions": ["Requires robust audit trail and validation rules"]
+			},
+			{
+				"id": "review_workbench",
+				"name": "Review workbench",
+				"aliases": ["triage workbench"],
+				"primary_dimensions": ["comparison"],
+				"data_shapes": ["categories", "matrix"],
+				"supports": { "filtering": true, "bulk_select": true, "row_actions": true, "shortcuts": true },
+				"good_for": [
+					"Queue-based review and batch disposition",
+					"Approve, defer, reassign with keyboard speed"
+				],
+				"cautions": ["Train users on shortcuts; guard against mass errors"]
+			},
+			{
+				"id": "duplicate_merge_view",
+				"name": "Duplicate merge view",
+				"aliases": ["record pair reviewer"],
+				"primary_dimensions": ["comparison"],
+				"data_shapes": ["categories", "matrix"],
+				"supports": { "pair_review": true, "side_by_side": true, "row_actions": true, "merge_preview": true },
+				"good_for": [
+					"Comparing suspected duplicate pairs and merging with audit",
+					"Highlighting conflicting fields and suggested winners"
+				],
+				"cautions": ["Needs deterministic merge rules and rollback plan"]
+			},
+			{
+				"id": "scheduler_board",
+				"name": "Scheduler board",
+				"aliases": ["roster board", "calendar board"],
+				"primary_dimensions": ["comparison", "change_over_time"],
+				"data_shapes": ["time_series", "matrix"],
+				"supports": { "duration": true, "events": true, "drag_drop": true },
+				"good_for": [
+					"Assigning clinics/lists to people/rooms with drag and drop",
+					"Resolving clashes and filling gaps quickly"
+				],
+				"cautions": ["Complex permissions; ensure audit and conflict rules"]
+			},
+			{
+				"id": "map_list",
+				"name": "Map + list",
+				"aliases": ["geolist"],
+				"primary_dimensions": ["spatial", "comparison"],
+				"data_shapes": ["spatial", "categories"],
+				"supports": { "filtering": true, "row_actions": true },
+				"good_for": [
+					"Acting on geographically distributed items (e.g., visits, homecare)",
+					"Selecting by map area and actioning in a list"
+				],
+				"cautions": ["Avoid map-only; ensure list parity for accessibility"]
+			},
+			{
+				"id": "segment_builder",
+				"name": "Segment builder",
+				"aliases": ["query builder"],
+				"primary_dimensions": ["comparison"],
+				"data_shapes": ["categories", "matrix"],
+				"supports": { "filtering": true, "grouping": true, "totals": true, "save_views": true },
+				"good_for": [
+					"Composing filters and fields before export or operations",
+					"Saving reusable views for recurring tasks"
+				],
+				"cautions": ["Guardrail complexity; guide with templates"]
+			},
+			{
+				"id": "data_uploader",
+				"name": "Data uploader",
+				"aliases": ["file import"],
+				"primary_dimensions": ["comparison"],
+				"data_shapes": ["categories"],
+				"supports": { "validation_flags": true, "row_actions": true },
+				"good_for": [
+					"Importing corrections or new records with inline validation",
+					"Previewing changes and applying in batches"
+				],
+				"cautions": ["Require rollbacks and audit for applied changes"]
+			}
 	],
 	"wizards": {
         "nhs_v1": {
             "title": "NHS Visualisation Selector",
             "root": "components_root",
             "nodes": {
-                "components_root": {
-                    "type": "choice",
-                    "mode": "multiple",
-                    "question": "What are your components (unit of analysis)?",
-                    "help": "Components are the 'things' being visualised (e.g., providers, patients, events, geographies, resources/capacity) and analysed.",
-                    "choices": [
-						{ "label": "Services/Pathways", "next": "components_shape" },
-                        { "label": "People (Patients, Staff)", "next": "components_shape" },
-                        { "label": "Organisations/Units (Trust/Site/PCN)", "next": "components_shape" },
-                        { "label": "Resources/Capacity (Staff, Beds, Theatres, Equipment)", "next": "components_shape" },
-						{ "label": "Events (Attendances, Harms)", "next": "components_shape" },
-                        { "label": "Geographic Areas", "next": "components_shape" },
-                        { "label": "Time Periods (Days/Weeks/Months)", "next": "components_shape" },
-                        { "label": "Categories/Reasons", "next": "components_shape" }
-                    ]
-                },
-                "components_shape": {
-                    "type": "single_choice",
-                    "question": "Which best describes your data shape?",
-                    "help": "Shape is the structure of your data, not the subject matter (e.g., matrix for utilisation schedules across hour × weekday; time series for capacity vs demand).",
-                    "choices": [
-                        { "label": "Time series (observations over time)", "next": "components_measure" },
-                        { "label": "Categories (groups like trusts/specialties)", "next": "components_measure" },
-                        { "label": "Hierarchy (nested categories)", "next": "components_measure" },
-                        { "label": "Matrix (multiple variables per item)", "next": "components_measure" },
-                        { "label": "Spatial (areas/points on a map)", "next": "components_measure" }
-                    ]
-                },
+				"components_root": {
+					"type": "choice",
+					"mode": "multiple",
+					"question": "What are your components (unit of analysis)?",
+					"help": "Components are the 'things' or entities your data describes (e.g., patients, trusts, clinics, time periods). Choose all that apply.",
+					"choices": [
+						{ "label": "Services/Pathways", "help": "e.g. RTT pathway, screening programme, specialty clinic.", "next": "components_shape" },
+						{ "label": "People", "help": "e.g. patients, staff, carers.", "next": "components_shape" },
+						{ "label": "Organisations/Units", "help": "e.g. trust, site, PCN, ward, team.", "next": "components_shape" },
+						{ "label": "Resources/Capacity", "help": "e.g. staff, beds, theatres, equipment, slots.", "next": "components_shape" },
+						{ "label": "Events", "help": "e.g. attendances, admissions, harms, breaches.", "next": "components_shape" },
+						{ "label": "Geographic Areas", "help": "e.g. postcode, LSOA, ICS, region.", "next": "components_shape" },
+						{ "label": "Time Periods", "help": "e.g. days, weeks, months, quarters.", "next": "components_shape" },
+						{ "label": "Categories/Reasons", "help": "e.g. diagnosis, procedure, priority, reason code.", "next": "components_shape" }
+					]
+				},
+				"components_shape": {
+					"type": "single_choice",
+					"question": "Which best describes your data shape?",
+					"help": "Shape is the structure of your data, not the subject matter (e.g., matrix for utilisation schedules across hour × weekday; time series for capacity vs demand).",
+					"choices": [
+						{ "label": "Time series (observations over time)", "help": "Values tracked over dates/periods. e.g. daily attendances, weekly referrals, monthly bed days.", "next": "components_measure" },
+						{ "label": "Categories (groups like trusts/specialties)", "help": "One value per category. e.g. occupancy by ward, throughput by clinic, metrics by specialty.", "next": "components_measure" },
+						{ "label": "Hierarchy (nested categories)", "help": "Parent → child groupings. e.g. org → site → ward; programme → workstream → project.", "next": "components_measure" },
+						{ "label": "Matrix (multiple variables per item)", "help": "Grid/cross‑tab. e.g. utilisation by hour × weekday, measure × stage, unit × metric.", "next": "components_measure" },
+						{ "label": "Spatial (areas/points on a map)", "help": "Geographic data. e.g. rates by postcode/LSOA, locations on a map, trust boundaries.", "next": "components_measure" }
+					]
+				},
                 "components_measure": {
                     "type": "single_choice",
                     "question": "What kind of measure are you showing?",
-                    "help": "Measure type influences comparisons and SPC variant choice.",
+					"help": "Pick the type that matches how your metric is recorded.",
                     "choices": [
-                        { "label": "Count (events per period)", "next": "components_count" },
-                        { "label": "Rate/Proportion/Percentage", "next": "components_rate" },
-                        { "label": "Continuous value (time, length of stay, lab value)", "next": "components_continuous" },
-                        { "label": "Categorical outcome (yes/no) by group", "next": "components_binary" }
+						{ "label": "Count (events per period)", "help": "Whole-number totals in a time window. e.g. ED attendances/day, falls/month, clinics/week.", "next": "components_count" },
+						{ "label": "Rate/Proportion/Percentage", "help": "A count relative to a denominator (or total). e.g. % DNA, admissions per 1,000 pop, A&E 4‑hour %.", "next": "components_rate" },
+						{ "label": "Continuous value (time, length of stay, lab value)", "help": "Measured on a continuous scale. e.g. LOS (days), HbA1c mmol/mol, turnaround time (minutes).", "next": "components_continuous" },
+						{ "label": "Categorical outcome (yes/no) by group", "help": "Binary outcomes summarised by unit. e.g. compliance yes/no, target met/not, adverse event occurred.", "next": "components_binary" }
                     ]
                 },
                 "components_rate": {
                     "type": "yes_no",
-                    "question": "Comparing providers/units with varying denominators?",
-                    "yes": { "recommend": ["funnel_plot"], "next": "components_cardinality" },
-                    "no": { "next": "components_cardinality" }
+                    "question": "Are you comparing providers/units with varying denominators?",
+					"help": "Whether units have different opportunity sizes (denominators), e.g., admissions per 1,000 population or % DNA by clinic list size; this affects fair comparison.",
+					"yes": { "help": "Yes if denominators differ; funnel plots adjust for opportunity size to avoid unfair comparisons.", "recommend": ["funnel_plot"], "next": "components_cardinality" },
+					"no": { "help": "No if denominators are similar or not used; standard comparisons apply.", "next": "components_cardinality" }
                 },
                 "components_count": {
                     "type": "yes_no",
                     "question": "Is it a rare-event metric (many zeros)?",
-                    "yes": { "recommend": ["g_chart", "t_chart"], "next": "components_cardinality" },
-                    "no": { "next": "components_cardinality" }
+					"help": "Whether events are infrequent with many zeros per period (rare events).",
+					"yes": { "help": "Yes for rare events with many zeros; time‑between (G/T) charts can read clearer than counts.", "recommend": ["g_chart", "t_chart"], "next": "components_cardinality" },
+					"no": { "help": "No if counts per period are common; standard time‑series charts apply.", "next": "components_cardinality" }
                 },
                 "components_continuous": {
                     "type": "yes_no",
-                    "question": "Prefer smoothed detection of gradual change?",
-                    "yes": { "recommend": ["ewma_chart"], "next": "components_cardinality" },
-                    "no": { "next": "components_cardinality" }
+					"question": "Prefer smoothed detection of gradual change?",
+					"help": "Whether you prefer a smoothed signal to detect gradual change (e.g., using EWMA).",
+					"yes": { "help": "Yes to smooth noise and reveal subtle shifts; EWMA helps detect gradual change.", "recommend": ["ewma_chart"], "next": "components_cardinality" },
+					"no": { "help": "No if you prefer raw unsmoothed values; use standard time‑series or SPC if needed.", "next": "components_cardinality" }
                 },
                 "components_binary": {
                     "type": "yes_no",
-                    "question": "Show estimates with confidence intervals by unit?",
-                    "yes": { "recommend": ["forest_plot"], "next": "components_cardinality" },
-                    "no": { "next": "components_cardinality" }
+                    "question": "Do you want to show estimates with confidence intervals by unit?",
+					"help": "Whether to show unit‑level estimates with confidence intervals to reflect uncertainty.",
+					"yes": { "help": "Yes to show unit estimates with confidence intervals; a forest plot presents this clearly.", "recommend": ["forest_plot"], "next": "components_cardinality" },
+					"no": { "help": "No if you don’t need confidence intervals; simple proportions or tables may suffice.", "next": "components_cardinality" }
                 },
                 "components_cardinality": {
                     "type": "single_choice",
                     "question": "How many components are you comparing at once?",
                     "choices": [
-                        { "label": "One", "next": "presentation_pref" },
-                        { "label": "Two", "next": "presentation_pref" },
-                        { "label": "A few (3–10)", "next": "presentation_pref" },
-                        { "label": "Many (10+)", "next": "presentation_pref" }
+						{ "label": "One", "help": "Single component or unit.", "next": "presentation_pref" },
+						{ "label": "Two", "help": "Compare two components side‑by‑side.", "next": "presentation_pref" },
+						{ "label": "A few (3–10)", "help": "Small set; overlays or small multiples can work.", "next": "presentation_pref" },
+						{ "label": "Many (10+)", "help": "Larger set; small multiples, summaries, or tables often clearer.", "next": "presentation_pref" }
                     ]
                 },
                 "presentation_pref": {
                     "type": "single_choice",
-                    "question": "Preferred presentation?",
-                    "help": "Choose if you need precise values (tables), responsive summaries (cards), or headline tiles.",
+					"question": "What is your preferred presentation?",
+					"help": "Consider audience, device, and task — do you need to scan, compare, or act? Analysts may need exact values; operational users often prefer concise summaries and status at a glance or quick call's to prioritised actions. Don't assume that a large dataset must be shown all at once.",
                     "choices": [
-                        { "label": "Precise values / long labels", "recommend": ["table"], "next": "nhs_root" },
-                        { "label": "Summary / mobile‑friendly", "recommend": ["card", "card_list"], "next": "nhs_root" },
-                        { "label": "Dashboard tile (headline + trend)", "recommend": ["kpi_tile", "spc_spark"], "next": "nhs_root" },
-                        { "label": "No preference", "next": "nhs_root" }
+						{ "label": "Precise values / long labels", "help": "For analysts and audits. Exact numbers, long text, and mixed units. Best for exporting, where possible/drilling down into operational detail.", "recommend": ["table", "pivot_table"], "next": "nhs_root" },
+						{ "label": "Summary overview / ops-dashboard or mobile‑friendly", "help": "For quick scanning on phones or operational dashboards. Show key fields and a small trend; defer dense comparisons.", "recommend": ["card", "card_list"], "next": "nhs_root" },
+						{ "label": "Dashboard tile (headline and trend)", "help": "For status at a glance. Latest value, change vs baseline, and compact sparkline. Link to detail for context.", "recommend": ["kpi_tile", "spc_spark"], "next": "nhs_root" },
+						{ "label": "Actionable list (triage/fix)", "help": "For taking action now. List items needing attention with inline actions (e.g., resolve duplicates, correct codes, reassign). Use sort/filter to prioritise.", "recommend": ["table", "card_list"], "next": "nhs_root" },
+						{ "label": "No preference", "help": "Keep options open; we’ll balance clarity, precision, and space.", "next": "nhs_root" }
                     ]
                 },
                 "nhs_root": {
                     "type": "single_choice",
-                    "question": "What do you want to do?",
+					"question": "What do you want do you want to achieve by visualising this data, what do you want your users to do?",
+					"help": "Choose the primary decision or action you want this visualisation to support. Pick the goal that best matches the user’s task; we’ll guide you to chart types that suit that purpose.",
+					"choices": [
+						{ "label": "Analyse trends", "help": "Track change over time; spot shifts, trends, and seasonality.", "next": "trend_q1" },
+						{ "label": "Manage capacity & utilisation", "help": "Balance capacity and demand; view utilisation patterns and schedules.", "next": "op_cap_q0" },
+						{ "label": "Improve patient/service flow", "help": "Understand movement between stages and where bottlenecks occur.", "next": "op_flow_q0" },
+						{ "label": "Monitor operational status", "help": "Provide status at a glance: backlogs, targets/thresholds, exceptions.", "next": "op_status_q0" },
+						{ "label": "Operate on data (triage/fix)", "help": "Take action directly on records: resolve duplicates, validate/recode values, assign/route to owners, or approve/clear exceptions.", "next": "ops_action_q0" },
+						{ "label": "Better understand relationships", "help": "Explore associations/correlation between variables; stratify or facet where needed.", "next": "rel_q0" },
+						{ "label": "Demonstrate deviation", "help": "Show variance from target/baseline or benchmark; highlight positive/negative differences.", "next": "dev_q0" },
+						{ "label": "Demonstrate magnitude", "help": "Compare sizes/levels across categories or periods.", "next": "mag_q0" },
+						{ "label": "Visualise geographical patterns", "help": "Reveal spatial variation and clusters across areas or locations.", "next": "geo_q0" },
+						{ "label": "Show composition", "help": "Explain part‑to‑whole structure and contributions over time.", "next": "comp_q0" },
+						{ "label": "Show rank", "help": "Highlight ordering and relative position across units.", "next": "rank_q0" },
+						{ "label": "Understand the distribution", "help": "See spread, skew, and outliers within and between groups.", "next": "dist_q0" }
+					]
+                },
+                "ops_action_q0": {
+                    "type": "single_choice",
+                    "question": "What action do you want to take on the data?",
+                    "help": "Choose the primary operation to perform on records. We’ll suggest list-based views that support prioritisation, filtering, and inline actions.",
                     "choices": [
-                        { "label": "Analyse trends", "next": "trend_q1" },
-                        { "label": "Manage capacity & utilisation", "next": "op_cap_q0" },
-                        { "label": "Improve patient/service flow", "next": "op_flow_q0" },
-                        { "label": "Monitor operational status", "next": "op_status_q0" },
-                        { "label": "Better understand relationships", "next": "rel_q0" },
-                        { "label": "Demonstrate deviation", "next": "dev_q0" },
-                        { "label": "Demonstrate magnitude", "next": "mag_q0" },
-                        { "label": "Visualise geographical patterns", "next": "geo_q0" },
-                        { "label": "Show composition", "next": "comp_q0" },
-                        { "label": "Show rank", "next": "rank_q0" },
-                        { "label": "Understand the distribution", "next": "dist_q0" }
+						{ "label": "Resolve duplicates", "help": "Identify/merge suspected duplicates. Suggested columns: duplicate key(s), pair id, confidence, owner, age/SLA, status. Common filters: confidence, owner/team, status, age.", "recommend": ["duplicate_merge_view", "review_workbench", "editable_grid", "table", "card_list"] },
+						{ "label": "Validate & recode", "help": "Fix missing/invalid values with audit notes. Suggested columns: field, current value, suggested/valid code, rule/reason, owner, last updated. Filters: issue type, field, owner, status.", "recommend": ["editable_grid", "review_workbench", "table", "card_list"] },
+						{ "label": "Assign/route to owner", "help": "Prioritise and (re)assign items. Suggested columns: priority/severity, type, owner/team, age/SLA, queue/status. Filters: priority, owner/team, status, age.", "recommend": ["kanban_board", "master_detail", "review_workbench", "card_list", "table"] },
+						{ "label": "Approve / clear exceptions", "help": "Disposition exceptions (approve, defer, clear) with comment. Columns: exception type, severity, reason, owner, age, status. Filters: type, severity, owner, status, age.", "recommend": ["review_workbench", "master_detail", "table", "card_list"] },
+						{ "label": "Prepare / export dataset", "help": "Choose fields/filters and export. Tips: save views, include date range, dedupe/flag data quality. Outputs: CSV/Parquet as needed.", "recommend": ["segment_builder", "editable_grid", "table", "pivot_table"] }
                     ]
                 },
                 "op_cap_q0": {
-                    "type": "single_choice",
-                    "question": "Capacity/utilisation focus?",
+					"type": "single_choice",
+					"question": "Capacity/utilisation focus?",
+					"help": "Use heatmaps for hour × weekday utilisation patterns. Use time‑series (line/area/combo/dual‑axis) for capacity vs demand trends. To spotlight free/unused capacity, plot available = capacity − used or 100% − utilisation; the chart type stays the same.",
                     "choices": [
-                        { "label": "Capacity vs demand over time", "recommend": ["combo_line_column", "area", "run_chart", "spc_chart"] },
-                        { "label": "Utilisation by hour/day", "recommend": ["utilisation_heatmap", "calendar_heatmap"] },
-                        { "label": "Rosters & scheduling", "recommend": ["calendar", "gantt"] },
-                        { "label": "Single KPI utilisation", "recommend": ["progress_bar", "kpi_tile", "spc_spark"] }
+						{ "label": "Capacity vs demand over time", "help": "Compare trends across periods; we’ll ask about small multiples and units/scales next. Add a 'remaining capacity' series to highlight gaps.", "next": "op_cap_small_multiples" },
+						{ "label": "Utilisation by hour/day", "help": "Hour × weekday patterns to reveal peaks/troughs and quiet times. To spot gaps, show 'free capacity' (100% − utilisation) or use an inverse colour scale.", "recommend": ["utilisation_heatmap", "calendar_heatmap"] },
+						{ "label": "Rosters & scheduling", "help": "Show shifts, clinics, and lists over calendar time.", "recommend": ["calendar", "gantt"] },
+						{ "label": "Single KPI utilisation", "help": "Status at a glance for one metric; pair with a small trend if needed.", "recommend": ["progress_bar", "kpi_tile", "spc_spark"] }
                     ]
                 },
+				"op_cap_small_multiples": {
+					"type": "yes_no",
+					"question": "Would you prefer small multiples (one chart per unit) instead of overlaying series?",
+					"help": "Small multiples are a grid of like‑for‑like mini charts (one per unit) using the same scales. They help compare patterns across many units without overlapping lines.",
+					"yes": { 
+						"help": "Yes to avoid overlays and dual‑axis pitfalls; best for many units side‑by‑side.",
+						"recommend": ["line", "area", "run_chart", "spc_chart"] 
+					},
+					"no": { 
+						"help": "No to overlay series in a single chart; fine for a few units where lines remain readable.",
+						"next": "op_cap_capacity_demand_units" 
+					}
+				},
+				"op_cap_capacity_demand_units": {
+					"type": "yes_no",
+					"question": "Do capacity and demand use different units/scales (e.g., slots vs attendances)?",
+					"help": "Whether capacity and demand are measured on different scales (e.g., slots vs attendances).",
+					"yes": { 
+						"help": "Yes if units/scales differ; combo or careful dual‑axis can help — small multiples are often safer.",
+						"recommend": ["combo_line_column", "area", "dual_axis", "run_chart", "spc_chart"] 
+					},
+					"no": {
+						"help": "No if units/scales are the same; standard line/area/combo charts work well.", 
+						"recommend": ["combo_line_column", "area", "run_chart", "spc_chart"] 
+					}
+				},
                 "op_flow_q0": {
                     "type": "single_choice",
-                    "question": "What flow do you want to show?",
+					"question": "What flow do you want to show?",
+					"help": "Choose a flow perspective: stage transitions (Sankey/CFD), movements between places (flow map), or durations/handoffs (Gantt).",
                     "choices": [
-                        { "label": "Across pathway stages", "recommend": ["sankey", "cumulative_flow"] },
-                        { "label": "Between locations", "recommend": ["flow_map"] },
-                        { "label": "Stage durations / handoffs", "recommend": ["gantt"] }
+						{ "label": "Across pathway stages", "help": "Volumes moving between stages. e.g. referrals → triage → clinic → discharge.", "recommend": ["sankey", "cumulative_flow"] },
+						{ "label": "Between locations", "help": "Origins/destinations. e.g. patient transfers or flow between sites/wards.", "recommend": ["flow_map"] },
+						{ "label": "Stage durations / handoffs", "help": "How long each step takes and where waits occur.", "recommend": ["gantt"] }
                     ]
                 },
                 "op_status_q0": {
                     "type": "single_choice",
-                    "question": "Operational status focus?",
+					"question": "Operational status focus?",
+					"help": "Pick the status view you need: backlog trend, target progress at a glance, or an actionable exceptions list for attention.",
                     "choices": [
-                        { "label": "Backlog / queue length", "recommend": ["run_chart", "spc_chart", "burndown"] },
-                        { "label": "Thresholds / targets", "recommend": ["kpi_tile", "progress_bar", "bullet"] },
-                        { "label": "Exceptions watchlist", "recommend": ["table", "spc_spark"] }
+						{ "label": "Backlog / queue length", "help": "Track workload over time and its rate of change.", "recommend": ["run_chart", "spc_chart", "burndown"] },
+						{ "label": "Thresholds / targets", "help": "Show progress vs a limit/target and current status at a glance.", "recommend": ["kpi_tile", "progress_bar", "bullet"] },
+						{ "label": "Exceptions watchlist", "help": "List outliers, duplicates, or invalid codes needing attention now. Suggested columns: type, severity, owner, age/SLA. Common filters: type, severity, owner, status.", "recommend": ["table", "spc_spark"] },
+						{ "label": "Data quality issues", "help": "Identify and act on data problems (duplicates, missing fields, invalid codes). Suggested columns: issue type, primary key(s), affected fields, last seen/updated, owner. Common filters: issue type, age, owner, status. Use sort/filter and inline actions to resolve items.", "recommend": ["table", "card_list"] }
                     ]
                 },
-
 				"trend_q1": {
 					"type": "yes_no",
 					"question": "Is it predictive?",
-					"yes": { "recommend": ["fan_chart"] },
-					"no": { "next": "trend_q2" }
+					"help": "Whether you need to include forecasts/projections with uncertainty bands.",
+					"yes": { "help": "Yes to include projections with uncertainty bands (forecasts).", "recommend": ["fan_chart"] },
+					"no": { "help": "No if you’re not forecasting; use observed data only.", "next": "trend_q2" }
 				},
-                "trend_q2": {
+				"trend_q2": {
                     "type": "yes_no",
                     "question": "Is duration important?",
-                    "yes": { "recommend": ["priestley_timeline", "gantt"] },
-                    "no": { "next": "trend_q3" }
+					"help": "Whether intervals, overlaps, and durations matter more than point values.",
+					"yes": { "help": "Yes when start–end intervals/overlaps are primary; timelines show durations clearly.", "recommend": ["priestley_timeline", "gantt"] },
+					"no": { "help": "No if point values are primary; continue with standard time‑series.", "next": "trend_q3" }
                 },
-                "trend_q3": {
+				"trend_q3": {
                     "type": "yes_no",
                     "question": "Are you looking at temporal patterns (daily/weekly/monthly)?",
-                    "yes": { "recommend": ["calendar_heatmap"] },
-                    "no": { "next": "trend_q3a" }
+					"help": "Whether you want to highlight daily/weekly/monthly temporal patterns.",
+					"yes": { "help": "Yes to highlight cyclical patterns; calendar heatmaps show them clearly.", "recommend": ["calendar_heatmap"] },
+					"no": { "help": "No if cyclical daily/weekly/monthly patterns aren’t the focus.", "next": "trend_q3a" }
                 },
-                "trend_q3a": {
+				"trend_q3a": {
                     "type": "yes_no",
                     "question": "Is early detection of small sustained shifts important?",
-                    "yes": { "recommend": ["cusum_chart", "ewma_chart"] },
-                    "no": { "next": "trend_q3b" }
+					"help": "Whether early detection of small sustained shifts is important.",
+					"yes": { "help": "Yes for earlier detection of subtle change; CUSUM/EWMA highlight shifts sooner than run/SPC.", "recommend": ["cusum_chart", "ewma_chart"] },
+					"no": { "help": "No if standard run/SPC change detection is sufficient.", "next": "trend_q3b" }
                 },
-                "trend_q3b": {
+				"trend_q3b": {
                     "type": "yes_no",
                     "question": "Is it a rare-event metric (days/time between harms)?",
-                    "yes": { "recommend": ["g_chart", "t_chart"] },
-                    "no": { "next": "trend_q4" }
+					"help": "Whether the measure is rare events where time between events is meaningful.",
+					"yes": { "help": "Yes for rare‑event metrics; G/T charts can be clearer than period counts.", "recommend": ["g_chart", "t_chart"] },
+					"no": { "help": "No if period counts are your primary measure.", "next": "trend_q4" }
                 },
 				"trend_q4": {
 					"type": "yes_no",
 					"question": "Is there an additional dimension?",
-					"yes": { "recommend": ["radial_timeline", "area"] },
-					"no": { "next": "trend_q5" }
+					"help": "Whether you need to encode an additional dimension (e.g., magnitude or cycle phase).",
+					"yes": { "help": "Yes to add an extra dimension; consider a radial timeline or area.", "recommend": ["radial_timeline", "area"] },
+					"no": { "help": "No if a standard timeline suffices without extra dimensions.", "next": "trend_q5" }
 				},
 				"trend_q5": {
 					"type": "yes_no",
 					"question": "Are you comparing two variables?",
-					"yes": { "recommend": ["dual_axis", "connected_scatter"] },
-					"no": { "next": "trend_q6" }
+					"help": "Whether you’re comparing two variables over time.",
+					"yes": { "help": "Yes for two-variable comparisons; connected scatter shows relationships; dual‑axis needs careful scales/units.", "recommend": ["dual_axis", "connected_scatter"] },
+					"no": { "help": "No if you’re focusing on a single variable over time.", "next": "trend_q6" }
 				},
 				"trend_q6": {
 					"type": "yes_no",
 					"question": "Is detail unimportant?",
-					"yes": { "recommend": ["slope"] },
+					"help": "Whether fine‑grained detail is unimportant and you only need start→end change.",
+					"yes": { "help": "Yes when detail is unimportant and you just need start→end change; a slope chart is concise.", "recommend": ["slope"] },
 					"no": {
+						"help": "No when you need detailed values and shape over time; use standard time‑series.",
 						"recommend": [
 							"line",
 							"column",
@@ -1487,10 +1811,12 @@
 				"rel_q0": {
 					"type": "single_choice",
 					"question": "What kind of data?",
+					"help": "Choose whether your variables are numeric (interval) or ordered categories (ordinal). Interval supports magnitude and arithmetic; ordinal supports rank/ordering but not equal spacing.",
 					"choices": [
-						{ "label": "Interval (quantitative)", "next": "rel_interval_q1" },
+						{ "label": "Interval (quantitative)", "help": "Numeric measurements on a scale. e.g. rates, durations, counts.", "next": "rel_interval_q1" },
 						{
 							"label": "Ordinal (ordered categories)",
+							"help": "Categories with rank/ordering. e.g. low/medium/high, quintiles, ratings.",
 							"next": "rel_ordinal_q1"
 						}
 					]
@@ -1498,10 +1824,11 @@
 				"rel_interval_q1": {
 					"type": "single_choice",
 					"question": "How many variables?",
+					"help": "Pick the number of variables to compare. For two variables, decide if the split is over time or across categories; for three, encode the third as size/colour/shape.",
 					"choices": [
-						{ "label": "2 (split by time)", "next": "rel_interval_time" },
-						{ "label": "2 (split by other)", "next": "rel_interval_other" },
-						{ "label": "3", "recommend": ["bubble"] }
+						{ "label": "2 (split by time)", "help": "Two variables shown over time. e.g. capacity vs demand.", "next": "rel_interval_time" },
+						{ "label": "2 (split by other)", "help": "Two variables compared across categories.", "next": "rel_interval_other" },
+						{ "label": "3", "help": "Add a third variable as size/colour/shape.", "recommend": ["bubble"] }
 					]
 				},
 				"rel_interval_time": {
@@ -1514,47 +1841,53 @@
 				},
 				"rel_ordinal_q1": {
 					"type": "end",
-					"recommend": ["heatmap"]
+					"recommend": ["heatmap", "table", "pivot_table", "lollipop"]
 				},
 
                 "dev_q0": {
                     "type": "single_choice",
                     "question": "What deviation pattern?",
+					"help": "Select how you want to show deviation: simple above/below a baseline, across two measures, contrasting components, volume‑adjusted provider comparison, or unit estimates with uncertainty.",
                     "choices": [
-                        { "label": "Positive/negative (1 dimension)", "next": "dev_q1" },
+						{ "label": "Positive/negative (1 dimension)", "help": "Above vs below a baseline or expected value.", "next": "dev_q1" },
                         {
-                            "label": "Two dimensions",
+							"label": "Two dimensions",
+							"help": "Deviations along two measures (e.g. value and variance).",
                             "recommend": ["diverging_stacked_bar"]
                         },
                         {
-                            "label": "Two contrasting components",
+							"label": "Two contrasting components",
+							"help": "Opposing parts of the whole (e.g. surplus vs deficit).",
                             "recommend": ["spine_chart"]
                         },
-                        { "label": "By provider vs benchmark (varying volumes)", "recommend": ["funnel_plot"] },
-                        { "label": "Estimates with confidence intervals by unit", "recommend": ["forest_plot"] }
+						{ "label": "By provider vs benchmark (varying volumes)", "help": "Compare performance adjusted for denominator size.", "recommend": ["funnel_plot"] },
+						{ "label": "Estimates with confidence intervals by unit", "help": "Show point estimates with uncertainty for each unit.", "recommend": ["forest_plot"] }
                     ]
                 },
 				"dev_q1": {
 					"type": "single_choice",
 					"question": "Static or over time?",
+					"help": "Choose a one‑off snapshot vs an over‑time view of deviation. Static suits point comparisons; over time suits cumulative surplus/deficit patterns.",
 					"choices": [
-						{ "label": "Static", "recommend": ["diverging_bar"] },
-						{ "label": "Over time", "recommend": ["surplus_deficit_area"] }
+						{ "label": "Static", "help": "Single snapshot comparison.", "recommend": ["diverging_bar"] },
+						{ "label": "Over time", "help": "How the deviation evolves across periods.", "recommend": ["surplus_deficit_area"] }
 					]
 				},
 
                 "mag_q0": {
                     "type": "single_choice",
                     "question": "Magnitude of what?",
+					"help": "Decide the kind of magnitude comparison: basic group sizes, a single quantity, ordered sequences, two independent measures, or prioritising largest contributors.",
                     "choices": [
-                        { "label": "Basic comparisons", "next": "mag_basic" },
-                        { "label": "One thing", "recommend": ["isotype_pictogram"] },
-                        { "label": "Order is significant", "next": "mag_order" },
+						{ "label": "Basic comparisons", "help": "Compare sizes across groups.", "next": "mag_basic" },
+						{ "label": "One thing", "help": "Focus on a single quantity.", "recommend": ["isotype_pictogram"] },
+						{ "label": "Order is significant", "help": "Sequence matters, not just size.", "next": "mag_order" },
                         {
-                            "label": "Two dimensions",
+							"label": "Two dimensions",
+							"help": "Two independent magnitude measures (e.g. value and volume).",
                             "recommend": ["paired_bar", "paired_column"]
                         },
-                        { "label": "Prioritise biggest contributors", "recommend": ["pareto"] }
+						{ "label": "Prioritise biggest contributors", "help": "Cumulative impact to identify the vital few.", "recommend": ["pareto"] }
                     ]
                 },
                 "mag_basic": {
@@ -1569,31 +1902,36 @@
 				"geo_q0": {
 					"type": "single_choice",
 					"question": "Geographic focus?",
+					"help": "Choose how to show spatial data: points, flows, continuous surfaces, or area‑based units (trust/site). Pick the option that matches your geography and measure type.",
 					"choices": [
-						{ "label": "Basic (points)", "recommend": ["dot_density_map"] },
-						{ "label": "Movement", "recommend": ["flow_map"] },
+						{ "label": "Basic (points)", "help": "Locations or counts at points. e.g. sites, incidents, services.", "recommend": ["dot_density_map"] },
+						{ "label": "Movement", "help": "Flows or journeys between places.", "recommend": ["flow_map"] },
 						{
 							"label": "Continuous surface",
+							"help": "Smoothly varying values over space. e.g. rates across a region.",
 							"recommend": [
 								"contour_map",
 								"geospatial_heatmap",
 								"equalized_cartogram"
 							]
 						},
-						{ "label": "By specific area (trust/site)", "next": "geo_area" }
+						{ "label": "By specific area (trust/site)", "help": "Area units with boundaries. e.g. trust, site, LSOA.", "next": "geo_area" }
 					]
 				},
 				"geo_area": {
 					"type": "single_choice",
 					"question": "Area-based options",
+					"help": "Select how to encode values for area units: choropleth for rates/density, proportional symbols at fixed centroids, or scaled cartograms when size/proximity hides variation.",
 					"choices": [
-						{ "label": "Choropleth", "recommend": ["choropleth"] },
+						{ "label": "Choropleth", "help": "Shaded areas by value. Best for rates/densities.", "recommend": ["choropleth"] },
 						{
 							"label": "Proportional symbol (at fixed positions)",
+							"help": "Sized symbols at known centroids (e.g. sites).",
 							"recommend": ["proportional_symbol_map"]
 						},
 						{
 							"label": "Values hidden due to scale/proximity",
+							"help": "When small/nearby areas obscure values, distort to reveal them.",
 							"recommend": ["scaled_cartogram"]
 						}
 					]
@@ -1602,25 +1940,29 @@
 				"comp_q0": {
 					"type": "single_choice",
 					"question": "Composition depth?",
+					"help": "Pick the part‑to‑whole structure: a single whole, overlaps, or multiple grouping dimensions (2–3).",
 					"choices": [
-						{ "label": "1 dimension", "next": "comp_1d" },
-						{ "label": "Cross-over of 2–3 areas", "recommend": ["venn"] },
-						{ "label": "2 dimensions", "recommend": ["stacked_bar"] },
-						{ "label": "3 dimensions", "recommend": ["percent_stacked_bar"] }
+						{ "label": "1 dimension", "help": "Parts of a single whole.", "next": "comp_1d" },
+						{ "label": "Cross-over of 2–3 areas", "help": "Overlap between categories.", "recommend": ["venn"] },
+						{ "label": "2 dimensions", "help": "Two grouping variables.", "recommend": ["stacked_bar"] },
+						{ "label": "3 dimensions", "help": "Three grouping variables or nested parts.", "recommend": ["percent_stacked_bar"] }
 					]
 				},
 				"comp_1d": {
 					"type": "single_choice",
 					"question": "1D composition specifics",
+					"help": "Choose how to present a single whole broken into parts: proportional ring, simple few parts, nested sub‑parts, or positive/negative building blocks.",
 					"choices": [
-						{ "label": "Donut (part-to-whole)", "recommend": ["donut"] },
-						{ "label": "Only 2–3 components", "recommend": ["waffle"] },
+						{ "label": "Donut (part-to-whole)", "help": "Share/proportion of categories.", "recommend": ["donut"] },
+						{ "label": "Only 2–3 components", "help": "Very few parts — emphasise simplicity.", "recommend": ["waffle"] },
 						{
 							"label": "Deeper detail within the dimension",
+							"help": "Drill into sub-parts within the same whole.",
 							"recommend": ["treemap", "sunburst"]
 						},
 						{
 							"label": "Positive and negative components",
+							"help": "Show how additions and subtractions build to a total.",
 							"recommend": ["waterfall"]
 						}
 					]
@@ -1629,10 +1971,12 @@
 				"rank_q0": {
 					"type": "single_choice",
 					"question": "How many ranked components?",
+					"help": "Choose whether you’re ranking one list or comparing ranks across two lists/time points.",
 					"choices": [
-						{ "label": "One", "next": "rank_one" },
+						{ "label": "One", "help": "Single ranking list.", "next": "rank_one" },
 						{
 							"label": "Two",
+							"help": "Compare ranks across two lists/time points.",
 							"recommend": ["slope", "ordered_proportional_symbol"]
 						}
 					]
@@ -1640,10 +1984,12 @@
                 "rank_one": {
                     "type": "single_choice",
                     "question": "Any constraints?",
+					"help": "State presentation constraints for a single ranking: add extra detail per item or keep labels short for compact visuals.",
                     "choices": [
-                        { "label": "Extra detail", "recommend": ["bullet", "dot_strip", "table"] },
+						{ "label": "Extra detail", "help": "Include additional metrics per item.", "recommend": ["bullet", "dot_strip", "table"] },
                         {
-                            "label": "Short names",
+							"label": "Short names",
+							"help": "Use when labels are compact; otherwise tables may be clearer.",
                             "recommend": ["column", "bar", "lollipop"]
                         }
                     ]
@@ -1652,20 +1998,24 @@
 				"dist_q0": {
 					"type": "single_choice",
 					"question": "Distribution scope?",
+					"help": "Select whether you’re inspecting one group’s distribution or comparing distributions across groups.",
 					"choices": [
 						{
 							"label": "Single component",
+							"help": "Distribution of one group.",
 							"recommend": ["violin", "histogram"]
 						},
-						{ "label": "Split into components", "next": "dist_split" }
+						{ "label": "Split into components", "help": "Compare distributions across groups.", "next": "dist_split" }
 					]
 				},
 				"dist_split": {
 					"type": "single_choice",
 					"question": "How many components?",
+					"help": "Pick two groups for side‑by‑side comparison or a few groups for multi‑group summaries.",
 					"choices": [
 						{
 							"label": "Two",
+							"help": "Two groups side‑by‑side.",
 							"recommend": [
 								"population_pyramid",
 								"cdf_curve",
@@ -1674,7 +2024,7 @@
 								"dot_strip"
 							]
 						},
-						{ "label": "A few", "recommend": ["boxplot"] }
+						{ "label": "A few", "help": "Several groups to compare.", "recommend": ["boxplot"] }
 					]
 				}
 			}

@@ -90,7 +90,8 @@ span .nhsuk-u-visually-hidden {
 
 .fdp-metric-card {
   position: relative;
-  background: #ffffff;
+  /* Allow dynamic background via CSS var, fallback to token gradient/white */
+  background: var(--fdp-metric-card-bg, #ffffff);
   border: 1px solid #d8dde0;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
@@ -109,7 +110,8 @@ span .nhsuk-u-visually-hidden {
   position: absolute;
   inset: 0 auto 0 0;
   width: 4px;
-  background: #d8dde0;
+  /* Accent can be overridden by CSS var for SPC-driven colour */
+  background: var(--fdp-metric-card-accent, #d8dde0);
 }
 .fdp-metric-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
@@ -120,40 +122,40 @@ span .nhsuk-u-visually-hidden {
   outline-offset: 2px;
 }
 .fdp-metric-card--primary {
-  background: linear-gradient(135deg, rgba(0, 94, 184, 0.05), #ffffff);
+  background: var(--fdp-metric-card-bg, linear-gradient(135deg, rgba(0, 94, 184, 0.05), #ffffff));
 }
 .fdp-metric-card--primary::before {
-  background: #005eb8;
+  background: var(--fdp-metric-card-accent, #005eb8);
 }
 .fdp-metric-card--secondary {
-  background: linear-gradient(135deg, rgba(136, 15, 184, 0.06), #ffffff);
+  background: var(--fdp-metric-card-bg, linear-gradient(135deg, rgba(136, 15, 184, 0.06), #ffffff));
 }
 .fdp-metric-card--secondary::before {
-  background: #880fb8;
+  background: var(--fdp-metric-card-accent, #880fb8);
 }
 .fdp-metric-card--accent {
-  background: linear-gradient(135deg, rgba(255, 184, 28, 0.1), #ffffff);
+  background: var(--fdp-metric-card-bg, linear-gradient(135deg, rgba(255, 184, 28, 0.1), #ffffff));
 }
 .fdp-metric-card--accent::before {
-  background: #ffb81c;
+  background: var(--fdp-metric-card-accent, #ffb81c);
 }
 .fdp-metric-card--success {
-  background: linear-gradient(135deg, rgba(0, 164, 153, 0.1), #ffffff);
+  background: var(--fdp-metric-card-bg, linear-gradient(135deg, rgba(0, 164, 153, 0.1), #ffffff));
 }
 .fdp-metric-card--success::before {
-  background: #00a499;
+  background: var(--fdp-metric-card-accent, #00a499);
 }
 .fdp-metric-card--warning {
-  background: linear-gradient(135deg, rgba(237, 79, 0, 0.1), #ffffff);
+  background: var(--fdp-metric-card-bg, linear-gradient(135deg, rgba(237, 79, 0, 0.1), #ffffff));
 }
 .fdp-metric-card--warning::before {
-  background: #ed4f00;
+  background: var(--fdp-metric-card-accent, #ed4f00);
 }
 .fdp-metric-card--error {
-  background: linear-gradient(135deg, rgba(213, 40, 27, 0.1), #ffffff);
+  background: var(--fdp-metric-card-bg, linear-gradient(135deg, rgba(213, 40, 27, 0.1), #ffffff));
 }
 .fdp-metric-card--error::before {
-  background: #d5281b;
+  background: var(--fdp-metric-card-accent, #d5281b);
 }
 .fdp-metric-card--loading {
   cursor: progress;
@@ -197,7 +199,7 @@ span .nhsuk-u-visually-hidden {
   line-height: 24px;
   font-weight: 600;
   letter-spacing: 0.25px;
-  color: #4c6272;
+  color: #212b32;
   overflow-wrap: anywhere;
 }
 .fdp-metric-card__metadata {
@@ -211,6 +213,15 @@ span .nhsuk-u-visually-hidden {
   flex-direction: column;
   gap: 16px;
   min-width: 0;
+}
+.fdp-metric-card__visual {
+  margin-top: 8px;
+  width: 100%;
+  /* Ensure embedded SVGs/charts scale to container width */
+}
+.fdp-metric-card__visual > svg, .fdp-metric-card__visual > canvas, .fdp-metric-card__visual > div {
+  max-width: 100%;
+  display: block;
 }
 .fdp-metric-card__value-section {
   display: flex;

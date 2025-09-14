@@ -5815,7 +5815,7 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
 };
 var Axis_default = Axis;
 
-// src/components/DataVisualisation/charts/GridlLines/GridLines.tsx
+// src/components/DataVisualisation/charts/GridLines/GridLines.tsx
 import { jsx as jsx6, jsxs as jsxs2 } from "react/jsx-runtime";
 var GridLines = ({
   axis = "y",

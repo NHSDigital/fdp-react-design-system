@@ -64,7 +64,7 @@ export const AutoTableWithAlignmentAndDownload: Story = {
   render: (args) => (
     <ChartWithTableTabs
       title="Admissions vs Discharges"
-      description="Auto-generated multi-series table with alignment + CSV download"
+      description="Auto-generated multi-series table with alignment and CSV download"
       source="Example synthetic data"
       chart={<LineChart series={series} yLabel="Count" smooth={false} />}
       autoTableFromSeries={series}

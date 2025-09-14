@@ -1,5 +1,5 @@
-import { VariationState, VariationJudgement, MetricPolarity } from '../SPCIcons/SPCConstants';
-import { AssuranceState } from '../SPCIcons/SPCIcon';
+import { ImprovementDirection } from '../SPCChart/logic/spcConstants';
+import { VariationState, VariationJudgement, MetricPolarity, AssuranceResult } from '../SPCIcons/SPCConstants';
 export interface SPCSparkPoint {
     x?: string | number | Date;
     value: number | null;
@@ -12,15 +12,30 @@ export interface SPCSparkProps {
     showMean?: boolean;
     showLimits?: boolean;
     showLimitBand?: boolean;
-    /** Sigma estimation method for limits & classification. 'moving-range' (MRbar/1.128) aligns with XmR; 'stddev' uses sample standard deviation. */
-    sigmaMethod?: 'moving-range' | 'stddev';
+    /** Optional: Render 1σ and 2σ inner bands when limits are provided */
+    showInnerBands?: boolean;
+    /** Preferred: Engine-provided centre line for the current partition */
+    centerLine?: number | null;
+    /** Preferred: Engine-provided control limits (3σ UCL/LCL) for the current partition */
+    controlLimits?: {
+        lower: number | null;
+        upper: number | null;
+    } | null;
+    /** Preferred: Engine-provided 1σ/2σ bands */
+    sigmaBands?: {
+        upperOne: number | null;
+        upperTwo: number | null;
+        lowerOne: number | null;
+        lowerTwo: number | null;
+    } | null;
+    /** Sigma estimation: fixed to XmR (moving range). */
     showLatestMarker?: boolean;
     showStateGlyph?: boolean;
     variationState?: VariationState;
     autoClassify?: boolean;
     variationJudgement?: VariationJudgement;
-    direction?: 'higher' | 'lower';
-    assuranceState?: AssuranceState;
+    metricImprovement?: ImprovementDirection;
+    assuranceState?: AssuranceResult;
     polarity?: MetricPolarity;
     gradientWash?: boolean;
     size?: SparkSize;
@@ -32,6 +47,10 @@ export interface SPCSparkProps {
     thinningStrategy?: 'stride' | 'rdp';
     /** When true, individual point circles are coloured by their own signal (improvement / concern / common) instead of uniform series colour. */
     colorPointsBySignal?: boolean;
+    /** Preferred: Engine-provided per-row signals mapped to 'improvement' | 'concern' | 'neither' | 'suppressed'. Aligns with data length. */
+    pointSignals?: Array<'improvement' | 'concern' | 'neither' | 'suppressed' | null>;
+    /** Preferred: Engine-provided flag per row indicating a neutral special-cause (variation 'neither' with special cause). Aligns with data length. */
+    pointNeutralSpecialCause?: boolean[];
     ariaLabel?: string;
     ariaDescriptionContext?: Record<string, string | undefined>;
     className?: string;

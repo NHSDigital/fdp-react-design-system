@@ -36,7 +36,7 @@ export { default as Axis, type AxisProps } from "./charts/Axis/Axis.tsx";
 export {
 	default as GridLines,
 	type GridLinesProps,
-} from "./charts/GridlLines/GridLines.tsx";
+} from "./charts/GridLines/GridLines.tsx";
 export {
 	default as LineSeriesPrimitive,
 	type LineSeriesPrimitiveProps,
@@ -85,7 +85,12 @@ export {
 	type MetricDelta,
 	type MetricStatus,
 } from "./components/MetricCard/MetricCard.tsx";
+export {
+  default as SPCMetricCard,
+  type SPCMetricCardProps,
+} from "./components/MetricCard/SPCMetricCard";
 export { default as DataVizWizard, type DataVizWizardProps } from "./wizard/DataVizWizard";
+export { default as useSpc } from "./hooks/useSpc";
 export {
 	default as SPCChart,
 	type SPCChartProps,
@@ -93,3 +98,5 @@ export {
 } from "./charts/SPC/SPCChart/SPCChart.tsx";
 // SPC barrel (charts/SPC) aggregates SPCChart, engine, icons, descriptors for ergonomic imports
 export * as SPC from "./charts/SPC";
+
+export { default as RunChart, type RunChartProps, type RunSeries, type RunDatum } from "./charts/RunChart/RunChart";

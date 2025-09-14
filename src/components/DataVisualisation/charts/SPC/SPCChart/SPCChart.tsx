@@ -8,7 +8,7 @@ import {
 	useScaleContext,
 } from "../../../core/ScaleContext";
 import Axis from "../../Axis/Axis";
-import GridLines from "../../GridlLines/GridLines";
+import GridLines from "../../GridLines/GridLines";
 import LineSeriesPrimitive from "../../../series/LineSeriesPrimitive";
 // Replaced generic TooltipOverlay with SPC-specific enriched overlay
 import SPCTooltipOverlay from "./SPCTooltipOverlay";
@@ -187,7 +187,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	alwaysShowZeroY = false,
 	alwaysShowHundredY = false,
 	percentScale = false,
-	useSqlCompatEngine = false,
+	useSqlCompatEngine = true,
 	showTrendStartMarkers = false,
 	showFirstFavourableCrossMarkers = false,
 	showTrendBridgeOverlay = false,

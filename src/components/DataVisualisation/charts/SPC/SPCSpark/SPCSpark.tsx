@@ -8,11 +8,8 @@ import {
 	SparkRule,
 } from "./SPCSpark.types";
 import { tokenColour, getGradientOpacities } from "../SPCIcons/tokenUtils";
-import {
-	VariationState,
-	MetricPolarity,
-	Direction,
-} from "../SPCIcons/SPCConstants";
+import { VariationState, MetricPolarity, Direction } from "../SPCIcons/SPCConstants";
+import { ImprovementDirection } from "../SPCChart/logic/spcConstants";
 import { deriveVariationAriaDescription } from "../SPCIcons/SPCIcon";
 
 const SIZE_PRESETS: Record<
@@ -72,11 +69,12 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 	showMean = true,
 	showLimits = true,
 	showLimitBand = true,
+	showInnerBands = false,
 	showLatestMarker = true,
 	showStateGlyph = true,
 	variationState,
 	autoClassify = false,
-	direction,
+	metricImprovement,
 	gradientWash = false,
 	size = "sm",
 	ariaLabel,
@@ -84,10 +82,16 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 	onPointClick,
 	onClassification,
 	maxPoints,
-	thinningStrategy = 'stride',
-	sigmaMethod = 'stddev',
+	thinningStrategy = "stride",
 	colorPointsBySignal = true,
+	centerLine,
+	controlLimits,
+	sigmaBands,
+	pointSignals,
+	pointNeutralSpecialCause,
 }) => {
+	// Use engine improvement direction enum directly
+	const dirEnum: ImprovementDirection | undefined = metricImprovement;
 	// Use full data unless a windowSize is explicitly provided (previously defaulted to 30 which caused limit discrepancies vs full charts)
 	const points = useMemo(
 		() => computeWindow(data, windowSize),
@@ -99,39 +103,61 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 	const height = preset.height;
 	const PAD_X = 4;
 	const PAD_Y = 2;
+	// When a window is applied, points[] is a tail slice of data[]; compute base index to access engine-mapped arrays
+	const globalIndexBase = useMemo(() => {
+		return (data?.length ?? 0) - (points?.length ?? 0);
+	}, [data?.length, points?.length]);
 	// Basic statistics for control limits (using full displayed window)
 	const numericPoints = points.filter((p) => p.value != null) as Array<
 		SPCSparkPoint & { value: number }
 	>;
 	const values = numericPoints.map((p) => p.value as number);
-	const mean = metrics.mean;
-	// Sigma estimation methods:
-	// 1. 'stddev' (sample standard deviation) – quick but differs from XmR practice.
-	// 2. 'moving-range' – average moving range / 1.128 (d2 for n=2) approximating XmR sigma.
-	const stdDev = useMemo(() => {
-		if (!values.length || mean == null) return null;
-		if (sigmaMethod === 'moving-range') {
-			if (values.length < 2) return null;
-			const mrs: number[] = [];
-			for (let i = 1; i < values.length; i++) {
-				const a = values[i - 1];
-				const b = values[i];
-				if (a != null && b != null) mrs.push(Math.abs(b - a));
-			}
-			if (!mrs.length) return null;
-			const mrBar = mrs.reduce((a, b) => a + b, 0) / mrs.length;
-			return mrBar / 1.128; // d2 constant for n=2
-		}
-		if (values.length < 2) return null;
-		const variance = values.reduce((a, v) => a + Math.pow(v - mean, 2), 0) / (values.length - 1);
-		return Math.sqrt(variance);
-	}, [values.join(','), mean, sigmaMethod]);
+	// Centre line: prefer engine-provided, else compute from displayed numeric points
+	const mean = centerLine ?? metrics.mean;
+	// Prefer engine-provided sigma (from sigma bands or control limits). Fallback: XmR moving-range / 1.128
+	const engineSigma = useMemo(() => {
+		if (mean == null) return null;
+		// Try 1σ bands first
+		const sigmaCandidates: number[] = [];
+		if (sigmaBands?.upperOne != null) sigmaCandidates.push(Math.abs(sigmaBands.upperOne - mean));
+		if (sigmaBands?.lowerOne != null) sigmaCandidates.push(Math.abs(mean - sigmaBands.lowerOne));
+		if (sigmaCandidates.length) return sigmaCandidates.reduce((a, b) => a + b, 0) / sigmaCandidates.length;
+		// Derive from control limits (±3σ)
+		const fromLimits: number[] = [];
+		if (controlLimits?.upper != null) fromLimits.push(Math.abs(controlLimits.upper - mean) / 3);
+		if (controlLimits?.lower != null) fromLimits.push(Math.abs(mean - controlLimits.lower) / 3);
+		if (fromLimits.length) return fromLimits.reduce((a, b) => a + b, 0) / fromLimits.length;
+		return null;
+	}, [sigmaBands?.upperOne, sigmaBands?.lowerOne, controlLimits?.upper, controlLimits?.lower, mean]);
 
+	const fallbackSigma = useMemo(() => {
+		// Only compute moving-range sigma if engine didn't provide one
+		if (engineSigma != null) return null;
+		if (!values.length || mean == null) return null;
+		if (values.length < 2) return null;
+		const mrs: number[] = [];
+		for (let i = 1; i < values.length; i++) {
+			const a = values[i - 1];
+			const b = values[i];
+			if (a != null && b != null) mrs.push(Math.abs(b - a));
+		}
+		if (!mrs.length) return null;
+		const mrBar = mrs.reduce((a, b) => a + b, 0) / mrs.length;
+		return mrBar / 1.128; // d2 constant for n=2
+	}, [engineSigma, values.join(","), mean]);
+
+	const stdDev = engineSigma ?? fallbackSigma;
+
+	// Prefer engine-provided limits if available; otherwise compute simple ±3σ from mean/stdDev
 	const computedLimits = useMemo(() => {
-		if (!showLimits || mean == null || stdDev == null) return null;
+		if (!showLimits) return null;
+		// Prefer engine-provided control limits
+		if (controlLimits) return controlLimits;
+		// Else, derive from available sigma
+		if (mean == null || stdDev == null) return null;
 		const sigma3 = 3 * stdDev;
 		return { lower: mean - sigma3, upper: mean + sigma3 };
-	}, [showLimits, mean, stdDev]);
+	}, [showLimits, mean, stdDev, controlLimits?.lower, controlLimits?.upper]);
 
 	// Simple auto-classification: if last point beyond 3-sigma classify improving/deteriorating relative to mean
 	const classification = useMemo(() => {
@@ -157,10 +183,13 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 			} as SparkClassificationInfo;
 		const rules: SparkRule[] = [];
 		const latest = metrics.latestValue;
-		const upper3 = mean + 3 * stdDev;
-		const lower3 = mean - 3 * stdDev;
-		if (latest > upper3 || latest < lower3) {
-			rules.push("point-beyond-3sigma");
+		// Prefer thresholds based on engine limits where available
+		const upper3 = controlLimits?.upper ?? (stdDev != null && mean != null ? mean + 3 * stdDev : null);
+		const lower3 = controlLimits?.lower ?? (stdDev != null && mean != null ? mean - 3 * stdDev : null);
+		if (upper3 != null && lower3 != null) {
+			if (latest > upper3 || latest < lower3) {
+				rules.push("point-beyond-3sigma");
+			}
 		}
 		const window8 = values.slice(-8);
 		if (window8.length === 8) {
@@ -172,20 +201,24 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 		if (seq5.length === 5) {
 			const inc = seq5.every((v, i, arr) => i === 0 || v >= arr[i - 1]);
 			const dec = seq5.every((v, i, arr) => i === 0 || v <= arr[i - 1]);
-			if (inc && seq5[seq5.length - 1] > mean + stdDev)
+			const upper1 = (sigmaBands?.upperOne ?? (stdDev != null && mean != null ? mean + stdDev : null));
+			const lower1 = (sigmaBands?.lowerOne ?? (stdDev != null && mean != null ? mean - stdDev : null));
+			if (inc && upper1 != null && seq5[seq5.length - 1] > upper1)
 				rules.push("five-point-trend");
-			if (dec && seq5[seq5.length - 1] < mean - stdDev)
+			if (dec && lower1 != null && seq5[seq5.length - 1] < lower1)
 				rules.push("five-point-trend");
 		}
 		// Two-of-three near limit rule (2 of last 3 beyond 2σ same side, none beyond 3σ already)
 		const last3 = values.slice(-3);
-		if (last3.length === 3 && stdDev) {
-			const upper2 = mean + 2 * stdDev;
-			const lower2 = mean - 2 * stdDev;
-			const above2 = last3.filter((v) => v > upper2).length;
-			const below2 = last3.filter((v) => v < lower2).length;
-			if (above2 >= 2) rules.push("two-of-three-near-limit");
-			if (below2 >= 2) rules.push("two-of-three-near-limit");
+		if (last3.length === 3 && (stdDev != null || sigmaBands)) {
+			const upper2 = (sigmaBands?.upperTwo ?? (mean != null && stdDev != null ? mean + 2 * stdDev : null));
+			const lower2 = (sigmaBands?.lowerTwo ?? (mean != null && stdDev != null ? mean - 2 * stdDev : null));
+			if (upper2 != null && lower2 != null) {
+				const above2 = last3.filter((v) => v > upper2).length;
+				const below2 = last3.filter((v) => v < lower2).length;
+				if (above2 >= 2) rules.push("two-of-three-near-limit");
+				if (below2 >= 2) rules.push("two-of-three-near-limit");
+			}
 		}
 		let state = VariationState.CommonCause;
 		if (rules.includes("point-beyond-3sigma")) {
@@ -210,11 +243,16 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 					: VariationState.SpecialCauseDeteriorating;
 		}
 		// Suppress isolated favourable 3σ point if enabled: single rule fired and prior points mixed
-		if (autoClassify && !variationState && rules.length === 1 && rules[0] === 'point-beyond-3sigma') {
+		if (
+			autoClassify &&
+			!variationState &&
+			rules.length === 1 &&
+			rules[0] === "point-beyond-3sigma"
+		) {
 			const prev = values.slice(-9, -1);
 			if (prev.length >= 5) {
-				const above = prev.filter(v=> v>mean).length;
-				const below = prev.filter(v=> v<mean).length;
+				const above = prev.filter((v) => v > mean).length;
+				const below = prev.filter((v) => v < mean).length;
 				if (above > 0 && below > 0) {
 					state = VariationState.SpecialCauseNoJudgement;
 				}
@@ -225,7 +263,12 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 			firedRules: rules,
 			mean,
 			stdDev,
-			side: metrics.latestValue != null && mean != null ? (metrics.latestValue > mean ? 'above' : 'below') : undefined,
+			side:
+				metrics.latestValue != null && mean != null
+					? metrics.latestValue > mean
+						? "above"
+						: "below"
+					: undefined,
 		} as SparkClassificationInfo;
 	}, [
 		variationState,
@@ -245,6 +288,11 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 
 	const derivedState = classification.state;
 
+	// Series-level No Judgement is informative, but per-point colouring should follow SPCChart rules:
+	// - improvement => blue; concern => orange
+	// - neutral special-cause (variation === neither with specialCauseNeitherValue) => purple
+	// We do NOT recolour improvement/concern to purple based on series-level NJ.
+
 	const color = stateColour(derivedState);
 	const meanY = (v: number) => {
 		const numeric = points.filter((p) => p.value != null) as Array<
@@ -254,7 +302,8 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 		const vals = numeric.map((p) => p.value as number);
 		// Include control limits in domain so lines are always visible
 		if (computedLimits) {
-			vals.push(computedLimits.lower, computedLimits.upper);
+			if (computedLimits.lower != null) vals.push(computedLimits.lower);
+			if (computedLimits.upper != null) vals.push(computedLimits.upper);
 		}
 		const min = Math.min(...vals);
 		const max = Math.max(...vals);
@@ -264,7 +313,8 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 
 	// Decide which indexes to render if thinning enabled
 	const renderIndexes = useMemo(() => {
-		if (!maxPoints || points.length <= maxPoints) return points.map((_, i) => i);
+		if (!maxPoints || points.length <= maxPoints)
+			return points.map((_, i) => i);
 		if (thinningStrategy === "stride") {
 			const desired = Math.max(2, maxPoints);
 			const step = (points.length - 1) / (desired - 1);
@@ -274,21 +324,32 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 			return Array.from(keep).sort((a, b) => a - b);
 		}
 		// RDP simplification
-		interface P { i: number; v: number | null }
+		interface P {
+			i: number;
+			v: number | null;
+		}
 		const src: P[] = points.map((p, i) => ({ i, v: p.value }));
 		function perpDist(p: P, a: P, b: P): number {
-			const x = p.i, y = p.v ?? 0;
-			const x1 = a.i, y1 = a.v ?? 0, x2 = b.i, y2 = b.v ?? 0;
+			const x = p.i,
+				y = p.v ?? 0;
+			const x1 = a.i,
+				y1 = a.v ?? 0,
+				x2 = b.i,
+				y2 = b.v ?? 0;
 			const num = Math.abs((y2 - y1) * x - (x2 - x1) * y + x2 * y1 - y2 * x1);
 			const den = Math.hypot(y2 - y1, x2 - x1);
 			return den === 0 ? 0 : num / den;
 		}
 		function rdp(arr: P[], eps: number): P[] {
 			if (arr.length <= 2) return arr;
-			let maxD = -1, idx = -1;
+			let maxD = -1,
+				idx = -1;
 			for (let i = 1; i < arr.length - 1; i++) {
 				const d = perpDist(arr[i], arr[0], arr[arr.length - 1]);
-				if (d > maxD) { maxD = d; idx = i; }
+				if (d > maxD) {
+					maxD = d;
+					idx = i;
+				}
 			}
 			if (maxD > eps) {
 				const left = rdp(arr.slice(0, idx + 1), eps);
@@ -305,18 +366,23 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 			eps *= 1.6;
 		}
 		const keep = new Set<number>(simplified.map((p) => p.i));
-		keep.add(0); keep.add(points.length - 1);
+		keep.add(0);
+		keep.add(points.length - 1);
 		return Array.from(keep).sort((a, b) => a - b);
 	}, [points, maxPoints, thinningStrategy]);
 
-	const renderPoints = useMemo(() => renderIndexes.map(i => points[i]), [renderIndexes, points]);
+	const renderPoints = useMemo(
+		() => renderIndexes.map((i) => points[i]),
+		[renderIndexes, points]
+	);
 
 	const pathD = useMemo(() => {
 		let d = "";
 		renderPoints.forEach((p, seq) => {
 			if (p.value == null) return;
 			const y = meanY(p.value as number);
-			const x = (seq / (renderPoints.length - 1 || 1)) * (width - PAD_X * 2) + PAD_X;
+			const x =
+				(seq / (renderPoints.length - 1 || 1)) * (width - PAD_X * 2) + PAD_X;
 			d += d ? ` L ${x} ${y}` : `M ${x} ${y}`;
 		});
 		return d;
@@ -340,9 +406,9 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 		if (!derivedState) return undefined;
 		// Map derivedState + direction into SPCIcon's expectations
 		const polarity =
-			direction === "higher"
+			dirEnum === ImprovementDirection.Up
 				? MetricPolarity.HigherIsBetter
-				: direction === "lower"
+				: dirEnum === ImprovementDirection.Down
 					? MetricPolarity.LowerIsBetter
 					: MetricPolarity.ContextDependent;
 		const input = {
@@ -354,7 +420,10 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 						: derivedState === VariationState.SpecialCauseNoJudgement
 							? "none"
 							: "neither",
-			trend: direction === "higher" ? Direction.Higher : Direction.Lower,
+			trend:
+				dirEnum === ImprovementDirection.Up
+					? Direction.Higher
+					: Direction.Lower,
 			polarity,
 		} as any;
 		try {
@@ -419,14 +488,19 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 					/>
 				</>
 			)}
-			{limits && mean != null && stdDev != null && (
+			{limits && limits.lower != null && limits.upper != null && (
 				<>
 					{showLimitBand && (
 						<rect
 							x={0}
-							y={Math.min(meanY(limits.upper), meanY(limits.lower))}
+							y={Math.min(
+								meanY(limits.upper as number),
+								meanY(limits.lower as number)
+							)}
 							width={width}
-							height={Math.abs(meanY(limits.upper) - meanY(limits.lower))}
+							height={Math.abs(
+								meanY(limits.upper as number) - meanY(limits.lower as number)
+							)}
 							fill={color}
 							fillOpacity={0.08}
 						/>
@@ -434,8 +508,8 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 					<line
 						x1={0}
 						x2={width}
-						y1={meanY(limits.lower)}
-						y2={meanY(limits.lower)}
+						y1={meanY(limits.lower as number)}
+						y2={meanY(limits.lower as number)}
 						stroke={color}
 						strokeDasharray="4,4"
 						strokeOpacity={0.3}
@@ -444,13 +518,65 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 					<line
 						x1={0}
 						x2={width}
-						y1={meanY(limits.upper)}
-						y2={meanY(limits.upper)}
+						y1={meanY(limits.upper as number)}
+						y2={meanY(limits.upper as number)}
 						stroke={color}
 						strokeDasharray="4,4"
 						strokeOpacity={0.3}
 						strokeWidth={1}
 					/>
+					{sigmaBands && showInnerBands && (
+						<>
+							{sigmaBands.lowerTwo != null && (
+								<line
+									x1={0}
+									x2={width}
+									y1={meanY(sigmaBands.lowerTwo)}
+									y2={meanY(sigmaBands.lowerTwo)}
+									stroke={color}
+									strokeDasharray="3,6"
+									strokeOpacity={0.2}
+									strokeWidth={1}
+								/>
+							)}
+							{sigmaBands.lowerOne != null && (
+								<line
+									x1={0}
+									x2={width}
+									y1={meanY(sigmaBands.lowerOne)}
+									y2={meanY(sigmaBands.lowerOne)}
+									stroke={color}
+									strokeDasharray="2,6"
+									strokeOpacity={0.2}
+									strokeWidth={1}
+								/>
+							)}
+							{sigmaBands.upperOne != null && (
+								<line
+									x1={0}
+									x2={width}
+									y1={meanY(sigmaBands.upperOne)}
+									y2={meanY(sigmaBands.upperOne)}
+									stroke={color}
+									strokeDasharray="2,6"
+									strokeOpacity={0.2}
+									strokeWidth={1}
+								/>
+							)}
+							{sigmaBands.upperTwo != null && (
+								<line
+									x1={0}
+									x2={width}
+									y1={meanY(sigmaBands.upperTwo)}
+									y2={meanY(sigmaBands.upperTwo)}
+									stroke={color}
+									strokeDasharray="3,6"
+									strokeOpacity={0.2}
+									strokeWidth={1}
+								/>
+							)}
+						</>
+					)}
 				</>
 			)}
 			{showMean && metrics.mean != null && (
@@ -473,24 +599,48 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 			/>
 			{renderIndexes.map((origIdx, seq) => {
 				const p = points[origIdx];
-				
+
 				if (!p || p.value == null) return null;
-				
+
 				const y = meanY(p.value as number);
-				const x = (seq / (renderPoints.length - 1 || 1)) * (width - PAD_X * 2) + PAD_X;
+				const x =
+					(seq / (renderPoints.length - 1 || 1)) * (width - PAD_X * 2) + PAD_X;
 				const isLatest = origIdx === latestIndex;
-				const r = (isLatest && showLatestMarker ? preset.pointR + 1 : preset.pointR) - 0.5;
-				let fillColour = color;
-				
-				if (colorPointsBySignal && mean != null && stdDev != null) {
-					const v = p.value as number;
-					const upper3 = mean + 3 * stdDev;
-					const lower3 = mean - 3 * stdDev;
-					if (v > upper3) fillColour = tokenColour("improvement", "#00B0F0");
-					else if (v < lower3) fillColour = tokenColour("concern", "#E46C0A");
-					else fillColour = tokenColour("common-cause", "#A6A6A6");
+				const r =
+					(isLatest && showLatestMarker ? preset.pointR + 1 : preset.pointR) -
+					0.5;
+				let fillColour = tokenColour("common-cause", "#A6A6A6");
+
+				if (colorPointsBySignal) {
+					// Prefer engine-provided per-point signal map
+					const sig = pointSignals?.[globalIndexBase + origIdx];
+					// SPCChart parity:
+					if (sig === "improvement")
+						fillColour = tokenColour("improvement", "#00B0F0");
+					else if (sig === "concern")
+						fillColour = tokenColour("concern", "#E46C0A");
+					else {
+						// Neutral signal case – show purple when neutral special cause is present
+						const neutralSC = pointNeutralSpecialCause?.[globalIndexBase + origIdx];
+						if (neutralSC) {
+							fillColour = tokenColour("no-judgement", "#490092");
+						} else if (mean != null) {
+						// Fallback: local 3σ heuristic
+						const v = p.value as number;
+						const upper3 = controlLimits?.upper ?? (stdDev != null ? mean + 3 * stdDev : null);
+						const lower3 = controlLimits?.lower ?? (stdDev != null ? mean - 3 * stdDev : null);
+						if (upper3 != null && v > upper3) {
+							fillColour = tokenColour("improvement", "#00B0F0");
+							} else if (lower3 != null && v < lower3) {
+								fillColour = tokenColour("concern", "#E46C0A");
+						}
+						else fillColour = tokenColour("common-cause", "#A6A6A6");
+						} else {
+							fillColour = tokenColour("common-cause", "#A6A6A6");
+						}
+					}
 				}
-				
+
 				return (
 					<circle
 						key={origIdx}
@@ -511,7 +661,7 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 				glyphAllowed &&
 				derivedState &&
 				derivedState !== VariationState.CommonCause &&
-				direction && (
+				dirEnum && (
 					<text
 						x={width - 4}
 						y={glyphY}
@@ -519,9 +669,9 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 						fontSize={12}
 						fontWeight="bold"
 						fill={color}
-						data-glyph-pos={glyphY < height / 2 ? 'top' : 'bottom'}
+						data-glyph-pos={glyphY < height / 2 ? "top" : "bottom"}
 					>
-						{direction === "higher" ? "H" : "L"}
+						{dirEnum === ImprovementDirection.Up ? "H" : "L"}
 					</text>
 				)}
 		</svg>

@@ -129,7 +129,6 @@ $heading-sizes: (
 	p,
 	ul,
 	ol,
-	li,
 	table,
 	pre,
 	code,
@@ -138,6 +137,16 @@ $heading-sizes: (
 		margin-bottom: tokens.$nhs-fdp-spacing-4;
 		font-size: tokens.$nhs-fdp-font-size-19-desktop;
 		line-height: tokens.$nhs-fdp-font-line-height-19-desktop;
+	}
+
+	li {
+		margin-bottom: 0;
+		font-size: tokens.$nhs-fdp-font-size-19-desktop;
+		line-height: tokens.$nhs-fdp-font-line-height-19-desktop;
+		margin-bottom: tokens.$nhs-fdp-spacing-3;
+		p {
+			margin-bottom: 0;
+		}
 	}
 
 	// Ensure nested lists inside list items have breathing room in MDX prose
@@ -151,7 +160,7 @@ $heading-sizes: (
 	li > ol,
 	li ul,
 	li ol {
-		padding-top: tokens.$nhs-fdp-spacing-4 !important; // 32px
+		padding-top: tokens.$nhs-fdp-spacing-2 !important; // 32px
 		margin-top: 0 !important;
 		list-style-type: square !important; // Prevent inheritance of parent list style
 	}

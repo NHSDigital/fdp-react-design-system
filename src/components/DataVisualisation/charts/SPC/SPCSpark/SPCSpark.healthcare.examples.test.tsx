@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { SPCSpark } from './SPCSpark';
 import { VariationState } from '../SPCIcons/SPCConstants';
+import { ImprovementDirection } from '../SPCChart/logic/spcConstants';
 
 // Datasets replicated from SPCChart.healthcare.stories for parity
 const ed4hValues = [69,70,68,71,70,69,70,69,71,70,68,69,78,79,80,81,79,78,82,81,80,79,81,80];
@@ -17,35 +18,35 @@ const wrap = (vals:number[]) => vals.map(v=>({value:v}));
 
 describe('SPCSpark Healthcare Example Parity', () => {
   it('renders ED4H compliance spark with auto classification', () => {
-    const { container } = render(<SPCSpark data={wrap(ed4hValues)} autoClassify showLimits direction="higher" />);
+    const { container } = render(<SPCSpark data={wrap(ed4hValues)} autoClassify showLimits metricImprovement={ImprovementDirection.Up} />);
     expect(container.querySelector('svg')).not.toBeNull();
   });
   it('renders LOS spark (direction lower)', () => {
-    const { container } = render(<SPCSpark data={wrap(losValues)} autoClassify showLimits direction="lower" />);
+    const { container } = render(<SPCSpark data={wrap(losValues)} autoClassify showLimits metricImprovement={ImprovementDirection.Down} />);
     expect(container.querySelector('svg')).not.toBeNull();
   });
   it('renders Readmission spark', () => {
-    const { container } = render(<SPCSpark data={wrap(readmitValues)} autoClassify showLimits direction="lower" />);
+    const { container } = render(<SPCSpark data={wrap(readmitValues)} autoClassify showLimits metricImprovement={ImprovementDirection.Down} />);
     expect(container.querySelector('svg')).not.toBeNull();
   });
   it('renders Hand Hygiene spark', () => {
-    const { container } = render(<SPCSpark data={wrap(handHygieneValues)} autoClassify showLimits direction="higher" />);
+    const { container } = render(<SPCSpark data={wrap(handHygieneValues)} autoClassify showLimits metricImprovement={ImprovementDirection.Up} />);
     expect(container.querySelector('svg')).not.toBeNull();
   });
   it('renders Falls spark', () => {
-    const { container } = render(<SPCSpark data={wrap(fallsValues)} autoClassify showLimits direction="lower" />);
+    const { container } = render(<SPCSpark data={wrap(fallsValues)} autoClassify showLimits metricImprovement={ImprovementDirection.Down} />);
     expect(container.querySelector('svg')).not.toBeNull();
   });
   it('renders Medication Errors spark', () => {
-    const { container } = render(<SPCSpark data={wrap(medErrorGaps)} autoClassify showLimits direction="higher" />);
+    const { container } = render(<SPCSpark data={wrap(medErrorGaps)} autoClassify showLimits metricImprovement={ImprovementDirection.Up} />);
     expect(container.querySelector('svg')).not.toBeNull();
   });
   it('renders Pressure Ulcers spark', () => {
-    const { container } = render(<SPCSpark data={wrap(pressureUlcerCounts)} autoClassify showLimits direction="higher" />);
+    const { container } = render(<SPCSpark data={wrap(pressureUlcerCounts)} autoClassify showLimits metricImprovement={ImprovementDirection.Up} />);
     expect(container.querySelector('svg')).not.toBeNull();
   });
   it('renders RTT spark', () => {
-    const { container } = render(<SPCSpark data={wrap(rttValues)} autoClassify showLimits direction="higher" />);
+    const { container } = render(<SPCSpark data={wrap(rttValues)} autoClassify showLimits metricImprovement={ImprovementDirection.Up} />);
     expect(container.querySelector('svg')).not.toBeNull();
   });
 });

@@ -178,7 +178,8 @@ export {
   VisibilityProvider,
   ChartNoScript,
   ChartEnhancer,
-  MetricCard
+  MetricCard,
+  SPCMetricCard
 } from './DataVisualisation';
 export type { 
   SPCChartProps, 
@@ -195,6 +196,8 @@ export type {
   BarSeries,
   BarDatum,
   LegendProps,
-  LegendItem
+  LegendItem,
+  SPCMetricCardProps
 } from './DataVisualisation';
 export { SPC as SPC } from './DataVisualisation';
+export { useSpc } from './DataVisualisation';

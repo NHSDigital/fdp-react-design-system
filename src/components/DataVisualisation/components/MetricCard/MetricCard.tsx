@@ -55,10 +55,14 @@ export interface MetricCardProps {
 	valueFormatter?: (n: number) => string;
 	/** Custom class name */
 	className?: string;
+	/** Optional inline style applied to the card root (used for dynamic SPC colours) */
+	style?: React.CSSProperties;
 	/** Stable id (auto generated if omitted) */
 	id?: string;
 	/** Announce delta changes in live region (polite) */
 	announceDelta?: boolean;
+		/** Optional visual content (e.g., SPCSpark or other chart). Rendered full width below the textual content. */
+		visual?: React.ReactNode;
 }
 
 /**
@@ -85,8 +89,10 @@ export const MetricCard: React.FC<MetricCardProps> = ({
 	error,
 	valueFormatter,
 	className,
+	style,
 	id,
 	announceDelta = true,
+	visual,
 }) => {
 	const internalId = React.useId();
 	const baseId = id || internalId;
@@ -148,6 +154,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
 				error && "fdp-metric-card--error",
 				className
 			)}
+			style={style}
 			role="group"
 			aria-labelledby={labelId}
 			data-component="MetricCard"
@@ -218,6 +225,12 @@ export const MetricCard: React.FC<MetricCardProps> = ({
 						</div>
 					)}
 				</div>
+
+						{visual && !error && (
+							<div className="fdp-metric-card__visual" aria-hidden="true">
+								{visual}
+							</div>
+						)}
 
 				{announceDelta && delta && !delta.ariaLabel && !loading && !error && (
 					<div className="fdp-visually-hidden" aria-live="polite">

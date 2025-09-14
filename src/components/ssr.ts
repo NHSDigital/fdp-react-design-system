@@ -132,6 +132,10 @@ export type { RadiosProps, RadioOption } from './Radios/Radios.types';
 export { CheckboxesServer as Checkboxes } from './Checkboxes/Checkboxes.server';
 export type { CheckboxesProps, CheckboxItem } from './Checkboxes/Checkboxes.types';
 
+// Server-friendly FormNavButtonBar (pure render)
+export { default as FormNavButtonBar } from './FormNavButtonBar/FormNavButtonBar.server';
+export type { FormNavButtonBarProps } from './FormNavButtonBar/FormNavButtonBar.types';
+
 // ⚠️  EXCLUDED COMPONENTS (contain hooks, context, or react-aria dependencies):
 // - All form input components that haven't been converted yet
 // - Any remaining form components that still depend on hooks/context

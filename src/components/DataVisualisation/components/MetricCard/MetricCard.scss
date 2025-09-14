@@ -3,7 +3,8 @@
 
 .fdp-metric-card {
 	position: relative;
-	background: nhs.$nhs-fdp-color-primary-white;
+	/* Allow dynamic background via CSS var, fallback to token gradient/white */
+	background: var(--fdp-metric-card-bg, nhs.$nhs-fdp-color-primary-white);
 	border: 1px solid nhs.$nhs-fdp-border-color-card;
 	border-radius: nhs.$nhs-fdp-border-radius-medium;
 	box-shadow:
@@ -23,7 +24,8 @@
 		position: absolute;
 		inset: 0 auto 0 0;
 		width: 4px;
-		background: nhs.$nhs-fdp-color-grey-4; // default neutral accent
+		/* Accent can be overridden by CSS var for SPC-driven colour */
+		background: var(--fdp-metric-card-accent, nhs.$nhs-fdp-color-grey-4); // default neutral accent
 	}
 
 	&:hover {
@@ -40,39 +42,39 @@
 
 	/* Variants */
 	&--primary {
-		background: nhs.$nhs-fdp-gradient-metric-card-primary;
+		background: var(--fdp-metric-card-bg, nhs.$nhs-fdp-gradient-metric-card-primary);
 		&::before {
-			background: nhs.$nhs-fdp-color-data-viz-categorical-1;
+			background: var(--fdp-metric-card-accent, nhs.$nhs-fdp-color-data-viz-categorical-1);
 		}
 	}
 	&--secondary {
-		background: nhs.$nhs-fdp-gradient-metric-card-secondary;
+		background: var(--fdp-metric-card-bg, nhs.$nhs-fdp-gradient-metric-card-secondary);
 		&::before {
-			background: nhs.$nhs-fdp-color-data-viz-categorical-10;
+			background: var(--fdp-metric-card-accent, nhs.$nhs-fdp-color-data-viz-categorical-10);
 		}
 	}
 	&--accent {
-		background: nhs.$nhs-fdp-gradient-metric-card-accent;
+		background: var(--fdp-metric-card-bg, nhs.$nhs-fdp-gradient-metric-card-accent);
 		&::before {
-			background: nhs.$nhs-fdp-color-data-viz-categorical-6;
+			background: var(--fdp-metric-card-accent, nhs.$nhs-fdp-color-data-viz-categorical-6);
 		}
 	}
 	&--success {
-		background: nhs.$nhs-fdp-gradient-metric-card-success;
+		background: var(--fdp-metric-card-bg, nhs.$nhs-fdp-gradient-metric-card-success);
 		&::before {
-			background: nhs.$nhs-fdp-color-data-viz-categorical-3;
+			background: var(--fdp-metric-card-accent, nhs.$nhs-fdp-color-data-viz-categorical-3);
 		}
 	}
 	&--warning {
-		background: nhs.$nhs-fdp-gradient-metric-card-warning;
+		background: var(--fdp-metric-card-bg, nhs.$nhs-fdp-gradient-metric-card-warning);
 		&::before {
-			background: nhs.$nhs-fdp-color-data-viz-categorical-7;
+			background: var(--fdp-metric-card-accent, nhs.$nhs-fdp-color-data-viz-categorical-7);
 		}
 	}
 	&--error {
-		background: nhs.$nhs-fdp-gradient-metric-card-error;
+		background: var(--fdp-metric-card-bg, nhs.$nhs-fdp-gradient-metric-card-error);
 		&::before {
-			background: nhs.$nhs-fdp-color-primary-red;
+			background: var(--fdp-metric-card-accent, nhs.$nhs-fdp-color-primary-red);
 		}
 	}
 
@@ -125,7 +127,7 @@
 		line-height: nhs.$nhs-fdp-font-line-height-16-mobile;
 		font-weight: nhs.$nhs-fdp-font-weight-bold;
 		letter-spacing: 0.25px;
-		color: nhs.$nhs-fdp-semantic-color-text-secondary;
+		color: nhs.$nhs-fdp-semantic-color-text-primary;
 		overflow-wrap: anywhere;
 	}
 	&__metadata {
@@ -140,6 +142,18 @@
 		flex-direction: column;
 		gap: nhs.$nhs-fdp-spacing-3;
 		min-width: 0; // prevent overflow
+	}
+
+	&__visual {
+		margin-top: nhs.$nhs-fdp-spacing-2;
+		width: 100%;
+		/* Ensure embedded SVGs/charts scale to container width */
+		& > svg,
+		& > canvas,
+		& > div {
+			max-width: 100%;
+			display: block;
+		}
 	}
 	&__value-section {
 		display: flex;

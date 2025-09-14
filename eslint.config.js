@@ -19,39 +19,10 @@ export default [
     },
   plugins: { '@typescript-eslint': tsPlugin, storybook },
   rules: {
-    // Guardrail: engine enums/constants must come from spcConstants, not spc.ts
-    'no-restricted-imports': [
-      'error',
-      {
-        patterns: [
-          {
-            group: ['**/spc', '**/spc.ts', '**/spc.js'],
-            importNames: [
-              'ChartType',
-              'ImprovementDirection',
-              'VariationIcon',
-              'AssuranceIcon',
-              'SpcRuleId',
-              'SpcRawRuleTag',
-              'RAW_TAG_TO_RULE_ID',
-              'RULE_METADATA',
-              'RULES_IN_RANK_ORDER',
-              'RULE_RANK_BY_ID',
-              'RULE_PRECEDENCE',
-              'PrimeDirection',
-              'PrecedenceStrategy',
-              'ConflictPrecedenceMode',
-              'Side',
-              'PruningMode',
-              'SpcRowAliasField',
-              'BaselineSuggestionReason'
-            ],
-            message:
-              'Import engine enums/constants from spcConstants instead of spc.ts (functions/types only from spc.ts).'
-          }
-        ]
-      }
-    ]
+    // NOTE (2025-09-14): Previously we restricted importing SPC engine enums/constants
+    // directly from implementation files to enforce layering (prefer spcConstants).
+    // The team now wants these enums available anywhere, so this restriction is disabled.
+    'no-restricted-imports': 'off'
   }
   },
   // Enforce SSR barrel purity: do not allow client modules or React hooks in SSR entry or its server files

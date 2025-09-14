@@ -11,6 +11,7 @@ import {
 	GridWidth,
 	ColumnAlign,
 	ButtonVariant,
+	Tag,
 } from "../../../components";
 import WizardProgress from "./WizardProgress";
 import ReviewAnswers from "./ReviewAnswers";
@@ -72,6 +73,7 @@ export const DataVizWizard: React.FC<DataVizWizardProps> = ({
 	const [result, setResult] = React.useState<string[] | null>(null);
 	const [selectedValue, setSelectedValue] = React.useState<string>("");
 	const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
+	const [copyStatus, setCopyStatus] = React.useState<"idle" | "copied" | "error">("idle");
 
 	React.useEffect(() => {
 		if (!isClient()) return;
@@ -224,6 +226,7 @@ export const DataVizWizard: React.FC<DataVizWizardProps> = ({
 		setResult(null);
 		setSelectedValue("");
 		setSelectedValues([]);
+		setCopyStatus("idle");
 		if (isClient()) {
 			const state = { path: [rootId], answers: [], result: null };
 			try {
@@ -232,6 +235,133 @@ export const DataVizWizard: React.FC<DataVizWizardProps> = ({
 		}
 	};
 
+	// Resolve a friendly chart name for a recommendation id, when available
+	const getChartName = React.useCallback(
+		(id: string): string => {
+			try {
+				const add = (logic as any)?.chart_types_add as
+					| Array<{ id: string; name?: string }>
+					| undefined;
+				const found = add?.find((c) => c.id === id);
+				return found?.name || id;
+			} catch {
+				return id;
+			}
+		},
+		[logic]
+	);
+
+	// Resolve a list of friendly capability labels from chart_types_add.supports
+	const getChartSupports = React.useCallback(
+		(id: string): string[] => {
+			try {
+				const add = (logic as any)?.chart_types_add as
+					| Array<{ id: string; supports?: Record<string, boolean> }>
+					| undefined;
+				const found = add?.find((c) => c.id === id);
+				const supports = (found?.supports || {}) as Record<string, boolean>;
+				const LABELS: Record<string, string> = {
+					time_of_day: "time of day",
+					weekday: "weekday",
+					stages: "stages",
+					throughput: "throughput",
+					change_over_time: "trend",
+					baseline: "baseline",
+					percent_of_total: "% of total",
+					metadata: "metadata",
+					actions: "actions",
+					inline_spark: "inline spark",
+					sorting: "sorting",
+					filtering: "filtering",
+					responsive: "responsive",
+					aggregation: "aggregation",
+					grouping: "grouping",
+					totals: "totals",
+					drilldown: "drilldown",
+					duration: "duration",
+					events: "events",
+					exact_values: "exact values",
+					pagination: "pagination",
+					row_details: "row details",
+					latest_value: "latest value",
+					delta: "delta",
+					status: "status",
+					uncertainty: "uncertainty",
+					bulk_select: "bulk select",
+					row_actions: "row actions",
+					validation_flags: "validation flags",
+					// newly added operative supports
+					drag_drop: "drag and drop",
+					swimlanes: "swimlanes",
+					bulk_edit: "bulk edit",
+					shortcuts: "shortcuts",
+					pair_review: "pair review",
+					side_by_side: "side-by-side",
+					merge_preview: "merge preview",
+					save_views: "save views",
+				};
+				const humanize = (k: string) =>
+					LABELS[k] || k.replace(/_/g, " ");
+				return Object.keys(supports)
+					.filter((k) => supports[k])
+					.map(humanize);
+			} catch {
+				return [];
+			}
+		},
+		[logic]
+	);
+
+	// Build summary JSON payload of questions/answers and recommendations
+	const buildSummaryPayload = React.useCallback(() => {
+		const recommendations: string[] = (result || []) as string[];
+		return {
+			wizard: wizardId,
+			logicVersion: (logic as any)?.v ?? null,
+			generatedAt: new Date().toISOString(),
+			answers: answers.map((a) => ({
+				nodeId: a.nodeId,
+				question: a.question || a.nodeId,
+				answer: a.value,
+			})),
+			recommendations: recommendations.map((id) => ({ id, name: getChartName(id) })),
+		};
+	}, [answers, result, wizardId, logic, getChartName]);
+
+	// Copy summary JSON to clipboard with fallback
+	const copySummaryToClipboard = React.useCallback(async () => {
+		try {
+			const payload = buildSummaryPayload();
+			const text = JSON.stringify(payload, null, 2);
+			// Primary path: Async Clipboard API (secure contexts)
+			if (isClient() && navigator?.clipboard?.writeText) {
+				await navigator.clipboard.writeText(text);
+				setCopyStatus("copied");
+				return;
+			}
+			// Fallback: temporary textarea + execCommand
+			if (isClient()) {
+				const ta = document.createElement("textarea");
+				ta.value = text;
+				ta.setAttribute("readonly", "");
+				ta.style.position = "absolute";
+				ta.style.left = "-9999px";
+				document.body.appendChild(ta);
+				ta.select();
+				try {
+					document.execCommand("copy");
+					setCopyStatus("copied");
+				} finally {
+					document.body.removeChild(ta);
+				}
+				return;
+			}
+			setCopyStatus("error");
+		} catch {
+			setCopyStatus("error");
+		}
+	}, [buildSummaryPayload]);
+
 	// legacy helper removed in favour of explicit Next handling
 	// This is the summary chart view.
 	const renderEnd = (recommend: string[]) => (
@@ -239,11 +369,35 @@ export const DataVizWizard: React.FC<DataVizWizardProps> = ({
 			<Heading level={2}>Recommended charts</Heading>
 			<Panel>
 				<ul>
-					{recommend.map((r) => (
-						<li key={r}>
-							<code>{r}</code>
-						</li>
-					))}
+					{recommend.map((r) => {
+						const name = getChartName(r);
+						const caps = getChartSupports(r);
+						return (
+							<li key={r} style={{ marginBottom: 8 }}>
+								<div>
+									<strong>{name}</strong>{" "}
+									<code style={{ opacity: 0.7 }}>{r}</code>
+								</div>
+								{caps.length > 0 && (
+									<div style={{ marginTop: 4 }} aria-label="Capabilities">
+										{caps.map((c) => (
+											<Tag
+												key={c}
+												color="grey"
+												style={{
+													display: "inline-block",
+													marginRight: 6,
+													marginBottom: 4,
+												}}
+											>
+												{c}
+											</Tag>
+										))}
+									</div>
+								)}
+							</li>
+						);
+					})}
 				</ul>
 			</Panel>
 			<Heading level={3}>Your answers</Heading>
@@ -264,6 +418,23 @@ export const DataVizWizard: React.FC<DataVizWizardProps> = ({
 					<Button onClick={reset} style={{ marginLeft: "1em" }}>
 						Start again
 					</Button>
+					<Button
+						onClick={copySummaryToClipboard}
+						style={{ marginLeft: "1em" }}
+						variant={ButtonVariant.Secondary}
+					>
+						Copy summary JSON
+					</Button>
+					{copyStatus === "copied" && (
+						<span role="status" style={{ marginLeft: 8 }}>
+							Copied
+						</span>
+					)}
+					{copyStatus === "error" && (
+						<span role="status" style={{ marginLeft: 8, color: "#d5281b" }}>
+							Copy failed
+						</span>
+					)}
 				</Column>
 			</Row>
 		</>

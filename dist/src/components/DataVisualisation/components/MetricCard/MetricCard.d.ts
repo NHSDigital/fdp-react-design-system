@@ -44,10 +44,14 @@ export interface MetricCardProps {
     valueFormatter?: (n: number) => string;
     /** Custom class name */
     className?: string;
+    /** Optional inline style applied to the card root (used for dynamic SPC colours) */
+    style?: React.CSSProperties;
     /** Stable id (auto generated if omitted) */
     id?: string;
     /** Announce delta changes in live region (polite) */
     announceDelta?: boolean;
+    /** Optional visual content (e.g., SPCSpark or other chart). Rendered full width below the textual content. */
+    visual?: React.ReactNode;
 }
 /**
  * MetricCard presents a headline KPI value with optional delta (change) and severity/status accent.

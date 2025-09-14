@@ -113,6 +113,7 @@ export type { TransactionalPageTemplateProps } from './TransactionalPageTemplate
 export * from './NavigationSplitView';
 export { ProductRoadmap } from './ProductRoadmap';
 export type { ProductRoadmapProps, ProductRoadmapCategory, ProductRoadmapItem } from './ProductRoadmap';
-export { SPCChart, ChartRoot, Axis, GridLines, LineScalesProvider, BandScalesProvider, LineSeriesPrimitive, AreaSeriesPrimitive, BarSeriesPrimitive, Legend, TooltipProvider, TooltipOverlay, VisibilityProvider, ChartNoScript, ChartEnhancer, MetricCard } from './DataVisualisation';
-export type { SPCChartProps, SPCDatum, ChartRootProps, AxisProps, LineSeries, LineDatum, LineSeriesPrimitiveProps, AreaSeriesPrimitiveProps, AreaSeries, AreaDatum, BarSeriesPrimitiveProps, BarSeries, BarDatum, LegendProps, LegendItem } from './DataVisualisation';
+export { SPCChart, ChartRoot, Axis, GridLines, LineScalesProvider, BandScalesProvider, LineSeriesPrimitive, AreaSeriesPrimitive, BarSeriesPrimitive, Legend, TooltipProvider, TooltipOverlay, VisibilityProvider, ChartNoScript, ChartEnhancer, MetricCard, SPCMetricCard } from './DataVisualisation';
+export type { SPCChartProps, SPCDatum, ChartRootProps, AxisProps, LineSeries, LineDatum, LineSeriesPrimitiveProps, AreaSeriesPrimitiveProps, AreaSeries, AreaDatum, BarSeriesPrimitiveProps, BarSeries, BarDatum, LegendProps, LegendItem, SPCMetricCardProps } from './DataVisualisation';
 export { SPC as SPC } from './DataVisualisation';
+export { useSpc } from './DataVisualisation';

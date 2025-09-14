@@ -91,7 +91,7 @@ export const OrgLevel: Story = {
   render: () => (
     <div>
       <ChartContainer title="Org level legend" description="Organisational level palette" source="Tokens only">
-  <Legend items={orgLevelItems} palette={"org-level" as any} />
+  <Legend items={orgLevelItems} palette={"org-level"} />
       </ChartContainer>
     </div>
   )
@@ -139,7 +139,7 @@ export const PaletteExplorer: Story = {
           <Legend items={severityLegend} palette="severity" />
         </ChartContainer>
         <ChartContainer title="Org Level" description="Structural hierarchy" source="Tokens">
-          <Legend items={orgLevelLegend} palette={"org-level" as any} />
+          <Legend items={orgLevelLegend} palette={"org-level"} />
         </ChartContainer>
       </div>
     );

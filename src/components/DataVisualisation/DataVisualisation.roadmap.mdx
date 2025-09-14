@@ -37,7 +37,7 @@ Each subsection maps recommended chart types to required primitives and wrapper 
 
 - Exists: `LineChart`, `AreaChart`, `ChartContainer`
 - Exists: `SPCChart` (Individuals/XmR) and `SPCSpark`
-- Planned: `RunChart` (thin wrapper around Line + median + runs annotations)
+- Exists: `RunChart` (thin wrapper around Line + median, optional runs hints, gradient wash)
 - Planned: `CUSUMChart`, `EWMAChart`
 - Planned: `CalendarHeatmap`, `Calendar` (events/scheduling), `PriestleyTimeline`, `RadialTimeline`, `Seismogram`
 
@@ -50,15 +50,32 @@ Each subsection maps recommended chart types to required primitives and wrapper 
 
 #### Acceptance examples
 
-- Run vs SPC side‑by‑side with same series and narrative
+- Run vs SPC side‑by‑side with same series and narrative (docs added: see SPC → Documentation → “Run chart → Shewhart chart transition”)
 - EWMA/CUSUM demo detecting smaller shifts than SPC
 
-### 2. Demonstrate Deviation (from target/baseline)
+### Phase A – Foundations and Trends (Now)
 
-#### Core components
+- Harden primitives (`Axis`, `GridLines`, `Legend`, providers)
+- Ship `RunChart` thin wrapper and `SPCSpark` examples across common NHS metrics
+## Progress (Sep 2025)
+
+- RunChart delivered:
+	- Median baseline (single or partitioned), optional provisional run‑rules hints (trend/shift), stroke width & smoothing props
+	- Line colour enum (NHS Blue default) and gradient wash under line (toggle via `gradientFills`)
+	- Standalone scale context fallback for MDX/isolated mounts
+	- Stories: basic, hints, and Playground with controls (lineColor, smooth, strokeWidth, showRunRulesHints, showMedian, gradientFills)
+	- Docs: dedicated RunChart docs page, plus SPC docs updated with a “Run chart → Shewhart chart transition” embedded example
+- LineChart: added matching gradient wash (`gradientFills`) using stroke colour; unique defs per instance
+- GridLines: folder name corrected (`GridlLines` → `GridLines`); imports/exports updated
+
+## Next steps (Q4 2025)
+
+### 2. Demonstrate Deviation (from target/baseline)
+### 1) RunChart polish & tests
+- Deliverables: unit tests for run rules hints utility; SSR/hydration tests; visual regression coverage in stories
+- Acceptance: tests green across client/SSR; a11y checks in Storybook; docs reflect gradient toggle and colour enum
 
 - Exists/WIP: Diverging bars via `BarSeriesPrimitive` with signed values; `Waterfall` planned
-- Planned: `SurplusDeficitArea` (area baseline sign fill), `SpineChart`
 - Planned: `FunnelPlot` (providers with varying denominators)
 - Planned: `ForestPlot` (estimates with CIs)
 
@@ -259,6 +276,40 @@ These patterns enable building transactional, action‑oriented dashboards and w
 - `EWMAChart`, `CUSUMChart`, `GChart`/`TChart` for rare events
 
 ---
+
+## Next steps (Q4 2025)
+
+This section translates the roadmap into concrete, near‑term actions with acceptance checks and validation tasks.
+
+### 1) RunChart wrapper (thin API over Line)
+- Deliverables: `charts/RunChart/RunChart.tsx`, stories, tests
+- Scope: median baseline (+ optional partitions), basic runs/shift flags, annotation hooks
+- Acceptance:
+	- Story: side‑by‑side Run vs SPC with narrative
+	- Tests: median/runs utilities; SSR output; tooltip/keyboard a11y
+
+### 2) Harden Axis/GridLines/Legend and providers
+- Deliverables: prop contracts, edge‑case stories (long labels, many ticks), dual‑axis readiness
+- Acceptance: label collision strategies validated in stories; SSR tests green
+
+### 3) Unified annotation/narrative API
+- Deliverables: declarative overlays (line/band/marker/callout/phase), caption slots
+- Acceptance: SPC phase change demo; threshold bands; exception markers with a11y names
+
+### 4) SPCSpark patterns and examples
+- Deliverables: examples for A&E 4h%, bed occupancy, RTT backlog using `MetricCard + SPCSpark`
+- Acceptance: a11y checks pass; documented token usage and semantics
+
+### 5) Housekeeping
+- Rename `charts/GridlLines/` → `charts/GridLines/` and update imports
+- Add optional `status` metadata (Exists/WIP/Planned) per chart in `logic/data-viz-logic.json`
+
+### Validation (run after each milestone)
+- Build: `npm run build:parity`
+- Tests: `npm run test:components` and `npm run test:ssr-components`
+- Lint/Types: `npm run lint` and `npm run typecheck`
+- Manual: Storybook scenarios incl. a11y and keyboard interaction
+
 
 ## Traceability to logic.json
 

@@ -6,6 +6,20 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ## Unreleased
 
+### Added (Data Visualisation – Sep 2025)
+
+- RunChart component (thin wrapper over Line) with:
+  - Median baseline (single/partitioned), optional provisional run‑rules hints (trend/shift), smoothing and stroke width props
+  - NHS data‑viz colour enum (default NHS Blue) and gradient wash under the line (`gradientFills`)
+  - Standalone ScaleContext fallback for MDX/isolated usage
+  - Stories: basic, hints, and Playground (controls for colour, smoothing, stroke width, median, run rules hints, gradientFills)
+  - Docs: RunChart docs page; SPC docs updated with “Run chart → Shewhart chart transition” example
+- LineChart: added matching gradient wash (`gradientFills`) using the series stroke colour; unique gradient ids per instance
+
+### Changed (Data Visualisation – Sep 2025)
+
+- GridLines: fixed folder typo `GridlLines` → `GridLines` and updated imports/exports
+
 ### Added (Unreleased – SSR-first hardening)
 
 - Hook: `useIsomorphicLayoutEffect` that uses `useLayoutEffect` in the browser and falls back to `useEffect` during SSR to avoid React warnings. See docs: `docs/guides/ssr-and-hydration.mdx`.

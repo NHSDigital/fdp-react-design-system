@@ -100,23 +100,53 @@ describe("parity: assurance behaviour", () => {
 			data,
 			settings: withParityV26({ minimumPoints: 6 }),
 		}).rows;
-		const last = rows.filter(r => !r.ghost && r.value !== null).pop()!;
+		const last = rows.filter((r) => !r.ghost && r.value !== null).pop()!;
 		// Sanity: zero-width limits collapse to mean
 		expect(last.upperProcessLimit).toBe(last.mean);
 		expect(last.lowerProcessLimit).toBe(last.mean);
 		// Upwards improvement: target below center => Pass; equal (collapses to LCL/UCL) => Pass; above => Fail
-		const upPass = computeAssuranceIcon(ChartType.XmR, last, ImprovementDirection.Up, (last.mean ?? 42) - 1);
+		const upPass = computeAssuranceIcon(
+			ChartType.XmR,
+			last,
+			ImprovementDirection.Up,
+			(last.mean ?? 42) - 1
+		);
 		expect(upPass).toBe(AssuranceIcon.Pass);
-		const upEqual = computeAssuranceIcon(ChartType.XmR, last, ImprovementDirection.Up, last.mean);
+		const upEqual = computeAssuranceIcon(
+			ChartType.XmR,
+			last,
+			ImprovementDirection.Up,
+			last.mean
+		);
 		expect(upEqual).toBe(AssuranceIcon.Pass);
-		const upFail = computeAssuranceIcon(ChartType.XmR, last, ImprovementDirection.Up, (last.mean ?? 42) + 1);
+		const upFail = computeAssuranceIcon(
+			ChartType.XmR,
+			last,
+			ImprovementDirection.Up,
+			(last.mean ?? 42) + 1
+		);
 		expect(upFail).toBe(AssuranceIcon.Fail);
 		// Downwards improvement: target above center => Pass; equal (collapses to LCL/UCL) => Pass; below => Fail
-		const downPass = computeAssuranceIcon(ChartType.XmR, last, ImprovementDirection.Down, (last.mean ?? 42) + 1);
+		const downPass = computeAssuranceIcon(
+			ChartType.XmR,
+			last,
+			ImprovementDirection.Down,
+			(last.mean ?? 42) + 1
+		);
 		expect(downPass).toBe(AssuranceIcon.Pass);
-		const downEqual = computeAssuranceIcon(ChartType.XmR, last, ImprovementDirection.Down, last.mean);
+		const downEqual = computeAssuranceIcon(
+			ChartType.XmR,
+			last,
+			ImprovementDirection.Down,
+			last.mean
+		);
 		expect(downEqual).toBe(AssuranceIcon.Pass);
-		const downFail = computeAssuranceIcon(ChartType.XmR, last, ImprovementDirection.Down, (last.mean ?? 42) - 1);
+		const downFail = computeAssuranceIcon(
+			ChartType.XmR,
+			last,
+			ImprovementDirection.Down,
+			(last.mean ?? 42) - 1
+		);
 		expect(downFail).toBe(AssuranceIcon.Fail);
 	});
 });

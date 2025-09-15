@@ -1,6 +1,6 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+// import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Data Visualisation/SPC/v1/SPC Test Coverage" />
+// <Meta title="Data Visualisation/SPC/v1/SPC Test Coverage" />
 
 ## SPC Engine Test Coverage
 
@@ -397,6 +397,18 @@ Why it matters: Internal guard that retroactive propagation of shift/trend flags
 | Assurance + recalculation interplay | Post-recalc capability evaluation stability | Dataset with two sequential shifts and target verifying pass/fail transitions |
 
 Current judgement: Core SPC interpretive semantics are comprehensively covered; remaining items are value-add rather than correctness blockers.
+
+---
+
+### Appendix: T & G Parity Vignettes (Storybook)
+
+For rare-event chart parity illustrations that complement preprocess adapters:
+
+- Story: `Data Visualisation/SPC/v2/T&G Parity Vignettes`
+  - T: Demonstrates back-transform lower-limit suppression policy (LCL ≤ 0 → clamp/omit) using a derived time-between-events series.
+  - G: Demonstrates quantile-based limits for counts-between-events (shifted geometric, p = 1/mean) with two-sided quantiles.
+
+These are educational aides and do not alter engine behaviour; they set expectations for upcoming T/G parity work while XmR remains the primary engine focus.
 
 This suite aims to minimise accidental semantic regressions during future optimisation or heuristic refinement.
 

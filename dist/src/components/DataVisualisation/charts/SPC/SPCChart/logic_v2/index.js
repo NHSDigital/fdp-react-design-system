@@ -59,6 +59,9 @@ var RULE_RANK_BY_ID = {
   ["Shift" /* Shift */]: 3,
   ["Trend" /* Trend */]: 4
 };
+var D2 = 1.128;
+var MR_UCL_FACTOR = 3.267;
+var XMR_THREE_SIGMA_FACTOR = 2.66;
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils.ts
 function isNumber(n) {
@@ -87,14 +90,14 @@ function mrMeanWithOptionalExclusion(mr, excludeOutliers) {
   let arr = vals.slice();
   if (excludeOutliers) {
     const meanMr = mean(arr);
-    const ucl = 3.267 * meanMr;
+    const ucl = MR_UCL_FACTOR * meanMr;
     arr = arr.filter((v) => v <= ucl);
   }
   const mrMean = mean(arr);
-  return { mrMean, mrUcl: 3.267 * mrMean };
+  return { mrMean, mrUcl: MR_UCL_FACTOR * mrMean };
 }
 function xmrLimits(center, mrMean) {
-  if (!isNumber(center) || !isNumber(mrMean) || mrMean <= 0) {
+  if (!isNumber(center) || !isNumber(mrMean)) {
     return {
       upperProcessLimit: null,
       lowerProcessLimit: null,
@@ -104,7 +107,7 @@ function xmrLimits(center, mrMean) {
       lowerOneSigma: null
     };
   }
-  const threeSigma = 2.66 * mrMean;
+  const threeSigma = XMR_THREE_SIGMA_FACTOR * mrMean;
   const twoSigma = 2 / 3 * threeSigma;
   const oneSigma = 1 / 3 * threeSigma;
   return {
@@ -134,10 +137,26 @@ function computePartitionLimits(chartType, values, ghosts, excludeMovingRangeOut
     };
   }
   const mr = movingRanges(values, ghosts);
-  const nonGhostVals = values.filter(
-    (v, i) => !ghosts[i] && isNumber(v)
-  );
-  const center = nonGhostVals.length ? mean(nonGhostVals) : NaN;
+  const mrVals = mr.filter(isNumber);
+  const rawMrMean = mrVals.length ? mean(mrVals) : NaN;
+  const rawMrUcl = isNumber(rawMrMean) ? 3.267 * rawMrMean : NaN;
+  let center = NaN;
+  {
+    const eligibleVals = [];
+    for (let i = 0; i < values.length; i++) {
+      const v = values[i];
+      if (ghosts[i] || !isNumber(v)) continue;
+      if (!excludeMovingRangeOutliers) {
+        eligibleVals.push(v);
+        continue;
+      }
+      const mri = mr[i];
+      if (mri === null || !isNumber(rawMrUcl) || isNumber(mri) && mri <= rawMrUcl) {
+        eligibleVals.push(v);
+      }
+    }
+    center = eligibleVals.length ? mean(eligibleVals) : NaN;
+  }
   const tmp = mrMeanWithOptionalExclusion(mr, excludeMovingRangeOutliers);
   const lim = xmrLimits(center, tmp.mrMean);
   return {
@@ -346,16 +365,13 @@ function buildSpcV26a(args) {
     cur.push(r);
   }
   if (cur.length) partitions.push(cur);
-  const nonGhostGlobal = canon.filter(
-    (r) => !r.ghost && isNumber(r.value)
-  ).length;
-  const limitsAllowed = nonGhostGlobal >= s.minimumPoints;
   const out = [];
   let partitionId = 0;
   for (const part of partitions) {
     partitionId++;
     const values = part.map((p) => p.value);
     const ghosts = part.map((p) => p.ghost);
+    const eligibleInPartition = part.filter((p) => !p.ghost && isNumber(p.value)).length >= s.minimumPoints;
     const lim = computePartitionLimits(
       chartType,
       values,
@@ -369,13 +385,13 @@ function buildSpcV26a(args) {
       ghost: r.ghost,
       partitionId,
       pointRank: !r.ghost && isNumber(r.value) ? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber(v)).length : 0,
-      mean: limitsAllowed && isNumber(lim.mean) ? lim.mean : null,
-      upperProcessLimit: limitsAllowed ? lim.upperProcessLimit : null,
-      lowerProcessLimit: limitsAllowed ? lim.lowerProcessLimit : null,
-      upperTwoSigma: limitsAllowed ? lim.upperTwoSigma : null,
-      lowerTwoSigma: limitsAllowed ? lim.lowerTwoSigma : null,
-      upperOneSigma: limitsAllowed ? lim.upperOneSigma : null,
-      lowerOneSigma: limitsAllowed ? lim.lowerOneSigma : null,
+      mean: eligibleInPartition && isNumber(lim.mean) ? lim.mean : null,
+      upperProcessLimit: eligibleInPartition ? lim.upperProcessLimit : null,
+      lowerProcessLimit: eligibleInPartition ? lim.lowerProcessLimit : null,
+      upperTwoSigma: eligibleInPartition ? lim.upperTwoSigma : null,
+      lowerTwoSigma: eligibleInPartition ? lim.lowerTwoSigma : null,
+      upperOneSigma: eligibleInPartition ? lim.upperOneSigma : null,
+      lowerOneSigma: eligibleInPartition ? lim.lowerOneSigma : null,
       // rules
       singlePointUp: false,
       singlePointDown: false,
@@ -391,7 +407,7 @@ function buildSpcV26a(args) {
       variationIcon: "CommonCause" /* CommonCause */
     }));
     for (const row of withLines) {
-      if (!limitsAllowed || row.ghost || !isNumber(row.value) || row.mean === null)
+      if (!eligibleInPartition || row.ghost || !isNumber(row.value) || row.mean === null)
         continue;
       if (isNumber(row.upperProcessLimit) && row.value > row.upperProcessLimit)
         row.singlePointUp = true;
@@ -462,7 +478,9 @@ function withParityV26(overrides) {
 export {
   AssuranceIcon,
   ChartType,
+  D2,
   ImprovementDirection,
+  MR_UCL_FACTOR,
   MetricConflictRule,
   PARITY_V26,
   PrimeDirection,
@@ -470,6 +488,7 @@ export {
   Side,
   SpcRuleId,
   VariationIcon,
+  XMR_THREE_SIGMA_FACTOR,
   applySqlPruning,
   buildSpcV26a,
   computeAssuranceIcon,

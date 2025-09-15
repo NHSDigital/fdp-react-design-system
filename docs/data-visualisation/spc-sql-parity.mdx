@@ -40,6 +40,7 @@ It lists where we match, where we diverge, and a concrete workplan (with accepta
 - Assurance icon on rare-event charts and on-limit pass/fail
   - SQL: Assurance is suppressed for T/G; and when the target lies exactly on a process limit, assurance is a pass/fail.
   - TS has `assuranceCapabilityMode` but must be verified to fully match the suppression and edge pass/fail behaviour.
+  - Update: Implemented and tested. Equality to a process limit is deterministic (pass/fail depending on direction). Added tests for collapsed (zero‑width) bands.
 
 - Auto-recalculation (synthetic baselines)
   - TS adds `autoRecalculateAfterShift` and related thresholds; this is beyond the SQL model and will change partitions and thereby signals.
@@ -55,6 +56,7 @@ It lists where we match, where we diverge, and a concrete workplan (with accepta
 - MR outlier exclusion’s effect on mean
   - SQL v2.1+ supports excluding MR outliers (by UCL on MR) and also introduced `MeanWithoutOutliers` for the centre line.
   - TS should ensure that, when MR outlier exclusion is enabled, both MRbar and the centre-line mean align with the SQL’s “without outliers” semantics.
+  - Update: Implemented. When enabled, MRbar and mean are recomputed from the outlier‑excluded set.
 
 - Input derivation for T/G
   - SQL derives “between events” from date/time (`DayDifference`, transformed series). TS expects precomputed intervals as `value`.
@@ -75,6 +77,7 @@ It lists where we match, where we diverge, and a concrete workplan (with accepta
   - Computes trend across partition boundaries.
   - Implements exact two-of-three semantics (3σ points count; third point must be same-side).
   - Suppresses assurance on T/G; applies pass/fail when target equals a process limit on XmR.
+  - Emits zero‑width control limits (UCL = LCL = mean) when MR̄ = 0, and collapses ±1σ/±2σ bands to the mean (visual/documented parity for flat partitions).
   - Uses defaults: minPoints=13, shift=6, trend=6, collapse weaker cluster rules as in SQL (on), MR outlier exclusion default OFF.
   - Matches SQL’s partition minimum/buffer behaviour (no extra transition buffer unless required for parity).
 
@@ -99,6 +102,7 @@ Acceptance criteria
 ### Phase 3 — Assurance alignment
 - Suppress assurance entirely for T/G.
 - On XmR, treat target exactly equal to UPL/LPL as a deterministic pass/fail per SQL description.
+- Add zero‑width band equality tests (MR̄ = 0): treat equality to collapsed limits deterministically.
 
 Acceptance criteria
 - Unit tests for T/G confirm `assuranceIcon` is ‘none’/suppressed.
@@ -112,6 +116,7 @@ Acceptance criteria
 
 ### Phase 5 — MR outlier exclusion parity
 - When `excludeMovingRangeOutliers=true`, compute MRbar excluding MR outliers (UCL=3.267*MRbar) and recompute centre-line mean using the same outlier-excluded set (as per SQL’s `MeanWithoutOutliers`).
+  - Also define behaviour when MR̄ = 0: emit zero‑width limits and collapsed σ bands.
 
 Acceptance criteria
 - Fixtures show identical mean and limits vs. SQL reference when outlier exclusion is enabled.
@@ -150,6 +155,7 @@ Acceptance criteria
 - Target on a control limit (XmR)
   - Data: set target equal to calculated UPL.
   - Expect: deterministic pass/fail outcome per SQL note.
+  - Zero‑width: flat partition (MR̄ = 0) → limits collapse to mean; equality treated as above (deterministic).
 
 - MR outlier exclusion and mean
   - Data: XmR series with a large jump causing MR outlier.
@@ -160,6 +166,7 @@ Acceptance criteria
 - Keep advanced features (auto-recalc baselines, pruning strategies, precedence modes) available but OFF in parity.
 - Document clearly which warnings are “dataset-scope” (SQL Step 5 breadth) and which are “SPC calc-scope” (engine defaults).
 - Consider tagging rows with a `parityMode: true` flag for downstream audit/debug.
+- When MR̄ = 0 within a partition, the engine surfaces zero‑width limits rather than nulls to preserve interpretability (clear centre line and deterministic assurance). Storybook vignette: Data Visualisation/SPC/v2/Zero‑width limits.
 
 ## Risks and decisions
 
@@ -191,9 +198,11 @@ Acceptance criteria
   - MR outlier exclusion parity: when `excludeMovingRangeOutliers=true`, both MRbar and the centre-line mean are recomputed from the outlier‑excluded set (SQL `MeanWithoutOutliers`).
 - Assurance alignment:
   - Wrapper suppresses assurance for T/G and applies XmR on‑limit pass/fail logic.
+  - Zero‑width band semantics implemented; equality behaviour tested. New Storybook vignette added for documentation.
 - Storybook v2 playgrounds with a parity toggle in Controls:
   - Grouped dataset: "Data Visualisation/SPC/v2/Grouped dataset (JSON)" with expected-colour table sourced from dataset JSON
   - Healthcare: "Data Visualisation/SPC/v2/Healthcare (v2 engine)" now using centralised datasets and a computed expected-colour table based on VariationIcon
+  - Zero‑width limits vignette: illustrates flat partition after baseline with collapsed limits and an accompanying computed limits table
   - SPC MetricCard v2 integration
 - Tests
   - Parity suites cover healthcare datasets, two‑of‑three including >3σ, cross‑partition trend, and assurance rules.

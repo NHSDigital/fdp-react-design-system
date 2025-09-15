@@ -2,6 +2,14 @@
 
 All notable changes to this module will be documented here.
 
+## 0.4.0 — Zero‑width limits, assurance, datasets (2025‑09‑15)
+
+- XmR zero‑width limits: When MR̄ = 0 within a partition (flat values), emit zero‑width control limits (UCL = LCL = mean) and collapse ±1σ/±2σ bands to the mean. Improves visual clarity and deterministic assurance behaviour.
+- Assurance parity: Equality to a process limit is treated deterministically (pass/fail depending on direction). Added explicit tests including the collapsed band case.
+- Parity semantics: Trend across partitions implemented under the parity preset; two‑of‑three ≥2σ configurable to include >3σ points on the same side (enabled by preset).
+- Storybook: Added a “Zero‑width limits” vignette demonstrating collapsed limits after a baseline, with a computed limits table.
+- Datasets: Centralised grouped and healthcare datasets for reuse across Storybook and tests; added a computed expected‑colour table in the healthcare story.
+
 ## 0.1.0 — Initial scaffold
 
 - Create logic_v2 module with strongly-typed enums and modular files

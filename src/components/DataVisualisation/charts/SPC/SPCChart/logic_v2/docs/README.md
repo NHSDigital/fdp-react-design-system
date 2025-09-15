@@ -52,6 +52,7 @@ console.log(last?.variationIcon); // => NeitherHigh (rules on the high side)
 - SQL parity: rule ranking and pruning are mirrored; for Up/Down metrics we prune per SQL’s prime direction and conflict rule.
 - Neither semantics: SQL denotes a neutral judgement; here we surface side-specific neutral icons (`NeitherHigh`/`NeitherLow`).
 - Limits gating: control lines and bands are only emitted when the series meets `minimumPoints` for non-ghosted values.
+- Zero-width limits: When MR̄ = 0 within a partition (flat values), the engine emits zero‑width limits (UCL = LCL = mean) and collapses ±1σ/±2σ bands to the mean. See the Storybook vignette “Zero‑width limits” under Data Visualisation/SPC/v2.
 - Future: T/G chart paths can be added; tests are structured to allow incremental growth.
 
 ## Tests

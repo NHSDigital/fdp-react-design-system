@@ -7,6 +7,7 @@ import { buildSpcV26a } from "../engine.ts";
 import { ChartType, ImprovementDirection } from "../types.ts";
 import { withParityV26 } from "../presets";
 import { SPCChart } from "../../SPCChart";
+import { iconToHex } from "./data/variationIconColours";
 import { ImprovementDirection as V1ImprovementDirection, ChartType as V1ChartType } from "../../logic/spcConstants";
 
 const metricOptions = getMetricOptions();
@@ -111,7 +112,78 @@ export const GroupedDatasetV2: Story = {
 			return buildSpcV26a({ chartType: ChartType.XmR, metricImprovement: dir, data: input, settings }).rows;
 		}, [data, dir]);
 
-		// Basic rendering: the expected colour table from dataset
+		// Compose tables: (1) expected colours from dataset JSON; (2) computed colours from v2 engine
+		const datasetTable = (
+			<Table
+				caption="Expected colours (from dataset)"
+				visuallyHiddenCaption
+				responsive
+				firstCellIsHeader={false}
+				columns={[
+					{ key: "date", title: "Date" },
+					{ key: "value", title: "Value", format: "numeric" },
+					{
+						key: "colour",
+						title: "Expected colour",
+						render: (hex: string) => ({
+							node: (
+								<span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+									<span
+										aria-label={`colour swatch ${hex}`}
+										title={hex}
+										style={{ display: 'inline-block', width: 14, height: 14, borderRadius: 3, background: hex, border: '1px solid #ccc' }}
+									/>
+									<span>{hex}</span>
+								</span>
+							),
+						}),
+					},
+				]}
+				data={grp.data.map((d) => ({
+					date: new Date(d.date).toLocaleDateString('en-GB'),
+					value: d.value,
+					colour: d.colour,
+				}))}
+			/>
+		);
+
+		const computedTable = (
+			<Table
+				caption="Computed expected colours (v2)"
+				visuallyHiddenCaption
+				responsive
+				firstCellIsHeader={false}
+				columns={[
+					{ key: "date", title: "Date" },
+					{ key: "value", title: "Value", format: "numeric" },
+					{ key: "icon", title: "Icon" },
+					{
+						key: "colour",
+						title: "Colour",
+						render: (hex: string) => ({
+							node: (
+								<span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+									<span
+										aria-label={`colour swatch ${hex}`}
+										title={hex}
+										style={{ display: 'inline-block', width: 14, height: 14, borderRadius: 3, background: hex, border: '1px solid #ccc' }}
+									/>
+									<span>{hex}</span>
+								</span>
+							),
+						}),
+					},
+				]}
+				data={rows
+					.filter((r) => !r.ghost)
+					.map((r) => ({
+						date: new Date(r.x as any).toLocaleDateString('en-GB'),
+						value: r.value,
+						icon: String(r.variationIcon),
+						colour: iconToHex(r.variationIcon),
+					}))}
+			/>
+		);
 
 			return (
 				<>
@@ -121,41 +193,12 @@ export const GroupedDatasetV2: Story = {
 						source="Fictive NHS Testing Dataset"
 						showTableToggle
 						initiallyShowTable={!!showTable}
-						tabularData={
-							showTable ? (
-								<Table
-									caption="Expected colours"
-									visuallyHiddenCaption
-									responsive
-									firstCellIsHeader={false}
-									columns={[
-										{ key: "date", title: "Date" },
-										{ key: "value", title: "Value", format: "numeric" },
-										{
-											key: "colour",
-											title: "Expected colour",
-											render: (hex: string) => ({
-												node: (
-													<span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-														<span
-															aria-label={`colour swatch ${hex}`}
-															title={hex}
-															style={{ display: 'inline-block', width: 14, height: 14, borderRadius: 3, background: hex, border: '1px solid #ccc' }}
-														/>
-														<span>{hex}</span>
-													</span>
-												),
-											}),
-										},
-									]}
-									data={grp.data.map((d) => ({
-										date: new Date(d.date).toLocaleDateString('en-GB'),
-										value: d.value,
-										colour: d.colour,
-									}))}
-								/>
-							) : undefined
-						}
+						tabularData={showTable ? (
+							<div style={{ display: 'grid', gap: 16 }}>
+								{datasetTable}
+								{computedTable}
+							</div>
+						) : undefined}
 					>
 						<SPCChart
 							data={data.map(d => ({ x: d.x, y: d.value }))}

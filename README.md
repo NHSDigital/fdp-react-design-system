@@ -137,6 +137,26 @@ nhs-fdp-design-system/
 - **[Behaviour Layer](./docs/guides/behaviours.md)** - Progressive enhancement, events & teardown API
 - **[SSR updates (Sep 2025)](./docs/guides/ssr-updates-2025-09.md)** - Latest SSR surface and patterns
 
+### SPC (Statistical Process Control) quick links
+
+- SQL parity plan and current status: `docs/data-visualisation/spc-sql-parity.mdx`
+- Roadmap burndown: `docs/roadmaps/SPC_V2_SQL_PARITY_BURNDOWN.mdx`
+- Engine v2 overview: `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/docs/overview.md`
+- Storybook v2 playgrounds: Data Visualisation/SPC/v2 → Grouped dataset, Healthcare, Zero‑width limits vignette
+
+Validation gates after SPC changes
+
+- Build: `npm run build:parity`
+- Tests (components): `npm run test:components` (expect one known non‑SPC failure in AriaTabsDataGrid)
+- SSR tests: `npm run test:ssr-components`
+- Lint & types: `npm run lint` and `npm run typecheck`
+
+Next steps (SPC v2)
+
+- Optional T/G preprocessing adapter example for SQL parity stories
+- Align partition start eligibility with SQL in parity mode (remove transition buffer)
+- Expand parity fixtures for T (LCL suppression after back‑transform) and G (quantile‑based limits)
+
 Quick SSR usage (Next.js server components):
 
 ```tsx

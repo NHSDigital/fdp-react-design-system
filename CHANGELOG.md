@@ -12,6 +12,11 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 - `SPCMetricCard`: accepts `useSqlCompatEngine` (default: true) and threads it to `useSpc`; gradient/accent colour now derived from the latest point’s SPC classification (polarity‑aware) with a clear No‑Judgement override.
 - Storybook: Added an SPC “Base vs SQL compatibility (experimental)” comparison showcasing `SPCMetricCard` in both modes alongside `SPCChart`.
 
+- SPC v2 documentation and demos
+  - Storybook vignette for zero-width limits: Demonstrates partitions where MR̄ = 0 leading to collapsed limits (UCL = LCL = mean) and a companion table of computed limits
+  - Centralised, dataset-wide SPC report: parity test iterates all grouped metrics and prints a per-metric summary to the console for manual inspection (kept under tests)
+  - Assurance edge-case tests: Added explicit tests for target exactly on a process limit and for zero-width bands across Up/Down/Neither metrics
+
 - SPC v2 parity mode (logic_v2)
   - PARITY_V26 preset and `withParityV26(...)` helper to enable SQL v2.6a-aligned behaviour (XmR focus).
   - Parity tests added: cross-partition trend, two-of-three including >3σ option, assurance suppression/on-limit pass/fail, and per-partition eligibility.
@@ -30,6 +35,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Fixed window indexing with a global index base to ensure correct band/limit alignment
 - `useSpc`: Polarity‑aware mapping for directional signals prevents inversion on lower‑is‑better metrics (fixes Bed Occupancy spark colour inversion vs `SPCChart`). When `useSqlCompatEngine` is true, point signals derive from post‑pruning `variationIcon` to match wrapper parity.
 
+- XmR zero‑width limits behaviour
+  - When the moving‑range mean MR̄ evaluates to 0 within a partition (flat values), the engine now emits zero‑width limits rather than nulls: `UCL = LCL = mean`, and the ±1σ/±2σ bands collapse to the mean as well. This clarifies visuals and enables deterministic assurance classification in flat phases.
+
 - SPC v2 parity alignment (logic_v2)
   - Trend across partitions now supported under the parity preset while retaining per-partition limits.
   - Two-of-three ≥2σ semantics configurable to include >3σ points (preset: enabled) and require same-side third qualifying point.
@@ -40,6 +48,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 - `SPCSpark`: No‑Judgement parity corrected so that purple adorns only true neutral special‑cause points; removed series‑level over‑marking. Also tightened the fallback 3σ heuristic only when explicit signals are absent.
 - `SPCMetricCard`: Gradient state now mirrors the latest point’s SPC classification reliably; reuses last real data row and applies NJ override deterministically.
+
+- XmR math and assurance edge cases
+  - xmrLimits: Return zero‑width limits when MR̄ = 0 (previously could surface as nulls in flat partitions after a baseline)
+  - Assurance: Equality to a process limit is treated deterministically as pass/fail (depending on metric direction); parity tests added, including for collapsed (zero‑width) bands
 
 ### Added (Data Visualisation – Sep 2025)
 

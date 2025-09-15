@@ -44,6 +44,7 @@ Acceptance
 - [x] Suppress assurance for T/G charts (15 Sep 2025)
 - [x] Edge case: target exactly equals a limit → deterministic pass/fail (15 Sep 2025)
 - [x] Tests for XmR on-limit and any T/G series with target (15 Sep 2025)
+- [x] Zero‑width bands (MR̄ = 0) semantics covered by tests and a Storybook vignette (15 Sep 2025)
 
 Acceptance
 - Tests green; Storybook notes explain behaviour
@@ -75,7 +76,8 @@ Acceptance
 ### M7 — Parity fixtures and Storybook polish
 
 - [~] Curate fixture pack: XmR (stable, >3σ, two-of-three, shift, cross-partition trend), T (back-transform LCL ≤ 0 suppression), G (quantile limits)
-- [~] Add expected-colour table to healthcare v2 story; centralise datasets for reuse in tests/stories
+- [x] Add expected-colour table to healthcare v2 story; centralise datasets for reuse in tests/stories (15 Sep 2025)
+- [x] Add zero‑width limits vignette and computed limits table (15 Sep 2025)
 - [ ] Docs link to fixtures and stories; parity checklist embedded
 
 Acceptance
@@ -97,6 +99,7 @@ Acceptance
 
 Short term
 - Centralise datasets and wire an expected‑colour table into the healthcare v2 story.
+- Add parity fixture examples for T (LCL suppression after back‑transform) and G (quantile limits) with accompanying Storybook entries.
 
 Optional / medium term
 - Provide a small T/G preprocessing adapter example and parity story.

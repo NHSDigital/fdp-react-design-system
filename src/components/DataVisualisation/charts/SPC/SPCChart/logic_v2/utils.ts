@@ -1,4 +1,6 @@
 // A small helper to check a value is a proper finite number.
+import { MR_UCL_FACTOR, XMR_THREE_SIGMA_FACTOR } from "./constants";
+
 export function isNumber(n: unknown): n is number {
 	return typeof n === "number" && !Number.isNaN(n);
 }
@@ -38,16 +40,18 @@ export function mrMeanWithOptionalExclusion(
 	let arr = vals.slice();
 	if (excludeOutliers) {
 		const meanMr = mean(arr);
-		const ucl = 3.267 * meanMr; // standard MR UCL
+		const ucl = MR_UCL_FACTOR * meanMr; // standard MR UCL
 		arr = arr.filter((v) => v <= ucl);
 	}
 	const mrMean = mean(arr);
-	return { mrMean, mrUcl: 3.267 * mrMean };
+	return { mrMean, mrUcl: MR_UCL_FACTOR * mrMean };
 }
 
 // Given a centre line and MR mean, return standard XmR limits and 1σ/2σ bands.
 export function xmrLimits(center: number, mrMean: number) {
-	if (!isNumber(center) || !isNumber(mrMean) || mrMean <= 0) {
+	// When mrMean is 0 (flat series), produce zero-width limits at the center line
+	// instead of nulls so partitions with no variation still render control lines.
+	if (!isNumber(center) || !isNumber(mrMean)) {
 		return {
 			upperProcessLimit: null,
 			lowerProcessLimit: null,
@@ -57,7 +61,7 @@ export function xmrLimits(center: number, mrMean: number) {
 			lowerOneSigma: null,
 		};
 	}
-	const threeSigma = 2.66 * mrMean;
+	const threeSigma = XMR_THREE_SIGMA_FACTOR * mrMean;
 	const twoSigma = (2 / 3) * threeSigma;
 	const oneSigma = (1 / 3) * threeSigma;
 	return {

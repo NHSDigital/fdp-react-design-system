@@ -280,6 +280,7 @@
     "check:tokens": "node scripts/check-token-collisions.cjs",
     "inventory": "tsx scripts/inventory-design-system.ts --md inventory.md --json inventory.json",
     "spc:parity": "tsx scripts/spc-parity-check.ts",
+    "spc:metrics": "tsx scripts/spc-metrics-report.ts",
     "spc:codemod:scan": "tsx scripts/spc-codemod-settings.ts",
     "spc:codemod:apply": "tsx scripts/spc-codemod-settings.ts --apply"
   },

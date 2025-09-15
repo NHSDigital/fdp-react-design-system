@@ -5,7 +5,7 @@ import Table from "../../../../../../Tables/Table";
 import { SPCChart } from "../../SPCChart";
 import { buildSpcV26a } from "../engine";
 import { withParityV26 } from "../presets";
-import { ChartType, ImprovementDirection, VariationIcon } from "../types";
+import { ChartType, ImprovementDirection } from "../types";
 import {
 	ImprovementDirection as V1ImprovementDirection,
 	ChartType as V1ChartType,
@@ -16,6 +16,7 @@ import {
 	months,
 	toV2Dir,
 } from "./data/healthcareDatasets";
+import { iconToHex } from "./data/variationIconColours";
 
 function toV1Dir(value: ImprovementDirection): V1ImprovementDirection {
 	switch (value) {
@@ -53,31 +54,13 @@ const meta: Meta = {
 		showTable: true,
 	},
 };
-
 export default meta;
-
-type Story = StoryObj<{
-	dataset: string;
-	showLastJudgement?: boolean;
-	parityMode?: boolean;
-	showTable?: boolean;
-}>;
-
-function iconToHex(icon: VariationIcon): string {
-	switch (icon) {
-		case VariationIcon.ImprovementHigh:
-		case VariationIcon.ImprovementLow:
-			return "#2e7d32"; // positive (green)
-		case VariationIcon.ConcernHigh:
-		case VariationIcon.ConcernLow:
-			return "#00B0F0"; // negative (NHS red)
-		case VariationIcon.NeitherHigh:
-		case VariationIcon.NeitherLow:
-			return "#490092"; // neutral special-cause (amber)
-		default:
-			return "#A6A6A6"; // common cause (grey)
-	}
-}
+	type Story = StoryObj<{
+	    dataset: string;
+	    showLastJudgement?: boolean;
+	    parityMode?: boolean;
+	    showTable?: boolean;
+	}>;
 
 export const HealthcarePlaygroundV2: Story = {
 	name: "Playground (healthcare datasets)",

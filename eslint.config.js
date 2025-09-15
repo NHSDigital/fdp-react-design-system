@@ -57,6 +57,14 @@ export default [
       'storybook/no-renderer-packages': 'off'
     }
   },
+  // Legacy SPC v1 story duplicates kept for reference but excluded from Storybook indexing
+  // These files intentionally have no story exports (includeStories: []), so silence the rule
+  {
+    files: ['src/components/DataVisualisation/charts/SPC/SPCChart/logic/storybook/**/*.stories.@(ts|tsx)'],
+    rules: {
+      'storybook/story-exports': 'off'
+    }
+  },
     // Enforce SSR-safe imports in the Next.js example SSR route
     {
       files: ['examples/nextjs/app/ssr/**/*.{ts,tsx,js,jsx}'],

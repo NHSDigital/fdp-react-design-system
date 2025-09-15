@@ -5,7 +5,7 @@ import { ChartType } from "../../charts/SPC/SPCChart/logic/spcConstants";
 import { MetricPolarity } from "../../charts/SPC/SPCIcons/SPCConstants";
 
 const meta: Meta<typeof SPCMetricCard> = {
-	title: "Data Visualisation/SPC/SPCMetricCard",
+	title: "Data Visualisation/SPC/SPC MetricCard",
 	component: SPCMetricCard,
 	parameters: {
 		docs: {

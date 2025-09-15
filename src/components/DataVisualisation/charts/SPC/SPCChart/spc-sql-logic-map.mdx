@@ -1,0 +1,116 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Mermaid from '../../../../_internal/Mermaid';
+
+<Meta title="Data Visualisation/SPC/Guides/NHSE SQL v2.6a — Logic Map"/>
+
+# NHSE SPC SQL v2.6a — Logic Map
+
+Related guides:
+- SPC Engine — Core Logic
+- SPCChart Decision Logic
+- SPC SQL Compatibility (v2.6a)
+
+This document maps the actual SQL (v2.6a) pipeline that assigns Variation and Assurance icons. It follows the query’s temp tables and CASE/UPDATE statements to explain how special cause rules are detected, conflicts are ranked, candidates are pruned, and final icons are emitted.
+
+References below align with the script sections around Step 4 (special cause and icons), e.g. `#SPCCalculationsSpecialCauseCombined`, `#ConflictRanking`, `#ConflictRankingSummary`, and `#SPCCalculationsIcons`.
+
+## Key inputs (post rule-detection)
+
+- Per-row special-cause flags (both sides):
+  - Single point beyond process limit
+  - Two-sigma on same side (2 of 3 beyond 2σ)
+  - Shift/run above/below mean
+  - Trend increasing/decreasing (can cross partitions)
+- Aggregated candidate values:
+  - `SpecialCauseImprovementValue` (aligned side present)
+  - `SpecialCauseConcernValue` (opposite side present)
+- For MetricImprovement = 'Neither':
+  - `SpecialCauseNeitherHighFlag`, `SpecialCauseNeitherLowFlag`
+- Metadata: `MetricImprovement`, `MetricConflictRule`, partition/baseline, last-point rank via `PointExcludeGhostingRankDescending`.
+
+## Flowchart — conflict ranking → pruning → icons
+
+<Mermaid className="is-airy">{`flowchart TD
+  %% Nodes
+  S([Start])
+  SRC[Special-cause flags per side\nref: #SPCCalculationsSpecialCauseCombined]
+  BOTH{Both Improvement & Concern\n candidates present?}
+  CR[Build #ConflictRanking\nUpwardsRank/DownwardsRank\n1=Single, 2=Twoσ, 3=Shift, 4=Trend]
+  SUM[Summarise to #ConflictRankingSummary\nPrimeDirection = Upwards/Downwards/Same\nby comparing Max ranks]
+  PRUNE[Prune candidates:\n- Prime Upwards & metric Up → drop Concern\n- Prime Upwards & metric Down → drop Improvement\n- Prime Downwards & metric Up → drop Improvement\n- Prime Downwards & metric Down → drop Concern\n- Prime Same → use MetricConflictRule]
+  LAST{PointExcludeGhostingRankDescending = 1?\nlast non-ghosted point}
+  VAR_UP[VariationIcon - metric Up:\n- Improvement - High\n- Concern - Low\n- Common Cause]
+  VAR_DN[VariationIcon - metric Down:\n- Improvement - Low\n- Concern - High\n- Common Cause]
+  VAR_NEI[VariationIcon - metric Neither:\n- Neither - High/Low\n- Common Cause]
+  ASSUR[AssuranceIcon - XmR only:\n- Pass\n- Hit or Miss\n- Fail\nby Target vs Limits]
+  MIN{RowCountExcludeGhosting >= @SettingMinimumPoints?}
+  OUT[Emit icons in #SPCCalculationsIcons]
+
+  %% Edges
+  S --> SRC --> BOTH
+  BOTH -- "no" --> LAST
+  BOTH -- "yes" --> CR --> SUM --> PRUNE --> LAST
+  LAST -- "yes & metric=Up" --> VAR_UP
+  LAST -- "yes & metric=Down" --> VAR_DN
+  LAST -- "yes & metric=Neither" --> VAR_NEI
+  VAR_UP --> ASSUR
+  VAR_DN --> ASSUR
+  VAR_NEI --> ASSUR
+  ASSUR --> MIN
+  LAST -- "no" --> MIN
+  MIN -- "yes" --> OUT
+  MIN -- "no: gate" --> OUT
+`}</Mermaid>
+
+## Exact SQL-driven behaviours
+
+1) Candidate formation (per row)
+   - Improvement/Concern candidates are populated from the side-specific special-cause flags in `#SPCCalculationsSpecialCauseCombined`.
+   - For `MetricImprovement = 'Neither'`, candidates are not used; instead the script sets `SpecialCauseNeitherHighFlag`/`LowFlag`.
+
+2) Conflict ranking (only when both candidates exist)
+   - Build `#ConflictRanking` with one row per rule hit, using numeric ranks:
+     - UpwardsRank/DownwardsRank = 1 for Single point, 2 for Two‑sigma, 3 for Shift, 4 for Trend.
+   - Summarise to `#ConflictRankingSummary` by taking Max(UpwardsRank) vs Max(DownwardsRank):
+     - If Max(Up) > Max(Dn) → `PrimeDirection = 'Upwards'`
+     - If Max(Dn) > Max(Up) → `PrimeDirection = 'Downwards'`
+     - If equal → `PrimeDirection = 'Same'`.
+
+3) Directional pruning (UPDATE against `#SPCCalculationsSpecialCauseCombined`)
+   - Apply pruning when both candidates exist:
+     - Prime Upwards & metric Up → keep Improvement, drop Concern.
+     - Prime Upwards & metric Down → drop Improvement.
+     - Prime Downwards & metric Up → drop Improvement.
+     - Prime Downwards & metric Down → keep Improvement, drop Concern.
+     - Prime Same → consult `MetricConflictRule`:
+       - `Improvement` → drop Concern; `Concern` → drop Improvement.
+   - Set `[SpecialCauseConflictFlag] = 1` when pruning logic runs.
+
+4) Variation icon (Step 4k — `#SPCCalculationsIcons`)
+   - Only for the last non‑ghosted point (`PointExcludeGhostingRankDescending = 1`).
+   - MetricImprovement = 'Up':
+     - If `SpecialCauseImprovementValue` not null → 'Improvement (High)'
+     - Else if `SpecialCauseConcernValue` not null → 'Concern (Low)'
+     - Else → 'Common Cause'
+   - MetricImprovement = 'Down':
+     - If ImprovementValue not null → 'Improvement (Low)'
+     - Else if ConcernValue not null → 'Concern (High)'
+     - Else → 'Common Cause'
+   - MetricImprovement = 'Neither':
+     - If `SpecialCauseNeitherHighFlag = 1` → 'Neither (High)'
+     - Else if `SpecialCauseNeitherLowFlag = 1` → 'Neither (Low)'
+     - Else → 'Common Cause'
+
+5) Assurance icon (XmR only, last point)
+   - Based on target vs process limits and improvement direction:
+     - Metric Up: target ≤ LPL → Pass; target between LPL and UPL → Hit or Miss; target ≥ UPL → Fail.
+     - Metric Down: target ≥ UPL → Pass; target between LPL and UPL → Hit or Miss; target ≤ LPL → Fail.
+
+6) Minimum points gating (Step 4L)
+   - Icons are nulled when `RowCountExcludeGhosting < @SettingMinimumPoints`.
+
+## Notes
+
+- Trend is permitted to cross partitions in v2.6a (affects rule flags before consolidation).
+- The conflict rank order gives higher precedence to Trend (4) over Shift (3) over Two‑sigma (2) over Single point (1), and PrimeDirection compares the highest rank on either side.
+- When PrimeDirection is `Same`, the `MetricConflictRule` resolves which candidate is retained for the icon calculation.

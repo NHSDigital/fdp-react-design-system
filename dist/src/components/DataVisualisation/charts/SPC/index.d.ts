@@ -11,5 +11,5 @@ export { AssuranceResult, Direction, MetricPolarity, VariationJudgement, Variati
 export type { VariationColourDef } from './SPCIcons/SPCConstants';
 export type { SPCVariationIconProps, SpcVariationAltIconProps, SpcAssuranceIconProps, SpcIconsProps, SpcIconBaseProps } from './SPCIcons/SPCIcon';
 export { default as SPCTooltipOverlay } from './SPCChart/SPCTooltipOverlay';
-export { SpcEmbeddedIconVariant } from './SPCChart/SPCChart.constants';
+export { SpcEmbeddedIconVariant } from './SPCChart/logic/storybook/SPCChart.constants';
 export * as Icons from './icons';

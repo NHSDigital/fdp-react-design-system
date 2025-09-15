@@ -3,7 +3,7 @@ import "../../../DataVisualisation.scss";
 import "./SPCChart.scss";
 import { SpcWarningSeverity, SpcWarningCategory, SpcWarningCode, type SpcSettings } from "./logic/spc";
 import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType } from "./logic/spcConstants";
-import { SpcEmbeddedIconVariant } from "./SPCChart.constants";
+import { SpcEmbeddedIconVariant } from "./logic/storybook/SPCChart.constants";
 import type { SPCSignalFocusInfo } from "./SPCChart.types";
 export declare enum SequenceTransition {
     Slope = "slope",// attribute join to rising (next) or falling/flat (prev) based on delta

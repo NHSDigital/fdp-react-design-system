@@ -2,7 +2,12 @@
 // without relying on mutually exclusive side aggregation. This aims to mirror the v2.6a SQL post-processing
 // steps (PrimeDirection + pruning) while leveraging the existing orthodox rule detection from buildSpc.
 
-import { buildSpc, SpcSettings, SpcRow, getDirectionalSignalSummary } from './spc';
+import {
+	buildSpc,
+	SpcSettings,
+	SpcRow,
+	getDirectionalSignalSummary,
+} from "./spc";
 import {
 	ChartType,
 	ImprovementDirection,
@@ -12,7 +17,7 @@ import {
 	RULE_RANK_BY_ID,
 	PrimeDirection,
 	PruningMode,
-} from './spcConstants';
+} from "./spcConstants";
 
 export interface BuildSpcSqlCompatArgs {
 	chartType: ChartType;
@@ -61,8 +66,11 @@ export function sqlDirectionalPrune(
 	const upMax = summary.upMax;
 	const downMax = summary.downMax;
 	// reconstruct high/low sets for winner selection using RULE_RANK_BY_ID ordering
-	const high = summary.upRules.map(id => ({ id, rank: RULE_RANK_BY_ID[id] }));
-	const low = summary.downRules.map(id => ({ id, rank: RULE_RANK_BY_ID[id] }));
+	const high = summary.upRules.map((id) => ({ id, rank: RULE_RANK_BY_ID[id] }));
+	const low = summary.downRules.map((id) => ({
+		id,
+		rank: RULE_RANK_BY_ID[id],
+	}));
 	let prime: PrimeDirection;
 	if (upMax > downMax) prime = PrimeDirection.Upwards;
 	else if (downMax > upMax) prime = PrimeDirection.Downwards;
@@ -101,7 +109,8 @@ export function sqlDirectionalPrune(
 			} else if (metricImprovement === ImprovementDirection.Down) {
 				// keep improvement (downwards favourable)
 			}
-		} else { // PrimeDirection.Same
+		} else {
+			// PrimeDirection.Same
 			// Same rank strength both sides
 			// Bias to improvement framing (prune concern) unless metricImprovement makes that impossible
 			if (originalImprovement !== null) {
@@ -148,12 +157,7 @@ export function sqlDirectionalPrune(
 export function buildSpcSqlCompat(
 	args: BuildSpcSqlCompatArgs
 ): SpcSqlCompatResult {
-	const {
-		chartType,
-		metricImprovement,
-		data,
-		settings = {},
-	} = args;
+	const { chartType, metricImprovement, data, settings = {} } = args;
 	const base = buildSpc({
 		chartType,
 		metricImprovement,

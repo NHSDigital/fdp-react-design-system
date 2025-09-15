@@ -1,0 +1,99 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Mermaid from '../../../../_internal/Mermaid';
+
+<Meta title="Data Visualisation/SPC/Guides/SPC Engine — Core Logic"/>
+
+# SPC Engine — Core Logic
+
+This guide documents the TypeScript SPC engine (file: `logic/spc.ts`) — how it normalises settings, partitions data, computes limits, detects special‑cause rules, derives variation and assurance icons, applies optional SQL‑style conflict pruning, and emits warnings and baseline suggestions.
+
+See also:
+- SPCChart Decision Logic (visual categories)
+- SPC SQL Compatibility (v2.6a wrapper)
+- NHSE SQL v2.6a — Logic Map
+
+## High‑level behaviour
+
+- Settings are normalised (V2 groups to legacy fields; strict mode errors on deprecated flags).
+- Optional auto‑recalculation can insert a synthetic baseline after a sustained favourable shift.
+- Rows are partitioned by baseline flags; calculations and pattern rules are evaluated within each partition.
+- Control limits and mean are computed per partition by chart type (XmR, T, G). Limits are suppressed until the global minimum points threshold is met.
+- Special‑cause rules are detected in two passes: single beyond 3 sigma, then multi‑point patterns (shift, two of three beyond 2 sigma, four of five beyond 1 sigma, trend). Optional fifteen in inner third rule is supported.
+- Variation icon is resolved per row using directional precedence with trend side‑gating and optional emerging grace.
+- Optional SQL v2.6a style conflict pruning can be applied to mixed signals, with metadata recorded.
+- Assurance icon is computed from target versus limits or capability mode.
+- Warnings and optional baseline suggestions are produced.
+
+## Flowchart
+
+<Mermaid className="is-airy">{`flowchart TD
+  %% Nodes
+  S([Start])
+  NORM[Normalise settings\nV2 to legacy\nstrict checks]
+  AUTO{Auto recalc after shift enabled}
+  INS[Insert synthetic baseline at sustained favourable shift\nwindow meets delta sigma threshold]
+  PART[Partition rows at baseline flags]
+  LIMITS[Per partition compute limits and lines\nXmR or T or G\nmean and bands]
+  MIN{Global non-ghost count ge minimumPoints}
+  PASS1[Build withLines rows\nset mean and limits only when allowed]
+  COLLECT[Collect non-ghost indices and values]
+  SINGLE[Pass 1 detect single beyond 3 sigma\nrequires limits present]
+  PASS2[Pass 2 multi-point detection]
+  SHIFT[Shift runs ge N above or below mean\nflag all points in run]
+  TWO3[Two of three beyond 2 sigma\nall on one side\nexclude gt 3 sigma\nflag only gt 2 sigma points]
+  FOUR5[Four of five beyond 1 sigma optional\nall on one side\nflag only gt 1 sigma points]
+  TREND[Trend monotonic inc or dec length N\nflag all points in window]
+  INNER15[Fifteen in inner third optional\nlength 15 both sides present]
+  CAP{maximumPointsPartition set}
+  SNAP[Snapshot ruleTags before heuristics]
+  VAR[Variation icon per row]
+  SIDE[Compute onHighSide and onLowSide]
+  COLL[Collapse cluster rules optional\nfour-of-five beats two-of-three same side]
+  QUAL[Trend side-gating for icon\ntrend contributes only when on that side]
+  EMER{Emerging grace enabled}
+  EMER2[If unfavourable only and monotonic run of N-1 in favourable direction\nthen Concern becomes Neither\nin conflicts trend or emerging can favour Improvement]
+  STRAT{Precedence strategy directional-first}
+  D1[Resolve icon\n- favourable only -> Improvement\n- unfavourable only -> Concern or Neither if emerging\n- both -> Improvement when trend or emerging else Neither\n- none -> Neither]
+  D2[Resolve by side only\nUp metrics: high -> Improvement low -> Concern\nDown metrics: low -> Improvement high -> Concern]
+  SQL{Conflict mode SQL v2_6a}
+  PRUNE[Compute per-side rank and prime\nprune candidates and record metadata]
+  ASSUR[Assurance icon by target vs limits or capability]
+  WARN[Emit warnings\nmin points\nvariation conflicts\nrare event notes\nbaseline with special cause\ncaps]
+  SUGG{Baseline suggestions enabled}
+  SUGG2[Compute suggestions using stability window and rule callbacks]
+  OUT[Return rows warnings and optional suggestions]
+
+  %% Edges
+  S --> NORM --> AUTO
+  AUTO -- "yes" --> INS --> PART
+  AUTO -- "no" --> PART
+  PART --> LIMITS --> MIN
+  MIN -- "no: suppress limits" --> PASS1
+  MIN -- "yes" --> PASS1
+  PASS1 --> COLLECT --> SINGLE --> PASS2
+  PASS2 --> SHIFT --> TWO3 --> FOUR5 --> TREND --> INNER15 --> CAP
+  CAP -- "yes: null limits after cap" --> SNAP
+  CAP -- "no" --> SNAP
+  SNAP --> VAR --> SIDE --> COLL --> QUAL --> EMER
+  EMER -- "yes" --> EMER2 --> STRAT
+  EMER -- "no" --> STRAT
+  STRAT -- "yes" --> D1 --> SQL
+  STRAT -- "no" --> D2 --> SQL
+  SQL -- "yes" --> PRUNE --> ASSUR
+  SQL -- "no" --> ASSUR
+  ASSUR --> WARN --> SUGG
+  SUGG -- "yes" --> SUGG2 --> OUT
+  SUGG -- "no" --> OUT
+`}</Mermaid>
+
+## Notes and differences
+
+- Minimum points gating: limits and mean are suppressed until the global threshold is met; rule detection also requires limits and will therefore be inert before the threshold.
+- Partition scope: pattern rules operate within a partition; trend is not permitted to cross baseline boundaries in the engine.
+- Two-of-three excludes points beyond 3 sigma from counting; only the points beyond 2 sigma are flagged within qualifying windows.
+- Four-of-five is optional; fifteen in inner third is optional and requires at least one point on each side of mean in the 15.
+- Trend side-gating: trend contributes to icon classification only on the same side of the mean as the value for that row.
+- Emerging grace: when enabled and using directional-first strategy, an unfavourable-only state can be softened to Neither if a monotonic run of N-1 points exists in the favourable direction; in mixed signals, trend or emerging presence biases to Improvement.
+- SQL-style conflict pruning: when enabled, the engine mirrors v2.6a directional pruning after icon calculation, pruning candidate sides by primeDirection and metricImprovement, and records conflict metadata.
+- Icons are derived for every row, not only the last point; assurance icon uses capability mode or target vs limits as configured.
+- Warnings include insufficient points, simultaneous high and low signals when Improvement is shown, rare-event notes for T and G charts, baseline with special-cause, and limit capping information.

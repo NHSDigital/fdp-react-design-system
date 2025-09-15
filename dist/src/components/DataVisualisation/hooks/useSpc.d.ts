@@ -7,6 +7,8 @@ export interface UseSpcInput {
     x?: Array<string | number | Date>;
     chartType?: ChartType;
     metricImprovement?: ImprovementDirection;
+    /** When true, run the SQL-compatibility wrapper (post-hoc directional pruning) for parity with SPCChart's `useSqlCompatEngine`. */
+    useSqlCompatEngine?: boolean;
     showLimits?: boolean;
     showLimitBand?: boolean;
     showInnerBands?: boolean;

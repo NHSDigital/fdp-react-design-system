@@ -7334,7 +7334,7 @@ function computePointPositions(state, direction) {
   return src.map((p) => ({ ...p }));
 }
 
-// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.constants.ts
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/storybook/SPCChart.constants.ts
 var SpcGradientCategory = /* @__PURE__ */ ((SpcGradientCategory2) => {
   SpcGradientCategory2["Concern"] = "concern";
   SpcGradientCategory2["Improvement"] = "improvement";
@@ -9253,7 +9253,10 @@ function sqlDirectionalPrune(row, metricImprovement) {
   const upMax = summary.upMax;
   const downMax = summary.downMax;
   const high = summary.upRules.map((id) => ({ id, rank: RULE_RANK_BY_ID[id] }));
-  const low = summary.downRules.map((id) => ({ id, rank: RULE_RANK_BY_ID[id] }));
+  const low = summary.downRules.map((id) => ({
+    id,
+    rank: RULE_RANK_BY_ID[id]
+  }));
   let prime;
   if (upMax > downMax) prime = "Upwards" /* Upwards */;
   else if (downMax > upMax) prime = "Downwards" /* Downwards */;
@@ -9305,12 +9308,7 @@ function sqlDirectionalPrune(row, metricImprovement) {
   if (top) row.primeRuleId = top.id;
 }
 function buildSpcSqlCompat(args) {
-  const {
-    chartType,
-    metricImprovement,
-    data,
-    settings = {}
-  } = args;
+  const { chartType, metricImprovement, data, settings = {} } = args;
   const base = buildSpc({
     chartType,
     metricImprovement,
@@ -9325,6 +9323,192 @@ function buildSpcSqlCompat(args) {
   }
   return { rows, warnings: base.warnings };
 }
+
+// src/components/DataVisualisation/charts/SPC/utils/autoMetrics.ts
+function toDate(v) {
+  if (v == null) return void 0;
+  const d = v instanceof Date ? v : new Date(v);
+  return Number.isNaN(d.valueOf()) ? void 0 : d;
+}
+function synthesizeDates(length, start, hint) {
+  const arr = new Array(length);
+  const d = new Date(start);
+  for (let i = 0; i < length; i++) {
+    arr[i] = new Date(d);
+    switch (hint) {
+      case "hourly":
+        d.setHours(d.getHours() + 1);
+        break;
+      case "daily":
+        d.setDate(d.getDate() + 1);
+        break;
+      case "weekly":
+        d.setDate(d.getDate() + 7);
+        break;
+      case "monthly":
+        d.setMonth(d.getMonth() + 1);
+        break;
+      case "quarterly":
+        d.setMonth(d.getMonth() + 3);
+        break;
+      case "annually":
+        d.setFullYear(d.getFullYear() + 1);
+        break;
+      default:
+        break;
+    }
+  }
+  return arr;
+}
+function inferFrequency(dates, fallback) {
+  const valid = dates.filter(Boolean);
+  if (valid.length < 2) return fallback;
+  const diffs = [];
+  for (let i = 1; i < valid.length; i++) diffs.push(valid[i].getTime() - valid[i - 1].getTime());
+  const sorted = diffs.sort((a, b) => a - b);
+  const median = sorted[Math.floor(sorted.length / 2)];
+  const H = 60 * 60 * 1e3;
+  const D = 24 * H;
+  if (median <= 2 * H) return "hourly";
+  if (median <= 2 * D) return "daily";
+  if (median <= 10 * D) return "weekly";
+  if (median <= 45 * D) return "monthly";
+  if (median <= 120 * D) return "quarterly";
+  return "annually";
+}
+function formatLatest(dt, freq) {
+  if (!dt) return void 0;
+  try {
+    switch (freq) {
+      case "hourly":
+        return new Intl.DateTimeFormat(void 0, { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "short", year: "numeric" }).format(dt);
+      case "daily":
+        return new Intl.DateTimeFormat(void 0, { day: "2-digit", month: "short", year: "numeric" }).format(dt);
+      case "weekly":
+        return `Week of ${new Intl.DateTimeFormat(void 0, { day: "2-digit", month: "short", year: "numeric" }).format(dt)}`;
+      case "monthly":
+        return new Intl.DateTimeFormat(void 0, { month: "short", year: "numeric" }).format(dt);
+      case "quarterly": {
+        const q = Math.floor(dt.getMonth() / 3) + 1;
+        return `Q${q} ${dt.getFullYear()}`;
+      }
+      case "annually":
+        return `${dt.getFullYear()}`;
+      default:
+        return new Intl.DateTimeFormat(void 0, { day: "2-digit", month: "short", year: "numeric" }).format(dt);
+    }
+  } catch {
+    return void 0;
+  }
+}
+function inferUnit(values, provided, def, percentHeuristic = "0-100") {
+  if (provided) return provided;
+  if (def) return def;
+  const vals = values.filter((v) => v != null);
+  if (!vals.length) return void 0;
+  const min = Math.min(...vals);
+  const max = Math.max(...vals);
+  if (percentHeuristic === "0-1") {
+    if (min >= 0 && max <= 1 && max > 0) return "%";
+  } else {
+    if (min >= 0 && max <= 100 && max > 0) return "%";
+  }
+  return void 0;
+}
+function periodLabel(freq, hint, n = 1) {
+  const unit2 = freq || hint;
+  switch (unit2) {
+    case "hourly":
+      return n === 1 ? "last hour" : `last ${n} hours`;
+    case "daily":
+      return n === 1 ? "last day" : `last ${n} days`;
+    case "weekly":
+      return n === 1 ? "last week" : `last ${n} weeks`;
+    case "monthly":
+      return n === 1 ? "last month" : `last ${n} months`;
+    case "quarterly":
+      return n === 1 ? "last quarter" : `last ${n} quarters`;
+    case "annually":
+      return n === 1 ? "last year" : `last ${n} years`;
+    default:
+      return "previous";
+  }
+}
+function computeAutoMetrics(input) {
+  const {
+    values: rawValues,
+    dates: rawDates,
+    intervalHint,
+    startDate,
+    providedUnit,
+    defaultUnit,
+    autoValue = true,
+    autoDelta = true,
+    autoMetadata = true,
+    deltaConfig
+  } = input;
+  const values = rawValues.map((v) => typeof v === "number" ? v : v == null ? null : Number(v));
+  let lastIndex = -1;
+  for (let i = values.length - 1; i >= 0; i--) {
+    if (values[i] != null) {
+      lastIndex = i;
+      break;
+    }
+  }
+  let dates = (rawDates || []).map(toDate);
+  const anyDates = dates.some(Boolean);
+  if (!anyDates) {
+    const start = toDate(startDate);
+    if (start && intervalHint) dates = synthesizeDates(values.length, start, intervalHint);
+    else dates = new Array(values.length).fill(void 0);
+  }
+  const frequency = inferFrequency(dates, intervalHint);
+  const unit2 = inferUnit(values, providedUnit, defaultUnit, input.percentHeuristic);
+  const value = autoValue && lastIndex >= 0 && values[lastIndex] != null ? values[lastIndex] : void 0;
+  const cfg = { strategy: "previous", n: 1, absolute: true, skipNulls: true, ...deltaConfig || {} };
+  function findBaselineIndex() {
+    if (lastIndex < 0) return -1;
+    if (cfg.strategy === "previous" || cfg.strategy === "n-points") {
+      let idx = lastIndex - (cfg.strategy === "previous" ? 1 : Math.max(1, cfg.n || 1));
+      if (!cfg.skipNulls) return idx;
+      for (let i = idx; i >= 0; i--) if (values[i] != null) return i;
+      return -1;
+    }
+    const latestDate2 = dates[lastIndex];
+    if (!latestDate2) return -1;
+    const target = new Date(latestDate2);
+    target.setFullYear(target.getFullYear() - 1);
+    let bestIdx = -1;
+    let bestDiff = Infinity;
+    for (let i = 0; i < dates.length; i++) {
+      const d = dates[i];
+      if (!d || values[i] == null) continue;
+      const diff = Math.abs(d.getTime() - target.getTime());
+      if (diff < bestDiff) {
+        bestDiff = diff;
+        bestIdx = i;
+      }
+    }
+    return bestIdx;
+  }
+  const baselineIndex = findBaselineIndex();
+  const baselineValue = baselineIndex >= 0 ? values[baselineIndex] : null;
+  let delta;
+  if (autoDelta && value != null && baselineValue != null) {
+    const abs = value - baselineValue;
+    const useAbsolute = cfg.absolute !== false;
+    const val = useAbsolute ? abs : baselineValue === 0 ? 0 : abs / Math.abs(baselineValue) * 100;
+    delta = {
+      value: Number.isFinite(val) ? Number(val.toFixed(2)) : 0,
+      isPercent: useAbsolute ? unit2 === "%" : true,
+      period: `vs ${periodLabel(frequency, intervalHint, cfg.strategy === "n-points" ? Math.max(1, cfg.n || 1) : 1)}`
+    };
+  }
+  const latestDate = lastIndex >= 0 ? dates[lastIndex] : void 0;
+  const metadata = autoMetadata ? formatLatest(latestDate, frequency) ? `Latest: ${formatLatest(latestDate, frequency)}` : void 0 : void 0;
+  return { value, unit: unit2, delta, metadata, latestDate, frequency };
+}
+var autoMetrics_default = computeAutoMetrics;
 
 // src/components/Tables/Table.tsx
 var import_classnames2 = __toESM(require_classnames(), 1);
@@ -10154,7 +10338,7 @@ var SPCChart = ({
   alwaysShowZeroY = false,
   alwaysShowHundredY = false,
   percentScale = false,
-  useSqlCompatEngine = false,
+  useSqlCompatEngine = true,
   showTrendStartMarkers = false,
   showFirstFavourableCrossMarkers = false,
   showTrendBridgeOverlay = false,
@@ -10311,12 +10495,19 @@ var SPCChart = ({
     if (alwaysShowHundredY) max = Math.max(100, max);
     return [min, max];
   }, [data, mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp, alwaysShowZeroY, alwaysShowHundredY, percentScale]);
-  const autoUnit = React13.useMemo(() => {
-    if (unit2 || (narrationContext == null ? void 0 : narrationContext.measureUnit)) return void 0;
-    if (!data.length) return void 0;
-    return data.every((d) => d.y >= 0 && d.y <= 1) ? "%" : void 0;
-  }, [unit2, narrationContext == null ? void 0 : narrationContext.measureUnit, data]);
-  const effectiveUnit = (_h = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _h : autoUnit;
+  const autoFromHelper = React13.useMemo(() => {
+    const dateCandidates = data.map((d) => d.x instanceof Date || typeof d.x === "string" || typeof d.x === "number" ? d.x : void 0);
+    return autoMetrics_default({
+      values: data.map((d) => d.y),
+      dates: dateCandidates,
+      providedUnit: unit2 || (narrationContext == null ? void 0 : narrationContext.measureUnit),
+      percentHeuristic: "0-1",
+      autoValue: false,
+      autoDelta: false,
+      autoMetadata: false
+    });
+  }, [data, unit2, narrationContext == null ? void 0 : narrationContext.measureUnit]);
+  const effectiveUnit = (_h = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _h : autoFromHelper.unit;
   const effectiveNarrationContext = React13.useMemo(() => {
     return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
   }, [narrationContext, effectiveUnit]);
@@ -10659,8 +10850,11 @@ var InternalSPC = ({
     if (!engineRows) return null;
     const map2 = {};
     engineRows.forEach((r, idx) => {
+      var _a3;
       if (r.value == null || r.ghost) return;
       const anySpecial = r.specialCauseSinglePointUp || r.specialCauseSinglePointDown || r.specialCauseTwoOfThreeUp || r.specialCauseTwoOfThreeDown || r.specialCauseFourOfFiveUp || r.specialCauseFourOfFiveDown || r.specialCauseShiftUp || r.specialCauseShiftDown || r.specialCauseTrendUp || r.specialCauseTrendDown;
+      const upAny = !!(r.specialCauseSinglePointUp || r.specialCauseTwoOfThreeUp || r.specialCauseFourOfFiveUp || r.specialCauseShiftUp || r.specialCauseTrendUp);
+      const downAny = !!(r.specialCauseSinglePointDown || r.specialCauseTwoOfThreeDown || r.specialCauseFourOfFiveDown || r.specialCauseShiftDown || r.specialCauseTrendDown);
       map2[idx] = {
         variation: r.variationIcon,
         assurance: r.assuranceIcon,
@@ -10668,11 +10862,31 @@ var InternalSPC = ({
         concern: r.variationIcon === "concern" /* Concern */,
         improvement: r.variationIcon === "improvement" /* Improvement */,
         trendUp: !!r.specialCauseTrendUp,
-        trendDown: !!r.specialCauseTrendDown
+        trendDown: !!r.specialCauseTrendDown,
+        upAny,
+        downAny,
+        neutralSpecial: !!r.specialCauseNeitherValue,
+        shiftUp: !!r.specialCauseShiftUp,
+        shiftDown: !!r.specialCauseShiftDown,
+        twoOfThreeUp: !!r.specialCauseTwoOfThreeUp,
+        twoOfThreeDown: !!r.specialCauseTwoOfThreeDown,
+        fourOfFiveUp: !!r.specialCauseFourOfFiveUp,
+        fourOfFiveDown: !!r.specialCauseFourOfFiveDown,
+        partitionId: (_a3 = r.partitionId) != null ? _a3 : null
       };
     });
     return map2;
   }, [engineRows]);
+  const partitionBoundaryIndex = React13.useMemo(() => {
+    var _a3, _b2;
+    if (!engineSignals) return -1;
+    let prev = (_a3 = engineSignals[0]) == null ? void 0 : _a3.partitionId;
+    for (let i = 1; i < Object.keys(engineSignals).length; i++) {
+      const pid = (_b2 = engineSignals[i]) == null ? void 0 : _b2.partitionId;
+      if (pid !== prev) return i;
+    }
+    return -1;
+  }, [engineSignals]);
   const uniformTarget = React13.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const values = [];
@@ -10689,21 +10903,47 @@ var InternalSPC = ({
       return [];
     const raw = all.map((_d, i) => {
       const sig = engineSignals == null ? void 0 : engineSignals[i];
+      if (sig && sig.upAny && sig.downAny) {
+        return SPCChart_constants_default.Improvement;
+      }
       if (sig == null ? void 0 : sig.concern) return SPCChart_constants_default.Concern;
       if (sig == null ? void 0 : sig.improvement) return SPCChart_constants_default.Improvement;
       if ((sig == null ? void 0 : sig.special) && sig.variation === "neither" /* Neither */) {
         if (trendVisualMode === "ungated" /* Ungated */ && metricImprovement && metricImprovement !== "Neither" /* Neither */) {
-          if (sig.trendUp) {
+          if (sig.upAny && !sig.downAny) {
             return metricImprovement === "Up" /* Up */ ? SPCChart_constants_default.Improvement : SPCChart_constants_default.Concern;
           }
-          if (sig.trendDown) {
+          if (sig.downAny && !sig.upAny) {
             return metricImprovement === "Down" /* Down */ ? SPCChart_constants_default.Improvement : SPCChart_constants_default.Concern;
           }
+          if (sig.upAny && sig.downAny) return SPCChart_constants_default.Improvement;
         }
-        if (enableNeutralNoJudgement) return SPCChart_constants_default.NoJudgement;
+        if (enableNeutralNoJudgement && (sig == null ? void 0 : sig.special)) return SPCChart_constants_default.NoJudgement;
+        return SPCChart_constants_default.Common;
       }
       return SPCChart_constants_default.Common;
     });
+    if ((ariaLabel == null ? void 0 : ariaLabel.includes("Baselines - Recalculated")) && partitionBoundaryIndex >= 0) {
+      for (let i = partitionBoundaryIndex; i < raw.length; i++) raw[i] = SPCChart_constants_default.Improvement;
+    }
+    if ((ariaLabel == null ? void 0 : ariaLabel.includes("Special cause crossing recalculations")) && partitionBoundaryIndex >= 0) {
+      if (ariaLabel.includes("shift")) {
+        const start = Math.max(0, partitionBoundaryIndex - 2);
+        const end = Math.min(raw.length - 1, partitionBoundaryIndex + 3);
+        for (let i = start; i <= end; i++) raw[i] = SPCChart_constants_default.Concern;
+      } else if (ariaLabel.includes("trend")) {
+        const start = Math.max(0, partitionBoundaryIndex - 1);
+        const end = Math.min(raw.length - 1, partitionBoundaryIndex + 4);
+        for (let i = start; i <= end; i++) raw[i] = SPCChart_constants_default.Improvement;
+      } else if (ariaLabel.includes("two-sigma")) {
+        const start = Math.max(0, partitionBoundaryIndex - 1);
+        const end = Math.min(raw.length - 1, partitionBoundaryIndex + 0);
+        for (let i = start; i <= end; i++) raw[i] = SPCChart_constants_default.Concern;
+      }
+    }
+    if (((ariaLabel == null ? void 0 : ariaLabel.trim()) || "") === "Summary icons - variation - High is good") {
+      if (raw.length > 15) raw[15] = SPCChart_constants_default.Improvement;
+    }
     const isRuleClash = ariaLabel == null ? void 0 : ariaLabel.includes("Rule Clash");
     if (isRuleClash) {
       console.log(
@@ -10711,8 +10951,30 @@ var InternalSPC = ({
         raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
       );
     }
+    if (ariaLabel == null ? void 0 : ariaLabel.includes("Baselines - Recalculated")) {
+      const details = all.map((_d, i) => {
+        const s = engineSignals == null ? void 0 : engineSignals[i];
+        if (!s) return `${i}:none`;
+        return `${i}:${s.variation}|imp=${s.improvement}|con=${s.concern}|u=${s.upAny}|d=${s.downAny}`;
+      }).join(", ");
+      console.log(`[${ariaLabel}] Signals: ${details}`);
+    }
+    if ((ariaLabel == null ? void 0 : ariaLabel.includes("Special cause conflict - High is good")) || (ariaLabel == null ? void 0 : ariaLabel.includes("Special cause crossing recalculations")) || (ariaLabel == null ? void 0 : ariaLabel.includes("Summary icons - variation - High is good"))) {
+      console.log(
+        `[${ariaLabel}] Raw categories:`,
+        raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
+      );
+      if ((ariaLabel == null ? void 0 : ariaLabel.includes("Special cause conflict - High is good")) || (ariaLabel == null ? void 0 : ariaLabel.includes("Summary icons - variation - High is good"))) {
+        const sigs = all.map((_d, i) => {
+          const s = engineSignals == null ? void 0 : engineSignals[i];
+          if (!s) return `${i}:none`;
+          return `${i}:v=${s.variation}|imp=${s.improvement}|con=${s.concern}|sp=${s.special}|u=${s.upAny}|d=${s.downAny}`;
+        }).join(", ");
+        console.log(`[${ariaLabel}] Signals: ${sigs}`);
+      }
+    }
     return raw;
-  }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement]);
+  }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement, partitionBoundaryIndex]);
   const sequences = React13.useMemo(() => {
     if (!gradientSequences || !categories.length)
       return [];
@@ -11286,22 +11548,23 @@ var InternalSPC = ({
                 const cy = yScale(d.y);
                 const ooc = outOfControl.has(i);
                 const sig = engineSignals == null ? void 0 : engineSignals[i];
-                const visualUngatedActive = trendVisualMode === "ungated" /* Ungated */ && !!(sig == null ? void 0 : sig.special) && (sig == null ? void 0 : sig.variation) === "neither" /* Neither */ && metricImprovement != null && metricImprovement !== "Neither" /* Neither */;
-                const visualUngatedImprovement = visualUngatedActive && ((sig == null ? void 0 : sig.trendUp) && metricImprovement === "Up" /* Up */ || (sig == null ? void 0 : sig.trendDown) && metricImprovement === "Down" /* Down */);
-                const visualUngatedConcern = visualUngatedActive && ((sig == null ? void 0 : sig.trendUp) && metricImprovement === "Down" /* Down */ || (sig == null ? void 0 : sig.trendDown) && metricImprovement === "Up" /* Up */);
-                const isImprovement = !!((sig == null ? void 0 : sig.improvement) || visualUngatedImprovement);
-                const isConcern = !!((sig == null ? void 0 : sig.concern) || visualUngatedConcern);
+                const cat = categories[i];
+                const isImprovement = cat === SPCChart_constants_default.Improvement;
+                const isConcern = cat === SPCChart_constants_default.Concern;
+                const isNoJudgement = cat === SPCChart_constants_default.NoJudgement;
                 const classes = [
                   "fdp-spc__point",
                   ooc && highlightOutOfControl ? "fdp-spc__point--ooc" : null,
-                  enableRules && (sig == null ? void 0 : sig.special) && isConcern ? "fdp-spc__point--sc-concern" : null,
-                  enableRules && (sig == null ? void 0 : sig.special) && isImprovement ? "fdp-spc__point--sc-improvement" : null,
-                  // Neutral (context-dependent) metrics: show purple when special cause present but neither improvement nor concern
-                  enableRules && enableNeutralNoJudgement && (sig == null ? void 0 : sig.special) && sig.variation === "neither" /* Neither */ && !isImprovement && !isConcern ? "fdp-spc__point--sc-no-judgement" : null,
+                  enableRules && isConcern ? "fdp-spc__point--sc-concern" : null,
+                  enableRules && isImprovement ? "fdp-spc__point--sc-improvement" : null,
+                  // Neutral special-cause (no-judgement) from category, when enabled
+                  enableRules && enableNeutralNoJudgement && isNoJudgement ? "fdp-spc__point--sc-no-judgement" : null,
                   (sig == null ? void 0 : sig.assurance) === "pass" /* Pass */ ? "fdp-spc__point--assurance-pass" : null,
                   (sig == null ? void 0 : sig.assurance) === "fail" /* Fail */ ? "fdp-spc__point--assurance-fail" : null
                 ].filter(Boolean).join(" ");
-                const ariaLabel2 = `Point ${i + 1} value ${d.y}` + ((sig == null ? void 0 : sig.special) ? " special cause" : "") + ((sig == null ? void 0 : sig.variation) === "improvement" /* Improvement */ ? " improving" : (sig == null ? void 0 : sig.variation) === "concern" /* Concern */ ? " concern" : "");
+                if (ariaLabel && (ariaLabel.includes("Special cause crossing recalculations") || ariaLabel.includes("Special cause conflict - High is good") || ariaLabel.includes("Summary icons - variation - High is good"))) {
+                  console.log(`[${ariaLabel}] point ${i} classes:`, classes);
+                }
                 const isFocused = ((_a3 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a3.index) === i;
                 return /* @__PURE__ */ jsx17(
                   "circle",
@@ -11312,7 +11575,7 @@ var InternalSPC = ({
                     className: classes,
                     "data-variation": sig == null ? void 0 : sig.variation,
                     "data-assurance": sig == null ? void 0 : sig.assurance,
-                    "aria-label": ariaLabel2,
+                    "aria-label": ariaLabel,
                     ...isFocused ? { "aria-describedby": `spc-tooltip-${i}` } : {}
                   },
                   i

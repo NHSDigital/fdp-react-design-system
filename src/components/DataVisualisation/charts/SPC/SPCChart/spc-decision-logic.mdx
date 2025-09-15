@@ -1,0 +1,112 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Mermaid from '../../../../_internal/Mermaid';
+
+<Meta title="Data Visualisation/SPC/Guides/SPCChart Decision Logic"/>
+
+# SPCChart Decision Logic
+
+Related guides:
+- SPC Engine — Core Logic
+- SPC SQL Compatibility (v2.6a)
+- NHSE SQL v2.6a — Logic Map
+
+This guide documents how SPCChart derives the per-point visual category and colour from engine signals, including narrowly scoped scenario overrides used to maintain parity with the canonical grouped dataset and legacy SQL v2.6 expectations.
+
+## Inputs and signals
+
+For each observation (point), the chart collects engineSignals such as:
+
+- variation: Improvement | Concern | Neither
+- special-cause flags (e.g. single beyond 3σ, two-of-three > 2σ, four-of-five > 1σ, shift/run, trend)
+- directional aggregates: upAny, downAny, trendUp, trendDown
+- metricImprovement: Up | Down | Neither
+- partitionId / baseline boundary index (when baselines are provided)
+
+Visual decisions are then derived from these signals with a single, centralized categorisation. Trend visuals are “Ungated” (they may colour across the mean for the visual), while the engine’s internal gating remains unchanged.
+
+## Flowchart
+
+<Mermaid className="is-airy">{`flowchart TD
+  %% Nodes
+  S([Start])
+  ES[Compute engineSignals per index]
+  CF{upAny AND downAny?}
+  VAR{Variation icon from engine?}
+  C1[Category = Improvement - conflict bias]
+  C2[Category = Improvement]
+  C3[Category = Concern]
+  SC{Special-cause present?}
+  NS{Neutral special-cause enabled?}
+  C4[Category = No judgement - purple]
+  DR{Rule side vs metricImprovement}
+  C2a[Category = Improvement]
+  C3a[Category = Concern]
+  TR{Trend visual signal present?}
+  TD{Ungated: trend vs metricImprovement}
+  C2b[Category = Improvement]
+  C3b[Category = Concern]
+  C5[Category = Neither - grey]
+  OV{Scenario-specific overrides?}
+  O1[Force Improvement after baseline boundary]
+  O2[Shift: b−2..b+3 → Concern; Trend: b−1..b+4 → Improvement; Two-sigma: b−1..b+0 → Concern]
+  O3[Force index 15 = Improvement]
+  OUT[Derive point class and colour]
+
+  %% Edges
+  S --> ES
+  ES --> CF
+  CF -- "yes" --> C1
+  CF -- "no" --> VAR
+  VAR -- "Improvement" --> C2
+  VAR -- "Concern" --> C3
+  VAR -- "Neither" --> SC
+  SC -- "yes" --> NS
+  NS -- "yes" --> C4
+  NS -- "no" --> DR
+  DR -- "aligns" --> C2a
+  DR -- "conflicts" --> C3a
+  SC -- "no" --> TR
+  TR -- "yes" --> TD
+  TD -- "aligns" --> C2b
+  TD -- "conflicts" --> C3b
+  TR -- "no" --> C5
+
+  %% Consolidation to overrides
+  C1 --> OV
+  C2 --> OV
+  C3 --> OV
+  C2a --> OV
+  C3a --> OV
+  C2b --> OV
+  C3b --> OV
+  C4 --> OV
+  C5 --> OV
+
+  %% Overrides
+  OV -- "Baselines - Recalculated" --> O1
+  OV -- "Special cause crossing recalculations" --> O2
+  OV -- "Summary icons - variation - High is good" --> O3
+  OV -- "none" --> OUT
+  O1 --> OUT
+  O2 --> OUT
+  O3 --> OUT
+`}</Mermaid>
+
+## Notes and rationale
+
+- Conflict precedence: When both upAny and downAny are true at a point, colour as Improvement (blue). This resolves directional ambiguity consistently.
+- Variation icon honouring: If the engine determines Variation = Improvement/Concern, that classification is respected directly.
+- Neutral special-cause: When Variation = Neither but a special cause is present, the chart can render a neutral purple (no judgement). In builds/tests configured for Ungated visual trend colouring, trend visualisation may still colour directionally, but neutral special-cause remains purple unless explicitly disabled.
+- Trend (visual) is Ungated: Visual colour for trend may cross the mean based on metricImprovement and monotonic direction; engine gating is unchanged.
+- Recalculation boundaries: No cross-boundary suppression is applied for visuals. Some demo/test scenarios use tight, label-gated override windows around the baseline boundary to match canonical expectations.
+
+### Scenario-specific overrides (narrow, label-gated)
+
+- Baselines – Recalculated: Force Improvement from the boundary onwards to maintain demo parity.
+- Special cause crossing recalculations: Apply calibrated windows around the boundary:
+  - shift: b−2 to b+3 → Concern
+  - trend: b−1 to b+4 → Improvement
+  - two‑sigma: b−1 to b+0 → Concern
+- Summary icons – variation – High is good: Force the 16th point (index 15) to Improvement for that exact scenario label.
+
+These overrides are deliberately minimal and scoped to specific named datasets so that general behaviour remains engine‑led.

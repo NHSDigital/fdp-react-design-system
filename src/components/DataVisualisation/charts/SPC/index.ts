@@ -22,7 +22,7 @@ export type { SPCVariationIconProps, SpcVariationAltIconProps, SpcAssuranceIconP
 
 // Tooltip overlay (specialised)
 export { default as SPCTooltipOverlay } from './SPCChart/SPCTooltipOverlay';
-export { SpcEmbeddedIconVariant } from './SPCChart/SPCChart.constants';
+export { SpcEmbeddedIconVariant } from './SPCChart/logic/storybook/SPCChart.constants';
 
 // Icons-only barrel re-export (optional convenience)
 export * as Icons from './icons';

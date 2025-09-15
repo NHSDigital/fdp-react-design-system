@@ -2,6 +2,8 @@
 
 High-level guidance, architecture, and conventions for data visualisation components in the Design System.
 
+> SPC users: See the SPC SQL v2.6 ↔ TypeScript parity plan here: [spc-sql-parity.mdx](./spc-sql-parity.mdx)
+
 ## Goals
 
 1. Consistent visual language (tokens, typography, spacing)
@@ -168,6 +170,7 @@ const fill = scale(value); // returns hex
 ```
 
 Guidance:
+
 1. Provide 2–5 anchor colours to emphasise critical thresholds or perceptually uniform transitions.
 2. Ensure sufficient contrast for overlays (consider adding outline on very light swatches).
 3. Avoid using more than one sequential palette in the same small visual unless clearly separated.

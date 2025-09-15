@@ -12,6 +12,15 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 - `SPCMetricCard`: accepts `useSqlCompatEngine` (default: true) and threads it to `useSpc`; gradient/accent colour now derived from the latest point’s SPC classification (polarity‑aware) with a clear No‑Judgement override.
 - Storybook: Added an SPC “Base vs SQL compatibility (experimental)” comparison showcasing `SPCMetricCard` in both modes alongside `SPCChart`.
 
+- SPC v2 parity mode (logic_v2)
+  - PARITY_V26 preset and `withParityV26(...)` helper to enable SQL v2.6a-aligned behaviour (XmR focus).
+  - Parity tests added: cross-partition trend, two-of-three including >3σ option, assurance suppression/on-limit pass/fail, and per-partition eligibility.
+  - New metrics-oriented Vitest config and npm script to print full-suite metrics (summary and text coverage).
+  - Storybook v2 parity toggles in SPC v2 stories (grouped dataset, healthcare, SPCMetricCard integration).
+  - Docs updated: parity plan and burndown reflect current status and next steps.
+  - Centralised Storybook datasets for SPC v2 stories: grouped JSON and healthcare datasets now live under `logic_v2/storybook/data/`.
+  - Healthcare (v2) story now includes a computed expected‑colour table derived from the engine’s `VariationIcon` for side‑by‑side inspection.
+
 ### Changed (Unreleased – Data Visualisation / SPC)
 
 - `SPCSpark`: Colouring semantics aligned with `SPCChart`.
@@ -20,6 +29,12 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Added inner sigma bands; applied XmR fallback when band data are absent
   - Fixed window indexing with a global index base to ensure correct band/limit alignment
 - `useSpc`: Polarity‑aware mapping for directional signals prevents inversion on lower‑is‑better metrics (fixes Bed Occupancy spark colour inversion vs `SPCChart`). When `useSqlCompatEngine` is true, point signals derive from post‑pruning `variationIcon` to match wrapper parity.
+
+- SPC v2 parity alignment (logic_v2)
+  - Trend across partitions now supported under the parity preset while retaining per-partition limits.
+  - Two-of-three ≥2σ semantics configurable to include >3σ points (preset: enabled) and require same-side third qualifying point.
+  - Assurance parity: suppressed on T/G; XmR deterministic pass/fail when target equals a process limit.
+  - Eligibility gating is now per-partition: partitions with fewer than `minimumPoints` non-ghost values emit null limits and no rule flags (global trend across partitions still permitted when enabled).
 
 ### Fixed (Unreleased – Data Visualisation / SPC)
 

@@ -1,0 +1,112 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Roadmaps/SPC v2 SQL Parity Burndown" />
+
+# SPC v2 SQL Parity Burndown
+
+A living burndown to reach strict SQL v2.6 parity in the TypeScript SPC v2 engine while keeping richer features available behind flags.
+
+## Scope
+
+- Parity target: SQL v2.6 (trend cross-partitions aligns with SQL v2.2+ note)
+- Engine: `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/`
+- Visuals: SPCChart (v1 visual), MetricCard integration
+
+## Legend
+
+- [ ] Not started
+- [~] In progress
+- [x] Done
+
+## Milestones
+
+### M1 — Parity preset and wiring
+
+- [x] Add `PARITY_V26` preset and `withParityV26()` helper (15 Sep 2025)
+- [x] Ensure defaults in preset: minPoints=13, shift=6, trend=6; two-of-three includes >3σ; trend across partitions; disable pruning/alt precedence in parity paths (15 Sep 2025)
+- [x] Storybook: add a simple parity toggle to v2 playground(s) (15 Sep 2025)
+- [x] Docs: update parity page with how-to enable preset (15 Sep 2025)
+
+Acceptance
+- Single toggle yields SQL-style behaviour; no regressions in non-parity mode
+
+### M2 — Rule semantics (trend + two-of-three)
+
+- [x] Trend across partitions (maintain per-partition limits but compute runs on full series excluding ghosts) (15 Sep 2025)
+- [x] Two-of-three: include >3σ points; require same-side third qualifying point (15 Sep 2025)
+- [x] Unit tests covering cross-partition run and mixed 2σ/3σ triplets (15 Sep 2025)
+
+Acceptance
+- New tests pass; visual parity observed in v2 playground datasets
+
+### M3 — Assurance alignment
+
+- [x] Suppress assurance for T/G charts (15 Sep 2025)
+- [x] Edge case: target exactly equals a limit → deterministic pass/fail (15 Sep 2025)
+- [x] Tests for XmR on-limit and any T/G series with target (15 Sep 2025)
+
+Acceptance
+- Tests green; Storybook notes explain behaviour
+
+### M4 — Partition thresholds and buffers
+
+- [ ] Align partition start eligibility with SQL (remove/ignore transition buffer in parity)
+- [ ] Tests around early partitions meeting minPoints
+
+Acceptance
+- Tests demonstrate SQL-aligned eligibility
+
+### M5 — MR outlier exclusion parity
+ - [x] Recompute MRbar excluding MR outliers and centre-line mean from the same outlier-excluded set when enabled (15 Sep 2025)
+- [ ] When enabled, exclude MR outliers for MRbar AND recompute mean from outlier-excluded set
+- [ ] Test fixture mirroring SQL reference
+
+Acceptance
+- Limits and mean match SQL results
+
+### M6 — T/G preprocessing adapter (optional)
+
+- [ ] Provide adapter for date→intervals (T) and count-between (G) sample
+- [ ] Document that engine expects precomputed intervals
+
+Acceptance
+- Example produces same limits as SQL for sample datasets
+
+### M7 — Parity fixtures and Storybook polish
+
+- [~] Curate fixture pack: XmR (stable, >3σ, two-of-three, shift, cross-partition trend), T (back-transform LCL ≤ 0 suppression), G (quantile limits)
+- [~] Add expected-colour table to healthcare v2 story; centralise datasets for reuse in tests/stories
+- [ ] Docs link to fixtures and stories; parity checklist embedded
+
+Acceptance
+- Manual parity checks are quick and repeatable
+
+## Risks and mitigations
+
+- Risk: hidden precedence differences → Mitigate with explicit precedence table in code and tests
+- Risk: test flake due to date parsing → Use ISO strings and stable sorting
+- Risk: performance regressions → Keep computations O(n); cache partition stats
+
+## Tracking
+
+- Owner: TBD (Core Data Vis)
+- Reviewers: TBD (Analytics), TBD (Design)
+- Target: initial parity preset and rule alignment achieved (15 Sep 2025); full suite incl. MR outliers by Oct 2025
+
+## Next steps
+
+Short term
+- Centralise datasets and wire an expected‑colour table into the healthcare v2 story.
+
+Optional / medium term
+- Provide a small T/G preprocessing adapter example and parity story.
+- Extend fixture pack to cover T (LCL suppression post back‑transform) and G (quantile limits).
+
+## References
+
+- Parity plan: `docs/data-visualisation/spc-sql-parity.mdx`
+- Engine docs: `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/docs/`
+- Stories: 
+  - Data Visualisation/SPC/v2/Test dataset (JSON)
+  - Data Visualisation/SPC/v2/Healthcare (v2 engine)
+  - Data Visualisation/SPC/v2/SPC MetricCard (v2 engine)

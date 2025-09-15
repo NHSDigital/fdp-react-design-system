@@ -7,7 +7,7 @@ import {
 	VariationIcon,
 	ImprovementDirection,
 } from "../SPCChart/logic/spcConstants";
-import { SpcEmbeddedIconVariant } from "../SPCChart/SPCChart.constants";
+import { SpcEmbeddedIconVariant } from "../SPCChart/logic/storybook/SPCChart.constants";
 import { Grid, Row, Column, GridWidth } from "../../../../../core";
 import { Heading } from "../../../../Heading";
 

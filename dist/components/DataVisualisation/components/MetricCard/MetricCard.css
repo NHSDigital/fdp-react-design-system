@@ -195,7 +195,7 @@ span .nhsuk-u-visually-hidden {
 }
 .fdp-metric-card__label {
   margin: 0;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 24px;
   font-weight: 600;
   letter-spacing: 0.25px;
@@ -203,8 +203,8 @@ span .nhsuk-u-visually-hidden {
   overflow-wrap: anywhere;
 }
 .fdp-metric-card__metadata {
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 24px;
   color: #4c6272;
   white-space: nowrap;
 }
@@ -237,21 +237,21 @@ span .nhsuk-u-visually-hidden {
   flex-wrap: wrap;
 }
 .fdp-metric-card__number {
-  font-size: 27px;
+  font-size: 36px;
   line-height: 33px;
   font-weight: 600;
   color: #212b32;
   overflow-wrap: anywhere;
 }
 .fdp-metric-card__unit {
-  font-size: 16px;
+  font-size: 19px;
   line-height: 24px;
   font-weight: 400;
   color: #4c6272;
 }
 .fdp-metric-card__subtitle {
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 24px;
   color: #4c6272;
 }
 .fdp-metric-card__delta-section {
@@ -265,9 +265,9 @@ span .nhsuk-u-visually-hidden {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 12px;
-  line-height: 20px;
-  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
   color: #4c6272;
 }
 .fdp-metric-card__delta--up {
@@ -285,8 +285,8 @@ span .nhsuk-u-visually-hidden {
   gap: 4px;
 }
 .fdp-metric-card__delta-period {
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 24px;
   font-weight: 400;
   color: #4c6272;
 }

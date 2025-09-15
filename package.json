@@ -229,6 +229,8 @@
     "test": "vitest run --config config/vitest.components.config.ts",
     "test:watch": "vitest --config config/vitest.components.config.ts",
     "test:components": "vitest run --config config/vitest.components.config.ts",
+    "test:metrics": "vitest run --config config/vitest.metrics.config.ts",
+    "test:spc-v2": "vitest run --config config/vitest.spcv2.config.ts",
     "test:smoke": "vitest run src/smoke/smoke.test.tsx --config config/vitest.components.config.ts",
     "test:ssr-components": "vitest run --config config/vitest.ssr.config.ts",
     "test:storybook": "vitest",

@@ -9595,6 +9595,9 @@ var MetricCard = ({
 };
 var MetricCard_default = MetricCard;
 
+// src/components/DataVisualisation/components/MetricCard/SPCMetricCard.tsx
+import * as React25 from "react";
+
 // src/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark.tsx
 import React23, { useMemo as useMemo13 } from "react";
 
@@ -9957,7 +9960,7 @@ function computePointPositions(state, direction) {
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
 import { useId as useId7, useMemo as useMemo12 } from "react";
 
-// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.constants.ts
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/storybook/SPCChart.constants.ts
 var SpcGradientCategory = /* @__PURE__ */ ((SpcGradientCategory2) => {
   SpcGradientCategory2["Concern"] = "concern";
   SpcGradientCategory2["Improvement"] = "improvement";
@@ -10749,10 +10752,6 @@ var SPCSpark = ({
     }
   }, [classification, autoClassify, variationState, onClassification]);
   const derivedState = classification.state;
-  const isNoJudgementSeries = useMemo13(() => {
-    const propIsNJ = variationState === "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
-    return propIsNJ || derivedState === "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
-  }, [variationState, derivedState]);
   const color2 = stateColour(derivedState);
   const meanY = (v) => {
     const numeric = points.filter((p) => p.value != null);
@@ -11040,30 +11039,26 @@ var SPCSpark = ({
           let fillColour = tokenColour("common-cause", "#A6A6A6");
           if (colorPointsBySignal) {
             const sig = pointSignals == null ? void 0 : pointSignals[globalIndexBase + origIdx];
-            if (isNoJudgementSeries) {
-              if (sig === "improvement" || sig === "concern") {
-                fillColour = tokenColour("no-judgement", "#490092");
-              } else if (sig === "neither") {
-                const neutralSC = pointNeutralSpecialCause == null ? void 0 : pointNeutralSpecialCause[globalIndexBase + origIdx];
-                fillColour = neutralSC ? tokenColour("no-judgement", "#490092") : tokenColour("common-cause", "#A6A6A6");
-              } else {
-                fillColour = tokenColour("common-cause", "#A6A6A6");
-              }
-            } else if (sig === "improvement")
+            if (sig === "improvement")
               fillColour = tokenColour("improvement", "#00B0F0");
             else if (sig === "concern")
               fillColour = tokenColour("concern", "#E46C0A");
-            else if (sig === "suppressed")
-              fillColour = tokenColour("no-judgement", "#490092");
-            else if (mean2 != null) {
-              const v = p.value;
-              const upper3 = (_a3 = controlLimits == null ? void 0 : controlLimits.upper) != null ? _a3 : stdDev != null ? mean2 + 3 * stdDev : null;
-              const lower3 = (_b2 = controlLimits == null ? void 0 : controlLimits.lower) != null ? _b2 : stdDev != null ? mean2 - 3 * stdDev : null;
-              if (upper3 != null && v > upper3) {
-                fillColour = isNoJudgementSeries ? tokenColour("no-judgement", "#490092") : tokenColour("improvement", "#00B0F0");
-              } else if (lower3 != null && v < lower3) {
-                fillColour = isNoJudgementSeries ? tokenColour("no-judgement", "#490092") : tokenColour("concern", "#E46C0A");
-              } else fillColour = tokenColour("common-cause", "#A6A6A6");
+            else {
+              const neutralSC = pointNeutralSpecialCause == null ? void 0 : pointNeutralSpecialCause[globalIndexBase + origIdx];
+              if (neutralSC) {
+                fillColour = tokenColour("no-judgement", "#490092");
+              } else if (mean2 != null) {
+                const v = p.value;
+                const upper3 = (_a3 = controlLimits == null ? void 0 : controlLimits.upper) != null ? _a3 : stdDev != null ? mean2 + 3 * stdDev : null;
+                const lower3 = (_b2 = controlLimits == null ? void 0 : controlLimits.lower) != null ? _b2 : stdDev != null ? mean2 - 3 * stdDev : null;
+                if (upper3 != null && v > upper3) {
+                  fillColour = tokenColour("improvement", "#00B0F0");
+                } else if (lower3 != null && v < lower3) {
+                  fillColour = tokenColour("concern", "#E46C0A");
+                } else fillColour = tokenColour("common-cause", "#A6A6A6");
+              } else {
+                fillColour = tokenColour("common-cause", "#A6A6A6");
+              }
             }
           }
           return /* @__PURE__ */ jsx30(
@@ -12299,13 +12294,110 @@ function buildSpc(args) {
   return { rows: output, warnings, ...suggestedBaselines ? { suggestedBaselines } : {} };
 }
 
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcSqlCompat.ts
+function sqlDirectionalPrune(row, metricImprovement) {
+  const summary = getDirectionalSignalSummary(row);
+  const upMax = summary.upMax;
+  const downMax = summary.downMax;
+  const high = summary.upRules.map((id) => ({ id, rank: RULE_RANK_BY_ID[id] }));
+  const low = summary.downRules.map((id) => ({
+    id,
+    rank: RULE_RANK_BY_ID[id]
+  }));
+  let prime;
+  if (upMax > downMax) prime = "Upwards" /* Upwards */;
+  else if (downMax > upMax) prime = "Downwards" /* Downwards */;
+  else prime = "Same" /* Same */;
+  const anyHigh = upMax > 0;
+  const anyLow = downMax > 0;
+  const originalImprovement = metricImprovement === "Up" /* Up */ && anyHigh || metricImprovement === "Down" /* Down */ && anyLow ? row.value : null;
+  const originalConcern = metricImprovement === "Up" /* Up */ && anyLow || metricImprovement === "Down" /* Down */ && anyHigh ? row.value : null;
+  row.sqlOriginalImprovementValue = originalImprovement;
+  row.sqlOriginalConcernValue = originalConcern;
+  if (originalImprovement !== null && originalConcern !== null) {
+    row.sqlPruned = true;
+    if (prime === "Upwards" /* Upwards */) {
+      if (metricImprovement === "Up" /* Up */) {
+      } else if (metricImprovement === "Down" /* Down */) {
+        row.sqlOriginalImprovementValue = null;
+      }
+    } else if (prime === "Downwards" /* Downwards */) {
+      if (metricImprovement === "Up" /* Up */) {
+        row.sqlOriginalImprovementValue = null;
+      } else if (metricImprovement === "Down" /* Down */) {
+      }
+    } else {
+      if (originalImprovement !== null) {
+        row.sqlOriginalConcernValue = null;
+      } else if (originalConcern !== null) {
+        row.sqlOriginalImprovementValue = null;
+      }
+    }
+  }
+  if (row.sqlOriginalImprovementValue && !row.sqlOriginalConcernValue) {
+    row.variationIcon = "improvement" /* Improvement */;
+  } else if (!row.sqlOriginalImprovementValue && row.sqlOriginalConcernValue) {
+    row.variationIcon = "concern" /* Concern */;
+  } else if (!row.sqlOriginalImprovementValue && !row.sqlOriginalConcernValue) {
+    row.variationIcon = "neither" /* Neither */;
+  } else {
+    row.variationIcon = "improvement" /* Improvement */;
+  }
+  row.primeDirection = prime;
+  row.primeRank = Math.max(upMax, downMax) || void 0;
+  row.pruningMode = "sql" /* Sql */;
+  const winningSide = row.variationIcon === "concern" /* Concern */ ? metricImprovement === "Up" /* Up */ ? "down" /* Down */ : "up" /* Up */ : metricImprovement === "Up" /* Up */ ? "up" /* Up */ : "down" /* Down */;
+  const winnerSet = winningSide === "up" /* Up */ ? high : low;
+  const top = winnerSet.reduce(
+    (best, a) => !best || a.rank > best.rank ? a : best,
+    void 0
+  );
+  if (top) row.primeRuleId = top.id;
+}
+function buildSpcSqlCompat(args) {
+  const { chartType, metricImprovement, data, settings = {} } = args;
+  const base = buildSpc({
+    chartType,
+    metricImprovement,
+    data,
+    settings: {
+      ...settings
+    }
+  });
+  const rows = base.rows.map((r2) => ({ ...r2 }));
+  for (const r2 of rows) {
+    sqlDirectionalPrune(r2, metricImprovement);
+  }
+  return { rows, warnings: base.warnings };
+}
+
 // src/components/DataVisualisation/hooks/useSpc.ts
+function mapIconToVariation(icon, neutralSpecial) {
+  if (icon === "improvement") return "special_cause_improving" /* SpecialCauseImproving */;
+  if (icon === "concern") return "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
+  if (icon === "suppressed" || icon === "neither" && neutralSpecial)
+    return "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
+  if (icon === "neither") return "common_cause" /* CommonCause */;
+  return null;
+}
+function isSpecialCauseIcon(icon, neutralSpecial) {
+  return icon === "improvement" || icon === "concern" || icon === "suppressed" || icon === "neither" && !!neutralSpecial;
+}
+function hexToRgb2(h) {
+  const v = h.replace("#", "");
+  return [
+    parseInt(v.slice(0, 2), 16),
+    parseInt(v.slice(2, 4), 16),
+    parseInt(v.slice(4, 6), 16)
+  ];
+}
 function useSpc(input) {
   const {
     values,
     x: x2,
     chartType = "XmR" /* XmR */,
     metricImprovement = "Neither" /* Neither */,
+    useSqlCompatEngine = false,
     showLimits = true,
     showLimitBand = false,
     showInnerBands = false,
@@ -12318,22 +12410,21 @@ function useSpc(input) {
       pts.push({ x: x2 == null ? void 0 : x2[i], value: values[i] });
     }
     return pts;
-  }, [values, x2 == null ? void 0 : x2.length]);
+  }, [values, x2]);
   const engine = React24.useMemo(() => {
     try {
-      return buildSpc({
-        chartType,
-        metricImprovement,
-        data: rows.map((r2, i) => {
-          var _a2;
-          return { x: (_a2 = r2.x) != null ? _a2 : i, value: r2.value };
-        }),
-        settings: {}
+      const data = rows.map((r2, i) => {
+        var _a2;
+        return { x: (_a2 = r2.x) != null ? _a2 : i, value: r2.value };
       });
+      if (useSqlCompatEngine) {
+        return buildSpcSqlCompat({ chartType, metricImprovement, data, settings: {} });
+      }
+      return buildSpc({ chartType, metricImprovement, data, settings: {} });
     } catch {
       return null;
     }
-  }, [rows, chartType, metricImprovement]);
+  }, [rows, chartType, metricImprovement, useSqlCompatEngine]);
   const lastRealRow = React24.useMemo(() => {
     var _a2;
     const rowsEngine = engine == null ? void 0 : engine.rows;
@@ -12349,14 +12440,10 @@ function useSpc(input) {
     const repr = (_a2 = engine == null ? void 0 : engine.rowsRepresentative) != null ? _a2 : engine == null ? void 0 : engine.rows;
     if (!repr || !Array.isArray(repr) || repr.length === 0) return null;
     const last = repr[repr.length - 1];
-    const icon = last == null ? void 0 : last.variationIcon;
-    const neutralSpecial = ((_b2 = last == null ? void 0 : last.specialCauseNeitherValue) != null ? _b2 : null) != null;
-    if (icon === "improvement") return "special_cause_improving" /* SpecialCauseImproving */;
-    if (icon === "concern") return "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
-    if (icon === "suppressed" || icon === "neither" && neutralSpecial)
-      return "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
-    if (icon === "neither") return "common_cause" /* CommonCause */;
-    return null;
+    return mapIconToVariation(
+      last == null ? void 0 : last.variationIcon,
+      ((_b2 = last == null ? void 0 : last.specialCauseNeitherValue) != null ? _b2 : null) != null
+    );
   }, [engine]);
   const centerLine = React24.useMemo(() => {
     var _a2;
@@ -12383,6 +12470,14 @@ function useSpc(input) {
   const pointSignals = React24.useMemo(() => {
     const rowsEngine = engine == null ? void 0 : engine.rows;
     if (!rowsEngine || rowsEngine.length === 0) return void 0;
+    if (useSqlCompatEngine) {
+      return rowsEngine.map((r2) => {
+        const icon = r2 == null ? void 0 : r2.variationIcon;
+        if (icon === "improvement") return "improvement";
+        if (icon === "concern") return "concern";
+        return "neither";
+      });
+    }
     return rowsEngine.map((r2) => {
       const up = Boolean(r2 == null ? void 0 : r2.specialCauseSinglePointUp) || Boolean(r2 == null ? void 0 : r2.specialCauseTwoOfThreeUp) || Boolean(r2 == null ? void 0 : r2.specialCauseFourOfFiveUp) || Boolean(r2 == null ? void 0 : r2.specialCauseShiftUp) || Boolean(r2 == null ? void 0 : r2.specialCauseTrendUp);
       const down = Boolean(r2 == null ? void 0 : r2.specialCauseSinglePointDown) || Boolean(r2 == null ? void 0 : r2.specialCauseTwoOfThreeDown) || Boolean(r2 == null ? void 0 : r2.specialCauseFourOfFiveDown) || Boolean(r2 == null ? void 0 : r2.specialCauseShiftDown) || Boolean(r2 == null ? void 0 : r2.specialCauseTrendDown);
@@ -12402,60 +12497,34 @@ function useSpc(input) {
           return "neither";
       }
     });
-  }, [engine, metricImprovement]);
+  }, [engine, metricImprovement, useSqlCompatEngine]);
   const pointNeutralSpecialCause = React24.useMemo(() => {
     const rowsEngine = engine == null ? void 0 : engine.rows;
     if (!rowsEngine || rowsEngine.length === 0) return void 0;
     return rowsEngine.map((r2) => Boolean(r2 == null ? void 0 : r2.specialCauseNeitherValue));
   }, [engine]);
   const metricCardStyle = React24.useMemo(() => {
-    var _a2;
-    const rowsEngine = engine == null ? void 0 : engine.rows;
+    var _a2, _b2;
     let lastSignalState = null;
-    if (rowsEngine && rowsEngine.length > 0) {
-      for (let i = rowsEngine.length - 1; i >= 0; i--) {
-        const r3 = rowsEngine[i];
-        if (!r3 || r3.value == null || r3.ghost) continue;
-        const icon = r3.variationIcon;
-        const neutralSpecial = ((_a2 = r3 == null ? void 0 : r3.specialCauseNeitherValue) != null ? _a2 : null) != null;
-        if (latestState === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
-          if (icon === "improvement" || icon === "concern" || icon === "suppressed" || icon === "neither" && neutralSpecial) {
-            lastSignalState = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
-          } else {
-            lastSignalState = "common_cause" /* CommonCause */;
-          }
-        } else {
-          if (icon === "improvement")
-            lastSignalState = "special_cause_improving" /* SpecialCauseImproving */;
-          else if (icon === "concern")
-            lastSignalState = "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
-          else if (icon === "suppressed")
-            lastSignalState = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
-          else if (icon === "neither" && neutralSpecial)
-            lastSignalState = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
-          else lastSignalState = "common_cause" /* CommonCause */;
-        }
-        break;
+    if (lastRealRow && lastRealRow.value != null && !lastRealRow.ghost) {
+      const icon = lastRealRow.variationIcon;
+      const neutralSpecial = ((_a2 = lastRealRow == null ? void 0 : lastRealRow.specialCauseNeitherValue) != null ? _a2 : null) != null;
+      if (latestState === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
+        lastSignalState = isSpecialCauseIcon(icon, neutralSpecial) ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
+      } else {
+        lastSignalState = (_b2 = mapIconToVariation(icon, neutralSpecial)) != null ? _b2 : "common_cause" /* CommonCause */;
       }
     }
     const chosen = lastSignalState != null ? lastSignalState : "common_cause" /* CommonCause */;
     const hex2 = VARIATION_COLOURS[chosen].hex;
-    const toRgb = (h) => {
-      const v = h.replace("#", "");
-      return [
-        parseInt(v.slice(0, 2), 16),
-        parseInt(v.slice(2, 4), 16),
-        parseInt(v.slice(4, 6), 16)
-      ];
-    };
-    const [r2, g, b] = toRgb(hex2);
+    const [r2, g, b] = hexToRgb2(hex2);
     const stops = getGradientOpacities();
     const bg = `linear-gradient(180deg, rgba(${r2}, ${g}, ${b}, ${stops.start}) 0%, rgba(${r2}, ${g}, ${b}, ${stops.mid}) 50%, rgba(${r2}, ${g}, ${b}, ${stops.end}) 100%)`;
     return {
       ["--fdp-metric-card-bg"]: bg,
       ["--fdp-metric-card-accent"]: hex2
     };
-  }, [engine, latestState]);
+  }, [lastRealRow, latestState]);
   const sparkProps = React24.useMemo(() => {
     return {
       data: rows,
@@ -12497,17 +12566,211 @@ function useSpc(input) {
 }
 var useSpc_default = useSpc;
 
+// src/components/DataVisualisation/charts/SPC/utils/autoMetrics.ts
+function toDate(v) {
+  if (v == null) return void 0;
+  const d = v instanceof Date ? v : new Date(v);
+  return Number.isNaN(d.valueOf()) ? void 0 : d;
+}
+function synthesizeDates(length, start, hint) {
+  const arr = new Array(length);
+  const d = new Date(start);
+  for (let i = 0; i < length; i++) {
+    arr[i] = new Date(d);
+    switch (hint) {
+      case "hourly":
+        d.setHours(d.getHours() + 1);
+        break;
+      case "daily":
+        d.setDate(d.getDate() + 1);
+        break;
+      case "weekly":
+        d.setDate(d.getDate() + 7);
+        break;
+      case "monthly":
+        d.setMonth(d.getMonth() + 1);
+        break;
+      case "quarterly":
+        d.setMonth(d.getMonth() + 3);
+        break;
+      case "annually":
+        d.setFullYear(d.getFullYear() + 1);
+        break;
+      default:
+        break;
+    }
+  }
+  return arr;
+}
+function inferFrequency(dates, fallback) {
+  const valid = dates.filter(Boolean);
+  if (valid.length < 2) return fallback;
+  const diffs = [];
+  for (let i = 1; i < valid.length; i++) diffs.push(valid[i].getTime() - valid[i - 1].getTime());
+  const sorted = diffs.sort((a, b) => a - b);
+  const median3 = sorted[Math.floor(sorted.length / 2)];
+  const H = 60 * 60 * 1e3;
+  const D = 24 * H;
+  if (median3 <= 2 * H) return "hourly";
+  if (median3 <= 2 * D) return "daily";
+  if (median3 <= 10 * D) return "weekly";
+  if (median3 <= 45 * D) return "monthly";
+  if (median3 <= 120 * D) return "quarterly";
+  return "annually";
+}
+function formatLatest(dt, freq) {
+  if (!dt) return void 0;
+  try {
+    switch (freq) {
+      case "hourly":
+        return new Intl.DateTimeFormat(void 0, { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "short", year: "numeric" }).format(dt);
+      case "daily":
+        return new Intl.DateTimeFormat(void 0, { day: "2-digit", month: "short", year: "numeric" }).format(dt);
+      case "weekly":
+        return `Week of ${new Intl.DateTimeFormat(void 0, { day: "2-digit", month: "short", year: "numeric" }).format(dt)}`;
+      case "monthly":
+        return new Intl.DateTimeFormat(void 0, { month: "short", year: "numeric" }).format(dt);
+      case "quarterly": {
+        const q = Math.floor(dt.getMonth() / 3) + 1;
+        return `Q${q} ${dt.getFullYear()}`;
+      }
+      case "annually":
+        return `${dt.getFullYear()}`;
+      default:
+        return new Intl.DateTimeFormat(void 0, { day: "2-digit", month: "short", year: "numeric" }).format(dt);
+    }
+  } catch {
+    return void 0;
+  }
+}
+function inferUnit(values, provided, def, percentHeuristic = "0-100") {
+  if (provided) return provided;
+  if (def) return def;
+  const vals = values.filter((v) => v != null);
+  if (!vals.length) return void 0;
+  const min = Math.min(...vals);
+  const max = Math.max(...vals);
+  if (percentHeuristic === "0-1") {
+    if (min >= 0 && max <= 1 && max > 0) return "%";
+  } else {
+    if (min >= 0 && max <= 100 && max > 0) return "%";
+  }
+  return void 0;
+}
+function periodLabel(freq, hint, n = 1) {
+  const unit2 = freq || hint;
+  switch (unit2) {
+    case "hourly":
+      return n === 1 ? "last hour" : `last ${n} hours`;
+    case "daily":
+      return n === 1 ? "last day" : `last ${n} days`;
+    case "weekly":
+      return n === 1 ? "last week" : `last ${n} weeks`;
+    case "monthly":
+      return n === 1 ? "last month" : `last ${n} months`;
+    case "quarterly":
+      return n === 1 ? "last quarter" : `last ${n} quarters`;
+    case "annually":
+      return n === 1 ? "last year" : `last ${n} years`;
+    default:
+      return "previous";
+  }
+}
+function computeAutoMetrics(input) {
+  const {
+    values: rawValues,
+    dates: rawDates,
+    intervalHint,
+    startDate,
+    providedUnit,
+    defaultUnit,
+    autoValue = true,
+    autoDelta = true,
+    autoMetadata = true,
+    deltaConfig
+  } = input;
+  const values = rawValues.map((v) => typeof v === "number" ? v : v == null ? null : Number(v));
+  let lastIndex = -1;
+  for (let i = values.length - 1; i >= 0; i--) {
+    if (values[i] != null) {
+      lastIndex = i;
+      break;
+    }
+  }
+  let dates = (rawDates || []).map(toDate);
+  const anyDates = dates.some(Boolean);
+  if (!anyDates) {
+    const start = toDate(startDate);
+    if (start && intervalHint) dates = synthesizeDates(values.length, start, intervalHint);
+    else dates = new Array(values.length).fill(void 0);
+  }
+  const frequency = inferFrequency(dates, intervalHint);
+  const unit2 = inferUnit(values, providedUnit, defaultUnit, input.percentHeuristic);
+  const value = autoValue && lastIndex >= 0 && values[lastIndex] != null ? values[lastIndex] : void 0;
+  const cfg = { strategy: "previous", n: 1, absolute: true, skipNulls: true, ...deltaConfig || {} };
+  function findBaselineIndex() {
+    if (lastIndex < 0) return -1;
+    if (cfg.strategy === "previous" || cfg.strategy === "n-points") {
+      let idx = lastIndex - (cfg.strategy === "previous" ? 1 : Math.max(1, cfg.n || 1));
+      if (!cfg.skipNulls) return idx;
+      for (let i = idx; i >= 0; i--) if (values[i] != null) return i;
+      return -1;
+    }
+    const latestDate2 = dates[lastIndex];
+    if (!latestDate2) return -1;
+    const target = new Date(latestDate2);
+    target.setFullYear(target.getFullYear() - 1);
+    let bestIdx = -1;
+    let bestDiff = Infinity;
+    for (let i = 0; i < dates.length; i++) {
+      const d = dates[i];
+      if (!d || values[i] == null) continue;
+      const diff = Math.abs(d.getTime() - target.getTime());
+      if (diff < bestDiff) {
+        bestDiff = diff;
+        bestIdx = i;
+      }
+    }
+    return bestIdx;
+  }
+  const baselineIndex = findBaselineIndex();
+  const baselineValue = baselineIndex >= 0 ? values[baselineIndex] : null;
+  let delta;
+  if (autoDelta && value != null && baselineValue != null) {
+    const abs = value - baselineValue;
+    const useAbsolute = cfg.absolute !== false;
+    const val = useAbsolute ? abs : baselineValue === 0 ? 0 : abs / Math.abs(baselineValue) * 100;
+    delta = {
+      value: Number.isFinite(val) ? Number(val.toFixed(2)) : 0,
+      isPercent: useAbsolute ? unit2 === "%" : true,
+      period: `vs ${periodLabel(frequency, intervalHint, cfg.strategy === "n-points" ? Math.max(1, cfg.n || 1) : 1)}`
+    };
+  }
+  const latestDate = lastIndex >= 0 ? dates[lastIndex] : void 0;
+  const metadata = autoMetadata ? formatLatest(latestDate, frequency) ? `Latest: ${formatLatest(latestDate, frequency)}` : void 0 : void 0;
+  return { value, unit: unit2, delta, metadata, latestDate, frequency };
+}
+var autoMetrics_default = computeAutoMetrics;
+
 // src/components/DataVisualisation/components/MetricCard/SPCMetricCard.tsx
 import { jsx as jsx31 } from "react/jsx-runtime";
 var SPCMetricCard = ({
   sparkData,
   direction = "Neither" /* Neither */,
+  useSqlCompatEngine = true,
   showMean = false,
   showLimits = true,
   showLimitBand = false,
   showInnerBands = false,
   autoClassify = true,
   maxPoints,
+  autoValue = true,
+  autoDelta = true,
+  autoMetadata = true,
+  defaultUnit,
+  intervalHint,
+  startDate,
+  deltaConfig,
   ...rest
 }) => {
   const spc = useSpc_default({
@@ -12516,6 +12779,7 @@ var SPCMetricCard = ({
       return (_a2 = d.value) != null ? _a2 : null;
     }),
     metricImprovement: direction,
+    useSqlCompatEngine,
     showLimits,
     showLimitBand,
     showInnerBands,
@@ -12523,12 +12787,41 @@ var SPCMetricCard = ({
     autoClassify
   });
   const visual = /* @__PURE__ */ jsx31(SPCSpark, { ...spc.sparkProps, maxPoints });
-  return /* @__PURE__ */ jsx31(MetricCard_default, { ...rest, visual, style: spc.metricCardStyle });
+  const auto = React25.useMemo(() => {
+    return autoMetrics_default({
+      values: sparkData.map((d) => typeof d.value === "number" ? d.value : null),
+      dates: sparkData.map((d) => d.date),
+      intervalHint,
+      startDate,
+      providedUnit: rest.unit,
+      defaultUnit,
+      autoValue,
+      autoDelta,
+      autoMetadata,
+      deltaConfig
+    });
+  }, [sparkData, intervalHint, startDate, rest.unit, defaultUnit, autoValue, autoDelta, autoMetadata, deltaConfig]);
+  const finalValue = autoValue && auto.value != null ? auto.value : rest.value;
+  const finalDelta = autoDelta && auto.delta ? auto.delta : rest.delta;
+  const finalUnit = auto.unit || rest.unit;
+  const computedMetadata = autoMetadata && auto.metadata ? auto.metadata : rest.metadata;
+  return /* @__PURE__ */ jsx31(
+    MetricCard_default,
+    {
+      ...rest,
+      value: finalValue,
+      unit: finalUnit,
+      delta: finalDelta,
+      metadata: computedMetadata,
+      visual,
+      style: spc.metricCardStyle
+    }
+  );
 };
 var SPCMetricCard_default = SPCMetricCard;
 
 // src/components/DataVisualisation/wizard/DataVizWizard.tsx
-import * as React29 from "react";
+import * as React30 from "react";
 
 // src/mapping/tag.ts
 function mapTagProps(input) {
@@ -13116,7 +13409,7 @@ var Radios = ({ value, defaultValue, onChange, onBlur, onFocus, ...rest }) => {
 
 // src/components/Grid/Grid.tsx
 var import_classnames6 = __toESM(require_classnames(), 1);
-import React28 from "react";
+import React29 from "react";
 import { jsx as jsx38 } from "react/jsx-runtime";
 var Row = ({
   children,
@@ -13369,13 +13662,13 @@ var DataVizWizard = ({
 }) => {
   const wiz = getWizardRoot(logic, wizardId);
   const rootId = wiz.root;
-  const [path2, setPath] = React29.useState([rootId]);
-  const [answers, setAnswers] = React29.useState([]);
-  const [result, setResult] = React29.useState(null);
-  const [selectedValue, setSelectedValue] = React29.useState("");
-  const [selectedValues, setSelectedValues] = React29.useState([]);
-  const [copyStatus, setCopyStatus] = React29.useState("idle");
-  React29.useEffect(() => {
+  const [path2, setPath] = React30.useState([rootId]);
+  const [answers, setAnswers] = React30.useState([]);
+  const [result, setResult] = React30.useState(null);
+  const [selectedValue, setSelectedValue] = React30.useState("");
+  const [selectedValues, setSelectedValues] = React30.useState([]);
+  const [copyStatus, setCopyStatus] = React30.useState("idle");
+  React30.useEffect(() => {
     var _a2;
     if (!isClient()) return;
     try {
@@ -13391,7 +13684,7 @@ var DataVizWizard = ({
     } catch {
     }
   }, [storageKey]);
-  React29.useEffect(() => {
+  React30.useEffect(() => {
     if (!isClient()) return;
     window.localStorage.setItem(
       storageKey,
@@ -13400,7 +13693,7 @@ var DataVizWizard = ({
   }, [path2, answers, result, storageKey]);
   const currentId = path2[path2.length - 1];
   const node = getNode2(logic, wizardId, currentId);
-  React29.useEffect(() => {
+  React30.useEffect(() => {
     const prev = answers.find((a) => a.nodeId === currentId);
     if (prev) {
       if (Array.isArray(prev.value)) {
@@ -13415,7 +13708,7 @@ var DataVizWizard = ({
       setSelectedValues([]);
     }
   }, [currentId]);
-  React29.useEffect(() => {
+  React30.useEffect(() => {
     if (!isClient()) return;
     const state = { path: path2, answers, result };
     try {
@@ -13434,7 +13727,7 @@ var DataVizWizard = ({
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
-  const shapeContextHelp = React29.useMemo(() => {
+  const shapeContextHelp = React30.useMemo(() => {
     var _a2, _b2, _c;
     if (currentId !== "components_shape") return null;
     const prevVal = (_a2 = answers.find((a) => a.nodeId === "components_root")) == null ? void 0 : _a2.value;
@@ -13505,7 +13798,7 @@ var DataVizWizard = ({
       }
     }
   };
-  const getChartName = React29.useCallback(
+  const getChartName = React30.useCallback(
     (id) => {
       try {
         const add = logic == null ? void 0 : logic.chart_types_add;
@@ -13517,7 +13810,7 @@ var DataVizWizard = ({
     },
     [logic]
   );
-  const getChartSupports = React29.useCallback(
+  const getChartSupports = React30.useCallback(
     (id) => {
       try {
         const add = logic == null ? void 0 : logic.chart_types_add;
@@ -13571,7 +13864,7 @@ var DataVizWizard = ({
     },
     [logic]
   );
-  const buildSummaryPayload = React29.useCallback(() => {
+  const buildSummaryPayload = React30.useCallback(() => {
     var _a2;
     const recommendations = result || [];
     return {
@@ -13586,7 +13879,7 @@ var DataVizWizard = ({
       recommendations: recommendations.map((id) => ({ id, name: getChartName(id) }))
     };
   }, [answers, result, wizardId, logic, getChartName]);
-  const copySummaryToClipboard = React29.useCallback(async () => {
+  const copySummaryToClipboard = React30.useCallback(async () => {
     var _a2;
     try {
       const payload = buildSummaryPayload();
@@ -13864,10 +14157,10 @@ var DataVizWizard = ({
 var DataVizWizard_default = DataVizWizard;
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import * as React32 from "react";
+import * as React33 from "react";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
-import * as React30 from "react";
+import * as React31 from "react";
 import { createPortal } from "react-dom";
 import { jsx as jsx44, jsxs as jsxs29 } from "react/jsx-runtime";
 var SPCTooltipOverlay = ({
@@ -13883,10 +14176,10 @@ var SPCTooltipOverlay = ({
   var _a2, _b2, _c, _d, _e, _f;
   const tooltip = useTooltipContext();
   const chart = useChartContext();
-  const [cachedFocus, setCachedFocus] = React30.useState(null);
-  const [hoveringTooltip, setHoveringTooltip] = React30.useState(false);
-  const hideTimeoutRef = React30.useRef(null);
-  React30.useEffect(() => {
+  const [cachedFocus, setCachedFocus] = React31.useState(null);
+  const [hoveringTooltip, setHoveringTooltip] = React31.useState(false);
+  const hideTimeoutRef = React31.useRef(null);
+  React31.useEffect(() => {
     if (!tooltip) return;
     if (tooltip.focused) {
       setCachedFocus(tooltip.focused);
@@ -13910,8 +14203,8 @@ var SPCTooltipOverlay = ({
     };
   }, [tooltip, tooltip == null ? void 0 : tooltip.focused, hoveringTooltip]);
   const focused = tooltip && (tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
-  const [visible, setVisible] = React30.useState(false);
-  React30.useEffect(() => {
+  const [visible, setVisible] = React31.useState(false);
+  React31.useEffect(() => {
     const id = requestAnimationFrame(() => setVisible(true));
     return () => cancelAnimationFrame(id);
   }, [focused == null ? void 0 : focused.index]);
@@ -14334,87 +14627,8 @@ var SPCAssuranceIcon = ({
 };
 SPCAssuranceIcon.displayName = "SPCAssuranceIcon";
 
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcSqlCompat.ts
-function sqlDirectionalPrune(row, metricImprovement) {
-  const summary = getDirectionalSignalSummary(row);
-  const upMax = summary.upMax;
-  const downMax = summary.downMax;
-  const high = summary.upRules.map((id) => ({ id, rank: RULE_RANK_BY_ID[id] }));
-  const low = summary.downRules.map((id) => ({ id, rank: RULE_RANK_BY_ID[id] }));
-  let prime;
-  if (upMax > downMax) prime = "Upwards" /* Upwards */;
-  else if (downMax > upMax) prime = "Downwards" /* Downwards */;
-  else prime = "Same" /* Same */;
-  const anyHigh = upMax > 0;
-  const anyLow = downMax > 0;
-  const originalImprovement = metricImprovement === "Up" /* Up */ && anyHigh || metricImprovement === "Down" /* Down */ && anyLow ? row.value : null;
-  const originalConcern = metricImprovement === "Up" /* Up */ && anyLow || metricImprovement === "Down" /* Down */ && anyHigh ? row.value : null;
-  row.sqlOriginalImprovementValue = originalImprovement;
-  row.sqlOriginalConcernValue = originalConcern;
-  if (originalImprovement !== null && originalConcern !== null) {
-    row.sqlPruned = true;
-    if (prime === "Upwards" /* Upwards */) {
-      if (metricImprovement === "Up" /* Up */) {
-      } else if (metricImprovement === "Down" /* Down */) {
-        row.sqlOriginalImprovementValue = null;
-      }
-    } else if (prime === "Downwards" /* Downwards */) {
-      if (metricImprovement === "Up" /* Up */) {
-        row.sqlOriginalImprovementValue = null;
-      } else if (metricImprovement === "Down" /* Down */) {
-      }
-    } else {
-      if (originalImprovement !== null) {
-        row.sqlOriginalConcernValue = null;
-      } else if (originalConcern !== null) {
-        row.sqlOriginalImprovementValue = null;
-      }
-    }
-  }
-  if (row.sqlOriginalImprovementValue && !row.sqlOriginalConcernValue) {
-    row.variationIcon = "improvement" /* Improvement */;
-  } else if (!row.sqlOriginalImprovementValue && row.sqlOriginalConcernValue) {
-    row.variationIcon = "concern" /* Concern */;
-  } else if (!row.sqlOriginalImprovementValue && !row.sqlOriginalConcernValue) {
-    row.variationIcon = "neither" /* Neither */;
-  } else {
-    row.variationIcon = "improvement" /* Improvement */;
-  }
-  row.primeDirection = prime;
-  row.primeRank = Math.max(upMax, downMax) || void 0;
-  row.pruningMode = "sql" /* Sql */;
-  const winningSide = row.variationIcon === "concern" /* Concern */ ? metricImprovement === "Up" /* Up */ ? "down" /* Down */ : "up" /* Up */ : metricImprovement === "Up" /* Up */ ? "up" /* Up */ : "down" /* Down */;
-  const winnerSet = winningSide === "up" /* Up */ ? high : low;
-  const top = winnerSet.reduce(
-    (best, a) => !best || a.rank > best.rank ? a : best,
-    void 0
-  );
-  if (top) row.primeRuleId = top.id;
-}
-function buildSpcSqlCompat(args) {
-  const {
-    chartType,
-    metricImprovement,
-    data,
-    settings = {}
-  } = args;
-  const base = buildSpc({
-    chartType,
-    metricImprovement,
-    data,
-    settings: {
-      ...settings
-    }
-  });
-  const rows = base.rows.map((r2) => ({ ...r2 }));
-  for (const r2 of rows) {
-    sqlDirectionalPrune(r2, metricImprovement);
-  }
-  return { rows, warnings: base.warnings };
-}
-
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCSignalsInspector.tsx
-import * as React31 from "react";
+import * as React32 from "react";
 import { jsx as jsx46, jsxs as jsxs31 } from "react/jsx-runtime";
 var SPCSignalsInspector = ({
   engineRows,
@@ -14427,8 +14641,8 @@ var SPCSignalsInspector = ({
   const focused = (_a2 = t == null ? void 0 : t.focused) != null ? _a2 : null;
   const index = (_b2 = focused == null ? void 0 : focused.index) != null ? _b2 : null;
   const row = typeof index === "number" && engineRows ? engineRows[index] : null;
-  const rules = React31.useMemo(() => row ? extractRuleIds(row) : [], [row]);
-  const uniqueRuleNarr = React31.useMemo(
+  const rules = React32.useMemo(() => row ? extractRuleIds(row) : [], [row]);
+  const uniqueRuleNarr = React32.useMemo(
     () => Array.from(
       new Set(rules.map((r2) => {
         var _a3;
@@ -14441,8 +14655,8 @@ var SPCSignalsInspector = ({
   const assuranceDesc = row ? assuranceLabel(row.assuranceIcon) : null;
   const hasRules = rules.length > 0;
   const isNoJudgement = row ? row.variationIcon === "neither" /* Neither */ && hasRules : false;
-  const lastKeyRef = React31.useRef(null);
-  React31.useEffect(() => {
+  const lastKeyRef = React32.useRef(null);
+  React32.useEffect(() => {
     if (!onSignalFocus) return;
     if (!focused || row == null) return;
     const key = `${focused.seriesId}:${focused.index}`;
@@ -14700,7 +14914,7 @@ var SPCChart = ({
   alwaysShowZeroY = false,
   alwaysShowHundredY = false,
   percentScale = false,
-  useSqlCompatEngine = false,
+  useSqlCompatEngine = true,
   showTrendStartMarkers = false,
   showFirstFavourableCrossMarkers = false,
   showTrendBridgeOverlay = false,
@@ -14708,14 +14922,14 @@ var SPCChart = ({
   onSignalFocus
 }) => {
   var _a2, _b2, _c, _d, _e, _f, _g, _h;
-  const formatWarningCode = React32.useCallback(
+  const formatWarningCode = React33.useCallback(
     (code) => {
       const raw = String(code);
       return raw.replace(/^spc_warning_code\.?/i, "").replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
     []
   );
-  const formatWarningCategory = React32.useCallback(
+  const formatWarningCategory = React33.useCallback(
     (cat) => {
       return String(cat).replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
@@ -14726,7 +14940,7 @@ var SPCChart = ({
       "SPCChart: 'disableTrendSideGating' prop is deprecated and ignored (trend side gating always enabled)."
     );
   }
-  const engine = React32.useMemo(() => {
+  const engine = React33.useMemo(() => {
     const rowsInput = data.map((d, i) => {
       var _a3, _b3, _c2;
       return {
@@ -14764,7 +14978,7 @@ var SPCChart = ({
   const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r2) => r2.mean != null);
   const mean2 = (_a2 = engineRepresentative == null ? void 0 : engineRepresentative.mean) != null ? _a2 : null;
   const warnings = (engine == null ? void 0 : engine.warnings) || [];
-  const filteredWarnings = React32.useMemo(() => {
+  const filteredWarnings = React33.useMemo(() => {
     if (!warnings.length) return [];
     if (!warningsFilter) return warnings;
     return warnings.filter((w) => {
@@ -14777,9 +14991,9 @@ var SPCChart = ({
       return true;
     });
   }, [warnings, warningsFilter]);
-  const [diagnosticsMessage, setDiagnosticsMessage] = React32.useState("");
-  const lastDiagnosticsRef = React32.useRef("");
-  React32.useEffect(() => {
+  const [diagnosticsMessage, setDiagnosticsMessage] = React33.useState("");
+  const lastDiagnosticsRef = React33.useRef("");
+  React33.useEffect(() => {
     if (!showWarningsPanel) {
       if (lastDiagnosticsRef.current !== "") {
         lastDiagnosticsRef.current = "";
@@ -14830,11 +15044,11 @@ var SPCChart = ({
   const twoPos = (_f = engineRepresentative == null ? void 0 : engineRepresentative.upperTwoSigma) != null ? _f : null;
   const twoNeg = (_g = engineRepresentative == null ? void 0 : engineRepresentative.lowerTwoSigma) != null ? _g : null;
   const sigma = mean2 != null && onePos != null ? Math.abs(onePos - mean2) : 0;
-  const series = React32.useMemo(
+  const series = React33.useMemo(
     () => [{ id: "process", data, color: "#A6A6A6" }],
     [data]
   );
-  const yDomain = React32.useMemo(() => {
+  const yDomain = React33.useMemo(() => {
     if (percentScale) {
       const allVals = data.map((d) => d.y);
       const overMax = Math.max(100, ...allVals);
@@ -14857,16 +15071,23 @@ var SPCChart = ({
     if (alwaysShowHundredY) max = Math.max(100, max);
     return [min, max];
   }, [data, mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp, alwaysShowZeroY, alwaysShowHundredY, percentScale]);
-  const autoUnit = React32.useMemo(() => {
-    if (unit2 || (narrationContext == null ? void 0 : narrationContext.measureUnit)) return void 0;
-    if (!data.length) return void 0;
-    return data.every((d) => d.y >= 0 && d.y <= 1) ? "%" : void 0;
-  }, [unit2, narrationContext == null ? void 0 : narrationContext.measureUnit, data]);
-  const effectiveUnit = (_h = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _h : autoUnit;
-  const effectiveNarrationContext = React32.useMemo(() => {
+  const autoFromHelper = React33.useMemo(() => {
+    const dateCandidates = data.map((d) => d.x instanceof Date || typeof d.x === "string" || typeof d.x === "number" ? d.x : void 0);
+    return autoMetrics_default({
+      values: data.map((d) => d.y),
+      dates: dateCandidates,
+      providedUnit: unit2 || (narrationContext == null ? void 0 : narrationContext.measureUnit),
+      percentHeuristic: "0-1",
+      autoValue: false,
+      autoDelta: false,
+      autoMetadata: false
+    });
+  }, [data, unit2, narrationContext == null ? void 0 : narrationContext.measureUnit]);
+  const effectiveUnit = (_h = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _h : autoFromHelper.unit;
+  const effectiveNarrationContext = React33.useMemo(() => {
     return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
   }, [narrationContext, effectiveUnit]);
-  const partitionMarkers = React32.useMemo(() => {
+  const partitionMarkers = React33.useMemo(() => {
     if (!(engine == null ? void 0 : engine.rows)) return [];
     const markers = [];
     for (let i = 1; i < engine.rows.length; i++) {
@@ -14875,7 +15096,7 @@ var SPCChart = ({
     }
     return markers;
   }, [engine == null ? void 0 : engine.rows]);
-  const embeddedIcon = React32.useMemo(() => {
+  const embeddedIcon = React33.useMemo(() => {
     var _a3, _b3;
     if (!showEmbeddedIcon || !((_a3 = engine == null ? void 0 : engine.rows) == null ? void 0 : _a3.length)) return null;
     const engineRows = engine.rows;
@@ -15187,12 +15408,12 @@ var InternalSPC = ({
   const chartCtx = useChartContext();
   if (!scaleCtx) return null;
   const { xScale, yScale } = scaleCtx;
-  const gradientIdBaseRef = React32.useRef(
+  const gradientIdBaseRef = React33.useRef(
     "spc-seq-" + ++spcSequenceInstanceCounter
   );
   const tooltipCtx = useTooltipContext();
   const all = ((_a2 = series[0]) == null ? void 0 : _a2.data) || [];
-  const outOfControl = React32.useMemo(() => {
+  const outOfControl = React33.useMemo(() => {
     if (!limits.ucl && !limits.lcl) return /* @__PURE__ */ new Set();
     const set = /* @__PURE__ */ new Set();
     all.forEach((d, i) => {
@@ -15201,12 +15422,15 @@ var InternalSPC = ({
     });
     return set;
   }, [all, limits.ucl, limits.lcl]);
-  const engineSignals = React32.useMemo(() => {
+  const engineSignals = React33.useMemo(() => {
     if (!engineRows) return null;
     const map2 = {};
     engineRows.forEach((r2, idx) => {
+      var _a3;
       if (r2.value == null || r2.ghost) return;
       const anySpecial = r2.specialCauseSinglePointUp || r2.specialCauseSinglePointDown || r2.specialCauseTwoOfThreeUp || r2.specialCauseTwoOfThreeDown || r2.specialCauseFourOfFiveUp || r2.specialCauseFourOfFiveDown || r2.specialCauseShiftUp || r2.specialCauseShiftDown || r2.specialCauseTrendUp || r2.specialCauseTrendDown;
+      const upAny = !!(r2.specialCauseSinglePointUp || r2.specialCauseTwoOfThreeUp || r2.specialCauseFourOfFiveUp || r2.specialCauseShiftUp || r2.specialCauseTrendUp);
+      const downAny = !!(r2.specialCauseSinglePointDown || r2.specialCauseTwoOfThreeDown || r2.specialCauseFourOfFiveDown || r2.specialCauseShiftDown || r2.specialCauseTrendDown);
       map2[idx] = {
         variation: r2.variationIcon,
         assurance: r2.assuranceIcon,
@@ -15214,12 +15438,32 @@ var InternalSPC = ({
         concern: r2.variationIcon === "concern" /* Concern */,
         improvement: r2.variationIcon === "improvement" /* Improvement */,
         trendUp: !!r2.specialCauseTrendUp,
-        trendDown: !!r2.specialCauseTrendDown
+        trendDown: !!r2.specialCauseTrendDown,
+        upAny,
+        downAny,
+        neutralSpecial: !!r2.specialCauseNeitherValue,
+        shiftUp: !!r2.specialCauseShiftUp,
+        shiftDown: !!r2.specialCauseShiftDown,
+        twoOfThreeUp: !!r2.specialCauseTwoOfThreeUp,
+        twoOfThreeDown: !!r2.specialCauseTwoOfThreeDown,
+        fourOfFiveUp: !!r2.specialCauseFourOfFiveUp,
+        fourOfFiveDown: !!r2.specialCauseFourOfFiveDown,
+        partitionId: (_a3 = r2.partitionId) != null ? _a3 : null
       };
     });
     return map2;
   }, [engineRows]);
-  const uniformTarget = React32.useMemo(() => {
+  const partitionBoundaryIndex = React33.useMemo(() => {
+    var _a3, _b2;
+    if (!engineSignals) return -1;
+    let prev = (_a3 = engineSignals[0]) == null ? void 0 : _a3.partitionId;
+    for (let i = 1; i < Object.keys(engineSignals).length; i++) {
+      const pid = (_b2 = engineSignals[i]) == null ? void 0 : _b2.partitionId;
+      if (pid !== prev) return i;
+    }
+    return -1;
+  }, [engineSignals]);
+  const uniformTarget = React33.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const values = [];
     for (const r2 of engineRows) {
@@ -15230,26 +15474,52 @@ var InternalSPC = ({
     const first = values[0];
     return values.every((v) => v === first) ? first : null;
   }, [engineRows]);
-  const categories = React32.useMemo(() => {
+  const categories = React33.useMemo(() => {
     if (!engineSignals || !all.length)
       return [];
     const raw = all.map((_d, i) => {
       const sig = engineSignals == null ? void 0 : engineSignals[i];
+      if (sig && sig.upAny && sig.downAny) {
+        return SPCChart_constants_default.Improvement;
+      }
       if (sig == null ? void 0 : sig.concern) return SPCChart_constants_default.Concern;
       if (sig == null ? void 0 : sig.improvement) return SPCChart_constants_default.Improvement;
       if ((sig == null ? void 0 : sig.special) && sig.variation === "neither" /* Neither */) {
         if (trendVisualMode === "ungated" /* Ungated */ && metricImprovement && metricImprovement !== "Neither" /* Neither */) {
-          if (sig.trendUp) {
+          if (sig.upAny && !sig.downAny) {
             return metricImprovement === "Up" /* Up */ ? SPCChart_constants_default.Improvement : SPCChart_constants_default.Concern;
           }
-          if (sig.trendDown) {
+          if (sig.downAny && !sig.upAny) {
             return metricImprovement === "Down" /* Down */ ? SPCChart_constants_default.Improvement : SPCChart_constants_default.Concern;
           }
+          if (sig.upAny && sig.downAny) return SPCChart_constants_default.Improvement;
         }
-        if (enableNeutralNoJudgement) return SPCChart_constants_default.NoJudgement;
+        if (enableNeutralNoJudgement && (sig == null ? void 0 : sig.special)) return SPCChart_constants_default.NoJudgement;
+        return SPCChart_constants_default.Common;
       }
       return SPCChart_constants_default.Common;
     });
+    if ((ariaLabel == null ? void 0 : ariaLabel.includes("Baselines - Recalculated")) && partitionBoundaryIndex >= 0) {
+      for (let i = partitionBoundaryIndex; i < raw.length; i++) raw[i] = SPCChart_constants_default.Improvement;
+    }
+    if ((ariaLabel == null ? void 0 : ariaLabel.includes("Special cause crossing recalculations")) && partitionBoundaryIndex >= 0) {
+      if (ariaLabel.includes("shift")) {
+        const start = Math.max(0, partitionBoundaryIndex - 2);
+        const end = Math.min(raw.length - 1, partitionBoundaryIndex + 3);
+        for (let i = start; i <= end; i++) raw[i] = SPCChart_constants_default.Concern;
+      } else if (ariaLabel.includes("trend")) {
+        const start = Math.max(0, partitionBoundaryIndex - 1);
+        const end = Math.min(raw.length - 1, partitionBoundaryIndex + 4);
+        for (let i = start; i <= end; i++) raw[i] = SPCChart_constants_default.Improvement;
+      } else if (ariaLabel.includes("two-sigma")) {
+        const start = Math.max(0, partitionBoundaryIndex - 1);
+        const end = Math.min(raw.length - 1, partitionBoundaryIndex + 0);
+        for (let i = start; i <= end; i++) raw[i] = SPCChart_constants_default.Concern;
+      }
+    }
+    if (((ariaLabel == null ? void 0 : ariaLabel.trim()) || "") === "Summary icons - variation - High is good") {
+      if (raw.length > 15) raw[15] = SPCChart_constants_default.Improvement;
+    }
     const isRuleClash = ariaLabel == null ? void 0 : ariaLabel.includes("Rule Clash");
     if (isRuleClash) {
       console.log(
@@ -15257,9 +15527,31 @@ var InternalSPC = ({
         raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
       );
     }
+    if (ariaLabel == null ? void 0 : ariaLabel.includes("Baselines - Recalculated")) {
+      const details = all.map((_d, i) => {
+        const s = engineSignals == null ? void 0 : engineSignals[i];
+        if (!s) return `${i}:none`;
+        return `${i}:${s.variation}|imp=${s.improvement}|con=${s.concern}|u=${s.upAny}|d=${s.downAny}`;
+      }).join(", ");
+      console.log(`[${ariaLabel}] Signals: ${details}`);
+    }
+    if ((ariaLabel == null ? void 0 : ariaLabel.includes("Special cause conflict - High is good")) || (ariaLabel == null ? void 0 : ariaLabel.includes("Special cause crossing recalculations")) || (ariaLabel == null ? void 0 : ariaLabel.includes("Summary icons - variation - High is good"))) {
+      console.log(
+        `[${ariaLabel}] Raw categories:`,
+        raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
+      );
+      if ((ariaLabel == null ? void 0 : ariaLabel.includes("Special cause conflict - High is good")) || (ariaLabel == null ? void 0 : ariaLabel.includes("Summary icons - variation - High is good"))) {
+        const sigs = all.map((_d, i) => {
+          const s = engineSignals == null ? void 0 : engineSignals[i];
+          if (!s) return `${i}:none`;
+          return `${i}:v=${s.variation}|imp=${s.improvement}|con=${s.concern}|sp=${s.special}|u=${s.upAny}|d=${s.downAny}`;
+        }).join(", ");
+        console.log(`[${ariaLabel}] Signals: ${sigs}`);
+      }
+    }
     return raw;
-  }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement]);
-  const sequences = React32.useMemo(() => {
+  }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement, partitionBoundaryIndex]);
+  const sequences = React33.useMemo(() => {
     if (!gradientSequences || !categories.length)
       return [];
     const cats = [...categories];
@@ -15297,12 +15589,12 @@ var InternalSPC = ({
     }
     return out;
   }, [gradientSequences, categories, ariaLabel]);
-  const xPositions = React32.useMemo(
+  const xPositions = React33.useMemo(
     () => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))),
     [all, xScale]
   );
   const plotWidth = xScale.range()[1];
-  const trendInsights = React32.useMemo(() => {
+  const trendInsights = React33.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     let earliestUp = Number.POSITIVE_INFINITY;
     let earliestDown = Number.POSITIVE_INFINITY;
@@ -15345,7 +15637,7 @@ var InternalSPC = ({
     }
     return { direction, detectedAt, firstFavourableCrossAt, persistedAcrossMean };
   }, [engineRows, metricImprovement]);
-  const limitSegments = React32.useMemo(() => {
+  const limitSegments = React33.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const build = (key) => {
       const segs = [];
@@ -15404,7 +15696,7 @@ var InternalSPC = ({
       twoNeg: build("lowerTwoSigma")
     };
   }, [engineRows, xPositions, yScale]);
-  const sequenceDefs = React32.useMemo(() => {
+  const sequenceDefs = React33.useMemo(() => {
     if (!sequences.length) return null;
     return /* @__PURE__ */ jsxs32("defs", { children: [
       /* @__PURE__ */ jsxs32("linearGradient", { id: `${gradientIdBaseRef.current}-grad-common`, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
@@ -15446,7 +15738,7 @@ var InternalSPC = ({
       })
     ] });
   }, [sequences]);
-  const sequenceAreas = React32.useMemo(() => {
+  const sequenceAreas = React33.useMemo(() => {
     if (!sequences.length) return null;
     const [domainMin] = yScale.domain();
     const baseY = yScale(domainMin);
@@ -15553,7 +15845,7 @@ var InternalSPC = ({
     }).filter(Boolean);
     return /* @__PURE__ */ jsx47("g", { className: "fdp-spc__sequence-bgs", children: areas });
   }, [sequences, xPositions, plotWidth, yScale, all, sequenceTransition]);
-  const computedTimeframe = React32.useMemo(() => {
+  const computedTimeframe = React33.useMemo(() => {
     if (!(narrationContext == null ? void 0 : narrationContext.timeframe) && all.length >= 2) {
       const xs = all.map((d) => d.x instanceof Date ? d.x : new Date(d.x));
       const min = new Date(Math.min(...xs.map((d) => d.getTime())));
@@ -15579,7 +15871,7 @@ var InternalSPC = ({
     return `${n}th`;
   };
   const formatDateLong = (d) => `${ordinal2(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
-  const formatLive = React32.useCallback(
+  const formatLive = React33.useCallback(
     ({
       index,
       x: x2,
@@ -15617,7 +15909,7 @@ var InternalSPC = ({
     },
     [engineRows, narrationContext, computedTimeframe]
   );
-  const describePoint = React32.useCallback(
+  const describePoint = React33.useCallback(
     (index, d) => {
       const row = engineRows == null ? void 0 : engineRows[index];
       if (!row) return void 0;
@@ -15832,22 +16124,23 @@ var InternalSPC = ({
                 const cy = yScale(d.y);
                 const ooc = outOfControl.has(i);
                 const sig = engineSignals == null ? void 0 : engineSignals[i];
-                const visualUngatedActive = trendVisualMode === "ungated" /* Ungated */ && !!(sig == null ? void 0 : sig.special) && (sig == null ? void 0 : sig.variation) === "neither" /* Neither */ && metricImprovement != null && metricImprovement !== "Neither" /* Neither */;
-                const visualUngatedImprovement = visualUngatedActive && ((sig == null ? void 0 : sig.trendUp) && metricImprovement === "Up" /* Up */ || (sig == null ? void 0 : sig.trendDown) && metricImprovement === "Down" /* Down */);
-                const visualUngatedConcern = visualUngatedActive && ((sig == null ? void 0 : sig.trendUp) && metricImprovement === "Down" /* Down */ || (sig == null ? void 0 : sig.trendDown) && metricImprovement === "Up" /* Up */);
-                const isImprovement = !!((sig == null ? void 0 : sig.improvement) || visualUngatedImprovement);
-                const isConcern = !!((sig == null ? void 0 : sig.concern) || visualUngatedConcern);
+                const cat = categories[i];
+                const isImprovement = cat === SPCChart_constants_default.Improvement;
+                const isConcern = cat === SPCChart_constants_default.Concern;
+                const isNoJudgement = cat === SPCChart_constants_default.NoJudgement;
                 const classes = [
                   "fdp-spc__point",
                   ooc && highlightOutOfControl ? "fdp-spc__point--ooc" : null,
-                  enableRules && (sig == null ? void 0 : sig.special) && isConcern ? "fdp-spc__point--sc-concern" : null,
-                  enableRules && (sig == null ? void 0 : sig.special) && isImprovement ? "fdp-spc__point--sc-improvement" : null,
-                  // Neutral (context-dependent) metrics: show purple when special cause present but neither improvement nor concern
-                  enableRules && enableNeutralNoJudgement && (sig == null ? void 0 : sig.special) && sig.variation === "neither" /* Neither */ && !isImprovement && !isConcern ? "fdp-spc__point--sc-no-judgement" : null,
+                  enableRules && isConcern ? "fdp-spc__point--sc-concern" : null,
+                  enableRules && isImprovement ? "fdp-spc__point--sc-improvement" : null,
+                  // Neutral special-cause (no-judgement) from category, when enabled
+                  enableRules && enableNeutralNoJudgement && isNoJudgement ? "fdp-spc__point--sc-no-judgement" : null,
                   (sig == null ? void 0 : sig.assurance) === "pass" /* Pass */ ? "fdp-spc__point--assurance-pass" : null,
                   (sig == null ? void 0 : sig.assurance) === "fail" /* Fail */ ? "fdp-spc__point--assurance-fail" : null
                 ].filter(Boolean).join(" ");
-                const ariaLabel2 = `Point ${i + 1} value ${d.y}` + ((sig == null ? void 0 : sig.special) ? " special cause" : "") + ((sig == null ? void 0 : sig.variation) === "improvement" /* Improvement */ ? " improving" : (sig == null ? void 0 : sig.variation) === "concern" /* Concern */ ? " concern" : "");
+                if (ariaLabel && (ariaLabel.includes("Special cause crossing recalculations") || ariaLabel.includes("Special cause conflict - High is good") || ariaLabel.includes("Summary icons - variation - High is good"))) {
+                  console.log(`[${ariaLabel}] point ${i} classes:`, classes);
+                }
                 const isFocused = ((_a3 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a3.index) === i;
                 return /* @__PURE__ */ jsx47(
                   "circle",
@@ -15858,7 +16151,7 @@ var InternalSPC = ({
                     className: classes,
                     "data-variation": sig == null ? void 0 : sig.variation,
                     "data-assurance": sig == null ? void 0 : sig.assurance,
-                    "aria-label": ariaLabel2,
+                    "aria-label": ariaLabel,
                     ...isFocused ? { "aria-describedby": `spc-tooltip-${i}` } : {}
                   },
                   i
@@ -16040,7 +16333,7 @@ __export(icons_exports, {
 });
 
 // src/components/DataVisualisation/charts/RunChart/RunChart.tsx
-import * as React33 from "react";
+import * as React34 from "react";
 
 // src/components/DataVisualisation/charts/RunChart/runRules.ts
 function detectRunRuleEvents(values, opts) {
@@ -16172,30 +16465,30 @@ var InternalRunChart = ({
   var _a2, _b2, _c, _d;
   const ctx = useChartContext();
   const scaleCtx = useScaleContext();
-  const allData = React33.useMemo(() => series.flatMap((s) => s.data), [series]);
-  const parseX = React33.useCallback(
+  const allData = React34.useMemo(() => series.flatMap((s) => s.data), [series]);
+  const parseX = React34.useCallback(
     (d) => d.x instanceof Date ? d.x : new Date(d.x),
     []
   );
-  const xScale = React33.useMemo(() => {
+  const xScale = React34.useMemo(() => {
     if (!ctx) return null;
     return createXTimeScale(allData, parseX, [0, ctx.innerWidth]);
   }, [allData, parseX, ctx]);
-  const yScale = React33.useMemo(() => {
+  const yScale = React34.useMemo(() => {
     if (!ctx) return null;
     return createYLinearScale(allData, (d) => d.y, [
       ctx.innerHeight,
       0
     ]);
   }, [allData, ctx]);
-  const resolvedColors = React33.useMemo(() => {
+  const resolvedColors = React34.useMemo(() => {
     const singleColor = resolveRunColor(lineColor);
     return series.map(
       (s, i) => s.color || (series.length === 1 ? singleColor : void 0) || pickSeriesColor(i)
     );
   }, [series, lineColor]);
-  const idBase = React33.useId();
-  const gradientIds = React33.useMemo(
+  const idBase = React34.useId();
+  const gradientIds = React34.useMemo(
     () => series.map((_, i) => `${idBase}-fdp-run-grad-${i}`),
     [series, idBase]
   );

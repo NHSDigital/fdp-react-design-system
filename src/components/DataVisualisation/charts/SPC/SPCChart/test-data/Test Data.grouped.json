@@ -1,0 +1,4802 @@
+[
+	{
+		"metric": "Number of points - 12",
+		"improvement": "neither",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 31,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 35,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 34,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 15,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 21,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Number of points - 13",
+		"improvement": "neither",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 31,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 35,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 34,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 15,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 21,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Process limits - 15",
+		"improvement": "neither",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 31,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 34,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Process limits - 10",
+		"improvement": "neither",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 31,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause - High is good",
+		"improvement": "up",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 8,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 20,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 21,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 23,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 21,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 23,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 22,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 23,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 25,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 26,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 28,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 29,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-24",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-25",
+				"value": 36,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-26",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-27",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-28",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-29",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-30",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause - Low is good",
+		"improvement": "down",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 8,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 20,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 21,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 23,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 21,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 23,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 22,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 23,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 25,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 26,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 28,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 29,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-24",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-25",
+				"value": 36,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-26",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-27",
+				"value": 35,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-28",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-29",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-30",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause - Neither",
+		"improvement": "neither",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 8,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 20,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 21,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 23,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 21,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 23,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 22,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 22,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 23,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 25,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 26,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 28,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 29,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-24",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-25",
+				"value": 36,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-26",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-27",
+				"value": 35,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-28",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-29",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-30",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause - single point - ends",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 45,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 15,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 5,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			}
+		]
+	},
+	{
+		"metric": "Special cause - single point - middle",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 35,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 45,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 43,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 7,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause - shift - ends",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 31,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 34,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 29,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 29,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 32,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 35,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 31,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 25,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 27,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 25,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 25,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 17,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			}
+		]
+	},
+	{
+		"metric": "Special cause - shift - middle",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 31,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 21,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 26,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 31,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 26,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 28,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 29,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 32,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 31,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause - trend - no pauses",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 11,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 14,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 18,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 20,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 22,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 23,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 21,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 17,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 25,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 23,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 16,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 15,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 12,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			}
+		]
+	},
+	{
+		"metric": "Special cause - trend - pauses",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 13,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 14,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause - two-sigma - 1",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 42,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 40,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 39,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 39,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 7,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 7,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 7,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause - two-sigma - 2",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 42,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 40,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 39,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 39,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 7,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 7,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 2,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause - two-sigma - 3",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 42,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 40,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 39,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 39,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 7,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 7,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 7,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause conflict - High is good",
+		"improvement": "up",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 43,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 41,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 37,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 36,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 31,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 23,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 15,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 13,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 15,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 18,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 23,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 27,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 31,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 36,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 17,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 15,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause conflict - Low is good",
+		"improvement": "down",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 43,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 41,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 37,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 36,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 31,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 23,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 15,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 13,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 15,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 18,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 23,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 27,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 31,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 36,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 17,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 15,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Recalculations",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 24,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 24,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 25,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 17,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 16,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 25,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 15,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 23,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 32,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 31,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 27,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 33,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 28,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 38,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-24",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-25",
+				"value": 30,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-26",
+				"value": 28,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-27",
+				"value": 29,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-28",
+				"value": 27,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-29",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-30",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Recalculations - Recalculated",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 17,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 15,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 35,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 35,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 31,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 33,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 38,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-24",
+				"value": 35,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-25",
+				"value": 30,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-26",
+				"value": 28,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-27",
+				"value": 29,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-28",
+				"value": 27,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-29",
+				"value": 24,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-30",
+				"value": 23,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			}
+		]
+	},
+	{
+		"metric": "Baselines",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 24,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 24,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 25,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 17,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 16,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 25,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 15,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 23,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 32,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 31,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 27,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 33,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 28,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 38,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-24",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-25",
+				"value": 30,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-26",
+				"value": 28,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-27",
+				"value": 29,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-28",
+				"value": 27,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-29",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-30",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Baselines - Recalculated",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 17,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 15,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 32,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 31,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 27,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 33,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 28,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 38,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-24",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-25",
+				"value": 30,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-26",
+				"value": 28,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-27",
+				"value": 29,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-28",
+				"value": 27,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-29",
+				"value": 24,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-30",
+				"value": 23,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			}
+		]
+	},
+	{
+		"metric": "Special cause crossing recalculations - shift",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 21,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 24,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 28,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 28,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 29,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 33,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 31,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-24",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-25",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-26",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-27",
+				"value": 34,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-28",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-29",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-30",
+				"value": 35,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause crossing recalculations - trend",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 21,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 19,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 22,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 26,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 28,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 29,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 33,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 31,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-24",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-25",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-26",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-27",
+				"value": 34,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-28",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-29",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-30",
+				"value": 35,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Special cause crossing recalculations - two-sigma",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 21,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 29,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 33,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 31,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-24",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-25",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-26",
+				"value": 27,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-27",
+				"value": 34,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-28",
+				"value": 30,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-29",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-30",
+				"value": 35,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Summary icons - assurance - high is good",
+		"improvement": "up",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 24,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 24,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 25,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 17,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 16,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 25,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 15,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 23,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 19,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 32,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 31,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 27,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 33,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 28,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 38,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-24",
+				"value": 35,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-25",
+				"value": 30,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-26",
+				"value": 28,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-27",
+				"value": 29,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-28",
+				"value": 27,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-29",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-30",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Summary icons - assurance - low is good",
+		"improvement": "down",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 24,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 19,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 19,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 24,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 25,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 18,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 17,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 16,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 25,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 15,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 23,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 19,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 35,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 32,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 35,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-19",
+				"value": 31,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-20",
+				"value": 27,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-21",
+				"value": 33,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-22",
+				"value": 28,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-23",
+				"value": 38,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-24",
+				"value": 35,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-25",
+				"value": 30,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-26",
+				"value": 28,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-27",
+				"value": 29,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-28",
+				"value": 27,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-29",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-30",
+				"value": 23,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Summary icons - variation - High is good",
+		"improvement": "up",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 20,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 21,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 43,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 28,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 45,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			}
+		]
+	},
+	{
+		"metric": "Summary icons - variation - Low is good",
+		"improvement": "down",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 20,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 18,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 21,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 43,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 45,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			}
+		]
+	},
+	{
+		"metric": "Summary icons - variation - High is good 2",
+		"improvement": "up",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 20,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 21,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 43,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Summary icons - variation - High is good 3",
+		"improvement": "up",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 20,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 21,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 43,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 5,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			}
+		]
+	},
+	{
+		"metric": "Summary icons - variation - Low is good 3",
+		"improvement": "down",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 20,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 18,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 21,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 43,
+				"colour": "#E46C0A",
+				"judgement": "concern"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 5,
+				"colour": "#00B0F0",
+				"judgement": "improvement"
+			}
+		]
+	},
+	{
+		"metric": "Summary icons - variation - Neither",
+		"improvement": "neither",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 20,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#490092",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 18,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 21,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 43,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 45,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			}
+		]
+	},
+	{
+		"metric": "Summary icons - variation - Too few points",
+		"improvement": "",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 20,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 21,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	},
+	{
+		"metric": "Summary icons - variation - Neither 2",
+		"improvement": "neither",
+		"data": [
+			{
+				"date": "2023-01-01",
+				"value": 16,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-02",
+				"value": 20,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-03",
+				"value": 22,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-04",
+				"value": 18,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-05",
+				"value": 21,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-06",
+				"value": 18,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-07",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-08",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-09",
+				"value": 24,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-10",
+				"value": 26,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-11",
+				"value": 19,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-12",
+				"value": 18,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-13",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-14",
+				"value": 32,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-15",
+				"value": 43,
+				"colour": "#490092",
+				"judgement": "suppressed"
+			},
+			{
+				"date": "2023-01-16",
+				"value": 28,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-17",
+				"value": 22,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			},
+			{
+				"date": "2023-01-18",
+				"value": 25,
+				"colour": "#A6A6A6",
+				"judgement": "neither"
+			}
+		]
+	}
+]

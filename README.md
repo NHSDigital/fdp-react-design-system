@@ -200,13 +200,21 @@ npm run storybook
 ### Available Scripts
 
 ```bash
-npm run build:tokens    # Build design tokens
-npm run storybook       # Start Storybook development server
-npm run build-storybook # Build Storybook for production
-npm run test            # Run component tests
-npm run test:visual     # Run visual regression tests
-npm run lint            # Run ESLint
-npm run type-check      # Run TypeScript type checking
+# Design tokens
+npm run build:tokens           # Build design tokens (smart rebuild)
+
+# Storybook
+npm run storybook              # Start Storybook (dev)
+npm run build-storybook        # Build Storybook (static)
+
+# Tests
+npm run test:components        # Run full component test suite (quiet summary)
+npm run test:metrics           # Run full suite with metrics summary (and text coverage)
+npm run test:ssr-components    # Run server-side rendering compatibility tests
+
+# Code quality
+npm run lint                   # ESLint
+npm run typecheck              # TypeScript type checking
 ```
 
 ## Architecture

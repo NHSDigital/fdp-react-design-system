@@ -81,6 +81,10 @@ export interface SpcSettingsV26a {
 	// Parity-specific controls
 	trendAcrossPartitions?: boolean; // default false (SQL v2.2+ enables; preset turns on)
 	twoSigmaIncludeAboveThree?: boolean; // default false (preset turns on)
+	// When true, once the chart has at least `minimumPoints` non-ghosted values overall,
+	// compute limits and evaluate rules across entire partitions (retrospective colouring of early rows).
+	// When false (default), eligibility is per-point (prospective) using pointRank.
+	chartLevelEligibility?: boolean;
 }
 
 // The fully computed row emitted by the engine

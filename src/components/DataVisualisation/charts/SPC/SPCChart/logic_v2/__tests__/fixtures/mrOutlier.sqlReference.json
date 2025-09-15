@@ -1,0 +1,16 @@
+{
+  "series": [10, 10.2, 9.9, 10.1, 40, 10.0, 9.8, 10.1, 10.0, 9.9, 10.2, 10.1, 9.9],
+  "minimumPoints": 12,
+  "expected": {
+    "meanWithoutOutliers": 10.018181818181818,
+    "mrBarExcluded": 0.2,
+    "mrUclExcluded": 0.6534,
+    "upl": 10.550181818181818,
+    "lpl": 9.486181818181818,
+    "twoSigmaUpper": 10.372848484848485,
+    "twoSigmaLower": 9.663515151515151,
+    "oneSigmaUpper": 10.195515151515151,
+    "oneSigmaLower": 9.840848484848484
+  },
+  "tolerance": 1e-9
+}

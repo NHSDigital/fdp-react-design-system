@@ -16,6 +16,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Storybook vignette for zero-width limits: Demonstrates partitions where MR̄ = 0 leading to collapsed limits (UCL = LCL = mean) and a companion table of computed limits
   - Centralised, dataset-wide SPC report: parity test iterates all grouped metrics and prints a per-metric summary to the console for manual inspection (kept under tests)
   - Assurance edge-case tests: Added explicit tests for target exactly on a process limit and for zero-width bands across Up/Down/Neither metrics
+  - T&G parity vignettes: Added `Data Visualisation/SPC/v2/T&G Parity Vignettes` story illustrating T back‑transform LCL≤0 suppression and G quantile limits using preprocess adapters (engine remains XmR‑focused)
 
 - SPC v2 parity mode (logic_v2)
   - PARITY_V26 preset and `withParityV26(...)` helper to enable SQL v2.6a-aligned behaviour (XmR focus).
@@ -23,8 +24,13 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - New metrics-oriented Vitest config and npm script to print full-suite metrics (summary and text coverage).
   - Storybook v2 parity toggles in SPC v2 stories (grouped dataset, healthcare, SPCMetricCard integration).
   - Docs updated: parity plan and burndown reflect current status and next steps.
+  - Chart-level eligibility (SQL-style) implemented in parity mode: once `minimumPoints` is met chart-wide, limits are available for all rows in each partition and rules apply retroactively to early windows.
+  - Storybook tables updated with an “Eligible” column in both Grouped dataset and Healthcare v2 stories to make eligibility explicit.
+  - Parity tightening completed: per-row start-of-partition eligibility semantics locked; added symmetric two‑of‑three include‑>3σ tests (same-side, partition-bounded). Burndown updated to mark M4 complete.
+  - Added SQL numeric fixture and parity test for MR outlier exclusion (locks mean and limits when exclusion is enabled); burndown M5 updated.
   - Centralised Storybook datasets for SPC v2 stories: grouped JSON and healthcare datasets now live under `logic_v2/storybook/data/`.
   - Healthcare (v2) story now includes a computed expected‑colour table derived from the engine’s `VariationIcon` for side‑by‑side inspection.
+  - Docs: Clarified eligibility gating semantics at partition starts — limits are now gated per row using pointRank >= minimumPoints (first N-1 rows in a partition emit null limits; limits appear from the Nth row).
 
 ### Changed (Unreleased – Data Visualisation / SPC)
 
@@ -42,7 +48,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Trend across partitions now supported under the parity preset while retaining per-partition limits.
   - Two-of-three ≥2σ semantics configurable to include >3σ points (preset: enabled) and require same-side third qualifying point.
   - Assurance parity: suppressed on T/G; XmR deterministic pass/fail when target equals a process limit.
-  - Eligibility gating is now per-partition: partitions with fewer than `minimumPoints` non-ghost values emit null limits and no rule flags (global trend across partitions still permitted when enabled).
+  - Eligibility gating: per-partition limits remain, but in parity mode a chart-level threshold enables retroactive rule evaluation for early points once the series qualifies.
 
 ### Fixed (Unreleased – Data Visualisation / SPC)
 

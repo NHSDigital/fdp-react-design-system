@@ -20,7 +20,10 @@ This module provides a small, self-contained SPC engine aligned to SQL v2.6a sem
   - `minimumPoints` (default 13): global gating for emitting control lines
   - `shiftPoints` (default 6): points needed for a shift
   - `trendPoints` (default 6): points needed for a trend
-  - `excludeMovingRangeOutliers` (default false): single-pass MR outlier exclusion
+  - `excludeMovingRangeOutliers` (default false): single-pass MR outlier exclusion; when enabled, both MR̄ and the centre-line mean are recomputed from the outlier-excluded set (SQL `MeanWithoutOutliers`)
+  - `twoSigmaIncludeAboveThree` (preset: true): include >3σ points toward the two‑of‑three ≥2σ rule (same side)
+  - `trendAcrossPartitions` (preset: true): evaluate monotonic trend windows across partition boundaries
+  - `chartLevelEligibility` (preset: true): once the chart meets `minimumPoints` overall (excluding ghosts/nulls), compute limits for all rows in each partition and evaluate rules retroactively (SQL behaviour)
   - `metricConflictRule` (default `Improvement`): when prime direction is Same
 
 ### Output
@@ -47,11 +50,46 @@ const last = res.rows.filter(r => !r.ghost && r.value !== null).pop();
 console.log(last?.variationIcon); // => NeitherHigh (rules on the high side)
 ```
 
+## Settings and presets
+
+- Parity helper: `withParityV26(baseOverrides?)`
+  - Produces SQL v2.6a-aligned settings for XmR, including:
+    - `minimumPoints: 13`, `shiftPoints: 6`, `trendPoints: 6`
+    - `twoSigmaIncludeAboveThree: true`
+    - `trendAcrossPartitions: true`
+    - `chartLevelEligibility: true`
+    - `excludeMovingRangeOutliers: false` (toggle per-chart as needed)
+  - Usage:
+
+```ts
+import { withParityV26, buildSpcV26a, ChartType, ImprovementDirection } from './logic_v2';
+
+const settings = withParityV26({ /* optional overrides */ });
+
+const { rows } = buildSpcV26a({
+  chartType: ChartType.XmR,
+  metricImprovement: ImprovementDirection.Up,
+  data,
+  settings,
+});
+```
+
+- Non-parity mode: supply explicit settings (for example to use prospective per-point eligibility):
+
+```ts
+const settings = { minimumPoints: 12, chartLevelEligibility: false };
+```
+
+## Eligibility semantics
+
+- Chart-level eligibility (parity mode): once the series has ≥ `minimumPoints` non‑ghosted, valued points overall, control limits are available for all rows in each partition and rules apply retroactively to early windows. This mirrors SQL and explains why early points may be coloured after the chart qualifies.
+- Per-point eligibility (non‑parity): control lines start at the first eligible row per partition (earlier rows have null limits and no rules).
+
 ## Notes
 
 - SQL parity: rule ranking and pruning are mirrored; for Up/Down metrics we prune per SQL’s prime direction and conflict rule.
 - Neither semantics: SQL denotes a neutral judgement; here we surface side-specific neutral icons (`NeitherHigh`/`NeitherLow`).
-- Limits gating: control lines and bands are only emitted when the series meets `minimumPoints` for non-ghosted values.
+- Limits gating: in parity mode, control lines are available chart‑wide once global `minimumPoints` is met (retroactive); otherwise they start from the first eligible row per partition.
 - Zero-width limits: When MR̄ = 0 within a partition (flat values), the engine emits zero‑width limits (UCL = LCL = mean) and collapses ±1σ/±2σ bands to the mean. See the Storybook vignette “Zero‑width limits” under Data Visualisation/SPC/v2.
 - Future: T/G chart paths can be added; tests are structured to allow incremental growth.
 
@@ -70,3 +108,4 @@ npm run test:spc-v2
 - Data Visualisation/SPC/v2/Test dataset (JSON): Compute with logic_v2 and compare against expected colours with swatches
 - Data Visualisation/SPC/v2/Healthcare (v2 engine): Synthetic healthcare datasets rendered via SPCChart using logic_v2
 - Data Visualisation/SPC/v2/SPC MetricCard (v2 engine): SPCMetricCard wired to v2 with status mapped from VariationIcon
+  - Both v2 playgrounds include an “Eligible” column to make eligibility explicit when parity mode is on.

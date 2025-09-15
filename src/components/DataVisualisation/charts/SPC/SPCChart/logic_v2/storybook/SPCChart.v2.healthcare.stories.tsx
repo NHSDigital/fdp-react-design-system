@@ -55,20 +55,25 @@ const meta: Meta = {
 	},
 };
 export default meta;
-	type Story = StoryObj<{
-	    dataset: string;
-	    showLastJudgement?: boolean;
-	    parityMode?: boolean;
-	    showTable?: boolean;
-	}>;
+
+type Story = StoryObj<{
+	dataset: string;
+	showLastJudgement?: boolean;
+	parityMode?: boolean;
+	showTable?: boolean;
+}>;
 
 export const HealthcarePlaygroundV2: Story = {
 	name: "Playground (healthcare datasets)",
 	render: ({ dataset, showLastJudgement, parityMode, showTable }) => {
 		const def = findDataset(dataset);
-		const dates = months(def.values.length);
-		const series = dates.map((x, i) => ({ x, y: def.values[i] }));
-
+		const dates = useMemo(() => months(def.values.length), [def.values.length]);
+		const series = useMemo(
+			() => def.values.map((value, i) => ({ x: dates[i], y: value })),
+			[dates, def]
+		);
+		const improvement = useMemo(() => toV2Dir(def.direction), [def.direction]);
+		const v1Improvement = useMemo(() => toV1Dir(improvement), [improvement]);
 		const rows = useMemo(() => {
 			const input = series.map((d) => ({
 				x: d.x,
@@ -81,15 +86,27 @@ export const HealthcarePlaygroundV2: Story = {
 			const settings = parityMode ? withParityV26(baseSettings) : baseSettings;
 			return buildSpcV26a({
 				chartType: ChartType.XmR,
-				metricImprovement: toV2Dir(def.direction),
+				metricImprovement: improvement,
 				data: input,
 				settings,
 			}).rows;
-		}, [dataset, parityMode]);
+		}, [series, improvement, parityMode]);
 
-		const last = rows.filter((r) => !r.ghost && r.value !== null).pop();
+		const nonGhostRows = useMemo(() => rows.filter((r) => !r.ghost), [rows]);
+		const last = nonGhostRows.filter((r) => r.value !== null).pop();
+		const pointCount = nonGhostRows.length;
+		const improvementSummary = useMemo(() => {
+			switch (improvement) {
+				case ImprovementDirection.Up:
+					return "Higher is better";
+				case ImprovementDirection.Down:
+					return "Lower is better";
+				default:
+					return "No polarity (neutral metric)";
+			}
+		}, [improvement]);
 
-		// Compose optional expected-colour table derived from the engine's VariationIcon
+		// Compose optional expected-colour table derived from the engine's VariationIcon (polarity-aware)
 		const table = showTable ? (
 			<Table
 				caption="Computed expected colours (v2)"
@@ -97,9 +114,15 @@ export const HealthcarePlaygroundV2: Story = {
 				responsive
 				firstCellIsHeader={false}
 				columns={[
+					{ key: "index", title: "Index" },
 					{ key: "date", title: "Date" },
 					{ key: "value", title: "Value", format: "numeric" },
 					{ key: "icon", title: "Icon" },
+					{
+						key: "eligible",
+						title: "Eligible",
+						render: (isEligible: boolean) => ({ node: <span>{isEligible ? "Yes" : "No"}</span> }),
+					},
 					{
 						key: "colour",
 						title: "Colour",
@@ -130,22 +153,24 @@ export const HealthcarePlaygroundV2: Story = {
 						}),
 					},
 				]}
-				data={rows
-					.filter((r) => !r.ghost)
-					.map((r) => ({
+				data={nonGhostRows.map((r, i) => ({
+						index: i,
 						date: new Date(r.x as any).toLocaleDateString("en-GB"),
 						value: r.value,
 						icon: String(r.variationIcon),
+						eligible: typeof r.mean === "number" && Number.isFinite(r.mean),
 						colour: iconToHex(r.variationIcon),
 					}))}
 			/>
 		) : undefined;
 
+		const paritySummary = parityMode ? "Parity preset (SQL v2.6a)" : "Base engine";
+
 		return (
 			<>
 				<ChartContainer
 					title={`${def.name} (v2 engine)`}
-					description={`Points: ${rows.length}`}
+					description={`${def.description} • ${pointCount} points • ${improvementSummary}`}
 					source="Synthetic"
 					showTableToggle
 					initiallyShowTable={!!showTable}
@@ -154,7 +179,7 @@ export const HealthcarePlaygroundV2: Story = {
 					<SPCChart
 						data={series}
 						chartType={V1ChartType.XmR}
-						metricImprovement={toV1Dir(toV2Dir(def.direction))}
+						metricImprovement={v1Improvement}
 						enableRules
 						showPoints
 						gradientSequences
@@ -162,13 +187,20 @@ export const HealthcarePlaygroundV2: Story = {
 						unit={def.unit}
 					/>
 				</ChartContainer>
-				<div style={{ fontSize: 12, color: "#666" }}>
-					{showLastJudgement ? (
-						<span>
-							Last judgement (v2):{" "}
-							<strong>{String(last?.variationIcon ?? "-")}</strong>
-						</span>
-					) : null}
+				<div style={{ display: "grid", gap: 4, fontSize: 12, color: "#666" }}>
+					<div>
+						<strong>Dataset:</strong> {def.name} — {def.unit ? `${def.unit} • ` : ""}
+						{paritySummary}
+					</div>
+					<div>
+						<strong>Direction:</strong> {improvementSummary}
+						{showLastJudgement ? (
+							<>
+								{" • "}
+								<strong>Last judgement:</strong> {String(last?.variationIcon ?? "-")}
+							</>
+						) : null}
+					</div>
 				</div>
 			</>
 		);

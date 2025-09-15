@@ -36,7 +36,7 @@ export declare const healthcareDatasets: readonly [{
     readonly description: "Indicative RTT waiting list performance; higher is better.";
     readonly values: readonly [76, 79.7, 76.2, 74.4, 74.5, 74.2, 75.2, 75.8, 74.9, 75, 74.8, 74.9, 79, 81, 80.7, 81.2, 81, 80.8, 81, 81.3, 81.6, 82, 83.2, 84.5, 84];
 }];
-export type HealthcareDataset = typeof healthcareDatasets[number];
+export type HealthcareDataset = (typeof healthcareDatasets)[number];
 export declare function datasetOptions(): string[];
 export declare function findDataset(name?: string): HealthcareDataset;
 export declare function months(count: number, startISO?: string): Date[];

@@ -26,6 +26,7 @@ It lists where we match, where we diverge, and a concrete workplan (with accepta
   - G: quantile/probability-based limits from geometric distribution (no MR).
   - For T/G, MR-related columns are suppressed.
 - Nulls and ghosts: null values excluded from calculations; ghost rows do not participate in calculations.
+ - Eligibility: SQL applies a chart-level minimum points threshold; once met, rules can colour early points retrospectively. The parity preset enables the same behaviour via a `chartLevelEligibility` setting.
 
 ## Confirmed or likely deviations (to address)
 
@@ -180,6 +181,25 @@ Acceptance criteria
 - Optional preprocessing adapter for T/G.
 - Storybook examples with a "SQL parity" toggle to visualise differences.
 
+## How to enable parity mode (implementation)
+
+Use the helper `withParityV26(...)` from `logic_v2` to opt into SQL-aligned behaviour:
+
+```ts
+import { withParityV26, buildSpcV26a, ChartType, ImprovementDirection } from '.../logic_v2';
+
+const settings = withParityV26(); // optional overrides allowed
+
+const { rows } = buildSpcV26a({
+  chartType: ChartType.XmR,
+  metricImprovement: ImprovementDirection.Up,
+  data,
+  settings,
+});
+```
+
+Key toggles in the preset include `chartLevelEligibility`, `trendAcrossPartitions`, and `twoSigmaIncludeAboveThree`. See `logic_v2/docs/README.md` for the full settings reference.
+
 ## Done when
 
 - With `PARITY_V26`, the TS engine produces the same special-cause flags, limits, and icons as the SQL v2.6 for equivalent input series, across the listed scenarios.
@@ -190,18 +210,18 @@ Acceptance criteria
 ## Current status (as of 15 Sep 2025)
 
 - v2 engine implemented (XmR focus) under `logic_v2/` with modular detectors, conflict pruning, assurance, and orchestrator (`engine.ts`).
-- Parity preset available: `PARITY_V26` plus `withParityV26(...)` merge helper.
-- Rule semantics in parity mode:
+- Parity preset available: `PARITY_V26` plus `withParityV26(...)` merge helper (used throughout v2 stories and tests).
+- Rule semantics in parity mode (XmR):
   - Trend across partitions: implemented and gated by parity preset.
   - Two‑of‑three ≥2σ: implemented with option to include >3σ points on the same side (enabled by parity preset).
-  - Per‑partition eligibility: control lines and rule detection are gated per partition by `minimumPoints`; ineligible partitions emit null limits and no rules. Global trend across partitions remains available when enabled.
+  - Per‑row eligibility at partition starts: within each partition, a row becomes eligible once there are at least `minimumPoints` non‑ghost, valued points up to and including that row (i.e., first N‑1 rows are ineligible, limits start from the Nth). Ineligible rows emit null limits and no rules. Global trend across partitions remains available when enabled.
   - MR outlier exclusion parity: when `excludeMovingRangeOutliers=true`, both MRbar and the centre-line mean are recomputed from the outlier‑excluded set (SQL `MeanWithoutOutliers`).
 - Assurance alignment:
   - Wrapper suppresses assurance for T/G and applies XmR on‑limit pass/fail logic.
   - Zero‑width band semantics implemented; equality behaviour tested. New Storybook vignette added for documentation.
 - Storybook v2 playgrounds with a parity toggle in Controls:
-  - Grouped dataset: "Data Visualisation/SPC/v2/Grouped dataset (JSON)" with expected-colour table sourced from dataset JSON
-  - Healthcare: "Data Visualisation/SPC/v2/Healthcare (v2 engine)" now using centralised datasets and a computed expected-colour table based on VariationIcon
+  - Grouped dataset: "Data Visualisation/SPC/v2/Grouped dataset (JSON)" with expected-colour table sourced from dataset JSON and an explicit “Eligible” column
+  - Healthcare: "Data Visualisation/SPC/v2/Healthcare (v2 engine)" now using centralised datasets and a computed expected-colour table based on VariationIcon, plus an “Eligible” column
   - Zero‑width limits vignette: illustrates flat partition after baseline with collapsed limits and an accompanying computed limits table
   - SPC MetricCard v2 integration
 - Tests
@@ -209,8 +229,7 @@ Acceptance criteria
   - All component and SSR tests pass; non‑blocking a11y warning unrelated to SPC remains in the grid suite.
 
 Known gaps vs SQL v2.6 (tracked in burndown)
-- T/G preprocessing adapter for parity examples (optional scope).
-- Expand healthcare fixtures and align colour legend mapping with design tokens if needed.
+ - T/G engine parity: currently illustrated via preprocess + Storybook vignettes only; formal engine limits for T/G are deferred until XmR lock‑down.
 
 ## How to validate locally
 
@@ -233,11 +252,11 @@ Run the standard gates after any SPC changes:
 ## Next steps
 
 Short term (this sprint)
-- Add centralised tests that consume the shared healthcare/grouped datasets to validate engine outputs (limits present once eligible; rule flags present; last icon side matches improvement).
+ - Keep healthcare/grouped datasets parity report green and documented.
 
 Medium term
-- Provide a small T/G preprocessing adapter example and parity story (optional).
-- Expand parity fixtures: T with LCL suppression post back‑transform; G with quantile‑based limits.
+- Formalise T/G engine parity after XmR lock‑down: implement T back‑transform/LCL suppression in engine; implement G quantile limits.
+- Expand parity fixtures to include T/G engine cases with unit tests mirroring SQL.
 
 Acceptance for this phase
 - All new parity tests pass with `PARITY_V26` enabled; Storybook parity toggles demonstrate matching behaviour for covered scenarios.

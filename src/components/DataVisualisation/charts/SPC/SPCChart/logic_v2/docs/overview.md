@@ -22,7 +22,7 @@ This module provides a self-contained TypeScript implementation of the SPC engin
 
 ## Notes
 
-- Two-of-three 2σ excludes any point beyond 3σ from counting
-- Trend uses strict monotonicity and is evaluated within a partition (unlike SQL’s cross-partition trend)
+- Two-of-three 2σ semantics are configurable; in parity mode, >3σ points are included toward the 2-of-3 count on the same side of the mean.
+- Trend uses strict monotonicity; in parity mode, runs are evaluated across partitions while limits remain per-partition.
 - Neither-high/low semantics are supported in this module and tested (see changelog for the version that introduced them)
 - Zero-width limits: if the moving‑range mean MR̄ is 0 within a partition (flat values), limits collapse to the centre line (UCL = LCL = mean) and σ bands collapse accordingly. Assurance treats equality to limits deterministically. See Storybook “Zero‑width limits” vignette.

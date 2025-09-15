@@ -55,6 +55,31 @@ When multiple rules trigger at the same most‑recent point, messaging should:
 | Emerging shift + single outlier | Chart 3 | "Shift to higher performance" | Single outlier call-out |
 | Multiple alternating extremes | Chart 5 | "Process unstable with alternating special causes" | Individual beyond-limit enumerations |
 
+## Backfill semantics (SQL parity)
+
+The SQL logic evaluates special‑cause rules once the chart qualifies as an SPC chart, and then backfills detected patterns across the full qualifying window/run, including early rows. Our v2 engine now follows this semantics in parity mode.
+
+- Eligibility gating (chart‑level) first
+	- A chart is considered eligible once it has at least the minimum number of non‑ghosted points overall (XmR default: 13). When eligible, means/limits exist for all rows in each partition, and rules are evaluated across the full partition, allowing early windows to be coloured.
+	- Outside parity mode, a stricter “per‑point” eligibility can be used where limits appear only once each point passes the threshold; this avoids retro‑colouring early rows.
+
+- Single point >3σ
+	- Marks that single row only; no backfill beyond the outlier itself.
+
+- Two‑of‑three ≥2σ (same side)
+	- When any 3‑point window contains at least two points at or beyond 2σ on the same side of the mean (including ≥3σ), all three rows in that window are marked. Overlapping windows are allowed; later pruning resolves conflicts so only the winning candidate remains per row.
+
+- Shift (6) on one side of the mean
+	- Once a contiguous run of eligible points on the same side reaches the threshold, the entire run is backfilled (not just the triggering point). The run resets if a point crosses the mean or at any row where mean/limits are null (gaps, pre‑eligibility).
+
+- Trend (6) strictly increasing/decreasing
+	- Analogous to shift: when the strictly monotonic run reaches the threshold, backfill the whole run. Resets at any non‑monotonic step or at rows without mean/limits. Optional cross‑partition trend can be enabled; it still requires eligibility on both sides and never crosses gaps lacking limits.
+
+- Conflict resolution after detection
+	- Rules produce candidates which may overlap. A deterministic pruning step applies precedence (including prime direction and rule priorities) so each row ends with at most one icon. Backfilled marks from losing candidates are cleared; rows not in any surviving candidate and within limits are shown as “Neither/Common cause”.
+
+Note: This approach ensures the chart only paints signals from the point in time where there was enough history to detect them. Early points can remain Common Cause even if later a shift/trend emerges.
+
 ## Summary
 
 These examples aid design of consistent precedence logic so users see a concise, meaningful summary instead of a confusing cluster of rule labels.

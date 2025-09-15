@@ -24,6 +24,7 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 		metricConflictRule: MetricConflictRule.Improvement,
 		trendAcrossPartitions: false,
 		twoSigmaIncludeAboveThree: false,
+		chartLevelEligibility: false,
 		...settings,
 	};
 
@@ -50,14 +51,18 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 	if (cur.length) partitions.push(cur);
 
 	const out: SpcRowV2[] = [];
+
+	// Determine chart-level eligibility when enabled: count all non-ghost, valued points across the chart
+	const totalEligiblePoints = canon.filter((r) => !r.ghost && isNumber(r.value)).length;
+	const chartEligible = !!s.chartLevelEligibility && totalEligiblePoints >= (s.minimumPoints!);
 	let partitionId = 0;
 	for (const part of partitions) {
 		partitionId++;
 		const values = part.map((p) => p.value);
 		const ghosts = part.map((p) => p.ghost);
 
-		// Eligibility: in parity we gate control lines per-partition, not globally
-		const eligibleInPartition = part.filter((p) => !p.ghost && isNumber(p.value)).length >= s.minimumPoints!;
+		// Eligibility: gate control lines per-row within each partition based on pointRank
+		// A row becomes eligible when there are at least `minimumPoints` non-ghost, valued points in its partition up to and including that row.
 
 		const lim = computePartitionLimits(
 			chartType,
@@ -66,24 +71,26 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 			!!s.excludeMovingRangeOutliers
 		);
 
-		const withLines: SpcRowV2[] = part.map((r, i) => ({
+		const withLines: SpcRowV2[] = part.map((r, i) => {
+			const pointRank =
+				!r.ghost && isNumber(r.value)
+					? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber(v)).length
+					: 0;
+			const eligibleHere = chartEligible ? true : pointRank >= (s.minimumPoints!);
+			return {
 			rowId: r.rowId,
 			x: r.x,
 			value: isNumber(r.value) ? r.value : null,
 			ghost: r.ghost,
 			partitionId,
-			pointRank:
-				!r.ghost && isNumber(r.value)
-					? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber(v))
-							.length
-					: 0,
-			mean: eligibleInPartition && isNumber(lim.mean) ? lim.mean : null,
-			upperProcessLimit: eligibleInPartition ? lim.upperProcessLimit : null,
-			lowerProcessLimit: eligibleInPartition ? lim.lowerProcessLimit : null,
-			upperTwoSigma: eligibleInPartition ? lim.upperTwoSigma : null,
-			lowerTwoSigma: eligibleInPartition ? lim.lowerTwoSigma : null,
-			upperOneSigma: eligibleInPartition ? lim.upperOneSigma : null,
-			lowerOneSigma: eligibleInPartition ? lim.lowerOneSigma : null,
+			pointRank,
+			mean: (eligibleHere || chartEligible) && isNumber(lim.mean) ? lim.mean : null,
+			upperProcessLimit: (eligibleHere || chartEligible) ? lim.upperProcessLimit : null,
+			lowerProcessLimit: (eligibleHere || chartEligible) ? lim.lowerProcessLimit : null,
+			upperTwoSigma: (eligibleHere || chartEligible) ? lim.upperTwoSigma : null,
+			lowerTwoSigma: (eligibleHere || chartEligible) ? lim.lowerTwoSigma : null,
+			upperOneSigma: (eligibleHere || chartEligible) ? lim.upperOneSigma : null,
+			lowerOneSigma: (eligibleHere || chartEligible) ? lim.lowerOneSigma : null,
 			// rules
 			singlePointUp: false,
 			singlePointDown: false,
@@ -97,12 +104,12 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 			specialCauseImprovementValue: null,
 			specialCauseConcernValue: null,
 			variationIcon: VariationIcon.CommonCause,
-		}));
+		};
+		});
 
 		// Pass 1: single 3-sigma — mark any point beyond upper/lower process limits
 		for (const row of withLines) {
 			if (
-				!eligibleInPartition ||
 				row.ghost ||
 				!isNumber(row.value) ||
 				row.mean === null

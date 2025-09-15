@@ -51,16 +51,15 @@ Acceptance
 
 ### M4 — Partition thresholds and buffers
 
-- [ ] Align partition start eligibility with SQL (remove/ignore transition buffer in parity)
-- [ ] Tests around early partitions meeting minPoints
+- [x] Align partition start eligibility with SQL (no extra transition buffer in parity) (15 Sep 2025)
+- [x] Tests around early partitions meeting minPoints (15 Sep 2025)
 
 Acceptance
 - Tests demonstrate SQL-aligned eligibility
 
 ### M5 — MR outlier exclusion parity
  - [x] Recompute MRbar excluding MR outliers and centre-line mean from the same outlier-excluded set when enabled (15 Sep 2025)
-- [ ] When enabled, exclude MR outliers for MRbar AND recompute mean from outlier-excluded set
-- [ ] Test fixture mirroring SQL reference
+ - [x] Test fixture mirroring SQL reference (15 Sep 2025)
 
 Acceptance
 - Limits and mean match SQL results
@@ -75,9 +74,10 @@ Acceptance
 
 ### M7 — Parity fixtures and Storybook polish
 
-- [~] Curate fixture pack: XmR (stable, >3σ, two-of-three, shift, cross-partition trend), T (back-transform LCL ≤ 0 suppression), G (quantile limits)
+- [~] Curate fixture pack: XmR (stable, >3σ, two-of-three, shift, cross-partition trend), T (back-transform LCL ≤ 0 suppression), G (quantile limits). Initial T/G parity vignettes added in Storybook to set expectations.
 - [x] Add expected-colour table to healthcare v2 story; centralise datasets for reuse in tests/stories (15 Sep 2025)
 - [x] Add zero‑width limits vignette and computed limits table (15 Sep 2025)
+- [x] Add “Eligible” column to Grouped dataset and Healthcare v2 stories (15 Sep 2025)
 - [ ] Docs link to fixtures and stories; parity checklist embedded
 
 Acceptance
@@ -98,8 +98,9 @@ Acceptance
 ## Next steps
 
 Short term
-- Centralise datasets and wire an expected‑colour table into the healthcare v2 story.
-- Add parity fixture examples for T (LCL suppression after back‑transform) and G (quantile limits) with accompanying Storybook entries.
+- Add SQL reference fixture to validate MR outlier exclusion parity numerically (M5 acceptance).
+- Keep datasets centralised and expected‑colour tables in healthcare v2 story up‑to‑date; link curated fixtures from docs (M7).
+ - Add a short doc snippet in `logic_v2` README and parity page explaining `chartLevelEligibility` and how retro‑colouring occurs once charts qualify. (Done 15 Sep 2025)
 
 Optional / medium term
 - Provide a small T/G preprocessing adapter example and parity story.

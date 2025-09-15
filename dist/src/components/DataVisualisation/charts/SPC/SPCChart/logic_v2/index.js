@@ -371,43 +371,46 @@ function buildSpcV26a(args) {
     partitionId++;
     const values = part.map((p) => p.value);
     const ghosts = part.map((p) => p.ghost);
-    const eligibleInPartition = part.filter((p) => !p.ghost && isNumber(p.value)).length >= s.minimumPoints;
     const lim = computePartitionLimits(
       chartType,
       values,
       ghosts,
       !!s.excludeMovingRangeOutliers
     );
-    const withLines = part.map((r, i) => ({
-      rowId: r.rowId,
-      x: r.x,
-      value: isNumber(r.value) ? r.value : null,
-      ghost: r.ghost,
-      partitionId,
-      pointRank: !r.ghost && isNumber(r.value) ? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber(v)).length : 0,
-      mean: eligibleInPartition && isNumber(lim.mean) ? lim.mean : null,
-      upperProcessLimit: eligibleInPartition ? lim.upperProcessLimit : null,
-      lowerProcessLimit: eligibleInPartition ? lim.lowerProcessLimit : null,
-      upperTwoSigma: eligibleInPartition ? lim.upperTwoSigma : null,
-      lowerTwoSigma: eligibleInPartition ? lim.lowerTwoSigma : null,
-      upperOneSigma: eligibleInPartition ? lim.upperOneSigma : null,
-      lowerOneSigma: eligibleInPartition ? lim.lowerOneSigma : null,
-      // rules
-      singlePointUp: false,
-      singlePointDown: false,
-      twoSigmaUp: false,
-      twoSigmaDown: false,
-      shiftUp: false,
-      shiftDown: false,
-      trendUp: false,
-      trendDown: false,
-      // candidates
-      specialCauseImprovementValue: null,
-      specialCauseConcernValue: null,
-      variationIcon: "CommonCause" /* CommonCause */
-    }));
+    const withLines = part.map((r, i) => {
+      const pointRank = !r.ghost && isNumber(r.value) ? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber(v)).length : 0;
+      const eligibleHere = pointRank >= s.minimumPoints;
+      return {
+        rowId: r.rowId,
+        x: r.x,
+        value: isNumber(r.value) ? r.value : null,
+        ghost: r.ghost,
+        partitionId,
+        pointRank,
+        mean: eligibleHere && isNumber(lim.mean) ? lim.mean : null,
+        upperProcessLimit: eligibleHere ? lim.upperProcessLimit : null,
+        lowerProcessLimit: eligibleHere ? lim.lowerProcessLimit : null,
+        upperTwoSigma: eligibleHere ? lim.upperTwoSigma : null,
+        lowerTwoSigma: eligibleHere ? lim.lowerTwoSigma : null,
+        upperOneSigma: eligibleHere ? lim.upperOneSigma : null,
+        lowerOneSigma: eligibleHere ? lim.lowerOneSigma : null,
+        // rules
+        singlePointUp: false,
+        singlePointDown: false,
+        twoSigmaUp: false,
+        twoSigmaDown: false,
+        shiftUp: false,
+        shiftDown: false,
+        trendUp: false,
+        trendDown: false,
+        // candidates
+        specialCauseImprovementValue: null,
+        specialCauseConcernValue: null,
+        variationIcon: "CommonCause" /* CommonCause */
+      };
+    });
     for (const row of withLines) {
-      if (!eligibleInPartition || row.ghost || !isNumber(row.value) || row.mean === null)
+      if (row.ghost || !isNumber(row.value) || row.mean === null)
         continue;
       if (isNumber(row.upperProcessLimit) && row.value > row.upperProcessLimit)
         row.singlePointUp = true;
@@ -475,6 +478,33 @@ var PARITY_V26 = Object.freeze({
 function withParityV26(overrides) {
   return { ...PARITY_V26, ...overrides != null ? overrides : {} };
 }
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/preprocess.ts
+function toTimeBetweenEvents(events, opts) {
+  var _a;
+  const toMs = (_a = opts == null ? void 0 : opts.toMillis) != null ? _a : (x) => new Date(x).getTime();
+  const res = [];
+  if (events.length < 2) return res;
+  for (let i = 1; i < events.length; i++) {
+    const prev = toMs(events[i - 1].x);
+    const cur = toMs(events[i].x);
+    res.push({ x: events[i].x, value: Math.max(0, cur - prev) });
+  }
+  return res;
+}
+function toCountBetweenEvents(rows) {
+  const res = [];
+  let since = 0;
+  for (const r of rows) {
+    since += 1;
+    const hit = typeof r.occurred === "number" ? r.occurred > 0 : !!r.occurred;
+    if (hit) {
+      res.push({ x: r.x, value: since });
+      since = 0;
+    }
+  }
+  return res;
+}
 export {
   AssuranceIcon,
   ChartType,
@@ -501,6 +531,8 @@ export {
   mean,
   movingRanges,
   mrMeanWithOptionalExclusion,
+  toCountBetweenEvents,
+  toTimeBetweenEvents,
   withParityV26,
   xmrLimits
 };

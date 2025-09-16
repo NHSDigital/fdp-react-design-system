@@ -41,11 +41,6 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
 	const sourceId = source ? `${resolvedId}-src` : undefined;
 	const [showTable, setShowTable] = React.useState(initiallyShowTable);
 
-	const handleToggle = React.useCallback(() => {
-		setShowTable((s) => !s);
-		onToggleTable?.();
-	}, [onToggleTable]);
-
 	return (
 		<figure
 			id={resolvedId}

@@ -204,6 +204,7 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 
 	// Fade-in: mount flag already handled earlier; reuse existing visible state.
 	const tooltipId = focused ? `spc-tooltip-${focused.index}` : "spc-tooltip";
+	const pointIndex: number = typeof focused.index === "number" ? focused.index : NaN;
 	const portal = host
 		? createPortal(
 				<div
@@ -247,6 +248,12 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 					}}
 				>
 					<div className="fdp-spc-tooltip__body">
+						<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--point">
+							<div className="fdp-spc-tooltip__section-label">
+								<strong>Point</strong>
+							</div>
+							<div className="fdp-spc-tooltip__primary-line">Index: {pointIndex}</div>
+						</div>
 						<div className="fdp-spc-tooltip__section fdp-spc-tooltip__section--date">
 							<div className="fdp-spc-tooltip__section-label">
 								<strong>Date</strong>

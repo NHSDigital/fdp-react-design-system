@@ -596,7 +596,6 @@ export const GroupedDatasetV2: Story = {
 					title={`${grp.metric} (v2 engine)`}
 					description={`Points: ${rows.length}`}
 					source="Fictive NHS Testing Dataset"
-					showTableToggle
 					initiallyShowTable={!!showTable}
 					tabularData={
 						showTable ? (

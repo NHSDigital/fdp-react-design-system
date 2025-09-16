@@ -93,6 +93,12 @@ export function deriveOriginalCandidates(
 
 // Apply SQL-like pruning rules when both candidates exist, using primeDirection and metricConflictRule
 // to remove one side. Also sets variationIcon to match the remaining candidate(s) and records diagnostics.
+// Notes on global gating and precedence (see engine.ts):
+// - When settings.preferImprovementWhenConflict is true the engine disables favourable trend segmentation
+//   before conflict resolution. That gating happens in engine.ts and ensures improvement-first behaviour
+//   cannot be counteracted by segmentation creating opposite-side trend candidates.
+// - Within pruning, preferTrendWhenConflict is an optional early tie-break that, when enabled, keeps the
+//   side that contains a trend flag and drops the opposite side. It runs only when both candidates exist.
 export function applySqlPruning(
 	row: SpcRowV2,
 	metric: ImprovementDirection,

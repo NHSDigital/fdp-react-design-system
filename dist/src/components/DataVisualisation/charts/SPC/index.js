@@ -6901,6 +6901,7 @@ var SPCTooltipOverlay = ({
   }
   if (left < 0) left = Math.max(0, innerWidth - boxWidth);
   const tooltipId = focused ? `spc-tooltip-${focused.index}` : "spc-tooltip";
+  const pointIndex = typeof focused.index === "number" ? focused.index : NaN;
   const portal = host ? createPortal(
     /* @__PURE__ */ jsx9(
       "div",
@@ -6940,6 +6941,13 @@ var SPCTooltipOverlay = ({
           }
         },
         children: /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__body", children: [
+          /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--point", children: [
+            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Point" }) }),
+            /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__primary-line", children: [
+              "Index: ",
+              pointIndex
+            ] })
+          ] }),
           /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
             /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Date" }) }),
             /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
@@ -10923,56 +10931,6 @@ var InternalSPC = ({
       }
       return SPCChart_constants_default.Common;
     });
-    if ((ariaLabel == null ? void 0 : ariaLabel.includes("Baselines - Recalculated")) && partitionBoundaryIndex >= 0) {
-      for (let i = partitionBoundaryIndex; i < raw.length; i++) raw[i] = SPCChart_constants_default.Improvement;
-    }
-    if ((ariaLabel == null ? void 0 : ariaLabel.includes("Special cause crossing recalculations")) && partitionBoundaryIndex >= 0) {
-      if (ariaLabel.includes("shift")) {
-        const start = Math.max(0, partitionBoundaryIndex - 2);
-        const end = Math.min(raw.length - 1, partitionBoundaryIndex + 3);
-        for (let i = start; i <= end; i++) raw[i] = SPCChart_constants_default.Concern;
-      } else if (ariaLabel.includes("trend")) {
-        const start = Math.max(0, partitionBoundaryIndex - 1);
-        const end = Math.min(raw.length - 1, partitionBoundaryIndex + 4);
-        for (let i = start; i <= end; i++) raw[i] = SPCChart_constants_default.Improvement;
-      } else if (ariaLabel.includes("two-sigma")) {
-        const start = Math.max(0, partitionBoundaryIndex - 1);
-        const end = Math.min(raw.length - 1, partitionBoundaryIndex + 0);
-        for (let i = start; i <= end; i++) raw[i] = SPCChart_constants_default.Concern;
-      }
-    }
-    if (((ariaLabel == null ? void 0 : ariaLabel.trim()) || "") === "Summary icons - variation - High is good") {
-      if (raw.length > 15) raw[15] = SPCChart_constants_default.Improvement;
-    }
-    const isRuleClash = ariaLabel == null ? void 0 : ariaLabel.includes("Rule Clash");
-    if (isRuleClash) {
-      console.log(
-        `[${ariaLabel}] Raw categories:`,
-        raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
-      );
-    }
-    if (ariaLabel == null ? void 0 : ariaLabel.includes("Baselines - Recalculated")) {
-      const details = all.map((_d, i) => {
-        const s = engineSignals == null ? void 0 : engineSignals[i];
-        if (!s) return `${i}:none`;
-        return `${i}:${s.variation}|imp=${s.improvement}|con=${s.concern}|u=${s.upAny}|d=${s.downAny}`;
-      }).join(", ");
-      console.log(`[${ariaLabel}] Signals: ${details}`);
-    }
-    if ((ariaLabel == null ? void 0 : ariaLabel.includes("Special cause conflict - High is good")) || (ariaLabel == null ? void 0 : ariaLabel.includes("Special cause crossing recalculations")) || (ariaLabel == null ? void 0 : ariaLabel.includes("Summary icons - variation - High is good"))) {
-      console.log(
-        `[${ariaLabel}] Raw categories:`,
-        raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
-      );
-      if ((ariaLabel == null ? void 0 : ariaLabel.includes("Special cause conflict - High is good")) || (ariaLabel == null ? void 0 : ariaLabel.includes("Summary icons - variation - High is good"))) {
-        const sigs = all.map((_d, i) => {
-          const s = engineSignals == null ? void 0 : engineSignals[i];
-          if (!s) return `${i}:none`;
-          return `${i}:v=${s.variation}|imp=${s.improvement}|con=${s.concern}|sp=${s.special}|u=${s.upAny}|d=${s.downAny}`;
-        }).join(", ");
-        console.log(`[${ariaLabel}] Signals: ${sigs}`);
-      }
-    }
     return raw;
   }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement, partitionBoundaryIndex]);
   const sequences = React13.useMemo(() => {
@@ -11562,9 +11520,6 @@ var InternalSPC = ({
                   (sig == null ? void 0 : sig.assurance) === "pass" /* Pass */ ? "fdp-spc__point--assurance-pass" : null,
                   (sig == null ? void 0 : sig.assurance) === "fail" /* Fail */ ? "fdp-spc__point--assurance-fail" : null
                 ].filter(Boolean).join(" ");
-                if (ariaLabel && (ariaLabel.includes("Special cause crossing recalculations") || ariaLabel.includes("Special cause conflict - High is good") || ariaLabel.includes("Summary icons - variation - High is good"))) {
-                  console.log(`[${ariaLabel}] point ${i} classes:`, classes);
-                }
                 const isFocused = ((_a3 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a3.index) === i;
                 return /* @__PURE__ */ jsx17(
                   "circle",

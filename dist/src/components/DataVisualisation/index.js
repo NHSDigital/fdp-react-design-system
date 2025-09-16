@@ -2838,19 +2838,15 @@ var ChartContainer = ({
   className,
   id,
   tabularData,
-  showTableToggle,
-  onToggleTable,
+  // showTableToggle,
+  // onToggleTable,
   initiallyShowTable = false
 }) => {
   const figureId = React.useId();
   const resolvedId = id || figureId;
   const descId = description ? `${resolvedId}-desc` : void 0;
   const sourceId = source ? `${resolvedId}-src` : void 0;
-  const [showTable, setShowTable] = React.useState(initiallyShowTable);
-  const handleToggle = React.useCallback(() => {
-    setShowTable((s) => !s);
-    onToggleTable == null ? void 0 : onToggleTable();
-  }, [onToggleTable]);
+  const [showTable, _] = React.useState(initiallyShowTable);
   return /* @__PURE__ */ jsxs(
     "figure",
     {
@@ -2872,22 +2868,12 @@ var ChartContainer = ({
             children
           }
         ),
-        showTableToggle && /* @__PURE__ */ jsx(
-          "button",
-          {
-            type: "button",
-            className: "fdp-chart__toggle",
-            "aria-expanded": showTable,
-            onClick: handleToggle,
-            children: showTable ? "Hide table" : "Show table"
-          }
-        ),
         (source || tabularData) && /* @__PURE__ */ jsxs("figcaption", { className: "fdp-chart__caption", children: [
           source && /* @__PURE__ */ jsxs("small", { id: sourceId, className: "fdp-chart__source", children: [
             "Source: ",
             source
           ] }),
-          showTable && tabularData
+          showTable && tabularData && /* @__PURE__ */ jsx("div", { id: `${resolvedId}-table`, style: { marginTop: 8 }, children: tabularData })
         ] })
       ]
     }
@@ -7231,7 +7217,7 @@ var LineChart_default = LineChart;
 
 // src/components/Tabs/Tabs.tsx
 var import_classnames = __toESM(require_classnames(), 1);
-import { useState as useState6, useCallback as useCallback6, useRef as useRef4, forwardRef, useImperativeHandle } from "react";
+import { useState as useState6, useCallback as useCallback5, useRef as useRef4, forwardRef, useImperativeHandle } from "react";
 import { jsx as jsx12, jsxs as jsxs7 } from "react/jsx-runtime";
 var Tabs = forwardRef(({
   items,
@@ -7255,19 +7241,19 @@ var Tabs = forwardRef(({
   const activeTab = isControlled ? controlledActiveTab : internalActiveTab;
   const tabListRef = useRef4(null);
   const tabRefs = useRef4(/* @__PURE__ */ new Map());
-  const handleTabClick = useCallback6((tabId) => {
+  const handleTabClick = useCallback5((tabId) => {
     if (!isControlled) {
       setInternalActiveTab(tabId);
     }
     onTabChange == null ? void 0 : onTabChange(tabId);
   }, [isControlled, onTabChange]);
-  const handleTabFocus = useCallback6((tabId) => {
+  const handleTabFocus = useCallback5((tabId) => {
     onTabFocus == null ? void 0 : onTabFocus(tabId);
     if (autoActivate) {
       handleTabClick(tabId);
     }
   }, [onTabFocus, autoActivate, handleTabClick]);
-  const handleKeyDown = useCallback6((event, tabId) => {
+  const handleKeyDown = useCallback5((event, tabId) => {
     const tabIds = items.filter((item) => !item.disabled).map((item) => item.id);
     const currentIndex = tabIds.indexOf(tabId);
     let newIndex = null;
@@ -7301,14 +7287,14 @@ var Tabs = forwardRef(({
       }
     }
   }, [items, handleTabFocus, onEscape]);
-  const setTabRef = useCallback6((tabId, element) => {
+  const setTabRef = useCallback5((tabId, element) => {
     if (element) {
       tabRefs.current.set(tabId, element);
     } else {
       tabRefs.current.delete(tabId);
     }
   }, []);
-  const focusTab = useCallback6((tabId) => {
+  const focusTab = useCallback5((tabId) => {
     const tabRef = tabRefs.current.get(tabId);
     if (tabRef) {
       tabRef.focus();
@@ -7319,7 +7305,7 @@ var Tabs = forwardRef(({
     getActiveTab: () => activeTab,
     getTabListElement: () => tabListRef.current
   }), [focusTab, activeTab]);
-  const handleTabListBlur = useCallback6((event) => {
+  const handleTabListBlur = useCallback5((event) => {
     var _a2;
     const relatedTarget = event.relatedTarget;
     if (!((_a2 = tabListRef.current) == null ? void 0 : _a2.contains(relatedTarget))) {
@@ -7424,7 +7410,7 @@ function mapButtonProps(input) {
 
 // src/components/Button/Button.tsx
 import { jsx as jsx13 } from "react/jsx-runtime";
-var { forwardRef: forwardRef2, useCallback: useCallback7, useState: useState7 } = React12;
+var { forwardRef: forwardRef2, useCallback: useCallback6, useState: useState7 } = React12;
 function ButtonComponent(props, ref) {
   const {
     children,
@@ -7453,22 +7439,22 @@ function ButtonComponent(props, ref) {
     ...isFocused && { "data-focused": "true" },
     ...isDisabled && { "data-disabled": "true" }
   };
-  const handleMouseDown = useCallback7(
+  const handleMouseDown = useCallback6(
     () => !isDisabled && setIsPressed(true),
     [isDisabled]
   );
-  const handleMouseUp = useCallback7(() => setIsPressed(false), []);
-  const handleMouseEnter = useCallback7(
+  const handleMouseUp = useCallback6(() => setIsPressed(false), []);
+  const handleMouseEnter = useCallback6(
     () => !isDisabled && setIsHovered(true),
     [isDisabled]
   );
-  const handleMouseLeave = useCallback7(() => {
+  const handleMouseLeave = useCallback6(() => {
     setIsHovered(false);
     setIsPressed(false);
   }, []);
-  const handleFocus = useCallback7(() => setIsFocused(true), []);
-  const handleBlur = useCallback7(() => setIsFocused(false), []);
-  const handleKeyDown = useCallback7(
+  const handleFocus = useCallback6(() => setIsFocused(true), []);
+  const handleBlur = useCallback6(() => setIsFocused(false), []);
+  const handleKeyDown = useCallback6(
     (event) => {
       if (event.key === " " && ("href" in rest || event.currentTarget.getAttribute("role") === "button")) {
         event.preventDefault();
@@ -7477,7 +7463,7 @@ function ButtonComponent(props, ref) {
     },
     [rest]
   );
-  const handleClick = useCallback7(
+  const handleClick = useCallback6(
     (event) => {
       if (preventDoubleClick) {
         const target = event.currentTarget;
@@ -13241,7 +13227,7 @@ var Checkboxes = ({
 Checkboxes.displayName = "Checkboxes";
 
 // src/components/Radios/Radios.tsx
-import { useState as useState12, useRef as useRef6, useCallback as useCallback9 } from "react";
+import { useState as useState12, useRef as useRef6, useCallback as useCallback8 } from "react";
 
 // src/components/Radios/Radios.render.tsx
 var import_classnames5 = __toESM(require_classnames(), 1);
@@ -13372,7 +13358,7 @@ var Radios = ({ value, defaultValue, onChange, onBlur, onFocus, ...rest }) => {
   const handleFocus = (event) => {
     onFocus == null ? void 0 : onFocus(event);
   };
-  const handleKeyDown = useCallback9((event) => {
+  const handleKeyDown = useCallback8((event) => {
     const { key } = event;
     if (!["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].includes(key)) return;
     event.preventDefault();
@@ -14261,6 +14247,7 @@ var SPCTooltipOverlay = ({
   }
   if (left < 0) left = Math.max(0, innerWidth - boxWidth);
   const tooltipId = focused ? `spc-tooltip-${focused.index}` : "spc-tooltip";
+  const pointIndex = typeof focused.index === "number" ? focused.index : NaN;
   const portal = host ? createPortal(
     /* @__PURE__ */ jsx44(
       "div",
@@ -14300,6 +14287,13 @@ var SPCTooltipOverlay = ({
           }
         },
         children: /* @__PURE__ */ jsxs29("div", { className: "fdp-spc-tooltip__body", children: [
+          /* @__PURE__ */ jsxs29("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--point", children: [
+            /* @__PURE__ */ jsx44("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx44("strong", { children: "Point" }) }),
+            /* @__PURE__ */ jsxs29("div", { className: "fdp-spc-tooltip__primary-line", children: [
+              "Index: ",
+              pointIndex
+            ] })
+          ] }),
           /* @__PURE__ */ jsxs29("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
             /* @__PURE__ */ jsx44("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx44("strong", { children: "Date" }) }),
             /* @__PURE__ */ jsx44("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
@@ -15497,56 +15491,6 @@ var InternalSPC = ({
       }
       return SPCChart_constants_default.Common;
     });
-    if ((ariaLabel == null ? void 0 : ariaLabel.includes("Baselines - Recalculated")) && partitionBoundaryIndex >= 0) {
-      for (let i = partitionBoundaryIndex; i < raw.length; i++) raw[i] = SPCChart_constants_default.Improvement;
-    }
-    if ((ariaLabel == null ? void 0 : ariaLabel.includes("Special cause crossing recalculations")) && partitionBoundaryIndex >= 0) {
-      if (ariaLabel.includes("shift")) {
-        const start = Math.max(0, partitionBoundaryIndex - 2);
-        const end = Math.min(raw.length - 1, partitionBoundaryIndex + 3);
-        for (let i = start; i <= end; i++) raw[i] = SPCChart_constants_default.Concern;
-      } else if (ariaLabel.includes("trend")) {
-        const start = Math.max(0, partitionBoundaryIndex - 1);
-        const end = Math.min(raw.length - 1, partitionBoundaryIndex + 4);
-        for (let i = start; i <= end; i++) raw[i] = SPCChart_constants_default.Improvement;
-      } else if (ariaLabel.includes("two-sigma")) {
-        const start = Math.max(0, partitionBoundaryIndex - 1);
-        const end = Math.min(raw.length - 1, partitionBoundaryIndex + 0);
-        for (let i = start; i <= end; i++) raw[i] = SPCChart_constants_default.Concern;
-      }
-    }
-    if (((ariaLabel == null ? void 0 : ariaLabel.trim()) || "") === "Summary icons - variation - High is good") {
-      if (raw.length > 15) raw[15] = SPCChart_constants_default.Improvement;
-    }
-    const isRuleClash = ariaLabel == null ? void 0 : ariaLabel.includes("Rule Clash");
-    if (isRuleClash) {
-      console.log(
-        `[${ariaLabel}] Raw categories:`,
-        raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
-      );
-    }
-    if (ariaLabel == null ? void 0 : ariaLabel.includes("Baselines - Recalculated")) {
-      const details = all.map((_d, i) => {
-        const s = engineSignals == null ? void 0 : engineSignals[i];
-        if (!s) return `${i}:none`;
-        return `${i}:${s.variation}|imp=${s.improvement}|con=${s.concern}|u=${s.upAny}|d=${s.downAny}`;
-      }).join(", ");
-      console.log(`[${ariaLabel}] Signals: ${details}`);
-    }
-    if ((ariaLabel == null ? void 0 : ariaLabel.includes("Special cause conflict - High is good")) || (ariaLabel == null ? void 0 : ariaLabel.includes("Special cause crossing recalculations")) || (ariaLabel == null ? void 0 : ariaLabel.includes("Summary icons - variation - High is good"))) {
-      console.log(
-        `[${ariaLabel}] Raw categories:`,
-        raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
-      );
-      if ((ariaLabel == null ? void 0 : ariaLabel.includes("Special cause conflict - High is good")) || (ariaLabel == null ? void 0 : ariaLabel.includes("Summary icons - variation - High is good"))) {
-        const sigs = all.map((_d, i) => {
-          const s = engineSignals == null ? void 0 : engineSignals[i];
-          if (!s) return `${i}:none`;
-          return `${i}:v=${s.variation}|imp=${s.improvement}|con=${s.concern}|sp=${s.special}|u=${s.upAny}|d=${s.downAny}`;
-        }).join(", ");
-        console.log(`[${ariaLabel}] Signals: ${sigs}`);
-      }
-    }
     return raw;
   }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement, partitionBoundaryIndex]);
   const sequences = React33.useMemo(() => {
@@ -16136,9 +16080,6 @@ var InternalSPC = ({
                   (sig == null ? void 0 : sig.assurance) === "pass" /* Pass */ ? "fdp-spc__point--assurance-pass" : null,
                   (sig == null ? void 0 : sig.assurance) === "fail" /* Fail */ ? "fdp-spc__point--assurance-fail" : null
                 ].filter(Boolean).join(" ");
-                if (ariaLabel && (ariaLabel.includes("Special cause crossing recalculations") || ariaLabel.includes("Special cause conflict - High is good") || ariaLabel.includes("Summary icons - variation - High is good"))) {
-                  console.log(`[${ariaLabel}] point ${i} classes:`, classes);
-                }
                 const isFocused = ((_a3 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a3.index) === i;
                 return /* @__PURE__ */ jsx47(
                   "circle",

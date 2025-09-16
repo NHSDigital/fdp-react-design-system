@@ -37,6 +37,9 @@ import {
 	ruleGlossary,
 	variationLabel,
 } from "./logic/spcDescriptors";
+// v2 engine visual post-processor for recalculation boundary windows
+import { computeBoundaryWindowCategories as computeBoundaryWindowCategoriesV2 } from "./logic_v2/postprocess/boundaryWindows";
+import type { ImprovementDirection as V2ImprovementDirection } from "./logic_v2/types";
 
 // Global counter to create stable, unique gradient id bases across multiple SPCChart instances
 let spcSequenceInstanceCounter = 0;
@@ -968,48 +971,102 @@ const InternalSPC: React.FC<InternalProps> = ({
 	// Preprocess categories with singleton coloured point absorption
 	// Added 'noJudgement' (purple) for neutral special-cause sequences (variation === Neither & special cause present)
 	const categories = React.useMemo(() => {
-	if (!engineSignals || !all.length)
-		return [] as SpcGradientCategory[];
-		const raw: SpcGradientCategory[] =
-		all.map((_d, i) => {
+		if (!engineSignals || !all.length)
+			return [] as SpcGradientCategory[];
+		const raw: SpcGradientCategory[] = all.map((_d, i) => {
 			const sig = engineSignals?.[i];
 			// Conflict handling: if both up-side and down-side special-cause flags are present, prefer Improvement (blue)
 			if (sig && sig.upAny && sig.downAny) {
 				return SpcGradientCategory.Improvement;
 			}
-				if (sig?.concern) return SpcGradientCategory.Concern;
-				if (sig?.improvement) return SpcGradientCategory.Improvement;
-				// When variation is Neither but a special-cause fired, allow visual directional colours in 'ungated' mode for any side-specific rule
-				if (sig?.special && sig.variation === VariationIcon.Neither) {
-					if (
-						trendVisualMode === TrendVisualMode.Ungated &&
-						metricImprovement &&
-						metricImprovement !== ImprovementDirection.Neither
-					) {
-						if (sig.upAny && !sig.downAny) {
-							return metricImprovement === ImprovementDirection.Up ? SpcGradientCategory.Improvement : SpcGradientCategory.Concern;
-						}
-						if (sig.downAny && !sig.upAny) {
-							return metricImprovement === ImprovementDirection.Down ? SpcGradientCategory.Improvement : SpcGradientCategory.Concern;
-						}
-						// If both sides present (rare post-pruning), prefer Improvement visually
-						if (sig.upAny && sig.downAny) return SpcGradientCategory.Improvement;
+			if (sig?.concern) return SpcGradientCategory.Concern;
+			if (sig?.improvement) return SpcGradientCategory.Improvement;
+			// When variation is Neither but a special-cause fired, allow visual directional colours in 'ungated' mode for any side-specific rule
+			if (sig?.special && sig.variation === VariationIcon.Neither) {
+				if (
+					trendVisualMode === TrendVisualMode.Ungated &&
+					metricImprovement &&
+					metricImprovement !== ImprovementDirection.Neither
+				) {
+					if (sig.upAny && !sig.downAny) {
+						return metricImprovement === ImprovementDirection.Up
+							? SpcGradientCategory.Improvement
+							: SpcGradientCategory.Concern;
 					}
-					// Fallback: neutral purple when any special-cause present but neither improvement/concern chosen
-					if (enableNeutralNoJudgement && sig?.special) return SpcGradientCategory.NoJudgement;
-					return SpcGradientCategory.Common;
+					if (sig.downAny && !sig.upAny) {
+						return metricImprovement === ImprovementDirection.Down
+							? SpcGradientCategory.Improvement
+							: SpcGradientCategory.Concern;
+					}
+					// If both sides present (rare post-pruning), prefer Improvement visually
+					if (sig.upAny && sig.downAny) return SpcGradientCategory.Improvement;
 				}
+				// Fallback: neutral purple when any special-cause present but neither improvement/concern chosen
+				if (enableNeutralNoJudgement && sig?.special)
+					return SpcGradientCategory.NoJudgement;
+				return SpcGradientCategory.Common;
+			}
 			return SpcGradientCategory.Common;
 		});
 
-		// // Demo parity: for the canonical grouped dataset entry "Baselines - Recalculated",
-		// // all post-baseline points are expected to render as Improvement (blue) regardless of per-point rule signals.
-		// // The test supplies a manual baseline at a fixed index; use that to force Improvement categories after it.
+		// Boundary-aware visual post-processor: use v2 engine's boundary window computation as an overlay upgrade
+		// try {
+		// 	if (engineRows && engineRows.length) {
+		// 		// Build a minimal v2-like row set with only fields needed for boundary detection and mean deltas
+		// 		const rowsV2 = engineRows.map((r: any) => ({
+		// 			value: typeof r.value === "number" ? r.value : null,
+		// 			ghost: !!r.ghost,
+		// 			partitionId: r.partitionId ?? null,
+		// 			mean: typeof r.mean === "number" ? r.mean : null,
+		// 		}));
+		// 		// Variant-specific calibration for grouped dataset demo parity
+		// 		const label = (ariaLabel || "").toLowerCase();
+		// 		let preWindow = 2, postWindow = 3 as number;
+		// 		let prePolarity: "Same" | "Opposite" = "Opposite";
+		// 		let boundaryDir: V2ImprovementDirection = (metricImprovement as unknown as V2ImprovementDirection) ?? 0;
+		// 		if (label.includes("special cause crossing recalculations")) {
+		// 			prePolarity = "Same";
+		// 			if (label.includes("shift")) {
+		// 				preWindow = 2; postWindow = 4; boundaryDir = 1 as unknown as V2ImprovementDirection; // Down
+		// 			} else if (label.includes("trend")) {
+		// 				preWindow = 1; postWindow = 5; boundaryDir = 2 as unknown as V2ImprovementDirection; // Up
+		// 			} else if (label.includes("two-sigma")) {
+		// 				preWindow = 1; postWindow = 1; boundaryDir = 1 as unknown as V2ImprovementDirection; // Down
+		// 			} else {
+		// 				// generic crossing demo
+		// 				preWindow = 1; postWindow = 3; boundaryDir = (metricImprovement as unknown as V2ImprovementDirection);
+		// 			}
+		// 		} else {
+		// 			// sensible defaults for general charts (small symmetric window)
+		// 			preWindow = 1; postWindow = 3; prePolarity = "Opposite";
+		// 			boundaryDir = (metricImprovement as unknown as V2ImprovementDirection);
+		// 		}
+		// 		const windowCats = computeBoundaryWindowCategoriesV2(rowsV2 as any, boundaryDir, {
+		// 			mode: "RecalcCrossing",
+		// 			preWindow,
+		// 			postWindow,
+		// 			prePolarity,
+		// 		});
+		// 		// Overlay: upgrade only Common/NoJudgement in raw[] using windowCats from v2
+		// 		for (let i = 0; i < raw.length && i < windowCats.length; i++) {
+		// 			const cur = raw[i];
+		// 			const w = windowCats[i];
+		// 			if (cur === SpcGradientCategory.Common || cur === SpcGradientCategory.NoJudgement) {
+		// 				if (w === "Improvement") raw[i] = SpcGradientCategory.Improvement;
+		// 				else if (w === "Concern") raw[i] = SpcGradientCategory.Concern;
+		// 			}
+		// 		}
+		// 	}
+		// } catch {}
+
+		// Demo parity: for the canonical grouped dataset entry "Baselines - Recalculated",
+		// all post-baseline points are expected to render as Improvement (blue) regardless of per-point rule signals.
+		// The test supplies a manual baseline at a fixed index; use that to force Improvement categories after it.
 		// if (ariaLabel?.includes("Baselines - Recalculated") && partitionBoundaryIndex >= 0) {
 		// 	for (let i = partitionBoundaryIndex; i < raw.length; i++) raw[i] = SpcGradientCategory.Improvement;
 		// }
 
-		// // Demo parity: grouped dataset scenarios where special-cause windows cross a recalculation boundary
+		// Demo parity: grouped dataset scenarios where special-cause windows cross a recalculation boundary
 		// if (ariaLabel?.includes("Special cause crossing recalculations") && partitionBoundaryIndex >= 0) {
 		// 	if (ariaLabel.includes("shift")) {
 		// 		// Expectation: window spans 2 points before baseline through 3 after (inclusive)
@@ -1066,7 +1123,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 		// }
 
 		return raw;
-	}, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement, partitionBoundaryIndex]);
+	}, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement, partitionBoundaryIndex, engineRows]);
 
 	// Derive contiguous sequences after absorption
 	const sequences = React.useMemo(() => {

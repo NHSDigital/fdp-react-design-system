@@ -1,6 +1,6 @@
 {
   "version": "0.0.34-alpha.8",
-  "generatedAt": "2025-09-15T21:57:56.582Z",
+  "generatedAt": "2025-09-16T17:08:30.186Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -426,6 +426,29 @@
       ],
       "source": "src/components/Label/Label.schema.ts"
     },
+    "InsetText": {
+      "name": "InsetText",
+      "category": "content",
+      "since": "0.1.1",
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Plain text content (ignored if html is provided)"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML content (overrides text)"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        }
+      ],
+      "source": "src/components/InsetText/InsetText.schema.ts"
+    },
     "Input": {
       "name": "Input",
       "category": "form",
@@ -568,56 +591,6 @@
       ],
       "source": "src/components/Input/Input.schema.ts"
     },
-    "InsetText": {
-      "name": "InsetText",
-      "category": "content",
-      "since": "0.1.1",
-      "props": [
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Plain text content (ignored if html is provided)"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML content (overrides text)"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        }
-      ],
-      "source": "src/components/InsetText/InsetText.schema.ts"
-    },
-    "Hint": {
-      "name": "Hint",
-      "category": "typography",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Provides supporting contextual help text associated with a form field or section."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Hint content"
-        }
-      ],
-      "source": "src/components/Hint/Hint.schema.ts"
-    },
     "Heading": {
       "name": "Heading",
       "category": "typography",
@@ -664,6 +637,33 @@
       ],
       "source": "src/components/Heading/Heading.schema.ts"
     },
+    "Hint": {
+      "name": "Hint",
+      "category": "typography",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Provides supporting contextual help text associated with a form field or section."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Hint content"
+        }
+      ],
+      "source": "src/components/Hint/Hint.schema.ts"
+    },
     "Fieldset": {
       "name": "Fieldset",
       "category": "form",
@@ -696,55 +696,6 @@
         }
       ],
       "source": "src/components/Fieldset/Fieldset.schema.ts"
-    },
-    "ErrorSummary": {
-      "name": "ErrorSummary",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Focuses programmatically on mount in React; macro/static render initial markup without auto-focus (handled by enhancement script if added).",
-        "Provides role=\"alert\" and an H2 title with aria-labelledby for screen reader context."
-      ],
-      "props": [
-        {
-          "name": "titleText",
-          "type": "string",
-          "defaultValue": "\"There is a problem\"",
-          "description": "Summary title text (ignored if titleHtml provided)"
-        },
-        {
-          "name": "titleHtml",
-          "type": "string",
-          "description": "Raw HTML for title (takes precedence over titleText)"
-        },
-        {
-          "name": "descriptionText",
-          "type": "string",
-          "description": "Description text (ignored if descriptionHtml or children provided)"
-        },
-        {
-          "name": "descriptionHtml",
-          "type": "string",
-          "description": "Description HTML (takes precedence over descriptionText unless children provided)"
-        },
-        {
-          "name": "errorList",
-          "type": "Array<{ text?: string; html?: string; href?: string; attributes?: Record<string, any> }>",
-          "required": true,
-          "description": "List of error items displayed under the description"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes for root container"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "description": "Custom description content (overrides descriptionText/Html)"
-        }
-      ],
-      "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
     },
     "ErrorMessage": {
       "name": "ErrorMessage",
@@ -826,6 +777,55 @@
         }
       ],
       "source": "src/components/Details/Details.schema.ts"
+    },
+    "ErrorSummary": {
+      "name": "ErrorSummary",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Focuses programmatically on mount in React; macro/static render initial markup without auto-focus (handled by enhancement script if added).",
+        "Provides role=\"alert\" and an H2 title with aria-labelledby for screen reader context."
+      ],
+      "props": [
+        {
+          "name": "titleText",
+          "type": "string",
+          "defaultValue": "\"There is a problem\"",
+          "description": "Summary title text (ignored if titleHtml provided)"
+        },
+        {
+          "name": "titleHtml",
+          "type": "string",
+          "description": "Raw HTML for title (takes precedence over titleText)"
+        },
+        {
+          "name": "descriptionText",
+          "type": "string",
+          "description": "Description text (ignored if descriptionHtml or children provided)"
+        },
+        {
+          "name": "descriptionHtml",
+          "type": "string",
+          "description": "Description HTML (takes precedence over descriptionText unless children provided)"
+        },
+        {
+          "name": "errorList",
+          "type": "Array<{ text?: string; html?: string; href?: string; attributes?: Record<string, any> }>",
+          "required": true,
+          "description": "List of error items displayed under the description"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes for root container"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "description": "Custom description content (overrides descriptionText/Html)"
+        }
+      ],
+      "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
     },
     "DateInput": {
       "name": "DateInput",
@@ -1121,8 +1121,8 @@
       "Label",
       "Input",
       "Fieldset",
-      "ErrorSummary",
       "ErrorMessage",
+      "ErrorSummary",
       "DateInput",
       "Button"
     ],
@@ -1135,8 +1135,8 @@
       "Details"
     ],
     "typography": [
-      "Hint",
-      "Heading"
+      "Heading",
+      "Hint"
     ],
     "uncategorised": [
       "Checkboxes",

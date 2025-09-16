@@ -13,6 +13,8 @@ import { computePartitionLimits } from "./limits";
 import { detectRulesInPartition } from "./detector";
 import { applySqlPruning, deriveOriginalCandidates } from "./conflict";
 import { computeTrendSegments, chooseSegmentsForHighlight } from "./postprocess/trendSegments";
+import { computeSpcVisualCategories, SpcVisualCategory } from "./postprocess/visualCategories";
+import { computeBoundaryWindowCategories, BoundaryWindowsOptions } from "./postprocess/boundaryWindows";
 import { isNumber } from "./utils";
 
 // Build an SPC result aligned to SQL v2.6a, focusing on XmR.
@@ -315,3 +317,39 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 }
 
 export default { buildSpcV26a };
+
+// Engine-owned visuals API: compute UI-agnostic visual categories with optional boundary-window upgrades
+export function buildSpcV26aWithVisuals(
+	args: BuildArgsV2,
+	visuals?: {
+		trendVisualMode?: "Ungated" | "Gated";
+		enableNeutralNoJudgement?: boolean;
+		boundaryWindows?: (BoundaryWindowsOptions & { directionOverride?: ImprovementDirection });
+	}
+): { rows: SpcRowV2[]; visuals: SpcVisualCategory[] } {
+	const res = buildSpcV26a(args);
+	const base = computeSpcVisualCategories(res.rows, {
+		metricImprovement: args.metricImprovement,
+		trendVisualMode: visuals?.trendVisualMode ?? "Ungated",
+		enableNeutralNoJudgement: visuals?.enableNeutralNoJudgement ?? true,
+	});
+
+	const bw = visuals?.boundaryWindows;
+	if (!bw || bw.mode !== "RecalcCrossing") return { rows: res.rows, visuals: base };
+
+	const dir = bw.directionOverride ?? args.metricImprovement;
+	const win = computeBoundaryWindowCategories(res.rows, dir, bw);
+
+	// Overlay upgrade: only promote Common/NoJudgement to Improvement/Concern as per window categories
+	const overlay: SpcVisualCategory[] = base.map((cat, i) => {
+		const w = win[i];
+		if (cat === SpcVisualCategory.Common || cat === SpcVisualCategory.NoJudgement) {
+			if (w === "Improvement") return SpcVisualCategory.Improvement;
+			if (w === "Concern") return SpcVisualCategory.Concern;
+		}
+		return cat;
+	});
+	return { rows: res.rows, visuals: overlay };
+}
+
+export { SpcVisualCategory };

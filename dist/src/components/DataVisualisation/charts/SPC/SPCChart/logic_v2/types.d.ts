@@ -42,6 +42,30 @@ export declare enum MetricConflictRule {
     Improvement = "Improvement",
     Concern = "Concern"
 }
+export declare enum ConflictStrategy {
+    SqlPrimeThenRule = "SqlPrimeThenRule",
+    PreferImprovement = "PreferImprovement",
+    RuleHierarchy = "RuleHierarchy"
+}
+export declare enum TrendSegmentationStrategy {
+    FavourableSide = "FavourableSide",
+    CrossingAfterFavourable = "CrossingAfterFavourable",
+    ExtremeFavourable = "ExtremeFavourable",
+    FirstFavourable = "FirstFavourable",
+    LongestFavourable = "LongestFavourable",
+    LastFavourable = "LastFavourable",
+    UnfavourableSide = "UnfavourableSide",
+    CrossingAfterUnfavourable = "CrossingAfterUnfavourable",
+    ExtremeUnfavourable = "ExtremeUnfavourable",
+    FirstUnfavourable = "FirstUnfavourable",
+    LongestUnfavourable = "LongestUnfavourable",
+    LastUnfavourable = "LastUnfavourable"
+}
+export declare enum TrendSegmentationMode {
+    Off = "Off",
+    AutoWhenConflict = "AutoWhenConflict",
+    Always = "Always"
+}
 export interface SpcInputRowV2 {
     x: string | number | Date;
     value?: number | null;
@@ -58,7 +82,14 @@ export interface SpcSettingsV26a {
     trendAcrossPartitions?: boolean;
     twoSigmaIncludeAboveThree?: boolean;
     preferImprovementWhenConflict?: boolean;
+    conflictStrategy?: ConflictStrategy;
+    preferTrendWhenConflict?: boolean;
+    ruleHierarchy?: SpcRuleId[];
     chartLevelEligibility?: boolean;
+    trendFavourableSegmentation?: boolean;
+    trendSegmentationMode?: TrendSegmentationMode;
+    trendDominatesHighlightedWindow?: boolean;
+    trendSegmentationStrategy?: TrendSegmentationStrategy;
 }
 export interface SpcRowV2 {
     rowId: number;

@@ -31,15 +31,15 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
 	className,
 	id,
 	tabularData,
-	showTableToggle,
-	onToggleTable,
+	// showTableToggle,
+	// onToggleTable,
 	initiallyShowTable = false,
 }) => {
 	const figureId = React.useId();
 	const resolvedId = id || figureId;
 	const descId = description ? `${resolvedId}-desc` : undefined;
 	const sourceId = source ? `${resolvedId}-src` : undefined;
-	const [showTable, setShowTable] = React.useState(initiallyShowTable);
+	const [showTable, _] = React.useState(initiallyShowTable);
 
 	return (
 		<figure

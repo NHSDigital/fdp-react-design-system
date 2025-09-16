@@ -19,6 +19,7 @@ import {
 	TrendSegmentationStrategy,
 } from "../types.ts";
 import { computeTrendSegments, chooseSegmentsForHighlight } from "../postprocess/trendSegments";
+import { computeBoundaryWindowCategories } from "../postprocess/boundaryWindows";
 import { withParityV26, withConflictPresetAutoV26 } from "../presets";
 import { SPCChart } from "../../SPCChart";
 import { iconToHex } from "./data/variationIconColours";
@@ -199,6 +200,8 @@ export const GroupedDatasetV2: Story = {
 		// Place the baseline at index 15 (0-based: the 16th point)
 		const baselines = deriveBaselines(grp, data.length);
 
+		console.log(baselines);
+
 		const settings = useMemo<SpcSettingsV26a>(() => {
 			if (parityMode) return withParityV26();
 			if (conflictPreset) {
@@ -237,11 +240,11 @@ export const GroupedDatasetV2: Story = {
 
 		// Build SPC rows via v2 engine
 		const rows = useMemo(() => {
-			const input = data.map((d) => ({
+			const input = data.map((d, i) => ({
 				x: d.x,
 				value: d.value,
 				ghost: false,
-				baseline: false,
+				baseline: !!baselines?.[i],
 				target: null,
 			}));
 			return buildSpcV26a({
@@ -250,12 +253,13 @@ export const GroupedDatasetV2: Story = {
 				data: input,
 				settings,
 			}).rows;
-		}, [data, direction, settings]);
+		}, [data, baselines, direction, settings]);
 
 		// Prepare merged table rows and mismatch count (expected from dataset vs computed by engine)
 		const mergedRows = useMemo(() => {
 			const nonGhostCount = rows.filter((r) => !r.ghost).length;
 			const chartEligible = nonGhostCount >= effectiveMinimumPoints;
+
 			return rows
 				.filter((r) => !r.ghost)
 				.map((r, i) => {

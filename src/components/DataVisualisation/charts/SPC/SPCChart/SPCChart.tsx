@@ -967,103 +967,103 @@ const InternalSPC: React.FC<InternalProps> = ({
 
 	// Preprocess categories with singleton coloured point absorption
 	// Added 'noJudgement' (purple) for neutral special-cause sequences (variation === Neither & special cause present)
-		const categories = React.useMemo(() => {
-		if (!engineSignals || !all.length)
-			return [] as SpcGradientCategory[];
+	const categories = React.useMemo(() => {
+	if (!engineSignals || !all.length)
+		return [] as SpcGradientCategory[];
 		const raw: SpcGradientCategory[] =
-			all.map((_d, i) => {
-				const sig = engineSignals?.[i];
-				// Conflict handling: if both up-side and down-side special-cause flags are present, prefer Improvement (blue)
-				if (sig && sig.upAny && sig.downAny) {
-					return SpcGradientCategory.Improvement;
-				}
-					if (sig?.concern) return SpcGradientCategory.Concern;
-					if (sig?.improvement) return SpcGradientCategory.Improvement;
-					// When variation is Neither but a special-cause fired, allow visual directional colours in 'ungated' mode for any side-specific rule
-					if (sig?.special && sig.variation === VariationIcon.Neither) {
-						if (
-							trendVisualMode === TrendVisualMode.Ungated &&
-							metricImprovement &&
-							metricImprovement !== ImprovementDirection.Neither
-						) {
-							if (sig.upAny && !sig.downAny) {
-								return metricImprovement === ImprovementDirection.Up ? SpcGradientCategory.Improvement : SpcGradientCategory.Concern;
-							}
-							if (sig.downAny && !sig.upAny) {
-								return metricImprovement === ImprovementDirection.Down ? SpcGradientCategory.Improvement : SpcGradientCategory.Concern;
-							}
-							// If both sides present (rare post-pruning), prefer Improvement visually
-							if (sig.upAny && sig.downAny) return SpcGradientCategory.Improvement;
+		all.map((_d, i) => {
+			const sig = engineSignals?.[i];
+			// Conflict handling: if both up-side and down-side special-cause flags are present, prefer Improvement (blue)
+			if (sig && sig.upAny && sig.downAny) {
+				return SpcGradientCategory.Improvement;
+			}
+				if (sig?.concern) return SpcGradientCategory.Concern;
+				if (sig?.improvement) return SpcGradientCategory.Improvement;
+				// When variation is Neither but a special-cause fired, allow visual directional colours in 'ungated' mode for any side-specific rule
+				if (sig?.special && sig.variation === VariationIcon.Neither) {
+					if (
+						trendVisualMode === TrendVisualMode.Ungated &&
+						metricImprovement &&
+						metricImprovement !== ImprovementDirection.Neither
+					) {
+						if (sig.upAny && !sig.downAny) {
+							return metricImprovement === ImprovementDirection.Up ? SpcGradientCategory.Improvement : SpcGradientCategory.Concern;
 						}
-						// Fallback: neutral purple when any special-cause present but neither improvement/concern chosen
-						if (enableNeutralNoJudgement && sig?.special) return SpcGradientCategory.NoJudgement;
-						return SpcGradientCategory.Common;
+						if (sig.downAny && !sig.upAny) {
+							return metricImprovement === ImprovementDirection.Down ? SpcGradientCategory.Improvement : SpcGradientCategory.Concern;
+						}
+						// If both sides present (rare post-pruning), prefer Improvement visually
+						if (sig.upAny && sig.downAny) return SpcGradientCategory.Improvement;
 					}
-				return SpcGradientCategory.Common;
-			});
+					// Fallback: neutral purple when any special-cause present but neither improvement/concern chosen
+					if (enableNeutralNoJudgement && sig?.special) return SpcGradientCategory.NoJudgement;
+					return SpcGradientCategory.Common;
+				}
+			return SpcGradientCategory.Common;
+		});
 
-		// Demo parity: for the canonical grouped dataset entry "Baselines - Recalculated",
-		// all post-baseline points are expected to render as Improvement (blue) regardless of per-point rule signals.
-		// The test supplies a manual baseline at a fixed index; use that to force Improvement categories after it.
-		if (ariaLabel?.includes("Baselines - Recalculated") && partitionBoundaryIndex >= 0) {
-			for (let i = partitionBoundaryIndex; i < raw.length; i++) raw[i] = SpcGradientCategory.Improvement;
-		}
+		// // Demo parity: for the canonical grouped dataset entry "Baselines - Recalculated",
+		// // all post-baseline points are expected to render as Improvement (blue) regardless of per-point rule signals.
+		// // The test supplies a manual baseline at a fixed index; use that to force Improvement categories after it.
+		// if (ariaLabel?.includes("Baselines - Recalculated") && partitionBoundaryIndex >= 0) {
+		// 	for (let i = partitionBoundaryIndex; i < raw.length; i++) raw[i] = SpcGradientCategory.Improvement;
+		// }
 
-		// Demo parity: grouped dataset scenarios where special-cause windows cross a recalculation boundary
-		if (ariaLabel?.includes("Special cause crossing recalculations") && partitionBoundaryIndex >= 0) {
-			if (ariaLabel.includes("shift")) {
-				// Expectation: window spans 2 points before baseline through 3 after (inclusive)
-				const start = Math.max(0, partitionBoundaryIndex - 2);
-				const end = Math.min(raw.length - 1, partitionBoundaryIndex + 3);
-				for (let i = start; i <= end; i++) raw[i] = SpcGradientCategory.Concern;
-			} else if (ariaLabel.includes("trend")) {
-				// Expectation: window spans 1 point before baseline through 4 after (inclusive)
-				const start = Math.max(0, partitionBoundaryIndex - 1);
-				const end = Math.min(raw.length - 1, partitionBoundaryIndex + 4);
-				for (let i = start; i <= end; i++) raw[i] = SpcGradientCategory.Improvement;
-			} else if (ariaLabel.includes("two-sigma")) {
-				// Expectation: window spans 1 point before baseline through baseline itself (inclusive)
-				const start = Math.max(0, partitionBoundaryIndex - 1);
-				const end = Math.min(raw.length - 1, partitionBoundaryIndex + 0);
-				for (let i = start; i <= end; i++) raw[i] = SpcGradientCategory.Concern;
-			}
-		}
+		// // Demo parity: grouped dataset scenarios where special-cause windows cross a recalculation boundary
+		// if (ariaLabel?.includes("Special cause crossing recalculations") && partitionBoundaryIndex >= 0) {
+		// 	if (ariaLabel.includes("shift")) {
+		// 		// Expectation: window spans 2 points before baseline through 3 after (inclusive)
+		// 		const start = Math.max(0, partitionBoundaryIndex - 2);
+		// 		const end = Math.min(raw.length - 1, partitionBoundaryIndex + 3);
+		// 		for (let i = start; i <= end; i++) raw[i] = SpcGradientCategory.Concern;
+		// 	} else if (ariaLabel.includes("trend")) {
+		// 		// Expectation: window spans 1 point before baseline through 4 after (inclusive)
+		// 		const start = Math.max(0, partitionBoundaryIndex - 1);
+		// 		const end = Math.min(raw.length - 1, partitionBoundaryIndex + 4);
+		// 		for (let i = start; i <= end; i++) raw[i] = SpcGradientCategory.Improvement;
+		// 	} else if (ariaLabel.includes("two-sigma")) {
+		// 		// Expectation: window spans 1 point before baseline through baseline itself (inclusive)
+		// 		const start = Math.max(0, partitionBoundaryIndex - 1);
+		// 		const end = Math.min(raw.length - 1, partitionBoundaryIndex + 0);
+		// 		for (let i = start; i <= end; i++) raw[i] = SpcGradientCategory.Concern;
+		// 	}
+		// }
 
-		// Demo parity: only for the exact first scenario label, force the central point (index 15) to Improvement
-		if ((ariaLabel?.trim() || "") === "Summary icons - variation - High is good") {
-			if (raw.length > 15) raw[15] = SpcGradientCategory.Improvement;
-		}
+		// // Demo parity: only for the exact first scenario label, force the central point (index 15) to Improvement
+		// if ((ariaLabel?.trim() || "") === "Summary icons - variation - High is good") {
+		// 	if (raw.length > 15) raw[15] = SpcGradientCategory.Improvement;
+		// }
 
-		// Debug logging for specific grouped dataset scenarios
-		const isRuleClash = ariaLabel?.includes("Rule Clash");
-		if (isRuleClash) {
-			console.log(
-				`[${ariaLabel}] Raw categories:`,
-				raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
-			);
-		}
-		if (ariaLabel?.includes("Baselines - Recalculated")) {
-			const details = all.map((_d, i) => {
-				const s = engineSignals?.[i];
-				if (!s) return `${i}:none`;
-				return `${i}:${s.variation}|imp=${s.improvement}|con=${s.concern}|u=${s.upAny}|d=${s.downAny}`;
-			}).join(", ");
-			console.log(`[${ariaLabel}] Signals: ${details}`);
-		}
-		if (ariaLabel?.includes("Special cause conflict - High is good") || ariaLabel?.includes("Special cause crossing recalculations") || ariaLabel?.includes("Summary icons - variation - High is good")) {
-			console.log(
-				`[${ariaLabel}] Raw categories:`,
-				raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
-			);
-			if (ariaLabel?.includes("Special cause conflict - High is good") || ariaLabel?.includes("Summary icons - variation - High is good")) {
-				const sigs = all.map((_d, i) => {
-					const s = engineSignals?.[i];
-					if (!s) return `${i}:none`;
-					return `${i}:v=${s.variation}|imp=${s.improvement}|con=${s.concern}|sp=${s.special}|u=${s.upAny}|d=${s.downAny}`;
-				}).join(", ");
-				console.log(`[${ariaLabel}] Signals: ${sigs}`);
-			}
-		}
+		// // Debug logging for specific grouped dataset scenarios
+		// const isRuleClash = ariaLabel?.includes("Rule Clash");
+		// if (isRuleClash) {
+		// 	console.log(
+		// 		`[${ariaLabel}] Raw categories:`,
+		// 		raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
+		// 	);
+		// }
+		// if (ariaLabel?.includes("Baselines - Recalculated")) {
+		// 	const details = all.map((_d, i) => {
+		// 		const s = engineSignals?.[i];
+		// 		if (!s) return `${i}:none`;
+		// 		return `${i}:${s.variation}|imp=${s.improvement}|con=${s.concern}|u=${s.upAny}|d=${s.downAny}`;
+		// 	}).join(", ");
+		// 	console.log(`[${ariaLabel}] Signals: ${details}`);
+		// }
+		// if (ariaLabel?.includes("Special cause conflict - High is good") || ariaLabel?.includes("Special cause crossing recalculations") || ariaLabel?.includes("Summary icons - variation - High is good")) {
+		// 	console.log(
+		// 		`[${ariaLabel}] Raw categories:`,
+		// 		raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
+		// 	);
+		// 	if (ariaLabel?.includes("Special cause conflict - High is good") || ariaLabel?.includes("Summary icons - variation - High is good")) {
+		// 		const sigs = all.map((_d, i) => {
+		// 			const s = engineSignals?.[i];
+		// 			if (!s) return `${i}:none`;
+		// 			return `${i}:v=${s.variation}|imp=${s.improvement}|con=${s.concern}|sp=${s.special}|u=${s.upAny}|d=${s.downAny}`;
+		// 		}).join(", ");
+		// 		console.log(`[${ariaLabel}] Signals: ${sigs}`);
+		// 	}
+		// }
 
 		return raw;
 	}, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement, partitionBoundaryIndex]);
@@ -1794,15 +1794,15 @@ const InternalSPC: React.FC<InternalProps> = ({
 									.filter(Boolean)
 									.join(" ");
 								// Targeted debug: print classes for grouped scenarios where tests still mismatch
-								if (
-									process.env.NODE_ENV !== "production" &&
-									ariaLabel &&
-									(ariaLabel.includes("Special cause crossing recalculations") ||
-										ariaLabel.includes("Special cause conflict - High is good") ||
-										ariaLabel.includes("Summary icons - variation - High is good"))
-								) {
-									console.log(`[${ariaLabel}] point ${i} classes:`, classes);
-								}
+								// if (
+								// 	process.env.NODE_ENV !== "production" &&
+								// 	ariaLabel &&
+								// 	(ariaLabel.includes("Special cause crossing recalculations") ||
+								// 		ariaLabel.includes("Special cause conflict - High is good") ||
+								// 		ariaLabel.includes("Summary icons - variation - High is good"))
+								// ) {
+								// 	console.log(`[${ariaLabel}] point ${i} classes:`, classes);
+								// }
 								// Removed per refined ARIA approach: rely on tooltip via aria-describedby for detailed context
 								const isFocused = tooltipCtx?.focused?.index === i;
 								return (

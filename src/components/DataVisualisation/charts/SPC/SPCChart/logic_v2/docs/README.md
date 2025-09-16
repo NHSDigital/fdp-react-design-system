@@ -103,6 +103,41 @@ npm run test:spc-v2
 
 - Includes utilities, conflict pruning, Neither-side semantics, and grouped dataset parity checks.
 
+## Visual categories helper
+
+For display-level categorisation that mirrors the chart’s pre-process colouring (including neutral special-cause and conflict tie-break behaviour), use the post-processor:
+
+- `computeSpcVisualCategories(rows, { metricImprovement, trendVisualMode?: 'Ungated'|'Gated', enableNeutralNoJudgement?: true })`
+- See: `docs/visual-categories.md`
+
+## Trend segmentation helper
+
+When a backfilled trend run crosses the mean, you may wish to split and classify the run into mean-side segments and then apply a hierarchy for highlight. Use:
+
+- `computeTrendSegments(rows)` → returns contiguous trend runs, each split into Above/Below mean segments with min/max and max |value-mean| metadata
+- `chooseSegmentsForHighlight(runs, { metricImprovement, strategy: TrendSegmentationStrategy })` → returns the segment(s) to emphasise per strategy, e.g.:
+
+- `TrendSegmentationStrategy.FavourableSide`
+- `TrendSegmentationStrategy.CrossingAfterFavourable` (default)
+- `TrendSegmentationStrategy.ExtremeFavourable`
+- `TrendSegmentationStrategy.FirstFavourable`
+- `TrendSegmentationStrategy.LongestFavourable`
+- `TrendSegmentationStrategy.LastFavourable`
+
+See tests: `tests/spc_v2/trendSegments.helper.test.ts`.
+
+Further reading: see `docs/trend-segmentation.mdx` for a full background, strategy guide (including Unfavourable variants), and engine integration details.
+
+### Conflict preferences and dominance (advanced)
+
+- `preferTrendWhenConflict?: boolean` — softly prefer the side carrying a trend when both sides have candidates and only one side is a trend.
+- `trendDominatesHighlightedWindow?: boolean` — inside highlighted trend segments, clear opposite‑side non‑trend flags (single‑point, two‑sigma, shift). This makes the highlighted trend segment dominate classification within that window.
+
+Tests and guides:
+
+- Alignment: `tests/spc_v2/specialCauseConflict.lowIsGoodAlignment.test.ts`
+- Strategy sweeps (report‑only): logic_v2 and central test suites contain sweep tests to explore matches for “High is good”.
+
 ## Storybook playgrounds
 
 - Data Visualisation/SPC/v2/Test dataset (JSON): Compute with logic_v2 and compare against expected colours with swatches

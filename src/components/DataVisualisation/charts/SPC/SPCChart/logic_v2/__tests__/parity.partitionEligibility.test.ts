@@ -24,7 +24,7 @@ describe("parity: per-partition eligibility (minimumPoints)", () => {
 			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Up,
 			data: asInput(series, [baselineAt]),
-			settings: withParityV26({ minimumPoints: 5 }),
+			settings: withParityV26({ minimumPoints: 5, chartLevelEligibility: false }),
 		}).rows;
 
 		const part1 = rows.filter((r) => r.partitionId === 1);
@@ -63,7 +63,7 @@ describe("parity: per-partition eligibility (minimumPoints)", () => {
 			chartType: ChartType.XmR,
 			metricImprovement: ImprovementDirection.Up,
 			data: asInput(series, [baselineAt]),
-			settings: withParityV26({ minimumPoints: 5, trendPoints: 6 }),
+			settings: withParityV26({ minimumPoints: 5, trendPoints: 6, chartLevelEligibility: false }),
 		}).rows;
 
 		const incFlags = rows.filter((r) => !r.ghost).map((r) => r.trendUp);

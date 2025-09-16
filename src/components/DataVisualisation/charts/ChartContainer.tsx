@@ -72,16 +72,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
 			>
 				{children}
 			</div>
-			{showTableToggle && (
-				<button
-					type="button"
-					className="fdp-chart__toggle"
-					aria-expanded={showTable}
-					onClick={handleToggle}
-				>
-					{showTable ? "Hide table" : "Show table"}
-				</button>
-			)}
+			
 			{(source || tabularData) && (
 				<figcaption className="fdp-chart__caption">
 					{source && (
@@ -89,8 +80,11 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
 							Source: {source}
 						</small>
 					)}
-					
-					{showTable && tabularData}
+					{ showTable && tabularData && (
+						<div id={`${resolvedId}-table`} style={{ marginTop: 8 }}>
+							{tabularData}
+						</div>
+					)}
 				</figcaption>
 			)}
 			

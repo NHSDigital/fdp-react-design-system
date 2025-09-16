@@ -168,6 +168,7 @@ Acceptance criteria
 - Document clearly which warnings are “dataset-scope” (SQL Step 5 breadth) and which are “SPC calc-scope” (engine defaults).
 - Consider tagging rows with a `parityMode: true` flag for downstream audit/debug.
 - When MR̄ = 0 within a partition, the engine surfaces zero‑width limits rather than nulls to preserve interpretability (clear centre line and deterministic assurance). Storybook vignette: Data Visualisation/SPC/v2/Zero‑width limits.
+ - UI-agnostic visual categories: when tests or consumers need chart-like colouring semantics (neutral special-cause and conflict tie-break), use the engine post-processor `computeSpcVisualCategories` rather than duplicating UI logic. See `logic_v2/docs/visual-categories.md`.
 
 ## Risks and decisions
 

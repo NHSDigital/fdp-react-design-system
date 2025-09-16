@@ -48,8 +48,9 @@ export function deriveBaselines(
 	length: number
 ): (boolean | null | undefined)[] | undefined {
 	if (
-		group.metric === "Recalculations - Recalculated" ||
+		group.metric === "Recalculations - Recalculated" || group.metric === "Baselines - Recalculated" ||
 		group.metric.startsWith("Special cause crossing recalculations")
+	
 	) {
 		const arr = new Array(length).fill(undefined);
 		const idx = Math.min(15, Math.max(0, length - 1));

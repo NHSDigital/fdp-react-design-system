@@ -8,3 +8,4 @@ export * from "./assurance";
 export * from "./engine";
 export * from "./presets";
 export * from "./preprocess";
+export * from "./retroOverlay";

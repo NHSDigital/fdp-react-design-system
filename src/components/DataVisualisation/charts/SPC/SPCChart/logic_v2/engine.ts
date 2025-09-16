@@ -1,7 +1,10 @@
 import {
 	BuildArgsV2,
+	ConflictStrategy,
 	ImprovementDirection,
 	MetricConflictRule,
+	TrendSegmentationStrategy,
+	TrendSegmentationMode,
 	SpcResultV2,
 	SpcRowV2,
 	VariationIcon,
@@ -9,6 +12,7 @@ import {
 import { computePartitionLimits } from "./limits";
 import { detectRulesInPartition } from "./detector";
 import { applySqlPruning, deriveOriginalCandidates } from "./conflict";
+import { computeTrendSegments, chooseSegmentsForHighlight } from "./postprocess/trendSegments";
 import { isNumber } from "./utils";
 
 // Build an SPC result aligned to SQL v2.6a, focusing on XmR.
@@ -24,9 +28,25 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 		metricConflictRule: MetricConflictRule.Improvement,
 		trendAcrossPartitions: false,
 		twoSigmaIncludeAboveThree: false,
+		preferImprovementWhenConflict: false,
+		conflictStrategy: ConflictStrategy.SqlPrimeThenRule,
+		ruleHierarchy: undefined,
 		chartLevelEligibility: false,
+		trendFavourableSegmentation: false,
+		trendSegmentationMode: TrendSegmentationMode.Off,
+		trendSegmentationStrategy: TrendSegmentationStrategy.CrossingAfterUnfavourable,
+		trendDominatesHighlightedWindow: false,
 		...settings,
 	};
+
+	// Resolve legacy boolean to mode if provided explicitly in settings
+	const resolvedMode: TrendSegmentationMode =
+		args.settings?.trendSegmentationMode ??
+		(args.settings?.trendFavourableSegmentation === true
+			? TrendSegmentationMode.Always
+			: args.settings?.trendFavourableSegmentation === false
+			? TrendSegmentationMode.Off
+			: s.trendSegmentationMode!);
 
 	// Canonical rows — ensure predictable structure and types used throughout the build
 	const canon = data.map((d, i) => ({
@@ -51,6 +71,13 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 	if (cur.length) partitions.push(cur);
 
 	const out: SpcRowV2[] = [];
+
+	// Global gating for trend segmentation: when preferImprovementWhenConflict is enabled,
+	// we disable trend segmentation to better match datasets that expect improvement-side dominance
+	// without segment masking side-effects around the mean crossings.
+	const segmentationEnabled =
+		(s.trendFavourableSegmentation || resolvedMode !== TrendSegmentationMode.Off) &&
+		!s.preferImprovementWhenConflict;
 
 	// Determine chart-level eligibility when enabled: count all non-ghost, valued points across the chart
 	const totalEligiblePoints = canon.filter((r) => !r.ghost && isNumber(r.value)).length;
@@ -134,6 +161,59 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 				twoSigmaIncludeAboveThree: !!s.twoSigmaIncludeAboveThree,
 			});
 
+		// Optional post-detection step: trend favourable segmentation to resolve cross-mean conflicts
+		const maybeApplySegmentation = (rows: SpcRowV2[]) => {
+			// Determine if this partition has any potential conflicts (both sides active on any row)
+			const hasConflict = rows.some((r) =>
+				(r.singlePointUp || r.twoSigmaUp || r.shiftUp || r.trendUp) &&
+				(r.singlePointDown || r.twoSigmaDown || r.shiftDown || r.trendDown)
+			);
+			if (
+				resolvedMode === TrendSegmentationMode.Off ||
+				(resolvedMode === TrendSegmentationMode.AutoWhenConflict && !hasConflict)
+			) {
+				return;
+			}
+			const runs = computeTrendSegments(rows);
+			const highlights = chooseSegmentsForHighlight(runs, {
+				metricImprovement,
+				strategy: s.trendSegmentationStrategy,
+			});
+			// Build directional allow masks so a row can only retain the trend flag
+			// corresponding to the highlighted segment's direction it belongs to.
+			const allowUp = new Set<number>();
+			const allowDown = new Set<number>();
+			for (const seg of highlights) {
+				for (let k = seg.start; k <= seg.end; k++) {
+					if (seg.trendDirection === "Up") allowUp.add(k);
+					else allowDown.add(k);
+				}
+			}
+			rows.forEach((row, idx) => {
+				// Recode trend flags to only keep those explicitly allowed by highlighted segments
+				row.trendUp = allowUp.has(idx) ? row.trendUp : false;
+				row.trendDown = allowDown.has(idx) ? row.trendDown : false;
+				// Optional: let trend dominate inside highlighted window by clearing opposite-side non-trend flags
+				if (s.trendDominatesHighlightedWindow) {
+					if (allowUp.has(idx)) {
+						// Inside an upward trend segment: drop down-side non-trend rules
+						row.singlePointDown = false;
+						row.twoSigmaDown = false;
+						row.shiftDown = false;
+					} else if (allowDown.has(idx)) {
+						// Inside a downward trend segment: drop up-side non-trend rules
+						row.singlePointUp = false;
+						row.twoSigmaUp = false;
+						row.shiftUp = false;
+					}
+				}
+			});
+		};
+
+		if (segmentationEnabled) {
+			maybeApplySegmentation(withLines);
+		}
+
 		// SQL candidate formation and pruning for all rows (engine v2.6a parity)
 		for (const row of withLines) {
 			if (row.ghost || !isNumber(row.value) || row.mean === null) {
@@ -154,7 +234,7 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 						row.variationIcon = highSide ? VariationIcon.NeitherHigh : lowSide ? VariationIcon.NeitherLow : VariationIcon.CommonCause;
 					} else {
 						// Up/Down metrics: apply SQL-style pruning and then set icon via pruning outcome
-						applySqlPruning(row, metricImprovement, s.metricConflictRule!);
+						applySqlPruning(row, metricImprovement, s.metricConflictRule!, s.preferImprovementWhenConflict === true, s.conflictStrategy, s.ruleHierarchy, s.preferTrendWhenConflict === true);
 					}
 			out.push(row);
 		}
@@ -179,6 +259,55 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 				if (inc) win.forEach((i) => (out[i].trendUp = true));
 				if (dec) win.forEach((i) => (out[i].trendDown = true));
 			}
+		}
+	}
+
+	// If global trend flags were added post hoc, re-apply pruning to stabilise variationIcon with updated rule flags
+	if (s.trendAcrossPartitions) {
+		// Optional: apply favourable trend segmentation across the whole series
+		if (segmentationEnabled) {
+			const hasConflict = out.some((r) =>
+				(r.singlePointUp || r.twoSigmaUp || r.shiftUp || r.trendUp) &&
+				(r.singlePointDown || r.twoSigmaDown || r.shiftDown || r.trendDown)
+			);
+			if (
+				resolvedMode === TrendSegmentationMode.Always ||
+				(resolvedMode === TrendSegmentationMode.AutoWhenConflict && hasConflict)
+			) {
+			const runs = computeTrendSegments(out);
+			const highlights = chooseSegmentsForHighlight(runs, { metricImprovement, strategy: s.trendSegmentationStrategy });
+			const allowUp = new Set<number>();
+			const allowDown = new Set<number>();
+			for (const seg of highlights) {
+				for (let k = seg.start; k <= seg.end; k++) {
+					if (seg.trendDirection === "Up") allowUp.add(k); else allowDown.add(k);
+				}
+			}
+			out.forEach((row, idx) => {
+				row.trendUp = allowUp.has(idx) ? row.trendUp : false;
+				row.trendDown = allowDown.has(idx) ? row.trendDown : false;
+				if (s.trendDominatesHighlightedWindow) {
+					if (allowUp.has(idx)) {
+						row.singlePointDown = false;
+						row.twoSigmaDown = false;
+						row.shiftDown = false;
+					} else if (allowDown.has(idx)) {
+						row.singlePointUp = false;
+						row.twoSigmaUp = false;
+						row.shiftUp = false;
+					}
+				}
+			});
+			}
+		}
+		for (const row of out) {
+			if (row.ghost || !isNumber(row.value) || row.mean === null) continue;
+			if (metricImprovement === ImprovementDirection.Neither) continue;
+			// Recompute candidates from updated flags
+			const { aligned, opposite } = deriveOriginalCandidates(row, metricImprovement);
+			row.specialCauseImprovementValue = aligned ? row.value! : null;
+			row.specialCauseConcernValue = opposite ? row.value! : null;
+			applySqlPruning(row, metricImprovement, s.metricConflictRule!, s.preferImprovementWhenConflict === true, s.conflictStrategy, s.ruleHierarchy, s.preferTrendWhenConflict === true);
 		}
 	}
 

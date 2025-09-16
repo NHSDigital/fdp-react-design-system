@@ -57,6 +57,8 @@ export interface SpcSettingsV26a {
     metricConflictRule?: MetricConflictRule;
     trendAcrossPartitions?: boolean;
     twoSigmaIncludeAboveThree?: boolean;
+    preferImprovementWhenConflict?: boolean;
+    chartLevelEligibility?: boolean;
 }
 export interface SpcRowV2 {
     rowId: number;

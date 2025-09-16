@@ -1,5 +1,5 @@
-import * as React from 'react';
-import '../DataVisualisation.scss';
+import * as React from "react";
+import "../DataVisualisation.scss";
 export interface ChartContainerProps {
     title: string;
     description?: string;

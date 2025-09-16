@@ -7,11 +7,11 @@
  */
 import {
 	buildSpc,
-	ChartType,
-	ImprovementDirection,
 	SpcResult,
 } from "../src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc";
 import { buildSpcSqlCompat } from "../src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcSqlCompat";
+
+import { ImprovementDirection, ChartType } from "../src/components/DataVisualisation/charts/SPC";
 
 type DS = Array<number | null>;
 

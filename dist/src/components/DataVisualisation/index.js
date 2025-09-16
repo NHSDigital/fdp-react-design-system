@@ -2860,19 +2860,7 @@ var ChartContainer = ({
       "aria-labelledby": `${resolvedId}-title`,
       "aria-describedby": clsx_default(descId, sourceId),
       children: [
-        /* @__PURE__ */ jsxs("header", { className: "fdp-chart__header", children: [
-          /* @__PURE__ */ jsx("h3", { id: `${resolvedId}-title`, className: "fdp-chart__title", children: title }),
-          showTableToggle && /* @__PURE__ */ jsx(
-            "button",
-            {
-              type: "button",
-              className: "fdp-chart__toggle",
-              "aria-expanded": showTable,
-              onClick: handleToggle,
-              children: showTable ? "Hide table" : "Show table"
-            }
-          )
-        ] }),
+        /* @__PURE__ */ jsx("header", { className: "fdp-chart__header", children: /* @__PURE__ */ jsx("h3", { id: `${resolvedId}-title`, className: "fdp-chart__title", children: title }) }),
         description && /* @__PURE__ */ jsx("p", { id: descId, className: "fdp-chart__description", children: description }),
         /* @__PURE__ */ jsx(
           "div",
@@ -2882,6 +2870,16 @@ var ChartContainer = ({
             role: "group",
             "aria-label": title,
             children
+          }
+        ),
+        showTableToggle && /* @__PURE__ */ jsx(
+          "button",
+          {
+            type: "button",
+            className: "fdp-chart__toggle",
+            "aria-expanded": showTable,
+            onClick: handleToggle,
+            children: showTable ? "Hide table" : "Show table"
           }
         ),
         (source || tabularData) && /* @__PURE__ */ jsxs("figcaption", { className: "fdp-chart__caption", children: [

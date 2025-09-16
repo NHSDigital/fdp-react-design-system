@@ -9,3 +9,5 @@ export * from "./engine";
 export * from "./presets";
 export * from "./preprocess";
 export * from "./retroOverlay";
+export * from "./postprocess/visualCategories";
+export * from "./postprocess/trendSegments";

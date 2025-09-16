@@ -16,7 +16,7 @@ export declare function deriveOriginalCandidates(row: SpcRowV2, metric: Improvem
     aligned: boolean;
     opposite: boolean;
 };
-export declare function applySqlPruning(row: SpcRowV2, metric: ImprovementDirection, metricConflictRule: MetricConflictRule): {
+export declare function applySqlPruning(row: SpcRowV2, metric: ImprovementDirection, metricConflictRule: MetricConflictRule, preferImprovementWhenConflict?: boolean): {
     originalImprovement: number | null;
     originalConcern: number | null;
 };

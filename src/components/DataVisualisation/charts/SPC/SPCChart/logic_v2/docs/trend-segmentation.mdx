@@ -1,0 +1,118 @@
+# Trend segmentation and special-cause conflicts (logic_v2)
+
+This page explains how the v2 SPC engine detects monotonic trends, how mean crossings are handled via segmentation, and the strategies you can use to decide which segment(s) contribute to classification. It also clarifies what “highlighting” means in the engine and when to use the new Unfavourable strategies.
+
+## Why segmentation exists
+
+When a strict monotonic trend (e.g., 6 points) crosses the mean within a partition, SQL-style rule backfilling will set trend flags across the whole window, which can create a special-cause conflict: both “improvement” and “concern” candidates may exist for the same row (one from trend on one side of the mean, and other rules or the trend itself on the other).
+
+The segmentation step resolves this by splitting each detected trend run into segments that are side-consistent with respect to the mean (Above or Below). Then, a strategy selects just the segment(s) to keep. Outside the selected segments, the engine recodes trend flags (trendUp/trendDown) to false before conflict pruning, ensuring classification reflects only the intended part of the run.
+
+Important: segmentation only affects trend flags. Single point, two-sigma, and shift flags are not changed by segmentation unless you explicitly enable dominance (see below).
+
+## How it works
+
+- Detect rules (single point, two-of-three, shift, trend) per partition, using parity eligibility if enabled.
+- Compute contiguous trend runs from backfilled flags.
+- Split each run into Above/Below mean segments. Rows exactly equal to the mean form boundaries and aren’t included in either segment.
+- Choose segment(s) to keep via `TrendSegmentationStrategy`.
+- Recode trend flags outside the selected segments; then apply SQL-like conflict pruning to produce the final `variationIcon`.
+
+## Strategy options
+
+All strategies operate per run. For Up metrics, the favourable side is Above; for Down metrics, favourable is Below. Unfavourable is the opposite side.
+
+Favourable-side strategies
+
+- FavourableSide: Keep all favourable-side segments. Useful when the entire favourable portion should contribute.
+- CrossingAfterFavourable: If the run crosses the mean, keep the first favourable segment after the crossing; otherwise fall back to the longest favourable segment.
+- ExtremeFavourable: Keep the favourable segment with the greatest absolute distance from the mean (based on the segment’s max |value − mean|).
+- FirstFavourable: Keep the first favourable segment chronologically.
+- LongestFavourable: Keep the favourable segment with the largest span (ties broken by earliest).
+- LastFavourable: Keep the last favourable segment chronologically.
+
+Unfavourable-side strategies
+
+- UnfavourableSide: Keep all unfavourable-side segments.
+- CrossingAfterUnfavourable: If the run crosses the mean, keep the first unfavourable segment after the crossing; otherwise fall back to the longest unfavourable segment.
+- ExtremeUnfavourable: Keep the unfavourable segment with the greatest absolute distance from the mean.
+- FirstUnfavourable: Keep the first unfavourable segment.
+- LongestUnfavourable: Keep the longest unfavourable segment.
+- LastUnfavourable: Keep the last unfavourable segment.
+
+Neither metrics
+
+- For `ImprovementDirection.Neither`, there is no inherent favourable side. The engine falls back to extreme-segment logic when appropriate (largest absolute distance from mean) or otherwise selects nothing for the side-specific strategies.
+
+## What “highlight” means here
+
+“Highlighting” is algorithmic. It does not style the UI. The engine:
+
+- Builds a set of indices for the selected segments.
+- Clears trendUp/trendDown outside those indices (and per direction when multiple runs exist).
+- Leaves other rules untouched.
+- Proceeds to conflict pruning to choose the final icon.
+
+Because other rules remain, early points can still be classified (e.g., ImprovementHigh due to single point or two-sigma) even if segmentation cleared their trend flags. Your tests should check trend flags where you want to assert segmentation behavior, and icons where you want overall classification.
+
+## Practical example: “Special cause conflict – High is good”
+
+Shape (values): 43, 41, 37, 36, 31, 23, 15, 13, 15, 18, 23, 27, 31
+
+- Metric is Up (higher is better). The early decreasing run crosses the mean and drops below it around indices 5–7 (0-based).
+- Using `CrossingAfterUnfavourable` highlights the first below-mean segment after crossing (indices 5–7), causing those rows to retain downward-trend flags and classify as ConcernLow after pruning.
+- Pre‑crossing indices (0–4) have their trend flags cleared; however, they may still classify via other non-trend rules.
+
+Test cue (simplified):
+
+```ts
+const { rows } = buildSpcV26a({
+  chartType: ChartType.XmR,
+  metricImprovement: ImprovementDirection.Up,
+  data,
+  settings: {
+    chartLevelEligibility: true,
+    trendPoints: 6,
+    trendFavourableSegmentation: true,
+    trendSegmentationStrategy: TrendSegmentationStrategy.CrossingAfterUnfavourable,
+  },
+});
+// Expect ConcernLow for 5..7 and trend flags cleared on 0..4.
+```
+
+Status (2025‑09‑16)
+
+- “Low is good” dataset fully aligns using CrossingAfterUnfavourable (see test link below).
+- “High is good” dataset has no full‑match configuration found yet in a sweep across strategies with/without `preferTrendWhenConflict` and `trendDominatesHighlightedWindow`; tests report partial matches only.
+
+## Engine integration details
+
+- Controlled by settings:
+  - `trendFavourableSegmentation` (default true): enables the segmentation step.
+  - `trendSegmentationStrategy` (engine default: `CrossingAfterUnfavourable` as of 2025‑09‑16): choose a strategy to keep either favourable or unfavourable segments depending on your use case.
+  - `preferTrendWhenConflict?: boolean` (default false): when both sides have candidates, bias pruning toward the side that carries the trend flag if only one side is a trend. This is a soft preference applied during conflict resolution.
+  - `trendDominatesHighlightedWindow?: boolean` (default false): when true, inside highlighted trend segments the engine clears opposite‑side non‑trend flags (single‑point, two‑sigma, shift). This lets the chosen trend segment “dominate” classification within the window. Use sparingly.
+- Directional masking: when multiple runs exist (e.g., an upward run and a downward run), the engine keeps allowed indices separately for upward vs. downward segments. A row only retains the trend flag matching the highlighted segment direction it belongs to.
+- Across partitions: if `trendAcrossPartitions` is enabled, the same segmentation logic can be applied after global trend detection.
+
+## Choosing a strategy
+
+- Prefer `CrossingAfterFavourable` for the common “keep only the post‑crossing favourable part” behavior.
+- Use `CrossingAfterUnfavourable` when you specifically need to keep the first post‑crossing unfavourable segment (e.g., highlight the below‑mean portion for Up metrics in conflict scenarios).
+- Consider `Extreme*` when you want the segment farthest from the mean on a given side.
+- Consider `Longest*` when you care about the duration of the segment.
+- `First*`/`Last*` give chronological control when you need deterministic selection on complex shapes.
+
+## API recap
+
+- `computeTrendSegments(rows)` → `TrendRun[]` with `TrendSegment[]` subparts including side, min/max, and maxAbsDeltaFromMean.
+- `chooseSegmentsForHighlight(runs, { metricImprovement, strategy })` → `TrendSegment[]` to keep.
+- Engine applies segmentation recoding automatically when `trendFavourableSegmentation` is enabled.
+
+## Links
+
+- Overview: `logic_v2/docs/README.md`
+- Helper tests: `tests/spc_v2/trendSegments.helper.test.ts`
+- Engine tests: `tests/spc_v2/engine.trendSegmentation.test.ts`, `tests/spc_v2/engine.unfavourableSegmentation.test.ts`
+- Dataset alignment: `tests/spc_v2/specialCauseConflict.lowIsGoodAlignment.test.ts`
+- Strategy sweep (report‑only): `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/__tests__/specialCauseConflict.strategySweep.test.ts`, `tests/spc_v2/specialCauseConflict.strategySweep.test.ts`

@@ -1,5 +1,8 @@
 import { SpcRuleId } from "./types";
 
+// Higher number = higher precedence (stronger rule).
+// Align exactly with SQL v2.6a conflict ranking used to compute PrimeDirection:
+// Trend (4) > Shift (3) > TwoSigma (2) > SinglePoint (1)
 export const RULE_RANK_BY_ID: Record<SpcRuleId, number> = {
 	[SpcRuleId.SinglePoint]: 1,
 	[SpcRuleId.TwoSigma]: 2,

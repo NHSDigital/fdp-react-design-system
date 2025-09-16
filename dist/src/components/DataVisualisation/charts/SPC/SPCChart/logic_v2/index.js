@@ -276,26 +276,34 @@ function deriveOriginalCandidates(row, metric) {
   const opposite = metric === "Up" /* Up */ ? row.singlePointDown || row.twoSigmaDown || row.shiftDown || row.trendDown : metric === "Down" /* Down */ ? row.singlePointUp || row.twoSigmaUp || row.shiftUp || row.trendUp : false;
   return { aligned, opposite };
 }
-function applySqlPruning(row, metric, metricConflictRule) {
+function applySqlPruning(row, metric, metricConflictRule, preferImprovementWhenConflict = false) {
   const { up, dn, upMax, dnMax, primeDirection } = getDirectionalSummary(row);
   row.primeDirection = primeDirection;
   const originalImprovement = row.specialCauseImprovementValue;
   const originalConcern = row.specialCauseConcernValue;
   if (row.specialCauseImprovementValue !== null && row.specialCauseConcernValue !== null) {
-    if (primeDirection === "Upwards" /* Upwards */) {
-      if (metric === "Up" /* Up */)
+    if (preferImprovementWhenConflict) {
+      if (metric === "Up" /* Up */) {
         row.specialCauseConcernValue = null;
-      else if (metric === "Down" /* Down */)
+      } else if (metric === "Down" /* Down */) {
         row.specialCauseImprovementValue = null;
-    } else if (primeDirection === "Downwards" /* Downwards */) {
-      if (metric === "Up" /* Up */)
-        row.specialCauseImprovementValue = null;
-      else if (metric === "Down" /* Down */)
-        row.specialCauseConcernValue = null;
+      }
     } else {
-      if (metricConflictRule === "Improvement" /* Improvement */)
-        row.specialCauseConcernValue = null;
-      else row.specialCauseImprovementValue = null;
+      if (primeDirection === "Upwards" /* Upwards */) {
+        if (metric === "Up" /* Up */)
+          row.specialCauseConcernValue = null;
+        else if (metric === "Down" /* Down */)
+          row.specialCauseImprovementValue = null;
+      } else if (primeDirection === "Downwards" /* Downwards */) {
+        if (metric === "Up" /* Up */)
+          row.specialCauseImprovementValue = null;
+        else if (metric === "Down" /* Down */)
+          row.specialCauseConcernValue = null;
+      } else {
+        if (metricConflictRule === "Improvement" /* Improvement */)
+          row.specialCauseConcernValue = null;
+        else row.specialCauseImprovementValue = null;
+      }
     }
   }
   if (metric === "Up" /* Up */) {
@@ -345,6 +353,8 @@ function buildSpcV26a(args) {
     metricConflictRule: "Improvement" /* Improvement */,
     trendAcrossPartitions: false,
     twoSigmaIncludeAboveThree: false,
+    preferImprovementWhenConflict: false,
+    chartLevelEligibility: false,
     ...settings
   };
   const canon = data.map((d, i) => ({
@@ -366,6 +376,8 @@ function buildSpcV26a(args) {
   }
   if (cur.length) partitions.push(cur);
   const out = [];
+  const totalEligiblePoints = canon.filter((r) => !r.ghost && isNumber(r.value)).length;
+  const chartEligible = !!s.chartLevelEligibility && totalEligiblePoints >= s.minimumPoints;
   let partitionId = 0;
   for (const part of partitions) {
     partitionId++;
@@ -379,7 +391,7 @@ function buildSpcV26a(args) {
     );
     const withLines = part.map((r, i) => {
       const pointRank = !r.ghost && isNumber(r.value) ? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber(v)).length : 0;
-      const eligibleHere = pointRank >= s.minimumPoints;
+      const eligibleHere = chartEligible ? true : pointRank >= s.minimumPoints;
       return {
         rowId: r.rowId,
         x: r.x,
@@ -387,13 +399,13 @@ function buildSpcV26a(args) {
         ghost: r.ghost,
         partitionId,
         pointRank,
-        mean: eligibleHere && isNumber(lim.mean) ? lim.mean : null,
-        upperProcessLimit: eligibleHere ? lim.upperProcessLimit : null,
-        lowerProcessLimit: eligibleHere ? lim.lowerProcessLimit : null,
-        upperTwoSigma: eligibleHere ? lim.upperTwoSigma : null,
-        lowerTwoSigma: eligibleHere ? lim.lowerTwoSigma : null,
-        upperOneSigma: eligibleHere ? lim.upperOneSigma : null,
-        lowerOneSigma: eligibleHere ? lim.lowerOneSigma : null,
+        mean: (eligibleHere || chartEligible) && isNumber(lim.mean) ? lim.mean : null,
+        upperProcessLimit: eligibleHere || chartEligible ? lim.upperProcessLimit : null,
+        lowerProcessLimit: eligibleHere || chartEligible ? lim.lowerProcessLimit : null,
+        upperTwoSigma: eligibleHere || chartEligible ? lim.upperTwoSigma : null,
+        lowerTwoSigma: eligibleHere || chartEligible ? lim.lowerTwoSigma : null,
+        upperOneSigma: eligibleHere || chartEligible ? lim.upperOneSigma : null,
+        lowerOneSigma: eligibleHere || chartEligible ? lim.lowerOneSigma : null,
         // rules
         singlePointUp: false,
         singlePointDown: false,
@@ -438,7 +450,7 @@ function buildSpcV26a(args) {
         const lowSide = row.singlePointDown || row.twoSigmaDown || row.shiftDown || row.trendDown;
         row.variationIcon = highSide ? "NeitherHigh" /* NeitherHigh */ : lowSide ? "NeitherLow" /* NeitherLow */ : "CommonCause" /* CommonCause */;
       } else {
-        applySqlPruning(row, metricImprovement, s.metricConflictRule);
+        applySqlPruning(row, metricImprovement, s.metricConflictRule, s.preferImprovementWhenConflict === true);
       }
       out.push(row);
     }
@@ -462,6 +474,16 @@ function buildSpcV26a(args) {
       }
     }
   }
+  if (s.trendAcrossPartitions) {
+    for (const row of out) {
+      if (row.ghost || !isNumber(row.value) || row.mean === null) continue;
+      if (metricImprovement === "Neither" /* Neither */) continue;
+      const { aligned, opposite } = deriveOriginalCandidates(row, metricImprovement);
+      row.specialCauseImprovementValue = aligned ? row.value : null;
+      row.specialCauseConcernValue = opposite ? row.value : null;
+      applySqlPruning(row, metricImprovement, s.metricConflictRule, s.preferImprovementWhenConflict === true);
+    }
+  }
   return { rows: out };
 }
 
@@ -473,7 +495,8 @@ var PARITY_V26 = Object.freeze({
   excludeMovingRangeOutliers: false,
   metricConflictRule: "Improvement" /* Improvement */,
   trendAcrossPartitions: true,
-  twoSigmaIncludeAboveThree: true
+  twoSigmaIncludeAboveThree: true,
+  chartLevelEligibility: true
 });
 function withParityV26(overrides) {
   return { ...PARITY_V26, ...overrides != null ? overrides : {} };
@@ -505,6 +528,69 @@ function toCountBetweenEvents(rows) {
   }
   return res;
 }
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/retroOverlay.ts
+function iconFor(side, dir) {
+  if (dir === "Neither" /* Neither */) {
+    return side === "up" ? "NeitherHigh" /* NeitherHigh */ : "NeitherLow" /* NeitherLow */;
+  }
+  if (dir === "Up" /* Up */) {
+    return side === "up" ? "ImprovementHigh" /* ImprovementHigh */ : "ConcernLow" /* ConcernLow */;
+  }
+  return side === "up" ? "ConcernHigh" /* ConcernHigh */ : "ImprovementLow" /* ImprovementLow */;
+}
+function computeRetroShiftOverlay(rows, metricImprovement, opts) {
+  const { enableShift = true } = opts != null ? opts : {};
+  const overlay = Array(rows.length).fill(null);
+  if (!enableShift) return overlay;
+  const byPart = /* @__PURE__ */ new Map();
+  rows.forEach((r, i) => {
+    if (!byPart.has(r.partitionId)) byPart.set(r.partitionId, []);
+    byPart.get(r.partitionId).push(i);
+  });
+  for (const [, idxs] of byPart) {
+    const firstEligibleIdx = idxs.find((i) => isNumber(rows[i].mean));
+    if (firstEligibleIdx == null) continue;
+    let runStart = null;
+    let runSide = null;
+    const commitRun = (startIdx, side) => {
+      const refMean = rows[startIdx].mean;
+      for (let j = startIdx - 1; j >= idxs[0]; j--) {
+        const r = rows[j];
+        if (r.ghost || !isNumber(r.value)) continue;
+        if (j >= firstEligibleIdx) break;
+        const sameSide = side === "up" ? r.value > refMean : r.value < refMean;
+        if (!sameSide) break;
+        overlay[j] = iconFor(side, metricImprovement);
+      }
+    };
+    for (const i of idxs) {
+      const r = rows[i];
+      const eligible = isNumber(r.mean);
+      if (!eligible) continue;
+      const up = !!r.shiftUp;
+      const down = !!r.shiftDown;
+      const side = up ? "up" : down ? "down" : null;
+      if (side) {
+        if (runStart == null) {
+          runStart = i;
+          runSide = side;
+        } else if (runSide === side) {
+        } else {
+          commitRun(runStart, runSide);
+          runStart = i;
+          runSide = side;
+        }
+      } else if (runStart != null) {
+        commitRun(runStart, runSide);
+        runStart = null;
+        runSide = null;
+      }
+    }
+    if (runStart != null && runSide != null) commitRun(runStart, runSide);
+  }
+  return overlay;
+}
 export {
   AssuranceIcon,
   ChartType,
@@ -524,6 +610,7 @@ export {
   computeAssuranceIcon,
   computeAssuranceIconXmR,
   computePartitionLimits,
+  computeRetroShiftOverlay,
   deriveOriginalCandidates,
   detectRulesInPartition,
   getDirectionalSummary,

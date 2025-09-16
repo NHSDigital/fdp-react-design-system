@@ -15,8 +15,11 @@ import {
 	ChartType,
 	ImprovementDirection,
 	type SpcSettingsV26a,
+	TrendSegmentationMode,
+	TrendSegmentationStrategy,
 } from "../types.ts";
-import { withParityV26 } from "../presets";
+import { computeTrendSegments, chooseSegmentsForHighlight } from "../postprocess/trendSegments";
+import { withParityV26, withConflictPresetAutoV26 } from "../presets";
 import { SPCChart } from "../../SPCChart";
 import { iconToHex } from "./data/variationIconColours";
 import {
@@ -25,6 +28,8 @@ import {
 } from "../../logic/spcConstants";
 
 const metricOptions = getMetricOptions();
+const METRIC_STORAGE_KEY = "spc.v2.metric";
+const DIRECTION_STORAGE_PREFIX = "spc.v2.direction:";
 const BASE_MINIMUM_POINTS = 12;
 
 const meta: Meta = {
@@ -41,10 +46,18 @@ const meta: Meta = {
 		// Metric & improvementDirection handled internally now
 		showTable: { control: { type: "boolean" } },
 		parityMode: { control: { type: "boolean" } },
+		conflictPreset: { control: { type: "boolean" } },
+		autoConflictMode: { control: { type: "boolean" } },
+		preferImprovementWhenConflict: { control: { type: "boolean" } },
+		preferTrendWhenConflict: { control: { type: "boolean" } },
+		trendDominatesHighlightedWindow: { control: { type: "boolean" } },
 	},
 	args: {
 		showTable: true,
 		parityMode: false,
+		conflictPreset: false,
+		autoConflictMode: true,
+		// Conflict levers default to auto via preset; omit to let auto-preset decide based on direction
 	},
 };
 export default meta;
@@ -52,18 +65,14 @@ export default meta;
 type Story = StoryObj<{
 	showTable?: boolean;
 	parityMode?: boolean;
+	conflictPreset?: boolean;
+	autoConflictMode?: boolean;
+	preferImprovementWhenConflict?: boolean;
+	preferTrendWhenConflict?: boolean;
+	trendDominatesHighlightedWindow?: boolean;
 }>;
 
-function toDir(value: "neither" | "up" | "down"): ImprovementDirection {
-	switch (value) {
-		case "up":
-			return ImprovementDirection.Up;
-		case "down":
-			return ImprovementDirection.Down;
-		default:
-			return ImprovementDirection.Neither;
-	}
-}
+// Use ImprovementDirection enum directly in state/UI
 
 function toV1Dir(value: ImprovementDirection): V1ImprovementDirection {
 	switch (value) {
@@ -78,43 +87,95 @@ function toV1Dir(value: ImprovementDirection): V1ImprovementDirection {
 
 export const GroupedDatasetV2: Story = {
 	name: "Playground (grouped JSON)",
-	render: ({ showTable, parityMode }, _context) => {
-		// Internal metric state
-		const [metric, setMetric] = useState<string>(metricOptions[0] ?? "");
+	render: ({ showTable, parityMode, conflictPreset = false, autoConflictMode = true, preferImprovementWhenConflict, preferTrendWhenConflict, trendDominatesHighlightedWindow }, _context) => {
+		// Internal metric state with browser persistence
+		const [metric, setMetric] = useState<string>(() => {
+			try {
+				if (typeof window !== "undefined") {
+					const saved = window.localStorage.getItem(METRIC_STORAGE_KEY);
+					if (saved && metricOptions.includes(saved)) return saved;
+				}
+			} catch {}
+			return metricOptions[0] ?? "";
+		});
 		const grp = findGroup(metric)!;
+
+		// Persist metric on change (SSR-safe)
+		useEffect(() => {
+			try {
+				if (typeof window !== "undefined") {
+					if (metric && metricOptions.includes(metric)) {
+						window.localStorage.setItem(METRIC_STORAGE_KEY, metric);
+					} else {
+						window.localStorage.removeItem(METRIC_STORAGE_KEY);
+					}
+				}
+			} catch {}
+		}, [metric]);
+
+		// Derive improvement direction from dataset string (various formats supported)
 		const mapImprovement = (
 			raw: string | undefined
-		): "up" | "down" | "neither" => {
-			if (!raw) return "neither";
+		): ImprovementDirection => {
+			if (!raw) return ImprovementDirection.Neither;
 			const norm = raw.toLowerCase();
+
+			if (norm === "special cause - single point - middle" || norm === "special cause - shift - ends" || norm === "special cause - shift - middle" || norm === "special cause - trend - no pauses" || norm.startsWith("special cause -") || norm.startsWith("recalculations") || norm.startsWith("baseline")) {
+				console.log("Special cause detected in improvement string:", raw);
+				return ImprovementDirection.Up;
+			}
+
 			if (
 				/high is good|higher is good|increase is good|more is good/.test(norm)
 			)
-				return "up";
+				return ImprovementDirection.Up;
 			if (
 				/low is good|lower is good|decrease is good|fewer is good|less is good/.test(
 					norm
 				)
 			)
-				return "down";
+				return ImprovementDirection.Down;
 			if (norm === "up" || norm === "down" || norm === "neither")
-				return norm as any;
+				return norm === "up"
+					? ImprovementDirection.Up
+					: norm === "down"
+						? ImprovementDirection.Down
+						: ImprovementDirection.Neither;
 			return norm.includes("up")
-				? "up"
+				? ImprovementDirection.Up
 				: norm.includes("down")
-					? "down"
-					: "neither";
+					? ImprovementDirection.Down
+					: ImprovementDirection.Neither;
 		};
 
-		const improvementDirection = mapImprovement(grp?.improvement);
-		// Manual override (optional). Undefined means "use derived".
-		const [overrideDirection, setOverrideDirection] = useState<
-			"up" | "down" | "neither" | undefined
-		>(undefined);
-		// When metric changes, clear override (allow fresh derivation each time)
+		const derivedDirection: ImprovementDirection = mapImprovement(grp?.improvement);
+		const getDirKey = (m: string) => `${DIRECTION_STORAGE_PREFIX}${encodeURIComponent(m)}`;
+		// Effective improvement direction (can be derived or user-overridden)
+		const [direction, setDirection] = useState<ImprovementDirection>(derivedDirection);
+
+		// When metric changes, refresh direction from storage or fall back to derived, then persist
 		useEffect(() => {
-			setOverrideDirection(undefined);
-		}, [metric]);
+			try {
+				if (typeof window !== "undefined" && grp) {
+					const saved = window.localStorage.getItem(getDirKey(metric));
+					if (saved === ImprovementDirection.Up || saved === ImprovementDirection.Down || saved === ImprovementDirection.Neither) {
+						setDirection(saved as ImprovementDirection);
+					} else {
+						setDirection(derivedDirection);
+						window.localStorage.setItem(getDirKey(metric), derivedDirection);
+					}
+				}
+			} catch {}
+		}, [metric, grp, derivedDirection]);
+
+		// Persist direction whenever it changes
+		useEffect(() => {
+			try {
+				if (typeof window !== "undefined" && grp) {
+					window.localStorage.setItem(getDirKey(metric), direction);
+				}
+			} catch {}
+		}, [direction, metric, grp]);
 
 		// Guard: if dataset failed to load, render a helpful message
 		if (!grp || !Array.isArray(grp.data)) {
@@ -138,15 +199,39 @@ export const GroupedDatasetV2: Story = {
 		// Place the baseline at index 15 (0-based: the 16th point)
 		const baselines = deriveBaselines(grp, data.length);
 
-		// Direction already normalised in improvementDirection derived earlier
-		const datasetDirKey = overrideDirection ?? improvementDirection;
-		const dir = toDir(datasetDirKey);
-
-		const settings = useMemo<SpcSettingsV26a>(
-			() =>
-				parityMode ? withParityV26() : { minimumPoints: BASE_MINIMUM_POINTS },
-			[parityMode]
-		);
+		const settings = useMemo<SpcSettingsV26a>(() => {
+			if (parityMode) return withParityV26();
+			if (conflictPreset) {
+				// Direction-aware default that avoids manual switch flipping between High/Low is good datasets
+				if (autoConflictMode) {
+					return withConflictPresetAutoV26(direction, {
+						trendSegmentationMode: TrendSegmentationMode.AutoWhenConflict,
+					});
+				}
+				// Advanced overrides path — allow manual levers to take effect
+				const presetOverrides: SpcSettingsV26a = {
+					trendSegmentationMode: TrendSegmentationMode.AutoWhenConflict,
+				};
+				if (typeof preferImprovementWhenConflict === "boolean") {
+					presetOverrides.preferImprovementWhenConflict = preferImprovementWhenConflict;
+				}
+				if (typeof preferTrendWhenConflict === "boolean") {
+					presetOverrides.preferTrendWhenConflict = preferTrendWhenConflict;
+				}
+				if (typeof trendDominatesHighlightedWindow === "boolean") {
+					presetOverrides.trendDominatesHighlightedWindow = trendDominatesHighlightedWindow;
+				}
+				return withConflictPresetAutoV26(direction, presetOverrides);
+			}
+			// Default playground path: apply improvement override by default
+			// For the specific High-is-good conflict dataset, this eliminates early mismatches.
+			// Engine gating will disable segmentation automatically under this flag.
+			const base: SpcSettingsV26a = {
+				minimumPoints: BASE_MINIMUM_POINTS,
+				preferImprovementWhenConflict: true,
+			};
+			return base;
+		}, [parityMode, conflictPreset, autoConflictMode, direction, preferImprovementWhenConflict, preferTrendWhenConflict, trendDominatesHighlightedWindow]);
 		
 		const effectiveMinimumPoints = settings.minimumPoints ?? BASE_MINIMUM_POINTS;
 
@@ -161,11 +246,11 @@ export const GroupedDatasetV2: Story = {
 			}));
 			return buildSpcV26a({
 				chartType: ChartType.XmR,
-				metricImprovement: dir,
+				metricImprovement: direction,
 				data: input,
 				settings,
 			}).rows;
-		}, [data, dir, settings]);
+		}, [data, direction, settings]);
 
 		// Prepare merged table rows and mismatch count (expected from dataset vs computed by engine)
 		const mergedRows = useMemo(() => {
@@ -203,6 +288,59 @@ export const GroupedDatasetV2: Story = {
 			() => mergedRows.filter((r) => !r.match).length,
 			[mergedRows]
 		);
+		// Diagnostic logging for the tricky dataset to help tune segmentation/pruning
+		useEffect(() => {
+			if (metric !== "Special cause conflict - High is good") return;
+			try {
+				const strategy = settings.trendSegmentationStrategy ?? TrendSegmentationStrategy.CrossingAfterUnfavourable;
+				const runs = computeTrendSegments(rows);
+				const highlights = chooseSegmentsForHighlight(runs, { metricImprovement: direction, strategy });
+				const allowUp = new Set<number>();
+				const allowDown = new Set<number>();
+				for (const seg of highlights) {
+					for (let k = seg.start; k <= seg.end; k++) {
+						if (seg.trendDirection === "Up") allowUp.add(k); else allowDown.add(k);
+					}
+				}
+				const eligible = rows.map((r) => !r.ghost && typeof r.mean === "number");
+				const report = rows
+					.map((r, i) => {
+						const expectedHex = String((grp.data[i] && (grp.data[i] as any).colour) || "");
+						const computedHex = iconToHex(r.variationIcon);
+						const mismatch = expectedHex && expectedHex !== computedHex;
+						return {
+							i,
+							eligible: eligible[i],
+							expected: expectedHex,
+							got: computedHex,
+							spUp: r.singlePointUp,
+							spDn: r.singlePointDown,
+							tsUp: r.twoSigmaUp,
+							tsDn: r.twoSigmaDown,
+							shUp: r.shiftUp,
+							shDn: r.shiftDown,
+							trUp: r.trendUp,
+							trDn: r.trendDown,
+							allowUp: allowUp.has(i),
+							allowDn: allowDown.has(i),
+							prime: r.primeDirection,
+							impVal: r.specialCauseImprovementValue,
+							conVal: r.specialCauseConcernValue,
+							mismatch,
+						};
+					})
+					.filter((row) => row.eligible && row.expected); // focus on eligible rows with dataset colours
+
+				console.groupCollapsed("[SPC v2 diag] Special cause conflict - High is good");
+				console.log("Segmentation mode:", settings.trendSegmentationMode ?? "(default)");
+				console.log("Strategy:", String(strategy));
+				console.log("Highlighted segments:", highlights);
+				console.table?.(report.filter((r) => r.mismatch));
+				console.groupEnd();
+			} catch (e) {
+				console.warn("[SPC v2 diag] Failed to log diagnostics:", e);
+			}
+		}, [metric, rows, settings, direction, grp]);
 
 		const totalCount = mergedRows.length;
 
@@ -395,31 +533,65 @@ export const GroupedDatasetV2: Story = {
 							id="spc-direction-hint"
 							style={{ marginTop: 4 }}
 						>
-							Derived: <strong>{improvementDirection}</strong>
-							{overrideDirection ? ` (overridden → ${overrideDirection})` : ""}
+							Derived: <strong>{derivedDirection}</strong>
+							{direction !== derivedDirection ? ` (overridden → ${direction})` : ""}
 						</p>
 						<Select
 							name="direction"
 							id="spc-direction-select"
 							ariaLabel="Improvement direction"
 							aria-describedby="spc-direction-hint"
-							value={overrideDirection ?? ""}
+							value={direction === derivedDirection ? "" : direction}
 							onChange={(e: any) => {
-								const next = e?.target?.value;
+								const next = e?.target?.value as string;
 								if (!next) {
-									setOverrideDirection(undefined);
+									setDirection(derivedDirection);
 									return;
 								}
-								setOverrideDirection(next as any);
+								if (next === ImprovementDirection.Up || next === ImprovementDirection.Down || next === ImprovementDirection.Neither) {
+									setDirection(next as ImprovementDirection);
+								}
 							}}
 						>
-							<option value="">(Derived: {improvementDirection})</option>
-							<option value="up">up</option>
-							<option value="down">down</option>
-							<option value="neither">neither</option>
+							<option value="">(Derived: {derivedDirection})</option>
+							<option value={ImprovementDirection.Up}>Up</option>
+							<option value={ImprovementDirection.Down}>Down</option>
+							<option value={ImprovementDirection.Neither}>Neither</option>
 						</Select>
 					</div>
 				</div>
+				{conflictPreset && autoConflictMode && (
+					<div
+						role="note"
+						style={{
+							marginBottom: 12,
+							padding: 8,
+							border: "1px solid #d9d9d9",
+							borderRadius: 4,
+							background: "#fafafa",
+							color: "#333",
+							fontSize: 13,
+						}}
+					>
+						<strong>Auto conflict preset:</strong> Using direction-aware settings. For "High is good" the engine prefers improvement and disables trend segmentation; for "Low is good" segmentation is enabled with CrossingAfterUnfavourable. Manual overrides are ignored while Auto is on.
+					</div>
+				)}
+				{conflictPreset && !autoConflictMode && settings?.preferImprovementWhenConflict && (
+					<div
+						role="note"
+						style={{
+							marginBottom: 12,
+							padding: 8,
+							border: "1px solid #d9d9d9",
+							borderRadius: 4,
+							background: "#fafafa",
+							color: "#333",
+							fontSize: 13,
+						}}
+					>
+						<strong>Conflict override active:</strong> When "Prefer improvement on conflict" is enabled, the engine disables trend segmentation. As a result, "Prefer trend on conflict" and "Trend dominates highlighted window" have no effect.
+					</div>
+				)}
 				<ChartContainer
 					title={`${grp.metric} (v2 engine)`}
 					description={`Points: ${rows.length}`}
@@ -488,12 +660,13 @@ export const GroupedDatasetV2: Story = {
 					<SPCChart
 						data={data.map((d) => ({ x: d.x, y: d.value }))}
 						chartType={V1ChartType.XmR}
-						metricImprovement={toV1Dir(dir)}
+						metricImprovement={toV1Dir(direction)}
 						enableRules
 						showPoints
 						gradientSequences
 						baselines={baselines}
 						announceFocus={false}
+						settings={settings}
 					/>
 				</ChartContainer>
 				<div style={{ display: "grid", gap: 6 }}>

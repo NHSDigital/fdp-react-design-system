@@ -27,7 +27,7 @@ describe("parity: partition start eligibility threshold", () => {
       chartType: ChartType.XmR,
       metricImprovement: ImprovementDirection.Neither,
       data: make(series, baselineAt),
-      settings: withParityV26({ minimumPoints: N }),
+      settings: withParityV26({ minimumPoints: N, chartLevelEligibility: false }),
     }).rows.filter((r) => !r.ghost);
 
     const p1 = rows.filter((r) => r.partitionId === 1);

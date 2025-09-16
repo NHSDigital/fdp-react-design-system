@@ -2,6 +2,18 @@
 
 All notable changes to this module will be documented here.
 
+## 0.5.0 — Trend segmentation strategies and conflict controls (2025‑09‑16)
+
+- Trend segmentation: Added Unfavourable strategy variants alongside Favourable ones and integrated segmentation into the engine with directional masking.
+- Conflict bias: Introduced `preferTrendWhenConflict` (opt‑in) to bias pruning toward the side that carries the trend flag when both sides have candidates and only one side is a trend.
+- Dominance (opt‑in): Added `trendDominatesHighlightedWindow` to clear opposite‑side non‑trend rules (single‑point, two‑sigma, shift) inside highlighted trend segments, allowing stronger alignment with visually trend‑led datasets.
+- Defaults: Engine default `trendSegmentationStrategy` set to `CrossingAfterUnfavourable`.
+- Tests:
+  - New alignment test for “Special cause conflict — Low is good” using CrossingAfterUnfavourable: `tests/spc_v2/specialCauseConflict.lowIsGoodAlignment.test.ts`.
+  - Strategy sweep tests (report‑only) exploring configurations for “High is good”, including toggles for `preferTrendWhenConflict` and `trendDominatesHighlightedWindow`.
+  - Unfavourable segmentation engine test verifies below‑mean segment retention and pre‑crossing trend flag clearing.
+- Docs: Expanded `docs/trend-segmentation.mdx` with strategy catalog (both sides), conflict levers, default notes, status of dataset alignment, and links to tests.
+
 ## 0.4.0 — Zero‑width limits, assurance, datasets (2025‑09‑15)
 
 - XmR zero‑width limits: When MR̄ = 0 within a partition (flat values), emit zero‑width control limits (UCL = LCL = mean) and collapse ±1σ/±2σ bands to the mean. Improves visual clarity and deterministic assurance behaviour.

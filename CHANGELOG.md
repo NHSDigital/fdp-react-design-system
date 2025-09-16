@@ -32,6 +32,17 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Healthcare (v2) story now includes a computed expected‑colour table derived from the engine’s `VariationIcon` for side‑by‑side inspection.
   - Docs: Clarified eligibility gating semantics at partition starts — limits are now gated per row using pointRank >= minimumPoints (first N-1 rows in a partition emit null limits; limits appear from the Nth row).
 
+- Engine-level visual categories post-processor (logic_v2)
+  - New helper `computeSpcVisualCategories(rows, options)` and `SpcVisualCategory` enum to derive UI-agnostic per‑point categories (Common, Improvement, Concern, NoJudgement).
+  - Mirrors SPCChart pre-process behaviour for neutral special-cause points and conflict short-circuit (prefers Improvement when both sides fire).
+  - Options include `trendVisualMode: 'Ungated' | 'Gated'` and `enableNeutralNoJudgement` for Neither metrics.
+  - Added focused unit tests under `tests/spc_v2/visualCategories.helper.test.ts`.
+
+- Trend segmentation post-processor (logic_v2)
+  - New helpers `computeTrendSegments(rows)` and `chooseSegmentsForHighlight(runs, { metricImprovement, strategy })` to split backfilled trend runs at mean crossings and select highlight segments via hierarchy.
+  - Strategies: `FavourableSide`, `CrossingAfterFavourable` (default), `ExtremeFavourable`.
+  - Added tests under `tests/spc_v2/trendSegments.helper.test.ts`.
+
 ### Changed (Unreleased – Data Visualisation / SPC)
 
 - `SPCSpark`: Colouring semantics aligned with `SPCChart`.

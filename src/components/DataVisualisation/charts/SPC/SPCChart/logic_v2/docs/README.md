@@ -80,6 +80,22 @@ const { rows } = buildSpcV26a({
 const settings = { minimumPoints: 12, chartLevelEligibility: false };
 ```
 
+### Direction-aware conflict preset
+
+When a trend crosses the mean, some datasets prefer an improvement override (immediately prefer improvement when both sides have candidates), while others align better with explicit trend segmentation. To encode the right choice automatically per metric direction, use the helper:
+
+```ts
+import { withConflictPresetAutoV26, ImprovementDirection } from './logic_v2';
+
+// High is good → prefer improvement override, segmentation disabled by engine gating
+const highIsGood = withConflictPresetAutoV26(ImprovementDirection.Up);
+
+// Low is good → enable segmentation with CrossingAfterUnfavourable in AutoWhenConflict mode
+const lowIsGood = withConflictPresetAutoV26(ImprovementDirection.Down);
+```
+
+Gating precedence: if you explicitly set `preferImprovementWhenConflict: true`, the engine disables favourable trend segmentation (any `trendSegmentationMode/strategy` is ignored). This is by design to avoid creating opposite‑side candidates when using an improvement‑first conflict rule.
+
 ## Eligibility semantics
 
 - Chart-level eligibility (parity mode): once the series has ≥ `minimumPoints` non‑ghosted, valued points overall, control limits are available for all rows in each partition and rules apply retroactively to early windows. This mirrors SQL and explains why early points may be coloured after the chart qualifies.

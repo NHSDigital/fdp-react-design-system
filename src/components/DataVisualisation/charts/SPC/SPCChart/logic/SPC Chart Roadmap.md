@@ -29,6 +29,8 @@ These close the last pieces of foundational robustness and user clarity:
 | Icon set | Replace placeholder text icons with semantic SVG and legend | High |
 | Enhanced warning a11y | Plain‑language per‑warning narration summaries | Medium |
 | Trial limits styling | Distinct visual for provisional limits before stability threshold | Medium |
+| Baselines (recalculated) | Discrepancies where baseline changes trigger retrospective recalculation vs visual expectations; document and align engine/SQL where needed | High |
+| Recalculations (recalculated) | Ensure recalculation semantics and surfaced flags remain consistent across partitions and after conflict resolution; add focused tests | High |
 | Baseline visual affordance | Segment boundary styling and inline “Baseline start” label | Medium |
 | Code export / reproducibility | Embed engine version and hash in result for audit | Medium |
 | Performance benchmarks | Automated timing for large N & incremental append path | Medium |
@@ -44,6 +46,7 @@ These close the last pieces of foundational robustness and user clarity:
 3. SVG icon component set and legend (variation and assurance states, rule glyph differentiation groundwork).
 4. Baseline segment visual styling and accessible labels.
 5. Trial vs established limits style and `limitState` flag in output rows.
+6. Baselines/Recalculations parity: add dataset vignettes and tests for “recalculated” scenarios; document expected behaviour and edge cases.
 
 ## 4. Mid‑term (31–90 days)
 

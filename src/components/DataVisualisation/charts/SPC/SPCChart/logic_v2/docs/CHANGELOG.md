@@ -2,6 +2,16 @@
 
 All notable changes to this module will be documented here.
 
+## 0.5.1 — Direction-aware conflict preset and gating docs (2025‑09‑16)
+
+- Preset: Added `withConflictPresetAutoV26(direction, overrides?)` to choose the right conflict behaviour automatically per metric direction:
+  - Up (High is good): prefer improvement on conflict (segmentation disabled by engine gating).
+  - Down (Low is good): enable favourable trend segmentation in `AutoWhenConflict` with `CrossingAfterUnfavourable`.
+- Gating clarification: Documented that when `preferImprovementWhenConflict` is true, favourable trend segmentation is disabled regardless of explicit `trendSegmentationMode/strategy`.
+- Storybook: Grouped dataset v2 story now includes an “Auto conflict preset” toggle and an explanatory note about manual overrides being ignored while Auto is on.
+- Tooltip: SPC tooltip overlay now displays the hovered data point index for diagnostics.
+- Docs: Updated `docs/trend-segmentation.mdx` and `docs/README.md` with gating and preset examples.
+
 ## 0.5.0 — Trend segmentation strategies and conflict controls (2025‑09‑16)
 
 - Trend segmentation: Added Unfavourable strategy variants alongside Favourable ones and integrated segmentation into the engine with directional masking.

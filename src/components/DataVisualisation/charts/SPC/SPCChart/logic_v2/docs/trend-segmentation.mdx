@@ -10,6 +10,8 @@ The segmentation step resolves this by splitting each detected trend run into se
 
 Important: segmentation only affects trend flags. Single point, two-sigma, and shift flags are not changed by segmentation unless you explicitly enable dominance (see below).
 
+Gating note: when `preferImprovementWhenConflict` is enabled, the engine disables favourable trend segmentation entirely. This is intentional to match datasets that prefer an “improvement override” when both sides have candidates. See Gating and presets below.
+
 ## How it works
 
 - Detect rules (single point, two-of-three, shift, trend) per partition, using parity eligibility if enabled.
@@ -82,8 +84,8 @@ const { rows } = buildSpcV26a({
 
 Status (2025‑09‑16)
 
-- “Low is good” dataset fully aligns using CrossingAfterUnfavourable (see test link below).
-- “High is good” dataset has no full‑match configuration found yet in a sweep across strategies with/without `preferTrendWhenConflict` and `trendDominatesHighlightedWindow`; tests report partial matches only.
+- “Low is good” dataset aligns using `CrossingAfterUnfavourable` when segmentation is enabled.
+- “High is good” aligns under the improvement‑override path: `preferImprovementWhenConflict: true` (segmentation disabled by gating). The direction‑aware preset applies the correct choice automatically.
 
 ## Engine integration details
 
@@ -94,6 +96,24 @@ Status (2025‑09‑16)
   - `trendDominatesHighlightedWindow?: boolean` (default false): when true, inside highlighted trend segments the engine clears opposite‑side non‑trend flags (single‑point, two‑sigma, shift). This lets the chosen trend segment “dominate” classification within the window. Use sparingly.
 - Directional masking: when multiple runs exist (e.g., an upward run and a downward run), the engine keeps allowed indices separately for upward vs. downward segments. A row only retains the trend flag matching the highlighted segment direction it belongs to.
 - Across partitions: if `trendAcrossPartitions` is enabled, the same segmentation logic can be applied after global trend detection.
+
+### Gating and direction‑aware preset
+
+- Gating precedence: if `preferImprovementWhenConflict` is true, the engine disables favourable trend segmentation regardless of `trendSegmentationMode/strategy`. This mirrors SQL‑style flows where, in a conflict, improvement is preferred and segmentation would otherwise create opposite‑side candidates.
+- Direction‑aware preset: use `withConflictPresetAutoV26(direction, overrides?)` to encode the recommended behaviour by metric direction:
+  - Up (High is good): sets `preferImprovementWhenConflict: true` and turns segmentation `Off` (engine gating). This aligns datasets where the improvement‑override resolves the conflict.
+  - Down (Low is good): sets `preferImprovementWhenConflict: false` and enables segmentation `AutoWhenConflict` with `CrossingAfterUnfavourable`.
+
+Example:
+
+```ts
+import { withConflictPresetAutoV26, buildSpcV26a, ChartType, ImprovementDirection } from './logic_v2';
+
+const settings = withConflictPresetAutoV26(ImprovementDirection.Down);
+const { rows } = buildSpcV26a({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down, data, settings });
+```
+
+Storybook convenience: the SPC v2 grouped dataset playground includes an “Auto conflict preset” toggle that applies the direction‑aware preset above and explains when manual overrides are ignored (while Auto is on, improvement override gating disables trend levers).
 
 ## Choosing a strategy
 

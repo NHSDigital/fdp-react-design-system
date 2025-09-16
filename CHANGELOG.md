@@ -43,6 +43,17 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Strategies: `FavourableSide`, `CrossingAfterFavourable` (default), `ExtremeFavourable`.
   - Added tests under `tests/spc_v2/trendSegments.helper.test.ts`.
 
+- Direction-aware conflict preset and story auto mode (logic_v2)
+  - New helper `withConflictPresetAutoV26(direction, overrides?)` encodes the recommended conflict behaviour by metric direction: Up → improvement override (segmentation gated off), Down → segmentation `AutoWhenConflict` with `CrossingAfterUnfavourable`.
+  - Storybook v2 grouped dataset playground adds an “Auto conflict preset” toggle; when enabled, manual trend levers are ignored if improvement override is active (gating).
+  - Docs updated to explain gating precedence and include examples.
+
+- SPC tooltip diagnostic improvement
+  - `SPCTooltipOverlay` now shows the hovered data point index (0‑based) in the tooltip body to aid debugging and dataset alignment.
+
+- ChartContainer UX
+  - Added optional Show/Hide table button wiring (`showTableToggle`, `onToggleTable`) to resolve unused prop warnings and improve manual inspection in stories.
+
 ### Changed (Unreleased – Data Visualisation / SPC)
 
 - `SPCSpark`: Colouring semantics aligned with `SPCChart`.

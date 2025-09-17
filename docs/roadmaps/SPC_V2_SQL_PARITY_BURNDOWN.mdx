@@ -80,6 +80,8 @@ Acceptance
 - [x] Add “Eligible” column to Grouped dataset and Healthcare v2 stories (15 Sep 2025)
 - [ ] Docs link to fixtures and stories; parity checklist embedded
  - [x] Engine post-processor for visual categories (mirrors chart pre-process) with docs and tests (16 Sep 2025). See `logic_v2/docs/visual-categories.md` and `tests/spc_v2/visualCategories.helper.test.ts`.
+ - [x] v2 Grouped dataset story now derives the “Computed colour (engine)” column from `computeSpcVisualCategories` (with boundary window overlays) and passes the same `visualsScenario` into `SPCChart` so points and table stay in lockstep (17 Sep 2025). See the visuals wiring note in the [SPC SQL v2.6 ↔ TypeScript Parity Plan](../data-visualisation/spc-sql-parity.mdx).
+ - [x] Confirmed `SPCChart` does not recode engine visual categories; only maps to CSS classes and smooths gradient bands (17 Sep 2025).
 
 Acceptance
 - Manual parity checks are quick and repeatable
@@ -102,6 +104,7 @@ Short term
 - Add SQL reference fixture to validate MR outlier exclusion parity numerically (M5 acceptance).
 - Keep datasets centralised and expected‑colour tables in healthcare v2 story up‑to‑date; link curated fixtures from docs (M7).
  - Add a short doc snippet in `logic_v2` README and parity page explaining `chartLevelEligibility` and how retro‑colouring occurs once charts qualify. (Done 15 Sep 2025)
+ - Document visuals pipeline usage in parity mode (engine visual categories + boundary windows) and the non‑recode mapping in `SPCChart`; add links from v2 stories (17 Sep 2025).
 
 Optional / medium term
 - Provide a small T/G preprocessing adapter example and parity story.

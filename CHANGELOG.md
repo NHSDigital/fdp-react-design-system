@@ -63,6 +63,12 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Fixed window indexing with a global index base to ensure correct band/limit alignment
 - `useSpc`: Polarity‑aware mapping for directional signals prevents inversion on lower‑is‑better metrics (fixes Bed Occupancy spark colour inversion vs `SPCChart`). When `useSqlCompatEngine` is true, point signals derive from post‑pruning `variationIcon` to match wrapper parity.
 
+- SPC v2 visuals pipeline integration
+  - v2 Grouped dataset playground now computes per‑point colours directly from the engine visual categories (computeSpcVisualCategories + boundary windows) rather than ad‑hoc tables, ensuring parity between the “Computed colour (engine)” column and chart points.
+  - `SPCChart` accepts and uses the same `visualsScenario` provided in stories to apply engine visuals overlays; the component maps engine visual categories to CSS classes and does not recode categories. Only gradient band smoothing is applied for background visuals.
+  - Internal refactor: memoised a shared `rowsInput` used by both the engine build and the v2 visuals builder in `SPCChart`; removed a stray console.log. No behavioural change.
+  - See also: [SPC SQL v2.6 ↔ TypeScript Parity Plan](docs/data-visualisation/spc-sql-parity.mdx) · [SPC v2 SQL Parity Burndown](docs/roadmaps/SPC_V2_SQL_PARITY_BURNDOWN.mdx)
+
 - XmR zero‑width limits behaviour
   - When the moving‑range mean MR̄ evaluates to 0 within a partition (flat values), the engine now emits zero‑width limits rather than nulls: `UCL = LCL = mean`, and the ±1σ/±2σ bands collapse to the mean as well. This clarifies visuals and enables deterministic assurance classification in flat phases.
 
@@ -80,6 +86,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 - XmR math and assurance edge cases
   - xmrLimits: Return zero‑width limits when MR̄ = 0 (previously could surface as nulls in flat partitions after a baseline)
   - Assurance: Equality to a process limit is treated deterministically as pass/fail (depending on metric direction); parity tests added, including for collapsed (zero‑width) bands
+
+- Special‑cause crossing recalculation stories (v1 grouped dataset)
+  - Fixed greyed points by removing conflicting manual baselines for crossing scenarios (shift/trend/two‑sigma), normalising scenario labels, and defaulting improvement direction when dataset direction was empty for those scenarios.
+  - Added a brute‑force baseline index scorer and logging to verify expected colour sequences; aligned story tables/controls with engine calculations.
 
 ### Added (Data Visualisation – Sep 2025)
 

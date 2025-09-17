@@ -762,14 +762,23 @@ function computeBoundaryWindowCategories(rows, metricImprovement, options) {
     const sum = values.reduce((a, b) => a + b, 0);
     return sum / values.length;
   };
-  for (let i = 1; i < rows.length; i++) {
-    const prev = rows[i - 1];
-    const cur = rows[i];
+  const boundaries = Array.isArray(options == null ? void 0 : options.boundaryIndices) && options.boundaryIndices.length ? options.boundaryIndices.slice().filter((b) => Number.isFinite(b)) : (() => {
+    const out2 = [];
+    for (let i = 1; i < rows.length; i++) {
+      const prev = rows[i - 1];
+      const cur = rows[i];
+      if (!prev || !cur) continue;
+      if (cur.partitionId === prev.partitionId) continue;
+      out2.push(i);
+    }
+    return out2;
+  })();
+  for (const boundary of boundaries) {
+    const prev = rows[boundary - 1];
+    const cur = rows[boundary];
     if (!prev || !cur) continue;
-    if (cur.partitionId === prev.partitionId) continue;
-    const boundary = i;
     let oldMean = null;
-    for (let j = i - 1; j >= 0; j--) {
+    for (let j = boundary - 1; j >= 0; j--) {
       const r = rows[j];
       if (r.partitionId !== prev.partitionId) break;
       if (typeof r.mean === "number") {
@@ -778,7 +787,7 @@ function computeBoundaryWindowCategories(rows, metricImprovement, options) {
       }
     }
     let newMean = null;
-    for (let k = i; k < rows.length; k++) {
+    for (let k = boundary; k < rows.length; k++) {
       const r = rows[k];
       if (r.partitionId !== cur.partitionId) break;
       if (typeof r.mean === "number") {
@@ -1040,8 +1049,8 @@ function buildSpcV26aWithVisuals(args, visuals) {
   const overlay = base.map((cat, i) => {
     const w = win[i];
     if (cat === "Common" /* Common */ || cat === "NoJudgement" /* NoJudgement */) {
-      if (w === "Improvement") return "Improvement" /* Improvement */;
-      if (w === "Concern") return "Concern" /* Concern */;
+      if (w === "Improvement" /* Improvement */) return "Improvement" /* Improvement */;
+      if (w === "Concern" /* Concern */) return "Concern" /* Concern */;
     }
     return cat;
   });
@@ -1049,6 +1058,92 @@ function buildSpcV26aWithVisuals(args, visuals) {
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/presets.ts
+var VisualsScenario = /* @__PURE__ */ ((VisualsScenario2) => {
+  VisualsScenario2["None"] = "none";
+  VisualsScenario2["RecalcCrossingShift"] = "recalc-crossing-shift";
+  VisualsScenario2["RecalcCrossingTrend"] = "recalc-crossing-trend";
+  VisualsScenario2["RecalcCrossingTwoSigma"] = "recalc-crossing-two-sigma";
+  VisualsScenario2["RecalculationsRecalculated"] = "recalculations-recalculated";
+  VisualsScenario2["BaselinesRecalculated"] = "baselines-recalculated";
+  return VisualsScenario2;
+})(VisualsScenario || {});
+function buildVisualsForScenario(args, scenario, opts) {
+  var _a, _b;
+  const tvm = (_a = opts == null ? void 0 : opts.trendVisualMode) != null ? _a : "Ungated";
+  const enn = (_b = opts == null ? void 0 : opts.enableNeutralNoJudgement) != null ? _b : true;
+  const explicitBoundaries = Array.isArray(args.data) ? args.data.map((d, i) => (d == null ? void 0 : d.baseline) ? i : -1).filter((i) => i >= 0) : [];
+  let boundaryWindows;
+  switch (scenario) {
+    case "recalc-crossing-shift" /* RecalcCrossingShift */: {
+      boundaryWindows = {
+        mode: "RecalcCrossing",
+        preWindow: 2,
+        postWindow: 4,
+        prePolarity: "Same",
+        directionOverride: "Down" /* Down */,
+        boundaryIndices: explicitBoundaries
+      };
+      break;
+    }
+    case "recalc-crossing-trend" /* RecalcCrossingTrend */: {
+      boundaryWindows = {
+        mode: "RecalcCrossing",
+        preWindow: 1,
+        postWindow: 5,
+        prePolarity: "Same",
+        directionOverride: "Up" /* Up */,
+        boundaryIndices: explicitBoundaries
+      };
+      break;
+    }
+    case "recalc-crossing-two-sigma" /* RecalcCrossingTwoSigma */: {
+      boundaryWindows = {
+        mode: "RecalcCrossing",
+        preWindow: 1,
+        postWindow: 1,
+        prePolarity: "Same",
+        directionOverride: "Down" /* Down */,
+        boundaryIndices: explicitBoundaries
+      };
+      break;
+    }
+    case "baselines-recalculated" /* BaselinesRecalculated */:
+      boundaryWindows = {
+        mode: "RecalcCrossing",
+        preWindow: 0,
+        postWindow: 0,
+        prePolarity: "Same",
+        directionOverride: args.metricImprovement,
+        boundaryIndices: explicitBoundaries
+      };
+      break;
+    case "recalculations-recalculated" /* RecalculationsRecalculated */:
+    case "none" /* None */:
+    default:
+      boundaryWindows = void 0;
+  }
+  const { rows, visuals } = buildSpcV26aWithVisuals(args, {
+    trendVisualMode: tvm,
+    enableNeutralNoJudgement: enn,
+    boundaryWindows
+  });
+  let out = visuals.slice();
+  let boundaryIndex = explicitBoundaries.length ? explicitBoundaries[0] : -1;
+  if (boundaryIndex < 0) {
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i].partitionId !== rows[i - 1].partitionId) {
+        boundaryIndex = i;
+        break;
+      }
+    }
+  }
+  if (scenario === "recalculations-recalculated" /* RecalculationsRecalculated */ || scenario === "baselines-recalculated" /* BaselinesRecalculated */) {
+    if (boundaryIndex > 0) {
+      out[boundaryIndex - 1] = "Common" /* Common */;
+    }
+  }
+  return { rows, visuals: out };
+}
 var PARITY_V26 = Object.freeze({
   minimumPoints: 13,
   shiftPoints: 6,
@@ -1200,10 +1295,12 @@ export {
   TrendSegmentationMode,
   TrendSegmentationStrategy,
   VariationIcon,
+  VisualsScenario,
   XMR_THREE_SIGMA_FACTOR,
   applySqlPruning,
   buildSpcV26a,
   buildSpcV26aWithVisuals,
+  buildVisualsForScenario,
   chooseSegmentsForHighlight,
   computeAssuranceIcon,
   computeAssuranceIconXmR,

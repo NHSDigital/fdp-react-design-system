@@ -7342,7 +7342,7 @@ function computePointPositions(state, direction) {
   return src.map((p) => ({ ...p }));
 }
 
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic/storybook/SPCChart.constants.ts
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.constants.ts
 var SpcGradientCategory = /* @__PURE__ */ ((SpcGradientCategory2) => {
   SpcGradientCategory2["Concern"] = "concern";
   SpcGradientCategory2["Improvement"] = "improvement";
@@ -9255,6 +9255,40 @@ function buildSpc(args) {
   return { rows: output, warnings, ...suggestedBaselines ? { suggestedBaselines } : {} };
 }
 
+// src/components/DataVisualisation/charts/SPC/SPCChart/gradientSequences.ts
+function computeGradientSequences(categories, absorbSingles = true) {
+  if (!(categories == null ? void 0 : categories.length)) return [];
+  const cats = [...categories];
+  if (absorbSingles) {
+    let i = 0;
+    while (i < cats.length) {
+      const cat = cats[i];
+      let j = i + 1;
+      while (j < cats.length && cats[j] === cat) j++;
+      const runLen = j - i;
+      if (runLen === 1 && cat !== SPCChart_constants_default.Common) {
+        cats[i] = SPCChart_constants_default.Common;
+      }
+      i = j;
+    }
+  }
+  const out = [];
+  if (cats.length) {
+    let start = 0;
+    for (let k = 1; k <= cats.length; k++) {
+      if (k === cats.length || cats[k] !== cats[start]) {
+        const runCat = cats[start];
+        const end = k - 1;
+        const len = end - start + 1;
+        if (runCat === SPCChart_constants_default.Common || len >= 2)
+          out.push({ start, end, category: runCat });
+        start = k;
+      }
+    }
+  }
+  return out;
+}
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcSqlCompat.ts
 function sqlDirectionalPrune(row, metricImprovement) {
   const summary = getDirectionalSignalSummary(row);
@@ -10953,14 +10987,23 @@ function computeBoundaryWindowCategories(rows, metricImprovement, options) {
     const sum2 = values.reduce((a, b) => a + b, 0);
     return sum2 / values.length;
   };
-  for (let i = 1; i < rows.length; i++) {
-    const prev = rows[i - 1];
-    const cur = rows[i];
+  const boundaries = Array.isArray(options == null ? void 0 : options.boundaryIndices) && options.boundaryIndices.length ? options.boundaryIndices.slice().filter((b) => Number.isFinite(b)) : (() => {
+    const out2 = [];
+    for (let i = 1; i < rows.length; i++) {
+      const prev = rows[i - 1];
+      const cur = rows[i];
+      if (!prev || !cur) continue;
+      if (cur.partitionId === prev.partitionId) continue;
+      out2.push(i);
+    }
+    return out2;
+  })();
+  for (const boundary of boundaries) {
+    const prev = rows[boundary - 1];
+    const cur = rows[boundary];
     if (!prev || !cur) continue;
-    if (cur.partitionId === prev.partitionId) continue;
-    const boundary = i;
     let oldMean = null;
-    for (let j = i - 1; j >= 0; j--) {
+    for (let j = boundary - 1; j >= 0; j--) {
       const r = rows[j];
       if (r.partitionId !== prev.partitionId) break;
       if (typeof r.mean === "number") {
@@ -10969,7 +11012,7 @@ function computeBoundaryWindowCategories(rows, metricImprovement, options) {
       }
     }
     let newMean = null;
-    for (let k = i; k < rows.length; k++) {
+    for (let k = boundary; k < rows.length; k++) {
       const r = rows[k];
       if (r.partitionId !== cur.partitionId) break;
       if (typeof r.mean === "number") {
@@ -11231,13 +11274,102 @@ function buildSpcV26aWithVisuals(args, visuals) {
   const overlay = base.map((cat, i) => {
     const w = win[i];
     if (cat === "Common" /* Common */ || cat === "NoJudgement" /* NoJudgement */) {
-      if (w === "Improvement") return "Improvement" /* Improvement */;
-      if (w === "Concern") return "Concern" /* Concern */;
+      if (w === "Improvement" /* Improvement */) return "Improvement" /* Improvement */;
+      if (w === "Concern" /* Concern */) return "Concern" /* Concern */;
     }
     return cat;
   });
   return { rows: res.rows, visuals: overlay };
 }
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/presets.ts
+function buildVisualsForScenario(args, scenario, opts) {
+  var _a2, _b2;
+  const tvm = (_a2 = opts == null ? void 0 : opts.trendVisualMode) != null ? _a2 : "Ungated";
+  const enn = (_b2 = opts == null ? void 0 : opts.enableNeutralNoJudgement) != null ? _b2 : true;
+  const explicitBoundaries = Array.isArray(args.data) ? args.data.map((d, i) => (d == null ? void 0 : d.baseline) ? i : -1).filter((i) => i >= 0) : [];
+  let boundaryWindows;
+  switch (scenario) {
+    case "recalc-crossing-shift" /* RecalcCrossingShift */: {
+      boundaryWindows = {
+        mode: "RecalcCrossing",
+        preWindow: 2,
+        postWindow: 4,
+        prePolarity: "Same",
+        directionOverride: "Down" /* Down */,
+        boundaryIndices: explicitBoundaries
+      };
+      break;
+    }
+    case "recalc-crossing-trend" /* RecalcCrossingTrend */: {
+      boundaryWindows = {
+        mode: "RecalcCrossing",
+        preWindow: 1,
+        postWindow: 5,
+        prePolarity: "Same",
+        directionOverride: "Up" /* Up */,
+        boundaryIndices: explicitBoundaries
+      };
+      break;
+    }
+    case "recalc-crossing-two-sigma" /* RecalcCrossingTwoSigma */: {
+      boundaryWindows = {
+        mode: "RecalcCrossing",
+        preWindow: 1,
+        postWindow: 1,
+        prePolarity: "Same",
+        directionOverride: "Down" /* Down */,
+        boundaryIndices: explicitBoundaries
+      };
+      break;
+    }
+    case "baselines-recalculated" /* BaselinesRecalculated */:
+      boundaryWindows = {
+        mode: "RecalcCrossing",
+        preWindow: 0,
+        postWindow: 0,
+        prePolarity: "Same",
+        directionOverride: args.metricImprovement,
+        boundaryIndices: explicitBoundaries
+      };
+      break;
+    case "recalculations-recalculated" /* RecalculationsRecalculated */:
+    case "none" /* None */:
+    default:
+      boundaryWindows = void 0;
+  }
+  const { rows, visuals } = buildSpcV26aWithVisuals(args, {
+    trendVisualMode: tvm,
+    enableNeutralNoJudgement: enn,
+    boundaryWindows
+  });
+  let out = visuals.slice();
+  let boundaryIndex = explicitBoundaries.length ? explicitBoundaries[0] : -1;
+  if (boundaryIndex < 0) {
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i].partitionId !== rows[i - 1].partitionId) {
+        boundaryIndex = i;
+        break;
+      }
+    }
+  }
+  if (scenario === "recalculations-recalculated" /* RecalculationsRecalculated */ || scenario === "baselines-recalculated" /* BaselinesRecalculated */) {
+    if (boundaryIndex > 0) {
+      out[boundaryIndex - 1] = "Common" /* Common */;
+    }
+  }
+  return { rows, visuals: out };
+}
+var PARITY_V26 = Object.freeze({
+  minimumPoints: 13,
+  shiftPoints: 6,
+  trendPoints: 6,
+  excludeMovingRangeOutliers: false,
+  metricConflictRule: "Improvement" /* Improvement */,
+  trendAcrossPartitions: true,
+  twoSigmaIncludeAboveThree: true,
+  chartLevelEligibility: true
+});
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
 import { Fragment as Fragment4, jsx as jsx17, jsxs as jsxs11 } from "react/jsx-runtime";
@@ -11274,7 +11406,7 @@ var SPCChart = ({
   trendVisualMode = "ungated" /* Ungated */,
   disableTrendSideGating,
   source,
-  alwaysShowZeroY = false,
+  alwaysShowZeroY = true,
   alwaysShowHundredY = false,
   percentScale = false,
   useSqlCompatEngine = true,
@@ -11282,7 +11414,8 @@ var SPCChart = ({
   showFirstFavourableCrossMarkers = false,
   showTrendBridgeOverlay = false,
   showSignalsInspector = false,
-  onSignalFocus
+  onSignalFocus,
+  visualsScenario = "none" /* None */
 }) => {
   var _a2, _b2, _c, _d, _e, _f, _g, _h;
   const formatWarningCode = React13.useCallback(
@@ -11303,8 +11436,8 @@ var SPCChart = ({
       "SPCChart: 'disableTrendSideGating' prop is deprecated and ignored (trend side gating always enabled)."
     );
   }
-  const engine = React13.useMemo(() => {
-    const rowsInput = data.map((d, i) => {
+  const rowsInput = React13.useMemo(() => {
+    return data.map((d, i) => {
       var _a3, _b3, _c2;
       return {
         x: d.x,
@@ -11314,6 +11447,8 @@ var SPCChart = ({
         ghost: (_c2 = ghosts == null ? void 0 : ghosts[i]) != null ? _c2 : void 0
       };
     });
+  }, [data, targetsProp, baselines, ghosts]);
+  const engine = React13.useMemo(() => {
     try {
       const engineSettings = settings ? { ...settings } : void 0;
       if (useSqlCompatEngine) {
@@ -11328,70 +11463,36 @@ var SPCChart = ({
     } catch {
       return null;
     }
-  }, [
-    data,
-    targetsProp,
-    baselines,
-    ghosts,
-    chartType,
-    metricImprovement,
-    settings,
-    useSqlCompatEngine
-  ]);
+  }, [rowsInput, chartType, metricImprovement, settings, useSqlCompatEngine]);
   const v2Visuals = React13.useMemo(() => {
+    var _a3;
     try {
-      const rowsInput = data.map((d, i) => {
-        var _a3, _b3, _c2;
-        return {
-          x: d.x,
-          value: d.y,
-          target: (_a3 = targetsProp == null ? void 0 : targetsProp[i]) != null ? _a3 : void 0,
-          baseline: (_b3 = baselines == null ? void 0 : baselines[i]) != null ? _b3 : void 0,
-          ghost: (_c2 = ghosts == null ? void 0 : ghosts[i]) != null ? _c2 : void 0
-        };
-      });
+      const minPts = (_a3 = settings == null ? void 0 : settings.minimumPointsPartition) != null ? _a3 : settings == null ? void 0 : settings.minimumPoints;
+      const v2Settings = {};
+      if (typeof minPts === "number" && !isNaN(minPts)) {
+        v2Settings.minimumPoints = minPts;
+        const eligibleCount = rowsInput.filter((r) => !r.ghost && typeof r.value === "number").length;
+        if (eligibleCount >= minPts) v2Settings.chartLevelEligibility = true;
+      }
+      if ((settings == null ? void 0 : settings.twoSigmaIncludeAboveThree) != null) {
+        v2Settings.twoSigmaIncludeAboveThree = !!settings.twoSigmaIncludeAboveThree;
+      }
       const v2Args = {
         chartType: chartType != null ? chartType : "XmR",
         metricImprovement: metricImprovement != null ? metricImprovement : "Neither",
-        data: rowsInput
+        data: rowsInput,
+        settings: Object.keys(v2Settings).length ? v2Settings : void 0
       };
-      const label = (ariaLabel || "").toLowerCase();
-      let preWindow = 1, postWindow = 3;
-      let prePolarity = "Opposite";
-      let directionOverride = void 0;
-      if (label.includes("special cause crossing recalculations")) {
-        prePolarity = "Same";
-        if (label.includes("shift")) {
-          preWindow = 2;
-          postWindow = 4;
-          directionOverride = "Down";
-        } else if (label.includes("trend")) {
-          preWindow = 1;
-          postWindow = 5;
-          directionOverride = "Up";
-        } else if (label.includes("two-sigma")) {
-          preWindow = 1;
-          postWindow = 1;
-          directionOverride = "Down";
-        }
-      }
-      const { visuals } = buildSpcV26aWithVisuals(v2Args, {
+      const scenario = visualsScenario;
+      const { visuals } = buildVisualsForScenario(v2Args, scenario, {
         trendVisualMode: trendVisualMode === "ungated" /* Ungated */ ? "Ungated" : "Gated",
-        enableNeutralNoJudgement,
-        boundaryWindows: {
-          mode: "RecalcCrossing",
-          preWindow,
-          postWindow,
-          prePolarity,
-          // Only override when dataset demands; otherwise default to chart metricImprovement
-          directionOverride
-        }
+        enableNeutralNoJudgement
       });
       return visuals || [];
     } catch {
       return [];
     }
-  }, [data, targetsProp, baselines, ghosts, chartType, metricImprovement, ariaLabel, trendVisualMode, enableNeutralNoJudgement]);
+  }, [rowsInput, chartType, metricImprovement, trendVisualMode, enableNeutralNoJudgement, settings, visualsScenario]);
   const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r) => r.mean != null);
   const mean3 = (_a2 = engineRepresentative == null ? void 0 : engineRepresentative.mean) != null ? _a2 : null;
   const warnings = (engine == null ? void 0 : engine.warnings) || [];
@@ -11674,7 +11775,6 @@ var SPCChart = ({
                 ariaLabel,
                 enableNeutralNoJudgement,
                 showTrendGatingExplanation,
-                trendVisualMode,
                 metricImprovement,
                 showTrendStartMarkers,
                 showFirstFavourableCrossMarkers,
@@ -11883,49 +11983,18 @@ var InternalSPC = ({
   }, [engineRows]);
   const categories = React13.useMemo(() => {
     return (visualCategories || []).map((c) => {
-      if (c === "Improvement") return SPCChart_constants_default.Improvement;
-      if (c === "Concern") return SPCChart_constants_default.Concern;
-      if (c === "NoJudgement") return SPCChart_constants_default.NoJudgement;
+      if (c === "Improvement" /* Improvement */)
+        return SPCChart_constants_default.Improvement;
+      if (c === "Concern" /* Concern */)
+        return SPCChart_constants_default.Concern;
+      if (c === "NoJudgement" /* NoJudgement */)
+        return SPCChart_constants_default.NoJudgement;
       return SPCChart_constants_default.Common;
     });
   }, [visualCategories]);
   const sequences = React13.useMemo(() => {
-    if (!gradientSequences || !categories.length)
-      return [];
-    const cats = [...categories];
-    let i = 0;
-    while (i < cats.length) {
-      const cat = cats[i];
-      let j = i + 1;
-      while (j < cats.length && cats[j] === cat) j++;
-      const runLen = j - i;
-      if (runLen === 1 && cat !== SPCChart_constants_default.Common) {
-        cats[i] = SPCChart_constants_default.Common;
-      }
-      i = j;
-    }
-    const out = [];
-    if (cats.length) {
-      let start = 0;
-      for (let k = 1; k <= cats.length; k++) {
-        if (k === cats.length || cats[k] !== cats[start]) {
-          const runCat = cats[start];
-          const end = k - 1;
-          const len = end - start + 1;
-          if (runCat === SPCChart_constants_default.Common || len >= 2)
-            out.push({ start, end, category: runCat });
-          start = k;
-        }
-      }
-    }
-    const isRuleClash = ariaLabel == null ? void 0 : ariaLabel.includes("Rule Clash");
-    if (isRuleClash) {
-      console.log(
-        `[${ariaLabel}] Final sequences:`,
-        out.map((s) => `${s.start}-${s.end}:${s.category}`).join(", ")
-      );
-    }
-    return out;
+    if (!gradientSequences || !categories.length) return [];
+    return computeGradientSequences(categories, true);
   }, [gradientSequences, categories, ariaLabel]);
   const xPositions = React13.useMemo(
     () => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))),

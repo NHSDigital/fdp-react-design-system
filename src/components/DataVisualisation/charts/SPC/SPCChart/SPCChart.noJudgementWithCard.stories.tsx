@@ -7,7 +7,7 @@ import {
 	SequenceTransition,
 	TrendVisualMode,
 } from "./SPCChart";
-import { ChartType } from "./logic/spcConstants";
+import { ChartType } from "./types";
 import { ChartContainer } from "../../ChartContainer.tsx";
 // Import MetricCard from the components barrel to avoid deep relative paths
 import { SPCMetricCard } from "../../../../";

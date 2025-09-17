@@ -117,6 +117,6 @@ export declare const assuranceExamples: {
     label: string;
     status: AssuranceResult;
 }[];
-export { VARIATION_COLOR_TOKENS } from "../SPCChart/logic/spcDescriptors";
-export { getVariationColorToken, getVariationColorHex, } from "../SPCChart/logic/spcDescriptors";
-export type { VariationIcon } from "../SPCChart/logic/spcConstants";
+export { VARIATION_COLOR_TOKENS } from "../SPCChart/descriptors";
+export { getVariationColorToken, getVariationColorHex } from "../SPCChart/descriptors";
+export type { VariationIcon } from "../SPCChart/types";

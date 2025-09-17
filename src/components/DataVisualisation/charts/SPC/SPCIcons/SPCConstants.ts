@@ -6,7 +6,7 @@ export enum AssuranceResult {
 }
 
 // Pull canonical SPC palette from engine logic (source of truth)
-import { VARIATION_COLOR_TOKENS } from "../SPCChart/logic/spcDescriptors";
+import { VARIATION_COLOR_TOKENS } from "../SPCChart/descriptors";
 
 // Default colours aligned to variation icon palette
 export const DEFAULT_COLOURS: Record<AssuranceResult, string> = {
@@ -267,9 +267,6 @@ export const assuranceExamples = [
 ];
 
 // Compatibility re-exports: canonical tokens & helpers live in SPCChart logic; re-export here for older imports
-export { VARIATION_COLOR_TOKENS } from "../SPCChart/logic/spcDescriptors";
-export {
-	getVariationColorToken,
-	getVariationColorHex,
-} from "../SPCChart/logic/spcDescriptors";
-export type { VariationIcon } from "../SPCChart/logic/spcConstants";
+export { VARIATION_COLOR_TOKENS } from "../SPCChart/descriptors";
+export { getVariationColorToken, getVariationColorHex } from "../SPCChart/descriptors";
+export type { VariationIcon } from "../SPCChart/types";

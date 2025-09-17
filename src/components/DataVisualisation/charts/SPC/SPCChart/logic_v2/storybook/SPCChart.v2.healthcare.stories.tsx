@@ -6,10 +6,7 @@ import { SPCChart } from "../../SPCChart";
 import { buildSpcV26a } from "../engine";
 import { withParityV26 } from "../presets";
 import { ChartType, ImprovementDirection } from "../types";
-import {
-	ImprovementDirection as V1ImprovementDirection,
-	ChartType as V1ChartType,
-} from "../../logic/spcConstants";
+import { ImprovementDirection as V1ImprovementDirection, ChartType as V1ChartType } from "../../types";
 import {
 	datasetOptions as getDatasetOptions,
 	findDataset,

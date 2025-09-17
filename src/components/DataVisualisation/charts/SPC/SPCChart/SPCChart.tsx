@@ -24,23 +24,21 @@ import {
 	SpcWarningCode,
 	type SpcSettings,
 } from "./logic/spc";
-import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType } from "./logic/spcConstants";
-import SpcGradientCategory, { SpcEmbeddedIconVariant, LetterMode } from "./logic/storybook/SPCChart.constants";
+import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType } from "./types";
+import SpcGradientCategory, { SpcEmbeddedIconVariant, LetterMode } from "./SPCChart.constants";
+import { computeGradientSequences } from "./gradientSequences";
 import { buildSpcSqlCompat } from './logic/spcSqlCompat';
 import computeAutoMetrics from "../utils/autoMetrics";
 import { Tag } from "../../../../Tag/Tag";
 import Table from "../../../../Tables/Table";
 import SPCSignalsInspector from "./SPCSignalsInspector";
 import type { SPCSignalFocusInfo } from "./SPCChart.types";
-import {
-	extractRuleIds,
-	ruleGlossary,
-	variationLabel,
-} from "./logic/spcDescriptors";
+import { extractRuleIds, ruleGlossary, variationLabel } from "./descriptors";
 // v2 engine visuals and presets
 import { SpcVisualCategory } from "./logic_v2/engine";
 import type { ChartType as V2ChartType, ImprovementDirection as V2ImprovementDirection, BuildArgsV2 as V2BuildArgs } from "./logic_v2/types";
 import { buildVisualsForScenario, VisualsScenario as V2VisualsScenario } from "./logic_v2/presets";
+import { buildWithVisuals as buildWithVisualsV2 } from "./logic_v2/adapter";
 export { VisualsScenario } from "./logic_v2/presets";
 
 // Global counter to create stable, unique gradient id bases across multiple SPCChart instances
@@ -161,6 +159,8 @@ export interface SPCChartProps {
 	onSignalFocus?: (info: SPCSignalFocusInfo) => void;
 	/** Visuals preset: opt-in dataset-specific boundary window behaviour without relying on ariaLabel */
 	visualsScenario?: V2VisualsScenario;
+	/** Experimental: use v2 adapter for rows/limits + visuals (UI-mapped). Default false. */
+	useV2Adapter?: boolean;
 }
 
 export const SPCChart: React.FC<SPCChartProps> = ({
@@ -205,6 +205,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	showSignalsInspector = false,
 	onSignalFocus,
 	visualsScenario = V2VisualsScenario.None,
+	useV2Adapter = false,
 }) => {
 	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
@@ -317,13 +318,81 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		}
 	}, [rowsInput, chartType, metricImprovement, trendVisualMode, enableNeutralNoJudgement, settings, visualsScenario]);
 
+	// Optional: build v2 rows via adapter and map to a UI-compatible shape when enabled
+	const v2RowsForUi = React.useMemo(() => {
+		if (!useV2Adapter) return null as any[] | null;
+		try {
+			const minPts = (settings as any)?.minimumPointsPartition ?? (settings as any)?.minimumPoints;
+			const v2Settings: any = {};
+			if (typeof minPts === "number" && !isNaN(minPts)) {
+				v2Settings.minimumPoints = minPts;
+				const eligibleCount = rowsInput.filter(r => !r.ghost && typeof r.value === 'number').length;
+				if (eligibleCount >= minPts) v2Settings.chartLevelEligibility = true;
+			}
+			if ((settings as any)?.twoSigmaIncludeAboveThree != null) {
+				v2Settings.twoSigmaIncludeAboveThree = !!(settings as any).twoSigmaIncludeAboveThree;
+			}
+			const v2Args: V2BuildArgs = {
+				chartType: (chartType as unknown as V2ChartType) ?? ("XmR" as unknown as V2ChartType),
+				metricImprovement: (metricImprovement as unknown as V2ImprovementDirection) ?? ("Neither" as unknown as V2ImprovementDirection),
+				data: rowsInput,
+				settings: Object.keys(v2Settings).length ? v2Settings : undefined,
+			};
+			const { rows } = buildWithVisualsV2(v2Args);
+			// Map v2 VariationIcon to v1 VariationIcon for UI booleans
+			const mapVariation = (v: any): VariationIcon => {
+				if (v === ("ImprovementHigh" as any) || v === ("ImprovementLow" as any)) return VariationIcon.Improvement;
+				if (v === ("ConcernHigh" as any) || v === ("ConcernLow" as any)) return VariationIcon.Concern;
+				if (v === ("NeitherHigh" as any) || v === ("NeitherLow" as any)) return VariationIcon.Neither;
+				return VariationIcon.Neither;
+			};
+			return rows.map((r: any) => ({
+				value: r.value,
+				ghost: !!r.ghost,
+				partitionId: r.partitionId,
+				mean: r.mean,
+				upperProcessLimit: r.upperProcessLimit,
+				lowerProcessLimit: r.lowerProcessLimit,
+				upperTwoSigma: r.upperTwoSigma,
+				lowerTwoSigma: r.lowerTwoSigma,
+				upperOneSigma: r.upperOneSigma,
+				lowerOneSigma: r.lowerOneSigma,
+				// Rule flags mapping (v2 -> UI keys expected by overlay/inspector)
+				specialCauseSinglePointUp: !!r.singlePointUp,
+				specialCauseSinglePointDown: !!r.singlePointDown,
+				specialCauseTwoOfThreeUp: false,
+				specialCauseTwoOfThreeDown: false,
+				specialCauseFourOfFiveUp: false,
+				specialCauseFourOfFiveDown: false,
+				specialCauseShiftUp: !!r.shiftUp,
+				specialCauseShiftDown: !!r.shiftDown,
+				specialCauseTrendUp: !!r.trendUp,
+				specialCauseTrendDown: !!r.trendDown,
+				// Classification mapped to v1 enum
+				variationIcon: mapVariation(r.variationIcon),
+				// Neutral special-cause hint for purple orientation
+				specialCauseNeitherValue: (r.variationIcon === ("NeitherHigh" as any) || r.variationIcon === ("NeitherLow" as any))
+					? (r.specialCauseImprovementValue ?? r.specialCauseConcernValue ?? 1)
+					: null,
+				// Target/assurance may be absent in v2 rows; leave undefined for UI fallbacks
+				target: r.target,
+				assuranceIcon: undefined,
+			}));
+		} catch {
+			return null;
+		}
+	}, [useV2Adapter, rowsInput, chartType, metricImprovement, settings]);
+
 	// Representative row with populated limits (last available)
-	const engineRepresentative = engine?.rows
+	const rowsForUi = useV2Adapter ? (v2RowsForUi || null) : (engine?.rows || null);
+
+	// Representative row with populated limits (last available)
+	const engineRepresentative = (rowsForUi || [])
 		.slice()
 		.reverse()
-		.find((r) => r.mean != null);
+		.find((r: any) => r.mean != null);
 	const mean = engineRepresentative?.mean ?? null;
-	const warnings = engine?.warnings || [];
+	const warnings = useV2Adapter ? [] : (engine?.warnings || []);
 	const filteredWarnings = React.useMemo(() => {
 		if (!warnings.length) return [] as typeof warnings;
 		if (!warningsFilter) return warnings;
@@ -466,19 +535,19 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 
 	// Partition markers (after engine available)
 	const partitionMarkers = React.useMemo(() => {
-		if (!engine?.rows) return [] as number[];
+		if (!rowsForUi) return [] as number[];
 		const markers: number[] = [];
-		for (let i = 1; i < engine.rows.length; i++) {
-			if (engine.rows[i].partitionId !== engine.rows[i - 1].partitionId)
+		for (let i = 1; i < rowsForUi.length; i++) {
+			if (rowsForUi[i].partitionId !== rowsForUi[i - 1].partitionId)
 				markers.push(i);
 		}
 		return markers;
-	}, [engine?.rows]);
+	}, [rowsForUi]);
 
 	// Derive embedded variation icon (now rendered above chart instead of inside SVG)
 	const embeddedIcon = React.useMemo(() => {
-		if (!showEmbeddedIcon || !engine?.rows?.length) return null;
-		const engineRows = engine.rows;
+		if (!showEmbeddedIcon || !(rowsForUi?.length)) return null;
+		const engineRows = rowsForUi as any[];
 		// Suppress embedded icon entirely when insufficient non-ghost points to establish stable limits
 		const minPoints = settings?.minimumPoints ?? 13;
 		const nonGhostCount = engineRows.filter(
@@ -672,7 +741,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						limits={{ mean, ucl, lcl, sigma, onePos, oneNeg, twoPos, twoNeg }}
 						showZones={showZones}
 						highlightOutOfControl={highlightOutOfControl}
-						engineRows={engine?.rows || null}
+						engineRows={rowsForUi}
 						visualCategories={v2Visuals as any}
 						enableRules={enableRules}
 						showIcons={showIcons}
@@ -974,47 +1043,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 
 	// Derive contiguous sequences after absorption
 	const sequences = React.useMemo(() => {
-		if (!gradientSequences || !categories.length)
-			return [] as {
-				start: number;
-				end: number;
-				category: SpcGradientCategory;
-			}[];
-		// Copy categories so we can absorb single coloured points unconditionally
-		const cats = [...categories];
-		// Absorb ANY single coloured point (length-1 run) regardless of neighbours
-		let i = 0;
-		while (i < cats.length) {
-			const cat = cats[i];
-			let j = i + 1;
-			while (j < cats.length && cats[j] === cat) j++;
-			const runLen = j - i;
-			if (runLen === 1 && cat !== SpcGradientCategory.Common) {
-				cats[i] = SpcGradientCategory.Common;
-			}
-			i = j;
-		}
-		// Build sequences (coloured runs must be length >=2 after absorption)
-		const out: {
-			start: number;
-			end: number;
-			category: SpcGradientCategory;
-		}[] = [];
-		if (cats.length) {
-			let start = 0;
-			for (let k = 1; k <= cats.length; k++) {
-				if (k === cats.length || cats[k] !== cats[start]) {
-					const runCat = cats[start];
-					const end = k - 1;
-					const len = end - start + 1;
-					if (runCat === SpcGradientCategory.Common || len >= 2)
-						out.push({ start, end, category: runCat });
-					start = k;
-				}
-			}
-		}
-
-		return out;
+		if (!gradientSequences || !categories.length) return [] as { start: number; end: number; category: SpcGradientCategory; }[];
+		return computeGradientSequences(categories, true);
 	}, [gradientSequences, categories, ariaLabel]);
 
 	// Precompute x positions for boundary calculations (after scales + data available)

@@ -2,9 +2,11 @@ import * as React from "react";
 import "../../../DataVisualisation.scss";
 import "./SPCChart.scss";
 import { SpcWarningSeverity, SpcWarningCategory, SpcWarningCode, type SpcSettings } from "./logic/spc";
-import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType } from "./logic/spcConstants";
-import { SpcEmbeddedIconVariant } from "./logic/storybook/SPCChart.constants";
+import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType } from "./types";
+import { SpcEmbeddedIconVariant } from "./SPCChart.constants";
 import type { SPCSignalFocusInfo } from "./SPCChart.types";
+import { VisualsScenario as V2VisualsScenario } from "./logic_v2/presets";
+export { VisualsScenario } from "./logic_v2/presets";
 export declare enum SequenceTransition {
     Slope = "slope",// attribute join to rising (next) or falling/flat (prev) based on delta
     Neutral = "neutral",// draw a neutral (grey) wedge between coloured runs
@@ -111,6 +113,8 @@ export interface SPCChartProps {
     showSignalsInspector?: boolean;
     /** UI-only: when Signals Inspector is shown, notify on focus changes. */
     onSignalFocus?: (info: SPCSignalFocusInfo) => void;
+    /** Visuals preset: opt-in dataset-specific boundary window behaviour without relying on ariaLabel */
+    visualsScenario?: V2VisualsScenario;
 }
 export declare const SPCChart: React.FC<SPCChartProps>;
 export { ImprovementDirection, VariationIcon, AssuranceIcon };

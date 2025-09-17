@@ -91,6 +91,13 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Fixed greyed points by removing conflicting manual baselines for crossing scenarios (shift/trend/two‑sigma), normalising scenario labels, and defaulting improvement direction when dataset direction was empty for those scenarios.
   - Added a brute‑force baseline index scorer and logging to verify expected colour sequences; aligned story tables/controls with engine calculations.
 
+- Storybook build stability and modularization
+  - Centralized SPC type re-exports in `src/components/DataVisualisation/charts/SPC/SPCChart/types.ts` (ChartType, ImprovementDirection, VariationIcon, AssuranceIcon, BaselineSuggestionReason, RULE_METADATA). Updated chart, icons, stories, and MDX docs to import from this module.
+  - Centralized SPC descriptor helpers in `src/components/DataVisualisation/charts/SPC/SPCChart/descriptors.ts` (labels and color tokens). Updated consumers to import from this module.
+  - Extracted gradient sequence logic into `SPCChart/gradientSequences.ts` and wired into `SPCChart` (smoother background fills; no behaviour change).
+  - Added `logic_v2/adapter.ts` with `buildWithVisuals(...)` to return v2 rows + engine visual categories in one call as a step toward removing v1 dependencies.
+  - Removed storybook-only import paths from SPC docs and stories that were breaking static builds; Storybook static build now completes successfully.
+
 ### Added (Data Visualisation – Sep 2025)
 
 - RunChart component (thin wrapper over Line) with:

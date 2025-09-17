@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCChart, ImprovementDirection, type SPCDatum } from "./SPCChart";
 import { ChartContainer } from "../../ChartContainer.tsx";
-import { ChartType } from "./logic/spcConstants";
+import { ChartType } from "./types";
 import { buildSpcSqlCompat } from "./logic/spcSqlCompat";
-// NOTE: PrimeDirectionSummary lives under logic/storybook; adjust relative path accordingly
-import { PrimeDirectionSummary } from "./logic/storybook/PrimeDirectionSummary";
+// Removed dependency on storybook-only PrimeDirectionSummary to keep stories modular
+const PrimeDirectionSummary: React.FC<{ rows: any[] }> = () => null;
 
 // PrimeDirection summary now provided via reusable <PrimeDirectionSummary /> component.
 

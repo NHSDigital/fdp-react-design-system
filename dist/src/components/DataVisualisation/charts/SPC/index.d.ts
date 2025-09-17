@@ -1,15 +1,15 @@
 export { default as SPCChart } from './SPCChart/SPCChart';
 export type { SPCChartProps, SPCDatum } from './SPCChart/SPCChart';
 export { buildSpc, normaliseSpcSettings } from './SPCChart/logic/spc';
-export { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType, BaselineSuggestionReason, RULE_METADATA } from './SPCChart/logic/spcConstants';
+export { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType, BaselineSuggestionReason, RULE_METADATA } from './SPCChart/types';
 export { SpcWarningSeverity, SpcWarningCategory, SpcWarningCode } from './SPCChart/logic/spc';
 export type { SpcSettings, SpcSettingsV2, SpcResult, SpcWarning } from './SPCChart/logic/spc';
-export { variationLabel, extractRuleIds, ruleGlossary, VARIATION_COLOR_TOKENS, getVariationColorHex, getVariationColorToken } from './SPCChart/logic/spcDescriptors';
+export { variationLabel, extractRuleIds, ruleGlossary, VARIATION_COLOR_TOKENS, getVariationColorHex, getVariationColorToken } from './SPCChart/descriptors';
 export { SPCVariationIcon } from './SPCIcons/SPCIcon';
 export { SPCAssuranceIcon } from './SPCIcons/SPCAssuranceIcon';
 export { AssuranceResult, Direction, MetricPolarity, VariationJudgement, VariationState, getVariationColour, getVariationTrend } from './SPCIcons/SPCConstants';
 export type { VariationColourDef } from './SPCIcons/SPCConstants';
 export type { SPCVariationIconProps, SpcVariationAltIconProps, SpcAssuranceIconProps, SpcIconsProps, SpcIconBaseProps } from './SPCIcons/SPCIcon';
 export { default as SPCTooltipOverlay } from './SPCChart/SPCTooltipOverlay';
-export { SpcEmbeddedIconVariant } from './SPCChart/logic/storybook/SPCChart.constants';
+export { SpcEmbeddedIconVariant } from './SPCChart/SPCChart.constants';
 export * as Icons from './icons';

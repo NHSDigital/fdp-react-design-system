@@ -11,9 +11,9 @@ import {
 	variationLabel,
 	assuranceLabel,
 	zoneLabel,
-} from "./logic/spcDescriptors";
+} from "./descriptors";
 import { VariationIcon, SpcRuleId, SpcRawRuleTag } from './logic/spcConstants';
-import { getVariationColorToken } from "./logic/spcDescriptors";
+import { getVariationColorToken } from "./descriptors";
 import { Tag } from "../../../../Tag";
 
 interface SPCTooltipOverlayProps {

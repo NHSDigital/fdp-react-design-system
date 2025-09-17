@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/addon-docs/blocks';
-import { RuleClashChartOne, RuleClashChartTwo, RuleClashChartThree, RuleClashChartFour, RuleClashChartFive } from './SPCRuleClashExamples';
 
 <Meta title="Data Visualisation/SPC/Guides/Rule Clash Guidance" />
 
@@ -13,31 +12,33 @@ All series map to SPCChart data points via conversion of their ISO month to a Da
 
 ## Rule Clash Chart 1 - Trend: a run of 6/7 points or more all consecutively
 
-<RuleClashChartOne />
+<div style={{ padding: 12, border: '1px solid #eee', borderRadius: 6, background: '#fafafa' }}>
+	<em>Example charts temporarily unavailable while v1 story content is retired. Guidance remains applicable; v2 parity stories demonstrate equivalent scenarios.</em>
+</div>
 
 **Commentary**: Gradual increase through mid‑2022 with a local dip at 2022‑09 then recovery. Watch for sustained run above prior mean; confirm shift only after required run length. No hard clash – sequence near but not exceeding classical shift rule length before dip resets count.
 
 ## Rule Clash Chart 2 - Shift: a run of 6/7 points or more above or below the mean.
 
-<RuleClashChartTwo />
+{/* Example embed removed */}
 
 **Commentary**: Mostly stable mid‑5% band with brief deterioration signals around 2022‑11 to 2023‑01. Possible 2-of-3 near limit vs single beyond 3σ if limits tight. Evaluate if downward run length disqualifies an improving shift interpretation.
 
 ## Rule Clash Chart 3 - 2/3: where there are 2 out of 3 points outside either the upper or lower control limits.
 
-<RuleClashChartThree />
+{/* Example embed removed */}
 
 **Commentary**: Upward shift after early low baseline; later cluster (2023‑02 onwards) may generate both shift and 2-of-3 near limit rules. Precedence: sustained shift classification (improvement) dominates if cluster persists and latest mean relocates.
 
 ## Rule Clash Chart 4 - Single point: any single point outside the process limits.
 
-<RuleClashChartFour />
+{/* Example embed removed */}
 
 **Commentary**: Early higher values taper, mid-period dip, partial recovery. Possible trend rule (5-point monotonic) vs oscillation around mean causing no sustained shift. Icons likely neutral unless dip breaches inner sigma zones.
 
 ## Multiple Rules Example
 
-<RuleClashChartFive />
+{/* Example embed removed */}
 
 **Commentary**: Alternating high/low extremes then prolonged high plateau and subsequent decline. Expect multiple rule triggers: early point-beyond-3σ, later run above mean, then potential downward trend. Demonstrates sequencing where later conflicting direction signals appear; narrative should emphasise most recent sustained pattern.
 

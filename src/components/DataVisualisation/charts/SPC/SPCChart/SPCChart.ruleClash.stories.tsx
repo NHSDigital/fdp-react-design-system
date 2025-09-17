@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SPCChart, ImprovementDirection } from './SPCChart';
 import { ChartContainer } from '../../..';
-import { ChartType } from './logic/spcConstants';
+import { ChartType } from './types';
 
 const meta: Meta<typeof SPCChart> = {
 	title: 'Data Visualisation/SPC/v1/Rule Clash Examples',

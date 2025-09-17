@@ -2,7 +2,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { render, cleanup } from '@testing-library/react';
 import { SPCVariationIcon } from './SPCIcon';
 import { Direction } from './SPCConstants';
-import { VariationIcon, ImprovementDirection } from '../SPCChart/logic/spcConstants';
+import { VariationIcon, ImprovementDirection } from '../SPCChart/types';
 import { LetterMode, SpcEmbeddedIconVariant, SpcLetterGlyph } from '../SPCChart/SPCChart.constants';
 
 // Utility to extract letters H/L from rendered SVG

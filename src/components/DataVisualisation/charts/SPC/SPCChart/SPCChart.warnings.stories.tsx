@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SPCChart } from './SPCChart';
-import { ChartType, ImprovementDirection } from './logic/spcConstants';
+import { ChartType, ImprovementDirection } from './types';
 import { SpcWarningSeverity } from './logic/spc';
 
 const meta: Meta = {

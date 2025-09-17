@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCChart, ImprovementDirection } from "./SPCChart";
-import { ChartType } from "./logic/spcConstants";
+import { ChartType } from "./types";
 // Updated relative path after introducing SPC nesting structure
 import { ChartContainer } from "../../ChartContainer";
 

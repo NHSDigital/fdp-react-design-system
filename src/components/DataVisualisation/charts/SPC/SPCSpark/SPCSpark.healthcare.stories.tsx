@@ -2,7 +2,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCSpark } from "./SPCSpark";
 import { Grid, Row, Column, GridWidth } from "../../../../../";
-import { ImprovementDirection } from "../SPCChart/logic/spcConstants";
+import { ImprovementDirection } from "../SPCChart/types";
 
 // Replicates the healthcare datasets from SPCChart.healthcare.stories.tsx
 // to provide compact sparkline equivalents.

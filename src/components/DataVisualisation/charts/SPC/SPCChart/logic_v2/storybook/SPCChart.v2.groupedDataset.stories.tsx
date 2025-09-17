@@ -22,10 +22,7 @@ import { computeTrendSegments, chooseSegmentsForHighlight } from "../postprocess
 import { withParityV26, withConflictPresetAutoV26, VisualsScenario, buildVisualsForScenario } from "../presets";
 import { SPCChart } from "../../SPCChart";
 import { iconToHex } from "./data/variationIconColours";
-import {
-	ImprovementDirection as V1ImprovementDirection,
-	ChartType as V1ChartType,
-} from "../../logic/spcConstants";
+import { ImprovementDirection as V1ImprovementDirection, ChartType as V1ChartType } from "../../types";
 
 const metricOptions = getMetricOptions();
 const METRIC_STORAGE_KEY = "spc.v2.metric";

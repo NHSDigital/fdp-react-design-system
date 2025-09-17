@@ -11,6 +11,11 @@ export interface BoundaryWindowsOptions {
      * - "Same": pre-window uses the same category as post-window (uniform window around boundary)
      */
     prePolarity?: "Opposite" | "Same";
+    /**
+     * Optional explicit boundary indices to use instead of auto-detecting via partitionId changes.
+     * Each index should correspond to the first point of a new partition (i.e., the baseline-marked row).
+     */
+    boundaryIndices?: number[];
 }
 /**
  * Compute visual categories with optional boundary-aware post-classification adjustments.

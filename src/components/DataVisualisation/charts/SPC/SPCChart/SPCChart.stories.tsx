@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCChart, type SPCDatum, ImprovementDirection, SequenceTransition, TrendVisualMode } from "./SPCChart";
-import { ruleGlossary } from "./logic/spcDescriptors";
+import { ruleGlossary } from "./descriptors";
 import React from "react";
 import { seedPRNG } from "../../../stories/utils/deterministic";
 import { ChartContainer } from "../../ChartContainer.tsx";
 // Use top-level component barrel for Heading/Table/List (navigate up to components root)
 import { Heading, Table, List } from "../../../../";
-import { ChartType } from './logic/spcConstants';
+import { ChartType } from './types';
 
 const meta: Meta<typeof SPCChart> = {
 	title: "Data Visualisation/SPC/v1/Individuals",

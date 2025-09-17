@@ -6,7 +6,7 @@ import { SPCChart } from "../../SPCChart";
 import { buildSpcV26a } from "../engine";
 import { withParityV26 } from "../presets";
 import { ChartType, ImprovementDirection } from "../types";
-import { ImprovementDirection as V1ImprovementDirection, ChartType as V1ChartType } from "../../logic/spcConstants";
+import { ImprovementDirection as V1ImprovementDirection, ChartType as V1ChartType } from "../../types";
 
 // Helper to map v2 enum to v1 for SPCChart props
 function toV1Dir(value: ImprovementDirection): V1ImprovementDirection {

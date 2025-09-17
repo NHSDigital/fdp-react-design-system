@@ -3,11 +3,8 @@ import { SPCVariationIcon } from "./SPCIcon";
 import { SPCAssuranceIcon } from "./SPCAssuranceIcon";
 import { Direction } from "./SPCConstants";
 import { AssuranceResult } from "./SPCConstants";
-import {
-	VariationIcon,
-	ImprovementDirection,
-} from "../SPCChart/logic/spcConstants";
-import { SpcEmbeddedIconVariant } from "../SPCChart/logic/storybook/SPCChart.constants";
+import { VariationIcon, ImprovementDirection } from "../SPCChart/types";
+import { SpcEmbeddedIconVariant } from "../SPCChart/SPCChart.constants";
 import { Grid, Row, Column, GridWidth } from "../../../../../core";
 import { Heading } from "../../../../Heading";
 

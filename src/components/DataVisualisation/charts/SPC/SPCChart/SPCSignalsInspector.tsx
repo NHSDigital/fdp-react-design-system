@@ -7,7 +7,7 @@ import {
 	ruleGlossary,
 	variationLabel,
 	assuranceLabel,
-} from "./logic/spcDescriptors";
+} from "./descriptors";
 import { Tag } from "../../../../Tag";
 
 export interface SPCSignalsInspectorProps {

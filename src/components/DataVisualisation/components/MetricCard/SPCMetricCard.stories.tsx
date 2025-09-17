@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCMetricCard } from "../../index";
 import { SPCChart, ImprovementDirection } from "../../charts/SPC/SPCChart/SPCChart";
-import { ChartType } from "../../charts/SPC/SPCChart/logic/spcConstants";
-import { MetricPolarity } from "../../charts/SPC/SPCIcons/SPCConstants";
+import { ChartType } from "../../charts/SPC/SPCChart/types";
 
 const meta: Meta<typeof SPCMetricCard> = {
 	title: "Data Visualisation/SPC/SPC MetricCard",

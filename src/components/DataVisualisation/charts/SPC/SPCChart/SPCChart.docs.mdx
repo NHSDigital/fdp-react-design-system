@@ -1,13 +1,15 @@
 import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import Mermaid from '../../../../_internal/Mermaid';
 import Table from '../../../../Tables/Table';
-import SPCChartStableWaitTimeExample from './logic/storybook/SPCChartStableWaitTimeExample';
-import SPCChartEarlyWaitTimeExample from './logic/storybook/SPCChartEarlyWaitTimeExample';
-import SPCChartIndividualsExample from './logic/storybook/SPCChartIndividualsExample';
-import SPCChartRareEventExample from './logic/storybook/SPCChartRareEventExample';
-import SPCChartPhasedBaselineExample from './logic/storybook/SPCChartPhasedBaselineExample';
-import SPCChartWarningsPanelExample from './logic/storybook/SPCChartWarningsPanelExample';
-import RunVsSPCTransitionExample from './logic/storybook/RunVsSPCTransitionExample';
+// NOTE: Legacy Storybook-only example modules removed from import surface; these will be re-added
+// as modular docs components if required. For now, keep docs self-contained to avoid build errors.
+// import SPCChartStableWaitTimeExample from './logic/storybook/SPCChartStableWaitTimeExample';
+// import SPCChartEarlyWaitTimeExample from './logic/storybook/SPCChartEarlyWaitTimeExample';
+// import SPCChartIndividualsExample from './logic/storybook/SPCChartIndividualsExample';
+// import SPCChartRareEventExample from './logic/storybook/SPCChartRareEventExample';
+// import SPCChartPhasedBaselineExample from './logic/storybook/SPCChartPhasedBaselineExample';
+// import SPCChartWarningsPanelExample from './logic/storybook/SPCChartWarningsPanelExample';
+// import RunVsSPCTransitionExample from './logic/storybook/RunVsSPCTransitionExample';
 
 <Meta title="Data Visualisation/SPC/Documentation" />
 
@@ -90,7 +92,7 @@ Use a plain line / run chart instead when you have very few points (typically < 
 `chartType` selects the underlying statistical method. Use the `ChartType` enum for type‑safe values (string literals still work via Storybook controls):
 
 ```ts
-import { ChartType } from './logic/spcConstants';
+import { ChartType } from './types';
 
 <SPCChart data={series} chartType={ChartType.XmR} />
 ```
@@ -110,7 +112,7 @@ All calculations and rule detection paths are enabled by default. (Limits/icons 
 For strong typing prefer importing and using the enum instead of raw strings:
 
 ```ts
-import { ImprovementDirection } from './logic/spcConstants';
+import { ImprovementDirection } from './types';
 
 // Enum definition (source of truth in logic/spc.ts):
 // export enum ImprovementDirection { Up = 'Up', Down = 'Down', Neither = 'Neither' }
@@ -294,7 +296,7 @@ Example chart (stable process; target outside capability band):
 
 ```tsx
 import { SPCChart } from './SPCChart';
-import { ImprovementDirection } from './logic/spcConstants';
+import { ImprovementDirection } from './types';
 
 // Synthetic weekly wait time series (~35 mean, natural variation)
 const waitTimes = [
@@ -692,7 +694,7 @@ Access via a direct engine call (advanced usage) or by enabling the built‑in p
 
 ```ts
 import { buildSpc, SpcWarningSeverity, SpcWarningCategory } from './logic/spc';
-import { ChartType, ImprovementDirection } from './logic/spcConstants';
+import { ChartType, ImprovementDirection } from './types';
 
 const { rows, warnings } = buildSpc({
   chartType: ChartType.XmR,
@@ -835,7 +837,7 @@ Forward compatibility: New codes may be added; existing code string values will 
 ## Usage examples
 ### Individuals chart with rule detection
 ```tsx
-import { ChartType, ImprovementDirection } from './logic/spcConstants';
+import { ChartType, ImprovementDirection } from './types';
 
 <SPCChart
   data={weeklyValues}

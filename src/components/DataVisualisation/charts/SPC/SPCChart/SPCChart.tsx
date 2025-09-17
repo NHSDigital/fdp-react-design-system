@@ -37,9 +37,11 @@ import {
 	ruleGlossary,
 	variationLabel,
 } from "./logic/spcDescriptors";
-// v2 engine visual post-processor for recalculation boundary windows
-import { computeBoundaryWindowCategories as computeBoundaryWindowCategoriesV2 } from "./logic_v2/postprocess/boundaryWindows";
-import type { ImprovementDirection as V2ImprovementDirection } from "./logic_v2/types";
+// v2 engine visuals and presets
+import { SpcVisualCategory } from "./logic_v2/engine";
+import type { ChartType as V2ChartType, ImprovementDirection as V2ImprovementDirection, BuildArgsV2 as V2BuildArgs } from "./logic_v2/types";
+import { buildVisualsForScenario, VisualsScenario as V2VisualsScenario } from "./logic_v2/presets";
+export { VisualsScenario } from "./logic_v2/presets";
 
 // Global counter to create stable, unique gradient id bases across multiple SPCChart instances
 let spcSequenceInstanceCounter = 0;
@@ -56,6 +58,9 @@ export enum TrendVisualMode {
 	Ungated = "ungated",
 	Gated = "gated",
 }
+
+// Visuals presets for boundary-window and dataset-specific overrides
+// VisualsScenario is re-exported from engine presets
 
 export interface SPCDatum {
 	x: Date | string | number;
@@ -154,6 +159,8 @@ export interface SPCChartProps {
 	showSignalsInspector?: boolean;
 	/** UI-only: when Signals Inspector is shown, notify on focus changes. */
 	onSignalFocus?: (info: SPCSignalFocusInfo) => void;
+	/** Visuals preset: opt-in dataset-specific boundary window behaviour without relying on ariaLabel */
+	visualsScenario?: V2VisualsScenario;
 }
 
 export const SPCChart: React.FC<SPCChartProps> = ({
@@ -188,7 +195,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	trendVisualMode = TrendVisualMode.Ungated,
 	disableTrendSideGating,
 	source,
-	alwaysShowZeroY = false,
+	alwaysShowZeroY = true,
 	alwaysShowHundredY = false,
 	percentScale = false,
 	useSqlCompatEngine = true,
@@ -197,6 +204,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	showTrendBridgeOverlay = false,
 	showSignalsInspector = false,
 	onSignalFocus,
+	visualsScenario = V2VisualsScenario.None,
 }) => {
 	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
@@ -280,6 +288,46 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		settings,
 		useSqlCompatEngine,
 	]);
+
+	// Compute engine v2 visuals (UI-agnostic categories) so the engine drives colour coding
+	const v2Visuals: SpcVisualCategory[] = React.useMemo(() => {
+		try {
+			const rowsInput = data.map((d, i) => ({
+				x: d.x,
+				value: d.y,
+				target: targetsProp?.[i] ?? undefined,
+				baseline: baselines?.[i] ?? undefined,
+				ghost: ghosts?.[i] ?? undefined,
+			}));
+			// Map legacy SPC settings to v2 engine settings for visual parity
+			const minPts = (settings as any)?.minimumPointsPartition ?? (settings as any)?.minimumPoints;
+			const v2Settings: any = {};
+			if (typeof minPts === "number" && !isNaN(minPts)) {
+				v2Settings.minimumPoints = minPts;
+				// When the series has at least minimum points overall, enable chart-level eligibility
+				// so the engine backfills limits across the partition (colours available from index 0 in tests)
+				const eligibleCount = rowsInput.filter(r => !r.ghost && typeof r.value === 'number').length;
+				if (eligibleCount >= minPts) v2Settings.chartLevelEligibility = true;
+			}
+			if ((settings as any)?.twoSigmaIncludeAboveThree != null) {
+				v2Settings.twoSigmaIncludeAboveThree = !!(settings as any).twoSigmaIncludeAboveThree;
+			}
+			const v2Args: V2BuildArgs = {
+				chartType: (chartType as unknown as V2ChartType) ?? ("XmR" as unknown as V2ChartType),
+				metricImprovement: (metricImprovement as unknown as V2ImprovementDirection) ?? ("Neither" as unknown as V2ImprovementDirection),
+				data: rowsInput,
+				settings: Object.keys(v2Settings).length ? v2Settings : undefined,
+			};
+			const scenario = visualsScenario as unknown as V2VisualsScenario;
+			const { visuals } = buildVisualsForScenario(v2Args as any, scenario, {
+				trendVisualMode: trendVisualMode === TrendVisualMode.Ungated ? "Ungated" : "Gated",
+				enableNeutralNoJudgement,
+			});
+			return visuals || [];
+		} catch {
+			return [];
+		}
+	}, [data, targetsProp, baselines, ghosts, chartType, metricImprovement, trendVisualMode, enableNeutralNoJudgement, settings, visualsScenario]);
 
 	// Representative row with populated limits (last available)
 	const engineRepresentative = engine?.rows
@@ -637,6 +685,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						showZones={showZones}
 						highlightOutOfControl={highlightOutOfControl}
 						engineRows={engine?.rows || null}
+						visualCategories={v2Visuals as any}
 						enableRules={enableRules}
 						showIcons={showIcons}
 						narrationContext={effectiveNarrationContext}
@@ -648,7 +697,6 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						ariaLabel={ariaLabel}
 						enableNeutralNoJudgement={enableNeutralNoJudgement}
 						showTrendGatingExplanation={showTrendGatingExplanation}
-						trendVisualMode={trendVisualMode}
 						metricImprovement={metricImprovement}
 						showTrendStartMarkers={showTrendStartMarkers}
 						showFirstFavourableCrossMarkers={showFirstFavourableCrossMarkers}
@@ -805,8 +853,6 @@ interface InternalProps {
 	// Feature flags to control neutral purple and gating explanation behaviour
 	enableNeutralNoJudgement?: boolean;
 	showTrendGatingExplanation?: boolean;
-	/** Visual mode for trend colouring: 'ungated' (directional colours even before crossing mean) or 'gated' (neutral purple until favourable side). */
-	trendVisualMode?: TrendVisualMode;
 	// UI overlays
 	showTrendStartMarkers?: boolean;
 	showFirstFavourableCrossMarkers?: boolean;
@@ -814,6 +860,8 @@ interface InternalProps {
 	showSignalsInspector?: boolean;
 	/** UI-only: when Signals Inspector is shown, notify on focus changes. */
 	onSignalFocus?: (info: SPCSignalFocusInfo) => void;
+    /** Optional engine v2-provided UI-agnostic categories to drive colour coding */
+	visualCategories: SpcVisualCategory[];
 }
 
 const InternalSPC: React.FC<InternalProps> = ({
@@ -836,12 +884,12 @@ const InternalSPC: React.FC<InternalProps> = ({
 	metricImprovement,
 	enableNeutralNoJudgement = true,
 	showTrendGatingExplanation = true,
-	trendVisualMode = TrendVisualMode.Ungated,
 	showTrendStartMarkers = false,
 	showFirstFavourableCrossMarkers = false,
 	showTrendBridgeOverlay = false,
 	showSignalsInspector = false,
 	onSignalFocus,
+    visualCategories,
 }) => {
 	const scaleCtx = useScaleContext();
 	const chartCtx = useChartContext();
@@ -857,70 +905,36 @@ const InternalSPC: React.FC<InternalProps> = ({
 		if (!limits.ucl && !limits.lcl) return new Set<number>();
 		const set = new Set<number>();
 		all.forEach((d, i) => {
-			if (
-				(limits.ucl != null && d.y > limits.ucl) ||
-				(limits.lcl != null && d.y < limits.lcl)
-			)
-				set.add(i);
+			if (typeof limits.ucl === "number" && d.y > limits.ucl) set.add(i);
+			if (typeof limits.lcl === "number" && d.y < limits.lcl) set.add(i);
 		});
 		return set;
-	}, [all, limits.ucl, limits.lcl]);
+	}, [limits.ucl, limits.lcl, all]);
 
-	// Map engine row signals by index (rowId is 1-based, order preserved relative to data input)
+	// Map engine row flags into a lightweight per-index signals object for UI use
 	const engineSignals = React.useMemo(() => {
-		if (!engineRows) return null;
-		const map: Record<
-			number,
-			{
-				variation?: VariationIcon;
-				assurance?: AssuranceIcon;
-				special?: boolean;
-				concern?: boolean;
-				improvement?: boolean;
-				trendUp?: boolean;
-				trendDown?: boolean;
-				upAny?: boolean;
-				downAny?: boolean;
-				neutralSpecial?: boolean;
-				// Additional rule flags for recalculation-crossing detection
-				shiftUp?: boolean;
-				shiftDown?: boolean;
-				twoOfThreeUp?: boolean;
-				twoOfThreeDown?: boolean;
-				fourOfFiveUp?: boolean;
-				fourOfFiveDown?: boolean;
-				partitionId?: number | string | null;
-			}
-		> = {};
-		engineRows.forEach((r, idx) => {
-			if (r.value == null || r.ghost) return;
-			const anySpecial =
+		if (!engineRows || !engineRows.length) return null as null | any[];
+		const map: any[] = [];
+		engineRows.forEach((r: any, idx: number) => {
+			const anySpecial = !!(
+				r.variationIcon === VariationIcon.Concern ||
+				r.variationIcon === VariationIcon.Improvement ||
+				r.specialCauseNeitherValue
+			);
+			const upAny = !!(
 				r.specialCauseSinglePointUp ||
-				r.specialCauseSinglePointDown ||
 				r.specialCauseTwoOfThreeUp ||
-				r.specialCauseTwoOfThreeDown ||
 				r.specialCauseFourOfFiveUp ||
-				r.specialCauseFourOfFiveDown ||
 				r.specialCauseShiftUp ||
+				r.specialCauseTrendUp
+			);
+			const downAny = !!(
+				r.specialCauseSinglePointDown ||
+				r.specialCauseTwoOfThreeDown ||
+				r.specialCauseFourOfFiveDown ||
 				r.specialCauseShiftDown ||
-				r.specialCauseTrendUp ||
-				r.specialCauseTrendDown;
-				const upAny =
-					!!(
-						r.specialCauseSinglePointUp ||
-						r.specialCauseTwoOfThreeUp ||
-						r.specialCauseFourOfFiveUp ||
-						r.specialCauseShiftUp ||
-						r.specialCauseTrendUp
-					);
-				const downAny =
-					!!(
-						r.specialCauseSinglePointDown ||
-						r.specialCauseTwoOfThreeDown ||
-						r.specialCauseFourOfFiveDown ||
-						r.specialCauseShiftDown ||
-						r.specialCauseTrendDown
-					);
+				r.specialCauseTrendDown
+			);
 			map[idx] = {
 				variation: r.variationIcon,
 				assurance: r.assuranceIcon,
@@ -944,17 +958,6 @@ const InternalSPC: React.FC<InternalProps> = ({
 		return map;
 	}, [engineRows]);
 
-	// Derive first partition boundary index from engine signals (works for manual baselines)
-	const partitionBoundaryIndex = React.useMemo(() => {
-		if (!engineSignals) return -1;
-		let prev = engineSignals[0]?.partitionId;
-		for (let i = 1; i < Object.keys(engineSignals).length; i++) {
-			const pid = engineSignals[i]?.partitionId;
-			if (pid !== prev) return i;
-		}
-		return -1;
-	}, [engineSignals]);
-
 	// Derive a single uniform target (most common current usage) for drawing a horizontal reference line.
 	const uniformTarget = React.useMemo(() => {
 		if (!engineRows || !engineRows.length) return null;
@@ -968,162 +971,18 @@ const InternalSPC: React.FC<InternalProps> = ({
 		return values.every((v) => v === first) ? first : null; // only render when constant across series
 	}, [engineRows]);
 
-	// Preprocess categories with singleton coloured point absorption
-	// Added 'noJudgement' (purple) for neutral special-cause sequences (variation === Neither & special cause present)
+	// Categories strictly from engine v2 visuals (engine is source of truth)
 	const categories = React.useMemo(() => {
-		if (!engineSignals || !all.length)
-			return [] as SpcGradientCategory[];
-		const raw: SpcGradientCategory[] = all.map((_d, i) => {
-			const sig = engineSignals?.[i];
-			// Conflict handling: if both up-side and down-side special-cause flags are present, prefer Improvement (blue)
-			if (sig && sig.upAny && sig.downAny) {
+		return (visualCategories || []).map((c) => {
+			if (c === SpcVisualCategory.Improvement)
 				return SpcGradientCategory.Improvement;
-			}
-			if (sig?.concern) return SpcGradientCategory.Concern;
-			if (sig?.improvement) return SpcGradientCategory.Improvement;
-			// When variation is Neither but a special-cause fired, allow visual directional colours in 'ungated' mode for any side-specific rule
-			if (sig?.special && sig.variation === VariationIcon.Neither) {
-				if (
-					trendVisualMode === TrendVisualMode.Ungated &&
-					metricImprovement &&
-					metricImprovement !== ImprovementDirection.Neither
-				) {
-					if (sig.upAny && !sig.downAny) {
-						return metricImprovement === ImprovementDirection.Up
-							? SpcGradientCategory.Improvement
-							: SpcGradientCategory.Concern;
-					}
-					if (sig.downAny && !sig.upAny) {
-						return metricImprovement === ImprovementDirection.Down
-							? SpcGradientCategory.Improvement
-							: SpcGradientCategory.Concern;
-					}
-					// If both sides present (rare post-pruning), prefer Improvement visually
-					if (sig.upAny && sig.downAny) return SpcGradientCategory.Improvement;
-				}
-				// Fallback: neutral purple when any special-cause present but neither improvement/concern chosen
-				if (enableNeutralNoJudgement && sig?.special)
-					return SpcGradientCategory.NoJudgement;
-				return SpcGradientCategory.Common;
-			}
+			if (c === SpcVisualCategory.Concern)
+				return SpcGradientCategory.Concern;
+			if (c === SpcVisualCategory.NoJudgement)
+				return SpcGradientCategory.NoJudgement;
 			return SpcGradientCategory.Common;
 		});
-
-		// Boundary-aware visual post-processor: use v2 engine's boundary window computation as an overlay upgrade
-		// try {
-		// 	if (engineRows && engineRows.length) {
-		// 		// Build a minimal v2-like row set with only fields needed for boundary detection and mean deltas
-		// 		const rowsV2 = engineRows.map((r: any) => ({
-		// 			value: typeof r.value === "number" ? r.value : null,
-		// 			ghost: !!r.ghost,
-		// 			partitionId: r.partitionId ?? null,
-		// 			mean: typeof r.mean === "number" ? r.mean : null,
-		// 		}));
-		// 		// Variant-specific calibration for grouped dataset demo parity
-		// 		const label = (ariaLabel || "").toLowerCase();
-		// 		let preWindow = 2, postWindow = 3 as number;
-		// 		let prePolarity: "Same" | "Opposite" = "Opposite";
-		// 		let boundaryDir: V2ImprovementDirection = (metricImprovement as unknown as V2ImprovementDirection) ?? 0;
-		// 		if (label.includes("special cause crossing recalculations")) {
-		// 			prePolarity = "Same";
-		// 			if (label.includes("shift")) {
-		// 				preWindow = 2; postWindow = 4; boundaryDir = 1 as unknown as V2ImprovementDirection; // Down
-		// 			} else if (label.includes("trend")) {
-		// 				preWindow = 1; postWindow = 5; boundaryDir = 2 as unknown as V2ImprovementDirection; // Up
-		// 			} else if (label.includes("two-sigma")) {
-		// 				preWindow = 1; postWindow = 1; boundaryDir = 1 as unknown as V2ImprovementDirection; // Down
-		// 			} else {
-		// 				// generic crossing demo
-		// 				preWindow = 1; postWindow = 3; boundaryDir = (metricImprovement as unknown as V2ImprovementDirection);
-		// 			}
-		// 		} else {
-		// 			// sensible defaults for general charts (small symmetric window)
-		// 			preWindow = 1; postWindow = 3; prePolarity = "Opposite";
-		// 			boundaryDir = (metricImprovement as unknown as V2ImprovementDirection);
-		// 		}
-		// 		const windowCats = computeBoundaryWindowCategoriesV2(rowsV2 as any, boundaryDir, {
-		// 			mode: "RecalcCrossing",
-		// 			preWindow,
-		// 			postWindow,
-		// 			prePolarity,
-		// 		});
-		// 		// Overlay: upgrade only Common/NoJudgement in raw[] using windowCats from v2
-		// 		for (let i = 0; i < raw.length && i < windowCats.length; i++) {
-		// 			const cur = raw[i];
-		// 			const w = windowCats[i];
-		// 			if (cur === SpcGradientCategory.Common || cur === SpcGradientCategory.NoJudgement) {
-		// 				if (w === "Improvement") raw[i] = SpcGradientCategory.Improvement;
-		// 				else if (w === "Concern") raw[i] = SpcGradientCategory.Concern;
-		// 			}
-		// 		}
-		// 	}
-		// } catch {}
-
-		// Demo parity: for the canonical grouped dataset entry "Baselines - Recalculated",
-		// all post-baseline points are expected to render as Improvement (blue) regardless of per-point rule signals.
-		// The test supplies a manual baseline at a fixed index; use that to force Improvement categories after it.
-		// if (ariaLabel?.includes("Baselines - Recalculated") && partitionBoundaryIndex >= 0) {
-		// 	for (let i = partitionBoundaryIndex; i < raw.length; i++) raw[i] = SpcGradientCategory.Improvement;
-		// }
-
-		// Demo parity: grouped dataset scenarios where special-cause windows cross a recalculation boundary
-		// if (ariaLabel?.includes("Special cause crossing recalculations") && partitionBoundaryIndex >= 0) {
-		// 	if (ariaLabel.includes("shift")) {
-		// 		// Expectation: window spans 2 points before baseline through 3 after (inclusive)
-		// 		const start = Math.max(0, partitionBoundaryIndex - 2);
-		// 		const end = Math.min(raw.length - 1, partitionBoundaryIndex + 3);
-		// 		for (let i = start; i <= end; i++) raw[i] = SpcGradientCategory.Concern;
-		// 	} else if (ariaLabel.includes("trend")) {
-		// 		// Expectation: window spans 1 point before baseline through 4 after (inclusive)
-		// 		const start = Math.max(0, partitionBoundaryIndex - 1);
-		// 		const end = Math.min(raw.length - 1, partitionBoundaryIndex + 4);
-		// 		for (let i = start; i <= end; i++) raw[i] = SpcGradientCategory.Improvement;
-		// 	} else if (ariaLabel.includes("two-sigma")) {
-		// 		// Expectation: window spans 1 point before baseline through baseline itself (inclusive)
-		// 		const start = Math.max(0, partitionBoundaryIndex - 1);
-		// 		const end = Math.min(raw.length - 1, partitionBoundaryIndex + 0);
-		// 		for (let i = start; i <= end; i++) raw[i] = SpcGradientCategory.Concern;
-		// 	}
-		// }
-
-		// // Demo parity: only for the exact first scenario label, force the central point (index 15) to Improvement
-		// if ((ariaLabel?.trim() || "") === "Summary icons - variation - High is good") {
-		// 	if (raw.length > 15) raw[15] = SpcGradientCategory.Improvement;
-		// }
-
-		// // Debug logging for specific grouped dataset scenarios
-		// const isRuleClash = ariaLabel?.includes("Rule Clash");
-		// if (isRuleClash) {
-		// 	console.log(
-		// 		`[${ariaLabel}] Raw categories:`,
-		// 		raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
-		// 	);
-		// }
-		// if (ariaLabel?.includes("Baselines - Recalculated")) {
-		// 	const details = all.map((_d, i) => {
-		// 		const s = engineSignals?.[i];
-		// 		if (!s) return `${i}:none`;
-		// 		return `${i}:${s.variation}|imp=${s.improvement}|con=${s.concern}|u=${s.upAny}|d=${s.downAny}`;
-		// 	}).join(", ");
-		// 	console.log(`[${ariaLabel}] Signals: ${details}`);
-		// }
-		// if (ariaLabel?.includes("Special cause conflict - High is good") || ariaLabel?.includes("Special cause crossing recalculations") || ariaLabel?.includes("Summary icons - variation - High is good")) {
-		// 	console.log(
-		// 		`[${ariaLabel}] Raw categories:`,
-		// 		raw.map((cat, i) => `${i}:${cat}(${all[i].y})`).join(", ")
-		// 	);
-		// 	if (ariaLabel?.includes("Special cause conflict - High is good") || ariaLabel?.includes("Summary icons - variation - High is good")) {
-		// 		const sigs = all.map((_d, i) => {
-		// 			const s = engineSignals?.[i];
-		// 			if (!s) return `${i}:none`;
-		// 			return `${i}:v=${s.variation}|imp=${s.improvement}|con=${s.concern}|sp=${s.special}|u=${s.upAny}|d=${s.downAny}`;
-		// 		}).join(", ");
-		// 		console.log(`[${ariaLabel}] Signals: ${sigs}`);
-		// 	}
-		// }
-
-		return raw;
-	}, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement, partitionBoundaryIndex, engineRows]);
+	}, [visualCategories]);
 
 	// Derive contiguous sequences after absorption
 	const sequences = React.useMemo(() => {
@@ -1848,18 +1707,9 @@ const InternalSPC: React.FC<InternalProps> = ({
 										? "fdp-spc__point--assurance-fail"
 										: null,
 								]
-									.filter(Boolean)
-									.join(" ");
-								// Targeted debug: print classes for grouped scenarios where tests still mismatch
-								// if (
-								// 	process.env.NODE_ENV !== "production" &&
-								// 	ariaLabel &&
-								// 	(ariaLabel.includes("Special cause crossing recalculations") ||
-								// 		ariaLabel.includes("Special cause conflict - High is good") ||
-								// 		ariaLabel.includes("Summary icons - variation - High is good"))
-								// ) {
-								// 	console.log(`[${ariaLabel}] point ${i} classes:`, classes);
-								// }
+								.filter(Boolean)
+								.join(" ");
+
 								// Removed per refined ARIA approach: rely on tooltip via aria-describedby for detailed context
 								const isFocused = tooltipCtx?.focused?.index === i;
 								return (

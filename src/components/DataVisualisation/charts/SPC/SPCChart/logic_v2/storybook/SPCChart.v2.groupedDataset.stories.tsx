@@ -10,7 +10,7 @@ import {
 	normaliseSeries,
 	deriveBaselines,
 } from "./data/groupedDataset";
-import { buildSpcV26a } from "../engine.ts";
+import { buildSpcV26a, SpcVisualCategory } from "../engine.ts";
 import {
 	ChartType,
 	ImprovementDirection,
@@ -19,8 +19,7 @@ import {
 	TrendSegmentationStrategy,
 } from "../types.ts";
 import { computeTrendSegments, chooseSegmentsForHighlight } from "../postprocess/trendSegments";
-import { computeBoundaryWindowCategories } from "../postprocess/boundaryWindows";
-import { withParityV26, withConflictPresetAutoV26 } from "../presets";
+import { withParityV26, withConflictPresetAutoV26, VisualsScenario, buildVisualsForScenario } from "../presets";
 import { SPCChart } from "../../SPCChart";
 import { iconToHex } from "./data/variationIconColours";
 import {
@@ -32,6 +31,20 @@ const metricOptions = getMetricOptions();
 const METRIC_STORAGE_KEY = "spc.v2.metric";
 const DIRECTION_STORAGE_PREFIX = "spc.v2.direction:";
 const BASE_MINIMUM_POINTS = 12;
+
+// Map a UI-agnostic visual category to the canonical hex used in tables
+function visualCategoryToHex(cat: SpcVisualCategory): string {
+	switch (cat) {
+		case SpcVisualCategory.Improvement:
+			return "#00B0F0"; // blue
+		case SpcVisualCategory.Concern:
+			return "#E46C0A"; // orange
+		case SpcVisualCategory.NoJudgement:
+			return "#490092"; // purple
+		default:
+			return "#A6A6A6"; // grey (common)
+	}
+}
 
 const meta: Meta = {
 	title: "Data Visualisation/SPC/v2/Test dataset (JSON)",
@@ -194,13 +207,27 @@ export const GroupedDatasetV2: Story = {
 			);
 		}
 
-		const { data } = normaliseSeries(grp);
+	const { data } = normaliseSeries(grp);
 
 		// Apply a manual baseline (recalculation) for the specific "Recalculations - Recalculated" metric
 		// Place the baseline at index 15 (0-based: the 16th point)
 		const baselines = deriveBaselines(grp, data.length);
 
-		console.log(baselines);
+				// visualsScenario mapping from metric for boundary-window presets
+				const norm = (s: string) => s.replace(/\s*\(v2 engine\)\s*$/i, "");
+				const metricKey = norm(grp.metric);
+				let visualsScenario: VisualsScenario = VisualsScenario.None;
+				if (metricKey === "Recalculations - Recalculated") {
+					visualsScenario = VisualsScenario.RecalculationsRecalculated;
+				} else if (metricKey === "Baselines - Recalculated") {
+					visualsScenario = VisualsScenario.BaselinesRecalculated;
+				} else if (metricKey.startsWith("Special cause crossing recalculations - shift")) {
+					visualsScenario = VisualsScenario.RecalcCrossingShift;
+				} else if (metricKey.startsWith("Special cause crossing recalculations - trend")) {
+					visualsScenario = VisualsScenario.RecalcCrossingTrend;
+				} else if (metricKey.startsWith("Special cause crossing recalculations - two-sigma")) {
+					visualsScenario = VisualsScenario.RecalcCrossingTwoSigma;
+				}
 
 		const settings = useMemo<SpcSettingsV26a>(() => {
 			if (parityMode) return withParityV26();
@@ -255,38 +282,55 @@ export const GroupedDatasetV2: Story = {
 			}).rows;
 		}, [data, baselines, direction, settings]);
 
-		// Prepare merged table rows and mismatch count (expected from dataset vs computed by engine)
+				// Prepare merged table rows and mismatch count (expected vs computed by engine visuals)
 		const mergedRows = useMemo(() => {
 			const nonGhostCount = rows.filter((r) => !r.ghost).length;
 			const chartEligible = nonGhostCount >= effectiveMinimumPoints;
 
-			return rows
-				.filter((r) => !r.ghost)
-				.map((r, i) => {
-					const date = new Date(r.x as any).toLocaleDateString("en-GB");
-					const value = r.value;
-					const expectedHex = String(
-						(grp.data[i] && (grp.data[i] as any).colour) || ""
-					).toString();
-					const computedHex = iconToHex(r.variationIcon);
-					const match = expectedHex === computedHex;
-					const eligible =
-						chartEligible &&
-						typeof r.mean === "number" &&
-						Number.isFinite(r.mean);
-					return {
-						index: i,
-						date,
-						value,
-						pointRank: r.pointRank,
-						eligible,
-						icon: String(r.variationIcon),
-						expected: expectedHex,
-						computed: computedHex,
-						match,
-					};
-				});
-		}, [rows, grp, effectiveMinimumPoints]);
+			// Build visuals using engine presets (includes boundary-window overlays for relevant scenarios)
+			const visuals = (() => {
+				try {
+					const input = data.map((d, i) => ({
+						x: d.x,
+						value: d.value,
+						ghost: false,
+						baseline: !!baselines?.[i],
+						target: null,
+					}));
+					const { visuals } = buildVisualsForScenario({
+						chartType: ChartType.XmR,
+						metricImprovement: direction,
+						data: input,
+						settings,
+					} as any, visualsScenario);
+					return visuals as SpcVisualCategory[];
+				} catch {
+					return [] as SpcVisualCategory[];
+				}
+			})();
+
+					return rows
+						.filter((r) => !r.ghost)
+						.map((r, i) => {
+							const date = new Date(r.x as any).toLocaleDateString("en-GB");
+							const value = r.value;
+							const expectedHex = String((grp.data[i] && (grp.data[i] as any).colour) || "");
+							const computedHex = visualCategoryToHex(visuals[i] ?? SpcVisualCategory.Common);
+							const match = expectedHex === computedHex;
+							const eligible = chartEligible && typeof r.mean === "number" && Number.isFinite(r.mean);
+							return {
+								index: i,
+								date,
+								value,
+								pointRank: r.pointRank,
+								eligible,
+								icon: String(r.variationIcon),
+								expected: expectedHex,
+								computed: computedHex,
+								match,
+							};
+						});
+				}, [rows, grp, effectiveMinimumPoints, data, baselines, direction, settings, visualsScenario]);
 
 		const mismatchCount = useMemo(
 			() => mergedRows.filter((r) => !r.match).length,
@@ -660,7 +704,7 @@ export const GroupedDatasetV2: Story = {
 						) : undefined
 					}
 				>
-					<SPCChart
+								<SPCChart
 						data={data.map((d) => ({ x: d.x, y: d.value }))}
 						chartType={V1ChartType.XmR}
 						metricImprovement={toV1Dir(direction)}
@@ -669,7 +713,8 @@ export const GroupedDatasetV2: Story = {
 						gradientSequences
 						baselines={baselines}
 						announceFocus={false}
-						settings={settings}
+									settings={settings}
+									visualsScenario={visualsScenario as any}
 					/>
 				</ChartContainer>
 				<div style={{ display: "grid", gap: 6 }}>

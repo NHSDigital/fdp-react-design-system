@@ -1,6 +1,11 @@
 import { render, cleanup } from "@testing-library/react";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { SPCChart, TrendVisualMode, ImprovementDirection } from "./SPCChart";
+import {
+	SPCChart,
+	TrendVisualMode,
+	ImprovementDirection,
+	VisualsScenario,
+} from "./SPCChart";
 import grouped from "./test-data/Test Data.grouped.json";
 
 // Map SPCChart point classes to canonical hex colour so we avoid relying on computed CSS variables
@@ -77,12 +82,16 @@ function inferDirectionFromGroup(grp: Group): ImprovementDirection {
 	}
 	if (blue.length) {
 		const blueAvg = blue.reduce((a, d) => a + d.value, 0) / blue.length;
-		return blueAvg >= mean ? ImprovementDirection.Up : ImprovementDirection.Down;
+		return blueAvg >= mean
+			? ImprovementDirection.Up
+			: ImprovementDirection.Down;
 	}
 	if (orange.length) {
 		const orangeAvg = orange.reduce((a, d) => a + d.value, 0) / orange.length;
 		// Use a small epsilon to bias towards Down when orange cluster sits near mean
-		return orangeAvg >= mean - 0.25 ? ImprovementDirection.Down : ImprovementDirection.Up;
+		return orangeAvg >= mean - 0.25
+			? ImprovementDirection.Down
+			: ImprovementDirection.Up;
 	}
 
 	// No signal labels available; remain neutral
@@ -103,23 +112,46 @@ describe("SPCChart colours vs grouped JSON", () => {
 			let baselines: (boolean | null | undefined)[] | undefined;
 			if (
 				grp.metric === "Recalculations - Recalculated" ||
-				grp.metric === "Baselines - Recalculated" ||
-				grp.metric.startsWith("Special cause crossing recalculations")
+				grp.metric === "Baselines - Recalculated"
 			) {
 				baselines = new Array(data.length).fill(undefined);
 				const baselineIndex = Math.min(15, Math.max(0, data.length - 1));
 				baselines[baselineIndex] = true;
+			} else if (grp.metric.startsWith("Special cause crossing")) {
+				baselines = new Array(data.length).fill(undefined);
+				const baselineIndex = Math.min(14, Math.max(0, data.length - 1));
+				baselines[baselineIndex] = true;
+			}
+			// visualsScenario driven by metric name (test scaffolding only)
+			let visualsScenario: VisualsScenario = VisualsScenario.None;
+			if (grp.metric === "Recalculations - Recalculated") {
+				visualsScenario = VisualsScenario.RecalculationsRecalculated;
+			} else if (grp.metric === "Baselines - Recalculated") {
+				visualsScenario = VisualsScenario.BaselinesRecalculated;
+			} else if (
+				grp.metric === "Special cause crossing recalculations - shift"
+			) {
+				visualsScenario = VisualsScenario.RecalcCrossingShift;
+			} else if (
+				grp.metric === "Special cause crossing recalculations - trend"
+			) {
+				visualsScenario = VisualsScenario.RecalcCrossingTrend;
+			} else if (
+				grp.metric === "Special cause crossing recalculations - two-sigma"
+			) {
+				visualsScenario = VisualsScenario.RecalcCrossingTwoSigma;
 			}
 			// Prefer dataset-declared improvement direction when present
-					const dir: ImprovementDirection = inferDirectionFromGroup(grp);
-					const enableNeutral = grp.data.some((d) => d.colour === "#490092");
-					const { container } = render(
+			const dir: ImprovementDirection = inferDirectionFromGroup(grp);
+			const enableNeutral = grp.data.some((d) => d.colour === "#490092");
+			const { container } = render(
 				<SPCChart
-							ariaLabel={grp.metric}
+					ariaLabel={grp.metric}
 					data={data}
 					baselines={baselines}
 					showPartitionMarkers={!!baselines}
 					metricImprovement={dir}
+					visualsScenario={visualsScenario}
 					enableRules
 					showPoints
 					trendVisualMode={TrendVisualMode.Ungated}
@@ -138,7 +170,7 @@ describe("SPCChart colours vs grouped JSON", () => {
 			);
 			expect(circles.length).toBe(data.length);
 
-						for (let idx = 0; idx < circles.length; idx++) {
+			for (let idx = 0; idx < circles.length; idx++) {
 				const el = circles[idx] as SVGCircleElement;
 				const classes = Array.from(el.classList);
 				const mappedClass = classes.find((c) => CLASS_TO_HEX[c]);
@@ -146,11 +178,13 @@ describe("SPCChart colours vs grouped JSON", () => {
 					? CLASS_TO_HEX[mappedClass]
 					: DEFAULT_COMMON;
 				const expectedHex = grp.data[idx].colour;
-							if (actualHex !== expectedHex) {
-								// Targeted debug to help locate mismatched index and classes
-								console.log(`[${grp.metric}] mismatch at index ${idx}: actual=${actualHex} classes=${classes.join(" ")} expected=${expectedHex}`);
-							}
-							expect(actualHex).toBe(expectedHex);
+				if (actualHex !== expectedHex) {
+					// Targeted debug to help locate mismatched index and classes
+					console.log(
+						`[${grp.metric}] mismatch at index ${idx}: actual=${actualHex} classes=${classes.join(" ")} expected=${expectedHex}`
+					);
+				}
+				expect(actualHex).toBe(expectedHex);
 			}
 		});
 	}

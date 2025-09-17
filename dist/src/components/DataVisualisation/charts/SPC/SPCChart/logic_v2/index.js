@@ -682,6 +682,125 @@ function chooseSegmentsForHighlight(runs, opts) {
   return highlight;
 }
 
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/visualCategories.ts
+var SpcVisualCategory = /* @__PURE__ */ ((SpcVisualCategory2) => {
+  SpcVisualCategory2["Common"] = "Common";
+  SpcVisualCategory2["Improvement"] = "Improvement";
+  SpcVisualCategory2["Concern"] = "Concern";
+  SpcVisualCategory2["NoJudgement"] = "NoJudgement";
+  return SpcVisualCategory2;
+})(SpcVisualCategory || {});
+function sideFlags(row) {
+  const upAny = !!(row.singlePointUp || row.twoSigmaUp || row.shiftUp || row.trendUp);
+  const downAny = !!(row.singlePointDown || row.twoSigmaDown || row.shiftDown || row.trendDown);
+  return { upAny, downAny };
+}
+function computeSpcVisualCategories(rows, opts) {
+  var _a, _b;
+  const metricImprovement = opts.metricImprovement;
+  const trendVisualMode = (_a = opts.trendVisualMode) != null ? _a : "Ungated";
+  const enableNeutral = (_b = opts.enableNeutralNoJudgement) != null ? _b : true;
+  return rows.map((row) => {
+    if (!row || row.value == null || row.ghost) return "Common" /* Common */;
+    const { upAny, downAny } = sideFlags(row);
+    if (upAny && downAny) return "Improvement" /* Improvement */;
+    switch (row.variationIcon) {
+      case "ImprovementHigh" /* ImprovementHigh */:
+      case "ImprovementLow" /* ImprovementLow */:
+        return "Improvement" /* Improvement */;
+      case "ConcernHigh" /* ConcernHigh */:
+      case "ConcernLow" /* ConcernLow */:
+        return "Concern" /* Concern */;
+      case "NeitherHigh" /* NeitherHigh */:
+      case "NeitherLow" /* NeitherLow */: {
+        if (trendVisualMode === "Ungated" && metricImprovement !== "Neither" /* Neither */) {
+          if (upAny && !downAny) {
+            return metricImprovement === "Up" /* Up */ ? "Improvement" /* Improvement */ : "Concern" /* Concern */;
+          }
+          if (downAny && !upAny) {
+            return metricImprovement === "Down" /* Down */ ? "Improvement" /* Improvement */ : "Concern" /* Concern */;
+          }
+        }
+        return enableNeutral ? "NoJudgement" /* NoJudgement */ : "Common" /* Common */;
+      }
+      default:
+        return "Common" /* Common */;
+    }
+  });
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/boundaryWindows.ts
+function computeBoundaryWindowCategories(rows, metricImprovement, options) {
+  var _a, _b, _c, _d, _e, _f;
+  const mode = (_a = options == null ? void 0 : options.mode) != null ? _a : "Disabled";
+  if (!rows.length) return [];
+  let out = computeSpcVisualCategories(rows, {
+    metricImprovement,
+    trendVisualMode: "Ungated",
+    enableNeutralNoJudgement: true
+  });
+  if (mode !== "RecalcCrossing") return out;
+  if (metricImprovement === "Neither" /* Neither */) return out;
+  const preWin = Math.max(0, (_b = options == null ? void 0 : options.preWindow) != null ? _b : 2);
+  const postWin = Math.max(0, (_c = options == null ? void 0 : options.postWindow) != null ? _c : 3);
+  const prePolarity = (_d = options == null ? void 0 : options.prePolarity) != null ? _d : "Opposite";
+  const setIfUpgrade = (idx, cat) => {
+    if (idx < 0 || idx >= out.length) return;
+    const cur = out[idx];
+    if (cur === "Common" /* Common */ || cur === "NoJudgement" /* NoJudgement */) {
+      out[idx] = cat;
+    }
+  };
+  const partitionFallbackMean = (pid) => {
+    if (pid == null) return null;
+    const values = [];
+    for (const r of rows) {
+      if (r.partitionId !== pid) continue;
+      if (typeof r.value === "number" && !r.ghost) values.push(r.value);
+    }
+    if (!values.length) return null;
+    const sum = values.reduce((a, b) => a + b, 0);
+    return sum / values.length;
+  };
+  for (let i = 1; i < rows.length; i++) {
+    const prev = rows[i - 1];
+    const cur = rows[i];
+    if (!prev || !cur) continue;
+    if (cur.partitionId === prev.partitionId) continue;
+    const boundary = i;
+    let oldMean = null;
+    for (let j = i - 1; j >= 0; j--) {
+      const r = rows[j];
+      if (r.partitionId !== prev.partitionId) break;
+      if (typeof r.mean === "number") {
+        oldMean = r.mean;
+        break;
+      }
+    }
+    let newMean = null;
+    for (let k = i; k < rows.length; k++) {
+      const r = rows[k];
+      if (r.partitionId !== cur.partitionId) break;
+      if (typeof r.mean === "number") {
+        newMean = r.mean;
+        break;
+      }
+    }
+    if (oldMean == null)
+      oldMean = partitionFallbackMean((_e = prev.partitionId) != null ? _e : null);
+    if (newMean == null)
+      newMean = partitionFallbackMean((_f = cur.partitionId) != null ? _f : null);
+    if (oldMean == null || newMean == null) continue;
+    const delta = newMean - oldMean;
+    const favourable = metricImprovement === "Up" /* Up */ ? delta > 0 : delta < 0;
+    const postCat = favourable ? "Improvement" /* Improvement */ : "Concern" /* Concern */;
+    const preCat = prePolarity === "Same" ? postCat : favourable ? "Concern" /* Concern */ : "Improvement" /* Improvement */;
+    for (let p = 1; p <= preWin; p++) setIfUpgrade(boundary - p, preCat);
+    for (let p = 0; p < postWin; p++) setIfUpgrade(boundary + p, postCat);
+  }
+  return out;
+}
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/engine.ts
 function buildSpcV26a(args) {
   var _a, _b, _c, _d;
@@ -906,6 +1025,28 @@ function buildSpcV26a(args) {
   }
   return { rows: out };
 }
+function buildSpcV26aWithVisuals(args, visuals) {
+  var _a, _b, _c;
+  const res = buildSpcV26a(args);
+  const base = computeSpcVisualCategories(res.rows, {
+    metricImprovement: args.metricImprovement,
+    trendVisualMode: (_a = visuals == null ? void 0 : visuals.trendVisualMode) != null ? _a : "Ungated",
+    enableNeutralNoJudgement: (_b = visuals == null ? void 0 : visuals.enableNeutralNoJudgement) != null ? _b : true
+  });
+  const bw = visuals == null ? void 0 : visuals.boundaryWindows;
+  if (!bw || bw.mode !== "RecalcCrossing") return { rows: res.rows, visuals: base };
+  const dir = (_c = bw.directionOverride) != null ? _c : args.metricImprovement;
+  const win = computeBoundaryWindowCategories(res.rows, dir, bw);
+  const overlay = base.map((cat, i) => {
+    const w = win[i];
+    if (cat === "Common" /* Common */ || cat === "NoJudgement" /* NoJudgement */) {
+      if (w === "Improvement") return "Improvement" /* Improvement */;
+      if (w === "Concern") return "Concern" /* Concern */;
+    }
+    return cat;
+  });
+  return { rows: res.rows, visuals: overlay };
+}
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/presets.ts
 var PARITY_V26 = Object.freeze({
@@ -1042,109 +1183,6 @@ function computeRetroShiftOverlay(rows, metricImprovement, opts) {
   }
   return overlay;
 }
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/visualCategories.ts
-var SpcVisualCategory = /* @__PURE__ */ ((SpcVisualCategory2) => {
-  SpcVisualCategory2["Common"] = "Common";
-  SpcVisualCategory2["Improvement"] = "Improvement";
-  SpcVisualCategory2["Concern"] = "Concern";
-  SpcVisualCategory2["NoJudgement"] = "NoJudgement";
-  return SpcVisualCategory2;
-})(SpcVisualCategory || {});
-function sideFlags(row) {
-  const upAny = !!(row.singlePointUp || row.twoSigmaUp || row.shiftUp || row.trendUp);
-  const downAny = !!(row.singlePointDown || row.twoSigmaDown || row.shiftDown || row.trendDown);
-  return { upAny, downAny };
-}
-function computeSpcVisualCategories(rows, opts) {
-  var _a, _b;
-  const metricImprovement = opts.metricImprovement;
-  const trendVisualMode = (_a = opts.trendVisualMode) != null ? _a : "Ungated";
-  const enableNeutral = (_b = opts.enableNeutralNoJudgement) != null ? _b : true;
-  return rows.map((row) => {
-    if (!row || row.value == null || row.ghost) return "Common" /* Common */;
-    const { upAny, downAny } = sideFlags(row);
-    if (upAny && downAny) return "Improvement" /* Improvement */;
-    switch (row.variationIcon) {
-      case "ImprovementHigh" /* ImprovementHigh */:
-      case "ImprovementLow" /* ImprovementLow */:
-        return "Improvement" /* Improvement */;
-      case "ConcernHigh" /* ConcernHigh */:
-      case "ConcernLow" /* ConcernLow */:
-        return "Concern" /* Concern */;
-      case "NeitherHigh" /* NeitherHigh */:
-      case "NeitherLow" /* NeitherLow */: {
-        if (trendVisualMode === "Ungated" && metricImprovement !== "Neither" /* Neither */) {
-          if (upAny && !downAny) {
-            return metricImprovement === "Up" /* Up */ ? "Improvement" /* Improvement */ : "Concern" /* Concern */;
-          }
-          if (downAny && !upAny) {
-            return metricImprovement === "Down" /* Down */ ? "Improvement" /* Improvement */ : "Concern" /* Concern */;
-          }
-        }
-        return enableNeutral ? "NoJudgement" /* NoJudgement */ : "Common" /* Common */;
-      }
-      default:
-        return "Common" /* Common */;
-    }
-  });
-}
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/boundaryWindows.ts
-function computeBoundaryWindowCategories(rows, metricImprovement, options) {
-  var _a, _b, _c;
-  const mode = (_a = options == null ? void 0 : options.mode) != null ? _a : "Disabled";
-  if (!rows.length) return [];
-  let out = computeSpcVisualCategories(rows, {
-    metricImprovement,
-    trendVisualMode: "Ungated",
-    enableNeutralNoJudgement: true
-  });
-  if (mode !== "RecalcCrossing") return out;
-  if (metricImprovement === "Neither" /* Neither */) return out;
-  const preWin = Math.max(0, (_b = options == null ? void 0 : options.preWindow) != null ? _b : 2);
-  const postWin = Math.max(0, (_c = options == null ? void 0 : options.postWindow) != null ? _c : 3);
-  const setIfUpgrade = (idx, cat) => {
-    if (idx < 0 || idx >= out.length) return;
-    const cur = out[idx];
-    if (cur === "Common" /* Common */ || cur === "NoJudgement" /* NoJudgement */) {
-      out[idx] = cat;
-    }
-  };
-  for (let i = 1; i < rows.length; i++) {
-    const prev = rows[i - 1];
-    const cur = rows[i];
-    if (!prev || !cur) continue;
-    if (cur.partitionId === prev.partitionId) continue;
-    const boundary = i;
-    let oldMean = null;
-    for (let j = i - 1; j >= 0; j--) {
-      const r = rows[j];
-      if (r.partitionId !== prev.partitionId) break;
-      if (typeof r.mean === "number") {
-        oldMean = r.mean;
-        break;
-      }
-    }
-    let newMean = null;
-    for (let k = i; k < rows.length; k++) {
-      const r = rows[k];
-      if (r.partitionId !== cur.partitionId) break;
-      if (typeof r.mean === "number") {
-        newMean = r.mean;
-        break;
-      }
-    }
-    if (oldMean == null || newMean == null) continue;
-    const delta = newMean - oldMean;
-    const favourable = metricImprovement === "Up" /* Up */ ? delta > 0 : delta < 0;
-    const postCat = favourable ? "Improvement" /* Improvement */ : "Concern" /* Concern */;
-    const preCat = favourable ? "Concern" /* Concern */ : "Improvement" /* Improvement */;
-    for (let p = 1; p <= preWin; p++) setIfUpgrade(boundary - p, preCat);
-    for (let p = 0; p < postWin; p++) setIfUpgrade(boundary + p, postCat);
-  }
-  return out;
-}
 export {
   AssuranceIcon,
   ChartType,
@@ -1165,6 +1203,7 @@ export {
   XMR_THREE_SIGMA_FACTOR,
   applySqlPruning,
   buildSpcV26a,
+  buildSpcV26aWithVisuals,
   chooseSegmentsForHighlight,
   computeAssuranceIcon,
   computeAssuranceIconXmR,

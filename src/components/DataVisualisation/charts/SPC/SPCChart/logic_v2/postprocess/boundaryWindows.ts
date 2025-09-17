@@ -16,6 +16,11 @@ export interface BoundaryWindowsOptions {
 	 * - "Same": pre-window uses the same category as post-window (uniform window around boundary)
 	 */
 	prePolarity?: "Opposite" | "Same";
+	/**
+	 * Optional explicit boundary indices to use instead of auto-detecting via partitionId changes.
+	 * Each index should correspond to the first point of a new partition (i.e., the baseline-marked row).
+	 */
+	boundaryIndices?: number[];
 }
 
 /**
@@ -80,17 +85,29 @@ export function computeBoundaryWindowCategories(
 		return sum / values.length;
 	};
 
-	// Detect all boundaries by partitionId changes
-	for (let i = 1; i < rows.length; i++) {
-		const prev = rows[i - 1];
-		const cur = rows[i];
+	// Build list of boundary indices: prefer explicit list, otherwise detect by partitionId changes
+	const boundaries: number[] = Array.isArray(options?.boundaryIndices) && options!.boundaryIndices!.length
+		? options!.boundaryIndices!.slice().filter((b) => Number.isFinite(b))
+		: (() => {
+			const out: number[] = [];
+			for (let i = 1; i < rows.length; i++) {
+				const prev = rows[i - 1];
+				const cur = rows[i];
+				if (!prev || !cur) continue;
+				if (cur.partitionId === prev.partitionId) continue;
+				out.push(i);
+			}
+			return out;
+		})();
+
+	for (const boundary of boundaries) {
+		const prev = rows[boundary - 1];
+		const cur = rows[boundary];
 		if (!prev || !cur) continue;
-		if (cur.partitionId === prev.partitionId) continue;
-		const boundary = i; // first index in new partition
 
 		// Find last non-null mean in previous partition
 		let oldMean: number | null = null;
-		for (let j = i - 1; j >= 0; j--) {
+		for (let j = boundary - 1; j >= 0; j--) {
 			const r = rows[j];
 			if (r.partitionId !== prev.partitionId) break;
 			if (typeof r.mean === "number") {
@@ -100,7 +117,7 @@ export function computeBoundaryWindowCategories(
 		}
 		// Find first non-null mean in new partition
 		let newMean: number | null = null;
-		for (let k = i; k < rows.length; k++) {
+		for (let k = boundary; k < rows.length; k++) {
 			const r = rows[k];
 			if (r.partitionId !== cur.partitionId) break;
 			if (typeof r.mean === "number") {

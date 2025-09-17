@@ -5,6 +5,12 @@ export interface BoundaryWindowsOptions {
     mode?: BoundaryWindowsMode;
     preWindow?: number;
     postWindow?: number;
+    /**
+     * Controls the polarity of the pre-window category relative to the post-window.
+     * - "Opposite" (default): pre-window uses the opposite category of post-window (contrast around boundary)
+     * - "Same": pre-window uses the same category as post-window (uniform window around boundary)
+     */
+    prePolarity?: "Opposite" | "Same";
 }
 /**
  * Compute visual categories with optional boundary-aware post-classification adjustments.

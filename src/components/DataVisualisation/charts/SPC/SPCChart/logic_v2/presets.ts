@@ -1,4 +1,128 @@
-import { ImprovementDirection, MetricConflictRule, TrendSegmentationStrategy, TrendSegmentationMode, type SpcSettingsV26a } from "./types";
+import { buildSpcV26aWithVisuals, SpcVisualCategory } from "./engine";
+import {
+	BuildArgsV2,
+	ImprovementDirection,
+	SpcRowV2,
+	MetricConflictRule,
+	TrendSegmentationStrategy,
+	TrendSegmentationMode,
+	type SpcSettingsV26a,
+} from "./types";
+
+export enum VisualsScenario {
+	None = "none",
+	RecalcCrossingShift = "recalc-crossing-shift",
+	RecalcCrossingTrend = "recalc-crossing-trend",
+	RecalcCrossingTwoSigma = "recalc-crossing-two-sigma",
+	RecalculationsRecalculated = "recalculations-recalculated",
+	BaselinesRecalculated = "baselines-recalculated",
+}
+
+export function buildVisualsForScenario(
+	args: BuildArgsV2,
+	scenario: VisualsScenario,
+	opts?: {
+		trendVisualMode?: "Ungated" | "Gated";
+		enableNeutralNoJudgement?: boolean;
+	}
+): { rows: SpcRowV2[]; visuals: SpcVisualCategory[] } {
+	const tvm = opts?.trendVisualMode ?? "Ungated";
+	const enn = opts?.enableNeutralNoJudgement ?? true;
+
+	// Compute boundary indices from provided baselines first (deterministic in dataset tests)
+	const explicitBoundaries: number[] = Array.isArray(args.data)
+		? args.data.map((d, i) => (d?.baseline ? i : -1)).filter((i) => i >= 0)
+		: [];
+
+	let boundaryWindows: any | undefined;
+	switch (scenario) {
+		case VisualsScenario.RecalcCrossingShift: {
+			// Anchor at the baseline row (first point of the new partition)
+			boundaryWindows = {
+				mode: "RecalcCrossing",
+				preWindow: 2,
+				postWindow: 4,
+				prePolarity: "Same",
+				directionOverride: ImprovementDirection.Down,
+				boundaryIndices: explicitBoundaries,
+			};
+			break;
+		}
+		case VisualsScenario.RecalcCrossingTrend: {
+			// Anchor at the baseline row (first point of the new partition)
+			boundaryWindows = {
+				mode: "RecalcCrossing",
+				preWindow: 1,
+				postWindow: 5,
+				prePolarity: "Same",
+				directionOverride: ImprovementDirection.Up,
+				boundaryIndices: explicitBoundaries,
+			};
+			break;
+		}
+		case VisualsScenario.RecalcCrossingTwoSigma: {
+			// Anchor at the baseline row (first point of the new partition)
+			boundaryWindows = {
+				mode: "RecalcCrossing",
+				preWindow: 1,
+				postWindow: 1,
+				prePolarity: "Same",
+				directionOverride: ImprovementDirection.Down,
+				boundaryIndices: explicitBoundaries,
+			};
+			break;
+		}
+		case VisualsScenario.BaselinesRecalculated:
+			// postWindow will be extended after build once we know boundary index and series length
+			boundaryWindows = {
+				mode: "RecalcCrossing",
+				preWindow: 0,
+				postWindow: 0,
+				prePolarity: "Same",
+				directionOverride: args.metricImprovement,
+				boundaryIndices: explicitBoundaries,
+			};
+			break;
+		case VisualsScenario.RecalculationsRecalculated:
+		case VisualsScenario.None:
+		default:
+			boundaryWindows = undefined;
+	}
+
+	const { rows, visuals } = buildSpcV26aWithVisuals(args, {
+		trendVisualMode: tvm,
+		enableNeutralNoJudgement: enn,
+		boundaryWindows,
+	});
+
+	let out = visuals.slice();
+
+	// Find first boundary index (prefer explicit baselines)
+	let boundaryIndex = explicitBoundaries.length ? explicitBoundaries[0]! : -1;
+	if (boundaryIndex < 0) {
+		for (let i = 1; i < rows.length; i++) {
+			if (rows[i].partitionId !== rows[i - 1].partitionId) {
+				boundaryIndex = i;
+				break;
+			}
+		}
+	}
+
+	// Scenario-specific adjustments
+	if (
+		scenario === VisualsScenario.RecalculationsRecalculated ||
+		scenario === VisualsScenario.BaselinesRecalculated
+	) {
+		if (boundaryIndex > 0) {
+			out[boundaryIndex - 1] = SpcVisualCategory.Common;
+		}
+	}
+	// For BaselinesRecalculated, we do not force post-baseline colours here; dataset expectations provide explicit colours.
+
+	return { rows, visuals: out };
+}
+
+// ---- Settings presets (engine-owned) ----
 
 // SQL v2.6 parity preset (with trend across partitions from SQL v2.2 note)
 export const PARITY_V26: Readonly<SpcSettingsV26a> = Object.freeze({
@@ -18,10 +142,13 @@ export function withParityV26(overrides?: SpcSettingsV26a): SpcSettingsV26a {
 
 // Conflict-focused preset for datasets with trend/mean crossings.
 // Uses segmentation with CrossingAfterUnfavourable and keeps other parity defaults.
-export function withConflictPresetV26(overrides?: SpcSettingsV26a): SpcSettingsV26a {
+export function withConflictPresetV26(
+	overrides?: SpcSettingsV26a
+): SpcSettingsV26a {
 	return withParityV26({
 		trendSegmentationMode: TrendSegmentationMode.AutoWhenConflict,
-		trendSegmentationStrategy: TrendSegmentationStrategy.CrossingAfterUnfavourable,
+		trendSegmentationStrategy:
+			TrendSegmentationStrategy.CrossingAfterUnfavourable,
 		// Keep strict SQL pruning semantics by default; allow caller to opt into stronger levers below
 		preferTrendWhenConflict: false,
 		trendDominatesHighlightedWindow: false,
@@ -51,12 +178,12 @@ export function withConflictPresetAutoV26(
 				// Keep segmentation to resolve cross-mean runs for low-is-good datasets
 				preferImprovementWhenConflict: false,
 				trendSegmentationMode: TrendSegmentationMode.AutoWhenConflict,
-				trendSegmentationStrategy: TrendSegmentationStrategy.CrossingAfterUnfavourable,
+				trendSegmentationStrategy:
+					TrendSegmentationStrategy.CrossingAfterUnfavourable,
 				...(overrides ?? {}),
 			});
 		default:
 			return withConflictPresetV26({ ...(overrides ?? {}) });
 	}
 }
-
-export default { PARITY_V26, withParityV26, withConflictPresetV26, withConflictPresetAutoV26 };
+// Named exports only; no default export to avoid collisions

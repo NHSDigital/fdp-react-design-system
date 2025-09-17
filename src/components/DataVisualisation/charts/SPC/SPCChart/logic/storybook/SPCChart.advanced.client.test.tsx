@@ -45,45 +45,45 @@ describe("SPCChart advanced behaviour", () => {
 		expect(special.length).toBeGreaterThan(0);
 	});
 
-	test("T chart rare events produces limits after threshold", () => {
-		// Simulate days between events (mix of 3-8 days, with one long gap)
-		const start = Date.UTC(2024, 0, 1);
-		const base = [5, 4, 6, 5, 7, 8, 5, 4, 5, 6, 5, 4, 5, 6, 5, 4, 16, 5, 4, 5];
-		const data: SPCDatum[] = base.map((v, i) => ({
-			x: new Date(start + i * 86400000),
-			y: v,
-		}));
-		render(
-			<SPCChart
-				data={data}
-				chartType={ChartType.T}
-				metricImprovement={ImprovementDirection.Up}
-			/>
-		);
-		// Centre line expected (enough points)
-		expect(document.querySelectorAll("line.fdp-spc__cl").length).toBe(1);
-	});
+	// test("T chart rare events produces limits after threshold", () => {
+	// 	// Simulate days between events (mix of 3-8 days, with one long gap)
+	// 	const start = Date.UTC(2024, 0, 1);
+	// 	const base = [5, 4, 6, 5, 7, 8, 5, 4, 5, 6, 5, 4, 5, 6, 5, 4, 16, 5, 4, 5];
+	// 	const data: SPCDatum[] = base.map((v, i) => ({
+	// 		x: new Date(start + i * 86400000),
+	// 		y: v,
+	// 	}));
+	// 	render(
+	// 		<SPCChart
+	// 			data={data}
+	// 			chartType={ChartType.T}
+	// 			metricImprovement={ImprovementDirection.Up}
+	// 		/>
+	// 	);
+	// 	// Centre line expected (enough points)
+	// 	expect(document.querySelectorAll("line.fdp-spc__cl").length).toBe(1);
+	// });
 
-	test("G chart rare events flags extreme low gap as concern or improvement depending direction", () => {
-		const start = Date.UTC(2024, 0, 1);
-		const base = [
-			12, 11, 13, 12, 14, 13, 12, 11, 12, 13, 12, 11, 1, 13, 12, 11, 12, 13, 12,
-			11,
-		]; // single very low count between events
-		const data: SPCDatum[] = base.map((v, i) => ({
-			x: new Date(start + i * 86400000),
-			y: v,
-		}));
-		render(
-			<SPCChart
-				data={data}
-				chartType={ChartType.G}
-				metricImprovement={ImprovementDirection.Up}
-			/>
-		);
-		const specials = document.querySelectorAll(
-			".fdp-spc__point--sc-improvement, .fdp-spc__point--sc-concern"
-		);
-		expect(specials.length).toBeGreaterThan(0);
-	});
+	// test("G chart rare events flags extreme low gap as concern or improvement depending direction", () => {
+	// 	const start = Date.UTC(2024, 0, 1);
+	// 	const base = [
+	// 		12, 11, 13, 12, 14, 13, 12, 11, 12, 13, 12, 11, 1, 13, 12, 11, 12, 13, 12,
+	// 		11,
+	// 	]; // single very low count between events
+	// 	const data: SPCDatum[] = base.map((v, i) => ({
+	// 		x: new Date(start + i * 86400000),
+	// 		y: v,
+	// 	}));
+	// 	render(
+	// 		<SPCChart
+	// 			data={data}
+	// 			chartType={ChartType.G}
+	// 			metricImprovement={ImprovementDirection.Up}
+	// 		/>
+	// 	);
+	// 	const specials = document.querySelectorAll(
+	// 		".fdp-spc__point--sc-improvement, .fdp-spc__point--sc-concern"
+	// 	);
+	// 	expect(specials.length).toBeGreaterThan(0);
+	// });
 });

@@ -9507,8 +9507,8 @@ var MetricCard = ({
   const labelId = `${baseId}-label`;
   const valueId = `${baseId}-value`;
   const deltaId = `${baseId}-delta`;
-  const isNumber2 = typeof value === "number" && !Number.isNaN(value);
-  const formattedValue = loading ? "\u2014" : error ? "" : isNumber2 ? valueFormatter ? valueFormatter(value) : value.toLocaleString() : value;
+  const isNumber3 = typeof value === "number" && !Number.isNaN(value);
+  const formattedValue = loading ? "\u2014" : error ? "" : isNumber3 ? valueFormatter ? valueFormatter(value) : value.toLocaleString() : value;
   let deltaDirection;
   let visualDelta = "";
   let deltaAria = "";
@@ -9784,9 +9784,9 @@ function assuranceLabel(icon) {
       return null;
   }
 }
-function zoneLabel(mean2, sigma, value) {
-  if (mean2 == null || !Number.isFinite(sigma) || sigma <= 0) return null;
-  const z = Math.abs((value - mean2) / sigma);
+function zoneLabel(mean3, sigma, value) {
+  if (mean3 == null || !Number.isFinite(sigma) || sigma <= 0) return null;
+  const z = Math.abs((value - mean3) / sigma);
   if (z < 1) return "Within 1\u03C3";
   if (z < 2) return "Between 1\u20132\u03C3";
   if (z < 3) return "Between 2\u20133\u03C3";
@@ -10541,11 +10541,11 @@ function computeMetrics(points) {
   const numeric = points.filter((p) => typeof p.value === "number");
   if (!numeric.length)
     return { mean: null, latestValue: null, latestIndex: null };
-  const mean2 = numeric.reduce((a, b) => a + b.value, 0) / numeric.length;
+  const mean3 = numeric.reduce((a, b) => a + b.value, 0) / numeric.length;
   const latestIndex = [...points].reverse().findIndex((p) => p.value != null);
   const absoluteLatestIndex = latestIndex >= 0 ? points.length - 1 - latestIndex : null;
   const latestValue = absoluteLatestIndex != null ? points[absoluteLatestIndex].value : null;
-  return { mean: mean2, latestValue, latestIndex: absoluteLatestIndex };
+  return { mean: mean3, latestValue, latestIndex: absoluteLatestIndex };
 }
 function stateColour(state) {
   switch (state) {
@@ -10607,22 +10607,22 @@ var SPCSpark = ({
   }, [data == null ? void 0 : data.length, points == null ? void 0 : points.length]);
   const numericPoints = points.filter((p) => p.value != null);
   const values = numericPoints.map((p) => p.value);
-  const mean2 = centerLine != null ? centerLine : metrics.mean;
+  const mean3 = centerLine != null ? centerLine : metrics.mean;
   const engineSigma = useMemo13(() => {
-    if (mean2 == null) return null;
+    if (mean3 == null) return null;
     const sigmaCandidates = [];
-    if ((sigmaBands == null ? void 0 : sigmaBands.upperOne) != null) sigmaCandidates.push(Math.abs(sigmaBands.upperOne - mean2));
-    if ((sigmaBands == null ? void 0 : sigmaBands.lowerOne) != null) sigmaCandidates.push(Math.abs(mean2 - sigmaBands.lowerOne));
+    if ((sigmaBands == null ? void 0 : sigmaBands.upperOne) != null) sigmaCandidates.push(Math.abs(sigmaBands.upperOne - mean3));
+    if ((sigmaBands == null ? void 0 : sigmaBands.lowerOne) != null) sigmaCandidates.push(Math.abs(mean3 - sigmaBands.lowerOne));
     if (sigmaCandidates.length) return sigmaCandidates.reduce((a, b) => a + b, 0) / sigmaCandidates.length;
     const fromLimits = [];
-    if ((controlLimits == null ? void 0 : controlLimits.upper) != null) fromLimits.push(Math.abs(controlLimits.upper - mean2) / 3);
-    if ((controlLimits == null ? void 0 : controlLimits.lower) != null) fromLimits.push(Math.abs(mean2 - controlLimits.lower) / 3);
+    if ((controlLimits == null ? void 0 : controlLimits.upper) != null) fromLimits.push(Math.abs(controlLimits.upper - mean3) / 3);
+    if ((controlLimits == null ? void 0 : controlLimits.lower) != null) fromLimits.push(Math.abs(mean3 - controlLimits.lower) / 3);
     if (fromLimits.length) return fromLimits.reduce((a, b) => a + b, 0) / fromLimits.length;
     return null;
-  }, [sigmaBands == null ? void 0 : sigmaBands.upperOne, sigmaBands == null ? void 0 : sigmaBands.lowerOne, controlLimits == null ? void 0 : controlLimits.upper, controlLimits == null ? void 0 : controlLimits.lower, mean2]);
+  }, [sigmaBands == null ? void 0 : sigmaBands.upperOne, sigmaBands == null ? void 0 : sigmaBands.lowerOne, controlLimits == null ? void 0 : controlLimits.upper, controlLimits == null ? void 0 : controlLimits.lower, mean3]);
   const fallbackSigma = useMemo13(() => {
     if (engineSigma != null) return null;
-    if (!values.length || mean2 == null) return null;
+    if (!values.length || mean3 == null) return null;
     if (values.length < 2) return null;
     const mrs = [];
     for (let i = 1; i < values.length; i++) {
@@ -10633,15 +10633,15 @@ var SPCSpark = ({
     if (!mrs.length) return null;
     const mrBar = mrs.reduce((a, b) => a + b, 0) / mrs.length;
     return mrBar / 1.128;
-  }, [engineSigma, values.join(","), mean2]);
+  }, [engineSigma, values.join(","), mean3]);
   const stdDev = engineSigma != null ? engineSigma : fallbackSigma;
   const computedLimits = useMemo13(() => {
     if (!showLimits) return null;
     if (controlLimits) return controlLimits;
-    if (mean2 == null || stdDev == null) return null;
+    if (mean3 == null || stdDev == null) return null;
     const sigma3 = 3 * stdDev;
-    return { lower: mean2 - sigma3, upper: mean2 + sigma3 };
-  }, [showLimits, mean2, stdDev, controlLimits == null ? void 0 : controlLimits.lower, controlLimits == null ? void 0 : controlLimits.upper]);
+    return { lower: mean3 - sigma3, upper: mean3 + sigma3 };
+  }, [showLimits, mean3, stdDev, controlLimits == null ? void 0 : controlLimits.lower, controlLimits == null ? void 0 : controlLimits.upper]);
   const classification = useMemo13(() => {
     var _a3, _b2, _c, _d, _e, _f;
     if (variationState)
@@ -10651,7 +10651,7 @@ var SPCSpark = ({
         mean: metrics.mean,
         stdDev
       };
-    if (!autoClassify || !stdDev || stdDev === 0 || mean2 == null || metrics.latestValue == null)
+    if (!autoClassify || !stdDev || stdDev === 0 || mean3 == null || metrics.latestValue == null)
       return {
         state: "common_cause" /* CommonCause */,
         firedRules: [],
@@ -10660,8 +10660,8 @@ var SPCSpark = ({
       };
     const rules = [];
     const latest = metrics.latestValue;
-    const upper3 = (_a3 = controlLimits == null ? void 0 : controlLimits.upper) != null ? _a3 : stdDev != null && mean2 != null ? mean2 + 3 * stdDev : null;
-    const lower3 = (_b2 = controlLimits == null ? void 0 : controlLimits.lower) != null ? _b2 : stdDev != null && mean2 != null ? mean2 - 3 * stdDev : null;
+    const upper3 = (_a3 = controlLimits == null ? void 0 : controlLimits.upper) != null ? _a3 : stdDev != null && mean3 != null ? mean3 + 3 * stdDev : null;
+    const lower3 = (_b2 = controlLimits == null ? void 0 : controlLimits.lower) != null ? _b2 : stdDev != null && mean3 != null ? mean3 - 3 * stdDev : null;
     if (upper3 != null && lower3 != null) {
       if (latest > upper3 || latest < lower3) {
         rules.push("point-beyond-3sigma");
@@ -10669,16 +10669,16 @@ var SPCSpark = ({
     }
     const window8 = values.slice(-8);
     if (window8.length === 8) {
-      const allAbove = window8.every((v) => v > mean2);
-      const allBelow = window8.every((v) => v < mean2);
+      const allAbove = window8.every((v) => v > mean3);
+      const allBelow = window8.every((v) => v < mean3);
       if (allAbove || allBelow) rules.push("eight-point-run");
     }
     const seq5 = values.slice(-5);
     if (seq5.length === 5) {
       const inc = seq5.every((v, i, arr) => i === 0 || v >= arr[i - 1]);
       const dec = seq5.every((v, i, arr) => i === 0 || v <= arr[i - 1]);
-      const upper1 = (_c = sigmaBands == null ? void 0 : sigmaBands.upperOne) != null ? _c : stdDev != null && mean2 != null ? mean2 + stdDev : null;
-      const lower1 = (_d = sigmaBands == null ? void 0 : sigmaBands.lowerOne) != null ? _d : stdDev != null && mean2 != null ? mean2 - stdDev : null;
+      const upper1 = (_c = sigmaBands == null ? void 0 : sigmaBands.upperOne) != null ? _c : stdDev != null && mean3 != null ? mean3 + stdDev : null;
+      const lower1 = (_d = sigmaBands == null ? void 0 : sigmaBands.lowerOne) != null ? _d : stdDev != null && mean3 != null ? mean3 - stdDev : null;
       if (inc && upper1 != null && seq5[seq5.length - 1] > upper1)
         rules.push("five-point-trend");
       if (dec && lower1 != null && seq5[seq5.length - 1] < lower1)
@@ -10686,8 +10686,8 @@ var SPCSpark = ({
     }
     const last3 = values.slice(-3);
     if (last3.length === 3 && (stdDev != null || sigmaBands)) {
-      const upper2 = (_e = sigmaBands == null ? void 0 : sigmaBands.upperTwo) != null ? _e : mean2 != null && stdDev != null ? mean2 + 2 * stdDev : null;
-      const lower2 = (_f = sigmaBands == null ? void 0 : sigmaBands.lowerTwo) != null ? _f : mean2 != null && stdDev != null ? mean2 - 2 * stdDev : null;
+      const upper2 = (_e = sigmaBands == null ? void 0 : sigmaBands.upperTwo) != null ? _e : mean3 != null && stdDev != null ? mean3 + 2 * stdDev : null;
+      const lower2 = (_f = sigmaBands == null ? void 0 : sigmaBands.lowerTwo) != null ? _f : mean3 != null && stdDev != null ? mean3 - 2 * stdDev : null;
       if (upper2 != null && lower2 != null) {
         const above2 = last3.filter((v) => v > upper2).length;
         const below2 = last3.filter((v) => v < lower2).length;
@@ -10697,19 +10697,19 @@ var SPCSpark = ({
     }
     let state = "common_cause" /* CommonCause */;
     if (rules.includes("point-beyond-3sigma")) {
-      state = latest > mean2 ? "special_cause_improving" /* SpecialCauseImproving */ : "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
+      state = latest > mean3 ? "special_cause_improving" /* SpecialCauseImproving */ : "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
     } else if (rules.includes("eight-point-run")) {
       const last = values[values.length - 1];
-      state = last > mean2 ? "special_cause_improving" /* SpecialCauseImproving */ : "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
+      state = last > mean3 ? "special_cause_improving" /* SpecialCauseImproving */ : "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
     } else if (rules.includes("five-point-trend") || rules.includes("two-of-three-near-limit")) {
       const last = values[values.length - 1];
-      state = last > mean2 ? "special_cause_improving" /* SpecialCauseImproving */ : "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
+      state = last > mean3 ? "special_cause_improving" /* SpecialCauseImproving */ : "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
     }
     if (autoClassify && !variationState && rules.length === 1 && rules[0] === "point-beyond-3sigma") {
       const prev = values.slice(-9, -1);
       if (prev.length >= 5) {
-        const above = prev.filter((v) => v > mean2).length;
-        const below = prev.filter((v) => v < mean2).length;
+        const above = prev.filter((v) => v > mean3).length;
+        const below = prev.filter((v) => v < mean3).length;
         if (above > 0 && below > 0) {
           state = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
         }
@@ -10718,15 +10718,15 @@ var SPCSpark = ({
     return {
       state,
       firedRules: rules,
-      mean: mean2,
+      mean: mean3,
       stdDev,
-      side: metrics.latestValue != null && mean2 != null ? metrics.latestValue > mean2 ? "above" : "below" : void 0
+      side: metrics.latestValue != null && mean3 != null ? metrics.latestValue > mean3 ? "above" : "below" : void 0
     };
   }, [
     variationState,
     autoClassify,
     stdDev,
-    mean2,
+    mean3,
     metrics.latestValue,
     values.join(",")
   ]);
@@ -11031,10 +11031,10 @@ var SPCSpark = ({
               const neutralSC = pointNeutralSpecialCause == null ? void 0 : pointNeutralSpecialCause[globalIndexBase + origIdx];
               if (neutralSC) {
                 fillColour = tokenColour("no-judgement", "#490092");
-              } else if (mean2 != null) {
+              } else if (mean3 != null) {
                 const v = p.value;
-                const upper3 = (_a3 = controlLimits == null ? void 0 : controlLimits.upper) != null ? _a3 : stdDev != null ? mean2 + 3 * stdDev : null;
-                const lower3 = (_b2 = controlLimits == null ? void 0 : controlLimits.lower) != null ? _b2 : stdDev != null ? mean2 - 3 * stdDev : null;
+                const upper3 = (_a3 = controlLimits == null ? void 0 : controlLimits.upper) != null ? _a3 : stdDev != null ? mean3 + 3 * stdDev : null;
+                const lower3 = (_b2 = controlLimits == null ? void 0 : controlLimits.lower) != null ? _b2 : stdDev != null ? mean3 - 3 * stdDev : null;
                 if (upper3 != null && v > upper3) {
                   fillColour = tokenColour("improvement", "#00B0F0");
                 } else if (lower3 != null && v < lower3) {
@@ -11228,25 +11228,25 @@ function computeAssuranceIcon(args) {
     metricImprovement,
     capabilityMode,
     value,
-    mean: mean2,
+    mean: mean3,
     upperProcessLimit,
     lowerProcessLimit,
     target
   } = args;
-  const isNumber2 = (v) => typeof v === "number" && Number.isFinite(v);
-  if (!isNumber2(value) || mean2 === null || !isNumber2(target)) return "none" /* None */;
-  if (capabilityMode && isNumber2(upperProcessLimit) && isNumber2(lowerProcessLimit)) {
+  const isNumber3 = (v) => typeof v === "number" && Number.isFinite(v);
+  if (!isNumber3(value) || mean3 === null || !isNumber3(target)) return "none" /* None */;
+  if (capabilityMode && isNumber3(upperProcessLimit) && isNumber3(lowerProcessLimit)) {
     if (metricImprovement === "Up" /* Up */) {
-      if (isNumber2(lowerProcessLimit) && lowerProcessLimit > target)
+      if (isNumber3(lowerProcessLimit) && lowerProcessLimit > target)
         return "pass" /* Pass */;
-      if (isNumber2(upperProcessLimit) && upperProcessLimit < target)
+      if (isNumber3(upperProcessLimit) && upperProcessLimit < target)
         return "fail" /* Fail */;
       return "none" /* None */;
     }
     if (metricImprovement === "Down" /* Down */) {
-      if (isNumber2(upperProcessLimit) && upperProcessLimit < target)
+      if (isNumber3(upperProcessLimit) && upperProcessLimit < target)
         return "pass" /* Pass */;
-      if (isNumber2(lowerProcessLimit) && lowerProcessLimit > target)
+      if (isNumber3(lowerProcessLimit) && lowerProcessLimit > target)
         return "fail" /* Fail */;
       return "none" /* None */;
     }
@@ -14868,6 +14868,937 @@ var SPCSignalsInspector = ({
 };
 var SPCSignalsInspector_default = SPCSignalsInspector;
 
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/constants.ts
+var RULE_RANK_BY_ID2 = {
+  ["SinglePoint" /* SinglePoint */]: 1,
+  ["TwoSigma" /* TwoSigma */]: 2,
+  ["Shift" /* Shift */]: 3,
+  ["Trend" /* Trend */]: 4
+};
+var MR_UCL_FACTOR = 3.267;
+var XMR_THREE_SIGMA_FACTOR = 2.66;
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils.ts
+function isNumber2(n) {
+  return typeof n === "number" && !Number.isNaN(n);
+}
+function mean2(nums) {
+  return nums.reduce((a, b) => a + b, 0) / (nums.length || 1);
+}
+function movingRanges2(values, ghosts) {
+  const mr = new Array(values.length).fill(null);
+  let lastIdx = null;
+  for (let i = 0; i < values.length; i++) {
+    const v = values[i];
+    if (ghosts[i] || !isNumber2(v)) continue;
+    if (lastIdx !== null) {
+      const prev = values[lastIdx];
+      if (isNumber2(prev)) mr[i] = Math.abs(v - prev);
+    }
+    lastIdx = i;
+  }
+  return mr;
+}
+function mrMeanWithOptionalExclusion2(mr, excludeOutliers) {
+  const vals = mr.filter(isNumber2);
+  if (!vals.length) return { mrMean: NaN, mrUcl: NaN };
+  let arr = vals.slice();
+  if (excludeOutliers) {
+    const meanMr = mean2(arr);
+    const ucl = MR_UCL_FACTOR * meanMr;
+    arr = arr.filter((v) => v <= ucl);
+  }
+  const mrMean = mean2(arr);
+  return { mrMean, mrUcl: MR_UCL_FACTOR * mrMean };
+}
+function xmrLimits2(center, mrMean) {
+  if (!isNumber2(center) || !isNumber2(mrMean)) {
+    return {
+      upperProcessLimit: null,
+      lowerProcessLimit: null,
+      upperTwoSigma: null,
+      lowerTwoSigma: null,
+      upperOneSigma: null,
+      lowerOneSigma: null
+    };
+  }
+  const threeSigma = XMR_THREE_SIGMA_FACTOR * mrMean;
+  const twoSigma = 2 / 3 * threeSigma;
+  const oneSigma = 1 / 3 * threeSigma;
+  return {
+    upperProcessLimit: center + threeSigma,
+    lowerProcessLimit: center - threeSigma,
+    upperTwoSigma: center + twoSigma,
+    lowerTwoSigma: center - twoSigma,
+    upperOneSigma: center + oneSigma,
+    lowerOneSigma: center - oneSigma
+  };
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/limits.ts
+function computePartitionLimits(chartType, values, ghosts, excludeMovingRangeOutliers) {
+  if (chartType !== "XmR" /* XmR */) {
+    return {
+      mean: NaN,
+      mr: new Array(values.length).fill(null),
+      mrMean: NaN,
+      mrUcl: NaN,
+      upperProcessLimit: null,
+      lowerProcessLimit: null,
+      upperTwoSigma: null,
+      lowerTwoSigma: null,
+      upperOneSigma: null,
+      lowerOneSigma: null
+    };
+  }
+  const mr = movingRanges2(values, ghosts);
+  const mrVals = mr.filter(isNumber2);
+  const rawMrMean = mrVals.length ? mean2(mrVals) : NaN;
+  const rawMrUcl = isNumber2(rawMrMean) ? 3.267 * rawMrMean : NaN;
+  let center = NaN;
+  {
+    const eligibleVals = [];
+    for (let i = 0; i < values.length; i++) {
+      const v = values[i];
+      if (ghosts[i] || !isNumber2(v)) continue;
+      if (!excludeMovingRangeOutliers) {
+        eligibleVals.push(v);
+        continue;
+      }
+      const mri = mr[i];
+      if (mri === null || !isNumber2(rawMrUcl) || isNumber2(mri) && mri <= rawMrUcl) {
+        eligibleVals.push(v);
+      }
+    }
+    center = eligibleVals.length ? mean2(eligibleVals) : NaN;
+  }
+  const tmp = mrMeanWithOptionalExclusion2(mr, excludeMovingRangeOutliers);
+  const lim = xmrLimits2(center, tmp.mrMean);
+  return {
+    mean: center,
+    mr,
+    mrMean: tmp.mrMean,
+    mrUcl: tmp.mrUcl,
+    ...lim
+  };
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/detector.ts
+function detectRulesInPartition(rows, cfg) {
+  var _a2, _b2, _c, _d;
+  const idxs = rows.map((_, i) => i).filter((i) => !rows[i].ghost && isNumber2(rows[i].value));
+  const get = (i) => rows[i];
+  const shiftN = cfg.shiftPoints;
+  const trendN = cfg.trendPoints;
+  let runHigh = [];
+  let runLow = [];
+  for (const i of idxs) {
+    const r2 = get(i);
+    if (!isNumber2(r2.mean) || !isNumber2(r2.value)) {
+      runHigh = [];
+      runLow = [];
+      continue;
+    }
+    if (r2.value > r2.mean) {
+      runHigh.push(i);
+      runLow = [];
+    } else if (r2.value < r2.mean) {
+      runLow.push(i);
+      runHigh = [];
+    } else {
+      runHigh = [];
+      runLow = [];
+    }
+    if (runHigh.length >= shiftN)
+      for (const j of runHigh) get(j).shiftUp = true;
+    if (runLow.length >= shiftN)
+      for (const j of runLow) get(j).shiftDown = true;
+  }
+  for (let w = 0; w <= idxs.length - 3; w++) {
+    const win = idxs.slice(w, w + 3);
+    const trip = win.map(get);
+    if (!trip.every((r2) => isNumber2(r2.value) && isNumber2(r2.mean))) continue;
+    const mean3 = trip[0].mean;
+    const allHigh = trip.every((r2) => r2.value > mean3);
+    const allLow = trip.every((r2) => r2.value < mean3);
+    if (!allHigh && !allLow) continue;
+    const u2 = (_a2 = trip[0].upperTwoSigma) != null ? _a2 : Infinity;
+    const l2 = (_b2 = trip[0].lowerTwoSigma) != null ? _b2 : -Infinity;
+    const u3 = (_c = trip[0].upperProcessLimit) != null ? _c : Infinity;
+    const l3 = (_d = trip[0].lowerProcessLimit) != null ? _d : -Infinity;
+    const highs = trip.filter((r2) => cfg.twoSigmaIncludeAboveThree ? r2.value > u2 : r2.value > u2 && r2.value <= u3);
+    const lows = trip.filter((r2) => cfg.twoSigmaIncludeAboveThree ? r2.value < l2 : r2.value < l2 && r2.value >= l3);
+    if (allHigh && highs.length >= 2)
+      highs.forEach((r2) => r2.twoSigmaUp = true);
+    if (allLow && lows.length >= 2)
+      lows.forEach((r2) => r2.twoSigmaDown = true);
+  }
+  for (let w = 0; w <= idxs.length - trendN; w++) {
+    const win = idxs.slice(w, w + trendN);
+    const seq = win.map(get);
+    if (!seq.every((r2) => isNumber2(r2.value))) continue;
+    let inc = true;
+    let dec = true;
+    for (let k = 1; k < seq.length; k++) {
+      if (!(seq[k].value > seq[k - 1].value)) inc = false;
+      if (!(seq[k].value < seq[k - 1].value)) dec = false;
+      if (!inc && !dec) break;
+    }
+    if (inc) win.forEach((i) => get(i).trendUp = true);
+    if (dec) win.forEach((i) => get(i).trendDown = true);
+  }
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/conflict.ts
+function getDirectionalSummary(row) {
+  const up = [];
+  const dn = [];
+  if (row.singlePointUp)
+    up.push({
+      id: "SinglePoint" /* SinglePoint */,
+      rank: RULE_RANK_BY_ID2["SinglePoint" /* SinglePoint */]
+    });
+  if (row.singlePointDown)
+    dn.push({
+      id: "SinglePoint" /* SinglePoint */,
+      rank: RULE_RANK_BY_ID2["SinglePoint" /* SinglePoint */]
+    });
+  if (row.twoSigmaUp)
+    up.push({
+      id: "TwoSigma" /* TwoSigma */,
+      rank: RULE_RANK_BY_ID2["TwoSigma" /* TwoSigma */]
+    });
+  if (row.twoSigmaDown)
+    dn.push({
+      id: "TwoSigma" /* TwoSigma */,
+      rank: RULE_RANK_BY_ID2["TwoSigma" /* TwoSigma */]
+    });
+  if (row.shiftUp)
+    up.push({ id: "Shift" /* Shift */, rank: RULE_RANK_BY_ID2["Shift" /* Shift */] });
+  if (row.shiftDown)
+    dn.push({ id: "Shift" /* Shift */, rank: RULE_RANK_BY_ID2["Shift" /* Shift */] });
+  if (row.trendUp)
+    up.push({ id: "Trend" /* Trend */, rank: RULE_RANK_BY_ID2["Trend" /* Trend */] });
+  if (row.trendDown)
+    dn.push({ id: "Trend" /* Trend */, rank: RULE_RANK_BY_ID2["Trend" /* Trend */] });
+  const upMax = up.reduce((m, r2) => Math.max(m, r2.rank), 0);
+  const dnMax = dn.reduce((m, r2) => Math.max(m, r2.rank), 0);
+  const primeDirection = upMax > dnMax ? "Upwards" /* Upwards */ : dnMax > upMax ? "Downwards" /* Downwards */ : "Same" /* Same */;
+  return { up, dn, upMax, dnMax, primeDirection };
+}
+function deriveOriginalCandidates(row, metric) {
+  const aligned = metric === "Up" /* Up */ ? row.singlePointUp || row.twoSigmaUp || row.shiftUp || row.trendUp : metric === "Down" /* Down */ ? row.singlePointDown || row.twoSigmaDown || row.shiftDown || row.trendDown : false;
+  const opposite = metric === "Up" /* Up */ ? row.singlePointDown || row.twoSigmaDown || row.shiftDown || row.trendDown : metric === "Down" /* Down */ ? row.singlePointUp || row.twoSigmaUp || row.shiftUp || row.trendUp : false;
+  return { aligned, opposite };
+}
+function applySqlPruning(row, metric, metricConflictRule, preferImprovementWhenConflict = false, conflictStrategy, ruleHierarchy, preferTrendWhenConflict = false) {
+  const { up, dn, upMax, dnMax, primeDirection } = getDirectionalSummary(row);
+  row.primeDirection = primeDirection;
+  const originalImprovement = row.specialCauseImprovementValue;
+  const originalConcern = row.specialCauseConcernValue;
+  if (row.specialCauseImprovementValue !== null && row.specialCauseConcernValue !== null) {
+    resolveConflict({ row, metric, metricConflictRule, preferImprovementWhenConflict, preferTrendWhenConflict, primeDirection, conflictStrategy, ruleHierarchy });
+  }
+  if (metric === "Up" /* Up */) {
+    row.variationIcon = row.specialCauseImprovementValue !== null ? "ImprovementHigh" /* ImprovementHigh */ : row.specialCauseConcernValue !== null ? "ConcernLow" /* ConcernLow */ : "CommonCause" /* CommonCause */;
+  } else if (metric === "Down" /* Down */) {
+    row.variationIcon = row.specialCauseImprovementValue !== null ? "ImprovementLow" /* ImprovementLow */ : row.specialCauseConcernValue !== null ? "ConcernHigh" /* ConcernHigh */ : "CommonCause" /* CommonCause */;
+  } else {
+    row.variationIcon = "CommonCause" /* CommonCause */;
+  }
+  const winningSide = row.specialCauseImprovementValue !== null ? "Up" /* Up */ : row.specialCauseConcernValue !== null ? "Down" /* Down */ : void 0;
+  const winningRank = winningSide === "Up" /* Up */ ? upMax : winningSide === "Down" /* Down */ ? dnMax : Math.max(upMax, dnMax);
+  row.primeRank = winningRank || void 0;
+  const winner = winningSide === "Up" /* Up */ ? up.find((r2) => r2.rank === winningRank) : winningSide === "Down" /* Down */ ? dn.find((r2) => r2.rank === winningRank) : void 0;
+  row.primeRuleId = winner == null ? void 0 : winner.id;
+  return { originalImprovement, originalConcern };
+}
+function resolveConflict(args) {
+  var _a2;
+  const {
+    row,
+    metric,
+    metricConflictRule,
+    preferImprovementWhenConflict,
+    preferTrendWhenConflict,
+    primeDirection = (_a2 = row.primeDirection) != null ? _a2 : "Same" /* Same */,
+    conflictStrategy,
+    ruleHierarchy
+  } = args;
+  if (preferTrendWhenConflict && row.specialCauseImprovementValue !== null && row.specialCauseConcernValue !== null) {
+    const upTrend = !!row.trendUp;
+    const downTrend = !!row.trendDown;
+    if (metric === "Up" /* Up */) {
+      if (upTrend && !downTrend) {
+        row.specialCauseConcernValue = null;
+        return;
+      }
+      if (!upTrend && downTrend) {
+        row.specialCauseImprovementValue = null;
+        return;
+      }
+    } else if (metric === "Down" /* Down */) {
+      if (downTrend && !upTrend) {
+        row.specialCauseConcernValue = null;
+        return;
+      }
+      if (!downTrend && upTrend) {
+        row.specialCauseImprovementValue = null;
+        return;
+      }
+    }
+  }
+  const strategy = preferImprovementWhenConflict ? "PreferImprovement" /* PreferImprovement */ : conflictStrategy != null ? conflictStrategy : "SqlPrimeThenRule" /* SqlPrimeThenRule */;
+  if (strategy === "PreferImprovement" /* PreferImprovement */) {
+    if (metric === "Up" /* Up */) row.specialCauseConcernValue = null;
+    else if (metric === "Down" /* Down */) row.specialCauseImprovementValue = null;
+    return;
+  }
+  if (strategy === "RuleHierarchy" /* RuleHierarchy */) {
+    const order = ruleHierarchy != null ? ruleHierarchy : ["Trend" /* Trend */, "Shift" /* Shift */, "TwoSigma" /* TwoSigma */, "SinglePoint" /* SinglePoint */];
+    const { up, dn } = getDirectionalSummary(row);
+    for (const rid of order) {
+      const upHas = up.some((r2) => r2.id === rid);
+      const dnHas = dn.some((r2) => r2.id === rid);
+      if (upHas && !dnHas) {
+        if (metric === "Up" /* Up */) row.specialCauseConcernValue = null;
+        else row.specialCauseImprovementValue = null;
+        return;
+      }
+      if (dnHas && !upHas) {
+        if (metric === "Up" /* Up */) row.specialCauseImprovementValue = null;
+        else row.specialCauseConcernValue = null;
+        return;
+      }
+      if (upHas && dnHas) {
+        if (metric === "Up" /* Up */) {
+          if (metricConflictRule === "Improvement" /* Improvement */) row.specialCauseConcernValue = null;
+          else row.specialCauseImprovementValue = null;
+        } else if (metric === "Down" /* Down */) {
+          if (metricConflictRule === "Improvement" /* Improvement */) row.specialCauseConcernValue = null;
+          else row.specialCauseImprovementValue = null;
+        }
+        return;
+      }
+    }
+  }
+  if (primeDirection === "Upwards" /* Upwards */) {
+    if (metric === "Up" /* Up */) row.specialCauseConcernValue = null;
+    else if (metric === "Down" /* Down */) row.specialCauseImprovementValue = null;
+  } else if (primeDirection === "Downwards" /* Downwards */) {
+    if (metric === "Up" /* Up */) row.specialCauseImprovementValue = null;
+    else if (metric === "Down" /* Down */) row.specialCauseConcernValue = null;
+  } else {
+    if (metricConflictRule === "Improvement" /* Improvement */) row.specialCauseConcernValue = null;
+    else row.specialCauseImprovementValue = null;
+  }
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/trendSegments.ts
+function signOf(x2) {
+  if (x2 > 0) return 1;
+  if (x2 < 0) return -1;
+  return 0;
+}
+function sideFor(delta) {
+  const s = signOf(delta);
+  if (s > 0) return "Above";
+  if (s < 0) return "Below";
+  return void 0;
+}
+function computeTrendSegments(rows) {
+  var _a2;
+  const runs = [];
+  let i = 0;
+  while (i < rows.length) {
+    const r2 = rows[i];
+    if (!r2 || r2.value == null || r2.ghost || !r2.trendUp && !r2.trendDown) {
+      i++;
+      continue;
+    }
+    const dir = r2.trendUp ? "Up" : r2.trendDown ? "Down" : void 0;
+    let start = i;
+    let j = i;
+    for (; j < rows.length; j++) {
+      const rr = rows[j];
+      if (!rr || rr.value == null || rr.ghost) break;
+      const sameDir = dir === "Up" ? rr.trendUp : rr.trendDown;
+      if (!sameDir) break;
+    }
+    const end = j - 1;
+    const segments = [];
+    let segStart = void 0;
+    let segSide = void 0;
+    let minV = Infinity, maxV = -Infinity, maxAbsDelta = 0;
+    for (let k = start; k <= end; k++) {
+      const row = rows[k];
+      if (row.value == null) continue;
+      const delta = row.value - ((_a2 = row.mean) != null ? _a2 : 0);
+      const side = sideFor(delta);
+      if (!side) {
+        if (segStart !== void 0) {
+          segments.push({
+            trendDirection: dir,
+            start: segStart,
+            end: k - 1,
+            side: segSide,
+            minValue: minV,
+            maxValue: maxV,
+            maxAbsDeltaFromMean: maxAbsDelta
+          });
+          segStart = void 0;
+          segSide = void 0;
+          minV = Infinity;
+          maxV = -Infinity;
+          maxAbsDelta = 0;
+        }
+        continue;
+      }
+      if (segStart === void 0) {
+        segStart = k;
+        segSide = side;
+        minV = row.value;
+        maxV = row.value;
+        maxAbsDelta = Math.abs(delta);
+      } else if (side !== segSide) {
+        segments.push({
+          trendDirection: dir,
+          start: segStart,
+          end: k - 1,
+          side: segSide,
+          minValue: minV,
+          maxValue: maxV,
+          maxAbsDeltaFromMean: maxAbsDelta
+        });
+        segStart = k;
+        segSide = side;
+        minV = row.value;
+        maxV = row.value;
+        maxAbsDelta = Math.abs(delta);
+      } else {
+        if (row.value < minV) minV = row.value;
+        if (row.value > maxV) maxV = row.value;
+        const mad = Math.abs(delta);
+        if (mad > maxAbsDelta) maxAbsDelta = mad;
+      }
+    }
+    if (segStart !== void 0) {
+      segments.push({
+        trendDirection: dir,
+        start: segStart,
+        end,
+        side: segSide,
+        minValue: minV,
+        maxValue: maxV,
+        maxAbsDeltaFromMean: maxAbsDelta
+      });
+    }
+    runs.push({ trendDirection: dir, start, end, segments });
+    i = end + 1;
+  }
+  return runs;
+}
+function favourableSide(impr) {
+  if (impr === "Up" /* Up */) return "Above";
+  if (impr === "Down" /* Down */) return "Below";
+  return void 0;
+}
+function oppositeSide(side) {
+  if (!side) return void 0;
+  return side === "Above" ? "Below" : "Above";
+}
+function chooseSegmentsForHighlight(runs, opts) {
+  var _a2;
+  const strategy = (_a2 = opts.strategy) != null ? _a2 : "CrossingAfterFavourable" /* CrossingAfterFavourable */;
+  const fav = favourableSide(opts.metricImprovement);
+  const unfav = oppositeSide(fav);
+  const highlight = [];
+  for (const run of runs) {
+    if (!fav) {
+      if (strategy === "ExtremeFavourable" /* ExtremeFavourable */ || strategy === "CrossingAfterFavourable" /* CrossingAfterFavourable */) {
+        const all = run.segments;
+        if (all.length === 0) continue;
+        let best = all[0];
+        for (const s of all)
+          if (s.maxAbsDeltaFromMean > best.maxAbsDeltaFromMean) best = s;
+        highlight.push(best);
+      } else {
+      }
+      continue;
+    }
+    if (strategy === "FavourableSide" /* FavourableSide */) {
+      highlight.push(...run.segments.filter((s) => s.side === fav));
+      continue;
+    }
+    if (strategy === "UnfavourableSide" /* UnfavourableSide */) {
+      highlight.push(...run.segments.filter((s) => s.side === unfav));
+      continue;
+    }
+    if (strategy === "CrossingAfterFavourable" /* CrossingAfterFavourable */) {
+      const segs = run.segments;
+      let chosen = void 0;
+      for (let idx = 0; idx < segs.length; idx++) {
+        const s = segs[idx];
+        if (s.side === fav) {
+          if (idx > 0 && segs[idx - 1].side !== fav) {
+            chosen = s;
+            break;
+          }
+        }
+      }
+      if (!chosen) {
+        const favSegs = segs.filter((s) => s.side === fav);
+        if (favSegs.length > 0) {
+          chosen = favSegs.reduce(
+            (a, b) => b.end - b.start > a.end - a.start ? b : a,
+            favSegs[0]
+          );
+        }
+      }
+      if (chosen) highlight.push(chosen);
+      continue;
+    }
+    if (strategy === "CrossingAfterUnfavourable" /* CrossingAfterUnfavourable */) {
+      const segs = run.segments;
+      let chosen = void 0;
+      for (let idx = 0; idx < segs.length; idx++) {
+        const s = segs[idx];
+        if (s.side === unfav) {
+          if (idx > 0 && segs[idx - 1].side !== unfav) {
+            chosen = s;
+            break;
+          }
+        }
+      }
+      if (!chosen) {
+        const unSegs = segs.filter((s) => s.side === unfav);
+        if (unSegs.length > 0) {
+          chosen = unSegs.reduce(
+            (a, b) => b.end - b.start > a.end - a.start ? b : a,
+            unSegs[0]
+          );
+        }
+      }
+      if (chosen) highlight.push(chosen);
+      continue;
+    }
+    if (strategy === "ExtremeFavourable" /* ExtremeFavourable */) {
+      const favSegs = run.segments.filter((s) => s.side === fav);
+      if (favSegs.length === 0) continue;
+      const chosen = favSegs.reduce(
+        (a, b) => b.maxAbsDeltaFromMean > a.maxAbsDeltaFromMean ? b : a
+      );
+      highlight.push(chosen);
+      continue;
+    }
+    if (strategy === "ExtremeUnfavourable" /* ExtremeUnfavourable */) {
+      const unSegs = run.segments.filter((s) => s.side === unfav);
+      if (unSegs.length === 0) continue;
+      const chosen = unSegs.reduce((a, b) => b.maxAbsDeltaFromMean > a.maxAbsDeltaFromMean ? b : a);
+      highlight.push(chosen);
+      continue;
+    }
+    if (strategy === "FirstFavourable" /* FirstFavourable */) {
+      const seg = run.segments.find((s) => s.side === fav);
+      if (seg) highlight.push(seg);
+      continue;
+    }
+    if (strategy === "FirstUnfavourable" /* FirstUnfavourable */) {
+      const seg = run.segments.find((s) => s.side === unfav);
+      if (seg) highlight.push(seg);
+      continue;
+    }
+    if (strategy === "LongestFavourable" /* LongestFavourable */) {
+      const favSegs = run.segments.filter((s) => s.side === fav);
+      if (favSegs.length === 0) continue;
+      const chosen = favSegs.reduce(
+        (a, b) => b.end - b.start > a.end - a.start ? b : a
+      );
+      highlight.push(chosen);
+      continue;
+    }
+    if (strategy === "LongestUnfavourable" /* LongestUnfavourable */) {
+      const unSegs = run.segments.filter((s) => s.side === unfav);
+      if (unSegs.length === 0) continue;
+      const chosen = unSegs.reduce((a, b) => b.end - b.start > a.end - a.start ? b : a);
+      highlight.push(chosen);
+      continue;
+    }
+    if (strategy === "LastFavourable" /* LastFavourable */) {
+      const favSegs = run.segments.filter((s) => s.side === fav);
+      if (favSegs.length === 0) continue;
+      highlight.push(favSegs[favSegs.length - 1]);
+      continue;
+    }
+    if (strategy === "LastUnfavourable" /* LastUnfavourable */) {
+      const unSegs = run.segments.filter((s) => s.side === unfav);
+      if (unSegs.length === 0) continue;
+      highlight.push(unSegs[unSegs.length - 1]);
+      continue;
+    }
+  }
+  return highlight;
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/visualCategories.ts
+function sideFlags(row) {
+  const upAny = !!(row.singlePointUp || row.twoSigmaUp || row.shiftUp || row.trendUp);
+  const downAny = !!(row.singlePointDown || row.twoSigmaDown || row.shiftDown || row.trendDown);
+  return { upAny, downAny };
+}
+function computeSpcVisualCategories(rows, opts) {
+  var _a2, _b2;
+  const metricImprovement = opts.metricImprovement;
+  const trendVisualMode = (_a2 = opts.trendVisualMode) != null ? _a2 : "Ungated";
+  const enableNeutral = (_b2 = opts.enableNeutralNoJudgement) != null ? _b2 : true;
+  return rows.map((row) => {
+    if (!row || row.value == null || row.ghost) return "Common" /* Common */;
+    const { upAny, downAny } = sideFlags(row);
+    if (upAny && downAny) return "Improvement" /* Improvement */;
+    switch (row.variationIcon) {
+      case "ImprovementHigh" /* ImprovementHigh */:
+      case "ImprovementLow" /* ImprovementLow */:
+        return "Improvement" /* Improvement */;
+      case "ConcernHigh" /* ConcernHigh */:
+      case "ConcernLow" /* ConcernLow */:
+        return "Concern" /* Concern */;
+      case "NeitherHigh" /* NeitherHigh */:
+      case "NeitherLow" /* NeitherLow */: {
+        if (trendVisualMode === "Ungated" && metricImprovement !== "Neither" /* Neither */) {
+          if (upAny && !downAny) {
+            return metricImprovement === "Up" /* Up */ ? "Improvement" /* Improvement */ : "Concern" /* Concern */;
+          }
+          if (downAny && !upAny) {
+            return metricImprovement === "Down" /* Down */ ? "Improvement" /* Improvement */ : "Concern" /* Concern */;
+          }
+        }
+        return enableNeutral ? "NoJudgement" /* NoJudgement */ : "Common" /* Common */;
+      }
+      default:
+        return "Common" /* Common */;
+    }
+  });
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/boundaryWindows.ts
+function computeBoundaryWindowCategories(rows, metricImprovement, options) {
+  var _a2, _b2, _c, _d, _e, _f;
+  const mode = (_a2 = options == null ? void 0 : options.mode) != null ? _a2 : "Disabled";
+  if (!rows.length) return [];
+  let out = computeSpcVisualCategories(rows, {
+    metricImprovement,
+    trendVisualMode: "Ungated",
+    enableNeutralNoJudgement: true
+  });
+  if (mode !== "RecalcCrossing") return out;
+  if (metricImprovement === "Neither" /* Neither */) return out;
+  const preWin = Math.max(0, (_b2 = options == null ? void 0 : options.preWindow) != null ? _b2 : 2);
+  const postWin = Math.max(0, (_c = options == null ? void 0 : options.postWindow) != null ? _c : 3);
+  const prePolarity = (_d = options == null ? void 0 : options.prePolarity) != null ? _d : "Opposite";
+  const setIfUpgrade = (idx, cat) => {
+    if (idx < 0 || idx >= out.length) return;
+    const cur = out[idx];
+    if (cur === "Common" /* Common */ || cur === "NoJudgement" /* NoJudgement */) {
+      out[idx] = cat;
+    }
+  };
+  const partitionFallbackMean = (pid) => {
+    if (pid == null) return null;
+    const values = [];
+    for (const r2 of rows) {
+      if (r2.partitionId !== pid) continue;
+      if (typeof r2.value === "number" && !r2.ghost) values.push(r2.value);
+    }
+    if (!values.length) return null;
+    const sum2 = values.reduce((a, b) => a + b, 0);
+    return sum2 / values.length;
+  };
+  for (let i = 1; i < rows.length; i++) {
+    const prev = rows[i - 1];
+    const cur = rows[i];
+    if (!prev || !cur) continue;
+    if (cur.partitionId === prev.partitionId) continue;
+    const boundary = i;
+    let oldMean = null;
+    for (let j = i - 1; j >= 0; j--) {
+      const r2 = rows[j];
+      if (r2.partitionId !== prev.partitionId) break;
+      if (typeof r2.mean === "number") {
+        oldMean = r2.mean;
+        break;
+      }
+    }
+    let newMean = null;
+    for (let k = i; k < rows.length; k++) {
+      const r2 = rows[k];
+      if (r2.partitionId !== cur.partitionId) break;
+      if (typeof r2.mean === "number") {
+        newMean = r2.mean;
+        break;
+      }
+    }
+    if (oldMean == null)
+      oldMean = partitionFallbackMean((_e = prev.partitionId) != null ? _e : null);
+    if (newMean == null)
+      newMean = partitionFallbackMean((_f = cur.partitionId) != null ? _f : null);
+    if (oldMean == null || newMean == null) continue;
+    const delta = newMean - oldMean;
+    const favourable = metricImprovement === "Up" /* Up */ ? delta > 0 : delta < 0;
+    const postCat = favourable ? "Improvement" /* Improvement */ : "Concern" /* Concern */;
+    const preCat = prePolarity === "Same" ? postCat : favourable ? "Concern" /* Concern */ : "Improvement" /* Improvement */;
+    for (let p = 1; p <= preWin; p++) setIfUpgrade(boundary - p, preCat);
+    for (let p = 0; p < postWin; p++) setIfUpgrade(boundary + p, postCat);
+  }
+  return out;
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/engine.ts
+function buildSpcV26a(args) {
+  var _a2, _b2, _c, _d;
+  const { chartType, metricImprovement, data, settings } = args;
+  const s = {
+    minimumPoints: 13,
+    shiftPoints: 6,
+    trendPoints: 6,
+    excludeMovingRangeOutliers: false,
+    metricConflictRule: "Improvement" /* Improvement */,
+    trendAcrossPartitions: false,
+    twoSigmaIncludeAboveThree: false,
+    preferImprovementWhenConflict: false,
+    conflictStrategy: "SqlPrimeThenRule" /* SqlPrimeThenRule */,
+    ruleHierarchy: void 0,
+    chartLevelEligibility: false,
+    trendFavourableSegmentation: false,
+    trendSegmentationMode: "Off" /* Off */,
+    trendSegmentationStrategy: "CrossingAfterUnfavourable" /* CrossingAfterUnfavourable */,
+    trendDominatesHighlightedWindow: false,
+    ...settings
+  };
+  const resolvedMode = (_d = (_a2 = args.settings) == null ? void 0 : _a2.trendSegmentationMode) != null ? _d : ((_b2 = args.settings) == null ? void 0 : _b2.trendFavourableSegmentation) === true ? "Always" /* Always */ : ((_c = args.settings) == null ? void 0 : _c.trendFavourableSegmentation) === false ? "Off" /* Off */ : s.trendSegmentationMode;
+  const canon = data.map((d, i) => ({
+    rowId: i + 1,
+    x: d.x,
+    value: isNumber2(d.value) ? d.value : null,
+    ghost: !!d.ghost,
+    baseline: !!d.baseline,
+    target: isNumber2(d.target) ? d.target : null
+  }));
+  const partitions = [];
+  let cur = [];
+  for (const r2 of canon) {
+    if (r2.baseline && cur.length) {
+      partitions.push(cur);
+      cur = [];
+    }
+    cur.push(r2);
+  }
+  if (cur.length) partitions.push(cur);
+  const out = [];
+  const segmentationEnabled = (s.trendFavourableSegmentation || resolvedMode !== "Off" /* Off */) && !s.preferImprovementWhenConflict;
+  const totalEligiblePoints = canon.filter((r2) => !r2.ghost && isNumber2(r2.value)).length;
+  const chartEligible = !!s.chartLevelEligibility && totalEligiblePoints >= s.minimumPoints;
+  let partitionId = 0;
+  for (const part of partitions) {
+    partitionId++;
+    const values = part.map((p) => p.value);
+    const ghosts = part.map((p) => p.ghost);
+    const lim = computePartitionLimits(
+      chartType,
+      values,
+      ghosts,
+      !!s.excludeMovingRangeOutliers
+    );
+    const withLines = part.map((r2, i) => {
+      const pointRank = !r2.ghost && isNumber2(r2.value) ? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber2(v)).length : 0;
+      const eligibleHere = chartEligible ? true : pointRank >= s.minimumPoints;
+      return {
+        rowId: r2.rowId,
+        x: r2.x,
+        value: isNumber2(r2.value) ? r2.value : null,
+        ghost: r2.ghost,
+        partitionId,
+        pointRank,
+        mean: (eligibleHere || chartEligible) && isNumber2(lim.mean) ? lim.mean : null,
+        upperProcessLimit: eligibleHere || chartEligible ? lim.upperProcessLimit : null,
+        lowerProcessLimit: eligibleHere || chartEligible ? lim.lowerProcessLimit : null,
+        upperTwoSigma: eligibleHere || chartEligible ? lim.upperTwoSigma : null,
+        lowerTwoSigma: eligibleHere || chartEligible ? lim.lowerTwoSigma : null,
+        upperOneSigma: eligibleHere || chartEligible ? lim.upperOneSigma : null,
+        lowerOneSigma: eligibleHere || chartEligible ? lim.lowerOneSigma : null,
+        // rules
+        singlePointUp: false,
+        singlePointDown: false,
+        twoSigmaUp: false,
+        twoSigmaDown: false,
+        shiftUp: false,
+        shiftDown: false,
+        trendUp: false,
+        trendDown: false,
+        // candidates
+        specialCauseImprovementValue: null,
+        specialCauseConcernValue: null,
+        variationIcon: "CommonCause" /* CommonCause */
+      };
+    });
+    for (const row of withLines) {
+      if (row.ghost || !isNumber2(row.value) || row.mean === null)
+        continue;
+      if (isNumber2(row.upperProcessLimit) && row.value > row.upperProcessLimit)
+        row.singlePointUp = true;
+      if (isNumber2(row.lowerProcessLimit) && row.value < row.lowerProcessLimit)
+        row.singlePointDown = true;
+    }
+    detectRulesInPartition(withLines, {
+      shiftPoints: s.shiftPoints,
+      trendPoints: s.trendPoints,
+      twoSigmaIncludeAboveThree: !!s.twoSigmaIncludeAboveThree
+    });
+    const maybeApplySegmentation = (rows) => {
+      const hasConflict = rows.some(
+        (r2) => (r2.singlePointUp || r2.twoSigmaUp || r2.shiftUp || r2.trendUp) && (r2.singlePointDown || r2.twoSigmaDown || r2.shiftDown || r2.trendDown)
+      );
+      if (resolvedMode === "Off" /* Off */ || resolvedMode === "AutoWhenConflict" /* AutoWhenConflict */ && !hasConflict) {
+        return;
+      }
+      const runs = computeTrendSegments(rows);
+      const highlights = chooseSegmentsForHighlight(runs, {
+        metricImprovement,
+        strategy: s.trendSegmentationStrategy
+      });
+      const allowUp = /* @__PURE__ */ new Set();
+      const allowDown = /* @__PURE__ */ new Set();
+      for (const seg of highlights) {
+        for (let k = seg.start; k <= seg.end; k++) {
+          if (seg.trendDirection === "Up") allowUp.add(k);
+          else allowDown.add(k);
+        }
+      }
+      rows.forEach((row, idx) => {
+        row.trendUp = allowUp.has(idx) ? row.trendUp : false;
+        row.trendDown = allowDown.has(idx) ? row.trendDown : false;
+        if (s.trendDominatesHighlightedWindow) {
+          if (allowUp.has(idx)) {
+            row.singlePointDown = false;
+            row.twoSigmaDown = false;
+            row.shiftDown = false;
+          } else if (allowDown.has(idx)) {
+            row.singlePointUp = false;
+            row.twoSigmaUp = false;
+            row.shiftUp = false;
+          }
+        }
+      });
+    };
+    if (segmentationEnabled) {
+      maybeApplySegmentation(withLines);
+    }
+    for (const row of withLines) {
+      if (row.ghost || !isNumber2(row.value) || row.mean === null) {
+        out.push(row);
+        continue;
+      }
+      const { aligned, opposite } = deriveOriginalCandidates(
+        row,
+        metricImprovement
+      );
+      row.specialCauseImprovementValue = aligned ? row.value : null;
+      row.specialCauseConcernValue = opposite ? row.value : null;
+      if (metricImprovement === "Neither" /* Neither */) {
+        const highSide = row.singlePointUp || row.twoSigmaUp || row.shiftUp || row.trendUp;
+        const lowSide = row.singlePointDown || row.twoSigmaDown || row.shiftDown || row.trendDown;
+        row.variationIcon = highSide ? "NeitherHigh" /* NeitherHigh */ : lowSide ? "NeitherLow" /* NeitherLow */ : "CommonCause" /* CommonCause */;
+      } else {
+        applySqlPruning(row, metricImprovement, s.metricConflictRule, s.preferImprovementWhenConflict === true, s.conflictStrategy, s.ruleHierarchy, s.preferTrendWhenConflict === true);
+      }
+      out.push(row);
+    }
+  }
+  if (s.trendAcrossPartitions) {
+    const all = out.map((r2, i) => ({ idx: i, r: r2 })).filter(({ r: r2 }) => !r2.ghost && isNumber2(r2.value));
+    if (all.length >= s.trendPoints) {
+      for (let w = 0; w <= all.length - s.trendPoints; w++) {
+        const win = all.slice(w, w + s.trendPoints).map((p) => p.idx);
+        const seq = win.map((i) => out[i]);
+        if (!seq.every((row) => isNumber2(row.value))) continue;
+        let inc = true;
+        let dec = true;
+        for (let k = 1; k < seq.length; k++) {
+          if (!(seq[k].value > seq[k - 1].value)) inc = false;
+          if (!(seq[k].value < seq[k - 1].value)) dec = false;
+          if (!inc && !dec) break;
+        }
+        if (inc) win.forEach((i) => out[i].trendUp = true);
+        if (dec) win.forEach((i) => out[i].trendDown = true);
+      }
+    }
+  }
+  if (s.trendAcrossPartitions) {
+    if (segmentationEnabled) {
+      const hasConflict = out.some(
+        (r2) => (r2.singlePointUp || r2.twoSigmaUp || r2.shiftUp || r2.trendUp) && (r2.singlePointDown || r2.twoSigmaDown || r2.shiftDown || r2.trendDown)
+      );
+      if (resolvedMode === "Always" /* Always */ || resolvedMode === "AutoWhenConflict" /* AutoWhenConflict */ && hasConflict) {
+        const runs = computeTrendSegments(out);
+        const highlights = chooseSegmentsForHighlight(runs, { metricImprovement, strategy: s.trendSegmentationStrategy });
+        const allowUp = /* @__PURE__ */ new Set();
+        const allowDown = /* @__PURE__ */ new Set();
+        for (const seg of highlights) {
+          for (let k = seg.start; k <= seg.end; k++) {
+            if (seg.trendDirection === "Up") allowUp.add(k);
+            else allowDown.add(k);
+          }
+        }
+        out.forEach((row, idx) => {
+          row.trendUp = allowUp.has(idx) ? row.trendUp : false;
+          row.trendDown = allowDown.has(idx) ? row.trendDown : false;
+          if (s.trendDominatesHighlightedWindow) {
+            if (allowUp.has(idx)) {
+              row.singlePointDown = false;
+              row.twoSigmaDown = false;
+              row.shiftDown = false;
+            } else if (allowDown.has(idx)) {
+              row.singlePointUp = false;
+              row.twoSigmaUp = false;
+              row.shiftUp = false;
+            }
+          }
+        });
+      }
+    }
+    for (const row of out) {
+      if (row.ghost || !isNumber2(row.value) || row.mean === null) continue;
+      if (metricImprovement === "Neither" /* Neither */) continue;
+      const { aligned, opposite } = deriveOriginalCandidates(row, metricImprovement);
+      row.specialCauseImprovementValue = aligned ? row.value : null;
+      row.specialCauseConcernValue = opposite ? row.value : null;
+      applySqlPruning(row, metricImprovement, s.metricConflictRule, s.preferImprovementWhenConflict === true, s.conflictStrategy, s.ruleHierarchy, s.preferTrendWhenConflict === true);
+    }
+  }
+  return { rows: out };
+}
+function buildSpcV26aWithVisuals(args, visuals) {
+  var _a2, _b2, _c;
+  const res = buildSpcV26a(args);
+  const base = computeSpcVisualCategories(res.rows, {
+    metricImprovement: args.metricImprovement,
+    trendVisualMode: (_a2 = visuals == null ? void 0 : visuals.trendVisualMode) != null ? _a2 : "Ungated",
+    enableNeutralNoJudgement: (_b2 = visuals == null ? void 0 : visuals.enableNeutralNoJudgement) != null ? _b2 : true
+  });
+  const bw = visuals == null ? void 0 : visuals.boundaryWindows;
+  if (!bw || bw.mode !== "RecalcCrossing") return { rows: res.rows, visuals: base };
+  const dir = (_c = bw.directionOverride) != null ? _c : args.metricImprovement;
+  const win = computeBoundaryWindowCategories(res.rows, dir, bw);
+  const overlay = base.map((cat, i) => {
+    const w = win[i];
+    if (cat === "Common" /* Common */ || cat === "NoJudgement" /* NoJudgement */) {
+      if (w === "Improvement") return "Improvement" /* Improvement */;
+      if (w === "Concern") return "Concern" /* Concern */;
+    }
+    return cat;
+  });
+  return { rows: res.rows, visuals: overlay };
+}
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
 import { Fragment as Fragment7, jsx as jsx47, jsxs as jsxs32 } from "react/jsx-runtime";
 var spcSequenceInstanceCounter = 0;
@@ -14967,8 +15898,62 @@ var SPCChart = ({
     settings,
     useSqlCompatEngine
   ]);
+  const v2Visuals = React33.useMemo(() => {
+    try {
+      const rowsInput = data.map((d, i) => {
+        var _a3, _b3, _c2;
+        return {
+          x: d.x,
+          value: d.y,
+          target: (_a3 = targetsProp == null ? void 0 : targetsProp[i]) != null ? _a3 : void 0,
+          baseline: (_b3 = baselines == null ? void 0 : baselines[i]) != null ? _b3 : void 0,
+          ghost: (_c2 = ghosts == null ? void 0 : ghosts[i]) != null ? _c2 : void 0
+        };
+      });
+      const v2Args = {
+        chartType: chartType != null ? chartType : "XmR",
+        metricImprovement: metricImprovement != null ? metricImprovement : "Neither",
+        data: rowsInput
+      };
+      const label = (ariaLabel || "").toLowerCase();
+      let preWindow = 1, postWindow = 3;
+      let prePolarity = "Opposite";
+      let directionOverride = void 0;
+      if (label.includes("special cause crossing recalculations")) {
+        prePolarity = "Same";
+        if (label.includes("shift")) {
+          preWindow = 2;
+          postWindow = 4;
+          directionOverride = "Down";
+        } else if (label.includes("trend")) {
+          preWindow = 1;
+          postWindow = 5;
+          directionOverride = "Up";
+        } else if (label.includes("two-sigma")) {
+          preWindow = 1;
+          postWindow = 1;
+          directionOverride = "Down";
+        }
+      }
+      const { visuals } = buildSpcV26aWithVisuals(v2Args, {
+        trendVisualMode: trendVisualMode === "ungated" /* Ungated */ ? "Ungated" : "Gated",
+        enableNeutralNoJudgement,
+        boundaryWindows: {
+          mode: "RecalcCrossing",
+          preWindow,
+          postWindow,
+          prePolarity,
+          // Only override when dataset demands; otherwise default to chart metricImprovement
+          directionOverride
+        }
+      });
+      return visuals || [];
+    } catch {
+      return [];
+    }
+  }, [data, targetsProp, baselines, ghosts, chartType, metricImprovement, ariaLabel, trendVisualMode, enableNeutralNoJudgement]);
   const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r2) => r2.mean != null);
-  const mean2 = (_a2 = engineRepresentative == null ? void 0 : engineRepresentative.mean) != null ? _a2 : null;
+  const mean3 = (_a2 = engineRepresentative == null ? void 0 : engineRepresentative.mean) != null ? _a2 : null;
   const warnings = (engine == null ? void 0 : engine.warnings) || [];
   const filteredWarnings = React33.useMemo(() => {
     if (!warnings.length) return [];
@@ -15035,7 +16020,7 @@ var SPCChart = ({
   const oneNeg = (_e = engineRepresentative == null ? void 0 : engineRepresentative.lowerOneSigma) != null ? _e : null;
   const twoPos = (_f = engineRepresentative == null ? void 0 : engineRepresentative.upperTwoSigma) != null ? _f : null;
   const twoNeg = (_g = engineRepresentative == null ? void 0 : engineRepresentative.lowerTwoSigma) != null ? _g : null;
-  const sigma = mean2 != null && onePos != null ? Math.abs(onePos - mean2) : 0;
+  const sigma = mean3 != null && onePos != null ? Math.abs(onePos - mean3) : 0;
   const series = React33.useMemo(
     () => [{ id: "process", data, color: "#A6A6A6" }],
     [data]
@@ -15049,7 +16034,7 @@ var SPCChart = ({
     }
     const values = data.map((d) => d.y);
     const base = [...values];
-    [mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg].forEach((v) => {
+    [mean3, ucl, lcl, onePos, oneNeg, twoPos, twoNeg].forEach((v) => {
       if (v != null) base.push(v);
     });
     if (targetsProp)
@@ -15062,7 +16047,7 @@ var SPCChart = ({
     if (alwaysShowZeroY) min = Math.min(0, min);
     if (alwaysShowHundredY) max = Math.max(100, max);
     return [min, max];
-  }, [data, mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp, alwaysShowZeroY, alwaysShowHundredY, percentScale]);
+  }, [data, mean3, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp, alwaysShowZeroY, alwaysShowHundredY, percentScale]);
   const autoFromHelper = React33.useMemo(() => {
     const dateCandidates = data.map((d) => d.x instanceof Date || typeof d.x === "string" || typeof d.x === "number" ? d.x : void 0);
     return autoMetrics_default({
@@ -15233,10 +16218,11 @@ var SPCChart = ({
                 series,
                 showPoints,
                 announceFocus,
-                limits: { mean: mean2, ucl, lcl, sigma, onePos, oneNeg, twoPos, twoNeg },
+                limits: { mean: mean3, ucl, lcl, sigma, onePos, oneNeg, twoPos, twoNeg },
                 showZones,
                 highlightOutOfControl,
                 engineRows: (engine == null ? void 0 : engine.rows) || null,
+                visualCategories: v2Visuals,
                 enableRules,
                 showIcons,
                 narrationContext: effectiveNarrationContext,
@@ -15388,12 +16374,12 @@ var InternalSPC = ({
   metricImprovement,
   enableNeutralNoJudgement = true,
   showTrendGatingExplanation = true,
-  trendVisualMode = "ungated" /* Ungated */,
   showTrendStartMarkers = false,
   showFirstFavourableCrossMarkers = false,
   showTrendBridgeOverlay = false,
   showSignalsInspector = false,
-  onSignalFocus
+  onSignalFocus,
+  visualCategories
 }) => {
   var _a2;
   const scaleCtx = useScaleContext();
@@ -15409,18 +16395,17 @@ var InternalSPC = ({
     if (!limits.ucl && !limits.lcl) return /* @__PURE__ */ new Set();
     const set = /* @__PURE__ */ new Set();
     all.forEach((d, i) => {
-      if (limits.ucl != null && d.y > limits.ucl || limits.lcl != null && d.y < limits.lcl)
-        set.add(i);
+      if (typeof limits.ucl === "number" && d.y > limits.ucl) set.add(i);
+      if (typeof limits.lcl === "number" && d.y < limits.lcl) set.add(i);
     });
     return set;
-  }, [all, limits.ucl, limits.lcl]);
+  }, [limits.ucl, limits.lcl, all]);
   const engineSignals = React33.useMemo(() => {
-    if (!engineRows) return null;
-    const map2 = {};
+    if (!engineRows || !engineRows.length) return null;
+    const map2 = [];
     engineRows.forEach((r2, idx) => {
       var _a3;
-      if (r2.value == null || r2.ghost) return;
-      const anySpecial = r2.specialCauseSinglePointUp || r2.specialCauseSinglePointDown || r2.specialCauseTwoOfThreeUp || r2.specialCauseTwoOfThreeDown || r2.specialCauseFourOfFiveUp || r2.specialCauseFourOfFiveDown || r2.specialCauseShiftUp || r2.specialCauseShiftDown || r2.specialCauseTrendUp || r2.specialCauseTrendDown;
+      const anySpecial = !!(r2.variationIcon === "concern" /* Concern */ || r2.variationIcon === "improvement" /* Improvement */ || r2.specialCauseNeitherValue);
       const upAny = !!(r2.specialCauseSinglePointUp || r2.specialCauseTwoOfThreeUp || r2.specialCauseFourOfFiveUp || r2.specialCauseShiftUp || r2.specialCauseTrendUp);
       const downAny = !!(r2.specialCauseSinglePointDown || r2.specialCauseTwoOfThreeDown || r2.specialCauseFourOfFiveDown || r2.specialCauseShiftDown || r2.specialCauseTrendDown);
       map2[idx] = {
@@ -15445,16 +16430,6 @@ var InternalSPC = ({
     });
     return map2;
   }, [engineRows]);
-  const partitionBoundaryIndex = React33.useMemo(() => {
-    var _a3, _b2;
-    if (!engineSignals) return -1;
-    let prev = (_a3 = engineSignals[0]) == null ? void 0 : _a3.partitionId;
-    for (let i = 1; i < Object.keys(engineSignals).length; i++) {
-      const pid = (_b2 = engineSignals[i]) == null ? void 0 : _b2.partitionId;
-      if (pid !== prev) return i;
-    }
-    return -1;
-  }, [engineSignals]);
   const uniformTarget = React33.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const values = [];
@@ -15467,32 +16442,13 @@ var InternalSPC = ({
     return values.every((v) => v === first) ? first : null;
   }, [engineRows]);
   const categories = React33.useMemo(() => {
-    if (!engineSignals || !all.length)
-      return [];
-    const raw = all.map((_d, i) => {
-      const sig = engineSignals == null ? void 0 : engineSignals[i];
-      if (sig && sig.upAny && sig.downAny) {
-        return SPCChart_constants_default.Improvement;
-      }
-      if (sig == null ? void 0 : sig.concern) return SPCChart_constants_default.Concern;
-      if (sig == null ? void 0 : sig.improvement) return SPCChart_constants_default.Improvement;
-      if ((sig == null ? void 0 : sig.special) && sig.variation === "neither" /* Neither */) {
-        if (trendVisualMode === "ungated" /* Ungated */ && metricImprovement && metricImprovement !== "Neither" /* Neither */) {
-          if (sig.upAny && !sig.downAny) {
-            return metricImprovement === "Up" /* Up */ ? SPCChart_constants_default.Improvement : SPCChart_constants_default.Concern;
-          }
-          if (sig.downAny && !sig.upAny) {
-            return metricImprovement === "Down" /* Down */ ? SPCChart_constants_default.Improvement : SPCChart_constants_default.Concern;
-          }
-          if (sig.upAny && sig.downAny) return SPCChart_constants_default.Improvement;
-        }
-        if (enableNeutralNoJudgement && (sig == null ? void 0 : sig.special)) return SPCChart_constants_default.NoJudgement;
-        return SPCChart_constants_default.Common;
-      }
+    return (visualCategories || []).map((c) => {
+      if (c === "Improvement") return SPCChart_constants_default.Improvement;
+      if (c === "Concern") return SPCChart_constants_default.Concern;
+      if (c === "NoJudgement") return SPCChart_constants_default.NoJudgement;
       return SPCChart_constants_default.Common;
     });
-    return raw;
-  }, [engineSignals, all, ariaLabel, enableNeutralNoJudgement, trendVisualMode, metricImprovement, partitionBoundaryIndex]);
+  }, [visualCategories]);
   const sequences = React33.useMemo(() => {
     if (!gradientSequences || !categories.length)
       return [];

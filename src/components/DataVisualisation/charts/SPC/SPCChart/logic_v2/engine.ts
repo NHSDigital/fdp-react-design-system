@@ -344,8 +344,8 @@ export function buildSpcV26aWithVisuals(
 	const overlay: SpcVisualCategory[] = base.map((cat, i) => {
 		const w = win[i];
 		if (cat === SpcVisualCategory.Common || cat === SpcVisualCategory.NoJudgement) {
-			if (w === "Improvement") return SpcVisualCategory.Improvement;
-			if (w === "Concern") return SpcVisualCategory.Concern;
+			if (w === SpcVisualCategory.Improvement) return SpcVisualCategory.Improvement;
+			if (w === SpcVisualCategory.Concern) return SpcVisualCategory.Concern;
 		}
 		return cat;
 	});

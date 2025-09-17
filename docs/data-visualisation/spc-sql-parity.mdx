@@ -164,12 +164,9 @@ Acceptance criteria
 
 ## Implementation notes
 
-- Keep advanced features (auto-recalc baselines, pruning strategies, precedence modes) available but OFF in parity.
-- Document clearly which warnings are “dataset-scope” (SQL Step 5 breadth) and which are “SPC calc-scope” (engine defaults).
-- Consider tagging rows with a `parityMode: true` flag for downstream audit/debug.
-- When MR̄ = 0 within a partition, the engine surfaces zero‑width limits rather than nulls to preserve interpretability (clear centre line and deterministic assurance). Storybook vignette: Data Visualisation/SPC/v2/Zero‑width limits.
  - UI-agnostic visual categories: when tests or consumers need chart-like colouring semantics (neutral special-cause and conflict tie-break), use the engine post-processor `computeSpcVisualCategories` rather than duplicating UI logic. See `logic_v2/docs/visual-categories.md`.
  - Visuals pipeline and chart wiring: `SPCChart` is now v2-by-default; v2 stories derive their “Computed colour (engine)” directly from `computeSpcVisualCategories` (with boundary-window overlays for crossing recalculations), and pass the same `visualsScenario` into `SPCChart`. The chart maps engine visual categories to CSS classes for point colours and does not recode categories; only gradient background bands are visually smoothed. See also the M7 polish items in the [SPC v2 SQL Parity Burndown](../roadmaps/SPC_V2_SQL_PARITY_BURNDOWN.mdx).
+ - Settings input ergonomics: the v2 engine accepts both the flat v2.6a settings and a semantic hierarchical form (`SpcSettingsHierarchical`). Internally, settings are normalised; you can also import `normaliseSpcSettingsV2` if you prefer to pre-normalise settings on the client.
 
 ## Risks and decisions
 

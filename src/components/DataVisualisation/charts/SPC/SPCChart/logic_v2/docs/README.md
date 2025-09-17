@@ -80,6 +80,40 @@ const { rows } = buildSpcV26a({
 const settings = { minimumPoints: 12, chartLevelEligibility: false };
 ```
 
+### Hierarchical settings and normaliser
+
+Besides the flat v2.6a settings, you can pass a semantic hierarchical shape that groups related options. The engine accepts either and normalises internally. You can also import `normaliseSpcSettingsV2` to pre-normalise on the client.
+
+Example (hierarchical input):
+
+```ts
+import { buildSpcV26a, ChartType, ImprovementDirection, normaliseSpcSettingsV2 } from './logic_v2';
+
+const hierarchical = {
+  thresholds: { minimumPoints: 13, shiftPoints: 6, trendPoints: 6 },
+  eligibility: { chartLevel: true },
+  parity: { trendAcrossPartitions: true, twoSigmaIncludeAboveThree: true },
+  conflict: { strategy: 'SqlPrimeThenRule' },
+  trend: { segmentation: { mode: 'AutoWhenConflict' } },
+} as const;
+
+// Optional: pre-normalise to flat settings
+const settings = normaliseSpcSettingsV2(hierarchical);
+
+const { rows } = buildSpcV26a({
+  chartType: ChartType.XmR,
+  metricImprovement: ImprovementDirection.Up,
+  data,
+  settings,
+});
+```
+
+Types:
+
+- Flat: `SpcSettingsV26a`
+- Hierarchical: `SpcSettingsHierarchical`
+- Union accepted by build args: `SpcSettingsInput`
+
 ### Direction-aware conflict preset
 
 When a trend crosses the mean, some datasets prefer an improvement override (immediately prefer improvement when both sides have candidates), while others align better with explicit trend segmentation. To encode the right choice automatically per metric direction, use the helper:

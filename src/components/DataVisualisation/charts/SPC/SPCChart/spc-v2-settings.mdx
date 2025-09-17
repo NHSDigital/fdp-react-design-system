@@ -1,0 +1,109 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Data Visualisation/SPC/Guides/SPC v2 settings and migration" />
+
+# SPC v2 settings and migration
+
+The v2 SPC engine accepts settings in two forms:
+
+- Flat (v2.6a parity) — `SpcSettingsV26a`
+- Hierarchical (semantic grouping) — `SpcSettingsHierarchical`
+
+Both are accepted by the engine as `SpcSettingsInput`; the engine normalises internally. If you prefer, you can pre-normalise on the client using the exported helper `normaliseSpcSettingsV2`.
+
+## Import surface
+
+Recommended imports (SPC barrel):
+
+```ts
+import {
+  buildSpcV26a,
+  normaliseSpcSettingsV2,
+  ChartType,
+  ImprovementDirection,
+  type SpcSettingsV26a_V2 as SpcSettingsV26a,
+  type SpcSettingsHierarchical_V2 as SpcSettingsHierarchical,
+  type SpcSettingsInput_V2 as SpcSettingsInput,
+} from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+```
+
+## Examples
+
+Flat settings (v2.6a style):
+
+```ts
+const flat: SpcSettingsV26a = {
+  minimumPoints: 13,
+  shiftPoints: 6,
+  trendPoints: 6,
+  chartLevelEligibility: true,
+  trendAcrossPartitions: true,
+  twoSigmaIncludeAboveThree: true,
+};
+
+const { rows } = buildSpcV26a({
+  chartType: ChartType.XmR,
+  metricImprovement: ImprovementDirection.Up,
+  data,
+  settings: flat,
+});
+```
+
+Hierarchical settings (semantic grouping):
+
+```ts
+const hierarchical: SpcSettingsHierarchical = {
+  thresholds: { minimumPoints: 13, shiftPoints: 6, trendPoints: 6 },
+  eligibility: { chartLevel: true },
+  parity: { trendAcrossPartitions: true, twoSigmaIncludeAboveThree: true },
+  conflict: { strategy: 'SqlPrimeThenRule' },
+  trend: { segmentation: { mode: 'AutoWhenConflict' } },
+};
+
+// Pre-normalise (optional, engine will normalise internally if you pass hierarchical directly)
+const settings = normaliseSpcSettingsV2(hierarchical);
+
+const { rows } = buildSpcV26a({
+  chartType: ChartType.XmR,
+  metricImprovement: ImprovementDirection.Up,
+  data,
+  settings,
+});
+```
+
+## Migration mapping (flat → hierarchical)
+
+| Flat key | Hierarchical path |
+| --- | --- |
+| `minimumPoints` | `thresholds.minimumPoints` |
+| `shiftPoints` | `thresholds.shiftPoints` |
+| `trendPoints` | `thresholds.trendPoints` |
+| `excludeMovingRangeOutliers` | `thresholds.excludeMovingRangeOutliers` |
+| `chartLevelEligibility` | `eligibility.chartLevel` |
+| `trendAcrossPartitions` | `parity.trendAcrossPartitions` |
+| `twoSigmaIncludeAboveThree` | `parity.twoSigmaIncludeAboveThree` |
+| `preferImprovementWhenConflict` | `conflict.preferImprovementWhenConflict` |
+| `preferTrendWhenConflict` | `conflict.preferTrendWhenConflict` |
+| `conflictStrategy` | `conflict.strategy` |
+| `ruleHierarchy` | `conflict.ruleHierarchy` |
+| `metricConflictRule` | `conflict.metricRuleOnTie` |
+| `trendFavourableSegmentation` (legacy) | `trend.segmentation.favourableSegmentation` |
+| `trendSegmentationMode` | `trend.segmentation.mode` |
+| `trendSegmentationStrategy` | `trend.segmentation.strategy` |
+| `trendDominatesHighlightedWindow` | `trend.segmentation.dominatesHighlightedWindow` |
+
+Notes
+- `trendFavourableSegmentation` is a legacy boolean; the engine maps `true` → `Always`, `false` → `Off` and prefers `trend.segmentation.mode`.
+- The hierarchical form is optional. Use whichever suits your codebase; both are accepted.
+
+## Presets
+
+Use the preset helper for SQL v2.6a parity semantics and override as needed:
+
+```ts
+import { withParityV26 } from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+
+const settings = withParityV26({ /* overrides */ });
+```
+
+The preset configures: `minimumPoints=13`, `shiftPoints=6`, `trendPoints=6`, `twoSigmaIncludeAboveThree=true`, `trendAcrossPartitions=true`, and `chartLevelEligibility=true`.

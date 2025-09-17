@@ -10,6 +10,19 @@ export { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType, Baseline
 export { SpcWarningSeverity, SpcWarningCategory, SpcWarningCode } from './SPCChart/logic/spc';
 export type { SpcSettings, SpcSettingsV2, SpcResult, SpcWarning } from './SPCChart/logic/spc';
 
+// v2 engine (logic_v2): public exports
+export { buildSpcV26a, buildSpcV26aWithVisuals, normaliseSpcSettingsV2, SpcVisualCategory } from './SPCChart/logic_v2';
+export { withParityV26, PARITY_V26 } from './SPCChart/logic_v2';
+export { computeSpcVisualCategories } from './SPCChart/logic_v2';
+export type {
+	SpcInputRowV2,
+	SpcSettingsV26a as SpcSettingsV26a_V2,
+	SpcSettingsHierarchical as SpcSettingsHierarchical_V2,
+	SpcSettingsInput as SpcSettingsInput_V2,
+	SpcResultV2,
+	SpcRowV2,
+} from './SPCChart/logic_v2';
+
 // Descriptors & helpers (colour tokens, labels)
 export { variationLabel, extractRuleIds, ruleGlossary, VARIATION_COLOR_TOKENS, getVariationColorHex, getVariationColorToken } from './SPCChart/descriptors';
 

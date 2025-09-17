@@ -16,12 +16,16 @@ import { computeTrendSegments, chooseSegmentsForHighlight } from "./postprocess/
 import { computeSpcVisualCategories, SpcVisualCategory } from "./postprocess/visualCategories";
 import { computeBoundaryWindowCategories, BoundaryWindowsOptions } from "./postprocess/boundaryWindows";
 import { isNumber } from "./utils";
+import { normaliseSpcSettingsV2 } from "./normaliser";
 
 // Build an SPC result aligned to SQL v2.6a, focusing on XmR.
 // Mirrors SQL steps but emits per-row icons; dataset parity compares the last non-ghosted row.
 export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
-	const { chartType, metricImprovement, data, settings } = args;
-	// Consolidate settings with sensible defaults derived from SQL guidance
+	const { chartType, metricImprovement, data } = args;
+
+	const settings = normaliseSpcSettingsV2(args.settings);
+
+	// Consolidate with defaults derived from SQL guidance
 	const s = {
 		minimumPoints: 13,
 		shiftPoints: 6,
@@ -43,10 +47,10 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 
 	// Resolve legacy boolean to mode if provided explicitly in settings
 	const resolvedMode: TrendSegmentationMode =
-		args.settings?.trendSegmentationMode ??
-		(args.settings?.trendFavourableSegmentation === true
+		settings?.trendSegmentationMode ||
+		(settings?.trendFavourableSegmentation === true
 			? TrendSegmentationMode.Always
-			: args.settings?.trendFavourableSegmentation === false
+			: settings?.trendFavourableSegmentation === false
 			? TrendSegmentationMode.Off
 			: s.trendSegmentationMode!);
 

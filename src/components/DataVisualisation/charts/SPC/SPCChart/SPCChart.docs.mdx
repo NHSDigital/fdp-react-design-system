@@ -64,6 +64,8 @@ Notes:
 
 If you need strict visual/data parity with historic SQL outputs (v2.6a conflict precedence and directional pruning), use the engine-level SQL compatibility wrapper. It replays per‑side ranking after the engine run and emits audit metadata (primeDirection, primeRank, primeRuleId, original values, pruned flag). UI toggles have been removed; SPCChart always reflects the native engine. See the guide: Data Visualisation → SPC → Guides → SPC SQL Compatibility (includes a deep‑dive on v2.6a conflict resolution).
 
+Note on v2 engine settings: The v2 engine (logic_v2) also accepts a semantic hierarchical settings shape (`SpcSettingsHierarchical`) in addition to the flat v2.6a settings. Advanced consumers calling the v2 engine directly can import `normaliseSpcSettingsV2` to pre-normalise; `SPCChart` keeps its existing `SpcSettings` prop surface.
+
 ## When to use
 
 Use the SPCChart when you need to:

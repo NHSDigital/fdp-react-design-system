@@ -59,7 +59,7 @@ export const ZeroWidthLimits: Story = {
 			const baseSettings = { minimumPoints: 6 };
 			const settings = parityMode ? withParityV26(baseSettings) : baseSettings;
 			return buildSpcV26a({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Neither, data: input, settings }).rows;
-		}, [parityMode]);
+		}, [parityMode, series]);
 
 		// Show computed limits for last two points (in the flat partition)
 		const tail = rows.filter(r => !r.ghost && r.value !== null).slice(-2);
@@ -110,6 +110,7 @@ export const ZeroWidthLimits: Story = {
 					showPoints
 					showPartitionMarkers
 					gradientSequences
+					settings={{ minimumPoints: 6 } as any}
 				/>
 			</ChartContainer>
 		);

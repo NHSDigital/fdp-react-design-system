@@ -121,12 +121,13 @@ export interface SpcInputRowV2 {
 }
 
 // Settings that influence rule thresholds and pruning behaviour
+// Flat v2.6a settings (back-compat). Consider using the hierarchical form below for more semantic grouping.
 export interface SpcSettingsV26a {
 	minimumPoints?: number; // global gating
 	shiftPoints?: number; // default 6
 	trendPoints?: number; // default 6
 	excludeMovingRangeOutliers?: boolean; // default false
-	metricConflictRule?: MetricConflictRule; // default Improvement
+	metricConflictRule?: MetricConflictRule; // default Improvement (tie-break when PrimeDirection is Same)
 	// Parity-specific controls
 	trendAcrossPartitions?: boolean; // default false (SQL v2.2+ enables; preset turns on)
 	twoSigmaIncludeAboveThree?: boolean; // default false (preset turns on)
@@ -172,6 +173,57 @@ export interface SpcSettingsV26a {
 	trendSegmentationStrategy?: TrendSegmentationStrategy;
 }
 
+// Hierarchical settings (semantic grouping). Shipped alongside a normaliser for back-compat.
+export interface SpcSettingsHierarchical {
+	thresholds?: {
+		/** Minimum non-ghost points required to enable limits/rules (per partition by default). */
+		minimumPoints?: number;
+		/** Shift run length (default 6). */
+		shiftPoints?: number;
+		/** Trend run length (default 6). */
+		trendPoints?: number;
+		/** Exclude MR outliers when estimating sigma (XmR). */
+		excludeMovingRangeOutliers?: boolean;
+	};
+	eligibility?: {
+		/** If true, once chart has >= minimumPoints overall, evaluate across partitions retroactively. */
+		chartLevel?: boolean;
+	};
+	parity?: {
+		/** Enable strict trend detection across partitions (SQL v2.2+). */
+		trendAcrossPartitions?: boolean;
+		/** Count >3σ points toward the two-of-three rule. */
+		twoSigmaIncludeAboveThree?: boolean;
+	};
+	conflict?: {
+		/** Optimistically keep Improvement when both sides exist (disables trend segmentation). */
+		preferImprovementWhenConflict?: boolean;
+		/** Prefer the trend side when both sides exist and a trend flag is present after segmentation. */
+		preferTrendWhenConflict?: boolean;
+		/** Strategy for conflict resolution (default SQL parity). */
+		strategy?: ConflictStrategy;
+		/** Optional rule precedence order (used with strategy RuleHierarchy). */
+		ruleHierarchy?: SpcRuleId[];
+		/** Tie-break rule when PrimeDirection is Same. */
+		metricRuleOnTie?: MetricConflictRule;
+	};
+	trend?: {
+		segmentation?: {
+			/** When to apply favourable-side segmentation. Prefer this over the legacy boolean. */
+			mode?: TrendSegmentationMode;
+			/** Legacy alias (true -> Always, false -> Off). */
+			favourableSegmentation?: boolean;
+			/** Strategy to pick which favourable segment(s) to keep. */
+			strategy?: TrendSegmentationStrategy;
+			/** If true, trend dominates inside its highlighted window. */
+			dominatesHighlightedWindow?: boolean;
+		};
+	};
+}
+
+// Settings input accepted by public APIs: flat (legacy) or hierarchical (preferred)
+export type SpcSettingsInput = SpcSettingsV26a | SpcSettingsHierarchical;
+
 // The fully computed row emitted by the engine
 export interface SpcRowV2 {
 	rowId: number;
@@ -212,7 +264,10 @@ export interface BuildArgsV2 {
 	chartType: ChartType;
 	metricImprovement: ImprovementDirection;
 	data: SpcInputRowV2[];
-	settings?: SpcSettingsV26a;
+	/**
+	 * Settings may be provided in flat (v2.6a) or hierarchical form. The engine normalises these.
+	 */
+	settings?: SpcSettingsInput;
 }
 
 // The build result containing all rows (warnings kept separate for clarity in this module)

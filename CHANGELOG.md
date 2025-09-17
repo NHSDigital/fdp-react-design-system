@@ -52,6 +52,11 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - `SPCTooltipOverlay` now shows the hovered data point index (0‑based) in the tooltip body to aid debugging and dataset alignment.
 
 - ChartContainer UX
+- V2 settings ergonomics (logic_v2)
+  - New hierarchical settings shape `SpcSettingsHierarchical` alongside flat `SpcSettingsV26a`; the engine accepts either.
+  - Public helper `normaliseSpcSettingsV2(input)` exported to convert hierarchical → flat when needed (engine normalises internally by default).
+  - Barrel exports updated so consumers can import v2 engine APIs and the normaliser from `.../charts/SPC`.
+
   - Added optional Show/Hide table button wiring (`showTableToggle`, `onToggleTable`) to resolve unused prop warnings and improve manual inspection in stories.
 
 ### Changed (Unreleased – Data Visualisation / SPC)

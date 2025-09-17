@@ -255,14 +255,18 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	// This is a best-effort attempt to avoid unnecessary rebuilds while still responding to changes.
 	// Parent components should memoise props where possible to avoid unnecessary rebuilds.
 	// If more granular control is needed, consider memoising settings and data at a higher level.
-	const engine = React.useMemo(() => {
-		const rowsInput = data.map((d, i) => ({
+	// Shared canonical rows input used by both engines and v2 visuals
+	const rowsInput = React.useMemo(() => {
+		return data.map((d, i) => ({
 			x: d.x,
 			value: d.y,
 			target: targetsProp?.[i] ?? undefined,
 			baseline: baselines?.[i] ?? undefined,
 			ghost: ghosts?.[i] ?? undefined,
 		}));
+	}, [data, targetsProp, baselines, ghosts]);
+
+	const engine = React.useMemo(() => {
 		try {
 			// Settings passed through unchanged (trend gating flags removed from core)
 			const engineSettings: SpcSettings | undefined = settings ? { ...settings } : undefined;
@@ -278,27 +282,11 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		} catch {
 			return null;
 		}
-	}, [
-		data,
-		targetsProp,
-		baselines,
-		ghosts,
-		chartType,
-		metricImprovement,
-		settings,
-		useSqlCompatEngine,
-	]);
+	}, [rowsInput, chartType, metricImprovement, settings, useSqlCompatEngine]);
 
 	// Compute engine v2 visuals (UI-agnostic categories) so the engine drives colour coding
 	const v2Visuals: SpcVisualCategory[] = React.useMemo(() => {
 		try {
-			const rowsInput = data.map((d, i) => ({
-				x: d.x,
-				value: d.y,
-				target: targetsProp?.[i] ?? undefined,
-				baseline: baselines?.[i] ?? undefined,
-				ghost: ghosts?.[i] ?? undefined,
-			}));
 			// Map legacy SPC settings to v2 engine settings for visual parity
 			const minPts = (settings as any)?.minimumPointsPartition ?? (settings as any)?.minimumPoints;
 			const v2Settings: any = {};
@@ -327,7 +315,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		} catch {
 			return [];
 		}
-	}, [data, targetsProp, baselines, ghosts, chartType, metricImprovement, trendVisualMode, enableNeutralNoJudgement, settings, visualsScenario]);
+	}, [rowsInput, chartType, metricImprovement, trendVisualMode, enableNeutralNoJudgement, settings, visualsScenario]);
 
 	// Representative row with populated limits (last available)
 	const engineRepresentative = engine?.rows
@@ -1025,13 +1013,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 				}
 			}
 		}
-		const isRuleClash = ariaLabel?.includes("Rule Clash");
-		if (isRuleClash) {
-			console.log(
-				`[${ariaLabel}] Final sequences:`,
-				out.map((s) => `${s.start}-${s.end}:${s.category}`).join(", ")
-			);
-		}
+
 		return out;
 	}, [gradientSequences, categories, ariaLabel]);
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { buildSpc } from "../charts/SPC/SPCChart/logic/spc";
-import { buildSpcSqlCompat } from "../charts/SPC/SPCChart/logic/spcSqlCompat";
+// import { buildSpcSqlCompat } from "../charts/SPC/SPCChart/logic/spcSqlCompat";
 import {
 	VARIATION_COLOURS,
 	VariationState,
@@ -50,8 +50,7 @@ export interface UseSpcInput {
 	x?: Array<string | number | Date>;
 	chartType?: ChartType; // default XmR
 	metricImprovement?: ImprovementDirection;
-	/** When true, run the SQL-compatibility wrapper (post-hoc directional pruning) for parity with SPCChart's `useSqlCompatEngine`. */
-	useSqlCompatEngine?: boolean;
+	// Deprecated: SQL compatibility wrapper no longer supported at hook level
 	showLimits?: boolean;
 	showLimitBand?: boolean;
 	showInnerBands?: boolean;
@@ -92,7 +91,6 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 		x,
 		chartType = ChartType.XmR,
 		metricImprovement = ImprovementDirection.Neither,
-		useSqlCompatEngine = false,
 		showLimits = true,
 		showLimitBand = false,
 		showInnerBands = false,
@@ -112,14 +110,11 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 	const engine = React.useMemo(() => {
 		try {
 			const data = rows.map((r, i) => ({ x: (r.x as any) ?? i, value: r.value }));
-			if (useSqlCompatEngine) {
-				return buildSpcSqlCompat({ chartType, metricImprovement, data, settings: {} });
-			}
 			return buildSpc({ chartType, metricImprovement, data, settings: {} });
 		} catch {
 			return null;
 		}
-	}, [rows, chartType, metricImprovement, useSqlCompatEngine]);
+	}, [rows, chartType, metricImprovement]);
 
 	// Choose the last real row (value not null, not ghost) for centre/limits
 	const lastRealRow = React.useMemo(() => {
@@ -177,15 +172,6 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 		| undefined = React.useMemo(() => {
 		const rowsEngine: any[] | undefined = (engine as any)?.rows;
 		if (!rowsEngine || rowsEngine.length === 0) return undefined;
-		// If using SQL compatibility wrapper, derive signals directly from the post-pruning variationIcon
-		if (useSqlCompatEngine) {
-			return rowsEngine.map((r) => {
-				const icon = r?.variationIcon as string | undefined;
-				if (icon === "improvement") return "improvement" as const;
-				if (icon === "concern") return "concern" as const;
-				return "neither" as const;
-			});
-		}
 		// Default engine path: determine up/down then map via polarity
 		return rowsEngine.map((r) => {
 			const up =
@@ -218,7 +204,7 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 					return "neither" as const;
 			}
 		});
-	}, [engine, metricImprovement, useSqlCompatEngine]);
+	}, [engine, metricImprovement]);
 
 	// Neutral special-cause flags per point (variation 'neither' with specialCauseNeitherValue present)
 	const pointNeutralSpecialCause: boolean[] | undefined = React.useMemo(() => {

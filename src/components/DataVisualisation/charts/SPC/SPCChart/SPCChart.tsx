@@ -27,7 +27,7 @@ import {
 import { ImprovementDirection, VariationIcon, AssuranceIcon, ChartType } from "./types";
 import SpcGradientCategory, { SpcEmbeddedIconVariant, LetterMode } from "./SPCChart.constants";
 import { computeGradientSequences } from "./gradientSequences";
-import { buildSpcSqlCompat } from './logic/spcSqlCompat';
+// import { buildSpcSqlCompat } from './logic/spcSqlCompat';
 import computeAutoMetrics from "../utils/autoMetrics";
 import { Tag } from "../../../../Tag/Tag";
 import Table from "../../../../Tables/Table";
@@ -145,8 +145,8 @@ export interface SPCChartProps {
 	alwaysShowHundredY?: boolean;
 	/** Convenience flag: treat series as percentage scale (enforces 0–100 domain). Overrides alwaysShowZeroY / alwaysShowHundredY when true. */
 	percentScale?: boolean;
-	/** When true, run experimental SQL compatibility wrapper (post-hoc per-side ranking & pruning) instead of native aggregation. */
-	useSqlCompatEngine?: boolean;
+	/** Deprecated: SQL compatibility wrapper is no longer toggled at the chart level. */
+	// useSqlCompatEngine?: boolean;
 	/** UI-only: show a hollow marker at the first index where a trend is detected (run reaches N). Default false. */
 	showTrendStartMarkers?: boolean;
 	/** UI-only: show a solid marker at the first point in the trend window that lies on the favourable side of the mean. Default false. */
@@ -159,8 +159,10 @@ export interface SPCChartProps {
 	onSignalFocus?: (info: SPCSignalFocusInfo) => void;
 	/** Visuals preset: opt-in dataset-specific boundary window behaviour without relying on ariaLabel */
 	visualsScenario?: V2VisualsScenario;
-	/** Experimental: use v2 adapter for rows/limits + visuals (UI-mapped). Default false. */
-	useV2Adapter?: boolean;
+	/**
+	 * Rows/limits/visuals are now driven by the v2 engine path by default.
+	 * The previous experimental useV2Adapter flag has been removed.
+	 */
 }
 
 export const SPCChart: React.FC<SPCChartProps> = ({
@@ -198,14 +200,12 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	alwaysShowZeroY = true,
 	alwaysShowHundredY = false,
 	percentScale = false,
-	useSqlCompatEngine = true,
 	showTrendStartMarkers = false,
 	showFirstFavourableCrossMarkers = false,
 	showTrendBridgeOverlay = false,
 	showSignalsInspector = false,
 	onSignalFocus,
 	visualsScenario = V2VisualsScenario.None,
-	useV2Adapter = false,
 }) => {
 	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
@@ -250,7 +250,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	// NB: data array is assumed stable if not changing reference (no deep equality check)
 	// NB: targets/baselines/ghosts are assumed stable if not changing reference (no deep equality check)
 	// NB: chartType and metricImprovement are primitive values
-	// NB: useSqlCompatEngine is a primitive value
+	// NB: useSqlCompatEngine removed – always using native engine rows via v2 adapter for UI
 	// If any of the above change by reference/value, a new engine is built.
 	// If the build fails (e.g. insufficient data), engine will be null.
 	// This is a best-effort attempt to avoid unnecessary rebuilds while still responding to changes.
@@ -269,21 +269,13 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 
 	const engine = React.useMemo(() => {
 		try {
-			// Settings passed through unchanged (trend gating flags removed from core)
-			const engineSettings: SpcSettings | undefined = settings ? { ...settings } : undefined;
-			if (useSqlCompatEngine) {
-				return buildSpcSqlCompat({
-					chartType,
-					metricImprovement,
-					data: rowsInput,
-					settings: engineSettings,
-				});
+				// Settings passed through unchanged (trend gating flags removed from core)
+				const engineSettings: SpcSettings | undefined = settings ? { ...settings } : undefined;
+				return buildSpc({ chartType, metricImprovement, data: rowsInput, settings: engineSettings });
+			} catch {
+				return null;
 			}
-			return buildSpc({ chartType, metricImprovement, data: rowsInput, settings: engineSettings });
-		} catch {
-			return null;
-		}
-	}, [rowsInput, chartType, metricImprovement, settings, useSqlCompatEngine]);
+		}, [rowsInput, chartType, metricImprovement, settings]);
 
 	// Compute engine v2 visuals (UI-agnostic categories) so the engine drives colour coding
 	const v2Visuals: SpcVisualCategory[] = React.useMemo(() => {
@@ -320,7 +312,6 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 
 	// Optional: build v2 rows via adapter and map to a UI-compatible shape when enabled
 	const v2RowsForUi = React.useMemo(() => {
-		if (!useV2Adapter) return null as any[] | null;
 		try {
 			const minPts = (settings as any)?.minimumPointsPartition ?? (settings as any)?.minimumPoints;
 			const v2Settings: any = {};
@@ -381,10 +372,10 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		} catch {
 			return null;
 		}
-	}, [useV2Adapter, rowsInput, chartType, metricImprovement, settings]);
+	}, [rowsInput, chartType, metricImprovement, settings]);
 
 	// Representative row with populated limits (last available)
-	const rowsForUi = useV2Adapter ? (v2RowsForUi || null) : (engine?.rows || null);
+	const rowsForUi = v2RowsForUi || null;
 
 	// Representative row with populated limits (last available)
 	const engineRepresentative = (rowsForUi || [])
@@ -392,7 +383,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		.reverse()
 		.find((r: any) => r.mean != null);
 	const mean = engineRepresentative?.mean ?? null;
-	const warnings = useV2Adapter ? [] : (engine?.warnings || []);
+	const warnings = [] as any[];
 	const filteredWarnings = React.useMemo(() => {
 		if (!warnings.length) return [] as typeof warnings;
 		if (!warningsFilter) return warnings;

@@ -18,11 +18,22 @@ import {
 	TrendSegmentationMode,
 	TrendSegmentationStrategy,
 } from "../types.ts";
-import { computeTrendSegments, chooseSegmentsForHighlight } from "../postprocess/trendSegments";
-import { withParityV26, withConflictPresetAutoV26, VisualsScenario, buildVisualsForScenario } from "../presets";
+import {
+	computeTrendSegments,
+	chooseSegmentsForHighlight,
+} from "../postprocess/trendSegments";
+import {
+	withParityV26,
+	withConflictPresetAutoV26,
+	VisualsScenario,
+	buildVisualsForScenario,
+} from "../presets";
 import { SPCChart } from "../../SPCChart";
 import { iconToHex } from "./data/variationIconColours";
-import { ImprovementDirection as V1ImprovementDirection, ChartType as V1ChartType } from "../../types";
+import {
+	ImprovementDirection as V1ImprovementDirection,
+	ChartType as V1ChartType,
+} from "../../types";
 
 const metricOptions = getMetricOptions();
 const METRIC_STORAGE_KEY = "spc.v2.metric";
@@ -44,7 +55,7 @@ function visualCategoryToHex(cat: SpcVisualCategory): string {
 }
 
 const meta: Meta = {
-	title: "Data Visualisation/SPC/v2/Test dataset (JSON)",
+	title: "Data Visualisation/SPC/v2/Test dataset",
 	parameters: {
 		docs: {
 			description: {
@@ -66,7 +77,7 @@ const meta: Meta = {
 	args: {
 		showTable: true,
 		parityMode: false,
-		conflictPreset: false,
+		conflictPreset: true,
 		autoConflictMode: true,
 		// Conflict levers default to auto via preset; omit to let auto-preset decide based on direction
 	},
@@ -97,8 +108,19 @@ function toV1Dir(value: ImprovementDirection): V1ImprovementDirection {
 }
 
 export const GroupedDatasetV2: Story = {
-	name: "Playground (grouped JSON)",
-	render: ({ showTable, parityMode, conflictPreset = false, autoConflictMode = true, preferImprovementWhenConflict, preferTrendWhenConflict, trendDominatesHighlightedWindow }, _context) => {
+	name: "Playground",
+	render: (
+		{
+			showTable,
+			parityMode,
+			conflictPreset = false,
+			autoConflictMode = true,
+			preferImprovementWhenConflict,
+			preferTrendWhenConflict,
+			trendDominatesHighlightedWindow,
+		},
+		_context
+	) => {
 		// Internal metric state with browser persistence
 		const [metric, setMetric] = useState<string>(() => {
 			try {
@@ -125,13 +147,19 @@ export const GroupedDatasetV2: Story = {
 		}, [metric]);
 
 		// Derive improvement direction from dataset string (various formats supported)
-		const mapImprovement = (
-			raw: string | undefined
-		): ImprovementDirection => {
+		const mapImprovement = (raw: string | undefined): ImprovementDirection => {
 			if (!raw) return ImprovementDirection.Neither;
 			const norm = raw.toLowerCase();
 
-			if (norm === "special cause - single point - middle" || norm === "special cause - shift - ends" || norm === "special cause - shift - middle" || norm === "special cause - trend - no pauses" || norm.startsWith("special cause -") || norm.startsWith("recalculations") || norm.startsWith("baseline")) {
+			if (
+				norm === "special cause - single point - middle" ||
+				norm === "special cause - shift - ends" ||
+				norm === "special cause - shift - middle" ||
+				norm === "special cause - trend - no pauses" ||
+				norm.startsWith("special cause -") ||
+				norm.startsWith("recalculations") ||
+				norm.startsWith("baseline")
+			) {
 				console.log("Special cause detected in improvement string:", raw);
 				return ImprovementDirection.Up;
 			}
@@ -159,17 +187,25 @@ export const GroupedDatasetV2: Story = {
 					: ImprovementDirection.Neither;
 		};
 
-		const derivedDirection: ImprovementDirection = mapImprovement(grp?.improvement);
-		const getDirKey = (m: string) => `${DIRECTION_STORAGE_PREFIX}${encodeURIComponent(m)}`;
+		const derivedDirection: ImprovementDirection = mapImprovement(
+			grp?.improvement
+		);
+		const getDirKey = (m: string) =>
+			`${DIRECTION_STORAGE_PREFIX}${encodeURIComponent(m)}`;
 		// Effective improvement direction (can be derived or user-overridden)
-		const [direction, setDirection] = useState<ImprovementDirection>(derivedDirection);
+		const [direction, setDirection] =
+			useState<ImprovementDirection>(derivedDirection);
 
 		// When metric changes, refresh direction from storage or fall back to derived, then persist
 		useEffect(() => {
 			try {
 				if (typeof window !== "undefined" && grp) {
 					const saved = window.localStorage.getItem(getDirKey(metric));
-					if (saved === ImprovementDirection.Up || saved === ImprovementDirection.Down || saved === ImprovementDirection.Neither) {
+					if (
+						saved === ImprovementDirection.Up ||
+						saved === ImprovementDirection.Down ||
+						saved === ImprovementDirection.Neither
+					) {
 						setDirection(saved as ImprovementDirection);
 					} else {
 						setDirection(derivedDirection);
@@ -204,27 +240,33 @@ export const GroupedDatasetV2: Story = {
 			);
 		}
 
-	const { data } = normaliseSeries(grp);
+		const { data } = normaliseSeries(grp);
 
 		// Apply a manual baseline (recalculation) for the specific "Recalculations - Recalculated" metric
 		// Place the baseline at index 15 (0-based: the 16th point)
 		const baselines = deriveBaselines(grp, data.length);
 
-				// visualsScenario mapping from metric for boundary-window presets
-				const norm = (s: string) => s.replace(/\s*\(v2 engine\)\s*$/i, "");
-				const metricKey = norm(grp.metric);
-				let visualsScenario: VisualsScenario = VisualsScenario.None;
-				if (metricKey === "Recalculations - Recalculated") {
-					visualsScenario = VisualsScenario.RecalculationsRecalculated;
-				} else if (metricKey === "Baselines - Recalculated") {
-					visualsScenario = VisualsScenario.BaselinesRecalculated;
-				} else if (metricKey.startsWith("Special cause crossing recalculations - shift")) {
-					visualsScenario = VisualsScenario.RecalcCrossingShift;
-				} else if (metricKey.startsWith("Special cause crossing recalculations - trend")) {
-					visualsScenario = VisualsScenario.RecalcCrossingTrend;
-				} else if (metricKey.startsWith("Special cause crossing recalculations - two-sigma")) {
-					visualsScenario = VisualsScenario.RecalcCrossingTwoSigma;
-				}
+		// visualsScenario mapping from metric for boundary-window presets
+		const norm = (s: string) => s.replace(/\s*\(v2 engine\)\s*$/i, "");
+		const metricKey = norm(grp.metric);
+		let visualsScenario: VisualsScenario = VisualsScenario.None;
+		if (metricKey === "Recalculations - Recalculated") {
+			visualsScenario = VisualsScenario.RecalculationsRecalculated;
+		} else if (metricKey === "Baselines - Recalculated") {
+			visualsScenario = VisualsScenario.BaselinesRecalculated;
+		} else if (
+			metricKey.startsWith("Special cause crossing recalculations - shift")
+		) {
+			visualsScenario = VisualsScenario.RecalcCrossingShift;
+		} else if (
+			metricKey.startsWith("Special cause crossing recalculations - trend")
+		) {
+			visualsScenario = VisualsScenario.RecalcCrossingTrend;
+		} else if (
+			metricKey.startsWith("Special cause crossing recalculations - two-sigma")
+		) {
+			visualsScenario = VisualsScenario.RecalcCrossingTwoSigma;
+		}
 
 		const settings = useMemo<SpcSettingsV26a>(() => {
 			if (parityMode) return withParityV26();
@@ -240,13 +282,15 @@ export const GroupedDatasetV2: Story = {
 					trendSegmentationMode: TrendSegmentationMode.AutoWhenConflict,
 				};
 				if (typeof preferImprovementWhenConflict === "boolean") {
-					presetOverrides.preferImprovementWhenConflict = preferImprovementWhenConflict;
+					presetOverrides.preferImprovementWhenConflict =
+						preferImprovementWhenConflict;
 				}
 				if (typeof preferTrendWhenConflict === "boolean") {
 					presetOverrides.preferTrendWhenConflict = preferTrendWhenConflict;
 				}
 				if (typeof trendDominatesHighlightedWindow === "boolean") {
-					presetOverrides.trendDominatesHighlightedWindow = trendDominatesHighlightedWindow;
+					presetOverrides.trendDominatesHighlightedWindow =
+						trendDominatesHighlightedWindow;
 				}
 				return withConflictPresetAutoV26(direction, presetOverrides);
 			}
@@ -258,9 +302,18 @@ export const GroupedDatasetV2: Story = {
 				preferImprovementWhenConflict: true,
 			};
 			return base;
-		}, [parityMode, conflictPreset, autoConflictMode, direction, preferImprovementWhenConflict, preferTrendWhenConflict, trendDominatesHighlightedWindow]);
-		
-		const effectiveMinimumPoints = settings.minimumPoints ?? BASE_MINIMUM_POINTS;
+		}, [
+			parityMode,
+			conflictPreset,
+			autoConflictMode,
+			direction,
+			preferImprovementWhenConflict,
+			preferTrendWhenConflict,
+			trendDominatesHighlightedWindow,
+		]);
+
+		const effectiveMinimumPoints =
+			settings.minimumPoints ?? BASE_MINIMUM_POINTS;
 
 		// Build SPC rows via v2 engine
 		const rows = useMemo(() => {
@@ -279,7 +332,7 @@ export const GroupedDatasetV2: Story = {
 			}).rows;
 		}, [data, baselines, direction, settings]);
 
-				// Prepare merged table rows and mismatch count (expected vs computed by engine visuals)
+		// Prepare merged table rows and mismatch count (expected vs computed by engine visuals)
 		const mergedRows = useMemo(() => {
 			const nonGhostCount = rows.filter((r) => !r.ghost).length;
 			const chartEligible = nonGhostCount >= effectiveMinimumPoints;
@@ -294,40 +347,59 @@ export const GroupedDatasetV2: Story = {
 						baseline: !!baselines?.[i],
 						target: null,
 					}));
-					const { visuals } = buildVisualsForScenario({
-						chartType: ChartType.XmR,
-						metricImprovement: direction,
-						data: input,
-						settings,
-					} as any, visualsScenario);
+					const { visuals } = buildVisualsForScenario(
+						{
+							chartType: ChartType.XmR,
+							metricImprovement: direction,
+							data: input,
+							settings,
+						} as any,
+						visualsScenario
+					);
 					return visuals as SpcVisualCategory[];
 				} catch {
 					return [] as SpcVisualCategory[];
 				}
 			})();
 
-					return rows
-						.filter((r) => !r.ghost)
-						.map((r, i) => {
-							const date = new Date(r.x as any).toLocaleDateString("en-GB");
-							const value = r.value;
-							const expectedHex = String((grp.data[i] && (grp.data[i] as any).colour) || "");
-							const computedHex = visualCategoryToHex(visuals[i] ?? SpcVisualCategory.Common);
-							const match = expectedHex === computedHex;
-							const eligible = chartEligible && typeof r.mean === "number" && Number.isFinite(r.mean);
-							return {
-								index: i,
-								date,
-								value,
-								pointRank: r.pointRank,
-								eligible,
-								icon: String(r.variationIcon),
-								expected: expectedHex,
-								computed: computedHex,
-								match,
-							};
-						});
-				}, [rows, grp, effectiveMinimumPoints, data, baselines, direction, settings, visualsScenario]);
+			return rows
+				.filter((r) => !r.ghost)
+				.map((r, i) => {
+					const date = new Date(r.x as any).toLocaleDateString("en-GB");
+					const value = r.value;
+					const expectedHex = String(
+						(grp.data[i] && (grp.data[i] as any).colour) || ""
+					);
+					const computedHex = visualCategoryToHex(
+						visuals[i] ?? SpcVisualCategory.Common
+					);
+					const match = expectedHex === computedHex;
+					const eligible =
+						chartEligible &&
+						typeof r.mean === "number" &&
+						Number.isFinite(r.mean);
+					return {
+						index: i,
+						date,
+						value,
+						pointRank: r.pointRank,
+						eligible,
+						icon: String(r.variationIcon),
+						expected: expectedHex,
+						computed: computedHex,
+						match,
+					};
+				});
+		}, [
+			rows,
+			grp,
+			effectiveMinimumPoints,
+			data,
+			baselines,
+			direction,
+			settings,
+			visualsScenario,
+		]);
 
 		const mismatchCount = useMemo(
 			() => mergedRows.filter((r) => !r.match).length,
@@ -337,20 +409,30 @@ export const GroupedDatasetV2: Story = {
 		useEffect(() => {
 			if (metric !== "Special cause conflict - High is good") return;
 			try {
-				const strategy = settings.trendSegmentationStrategy ?? TrendSegmentationStrategy.CrossingAfterUnfavourable;
+				const strategy =
+					settings.trendSegmentationStrategy ??
+					TrendSegmentationStrategy.CrossingAfterUnfavourable;
 				const runs = computeTrendSegments(rows);
-				const highlights = chooseSegmentsForHighlight(runs, { metricImprovement: direction, strategy });
+				const highlights = chooseSegmentsForHighlight(runs, {
+					metricImprovement: direction,
+					strategy,
+				});
 				const allowUp = new Set<number>();
 				const allowDown = new Set<number>();
 				for (const seg of highlights) {
 					for (let k = seg.start; k <= seg.end; k++) {
-						if (seg.trendDirection === "Up") allowUp.add(k); else allowDown.add(k);
+						if (seg.trendDirection === "Up") allowUp.add(k);
+						else allowDown.add(k);
 					}
 				}
-				const eligible = rows.map((r) => !r.ghost && typeof r.mean === "number");
+				const eligible = rows.map(
+					(r) => !r.ghost && typeof r.mean === "number"
+				);
 				const report = rows
 					.map((r, i) => {
-						const expectedHex = String((grp.data[i] && (grp.data[i] as any).colour) || "");
+						const expectedHex = String(
+							(grp.data[i] && (grp.data[i] as any).colour) || ""
+						);
 						const computedHex = iconToHex(r.variationIcon);
 						const mismatch = expectedHex && expectedHex !== computedHex;
 						return {
@@ -376,8 +458,13 @@ export const GroupedDatasetV2: Story = {
 					})
 					.filter((row) => row.eligible && row.expected); // focus on eligible rows with dataset colours
 
-				console.groupCollapsed("[SPC v2 diag] Special cause conflict - High is good");
-				console.log("Segmentation mode:", settings.trendSegmentationMode ?? "(default)");
+				console.groupCollapsed(
+					"[SPC v2 diag] Special cause conflict - High is good"
+				);
+				console.log(
+					"Segmentation mode:",
+					settings.trendSegmentationMode ?? "(default)"
+				);
 				console.log("Strategy:", String(strategy));
 				console.log("Highlighted segments:", highlights);
 				console.table?.(report.filter((r) => r.mismatch));
@@ -579,7 +666,9 @@ export const GroupedDatasetV2: Story = {
 							style={{ marginTop: 4 }}
 						>
 							Derived: <strong>{derivedDirection}</strong>
-							{direction !== derivedDirection ? ` (overridden → ${direction})` : ""}
+							{direction !== derivedDirection
+								? ` (overridden → ${direction})`
+								: ""}
 						</p>
 						<Select
 							name="direction"
@@ -593,7 +682,11 @@ export const GroupedDatasetV2: Story = {
 									setDirection(derivedDirection);
 									return;
 								}
-								if (next === ImprovementDirection.Up || next === ImprovementDirection.Down || next === ImprovementDirection.Neither) {
+								if (
+									next === ImprovementDirection.Up ||
+									next === ImprovementDirection.Down ||
+									next === ImprovementDirection.Neither
+								) {
 									setDirection(next as ImprovementDirection);
 								}
 							}}
@@ -618,25 +711,34 @@ export const GroupedDatasetV2: Story = {
 							fontSize: 13,
 						}}
 					>
-						<strong>Auto conflict preset:</strong> Using direction-aware settings. For "High is good" the engine prefers improvement and disables trend segmentation; for "Low is good" segmentation is enabled with CrossingAfterUnfavourable. Manual overrides are ignored while Auto is on.
+						<strong>Auto conflict preset:</strong> Using direction-aware
+						settings. For "High is good" the engine prefers improvement and
+						disables trend segmentation; for "Low is good" segmentation is
+						enabled with CrossingAfterUnfavourable. Manual overrides are ignored
+						while Auto is on.
 					</div>
 				)}
-				{conflictPreset && !autoConflictMode && settings?.preferImprovementWhenConflict && (
-					<div
-						role="note"
-						style={{
-							marginBottom: 12,
-							padding: 8,
-							border: "1px solid #d9d9d9",
-							borderRadius: 4,
-							background: "#fafafa",
-							color: "#333",
-							fontSize: 13,
-						}}
-					>
-						<strong>Conflict override active:</strong> When "Prefer improvement on conflict" is enabled, the engine disables trend segmentation. As a result, "Prefer trend on conflict" and "Trend dominates highlighted window" have no effect.
-					</div>
-				)}
+				{conflictPreset &&
+					!autoConflictMode &&
+					settings?.preferImprovementWhenConflict && (
+						<div
+							role="note"
+							style={{
+								marginBottom: 12,
+								padding: 8,
+								border: "1px solid #d9d9d9",
+								borderRadius: 4,
+								background: "#fafafa",
+								color: "#333",
+								fontSize: 13,
+							}}
+						>
+							<strong>Conflict override active:</strong> When "Prefer
+							improvement on conflict" is enabled, the engine disables trend
+							segmentation. As a result, "Prefer trend on conflict" and "Trend
+							dominates highlighted window" have no effect.
+						</div>
+					)}
 				<ChartContainer
 					title={`${grp.metric} (v2 engine)`}
 					description={`Points: ${rows.length}`}
@@ -701,7 +803,7 @@ export const GroupedDatasetV2: Story = {
 						) : undefined
 					}
 				>
-								<SPCChart
+					<SPCChart
 						data={data.map((d) => ({ x: d.x, y: d.value }))}
 						chartType={V1ChartType.XmR}
 						metricImprovement={toV1Dir(direction)}
@@ -710,8 +812,8 @@ export const GroupedDatasetV2: Story = {
 						gradientSequences
 						baselines={baselines}
 						announceFocus={false}
-									settings={settings}
-									visualsScenario={visualsScenario as any}
+						settings={settings}
+						visualsScenario={visualsScenario as any}
 					/>
 				</ChartContainer>
 				<div style={{ display: "grid", gap: 6 }}>

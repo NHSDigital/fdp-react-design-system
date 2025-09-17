@@ -62,10 +62,7 @@ Notes:
 
 ## SQL parity and diagnostics
 
-If you need strict visual/data parity with historic SQL outputs (v2.6a conflict precedence and directional pruning), use the optional SQL compatibility wrapper. It replays per‑side ranking after the engine run and emits audit metadata (primeDirection, primeRank, primeRuleId, original values, pruned flag).
-
-- See guide: Data Visualisation → SPC → Guides → SPC SQL Compatibility (includes a deep‑dive on v2.6a conflict resolution)
-- Story: Data Visualisation → SPC → SQL Compatibility → Base vs SQL compatibility
+If you need strict visual/data parity with historic SQL outputs (v2.6a conflict precedence and directional pruning), use the engine-level SQL compatibility wrapper. It replays per‑side ranking after the engine run and emits audit metadata (primeDirection, primeRank, primeRuleId, original values, pruned flag). UI toggles have been removed; SPCChart always reflects the native engine. See the guide: Data Visualisation → SPC → Guides → SPC SQL Compatibility (includes a deep‑dive on v2.6a conflict resolution).
 
 ## When to use
 

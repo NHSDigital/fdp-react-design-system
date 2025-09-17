@@ -11,8 +11,7 @@ export interface SPCMetricCardProps extends Omit<MetricCardProps, "visual"> {
 	sparkData: Array<{ value: number | null; date?: string | number | Date }>; // SPCSparkPoint compatible shape + optional date
 	/** Directionality for interpretation (prefer MetricPolarity; legacy support for enum/string union) */
 	direction?: ImprovementDirection;
-	/** Use SQL-compatibility wrapper for parity with SPCChart defaults */
-	useSqlCompatEngine?: boolean;
+	// Deprecated: SQL-compatibility wrapper no longer available at card level
 	/** Show mean and control limits */
 	showMean?: boolean;
 	showLimits?: boolean;
@@ -56,7 +55,6 @@ export interface SPCMetricCardProps extends Omit<MetricCardProps, "visual"> {
 export const SPCMetricCard: React.FC<SPCMetricCardProps> = ({
 	sparkData,
 	direction = ImprovementDirection.Neither,
-	useSqlCompatEngine = true,
 	showMean = false,
 	showLimits = true,
 	showLimitBand = false,
@@ -77,7 +75,6 @@ export const SPCMetricCard: React.FC<SPCMetricCardProps> = ({
 	const spc = useSpc({
 		values: sparkData.map((d) => d.value ?? null),
 		metricImprovement: direction,
-		useSqlCompatEngine,
 		showLimits,
 		showLimitBand,
 		showInnerBands,

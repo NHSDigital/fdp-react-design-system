@@ -71,6 +71,12 @@ export const HealthcarePlaygroundV2: Story = {
 		);
 		const improvement = useMemo(() => toV2Dir(def.direction), [def.direction]);
 		const v1Improvement = useMemo(() => toV1Dir(improvement), [improvement]);
+		// Shared settings used for both rows and the SPCChart to keep visuals consistent
+		const baseSettings = useMemo(() => ({ minimumPoints: 12 }), []);
+		const settings = useMemo(
+			() => (parityMode ? withParityV26(baseSettings) : baseSettings),
+			[parityMode, baseSettings]
+		);
 		const rows = useMemo(() => {
 			const input = series.map((d) => ({
 				x: d.x,
@@ -79,15 +85,13 @@ export const HealthcarePlaygroundV2: Story = {
 				baseline: false,
 				target: null,
 			}));
-			const baseSettings = { minimumPoints: 12 };
-			const settings = parityMode ? withParityV26(baseSettings) : baseSettings;
 			return buildSpcV26a({
 				chartType: ChartType.XmR,
 				metricImprovement: improvement,
 				data: input,
 				settings,
 			}).rows;
-		}, [series, improvement, parityMode]);
+		}, [series, improvement, settings]);
 
 		const nonGhostRows = useMemo(() => rows.filter((r) => !r.ghost), [rows]);
 		const last = nonGhostRows.filter((r) => r.value !== null).pop();
@@ -182,6 +186,7 @@ export const HealthcarePlaygroundV2: Story = {
 						gradientSequences
 						announceFocus={false}
 						unit={def.unit}
+						settings={settings as any}
 					/>
 				</ChartContainer>
 				<div style={{ display: "grid", gap: 4, fontSize: 12, color: "#666" }}>

@@ -171,39 +171,7 @@ export const GreyCommonCause: Story = {
 		},
 };
 
-export const SqlCompatComparison: Story = {
-	name: "SQL-compat vs Base comparison",
-	args: {
-		label: "ED 4h (comparison)",
-		intervalHint: "monthly",
-		startDate: new Date(2023, 0, 1),
-		sparkData: wrap([
-			69, 70, 68, 71, 70, 69, 70, 69, 71, 70, 68, 69, 78, 79, 80, 81, 79, 78,
-			82, 81, 80, 79, 81, 80,
-		]),
-		direction: ImprovementDirection.Up,
-		showLimits: true,
-		showLimitBand: false,
-	},
-	render: (args) => {
-		const data = (args.sparkData ?? []).map((p: any, i: number) => ({ x: i + 1, y: Number(p?.value ?? 0) }));
-		return (
-			<div style={{ display: "grid", gap: 16 }}>
-					<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-					<div>
-						<div style={{ fontWeight: 600, marginBottom: 4 }}>Base engine</div>
-							<SPCMetricCard {...args} useSqlCompatEngine={false} />
-					</div>
-					<div>
-						<div style={{ fontWeight: 600, marginBottom: 4 }}>SQL-compat engine</div>
-							<SPCMetricCard {...args} useSqlCompatEngine={true} />
-					</div>
-				</div>
-					<SPCChart data={data} chartType={ChartType.XmR} metricImprovement={args.direction} gradientSequences useSqlCompatEngine={true} />
-			</div>
-		);
-	},
-};
+// SQL-compat comparison story removed: SPC runs base engine only; see engine-level guide for SQL parity analysis.
 
 // (Removed) Purple stories
 

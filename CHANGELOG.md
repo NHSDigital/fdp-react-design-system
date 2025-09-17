@@ -8,9 +8,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ### Added (Unreleased – Data Visualisation / SPC)
 
-- Hook: `useSpc` now powers an engine‑first flow for `SPCSpark` and `SPCMetricCard`, exposing centre line, control limits, inner sigma bands, and per‑point signals (SSR‑safe). Optional `useSqlCompatEngine` flag enables parity with the SPC SQL compatibility wrapper.
-- `SPCMetricCard`: accepts `useSqlCompatEngine` (default: true) and threads it to `useSpc`; gradient/accent colour now derived from the latest point’s SPC classification (polarity‑aware) with a clear No‑Judgement override.
-- Storybook: Added an SPC “Base vs SQL compatibility (experimental)” comparison showcasing `SPCMetricCard` in both modes alongside `SPCChart`.
+- Hook: `useSpc` now powers an engine‑first flow for `SPCSpark` and `SPCMetricCard`, exposing centre line, control limits, inner sigma bands, and per‑point signals (SSR‑safe). The hook no longer supports a UI‑level SQL‑compat toggle.
+- `SPCMetricCard`: gradient/accent colour is derived from the latest point’s SPC classification (polarity‑aware) with a clear No‑Judgement override.
+- Storybook: Simplified the SPC MetricCard example and aligned with the chart; removed the experimental SQL‑compat UI comparison.
 
 - SPC v2 documentation and demos
   - Storybook vignette for zero-width limits: Demonstrates partitions where MR̄ = 0 leading to collapsed limits (UCL = LCL = mean) and a companion table of computed limits
@@ -61,7 +61,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Series‑level “No judgement” no longer recolours improvement/concern points to purple; purple is strictly per‑point when neutral special‑cause is present
   - Added inner sigma bands; applied XmR fallback when band data are absent
   - Fixed window indexing with a global index base to ensure correct band/limit alignment
-- `useSpc`: Polarity‑aware mapping for directional signals prevents inversion on lower‑is‑better metrics (fixes Bed Occupancy spark colour inversion vs `SPCChart`). When `useSqlCompatEngine` is true, point signals derive from post‑pruning `variationIcon` to match wrapper parity.
+- `useSpc`: Polarity‑aware mapping for directional signals prevents inversion on lower‑is‑better metrics (fixes Bed Occupancy spark colour inversion vs `SPCChart`).
 
 - SPC v2 visuals pipeline integration
   - v2 Grouped dataset playground now computes per‑point colours directly from the engine visual categories (computeSpcVisualCategories + boundary windows) rather than ad‑hoc tables, ensuring parity between the “Computed colour (engine)” column and chart points.
@@ -97,6 +97,22 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Extracted gradient sequence logic into `SPCChart/gradientSequences.ts` and wired into `SPCChart` (smoother background fills; no behaviour change).
   - Added `logic_v2/adapter.ts` with `buildWithVisuals(...)` to return v2 rows + engine visual categories in one call as a step toward removing v1 dependencies.
   - Removed storybook-only import paths from SPC docs and stories that were breaking static builds; Storybook static build now completes successfully.
+  - SPCRuleClash docs: removed unresolved example imports and embedded components; replaced with explanatory notes to restore Storybook build.
+
+### Changed (Unreleased – Data Visualisation / SPC Storybook surface)
+
+- Retired legacy v1 SPC stories in favour of a single consolidated playground:
+  - The following stories are now hidden and marked DEPRECATED: `SPCChart` (generic), `ruleClash`, `noJudgementWithCard`, `healthcare`, `baselineSuggestions`, `warnings`, and `embeddedIconMatrix`. They remain as stub files (hidden) to keep import paths stable during migration.
+  - `Data Visualisation/SPC/v1/Dataset` remains and reflects v2 by default; the experimental `useV2Adapter` toggle has been removed.
+
+### Removed (Unreleased – Data Visualisation / SPC)
+
+- SPCChart prop `useV2Adapter` (v2 rows/limits/visuals are now the default path).
+- SPC SQL‑compatibility UI toggles:
+  - SPCChart prop `useSqlCompatEngine` removed (engine now always runs native mode; v2 visuals drive colouring).
+  - `useSpc` option `useSqlCompatEngine` removed.
+  - `SPCMetricCard` prop `useSqlCompatEngine` removed.
+  - Storybook “Base vs SQL compatibility (experimental)” comparison removed; replaced by a single base‑engine example.
 
 ### Added (Data Visualisation – Sep 2025)
 

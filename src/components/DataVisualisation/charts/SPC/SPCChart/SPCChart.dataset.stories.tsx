@@ -58,17 +58,12 @@ const meta: Meta = {
 			if: { arg: 'embeddedIconVariant', eq: 'triangleWithRun' }
 			// Note: conditional display of this control is not enforced to maintain broad Storybook compatibility.
 		},
-		useV2Adapter: {
-			control: { type: "boolean" },
-			description: "Experimental: use v2 engine adapter for rows/limits and visuals.",
-		},
 	},
 	args: {
 		metric: metricOptions[0],
 		improvementDirection: "neither",
 		embeddedIconVariant: "classic",
 		embeddedIconRunLength: 3,
-		useV2Adapter: false,
 	},
 };
 export default meta;
@@ -78,7 +73,6 @@ type Story = StoryObj<{
 	improvementDirection: "neither" | "higher" | "lower";
 	embeddedIconVariant?: "classic" | "triangle" | "triangleWithRun";
 	embeddedIconRunLength?: number;
-	useV2Adapter?: boolean;
 }>;
 
 export const Dataset: Story = {
@@ -88,7 +82,6 @@ export const Dataset: Story = {
 		improvementDirection,
 		embeddedIconVariant,
 		embeddedIconRunLength,
-		useV2Adapter,
 	}) => {
 		// Determine which dataset to use for the chart series
 		const effectiveMetric =
@@ -175,7 +168,6 @@ export const Dataset: Story = {
 					embeddedIconVariant={embeddedIconVariant as SpcEmbeddedIconVariant}
 					embeddedIconRunLength={embeddedIconRunLength}
 					gradientSequences
-					useV2Adapter={!!useV2Adapter}
 				/>
 			</ChartContainer>
 		);

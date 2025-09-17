@@ -257,7 +257,7 @@ Cons:
 - No emerging-grace neutralisation or directional pruning; both-side conflicts rely on ordering.
 
 ### Note on SQL Parity
-- If strict parity with historic SQL post-processing is required, prefer running the SQL compatibility wrapper (`useSqlCompatEngine`) rather than changing precedence alone. The wrapper applies per-side ranking and directional pruning and emits `prime*` metadata for traceability.
+- If you need to study directional pruning behavior historically used in SQL pipelines, refer to the standalone `buildSpcSqlCompat` utility at the engine layer. UI-level toggles have been removed; SPCChart, SPCMetricCard, and hooks now run the native engine consistently.
 
 ## Outcomes
 

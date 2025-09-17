@@ -34,6 +34,7 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 		metricConflictRule: MetricConflictRule.Improvement,
 		trendAcrossPartitions: false,
 		twoSigmaIncludeAboveThree: false,
+		enableFourOfFiveRule: false,
 		preferImprovementWhenConflict: false,
 		conflictStrategy: ConflictStrategy.SqlPrimeThenRule,
 		ruleHierarchy: undefined,
@@ -129,6 +130,8 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 			singlePointDown: false,
 			twoSigmaUp: false,
 			twoSigmaDown: false,
+			fourOfFiveUp: false,
+			fourOfFiveDown: false,
 			shiftUp: false,
 			shiftDown: false,
 			trendUp: false,
@@ -165,6 +168,7 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 				shiftPoints: s.shiftPoints!,
 				trendPoints: s.trendPoints!,
 				twoSigmaIncludeAboveThree: !!s.twoSigmaIncludeAboveThree,
+				enableFourOfFiveRule: !!s.enableFourOfFiveRule,
 			});
 
 		// Optional post-detection step: trend favourable segmentation to resolve cross-mean conflicts

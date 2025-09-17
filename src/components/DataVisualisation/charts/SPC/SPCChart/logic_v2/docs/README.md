@@ -1,6 +1,6 @@
 # logic_v2 usage guide
 
-This module provides a small, self-contained SPC engine aligned to SQL v2.6a semantics (XmR focus). It’s strongly typed with enums and returns a row-by-row result for convenient testing, while mirroring SQL’s last-point judgement.
+This module provides a small, self-contained SPC engine aligned to SQL v2.6a semantics (XmR focus, with T/G support). It’s strongly typed with enums and returns a row-by-row result for convenient testing, while mirroring SQL’s last-point judgement.
 
 ## Quick start
 
@@ -9,7 +9,7 @@ This module provides a small, self-contained SPC engine aligned to SQL v2.6a sem
 
 ### Inputs
 
-- `chartType`: `ChartType.XmR` (v2.6a focus; T/G can be added later)
+- `chartType`: `ChartType.XmR | ChartType.T | ChartType.G`
 - `metricImprovement`: `ImprovementDirection.Up | Down | Neither`
 - `data`: Array of `{ x, value?, ghost?, baseline?, target? }`
   - `value`: number or null (nulls and ghosts are excluded from MR/link calculations)
@@ -92,7 +92,7 @@ import { buildSpcV26a, ChartType, ImprovementDirection, normaliseSpcSettingsV2 }
 const hierarchical = {
   thresholds: { minimumPoints: 13, shiftPoints: 6, trendPoints: 6 },
   eligibility: { chartLevel: true },
-  parity: { trendAcrossPartitions: true, twoSigmaIncludeAboveThree: true },
+  parity: { trendAcrossPartitions: true, twoSigmaIncludeAboveThree: true, enableFourOfFiveRule: false },
   conflict: { strategy: 'SqlPrimeThenRule' },
   trend: { segmentation: { mode: 'AutoWhenConflict' } },
 } as const;
@@ -141,7 +141,9 @@ Gating precedence: if you explicitly set `preferImprovementWhenConflict: true`, 
 - Neither semantics: SQL denotes a neutral judgement; here we surface side-specific neutral icons (`NeitherHigh`/`NeitherLow`).
 - Limits gating: in parity mode, control lines are available chart‑wide once global `minimumPoints` is met (retroactive); otherwise they start from the first eligible row per partition.
 - Zero-width limits: When MR̄ = 0 within a partition (flat values), the engine emits zero‑width limits (UCL = LCL = mean) and collapses ±1σ/±2σ bands to the mean. See the Storybook vignette “Zero‑width limits” under Data Visualisation/SPC/v2.
-- Future: T/G chart paths can be added; tests are structured to allow incremental growth.
+- T chart: Positive values are transformed y = t^0.2777, XmR limits are computed in y-space, then control lines are back‑transformed. Lower bands are suppressed when the back‑transformed value would be ≤ 0 (per SQL guidance). MR columns are null.
+- G chart: Control bands are derived from geometric‑distribution quantiles (0‑based support). Bands are non‑negative by construction; MR columns are null.
+- Assurance: Suppressed for T/G; on XmR, equality to a process limit yields a deterministic pass/fail.
 
 ## Tests
 

@@ -1,99 +1,79 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 import Mermaid from '../../../../_internal/Mermaid';
 
-<Meta title="Data Visualisation/SPC/Guides/SPC Engine — Core Logic"/>
+<Meta title="Data Visualisation/SPC/Guides/SPC Engine — Core Logic (v2)"/>
 
-# SPC Engine — Core Logic
+# SPC Engine — Core Logic (v2)
 
-This guide documents the TypeScript SPC engine (file: `logic/spc.ts`) — how it normalises settings, partitions data, computes limits, detects special‑cause rules, derives variation and assurance icons, applies optional SQL‑style conflict pruning, and emits warnings and baseline suggestions.
+This guide documents the v2 SPC engine (module: `logic_v2`) — how it normalises settings, partitions data, computes limits, detects special‑cause rules, derives per‑row variation icons, and supports optional conflict pruning and trend segmentation. It also outlines engine‑owned visuals and optional boundary overlays.
 
 See also:
 - SPCChart Decision Logic (visual categories)
 - SPC SQL Compatibility (v2.6a wrapper)
 - NHSE SQL v2.6a — Logic Map
 
-## High‑level behaviour
+## High‑level behaviour (v2)
 
-- Settings are normalised (V2 groups to legacy fields; strict mode errors on deprecated flags).
-- Optional auto‑recalculation can insert a synthetic baseline after a sustained favourable shift.
-- Rows are partitioned by baseline flags; calculations and pattern rules are evaluated within each partition.
-- Control limits and mean are computed per partition by chart type (XmR, T, G). Limits are suppressed until the global minimum points threshold is met.
-- Special‑cause rules are detected in two passes: single beyond 3 sigma, then multi‑point patterns (shift, two of three beyond 2 sigma, four of five beyond 1 sigma, trend). Optional fifteen in inner third rule is supported.
-- Variation icon is resolved per row using directional precedence with trend side‑gating and optional emerging grace.
-- Optional SQL v2.6a style conflict pruning can be applied to mixed signals, with metadata recorded.
-- Assurance icon is computed from target versus limits or capability mode.
-- Warnings and optional baseline suggestions are produced.
+- Settings normalisation: engine accepts either flat v2.6a settings (`SpcSettingsV26a`) or a semantic hierarchical shape (`SpcSettingsHierarchical`). Inputs are normalised via `normaliseSpcSettingsV2`.
+- Partitioning: rows are split by baseline markers; all calculations and pattern rules run within partitions (unless global trend across partitions is enabled for trend windows).
+- Eligibility gating: control lines and rules require a minimum non‑ghost count. In parity mode (`chartLevelEligibility=true`), once the chart overall meets `minimumPoints`, limits and rules apply retroactively across all rows; otherwise eligibility is per‑partition/point.
+- Limits per chart type:
+  - XmR: standard mean and process limits; optional moving‑range outlier exclusion.
+  - T: power transform → XmR in transformed space → back‑transform control lines; non‑positive lower bands are suppressed; moving range columns are null.
+  - G: geometric‑distribution bands; bands are non‑negative by construction; moving range columns are null.
+- Rule detection: two passes — (1) single beyond 3 sigma; (2) patterns inside partitions — shift (run length), two‑of‑three beyond 2 sigma (optionally count >3 sigma), optional four‑of‑five beyond 1 sigma, and strict monotonic trend.
+- Trend favourable segmentation (optional): when enabled, split backfilled trend runs at mean crossings and keep favourable‑side segments (strategy configurable). An optional dominance mode drops opposite‑side non‑trend flags inside highlighted trend windows.
+- Candidate formation and pruning: aligned/opposite candidates are formed from directional flags based on metric improvement (Up/Down). For Up/Down metrics, SQL‑style conflict pruning selects a side using prime direction and tie‑break strategy; for Neither metrics, neutral side‑specific icons are produced.
+- Global trend across partitions (optional): detect monotonic trend windows across partition boundaries and re‑apply pruning/segmentation as needed.
+- Outputs: rows with control lines, directional rule flags, special‑cause candidates, per‑row `VariationIcon`, and optional diagnostics (prime direction, prime rank, winner rule id). Engine‑owned visuals and boundary overlays are provided as helpers; assurance and warnings are not part of v2 core.
 
-## Flowchart
+## Flowchart (v2 pipeline)
 
 <Mermaid className="is-airy">{`flowchart TD
   %% Nodes
   S([Start])
-  NORM[Normalise settings\nV2 to legacy\nstrict checks]
-  AUTO{Auto recalc after shift enabled}
-  INS[Insert synthetic baseline at sustained favourable shift\nwindow meets delta sigma threshold]
-  PART[Partition rows at baseline flags]
-  LIMITS[Per partition compute limits and lines\nXmR or T or G\nmean and bands]
-  MIN{Global non-ghost count ge minimumPoints}
-  PASS1[Build withLines rows\nset mean and limits only when allowed]
-  COLLECT[Collect non-ghost indices and values]
-  SINGLE[Pass 1 detect single beyond 3 sigma\nrequires limits present]
-  PASS2[Pass 2 multi-point detection]
-  SHIFT[Shift runs ge N above or below mean\nflag all points in run]
-  TWO3[Two of three beyond 2 sigma\nall on one side\nexclude gt 3 sigma\nflag only gt 2 sigma points]
-  FOUR5[Four of five beyond 1 sigma optional\nall on one side\nflag only gt 1 sigma points]
-  TREND[Trend monotonic inc or dec length N\nflag all points in window]
-  INNER15[Fifteen in inner third optional\nlength 15 both sides present]
-  CAP{maximumPointsPartition set}
-  SNAP[Snapshot ruleTags before heuristics]
-  VAR[Variation icon per row]
-  SIDE[Compute onHighSide and onLowSide]
-  COLL[Collapse cluster rules optional\nfour-of-five beats two-of-three same side]
-  QUAL[Trend side-gating for icon\ntrend contributes only when on that side]
-  EMER{Emerging grace enabled}
-  EMER2[If unfavourable only and monotonic run of N-1 in favourable direction\nthen Concern becomes Neither\nin conflicts trend or emerging can favour Improvement]
-  STRAT{Precedence strategy directional-first}
-  D1[Resolve icon\n- favourable only -> Improvement\n- unfavourable only -> Concern or Neither if emerging\n- both -> Improvement when trend or emerging else Neither\n- none -> Neither]
-  D2[Resolve by side only\nUp metrics: high -> Improvement low -> Concern\nDown metrics: low -> Improvement high -> Concern]
-  SQL{Conflict mode SQL v2_6a}
-  PRUNE[Compute per-side rank and prime\nprune candidates and record metadata]
-  ASSUR[Assurance icon by target vs limits or capability]
-  WARN[Emit warnings\nmin points\nvariation conflicts\nrare event notes\nbaseline with special cause\ncaps]
-  SUGG{Baseline suggestions enabled}
-  SUGG2[Compute suggestions using stability window and rule callbacks]
-  OUT[Return rows warnings and optional suggestions]
+  NORM[Normalise settings - flat or hierarchical]
+  PART[Partition at baseline markers]
+  ELIG[Decide eligibility scope - chart vs partition]
+  GATE[Set per-row eligibility - chart or per-partition]
+  LIMITS[Compute limits per partition - XmR / T / G]
+  SINGLE[Pass 1: single beyond 3 sigma]
+  PATS[Pass 2: pattern rules]
+  SHIFT[Shift runs length N]
+  TWO3[Two-of-three >= 2 sigma - include >3 sigma optional]
+  FOUR5[Four-of-five >= 1 sigma - optional]
+  TREND[Monotonic trend length N]
+  SEG{Trend segmentation enabled?}
+  APPLYSEG[Apply favourable segmentation - optional dominance]
+  CAND[Form aligned/opposite candidates]
+  MET{Metric is Neither?}
+  NEI[Set neutral side-specific icon or Common]
+  PRUNE[SQL-style pruning; set VariationIcon + diagnostics]
+  XPT{Trend across partitions enabled?}
+  XPT2[Detect cross-partition trend windows]
+  RESEG[Optional segmentation across series; re-prune]
+  OUT[Return rows]
 
   %% Edges
-  S --> NORM --> AUTO
-  AUTO -- "yes" --> INS --> PART
-  AUTO -- "no" --> PART
-  PART --> LIMITS --> MIN
-  MIN -- "no: suppress limits" --> PASS1
-  MIN -- "yes" --> PASS1
-  PASS1 --> COLLECT --> SINGLE --> PASS2
-  PASS2 --> SHIFT --> TWO3 --> FOUR5 --> TREND --> INNER15 --> CAP
-  CAP -- "yes: null limits after cap" --> SNAP
-  CAP -- "no" --> SNAP
-  SNAP --> VAR --> SIDE --> COLL --> QUAL --> EMER
-  EMER -- "yes" --> EMER2 --> STRAT
-  EMER -- "no" --> STRAT
-  STRAT -- "yes" --> D1 --> SQL
-  STRAT -- "no" --> D2 --> SQL
-  SQL -- "yes" --> PRUNE --> ASSUR
-  SQL -- "no" --> ASSUR
-  ASSUR --> WARN --> SUGG
-  SUGG -- "yes" --> SUGG2 --> OUT
-  SUGG -- "no" --> OUT
+  S --> NORM --> PART --> ELIG --> GATE --> LIMITS --> SINGLE --> PATS
+  PATS --> SHIFT --> TWO3 --> FOUR5 --> TREND --> SEG
+  SEG -- "yes" --> APPLYSEG --> CAND
+  SEG -- "no" --> CAND
+  CAND --> MET
+  MET -- "yes" --> NEI --> XPT
+  MET -- "no" --> PRUNE --> XPT
+  XPT -- "yes" --> XPT2 --> RESEG --> OUT
+  XPT -- "no" --> OUT
 `}</Mermaid>
 
-## Notes and differences
+## Notes and differences (v2)
 
-- Minimum points gating: limits and mean are suppressed until the global threshold is met; rule detection also requires limits and will therefore be inert before the threshold.
-- Partition scope: pattern rules operate within a partition; trend is not permitted to cross baseline boundaries in the engine.
-- Two-of-three excludes points beyond 3 sigma from counting; only the points beyond 2 sigma are flagged within qualifying windows.
-- Four-of-five is optional; fifteen in inner third is optional and requires at least one point on each side of mean in the 15.
-- Trend side-gating: trend contributes to icon classification only on the same side of the mean as the value for that row.
-- Emerging grace: when enabled and using directional-first strategy, an unfavourable-only state can be softened to Neither if a monotonic run of N-1 points exists in the favourable direction; in mixed signals, trend or emerging presence biases to Improvement.
-- SQL-style conflict pruning: when enabled, the engine mirrors v2.6a directional pruning after icon calculation, pruning candidate sides by primeDirection and metricImprovement, and records conflict metadata.
-- Icons are derived for every row, not only the last point; assurance icon uses capability mode or target vs limits as configured.
-- Warnings include insufficient points, simultaneous high and low signals when Improvement is shown, rare-event notes for T and G charts, baseline with special-cause, and limit capping information.
+- Minimum points gating: control lines and rule detection require eligibility; with `chartLevelEligibility=true`, eligibility is chart‑wide once the global threshold is met, otherwise per partition/point.
+- Partition scope: pattern rules are evaluated within partitions; optional global trend across partitions can add trend flags spanning boundaries (re‑pruning is applied afterwards).
+- Two‑of‑three: by default ignores >3 sigma points when counting; an option allows including >3 sigma points toward the two‑of‑three rule. Only the points beyond 2 sigma are flagged.
+- Four‑of‑five: optional early‑warning rule beyond 1 sigma (excluded from primary conflict ranking).
+- Trend favourable segmentation: when enabled, runs are split at mean crossings and favourable segments are kept per strategy; optional dominance drops opposite‑side non‑trend flags inside highlighted windows.
+- Conflict pruning (SQL v2.6a parity by default): for Up/Down metrics, candidates are pruned using prime direction then metric tie‑break (configurable strategies supported). Diagnostics record prime direction, rank, and winning rule id.
+- Neither metrics: produce `NeitherHigh/NeitherLow` side‑specific icons when any side has rules; otherwise `CommonCause`.
+- Rare‑event charts: T back‑transforms and suppresses non‑positive lower bands; G uses geometric bands; moving range columns are null for T/G.
+- Scope: v2 core does not compute assurance or warnings; use UI‑level helpers (SPCChart) and Storybook docs for diagnostics and overlays. Engine‑owned visuals are available via `buildSpcV26aWithVisuals` and boundary windows overlays.

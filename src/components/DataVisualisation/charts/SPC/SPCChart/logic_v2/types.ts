@@ -131,6 +131,8 @@ export interface SpcSettingsV26a {
 	// Parity-specific controls
 	trendAcrossPartitions?: boolean; // default false (SQL v2.2+ enables; preset turns on)
 	twoSigmaIncludeAboveThree?: boolean; // default false (preset turns on)
+	// Optional early warning rule (excluded from conflict ranking)
+	enableFourOfFiveRule?: boolean; // default false
 	// Conflict handling: when both improvement and concern candidates
 	// exist for a point (typically due to trend crossing the mean), prefer keeping
 	// the improvement side regardless of PrimeDirection. Default false to retain
@@ -194,6 +196,8 @@ export interface SpcSettingsHierarchical {
 		trendAcrossPartitions?: boolean;
 		/** Count >3σ points toward the two-of-three rule. */
 		twoSigmaIncludeAboveThree?: boolean;
+		/** Enable optional early-warning rule: 4-of-5 beyond 1σ (excluded from ranking). */
+		enableFourOfFiveRule?: boolean;
 	};
 	conflict?: {
 		/** Optimistically keep Improvement when both sides exist (disables trend segmentation). */
@@ -244,6 +248,8 @@ export interface SpcRowV2 {
 	singlePointDown: boolean;
 	twoSigmaUp: boolean;
 	twoSigmaDown: boolean;
+	fourOfFiveUp: boolean;
+	fourOfFiveDown: boolean;
 	shiftUp: boolean;
 	shiftDown: boolean;
 	trendUp: boolean;

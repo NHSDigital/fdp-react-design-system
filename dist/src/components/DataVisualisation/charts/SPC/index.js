@@ -6553,11 +6553,11 @@ import * as React8 from "react";
 import { createPortal } from "react-dom";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcConstants.ts
-var ChartType = /* @__PURE__ */ ((ChartType3) => {
-  ChartType3["XmR"] = "XmR";
-  ChartType3["T"] = "T";
-  ChartType3["G"] = "G";
-  return ChartType3;
+var ChartType = /* @__PURE__ */ ((ChartType2) => {
+  ChartType2["XmR"] = "XmR";
+  ChartType2["T"] = "T";
+  ChartType2["G"] = "G";
+  return ChartType2;
 })(ChartType || {});
 var ImprovementDirection = /* @__PURE__ */ ((ImprovementDirection2) => {
   ImprovementDirection2["Up"] = "Up";
@@ -6619,11 +6619,11 @@ var AssuranceIcon = /* @__PURE__ */ ((AssuranceIcon2) => {
   AssuranceIcon2["None"] = "none";
   return AssuranceIcon2;
 })(AssuranceIcon || {});
-var BaselineSuggestionReason = /* @__PURE__ */ ((BaselineSuggestionReason3) => {
-  BaselineSuggestionReason3["Shift"] = "shift";
-  BaselineSuggestionReason3["Trend"] = "trend";
-  BaselineSuggestionReason3["Point"] = "point";
-  return BaselineSuggestionReason3;
+var BaselineSuggestionReason = /* @__PURE__ */ ((BaselineSuggestionReason2) => {
+  BaselineSuggestionReason2["Shift"] = "shift";
+  BaselineSuggestionReason2["Trend"] = "trend";
+  BaselineSuggestionReason2["Point"] = "point";
+  return BaselineSuggestionReason2;
 })(BaselineSuggestionReason || {});
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcDescriptors.ts
@@ -8391,21 +8391,6 @@ var SpcWarningCode = /* @__PURE__ */ ((SpcWarningCode3) => {
   SpcWarningCode3["GlobalCapApplied"] = "global_cap_applied";
   return SpcWarningCode3;
 })(SpcWarningCode || {});
-function getDirectionalSignalSummary(row) {
-  const upRules = [];
-  const downRules = [];
-  if (row.specialCauseSinglePointUp) upRules.push("single_point" /* SinglePoint */);
-  if (row.specialCauseSinglePointDown) downRules.push("single_point" /* SinglePoint */);
-  if (row.specialCauseTwoOfThreeUp) upRules.push("two_sigma" /* TwoSigma */);
-  if (row.specialCauseTwoOfThreeDown) downRules.push("two_sigma" /* TwoSigma */);
-  if (row.specialCauseShiftUp) upRules.push("shift" /* Shift */);
-  if (row.specialCauseShiftDown) downRules.push("shift" /* Shift */);
-  if (row.specialCauseTrendUp) upRules.push("trend" /* Trend */);
-  if (row.specialCauseTrendDown) downRules.push("trend" /* Trend */);
-  const upMax = upRules.reduce((m, id) => Math.max(m, RULE_METADATA[id].rank), 0);
-  const downMax = downRules.reduce((m, id) => Math.max(m, RULE_METADATA[id].rank), 0);
-  return { upRules, downRules, upMax, downMax, hasUp: upRules.length > 0, hasDown: downRules.length > 0 };
-}
 function partitionRows(data) {
   const partitions = [];
   let current = [];
@@ -9260,6 +9245,11 @@ function computeGradientSequences(categories, absorbSingles = true) {
   if (!(categories == null ? void 0 : categories.length)) return [];
   const cats = [...categories];
   if (absorbSingles) {
+    for (let i2 = 1; i2 < cats.length - 1; i2++) {
+      if (cats[i2] === SPCChart_constants_default.Common && cats[i2 - 1] === cats[i2 + 1] && cats[i2 - 1] !== SPCChart_constants_default.Common) {
+        cats[i2] = cats[i2 - 1];
+      }
+    }
     let i = 0;
     while (i < cats.length) {
       const cat = cats[i];
@@ -9287,83 +9277,6 @@ function computeGradientSequences(categories, absorbSingles = true) {
     }
   }
   return out;
-}
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcSqlCompat.ts
-function sqlDirectionalPrune(row, metricImprovement) {
-  const summary = getDirectionalSignalSummary(row);
-  const upMax = summary.upMax;
-  const downMax = summary.downMax;
-  const high = summary.upRules.map((id) => ({ id, rank: RULE_RANK_BY_ID[id] }));
-  const low = summary.downRules.map((id) => ({
-    id,
-    rank: RULE_RANK_BY_ID[id]
-  }));
-  let prime;
-  if (upMax > downMax) prime = "Upwards" /* Upwards */;
-  else if (downMax > upMax) prime = "Downwards" /* Downwards */;
-  else prime = "Same" /* Same */;
-  const anyHigh = upMax > 0;
-  const anyLow = downMax > 0;
-  const originalImprovement = metricImprovement === "Up" /* Up */ && anyHigh || metricImprovement === "Down" /* Down */ && anyLow ? row.value : null;
-  const originalConcern = metricImprovement === "Up" /* Up */ && anyLow || metricImprovement === "Down" /* Down */ && anyHigh ? row.value : null;
-  row.sqlOriginalImprovementValue = originalImprovement;
-  row.sqlOriginalConcernValue = originalConcern;
-  if (originalImprovement !== null && originalConcern !== null) {
-    row.sqlPruned = true;
-    if (prime === "Upwards" /* Upwards */) {
-      if (metricImprovement === "Up" /* Up */) {
-      } else if (metricImprovement === "Down" /* Down */) {
-        row.sqlOriginalImprovementValue = null;
-      }
-    } else if (prime === "Downwards" /* Downwards */) {
-      if (metricImprovement === "Up" /* Up */) {
-        row.sqlOriginalImprovementValue = null;
-      } else if (metricImprovement === "Down" /* Down */) {
-      }
-    } else {
-      if (originalImprovement !== null) {
-        row.sqlOriginalConcernValue = null;
-      } else if (originalConcern !== null) {
-        row.sqlOriginalImprovementValue = null;
-      }
-    }
-  }
-  if (row.sqlOriginalImprovementValue && !row.sqlOriginalConcernValue) {
-    row.variationIcon = "improvement" /* Improvement */;
-  } else if (!row.sqlOriginalImprovementValue && row.sqlOriginalConcernValue) {
-    row.variationIcon = "concern" /* Concern */;
-  } else if (!row.sqlOriginalImprovementValue && !row.sqlOriginalConcernValue) {
-    row.variationIcon = "neither" /* Neither */;
-  } else {
-    row.variationIcon = "improvement" /* Improvement */;
-  }
-  row.primeDirection = prime;
-  row.primeRank = Math.max(upMax, downMax) || void 0;
-  row.pruningMode = "sql" /* Sql */;
-  const winningSide = row.variationIcon === "concern" /* Concern */ ? metricImprovement === "Up" /* Up */ ? "down" /* Down */ : "up" /* Up */ : metricImprovement === "Up" /* Up */ ? "up" /* Up */ : "down" /* Down */;
-  const winnerSet = winningSide === "up" /* Up */ ? high : low;
-  const top = winnerSet.reduce(
-    (best, a) => !best || a.rank > best.rank ? a : best,
-    void 0
-  );
-  if (top) row.primeRuleId = top.id;
-}
-function buildSpcSqlCompat(args) {
-  const { chartType, metricImprovement, data, settings = {} } = args;
-  const base = buildSpc({
-    chartType,
-    metricImprovement,
-    data,
-    settings: {
-      ...settings
-    }
-  });
-  const rows = base.rows.map((r) => ({ ...r }));
-  for (const r of rows) {
-    sqlDirectionalPrune(r, metricImprovement);
-  }
-  return { rows, warnings: base.warnings };
 }
 
 // src/components/DataVisualisation/charts/SPC/utils/autoMetrics.ts
@@ -10351,6 +10264,7 @@ var RULE_RANK_BY_ID2 = {
 };
 var MR_UCL_FACTOR = 3.267;
 var XMR_THREE_SIGMA_FACTOR = 2.66;
+var T_TRANSFORM_EXP = 0.2777;
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils.ts
 function isNumber2(n) {
@@ -10411,6 +10325,67 @@ function xmrLimits2(center, mrMean) {
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/limits.ts
 function computePartitionLimits(chartType, values, ghosts, excludeMovingRangeOutliers) {
+  if (chartType === "T" /* T */) {
+    const yVals = values.map((v) => isNumber2(v) && v > 0 ? Math.pow(v, T_TRANSFORM_EXP) : null);
+    const mr2 = movingRanges2(yVals, ghosts);
+    const mrStats = mrMeanWithOptionalExclusion2(mr2, excludeMovingRangeOutliers);
+    const eligible = yVals.filter((v, i) => !ghosts[i] && isNumber2(v));
+    const centerY = eligible.length ? mean2(eligible) : NaN;
+    const limY = xmrLimits2(centerY, mrStats.mrMean);
+    const inv = (y2) => isNumber2(y2) && y2 > 0 ? Math.pow(y2, 1 / T_TRANSFORM_EXP) : null;
+    const upl = isNumber2(limY.upperProcessLimit) ? inv(limY.upperProcessLimit) : null;
+    const lpl = isNumber2(limY.lowerProcessLimit) && limY.lowerProcessLimit > 0 ? inv(limY.lowerProcessLimit) : null;
+    const u2 = isNumber2(limY.upperTwoSigma) ? inv(limY.upperTwoSigma) : null;
+    const l2 = isNumber2(limY.lowerTwoSigma) && limY.lowerTwoSigma > 0 ? inv(limY.lowerTwoSigma) : null;
+    const u1 = isNumber2(limY.upperOneSigma) ? inv(limY.upperOneSigma) : null;
+    const l1 = isNumber2(limY.lowerOneSigma) && limY.lowerOneSigma > 0 ? inv(limY.lowerOneSigma) : null;
+    return {
+      mean: isNumber2(centerY) && centerY > 0 ? inv(centerY) : null,
+      mr: mr2,
+      mrMean: mrStats.mrMean,
+      mrUcl: mrStats.mrUcl,
+      upperProcessLimit: upl,
+      lowerProcessLimit: lpl,
+      upperTwoSigma: u2,
+      lowerTwoSigma: l2,
+      upperOneSigma: u1,
+      lowerOneSigma: l1
+    };
+  }
+  if (chartType === "G" /* G */) {
+    const eligible = values.filter((v, i) => !ghosts[i] && isNumber2(v));
+    const m = eligible.length ? mean2(eligible) : NaN;
+    const p = isNumber2(m) ? 1 / (m + 1) : NaN;
+    const qgeom = (q) => {
+      if (!isNumber2(p) || p <= 0 || p >= 1) return NaN;
+      const k = Math.ceil(Math.log(1 - q) / Math.log(1 - p)) - 1;
+      return Math.max(0, k);
+    };
+    const qLower3 = 135e-5;
+    const qUpper3 = 1 - 135e-5;
+    const qLower2 = 0.02275;
+    const qUpper2 = 1 - 0.02275;
+    const qLower1 = 0.158655;
+    const qUpper1 = 1 - 0.158655;
+    const upl = qgeom(qUpper3);
+    const lpl = qgeom(qLower3);
+    const u2 = qgeom(qUpper2);
+    const l2 = qgeom(qLower2);
+    const u1 = qgeom(qUpper1);
+    const l1 = qgeom(qLower1);
+    return {
+      mean: isNumber2(m) ? m : null,
+      mr: new Array(values.length).fill(null),
+      mrMean: NaN,
+      mrUcl: NaN,
+      upperProcessLimit: isNumber2(upl) ? upl : null,
+      lowerProcessLimit: isNumber2(lpl) ? lpl : null,
+      upperTwoSigma: isNumber2(u2) ? u2 : null,
+      lowerTwoSigma: isNumber2(l2) ? l2 : null,
+      upperOneSigma: isNumber2(u1) ? u1 : null,
+      lowerOneSigma: isNumber2(l1) ? l1 : null
+    };
+  }
   if (chartType !== "XmR" /* XmR */) {
     return {
       mean: NaN,
@@ -10459,7 +10434,7 @@ function computePartitionLimits(chartType, values, ghosts, excludeMovingRangeOut
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/detector.ts
 function detectRulesInPartition(rows, cfg) {
-  var _a2, _b2, _c, _d;
+  var _a2, _b2, _c, _d, _e, _f;
   const idxs = rows.map((_, i) => i).filter((i) => !rows[i].ghost && isNumber2(rows[i].value));
   const get = (i) => rows[i];
   const shiftN = cfg.shiftPoints;
@@ -10506,6 +10481,23 @@ function detectRulesInPartition(rows, cfg) {
       highs.forEach((r) => r.twoSigmaUp = true);
     if (allLow && lows.length >= 2)
       lows.forEach((r) => r.twoSigmaDown = true);
+  }
+  if (cfg.enableFourOfFiveRule) {
+    for (let w = 0; w <= idxs.length - 5; w++) {
+      const win = idxs.slice(w, w + 5);
+      const quint = win.map(get);
+      if (!quint.every((r) => isNumber2(r.value) && isNumber2(r.mean))) continue;
+      const mean3 = quint[0].mean;
+      const allHigh = quint.every((r) => r.value > mean3);
+      const allLow = quint.every((r) => r.value < mean3);
+      if (!allHigh && !allLow) continue;
+      const u1 = (_e = quint[0].upperOneSigma) != null ? _e : Infinity;
+      const l1 = (_f = quint[0].lowerOneSigma) != null ? _f : -Infinity;
+      const highs = quint.filter((r) => r.value > u1);
+      const lows = quint.filter((r) => r.value < l1);
+      if (allHigh && highs.length >= 4) highs.forEach((r) => r.fourOfFiveUp = true);
+      if (allLow && lows.length >= 4) lows.forEach((r) => r.fourOfFiveDown = true);
+    }
   }
   for (let w = 0; w <= idxs.length - trendN; w++) {
     const win = idxs.slice(w, w + trendN);
@@ -10915,6 +10907,13 @@ function chooseSegmentsForHighlight(runs, opts) {
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/visualCategories.ts
+var SpcVisualCategory = /* @__PURE__ */ ((SpcVisualCategory3) => {
+  SpcVisualCategory3["Common"] = "Common";
+  SpcVisualCategory3["Improvement"] = "Improvement";
+  SpcVisualCategory3["Concern"] = "Concern";
+  SpcVisualCategory3["NoJudgement"] = "NoJudgement";
+  return SpcVisualCategory3;
+})(SpcVisualCategory || {});
 function sideFlags(row) {
   const upAny = !!(row.singlePointUp || row.twoSigmaUp || row.shiftUp || row.trendUp);
   const downAny = !!(row.singlePointDown || row.twoSigmaDown || row.shiftDown || row.trendDown);
@@ -11035,10 +11034,62 @@ function computeBoundaryWindowCategories(rows, metricImprovement, options) {
   return out;
 }
 
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/normaliser.ts
+function normaliseSpcSettingsV2(input) {
+  var _a2;
+  if (!input) return {};
+  if (typeof input === "object" && ("minimumPoints" in input || "shiftPoints" in input || "trendPoints" in input)) {
+    return input;
+  }
+  const h = input;
+  const out = {};
+  if (h.thresholds) {
+    const t = h.thresholds;
+    if (t.minimumPoints != null) out.minimumPoints = t.minimumPoints;
+    if (t.shiftPoints != null) out.shiftPoints = t.shiftPoints;
+    if (t.trendPoints != null) out.trendPoints = t.trendPoints;
+    if (t.excludeMovingRangeOutliers != null)
+      out.excludeMovingRangeOutliers = t.excludeMovingRangeOutliers;
+  }
+  if (h.eligibility) {
+    if (h.eligibility.chartLevel != null)
+      out.chartLevelEligibility = h.eligibility.chartLevel;
+  }
+  if (h.parity) {
+    if (h.parity.trendAcrossPartitions != null)
+      out.trendAcrossPartitions = h.parity.trendAcrossPartitions;
+    if (h.parity.twoSigmaIncludeAboveThree != null)
+      out.twoSigmaIncludeAboveThree = h.parity.twoSigmaIncludeAboveThree;
+    if (h.parity.enableFourOfFiveRule != null)
+      out.enableFourOfFiveRule = h.parity.enableFourOfFiveRule;
+  }
+  if (h.conflict) {
+    if (h.conflict.preferImprovementWhenConflict != null)
+      out.preferImprovementWhenConflict = h.conflict.preferImprovementWhenConflict;
+    if (h.conflict.preferTrendWhenConflict != null)
+      out.preferTrendWhenConflict = h.conflict.preferTrendWhenConflict;
+    if (h.conflict.strategy != null) out.conflictStrategy = h.conflict.strategy;
+    if (h.conflict.ruleHierarchy != null)
+      out.ruleHierarchy = h.conflict.ruleHierarchy;
+    if (h.conflict.metricRuleOnTie != null)
+      out.metricConflictRule = h.conflict.metricRuleOnTie;
+  }
+  if ((_a2 = h.trend) == null ? void 0 : _a2.segmentation) {
+    const s = h.trend.segmentation;
+    if (s.mode != null) out.trendSegmentationMode = s.mode;
+    if (s.favourableSegmentation != null)
+      out.trendFavourableSegmentation = s.favourableSegmentation;
+    if (s.strategy != null) out.trendSegmentationStrategy = s.strategy;
+    if (s.dominatesHighlightedWindow != null)
+      out.trendDominatesHighlightedWindow = s.dominatesHighlightedWindow;
+  }
+  return out;
+}
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/engine.ts
 function buildSpcV26a(args) {
-  var _a2, _b2, _c, _d;
-  const { chartType, metricImprovement, data, settings } = args;
+  const { chartType, metricImprovement, data } = args;
+  const settings = normaliseSpcSettingsV2(args.settings);
   const s = {
     minimumPoints: 13,
     shiftPoints: 6,
@@ -11047,6 +11098,7 @@ function buildSpcV26a(args) {
     metricConflictRule: "Improvement" /* Improvement */,
     trendAcrossPartitions: false,
     twoSigmaIncludeAboveThree: false,
+    enableFourOfFiveRule: false,
     preferImprovementWhenConflict: false,
     conflictStrategy: "SqlPrimeThenRule" /* SqlPrimeThenRule */,
     ruleHierarchy: void 0,
@@ -11057,7 +11109,7 @@ function buildSpcV26a(args) {
     trendDominatesHighlightedWindow: false,
     ...settings
   };
-  const resolvedMode = (_d = (_a2 = args.settings) == null ? void 0 : _a2.trendSegmentationMode) != null ? _d : ((_b2 = args.settings) == null ? void 0 : _b2.trendFavourableSegmentation) === true ? "Always" /* Always */ : ((_c = args.settings) == null ? void 0 : _c.trendFavourableSegmentation) === false ? "Off" /* Off */ : s.trendSegmentationMode;
+  const resolvedMode = (settings == null ? void 0 : settings.trendSegmentationMode) || ((settings == null ? void 0 : settings.trendFavourableSegmentation) === true ? "Always" /* Always */ : (settings == null ? void 0 : settings.trendFavourableSegmentation) === false ? "Off" /* Off */ : s.trendSegmentationMode);
   const canon = data.map((d, i) => ({
     rowId: i + 1,
     x: d.x,
@@ -11113,6 +11165,8 @@ function buildSpcV26a(args) {
         singlePointDown: false,
         twoSigmaUp: false,
         twoSigmaDown: false,
+        fourOfFiveUp: false,
+        fourOfFiveDown: false,
         shiftUp: false,
         shiftDown: false,
         trendUp: false,
@@ -11134,7 +11188,8 @@ function buildSpcV26a(args) {
     detectRulesInPartition(withLines, {
       shiftPoints: s.shiftPoints,
       trendPoints: s.trendPoints,
-      twoSigmaIncludeAboveThree: !!s.twoSigmaIncludeAboveThree
+      twoSigmaIncludeAboveThree: !!s.twoSigmaIncludeAboveThree,
+      enableFourOfFiveRule: !!s.enableFourOfFiveRule
     });
     const maybeApplySegmentation = (rows) => {
       const hasConflict = rows.some(
@@ -11296,7 +11351,6 @@ function buildVisualsForScenario(args, scenario, opts) {
         preWindow: 2,
         postWindow: 4,
         prePolarity: "Same",
-        directionOverride: "Down" /* Down */,
         boundaryIndices: explicitBoundaries
       };
       break;
@@ -11307,7 +11361,6 @@ function buildVisualsForScenario(args, scenario, opts) {
         preWindow: 1,
         postWindow: 5,
         prePolarity: "Same",
-        directionOverride: "Up" /* Up */,
         boundaryIndices: explicitBoundaries
       };
       break;
@@ -11318,7 +11371,6 @@ function buildVisualsForScenario(args, scenario, opts) {
         preWindow: 1,
         postWindow: 1,
         prePolarity: "Same",
-        directionOverride: "Down" /* Down */,
         boundaryIndices: explicitBoundaries
       };
       break;
@@ -11370,6 +11422,16 @@ var PARITY_V26 = Object.freeze({
   twoSigmaIncludeAboveThree: true,
   chartLevelEligibility: true
 });
+function withParityV26(overrides) {
+  return { ...PARITY_V26, ...overrides != null ? overrides : {} };
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/adapter.ts
+function buildWithVisuals(args) {
+  const { rows } = buildSpcV26a(args);
+  const base = buildSpcV26aWithVisuals(args);
+  return { rows, visuals: base.visuals };
+}
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
 import { Fragment as Fragment4, jsx as jsx17, jsxs as jsxs11 } from "react/jsx-runtime";
@@ -11409,7 +11471,6 @@ var SPCChart = ({
   alwaysShowZeroY = true,
   alwaysShowHundredY = false,
   percentScale = false,
-  useSqlCompatEngine = true,
   showTrendStartMarkers = false,
   showFirstFavourableCrossMarkers = false,
   showTrendBridgeOverlay = false,
@@ -11451,20 +11512,44 @@ var SPCChart = ({
   const engine = React13.useMemo(() => {
     try {
       const engineSettings = settings ? { ...settings } : void 0;
-      if (useSqlCompatEngine) {
-        return buildSpcSqlCompat({
-          chartType,
-          metricImprovement,
-          data: rowsInput,
-          settings: engineSettings
-        });
-      }
       return buildSpc({ chartType, metricImprovement, data: rowsInput, settings: engineSettings });
     } catch {
       return null;
     }
-  }, [rowsInput, chartType, metricImprovement, settings, useSqlCompatEngine]);
+  }, [rowsInput, chartType, metricImprovement, settings]);
   const v2Visuals = React13.useMemo(() => {
+    var _a3;
+    try {
+      const minPts = (_a3 = settings == null ? void 0 : settings.minimumPointsPartition) != null ? _a3 : settings == null ? void 0 : settings.minimumPoints;
+      const v2Settings = {};
+      if (typeof minPts === "number" && !isNaN(minPts)) {
+        v2Settings.minimumPoints = minPts;
+        const eligibleCount = rowsInput.filter((r) => !r.ghost && typeof r.value === "number").length;
+        if (eligibleCount >= minPts) v2Settings.chartLevelEligibility = true;
+      }
+      if ((settings == null ? void 0 : settings.twoSigmaIncludeAboveThree) != null) {
+        v2Settings.twoSigmaIncludeAboveThree = !!settings.twoSigmaIncludeAboveThree;
+      }
+      if ((settings == null ? void 0 : settings.enableFourOfFiveRule) != null) {
+        v2Settings.enableFourOfFiveRule = !!settings.enableFourOfFiveRule;
+      }
+      const v2Args = {
+        chartType: chartType != null ? chartType : "XmR",
+        metricImprovement: metricImprovement != null ? metricImprovement : "Neither",
+        data: rowsInput,
+        settings: Object.keys(v2Settings).length ? v2Settings : void 0
+      };
+      const scenario = visualsScenario;
+      const { visuals } = buildVisualsForScenario(v2Args, scenario, {
+        trendVisualMode: trendVisualMode === "ungated" /* Ungated */ ? "Ungated" : "Gated",
+        enableNeutralNoJudgement
+      });
+      return visuals || [];
+    } catch {
+      return [];
+    }
+  }, [rowsInput, chartType, metricImprovement, trendVisualMode, enableNeutralNoJudgement, settings, visualsScenario]);
+  const v2RowsForUi = React13.useMemo(() => {
     var _a3;
     try {
       const minPts = (_a3 = settings == null ? void 0 : settings.minimumPointsPartition) != null ? _a3 : settings == null ? void 0 : settings.minimumPoints;
@@ -11483,19 +11568,54 @@ var SPCChart = ({
         data: rowsInput,
         settings: Object.keys(v2Settings).length ? v2Settings : void 0
       };
-      const scenario = visualsScenario;
-      const { visuals } = buildVisualsForScenario(v2Args, scenario, {
-        trendVisualMode: trendVisualMode === "ungated" /* Ungated */ ? "Ungated" : "Gated",
-        enableNeutralNoJudgement
+      const { rows } = buildWithVisuals(v2Args);
+      const mapVariation = (v) => {
+        if (v === "ImprovementHigh" || v === "ImprovementLow") return "improvement" /* Improvement */;
+        if (v === "ConcernHigh" || v === "ConcernLow") return "concern" /* Concern */;
+        if (v === "NeitherHigh" || v === "NeitherLow") return "neither" /* Neither */;
+        return "neither" /* Neither */;
+      };
+      return rows.map((r) => {
+        var _a4, _b3;
+        return {
+          value: r.value,
+          ghost: !!r.ghost,
+          partitionId: r.partitionId,
+          mean: r.mean,
+          upperProcessLimit: r.upperProcessLimit,
+          lowerProcessLimit: r.lowerProcessLimit,
+          upperTwoSigma: r.upperTwoSigma,
+          lowerTwoSigma: r.lowerTwoSigma,
+          upperOneSigma: r.upperOneSigma,
+          lowerOneSigma: r.lowerOneSigma,
+          // Rule flags mapping (v2 -> UI keys expected by overlay/inspector)
+          specialCauseSinglePointUp: !!r.singlePointUp,
+          specialCauseSinglePointDown: !!r.singlePointDown,
+          specialCauseTwoOfThreeUp: !!r.twoSigmaUp,
+          specialCauseTwoOfThreeDown: !!r.twoSigmaDown,
+          specialCauseFourOfFiveUp: !!r.fourOfFiveUp,
+          specialCauseFourOfFiveDown: !!r.fourOfFiveDown,
+          specialCauseShiftUp: !!r.shiftUp,
+          specialCauseShiftDown: !!r.shiftDown,
+          specialCauseTrendUp: !!r.trendUp,
+          specialCauseTrendDown: !!r.trendDown,
+          // Classification mapped to v1 enum
+          variationIcon: mapVariation(r.variationIcon),
+          // Neutral special-cause hint for purple orientation
+          specialCauseNeitherValue: r.variationIcon === "NeitherHigh" || r.variationIcon === "NeitherLow" ? (_b3 = (_a4 = r.specialCauseImprovementValue) != null ? _a4 : r.specialCauseConcernValue) != null ? _b3 : 1 : null,
+          // Target/assurance may be absent in v2 rows; leave undefined for UI fallbacks
+          target: r.target,
+          assuranceIcon: void 0
+        };
       });
-      return visuals || [];
     } catch {
-      return [];
+      return null;
     }
-  }, [rowsInput, chartType, metricImprovement, trendVisualMode, enableNeutralNoJudgement, settings, visualsScenario]);
-  const engineRepresentative = engine == null ? void 0 : engine.rows.slice().reverse().find((r) => r.mean != null);
+  }, [rowsInput, chartType, metricImprovement, settings]);
+  const rowsForUi = v2RowsForUi || null;
+  const engineRepresentative = (rowsForUi || []).slice().reverse().find((r) => r.mean != null);
   const mean3 = (_a2 = engineRepresentative == null ? void 0 : engineRepresentative.mean) != null ? _a2 : null;
-  const warnings = (engine == null ? void 0 : engine.warnings) || [];
+  const warnings = [];
   const filteredWarnings = React13.useMemo(() => {
     if (!warnings.length) return [];
     if (!warningsFilter) return warnings;
@@ -11589,6 +11709,22 @@ var SPCChart = ({
     if (alwaysShowHundredY) max = Math.max(100, max);
     return [min, max];
   }, [data, mean3, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp, alwaysShowZeroY, alwaysShowHundredY, percentScale]);
+  const uniformTarget = React13.useMemo(() => {
+    const collectUniform = (arr) => {
+      const nums = arr.filter((t) => typeof t === "number" && !isNaN(t));
+      if (!nums.length) return null;
+      const first = nums[0];
+      return nums.every((v) => v === first) ? first : null;
+    };
+    if (rowsForUi && rowsForUi.length) {
+      const fromRows = collectUniform(rowsForUi.map((r) => r.target));
+      if (fromRows != null) return fromRows;
+    }
+    if (targetsProp && targetsProp.length) {
+      return collectUniform(targetsProp);
+    }
+    return null;
+  }, [rowsForUi, targetsProp]);
   const autoFromHelper = React13.useMemo(() => {
     const dateCandidates = data.map((d) => d.x instanceof Date || typeof d.x === "string" || typeof d.x === "number" ? d.x : void 0);
     return autoMetrics_default({
@@ -11606,19 +11742,19 @@ var SPCChart = ({
     return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
   }, [narrationContext, effectiveUnit]);
   const partitionMarkers = React13.useMemo(() => {
-    if (!(engine == null ? void 0 : engine.rows)) return [];
+    if (!rowsForUi) return [];
     const markers = [];
-    for (let i = 1; i < engine.rows.length; i++) {
-      if (engine.rows[i].partitionId !== engine.rows[i - 1].partitionId)
+    for (let i = 1; i < rowsForUi.length; i++) {
+      if (rowsForUi[i].partitionId !== rowsForUi[i - 1].partitionId)
         markers.push(i);
     }
     return markers;
-  }, [engine == null ? void 0 : engine.rows]);
+  }, [rowsForUi]);
   const embeddedIcon = React13.useMemo(() => {
-    var _a3, _b3;
-    if (!showEmbeddedIcon || !((_a3 = engine == null ? void 0 : engine.rows) == null ? void 0 : _a3.length)) return null;
-    const engineRows = engine.rows;
-    const minPoints = (_b3 = settings == null ? void 0 : settings.minimumPoints) != null ? _b3 : 13;
+    var _a3;
+    if (!showEmbeddedIcon || !(rowsForUi == null ? void 0 : rowsForUi.length)) return null;
+    const engineRows = rowsForUi;
+    const minPoints = (_a3 = settings == null ? void 0 : settings.minimumPoints) != null ? _a3 : 13;
     const nonGhostCount = engineRows.filter(
       (r) => !r.ghost && r.value != null
     ).length;
@@ -11762,7 +11898,8 @@ var SPCChart = ({
                 limits: { mean: mean3, ucl, lcl, sigma, onePos, oneNeg, twoPos, twoNeg },
                 showZones,
                 highlightOutOfControl,
-                engineRows: (engine == null ? void 0 : engine.rows) || null,
+                engineRows: rowsForUi,
+                uniformTarget,
                 visualCategories: v2Visuals,
                 enableRules,
                 showIcons,
@@ -11919,7 +12056,8 @@ var InternalSPC = ({
   showTrendBridgeOverlay = false,
   showSignalsInspector = false,
   onSignalFocus,
-  visualCategories
+  visualCategories,
+  uniformTarget
 }) => {
   var _a2;
   const scaleCtx = useScaleContext();
@@ -11969,17 +12107,6 @@ var InternalSPC = ({
       };
     });
     return map2;
-  }, [engineRows]);
-  const uniformTarget = React13.useMemo(() => {
-    if (!engineRows || !engineRows.length) return null;
-    const values = [];
-    for (const r of engineRows) {
-      if (typeof r.target === "number" && !isNaN(r.target))
-        values.push(r.target);
-    }
-    if (!values.length) return null;
-    const first = values[0];
-    return values.every((v) => v === first) ? first : null;
   }, [engineRows]);
   const categories = React13.useMemo(() => {
     return (visualCategories || []).map((c) => {
@@ -12709,12 +12836,14 @@ export {
   icons_exports as Icons,
   ImprovementDirection,
   MetricPolarity,
+  PARITY_V26,
   RULE_METADATA,
   SPCAssuranceIcon,
   SPCChart_default as SPCChart,
   SPCTooltipOverlay_default as SPCTooltipOverlay,
   SPCVariationIcon,
   SpcEmbeddedIconVariant,
+  SpcVisualCategory,
   SpcWarningCategory,
   SpcWarningCode,
   SpcWarningSeverity,
@@ -12723,14 +12852,19 @@ export {
   VariationJudgement,
   VariationState,
   buildSpc,
+  buildSpcV26a,
+  buildSpcV26aWithVisuals,
+  computeSpcVisualCategories,
   extractRuleIds,
   getVariationColorHex,
   getVariationColorToken,
   getVariationColour,
   getVariationTrend,
   normaliseSpcSettings,
+  normaliseSpcSettingsV2,
   ruleGlossary,
-  variationLabel
+  variationLabel,
+  withParityV26
 };
 /*! Bundled license information:
 

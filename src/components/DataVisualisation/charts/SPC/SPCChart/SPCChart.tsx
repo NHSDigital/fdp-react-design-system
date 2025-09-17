@@ -293,6 +293,9 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			if ((settings as any)?.twoSigmaIncludeAboveThree != null) {
 				v2Settings.twoSigmaIncludeAboveThree = !!(settings as any).twoSigmaIncludeAboveThree;
 			}
+			if ((settings as any)?.enableFourOfFiveRule != null) {
+				(v2Settings as any).enableFourOfFiveRule = !!(settings as any).enableFourOfFiveRule;
+			}
 			const v2Args: V2BuildArgs = {
 				chartType: (chartType as unknown as V2ChartType) ?? ("XmR" as unknown as V2ChartType),
 				metricImprovement: (metricImprovement as unknown as V2ImprovementDirection) ?? ("Neither" as unknown as V2ImprovementDirection),
@@ -351,10 +354,10 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				// Rule flags mapping (v2 -> UI keys expected by overlay/inspector)
 				specialCauseSinglePointUp: !!r.singlePointUp,
 				specialCauseSinglePointDown: !!r.singlePointDown,
-				specialCauseTwoOfThreeUp: false,
-				specialCauseTwoOfThreeDown: false,
-				specialCauseFourOfFiveUp: false,
-				specialCauseFourOfFiveDown: false,
+				specialCauseTwoOfThreeUp: !!r.twoSigmaUp,
+				specialCauseTwoOfThreeDown: !!r.twoSigmaDown,
+				specialCauseFourOfFiveUp: !!(r as any).fourOfFiveUp,
+				specialCauseFourOfFiveDown: !!(r as any).fourOfFiveDown,
 				specialCauseShiftUp: !!r.shiftUp,
 				specialCauseShiftDown: !!r.shiftDown,
 				specialCauseTrendUp: !!r.trendUp,
@@ -501,6 +504,26 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		return [min, max];
 
 	}, [data, mean, ucl, lcl, onePos, oneNeg, twoPos, twoNeg, targetsProp, alwaysShowZeroY, alwaysShowHundredY, percentScale]);
+
+	// Compute a uniform target once at the outer level (rows + raw targets available)
+	const uniformTarget = React.useMemo(() => {
+		const collectUniform = (arr: Array<number | null | undefined>): number | null => {
+			const nums = arr.filter((t): t is number => typeof t === "number" && !isNaN(t));
+			if (!nums.length) return null;
+			const first = nums[0];
+			return nums.every((v) => v === first) ? first : null;
+		};
+		// Try from adapter rows first (if targets were preserved)
+		if (rowsForUi && rowsForUi.length) {
+			const fromRows = collectUniform(rowsForUi.map((r: any) => r.target));
+			if (fromRows != null) return fromRows;
+		}
+		// Fallback to the raw targets prop
+		if (targetsProp && targetsProp.length) {
+			return collectUniform(targetsProp);
+		}
+		return null;
+	}, [rowsForUi, targetsProp]);
 
 	// Use shared auto metrics helper to infer unit consistently with SPCMetricCard
 	const autoFromHelper = React.useMemo(() => {
@@ -733,6 +756,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						showZones={showZones}
 						highlightOutOfControl={highlightOutOfControl}
 						engineRows={rowsForUi}
+						uniformTarget={uniformTarget}
 						visualCategories={v2Visuals as any}
 						enableRules={enableRules}
 						showIcons={showIcons}
@@ -910,6 +934,8 @@ interface InternalProps {
 	onSignalFocus?: (info: SPCSignalFocusInfo) => void;
     /** Optional engine v2-provided UI-agnostic categories to drive colour coding */
 	visualCategories: SpcVisualCategory[];
+	/** Precomputed uniform target value (drawn as horizontal line) */
+	uniformTarget: number | null;
 }
 
 const InternalSPC: React.FC<InternalProps> = ({
@@ -938,6 +964,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 	showSignalsInspector = false,
 	onSignalFocus,
     visualCategories,
+	uniformTarget,
 }) => {
 	const scaleCtx = useScaleContext();
 	const chartCtx = useChartContext();
@@ -1006,18 +1033,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 		return map;
 	}, [engineRows]);
 
-	// Derive a single uniform target (most common current usage) for drawing a horizontal reference line.
-	const uniformTarget = React.useMemo(() => {
-		if (!engineRows || !engineRows.length) return null;
-		const values: number[] = [];
-		for (const r of engineRows) {
-			if (typeof r.target === "number" && !isNaN(r.target))
-				values.push(r.target);
-		}
-		if (!values.length) return null;
-		const first = values[0];
-		return values.every((v) => v === first) ? first : null; // only render when constant across series
-	}, [engineRows]);
+	// uniformTarget is computed in the outer SPCChart and passed as a prop
 
 	// Categories strictly from engine v2 visuals (engine is source of truth)
 	const categories = React.useMemo(() => {

@@ -34,6 +34,8 @@ export function normaliseSpcSettingsV2(input?: SpcSettingsInput): SpcSettingsV26
       out.trendAcrossPartitions = h.parity.trendAcrossPartitions;
     if (h.parity.twoSigmaIncludeAboveThree != null)
       out.twoSigmaIncludeAboveThree = h.parity.twoSigmaIncludeAboveThree;
+    if (h.parity.enableFourOfFiveRule != null)
+      out.enableFourOfFiveRule = h.parity.enableFourOfFiveRule;
   }
   // conflict
   if (h.conflict) {

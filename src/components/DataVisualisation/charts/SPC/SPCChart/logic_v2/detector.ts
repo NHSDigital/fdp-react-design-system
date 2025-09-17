@@ -5,6 +5,7 @@ export interface DetectorConfig {
 	shiftPoints: number;
 	trendPoints: number;
 	twoSigmaIncludeAboveThree?: boolean;
+	enableFourOfFiveRule?: boolean;
 }
 
 export function detectRulesInPartition(rows: SpcRowV2[], cfg: DetectorConfig) {
@@ -60,6 +61,25 @@ export function detectRulesInPartition(rows: SpcRowV2[], cfg: DetectorConfig) {
 			highs.forEach((r) => (r.twoSigmaUp = true));
 		if (allLow && lows.length >= 2)
 			lows.forEach((r) => (r.twoSigmaDown = true));
+	}
+
+	// Four-of-five beyond 1σ (side-consistent, optional early-warning)
+	if (cfg.enableFourOfFiveRule) {
+		for (let w = 0; w <= idxs.length - 5; w++) {
+			const win = idxs.slice(w, w + 5);
+			const quint = win.map(get);
+			if (!quint.every((r) => isNumber(r.value) && isNumber(r.mean))) continue;
+			const mean = quint[0].mean!;
+			const allHigh = quint.every((r) => r.value! > mean);
+			const allLow = quint.every((r) => r.value! < mean);
+			if (!allHigh && !allLow) continue;
+			const u1 = quint[0].upperOneSigma ?? Infinity;
+			const l1 = quint[0].lowerOneSigma ?? -Infinity;
+			const highs = quint.filter((r) => r.value! > u1);
+			const lows = quint.filter((r) => r.value! < l1);
+			if (allHigh && highs.length >= 4) highs.forEach((r) => (r.fourOfFiveUp = true));
+			if (allLow && lows.length >= 4) lows.forEach((r) => (r.fourOfFiveDown = true));
+		}
 	}
 
 	// Trend (strict monotonic inc/dec)

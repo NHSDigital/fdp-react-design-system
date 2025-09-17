@@ -7,6 +7,7 @@ import {
 	VisualsScenario,
 } from "./SPCChart";
 import grouped from "./test-data/Test Data.grouped.json";
+import { deriveDirectionFromDatasetWithPoints } from "./logic_v2/utils/direction";
 
 // Map SPCChart point classes to canonical hex colour so we avoid relying on computed CSS variables
 const CLASS_TO_HEX: Record<string, string> = {
@@ -29,73 +30,17 @@ type Group = {
 
 const groups = grouped as unknown as Group[];
 
-function dirFromMetric(metric: string): ImprovementDirection {
-	if (/High is good/i.test(metric)) return ImprovementDirection.Up;
-	if (/Low is good/i.test(metric)) return ImprovementDirection.Down;
-	if (/single point/i.test(metric)) return ImprovementDirection.Up; // matches existing tests
-	if (/trend/i.test(metric) && /higher/i.test(metric))
-		return ImprovementDirection.Up;
-	if (/trend/i.test(metric) && /lower/i.test(metric))
-		return ImprovementDirection.Down;
-	return ImprovementDirection.Neither;
-}
+// Legacy helper no longer needed; use shared utility instead
 
 // Heuristic: when group-level improvement is not specified, infer a plausible
 // ImprovementDirection from the dataset by comparing the average value of
 // points labelled as "improvement"/"concern" against the overall mean.
 function inferDirectionFromGroup(grp: Group): ImprovementDirection {
-	// Honour explicit group hint if present ("up" | "down" | "neither")
-	if (grp.improvement === "up") return ImprovementDirection.Up;
-	if (grp.improvement === "down") return ImprovementDirection.Down;
-	if (grp.improvement === "neither") return ImprovementDirection.Neither;
-
-	// Canonical grouped expectations: when trend scenarios don't explicitly state polarity,
-	// they assume "High is good" for colouring (blue for increasing trend sequences).
-	if (/^Special cause\s*-\s*trend/i.test(grp.metric)) {
-		return ImprovementDirection.Up;
-	}
-
-	// Recalculation-labelled scenarios tend to be polarity-agnostic in expectations
-	if (/Recalculations/i.test(grp.metric) || /Baselines/i.test(grp.metric)) {
-		// Defer to name heuristic; if neutral, prefer Up to align with canonical expectations
-		const nameDir = dirFromMetric(grp.metric);
-		if (nameDir !== ImprovementDirection.Neither) return nameDir;
-		return ImprovementDirection.Up;
-	}
-
-	// Fallback to metric-name heuristics (e.g., "High is good")
-	const fromName = dirFromMetric(grp.metric);
-	if (fromName !== ImprovementDirection.Neither) return fromName;
-
-	// Data-driven inference from expected colours: choose polarity that places
-	// expected blue points on the favourable side vs orange on unfavourable.
-	const values = grp.data.map((d) => d.value);
-	const mean = values.reduce((a, b) => a + b, 0) / (values.length || 1);
-	const blue = grp.data.filter((d) => d.colour === "#00B0F0");
-	const orange = grp.data.filter((d) => d.colour === "#E46C0A");
-	if (blue.length && orange.length) {
-		const blueAvg = blue.reduce((a, d) => a + d.value, 0) / blue.length;
-		const orangeAvg = orange.reduce((a, d) => a + d.value, 0) / orange.length;
-		return blueAvg >= orangeAvg
-			? ImprovementDirection.Up
-			: ImprovementDirection.Down;
-	}
-	if (blue.length) {
-		const blueAvg = blue.reduce((a, d) => a + d.value, 0) / blue.length;
-		return blueAvg >= mean
-			? ImprovementDirection.Up
-			: ImprovementDirection.Down;
-	}
-	if (orange.length) {
-		const orangeAvg = orange.reduce((a, d) => a + d.value, 0) / orange.length;
-		// Use a small epsilon to bias towards Down when orange cluster sits near mean
-		return orangeAvg >= mean - 0.25
-			? ImprovementDirection.Down
-			: ImprovementDirection.Up;
-	}
-
-	// No signal labels available; remain neutral
-	return ImprovementDirection.Neither;
+	return deriveDirectionFromDatasetWithPoints(
+		grp.metric,
+		grp.improvement,
+		grp.data.map((d) => ({ value: d.value, colour: d.colour }))
+	);
 }
 
 describe("SPCChart colours vs grouped JSON", () => {
@@ -108,18 +53,15 @@ describe("SPCChart colours vs grouped JSON", () => {
 				x: new Date(date),
 				y: value,
 			}));
-			// Apply a manual baseline (recalculation) at index 15 for the dedicated recalculation metric(s)
+			// Apply a manual baseline (recalculation) at index 15 for recalculation metrics
 			let baselines: (boolean | null | undefined)[] | undefined;
 			if (
 				grp.metric === "Recalculations - Recalculated" ||
-				grp.metric === "Baselines - Recalculated"
+				grp.metric === "Baselines - Recalculated" ||
+				grp.metric.startsWith("Special cause crossing recalculations")
 			) {
 				baselines = new Array(data.length).fill(undefined);
 				const baselineIndex = Math.min(15, Math.max(0, data.length - 1));
-				baselines[baselineIndex] = true;
-			} else if (grp.metric.startsWith("Special cause crossing")) {
-				baselines = new Array(data.length).fill(undefined);
-				const baselineIndex = Math.min(14, Math.max(0, data.length - 1));
 				baselines[baselineIndex] = true;
 			}
 			// visualsScenario driven by metric name (test scaffolding only)
@@ -128,17 +70,11 @@ describe("SPCChart colours vs grouped JSON", () => {
 				visualsScenario = VisualsScenario.RecalculationsRecalculated;
 			} else if (grp.metric === "Baselines - Recalculated") {
 				visualsScenario = VisualsScenario.BaselinesRecalculated;
-			} else if (
-				grp.metric === "Special cause crossing recalculations - shift"
-			) {
+			} else if (grp.metric.startsWith("Special cause crossing recalculations - shift")) {
 				visualsScenario = VisualsScenario.RecalcCrossingShift;
-			} else if (
-				grp.metric === "Special cause crossing recalculations - trend"
-			) {
+			} else if (grp.metric.startsWith("Special cause crossing recalculations - trend")) {
 				visualsScenario = VisualsScenario.RecalcCrossingTrend;
-			} else if (
-				grp.metric === "Special cause crossing recalculations - two-sigma"
-			) {
+			} else if (grp.metric.startsWith("Special cause crossing recalculations - two-sigma")) {
 				visualsScenario = VisualsScenario.RecalcCrossingTwoSigma;
 			}
 			// Prefer dataset-declared improvement direction when present

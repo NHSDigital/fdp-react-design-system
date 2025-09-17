@@ -5,7 +5,11 @@ import { TrendVisualMode } from '../SPCChart';
 import Mermaid from '../../../../../_internal/Mermaid';
 // import { ED4hTrendGatingEmbedded } from './storybook/ED4hTrendGatingEmbeddedStory';
 
-<Meta title="Data Visualisation/SPC/Guides/Trend Gating Rationale"/>
+{/* <Meta title="Data Visualisation/SPC/Guides/Trend Gating Rationale"/> */}
+
+# A Historic dive into Trend Side‑Gating Rationale, when in the SPC v1 logic it was optional
+
+> Note (v2 engine default): SPCChart now uses the v2 SPC engine by default. Side‑gating of trend classification is always applied in the engine (classification layer). You can still choose visuals via `trendVisualMode` — `Ungated` (default visuals colour early trends by direction) or `Gated` (keep early trends neutral purple) — without changing the underlying classification. The examples below remain accurate conceptually; for v2 code, prefer importing from `logic_v2` (e.g. `buildSpcV26a`) and, for display classification that mirrors engine semantics, `computeSpcVisualCategories`.
 
 ## Trend Side‑Gating & Neutral (Purple) Points
 
@@ -198,7 +202,7 @@ Below is the same dataset rendered two ways to compare visual-only behaviour whi
 - Left: Ungated visuals (default) – early monotonic run colours by direction even before crossing the mean.
 - Right: Gated visuals – early monotonic run remains neutral purple until it includes favourable-side points.
 
-<TrendGatingEmbeddedComparison />
+{/* <TrendGatingEmbeddedComparison /> */}
 
 Note: Both modes use the same engine classification (side‑gated). The difference is purely in point and background colours prior to crossing the mean.
 
@@ -206,7 +210,7 @@ Note: Both modes use the same engine classification (side‑gated). The differen
 
 ED 4h compliance with side‑gating: early points remain neutral until the series reaches the favourable side of the mean; subsequent points classify as Improvement/Concern accordingly.
 
-<ED4hTrendGatingEmbedded />
+{/* <ED4hTrendGatingEmbedded /> */}
 
 ### Visual Decision Flow
 
@@ -252,8 +256,6 @@ Trend side‑gating behaviour is enforced by multiple tests:
 | `spc.trendAlternatingMixed.client.test.ts` | Alternating / partial trends don’t leak Improvement/Concern early. |
 | `spc.mixedPrecedence.client.test.ts` | Integrated scenario (trend + clusters + final opposite signal). |
 | `__tests__/spc.ed4h.debug.test.ts` | Real metric regression (ED 4h) – blocks prior premature Improvement. |
-
-
 
 ### Summary
 

@@ -1,10 +1,10 @@
 # SPC Engine Refactor & Harmonisation Plan
 
-Status: Engine Phases 1–3 complete; UI U1 & U2 complete (2025-09-11)
-Owner: Data Visualisation / SPC Maintainers
+Status: Engine Phases 1–3 complete; UI U1 & U2 complete (2025-09-17)
+Owner: Fergus Bisset
 Scope: `spc.ts` core engine, SPCChart UI overlays/inspector, settings migration, docs.
 
-## Executive summary — current state (2025‑09‑11)
+## Executive summary — current state (2025‑09‑17)
 
 ### Delivered
 
@@ -12,6 +12,12 @@ Scope: `spc.ts` core engine, SPCChart UI overlays/inspector, settings migration,
 - Settings: Consolidated `SpcSettingsV2` with a single normaliser accepting legacy + V2 and pruning undefineds; legacy aliases still honoured with one‑time deprecation warnings.
 - Helpers: Extracted `computeAssuranceIconRaw` and `computeBaselineSuggestionsRaw`; baseline suggestion edge cases fixed (rising edge + index alignment).
 - UI U1/U2: Trend overlays (start, first favourable cross, bridge) and a Signals Inspector panel; when the inspector is active, hover tooltips are suppressed; tag styles aligned by globalising SPC tag CSS.
+- Visuals ownership: SPC v2 engine now drives UI‑agnostic visual categories; `SPCChart` consumes them directly (no recoding). Trend visual mode (Gated/Ungated) applies only to visuals.
+- Optional rule: Four‑of‑five (≥1σ) implemented in v2 engine; default OFF and excluded from ranking. Settings, warnings, and docs updated accordingly.
+- Docs/diagrams: Rewrote SPC Engine — Core Logic, Decision Logic, and Precedence Strategy to v2 semantics; fixed Mermaid parse issues.
+- Rule clash docs: Replaced story embeds with embedded JSX components; commentary aligned to v2 precedence (PrimeDirection, ranking); examples now use shared “Staff Sickness” datasets.
+- Data provenance: Ported legacy “Staff Sickness – starting 01/01/22” series to `logic_v2/docs/data/` and refactored examples to import from there.
+- Target line: SPCChart now derives a uniform target from `targets` prop when v2 rows do not carry `target`; ensures constant target arrays render the horizontal reference line.
 - Thresholds & canonical state: Minimum-points semantics tightened; when non‑ghost points are below the threshold, limits are null and the engine emits `variationIcon: 'suppressed'`. "Suppressed" is now the canonical no‑judgement state; legacy `None` is a deprecated alias. Alias handling is centralised at icon/descriptors and the chart boundary.
 - Descriptors: `spcDescriptors.ts` provides stable rule glossary, labels, and color tokens; aligned with enums/settings.
 - Docs & codemod: Migration guide for settings V2, roadmap updates, and a codemod with CLI help; CHANGELOG linked.
@@ -21,6 +27,7 @@ Scope: `spc.ts` core engine, SPCChart UI overlays/inspector, settings migration,
 
 - Trend visual gating is a UI‑only toggle via a `TrendVisualMode` enum (defaults Ungated); engine classification is unchanged and always side‑gated.
 - Governance preset added to Storybook for common configuration.
+- Engine‑owned visuals are the source of truth for colouring; the chart maps categories to CSS only and applies optional gradient smoothing for background fills.
 
 ## Recommended next steps
 
@@ -32,6 +39,16 @@ Scope: `spc.ts` core engine, SPCChart UI overlays/inspector, settings migration,
 
 - Add a short example snippet in the SPC docs showing how to wire `TrendVisualMode` and U1 overlays together (Ungated vs Gated visuals side‑by‑side).
 - Expose a light `onSignalFocus` callback from the Signals Inspector for analytics/a11y hooks (non‑breaking prop).
+
+### T/G engine parity (next phase)
+
+- Implement T and G chart engines under `logic_v2` in line with SQL v2.6:
+  - T: Apply the SQL transform (y = t^0.2777), compute XmR on y, back-transform limits; suppress LCL when back-transform ≤ 0.
+  - G: Implement geometric/quantile-based limits per SQL reference.
+- Suppress assurance for T/G in parity paths (wrapper semantics unchanged).
+- Add compact unit fixtures mirroring canonical SQL examples and wire into the parity script.
+- Storybook: keep existing preprocess vignettes; add a toggle to compare preprocess vs engine T/G once implemented.
+- Docs: Update `spc-sql-parity.mdx` and burndown to mark M8/M9 items; add a brief “T/G inputs” note in logic_v2 README.
 
 ### Cleanup staging (major release)
 
@@ -60,7 +77,7 @@ DONE:
 PARTIAL:
 
 - Remaining Phase 1 cleanup: optional alias getters (defer) & documentation polish.
-	- Alias getter scaffolding for future renamed pruning fields added (non-enumerable) – complete.
+  - Alias getter scaffolding for future renamed pruning fields added (non-enumerable) – complete.
 
 NOT DONE (Phase 2 / 3 Targets):
 
@@ -107,21 +124,21 @@ Pending in Phase 2:
 ```ts
 export interface SpcSettingsV2 {
 rules?: {
-		shiftPoints?: number;
-		trendPoints?: number;
-		enableFourOfFive?: boolean;
-	enableFifteenInnerThird?: boolean;
-	};
+  shiftPoints?: number;
+  trendPoints?: number;
+  enableFourOfFive?: boolean;
+  enableFifteenInnerThird?: boolean;
+};
 precedence?: {
-		strategy?: PrecedenceStrategy;
-		emergingGraceEnabled?: boolean;
-		transitionBufferPoints?: number;
-	collapseWeakerClusterRules?: boolean;
-	};
-	trend?: { favourableSideOnly?: boolean };
-	autoRecalc?: { enabled?: boolean; shiftLength?: number; deltaSigma?: number };
+  strategy?: PrecedenceStrategy;
+  emergingGraceEnabled?: boolean;
+  transitionBufferPoints?: number;
+  collapseWeakerClusterRules?: boolean;
+};
+trend?: { favourableSideOnly?: boolean };
+autoRecalc?: { enabled?: boolean; shiftLength?: number; deltaSigma?: number };
 warnings?: {
-	/* mirror existing booleans */
+  /* mirror existing booleans */
 };
 }
 ```
@@ -171,10 +188,10 @@ For each deprecated property `fooOld` replaced by `fooNew`:
 
 ```ts
 Object.defineProperty(row, 'fooOld', {
-	get() {
-	return row.fooNew;
-	},
-	enumerable: false,
+  get() {
+    return row.fooNew;
+  },
+  enumerable: false,
 });
 ```
 
@@ -241,10 +258,10 @@ Principles
 - Deliver
 
 - Compute trend insights (memoised in SPCChart):
-	- `detectedAt` (first index when monotonic run reaches N)
-	- `direction` ('up'|'down')
-	- `firstFavourableCrossAt` (first index on favourable side of mean within same run, or null)
-	- `persistedAcrossMean` (boolean)
+  - `detectedAt` (first index when monotonic run reaches N)
+  - `direction` ('up'|'down')
+  - `firstFavourableCrossAt` (first index on favourable side of mean within same run, or null)
+  - `persistedAcrossMean` (boolean)
 - New props (UI only): `showTrendStartMarkers?` (default false), `showFirstFavourableCrossMarkers?` (default true), `showTrendBridgeOverlay?` (default true)
 - Render markers (hollow for start, solid for cross) and optional dashed bridge with hover label.
 - Tooltip: when purple, show “Emerging trend detected (not yet on favourable side)” + run direction/length and cross status.
@@ -340,6 +357,7 @@ Result: Phase 2 consolidation complete; moving to Phase 3 settings evolution and
 
 - Add a small snapshot/structure test for `GovernanceAssurancePreset` and for the comparison component’s caption.
 - Include `npm run spc:parity` in CI; keep SSR tests and component suite in the matrix.
+- Expand parity script to include T/G fixtures once M8 lands; make CI fail on T/G parity drift (see burndown M9).
 
 ### Release & Communication
 

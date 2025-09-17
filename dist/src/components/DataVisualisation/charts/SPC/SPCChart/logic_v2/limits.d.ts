@@ -1,6 +1,6 @@
 import { ChartType } from "./types";
 export declare function computePartitionLimits(chartType: ChartType, values: (number | null)[], ghosts: boolean[], excludeMovingRangeOutliers: boolean): {
-    mean: number;
+    mean: number | null;
     mr: (number | null)[];
     mrMean: number;
     mrUcl: number;

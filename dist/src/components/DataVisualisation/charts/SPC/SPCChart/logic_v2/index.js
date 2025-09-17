@@ -89,6 +89,7 @@ var RULE_RANK_BY_ID = {
 var D2 = 1.128;
 var MR_UCL_FACTOR = 3.267;
 var XMR_THREE_SIGMA_FACTOR = 2.66;
+var T_TRANSFORM_EXP = 0.2777;
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils.ts
 function isNumber(n) {
@@ -149,6 +150,67 @@ function xmrLimits(center, mrMean) {
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/limits.ts
 function computePartitionLimits(chartType, values, ghosts, excludeMovingRangeOutliers) {
+  if (chartType === "T" /* T */) {
+    const yVals = values.map((v) => isNumber(v) && v > 0 ? Math.pow(v, T_TRANSFORM_EXP) : null);
+    const mr2 = movingRanges(yVals, ghosts);
+    const mrStats = mrMeanWithOptionalExclusion(mr2, excludeMovingRangeOutliers);
+    const eligible = yVals.filter((v, i) => !ghosts[i] && isNumber(v));
+    const centerY = eligible.length ? mean(eligible) : NaN;
+    const limY = xmrLimits(centerY, mrStats.mrMean);
+    const inv = (y) => isNumber(y) && y > 0 ? Math.pow(y, 1 / T_TRANSFORM_EXP) : null;
+    const upl = isNumber(limY.upperProcessLimit) ? inv(limY.upperProcessLimit) : null;
+    const lpl = isNumber(limY.lowerProcessLimit) && limY.lowerProcessLimit > 0 ? inv(limY.lowerProcessLimit) : null;
+    const u2 = isNumber(limY.upperTwoSigma) ? inv(limY.upperTwoSigma) : null;
+    const l2 = isNumber(limY.lowerTwoSigma) && limY.lowerTwoSigma > 0 ? inv(limY.lowerTwoSigma) : null;
+    const u1 = isNumber(limY.upperOneSigma) ? inv(limY.upperOneSigma) : null;
+    const l1 = isNumber(limY.lowerOneSigma) && limY.lowerOneSigma > 0 ? inv(limY.lowerOneSigma) : null;
+    return {
+      mean: isNumber(centerY) && centerY > 0 ? inv(centerY) : null,
+      mr: mr2,
+      mrMean: mrStats.mrMean,
+      mrUcl: mrStats.mrUcl,
+      upperProcessLimit: upl,
+      lowerProcessLimit: lpl,
+      upperTwoSigma: u2,
+      lowerTwoSigma: l2,
+      upperOneSigma: u1,
+      lowerOneSigma: l1
+    };
+  }
+  if (chartType === "G" /* G */) {
+    const eligible = values.filter((v, i) => !ghosts[i] && isNumber(v));
+    const m = eligible.length ? mean(eligible) : NaN;
+    const p = isNumber(m) ? 1 / (m + 1) : NaN;
+    const qgeom = (q) => {
+      if (!isNumber(p) || p <= 0 || p >= 1) return NaN;
+      const k = Math.ceil(Math.log(1 - q) / Math.log(1 - p)) - 1;
+      return Math.max(0, k);
+    };
+    const qLower3 = 135e-5;
+    const qUpper3 = 1 - 135e-5;
+    const qLower2 = 0.02275;
+    const qUpper2 = 1 - 0.02275;
+    const qLower1 = 0.158655;
+    const qUpper1 = 1 - 0.158655;
+    const upl = qgeom(qUpper3);
+    const lpl = qgeom(qLower3);
+    const u2 = qgeom(qUpper2);
+    const l2 = qgeom(qLower2);
+    const u1 = qgeom(qUpper1);
+    const l1 = qgeom(qLower1);
+    return {
+      mean: isNumber(m) ? m : null,
+      mr: new Array(values.length).fill(null),
+      mrMean: NaN,
+      mrUcl: NaN,
+      upperProcessLimit: isNumber(upl) ? upl : null,
+      lowerProcessLimit: isNumber(lpl) ? lpl : null,
+      upperTwoSigma: isNumber(u2) ? u2 : null,
+      lowerTwoSigma: isNumber(l2) ? l2 : null,
+      upperOneSigma: isNumber(u1) ? u1 : null,
+      lowerOneSigma: isNumber(l1) ? l1 : null
+    };
+  }
   if (chartType !== "XmR" /* XmR */) {
     return {
       mean: NaN,
@@ -197,7 +259,7 @@ function computePartitionLimits(chartType, values, ghosts, excludeMovingRangeOut
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/detector.ts
 function detectRulesInPartition(rows, cfg) {
-  var _a, _b, _c, _d;
+  var _a, _b, _c, _d, _e, _f;
   const idxs = rows.map((_, i) => i).filter((i) => !rows[i].ghost && isNumber(rows[i].value));
   const get = (i) => rows[i];
   const shiftN = cfg.shiftPoints;
@@ -244,6 +306,23 @@ function detectRulesInPartition(rows, cfg) {
       highs.forEach((r) => r.twoSigmaUp = true);
     if (allLow && lows.length >= 2)
       lows.forEach((r) => r.twoSigmaDown = true);
+  }
+  if (cfg.enableFourOfFiveRule) {
+    for (let w = 0; w <= idxs.length - 5; w++) {
+      const win = idxs.slice(w, w + 5);
+      const quint = win.map(get);
+      if (!quint.every((r) => isNumber(r.value) && isNumber(r.mean))) continue;
+      const mean2 = quint[0].mean;
+      const allHigh = quint.every((r) => r.value > mean2);
+      const allLow = quint.every((r) => r.value < mean2);
+      if (!allHigh && !allLow) continue;
+      const u1 = (_e = quint[0].upperOneSigma) != null ? _e : Infinity;
+      const l1 = (_f = quint[0].lowerOneSigma) != null ? _f : -Infinity;
+      const highs = quint.filter((r) => r.value > u1);
+      const lows = quint.filter((r) => r.value < l1);
+      if (allHigh && highs.length >= 4) highs.forEach((r) => r.fourOfFiveUp = true);
+      if (allLow && lows.length >= 4) lows.forEach((r) => r.fourOfFiveDown = true);
+    }
   }
   for (let w = 0; w <= idxs.length - trendN; w++) {
     const win = idxs.slice(w, w + trendN);
@@ -810,10 +889,62 @@ function computeBoundaryWindowCategories(rows, metricImprovement, options) {
   return out;
 }
 
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/normaliser.ts
+function normaliseSpcSettingsV2(input) {
+  var _a;
+  if (!input) return {};
+  if (typeof input === "object" && ("minimumPoints" in input || "shiftPoints" in input || "trendPoints" in input)) {
+    return input;
+  }
+  const h = input;
+  const out = {};
+  if (h.thresholds) {
+    const t = h.thresholds;
+    if (t.minimumPoints != null) out.minimumPoints = t.minimumPoints;
+    if (t.shiftPoints != null) out.shiftPoints = t.shiftPoints;
+    if (t.trendPoints != null) out.trendPoints = t.trendPoints;
+    if (t.excludeMovingRangeOutliers != null)
+      out.excludeMovingRangeOutliers = t.excludeMovingRangeOutliers;
+  }
+  if (h.eligibility) {
+    if (h.eligibility.chartLevel != null)
+      out.chartLevelEligibility = h.eligibility.chartLevel;
+  }
+  if (h.parity) {
+    if (h.parity.trendAcrossPartitions != null)
+      out.trendAcrossPartitions = h.parity.trendAcrossPartitions;
+    if (h.parity.twoSigmaIncludeAboveThree != null)
+      out.twoSigmaIncludeAboveThree = h.parity.twoSigmaIncludeAboveThree;
+    if (h.parity.enableFourOfFiveRule != null)
+      out.enableFourOfFiveRule = h.parity.enableFourOfFiveRule;
+  }
+  if (h.conflict) {
+    if (h.conflict.preferImprovementWhenConflict != null)
+      out.preferImprovementWhenConflict = h.conflict.preferImprovementWhenConflict;
+    if (h.conflict.preferTrendWhenConflict != null)
+      out.preferTrendWhenConflict = h.conflict.preferTrendWhenConflict;
+    if (h.conflict.strategy != null) out.conflictStrategy = h.conflict.strategy;
+    if (h.conflict.ruleHierarchy != null)
+      out.ruleHierarchy = h.conflict.ruleHierarchy;
+    if (h.conflict.metricRuleOnTie != null)
+      out.metricConflictRule = h.conflict.metricRuleOnTie;
+  }
+  if ((_a = h.trend) == null ? void 0 : _a.segmentation) {
+    const s = h.trend.segmentation;
+    if (s.mode != null) out.trendSegmentationMode = s.mode;
+    if (s.favourableSegmentation != null)
+      out.trendFavourableSegmentation = s.favourableSegmentation;
+    if (s.strategy != null) out.trendSegmentationStrategy = s.strategy;
+    if (s.dominatesHighlightedWindow != null)
+      out.trendDominatesHighlightedWindow = s.dominatesHighlightedWindow;
+  }
+  return out;
+}
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/engine.ts
 function buildSpcV26a(args) {
-  var _a, _b, _c, _d;
-  const { chartType, metricImprovement, data, settings } = args;
+  const { chartType, metricImprovement, data } = args;
+  const settings = normaliseSpcSettingsV2(args.settings);
   const s = {
     minimumPoints: 13,
     shiftPoints: 6,
@@ -822,6 +953,7 @@ function buildSpcV26a(args) {
     metricConflictRule: "Improvement" /* Improvement */,
     trendAcrossPartitions: false,
     twoSigmaIncludeAboveThree: false,
+    enableFourOfFiveRule: false,
     preferImprovementWhenConflict: false,
     conflictStrategy: "SqlPrimeThenRule" /* SqlPrimeThenRule */,
     ruleHierarchy: void 0,
@@ -832,7 +964,7 @@ function buildSpcV26a(args) {
     trendDominatesHighlightedWindow: false,
     ...settings
   };
-  const resolvedMode = (_d = (_a = args.settings) == null ? void 0 : _a.trendSegmentationMode) != null ? _d : ((_b = args.settings) == null ? void 0 : _b.trendFavourableSegmentation) === true ? "Always" /* Always */ : ((_c = args.settings) == null ? void 0 : _c.trendFavourableSegmentation) === false ? "Off" /* Off */ : s.trendSegmentationMode;
+  const resolvedMode = (settings == null ? void 0 : settings.trendSegmentationMode) || ((settings == null ? void 0 : settings.trendFavourableSegmentation) === true ? "Always" /* Always */ : (settings == null ? void 0 : settings.trendFavourableSegmentation) === false ? "Off" /* Off */ : s.trendSegmentationMode);
   const canon = data.map((d, i) => ({
     rowId: i + 1,
     x: d.x,
@@ -888,6 +1020,8 @@ function buildSpcV26a(args) {
         singlePointDown: false,
         twoSigmaUp: false,
         twoSigmaDown: false,
+        fourOfFiveUp: false,
+        fourOfFiveDown: false,
         shiftUp: false,
         shiftDown: false,
         trendUp: false,
@@ -909,7 +1043,8 @@ function buildSpcV26a(args) {
     detectRulesInPartition(withLines, {
       shiftPoints: s.shiftPoints,
       trendPoints: s.trendPoints,
-      twoSigmaIncludeAboveThree: !!s.twoSigmaIncludeAboveThree
+      twoSigmaIncludeAboveThree: !!s.twoSigmaIncludeAboveThree,
+      enableFourOfFiveRule: !!s.enableFourOfFiveRule
     });
     const maybeApplySegmentation = (rows) => {
       const hasConflict = rows.some(
@@ -1080,7 +1215,6 @@ function buildVisualsForScenario(args, scenario, opts) {
         preWindow: 2,
         postWindow: 4,
         prePolarity: "Same",
-        directionOverride: "Down" /* Down */,
         boundaryIndices: explicitBoundaries
       };
       break;
@@ -1091,7 +1225,6 @@ function buildVisualsForScenario(args, scenario, opts) {
         preWindow: 1,
         postWindow: 5,
         prePolarity: "Same",
-        directionOverride: "Up" /* Up */,
         boundaryIndices: explicitBoundaries
       };
       break;
@@ -1102,7 +1235,6 @@ function buildVisualsForScenario(args, scenario, opts) {
         preWindow: 1,
         postWindow: 1,
         prePolarity: "Same",
-        directionOverride: "Down" /* Down */,
         boundaryIndices: explicitBoundaries
       };
       break;
@@ -1292,6 +1424,7 @@ export {
   Side,
   SpcRuleId,
   SpcVisualCategory,
+  T_TRANSFORM_EXP,
   TrendSegmentationMode,
   TrendSegmentationStrategy,
   VariationIcon,
@@ -1318,6 +1451,7 @@ export {
   mean,
   movingRanges,
   mrMeanWithOptionalExclusion,
+  normaliseSpcSettingsV2,
   resolveConflict,
   toCountBetweenEvents,
   toTimeBetweenEvents,

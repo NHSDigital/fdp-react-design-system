@@ -1,4 +1,4 @@
-import { ImprovementDirection } from '../SPCChart/logic/spcConstants';
+import { ImprovementDirection } from '../SPCChart/types';
 import { VariationState, VariationJudgement, MetricPolarity, AssuranceResult } from '../SPCIcons/SPCConstants';
 export interface SPCSparkPoint {
     x?: string | number | Date;

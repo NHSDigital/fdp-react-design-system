@@ -66,8 +66,8 @@ Acceptance
 
 ### M6 — T/G preprocessing adapter (optional)
 
-- [ ] Provide adapter for date→intervals (T) and count-between (G) sample
-- [ ] Document that engine expects precomputed intervals
+- [~] Provide adapter for date→intervals (T) and count-between (G) sample (storybook vignette done; extract helper)
+- [~] Document that engine expects precomputed intervals (not engine scope)
 
 Acceptance
 - Example produces same limits as SQL for sample datasets
@@ -85,6 +85,32 @@ Acceptance
 
 Acceptance
 - Manual parity checks are quick and repeatable
+
+### M8 — T/G engine parity (core)
+
+- [x] T chart: implement transform/back-transform path (y = t^0.2777, run XmR on y); suppress LCL when back-transform ≤ 0 (17 Sep 2025)
+- [x] G chart: implement geometric/quantile-based limits per SQL (17 Sep 2025)
+- [x] Ensure assurance is suppressed for T/G in parity paths (17 Sep 2025)
+- [x] Add unit tests and compact fixtures mirroring canonical SQL examples for T/G (basic + fixtures tests added) (17 Sep 2025)
+- [~] Add canonical SQL-derived fixtures and numeric assertions (tests scaffolded and skipped until SQL numbers are wired)
+
+Acceptance
+- For supplied parity fixtures, T/G limits and (where applicable) flags match SQL v2.6 outputs
+- Assurance is suppressed for T/G; zero-width/edge cases are handled per plan
+
+## Recent notes (2025-09-17)
+
+- Engine visuals now drive `SPCChart` colouring directly (no recoding), improving parity confidence between table and chart.
+- Optional four-of-five rule (≥1σ) added to v2 engine (default OFF; excluded from ranking). Outside the strict SQL parity scope but documented.
+- Rule clash documentation overhauled with embedded JSX examples; shared staff-sickness datasets centralised under `logic_v2/docs/data/`.
+
+### M9 — CI parity checks (expansion)
+
+- [ ] Add T/G parity fixtures into `npm run spc:parity` flow
+- [ ] Wire parity script into CI matrix
+
+Acceptance
+- CI fails on parity drift for XmR/T/G when presets are enabled
 
 ## Risks and mitigations
 

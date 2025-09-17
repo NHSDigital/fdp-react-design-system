@@ -81,6 +81,7 @@ export interface SpcSettingsV26a {
     metricConflictRule?: MetricConflictRule;
     trendAcrossPartitions?: boolean;
     twoSigmaIncludeAboveThree?: boolean;
+    enableFourOfFiveRule?: boolean;
     preferImprovementWhenConflict?: boolean;
     conflictStrategy?: ConflictStrategy;
     preferTrendWhenConflict?: boolean;
@@ -91,6 +92,55 @@ export interface SpcSettingsV26a {
     trendDominatesHighlightedWindow?: boolean;
     trendSegmentationStrategy?: TrendSegmentationStrategy;
 }
+export interface SpcSettingsHierarchical {
+    thresholds?: {
+        /** Minimum non-ghost points required to enable limits/rules (per partition by default). */
+        minimumPoints?: number;
+        /** Shift run length (default 6). */
+        shiftPoints?: number;
+        /** Trend run length (default 6). */
+        trendPoints?: number;
+        /** Exclude MR outliers when estimating sigma (XmR). */
+        excludeMovingRangeOutliers?: boolean;
+    };
+    eligibility?: {
+        /** If true, once chart has >= minimumPoints overall, evaluate across partitions retroactively. */
+        chartLevel?: boolean;
+    };
+    parity?: {
+        /** Enable strict trend detection across partitions (SQL v2.2+). */
+        trendAcrossPartitions?: boolean;
+        /** Count >3σ points toward the two-of-three rule. */
+        twoSigmaIncludeAboveThree?: boolean;
+        /** Enable optional early-warning rule: 4-of-5 beyond 1σ (excluded from ranking). */
+        enableFourOfFiveRule?: boolean;
+    };
+    conflict?: {
+        /** Optimistically keep Improvement when both sides exist (disables trend segmentation). */
+        preferImprovementWhenConflict?: boolean;
+        /** Prefer the trend side when both sides exist and a trend flag is present after segmentation. */
+        preferTrendWhenConflict?: boolean;
+        /** Strategy for conflict resolution (default SQL parity). */
+        strategy?: ConflictStrategy;
+        /** Optional rule precedence order (used with strategy RuleHierarchy). */
+        ruleHierarchy?: SpcRuleId[];
+        /** Tie-break rule when PrimeDirection is Same. */
+        metricRuleOnTie?: MetricConflictRule;
+    };
+    trend?: {
+        segmentation?: {
+            /** When to apply favourable-side segmentation. Prefer this over the legacy boolean. */
+            mode?: TrendSegmentationMode;
+            /** Legacy alias (true -> Always, false -> Off). */
+            favourableSegmentation?: boolean;
+            /** Strategy to pick which favourable segment(s) to keep. */
+            strategy?: TrendSegmentationStrategy;
+            /** If true, trend dominates inside its highlighted window. */
+            dominatesHighlightedWindow?: boolean;
+        };
+    };
+}
+export type SpcSettingsInput = SpcSettingsV26a | SpcSettingsHierarchical;
 export interface SpcRowV2 {
     rowId: number;
     x: string | number | Date;
@@ -109,6 +159,8 @@ export interface SpcRowV2 {
     singlePointDown: boolean;
     twoSigmaUp: boolean;
     twoSigmaDown: boolean;
+    fourOfFiveUp: boolean;
+    fourOfFiveDown: boolean;
     shiftUp: boolean;
     shiftDown: boolean;
     trendUp: boolean;
@@ -124,7 +176,10 @@ export interface BuildArgsV2 {
     chartType: ChartType;
     metricImprovement: ImprovementDirection;
     data: SpcInputRowV2[];
-    settings?: SpcSettingsV26a;
+    /**
+     * Settings may be provided in flat (v2.6a) or hierarchical form. The engine normalises these.
+     */
+    settings?: SpcSettingsInput;
 }
 export interface SpcResultV2 {
     rows: SpcRowV2[];

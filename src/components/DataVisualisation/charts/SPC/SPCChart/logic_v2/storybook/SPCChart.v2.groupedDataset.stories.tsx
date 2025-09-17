@@ -18,22 +18,12 @@ import {
 	TrendSegmentationMode,
 	TrendSegmentationStrategy,
 } from "../types.ts";
-import {
-	computeTrendSegments,
-	chooseSegmentsForHighlight,
-} from "../postprocess/trendSegments";
-import {
-	withParityV26,
-	withConflictPresetAutoV26,
-	VisualsScenario,
-	buildVisualsForScenario,
-} from "../presets";
+import { computeTrendSegments, chooseSegmentsForHighlight } from "../postprocess/trendSegments";
+import { withParityV26, withConflictPresetAutoV26, VisualsScenario, buildVisualsForScenario } from "../presets";
 import { SPCChart } from "../../SPCChart";
 import { iconToHex } from "./data/variationIconColours";
-import {
-	ImprovementDirection as V1ImprovementDirection,
-	ChartType as V1ChartType,
-} from "../../types";
+import { ImprovementDirection as V1ImprovementDirection, ChartType as V1ChartType } from "../../types";
+import { deriveDirectionFromDataset } from "../utils/direction";
 
 const metricOptions = getMetricOptions();
 const METRIC_STORAGE_KEY = "spc.v2.metric";
@@ -146,50 +136,10 @@ export const GroupedDatasetV2: Story = {
 			} catch {}
 		}, [metric]);
 
-		// Derive improvement direction from dataset string (various formats supported)
-		const mapImprovement = (raw: string | undefined): ImprovementDirection => {
-			if (!raw) return ImprovementDirection.Neither;
-			const norm = raw.toLowerCase();
-
-			if (
-				norm === "special cause - single point - middle" ||
-				norm === "special cause - shift - ends" ||
-				norm === "special cause - shift - middle" ||
-				norm === "special cause - trend - no pauses" ||
-				norm.startsWith("special cause -") ||
-				norm.startsWith("recalculations") ||
-				norm.startsWith("baseline")
-			) {
-				console.log("Special cause detected in improvement string:", raw);
-				return ImprovementDirection.Up;
-			}
-
-			if (
-				/high is good|higher is good|increase is good|more is good/.test(norm)
-			)
-				return ImprovementDirection.Up;
-			if (
-				/low is good|lower is good|decrease is good|fewer is good|less is good/.test(
-					norm
-				)
-			)
-				return ImprovementDirection.Down;
-			if (norm === "up" || norm === "down" || norm === "neither")
-				return norm === "up"
-					? ImprovementDirection.Up
-					: norm === "down"
-						? ImprovementDirection.Down
-						: ImprovementDirection.Neither;
-			return norm.includes("up")
-				? ImprovementDirection.Up
-				: norm.includes("down")
-					? ImprovementDirection.Down
-					: ImprovementDirection.Neither;
-		};
-
-		const derivedDirection: ImprovementDirection = mapImprovement(
-			grp?.improvement
-		);
+		// Derive improvement direction using shared utility (prevents drift between stories and tests)
+		const derivedDirection: ImprovementDirection = grp
+			? deriveDirectionFromDataset(grp.metric, grp.improvement)
+			: ImprovementDirection.Neither;
 		const getDirKey = (m: string) =>
 			`${DIRECTION_STORAGE_PREFIX}${encodeURIComponent(m)}`;
 		// Effective improvement direction (can be derived or user-overridden)

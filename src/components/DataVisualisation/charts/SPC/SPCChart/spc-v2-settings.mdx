@@ -39,6 +39,8 @@ const flat: SpcSettingsV26a = {
   chartLevelEligibility: true,
   trendAcrossPartitions: true,
   twoSigmaIncludeAboveThree: true,
+  // Optional early-warning (excluded from ranking):
+  enableFourOfFiveRule: false,
 };
 
 const { rows } = buildSpcV26a({
@@ -55,7 +57,7 @@ Hierarchical settings (semantic grouping):
 const hierarchical: SpcSettingsHierarchical = {
   thresholds: { minimumPoints: 13, shiftPoints: 6, trendPoints: 6 },
   eligibility: { chartLevel: true },
-  parity: { trendAcrossPartitions: true, twoSigmaIncludeAboveThree: true },
+  parity: { trendAcrossPartitions: true, twoSigmaIncludeAboveThree: true, enableFourOfFiveRule: false },
   conflict: { strategy: 'SqlPrimeThenRule' },
   trend: { segmentation: { mode: 'AutoWhenConflict' } },
 };
@@ -82,6 +84,7 @@ const { rows } = buildSpcV26a({
 | `chartLevelEligibility` | `eligibility.chartLevel` |
 | `trendAcrossPartitions` | `parity.trendAcrossPartitions` |
 | `twoSigmaIncludeAboveThree` | `parity.twoSigmaIncludeAboveThree` |
+| `enableFourOfFiveRule` | `parity.enableFourOfFiveRule` |
 | `preferImprovementWhenConflict` | `conflict.preferImprovementWhenConflict` |
 | `preferTrendWhenConflict` | `conflict.preferTrendWhenConflict` |
 | `conflictStrategy` | `conflict.strategy` |

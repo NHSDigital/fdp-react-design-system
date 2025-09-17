@@ -6,6 +6,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ## Unreleased
 
+_No unreleased changes yet._
+
+## 0.0.34-alpha.9 - 2025-09-17
+
 ### Added (Unreleased – Data Visualisation / SPC)
 
 - Hook: `useSpc` now powers an engine‑first flow for `SPCSpark` and `SPCMetricCard`, exposing centre line, control limits, inner sigma bands, and per‑point signals (SSR‑safe). The hook no longer supports a UI‑level SQL‑compat toggle.
@@ -32,6 +36,14 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Healthcare (v2) story now includes a computed expected‑colour table derived from the engine’s `VariationIcon` for side‑by‑side inspection.
   - Docs: Clarified eligibility gating semantics at partition starts — limits are now gated per row using pointRank >= minimumPoints (first N-1 rows in a partition emit null limits; limits appear from the Nth row).
 
+- Rare-event charts (T/G) in v2 engine
+  - T chart path added: transform y = t^0.2777, XmR in transformed space, back-transform limits; LCL suppressed when back-transform ≤ 0.
+  - G chart path added: geometric/quantile-derived limits with non-negative lower bands by construction.
+  - Assurance suppressed on T/G; MR values set to null for T/G.
+  - Tests: basic behaviour (`parity.tg.basic.test.ts`) and compact fixtures (`parity.tg.fixtures.test.ts`).
+  - Canonical SQL fixture scaffolding added (`parity.tg.sql-canonical.test.ts`) with placeholder fixtures to be replaced by SQL-derived numbers; suite is skipped until populated.
+  - Docs updated: parity plan references canonical scaffolding; SPC docs remove embedded example imports to keep static builds green and direct users to Storybook examples instead.
+
 - Engine-level visual categories post-processor (logic_v2)
   - New helper `computeSpcVisualCategories(rows, options)` and `SpcVisualCategory` enum to derive UI-agnostic per‑point categories (Common, Improvement, Concern, NoJudgement).
   - Mirrors SPCChart pre-process behaviour for neutral special-cause points and conflict short-circuit (prefers Improvement when both sides fire).
@@ -49,6 +61,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Docs updated to explain gating precedence and include examples.
 
 - SPC tooltip diagnostic improvement
+- Optional four-of-five rule (v2 engine)
+  - Four-of-five (≥1σ) rule implemented in v2 engine; default OFF and excluded from ranking. Settings schema, warnings text, and docs updated. Storybook examples and guidance added in precedence strategy docs.
+
   - `SPCTooltipOverlay` now shows the hovered data point index (0‑based) in the tooltip body to aid debugging and dataset alignment.
 
 - ChartContainer UX
@@ -69,6 +84,13 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 - `useSpc`: Polarity‑aware mapping for directional signals prevents inversion on lower‑is‑better metrics (fixes Bed Occupancy spark colour inversion vs `SPCChart`).
 
 - SPC v2 visuals pipeline integration
+- Docs overhaul to v2
+  - SPC Engine — Core Logic MDX rewritten for v2 semantics; Mermaid flow updated.
+  - SPCChart Decision Logic MDX updated; Mermaid labels simplified to avoid parse issues; inputs/notes aligned to v2.
+  - SPC v2 Precedence Strategy MDX rewritten (PrimeDirection, conflict strategies, ranking; 4-of-5 excluded from ranking).
+  - Rule clash docs rebuilt with embedded JSX components (no story ID dependency), commentary aligned to v2 logic.
+  - Legacy v1 references removed or clearly marked as deprecated.
+
   - v2 Grouped dataset playground now computes per‑point colours directly from the engine visual categories (computeSpcVisualCategories + boundary windows) rather than ad‑hoc tables, ensuring parity between the “Computed colour (engine)” column and chart points.
   - `SPCChart` accepts and uses the same `visualsScenario` provided in stories to apply engine visuals overlays; the component maps engine visual categories to CSS classes and does not recode categories. Only gradient band smoothing is applied for background visuals.
   - Internal refactor: memoised a shared `rowsInput` used by both the engine build and the v2 visuals builder in `SPCChart`; removed a stray console.log. No behavioural change.
@@ -93,6 +115,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Assurance: Equality to a process limit is treated deterministically as pass/fail (depending on metric direction); parity tests added, including for collapsed (zero‑width) bands
 
 - Special‑cause crossing recalculation stories (v1 grouped dataset)
+- SPCChart target line fallback
+  - Target/reference line now renders when a constant `targets` array is provided even if v2 adapter rows don’t carry a `target` value. The chart computes a uniform target from engine rows first, then falls back to `targets` prop.
+
   - Fixed greyed points by removing conflicting manual baselines for crossing scenarios (shift/trend/two‑sigma), normalising scenario labels, and defaulting improvement direction when dataset direction was empty for those scenarios.
   - Added a brute‑force baseline index scorer and logging to verify expected colour sequences; aligned story tables/controls with engine calculations.
 
@@ -293,7 +318,7 @@ The golden SPC fixture (`test-data/golden-all.json`) and related snapshot tests 
 - SPCVariationIcon legacy payload shapes `{ state, ... }`, `{ judgement, polarity, trend? }`, and parsimonious union variants are deprecated. Use engine-aligned payload `{ variationIcon, improvementDirection, specialCauseNeutral?, trend? }`. A one-time runtime `console.warn` is emitted when deprecated shapes are detected. Removal planned after stabilising engine-aligned API (target: post 0.0.35 minor).
 - Table: Legacy aliases `Table.Row` and `Table.TH` deprecated in favour of `Table.BodyRow` and `Table.HeaderCell` (runtime dev warnings emitted).
 
-_No other unreleased changes yet._
+_No other changes in this release._
 
 ### Breaking (Unreleased – SPC V2 Cutover)
 

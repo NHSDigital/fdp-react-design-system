@@ -255,8 +255,11 @@ Short term (this sprint)
  - Keep healthcare/grouped datasets parity report green and documented.
 
 Medium term
-- Formalise T/G engine parity after XmR lock‑down: implement T back‑transform/LCL suppression in engine; implement G quantile limits.
-- Expand parity fixtures to include T/G engine cases with unit tests mirroring SQL.
+- T/G engine parity (started):
+  - T: Transform y = t^0.2777, compute XmR, back‑transform limits; suppress LCL when back‑transform ≤ 0 (implemented in engine).
+  - G: Quantile‑based limits from the geometric distribution (implemented in engine; MR suppressed).
+  - Tests: Initial basic parity tests in `logic_v2/__tests__/parity.tg.basic.test.ts` and compact fixture coverage in `logic_v2/__tests__/parity.tg.fixtures.test.ts`.
+  - Canonical SQL fixtures: scaffolding added in `logic_v2/__tests__/parity.tg.sql-canonical.test.ts` (skipped until we wire real SQL‑derived expected numbers via `fixtures/*sql.canonical.fixture.ts`).
 
 Acceptance for this phase
 - All new parity tests pass with `PARITY_V26` enabled; Storybook parity toggles demonstrate matching behaviour for covered scenarios.

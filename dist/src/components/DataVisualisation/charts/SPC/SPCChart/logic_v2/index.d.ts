@@ -6,6 +6,7 @@ export * from "./detector";
 export * from "./conflict";
 export * from "./assurance";
 export * from "./engine";
+export * from "./normaliser";
 export * from "./presets";
 export * from "./preprocess";
 export * from "./retroOverlay";

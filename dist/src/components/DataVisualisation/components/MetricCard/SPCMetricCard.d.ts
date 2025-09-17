@@ -1,6 +1,6 @@
 import * as React from "react";
 import { type MetricCardProps } from "./MetricCard";
-import { ImprovementDirection } from "../../charts/SPC/SPCChart/logic/spcConstants";
+import { ImprovementDirection } from "../../charts/SPC/SPCChart/types";
 export interface SPCMetricCardProps extends Omit<MetricCardProps, "visual"> {
     /** Sparkline data points (value series) */
     sparkData: Array<{
@@ -9,8 +9,6 @@ export interface SPCMetricCardProps extends Omit<MetricCardProps, "visual"> {
     }>;
     /** Directionality for interpretation (prefer MetricPolarity; legacy support for enum/string union) */
     direction?: ImprovementDirection;
-    /** Use SQL-compatibility wrapper for parity with SPCChart defaults */
-    useSqlCompatEngine?: boolean;
     /** Show mean and control limits */
     showMean?: boolean;
     showLimits?: boolean;

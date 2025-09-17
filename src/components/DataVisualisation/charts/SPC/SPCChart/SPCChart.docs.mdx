@@ -3,13 +3,13 @@ import Mermaid from '../../../../_internal/Mermaid';
 import Table from '../../../../Tables/Table';
 // NOTE: Legacy Storybook-only example modules removed from import surface; these will be re-added
 // as modular docs components if required. For now, keep docs self-contained to avoid build errors.
-// import SPCChartStableWaitTimeExample from './logic/storybook/SPCChartStableWaitTimeExample';
-// import SPCChartEarlyWaitTimeExample from './logic/storybook/SPCChartEarlyWaitTimeExample';
-// import SPCChartIndividualsExample from './logic/storybook/SPCChartIndividualsExample';
-// import SPCChartRareEventExample from './logic/storybook/SPCChartRareEventExample';
-// import SPCChartPhasedBaselineExample from './logic/storybook/SPCChartPhasedBaselineExample';
-// import SPCChartWarningsPanelExample from './logic/storybook/SPCChartWarningsPanelExample';
-// import RunVsSPCTransitionExample from './logic/storybook/RunVsSPCTransitionExample';
+import SPCChartStableWaitTimeExample from './logic_v2/doc-examples/SPCChartStableWaitTimeExample';
+import SPCChartEarlyWaitTimeExample from './logic_v2/doc-examples/SPCChartEarlyWaitTimeExample';
+import SPCChartIndividualsExample from './logic_v2/doc-examples/SPCChartIndividualsExample';
+import SPCChartRareEventExample from './logic_v2/doc-examples/SPCChartRareEventExample';
+import SPCChartPhasedBaselineExample from './logic_v2/doc-examples/SPCChartPhasedBaselineExample';
+import SPCChartWarningsPanelExample from './logic_v2/doc-examples/SPCChartWarningsPanelExample';
+import TrendGatingExample from './logic_v2/doc-examples/TrendGatingExample';
 
 <Meta title="Data Visualisation/SPC/Documentation" />
 
@@ -62,9 +62,9 @@ Notes:
 
 ## SQL parity and diagnostics
 
-If you need strict visual/data parity with historic SQL outputs (v2.6a conflict precedence and directional pruning), use the engine-level SQL compatibility wrapper. It replays per‑side ranking after the engine run and emits audit metadata (primeDirection, primeRank, primeRuleId, original values, pruned flag). UI toggles have been removed; SPCChart always reflects the native engine. See the guide: Data Visualisation → SPC → Guides → SPC SQL Compatibility (includes a deep‑dive on v2.6a conflict resolution).
+The SPCChart now renders using the v2 engine visuals by default. Story-level SQL‑compat toggles have been removed. For strict parity with historic SQL reports (v2.6a conflict precedence and directional pruning), use the engine‑level SQL compatibility wrapper outside the chart to compare outputs; SPCChart itself always reflects the native v2 engine visuals. See Data Visualisation → SPC → Guides → SPC SQL Compatibility.
 
-Note on v2 engine settings: The v2 engine (logic_v2) also accepts a semantic hierarchical settings shape (`SpcSettingsHierarchical`) in addition to the flat v2.6a settings. Advanced consumers calling the v2 engine directly can import `normaliseSpcSettingsV2` to pre-normalise; `SPCChart` keeps its existing `SpcSettings` prop surface.
+Advanced: The v2 engine accepts a semantic hierarchical settings shape (`SpcSettingsHierarchical`) as well as the classic flat v2.6a settings. If you call the v2 engine directly, you can import `normaliseSpcSettingsV2` to pre‑normalise. The `SPCChart` prop surface remains unchanged (`SpcSettings`).
 
 ## When to use
 
@@ -124,7 +124,7 @@ import { ImprovementDirection } from './types';
 ```
 
 ## Special cause detection
-By default we implement the four commonly communicated “public” rules used in NHS/IHI style SPC communication:
+By default the v2 engine surfaces four public rules used in NHS/IHI style SPC communication. Visual classification and colours come from the engine’s rule outputs; the chart does not “recode” categories:
 
 <Table
   caption="Public SPC special cause rules"
@@ -151,15 +151,15 @@ By default we implement the four commonly communicated “public” rules used i
       { text: 'Gradual drift (systematic change)' },
     ],
     [
-      { text: 'Two-of-three' },
-      { text: 'Two of the last three points in Zone A or beyond (between 2σ and 3σ, same side)' },
-      { text: 'Emerging shift toward extreme' },
+  { text: 'Two-of-three' },
+  { text: 'Two of the last three points in Zone A or beyond (≥2σ, ≤3σ, same side). v2 supports including >3σ points via `twoSigmaIncludeAboveThree`.' },
+  { text: 'Emerging shift toward extreme' },
     ],
   ]}
   firstCellIsHeader={false}
 />
 
-An optional fifth internal / early warning rule (Four‑of‑five: four of five points in Zone B or beyond on one side, i.e. outside 1σ) can be enabled explicitly.
+An optional fifth internal / early‑warning rule (Four‑of‑five: four of five points in Zone B or beyond on one side, i.e. outside 1σ) can be enabled explicitly. It’s excluded from the primary conflict ranking and is intended for exploratory sensitivity, not public reporting.
 
 ### Balancing false alarms and missed signals
 
@@ -181,33 +181,45 @@ It empirically balances false alarms (Type I) against missed signals (Type II). 
 
 ### Enabling rules
 
-Rules are active by default (toggle with `enableRules={false}` if you need a purely descriptive view). Internally, each candidate point is evaluated in sequence; earlier points do not retroactively change after re‑phasing unless baselines are supplied.
+Rules are active by default (toggle with `enableRules={false}` for a descriptive view). The v2 engine performs trend side‑gating in classification: early monotonic runs remain neutral until the run reaches the favourable side of the mean. The chart exposes a visual‑only switch for trend colouring (`trendVisualMode`), which doesn’t affect classification.
 
-Optional rule toggles & thresholds are exposed via the `settings` prop (see Advanced settings). The four‑of‑five rule is OFF by default to align with the simplified NHS guidance and best practice; turn it on for more sensitive internal monitoring.
+Optional rule thresholds and toggles are exposed via `settings`. The four‑of‑five rule remains OFF by default. The v2 engine also supports the SQL‑parity option `twoSigmaIncludeAboveThree` (include >3σ points toward two‑of‑three).
 
 ### Minimum data
 For stability the engine may defer centre line and limits until a minimal count (e.g. 10–12 points) is reached. Before that, points render without limits and icons.
 
 ## Estimating sigma
 
-Depending on `chartType` the engine uses the recommended estimator:
+Depending on `chartType` the v2 engine uses the recommended estimator:
 
-- XmR: Average moving range / 1.128 (individuals) for sigma estimate.
-- T / G: Distribution‑appropriate transformations (time or count between events) to derive expected mean and limits.
+- XmR: Average moving range / 1.128 (Individuals) for σ.
+- T: Transform to Y space, run Individuals logic, back‑transform limits to X, suppress non‑positive lower limits (MR is null; assurance suppressed).
+- G: Geometric quantile bands with non‑negative limits (MR null; assurance suppressed).
 
-No legacy (naive) calculation path is retained; all sigma values follow the appropriate SPC formulae.
+Legacy alternate paths are not retained; all values follow the v2 SPC methods.
+
+## Targets
+
+- Prop shape: `targets?: (number | null | undefined)[]` — index‑aligned with your data.
+- Rendering: A single horizontal target line is drawn only when all numeric entries are equal (uniform target). Per‑point varying targets do not render as stepped lines.
+- Construction patterns:
+  - Constant target across series: `Array.from({ length: data.length }, () => 20)` or `Array(data.length).fill(20)`
+  - Sparse targets: use `null`/`undefined` where no target applies.
+- Domain: Numeric targets are included in the y‑domain so the line isn’t clipped. When `percentScale` is true, keep targets within [0, 100].
+
+Note: In the v2 adapter path, rows may not carry a `target` value; the chart falls back to the `targets` prop to compute a uniform target.
 
 ## Run chart → Shewhart chart transition
 
 Start plotting immediately even with very few points – early visualisation encourages data quality conversations. Treat the first view simply as a line (run) chart until you have enough points for meaningful SPC inference:
 
 <Mermaid chart="graph TD
-  A[<6 points] -->|Too few for SPC| B[Line / run chart only]
+  A[<6 points] -->|Run chart only| B[Collect more data]
   B --> C[6-11 points]
-  C -->|Run chart rules only| D[Initial SPC possible - mark limits as 'trial']
-  D --> E[12-19 points]
-  E -->|Establish / confirm SPC limits| F[20-30 points]
-  F -->|Mature phase| G[>30 points] "
+  C -->|Run rules only (trend/shift provisional)| D[12-19 points]
+  D -->|Initial SPC; label limits 'trial'| E[20-30 points]
+  E -->|Establish / confirm SPC limits| F[>30 points]
+  F -->|Mature phase; re-baseline on sustained shift| G[Stable interpretation] "
 />
 
 <Table
@@ -252,7 +264,11 @@ The component will surface conventional limits once `minimumPoints` is met; you 
 
 ### Embedded examples: early run vs maturing SPC
 
+import RunVsSPCTransitionExample from './logic_v2/doc-examples/RunVsSPCTransitionExample';
+
 <RunVsSPCTransitionExample />
+
+Note: The interactive example above is backed by the v2 engine visuals used by SPCChart.
 
 ## Trial vs established limits
 
@@ -307,7 +323,7 @@ const waitTimes = [
 <SPCChart
   data={waitTimes}
   metricImprovement={ImprovementDirection.Down} // lower wait time is better
-  targets={[{ value: 20, label: '≤20 min target', kind: 'TARGET' }]}
+  targets={Array.from({ length: waitTimes.length }, () => 20)}
   showZones
   enableRules
   showIcons
@@ -330,7 +346,7 @@ const earlyWaitTimes = [36, 32, 28, 30, 27, 25, 29, 31, 26].map((y, i) => ({ x: 
 <SPCChart
   data={earlyWaitTimes}
   metricImprovement={ImprovementDirection.Down}
-  targets={[{ value: 20, label: '≤20 min target', kind: 'TARGET' }]}
+  targets={Array.from({ length: earlyWaitTimes.length }, () => 20)}
   // With too few points the component may defer limits/icons automatically (trial phase)
   enableRules
 />;
@@ -586,7 +602,7 @@ If you need legacy behaviour (letters always side‑of‑signal) you can wrap `S
 
 ## Advanced settings (`SpcSettings`)
 
-### Gradient sequence transition strategies
+### Gradient sequence transition strategies (visual only)
 
 When `gradientSequences` is enabled you can tune how coloured (improvement / concern / neutral special‑cause) background runs visually connect using `sequenceTransition`:
 
@@ -608,7 +624,7 @@ import { SequenceTransition } from './SPCChart';
 
 All variants remain purely decorative (aria-hidden) and do not alter engine logic, narration, or rule detection.
 
-These map directly to the `SpcSettings` interface in `logic/spc.ts` (lines ~1–130). Defaults (in engine) shown in parentheses.
+These map directly to the v2 settings normaliser (`normaliseSpcSettingsV2`) and the flat v2.6a settings interface in `logic_v2/types.ts`. Defaults (in engine) are shown in parentheses.
 
 <Table
   caption="Advanced engine settings (SpcSettings)"
@@ -623,7 +639,7 @@ These map directly to the `SpcSettings` interface in `logic/spc.ts` (lines ~1–
   [ { code: 'excludeMovingRangeOutliers', codeLanguage: 'typescript' }, { text: 'Exclude extreme MR values when estimating sigma (XmR).' }, { code: 'boolean', codeLanguage: 'typescript' }, { code: 'false', codeLanguage: 'typescript' } ],
   [ { code: 'specialCauseShiftPoints', codeLanguage: 'typescript' }, { text: 'Points needed on one side of mean to trigger shift rule.' }, { code: 'number', codeLanguage: 'typescript' }, { code: '6', codeLanguage: 'typescript' } ],
   [ { code: 'specialCauseTrendPoints', codeLanguage: 'typescript' }, { text: 'Strict monotonic points needed to trigger trend rule.' }, { code: 'number', codeLanguage: 'typescript' }, { code: '6', codeLanguage: 'typescript' } ],
-  [ { code: 'enableFourOfFiveRule', codeLanguage: 'typescript' }, { text: 'Enable 4‑of‑5 beyond 1σ early warning rule.' }, { code: 'boolean', codeLanguage: 'typescript' }, { code: 'false', codeLanguage: 'typescript' } ],
+  [ { code: 'enableFourOfFiveRule', codeLanguage: 'typescript' }, { text: 'Enable 4‑of‑5 beyond 1σ early‑warning rule (excluded from primary conflict ranking).' }, { code: 'boolean', codeLanguage: 'typescript' }, { code: 'false', codeLanguage: 'typescript' } ],
   [ { code: 'minimumPoints', codeLanguage: 'typescript' }, { text: 'Minimum non‑ghost points before limits/icons shown (global).' }, { code: 'number', codeLanguage: 'typescript' }, { code: '13', codeLanguage: 'typescript' } ],
   [ { code: 'minimumPointsWarning', codeLanguage: 'typescript' }, { text: 'Emit warning when insufficient points for stable limits.' }, { code: 'boolean', codeLanguage: 'typescript' }, { code: 'false', codeLanguage: 'typescript' } ],
   [ { code: 'minimumPointsPartition', codeLanguage: 'typescript' }, { text: 'Minimum points per partition (phase) for recalculated limits.' }, { code: 'number', codeLanguage: 'typescript' }, { code: '12', codeLanguage: 'typescript' } ],
@@ -654,12 +670,12 @@ These map directly to the `SpcSettings` interface in `logic/spc.ts` (lines ~1–
 
 ### Settings selection guidance
 
-- Prefer default rule thresholds (6 / 6) unless your governance mandates alternatives.
-- Turn on `enableFourOfFiveRule` for earlier (more sensitive) detection at cost of extra false positives.
-- Use `excludeMovingRangeOutliers` sparingly; only when a single extreme swing inflates all future limits.
-- Enable `baselineSuggest` in exploratory dashboards; keep it off for formal reporting to avoid “shifting the goalposts”.
-- Use `autoRecalculateAfterShift` when you want automatic phase segmentation (removes need to manually supply `baselines`). Combine with `autoRecalculateDeltaSigma` to avoid over‑partitioning on negligible shifts.
-- Leave `assuranceCapabilityMode` true to base Pass/Fail on predictable future performance, not a single latest point.
+- Prefer default rule thresholds (6 / 6) unless governance mandates alternatives.
+- For sensitivity testing, you may enable `enableFourOfFiveRule`; expect more false positives. Keep it OFF for formal/public reporting.
+- Use `excludeMovingRangeOutliers` sparingly; only when one extreme swing materially inflates future limits.
+- Enable `baselineSuggest` in exploratory dashboards; keep it off for formal reporting to avoid shifting baselines inadvertently.
+- Use `autoRecalculateAfterShift` to segment phases automatically after sustained shifts; combine with `autoRecalculateDeltaSigma` to prevent over‑partitioning on negligible changes.
+- Leave `assuranceCapabilityMode` true to base Pass/Fail on predictable future performance (full band), not a single latest point.
 
 ### Example with advanced settings
 ```tsx
@@ -692,19 +708,12 @@ The engine emits structured warnings (array on `SpcResult.warnings`) to surface 
 Access via a direct engine call (advanced usage) or by enabling the built‑in panel (`showWarningsPanel`).
 
 ```ts
-import { buildSpc, SpcWarningSeverity, SpcWarningCategory } from './logic/spc';
-import { ChartType, ImprovementDirection } from './types';
-
-const { rows, warnings } = buildSpc({
-  chartType: ChartType.XmR,
-  metricImprovement: ImprovementDirection.Up,
-  data: inputRows,
-});
-
-const errorWarnings = warnings.filter(w => w.severity === SpcWarningSeverity.Error);
+// v2: Warnings are computed by the chart’s engine integration and rendered via the built-in panel.
+// Use the `showWarningsPanel` prop to display them, and optionally `warningsFilter` to limit output.
+// For direct engine usage, prefer the v2 builder in logic_v2 (advanced). Most apps should use the chart API.
 ```
 
-### Surfacing warnings in the UI
+### Surfacing warnings in the UI (v2)
 
 Enable the diagnostics panel:
 
@@ -716,7 +725,9 @@ Enable the diagnostics panel:
 />
 ```
 
-Live warnings panel example (intentionally too few points & undersized partitions to surface warnings):
+Live warnings panel example (intentionally too few points & undersized partitions to surface warnings). Note: v2 currently suppresses assurance on T/G; targets on rare‑event charts are ignored (warning available).
+
+Note: A live warnings panel example is available below and in Storybook under Data Visualisation/SPC.
 
 <SPCChartWarningsPanelExample />
 
@@ -844,9 +855,11 @@ import { ChartType, ImprovementDirection } from './types';
   metricImprovement={ImprovementDirection.Down} // lower is better
   enableRules
   showIcons
-  targets={[{ value: 20, label: 'Target', kind: 'TARGET' }]}
+  targets={Array.from({ length: series.length }, () => 20)}
 />
 ```
+
+Note: Individuals chart example.
 
 <SPCChartIndividualsExample />
 
@@ -860,6 +873,8 @@ import { ChartType, ImprovementDirection } from './types';
 />
 ```
 
+Note: Rare event (T/G) examples. Assurance is suppressed for T/G in v2.
+
 <SPCChartRareEventExample />
 
 ### Phased baseline (recalculate limits after an intervention)
@@ -870,6 +885,8 @@ import { ChartType, ImprovementDirection } from './types';
   enableRules
 />
 ```
+
+Note: Phased baseline example.
 
 <SPCChartPhasedBaselineExample />
 

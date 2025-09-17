@@ -43,7 +43,6 @@ export function buildVisualsForScenario(
 				preWindow: 2,
 				postWindow: 4,
 				prePolarity: "Same",
-				directionOverride: ImprovementDirection.Down,
 				boundaryIndices: explicitBoundaries,
 			};
 			break;
@@ -55,7 +54,6 @@ export function buildVisualsForScenario(
 				preWindow: 1,
 				postWindow: 5,
 				prePolarity: "Same",
-				directionOverride: ImprovementDirection.Up,
 				boundaryIndices: explicitBoundaries,
 			};
 			break;
@@ -67,7 +65,6 @@ export function buildVisualsForScenario(
 				preWindow: 1,
 				postWindow: 1,
 				prePolarity: "Same",
-				directionOverride: ImprovementDirection.Down,
 				boundaryIndices: explicitBoundaries,
 			};
 			break;

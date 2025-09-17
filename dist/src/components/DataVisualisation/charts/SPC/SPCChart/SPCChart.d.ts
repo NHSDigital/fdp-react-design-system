@@ -101,8 +101,7 @@ export interface SPCChartProps {
     alwaysShowHundredY?: boolean;
     /** Convenience flag: treat series as percentage scale (enforces 0–100 domain). Overrides alwaysShowZeroY / alwaysShowHundredY when true. */
     percentScale?: boolean;
-    /** When true, run experimental SQL compatibility wrapper (post-hoc per-side ranking & pruning) instead of native aggregation. */
-    useSqlCompatEngine?: boolean;
+    /** Deprecated: SQL compatibility wrapper is no longer toggled at the chart level. */
     /** UI-only: show a hollow marker at the first index where a trend is detected (run reaches N). Default false. */
     showTrendStartMarkers?: boolean;
     /** UI-only: show a solid marker at the first point in the trend window that lies on the favourable side of the mean. Default false. */

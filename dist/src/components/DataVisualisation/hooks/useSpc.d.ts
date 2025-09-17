@@ -1,14 +1,12 @@
 import * as React from "react";
 import { VariationState } from "../charts/SPC/SPCIcons/SPCConstants";
-import { ChartType, ImprovementDirection } from "../charts/SPC/SPCChart/logic/spcConstants";
+import { ChartType, ImprovementDirection } from "../charts/SPC/SPCChart/types";
 import type { SPCSparkProps } from "../charts/SPC/SPCSpark/SPCSpark.types";
 export interface UseSpcInput {
     values: Array<number | null>;
     x?: Array<string | number | Date>;
     chartType?: ChartType;
     metricImprovement?: ImprovementDirection;
-    /** When true, run the SQL-compatibility wrapper (post-hoc directional pruning) for parity with SPCChart's `useSqlCompatEngine`. */
-    useSqlCompatEngine?: boolean;
     showLimits?: boolean;
     showLimitBand?: boolean;
     showInnerBands?: boolean;

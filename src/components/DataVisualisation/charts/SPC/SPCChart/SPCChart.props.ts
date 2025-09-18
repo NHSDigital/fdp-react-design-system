@@ -37,6 +37,9 @@ export type SPCChartUIOptions = {
 		percentScale?: boolean;
 	};
 	visuals?: {
+		// Basic visibility toggles
+		showZones?: boolean;
+		showPoints?: boolean;
 		gradientSequences?: boolean;
 		sequenceTransition?: SequenceTransition;
 		processLineWidth?: number;
@@ -47,6 +50,8 @@ export type SPCChartUIOptions = {
 		rules?: {
 			enableNeutralNoJudgement?: boolean;
 			enableRules?: boolean;
+			// Prefer grouped: ui={{ visuals: { rules: { highlightOutOfControl } } }}
+			highlightOutOfControl?: boolean;
 		};
 	};
 	overlays?: {
@@ -83,15 +88,23 @@ export interface SPCChartProps {
 	 * @deprecated Prefer grouped form: input={{ data, targets, baselines, ghosts }}
 	 */
 	data?: SPCDatum[];
+	/** Prefer grouped: a11y={{ label }} */
 	ariaLabel?: string;
+	/** Prefer grouped: container={{ height }} */
 	height?: number;
+	/** Prefer grouped UI: ui={{ visuals: { showZones } }} */
 	showZones?: boolean;
+	/** Prefer grouped UI: ui={{ visuals: { showPoints } }} */
 	showPoints?: boolean;
+	/** Prefer grouped: a11y={{ announceFocus }} */
 	announceFocus?: boolean;
+	/** Prefer grouped: container={{ className }} */
 	className?: string;
 	/** Convenience unit alias (overrides narrationContext.measureUnit). Auto-detected as '%' when all y in [0,1] if not provided */
+	/** Prefer grouped: a11y={{ unit }} */
 	unit?: string;
 	/** Highlight points outside 3-sigma */
+	/** Prefer grouped UI: ui={{ visuals: { rules: { highlightOutOfControl } } }} */
 	highlightOutOfControl?: boolean;
 	/** @deprecated Prefer grouped engine: engine={{ chartType }} */
 	chartType?: ChartType;
@@ -115,7 +128,7 @@ export interface SPCChartProps {
 	ghosts?: (boolean | null | undefined)[];
 	/** @deprecated Prefer grouped engine: engine={{ settings }} */
 	settings?: SpcSettings;
-	/** Optional contextual metadata used to enrich accessible narration */
+	/** Optional contextual metadata used to enrich accessible narration. Prefer grouped: a11y={{ narrationContext }} */
 	narrationContext?: {
 		measureName?: string;
 		measureUnit?: string; // e.g. '%', 'ms', 'patients'
@@ -150,7 +163,7 @@ export interface SPCChartProps {
 	 * @deprecated This prop is now ignored; trend side gating always on
 	 */
 	disableTrendSideGating?: boolean;
-	/** Optional source / citation text rendered below the chart outside the SVG for reliable layout */
+	/** Optional source / citation text rendered below the chart outside the SVG for reliable layout. Prefer grouped: meta={{ source }} */
 	source?: React.ReactNode;
 	/** @deprecated Prefer grouped UI: ui={{ axes: { alwaysShowZeroY } }} */
 	alwaysShowZeroY?: boolean;
@@ -169,14 +182,33 @@ export interface SPCChartProps {
 	showSignalsInspector?: boolean;
 	/** @deprecated Prefer grouped UI: ui={{ inspector: { onFocus } }} */
 	onSignalFocus?: (info: SPCSignalFocusInfo) => void;
-	/** Visuals preset: opt-in dataset-specific boundary window behaviour without relying on ariaLabel */
+	/** Visuals preset: opt-in dataset-specific boundary window behaviour without relying on ariaLabel. Prefer grouped: visualsEngine={{ scenario }} */
 	visualsScenario?: V2VisualsScenario;
 	/** When using Signals Inspector, also render a focus marker on the chart at the focused point. Default true. */
 	showFocusIndicator?: boolean;
-	/** Optional v2 visuals engine settings. */
+	/** Optional v2 visuals engine settings. Prefer grouped: visualsEngine={{ settings }} */
 	visualsEngineSettings?: Partial<V2Settings>;
 	/** Optional hierarchical UI options. */
 	ui?: SPCChartUIOptions;
+	/** Optional grouped container props. Preferred over flat props when provided. */
+	container?: {
+		height?: number;
+		className?: string;
+	};
+	/** Optional grouped accessibility props. Preferred over flat props when provided. */
+	a11y?: {
+		label?: string;
+		announceFocus?: boolean;
+		narrationContext?: {
+			measureName?: string;
+			measureUnit?: string;
+			datasetContext?: string;
+			organisation?: string;
+			timeframe?: string;
+			additionalNote?: string;
+		};
+		unit?: string;
+	};
 	/** Optional grouped input props. Preferred over flat props when provided. */
 	input?: {
 		data: SPCDatum[];
@@ -190,6 +222,15 @@ export interface SPCChartProps {
 		metricImprovement?: ImprovementDirection;
 		settings?: SpcSettings;
 	};
+	/** Optional grouped visuals engine props. Preferred over flat props when provided. */
+	visualsEngine?: {
+		scenario?: V2VisualsScenario;
+		settings?: Partial<V2Settings>;
+	};
+	/** Optional grouped meta props. Preferred over flat props when provided. */
+	meta?: {
+		source?: React.ReactNode;
+	};
 }
 
 export type NormalisedSpcProps = {
@@ -200,6 +241,25 @@ export type NormalisedSpcProps = {
 	effChartTypeCore: ChartType;
 	effMetricImprovementCore: ImprovementDirection;
 	effEngineSettings?: SpcSettings;
+	// Optional grouped aliases precedence outputs (undefined means fall back to flat/defaults)
+	effHeight?: number;
+	effClassName?: string;
+	effAriaLabel?: string;
+	effUnit?: string;
+	effNarrationContext?: {
+		measureName?: string;
+		measureUnit?: string;
+		datasetContext?: string;
+		organisation?: string;
+		timeframe?: string;
+		additionalNote?: string;
+	};
+	effShowZones?: boolean;
+	effShowPoints?: boolean;
+	effHighlightOutOfControl?: boolean;
+	effVisualsScenario?: V2VisualsScenario;
+	effVisualsEngineSettings?: Partial<V2Settings>;
+	effSource?: React.ReactNode;
 	effAlwaysShowZeroY: boolean;
 	effAlwaysShowHundredY: boolean;
 	effPercentScale: boolean;
@@ -234,7 +294,18 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 		ui,
 		input,
 		engine,
+		container,
+		a11y,
+		visualsEngine,
+		meta,
 		data,
+		ariaLabel,
+		height,
+		showZones,
+		showPoints,
+		announceFocus,
+		className,
+		unit,
 		targets,
 		baselines,
 		ghosts,
@@ -263,6 +334,11 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 		embeddedIconVariant,
 		embeddedIconRunLength,
 		showFocusIndicator,
+		visualsScenario,
+		visualsEngineSettings,
+		source,
+		narrationContext,
+		highlightOutOfControl,
 	} = props;
 
 	// Dev-time migration guidance
@@ -272,12 +348,62 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 			(targets !== undefined || baselines !== undefined || ghosts !== undefined)
 		) {
 			console.warn(
-				"SPCChart: Flat input props (targets/baselines/ghosts) are deprecated. Use input={ data, targets, baselines, ghosts } instead."
+				"SPCChart: Flat input props (targets/baselines/ghosts) are deprecated. Use input={{ data, targets, baselines, ghosts }} instead."
 			);
 		}
 		if (!engine && settings !== undefined) {
 			console.warn(
-				"SPCChart: Flat engine prop 'settings' is deprecated. Use engine={ chartType, metricImprovement, settings }."
+				"SPCChart: Flat engine prop 'settings' is deprecated. Use engine={{ chartType, metricImprovement, settings }}."
+			);
+		}
+		if (
+			!container &&
+			(height !== undefined || className !== undefined)
+		) {
+			console.warn(
+				"SPCChart: Consider grouped container props. Use container={{ height, className }}."
+			);
+		}
+		if (
+			!a11y &&
+			(
+				ariaLabel !== undefined ||
+				announceFocus !== undefined ||
+				narrationContext !== undefined ||
+				unit !== undefined
+			)
+		) {
+			console.warn(
+				"SPCChart: Consider grouped accessibility props. Use a11y={{ label, announceFocus, narrationContext, unit }}."
+			);
+		}
+		if (
+			!visualsEngine &&
+			(visualsScenario !== undefined || visualsEngineSettings !== undefined)
+		) {
+			console.warn(
+				"SPCChart: Consider grouped visuals engine props. Use visualsEngine={{ scenario, settings }}."
+			);
+		}
+		if (
+			ui?.visuals === undefined &&
+			(showZones !== undefined || showPoints !== undefined)
+		) {
+			console.warn(
+				"SPCChart: Visual toggles should be grouped. Use ui={{ visuals: { showZones, showPoints } }}."
+			);
+		}
+		if (
+			ui?.visuals?.rules === undefined &&
+			highlightOutOfControl !== undefined
+		) {
+			console.warn(
+				"SPCChart: Prefer grouped rules toggle. Use ui={{ visuals: { rules: { highlightOutOfControl } } }}."
+			);
+		}
+		if (!meta && source !== undefined) {
+			console.warn(
+				"SPCChart: Consider grouped meta. Use meta={{ source }}."
 			);
 		}
 	}
@@ -293,7 +419,6 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 		metricImprovement ??
 		ImprovementDirection.Neither;
 	const effEngineSettings = engine?.settings ?? settings;
-
 	const effAlwaysShowZeroY =
 		ui?.axes?.alwaysShowZeroY ?? alwaysShowZeroY ?? true;
 	const effAlwaysShowHundredY =
@@ -321,6 +446,19 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 		true;
 	const effEnableRules =
 		ui?.visuals?.rules?.enableRules ?? props.enableRules ?? true;
+
+	// Grouped alias values (undefined means use flat/defaults in component)
+	const effShowZones = ui?.visuals?.showZones;
+	const effShowPoints = ui?.visuals?.showPoints;
+	const effHighlightOutOfControl = ui?.visuals?.rules?.highlightOutOfControl;
+	const effHeight = container?.height;
+	const effClassName = container?.className;
+	const effAriaLabel = a11y?.label;
+	const effUnit = a11y?.unit;
+	const effNarrationContext = a11y?.narrationContext;
+	const effVisualsScenario = visualsEngine?.scenario;
+	const effVisualsEngineSettings = visualsEngine?.settings;
+	const effSource = meta?.source;
 	const effShowPartitionMarkers =
 		ui?.overlays?.partitionMarkers ?? showPartitionMarkers ?? false;
 	const effShowTrendStartMarkers =
@@ -356,6 +494,17 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 		effChartTypeCore,
 		effMetricImprovementCore,
 		effEngineSettings,
+		effHeight,
+		effClassName,
+		effAriaLabel,
+		effUnit,
+		effNarrationContext,
+		effShowZones,
+		effShowPoints,
+		effHighlightOutOfControl,
+		effVisualsScenario,
+		effVisualsEngineSettings,
+		effSource,
 		effAlwaysShowZeroY,
 		effAlwaysShowHundredY,
 		effPercentScale,

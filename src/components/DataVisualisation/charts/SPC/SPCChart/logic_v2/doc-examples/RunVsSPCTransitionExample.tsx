@@ -20,12 +20,10 @@ export const RunVsSPCTransitionExample: React.FC = () => {
 			<section>
 				<h4 style={{ margin: "0 0 8px" }}>Early phase (run-chart only)</h4>
 				<SPCChart
-					data={early.map((y, i) => ({ x: new Date(2025, 0, i + 1), y }))}
-					metricImprovement={ImprovementDirection.Down}
-					chartType={ChartType.XmR}
-					enableRules
-					showIcons={false}
-					ariaLabel="Early phase run-chart"
+					input={{ data: early.map((y, i) => ({ x: new Date(2025, 0, i + 1), y })) }}
+					engine={{ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down }}
+					ui={{ icons: { show: false }, visuals: { rules: { enableRules: true } } }}
+					a11y={{ label: "Early phase run-chart" }}
 				/>
 			</section>
 
@@ -34,12 +32,10 @@ export const RunVsSPCTransitionExample: React.FC = () => {
 					Maturing SPC (limits establish as data grows)
 				</h4>
 				<SPCChart
-					data={series}
-					metricImprovement={ImprovementDirection.Down}
-					chartType={ChartType.XmR}
-					enableRules
-					showIcons={false}
-					ariaLabel="Maturing SPC chart"
+					input={{ data: series }}
+					engine={{ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down }}
+					ui={{ icons: { show: false }, visuals: { rules: { enableRules: true } } }}
+					a11y={{ label: "Maturing SPC chart" }}
 				/>
 			</section>
 		</div>

@@ -1,11 +1,6 @@
 import * as React from "react";
 import "../../../DataVisualisation.scss";
 import "./SPCChart.scss";
-import { ImprovementDirection, VariationIcon, AssuranceIcon } from "./types";
-export { VisualsScenario } from "./logic_v2/presets";
 import type { SPCChartProps } from "./SPCChart.props";
-export { TrendVisualMode, SequenceTransition } from "./SPCChart.props";
 export declare const SPCChart: React.FC<SPCChartProps>;
-export { ImprovementDirection, VariationIcon, AssuranceIcon };
-export type { SPCChartProps, SPCDatum } from "./SPCChart.props";
 export default SPCChart;

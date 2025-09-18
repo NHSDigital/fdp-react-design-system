@@ -42,16 +42,16 @@ const SPCSignalsInspector: React.FC<SPCSignalsInspectorProps> = ({
 		() =>
 			row
 				? extractRuleIds({
-						specialCauseSinglePointUp: !!row.rules.singlePoint.up,
-						specialCauseSinglePointDown: !!row.rules.singlePoint.down,
-						specialCauseTwoOfThreeUp: !!row.rules.twoOfThree.up,
-						specialCauseTwoOfThreeDown: !!row.rules.twoOfThree.down,
-						specialCauseFourOfFiveUp: !!row.rules.fourOfFive.up,
-						specialCauseFourOfFiveDown: !!row.rules.fourOfFive.down,
-						specialCauseShiftUp: !!row.rules.shift.up,
-						specialCauseShiftDown: !!row.rules.shift.down,
-						specialCauseTrendUp: !!row.rules.trend.up,
-						specialCauseTrendDown: !!row.rules.trend.down,
+					specialCauseSinglePointUp: !!row.rules.singlePoint.up,
+					specialCauseSinglePointDown: !!row.rules.singlePoint.down,
+					specialCauseTwoOfThreeUp: !!row.rules.twoOfThree.up,
+					specialCauseTwoOfThreeDown: !!row.rules.twoOfThree.down,
+					specialCauseFourOfFiveUp: !!row.rules.fourOfFive.up,
+					specialCauseFourOfFiveDown: !!row.rules.fourOfFive.down,
+					specialCauseShiftUp: !!row.rules.shift.up,
+					specialCauseShiftDown: !!row.rules.shift.down,
+					specialCauseTrendUp: !!row.rules.trend.up,
+					specialCauseTrendDown: !!row.rules.trend.down,
 				  })
 				: [],
 		[row]

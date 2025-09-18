@@ -25,6 +25,8 @@ export type SPCChartUIOptions = {
         percentScale?: boolean;
     };
     visuals?: {
+        showZones?: boolean;
+        showPoints?: boolean;
         gradientSequences?: boolean;
         sequenceTransition?: SequenceTransition;
         processLineWidth?: number;
@@ -35,6 +37,7 @@ export type SPCChartUIOptions = {
         rules?: {
             enableNeutralNoJudgement?: boolean;
             enableRules?: boolean;
+            highlightOutOfControl?: boolean;
         };
     };
     overlays?: {
@@ -70,15 +73,23 @@ export interface SPCChartProps {
      * @deprecated Prefer grouped form: input={{ data, targets, baselines, ghosts }}
      */
     data?: SPCDatum[];
+    /** Prefer grouped: a11y={{ label }} */
     ariaLabel?: string;
+    /** Prefer grouped: container={{ height }} */
     height?: number;
+    /** Prefer grouped UI: ui={{ visuals: { showZones } }} */
     showZones?: boolean;
+    /** Prefer grouped UI: ui={{ visuals: { showPoints } }} */
     showPoints?: boolean;
+    /** Prefer grouped: a11y={{ announceFocus }} */
     announceFocus?: boolean;
+    /** Prefer grouped: container={{ className }} */
     className?: string;
     /** Convenience unit alias (overrides narrationContext.measureUnit). Auto-detected as '%' when all y in [0,1] if not provided */
+    /** Prefer grouped: a11y={{ unit }} */
     unit?: string;
     /** Highlight points outside 3-sigma */
+    /** Prefer grouped UI: ui={{ visuals: { rules: { highlightOutOfControl } } }} */
     highlightOutOfControl?: boolean;
     /** @deprecated Prefer grouped engine: engine={{ chartType }} */
     chartType?: ChartType;
@@ -102,7 +113,7 @@ export interface SPCChartProps {
     ghosts?: (boolean | null | undefined)[];
     /** @deprecated Prefer grouped engine: engine={{ settings }} */
     settings?: SpcSettings;
-    /** Optional contextual metadata used to enrich accessible narration */
+    /** Optional contextual metadata used to enrich accessible narration. Prefer grouped: a11y={{ narrationContext }} */
     narrationContext?: {
         measureName?: string;
         measureUnit?: string;
@@ -137,7 +148,7 @@ export interface SPCChartProps {
      * @deprecated This prop is now ignored; trend side gating always on
      */
     disableTrendSideGating?: boolean;
-    /** Optional source / citation text rendered below the chart outside the SVG for reliable layout */
+    /** Optional source / citation text rendered below the chart outside the SVG for reliable layout. Prefer grouped: meta={{ source }} */
     source?: React.ReactNode;
     /** @deprecated Prefer grouped UI: ui={{ axes: { alwaysShowZeroY } }} */
     alwaysShowZeroY?: boolean;
@@ -156,26 +167,54 @@ export interface SPCChartProps {
     showSignalsInspector?: boolean;
     /** @deprecated Prefer grouped UI: ui={{ inspector: { onFocus } }} */
     onSignalFocus?: (info: SPCSignalFocusInfo) => void;
-    /** Visuals preset: opt-in dataset-specific boundary window behaviour without relying on ariaLabel */
+    /** Visuals preset: opt-in dataset-specific boundary window behaviour without relying on ariaLabel. Prefer grouped: visualsEngine={{ scenario }} */
     visualsScenario?: V2VisualsScenario;
     /** When using Signals Inspector, also render a focus marker on the chart at the focused point. Default true. */
     showFocusIndicator?: boolean;
-    /** Optional v2 visuals engine settings (typed) to avoid unsafe casts. */
+    /** Optional v2 visuals engine settings. Prefer grouped: visualsEngine={{ settings }} */
     visualsEngineSettings?: Partial<V2Settings>;
-    /** Optional hierarchical UI options (non-breaking). */
+    /** Optional hierarchical UI options. */
     ui?: SPCChartUIOptions;
-    /** Optional grouped input props (non-breaking). Preferred over flat props when provided. */
+    /** Optional grouped container props. Preferred over flat props when provided. */
+    container?: {
+        height?: number;
+        className?: string;
+    };
+    /** Optional grouped accessibility props. Preferred over flat props when provided. */
+    a11y?: {
+        label?: string;
+        announceFocus?: boolean;
+        narrationContext?: {
+            measureName?: string;
+            measureUnit?: string;
+            datasetContext?: string;
+            organisation?: string;
+            timeframe?: string;
+            additionalNote?: string;
+        };
+        unit?: string;
+    };
+    /** Optional grouped input props. Preferred over flat props when provided. */
     input?: {
         data: SPCDatum[];
         targets?: (number | null | undefined)[];
         baselines?: (boolean | null | undefined)[];
         ghosts?: (boolean | null | undefined)[];
     };
-    /** Optional grouped engine props (non-breaking). Preferred over flat props when provided. */
+    /** Optional grouped engine props. Preferred over flat props when provided. */
     engine?: {
         chartType?: ChartType;
         metricImprovement?: ImprovementDirection;
         settings?: SpcSettings;
+    };
+    /** Optional grouped visuals engine props. Preferred over flat props when provided. */
+    visualsEngine?: {
+        scenario?: V2VisualsScenario;
+        settings?: Partial<V2Settings>;
+    };
+    /** Optional grouped meta props. Preferred over flat props when provided. */
+    meta?: {
+        source?: React.ReactNode;
     };
 }
 export type NormalisedSpcProps = {
@@ -186,6 +225,24 @@ export type NormalisedSpcProps = {
     effChartTypeCore: ChartType;
     effMetricImprovementCore: ImprovementDirection;
     effEngineSettings?: SpcSettings;
+    effHeight?: number;
+    effClassName?: string;
+    effAriaLabel?: string;
+    effUnit?: string;
+    effNarrationContext?: {
+        measureName?: string;
+        measureUnit?: string;
+        datasetContext?: string;
+        organisation?: string;
+        timeframe?: string;
+        additionalNote?: string;
+    };
+    effShowZones?: boolean;
+    effShowPoints?: boolean;
+    effHighlightOutOfControl?: boolean;
+    effVisualsScenario?: V2VisualsScenario;
+    effVisualsEngineSettings?: Partial<V2Settings>;
+    effSource?: React.ReactNode;
     effAlwaysShowZeroY: boolean;
     effAlwaysShowHundredY: boolean;
     effPercentScale: boolean;

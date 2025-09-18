@@ -119,4 +119,4 @@ export declare const assuranceExamples: {
 }[];
 export { VARIATION_COLOR_TOKENS } from "../SPCChart/descriptors";
 export { getVariationColorToken, getVariationColorHex } from "../SPCChart/descriptors";
-export type { VariationIcon } from "../SPCChart/types";
+export type { VariationIcon } from "../SPCChart/logic_v2/types";

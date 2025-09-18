@@ -21,63 +21,11 @@ var VariationIcon = /* @__PURE__ */ ((VariationIcon2) => {
   VariationIcon2["CommonCause"] = "CommonCause";
   return VariationIcon2;
 })(VariationIcon || {});
-var AssuranceIcon = /* @__PURE__ */ ((AssuranceIcon2) => {
-  AssuranceIcon2["None"] = "None";
-  AssuranceIcon2["Pass"] = "Pass";
-  AssuranceIcon2["HitOrMiss"] = "HitOrMiss";
-  AssuranceIcon2["Fail"] = "Fail";
-  return AssuranceIcon2;
-})(AssuranceIcon || {});
-var SpcRuleId = /* @__PURE__ */ ((SpcRuleId2) => {
-  SpcRuleId2["SinglePoint"] = "SinglePoint";
-  SpcRuleId2["TwoSigma"] = "TwoSigma";
-  SpcRuleId2["Shift"] = "Shift";
-  SpcRuleId2["Trend"] = "Trend";
-  return SpcRuleId2;
-})(SpcRuleId || {});
-var PrimeDirection = /* @__PURE__ */ ((PrimeDirection2) => {
-  PrimeDirection2["Upwards"] = "Upwards";
-  PrimeDirection2["Downwards"] = "Downwards";
-  PrimeDirection2["Same"] = "Same";
-  return PrimeDirection2;
-})(PrimeDirection || {});
 var Side = /* @__PURE__ */ ((Side2) => {
   Side2["Up"] = "Up";
   Side2["Down"] = "Down";
   return Side2;
 })(Side || {});
-var MetricConflictRule = /* @__PURE__ */ ((MetricConflictRule2) => {
-  MetricConflictRule2["Improvement"] = "Improvement";
-  MetricConflictRule2["Concern"] = "Concern";
-  return MetricConflictRule2;
-})(MetricConflictRule || {});
-var ConflictStrategy = /* @__PURE__ */ ((ConflictStrategy2) => {
-  ConflictStrategy2["SqlPrimeThenRule"] = "SqlPrimeThenRule";
-  ConflictStrategy2["PreferImprovement"] = "PreferImprovement";
-  ConflictStrategy2["RuleHierarchy"] = "RuleHierarchy";
-  return ConflictStrategy2;
-})(ConflictStrategy || {});
-var TrendSegmentationStrategy = /* @__PURE__ */ ((TrendSegmentationStrategy2) => {
-  TrendSegmentationStrategy2["FavourableSide"] = "FavourableSide";
-  TrendSegmentationStrategy2["CrossingAfterFavourable"] = "CrossingAfterFavourable";
-  TrendSegmentationStrategy2["ExtremeFavourable"] = "ExtremeFavourable";
-  TrendSegmentationStrategy2["FirstFavourable"] = "FirstFavourable";
-  TrendSegmentationStrategy2["LongestFavourable"] = "LongestFavourable";
-  TrendSegmentationStrategy2["LastFavourable"] = "LastFavourable";
-  TrendSegmentationStrategy2["UnfavourableSide"] = "UnfavourableSide";
-  TrendSegmentationStrategy2["CrossingAfterUnfavourable"] = "CrossingAfterUnfavourable";
-  TrendSegmentationStrategy2["ExtremeUnfavourable"] = "ExtremeUnfavourable";
-  TrendSegmentationStrategy2["FirstUnfavourable"] = "FirstUnfavourable";
-  TrendSegmentationStrategy2["LongestUnfavourable"] = "LongestUnfavourable";
-  TrendSegmentationStrategy2["LastUnfavourable"] = "LastUnfavourable";
-  return TrendSegmentationStrategy2;
-})(TrendSegmentationStrategy || {});
-var TrendSegmentationMode = /* @__PURE__ */ ((TrendSegmentationMode2) => {
-  TrendSegmentationMode2["Off"] = "Off";
-  TrendSegmentationMode2["AutoWhenConflict"] = "AutoWhenConflict";
-  TrendSegmentationMode2["Always"] = "Always";
-  return TrendSegmentationMode2;
-})(TrendSegmentationMode || {});
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/constants.ts
 var RULE_RANK_BY_ID = {
@@ -86,7 +34,6 @@ var RULE_RANK_BY_ID = {
   ["Shift" /* Shift */]: 3,
   ["Trend" /* Trend */]: 4
 };
-var D2 = 1.128;
 var MR_UCL_FACTOR = 3.267;
 var XMR_THREE_SIGMA_FACTOR = 2.66;
 var T_TRANSFORM_EXP = 0.2777;
@@ -491,48 +438,8 @@ function resolveConflict(args) {
     else row.specialCauseImprovementValue = null;
   }
 }
-function computeSideFlags(row) {
-  const upAny = !!(row.singlePointUp || row.twoSigmaUp || row.shiftUp || row.trendUp);
-  const downAny = !!(row.singlePointDown || row.twoSigmaDown || row.shiftDown || row.trendDown);
-  return { upAny, downAny };
-}
-function hasDirectionalConflict(row) {
-  const { upAny, downAny } = computeSideFlags(row);
-  return upAny && downAny;
-}
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/assurance.ts
-function computeAssuranceIconXmR(row, metricImprovement, target) {
-  if (!isNumber(target) || row.mean === null || row.upperProcessLimit === null || row.lowerProcessLimit === null)
-    return "None" /* None */;
-  if (metricImprovement === "Up" /* Up */) {
-    if (target <= row.lowerProcessLimit) return "Pass" /* Pass */;
-    if (target >= row.upperProcessLimit) return "Fail" /* Fail */;
-    return "HitOrMiss" /* HitOrMiss */;
-  }
-  if (metricImprovement === "Down" /* Down */) {
-    if (target >= row.upperProcessLimit) return "Pass" /* Pass */;
-    if (target <= row.lowerProcessLimit) return "Fail" /* Fail */;
-    return "HitOrMiss" /* HitOrMiss */;
-  }
-  return "None" /* None */;
-}
-function computeAssuranceIcon(chartType, row, metricImprovement, target) {
-  if (chartType !== "XmR" /* XmR */) return "None" /* None */;
-  return computeAssuranceIconXmR(row, metricImprovement, target);
-}
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/trendSegments.ts
-var TrendDirection = /* @__PURE__ */ ((TrendDirection2) => {
-  TrendDirection2["Up"] = "Up";
-  TrendDirection2["Down"] = "Down";
-  return TrendDirection2;
-})(TrendDirection || {});
-var MeanSide = /* @__PURE__ */ ((MeanSide2) => {
-  MeanSide2["Above"] = "Above";
-  MeanSide2["Below"] = "Below";
-  return MeanSide2;
-})(MeanSide || {});
 function signOf(x) {
   if (x > 0) return 1;
   if (x < 0) return -1;
@@ -1341,64 +1248,6 @@ var PARITY_V26 = Object.freeze({
 function withParityV26(overrides) {
   return { ...PARITY_V26, ...overrides != null ? overrides : {} };
 }
-function withConflictPresetV26(overrides) {
-  return withParityV26({
-    trendSegmentationMode: "AutoWhenConflict" /* AutoWhenConflict */,
-    trendSegmentationStrategy: "CrossingAfterUnfavourable" /* CrossingAfterUnfavourable */,
-    // Keep strict SQL pruning semantics by default; allow caller to opt into stronger levers below
-    preferTrendWhenConflict: false,
-    trendDominatesHighlightedWindow: false,
-    ...overrides != null ? overrides : {}
-  });
-}
-function withConflictPresetAutoV26(metricImprovement, overrides) {
-  switch (metricImprovement) {
-    case "Up" /* Up */:
-      return withConflictPresetV26({
-        // Engine will gate segmentation off when this is true
-        preferImprovementWhenConflict: true,
-        trendSegmentationMode: "Off" /* Off */,
-        ...overrides != null ? overrides : {}
-      });
-    case "Down" /* Down */:
-      return withConflictPresetV26({
-        // Keep segmentation to resolve cross-mean runs for low-is-good datasets
-        preferImprovementWhenConflict: false,
-        trendSegmentationMode: "AutoWhenConflict" /* AutoWhenConflict */,
-        trendSegmentationStrategy: "CrossingAfterUnfavourable" /* CrossingAfterUnfavourable */,
-        ...overrides != null ? overrides : {}
-      });
-    default:
-      return withConflictPresetV26({ ...overrides != null ? overrides : {} });
-  }
-}
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/preprocess.ts
-function toTimeBetweenEvents(events, opts) {
-  var _a;
-  const toMs = (_a = opts == null ? void 0 : opts.toMillis) != null ? _a : (x) => new Date(x).getTime();
-  const res = [];
-  if (events.length < 2) return res;
-  for (let i = 1; i < events.length; i++) {
-    const prev = toMs(events[i - 1].x);
-    const cur = toMs(events[i].x);
-    res.push({ x: events[i].x, value: Math.max(0, cur - prev) });
-  }
-  return res;
-}
-function toCountBetweenEvents(rows) {
-  const res = [];
-  let since = 0;
-  for (const r of rows) {
-    since += 1;
-    const hit = typeof r.occurred === "number" ? r.occurred > 0 : !!r.occurred;
-    if (hit) {
-      res.push({ x: r.x, value: since });
-      since = 0;
-    }
-  }
-  return res;
-}
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/retroOverlay.ts
 function iconFor(side, dir) {
@@ -1465,56 +1314,20 @@ function computeRetroShiftOverlay(rows, metricImprovement, opts) {
   return overlay;
 }
 export {
-  AssuranceIcon,
   ChartType,
-  ConflictStrategy,
-  D2,
   ImprovementDirection,
-  MR_UCL_FACTOR,
-  MeanSide,
-  MetricConflictRule,
   PARITY_V26,
-  PrimeDirection,
-  RULE_RANK_BY_ID,
   Side,
-  SpcRuleId,
   SpcVisualCategory,
-  T_TRANSFORM_EXP,
-  TrendDirection,
-  TrendSegmentationMode,
-  TrendSegmentationStrategy,
   TrendVisualMode,
   VariationIcon,
   VisualsScenario,
-  XMR_THREE_SIGMA_FACTOR,
-  applySqlPruning,
   buildSpcV26a,
   buildSpcV26aWithVisuals,
   buildVisualsForScenario,
-  chooseSegmentsForHighlight,
-  computeAssuranceIcon,
-  computeAssuranceIconXmR,
-  computeBoundaryWindowCategories,
-  computePartitionLimits,
   computeRetroShiftOverlay,
-  computeSideFlags,
   computeSpcVisualCategories,
-  computeTrendSegments,
-  deriveOriginalCandidates,
-  detectRulesInPartition,
-  getDirectionalSummary,
-  hasDirectionalConflict,
-  isNumber,
-  mean,
-  movingRanges,
-  mrMeanWithOptionalExclusion,
   normaliseSpcSettingsV2,
-  resolveConflict,
-  toCountBetweenEvents,
-  toTimeBetweenEvents,
-  withConflictPresetAutoV26,
-  withConflictPresetV26,
-  withParityV26,
-  xmrLimits
+  withParityV26
 };
 //# sourceMappingURL=index.js.map

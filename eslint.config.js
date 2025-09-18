@@ -25,6 +25,51 @@ export default [
     'no-restricted-imports': 'off'
   }
   },
+  // Discourage deep SPC logic_v2 imports outside SPCChart implementation — prefer charts/SPC/engine
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/**/*'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: [
+                '**/DataVisualisation/charts/SPC/SPCChart/logic_v2/**'
+              ],
+              message:
+                'Import SPC v2 helpers from charts/SPC/engine (public surface) instead of deep logic_v2 internals.'
+            }
+          ]
+        }
+      ]
+    }
+  },
+  // Discourage deep SPC internals (icons, descriptors, types, legacy logic) outside SPC implementation — prefer charts/SPC/engine, SPC barrel, or Icons namespace
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['src/components/DataVisualisation/charts/SPC/**/*'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: [
+                '**/DataVisualisation/charts/SPC/SPCIcons/**',
+                '**/DataVisualisation/charts/SPC/SPCChart/descriptors',
+                '**/DataVisualisation/charts/SPC/SPCChart/types',
+                '**/DataVisualisation/charts/SPC/SPCChart/logic/**',
+              ],
+              message:
+                'Import from charts/SPC (barrel), charts/SPC/engine (engine API), or charts/SPC/Icons (namespace) instead of deep SPC internals.'
+            }
+          ]
+        }
+      ]
+    }
+  },
   // Enforce SSR barrel purity: do not allow client modules or React hooks in SSR entry or its server files
   {
     files: ['src/components/ssr.ts', 'src/components/**/*.{server.ts,server.tsx}'],
@@ -102,6 +147,14 @@ export default [
   // Allow the SPC barrel re-export in the DataVisualisation index without triggering restricted-imports
   {
     files: ['src/components/DataVisualisation/index.ts'],
+    rules: {
+      'no-restricted-imports': 'off'
+    }
+  }
+  ,
+  // Allow deep imports inside the SPC barrel to curate the public surface
+  {
+    files: ['src/components/DataVisualisation/charts/SPC/index.ts'],
     rules: {
       'no-restricted-imports': 'off'
     }

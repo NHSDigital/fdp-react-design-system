@@ -1,5 +1,5 @@
-import { SPCChart, ImprovementDirection } from "../SPCChart";
-import { ChartType } from './spcConstants';
+import SPCChart from "../SPCChart";
+import { ImprovementDirection, ChartType } from "../../engine";
 import { ChartContainer } from "../../../..";
 
 // Helper to convert lightweight month/value objects to SPCChart datapoints

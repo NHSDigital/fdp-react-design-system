@@ -63,10 +63,10 @@ import {
 } from "./logic_v2/presets";
 import { TrendVisualMode as V2TrendVisualMode } from "./logic_v2";
 import { buildWithVisuals as buildWithVisualsV2 } from "./logic_v2/adapter";
-export { VisualsScenario } from "./logic_v2/presets";
 // Centralised SPC props/types and normalisation helper
 import type { SPCDatum, SPCChartProps } from "./SPCChart.props";
 import { normalizeSpcProps, TrendVisualMode, SequenceTransition } from "./SPCChart.props";
+import { Side } from "../engine";
 
 // Global counter to create stable, unique gradient id bases across multiple SPCChart instances
 let spcSequenceInstanceCounter = 0;
@@ -76,14 +76,14 @@ let spcSequenceInstanceCounter = 0;
 
 export const SPCChart: React.FC<SPCChartProps> = ({
 	data,
-	ariaLabel = "SPC chart",
-	height = 260,
-	showZones = true,
-	showPoints = true,
+	ariaLabel: ariaLabelProp = "SPC chart",
+	height: heightProp = 260,
+	showZones: showZonesProp = true,
+	showPoints: showPointsProp = true,
 	announceFocus = false,
-	className,
-	unit,
-	highlightOutOfControl = true,
+	className: classNameProp,
+	unit: unitProp,
+	highlightOutOfControl: highlightOutOfControlProp = true,
 	chartType = ChartType.XmR,
 	metricImprovement = ImprovementDirection.Neither,
 	enableRules = true,
@@ -95,7 +95,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	baselines,
 	ghosts,
 	settings,
-	narrationContext,
+	narrationContext: narrationContextProp,
 	gradientSequences = false,
 	sequenceTransition = SequenceTransition.Slope,
 	processLineWidth = 2,
@@ -105,7 +105,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	showTrendGatingExplanation = true,
 	trendVisualMode = TrendVisualMode.Ungated,
 	disableTrendSideGating,
-	source,
+	source: sourceProp,
 	alwaysShowZeroY = true,
 	alwaysShowHundredY = false,
 	percentScale = false,
@@ -115,12 +115,17 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	showTrendBridgeOverlay = false,
 	showSignalsInspector = false,
 	onSignalFocus,
-	visualsScenario = V2VisualsScenario.None,
+	visualsScenario: visualsScenarioProp = V2VisualsScenario.None,
 	showFocusIndicator = true,
-	visualsEngineSettings,
+	visualsEngineSettings: visualsEngineSettingsProp,
 	ui,
 	input,
 	engine: engineGroup,
+	// New grouped aliases
+	container,
+	a11y,
+	visualsEngine,
+	meta,
 }) => {
 	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
@@ -195,6 +200,17 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		effEmbeddedIconVariant,
 		effEmbeddedIconRunLength,
 		effShowFocusIndicator,
+		effHeight,
+		effClassName,
+		effAriaLabel,
+		effUnit,
+		effNarrationContext,
+		effShowZones,
+		effShowPoints,
+		effHighlightOutOfControl,
+		effVisualsScenario,
+		effVisualsEngineSettings,
+		effSource,
 	} = normalizeSpcProps({
 		data,
 		targets: targetsProp,
@@ -229,7 +245,28 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		ui,
 		input,
 		engine: engineGroup,
+		// pass grouped aliases through so normalize can prefer them
+		container,
+		a11y,
+		visualsEngine,
+		meta,
 	});
+
+	// Effective precedence: prefer grouped eff* when provided, otherwise fall back to flat props
+	const ariaLabel = effAriaLabel ?? ariaLabelProp;
+	const height = effHeight ?? heightProp;
+	const className = effClassName ?? classNameProp;
+	const unit = effUnit ?? unitProp;
+	const narrationContext = effNarrationContext ?? narrationContextProp;
+	const showZones = (effShowZones ?? showZonesProp) as boolean;
+	const showPoints = (effShowPoints ?? showPointsProp) as boolean;
+	const highlightOutOfControl = (
+		effHighlightOutOfControl ?? highlightOutOfControlProp
+	) as boolean;
+	const visualsScenario = effVisualsScenario ?? visualsScenarioProp;
+	const visualsEngineSettings =
+		effVisualsEngineSettings ?? visualsEngineSettingsProp;
+	const source = effSource ?? sourceProp;
 
 	// Build SPC engine instance (memoised)
 	// NB: settings object is assumed stable if not changing reference (no deep equality check)
@@ -790,6 +827,36 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 
 		const iconSize = 80;
 
+		// Compute side signals once for use in icon payload and engine VariationIcon mapping
+		const highSideSignal =
+			lastRow.rules.singlePoint.up ||
+			lastRow.rules.twoOfThree.up ||
+			lastRow.rules.fourOfFive.up ||
+			lastRow.rules.shift.up ||
+			lastRow.rules.trend.up;
+		const lowSideSignal =
+			lastRow.rules.singlePoint.down ||
+			lastRow.rules.twoOfThree.down ||
+			lastRow.rules.fourOfFive.down ||
+			lastRow.rules.shift.down ||
+			lastRow.rules.trend.down;
+
+		// Map UI variation to engine enum required by SPCVariationIcon's engine payload
+		let variationEngine: V2VariationIcon = V2VariationIcon.CommonCause;
+		if (canonicalVariation === VariationIcon.Improvement) {
+			variationEngine = V2VariationIcon.ImprovementHigh;
+		} else if (canonicalVariation === VariationIcon.Concern) {
+			variationEngine = V2VariationIcon.ConcernHigh;
+		} else if (canonicalVariation === VariationIcon.Neither) {
+			if (hasNeutralSpecialCause) {
+				if (trend === Direction.Lower || (lowSideSignal && !highSideSignal))
+					variationEngine = V2VariationIcon.NeitherLow;
+				else variationEngine = V2VariationIcon.NeitherHigh;
+			} else {
+				variationEngine = V2VariationIcon.CommonCause;
+			}
+		}
+
 		return (
 			<div
 				key={`embedded-icon-${lastIdx}`}
@@ -806,22 +873,12 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 					<SPCVariationIcon
 						dropShadow={false}
 						data={{
-							variationIcon: variation!,
+							variationIcon: variationEngine,
 							improvementDirection: effMetricImprovementCore,
 							polarity,
 							specialCauseNeutral: hasNeutralSpecialCause,
-							highSideSignal:
-								lastRow.rules.singlePoint.up ||
-								lastRow.rules.twoOfThree.up ||
-								lastRow.rules.fourOfFive.up ||
-								lastRow.rules.shift.up ||
-								lastRow.rules.trend.up,
-							lowSideSignal:
-								lastRow.rules.singlePoint.down ||
-								lastRow.rules.twoOfThree.down ||
-								lastRow.rules.fourOfFive.down ||
-								lastRow.rules.shift.down ||
-								lastRow.rules.trend.down,
+							highSideSignal,
+							lowSideSignal,
 							...(trend ? { trend } : {}),
 						}}
 						// Letter semantics: use polarity (business improvement direction) when specified; fall back to signal side for neutral metrics
@@ -1217,7 +1274,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 	const trendInsights = React.useMemo(() => {
 		if (!engineRows || !engineRows.length)
 			return null as null | {
-				direction: "up" | "down";
+				direction: Side;
 				detectedAt: number; // index in series
 				firstFavourableCrossAt: number | null;
 				persistedAcrossMean: boolean;
@@ -1232,7 +1289,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 		if (!Number.isFinite(earliestUp) && !Number.isFinite(earliestDown))
 			return null;
 		const useUp = earliestUp <= earliestDown;
-		const direction: "up" | "down" = useUp ? "up" : "down";
+		const direction: Side = useUp ? Side.Up : Side.Down;
 		const detectedAt = useUp ? earliestUp : earliestDown;
 		// Determine favourable side relative to metricImprovement and row mean
 		const isFavourable = (row: EngineRowUI | null | undefined): boolean => {
@@ -1247,7 +1304,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 				typeof row.limits.mean !== "number"
 			)
 				return false;
-			if (direction === "up") {
+			if (direction === Side.Up) {
 				return metricImprovement === ImprovementDirection.Up
 					? row.data.value > (row.limits.mean as number)
 					: row.data.value < (row.limits.mean as number);
@@ -2251,5 +2308,4 @@ const InteractionLayer: React.FC<{ width: number; height: number }> = ({
 	);
 };
 
-export { ImprovementDirection, VariationIcon, AssuranceIcon };
 export default SPCChart;

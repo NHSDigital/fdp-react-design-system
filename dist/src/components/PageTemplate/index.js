@@ -597,43 +597,58 @@ var HeaderSearch = ({
   const inputRef = useRef(null);
   const isControlled = mode === "controlled" && value !== void 0;
   const currentValue = isControlled ? value : internalValue;
-  const debouncedOnChange = useCallback((query) => {
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
-    debounceRef.current = setTimeout(() => {
-      if (callbacks.onChange && query.length >= minQueryLength) {
-        callbacks.onChange(query);
+  const debouncedOnChange = useCallback(
+    (query) => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
       }
-    }, debounceMs);
-  }, [callbacks.onChange, debounceMs, minQueryLength]);
-  const handleInputChange = useCallback((e) => {
-    const newValue = e.target.value;
-    if (!isControlled) {
-      setInternalValue(newValue);
-    }
-    if (mode !== "form") {
-      debouncedOnChange(newValue);
-    }
-  }, [isControlled, mode, debouncedOnChange]);
-  const handleFormSubmit = useCallback((e) => {
-    const query = currentValue.trim();
-    const searchData = {
-      query,
-      timestamp: Date.now(),
-      formData: new FormData(e.currentTarget)
-    };
-    if (mode === "controlled" || mode === "hybrid" && preventDefaultSubmit) {
-      e.preventDefault();
-      if (callbacks.onSearch && query.length >= minQueryLength) {
-        callbacks.onSearch(searchData);
+      debounceRef.current = setTimeout(() => {
+        if (callbacks.onChange && query.length >= minQueryLength) {
+          callbacks.onChange(query);
+        }
+      }, debounceMs);
+    },
+    [callbacks.onChange, debounceMs, minQueryLength]
+  );
+  const handleInputChange = useCallback(
+    (e) => {
+      const newValue = e.target.value;
+      if (!isControlled) {
+        setInternalValue(newValue);
       }
-    } else if (mode === "hybrid" && callbacks.onSearch) {
-      if (query.length >= minQueryLength) {
-        callbacks.onSearch(searchData);
+      if (mode !== "form") {
+        debouncedOnChange(newValue);
       }
-    }
-  }, [mode, currentValue, callbacks.onSearch, preventDefaultSubmit, minQueryLength]);
+    },
+    [isControlled, mode, debouncedOnChange]
+  );
+  const handleFormSubmit = useCallback(
+    (e) => {
+      const query = currentValue.trim();
+      const searchData = {
+        query,
+        timestamp: Date.now(),
+        formData: new FormData(e.currentTarget)
+      };
+      if (mode === "controlled" || mode === "hybrid" && preventDefaultSubmit) {
+        e.preventDefault();
+        if (callbacks.onSearch && query.length >= minQueryLength) {
+          callbacks.onSearch(searchData);
+        }
+      } else if (mode === "hybrid" && callbacks.onSearch) {
+        if (query.length >= minQueryLength) {
+          callbacks.onSearch(searchData);
+        }
+      }
+    },
+    [
+      mode,
+      currentValue,
+      callbacks.onSearch,
+      preventDefaultSubmit,
+      minQueryLength
+    ]
+  );
   const handleFocus = useCallback(() => {
     var _a;
     setIsFocused(true);
@@ -725,98 +740,125 @@ var HeaderSearch = ({
         className: "nhsuk-header__search-clear",
         onClick: handleClear,
         "aria-label": "Clear search",
-        children: /* @__PURE__ */ jsx4("svg", { className: "nhsuk-icon nhsuk-icon__close", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ jsx4("path", { d: "M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 1.42 1.42l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42-1.42z" }) })
+        children: /* @__PURE__ */ jsx4(
+          "svg",
+          {
+            className: "nhsuk-icon nhsuk-icon__close",
+            xmlns: "http://www.w3.org/2000/svg",
+            viewBox: "0 0 24 24",
+            "aria-hidden": "true",
+            focusable: "false",
+            children: /* @__PURE__ */ jsx4("path", { d: "M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 1.42 1.42l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42-1.42z" })
+          }
+        )
       }
     );
   };
   const renderResults = () => {
     if (!showResults || !results.length || !isFocused) return null;
-    return /* @__PURE__ */ jsx4("div", { className: "nhsuk-header__search-results", role: "listbox", children: results.map((result) => /* @__PURE__ */ jsx4("div", { className: "nhsuk-header__search-result", role: "option", children: result.href ? /* @__PURE__ */ jsxs3("a", { href: result.href, className: "nhsuk-header__search-result-link", children: [
-      /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__search-result-title", children: result.title }),
-      result.description && /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__search-result-description", children: result.description })
-    ] }) : /* @__PURE__ */ jsxs3(
-      "button",
+    return /* @__PURE__ */ jsx4("div", { className: "nhsuk-header__search-results", role: "listbox", children: results.map((result) => /* @__PURE__ */ jsx4(
+      "div",
       {
-        type: "button",
-        className: "nhsuk-header__search-result-button",
-        onClick: () => {
-          var _a;
-          return (_a = callbacks.onSearch) == null ? void 0 : _a.call(callbacks, { query: result.title, timestamp: Date.now() });
-        },
-        children: [
-          /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__search-result-title", children: result.title }),
-          result.description && /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__search-result-description", children: result.description })
-        ]
-      }
-    ) }, result.id)) });
+        className: "nhsuk-header__search-result",
+        role: "option",
+        children: result.href ? /* @__PURE__ */ jsxs3(
+          "a",
+          {
+            href: result.href,
+            className: "nhsuk-header__search-result-link",
+            children: [
+              /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__search-result-title", children: result.title }),
+              result.description && /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__search-result-description", children: result.description })
+            ]
+          }
+        ) : /* @__PURE__ */ jsxs3(
+          "button",
+          {
+            type: "button",
+            className: "nhsuk-header__search-result-button",
+            onClick: () => {
+              var _a;
+              return (_a = callbacks.onSearch) == null ? void 0 : _a.call(callbacks, {
+                query: result.title,
+                timestamp: Date.now()
+              });
+            },
+            children: [
+              /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__search-result-title", children: result.title }),
+              result.description && /* @__PURE__ */ jsx4("span", { className: "nhsuk-header__search-result-description", children: result.description })
+            ]
+          }
+        )
+      },
+      result.id
+    )) });
   };
-  return /* @__PURE__ */ jsxs3("div", { className: (0, import_classnames4.default)("nhsuk-header__search", className, {
-    "nhsuk-header__search--controlled": mode === "controlled",
-    "nhsuk-header__search--hybrid": mode === "hybrid",
-    "nhsuk-header__search--loading": isLoading,
-    "nhsuk-header__search--focused": isFocused,
-    "nhsuk-header__search--has-results": showResults && results.length > 0
-  }), children: [
-    /* @__PURE__ */ jsxs3(
-      "form",
-      {
-        ref: formRef,
-        className: "nhsuk-header__search-form",
-        id: "search",
-        action: mode !== "controlled" ? action : void 0,
-        method: mode !== "controlled" ? method : void 0,
-        role: "search",
-        onSubmit: handleFormSubmit,
-        ...formAttributes,
-        children: [
-          /* @__PURE__ */ jsx4(
-            "label",
-            {
-              className: "nhsuk-u-visually-hidden",
-              htmlFor: "search-field",
-              children: visuallyHiddenLabel
-            }
-          ),
-          /* @__PURE__ */ jsxs3("div", { className: "nhsuk-header__search-input-wrapper", children: [
-            /* @__PURE__ */ jsx4(
-              "input",
-              {
-                ref: inputRef,
-                className: "nhsuk-header__search-input nhsuk-input",
-                id: "search-field",
-                name: mode !== "controlled" ? name : void 0,
-                type: "search",
-                placeholder,
-                autoComplete: "off",
-                value: currentValue,
-                onChange: handleInputChange,
-                onFocus: handleFocus,
-                onBlur: handleBlur,
-                disabled: disabled || isLoading,
-                ...showResults && results.length > 0 ? { "aria-expanded": true, "aria-haspopup": "listbox" } : {},
-                ...inputAttributes
-              }
-            ),
-            renderClearButton()
-          ] }),
-          /* @__PURE__ */ jsxs3(
-            "button",
-            {
-              className: "nhsuk-header__search-submit",
-              type: "submit",
-              disabled: disabled || isLoading || mode !== "form" && currentValue.length < minQueryLength,
-              ...buttonAttributes,
-              children: [
-                isLoading ? renderLoadingSpinner() : renderSearchIcon(),
-                /* @__PURE__ */ jsx4("span", { className: "nhsuk-u-visually-hidden", children: isLoading ? "Searching..." : visuallyHiddenButton })
-              ]
-            }
-          )
-        ]
-      }
-    ),
-    renderResults()
-  ] });
+  return /* @__PURE__ */ jsxs3(
+    "div",
+    {
+      className: (0, import_classnames4.default)("nhsuk-header__search", className, {
+        "nhsuk-header__search--controlled": mode === "controlled",
+        "nhsuk-header__search--hybrid": mode === "hybrid",
+        "nhsuk-header__search--loading": isLoading,
+        "nhsuk-header__search--focused": isFocused,
+        "nhsuk-header__search--has-results": showResults && results.length > 0
+      }),
+      children: [
+        /* @__PURE__ */ jsxs3(
+          "form",
+          {
+            ref: formRef,
+            className: "nhsuk-header__search-form",
+            id: "search",
+            action: mode !== "controlled" ? action : void 0,
+            method: mode !== "controlled" ? method : void 0,
+            role: "search",
+            onSubmit: handleFormSubmit,
+            ...formAttributes,
+            children: [
+              /* @__PURE__ */ jsx4("label", { className: "nhsuk-u-visually-hidden", htmlFor: "search-field", children: visuallyHiddenLabel }),
+              /* @__PURE__ */ jsxs3("div", { className: "nhsuk-header__search-input-wrapper", children: [
+                /* @__PURE__ */ jsx4(
+                  "input",
+                  {
+                    ref: inputRef,
+                    className: "nhsuk-header__search-input nhsuk-input",
+                    id: "search-field",
+                    name: mode !== "controlled" ? name : void 0,
+                    type: "search",
+                    placeholder,
+                    autoComplete: "off",
+                    value: currentValue,
+                    onChange: handleInputChange,
+                    onFocus: handleFocus,
+                    onBlur: handleBlur,
+                    disabled: disabled || isLoading,
+                    ...showResults && results.length > 0 ? { "aria-expanded": true, "aria-haspopup": "listbox" } : {},
+                    ...inputAttributes
+                  }
+                ),
+                renderClearButton()
+              ] }),
+              /* @__PURE__ */ jsxs3(
+                "button",
+                {
+                  className: "nhsuk-header__search-submit",
+                  type: "submit",
+                  disabled: disabled || isLoading || mode !== "form" && currentValue.length < minQueryLength,
+                  ...buttonAttributes,
+                  children: [
+                    isLoading ? renderLoadingSpinner() : renderSearchIcon(),
+                    /* @__PURE__ */ jsx4("span", { className: "nhsuk-u-visually-hidden", children: isLoading ? "Searching..." : visuallyHiddenButton })
+                  ]
+                }
+              )
+            ]
+          }
+        ),
+        renderResults()
+      ]
+    }
+  );
 };
 
 // src/components/Header/Header.tsx

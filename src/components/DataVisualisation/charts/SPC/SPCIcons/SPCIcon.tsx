@@ -14,7 +14,9 @@ import {
 // Token utilities now sourced from shared tokenUtils module.
 // Import VariationIcon enum from SPC engine to permit direct usage with icon component.
 // Updated: point to advanced SPC engine (legacy ../../xmr/spc path removed during refactor)
-import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from "../SPCChart/types";
+import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from "../engine";
+// Also accept UI-level VariationIcon (Improvement/Concern/Neither/Suppressed)
+import { VariationIcon as UiVariationIcon } from "../SPCChart/types";
 import { SpcEmbeddedIconVariant, LetterMode, SpcLetterGlyph } from "../SPCChart/SPCChart.constants";
 
 // Friendly alias exported for consumers who want to pass just the engine icon key
@@ -182,7 +184,7 @@ const resolveStateAndLayout = (
 			(globalThis as any).__spcIconDeprecationEmitted = true;
 		}
 	};
-	// Engine VariationIcon mapping support
+	// Engine/UI VariationIcon mapping support
 	if ((input as SpcVariationEngineIconPayload).variationIcon !== undefined) {
 		const eng = input as SpcVariationEngineIconPayload;
 		// Determine polarity preference: improvementDirection overrides explicit polarity prop.
@@ -197,20 +199,39 @@ const resolveStateAndLayout = (
 		} else if (eng.polarity) {
 			polarity = eng.polarity;
 		}
-		// Map engine variation icon to internal state, injecting neutral special-cause purple when flagged.
+		// Map variation icon (supports both UI-level and engine-level enums) to internal state
 		let state: VariationState;
-		switch (eng.variationIcon) {
-			case SpcEngineVariationIcon.Improvement:
-				state = VariationState.SpecialCauseImproving; break;
-			case SpcEngineVariationIcon.Concern:
-				state = VariationState.SpecialCauseDeteriorating; break;
-			case SpcEngineVariationIcon.Neither:
-				state = eng.specialCauseNeutral
-					? VariationState.SpecialCauseNoJudgement
-					: VariationState.CommonCause; break;
-			case SpcEngineVariationIcon.Suppressed:
-			default:
-				state = VariationState.SpecialCauseNoJudgement; break;
+		const rawIcon = (eng as any).variationIcon as any;
+		if (
+			rawIcon === UiVariationIcon.Improvement ||
+			rawIcon === UiVariationIcon.Concern ||
+			rawIcon === UiVariationIcon.Neither ||
+			rawIcon === UiVariationIcon.Suppressed
+		) {
+			// UI-level icon mapping
+			if (rawIcon === UiVariationIcon.Improvement) state = VariationState.SpecialCauseImproving;
+			else if (rawIcon === UiVariationIcon.Concern) state = VariationState.SpecialCauseDeteriorating;
+			else if (rawIcon === UiVariationIcon.Neither) state = VariationState.CommonCause;
+			else /* Suppressed */ state = VariationState.SpecialCauseNoJudgement;
+		} else {
+			// Engine-level icon mapping (High/Low/CommonCause)
+			switch (eng.variationIcon) {
+				case SpcEngineVariationIcon.ImprovementHigh:
+				case SpcEngineVariationIcon.ImprovementLow:
+					state = VariationState.SpecialCauseImproving; break;
+				case SpcEngineVariationIcon.ConcernHigh:
+				case SpcEngineVariationIcon.ConcernLow:
+					state = VariationState.SpecialCauseDeteriorating; break;
+				case SpcEngineVariationIcon.NeitherHigh:
+				case SpcEngineVariationIcon.NeitherLow:
+					state = eng.specialCauseNeutral
+						? VariationState.SpecialCauseNoJudgement
+						: VariationState.CommonCause; break;
+				case SpcEngineVariationIcon.CommonCause:
+					state = VariationState.CommonCause; break;
+				default:
+					state = VariationState.SpecialCauseNoJudgement; break;
+			}
 		}
 		let direction: Direction | undefined = eng.trend as Direction | undefined;
 		if (!direction) {
@@ -224,6 +245,7 @@ const resolveStateAndLayout = (
 				else if (eng.lowSideSignal && !eng.highSideSignal) direction = Direction.Lower;
 				else direction = Direction.Higher; // fallback
 			} else {
+				// Common cause: pick provided trend if any, otherwise neutral default
 				direction = Direction.Higher;
 			}
 		}

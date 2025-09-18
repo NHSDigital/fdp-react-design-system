@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 /**
  * v2-backed Individuals (XmR) example with rule detection.
  */

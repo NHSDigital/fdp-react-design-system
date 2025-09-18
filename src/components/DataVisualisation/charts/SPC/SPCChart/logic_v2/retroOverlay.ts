@@ -1,4 +1,4 @@
-import { ImprovementDirection, SpcRowV2, VariationIcon } from "./types";
+import { ImprovementDirection, SpcRowV2, VariationIcon, Side } from "./types";
 import { isNumber } from "./utils";
 
 export interface RetroOverlayOptions {
@@ -8,20 +8,17 @@ export interface RetroOverlayOptions {
 	enableShift?: boolean;
 }
 
-function iconFor(
-	side: "up" | "down",
-	dir: ImprovementDirection
-): VariationIcon {
+function iconFor(side: Side, dir: ImprovementDirection): VariationIcon {
 	if (dir === ImprovementDirection.Neither) {
-		return side === "up" ? VariationIcon.NeitherHigh : VariationIcon.NeitherLow;
+		return side === Side.Up ? VariationIcon.NeitherHigh : VariationIcon.NeitherLow;
 	}
 	if (dir === ImprovementDirection.Up) {
-		return side === "up"
+		return side === Side.Up
 			? VariationIcon.ImprovementHigh
 			: VariationIcon.ConcernLow;
 	}
 	// dir === Down
-	return side === "up"
+	return side === Side.Up
 		? VariationIcon.ConcernHigh
 		: VariationIcon.ImprovementLow;
 }
@@ -63,10 +60,10 @@ export function computeRetroShiftOverlay(
 		// Walk through eligible rows to find contiguous shift runs; for each run,
 		// extend backwards across pre-eligibility rows that lie on the same side of
 		// the mean at the run's start.
-		let runStart: number | null = null;
-		let runSide: "up" | "down" | null = null;
+	let runStart: number | null = null;
+	let runSide: Side | null = null;
 
-		const commitRun = (startIdx: number, side: "up" | "down") => {
+	const commitRun = (startIdx: number, side: Side) => {
 			// Use the mean at startIdx as the reference; walk backwards to just before
 			// the first eligible index, colouring points that lie on the same side.
 			const refMean = rows[startIdx].mean!;
@@ -74,8 +71,7 @@ export function computeRetroShiftOverlay(
 				const r = rows[j];
 				if (r.ghost || !isNumber(r.value)) continue;
 				if (j >= firstEligibleIdx) break; // never paint into eligible region
-				const sameSide =
-					side === "up" ? r.value! > refMean : r.value! < refMean;
+				const sameSide = side === Side.Up ? r.value! > refMean : r.value! < refMean;
 				if (!sameSide) break; // stop when side breaks
 				overlay[j] = iconFor(side, metricImprovement);
 			}
@@ -84,11 +80,14 @@ export function computeRetroShiftOverlay(
 		for (const i of idxs) {
 			const r = rows[i];
 			const eligible = isNumber(r.mean);
-			if (!eligible) continue; // only scan shift runs where engine was eligible
+			if (!eligible) {
+				// only scan shift runs where engine was eligible
+				continue;
+			}
 
 			const up = !!r.shiftUp;
 			const down = !!r.shiftDown;
-			const side: "up" | "down" | null = up ? "up" : down ? "down" : null;
+			const side: Side | null = up ? Side.Up : down ? Side.Down : null;
 
 			if (side) {
 				// If we are starting or continuing a run, manage state

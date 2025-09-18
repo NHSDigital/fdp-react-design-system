@@ -19,22 +19,20 @@ export const SPCChartRareEventExample: React.FC = () => {
 			<section>
 				<h4 style={{ margin: "0 0 8px" }}>T chart (time between events)</h4>
 				<SPCChart
-					data={daysBetween}
-					chartType={ChartType.T}
-					metricImprovement={ImprovementDirection.Up}
-					enableRules
-					ariaLabel="Time between events (T chart)"
+					input={{ data: daysBetween }}
+					engine={{ chartType: ChartType.T, metricImprovement: ImprovementDirection.Up }}
+					ui={{ visuals: { rules: { enableRules: true } } }}
+					a11y={{ label: "Time between events (T chart)" }}
 				/>
 			</section>
 
 			<section>
 				<h4 style={{ margin: "0 0 8px" }}>G chart (count between events)</h4>
 				<SPCChart
-					data={unitsBetween}
-					chartType={ChartType.G}
-					metricImprovement={ImprovementDirection.Up}
-					enableRules
-					ariaLabel="Count between events (G chart)"
+					input={{ data: unitsBetween }}
+					engine={{ chartType: ChartType.G, metricImprovement: ImprovementDirection.Up }}
+					ui={{ visuals: { rules: { enableRules: true } } }}
+					a11y={{ label: "Count between events (G chart)" }}
 				/>
 			</section>
 		</div>

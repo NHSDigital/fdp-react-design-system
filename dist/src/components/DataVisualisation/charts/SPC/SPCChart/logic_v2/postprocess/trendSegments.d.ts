@@ -3,7 +3,10 @@ export declare enum TrendDirection {
     Up = "Up",
     Down = "Down"
 }
-export type MeanSide = "Above" | "Below";
+export declare enum MeanSide {
+    Above = "Above",
+    Below = "Below"
+}
 export interface TrendSegment {
     trendDirection: TrendDirection;
     start: number;

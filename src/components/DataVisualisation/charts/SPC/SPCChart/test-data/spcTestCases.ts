@@ -5,7 +5,7 @@
  * sequences already exercised elsewhere. Optional expected statistics & colour classifications can be
  * attached for more granular assertions in tests.
  */
-import { ImprovementDirection } from "../SPCChart";
+import { ImprovementDirection } from "../../engine";
 import { metricLookup } from "./parsedDataset";
 
 export const SPC_POINT_COLOURS = {

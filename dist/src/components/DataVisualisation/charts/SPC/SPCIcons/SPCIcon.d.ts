@@ -1,5 +1,5 @@
 import { Direction, MetricPolarity, VariationJudgement, VariationState } from "./SPCConstants";
-import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from "../SPCChart/types";
+import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from "../engine";
 import { SpcEmbeddedIconVariant, LetterMode, SpcLetterGlyph } from "../SPCChart/SPCChart.constants";
 export type SpcEngineIconPayload = {
     variationIcon: SpcEngineVariationIcon;

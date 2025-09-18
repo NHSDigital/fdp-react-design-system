@@ -1,6 +1,6 @@
-import React from 'react';
-import { HeaderSearchProps } from './HeaderSearch.types';
-import './HeaderSearch.scss';
+import React from "react";
+import { HeaderSearchProps } from "./HeaderSearch.types";
+import "./HeaderSearch.scss";
 /**
  * HeaderSearch Component - Flexible Search Implementation
  *

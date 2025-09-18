@@ -79,6 +79,53 @@ The SPCChart now renders using the v2 engine visuals by default. Story-level SQL
 
 Advanced: The v2 engine accepts a semantic hierarchical settings shape (`SpcSettingsHierarchical`) as well as the classic flat v2.6a settings. If you call the v2 engine directly, you can import `normaliseSpcSettingsV2` to pre‑normalise. The `SPCChart` prop surface remains unchanged (`SpcSettings`).
 
+## Grouped props (preferred) and migration
+
+SPCChart now supports convenient grouped prop blocks that make intent clearer and reduce top‑level prop noise. Flat props continue to work (backwards compatible), but examples below prefer grouped blocks. When both are provided, grouped values take precedence.
+
+- input: data/targets/baselines/ghosts
+- engine: chartType/metricImprovement/settings
+- visualsEngine: scenario/settings (advanced presets/overlays)
+- a11y: label/announceFocus/unit/narrationContext
+- container: height/className
+- meta: source (below‑chart text)
+
+Example (grouped, recommended):
+
+```tsx
+import { SPCChart } from './SPCChart';
+import { ImprovementDirection, ChartType } from './types';
+
+const series = [36, 37, 34, 35].map((y, i) => ({ x: new Date(2025, 0, i + 1), y }));
+
+<SPCChart
+  input={{ data: series }}
+  engine={{ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down }}
+  a11y={{ label: 'Clinic wait time SPC chart', unit: 'minutes' }}
+  ui={{ visuals: { showZones: true, gradientSequences: true } }}
+  container={{ height: 240 }}
+/>;
+```
+
+Flat (legacy – still supported):
+
+```tsx
+<SPCChart
+  data={series}
+  chartType={ChartType.XmR}
+  metricImprovement={ImprovementDirection.Down}
+  showZones
+  gradientSequences
+  ariaLabel="Clinic wait time SPC chart"
+  height={240}
+/>;
+```
+
+Notes:
+- Dev‑time warnings may guide you to the grouped syntax if you pass deprecated flat props.
+- You can mix approaches during migration; grouped fields win when both are specified.
+
+
 ## When to use
 
 Use the SPCChart when you need to:
@@ -322,7 +369,7 @@ Example chart (stable process; target outside capability band):
 
 ```tsx
 import { SPCChart } from './SPCChart';
-import { ImprovementDirection } from './types';
+import { ImprovementDirection, ChartType } from './types';
 
 // Synthetic weekly wait time series (~35 mean, natural variation)
 const waitTimes = [
@@ -332,14 +379,10 @@ const waitTimes = [
 ].map((y, i) => ({ x: new Date(2025, 0, i + 1), y }));
 
 <SPCChart
-  data={waitTimes}
-  metricImprovement={ImprovementDirection.Down} // lower wait time is better
-  targets={Array.from({ length: waitTimes.length }, () => 20)}
-  showZones
-  enableRules
-  showIcons
-  processLineWidth={2}
-  ariaLabel="Clinic wait time SPC chart"
+  input={{ data: waitTimes, targets: Array.from({ length: waitTimes.length }, () => 20) }}
+  engine={{ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down }}
+  a11y={{ label: 'Clinic wait time SPC chart' }}
+  ui={{ visuals: { showZones: true, rules: { enableRules: true } }, icons: { show: true }, processLineWidth: 2 as any }}
 />;
 ```
 
@@ -355,11 +398,10 @@ Early (run‑chart only) phase example:
 const earlyWaitTimes = [36, 32, 28, 30, 27, 25, 29, 31, 26].map((y, i) => ({ x: new Date(2025, 0, i + 1), y }));
 
 <SPCChart
-  data={earlyWaitTimes}
-  metricImprovement={ImprovementDirection.Down}
-  targets={Array.from({ length: earlyWaitTimes.length }, () => 20)}
+  input={{ data: earlyWaitTimes, targets: Array.from({ length: earlyWaitTimes.length }, () => 20) }}
+  engine={{ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Down }}
   // With too few points the component may defer limits/icons automatically (trial phase)
-  enableRules
+  ui={{ visuals: { rules: { enableRules: true } } }}
 />;
 ```
 

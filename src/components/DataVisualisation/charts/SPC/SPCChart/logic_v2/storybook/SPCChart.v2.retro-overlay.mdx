@@ -64,9 +64,7 @@ Constraints (preserving SQL parity):
 Example integration in a render layer:
 
 ```ts
-import { computeRetroShiftOverlay } from '../logic_v2/retroOverlay';
-import { computeSpcVisualCategories, SpcVisualCategory, TrendVisualMode } from '../logic_v2/postprocess/visualCategories';
-import { VariationIcon, ImprovementDirection } from '../logic_v2/types';
+import { computeRetroShiftOverlay, computeSpcVisualCategories, SpcVisualCategory, TrendVisualMode, VariationIcon, ImprovementDirection } from '../../../engine';
 
 const { rows } = buildSpcV26a(args); // engine output
 

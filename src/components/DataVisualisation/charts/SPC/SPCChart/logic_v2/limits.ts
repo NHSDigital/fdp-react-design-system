@@ -115,20 +115,21 @@ export function computePartitionLimits(
 	// Compute centre line: optionally exclude values whose MR exceeds the RAW MR UCL (include first valued point where MR is null)
 	let center: number = NaN;
 	{
-		const eligibleVals: number[] = [];
-		for (let i = 0; i < values.length; i++) {
-			const v = values[i];
-			if (ghosts[i] || !isNumber(v)) continue;
+		const eligibleVals = values.reduce<number[]>((acc, v, i) => {
+			// Skip ghosts and non-numeric values
+			if (ghosts[i] || !isNumber(v)) return acc;
+			// If not excluding MR outliers, include directly
 			if (!excludeMovingRangeOutliers) {
-				eligibleVals.push(v);
-				continue;
+				acc.push(v as number);
+				return acc;
 			}
+			// Otherwise, include when MR is null (first eligible point) or MR <= raw UCL
 			const mri = mr[i];
-			// Include when MR is null (first point) or MR <= raw UCL
 			if (mri === null || !isNumber(rawMrUcl) || (isNumber(mri) && mri <= rawMrUcl)) {
-				eligibleVals.push(v);
+				acc.push(v as number);
 			}
-		}
+			return acc;
+		}, []);
 		center = eligibleVals.length ? mean(eligibleVals) : NaN;
 	}
 

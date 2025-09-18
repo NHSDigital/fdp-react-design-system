@@ -5,7 +5,7 @@
  * sequences already exercised elsewhere. Optional expected statistics & colour classifications can be
  * attached for more granular assertions in tests.
  */
-import { ImprovementDirection } from "../SPCChart";
+import { ImprovementDirection } from "../../engine";
 export declare const SPC_POINT_COLOURS: {
     readonly improvement: "#00B0F0";
     readonly concern: "#E46C0A";

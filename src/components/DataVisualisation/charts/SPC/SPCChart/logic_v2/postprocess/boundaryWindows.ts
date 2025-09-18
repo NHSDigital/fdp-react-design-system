@@ -76,35 +76,60 @@ export function computeBoundaryWindowCategories(
 		pid: number | string | null
 	): number | null => {
 		if (pid == null) return null;
-		const values: number[] = [];
-		for (const r of rows) {
-			if (r.partitionId !== pid) continue;
-			if (typeof r.value === "number" && !r.ghost) values.push(r.value);
-		}
+		const values = rows.reduce<number[]>((acc, r) => {
+			if (
+				r.partitionId === pid &&
+				typeof r.value === "number" &&
+				!r.ghost
+			) {
+				acc.push(r.value);
+			}
+			return acc;
+		}, []);
 		if (!values.length) return null;
 		const sum = values.reduce((a, b) => a + b, 0);
 		return sum / values.length;
 	};
 
 	// Build list of boundary indices: prefer explicit list, otherwise detect by partitionId changes
-	const boundaries: number[] = Array.isArray(options?.boundaryIndices) && options!.boundaryIndices!.length
-		? options!.boundaryIndices!.slice().filter((b) => Number.isFinite(b))
-		: (() => {
-			const out: number[] = [];
-			for (let i = 1; i < rows.length; i++) {
-				const prev = rows[i - 1];
-				const cur = rows[i];
-				if (!prev || !cur) continue;
-				if (cur.partitionId === prev.partitionId) continue;
-				out.push(i);
-			}
-			return out;
-		})();
+	const boundaries: number[] =
+		Array.isArray(options?.boundaryIndices) && options!.boundaryIndices!.length
+			? options!.boundaryIndices!.slice().filter((b) => Number.isFinite(b))
+			: (() => {
+				return rows.reduce<number[]>((acc, cur, i) => {
+					if (i === 0) return acc;
+					const prev = rows[i - 1];
+					if (prev && cur && cur.partitionId !== prev.partitionId) {
+						acc.push(i);
+					}
+					return acc;
+				}, []);
+			})();
 
 	for (const boundary of boundaries) {
 		const prev = rows[boundary - 1];
 		const cur = rows[boundary];
-		if (!prev || !cur) continue;
+		if (!prev || !cur) {
+			continue;
+		}
+
+		// Determine contiguous segment bounds for the two partitions touching this boundary
+		let prevStart = boundary - 1;
+		while (
+			prevStart - 1 >= 0 &&
+			rows[prevStart - 1] &&
+			rows[prevStart - 1].partitionId === prev.partitionId
+		) {
+			prevStart--;
+		}
+		let curEnd = boundary;
+		while (
+			curEnd + 1 < rows.length &&
+			rows[curEnd + 1] &&
+			rows[curEnd + 1].partitionId === cur.partitionId
+		) {
+			curEnd++;
+		}
 
 		// Find last non-null mean in previous partition
 		let oldMean: number | null = null;
@@ -131,23 +156,35 @@ export function computeBoundaryWindowCategories(
 			oldMean = partitionFallbackMean(prev.partitionId ?? null);
 		if (newMean == null)
 			newMean = partitionFallbackMean(cur.partitionId ?? null);
-		if (oldMean == null || newMean == null) continue; // still insufficient info
+		if (oldMean == null || newMean == null) {
+			// still insufficient info
+			continue;
+		}
 		const delta = newMean - oldMean;
 		const favourable =
 			metricImprovement === ImprovementDirection.Up ? delta > 0 : delta < 0;
 		const postCat = favourable
 			? SpcVisualCategory.Improvement
 			: SpcVisualCategory.Concern;
-		const preCat = prePolarity === "Same"
-			? postCat
-			: favourable
-				? SpcVisualCategory.Concern
-				: SpcVisualCategory.Improvement;
+		const preCat =
+			prePolarity === "Same"
+				? postCat
+				: favourable
+					? SpcVisualCategory.Concern
+					: SpcVisualCategory.Improvement;
 
-		// Apply pre-window
-		for (let p = 1; p <= preWin; p++) setIfUpgrade(boundary - p, preCat);
-		// Apply post-window
-		for (let p = 0; p < postWin; p++) setIfUpgrade(boundary + p, postCat);
+		// Apply pre-window (clamped to previous partition only)
+		for (let p = 1; p <= preWin; p++) {
+			const idx = boundary - p;
+			if (idx < prevStart) break;
+			setIfUpgrade(idx, preCat);
+		}
+		// Apply post-window (clamped to current partition only)
+		for (let p = 0; p < postWin; p++) {
+			const idx = boundary + p;
+			if (idx > curEnd) break;
+			setIfUpgrade(idx, postCat);
+		}
 	}
 
 	return out;

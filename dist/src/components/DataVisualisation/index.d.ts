@@ -28,6 +28,7 @@ export { default as MetricCard, type MetricCardProps, type MetricDelta, type Met
 export { default as SPCMetricCard, type SPCMetricCardProps, } from "./components/MetricCard/SPCMetricCard";
 export { default as DataVizWizard, type DataVizWizardProps } from "./wizard/DataVizWizard";
 export { default as useSpc } from "./hooks/useSpc";
-export { default as SPCChart, type SPCChartProps, type SPCDatum, } from "./charts/SPC/SPCChart/SPCChart.tsx";
+export { default as SPCChart, } from "./charts/SPC/SPCChart/SPCChart.tsx";
+export type { SPCChartProps, SPCDatum } from "./charts/SPC/SPCChart/SPCChart.props";
 export * as SPC from "./charts/SPC";
 export { default as RunChart, type RunChartProps, type RunSeries, type RunDatum } from "./charts/RunChart/RunChart";

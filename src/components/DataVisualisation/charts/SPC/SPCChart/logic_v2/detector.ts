@@ -22,17 +22,17 @@ export function detectRulesInPartition(rows: SpcRowV2[], cfg: DetectorConfig) {
 	for (const i of idxs) {
 		const r = get(i);
 		if (!isNumber(r.mean) || !isNumber(r.value)) {
+			// reset on ineligible rows and skip marking
 			runHigh = [];
 			runLow = [];
-			continue;
-		}
-		if (r.value > r.mean) {
+		} else if (r.value > r.mean) {
 			runHigh.push(i);
 			runLow = [];
 		} else if (r.value < r.mean) {
 			runLow.push(i);
 			runHigh = [];
 		} else {
+			// equal to mean breaks both runs
 			runHigh = [];
 			runLow = [];
 		}
@@ -46,11 +46,16 @@ export function detectRulesInPartition(rows: SpcRowV2[], cfg: DetectorConfig) {
 	for (let w = 0; w <= idxs.length - 3; w++) {
 		const win = idxs.slice(w, w + 3);
 		const trip = win.map(get);
-		if (!trip.every((r) => isNumber(r.value) && isNumber(r.mean))) continue;
+		if (!trip.every((r) => isNumber(r.value) && isNumber(r.mean))) {
+			// no marking when any value/mean missing
+			continue;
+		}
 		const mean = trip[0].mean!;
 		const allHigh = trip.every((r) => r.value! > mean);
 		const allLow = trip.every((r) => r.value! < mean);
-		if (!allHigh && !allLow) continue;
+		if (!allHigh && !allLow) {
+			continue;
+		}
 		const u2 = trip[0].upperTwoSigma ?? Infinity;
 		const l2 = trip[0].lowerTwoSigma ?? -Infinity;
 		const u3 = trip[0].upperProcessLimit ?? Infinity;
@@ -68,11 +73,15 @@ export function detectRulesInPartition(rows: SpcRowV2[], cfg: DetectorConfig) {
 		for (let w = 0; w <= idxs.length - 5; w++) {
 			const win = idxs.slice(w, w + 5);
 			const quint = win.map(get);
-			if (!quint.every((r) => isNumber(r.value) && isNumber(r.mean))) continue;
+			if (!quint.every((r) => isNumber(r.value) && isNumber(r.mean))) {
+				continue;
+			}
 			const mean = quint[0].mean!;
 			const allHigh = quint.every((r) => r.value! > mean);
 			const allLow = quint.every((r) => r.value! < mean);
-			if (!allHigh && !allLow) continue;
+			if (!allHigh && !allLow) {
+				continue;
+			}
 			const u1 = quint[0].upperOneSigma ?? Infinity;
 			const l1 = quint[0].lowerOneSigma ?? -Infinity;
 			const highs = quint.filter((r) => r.value! > u1);
@@ -86,7 +95,9 @@ export function detectRulesInPartition(rows: SpcRowV2[], cfg: DetectorConfig) {
 	for (let w = 0; w <= idxs.length - trendN; w++) {
 		const win = idxs.slice(w, w + trendN);
 		const seq = win.map(get);
-		if (!seq.every((r) => isNumber(r.value))) continue;
+		if (!seq.every((r) => isNumber(r.value))) {
+			continue;
+		}
 		let inc = true;
 		let dec = true;
 		for (let k = 1; k < seq.length; k++) {

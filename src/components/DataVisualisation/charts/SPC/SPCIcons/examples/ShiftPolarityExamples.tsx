@@ -1,5 +1,6 @@
 import React from 'react';
-import { SPCChart, ImprovementDirection } from '../../SPCChart/SPCChart';
+import SPCChart from '../../SPCChart/SPCChart';
+import { ImprovementDirection } from '../../engine';
 
 // 7 baseline points at 50 then shift to 70 (special cause shift)
 const shiftData = [

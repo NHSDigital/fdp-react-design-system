@@ -1377,16 +1377,21 @@ var resolveStateAndLayout = (input) => {
     }
     let state2;
     switch (eng.variationIcon) {
-      case "improvement" /* Improvement */:
+      case "ImprovementHigh" /* ImprovementHigh */:
+      case "ImprovementLow" /* ImprovementLow */:
         state2 = "special_cause_improving" /* SpecialCauseImproving */;
         break;
-      case "concern" /* Concern */:
+      case "ConcernHigh" /* ConcernHigh */:
+      case "ConcernLow" /* ConcernLow */:
         state2 = "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
         break;
-      case "neither" /* Neither */:
+      case "NeitherHigh" /* NeitherHigh */:
+      case "NeitherLow" /* NeitherLow */:
         state2 = eng.specialCauseNeutral ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
         break;
-      case "suppressed" /* Suppressed */:
+      case "CommonCause" /* CommonCause */:
+        state2 = "common_cause" /* CommonCause */;
+        break;
       default:
         state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
         break;

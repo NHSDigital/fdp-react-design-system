@@ -269,4 +269,4 @@ export const assuranceExamples = [
 // Compatibility re-exports: canonical tokens & helpers live in SPCChart logic; re-export here for older imports
 export { VARIATION_COLOR_TOKENS } from "../SPCChart/descriptors";
 export { getVariationColorToken, getVariationColorHex } from "../SPCChart/descriptors";
-export type { VariationIcon } from "../SPCChart/types";
+export type { VariationIcon } from "../SPCChart/logic_v2/types";

@@ -5,7 +5,7 @@ import {
 } from "../types";
 
 export enum TrendDirection { Up = "Up", Down = "Down" }
-export type MeanSide = "Above" | "Below";
+export enum MeanSide { Above = "Above", Below = "Below" }
 
 export interface TrendSegment {
 	trendDirection: TrendDirection;
@@ -32,8 +32,8 @@ function signOf(x: number): -1 | 0 | 1 {
 
 function sideFor(delta: number): MeanSide | undefined {
 	const s = signOf(delta);
-	if (s > 0) return "Above";
-	if (s < 0) return "Below";
+	if (s > 0) return MeanSide.Above;
+	if (s < 0) return MeanSide.Below;
 	return undefined;
 }
 
@@ -47,6 +47,58 @@ export function computeTrendSegments(
 	rows: ReadonlyArray<SpcRowV2>
 ): TrendRun[] {
 	const runs: TrendRun[] = [];
+
+	// Small helpers to keep the loop readable while preserving control flow
+	const startSegment = (
+		k: number,
+		initialSide: MeanSide,
+		value: number
+	): {
+		segStart: number;
+		segSide: MeanSide;
+		minV: number;
+		maxV: number;
+		maxAbsDelta: number;
+	} => ({
+		segStart: k,
+		segSide: initialSide,
+		minV: value,
+		maxV: value,
+		maxAbsDelta: 0, // caller sets initial delta immediately after
+	});
+
+	const extendSegment = (
+		value: number,
+		deltaAbs: number,
+		minV: number,
+		maxV: number,
+		maxAbsDelta: number
+	): { minV: number; maxV: number; maxAbsDelta: number } => ({
+		minV: Math.min(minV, value),
+		maxV: Math.max(maxV, value),
+		maxAbsDelta: Math.max(maxAbsDelta, deltaAbs),
+	});
+
+	const flushSegment = (
+		segments: TrendSegment[],
+		segStart: number,
+		endIdx: number,
+		segSide: MeanSide,
+		minV: number,
+		maxV: number,
+		maxAbsDelta: number,
+		dir: TrendDirection
+	) => {
+		segments.push({
+			trendDirection: dir,
+			start: segStart,
+			end: endIdx,
+			side: segSide,
+			minValue: minV,
+			maxValue: maxV,
+			maxAbsDeltaFromMean: maxAbsDelta,
+		});
+	};
 
 	// Build contiguous runs for trendUp and trendDown separately
 	let i = 0;
@@ -67,7 +119,7 @@ export function computeTrendSegments(
 		for (; j < rows.length; j++) {
 			const rr = rows[j];
 			if (!rr || rr.value == null || rr.ghost) break;
-			const sameDir = dir === "Up" ? rr.trendUp : rr.trendDown;
+			const sameDir = dir === TrendDirection.Up ? rr.trendUp : rr.trendDown;
 			if (!sameDir) break;
 		}
 		const end = j - 1; // inclusive
@@ -89,15 +141,7 @@ export function computeTrendSegments(
 			if (!side) {
 				// value equals mean → boundary: close current seg (if any) and skip this row
 				if (segStart !== undefined) {
-					segments.push({
-						trendDirection: dir,
-						start: segStart,
-						end: k - 1,
-						side: segSide!,
-						minValue: minV,
-						maxValue: maxV,
-						maxAbsDeltaFromMean: maxAbsDelta,
-					});
+					flushSegment(segments, segStart, k - 1, segSide!, minV, maxV, maxAbsDelta, dir);
 					segStart = undefined;
 					segSide = undefined;
 					minV = Infinity;
@@ -109,45 +153,39 @@ export function computeTrendSegments(
 
 			if (segStart === undefined) {
 				// start new segment
-				segStart = k;
-				segSide = side;
-				minV = row.value;
-				maxV = row.value;
-				maxAbsDelta = Math.abs(delta);
+				({ segStart, segSide, minV, maxV, maxAbsDelta } = (() => {
+					const s = startSegment(k, side, row.value);
+					return {
+						segStart: s.segStart,
+						segSide: s.segSide,
+						minV: s.minV,
+						maxV: s.maxV,
+						maxAbsDelta: Math.abs(delta),
+					};
+				})());
 			} else if (side !== segSide) {
 				// flush previous segment and start new
-				segments.push({
-					trendDirection: dir,
-					start: segStart,
-					end: k - 1,
-					side: segSide!,
-					minValue: minV,
-					maxValue: maxV,
-					maxAbsDeltaFromMean: maxAbsDelta,
-				});
-				segStart = k;
-				segSide = side;
-				minV = row.value;
-				maxV = row.value;
-				maxAbsDelta = Math.abs(delta);
+				flushSegment(segments, segStart, k - 1, segSide!, minV, maxV, maxAbsDelta, dir);
+				({ segStart, segSide, minV, maxV, maxAbsDelta } = (() => {
+					const s = startSegment(k, side, row.value);
+					return {
+						segStart: s.segStart,
+						segSide: s.segSide,
+						minV: s.minV,
+						maxV: s.maxV,
+						maxAbsDelta: Math.abs(delta),
+					};
+				})());
 			} else {
 				// extend
-				if (row.value < minV) minV = row.value;
-				if (row.value > maxV) maxV = row.value;
-				const mad = Math.abs(delta);
-				if (mad > maxAbsDelta) maxAbsDelta = mad;
+				const updated = extendSegment(row.value, Math.abs(delta), minV, maxV, maxAbsDelta);
+				minV = updated.minV;
+				maxV = updated.maxV;
+				maxAbsDelta = updated.maxAbsDelta;
 			}
 		}
 		if (segStart !== undefined) {
-			segments.push({
-				trendDirection: dir,
-				start: segStart,
-				end: end,
-				side: segSide!,
-				minValue: minV,
-				maxValue: maxV,
-				maxAbsDeltaFromMean: maxAbsDelta,
-			});
+			flushSegment(segments, segStart, end, segSide!, minV, maxV, maxAbsDelta, dir);
 		}
 
 		runs.push({ trendDirection: dir, start, end, segments });
@@ -164,14 +202,14 @@ export interface SegmentHighlightOptions {
 
 /** Map metricImprovement to favourable mean side */
 function favourableSide(impr: ImprovementDirection): MeanSide | undefined {
-	if (impr === ImprovementDirection.Up) return "Above";
-	if (impr === ImprovementDirection.Down) return "Below";
+	if (impr === ImprovementDirection.Up) return MeanSide.Above;
+	if (impr === ImprovementDirection.Down) return MeanSide.Below;
 	return undefined;
 }
 
 function oppositeSide(side: MeanSide | undefined): MeanSide | undefined {
-  if (!side) return undefined;
-  return side === "Above" ? "Below" : "Above";
+	if (!side) return undefined;
+	return side === MeanSide.Above ? MeanSide.Below : MeanSide.Above;
 }
 
 /**

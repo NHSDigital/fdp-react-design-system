@@ -1,4 +1,4 @@
-import type { SPCSignalFocusInfo } from "./SPCChart.types";
+import type { SPCSignalFocusInfo, EngineRowUI } from "./SPCChart.types";
 import * as React from "react";
 import { useTooltipContext } from "../../../core/TooltipContext";
 import { VariationIcon, SpcRawRuleTag } from "./logic/spcConstants";
@@ -12,7 +12,7 @@ import { Tag } from "../../../../Tag";
 
 export interface SPCSignalsInspectorProps {
 	/** Engine rows from buildSpc; used to read variation/assurance and rule flags */
-	engineRows: any[] | null;
+	engineRows: EngineRowUI[] | null;
 	/** Optional measure name/unit for labels */
 	measureName?: string;
 	measureUnit?: string;
@@ -38,7 +38,24 @@ const SPCSignalsInspector: React.FC<SPCSignalsInspectorProps> = ({
 	const row =
 		typeof index === "number" && engineRows ? engineRows[index] : null;
 
-	const rules = React.useMemo(() => (row ? extractRuleIds(row) : []), [row]);
+	const rules = React.useMemo(
+		() =>
+			row
+				? extractRuleIds({
+						specialCauseSinglePointUp: !!row.rules.singlePoint.up,
+						specialCauseSinglePointDown: !!row.rules.singlePoint.down,
+						specialCauseTwoOfThreeUp: !!row.rules.twoOfThree.up,
+						specialCauseTwoOfThreeDown: !!row.rules.twoOfThree.down,
+						specialCauseFourOfFiveUp: !!row.rules.fourOfFive.up,
+						specialCauseFourOfFiveDown: !!row.rules.fourOfFive.down,
+						specialCauseShiftUp: !!row.rules.shift.up,
+						specialCauseShiftDown: !!row.rules.shift.down,
+						specialCauseTrendUp: !!row.rules.trend.up,
+						specialCauseTrendDown: !!row.rules.trend.down,
+				  })
+				: [],
+		[row]
+	);
 	const uniqueRuleNarr = React.useMemo(
 		() =>
 			Array.from(
@@ -49,14 +66,14 @@ const SPCSignalsInspector: React.FC<SPCSignalsInspectorProps> = ({
 
 	// Derived descriptors (reuse tooltip overlay phrasing & colour classes)
 	const variationDesc: string | null = row
-		? variationLabel(row.variationIcon)
+		? variationLabel(row.classification?.variation)
 		: null;
 	const assuranceDesc: string | null = row
-		? assuranceLabel(row.assuranceIcon)
+		? assuranceLabel(row.classification?.assurance)
 		: null;
 	const hasRules = rules.length > 0;
 	const isNoJudgement = row
-		? row.variationIcon === VariationIcon.Neither && hasRules
+		? row.classification?.variation === VariationIcon.Neither && hasRules
 		: false;
 
 	// Fire onSignalFocus when the focused point changes (debounced to index change)
@@ -205,7 +222,7 @@ const SPCSignalsInspector: React.FC<SPCSignalsInspectorProps> = ({
 											lower.includes("not met") ||
 											lower.includes("not achieved");
 										const isPass =
-											!isFail && /^|\b(met|achieved)\b|$/.test(lower);
+											!isFail && (/(^|\b)(met|achieved)(\b|$)/).test(lower);
 										return (
 											<Tag
 												text={assuranceDesc}

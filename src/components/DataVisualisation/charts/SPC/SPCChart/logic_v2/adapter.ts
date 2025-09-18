@@ -6,14 +6,14 @@ import { SpcVisualCategory } from "./postprocess/visualCategories";
 import { BuildArgsV2, SpcResultV2 } from "./types";
 
 export interface BuildWithVisualsResult extends SpcResultV2 {
-  visuals: SpcVisualCategory[];
+	visuals: SpcVisualCategory[];
 }
 
 export function buildWithVisuals(args: BuildArgsV2): BuildWithVisualsResult {
-  const { rows } = buildSpcV26a(args);
-  // Default visuals derived from engine output without window overrides
-  const base = buildSpcV26aWithVisuals(args);
-  return { rows, visuals: base.visuals };
+	const { rows } = buildSpcV26a(args);
+	// Default visuals derived from engine output without window overrides
+	const base = buildSpcV26aWithVisuals(args);
+	return { rows, visuals: base.visuals };
 }
 
 export default { buildWithVisuals };

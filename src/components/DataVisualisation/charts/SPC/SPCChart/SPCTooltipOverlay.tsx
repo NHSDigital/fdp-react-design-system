@@ -16,8 +16,10 @@ import { VariationIcon, SpcRuleId, SpcRawRuleTag } from './logic/spcConstants';
 import { getVariationColorToken } from "./descriptors";
 import { Tag } from "../../../../Tag";
 
+import type { EngineRowUI } from "./SPCChart.types";
+
 interface SPCTooltipOverlayProps {
-	engineRows: any[] | null;
+	engineRows: EngineRowUI[] | null;
 	limits: { mean?: number | null; sigma: number };
 	/** Optional callback to produce rich aria / tooltip narrative for a point (index, SPCDatum-like) */
 	pointDescriber?: (
@@ -118,9 +120,24 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 	}
 
 	// Single series assumption for SPCChart; index aligns with engineRows order used earlier.
-	const row = engineRows?.[focused.index];
-	// Keep rule ids and labels so we can apply colour logic per rule (e.g. trend always purple)
-	const ruleIds = extractRuleIds(row);
+		const row = engineRows?.[focused.index];
+		// Keep rule ids and labels so we can apply colour logic per rule (e.g. trend always purple)
+		const ruleIds = extractRuleIds(
+			row
+				? {
+						specialCauseSinglePointUp: !!row.rules.singlePoint.up,
+						specialCauseSinglePointDown: !!row.rules.singlePoint.down,
+						specialCauseTwoOfThreeUp: !!row.rules.twoOfThree.up,
+						specialCauseTwoOfThreeDown: !!row.rules.twoOfThree.down,
+						specialCauseFourOfFiveUp: !!row.rules.fourOfFive.up,
+						specialCauseFourOfFiveDown: !!row.rules.fourOfFive.down,
+						specialCauseShiftUp: !!row.rules.shift.up,
+						specialCauseShiftDown: !!row.rules.shift.down,
+						specialCauseTrendUp: !!row.rules.trend.up,
+						specialCauseTrendDown: !!row.rules.trend.down,
+					}
+				: null
+		);
 	const rules = ruleIds.map((r) => ({ id: r, label: ruleGlossary[r].tooltip })); // structured for per-rule styling
 	const dateObj = focused.x instanceof Date ? focused.x : new Date(focused.x);
 	const dateLabel = dateFormatter
@@ -133,9 +150,9 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 			: `${focused.y}`;
 
 	// Variation / assurance descriptors
-	const variationDesc: string | null = variationLabel(row?.variationIcon);
+	const variationDesc: string | null = variationLabel(row?.classification?.variation);
 	// Assurance descriptor
-	const assuranceDesc: string | null = assuranceLabel(row?.assuranceIcon);
+	const assuranceDesc: string | null = assuranceLabel(row?.classification?.assurance);
 
 	// Zone classification relative to mean & sigma
 	const zone: string | null = zoneLabel(
@@ -151,24 +168,25 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 	const showBadges = variationDesc || assuranceDesc || zone;
 
 	// Determine if trend side-gating applies (trend flag present but variation neutral)
-	const trendFlag = row?.specialCauseTrendUp || row?.specialCauseTrendDown;
-	const variationNeutral = row?.variationIcon === VariationIcon.Neither && trendFlag;
+	const trendFlag = row?.rules.trend.up || row?.rules.trend.down;
+	const variationNeutral = row?.classification?.variation === VariationIcon.Neither && trendFlag;
 	// Side-gating explanatory line (only when neutrality due to being on unfavourable side)
 	const gatingExplanation = showTrendGatingExplanation && variationNeutral
 		? 'Trend detected (monotonic run) – held neutral until values cross onto the favourable side of the mean.'
 		: null;
 	const hasRules = rules.length > 0;
 	// SQL compatibility metadata (present only when wrapper used). We defensively gate on property existence.
-	const primeDirection: string | undefined = row?.primeDirection;
-	const primeRuleId: SpcRuleId | undefined = row?.primeRuleId;
+	// SQL compatibility metadata (present only when wrapper used). Defensively access via loose cast.
+	const primeDirection: string | undefined = (row as any)?.primeDirection;
+	const primeRuleId: SpcRuleId | undefined = (row as any)?.primeRuleId;
 	// "No judgement" (neutral special cause) state: underlying variation classified as Neither but special cause rules fired
-	const isNoJudgement = enableNeutralNoJudgement && row?.variationIcon === VariationIcon.Neither && hasRules;
+	const isNoJudgement = enableNeutralNoJudgement && row?.classification?.variation === VariationIcon.Neither && hasRules;
 	// Provenance (ruleTags) removed from tooltip to avoid duplication with Special cause section.
 
 	// focus ring colour
 	const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
 	// Tooltip inner dot colour: use canonical token exported from spcDescriptors
-	const spcDotColor = getVariationColorToken(row?.variationIcon);
+	const spcDotColor = getVariationColorToken(row?.classification?.variation);
 
 	// lineHeight constant removed (was only used for height calculation)
 	// Height no longer needed for positioning (always placed below point)

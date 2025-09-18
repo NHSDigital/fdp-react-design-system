@@ -65,8 +65,23 @@ export interface SpcRuleGlossaryEntry {
 	},
 };
 
+// Minimal structural type carrying the directional rule flags — enables use with
+// both legacy SpcRow and v2-mapped UI rows without forcing casts.
+type RuleFlagCarrier = {
+  specialCauseSinglePointUp?: boolean;
+  specialCauseSinglePointDown?: boolean;
+  specialCauseTwoOfThreeUp?: boolean;
+  specialCauseTwoOfThreeDown?: boolean;
+  specialCauseFourOfFiveUp?: boolean;
+  specialCauseFourOfFiveDown?: boolean;
+  specialCauseShiftUp?: boolean;
+  specialCauseShiftDown?: boolean;
+  specialCauseTrendUp?: boolean;
+  specialCauseTrendDown?: boolean;
+};
+
 /** Extract the triggered rule identifiers for a given SPC row */
-export function extractRuleIds(row: SpcRow | undefined | null): SpcRuleId[] {
+export function extractRuleIds(row: SpcRow | RuleFlagCarrier | undefined | null): SpcRuleId[] {
 	if (!row) return [];
 	const ids: SpcRuleId[] = [];
 	if (row.specialCauseSinglePointUp) ids.push(SpcRuleId.SinglePointUp);

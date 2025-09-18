@@ -32,11 +32,18 @@ import computeAutoMetrics from "../utils/autoMetrics";
 import { Tag } from "../../../../Tag/Tag";
 import Table from "../../../../Tables/Table";
 import SPCSignalsInspector from "./SPCSignalsInspector";
-import type { SPCSignalFocusInfo } from "./SPCChart.types";
+import type { SPCSignalFocusInfo, EngineRowUI } from "./SPCChart.types";
 import { extractRuleIds, ruleGlossary, variationLabel } from "./descriptors";
 // v2 engine visuals and presets
 import { SpcVisualCategory } from "./logic_v2";
-import type { ChartType as V2ChartType, ImprovementDirection as V2ImprovementDirection, BuildArgsV2 as V2BuildArgs } from "./logic_v2/types";
+import type {
+	ChartType as V2ChartType,
+	ImprovementDirection as V2ImprovementDirection,
+	BuildArgsV2 as V2BuildArgs,
+	SpcRowV2 as V2Row,
+	SpcSettingsV26a as V2Settings,
+} from "./logic_v2/types";
+import { VariationIcon as V2VariationIcon } from "./logic_v2/types";
 import { buildVisualsForScenario, VisualsScenario as V2VisualsScenario } from "./logic_v2/presets";
 import { TrendVisualMode as V2TrendVisualMode } from "./logic_v2";
 import { buildWithVisuals as buildWithVisualsV2 } from "./logic_v2/adapter";
@@ -283,7 +290,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		try {
 			// Map legacy SPC settings to v2 engine settings for visual parity
 			const minPts = (settings as any)?.minimumPointsPartition ?? (settings as any)?.minimumPoints;
-			const v2Settings: any = {};
+			const v2Settings: Partial<V2Settings> = {};
 			if (typeof minPts === "number" && !isNaN(minPts)) {
 				v2Settings.minimumPoints = minPts;
 				// When the series has at least minimum points overall, enable chart-level eligibility
@@ -295,7 +302,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				v2Settings.twoSigmaIncludeAboveThree = !!(settings as any).twoSigmaIncludeAboveThree;
 			}
 			if ((settings as any)?.enableFourOfFiveRule != null) {
-				(v2Settings as any).enableFourOfFiveRule = !!(settings as any).enableFourOfFiveRule;
+				v2Settings.enableFourOfFiveRule = !!(settings as any).enableFourOfFiveRule;
 			}
 			const v2Args: V2BuildArgs = {
 				chartType: (chartType as unknown as V2ChartType) ?? ("XmR" as unknown as V2ChartType),
@@ -304,7 +311,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				settings: Object.keys(v2Settings).length ? v2Settings : undefined,
 			};
 			const scenario = visualsScenario as unknown as V2VisualsScenario;
-			const { visuals } = buildVisualsForScenario(v2Args as any, scenario, {
+			const { visuals } = buildVisualsForScenario(v2Args, scenario, {
 				trendVisualMode: trendVisualMode === TrendVisualMode.Ungated ? V2TrendVisualMode.Ungated : V2TrendVisualMode.Gated,
 				enableNeutralNoJudgement,
 			});
@@ -315,10 +322,10 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	}, [rowsInput, chartType, metricImprovement, trendVisualMode, enableNeutralNoJudgement, settings, visualsScenario]);
 
 	// Optional: build v2 rows via adapter and map to a UI-compatible shape when enabled
-	const v2RowsForUi = React.useMemo(() => {
+	const v2RowsForUi: EngineRowUI[] | null = React.useMemo(() => {
 		try {
 			const minPts = (settings as any)?.minimumPointsPartition ?? (settings as any)?.minimumPoints;
-			const v2Settings: any = {};
+			const v2Settings: Partial<V2Settings> = {};
 			if (typeof minPts === "number" && !isNaN(minPts)) {
 				v2Settings.minimumPoints = minPts;
 				const eligibleCount = rowsInput.filter(r => !r.ghost && typeof r.value === 'number').length;
@@ -334,44 +341,52 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				settings: Object.keys(v2Settings).length ? v2Settings : undefined,
 			};
 			const { rows } = buildWithVisualsV2(v2Args);
-			// Map v2 VariationIcon to v1 VariationIcon for UI booleans
-			const mapVariation = (v: any): VariationIcon => {
-				if (v === ("ImprovementHigh" as any) || v === ("ImprovementLow" as any)) return VariationIcon.Improvement;
-				if (v === ("ConcernHigh" as any) || v === ("ConcernLow" as any)) return VariationIcon.Concern;
-				if (v === ("NeitherHigh" as any) || v === ("NeitherLow" as any)) return VariationIcon.Neither;
-				return VariationIcon.Neither;
+			// Map v2 VariationIcon to UI VariationIcon for rendering booleans
+			const mapVariation = (v: V2VariationIcon): VariationIcon => {
+				switch (v) {
+					case V2VariationIcon.ImprovementHigh:
+					case V2VariationIcon.ImprovementLow:
+						return VariationIcon.Improvement;
+					case V2VariationIcon.ConcernHigh:
+					case V2VariationIcon.ConcernLow:
+						return VariationIcon.Concern;
+					case V2VariationIcon.NeitherHigh:
+					case V2VariationIcon.NeitherLow:
+						return VariationIcon.Neither;
+					case V2VariationIcon.CommonCause:
+					default:
+						return VariationIcon.Neither;
+				}
 			};
-			return rows.map((r: any) => ({
-				value: r.value,
-				ghost: !!r.ghost,
-				partitionId: r.partitionId,
-				mean: r.mean,
-				upperProcessLimit: r.upperProcessLimit,
-				lowerProcessLimit: r.lowerProcessLimit,
-				upperTwoSigma: r.upperTwoSigma,
-				lowerTwoSigma: r.lowerTwoSigma,
-				upperOneSigma: r.upperOneSigma,
-				lowerOneSigma: r.lowerOneSigma,
-				// Rule flags mapping (v2 -> UI keys expected by overlay/inspector)
-				specialCauseSinglePointUp: !!r.singlePointUp,
-				specialCauseSinglePointDown: !!r.singlePointDown,
-				specialCauseTwoOfThreeUp: !!r.twoSigmaUp,
-				specialCauseTwoOfThreeDown: !!r.twoSigmaDown,
-				specialCauseFourOfFiveUp: !!(r as any).fourOfFiveUp,
-				specialCauseFourOfFiveDown: !!(r as any).fourOfFiveDown,
-				specialCauseShiftUp: !!r.shiftUp,
-				specialCauseShiftDown: !!r.shiftDown,
-				specialCauseTrendUp: !!r.trendUp,
-				specialCauseTrendDown: !!r.trendDown,
-				// Classification mapped to v1 enum
-				variationIcon: mapVariation(r.variationIcon),
-				// Neutral special-cause hint for purple orientation
-				specialCauseNeitherValue: (r.variationIcon === ("NeitherHigh" as any) || r.variationIcon === ("NeitherLow" as any))
-					? (r.specialCauseImprovementValue ?? r.specialCauseConcernValue ?? 1)
-					: null,
-				// Target/assurance may be absent in v2 rows; leave undefined for UI fallbacks
-				target: r.target,
-				assuranceIcon: undefined,
+			return rows.map((r: V2Row): EngineRowUI => ({
+				data: {
+					value: r.value,
+					ghost: !!r.ghost,
+				},
+				partition: { id: r.partitionId },
+				limits: {
+					mean: r.mean,
+					ucl: r.upperProcessLimit,
+					lcl: r.lowerProcessLimit,
+					oneSigma: { upper: r.upperOneSigma, lower: r.lowerOneSigma },
+					twoSigma: { upper: r.upperTwoSigma, lower: r.lowerTwoSigma },
+				},
+				rules: {
+					singlePoint: { up: !!r.singlePointUp, down: !!r.singlePointDown },
+					twoOfThree: { up: !!r.twoSigmaUp, down: !!r.twoSigmaDown },
+					fourOfFive: { up: !!r.fourOfFiveUp, down: !!r.fourOfFiveDown },
+					shift: { up: !!r.shiftUp, down: !!r.shiftDown },
+					trend: { up: !!r.trendUp, down: !!r.trendDown },
+				},
+				classification: {
+					variation: mapVariation(r.variationIcon),
+					neutralSpecialCauseValue:
+						r.variationIcon === V2VariationIcon.NeitherHigh || r.variationIcon === V2VariationIcon.NeitherLow
+							? (r.specialCauseImprovementValue ?? r.specialCauseConcernValue ?? 1)
+							: null,
+					assurance: undefined,
+				},
+				target: (r as any).target,
 			}));
 		} catch {
 			return null;
@@ -379,15 +394,66 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	}, [rowsInput, chartType, metricImprovement, settings]);
 
 	// Representative row with populated limits (last available)
-	const rowsForUi = v2RowsForUi || null;
+	const rowsForUi: EngineRowUI[] | null = v2RowsForUi || null;
 
 	// Representative row with populated limits (last available)
 	const engineRepresentative = (rowsForUi || [])
 		.slice()
 		.reverse()
-		.find((r: any) => r.mean != null);
-	const mean = engineRepresentative?.mean ?? null;
-	const warnings = [] as any[];
+		.find((r) => r.limits.mean != null);
+	const mean = engineRepresentative?.limits.mean ?? null;
+	// Basic diagnostics derived in the chart (until v2 engine surfaces warnings directly)
+	interface WarningItem {
+		code: SpcWarningCode;
+		severity: SpcWarningSeverity;
+		category: SpcWarningCategory;
+		message: string;
+		context?: Record<string, unknown>;
+	}
+    const warnings = React.useMemo<WarningItem[]>(() => {
+		const list: WarningItem[] = [];
+		try {
+			const engineRows = rowsForUi;
+			const minPointsGlobal = settings?.minimumPoints ?? 13;
+			const minPointsPartition = settings?.minimumPointsPartition ?? 12;
+			if (engineRows && engineRows.length) {
+				// Global non-ghost count
+				const nonGhostCount = engineRows.filter((r) => !r.data.ghost && r.data.value != null).length;
+				if (nonGhostCount < minPointsGlobal) {
+					list.push({
+						code: SpcWarningCode.InsufficientPointsGlobal,
+						severity: SpcWarningSeverity.Warning,
+						category: SpcWarningCategory.Data,
+						message: "Not enough non-ghost points to compute stable limits/icons.",
+						context: { nonGhostCount, minimumPoints: minPointsGlobal },
+					});
+				}
+				// Partition sizing diagnostics
+				const partitions = new Map<number, { size: number; nonGhost: number }>();
+				for (const r of engineRows) {
+					const pid = r.partition.id ?? 0;
+					const rec = partitions.get(pid) || { size: 0, nonGhost: 0 };
+					rec.size += 1;
+					if (!r.data.ghost && r.data.value != null) rec.nonGhost += 1;
+					partitions.set(pid, rec);
+				}
+				for (const [pid, rec] of partitions) {
+					if (rec.nonGhost > 0 && rec.nonGhost < minPointsPartition) {
+						list.push({
+							code: SpcWarningCode.InsufficientPointsPartition,
+							severity: SpcWarningSeverity.Warning,
+							category: SpcWarningCategory.Partition,
+							message: "A partition/baseline segment has too few points for recommended stability.",
+							context: { partitionId: pid, nonGhostCount: rec.nonGhost, minimumPointsPartition: minPointsPartition },
+						});
+					}
+				}
+			}
+		} catch {
+			// swallow – diagnostics are best-effort
+		}
+		return list;
+	}, [rowsForUi, settings?.minimumPoints, settings?.minimumPointsPartition]);
 	const filteredWarnings = React.useMemo(() => {
 		if (!warnings.length) return [] as typeof warnings;
 		if (!warningsFilter) return warnings;
@@ -414,8 +480,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	}, [warnings, warningsFilter]);
 
 	// Accessible live announcement for diagnostics panel updates
-	const [diagnosticsMessage, setDiagnosticsMessage] =
-		React.useState<string>("");
+	const [diagnosticsMessage, setDiagnosticsMessage] = React.useState<string>("");
 	const lastDiagnosticsRef = React.useRef<string>("");
 	React.useEffect(() => {
 		if (!showWarningsPanel) {
@@ -463,12 +528,12 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	}, [showWarningsPanel, filteredWarnings]);
 
 	// Y-axis domain including limits
-	const ucl = engineRepresentative?.upperProcessLimit ?? null;
-	const lcl = engineRepresentative?.lowerProcessLimit ?? null;
-	const onePos = engineRepresentative?.upperOneSigma ?? null;
-	const oneNeg = engineRepresentative?.lowerOneSigma ?? null;
-	const twoPos = engineRepresentative?.upperTwoSigma ?? null;
-	const twoNeg = engineRepresentative?.lowerTwoSigma ?? null;
+	const ucl = engineRepresentative?.limits.ucl ?? null;
+	const lcl = engineRepresentative?.limits.lcl ?? null;
+	const onePos = engineRepresentative?.limits.oneSigma.upper ?? null;
+	const oneNeg = engineRepresentative?.limits.oneSigma.lower ?? null;
+	const twoPos = engineRepresentative?.limits.twoSigma.upper ?? null;
+	const twoNeg = engineRepresentative?.limits.twoSigma.lower ?? null;
 	const sigma = mean != null && onePos != null ? Math.abs(onePos - mean) : 0;
 
 	// Force SPC process line to neutral grey (#A6A6A6) to align with default point (common cause) colour.
@@ -516,7 +581,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		};
 		// Try from adapter rows first (if targets were preserved)
 		if (rowsForUi && rowsForUi.length) {
-			const fromRows = collectUniform(rowsForUi.map((r: any) => r.target));
+			const fromRows = collectUniform(rowsForUi.map((r) => r.target));
 			if (fromRows != null) return fromRows;
 		}
 		// Fallback to the raw targets prop
@@ -553,7 +618,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		if (!rowsForUi) return [] as number[];
 		const markers: number[] = [];
 		for (let i = 1; i < rowsForUi.length; i++) {
-			if (rowsForUi[i].partitionId !== rowsForUi[i - 1].partitionId)
+			if (rowsForUi[i].partition.id !== rowsForUi[i - 1].partition.id)
 				markers.push(i);
 		}
 		return markers;
@@ -562,11 +627,11 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 	// Derive embedded variation icon (now rendered above chart instead of inside SVG)
 	const embeddedIcon = React.useMemo(() => {
 		if (!showEmbeddedIcon || !(rowsForUi?.length)) return null;
-		const engineRows = rowsForUi as any[];
+		const engineRows = rowsForUi as EngineRowUI[];
 		// Suppress embedded icon entirely when insufficient non-ghost points to establish stable limits
 		const minPoints = settings?.minimumPoints ?? 13;
 		const nonGhostCount = engineRows.filter(
-			(r) => !r.ghost && r.value != null
+			(r) => !r.data.ghost && r.data.value != null
 		).length;
 
 		if (nonGhostCount < minPoints) return null;
@@ -575,18 +640,18 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		let lastIdx = -1;
 		for (let i = engineRows.length - 1; i >= 0; i--) {
 			const r = engineRows[i];
-			if (r && r.value != null && !r.ghost) {
+			if (r && r.data.value != null && !r.data.ghost) {
 				lastIdx = i;
 				break;
 			}
 		}
 		if (lastIdx === -1) return null;
 		const lastRow = engineRows[lastIdx];
-		const variation = lastRow.variationIcon as VariationIcon | undefined;
+		const variation = lastRow.classification?.variation as VariationIcon | undefined;
 		const canonicalVariation: VariationIcon | undefined = variation;
-		const assuranceRaw = lastRow.assuranceIcon as AssuranceIcon | undefined;
+		const assuranceRaw = lastRow.classification?.assurance as AssuranceIcon | undefined;
 		const hasNeutralSpecialCause =
-			canonicalVariation === VariationIcon.Neither && !!lastRow.specialCauseNeitherValue;
+			canonicalVariation === VariationIcon.Neither && !!lastRow.classification?.neutralSpecialCauseValue;
 		
 		// Map engine assurance icon (which can be None) to visual AssuranceResult (None -> Uncertain placeholder glyph)
 		const assuranceRenderStatus: AssuranceResult =
@@ -596,12 +661,12 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 					? AssuranceResult.Fail
 					: AssuranceResult.Uncertain;
 		
-	// Derive a trend/orientation hint for suppressed 'no judgement' cases so the purple arrow points towards the favourable direction
+		// Derive a trend/orientation hint for suppressed 'no judgement' cases so the purple arrow points towards the favourable direction
 		let trend: Direction | undefined = undefined;
-		if (canonicalVariation === VariationIcon.Suppressed) {
+		if ( canonicalVariation === VariationIcon.Suppressed ) {
 			// A suppressed favourable single point will have exactly one of the singlePointUp/Down flags set
-			const singleHigh = lastRow.specialCauseSinglePointUp;
-			const singleLow = lastRow.specialCauseSinglePointDown;
+			const singleHigh = !!lastRow.rules.singlePoint.up;
+			const singleLow = !!lastRow.rules.singlePoint.down;
 			if (metricImprovement === ImprovementDirection.Up) {
 				// Higher is favourable: a suppressed high point should orient higher
 				if (singleHigh) trend = Direction.Higher;
@@ -614,20 +679,20 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				// Neutral metrics: default to higher to preserve legacy layout
 				trend = Direction.Higher;
 			}
-	} else if (canonicalVariation === VariationIcon.Neither && hasNeutralSpecialCause) {
+		} else if ( canonicalVariation === VariationIcon.Neither && hasNeutralSpecialCause) {
 			// Neutral special-cause (purple) orientation should reflect side of signal (high-side vs low-side)
 			const anyHighSide =
-				lastRow.specialCauseSinglePointUp ||
-				lastRow.specialCauseTwoOfThreeUp ||
-				lastRow.specialCauseFourOfFiveUp ||
-				lastRow.specialCauseShiftUp ||
-				lastRow.specialCauseTrendUp;
+				lastRow.rules.singlePoint.up ||
+				lastRow.rules.twoOfThree.up ||
+				lastRow.rules.fourOfFive.up ||
+				lastRow.rules.shift.up ||
+				lastRow.rules.trend.up;
 			const anyLowSide =
-				lastRow.specialCauseSinglePointDown ||
-				lastRow.specialCauseTwoOfThreeDown ||
-				lastRow.specialCauseFourOfFiveDown ||
-				lastRow.specialCauseShiftDown ||
-				lastRow.specialCauseTrendDown;
+				lastRow.rules.singlePoint.down ||
+				lastRow.rules.twoOfThree.down ||
+				lastRow.rules.fourOfFive.down ||
+				lastRow.rules.shift.down ||
+				lastRow.rules.trend.down;
 			if (anyHighSide && !anyLowSide) trend = Direction.Higher;
 			else if (anyLowSide && !anyHighSide) trend = Direction.Lower;
 			else trend = Direction.Higher; // conflicting or none -> default higher
@@ -668,17 +733,17 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 							polarity,
 							specialCauseNeutral: hasNeutralSpecialCause,
 							highSideSignal:
-								lastRow.specialCauseSinglePointUp ||
-									lastRow.specialCauseTwoOfThreeUp ||
-									lastRow.specialCauseFourOfFiveUp ||
-									lastRow.specialCauseShiftUp ||
-									lastRow.specialCauseTrendUp,
+								lastRow.rules.singlePoint.up ||
+									lastRow.rules.twoOfThree.up ||
+									lastRow.rules.fourOfFive.up ||
+									lastRow.rules.shift.up ||
+									lastRow.rules.trend.up,
 							lowSideSignal:
-								lastRow.specialCauseSinglePointDown ||
-									lastRow.specialCauseTwoOfThreeDown ||
-									lastRow.specialCauseFourOfFiveDown ||
-									lastRow.specialCauseShiftDown ||
-									lastRow.specialCauseTrendDown,
+								lastRow.rules.singlePoint.down ||
+									lastRow.rules.twoOfThree.down ||
+									lastRow.rules.fourOfFive.down ||
+									lastRow.rules.shift.down ||
+									lastRow.rules.trend.down,
 							...(trend ? { trend } : {}),
 						}}
 						// Letter semantics: use polarity (business improvement direction) when specified; fall back to signal side for neutral metrics
@@ -758,7 +823,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						highlightOutOfControl={highlightOutOfControl}
 						engineRows={rowsForUi}
 						uniformTarget={uniformTarget}
-						visualCategories={v2Visuals as any}
+						visualCategories={v2Visuals}
 						enableRules={enableRules}
 						showIcons={showIcons}
 						narrationContext={effectiveNarrationContext}
@@ -779,13 +844,13 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 					/>
 				</LineScalesProvider>
 			</ChartRoot>
-			{source && (
+			{ source && (
 				<div className="fdp-spc-chart__source" aria-label="Chart data source">
 					{typeof source === 'string' ? <small>Source: {source}</small> : source}
 				</div>
 			)}
 			{/* Live diagnostics announcement (visually hidden) */}
-			{showWarningsPanel && diagnosticsMessage && (
+			{ showWarningsPanel && diagnosticsMessage && (
 				<div
 					data-testid="spc-diagnostics-live"
 					aria-live="polite"
@@ -804,7 +869,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 					{diagnosticsMessage}
 				</div>
 			)}
-			{showWarningsPanel && filteredWarnings.length > 0 && (
+			{ showWarningsPanel && filteredWarnings.length > 0 && (
 				<div
 					className="fdp-spc-chart__warnings"
 					role="region"
@@ -905,7 +970,7 @@ interface InternalProps {
 	};
 	showZones: boolean;
 	highlightOutOfControl: boolean;
-	engineRows: any[] | null;
+	engineRows: EngineRowUI[] | null;
 	enableRules: boolean;
 	showIcons: boolean;
 	narrationContext?: {
@@ -991,44 +1056,41 @@ const InternalSPC: React.FC<InternalProps> = ({
 	const engineSignals = React.useMemo(() => {
 		if (!engineRows || !engineRows.length) return null as null | any[];
 		const map: any[] = [];
-		engineRows.forEach((r: any, idx: number) => {
-			const anySpecial = !!(
-				r.variationIcon === VariationIcon.Concern ||
-				r.variationIcon === VariationIcon.Improvement ||
-				r.specialCauseNeitherValue
-			);
-			const upAny = !!(
-				r.specialCauseSinglePointUp ||
-				r.specialCauseTwoOfThreeUp ||
-				r.specialCauseFourOfFiveUp ||
-				r.specialCauseShiftUp ||
-				r.specialCauseTrendUp
-			);
-			const downAny = !!(
-				r.specialCauseSinglePointDown ||
-				r.specialCauseTwoOfThreeDown ||
-				r.specialCauseFourOfFiveDown ||
-				r.specialCauseShiftDown ||
-				r.specialCauseTrendDown
-			);
+		engineRows.forEach((r: EngineRowUI, idx: number) => {
+			const anySpecial =
+				r.classification.variation === VariationIcon.Concern ||
+				r.classification.variation === VariationIcon.Improvement ||
+				!!r.classification.neutralSpecialCauseValue;
+			const upAny =
+				!!r.rules.singlePoint.up ||
+				!!r.rules.twoOfThree.up ||
+				!!r.rules.fourOfFive.up ||
+				!!r.rules.shift.up ||
+				!!r.rules.trend.up;
+			const downAny =
+				!!r.rules.singlePoint.down ||
+				!!r.rules.twoOfThree.down ||
+				!!r.rules.fourOfFive.down ||
+				!!r.rules.shift.down ||
+				!!r.rules.trend.down;
 			map[idx] = {
-				variation: r.variationIcon,
-				assurance: r.assuranceIcon,
+				variation: r.classification.variation,
+				assurance: r.classification.assurance,
 				special: anySpecial,
-				concern: r.variationIcon === VariationIcon.Concern,
-				improvement: r.variationIcon === VariationIcon.Improvement,
-				trendUp: !!r.specialCauseTrendUp,
-				trendDown: !!r.specialCauseTrendDown,
+				concern: r.classification.variation === VariationIcon.Concern,
+				improvement: r.classification.variation === VariationIcon.Improvement,
+				trendUp: !!r.rules.trend.up,
+				trendDown: !!r.rules.trend.down,
 				upAny,
 				downAny,
-				neutralSpecial: !!r.specialCauseNeitherValue,
-				shiftUp: !!r.specialCauseShiftUp,
-				shiftDown: !!r.specialCauseShiftDown,
-				twoOfThreeUp: !!r.specialCauseTwoOfThreeUp,
-				twoOfThreeDown: !!r.specialCauseTwoOfThreeDown,
-				fourOfFiveUp: !!r.specialCauseFourOfFiveUp,
-				fourOfFiveDown: !!r.specialCauseFourOfFiveDown,
-				partitionId: r.partitionId ?? null,
+				neutralSpecial: !!r.classification.neutralSpecialCauseValue,
+				shiftUp: !!r.rules.shift.up,
+				shiftDown: !!r.rules.shift.down,
+				twoOfThreeUp: !!r.rules.twoOfThree.up,
+				twoOfThreeDown: !!r.rules.twoOfThree.down,
+				fourOfFiveUp: !!r.rules.fourOfFive.up,
+				fourOfFiveDown: !!r.rules.fourOfFive.down,
+				partitionId: r.partition.id ?? null,
 			};
 		});
 		return map;
@@ -1074,27 +1136,27 @@ const InternalSPC: React.FC<InternalProps> = ({
 		let earliestUp = Number.POSITIVE_INFINITY;
 		let earliestDown = Number.POSITIVE_INFINITY;
 		engineRows.forEach((r, i) => {
-			if (r.specialCauseTrendUp) earliestUp = Math.min(earliestUp, i);
-			if (r.specialCauseTrendDown) earliestDown = Math.min(earliestDown, i);
+			if (r.rules.trend.up) earliestUp = Math.min(earliestUp, i);
+			if (r.rules.trend.down) earliestDown = Math.min(earliestDown, i);
 		});
 		if (!Number.isFinite(earliestUp) && !Number.isFinite(earliestDown)) return null;
 		const useUp = earliestUp <= earliestDown;
 		const direction: 'up' | 'down' = useUp ? 'up' : 'down';
 		const detectedAt = useUp ? earliestUp : earliestDown;
 		// Determine favourable side relative to metricImprovement and row mean
-		const isFavourable = (row: any): boolean => {
+		const isFavourable = (row: EngineRowUI | null | undefined): boolean => {
 			if (metricImprovement == null || metricImprovement === ImprovementDirection.Neither) return false;
-			if (row == null || typeof row.value !== 'number' || typeof row.mean !== 'number') return false;
+			if (row == null || typeof row.data.value !== 'number' || typeof row.limits.mean !== 'number') return false;
 			if (direction === 'up') {
-				return metricImprovement === ImprovementDirection.Up ? row.value > row.mean : row.value < row.mean;
+				return metricImprovement === ImprovementDirection.Up ? row.data.value > (row.limits.mean as number) : row.data.value < (row.limits.mean as number);
 			}
 			// direction === 'down'
-			return metricImprovement === ImprovementDirection.Down ? row.value < row.mean : row.value > row.mean;
+			return metricImprovement === ImprovementDirection.Down ? row.data.value < (row.limits.mean as number) : row.data.value > (row.limits.mean as number);
 		};
 		let firstFavourableCrossAt: number | null = null;
 		for (let i = detectedAt; i < engineRows.length; i++) {
 			const r = engineRows[i];
-			const flagged = useUp ? !!r.specialCauseTrendUp : !!r.specialCauseTrendDown;
+			const flagged = useUp ? !!r.rules.trend.up : !!r.rules.trend.down;
 			if (!flagged) break; // end of contiguous trend window span
 			if (isFavourable(r)) { firstFavourableCrossAt = i; break; }
 		}
@@ -1103,7 +1165,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 			let favourableCount = 0;
 			for (let i = firstFavourableCrossAt; i < engineRows.length; i++) {
 				const r = engineRows[i];
-				const flagged = useUp ? !!r.specialCauseTrendUp : !!r.specialCauseTrendDown;
+				const flagged = useUp ? !!r.rules.trend.up : !!r.rules.trend.down;
 				if (!flagged) break;
 				if (isFavourable(r)) favourableCount++;
 			}
@@ -1115,22 +1177,18 @@ const InternalSPC: React.FC<InternalProps> = ({
 	// Build horizontal line segments for limits that can change across partitions (means/limits per row)
 	const limitSegments = React.useMemo(() => {
 		if (!engineRows || !engineRows.length) return null;
-		// Helper to extract segments for a given numeric accessor key present on each row
-		const build = (key: keyof (typeof engineRows)[number]) => {
+		// Helper to extract segments from a numeric accessor
+		const buildFrom = (extractor: (row: EngineRowUI) => number | null | undefined) => {
 			const segs: { x1: number; x2: number; y: number }[] = [];
 			let start: number | null = null;
 			let current: number | null = null;
 			for (let i = 0; i < engineRows.length; i++) {
 				const row = engineRows[i];
-				const v = typeof row[key] === "number" ? (row[key] as number) : null;
-				if (v == null || isNaN(v)) {
-					// flush any active segment
+				const raw = extractor(row);
+				const v = typeof raw === "number" && !isNaN(raw) ? (raw as number) : null;
+				if (v == null) {
 					if (start !== null && current != null) {
-						segs.push({
-							x1: xPositions[start],
-							x2: xPositions[i - 1],
-							y: yScale(current),
-						});
+						segs.push({ x1: xPositions[start], x2: xPositions[i - 1], y: yScale(current) });
 						start = null;
 						current = null;
 					}
@@ -1141,40 +1199,30 @@ const InternalSPC: React.FC<InternalProps> = ({
 					current = v;
 					continue;
 				}
-				// continue segment if value unchanged (within epsilon) else close & start new
 				const EPS = 1e-9;
 				if (current != null && Math.abs(v - current) <= EPS) {
-					// still same segment
+					// same segment
 				} else {
-					// close previous
 					if (current != null) {
-						segs.push({
-							x1: xPositions[start],
-							x2: xPositions[i - 1],
-							y: yScale(current),
-						});
+						segs.push({ x1: xPositions[start], x2: xPositions[i - 1], y: yScale(current) });
 					}
 					start = i;
 					current = v;
 				}
 			}
 			if (start !== null && current != null) {
-				segs.push({
-					x1: xPositions[start],
-					x2: xPositions[engineRows.length - 1],
-					y: yScale(current),
-				});
+				segs.push({ x1: xPositions[start], x2: xPositions[engineRows.length - 1], y: yScale(current) });
 			}
 			return segs;
 		};
 		return {
-			mean: build("mean"),
-			ucl: build("upperProcessLimit"),
-			lcl: build("lowerProcessLimit"),
-			onePos: build("upperOneSigma"),
-			oneNeg: build("lowerOneSigma"),
-			twoPos: build("upperTwoSigma"),
-			twoNeg: build("lowerTwoSigma"),
+			mean: buildFrom((r) => r.limits.mean ?? null),
+			ucl: buildFrom((r) => r.limits.ucl ?? null),
+			lcl: buildFrom((r) => r.limits.lcl ?? null),
+			onePos: buildFrom((r) => r.limits.oneSigma.upper ?? null),
+			oneNeg: buildFrom((r) => r.limits.oneSigma.lower ?? null),
+			twoPos: buildFrom((r) => r.limits.twoSigma.upper ?? null),
+			twoNeg: buildFrom((r) => r.limits.twoSigma.lower ?? null),
 		};
 	}, [engineRows, xPositions, yScale]);
 
@@ -1409,6 +1457,20 @@ const InternalSPC: React.FC<InternalProps> = ({
 	const formatDateLong = (d: Date) =>
 		`${ordinal(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
 
+	// Build a minimal rule-flag carrier for extractRuleIds
+	const toRuleFlags = (row: EngineRowUI | null | undefined) => ({
+		specialCauseSinglePointUp: !!row?.rules.singlePoint.up,
+		specialCauseSinglePointDown: !!row?.rules.singlePoint.down,
+		specialCauseTwoOfThreeUp: !!row?.rules.twoOfThree.up,
+		specialCauseTwoOfThreeDown: !!row?.rules.twoOfThree.down,
+		specialCauseFourOfFiveUp: !!row?.rules.fourOfFive.up,
+		specialCauseFourOfFiveDown: !!row?.rules.fourOfFive.down,
+		specialCauseShiftUp: !!row?.rules.shift.up,
+		specialCauseShiftDown: !!row?.rules.shift.down,
+		specialCauseTrendUp: !!row?.rules.trend.up,
+		specialCauseTrendDown: !!row?.rules.trend.down,
+	});
+
 	const formatLive = React.useCallback(
 		({
 			index,
@@ -1432,8 +1494,8 @@ const InternalSPC: React.FC<InternalProps> = ({
 			if (!row) {
 				return `General summary is: ${computedTimeframe ? computedTimeframe + ". " : ""}Point ${index + 1}, ${dateLabel}, ${y}${unit}${measure}`;
 			}
-			const varLabel = variationLabel(row.variationIcon) || "Variation";
-			const ruleIds = extractRuleIds(row);
+			const varLabel = variationLabel(row.classification?.variation) || "Variation";
+			const ruleIds = extractRuleIds(toRuleFlags(row));
 			const ruleNarr = ruleIds.length
 				? ` Rules: ${[...new Set(ruleIds.map((r) => ruleGlossary[r].narration))].join("; ")}.`
 				: " No special cause rules.";

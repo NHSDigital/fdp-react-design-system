@@ -28,59 +28,53 @@ It lists where we match, where we diverge, and a concrete workplan (with accepta
 - Nulls and ghosts: null values excluded from calculations; ghost rows do not participate in calculations.
  - Eligibility: SQL applies a chart-level minimum points threshold; once met, rules can colour early points retrospectively. The parity preset enables the same behaviour via a `chartLevelEligibility` setting.
 
-## Confirmed or likely deviations (to address)
+## Resolved deviations and remaining differences
+
+### Resolved (implemented in v2)
 
 - Trend across partitions
-  - SQL (v2.2+) allows the trend rule to span partitions.
-  - TS appears to compute rules inside per-partition loops. If so, a monotonic run that crosses a baseline boundary will be missed.
+  - Implemented. When `trendAcrossPartitions` is enabled (on in the parity preset), the engine runs an additional global trend pass across partitions and then re-applies conflict pruning. See `engine.ts` for the cross-partition windowing and re-pruning step.
 
 - Two‑of‑three (2σ) semantics
-  - SQL v2.6 includes points beyond 3σ towards the two-of-three rule and requires the third qualifying point to be on the same side of the mean.
-  - TS exposes the rule but needs verification that these exact semantics are implemented.
+  - Implemented. Parity preset enables `twoSigmaIncludeAboveThree`. The rule requires two of the last three points to be at or beyond 2σ on the same side of the mean; points ≥3σ count toward the window. Tests cover mixed 2σ/3σ sequences.
 
-- Assurance icon on rare-event charts and on-limit pass/fail
-  - SQL: Assurance is suppressed for T/G; and when the target lies exactly on a process limit, assurance is a pass/fail.
-  - TS has `assuranceCapabilityMode` but must be verified to fully match the suppression and edge pass/fail behaviour.
-  - Update: Implemented and tested. Equality to a process limit is deterministic (pass/fail depending on direction). Added tests for collapsed (zero‑width) bands.
-
-- Auto-recalculation (synthetic baselines)
-  - TS adds `autoRecalculateAfterShift` and related thresholds; this is beyond the SQL model and will change partitions and thereby signals.
-  - Keep OFF in a parity mode.
-
-- Rule precedence/pruning framework
-  - TS implements precedence strategies, conflict pruning, and rule collapsing. SQL applies a fixed precedence and surfaces warnings for conflicts; it doesn’t prune signals post-hoc.
-  - For parity, disable pruning/alternative precedence.
-
-- Partition thresholds and buffers
-  - TS includes `minimumPointsPartition` (12) and `transitionBufferPoints` (2). SQL v2.6 only specifies the global minimum of 13; partition thresholds/buffers should match SQL behaviour.
+- Assurance on rare‑event charts and on‑limit pass/fail (XmR)
+  - Implemented. Assurance is suppressed for T/G. For XmR, when target equals a process limit (including collapsed, zero‑width bands), the outcome is treated deterministically as pass/fail based on direction. Covered by tests and documented in v2 notes.
 
 - MR outlier exclusion’s effect on mean
-  - SQL v2.1+ supports excluding MR outliers (by UCL on MR) and also introduced `MeanWithoutOutliers` for the centre line.
-  - TS should ensure that, when MR outlier exclusion is enabled, both MRbar and the centre-line mean align with the SQL’s “without outliers” semantics.
-  - Update: Implemented. When enabled, MRbar and mean are recomputed from the outlier‑excluded set.
+  - Implemented. When `excludeMovingRangeOutliers=true`, both MR̄ and the centre‑line mean are recomputed from the outlier‑excluded set, matching SQL’s `MeanWithoutOutliers` semantics.
+
+- Eligibility semantics
+  - Implemented. Default behaviour is per‑partition, per‑row gating via `pointRank >= minimumPoints`. The parity preset turns on `chartLevelEligibility` so early rows become eligible once the overall chart meets the threshold, mirroring SQL’s retrospective colouring.
+
+### Remaining differences or out of scope
+
+- Auto‑recalculation (synthetic baselines)
+  - Non‑SQL extension. Keep OFF in parity mode; it remains available as an opt‑in feature outside parity.
+
+- Conflict strategies and pruning
+  - We keep SQL precedence and pruning by default (PrimeDirection first, then MetricConflictRule on ties). Alternative strategies (e.g., prefer improvement, rule hierarchy, trend‑biased pruning) exist for non‑parity use cases but are OFF in the parity preset.
 
 - Input derivation for T/G
-  - SQL derives “between events” from date/time (`DayDifference`, transformed series). TS expects precomputed intervals as `value`.
-  - Parity goal is documented scope: either provide a simple preprocessor or document the expectation clearly.
+  - SQL derives intervals from source events. The TS engine expects precomputed intervals in `value`. Provide or document a lightweight preprocessor for parity scenarios.
 
-- Warning breadth
-  - SQL Step 5 covers broader data hygiene checks (filters, date formats, duplicate dates under formatting). TS focuses on SPC-calculation warnings.
-  - Keep the scope intentionally smaller; optionally provide an adjacent “dataset validation” helper later.
+- Warning breadth and upstream data hygiene
+  - TS focuses on SPC-calculation warnings; broader SQL ETL checks (filters, date formatting, duplicate dates under formatting) are out of scope. A separate “dataset validation” helper may be added later.
 
 - Pareto/hierarchy/grouping
-  - SQL handles hierarchy, `ChartID`, `Filter1/2`, Pareto renames. TS is a per-series engine; this remains out of scope.
+  - Out of scope for the engine. SQL covers hierarchy (`ChartID`, filters, Pareto renames); the TS engine remains per‑series.
 
 ## Parity mode: design goals
 
 - Add an explicit “SQL v2.6 parity” preset that:
-  - Disables auto-recalc baselines and any heuristic retroactive neutralisation.
-  - Disables pruning/alternative precedence; use SQL’s fixed precedence for icon decisions.
+  - Disables auto‑recalc baselines and any heuristic retroactive neutralisation.
+  - Keeps SQL precedence and pruning; alternative conflict strategies remain disabled.
   - Computes trend across partition boundaries.
-  - Implements exact two-of-three semantics (3σ points count; third point must be same-side).
+  - Implements exact two‑of‑three semantics (3σ points count; third point must be same‑side).
   - Suppresses assurance on T/G; applies pass/fail when target equals a process limit on XmR.
   - Emits zero‑width control limits (UCL = LCL = mean) when MR̄ = 0, and collapses ±1σ/±2σ bands to the mean (visual/documented parity for flat partitions).
   - Uses defaults: minPoints=13, shift=6, trend=6, collapse weaker cluster rules as in SQL (on), MR outlier exclusion default OFF.
-  - Matches SQL’s partition minimum/buffer behaviour (no extra transition buffer unless required for parity).
+  - Matches SQL’s partition eligibility behaviour: per‑row gating by default; parity can enable chart‑level eligibility for retrospective colouring.
 
 ## Workplan (phased)
 
@@ -89,7 +83,7 @@ It lists where we match, where we diverge, and a concrete workplan (with accepta
 - Default engine behaviour remains as-is; tests will target both default and parity presets.
 
 Acceptance criteria
-- A single call-site toggle can produce SQL-style behaviour.
+- A single call-site toggle can produce NHSE Making Data Count SQL v2.6a-style behaviour.
 - No regression in existing tests.
 
 ### Phase 2 — Rule semantics alignment
@@ -109,8 +103,8 @@ Acceptance criteria
 - Unit tests for T/G confirm `assuranceIcon` is ‘none’/suppressed.
 - Unit tests where target==limit confirm pass/fail outcomes.
 
-### Phase 4 — Partition thresholds and buffers
-- Verify SQL behaviour for minimum points per partition; remove or align `transitionBufferPoints` in parity mode.
+### Phase 4 — Partition eligibility
+- Verify SQL behaviour for minimum points per partition and chart‑level eligibility. TS defaults to per‑row, per‑partition gating; parity preset enables chart‑level eligibility for retrospective colouring.
 
 Acceptance criteria
 - Unit tests around partition starts match SQL outcomes for rule eligibility.
@@ -206,7 +200,7 @@ Key toggles in the preset include `chartLevelEligibility`, `trendAcrossPartition
 
 ---
 
-## Current status (as of 17 Sep 2025)
+## Current status (as of 18 Sep 2025)
 
 - v2 engine implemented (XmR focus) under `logic_v2/` with modular detectors, conflict pruning, assurance, and orchestrator (`engine.ts`).
 - Parity preset available: `PARITY_V26` plus `withParityV26(...)` merge helper (used throughout v2 stories and tests).
@@ -219,7 +213,7 @@ Key toggles in the preset include `chartLevelEligibility`, `trendAcrossPartition
   - Wrapper suppresses assurance for T/G and applies XmR on‑limit pass/fail logic.
   - Zero‑width band semantics implemented; equality behaviour tested. New Storybook vignette added for documentation.
 - Storybook v2 playgrounds with a parity toggle in Controls:
-  - Grouped dataset: "Data Visualisation/SPC/v2/Grouped dataset (JSON)" with expected-colour table sourced from dataset JSON and an explicit “Eligible” column
+  - Test dataset: "Data Visualisation/SPC/v2/Test dataset" with expected-colour table sourced from dataset JSON and an explicit “Eligible” column
   - Healthcare: "Data Visualisation/SPC/v2/Healthcare (v2 engine)" now using centralised datasets and a computed expected-colour table based on VariationIcon, plus an “Eligible” column
   - Zero‑width limits vignette: illustrates flat partition after baseline with collapsed limits and an accompanying computed limits table
   - SPC MetricCard v2 integration

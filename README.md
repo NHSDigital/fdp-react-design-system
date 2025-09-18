@@ -282,9 +282,8 @@ Example:
   palette="categorical"
   parseX={(d) => d.x as Date}
   minBarWidth={12}
-/>```
-
-
+/>
+```
 
 ## Contributing
 

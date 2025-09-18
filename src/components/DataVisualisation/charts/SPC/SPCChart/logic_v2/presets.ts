@@ -1,4 +1,5 @@
-import { buildSpcV26aWithVisuals, SpcVisualCategory } from "./engine";
+import { buildSpcV26aWithVisuals } from "./engine";
+import { SpcVisualCategory } from "./postprocess/visualCategories";
 import {
 	BuildArgsV2,
 	ImprovementDirection,

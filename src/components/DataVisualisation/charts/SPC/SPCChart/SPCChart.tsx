@@ -35,7 +35,7 @@ import SPCSignalsInspector from "./SPCSignalsInspector";
 import type { SPCSignalFocusInfo } from "./SPCChart.types";
 import { extractRuleIds, ruleGlossary, variationLabel } from "./descriptors";
 // v2 engine visuals and presets
-import { SpcVisualCategory } from "./logic_v2/engine";
+import { SpcVisualCategory } from "./logic_v2";
 import type { ChartType as V2ChartType, ImprovementDirection as V2ImprovementDirection, BuildArgsV2 as V2BuildArgs } from "./logic_v2/types";
 import { buildVisualsForScenario, VisualsScenario as V2VisualsScenario } from "./logic_v2/presets";
 import { buildWithVisuals as buildWithVisualsV2 } from "./logic_v2/adapter";

@@ -10,7 +10,8 @@ import {
 	normaliseSeries,
 	deriveBaselines,
 } from "./data/groupedDataset";
-import { buildSpcV26a, SpcVisualCategory } from "../engine.ts";
+import { buildSpcV26a } from "../engine.ts";
+import { SpcVisualCategory } from "../postprocess/visualCategories";
 import {
 	ChartType,
 	ImprovementDirection,

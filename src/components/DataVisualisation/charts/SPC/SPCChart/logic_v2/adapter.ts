@@ -1,7 +1,8 @@
 // Lightweight adapter to build v2 rows and visual categories in one call.
 // This helps migrate SPCChart away from legacy engine dependencies.
 
-import { buildSpcV26a, buildSpcV26aWithVisuals, SpcVisualCategory } from "./engine";
+import { buildSpcV26a, buildSpcV26aWithVisuals } from "./engine";
+import { SpcVisualCategory } from "./postprocess/visualCategories";
 import { BuildArgsV2, SpcResultV2 } from "./types";
 
 export interface BuildWithVisualsResult extends SpcResultV2 {

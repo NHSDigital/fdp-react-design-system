@@ -23,9 +23,10 @@ import { normaliseSpcSettingsV2 } from "./normaliser";
 export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 	const { chartType, metricImprovement, data } = args;
 
+	// There is a legacy flat settings file and a new structured one; normalise to the flat form
 	const settings = normaliseSpcSettingsV2(args.settings);
 
-	// Consolidate with defaults derived from SQL guidance
+	// Consolidate with defaults derived from NHSE SQL v2.6a and Making Data Count guidance
 	const s = {
 		minimumPoints: 13,
 		shiftPoints: 6,
@@ -97,7 +98,7 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 
 		// Eligibility: gate control lines per-row within each partition based on pointRank
 		// A row becomes eligible when there are at least `minimumPoints` non-ghost, valued points in its partition up to and including that row.
-
+		// This ensures that control lines are only drawn when there is sufficient data.
 		const lim = computePartitionLimits(
 			chartType,
 			values,
@@ -105,6 +106,7 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 			!!s.excludeMovingRangeOutliers
 		);
 
+		// Build rows with limits and eligibility
 		const withLines: SpcRowV2[] = part.map((r, i) => {
 			const pointRank =
 				!r.ghost && isNumber(r.value)
@@ -163,13 +165,13 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 				row.singlePointDown = true;
 		}
 
-			// Pass 2: patterns — shift, two-of-three, strict monotonic trend (per-partition)
-			detectRulesInPartition(withLines, {
-				shiftPoints: s.shiftPoints!,
-				trendPoints: s.trendPoints!,
-				twoSigmaIncludeAboveThree: !!s.twoSigmaIncludeAboveThree,
-				enableFourOfFiveRule: !!s.enableFourOfFiveRule,
-			});
+		// Pass 2: patterns — shift, two-of-three, strict monotonic trend (per-partition)
+		detectRulesInPartition(withLines, {
+			shiftPoints: s.shiftPoints!,
+			trendPoints: s.trendPoints!,
+			twoSigmaIncludeAboveThree: !!s.twoSigmaIncludeAboveThree,
+			enableFourOfFiveRule: !!s.enableFourOfFiveRule,
+		});
 
 		// Optional post-detection step: trend favourable segmentation to resolve cross-mean conflicts
 		const maybeApplySegmentation = (rows: SpcRowV2[]) => {
@@ -184,11 +186,20 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 			) {
 				return;
 			}
+			// Apply segmentation to determine favourable trend segments to highlight
+			// and use these to mask out trend flags that are not part of a highlighted segment.
+			// This ensures that only rules aligned with the favourable trend segments can survive pruning.
+			// Note: this does not affect the base rule flags, only whether they can survive pruning.
+			// This means that the visual categories (which are computed later) may still show
 			const runs = computeTrendSegments(rows);
+
+			// Choose segments to highlight based on the configured strategy
+			// (this also filters out short segments that do not meet the trendPoints threshold)
 			const highlights = chooseSegmentsForHighlight(runs, {
 				metricImprovement,
 				strategy: s.trendSegmentationStrategy,
 			});
+
 			// Build directional allow masks so a row can only retain the trend flag
 			// corresponding to the highlighted segment's direction it belongs to.
 			const allowUp = new Set<number>();
@@ -199,6 +210,9 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 					else allowDown.add(k);
 				}
 			}
+
+			// Mask out trend flags that are not part of a highlighted segment
+			// (other rule flags are unaffected)
 			rows.forEach((row, idx) => {
 				// Recode trend flags to only keep those explicitly allowed by highlighted segments
 				row.trendUp = allowUp.has(idx) ? row.trendUp : false;
@@ -220,23 +234,32 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 			});
 		};
 
+		// Apply segmentation if enabled and there is any conflict to resolve
+		// (otherwise segmentation is skipped to avoid unnecessary side-effects)
 		if (segmentationEnabled) {
 			maybeApplySegmentation(withLines);
 		}
 
-		// SQL candidate formation and pruning for all rows (engine v2.6a parity)
+		// Candidate formation and pruning for all rows (engine v2.6a parity)
 		for (const row of withLines) {
+			// Skip ghost rows and those without a valid value/mean
+			// (these remain as CommonCause with no candidates)
 			if (row.ghost || !isNumber(row.value) || row.mean === null) {
 				out.push(row);
 				continue;
 			}
+
+			// Derive original candidates from unpruned rule flags
+			// (these are later pruned to yield the final candidates)
+			// Note: for Neither metrics, candidates are still derived but not used in pruning
+			// as NeitherHigh/NeitherLow icons are determined directly from rule flags.
 			const { aligned, opposite } = deriveOriginalCandidates(
 				row,
 				metricImprovement
 			);
 			row.specialCauseImprovementValue = aligned ? row.value! : null;
 			row.specialCauseConcernValue = opposite ? row.value! : null;
-
+			
 					if (metricImprovement === ImprovementDirection.Neither) {
 						// Neither semantics: high-side rules -> NeitherHigh, low-side rules -> NeitherLow, else CommonCause
 						const highSide = row.singlePointUp || row.twoSigmaUp || row.shiftUp || row.trendUp;
@@ -246,6 +269,7 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 						// Up/Down metrics: apply SQL-style pruning and then set icon via pruning outcome
 						applySqlPruning(row, metricImprovement, s.metricConflictRule!, s.preferImprovementWhenConflict === true, s.conflictStrategy, s.ruleHierarchy, s.preferTrendWhenConflict === true);
 					}
+			
 			out.push(row);
 		}
 	}
@@ -317,6 +341,7 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 			const { aligned, opposite } = deriveOriginalCandidates(row, metricImprovement);
 			row.specialCauseImprovementValue = aligned ? row.value! : null;
 			row.specialCauseConcernValue = opposite ? row.value! : null;
+			// Re-apply pruning to stabilise outcome
 			applySqlPruning(row, metricImprovement, s.metricConflictRule!, s.preferImprovementWhenConflict === true, s.conflictStrategy, s.ruleHierarchy, s.preferTrendWhenConflict === true);
 		}
 	}
@@ -360,4 +385,4 @@ export function buildSpcV26aWithVisuals(
 	return { rows: res.rows, visuals: overlay };
 }
 
-export { SpcVisualCategory };
+// Intentionally not re-exporting SpcVisualCategory here; canonical path is via postprocess/visualCategories (barrel re-exports)

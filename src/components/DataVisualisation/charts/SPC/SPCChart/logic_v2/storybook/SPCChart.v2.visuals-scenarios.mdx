@@ -1,0 +1,149 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Data Visualisation/SPC/Guides/Visuals scenarios" />
+
+# SPC v2 visuals scenarios
+
+This page explains the visuals scenarios extension around the v2 logic for SPC charts, implemented via the `VisualsScenario` enum and the helper `buildVisualsForScenario`. It covers the motivation, how it integrates with the NHSE SQL v2.6a-aligned engine, how to use it, and some notes on statistical defensibility from a Shewhart chart perspective.
+
+## Why this exists
+
+The v2 engine (`buildSpcV26a`) focuses on generating SPC rows (values, control limits, and rule flags) in alignment with NHSE SQL v2.6a semantics. The visuals layer then maps those rows to UI categories (`SpcVisualCategory`) such as Common, Improvement, Concern, and NoJudgement.
+
+The scenarios feature adds optional post-processing that adjusts categories around partition boundaries (“baseline recalculation points”) to mirror expected SQL-derived narratives (for example, visually reinforcing a favourable crossing). This is implemented as a small, explicit overlay window that only upgrades neutral categories; it never downgrades an existing Improvement/Concern.
+
+In short: scenarios help align visuals with policy-driven interpretations of baseline recalculations while keeping the underlying engine and rule detection unchanged.
+
+## Key pieces
+
+- `SpcVisualCategory` (enum): core visual categories used by the UI.
+- `computeSpcVisualCategories(rows, opts)`: converts engine rows to per-point categories using rule flags and improvement direction.
+- `computeBoundaryWindowCategories(rows, improvement, options)`: optionally upgrades neutral (Common/NoJudgement) categories in small windows around baseline changes, based on mean deltas.
+- `VisualsScenario` (enum): preset scenarios that preconfigure boundary window behaviour.
+- `buildVisualsForScenario(args, scenario, opts)`: convenience wrapper that runs the engine with visuals and applies the selected scenario.
+
+## API overview
+
+### `VisualsScenario`
+
+Values and intent:
+
+- `None`: no boundary-window overlay.
+- `RecalcCrossingShift`: upgrade a short, symmetric window around the first point of the new partition; useful when a shift is expected immediately after the recalculation.
+- `RecalcCrossingTrend`: slightly longer post-window; useful when the favourable crossing consolidates over a few points.
+- `RecalcCrossingTwoSigma`: minimal window in both directions; conservative option.
+- `RecalculationsRecalculated`: light-touch visual reset around boundary; pairs with re-baselining narratives.
+- `BaselinesRecalculated`: similar to above; defers post-window colouring to the dataset policy (via explicit boundaries and direction override).
+
+Implementation reference: `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/presets.ts`.
+
+### `buildVisualsForScenario(args, scenario, opts)`
+
+Contract:
+
+- Input: `args` is the same as `buildSpcV26a` (`BuildArgsV2`), `scenario` is `VisualsScenario`, and `opts` controls visuals:
+  - `trendVisualMode`: `'Ungated' | 'Gated'` (default `'Ungated'`)
+  - `enableNeutralNoJudgement`: `boolean` (default `true`)
+- Output: `{ rows: SpcRowV2[]; visuals: SpcVisualCategory[] }`
+
+Behaviour summary:
+
+1. Computes visuals via `buildSpcV26aWithVisuals` (engine rows + `computeSpcVisualCategories`).
+2. Derives explicit boundary indices from `args.data` baselines when present; otherwise detects partition changes.
+3. Applies a scenario-specific boundary-window overlay using `computeBoundaryWindowCategories`:
+   - Uses small `preWindow` / `postWindow` regions around each boundary index.
+   - Computes mean delta across partitions to choose Improvement vs Concern based on `ImprovementDirection`.
+   - Only upgrades `Common` or `NoJudgement` to `Improvement`/`Concern`; never overrides an existing directional verdict.
+4. Some scenarios (e.g., `RecalculationsRecalculated`, `BaselinesRecalculated`) also set the **point immediately before** the boundary to `Common` for narrative clarity.
+
+## Usage
+
+Basic usage with presets:
+
+```ts
+import { buildVisualsForScenario, VisualsScenario } from '../logic_v2/presets';
+import { ImprovementDirection } from '../logic_v2/types';
+
+const { rows, visuals } = buildVisualsForScenario(
+  {
+    chartType: 'XmR',
+    metricImprovement: ImprovementDirection.Up,
+    data: series, // array of { x, value, ghost?, baseline?, target? }
+    settings: { /* optional SpcSettingsV26a overrides */ },
+  },
+  VisualsScenario.RecalcCrossingTrend,
+  {
+    trendVisualMode: 'Ungated',
+    enableNeutralNoJudgement: true,
+  }
+);
+```
+
+Notes:
+
+- If your dataset marks explicit baselines (`baseline: true`), those indices become anchors for the overlay windows.
+- If no baselines are marked, the overlay uses partition breaks discovered by the engine (changes in `partitionId`).
+- The overlay respects core rule outcomes by only upgrading neutral categories.
+
+## Scenarios in detail
+
+All scenarios anchor on boundary indices. The differences are the window sizes and intended narrative:
+
+- `RecalcCrossingShift`
+  - `preWindow: 2`, `postWindow: 4`, `prePolarity: 'Same'`.
+  - Highlights a quick consolidation right after the new baseline.
+
+- `RecalcCrossingTrend`
+  - `preWindow: 1`, `postWindow: 5`, `prePolarity: 'Same'`.
+  - Allows a few points to establish trend post-recalc.
+
+- `RecalcCrossingTwoSigma`
+  - `preWindow: 1`, `postWindow: 1`, `prePolarity: 'Same'`.
+  - Minimal and conservative.
+
+- `RecalculationsRecalculated`
+  - Very light overlay; also clears the point immediately before the first boundary to `Common` to avoid over-signalling.
+
+- `BaselinesRecalculated`
+  - Uses explicit boundaries if provided and sets `directionOverride` to the input metric’s improvement direction.
+  - Does not force post-baseline colours here; assumes dataset-level expectations govern colouring.
+
+## How this relates to NHSE SQL v2.6a
+
+- The engine logic (`buildSpcV26a`) mirrors SQL v2.6a rule detection, eligibility gating, and candidate pruning.
+- Visuals are derived from engine rows using `computeSpcVisualCategories` (a deterministic, rule-aware mapping).
+- Scenarios then add a small, policy-aligned overlay around baseline recalculations to better match SQL narrative outputs when desired.
+
+This separation preserves the integrity of the SPC engine while allowing configurable, transparent visual emphasis.
+
+## Statistical defensibility and risks
+
+Trade-offs and mitigations:
+
+- Shewhart best practice emphasises using control rules directly, avoiding post-hoc reclassification. Overlay windows are a policy/view layer, not a rules layer. To maintain defensibility:
+  - The overlay only upgrades neutral categories (Common/NoJudgement). It never overturns an existing Improvement/Concern from the engine.
+  - Overlays are anchored to explicit or discoverable boundary events and to mean deltas, not arbitrary points.
+  - The size of windows is small and explicit, and scenarios are named and reviewable.
+
+- Risks to watch:
+  - Apparent “colour” divergence from pure rules could be misinterpreted as additional special cause evidence. Label overlays clearly in the UI (e.g., with legend language or tooltip cues).
+  - If windows are too wide or aggressive, they may drift from Shewhart principles. Keep windows narrow, and prefer conservative scenarios (`TwoSigma`) when in doubt.
+  - For metrics with `ImprovementDirection.Neither`, overlays are suppressed to avoid directional bias.
+
+Recommendations:
+
+- Treat overlays as an optional, transparent layer. Consider surfacing a toggle or an annotation explaining when a scenario is active.
+- Use datasets with clear baseline markers when relying on boundary overlays.
+- For formal statistical reporting, prefer raw engine outputs without overlays, or include a disclosure statement.
+
+## Developer tips
+
+- To align with SQL parity settings, start with the `PARITY_V26` preset (see `presets.ts`), then choose a visuals scenario only if it matches your product narrative.
+- If you need directional conflict behaviour that interacts with segmentation, consider `withConflictPresetAutoV26` to gate segmentation appropriately per improvement direction.
+- For a minimal API surface, import from the SPC barrel (re-exports from `logic_v2`). Internally, `visualCategories` remains the canonical module for visuals.
+
+## References
+
+- `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/presets.ts`
+- `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/visualCategories.ts`
+- `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/boundaryWindows.ts`

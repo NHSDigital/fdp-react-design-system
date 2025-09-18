@@ -1,8 +1,8 @@
-import type { SPCSignalFocusInfo } from "./SPCChart.types";
+import type { SPCSignalFocusInfo, EngineRowUI } from "./SPCChart.types";
 import * as React from "react";
 export interface SPCSignalsInspectorProps {
     /** Engine rows from buildSpc; used to read variation/assurance and rule flags */
-    engineRows: any[] | null;
+    engineRows: EngineRowUI[] | null;
     /** Optional measure name/unit for labels */
     measureName?: string;
     measureUnit?: string;

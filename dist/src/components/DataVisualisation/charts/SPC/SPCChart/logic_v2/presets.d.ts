@@ -1,4 +1,4 @@
-import { SpcVisualCategory } from "./engine";
+import { SpcVisualCategory, TrendVisualMode } from "./postprocess/visualCategories";
 import { BuildArgsV2, ImprovementDirection, SpcRowV2, type SpcSettingsV26a } from "./types";
 export declare enum VisualsScenario {
     None = "none",
@@ -9,7 +9,7 @@ export declare enum VisualsScenario {
     BaselinesRecalculated = "baselines-recalculated"
 }
 export declare function buildVisualsForScenario(args: BuildArgsV2, scenario: VisualsScenario, opts?: {
-    trendVisualMode?: "Ungated" | "Gated";
+    trendVisualMode?: TrendVisualMode;
     enableNeutralNoJudgement?: boolean;
 }): {
     rows: SpcRowV2[];

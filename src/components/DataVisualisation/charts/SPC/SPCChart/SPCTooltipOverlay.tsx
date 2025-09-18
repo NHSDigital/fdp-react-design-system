@@ -110,9 +110,10 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 		? Math.min(Math.max(focused.clientY, 0), innerHeight)
 		: 0;
 
-	// We'll render marker in SVG but move rich text into an absolutely positioned HTML portal so it can overflow chart.
-	const containerEl = (chart as any).ref?.current as HTMLElement | undefined; // ChartRoot div (position: relative)
-	const host = containerEl; // we rely on ChartRoot's positioned container
+		// We'll render marker in SVG but move rich text into an absolutely positioned HTML portal so it can overflow chart.
+		// ChartRoot provides a ref to the positioned container; narrow type for host element safely.
+		const host: HTMLElement | undefined =
+			(chart?.ref?.current as HTMLElement | null | undefined) || undefined;
 
 	// If no focused point yet, don't attempt to derive tooltip content.
 	if (!focused) {
@@ -177,8 +178,11 @@ const SPCTooltipOverlay: React.FC<SPCTooltipOverlayProps> = ({
 	const hasRules = rules.length > 0;
 	// SQL compatibility metadata (present only when wrapper used). We defensively gate on property existence.
 	// SQL compatibility metadata (present only when wrapper used). Defensively access via loose cast.
-	const primeDirection: string | undefined = (row as any)?.primeDirection;
-	const primeRuleId: SpcRuleId | undefined = (row as any)?.primeRuleId;
+		// Optional SQL-compat metadata (if present on EngineRowUI via wrapper). Access via in-operator guards.
+		const primeDirection: string | undefined =
+			row && "primeDirection" in row ? (row as Record<string, any>).primeDirection : undefined;
+		const primeRuleId: SpcRuleId | undefined =
+			row && "primeRuleId" in row ? (row as Record<string, any>).primeRuleId : undefined;
 	// "No judgement" (neutral special cause) state: underlying variation classified as Neither but special cause rules fired
 	const isNoJudgement = enableNeutralNoJudgement && row?.classification?.variation === VariationIcon.Neither && hasRules;
 	// Provenance (ruleTags) removed from tooltip to avoid duplication with Special cause section.

@@ -516,6 +516,11 @@ function computeAssuranceIcon(chartType, row, metricImprovement, target) {
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/trendSegments.ts
+var TrendDirection = /* @__PURE__ */ ((TrendDirection2) => {
+  TrendDirection2["Up"] = "Up";
+  TrendDirection2["Down"] = "Down";
+  return TrendDirection2;
+})(TrendDirection || {});
 function signOf(x) {
   if (x > 0) return 1;
   if (x < 0) return -1;
@@ -537,7 +542,7 @@ function computeTrendSegments(rows) {
       i++;
       continue;
     }
-    const dir = r.trendUp ? "Up" : r.trendDown ? "Down" : void 0;
+    const dir = r.trendUp ? "Up" /* Up */ : r.trendDown ? "Down" /* Down */ : void 0;
     let start = i;
     let j = i;
     for (; j < rows.length; j++) {
@@ -769,6 +774,11 @@ var SpcVisualCategory = /* @__PURE__ */ ((SpcVisualCategory2) => {
   SpcVisualCategory2["NoJudgement"] = "NoJudgement";
   return SpcVisualCategory2;
 })(SpcVisualCategory || {});
+var TrendVisualMode = /* @__PURE__ */ ((TrendVisualMode2) => {
+  TrendVisualMode2["Ungated"] = "Ungated";
+  TrendVisualMode2["Gated"] = "Gated";
+  return TrendVisualMode2;
+})(TrendVisualMode || {});
 function sideFlags(row) {
   const upAny = !!(row.singlePointUp || row.twoSigmaUp || row.shiftUp || row.trendUp);
   const downAny = !!(row.singlePointDown || row.twoSigmaDown || row.shiftDown || row.trendDown);
@@ -777,7 +787,7 @@ function sideFlags(row) {
 function computeSpcVisualCategories(rows, opts) {
   var _a, _b;
   const metricImprovement = opts.metricImprovement;
-  const trendVisualMode = (_a = opts.trendVisualMode) != null ? _a : "Ungated";
+  const trendVisualMode = (_a = opts.trendVisualMode) != null ? _a : "Ungated" /* Ungated */;
   const enableNeutral = (_b = opts.enableNeutralNoJudgement) != null ? _b : true;
   return rows.map((row) => {
     if (!row || row.value == null || row.ghost) return "Common" /* Common */;
@@ -792,7 +802,7 @@ function computeSpcVisualCategories(rows, opts) {
         return "Concern" /* Concern */;
       case "NeitherHigh" /* NeitherHigh */:
       case "NeitherLow" /* NeitherLow */: {
-        if (trendVisualMode === "Ungated" && metricImprovement !== "Neither" /* Neither */) {
+        if (trendVisualMode === "Ungated" /* Ungated */ && metricImprovement !== "Neither" /* Neither */) {
           if (upAny && !downAny) {
             return metricImprovement === "Up" /* Up */ ? "Improvement" /* Improvement */ : "Concern" /* Concern */;
           }
@@ -815,7 +825,7 @@ function computeBoundaryWindowCategories(rows, metricImprovement, options) {
   if (!rows.length) return [];
   let out = computeSpcVisualCategories(rows, {
     metricImprovement,
-    trendVisualMode: "Ungated",
+    trendVisualMode: "Ungated" /* Ungated */,
     enableNeutralNoJudgement: true
   });
   if (mode !== "RecalcCrossing") return out;
@@ -1062,7 +1072,7 @@ function buildSpcV26a(args) {
       const allowDown = /* @__PURE__ */ new Set();
       for (const seg of highlights) {
         for (let k = seg.start; k <= seg.end; k++) {
-          if (seg.trendDirection === "Up") allowUp.add(k);
+          if (seg.trendDirection === "Up" /* Up */) allowUp.add(k);
           else allowDown.add(k);
         }
       }
@@ -1137,7 +1147,7 @@ function buildSpcV26a(args) {
         const allowDown = /* @__PURE__ */ new Set();
         for (const seg of highlights) {
           for (let k = seg.start; k <= seg.end; k++) {
-            if (seg.trendDirection === "Up") allowUp.add(k);
+            if (seg.trendDirection === "Up" /* Up */) allowUp.add(k);
             else allowDown.add(k);
           }
         }
@@ -1174,7 +1184,7 @@ function buildSpcV26aWithVisuals(args, visuals) {
   const res = buildSpcV26a(args);
   const base = computeSpcVisualCategories(res.rows, {
     metricImprovement: args.metricImprovement,
-    trendVisualMode: (_a = visuals == null ? void 0 : visuals.trendVisualMode) != null ? _a : "Ungated",
+    trendVisualMode: (_a = visuals == null ? void 0 : visuals.trendVisualMode) != null ? _a : "Ungated" /* Ungated */,
     enableNeutralNoJudgement: (_b = visuals == null ? void 0 : visuals.enableNeutralNoJudgement) != null ? _b : true
   });
   const bw = visuals == null ? void 0 : visuals.boundaryWindows;
@@ -1204,7 +1214,7 @@ var VisualsScenario = /* @__PURE__ */ ((VisualsScenario2) => {
 })(VisualsScenario || {});
 function buildVisualsForScenario(args, scenario, opts) {
   var _a, _b;
-  const tvm = (_a = opts == null ? void 0 : opts.trendVisualMode) != null ? _a : "Ungated";
+  const tvm = (_a = opts == null ? void 0 : opts.trendVisualMode) != null ? _a : "Ungated" /* Ungated */;
   const enn = (_b = opts == null ? void 0 : opts.enableNeutralNoJudgement) != null ? _b : true;
   const explicitBoundaries = Array.isArray(args.data) ? args.data.map((d, i) => (d == null ? void 0 : d.baseline) ? i : -1).filter((i) => i >= 0) : [];
   let boundaryWindows;
@@ -1425,8 +1435,10 @@ export {
   SpcRuleId,
   SpcVisualCategory,
   T_TRANSFORM_EXP,
+  TrendDirection,
   TrendSegmentationMode,
   TrendSegmentationStrategy,
+  TrendVisualMode,
   VariationIcon,
   VisualsScenario,
   XMR_THREE_SIGMA_FACTOR,

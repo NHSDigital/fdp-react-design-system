@@ -1,5 +1,8 @@
 import { ImprovementDirection, SpcRowV2, TrendSegmentationStrategy } from "../types";
-export type TrendDirection = "Up" | "Down";
+export declare enum TrendDirection {
+    Up = "Up",
+    Down = "Down"
+}
 export type MeanSide = "Above" | "Below";
 export interface TrendSegment {
     trendDirection: TrendDirection;

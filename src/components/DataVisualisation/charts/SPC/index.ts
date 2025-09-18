@@ -2,7 +2,7 @@
 // Provides a stable import surface: `import { SPCChart, SPCVariationIcon, SPCAssuranceIcon, buildSpc } from '.../DataVisualisation/charts/SPC';`
 
 export { default as SPCChart } from './SPCChart/SPCChart';
-export type { SPCChartProps, SPCDatum } from './SPCChart/SPCChart';
+export type { SPCChartProps, SPCDatum } from './SPCChart/SPCChart.props';
 
 // Engine logic & enums
 export { buildSpc, normaliseSpcSettings } from './SPCChart/logic/spc';

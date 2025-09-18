@@ -1,15 +1,15 @@
 import { Meta, Stories } from '@storybook/addon-docs/blocks';
-import Mermaid from '../../../../_internal/Mermaid';
-import Table from '../../../../Tables/Table';
+import Mermaid from '../../../../../../_internal/Mermaid';
+import Table from '../../../../../../Tables/Table';
 // NOTE: Legacy Storybook-only example modules removed from import surface; these will be re-added
 // as modular docs components if required. For now, keep docs self-contained to avoid build errors.
-import SPCChartStableWaitTimeExample from './logic_v2/doc-examples/SPCChartStableWaitTimeExample';
-import SPCChartEarlyWaitTimeExample from './logic_v2/doc-examples/SPCChartEarlyWaitTimeExample';
-import SPCChartIndividualsExample from './logic_v2/doc-examples/SPCChartIndividualsExample';
-import SPCChartRareEventExample from './logic_v2/doc-examples/SPCChartRareEventExample';
-import SPCChartPhasedBaselineExample from './logic_v2/doc-examples/SPCChartPhasedBaselineExample';
-import SPCChartWarningsPanelExample from './logic_v2/doc-examples/SPCChartWarningsPanelExample';
-import TrendGatingExample from './logic_v2/doc-examples/TrendGatingExample';
+import SPCChartStableWaitTimeExample from '../doc-examples/SPCChartStableWaitTimeExample';
+import SPCChartEarlyWaitTimeExample from '../doc-examples/SPCChartEarlyWaitTimeExample';
+import SPCChartIndividualsExample from '../doc-examples/SPCChartIndividualsExample';
+import SPCChartRareEventExample from '../doc-examples/SPCChartRareEventExample';
+import SPCChartPhasedBaselineExample from '../doc-examples/SPCChartPhasedBaselineExample';
+import SPCChartWarningsPanelExample from '../doc-examples/SPCChartWarningsPanelExample';
+import TrendGatingExample from '../doc-examples/TrendGatingExample';
 
 <Meta title="Data Visualisation/SPC/Documentation" />
 
@@ -59,6 +59,19 @@ import '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/
 Notes:
 - The SPC barrel also exports engine helpers (buildSpc, enums), icons, and descriptor utilities.
 - SPCChart supports SSR; use your usual SSR setup and include CSS either globally or per‑component.
+
+### Props types and enums
+
+Types and enums for SPCChart props (for example `TrendVisualMode`, `SequenceTransition`, `SPCChartProps`, `SPCDatum`) are defined alongside the component in `SPCChart.props.ts` and are not re‑exported from the component file. Import them directly from the props module:
+
+```ts
+import {
+  TrendVisualMode,
+  SequenceTransition,
+  type SPCChartProps,
+  type SPCDatum,
+} from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.props';
+```
 
 ## SQL parity and diagnostics
 
@@ -264,7 +277,7 @@ The component will surface conventional limits once `minimumPoints` is met; you 
 
 ### Embedded examples: early run vs maturing SPC
 
-import RunVsSPCTransitionExample from './logic_v2/doc-examples/RunVsSPCTransitionExample';
+import RunVsSPCTransitionExample from '../doc-examples/RunVsSPCTransitionExample';
 
 <RunVsSPCTransitionExample />
 
@@ -605,7 +618,7 @@ If you need legacy behaviour (letters always side‑of‑signal) you can wrap `S
 When `gradientSequences` is enabled you can tune how coloured (improvement / concern / neutral special‑cause) background runs visually connect using `sequenceTransition`:
 
 ```ts
-import { SequenceTransition } from './SPCChart';
+import { SequenceTransition } from '../../SPCChart.props';
 
 <SPCChart
   data={series}

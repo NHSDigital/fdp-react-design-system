@@ -1,5 +1,5 @@
 import { BuildArgsV2, ImprovementDirection, SpcResultV2, SpcRowV2 } from "./types";
-import { SpcVisualCategory } from "./postprocess/visualCategories";
+import { SpcVisualCategory, TrendVisualMode } from "./postprocess/visualCategories";
 import { BoundaryWindowsOptions } from "./postprocess/boundaryWindows";
 export declare function buildSpcV26a(args: BuildArgsV2): SpcResultV2;
 declare const _default: {
@@ -7,7 +7,7 @@ declare const _default: {
 };
 export default _default;
 export declare function buildSpcV26aWithVisuals(args: BuildArgsV2, visuals?: {
-    trendVisualMode?: "Ungated" | "Gated";
+    trendVisualMode?: TrendVisualMode;
     enableNeutralNoJudgement?: boolean;
     boundaryWindows?: (BoundaryWindowsOptions & {
         directionOverride?: ImprovementDirection;
@@ -16,4 +16,3 @@ export declare function buildSpcV26aWithVisuals(args: BuildArgsV2, visuals?: {
     rows: SpcRowV2[];
     visuals: SpcVisualCategory[];
 };
-export { SpcVisualCategory };

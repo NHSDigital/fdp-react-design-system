@@ -44,6 +44,8 @@ Implementation reference: `src/components/DataVisualisation/charts/SPC/SPCChart/
   - `enableNeutralNoJudgement`: `boolean` (default `true`)
 Output: `{ rows: SpcRowV2[]; visuals: SpcVisualCategory[] }`
 
+Note: When using `TrendVisualMode` as a component prop (e.g. `SPCChart`), import it from the props module `SPCChart.props.ts` rather than from the engine layer.
+
 Behaviour summary:
 
 1. Computes visuals via `buildSpcV26aWithVisuals` (engine rows + `computeSpcVisualCategories`).

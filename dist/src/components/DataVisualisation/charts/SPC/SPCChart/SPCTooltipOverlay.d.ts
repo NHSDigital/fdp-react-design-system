@@ -1,6 +1,7 @@
 import * as React from "react";
+import type { EngineRowUI } from "./SPCChart.types";
 interface SPCTooltipOverlayProps {
-    engineRows: any[] | null;
+    engineRows: EngineRowUI[] | null;
     limits: {
         mean?: number | null;
         sigma: number;

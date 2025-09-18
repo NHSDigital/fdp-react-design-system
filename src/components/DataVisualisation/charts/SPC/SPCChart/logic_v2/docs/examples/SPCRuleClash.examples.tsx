@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useMemo } from "react";
-import { ChartContainer } from "../../../../ChartContainer";
-import { SPCChart } from "../../SPCChart";
-import { withParityV26 } from "../presets";
-import { ImprovementDirection as V2ImprovementDirection } from "../types";
+import { ChartContainer } from "../../../../../ChartContainer";
+import { SPCChart } from "../../../SPCChart";
+import { withParityV26 } from "../../presets";
+import { ImprovementDirection as V2ImprovementDirection } from "../../types";
 import {
 	ImprovementDirection as V1ImprovementDirection,
 	ChartType as V1ChartType,
@@ -15,7 +15,7 @@ import {
 	staffSicknessChart4,
 	staffSicknessChart5,
 	toDateSeries,
-} from "./data/staffSicknessRuleClash";
+} from "../data/staffSicknessRuleClash";
 
 function toV1Dir(value: V2ImprovementDirection): V1ImprovementDirection {
 	switch (value) {

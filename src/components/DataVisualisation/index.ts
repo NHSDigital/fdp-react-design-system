@@ -93,9 +93,8 @@ export { default as DataVizWizard, type DataVizWizardProps } from "./wizard/Data
 export { default as useSpc } from "./hooks/useSpc";
 export {
 	default as SPCChart,
-	type SPCChartProps,
-	type SPCDatum,
 } from "./charts/SPC/SPCChart/SPCChart.tsx";
+export type { SPCChartProps, SPCDatum } from "./charts/SPC/SPCChart/SPCChart.props";
 // SPC barrel (charts/SPC) aggregates SPCChart, engine, icons, descriptors for ergonomic imports
 export * as SPC from "./charts/SPC";
 

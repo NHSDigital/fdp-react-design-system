@@ -1,6 +1,6 @@
 {
   "version": "0.0.34-alpha.9",
-  "generatedAt": "2025-09-17T20:51:50.083Z",
+  "generatedAt": "2025-09-18T12:51:39.312Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -664,6 +664,39 @@
       ],
       "source": "src/components/Heading/Heading.schema.ts"
     },
+    "Fieldset": {
+      "name": "Fieldset",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Wraps related form controls with an accessible legend.",
+        "Legend can optionally render as an h1 for page-level grouping when isPageHeading is true."
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Fieldset content (form controls and supporting markup)"
+        },
+        {
+          "name": "legend",
+          "type": "{ text?: string; html?: string; className?: string; size?: \"xl\"|\"l\"|\"m\"|\"s\"; isPageHeading?: boolean }",
+          "description": "Legend configuration (text or HTML plus optional size & page heading role)"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes for the fieldset"
+        },
+        {
+          "name": "describedBy",
+          "type": "string",
+          "description": "Space-separated list of element IDs that describe the fieldset"
+        }
+      ],
+      "source": "src/components/Fieldset/Fieldset.schema.ts"
+    },
     "ErrorSummary": {
       "name": "ErrorSummary",
       "category": "form",
@@ -712,39 +745,6 @@
         }
       ],
       "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
-    },
-    "Fieldset": {
-      "name": "Fieldset",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Wraps related form controls with an accessible legend.",
-        "Legend can optionally render as an h1 for page-level grouping when isPageHeading is true."
-      ],
-      "props": [
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Fieldset content (form controls and supporting markup)"
-        },
-        {
-          "name": "legend",
-          "type": "{ text?: string; html?: string; className?: string; size?: \"xl\"|\"l\"|\"m\"|\"s\"; isPageHeading?: boolean }",
-          "description": "Legend configuration (text or HTML plus optional size & page heading role)"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes for the fieldset"
-        },
-        {
-          "name": "describedBy",
-          "type": "string",
-          "description": "Space-separated list of element IDs that describe the fieldset"
-        }
-      ],
-      "source": "src/components/Fieldset/Fieldset.schema.ts"
     },
     "ErrorMessage": {
       "name": "ErrorMessage",
@@ -1120,8 +1120,8 @@
       "Radios",
       "Label",
       "Input",
-      "ErrorSummary",
       "Fieldset",
+      "ErrorSummary",
       "ErrorMessage",
       "DateInput",
       "Button"

@@ -5,7 +5,10 @@ export declare enum SpcVisualCategory {
     Concern = "Concern",
     NoJudgement = "NoJudgement"
 }
-export type TrendVisualMode = "Ungated" | "Gated";
+export declare enum TrendVisualMode {
+    Ungated = "Ungated",
+    Gated = "Gated"
+}
 export interface VisualCategoryOptions {
     metricImprovement: ImprovementDirection;
     trendVisualMode?: TrendVisualMode;

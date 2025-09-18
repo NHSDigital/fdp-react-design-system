@@ -77,6 +77,10 @@ const baseVisuals: SpcVisualCategory[] = computeSpcVisualCategories(rows, {
   enableNeutralNoJudgement: true,
 });
 
+// Note: For `SPCChart` component props, import `TrendVisualMode` from
+// `SPCChart.props.ts` (props module). The engine also defines its own
+// `TrendVisualMode` for post-processing; keep imports consistent with usage.
+
 // Optional teaching overlay (only for display)
 const overlay: Array<VariationIcon | null> = computeRetroShiftOverlay(
   rows,

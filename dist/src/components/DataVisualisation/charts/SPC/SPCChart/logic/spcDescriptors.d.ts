@@ -19,8 +19,20 @@ export interface SpcRuleGlossaryEntry {
     narration: string;
 }
 export declare const ruleGlossary: Record<SpcRuleId, SpcRuleGlossaryEntry>;
+type RuleFlagCarrier = {
+    specialCauseSinglePointUp?: boolean;
+    specialCauseSinglePointDown?: boolean;
+    specialCauseTwoOfThreeUp?: boolean;
+    specialCauseTwoOfThreeDown?: boolean;
+    specialCauseFourOfFiveUp?: boolean;
+    specialCauseFourOfFiveDown?: boolean;
+    specialCauseShiftUp?: boolean;
+    specialCauseShiftDown?: boolean;
+    specialCauseTrendUp?: boolean;
+    specialCauseTrendDown?: boolean;
+};
 /** Extract the triggered rule identifiers for a given SPC row */
-export declare function extractRuleIds(row: SpcRow | undefined | null): SpcRuleId[];
+export declare function extractRuleIds(row: SpcRow | RuleFlagCarrier | undefined | null): SpcRuleId[];
 /** Standardised human readable label for variation classification */
 export declare function variationLabel(icon: VariationIcon | undefined): string | null;
 /** Human readable assurance (target) classification */
@@ -33,3 +45,4 @@ export declare const VARIATION_COLOR_TOKENS: Record<VariationIcon, {
 }>;
 export declare function getVariationColorToken(icon: VariationIcon | undefined): string;
 export declare function getVariationColorHex(icon: VariationIcon | undefined): string;
+export {};

@@ -103,9 +103,8 @@
 
 .fdp-spc-chart__warnings-heading {
   font-size: 12px;
+  margin-bottom: 0px;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
-  margin: 0 0 6px;
   font-weight: 600;
 }
 

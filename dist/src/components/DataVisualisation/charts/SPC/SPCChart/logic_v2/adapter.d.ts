@@ -1,4 +1,4 @@
-import { SpcVisualCategory } from "./engine";
+import { SpcVisualCategory } from "./postprocess/visualCategories";
 import { BuildArgsV2, SpcResultV2 } from "./types";
 export interface BuildWithVisualsResult extends SpcResultV2 {
     visuals: SpcVisualCategory[];

@@ -8,7 +8,10 @@ export enum SpcVisualCategory {
 	NoJudgement = "NoJudgement",
 }
 
-export type TrendVisualMode = "Ungated" | "Gated";
+export enum TrendVisualMode {
+  Ungated = "Ungated",
+  Gated = "Gated",
+}
 
 export interface VisualCategoryOptions {
 	metricImprovement: ImprovementDirection;
@@ -49,7 +52,7 @@ export function computeSpcVisualCategories(
 	opts: VisualCategoryOptions
 ): SpcVisualCategory[] {
 	const metricImprovement = opts.metricImprovement;
-	const trendVisualMode: TrendVisualMode = opts.trendVisualMode ?? "Ungated";
+	const trendVisualMode: TrendVisualMode = opts.trendVisualMode ?? TrendVisualMode.Ungated;
 	const enableNeutral = opts.enableNeutralNoJudgement ?? true;
 
 	return rows.map((row) => {
@@ -71,7 +74,7 @@ export function computeSpcVisualCategories(
 			case VariationIcon.NeitherLow: {
 				// Neither metric: treat as neutral special-cause; allow ungated directional colour
 				if (
-					trendVisualMode === "Ungated" &&
+					trendVisualMode === TrendVisualMode.Ungated &&
 					metricImprovement !== ImprovementDirection.Neither
 				) {
 					if (upAny && !downAny) {

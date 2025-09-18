@@ -1,5 +1,5 @@
 import { buildSpcV26aWithVisuals } from "./engine";
-import { SpcVisualCategory } from "./postprocess/visualCategories";
+import { SpcVisualCategory, TrendVisualMode } from "./postprocess/visualCategories";
 import {
 	BuildArgsV2,
 	ImprovementDirection,
@@ -23,11 +23,11 @@ export function buildVisualsForScenario(
 	args: BuildArgsV2,
 	scenario: VisualsScenario,
 	opts?: {
-		trendVisualMode?: "Ungated" | "Gated";
+		trendVisualMode?: TrendVisualMode;
 		enableNeutralNoJudgement?: boolean;
 	}
 ): { rows: SpcRowV2[]; visuals: SpcVisualCategory[] } {
-	const tvm = opts?.trendVisualMode ?? "Ungated";
+	const tvm = opts?.trendVisualMode ?? TrendVisualMode.Ungated;
 	const enn = opts?.enableNeutralNoJudgement ?? true;
 
 	// Compute boundary indices from provided baselines first (deterministic in dataset tests)

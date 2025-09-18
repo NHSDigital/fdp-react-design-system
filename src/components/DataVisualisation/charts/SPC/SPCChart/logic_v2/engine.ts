@@ -12,11 +12,12 @@ import {
 import { computePartitionLimits } from "./limits";
 import { detectRulesInPartition } from "./detector";
 import { applySqlPruning, deriveOriginalCandidates } from "./conflict";
-import { computeTrendSegments, chooseSegmentsForHighlight } from "./postprocess/trendSegments";
-import { computeSpcVisualCategories, SpcVisualCategory } from "./postprocess/visualCategories";
+import { computeTrendSegments, chooseSegmentsForHighlight, TrendDirection } from "./postprocess/trendSegments";
+import { computeSpcVisualCategories, SpcVisualCategory, TrendVisualMode } from "./postprocess/visualCategories";
 import { computeBoundaryWindowCategories, BoundaryWindowsOptions } from "./postprocess/boundaryWindows";
 import { isNumber } from "./utils";
 import { normaliseSpcSettingsV2 } from "./normaliser";
+//
 
 // Build an SPC result aligned to SQL v2.6a, focusing on XmR.
 // Mirrors SQL steps but emits per-row icons; dataset parity compares the last non-ghosted row.
@@ -206,7 +207,7 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 			const allowDown = new Set<number>();
 			for (const seg of highlights) {
 				for (let k = seg.start; k <= seg.end; k++) {
-					if (seg.trendDirection === "Up") allowUp.add(k);
+					if (seg.trendDirection === TrendDirection.Up) allowUp.add(k);
 					else allowDown.add(k);
 				}
 			}
@@ -314,7 +315,7 @@ export function buildSpcV26a(args: BuildArgsV2): SpcResultV2 {
 			const allowDown = new Set<number>();
 			for (const seg of highlights) {
 				for (let k = seg.start; k <= seg.end; k++) {
-					if (seg.trendDirection === "Up") allowUp.add(k); else allowDown.add(k);
+					if (seg.trendDirection === TrendDirection.Up) allowUp.add(k); else allowDown.add(k);
 				}
 			}
 			out.forEach((row, idx) => {
@@ -355,7 +356,7 @@ export default { buildSpcV26a };
 export function buildSpcV26aWithVisuals(
 	args: BuildArgsV2,
 	visuals?: {
-		trendVisualMode?: "Ungated" | "Gated";
+		trendVisualMode?: TrendVisualMode;
 		enableNeutralNoJudgement?: boolean;
 		boundaryWindows?: (BoundaryWindowsOptions & { directionOverride?: ImprovementDirection });
 	}
@@ -363,7 +364,7 @@ export function buildSpcV26aWithVisuals(
 	const res = buildSpcV26a(args);
 	const base = computeSpcVisualCategories(res.rows, {
 		metricImprovement: args.metricImprovement,
-		trendVisualMode: visuals?.trendVisualMode ?? "Ungated",
+		trendVisualMode: visuals?.trendVisualMode ?? TrendVisualMode.Ungated,
 		enableNeutralNoJudgement: visuals?.enableNeutralNoJudgement ?? true,
 	});
 

@@ -2,6 +2,7 @@ import { ImprovementDirection, SpcRowV2 } from "../types";
 import {
 	SpcVisualCategory,
 	computeSpcVisualCategories,
+	TrendVisualMode,
 } from "./visualCategories";
 
 export type BoundaryWindowsMode = "Disabled" | "RecalcCrossing";
@@ -47,7 +48,7 @@ export function computeBoundaryWindowCategories(
 	// Start from base visual categories
 	let out = computeSpcVisualCategories(rows, {
 		metricImprovement,
-		trendVisualMode: "Ungated",
+		trendVisualMode: TrendVisualMode.Ungated,
 		enableNeutralNoJudgement: true,
 	});
 

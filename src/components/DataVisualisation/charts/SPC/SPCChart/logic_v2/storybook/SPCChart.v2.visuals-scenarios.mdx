@@ -1,6 +1,6 @@
-import { Meta } from '@storybook/addon-docs/blocks';
-
-<Meta title="Data Visualisation/SPC/Guides/Visuals scenarios" />
+export default {
+  title: 'Data Visualisation/SPC/Guides/Visuals scenarios',
+};
 
 # SPC v2 visuals scenarios
 
@@ -39,12 +39,10 @@ Implementation reference: `src/components/DataVisualisation/charts/SPC/SPCChart/
 
 ### `buildVisualsForScenario(args, scenario, opts)`
 
-Contract:
-
 - Input: `args` is the same as `buildSpcV26a` (`BuildArgsV2`), `scenario` is `VisualsScenario`, and `opts` controls visuals:
-  - `trendVisualMode`: `'Ungated' | 'Gated'` (default `'Ungated'`)
+  - `trendVisualMode`: `TrendVisualMode` (default `TrendVisualMode.Ungated`)
   - `enableNeutralNoJudgement`: `boolean` (default `true`)
-- Output: `{ rows: SpcRowV2[]; visuals: SpcVisualCategory[] }`
+Output: `{ rows: SpcRowV2[]; visuals: SpcVisualCategory[] }`
 
 Behaviour summary:
 
@@ -73,7 +71,7 @@ const { rows, visuals } = buildVisualsForScenario(
   },
   VisualsScenario.RecalcCrossingTrend,
   {
-    trendVisualMode: 'Ungated',
+    trendVisualMode: TrendVisualMode.Ungated,
     enableNeutralNoJudgement: true,
   }
 );

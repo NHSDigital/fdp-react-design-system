@@ -38,6 +38,7 @@ import { extractRuleIds, ruleGlossary, variationLabel } from "./descriptors";
 import { SpcVisualCategory } from "./logic_v2";
 import type { ChartType as V2ChartType, ImprovementDirection as V2ImprovementDirection, BuildArgsV2 as V2BuildArgs } from "./logic_v2/types";
 import { buildVisualsForScenario, VisualsScenario as V2VisualsScenario } from "./logic_v2/presets";
+import { TrendVisualMode as V2TrendVisualMode } from "./logic_v2";
 import { buildWithVisuals as buildWithVisualsV2 } from "./logic_v2/adapter";
 export { VisualsScenario } from "./logic_v2/presets";
 
@@ -304,7 +305,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			};
 			const scenario = visualsScenario as unknown as V2VisualsScenario;
 			const { visuals } = buildVisualsForScenario(v2Args as any, scenario, {
-				trendVisualMode: trendVisualMode === TrendVisualMode.Ungated ? "Ungated" : "Gated",
+				trendVisualMode: trendVisualMode === TrendVisualMode.Ungated ? V2TrendVisualMode.Ungated : V2TrendVisualMode.Gated,
 				enableNeutralNoJudgement,
 			});
 			return visuals || [];

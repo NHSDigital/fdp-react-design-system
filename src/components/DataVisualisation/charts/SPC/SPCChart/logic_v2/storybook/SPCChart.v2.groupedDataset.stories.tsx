@@ -19,7 +19,7 @@ import {
 	TrendSegmentationMode,
 	TrendSegmentationStrategy,
 } from "../types.ts";
-import { computeTrendSegments, chooseSegmentsForHighlight } from "../postprocess/trendSegments";
+import { computeTrendSegments, chooseSegmentsForHighlight, TrendDirection } from "../postprocess/trendSegments";
 import { withParityV26, withConflictPresetAutoV26, VisualsScenario, buildVisualsForScenario } from "../presets";
 import { SPCChart } from "../../SPCChart";
 import { iconToHex } from "./data/variationIconColours";
@@ -372,7 +372,7 @@ export const GroupedDatasetV2: Story = {
 				const allowDown = new Set<number>();
 				for (const seg of highlights) {
 					for (let k = seg.start; k <= seg.end; k++) {
-						if (seg.trendDirection === "Up") allowUp.add(k);
+						if (seg.trendDirection === TrendDirection.Up) allowUp.add(k);
 						else allowDown.add(k);
 					}
 				}

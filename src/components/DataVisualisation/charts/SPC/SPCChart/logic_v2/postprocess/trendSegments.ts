@@ -4,7 +4,7 @@ import {
 	TrendSegmentationStrategy,
 } from "../types";
 
-export type TrendDirection = "Up" | "Down";
+export enum TrendDirection { Up = "Up", Down = "Down" }
 export type MeanSide = "Above" | "Below";
 
 export interface TrendSegment {
@@ -57,9 +57,9 @@ export function computeTrendSegments(
 			continue;
 		}
 		const dir: TrendDirection = r.trendUp
-			? "Up"
+			? TrendDirection.Up
 			: r.trendDown
-				? "Down"
+				? TrendDirection.Down
 				: (undefined as any);
 		// start of run
 		let start = i;

@@ -1,3 +1,8 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import TrendSegmentationHighIsGoodExample from './examples/TrendSegmentation.HighIsGoodExample';
+
+<Meta title="Data Visualisation/SPC/Guides/Trend segmentation and special-cause conflicts"/>
+
 # Trend segmentation and special-cause conflicts (logic_v2)
 
 This page explains how the v2 SPC engine detects monotonic trends, how mean crossings are handled via segmentation, and the strategies you can use to decide which segment(s) contribute to classification. It also clarifies what “highlighting” means in the engine and when to use the new Unfavourable strategies.
@@ -24,7 +29,7 @@ Gating note: when `preferImprovementWhenConflict` is enabled, the engine disable
 
 All strategies operate per run. For Up metrics, the favourable side is Above; for Down metrics, favourable is Below. Unfavourable is the opposite side.
 
-Favourable-side strategies
+### Favourable-side strategies
 
 - FavourableSide: Keep all favourable-side segments. Useful when the entire favourable portion should contribute.
 - CrossingAfterFavourable: If the run crosses the mean, keep the first favourable segment after the crossing; otherwise fall back to the longest favourable segment.
@@ -33,7 +38,7 @@ Favourable-side strategies
 - LongestFavourable: Keep the favourable segment with the largest span (ties broken by earliest).
 - LastFavourable: Keep the last favourable segment chronologically.
 
-Unfavourable-side strategies
+### Unfavourable-side strategies
 
 - UnfavourableSide: Keep all unfavourable-side segments.
 - CrossingAfterUnfavourable: If the run crosses the mean, keep the first unfavourable segment after the crossing; otherwise fall back to the longest unfavourable segment.
@@ -42,7 +47,7 @@ Unfavourable-side strategies
 - LongestUnfavourable: Keep the longest unfavourable segment.
 - LastUnfavourable: Keep the last unfavourable segment.
 
-Neither metrics
+### Neither metrics
 
 - For `ImprovementDirection.Neither`, there is no inherent favourable side. The engine falls back to extreme-segment logic when appropriate (largest absolute distance from mean) or otherwise selects nothing for the side-specific strategies.
 
@@ -81,6 +86,11 @@ const { rows } = buildSpcV26a({
 });
 // Expect ConcernLow for 5..7 and trend flags cleared on 0..4.
 ```
+
+<div style={{ marginTop: 12, marginBottom: 8 }}>
+  <strong>Embedded example (High is good):</strong>
+</div>
+<TrendSegmentationHighIsGoodExample />
 
 Status (2025‑09‑16)
 

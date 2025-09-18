@@ -19,11 +19,15 @@ These are synthetic sequences analogous to the legacy reference imagery. Each ex
 
 <RuleClashChart1Trend />
 
+_Polarity: lower is better (Down)._ 
+
 **Commentary**: Gradual monotonic increase with a brief dip that breaks a potential shift. The trend rule (default N = 6) should trigger; shift resets at the dip. With chart‑level eligibility, once the trend confirms, the full run is backfilled. No single‑point outlier is expected in this sequence.
 
 ## Rule Clash Chart 2 — Shift (run one side of mean, default N = 6)
 
 <RuleClashChart2Shift />
+
+_Polarity: lower is better (Down)._ 
 
 **Commentary**: A sustained run below the mean meets the shift threshold. With lower‑is‑better (Down), this is an Improvement. Isolated outliers are not expected here; if any near‑limit clusters occur, the confirmed shift dominates in precedence.
 
@@ -31,11 +35,15 @@ These are synthetic sequences analogous to the legacy reference imagery. Each ex
 
 <RuleClashChart3TwoOfThree />
 
+_Polarity: lower is better (Down)._ 
+
 **Commentary**: After a stable baseline, a low‑side cluster meets two‑of‑three (≥ 2σ, counting ≥ 3σ in parity). The sequence then settles into a lower band that can reach a confirmed shift below the mean. Precedence: once the shift confirms, it dominates; earlier two‑of‑three windows may remain backfilled but lose in conflict pruning.
 
 ## Rule Clash Chart 4 — Single point beyond 3σ
 
 <RuleClashChart4SinglePoint />
+
+_Polarity: lower is better (Down)._ 
 
 **Commentary**: A single high outlier appears amid an otherwise stable baseline. Only that point should be coloured; no sustained rules are expected. Subsequent points return to Common Cause.
 
@@ -43,7 +51,9 @@ These are synthetic sequences analogous to the legacy reference imagery. Each ex
 
 <RuleClashChart5MultipleRules />
 
-**Commentary**: The series shows (1) an early high outlier, (2) an improvement shift (plateau above the mean), and (3) a later downward trend (unfavourable for higher‑is‑better metrics). v2 conflict pruning ensures the most recent sustained rule (the downward trend) governs the end‑state classification.
+_Polarity: lower is better (Down)._ 
+
+**Commentary**: This example shows three phases: (1) a single high outlier, (2) a sustained elevation above the mean that reaches a Concern shift (because lower is better in this series), and (3) a later strictly downward trend which is favourable here. With v2 conflict pruning, the most recent sustained rule (the downward trend) governs the end‑state classification on overlapping rows; earlier shift backfill and the outlier mark are cleared where they conflict, while the isolated outlier remains only on its own point if it lies outside the trend window.
 
 ## Precedence & Messaging
 

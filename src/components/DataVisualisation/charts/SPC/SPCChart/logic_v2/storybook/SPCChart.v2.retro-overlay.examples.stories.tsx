@@ -136,14 +136,9 @@ export const ShiftBackfillExample: Story = {
 				{showChart && (
 					<div>
 						<SPCChart
-							data={series}
-							chartType={V1ChartType.XmR}
-							metricImprovement={toV1Dir(direction)}
-							enableRules
-							showPoints
-							gradientSequences
-							settings={{ minimumPoints } as any}
-							alwaysShowZeroY={false}
+							input={{ data: series }}
+							engine={{ chartType: V1ChartType.XmR, metricImprovement: toV1Dir(direction), settings: { minimumPoints } as any }}
+							ui={{ axes: { alwaysShowZeroY: false }, visuals: { showPoints: true, gradientSequences: true, rules: { enableRules: true } } }}
 						/>
 					</div>
 				)}

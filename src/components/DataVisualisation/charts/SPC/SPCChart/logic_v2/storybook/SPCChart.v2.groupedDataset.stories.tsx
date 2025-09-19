@@ -755,16 +755,11 @@ export const GroupedDatasetV2: Story = {
 					}
 				>
 					<SPCChart
-						data={data.map((d) => ({ x: d.x, y: d.value }))}
-						chartType={V1ChartType.XmR}
-						metricImprovement={toV1Dir(direction)}
-						enableRules
-						showPoints
-						gradientSequences
-						baselines={baselines}
-						announceFocus={false}
-						settings={settings}
-						visualsScenario={visualsScenario as any}
+						input={{ data: data.map((d) => ({ x: d.x, y: d.value })), baselines }}
+						engine={{ chartType: V1ChartType.XmR, metricImprovement: toV1Dir(direction), settings }}
+						a11y={{ announceFocus: false }}
+						visualsEngine={{ scenario: visualsScenario as any }}
+						ui={{ visuals: { showPoints: true, gradientSequences: true, rules: { enableRules: true } } }}
 					/>
 				</ChartContainer>
 				<div style={{ display: "grid", gap: 6 }}>

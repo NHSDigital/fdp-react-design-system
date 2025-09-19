@@ -31,16 +31,6 @@ const meta: Meta<typeof SPCChart> = {
 		},
 		controls: { expanded: true },
 	},
-	argTypes: {
-		chartType: {
-			control: { type: "select" },
-			options: Object.values(ChartType),
-		},
-		metricImprovement: {
-			control: { type: "radio" },
-			options: Object.values(ImprovementDirection),
-		},
-	},
 };
 
 export default meta;
@@ -50,17 +40,14 @@ type Story = StoryObj<typeof SPCChart>;
 export const SignalsInspector: Story = {
 	name: "Signals inspector (interactive)",
 	args: {
-		data: buildDemoData(),
-		chartType: ChartType.XmR,
-		metricImprovement: ImprovementDirection.Up,
-		gradientSequences: true,
-		showZones: true,
-		showPoints: true,
-		showWarningsPanel: false,
-		showSignalsInspector: true,
-		enableRules: true,
-		alwaysShowZeroY: false,
-		percentScale: false,
+		input: { data: buildDemoData() },
+		engine: { chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up },
+		ui: {
+			axes: { alwaysShowZeroY: false, percentScale: false },
+			visuals: { gradientSequences: true, showZones: true, showPoints: true, rules: { enableRules: true } },
+			warnings: { show: false },
+			inspector: { show: true },
+		},
 	},
 	render: (args) => {
 		return (

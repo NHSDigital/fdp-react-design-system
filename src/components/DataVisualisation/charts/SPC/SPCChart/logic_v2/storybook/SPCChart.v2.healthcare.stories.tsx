@@ -178,15 +178,10 @@ export const HealthcarePlaygroundV2: Story = {
 					tabularData={table}
 				>
 					<SPCChart
-						data={series}
-						chartType={V1ChartType.XmR}
-						metricImprovement={v1Improvement}
-						enableRules
-						showPoints
-						gradientSequences
-						announceFocus={false}
-						unit={def.unit}
-						settings={settings as any}
+						input={{ data: series }}
+						engine={{ chartType: V1ChartType.XmR, metricImprovement: v1Improvement, settings: settings as any }}
+						a11y={{ announceFocus: false, unit: def.unit }}
+						ui={{ visuals: { showPoints: true, gradientSequences: true, rules: { enableRules: true } } }}
 					/>
 				</ChartContainer>
 				<div style={{ display: "grid", gap: 4, fontSize: 12, color: "#666" }}>

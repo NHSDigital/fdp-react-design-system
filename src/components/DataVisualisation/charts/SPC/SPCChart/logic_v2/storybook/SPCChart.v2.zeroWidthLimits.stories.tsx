@@ -103,14 +103,20 @@ export const ZeroWidthLimits: Story = {
 				tabularData={table}
 			>
 				<SPCChart
-					data={series}
-					chartType={V1ChartType.XmR}
-					metricImprovement={toV1Dir(ImprovementDirection.Neither)}
-					enableRules
-					showPoints
-					showPartitionMarkers
-					gradientSequences
-					settings={{ minimumPoints: 6 } as any}
+					input={{ data: series }}
+					engine={{
+						chartType: V1ChartType.XmR,
+						metricImprovement: toV1Dir(ImprovementDirection.Neither),
+						settings: { minimumPoints: 6 } as any,
+					}}
+					ui={{
+						visuals: {
+							showPoints: true,
+							gradientSequences: true,
+							rules: { enableRules: true },
+						},
+						overlays: { partitionMarkers: true },
+					}}
 				/>
 			</ChartContainer>
 		);

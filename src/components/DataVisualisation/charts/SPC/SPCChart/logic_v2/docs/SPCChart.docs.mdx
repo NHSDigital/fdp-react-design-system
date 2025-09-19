@@ -26,7 +26,6 @@ Recommended import (SPC barrel):
 ```ts
 import {
   SPCChart,
-  buildSpc,
   ImprovementDirection,
   SPCVariationIcon,
   SPCAssuranceIcon,
@@ -57,7 +56,7 @@ import '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/
 ```
 
 Notes:
-- The SPC barrel also exports engine helpers (buildSpc, enums), icons, and descriptor utilities.
+- The SPC barrel exports icons and descriptor utilities intended for UI use. Engine internals for v2 live under logic_v2 and are not part of the public barrel surface.
 - SPCChart supports SSR; use your usual SSR setup and include CSS either globally or per‑component.
 
 ### Props types and enums
@@ -77,7 +76,7 @@ import {
 
 The SPCChart now renders using the v2 engine visuals by default. Story-level SQL‑compat toggles have been removed. For strict parity with historic SQL reports (v2.6a conflict precedence and directional pruning), use the engine‑level SQL compatibility wrapper outside the chart to compare outputs; SPCChart itself always reflects the native v2 engine visuals. See Data Visualisation → SPC → Guides → SPC SQL Compatibility.
 
-Advanced: The v2 engine accepts a semantic hierarchical settings shape (`SpcSettingsHierarchical`) as well as the classic flat v2.6a settings. If you call the v2 engine directly, you can import `normaliseSpcSettingsV2` to pre‑normalise. The `SPCChart` prop surface remains unchanged (`SpcSettings`).
+Advanced: The v2 engine accepts a semantic hierarchical settings shape (`SpcSettingsHierarchical`) as well as the classic flat v2.6a settings. If you call the v2 engine directly, prefer the helpers in `logic_v2` (not exported from the public barrel). The `SPCChart` prop surface remains unchanged (`SpcSettings`).
 
 ## Grouped props (preferred) and migration
 
@@ -173,8 +172,7 @@ For strong typing prefer importing and using the enum instead of raw strings:
 ```ts
 import { ImprovementDirection } from './types';
 
-// Enum definition (source of truth in logic/spc.ts):
-// export enum ImprovementDirection { Up = 'Up', Down = 'Down', Neither = 'Neither' }
+// Enum is defined in ./types.ts (public UI surface)
 
 <SPCChart
   data={series}
@@ -972,6 +970,8 @@ The SPCChart component always applies full SPC logic (appropriate sigma estimati
 
 ### Automatic recalculation (`autoRecalculateAfterShift`)
 
+Status: planned (not implemented in current v2 engine). The diagram below describes the intended design. Today, the engine does not insert baselines automatically; use explicit baselines in your data/props to create new partitions.
+
 <Mermaid>{`flowchart TD
   A[New point arrives] --> B{Rules enabled?}
   B -- No --> Z[Render with existing partition]
@@ -988,12 +988,14 @@ The SPCChart component always applies full SPC logic (appropriate sigma estimati
   J --> Z[Render updated chart]
 `}</Mermaid>
 
-Key checks:
+Key checks (intended):
 - Uses `autoRecalculateShiftLength` (fallback `specialCauseShiftPoints`) for sustained run length.
 - Requires favourable direction shift (based on `metricImprovement`).
 - Sigma proxy derived from average moving range (Individuals path) to scale mean delta.
 
 ### Baseline suggestion heuristic (`baselineSuggest`)
+
+Status: planned (not implemented in current v2 engine). Until available, consider surfacing warnings and manually adding baselines when a sustained shift is confirmed.
 
 <Mermaid>{`flowchart TD
   A[Post-render diagnostic pass] --> B{baselineSuggest enabled?}

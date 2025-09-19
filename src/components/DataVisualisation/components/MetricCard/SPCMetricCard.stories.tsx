@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCMetricCard } from "../../index";
-import { SPCChart, ImprovementDirection } from "../../charts/SPC/SPCChart/SPCChart";
-import { ChartType } from "../../charts/SPC/SPCChart/types";
+import { SPCChart } from "../../charts/SPC/SPCChart/SPCChart";
+import { ChartType, ImprovementDirection } from "../../charts/SPC/SPCChart/types";
 
 const meta: Meta<typeof SPCMetricCard> = {
 	title: "Data Visualisation/SPC/SPC MetricCard",
@@ -73,7 +73,11 @@ export const ED4h: Story = {
 			return (
 				<div style={{ display: "grid", gap: 16 }}>
 					<SPCMetricCard {...args} />
-					<SPCChart data={data} chartType={ChartType.XmR} metricImprovement={args.direction} gradientSequences />
+					<SPCChart
+						input={{ data }}
+						engine={{ chartType: ChartType.XmR, metricImprovement: args.direction }}
+						ui={{ visuals: { gradientSequences: true } }}
+					/>
 				</div>
 			);
 		},
@@ -103,7 +107,11 @@ export const BedOccupancy: Story = {
 			return (
 				<div style={{ display: "grid", gap: 16 }}>
 					<SPCMetricCard {...args} />
-					<SPCChart data={data} chartType={ChartType.XmR} metricImprovement={args.direction} gradientSequences />
+					<SPCChart
+						input={{ data }}
+						engine={{ chartType: ChartType.XmR, metricImprovement: args.direction }}
+						ui={{ visuals: { gradientSequences: true } }}
+					/>
 				</div>
 			);
 		},
@@ -133,7 +141,11 @@ export const RTTBacklog: Story = {
 			return (
 				<div style={{ display: "grid", gap: 16 }}>
 					<SPCMetricCard {...args} />
-					<SPCChart data={data} chartType={ChartType.XmR} metricImprovement={args.direction} gradientSequences />
+					<SPCChart
+						input={{ data }}
+						engine={{ chartType: ChartType.XmR, metricImprovement: args.direction }}
+						ui={{ visuals: { gradientSequences: true } }}
+					/>
 				</div>
 			);
 		},
@@ -165,7 +177,11 @@ export const GreyCommonCause: Story = {
 			return (
 				<div style={{ display: "grid", gap: 16 }}>
 					<SPCMetricCard {...args} />
-					<SPCChart data={data} chartType={ChartType.XmR} metricImprovement={args.direction} gradientSequences />
+					<SPCChart
+						input={{ data }}
+						engine={{ chartType: ChartType.XmR, metricImprovement: args.direction }}
+						ui={{ visuals: { gradientSequences: true } }}
+					/>
 				</div>
 			);
 		},
@@ -201,7 +217,11 @@ export const YearOverYear: Story = {
 		return (
 			<div style={{ display: "grid", gap: 16 }}>
 				<SPCMetricCard {...args} />
-				<SPCChart data={data} chartType={ChartType.XmR} metricImprovement={args.direction} gradientSequences />
+				<SPCChart
+					input={{ data }}
+					engine={{ chartType: ChartType.XmR, metricImprovement: args.direction }}
+					ui={{ visuals: { gradientSequences: true } }}
+				/>
 			</div>
 		);
 	},
@@ -226,7 +246,11 @@ export const MillisecondsAbsolute: Story = {
 		return (
 			<div style={{ display: "grid", gap: 16 }}>
 				<SPCMetricCard {...args} />
-				<SPCChart data={data} chartType={ChartType.XmR} metricImprovement={args.direction} gradientSequences />
+				<SPCChart
+					input={{ data }}
+					engine={{ chartType: ChartType.XmR, metricImprovement: args.direction }}
+					ui={{ visuals: { gradientSequences: true } }}
+				/>
 			</div>
 		);
 	},

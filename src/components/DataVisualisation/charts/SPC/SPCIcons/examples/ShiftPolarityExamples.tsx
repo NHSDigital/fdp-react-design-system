@@ -26,15 +26,27 @@ export const ShiftPolarityExamples: React.FC = () => {
     <div style={{ display: 'grid', gap: 24 }}>
       <div style={{ maxWidth: 340 }}>
         <strong>Higher is better (polarity letter H)</strong>
-        <SPCChart data={shiftData} metricImprovement={ImprovementDirection.Up} enableRules />
+        <SPCChart
+          input={{ data: shiftData as any }}
+          engine={{ metricImprovement: ImprovementDirection.Up }}
+          ui={{ visuals: { rules: { enableRules: true } } }}
+        />
       </div>
       <div style={{ maxWidth: 340 }}>
         <strong>Lower is better (polarity letter L)</strong>
-        <SPCChart data={shiftData} metricImprovement={ImprovementDirection.Down} enableRules />
+        <SPCChart
+          input={{ data: shiftData as any }}
+          engine={{ metricImprovement: ImprovementDirection.Down }}
+          ui={{ visuals: { rules: { enableRules: true } } }}
+        />
       </div>
       <div style={{ maxWidth: 340 }}>
         <strong>Neither (letters show signal side H)</strong>
-        <SPCChart data={shiftData} metricImprovement={ImprovementDirection.Neither} enableRules />
+        <SPCChart
+          input={{ data: shiftData as any }}
+          engine={{ metricImprovement: ImprovementDirection.Neither }}
+          ui={{ visuals: { rules: { enableRules: true } } }}
+        />
       </div>
     </div>
   );

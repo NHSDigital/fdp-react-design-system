@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import SPCChart, { ImprovementDirection } from "../../SPCChart";
-import { ChartType } from "../../types";
+import SPCChart from "../../SPCChart";
+import { ChartType, ImprovementDirection } from "../../types";
 
 // Simple helper to build a monthly-like sequence with a sustained shift and a small trend
 function buildDemoData() {

@@ -66,6 +66,7 @@ import { buildWithVisuals as buildWithVisualsV2 } from "./logic_v2/adapter";
 // Centralised SPC props/types and normalisation helper
 import type { SPCDatum, SPCChartProps } from "./SPCChart.props";
 import { normalizeSpcProps, TrendVisualMode, SequenceTransition } from "./SPCChart.props";
+import { autoInsertBaselinesV2 } from "./logic_v2/utils/autoRecalc";
 import { Side } from "../engine";
 
 // Global counter to create stable, unique gradient id bases across multiple SPCChart instances
@@ -211,6 +212,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		effVisualsScenario,
 		effVisualsEngineSettings,
 		effSource,
+		effEngineAutoRecalc,
 	} = normalizeSpcProps({
 		data,
 		targets: targetsProp,
@@ -290,6 +292,24 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		}));
 	}, [effData, effTargets, effBaselines, effGhosts]);
 
+	// Optional UI pre-processor: auto-insert a baseline after a sustained favourable shift (XmR only)
+	const rowsInputMaybeAuto = React.useMemo(() => {
+		try {
+			const cfg = effEngineAutoRecalc;
+			if (!cfg?.enabled) return rowsInput;
+			// Only applies to XmR via v2 UI helper; use core values already normalised
+			return autoInsertBaselinesV2(rowsInput, {
+				chartType: effChartTypeCore as any,
+				metricImprovement: effMetricImprovementCore as any,
+				shiftLength: cfg.shiftLength,
+				deltaSigma: cfg.deltaSigma,
+				minGap: cfg.minGap,
+			});
+		} catch {
+			return rowsInput;
+		}
+	}, [rowsInput, effEngineAutoRecalc, effChartTypeCore, effMetricImprovementCore]);
+
 	// Note: v2 visuals/rows are now the canonical path for UI; legacy engine build removed.
 
 	// Effective UI options are provided by normalizeSpcProps
@@ -304,7 +324,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				v2Settings.minimumPoints = minPts;
 				// When the series has at least minimum points overall, enable chart-level eligibility
 				// so the engine backfills limits across the partition (colours available from index 0 in tests)
-				const eligibleCount = rowsInput.filter(
+				const eligibleCount = rowsInputMaybeAuto.filter(
 					(r) => !r.ghost && typeof r.value === "number"
 				).length;
 				if (eligibleCount >= minPts) v2Settings.chartLevelEligibility = true;
@@ -340,7 +360,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			const v2Args: V2BuildArgs = {
 				chartType: mapChartTypeToV2(effChartTypeCore),
 				metricImprovement: mapImprovementToV2(effMetricImprovementCore),
-				data: rowsInput,
+				data: rowsInputMaybeAuto,
 				settings: Object.keys(v2Settings).length ? v2Settings : undefined,
 			};
 			const { visuals } = buildVisualsForScenario(v2Args, visualsScenario, {
@@ -355,7 +375,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			return [];
 		}
 	}, [
-		rowsInput,
+		rowsInputMaybeAuto,
 		effChartTypeCore,
 		effMetricImprovementCore,
 		effTrendVisualMode,
@@ -372,7 +392,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			const v2Settings: Partial<V2Settings> = {};
 			if (typeof minPts === "number" && !isNaN(minPts)) {
 				v2Settings.minimumPoints = minPts;
-				const eligibleCount = rowsInput.filter(
+				const eligibleCount = rowsInputMaybeAuto.filter(
 					(r) => !r.ghost && typeof r.value === "number"
 				).length;
 				if (eligibleCount >= minPts) v2Settings.chartLevelEligibility = true;
@@ -408,7 +428,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 			const v2Args: V2BuildArgs = {
 				chartType: mapChartTypeToV2(effChartTypeCore),
 				metricImprovement: mapImprovementToV2(effMetricImprovementCore),
-				data: rowsInput,
+				data: rowsInputMaybeAuto,
 				settings: Object.keys(v2Settings).length ? v2Settings : undefined,
 			};
 			const { rows } = buildWithVisualsV2(v2Args);
@@ -461,13 +481,13 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 								: null,
 						assurance: undefined,
 					},
-					target: rowsInput[i]?.target ?? null,
+					target: rowsInputMaybeAuto[i]?.target ?? null,
 				})
 			);
 		} catch {
 			return null;
 		}
-	}, [rowsInput, effChartTypeCore, effMetricImprovementCore, effEngineSettings, visualsEngineSettings]);
+	}, [rowsInputMaybeAuto, effChartTypeCore, effMetricImprovementCore, effEngineSettings, visualsEngineSettings]);
 
 	// Representative row with populated limits (last available)
 	const rowsForUi: EngineRowUI[] | null = v2RowsForUi || null;

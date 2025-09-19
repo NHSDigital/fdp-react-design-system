@@ -1,6 +1,6 @@
 # SPCChart Roadmap (Updated)
 
-Updated snapshot (already implemented: rules engine, warnings framework, baseline suggestion & auto‑recalculation, configurable shift/trend thresholds, diagnostics panel UI, Storybook rich tables, assurance capability mode).
+Updated snapshot (already implemented: rules engine, warnings framework, auto‑recalculation (UI pre‑processor for XmR), configurable shift/trend thresholds, diagnostics panel UI, Storybook rich tables, assurance capability mode). Baseline suggestion remains planned.
 
 ---
 
@@ -11,7 +11,7 @@ Already delivered in codebase:
 * Core SPC engine for XmR and rare‑event T / G types (limits, centre line, sigma estimation).
 * Special cause rules: single 3σ point, shift, trend, two‑of‑three (optional four‑of‑five via settings).
 * Configurable rule thresholds: `specialCauseShiftPoints`, `specialCauseTrendPoints`, four‑of‑five toggle.
-* Auto recalculation & baseline suggestion heuristics (`autoRecalculateAfterShift`, `baselineSuggest*`).
+* Auto recalculation (UI pre‑processor for XmR via `engine.autoRecalc`).
 * Assurance / capability evaluation (band‑based pass/fail vs target).
 * Structured warnings system (severities, categories, codes) and filtering & diagnostics panel.
 * Variation / assurance icon surfacing (text glyph layer) & improvement vs concern highlighting.

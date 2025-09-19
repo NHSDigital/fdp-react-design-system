@@ -221,6 +221,13 @@ export interface SPCChartProps {
 		chartType?: ChartType;
 		metricImprovement?: ImprovementDirection;
 		settings?: SpcSettings;
+		/** Optional UI pre-processor: auto-insert a baseline after a sustained favourable shift (XmR only). */
+		autoRecalc?: {
+			enabled?: boolean;
+			shiftLength?: number;
+			deltaSigma?: number;
+			minGap?: number;
+		};
 	};
 	/** Optional grouped visuals engine props. Preferred over flat props when provided. */
 	visualsEngine?: {
@@ -241,6 +248,13 @@ export type NormalisedSpcProps = {
 	effChartTypeCore: ChartType;
 	effMetricImprovementCore: ImprovementDirection;
 	effEngineSettings?: SpcSettings;
+	/** Optional UI pre-processor config resolved from engine.autoRecalc */
+	effEngineAutoRecalc?: {
+		enabled?: boolean;
+		shiftLength?: number;
+		deltaSigma?: number;
+		minGap?: number;
+	};
 	// Optional grouped aliases precedence outputs (undefined means fall back to flat/defaults)
 	effHeight?: number;
 	effClassName?: string;
@@ -419,6 +433,7 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 		metricImprovement ??
 		ImprovementDirection.Neither;
 	const effEngineSettings = engine?.settings ?? settings;
+	const effEngineAutoRecalc = engine?.autoRecalc;
 	const effAlwaysShowZeroY =
 		ui?.axes?.alwaysShowZeroY ?? alwaysShowZeroY ?? true;
 	const effAlwaysShowHundredY =
@@ -494,6 +509,7 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 		effChartTypeCore,
 		effMetricImprovementCore,
 		effEngineSettings,
+		 effEngineAutoRecalc,
 		effHeight,
 		effClassName,
 		effAriaLabel,

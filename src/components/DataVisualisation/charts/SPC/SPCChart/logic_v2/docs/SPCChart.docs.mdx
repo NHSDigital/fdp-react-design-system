@@ -712,9 +712,6 @@ These map directly to the v2 settings normaliser (`normaliseSpcSettingsV2`) and 
   [ { code: 'baselineSuggestStabilityPoints', codeLanguage: 'typescript' }, { text: 'Points of stability needed after candidate change.' }, { code: 'number', codeLanguage: 'typescript' }, { code: '5', codeLanguage: 'typescript' } ],
   [ { code: 'baselineSuggestMinGap', codeLanguage: 'typescript' }, { text: 'Minimum points since previous accepted baseline.' }, { code: 'number', codeLanguage: 'typescript' }, { code: '12', codeLanguage: 'typescript' } ],
   [ { code: 'baselineSuggestScoreThreshold', codeLanguage: 'typescript' }, { text: 'Minimum heuristic score to surface suggestion.' }, { code: 'number', codeLanguage: 'typescript' }, { code: '50', codeLanguage: 'typescript' } ],
-  [ { code: 'autoRecalculateAfterShift', codeLanguage: 'typescript' }, { text: 'Insert partition automatically after confirmed sustained shift.' }, { code: 'boolean', codeLanguage: 'typescript' }, { code: 'false', codeLanguage: 'typescript' } ],
-  [ { code: 'autoRecalculateShiftLength', codeLanguage: 'typescript' }, { text: 'Override length required for auto recalculation trigger.' }, { code: 'number', codeLanguage: 'typescript' }, { code: 'inherits specialCauseShiftPoints', codeLanguage: 'typescript' } ],
-  [ { code: 'autoRecalculateDeltaSigma', codeLanguage: 'typescript' }, { text: 'Minimum sigma‑scaled mean change for auto recalculation.' }, { code: 'number', codeLanguage: 'typescript' }, { code: '0.5', codeLanguage: 'typescript' } ],
   ]}
   firstCellIsHeader
 />
@@ -725,7 +722,7 @@ These map directly to the v2 settings normaliser (`normaliseSpcSettingsV2`) and 
 - For sensitivity testing, you may enable `enableFourOfFiveRule`; expect more false positives. Keep it OFF for formal/public reporting.
 - Use `excludeMovingRangeOutliers` sparingly; only when one extreme swing materially inflates future limits.
 - Enable `baselineSuggest` in exploratory dashboards; keep it off for formal reporting to avoid shifting baselines inadvertently.
-- Use `autoRecalculateAfterShift` to segment phases automatically after sustained shifts; combine with `autoRecalculateDeltaSigma` to prevent over‑partitioning on negligible changes.
+- Auto baseline insertion (optional): enable the UI pre‑processor via `engine.autoRecalc` to insert a baseline after a sustained favourable shift (XmR only). Combine with `deltaSigma` to avoid over‑partitioning on negligible changes.
 - Leave `assuranceCapabilityMode` true to base Pass/Fail on predictable future performance (full band), not a single latest point.
 
 ### Example with advanced settings
@@ -737,9 +734,24 @@ These map directly to the v2 settings normaliser (`normaliseSpcSettingsV2`) and 
     specialCauseShiftPoints: 7,
     enableFourOfFiveRule: true,
     excludeMovingRangeOutliers: true,
-    autoRecalculateAfterShift: true,
-    autoRecalculateDeltaSigma: 0.75,
     baselineSuggest: true
+  }}
+  enableRules
+  showIcons
+/>
+
+// Example: enable automatic baseline insertion (UI pre‑processor, XmR only)
+<SPCChart
+  input={{ data: series }}
+  engine={{
+    chartType: ChartType.XmR,
+    metricImprovement: ImprovementDirection.Up,
+    autoRecalc: {
+      enabled: true,
+      shiftLength: 6,   // optional (default 6)
+      deltaSigma: 0.5,  // optional (default 0.5)
+      minGap: 12        // optional points since previous baseline
+    }
   }}
   enableRules
   showIcons
@@ -968,9 +980,9 @@ The SPCChart component always applies full SPC logic (appropriate sigma estimati
 
 ## Auto‑recalculation & baseline suggestion flows
 
-### Automatic recalculation (`autoRecalculateAfterShift`)
+### Automatic recalculation (UI pre‑processor)
 
-Status: planned (not implemented in current v2 engine). The diagram below describes the intended design. Today, the engine does not insert baselines automatically; use explicit baselines in your data/props to create new partitions.
+Status: Implemented for XmR as an optional UI pre‑processor. Opt‑in via `engine.autoRecalc` to insert a synthetic baseline after a sustained favourable shift. This runs before the v2 engine build and does not change engine settings or logic; it preprocesses the input rows.
 
 <Mermaid>{`flowchart TD
   A[New point arrives] --> B{Rules enabled?}
@@ -988,10 +1000,29 @@ Status: planned (not implemented in current v2 engine). The diagram below descri
   J --> Z[Render updated chart]
 `}</Mermaid>
 
-Key checks (intended):
-- Uses `autoRecalculateShiftLength` (fallback `specialCauseShiftPoints`) for sustained run length.
-- Requires favourable direction shift (based on `metricImprovement`).
-- Sigma proxy derived from average moving range (Individuals path) to scale mean delta.
+Key checks (current):
+- XmR only; ignored for other chart types.
+- Uses `shiftLength` from `engine.autoRecalc` (default 6) for sustained run length.
+- Requires a favourable direction shift based on `metricImprovement` (if `Neither`, absolute change is used).
+- Sigma proxy derived from average moving range (MRbar × 2.66/3) over numeric, non‑ghost points to scale the mean delta.
+- Ignores ghosts and non‑numeric values when forming windows and MR.
+- Optional `minGap` enforces a minimum number of points since the last baseline.
+- Inserts at most one baseline per render at the first qualifying index.
+
+Parameters (UI pre‑processor):
+
+<Table
+  caption="engine.autoRecalc"
+  captionSize="s"
+  head={[ { text: 'Field' }, { text: 'Type' }, { text: 'Default' }, { text: 'Notes' } ]}
+  rows={[
+    [ { code: 'enabled', codeLanguage: 'typescript' }, { code: 'boolean', codeLanguage: 'typescript' }, { code: 'false', codeLanguage: 'typescript' }, { text: 'Turns the pre‑processor on.' } ],
+    [ { code: 'shiftLength', codeLanguage: 'typescript' }, { code: 'number', codeLanguage: 'typescript' }, { code: '6', codeLanguage: 'typescript' }, { text: 'Points in each pre/post window (sustained run length).' } ],
+    [ { code: 'deltaSigma', codeLanguage: 'typescript' }, { code: 'number', codeLanguage: 'typescript' }, { code: '0.5', codeLanguage: 'typescript' }, { text: 'Minimum |Δmean| in sigma units between pre and post windows.' } ],
+    [ { code: 'minGap', codeLanguage: 'typescript' }, { code: 'number', codeLanguage: 'typescript' }, { code: '—', codeLanguage: 'typescript' }, { text: 'Optional minimum points since previous baseline.' } ],
+  ]}
+  firstCellIsHeader
+/>
 
 ### Baseline suggestion heuristic (`baselineSuggest`)
 

@@ -57,9 +57,9 @@ export function computeRetroShiftOverlay(
 		const firstEligibleIdx = idxs.find((i) => isNumber(rows[i].mean));
 		if (firstEligibleIdx == null) continue;
 
-		// Walk through eligible rows to find contiguous shift runs; for each run,
-		// extend backwards across pre-eligibility rows that lie on the same side of
-		// the mean at the run's start.
+	// Walk through eligible rows to find contiguous shift runs; for each run,
+	// extend backwards across pre-eligibility rows that lie on the same side of
+	// the mean at the run's start.
 	let runStart: number | null = null;
 	let runSide: Side | null = null;
 

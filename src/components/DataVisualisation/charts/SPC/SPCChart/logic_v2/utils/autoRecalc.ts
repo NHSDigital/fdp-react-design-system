@@ -6,6 +6,11 @@ export type AutoRecalcArgsV2 = {
   shiftLength?: number; // default 6 (inherits shiftPoints in settings typically)
   deltaSigma?: number; // default 0.5
   minGap?: number; // optional points since last baseline
+  /**
+   * Optional maximum number of synthetic baselines to insert when using the multi variant.
+   * Defaults to 1 for backward compatibility (same as single-insert behaviour).
+   */
+  maxInsertions?: number;
 };
 
 /**
@@ -118,4 +123,41 @@ export function autoInsertBaselinesV2(
   const idx = findAutoRecalcBaselineIndexV2(rows, args);
   if (idx == null) return rows.slice();
   return rows.map((r, i) => (i === idx ? { ...r, baseline: true } : r));
+}
+
+/**
+ * Iteratively inserts up to `maxInsertions` synthetic baselines where sustained favourable
+ * shifts are detected. Ensures progress by enforcing a minimum gap of at least 1 from the
+ * most recent baseline between iterations (even if the caller doesn't specify minGap),
+ * preventing repeated selection of the same index.
+ */
+export function autoInsertBaselinesMultiV2(
+  rows: ReadonlyArray<SpcInputRowV2>,
+  args: AutoRecalcArgsV2
+): SpcInputRowV2[] {
+  const max = Math.max(1, Math.floor(args.maxInsertions ?? 1));
+  if (max <= 1) return autoInsertBaselinesV2(rows, args);
+
+  let out = rows.slice();
+  let inserted = 0;
+  // Always enforce at least 1 point since the last baseline to avoid re-picking the same index
+  const baseMinGap = Math.max(1, args.minGap ?? 0);
+
+  while (inserted < max) {
+    const idx = findAutoRecalcBaselineIndexV2(out, { ...args, minGap: baseMinGap });
+    if (idx == null) break;
+    if (out[idx]?.baseline) {
+      // Already a baseline at this index; to ensure we make progress, increase minGap and retry once
+      // (defensive, typically baseMinGap>=1 plus lastBaselineIdx logic avoids reselecting the same index)
+      const nextIdx = findAutoRecalcBaselineIndexV2(out, { ...args, minGap: baseMinGap + 1 });
+      if (nextIdx == null || nextIdx === idx) break;
+      out = out.map((r, i) => (i === nextIdx ? { ...r, baseline: true } : r));
+      inserted++;
+      continue;
+    }
+    out = out.map((r, i) => (i === idx ? { ...r, baseline: true } : r));
+    inserted++;
+  }
+
+  return out;
 }

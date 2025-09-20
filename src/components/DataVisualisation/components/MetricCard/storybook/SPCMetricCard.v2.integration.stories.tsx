@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCMetricCard } from "../../../index";
-import { buildSpcV26a } from "../../../charts/SPC/SPCChart/logic_v2/engine.ts";
-import { ChartType, ImprovementDirection, VariationIcon, type SpcRowV2 } from "../../../charts/SPC/SPCChart/logic_v2/types.ts";
+import { buildSpcV26a, ChartType, ImprovementDirection, type SpcRowV2 } from "../../../charts/SPC/engine";
+import { VariationIcon } from "../../../charts/SPC/SPCChart/logic_v2/types";
 
 const meta: Meta<typeof SPCMetricCard> = {
   title: "Data Visualisation/SPC/SPC MetricCard/v2/SPC MetricCard (v2 engine)",

@@ -28,1173 +28,6 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// packages/nhs-fdp/dist/js/tokens.json
-var require_tokens = __commonJS({
-  "packages/nhs-fdp/dist/js/tokens.json"(exports, module) {
-    module.exports = {
-      animation: {
-        duration: {
-          fast: "150ms",
-          normal: "300ms",
-          slow: "500ms"
-        },
-        easing: {
-          "ease-in": "cubic-bezier(0.4, 0, 1, 1)",
-          "ease-out": "cubic-bezier(0, 0, 0.2, 1)",
-          "ease-in-out": "cubic-bezier(0.4, 0, 0.2, 1)",
-          bounce: "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
-        }
-      },
-      transition: {
-        button: {
-          default: "background-color 300ms cubic-bezier(0, 0, 0.2, 1)",
-          shadow: "box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)"
-        },
-        input: {
-          focus: "border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)"
-        },
-        card: {
-          hover: "border-color 300ms cubic-bezier(0, 0, 0.2, 1)"
-        }
-      },
-      border: {
-        width: {
-          default: "1px",
-          "form-element": "2px",
-          "form-element-error": "4px",
-          "card-bottom": "4px",
-          panel: "8px",
-          "table-header": "2px",
-          "table-cell": "1px",
-          semantic: {
-            thin: "1px",
-            standard: "2px",
-            thick: "4px"
-          }
-        },
-        radius: {
-          none: "0px",
-          small: "4px",
-          medium: "8px",
-          large: "12px"
-        },
-        color: {
-          default: "#d8dde0",
-          form: "#4c6272",
-          card: "#d8dde0",
-          "card-hover": "#aeb7bd",
-          error: "#d5281b"
-        }
-      },
-      color: {
-        primary: {
-          blue: "#005eb8",
-          "blue-active": "#002f5c",
-          white: "#ffffff",
-          black: "#212b32",
-          green: "#007f3b",
-          purple: "#330072",
-          "dark-pink": "#7c2855",
-          red: "#d5281b",
-          "light-purple": "#880fb8",
-          yellow: "#ffeb3b"
-        },
-        secondary: {
-          "pale-yellow": "#fff9c4",
-          "warm-yellow": "#ffb81c",
-          "region-yellow": "#fae100",
-          orange: "#ed8b00",
-          tangerine: "#ed4f00",
-          "aqua-green": "#00a499",
-          "light-blue": "#41b6e6",
-          pink: "#ae2573",
-          "bright-pink": "#e317aa",
-          "light-green": "#78be20",
-          brown: "#9a6324"
-        },
-        grey: {
-          "1": "#4c6272",
-          "2": "#768692",
-          "3": "#aeb7bd",
-          "4": "#d8dde0",
-          "5": "#f0f4f5"
-        },
-        accessibility: {
-          "okabe-ito": {
-            green: "#009e73",
-            vermillion: "#d55e00"
-          },
-          "cvd-safe": {
-            blue: "#1f77b4",
-            orange: "#ff7f0e"
-          },
-          positive: "#009e73",
-          negative: "#d55e00"
-        },
-        "data-viz": {
-          categorical: {
-            "1": "#005eb8",
-            "2": "#41b6e6",
-            "3": "#00a499",
-            "4": "#78be20",
-            "5": "#007f3b",
-            "6": "#ffb81c",
-            "7": "#ed4f00",
-            "8": "#ae2573",
-            "9": "#e317aa",
-            "10": "#880fb8",
-            "11": "#330072",
-            "12": "#9a6324"
-          },
-          neutral: {
-            comparison: "#4c6272"
-          },
-          region: {
-            "north-east": "#005eb8",
-            "north-west": "#41b6e6",
-            "east-of-england": "#330072",
-            midlands: "#ae2573",
-            london: "#78be21",
-            "south-west": "#fae100",
-            "south-east": "#ed8b00"
-          },
-          severity: {
-            low: "#fff9c4",
-            moderate: "#ffb81c",
-            high: "#ed8b00",
-            critical: "#d5281b"
-          },
-          "org-level": {
-            trust: "#005eb8",
-            ambulance: "#007f3b",
-            icb: "#7c2855",
-            region: "#330072"
-          },
-          stroke: {
-            categorical: {
-              "1": "#ffffff",
-              "2": "#212b32",
-              "3": "#212b32",
-              "4": "#212b32",
-              "5": "#ffffff",
-              "6": "#212b32",
-              "7": "#ffffff",
-              "8": "#ffffff",
-              "9": "#ffffff",
-              "10": "#ffffff",
-              "11": "#ffffff",
-              "12": "#ffffff"
-            },
-            region: {
-              "north-east": "#5996d1",
-              "north-west": "#3189ad",
-              "east-of-england": "#7a59a3",
-              midlands: "#ca71a4",
-              london: "#5a8f19",
-              "south-west": "#bca900",
-              "south-east": "#b26800"
-            },
-            severity: {
-              low: "#212b32",
-              moderate: "#212b32",
-              high: "#212b32",
-              critical: "#ffffff"
-            },
-            "org-level": {
-              trust: "#ffffff",
-              ambulance: "#ffffff",
-              icb: "#ffffff",
-              region: "#ffffff"
-            }
-          },
-          spc: {
-            improvement: "#00b0f0",
-            concern: "#e46c0a",
-            "no-judgement": "#490092",
-            "common-cause": "#a6a6a6",
-            "assurance-pass": "#00823b",
-            "assurance-fail": "#da291c",
-            gradient: {
-              stop: {
-                "start-opacity": "0.18",
-                "mid-opacity": "0.06",
-                "end-opacity": "0",
-                "triangle-start-opacity": "0.18",
-                "triangle-mid-opacity": "0.06",
-                "triangle-end-opacity": "0"
-              }
-            },
-            stroke: {
-              improvement: "#000000",
-              concern: "#000000",
-              "no-judgement": "#000000",
-              "common-cause": "#ffffff",
-              "assurance-pass": "#000000",
-              "assurance-fail": "#000000"
-            }
-          }
-        }
-      },
-      component: {
-        button: {
-          padding: {
-            mobile: {
-              vertical: "8px",
-              horizontal: "16px"
-            },
-            desktop: {
-              vertical: "12px",
-              horizontal: "16px"
-            }
-          },
-          shadow: {
-            size: "4px"
-          }
-        },
-        form: {
-          input: {
-            "min-height": "40px",
-            padding: "4px"
-          },
-          checkbox: {
-            size: "40px",
-            "label-padding": "12px"
-          }
-        },
-        card: {
-          padding: {
-            mobile: "16px",
-            desktop: "32px"
-          },
-          "heading-margin": "16px"
-        },
-        panel: {
-          padding: {
-            mobile: "20px",
-            desktop: "28px"
-          }
-        },
-        breadcrumb: {
-          chevron: {
-            "margin-left": "9px",
-            "margin-right": "2px"
-          },
-          "padding-top": {
-            mobile: "16px",
-            desktop: "24px"
-          }
-        },
-        "summary-list": {
-          "cell-padding": {
-            vertical: "8px",
-            horizontal: "24px"
-          },
-          "row-margin": "16px"
-        },
-        disclosure: {
-          "icon-offset": "20px",
-          "icon-size": "32px",
-          "icon-position-offset": "16px"
-        },
-        "icon-text": {
-          gap: "38px",
-          "gap-small": "26px"
-        },
-        warning: {
-          "icon-offset": "33px",
-          "icon-offset-mobile": "25px",
-          "icon-top": "16px",
-          "icon-top-mobile": "8px"
-        },
-        guidance: {
-          "icon-size": "34px",
-          "icon-position-top": "2px",
-          "icon-position-top-print": "4px",
-          "content-padding": "40px",
-          "content-padding-small": "32px",
-          "tick-size": "28px"
-        },
-        header: {
-          "logo-min-width": "100px",
-          "logo-height": "40px",
-          "search-button-width": "44px",
-          "search-icon-size": "24px",
-          "menu-icon-size": "28px"
-        },
-        task: {
-          "padding-adjustment": "4px"
-        },
-        tag: {
-          "padding-adjustment": "2px"
-        },
-        tabs: {
-          "border-width": "1px",
-          "border-compensation": "1px",
-          "padding-multiplier": "1.5"
-        },
-        details: "8px",
-        navigation: {
-          dropdown: {
-            "item-padding": "6px",
-            "logo-margin": "32px"
-          }
-        },
-        expander: "4px",
-        print: {
-          "icon-adjustment": "4px",
-          "logo-height": "32px"
-        },
-        spread: "4px",
-        blur: "4px",
-        link: "4px",
-        pagination: "16px"
-      },
-      button: {
-        primary: {
-          background: {
-            default: "#007f3b",
-            hover: "#006530",
-            active: "#00401e",
-            disabled: "#d8dde0"
-          },
-          text: {
-            default: "#ffffff",
-            disabled: "#768692"
-          },
-          border: {
-            default: "#00000000",
-            focus: "#ffeb3b"
-          }
-        },
-        secondary: {
-          background: {
-            default: "#00000000",
-            solid: "#ffffff",
-            hover: "#d9e5f2",
-            active: "#c7daf0"
-          },
-          text: {
-            default: "#005eb8"
-          },
-          border: {
-            default: "#005eb8"
-          }
-        },
-        spacing: {
-          "padding-vertical-mobile": "8px",
-          "padding-horizontal-mobile": "16px",
-          "padding-vertical-desktop": "12px",
-          "padding-horizontal-desktop": "16px"
-        },
-        border: {
-          width: "2px",
-          radius: "4px"
-        },
-        shadow: {
-          size: "4px"
-        },
-        typography: {
-          weight: "600"
-        }
-      },
-      card: {
-        background: {
-          default: "#ffffff"
-        },
-        border: {
-          default: "#d8dde0",
-          hover: "#aeb7bd",
-          bottom: "#f0f4f5"
-        },
-        text: {
-          heading: "#212b32",
-          description: "#212b32",
-          link: "#005eb8"
-        },
-        spacing: {
-          "padding-mobile": "16px",
-          "padding-desktop": "32px",
-          "heading-margin": "16px"
-        },
-        "border-width": {
-          default: "1px",
-          bottom: "4px"
-        },
-        shadow: {
-          default: "none",
-          hover: "0 2px 4px rgba(0, 0, 0, 0.1)"
-        }
-      },
-      form: {
-        input: {
-          background: {
-            default: "#ffffff",
-            focus: "#ffffff",
-            disabled: "#f0f4f5",
-            error: "#ffffff"
-          },
-          border: {
-            default: "#4c6272",
-            focus: "#ffeb3b",
-            error: "#d5281b",
-            disabled: "#aeb7bd"
-          },
-          text: {
-            default: "#212b32",
-            placeholder: "#4c6272",
-            disabled: "#768692"
-          }
-        },
-        label: {
-          text: {
-            default: "#212b32",
-            required: "#d5281b"
-          },
-          typography: {
-            weight: "600"
-          }
-        },
-        error: {
-          text: {
-            default: "#d5281b"
-          },
-          typography: {
-            weight: "600"
-          }
-        },
-        hint: {
-          text: {
-            default: "#4c6272"
-          }
-        },
-        spacing: {
-          "input-padding": "4px",
-          "input-min-height": "40px",
-          "checkbox-size": "40px",
-          "checkbox-label-padding": "12px"
-        },
-        border: {
-          "width-default": "2px",
-          "width-error": "4px",
-          radius: "0px"
-        }
-      },
-      tag: {
-        default: {
-          background: "#004c96",
-          border: "#004c96",
-          text: "#ffffff"
-        },
-        white: {
-          background: "#ffffff",
-          border: "#212b32",
-          text: "#212b32"
-        },
-        grey: {
-          background: "#dbe0e3",
-          border: "#354550",
-          text: "#354550"
-        },
-        green: {
-          background: "#cce5d8",
-          border: "#004c23",
-          text: "#004c23"
-        },
-        "aqua-green": {
-          background: "#ccedeb",
-          border: "#00524d",
-          text: "#00524d"
-        },
-        blue: {
-          background: "#ccdff1",
-          border: "#004281",
-          text: "#004281"
-        },
-        purple: {
-          background: "#d6cce3",
-          border: "#240050",
-          text: "#240050"
-        },
-        pink: {
-          background: "#efd3e3",
-          border: "#57133a",
-          text: "#57133a"
-        },
-        red: {
-          background: "#f7d4d1",
-          border: "#6b140e",
-          text: "#6b140e"
-        },
-        orange: {
-          background: "#ffdc8e",
-          border: "#4d3708",
-          text: "#4d3708"
-        },
-        yellow: {
-          background: "#fff59d",
-          border: "#4d4712",
-          text: "#4d4712"
-        }
-      },
-      diagram: {
-        flowchart: {
-          decision: {
-            fill: "#fff3e0",
-            stroke: "#f57c00",
-            text: "#4e342e"
-          },
-          auto: {
-            fill: "#e3f2fd",
-            stroke: "#1976d2",
-            text: "#0d47a1"
-          },
-          action: {
-            fill: "#e8f5e9",
-            stroke: "#388e3c",
-            text: "#1b5e20"
-          },
-          warning: {
-            fill: "#ffebee",
-            stroke: "#d32f2f",
-            text: "#b71c1c"
-          }
-        },
-        mermaid: {
-          class: {
-            decision: {
-              fill: "#fff3e0",
-              stroke: "#f57c00",
-              text: "#4e342e"
-            },
-            auto: {
-              fill: "#e3f2fd",
-              stroke: "#1976d2",
-              text: "#0d47a1"
-            },
-            action: {
-              fill: "#e8f5e9",
-              stroke: "#388e3c",
-              text: "#1b5e20"
-            },
-            warning: {
-              fill: "#ffebee",
-              stroke: "#d32f2f",
-              text: "#b71c1c"
-            }
-          }
-        }
-      },
-      size: {
-        icon: {
-          small: "16px",
-          medium: "18px",
-          large: "24px",
-          "extra-large": "32px",
-          "nhs-default": "34px"
-        },
-        form: {
-          control: {
-            small: "32px",
-            medium: "40px",
-            large: "48px"
-          },
-          "input-width": {
-            xs: "5.4ex",
-            sm: "7.2ex",
-            md: "9ex",
-            lg: "10.8ex",
-            xl: "20ex",
-            "2xl": "38ex",
-            "3xl": "56ex"
-          }
-        },
-        button: {
-          "min-height": {
-            mobile: "44px",
-            desktop: "40px"
-          }
-        }
-      },
-      layout: {
-        container: {
-          "max-width": "1020px"
-        },
-        column: {
-          full: "100%",
-          half: "50%",
-          third: "33.333%",
-          quarter: "25%",
-          actions: "20%"
-        },
-        margin: {
-          "negative-thin": "-1px",
-          "negative-standard": "-2px"
-        },
-        gap: {
-          minimal: "1px",
-          small: "6px"
-        }
-      },
-      breakpoint: {
-        small: "320px",
-        "small-max": "767px",
-        medium: "768px",
-        large: "1025px",
-        xlarge: "1200px",
-        xxlarge: "1440px"
-      },
-      grid: {
-        "page-width": "960px",
-        gutter: "32px",
-        "gutter-half": "16px"
-      },
-      gradient: {
-        "metric-card": {
-          primary: "linear-gradient(135deg, rgba(0,94,184,0.05), #ffffff)",
-          secondary: "linear-gradient(135deg, rgba(136,15,184,0.06), #ffffff)",
-          accent: "linear-gradient(135deg, rgba(255,184,28,0.10), #ffffff)",
-          success: "linear-gradient(135deg, rgba(0,164,153,0.10), #ffffff)",
-          warning: "linear-gradient(135deg, rgba(237,79,0,0.10), #ffffff)",
-          error: "linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff)"
-        }
-      },
-      semantic: {
-        "intent-hover": {
-          primary: "darken(#007f3b, 10%)",
-          secondary: "darken(#005eb8, 10%)",
-          warning: "darken(#d5281b, 10%)"
-        },
-        "intent-active": {
-          primary: "darken(#007f3b, 20%)",
-          secondary: "darken(#005eb8, 20%)",
-          warning: "darken(#d5281b, 20%)"
-        },
-        "intent-light": {
-          primary: "lighten(#007f3b, 40%)",
-          secondary: "lighten(#005eb8, 40%)",
-          warning: "lighten(#d5281b, 40%)"
-        },
-        context: {
-          form: {
-            background: {
-              error: "lighten(#d5281b, 40%)",
-              success: "lighten(#007f3b, 40%)",
-              default: "#ffffff",
-              disabled: "#d8dde0",
-              readonly: "#e8edee"
-            },
-            border: {
-              default: "#4c6272",
-              focus: "#005eb8",
-              error: "#d5281b",
-              success: "#007f3b"
-            },
-            text: {
-              default: "#212b32",
-              placeholder: "#768692",
-              disabled: "#768692",
-              error: "#d5281b"
-            }
-          },
-          navigation: {
-            background: {
-              header: "#005eb8",
-              footer: "#005eb8",
-              sidebar: "#ffffff"
-            },
-            text: {
-              primary: "#ffffff",
-              secondary: "#ffffffcc",
-              active: "#ffeb3b"
-            },
-            accent: {
-              hover: "#ffffff1a",
-              active: "#ffffff33",
-              border: "#ffeb3b"
-            }
-          },
-          content: {
-            background: {
-              primary: "#ffffff",
-              secondary: "#d8dde0",
-              elevated: "#ffffff"
-            },
-            text: {
-              primary: "#212b32",
-              secondary: "#4c6272",
-              tertiary: "#768692"
-            },
-            accent: {
-              link: "#005eb8",
-              highlight: "#ffeb3b",
-              border: "#e8edee"
-            }
-          }
-        },
-        intent: {
-          primary: "#007f3b",
-          secondary: "#005eb8",
-          warning: "#d5281b",
-          success: "#007f3b",
-          neutral: "#4c6272",
-          info: "#005eb8"
-        },
-        surface: {
-          elevation: {
-            "0": "#ffffff",
-            "1": "#ffffff",
-            "2": "#ffffff",
-            "3": "#ffffff"
-          },
-          interactive: {
-            default: "#ffffff",
-            hover: "#d8dde0",
-            active: "#e8edee",
-            selected: "#005eb81a"
-          }
-        },
-        "data-viz": {
-          series: {
-            "1": "#005eb8",
-            "2": "#41b6e6",
-            "3": "#00a499",
-            "4": "#78be20",
-            "5": "#007f3b",
-            "6": "#ffb81c",
-            "7": "#ed4f00",
-            "8": "#ae2573",
-            "9": "#e317aa",
-            "10": "#880fb8",
-            "11": "#330072",
-            "12": "#9a6324"
-          },
-          region: {
-            "north-east": "#005eb8",
-            "north-west": "#41b6e6",
-            "east-of-england": "#330072",
-            midlands: "#ae2573",
-            london: "#78be21",
-            "south-west": "#fae100",
-            "south-east": "#ed8b00"
-          },
-          severity: {
-            low: "#fff9c4",
-            moderate: "#ffb81c",
-            high: "#ed8b00",
-            critical: "#d5281b"
-          },
-          "org-level": {
-            trust: "#005eb8",
-            ambulance: "#007f3b",
-            icb: "#7c2855",
-            region: "#330072"
-          },
-          stroke: {
-            series: {
-              "1": "#ffffff",
-              "2": "#212b32",
-              "3": "#212b32",
-              "4": "#212b32",
-              "5": "#ffffff",
-              "6": "#212b32",
-              "7": "#ffffff",
-              "8": "#ffffff",
-              "9": "#ffffff",
-              "10": "#ffffff",
-              "11": "#ffffff",
-              "12": "#ffffff"
-            },
-            region: {
-              "north-east": "#5996d1",
-              "north-west": "#3189ad",
-              "east-of-england": "#7a59a3",
-              midlands: "#ca71a4",
-              london: "#5a8f19",
-              "south-west": "#bca900",
-              "south-east": "#b26800"
-            },
-            severity: {
-              low: "#212b32",
-              moderate: "#212b32",
-              high: "#212b32",
-              critical: "#ffffff"
-            },
-            "org-level": {
-              trust: "#ffffff",
-              ambulance: "#ffffff",
-              icb: "#ffffff",
-              region: "#ffffff"
-            }
-          }
-        },
-        relationship: {
-          "parent-child": {
-            card: {
-              background: "#ffffff",
-              content: {
-                background: "calculated-lighten(#ffffff, 2%)",
-                text: "auto-contrast(calculated-lighten(#ffffff, 2%))"
-              },
-              header: {
-                background: "calculated-darken(#ffffff, 3%)",
-                text: "auto-contrast(calculated-darken(#ffffff, 3%))"
-              }
-            },
-            panel: {
-              background: "#ffffff",
-              border: "calculated-darken(#ffffff, 15%)",
-              content: {
-                text: "auto-contrast(#ffffff)"
-              }
-            }
-          },
-          "state-propagation": {
-            interactive: {
-              default: "#007f3b",
-              hover: "calculated-darken(#007f3b, 10%)",
-              active: "calculated-darken(#007f3b, 20%)",
-              disabled: "calculated-fade(#007f3b, 40%)"
-            },
-            button: {
-              primary: {
-                background: "#007f3b",
-                hover: "calculated-darken(#007f3b, 10%)",
-                active: "calculated-darken(#007f3b, 20%)"
-              },
-              secondary: {
-                background: "#00000000",
-                border: "#005eb8",
-                hover: "calculated-tint(#005eb8, 90%)"
-              }
-            }
-          }
-        },
-        color: {
-          text: {
-            primary: "#212b32",
-            secondary: "#4c6272",
-            reverse: "#ffffff",
-            print: "#212b32"
-          },
-          link: {
-            default: "#005eb8",
-            hover: "#7c2855",
-            active: "#003087",
-            visited: "#330072"
-          },
-          focus: {
-            background: "#ffeb3b",
-            text: "#212b32"
-          },
-          border: {
-            default: "#d8dde0",
-            secondary: "#ffffff33"
-          },
-          error: "#d5281b",
-          form: {
-            border: "#4c6272",
-            background: "#ffffff"
-          },
-          hover: {
-            subtle: "#e8edee",
-            "header-link": "#3a71a6"
-          },
-          active: {
-            "header-link": "#002c5c"
-          },
-          button: {
-            primary: {
-              background: "#007f3b",
-              text: "#ffffff",
-              hover: "#006530",
-              active: "#00401e",
-              shadow: "#00401e"
-            },
-            secondary: {
-              background: "#00000000",
-              "background-solid": "#ffffff",
-              border: "#005eb8",
-              text: "#005eb8",
-              hover: "#d9e5f2",
-              active: "#c7daf0",
-              shadow: "#005eb8"
-            },
-            reverse: {
-              background: "#ffffff",
-              text: "#212b32",
-              hover: "#d9dde0",
-              active: "#b3bcc2",
-              shadow: "#b3bcc2"
-            },
-            warning: {
-              background: "#d5281b",
-              hover: "#aa2016",
-              active: "#6a140e",
-              shadow: "#6a140e"
-            },
-            login: {
-              background: "#005eb8",
-              hover: "#004b93",
-              active: "#002f5c",
-              shadow: "#002f5c"
-            }
-          }
-        }
-      },
-      shadow: {
-        button: {
-          default: "0 4px 0 #00401e",
-          secondary: "0 4px 0 #005eb8",
-          warning: "0 4px 0 #6a140e",
-          focus: "0 4px 0 #ffeb3b"
-        },
-        card: {
-          default: "none",
-          hover: "0 2px 4px rgba(0, 0, 0, 0.1)"
-        }
-      },
-      "focus-outline": {
-        width: "4px",
-        offset: "0px",
-        style: "solid"
-      },
-      "focus-shadow": {
-        input: "0 0 0 3px #ffeb3b",
-        button: "0 0 0 3px #ffeb3b",
-        "link-pattern": "0 -2px #ffeb3b, 0 4px #212b32"
-      },
-      "focus-box-shadow": {
-        "offset-top": "-2px",
-        "offset-bottom": "4px"
-      },
-      elevation: {
-        none: "none",
-        low: "0 1px 3px rgba(0, 0, 0, 0.12)",
-        medium: "0 2px 6px rgba(0, 0, 0, 0.16)",
-        high: "0 4px 12px rgba(0, 0, 0, 0.20)"
-      },
-      spacing: {
-        "0": "0",
-        "1": "4px",
-        "2": "8px",
-        "3": "16px",
-        "4": "24px",
-        "5": "32px",
-        "6": "40px",
-        "7": "48px",
-        "8": "56px",
-        "9": "64px"
-      },
-      "spacing-responsive": {
-        "0": {
-          mobile: "0",
-          tablet: "0"
-        },
-        "1": {
-          mobile: "4px",
-          tablet: "4px"
-        },
-        "2": {
-          mobile: "8px",
-          tablet: "8px"
-        },
-        "3": {
-          mobile: "8px",
-          tablet: "16px"
-        },
-        "4": {
-          mobile: "16px",
-          tablet: "24px"
-        },
-        "5": {
-          mobile: "24px",
-          tablet: "32px"
-        },
-        "6": {
-          mobile: "32px",
-          tablet: "40px"
-        },
-        "7": {
-          mobile: "40px",
-          tablet: "48px"
-        },
-        "8": {
-          mobile: "48px",
-          tablet: "56px"
-        },
-        "9": {
-          mobile: "56px",
-          tablet: "64px"
-        }
-      },
-      theme: {
-        light: {
-          semantic: {
-            intent: {
-              primary: "#007f3b",
-              secondary: "#005eb8",
-              warning: "#d5281b",
-              success: "#007f3b",
-              neutral: "#4c6272",
-              info: "#005eb8"
-            },
-            surface: {
-              background: {
-                primary: "#ffffff",
-                secondary: "#f0f4f5",
-                elevated: "#ffffff"
-              },
-              text: {
-                primary: "#212b32",
-                secondary: "#4c6272",
-                tertiary: "#768692",
-                inverse: "#ffffff"
-              },
-              border: {
-                default: "#d8dde0",
-                subtle: "#f0f4f5",
-                strong: "#768692"
-              }
-            }
-          }
-        },
-        dark: {
-          semantic: {
-            intent: {
-              primary: "lighten(#007f3b, 20%)",
-              secondary: "lighten(#005eb8, 25%)",
-              warning: "lighten(#d5281b, 15%)",
-              success: "lighten(#007f3b, 20%)",
-              neutral: "#aeb7bd",
-              info: "lighten(#005eb8, 25%)"
-            },
-            surface: {
-              background: {
-                primary: "darken(#212b32, 5%)",
-                secondary: "lighten(#212b32, 8%)",
-                elevated: "lighten(#212b32, 12%)"
-              },
-              text: {
-                primary: "fade(#ffffff, 95%)",
-                secondary: "fade(#ffffff, 80%)",
-                tertiary: "fade(#ffffff, 60%)",
-                inverse: "#212b32"
-              },
-              border: {
-                default: "fade(#ffffff, 20%)",
-                subtle: "fade(#ffffff, 10%)",
-                strong: "fade(#ffffff, 40%)"
-              }
-            }
-          }
-        }
-      },
-      font: {
-        family: {
-          base: "Frutiger W01",
-          fallback: "Arial, sans-serif",
-          print: "sans-serif"
-        },
-        weight: {
-          normal: "400",
-          bold: "600",
-          light: "400"
-        },
-        size: {
-          "14": {
-            desktop: "14px",
-            mobile: "12px",
-            tablet: "14px",
-            print: "12pt"
-          },
-          "16": {
-            desktop: "16px",
-            mobile: "14px",
-            tablet: "16px",
-            print: "12pt"
-          },
-          "19": {
-            desktop: "19px",
-            mobile: "16px",
-            tablet: "19px",
-            print: "13pt"
-          },
-          "22": {
-            desktop: "22px",
-            mobile: "19px",
-            tablet: "22px",
-            print: "15pt"
-          },
-          "26": {
-            desktop: "26px",
-            mobile: "22px",
-            tablet: "26px",
-            print: "17pt"
-          },
-          "36": {
-            desktop: "36px",
-            mobile: "27px",
-            tablet: "36px",
-            print: "20pt"
-          },
-          "48": {
-            desktop: "48px",
-            mobile: "33px",
-            tablet: "48px",
-            print: "24pt"
-          },
-          base: "16px"
-        },
-        "line-height": {
-          "14": {
-            desktop: "24px",
-            mobile: "20px",
-            tablet: "24px",
-            print: "1.3"
-          },
-          "16": {
-            desktop: "24px",
-            mobile: "24px",
-            tablet: "24px",
-            print: "1.3"
-          },
-          "19": {
-            desktop: "24px",
-            mobile: "24px",
-            tablet: "28px",
-            print: "1.25"
-          },
-          "22": {
-            desktop: "30px",
-            mobile: "27px",
-            tablet: "30px",
-            print: "1.25"
-          },
-          "26": {
-            desktop: "32px",
-            mobile: "29px",
-            tablet: "32px",
-            print: "1.25"
-          },
-          "36": {
-            desktop: "42px",
-            mobile: "33px",
-            tablet: "42px",
-            print: "1.2"
-          },
-          "48": {
-            desktop: "54px",
-            mobile: "38px",
-            tablet: "54px",
-            print: "1.15"
-          },
-          base: "24px"
-        }
-      }
-    };
-  }
-});
-
 // node_modules/classnames/index.js
 var require_classnames = __commonJS({
   "node_modules/classnames/index.js"(exports, module) {
@@ -2807,8 +1640,1175 @@ var require_prism_json = __commonJS({
   }
 });
 
+// packages/nhs-fdp/dist/js/tokens.json
+var require_tokens = __commonJS({
+  "packages/nhs-fdp/dist/js/tokens.json"(exports, module) {
+    module.exports = {
+      animation: {
+        duration: {
+          fast: "150ms",
+          normal: "300ms",
+          slow: "500ms"
+        },
+        easing: {
+          "ease-in": "cubic-bezier(0.4, 0, 1, 1)",
+          "ease-out": "cubic-bezier(0, 0, 0.2, 1)",
+          "ease-in-out": "cubic-bezier(0.4, 0, 0.2, 1)",
+          bounce: "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
+        }
+      },
+      transition: {
+        button: {
+          default: "background-color 300ms cubic-bezier(0, 0, 0.2, 1)",
+          shadow: "box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)"
+        },
+        input: {
+          focus: "border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)"
+        },
+        card: {
+          hover: "border-color 300ms cubic-bezier(0, 0, 0.2, 1)"
+        }
+      },
+      border: {
+        width: {
+          default: "1px",
+          "form-element": "2px",
+          "form-element-error": "4px",
+          "card-bottom": "4px",
+          panel: "8px",
+          "table-header": "2px",
+          "table-cell": "1px",
+          semantic: {
+            thin: "1px",
+            standard: "2px",
+            thick: "4px"
+          }
+        },
+        radius: {
+          none: "0px",
+          small: "4px",
+          medium: "8px",
+          large: "12px"
+        },
+        color: {
+          default: "#d8dde0",
+          form: "#4c6272",
+          card: "#d8dde0",
+          "card-hover": "#aeb7bd",
+          error: "#d5281b"
+        }
+      },
+      color: {
+        primary: {
+          blue: "#005eb8",
+          "blue-active": "#002f5c",
+          white: "#ffffff",
+          black: "#212b32",
+          green: "#007f3b",
+          purple: "#330072",
+          "dark-pink": "#7c2855",
+          red: "#d5281b",
+          "light-purple": "#880fb8",
+          yellow: "#ffeb3b"
+        },
+        secondary: {
+          "pale-yellow": "#fff9c4",
+          "warm-yellow": "#ffb81c",
+          "region-yellow": "#fae100",
+          orange: "#ed8b00",
+          tangerine: "#ed4f00",
+          "aqua-green": "#00a499",
+          "light-blue": "#41b6e6",
+          pink: "#ae2573",
+          "bright-pink": "#e317aa",
+          "light-green": "#78be20",
+          brown: "#9a6324"
+        },
+        grey: {
+          "1": "#4c6272",
+          "2": "#768692",
+          "3": "#aeb7bd",
+          "4": "#d8dde0",
+          "5": "#f0f4f5"
+        },
+        accessibility: {
+          "okabe-ito": {
+            green: "#009e73",
+            vermillion: "#d55e00"
+          },
+          "cvd-safe": {
+            blue: "#1f77b4",
+            orange: "#ff7f0e"
+          },
+          positive: "#009e73",
+          negative: "#d55e00"
+        },
+        "data-viz": {
+          categorical: {
+            "1": "#005eb8",
+            "2": "#41b6e6",
+            "3": "#00a499",
+            "4": "#78be20",
+            "5": "#007f3b",
+            "6": "#ffb81c",
+            "7": "#ed4f00",
+            "8": "#ae2573",
+            "9": "#e317aa",
+            "10": "#880fb8",
+            "11": "#330072",
+            "12": "#9a6324"
+          },
+          neutral: {
+            comparison: "#4c6272"
+          },
+          region: {
+            "north-east": "#005eb8",
+            "north-west": "#41b6e6",
+            "east-of-england": "#330072",
+            midlands: "#ae2573",
+            london: "#78be21",
+            "south-west": "#fae100",
+            "south-east": "#ed8b00"
+          },
+          severity: {
+            low: "#fff9c4",
+            moderate: "#ffb81c",
+            high: "#ed8b00",
+            critical: "#d5281b"
+          },
+          "org-level": {
+            trust: "#005eb8",
+            ambulance: "#007f3b",
+            icb: "#7c2855",
+            region: "#330072"
+          },
+          stroke: {
+            categorical: {
+              "1": "#ffffff",
+              "2": "#212b32",
+              "3": "#212b32",
+              "4": "#212b32",
+              "5": "#ffffff",
+              "6": "#212b32",
+              "7": "#ffffff",
+              "8": "#ffffff",
+              "9": "#ffffff",
+              "10": "#ffffff",
+              "11": "#ffffff",
+              "12": "#ffffff"
+            },
+            region: {
+              "north-east": "#5996d1",
+              "north-west": "#3189ad",
+              "east-of-england": "#7a59a3",
+              midlands: "#ca71a4",
+              london: "#5a8f19",
+              "south-west": "#bca900",
+              "south-east": "#b26800"
+            },
+            severity: {
+              low: "#212b32",
+              moderate: "#212b32",
+              high: "#212b32",
+              critical: "#ffffff"
+            },
+            "org-level": {
+              trust: "#ffffff",
+              ambulance: "#ffffff",
+              icb: "#ffffff",
+              region: "#ffffff"
+            }
+          },
+          spc: {
+            improvement: "#00b0f0",
+            concern: "#e46c0a",
+            "no-judgement": "#490092",
+            "common-cause": "#a6a6a6",
+            "assurance-pass": "#00823b",
+            "assurance-fail": "#da291c",
+            gradient: {
+              stop: {
+                "start-opacity": "0.18",
+                "mid-opacity": "0.06",
+                "end-opacity": "0",
+                "triangle-start-opacity": "0.18",
+                "triangle-mid-opacity": "0.06",
+                "triangle-end-opacity": "0"
+              }
+            },
+            stroke: {
+              improvement: "#000000",
+              concern: "#000000",
+              "no-judgement": "#000000",
+              "common-cause": "#ffffff",
+              "assurance-pass": "#000000",
+              "assurance-fail": "#000000"
+            }
+          }
+        }
+      },
+      component: {
+        button: {
+          padding: {
+            mobile: {
+              vertical: "8px",
+              horizontal: "16px"
+            },
+            desktop: {
+              vertical: "12px",
+              horizontal: "16px"
+            }
+          },
+          shadow: {
+            size: "4px"
+          }
+        },
+        form: {
+          input: {
+            "min-height": "40px",
+            padding: "4px"
+          },
+          checkbox: {
+            size: "40px",
+            "label-padding": "12px"
+          }
+        },
+        card: {
+          padding: {
+            mobile: "16px",
+            desktop: "32px"
+          },
+          "heading-margin": "16px"
+        },
+        panel: {
+          padding: {
+            mobile: "20px",
+            desktop: "28px"
+          }
+        },
+        breadcrumb: {
+          chevron: {
+            "margin-left": "9px",
+            "margin-right": "2px"
+          },
+          "padding-top": {
+            mobile: "16px",
+            desktop: "24px"
+          }
+        },
+        "summary-list": {
+          "cell-padding": {
+            vertical: "8px",
+            horizontal: "24px"
+          },
+          "row-margin": "16px"
+        },
+        disclosure: {
+          "icon-offset": "20px",
+          "icon-size": "32px",
+          "icon-position-offset": "16px"
+        },
+        "icon-text": {
+          gap: "38px",
+          "gap-small": "26px"
+        },
+        warning: {
+          "icon-offset": "33px",
+          "icon-offset-mobile": "25px",
+          "icon-top": "16px",
+          "icon-top-mobile": "8px"
+        },
+        guidance: {
+          "icon-size": "34px",
+          "icon-position-top": "2px",
+          "icon-position-top-print": "4px",
+          "content-padding": "40px",
+          "content-padding-small": "32px",
+          "tick-size": "28px"
+        },
+        header: {
+          "logo-min-width": "100px",
+          "logo-height": "40px",
+          "search-button-width": "44px",
+          "search-icon-size": "24px",
+          "menu-icon-size": "28px"
+        },
+        task: {
+          "padding-adjustment": "4px"
+        },
+        tag: {
+          "padding-adjustment": "2px"
+        },
+        tabs: {
+          "border-width": "1px",
+          "border-compensation": "1px",
+          "padding-multiplier": "1.5"
+        },
+        details: "8px",
+        navigation: {
+          dropdown: {
+            "item-padding": "6px",
+            "logo-margin": "32px"
+          }
+        },
+        expander: "4px",
+        print: {
+          "icon-adjustment": "4px",
+          "logo-height": "32px"
+        },
+        spread: "4px",
+        blur: "4px",
+        link: "4px",
+        pagination: "16px"
+      },
+      button: {
+        primary: {
+          background: {
+            default: "#007f3b",
+            hover: "#006530",
+            active: "#00401e",
+            disabled: "#d8dde0"
+          },
+          text: {
+            default: "#ffffff",
+            disabled: "#768692"
+          },
+          border: {
+            default: "#00000000",
+            focus: "#ffeb3b"
+          }
+        },
+        secondary: {
+          background: {
+            default: "#00000000",
+            solid: "#ffffff",
+            hover: "#d9e5f2",
+            active: "#c7daf0"
+          },
+          text: {
+            default: "#005eb8"
+          },
+          border: {
+            default: "#005eb8"
+          }
+        },
+        spacing: {
+          "padding-vertical-mobile": "8px",
+          "padding-horizontal-mobile": "16px",
+          "padding-vertical-desktop": "12px",
+          "padding-horizontal-desktop": "16px"
+        },
+        border: {
+          width: "2px",
+          radius: "4px"
+        },
+        shadow: {
+          size: "4px"
+        },
+        typography: {
+          weight: "600"
+        }
+      },
+      card: {
+        background: {
+          default: "#ffffff"
+        },
+        border: {
+          default: "#d8dde0",
+          hover: "#aeb7bd",
+          bottom: "#f0f4f5"
+        },
+        text: {
+          heading: "#212b32",
+          description: "#212b32",
+          link: "#005eb8"
+        },
+        spacing: {
+          "padding-mobile": "16px",
+          "padding-desktop": "32px",
+          "heading-margin": "16px"
+        },
+        "border-width": {
+          default: "1px",
+          bottom: "4px"
+        },
+        shadow: {
+          default: "none",
+          hover: "0 2px 4px rgba(0, 0, 0, 0.1)"
+        }
+      },
+      form: {
+        input: {
+          background: {
+            default: "#ffffff",
+            focus: "#ffffff",
+            disabled: "#f0f4f5",
+            error: "#ffffff"
+          },
+          border: {
+            default: "#4c6272",
+            focus: "#ffeb3b",
+            error: "#d5281b",
+            disabled: "#aeb7bd"
+          },
+          text: {
+            default: "#212b32",
+            placeholder: "#4c6272",
+            disabled: "#768692"
+          }
+        },
+        label: {
+          text: {
+            default: "#212b32",
+            required: "#d5281b"
+          },
+          typography: {
+            weight: "600"
+          }
+        },
+        error: {
+          text: {
+            default: "#d5281b"
+          },
+          typography: {
+            weight: "600"
+          }
+        },
+        hint: {
+          text: {
+            default: "#4c6272"
+          }
+        },
+        spacing: {
+          "input-padding": "4px",
+          "input-min-height": "40px",
+          "checkbox-size": "40px",
+          "checkbox-label-padding": "12px"
+        },
+        border: {
+          "width-default": "2px",
+          "width-error": "4px",
+          radius: "0px"
+        }
+      },
+      tag: {
+        default: {
+          background: "#004c96",
+          border: "#004c96",
+          text: "#ffffff"
+        },
+        white: {
+          background: "#ffffff",
+          border: "#212b32",
+          text: "#212b32"
+        },
+        grey: {
+          background: "#dbe0e3",
+          border: "#354550",
+          text: "#354550"
+        },
+        green: {
+          background: "#cce5d8",
+          border: "#004c23",
+          text: "#004c23"
+        },
+        "aqua-green": {
+          background: "#ccedeb",
+          border: "#00524d",
+          text: "#00524d"
+        },
+        blue: {
+          background: "#ccdff1",
+          border: "#004281",
+          text: "#004281"
+        },
+        purple: {
+          background: "#d6cce3",
+          border: "#240050",
+          text: "#240050"
+        },
+        pink: {
+          background: "#efd3e3",
+          border: "#57133a",
+          text: "#57133a"
+        },
+        red: {
+          background: "#f7d4d1",
+          border: "#6b140e",
+          text: "#6b140e"
+        },
+        orange: {
+          background: "#ffdc8e",
+          border: "#4d3708",
+          text: "#4d3708"
+        },
+        yellow: {
+          background: "#fff59d",
+          border: "#4d4712",
+          text: "#4d4712"
+        }
+      },
+      diagram: {
+        flowchart: {
+          decision: {
+            fill: "#fff3e0",
+            stroke: "#f57c00",
+            text: "#4e342e"
+          },
+          auto: {
+            fill: "#e3f2fd",
+            stroke: "#1976d2",
+            text: "#0d47a1"
+          },
+          action: {
+            fill: "#e8f5e9",
+            stroke: "#388e3c",
+            text: "#1b5e20"
+          },
+          warning: {
+            fill: "#ffebee",
+            stroke: "#d32f2f",
+            text: "#b71c1c"
+          }
+        },
+        mermaid: {
+          class: {
+            decision: {
+              fill: "#fff3e0",
+              stroke: "#f57c00",
+              text: "#4e342e"
+            },
+            auto: {
+              fill: "#e3f2fd",
+              stroke: "#1976d2",
+              text: "#0d47a1"
+            },
+            action: {
+              fill: "#e8f5e9",
+              stroke: "#388e3c",
+              text: "#1b5e20"
+            },
+            warning: {
+              fill: "#ffebee",
+              stroke: "#d32f2f",
+              text: "#b71c1c"
+            }
+          }
+        }
+      },
+      size: {
+        icon: {
+          small: "16px",
+          medium: "18px",
+          large: "24px",
+          "extra-large": "32px",
+          "nhs-default": "34px"
+        },
+        form: {
+          control: {
+            small: "32px",
+            medium: "40px",
+            large: "48px"
+          },
+          "input-width": {
+            xs: "5.4ex",
+            sm: "7.2ex",
+            md: "9ex",
+            lg: "10.8ex",
+            xl: "20ex",
+            "2xl": "38ex",
+            "3xl": "56ex"
+          }
+        },
+        button: {
+          "min-height": {
+            mobile: "44px",
+            desktop: "40px"
+          }
+        }
+      },
+      layout: {
+        container: {
+          "max-width": "1020px"
+        },
+        column: {
+          full: "100%",
+          half: "50%",
+          third: "33.333%",
+          quarter: "25%",
+          actions: "20%"
+        },
+        margin: {
+          "negative-thin": "-1px",
+          "negative-standard": "-2px"
+        },
+        gap: {
+          minimal: "1px",
+          small: "6px"
+        }
+      },
+      breakpoint: {
+        small: "320px",
+        "small-max": "767px",
+        medium: "768px",
+        large: "1025px",
+        xlarge: "1200px",
+        xxlarge: "1440px"
+      },
+      grid: {
+        "page-width": "960px",
+        gutter: "32px",
+        "gutter-half": "16px"
+      },
+      gradient: {
+        "metric-card": {
+          primary: "linear-gradient(135deg, rgba(0,94,184,0.05), #ffffff)",
+          secondary: "linear-gradient(135deg, rgba(136,15,184,0.06), #ffffff)",
+          accent: "linear-gradient(135deg, rgba(255,184,28,0.10), #ffffff)",
+          success: "linear-gradient(135deg, rgba(0,164,153,0.10), #ffffff)",
+          warning: "linear-gradient(135deg, rgba(237,79,0,0.10), #ffffff)",
+          error: "linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff)"
+        }
+      },
+      semantic: {
+        "intent-hover": {
+          primary: "darken(#007f3b, 10%)",
+          secondary: "darken(#005eb8, 10%)",
+          warning: "darken(#d5281b, 10%)"
+        },
+        "intent-active": {
+          primary: "darken(#007f3b, 20%)",
+          secondary: "darken(#005eb8, 20%)",
+          warning: "darken(#d5281b, 20%)"
+        },
+        "intent-light": {
+          primary: "lighten(#007f3b, 40%)",
+          secondary: "lighten(#005eb8, 40%)",
+          warning: "lighten(#d5281b, 40%)"
+        },
+        context: {
+          form: {
+            background: {
+              error: "lighten(#d5281b, 40%)",
+              success: "lighten(#007f3b, 40%)",
+              default: "#ffffff",
+              disabled: "#d8dde0",
+              readonly: "#e8edee"
+            },
+            border: {
+              default: "#4c6272",
+              focus: "#005eb8",
+              error: "#d5281b",
+              success: "#007f3b"
+            },
+            text: {
+              default: "#212b32",
+              placeholder: "#768692",
+              disabled: "#768692",
+              error: "#d5281b"
+            }
+          },
+          navigation: {
+            background: {
+              header: "#005eb8",
+              footer: "#005eb8",
+              sidebar: "#ffffff"
+            },
+            text: {
+              primary: "#ffffff",
+              secondary: "#ffffffcc",
+              active: "#ffeb3b"
+            },
+            accent: {
+              hover: "#ffffff1a",
+              active: "#ffffff33",
+              border: "#ffeb3b"
+            }
+          },
+          content: {
+            background: {
+              primary: "#ffffff",
+              secondary: "#d8dde0",
+              elevated: "#ffffff"
+            },
+            text: {
+              primary: "#212b32",
+              secondary: "#4c6272",
+              tertiary: "#768692"
+            },
+            accent: {
+              link: "#005eb8",
+              highlight: "#ffeb3b",
+              border: "#e8edee"
+            }
+          }
+        },
+        intent: {
+          primary: "#007f3b",
+          secondary: "#005eb8",
+          warning: "#d5281b",
+          success: "#007f3b",
+          neutral: "#4c6272",
+          info: "#005eb8"
+        },
+        surface: {
+          elevation: {
+            "0": "#ffffff",
+            "1": "#ffffff",
+            "2": "#ffffff",
+            "3": "#ffffff"
+          },
+          interactive: {
+            default: "#ffffff",
+            hover: "#d8dde0",
+            active: "#e8edee",
+            selected: "#005eb81a"
+          }
+        },
+        "data-viz": {
+          series: {
+            "1": "#005eb8",
+            "2": "#41b6e6",
+            "3": "#00a499",
+            "4": "#78be20",
+            "5": "#007f3b",
+            "6": "#ffb81c",
+            "7": "#ed4f00",
+            "8": "#ae2573",
+            "9": "#e317aa",
+            "10": "#880fb8",
+            "11": "#330072",
+            "12": "#9a6324"
+          },
+          region: {
+            "north-east": "#005eb8",
+            "north-west": "#41b6e6",
+            "east-of-england": "#330072",
+            midlands: "#ae2573",
+            london: "#78be21",
+            "south-west": "#fae100",
+            "south-east": "#ed8b00"
+          },
+          severity: {
+            low: "#fff9c4",
+            moderate: "#ffb81c",
+            high: "#ed8b00",
+            critical: "#d5281b"
+          },
+          "org-level": {
+            trust: "#005eb8",
+            ambulance: "#007f3b",
+            icb: "#7c2855",
+            region: "#330072"
+          },
+          stroke: {
+            series: {
+              "1": "#ffffff",
+              "2": "#212b32",
+              "3": "#212b32",
+              "4": "#212b32",
+              "5": "#ffffff",
+              "6": "#212b32",
+              "7": "#ffffff",
+              "8": "#ffffff",
+              "9": "#ffffff",
+              "10": "#ffffff",
+              "11": "#ffffff",
+              "12": "#ffffff"
+            },
+            region: {
+              "north-east": "#5996d1",
+              "north-west": "#3189ad",
+              "east-of-england": "#7a59a3",
+              midlands: "#ca71a4",
+              london: "#5a8f19",
+              "south-west": "#bca900",
+              "south-east": "#b26800"
+            },
+            severity: {
+              low: "#212b32",
+              moderate: "#212b32",
+              high: "#212b32",
+              critical: "#ffffff"
+            },
+            "org-level": {
+              trust: "#ffffff",
+              ambulance: "#ffffff",
+              icb: "#ffffff",
+              region: "#ffffff"
+            }
+          }
+        },
+        relationship: {
+          "parent-child": {
+            card: {
+              background: "#ffffff",
+              content: {
+                background: "calculated-lighten(#ffffff, 2%)",
+                text: "auto-contrast(calculated-lighten(#ffffff, 2%))"
+              },
+              header: {
+                background: "calculated-darken(#ffffff, 3%)",
+                text: "auto-contrast(calculated-darken(#ffffff, 3%))"
+              }
+            },
+            panel: {
+              background: "#ffffff",
+              border: "calculated-darken(#ffffff, 15%)",
+              content: {
+                text: "auto-contrast(#ffffff)"
+              }
+            }
+          },
+          "state-propagation": {
+            interactive: {
+              default: "#007f3b",
+              hover: "calculated-darken(#007f3b, 10%)",
+              active: "calculated-darken(#007f3b, 20%)",
+              disabled: "calculated-fade(#007f3b, 40%)"
+            },
+            button: {
+              primary: {
+                background: "#007f3b",
+                hover: "calculated-darken(#007f3b, 10%)",
+                active: "calculated-darken(#007f3b, 20%)"
+              },
+              secondary: {
+                background: "#00000000",
+                border: "#005eb8",
+                hover: "calculated-tint(#005eb8, 90%)"
+              }
+            }
+          }
+        },
+        color: {
+          text: {
+            primary: "#212b32",
+            secondary: "#4c6272",
+            reverse: "#ffffff",
+            print: "#212b32"
+          },
+          link: {
+            default: "#005eb8",
+            hover: "#7c2855",
+            active: "#003087",
+            visited: "#330072"
+          },
+          focus: {
+            background: "#ffeb3b",
+            text: "#212b32"
+          },
+          border: {
+            default: "#d8dde0",
+            secondary: "#ffffff33"
+          },
+          error: "#d5281b",
+          form: {
+            border: "#4c6272",
+            background: "#ffffff"
+          },
+          hover: {
+            subtle: "#e8edee",
+            "header-link": "#3a71a6"
+          },
+          active: {
+            "header-link": "#002c5c"
+          },
+          button: {
+            primary: {
+              background: "#007f3b",
+              text: "#ffffff",
+              hover: "#006530",
+              active: "#00401e",
+              shadow: "#00401e"
+            },
+            secondary: {
+              background: "#00000000",
+              "background-solid": "#ffffff",
+              border: "#005eb8",
+              text: "#005eb8",
+              hover: "#d9e5f2",
+              active: "#c7daf0",
+              shadow: "#005eb8"
+            },
+            reverse: {
+              background: "#ffffff",
+              text: "#212b32",
+              hover: "#d9dde0",
+              active: "#b3bcc2",
+              shadow: "#b3bcc2"
+            },
+            warning: {
+              background: "#d5281b",
+              hover: "#aa2016",
+              active: "#6a140e",
+              shadow: "#6a140e"
+            },
+            login: {
+              background: "#005eb8",
+              hover: "#004b93",
+              active: "#002f5c",
+              shadow: "#002f5c"
+            }
+          }
+        }
+      },
+      shadow: {
+        button: {
+          default: "0 4px 0 #00401e",
+          secondary: "0 4px 0 #005eb8",
+          warning: "0 4px 0 #6a140e",
+          focus: "0 4px 0 #ffeb3b"
+        },
+        card: {
+          default: "none",
+          hover: "0 2px 4px rgba(0, 0, 0, 0.1)"
+        }
+      },
+      "focus-outline": {
+        width: "4px",
+        offset: "0px",
+        style: "solid"
+      },
+      "focus-shadow": {
+        input: "0 0 0 3px #ffeb3b",
+        button: "0 0 0 3px #ffeb3b",
+        "link-pattern": "0 -2px #ffeb3b, 0 4px #212b32"
+      },
+      "focus-box-shadow": {
+        "offset-top": "-2px",
+        "offset-bottom": "4px"
+      },
+      elevation: {
+        none: "none",
+        low: "0 1px 3px rgba(0, 0, 0, 0.12)",
+        medium: "0 2px 6px rgba(0, 0, 0, 0.16)",
+        high: "0 4px 12px rgba(0, 0, 0, 0.20)"
+      },
+      spacing: {
+        "0": "0",
+        "1": "4px",
+        "2": "8px",
+        "3": "16px",
+        "4": "24px",
+        "5": "32px",
+        "6": "40px",
+        "7": "48px",
+        "8": "56px",
+        "9": "64px"
+      },
+      "spacing-responsive": {
+        "0": {
+          mobile: "0",
+          tablet: "0"
+        },
+        "1": {
+          mobile: "4px",
+          tablet: "4px"
+        },
+        "2": {
+          mobile: "8px",
+          tablet: "8px"
+        },
+        "3": {
+          mobile: "8px",
+          tablet: "16px"
+        },
+        "4": {
+          mobile: "16px",
+          tablet: "24px"
+        },
+        "5": {
+          mobile: "24px",
+          tablet: "32px"
+        },
+        "6": {
+          mobile: "32px",
+          tablet: "40px"
+        },
+        "7": {
+          mobile: "40px",
+          tablet: "48px"
+        },
+        "8": {
+          mobile: "48px",
+          tablet: "56px"
+        },
+        "9": {
+          mobile: "56px",
+          tablet: "64px"
+        }
+      },
+      theme: {
+        light: {
+          semantic: {
+            intent: {
+              primary: "#007f3b",
+              secondary: "#005eb8",
+              warning: "#d5281b",
+              success: "#007f3b",
+              neutral: "#4c6272",
+              info: "#005eb8"
+            },
+            surface: {
+              background: {
+                primary: "#ffffff",
+                secondary: "#f0f4f5",
+                elevated: "#ffffff"
+              },
+              text: {
+                primary: "#212b32",
+                secondary: "#4c6272",
+                tertiary: "#768692",
+                inverse: "#ffffff"
+              },
+              border: {
+                default: "#d8dde0",
+                subtle: "#f0f4f5",
+                strong: "#768692"
+              }
+            }
+          }
+        },
+        dark: {
+          semantic: {
+            intent: {
+              primary: "lighten(#007f3b, 20%)",
+              secondary: "lighten(#005eb8, 25%)",
+              warning: "lighten(#d5281b, 15%)",
+              success: "lighten(#007f3b, 20%)",
+              neutral: "#aeb7bd",
+              info: "lighten(#005eb8, 25%)"
+            },
+            surface: {
+              background: {
+                primary: "darken(#212b32, 5%)",
+                secondary: "lighten(#212b32, 8%)",
+                elevated: "lighten(#212b32, 12%)"
+              },
+              text: {
+                primary: "fade(#ffffff, 95%)",
+                secondary: "fade(#ffffff, 80%)",
+                tertiary: "fade(#ffffff, 60%)",
+                inverse: "#212b32"
+              },
+              border: {
+                default: "fade(#ffffff, 20%)",
+                subtle: "fade(#ffffff, 10%)",
+                strong: "fade(#ffffff, 40%)"
+              }
+            }
+          }
+        }
+      },
+      font: {
+        family: {
+          base: "Frutiger W01",
+          fallback: "Arial, sans-serif",
+          print: "sans-serif"
+        },
+        weight: {
+          normal: "400",
+          bold: "600",
+          light: "400"
+        },
+        size: {
+          "14": {
+            desktop: "14px",
+            mobile: "12px",
+            tablet: "14px",
+            print: "12pt"
+          },
+          "16": {
+            desktop: "16px",
+            mobile: "14px",
+            tablet: "16px",
+            print: "12pt"
+          },
+          "19": {
+            desktop: "19px",
+            mobile: "16px",
+            tablet: "19px",
+            print: "13pt"
+          },
+          "22": {
+            desktop: "22px",
+            mobile: "19px",
+            tablet: "22px",
+            print: "15pt"
+          },
+          "26": {
+            desktop: "26px",
+            mobile: "22px",
+            tablet: "26px",
+            print: "17pt"
+          },
+          "36": {
+            desktop: "36px",
+            mobile: "27px",
+            tablet: "36px",
+            print: "20pt"
+          },
+          "48": {
+            desktop: "48px",
+            mobile: "33px",
+            tablet: "48px",
+            print: "24pt"
+          },
+          base: "16px"
+        },
+        "line-height": {
+          "14": {
+            desktop: "24px",
+            mobile: "20px",
+            tablet: "24px",
+            print: "1.3"
+          },
+          "16": {
+            desktop: "24px",
+            mobile: "24px",
+            tablet: "24px",
+            print: "1.3"
+          },
+          "19": {
+            desktop: "24px",
+            mobile: "24px",
+            tablet: "28px",
+            print: "1.25"
+          },
+          "22": {
+            desktop: "30px",
+            mobile: "27px",
+            tablet: "30px",
+            print: "1.25"
+          },
+          "26": {
+            desktop: "32px",
+            mobile: "29px",
+            tablet: "32px",
+            print: "1.25"
+          },
+          "36": {
+            desktop: "42px",
+            mobile: "33px",
+            tablet: "42px",
+            print: "1.2"
+          },
+          "48": {
+            desktop: "54px",
+            mobile: "38px",
+            tablet: "54px",
+            print: "1.15"
+          },
+          base: "24px"
+        }
+      }
+    };
+  }
+});
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import * as React13 from "react";
+import * as React16 from "react";
 
 // src/components/DataVisualisation/core/ChartRoot.tsx
 import * as React2 from "react";
@@ -2864,9 +2864,6 @@ var ChartRoot = ({
   if (width !== void 0) style.width = typeof width === "number" ? `${width}px` : width;
   return /* @__PURE__ */ jsx("div", { ref: dims.ref, className, style, role, "aria-label": ariaLabel, children: /* @__PURE__ */ jsx(ChartContext.Provider, { value: dims, children }) });
 };
-
-// src/components/DataVisualisation/core/TooltipContext.tsx
-import * as React5 from "react";
 
 // src/components/DataVisualisation/core/ScaleContext.tsx
 import * as React3 from "react";
@@ -5421,1302 +5418,740 @@ var LineScalesProvider = ({
   return /* @__PURE__ */ jsx2(ScaleContext.Provider, { value, children });
 };
 
-// src/components/DataVisualisation/core/VisibilityContext.tsx
-import * as React4 from "react";
+// src/components/DataVisualisation/charts/SPC/SPCChart/components/DiagnosticsPanel.tsx
+import * as React5 from "react";
+
+// src/components/Tables/Table.tsx
+var import_classnames2 = __toESM(require_classnames(), 1);
+
+// src/components/Panel/Panel.tsx
+var import_classnames = __toESM(require_classnames(), 1);
+
+// src/components/Heading/Heading.tsx
+import { createElement } from "react";
+
+// src/mapping/heading.ts
+function deriveLevel(size) {
+  switch (size) {
+    case "xxl":
+    case "xl":
+      return 1;
+    case "l":
+      return 2;
+    case "m":
+      return 3;
+    case "s":
+      return 4;
+    case "xs":
+      return 5;
+    default:
+      return 2;
+  }
+}
+function mapHeadingProps(input) {
+  var _a2;
+  const level = (_a2 = input.level) != null ? _a2 : deriveLevel(input.size);
+  const classes = [
+    "nhsuk-heading",
+    input.size ? `nhsuk-heading--${input.size}` : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const style = input.marginBottom ? { marginBottom: input.marginBottom } : void 0;
+  return { tag: `h${level}`, classes, style };
+}
+
+// src/components/Heading/Heading.tsx
 import { jsx as jsx3 } from "react/jsx-runtime";
-var VisibilityContext = React4.createContext(null);
-var useVisibility = () => React4.useContext(VisibilityContext);
+var Heading = ({ level, className, text, html, children, size, marginBottom, ...rest }) => {
+  const model = mapHeadingProps({ level, size, className, marginBottom });
+  const content = children || (html ? /* @__PURE__ */ jsx3("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
+  return createElement(model.tag, { className: model.classes, style: model.style, ...rest }, content);
+};
 
-// src/components/DataVisualisation/core/TooltipContext.tsx
-import { jsx as jsx4 } from "react/jsx-runtime";
-var TooltipContext = React5.createContext(null);
-var useTooltipContext = () => React5.useContext(TooltipContext);
-var TooltipProvider = ({
+// src/components/Panel/Panel.tsx
+import { jsx as jsx4, jsxs } from "react/jsx-runtime";
+var Panel = ({
+  id,
+  className,
+  headingText,
+  headingHtml,
+  headingLevel = 2,
+  bodyText,
+  bodyHtml,
   children,
-  maxDistance = 40,
-  wrapAround = false
+  ...props
 }) => {
-  const scaleCtx = useScaleContext();
-  const visibility = useVisibility();
-  const [focused, setFocused] = React5.useState(null);
-  const seriesRef = React5.useRef(/* @__PURE__ */ new Map());
-  const [aggregated, setAggregated] = React5.useState([]);
-  const registerSeries = React5.useCallback(
-    (seriesId, data) => {
-      seriesRef.current.set(seriesId, data);
-    },
-    []
+  const panelClasses = (0, import_classnames.default)(
+    "nhsuk-panel",
+    className
   );
-  const unregisterSeries = React5.useCallback((seriesId) => {
-    seriesRef.current.delete(seriesId);
-  }, []);
-  const focusNearest = React5.useCallback(
-    (plotX, plotY) => {
-      if (!scaleCtx) return;
-      const { xScale, yScale } = scaleCtx;
-      let best = null;
-      let bestDist = Infinity;
-      seriesRef.current.forEach((data, sid) => {
-        data.forEach((d, i) => {
-          const px = xScale(d.x);
-          const py = yScale(d.y);
-          const dx = px - plotX;
-          const dy = py - plotY;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < bestDist) {
-            bestDist = dist;
-            best = {
-              seriesId: sid,
-              index: i,
-              x: d.x,
-              y: d.y,
-              clientX: px,
-              clientY: py
-            };
-          }
-        });
-      });
-      if (best && bestDist <= maxDistance) setFocused(best);
-      else setFocused(null);
-    },
-    [scaleCtx, maxDistance]
-  );
-  const clear = React5.useCallback(() => setFocused(null), []);
-  React5.useEffect(() => {
-    if (!focused) {
-      setAggregated([]);
-      return;
-    }
-    if (!scaleCtx) return;
-    const { xScale, yScale } = scaleCtx;
-    const agg = [];
-    seriesRef.current.forEach((data, sid) => {
-      data.forEach((d, i) => {
-        const match = (() => {
-          if (focused.x instanceof Date && d.x instanceof Date)
-            return d.x.getTime() === focused.x.getTime();
-          return d.x === focused.x;
-        })();
-        if (match) {
-          agg.push({
-            seriesId: sid,
-            index: i,
-            x: d.x,
-            y: d.y,
-            clientX: xScale(d.x),
-            clientY: yScale(d.y)
-          });
-        }
-      });
-    });
-    agg.sort((a, b) => a.seriesId.localeCompare(b.seriesId));
-    setAggregated(agg);
-  }, [focused, scaleCtx]);
-  const focusRelativePoint = React5.useCallback(
-    (delta) => {
-      if (!focused) return;
-      const data = seriesRef.current.get(focused.seriesId);
-      if (!data) return;
-      let nextIndex = focused.index + delta;
-      if (nextIndex < 0 || nextIndex >= data.length) {
-        if (!wrapAround) return;
-        nextIndex = (nextIndex + data.length) % data.length;
-      }
-      const d = data[nextIndex];
-      if (!scaleCtx) return;
-      const { xScale, yScale } = scaleCtx;
-      setFocused({
-        seriesId: focused.seriesId,
-        index: nextIndex,
-        x: d.x,
-        y: d.y,
-        clientX: xScale(d.x),
-        clientY: yScale(d.y)
-      });
-    },
-    [focused, scaleCtx, wrapAround]
-  );
-  const focusSeriesAtIndex = React5.useCallback(
-    (seriesDelta) => {
-      let ids = Array.from(seriesRef.current.keys());
-      if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
-      if (ids.length === 0) return;
-      if (!focused) {
-        const first = ids[0];
-        const data = seriesRef.current.get(first);
-        if (!data || !scaleCtx) return;
-        const { xScale: xScale2, yScale: yScale2 } = scaleCtx;
-        const d2 = data[0];
-        setFocused({
-          seriesId: first,
-          index: 0,
-          x: d2.x,
-          y: d2.y,
-          clientX: xScale2(d2.x),
-          clientY: yScale2(d2.y)
-        });
-        return;
-      }
-      const currentSeriesIdx = ids.indexOf(focused.seriesId);
-      if (currentSeriesIdx === -1) return;
-      let nextSeriesIdx = currentSeriesIdx + seriesDelta;
-      if (nextSeriesIdx < 0 || nextSeriesIdx >= ids.length) {
-        if (!wrapAround) return;
-        nextSeriesIdx = (nextSeriesIdx + ids.length) % ids.length;
-      }
-      const nextSeriesId = ids[nextSeriesIdx];
-      const nextData = seriesRef.current.get(nextSeriesId);
-      if (!nextData || !scaleCtx) return;
-      const idx = Math.min(focused.index, nextData.length - 1);
-      const d = nextData[idx];
-      const { xScale, yScale } = scaleCtx;
-      setFocused({
-        seriesId: nextSeriesId,
-        index: idx,
-        x: d.x,
-        y: d.y,
-        clientX: xScale(d.x),
-        clientY: yScale(d.y)
-      });
-    },
-    [focused, scaleCtx, wrapAround, visibility]
-  );
-  const focusFirstPoint = React5.useCallback(() => {
-    let ids = Array.from(seriesRef.current.keys());
-    if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
-    if (ids.length === 0) return;
-    const targetSeriesId = focused ? focused.seriesId : ids[0];
-    const data = seriesRef.current.get(targetSeriesId);
-    if (!data || data.length === 0 || !scaleCtx) return;
-    const d = data[0];
-    const { xScale, yScale } = scaleCtx;
-    setFocused({
-      seriesId: targetSeriesId,
-      index: 0,
-      x: d.x,
-      y: d.y,
-      clientX: xScale(d.x),
-      clientY: yScale(d.y)
-    });
-  }, [focused, scaleCtx, visibility]);
-  const focusLastPoint = React5.useCallback(() => {
-    let ids = Array.from(seriesRef.current.keys());
-    if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
-    if (ids.length === 0) return;
-    const targetSeriesId = focused ? focused.seriesId : ids[0];
-    const data = seriesRef.current.get(targetSeriesId);
-    if (!data || data.length === 0 || !scaleCtx) return;
-    const lastIndex = data.length - 1;
-    const d = data[lastIndex];
-    const { xScale, yScale } = scaleCtx;
-    setFocused({
-      seriesId: targetSeriesId,
-      index: lastIndex,
-      x: d.x,
-      y: d.y,
-      clientX: xScale(d.x),
-      clientY: yScale(d.y)
-    });
-  }, [focused, scaleCtx, visibility]);
-  const focusNextPoint = React5.useCallback(
-    () => focusRelativePoint(1),
-    [focusRelativePoint]
-  );
-  const focusPrevPoint = React5.useCallback(
-    () => focusRelativePoint(-1),
-    [focusRelativePoint]
-  );
-  const focusNextSeries = React5.useCallback(
-    () => focusSeriesAtIndex(1),
-    [focusSeriesAtIndex]
-  );
-  const focusPrevSeries = React5.useCallback(
-    () => focusSeriesAtIndex(-1),
-    [focusSeriesAtIndex]
-  );
-  const value = React5.useMemo(
-    () => ({
-      focused,
-      setFocused,
-      aggregated,
-      focusNearest,
-      clear,
-      registerSeries,
-      unregisterSeries,
-      focusNextPoint,
-      focusPrevPoint,
-      focusNextSeries,
-      focusPrevSeries,
-      focusFirstPoint,
-      focusLastPoint
-    }),
-    [
-      focused,
-      aggregated,
-      focusNearest,
-      clear,
-      registerSeries,
-      unregisterSeries,
-      focusNextPoint,
-      focusPrevPoint,
-      focusNextSeries,
-      focusPrevSeries,
-      focusFirstPoint,
-      focusLastPoint
-    ]
-  );
-  return /* @__PURE__ */ jsx4(TooltipContext.Provider, { value, children });
-};
-
-// src/components/DataVisualisation/charts/Axis/Axis.tsx
-import * as React6 from "react";
-import { jsx as jsx5, jsxs } from "react/jsx-runtime";
-var Axis = ({
-  type,
-  scale,
-  tickCount,
-  tickValues,
-  formatTick: rawFormatTick,
-  label,
-  offset,
-  className,
-  minLabelSpacing,
-  maxTickLabelLength,
-  autoMinLabelSpacing = type === "x" ? true : false,
-  labelAngle = 0,
-  allowLabelWrap = true,
-  tickFormatPreset,
-  showZeroAxisBreak = false,
-  zeroAxisBreakGapPx = 32,
-  zeroAxisBreakTickBufferPx = 12
-}) => {
-  const scaleCtx = useScaleContext();
-  const dims = useChartContext();
-  const resolvedScale = scale || (type === "x" ? scaleCtx == null ? void 0 : scaleCtx.xScale : scaleCtx == null ? void 0 : scaleCtx.yScale);
-  const defaultCount = tickCount != null ? tickCount : type === "x" ? 6 : 5;
-  const hasUserFormatter = typeof rawFormatTick === "function";
-  const presetFormatter = React6.useMemo(() => {
-    if (hasUserFormatter) return void 0;
-    if (!tickFormatPreset) return void 0;
-    const dtf = (opts) => new Intl.DateTimeFormat(void 0, opts);
-    switch (tickFormatPreset) {
-      case "dayShortMonth":
-        return (v) => {
-          const d = v instanceof Date ? v : new Date(v);
-          return `${d.getDate()}
-${dtf({ month: "short" }).format(d)}`;
-        };
-      case "dayShortMonthYear":
-        return (v) => {
-          const d = v instanceof Date ? v : new Date(v);
-          return `${d.getDate()}
-${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
-        };
-      case "shortMonth":
-        return (v) => {
-          const d = v instanceof Date ? v : new Date(v);
-          return dtf({ month: "short" }).format(d);
-        };
-      case "shortMonthYear":
-        return (v) => {
-          const d = v instanceof Date ? v : new Date(v);
-          return `${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
-        };
-      case "hourMinute":
-        return (v) => {
-          const d = v instanceof Date ? v : new Date(v);
-          return dtf({ hour: "2-digit", minute: "2-digit" }).format(d);
-        };
-      default:
-        return void 0;
-    }
-  }, [hasUserFormatter, tickFormatPreset]);
-  let effectiveFormatTick = hasUserFormatter ? rawFormatTick : presetFormatter || ((v) => String(v));
-  const ticks2 = React6.useMemo(() => {
-    if (tickValues && Array.isArray(tickValues)) return tickValues;
-    if (!resolvedScale) return [];
-    if (typeof resolvedScale.ticks === "function")
-      return resolvedScale.ticks(defaultCount);
-    return resolvedScale.domain ? resolvedScale.domain() : [];
-  }, [resolvedScale, defaultCount, tickValues]);
-  if (type === "x" && !hasUserFormatter && !tickFormatPreset && ticks2.length && ticks2.every((t) => t instanceof Date)) {
-    const first = ticks2[0];
-    const last = ticks2[ticks2.length - 1];
-    const spanMs = last.getTime() - first.getTime();
-    const oneDay = 24 * 3600 * 1e3;
-    const oneYear = 365 * oneDay;
-    const sameYear = first.getFullYear() === last.getFullYear();
-    const dtfMonth = new Intl.DateTimeFormat(void 0, { month: "short" });
-    if (spanMs < 2 * oneDay) {
-      const dtfTime = new Intl.DateTimeFormat(void 0, {
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-      effectiveFormatTick = (v) => dtfTime.format(v);
-    } else if (spanMs < 32 * oneDay) {
-      effectiveFormatTick = (v) => {
-        const d = v;
-        return `${d.getDate()} ${dtfMonth.format(d)}`;
-      };
-    } else if (spanMs < oneYear && sameYear) {
-      effectiveFormatTick = (v) => dtfMonth.format(v);
-    } else if (spanMs < 2 * oneYear) {
-      const seenMonths = /* @__PURE__ */ new Set();
-      effectiveFormatTick = (v) => {
-        const d = v;
-        const key = d.getMonth();
-        if (!seenMonths.has(key)) {
-          seenMonths.add(key);
-        }
-        return `${dtfMonth.format(d)} ${d.getFullYear()}`;
-      };
-    } else {
-      effectiveFormatTick = (v) => String(v.getFullYear());
-    }
-  }
-  if (!resolvedScale || !dims) return null;
-  if (type === "x") {
-    const y2 = offset != null ? offset : dims.innerHeight;
-    const isBandScale = typeof resolvedScale.bandwidth === "function";
-    const bandwidth = isBandScale ? resolvedScale.bandwidth() : 0;
-    const tickPos = (t) => {
-      const base = resolvedScale(t);
-      return isBandScale ? base + bandwidth / 2 : base;
-    };
-    let resolvedMinSpacing = minLabelSpacing != null ? minLabelSpacing : 0;
-    if (autoMinLabelSpacing && (minLabelSpacing === void 0 || minLabelSpacing === null)) {
-      const labels = ticks2.map(
-        (t) => effectiveFormatTick(t).replace(/\n.*/g, "")
-      );
-      const avgLen = labels.length ? labels.reduce((a, b) => a + b.length, 0) / labels.length : 0;
-      resolvedMinSpacing = Math.max(12, Math.round(avgLen * 6 + 4));
-    }
-    const filteredTicks = React6.useMemo(() => {
-      if (tickValues && Array.isArray(tickValues)) return ticks2;
-      if (resolvedMinSpacing <= 0) return ticks2;
-      const accepted = [];
-      let lastPos = -Infinity;
-      for (const t of ticks2) {
-        const pos = tickPos(t);
-        if (pos - lastPos >= resolvedMinSpacing) {
-          accepted.push(t);
-          lastPos = pos;
-        }
-      }
-      return accepted;
-    }, [
-      ticks2,
-      resolvedScale,
-      resolvedMinSpacing,
-      tickValues,
-      isBandScale,
-      bandwidth
-    ]);
-    return /* @__PURE__ */ jsxs(
-      "g",
-      {
-        className: ["fdp-axis", "fdp-axis--x", className].filter(Boolean).join(" "),
-        transform: `translate(0,${y2})`,
-        fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))",
-        children: [
-          /* @__PURE__ */ jsx5("line", { x1: 0, x2: dims.innerWidth, y1: 0, y2: 0, stroke: "currentColor" }),
-          filteredTicks.map((t, i) => {
-            var _a2;
-            const rawLabel = effectiveFormatTick(t);
-            const displayLabel = maxTickLabelLength && rawLabel.length > maxTickLabelLength ? rawLabel.slice(0, Math.max(1, maxTickLabelLength - 1)) + "\u2026" : rawLabel;
-            const lines = allowLabelWrap ? displayLabel.split(/\n/) : [displayLabel.replace(/\n/g, " ")];
-            const anchor = labelAngle < 0 ? "end" : labelAngle > 0 ? "start" : "middle";
-            return /* @__PURE__ */ jsxs(
-              "g",
-              {
-                transform: `translate(${tickPos(t)},0)`,
-                children: [
-                  /* @__PURE__ */ jsx5("line", { y2: 6, stroke: "currentColor" }),
-                  /* @__PURE__ */ jsxs(
-                    "text",
-                    {
-                      y: 9,
-                      textAnchor: anchor,
-                      className: "fdp-axis__tick",
-                      dominantBaseline: "hanging",
-                      transform: labelAngle ? `rotate(${labelAngle})` : void 0,
-                      fontFamily: "inherit",
-                      children: [
-                        lines.map((ln, li) => /* @__PURE__ */ jsx5("tspan", { x: 0, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
-                        displayLabel !== rawLabel && /* @__PURE__ */ jsx5("title", { children: rawLabel })
-                      ]
-                    }
-                  )
-                ]
-              },
-              ((_a2 = t == null ? void 0 : t.toString) == null ? void 0 : _a2.call(t)) || i
-            );
-          })
-        ]
-      }
-    );
-  }
-  return /* @__PURE__ */ jsxs(
-    "g",
-    {
-      className: ["fdp-axis", "fdp-axis--y", className].filter(Boolean).join(" "),
-      fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))",
-      children: [
-        (() => {
-          if (!showZeroAxisBreak) {
-            return /* @__PURE__ */ jsx5("line", { x1: 0, x2: 0, y1: 0, y2: dims.innerHeight, stroke: "currentColor" });
-          }
-          const gap = Math.max(6, zeroAxisBreakGapPx);
-          const topSolidEnd = Math.max(0, dims.innerHeight - gap);
-          return /* @__PURE__ */ jsx5("line", { x1: 0, x2: 0, y1: 0, y2: topSolidEnd, stroke: "currentColor" });
-        })(),
-        ticks2.map((t, i) => {
-          var _a2;
-          const rawLabel = effectiveFormatTick(t);
-          const displayLabel = maxTickLabelLength && rawLabel.length > maxTickLabelLength ? rawLabel.slice(0, Math.max(1, maxTickLabelLength - 1)) + "\u2026" : rawLabel;
-          const lines = allowLabelWrap ? displayLabel.split(/\n/) : [displayLabel.replace(/\n/g, " ")];
-          if (showZeroAxisBreak) {
-            const gap = Math.max(6, zeroAxisBreakGapPx);
-            const topSolidEnd = Math.max(0, dims.innerHeight - gap);
-            const yPx = resolvedScale(t);
-            const buffer = Math.max(0, zeroAxisBreakTickBufferPx);
-            if (yPx > topSolidEnd - buffer) return null;
-          }
-          return /* @__PURE__ */ jsxs(
-            "g",
-            {
-              transform: `translate(0,${resolvedScale(t)})`,
-              children: [
-                /* @__PURE__ */ jsx5("line", { x2: -6, stroke: "currentColor" }),
-                /* @__PURE__ */ jsxs(
-                  "text",
-                  {
-                    x: -9,
-                    dy: "0.32em",
-                    textAnchor: "end",
-                    className: "fdp-axis__tick",
-                    fontFamily: "inherit",
-                    children: [
-                      lines.map((ln, li) => /* @__PURE__ */ jsx5("tspan", { x: -9, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
-                      displayLabel !== rawLabel && /* @__PURE__ */ jsx5("title", { children: rawLabel })
-                    ]
-                  }
-                )
-              ]
-            },
-            ((_a2 = t == null ? void 0 : t.toString) == null ? void 0 : _a2.call(t)) || i
-          );
-        }),
-        showZeroAxisBreak && (() => {
-          const gap = Math.max(6, zeroAxisBreakGapPx);
-          const bottom = dims.innerHeight;
-          const top = 0;
-          const topSolidEnd = Math.max(top, bottom - gap);
-          const center = topSolidEnd + gap / 2;
-          const amp = Math.max(3, Math.min(8, Math.round(gap * 0.18)));
-          const maxCycles = Math.max(3, Math.min(6, Math.floor(gap / (2 * amp)) || 3));
-          const startY = -amp * maxCycles;
-          let d = `M0,${startY}`;
-          for (let i = 0; i < maxCycles; i++) {
-            d += ` l-4,${amp} l4,${amp}`;
-          }
-          const upperGuideEnd = center + startY - 2;
-          const lowerGuideStart = center - startY + 2;
-          return /* @__PURE__ */ jsxs("g", { children: [
-            /* @__PURE__ */ jsx5("line", { x1: 0, x2: 0, y1: topSolidEnd, y2: upperGuideEnd, stroke: "currentColor", strokeDasharray: "2 2" }),
-            /* @__PURE__ */ jsx5("g", { transform: `translate(0,${center})`, "aria-hidden": "true", children: /* @__PURE__ */ jsx5("path", { d, stroke: "currentColor", strokeLinecap: "square", fill: "none" }) }),
-            /* @__PURE__ */ jsx5("line", { x1: 0, x2: 0, y1: lowerGuideStart, y2: bottom, stroke: "currentColor", strokeDasharray: "2 2" }),
-            /* @__PURE__ */ jsx5("g", { transform: `translate(0,${bottom})`, children: /* @__PURE__ */ jsx5("text", { x: -9, dy: "0.32em", textAnchor: "end", className: "fdp-axis__tick", fontFamily: "inherit", children: "0" }) })
-          ] });
-        })(),
-        label && /* @__PURE__ */ jsx5(
-          "text",
-          {
-            transform: "rotate(-90)",
-            x: -dims.innerHeight / 2,
-            y: -dims.margin.left + 12,
-            textAnchor: "middle",
-            className: "fdp-axis__label",
-            fontFamily: "inherit",
-            children: label
-          }
-        )
-      ]
-    }
-  );
-};
-var Axis_default = Axis;
-
-// src/components/DataVisualisation/charts/GridLines/GridLines.tsx
-import { jsx as jsx6, jsxs as jsxs2 } from "react/jsx-runtime";
-var GridLines = ({
-  axis = "y",
-  tickCount,
-  stroke = "var(--fdp-chart-grid,#e5e5e5)",
-  dasharray = "2 4",
-  className,
-  showZeroAxisBreak = false,
-  zeroAxisBreakGapPx = 32,
-  zeroAxisBreakTickBufferPx = 12
-}) => {
-  const scaleCtx = useScaleContext();
-  const dims = useChartContext();
-  if (!scaleCtx || !dims) return null;
-  const ticks2 = axis === "y" ? scaleCtx.getYTicks(tickCount) : scaleCtx.getXTicks(tickCount);
-  return /* @__PURE__ */ jsxs2("g", { className: ["fdp-grid", className].filter(Boolean).join(" "), children: [
-    axis === "y" && ticks2.map((t, i) => {
-      const y2 = scaleCtx.yScale(t);
-      if (showZeroAxisBreak) {
-        const gap = Math.max(6, zeroAxisBreakGapPx);
-        const topSolidEnd = Math.max(0, dims.innerHeight - gap);
-        const buffer = Math.max(0, zeroAxisBreakTickBufferPx);
-        if (y2 > topSolidEnd - buffer) return null;
-      }
-      return /* @__PURE__ */ jsx6(
-        "line",
+  const renderHeading = () => {
+    if (!headingText && !headingHtml && !children) return null;
+    if (headingHtml) {
+      return /* @__PURE__ */ jsx4(
+        Heading,
         {
-          x1: 0,
-          x2: dims.innerWidth,
-          y1: y2,
-          y2,
-          stroke,
-          strokeDasharray: dasharray
-        },
-        i
+          level: headingLevel,
+          className: "nhsuk-panel__heading",
+          html: headingHtml,
+          marginBottom: "var(--panel-heading-margin, 24px)"
+        }
       );
-    }),
-    axis === "x" && ticks2.map((t, i) => /* @__PURE__ */ jsx6(
-      "line",
-      {
-        y1: 0,
-        y2: dims.innerHeight,
-        x1: scaleCtx.xScale(t),
-        x2: scaleCtx.xScale(t),
-        stroke,
-        strokeDasharray: dasharray
-      },
-      i
-    ))
+    }
+    if (headingText) {
+      return /* @__PURE__ */ jsx4(
+        Heading,
+        {
+          level: headingLevel,
+          className: "nhsuk-panel__heading",
+          text: headingText,
+          marginBottom: "var(--panel-heading-margin, 24px)"
+        }
+      );
+    }
+    return null;
+  };
+  const renderBody = () => {
+    if (children) {
+      return /* @__PURE__ */ jsx4("div", { className: "nhsuk-panel__body", children });
+    }
+    if (bodyHtml) {
+      return /* @__PURE__ */ jsx4(
+        "div",
+        {
+          className: "nhsuk-panel__body",
+          dangerouslySetInnerHTML: { __html: bodyHtml }
+        }
+      );
+    }
+    if (bodyText) {
+      return /* @__PURE__ */ jsx4("div", { className: "nhsuk-panel__body", children: /* @__PURE__ */ jsx4("p", { children: bodyText }) });
+    }
+    return null;
+  };
+  return /* @__PURE__ */ jsxs("div", { className: panelClasses, id, ...props, children: [
+    renderHeading(),
+    renderBody()
   ] });
 };
-var GridLines_default = GridLines;
 
-// src/components/DataVisualisation/series/LineSeriesPrimitive.tsx
-import * as React7 from "react";
-
-// packages/nhs-fdp/tokens/data-viz.json
-var data_viz_default = {
-  color: {
-    "data-viz": {
-      $type: "color",
-      categorical: {
-        "1": { $value: "{color.primary.blue}", $description: "Series 1 \u2013 NHS Blue (brand core)" },
-        "2": { $value: "#41B6E6", $description: "Series 2 \u2013 NHS Light Blue (new)" },
-        "3": { $value: "{color.secondary.aqua-green}", $description: "Series 3 \u2013 NHS Aqua Green (existing)" },
-        "4": { $value: "#78BE20", $description: "Series 4 \u2013 NHS Light Green (new)" },
-        "5": { $value: "{color.primary.green}", $description: "Series 5 \u2013 NHS Green (existing)" },
-        "6": { $value: "{color.secondary.warm-yellow}", $description: "Series 6 \u2013 NHS Warm Yellow (existing; distinct from focus yellow)" },
-        "7": { $value: "#ED4F00", $description: "Series 7 \u2013 NHS Tangerine (new; warmer/deeper than existing orange)" },
-        "8": { $value: "{color.secondary.pink}", $description: "Series 8 \u2013 NHS Pink (existing)" },
-        "9": { $value: "#E317AA", $description: "Series 9 \u2013 NHS Bright Pink (new vivid accent)" },
-        "10": { $value: "#880FB8", $description: "Series 10 \u2013 NHS Light Purple (new mid purple)" },
-        "11": { $value: "{color.primary.purple}", $description: "Series 11 \u2013 NHS Purple (existing dark purple)" },
-        "12": { $value: "#9A6324", $description: "Series 12 \u2013 NHS Brown (new; earth neutral)" }
-      },
-      neutral: {
-        comparison: { $value: "{color.grey.1}", $description: "Neutral comparison series (optional)" }
-      },
-      region: {
-        $comment: "Fixed colours for NHS geographical regions; prefer stable mapping for maps. London colour updated (#78BE21 \u2013 light green).",
-        "north-east": { $value: "{color.primary.blue}", $description: "North East \u2013 NHS Blue" },
-        "north-west": { $value: "#41B6E6", $description: "North West \u2013 NHS Light Blue" },
-        "east-of-england": { $value: "{color.primary.purple}", $description: "East of England \u2013 NHS Purple" },
-        midlands: { $value: "{color.secondary.pink}", $description: "Midlands \u2013 NHS Pink" },
-        london: { $value: "#78BE21", $description: "London \u2013 NHS Light Green (new)" },
-        "south-west": { $value: "#FAE100", $description: "South West \u2013 NHS Yellow variant (new)" },
-        "south-east": { $value: "#ed8b00", $description: "South East \u2013 NHS Orange (existing base orange)" }
-      },
-      severity: {
-        $comment: "Semantic severity / alert colours (light background ramp \u2192 critical).",
-        low: { $value: "{color.secondary.pale-yellow}", $description: "Low severity \u2013 pale yellow background" },
-        moderate: { $value: "{color.secondary.warm-yellow}", $description: "Moderate severity \u2013 warm yellow" },
-        high: { $value: "{color.secondary.orange}", $description: "High severity \u2013 orange" },
-        critical: { $value: "{color.primary.red}", $description: "Critical severity \u2013 red" }
-      },
-      "org-level": {
-        $comment: "Organisational level semantic colours (stable NHS brand mappings).",
-        trust: { $value: "{color.primary.blue}", $description: "Trust \u2013 NHS Blue" },
-        ambulance: { $value: "{color.primary.green}", $description: "Ambulance \u2013 NHS Green" },
-        icb: { $value: "{color.primary.dark-pink}", $description: "ICB \u2013 NHS Dark Pink" },
-        region: { $value: "{color.primary.purple}", $description: "Region \u2013 NHS Purple" }
-      },
-      stroke: {
-        $comment: "Automatic contrast stroke colours for overlays / borders. Light fills get dark stroke; dark fills get white stroke.",
-        categorical: {
-          "1": { $value: "#ffffff", $description: "Stroke for series 1 (blue)" },
-          "2": { $value: "#212b32", $description: "Stroke for series 2 (light blue)" },
-          "3": { $value: "#212b32", $description: "Stroke for series 3 (aqua green)" },
-          "4": { $value: "#212b32", $description: "Stroke for series 4 (light green)" },
-          "5": { $value: "#ffffff", $description: "Stroke for series 5 (green)" },
-          "6": { $value: "#212b32", $description: "Stroke for series 6 (warm yellow)" },
-          "7": { $value: "#ffffff", $description: "Stroke for series 7 (tangerine)" },
-          "8": { $value: "#ffffff", $description: "Stroke for series 8 (pink)" },
-          "9": { $value: "#ffffff", $description: "Stroke for series 9 (bright pink)" },
-          "10": { $value: "#ffffff", $description: "Stroke for series 10 (light purple)" },
-          "11": { $value: "#ffffff", $description: "Stroke for series 11 (purple)" },
-          "12": { $value: "#ffffff", $description: "Stroke for series 12 (brown)" }
-        },
-        region: {
-          $comment: "Region stroke colours derived from fill colours: dark fills lightened ~35%; light fills darkened ~25% for consistent contrast without defaulting to pure white/black.",
-          "north-east": { $value: "#5996D1", $description: "Stroke for North East (blue lightened 35%)" },
-          "north-west": { $value: "#3189AD", $description: "Stroke for North West (light blue darkened 25%)" },
-          "east-of-england": { $value: "#7A59A3", $description: "Stroke for East of England (purple lightened 35%)" },
-          midlands: { $value: "#CA71A4", $description: "Stroke for Midlands (pink lightened 35%)" },
-          london: { $value: "#5A8F19", $description: "Stroke for London (light green darkened 25%)" },
-          "south-west": { $value: "#BCA900", $description: "Stroke for South West (yellow darkened 25%)" },
-          "south-east": { $value: "#B26800", $description: "Stroke for South East (orange darkened 25%)" }
-        },
-        severity: {
-          $comment: "Contrast strokes for severity colours (light backgrounds use dark stroke; dark backgrounds use white).",
-          low: { $value: "#212b32", $description: "Stroke for low severity (pale yellow fill)" },
-          moderate: { $value: "#212b32", $description: "Stroke for moderate severity (warm yellow fill)" },
-          high: { $value: "#212b32", $description: "Stroke for high severity (orange fill)" },
-          critical: { $value: "#ffffff", $description: "Stroke for critical severity (red fill)" }
-        },
-        "org-level": {
-          $comment: "Contrast strokes for organisational level colours (all dark brand fills so white stroke for consistency).",
-          trust: { $value: "#ffffff", $description: "Stroke for trust (blue fill)" },
-          ambulance: { $value: "#ffffff", $description: "Stroke for ambulance (green fill)" },
-          icb: { $value: "#ffffff", $description: "Stroke for ICB (dark pink fill)" },
-          region: { $value: "#ffffff", $description: "Stroke for region (purple fill)" }
-        }
-      },
-      spc: {
-        $comment: "SPC (Statistical Process Control) semantic variation colours aligned to SPCChart.scss and SPCIcons.",
-        improvement: { $value: "#00B0F0", $description: "SPC special cause improvement (favourable)" },
-        concern: { $value: "#E46C0A", $description: "SPC special cause concern (deteriorating)" },
-        "no-judgement": { $value: "#490092", $description: "SPC special cause (no directional judgement)" },
-        "common-cause": { $value: "#A6A6A6", $description: "SPC common cause (baseline variation)" },
-        "assurance-pass": { $value: "#00823B", $description: "SPC assurance pass indicator (process capable)" },
-        "assurance-fail": { $value: "#DA291C", $description: "SPC assurance fail indicator (process not capable)" },
-        gradient: {
-          $comment: "Opacity stops for SPC icon gradient wash (applied top-left -> bottom-right). Consumers build gradients using these opacities + base colour.",
-          stop: {
-            "start-opacity": { $value: "0.18", $description: "Start stop opacity (0%) for classic variant wash" },
-            "mid-opacity": { $value: "0.06", $description: "Mid stop opacity (~65-75%)" },
-            "end-opacity": { $value: "0", $description: "End stop opacity (100%)" },
-            "triangle-start-opacity": { $value: "0.18", $description: "Start opacity for triangle variants (kept aligned)" },
-            "triangle-mid-opacity": { $value: "0.06", $description: "Mid opacity for triangle variants" },
-            "triangle-end-opacity": { $value: "0", $description: "End opacity for triangle variants" }
-          }
-        },
-        stroke: {
-          $comment: "Contrast stroke colours for SPC variation fills.",
-          improvement: { $value: "#000000", $description: "Stroke for improvement points" },
-          concern: { $value: "#000000", $description: "Stroke for concern points" },
-          "no-judgement": { $value: "#000000", $description: "Stroke for no-judgement points" },
-          "common-cause": { $value: "#ffffff", $description: "Stroke for common cause points" },
-          "assurance-pass": { $value: "#000000", $description: "Stroke for assurance pass points" },
-          "assurance-fail": { $value: "#000000", $description: "Stroke for assurance fail points" }
-        }
-      }
-    }
-  }
-};
-
-// packages/nhs-fdp/tokens/colors.json
-var colors_default = {
-  color: {
-    primary: {
-      $type: "color",
-      blue: {
-        $value: "#005eb8",
-        $description: "NHS Blue - Primary brand color"
-      },
-      "blue-active": {
-        $value: "#002f5c",
-        $description: "NHS Active Blue (50% shade) \u2013 alias of button/login active; promoted for general reuse"
-      },
-      white: {
-        $value: "#ffffff",
-        $description: "NHS White"
-      },
-      black: {
-        $value: "#212b32",
-        $description: "NHS Black"
-      },
-      green: {
-        $value: "#007f3b",
-        $description: "NHS Green"
-      },
-      purple: {
-        $value: "#330072",
-        $description: "NHS Purple"
-      },
-      "dark-pink": {
-        $value: "#7c2855",
-        $description: "NHS Dark Pink"
-      },
-      red: {
-        $value: "#d5281b",
-        $description: "NHS Red"
-      },
-      "light-purple": {
-        $value: "#880FB8",
-        $description: "NHS Light Purple (data viz promoted)"
-      },
-      yellow: {
-        $value: "#ffeb3b",
-        $description: "NHS Yellow"
-      }
-    },
-    secondary: {
-      $type: "color",
-      "pale-yellow": {
-        $value: "#fff9c4",
-        $description: "NHS Pale Yellow"
-      },
-      "warm-yellow": {
-        $value: "#ffb81c",
-        $description: "NHS Warm Yellow"
-      },
-      "region-yellow": {
-        $value: "#FAE100",
-        $description: "NHS Region Yellow (maps)"
-      },
-      orange: {
-        $value: "#ed8b00",
-        $description: "NHS Orange"
-      },
-      tangerine: {
-        $value: "#ED4F00",
-        $description: "NHS Tangerine (data viz promoted)"
-      },
-      "aqua-green": {
-        $value: "#00a499",
-        $description: "NHS Aqua Green"
-      },
-      "light-blue": {
-        $value: "#41B6E6",
-        $description: "NHS Light Blue (data viz promoted)"
-      },
-      pink: {
-        $value: "#ae2573",
-        $description: "NHS Pink"
-      },
-      "bright-pink": {
-        $value: "#E317AA",
-        $description: "NHS Bright Pink (data viz promoted)"
-      },
-      "light-green": {
-        $value: "#78BE20",
-        $description: "NHS Light Green (data viz promoted)"
-      },
-      brown: {
-        $value: "#9A6324",
-        $description: "NHS Brown (data viz promoted neutral)"
-      }
-    },
-    grey: {
-      $type: "color",
-      "1": {
-        $value: "#4c6272",
-        $description: "NHS Grey 1 - Darkest grey"
-      },
-      "2": {
-        $value: "#768692",
-        $description: "NHS Grey 2 - Darker grey"
-      },
-      "3": {
-        $value: "#aeb7bd",
-        $description: "NHS Grey 3 - Medium grey"
-      },
-      "4": {
-        $value: "#d8dde0",
-        $description: "NHS Grey 4 - Light grey"
-      },
-      "5": {
-        $value: "#f0f4f5",
-        $description: "NHS Grey 5 - Lightest grey"
-      }
-    },
-    accessibility: {
-      $type: "color",
-      $comment: "Accessibility-oriented color tokens. Includes CVD-safe pairs and Okabe\u2013Ito colors. Use these for positive/negative semantics and colour-blind\u2013friendly defaults.",
-      "okabe-ito": {
-        green: {
-          $value: "#009E73",
-          $description: "Okabe\u2013Ito green (CVD-safe) \u2013 recommended positive"
-        },
-        vermillion: {
-          $value: "#D55E00",
-          $description: "Okabe\u2013Ito vermillion / red\u2013orange (CVD-safe) \u2013 recommended negative"
-        }
-      },
-      "cvd-safe": {
-        blue: {
-          $value: "#1f77b4",
-          $description: "CVD-safe blue (pairs with orange); widely used in Matplotlib/Tableau sets"
-        },
-        orange: {
-          $value: "#ff7f0e",
-          $description: "CVD-safe orange (pairs with blue)"
-        }
-      },
-      positive: {
-        $value: "{color.accessibility.okabe-ito.green}",
-        $description: "Accessibility semantic alias \u2013 positive"
-      },
-      negative: {
-        $value: "{color.accessibility.okabe-ito.vermillion}",
-        $description: "Accessibility semantic alias \u2013 negative"
-      }
-    }
-  }
-};
-
-// src/components/DataVisualisation/utils/colors.ts
-var legacyCategorical = [
-  "#005eb8",
-  "#0072ce",
-  "#41b6e6",
-  "#00a499",
-  "#7c2855",
-  "#330072",
-  "#d5281b",
-  "#ffb81c",
-  "#fae100",
-  "#4c6272",
-  "#768692",
-  "#aeb7bd"
-];
-var categoricalPalette = null;
-var optimizedCategoricalPalette = null;
-var extendedPaletteCache = null;
-var categoricalStrategy = "optimized";
-function buildPalette() {
-  const root = { color: { ...colors_default.color, ...data_viz_default.color } };
-  const resolve = (path2, seen = /* @__PURE__ */ new Set()) => {
-    if (seen.has(path2)) return void 0;
-    seen.add(path2);
-    const node = path2.split(".").reduce((acc, k) => acc ? acc[k] : void 0, root);
-    if (!node) return void 0;
-    const value = node.$value || node.value;
-    if (typeof value === "string" && /^\{.+\}$/.test(value)) {
-      return resolve(value.slice(1, -1), seen);
-    }
-    if (typeof value === "string") return value;
-    return void 0;
-  };
-  const palette = [];
+// src/components/Tables/Table.tsx
+import { Fragment, jsx as jsx5, jsxs as jsxs2 } from "react/jsx-runtime";
+var prismGlobalRef = { current: null };
+var ensurePrismGlobal = () => {
+  if (prismGlobalRef.current) return prismGlobalRef.current;
   try {
-    for (let i = 1; i <= 12; i++) {
-      const tokenPath = `color.data-viz.categorical.${i}`;
-      const hex2 = resolve(tokenPath);
-      if (!hex2) throw new Error(`Missing token ${tokenPath}`);
-      palette.push(hex2);
+    prismGlobalRef.current = require_prism();
+    try {
+      require_prism_typescript();
+    } catch {
     }
-    return palette;
-  } catch (e) {
-    return legacyCategorical;
-  }
-}
-function getPalette() {
-  if (!categoricalPalette) categoricalPalette = buildPalette();
-  return categoricalPalette;
-}
-function hexToRgb(hex2) {
-  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex2.trim());
-  if (!m) return null;
-  return { r: parseInt(m[1], 16), g: parseInt(m[2], 16), b: parseInt(m[3], 16) };
-}
-function srgbToLinear(x2) {
-  x2 /= 255;
-  return x2 <= 0.04045 ? x2 / 12.92 : Math.pow((x2 + 0.055) / 1.055, 2.4);
-}
-function rgbToXyz(r, g, b) {
-  const R = srgbToLinear(r);
-  const G = srgbToLinear(g);
-  const B = srgbToLinear(b);
-  const x2 = R * 0.4124 + G * 0.3576 + B * 0.1805;
-  const y2 = R * 0.2126 + G * 0.7152 + B * 0.0722;
-  const z = R * 0.0193 + G * 0.1192 + B * 0.9505;
-  return { x: x2 * 100, y: y2 * 100, z: z * 100 };
-}
-function xyzToLab(x2, y2, z) {
-  const refX = 95.047, refY = 100, refZ = 108.883;
-  let X = x2 / refX, Y = y2 / refY, Z = z / refZ;
-  const f = (t) => t > 8856e-6 ? Math.cbrt(t) : 7.787 * t + 16 / 116;
-  X = f(X);
-  Y = f(Y);
-  Z = f(Z);
-  return { L: 116 * Y - 16, a: 500 * (X - Y), b: 200 * (Y - Z) };
-}
-function hexToLab(hex2) {
-  const rgb2 = hexToRgb(hex2);
-  if (!rgb2) return null;
-  const xyz = rgbToXyz(rgb2.r, rgb2.g, rgb2.b);
-  return xyzToLab(xyz.x, xyz.y, xyz.z);
-}
-function deltaE76(c1, c2) {
-  const dL = c1.L - c2.L;
-  const da = c1.a - c2.a;
-  const db = c1.b - c2.b;
-  return Math.sqrt(dL * dL + da * da + db * db);
-}
-function buildOptimizedCategoricalPalette() {
-  const base = getPalette();
-  if (base.length <= 2) return base.slice();
-  const labs = base.map((c) => hexToLab(c));
-  let bestStartIdx = 0;
-  let bestAvg = -1;
-  for (let i = 0; i < base.length; i++) {
-    const li = labs[i];
-    if (!li) continue;
-    let total = 0;
-    let count = 0;
-    for (let j = 0; j < base.length; j++) if (i !== j && labs[j]) {
-      total += deltaE76(li, labs[j]);
-      count++;
+    try {
+      require_prism_tsx();
+    } catch {
     }
-    const avg = total / Math.max(1, count);
-    if (avg > bestAvg) {
-      bestAvg = avg;
-      bestStartIdx = i;
+    try {
+      require_prism_json();
+    } catch {
     }
+  } catch {
+    prismGlobalRef.current = null;
   }
-  const remaining = new Set(base.map((_, i) => i));
-  const order = [];
-  order.push(bestStartIdx);
-  remaining.delete(bestStartIdx);
-  while (remaining.size) {
-    let nextIdx = Array.from(remaining)[0];
-    let bestMin = -1;
-    for (const idx of remaining) {
-      const l = labs[idx];
-      if (!l) continue;
-      let minD = Infinity;
-      for (const o of order) {
-        const lo = labs[o];
-        if (lo) {
-          const d = deltaE76(l, lo);
-          if (d < minD) minD = d;
-        }
-      }
-      if (minD > bestMin) {
-        bestMin = minD;
-        nextIdx = idx;
-      }
-    }
-    order.push(nextIdx);
-    remaining.delete(nextIdx);
-  }
-  return order.map((i) => base[i]);
-}
-function getOptimizedPalette() {
-  if (!optimizedCategoricalPalette) optimizedCategoricalPalette = buildOptimizedCategoricalPalette();
-  return optimizedCategoricalPalette;
-}
-function getRawPalette() {
-  return getPalette();
-}
-function labToXyz(L, a, b) {
-  const y2 = (L + 16) / 116;
-  const x2 = a / 500 + y2;
-  const z = y2 - b / 200;
-  const f = (t) => {
-    const t3 = t * t * t;
-    return t3 > 8856e-6 ? t3 : (t - 16 / 116) / 7.787;
-  };
-  const X = f(x2) * 95.047;
-  const Y = f(y2) * 100;
-  const Z = f(z) * 108.883;
-  return { X, Y, Z };
-}
-function xyzToRgb(x2, y2, z) {
-  x2 /= 100;
-  y2 /= 100;
-  z /= 100;
-  let R = x2 * 3.2406 + y2 * -1.5372 + z * -0.4986;
-  let G = x2 * -0.9689 + y2 * 1.8758 + z * 0.0415;
-  let B = x2 * 0.0557 + y2 * -0.204 + z * 1.057;
-  const linToSrgb = (c) => c <= 31308e-7 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
-  R = Math.min(1, Math.max(0, linToSrgb(R)));
-  G = Math.min(1, Math.max(0, linToSrgb(G)));
-  B = Math.min(1, Math.max(0, linToSrgb(B)));
-  return { r: Math.round(R * 255), g: Math.round(G * 255), b: Math.round(B * 255) };
-}
-function rgbToHex(r, g, b) {
-  return `#${[r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("")}`;
-}
-function adjustLightness(hex2, deltaL) {
-  const lab = hexToLab(hex2);
-  if (!lab) return hex2;
-  const L = Math.min(100, Math.max(0, lab.L + deltaL));
-  const { X, Y, Z } = labToXyz(L, lab.a, lab.b);
-  const rgb2 = xyzToRgb(X, Y, Z);
-  return rgbToHex(rgb2.r, rgb2.g, rgb2.b);
-}
-function buildExtendedPalette() {
-  const base = categoricalStrategy === "raw" ? getRawPalette() : getOptimizedPalette();
-  const deltas = [12, -12, 24, -24];
-  const variants = deltas.map((d) => base.map((c) => adjustLightness(c, d)));
-  const extended = [...base];
-  variants.forEach((v) => extended.push(...v));
-  return extended;
-}
-function getExtendedPalette() {
-  if (!extendedPaletteCache || extendedPaletteCacheStrategyMismatch()) {
-    extendedPaletteCache = buildExtendedPalette();
-    lastExtendedStrategy = categoricalStrategy;
-  }
-  return extendedPaletteCache;
-}
-var lastExtendedStrategy = null;
-function extendedPaletteCacheStrategyMismatch() {
-  return lastExtendedStrategy !== categoricalStrategy;
-}
-function pickSeriesColor(i) {
-  const ext = getExtendedPalette();
-  return ext[i % ext.length];
-}
-var categoricalStrokeMap = null;
-var regionStrokeMap = null;
-var severityStrokeMap = null;
-var orgLevelStrokeMap = null;
-function buildStrokeMaps() {
-  var _a2, _b2, _c, _d, _e;
-  const stroke = (_c = (_b2 = (_a2 = data_viz_default) == null ? void 0 : _a2.color) == null ? void 0 : _b2["data-viz"]) == null ? void 0 : _c.stroke;
-  if (stroke) {
-    const cat = stroke.categorical || {};
-    categoricalStrokeMap = [];
-    for (let i = 1; i <= 12; i++) {
-      const v = ((_d = cat[String(i)]) == null ? void 0 : _d.$value) || ((_e = cat[String(i)]) == null ? void 0 : _e.value);
-      categoricalStrokeMap.push(typeof v === "string" ? v : "#212b32");
-    }
-    const reg = stroke.region || {};
-    regionStrokeMap = {};
-    Object.keys(reg).forEach((k) => {
-      var _a3, _b3;
-      const v = ((_a3 = reg[k]) == null ? void 0 : _a3.$value) || ((_b3 = reg[k]) == null ? void 0 : _b3.value);
-      if (typeof v === "string") regionStrokeMap[k] = v;
-    });
-    const sev = stroke.severity || {};
-    const org = stroke["org-level"] || {};
-    orgLevelStrokeMap = {};
-    Object.keys(org).forEach((k) => {
-      var _a3, _b3;
-      const v = ((_a3 = org[k]) == null ? void 0 : _a3.$value) || ((_b3 = org[k]) == null ? void 0 : _b3.value);
-      if (typeof v === "string") orgLevelStrokeMap[k] = v;
-    });
-    severityStrokeMap = {};
-    Object.keys(sev).forEach((k) => {
-      var _a3, _b3;
-      const v = ((_a3 = sev[k]) == null ? void 0 : _a3.$value) || ((_b3 = sev[k]) == null ? void 0 : _b3.value);
-      if (typeof v === "string") severityStrokeMap[k] = v;
-    });
-  }
-}
-function ensureStrokeMaps() {
-  if (!categoricalStrokeMap || !regionStrokeMap || !severityStrokeMap || !orgLevelStrokeMap) buildStrokeMaps();
-}
-function pickSeriesStroke(i) {
-  ensureStrokeMaps();
-  if (!categoricalStrokeMap) return "#212b32";
-  return categoricalStrokeMap[i % categoricalStrokeMap.length];
-}
-function getRegionStroke(id) {
-  ensureStrokeMaps();
-  return regionStrokeMap ? regionStrokeMap[id] : void 0;
-}
-function pickRegionStroke(id, fallbackIndex) {
-  return getRegionStroke(id) || pickSeriesStroke(fallbackIndex);
-}
-var regionMap = null;
-var REGION_IDS = [
-  "north-east",
-  "north-west",
-  "east-of-england",
-  "midlands",
-  "london",
-  "south-west",
-  "south-east"
-];
-function normalizeRegionId(id) {
-  return id.trim().toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-}
-function buildRegionMap() {
-  const root = { color: { ...colors_default.color, ...data_viz_default.color } };
-  const resolve = (path2, seen = /* @__PURE__ */ new Set()) => {
-    if (seen.has(path2)) return void 0;
-    seen.add(path2);
-    const node = path2.split(".").reduce((acc, k) => acc ? acc[k] : void 0, root);
-    if (!node) return void 0;
-    const value = node.$value || node.value;
-    if (typeof value === "string" && /^\{.+\}$/.test(value)) return resolve(value.slice(1, -1), seen);
-    return typeof value === "string" ? value : void 0;
-  };
-  const map2 = {};
-  const missing = [];
-  REGION_IDS.forEach((id) => {
-    const hex2 = resolve(`color.data-viz.region.${id}`);
-    if (hex2) map2[id] = hex2;
-    else missing.push(id);
+  return prismGlobalRef.current;
+};
+var fallbackHighlight = (code) => {
+  const patterns = [
+    { regex: /\b(import|from|export|const|let|var|return|if|else|for|while|switch|case|break|new|throw|try|catch|finally|class|extends|implements|interface|type|as|async|await|function)\b/g, cls: "kw" },
+    { regex: /(['"`])(?:\\.|(?!\1).)*\1/g, cls: "str" },
+    { regex: /\/\*[^]*?\*\/|\/\/.*$/gm, cls: "com" },
+    { regex: /\b([0-9]+(?:\.[0-9]+)?)\b/g, cls: "num" }
+  ];
+  let html = code;
+  patterns.forEach((p) => {
+    html = html.replace(p.regex, (m) => `<span class="nhsuk-code-${p.cls}">${m}</span>`);
   });
-  if (true) {
-    if (Object.keys(map2).length === 0) {
-      console.warn("[DataViz] Region colour tokens unresolved  falling back to categorical colours.");
-    } else if (missing.length) {
-      console.warn(`[DataViz] Missing region colour tokens: ${missing.join(", ")}.`);
+  return html;
+};
+var highlightCode = (code, lang, disable) => {
+  if (disable) return code;
+  if (!lang) return code;
+  const Prism2 = ensurePrismGlobal();
+  if (Prism2 && Prism2.languages) {
+    const resolvedLang = Prism2.languages[lang] ? lang : Prism2.languages.typescript && (lang === "ts" || lang === "tsx" || lang === "typescript") ? "typescript" : Prism2.languages.json && lang === "json" ? "json" : void 0;
+    if (resolvedLang) {
+      try {
+        return Prism2.highlight(code, Prism2.languages[resolvedLang], resolvedLang);
+      } catch {
+      }
     }
   }
-  return map2;
-}
-function getRegionMap() {
-  if (!regionMap) regionMap = buildRegionMap();
-  return regionMap;
-}
-function getRegionColor(id) {
-  return getRegionMap()[normalizeRegionId(id)];
-}
-function pickRegionColor(id, fallbackIndex) {
-  return getRegionColor(id) || pickSeriesColor(fallbackIndex);
-}
-
-// src/components/DataVisualisation/series/LineSeriesPrimitive.tsx
-import { jsx as jsx7, jsxs as jsxs3 } from "react/jsx-runtime";
-var LineSeriesPrimitive = ({
-  series,
-  seriesIndex,
-  palette,
-  showPoints,
-  focusablePoints,
-  focusIndex,
-  parseX,
-  visibilityMode = "remove",
-  strokeWidth = 1,
-  smooth = true,
-  gradientFillId,
-  colors
+  return fallbackHighlight(code);
+};
+var TableBase = ({
+  rows,
+  head,
+  caption,
+  captionSize,
+  firstCellIsHeader = false,
+  responsive = false,
+  heading,
+  headingLevel = 3,
+  panel = false,
+  panelClasses,
+  tableClasses,
+  classes,
+  attributes,
+  "data-testid": testId,
+  columns,
+  data,
+  visuallyHiddenCaption = false
 }) => {
-  var _a2;
-  const scaleCtx = useScaleContext();
-  if (!scaleCtx) return null;
-  const { xScale, yScale } = scaleCtx;
-  const visibility = useVisibility();
-  const isHidden = (_a2 = visibility == null ? void 0 : visibility.isHidden(series.id)) != null ? _a2 : false;
-  const faded = isHidden && visibilityMode === "fade";
-  if (isHidden && visibilityMode === "remove") {
-    return null;
-  }
-  const tooltip = useTooltipContext();
-  React7.useEffect(() => {
-    if (!tooltip) return;
-    const normalized = series.data.map((d) => ({ x: parseX(d), y: d.y }));
-    tooltip.registerSeries(series.id, normalized);
-    return () => tooltip.unregisterSeries(series.id);
-  }, [tooltip, series.id, series.data, parseX]);
-  const path2 = React7.useMemo(
-    () => createLinePath(
-      series.data,
-      (d) => xScale(parseX(d)),
-      (d) => yScale(d.y),
-      { smooth }
-    ),
-    [series.data, xScale, yScale, parseX, smooth]
-  );
-  const areaPath = React7.useMemo(() => {
-    if (!series.data.length) return "";
-    const [domainMin] = yScale.domain();
-    const gen = area_default().x((d) => xScale(parseX(d))).y0(() => yScale(domainMin)).y1((d) => yScale(d.y));
-    if (smooth) gen.curve(monotoneX);
-    return gen(series.data) || "";
-  }, [series.data, xScale, yScale, parseX, smooth]);
-  const paletteOverride = colors && colors[seriesIndex];
-  const color2 = series.color || paletteOverride || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
-  const stroke = palette === "region" ? pickRegionStroke(series.id, seriesIndex) : pickSeriesStroke(seriesIndex);
-  return /* @__PURE__ */ jsxs3(
-    "g",
+  const captionClass = `nhsuk-table__caption ${captionSize ? `nhsuk-table__caption--${captionSize}` : ""}`.trim();
+  const tableClassList = (0, import_classnames2.default)(
+    "nhsuk-table",
     {
-      className: "fdp-line-series",
-      "data-series": series.id,
-      opacity: faded ? 0.25 : 1,
-      "aria-hidden": faded ? true : void 0,
+      "nhsuk-table-responsive": responsive
+    },
+    tableClasses
+  );
+  const containerClassList = (0, import_classnames2.default)(classes);
+  const renderHeaderCell = (cell, index) => {
+    const headerClasses = (0, import_classnames2.default)(
+      "nhsuk-table__header",
+      {
+        [`nhsuk-table__header--${cell.format}`]: cell.format
+      },
+      cell.classes
+    );
+    const headerAttributes = {
+      scope: "col",
+      ...cell.colspan && { colSpan: cell.colspan },
+      ...cell.rowspan && { rowSpan: cell.rowspan },
+      ...responsive && { role: "columnheader" },
+      ...cell.attributes
+    };
+    let content;
+    if (cell.node != null) {
+      content = /* @__PURE__ */ jsx5(Fragment, { children: cell.node });
+    } else if (cell.html) {
+      content = /* @__PURE__ */ jsx5("span", { dangerouslySetInnerHTML: { __html: cell.html } });
+    } else if (cell.code != null) {
+      const isArray = Array.isArray(cell.code);
+      const codeString = isArray ? cell.code.join("\n") : cell.code;
+      const isMultiline = isArray || codeString.includes("\n");
+      const codeProps = {
+        className: (0, import_classnames2.default)("nhsuk-table__code", cell.codeClassName, {
+          "nhsuk-table__code--block": isMultiline,
+          "nhsuk-table__code--inline": !isMultiline
+        }),
+        ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
+      };
+      const highlighted = highlightCode(codeString, cell.codeLanguage);
+      content = isMultiline ? /* @__PURE__ */ jsx5("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx5(
+        "code",
+        {
+          ...codeProps,
+          dangerouslySetInnerHTML: { __html: highlighted }
+        }
+      ) }) : /* @__PURE__ */ jsx5(
+        "code",
+        {
+          ...codeProps,
+          dangerouslySetInnerHTML: { __html: highlighted }
+        }
+      );
+    } else {
+      content = cell.text;
+    }
+    return /* @__PURE__ */ jsx5("th", { className: headerClasses, ...headerAttributes, children: content }, index);
+  };
+  const renderCell = (cell, cellIndex, isFirstCell) => {
+    const isHeaderCell = firstCellIsHeader && isFirstCell || cell.rowHeader;
+    const cellClasses = (0, import_classnames2.default)(
+      isHeaderCell ? "nhsuk-table__header" : "nhsuk-table__cell",
+      {
+        [`nhsuk-table__${isHeaderCell ? "header" : "cell"}--${cell.format}`]: cell.format
+      },
+      cell.classes
+    );
+    const cellAttributes = {
+      ...isHeaderCell && { scope: "row" },
+      ...cell.colspan && { colSpan: cell.colspan },
+      ...cell.rowspan && { rowSpan: cell.rowspan },
+      ...responsive && {
+        role: isHeaderCell ? "rowheader" : "cell",
+        ...cell.header && { "data-label": cell.header }
+      },
+      ...cell.attributes
+    };
+    let inner;
+    if (cell.node != null) {
+      inner = /* @__PURE__ */ jsx5(Fragment, { children: cell.node });
+    } else if (cell.html) {
+      inner = /* @__PURE__ */ jsx5("span", { dangerouslySetInnerHTML: { __html: cell.html } });
+    } else if (cell.code != null) {
+      const isArray = Array.isArray(cell.code);
+      const codeString = isArray ? cell.code.join("\n") : cell.code;
+      const isMultiline = isArray || codeString.includes("\n");
+      const codeProps = {
+        className: (0, import_classnames2.default)("nhsuk-table__code", cell.codeClassName, {
+          "nhsuk-table__code--block": isMultiline,
+          "nhsuk-table__code--inline": !isMultiline
+        }),
+        ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
+      };
+      const highlighted = highlightCode(
+        codeString,
+        cell.codeLanguage,
+        cell.disableHighlight
+      );
+      inner = isMultiline ? /* @__PURE__ */ jsx5("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx5(
+        "code",
+        {
+          ...codeProps,
+          dangerouslySetInnerHTML: { __html: highlighted }
+        }
+      ) }) : /* @__PURE__ */ jsx5(
+        "code",
+        {
+          ...codeProps,
+          dangerouslySetInnerHTML: { __html: highlighted }
+        }
+      );
+    } else {
+      inner = cell.text;
+    }
+    const cellContent = /* @__PURE__ */ jsxs2(Fragment, { children: [
+      responsive && cell.header && /* @__PURE__ */ jsxs2("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true", children: [
+        cell.header,
+        " "
+      ] }),
+      inner
+    ] });
+    const Component = isHeaderCell ? "th" : "td";
+    return /* @__PURE__ */ jsx5(Component, { className: cellClasses, ...cellAttributes, children: cellContent }, cellIndex);
+  };
+  let derivedHead = head;
+  let derivedRows = rows;
+  if (!derivedHead && columns && columns.length) {
+    derivedHead = columns.map((c) => ({
+      text: c.title,
+      format: c.format,
+      classes: c.headerClasses,
+      attributes: c.headerAttributes
+    }));
+  }
+  if (!derivedRows && columns && data && data.length) {
+    derivedRows = data.map((rowObj, rIdx) => {
+      return columns.map((c) => {
+        const raw = c.accessor ? c.accessor(rowObj, rIdx) : rowObj[c.key];
+        let base = { format: c.format, classes: c.cellClasses, attributes: c.cellAttributes };
+        if (c.rowHeader) base.rowHeader = true;
+        if (c.render) {
+          const rendered = c.render(raw, rowObj, rIdx, c);
+          if (rendered == null || typeof rendered === "boolean") return { ...base, text: "" };
+          if (typeof rendered === "string" || typeof rendered === "number") {
+            return { ...base, text: String(rendered) };
+          }
+          return { ...base, ...rendered };
+        }
+        return { ...base, text: raw != null ? String(raw) : "" };
+      });
+    });
+  }
+  const renderTable = () => /* @__PURE__ */ jsxs2(
+    "table",
+    {
+      className: tableClassList,
+      ...responsive && { role: "table" },
+      ...attributes,
+      ...testId && { "data-testid": testId },
       children: [
-        gradientFillId && /* @__PURE__ */ jsx7(
-          "path",
+        caption && /* @__PURE__ */ jsx5("caption", { className: (0, import_classnames2.default)(captionClass, visuallyHiddenCaption && "nhsuk-u-visually-hidden"), children: caption }),
+        derivedHead && derivedHead.length > 0 && /* @__PURE__ */ jsx5(
+          "thead",
           {
-            d: areaPath,
-            fill: `url(#${gradientFillId})`,
-            stroke: "none",
-            role: "presentation",
-            className: "fdp-line-series__gradient"
+            className: "nhsuk-table__head",
+            ...responsive && { role: "rowgroup" },
+            children: /* @__PURE__ */ jsx5("tr", { ...responsive && { role: "row" }, children: derivedHead.map(
+              (cell, index) => renderHeaderCell(cell, index)
+            ) })
           }
         ),
-        /* @__PURE__ */ jsx7(
-          "path",
+        /* @__PURE__ */ jsx5("tbody", { className: "nhsuk-table__body", children: derivedRows && derivedRows.map((row, rowIndex) => /* @__PURE__ */ jsx5(
+          "tr",
           {
-            d: path2,
-            fill: "none",
-            stroke: color2,
-            strokeWidth,
-            role: "presentation"
-          }
-        ),
-        showPoints && series.data.map((d, di) => {
-          var _a3;
-          const cx = xScale(parseX(d));
-          const cy = yScale(d.y);
-          const tabIndex = focusablePoints ? 0 : -1;
-          const isFocusedPoint = !faded && (focusablePoints && di === focusIndex || ((_a3 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a3.seriesId) === series.id && tooltip.focused.index === di);
-          const handleEnter = () => {
-            if (tooltip && !faded) {
-              tooltip.setFocused({
-                seriesId: series.id,
-                index: di,
-                x: parseX(d),
-                y: d.y,
-                clientX: cx,
-                clientY: cy
-              });
-            }
-          };
-          const handleLeave = () => {
-            var _a4;
-            if (tooltip && ((_a4 = tooltip.focused) == null ? void 0 : _a4.seriesId) === series.id && tooltip.focused.index === di)
-              tooltip.clear();
-          };
-          return /* @__PURE__ */ jsx7(
-            "circle",
-            {
-              cx,
-              cy,
-              r: isFocusedPoint ? 5 : 3.5,
-              stroke: isFocusedPoint ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : stroke,
-              strokeWidth: isFocusedPoint ? 2 : 1,
-              fill: isFocusedPoint ? "var(--nhs-fdp-color-grey-3, #aeb7bd)" : color2,
-              className: "fdp-line-point",
-              tabIndex: faded ? -1 : tabIndex,
-              "aria-label": `${series.label || series.id} ${parseX(d).toDateString()} value ${d.y}`,
-              "data-series": series.id,
-              "data-index": di,
-              onMouseEnter: handleEnter,
-              onFocus: handleEnter,
-              onMouseLeave: handleLeave,
-              onBlur: handleLeave
-            },
-            di
-          );
-        })
+            className: "nhsuk-table__row",
+            ...responsive && { role: "row" },
+            children: row.map(
+              (cell, cellIndex) => renderCell(cell, cellIndex, cellIndex === 0)
+            )
+          },
+          rowIndex
+        )) })
       ]
     }
   );
+  if (panel) {
+    return /* @__PURE__ */ jsxs2(Panel, { className: panelClasses, children: [
+      heading && /* @__PURE__ */ jsx5(Heading, { level: headingLevel, className: "nhsuk-table__heading-tab", children: heading }),
+      renderTable()
+    ] });
+  }
+  if (containerClassList) {
+    return /* @__PURE__ */ jsx5("div", { className: containerClassList, children: renderTable() });
+  }
+  return renderTable();
 };
-var LineSeriesPrimitive_default = LineSeriesPrimitive;
+var TableCaption = ({
+  children,
+  size,
+  className
+}) => {
+  const cls = (0, import_classnames2.default)(
+    "nhsuk-table__caption",
+    size && `nhsuk-table__caption--${size}`,
+    className
+  );
+  return /* @__PURE__ */ jsx5("caption", { className: cls, children });
+};
+var TableBodyRow = ({
+  responsive,
+  className,
+  children,
+  ...rest
+}) => {
+  const roleAttrs = responsive ? { role: "row" } : {};
+  return /* @__PURE__ */ jsx5("tr", { className, ...roleAttrs, ...rest, children });
+};
+var TableHeaderCell = ({
+  text,
+  html,
+  node,
+  code,
+  codeLanguage,
+  codeClassName,
+  disableHighlight,
+  format: format2,
+  classes,
+  colspan,
+  rowspan,
+  attributes,
+  responsive,
+  as = "th"
+}) => {
+  const headerClasses = (0, import_classnames2.default)(
+    "nhsuk-table__header",
+    { [`nhsuk-table__header--${format2}`]: format2 },
+    classes
+  );
+  const headerAttributes = {
+    scope: "col",
+    ...colspan && { colSpan: colspan },
+    ...rowspan && { rowSpan: rowspan },
+    ...responsive && { role: "columnheader" },
+    ...attributes
+  };
+  let content;
+  if (node != null) content = /* @__PURE__ */ jsx5(Fragment, { children: node });
+  else if (html) content = /* @__PURE__ */ jsx5("span", { dangerouslySetInnerHTML: { __html: html } });
+  else if (code != null) {
+    const isArray = Array.isArray(code);
+    const codeString = isArray ? code.join("\n") : code;
+    const isMultiline = isArray || codeString.includes("\n");
+    const codeProps = {
+      className: (0, import_classnames2.default)("nhsuk-table__code", codeClassName, {
+        "nhsuk-table__code--block": isMultiline,
+        "nhsuk-table__code--inline": !isMultiline
+      }),
+      ...codeLanguage ? { "data-language": codeLanguage } : {}
+    };
+    const highlighted = highlightCode(
+      codeString,
+      codeLanguage,
+      disableHighlight
+    );
+    content = isMultiline ? /* @__PURE__ */ jsx5("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx5(
+      "code",
+      {
+        ...codeProps,
+        dangerouslySetInnerHTML: { __html: highlighted }
+      }
+    ) }) : /* @__PURE__ */ jsx5("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+  } else content = text;
+  const Component = as;
+  return /* @__PURE__ */ jsx5(Component, { className: headerClasses, ...headerAttributes, children: content });
+};
+var TableCell = ({
+  text,
+  html,
+  node,
+  code,
+  codeLanguage,
+  codeClassName,
+  disableHighlight,
+  format: format2,
+  classes,
+  colspan,
+  rowspan,
+  attributes,
+  responsive,
+  rowHeader
+}) => {
+  const isHeader = !!rowHeader;
+  const Tag2 = isHeader ? "th" : "td";
+  const cls = (0, import_classnames2.default)(
+    isHeader ? "nhsuk-table__header" : "nhsuk-table__cell",
+    format2 && `nhsuk-table__${isHeader ? "header" : "cell"}--${format2}`,
+    classes
+  );
+  const cellAttrs = {
+    ...colspan && { colSpan: colspan },
+    ...rowspan && { rowSpan: rowspan },
+    ...isHeader && { scope: "row" },
+    ...responsive && { role: isHeader ? "rowheader" : "cell" },
+    ...attributes
+  };
+  let content;
+  if (node != null) content = /* @__PURE__ */ jsx5(Fragment, { children: node });
+  else if (html) content = /* @__PURE__ */ jsx5("span", { dangerouslySetInnerHTML: { __html: html } });
+  else if (code != null) {
+    const isArray = Array.isArray(code);
+    const codeString = isArray ? code.join("\n") : code;
+    const isMultiline = isArray || codeString.includes("\n");
+    const codeProps = {
+      className: (0, import_classnames2.default)("nhsuk-table__code", codeClassName, {
+        "nhsuk-table__code--block": isMultiline,
+        "nhsuk-table__code--inline": !isMultiline
+      }),
+      ...codeLanguage ? { "data-language": codeLanguage } : {}
+    };
+    const highlighted = highlightCode(codeString, codeLanguage, disableHighlight);
+    content = isMultiline ? /* @__PURE__ */ jsx5("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx5("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx5("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
+  } else content = text;
+  return /* @__PURE__ */ jsx5(Tag2, { className: cls, ...cellAttrs, children: content });
+};
+var Table = TableBase;
+Table.Caption = TableCaption;
+Table.BodyRow = TableBodyRow;
+Table.HeaderCell = TableHeaderCell;
+Table.Cell = TableCell;
+var __warnedRow = false;
+var __warnedTH = false;
+Object.defineProperty(Table, "Row", {
+  configurable: true,
+  enumerable: false,
+  get() {
+    if (!__warnedRow) {
+      console.warn("Table.Row is deprecated. Use Table.BodyRow instead.");
+      __warnedRow = true;
+    }
+    return TableBodyRow;
+  }
+});
+Object.defineProperty(Table, "TH", {
+  configurable: true,
+  enumerable: false,
+  get() {
+    if (!__warnedTH) {
+      console.warn("Table.TH is deprecated. Use Table.HeaderCell instead.");
+      __warnedTH = true;
+    }
+    return TableHeaderCell;
+  }
+});
+var Table_default = Table;
 
-// src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
-import * as React8 from "react";
-import { createPortal } from "react-dom";
+// src/mapping/tag.ts
+function mapTagProps(input) {
+  const { color: color2 = "default", noBorder, closable, disabled, className } = input;
+  const classes = [
+    "nhsuk-tag",
+    color2 !== "default" ? `nhsuk-tag--${color2}` : "",
+    noBorder ? "nhsuk-tag--no-border" : "",
+    closable ? "nhsuk-tag--closable" : "",
+    disabled ? "nhsuk-tag--disabled" : "",
+    className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, showClose: !!closable, disabled: !!disabled };
+}
+
+// src/components/Tag/Tag.tsx
+import { jsx as jsx6, jsxs as jsxs3 } from "react/jsx-runtime";
+var Tag = ({
+  text,
+  html,
+  children,
+  color: color2 = "default",
+  noBorder = false,
+  closable = false,
+  onClose,
+  disabled = false,
+  className,
+  ...props
+}) => {
+  const model = mapTagProps({ color: color2, noBorder, closable, disabled, className });
+  const handleClose = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!disabled && onClose) {
+      onClose();
+    }
+  };
+  return /* @__PURE__ */ jsxs3("strong", { className: model.classes, ...props, children: [
+    children ? children : html ? /* @__PURE__ */ jsx6("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
+    closable && /* @__PURE__ */ jsx6(
+      "button",
+      {
+        type: "button",
+        className: "nhsuk-tag__close",
+        onClick: handleClose,
+        disabled,
+        "aria-label": "Remove",
+        title: "Remove",
+        children: "\xD7"
+      }
+    )
+  ] });
+};
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcUtils.ts
+var isNumber = (v) => typeof v === "number" && Number.isFinite(v);
+var sum = (arr) => arr.reduce((a, b) => a + b, 0);
+var mean = (arr) => arr.length ? sum(arr) / arr.length : NaN;
+function movingRanges(values, ghosts) {
+  const mr = new Array(values.length).fill(null);
+  let prevIdx = null;
+  for (let i = 0; i < values.length; i++) {
+    const vi = values[i];
+    if (!ghosts[i] && isNumber(vi)) {
+      if (prevIdx !== null) {
+        const pv = values[prevIdx];
+        mr[i] = isNumber(pv) ? Math.abs(vi - pv) : null;
+      }
+      prevIdx = i;
+    }
+  }
+  return mr;
+}
+function mrMeanWithOptionalExclusion(mr, excludeOutliers) {
+  const pool = mr.filter((v) => isNumber(v));
+  if (!pool.length) return { mrMean: NaN, mrUcl: NaN };
+  let mrMeanVal = mean(pool);
+  let mrUclVal = 3.267 * mrMeanVal;
+  if (excludeOutliers) {
+    const trimmed = pool.filter((v) => v <= mrUclVal);
+    if (trimmed.length && trimmed.length !== pool.length) {
+      mrMeanVal = mean(trimmed);
+      mrUclVal = 3.267 * mrMeanVal;
+    }
+  }
+  return { mrMean: mrMeanVal, mrUcl: mrUclVal };
+}
+function xmrLimits(centerMean, mrMeanVal) {
+  if (!isNumber(centerMean) || !isNumber(mrMeanVal))
+    return {
+      upperProcessLimit: null,
+      lowerProcessLimit: null,
+      upperTwoSigma: null,
+      lowerTwoSigma: null,
+      upperOneSigma: null,
+      lowerOneSigma: null
+    };
+  const k3 = 2.66;
+  const k2 = 2 / 3 * k3;
+  const k1 = 1 / 3 * k3;
+  return {
+    upperProcessLimit: centerMean + k3 * mrMeanVal,
+    lowerProcessLimit: centerMean - k3 * mrMeanVal,
+    upperTwoSigma: centerMean + k2 * mrMeanVal,
+    lowerTwoSigma: centerMean - k2 * mrMeanVal,
+    upperOneSigma: centerMean + k1 * mrMeanVal,
+    lowerOneSigma: centerMean - k1 * mrMeanVal
+  };
+}
+var T_ALPHA = 0.2777;
+var T_INV_ALPHA = 3.6;
+var toTTransformed = (t) => isNumber(t) && t >= 0 ? Math.pow(t, T_ALPHA) : null;
+var fromTTransformed = (y2) => isNumber(y2) && y2 >= 0 ? Math.pow(y2, T_INV_ALPHA) : null;
+function geomInvCdfReal(q, p) {
+  if (!(q > 0 && q < 1) || !(p > 0 && p < 1)) return NaN;
+  return Math.log(1 - q) / Math.log(1 - p);
+}
+var SIGMA_PROBS = {
+  one: { low: 0.1586552539, high: 0.8413447461 },
+  two: { low: 0.0227501319, high: 0.9772498681 },
+  three: { low: 1349898e-9, high: 0.998650102 }
+};
+function gChartProbabilityLimits(gMean) {
+  if (!isNumber(gMean) || gMean < 0)
+    return {
+      cl: null,
+      lcl: null,
+      ucl: null,
+      oneLow: null,
+      oneHigh: null,
+      twoLow: null,
+      twoHigh: null
+    };
+  const p = 1 / (gMean + 1);
+  const qToGbetween = (q) => geomInvCdfReal(q, p) - 1;
+  const cl = qToGbetween(0.5);
+  const lcl = Math.max(0, qToGbetween(SIGMA_PROBS.three.low));
+  const ucl = qToGbetween(SIGMA_PROBS.three.high);
+  const oneL = Math.max(0, qToGbetween(SIGMA_PROBS.one.low));
+  const oneH = qToGbetween(SIGMA_PROBS.one.high);
+  const twoL = Math.max(0, qToGbetween(SIGMA_PROBS.two.low));
+  const twoH = qToGbetween(SIGMA_PROBS.two.high);
+  return { cl, lcl, ucl, oneLow: oneL, oneHigh: oneH, twoLow: twoL, twoHigh: twoH };
+}
+function tChartLimits(tValues, ghosts, excludeOutliers) {
+  const y2 = tValues.map((v) => isNumber(v) ? toTTransformed(v) : null);
+  const mrY = movingRanges(y2, ghosts);
+  const { mrMean: mrMeanY_raw } = mrMeanWithOptionalExclusion(mrY, !!excludeOutliers);
+  const yNonGhost = y2.filter((v, i) => !ghosts[i] && isNumber(v));
+  const yBar = yNonGhost.length ? mean(yNonGhost) : NaN;
+  if (!isNumber(yBar) || !isNumber(mrMeanY_raw)) {
+    return {
+      center: null,
+      upperProcessLimit: null,
+      lowerProcessLimit: null,
+      upperTwoSigma: null,
+      lowerTwoSigma: null,
+      upperOneSigma: null,
+      lowerOneSigma: null,
+      mr: mrY,
+      mrMean: null,
+      mrUcl: null
+    };
+  }
+  const k3 = 2.66, k2 = 2 / 3 * k3, k1 = 1 / 3 * k3;
+  const UL_y = yBar + k3 * mrMeanY_raw;
+  const LL_y = yBar - k3 * mrMeanY_raw;
+  const U2_y = yBar + k2 * mrMeanY_raw;
+  const L2_y = yBar - k2 * mrMeanY_raw;
+  const U1_y = yBar + k1 * mrMeanY_raw;
+  const L1_y = yBar - k1 * mrMeanY_raw;
+  const center = fromTTransformed(yBar);
+  const upl = fromTTransformed(UL_y);
+  const lpl = LL_y <= 0 ? null : fromTTransformed(LL_y);
+  const oneH = fromTTransformed(U1_y);
+  const oneL = L1_y <= 0 ? null : fromTTransformed(L1_y);
+  const twoH = fromTTransformed(U2_y);
+  const twoL = L2_y <= 0 ? null : fromTTransformed(L2_y);
+  return {
+    center: center != null ? center : null,
+    upperProcessLimit: upl != null ? upl : null,
+    lowerProcessLimit: lpl != null ? lpl : null,
+    upperTwoSigma: twoH != null ? twoH : null,
+    lowerTwoSigma: twoL != null ? twoL : null,
+    upperOneSigma: oneH != null ? oneH : null,
+    lowerOneSigma: oneL != null ? oneL : null,
+    mr: mrY,
+    mrMean: mrMeanY_raw,
+    mrUcl: isNumber(mrMeanY_raw) ? 3.267 * mrMeanY_raw : null
+  };
+}
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcConstants.ts
 var RULE_PRECEDENCE = [
@@ -6772,6 +6207,1230 @@ var BaselineSuggestionReason = /* @__PURE__ */ ((BaselineSuggestionReason2) => {
   BaselineSuggestionReason2["Point"] = "point";
   return BaselineSuggestionReason2;
 })(BaselineSuggestionReason || {});
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcAssurance.ts
+function computeAssuranceIcon(args) {
+  const {
+    metricImprovement,
+    capabilityMode,
+    value,
+    mean: mean3,
+    upperProcessLimit,
+    lowerProcessLimit,
+    target
+  } = args;
+  const isNumber3 = (v) => typeof v === "number" && Number.isFinite(v);
+  if (!isNumber3(value) || mean3 === null || !isNumber3(target)) return "none" /* None */;
+  if (capabilityMode && isNumber3(upperProcessLimit) && isNumber3(lowerProcessLimit)) {
+    if (metricImprovement === "Up" /* Up */) {
+      if (isNumber3(lowerProcessLimit) && lowerProcessLimit > target)
+        return "pass" /* Pass */;
+      if (isNumber3(upperProcessLimit) && upperProcessLimit < target)
+        return "fail" /* Fail */;
+      return "none" /* None */;
+    }
+    if (metricImprovement === "Down" /* Down */) {
+      if (isNumber3(upperProcessLimit) && upperProcessLimit < target)
+        return "pass" /* Pass */;
+      if (isNumber3(lowerProcessLimit) && lowerProcessLimit > target)
+        return "fail" /* Fail */;
+      return "none" /* None */;
+    }
+    return "none" /* None */;
+  }
+  if (metricImprovement === "Down" /* Down */)
+    return value <= target ? "pass" /* Pass */ : "fail" /* Fail */;
+  if (metricImprovement === "Up" /* Up */)
+    return value >= target ? "pass" /* Pass */ : "fail" /* Fail */;
+  return "none" /* None */;
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcCandidates.ts
+function computeBaselineSuggestionsRaw(rows, params) {
+  const {
+    W,
+    minGap,
+    minDeltaSigma,
+    scoreThreshold,
+    isShiftUpAt,
+    isShiftDownAt,
+    isTrendUpAt,
+    isTrendDownAt,
+    isSingleUpAt,
+    isSingleDownAt
+  } = params;
+  const suggestions = [];
+  let lastBaselineIndex = 0;
+  for (let i = 0; i < rows.length; i++) {
+    const r = rows[i];
+    if (i > 0 && rows[i - 1].partitionId !== r.partitionId) {
+      lastBaselineIndex = i;
+    }
+    const wasShiftUp = i > 0 && isShiftUpAt(i - 1);
+    const wasShiftDown = i > 0 && isShiftDownAt(i - 1);
+    const wasTrendUp = i > 0 && isTrendUpAt(i - 1);
+    const wasTrendDown = i > 0 && isTrendDownAt(i - 1);
+    const wasSingleUp = i > 0 && isSingleUpAt(i - 1);
+    const wasSingleDown = i > 0 && isSingleDownAt(i - 1);
+    const isShiftUp = isShiftUpAt(i);
+    const isShiftDown = isShiftDownAt(i);
+    const isTrendUp = isTrendUpAt(i);
+    const isTrendDown = isTrendDownAt(i);
+    const isSingleUp = isSingleUpAt(i);
+    const isSingleDown = isSingleDownAt(i);
+    const candidates = [];
+    if (isShiftUp && !wasShiftUp) candidates.push({ reason: "shift" /* Shift */, index: i });
+    if (isShiftDown && !wasShiftDown) candidates.push({ reason: "shift" /* Shift */, index: i });
+    if (isTrendUp && !wasTrendUp) candidates.push({ reason: "trend" /* Trend */, index: i });
+    if (isTrendDown && !wasTrendDown) candidates.push({ reason: "trend" /* Trend */, index: i });
+    if (isSingleUp && !wasSingleUp) candidates.push({ reason: "point" /* Point */, index: i });
+    if (isSingleDown && !wasSingleDown) candidates.push({ reason: "point" /* Point */, index: i });
+    for (const c of candidates) {
+      if (c.index - lastBaselineIndex < minGap) continue;
+      const oldStart = Math.max(0, c.index - W);
+      const oldEnd = c.index - 1;
+      if (oldEnd - oldStart + 1 < W) continue;
+      const newStart = c.index;
+      const newEnd = c.index + W - 1;
+      if (newEnd >= rows.length) continue;
+      const oldVals = rows.slice(oldStart, oldEnd + 1).map((rw) => rw.value).filter(
+        (v) => typeof v === "number" && Number.isFinite(v)
+      );
+      const newVals = rows.slice(newStart, newEnd + 1).map((rw) => rw.value).filter(
+        (v) => typeof v === "number" && Number.isFinite(v)
+      );
+      if (oldVals.length < W || newVals.length < W) continue;
+      const cand = rows[c.index];
+      let sigma = null;
+      if (typeof cand.upperProcessLimit === "number" && typeof cand.mean === "number") {
+        const span = cand.upperProcessLimit - cand.mean;
+        if (span > 0) sigma = span / 3;
+      }
+      if (!sigma || sigma <= 0) continue;
+      const oldMean = mean(oldVals);
+      const newMean = mean(newVals);
+      const deltaMean = newMean - oldMean;
+      if (Math.abs(deltaMean) < minDeltaSigma * sigma) continue;
+      const newRows = rows.slice(newStart, newEnd + 1);
+      const concernCount = newRows.filter(
+        (rw) => rw.variationIcon === "concern" /* Concern */
+      ).length;
+      if (concernCount > 1) continue;
+      const variance = (arr) => {
+        const m = mean(arr);
+        return arr.length ? arr.reduce((a, b) => a + (b - m) * (b - m), 0) / arr.length : 0;
+      };
+      const oldVar = variance(oldVals);
+      const newVar = variance(newVals);
+      let scoreBase = c.reason === "shift" /* Shift */ ? 90 : c.reason === "trend" /* Trend */ ? 70 : 60;
+      if (newVar < oldVar) scoreBase += 10;
+      scoreBase -= concernCount * 15;
+      if (scoreBase < scoreThreshold) continue;
+      const existing = suggestions.find((s) => s.index === c.index);
+      if (existing) {
+        const priority = (reason) => reason === "shift" /* Shift */ ? 3 : reason === "trend" /* Trend */ ? 2 : 1;
+        if (priority(c.reason) > priority(existing.reason) || scoreBase > existing.score) {
+          existing.reason = c.reason;
+          existing.score = scoreBase;
+          existing.deltaMean = deltaMean;
+          existing.oldMean = oldMean;
+          existing.newMean = newMean;
+          existing.window = [newStart, newEnd];
+        }
+      } else {
+        suggestions.push({
+          index: c.index,
+          reason: c.reason,
+          score: scoreBase,
+          deltaMean,
+          oldMean,
+          newMean,
+          window: [newStart, newEnd]
+        });
+      }
+    }
+  }
+  suggestions.sort((a, b) => a.index - b.index);
+  return suggestions;
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc.ts
+function isPhase4Strict() {
+  var _a2;
+  const g = globalThis;
+  if (typeof g.__SPC_PHASE4_STRICT !== "undefined") return !!g.__SPC_PHASE4_STRICT;
+  if (typeof process !== "undefined") {
+    const v = (_a2 = process == null ? void 0 : process.env) == null ? void 0 : _a2.SPC_PHASE4_STRICT;
+    if (typeof v !== "undefined") {
+      const s = String(v).toLowerCase();
+      if (s === "1" || s === "true") return true;
+      if (s === "0" || s === "false") return false;
+    }
+  }
+  return true;
+}
+var SpcWarningSeverity = /* @__PURE__ */ ((SpcWarningSeverity2) => {
+  SpcWarningSeverity2["Info"] = "info";
+  SpcWarningSeverity2["Warning"] = "warning";
+  SpcWarningSeverity2["Error"] = "error";
+  return SpcWarningSeverity2;
+})(SpcWarningSeverity || {});
+var SpcWarningCategory = /* @__PURE__ */ ((SpcWarningCategory2) => {
+  SpcWarningCategory2["Config"] = "config";
+  SpcWarningCategory2["Data"] = "data";
+  SpcWarningCategory2["Limits"] = "limits";
+  SpcWarningCategory2["SpecialCause"] = "special_cause";
+  SpcWarningCategory2["Baseline"] = "baseline";
+  SpcWarningCategory2["Logic"] = "logic";
+  SpcWarningCategory2["Target"] = "target";
+  SpcWarningCategory2["Ghost"] = "ghost";
+  SpcWarningCategory2["Partition"] = "partition";
+  return SpcWarningCategory2;
+})(SpcWarningCategory || {});
+var SpcWarningCode = /* @__PURE__ */ ((SpcWarningCode2) => {
+  SpcWarningCode2["UnknownChartType"] = "unknown_chart_type";
+  SpcWarningCode2["InsufficientPointsGlobal"] = "insufficient_points_global";
+  SpcWarningCode2["VariationConflictRow"] = "variation_conflict_row";
+  SpcWarningCode2["NullValuesExcluded"] = "null_values_excluded";
+  SpcWarningCode2["TargetIgnoredRareEvent"] = "target_ignored_rare_event";
+  SpcWarningCode2["GhostRowsRareEvent"] = "ghost_rows_rare_event";
+  SpcWarningCode2["InsufficientPointsPartition"] = "insufficient_points_partition";
+  SpcWarningCode2["BaselineWithSpecialCause"] = "baseline_with_special_cause";
+  SpcWarningCode2["PartitionCapApplied"] = "partition_cap_applied";
+  SpcWarningCode2["GlobalCapApplied"] = "global_cap_applied";
+  return SpcWarningCode2;
+})(SpcWarningCode || {});
+function partitionRows(data) {
+  const partitions = [];
+  let current = [];
+  for (const row of data) {
+    if (row.baseline && current.length) {
+      partitions.push(current);
+      current = [];
+    }
+    current.push(row);
+  }
+  if (current.length) partitions.push(current);
+  return partitions;
+}
+function applyAutoRecalculationBaselines(data, settings, metricImprovement) {
+  var _a2;
+  const shiftN = settings.autoRecalculateShiftLength || settings.specialCauseShiftPoints || 6;
+  if (data.length < shiftN * 2) return;
+  const numeric = data.map((r, i) => ({ idx: i, value: r.value })).filter((o) => isNumber(o.value));
+  if (numeric.length < shiftN * 2) return;
+  const favourUp = metricImprovement === "Up" /* Up */ || metricImprovement === "Neither" /* Neither */;
+  const favourDown = metricImprovement === "Down" /* Down */;
+  function windowMean(from, toExclusive) {
+    const slice2 = numeric.slice(from, toExclusive).map((o) => o.value);
+    return slice2.length ? mean(slice2) : NaN;
+  }
+  let sigma = null;
+  if (numeric.length > 1) {
+    const diffs = [];
+    for (let i = 1; i < numeric.length; i++) diffs.push(Math.abs(numeric[i].value - numeric[i - 1].value));
+    const mrBar = mean(diffs);
+    if (isNumber(mrBar) && mrBar > 0) sigma = mrBar * (2.66 / 3);
+  }
+  if (!sigma || sigma <= 0) return;
+  const deltaThreshold = (_a2 = settings.autoRecalculateDeltaSigma) != null ? _a2 : 0.5;
+  for (let start = shiftN; start <= numeric.length - shiftN; start++) {
+    const preStart = start - shiftN;
+    const preMean = windowMean(preStart, start);
+    const postMean = windowMean(start, start + shiftN);
+    if (!isNumber(preMean) || !isNumber(postMean)) continue;
+    const delta = postMean - preMean;
+    const deltaSigma = delta / sigma;
+    const favourable = favourUp ? deltaSigma >= deltaThreshold : favourDown ? -deltaSigma >= deltaThreshold : Math.abs(deltaSigma) >= deltaThreshold;
+    if (!favourable) continue;
+    const postVals = numeric.slice(start, start + shiftN).map((o) => o.value);
+    const directional = favourUp ? postVals.every((v) => v > preMean) : favourDown ? postVals.every((v) => v < preMean) : postVals.every((v) => favourUp ? v > preMean : v < preMean);
+    if (!directional) continue;
+    const baselineIdx = numeric[start].idx;
+    if (!data[baselineIdx].baseline) {
+      data[baselineIdx].baseline = true;
+    }
+    return;
+  }
+}
+function normaliseSpcSettings(user) {
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S;
+  if (!user) return {};
+  const legacy = user;
+  const v2 = user;
+  const rules = (_a2 = v2.rules) != null ? _a2 : {};
+  const precedence = (_b2 = v2.precedence) != null ? _b2 : {};
+  const thresholds = (_c = v2.thresholds) != null ? _c : {};
+  const warnings = (_d = v2.warnings) != null ? _d : {};
+  const rareEvent = (_e = v2.rareEvent) != null ? _e : {};
+  const capability = (_f = v2.capability) != null ? _f : {};
+  const grace = (_g = v2.grace) != null ? _g : {};
+  const baselineSuggest = (_h = v2.baselineSuggest) != null ? _h : {};
+  const autoRecalc = (_i = v2.autoRecalc) != null ? _i : {};
+  const emergingGraceEnabled = (_l = (_k = (_j = grace.emergingEnabled) != null ? _j : v2.emergingGraceEnabled) != null ? _k : legacy.emergingGraceEnabled) != null ? _l : legacy.emergingDirectionGrace;
+  const collapseWeakerClusterRules = (_o = (_n = (_m = rules.collapseWeakerClusterRules) != null ? _m : v2.collapseWeakerClusterRules) != null ? _n : legacy.collapseWeakerClusterRules) != null ? _o : legacy.collapseClusterRules;
+  if (isPhase4Strict()) {
+    if (legacy.emergingDirectionGrace !== void 0) {
+      throw new Error("[spc][phase4] emergingDirectionGrace is no longer supported. Use settings.grace.emergingEnabled.");
+    }
+    if (legacy.collapseClusterRules !== void 0) {
+      throw new Error("[spc][phase4] collapseClusterRules is no longer supported. Use settings.rules.collapseWeakerClusterRules.");
+    }
+  }
+  const globalAny = globalThis;
+  if (!isPhase4Strict() && legacy.emergingDirectionGrace !== void 0 && v2.emergingGraceEnabled === void 0 && grace.emergingEnabled === void 0 && !globalAny.__spc_warn_emergingDirectionGrace) {
+    globalAny.__spc_warn_emergingDirectionGrace = true;
+    console.warn("[spc] emergingDirectionGrace is deprecated; use grace.emergingEnabled");
+  }
+  if (!isPhase4Strict() && legacy.collapseClusterRules !== void 0 && rules.collapseWeakerClusterRules === void 0 && v2.collapseWeakerClusterRules === void 0 && !globalAny.__spc_warn_collapseClusterRules) {
+    globalAny.__spc_warn_collapseClusterRules = true;
+    console.warn("[spc] collapseClusterRules is deprecated; use rules.collapseWeakerClusterRules");
+  }
+  const pruneUndefined = (obj) => {
+    const out = {};
+    for (const k of Object.keys(obj)) {
+      const v = obj[k];
+      if (v !== void 0) out[k] = v;
+    }
+    return out;
+  };
+  const flattened = pruneUndefined({
+    // Rare event / MR
+    excludeMovingRangeOutliers: (_p = rareEvent.excludeMovingRangeOutliers) != null ? _p : legacy.excludeMovingRangeOutliers,
+    // Rules
+    specialCauseShiftPoints: (_q = rules.shiftPoints) != null ? _q : legacy.specialCauseShiftPoints,
+    specialCauseTrendPoints: (_r = rules.trendPoints) != null ? _r : legacy.specialCauseTrendPoints,
+    enableFourOfFiveRule: (_s = rules.fourOfFiveEnabled) != null ? _s : legacy.enableFourOfFiveRule,
+    enableFifteenInInnerThirdRule: (_t = rules.fifteenInnerThirdEnabled) != null ? _t : legacy.enableFifteenInInnerThirdRule,
+    collapseWeakerClusterRules: collapseWeakerClusterRules != null ? collapseWeakerClusterRules : legacy.collapseWeakerClusterRules,
+    // Precedence
+    precedenceStrategy: (_u = precedence.strategy) != null ? _u : legacy.precedenceStrategy,
+    conflictPrecedenceMode: (_v = precedence.conflictMode) != null ? _v : legacy.conflictPrecedenceMode,
+    // Thresholds
+    minimumPoints: (_w = thresholds.minimumPoints) != null ? _w : legacy.minimumPoints,
+    minimumPointsPartition: (_x = thresholds.minimumPointsPartition) != null ? _x : legacy.minimumPointsPartition,
+    maximumPointsPartition: (_y = thresholds.maximumPointsPartition) != null ? _y : legacy.maximumPointsPartition,
+    maximumPoints: (_z = thresholds.maximumPoints) != null ? _z : legacy.maximumPoints,
+    transitionBufferPoints: (_A = thresholds.transitionBufferPoints) != null ? _A : legacy.transitionBufferPoints,
+    // Warnings
+    minimumPointsWarning: (_B = warnings.minimumPointsWarning) != null ? _B : legacy.minimumPointsWarning,
+    pointConflictWarning: (_C = warnings.pointConflictWarning) != null ? _C : legacy.pointConflictWarning,
+    variationIconConflictWarning: (_D = warnings.variationIconConflictWarning) != null ? _D : legacy.variationIconConflictWarning,
+    nullValueWarning: (_E = warnings.nullValueWarning) != null ? _E : legacy.nullValueWarning,
+    targetSuppressedWarning: (_F = warnings.targetSuppressedWarning) != null ? _F : legacy.targetSuppressedWarning,
+    ghostOnRareEventWarning: (_G = warnings.ghostOnRareEventWarning) != null ? _G : legacy.ghostOnRareEventWarning,
+    partitionSizeWarnings: (_H = warnings.partitionSizeWarnings) != null ? _H : legacy.partitionSizeWarnings,
+    baselineSpecialCauseWarning: (_I = warnings.baselineSpecialCauseWarning) != null ? _I : legacy.baselineSpecialCauseWarning,
+    maximumPointsWarnings: (_J = warnings.maximumPointsWarnings) != null ? _J : legacy.maximumPointsWarnings,
+    // Capability
+    assuranceCapabilityMode: (_K = capability.assuranceCapabilityMode) != null ? _K : legacy.assuranceCapabilityMode,
+    // Grace
+    emergingGraceEnabled,
+    emergingDirectionGrace: emergingGraceEnabled,
+    // Baseline suggestions
+    baselineSuggest: (_L = baselineSuggest.enabled) != null ? _L : legacy.baselineSuggest,
+    baselineSuggestMinDeltaSigma: (_M = baselineSuggest.minDeltaSigma) != null ? _M : legacy.baselineSuggestMinDeltaSigma,
+    baselineSuggestStabilityPoints: (_N = baselineSuggest.stabilityPoints) != null ? _N : legacy.baselineSuggestStabilityPoints,
+    baselineSuggestMinGap: (_O = baselineSuggest.minGap) != null ? _O : legacy.baselineSuggestMinGap,
+    baselineSuggestScoreThreshold: (_P = baselineSuggest.scoreThreshold) != null ? _P : legacy.baselineSuggestScoreThreshold,
+    // Auto recalculation
+    autoRecalculateAfterShift: (_Q = autoRecalc.enabled) != null ? _Q : legacy.autoRecalculateAfterShift,
+    autoRecalculateShiftLength: (_R = autoRecalc.shiftLength) != null ? _R : legacy.autoRecalculateShiftLength,
+    autoRecalculateDeltaSigma: (_S = autoRecalc.deltaSigma) != null ? _S : legacy.autoRecalculateDeltaSigma
+  });
+  const merged = { ...flattened, ...pruneUndefined(legacy) };
+  if (emergingGraceEnabled !== void 0) {
+    merged.emergingGraceEnabled = emergingGraceEnabled;
+    merged.grace = { ...merged.grace, emergingEnabled: emergingGraceEnabled };
+  }
+  if (flattened.collapseWeakerClusterRules !== void 0) {
+    const v = flattened.collapseWeakerClusterRules;
+    merged.collapseWeakerClusterRules = v;
+    merged.rules = { ...merged.rules, collapseWeakerClusterRules: v };
+  }
+  return pruneUndefined(merged);
+}
+function buildSpc(args) {
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r;
+  const {
+    chartType,
+    metricImprovement,
+    data,
+    settings: rawUserSettings = {}
+  } = args;
+  const userSettings = normaliseSpcSettings(rawUserSettings);
+  const settings = {
+    excludeMovingRangeOutliers: false,
+    specialCauseShiftPoints: 6,
+    specialCauseTrendPoints: 6,
+    enableFourOfFiveRule: false,
+    minimumPoints: 13,
+    minimumPointsWarning: false,
+    minimumPointsPartition: 12,
+    maximumPointsPartition: null,
+    maximumPoints: null,
+    pointConflictWarning: false,
+    variationIconConflictWarning: true,
+    nullValueWarning: true,
+    targetSuppressedWarning: true,
+    ghostOnRareEventWarning: true,
+    partitionSizeWarnings: true,
+    baselineSpecialCauseWarning: true,
+    maximumPointsWarnings: true,
+    assuranceCapabilityMode: true,
+    transitionBufferPoints: 2,
+    collapseWeakerClusterRules: true,
+    baselineSuggest: false,
+    baselineSuggestMinDeltaSigma: 0.5,
+    baselineSuggestStabilityPoints: 5,
+    baselineSuggestMinGap: 12,
+    baselineSuggestScoreThreshold: 50,
+    precedenceStrategy: "directional_first" /* DirectionalFirst */,
+    emergingDirectionGrace: false,
+    rules: {},
+    grace: {},
+    // REMOVED: trendSideGatingEnabled default (always on)
+    autoRecalculateAfterShift: false,
+    autoRecalculateShiftLength: void 0,
+    autoRecalculateDeltaSigma: 0.5,
+    ...userSettings
+  };
+  if (!Array.isArray(data)) throw new Error("data must be an array of rows");
+  const canonical = data.map((d, i) => ({
+    rowId: i + 1,
+    x: d.x,
+    value: isNumber(d.value) ? d.value : null,
+    ghost: !!d.ghost,
+    baseline: !!d.baseline,
+    target: isNumber(d.target) ? d.target : null
+  }));
+  if (userSettings == null ? void 0 : userSettings.autoRecalculateAfterShift) {
+    try {
+      applyAutoRecalculationBaselines(canonical, userSettings, metricImprovement);
+    } catch {
+    }
+  }
+  const partitions = partitionRows(canonical);
+  const output = [];
+  const warnings = [];
+  const nonGhostGlobalCount = canonical.filter(
+    (r) => !r.ghost && isNumber(r.value)
+  ).length;
+  const globalEnough = nonGhostGlobalCount >= ((_a2 = settings.minimumPoints) != null ? _a2 : 13);
+  let partitionId = 0;
+  const partitionNonGhostCounts = {};
+  for (const part of partitions) {
+    partitionId++;
+    const values = part.map((r) => r.value);
+    const ghosts = part.map((r) => r.ghost);
+    let mr = new Array(values.length).fill(null);
+    let centerLine = NaN;
+    let mrMean = NaN;
+    let mrUcl = NaN;
+    let lim = {
+      upperProcessLimit: null,
+      lowerProcessLimit: null,
+      upperTwoSigma: null,
+      lowerTwoSigma: null,
+      upperOneSigma: null,
+      lowerOneSigma: null
+    };
+    if (chartType === "XmR") {
+      mr = movingRanges(values, ghosts);
+      const nonGhostVals = values.filter(
+        (v, i) => !ghosts[i] && isNumber(v)
+      );
+      centerLine = nonGhostVals.length ? mean(nonGhostVals) : NaN;
+      const tmp = mrMeanWithOptionalExclusion(
+        mr,
+        !!settings.excludeMovingRangeOutliers
+      );
+      mrMean = tmp.mrMean;
+      mrUcl = tmp.mrUcl;
+      lim = xmrLimits(centerLine, mrMean);
+    } else if (chartType === "T") {
+      const tlim = tChartLimits(
+        values,
+        ghosts,
+        !!settings.excludeMovingRangeOutliers
+      );
+      mr = tlim.mr;
+      mrMean = (_b2 = tlim.mrMean) != null ? _b2 : NaN;
+      mrUcl = (_c = tlim.mrUcl) != null ? _c : NaN;
+      centerLine = (_d = tlim.center) != null ? _d : NaN;
+      lim = {
+        upperProcessLimit: tlim.upperProcessLimit,
+        lowerProcessLimit: tlim.lowerProcessLimit,
+        upperTwoSigma: tlim.upperTwoSigma,
+        lowerTwoSigma: tlim.lowerTwoSigma,
+        upperOneSigma: tlim.upperOneSigma,
+        lowerOneSigma: tlim.lowerOneSigma
+      };
+    } else if (chartType === "G") {
+      const nonGhostVals = values.filter(
+        (v, i) => !ghosts[i] && isNumber(v)
+      );
+      const gMean = nonGhostVals.length ? mean(nonGhostVals) : NaN;
+      const g = gChartProbabilityLimits(gMean);
+      centerLine = (_e = g.cl) != null ? _e : NaN;
+      lim = {
+        upperProcessLimit: g.ucl,
+        lowerProcessLimit: g.lcl,
+        upperTwoSigma: g.twoHigh,
+        lowerTwoSigma: g.twoLow,
+        upperOneSigma: g.oneHigh,
+        lowerOneSigma: g.oneLow
+      };
+      mr = new Array(values.length).fill(null);
+      mrMean = NaN;
+      mrUcl = NaN;
+    } else {
+      warnings.push({
+        code: "unknown_chart_type" /* UnknownChartType */,
+        category: "config" /* Config */,
+        severity: "error" /* Error */,
+        message: `Unknown ChartType '${chartType}' \u2013 supported: XmR, T, G.`,
+        context: { chartType }
+      });
+    }
+    const withLines = part.map((r, i) => {
+      const pointRank = !r.ghost && isNumber(r.value) ? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber(v)).length : 0;
+      const limitsAllowed = globalEnough;
+      const limits = limitsAllowed ? lim : {
+        upperProcessLimit: null,
+        lowerProcessLimit: null,
+        upperTwoSigma: null,
+        lowerTwoSigma: null,
+        upperOneSigma: null,
+        lowerOneSigma: null
+      };
+      const row = {
+        rowId: r.rowId,
+        x: r.x,
+        value: isNumber(r.value) ? r.value : null,
+        ghost: r.ghost,
+        partitionId,
+        pointRank,
+        mean: limitsAllowed && isNumber(centerLine) ? centerLine : null,
+        mr: isNumber(mr[i]) ? mr[i] : null,
+        mrMean: limitsAllowed && isNumber(mrMean) ? mrMean : null,
+        mrUcl: limitsAllowed && isNumber(mrUcl) ? mrUcl : null,
+        upperProcessLimit: isNumber(limits.upperProcessLimit) ? limits.upperProcessLimit : null,
+        lowerProcessLimit: isNumber(limits.lowerProcessLimit) ? limits.lowerProcessLimit : null,
+        upperTwoSigma: isNumber(limits.upperTwoSigma) ? limits.upperTwoSigma : null,
+        lowerTwoSigma: isNumber(limits.lowerTwoSigma) ? limits.lowerTwoSigma : null,
+        upperOneSigma: isNumber(limits.upperOneSigma) ? limits.upperOneSigma : null,
+        lowerOneSigma: isNumber(limits.lowerOneSigma) ? limits.lowerOneSigma : null,
+        target: isNumber(r.target) ? r.target : null,
+        specialCauseFifteenInnerThird: false,
+        // Unified directional alias initialisers (kept in sync post-detection)
+        specialCauseSinglePointUp: false,
+        specialCauseSinglePointDown: false,
+        specialCauseTwoOfThreeUp: false,
+        specialCauseTwoOfThreeDown: false,
+        specialCauseFourOfFiveUp: false,
+        specialCauseFourOfFiveDown: false,
+        specialCauseShiftUp: false,
+        specialCauseShiftDown: false,
+        specialCauseTrendUp: false,
+        specialCauseTrendDown: false,
+        variationIcon: "suppressed" /* Suppressed */,
+        assuranceIcon: "none" /* None */,
+        upperBaseline: limitsAllowed && isNumber(centerLine) ? centerLine : null,
+        lowerBaseline: limitsAllowed && isNumber(centerLine) ? centerLine : null,
+        movingRangeHighPointValue: limitsAllowed && isNumber(mrUcl) ? mrUcl : null,
+        ghostValue: r.ghost && isNumber(r.value) ? r.value : null,
+        ghostFlag: !!r.ghost,
+        specialCauseImprovementValue: null,
+        specialCauseConcernValue: null,
+        specialCauseNeitherValue: null,
+        ruleTags: []
+      };
+      return row;
+    });
+    partitionNonGhostCounts[partitionId] = withLines.filter(
+      (r) => !r.ghost && isNumber(r.value)
+    ).length;
+    const shiftN = (_f = settings.specialCauseShiftPoints) != null ? _f : 6;
+    const trendN = (_g = settings.specialCauseTrendPoints) != null ? _g : 6;
+    const nonGhostIndices = [];
+    const nonGhostValues = [];
+    for (let i = 0; i < withLines.length; i++) {
+      const row = withLines[i];
+      const v = row.value;
+      if (!row.ghost && isNumber(v)) {
+        nonGhostIndices.push(i);
+        nonGhostValues.push(v);
+      }
+      const hasLimits = isNumber(row.mean) && isNumber(row.upperProcessLimit) && isNumber(row.lowerProcessLimit);
+      if (!hasLimits || row.ghost || !isNumber(v)) {
+        output.push(row);
+        continue;
+      }
+      row.specialCauseSinglePointUp = isNumber(row.upperProcessLimit) ? v > row.upperProcessLimit : false;
+      row.specialCauseSinglePointDown = isNumber(row.lowerProcessLimit) ? v < row.lowerProcessLimit : false;
+      output.push(row);
+    }
+    if (nonGhostIndices.length) {
+      const getRow = (idx) => withLines[idx];
+      let runHigh = [];
+      let runLow = [];
+      for (const idxLocal of nonGhostIndices) {
+        const r = getRow(idxLocal);
+        if (!isNumber(r.mean) || !isNumber(r.value)) {
+          runHigh = [];
+          runLow = [];
+          continue;
+        }
+        if (r.value > r.mean) {
+          runHigh.push(idxLocal);
+          runLow = [];
+        } else if (r.value < r.mean) {
+          runLow.push(idxLocal);
+          runHigh = [];
+        } else {
+          runHigh = [];
+          runLow = [];
+        }
+        if (runHigh.length >= shiftN) {
+          for (const j of runHigh) {
+            const rr = getRow(j);
+            rr.specialCauseShiftUp = true;
+          }
+        }
+        if (runLow.length >= shiftN) {
+          for (const j of runLow) {
+            const rr = getRow(j);
+            rr.specialCauseShiftDown = true;
+          }
+        }
+      }
+      for (let w = 0; w <= nonGhostIndices.length - 3; w++) {
+        const windowIdx = nonGhostIndices.slice(w, w + 3);
+        const rows3 = windowIdx.map(getRow);
+        if (!rows3.every((r) => isNumber(r.mean) && isNumber(r.value))) continue;
+        const meanVal = rows3[0].mean;
+        const allHighSide = rows3.every((r) => r.value > meanVal);
+        const allLowSide = rows3.every((r) => r.value < meanVal);
+        if (!allHighSide && !allLowSide) continue;
+        const u2 = (_h = rows3[0].upperTwoSigma) != null ? _h : Infinity;
+        const l2 = (_i = rows3[0].lowerTwoSigma) != null ? _i : -Infinity;
+        const u3 = (_j = rows3[0].upperProcessLimit) != null ? _j : Infinity;
+        const l3 = (_k = rows3[0].lowerProcessLimit) != null ? _k : -Infinity;
+        const highExceed = rows3.filter((r) => r.value > u2 && r.value <= u3);
+        const lowExceed = rows3.filter((r) => r.value < l2 && r.value >= l3);
+        if (allHighSide && highExceed.length >= 2) {
+          for (const r of highExceed) {
+            r.specialCauseTwoOfThreeUp = true;
+          }
+        }
+        if (allLowSide && lowExceed.length >= 2) {
+          for (const r of lowExceed) {
+            r.specialCauseTwoOfThreeDown = true;
+          }
+        }
+      }
+      if (settings.enableFourOfFiveRule) {
+        for (let w = 0; w <= nonGhostIndices.length - 5; w++) {
+          const windowIdx = nonGhostIndices.slice(w, w + 5);
+          const rows5 = windowIdx.map(getRow);
+          if (!rows5.every((r) => isNumber(r.mean) && isNumber(r.value))) continue;
+          const meanVal = rows5[0].mean;
+          if (!rows5.every((r) => r.value > meanVal) && !rows5.every((r) => r.value < meanVal)) continue;
+          const u1 = (_l = rows5[0].upperOneSigma) != null ? _l : Infinity;
+          const l1 = (_m = rows5[0].lowerOneSigma) != null ? _m : -Infinity;
+          const highExceed = rows5.filter((r) => r.value > u1);
+          const lowExceed = rows5.filter((r) => r.value < l1);
+          if (rows5.every((r) => r.value > meanVal) && highExceed.length >= 4) {
+            for (const r of highExceed) {
+              r.specialCauseFourOfFiveUp = true;
+            }
+          }
+          if (rows5.every((r) => r.value < meanVal) && lowExceed.length >= 4) {
+            for (const r of lowExceed) {
+              r.specialCauseFourOfFiveDown = true;
+            }
+          }
+        }
+      }
+      for (let w = 0; w <= nonGhostIndices.length - trendN; w++) {
+        const windowIdx = nonGhostIndices.slice(w, w + trendN);
+        const rowsN = windowIdx.map(getRow);
+        if (!rowsN.every((r) => isNumber(r.value))) continue;
+        let inc = true;
+        let dec = true;
+        for (let k = 1; k < rowsN.length; k++) {
+          if (!(rowsN[k].value > rowsN[k - 1].value)) inc = false;
+          if (!(rowsN[k].value < rowsN[k - 1].value)) dec = false;
+          if (!inc && !dec) break;
+        }
+        if (inc) for (const j of windowIdx) {
+          const rr = getRow(j);
+          rr.specialCauseTrendUp = true;
+        }
+        if (dec) for (const j of windowIdx) {
+          const rr = getRow(j);
+          rr.specialCauseTrendDown = true;
+        }
+      }
+      if (settings.enableFifteenInInnerThirdRule) {
+        let innerRun = [];
+        for (const idxLocal of nonGhostIndices) {
+          const r = getRow(idxLocal);
+          if (!isNumber(r.value) || !isNumber(r.mean) || !isNumber(r.upperOneSigma) || !isNumber(r.lowerOneSigma)) {
+            innerRun = [];
+            continue;
+          }
+          const inBand = r.value < r.upperOneSigma && r.value > r.lowerOneSigma;
+          if (!inBand) {
+            innerRun = [];
+            continue;
+          }
+          innerRun.push(idxLocal);
+          if (innerRun.length >= 15) {
+            const rowsRun = innerRun.map(getRow);
+            const anyAbove = rowsRun.some((rr) => rr.value > rr.mean);
+            const anyBelow = rowsRun.some((rr) => rr.value < rr.mean);
+            if (anyAbove && anyBelow) {
+              for (const j of innerRun) getRow(j).specialCauseFifteenInnerThird = true;
+            }
+          }
+        }
+      }
+    }
+    if (settings.maximumPointsPartition && Number.isFinite(settings.maximumPointsPartition)) {
+      const cap = settings.maximumPointsPartition;
+      let seen = 0;
+      for (const row of output.filter((r) => r.partitionId === partitionId)) {
+        if (!row.ghost && isNumber(row.value)) seen++;
+        if (seen > cap) {
+          row.mean = row.upperProcessLimit = row.lowerProcessLimit = null;
+          row.upperTwoSigma = row.lowerTwoSigma = row.upperOneSigma = row.lowerOneSigma = null;
+        }
+      }
+    }
+  }
+  for (const r of output) {
+    if (r.ruleTags && r.ruleTags.length) continue;
+    const tags = [];
+    if (r.specialCauseShiftUp) tags.push("shift_high" /* ShiftHigh */);
+    if (r.specialCauseShiftDown) tags.push("shift_low" /* ShiftLow */);
+    if (r.specialCauseTrendUp) tags.push("trend_inc" /* TrendIncreasing */);
+    if (r.specialCauseTrendDown) tags.push("trend_dec" /* TrendDecreasing */);
+    if (r.specialCauseSinglePointUp) tags.push("single_above" /* SinglePointAbove */);
+    if (r.specialCauseSinglePointDown) tags.push("single_below" /* SinglePointBelow */);
+    if (r.specialCauseTwoOfThreeUp) tags.push("two_of_three_above" /* TwoOfThreeAbove */);
+    if (r.specialCauseTwoOfThreeDown) tags.push("two_of_three_below" /* TwoOfThreeBelow */);
+    if (r.specialCauseFourOfFiveUp) tags.push("four_of_five_above" /* FourOfFiveAbove */);
+    if (r.specialCauseFourOfFiveDown) tags.push("four_of_five_below" /* FourOfFiveBelow */);
+    if (r.specialCauseFifteenInnerThird) tags.push("fifteen_inner_third" /* FifteenInnerThird */);
+    if (tags.length) r.ruleTags = tags;
+  }
+  for (let idx = 0; idx < output.length; idx++) {
+    const row = output[idx];
+    if (!Object.prototype.hasOwnProperty.call(row, "improvementValueBeforePruning" /* ImprovementValueBeforePruning */)) {
+      Object.defineProperty(row, "improvementValueBeforePruning" /* ImprovementValueBeforePruning */, {
+        get() {
+          var _a3;
+          return (_a3 = row.originalSpecialCauseImprovementValue) != null ? _a3 : null;
+        },
+        enumerable: false,
+        configurable: true
+      });
+    }
+    if (!Object.prototype.hasOwnProperty.call(row, "concernValueBeforePruning" /* ConcernValueBeforePruning */)) {
+      Object.defineProperty(row, "concernValueBeforePruning" /* ConcernValueBeforePruning */, {
+        get() {
+          var _a3;
+          return (_a3 = row.originalSpecialCauseConcernValue) != null ? _a3 : null;
+        },
+        enumerable: false,
+        configurable: true
+      });
+    }
+    if (row.ghost || !isNumber(row.value) || row.mean === null) {
+      row.variationIcon = "suppressed" /* Suppressed */;
+      continue;
+    }
+    const onHighSide = row.value > row.mean;
+    const onLowSide = row.value < row.mean;
+    if ((_n = settings.rules) == null ? void 0 : _n.collapseWeakerClusterRules) {
+      if (row.specialCauseTwoOfThreeUp && row.specialCauseFourOfFiveUp) {
+        row.specialCauseTwoOfThreeUp = false;
+      }
+      if (row.specialCauseTwoOfThreeDown && row.specialCauseFourOfFiveDown) {
+        row.specialCauseTwoOfThreeDown = false;
+      }
+    }
+    const trendUpQualified = row.specialCauseTrendUp && onHighSide;
+    const trendDownQualified = row.specialCauseTrendDown && onLowSide;
+    const highSignals = row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp || row.specialCauseShiftUp || trendUpQualified;
+    const lowSignals = row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown || row.specialCauseShiftDown || trendDownQualified;
+    let emergingFavourable = false;
+    if (settings.precedenceStrategy === "directional_first" /* DirectionalFirst */ && (((_o = settings.grace) == null ? void 0 : _o.emergingEnabled) || settings.emergingGraceEnabled || settings.emergingDirectionGrace)) {
+      const trendN = settings.specialCauseTrendPoints || 6;
+      if (trendN > 1 && !(row.specialCauseTrendUp || row.specialCauseTrendDown)) {
+        const needed = trendN - 1;
+        const seq = [];
+        for (let back = idx; back >= 0 && seq.length < needed; back--) {
+          const rPrev = output[back];
+          if (!rPrev.ghost && isNumber(rPrev.value) && rPrev.mean !== null) seq.unshift(rPrev);
+        }
+        if (seq.length === needed) {
+          let monotonic = true;
+          for (let k = 1; k < seq.length && monotonic; k++) {
+            if (metricImprovement === "Up" /* Up */) {
+              if (!(seq[k].value > seq[k - 1].value)) monotonic = false;
+            } else if (metricImprovement === "Down" /* Down */) {
+              if (!(seq[k].value < seq[k - 1].value)) monotonic = false;
+            } else {
+              monotonic = false;
+            }
+          }
+          emergingFavourable = monotonic;
+        }
+      }
+    }
+    if (settings.precedenceStrategy === "directional_first" /* DirectionalFirst */) {
+      const favourableRaw = metricImprovement === "Up" /* Up */ ? highSignals : metricImprovement === "Down" /* Down */ ? lowSignals : false;
+      const favourable = favourableRaw;
+      const unfavourable = metricImprovement === "Up" /* Up */ ? lowSignals : metricImprovement === "Down" /* Down */ ? highSignals : false;
+      if (favourable && !unfavourable) row.variationIcon = "improvement" /* Improvement */;
+      else if (unfavourable && !favourable) row.variationIcon = emergingFavourable ? "neither" /* Neither */ : "concern" /* Concern */;
+      else if (favourable && unfavourable) row.variationIcon = emergingFavourable || row.specialCauseTrendUp || row.specialCauseTrendDown ? "improvement" /* Improvement */ : "neither" /* Neither */;
+      else row.variationIcon = "neither" /* Neither */;
+    } else {
+      if (metricImprovement === "Up" /* Up */) row.variationIcon = highSignals ? "improvement" /* Improvement */ : lowSignals ? "concern" /* Concern */ : "neither" /* Neither */;
+      else if (metricImprovement === "Down" /* Down */) row.variationIcon = lowSignals ? "improvement" /* Improvement */ : highSignals ? "concern" /* Concern */ : "neither" /* Neither */;
+      else row.variationIcon = "neither" /* Neither */;
+    }
+    const anySignal = highSignals || lowSignals;
+    row.specialCauseImprovementValue = anySignal && row.variationIcon === "improvement" /* Improvement */ ? row.value : null;
+    row.specialCauseConcernValue = anySignal && row.variationIcon === "concern" /* Concern */ ? row.value : null;
+    row.specialCauseNeitherValue = anySignal && row.variationIcon === "neither" /* Neither */ ? row.value : null;
+    if (settings.conflictPrecedenceMode === "sql_ranking_v2_6a" /* SqlRankingV26a */ && row.specialCauseImprovementValue !== null && row.specialCauseConcernValue !== null) {
+      const active = [];
+      if (row.specialCauseSinglePointUp) active.push({ id: "single_point" /* SinglePoint */, rank: 1, side: "up" /* Up */ });
+      if (row.specialCauseSinglePointDown) active.push({ id: "single_point" /* SinglePoint */, rank: 1, side: "down" /* Down */ });
+      if (row.specialCauseTwoOfThreeUp) active.push({ id: "two_sigma" /* TwoSigma */, rank: 2, side: "up" /* Up */ });
+      if (row.specialCauseTwoOfThreeDown) active.push({ id: "two_sigma" /* TwoSigma */, rank: 2, side: "down" /* Down */ });
+      if (row.specialCauseShiftUp) active.push({ id: "shift" /* Shift */, rank: 3, side: "up" /* Up */ });
+      if (row.specialCauseShiftDown) active.push({ id: "shift" /* Shift */, rank: 3, side: "down" /* Down */ });
+      if (row.specialCauseTrendUp) active.push({ id: "trend" /* Trend */, rank: 4, side: "up" /* Up */ });
+      if (row.specialCauseTrendDown) active.push({ id: "trend" /* Trend */, rank: 4, side: "down" /* Down */ });
+      const upMax = active.filter((a) => a.side === "up" /* Up */).reduce((m, a) => Math.max(m, a.rank), 0);
+      const downMax = active.filter((a) => a.side === "down" /* Down */).reduce((m, a) => Math.max(m, a.rank), 0);
+      let prime;
+      if (upMax > downMax) prime = "Upwards" /* Upwards */;
+      else if (downMax > upMax) prime = "Downwards" /* Downwards */;
+      else prime = "Same" /* Same */;
+      const originalImprovement = row.specialCauseImprovementValue;
+      const originalConcern = row.specialCauseConcernValue;
+      if (prime === "Upwards" /* Upwards */) {
+        if (metricImprovement === "Up" /* Up */) {
+          row.specialCauseConcernValue = null;
+        } else if (metricImprovement === "Down" /* Down */) {
+          row.specialCauseImprovementValue = null;
+        }
+      } else if (prime === "Downwards" /* Downwards */) {
+        if (metricImprovement === "Up" /* Up */) {
+          row.specialCauseImprovementValue = null;
+        } else if (metricImprovement === "Down" /* Down */) {
+          row.specialCauseConcernValue = null;
+        }
+      } else {
+        if (row.variationIcon === "improvement" /* Improvement */) {
+          row.specialCauseConcernValue = null;
+        } else if (row.variationIcon === "concern" /* Concern */) {
+          row.specialCauseImprovementValue = null;
+        } else {
+          row.specialCauseConcernValue = null;
+        }
+      }
+      if (row.specialCauseImprovementValue !== null && row.specialCauseConcernValue === null) {
+        row.variationIcon = "improvement" /* Improvement */;
+      } else if (row.specialCauseConcernValue !== null && row.specialCauseImprovementValue === null) {
+        row.variationIcon = "concern" /* Concern */;
+      } else if (row.specialCauseImprovementValue === null && row.specialCauseConcernValue === null) {
+        row.variationIcon = "neither" /* Neither */;
+      }
+      const winningSide = row.specialCauseImprovementValue !== null ? "up" /* Up */ : row.specialCauseConcernValue !== null ? "down" /* Down */ : void 0;
+      const winningRank = winningSide === "up" /* Up */ ? upMax : winningSide === "down" /* Down */ ? downMax : Math.max(upMax, downMax);
+      const winner = active.find((a) => a.rank === winningRank && (!winningSide || a.side === winningSide));
+      row.conflictPrimeDirection = prime;
+      row.conflictResolved = true;
+      row.conflictResolvedRank = winningRank || void 0;
+      if (winner) row.conflictResolvedByRuleId = winner.id;
+      row.pruningMode = "conflict" /* Conflict */;
+      row.originalSpecialCauseImprovementValue = originalImprovement;
+      row.originalSpecialCauseConcernValue = originalConcern;
+    }
+    {
+      const inputRow = canonical[row.rowId - 1];
+      const result = computeAssuranceIcon({
+        metricImprovement,
+        capabilityMode: settings.assuranceCapabilityMode,
+        value: row.value,
+        mean: row.mean,
+        upperProcessLimit: row.upperProcessLimit,
+        lowerProcessLimit: row.lowerProcessLimit,
+        target: isNumber(inputRow == null ? void 0 : inputRow.target) ? inputRow.target : null
+      });
+      row.assuranceIcon = result;
+    }
+  }
+  if (((_p = settings.minimumPointsWarning) != null ? _p : false) && !globalEnough) {
+    const available = canonical.filter(
+      (r) => !r.ghost && isNumber(r.value)
+    ).length;
+    warnings.push({
+      code: "insufficient_points_global" /* InsufficientPointsGlobal */,
+      category: "data" /* Data */,
+      severity: "warning" /* Warning */,
+      message: `Only ${available} non-ghost points available; minimum required is ${settings.minimumPoints}. Limits and icons suppressed.`,
+      context: { available, minimumRequired: settings.minimumPoints }
+    });
+  }
+  if (settings.variationIconConflictWarning) {
+    for (const row of output) {
+      if (row.variationIcon === "improvement" /* Improvement */) {
+        const highAndLow = (row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp || row.specialCauseShiftUp || row.specialCauseTrendUp) && (row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown || row.specialCauseShiftDown || row.specialCauseTrendDown);
+        if (highAndLow) {
+          warnings.push({
+            code: "variation_conflict_row" /* VariationConflictRow */,
+            category: "logic" /* Logic */,
+            severity: "warning" /* Warning */,
+            message: `Row ${row.rowId}: simultaneous high/low special-cause signals \u2013 variation icon may be ambiguous.`,
+            context: { rowId: row.rowId }
+          });
+        }
+      }
+    }
+  }
+  if (settings.maximumPoints && Number.isFinite(settings.maximumPoints)) {
+    const cap = settings.maximumPoints;
+    let seen = 0;
+    for (const row of output) {
+      if (!row.ghost && isNumber(row.value)) seen++;
+      if (seen > cap) {
+        row.mean = row.upperProcessLimit = row.lowerProcessLimit = null;
+        row.upperTwoSigma = row.lowerTwoSigma = row.upperOneSigma = row.lowerOneSigma = null;
+      }
+    }
+  }
+  if (settings.nullValueWarning && (chartType === "XmR" /* XmR */ || chartType === "G" /* G */)) {
+    const nullCount = canonical.filter(
+      (r) => !r.ghost && (r.value === null || r.value === void 0 || !isNumber(r.value))
+    ).length;
+    if (nullCount)
+      warnings.push({
+        code: "null_values_excluded" /* NullValuesExcluded */,
+        category: "data" /* Data */,
+        severity: "info" /* Info */,
+        message: `${nullCount} null/missing value(s) excluded from calculations.`,
+        context: { nullCount }
+      });
+  }
+  if (settings.targetSuppressedWarning && (chartType === "T" /* T */ || chartType === "G" /* G */)) {
+    const hasTarget = canonical.some((r) => isNumber(r.target));
+    if (hasTarget)
+      warnings.push({
+        code: "target_ignored_rare_event" /* TargetIgnoredRareEvent */,
+        category: "target" /* Target */,
+        severity: "info" /* Info */,
+        message: `Targets provided are ignored for ${chartType} charts in this port.`,
+        context: { chartType }
+      });
+  }
+  if (settings.ghostOnRareEventWarning && (chartType === "T" /* T */ || chartType === "G" /* G */)) {
+    const ghostCount = canonical.filter((r) => r.ghost).length;
+    if (ghostCount)
+      warnings.push({
+        code: "ghost_rows_rare_event" /* GhostRowsRareEvent */,
+        category: "ghost" /* Ghost */,
+        severity: "info" /* Info */,
+        message: `${ghostCount} ghost row(s) supplied for rare-event chart (${chartType}); verify intent.`,
+        context: { chartType, ghostCount }
+      });
+  }
+  if (settings.partitionSizeWarnings) {
+    Object.entries(partitionNonGhostCounts).forEach(([pid, count]) => {
+      if (count < settings.minimumPointsPartition)
+        warnings.push({
+          code: "insufficient_points_partition" /* InsufficientPointsPartition */,
+          category: "partition" /* Partition */,
+          severity: "warning" /* Warning */,
+          message: `Partition ${pid} has only ${count} non-ghost point(s); below recommended ${settings.minimumPointsPartition}.`,
+          context: {
+            partitionId: Number(pid),
+            count,
+            minimum: settings.minimumPointsPartition
+          }
+        });
+    });
+  }
+  if (settings.baselineSpecialCauseWarning) {
+    const issueRows = [];
+    output.forEach((r) => {
+      const input = canonical[r.rowId - 1];
+      if (input.baseline) {
+        const anySignal = r.specialCauseSinglePointUp || r.specialCauseSinglePointDown || r.specialCauseTwoOfThreeUp || r.specialCauseTwoOfThreeDown || r.specialCauseFourOfFiveUp || r.specialCauseFourOfFiveDown || r.specialCauseShiftUp || r.specialCauseShiftDown || r.specialCauseTrendUp || r.specialCauseTrendDown;
+        if (anySignal) issueRows.push(r.rowId);
+      }
+    });
+    if (issueRows.length)
+      warnings.push({
+        code: "baseline_with_special_cause" /* BaselineWithSpecialCause */,
+        category: "baseline" /* Baseline */,
+        severity: "warning" /* Warning */,
+        message: `Baseline set with special-cause present at row(s): ${issueRows.join(", ")}.`,
+        context: { rows: issueRows }
+      });
+  }
+  if (settings.maximumPointsWarnings) {
+    if (settings.maximumPointsPartition && Number.isFinite(settings.maximumPointsPartition))
+      warnings.push({
+        code: "partition_cap_applied" /* PartitionCapApplied */,
+        category: "limits" /* Limits */,
+        severity: "info" /* Info */,
+        message: `Limits suppressed after ${settings.maximumPointsPartition} non-ghost points per partition.`,
+        context: { cap: settings.maximumPointsPartition }
+      });
+    if (settings.maximumPoints && Number.isFinite(settings.maximumPoints))
+      warnings.push({
+        code: "global_cap_applied" /* GlobalCapApplied */,
+        category: "limits" /* Limits */,
+        severity: "info" /* Info */,
+        message: `Limits suppressed after global cap of ${settings.maximumPoints} non-ghost points.`,
+        context: { cap: settings.maximumPoints }
+      });
+  }
+  let suggestedBaselines;
+  if (settings.baselineSuggest) {
+    const W = settings.baselineSuggestStabilityPoints;
+    const minGap = settings.baselineSuggestMinGap;
+    const minDeltaSigma = settings.baselineSuggestMinDeltaSigma;
+    const scoreThreshold = settings.baselineSuggestScoreThreshold;
+    const shiftRunLength = (_q = settings.specialCauseShiftPoints) != null ? _q : 6;
+    const trendRunLength = (_r = settings.specialCauseTrendPoints) != null ? _r : 6;
+    const raw = computeBaselineSuggestionsRaw(
+      output.map((r) => ({
+        value: r.value,
+        partitionId: r.partitionId,
+        variationIcon: r.variationIcon,
+        mean: r.mean,
+        upperProcessLimit: r.upperProcessLimit
+      })),
+      {
+        W,
+        minGap,
+        minDeltaSigma,
+        scoreThreshold,
+        shiftRunLength,
+        trendRunLength,
+        isShiftUpAt: (i) => !!output[i].specialCauseShiftUp,
+        isShiftDownAt: (i) => !!output[i].specialCauseShiftDown,
+        isTrendUpAt: (i) => !!output[i].specialCauseTrendUp,
+        isTrendDownAt: (i) => !!output[i].specialCauseTrendDown,
+        isSingleUpAt: (i) => !!output[i].specialCauseSinglePointUp,
+        isSingleDownAt: (i) => !!output[i].specialCauseSinglePointDown
+      }
+    );
+    suggestedBaselines = raw.map((s) => ({
+      index: s.index,
+      reason: s.reason,
+      score: s.score,
+      deltaMean: s.deltaMean,
+      oldMean: s.oldMean,
+      newMean: s.newMean,
+      window: s.window
+    }));
+  }
+  return { rows: output, warnings, ...suggestedBaselines ? { suggestedBaselines } : {} };
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/components/DiagnosticsPanel.tsx
+import { Fragment as Fragment2, jsx as jsx7, jsxs as jsxs4 } from "react/jsx-runtime";
+function DiagnosticsPanel({
+  warnings,
+  show,
+  formatWarningCategory,
+  formatWarningCode
+}) {
+  const [diagnosticsMessage, setDiagnosticsMessage] = React5.useState("");
+  const lastDiagnosticsRef = React5.useRef("");
+  React5.useEffect(() => {
+    if (!show) {
+      if (lastDiagnosticsRef.current !== "") {
+        lastDiagnosticsRef.current = "";
+        setDiagnosticsMessage("");
+      }
+      return;
+    }
+    const total = warnings.length;
+    if (!total) {
+      const msg2 = "Diagnostics: no warnings.";
+      if (msg2 !== lastDiagnosticsRef.current) {
+        lastDiagnosticsRef.current = msg2;
+        setDiagnosticsMessage(msg2);
+      }
+      return;
+    }
+    const counts = {
+      error: warnings.filter((w) => w.severity === "error" /* Error */).length,
+      warning: warnings.filter((w) => w.severity === "warning" /* Warning */).length,
+      info: warnings.filter((w) => w.severity === "info" /* Info */).length
+    };
+    const breakdownParts = [];
+    if (counts.error) breakdownParts.push(`${counts.error} error${counts.error === 1 ? "" : "s"}`);
+    if (counts.warning) breakdownParts.push(`${counts.warning} warning${counts.warning === 1 ? "" : "s"}`);
+    if (counts.info) breakdownParts.push(`${counts.info} info`);
+    const msg = `Diagnostics updated: ${total} warning${total === 1 ? "" : "s"} (${breakdownParts.join(", ")}).`;
+    if (msg !== lastDiagnosticsRef.current) {
+      lastDiagnosticsRef.current = msg;
+      setDiagnosticsMessage(msg);
+    }
+  }, [show, warnings]);
+  if (!show) return null;
+  return /* @__PURE__ */ jsxs4(Fragment2, { children: [
+    diagnosticsMessage && /* @__PURE__ */ jsx7(
+      "div",
+      {
+        "data-testid": "spc-diagnostics-live",
+        "aria-live": "polite",
+        style: {
+          position: "absolute",
+          width: 1,
+          height: 1,
+          padding: 0,
+          margin: 0,
+          overflow: "hidden",
+          clip: "rect(0 0 0 0)",
+          whiteSpace: "nowrap",
+          border: 0
+        },
+        children: diagnosticsMessage
+      }
+    ),
+    warnings.length > 0 && /* @__PURE__ */ jsxs4("div", { className: "fdp-spc-chart__warnings", role: "region", "aria-label": "SPC diagnostics", children: [
+      /* @__PURE__ */ jsx7("p", { className: "fdp-spc-chart__warnings-heading", children: "Diagnostics" }),
+      /* @__PURE__ */ jsx7(
+        Table_default,
+        {
+          firstCellIsHeader: false,
+          panel: false,
+          responsive: false,
+          head: [{ text: "Severity" }, { text: "Category" }, { text: "Code" }, { text: "Details" }],
+          rows: warnings.map((w) => {
+            let severityColor = "grey";
+            if (w.severity === "error" /* Error */) severityColor = "red";
+            else if (w.severity === "warning" /* Warning */) severityColor = "orange";
+            else if (w.severity === "info" /* Info */) severityColor = "blue";
+            return [
+              {
+                node: /* @__PURE__ */ jsx7(Tag, { color: severityColor, text: (w.severity ? String(w.severity) : "Info").replace(/^[a-z]/, (c) => c.toUpperCase()) }),
+                classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--severity"
+              },
+              {
+                node: w.category ? /* @__PURE__ */ jsx7(Tag, { color: "purple", text: formatWarningCategory(w.category) }) : /* @__PURE__ */ jsx7("span", { className: "fdp-spc-chart__warning-empty", children: "\u2013" }),
+                classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--category"
+              },
+              {
+                node: /* @__PURE__ */ jsx7(Tag, { color: "grey", text: formatWarningCode(w.code) }),
+                classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--code"
+              },
+              {
+                node: /* @__PURE__ */ jsxs4("div", { className: "fdp-spc-chart__warning-message", children: [
+                  /* @__PURE__ */ jsx7("span", { children: w.message }),
+                  w.context && Object.keys(w.context).length > 0 && /* @__PURE__ */ jsxs4("details", { className: "fdp-spc-chart__warning-context", style: { marginTop: 4 }, children: [
+                    /* @__PURE__ */ jsx7("summary", { children: "context" }),
+                    /* @__PURE__ */ jsx7("pre", { children: JSON.stringify(w.context, null, 2) })
+                  ] })
+                ] }),
+                classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--message"
+              }
+            ];
+          }),
+          classes: "fdp-spc-chart__warnings-table-wrapper",
+          tableClasses: "fdp-spc-chart__warnings-table"
+        }
+      )
+    ] })
+  ] });
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/components/EmbeddedIconsRow.tsx
+import { jsx as jsx8, jsxs as jsxs5 } from "react/jsx-runtime";
+function EmbeddedIconsRow({
+  variationNode,
+  assuranceNode,
+  show
+}) {
+  if (!show) return null;
+  return /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-chart__top-row", style: { display: "flex", justifyContent: "flex-end", marginBottom: 4 }, children: [
+    variationNode,
+    assuranceNode
+  ] });
+}
+
+// src/components/DataVisualisation/charts/SPC/icons.ts
+var icons_exports = {};
+__export(icons_exports, {
+  AssuranceResult: () => AssuranceResult,
+  Direction: () => Direction,
+  MetricPolarity: () => MetricPolarity,
+  SPCAssuranceIcon: () => SPCAssuranceIcon,
+  SPCVariationIcon: () => SPCVariationIcon,
+  VariationJudgement: () => VariationJudgement,
+  VariationState: () => VariationState,
+  getVariationColour: () => getVariationColour,
+  getVariationTrend: () => getVariationTrend
+});
+
+// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
+import { useId, useMemo as useMemo3 } from "react";
+
+// src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts
+var spcTokenRoot = null;
+var _a, _b;
+try {
+  const tokens = require_tokens();
+  spcTokenRoot = ((_b = (_a = tokens == null ? void 0 : tokens.color) == null ? void 0 : _a["data-viz"]) == null ? void 0 : _b.spc) || null;
+} catch {
+}
+var tokenColour = (key, fallback) => {
+  if (!spcTokenRoot) return fallback;
+  const parts = key.split(".");
+  let current = spcTokenRoot;
+  for (const p of parts) {
+    if (current == null) break;
+    current = current[p];
+  }
+  const val = current;
+  if (val == null) return fallback;
+  if (typeof val === "string" || typeof val === "number") return String(val);
+  if (val.$value != null) return String(val.$value);
+  if (val.value != null) return String(val.value);
+  return fallback;
+};
+var getGradientOpacities = () => ({
+  // Lightened defaults (previous 0.18 -> 0.12, 0.06 -> 0.03) to reduce intensity of wash.
+  start: tokenColour("gradient.stop.start-opacity", "0.12"),
+  mid: tokenColour("gradient.stop.mid-opacity", "0.03"),
+  end: tokenColour("gradient.stop.end-opacity", "0"),
+  triStart: tokenColour(
+    "gradient.stop.triangle-start-opacity",
+    tokenColour("gradient.stop.start-opacity", "0.12")
+  ),
+  triMid: tokenColour(
+    "gradient.stop.triangle-mid-opacity",
+    tokenColour("gradient.stop.mid-opacity", "0.03")
+  ),
+  triEnd: tokenColour(
+    "gradient.stop.triangle-end-opacity",
+    tokenColour("gradient.stop.end-opacity", "0")
+  )
+});
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcDescriptors.ts
 var ruleGlossary = {
@@ -6892,494 +7551,6 @@ function getVariationColorHex(icon) {
   if (!icon) return VARIATION_COLOR_TOKENS.neither.hex;
   return (_b2 = (_a2 = VARIATION_COLOR_TOKENS[icon]) == null ? void 0 : _a2.hex) != null ? _b2 : VARIATION_COLOR_TOKENS.neither.hex;
 }
-
-// src/mapping/tag.ts
-function mapTagProps(input) {
-  const { color: color2 = "default", noBorder, closable, disabled, className } = input;
-  const classes = [
-    "nhsuk-tag",
-    color2 !== "default" ? `nhsuk-tag--${color2}` : "",
-    noBorder ? "nhsuk-tag--no-border" : "",
-    closable ? "nhsuk-tag--closable" : "",
-    disabled ? "nhsuk-tag--disabled" : "",
-    className || ""
-  ].filter(Boolean).join(" ");
-  return { classes, showClose: !!closable, disabled: !!disabled };
-}
-
-// src/components/Tag/Tag.tsx
-import { jsx as jsx8, jsxs as jsxs4 } from "react/jsx-runtime";
-var Tag = ({
-  text,
-  html,
-  children,
-  color: color2 = "default",
-  noBorder = false,
-  closable = false,
-  onClose,
-  disabled = false,
-  className,
-  ...props
-}) => {
-  const model = mapTagProps({ color: color2, noBorder, closable, disabled, className });
-  const handleClose = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!disabled && onClose) {
-      onClose();
-    }
-  };
-  return /* @__PURE__ */ jsxs4("strong", { className: model.classes, ...props, children: [
-    children ? children : html ? /* @__PURE__ */ jsx8("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
-    closable && /* @__PURE__ */ jsx8(
-      "button",
-      {
-        type: "button",
-        className: "nhsuk-tag__close",
-        onClick: handleClose,
-        disabled,
-        "aria-label": "Remove",
-        title: "Remove",
-        children: "\xD7"
-      }
-    )
-  ] });
-};
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
-import { jsx as jsx9, jsxs as jsxs5 } from "react/jsx-runtime";
-var SPCTooltipOverlay = ({
-  engineRows,
-  limits,
-  pointDescriber,
-  measureName,
-  measureUnit,
-  dateFormatter,
-  enableNeutralNoJudgement = true,
-  showTrendGatingExplanation = true
-}) => {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k;
-  const tooltip = useTooltipContext();
-  const chart = useChartContext();
-  const [cachedFocus, setCachedFocus] = React8.useState(null);
-  const [hoveringTooltip, setHoveringTooltip] = React8.useState(false);
-  const hideTimeoutRef = React8.useRef(null);
-  React8.useEffect(() => {
-    if (!tooltip) return;
-    if (tooltip.focused) {
-      setCachedFocus(tooltip.focused);
-      if (hideTimeoutRef.current) {
-        cancelAnimationFrame(hideTimeoutRef.current);
-        hideTimeoutRef.current = null;
-      }
-    }
-    if (!tooltip.focused && !hoveringTooltip) {
-      const id = requestAnimationFrame(() => {
-        setCachedFocus(null);
-        hideTimeoutRef.current = null;
-      });
-      hideTimeoutRef.current = id;
-    }
-    return () => {
-      if (hideTimeoutRef.current) {
-        cancelAnimationFrame(hideTimeoutRef.current);
-        hideTimeoutRef.current = null;
-      }
-    };
-  }, [tooltip, tooltip == null ? void 0 : tooltip.focused, hoveringTooltip]);
-  const focused = tooltip && (tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
-  const [visible, setVisible] = React8.useState(false);
-  React8.useEffect(() => {
-    const id = requestAnimationFrame(() => setVisible(true));
-    return () => cancelAnimationFrame(id);
-  }, [focused == null ? void 0 : focused.index]);
-  const innerWidth = (_a2 = chart == null ? void 0 : chart.innerWidth) != null ? _a2 : 0;
-  const innerHeight = (_b2 = chart == null ? void 0 : chart.innerHeight) != null ? _b2 : 0;
-  const clampX = focused ? Math.min(Math.max(focused.clientX, 0), innerWidth) : 0;
-  const clampY = focused ? Math.min(Math.max(focused.clientY, 0), innerHeight) : 0;
-  const host = ((_c = chart == null ? void 0 : chart.ref) == null ? void 0 : _c.current) || void 0;
-  if (!focused) {
-    return null;
-  }
-  const row = engineRows == null ? void 0 : engineRows[focused.index];
-  const ruleIds = extractRuleIds(
-    row ? {
-      specialCauseSinglePointUp: !!row.rules.singlePoint.up,
-      specialCauseSinglePointDown: !!row.rules.singlePoint.down,
-      specialCauseTwoOfThreeUp: !!row.rules.twoOfThree.up,
-      specialCauseTwoOfThreeDown: !!row.rules.twoOfThree.down,
-      specialCauseFourOfFiveUp: !!row.rules.fourOfFive.up,
-      specialCauseFourOfFiveDown: !!row.rules.fourOfFive.down,
-      specialCauseShiftUp: !!row.rules.shift.up,
-      specialCauseShiftDown: !!row.rules.shift.down,
-      specialCauseTrendUp: !!row.rules.trend.up,
-      specialCauseTrendDown: !!row.rules.trend.down
-    } : null
-  );
-  const rules = ruleIds.map((r) => ({ id: r, label: ruleGlossary[r].tooltip }));
-  const dateObj = focused.x instanceof Date ? focused.x : new Date(focused.x);
-  const dateLabel = dateFormatter ? dateFormatter(dateObj) : dateObj.toDateString();
-  const unit2 = measureUnit ? `${measureUnit}` : "";
-  const valueLabel = measureName || unit2 ? `${focused.y}${unit2 ? "" + unit2 : " "}${measureName ? " " + measureName : ""}` : `${focused.y}`;
-  const variationDesc = variationLabel((_d = row == null ? void 0 : row.classification) == null ? void 0 : _d.variation);
-  const assuranceDesc = assuranceLabel((_e = row == null ? void 0 : row.classification) == null ? void 0 : _e.assurance);
-  const zone = zoneLabel(
-    (_f = limits.mean) != null ? _f : null,
-    limits.sigma,
-    focused.y
-  );
-  const narrative = pointDescriber ? pointDescriber(focused.index, { x: focused.x, y: focused.y }) : void 0;
-  const showBadges = variationDesc || assuranceDesc || zone;
-  const trendFlag = (row == null ? void 0 : row.rules.trend.up) || (row == null ? void 0 : row.rules.trend.down);
-  const variationNeutral = ((_g = row == null ? void 0 : row.classification) == null ? void 0 : _g.variation) === "neither" /* Neither */ && trendFlag;
-  const gatingExplanation = showTrendGatingExplanation && variationNeutral ? "Trend detected (monotonic run) \u2013 held neutral until values cross onto the favourable side of the mean." : null;
-  const hasRules = rules.length > 0;
-  const primeDirection = row && "primeDirection" in row ? row.primeDirection : void 0;
-  const primeRuleId = row && "primeRuleId" in row ? row.primeRuleId : void 0;
-  const isNoJudgement = enableNeutralNoJudgement && ((_h = row == null ? void 0 : row.classification) == null ? void 0 : _h.variation) === "neither" /* Neither */ && hasRules;
-  const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
-  const spcDotColor = getVariationColorToken((_i = row == null ? void 0 : row.classification) == null ? void 0 : _i.variation);
-  const charPx = 6.2;
-  const baseLinesForMeasure = [
-    narrative || "",
-    `${dateLabel} \u2022 ${valueLabel}`
-  ].filter(Boolean);
-  const contentWidthEstimate = baseLinesForMeasure.reduce(
-    (m, s) => Math.max(m, s.length * charPx + 32),
-    0
-  );
-  const minWidth = 200;
-  const maxWidth = 440;
-  const boxWidth = Math.min(maxWidth, Math.max(minWidth, contentWidthEstimate));
-  let left = clampX + 12;
-  const marginTop = (_k = (_j = chart.margin) == null ? void 0 : _j.top) != null ? _k : 0;
-  let top = marginTop + clampY + 16;
-  if (left + boxWidth > innerWidth) {
-    const flipGap = -60;
-    left = clampX - flipGap - boxWidth;
-  }
-  if (left < 0) left = Math.max(0, innerWidth - boxWidth);
-  const tooltipId = focused ? `spc-tooltip-${focused.index}` : "spc-tooltip";
-  const pointIndex = typeof focused.index === "number" ? focused.index : NaN;
-  const portal = host ? createPortal(
-    /* @__PURE__ */ jsx9(
-      "div",
-      {
-        id: tooltipId,
-        className: "fdp-spc-tooltip fdp-spc-tooltip-portal" + (visible ? " is-visible" : ""),
-        style: {
-          position: "absolute",
-          left,
-          top,
-          width: boxWidth,
-          maxWidth,
-          zIndex: 10,
-          pointerEvents: "auto",
-          userSelect: "none"
-        },
-        role: "tooltip",
-        "aria-live": "polite",
-        "aria-hidden": visible ? "false" : "true",
-        "data-floating": true,
-        "data-placement": left + boxWidth + 12 > innerWidth ? "left" : "right",
-        onPointerEnter: () => {
-          setHoveringTooltip(true);
-          if (hideTimeoutRef.current) {
-            cancelAnimationFrame(hideTimeoutRef.current);
-            hideTimeoutRef.current = null;
-          }
-        },
-        onPointerLeave: () => {
-          setHoveringTooltip(false);
-          if (!(tooltip == null ? void 0 : tooltip.focused)) {
-            const id = requestAnimationFrame(() => {
-              setCachedFocus(null);
-              hideTimeoutRef.current = null;
-            });
-            hideTimeoutRef.current = id;
-          }
-        },
-        children: /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__body", children: [
-          /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--point", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Point" }) }),
-            /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__primary-line", children: [
-              "Index: ",
-              pointIndex
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Date" }) }),
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
-          ] }),
-          /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--value", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Value" }) }),
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__primary-line", children: valueLabel })
-          ] }),
-          showBadges && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Signals" }) }),
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: (() => {
-              if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
-                return /* @__PURE__ */ jsx9(
-                  Tag,
-                  {
-                    text: variationDesc,
-                    color: "default",
-                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
-                  }
-                );
-              }
-              if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
-                return /* @__PURE__ */ jsx9(
-                  Tag,
-                  {
-                    text: variationDesc,
-                    color: "default",
-                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
-                  }
-                );
-              }
-              if (isNoJudgement) {
-                return /* @__PURE__ */ jsx9(
-                  Tag,
-                  {
-                    text: "No judgement",
-                    color: "default",
-                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--no-judgement",
-                    "aria-label": "Neutral special cause (no directional judgement)"
-                  }
-                );
-              }
-              if (variationDesc) {
-                return /* @__PURE__ */ jsx9(
-                  Tag,
-                  {
-                    text: variationDesc,
-                    color: "default",
-                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
-                  }
-                );
-              }
-              return null;
-            })() })
-          ] }),
-          assuranceDesc && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Assurance" }) }),
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: (() => {
-              const lower = assuranceDesc.toLowerCase();
-              const isFail = lower.includes("not met") || lower.includes("not achieved");
-              const isPass = !isFail && /(^|\b)(met|achieved)(\b|$)/.test(lower);
-              return /* @__PURE__ */ jsx9(
-                Tag,
-                {
-                  text: assuranceDesc,
-                  color: "default",
-                  className: `fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--assurance ${isPass ? "fdp-spc-tag--improvement" : "fdp-spc-tag--concern"}`,
-                  "aria-label": `Assurance: ${assuranceDesc}`
-                }
-              );
-            })() })
-          ] }),
-          zone && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Control Limits & Sigma" }) }),
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: /* @__PURE__ */ jsx9(
-              Tag,
-              {
-                text: (() => {
-                  const z = zone.toLowerCase();
-                  if (z.startsWith("within 1")) return "\u22641\u03C3";
-                  if (z.startsWith("1\u20132")) return "1\u20132\u03C3";
-                  if (z.startsWith("2\u20133")) return "2\u20133\u03C3";
-                  if (z.startsWith(">3")) return ">3\u03C3";
-                  return zone;
-                })(),
-                color: zone.includes(">3") ? "orange" : zone.includes("2\u20133") ? "yellow" : "grey",
-                "aria-label": `Sigma zone: ${zone}`,
-                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--zone"
-              }
-            ) })
-          ] }),
-          gatingExplanation && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--gating", "data-gating": true, children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Trend gating" }) }),
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__explanation", "aria-live": "off", children: gatingExplanation })
-          ] }),
-          hasRules && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
-            /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx9("strong", { children: "Special cause" }) }),
-            /* @__PURE__ */ jsx9(
-              "div",
-              {
-                className: "fdp-spc-tooltip__rule-tags",
-                "aria-label": "Special cause rules",
-                children: rules.map(({ id, label }) => {
-                  const idStr = String(id);
-                  const isTrend = idStr === "trend_inc" /* TrendIncreasing */ || idStr === "trend_dec" /* TrendDecreasing */;
-                  const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
-                  return /* @__PURE__ */ jsx9(
-                    Tag,
-                    {
-                      text: label,
-                      color: "default",
-                      className: `fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`,
-                      "data-rule-id": idStr
-                    },
-                    idStr
-                  );
-                })
-              }
-            ),
-            primeDirection && /* @__PURE__ */ jsxs5("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", style: { marginTop: 16 }, children: [
-              /* @__PURE__ */ jsx9("div", { className: "fdp-spc-tooltip__section-label", style: { marginBottom: 6 }, children: /* @__PURE__ */ jsx9("strong", { children: "Prime Direction" }) }),
-              (() => {
-                const primeColorClass = isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
-                const primeLabel = `${primeDirection}${primeRuleId ? ` (${primeRuleId})` : ""}`;
-                return /* @__PURE__ */ jsx9(
-                  Tag,
-                  {
-                    text: primeLabel,
-                    color: "default",
-                    className: `fdp-spc-tooltip__tag fdp-spc-tag ${primeColorClass}`,
-                    "aria-label": `Prime direction ${primeDirection}${primeRuleId ? ` via ${primeRuleId}` : ""}`
-                  }
-                );
-              })()
-            ] })
-          ] })
-        ] })
-      }
-    ),
-    host
-  ) : null;
-  return /* @__PURE__ */ jsxs5(
-    "g",
-    {
-      className: "fdp-tooltip-layer fdp-spc-tooltip",
-      pointerEvents: "none",
-      "aria-hidden": "true",
-      children: [
-        /* @__PURE__ */ jsx9(
-          "circle",
-          {
-            cx: clampX,
-            cy: clampY,
-            r: 7,
-            fill: "none",
-            stroke: focusYellow,
-            strokeWidth: 3
-          }
-        ),
-        /* @__PURE__ */ jsx9(
-          "circle",
-          {
-            cx: clampX,
-            cy: clampY,
-            r: 5,
-            fill: "#000",
-            stroke: focusYellow,
-            strokeWidth: 1.5
-          }
-        ),
-        /* @__PURE__ */ jsx9(
-          "circle",
-          {
-            cx: clampX,
-            cy: clampY,
-            r: 2.5,
-            fill: spcDotColor,
-            stroke: "#fff",
-            strokeWidth: 0.5
-          }
-        ),
-        portal
-      ]
-    }
-  );
-};
-var SPCTooltipOverlay_default = SPCTooltipOverlay;
-
-// src/components/DataVisualisation/primitives/VisuallyHiddenLiveRegion.tsx
-import * as React9 from "react";
-import { jsx as jsx10 } from "react/jsx-runtime";
-var VisuallyHiddenLiveRegion = ({ polite = true, format: format2 }) => {
-  const tooltip = useTooltipContext();
-  const [message, setMessage] = React9.useState("");
-  const lastRef = React9.useRef("");
-  React9.useEffect(() => {
-    if (!(tooltip == null ? void 0 : tooltip.focused)) return;
-    const { focused, aggregated } = tooltip;
-    let msg;
-    if (aggregated && aggregated.length > 1) {
-      const parts = aggregated.map((a) => `${a.seriesId} ${a.y}`).join("; ");
-      const xLabel = focused.x instanceof Date ? focused.x.toDateString() : String(focused.x);
-      msg = `${xLabel} \u2013 ${parts}`;
-    } else {
-      msg = format2 ? format2({ seriesId: focused.seriesId, x: focused.x, y: focused.y, index: focused.index }) : defaultFormatter(focused.seriesId, focused.x, focused.y, focused.index);
-    }
-    if (msg !== lastRef.current) {
-      lastRef.current = msg;
-      setMessage("");
-      const timeout = setTimeout(() => setMessage(msg), 10);
-      return () => clearTimeout(timeout);
-    }
-  }, [tooltip == null ? void 0 : tooltip.focused, format2]);
-  return /* @__PURE__ */ jsx10(
-    "div",
-    {
-      "aria-live": polite ? "polite" : "assertive",
-      "aria-atomic": "true",
-      style: { position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", border: 0 },
-      children: message
-    }
-  );
-};
-function defaultFormatter(seriesId, x2, y2, index) {
-  const xLabel = x2 instanceof Date ? x2.toDateString() : String(x2);
-  return `Series ${seriesId}, point ${index + 1}, ${xLabel}, value ${y2}`;
-}
-var VisuallyHiddenLiveRegion_default = VisuallyHiddenLiveRegion;
-
-// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
-import { useId, useMemo as useMemo7 } from "react";
-
-// src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts
-var spcTokenRoot = null;
-var _a, _b;
-try {
-  const tokens = require_tokens();
-  spcTokenRoot = ((_b = (_a = tokens == null ? void 0 : tokens.color) == null ? void 0 : _a["data-viz"]) == null ? void 0 : _b.spc) || null;
-} catch {
-}
-var tokenColour = (key, fallback) => {
-  if (!spcTokenRoot) return fallback;
-  const parts = key.split(".");
-  let current = spcTokenRoot;
-  for (const p of parts) {
-    if (current == null) break;
-    current = current[p];
-  }
-  const val = current;
-  if (val == null) return fallback;
-  if (typeof val === "string" || typeof val === "number") return String(val);
-  if (val.$value != null) return String(val.$value);
-  if (val.value != null) return String(val.value);
-  return fallback;
-};
-var getGradientOpacities = () => ({
-  // Lightened defaults (previous 0.18 -> 0.12, 0.06 -> 0.03) to reduce intensity of wash.
-  start: tokenColour("gradient.stop.start-opacity", "0.12"),
-  mid: tokenColour("gradient.stop.mid-opacity", "0.03"),
-  end: tokenColour("gradient.stop.end-opacity", "0"),
-  triStart: tokenColour(
-    "gradient.stop.triangle-start-opacity",
-    tokenColour("gradient.stop.start-opacity", "0.12")
-  ),
-  triMid: tokenColour(
-    "gradient.stop.triangle-mid-opacity",
-    tokenColour("gradient.stop.mid-opacity", "0.03")
-  ),
-  triEnd: tokenColour(
-    "gradient.stop.triangle-end-opacity",
-    tokenColour("gradient.stop.end-opacity", "0")
-  )
-});
 
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCConstants.ts
 var AssuranceResult = /* @__PURE__ */ ((AssuranceResult2) => {
@@ -7537,40 +7708,40 @@ var XMR_THREE_SIGMA_FACTOR = 2.66;
 var T_TRANSFORM_EXP = 0.2777;
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils.ts
-function isNumber(n) {
+function isNumber2(n) {
   return typeof n === "number" && !Number.isNaN(n);
 }
-function mean(nums) {
+function mean2(nums) {
   return nums.reduce((a, b) => a + b, 0) / (nums.length || 1);
 }
-function movingRanges(values, ghosts) {
+function movingRanges2(values, ghosts) {
   const mr = new Array(values.length).fill(null);
   let lastIdx = null;
   for (let i = 0; i < values.length; i++) {
     const v = values[i];
-    if (ghosts[i] || !isNumber(v)) continue;
+    if (ghosts[i] || !isNumber2(v)) continue;
     if (lastIdx !== null) {
       const prev = values[lastIdx];
-      if (isNumber(prev)) mr[i] = Math.abs(v - prev);
+      if (isNumber2(prev)) mr[i] = Math.abs(v - prev);
     }
     lastIdx = i;
   }
   return mr;
 }
-function mrMeanWithOptionalExclusion(mr, excludeOutliers) {
-  const vals = mr.filter(isNumber);
+function mrMeanWithOptionalExclusion2(mr, excludeOutliers) {
+  const vals = mr.filter(isNumber2);
   if (!vals.length) return { mrMean: NaN, mrUcl: NaN };
   let arr = vals.slice();
   if (excludeOutliers) {
-    const meanMr = mean(arr);
+    const meanMr = mean2(arr);
     const ucl = MR_UCL_FACTOR * meanMr;
     arr = arr.filter((v) => v <= ucl);
   }
-  const mrMean = mean(arr);
+  const mrMean = mean2(arr);
   return { mrMean, mrUcl: MR_UCL_FACTOR * mrMean };
 }
-function xmrLimits(center, mrMean) {
-  if (!isNumber(center) || !isNumber(mrMean)) {
+function xmrLimits2(center, mrMean) {
+  if (!isNumber2(center) || !isNumber2(mrMean)) {
     return {
       upperProcessLimit: null,
       lowerProcessLimit: null,
@@ -7596,21 +7767,21 @@ function xmrLimits(center, mrMean) {
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/limits.ts
 function computePartitionLimits(chartType, values, ghosts, excludeMovingRangeOutliers) {
   if (chartType === "T" /* T */) {
-    const yVals = values.map((v) => isNumber(v) && v > 0 ? Math.pow(v, T_TRANSFORM_EXP) : null);
-    const mr2 = movingRanges(yVals, ghosts);
-    const mrStats = mrMeanWithOptionalExclusion(mr2, excludeMovingRangeOutliers);
-    const eligible = yVals.filter((v, i) => !ghosts[i] && isNumber(v));
-    const centerY = eligible.length ? mean(eligible) : NaN;
-    const limY = xmrLimits(centerY, mrStats.mrMean);
-    const inv = (y2) => isNumber(y2) && y2 > 0 ? Math.pow(y2, 1 / T_TRANSFORM_EXP) : null;
-    const upl = isNumber(limY.upperProcessLimit) ? inv(limY.upperProcessLimit) : null;
-    const lpl = isNumber(limY.lowerProcessLimit) && limY.lowerProcessLimit > 0 ? inv(limY.lowerProcessLimit) : null;
-    const u2 = isNumber(limY.upperTwoSigma) ? inv(limY.upperTwoSigma) : null;
-    const l2 = isNumber(limY.lowerTwoSigma) && limY.lowerTwoSigma > 0 ? inv(limY.lowerTwoSigma) : null;
-    const u1 = isNumber(limY.upperOneSigma) ? inv(limY.upperOneSigma) : null;
-    const l1 = isNumber(limY.lowerOneSigma) && limY.lowerOneSigma > 0 ? inv(limY.lowerOneSigma) : null;
+    const yVals = values.map((v) => isNumber2(v) && v > 0 ? Math.pow(v, T_TRANSFORM_EXP) : null);
+    const mr2 = movingRanges2(yVals, ghosts);
+    const mrStats = mrMeanWithOptionalExclusion2(mr2, excludeMovingRangeOutliers);
+    const eligible = yVals.filter((v, i) => !ghosts[i] && isNumber2(v));
+    const centerY = eligible.length ? mean2(eligible) : NaN;
+    const limY = xmrLimits2(centerY, mrStats.mrMean);
+    const inv = (y2) => isNumber2(y2) && y2 > 0 ? Math.pow(y2, 1 / T_TRANSFORM_EXP) : null;
+    const upl = isNumber2(limY.upperProcessLimit) ? inv(limY.upperProcessLimit) : null;
+    const lpl = isNumber2(limY.lowerProcessLimit) && limY.lowerProcessLimit > 0 ? inv(limY.lowerProcessLimit) : null;
+    const u2 = isNumber2(limY.upperTwoSigma) ? inv(limY.upperTwoSigma) : null;
+    const l2 = isNumber2(limY.lowerTwoSigma) && limY.lowerTwoSigma > 0 ? inv(limY.lowerTwoSigma) : null;
+    const u1 = isNumber2(limY.upperOneSigma) ? inv(limY.upperOneSigma) : null;
+    const l1 = isNumber2(limY.lowerOneSigma) && limY.lowerOneSigma > 0 ? inv(limY.lowerOneSigma) : null;
     return {
-      mean: isNumber(centerY) && centerY > 0 ? inv(centerY) : null,
+      mean: isNumber2(centerY) && centerY > 0 ? inv(centerY) : null,
       mr: mr2,
       mrMean: mrStats.mrMean,
       mrUcl: mrStats.mrUcl,
@@ -7623,11 +7794,11 @@ function computePartitionLimits(chartType, values, ghosts, excludeMovingRangeOut
     };
   }
   if (chartType === "G" /* G */) {
-    const eligible = values.filter((v, i) => !ghosts[i] && isNumber(v));
-    const m = eligible.length ? mean(eligible) : NaN;
-    const p = isNumber(m) ? 1 / (m + 1) : NaN;
+    const eligible = values.filter((v, i) => !ghosts[i] && isNumber2(v));
+    const m = eligible.length ? mean2(eligible) : NaN;
+    const p = isNumber2(m) ? 1 / (m + 1) : NaN;
     const qgeom = (q) => {
-      if (!isNumber(p) || p <= 0 || p >= 1) return NaN;
+      if (!isNumber2(p) || p <= 0 || p >= 1) return NaN;
       const k = Math.ceil(Math.log(1 - q) / Math.log(1 - p)) - 1;
       return Math.max(0, k);
     };
@@ -7644,16 +7815,16 @@ function computePartitionLimits(chartType, values, ghosts, excludeMovingRangeOut
     const u1 = qgeom(qUpper1);
     const l1 = qgeom(qLower1);
     return {
-      mean: isNumber(m) ? m : null,
+      mean: isNumber2(m) ? m : null,
       mr: new Array(values.length).fill(null),
       mrMean: NaN,
       mrUcl: NaN,
-      upperProcessLimit: isNumber(upl) ? upl : null,
-      lowerProcessLimit: isNumber(lpl) ? lpl : null,
-      upperTwoSigma: isNumber(u2) ? u2 : null,
-      lowerTwoSigma: isNumber(l2) ? l2 : null,
-      upperOneSigma: isNumber(u1) ? u1 : null,
-      lowerOneSigma: isNumber(l1) ? l1 : null
+      upperProcessLimit: isNumber2(upl) ? upl : null,
+      lowerProcessLimit: isNumber2(lpl) ? lpl : null,
+      upperTwoSigma: isNumber2(u2) ? u2 : null,
+      lowerTwoSigma: isNumber2(l2) ? l2 : null,
+      upperOneSigma: isNumber2(u1) ? u1 : null,
+      lowerOneSigma: isNumber2(l1) ? l1 : null
     };
   }
   if (chartType !== "XmR" /* XmR */) {
@@ -7670,28 +7841,28 @@ function computePartitionLimits(chartType, values, ghosts, excludeMovingRangeOut
       lowerOneSigma: null
     };
   }
-  const mr = movingRanges(values, ghosts);
-  const mrVals = mr.filter(isNumber);
-  const rawMrMean = mrVals.length ? mean(mrVals) : NaN;
-  const rawMrUcl = isNumber(rawMrMean) ? 3.267 * rawMrMean : NaN;
+  const mr = movingRanges2(values, ghosts);
+  const mrVals = mr.filter(isNumber2);
+  const rawMrMean = mrVals.length ? mean2(mrVals) : NaN;
+  const rawMrUcl = isNumber2(rawMrMean) ? 3.267 * rawMrMean : NaN;
   let center = NaN;
   {
     const eligibleVals = values.reduce((acc, v, i) => {
-      if (ghosts[i] || !isNumber(v)) return acc;
+      if (ghosts[i] || !isNumber2(v)) return acc;
       if (!excludeMovingRangeOutliers) {
         acc.push(v);
         return acc;
       }
       const mri = mr[i];
-      if (mri === null || !isNumber(rawMrUcl) || isNumber(mri) && mri <= rawMrUcl) {
+      if (mri === null || !isNumber2(rawMrUcl) || isNumber2(mri) && mri <= rawMrUcl) {
         acc.push(v);
       }
       return acc;
     }, []);
-    center = eligibleVals.length ? mean(eligibleVals) : NaN;
+    center = eligibleVals.length ? mean2(eligibleVals) : NaN;
   }
-  const tmp = mrMeanWithOptionalExclusion(mr, excludeMovingRangeOutliers);
-  const lim = xmrLimits(center, tmp.mrMean);
+  const tmp = mrMeanWithOptionalExclusion2(mr, excludeMovingRangeOutliers);
+  const lim = xmrLimits2(center, tmp.mrMean);
   return {
     mean: center,
     mr,
@@ -7704,7 +7875,7 @@ function computePartitionLimits(chartType, values, ghosts, excludeMovingRangeOut
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/detector.ts
 function detectRulesInPartition(rows, cfg) {
   var _a2, _b2, _c, _d, _e, _f;
-  const idxs = rows.map((_, i) => i).filter((i) => !rows[i].ghost && isNumber(rows[i].value));
+  const idxs = rows.map((_, i) => i).filter((i) => !rows[i].ghost && isNumber2(rows[i].value));
   const get = (i) => rows[i];
   const shiftN = cfg.shiftPoints;
   const trendN = cfg.trendPoints;
@@ -7712,7 +7883,7 @@ function detectRulesInPartition(rows, cfg) {
   let runLow = [];
   for (const i of idxs) {
     const r = get(i);
-    if (!isNumber(r.mean) || !isNumber(r.value)) {
+    if (!isNumber2(r.mean) || !isNumber2(r.value)) {
       runHigh = [];
       runLow = [];
     } else if (r.value > r.mean) {
@@ -7733,7 +7904,7 @@ function detectRulesInPartition(rows, cfg) {
   for (let w = 0; w <= idxs.length - 3; w++) {
     const win = idxs.slice(w, w + 3);
     const trip = win.map(get);
-    if (!trip.every((r) => isNumber(r.value) && isNumber(r.mean))) {
+    if (!trip.every((r) => isNumber2(r.value) && isNumber2(r.mean))) {
       continue;
     }
     const mean3 = trip[0].mean;
@@ -7757,7 +7928,7 @@ function detectRulesInPartition(rows, cfg) {
     for (let w = 0; w <= idxs.length - 5; w++) {
       const win = idxs.slice(w, w + 5);
       const quint = win.map(get);
-      if (!quint.every((r) => isNumber(r.value) && isNumber(r.mean))) {
+      if (!quint.every((r) => isNumber2(r.value) && isNumber2(r.mean))) {
         continue;
       }
       const mean3 = quint[0].mean;
@@ -7777,7 +7948,7 @@ function detectRulesInPartition(rows, cfg) {
   for (let w = 0; w <= idxs.length - trendN; w++) {
     const win = idxs.slice(w, w + trendN);
     const seq = win.map(get);
-    if (!seq.every((r) => isNumber(r.value))) {
+    if (!seq.every((r) => isNumber2(r.value))) {
       continue;
     }
     let inc = true;
@@ -8420,10 +8591,10 @@ function buildSpcV26a(args) {
   const canon = data.map((d, i) => ({
     rowId: i + 1,
     x: d.x,
-    value: isNumber(d.value) ? d.value : null,
+    value: isNumber2(d.value) ? d.value : null,
     ghost: !!d.ghost,
     baseline: !!d.baseline,
-    target: isNumber(d.target) ? d.target : null
+    target: isNumber2(d.target) ? d.target : null
   }));
   const partitions = [];
   let cur = [];
@@ -8437,7 +8608,7 @@ function buildSpcV26a(args) {
   if (cur.length) partitions.push(cur);
   const out = [];
   const segmentationEnabled = (s.trendFavourableSegmentation || resolvedMode !== "Off" /* Off */) && !s.preferImprovementWhenConflict;
-  const totalEligiblePoints = canon.filter((r) => !r.ghost && isNumber(r.value)).length;
+  const totalEligiblePoints = canon.filter((r) => !r.ghost && isNumber2(r.value)).length;
   const chartEligible = !!s.chartLevelEligibility && totalEligiblePoints >= s.minimumPoints;
   let partitionId = 0;
   for (const part of partitions) {
@@ -8451,16 +8622,16 @@ function buildSpcV26a(args) {
       !!s.excludeMovingRangeOutliers
     );
     const withLines = part.map((r, i) => {
-      const pointRank = !r.ghost && isNumber(r.value) ? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber(v)).length : 0;
+      const pointRank = !r.ghost && isNumber2(r.value) ? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber2(v)).length : 0;
       const eligibleHere = chartEligible ? true : pointRank >= s.minimumPoints;
       return {
         rowId: r.rowId,
         x: r.x,
-        value: isNumber(r.value) ? r.value : null,
+        value: isNumber2(r.value) ? r.value : null,
         ghost: r.ghost,
         partitionId,
         pointRank,
-        mean: (eligibleHere || chartEligible) && isNumber(lim.mean) ? lim.mean : null,
+        mean: (eligibleHere || chartEligible) && isNumber2(lim.mean) ? lim.mean : null,
         upperProcessLimit: eligibleHere || chartEligible ? lim.upperProcessLimit : null,
         lowerProcessLimit: eligibleHere || chartEligible ? lim.lowerProcessLimit : null,
         upperTwoSigma: eligibleHere || chartEligible ? lim.upperTwoSigma : null,
@@ -8485,11 +8656,11 @@ function buildSpcV26a(args) {
       };
     });
     for (const row of withLines) {
-      if (row.ghost || !isNumber(row.value) || row.mean === null)
+      if (row.ghost || !isNumber2(row.value) || row.mean === null)
         continue;
-      if (isNumber(row.upperProcessLimit) && row.value > row.upperProcessLimit)
+      if (isNumber2(row.upperProcessLimit) && row.value > row.upperProcessLimit)
         row.singlePointUp = true;
-      if (isNumber(row.lowerProcessLimit) && row.value < row.lowerProcessLimit)
+      if (isNumber2(row.lowerProcessLimit) && row.value < row.lowerProcessLimit)
         row.singlePointDown = true;
     }
     detectRulesInPartition(withLines, {
@@ -8538,7 +8709,7 @@ function buildSpcV26a(args) {
       maybeApplySegmentation(withLines);
     }
     for (const row of withLines) {
-      if (row.ghost || !isNumber(row.value) || row.mean === null) {
+      if (row.ghost || !isNumber2(row.value) || row.mean === null) {
         out.push(row);
         continue;
       }
@@ -8559,12 +8730,12 @@ function buildSpcV26a(args) {
     }
   }
   if (s.trendAcrossPartitions) {
-    const all = out.map((r, i) => ({ idx: i, r })).filter(({ r }) => !r.ghost && isNumber(r.value));
+    const all = out.map((r, i) => ({ idx: i, r })).filter(({ r }) => !r.ghost && isNumber2(r.value));
     if (all.length >= s.trendPoints) {
       for (let w = 0; w <= all.length - s.trendPoints; w++) {
         const win = all.slice(w, w + s.trendPoints).map((p) => p.idx);
         const seq = win.map((i) => out[i]);
-        if (!seq.every((row) => isNumber(row.value))) continue;
+        if (!seq.every((row) => isNumber2(row.value))) continue;
         let inc = true;
         let dec = true;
         for (let k = 1; k < seq.length; k++) {
@@ -8611,7 +8782,7 @@ function buildSpcV26a(args) {
       }
     }
     for (const row of out) {
-      if (row.ghost || !isNumber(row.value) || row.mean === null) continue;
+      if (row.ghost || !isNumber2(row.value) || row.mean === null) continue;
       if (metricImprovement === "Neither" /* Neither */) continue;
       const { aligned, opposite } = deriveOriginalCandidates(row, metricImprovement);
       row.specialCauseImprovementValue = aligned ? row.value : null;
@@ -8750,7 +8921,7 @@ var SpcEmbeddedIconVariant = /* @__PURE__ */ ((SpcEmbeddedIconVariant2) => {
 var SPCChart_constants_default = SpcGradientCategory;
 
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
-import { Fragment, jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx9, jsxs as jsxs6 } from "react/jsx-runtime";
 var resolveStateAndLayout = (input) => {
   var _a2, _b2;
   const emitDeprecation = () => {
@@ -8898,13 +9069,13 @@ function deriveVariationAriaDescription(input, context) {
 }
 var buildDefs = (colourHex, shadowId, washId, dropShadow, gradientWash, stops) => /* @__PURE__ */ jsxs6("defs", { children: [
   dropShadow && /* @__PURE__ */ jsxs6("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-    /* @__PURE__ */ jsx11("feGaussianBlur", { stdDeviation: "3" }),
-    /* @__PURE__ */ jsx11("feOffset", { dx: "0", dy: "15", result: "blur" }),
-    /* @__PURE__ */ jsx11("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
-    /* @__PURE__ */ jsx11("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-    /* @__PURE__ */ jsx11("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+    /* @__PURE__ */ jsx9("feGaussianBlur", { stdDeviation: "3" }),
+    /* @__PURE__ */ jsx9("feOffset", { dx: "0", dy: "15", result: "blur" }),
+    /* @__PURE__ */ jsx9("feFlood", { floodColor: "rgb(150,150,150)", floodOpacity: "1" }),
+    /* @__PURE__ */ jsx9("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+    /* @__PURE__ */ jsx9("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
   ] }),
-  gradientWash && /* @__PURE__ */ jsx11("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: stops.map((s) => /* @__PURE__ */ jsx11(
+  gradientWash && /* @__PURE__ */ jsx9("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: stops.map((s) => /* @__PURE__ */ jsx9(
     "stop",
     {
       offset: s.offset,
@@ -8938,12 +9109,12 @@ var SPCVariationIcon = ({
     triMid: triGradMid,
     triEnd: triGradEnd
   } = getGradientOpacities();
-  const { state, direction, polarity } = useMemo7(
+  const { state, direction, polarity } = useMemo3(
     () => resolveStateAndLayout(data),
     [data]
   );
-  const colour = useMemo7(() => getVariationColour(state), [state]);
-  const judgement = useMemo7(() => getVariationTrend(state), [state]);
+  const colour = useMemo3(() => getVariationColour(state), [state]);
+  const judgement = useMemo3(() => getVariationTrend(state), [state]);
   const showLetterForJudgement = judgement === "improving" /* Improving */ || judgement === "deteriorating" /* Deteriorating */;
   let letter = "";
   if (showLetter && showLetterForJudgement) {
@@ -8960,7 +9131,7 @@ var SPCVariationIcon = ({
   const isNoJudgement = state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
   const neutralGrey = tokenColour("common-cause", "#A6A6A6");
   const pointColour = isSpecial ? colour.hex : neutralGrey;
-  const points = useMemo7(
+  const points = useMemo3(
     () => computePointPositions(state, direction),
     [state, direction]
   );
@@ -8984,7 +9155,7 @@ var SPCVariationIcon = ({
     ];
     let shape = null;
     if (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
-      shape = /* @__PURE__ */ jsx11(
+      shape = /* @__PURE__ */ jsx9(
         "polygon",
         {
           points: (direction === "higher" /* Higher */ ? upTriangle : downTriangle).map((p) => p.join(",")).join(" "),
@@ -8995,7 +9166,7 @@ var SPCVariationIcon = ({
         }
       );
     } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
-      shape = /* @__PURE__ */ jsx11(
+      shape = /* @__PURE__ */ jsx9(
         "polygon",
         {
           points: direction === "higher" /* Higher */ ? upTriangle.map((p) => p.join(",")).join(" ") : downTriangle.map((p) => p.join(",")).join(" "),
@@ -9015,7 +9186,7 @@ var SPCVariationIcon = ({
     const runCircles = Array.from({ length: 5 }).map((_, i) => {
       const filled = (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && i >= 5 - runLen;
       const fill = filled ? runColor : neutralGrey;
-      return /* @__PURE__ */ jsx11(
+      return /* @__PURE__ */ jsx9(
         "circle",
         {
           cx: runStartX + i * runGap,
@@ -9053,7 +9224,7 @@ var SPCVariationIcon = ({
         ...rest,
         children: [
           defs2,
-          /* @__PURE__ */ jsx11(
+          /* @__PURE__ */ jsx9(
             "circle",
             {
               stroke: "none",
@@ -9064,7 +9235,7 @@ var SPCVariationIcon = ({
               r: "120"
             }
           ),
-          /* @__PURE__ */ jsx11(
+          /* @__PURE__ */ jsx9(
             "circle",
             {
               stroke: colour.hex,
@@ -9078,7 +9249,7 @@ var SPCVariationIcon = ({
           ),
           /* @__PURE__ */ jsxs6("g", { transform: groupTransform, children: [
             shape,
-            letter && /* @__PURE__ */ jsx11(
+            letter && /* @__PURE__ */ jsx9(
               "text",
               {
                 fill: "#fff",
@@ -9118,7 +9289,7 @@ var SPCVariationIcon = ({
     ];
     let shape = null;
     if (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) {
-      shape = /* @__PURE__ */ jsx11(
+      shape = /* @__PURE__ */ jsx9(
         "polygon",
         {
           points: (direction === "higher" /* Higher */ ? upTriangle : downTriangle).map((p) => p.join(",")).join(" "),
@@ -9129,7 +9300,7 @@ var SPCVariationIcon = ({
         }
       );
     } else if (state === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
-      shape = /* @__PURE__ */ jsx11(
+      shape = /* @__PURE__ */ jsx9(
         "polygon",
         {
           points: direction === "higher" /* Higher */ ? upTriangle.map((p) => p.join(",")).join(" ") : downTriangle.map((p) => p.join(",")).join(" "),
@@ -9140,7 +9311,7 @@ var SPCVariationIcon = ({
         }
       );
     } else if (state === "common_cause" /* CommonCause */) {
-      shape = /* @__PURE__ */ jsx11(
+      shape = /* @__PURE__ */ jsx9(
         "line",
         {
           x1: flatLine[0][0],
@@ -9178,7 +9349,7 @@ var SPCVariationIcon = ({
         ...rest,
         children: [
           defs2,
-          /* @__PURE__ */ jsx11(
+          /* @__PURE__ */ jsx9(
             "circle",
             {
               stroke: "none",
@@ -9189,7 +9360,7 @@ var SPCVariationIcon = ({
               r: "120"
             }
           ),
-          /* @__PURE__ */ jsx11(
+          /* @__PURE__ */ jsx9(
             "circle",
             {
               stroke: colour.hex,
@@ -9202,7 +9373,7 @@ var SPCVariationIcon = ({
             }
           ),
           shape,
-          letter && (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && /* @__PURE__ */ jsx11(
+          letter && (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && /* @__PURE__ */ jsx9(
             "text",
             {
               fill: "#fff",
@@ -9244,7 +9415,7 @@ var SPCVariationIcon = ({
       ...rest,
       children: [
         defs,
-        /* @__PURE__ */ jsx11(
+        /* @__PURE__ */ jsx9(
           "circle",
           {
             stroke: "none",
@@ -9255,7 +9426,7 @@ var SPCVariationIcon = ({
             r: "120"
           }
         ),
-        /* @__PURE__ */ jsx11(
+        /* @__PURE__ */ jsx9(
           "circle",
           {
             stroke: colour.hex,
@@ -9267,7 +9438,7 @@ var SPCVariationIcon = ({
             r: "120"
           }
         ),
-        letter && /* @__PURE__ */ jsx11(
+        letter && /* @__PURE__ */ jsx9(
           "text",
           {
             fill: colour.hex,
@@ -9276,10 +9447,10 @@ var SPCVariationIcon = ({
             fontSize: 176,
             transform: "translate(86.67, 54) scale(0.5, 0.5)",
             textAnchor: "end",
-            children: /* @__PURE__ */ jsx11("tspan", { x: "120", y: direction === "lower" /* Lower */ ? "340" : "155", children: letter })
+            children: /* @__PURE__ */ jsx9("tspan", { x: "120", y: direction === "lower" /* Lower */ ? "340" : "155", children: letter })
           }
         ),
-        isNoJudgement ? /* @__PURE__ */ jsx11(
+        isNoJudgement ? /* @__PURE__ */ jsx9(
           "path",
           {
             "aria-hidden": "true",
@@ -9289,8 +9460,8 @@ var SPCVariationIcon = ({
             ...direction === "lower" /* Lower */ ? { transform: "rotate(90 150 150)" } : { transform: "translate(-5 0) rotate(0 150 150)" },
             d: "M 90.26,185.42 L 149.31,126.37 127.44,104.51 209.81,90.66 195.96,173.02 174.09,151.16 115.05,210.2 90.26,185.42 Z M 90.26,185.42"
           }
-        ) : /* @__PURE__ */ jsxs6(Fragment, { children: [
-          points.length === 5 && /* @__PURE__ */ jsx11(
+        ) : /* @__PURE__ */ jsxs6(Fragment3, { children: [
+          points.length === 5 && /* @__PURE__ */ jsx9(
             "path",
             {
               "aria-hidden": "true",
@@ -9307,7 +9478,7 @@ var SPCVariationIcon = ({
             const specialIdx = i >= points.length - 2 && isSpecial;
             const fill = specialIdx ? pointColour : neutralGrey;
             const stroke = fill;
-            return /* @__PURE__ */ jsx11(
+            return /* @__PURE__ */ jsx9(
               "circle",
               {
                 stroke,
@@ -9330,7 +9501,7 @@ SPCVariationIcon.displayName = "SPCVariationIcon";
 
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCAssuranceIcon.tsx
 import { useId as useId2 } from "react";
-import { Fragment as Fragment2, jsx as jsx12, jsxs as jsxs7 } from "react/jsx-runtime";
+import { Fragment as Fragment4, jsx as jsx10, jsxs as jsxs7 } from "react/jsx-runtime";
 var SPCAssuranceIcon = ({
   status,
   size = 44,
@@ -9360,19 +9531,19 @@ var SPCAssuranceIcon = ({
       children: [
         /* @__PURE__ */ jsxs7("defs", { children: [
           dropShadow && /* @__PURE__ */ jsxs7("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-            /* @__PURE__ */ jsx12("feGaussianBlur", { stdDeviation: "3" }),
-            /* @__PURE__ */ jsx12("feOffset", { dx: "-1", dy: "15", result: "blur" }),
-            /* @__PURE__ */ jsx12("feFlood", { floodColor: "rgb(166,166,166)", floodOpacity: "1" }),
-            /* @__PURE__ */ jsx12("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-            /* @__PURE__ */ jsx12("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+            /* @__PURE__ */ jsx10("feGaussianBlur", { stdDeviation: "3" }),
+            /* @__PURE__ */ jsx10("feOffset", { dx: "-1", dy: "15", result: "blur" }),
+            /* @__PURE__ */ jsx10("feFlood", { floodColor: "rgb(166,166,166)", floodOpacity: "1" }),
+            /* @__PURE__ */ jsx10("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+            /* @__PURE__ */ jsx10("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
           ] }),
           gradientWash && /* @__PURE__ */ jsxs7("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
-            /* @__PURE__ */ jsx12("stop", { offset: "0%", stopColor: colour, stopOpacity: parseFloat(gradStart) }),
-            /* @__PURE__ */ jsx12("stop", { offset: "65%", stopColor: colour, stopOpacity: parseFloat(gradMid) }),
-            /* @__PURE__ */ jsx12("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(gradEnd) })
+            /* @__PURE__ */ jsx10("stop", { offset: "0%", stopColor: colour, stopOpacity: parseFloat(gradStart) }),
+            /* @__PURE__ */ jsx10("stop", { offset: "65%", stopColor: colour, stopOpacity: parseFloat(gradMid) }),
+            /* @__PURE__ */ jsx10("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(gradEnd) })
           ] })
         ] }),
-        /* @__PURE__ */ jsx12(
+        /* @__PURE__ */ jsx10(
           "circle",
           {
             stroke: "none",
@@ -9383,7 +9554,7 @@ var SPCAssuranceIcon = ({
             r: "120"
           }
         ),
-        /* @__PURE__ */ jsx12(
+        /* @__PURE__ */ jsx10(
           "text",
           {
             fill: colour,
@@ -9394,11 +9565,11 @@ var SPCAssuranceIcon = ({
             y: 0,
             transform: "translate(121.01, 32) scale(0.5, 0.5)",
             textAnchor: "middle",
-            children: /* @__PURE__ */ jsx12("tspan", { x: 60, y: 184, children: letter })
+            children: /* @__PURE__ */ jsx10("tspan", { x: 60, y: 184, children: letter })
           }
         ),
-        showTrendLines && /* @__PURE__ */ jsxs7(Fragment2, { children: [
-          status === "fail" /* Fail */ ? /* @__PURE__ */ jsx12(
+        showTrendLines && /* @__PURE__ */ jsxs7(Fragment4, { children: [
+          status === "fail" /* Fail */ ? /* @__PURE__ */ jsx10(
             "path",
             {
               id: "fail-line",
@@ -9410,7 +9581,7 @@ var SPCAssuranceIcon = ({
               fill: "none",
               d: "M 33,143 L 268,143"
             }
-          ) : status === "uncertain" /* Uncertain */ ? /* @__PURE__ */ jsx12(
+          ) : status === "uncertain" /* Uncertain */ ? /* @__PURE__ */ jsx10(
             "path",
             {
               id: "uncertain-line",
@@ -9422,7 +9593,7 @@ var SPCAssuranceIcon = ({
               fill: "none",
               d: "M 36,174 L 266,174"
             }
-          ) : /* @__PURE__ */ jsx12(
+          ) : /* @__PURE__ */ jsx10(
             "path",
             {
               id: "pass-line",
@@ -9435,7 +9606,7 @@ var SPCAssuranceIcon = ({
               d: "M 48,204 L 254,204"
             }
           ),
-          /* @__PURE__ */ jsx12(
+          /* @__PURE__ */ jsx10(
             "path",
             {
               id: "data-sparkline",
@@ -9446,7 +9617,7 @@ var SPCAssuranceIcon = ({
               d: "M 59.9,187.91 C 72.79,171.72 87.33,158.06 104.4,157.83 121.91,158.58 140.94,187.85 153.4,189.91 164.1,192.12 163.78,171.38 169.17,170.53 172.87,169.55 174.88,187.45 184.94,189.24 197,191.86 230.54,184.47 239.01,185.9"
             }
           ),
-          /* @__PURE__ */ jsx12(
+          /* @__PURE__ */ jsx10(
             "circle",
             {
               stroke: colour,
@@ -9465,1184 +9636,2069 @@ var SPCAssuranceIcon = ({
 };
 SPCAssuranceIcon.displayName = "SPCAssuranceIcon";
 
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcUtils.ts
-var isNumber2 = (v) => typeof v === "number" && Number.isFinite(v);
-var sum = (arr) => arr.reduce((a, b) => a + b, 0);
-var mean2 = (arr) => arr.length ? sum(arr) / arr.length : NaN;
-function movingRanges2(values, ghosts) {
-  const mr = new Array(values.length).fill(null);
-  let prevIdx = null;
-  for (let i = 0; i < values.length; i++) {
-    const vi = values[i];
-    if (!ghosts[i] && isNumber2(vi)) {
-      if (prevIdx !== null) {
-        const pv = values[prevIdx];
-        mr[i] = isNumber2(pv) ? Math.abs(vi - pv) : null;
-      }
-      prevIdx = i;
+// src/components/DataVisualisation/charts/SPC/SPCChart/utils/embeddedIcon.tsx
+import { jsx as jsx11, jsxs as jsxs8 } from "react/jsx-runtime";
+function buildEmbeddedIcon(args) {
+  var _a2, _b2, _c;
+  const { show, rowsForUi, minPoints, metricImprovement, variant, runLength } = args;
+  if (!show || !(rowsForUi == null ? void 0 : rowsForUi.length)) return null;
+  const engineRows = rowsForUi;
+  const min = typeof minPoints === "number" && !isNaN(minPoints) ? minPoints : 13;
+  const nonGhostCount = engineRows.filter((r) => !r.data.ghost && r.data.value != null).length;
+  if (nonGhostCount < min) return null;
+  let lastIdx = -1;
+  for (let i = engineRows.length - 1; i >= 0; i--) {
+    const r = engineRows[i];
+    if (r && r.data.value != null && !r.data.ghost) {
+      lastIdx = i;
+      break;
     }
   }
-  return mr;
-}
-function mrMeanWithOptionalExclusion2(mr, excludeOutliers) {
-  const pool = mr.filter((v) => isNumber2(v));
-  if (!pool.length) return { mrMean: NaN, mrUcl: NaN };
-  let mrMeanVal = mean2(pool);
-  let mrUclVal = 3.267 * mrMeanVal;
-  if (excludeOutliers) {
-    const trimmed = pool.filter((v) => v <= mrUclVal);
-    if (trimmed.length && trimmed.length !== pool.length) {
-      mrMeanVal = mean2(trimmed);
-      mrUclVal = 3.267 * mrMeanVal;
-    }
-  }
-  return { mrMean: mrMeanVal, mrUcl: mrUclVal };
-}
-function xmrLimits2(centerMean, mrMeanVal) {
-  if (!isNumber2(centerMean) || !isNumber2(mrMeanVal))
-    return {
-      upperProcessLimit: null,
-      lowerProcessLimit: null,
-      upperTwoSigma: null,
-      lowerTwoSigma: null,
-      upperOneSigma: null,
-      lowerOneSigma: null
-    };
-  const k3 = 2.66;
-  const k2 = 2 / 3 * k3;
-  const k1 = 1 / 3 * k3;
-  return {
-    upperProcessLimit: centerMean + k3 * mrMeanVal,
-    lowerProcessLimit: centerMean - k3 * mrMeanVal,
-    upperTwoSigma: centerMean + k2 * mrMeanVal,
-    lowerTwoSigma: centerMean - k2 * mrMeanVal,
-    upperOneSigma: centerMean + k1 * mrMeanVal,
-    lowerOneSigma: centerMean - k1 * mrMeanVal
-  };
-}
-var T_ALPHA = 0.2777;
-var T_INV_ALPHA = 3.6;
-var toTTransformed = (t) => isNumber2(t) && t >= 0 ? Math.pow(t, T_ALPHA) : null;
-var fromTTransformed = (y2) => isNumber2(y2) && y2 >= 0 ? Math.pow(y2, T_INV_ALPHA) : null;
-function geomInvCdfReal(q, p) {
-  if (!(q > 0 && q < 1) || !(p > 0 && p < 1)) return NaN;
-  return Math.log(1 - q) / Math.log(1 - p);
-}
-var SIGMA_PROBS = {
-  one: { low: 0.1586552539, high: 0.8413447461 },
-  two: { low: 0.0227501319, high: 0.9772498681 },
-  three: { low: 1349898e-9, high: 0.998650102 }
-};
-function gChartProbabilityLimits(gMean) {
-  if (!isNumber2(gMean) || gMean < 0)
-    return {
-      cl: null,
-      lcl: null,
-      ucl: null,
-      oneLow: null,
-      oneHigh: null,
-      twoLow: null,
-      twoHigh: null
-    };
-  const p = 1 / (gMean + 1);
-  const qToGbetween = (q) => geomInvCdfReal(q, p) - 1;
-  const cl = qToGbetween(0.5);
-  const lcl = Math.max(0, qToGbetween(SIGMA_PROBS.three.low));
-  const ucl = qToGbetween(SIGMA_PROBS.three.high);
-  const oneL = Math.max(0, qToGbetween(SIGMA_PROBS.one.low));
-  const oneH = qToGbetween(SIGMA_PROBS.one.high);
-  const twoL = Math.max(0, qToGbetween(SIGMA_PROBS.two.low));
-  const twoH = qToGbetween(SIGMA_PROBS.two.high);
-  return { cl, lcl, ucl, oneLow: oneL, oneHigh: oneH, twoLow: twoL, twoHigh: twoH };
-}
-function tChartLimits(tValues, ghosts, excludeOutliers) {
-  const y2 = tValues.map((v) => isNumber2(v) ? toTTransformed(v) : null);
-  const mrY = movingRanges2(y2, ghosts);
-  const { mrMean: mrMeanY_raw } = mrMeanWithOptionalExclusion2(mrY, !!excludeOutliers);
-  const yNonGhost = y2.filter((v, i) => !ghosts[i] && isNumber2(v));
-  const yBar = yNonGhost.length ? mean2(yNonGhost) : NaN;
-  if (!isNumber2(yBar) || !isNumber2(mrMeanY_raw)) {
-    return {
-      center: null,
-      upperProcessLimit: null,
-      lowerProcessLimit: null,
-      upperTwoSigma: null,
-      lowerTwoSigma: null,
-      upperOneSigma: null,
-      lowerOneSigma: null,
-      mr: mrY,
-      mrMean: null,
-      mrUcl: null
-    };
-  }
-  const k3 = 2.66, k2 = 2 / 3 * k3, k1 = 1 / 3 * k3;
-  const UL_y = yBar + k3 * mrMeanY_raw;
-  const LL_y = yBar - k3 * mrMeanY_raw;
-  const U2_y = yBar + k2 * mrMeanY_raw;
-  const L2_y = yBar - k2 * mrMeanY_raw;
-  const U1_y = yBar + k1 * mrMeanY_raw;
-  const L1_y = yBar - k1 * mrMeanY_raw;
-  const center = fromTTransformed(yBar);
-  const upl = fromTTransformed(UL_y);
-  const lpl = LL_y <= 0 ? null : fromTTransformed(LL_y);
-  const oneH = fromTTransformed(U1_y);
-  const oneL = L1_y <= 0 ? null : fromTTransformed(L1_y);
-  const twoH = fromTTransformed(U2_y);
-  const twoL = L2_y <= 0 ? null : fromTTransformed(L2_y);
-  return {
-    center: center != null ? center : null,
-    upperProcessLimit: upl != null ? upl : null,
-    lowerProcessLimit: lpl != null ? lpl : null,
-    upperTwoSigma: twoH != null ? twoH : null,
-    lowerTwoSigma: twoL != null ? twoL : null,
-    upperOneSigma: oneH != null ? oneH : null,
-    lowerOneSigma: oneL != null ? oneL : null,
-    mr: mrY,
-    mrMean: mrMeanY_raw,
-    mrUcl: isNumber2(mrMeanY_raw) ? 3.267 * mrMeanY_raw : null
-  };
-}
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcAssurance.ts
-function computeAssuranceIcon(args) {
-  const {
-    metricImprovement,
-    capabilityMode,
-    value,
-    mean: mean3,
-    upperProcessLimit,
-    lowerProcessLimit,
-    target
-  } = args;
-  const isNumber3 = (v) => typeof v === "number" && Number.isFinite(v);
-  if (!isNumber3(value) || mean3 === null || !isNumber3(target)) return "none" /* None */;
-  if (capabilityMode && isNumber3(upperProcessLimit) && isNumber3(lowerProcessLimit)) {
+  if (lastIdx === -1) return null;
+  const lastRow = engineRows[lastIdx];
+  const variation = (_a2 = lastRow.classification) == null ? void 0 : _a2.variation;
+  const assuranceRaw = (_b2 = lastRow.classification) == null ? void 0 : _b2.assurance;
+  const hasNeutralSpecialCause = variation === "neither" /* Neither */ && !!((_c = lastRow.classification) == null ? void 0 : _c.neutralSpecialCauseValue);
+  const assuranceRenderStatus = assuranceRaw === "pass" /* Pass */ ? "pass" /* Pass */ : assuranceRaw === "fail" /* Fail */ ? "fail" /* Fail */ : "uncertain" /* Uncertain */;
+  let trend = void 0;
+  if (variation === "suppressed" /* Suppressed */) {
+    const singleHigh = !!lastRow.rules.singlePoint.up;
+    const singleLow = !!lastRow.rules.singlePoint.down;
     if (metricImprovement === "Up" /* Up */) {
-      if (isNumber3(lowerProcessLimit) && lowerProcessLimit > target)
-        return "pass" /* Pass */;
-      if (isNumber3(upperProcessLimit) && upperProcessLimit < target)
-        return "fail" /* Fail */;
-      return "none" /* None */;
-    }
-    if (metricImprovement === "Down" /* Down */) {
-      if (isNumber3(upperProcessLimit) && upperProcessLimit < target)
-        return "pass" /* Pass */;
-      if (isNumber3(lowerProcessLimit) && lowerProcessLimit > target)
-        return "fail" /* Fail */;
-      return "none" /* None */;
-    }
-    return "none" /* None */;
-  }
-  if (metricImprovement === "Down" /* Down */)
-    return value <= target ? "pass" /* Pass */ : "fail" /* Fail */;
-  if (metricImprovement === "Up" /* Up */)
-    return value >= target ? "pass" /* Pass */ : "fail" /* Fail */;
-  return "none" /* None */;
-}
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcCandidates.ts
-function computeBaselineSuggestionsRaw(rows, params) {
-  const {
-    W,
-    minGap,
-    minDeltaSigma,
-    scoreThreshold,
-    isShiftUpAt,
-    isShiftDownAt,
-    isTrendUpAt,
-    isTrendDownAt,
-    isSingleUpAt,
-    isSingleDownAt
-  } = params;
-  const suggestions = [];
-  let lastBaselineIndex = 0;
-  for (let i = 0; i < rows.length; i++) {
-    const r = rows[i];
-    if (i > 0 && rows[i - 1].partitionId !== r.partitionId) {
-      lastBaselineIndex = i;
-    }
-    const wasShiftUp = i > 0 && isShiftUpAt(i - 1);
-    const wasShiftDown = i > 0 && isShiftDownAt(i - 1);
-    const wasTrendUp = i > 0 && isTrendUpAt(i - 1);
-    const wasTrendDown = i > 0 && isTrendDownAt(i - 1);
-    const wasSingleUp = i > 0 && isSingleUpAt(i - 1);
-    const wasSingleDown = i > 0 && isSingleDownAt(i - 1);
-    const isShiftUp = isShiftUpAt(i);
-    const isShiftDown = isShiftDownAt(i);
-    const isTrendUp = isTrendUpAt(i);
-    const isTrendDown = isTrendDownAt(i);
-    const isSingleUp = isSingleUpAt(i);
-    const isSingleDown = isSingleDownAt(i);
-    const candidates = [];
-    if (isShiftUp && !wasShiftUp) candidates.push({ reason: "shift" /* Shift */, index: i });
-    if (isShiftDown && !wasShiftDown) candidates.push({ reason: "shift" /* Shift */, index: i });
-    if (isTrendUp && !wasTrendUp) candidates.push({ reason: "trend" /* Trend */, index: i });
-    if (isTrendDown && !wasTrendDown) candidates.push({ reason: "trend" /* Trend */, index: i });
-    if (isSingleUp && !wasSingleUp) candidates.push({ reason: "point" /* Point */, index: i });
-    if (isSingleDown && !wasSingleDown) candidates.push({ reason: "point" /* Point */, index: i });
-    for (const c of candidates) {
-      if (c.index - lastBaselineIndex < minGap) continue;
-      const oldStart = Math.max(0, c.index - W);
-      const oldEnd = c.index - 1;
-      if (oldEnd - oldStart + 1 < W) continue;
-      const newStart = c.index;
-      const newEnd = c.index + W - 1;
-      if (newEnd >= rows.length) continue;
-      const oldVals = rows.slice(oldStart, oldEnd + 1).map((rw) => rw.value).filter(
-        (v) => typeof v === "number" && Number.isFinite(v)
-      );
-      const newVals = rows.slice(newStart, newEnd + 1).map((rw) => rw.value).filter(
-        (v) => typeof v === "number" && Number.isFinite(v)
-      );
-      if (oldVals.length < W || newVals.length < W) continue;
-      const cand = rows[c.index];
-      let sigma = null;
-      if (typeof cand.upperProcessLimit === "number" && typeof cand.mean === "number") {
-        const span = cand.upperProcessLimit - cand.mean;
-        if (span > 0) sigma = span / 3;
-      }
-      if (!sigma || sigma <= 0) continue;
-      const oldMean = mean2(oldVals);
-      const newMean = mean2(newVals);
-      const deltaMean = newMean - oldMean;
-      if (Math.abs(deltaMean) < minDeltaSigma * sigma) continue;
-      const newRows = rows.slice(newStart, newEnd + 1);
-      const concernCount = newRows.filter(
-        (rw) => rw.variationIcon === "concern" /* Concern */
-      ).length;
-      if (concernCount > 1) continue;
-      const variance = (arr) => {
-        const m = mean2(arr);
-        return arr.length ? arr.reduce((a, b) => a + (b - m) * (b - m), 0) / arr.length : 0;
-      };
-      const oldVar = variance(oldVals);
-      const newVar = variance(newVals);
-      let scoreBase = c.reason === "shift" /* Shift */ ? 90 : c.reason === "trend" /* Trend */ ? 70 : 60;
-      if (newVar < oldVar) scoreBase += 10;
-      scoreBase -= concernCount * 15;
-      if (scoreBase < scoreThreshold) continue;
-      const existing = suggestions.find((s) => s.index === c.index);
-      if (existing) {
-        const priority = (reason) => reason === "shift" /* Shift */ ? 3 : reason === "trend" /* Trend */ ? 2 : 1;
-        if (priority(c.reason) > priority(existing.reason) || scoreBase > existing.score) {
-          existing.reason = c.reason;
-          existing.score = scoreBase;
-          existing.deltaMean = deltaMean;
-          existing.oldMean = oldMean;
-          existing.newMean = newMean;
-          existing.window = [newStart, newEnd];
-        }
-      } else {
-        suggestions.push({
-          index: c.index,
-          reason: c.reason,
-          score: scoreBase,
-          deltaMean,
-          oldMean,
-          newMean,
-          window: [newStart, newEnd]
-        });
-      }
-    }
-  }
-  suggestions.sort((a, b) => a.index - b.index);
-  return suggestions;
-}
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc.ts
-function isPhase4Strict() {
-  var _a2;
-  const g = globalThis;
-  if (typeof g.__SPC_PHASE4_STRICT !== "undefined") return !!g.__SPC_PHASE4_STRICT;
-  if (typeof process !== "undefined") {
-    const v = (_a2 = process == null ? void 0 : process.env) == null ? void 0 : _a2.SPC_PHASE4_STRICT;
-    if (typeof v !== "undefined") {
-      const s = String(v).toLowerCase();
-      if (s === "1" || s === "true") return true;
-      if (s === "0" || s === "false") return false;
-    }
-  }
-  return true;
-}
-var SpcWarningSeverity = /* @__PURE__ */ ((SpcWarningSeverity2) => {
-  SpcWarningSeverity2["Info"] = "info";
-  SpcWarningSeverity2["Warning"] = "warning";
-  SpcWarningSeverity2["Error"] = "error";
-  return SpcWarningSeverity2;
-})(SpcWarningSeverity || {});
-var SpcWarningCategory = /* @__PURE__ */ ((SpcWarningCategory2) => {
-  SpcWarningCategory2["Config"] = "config";
-  SpcWarningCategory2["Data"] = "data";
-  SpcWarningCategory2["Limits"] = "limits";
-  SpcWarningCategory2["SpecialCause"] = "special_cause";
-  SpcWarningCategory2["Baseline"] = "baseline";
-  SpcWarningCategory2["Logic"] = "logic";
-  SpcWarningCategory2["Target"] = "target";
-  SpcWarningCategory2["Ghost"] = "ghost";
-  SpcWarningCategory2["Partition"] = "partition";
-  return SpcWarningCategory2;
-})(SpcWarningCategory || {});
-var SpcWarningCode = /* @__PURE__ */ ((SpcWarningCode2) => {
-  SpcWarningCode2["UnknownChartType"] = "unknown_chart_type";
-  SpcWarningCode2["InsufficientPointsGlobal"] = "insufficient_points_global";
-  SpcWarningCode2["VariationConflictRow"] = "variation_conflict_row";
-  SpcWarningCode2["NullValuesExcluded"] = "null_values_excluded";
-  SpcWarningCode2["TargetIgnoredRareEvent"] = "target_ignored_rare_event";
-  SpcWarningCode2["GhostRowsRareEvent"] = "ghost_rows_rare_event";
-  SpcWarningCode2["InsufficientPointsPartition"] = "insufficient_points_partition";
-  SpcWarningCode2["BaselineWithSpecialCause"] = "baseline_with_special_cause";
-  SpcWarningCode2["PartitionCapApplied"] = "partition_cap_applied";
-  SpcWarningCode2["GlobalCapApplied"] = "global_cap_applied";
-  return SpcWarningCode2;
-})(SpcWarningCode || {});
-function partitionRows(data) {
-  const partitions = [];
-  let current = [];
-  for (const row of data) {
-    if (row.baseline && current.length) {
-      partitions.push(current);
-      current = [];
-    }
-    current.push(row);
-  }
-  if (current.length) partitions.push(current);
-  return partitions;
-}
-function applyAutoRecalculationBaselines(data, settings, metricImprovement) {
-  var _a2;
-  const shiftN = settings.autoRecalculateShiftLength || settings.specialCauseShiftPoints || 6;
-  if (data.length < shiftN * 2) return;
-  const numeric = data.map((r, i) => ({ idx: i, value: r.value })).filter((o) => isNumber2(o.value));
-  if (numeric.length < shiftN * 2) return;
-  const favourUp = metricImprovement === "Up" /* Up */ || metricImprovement === "Neither" /* Neither */;
-  const favourDown = metricImprovement === "Down" /* Down */;
-  function windowMean(from, toExclusive) {
-    const slice2 = numeric.slice(from, toExclusive).map((o) => o.value);
-    return slice2.length ? mean2(slice2) : NaN;
-  }
-  let sigma = null;
-  if (numeric.length > 1) {
-    const diffs = [];
-    for (let i = 1; i < numeric.length; i++) diffs.push(Math.abs(numeric[i].value - numeric[i - 1].value));
-    const mrBar = mean2(diffs);
-    if (isNumber2(mrBar) && mrBar > 0) sigma = mrBar * (2.66 / 3);
-  }
-  if (!sigma || sigma <= 0) return;
-  const deltaThreshold = (_a2 = settings.autoRecalculateDeltaSigma) != null ? _a2 : 0.5;
-  for (let start = shiftN; start <= numeric.length - shiftN; start++) {
-    const preStart = start - shiftN;
-    const preMean = windowMean(preStart, start);
-    const postMean = windowMean(start, start + shiftN);
-    if (!isNumber2(preMean) || !isNumber2(postMean)) continue;
-    const delta = postMean - preMean;
-    const deltaSigma = delta / sigma;
-    const favourable = favourUp ? deltaSigma >= deltaThreshold : favourDown ? -deltaSigma >= deltaThreshold : Math.abs(deltaSigma) >= deltaThreshold;
-    if (!favourable) continue;
-    const postVals = numeric.slice(start, start + shiftN).map((o) => o.value);
-    const directional = favourUp ? postVals.every((v) => v > preMean) : favourDown ? postVals.every((v) => v < preMean) : postVals.every((v) => favourUp ? v > preMean : v < preMean);
-    if (!directional) continue;
-    const baselineIdx = numeric[start].idx;
-    if (!data[baselineIdx].baseline) {
-      data[baselineIdx].baseline = true;
-    }
-    return;
-  }
-}
-function normaliseSpcSettings(user) {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S;
-  if (!user) return {};
-  const legacy = user;
-  const v2 = user;
-  const rules = (_a2 = v2.rules) != null ? _a2 : {};
-  const precedence = (_b2 = v2.precedence) != null ? _b2 : {};
-  const thresholds = (_c = v2.thresholds) != null ? _c : {};
-  const warnings = (_d = v2.warnings) != null ? _d : {};
-  const rareEvent = (_e = v2.rareEvent) != null ? _e : {};
-  const capability = (_f = v2.capability) != null ? _f : {};
-  const grace = (_g = v2.grace) != null ? _g : {};
-  const baselineSuggest = (_h = v2.baselineSuggest) != null ? _h : {};
-  const autoRecalc = (_i = v2.autoRecalc) != null ? _i : {};
-  const emergingGraceEnabled = (_l = (_k = (_j = grace.emergingEnabled) != null ? _j : v2.emergingGraceEnabled) != null ? _k : legacy.emergingGraceEnabled) != null ? _l : legacy.emergingDirectionGrace;
-  const collapseWeakerClusterRules = (_o = (_n = (_m = rules.collapseWeakerClusterRules) != null ? _m : v2.collapseWeakerClusterRules) != null ? _n : legacy.collapseWeakerClusterRules) != null ? _o : legacy.collapseClusterRules;
-  if (isPhase4Strict()) {
-    if (legacy.emergingDirectionGrace !== void 0) {
-      throw new Error("[spc][phase4] emergingDirectionGrace is no longer supported. Use settings.grace.emergingEnabled.");
-    }
-    if (legacy.collapseClusterRules !== void 0) {
-      throw new Error("[spc][phase4] collapseClusterRules is no longer supported. Use settings.rules.collapseWeakerClusterRules.");
-    }
-  }
-  const globalAny = globalThis;
-  if (!isPhase4Strict() && legacy.emergingDirectionGrace !== void 0 && v2.emergingGraceEnabled === void 0 && grace.emergingEnabled === void 0 && !globalAny.__spc_warn_emergingDirectionGrace) {
-    globalAny.__spc_warn_emergingDirectionGrace = true;
-    console.warn("[spc] emergingDirectionGrace is deprecated; use grace.emergingEnabled");
-  }
-  if (!isPhase4Strict() && legacy.collapseClusterRules !== void 0 && rules.collapseWeakerClusterRules === void 0 && v2.collapseWeakerClusterRules === void 0 && !globalAny.__spc_warn_collapseClusterRules) {
-    globalAny.__spc_warn_collapseClusterRules = true;
-    console.warn("[spc] collapseClusterRules is deprecated; use rules.collapseWeakerClusterRules");
-  }
-  const pruneUndefined = (obj) => {
-    const out = {};
-    for (const k of Object.keys(obj)) {
-      const v = obj[k];
-      if (v !== void 0) out[k] = v;
-    }
-    return out;
-  };
-  const flattened = pruneUndefined({
-    // Rare event / MR
-    excludeMovingRangeOutliers: (_p = rareEvent.excludeMovingRangeOutliers) != null ? _p : legacy.excludeMovingRangeOutliers,
-    // Rules
-    specialCauseShiftPoints: (_q = rules.shiftPoints) != null ? _q : legacy.specialCauseShiftPoints,
-    specialCauseTrendPoints: (_r = rules.trendPoints) != null ? _r : legacy.specialCauseTrendPoints,
-    enableFourOfFiveRule: (_s = rules.fourOfFiveEnabled) != null ? _s : legacy.enableFourOfFiveRule,
-    enableFifteenInInnerThirdRule: (_t = rules.fifteenInnerThirdEnabled) != null ? _t : legacy.enableFifteenInInnerThirdRule,
-    collapseWeakerClusterRules: collapseWeakerClusterRules != null ? collapseWeakerClusterRules : legacy.collapseWeakerClusterRules,
-    // Precedence
-    precedenceStrategy: (_u = precedence.strategy) != null ? _u : legacy.precedenceStrategy,
-    conflictPrecedenceMode: (_v = precedence.conflictMode) != null ? _v : legacy.conflictPrecedenceMode,
-    // Thresholds
-    minimumPoints: (_w = thresholds.minimumPoints) != null ? _w : legacy.minimumPoints,
-    minimumPointsPartition: (_x = thresholds.minimumPointsPartition) != null ? _x : legacy.minimumPointsPartition,
-    maximumPointsPartition: (_y = thresholds.maximumPointsPartition) != null ? _y : legacy.maximumPointsPartition,
-    maximumPoints: (_z = thresholds.maximumPoints) != null ? _z : legacy.maximumPoints,
-    transitionBufferPoints: (_A = thresholds.transitionBufferPoints) != null ? _A : legacy.transitionBufferPoints,
-    // Warnings
-    minimumPointsWarning: (_B = warnings.minimumPointsWarning) != null ? _B : legacy.minimumPointsWarning,
-    pointConflictWarning: (_C = warnings.pointConflictWarning) != null ? _C : legacy.pointConflictWarning,
-    variationIconConflictWarning: (_D = warnings.variationIconConflictWarning) != null ? _D : legacy.variationIconConflictWarning,
-    nullValueWarning: (_E = warnings.nullValueWarning) != null ? _E : legacy.nullValueWarning,
-    targetSuppressedWarning: (_F = warnings.targetSuppressedWarning) != null ? _F : legacy.targetSuppressedWarning,
-    ghostOnRareEventWarning: (_G = warnings.ghostOnRareEventWarning) != null ? _G : legacy.ghostOnRareEventWarning,
-    partitionSizeWarnings: (_H = warnings.partitionSizeWarnings) != null ? _H : legacy.partitionSizeWarnings,
-    baselineSpecialCauseWarning: (_I = warnings.baselineSpecialCauseWarning) != null ? _I : legacy.baselineSpecialCauseWarning,
-    maximumPointsWarnings: (_J = warnings.maximumPointsWarnings) != null ? _J : legacy.maximumPointsWarnings,
-    // Capability
-    assuranceCapabilityMode: (_K = capability.assuranceCapabilityMode) != null ? _K : legacy.assuranceCapabilityMode,
-    // Grace
-    emergingGraceEnabled,
-    emergingDirectionGrace: emergingGraceEnabled,
-    // Baseline suggestions
-    baselineSuggest: (_L = baselineSuggest.enabled) != null ? _L : legacy.baselineSuggest,
-    baselineSuggestMinDeltaSigma: (_M = baselineSuggest.minDeltaSigma) != null ? _M : legacy.baselineSuggestMinDeltaSigma,
-    baselineSuggestStabilityPoints: (_N = baselineSuggest.stabilityPoints) != null ? _N : legacy.baselineSuggestStabilityPoints,
-    baselineSuggestMinGap: (_O = baselineSuggest.minGap) != null ? _O : legacy.baselineSuggestMinGap,
-    baselineSuggestScoreThreshold: (_P = baselineSuggest.scoreThreshold) != null ? _P : legacy.baselineSuggestScoreThreshold,
-    // Auto recalculation
-    autoRecalculateAfterShift: (_Q = autoRecalc.enabled) != null ? _Q : legacy.autoRecalculateAfterShift,
-    autoRecalculateShiftLength: (_R = autoRecalc.shiftLength) != null ? _R : legacy.autoRecalculateShiftLength,
-    autoRecalculateDeltaSigma: (_S = autoRecalc.deltaSigma) != null ? _S : legacy.autoRecalculateDeltaSigma
-  });
-  const merged = { ...flattened, ...pruneUndefined(legacy) };
-  if (emergingGraceEnabled !== void 0) {
-    merged.emergingGraceEnabled = emergingGraceEnabled;
-    merged.grace = { ...merged.grace, emergingEnabled: emergingGraceEnabled };
-  }
-  if (flattened.collapseWeakerClusterRules !== void 0) {
-    const v = flattened.collapseWeakerClusterRules;
-    merged.collapseWeakerClusterRules = v;
-    merged.rules = { ...merged.rules, collapseWeakerClusterRules: v };
-  }
-  return pruneUndefined(merged);
-}
-function buildSpc(args) {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r;
-  const {
-    chartType,
-    metricImprovement,
-    data,
-    settings: rawUserSettings = {}
-  } = args;
-  const userSettings = normaliseSpcSettings(rawUserSettings);
-  const settings = {
-    excludeMovingRangeOutliers: false,
-    specialCauseShiftPoints: 6,
-    specialCauseTrendPoints: 6,
-    enableFourOfFiveRule: false,
-    minimumPoints: 13,
-    minimumPointsWarning: false,
-    minimumPointsPartition: 12,
-    maximumPointsPartition: null,
-    maximumPoints: null,
-    pointConflictWarning: false,
-    variationIconConflictWarning: true,
-    nullValueWarning: true,
-    targetSuppressedWarning: true,
-    ghostOnRareEventWarning: true,
-    partitionSizeWarnings: true,
-    baselineSpecialCauseWarning: true,
-    maximumPointsWarnings: true,
-    assuranceCapabilityMode: true,
-    transitionBufferPoints: 2,
-    collapseWeakerClusterRules: true,
-    baselineSuggest: false,
-    baselineSuggestMinDeltaSigma: 0.5,
-    baselineSuggestStabilityPoints: 5,
-    baselineSuggestMinGap: 12,
-    baselineSuggestScoreThreshold: 50,
-    precedenceStrategy: "directional_first" /* DirectionalFirst */,
-    emergingDirectionGrace: false,
-    rules: {},
-    grace: {},
-    // REMOVED: trendSideGatingEnabled default (always on)
-    autoRecalculateAfterShift: false,
-    autoRecalculateShiftLength: void 0,
-    autoRecalculateDeltaSigma: 0.5,
-    ...userSettings
-  };
-  if (!Array.isArray(data)) throw new Error("data must be an array of rows");
-  const canonical = data.map((d, i) => ({
-    rowId: i + 1,
-    x: d.x,
-    value: isNumber2(d.value) ? d.value : null,
-    ghost: !!d.ghost,
-    baseline: !!d.baseline,
-    target: isNumber2(d.target) ? d.target : null
-  }));
-  if (userSettings == null ? void 0 : userSettings.autoRecalculateAfterShift) {
-    try {
-      applyAutoRecalculationBaselines(canonical, userSettings, metricImprovement);
-    } catch {
-    }
-  }
-  const partitions = partitionRows(canonical);
-  const output = [];
-  const warnings = [];
-  const nonGhostGlobalCount = canonical.filter(
-    (r) => !r.ghost && isNumber2(r.value)
-  ).length;
-  const globalEnough = nonGhostGlobalCount >= ((_a2 = settings.minimumPoints) != null ? _a2 : 13);
-  let partitionId = 0;
-  const partitionNonGhostCounts = {};
-  for (const part of partitions) {
-    partitionId++;
-    const values = part.map((r) => r.value);
-    const ghosts = part.map((r) => r.ghost);
-    let mr = new Array(values.length).fill(null);
-    let centerLine = NaN;
-    let mrMean = NaN;
-    let mrUcl = NaN;
-    let lim = {
-      upperProcessLimit: null,
-      lowerProcessLimit: null,
-      upperTwoSigma: null,
-      lowerTwoSigma: null,
-      upperOneSigma: null,
-      lowerOneSigma: null
-    };
-    if (chartType === "XmR") {
-      mr = movingRanges2(values, ghosts);
-      const nonGhostVals = values.filter(
-        (v, i) => !ghosts[i] && isNumber2(v)
-      );
-      centerLine = nonGhostVals.length ? mean2(nonGhostVals) : NaN;
-      const tmp = mrMeanWithOptionalExclusion2(
-        mr,
-        !!settings.excludeMovingRangeOutliers
-      );
-      mrMean = tmp.mrMean;
-      mrUcl = tmp.mrUcl;
-      lim = xmrLimits2(centerLine, mrMean);
-    } else if (chartType === "T") {
-      const tlim = tChartLimits(
-        values,
-        ghosts,
-        !!settings.excludeMovingRangeOutliers
-      );
-      mr = tlim.mr;
-      mrMean = (_b2 = tlim.mrMean) != null ? _b2 : NaN;
-      mrUcl = (_c = tlim.mrUcl) != null ? _c : NaN;
-      centerLine = (_d = tlim.center) != null ? _d : NaN;
-      lim = {
-        upperProcessLimit: tlim.upperProcessLimit,
-        lowerProcessLimit: tlim.lowerProcessLimit,
-        upperTwoSigma: tlim.upperTwoSigma,
-        lowerTwoSigma: tlim.lowerTwoSigma,
-        upperOneSigma: tlim.upperOneSigma,
-        lowerOneSigma: tlim.lowerOneSigma
-      };
-    } else if (chartType === "G") {
-      const nonGhostVals = values.filter(
-        (v, i) => !ghosts[i] && isNumber2(v)
-      );
-      const gMean = nonGhostVals.length ? mean2(nonGhostVals) : NaN;
-      const g = gChartProbabilityLimits(gMean);
-      centerLine = (_e = g.cl) != null ? _e : NaN;
-      lim = {
-        upperProcessLimit: g.ucl,
-        lowerProcessLimit: g.lcl,
-        upperTwoSigma: g.twoHigh,
-        lowerTwoSigma: g.twoLow,
-        upperOneSigma: g.oneHigh,
-        lowerOneSigma: g.oneLow
-      };
-      mr = new Array(values.length).fill(null);
-      mrMean = NaN;
-      mrUcl = NaN;
+      if (singleHigh) trend = "higher" /* Higher */;
+      else if (singleLow) trend = "lower" /* Lower */;
+    } else if (metricImprovement === "Down" /* Down */) {
+      if (singleLow) trend = "lower" /* Lower */;
+      else if (singleHigh) trend = "higher" /* Higher */;
     } else {
-      warnings.push({
-        code: "unknown_chart_type" /* UnknownChartType */,
-        category: "config" /* Config */,
-        severity: "error" /* Error */,
-        message: `Unknown ChartType '${chartType}' \u2013 supported: XmR, T, G.`,
-        context: { chartType }
-      });
+      trend = "higher" /* Higher */;
     }
-    const withLines = part.map((r, i) => {
-      const pointRank = !r.ghost && isNumber2(r.value) ? values.slice(0, i + 1).filter((v, j) => !ghosts[j] && isNumber2(v)).length : 0;
-      const limitsAllowed = globalEnough;
-      const limits = limitsAllowed ? lim : {
-        upperProcessLimit: null,
-        lowerProcessLimit: null,
-        upperTwoSigma: null,
-        lowerTwoSigma: null,
-        upperOneSigma: null,
-        lowerOneSigma: null
-      };
-      const row = {
-        rowId: r.rowId,
-        x: r.x,
-        value: isNumber2(r.value) ? r.value : null,
-        ghost: r.ghost,
-        partitionId,
-        pointRank,
-        mean: limitsAllowed && isNumber2(centerLine) ? centerLine : null,
-        mr: isNumber2(mr[i]) ? mr[i] : null,
-        mrMean: limitsAllowed && isNumber2(mrMean) ? mrMean : null,
-        mrUcl: limitsAllowed && isNumber2(mrUcl) ? mrUcl : null,
-        upperProcessLimit: isNumber2(limits.upperProcessLimit) ? limits.upperProcessLimit : null,
-        lowerProcessLimit: isNumber2(limits.lowerProcessLimit) ? limits.lowerProcessLimit : null,
-        upperTwoSigma: isNumber2(limits.upperTwoSigma) ? limits.upperTwoSigma : null,
-        lowerTwoSigma: isNumber2(limits.lowerTwoSigma) ? limits.lowerTwoSigma : null,
-        upperOneSigma: isNumber2(limits.upperOneSigma) ? limits.upperOneSigma : null,
-        lowerOneSigma: isNumber2(limits.lowerOneSigma) ? limits.lowerOneSigma : null,
-        target: isNumber2(r.target) ? r.target : null,
-        specialCauseFifteenInnerThird: false,
-        // Unified directional alias initialisers (kept in sync post-detection)
-        specialCauseSinglePointUp: false,
-        specialCauseSinglePointDown: false,
-        specialCauseTwoOfThreeUp: false,
-        specialCauseTwoOfThreeDown: false,
-        specialCauseFourOfFiveUp: false,
-        specialCauseFourOfFiveDown: false,
-        specialCauseShiftUp: false,
-        specialCauseShiftDown: false,
-        specialCauseTrendUp: false,
-        specialCauseTrendDown: false,
-        variationIcon: "suppressed" /* Suppressed */,
-        assuranceIcon: "none" /* None */,
-        upperBaseline: limitsAllowed && isNumber2(centerLine) ? centerLine : null,
-        lowerBaseline: limitsAllowed && isNumber2(centerLine) ? centerLine : null,
-        movingRangeHighPointValue: limitsAllowed && isNumber2(mrUcl) ? mrUcl : null,
-        ghostValue: r.ghost && isNumber2(r.value) ? r.value : null,
-        ghostFlag: !!r.ghost,
-        specialCauseImprovementValue: null,
-        specialCauseConcernValue: null,
-        specialCauseNeitherValue: null,
-        ruleTags: []
-      };
-      return row;
-    });
-    partitionNonGhostCounts[partitionId] = withLines.filter(
-      (r) => !r.ghost && isNumber2(r.value)
-    ).length;
-    const shiftN = (_f = settings.specialCauseShiftPoints) != null ? _f : 6;
-    const trendN = (_g = settings.specialCauseTrendPoints) != null ? _g : 6;
-    const nonGhostIndices = [];
-    const nonGhostValues = [];
-    for (let i = 0; i < withLines.length; i++) {
-      const row = withLines[i];
-      const v = row.value;
-      if (!row.ghost && isNumber2(v)) {
-        nonGhostIndices.push(i);
-        nonGhostValues.push(v);
-      }
-      const hasLimits = isNumber2(row.mean) && isNumber2(row.upperProcessLimit) && isNumber2(row.lowerProcessLimit);
-      if (!hasLimits || row.ghost || !isNumber2(v)) {
-        output.push(row);
-        continue;
-      }
-      row.specialCauseSinglePointUp = isNumber2(row.upperProcessLimit) ? v > row.upperProcessLimit : false;
-      row.specialCauseSinglePointDown = isNumber2(row.lowerProcessLimit) ? v < row.lowerProcessLimit : false;
-      output.push(row);
-    }
-    if (nonGhostIndices.length) {
-      const getRow = (idx) => withLines[idx];
-      let runHigh = [];
-      let runLow = [];
-      for (const idxLocal of nonGhostIndices) {
-        const r = getRow(idxLocal);
-        if (!isNumber2(r.mean) || !isNumber2(r.value)) {
-          runHigh = [];
-          runLow = [];
-          continue;
-        }
-        if (r.value > r.mean) {
-          runHigh.push(idxLocal);
-          runLow = [];
-        } else if (r.value < r.mean) {
-          runLow.push(idxLocal);
-          runHigh = [];
-        } else {
-          runHigh = [];
-          runLow = [];
-        }
-        if (runHigh.length >= shiftN) {
-          for (const j of runHigh) {
-            const rr = getRow(j);
-            rr.specialCauseShiftUp = true;
-          }
-        }
-        if (runLow.length >= shiftN) {
-          for (const j of runLow) {
-            const rr = getRow(j);
-            rr.specialCauseShiftDown = true;
-          }
-        }
-      }
-      for (let w = 0; w <= nonGhostIndices.length - 3; w++) {
-        const windowIdx = nonGhostIndices.slice(w, w + 3);
-        const rows3 = windowIdx.map(getRow);
-        if (!rows3.every((r) => isNumber2(r.mean) && isNumber2(r.value))) continue;
-        const meanVal = rows3[0].mean;
-        const allHighSide = rows3.every((r) => r.value > meanVal);
-        const allLowSide = rows3.every((r) => r.value < meanVal);
-        if (!allHighSide && !allLowSide) continue;
-        const u2 = (_h = rows3[0].upperTwoSigma) != null ? _h : Infinity;
-        const l2 = (_i = rows3[0].lowerTwoSigma) != null ? _i : -Infinity;
-        const u3 = (_j = rows3[0].upperProcessLimit) != null ? _j : Infinity;
-        const l3 = (_k = rows3[0].lowerProcessLimit) != null ? _k : -Infinity;
-        const highExceed = rows3.filter((r) => r.value > u2 && r.value <= u3);
-        const lowExceed = rows3.filter((r) => r.value < l2 && r.value >= l3);
-        if (allHighSide && highExceed.length >= 2) {
-          for (const r of highExceed) {
-            r.specialCauseTwoOfThreeUp = true;
-          }
-        }
-        if (allLowSide && lowExceed.length >= 2) {
-          for (const r of lowExceed) {
-            r.specialCauseTwoOfThreeDown = true;
-          }
-        }
-      }
-      if (settings.enableFourOfFiveRule) {
-        for (let w = 0; w <= nonGhostIndices.length - 5; w++) {
-          const windowIdx = nonGhostIndices.slice(w, w + 5);
-          const rows5 = windowIdx.map(getRow);
-          if (!rows5.every((r) => isNumber2(r.mean) && isNumber2(r.value))) continue;
-          const meanVal = rows5[0].mean;
-          if (!rows5.every((r) => r.value > meanVal) && !rows5.every((r) => r.value < meanVal)) continue;
-          const u1 = (_l = rows5[0].upperOneSigma) != null ? _l : Infinity;
-          const l1 = (_m = rows5[0].lowerOneSigma) != null ? _m : -Infinity;
-          const highExceed = rows5.filter((r) => r.value > u1);
-          const lowExceed = rows5.filter((r) => r.value < l1);
-          if (rows5.every((r) => r.value > meanVal) && highExceed.length >= 4) {
-            for (const r of highExceed) {
-              r.specialCauseFourOfFiveUp = true;
-            }
-          }
-          if (rows5.every((r) => r.value < meanVal) && lowExceed.length >= 4) {
-            for (const r of lowExceed) {
-              r.specialCauseFourOfFiveDown = true;
-            }
-          }
-        }
-      }
-      for (let w = 0; w <= nonGhostIndices.length - trendN; w++) {
-        const windowIdx = nonGhostIndices.slice(w, w + trendN);
-        const rowsN = windowIdx.map(getRow);
-        if (!rowsN.every((r) => isNumber2(r.value))) continue;
-        let inc = true;
-        let dec = true;
-        for (let k = 1; k < rowsN.length; k++) {
-          if (!(rowsN[k].value > rowsN[k - 1].value)) inc = false;
-          if (!(rowsN[k].value < rowsN[k - 1].value)) dec = false;
-          if (!inc && !dec) break;
-        }
-        if (inc) for (const j of windowIdx) {
-          const rr = getRow(j);
-          rr.specialCauseTrendUp = true;
-        }
-        if (dec) for (const j of windowIdx) {
-          const rr = getRow(j);
-          rr.specialCauseTrendDown = true;
-        }
-      }
-      if (settings.enableFifteenInInnerThirdRule) {
-        let innerRun = [];
-        for (const idxLocal of nonGhostIndices) {
-          const r = getRow(idxLocal);
-          if (!isNumber2(r.value) || !isNumber2(r.mean) || !isNumber2(r.upperOneSigma) || !isNumber2(r.lowerOneSigma)) {
-            innerRun = [];
-            continue;
-          }
-          const inBand = r.value < r.upperOneSigma && r.value > r.lowerOneSigma;
-          if (!inBand) {
-            innerRun = [];
-            continue;
-          }
-          innerRun.push(idxLocal);
-          if (innerRun.length >= 15) {
-            const rowsRun = innerRun.map(getRow);
-            const anyAbove = rowsRun.some((rr) => rr.value > rr.mean);
-            const anyBelow = rowsRun.some((rr) => rr.value < rr.mean);
-            if (anyAbove && anyBelow) {
-              for (const j of innerRun) getRow(j).specialCauseFifteenInnerThird = true;
-            }
-          }
-        }
-      }
-    }
-    if (settings.maximumPointsPartition && Number.isFinite(settings.maximumPointsPartition)) {
-      const cap = settings.maximumPointsPartition;
-      let seen = 0;
-      for (const row of output.filter((r) => r.partitionId === partitionId)) {
-        if (!row.ghost && isNumber2(row.value)) seen++;
-        if (seen > cap) {
-          row.mean = row.upperProcessLimit = row.lowerProcessLimit = null;
-          row.upperTwoSigma = row.lowerTwoSigma = row.upperOneSigma = row.lowerOneSigma = null;
-        }
-      }
-    }
+  } else if (variation === "neither" /* Neither */ && hasNeutralSpecialCause) {
+    const anyHighSide = lastRow.rules.singlePoint.up || lastRow.rules.twoOfThree.up || lastRow.rules.fourOfFive.up || lastRow.rules.shift.up || lastRow.rules.trend.up;
+    const anyLowSide = lastRow.rules.singlePoint.down || lastRow.rules.twoOfThree.down || lastRow.rules.fourOfFive.down || lastRow.rules.shift.down || lastRow.rules.trend.down;
+    if (anyHighSide && !anyLowSide) trend = "higher" /* Higher */;
+    else if (anyLowSide && !anyHighSide) trend = "lower" /* Lower */;
+    else trend = "higher" /* Higher */;
   }
-  for (const r of output) {
-    if (r.ruleTags && r.ruleTags.length) continue;
-    const tags = [];
-    if (r.specialCauseShiftUp) tags.push("shift_high" /* ShiftHigh */);
-    if (r.specialCauseShiftDown) tags.push("shift_low" /* ShiftLow */);
-    if (r.specialCauseTrendUp) tags.push("trend_inc" /* TrendIncreasing */);
-    if (r.specialCauseTrendDown) tags.push("trend_dec" /* TrendDecreasing */);
-    if (r.specialCauseSinglePointUp) tags.push("single_above" /* SinglePointAbove */);
-    if (r.specialCauseSinglePointDown) tags.push("single_below" /* SinglePointBelow */);
-    if (r.specialCauseTwoOfThreeUp) tags.push("two_of_three_above" /* TwoOfThreeAbove */);
-    if (r.specialCauseTwoOfThreeDown) tags.push("two_of_three_below" /* TwoOfThreeBelow */);
-    if (r.specialCauseFourOfFiveUp) tags.push("four_of_five_above" /* FourOfFiveAbove */);
-    if (r.specialCauseFourOfFiveDown) tags.push("four_of_five_below" /* FourOfFiveBelow */);
-    if (r.specialCauseFifteenInnerThird) tags.push("fifteen_inner_third" /* FifteenInnerThird */);
-    if (tags.length) r.ruleTags = tags;
-  }
-  for (let idx = 0; idx < output.length; idx++) {
-    const row = output[idx];
-    if (!Object.prototype.hasOwnProperty.call(row, "improvementValueBeforePruning" /* ImprovementValueBeforePruning */)) {
-      Object.defineProperty(row, "improvementValueBeforePruning" /* ImprovementValueBeforePruning */, {
-        get() {
-          var _a3;
-          return (_a3 = row.originalSpecialCauseImprovementValue) != null ? _a3 : null;
-        },
-        enumerable: false,
-        configurable: true
-      });
-    }
-    if (!Object.prototype.hasOwnProperty.call(row, "concernValueBeforePruning" /* ConcernValueBeforePruning */)) {
-      Object.defineProperty(row, "concernValueBeforePruning" /* ConcernValueBeforePruning */, {
-        get() {
-          var _a3;
-          return (_a3 = row.originalSpecialCauseConcernValue) != null ? _a3 : null;
-        },
-        enumerable: false,
-        configurable: true
-      });
-    }
-    if (row.ghost || !isNumber2(row.value) || row.mean === null) {
-      row.variationIcon = "suppressed" /* Suppressed */;
-      continue;
-    }
-    const onHighSide = row.value > row.mean;
-    const onLowSide = row.value < row.mean;
-    if ((_n = settings.rules) == null ? void 0 : _n.collapseWeakerClusterRules) {
-      if (row.specialCauseTwoOfThreeUp && row.specialCauseFourOfFiveUp) {
-        row.specialCauseTwoOfThreeUp = false;
-      }
-      if (row.specialCauseTwoOfThreeDown && row.specialCauseFourOfFiveDown) {
-        row.specialCauseTwoOfThreeDown = false;
-      }
-    }
-    const trendUpQualified = row.specialCauseTrendUp && onHighSide;
-    const trendDownQualified = row.specialCauseTrendDown && onLowSide;
-    const highSignals = row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp || row.specialCauseShiftUp || trendUpQualified;
-    const lowSignals = row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown || row.specialCauseShiftDown || trendDownQualified;
-    let emergingFavourable = false;
-    if (settings.precedenceStrategy === "directional_first" /* DirectionalFirst */ && (((_o = settings.grace) == null ? void 0 : _o.emergingEnabled) || settings.emergingGraceEnabled || settings.emergingDirectionGrace)) {
-      const trendN = settings.specialCauseTrendPoints || 6;
-      if (trendN > 1 && !(row.specialCauseTrendUp || row.specialCauseTrendDown)) {
-        const needed = trendN - 1;
-        const seq = [];
-        for (let back = idx; back >= 0 && seq.length < needed; back--) {
-          const rPrev = output[back];
-          if (!rPrev.ghost && isNumber2(rPrev.value) && rPrev.mean !== null) seq.unshift(rPrev);
-        }
-        if (seq.length === needed) {
-          let monotonic = true;
-          for (let k = 1; k < seq.length && monotonic; k++) {
-            if (metricImprovement === "Up" /* Up */) {
-              if (!(seq[k].value > seq[k - 1].value)) monotonic = false;
-            } else if (metricImprovement === "Down" /* Down */) {
-              if (!(seq[k].value < seq[k - 1].value)) monotonic = false;
-            } else {
-              monotonic = false;
-            }
-          }
-          emergingFavourable = monotonic;
-        }
-      }
-    }
-    if (settings.precedenceStrategy === "directional_first" /* DirectionalFirst */) {
-      const favourableRaw = metricImprovement === "Up" /* Up */ ? highSignals : metricImprovement === "Down" /* Down */ ? lowSignals : false;
-      const favourable = favourableRaw;
-      const unfavourable = metricImprovement === "Up" /* Up */ ? lowSignals : metricImprovement === "Down" /* Down */ ? highSignals : false;
-      if (favourable && !unfavourable) row.variationIcon = "improvement" /* Improvement */;
-      else if (unfavourable && !favourable) row.variationIcon = emergingFavourable ? "neither" /* Neither */ : "concern" /* Concern */;
-      else if (favourable && unfavourable) row.variationIcon = emergingFavourable || row.specialCauseTrendUp || row.specialCauseTrendDown ? "improvement" /* Improvement */ : "neither" /* Neither */;
-      else row.variationIcon = "neither" /* Neither */;
+  const iconSize = 80;
+  const highSideSignal = lastRow.rules.singlePoint.up || lastRow.rules.twoOfThree.up || lastRow.rules.fourOfFive.up || lastRow.rules.shift.up || lastRow.rules.trend.up;
+  const lowSideSignal = lastRow.rules.singlePoint.down || lastRow.rules.twoOfThree.down || lastRow.rules.fourOfFive.down || lastRow.rules.shift.down || lastRow.rules.trend.down;
+  let variationEngine = "CommonCause" /* CommonCause */;
+  if (variation === "improvement" /* Improvement */) variationEngine = "ImprovementHigh" /* ImprovementHigh */;
+  else if (variation === "concern" /* Concern */) variationEngine = "ConcernHigh" /* ConcernHigh */;
+  else if (variation === "neither" /* Neither */) {
+    if (hasNeutralSpecialCause) {
+      if (trend === "lower" /* Lower */ || lowSideSignal && !highSideSignal)
+        variationEngine = "NeitherLow" /* NeitherLow */;
+      else variationEngine = "NeitherHigh" /* NeitherHigh */;
     } else {
-      if (metricImprovement === "Up" /* Up */) row.variationIcon = highSignals ? "improvement" /* Improvement */ : lowSignals ? "concern" /* Concern */ : "neither" /* Neither */;
-      else if (metricImprovement === "Down" /* Down */) row.variationIcon = lowSignals ? "improvement" /* Improvement */ : highSignals ? "concern" /* Concern */ : "neither" /* Neither */;
-      else row.variationIcon = "neither" /* Neither */;
-    }
-    const anySignal = highSignals || lowSignals;
-    row.specialCauseImprovementValue = anySignal && row.variationIcon === "improvement" /* Improvement */ ? row.value : null;
-    row.specialCauseConcernValue = anySignal && row.variationIcon === "concern" /* Concern */ ? row.value : null;
-    row.specialCauseNeitherValue = anySignal && row.variationIcon === "neither" /* Neither */ ? row.value : null;
-    if (settings.conflictPrecedenceMode === "sql_ranking_v2_6a" /* SqlRankingV26a */ && row.specialCauseImprovementValue !== null && row.specialCauseConcernValue !== null) {
-      const active = [];
-      if (row.specialCauseSinglePointUp) active.push({ id: "single_point" /* SinglePoint */, rank: 1, side: "up" /* Up */ });
-      if (row.specialCauseSinglePointDown) active.push({ id: "single_point" /* SinglePoint */, rank: 1, side: "down" /* Down */ });
-      if (row.specialCauseTwoOfThreeUp) active.push({ id: "two_sigma" /* TwoSigma */, rank: 2, side: "up" /* Up */ });
-      if (row.specialCauseTwoOfThreeDown) active.push({ id: "two_sigma" /* TwoSigma */, rank: 2, side: "down" /* Down */ });
-      if (row.specialCauseShiftUp) active.push({ id: "shift" /* Shift */, rank: 3, side: "up" /* Up */ });
-      if (row.specialCauseShiftDown) active.push({ id: "shift" /* Shift */, rank: 3, side: "down" /* Down */ });
-      if (row.specialCauseTrendUp) active.push({ id: "trend" /* Trend */, rank: 4, side: "up" /* Up */ });
-      if (row.specialCauseTrendDown) active.push({ id: "trend" /* Trend */, rank: 4, side: "down" /* Down */ });
-      const upMax = active.filter((a) => a.side === "up" /* Up */).reduce((m, a) => Math.max(m, a.rank), 0);
-      const downMax = active.filter((a) => a.side === "down" /* Down */).reduce((m, a) => Math.max(m, a.rank), 0);
-      let prime;
-      if (upMax > downMax) prime = "Upwards" /* Upwards */;
-      else if (downMax > upMax) prime = "Downwards" /* Downwards */;
-      else prime = "Same" /* Same */;
-      const originalImprovement = row.specialCauseImprovementValue;
-      const originalConcern = row.specialCauseConcernValue;
-      if (prime === "Upwards" /* Upwards */) {
-        if (metricImprovement === "Up" /* Up */) {
-          row.specialCauseConcernValue = null;
-        } else if (metricImprovement === "Down" /* Down */) {
-          row.specialCauseImprovementValue = null;
-        }
-      } else if (prime === "Downwards" /* Downwards */) {
-        if (metricImprovement === "Up" /* Up */) {
-          row.specialCauseImprovementValue = null;
-        } else if (metricImprovement === "Down" /* Down */) {
-          row.specialCauseConcernValue = null;
-        }
-      } else {
-        if (row.variationIcon === "improvement" /* Improvement */) {
-          row.specialCauseConcernValue = null;
-        } else if (row.variationIcon === "concern" /* Concern */) {
-          row.specialCauseImprovementValue = null;
-        } else {
-          row.specialCauseConcernValue = null;
-        }
-      }
-      if (row.specialCauseImprovementValue !== null && row.specialCauseConcernValue === null) {
-        row.variationIcon = "improvement" /* Improvement */;
-      } else if (row.specialCauseConcernValue !== null && row.specialCauseImprovementValue === null) {
-        row.variationIcon = "concern" /* Concern */;
-      } else if (row.specialCauseImprovementValue === null && row.specialCauseConcernValue === null) {
-        row.variationIcon = "neither" /* Neither */;
-      }
-      const winningSide = row.specialCauseImprovementValue !== null ? "up" /* Up */ : row.specialCauseConcernValue !== null ? "down" /* Down */ : void 0;
-      const winningRank = winningSide === "up" /* Up */ ? upMax : winningSide === "down" /* Down */ ? downMax : Math.max(upMax, downMax);
-      const winner = active.find((a) => a.rank === winningRank && (!winningSide || a.side === winningSide));
-      row.conflictPrimeDirection = prime;
-      row.conflictResolved = true;
-      row.conflictResolvedRank = winningRank || void 0;
-      if (winner) row.conflictResolvedByRuleId = winner.id;
-      row.pruningMode = "conflict" /* Conflict */;
-      row.originalSpecialCauseImprovementValue = originalImprovement;
-      row.originalSpecialCauseConcernValue = originalConcern;
-    }
-    {
-      const inputRow = canonical[row.rowId - 1];
-      const result = computeAssuranceIcon({
-        metricImprovement,
-        capabilityMode: settings.assuranceCapabilityMode,
-        value: row.value,
-        mean: row.mean,
-        upperProcessLimit: row.upperProcessLimit,
-        lowerProcessLimit: row.lowerProcessLimit,
-        target: isNumber2(inputRow == null ? void 0 : inputRow.target) ? inputRow.target : null
-      });
-      row.assuranceIcon = result;
+      variationEngine = "CommonCause" /* CommonCause */;
     }
   }
-  if (((_p = settings.minimumPointsWarning) != null ? _p : false) && !globalEnough) {
-    const available = canonical.filter(
-      (r) => !r.ghost && isNumber2(r.value)
-    ).length;
-    warnings.push({
-      code: "insufficient_points_global" /* InsufficientPointsGlobal */,
-      category: "data" /* Data */,
-      severity: "warning" /* Warning */,
-      message: `Only ${available} non-ghost points available; minimum required is ${settings.minimumPoints}. Limits and icons suppressed.`,
-      context: { available, minimumRequired: settings.minimumPoints }
-    });
-  }
-  if (settings.variationIconConflictWarning) {
-    for (const row of output) {
-      if (row.variationIcon === "improvement" /* Improvement */) {
-        const highAndLow = (row.specialCauseSinglePointUp || row.specialCauseTwoOfThreeUp || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveUp || row.specialCauseShiftUp || row.specialCauseTrendUp) && (row.specialCauseSinglePointDown || row.specialCauseTwoOfThreeDown || settings.enableFourOfFiveRule && row.specialCauseFourOfFiveDown || row.specialCauseShiftDown || row.specialCauseTrendDown);
-        if (highAndLow) {
-          warnings.push({
-            code: "variation_conflict_row" /* VariationConflictRow */,
-            category: "logic" /* Logic */,
-            severity: "warning" /* Warning */,
-            message: `Row ${row.rowId}: simultaneous high/low special-cause signals \u2013 variation icon may be ambiguous.`,
-            context: { rowId: row.rowId }
-          });
-        }
-      }
-    }
-  }
-  if (settings.maximumPoints && Number.isFinite(settings.maximumPoints)) {
-    const cap = settings.maximumPoints;
-    let seen = 0;
-    for (const row of output) {
-      if (!row.ghost && isNumber2(row.value)) seen++;
-      if (seen > cap) {
-        row.mean = row.upperProcessLimit = row.lowerProcessLimit = null;
-        row.upperTwoSigma = row.lowerTwoSigma = row.upperOneSigma = row.lowerOneSigma = null;
-      }
-    }
-  }
-  if (settings.nullValueWarning && (chartType === "XmR" /* XmR */ || chartType === "G" /* G */)) {
-    const nullCount = canonical.filter(
-      (r) => !r.ghost && (r.value === null || r.value === void 0 || !isNumber2(r.value))
-    ).length;
-    if (nullCount)
-      warnings.push({
-        code: "null_values_excluded" /* NullValuesExcluded */,
-        category: "data" /* Data */,
-        severity: "info" /* Info */,
-        message: `${nullCount} null/missing value(s) excluded from calculations.`,
-        context: { nullCount }
-      });
-  }
-  if (settings.targetSuppressedWarning && (chartType === "T" /* T */ || chartType === "G" /* G */)) {
-    const hasTarget = canonical.some((r) => isNumber2(r.target));
-    if (hasTarget)
-      warnings.push({
-        code: "target_ignored_rare_event" /* TargetIgnoredRareEvent */,
-        category: "target" /* Target */,
-        severity: "info" /* Info */,
-        message: `Targets provided are ignored for ${chartType} charts in this port.`,
-        context: { chartType }
-      });
-  }
-  if (settings.ghostOnRareEventWarning && (chartType === "T" /* T */ || chartType === "G" /* G */)) {
-    const ghostCount = canonical.filter((r) => r.ghost).length;
-    if (ghostCount)
-      warnings.push({
-        code: "ghost_rows_rare_event" /* GhostRowsRareEvent */,
-        category: "ghost" /* Ghost */,
-        severity: "info" /* Info */,
-        message: `${ghostCount} ghost row(s) supplied for rare-event chart (${chartType}); verify intent.`,
-        context: { chartType, ghostCount }
-      });
-  }
-  if (settings.partitionSizeWarnings) {
-    Object.entries(partitionNonGhostCounts).forEach(([pid, count]) => {
-      if (count < settings.minimumPointsPartition)
-        warnings.push({
-          code: "insufficient_points_partition" /* InsufficientPointsPartition */,
-          category: "partition" /* Partition */,
-          severity: "warning" /* Warning */,
-          message: `Partition ${pid} has only ${count} non-ghost point(s); below recommended ${settings.minimumPointsPartition}.`,
-          context: {
-            partitionId: Number(pid),
-            count,
-            minimum: settings.minimumPointsPartition
-          }
-        });
-    });
-  }
-  if (settings.baselineSpecialCauseWarning) {
-    const issueRows = [];
-    output.forEach((r) => {
-      const input = canonical[r.rowId - 1];
-      if (input.baseline) {
-        const anySignal = r.specialCauseSinglePointUp || r.specialCauseSinglePointDown || r.specialCauseTwoOfThreeUp || r.specialCauseTwoOfThreeDown || r.specialCauseFourOfFiveUp || r.specialCauseFourOfFiveDown || r.specialCauseShiftUp || r.specialCauseShiftDown || r.specialCauseTrendUp || r.specialCauseTrendDown;
-        if (anySignal) issueRows.push(r.rowId);
-      }
-    });
-    if (issueRows.length)
-      warnings.push({
-        code: "baseline_with_special_cause" /* BaselineWithSpecialCause */,
-        category: "baseline" /* Baseline */,
-        severity: "warning" /* Warning */,
-        message: `Baseline set with special-cause present at row(s): ${issueRows.join(", ")}.`,
-        context: { rows: issueRows }
-      });
-  }
-  if (settings.maximumPointsWarnings) {
-    if (settings.maximumPointsPartition && Number.isFinite(settings.maximumPointsPartition))
-      warnings.push({
-        code: "partition_cap_applied" /* PartitionCapApplied */,
-        category: "limits" /* Limits */,
-        severity: "info" /* Info */,
-        message: `Limits suppressed after ${settings.maximumPointsPartition} non-ghost points per partition.`,
-        context: { cap: settings.maximumPointsPartition }
-      });
-    if (settings.maximumPoints && Number.isFinite(settings.maximumPoints))
-      warnings.push({
-        code: "global_cap_applied" /* GlobalCapApplied */,
-        category: "limits" /* Limits */,
-        severity: "info" /* Info */,
-        message: `Limits suppressed after global cap of ${settings.maximumPoints} non-ghost points.`,
-        context: { cap: settings.maximumPoints }
-      });
-  }
-  let suggestedBaselines;
-  if (settings.baselineSuggest) {
-    const W = settings.baselineSuggestStabilityPoints;
-    const minGap = settings.baselineSuggestMinGap;
-    const minDeltaSigma = settings.baselineSuggestMinDeltaSigma;
-    const scoreThreshold = settings.baselineSuggestScoreThreshold;
-    const shiftRunLength = (_q = settings.specialCauseShiftPoints) != null ? _q : 6;
-    const trendRunLength = (_r = settings.specialCauseTrendPoints) != null ? _r : 6;
-    const raw = computeBaselineSuggestionsRaw(
-      output.map((r) => ({
-        value: r.value,
-        partitionId: r.partitionId,
-        variationIcon: r.variationIcon,
-        mean: r.mean,
-        upperProcessLimit: r.upperProcessLimit
-      })),
+  return /* @__PURE__ */ jsxs8("div", { style: { display: "flex", gap: 12, marginRight: 16 }, children: [
+    /* @__PURE__ */ jsx11("div", { className: "fdp-spc-chart__embedded-icon", "data-variation": String(variation), "data-trend": trend ? String(trend) : "none", style: { width: iconSize, height: iconSize }, children: /* @__PURE__ */ jsx11(
+      SPCVariationIcon,
       {
-        W,
-        minGap,
-        minDeltaSigma,
-        scoreThreshold,
-        shiftRunLength,
-        trendRunLength,
-        isShiftUpAt: (i) => !!output[i].specialCauseShiftUp,
-        isShiftDownAt: (i) => !!output[i].specialCauseShiftDown,
-        isTrendUpAt: (i) => !!output[i].specialCauseTrendUp,
-        isTrendDownAt: (i) => !!output[i].specialCauseTrendDown,
-        isSingleUpAt: (i) => !!output[i].specialCauseSinglePointUp,
-        isSingleDownAt: (i) => !!output[i].specialCauseSinglePointDown
+        dropShadow: false,
+        data: {
+          variationIcon: variationEngine,
+          improvementDirection: metricImprovement,
+          specialCauseNeutral: hasNeutralSpecialCause,
+          highSideSignal,
+          lowSideSignal,
+          ...trend ? { trend } : {}
+        },
+        letterMode: metricImprovement === "Neither" /* Neither */ ? "Direction" : "Polarity",
+        size: iconSize,
+        variant,
+        runLength: variant === "triangleWithRun" /* TriangleWithRun */ ? runLength : void 0
+      }
+    ) }),
+    /* @__PURE__ */ jsx11("div", { className: "fdp-spc-chart__embedded-assurance-icon", "data-assurance": String(assuranceRaw), style: { width: iconSize, height: iconSize }, children: /* @__PURE__ */ jsx11(SPCAssuranceIcon, { status: assuranceRenderStatus, size: iconSize, dropShadow: false }) })
+  ] }, `embedded-icon-${lastIdx}`);
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/InternalSPC.tsx
+import * as React14 from "react";
+
+// src/components/DataVisualisation/charts/Axis/Axis.tsx
+import * as React7 from "react";
+
+// src/components/DataVisualisation/charts/Axis/Axis.tokens.ts
+var AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX = 16;
+var AXIS_Y_ZERO_BREAK_MIN_GAP_PX = 6;
+var AXIS_Y_ZERO_BREAK_DEFAULT_EXTRA_CLEARANCE_PX = 16;
+var AXIS_ZIGZAG_DEFAULT_AMPLITUDE_PX = 4;
+var AXIS_ZIGZAG_DEFAULT_CYCLES = 6;
+var AXIS_ZIGZAG_DEFAULT_STEP_X_PX = 3;
+var AXIS_ZIGZAG_DEFAULT_HEIGHT_PX = void 0;
+
+// src/components/DataVisualisation/charts/Axis/Axis.tsx
+import { jsx as jsx12, jsxs as jsxs9 } from "react/jsx-runtime";
+var Axis = ({
+  type,
+  scale,
+  tickCount,
+  tickValues,
+  formatTick: rawFormatTick,
+  label,
+  offset,
+  className,
+  minLabelSpacing,
+  maxTickLabelLength,
+  autoMinLabelSpacing = type === "x" ? true : false,
+  labelAngle = 0,
+  allowLabelWrap = true,
+  tickFormatPreset,
+  yZeroBreak
+}) => {
+  const scaleCtx = useScaleContext();
+  const dims = useChartContext();
+  const resolvedScale = scale || (type === "x" ? scaleCtx == null ? void 0 : scaleCtx.xScale : scaleCtx == null ? void 0 : scaleCtx.yScale);
+  const defaultCount = tickCount != null ? tickCount : type === "x" ? 6 : 5;
+  const hasUserFormatter = typeof rawFormatTick === "function";
+  const presetFormatter = React7.useMemo(() => {
+    if (hasUserFormatter) return void 0;
+    if (!tickFormatPreset) return void 0;
+    const dtf = (opts) => new Intl.DateTimeFormat(void 0, opts);
+    switch (tickFormatPreset) {
+      case "dayShortMonth":
+        return (v) => {
+          const d = v instanceof Date ? v : new Date(v);
+          return `${d.getDate()}
+${dtf({ month: "short" }).format(d)}`;
+        };
+      case "dayShortMonthYear":
+        return (v) => {
+          const d = v instanceof Date ? v : new Date(v);
+          return `${d.getDate()}
+${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
+        };
+      case "shortMonth":
+        return (v) => {
+          const d = v instanceof Date ? v : new Date(v);
+          return dtf({ month: "short" }).format(d);
+        };
+      case "shortMonthYear":
+        return (v) => {
+          const d = v instanceof Date ? v : new Date(v);
+          return `${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
+        };
+      case "hourMinute":
+        return (v) => {
+          const d = v instanceof Date ? v : new Date(v);
+          return dtf({ hour: "2-digit", minute: "2-digit" }).format(d);
+        };
+      default:
+        return void 0;
+    }
+  }, [hasUserFormatter, tickFormatPreset]);
+  let effectiveFormatTick = hasUserFormatter ? rawFormatTick : presetFormatter || ((v) => String(v));
+  const ticks2 = React7.useMemo(() => {
+    if (tickValues && Array.isArray(tickValues)) return tickValues;
+    if (!resolvedScale) return [];
+    if (typeof resolvedScale.ticks === "function")
+      return resolvedScale.ticks(defaultCount);
+    return resolvedScale.domain ? resolvedScale.domain() : [];
+  }, [resolvedScale, defaultCount, tickValues]);
+  if (type === "x" && !hasUserFormatter && !tickFormatPreset && ticks2.length && ticks2.every((t) => t instanceof Date)) {
+    const first = ticks2[0];
+    const last = ticks2[ticks2.length - 1];
+    const spanMs = last.getTime() - first.getTime();
+    const oneDay = 24 * 3600 * 1e3;
+    const oneYear = 365 * oneDay;
+    const sameYear = first.getFullYear() === last.getFullYear();
+    const dtfMonth = new Intl.DateTimeFormat(void 0, { month: "short" });
+    if (spanMs < 2 * oneDay) {
+      const dtfTime = new Intl.DateTimeFormat(void 0, {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+      effectiveFormatTick = (v) => dtfTime.format(v);
+    } else if (spanMs < 32 * oneDay) {
+      effectiveFormatTick = (v) => {
+        const d = v;
+        return `${d.getDate()} ${dtfMonth.format(d)}`;
+      };
+    } else if (spanMs < oneYear && sameYear) {
+      effectiveFormatTick = (v) => dtfMonth.format(v);
+    } else if (spanMs < 2 * oneYear) {
+      const seenMonths = /* @__PURE__ */ new Set();
+      effectiveFormatTick = (v) => {
+        const d = v;
+        const key = d.getMonth();
+        if (!seenMonths.has(key)) {
+          seenMonths.add(key);
+        }
+        return `${dtfMonth.format(d)} ${d.getFullYear()}`;
+      };
+    } else {
+      effectiveFormatTick = (v) => String(v.getFullYear());
+    }
+  }
+  if (!resolvedScale || !dims) return null;
+  if (type === "x") {
+    const y2 = offset != null ? offset : dims.innerHeight;
+    const isBandScale = typeof resolvedScale.bandwidth === "function";
+    const bandwidth = isBandScale ? resolvedScale.bandwidth() : 0;
+    const tickPos = (t) => {
+      const base = resolvedScale(t);
+      return isBandScale ? base + bandwidth / 2 : base;
+    };
+    let resolvedMinSpacing = minLabelSpacing != null ? minLabelSpacing : 0;
+    if (autoMinLabelSpacing && (minLabelSpacing === void 0 || minLabelSpacing === null)) {
+      const labels = ticks2.map(
+        (t) => effectiveFormatTick(t).replace(/\n.*/g, "")
+      );
+      const avgLen = labels.length ? labels.reduce((a, b) => a + b.length, 0) / labels.length : 0;
+      resolvedMinSpacing = Math.max(12, Math.round(avgLen * 6 + 4));
+    }
+    const filteredTicks = React7.useMemo(() => {
+      if (tickValues && Array.isArray(tickValues)) return ticks2;
+      if (resolvedMinSpacing <= 0) return ticks2;
+      const accepted = [];
+      let lastPos = -Infinity;
+      for (const t of ticks2) {
+        const pos = tickPos(t);
+        if (pos - lastPos >= resolvedMinSpacing) {
+          accepted.push(t);
+          lastPos = pos;
+        }
+      }
+      return accepted;
+    }, [
+      ticks2,
+      resolvedScale,
+      resolvedMinSpacing,
+      tickValues,
+      isBandScale,
+      bandwidth
+    ]);
+    return /* @__PURE__ */ jsxs9(
+      "g",
+      {
+        className: ["fdp-axis", "fdp-axis--x", className].filter(Boolean).join(" "),
+        transform: `translate(0,${y2})`,
+        fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))",
+        children: [
+          /* @__PURE__ */ jsx12("line", { x1: 0, x2: dims.innerWidth, y1: 0, y2: 0, stroke: "currentColor" }),
+          filteredTicks.map((t, i) => {
+            var _a2;
+            const rawLabel = effectiveFormatTick(t);
+            const displayLabel = maxTickLabelLength && rawLabel.length > maxTickLabelLength ? rawLabel.slice(0, Math.max(1, maxTickLabelLength - 1)) + "\u2026" : rawLabel;
+            const lines = allowLabelWrap ? displayLabel.split(/\n/) : [displayLabel.replace(/\n/g, " ")];
+            const anchor = labelAngle < 0 ? "end" : labelAngle > 0 ? "start" : "middle";
+            return /* @__PURE__ */ jsxs9(
+              "g",
+              {
+                transform: `translate(${tickPos(t)},0)`,
+                children: [
+                  /* @__PURE__ */ jsx12("line", { y2: 6, stroke: "currentColor" }),
+                  /* @__PURE__ */ jsxs9(
+                    "text",
+                    {
+                      y: 9,
+                      textAnchor: anchor,
+                      className: "fdp-axis__tick",
+                      dominantBaseline: "hanging",
+                      transform: labelAngle ? `rotate(${labelAngle})` : void 0,
+                      fontFamily: "inherit",
+                      children: [
+                        lines.map((ln, li) => /* @__PURE__ */ jsx12("tspan", { x: 0, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
+                        displayLabel !== rawLabel && /* @__PURE__ */ jsx12("title", { children: rawLabel })
+                      ]
+                    }
+                  )
+                ]
+              },
+              ((_a2 = t == null ? void 0 : t.toString) == null ? void 0 : _a2.call(t)) || i
+            );
+          })
+        ]
       }
     );
-    suggestedBaselines = raw.map((s) => ({
-      index: s.index,
-      reason: s.reason,
-      score: s.score,
-      deltaMean: s.deltaMean,
-      oldMean: s.oldMean,
-      newMean: s.newMean,
-      window: s.window
-    }));
   }
-  return { rows: output, warnings, ...suggestedBaselines ? { suggestedBaselines } : {} };
+  return /* @__PURE__ */ jsxs9(
+    "g",
+    {
+      className: ["fdp-axis", "fdp-axis--y", className].filter(Boolean).join(" "),
+      fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))",
+      children: [
+        (() => {
+          var _a2;
+          const showZeroAxisBreak = !!(yZeroBreak == null ? void 0 : yZeroBreak.enabled);
+          const gapPx = Math.max(AXIS_Y_ZERO_BREAK_MIN_GAP_PX, (_a2 = yZeroBreak == null ? void 0 : yZeroBreak.gapPx) != null ? _a2 : AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX);
+          if (!showZeroAxisBreak) {
+            return /* @__PURE__ */ jsx12("line", { x1: 0, x2: 0, y1: 0, y2: dims.innerHeight, stroke: "currentColor" });
+          }
+          const topSolidEnd = Math.max(0, dims.innerHeight - gapPx);
+          return /* @__PURE__ */ jsx12("line", { x1: 0, x2: 0, y1: 0, y2: topSolidEnd, stroke: "currentColor" });
+        })(),
+        ticks2.map((t, i) => {
+          var _a2, _b2;
+          const rawLabel = effectiveFormatTick(t);
+          const displayLabel = maxTickLabelLength && rawLabel.length > maxTickLabelLength ? rawLabel.slice(0, Math.max(1, maxTickLabelLength - 1)) + "\u2026" : rawLabel;
+          const lines = allowLabelWrap ? displayLabel.split(/\n/) : [displayLabel.replace(/\n/g, " ")];
+          const showZeroAxisBreak = !!(yZeroBreak == null ? void 0 : yZeroBreak.enabled);
+          if (showZeroAxisBreak) {
+            const gapPx = Math.max(AXIS_Y_ZERO_BREAK_MIN_GAP_PX, (_a2 = yZeroBreak == null ? void 0 : yZeroBreak.gapPx) != null ? _a2 : AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX);
+            const topSolidEnd = Math.max(0, dims.innerHeight - gapPx);
+            const yPx = resolvedScale(t);
+            if (yPx > topSolidEnd - 1) return null;
+          }
+          return /* @__PURE__ */ jsxs9(
+            "g",
+            {
+              transform: `translate(0,${resolvedScale(t)})`,
+              children: [
+                /* @__PURE__ */ jsx12("line", { x2: -6, stroke: "currentColor" }),
+                /* @__PURE__ */ jsxs9(
+                  "text",
+                  {
+                    x: -9,
+                    dy: "0.32em",
+                    textAnchor: "end",
+                    className: "fdp-axis__tick",
+                    fontFamily: "inherit",
+                    children: [
+                      lines.map((ln, li) => /* @__PURE__ */ jsx12("tspan", { x: -9, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
+                      displayLabel !== rawLabel && /* @__PURE__ */ jsx12("title", { children: rawLabel })
+                    ]
+                  }
+                )
+              ]
+            },
+            ((_b2 = t == null ? void 0 : t.toString) == null ? void 0 : _b2.call(t)) || i
+          );
+        }),
+        !!(yZeroBreak == null ? void 0 : yZeroBreak.enabled) && (() => {
+          var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j;
+          const gapPx = Math.max(AXIS_Y_ZERO_BREAK_MIN_GAP_PX, (_a2 = yZeroBreak == null ? void 0 : yZeroBreak.gapPx) != null ? _a2 : AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX);
+          const bottom = dims.innerHeight;
+          const top = 0;
+          const topSolidEnd = Math.max(top, bottom - gapPx);
+          const slotTop = topSolidEnd;
+          const slotBottom = bottom;
+          const slotHeight = Math.max(4, slotBottom - slotTop);
+          const defaultAmp = AXIS_ZIGZAG_DEFAULT_AMPLITUDE_PX;
+          const defaultCycles = AXIS_ZIGZAG_DEFAULT_CYCLES;
+          const amp = Math.max(1, Math.round((_c = (_b2 = yZeroBreak == null ? void 0 : yZeroBreak.zigZag) == null ? void 0 : _b2.amplitudePx) != null ? _c : defaultAmp));
+          const stepX = Math.max(1, Math.round((_e = (_d = yZeroBreak == null ? void 0 : yZeroBreak.zigZag) == null ? void 0 : _d.stepXPx) != null ? _e : AXIS_ZIGZAG_DEFAULT_STEP_X_PX));
+          const desired = (_g = (_f = yZeroBreak == null ? void 0 : yZeroBreak.zigZag) == null ? void 0 : _f.heightPx) != null ? _g : AXIS_ZIGZAG_DEFAULT_HEIGHT_PX;
+          const heightDesired = Math.max(4, Math.round(desired != null ? desired : 0));
+          let cycles;
+          let zigLen;
+          if (((_h = yZeroBreak == null ? void 0 : yZeroBreak.zigZag) == null ? void 0 : _h.heightPx) && yZeroBreak.zigZag.heightPx > 0) {
+            const maxHeight = Math.max(4, Math.min(slotHeight - 2, heightDesired));
+            cycles = Math.max(1, Math.floor(maxHeight / (2 * amp)));
+            zigLen = Math.max(0, Math.min(maxHeight, cycles * 2 * amp));
+          } else if (typeof ((_i = yZeroBreak == null ? void 0 : yZeroBreak.zigZag) == null ? void 0 : _i.cycles) === "number" && ((_j = yZeroBreak == null ? void 0 : yZeroBreak.zigZag) == null ? void 0 : _j.cycles) > 0) {
+            cycles = Math.max(1, Math.round(yZeroBreak.zigZag.cycles));
+            zigLen = cycles * 2 * amp;
+            zigLen = Math.min(zigLen, slotHeight - 2);
+            cycles = Math.max(1, Math.floor(zigLen / (2 * amp)));
+          } else {
+            cycles = defaultCycles;
+            zigLen = Math.min(slotHeight - 2, cycles * 2 * amp);
+            cycles = Math.max(1, Math.floor(zigLen / (2 * amp)));
+          }
+          const zigStart = slotTop + (slotHeight - zigLen) / 2;
+          const zigEnd = zigStart + zigLen;
+          let d = `M0,0`;
+          const pairCount = zigLen > 0 ? Math.max(0, Math.floor((zigLen - amp) / (2 * amp))) : 0;
+          const halfDy = Math.max(0, (zigLen - pairCount * 2 * amp) / 2);
+          const halfDx = amp > 0 ? stepX * (halfDy / amp) : 0;
+          if (halfDy > 0) {
+            d += ` l${halfDx},${halfDy}`;
+          }
+          for (let i = 0; i < pairCount; i++) {
+            d += ` l-${stepX},${amp} l${stepX},${amp}`;
+          }
+          if (halfDy > 0) {
+            d += ` l-${halfDx},${halfDy}`;
+          }
+          return /* @__PURE__ */ jsxs9("g", { children: [
+            /* @__PURE__ */ jsx12("line", { x1: 0, x2: 0, y1: topSolidEnd, y2: zigStart, stroke: "currentColor" }),
+            /* @__PURE__ */ jsx12("g", { transform: `translate(0,${zigStart})`, "aria-hidden": "true", children: /* @__PURE__ */ jsx12("path", { d, stroke: "currentColor", fill: "none" }) }),
+            /* @__PURE__ */ jsx12("line", { x1: 0, x2: 0, y1: zigEnd, y2: bottom, stroke: "currentColor" }),
+            /* @__PURE__ */ jsx12("g", { transform: `translate(0,${bottom})`, children: /* @__PURE__ */ jsx12("text", { x: -9, dy: "0.32em", textAnchor: "end", className: "fdp-axis__tick", fontFamily: "inherit", children: "0" }) })
+          ] });
+        })(),
+        label && /* @__PURE__ */ jsx12(
+          "text",
+          {
+            transform: "rotate(-90)",
+            x: -dims.innerHeight / 2,
+            y: -dims.margin.left + 12,
+            textAnchor: "middle",
+            className: "fdp-axis__label",
+            fontFamily: "inherit",
+            children: label
+          }
+        )
+      ]
+    }
+  );
+};
+var Axis_default = Axis;
+
+// src/components/DataVisualisation/charts/GridLines/GridLines.tsx
+import { jsx as jsx13, jsxs as jsxs10 } from "react/jsx-runtime";
+var GridLines = ({
+  axis = "y",
+  tickCount,
+  stroke = "var(--fdp-chart-grid,#e5e5e5)",
+  dasharray = "2 4",
+  className
+}) => {
+  const scaleCtx = useScaleContext();
+  const dims = useChartContext();
+  if (!scaleCtx || !dims) return null;
+  const ticks2 = axis === "y" ? scaleCtx.getYTicks(tickCount) : scaleCtx.getXTicks(tickCount);
+  return /* @__PURE__ */ jsxs10("g", { className: ["fdp-grid", className].filter(Boolean).join(" "), children: [
+    axis === "y" && ticks2.map((t, i) => /* @__PURE__ */ jsx13(
+      "line",
+      {
+        x1: 0,
+        x2: dims.innerWidth,
+        y1: scaleCtx.yScale(t),
+        y2: scaleCtx.yScale(t),
+        stroke,
+        strokeDasharray: dasharray
+      },
+      i
+    )),
+    axis === "x" && ticks2.map((t, i) => /* @__PURE__ */ jsx13(
+      "line",
+      {
+        y1: 0,
+        y2: dims.innerHeight,
+        x1: scaleCtx.xScale(t),
+        x2: scaleCtx.xScale(t),
+        stroke,
+        strokeDasharray: dasharray
+      },
+      i
+    ))
+  ] });
+};
+var GridLines_default = GridLines;
+
+// src/components/DataVisualisation/series/LineSeriesPrimitive.tsx
+import * as React10 from "react";
+
+// packages/nhs-fdp/tokens/data-viz.json
+var data_viz_default = {
+  color: {
+    "data-viz": {
+      $type: "color",
+      categorical: {
+        "1": { $value: "{color.primary.blue}", $description: "Series 1 \u2013 NHS Blue (brand core)" },
+        "2": { $value: "#41B6E6", $description: "Series 2 \u2013 NHS Light Blue (new)" },
+        "3": { $value: "{color.secondary.aqua-green}", $description: "Series 3 \u2013 NHS Aqua Green (existing)" },
+        "4": { $value: "#78BE20", $description: "Series 4 \u2013 NHS Light Green (new)" },
+        "5": { $value: "{color.primary.green}", $description: "Series 5 \u2013 NHS Green (existing)" },
+        "6": { $value: "{color.secondary.warm-yellow}", $description: "Series 6 \u2013 NHS Warm Yellow (existing; distinct from focus yellow)" },
+        "7": { $value: "#ED4F00", $description: "Series 7 \u2013 NHS Tangerine (new; warmer/deeper than existing orange)" },
+        "8": { $value: "{color.secondary.pink}", $description: "Series 8 \u2013 NHS Pink (existing)" },
+        "9": { $value: "#E317AA", $description: "Series 9 \u2013 NHS Bright Pink (new vivid accent)" },
+        "10": { $value: "#880FB8", $description: "Series 10 \u2013 NHS Light Purple (new mid purple)" },
+        "11": { $value: "{color.primary.purple}", $description: "Series 11 \u2013 NHS Purple (existing dark purple)" },
+        "12": { $value: "#9A6324", $description: "Series 12 \u2013 NHS Brown (new; earth neutral)" }
+      },
+      neutral: {
+        comparison: { $value: "{color.grey.1}", $description: "Neutral comparison series (optional)" }
+      },
+      region: {
+        $comment: "Fixed colours for NHS geographical regions; prefer stable mapping for maps. London colour updated (#78BE21 \u2013 light green).",
+        "north-east": { $value: "{color.primary.blue}", $description: "North East \u2013 NHS Blue" },
+        "north-west": { $value: "#41B6E6", $description: "North West \u2013 NHS Light Blue" },
+        "east-of-england": { $value: "{color.primary.purple}", $description: "East of England \u2013 NHS Purple" },
+        midlands: { $value: "{color.secondary.pink}", $description: "Midlands \u2013 NHS Pink" },
+        london: { $value: "#78BE21", $description: "London \u2013 NHS Light Green (new)" },
+        "south-west": { $value: "#FAE100", $description: "South West \u2013 NHS Yellow variant (new)" },
+        "south-east": { $value: "#ed8b00", $description: "South East \u2013 NHS Orange (existing base orange)" }
+      },
+      severity: {
+        $comment: "Semantic severity / alert colours (light background ramp \u2192 critical).",
+        low: { $value: "{color.secondary.pale-yellow}", $description: "Low severity \u2013 pale yellow background" },
+        moderate: { $value: "{color.secondary.warm-yellow}", $description: "Moderate severity \u2013 warm yellow" },
+        high: { $value: "{color.secondary.orange}", $description: "High severity \u2013 orange" },
+        critical: { $value: "{color.primary.red}", $description: "Critical severity \u2013 red" }
+      },
+      "org-level": {
+        $comment: "Organisational level semantic colours (stable NHS brand mappings).",
+        trust: { $value: "{color.primary.blue}", $description: "Trust \u2013 NHS Blue" },
+        ambulance: { $value: "{color.primary.green}", $description: "Ambulance \u2013 NHS Green" },
+        icb: { $value: "{color.primary.dark-pink}", $description: "ICB \u2013 NHS Dark Pink" },
+        region: { $value: "{color.primary.purple}", $description: "Region \u2013 NHS Purple" }
+      },
+      stroke: {
+        $comment: "Automatic contrast stroke colours for overlays / borders. Light fills get dark stroke; dark fills get white stroke.",
+        categorical: {
+          "1": { $value: "#ffffff", $description: "Stroke for series 1 (blue)" },
+          "2": { $value: "#212b32", $description: "Stroke for series 2 (light blue)" },
+          "3": { $value: "#212b32", $description: "Stroke for series 3 (aqua green)" },
+          "4": { $value: "#212b32", $description: "Stroke for series 4 (light green)" },
+          "5": { $value: "#ffffff", $description: "Stroke for series 5 (green)" },
+          "6": { $value: "#212b32", $description: "Stroke for series 6 (warm yellow)" },
+          "7": { $value: "#ffffff", $description: "Stroke for series 7 (tangerine)" },
+          "8": { $value: "#ffffff", $description: "Stroke for series 8 (pink)" },
+          "9": { $value: "#ffffff", $description: "Stroke for series 9 (bright pink)" },
+          "10": { $value: "#ffffff", $description: "Stroke for series 10 (light purple)" },
+          "11": { $value: "#ffffff", $description: "Stroke for series 11 (purple)" },
+          "12": { $value: "#ffffff", $description: "Stroke for series 12 (brown)" }
+        },
+        region: {
+          $comment: "Region stroke colours derived from fill colours: dark fills lightened ~35%; light fills darkened ~25% for consistent contrast without defaulting to pure white/black.",
+          "north-east": { $value: "#5996D1", $description: "Stroke for North East (blue lightened 35%)" },
+          "north-west": { $value: "#3189AD", $description: "Stroke for North West (light blue darkened 25%)" },
+          "east-of-england": { $value: "#7A59A3", $description: "Stroke for East of England (purple lightened 35%)" },
+          midlands: { $value: "#CA71A4", $description: "Stroke for Midlands (pink lightened 35%)" },
+          london: { $value: "#5A8F19", $description: "Stroke for London (light green darkened 25%)" },
+          "south-west": { $value: "#BCA900", $description: "Stroke for South West (yellow darkened 25%)" },
+          "south-east": { $value: "#B26800", $description: "Stroke for South East (orange darkened 25%)" }
+        },
+        severity: {
+          $comment: "Contrast strokes for severity colours (light backgrounds use dark stroke; dark backgrounds use white).",
+          low: { $value: "#212b32", $description: "Stroke for low severity (pale yellow fill)" },
+          moderate: { $value: "#212b32", $description: "Stroke for moderate severity (warm yellow fill)" },
+          high: { $value: "#212b32", $description: "Stroke for high severity (orange fill)" },
+          critical: { $value: "#ffffff", $description: "Stroke for critical severity (red fill)" }
+        },
+        "org-level": {
+          $comment: "Contrast strokes for organisational level colours (all dark brand fills so white stroke for consistency).",
+          trust: { $value: "#ffffff", $description: "Stroke for trust (blue fill)" },
+          ambulance: { $value: "#ffffff", $description: "Stroke for ambulance (green fill)" },
+          icb: { $value: "#ffffff", $description: "Stroke for ICB (dark pink fill)" },
+          region: { $value: "#ffffff", $description: "Stroke for region (purple fill)" }
+        }
+      },
+      spc: {
+        $comment: "SPC (Statistical Process Control) semantic variation colours aligned to SPCChart.scss and SPCIcons.",
+        improvement: { $value: "#00B0F0", $description: "SPC special cause improvement (favourable)" },
+        concern: { $value: "#E46C0A", $description: "SPC special cause concern (deteriorating)" },
+        "no-judgement": { $value: "#490092", $description: "SPC special cause (no directional judgement)" },
+        "common-cause": { $value: "#A6A6A6", $description: "SPC common cause (baseline variation)" },
+        "assurance-pass": { $value: "#00823B", $description: "SPC assurance pass indicator (process capable)" },
+        "assurance-fail": { $value: "#DA291C", $description: "SPC assurance fail indicator (process not capable)" },
+        gradient: {
+          $comment: "Opacity stops for SPC icon gradient wash (applied top-left -> bottom-right). Consumers build gradients using these opacities + base colour.",
+          stop: {
+            "start-opacity": { $value: "0.18", $description: "Start stop opacity (0%) for classic variant wash" },
+            "mid-opacity": { $value: "0.06", $description: "Mid stop opacity (~65-75%)" },
+            "end-opacity": { $value: "0", $description: "End stop opacity (100%)" },
+            "triangle-start-opacity": { $value: "0.18", $description: "Start opacity for triangle variants (kept aligned)" },
+            "triangle-mid-opacity": { $value: "0.06", $description: "Mid opacity for triangle variants" },
+            "triangle-end-opacity": { $value: "0", $description: "End opacity for triangle variants" }
+          }
+        },
+        stroke: {
+          $comment: "Contrast stroke colours for SPC variation fills.",
+          improvement: { $value: "#000000", $description: "Stroke for improvement points" },
+          concern: { $value: "#000000", $description: "Stroke for concern points" },
+          "no-judgement": { $value: "#000000", $description: "Stroke for no-judgement points" },
+          "common-cause": { $value: "#ffffff", $description: "Stroke for common cause points" },
+          "assurance-pass": { $value: "#000000", $description: "Stroke for assurance pass points" },
+          "assurance-fail": { $value: "#000000", $description: "Stroke for assurance fail points" }
+        }
+      }
+    }
+  }
+};
+
+// packages/nhs-fdp/tokens/colors.json
+var colors_default = {
+  color: {
+    primary: {
+      $type: "color",
+      blue: {
+        $value: "#005eb8",
+        $description: "NHS Blue - Primary brand color"
+      },
+      "blue-active": {
+        $value: "#002f5c",
+        $description: "NHS Active Blue (50% shade) \u2013 alias of button/login active; promoted for general reuse"
+      },
+      white: {
+        $value: "#ffffff",
+        $description: "NHS White"
+      },
+      black: {
+        $value: "#212b32",
+        $description: "NHS Black"
+      },
+      green: {
+        $value: "#007f3b",
+        $description: "NHS Green"
+      },
+      purple: {
+        $value: "#330072",
+        $description: "NHS Purple"
+      },
+      "dark-pink": {
+        $value: "#7c2855",
+        $description: "NHS Dark Pink"
+      },
+      red: {
+        $value: "#d5281b",
+        $description: "NHS Red"
+      },
+      "light-purple": {
+        $value: "#880FB8",
+        $description: "NHS Light Purple (data viz promoted)"
+      },
+      yellow: {
+        $value: "#ffeb3b",
+        $description: "NHS Yellow"
+      }
+    },
+    secondary: {
+      $type: "color",
+      "pale-yellow": {
+        $value: "#fff9c4",
+        $description: "NHS Pale Yellow"
+      },
+      "warm-yellow": {
+        $value: "#ffb81c",
+        $description: "NHS Warm Yellow"
+      },
+      "region-yellow": {
+        $value: "#FAE100",
+        $description: "NHS Region Yellow (maps)"
+      },
+      orange: {
+        $value: "#ed8b00",
+        $description: "NHS Orange"
+      },
+      tangerine: {
+        $value: "#ED4F00",
+        $description: "NHS Tangerine (data viz promoted)"
+      },
+      "aqua-green": {
+        $value: "#00a499",
+        $description: "NHS Aqua Green"
+      },
+      "light-blue": {
+        $value: "#41B6E6",
+        $description: "NHS Light Blue (data viz promoted)"
+      },
+      pink: {
+        $value: "#ae2573",
+        $description: "NHS Pink"
+      },
+      "bright-pink": {
+        $value: "#E317AA",
+        $description: "NHS Bright Pink (data viz promoted)"
+      },
+      "light-green": {
+        $value: "#78BE20",
+        $description: "NHS Light Green (data viz promoted)"
+      },
+      brown: {
+        $value: "#9A6324",
+        $description: "NHS Brown (data viz promoted neutral)"
+      }
+    },
+    grey: {
+      $type: "color",
+      "1": {
+        $value: "#4c6272",
+        $description: "NHS Grey 1 - Darkest grey"
+      },
+      "2": {
+        $value: "#768692",
+        $description: "NHS Grey 2 - Darker grey"
+      },
+      "3": {
+        $value: "#aeb7bd",
+        $description: "NHS Grey 3 - Medium grey"
+      },
+      "4": {
+        $value: "#d8dde0",
+        $description: "NHS Grey 4 - Light grey"
+      },
+      "5": {
+        $value: "#f0f4f5",
+        $description: "NHS Grey 5 - Lightest grey"
+      }
+    },
+    accessibility: {
+      $type: "color",
+      $comment: "Accessibility-oriented color tokens. Includes CVD-safe pairs and Okabe\u2013Ito colors. Use these for positive/negative semantics and colour-blind\u2013friendly defaults.",
+      "okabe-ito": {
+        green: {
+          $value: "#009E73",
+          $description: "Okabe\u2013Ito green (CVD-safe) \u2013 recommended positive"
+        },
+        vermillion: {
+          $value: "#D55E00",
+          $description: "Okabe\u2013Ito vermillion / red\u2013orange (CVD-safe) \u2013 recommended negative"
+        }
+      },
+      "cvd-safe": {
+        blue: {
+          $value: "#1f77b4",
+          $description: "CVD-safe blue (pairs with orange); widely used in Matplotlib/Tableau sets"
+        },
+        orange: {
+          $value: "#ff7f0e",
+          $description: "CVD-safe orange (pairs with blue)"
+        }
+      },
+      positive: {
+        $value: "{color.accessibility.okabe-ito.green}",
+        $description: "Accessibility semantic alias \u2013 positive"
+      },
+      negative: {
+        $value: "{color.accessibility.okabe-ito.vermillion}",
+        $description: "Accessibility semantic alias \u2013 negative"
+      }
+    }
+  }
+};
+
+// src/components/DataVisualisation/utils/colors.ts
+var legacyCategorical = [
+  "#005eb8",
+  "#0072ce",
+  "#41b6e6",
+  "#00a499",
+  "#7c2855",
+  "#330072",
+  "#d5281b",
+  "#ffb81c",
+  "#fae100",
+  "#4c6272",
+  "#768692",
+  "#aeb7bd"
+];
+var categoricalPalette = null;
+var optimizedCategoricalPalette = null;
+var extendedPaletteCache = null;
+var categoricalStrategy = "optimized";
+function buildPalette() {
+  const root = { color: { ...colors_default.color, ...data_viz_default.color } };
+  const resolve = (path2, seen = /* @__PURE__ */ new Set()) => {
+    if (seen.has(path2)) return void 0;
+    seen.add(path2);
+    const node = path2.split(".").reduce((acc, k) => acc ? acc[k] : void 0, root);
+    if (!node) return void 0;
+    const value = node.$value || node.value;
+    if (typeof value === "string" && /^\{.+\}$/.test(value)) {
+      return resolve(value.slice(1, -1), seen);
+    }
+    if (typeof value === "string") return value;
+    return void 0;
+  };
+  const palette = [];
+  try {
+    for (let i = 1; i <= 12; i++) {
+      const tokenPath = `color.data-viz.categorical.${i}`;
+      const hex2 = resolve(tokenPath);
+      if (!hex2) throw new Error(`Missing token ${tokenPath}`);
+      palette.push(hex2);
+    }
+    return palette;
+  } catch (e) {
+    return legacyCategorical;
+  }
 }
+function getPalette() {
+  if (!categoricalPalette) categoricalPalette = buildPalette();
+  return categoricalPalette;
+}
+function hexToRgb(hex2) {
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex2.trim());
+  if (!m) return null;
+  return { r: parseInt(m[1], 16), g: parseInt(m[2], 16), b: parseInt(m[3], 16) };
+}
+function srgbToLinear(x2) {
+  x2 /= 255;
+  return x2 <= 0.04045 ? x2 / 12.92 : Math.pow((x2 + 0.055) / 1.055, 2.4);
+}
+function rgbToXyz(r, g, b) {
+  const R = srgbToLinear(r);
+  const G = srgbToLinear(g);
+  const B = srgbToLinear(b);
+  const x2 = R * 0.4124 + G * 0.3576 + B * 0.1805;
+  const y2 = R * 0.2126 + G * 0.7152 + B * 0.0722;
+  const z = R * 0.0193 + G * 0.1192 + B * 0.9505;
+  return { x: x2 * 100, y: y2 * 100, z: z * 100 };
+}
+function xyzToLab(x2, y2, z) {
+  const refX = 95.047, refY = 100, refZ = 108.883;
+  let X = x2 / refX, Y = y2 / refY, Z = z / refZ;
+  const f = (t) => t > 8856e-6 ? Math.cbrt(t) : 7.787 * t + 16 / 116;
+  X = f(X);
+  Y = f(Y);
+  Z = f(Z);
+  return { L: 116 * Y - 16, a: 500 * (X - Y), b: 200 * (Y - Z) };
+}
+function hexToLab(hex2) {
+  const rgb2 = hexToRgb(hex2);
+  if (!rgb2) return null;
+  const xyz = rgbToXyz(rgb2.r, rgb2.g, rgb2.b);
+  return xyzToLab(xyz.x, xyz.y, xyz.z);
+}
+function deltaE76(c1, c2) {
+  const dL = c1.L - c2.L;
+  const da = c1.a - c2.a;
+  const db = c1.b - c2.b;
+  return Math.sqrt(dL * dL + da * da + db * db);
+}
+function buildOptimizedCategoricalPalette() {
+  const base = getPalette();
+  if (base.length <= 2) return base.slice();
+  const labs = base.map((c) => hexToLab(c));
+  let bestStartIdx = 0;
+  let bestAvg = -1;
+  for (let i = 0; i < base.length; i++) {
+    const li = labs[i];
+    if (!li) continue;
+    let total = 0;
+    let count = 0;
+    for (let j = 0; j < base.length; j++) if (i !== j && labs[j]) {
+      total += deltaE76(li, labs[j]);
+      count++;
+    }
+    const avg = total / Math.max(1, count);
+    if (avg > bestAvg) {
+      bestAvg = avg;
+      bestStartIdx = i;
+    }
+  }
+  const remaining = new Set(base.map((_, i) => i));
+  const order = [];
+  order.push(bestStartIdx);
+  remaining.delete(bestStartIdx);
+  while (remaining.size) {
+    let nextIdx = Array.from(remaining)[0];
+    let bestMin = -1;
+    for (const idx of remaining) {
+      const l = labs[idx];
+      if (!l) continue;
+      let minD = Infinity;
+      for (const o of order) {
+        const lo = labs[o];
+        if (lo) {
+          const d = deltaE76(l, lo);
+          if (d < minD) minD = d;
+        }
+      }
+      if (minD > bestMin) {
+        bestMin = minD;
+        nextIdx = idx;
+      }
+    }
+    order.push(nextIdx);
+    remaining.delete(nextIdx);
+  }
+  return order.map((i) => base[i]);
+}
+function getOptimizedPalette() {
+  if (!optimizedCategoricalPalette) optimizedCategoricalPalette = buildOptimizedCategoricalPalette();
+  return optimizedCategoricalPalette;
+}
+function getRawPalette() {
+  return getPalette();
+}
+function labToXyz(L, a, b) {
+  const y2 = (L + 16) / 116;
+  const x2 = a / 500 + y2;
+  const z = y2 - b / 200;
+  const f = (t) => {
+    const t3 = t * t * t;
+    return t3 > 8856e-6 ? t3 : (t - 16 / 116) / 7.787;
+  };
+  const X = f(x2) * 95.047;
+  const Y = f(y2) * 100;
+  const Z = f(z) * 108.883;
+  return { X, Y, Z };
+}
+function xyzToRgb(x2, y2, z) {
+  x2 /= 100;
+  y2 /= 100;
+  z /= 100;
+  let R = x2 * 3.2406 + y2 * -1.5372 + z * -0.4986;
+  let G = x2 * -0.9689 + y2 * 1.8758 + z * 0.0415;
+  let B = x2 * 0.0557 + y2 * -0.204 + z * 1.057;
+  const linToSrgb = (c) => c <= 31308e-7 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+  R = Math.min(1, Math.max(0, linToSrgb(R)));
+  G = Math.min(1, Math.max(0, linToSrgb(G)));
+  B = Math.min(1, Math.max(0, linToSrgb(B)));
+  return { r: Math.round(R * 255), g: Math.round(G * 255), b: Math.round(B * 255) };
+}
+function rgbToHex(r, g, b) {
+  return `#${[r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("")}`;
+}
+function adjustLightness(hex2, deltaL) {
+  const lab = hexToLab(hex2);
+  if (!lab) return hex2;
+  const L = Math.min(100, Math.max(0, lab.L + deltaL));
+  const { X, Y, Z } = labToXyz(L, lab.a, lab.b);
+  const rgb2 = xyzToRgb(X, Y, Z);
+  return rgbToHex(rgb2.r, rgb2.g, rgb2.b);
+}
+function buildExtendedPalette() {
+  const base = categoricalStrategy === "raw" ? getRawPalette() : getOptimizedPalette();
+  const deltas = [12, -12, 24, -24];
+  const variants = deltas.map((d) => base.map((c) => adjustLightness(c, d)));
+  const extended = [...base];
+  variants.forEach((v) => extended.push(...v));
+  return extended;
+}
+function getExtendedPalette() {
+  if (!extendedPaletteCache || extendedPaletteCacheStrategyMismatch()) {
+    extendedPaletteCache = buildExtendedPalette();
+    lastExtendedStrategy = categoricalStrategy;
+  }
+  return extendedPaletteCache;
+}
+var lastExtendedStrategy = null;
+function extendedPaletteCacheStrategyMismatch() {
+  return lastExtendedStrategy !== categoricalStrategy;
+}
+function pickSeriesColor(i) {
+  const ext = getExtendedPalette();
+  return ext[i % ext.length];
+}
+var categoricalStrokeMap = null;
+var regionStrokeMap = null;
+var severityStrokeMap = null;
+var orgLevelStrokeMap = null;
+function buildStrokeMaps() {
+  var _a2, _b2, _c, _d, _e;
+  const stroke = (_c = (_b2 = (_a2 = data_viz_default) == null ? void 0 : _a2.color) == null ? void 0 : _b2["data-viz"]) == null ? void 0 : _c.stroke;
+  if (stroke) {
+    const cat = stroke.categorical || {};
+    categoricalStrokeMap = [];
+    for (let i = 1; i <= 12; i++) {
+      const v = ((_d = cat[String(i)]) == null ? void 0 : _d.$value) || ((_e = cat[String(i)]) == null ? void 0 : _e.value);
+      categoricalStrokeMap.push(typeof v === "string" ? v : "#212b32");
+    }
+    const reg = stroke.region || {};
+    regionStrokeMap = {};
+    Object.keys(reg).forEach((k) => {
+      var _a3, _b3;
+      const v = ((_a3 = reg[k]) == null ? void 0 : _a3.$value) || ((_b3 = reg[k]) == null ? void 0 : _b3.value);
+      if (typeof v === "string") regionStrokeMap[k] = v;
+    });
+    const sev = stroke.severity || {};
+    const org = stroke["org-level"] || {};
+    orgLevelStrokeMap = {};
+    Object.keys(org).forEach((k) => {
+      var _a3, _b3;
+      const v = ((_a3 = org[k]) == null ? void 0 : _a3.$value) || ((_b3 = org[k]) == null ? void 0 : _b3.value);
+      if (typeof v === "string") orgLevelStrokeMap[k] = v;
+    });
+    severityStrokeMap = {};
+    Object.keys(sev).forEach((k) => {
+      var _a3, _b3;
+      const v = ((_a3 = sev[k]) == null ? void 0 : _a3.$value) || ((_b3 = sev[k]) == null ? void 0 : _b3.value);
+      if (typeof v === "string") severityStrokeMap[k] = v;
+    });
+  }
+}
+function ensureStrokeMaps() {
+  if (!categoricalStrokeMap || !regionStrokeMap || !severityStrokeMap || !orgLevelStrokeMap) buildStrokeMaps();
+}
+function pickSeriesStroke(i) {
+  ensureStrokeMaps();
+  if (!categoricalStrokeMap) return "#212b32";
+  return categoricalStrokeMap[i % categoricalStrokeMap.length];
+}
+function getRegionStroke(id) {
+  ensureStrokeMaps();
+  return regionStrokeMap ? regionStrokeMap[id] : void 0;
+}
+function pickRegionStroke(id, fallbackIndex) {
+  return getRegionStroke(id) || pickSeriesStroke(fallbackIndex);
+}
+var regionMap = null;
+var REGION_IDS = [
+  "north-east",
+  "north-west",
+  "east-of-england",
+  "midlands",
+  "london",
+  "south-west",
+  "south-east"
+];
+function normalizeRegionId(id) {
+  return id.trim().toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+function buildRegionMap() {
+  const root = { color: { ...colors_default.color, ...data_viz_default.color } };
+  const resolve = (path2, seen = /* @__PURE__ */ new Set()) => {
+    if (seen.has(path2)) return void 0;
+    seen.add(path2);
+    const node = path2.split(".").reduce((acc, k) => acc ? acc[k] : void 0, root);
+    if (!node) return void 0;
+    const value = node.$value || node.value;
+    if (typeof value === "string" && /^\{.+\}$/.test(value)) return resolve(value.slice(1, -1), seen);
+    return typeof value === "string" ? value : void 0;
+  };
+  const map2 = {};
+  const missing = [];
+  REGION_IDS.forEach((id) => {
+    const hex2 = resolve(`color.data-viz.region.${id}`);
+    if (hex2) map2[id] = hex2;
+    else missing.push(id);
+  });
+  if (true) {
+    if (Object.keys(map2).length === 0) {
+      console.warn("[DataViz] Region colour tokens unresolved  falling back to categorical colours.");
+    } else if (missing.length) {
+      console.warn(`[DataViz] Missing region colour tokens: ${missing.join(", ")}.`);
+    }
+  }
+  return map2;
+}
+function getRegionMap() {
+  if (!regionMap) regionMap = buildRegionMap();
+  return regionMap;
+}
+function getRegionColor(id) {
+  return getRegionMap()[normalizeRegionId(id)];
+}
+function pickRegionColor(id, fallbackIndex) {
+  return getRegionColor(id) || pickSeriesColor(fallbackIndex);
+}
+
+// src/components/DataVisualisation/core/VisibilityContext.tsx
+import * as React8 from "react";
+import { jsx as jsx14 } from "react/jsx-runtime";
+var VisibilityContext = React8.createContext(null);
+var useVisibility = () => React8.useContext(VisibilityContext);
+
+// src/components/DataVisualisation/core/TooltipContext.tsx
+import * as React9 from "react";
+import { jsx as jsx15 } from "react/jsx-runtime";
+var TooltipContext = React9.createContext(null);
+var useTooltipContext = () => React9.useContext(TooltipContext);
+var TooltipProvider = ({
+  children,
+  maxDistance = 40,
+  wrapAround = false
+}) => {
+  const scaleCtx = useScaleContext();
+  const visibility = useVisibility();
+  const [focused, setFocused] = React9.useState(null);
+  const seriesRef = React9.useRef(/* @__PURE__ */ new Map());
+  const [aggregated, setAggregated] = React9.useState([]);
+  const registerSeries = React9.useCallback(
+    (seriesId, data) => {
+      seriesRef.current.set(seriesId, data);
+    },
+    []
+  );
+  const unregisterSeries = React9.useCallback((seriesId) => {
+    seriesRef.current.delete(seriesId);
+  }, []);
+  const focusNearest = React9.useCallback(
+    (plotX, plotY) => {
+      if (!scaleCtx) return;
+      const { xScale, yScale } = scaleCtx;
+      let best = null;
+      let bestDist = Infinity;
+      seriesRef.current.forEach((data, sid) => {
+        data.forEach((d, i) => {
+          const px = xScale(d.x);
+          const py = yScale(d.y);
+          const dx = px - plotX;
+          const dy = py - plotY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < bestDist) {
+            bestDist = dist;
+            best = {
+              seriesId: sid,
+              index: i,
+              x: d.x,
+              y: d.y,
+              clientX: px,
+              clientY: py
+            };
+          }
+        });
+      });
+      if (best && bestDist <= maxDistance) setFocused(best);
+      else setFocused(null);
+    },
+    [scaleCtx, maxDistance]
+  );
+  const clear = React9.useCallback(() => setFocused(null), []);
+  React9.useEffect(() => {
+    if (!focused) {
+      setAggregated([]);
+      return;
+    }
+    if (!scaleCtx) return;
+    const { xScale, yScale } = scaleCtx;
+    const agg = [];
+    seriesRef.current.forEach((data, sid) => {
+      data.forEach((d, i) => {
+        const match = (() => {
+          if (focused.x instanceof Date && d.x instanceof Date)
+            return d.x.getTime() === focused.x.getTime();
+          return d.x === focused.x;
+        })();
+        if (match) {
+          agg.push({
+            seriesId: sid,
+            index: i,
+            x: d.x,
+            y: d.y,
+            clientX: xScale(d.x),
+            clientY: yScale(d.y)
+          });
+        }
+      });
+    });
+    agg.sort((a, b) => a.seriesId.localeCompare(b.seriesId));
+    setAggregated(agg);
+  }, [focused, scaleCtx]);
+  const focusRelativePoint = React9.useCallback(
+    (delta) => {
+      if (!focused) return;
+      const data = seriesRef.current.get(focused.seriesId);
+      if (!data) return;
+      let nextIndex = focused.index + delta;
+      if (nextIndex < 0 || nextIndex >= data.length) {
+        if (!wrapAround) return;
+        nextIndex = (nextIndex + data.length) % data.length;
+      }
+      const d = data[nextIndex];
+      if (!scaleCtx) return;
+      const { xScale, yScale } = scaleCtx;
+      setFocused({
+        seriesId: focused.seriesId,
+        index: nextIndex,
+        x: d.x,
+        y: d.y,
+        clientX: xScale(d.x),
+        clientY: yScale(d.y)
+      });
+    },
+    [focused, scaleCtx, wrapAround]
+  );
+  const focusSeriesAtIndex = React9.useCallback(
+    (seriesDelta) => {
+      let ids = Array.from(seriesRef.current.keys());
+      if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
+      if (ids.length === 0) return;
+      if (!focused) {
+        const first = ids[0];
+        const data = seriesRef.current.get(first);
+        if (!data || !scaleCtx) return;
+        const { xScale: xScale2, yScale: yScale2 } = scaleCtx;
+        const d2 = data[0];
+        setFocused({
+          seriesId: first,
+          index: 0,
+          x: d2.x,
+          y: d2.y,
+          clientX: xScale2(d2.x),
+          clientY: yScale2(d2.y)
+        });
+        return;
+      }
+      const currentSeriesIdx = ids.indexOf(focused.seriesId);
+      if (currentSeriesIdx === -1) return;
+      let nextSeriesIdx = currentSeriesIdx + seriesDelta;
+      if (nextSeriesIdx < 0 || nextSeriesIdx >= ids.length) {
+        if (!wrapAround) return;
+        nextSeriesIdx = (nextSeriesIdx + ids.length) % ids.length;
+      }
+      const nextSeriesId = ids[nextSeriesIdx];
+      const nextData = seriesRef.current.get(nextSeriesId);
+      if (!nextData || !scaleCtx) return;
+      const idx = Math.min(focused.index, nextData.length - 1);
+      const d = nextData[idx];
+      const { xScale, yScale } = scaleCtx;
+      setFocused({
+        seriesId: nextSeriesId,
+        index: idx,
+        x: d.x,
+        y: d.y,
+        clientX: xScale(d.x),
+        clientY: yScale(d.y)
+      });
+    },
+    [focused, scaleCtx, wrapAround, visibility]
+  );
+  const focusFirstPoint = React9.useCallback(() => {
+    let ids = Array.from(seriesRef.current.keys());
+    if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
+    if (ids.length === 0) return;
+    const targetSeriesId = focused ? focused.seriesId : ids[0];
+    const data = seriesRef.current.get(targetSeriesId);
+    if (!data || data.length === 0 || !scaleCtx) return;
+    const d = data[0];
+    const { xScale, yScale } = scaleCtx;
+    setFocused({
+      seriesId: targetSeriesId,
+      index: 0,
+      x: d.x,
+      y: d.y,
+      clientX: xScale(d.x),
+      clientY: yScale(d.y)
+    });
+  }, [focused, scaleCtx, visibility]);
+  const focusLastPoint = React9.useCallback(() => {
+    let ids = Array.from(seriesRef.current.keys());
+    if (visibility) ids = ids.filter((id) => !visibility.isHidden(id));
+    if (ids.length === 0) return;
+    const targetSeriesId = focused ? focused.seriesId : ids[0];
+    const data = seriesRef.current.get(targetSeriesId);
+    if (!data || data.length === 0 || !scaleCtx) return;
+    const lastIndex = data.length - 1;
+    const d = data[lastIndex];
+    const { xScale, yScale } = scaleCtx;
+    setFocused({
+      seriesId: targetSeriesId,
+      index: lastIndex,
+      x: d.x,
+      y: d.y,
+      clientX: xScale(d.x),
+      clientY: yScale(d.y)
+    });
+  }, [focused, scaleCtx, visibility]);
+  const focusNextPoint = React9.useCallback(
+    () => focusRelativePoint(1),
+    [focusRelativePoint]
+  );
+  const focusPrevPoint = React9.useCallback(
+    () => focusRelativePoint(-1),
+    [focusRelativePoint]
+  );
+  const focusNextSeries = React9.useCallback(
+    () => focusSeriesAtIndex(1),
+    [focusSeriesAtIndex]
+  );
+  const focusPrevSeries = React9.useCallback(
+    () => focusSeriesAtIndex(-1),
+    [focusSeriesAtIndex]
+  );
+  const value = React9.useMemo(
+    () => ({
+      focused,
+      setFocused,
+      aggregated,
+      focusNearest,
+      clear,
+      registerSeries,
+      unregisterSeries,
+      focusNextPoint,
+      focusPrevPoint,
+      focusNextSeries,
+      focusPrevSeries,
+      focusFirstPoint,
+      focusLastPoint
+    }),
+    [
+      focused,
+      aggregated,
+      focusNearest,
+      clear,
+      registerSeries,
+      unregisterSeries,
+      focusNextPoint,
+      focusPrevPoint,
+      focusNextSeries,
+      focusPrevSeries,
+      focusFirstPoint,
+      focusLastPoint
+    ]
+  );
+  return /* @__PURE__ */ jsx15(TooltipContext.Provider, { value, children });
+};
+
+// src/components/DataVisualisation/series/LineSeriesPrimitive.tsx
+import { jsx as jsx16, jsxs as jsxs11 } from "react/jsx-runtime";
+var LineSeriesPrimitive = ({
+  series,
+  seriesIndex,
+  palette,
+  showPoints,
+  focusablePoints,
+  focusIndex,
+  parseX,
+  visibilityMode = "remove",
+  strokeWidth = 1,
+  smooth = true,
+  gradientFillId,
+  colors
+}) => {
+  var _a2;
+  const scaleCtx = useScaleContext();
+  if (!scaleCtx) return null;
+  const { xScale, yScale } = scaleCtx;
+  const visibility = useVisibility();
+  const isHidden = (_a2 = visibility == null ? void 0 : visibility.isHidden(series.id)) != null ? _a2 : false;
+  const faded = isHidden && visibilityMode === "fade";
+  if (isHidden && visibilityMode === "remove") {
+    return null;
+  }
+  const tooltip = useTooltipContext();
+  React10.useEffect(() => {
+    if (!tooltip) return;
+    const normalized = series.data.map((d) => ({ x: parseX(d), y: d.y }));
+    tooltip.registerSeries(series.id, normalized);
+    return () => tooltip.unregisterSeries(series.id);
+  }, [tooltip, series.id, series.data, parseX]);
+  const path2 = React10.useMemo(
+    () => createLinePath(
+      series.data,
+      (d) => xScale(parseX(d)),
+      (d) => yScale(d.y),
+      { smooth }
+    ),
+    [series.data, xScale, yScale, parseX, smooth]
+  );
+  const areaPath = React10.useMemo(() => {
+    if (!series.data.length) return "";
+    const [domainMin] = yScale.domain();
+    const gen = area_default().x((d) => xScale(parseX(d))).y0(() => yScale(domainMin)).y1((d) => yScale(d.y));
+    if (smooth) gen.curve(monotoneX);
+    return gen(series.data) || "";
+  }, [series.data, xScale, yScale, parseX, smooth]);
+  const paletteOverride = colors && colors[seriesIndex];
+  const color2 = series.color || paletteOverride || (palette === "region" ? pickRegionColor(series.id, seriesIndex) : pickSeriesColor(seriesIndex));
+  const stroke = palette === "region" ? pickRegionStroke(series.id, seriesIndex) : pickSeriesStroke(seriesIndex);
+  return /* @__PURE__ */ jsxs11(
+    "g",
+    {
+      className: "fdp-line-series",
+      "data-series": series.id,
+      opacity: faded ? 0.25 : 1,
+      "aria-hidden": faded ? true : void 0,
+      children: [
+        gradientFillId && /* @__PURE__ */ jsx16(
+          "path",
+          {
+            d: areaPath,
+            fill: `url(#${gradientFillId})`,
+            stroke: "none",
+            role: "presentation",
+            className: "fdp-line-series__gradient"
+          }
+        ),
+        /* @__PURE__ */ jsx16(
+          "path",
+          {
+            d: path2,
+            fill: "none",
+            stroke: color2,
+            strokeWidth,
+            role: "presentation"
+          }
+        ),
+        showPoints && series.data.map((d, di) => {
+          var _a3;
+          const cx = xScale(parseX(d));
+          const cy = yScale(d.y);
+          const tabIndex = focusablePoints ? 0 : -1;
+          const isFocusedPoint = !faded && (focusablePoints && di === focusIndex || ((_a3 = tooltip == null ? void 0 : tooltip.focused) == null ? void 0 : _a3.seriesId) === series.id && tooltip.focused.index === di);
+          const handleEnter = () => {
+            if (tooltip && !faded) {
+              tooltip.setFocused({
+                seriesId: series.id,
+                index: di,
+                x: parseX(d),
+                y: d.y,
+                clientX: cx,
+                clientY: cy
+              });
+            }
+          };
+          const handleLeave = () => {
+            var _a4;
+            if (tooltip && ((_a4 = tooltip.focused) == null ? void 0 : _a4.seriesId) === series.id && tooltip.focused.index === di)
+              tooltip.clear();
+          };
+          return /* @__PURE__ */ jsx16(
+            "circle",
+            {
+              cx,
+              cy,
+              r: isFocusedPoint ? 5 : 3.5,
+              stroke: isFocusedPoint ? "var(--nhs-fdp-color-primary-yellow, #ffeb3b)" : stroke,
+              strokeWidth: isFocusedPoint ? 2 : 1,
+              fill: isFocusedPoint ? "var(--nhs-fdp-color-grey-3, #aeb7bd)" : color2,
+              className: "fdp-line-point",
+              tabIndex: faded ? -1 : tabIndex,
+              "aria-label": `${series.label || series.id} ${parseX(d).toDateString()} value ${d.y}`,
+              "data-series": series.id,
+              "data-index": di,
+              onMouseEnter: handleEnter,
+              onFocus: handleEnter,
+              onMouseLeave: handleLeave,
+              onBlur: handleLeave
+            },
+            di
+          );
+        })
+      ]
+    }
+  );
+};
+var LineSeriesPrimitive_default = LineSeriesPrimitive;
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
+import * as React11 from "react";
+import { createPortal } from "react-dom";
+import { jsx as jsx17, jsxs as jsxs12 } from "react/jsx-runtime";
+var SPCTooltipOverlay = ({
+  engineRows,
+  limits,
+  pointDescriber,
+  measureName,
+  measureUnit,
+  dateFormatter,
+  enableNeutralNoJudgement = true,
+  showTrendGatingExplanation = true
+}) => {
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k;
+  const tooltip = useTooltipContext();
+  const chart = useChartContext();
+  const [cachedFocus, setCachedFocus] = React11.useState(null);
+  const [hoveringTooltip, setHoveringTooltip] = React11.useState(false);
+  const hideTimeoutRef = React11.useRef(null);
+  React11.useEffect(() => {
+    if (!tooltip) return;
+    if (tooltip.focused) {
+      setCachedFocus(tooltip.focused);
+      if (hideTimeoutRef.current) {
+        cancelAnimationFrame(hideTimeoutRef.current);
+        hideTimeoutRef.current = null;
+      }
+    }
+    if (!tooltip.focused && !hoveringTooltip) {
+      const id = requestAnimationFrame(() => {
+        setCachedFocus(null);
+        hideTimeoutRef.current = null;
+      });
+      hideTimeoutRef.current = id;
+    }
+    return () => {
+      if (hideTimeoutRef.current) {
+        cancelAnimationFrame(hideTimeoutRef.current);
+        hideTimeoutRef.current = null;
+      }
+    };
+  }, [tooltip, tooltip == null ? void 0 : tooltip.focused, hoveringTooltip]);
+  const focused = tooltip && (tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
+  const [visible, setVisible] = React11.useState(false);
+  React11.useEffect(() => {
+    const id = requestAnimationFrame(() => setVisible(true));
+    return () => cancelAnimationFrame(id);
+  }, [focused == null ? void 0 : focused.index]);
+  const innerWidth = (_a2 = chart == null ? void 0 : chart.innerWidth) != null ? _a2 : 0;
+  const innerHeight = (_b2 = chart == null ? void 0 : chart.innerHeight) != null ? _b2 : 0;
+  const clampX = focused ? Math.min(Math.max(focused.clientX, 0), innerWidth) : 0;
+  const clampY = focused ? Math.min(Math.max(focused.clientY, 0), innerHeight) : 0;
+  const host = ((_c = chart == null ? void 0 : chart.ref) == null ? void 0 : _c.current) || void 0;
+  if (!focused) {
+    return null;
+  }
+  const row = engineRows == null ? void 0 : engineRows[focused.index];
+  const ruleIds = extractRuleIds(
+    row ? {
+      specialCauseSinglePointUp: !!row.rules.singlePoint.up,
+      specialCauseSinglePointDown: !!row.rules.singlePoint.down,
+      specialCauseTwoOfThreeUp: !!row.rules.twoOfThree.up,
+      specialCauseTwoOfThreeDown: !!row.rules.twoOfThree.down,
+      specialCauseFourOfFiveUp: !!row.rules.fourOfFive.up,
+      specialCauseFourOfFiveDown: !!row.rules.fourOfFive.down,
+      specialCauseShiftUp: !!row.rules.shift.up,
+      specialCauseShiftDown: !!row.rules.shift.down,
+      specialCauseTrendUp: !!row.rules.trend.up,
+      specialCauseTrendDown: !!row.rules.trend.down
+    } : null
+  );
+  const rules = ruleIds.map((r) => ({ id: r, label: ruleGlossary[r].tooltip }));
+  const dateObj = focused.x instanceof Date ? focused.x : new Date(focused.x);
+  const dateLabel = dateFormatter ? dateFormatter(dateObj) : dateObj.toDateString();
+  const unit2 = measureUnit ? `${measureUnit}` : "";
+  const valueLabel = measureName || unit2 ? `${focused.y}${unit2 ? "" + unit2 : " "}${measureName ? " " + measureName : ""}` : `${focused.y}`;
+  const variationDesc = variationLabel((_d = row == null ? void 0 : row.classification) == null ? void 0 : _d.variation);
+  const assuranceDesc = assuranceLabel((_e = row == null ? void 0 : row.classification) == null ? void 0 : _e.assurance);
+  const zone = zoneLabel(
+    (_f = limits.mean) != null ? _f : null,
+    limits.sigma,
+    focused.y
+  );
+  const narrative = pointDescriber ? pointDescriber(focused.index, { x: focused.x, y: focused.y }) : void 0;
+  const showBadges = variationDesc || assuranceDesc || zone;
+  const trendFlag = (row == null ? void 0 : row.rules.trend.up) || (row == null ? void 0 : row.rules.trend.down);
+  const variationNeutral = ((_g = row == null ? void 0 : row.classification) == null ? void 0 : _g.variation) === "neither" /* Neither */ && trendFlag;
+  const gatingExplanation = showTrendGatingExplanation && variationNeutral ? "Trend detected (monotonic run) \u2013 held neutral until values cross onto the favourable side of the mean." : null;
+  const hasRules = rules.length > 0;
+  const primeDirection = row && "primeDirection" in row ? row.primeDirection : void 0;
+  const primeRuleId = row && "primeRuleId" in row ? row.primeRuleId : void 0;
+  const isNoJudgement = enableNeutralNoJudgement && ((_h = row == null ? void 0 : row.classification) == null ? void 0 : _h.variation) === "neither" /* Neither */ && hasRules;
+  const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
+  const spcDotColor = getVariationColorToken((_i = row == null ? void 0 : row.classification) == null ? void 0 : _i.variation);
+  const charPx = 6.2;
+  const baseLinesForMeasure = [
+    narrative || "",
+    `${dateLabel} \u2022 ${valueLabel}`
+  ].filter(Boolean);
+  const contentWidthEstimate = baseLinesForMeasure.reduce(
+    (m, s) => Math.max(m, s.length * charPx + 32),
+    0
+  );
+  const minWidth = 200;
+  const maxWidth = 440;
+  const boxWidth = Math.min(maxWidth, Math.max(minWidth, contentWidthEstimate));
+  let left = clampX + 12;
+  const marginTop = (_k = (_j = chart.margin) == null ? void 0 : _j.top) != null ? _k : 0;
+  let top = marginTop + clampY + 16;
+  if (left + boxWidth > innerWidth) {
+    const flipGap = -60;
+    left = clampX - flipGap - boxWidth;
+  }
+  if (left < 0) left = Math.max(0, innerWidth - boxWidth);
+  const tooltipId = focused ? `spc-tooltip-${focused.index}` : "spc-tooltip";
+  const pointIndex = typeof focused.index === "number" ? focused.index : NaN;
+  const portal = host ? createPortal(
+    /* @__PURE__ */ jsx17(
+      "div",
+      {
+        id: tooltipId,
+        className: "fdp-spc-tooltip fdp-spc-tooltip-portal" + (visible ? " is-visible" : ""),
+        style: {
+          position: "absolute",
+          left,
+          top,
+          width: boxWidth,
+          maxWidth,
+          zIndex: 10,
+          pointerEvents: "auto",
+          userSelect: "none"
+        },
+        role: "tooltip",
+        "aria-live": "polite",
+        "aria-hidden": visible ? "false" : "true",
+        "data-floating": true,
+        "data-placement": left + boxWidth + 12 > innerWidth ? "left" : "right",
+        onPointerEnter: () => {
+          setHoveringTooltip(true);
+          if (hideTimeoutRef.current) {
+            cancelAnimationFrame(hideTimeoutRef.current);
+            hideTimeoutRef.current = null;
+          }
+        },
+        onPointerLeave: () => {
+          setHoveringTooltip(false);
+          if (!(tooltip == null ? void 0 : tooltip.focused)) {
+            const id = requestAnimationFrame(() => {
+              setCachedFocus(null);
+              hideTimeoutRef.current = null;
+            });
+            hideTimeoutRef.current = id;
+          }
+        },
+        children: /* @__PURE__ */ jsxs12("div", { className: "fdp-spc-tooltip__body", children: [
+          /* @__PURE__ */ jsxs12("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--point", children: [
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx17("strong", { children: "Point" }) }),
+            /* @__PURE__ */ jsxs12("div", { className: "fdp-spc-tooltip__primary-line", children: [
+              "Index: ",
+              pointIndex
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxs12("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx17("strong", { children: "Date" }) }),
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
+          ] }),
+          /* @__PURE__ */ jsxs12("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--value", children: [
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx17("strong", { children: "Value" }) }),
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__primary-line", children: valueLabel })
+          ] }),
+          showBadges && /* @__PURE__ */ jsxs12("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx17("strong", { children: "Signals" }) }),
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: (() => {
+              if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
+                return /* @__PURE__ */ jsx17(
+                  Tag,
+                  {
+                    text: variationDesc,
+                    color: "default",
+                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
+                  }
+                );
+              }
+              if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
+                return /* @__PURE__ */ jsx17(
+                  Tag,
+                  {
+                    text: variationDesc,
+                    color: "default",
+                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
+                  }
+                );
+              }
+              if (isNoJudgement) {
+                return /* @__PURE__ */ jsx17(
+                  Tag,
+                  {
+                    text: "No judgement",
+                    color: "default",
+                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--no-judgement",
+                    "aria-label": "Neutral special cause (no directional judgement)"
+                  }
+                );
+              }
+              if (variationDesc) {
+                return /* @__PURE__ */ jsx17(
+                  Tag,
+                  {
+                    text: variationDesc,
+                    color: "default",
+                    className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
+                  }
+                );
+              }
+              return null;
+            })() })
+          ] }),
+          assuranceDesc && /* @__PURE__ */ jsxs12("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx17("strong", { children: "Assurance" }) }),
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: (() => {
+              const lower = assuranceDesc.toLowerCase();
+              const isFail = lower.includes("not met") || lower.includes("not achieved");
+              const isPass = !isFail && /(^|\b)(met|achieved)(\b|$)/.test(lower);
+              return /* @__PURE__ */ jsx17(
+                Tag,
+                {
+                  text: assuranceDesc,
+                  color: "default",
+                  className: `fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--assurance ${isPass ? "fdp-spc-tag--improvement" : "fdp-spc-tag--concern"}`,
+                  "aria-label": `Assurance: ${assuranceDesc}`
+                }
+              );
+            })() })
+          ] }),
+          zone && /* @__PURE__ */ jsxs12("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx17("strong", { children: "Control Limits & Sigma" }) }),
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: /* @__PURE__ */ jsx17(
+              Tag,
+              {
+                text: (() => {
+                  const z = zone.toLowerCase();
+                  if (z.startsWith("within 1")) return "\u22641\u03C3";
+                  if (z.startsWith("1\u20132")) return "1\u20132\u03C3";
+                  if (z.startsWith("2\u20133")) return "2\u20133\u03C3";
+                  if (z.startsWith(">3")) return ">3\u03C3";
+                  return zone;
+                })(),
+                color: zone.includes(">3") ? "orange" : zone.includes("2\u20133") ? "yellow" : "grey",
+                "aria-label": `Sigma zone: ${zone}`,
+                className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--zone"
+              }
+            ) })
+          ] }),
+          gatingExplanation && /* @__PURE__ */ jsxs12("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--gating", "data-gating": true, children: [
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx17("strong", { children: "Trend gating" }) }),
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__explanation", "aria-live": "off", children: gatingExplanation })
+          ] }),
+          hasRules && /* @__PURE__ */ jsxs12("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
+            /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx17("strong", { children: "Special cause" }) }),
+            /* @__PURE__ */ jsx17(
+              "div",
+              {
+                className: "fdp-spc-tooltip__rule-tags",
+                "aria-label": "Special cause rules",
+                children: rules.map(({ id, label }) => {
+                  const idStr = String(id);
+                  const isTrend = idStr === "trend_inc" /* TrendIncreasing */ || idStr === "trend_dec" /* TrendDecreasing */;
+                  const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
+                  return /* @__PURE__ */ jsx17(
+                    Tag,
+                    {
+                      text: label,
+                      color: "default",
+                      className: `fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`,
+                      "data-rule-id": idStr
+                    },
+                    idStr
+                  );
+                })
+              }
+            ),
+            primeDirection && /* @__PURE__ */ jsxs12("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", style: { marginTop: 16 }, children: [
+              /* @__PURE__ */ jsx17("div", { className: "fdp-spc-tooltip__section-label", style: { marginBottom: 6 }, children: /* @__PURE__ */ jsx17("strong", { children: "Prime Direction" }) }),
+              (() => {
+                const primeColorClass = isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
+                const primeLabel = `${primeDirection}${primeRuleId ? ` (${primeRuleId})` : ""}`;
+                return /* @__PURE__ */ jsx17(
+                  Tag,
+                  {
+                    text: primeLabel,
+                    color: "default",
+                    className: `fdp-spc-tooltip__tag fdp-spc-tag ${primeColorClass}`,
+                    "aria-label": `Prime direction ${primeDirection}${primeRuleId ? ` via ${primeRuleId}` : ""}`
+                  }
+                );
+              })()
+            ] })
+          ] })
+        ] })
+      }
+    ),
+    host
+  ) : null;
+  return /* @__PURE__ */ jsxs12(
+    "g",
+    {
+      className: "fdp-tooltip-layer fdp-spc-tooltip",
+      pointerEvents: "none",
+      "aria-hidden": "true",
+      children: [
+        /* @__PURE__ */ jsx17(
+          "circle",
+          {
+            cx: clampX,
+            cy: clampY,
+            r: 7,
+            fill: "none",
+            stroke: focusYellow,
+            strokeWidth: 3
+          }
+        ),
+        /* @__PURE__ */ jsx17(
+          "circle",
+          {
+            cx: clampX,
+            cy: clampY,
+            r: 5,
+            fill: "#000",
+            stroke: focusYellow,
+            strokeWidth: 1.5
+          }
+        ),
+        /* @__PURE__ */ jsx17(
+          "circle",
+          {
+            cx: clampX,
+            cy: clampY,
+            r: 2.5,
+            fill: spcDotColor,
+            stroke: "#fff",
+            strokeWidth: 0.5
+          }
+        ),
+        portal
+      ]
+    }
+  );
+};
+var SPCTooltipOverlay_default = SPCTooltipOverlay;
+
+// src/components/DataVisualisation/primitives/VisuallyHiddenLiveRegion.tsx
+import * as React12 from "react";
+import { jsx as jsx18 } from "react/jsx-runtime";
+var VisuallyHiddenLiveRegion = ({ polite = true, format: format2 }) => {
+  const tooltip = useTooltipContext();
+  const [message, setMessage] = React12.useState("");
+  const lastRef = React12.useRef("");
+  React12.useEffect(() => {
+    if (!(tooltip == null ? void 0 : tooltip.focused)) return;
+    const { focused, aggregated } = tooltip;
+    let msg;
+    if (aggregated && aggregated.length > 1) {
+      const parts = aggregated.map((a) => `${a.seriesId} ${a.y}`).join("; ");
+      const xLabel = focused.x instanceof Date ? focused.x.toDateString() : String(focused.x);
+      msg = `${xLabel} \u2013 ${parts}`;
+    } else {
+      msg = format2 ? format2({ seriesId: focused.seriesId, x: focused.x, y: focused.y, index: focused.index }) : defaultFormatter(focused.seriesId, focused.x, focused.y, focused.index);
+    }
+    if (msg !== lastRef.current) {
+      lastRef.current = msg;
+      setMessage("");
+      const timeout = setTimeout(() => setMessage(msg), 10);
+      return () => clearTimeout(timeout);
+    }
+  }, [tooltip == null ? void 0 : tooltip.focused, format2]);
+  return /* @__PURE__ */ jsx18(
+    "div",
+    {
+      "aria-live": polite ? "polite" : "assertive",
+      "aria-atomic": "true",
+      style: { position: "absolute", width: 1, height: 1, margin: -1, padding: 0, overflow: "hidden", clip: "rect(0 0 0 0)", border: 0 },
+      children: message
+    }
+  );
+};
+function defaultFormatter(seriesId, x2, y2, index) {
+  const xLabel = x2 instanceof Date ? x2.toDateString() : String(x2);
+  return `Series ${seriesId}, point ${index + 1}, ${xLabel}, value ${y2}`;
+}
+var VisuallyHiddenLiveRegion_default = VisuallyHiddenLiveRegion;
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCSignalsInspector.tsx
+import * as React13 from "react";
+import { jsx as jsx19, jsxs as jsxs13 } from "react/jsx-runtime";
+var SPCSignalsInspector = ({
+  engineRows,
+  measureName,
+  measureUnit,
+  onSignalFocus
+}) => {
+  var _a2, _b2, _c, _d, _e;
+  const t = useTooltipContext();
+  const focused = (_a2 = t == null ? void 0 : t.focused) != null ? _a2 : null;
+  const index = (_b2 = focused == null ? void 0 : focused.index) != null ? _b2 : null;
+  const row = typeof index === "number" && engineRows ? engineRows[index] : null;
+  const rules = React13.useMemo(
+    () => row ? extractRuleIds({
+      specialCauseSinglePointUp: !!row.rules.singlePoint.up,
+      specialCauseSinglePointDown: !!row.rules.singlePoint.down,
+      specialCauseTwoOfThreeUp: !!row.rules.twoOfThree.up,
+      specialCauseTwoOfThreeDown: !!row.rules.twoOfThree.down,
+      specialCauseFourOfFiveUp: !!row.rules.fourOfFive.up,
+      specialCauseFourOfFiveDown: !!row.rules.fourOfFive.down,
+      specialCauseShiftUp: !!row.rules.shift.up,
+      specialCauseShiftDown: !!row.rules.shift.down,
+      specialCauseTrendUp: !!row.rules.trend.up,
+      specialCauseTrendDown: !!row.rules.trend.down
+    }) : [],
+    [row]
+  );
+  const uniqueRuleNarr = React13.useMemo(
+    () => Array.from(
+      new Set(rules.map((r) => {
+        var _a3;
+        return (_a3 = ruleGlossary[r]) == null ? void 0 : _a3.narration;
+      }).filter(Boolean))
+    ),
+    [rules]
+  );
+  const variationDesc = row ? variationLabel((_c = row.classification) == null ? void 0 : _c.variation) : null;
+  const assuranceDesc = row ? assuranceLabel((_d = row.classification) == null ? void 0 : _d.assurance) : null;
+  const hasRules = rules.length > 0;
+  const isNoJudgement = row ? ((_e = row.classification) == null ? void 0 : _e.variation) === "neither" /* Neither */ && hasRules : false;
+  const lastKeyRef = React13.useRef(null);
+  React13.useEffect(() => {
+    if (!onSignalFocus) return;
+    if (!focused || row == null) return;
+    const key = `${focused.seriesId}:${focused.index}`;
+    if (lastKeyRef.current === key) return;
+    lastKeyRef.current = key;
+    try {
+      onSignalFocus({
+        index: focused.index,
+        x: focused.x,
+        y: focused.y,
+        row,
+        rules
+      });
+    } catch {
+    }
+  }, [focused == null ? void 0 : focused.seriesId, focused == null ? void 0 : focused.index, focused == null ? void 0 : focused.x, focused == null ? void 0 : focused.y, row, rules, onSignalFocus]);
+  return /* @__PURE__ */ jsxs13(
+    "div",
+    {
+      className: "fdp-spc-inspector",
+      role: "region",
+      "aria-label": "Signals inspector",
+      "data-testid": "spc-signals-inspector",
+      children: [
+        /* @__PURE__ */ jsxs13(
+          "div",
+          {
+            className: "fdp-spc-inspector__header",
+            style: {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between"
+            },
+            children: [
+              /* @__PURE__ */ jsx19("strong", { children: "Signals inspector" }),
+              /* @__PURE__ */ jsx19("div", { className: "fdp-spc-inspector__nav", "aria-hidden": !t, children: t && /* @__PURE__ */ jsxs13("div", { style: { display: "flex", gap: 8 }, children: [
+                /* @__PURE__ */ jsx19(
+                  "button",
+                  {
+                    type: "button",
+                    className: "fdp-button fdp-button--secondary",
+                    onClick: () => {
+                      if (!t.focused) t.focusFirstPoint();
+                      else t.focusPrevPoint();
+                    },
+                    "aria-label": "Previous point",
+                    children: "\u25C0"
+                  }
+                ),
+                /* @__PURE__ */ jsx19(
+                  "button",
+                  {
+                    type: "button",
+                    className: "fdp-button fdp-button--secondary",
+                    onClick: () => {
+                      if (!t.focused) t.focusFirstPoint();
+                      else t.focusNextPoint();
+                    },
+                    "aria-label": "Next point",
+                    children: "\u25B6"
+                  }
+                )
+              ] }) })
+            ]
+          }
+        ),
+        !row || !focused ? /* @__PURE__ */ jsx19("p", { className: "fdp-spc-inspector__empty", children: "No point selected." }) : /* @__PURE__ */ jsxs13("div", { className: "fdp-spc-inspector__body", children: [
+          /* @__PURE__ */ jsxs13(
+            "div",
+            {
+              className: "fdp-spc-inspector__summary",
+              style: { display: "flex", gap: 16, flexWrap: "wrap" },
+              children: [
+                /* @__PURE__ */ jsxs13("span", { children: [
+                  /* @__PURE__ */ jsx19("strong", { children: "Point:" }),
+                  " ",
+                  focused.index + 1
+                ] }),
+                /* @__PURE__ */ jsxs13("span", { children: [
+                  /* @__PURE__ */ jsx19("strong", { children: "Value:" }),
+                  " ",
+                  focused.y,
+                  measureUnit ? ` ${measureUnit}` : "",
+                  measureName ? ` ${measureName}` : ""
+                ] })
+              ]
+            }
+          ),
+          (variationDesc || isNoJudgement || assuranceDesc) && /* @__PURE__ */ jsx19(
+            "div",
+            {
+              className: "fdp-spc-inspector__signals",
+              style: { marginTop: 8 },
+              children: /* @__PURE__ */ jsxs13(
+                "div",
+                {
+                  style: {
+                    display: "flex",
+                    gap: 8,
+                    flexWrap: "wrap",
+                    alignItems: "center"
+                  },
+                  children: [
+                    (() => {
+                      if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
+                        return /* @__PURE__ */ jsx19(
+                          Tag,
+                          {
+                            text: variationDesc,
+                            color: "default",
+                            className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
+                          }
+                        );
+                      }
+                      if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
+                        return /* @__PURE__ */ jsx19(
+                          Tag,
+                          {
+                            text: variationDesc,
+                            color: "default",
+                            className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
+                          }
+                        );
+                      }
+                      if (isNoJudgement) {
+                        return /* @__PURE__ */ jsx19(
+                          Tag,
+                          {
+                            text: "No judgement",
+                            color: "default",
+                            className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--no-judgement",
+                            "aria-label": "Neutral special cause (no directional judgement)"
+                          }
+                        );
+                      }
+                      if (variationDesc) {
+                        return /* @__PURE__ */ jsx19(
+                          Tag,
+                          {
+                            text: variationDesc,
+                            color: "default",
+                            className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
+                          }
+                        );
+                      }
+                      return null;
+                    })(),
+                    assuranceDesc && (() => {
+                      const lower = assuranceDesc.toLowerCase();
+                      const isFail = lower.includes("not met") || lower.includes("not achieved");
+                      const isPass = !isFail && /(^|\b)(met|achieved)(\b|$)/.test(lower);
+                      return /* @__PURE__ */ jsx19(
+                        Tag,
+                        {
+                          text: assuranceDesc,
+                          color: "default",
+                          className: `fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--assurance ${isPass ? "fdp-spc-tag--improvement" : "fdp-spc-tag--concern"}`,
+                          "aria-label": `Assurance: ${assuranceDesc}`
+                        }
+                      );
+                    })()
+                  ]
+                }
+              )
+            }
+          ),
+          /* @__PURE__ */ jsxs13("div", { className: "fdp-spc-inspector__rules", style: { marginTop: 8 }, children: [
+            /* @__PURE__ */ jsx19("strong", { children: "Special cause:" }),
+            /* @__PURE__ */ jsx19(
+              "div",
+              {
+                className: "fdp-spc-tooltip__rule-tags",
+                "aria-label": "Special cause rules",
+                style: {
+                  display: "flex",
+                  gap: 6,
+                  flexWrap: "wrap",
+                  marginTop: 4
+                },
+                children: rules.length === 0 ? /* @__PURE__ */ jsx19("span", { children: " None" }) : rules.map((r) => {
+                  var _a3, _b3;
+                  const idStr = String(r);
+                  const isTrend = idStr === "trend_inc" /* TrendIncreasing */ || idStr === "trend_dec" /* TrendDecreasing */;
+                  const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
+                  const label = ((_a3 = ruleGlossary[r]) == null ? void 0 : _a3.tooltip) || idStr;
+                  return /* @__PURE__ */ jsx19(
+                    Tag,
+                    {
+                      text: label,
+                      color: "default",
+                      className: `fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`,
+                      "data-rule-id": idStr,
+                      title: (_b3 = ruleGlossary[r]) == null ? void 0 : _b3.tooltip
+                    },
+                    idStr
+                  );
+                })
+              }
+            )
+          ] }),
+          uniqueRuleNarr.length > 0 && /* @__PURE__ */ jsxs13(
+            "div",
+            {
+              className: "fdp-spc-inspector__narration",
+              style: { marginTop: 8 },
+              children: [
+                /* @__PURE__ */ jsx19("strong", { children: "Summary:" }),
+                " ",
+                uniqueRuleNarr.join("; ")
+              ]
+            }
+          )
+        ] })
+      ]
+    }
+  );
+};
+var SPCSignalsInspector_default = SPCSignalsInspector;
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/gradientSequences.ts
 function computeGradientSequences(categories, absorbSingles = true) {
@@ -10682,6 +11738,1188 @@ function computeGradientSequences(categories, absorbSingles = true) {
   }
   return out;
 }
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.props.ts
+function normalizeSpcProps(props) {
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z, __, _$, _aa, _ba, _ca, _da, _ea, _fa, _ga, _ha, _ia, _ja, _ka, _la, _ma, _na, _oa, _pa, _qa, _ra, _sa, _ta, _ua, _va, _wa, _xa, _ya, _za, _Aa, _Ba, _Ca, _Da, _Ea, _Fa, _Ga, _Ha;
+  const {
+    ui,
+    input,
+    engine,
+    container,
+    a11y,
+    visualsEngine,
+    meta,
+    data,
+    ariaLabel,
+    height,
+    showZones,
+    showPoints,
+    announceFocus,
+    className,
+    unit: unit2,
+    targets,
+    baselines,
+    ghosts,
+    settings,
+    chartType,
+    metricImprovement,
+    gradientSequences,
+    sequenceTransition,
+    processLineWidth,
+    showPartitionMarkers,
+    showWarningsPanel,
+    warningsFilter,
+    enableNeutralNoJudgement,
+    showTrendGatingExplanation,
+    trendVisualMode,
+    alwaysShowZeroY,
+    alwaysShowHundredY,
+    percentScale,
+    showTrendStartMarkers,
+    showFirstFavourableCrossMarkers,
+    showTrendBridgeOverlay,
+    showSignalsInspector,
+    onSignalFocus,
+    showIcons,
+    showEmbeddedIcon,
+    embeddedIconVariant,
+    embeddedIconRunLength,
+    showFocusIndicator,
+    visualsScenario,
+    visualsEngineSettings,
+    source,
+    narrationContext,
+    highlightOutOfControl
+  } = props;
+  if (true) {
+    if (!input && (targets !== void 0 || baselines !== void 0 || ghosts !== void 0)) {
+      console.warn(
+        "SPCChart: Flat input props (targets/baselines/ghosts) are deprecated. Use input={{ data, targets, baselines, ghosts }} instead."
+      );
+    }
+    if (!engine && settings !== void 0) {
+      console.warn(
+        "SPCChart: Flat engine prop 'settings' is deprecated. Use engine={{ chartType, metricImprovement, settings }}."
+      );
+    }
+    if (!container && (height !== void 0 || className !== void 0)) {
+      console.warn(
+        "SPCChart: Consider grouped container props. Use container={{ height, className }}."
+      );
+    }
+    if (!a11y && (ariaLabel !== void 0 || announceFocus !== void 0 || narrationContext !== void 0 || unit2 !== void 0)) {
+      console.warn(
+        "SPCChart: Consider grouped accessibility props. Use a11y={{ label, announceFocus, narrationContext, unit }}."
+      );
+    }
+    if (!visualsEngine && (visualsScenario !== void 0 || visualsEngineSettings !== void 0)) {
+      console.warn(
+        "SPCChart: Consider grouped visuals engine props. Use visualsEngine={{ scenario, settings }}."
+      );
+    }
+    if ((ui == null ? void 0 : ui.visuals) === void 0 && (showZones !== void 0 || showPoints !== void 0)) {
+      console.warn(
+        "SPCChart: Visual toggles should be grouped. Use ui={{ visuals: { showZones, showPoints } }}."
+      );
+    }
+    if (((_a2 = ui == null ? void 0 : ui.visuals) == null ? void 0 : _a2.rules) === void 0 && highlightOutOfControl !== void 0) {
+      console.warn(
+        "SPCChart: Prefer grouped rules toggle. Use ui={{ visuals: { rules: { highlightOutOfControl } } }}."
+      );
+    }
+    if (!meta && source !== void 0) {
+      console.warn(
+        "SPCChart: Consider grouped meta. Use meta={{ source }}."
+      );
+    }
+  }
+  const effData = (_c = (_b2 = input == null ? void 0 : input.data) != null ? _b2 : data) != null ? _c : [];
+  const effTargets = (_d = input == null ? void 0 : input.targets) != null ? _d : targets;
+  const effBaselines = (_e = input == null ? void 0 : input.baselines) != null ? _e : baselines;
+  const effGhosts = (_f = input == null ? void 0 : input.ghosts) != null ? _f : ghosts;
+  const effChartTypeCore = (_h = (_g = engine == null ? void 0 : engine.chartType) != null ? _g : chartType) != null ? _h : "XmR" /* XmR */;
+  const effMetricImprovementCore = (_j = (_i = engine == null ? void 0 : engine.metricImprovement) != null ? _i : metricImprovement) != null ? _j : "Neither" /* Neither */;
+  const effEngineSettings = (_k = engine == null ? void 0 : engine.settings) != null ? _k : settings;
+  const effEngineAutoRecalc = engine == null ? void 0 : engine.autoRecalc;
+  const effAlwaysShowZeroY = (_n = (_m = (_l = ui == null ? void 0 : ui.axes) == null ? void 0 : _l.alwaysShowZeroY) != null ? _m : alwaysShowZeroY) != null ? _n : true;
+  const effAlwaysShowHundredY = (_q = (_p = (_o = ui == null ? void 0 : ui.axes) == null ? void 0 : _o.alwaysShowHundredY) != null ? _p : alwaysShowHundredY) != null ? _q : false;
+  const effPercentScale = (_t = (_s = (_r = ui == null ? void 0 : ui.axes) == null ? void 0 : _r.percentScale) != null ? _s : percentScale) != null ? _t : false;
+  const effGradientSequences = (_w = (_v = (_u = ui == null ? void 0 : ui.visuals) == null ? void 0 : _u.gradientSequences) != null ? _v : gradientSequences) != null ? _w : false;
+  const effSequenceTransition = (_z = (_y = (_x = ui == null ? void 0 : ui.visuals) == null ? void 0 : _x.sequenceTransition) != null ? _y : sequenceTransition) != null ? _z : "slope" /* Slope */;
+  const effProcessLineWidth = (_C = (_B = (_A = ui == null ? void 0 : ui.visuals) == null ? void 0 : _A.processLineWidth) != null ? _B : processLineWidth) != null ? _C : 2;
+  const effTrendVisualMode = (_G = (_F = (_E = (_D = ui == null ? void 0 : ui.visuals) == null ? void 0 : _D.trend) == null ? void 0 : _E.visualMode) != null ? _F : trendVisualMode) != null ? _G : "ungated" /* Ungated */;
+  const effShowTrendGatingExplanation = (_K = (_J = (_I = (_H = ui == null ? void 0 : ui.visuals) == null ? void 0 : _H.trend) == null ? void 0 : _I.showGatingExplanation) != null ? _J : showTrendGatingExplanation) != null ? _K : true;
+  const effEnableNeutralNoJudgement = (_O = (_N = (_M = (_L = ui == null ? void 0 : ui.visuals) == null ? void 0 : _L.rules) == null ? void 0 : _M.enableNeutralNoJudgement) != null ? _N : enableNeutralNoJudgement) != null ? _O : true;
+  const effEnableRules = (_S = (_R = (_Q = (_P = ui == null ? void 0 : ui.visuals) == null ? void 0 : _P.rules) == null ? void 0 : _Q.enableRules) != null ? _R : props.enableRules) != null ? _S : true;
+  const effShowZones = (_T = ui == null ? void 0 : ui.visuals) == null ? void 0 : _T.showZones;
+  const effShowPoints = (_U = ui == null ? void 0 : ui.visuals) == null ? void 0 : _U.showPoints;
+  const effHighlightOutOfControl = (_W = (_V = ui == null ? void 0 : ui.visuals) == null ? void 0 : _V.rules) == null ? void 0 : _W.highlightOutOfControl;
+  const effHeight = container == null ? void 0 : container.height;
+  const effClassName = container == null ? void 0 : container.className;
+  const effAriaLabel = a11y == null ? void 0 : a11y.label;
+  const effUnit = a11y == null ? void 0 : a11y.unit;
+  const effNarrationContext = a11y == null ? void 0 : a11y.narrationContext;
+  const effVisualsScenario = visualsEngine == null ? void 0 : visualsEngine.scenario;
+  const effVisualsEngineSettings = visualsEngine == null ? void 0 : visualsEngine.settings;
+  const effSource = meta == null ? void 0 : meta.source;
+  const effShowPartitionMarkers = (_Z = (_Y = (_X = ui == null ? void 0 : ui.overlays) == null ? void 0 : _X.partitionMarkers) != null ? _Y : showPartitionMarkers) != null ? _Z : false;
+  const effShowTrendStartMarkers = (_aa = (_$ = (__ = ui == null ? void 0 : ui.overlays) == null ? void 0 : __.trendStartMarkers) != null ? _$ : showTrendStartMarkers) != null ? _aa : false;
+  const effShowFirstFavourableCrossMarkers = (_da = (_ca = (_ba = ui == null ? void 0 : ui.overlays) == null ? void 0 : _ba.firstFavourableCrossMarkers) != null ? _ca : showFirstFavourableCrossMarkers) != null ? _da : false;
+  const effShowTrendBridgeOverlay = (_ga = (_fa = (_ea = ui == null ? void 0 : ui.overlays) == null ? void 0 : _ea.trendBridge) != null ? _fa : showTrendBridgeOverlay) != null ? _ga : false;
+  const effShowSignalsInspector = (_ja = (_ia = (_ha = ui == null ? void 0 : ui.inspector) == null ? void 0 : _ha.show) != null ? _ia : showSignalsInspector) != null ? _ja : false;
+  const effOnSignalFocus = (_la = (_ka = ui == null ? void 0 : ui.inspector) == null ? void 0 : _ka.onFocus) != null ? _la : onSignalFocus;
+  const effShowWarningsPanel = (_oa = (_na = (_ma = ui == null ? void 0 : ui.warnings) == null ? void 0 : _ma.show) != null ? _na : showWarningsPanel) != null ? _oa : false;
+  const effWarningsFilter = (_qa = (_pa = ui == null ? void 0 : ui.warnings) == null ? void 0 : _pa.filter) != null ? _qa : warningsFilter;
+  const effShowIcons = (_ta = (_sa = (_ra = ui == null ? void 0 : ui.icons) == null ? void 0 : _ra.show) != null ? _sa : showIcons) != null ? _ta : false;
+  const effShowEmbeddedIcon = (_xa = (_wa = (_va = (_ua = ui == null ? void 0 : ui.icons) == null ? void 0 : _ua.embedded) == null ? void 0 : _va.show) != null ? _wa : showEmbeddedIcon) != null ? _xa : true;
+  const effEmbeddedIconVariant = (_Ba = (_Aa = (_za = (_ya = ui == null ? void 0 : ui.icons) == null ? void 0 : _ya.embedded) == null ? void 0 : _za.variant) != null ? _Aa : embeddedIconVariant) != null ? _Ba : "classic" /* Classic */;
+  const effEmbeddedIconRunLength = (_Ea = (_Da = (_Ca = ui == null ? void 0 : ui.icons) == null ? void 0 : _Ca.embedded) == null ? void 0 : _Da.runLength) != null ? _Ea : embeddedIconRunLength;
+  const effShowFocusIndicator = (_Ha = (_Ga = (_Fa = ui == null ? void 0 : ui.overlays) == null ? void 0 : _Fa.focusIndicator) != null ? _Ga : showFocusIndicator) != null ? _Ha : true;
+  return {
+    effData,
+    effTargets,
+    effBaselines,
+    effGhosts,
+    effChartTypeCore,
+    effMetricImprovementCore,
+    effEngineSettings,
+    effEngineAutoRecalc,
+    effHeight,
+    effClassName,
+    effAriaLabel,
+    effUnit,
+    effNarrationContext,
+    effShowZones,
+    effShowPoints,
+    effHighlightOutOfControl,
+    effVisualsScenario,
+    effVisualsEngineSettings,
+    effSource,
+    effAlwaysShowZeroY,
+    effAlwaysShowHundredY,
+    effPercentScale,
+    effGradientSequences,
+    effSequenceTransition,
+    effProcessLineWidth,
+    effTrendVisualMode,
+    effShowTrendGatingExplanation,
+    effEnableNeutralNoJudgement,
+    effEnableRules,
+    effShowPartitionMarkers,
+    effShowTrendStartMarkers,
+    effShowFirstFavourableCrossMarkers,
+    effShowTrendBridgeOverlay,
+    effShowSignalsInspector,
+    effOnSignalFocus,
+    effShowWarningsPanel,
+    effWarningsFilter,
+    effShowIcons,
+    effShowEmbeddedIcon,
+    effEmbeddedIconVariant,
+    effEmbeddedIconRunLength,
+    effShowFocusIndicator
+  };
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/InternalSPC.tsx
+import { Fragment as Fragment5, jsx as jsx20, jsxs as jsxs14 } from "react/jsx-runtime";
+var spcSequenceInstanceCounter = 0;
+var InternalSPC = ({
+  series,
+  showPoints,
+  announceFocus,
+  limits,
+  showZones,
+  highlightOutOfControl,
+  engineRows,
+  enableRules,
+  narrationContext,
+  gradientSequences,
+  sequenceTransition,
+  processLineWidth,
+  effectiveUnit,
+  partitionMarkers,
+  ariaLabel,
+  metricImprovement,
+  enableNeutralNoJudgement = true,
+  showTrendGatingExplanation = true,
+  showTrendStartMarkers = false,
+  showFirstFavourableCrossMarkers = false,
+  showTrendBridgeOverlay = false,
+  showSignalsInspector = false,
+  onSignalFocus,
+  visualCategories,
+  uniformTarget,
+  showFocusIndicator = false,
+  zeroBreakSlotGapPx
+}) => {
+  var _a2, _b2;
+  const scaleCtx = useScaleContext();
+  const chartCtx = useChartContext();
+  if (!scaleCtx) return null;
+  const { xScale, yScale } = scaleCtx;
+  const gradientIdBaseRef = React14.useRef(
+    "spc-seq-" + ++spcSequenceInstanceCounter
+  );
+  const tooltipCtx = useTooltipContext();
+  const all = ((_a2 = series[0]) == null ? void 0 : _a2.data) || [];
+  const outOfControl = React14.useMemo(() => {
+    if (!limits.ucl && !limits.lcl) return /* @__PURE__ */ new Set();
+    const set = /* @__PURE__ */ new Set();
+    all.forEach((d, i) => {
+      if (typeof limits.ucl === "number" && d.y > limits.ucl) set.add(i);
+      if (typeof limits.lcl === "number" && d.y < limits.lcl) set.add(i);
+    });
+    return set;
+  }, [limits.ucl, limits.lcl, all]);
+  const engineSignals = React14.useMemo(() => {
+    if (!engineRows || !engineRows.length) return null;
+    const map2 = [];
+    engineRows.forEach((r, idx) => {
+      var _a3;
+      const anySpecial = r.classification.variation === "concern" /* Concern */ || r.classification.variation === "improvement" /* Improvement */ || !!r.classification.neutralSpecialCauseValue;
+      const upAny = !!r.rules.singlePoint.up || !!r.rules.twoOfThree.up || !!r.rules.fourOfFive.up || !!r.rules.shift.up || !!r.rules.trend.up;
+      const downAny = !!r.rules.singlePoint.down || !!r.rules.twoOfThree.down || !!r.rules.fourOfFive.down || !!r.rules.shift.down || !!r.rules.trend.down;
+      map2[idx] = {
+        variation: r.classification.variation,
+        assurance: r.classification.assurance,
+        special: anySpecial,
+        concern: r.classification.variation === "concern" /* Concern */,
+        improvement: r.classification.variation === "improvement" /* Improvement */,
+        trendUp: !!r.rules.trend.up,
+        trendDown: !!r.rules.trend.down,
+        upAny,
+        downAny,
+        neutralSpecial: !!r.classification.neutralSpecialCauseValue,
+        shiftUp: !!r.rules.shift.up,
+        shiftDown: !!r.rules.shift.down,
+        twoOfThreeUp: !!r.rules.twoOfThree.up,
+        twoOfThreeDown: !!r.rules.twoOfThree.down,
+        fourOfFiveUp: !!r.rules.fourOfFive.up,
+        fourOfFiveDown: !!r.rules.fourOfFive.down,
+        partitionId: (_a3 = r.partition.id) != null ? _a3 : null
+      };
+    });
+    return map2;
+  }, [engineRows]);
+  const categories = React14.useMemo(() => {
+    return (visualCategories || []).map((c) => {
+      if (c === "Improvement" /* Improvement */)
+        return SPCChart_constants_default.Improvement;
+      if (c === "Concern" /* Concern */) return SPCChart_constants_default.Concern;
+      if (c === "NoJudgement" /* NoJudgement */)
+        return SPCChart_constants_default.NoJudgement;
+      return SPCChart_constants_default.Common;
+    });
+  }, [visualCategories]);
+  const sequences = React14.useMemo(() => {
+    if (!gradientSequences || !categories.length)
+      return [];
+    return computeGradientSequences(categories, true);
+  }, [gradientSequences, categories, ariaLabel]);
+  const xPositions = React14.useMemo(
+    () => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))),
+    [all, xScale]
+  );
+  const plotWidth = xScale.range()[1];
+  const plotLeft = xScale.range()[0];
+  const trendInsights = React14.useMemo(() => {
+    if (!engineRows || !engineRows.length)
+      return null;
+    let earliestUp = Number.POSITIVE_INFINITY;
+    let earliestDown = Number.POSITIVE_INFINITY;
+    engineRows.forEach((r, i) => {
+      if (r.rules.trend.up) earliestUp = Math.min(earliestUp, i);
+      if (r.rules.trend.down) earliestDown = Math.min(earliestDown, i);
+    });
+    if (!Number.isFinite(earliestUp) && !Number.isFinite(earliestDown))
+      return null;
+    const useUp = earliestUp <= earliestDown;
+    const direction = useUp ? "Up" /* Up */ : "Down" /* Down */;
+    const detectedAt = useUp ? earliestUp : earliestDown;
+    const isFavourable = (row) => {
+      if (metricImprovement == null || metricImprovement === "Neither" /* Neither */)
+        return false;
+      if (row == null || typeof row.data.value !== "number" || typeof row.limits.mean !== "number")
+        return false;
+      if (direction === "Up" /* Up */) {
+        return metricImprovement === "Up" /* Up */ ? row.data.value > row.limits.mean : row.data.value < row.limits.mean;
+      }
+      return metricImprovement === "Down" /* Down */ ? row.data.value < row.limits.mean : row.data.value > row.limits.mean;
+    };
+    let firstFavourableCrossAt = null;
+    for (let i = detectedAt; i < engineRows.length; i++) {
+      const r = engineRows[i];
+      const flagged = useUp ? !!r.rules.trend.up : !!r.rules.trend.down;
+      if (!flagged) break;
+      if (isFavourable(r)) {
+        firstFavourableCrossAt = i;
+        break;
+      }
+    }
+    let persistedAcrossMean = false;
+    if (firstFavourableCrossAt != null) {
+      let favourableCount = 0;
+      for (let i = firstFavourableCrossAt; i < engineRows.length; i++) {
+        const r = engineRows[i];
+        const flagged = useUp ? !!r.rules.trend.up : !!r.rules.trend.down;
+        if (!flagged) break;
+        if (isFavourable(r)) favourableCount++;
+      }
+      persistedAcrossMean = favourableCount >= 2;
+    }
+    return {
+      direction,
+      detectedAt,
+      firstFavourableCrossAt,
+      persistedAcrossMean
+    };
+  }, [engineRows, metricImprovement]);
+  const limitSegments = React14.useMemo(() => {
+    if (!engineRows || !engineRows.length) return null;
+    const buildFrom = (extractor) => {
+      const segs = [];
+      let start = null;
+      let current = null;
+      for (let i = 0; i < engineRows.length; i++) {
+        const row = engineRows[i];
+        const raw = extractor(row);
+        const v = typeof raw === "number" && !isNaN(raw) ? raw : null;
+        if (v == null) {
+          if (start !== null && current != null) {
+            segs.push({
+              x1: xPositions[start],
+              x2: xPositions[i - 1],
+              y: yScale(current)
+            });
+            start = null;
+            current = null;
+          }
+          continue;
+        }
+        if (start === null) {
+          start = i;
+          current = v;
+          continue;
+        }
+        const EPS = 1e-9;
+        if (current != null && Math.abs(v - current) <= EPS) {
+        } else {
+          if (current != null) {
+            segs.push({
+              x1: xPositions[start],
+              x2: xPositions[i - 1],
+              y: yScale(current)
+            });
+          }
+          start = i;
+          current = v;
+        }
+      }
+      if (start !== null && current != null) {
+        segs.push({
+          x1: xPositions[start],
+          x2: xPositions[engineRows.length - 1],
+          y: yScale(current)
+        });
+      }
+      return segs;
+    };
+    return {
+      mean: buildFrom((r) => {
+        var _a3;
+        return (_a3 = r.limits.mean) != null ? _a3 : null;
+      }),
+      ucl: buildFrom((r) => {
+        var _a3;
+        return (_a3 = r.limits.ucl) != null ? _a3 : null;
+      }),
+      lcl: buildFrom((r) => {
+        var _a3;
+        return (_a3 = r.limits.lcl) != null ? _a3 : null;
+      }),
+      onePos: buildFrom((r) => {
+        var _a3;
+        return (_a3 = r.limits.oneSigma.upper) != null ? _a3 : null;
+      }),
+      oneNeg: buildFrom((r) => {
+        var _a3;
+        return (_a3 = r.limits.oneSigma.lower) != null ? _a3 : null;
+      }),
+      twoPos: buildFrom((r) => {
+        var _a3;
+        return (_a3 = r.limits.twoSigma.upper) != null ? _a3 : null;
+      }),
+      twoNeg: buildFrom((r) => {
+        var _a3;
+        return (_a3 = r.limits.twoSigma.lower) != null ? _a3 : null;
+      })
+    };
+  }, [engineRows, xPositions, yScale]);
+  const sequenceDefs = React14.useMemo(() => {
+    if (!sequences.length) return null;
+    return /* @__PURE__ */ jsxs14("defs", { children: [
+      /* @__PURE__ */ jsxs14(
+        "linearGradient",
+        {
+          id: `${gradientIdBaseRef.current}-grad-common`,
+          x1: "0%",
+          y1: "0%",
+          x2: "0%",
+          y2: "100%",
+          children: [
+            /* @__PURE__ */ jsx20(
+              "stop",
+              {
+                offset: "0%",
+                stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
+                stopOpacity: 0.28
+              }
+            ),
+            /* @__PURE__ */ jsx20(
+              "stop",
+              {
+                offset: "70%",
+                stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
+                stopOpacity: 0.12
+              }
+            ),
+            /* @__PURE__ */ jsx20(
+              "stop",
+              {
+                offset: "100%",
+                stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
+                stopOpacity: 0.045
+              }
+            )
+          ]
+        }
+      ),
+      sequences.map((seq, idx) => {
+        const id = `${gradientIdBaseRef.current}-grad-${idx}`;
+        let baseVar;
+        let top = 0.28, mid = 0.12, end = 0.045;
+        switch (seq.category) {
+          case SPCChart_constants_default.Concern:
+            baseVar = "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)";
+            top = 0.28;
+            mid = 0.12;
+            end = 0.045;
+            break;
+          case SPCChart_constants_default.Improvement:
+            baseVar = "var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)";
+            top = 0.26;
+            mid = 0.11;
+            end = 0.045;
+            break;
+          case SPCChart_constants_default.NoJudgement:
+            baseVar = "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)";
+            top = 0.26;
+            mid = 0.11;
+            end = 0.045;
+            break;
+          default:
+            baseVar = "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)";
+        }
+        return /* @__PURE__ */ jsxs14("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
+          /* @__PURE__ */ jsx20("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
+          /* @__PURE__ */ jsx20("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
+          /* @__PURE__ */ jsx20("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
+        ] }, id);
+      })
+    ] });
+  }, [sequences]);
+  const sequenceAreas = React14.useMemo(() => {
+    if (!sequences.length) return null;
+    const [domainMin] = yScale.domain();
+    const baseY = yScale(domainMin);
+    const areas = sequences.map((seq, idx) => {
+      const { start: firstIdx, end: lastIdx, category } = seq;
+      if (firstIdx < 0 || lastIdx >= xPositions.length || firstIdx > lastIdx)
+        return null;
+      const firstX = xPositions[firstIdx];
+      const lastX = xPositions[lastIdx];
+      let d = "";
+      if (category === SPCChart_constants_default.Common) {
+        const prevSeq = idx > 0 ? sequences[idx - 1] : null;
+        const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
+        const leftX = prevSeq ? xPositions[prevSeq.end] : plotLeft;
+        const leftY = prevSeq ? yScale(all[prevSeq.end].y) : baseY;
+        const rightX = nextSeq ? xPositions[nextSeq.start] : plotWidth;
+        const rightY = nextSeq ? yScale(all[nextSeq.start].y) : baseY;
+        d = `M ${leftX} ${baseY}`;
+        d += ` L ${leftX} ${leftY}`;
+        for (let i = firstIdx; i <= lastIdx; i++) {
+          d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
+        }
+        d += ` L ${rightX} ${rightY}`;
+        d += ` L ${rightX} ${baseY} Z`;
+      } else {
+        const prevSeq = idx > 0 ? sequences[idx - 1] : null;
+        const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
+        const prevColoured = prevSeq && prevSeq.category !== SPCChart_constants_default.Common;
+        const nextColoured = nextSeq && nextSeq.category !== SPCChart_constants_default.Common;
+        const firstY = yScale(all[firstIdx].y);
+        const lastY = yScale(all[lastIdx].y);
+        let startBaselineX = firstX;
+        let endBaselineX = lastX;
+        if (prevColoured) {
+          const prevX = xPositions[prevSeq.end];
+          const prevY = yScale(all[prevSeq.end].y);
+          const deltaPrev = all[firstIdx].y - all[prevSeq.end].y;
+          if (sequenceTransition === "slope" /* Slope */ && deltaPrev > 0) {
+            d = `M ${prevX} ${prevY} L ${firstX} ${firstY}`;
+            startBaselineX = prevX;
+          } else {
+            d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
+            startBaselineX = firstX;
+          }
+        } else {
+          d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
+        }
+        for (let i = firstIdx + 1; i <= lastIdx; i++) {
+          d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
+        }
+        d += ` L ${lastX} ${lastY}`;
+        if (nextColoured) {
+          const nextFirstX = xPositions[nextSeq.start];
+          const nextFirstY = yScale(all[nextSeq.start].y);
+          const deltaNext = all[nextSeq.start].y - all[lastIdx].y;
+          if (sequenceTransition === "slope" /* Slope */ && deltaNext <= 0 || sequenceTransition === "extend" /* Extend */) {
+            d += ` L ${nextFirstX} ${nextFirstY}`;
+            endBaselineX = nextFirstX;
+          }
+        }
+        d += ` L ${endBaselineX} ${baseY}`;
+        d += ` L ${startBaselineX} ${baseY} Z`;
+        if (sequenceTransition === "neutral" /* Neutral */ && prevColoured) {
+          const prevX = xPositions[prevSeq.end];
+          const prevY = yScale(all[prevSeq.end].y);
+          const wedge = /* @__PURE__ */ jsx20(
+            "path",
+            {
+              d: `M ${prevX} ${baseY} L ${prevX} ${prevY} L ${firstX} ${firstY} L ${firstX} ${baseY} Z`,
+              fill: `url(#${gradientIdBaseRef.current}-grad-common)`,
+              stroke: "none",
+              className: "fdp-spc__sequence-bg",
+              "aria-hidden": "true"
+            },
+            `seq-wedge-${idx}`
+          );
+          return /* @__PURE__ */ jsxs14("g", { children: [
+            wedge,
+            /* @__PURE__ */ jsx20(
+              "path",
+              {
+                d,
+                fill: `url(#${gradientIdBaseRef.current}-grad-${idx})`,
+                stroke: "none",
+                className: "fdp-spc__sequence-bg",
+                "aria-hidden": "true"
+              },
+              `seq-area-${idx}`
+            )
+          ] }, `seq-group-${idx}`);
+        }
+      }
+      return /* @__PURE__ */ jsx20(
+        "path",
+        {
+          d,
+          fill: `url(#${gradientIdBaseRef.current}-grad-${idx})`,
+          stroke: "none",
+          className: "fdp-spc__sequence-bg",
+          "aria-hidden": "true"
+        },
+        `seq-area-${idx}`
+      );
+    }).filter(Boolean);
+    return /* @__PURE__ */ jsx20("g", { className: "fdp-spc__sequence-bgs", children: areas });
+  }, [sequences, xPositions, plotWidth, yScale, all, sequenceTransition]);
+  const computedTimeframe = React14.useMemo(() => {
+    if (!(narrationContext == null ? void 0 : narrationContext.timeframe) && all.length >= 2) {
+      const xs = all.map((d) => d.x instanceof Date ? d.x : new Date(d.x));
+      const min = new Date(Math.min(...xs.map((d) => d.getTime())));
+      const max = new Date(Math.max(...xs.map((d) => d.getTime())));
+      const diffDays = Math.round((max.getTime() - min.getTime()) / 864e5) || 0;
+      if (diffDays < 14)
+        return `The chart shows a timeframe of ${diffDays + 1} days`;
+      const weeks = Math.round(diffDays / 7);
+      if (weeks < 20) return `The chart shows a timeframe of ${weeks} weeks`;
+      const months = (max.getFullYear() - min.getFullYear()) * 12 + (max.getMonth() - min.getMonth()) + 1;
+      return `The chart shows a timeframe of ${months} months`;
+    }
+    if (narrationContext == null ? void 0 : narrationContext.timeframe) {
+      return `The chart shows a timeframe of ${narrationContext.timeframe}`;
+    }
+    return void 0;
+  }, [narrationContext == null ? void 0 : narrationContext.timeframe, all]);
+  const ordinal = (n) => {
+    const mod10 = n % 10, mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return `${n}st`;
+    if (mod10 === 2 && mod100 !== 12) return `${n}nd`;
+    if (mod10 === 3 && mod100 !== 13) return `${n}rd`;
+    return `${n}th`;
+  };
+  const formatDateLong = (d) => `${ordinal(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
+  const toRuleFlags = (row) => ({
+    specialCauseSinglePointUp: !!(row == null ? void 0 : row.rules.singlePoint.up),
+    specialCauseSinglePointDown: !!(row == null ? void 0 : row.rules.singlePoint.down),
+    specialCauseTwoOfThreeUp: !!(row == null ? void 0 : row.rules.twoOfThree.up),
+    specialCauseTwoOfThreeDown: !!(row == null ? void 0 : row.rules.twoOfThree.down),
+    specialCauseFourOfFiveUp: !!(row == null ? void 0 : row.rules.fourOfFive.up),
+    specialCauseFourOfFiveDown: !!(row == null ? void 0 : row.rules.fourOfFive.down),
+    specialCauseShiftUp: !!(row == null ? void 0 : row.rules.shift.up),
+    specialCauseShiftDown: !!(row == null ? void 0 : row.rules.shift.down),
+    specialCauseTrendUp: !!(row == null ? void 0 : row.rules.trend.up),
+    specialCauseTrendDown: !!(row == null ? void 0 : row.rules.trend.down)
+  });
+  const formatLive = React14.useCallback(
+    ({
+      index,
+      x: x2,
+      y: y2
+    }) => {
+      var _a3;
+      const row = engineRows == null ? void 0 : engineRows[index];
+      const dateObj = x2 instanceof Date ? x2 : new Date(x2);
+      const dateLabel = formatDateLong(dateObj);
+      const unit2 = (narrationContext == null ? void 0 : narrationContext.measureUnit) ? ` ${narrationContext.measureUnit}` : "";
+      const measure = (narrationContext == null ? void 0 : narrationContext.measureName) ? ` ${narrationContext.measureName}` : "";
+      if (!row) {
+        return `General summary is: ${computedTimeframe ? computedTimeframe + ". " : ""}Point ${index + 1}, ${dateLabel}, ${y2}${unit2}${measure}`;
+      }
+      const varLabel = variationLabel((_a3 = row.classification) == null ? void 0 : _a3.variation) || "Variation";
+      const ruleIds = extractRuleIds(toRuleFlags(row));
+      const ruleNarr = ruleIds.length ? ` Rules: ${[...new Set(ruleIds.map((r) => ruleGlossary[r].narration))].join("; ")}.` : " No special cause rules.";
+      const ctxParts = [];
+      if (narrationContext == null ? void 0 : narrationContext.measureName)
+        ctxParts.push(`Measure: ${narrationContext.measureName}.`);
+      if (narrationContext == null ? void 0 : narrationContext.datasetContext)
+        ctxParts.push(`${narrationContext.datasetContext}.`);
+      if (narrationContext == null ? void 0 : narrationContext.organisation)
+        ctxParts.push(`Organisation: ${narrationContext.organisation}.`);
+      if (narrationContext == null ? void 0 : narrationContext.additionalNote)
+        ctxParts.push(narrationContext.additionalNote);
+      return [
+        `General summary is:`,
+        ...ctxParts,
+        `Point ${index + 1} recorded on `,
+        dateLabel + ",",
+        `with a value of ${y2} ${unit2}${measure}`,
+        varLabel + ".",
+        ruleNarr
+      ].join(" ").replace(/\s+/g, " ").trim();
+    },
+    [engineRows, narrationContext, computedTimeframe]
+  );
+  const describePoint = React14.useCallback(
+    (index, d) => {
+      const row = engineRows == null ? void 0 : engineRows[index];
+      if (!row) return void 0;
+      const base = formatLive({
+        index,
+        seriesId: "process",
+        x: d.x instanceof Date ? d.x : new Date(d.x),
+        y: d.y
+      });
+      return base.replace(/^General summary is:\s*/, "").replace(/^Point \d+\s*/, "");
+    },
+    [engineRows, formatLive]
+  );
+  const showZeroBreak = React14.useMemo(() => {
+    try {
+      const dom = typeof (yScale == null ? void 0 : yScale.domain) === "function" ? yScale.domain() : void 0;
+      if (!dom || !Array.isArray(dom) || dom.length < 2) return false;
+      const min = Math.min(dom[0], dom[1]);
+      const max = Math.max(dom[0], dom[1]);
+      return !(0 >= min && 0 <= max);
+    } catch {
+      return false;
+    }
+  }, [yScale]);
+  return /* @__PURE__ */ jsx20(TooltipProvider, { children: /* @__PURE__ */ jsxs14(
+    "div",
+    {
+      className: "fdp-spc-chart",
+      role: "group",
+      "aria-label": "Statistical process control chart",
+      "aria-roledescription": "chart",
+      children: [
+        /* @__PURE__ */ jsx20(
+          "svg",
+          {
+            width: scaleCtx.xScale.range()[1] + 56 + 16,
+            height: ((_b2 = chartCtx == null ? void 0 : chartCtx.innerHeight) != null ? _b2 : scaleCtx.yScale.range()[0]) + 12 + 48,
+            role: "img",
+            children: /* @__PURE__ */ jsxs14("g", { transform: `translate(56,12)`, children: [
+              /* @__PURE__ */ jsx20(Axis_default, { type: "x" }),
+              /* @__PURE__ */ jsx20(
+                Axis_default,
+                {
+                  type: "y",
+                  yZeroBreak: {
+                    enabled: showZeroBreak,
+                    gapPx: zeroBreakSlotGapPx,
+                    zigZag: { heightPx: 64, amplitudePx: 4, cycles: 6, stepXPx: 3 }
+                  }
+                }
+              ),
+              /* @__PURE__ */ jsx20(GridLines_default, { axis: "y" }),
+              sequenceDefs,
+              sequenceAreas,
+              partitionMarkers.map((idx, i) => {
+                const d = all[idx];
+                if (!d) return null;
+                const x2 = xScale(d.x instanceof Date ? d.x : new Date(d.x));
+                return /* @__PURE__ */ jsx20(
+                  "line",
+                  {
+                    x1: x2,
+                    x2,
+                    y1: 0,
+                    y2: yScale.range()[0],
+                    stroke: "#555",
+                    strokeDasharray: "4 4",
+                    strokeWidth: 1,
+                    "aria-hidden": "true",
+                    className: "fdp-spc__partition-marker"
+                  },
+                  `partition-marker-${i}`
+                );
+              }),
+              (limitSegments == null ? void 0 : limitSegments.mean.length) ? (() => {
+                return /* @__PURE__ */ jsxs14("g", { "aria-hidden": "true", className: "fdp-spc__cl-group", children: [
+                  limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx20(
+                    "line",
+                    {
+                      className: "fdp-spc__cl",
+                      x1: s.x1,
+                      x2: s.x2,
+                      y1: s.y,
+                      y2: s.y
+                    },
+                    `mean-${i}`
+                  )),
+                  limitSegments.mean.map((s, i) => {
+                    if (i === limitSegments.mean.length - 1) return null;
+                    const next = limitSegments.mean[i + 1];
+                    if (!next) return null;
+                    if (s.y === next.y) return null;
+                    const gap = Math.max(4, next.x1 - s.x2 || 0);
+                    const k = gap * 0.5;
+                    const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
+                    return /* @__PURE__ */ jsx20(
+                      "path",
+                      {
+                        className: "fdp-spc__cl fdp-spc__cl-join",
+                        d,
+                        fill: "none"
+                      },
+                      `mean-join-${i}`
+                    );
+                  })
+                ] });
+              })() : null,
+              uniformTarget != null && /* @__PURE__ */ jsx20(Fragment5, {}),
+              (limitSegments == null ? void 0 : limitSegments.ucl.length) ? (() => /* @__PURE__ */ jsxs14(
+                "g",
+                {
+                  "aria-hidden": "true",
+                  className: "fdp-spc__limit-group fdp-spc__limit-group--ucl",
+                  children: [
+                    limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx20(
+                      "line",
+                      {
+                        className: "fdp-spc__limit fdp-spc__limit--ucl",
+                        x1: s.x1,
+                        x2: s.x2,
+                        y1: s.y,
+                        y2: s.y,
+                        strokeWidth: 2
+                      },
+                      `ucl-${i}`
+                    )),
+                    limitSegments.ucl.map((s, i) => {
+                      if (i === limitSegments.ucl.length - 1) return null;
+                      const next = limitSegments.ucl[i + 1];
+                      if (!next) return null;
+                      if (s.y === next.y) return null;
+                      const gap = Math.max(4, next.x1 - s.x2 || 0);
+                      const k = gap * 0.5;
+                      const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
+                      return /* @__PURE__ */ jsx20(
+                        "path",
+                        {
+                          className: "fdp-spc__limit fdp-spc__limit--ucl fdp-spc__limit-join",
+                          d,
+                          fill: "none",
+                          strokeWidth: 2
+                        },
+                        `ucl-join-${i}`
+                      );
+                    })
+                  ]
+                }
+              ))() : null,
+              (limitSegments == null ? void 0 : limitSegments.lcl.length) ? (() => /* @__PURE__ */ jsxs14(
+                "g",
+                {
+                  "aria-hidden": "true",
+                  className: "fdp-spc__limit-group fdp-spc__limit-group--lcl",
+                  children: [
+                    limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx20(
+                      "line",
+                      {
+                        className: "fdp-spc__limit fdp-spc__limit--lcl",
+                        x1: s.x1,
+                        x2: s.x2,
+                        y1: s.y,
+                        y2: s.y,
+                        strokeWidth: 2
+                      },
+                      `lcl-${i}`
+                    )),
+                    limitSegments.lcl.map((s, i) => {
+                      if (i === limitSegments.lcl.length - 1) return null;
+                      const next = limitSegments.lcl[i + 1];
+                      if (!next) return null;
+                      if (s.y === next.y) return null;
+                      const gap = Math.max(4, next.x1 - s.x2 || 0);
+                      const k = gap * 0.5;
+                      const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
+                      return /* @__PURE__ */ jsx20(
+                        "path",
+                        {
+                          className: "fdp-spc__limit fdp-spc__limit--lcl fdp-spc__limit-join",
+                          d,
+                          fill: "none",
+                          strokeWidth: 2
+                        },
+                        `lcl-join-${i}`
+                      );
+                    })
+                  ]
+                }
+              ))() : null,
+              uniformTarget != null && /* @__PURE__ */ jsxs14("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
+                /* @__PURE__ */ jsx20(
+                  "line",
+                  {
+                    className: "fdp-spc__target",
+                    "data-testid": "spc-target-line",
+                    x1: 0,
+                    x2: xScale.range()[1],
+                    y1: yScale(uniformTarget),
+                    y2: yScale(uniformTarget),
+                    strokeWidth: 2.5
+                  }
+                ),
+                /* @__PURE__ */ jsxs14(
+                  "text",
+                  {
+                    "data-testid": "spc-target-label",
+                    x: xScale.range()[0] - 7,
+                    y: yScale(uniformTarget) - 5,
+                    textAnchor: "start",
+                    className: "fdp-spc__target-label",
+                    fontSize: 12,
+                    children: [
+                      "Target ",
+                      uniformTarget,
+                      " ",
+                      effectiveUnit || (narrationContext == null ? void 0 : narrationContext.measureUnit) || ""
+                    ]
+                  }
+                )
+              ] }),
+              showZones && limitSegments && limitSegments.mean.length > 0 && /* @__PURE__ */ jsxs14(Fragment5, { children: [
+                limitSegments.onePos.map((s, i) => /* @__PURE__ */ jsx20(
+                  "line",
+                  {
+                    className: "fdp-spc__zone fdp-spc__zone--pos1",
+                    x1: s.x1,
+                    x2: s.x2,
+                    y1: s.y,
+                    y2: s.y,
+                    "aria-hidden": "true",
+                    strokeWidth: 2
+                  },
+                  `onePos-${i}`
+                )),
+                limitSegments.oneNeg.map((s, i) => /* @__PURE__ */ jsx20(
+                  "line",
+                  {
+                    className: "fdp-spc__zone fdp-spc__zone--neg1",
+                    x1: s.x1,
+                    x2: s.x2,
+                    y1: s.y,
+                    y2: s.y,
+                    "aria-hidden": "true",
+                    strokeWidth: 2
+                  },
+                  `oneNeg-${i}`
+                )),
+                limitSegments.twoPos.map((s, i) => /* @__PURE__ */ jsx20(
+                  "line",
+                  {
+                    className: "fdp-spc__zone fdp-spc__zone--pos2",
+                    x1: s.x1,
+                    x2: s.x2,
+                    y1: s.y,
+                    y2: s.y,
+                    "aria-hidden": "true",
+                    strokeWidth: 2
+                  },
+                  `twoPos-${i}`
+                )),
+                limitSegments.twoNeg.map((s, i) => /* @__PURE__ */ jsx20(
+                  "line",
+                  {
+                    className: "fdp-spc__zone fdp-spc__zone--neg2",
+                    x1: s.x1,
+                    x2: s.x2,
+                    y1: s.y,
+                    y2: s.y,
+                    "aria-hidden": "true",
+                    strokeWidth: 2
+                  },
+                  `twoNeg-${i}`
+                ))
+              ] }),
+              trendInsights && (showTrendStartMarkers || showFirstFavourableCrossMarkers || showTrendBridgeOverlay) && (() => {
+                const startIdx = trendInsights.detectedAt;
+                const crossIdx = trendInsights.firstFavourableCrossAt;
+                const sx = all[startIdx] ? xScale(
+                  all[startIdx].x instanceof Date ? all[startIdx].x : new Date(all[startIdx].x)
+                ) : null;
+                const sy = all[startIdx] ? yScale(all[startIdx].y) : null;
+                const cx = crossIdx != null && all[crossIdx] ? xScale(
+                  all[crossIdx].x instanceof Date ? all[crossIdx].x : new Date(all[crossIdx].x)
+                ) : null;
+                const cy = crossIdx != null && all[crossIdx] ? yScale(all[crossIdx].y) : null;
+                return /* @__PURE__ */ jsxs14("g", { "aria-hidden": "true", className: "fdp-spc__trend-overlays", children: [
+                  showTrendBridgeOverlay && sx != null && sy != null && cx != null && cy != null && /* @__PURE__ */ jsx20(
+                    "line",
+                    {
+                      x1: sx,
+                      y1: sy,
+                      x2: cx,
+                      y2: cy,
+                      stroke: "#888",
+                      strokeDasharray: "4 4",
+                      strokeWidth: 2,
+                      children: /* @__PURE__ */ jsx20("title", { children: "Trend bridge: start to first favourable-side point" })
+                    }
+                  ),
+                  showTrendStartMarkers && sx != null && sy != null && /* @__PURE__ */ jsx20(
+                    "circle",
+                    {
+                      cx: sx,
+                      cy: sy,
+                      r: 6,
+                      fill: "white",
+                      stroke: "#555",
+                      strokeWidth: 2,
+                      children: /* @__PURE__ */ jsx20("title", { children: "Trend start (run reached N)" })
+                    }
+                  ),
+                  showFirstFavourableCrossMarkers && cx != null && cy != null && /* @__PURE__ */ jsx20("circle", { cx, cy, r: 5, fill: "#555", children: /* @__PURE__ */ jsx20("title", { children: "First favourable-side inclusion" }) })
+                ] });
+              })(),
+              /* @__PURE__ */ jsx20(
+                LineSeriesPrimitive_default,
+                {
+                  series: series[0],
+                  seriesIndex: 0,
+                  palette: "categorical",
+                  showPoints: false,
+                  focusablePoints: false,
+                  focusIndex: -1,
+                  parseX: (d) => d.x instanceof Date ? d.x : new Date(d.x),
+                  smooth: false,
+                  strokeWidth: processLineWidth
+                }
+              ),
+              showPoints && all.map((d, i) => {
+                var _a3;
+                const cx = xScale(d.x instanceof Date ? d.x : new Date(d.x));
+                const cy = yScale(d.y);
+                const ooc = outOfControl.has(i);
+                const sig = engineSignals == null ? void 0 : engineSignals[i];
+                const cat = categories[i];
+                const isImprovement = cat === SPCChart_constants_default.Improvement;
+                const isConcern = cat === SPCChart_constants_default.Concern;
+                const isNoJudgement = cat === SPCChart_constants_default.NoJudgement;
+                const classes = [
+                  "fdp-spc__point",
+                  ooc && highlightOutOfControl ? "fdp-spc__point--ooc" : null,
+                  enableRules && isConcern ? "fdp-spc__point--sc-concern" : null,
+                  enableRules && isImprovement ? "fdp-spc__point--sc-improvement" : null,
+                  enableRules && enableNeutralNoJudgement && isNoJudgement ? "fdp-spc__point--sc-no-judgement" : null,
+                  (sig == null ? void 0 : sig.assurance) === "pass" /* Pass */ ? "fdp-spc__point--assurance-pass" : null,
+                  (sig == null ? void 0 : sig.assurance) === "fail" /* Fail */ ? "fdp-spc__point--assurance-fail" : null
+                ].filter(Boolean).join(" ");
+                const isFocused = ((_a3 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a3.index) === i;
+                return /* @__PURE__ */ jsx20(
+                  "circle",
+                  {
+                    cx,
+                    cy,
+                    r: 5,
+                    className: classes,
+                    "data-variation": sig == null ? void 0 : sig.variation,
+                    "data-assurance": sig == null ? void 0 : sig.assurance,
+                    "aria-label": ariaLabel,
+                    ...isFocused ? { "aria-describedby": `spc-tooltip-${i}` } : {}
+                  },
+                  i
+                );
+              }),
+              showFocusIndicator && showSignalsInspector && (tooltipCtx == null ? void 0 : tooltipCtx.focused) && (() => {
+                const f = tooltipCtx.focused;
+                const ix = typeof f.index === "number" ? f.index : -1;
+                if (ix < 0 || !all[ix]) return null;
+                const px = xScale(
+                  all[ix].x instanceof Date ? all[ix].x : new Date(all[ix].x)
+                );
+                const py = yScale(all[ix].y);
+                const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
+                return /* @__PURE__ */ jsxs14("g", { className: "fdp-spc__focus-indicator", "aria-hidden": "true", children: [
+                  /* @__PURE__ */ jsx20(
+                    "circle",
+                    {
+                      cx: px,
+                      cy: py,
+                      r: 7,
+                      fill: "none",
+                      stroke: focusYellow,
+                      strokeWidth: 3
+                    }
+                  ),
+                  /* @__PURE__ */ jsx20(
+                    "circle",
+                    {
+                      cx: px,
+                      cy: py,
+                      r: 5,
+                      fill: "#000",
+                      stroke: focusYellow,
+                      strokeWidth: 1.5
+                    }
+                  ),
+                  /* @__PURE__ */ jsx20(
+                    "circle",
+                    {
+                      cx: px,
+                      cy: py,
+                      r: 2.5,
+                      fill: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
+                      stroke: "#fff",
+                      strokeWidth: 0.5
+                    }
+                  )
+                ] });
+              })(),
+              chartCtx && /* @__PURE__ */ jsx20(
+                InteractionLayer,
+                {
+                  width: xScale.range()[1],
+                  height: yScale.range()[0]
+                }
+              ),
+              !showSignalsInspector && /* @__PURE__ */ jsx20(
+                SPCTooltipOverlay_default,
+                {
+                  engineRows,
+                  limits: { mean: limits.mean, sigma: limits.sigma },
+                  pointDescriber: describePoint,
+                  measureName: narrationContext == null ? void 0 : narrationContext.measureName,
+                  measureUnit: narrationContext == null ? void 0 : narrationContext.measureUnit,
+                  dateFormatter: (d) => formatDateLong(d),
+                  enableNeutralNoJudgement,
+                  showTrendGatingExplanation
+                }
+              )
+            ] })
+          }
+        ),
+        showSignalsInspector && /* @__PURE__ */ jsx20("div", { style: { marginTop: 8 }, children: /* @__PURE__ */ jsx20(
+          SPCSignalsInspector_default,
+          {
+            engineRows,
+            measureName: narrationContext == null ? void 0 : narrationContext.measureName,
+            measureUnit: effectiveUnit || (narrationContext == null ? void 0 : narrationContext.measureUnit),
+            onSignalFocus
+          }
+        ) }),
+        announceFocus && /* @__PURE__ */ jsx20(
+          VisuallyHiddenLiveRegion_default,
+          {
+            format: (d) => formatLive({ ...d, x: d.x instanceof Date ? d.x : new Date(d.x) })
+          }
+        )
+      ]
+    }
+  ) });
+};
+var InteractionLayer = ({
+  width,
+  height
+}) => {
+  const t = useTooltipContext();
+  if (!t) return null;
+  return /* @__PURE__ */ jsx20(
+    "rect",
+    {
+      className: "fdp-spc__interaction-layer",
+      width,
+      height,
+      fill: "transparent",
+      tabIndex: 0,
+      "aria-label": "Interactive chart area. Use arrow keys to move between points.",
+      onMouseMove: (e) => {
+        const target = e.currentTarget;
+        const bounds = target.getBoundingClientRect();
+        const x2 = e.clientX - bounds.left;
+        const y2 = e.clientY - bounds.top;
+        t.focusNearest(x2, y2);
+      },
+      onMouseLeave: () => t.clear(),
+      onKeyDown: (e) => {
+        switch (e.key) {
+          case "ArrowRight":
+            t.focusNextPoint();
+            e.preventDefault();
+            break;
+          case "ArrowLeft":
+            t.focusPrevPoint();
+            e.preventDefault();
+            break;
+          case "ArrowDown":
+            t.focusNextSeries();
+            e.preventDefault();
+            break;
+          case "ArrowUp":
+            t.focusPrevSeries();
+            e.preventDefault();
+            break;
+          case "Home":
+            t.focusFirstPoint();
+            e.preventDefault();
+            break;
+          case "End":
+            t.focusLastPoint();
+            e.preventDefault();
+            break;
+        }
+      },
+      style: { cursor: "crosshair" }
+    }
+  );
+};
+var InternalSPC_default = InternalSPC;
 
 // src/components/DataVisualisation/charts/SPC/utils/autoMetrics.ts
 function toDate(v) {
@@ -10869,810 +13107,6 @@ function computeAutoMetrics(input) {
 }
 var autoMetrics_default = computeAutoMetrics;
 
-// src/components/Tables/Table.tsx
-var import_classnames2 = __toESM(require_classnames(), 1);
-
-// src/components/Panel/Panel.tsx
-var import_classnames = __toESM(require_classnames(), 1);
-
-// src/components/Heading/Heading.tsx
-import { createElement } from "react";
-
-// src/mapping/heading.ts
-function deriveLevel(size) {
-  switch (size) {
-    case "xxl":
-    case "xl":
-      return 1;
-    case "l":
-      return 2;
-    case "m":
-      return 3;
-    case "s":
-      return 4;
-    case "xs":
-      return 5;
-    default:
-      return 2;
-  }
-}
-function mapHeadingProps(input) {
-  var _a2;
-  const level = (_a2 = input.level) != null ? _a2 : deriveLevel(input.size);
-  const classes = [
-    "nhsuk-heading",
-    input.size ? `nhsuk-heading--${input.size}` : "",
-    input.className || ""
-  ].filter(Boolean).join(" ");
-  const style = input.marginBottom ? { marginBottom: input.marginBottom } : void 0;
-  return { tag: `h${level}`, classes, style };
-}
-
-// src/components/Heading/Heading.tsx
-import { jsx as jsx13 } from "react/jsx-runtime";
-var Heading = ({ level, className, text, html, children, size, marginBottom, ...rest }) => {
-  const model = mapHeadingProps({ level, size, className, marginBottom });
-  const content = children || (html ? /* @__PURE__ */ jsx13("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
-  return createElement(model.tag, { className: model.classes, style: model.style, ...rest }, content);
-};
-
-// src/components/Panel/Panel.tsx
-import { jsx as jsx14, jsxs as jsxs8 } from "react/jsx-runtime";
-var Panel = ({
-  id,
-  className,
-  headingText,
-  headingHtml,
-  headingLevel = 2,
-  bodyText,
-  bodyHtml,
-  children,
-  ...props
-}) => {
-  const panelClasses = (0, import_classnames.default)(
-    "nhsuk-panel",
-    className
-  );
-  const renderHeading = () => {
-    if (!headingText && !headingHtml && !children) return null;
-    if (headingHtml) {
-      return /* @__PURE__ */ jsx14(
-        Heading,
-        {
-          level: headingLevel,
-          className: "nhsuk-panel__heading",
-          html: headingHtml,
-          marginBottom: "var(--panel-heading-margin, 24px)"
-        }
-      );
-    }
-    if (headingText) {
-      return /* @__PURE__ */ jsx14(
-        Heading,
-        {
-          level: headingLevel,
-          className: "nhsuk-panel__heading",
-          text: headingText,
-          marginBottom: "var(--panel-heading-margin, 24px)"
-        }
-      );
-    }
-    return null;
-  };
-  const renderBody = () => {
-    if (children) {
-      return /* @__PURE__ */ jsx14("div", { className: "nhsuk-panel__body", children });
-    }
-    if (bodyHtml) {
-      return /* @__PURE__ */ jsx14(
-        "div",
-        {
-          className: "nhsuk-panel__body",
-          dangerouslySetInnerHTML: { __html: bodyHtml }
-        }
-      );
-    }
-    if (bodyText) {
-      return /* @__PURE__ */ jsx14("div", { className: "nhsuk-panel__body", children: /* @__PURE__ */ jsx14("p", { children: bodyText }) });
-    }
-    return null;
-  };
-  return /* @__PURE__ */ jsxs8("div", { className: panelClasses, id, ...props, children: [
-    renderHeading(),
-    renderBody()
-  ] });
-};
-
-// src/components/Tables/Table.tsx
-import { Fragment as Fragment3, jsx as jsx15, jsxs as jsxs9 } from "react/jsx-runtime";
-var prismGlobalRef = { current: null };
-var ensurePrismGlobal = () => {
-  if (prismGlobalRef.current) return prismGlobalRef.current;
-  try {
-    prismGlobalRef.current = require_prism();
-    try {
-      require_prism_typescript();
-    } catch {
-    }
-    try {
-      require_prism_tsx();
-    } catch {
-    }
-    try {
-      require_prism_json();
-    } catch {
-    }
-  } catch {
-    prismGlobalRef.current = null;
-  }
-  return prismGlobalRef.current;
-};
-var fallbackHighlight = (code) => {
-  const patterns = [
-    { regex: /\b(import|from|export|const|let|var|return|if|else|for|while|switch|case|break|new|throw|try|catch|finally|class|extends|implements|interface|type|as|async|await|function)\b/g, cls: "kw" },
-    { regex: /(['"`])(?:\\.|(?!\1).)*\1/g, cls: "str" },
-    { regex: /\/\*[^]*?\*\/|\/\/.*$/gm, cls: "com" },
-    { regex: /\b([0-9]+(?:\.[0-9]+)?)\b/g, cls: "num" }
-  ];
-  let html = code;
-  patterns.forEach((p) => {
-    html = html.replace(p.regex, (m) => `<span class="nhsuk-code-${p.cls}">${m}</span>`);
-  });
-  return html;
-};
-var highlightCode = (code, lang, disable) => {
-  if (disable) return code;
-  if (!lang) return code;
-  const Prism2 = ensurePrismGlobal();
-  if (Prism2 && Prism2.languages) {
-    const resolvedLang = Prism2.languages[lang] ? lang : Prism2.languages.typescript && (lang === "ts" || lang === "tsx" || lang === "typescript") ? "typescript" : Prism2.languages.json && lang === "json" ? "json" : void 0;
-    if (resolvedLang) {
-      try {
-        return Prism2.highlight(code, Prism2.languages[resolvedLang], resolvedLang);
-      } catch {
-      }
-    }
-  }
-  return fallbackHighlight(code);
-};
-var TableBase = ({
-  rows,
-  head,
-  caption,
-  captionSize,
-  firstCellIsHeader = false,
-  responsive = false,
-  heading,
-  headingLevel = 3,
-  panel = false,
-  panelClasses,
-  tableClasses,
-  classes,
-  attributes,
-  "data-testid": testId,
-  columns,
-  data,
-  visuallyHiddenCaption = false
-}) => {
-  const captionClass = `nhsuk-table__caption ${captionSize ? `nhsuk-table__caption--${captionSize}` : ""}`.trim();
-  const tableClassList = (0, import_classnames2.default)(
-    "nhsuk-table",
-    {
-      "nhsuk-table-responsive": responsive
-    },
-    tableClasses
-  );
-  const containerClassList = (0, import_classnames2.default)(classes);
-  const renderHeaderCell = (cell, index) => {
-    const headerClasses = (0, import_classnames2.default)(
-      "nhsuk-table__header",
-      {
-        [`nhsuk-table__header--${cell.format}`]: cell.format
-      },
-      cell.classes
-    );
-    const headerAttributes = {
-      scope: "col",
-      ...cell.colspan && { colSpan: cell.colspan },
-      ...cell.rowspan && { rowSpan: cell.rowspan },
-      ...responsive && { role: "columnheader" },
-      ...cell.attributes
-    };
-    let content;
-    if (cell.node != null) {
-      content = /* @__PURE__ */ jsx15(Fragment3, { children: cell.node });
-    } else if (cell.html) {
-      content = /* @__PURE__ */ jsx15("span", { dangerouslySetInnerHTML: { __html: cell.html } });
-    } else if (cell.code != null) {
-      const isArray = Array.isArray(cell.code);
-      const codeString = isArray ? cell.code.join("\n") : cell.code;
-      const isMultiline = isArray || codeString.includes("\n");
-      const codeProps = {
-        className: (0, import_classnames2.default)("nhsuk-table__code", cell.codeClassName, {
-          "nhsuk-table__code--block": isMultiline,
-          "nhsuk-table__code--inline": !isMultiline
-        }),
-        ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
-      };
-      const highlighted = highlightCode(codeString, cell.codeLanguage);
-      content = isMultiline ? /* @__PURE__ */ jsx15("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx15(
-        "code",
-        {
-          ...codeProps,
-          dangerouslySetInnerHTML: { __html: highlighted }
-        }
-      ) }) : /* @__PURE__ */ jsx15(
-        "code",
-        {
-          ...codeProps,
-          dangerouslySetInnerHTML: { __html: highlighted }
-        }
-      );
-    } else {
-      content = cell.text;
-    }
-    return /* @__PURE__ */ jsx15("th", { className: headerClasses, ...headerAttributes, children: content }, index);
-  };
-  const renderCell = (cell, cellIndex, isFirstCell) => {
-    const isHeaderCell = firstCellIsHeader && isFirstCell || cell.rowHeader;
-    const cellClasses = (0, import_classnames2.default)(
-      isHeaderCell ? "nhsuk-table__header" : "nhsuk-table__cell",
-      {
-        [`nhsuk-table__${isHeaderCell ? "header" : "cell"}--${cell.format}`]: cell.format
-      },
-      cell.classes
-    );
-    const cellAttributes = {
-      ...isHeaderCell && { scope: "row" },
-      ...cell.colspan && { colSpan: cell.colspan },
-      ...cell.rowspan && { rowSpan: cell.rowspan },
-      ...responsive && {
-        role: isHeaderCell ? "rowheader" : "cell",
-        ...cell.header && { "data-label": cell.header }
-      },
-      ...cell.attributes
-    };
-    let inner;
-    if (cell.node != null) {
-      inner = /* @__PURE__ */ jsx15(Fragment3, { children: cell.node });
-    } else if (cell.html) {
-      inner = /* @__PURE__ */ jsx15("span", { dangerouslySetInnerHTML: { __html: cell.html } });
-    } else if (cell.code != null) {
-      const isArray = Array.isArray(cell.code);
-      const codeString = isArray ? cell.code.join("\n") : cell.code;
-      const isMultiline = isArray || codeString.includes("\n");
-      const codeProps = {
-        className: (0, import_classnames2.default)("nhsuk-table__code", cell.codeClassName, {
-          "nhsuk-table__code--block": isMultiline,
-          "nhsuk-table__code--inline": !isMultiline
-        }),
-        ...cell.codeLanguage ? { "data-language": cell.codeLanguage } : {}
-      };
-      const highlighted = highlightCode(
-        codeString,
-        cell.codeLanguage,
-        cell.disableHighlight
-      );
-      inner = isMultiline ? /* @__PURE__ */ jsx15("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx15(
-        "code",
-        {
-          ...codeProps,
-          dangerouslySetInnerHTML: { __html: highlighted }
-        }
-      ) }) : /* @__PURE__ */ jsx15(
-        "code",
-        {
-          ...codeProps,
-          dangerouslySetInnerHTML: { __html: highlighted }
-        }
-      );
-    } else {
-      inner = cell.text;
-    }
-    const cellContent = /* @__PURE__ */ jsxs9(Fragment3, { children: [
-      responsive && cell.header && /* @__PURE__ */ jsxs9("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true", children: [
-        cell.header,
-        " "
-      ] }),
-      inner
-    ] });
-    const Component = isHeaderCell ? "th" : "td";
-    return /* @__PURE__ */ jsx15(Component, { className: cellClasses, ...cellAttributes, children: cellContent }, cellIndex);
-  };
-  let derivedHead = head;
-  let derivedRows = rows;
-  if (!derivedHead && columns && columns.length) {
-    derivedHead = columns.map((c) => ({
-      text: c.title,
-      format: c.format,
-      classes: c.headerClasses,
-      attributes: c.headerAttributes
-    }));
-  }
-  if (!derivedRows && columns && data && data.length) {
-    derivedRows = data.map((rowObj, rIdx) => {
-      return columns.map((c) => {
-        const raw = c.accessor ? c.accessor(rowObj, rIdx) : rowObj[c.key];
-        let base = { format: c.format, classes: c.cellClasses, attributes: c.cellAttributes };
-        if (c.rowHeader) base.rowHeader = true;
-        if (c.render) {
-          const rendered = c.render(raw, rowObj, rIdx, c);
-          if (rendered == null || typeof rendered === "boolean") return { ...base, text: "" };
-          if (typeof rendered === "string" || typeof rendered === "number") {
-            return { ...base, text: String(rendered) };
-          }
-          return { ...base, ...rendered };
-        }
-        return { ...base, text: raw != null ? String(raw) : "" };
-      });
-    });
-  }
-  const renderTable = () => /* @__PURE__ */ jsxs9(
-    "table",
-    {
-      className: tableClassList,
-      ...responsive && { role: "table" },
-      ...attributes,
-      ...testId && { "data-testid": testId },
-      children: [
-        caption && /* @__PURE__ */ jsx15("caption", { className: (0, import_classnames2.default)(captionClass, visuallyHiddenCaption && "nhsuk-u-visually-hidden"), children: caption }),
-        derivedHead && derivedHead.length > 0 && /* @__PURE__ */ jsx15(
-          "thead",
-          {
-            className: "nhsuk-table__head",
-            ...responsive && { role: "rowgroup" },
-            children: /* @__PURE__ */ jsx15("tr", { ...responsive && { role: "row" }, children: derivedHead.map(
-              (cell, index) => renderHeaderCell(cell, index)
-            ) })
-          }
-        ),
-        /* @__PURE__ */ jsx15("tbody", { className: "nhsuk-table__body", children: derivedRows && derivedRows.map((row, rowIndex) => /* @__PURE__ */ jsx15(
-          "tr",
-          {
-            className: "nhsuk-table__row",
-            ...responsive && { role: "row" },
-            children: row.map(
-              (cell, cellIndex) => renderCell(cell, cellIndex, cellIndex === 0)
-            )
-          },
-          rowIndex
-        )) })
-      ]
-    }
-  );
-  if (panel) {
-    return /* @__PURE__ */ jsxs9(Panel, { className: panelClasses, children: [
-      heading && /* @__PURE__ */ jsx15(Heading, { level: headingLevel, className: "nhsuk-table__heading-tab", children: heading }),
-      renderTable()
-    ] });
-  }
-  if (containerClassList) {
-    return /* @__PURE__ */ jsx15("div", { className: containerClassList, children: renderTable() });
-  }
-  return renderTable();
-};
-var TableCaption = ({
-  children,
-  size,
-  className
-}) => {
-  const cls = (0, import_classnames2.default)(
-    "nhsuk-table__caption",
-    size && `nhsuk-table__caption--${size}`,
-    className
-  );
-  return /* @__PURE__ */ jsx15("caption", { className: cls, children });
-};
-var TableBodyRow = ({
-  responsive,
-  className,
-  children,
-  ...rest
-}) => {
-  const roleAttrs = responsive ? { role: "row" } : {};
-  return /* @__PURE__ */ jsx15("tr", { className, ...roleAttrs, ...rest, children });
-};
-var TableHeaderCell = ({
-  text,
-  html,
-  node,
-  code,
-  codeLanguage,
-  codeClassName,
-  disableHighlight,
-  format: format2,
-  classes,
-  colspan,
-  rowspan,
-  attributes,
-  responsive,
-  as = "th"
-}) => {
-  const headerClasses = (0, import_classnames2.default)(
-    "nhsuk-table__header",
-    { [`nhsuk-table__header--${format2}`]: format2 },
-    classes
-  );
-  const headerAttributes = {
-    scope: "col",
-    ...colspan && { colSpan: colspan },
-    ...rowspan && { rowSpan: rowspan },
-    ...responsive && { role: "columnheader" },
-    ...attributes
-  };
-  let content;
-  if (node != null) content = /* @__PURE__ */ jsx15(Fragment3, { children: node });
-  else if (html) content = /* @__PURE__ */ jsx15("span", { dangerouslySetInnerHTML: { __html: html } });
-  else if (code != null) {
-    const isArray = Array.isArray(code);
-    const codeString = isArray ? code.join("\n") : code;
-    const isMultiline = isArray || codeString.includes("\n");
-    const codeProps = {
-      className: (0, import_classnames2.default)("nhsuk-table__code", codeClassName, {
-        "nhsuk-table__code--block": isMultiline,
-        "nhsuk-table__code--inline": !isMultiline
-      }),
-      ...codeLanguage ? { "data-language": codeLanguage } : {}
-    };
-    const highlighted = highlightCode(
-      codeString,
-      codeLanguage,
-      disableHighlight
-    );
-    content = isMultiline ? /* @__PURE__ */ jsx15("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx15(
-      "code",
-      {
-        ...codeProps,
-        dangerouslySetInnerHTML: { __html: highlighted }
-      }
-    ) }) : /* @__PURE__ */ jsx15("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
-  } else content = text;
-  const Component = as;
-  return /* @__PURE__ */ jsx15(Component, { className: headerClasses, ...headerAttributes, children: content });
-};
-var TableCell = ({
-  text,
-  html,
-  node,
-  code,
-  codeLanguage,
-  codeClassName,
-  disableHighlight,
-  format: format2,
-  classes,
-  colspan,
-  rowspan,
-  attributes,
-  responsive,
-  rowHeader
-}) => {
-  const isHeader = !!rowHeader;
-  const Tag2 = isHeader ? "th" : "td";
-  const cls = (0, import_classnames2.default)(
-    isHeader ? "nhsuk-table__header" : "nhsuk-table__cell",
-    format2 && `nhsuk-table__${isHeader ? "header" : "cell"}--${format2}`,
-    classes
-  );
-  const cellAttrs = {
-    ...colspan && { colSpan: colspan },
-    ...rowspan && { rowSpan: rowspan },
-    ...isHeader && { scope: "row" },
-    ...responsive && { role: isHeader ? "rowheader" : "cell" },
-    ...attributes
-  };
-  let content;
-  if (node != null) content = /* @__PURE__ */ jsx15(Fragment3, { children: node });
-  else if (html) content = /* @__PURE__ */ jsx15("span", { dangerouslySetInnerHTML: { __html: html } });
-  else if (code != null) {
-    const isArray = Array.isArray(code);
-    const codeString = isArray ? code.join("\n") : code;
-    const isMultiline = isArray || codeString.includes("\n");
-    const codeProps = {
-      className: (0, import_classnames2.default)("nhsuk-table__code", codeClassName, {
-        "nhsuk-table__code--block": isMultiline,
-        "nhsuk-table__code--inline": !isMultiline
-      }),
-      ...codeLanguage ? { "data-language": codeLanguage } : {}
-    };
-    const highlighted = highlightCode(codeString, codeLanguage, disableHighlight);
-    content = isMultiline ? /* @__PURE__ */ jsx15("pre", { className: "nhsuk-table__pre", children: /* @__PURE__ */ jsx15("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } }) }) : /* @__PURE__ */ jsx15("code", { ...codeProps, dangerouslySetInnerHTML: { __html: highlighted } });
-  } else content = text;
-  return /* @__PURE__ */ jsx15(Tag2, { className: cls, ...cellAttrs, children: content });
-};
-var Table = TableBase;
-Table.Caption = TableCaption;
-Table.BodyRow = TableBodyRow;
-Table.HeaderCell = TableHeaderCell;
-Table.Cell = TableCell;
-var __warnedRow = false;
-var __warnedTH = false;
-Object.defineProperty(Table, "Row", {
-  configurable: true,
-  enumerable: false,
-  get() {
-    if (!__warnedRow) {
-      console.warn("Table.Row is deprecated. Use Table.BodyRow instead.");
-      __warnedRow = true;
-    }
-    return TableBodyRow;
-  }
-});
-Object.defineProperty(Table, "TH", {
-  configurable: true,
-  enumerable: false,
-  get() {
-    if (!__warnedTH) {
-      console.warn("Table.TH is deprecated. Use Table.HeaderCell instead.");
-      __warnedTH = true;
-    }
-    return TableHeaderCell;
-  }
-});
-var Table_default = Table;
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/SPCSignalsInspector.tsx
-import * as React12 from "react";
-import { jsx as jsx16, jsxs as jsxs10 } from "react/jsx-runtime";
-var SPCSignalsInspector = ({
-  engineRows,
-  measureName,
-  measureUnit,
-  onSignalFocus
-}) => {
-  var _a2, _b2, _c, _d, _e;
-  const t = useTooltipContext();
-  const focused = (_a2 = t == null ? void 0 : t.focused) != null ? _a2 : null;
-  const index = (_b2 = focused == null ? void 0 : focused.index) != null ? _b2 : null;
-  const row = typeof index === "number" && engineRows ? engineRows[index] : null;
-  const rules = React12.useMemo(
-    () => row ? extractRuleIds({
-      specialCauseSinglePointUp: !!row.rules.singlePoint.up,
-      specialCauseSinglePointDown: !!row.rules.singlePoint.down,
-      specialCauseTwoOfThreeUp: !!row.rules.twoOfThree.up,
-      specialCauseTwoOfThreeDown: !!row.rules.twoOfThree.down,
-      specialCauseFourOfFiveUp: !!row.rules.fourOfFive.up,
-      specialCauseFourOfFiveDown: !!row.rules.fourOfFive.down,
-      specialCauseShiftUp: !!row.rules.shift.up,
-      specialCauseShiftDown: !!row.rules.shift.down,
-      specialCauseTrendUp: !!row.rules.trend.up,
-      specialCauseTrendDown: !!row.rules.trend.down
-    }) : [],
-    [row]
-  );
-  const uniqueRuleNarr = React12.useMemo(
-    () => Array.from(
-      new Set(rules.map((r) => {
-        var _a3;
-        return (_a3 = ruleGlossary[r]) == null ? void 0 : _a3.narration;
-      }).filter(Boolean))
-    ),
-    [rules]
-  );
-  const variationDesc = row ? variationLabel((_c = row.classification) == null ? void 0 : _c.variation) : null;
-  const assuranceDesc = row ? assuranceLabel((_d = row.classification) == null ? void 0 : _d.assurance) : null;
-  const hasRules = rules.length > 0;
-  const isNoJudgement = row ? ((_e = row.classification) == null ? void 0 : _e.variation) === "neither" /* Neither */ && hasRules : false;
-  const lastKeyRef = React12.useRef(null);
-  React12.useEffect(() => {
-    if (!onSignalFocus) return;
-    if (!focused || row == null) return;
-    const key = `${focused.seriesId}:${focused.index}`;
-    if (lastKeyRef.current === key) return;
-    lastKeyRef.current = key;
-    try {
-      onSignalFocus({
-        index: focused.index,
-        x: focused.x,
-        y: focused.y,
-        row,
-        rules
-      });
-    } catch {
-    }
-  }, [focused == null ? void 0 : focused.seriesId, focused == null ? void 0 : focused.index, focused == null ? void 0 : focused.x, focused == null ? void 0 : focused.y, row, rules, onSignalFocus]);
-  return /* @__PURE__ */ jsxs10(
-    "div",
-    {
-      className: "fdp-spc-inspector",
-      role: "region",
-      "aria-label": "Signals inspector",
-      "data-testid": "spc-signals-inspector",
-      children: [
-        /* @__PURE__ */ jsxs10(
-          "div",
-          {
-            className: "fdp-spc-inspector__header",
-            style: {
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between"
-            },
-            children: [
-              /* @__PURE__ */ jsx16("strong", { children: "Signals inspector" }),
-              /* @__PURE__ */ jsx16("div", { className: "fdp-spc-inspector__nav", "aria-hidden": !t, children: t && /* @__PURE__ */ jsxs10("div", { style: { display: "flex", gap: 8 }, children: [
-                /* @__PURE__ */ jsx16(
-                  "button",
-                  {
-                    type: "button",
-                    className: "fdp-button fdp-button--secondary",
-                    onClick: () => {
-                      if (!t.focused) t.focusFirstPoint();
-                      else t.focusPrevPoint();
-                    },
-                    "aria-label": "Previous point",
-                    children: "\u25C0"
-                  }
-                ),
-                /* @__PURE__ */ jsx16(
-                  "button",
-                  {
-                    type: "button",
-                    className: "fdp-button fdp-button--secondary",
-                    onClick: () => {
-                      if (!t.focused) t.focusFirstPoint();
-                      else t.focusNextPoint();
-                    },
-                    "aria-label": "Next point",
-                    children: "\u25B6"
-                  }
-                )
-              ] }) })
-            ]
-          }
-        ),
-        !row || !focused ? /* @__PURE__ */ jsx16("p", { className: "fdp-spc-inspector__empty", children: "No point selected." }) : /* @__PURE__ */ jsxs10("div", { className: "fdp-spc-inspector__body", children: [
-          /* @__PURE__ */ jsxs10(
-            "div",
-            {
-              className: "fdp-spc-inspector__summary",
-              style: { display: "flex", gap: 16, flexWrap: "wrap" },
-              children: [
-                /* @__PURE__ */ jsxs10("span", { children: [
-                  /* @__PURE__ */ jsx16("strong", { children: "Point:" }),
-                  " ",
-                  focused.index + 1
-                ] }),
-                /* @__PURE__ */ jsxs10("span", { children: [
-                  /* @__PURE__ */ jsx16("strong", { children: "Value:" }),
-                  " ",
-                  focused.y,
-                  measureUnit ? ` ${measureUnit}` : "",
-                  measureName ? ` ${measureName}` : ""
-                ] })
-              ]
-            }
-          ),
-          (variationDesc || isNoJudgement || assuranceDesc) && /* @__PURE__ */ jsx16(
-            "div",
-            {
-              className: "fdp-spc-inspector__signals",
-              style: { marginTop: 8 },
-              children: /* @__PURE__ */ jsxs10(
-                "div",
-                {
-                  style: {
-                    display: "flex",
-                    gap: 8,
-                    flexWrap: "wrap",
-                    alignItems: "center"
-                  },
-                  children: [
-                    (() => {
-                      if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
-                        return /* @__PURE__ */ jsx16(
-                          Tag,
-                          {
-                            text: variationDesc,
-                            color: "default",
-                            className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--concern"
-                          }
-                        );
-                      }
-                      if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
-                        return /* @__PURE__ */ jsx16(
-                          Tag,
-                          {
-                            text: variationDesc,
-                            color: "default",
-                            className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--improvement"
-                          }
-                        );
-                      }
-                      if (isNoJudgement) {
-                        return /* @__PURE__ */ jsx16(
-                          Tag,
-                          {
-                            text: "No judgement",
-                            color: "default",
-                            className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--no-judgement",
-                            "aria-label": "Neutral special cause (no directional judgement)"
-                          }
-                        );
-                      }
-                      if (variationDesc) {
-                        return /* @__PURE__ */ jsx16(
-                          Tag,
-                          {
-                            text: variationDesc,
-                            color: "default",
-                            className: "fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--common"
-                          }
-                        );
-                      }
-                      return null;
-                    })(),
-                    assuranceDesc && (() => {
-                      const lower = assuranceDesc.toLowerCase();
-                      const isFail = lower.includes("not met") || lower.includes("not achieved");
-                      const isPass = !isFail && /(^|\b)(met|achieved)(\b|$)/.test(lower);
-                      return /* @__PURE__ */ jsx16(
-                        Tag,
-                        {
-                          text: assuranceDesc,
-                          color: "default",
-                          className: `fdp-spc-tooltip__tag fdp-spc-tag fdp-spc-tag--assurance ${isPass ? "fdp-spc-tag--improvement" : "fdp-spc-tag--concern"}`,
-                          "aria-label": `Assurance: ${assuranceDesc}`
-                        }
-                      );
-                    })()
-                  ]
-                }
-              )
-            }
-          ),
-          /* @__PURE__ */ jsxs10("div", { className: "fdp-spc-inspector__rules", style: { marginTop: 8 }, children: [
-            /* @__PURE__ */ jsx16("strong", { children: "Special cause:" }),
-            /* @__PURE__ */ jsx16(
-              "div",
-              {
-                className: "fdp-spc-tooltip__rule-tags",
-                "aria-label": "Special cause rules",
-                style: {
-                  display: "flex",
-                  gap: 6,
-                  flexWrap: "wrap",
-                  marginTop: 4
-                },
-                children: rules.length === 0 ? /* @__PURE__ */ jsx16("span", { children: " None" }) : rules.map((r) => {
-                  var _a3, _b3;
-                  const idStr = String(r);
-                  const isTrend = idStr === "trend_inc" /* TrendIncreasing */ || idStr === "trend_dec" /* TrendDecreasing */;
-                  const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
-                  const label = ((_a3 = ruleGlossary[r]) == null ? void 0 : _a3.tooltip) || idStr;
-                  return /* @__PURE__ */ jsx16(
-                    Tag,
-                    {
-                      text: label,
-                      color: "default",
-                      className: `fdp-spc-tooltip__tag fdp-spc-tag ${ruleColorClass}`,
-                      "data-rule-id": idStr,
-                      title: (_b3 = ruleGlossary[r]) == null ? void 0 : _b3.tooltip
-                    },
-                    idStr
-                  );
-                })
-              }
-            )
-          ] }),
-          uniqueRuleNarr.length > 0 && /* @__PURE__ */ jsxs10(
-            "div",
-            {
-              className: "fdp-spc-inspector__narration",
-              style: { marginTop: 8 },
-              children: [
-                /* @__PURE__ */ jsx16("strong", { children: "Summary:" }),
-                " ",
-                uniqueRuleNarr.join("; ")
-              ]
-            }
-          )
-        ] })
-      ]
-    }
-  );
-};
-var SPCSignalsInspector_default = SPCSignalsInspector;
-
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/adapter.ts
 function buildWithVisuals(args) {
   const { rows } = buildSpcV26a(args);
@@ -11680,187 +13114,64 @@ function buildWithVisuals(args) {
   return { rows, visuals: base.visuals };
 }
 
-// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.props.ts
-function normalizeSpcProps(props) {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z, __, _$, _aa, _ba, _ca, _da, _ea, _fa, _ga, _ha, _ia, _ja, _ka, _la, _ma, _na, _oa, _pa, _qa, _ra, _sa, _ta, _ua, _va, _wa, _xa, _ya, _za, _Aa, _Ba, _Ca, _Da, _Ea, _Fa, _Ga, _Ha;
-  const {
-    ui,
-    input,
-    engine,
-    container,
-    a11y,
-    visualsEngine,
-    meta,
-    data,
-    ariaLabel,
-    height,
-    showZones,
-    showPoints,
-    announceFocus,
-    className,
-    unit: unit2,
-    targets,
-    baselines,
-    ghosts,
-    settings,
-    chartType,
-    metricImprovement,
-    gradientSequences,
-    sequenceTransition,
-    processLineWidth,
-    showPartitionMarkers,
-    showWarningsPanel,
-    warningsFilter,
-    enableNeutralNoJudgement,
-    showTrendGatingExplanation,
-    trendVisualMode,
-    alwaysShowZeroY,
-    alwaysShowHundredY,
-    percentScale,
-    showTrendStartMarkers,
-    showFirstFavourableCrossMarkers,
-    showTrendBridgeOverlay,
-    showSignalsInspector,
-    onSignalFocus,
-    showIcons,
-    showEmbeddedIcon,
-    embeddedIconVariant,
-    embeddedIconRunLength,
-    showFocusIndicator,
-    visualsScenario,
-    visualsEngineSettings,
-    source,
-    narrationContext,
-    highlightOutOfControl
-  } = props;
-  if (true) {
-    if (!input && (targets !== void 0 || baselines !== void 0 || ghosts !== void 0)) {
-      console.warn(
-        "SPCChart: Flat input props (targets/baselines/ghosts) are deprecated. Use input={{ data, targets, baselines, ghosts }} instead."
-      );
-    }
-    if (!engine && settings !== void 0) {
-      console.warn(
-        "SPCChart: Flat engine prop 'settings' is deprecated. Use engine={{ chartType, metricImprovement, settings }}."
-      );
-    }
-    if (!container && (height !== void 0 || className !== void 0)) {
-      console.warn(
-        "SPCChart: Consider grouped container props. Use container={{ height, className }}."
-      );
-    }
-    if (!a11y && (ariaLabel !== void 0 || announceFocus !== void 0 || narrationContext !== void 0 || unit2 !== void 0)) {
-      console.warn(
-        "SPCChart: Consider grouped accessibility props. Use a11y={{ label, announceFocus, narrationContext, unit }}."
-      );
-    }
-    if (!visualsEngine && (visualsScenario !== void 0 || visualsEngineSettings !== void 0)) {
-      console.warn(
-        "SPCChart: Consider grouped visuals engine props. Use visualsEngine={{ scenario, settings }}."
-      );
-    }
-    if ((ui == null ? void 0 : ui.visuals) === void 0 && (showZones !== void 0 || showPoints !== void 0)) {
-      console.warn(
-        "SPCChart: Visual toggles should be grouped. Use ui={{ visuals: { showZones, showPoints } }}."
-      );
-    }
-    if (((_a2 = ui == null ? void 0 : ui.visuals) == null ? void 0 : _a2.rules) === void 0 && highlightOutOfControl !== void 0) {
-      console.warn(
-        "SPCChart: Prefer grouped rules toggle. Use ui={{ visuals: { rules: { highlightOutOfControl } } }}."
-      );
-    }
-    if (!meta && source !== void 0) {
-      console.warn(
-        "SPCChart: Consider grouped meta. Use meta={{ source }}."
-      );
-    }
+// src/components/DataVisualisation/charts/SPC/SPCChart/hooks/useZeroAxisBreak.ts
+import * as React15 from "react";
+function useZeroAxisBreak(yDomain, chartHeight, options) {
+  const show = React15.useMemo(() => {
+    if (!yDomain || yDomain.length < 2) return false;
+    const min = Math.min(yDomain[0], yDomain[1]);
+    const max = Math.max(yDomain[0], yDomain[1]);
+    return !(0 >= min && 0 <= max);
+  }, [yDomain]);
+  const { slotPx, totalReservedPx } = React15.useMemo(() => {
+    var _a2;
+    if (!show) return { slotPx: 0, totalReservedPx: 0 };
+    const height = chartHeight != null ? chartHeight : 260;
+    const innerHeightApprox = height - (12 + 48);
+    const requestedSlot = AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX;
+    const requestedExtra = AXIS_Y_ZERO_BREAK_DEFAULT_EXTRA_CLEARANCE_PX;
+    const requestedTotal = requestedSlot + requestedExtra;
+    const maxFraction = (_a2 = options == null ? void 0 : options.maxFraction) != null ? _a2 : 0.35;
+    const maxTotal = Math.max(
+      AXIS_Y_ZERO_BREAK_MIN_GAP_PX,
+      Math.floor(innerHeightApprox * maxFraction)
+    );
+    const totalReservedPx2 = Math.min(requestedTotal, maxTotal);
+    const slotPx2 = Math.min(requestedSlot, totalReservedPx2);
+    return { slotPx: slotPx2, totalReservedPx: totalReservedPx2 };
+  }, [show, chartHeight, options == null ? void 0 : options.maxFraction]);
+  return { show, slotPx, totalReservedPx };
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/utils/domain.ts
+function computeYDomain(data, limits, flags, targets) {
+  if (flags.percentScale) {
+    const allVals = data.map((d) => d.y);
+    const overMax = Math.max(100, ...allVals);
+    const underMin = Math.min(0, ...allVals);
+    return [underMin < 0 ? underMin : 0, overMax > 100 ? overMax : 100];
   }
-  const effData = (_c = (_b2 = input == null ? void 0 : input.data) != null ? _b2 : data) != null ? _c : [];
-  const effTargets = (_d = input == null ? void 0 : input.targets) != null ? _d : targets;
-  const effBaselines = (_e = input == null ? void 0 : input.baselines) != null ? _e : baselines;
-  const effGhosts = (_f = input == null ? void 0 : input.ghosts) != null ? _f : ghosts;
-  const effChartTypeCore = (_h = (_g = engine == null ? void 0 : engine.chartType) != null ? _g : chartType) != null ? _h : "XmR" /* XmR */;
-  const effMetricImprovementCore = (_j = (_i = engine == null ? void 0 : engine.metricImprovement) != null ? _i : metricImprovement) != null ? _j : "Neither" /* Neither */;
-  const effEngineSettings = (_k = engine == null ? void 0 : engine.settings) != null ? _k : settings;
-  const effEngineAutoRecalc = engine == null ? void 0 : engine.autoRecalc;
-  const effAlwaysShowZeroY = (_n = (_m = (_l = ui == null ? void 0 : ui.axes) == null ? void 0 : _l.alwaysShowZeroY) != null ? _m : alwaysShowZeroY) != null ? _n : true;
-  const effAlwaysShowHundredY = (_q = (_p = (_o = ui == null ? void 0 : ui.axes) == null ? void 0 : _o.alwaysShowHundredY) != null ? _p : alwaysShowHundredY) != null ? _q : false;
-  const effPercentScale = (_t = (_s = (_r = ui == null ? void 0 : ui.axes) == null ? void 0 : _r.percentScale) != null ? _s : percentScale) != null ? _t : false;
-  const effGradientSequences = (_w = (_v = (_u = ui == null ? void 0 : ui.visuals) == null ? void 0 : _u.gradientSequences) != null ? _v : gradientSequences) != null ? _w : false;
-  const effSequenceTransition = (_z = (_y = (_x = ui == null ? void 0 : ui.visuals) == null ? void 0 : _x.sequenceTransition) != null ? _y : sequenceTransition) != null ? _z : "slope" /* Slope */;
-  const effProcessLineWidth = (_C = (_B = (_A = ui == null ? void 0 : ui.visuals) == null ? void 0 : _A.processLineWidth) != null ? _B : processLineWidth) != null ? _C : 2;
-  const effTrendVisualMode = (_G = (_F = (_E = (_D = ui == null ? void 0 : ui.visuals) == null ? void 0 : _D.trend) == null ? void 0 : _E.visualMode) != null ? _F : trendVisualMode) != null ? _G : "ungated" /* Ungated */;
-  const effShowTrendGatingExplanation = (_K = (_J = (_I = (_H = ui == null ? void 0 : ui.visuals) == null ? void 0 : _H.trend) == null ? void 0 : _I.showGatingExplanation) != null ? _J : showTrendGatingExplanation) != null ? _K : true;
-  const effEnableNeutralNoJudgement = (_O = (_N = (_M = (_L = ui == null ? void 0 : ui.visuals) == null ? void 0 : _L.rules) == null ? void 0 : _M.enableNeutralNoJudgement) != null ? _N : enableNeutralNoJudgement) != null ? _O : true;
-  const effEnableRules = (_S = (_R = (_Q = (_P = ui == null ? void 0 : ui.visuals) == null ? void 0 : _P.rules) == null ? void 0 : _Q.enableRules) != null ? _R : props.enableRules) != null ? _S : true;
-  const effShowZones = (_T = ui == null ? void 0 : ui.visuals) == null ? void 0 : _T.showZones;
-  const effShowPoints = (_U = ui == null ? void 0 : ui.visuals) == null ? void 0 : _U.showPoints;
-  const effHighlightOutOfControl = (_W = (_V = ui == null ? void 0 : ui.visuals) == null ? void 0 : _V.rules) == null ? void 0 : _W.highlightOutOfControl;
-  const effHeight = container == null ? void 0 : container.height;
-  const effClassName = container == null ? void 0 : container.className;
-  const effAriaLabel = a11y == null ? void 0 : a11y.label;
-  const effUnit = a11y == null ? void 0 : a11y.unit;
-  const effNarrationContext = a11y == null ? void 0 : a11y.narrationContext;
-  const effVisualsScenario = visualsEngine == null ? void 0 : visualsEngine.scenario;
-  const effVisualsEngineSettings = visualsEngine == null ? void 0 : visualsEngine.settings;
-  const effSource = meta == null ? void 0 : meta.source;
-  const effShowPartitionMarkers = (_Z = (_Y = (_X = ui == null ? void 0 : ui.overlays) == null ? void 0 : _X.partitionMarkers) != null ? _Y : showPartitionMarkers) != null ? _Z : false;
-  const effShowTrendStartMarkers = (_aa = (_$ = (__ = ui == null ? void 0 : ui.overlays) == null ? void 0 : __.trendStartMarkers) != null ? _$ : showTrendStartMarkers) != null ? _aa : false;
-  const effShowFirstFavourableCrossMarkers = (_da = (_ca = (_ba = ui == null ? void 0 : ui.overlays) == null ? void 0 : _ba.firstFavourableCrossMarkers) != null ? _ca : showFirstFavourableCrossMarkers) != null ? _da : false;
-  const effShowTrendBridgeOverlay = (_ga = (_fa = (_ea = ui == null ? void 0 : ui.overlays) == null ? void 0 : _ea.trendBridge) != null ? _fa : showTrendBridgeOverlay) != null ? _ga : false;
-  const effShowSignalsInspector = (_ja = (_ia = (_ha = ui == null ? void 0 : ui.inspector) == null ? void 0 : _ha.show) != null ? _ia : showSignalsInspector) != null ? _ja : false;
-  const effOnSignalFocus = (_la = (_ka = ui == null ? void 0 : ui.inspector) == null ? void 0 : _ka.onFocus) != null ? _la : onSignalFocus;
-  const effShowWarningsPanel = (_oa = (_na = (_ma = ui == null ? void 0 : ui.warnings) == null ? void 0 : _ma.show) != null ? _na : showWarningsPanel) != null ? _oa : false;
-  const effWarningsFilter = (_qa = (_pa = ui == null ? void 0 : ui.warnings) == null ? void 0 : _pa.filter) != null ? _qa : warningsFilter;
-  const effShowIcons = (_ta = (_sa = (_ra = ui == null ? void 0 : ui.icons) == null ? void 0 : _ra.show) != null ? _sa : showIcons) != null ? _ta : false;
-  const effShowEmbeddedIcon = (_xa = (_wa = (_va = (_ua = ui == null ? void 0 : ui.icons) == null ? void 0 : _ua.embedded) == null ? void 0 : _va.show) != null ? _wa : showEmbeddedIcon) != null ? _xa : true;
-  const effEmbeddedIconVariant = (_Ba = (_Aa = (_za = (_ya = ui == null ? void 0 : ui.icons) == null ? void 0 : _ya.embedded) == null ? void 0 : _za.variant) != null ? _Aa : embeddedIconVariant) != null ? _Ba : "classic" /* Classic */;
-  const effEmbeddedIconRunLength = (_Ea = (_Da = (_Ca = ui == null ? void 0 : ui.icons) == null ? void 0 : _Ca.embedded) == null ? void 0 : _Da.runLength) != null ? _Ea : embeddedIconRunLength;
-  const effShowFocusIndicator = (_Ha = (_Ga = (_Fa = ui == null ? void 0 : ui.overlays) == null ? void 0 : _Fa.focusIndicator) != null ? _Ga : showFocusIndicator) != null ? _Ha : true;
-  return {
-    effData,
-    effTargets,
-    effBaselines,
-    effGhosts,
-    effChartTypeCore,
-    effMetricImprovementCore,
-    effEngineSettings,
-    effEngineAutoRecalc,
-    effHeight,
-    effClassName,
-    effAriaLabel,
-    effUnit,
-    effNarrationContext,
-    effShowZones,
-    effShowPoints,
-    effHighlightOutOfControl,
-    effVisualsScenario,
-    effVisualsEngineSettings,
-    effSource,
-    effAlwaysShowZeroY,
-    effAlwaysShowHundredY,
-    effPercentScale,
-    effGradientSequences,
-    effSequenceTransition,
-    effProcessLineWidth,
-    effTrendVisualMode,
-    effShowTrendGatingExplanation,
-    effEnableNeutralNoJudgement,
-    effEnableRules,
-    effShowPartitionMarkers,
-    effShowTrendStartMarkers,
-    effShowFirstFavourableCrossMarkers,
-    effShowTrendBridgeOverlay,
-    effShowSignalsInspector,
-    effOnSignalFocus,
-    effShowWarningsPanel,
-    effWarningsFilter,
-    effShowIcons,
-    effShowEmbeddedIcon,
-    effEmbeddedIconVariant,
-    effEmbeddedIconRunLength,
-    effShowFocusIndicator
+  const base = data.map((d) => d.y);
+  const add = (v) => {
+    if (v != null) base.push(v);
   };
+  add(limits.mean);
+  add(limits.ucl);
+  add(limits.lcl);
+  add(limits.onePos);
+  add(limits.oneNeg);
+  add(limits.twoPos);
+  add(limits.twoNeg);
+  if (targets && targets.length) {
+    for (const t of targets)
+      if (typeof t === "number" && !isNaN(t)) base.push(t);
+  }
+  if (!base.length) return void 0;
+  let min = Math.min(...base);
+  let max = Math.max(...base);
+  if (flags.alwaysShowZeroY) min = Math.min(0, min);
+  if (flags.alwaysShowHundredY) max = Math.max(100, max);
+  return [min, max];
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils/autoRecalc.ts
@@ -11946,78 +13257,47 @@ function autoInsertBaselinesV2(rows, args) {
   if (idx == null) return rows.slice();
   return rows.map((r, i) => i === idx ? { ...r, baseline: true } : r);
 }
+function autoInsertBaselinesMultiV2(rows, args) {
+  var _a2, _b2, _c;
+  const max = Math.max(1, Math.floor((_a2 = args.maxInsertions) != null ? _a2 : 1));
+  if (max <= 1) return autoInsertBaselinesV2(rows, args);
+  let out = rows.slice();
+  let inserted = 0;
+  const baseMinGap = Math.max(1, (_b2 = args.minGap) != null ? _b2 : 0);
+  while (inserted < max) {
+    const idx = findAutoRecalcBaselineIndexV2(out, { ...args, minGap: baseMinGap });
+    if (idx == null) break;
+    if ((_c = out[idx]) == null ? void 0 : _c.baseline) {
+      const nextIdx = findAutoRecalcBaselineIndexV2(out, { ...args, minGap: baseMinGap + 1 });
+      if (nextIdx == null || nextIdx === idx) break;
+      out = out.map((r, i) => i === nextIdx ? { ...r, baseline: true } : r);
+      inserted++;
+      continue;
+    }
+    out = out.map((r, i) => i === idx ? { ...r, baseline: true } : r);
+    inserted++;
+  }
+  return out;
+}
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import { Fragment as Fragment4, jsx as jsx17, jsxs as jsxs11 } from "react/jsx-runtime";
-var spcSequenceInstanceCounter = 0;
-var SPCChart = ({
-  data,
-  ariaLabel: ariaLabelProp = "SPC chart",
-  height: heightProp = 260,
-  showZones: showZonesProp = true,
-  showPoints: showPointsProp = true,
-  announceFocus = false,
-  className: classNameProp,
-  unit: unitProp,
-  highlightOutOfControl: highlightOutOfControlProp = true,
-  chartType = "XmR" /* XmR */,
-  metricImprovement = "Neither" /* Neither */,
-  enableRules = true,
-  showIcons = false,
-  showEmbeddedIcon = true,
-  embeddedIconVariant = "classic" /* Classic */,
-  embeddedIconRunLength,
-  targets: targetsProp,
-  baselines,
-  ghosts,
-  settings,
-  narrationContext: narrationContextProp,
-  gradientSequences = false,
-  sequenceTransition = "slope" /* Slope */,
-  processLineWidth = 2,
-  showWarningsPanel = false,
-  warningsFilter,
-  enableNeutralNoJudgement = true,
-  showTrendGatingExplanation = true,
-  trendVisualMode = "ungated" /* Ungated */,
-  disableTrendSideGating,
-  source: sourceProp,
-  alwaysShowZeroY = true,
-  alwaysShowHundredY = false,
-  percentScale = false,
-  showPartitionMarkers = false,
-  showTrendStartMarkers = false,
-  showFirstFavourableCrossMarkers = false,
-  showTrendBridgeOverlay = false,
-  showSignalsInspector = false,
-  onSignalFocus,
-  visualsScenario: visualsScenarioProp = "none" /* None */,
-  showFocusIndicator = true,
-  visualsEngineSettings: visualsEngineSettingsProp,
-  ui,
-  input,
-  engine: engineGroup,
-  // New grouped aliases
-  container,
-  a11y,
-  visualsEngine,
-  meta
-}) => {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h;
-  const formatWarningCode = React13.useCallback(
+import { jsx as jsx21, jsxs as jsxs15 } from "react/jsx-runtime";
+var SPCChart = (props) => {
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
+  const formatWarningCode = React16.useCallback(
     (code) => {
       const raw = String(code);
       return raw.replace(/^spc_warning_code\.?/i, "").replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
     []
   );
-  const formatWarningCategory = React13.useCallback(
+  const formatWarningCategory = React16.useCallback(
     (cat) => {
       return String(cat).replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
     []
   );
-  if (disableTrendSideGating !== void 0) {
+  if (props.disableTrendSideGating !== void 0) {
     console.warn(
       "SPCChart: 'disableTrendSideGating' prop is deprecated and ignored (trend side gating always enabled)."
     );
@@ -12048,7 +13328,6 @@ var SPCChart = ({
     effOnSignalFocus,
     effShowWarningsPanel,
     effWarningsFilter,
-    effShowIcons,
     effShowEmbeddedIcon,
     effEmbeddedIconVariant,
     effEmbeddedIconRunLength,
@@ -12065,58 +13344,20 @@ var SPCChart = ({
     effVisualsEngineSettings,
     effSource,
     effEngineAutoRecalc
-  } = normalizeSpcProps({
-    data,
-    targets: targetsProp,
-    baselines,
-    ghosts,
-    settings,
-    chartType,
-    metricImprovement,
-    enableRules,
-    gradientSequences,
-    sequenceTransition,
-    processLineWidth,
-    showPartitionMarkers,
-    showWarningsPanel,
-    warningsFilter,
-    enableNeutralNoJudgement,
-    showTrendGatingExplanation,
-    trendVisualMode,
-    alwaysShowZeroY,
-    alwaysShowHundredY,
-    percentScale,
-    showTrendStartMarkers,
-    showFirstFavourableCrossMarkers,
-    showTrendBridgeOverlay,
-    showSignalsInspector,
-    onSignalFocus,
-    showIcons,
-    showEmbeddedIcon,
-    embeddedIconVariant,
-    embeddedIconRunLength,
-    showFocusIndicator,
-    ui,
-    input,
-    engine: engineGroup,
-    // pass grouped aliases through so normalize can prefer them
-    container,
-    a11y,
-    visualsEngine,
-    meta
-  });
-  const ariaLabel = effAriaLabel != null ? effAriaLabel : ariaLabelProp;
-  const height = effHeight != null ? effHeight : heightProp;
-  const className = effClassName != null ? effClassName : classNameProp;
-  const unit2 = effUnit != null ? effUnit : unitProp;
-  const narrationContext = effNarrationContext != null ? effNarrationContext : narrationContextProp;
-  const showZones = effShowZones != null ? effShowZones : showZonesProp;
-  const showPoints = effShowPoints != null ? effShowPoints : showPointsProp;
-  const highlightOutOfControl = effHighlightOutOfControl != null ? effHighlightOutOfControl : highlightOutOfControlProp;
-  const visualsScenario = effVisualsScenario != null ? effVisualsScenario : visualsScenarioProp;
-  const visualsEngineSettings = effVisualsEngineSettings != null ? effVisualsEngineSettings : visualsEngineSettingsProp;
-  const source = effSource != null ? effSource : sourceProp;
-  const rowsInput = React13.useMemo(() => {
+  } = normalizeSpcProps(props);
+  const ariaLabel = effAriaLabel != null ? effAriaLabel : props.ariaLabel;
+  const height = (_a2 = effHeight != null ? effHeight : props.height) != null ? _a2 : 260;
+  const className = effClassName != null ? effClassName : props.className;
+  const unit2 = effUnit != null ? effUnit : props.unit;
+  const narrationContext = effNarrationContext != null ? effNarrationContext : props.narrationContext;
+  const showZones = effShowZones != null ? effShowZones : props.showZones;
+  const showPoints = effShowPoints != null ? effShowPoints : props.showPoints;
+  const highlightOutOfControl = effHighlightOutOfControl != null ? effHighlightOutOfControl : props.highlightOutOfControl;
+  const visualsScenario = (_b2 = effVisualsScenario != null ? effVisualsScenario : props.visualsScenario) != null ? _b2 : "none" /* None */;
+  const visualsEngineSettings = effVisualsEngineSettings != null ? effVisualsEngineSettings : props.visualsEngineSettings;
+  const source = effSource != null ? effSource : props.source;
+  const announceFocus = (_e = (_d = (_c = props.a11y) == null ? void 0 : _c.announceFocus) != null ? _d : props.announceFocus) != null ? _e : false;
+  const rowsInput = React16.useMemo(() => {
     return effData.map((d, i) => {
       var _a3, _b3, _c2;
       return {
@@ -12128,22 +13369,23 @@ var SPCChart = ({
       };
     });
   }, [effData, effTargets, effBaselines, effGhosts]);
-  const rowsInputMaybeAuto = React13.useMemo(() => {
+  const rowsInputMaybeAuto = React16.useMemo(() => {
     try {
       const cfg = effEngineAutoRecalc;
       if (!(cfg == null ? void 0 : cfg.enabled)) return rowsInput;
-      return autoInsertBaselinesV2(rowsInput, {
+      return autoInsertBaselinesMultiV2(rowsInput, {
         chartType: effChartTypeCore,
         metricImprovement: effMetricImprovementCore,
         shiftLength: cfg.shiftLength,
         deltaSigma: cfg.deltaSigma,
-        minGap: cfg.minGap
+        minGap: cfg.minGap,
+        maxInsertions: cfg.maxInsertions
       });
     } catch {
       return rowsInput;
     }
   }, [rowsInput, effEngineAutoRecalc, effChartTypeCore, effMetricImprovementCore]);
-  const v2Visuals = React13.useMemo(() => {
+  const v2Visuals = React16.useMemo(() => {
     var _a3;
     try {
       const minPts = (_a3 = effEngineSettings == null ? void 0 : effEngineSettings.minimumPointsPartition) != null ? _a3 : effEngineSettings == null ? void 0 : effEngineSettings.minimumPoints;
@@ -12205,7 +13447,7 @@ var SPCChart = ({
     visualsScenario,
     visualsEngineSettings
   ]);
-  const v2RowsForUi = React13.useMemo(() => {
+  const v2RowsForUi = React16.useMemo(() => {
     var _a3;
     try {
       const minPts = (_a3 = effEngineSettings == null ? void 0 : effEngineSettings.minimumPointsPartition) != null ? _a3 : effEngineSettings == null ? void 0 : effEngineSettings.minimumPoints;
@@ -12304,8 +13546,8 @@ var SPCChart = ({
   }, [rowsInputMaybeAuto, effChartTypeCore, effMetricImprovementCore, effEngineSettings, visualsEngineSettings]);
   const rowsForUi = v2RowsForUi || null;
   const engineRepresentative = (rowsForUi || []).slice().reverse().find((r) => r.limits.mean != null);
-  const mean3 = (_a2 = engineRepresentative == null ? void 0 : engineRepresentative.limits.mean) != null ? _a2 : null;
-  const warnings = React13.useMemo(() => {
+  const mean3 = (_f = engineRepresentative == null ? void 0 : engineRepresentative.limits.mean) != null ? _f : null;
+  const warnings = React16.useMemo(() => {
     var _a3, _b3, _c2;
     const list = [];
     try {
@@ -12353,7 +13595,7 @@ var SPCChart = ({
     }
     return list;
   }, [rowsForUi, effEngineSettings == null ? void 0 : effEngineSettings.minimumPoints, effEngineSettings == null ? void 0 : effEngineSettings.minimumPointsPartition]);
-  const filteredWarnings = React13.useMemo(() => {
+  const filteredWarnings = React16.useMemo(() => {
     if (!warnings.length) return [];
     if (!effWarningsFilter) return warnings;
     return warnings.filter((w) => {
@@ -12366,113 +13608,44 @@ var SPCChart = ({
       return true;
     });
   }, [warnings, effWarningsFilter]);
-  const [diagnosticsMessage, setDiagnosticsMessage] = React13.useState("");
-  const lastDiagnosticsRef = React13.useRef("");
-  React13.useEffect(() => {
-    if (!effShowWarningsPanel) {
-      if (lastDiagnosticsRef.current !== "") {
-        lastDiagnosticsRef.current = "";
-        setDiagnosticsMessage("");
-      }
-      return;
-    }
-    const total = filteredWarnings.length;
-    if (!total) {
-      const msg2 = "Diagnostics: no warnings.";
-      if (msg2 !== lastDiagnosticsRef.current) {
-        lastDiagnosticsRef.current = msg2;
-        setDiagnosticsMessage(msg2);
-      }
-      return;
-    }
-    const counts = {
-      error: filteredWarnings.filter(
-        (w) => w.severity === "error" /* Error */
-      ).length,
-      warning: filteredWarnings.filter(
-        (w) => w.severity === "warning" /* Warning */
-      ).length,
-      info: filteredWarnings.filter(
-        (w) => w.severity === "info" /* Info */
-      ).length
-    };
-    const breakdownParts = [];
-    if (counts.error)
-      breakdownParts.push(
-        `${counts.error} error${counts.error === 1 ? "" : "s"}`
-      );
-    if (counts.warning)
-      breakdownParts.push(
-        `${counts.warning} warning${counts.warning === 1 ? "" : "s"}`
-      );
-    if (counts.info) breakdownParts.push(`${counts.info} info`);
-    const msg = `Diagnostics updated: ${total} warning${total === 1 ? "" : "s"} (${breakdownParts.join(", ")}).`;
-    if (msg !== lastDiagnosticsRef.current) {
-      lastDiagnosticsRef.current = msg;
-      setDiagnosticsMessage(msg);
-    }
-  }, [effShowWarningsPanel, filteredWarnings]);
-  const ucl = (_b2 = engineRepresentative == null ? void 0 : engineRepresentative.limits.ucl) != null ? _b2 : null;
-  const lcl = (_c = engineRepresentative == null ? void 0 : engineRepresentative.limits.lcl) != null ? _c : null;
-  const onePos = (_d = engineRepresentative == null ? void 0 : engineRepresentative.limits.oneSigma.upper) != null ? _d : null;
-  const oneNeg = (_e = engineRepresentative == null ? void 0 : engineRepresentative.limits.oneSigma.lower) != null ? _e : null;
-  const twoPos = (_f = engineRepresentative == null ? void 0 : engineRepresentative.limits.twoSigma.upper) != null ? _f : null;
-  const twoNeg = (_g = engineRepresentative == null ? void 0 : engineRepresentative.limits.twoSigma.lower) != null ? _g : null;
+  const ucl = (_g = engineRepresentative == null ? void 0 : engineRepresentative.limits.ucl) != null ? _g : null;
+  const lcl = (_h = engineRepresentative == null ? void 0 : engineRepresentative.limits.lcl) != null ? _h : null;
+  const onePos = (_i = engineRepresentative == null ? void 0 : engineRepresentative.limits.oneSigma.upper) != null ? _i : null;
+  const oneNeg = (_j = engineRepresentative == null ? void 0 : engineRepresentative.limits.oneSigma.lower) != null ? _j : null;
+  const twoPos = (_k = engineRepresentative == null ? void 0 : engineRepresentative.limits.twoSigma.upper) != null ? _k : null;
+  const twoNeg = (_l = engineRepresentative == null ? void 0 : engineRepresentative.limits.twoSigma.lower) != null ? _l : null;
   const sigma = mean3 != null && onePos != null ? Math.abs(onePos - mean3) : 0;
-  const series = React13.useMemo(
+  const series = React16.useMemo(
     () => [{ id: "process", data: effData, color: "#A6A6A6" }],
     [effData]
   );
-  const yDomain = React13.useMemo(() => {
-    if (effPercentScale) {
-      const allVals = effData.map((d) => d.y);
-      const overMax = Math.max(100, ...allVals);
-      const underMin = Math.min(0, ...allVals);
-      return [underMin < 0 ? underMin : 0, overMax > 100 ? overMax : 100];
-    }
-    const values = effData.map((d) => d.y);
-    const base = [...values];
-    [mean3, ucl, lcl, onePos, oneNeg, twoPos, twoNeg].forEach((v) => {
-      if (v != null) base.push(v);
-    });
-    if (effTargets)
-      effTargets.forEach((t) => {
-        if (typeof t === "number" && !isNaN(t)) base.push(t);
-      });
-    if (!base.length) return void 0;
-    let min = Math.min(...base);
-    let max = Math.max(...base);
-    if (effAlwaysShowZeroY) min = Math.min(0, min);
-    if (effAlwaysShowHundredY) max = Math.max(100, max);
-    return [min, max];
-  }, [
-    effData,
-    mean3,
-    ucl,
-    lcl,
-    onePos,
-    oneNeg,
-    twoPos,
-    twoNeg,
-    effTargets,
-    effAlwaysShowZeroY,
-    effAlwaysShowHundredY,
-    effPercentScale
-  ]);
-  const showZeroBreakOuter = React13.useMemo(() => {
-    try {
-      if (!yDomain || yDomain.length < 2) return false;
-      const min = Math.min(yDomain[0], yDomain[1]);
-      const max = Math.max(yDomain[0], yDomain[1]);
-      return !(0 >= min && 0 <= max);
-    } catch {
-      return false;
-    }
-  }, [yDomain]);
-  const breakGapPx = 128;
-  const breakTickBufferPx = 40;
-  const yScaleBottomGapPx = showZeroBreakOuter ? breakGapPx + breakTickBufferPx : 0;
-  const uniformTarget = React13.useMemo(() => {
+  const yDomain = React16.useMemo(
+    () => computeYDomain(
+      effData,
+      { mean: mean3, ucl, lcl, onePos, oneNeg, twoPos, twoNeg },
+      {
+        alwaysShowZeroY: !!effAlwaysShowZeroY,
+        alwaysShowHundredY: !!effAlwaysShowHundredY,
+        percentScale: !!effPercentScale
+      },
+      effTargets != null ? effTargets : null
+    ),
+    [
+      effData,
+      mean3,
+      ucl,
+      lcl,
+      onePos,
+      oneNeg,
+      twoPos,
+      twoNeg,
+      effTargets,
+      effAlwaysShowZeroY,
+      effAlwaysShowHundredY,
+      effPercentScale
+    ]
+  );
+  const uniformTarget = React16.useMemo(() => {
     const collectUniform = (arr) => {
       const nums = arr.filter(
         (t) => typeof t === "number" && !isNaN(t)
@@ -12490,7 +13663,13 @@ var SPCChart = ({
     }
     return null;
   }, [rowsForUi, effTargets]);
-  const autoFromHelper = React13.useMemo(() => {
+  const { show: showZeroBreakOuter, slotPx: slotGapPx, totalReservedPx } = useZeroAxisBreak(
+    yDomain,
+    height,
+    { maxFraction: 0.35 }
+  );
+  const yBottomGapPx = showZeroBreakOuter ? totalReservedPx : 0;
+  const autoFromHelper = React16.useMemo(() => {
     const dateCandidates = effData.map((d) => d.x);
     return autoMetrics_default({
       values: effData.map((d) => d.y),
@@ -12502,11 +13681,11 @@ var SPCChart = ({
       autoMetadata: false
     });
   }, [effData, unit2, narrationContext == null ? void 0 : narrationContext.measureUnit]);
-  const effectiveUnit = (_h = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _h : autoFromHelper.unit;
-  const effectiveNarrationContext = React13.useMemo(() => {
+  const effectiveUnit = (_m = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _m : autoFromHelper.unit;
+  const effectiveNarrationContext = React16.useMemo(() => {
     return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
   }, [narrationContext, effectiveUnit]);
-  const partitionMarkers = React13.useMemo(() => {
+  const partitionMarkers = React16.useMemo(() => {
     if (!rowsForUi) return [];
     const markers = [];
     for (let i = 1; i < rowsForUi.length; i++) {
@@ -12515,163 +13694,49 @@ var SPCChart = ({
     }
     return markers;
   }, [rowsForUi]);
-  const embeddedIcon = React13.useMemo(() => {
-    var _a3, _b3, _c2, _d2;
-    if (!effShowEmbeddedIcon || !(rowsForUi == null ? void 0 : rowsForUi.length)) return null;
-    const engineRows = rowsForUi;
-    const minPoints = (_a3 = effEngineSettings == null ? void 0 : effEngineSettings.minimumPoints) != null ? _a3 : 13;
-    const nonGhostCount = engineRows.filter(
-      (r) => !r.data.ghost && r.data.value != null
-    ).length;
-    if (nonGhostCount < minPoints) return null;
-    let lastIdx = -1;
-    for (let i = engineRows.length - 1; i >= 0; i--) {
-      const r = engineRows[i];
-      if (r && r.data.value != null && !r.data.ghost) {
-        lastIdx = i;
-        break;
-      }
-    }
-    if (lastIdx === -1) return null;
-    const lastRow = engineRows[lastIdx];
-    const variation = (_b3 = lastRow.classification) == null ? void 0 : _b3.variation;
-    const canonicalVariation = variation;
-    const assuranceRaw = (_c2 = lastRow.classification) == null ? void 0 : _c2.assurance;
-    const hasNeutralSpecialCause = canonicalVariation === "neither" /* Neither */ && !!((_d2 = lastRow.classification) == null ? void 0 : _d2.neutralSpecialCauseValue);
-    const assuranceRenderStatus = assuranceRaw === "pass" /* Pass */ ? "pass" /* Pass */ : assuranceRaw === "fail" /* Fail */ ? "fail" /* Fail */ : "uncertain" /* Uncertain */;
-    let trend = void 0;
-    if (canonicalVariation === "suppressed" /* Suppressed */) {
-      const singleHigh = !!lastRow.rules.singlePoint.up;
-      const singleLow = !!lastRow.rules.singlePoint.down;
-      if (effMetricImprovementCore === "Up" /* Up */) {
-        if (singleHigh) trend = "higher" /* Higher */;
-        else if (singleLow) trend = "lower" /* Lower */;
-      } else if (effMetricImprovementCore === "Down" /* Down */) {
-        if (singleLow) trend = "lower" /* Lower */;
-        else if (singleHigh) trend = "higher" /* Higher */;
-      } else {
-        trend = "higher" /* Higher */;
-      }
-    } else if (canonicalVariation === "neither" /* Neither */ && hasNeutralSpecialCause) {
-      const anyHighSide = lastRow.rules.singlePoint.up || lastRow.rules.twoOfThree.up || lastRow.rules.fourOfFive.up || lastRow.rules.shift.up || lastRow.rules.trend.up;
-      const anyLowSide = lastRow.rules.singlePoint.down || lastRow.rules.twoOfThree.down || lastRow.rules.fourOfFive.down || lastRow.rules.shift.down || lastRow.rules.trend.down;
-      if (anyHighSide && !anyLowSide) trend = "higher" /* Higher */;
-      else if (anyLowSide && !anyHighSide) trend = "lower" /* Lower */;
-      else trend = "higher" /* Higher */;
-    }
-    let polarity;
-    if (effMetricImprovementCore === "Up" /* Up */)
-      polarity = "higher_is_better" /* HigherIsBetter */;
-    else if (effMetricImprovementCore === "Down" /* Down */)
-      polarity = "lower_is_better" /* LowerIsBetter */;
-    else polarity = "context_dependent" /* ContextDependent */;
-    const iconSize = 80;
-    const highSideSignal = lastRow.rules.singlePoint.up || lastRow.rules.twoOfThree.up || lastRow.rules.fourOfFive.up || lastRow.rules.shift.up || lastRow.rules.trend.up;
-    const lowSideSignal = lastRow.rules.singlePoint.down || lastRow.rules.twoOfThree.down || lastRow.rules.fourOfFive.down || lastRow.rules.shift.down || lastRow.rules.trend.down;
-    let variationEngine = "CommonCause" /* CommonCause */;
-    if (canonicalVariation === "improvement" /* Improvement */) {
-      variationEngine = "ImprovementHigh" /* ImprovementHigh */;
-    } else if (canonicalVariation === "concern" /* Concern */) {
-      variationEngine = "ConcernHigh" /* ConcernHigh */;
-    } else if (canonicalVariation === "neither" /* Neither */) {
-      if (hasNeutralSpecialCause) {
-        if (trend === "lower" /* Lower */ || lowSideSignal && !highSideSignal)
-          variationEngine = "NeitherLow" /* NeitherLow */;
-        else variationEngine = "NeitherHigh" /* NeitherHigh */;
-      } else {
-        variationEngine = "CommonCause" /* CommonCause */;
-      }
-    }
-    return /* @__PURE__ */ jsxs11(
-      "div",
-      {
-        style: { display: "flex", gap: 12, marginRight: 16 },
-        children: [
-          /* @__PURE__ */ jsx17(
-            "div",
-            {
-              className: "fdp-spc-chart__embedded-icon",
-              "data-variation": String(canonicalVariation),
-              "data-trend-raw": trend ? String(trend) : "none",
-              "data-trend": trend ? String(trend) : "none",
-              "data-polarity": String(polarity != null ? polarity : "unknown"),
-              style: { width: iconSize, height: iconSize },
-              children: /* @__PURE__ */ jsx17(
-                SPCVariationIcon,
-                {
-                  dropShadow: false,
-                  data: {
-                    variationIcon: variationEngine,
-                    improvementDirection: effMetricImprovementCore,
-                    polarity,
-                    specialCauseNeutral: hasNeutralSpecialCause,
-                    highSideSignal,
-                    lowSideSignal,
-                    ...trend ? { trend } : {}
-                  },
-                  letterMode: effMetricImprovementCore === "Neither" /* Neither */ ? "direction" /* Direction */ : "polarity" /* Polarity */,
-                  size: iconSize,
-                  variant: effEmbeddedIconVariant,
-                  runLength: effEmbeddedIconVariant === "triangleWithRun" /* TriangleWithRun */ ? effEmbeddedIconRunLength : void 0
-                }
-              )
-            }
-          ),
-          /* @__PURE__ */ jsx17(
-            "div",
-            {
-              className: "fdp-spc-chart__embedded-assurance-icon",
-              "data-assurance": String(assuranceRaw),
-              style: { width: iconSize, height: iconSize },
-              children: /* @__PURE__ */ jsx17(
-                SPCAssuranceIcon,
-                {
-                  status: assuranceRenderStatus,
-                  size: iconSize,
-                  dropShadow: false
-                }
-              )
-            }
-          )
-        ]
-      },
-      `embedded-icon-${lastIdx}`
-    );
-  }, [
-    effShowEmbeddedIcon,
-    rowsForUi,
-    effMetricImprovementCore,
-    effEngineSettings == null ? void 0 : effEngineSettings.minimumPoints,
-    effEmbeddedIconVariant,
-    effEmbeddedIconRunLength
-  ]);
-  return /* @__PURE__ */ jsxs11(
+  const embeddedIcon = React16.useMemo(
+    () => {
+      var _a3;
+      return buildEmbeddedIcon({
+        show: !!effShowEmbeddedIcon,
+        rowsForUi,
+        minPoints: (_a3 = effEngineSettings == null ? void 0 : effEngineSettings.minimumPoints) != null ? _a3 : 13,
+        metricImprovement: effMetricImprovementCore,
+        variant: effEmbeddedIconVariant,
+        runLength: effEmbeddedIconRunLength
+      });
+    },
+    [
+      effShowEmbeddedIcon,
+      rowsForUi,
+      effEngineSettings == null ? void 0 : effEngineSettings.minimumPoints,
+      effMetricImprovementCore,
+      effEmbeddedIconVariant,
+      effEmbeddedIconRunLength
+    ]
+  );
+  return /* @__PURE__ */ jsxs15(
     "div",
     {
       className: className ? `fdp-spc-chart-wrapper ${className}` : "fdp-spc-chart-wrapper",
       children: [
-        effShowEmbeddedIcon && /* @__PURE__ */ jsx17(
-          "div",
+        /* @__PURE__ */ jsx21(
+          EmbeddedIconsRow,
           {
-            className: "fdp-spc-chart__top-row",
-            style: {
-              display: "flex",
-              justifyContent: "flex-end",
-              marginBottom: 4
-            },
-            children: embeddedIcon
+            show: !!effShowEmbeddedIcon,
+            variationNode: embeddedIcon,
+            assuranceNode: null
           }
         ),
-        /* @__PURE__ */ jsx17(
+        /* @__PURE__ */ jsx21(
           ChartRoot,
           {
             height,
             ariaLabel,
             margin: { bottom: 48, left: 56, right: 16, top: 12 },
             className: void 0,
-            children: /* @__PURE__ */ jsx17(LineScalesProvider, { series, yDomain, yBottomGapPx: yScaleBottomGapPx, children: /* @__PURE__ */ jsx17(
-              InternalSPC,
-              {
+            children: /* @__PURE__ */ jsx21(LineScalesProvider, { series, yDomain, yBottomGapPx, children: (() => {
+              const internalProps = {
                 series,
                 showPoints,
                 announceFocus,
@@ -12682,11 +13747,11 @@ var SPCChart = ({
                 uniformTarget,
                 visualCategories: v2Visuals,
                 enableRules: effEnableRules,
-                showIcons: effShowIcons,
                 narrationContext: effectiveNarrationContext,
                 gradientSequences: effGradientSequences,
                 sequenceTransition: effSequenceTransition,
                 processLineWidth: effProcessLineWidth,
+                zeroBreakSlotGapPx: slotGapPx,
                 effectiveUnit,
                 partitionMarkers: effShowPartitionMarkers ? partitionMarkers : [],
                 ariaLabel,
@@ -12699,1146 +13764,29 @@ var SPCChart = ({
                 showSignalsInspector: effShowSignalsInspector,
                 onSignalFocus: effOnSignalFocus,
                 showFocusIndicator: effShowFocusIndicator
-              }
-            ) })
+              };
+              return /* @__PURE__ */ jsx21(InternalSPC_default, { ...internalProps });
+            })() })
           }
         ),
-        source && /* @__PURE__ */ jsx17("div", { className: "fdp-spc-chart__source", "aria-label": "Chart data source", children: typeof source === "string" ? /* @__PURE__ */ jsxs11("small", { children: [
+        source && /* @__PURE__ */ jsx21("div", { className: "fdp-spc-chart__source", "aria-label": "Chart data source", children: typeof source === "string" ? /* @__PURE__ */ jsxs15("small", { children: [
           "Source: ",
           source
         ] }) : source }),
-        effShowWarningsPanel && diagnosticsMessage && /* @__PURE__ */ jsx17(
-          "div",
+        /* @__PURE__ */ jsx21(
+          DiagnosticsPanel,
           {
-            "data-testid": "spc-diagnostics-live",
-            "aria-live": "polite",
-            style: {
-              position: "absolute",
-              width: 1,
-              height: 1,
-              padding: 0,
-              margin: 0,
-              overflow: "hidden",
-              clip: "rect(0 0 0 0)",
-              whiteSpace: "nowrap",
-              border: 0
-            },
-            children: diagnosticsMessage
-          }
-        ),
-        effShowWarningsPanel && filteredWarnings.length > 0 && /* @__PURE__ */ jsxs11(
-          "div",
-          {
-            className: "fdp-spc-chart__warnings",
-            role: "region",
-            "aria-label": "SPC diagnostics",
-            children: [
-              /* @__PURE__ */ jsx17("p", { className: "fdp-spc-chart__warnings-heading", children: "Diagnostics" }),
-              /* @__PURE__ */ jsx17(
-                Table_default,
-                {
-                  firstCellIsHeader: false,
-                  panel: false,
-                  responsive: false,
-                  head: [
-                    { text: "Severity" },
-                    { text: "Category" },
-                    { text: "Code" },
-                    { text: "Details" }
-                  ],
-                  rows: filteredWarnings.map((w) => {
-                    let severityColor = "grey";
-                    if (w.severity === "error" /* Error */)
-                      severityColor = "red";
-                    else if (w.severity === "warning" /* Warning */)
-                      severityColor = "orange";
-                    else if (w.severity === "info" /* Info */)
-                      severityColor = "blue";
-                    return [
-                      {
-                        node: /* @__PURE__ */ jsx17(
-                          Tag,
-                          {
-                            color: severityColor,
-                            text: (w.severity ? String(w.severity) : "Info").replace(
-                              /^[a-z]/,
-                              (c) => c.toUpperCase()
-                            )
-                          }
-                        ),
-                        classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--severity"
-                      },
-                      {
-                        node: w.category ? /* @__PURE__ */ jsx17(
-                          Tag,
-                          {
-                            color: "purple",
-                            text: formatWarningCategory(w.category)
-                          }
-                        ) : /* @__PURE__ */ jsx17("span", { className: "fdp-spc-chart__warning-empty", children: "\u2013" }),
-                        classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--category"
-                      },
-                      {
-                        node: /* @__PURE__ */ jsx17(Tag, { color: "grey", text: formatWarningCode(w.code) }),
-                        classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--code"
-                      },
-                      {
-                        node: /* @__PURE__ */ jsxs11("div", { className: "fdp-spc-chart__warning-message", children: [
-                          /* @__PURE__ */ jsx17("span", { children: w.message }),
-                          w.context && Object.keys(w.context).length > 0 && /* @__PURE__ */ jsxs11(
-                            "details",
-                            {
-                              className: "fdp-spc-chart__warning-context",
-                              style: { marginTop: 4 },
-                              children: [
-                                /* @__PURE__ */ jsx17("summary", { children: "context" }),
-                                /* @__PURE__ */ jsx17("pre", { children: JSON.stringify(w.context, null, 2) })
-                              ]
-                            }
-                          )
-                        ] }),
-                        classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--message"
-                      }
-                    ];
-                  }),
-                  classes: "fdp-spc-chart__warnings-table-wrapper",
-                  tableClasses: "fdp-spc-chart__warnings-table"
-                }
-              )
-            ]
+            show: !!effShowWarningsPanel,
+            warnings: filteredWarnings,
+            formatWarningCategory,
+            formatWarningCode
           }
         )
       ]
-    }
-  );
-};
-var InternalSPC = ({
-  series,
-  showPoints,
-  announceFocus,
-  limits,
-  showZones,
-  highlightOutOfControl,
-  engineRows,
-  enableRules,
-  showIcons,
-  narrationContext,
-  gradientSequences,
-  sequenceTransition,
-  processLineWidth,
-  effectiveUnit,
-  partitionMarkers,
-  ariaLabel,
-  metricImprovement,
-  enableNeutralNoJudgement = true,
-  showTrendGatingExplanation = true,
-  showTrendStartMarkers = false,
-  showFirstFavourableCrossMarkers = false,
-  showTrendBridgeOverlay = false,
-  showSignalsInspector = false,
-  onSignalFocus,
-  visualCategories,
-  uniformTarget,
-  showFocusIndicator = false
-}) => {
-  var _a2;
-  const scaleCtx = useScaleContext();
-  const chartCtx = useChartContext();
-  if (!scaleCtx) return null;
-  const { xScale, yScale } = scaleCtx;
-  const gradientIdBaseRef = React13.useRef(
-    "spc-seq-" + ++spcSequenceInstanceCounter
-  );
-  const tooltipCtx = useTooltipContext();
-  const all = ((_a2 = series[0]) == null ? void 0 : _a2.data) || [];
-  const outOfControl = React13.useMemo(() => {
-    if (!limits.ucl && !limits.lcl) return /* @__PURE__ */ new Set();
-    const set = /* @__PURE__ */ new Set();
-    all.forEach((d, i) => {
-      if (typeof limits.ucl === "number" && d.y > limits.ucl) set.add(i);
-      if (typeof limits.lcl === "number" && d.y < limits.lcl) set.add(i);
-    });
-    return set;
-  }, [limits.ucl, limits.lcl, all]);
-  const engineSignals = React13.useMemo(() => {
-    if (!engineRows || !engineRows.length) return null;
-    const map2 = [];
-    engineRows.forEach((r, idx) => {
-      var _a3;
-      const anySpecial = r.classification.variation === "concern" /* Concern */ || r.classification.variation === "improvement" /* Improvement */ || !!r.classification.neutralSpecialCauseValue;
-      const upAny = !!r.rules.singlePoint.up || !!r.rules.twoOfThree.up || !!r.rules.fourOfFive.up || !!r.rules.shift.up || !!r.rules.trend.up;
-      const downAny = !!r.rules.singlePoint.down || !!r.rules.twoOfThree.down || !!r.rules.fourOfFive.down || !!r.rules.shift.down || !!r.rules.trend.down;
-      map2[idx] = {
-        variation: r.classification.variation,
-        assurance: r.classification.assurance,
-        special: anySpecial,
-        concern: r.classification.variation === "concern" /* Concern */,
-        improvement: r.classification.variation === "improvement" /* Improvement */,
-        trendUp: !!r.rules.trend.up,
-        trendDown: !!r.rules.trend.down,
-        upAny,
-        downAny,
-        neutralSpecial: !!r.classification.neutralSpecialCauseValue,
-        shiftUp: !!r.rules.shift.up,
-        shiftDown: !!r.rules.shift.down,
-        twoOfThreeUp: !!r.rules.twoOfThree.up,
-        twoOfThreeDown: !!r.rules.twoOfThree.down,
-        fourOfFiveUp: !!r.rules.fourOfFive.up,
-        fourOfFiveDown: !!r.rules.fourOfFive.down,
-        partitionId: (_a3 = r.partition.id) != null ? _a3 : null
-      };
-    });
-    return map2;
-  }, [engineRows]);
-  const categories = React13.useMemo(() => {
-    return (visualCategories || []).map((c) => {
-      if (c === "Improvement" /* Improvement */)
-        return SPCChart_constants_default.Improvement;
-      if (c === "Concern" /* Concern */) return SPCChart_constants_default.Concern;
-      if (c === "NoJudgement" /* NoJudgement */)
-        return SPCChart_constants_default.NoJudgement;
-      return SPCChart_constants_default.Common;
-    });
-  }, [visualCategories]);
-  const sequences = React13.useMemo(() => {
-    if (!gradientSequences || !categories.length)
-      return [];
-    return computeGradientSequences(categories, true);
-  }, [gradientSequences, categories, ariaLabel]);
-  const xPositions = React13.useMemo(
-    () => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))),
-    [all, xScale]
-  );
-  const plotWidth = xScale.range()[1];
-  const trendInsights = React13.useMemo(() => {
-    if (!engineRows || !engineRows.length)
-      return null;
-    let earliestUp = Number.POSITIVE_INFINITY;
-    let earliestDown = Number.POSITIVE_INFINITY;
-    engineRows.forEach((r, i) => {
-      if (r.rules.trend.up) earliestUp = Math.min(earliestUp, i);
-      if (r.rules.trend.down) earliestDown = Math.min(earliestDown, i);
-    });
-    if (!Number.isFinite(earliestUp) && !Number.isFinite(earliestDown))
-      return null;
-    const useUp = earliestUp <= earliestDown;
-    const direction = useUp ? "Up" /* Up */ : "Down" /* Down */;
-    const detectedAt = useUp ? earliestUp : earliestDown;
-    const isFavourable = (row) => {
-      if (metricImprovement == null || metricImprovement === "Neither" /* Neither */)
-        return false;
-      if (row == null || typeof row.data.value !== "number" || typeof row.limits.mean !== "number")
-        return false;
-      if (direction === "Up" /* Up */) {
-        return metricImprovement === "Up" /* Up */ ? row.data.value > row.limits.mean : row.data.value < row.limits.mean;
-      }
-      return metricImprovement === "Down" /* Down */ ? row.data.value < row.limits.mean : row.data.value > row.limits.mean;
-    };
-    let firstFavourableCrossAt = null;
-    for (let i = detectedAt; i < engineRows.length; i++) {
-      const r = engineRows[i];
-      const flagged = useUp ? !!r.rules.trend.up : !!r.rules.trend.down;
-      if (!flagged) break;
-      if (isFavourable(r)) {
-        firstFavourableCrossAt = i;
-        break;
-      }
-    }
-    let persistedAcrossMean = false;
-    if (firstFavourableCrossAt != null) {
-      let favourableCount = 0;
-      for (let i = firstFavourableCrossAt; i < engineRows.length; i++) {
-        const r = engineRows[i];
-        const flagged = useUp ? !!r.rules.trend.up : !!r.rules.trend.down;
-        if (!flagged) break;
-        if (isFavourable(r)) favourableCount++;
-      }
-      persistedAcrossMean = favourableCount >= 2;
-    }
-    return {
-      direction,
-      detectedAt,
-      firstFavourableCrossAt,
-      persistedAcrossMean
-    };
-  }, [engineRows, metricImprovement]);
-  const limitSegments = React13.useMemo(() => {
-    if (!engineRows || !engineRows.length) return null;
-    const buildFrom = (extractor) => {
-      const segs = [];
-      let start = null;
-      let current = null;
-      for (let i = 0; i < engineRows.length; i++) {
-        const row = engineRows[i];
-        const raw = extractor(row);
-        const v = typeof raw === "number" && !isNaN(raw) ? raw : null;
-        if (v == null) {
-          if (start !== null && current != null) {
-            segs.push({
-              x1: xPositions[start],
-              x2: xPositions[i - 1],
-              y: yScale(current)
-            });
-            start = null;
-            current = null;
-          }
-          continue;
-        }
-        if (start === null) {
-          start = i;
-          current = v;
-          continue;
-        }
-        const EPS = 1e-9;
-        if (current != null && Math.abs(v - current) <= EPS) {
-        } else {
-          if (current != null) {
-            segs.push({
-              x1: xPositions[start],
-              x2: xPositions[i - 1],
-              y: yScale(current)
-            });
-          }
-          start = i;
-          current = v;
-        }
-      }
-      if (start !== null && current != null) {
-        segs.push({
-          x1: xPositions[start],
-          x2: xPositions[engineRows.length - 1],
-          y: yScale(current)
-        });
-      }
-      return segs;
-    };
-    return {
-      mean: buildFrom((r) => {
-        var _a3;
-        return (_a3 = r.limits.mean) != null ? _a3 : null;
-      }),
-      ucl: buildFrom((r) => {
-        var _a3;
-        return (_a3 = r.limits.ucl) != null ? _a3 : null;
-      }),
-      lcl: buildFrom((r) => {
-        var _a3;
-        return (_a3 = r.limits.lcl) != null ? _a3 : null;
-      }),
-      onePos: buildFrom((r) => {
-        var _a3;
-        return (_a3 = r.limits.oneSigma.upper) != null ? _a3 : null;
-      }),
-      oneNeg: buildFrom((r) => {
-        var _a3;
-        return (_a3 = r.limits.oneSigma.lower) != null ? _a3 : null;
-      }),
-      twoPos: buildFrom((r) => {
-        var _a3;
-        return (_a3 = r.limits.twoSigma.upper) != null ? _a3 : null;
-      }),
-      twoNeg: buildFrom((r) => {
-        var _a3;
-        return (_a3 = r.limits.twoSigma.lower) != null ? _a3 : null;
-      })
-    };
-  }, [engineRows, xPositions, yScale]);
-  const sequenceDefs = React13.useMemo(() => {
-    if (!sequences.length) return null;
-    return /* @__PURE__ */ jsxs11("defs", { children: [
-      /* @__PURE__ */ jsxs11(
-        "linearGradient",
-        {
-          id: `${gradientIdBaseRef.current}-grad-common`,
-          x1: "0%",
-          y1: "0%",
-          x2: "0%",
-          y2: "100%",
-          children: [
-            /* @__PURE__ */ jsx17(
-              "stop",
-              {
-                offset: "0%",
-                stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
-                stopOpacity: 0.28
-              }
-            ),
-            /* @__PURE__ */ jsx17(
-              "stop",
-              {
-                offset: "70%",
-                stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
-                stopOpacity: 0.12
-              }
-            ),
-            /* @__PURE__ */ jsx17(
-              "stop",
-              {
-                offset: "100%",
-                stopColor: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
-                stopOpacity: 0.045
-              }
-            )
-          ]
-        }
-      ),
-      sequences.map((seq, idx) => {
-        const id = `${gradientIdBaseRef.current}-grad-${idx}`;
-        let baseVar;
-        let top = 0.28, mid = 0.12, end = 0.045;
-        switch (seq.category) {
-          case SPCChart_constants_default.Concern:
-            baseVar = "var(--nhs-fdp-color-data-viz-spc-concern, #E46C0A)";
-            top = 0.28;
-            mid = 0.12;
-            end = 0.045;
-            break;
-          case SPCChart_constants_default.Improvement:
-            baseVar = "var(--nhs-fdp-color-data-viz-spc-improvement, #00B0F0)";
-            top = 0.26;
-            mid = 0.11;
-            end = 0.045;
-            break;
-          case SPCChart_constants_default.NoJudgement:
-            baseVar = "var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092)";
-            top = 0.26;
-            mid = 0.11;
-            end = 0.045;
-            break;
-          default:
-            baseVar = "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)";
-        }
-        return /* @__PURE__ */ jsxs11("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-          /* @__PURE__ */ jsx17("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
-          /* @__PURE__ */ jsx17("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
-          /* @__PURE__ */ jsx17("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
-        ] }, id);
-      })
-    ] });
-  }, [sequences]);
-  const sequenceAreas = React13.useMemo(() => {
-    if (!sequences.length) return null;
-    const [domainMin] = yScale.domain();
-    const baseY = yScale(domainMin);
-    const areas = sequences.map((seq, idx) => {
-      const { start: firstIdx, end: lastIdx, category } = seq;
-      if (firstIdx < 0 || lastIdx >= xPositions.length || firstIdx > lastIdx)
-        return null;
-      const firstX = xPositions[firstIdx];
-      const lastX = xPositions[lastIdx];
-      let d = "";
-      if (category === SPCChart_constants_default.Common) {
-        const prevSeq = idx > 0 ? sequences[idx - 1] : null;
-        const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
-        const leftX = prevSeq ? xPositions[prevSeq.end] : 0;
-        const leftY = prevSeq ? yScale(all[prevSeq.end].y) : baseY;
-        const rightX = nextSeq ? xPositions[nextSeq.start] : plotWidth;
-        const rightY = nextSeq ? yScale(all[nextSeq.start].y) : baseY;
-        d = `M ${leftX} ${baseY}`;
-        d += ` L ${leftX} ${leftY}`;
-        for (let i = firstIdx; i <= lastIdx; i++) {
-          d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
-        }
-        d += ` L ${rightX} ${rightY}`;
-        d += ` L ${rightX} ${baseY} Z`;
-      } else {
-        const prevSeq = idx > 0 ? sequences[idx - 1] : null;
-        const nextSeq = idx < sequences.length - 1 ? sequences[idx + 1] : null;
-        const prevColoured = prevSeq && prevSeq.category !== SPCChart_constants_default.Common;
-        const nextColoured = nextSeq && nextSeq.category !== SPCChart_constants_default.Common;
-        const firstY = yScale(all[firstIdx].y);
-        const lastY = yScale(all[lastIdx].y);
-        let startBaselineX = firstX;
-        let endBaselineX = lastX;
-        if (prevColoured) {
-          const prevX = xPositions[prevSeq.end];
-          const prevY = yScale(all[prevSeq.end].y);
-          const deltaPrev = all[firstIdx].y - all[prevSeq.end].y;
-          if (sequenceTransition === "slope" /* Slope */ && deltaPrev > 0) {
-            d = `M ${prevX} ${prevY} L ${firstX} ${firstY}`;
-            startBaselineX = prevX;
-          } else {
-            d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
-            startBaselineX = firstX;
-          }
-        } else {
-          d = `M ${firstX} ${baseY} L ${firstX} ${firstY}`;
-        }
-        for (let i = firstIdx + 1; i <= lastIdx; i++) {
-          d += ` L ${xPositions[i]} ${yScale(all[i].y)}`;
-        }
-        d += ` L ${lastX} ${lastY}`;
-        if (nextColoured) {
-          const nextFirstX = xPositions[nextSeq.start];
-          const nextFirstY = yScale(all[nextSeq.start].y);
-          const deltaNext = all[nextSeq.start].y - all[lastIdx].y;
-          if (sequenceTransition === "slope" /* Slope */ && deltaNext <= 0 || sequenceTransition === "extend" /* Extend */) {
-            d += ` L ${nextFirstX} ${nextFirstY}`;
-            endBaselineX = nextFirstX;
-          }
-        }
-        d += ` L ${endBaselineX} ${baseY}`;
-        d += ` L ${startBaselineX} ${baseY} Z`;
-        if (sequenceTransition === "neutral" /* Neutral */ && prevColoured) {
-          const prevX = xPositions[prevSeq.end];
-          const prevY = yScale(all[prevSeq.end].y);
-          const wedge = /* @__PURE__ */ jsx17(
-            "path",
-            {
-              d: `M ${prevX} ${baseY} L ${prevX} ${prevY} L ${firstX} ${firstY} L ${firstX} ${baseY} Z`,
-              fill: `url(#${gradientIdBaseRef.current}-grad-common)`,
-              stroke: "none",
-              className: "fdp-spc__sequence-bg",
-              "aria-hidden": "true"
-            },
-            `seq-wedge-${idx}`
-          );
-          return /* @__PURE__ */ jsxs11("g", { children: [
-            wedge,
-            /* @__PURE__ */ jsx17(
-              "path",
-              {
-                d,
-                fill: `url(#${gradientIdBaseRef.current}-grad-${idx})`,
-                stroke: "none",
-                className: "fdp-spc__sequence-bg",
-                "aria-hidden": "true"
-              },
-              `seq-area-${idx}`
-            )
-          ] }, `seq-group-${idx}`);
-        }
-      }
-      return /* @__PURE__ */ jsx17(
-        "path",
-        {
-          d,
-          fill: `url(#${gradientIdBaseRef.current}-grad-${idx})`,
-          stroke: "none",
-          className: "fdp-spc__sequence-bg",
-          "aria-hidden": "true"
-        },
-        `seq-area-${idx}`
-      );
-    }).filter(Boolean);
-    return /* @__PURE__ */ jsx17("g", { className: "fdp-spc__sequence-bgs", children: areas });
-  }, [sequences, xPositions, plotWidth, yScale, all, sequenceTransition]);
-  const computedTimeframe = React13.useMemo(() => {
-    if (!(narrationContext == null ? void 0 : narrationContext.timeframe) && all.length >= 2) {
-      const xs = all.map((d) => d.x instanceof Date ? d.x : new Date(d.x));
-      const min = new Date(Math.min(...xs.map((d) => d.getTime())));
-      const max = new Date(Math.max(...xs.map((d) => d.getTime())));
-      const diffDays = Math.round((max.getTime() - min.getTime()) / 864e5) || 0;
-      if (diffDays < 14)
-        return `The chart shows a timeframe of ${diffDays + 1} days`;
-      const weeks = Math.round(diffDays / 7);
-      if (weeks < 20) return `The chart shows a timeframe of ${weeks} weeks`;
-      const months = (max.getFullYear() - min.getFullYear()) * 12 + (max.getMonth() - min.getMonth()) + 1;
-      return `The chart shows a timeframe of ${months} months`;
-    }
-    if (narrationContext == null ? void 0 : narrationContext.timeframe) {
-      return `The chart shows a timeframe of ${narrationContext.timeframe}`;
-    }
-    return void 0;
-  }, [narrationContext == null ? void 0 : narrationContext.timeframe, all]);
-  const ordinal = (n) => {
-    const mod10 = n % 10, mod100 = n % 100;
-    if (mod10 === 1 && mod100 !== 11) return `${n}st`;
-    if (mod10 === 2 && mod100 !== 12) return `${n}nd`;
-    if (mod10 === 3 && mod100 !== 13) return `${n}rd`;
-    return `${n}th`;
-  };
-  const formatDateLong = (d) => `${ordinal(d.getDate())} ${d.toLocaleString("en-GB", { month: "long" })}, ${d.getFullYear()}`;
-  const toRuleFlags = (row) => ({
-    specialCauseSinglePointUp: !!(row == null ? void 0 : row.rules.singlePoint.up),
-    specialCauseSinglePointDown: !!(row == null ? void 0 : row.rules.singlePoint.down),
-    specialCauseTwoOfThreeUp: !!(row == null ? void 0 : row.rules.twoOfThree.up),
-    specialCauseTwoOfThreeDown: !!(row == null ? void 0 : row.rules.twoOfThree.down),
-    specialCauseFourOfFiveUp: !!(row == null ? void 0 : row.rules.fourOfFive.up),
-    specialCauseFourOfFiveDown: !!(row == null ? void 0 : row.rules.fourOfFive.down),
-    specialCauseShiftUp: !!(row == null ? void 0 : row.rules.shift.up),
-    specialCauseShiftDown: !!(row == null ? void 0 : row.rules.shift.down),
-    specialCauseTrendUp: !!(row == null ? void 0 : row.rules.trend.up),
-    specialCauseTrendDown: !!(row == null ? void 0 : row.rules.trend.down)
-  });
-  const formatLive = React13.useCallback(
-    ({
-      index,
-      x: x2,
-      y: y2
-    }) => {
-      var _a3;
-      const row = engineRows == null ? void 0 : engineRows[index];
-      const dateObj = x2 instanceof Date ? x2 : new Date(x2);
-      const dateLabel = formatDateLong(dateObj);
-      const unit2 = (narrationContext == null ? void 0 : narrationContext.measureUnit) ? ` ${narrationContext.measureUnit}` : "";
-      const measure = (narrationContext == null ? void 0 : narrationContext.measureName) ? ` ${narrationContext.measureName}` : "";
-      if (!row) {
-        return `General summary is: ${computedTimeframe ? computedTimeframe + ". " : ""}Point ${index + 1}, ${dateLabel}, ${y2}${unit2}${measure}`;
-      }
-      const varLabel = variationLabel((_a3 = row.classification) == null ? void 0 : _a3.variation) || "Variation";
-      const ruleIds = extractRuleIds(toRuleFlags(row));
-      const ruleNarr = ruleIds.length ? ` Rules: ${[...new Set(ruleIds.map((r) => ruleGlossary[r].narration))].join("; ")}.` : " No special cause rules.";
-      const ctxParts = [];
-      if (narrationContext == null ? void 0 : narrationContext.measureName)
-        ctxParts.push(`Measure: ${narrationContext.measureName}.`);
-      if (narrationContext == null ? void 0 : narrationContext.datasetContext)
-        ctxParts.push(`${narrationContext.datasetContext}.`);
-      if (narrationContext == null ? void 0 : narrationContext.organisation)
-        ctxParts.push(`Organisation: ${narrationContext.organisation}.`);
-      if (narrationContext == null ? void 0 : narrationContext.additionalNote)
-        ctxParts.push(narrationContext.additionalNote);
-      return [
-        `General summary is:`,
-        ...ctxParts,
-        `Point ${index + 1} recorded on `,
-        dateLabel + ",",
-        `with a value of ${y2} ${unit2}${measure}`,
-        varLabel + ".",
-        ruleNarr
-      ].join(" ").replace(/\s+/g, " ").trim();
-    },
-    [engineRows, narrationContext, computedTimeframe]
-  );
-  const describePoint = React13.useCallback(
-    (index, d) => {
-      const row = engineRows == null ? void 0 : engineRows[index];
-      if (!row) return void 0;
-      const base = formatLive({
-        index,
-        seriesId: "process",
-        x: d.x instanceof Date ? d.x : new Date(d.x),
-        y: d.y
-      });
-      return base.replace(/^General summary is:\s*/, "").replace(/^Point \d+\s*/, "");
-    },
-    [engineRows, formatLive]
-  );
-  const showZeroBreak = React13.useMemo(() => {
-    try {
-      const dom = typeof (yScale == null ? void 0 : yScale.domain) === "function" ? yScale.domain() : void 0;
-      if (!dom || !Array.isArray(dom) || dom.length < 2) return false;
-      const min = Math.min(dom[0], dom[1]);
-      const max = Math.max(dom[0], dom[1]);
-      return !(0 >= min && 0 <= max);
-    } catch {
-      return false;
-    }
-  }, [yScale]);
-  return /* @__PURE__ */ jsx17(TooltipProvider, { children: /* @__PURE__ */ jsxs11(
-    "div",
-    {
-      className: "fdp-spc-chart",
-      role: "group",
-      "aria-label": "Statistical process control chart",
-      "aria-roledescription": "chart",
-      children: [
-        /* @__PURE__ */ jsx17(
-          "svg",
-          {
-            width: scaleCtx.xScale.range()[1] + 56 + 16,
-            height: scaleCtx.yScale.range()[0] + 12 + 48,
-            role: "img",
-            children: /* @__PURE__ */ jsxs11("g", { transform: `translate(56,12)`, children: [
-              /* @__PURE__ */ jsx17(Axis_default, { type: "x" }),
-              /* @__PURE__ */ jsx17(Axis_default, { type: "y", showZeroAxisBreak: showZeroBreak, zeroAxisBreakGapPx: 32, zeroAxisBreakTickBufferPx: 40 }),
-              /* @__PURE__ */ jsx17(GridLines_default, { axis: "y", showZeroAxisBreak: showZeroBreak, zeroAxisBreakGapPx: 32, zeroAxisBreakTickBufferPx: 40 }),
-              sequenceDefs,
-              sequenceAreas,
-              partitionMarkers.map((idx, i) => {
-                const d = all[idx];
-                if (!d) return null;
-                const x2 = xScale(d.x instanceof Date ? d.x : new Date(d.x));
-                return /* @__PURE__ */ jsx17(
-                  "line",
-                  {
-                    x1: x2,
-                    x2,
-                    y1: 0,
-                    y2: yScale.range()[0],
-                    stroke: "#555",
-                    strokeDasharray: "4 4",
-                    strokeWidth: 1,
-                    "aria-hidden": "true",
-                    className: "fdp-spc__partition-marker"
-                  },
-                  `partition-marker-${i}`
-                );
-              }),
-              (limitSegments == null ? void 0 : limitSegments.mean.length) ? (() => {
-                return /* @__PURE__ */ jsxs11("g", { "aria-hidden": "true", className: "fdp-spc__cl-group", children: [
-                  limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx17(
-                    "line",
-                    {
-                      className: "fdp-spc__cl",
-                      x1: s.x1,
-                      x2: s.x2,
-                      y1: s.y,
-                      y2: s.y
-                    },
-                    `mean-${i}`
-                  )),
-                  limitSegments.mean.map((s, i) => {
-                    if (i === limitSegments.mean.length - 1) return null;
-                    const next = limitSegments.mean[i + 1];
-                    if (!next) return null;
-                    if (s.y === next.y) return null;
-                    const gap = Math.max(4, next.x1 - s.x2 || 0);
-                    const k = gap * 0.5;
-                    const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-                    return /* @__PURE__ */ jsx17(
-                      "path",
-                      {
-                        className: "fdp-spc__cl fdp-spc__cl-join",
-                        d,
-                        fill: "none"
-                      },
-                      `mean-join-${i}`
-                    );
-                  })
-                ] });
-              })() : null,
-              uniformTarget != null && // Render later (after limits) for stacking; temporary placeholder (moved below)
-              /* @__PURE__ */ jsx17(Fragment4, {}),
-              (limitSegments == null ? void 0 : limitSegments.ucl.length) ? (() => /* @__PURE__ */ jsxs11(
-                "g",
-                {
-                  "aria-hidden": "true",
-                  className: "fdp-spc__limit-group fdp-spc__limit-group--ucl",
-                  children: [
-                    limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx17(
-                      "line",
-                      {
-                        className: "fdp-spc__limit fdp-spc__limit--ucl",
-                        x1: s.x1,
-                        x2: s.x2,
-                        y1: s.y,
-                        y2: s.y,
-                        strokeWidth: 2
-                      },
-                      `ucl-${i}`
-                    )),
-                    limitSegments.ucl.map((s, i) => {
-                      if (i === limitSegments.ucl.length - 1) return null;
-                      const next = limitSegments.ucl[i + 1];
-                      if (!next) return null;
-                      if (s.y === next.y) return null;
-                      const gap = Math.max(4, next.x1 - s.x2 || 0);
-                      const k = gap * 0.5;
-                      const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-                      return /* @__PURE__ */ jsx17(
-                        "path",
-                        {
-                          className: "fdp-spc__limit fdp-spc__limit--ucl fdp-spc__limit-join",
-                          d,
-                          fill: "none",
-                          strokeWidth: 2
-                        },
-                        `ucl-join-${i}`
-                      );
-                    })
-                  ]
-                }
-              ))() : null,
-              (limitSegments == null ? void 0 : limitSegments.lcl.length) ? (() => /* @__PURE__ */ jsxs11(
-                "g",
-                {
-                  "aria-hidden": "true",
-                  className: "fdp-spc__limit-group fdp-spc__limit-group--lcl",
-                  children: [
-                    limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx17(
-                      "line",
-                      {
-                        className: "fdp-spc__limit fdp-spc__limit--lcl",
-                        x1: s.x1,
-                        x2: s.x2,
-                        y1: s.y,
-                        y2: s.y,
-                        strokeWidth: 2
-                      },
-                      `lcl-${i}`
-                    )),
-                    limitSegments.lcl.map((s, i) => {
-                      if (i === limitSegments.lcl.length - 1) return null;
-                      const next = limitSegments.lcl[i + 1];
-                      if (!next) return null;
-                      if (s.y === next.y) return null;
-                      const gap = Math.max(4, next.x1 - s.x2 || 0);
-                      const k = gap * 0.5;
-                      const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-                      return /* @__PURE__ */ jsx17(
-                        "path",
-                        {
-                          className: "fdp-spc__limit fdp-spc__limit--lcl fdp-spc__limit-join",
-                          d,
-                          fill: "none",
-                          strokeWidth: 2
-                        },
-                        `lcl-join-${i}`
-                      );
-                    })
-                  ]
-                }
-              ))() : null,
-              uniformTarget != null && /* @__PURE__ */ jsxs11("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
-                /* @__PURE__ */ jsx17(
-                  "line",
-                  {
-                    className: "fdp-spc__target",
-                    "data-testid": "spc-target-line",
-                    x1: 0,
-                    x2: xScale.range()[1],
-                    y1: yScale(uniformTarget),
-                    y2: yScale(uniformTarget),
-                    strokeWidth: 2.5
-                  }
-                ),
-                /* @__PURE__ */ jsxs11(
-                  "text",
-                  {
-                    "data-testid": "spc-target-label",
-                    x: xScale.range()[0] - 7,
-                    y: yScale(uniformTarget) - 5,
-                    textAnchor: "start",
-                    className: "fdp-spc__target-label",
-                    fontSize: 12,
-                    children: [
-                      "Target ",
-                      uniformTarget,
-                      " ",
-                      effectiveUnit || (narrationContext == null ? void 0 : narrationContext.measureUnit) || ""
-                    ]
-                  }
-                )
-              ] }),
-              showZones && limitSegments && limitSegments.mean.length > 0 && /* @__PURE__ */ jsxs11(Fragment4, { children: [
-                limitSegments.onePos.map((s, i) => /* @__PURE__ */ jsx17(
-                  "line",
-                  {
-                    className: "fdp-spc__zone fdp-spc__zone--pos1",
-                    x1: s.x1,
-                    x2: s.x2,
-                    y1: s.y,
-                    y2: s.y,
-                    "aria-hidden": "true",
-                    strokeWidth: 2
-                  },
-                  `onePos-${i}`
-                )),
-                limitSegments.oneNeg.map((s, i) => /* @__PURE__ */ jsx17(
-                  "line",
-                  {
-                    className: "fdp-spc__zone fdp-spc__zone--neg1",
-                    x1: s.x1,
-                    x2: s.x2,
-                    y1: s.y,
-                    y2: s.y,
-                    "aria-hidden": "true",
-                    strokeWidth: 2
-                  },
-                  `oneNeg-${i}`
-                )),
-                limitSegments.twoPos.map((s, i) => /* @__PURE__ */ jsx17(
-                  "line",
-                  {
-                    className: "fdp-spc__zone fdp-spc__zone--pos2",
-                    x1: s.x1,
-                    x2: s.x2,
-                    y1: s.y,
-                    y2: s.y,
-                    "aria-hidden": "true",
-                    strokeWidth: 2
-                  },
-                  `twoPos-${i}`
-                )),
-                limitSegments.twoNeg.map((s, i) => /* @__PURE__ */ jsx17(
-                  "line",
-                  {
-                    className: "fdp-spc__zone fdp-spc__zone--neg2",
-                    x1: s.x1,
-                    x2: s.x2,
-                    y1: s.y,
-                    y2: s.y,
-                    "aria-hidden": "true",
-                    strokeWidth: 2
-                  },
-                  `twoNeg-${i}`
-                ))
-              ] }),
-              trendInsights && (showTrendStartMarkers || showFirstFavourableCrossMarkers || showTrendBridgeOverlay) && (() => {
-                const startIdx = trendInsights.detectedAt;
-                const crossIdx = trendInsights.firstFavourableCrossAt;
-                const sx = all[startIdx] ? xScale(
-                  all[startIdx].x instanceof Date ? all[startIdx].x : new Date(all[startIdx].x)
-                ) : null;
-                const sy = all[startIdx] ? yScale(all[startIdx].y) : null;
-                const cx = crossIdx != null && all[crossIdx] ? xScale(
-                  all[crossIdx].x instanceof Date ? all[crossIdx].x : new Date(all[crossIdx].x)
-                ) : null;
-                const cy = crossIdx != null && all[crossIdx] ? yScale(all[crossIdx].y) : null;
-                return /* @__PURE__ */ jsxs11("g", { "aria-hidden": "true", className: "fdp-spc__trend-overlays", children: [
-                  showTrendBridgeOverlay && sx != null && sy != null && cx != null && cy != null && /* @__PURE__ */ jsx17(
-                    "line",
-                    {
-                      x1: sx,
-                      y1: sy,
-                      x2: cx,
-                      y2: cy,
-                      stroke: "#888",
-                      strokeDasharray: "4 4",
-                      strokeWidth: 2,
-                      children: /* @__PURE__ */ jsx17("title", { children: "Trend bridge: start to first favourable-side point" })
-                    }
-                  ),
-                  showTrendStartMarkers && sx != null && sy != null && /* @__PURE__ */ jsx17(
-                    "circle",
-                    {
-                      cx: sx,
-                      cy: sy,
-                      r: 6,
-                      fill: "white",
-                      stroke: "#555",
-                      strokeWidth: 2,
-                      children: /* @__PURE__ */ jsx17("title", { children: "Trend start (run reached N)" })
-                    }
-                  ),
-                  showFirstFavourableCrossMarkers && cx != null && cy != null && /* @__PURE__ */ jsx17("circle", { cx, cy, r: 5, fill: "#555", children: /* @__PURE__ */ jsx17("title", { children: "First favourable-side inclusion" }) })
-                ] });
-              })(),
-              /* @__PURE__ */ jsx17(
-                LineSeriesPrimitive_default,
-                {
-                  series: series[0],
-                  seriesIndex: 0,
-                  palette: "categorical",
-                  showPoints: false,
-                  focusablePoints: false,
-                  focusIndex: -1,
-                  parseX: (d) => d.x instanceof Date ? d.x : new Date(d.x),
-                  smooth: false,
-                  strokeWidth: processLineWidth
-                }
-              ),
-              showPoints && all.map((d, i) => {
-                var _a3;
-                const cx = xScale(d.x instanceof Date ? d.x : new Date(d.x));
-                const cy = yScale(d.y);
-                const ooc = outOfControl.has(i);
-                const sig = engineSignals == null ? void 0 : engineSignals[i];
-                const cat = categories[i];
-                const isImprovement = cat === SPCChart_constants_default.Improvement;
-                const isConcern = cat === SPCChart_constants_default.Concern;
-                const isNoJudgement = cat === SPCChart_constants_default.NoJudgement;
-                const classes = [
-                  "fdp-spc__point",
-                  ooc && highlightOutOfControl ? "fdp-spc__point--ooc" : null,
-                  enableRules && isConcern ? "fdp-spc__point--sc-concern" : null,
-                  enableRules && isImprovement ? "fdp-spc__point--sc-improvement" : null,
-                  // Neutral special-cause (no-judgement) from category, when enabled
-                  enableRules && enableNeutralNoJudgement && isNoJudgement ? "fdp-spc__point--sc-no-judgement" : null,
-                  (sig == null ? void 0 : sig.assurance) === "pass" /* Pass */ ? "fdp-spc__point--assurance-pass" : null,
-                  (sig == null ? void 0 : sig.assurance) === "fail" /* Fail */ ? "fdp-spc__point--assurance-fail" : null
-                ].filter(Boolean).join(" ");
-                const isFocused = ((_a3 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a3.index) === i;
-                return /* @__PURE__ */ jsx17(
-                  "circle",
-                  {
-                    cx,
-                    cy,
-                    r: 5,
-                    className: classes,
-                    "data-variation": sig == null ? void 0 : sig.variation,
-                    "data-assurance": sig == null ? void 0 : sig.assurance,
-                    "aria-label": ariaLabel,
-                    ...isFocused ? { "aria-describedby": `spc-tooltip-${i}` } : {}
-                  },
-                  i
-                );
-              }),
-              showFocusIndicator && showSignalsInspector && (tooltipCtx == null ? void 0 : tooltipCtx.focused) && (() => {
-                const f = tooltipCtx.focused;
-                const ix = typeof f.index === "number" ? f.index : -1;
-                if (ix < 0 || !all[ix]) return null;
-                const px = xScale(
-                  all[ix].x instanceof Date ? all[ix].x : new Date(all[ix].x)
-                );
-                const py = yScale(all[ix].y);
-                const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
-                return /* @__PURE__ */ jsxs11("g", { className: "fdp-spc__focus-indicator", "aria-hidden": "true", children: [
-                  /* @__PURE__ */ jsx17(
-                    "circle",
-                    {
-                      cx: px,
-                      cy: py,
-                      r: 7,
-                      fill: "none",
-                      stroke: focusYellow,
-                      strokeWidth: 3
-                    }
-                  ),
-                  /* @__PURE__ */ jsx17(
-                    "circle",
-                    {
-                      cx: px,
-                      cy: py,
-                      r: 5,
-                      fill: "#000",
-                      stroke: focusYellow,
-                      strokeWidth: 1.5
-                    }
-                  ),
-                  /* @__PURE__ */ jsx17(
-                    "circle",
-                    {
-                      cx: px,
-                      cy: py,
-                      r: 2.5,
-                      fill: "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)",
-                      stroke: "#fff",
-                      strokeWidth: 0.5
-                    }
-                  )
-                ] });
-              })(),
-              showIcons && enableRules && engineSignals && all.map((d, i) => {
-                const sig = engineSignals[i];
-                if (!sig) return null;
-                if (!(sig.concern || sig.improvement)) return null;
-                const rawX = xScale(d.x instanceof Date ? d.x : new Date(d.x));
-                const rawPointY = yScale(d.y);
-                let iconY = rawPointY - 10;
-                const topPadding = 12;
-                const bottomLimit = yScale.range()[0] - 4;
-                if (iconY < topPadding) {
-                  iconY = Math.min(rawPointY + 16, bottomLimit);
-                }
-                const plotWidth2 = xScale.range()[1];
-                const iconX = Math.min(Math.max(rawX, 0), plotWidth2 - 0);
-                return /* @__PURE__ */ jsx17(
-                  "text",
-                  {
-                    x: iconX,
-                    y: iconY,
-                    textAnchor: "middle",
-                    className: `fdp-spc__icon ${sig.concern ? "fdp-spc__icon--concern" : "fdp-spc__icon--improvement"}`,
-                    "aria-hidden": "true",
-                    children: sig.concern ? "!" : "\u2605"
-                  },
-                  `icon-${i}`
-                );
-              }),
-              chartCtx && /* @__PURE__ */ jsx17(
-                InteractionLayer,
-                {
-                  width: xScale.range()[1],
-                  height: yScale.range()[0]
-                }
-              ),
-              !showSignalsInspector && /* @__PURE__ */ jsx17(
-                SPCTooltipOverlay_default,
-                {
-                  engineRows,
-                  limits: { mean: limits.mean, sigma: limits.sigma },
-                  pointDescriber: describePoint,
-                  measureName: narrationContext == null ? void 0 : narrationContext.measureName,
-                  measureUnit: narrationContext == null ? void 0 : narrationContext.measureUnit,
-                  dateFormatter: (d) => formatDateLong(d),
-                  enableNeutralNoJudgement,
-                  showTrendGatingExplanation
-                }
-              )
-            ] })
-          }
-        ),
-        showSignalsInspector && /* @__PURE__ */ jsx17("div", { style: { marginTop: 8 }, children: /* @__PURE__ */ jsx17(
-          SPCSignalsInspector_default,
-          {
-            engineRows,
-            measureName: narrationContext == null ? void 0 : narrationContext.measureName,
-            measureUnit: effectiveUnit || (narrationContext == null ? void 0 : narrationContext.measureUnit),
-            onSignalFocus
-          }
-        ) }),
-        announceFocus && /* @__PURE__ */ jsx17(
-          VisuallyHiddenLiveRegion_default,
-          {
-            format: (d) => formatLive({ ...d, x: d.x instanceof Date ? d.x : new Date(d.x) })
-          }
-        )
-      ]
-    }
-  ) });
-};
-var InteractionLayer = ({
-  width,
-  height
-}) => {
-  const t = useTooltipContext();
-  if (!t) return null;
-  return /* @__PURE__ */ jsx17(
-    "rect",
-    {
-      className: "fdp-spc__interaction-layer",
-      width,
-      height,
-      fill: "transparent",
-      tabIndex: 0,
-      "aria-label": "Interactive chart area. Use arrow keys to move between points.",
-      onMouseMove: (e) => {
-        const target = e.currentTarget;
-        const bounds = target.getBoundingClientRect();
-        const x2 = e.clientX - bounds.left;
-        const y2 = e.clientY - bounds.top;
-        t.focusNearest(x2, y2);
-      },
-      onMouseLeave: () => t.clear(),
-      onKeyDown: (e) => {
-        switch (e.key) {
-          case "ArrowRight":
-            t.focusNextPoint();
-            e.preventDefault();
-            break;
-          case "ArrowLeft":
-            t.focusPrevPoint();
-            e.preventDefault();
-            break;
-          case "ArrowDown":
-            t.focusNextSeries();
-            e.preventDefault();
-            break;
-          case "ArrowUp":
-            t.focusPrevSeries();
-            e.preventDefault();
-            break;
-          case "Home":
-            t.focusFirstPoint();
-            e.preventDefault();
-            break;
-          case "End":
-            t.focusLastPoint();
-            e.preventDefault();
-            break;
-        }
-      },
-      style: { cursor: "crosshair" }
     }
   );
 };
 var SPCChart_default = SPCChart;
-
-// src/components/DataVisualisation/charts/SPC/icons.ts
-var icons_exports = {};
-__export(icons_exports, {
-  AssuranceResult: () => AssuranceResult,
-  Direction: () => Direction,
-  MetricPolarity: () => MetricPolarity,
-  SPCAssuranceIcon: () => SPCAssuranceIcon,
-  SPCVariationIcon: () => SPCVariationIcon,
-  VariationJudgement: () => VariationJudgement,
-  VariationState: () => VariationState,
-  getVariationColour: () => getVariationColour,
-  getVariationTrend: () => getVariationTrend
-});
 export {
   AssuranceIcon,
   BaselineSuggestionReason,

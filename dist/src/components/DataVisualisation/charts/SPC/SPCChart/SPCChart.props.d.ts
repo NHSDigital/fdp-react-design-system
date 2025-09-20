@@ -212,6 +212,8 @@ export interface SPCChartProps {
             shiftLength?: number;
             deltaSigma?: number;
             minGap?: number;
+            /** Optional: insert up to N baselines instead of just one. */
+            maxInsertions?: number;
         };
     };
     /** Optional grouped visuals engine props. Preferred over flat props when provided. */
@@ -238,6 +240,7 @@ export type NormalisedSpcProps = {
         shiftLength?: number;
         deltaSigma?: number;
         minGap?: number;
+        maxInsertions?: number;
     };
     effHeight?: number;
     effClassName?: string;

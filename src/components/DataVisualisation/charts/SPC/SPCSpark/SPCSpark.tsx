@@ -9,7 +9,7 @@ import {
 } from "./SPCSpark.types";
 import { tokenColour, getGradientOpacities } from "../SPCIcons/tokenUtils";
 import { VariationState, MetricPolarity, Direction } from "../SPCIcons/SPCConstants";
-import { ImprovementDirection } from "../SPCChart/types";
+import { ImprovementDirection } from "../engine";
 import { deriveVariationAriaDescription } from "../SPCIcons/SPCIcon";
 
 const SIZE_PRESETS: Record<

@@ -5,6 +5,7 @@ import SPCChartAutoRecalcBasicExample from '../doc-examples/SPCChartAutoRecalcBa
 import SPCChartAutoRecalcTunedExample from '../doc-examples/SPCChartAutoRecalcTunedExample';
 import SPCChartAutoRecalcMinGapExample from '../doc-examples/SPCChartAutoRecalcMinGapExample';
 import SPCChartAutoRecalcAppendExample from '../doc-examples/SPCChartAutoRecalcAppendExample';
+import SPCChartAutoRecalcMultiExample from '../doc-examples/SPCChartAutoRecalcMultiExample';
 
 <Meta title="Data Visualisation/SPC/Guides/SPCChart Automatic Baseline Insertion"/>
 
@@ -53,6 +54,7 @@ Key parameters:
     [ { code: 'shiftLength', codeLanguage: 'typescript' }, { code: 'number', codeLanguage: 'typescript' }, { code: '6', codeLanguage: 'typescript' }, { text: 'Points in each pre/post window (sustained run length).' } ],
     [ { code: 'deltaSigma', codeLanguage: 'typescript' }, { code: 'number', codeLanguage: 'typescript' }, { code: '0.5', codeLanguage: 'typescript' }, { text: 'Minimum |Δmean| in sigma units between pre and post windows.' } ],
     [ { code: 'minGap', codeLanguage: 'typescript' }, { code: 'number', codeLanguage: 'typescript' }, { code: '—', codeLanguage: 'typescript' }, { text: 'Optional minimum points since previous baseline.' } ],
+    [ { code: 'maxInsertions', codeLanguage: 'typescript' }, { code: 'number', codeLanguage: 'typescript' }, { code: '0', codeLanguage: 'typescript' }, { text: 'Optional cap for multiple automatic baseline insertions per render. Default preserves single-insert behaviour.' } ],
   ]}
   firstCellIsHeader
 />
@@ -110,6 +112,22 @@ import { ChartType, ImprovementDirection } from '../types';
 
 <SPCChartAutoRecalcMinGapExample />
 
+### Multiple insertions (cap with maxInsertions)
+
+```tsx
+<SPCChart
+  input={{ data: series }}
+  engine={{
+    chartType: ChartType.XmR,
+    metricImprovement: ImprovementDirection.Up,
+    autoRecalc: { enabled: true, maxInsertions: 2, minGap: 12 }
+  }}
+  enableRules
+/>
+```
+
+<SPCChartAutoRecalcMultiExample />
+
 ### Interactive: append points and watch auto-recalc
 
 Use the buttons to append points to the current series. Start with several baseline-like points,
@@ -134,7 +152,7 @@ Note
 ## Caveats and good practice
 
 - Treat this as a convenience: for audited outputs, manual baselines may still be preferred.
-- The pre-processor does not yet insert multiple baselines; it picks the first qualifying candidate per render.
+- Multiple insertions are supported via `maxInsertions`; the default value preserves single-insert behaviour. Each insertion iteration enforces at least a 1-point progress to avoid re-selecting the same index and respects `minGap` when provided.
 - For `metricImprovement.Neither`, the direction is inferred from the delta sign.
 - Rare-event charts (T/G) are unaffected; targets are ignored in v2 for T/G per current guidance.
 

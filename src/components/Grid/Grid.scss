@@ -1,6 +1,10 @@
 // NHS Grid SCSS - Modern CSS Grid implementation
 @use "../../../packages/nhs-fdp/scss" as nhs;
 
+// Breakpoints (based on NHS UK) – define before any usage
+$tablet: 641px;
+$desktop: 769px;
+
 // Alignment utility classes for Column
 .nhsuk-grid-align-left {
 	/* Horizontal alignment of inline content */
@@ -26,9 +30,36 @@
 	align-items: flex-end;
 }
 
-// Breakpoints (based on NHS UK)
-$tablet: 641px;
-$desktop: 769px;
+// Row-level alignment: center or right justify content across columns.
+// We avoid forcing all rows to flex; only when an align class is present.
+.nhsuk-grid-row.nhsuk-grid-row-align-center,
+.nhsuk-grid-row.nhsuk-grid-row-align-right,
+.nhsuk-grid-row.nhsuk-grid-row-align-left {
+	// Reset default grid display so flex alignment can take effect
+	display: flex;
+	flex-wrap: wrap;
+	gap: nhs.$nhs-fdp-spacing-2;
+
+	@media (min-width: #{$desktop}) {
+		gap: nhs.$nhs-fdp-spacing-4;
+	}
+}
+
+.nhsuk-grid-row.nhsuk-grid-row-align-center {
+	justify-content: center;
+	text-align: center;
+}
+
+.nhsuk-grid-row.nhsuk-grid-row-align-right {
+	justify-content: flex-end;
+	text-align: right;
+}
+
+.nhsuk-grid-row.nhsuk-grid-row-align-left {
+	justify-content: flex-start;
+	text-align: left;
+}
+
 
 // Container styles
 .nhsuk-width-container {

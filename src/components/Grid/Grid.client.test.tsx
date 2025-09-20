@@ -1,4 +1,4 @@
-import { ColumnAlign } from './Grid.types';
+import { ColumnAlign, RowAlign } from './Grid.types';
   it('Column align left/center/right', () => {
     const { rerender } = render(<Column align={ColumnAlign.Left}><div>Left</div></Column>);
     let col = screen.getByText('Left').parentElement!;
@@ -12,10 +12,21 @@ import { ColumnAlign } from './Grid.types';
   });
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { Container, Column, Grid } from './Grid';
+import { Container, Column, Grid, Row } from './Grid';
 import { GridWidth } from './Grid.types';
 
 describe('Grid (client)', () => {
+  it('Row align left/center/right', () => {
+    const { rerender } = render(<Row align={RowAlign.Left}><div>Row Left</div></Row>);
+    let row = screen.getByText('Row Left').parentElement!;
+    expect(row.classList.contains('nhsuk-grid-row-align-left')).toBe(true);
+    rerender(<Row align={RowAlign.Center}><div>Row Center</div></Row>);
+    row = screen.getByText('Row Center').parentElement!;
+    expect(row.classList.contains('nhsuk-grid-row-align-center')).toBe(true);
+    rerender(<Row align={RowAlign.Right}><div>Row Right</div></Row>);
+    row = screen.getByText('Row Right').parentElement!;
+    expect(row.classList.contains('nhsuk-grid-row-align-right')).toBe(true);
+  });
   it('Container default / fluid toggle', () => {
     const { rerender } = render(<Container><div>Content</div></Container>);
     const base = screen.getByText('Content').parentElement!;

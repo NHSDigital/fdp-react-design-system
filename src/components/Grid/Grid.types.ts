@@ -31,6 +31,13 @@ export interface RowProps {
 	children: React.ReactNode;
 	className?: string;
 	style?: React.CSSProperties;
+	align?: RowAlign | 'left' | 'center' | 'right';
+}
+
+export enum RowAlign {
+	Left = "left",
+	Center = "center",
+	Right = "right",
 }
 
 export enum ColumnAlign {

@@ -1,6 +1,7 @@
 import { render, cleanup } from "@testing-library/react";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { SPCChart, ImprovementDirection } from "./SPCChart";
+import { SPCChart } from "./SPCChart";
+import { ImprovementDirection } from "../engine";
 import { TrendVisualMode } from "./SPCChart.props";
 import { VisualsScenario } from "../engine";
 import grouped from "./test-data/Test Data.grouped.json";

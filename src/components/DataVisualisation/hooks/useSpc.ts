@@ -5,7 +5,7 @@ import {
 	VARIATION_COLOURS,
 	VariationState,
 } from "../charts/SPC/SPCIcons/SPCConstants";
-import { ChartType, ImprovementDirection } from "../charts/SPC/SPCChart/types";
+import { ChartType, ImprovementDirection } from "../charts/SPC/engine";
 import type {
 	SPCSparkProps,
 	SPCSparkPoint,

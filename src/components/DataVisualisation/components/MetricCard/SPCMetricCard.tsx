@@ -3,7 +3,7 @@ import MetricCard, { type MetricCardProps } from "./MetricCard";
 import { SPCSpark } from "../../charts/SPC/SPCSpark/SPCSpark";
 import useSpc from "../../hooks/useSpc";
 
-import { ImprovementDirection } from "../../charts/SPC/SPCChart/types";
+import { ImprovementDirection } from "../../charts/SPC/engine";
 import computeAutoMetrics from "../../charts/SPC/utils/autoMetrics";
 
 export interface SPCMetricCardProps extends Omit<MetricCardProps, "visual"> {

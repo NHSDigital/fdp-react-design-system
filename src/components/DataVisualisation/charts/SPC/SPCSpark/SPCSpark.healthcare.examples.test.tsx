@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { SPCSpark } from './SPCSpark';
 import { VariationState } from '../SPCIcons/SPCConstants';
-import { ImprovementDirection } from '../SPCChart/logic/spcConstants';
+import { ImprovementDirection } from '../engine';
 
 // Datasets replicated from SPCChart.healthcare.stories for parity
 const ed4hValues = [69,70,68,71,70,69,70,69,71,70,68,69,78,79,80,81,79,78,82,81,80,79,81,80];

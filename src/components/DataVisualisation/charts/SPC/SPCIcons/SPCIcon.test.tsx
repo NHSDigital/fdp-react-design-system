@@ -3,7 +3,8 @@ import { render, screen } from '@testing-library/react';
 import { SPCVariationIcon } from './SPCIcon';
 import { LetterMode, SpcEmbeddedIconVariant, SpcLetterGlyph } from '../SPCChart/SPCChart.constants';
 import { Direction } from './SPCConstants';
-import { VariationIcon, ImprovementDirection } from '../SPCChart/logic/spcConstants';
+import { VariationIcon } from '../SPCChart/types';
+import { ImprovementDirection } from '../engine';
 
 describe('SPCVariationIcon', () => {
   const base = {
@@ -13,14 +14,14 @@ describe('SPCVariationIcon', () => {
   } as const;
 
   it('renders classic variant with accessible label', () => {
-  render(<SPCVariationIcon data={base} ariaLabel="Improving" variant={SpcEmbeddedIconVariant.Classic} />);
+  render(<SPCVariationIcon data={base as any} ariaLabel="Improving" variant={SpcEmbeddedIconVariant.Classic} />);
   const svg = screen.getByRole('img', { name: /Improving/i });
   expect(svg).not.toBeNull();
     expect(svg.querySelectorAll('circle').length).toBeGreaterThan(0);
   });
 
   it('renders triangle variant', () => {
-  render(<SPCVariationIcon data={base} ariaLabel="Improving" variant={SpcEmbeddedIconVariant.Triangle} />);
+  render(<SPCVariationIcon data={base as any} ariaLabel="Improving" variant={SpcEmbeddedIconVariant.Triangle} />);
   const svg = screen.getByRole('img', { name: /Improving/i });
   expect(svg).not.toBeNull();
     // ring + interior + maybe others
@@ -29,7 +30,7 @@ describe('SPCVariationIcon', () => {
   });
 
   it('renders triangleWithRun variant including run points when runLength provided', () => {
-  render(<SPCVariationIcon data={base} ariaLabel="Improving" variant={SpcEmbeddedIconVariant.TriangleWithRun} runLength={3} />);
+  render(<SPCVariationIcon data={base as any} ariaLabel="Improving" variant={SpcEmbeddedIconVariant.TriangleWithRun} runLength={3} />);
   const svg = screen.getByRole('img', { name: /Improving/i });
   expect(svg).not.toBeNull();
     // run circles (5 potential, some filled)
@@ -39,7 +40,7 @@ describe('SPCVariationIcon', () => {
 
   it('infers direction from improvementDirection when trend omitted (improving + Down -> L)', () => {
     const payload = { variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Down } as const;
-    render(<SPCVariationIcon data={payload} ariaLabel="Improving" />);
+  render(<SPCVariationIcon data={payload as any} ariaLabel="Improving" />);
     const text = screen.getByText('L');
     expect(text).not.toBeNull();
   });
@@ -48,21 +49,21 @@ describe('SPCVariationIcon', () => {
     // Deteriorating with improvementDirection Up => inferred direction Lower (so direction letter would be L)
     // polarity derived from improvementDirection Up -> expect H when letterMode=polarity
     const derivePayload = { variationIcon: VariationIcon.Concern, improvementDirection: ImprovementDirection.Up } as const;
-  render(<SPCVariationIcon data={derivePayload} ariaLabel="Det" letterMode={LetterMode.Polarity} />);
+  render(<SPCVariationIcon data={derivePayload as any} ariaLabel="Det" letterMode={LetterMode.Polarity} />);
     const text = screen.getByText('H');
     expect(text).not.toBeNull();
   });
 
   it('letterOverride takes precedence', () => {
     const derivePayload = { variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Down } as const; // would normally show L (direction Lower)
-  render(<SPCVariationIcon data={derivePayload} ariaLabel="Imp" letterOverride={SpcLetterGlyph.H} />);
+  render(<SPCVariationIcon data={derivePayload as any} ariaLabel="Imp" letterOverride={SpcLetterGlyph.H} />);
     const text = screen.getByText('H');
     expect(text).not.toBeNull();
   });
 
   it('default polarity mapping: deteriorating + HigherIsBetter yields H (polarity-based)', () => {
     const payload = { variationIcon: VariationIcon.Concern, improvementDirection: ImprovementDirection.Up } as const;
-    render(<SPCVariationIcon data={payload} ariaLabel="Det" />);
+  render(<SPCVariationIcon data={payload as any} ariaLabel="Det" />);
     const text = screen.getByText('H');
     expect(text).not.toBeNull();
   });

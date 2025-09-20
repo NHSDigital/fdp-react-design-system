@@ -49,9 +49,15 @@ export const Row: React.FC<RowProps> = ({
 	children,
 	className,
 	style,
+	align,
 	...props
 }) => {
-	const rowClasses = classNames("nhsuk-grid-row", className);
+	const rowClasses = classNames(
+		"nhsuk-grid-row",
+		// Row-specific alignment class to avoid column flex styles
+		align ? `nhsuk-grid-row-align-${align}` : undefined,
+		className
+	);
 
 	return (
 		<div className={rowClasses} style={style} {...props}>

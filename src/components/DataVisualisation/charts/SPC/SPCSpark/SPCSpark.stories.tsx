@@ -1,7 +1,7 @@
 // React import omitted (automatic JSX runtime)
 import type { Meta, StoryObj } from "@storybook/react";
 import { SPCSpark } from "./SPCSpark";
-import { ImprovementDirection } from "../SPCChart/types";
+import { ImprovementDirection } from "../engine";
 import { VariationState } from "../SPCIcons/SPCConstants";
 
 const meta: Meta<typeof SPCSpark> = {

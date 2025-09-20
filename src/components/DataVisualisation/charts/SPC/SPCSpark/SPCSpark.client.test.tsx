@@ -2,7 +2,7 @@
 import { render, screen } from "@testing-library/react";
 import { SPCSpark } from "./SPCSpark";
 import { VariationState } from "../SPCIcons/SPCConstants";
-import { ImprovementDirection } from "../SPCChart/types";
+import { ImprovementDirection } from "../engine";
 
 describe("SPCSpark", () => {
 	const data = Array.from({ length: 10 }).map((_, i) => ({ value: 50 + i }));

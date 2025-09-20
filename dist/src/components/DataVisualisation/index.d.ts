@@ -9,7 +9,9 @@ export { default as FilterableLineChart, type FilterableLineChartProps, } from "
 export { default as ChartRoot, type ChartRootProps } from "./core/ChartRoot";
 export { useChartContext } from "./core/ChartRoot";
 export { useScaleContext, LineScalesProvider, type ScaleContextValue, } from "./core/ScaleContext";
-export { default as Axis, type AxisProps } from "./charts/Axis/Axis.tsx";
+export { default as Axis } from "./charts/Axis/Axis.tsx";
+export type { AxisProps, AxisTickFormatPreset, AxisYZeroBreakConfig, AxisZigZagConfig, } from "./charts/Axis/Axis.types";
+export { AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX, AXIS_Y_ZERO_BREAK_MIN_GAP_PX, AXIS_Y_ZERO_BREAK_DEFAULT_EXTRA_CLEARANCE_PX, AXIS_ZIGZAG_DEFAULT_AMPLITUDE_PX, AXIS_ZIGZAG_DEFAULT_CYCLES, AXIS_ZIGZAG_DEFAULT_STEP_X_PX, AXIS_ZIGZAG_DEFAULT_HEIGHT_PX, } from "./charts/Axis/Axis.tokens";
 export { default as GridLines, type GridLinesProps, } from "./charts/GridLines/GridLines.tsx";
 export { default as LineSeriesPrimitive, type LineSeriesPrimitiveProps, } from "./series/LineSeriesPrimitive";
 export { default as AreaSeriesPrimitive, type AreaSeriesPrimitiveProps, type AreaSeries, type AreaDatum, } from "./series/AreaSeriesPrimitive";

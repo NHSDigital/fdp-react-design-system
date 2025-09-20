@@ -50,12 +50,23 @@ export const SPCChartAutoRecalcAppendExample: React.FC = () => {
 		});
 	}, []);
 
+	// Provide a further-shifted level to enable multiple favourable runs (for multiple insertions)
+	const appendFurtherShiftedLike = React.useCallback(() => {
+		setSeries((prev) => {
+			const i = prev.length;
+			const lastDate = prev[prev.length - 1]?.x as Date;
+			const nextDate = new Date(lastDate);
+			nextDate.setDate(nextDate.getDate() + 1);
+			return [...prev, { x: nextDate, y: 33 + noiseAt(i) }];
+		});
+	}, []);
+
 	const reset = React.useCallback(() => setSeries(buildInitialSeries()), []);
 
 	return (
 		<Grid>
-			<Row style={{ marginBottom: 32 }}>
-				<Column width={GridWidth.OneThird}>
+			<Row style={{ marginBottom: 16 }}>
+				<Column width={GridWidth.OneQuarter}>
 					<Label htmlFor="spc-auto-recalc-direction" size="s">Good is:</Label>
 					<Select
 						id="spc-auto-recalc-direction"
@@ -70,17 +81,23 @@ export const SPCChartAutoRecalcAppendExample: React.FC = () => {
 						]}
 					/>
 				</Column>
-				<Column width={GridWidth.TwoThirds} style={{ textAlign: "right" }}>
+				<Column width={GridWidth.ThreeQuarters} style={{ textAlign: "right" }}>
 					<Button variant="secondary" onClick={appendBaselineLike} style={{ marginRight: 8 }}>
 						Append baseline-like
 					</Button>
 					<Button variant="secondary" onClick={appendShiftedLike} style={{ marginRight: 8 }}>
 						Append shifted-like
 					</Button>
-					<Button variant="primary" onClick={reset}>
-						Reset
+					<Button variant="secondary" onClick={appendFurtherShiftedLike} style={{ marginRight: 8 }}>
+						Append further-shifted-like
 					</Button>
+					
 				</Column>
+			</Row>
+			<Row style={{ marginBottom: 32 }} align="right">
+				<Button variant="primary" onClick={reset}>
+					Reset
+				</Button>
 			</Row>
 			<Row>
 				<Column>
@@ -89,7 +106,7 @@ export const SPCChartAutoRecalcAppendExample: React.FC = () => {
 						engine={{
 							chartType: ChartType.XmR,
 							metricImprovement: direction,
-							autoRecalc: { enabled: true, shiftLength: 6, deltaSigma: 0.5 },
+							autoRecalc: { enabled: true, shiftLength: 6, deltaSigma: 0.5, minGap: 8 },
 						}}
 						ui={{
 							overlays: { partitionMarkers: true },
@@ -108,7 +125,9 @@ export const SPCChartAutoRecalcAppendExample: React.FC = () => {
 					<p style={{ marginTop: 16, opacity: 0.85 }}>
 						Tip: Append several shifted-like points to form a sustained favourable
 						run; when evidence crosses the configured thresholds, a baseline will be
-						inserted (see partition markers).
+						inserted (see partition markers). Use the further-shifted button to create
+						another favourable run. The demo inserts at most one baseline per calculation
+						and enforces a spacing (<code>minGap</code>) to avoid rapid re-partitioning.
 					</p>
 				</Column>
 			</Row>

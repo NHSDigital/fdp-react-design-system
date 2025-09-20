@@ -2,7 +2,8 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { render, cleanup } from '@testing-library/react';
 import { SPCVariationIcon } from './SPCIcon';
 import { Direction } from './SPCConstants';
-import { VariationIcon, ImprovementDirection } from '../SPCChart/types';
+import { VariationIcon } from '../SPCChart/types';
+import { ImprovementDirection } from '../engine';
 import { LetterMode, SpcEmbeddedIconVariant, SpcLetterGlyph } from '../SPCChart/SPCChart.constants';
 
 // Utility to extract letters H/L from rendered SVG
@@ -43,7 +44,7 @@ describe('SPCVariationIcon permutations', () => {
         it(`${exp.icon} / ${exp.improvement} polarity-mode`, () => {
           const { container } = render(
             <SPCVariationIcon
-      data={{ variationIcon: exp.icon, improvementDirection: exp.improvement }}
+        data={{ variationIcon: exp.icon, improvementDirection: exp.improvement } as any}
               variant={variant}
               runLength={variant === SpcEmbeddedIconVariant.TriangleWithRun ? 3 : undefined}
             />
@@ -80,7 +81,7 @@ describe('SPCVariationIcon permutations', () => {
       it(`neutral (${dirKey}) has no letter (polarity mode)`, () => {
             const { container } = render(
               <SPCVariationIcon
-        data={{ variationIcon: VariationIcon.Neither, trend }}
+        data={{ variationIcon: VariationIcon.Neither, trend } as any}
                 variant={variant}
                 runLength={variant === SpcEmbeddedIconVariant.TriangleWithRun ? 2 : undefined}
               />
@@ -91,7 +92,7 @@ describe('SPCVariationIcon permutations', () => {
       it(`neutral (${dirKey}) has no letter (direction mode)`, () => {
             const { container } = render(
               <SPCVariationIcon
-        data={{ variationIcon: VariationIcon.Neither, trend }}
+        data={{ variationIcon: VariationIcon.Neither, trend } as any}
                 variant={variant}
                 letterMode={LetterMode.Direction}
                 runLength={variant === SpcEmbeddedIconVariant.TriangleWithRun ? 2 : undefined}
@@ -106,7 +107,7 @@ describe('SPCVariationIcon permutations', () => {
       it('letterOverride forces value even when polarity would suppress', () => {
         const { container } = render(
           <SPCVariationIcon
-    data={{ variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Neither }}
+      data={{ variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Neither } as any}
             variant={variant}
             letterOverride={SpcLetterGlyph.H}
             runLength={variant === SpcEmbeddedIconVariant.TriangleWithRun ? 3 : undefined}

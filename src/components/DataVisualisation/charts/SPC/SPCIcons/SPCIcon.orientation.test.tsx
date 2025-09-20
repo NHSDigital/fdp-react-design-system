@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
 import { SPCVariationIcon } from './SPCIcon';
-import { VariationIcon, ImprovementDirection } from '../SPCChart/types';
+import { VariationIcon } from '../SPCChart/types';
+import { ImprovementDirection } from '../engine';
 import { SpcEmbeddedIconVariant } from '../SPCChart/SPCChart.constants';
 
 // Helper to get polygon points from SVG
@@ -38,32 +39,32 @@ function isDownTriangle(points: string) {
 
 describe('SPCVariationIcon triangle orientation', () => {
   it('improvement + Up -> up triangle', () => {
-    const { container } = render(<SPCVariationIcon data={{ variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Up }} variant={SpcEmbeddedIconVariant.Triangle} />);
+    const { container } = render(<SPCVariationIcon data={{ variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Up } as any} variant={SpcEmbeddedIconVariant.Triangle} />);
     const pts = getPolygonPoints(container);
     expect(isUpTriangle(pts)).toBe(true);
   });
   it('improvement + Down -> down triangle', () => {
-    const { container } = render(<SPCVariationIcon data={{ variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Down }} variant={SpcEmbeddedIconVariant.Triangle} />);
+    const { container } = render(<SPCVariationIcon data={{ variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Down } as any} variant={SpcEmbeddedIconVariant.Triangle} />);
     const pts = getPolygonPoints(container);
     expect(isDownTriangle(pts)).toBe(true);
   });
   it('concern + Up -> down triangle', () => {
-    const { container } = render(<SPCVariationIcon data={{ variationIcon: VariationIcon.Concern, improvementDirection: ImprovementDirection.Up }} variant={SpcEmbeddedIconVariant.Triangle} />);
+    const { container } = render(<SPCVariationIcon data={{ variationIcon: VariationIcon.Concern, improvementDirection: ImprovementDirection.Up } as any} variant={SpcEmbeddedIconVariant.Triangle} />);
     const pts = getPolygonPoints(container);
     expect(isDownTriangle(pts)).toBe(true);
   });
   it('concern + Down -> up triangle', () => {
-    const { container } = render(<SPCVariationIcon data={{ variationIcon: VariationIcon.Concern, improvementDirection: ImprovementDirection.Down }} variant={SpcEmbeddedIconVariant.Triangle} />);
+    const { container } = render(<SPCVariationIcon data={{ variationIcon: VariationIcon.Concern, improvementDirection: ImprovementDirection.Down } as any} variant={SpcEmbeddedIconVariant.Triangle} />);
     const pts = getPolygonPoints(container);
     expect(isUpTriangle(pts)).toBe(true);
   });
   it('triangleWithRun improvement + Down -> down triangle', () => {
-    const { container } = render(<SPCVariationIcon data={{ variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Down }} variant={SpcEmbeddedIconVariant.TriangleWithRun} runLength={3} />);
+    const { container } = render(<SPCVariationIcon data={{ variationIcon: VariationIcon.Improvement, improvementDirection: ImprovementDirection.Down } as any} variant={SpcEmbeddedIconVariant.TriangleWithRun} runLength={3} />);
     const pts = getPolygonPoints(container);
     expect(isDownTriangle(pts)).toBe(true);
   });
   it('triangleWithRun concern + Down -> up triangle', () => {
-    const { container } = render(<SPCVariationIcon data={{ variationIcon: VariationIcon.Concern, improvementDirection: ImprovementDirection.Down }} variant={SpcEmbeddedIconVariant.TriangleWithRun} runLength={3} />);
+    const { container } = render(<SPCVariationIcon data={{ variationIcon: VariationIcon.Concern, improvementDirection: ImprovementDirection.Down } as any} variant={SpcEmbeddedIconVariant.TriangleWithRun} runLength={3} />);
     const pts = getPolygonPoints(container);
     expect(isUpTriangle(pts)).toBe(true);
   });

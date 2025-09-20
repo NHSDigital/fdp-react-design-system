@@ -407,6 +407,8 @@ export const GradientPaletteLightBlueDiagonal =
   "linear-gradient(135deg, #005eb8, #60b2e2)"; // Light Blue gradient diagonal
 export const GradientPaletteLightBlue45deg =
   "linear-gradient(45deg, #005eb8, #60b2e2)"; // Light Blue gradient at 45deg
+export const GradientPaletteLightBlue270deg =
+  "linear-gradient(270deg, #005eb8, #60b2e2)"; // Light Blue gradient at 270deg (horizontal)
 export const GradientPaletteLightBlueFromTopLeft =
   "linear-gradient(to bottom right, #005eb8, #60b2e2)"; // Light Blue gradient from top-left corner
 export const GradientPaletteLightBlueFromTopRight =
@@ -423,6 +425,8 @@ export const GradientPaletteDarkBlueDiagonal =
   "linear-gradient(135deg, #005eb8, #003087)"; // Dark Blue gradient diagonal
 export const GradientPaletteDarkBlue45deg =
   "linear-gradient(45deg, #005eb8, #003087)"; // Dark Blue gradient at 45deg
+export const GradientPaletteDarkBlue270deg =
+  "linear-gradient(270deg, #005eb8, #003087)"; // Dark Blue gradient at 270deg (horizontal)
 export const GradientPaletteDarkBlueFromTopLeft =
   "linear-gradient(to bottom right, #005eb8, #003087)"; // Dark Blue gradient from top-left corner
 export const GradientPaletteDarkBlueFromTopRight =
@@ -438,6 +442,8 @@ export const GradientPalettePurpleDiagonal =
   "linear-gradient(135deg, #ac98cb, #d6cce3)"; // Purple gradient diagonal
 export const GradientPalettePurple45deg =
   "linear-gradient(45deg, #ac98cb, #d6cce3)"; // Purple gradient at 45deg
+export const GradientPalettePurple270deg =
+  "linear-gradient(270deg, #ac98cb, #d6cce3)"; // Purple gradient at 270deg (horizontal)
 export const GradientPalettePurpleFromTopLeft =
   "linear-gradient(to bottom right, #ac98cb, #d6cce3)"; // Purple gradient from top-left corner
 export const GradientPalettePurpleFromTopRight =
@@ -453,6 +459,8 @@ export const GradientPaletteGreenDiagonal =
   "linear-gradient(135deg, #007f3b, #63a691)"; // Green gradient diagonal
 export const GradientPaletteGreen45deg =
   "linear-gradient(45deg, #007f3b, #63a691)"; // Green gradient at 45deg
+export const GradientPaletteGreen270deg =
+  "linear-gradient(270deg, #007f3b, #63a691)"; // Green gradient at 270deg (horizontal)
 export const GradientPaletteGreenFromTopLeft =
   "linear-gradient(to bottom right, #007f3b, #63a691)"; // Green gradient from top-left corner
 export const GradientPaletteGreenFromTopRight =
@@ -468,6 +476,8 @@ export const GradientPaletteGreyDiagonal =
   "linear-gradient(135deg, #4c6272, #768692)"; // Grey gradient diagonal
 export const GradientPaletteGrey45deg =
   "linear-gradient(45deg, #4c6272, #768692)"; // Grey gradient at 45deg
+export const GradientPaletteGrey270deg =
+  "linear-gradient(270deg, #4c6272, #768692)"; // Grey gradient at 270deg (horizontal)
 export const GradientPaletteGreyFromTopLeft =
   "linear-gradient(to bottom right, #4c6272, #768692)"; // Grey gradient from top-left corner
 export const GradientPaletteGreyFromTopRight =

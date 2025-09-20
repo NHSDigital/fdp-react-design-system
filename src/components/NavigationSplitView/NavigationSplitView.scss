@@ -48,7 +48,8 @@
   flex-direction: column;
   width: 100%;
   background: var(--nsplit-background);
-  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  // Respect brand-aware font at runtime
+  font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
   font-size: nhs.$nhs-fdp-font-size-19-desktop;
 
   &__header {
@@ -317,7 +318,8 @@
   &__item-content {
     flex: 1;
     min-width: 0;
-    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback}; // Frutiger for first column text
+    // Inherit brand-aware base font rather than forcing NHS stack
+    font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
     display: block;
   }
 

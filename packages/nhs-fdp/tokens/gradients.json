@@ -63,6 +63,10 @@
 			"light-blue-45deg": {
 				"$value": "linear-gradient(45deg, #005eb8, #60b2e2)",
 				"$description": "Light Blue gradient at 45deg"
+					},
+					"light-blue-270deg": {
+						"$value": "linear-gradient(270deg, #005eb8, #60b2e2)",
+						"$description": "Light Blue gradient at 270deg (horizontal)"
 			},
 			"light-blue-from-top-left": {
 				"$value": "linear-gradient(to bottom right, #005eb8, #60b2e2)",
@@ -95,6 +99,10 @@
 			"dark-blue-45deg": {
 				"$value": "linear-gradient(45deg, #005eb8, #003087)",
 				"$description": "Dark Blue gradient at 45deg"
+					},
+					"dark-blue-270deg": {
+						"$value": "linear-gradient(270deg, #005eb8, #003087)",
+						"$description": "Dark Blue gradient at 270deg (horizontal)"
 			},
 			"dark-blue-from-top-left": {
 				"$value": "linear-gradient(to bottom right, #005eb8, #003087)",
@@ -127,6 +135,10 @@
 			"purple-45deg": {
 				"$value": "linear-gradient(45deg, #ac98cb, #d6cce3)",
 				"$description": "Purple gradient at 45deg"
+					},
+					"purple-270deg": {
+						"$value": "linear-gradient(270deg, #ac98cb, #d6cce3)",
+						"$description": "Purple gradient at 270deg (horizontal)"
 			},
 			"purple-from-top-left": {
 				"$value": "linear-gradient(to bottom right, #ac98cb, #d6cce3)",
@@ -159,6 +171,10 @@
 			"green-45deg": {
 				"$value": "linear-gradient(45deg, #007f3b, #63a691)",
 				"$description": "Green gradient at 45deg"
+					},
+					"green-270deg": {
+						"$value": "linear-gradient(270deg, #007f3b, #63a691)",
+						"$description": "Green gradient at 270deg (horizontal)"
 			},
 			"green-from-top-left": {
 				"$value": "linear-gradient(to bottom right, #007f3b, #63a691)",
@@ -191,6 +207,10 @@
 			"grey-45deg": {
 				"$value": "linear-gradient(45deg, #4c6272, #768692)",
 				"$description": "Grey gradient at 45deg"
+					},
+					"grey-270deg": {
+						"$value": "linear-gradient(270deg, #4c6272, #768692)",
+						"$description": "Grey gradient at 270deg (horizontal)"
 			},
 			"grey-from-top-left": {
 				"$value": "linear-gradient(to bottom right, #4c6272, #768692)",

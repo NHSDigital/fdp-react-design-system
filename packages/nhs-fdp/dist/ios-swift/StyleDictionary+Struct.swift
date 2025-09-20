@@ -406,6 +406,7 @@ internal struct StyleDictionaryStruct {
     internal static let gradientMetricCardSuccess = linear-gradient(135deg, rgba(0,164,153,0.10), #ffffff) /** Success metric card subtle wash (Aqua Green 10% → White) */
     internal static let gradientMetricCardWarning = linear-gradient(135deg, rgba(237,79,0,0.10), #ffffff) /** Warning metric card subtle wash (Tangerine 10% → White) */
     internal static let gradientPaletteDarkBlue = linear-gradient(90deg, #005eb8, #003087) /** Dark Blue gradient (NHS Blue → NHS Dark Blue) */
+    internal static let gradientPaletteDarkBlue270deg = linear-gradient(270deg, #005eb8, #003087) /** Dark Blue gradient at 270deg (horizontal) */
     internal static let gradientPaletteDarkBlue45deg = linear-gradient(45deg, #005eb8, #003087) /** Dark Blue gradient at 45deg */
     internal static let gradientPaletteDarkBlueDiagonal = linear-gradient(135deg, #005eb8, #003087) /** Dark Blue gradient diagonal */
     internal static let gradientPaletteDarkBlueFromBottomLeft = linear-gradient(to top right, #005eb8, #003087) /** Dark Blue gradient from bottom-left corner */
@@ -414,6 +415,7 @@ internal struct StyleDictionaryStruct {
     internal static let gradientPaletteDarkBlueFromTopRight = linear-gradient(to bottom left, #005eb8, #003087) /** Dark Blue gradient from top-right corner */
     internal static let gradientPaletteDarkBlueVertical = linear-gradient(180deg, #005eb8, #003087) /** Dark Blue gradient vertical (top→bottom) */
     internal static let gradientPaletteGreen = linear-gradient(90deg, #007f3b, #63a691) /** Green gradient (NHS Green → NHS Dark Green 60% tint) */
+    internal static let gradientPaletteGreen270deg = linear-gradient(270deg, #007f3b, #63a691) /** Green gradient at 270deg (horizontal) */
     internal static let gradientPaletteGreen45deg = linear-gradient(45deg, #007f3b, #63a691) /** Green gradient at 45deg */
     internal static let gradientPaletteGreenDiagonal = linear-gradient(135deg, #007f3b, #63a691) /** Green gradient diagonal */
     internal static let gradientPaletteGreenFromBottomLeft = linear-gradient(to top right, #007f3b, #63a691) /** Green gradient from bottom-left corner */
@@ -422,6 +424,7 @@ internal struct StyleDictionaryStruct {
     internal static let gradientPaletteGreenFromTopRight = linear-gradient(to bottom left, #007f3b, #63a691) /** Green gradient from top-right corner */
     internal static let gradientPaletteGreenVertical = linear-gradient(180deg, #007f3b, #63a691) /** Green gradient vertical (top→bottom) */
     internal static let gradientPaletteGrey = linear-gradient(90deg, #4c6272, #768692) /** Grey gradient (NHS Dark Grey → NHS Mid Grey) */
+    internal static let gradientPaletteGrey270deg = linear-gradient(270deg, #4c6272, #768692) /** Grey gradient at 270deg (horizontal) */
     internal static let gradientPaletteGrey45deg = linear-gradient(45deg, #4c6272, #768692) /** Grey gradient at 45deg */
     internal static let gradientPaletteGreyDiagonal = linear-gradient(135deg, #4c6272, #768692) /** Grey gradient diagonal */
     internal static let gradientPaletteGreyFromBottomLeft = linear-gradient(to top right, #4c6272, #768692) /** Grey gradient from bottom-left corner */
@@ -430,6 +433,7 @@ internal struct StyleDictionaryStruct {
     internal static let gradientPaletteGreyFromTopRight = linear-gradient(to bottom left, #4c6272, #768692) /** Grey gradient from top-right corner */
     internal static let gradientPaletteGreyVertical = linear-gradient(180deg, #4c6272, #768692) /** Grey gradient vertical (top→bottom) */
     internal static let gradientPaletteLightBlue = linear-gradient(90deg, #005eb8, #60b2e2) /** Light Blue gradient (NHS Blue → #60b2e2) */
+    internal static let gradientPaletteLightBlue270deg = linear-gradient(270deg, #005eb8, #60b2e2) /** Light Blue gradient at 270deg (horizontal) */
     internal static let gradientPaletteLightBlue45deg = linear-gradient(45deg, #005eb8, #60b2e2) /** Light Blue gradient at 45deg */
     internal static let gradientPaletteLightBlueDiagonal = linear-gradient(135deg, #005eb8, #60b2e2) /** Light Blue gradient diagonal */
     internal static let gradientPaletteLightBlueFromBottomLeft = linear-gradient(to top right, #005eb8, #60b2e2) /** Light Blue gradient from bottom-left corner */
@@ -438,6 +442,7 @@ internal struct StyleDictionaryStruct {
     internal static let gradientPaletteLightBlueFromTopRight = linear-gradient(to bottom left, #005eb8, #60b2e2) /** Light Blue gradient from top-right corner */
     internal static let gradientPaletteLightBlueVertical = linear-gradient(180deg, #005eb8, #60b2e2) /** Light Blue gradient vertical (top→bottom) */
     internal static let gradientPalettePurple = linear-gradient(90deg, #ac98cb, #d6cce3) /** Purple gradient (#ac98cb → NHS Purple 20% tint) */
+    internal static let gradientPalettePurple270deg = linear-gradient(270deg, #ac98cb, #d6cce3) /** Purple gradient at 270deg (horizontal) */
     internal static let gradientPalettePurple45deg = linear-gradient(45deg, #ac98cb, #d6cce3) /** Purple gradient at 45deg */
     internal static let gradientPalettePurpleDiagonal = linear-gradient(135deg, #ac98cb, #d6cce3) /** Purple gradient diagonal */
     internal static let gradientPalettePurpleFromBottomLeft = linear-gradient(to top right, #ac98cb, #d6cce3) /** Purple gradient from bottom-left corner */

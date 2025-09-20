@@ -389,6 +389,7 @@
   --gradient-palette-light-blue-vertical: linear-gradient(180deg, #005eb8, #60b2e2); /** Light Blue gradient vertical (top→bottom) */
   --gradient-palette-light-blue-diagonal: linear-gradient(135deg, #005eb8, #60b2e2); /** Light Blue gradient diagonal */
   --gradient-palette-light-blue-45deg: linear-gradient(45deg, #005eb8, #60b2e2); /** Light Blue gradient at 45deg */
+  --gradient-palette-light-blue-270deg: linear-gradient(270deg, #005eb8, #60b2e2); /** Light Blue gradient at 270deg (horizontal) */
   --gradient-palette-light-blue-from-top-left: linear-gradient(to bottom right, #005eb8, #60b2e2); /** Light Blue gradient from top-left corner */
   --gradient-palette-light-blue-from-top-right: linear-gradient(to bottom left, #005eb8, #60b2e2); /** Light Blue gradient from top-right corner */
   --gradient-palette-light-blue-from-bottom-left: linear-gradient(to top right, #005eb8, #60b2e2); /** Light Blue gradient from bottom-left corner */
@@ -397,6 +398,7 @@
   --gradient-palette-dark-blue-vertical: linear-gradient(180deg, #005eb8, #003087); /** Dark Blue gradient vertical (top→bottom) */
   --gradient-palette-dark-blue-diagonal: linear-gradient(135deg, #005eb8, #003087); /** Dark Blue gradient diagonal */
   --gradient-palette-dark-blue-45deg: linear-gradient(45deg, #005eb8, #003087); /** Dark Blue gradient at 45deg */
+  --gradient-palette-dark-blue-270deg: linear-gradient(270deg, #005eb8, #003087); /** Dark Blue gradient at 270deg (horizontal) */
   --gradient-palette-dark-blue-from-top-left: linear-gradient(to bottom right, #005eb8, #003087); /** Dark Blue gradient from top-left corner */
   --gradient-palette-dark-blue-from-top-right: linear-gradient(to bottom left, #005eb8, #003087); /** Dark Blue gradient from top-right corner */
   --gradient-palette-dark-blue-from-bottom-left: linear-gradient(to top right, #005eb8, #003087); /** Dark Blue gradient from bottom-left corner */
@@ -405,6 +407,7 @@
   --gradient-palette-purple-vertical: linear-gradient(180deg, #ac98cb, #d6cce3); /** Purple gradient vertical (top→bottom) */
   --gradient-palette-purple-diagonal: linear-gradient(135deg, #ac98cb, #d6cce3); /** Purple gradient diagonal */
   --gradient-palette-purple-45deg: linear-gradient(45deg, #ac98cb, #d6cce3); /** Purple gradient at 45deg */
+  --gradient-palette-purple-270deg: linear-gradient(270deg, #ac98cb, #d6cce3); /** Purple gradient at 270deg (horizontal) */
   --gradient-palette-purple-from-top-left: linear-gradient(to bottom right, #ac98cb, #d6cce3); /** Purple gradient from top-left corner */
   --gradient-palette-purple-from-top-right: linear-gradient(to bottom left, #ac98cb, #d6cce3); /** Purple gradient from top-right corner */
   --gradient-palette-purple-from-bottom-left: linear-gradient(to top right, #ac98cb, #d6cce3); /** Purple gradient from bottom-left corner */
@@ -413,6 +416,7 @@
   --gradient-palette-green-vertical: linear-gradient(180deg, #007f3b, #63a691); /** Green gradient vertical (top→bottom) */
   --gradient-palette-green-diagonal: linear-gradient(135deg, #007f3b, #63a691); /** Green gradient diagonal */
   --gradient-palette-green-45deg: linear-gradient(45deg, #007f3b, #63a691); /** Green gradient at 45deg */
+  --gradient-palette-green-270deg: linear-gradient(270deg, #007f3b, #63a691); /** Green gradient at 270deg (horizontal) */
   --gradient-palette-green-from-top-left: linear-gradient(to bottom right, #007f3b, #63a691); /** Green gradient from top-left corner */
   --gradient-palette-green-from-top-right: linear-gradient(to bottom left, #007f3b, #63a691); /** Green gradient from top-right corner */
   --gradient-palette-green-from-bottom-left: linear-gradient(to top right, #007f3b, #63a691); /** Green gradient from bottom-left corner */
@@ -421,6 +425,7 @@
   --gradient-palette-grey-vertical: linear-gradient(180deg, #4c6272, #768692); /** Grey gradient vertical (top→bottom) */
   --gradient-palette-grey-diagonal: linear-gradient(135deg, #4c6272, #768692); /** Grey gradient diagonal */
   --gradient-palette-grey-45deg: linear-gradient(45deg, #4c6272, #768692); /** Grey gradient at 45deg */
+  --gradient-palette-grey-270deg: linear-gradient(270deg, #4c6272, #768692); /** Grey gradient at 270deg (horizontal) */
   --gradient-palette-grey-from-top-left: linear-gradient(to bottom right, #4c6272, #768692); /** Grey gradient from top-left corner */
   --gradient-palette-grey-from-top-right: linear-gradient(to bottom left, #4c6272, #768692); /** Grey gradient from top-right corner */
   --gradient-palette-grey-from-bottom-left: linear-gradient(to top right, #4c6272, #768692); /** Grey gradient from bottom-left corner */

@@ -695,7 +695,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		}
 
 		// Constrain the two-line (stacked) variant to 150px for better balance
-		&[data-logo-variant="twoLine"] {
+		&[data-logo-variant="twoLine"], &[data-logo-variant="twoLineInverse"] {
 			max-width: 150px;
 			width: 150px;
 		}
@@ -769,6 +769,12 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	background-color: var(--brand-fdp-semantic-surface-background-primary, #ffffff);
 	color: var(--brand-fdp-semantic-surface-text-primary, #425563);
 	
+	&__container {
+		padding-left: 32px;
+		padding-right: 32px;
+		max-width: none;
+	}
+
 	// Service area links adopt text/link colors suitable for light background
 	// Include both linked and non-linked service names to ensure consistent weight
 	&__service-logo,
@@ -995,6 +1001,28 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 [data-brand="fdp"] .nhsuk-header.nhsuk-header--dark-grey-gradient {
 	// Use the grey gradient palette token (Dark Grey → Mid Grey)
 	background: tokens.$nhs-fdp-gradient-palette-grey;
+	color: tokens.$nhs-fdp-color-primary-white;
+
+	.nhsuk-header__navigation { background: transparent; }
+
+	// Reset link/button colors back to white for dark background
+	.nhsuk-header__service-logo,
+	.nhsuk-header__service-name,
+	.nhsuk-header__service-name[href],
+	.nhsuk-header__organisation-name,
+	.nhsuk-header__navigation-link,
+	.nhsuk-header__navigation-button {
+		color: tokens.$nhs-fdp-color-primary-white;
+	}
+
+	// Navigation separator hairline on dark background
+	.nhsuk-header__navigation-container { box-shadow: inset 0 0.25px 0 0 tokens.$nhs-fdp-border-color-default; }
+
+}
+
+[data-brand="fdp"] .nhsuk-header.nhsuk-header--dark-blue-gradient {
+	// Use the grey gradient palette token (Dark Blue → NHS Blue)
+	background: tokens.$nhs-fdp-gradient-palette-dark-blue-270deg;
 	color: tokens.$nhs-fdp-color-primary-white;
 
 	.nhsuk-header__navigation { background: transparent; }

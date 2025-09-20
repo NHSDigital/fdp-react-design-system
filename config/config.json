@@ -408,7 +408,29 @@
             "showFileHeader": true,
             "selector": ":root"
           }
-        }
+				},
+				{
+					"destination": "semantics.css",
+					"format": "css/variables",
+					"options": {
+						"showFileHeader": true,
+						"selector": ":root"
+					}
+				},
+						{
+							"destination": "brand-fdp.css",
+							"format": "css/variables-flat",
+							"options": {
+								"showFileHeader": true,
+								"selector": "[data-brand=fdp]"
+							},
+							"filter": {
+								"attributes": {
+									"category": "brand",
+									"type": "fdp"
+								}
+							}
+						}
       ]
     },
     "android": {

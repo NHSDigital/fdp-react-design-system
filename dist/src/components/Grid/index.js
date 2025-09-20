@@ -142,6 +142,7 @@ var Row = ({
   className,
   style,
   align,
+  rowGap,
   ...props
 }) => {
   const rowClasses = (0, import_classnames.default)(
@@ -188,12 +189,34 @@ var Grid = ({
   children,
   className,
   style,
+  rowGap = 8,
   ...props
 }) => {
   const childrenArray = React.Children.toArray(children);
   const firstChild = childrenArray[0];
   const hasRowAsFirstChild = React.isValidElement(firstChild) && (firstChild.type === Row || typeof firstChild.props === "object" && firstChild.props && "className" in firstChild.props && typeof firstChild.props.className === "string" && firstChild.props.className.includes("nhsuk-grid-row"));
-  return /* @__PURE__ */ jsx(Container, { className, style, ...props, children: hasRowAsFirstChild ? children : /* @__PURE__ */ jsx(Row, { children }) });
+  const gapValue = typeof rowGap === "number" ? `${rowGap}px` : rowGap;
+  let content = children;
+  if (hasRowAsFirstChild) {
+    content = childrenArray.map((child, idx) => {
+      if (!React.isValidElement(child)) return child;
+      const el = child;
+      const propsAny = el.props || {};
+      const classNameStr = typeof propsAny.className === "string" ? propsAny.className : "";
+      const isRowLike = el.type === Row || classNameStr.includes("nhsuk-grid-row");
+      if (!isRowLike) return child;
+      const rowSpecificGap = propsAny.rowGap;
+      const resolvedGap = rowSpecificGap !== void 0 ? typeof rowSpecificGap === "number" ? `${rowSpecificGap}px` : rowSpecificGap : gapValue;
+      const marginTop = idx === 0 ? void 0 : resolvedGap;
+      if (!marginTop) return child;
+      const mergedStyle = { ...propsAny.style || {}, marginTop };
+      return React.cloneElement(el, { style: mergedStyle });
+    });
+  } else {
+    const implicitRowStyle = { marginTop: void 0 };
+    content = /* @__PURE__ */ jsx(Row, { style: implicitRowStyle, children });
+  }
+  return /* @__PURE__ */ jsx(Container, { className, style, ...props, children: content });
 };
 export {
   Breakpoint,

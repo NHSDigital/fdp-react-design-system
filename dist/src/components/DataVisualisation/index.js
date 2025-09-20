@@ -1698,6 +1698,53 @@ var require_tokens = __commonJS({
           error: "#d5281b"
         }
       },
+      brand: {
+        fdp: {
+          primary: {
+            "dark-blue": "#003087",
+            blue: "#005eb8",
+            green: "#009639",
+            "dark-green": "#63a691",
+            purple: "#d6cce3",
+            white: "#ffffff"
+          },
+          grey: {
+            "1": "#425563",
+            "2": "#768692",
+            "3": "#aeb7bd",
+            "4": "#d8dde0",
+            "5": "#e8edee"
+          },
+          semantic: {
+            intent: {
+              primary: "#009639",
+              secondary: "#005eb8",
+              warning: "#d5281b",
+              success: "#009639",
+              neutral: "#425563",
+              info: "#003087"
+            },
+            surface: {
+              background: {
+                primary: "#ffffff",
+                secondary: "#e8edee",
+                elevated: "#ffffff"
+              },
+              text: {
+                primary: "#425563",
+                secondary: "#768692",
+                tertiary: "#aeb7bd",
+                inverse: "#ffffff"
+              },
+              border: {
+                default: "#d8dde0",
+                subtle: "#e8edee",
+                strong: "#768692"
+              }
+            }
+          }
+        }
+      },
       color: {
         primary: {
           blue: "#005eb8",
@@ -2268,6 +2315,48 @@ var require_tokens = __commonJS({
           success: "linear-gradient(135deg, rgba(0,164,153,0.10), #ffffff)",
           warning: "linear-gradient(135deg, rgba(237,79,0,0.10), #ffffff)",
           error: "linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff)"
+        },
+        palette: {
+          "light-blue": "linear-gradient(90deg, #005eb8, #60b2e2)",
+          "light-blue-vertical": "linear-gradient(180deg, #005eb8, #60b2e2)",
+          "light-blue-diagonal": "linear-gradient(135deg, #005eb8, #60b2e2)",
+          "light-blue-45deg": "linear-gradient(45deg, #005eb8, #60b2e2)",
+          "light-blue-from-top-left": "linear-gradient(to bottom right, #005eb8, #60b2e2)",
+          "light-blue-from-top-right": "linear-gradient(to bottom left, #005eb8, #60b2e2)",
+          "light-blue-from-bottom-left": "linear-gradient(to top right, #005eb8, #60b2e2)",
+          "light-blue-from-bottom-right": "linear-gradient(to top left, #005eb8, #60b2e2)",
+          "dark-blue": "linear-gradient(90deg, #005eb8, #003087)",
+          "dark-blue-vertical": "linear-gradient(180deg, #005eb8, #003087)",
+          "dark-blue-diagonal": "linear-gradient(135deg, #005eb8, #003087)",
+          "dark-blue-45deg": "linear-gradient(45deg, #005eb8, #003087)",
+          "dark-blue-from-top-left": "linear-gradient(to bottom right, #005eb8, #003087)",
+          "dark-blue-from-top-right": "linear-gradient(to bottom left, #005eb8, #003087)",
+          "dark-blue-from-bottom-left": "linear-gradient(to top right, #005eb8, #003087)",
+          "dark-blue-from-bottom-right": "linear-gradient(to top left, #005eb8, #003087)",
+          purple: "linear-gradient(90deg, #ac98cb, #d6cce3)",
+          "purple-vertical": "linear-gradient(180deg, #ac98cb, #d6cce3)",
+          "purple-diagonal": "linear-gradient(135deg, #ac98cb, #d6cce3)",
+          "purple-45deg": "linear-gradient(45deg, #ac98cb, #d6cce3)",
+          "purple-from-top-left": "linear-gradient(to bottom right, #ac98cb, #d6cce3)",
+          "purple-from-top-right": "linear-gradient(to bottom left, #ac98cb, #d6cce3)",
+          "purple-from-bottom-left": "linear-gradient(to top right, #ac98cb, #d6cce3)",
+          "purple-from-bottom-right": "linear-gradient(to top left, #ac98cb, #d6cce3)",
+          green: "linear-gradient(90deg, #007f3b, #63a691)",
+          "green-vertical": "linear-gradient(180deg, #007f3b, #63a691)",
+          "green-diagonal": "linear-gradient(135deg, #007f3b, #63a691)",
+          "green-45deg": "linear-gradient(45deg, #007f3b, #63a691)",
+          "green-from-top-left": "linear-gradient(to bottom right, #007f3b, #63a691)",
+          "green-from-top-right": "linear-gradient(to bottom left, #007f3b, #63a691)",
+          "green-from-bottom-left": "linear-gradient(to top right, #007f3b, #63a691)",
+          "green-from-bottom-right": "linear-gradient(to top left, #007f3b, #63a691)",
+          grey: "linear-gradient(90deg, #4c6272, #768692)",
+          "grey-vertical": "linear-gradient(180deg, #4c6272, #768692)",
+          "grey-diagonal": "linear-gradient(135deg, #4c6272, #768692)",
+          "grey-45deg": "linear-gradient(45deg, #4c6272, #768692)",
+          "grey-from-top-left": "linear-gradient(to bottom right, #4c6272, #768692)",
+          "grey-from-top-right": "linear-gradient(to bottom left, #4c6272, #768692)",
+          "grey-from-bottom-left": "linear-gradient(to top right, #4c6272, #768692)",
+          "grey-from-bottom-right": "linear-gradient(to top left, #4c6272, #768692)"
         }
       },
       semantic: {
@@ -14716,6 +14805,7 @@ var Row = ({
   className,
   style,
   align,
+  rowGap,
   ...props
 }) => {
   const rowClasses = (0, import_classnames6.default)(
@@ -15749,7 +15839,9 @@ function buildEmbeddedIcon(args) {
   if (!show || !(rowsForUi == null ? void 0 : rowsForUi.length)) return null;
   const engineRows = rowsForUi;
   const min = typeof minPoints === "number" && !isNaN(minPoints) ? minPoints : 13;
-  const nonGhostCount = engineRows.filter((r2) => !r2.data.ghost && r2.data.value != null).length;
+  const nonGhostCount = engineRows.filter(
+    (r2) => !r2.data.ghost && r2.data.value != null
+  ).length;
   if (nonGhostCount < min) return null;
   let lastIdx = -1;
   for (let i = engineRows.length - 1; i >= 0; i--) {
@@ -15789,8 +15881,10 @@ function buildEmbeddedIcon(args) {
   const highSideSignal = lastRow.rules.singlePoint.up || lastRow.rules.twoOfThree.up || lastRow.rules.fourOfFive.up || lastRow.rules.shift.up || lastRow.rules.trend.up;
   const lowSideSignal = lastRow.rules.singlePoint.down || lastRow.rules.twoOfThree.down || lastRow.rules.fourOfFive.down || lastRow.rules.shift.down || lastRow.rules.trend.down;
   let variationEngine = "CommonCause" /* CommonCause */;
-  if (variation === "improvement" /* Improvement */) variationEngine = "ImprovementHigh" /* ImprovementHigh */;
-  else if (variation === "concern" /* Concern */) variationEngine = "ConcernHigh" /* ConcernHigh */;
+  if (variation === "improvement" /* Improvement */)
+    variationEngine = "ImprovementHigh" /* ImprovementHigh */;
+  else if (variation === "concern" /* Concern */)
+    variationEngine = "ConcernHigh" /* ConcernHigh */;
   else if (variation === "neither" /* Neither */) {
     if (hasNeutralSpecialCause) {
       if (trend === "lower" /* Lower */ || lowSideSignal && !highSideSignal)
@@ -15800,27 +15894,58 @@ function buildEmbeddedIcon(args) {
       variationEngine = "CommonCause" /* CommonCause */;
     }
   }
-  return /* @__PURE__ */ jsxs32("div", { style: { display: "flex", gap: 12, marginRight: 16 }, children: [
-    /* @__PURE__ */ jsx47("div", { className: "fdp-spc-chart__embedded-icon", "data-variation": String(variation), "data-trend": trend ? String(trend) : "none", style: { width: iconSize, height: iconSize }, children: /* @__PURE__ */ jsx47(
-      SPCVariationIcon,
-      {
-        dropShadow: false,
-        data: {
-          variationIcon: variationEngine,
-          improvementDirection: metricImprovement,
-          specialCauseNeutral: hasNeutralSpecialCause,
-          highSideSignal,
-          lowSideSignal,
-          ...trend ? { trend } : {}
-        },
-        letterMode: metricImprovement === "Neither" /* Neither */ ? "Direction" : "Polarity",
-        size: iconSize,
-        variant,
-        runLength: variant === "triangleWithRun" /* TriangleWithRun */ ? runLength : void 0
-      }
-    ) }),
-    /* @__PURE__ */ jsx47("div", { className: "fdp-spc-chart__embedded-assurance-icon", "data-assurance": String(assuranceRaw), style: { width: iconSize, height: iconSize }, children: /* @__PURE__ */ jsx47(SPCAssuranceIcon, { status: assuranceRenderStatus, size: iconSize, dropShadow: false }) })
-  ] }, `embedded-icon-${lastIdx}`);
+  return /* @__PURE__ */ jsxs32(
+    "div",
+    {
+      style: { display: "flex", gap: 12, marginRight: 16 },
+      children: [
+        /* @__PURE__ */ jsx47(
+          "div",
+          {
+            className: "fdp-spc-chart__embedded-icon",
+            "data-variation": String(variation),
+            "data-trend": trend ? String(trend) : "none",
+            style: { width: iconSize, height: iconSize },
+            children: /* @__PURE__ */ jsx47(
+              SPCVariationIcon,
+              {
+                dropShadow: false,
+                data: {
+                  variationIcon: variationEngine,
+                  improvementDirection: metricImprovement,
+                  specialCauseNeutral: hasNeutralSpecialCause,
+                  highSideSignal,
+                  lowSideSignal,
+                  ...trend ? { trend } : {}
+                },
+                letterMode: metricImprovement === "Neither" /* Neither */ ? "direction" /* Direction */ : "polarity" /* Polarity */,
+                size: iconSize,
+                variant,
+                runLength: variant === "triangleWithRun" /* TriangleWithRun */ ? runLength : void 0
+              }
+            )
+          }
+        ),
+        /* @__PURE__ */ jsx47(
+          "div",
+          {
+            className: "fdp-spc-chart__embedded-assurance-icon",
+            "data-assurance": String(assuranceRaw),
+            style: { width: iconSize, height: iconSize },
+            children: /* @__PURE__ */ jsx47(
+              SPCAssuranceIcon,
+              {
+                status: assuranceRenderStatus,
+                size: iconSize,
+                dropShadow: false
+              }
+            )
+          }
+        )
+      ]
+    },
+    `embedded-icon-${lastIdx}`
+  );
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/InternalSPC.tsx

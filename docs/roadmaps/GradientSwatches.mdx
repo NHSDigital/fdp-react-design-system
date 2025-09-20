@@ -1,0 +1,62 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import gradients from '../../packages/nhs-fdp/dist/js/gradients.json';
+import { SwatchGrid } from './components/SwatchGrid';
+
+<Meta title="Roadmaps/FDP Sub-Brand/Swatches/Gradients" />
+
+# Gradient Swatches
+
+This page previews the palette gradient tokens (default, vertical, diagonal).
+
+```ts
+// Source: packages/nhs-fdp/tokens/gradients.json
+// Emitted JSON: packages/nhs-fdp/dist/js/gradients.json
+```
+
+## Palette
+
+<SwatchGrid
+  items={[
+    { label: 'Light Blue', fill: gradients.gradient.palette['light-blue'] },
+    { label: 'Light Blue (vertical)', fill: gradients.gradient.palette['light-blue-vertical'] },
+    { label: 'Light Blue (diagonal)', fill: gradients.gradient.palette['light-blue-diagonal'] },
+    { label: 'Light Blue (45°)', fill: gradients.gradient.palette['light-blue-45deg'] },
+    { label: 'Light Blue (↘ from TL)', fill: gradients.gradient.palette['light-blue-from-top-left'] },
+    { label: 'Light Blue (↙ from TR)', fill: gradients.gradient.palette['light-blue-from-top-right'] },
+    { label: 'Light Blue (↗ from BL)', fill: gradients.gradient.palette['light-blue-from-bottom-left'] },
+    { label: 'Light Blue (↖ from BR)', fill: gradients.gradient.palette['light-blue-from-bottom-right'] },
+    { label: 'Dark Blue', fill: gradients.gradient.palette['dark-blue'] },
+    { label: 'Dark Blue (vertical)', fill: gradients.gradient.palette['dark-blue-vertical'] },
+    { label: 'Dark Blue (diagonal)', fill: gradients.gradient.palette['dark-blue-diagonal'] },
+    { label: 'Dark Blue (45°)', fill: gradients.gradient.palette['dark-blue-45deg'] },
+    { label: 'Dark Blue (↘ from TL)', fill: gradients.gradient.palette['dark-blue-from-top-left'] },
+    { label: 'Dark Blue (↙ from TR)', fill: gradients.gradient.palette['dark-blue-from-top-right'] },
+    { label: 'Dark Blue (↗ from BL)', fill: gradients.gradient.palette['dark-blue-from-bottom-left'] },
+    { label: 'Dark Blue (↖ from BR)', fill: gradients.gradient.palette['dark-blue-from-bottom-right'] },
+    { label: 'Purple', fill: gradients.gradient.palette['purple'] },
+    { label: 'Purple (vertical)', fill: gradients.gradient.palette['purple-vertical'] },
+    { label: 'Purple (diagonal)', fill: gradients.gradient.palette['purple-diagonal'] },
+    { label: 'Purple (45°)', fill: gradients.gradient.palette['purple-45deg'] },
+    { label: 'Purple (↘ from TL)', fill: gradients.gradient.palette['purple-from-top-left'] },
+    { label: 'Purple (↙ from TR)', fill: gradients.gradient.palette['purple-from-top-right'] },
+    { label: 'Purple (↗ from BL)', fill: gradients.gradient.palette['purple-from-bottom-left'] },
+    { label: 'Purple (↖ from BR)', fill: gradients.gradient.palette['purple-from-bottom-right'] },
+    { label: 'Green', fill: gradients.gradient.palette['green'] },
+    { label: 'Green (vertical)', fill: gradients.gradient.palette['green-vertical'] },
+    { label: 'Green (diagonal)', fill: gradients.gradient.palette['green-diagonal'] },
+    { label: 'Green (45°)', fill: gradients.gradient.palette['green-45deg'] },
+    { label: 'Green (↘ from TL)', fill: gradients.gradient.palette['green-from-top-left'] },
+    { label: 'Green (↙ from TR)', fill: gradients.gradient.palette['green-from-top-right'] },
+    { label: 'Green (↗ from BL)', fill: gradients.gradient.palette['green-from-bottom-left'] },
+    { label: 'Green (↖ from BR)', fill: gradients.gradient.palette['green-from-bottom-right'] },
+    { label: 'Grey', fill: gradients.gradient.palette['grey'] },
+    { label: 'Grey (vertical)', fill: gradients.gradient.palette['grey-vertical'] },
+    { label: 'Grey (diagonal)', fill: gradients.gradient.palette['grey-diagonal'] },
+    { label: 'Grey (45°)', fill: gradients.gradient.palette['grey-45deg'] },
+    { label: 'Grey (↘ from TL)', fill: gradients.gradient.palette['grey-from-top-left'] },
+    { label: 'Grey (↙ from TR)', fill: gradients.gradient.palette['grey-from-top-right'] },
+    { label: 'Grey (↗ from BL)', fill: gradients.gradient.palette['grey-from-bottom-left'] },
+    { label: 'Grey (↖ from BR)', fill: gradients.gradient.palette['grey-from-bottom-right'] },
+  ]}
+  columns={3}
+/>

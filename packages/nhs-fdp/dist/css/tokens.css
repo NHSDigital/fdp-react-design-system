@@ -33,6 +33,33 @@
   --border-color-card: #d8dde0; /** Border color for cards */
   --border-color-card-hover: #aeb7bd; /** Border color for cards on hover */
   --border-color-error: #d5281b; /** Border color for error states */
+  --brand-fdp-primary-dark-blue: #003087; /** NHS FDP Dark Blue */
+  --brand-fdp-primary-blue: #005eb8; /** NHS Blue */
+  --brand-fdp-primary-green: #009639; /** NHS Green */
+  --brand-fdp-primary-dark-green: #63a691; /** NHS Dark Green */
+  --brand-fdp-primary-purple: #d6cce3; /** NHS Purple (tint) */
+  --brand-fdp-primary-white: #ffffff; /** NHS White */
+  --brand-fdp-grey-1: #425563; /** NHS Dark Grey */
+  --brand-fdp-grey-2: #768692; /** NHS Mid Grey */
+  --brand-fdp-grey-3: #aeb7bd; /** NHS Grey 3 (derived to align system) */
+  --brand-fdp-grey-4: #d8dde0; /** NHS Grey 4 (derived to align system) */
+  --brand-fdp-grey-5: #e8edee; /** NHS Pale Grey */
+  --brand-fdp-semantic-intent-primary: #009639; /** Primary intent (FDP Green) */
+  --brand-fdp-semantic-intent-secondary: #005eb8; /** Secondary intent (NHS Blue) */
+  --brand-fdp-semantic-intent-warning: #d5281b; /** Warning intent (NHS Red for accessibility consistency) */
+  --brand-fdp-semantic-intent-success: #009639; /** Success intent */
+  --brand-fdp-semantic-intent-neutral: #425563; /** Neutral intent (dark grey) */
+  --brand-fdp-semantic-intent-info: #003087; /** Info intent (FDP Dark Blue) */
+  --brand-fdp-semantic-surface-background-primary: #ffffff; /** Primary background (white) */
+  --brand-fdp-semantic-surface-background-secondary: #e8edee; /** Secondary background (pale grey) */
+  --brand-fdp-semantic-surface-background-elevated: #ffffff; /** Elevated background (cards) */
+  --brand-fdp-semantic-surface-text-primary: #425563; /** Primary text (dark grey) */
+  --brand-fdp-semantic-surface-text-secondary: #768692; /** Secondary text (mid grey) */
+  --brand-fdp-semantic-surface-text-tertiary: #aeb7bd; /** Tertiary text (grey 3) */
+  --brand-fdp-semantic-surface-text-inverse: #ffffff; /** Inverse text (white) */
+  --brand-fdp-semantic-surface-border-default: #d8dde0; /** Default border (grey 4) */
+  --brand-fdp-semantic-surface-border-subtle: #e8edee; /** Subtle border (pale grey) */
+  --brand-fdp-semantic-surface-border-strong: #768692; /** Strong border (mid grey) */
   --color-primary-blue: #005eb8; /** NHS Blue - Primary brand color */
   --color-primary-blue-active: #002f5c; /** NHS Active Blue (50% shade) – alias of button/login active; promoted for general reuse */
   --color-primary-white: #ffffff; /** NHS White */
@@ -353,6 +380,46 @@
   --gradient-metric-card-success: linear-gradient(135deg, rgba(0,164,153,0.10), #ffffff); /** Success metric card subtle wash (Aqua Green 10% → White) */
   --gradient-metric-card-warning: linear-gradient(135deg, rgba(237,79,0,0.10), #ffffff); /** Warning metric card subtle wash (Tangerine 10% → White) */
   --gradient-metric-card-error: linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff); /** Error metric card subtle wash (NHS Red 10% → White) */
+  --gradient-palette-light-blue: linear-gradient(90deg, #005eb8, #60b2e2); /** Light Blue gradient (NHS Blue → #60b2e2) */
+  --gradient-palette-light-blue-vertical: linear-gradient(180deg, #005eb8, #60b2e2); /** Light Blue gradient vertical (top→bottom) */
+  --gradient-palette-light-blue-diagonal: linear-gradient(135deg, #005eb8, #60b2e2); /** Light Blue gradient diagonal */
+  --gradient-palette-light-blue-45deg: linear-gradient(45deg, #005eb8, #60b2e2); /** Light Blue gradient at 45deg */
+  --gradient-palette-light-blue-from-top-left: linear-gradient(to bottom right, #005eb8, #60b2e2); /** Light Blue gradient from top-left corner */
+  --gradient-palette-light-blue-from-top-right: linear-gradient(to bottom left, #005eb8, #60b2e2); /** Light Blue gradient from top-right corner */
+  --gradient-palette-light-blue-from-bottom-left: linear-gradient(to top right, #005eb8, #60b2e2); /** Light Blue gradient from bottom-left corner */
+  --gradient-palette-light-blue-from-bottom-right: linear-gradient(to top left, #005eb8, #60b2e2); /** Light Blue gradient from bottom-right corner */
+  --gradient-palette-dark-blue: linear-gradient(90deg, #005eb8, #003087); /** Dark Blue gradient (NHS Blue → NHS Dark Blue) */
+  --gradient-palette-dark-blue-vertical: linear-gradient(180deg, #005eb8, #003087); /** Dark Blue gradient vertical (top→bottom) */
+  --gradient-palette-dark-blue-diagonal: linear-gradient(135deg, #005eb8, #003087); /** Dark Blue gradient diagonal */
+  --gradient-palette-dark-blue-45deg: linear-gradient(45deg, #005eb8, #003087); /** Dark Blue gradient at 45deg */
+  --gradient-palette-dark-blue-from-top-left: linear-gradient(to bottom right, #005eb8, #003087); /** Dark Blue gradient from top-left corner */
+  --gradient-palette-dark-blue-from-top-right: linear-gradient(to bottom left, #005eb8, #003087); /** Dark Blue gradient from top-right corner */
+  --gradient-palette-dark-blue-from-bottom-left: linear-gradient(to top right, #005eb8, #003087); /** Dark Blue gradient from bottom-left corner */
+  --gradient-palette-dark-blue-from-bottom-right: linear-gradient(to top left, #005eb8, #003087); /** Dark Blue gradient from bottom-right corner */
+  --gradient-palette-purple: linear-gradient(90deg, #ac98cb, #d6cce3); /** Purple gradient (#ac98cb → NHS Purple 20% tint) */
+  --gradient-palette-purple-vertical: linear-gradient(180deg, #ac98cb, #d6cce3); /** Purple gradient vertical (top→bottom) */
+  --gradient-palette-purple-diagonal: linear-gradient(135deg, #ac98cb, #d6cce3); /** Purple gradient diagonal */
+  --gradient-palette-purple-45deg: linear-gradient(45deg, #ac98cb, #d6cce3); /** Purple gradient at 45deg */
+  --gradient-palette-purple-from-top-left: linear-gradient(to bottom right, #ac98cb, #d6cce3); /** Purple gradient from top-left corner */
+  --gradient-palette-purple-from-top-right: linear-gradient(to bottom left, #ac98cb, #d6cce3); /** Purple gradient from top-right corner */
+  --gradient-palette-purple-from-bottom-left: linear-gradient(to top right, #ac98cb, #d6cce3); /** Purple gradient from bottom-left corner */
+  --gradient-palette-purple-from-bottom-right: linear-gradient(to top left, #ac98cb, #d6cce3); /** Purple gradient from bottom-right corner */
+  --gradient-palette-green: linear-gradient(90deg, #007f3b, #63a691); /** Green gradient (NHS Green → NHS Dark Green 60% tint) */
+  --gradient-palette-green-vertical: linear-gradient(180deg, #007f3b, #63a691); /** Green gradient vertical (top→bottom) */
+  --gradient-palette-green-diagonal: linear-gradient(135deg, #007f3b, #63a691); /** Green gradient diagonal */
+  --gradient-palette-green-45deg: linear-gradient(45deg, #007f3b, #63a691); /** Green gradient at 45deg */
+  --gradient-palette-green-from-top-left: linear-gradient(to bottom right, #007f3b, #63a691); /** Green gradient from top-left corner */
+  --gradient-palette-green-from-top-right: linear-gradient(to bottom left, #007f3b, #63a691); /** Green gradient from top-right corner */
+  --gradient-palette-green-from-bottom-left: linear-gradient(to top right, #007f3b, #63a691); /** Green gradient from bottom-left corner */
+  --gradient-palette-green-from-bottom-right: linear-gradient(to top left, #007f3b, #63a691); /** Green gradient from bottom-right corner */
+  --gradient-palette-grey: linear-gradient(90deg, #4c6272, #768692); /** Grey gradient (NHS Dark Grey → NHS Mid Grey) */
+  --gradient-palette-grey-vertical: linear-gradient(180deg, #4c6272, #768692); /** Grey gradient vertical (top→bottom) */
+  --gradient-palette-grey-diagonal: linear-gradient(135deg, #4c6272, #768692); /** Grey gradient diagonal */
+  --gradient-palette-grey-45deg: linear-gradient(45deg, #4c6272, #768692); /** Grey gradient at 45deg */
+  --gradient-palette-grey-from-top-left: linear-gradient(to bottom right, #4c6272, #768692); /** Grey gradient from top-left corner */
+  --gradient-palette-grey-from-top-right: linear-gradient(to bottom left, #4c6272, #768692); /** Grey gradient from top-right corner */
+  --gradient-palette-grey-from-bottom-left: linear-gradient(to top right, #4c6272, #768692); /** Grey gradient from bottom-left corner */
+  --gradient-palette-grey-from-bottom-right: linear-gradient(to top left, #4c6272, #768692); /** Grey gradient from bottom-right corner */
   --semantic-intent-hover-primary: darken(#007f3b, 10%); /** Primary intent hover state - darker NHS Green */
   --semantic-intent-hover-secondary: darken(#005eb8, 10%); /** Secondary intent hover state - darker NHS Blue */
   --semantic-intent-hover-warning: darken(#d5281b, 10%); /** Warning intent hover state - darker NHS Red */

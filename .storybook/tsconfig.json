@@ -12,7 +12,7 @@
     "../src/**/*",
     "../stories/**/*",
     "./**/*"
-  ],
+, "../docs/roadmaps/ColorSwatches.mdx", "../docs/roadmaps/GradientSwatches.mdx", "../docs/roadmaps/components", "../docs/roadmaps/FDPSubBrand.mdx"  ],
   "exclude": [
     "../node_modules",
     "../dist"

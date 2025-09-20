@@ -1,6 +1,6 @@
 {
   "version": "0.0.34-alpha.9",
-  "generatedAt": "2025-09-20T10:02:31.663Z",
+  "generatedAt": "2025-09-20T15:18:17.862Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -387,6 +387,45 @@
       ],
       "source": "src/components/Panel/Panel.schema.ts"
     },
+    "Label": {
+      "name": "Label",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Supports page heading mode by rendering an <h1> containing a nested <label> to retain association."
+      ],
+      "props": [
+        {
+          "name": "htmlFor",
+          "type": "string",
+          "description": "ID of associated form control"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "isPageHeading",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Render as page heading (h1 wrapper)"
+        },
+        {
+          "name": "size",
+          "type": "'xl'|'l'|'m'|'s'",
+          "defaultValue": "m",
+          "description": "Size variant"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Label content"
+        }
+      ],
+      "source": "src/components/Label/Label.schema.ts"
+    },
     "InsetText": {
       "name": "InsetText",
       "category": "content",
@@ -551,45 +590,6 @@
         }
       ],
       "source": "src/components/Input/Input.schema.ts"
-    },
-    "Label": {
-      "name": "Label",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Supports page heading mode by rendering an <h1> containing a nested <label> to retain association."
-      ],
-      "props": [
-        {
-          "name": "htmlFor",
-          "type": "string",
-          "description": "ID of associated form control"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "isPageHeading",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Render as page heading (h1 wrapper)"
-        },
-        {
-          "name": "size",
-          "type": "'xl'|'l'|'m'|'s'",
-          "defaultValue": "m",
-          "description": "Size variant"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Label content"
-        }
-      ],
-      "source": "src/components/Label/Label.schema.ts"
     },
     "Hint": {
       "name": "Hint",
@@ -1118,8 +1118,8 @@
       "Textarea",
       "Select",
       "Radios",
-      "Input",
       "Label",
+      "Input",
       "Fieldset",
       "ErrorSummary",
       "ErrorMessage",

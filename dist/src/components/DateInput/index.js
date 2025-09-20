@@ -255,7 +255,12 @@ function mapHintProps(input) {
 
 // src/components/Hint/Hint.tsx
 import { jsx as jsx2 } from "react/jsx-runtime";
-var Hint = ({ id, className, children, ...rest }) => {
+var Hint = ({
+  id,
+  className,
+  children,
+  ...rest
+}) => {
   const model = mapHintProps({ id, className });
   return /* @__PURE__ */ jsx2("div", { className: model.classes, id: model.id, ...rest, children });
 };

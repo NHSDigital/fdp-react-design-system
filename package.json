@@ -28,6 +28,8 @@
     },
     "./dist/nhs-fdp-design-system.css": "./dist/nhs-fdp-design-system.css",
     "./css": "./dist/nhs-fdp-design-system.css",
+    "./styles/tokens/semantics.css": "./packages/nhs-fdp/dist/css/semantics.css",
+    "./styles/tokens/brand-fdp.css": "./packages/nhs-fdp/dist/css/brand-fdp.css",
     "./core/css": "./dist/nhs-fdp-design-system-core.css",
     "./components/Account/css": "./dist/components/Account/Account.css",
     "./components/ActionLink/css": "./dist/components/ActionLink/ActionLink.css",

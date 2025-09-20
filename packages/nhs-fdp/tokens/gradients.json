@@ -26,6 +26,169 @@
         "$value": "linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff)",
         "$description": "Error metric card subtle wash (NHS Red 10% → White)"
       }
+    },
+    "palette": {
+      "light-blue": {
+        "$value": "linear-gradient(90deg, #005eb8, #60b2e2)",
+        "$description": "Light Blue gradient (NHS Blue → #60b2e2)"
+      },
+      "light-blue-vertical": {
+        "$value": "linear-gradient(180deg, #005eb8, #60b2e2)",
+        "$description": "Light Blue gradient vertical (top→bottom)"
+      },
+      "light-blue-diagonal": {
+        "$value": "linear-gradient(135deg, #005eb8, #60b2e2)",
+        "$description": "Light Blue gradient diagonal"
+      },
+      "light-blue-45deg": {
+        "$value": "linear-gradient(45deg, #005eb8, #60b2e2)",
+        "$description": "Light Blue gradient at 45deg"
+      },
+      "light-blue-from-top-left": {
+        "$value": "linear-gradient(to bottom right, #005eb8, #60b2e2)",
+        "$description": "Light Blue gradient from top-left corner"
+      },
+      "light-blue-from-top-right": {
+        "$value": "linear-gradient(to bottom left, #005eb8, #60b2e2)",
+        "$description": "Light Blue gradient from top-right corner"
+      },
+      "light-blue-from-bottom-left": {
+        "$value": "linear-gradient(to top right, #005eb8, #60b2e2)",
+        "$description": "Light Blue gradient from bottom-left corner"
+      },
+      "light-blue-from-bottom-right": {
+        "$value": "linear-gradient(to top left, #005eb8, #60b2e2)",
+        "$description": "Light Blue gradient from bottom-right corner"
+      },
+      "dark-blue": {
+        "$value": "linear-gradient(90deg, #005eb8, #003087)",
+        "$description": "Dark Blue gradient (NHS Blue → NHS Dark Blue)"
+      },
+      "dark-blue-vertical": {
+        "$value": "linear-gradient(180deg, #005eb8, #003087)",
+        "$description": "Dark Blue gradient vertical (top→bottom)"
+      },
+      "dark-blue-diagonal": {
+        "$value": "linear-gradient(135deg, #005eb8, #003087)",
+        "$description": "Dark Blue gradient diagonal"
+      },
+      "dark-blue-45deg": {
+        "$value": "linear-gradient(45deg, #005eb8, #003087)",
+        "$description": "Dark Blue gradient at 45deg"
+      },
+      "dark-blue-from-top-left": {
+        "$value": "linear-gradient(to bottom right, #005eb8, #003087)",
+        "$description": "Dark Blue gradient from top-left corner"
+      },
+      "dark-blue-from-top-right": {
+        "$value": "linear-gradient(to bottom left, #005eb8, #003087)",
+        "$description": "Dark Blue gradient from top-right corner"
+      },
+      "dark-blue-from-bottom-left": {
+        "$value": "linear-gradient(to top right, #005eb8, #003087)",
+        "$description": "Dark Blue gradient from bottom-left corner"
+      },
+      "dark-blue-from-bottom-right": {
+        "$value": "linear-gradient(to top left, #005eb8, #003087)",
+        "$description": "Dark Blue gradient from bottom-right corner"
+      },
+      "purple": {
+        "$value": "linear-gradient(90deg, #ac98cb, #d6cce3)",
+        "$description": "Purple gradient (#ac98cb → NHS Purple 20% tint)"
+      },
+      "purple-vertical": {
+        "$value": "linear-gradient(180deg, #ac98cb, #d6cce3)",
+        "$description": "Purple gradient vertical (top→bottom)"
+      },
+      "purple-diagonal": {
+        "$value": "linear-gradient(135deg, #ac98cb, #d6cce3)",
+        "$description": "Purple gradient diagonal"
+      },
+      "purple-45deg": {
+        "$value": "linear-gradient(45deg, #ac98cb, #d6cce3)",
+        "$description": "Purple gradient at 45deg"
+      },
+      "purple-from-top-left": {
+        "$value": "linear-gradient(to bottom right, #ac98cb, #d6cce3)",
+        "$description": "Purple gradient from top-left corner"
+      },
+      "purple-from-top-right": {
+        "$value": "linear-gradient(to bottom left, #ac98cb, #d6cce3)",
+        "$description": "Purple gradient from top-right corner"
+      },
+      "purple-from-bottom-left": {
+        "$value": "linear-gradient(to top right, #ac98cb, #d6cce3)",
+        "$description": "Purple gradient from bottom-left corner"
+      },
+      "purple-from-bottom-right": {
+        "$value": "linear-gradient(to top left, #ac98cb, #d6cce3)",
+        "$description": "Purple gradient from bottom-right corner"
+      },
+      "green": {
+        "$value": "linear-gradient(90deg, #007f3b, #63a691)",
+        "$description": "Green gradient (NHS Green → NHS Dark Green 60% tint)"
+      },
+      "green-vertical": {
+        "$value": "linear-gradient(180deg, #007f3b, #63a691)",
+        "$description": "Green gradient vertical (top→bottom)"
+      },
+      "green-diagonal": {
+        "$value": "linear-gradient(135deg, #007f3b, #63a691)",
+        "$description": "Green gradient diagonal"
+      },
+      "green-45deg": {
+        "$value": "linear-gradient(45deg, #007f3b, #63a691)",
+        "$description": "Green gradient at 45deg"
+      },
+      "green-from-top-left": {
+        "$value": "linear-gradient(to bottom right, #007f3b, #63a691)",
+        "$description": "Green gradient from top-left corner"
+      },
+      "green-from-top-right": {
+        "$value": "linear-gradient(to bottom left, #007f3b, #63a691)",
+        "$description": "Green gradient from top-right corner"
+      },
+      "green-from-bottom-left": {
+        "$value": "linear-gradient(to top right, #007f3b, #63a691)",
+        "$description": "Green gradient from bottom-left corner"
+      },
+      "green-from-bottom-right": {
+        "$value": "linear-gradient(to top left, #007f3b, #63a691)",
+        "$description": "Green gradient from bottom-right corner"
+      },
+      "grey": {
+        "$value": "linear-gradient(90deg, #4c6272, #768692)",
+        "$description": "Grey gradient (NHS Dark Grey → NHS Mid Grey)"
+      },
+      "grey-vertical": {
+        "$value": "linear-gradient(180deg, #4c6272, #768692)",
+        "$description": "Grey gradient vertical (top→bottom)"
+      },
+      "grey-diagonal": {
+        "$value": "linear-gradient(135deg, #4c6272, #768692)",
+        "$description": "Grey gradient diagonal"
+      }
+      ,
+      "grey-45deg": {
+        "$value": "linear-gradient(45deg, #4c6272, #768692)",
+        "$description": "Grey gradient at 45deg"
+      },
+      "grey-from-top-left": {
+        "$value": "linear-gradient(to bottom right, #4c6272, #768692)",
+        "$description": "Grey gradient from top-left corner"
+      },
+      "grey-from-top-right": {
+        "$value": "linear-gradient(to bottom left, #4c6272, #768692)",
+        "$description": "Grey gradient from top-right corner"
+      },
+      "grey-from-bottom-left": {
+        "$value": "linear-gradient(to top right, #4c6272, #768692)",
+        "$description": "Grey gradient from bottom-left corner"
+      },
+      "grey-from-bottom-right": {
+        "$value": "linear-gradient(to top left, #4c6272, #768692)",
+        "$description": "Grey gradient from bottom-right corner"
+      }
     }
   }
 }

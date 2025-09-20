@@ -12,17 +12,17 @@ StyleDictionary.registerTransform({
   type: 'value',
   transitive: true,
   filter: (token) => {
-    return typeof token.$value === 'string' && token.$value.includes('darken(');
+	return typeof token.$value === 'string' && token.$value.includes('darken(');
   },
   transform: (token) => {
-    const match = token.$value.match(/darken\(([^,]+),\s*(\d+)%\)/);
-    if (match) {
-      const colorRef = match[1];
-      const percentage = parseInt(match[2]);
-      // Use modern Sass color.adjust() instead of deprecated darken()
-      return `color.adjust(${colorRef}, $lightness: -${percentage}%)`;
-    }
-    return token.$value;
+	const match = token.$value.match(/darken\(([^,]+),\s*(\d+)%\)/);
+	if (match) {
+	  const colorRef = match[1];
+	  const percentage = parseInt(match[2]);
+	  // Use modern Sass color.adjust() instead of deprecated darken()
+	  return `color.adjust(${colorRef}, $lightness: -${percentage}%)`;
+	}
+	return token.$value;
   }
 });
 
@@ -31,17 +31,17 @@ StyleDictionary.registerTransform({
   type: 'value',
   transitive: true,
   filter: (token) => {
-    return typeof token.$value === 'string' && token.$value.includes('lighten(');
+	return typeof token.$value === 'string' && token.$value.includes('lighten(');
   },
   transform: (token) => {
-    const match = token.$value.match(/lighten\(([^,]+),\s*(\d+)%\)/);
-    if (match) {
-      const colorRef = match[1];
-      const percentage = parseInt(match[2]);
-      // Use modern Sass color.adjust() instead of deprecated lighten()
-      return `color.adjust(${colorRef}, $lightness: +${percentage}%)`;
-    }
-    return token.$value;
+	const match = token.$value.match(/lighten\(([^,]+),\s*(\d+)%\)/);
+	if (match) {
+	  const colorRef = match[1];
+	  const percentage = parseInt(match[2]);
+	  // Use modern Sass color.adjust() instead of deprecated lighten()
+	  return `color.adjust(${colorRef}, $lightness: +${percentage}%)`;
+	}
+	return token.$value;
   }
 });
 
@@ -49,19 +49,19 @@ StyleDictionary.registerTransform({
 StyleDictionary.registerFormat({
   name: 'scss/variables-with-color-import',
   format: ({ dictionary }) => {
-    const vars = dictionary.allTokens
-      .map(token => {
-        const commentSource = token.comment || token.description || token.original?.description
-        const comment = commentSource ? ` // ${commentSource}` : ''
-        // Fallback order: transformed value -> original value -> $value -> empty string
-        const value = token.value !== undefined && token.value !== null
-          ? token.value
-          : (token.original && token.original.value !== undefined ? token.original.value : (token.$value ?? ''))
-        return `$${token.name}: ${value};${comment}`
-      })
-      .join('\n')
-    
-    return `@use 'sass:color';
+	const vars = dictionary.allTokens
+	  .map(token => {
+		const commentSource = token.comment || token.description || token.original?.description
+		const comment = commentSource ? ` // ${commentSource}` : ''
+		// Fallback order: transformed value -> original value -> $value -> empty string
+		const value = token.value !== undefined && token.value !== null
+		  ? token.value
+		  : (token.original && token.original.value !== undefined ? token.original.value : (token.$value ?? ''))
+		return `$${token.name}: ${value};${comment}`
+	  })
+	  .join('\n')
+	
+	return `@use 'sass:color';
 
 // Do not edit directly, this file was auto-generated.
 
@@ -74,9 +74,9 @@ ${vars}
 StyleDictionary.registerFileHeader({
   name: 'scss-with-color-import',
   fileHeader: () => [
-    '@use \'sass:color\';',
-    '',
-    'Do not edit directly, this file was auto-generated.'
+	'@use \'sass:color\';',
+	'',
+	'Do not edit directly, this file was auto-generated.'
   ]
 });
 
@@ -84,14 +84,14 @@ StyleDictionary.registerFileHeader({
 StyleDictionary.registerTransformGroup({
   name: 'scss/modern',
   transforms: [
-    'attribute/cti',
-    'name/kebab',
-    'time/seconds',
-    'html/icon',
-    'size/rem',
-    'color/hex',
-    'color/darken',
-    'color/lighten'
+	'attribute/cti',
+	'name/kebab',
+	'time/seconds',
+	'html/icon',
+	'size/rem',
+	'color/hex',
+	'color/darken',
+	'color/lighten'
   ]
 });
 
@@ -100,16 +100,16 @@ StyleDictionary.registerTransform({
   name: 'responsive/css-variables',
   type: 'value',
   filter: (token) => {
-    return token.value && typeof token.value === 'object' && 
-           (token.value.mobile || token.value.tablet || token.value.desktop);
+	return token.value && typeof token.value === 'object' && 
+		   (token.value.mobile || token.value.tablet || token.value.desktop);
   },
   transform: (token) => {
-    const { mobile, tablet, desktop } = token.value;
-    return {
-      mobile: mobile?.value || mobile,
-      tablet: tablet?.value || tablet,
-      desktop: desktop?.value || desktop
-    };
+	const { mobile, tablet, desktop } = token.value;
+	return {
+	  mobile: mobile?.value || mobile,
+	  tablet: tablet?.value || tablet,
+	  desktop: desktop?.value || desktop
+	};
   }
 });
 
@@ -118,10 +118,10 @@ StyleDictionary.registerTransform({
   name: 'density/css-variables',
   type: 'value',
   filter: (token) => {
-    return token.path && token.path.includes('density');
+	return token.path && token.path.includes('density');
   },
   transform: (token) => {
-    return token.value;
+	return token.value;
   }
 });
 
@@ -130,10 +130,10 @@ StyleDictionary.registerTransform({
   name: 'brand/css-variables',
   type: 'value',
   filter: (token) => {
-    return token.path && token.path.includes('brand');
+	return token.path && token.path.includes('brand');
   },
   transform: (token) => {
-    return token.value;
+	return token.value;
   }
 });
 
@@ -141,133 +141,133 @@ StyleDictionary.registerTransform({
 StyleDictionary.registerFormat({
   name: 'responsive/css',
   format: ({ dictionary, options }) => {
-    let css = `/* Responsive Design Tokens - Auto-generated */\n\n`;
-    
-    // Helper function to get clean token name
-    const getTokenName = (token) => {
-      // Remove redundant 'nhs' prefix if it exists in the path
-      const cleanName = token.name.replace(/^nhs-/, '');
-      return `--nhs-${cleanName}`;
-    };
-    
-    // Helper function to resolve value
-    const resolveValue = (value) => {
-      if (typeof value === 'string' && value.startsWith('{') && value.endsWith('}')) {
-        // This is a reference, but we'll output it as-is for now
-        return value;
-      }
-      return value;
-    };
-    
-    // Filter tokens for responsive variants only
-    const responsiveTokens = dictionary.allTokens.filter(token => 
-      token.path && (
-        token.path.includes('responsive') || 
-        token.path.includes('density') ||
-        token.path.includes('accessibility') ||
-        token.path.includes('brand')
-      )
-    );
-    
-    // Base responsive tokens and mobile values
-    css += `:root {\n`;
-    
-    responsiveTokens.forEach(token => {
-      const name = getTokenName(token);
-      
-      if (token.value && typeof token.value === 'object') {
-        const { mobile, tablet, desktop } = token.value;
-        if (mobile) {
-          css += `  ${name}: ${resolveValue(mobile)};\n`;
-        }
-      } else if (token.path && token.path.includes('responsive') && !token.path.includes('tablet') && !token.path.includes('desktop')) {
-        // Base responsive token
-        css += `  ${name}: ${resolveValue(token.value)};\n`;
-      } else if (!token.path.includes('density') && !token.path.includes('accessibility') && !token.path.includes('brand')) {
-        // Regular non-responsive token
-        css += `  ${name}: ${resolveValue(token.value)};\n`;
-      }
-    });
-    
-    css += `}\n\n`;
-    
-    // Tablet breakpoint
-    css += `@media (min-width: 768px) {\n`;
-    css += `  :root {\n`;
-    
-    responsiveTokens.forEach(token => {
-      const name = getTokenName(token);
-      
-      if (token.value && typeof token.value === 'object' && token.value.tablet) {
-        css += `    ${name}: ${resolveValue(token.value.tablet)};\n`;
-      } else if (token.path && token.path.includes('tablet')) {
-        css += `    ${name}: ${resolveValue(token.value)};\n`;
-      }
-    });
-    
-    css += `  }\n}\n\n`;
-    
-    // Desktop breakpoint
-    css += `@media (min-width: 1024px) {\n`;
-    css += `  :root {\n`;
-    
-    responsiveTokens.forEach(token => {
-      const name = getTokenName(token);
-      
-      if (token.value && typeof token.value === 'object' && token.value.desktop) {
-        css += `    ${name}: ${resolveValue(token.value.desktop)};\n`;
-      } else if (token.path && token.path.includes('desktop')) {
-        css += `    ${name}: ${resolveValue(token.value)};\n`;
-      }
-    });
-    
-    css += `  }\n}\n\n`;
-    
-    // Density modes
-    css += `/* Density Modes */\n`;
-    css += `[data-density="compact"] {\n`;
-    dictionary.allTokens.forEach(token => {
-      if (token.path && token.path.includes('density') && token.path.includes('compact')) {
-        const name = `--nhs-${token.name.replace('density-compact-', '')}`;
-        css += `  ${name}: ${token.value};\n`;
-      }
-    });
-    css += `}\n\n`;
-    
-    css += `[data-density="spacious"] {\n`;
-    dictionary.allTokens.forEach(token => {
-      if (token.path && token.path.includes('density') && token.path.includes('spacious')) {
-        const name = `--nhs-${token.name.replace('density-spacious-', '')}`;
-        css += `  ${name}: ${token.value};\n`;
-      }
-    });
-    css += `}\n\n`;
-    
-    // High contrast mode
-    css += `/* High Contrast Mode */\n`;
-    css += `@media (prefers-contrast: high), [data-contrast="high"] {\n`;
-    css += `  :root {\n`;
-    dictionary.allTokens.forEach(token => {
-      if (token.path && token.path.includes('accessibility') && token.path.includes('high-contrast')) {
-        const name = `--nhs-${token.name.replace('accessibility-high-contrast-', '')}`;
-        css += `    ${name}: ${token.value};\n`;
-      }
-    });
-    css += `  }\n}\n\n`;
-    
-    // Reduced motion
-    css += `/* Motion Preferences */\n`;
-    css += `@media (prefers-reduced-motion: reduce), [data-motion="reduced"] {\n`;
-    css += `  :root {\n`;
-    dictionary.allTokens.forEach(token => {
-      if (token.path && token.path.includes('accessibility') && token.path.includes('motion-reduced')) {
-        const name = `--nhs-${token.name.replace('accessibility-motion-reduced-', '')}`;
-        css += `    ${name}: ${token.value};\n`;
-      }
-    });
-    css += `  }\n}\n`;
-    
-    return css;
+	let css = `/* Responsive Design Tokens - Auto-generated */\n\n`;
+	
+	// Helper function to get clean token name
+	const getTokenName = (token) => {
+	  // Remove redundant 'nhs' prefix if it exists in the path
+	  const cleanName = token.name.replace(/^nhs-/, '');
+	  return `--nhs-${cleanName}`;
+	};
+	
+	// Helper function to resolve value
+	const resolveValue = (value) => {
+	  if (typeof value === 'string' && value.startsWith('{') && value.endsWith('}')) {
+		// This is a reference, but we'll output it as-is for now
+		return value;
+	  }
+	  return value;
+	};
+	
+	// Filter tokens for responsive variants only
+	const responsiveTokens = dictionary.allTokens.filter(token => 
+	  token.path && (
+		token.path.includes('responsive') || 
+		token.path.includes('density') ||
+		token.path.includes('accessibility') ||
+		token.path.includes('brand')
+	  )
+	);
+	
+	// Base responsive tokens and mobile values
+	css += `:root {\n`;
+	
+	responsiveTokens.forEach(token => {
+	  const name = getTokenName(token);
+	  
+	  if (token.value && typeof token.value === 'object') {
+		const { mobile, tablet, desktop } = token.value;
+		if (mobile) {
+		  css += `  ${name}: ${resolveValue(mobile)};\n`;
+		}
+	  } else if (token.path && token.path.includes('responsive') && !token.path.includes('tablet') && !token.path.includes('desktop')) {
+		// Base responsive token
+		css += `  ${name}: ${resolveValue(token.value)};\n`;
+	  } else if (!token.path.includes('density') && !token.path.includes('accessibility') && !token.path.includes('brand')) {
+		// Regular non-responsive token
+		css += `  ${name}: ${resolveValue(token.value)};\n`;
+	  }
+	});
+	
+	css += `}\n\n`;
+	
+	// Tablet breakpoint
+	css += `@media (min-width: 768px) {\n`;
+	css += `  :root {\n`;
+	
+	responsiveTokens.forEach(token => {
+	  const name = getTokenName(token);
+	  
+	  if (token.value && typeof token.value === 'object' && token.value.tablet) {
+		css += `    ${name}: ${resolveValue(token.value.tablet)};\n`;
+	  } else if (token.path && token.path.includes('tablet')) {
+		css += `    ${name}: ${resolveValue(token.value)};\n`;
+	  }
+	});
+	
+	css += `  }\n}\n\n`;
+	
+	// Desktop breakpoint
+	css += `@media (min-width: 1024px) {\n`;
+	css += `  :root {\n`;
+	
+	responsiveTokens.forEach(token => {
+	  const name = getTokenName(token);
+	  
+	  if (token.value && typeof token.value === 'object' && token.value.desktop) {
+		css += `    ${name}: ${resolveValue(token.value.desktop)};\n`;
+	  } else if (token.path && token.path.includes('desktop')) {
+		css += `    ${name}: ${resolveValue(token.value)};\n`;
+	  }
+	});
+	
+	css += `  }\n}\n\n`;
+	
+	// Density modes
+	css += `/* Density Modes */\n`;
+	css += `[data-density="compact"] {\n`;
+	dictionary.allTokens.forEach(token => {
+	  if (token.path && token.path.includes('density') && token.path.includes('compact')) {
+		const name = `--nhs-${token.name.replace('density-compact-', '')}`;
+		css += `  ${name}: ${token.value};\n`;
+	  }
+	});
+	css += `}\n\n`;
+	
+	css += `[data-density="spacious"] {\n`;
+	dictionary.allTokens.forEach(token => {
+	  if (token.path && token.path.includes('density') && token.path.includes('spacious')) {
+		const name = `--nhs-${token.name.replace('density-spacious-', '')}`;
+		css += `  ${name}: ${token.value};\n`;
+	  }
+	});
+	css += `}\n\n`;
+	
+	// High contrast mode
+	css += `/* High Contrast Mode */\n`;
+	css += `@media (prefers-contrast: high), [data-contrast="high"] {\n`;
+	css += `  :root {\n`;
+	dictionary.allTokens.forEach(token => {
+	  if (token.path && token.path.includes('accessibility') && token.path.includes('high-contrast')) {
+		const name = `--nhs-${token.name.replace('accessibility-high-contrast-', '')}`;
+		css += `    ${name}: ${token.value};\n`;
+	  }
+	});
+	css += `  }\n}\n\n`;
+	
+	// Reduced motion
+	css += `/* Motion Preferences */\n`;
+	css += `@media (prefers-reduced-motion: reduce), [data-motion="reduced"] {\n`;
+	css += `  :root {\n`;
+	dictionary.allTokens.forEach(token => {
+	  if (token.path && token.path.includes('accessibility') && token.path.includes('motion-reduced')) {
+		const name = `--nhs-${token.name.replace('accessibility-motion-reduced-', '')}`;
+		css += `    ${name}: ${token.value};\n`;
+	  }
+	});
+	css += `  }\n}\n`;
+	
+	return css;
   }
 });
 
@@ -695,7 +695,12 @@ StyleDictionary.registerFormat({
 		})
 		.map(token => {
 			const name = token.name
-			const value = token.value !== undefined ? token.value : token.original?.value
+	  // Robust fallback order for values
+	  const value = token.value !== undefined && token.value !== null
+		? token.value
+		: (token.original && token.original.value !== undefined && token.original.value !== null
+		  ? token.original.value
+		  : (token.$value ?? token.original?.$value))
 			const comment = token.comment || token.description || ''
 			
 			// Convert camelCase to kebab-case
@@ -757,3 +762,9 @@ export default config
 // Note: Responsive tokens will be built separately
 // The responsive CSS file should be generated by importing and building
 // the responsive configuration in a separate process
+
+// Additional guidance:
+// Brand overlays (e.g., FDP) will be emitted by adding scoped CSS files via the JSON config
+// (config/config.json) using the custom css/variables-flat format if needed, with selector
+// set to an attribute like [data-brand="fdp"]. This file intentionally leaves the wiring
+// to the JSON so environments can toggle without changing this module.

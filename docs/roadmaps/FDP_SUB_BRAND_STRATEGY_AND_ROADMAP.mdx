@@ -1,0 +1,285 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Roadmaps/FDP Sub-brand Strategy and Roadmap" />
+
+# FDP Sub-brand Strategy and Roadmap
+
+This document proposes a pragmatic, low‑risk architecture to add the FDP sub‑brand alongside current NHS styles. It enables smooth migration, runtime brand switching, and strong fallbacks so existing users aren’t broken.
+
+## Goals
+
+- Preserve backward compatibility: NHS remains default with zero breaking changes.
+- Introduce brand‑agnostic semantic tokens and CSS variables as the primary styling contract.
+- Provide FDP brand overlays that can be enabled at app, page, or subtree scope.
+- Enable incremental migration of components; no big‑bang refactor.
+- Keep SSR compatibility and a11y standards.
+- Support charts/data‑viz and future brands (including dark/high‑contrast) without reworking components.
+
+## Design Principles
+
+- Semantic-first tokens: components depend on "what" (text.primary, surface.default), not "how" (#005eb8).
+- Runtime theming via CSS variables: brand selection is environmental, not a prop.
+- NHS defaults everywhere: NHS values at :root + Sass fallbacks inside components.
+- Single source of truth: Style Dictionary generates CSS, SCSS, and TS artifacts.
+- Low specificity: use cascade layers and attribute scoping to avoid fights.
+
+## Token Architecture
+
+Three layers of tokens that scale across brands:
+
+1) Primitives (brand-specific)
+- Raw palette, typography, spacing, radii, shadows.
+- Lives per brand (NHS, FDP).
+
+2) Semantics (brand-agnostic)
+- Role-based names used by components: color.text.primary, color.surface.default, border.radius.sm, spacing.3, etc.
+- Same across brands; each brand maps these semantics to its primitives.
+
+3) Component tokens (optional overlay)
+- Special mappings for components that need unique roles, e.g., button.primary.container.background.
+- Keep small and only where necessary.
+
+### Naming and CSS variables
+
+- CSS custom properties will follow a consistent prefix: `--ds-…` (design system).
+- Example semantics:
+  - `--ds-color-text`: base text color
+  - `--ds-color-surface`: default surface background
+  - `--ds-radius-sm`: small radius
+  - `--ds-spacing-3`: spacing step 3
+  - `--ds-button-bg`, `--ds-link-color` for component roles when needed
+
+### SCSS fallbacks during migration
+
+Use CSS variables with NHS Sass fallback in component SCSS:
+
+- `color: var(--ds-color-text, $nhs-color-text);`
+- `background: var(--ds-color-surface, $nhs-color-surface);`
+- `border-radius: var(--ds-radius-sm, $nhs-radius-sm);`
+
+This ensures current visuals if variables aren’t present or fail to load.
+
+## Build Outputs (Style Dictionary)
+
+Leverage the existing Style Dictionary pipeline to emit multi-target assets:
+
+- CSS variables
+  - `semantics.css`: declares all semantic CSS variables with NHS defaults at `:root` (or `@layer tokens.base`).
+  - `brand-nhs.css`: optional explicit NHS scope (for completeness).
+  - `brand-fdp.css`: scoped overrides under `[data-brand="fdp"]` (or `html[data-brand="fdp"]`).
+- SCSS
+  - Maintain the current `_tokens.scss` as NHS defaults.
+  - Optionally emit `_tokens.fdp.scss` if build-time FDP bundles are ever needed.
+- TypeScript
+  - Export token maps for charts and JS consumers; prefer semantic names keyed by brand.
+
+Suggested outputs under `packages/nhs-fdp/dist/`:
+
+- `dist/css/tokens/semantics.css`
+- `dist/css/tokens/brand-nhs.css`
+- `dist/css/tokens/brand-fdp.css`
+- `dist/scss/_tokens.scss` (NHS defaults)
+- `dist/ts/tokens.*.ts`
+
+### Scoping & Cascade Layers
+
+- Default NHS in `:root` to preserve behavior.
+- FDP overrides under `[data-brand="fdp"]`.
+- Optional, recommended cascade layering for predictability:
+
+```css
+@layer tokens.base, tokens.brand, components;
+
+@layer tokens.base {
+  :root { --ds-color-text: /* NHS */; /* … */ }
+}
+
+@layer tokens.brand {
+  [data-brand="fdp"] { --ds-color-text: /* FDP */; /* … */ }
+}
+
+@layer components {
+  .Button { color: var(--ds-color-text); }
+}
+```
+
+## Runtime Theming: ThemeProvider
+
+Introduce a minimal React provider that sets the brand attribute on the document or a wrapper element.
+
+- API: `<ThemeProvider brand="nhs" | "fdp" scope="document|local">{children}</ThemeProvider>`
+- Default: `brand="nhs"`, `scope="document"` (sets `document.documentElement.dataset.brand`).
+- Local scope: renders a wrapper `<div data-brand="fdp">…</div>` to isolate the brand.
+- Hook: `useTheme()` returns `{ brand, setBrand }` when components must branch in TS (avoid where possible).
+
+SSR: Render the data attribute server-side to avoid FOUC.
+
+## Component Migration Strategy
+
+- Phase 1 (No component changes)
+  - Generate semantic variables with NHS defaults and FDP brand overlay.
+  - Ship ThemeProvider and docs; NHS remains default.
+
+- Phase 2 (Incremental adoption)
+  - Convert components to use CSS variables with Sass fallbacks, starting with high‑visibility: Button, Heading, Link, Card, Table, Form controls.
+  - Prefer semantic tokens; only use component tokens for outliers.
+
+- Phase 3 (New FDP-only components)
+  - Author directly against semantic CSS variables; no need for Sass fallback if not required.
+
+### Authoring pattern (SCSS)
+
+```scss
+.Component {
+  color: var(--ds-color-text, $nhs-color-text);
+  background: var(--ds-color-surface, $nhs-color-surface);
+  border-radius: var(--ds-radius-sm, $nhs-radius-sm);
+  // …
+}
+```
+
+## Charts and Data Visualisation
+
+- Provide semantic chart tokens (CSS and TS):
+  - `--ds-chart-series-1` … `--ds-chart-series-12`
+  - `--ds-chart-grid`, `--ds-chart-axis`, `--ds-chart-alert`, etc.
+- For D3 usage, export a `getChartPalette(brand): string[]` or `getChartTokens(brand)` from generated TS.
+- Preferred: rely on CSS variables for axes/labels; read ThemeContext for computed arrays when necessary.
+- Keep semantics (series-1..N) stable so brands can redefine hues without code changes.
+
+## Consumption Patterns
+
+- Default NHS (no code changes for existing apps):
+  - Import `semantics.css` (NHS defaults at `:root`).
+  - Do nothing else; NHS look persists.
+
+- FDP brand (app or page scope):
+  - Import `semantics.css` and `brand-fdp.css`.
+  - Use `<ThemeProvider brand="fdp" />` or set `data-brand="fdp"` on an ancestor.
+
+## Storybook & Testing
+
+- Storybook
+  - Add a toolbar toggle for brand; decorator sets `data-brand` on the preview root.
+  - Duplicate key stories with brand parameters to spotlight differences.
+  - Use the accessibility addon to validate contrast and keyboard flows.
+
+- Testing
+  - Unit/Component: parameterize brand (NHS/FDP) for smoke tests; verify roles/semantics remain correct.
+  - SSR: ensure correct data attribute during server render; no client-only refs in render.
+  - Visual: run per-brand snapshots for core set (Buttons, Inputs, Tables, Cards, Charts).
+
+## Backward Compatibility and Risks
+
+- NHS remains the default via `:root` semantics and Sass fallbacks.
+- No breaking prop/import changes.
+- Incremental migration; revert is easy by removing brand overlay import.
+- Keep tokens minimal to avoid divergence; prefer semantics over component-specific tokens.
+
+---
+
+# Roadmap
+
+The roadmap is split into small, independently shippable steps. Each step includes acceptance criteria and validation commands aligned with our scripts.
+
+## Phase 0 – Scaffolding (PR1)
+
+1) Token Source Structure
+- Add `tokens/semantics/` and `tokens/brands/{nhs,fdp}/`.
+- Map semantics to NHS primitives (default) and FDP primitives.
+
+2) Style Dictionary Outputs
+- Emit CSS: `semantics.css`, `brand-fdp.css` (and optional `brand-nhs.css`).
+- Preserve `_tokens.scss` as NHS defaults.
+- Optional TS: `dist/ts/tokens.*.ts` for charts.
+
+3) Build Wiring
+- Update smart token build to include new sources.
+- Ensure `npm run build:fast` and `npm run build:parity` complete locally.
+
+Acceptance
+- `npm run build:parity` succeeds.
+- `dist/css/tokens/semantics.css` and `brand-fdp.css` exist and contain variables.
+
+## Phase 1 – Theme infrastructure (PR2)
+
+1) ThemeProvider
+- Export `<ThemeProvider brand="nhs|fdp" scope="document|local">` and `useTheme()`.
+- SSR-safe: can set attribute server-side via prop.
+
+2) Storybook Toggle
+- Global toolbar to switch brand; decorator applies `data-brand`.
+
+Acceptance
+- Storybook launches and toggles brand at runtime without reload.
+- Basic sample page shows clear brand switch (e.g., typography colors).
+
+## Phase 2 – Pilot component conversions (PR3–PR5)
+
+Targets
+- Button, Link, Heading, Card, Table (+ form control base) to use semantic variables with NHS fallbacks.
+
+Acceptance
+- Component test suites pass for both brands (parameterized smoke tests where feasible).
+- Visual check in Storybook shows correct FDP look when `[data-brand="fdp"]` is present.
+
+Validation
+- `npm run test:components` (expect usual known single failure).
+- `npm run test:ssr-components` pass.
+- `npm run lint`, `npm run typecheck` pass.
+
+## Phase 3 – Charts pilot (PR6)
+
+1) Brand-aware chart tokens
+- Emit CSS and TS for `chart-series-N`, axes, gridlines, thresholds.
+
+2) Update one chart (SPC) to consume semantics
+- CSS for non-data elements; TS for palettes where arrays are used.
+
+Acceptance
+- SPC renders correctly in NHS and FDP in Storybook with brand toggle.
+- No SSR warnings; client tests passing for SPC.
+
+## Phase 4 – Broader adoption and docs (ongoing)
+
+- Convert remaining components opportunistically.
+- Publish “How to enable FDP brand” guide in docs with code samples.
+- Consider dark/high-contrast as future brand overlays using same system.
+
+---
+
+## Implementation Notes
+
+- Keep brand scoping to `[data-brand="…"]` to allow subtree theming.
+- Prefer semantic tokens for most needs; introduce component-level tokens sparingly.
+- Avoid brand branching in TS; if unavoidable, isolate via `useTheme()` and token maps.
+- Use `@layer tokens.base, tokens.brand, components;` ordering to keep overrides predictable.
+- Document any places where visual diffs require layout/spacing adjustments.
+
+## Validation Checklist (per PR)
+
+- Build: `npm run build:parity` (timeout ≥120s per project notes)
+- Tests: `npm run test:ssr-components`, `npm run test:components`
+- Lint/Types: `npm run lint`, `npm run typecheck`
+- Manual: Storybook brand toggle across multiple components
+
+## FAQ
+
+- Q: Will existing NHS consumers break?
+  - A: No. NHS remains default at `:root`, components keep Sass fallbacks during migration.
+
+- Q: Can I theme only part of a page?
+  - A: Yes. Wrap a subtree in `<ThemeProvider brand="fdp" scope="local"/>` or set `data-brand` on an element.
+
+- Q: Do we need separate packages?
+  - A: No. One package with multiple CSS outputs keeps consumption simple and avoids duplication.
+
+- Q: How do charts pick colors?
+  - A: Using semantic chart tokens. Prefer CSS variables where possible; D3 arrays come from TS token maps keyed by brand or from a helper that reads ThemeContext.
+
+- Q: How does SSR behave?
+  - A: Render the brand attribute server-side to prevent FOUC. Tokens CSS should be included early in the page.
+
+---
+
+<small>Prepared for the NHS FDP Design System. See <a href="/docs/tokens/">Tokens</a> and <a href="/docs/roadmaps/">Roadmaps</a> for related documents.</small>

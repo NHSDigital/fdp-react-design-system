@@ -1,0 +1,256 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { SwatchGrid } from './components/SwatchGrid';
+import gradients from '../../packages/nhs-fdp/dist/js/gradients.json';
+
+<Meta title="Roadmaps/FDP Sub-brand/Overview" />
+
+# FDP Sub-brand Design System
+
+This page is the living overview for the FDP sub-brand inside the NHS FDP Design System. It explains the architecture, how to enable the brand at runtime, and lists the new tokens (including gradients) as they land. Use this as the single source of truth while we integrate FDP alongside the NHS default.
+
+---
+
+## Quick previews
+
+Below are embedded, live previews rendered via TSX components (no navigation to separate stories required).
+
+---
+
+## Goals
+
+- Backwards compatible: NHS remains the default; FDP is opt-in
+- Brand at runtime: switch by attribute/provider without rebuilding
+- Use semantic CSS variables: views/components read brand-agnostic variables
+- Strong fallbacks: components continue to work even if brand CSS is not loaded
+
+---
+
+## Architecture (high level)
+
+- Semantic tokens at `:root` provide the default (NHS) values.
+- FDP overlay CSS provides brand-specific variables and mappings, scoped under a brand attribute.
+- A lightweight React provider sets `data-brand` at the document or a local container to activate FDP.
+- We recommend using cascade layers in apps for robust overrides where needed.
+
+### Runtime theming mechanics
+
+- Default (NHS): semantic variables resolve to NHS values via `semantics.css`.
+- FDP: adding `data-brand="fdp"` on a container activates the FDP brand overlay from `brand-fdp.css`.
+
+---
+
+## How to enable the FDP brand
+
+1) Import the token CSS in your app’s global stylesheet (order matters):
+
+```css
+/* Default semantics (NHS) */
+@import '@fergusbisset/nhs-fdp-design-system/styles/tokens/semantics.css';
+
+/* FDP brand overlay (scoped to [data-brand="fdp"]) */
+@import '@fergusbisset/nhs-fdp-design-system/styles/tokens/brand-fdp.css';
+```
+
+2) Scope FDP globally or locally:
+
+```tsx
+// Global (document-level)
+import { BrandThemeProvider } from '@fergusbisset/nhs-fdp-design-system';
+
+export default function App({ children }) {
+  return (
+    <BrandThemeProvider brand="fdp" scope="document">
+      {children}
+    </BrandThemeProvider>
+  );
+}
+
+// Local (isolate to a section)
+<div data-brand="fdp">
+  {/* FDP-styled content only here */}
+</div>
+```
+
+Notes:
+- NHS remains the default if you don’t set the brand.
+- Keep brand scoping as tight as your UX needs; local scope is fully supported.
+
+---
+
+## Tokens: FDP palette and semantics
+
+The FDP sub-brand introduces a palette and a semantic mapping. Highlights:
+
+- Palette primitives (examples):
+  - Dark Blue `#003087`, Blue `#005EB8`, Green `#009639`, Dark Green `#63A691`, Purple `#D6CCE3`
+  - Greys: 1 `#425563`, 2 `#768692`, 3 `#AEB7BD`, 4 `#D8DDE0`, 5 `#E8EDEE`
+- Semantic intents (examples):
+  - Primary → FDP Green `#009639`
+  - Secondary → NHS Blue `#005EB8`
+  - Info → FDP Dark Blue `#003087`
+  - Success → FDP Green `#009639`
+  - Warning → NHS Red `#d5281b` (unless otherwise specified)
+
+Where to find them:
+- CSS overlay variables: `@fergusbisset/nhs-fdp-design-system/styles/tokens/brand-fdp.css`
+- Default semantics: `@fergusbisset/nhs-fdp-design-system/styles/tokens/semantics.css`
+
+---
+
+### Embedded preview: FDP Colors
+
+<div data-brand="fdp">
+  <h4>Primitives</h4>
+  <SwatchGrid
+    items={[
+      { label: 'Dark Blue', fill: 'var(--brand-fdp-primary-dark-blue)', code: '#003087' },
+      { label: 'Blue', fill: 'var(--brand-fdp-primary-blue)', code: '#005EB8' },
+      { label: 'Green', fill: 'var(--brand-fdp-primary-green)', code: '#009639' },
+      { label: 'Dark Green', fill: 'var(--brand-fdp-primary-dark-green)', code: '#63A691' },
+      { label: 'Purple', fill: 'var(--brand-fdp-primary-purple)', code: '#D6CCE3' },
+      { label: 'White', fill: 'var(--brand-fdp-primary-white)', code: '#ffffff' },
+      { label: 'Grey 1', fill: 'var(--brand-fdp-grey-1)', code: '#425563' },
+      { label: 'Grey 2', fill: 'var(--brand-fdp-grey-2)', code: '#768692' },
+      { label: 'Grey 3', fill: 'var(--brand-fdp-grey-3)', code: '#AEB7BD' },
+      { label: 'Grey 4', fill: 'var(--brand-fdp-grey-4)', code: '#D8DDE0' },
+      { label: 'Grey 5', fill: 'var(--brand-fdp-grey-5)', code: '#E8EDEE' },
+    ]}
+    columns={4}
+  />
+
+  <h4>Semantic Intents</h4>
+  <SwatchGrid
+    items={[
+      { label: 'Primary', fill: 'var(--brand-fdp-semantic-intent-primary)', code: '#009639' },
+      { label: 'Secondary', fill: 'var(--brand-fdp-semantic-intent-secondary)', code: '#005EB8' },
+      { label: 'Info', fill: 'var(--brand-fdp-semantic-intent-info)', code: '#003087' },
+      { label: 'Success', fill: 'var(--brand-fdp-semantic-intent-success)', code: '#009639' },
+      { label: 'Warning', fill: 'var(--brand-fdp-semantic-intent-warning)', code: '#d5281b' },
+      { label: 'Neutral', fill: 'var(--brand-fdp-semantic-intent-neutral)', code: '#425563' },
+    ]}
+    columns={3}
+  />
+</div>
+
+---
+
+## Tokens: Gradients (palette)
+
+We provide gradient tokens for common decorative or wash effects. Each gradient has horizontal (default), vertical, and diagonal variants.
+
+Available (palette):
+- Light Blue: `gradient.palette.light-blue`, `-vertical`, `-diagonal`
+- Dark Blue: `gradient.palette.dark-blue`, `-vertical`, `-diagonal`
+- Purple: `gradient.palette.purple`, `-vertical`, `-diagonal`
+- Green: `gradient.palette.green`, `-vertical`, `-diagonal`
+- Grey: `gradient.palette.grey`, `-vertical`, `-diagonal`
+
+Usage options:
+
+```tsx
+// 1) Inline style (string)
+import gradients from '@fergusbisset/nhs-fdp-design-system/dist/js/gradients.json';
+
+<div style={{ background: gradients.gradient.palette['dark-blue-diagonal'] }} />
+
+// 2) SCSS variables (imported from the generated _gradients.scss)
+// @use '@fergusbisset/nhs-fdp-design-system/packages/nhs-fdp/dist/scss/gradients' as nhs;
+// .card { background: nhs.$gradient-palette-dark-blue-diagonal; }
+```
+
+Notes:
+- Prefer semantic fills when you can; gradients are intended for subtle washes or accents.
+- SVG-specific gradients should be defined with `<linearGradient>` stops using color tokens for precise control.
+
+---
+
+### Embedded preview: Gradients (palette)
+
+<SwatchGrid
+  items={[
+    { label: 'Light Blue', fill: gradients.gradient.palette['light-blue'] },
+    { label: 'Light Blue (vertical)', fill: gradients.gradient.palette['light-blue-vertical'] },
+    { label: 'Light Blue (diagonal)', fill: gradients.gradient.palette['light-blue-diagonal'] },
+    { label: 'Light Blue (45°)', fill: gradients.gradient.palette['light-blue-45deg'] },
+    { label: 'Light Blue (↘ from TL)', fill: gradients.gradient.palette['light-blue-from-top-left'] },
+    { label: 'Light Blue (↙ from TR)', fill: gradients.gradient.palette['light-blue-from-top-right'] },
+    { label: 'Light Blue (↗ from BL)', fill: gradients.gradient.palette['light-blue-from-bottom-left'] },
+    { label: 'Light Blue (↖ from BR)', fill: gradients.gradient.palette['light-blue-from-bottom-right'] },
+    { label: 'Dark Blue', fill: gradients.gradient.palette['dark-blue'] },
+    { label: 'Dark Blue (vertical)', fill: gradients.gradient.palette['dark-blue-vertical'] },
+    { label: 'Dark Blue (diagonal)', fill: gradients.gradient.palette['dark-blue-diagonal'] },
+    { label: 'Dark Blue (45°)', fill: gradients.gradient.palette['dark-blue-45deg'] },
+    { label: 'Dark Blue (↘ from TL)', fill: gradients.gradient.palette['dark-blue-from-top-left'] },
+    { label: 'Dark Blue (↙ from TR)', fill: gradients.gradient.palette['dark-blue-from-top-right'] },
+    { label: 'Dark Blue (↗ from BL)', fill: gradients.gradient.palette['dark-blue-from-bottom-left'] },
+    { label: 'Dark Blue (↖ from BR)', fill: gradients.gradient.palette['dark-blue-from-bottom-right'] },
+    { label: 'Purple', fill: gradients.gradient.palette['purple'] },
+    { label: 'Purple (vertical)', fill: gradients.gradient.palette['purple-vertical'] },
+    { label: 'Purple (diagonal)', fill: gradients.gradient.palette['purple-diagonal'] },
+    { label: 'Purple (45°)', fill: gradients.gradient.palette['purple-45deg'] },
+    { label: 'Purple (↘ from TL)', fill: gradients.gradient.palette['purple-from-top-left'] },
+    { label: 'Purple (↙ from TR)', fill: gradients.gradient.palette['purple-from-top-right'] },
+    { label: 'Purple (↗ from BL)', fill: gradients.gradient.palette['purple-from-bottom-left'] },
+    { label: 'Purple (↖ from BR)', fill: gradients.gradient.palette['purple-from-bottom-right'] },
+    { label: 'Green', fill: gradients.gradient.palette['green'] },
+    { label: 'Green (vertical)', fill: gradients.gradient.palette['green-vertical'] },
+    { label: 'Green (diagonal)', fill: gradients.gradient.palette['green-diagonal'] },
+    { label: 'Green (45°)', fill: gradients.gradient.palette['green-45deg'] },
+    { label: 'Green (↘ from TL)', fill: gradients.gradient.palette['green-from-top-left'] },
+    { label: 'Green (↙ from TR)', fill: gradients.gradient.palette['green-from-top-right'] },
+    { label: 'Green (↗ from BL)', fill: gradients.gradient.palette['green-from-bottom-left'] },
+    { label: 'Green (↖ from BR)', fill: gradients.gradient.palette['green-from-bottom-right'] },
+    { label: 'Grey', fill: gradients.gradient.palette['grey'] },
+    { label: 'Grey (vertical)', fill: gradients.gradient.palette['grey-vertical'] },
+    { label: 'Grey (diagonal)', fill: gradients.gradient.palette['grey-diagonal'] },
+    { label: 'Grey (45°)', fill: gradients.gradient.palette['grey-45deg'] },
+    { label: 'Grey (↘ from TL)', fill: gradients.gradient.palette['grey-from-top-left'] },
+    { label: 'Grey (↙ from TR)', fill: gradients.gradient.palette['grey-from-top-right'] },
+    { label: 'Grey (↗ from BL)', fill: gradients.gradient.palette['grey-from-bottom-left'] },
+    { label: 'Grey (↖ from BR)', fill: gradients.gradient.palette['grey-from-bottom-right'] },
+  ]}
+  columns={3}
+/>
+
+---
+
+## Component compatibility & fallbacks
+
+- Components are authored against semantic tokens, so switching brand requires no component changes.
+- If a consumer cannot import the overlay CSS, the default NHS semantics remain, keeping components usable.
+
+SCSS fallback pattern (when authoring CSS):
+
+```scss
+/* Example: prefer CSS vars with a token fallback */
+.button {
+  background-color: var(--nhs-semantic-intent-primary, #005eb8);
+}
+```
+
+---
+
+## Storybook support
+
+- A toolbar toggle sets the brand for stories via our `BrandThemeProvider`.
+- You can preview both NHS and FDP look-and-feel without restarting Storybook.
+
+---
+
+## Validation & quality checks
+
+- Build: `npm run build:parity`
+- Tokens: `npm run build:tokens` (or smart rebuild)
+- Tests (SSR/core): `npm run test:ssr-components`, `npm run test:components`
+- Lint & types: `npm run lint`, `npm run typecheck`
+
+---
+
+## Roadmap & references
+
+- Strategy & roadmap: see `docs/roadmaps/FDP_SUB_BRAND_STRATEGY_AND_ROADMAP.mdx`
+- Design tokens overview: `packages/nhs-fdp/tokens/*`
+- Generated outputs: `packages/nhs-fdp/dist/*` (CSS, SCSS, JS/JSON)
+- Brand provider: `src/themes/BrandThemeProvider.tsx`
+
+This page will evolve as we add more FDP-specific tokens and patterns (e.g., data viz palettes, chart helpers, component examples). If you need a specific token or example, open an issue or ping in the design system channel.

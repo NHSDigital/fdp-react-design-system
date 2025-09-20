@@ -1,9 +1,13 @@
 import type { Preview } from "@storybook/react";
 import { NHSThemeProvider } from "../src/components/NHSThemeProvider";
+import { BrandThemeProvider } from "../src/themes/BrandThemeProvider";
 import "../src/styles/fonts.css";
 import "../src/styles/font-debug.css";
 import "../src/styles/utilities.scss";
 import './mdx-docs-styles.scss';
+// Load semantic tokens (NHS defaults at :root) and FDP overlay (scoped)
+import "../packages/nhs-fdp/dist/css/semantics.css";
+import "../packages/nhs-fdp/dist/css/brand-fdp.css";
 
 // Import font loading utilities
 import { injectFontCSS, preloadFrutigerFonts } from "../src/styles/font-loader";
@@ -30,6 +34,22 @@ if (typeof document !== "undefined") {
 		document.body.classList.remove("font-loading-debug");
 	});
 }
+
+export const globalTypes = {
+	brand: {
+		name: 'Brand',
+		description: 'Select visual brand',
+		defaultValue: 'nhs',
+		toolbar: {
+			icon: 'paintbrush',
+			items: [
+				{ value: 'nhs', title: 'NHS' },
+				{ value: 'fdp', title: 'FDP' },
+			],
+			dynamicTitle: true,
+		},
+	},
+};
 
 const preview: Preview = {
 	parameters: {
@@ -69,12 +89,14 @@ const preview: Preview = {
             // 'off' - skip a11y checks entirely
             test: "todo"
         }
-    },
+	},
 	decorators: [
 		(Story, ctx) => (
-			<NHSThemeProvider>
-				<Story {...ctx} />
-			</NHSThemeProvider>
+			<BrandThemeProvider brand={(ctx?.globals as any)?.brand === 'fdp' ? 'fdp' : 'nhs'}>
+				<NHSThemeProvider>
+					<Story {...ctx} />
+				</NHSThemeProvider>
+			</BrandThemeProvider>
 		),
 	],
 };

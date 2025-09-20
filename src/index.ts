@@ -21,6 +21,7 @@ export * from '../packages/nhs-fdp/dist/react/hooks/useTokens';
 export { useNhsFdpBreakpoints, useResponsiveValue } from './hooks/useBreakpoints';
 export { useNavigationSplitDrill } from './hooks/useNavigationSplitDrill';
 export { useNavigationSplitUrlSync } from './hooks/useNavigationSplitUrlSync';
+export { BrandThemeProvider, useBrand } from './themes/BrandThemeProvider';
 
 // Font loading utilities
 export * from './styles/font-config';

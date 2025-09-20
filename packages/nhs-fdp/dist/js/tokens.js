@@ -36,6 +36,33 @@ export const BorderColorForm = "#4c6272"; // Border color for form elements
 export const BorderColorCard = "#d8dde0"; // Border color for cards
 export const BorderColorCardHover = "#aeb7bd"; // Border color for cards on hover
 export const BorderColorError = "#d5281b"; // Border color for error states
+export const BrandFdpPrimaryDarkBlue = "#003087"; // NHS FDP Dark Blue
+export const BrandFdpPrimaryBlue = "#005eb8"; // NHS Blue
+export const BrandFdpPrimaryGreen = "#009639"; // NHS Green
+export const BrandFdpPrimaryDarkGreen = "#63a691"; // NHS Dark Green
+export const BrandFdpPrimaryPurple = "#d6cce3"; // NHS Purple (tint)
+export const BrandFdpPrimaryWhite = "#ffffff"; // NHS White
+export const BrandFdpGrey1 = "#425563"; // NHS Dark Grey
+export const BrandFdpGrey2 = "#768692"; // NHS Mid Grey
+export const BrandFdpGrey3 = "#aeb7bd"; // NHS Grey 3 (derived to align system)
+export const BrandFdpGrey4 = "#d8dde0"; // NHS Grey 4 (derived to align system)
+export const BrandFdpGrey5 = "#e8edee"; // NHS Pale Grey
+export const BrandFdpSemanticIntentPrimary = "#009639"; // Primary intent (FDP Green)
+export const BrandFdpSemanticIntentSecondary = "#005eb8"; // Secondary intent (NHS Blue)
+export const BrandFdpSemanticIntentWarning = "#d5281b"; // Warning intent (NHS Red for accessibility consistency)
+export const BrandFdpSemanticIntentSuccess = "#009639"; // Success intent
+export const BrandFdpSemanticIntentNeutral = "#425563"; // Neutral intent (dark grey)
+export const BrandFdpSemanticIntentInfo = "#003087"; // Info intent (FDP Dark Blue)
+export const BrandFdpSemanticSurfaceBackgroundPrimary = "#ffffff"; // Primary background (white)
+export const BrandFdpSemanticSurfaceBackgroundSecondary = "#e8edee"; // Secondary background (pale grey)
+export const BrandFdpSemanticSurfaceBackgroundElevated = "#ffffff"; // Elevated background (cards)
+export const BrandFdpSemanticSurfaceTextPrimary = "#425563"; // Primary text (dark grey)
+export const BrandFdpSemanticSurfaceTextSecondary = "#768692"; // Secondary text (mid grey)
+export const BrandFdpSemanticSurfaceTextTertiary = "#aeb7bd"; // Tertiary text (grey 3)
+export const BrandFdpSemanticSurfaceTextInverse = "#ffffff"; // Inverse text (white)
+export const BrandFdpSemanticSurfaceBorderDefault = "#d8dde0"; // Default border (grey 4)
+export const BrandFdpSemanticSurfaceBorderSubtle = "#e8edee"; // Subtle border (pale grey)
+export const BrandFdpSemanticSurfaceBorderStrong = "#768692"; // Strong border (mid grey)
 export const ColorPrimaryBlue = "#005eb8"; // NHS Blue - Primary brand color
 export const ColorPrimaryBlueActive = "#002f5c"; // NHS Active Blue (50% shade) – alias of button/login active; promoted for general reuse
 export const ColorPrimaryWhite = "#ffffff"; // NHS White
@@ -362,6 +389,83 @@ export const GradientMetricCardWarning =
   "linear-gradient(135deg, rgba(237,79,0,0.10), #ffffff)"; // Warning metric card subtle wash (Tangerine 10% → White)
 export const GradientMetricCardError =
   "linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff)"; // Error metric card subtle wash (NHS Red 10% → White)
+export const GradientPaletteLightBlue =
+  "linear-gradient(90deg, #005eb8, #60b2e2)"; // Light Blue gradient (NHS Blue → #60b2e2)
+export const GradientPaletteLightBlueVertical =
+  "linear-gradient(180deg, #005eb8, #60b2e2)"; // Light Blue gradient vertical (top→bottom)
+export const GradientPaletteLightBlueDiagonal =
+  "linear-gradient(135deg, #005eb8, #60b2e2)"; // Light Blue gradient diagonal
+export const GradientPaletteLightBlue45deg =
+  "linear-gradient(45deg, #005eb8, #60b2e2)"; // Light Blue gradient at 45deg
+export const GradientPaletteLightBlueFromTopLeft =
+  "linear-gradient(to bottom right, #005eb8, #60b2e2)"; // Light Blue gradient from top-left corner
+export const GradientPaletteLightBlueFromTopRight =
+  "linear-gradient(to bottom left, #005eb8, #60b2e2)"; // Light Blue gradient from top-right corner
+export const GradientPaletteLightBlueFromBottomLeft =
+  "linear-gradient(to top right, #005eb8, #60b2e2)"; // Light Blue gradient from bottom-left corner
+export const GradientPaletteLightBlueFromBottomRight =
+  "linear-gradient(to top left, #005eb8, #60b2e2)"; // Light Blue gradient from bottom-right corner
+export const GradientPaletteDarkBlue =
+  "linear-gradient(90deg, #005eb8, #003087)"; // Dark Blue gradient (NHS Blue → NHS Dark Blue)
+export const GradientPaletteDarkBlueVertical =
+  "linear-gradient(180deg, #005eb8, #003087)"; // Dark Blue gradient vertical (top→bottom)
+export const GradientPaletteDarkBlueDiagonal =
+  "linear-gradient(135deg, #005eb8, #003087)"; // Dark Blue gradient diagonal
+export const GradientPaletteDarkBlue45deg =
+  "linear-gradient(45deg, #005eb8, #003087)"; // Dark Blue gradient at 45deg
+export const GradientPaletteDarkBlueFromTopLeft =
+  "linear-gradient(to bottom right, #005eb8, #003087)"; // Dark Blue gradient from top-left corner
+export const GradientPaletteDarkBlueFromTopRight =
+  "linear-gradient(to bottom left, #005eb8, #003087)"; // Dark Blue gradient from top-right corner
+export const GradientPaletteDarkBlueFromBottomLeft =
+  "linear-gradient(to top right, #005eb8, #003087)"; // Dark Blue gradient from bottom-left corner
+export const GradientPaletteDarkBlueFromBottomRight =
+  "linear-gradient(to top left, #005eb8, #003087)"; // Dark Blue gradient from bottom-right corner
+export const GradientPalettePurple = "linear-gradient(90deg, #ac98cb, #d6cce3)"; // Purple gradient (#ac98cb → NHS Purple 20% tint)
+export const GradientPalettePurpleVertical =
+  "linear-gradient(180deg, #ac98cb, #d6cce3)"; // Purple gradient vertical (top→bottom)
+export const GradientPalettePurpleDiagonal =
+  "linear-gradient(135deg, #ac98cb, #d6cce3)"; // Purple gradient diagonal
+export const GradientPalettePurple45deg =
+  "linear-gradient(45deg, #ac98cb, #d6cce3)"; // Purple gradient at 45deg
+export const GradientPalettePurpleFromTopLeft =
+  "linear-gradient(to bottom right, #ac98cb, #d6cce3)"; // Purple gradient from top-left corner
+export const GradientPalettePurpleFromTopRight =
+  "linear-gradient(to bottom left, #ac98cb, #d6cce3)"; // Purple gradient from top-right corner
+export const GradientPalettePurpleFromBottomLeft =
+  "linear-gradient(to top right, #ac98cb, #d6cce3)"; // Purple gradient from bottom-left corner
+export const GradientPalettePurpleFromBottomRight =
+  "linear-gradient(to top left, #ac98cb, #d6cce3)"; // Purple gradient from bottom-right corner
+export const GradientPaletteGreen = "linear-gradient(90deg, #007f3b, #63a691)"; // Green gradient (NHS Green → NHS Dark Green 60% tint)
+export const GradientPaletteGreenVertical =
+  "linear-gradient(180deg, #007f3b, #63a691)"; // Green gradient vertical (top→bottom)
+export const GradientPaletteGreenDiagonal =
+  "linear-gradient(135deg, #007f3b, #63a691)"; // Green gradient diagonal
+export const GradientPaletteGreen45deg =
+  "linear-gradient(45deg, #007f3b, #63a691)"; // Green gradient at 45deg
+export const GradientPaletteGreenFromTopLeft =
+  "linear-gradient(to bottom right, #007f3b, #63a691)"; // Green gradient from top-left corner
+export const GradientPaletteGreenFromTopRight =
+  "linear-gradient(to bottom left, #007f3b, #63a691)"; // Green gradient from top-right corner
+export const GradientPaletteGreenFromBottomLeft =
+  "linear-gradient(to top right, #007f3b, #63a691)"; // Green gradient from bottom-left corner
+export const GradientPaletteGreenFromBottomRight =
+  "linear-gradient(to top left, #007f3b, #63a691)"; // Green gradient from bottom-right corner
+export const GradientPaletteGrey = "linear-gradient(90deg, #4c6272, #768692)"; // Grey gradient (NHS Dark Grey → NHS Mid Grey)
+export const GradientPaletteGreyVertical =
+  "linear-gradient(180deg, #4c6272, #768692)"; // Grey gradient vertical (top→bottom)
+export const GradientPaletteGreyDiagonal =
+  "linear-gradient(135deg, #4c6272, #768692)"; // Grey gradient diagonal
+export const GradientPaletteGrey45deg =
+  "linear-gradient(45deg, #4c6272, #768692)"; // Grey gradient at 45deg
+export const GradientPaletteGreyFromTopLeft =
+  "linear-gradient(to bottom right, #4c6272, #768692)"; // Grey gradient from top-left corner
+export const GradientPaletteGreyFromTopRight =
+  "linear-gradient(to bottom left, #4c6272, #768692)"; // Grey gradient from top-right corner
+export const GradientPaletteGreyFromBottomLeft =
+  "linear-gradient(to top right, #4c6272, #768692)"; // Grey gradient from bottom-left corner
+export const GradientPaletteGreyFromBottomRight =
+  "linear-gradient(to top left, #4c6272, #768692)"; // Grey gradient from bottom-right corner
 export const SemanticIntentHoverPrimary = "darken(#007f3b, 10%)"; // Primary intent hover state - darker NHS Green
 export const SemanticIntentHoverSecondary = "darken(#005eb8, 10%)"; // Secondary intent hover state - darker NHS Blue
 export const SemanticIntentHoverWarning = "darken(#d5281b, 10%)"; // Warning intent hover state - darker NHS Red

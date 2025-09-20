@@ -2,7 +2,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 import React from 'react';
 import { ChartRoot, LineScalesProvider, Axis, GridLines, LineSeriesPrimitive, AlertThreshold, AlertBand, AlertMarkers } from '../../DataVisualisation';
 
-<Meta title="Data Visualisation/Guides/Chart Alert Annotations" />
+<Meta title="Data Visualisation/Guides/Chart Alert Annotations" name="Overview" />
 
 # Alert Annotations
 
@@ -31,7 +31,7 @@ const series = [
           { x: new Date(2025,0,7), status: 'critical', label: 'Spike' },
           { x: new Date(2025,0,18), status: 'warning' }
         ]} />
-        <LineSeriesPrimitive series={series[0]} seriesIndex={0} showPoints parseX={d => d.x} />
+        <LineSeriesPrimitive series={series[0]} seriesIndex={0]} showPoints parseX={d => d.x} />
       </g>
     </svg>
   </LineScalesProvider>
@@ -50,4 +50,33 @@ const series = [
 Notes
 - Use inside the plot `<g>` to align with scales (like `Axis` and series primitives).
 - Colours use CSS variables with safe fallbacks: `--nhs-fdp-color-critical`, `--nhs-fdp-color-warning`, `--nhs-fdp-color-success`, `--nhs-fdp-color-info`.
+
+---
+
+### Palette gradients (new)
+
+If you want subtle fills or decorative washes consistent with the brand palette, you can also use the following gradient tokens:
+
+- Light Blue: `gradient.palette.light-blue` — NHS Blue → `#60b2e2`
+- Dark Blue: `gradient.palette.dark-blue` — NHS Blue → NHS Dark Blue
+- Purple: `gradient.palette.purple` — `#ac98cb` → NHS Purple 20% tint
+- Green: `gradient.palette.green` — NHS Green → NHS Dark Green (60% tint)
+- Grey: `gradient.palette.grey` — NHS Dark Grey → NHS Mid Grey
+
+Variants for direction:
+- Vertical (top→bottom): `*-vertical` (e.g., `gradient.palette.dark-blue-vertical`)
+- Diagonal (135°): `*-diagonal` (e.g., `gradient.palette.green-diagonal`)
+
+Usage examples:
+
+```tsx
+// 1) Inline CSS background (e.g., card container)
+<div style={{ background: tokens.gradient.palette["light-blue-diagonal"] }} />
+
+// 2) Vertical bar background
+<div style={{ background: tokens.gradient.palette["grey-vertical"] }} />
+
+// 3) SVG fill
+<rect fill={tokens.gradient.palette["dark-blue"]} />
+```
 

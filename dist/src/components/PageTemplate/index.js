@@ -1041,6 +1041,7 @@ var Row = ({
   className,
   style,
   align,
+  rowGap,
   ...props
 }) => {
   const rowClasses = (0, import_classnames5.default)(

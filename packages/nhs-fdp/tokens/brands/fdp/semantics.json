@@ -1,0 +1,36 @@
+{
+  "brand": {
+    "fdp": {
+      "semantic": {
+        "$type": "color",
+        "$description": "FDP semantic tokens mapping to FDP primitives (aligned to provided palette)",
+        "intent": {
+          "primary": { "$value": "{brand.fdp.primary.green}", "$description": "Primary intent (FDP Green)" },
+          "secondary": { "$value": "{brand.fdp.primary.blue}", "$description": "Secondary intent (NHS Blue)" },
+          "warning": { "$value": "#d5281b", "$description": "Warning intent (NHS Red for accessibility consistency)" },
+          "success": { "$value": "{brand.fdp.primary.green}", "$description": "Success intent" },
+          "neutral": { "$value": "{brand.fdp.grey.1}", "$description": "Neutral intent (dark grey)" },
+          "info": { "$value": "{brand.fdp.primary.dark-blue}", "$description": "Info intent (FDP Dark Blue)" }
+        },
+        "surface": {
+          "background": {
+            "primary": { "$value": "{brand.fdp.primary.white}", "$description": "Primary background (white)" },
+            "secondary": { "$value": "{brand.fdp.grey.5}", "$description": "Secondary background (pale grey)" },
+            "elevated": { "$value": "{brand.fdp.primary.white}", "$description": "Elevated background (cards)" }
+          },
+          "text": {
+            "primary": { "$value": "{brand.fdp.grey.1}", "$description": "Primary text (dark grey)" },
+            "secondary": { "$value": "{brand.fdp.grey.2}", "$description": "Secondary text (mid grey)" },
+            "tertiary": { "$value": "{brand.fdp.grey.3}", "$description": "Tertiary text (grey 3)" },
+            "inverse": { "$value": "{brand.fdp.primary.white}", "$description": "Inverse text (white)" }
+          },
+          "border": {
+            "default": { "$value": "{brand.fdp.grey.4}", "$description": "Default border (grey 4)" },
+            "subtle": { "$value": "{brand.fdp.grey.5}", "$description": "Subtle border (pale grey)" },
+            "strong": { "$value": "{brand.fdp.grey.2}", "$description": "Strong border (mid grey)" }
+          }
+        }
+      }
+    }
+  }
+}

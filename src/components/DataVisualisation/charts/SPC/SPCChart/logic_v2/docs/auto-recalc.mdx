@@ -118,6 +118,12 @@ the chart will insert a baseline (see partition markers).
 
 <SPCChartAutoRecalcAppendExample />
 
+Note
+
+- The interactive controls use the design-system components: Button, Select, and Grid layout primitives (Grid/Row/Column) with an associated Label for accessibility.
+- The “Direction” Select is wired to `engine.metricImprovement` so you can switch between Up, Down, and Neither while experimenting.
+- Partition markers are enabled in the demo to make baseline insertions obvious, and the warnings/diagnostics panel is visible for extra context.
+
 ## Implementation details
 
 - Implementation lives in `logic_v2/utils/autoRecalc.ts` and is wired via `SPCChart.tsx` by preprocessing the canonical `rowsInput` to `rowsInputMaybeAuto` when enabled.

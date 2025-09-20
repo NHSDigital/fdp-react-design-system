@@ -72,13 +72,13 @@ export const SPCChartAutoRecalcAppendExample: React.FC = () => {
 				</Column>
 				<Column width={GridWidth.TwoThirds} style={{ textAlign: "right" }}>
 					<Button variant="secondary" onClick={appendBaselineLike} style={{ marginRight: 8 }}>
-				Append baseline-like
+						Append baseline-like
 					</Button>
 					<Button variant="secondary" onClick={appendShiftedLike} style={{ marginRight: 8 }}>
-				Append shifted-like
+						Append shifted-like
 					</Button>
 					<Button variant="primary" onClick={reset}>
-				Reset
+						Reset
 					</Button>
 				</Column>
 			</Row>

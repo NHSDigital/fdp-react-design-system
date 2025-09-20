@@ -2,6 +2,8 @@
 
 Updated snapshot (already implemented: rules engine, warnings framework, auto‑recalculation (UI pre‑processor for XmR), configurable shift/trend thresholds, diagnostics panel UI, Storybook rich tables, assurance capability mode). Baseline suggestion remains planned.
 
+Recent note: The auto‑recalc interactive demo now uses design‑system controls (Button/Select) and Grid/Row/Column layout with Label for the direction selector; partition markers and the warnings panel are enabled for clarity.
+
 ---
 
 ## 1. Current status (Implemented)

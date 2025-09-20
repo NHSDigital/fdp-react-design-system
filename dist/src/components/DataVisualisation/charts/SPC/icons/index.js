@@ -1376,25 +1376,33 @@ var resolveStateAndLayout = (input) => {
       polarity = eng.polarity;
     }
     let state2;
-    switch (eng.variationIcon) {
-      case "ImprovementHigh" /* ImprovementHigh */:
-      case "ImprovementLow" /* ImprovementLow */:
-        state2 = "special_cause_improving" /* SpecialCauseImproving */;
-        break;
-      case "ConcernHigh" /* ConcernHigh */:
-      case "ConcernLow" /* ConcernLow */:
-        state2 = "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
-        break;
-      case "NeitherHigh" /* NeitherHigh */:
-      case "NeitherLow" /* NeitherLow */:
-        state2 = eng.specialCauseNeutral ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
-        break;
-      case "CommonCause" /* CommonCause */:
-        state2 = "common_cause" /* CommonCause */;
-        break;
-      default:
-        state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
-        break;
+    const rawIcon = eng.variationIcon;
+    if (rawIcon === "improvement" /* Improvement */ || rawIcon === "concern" /* Concern */ || rawIcon === "neither" /* Neither */ || rawIcon === "suppressed" /* Suppressed */) {
+      if (rawIcon === "improvement" /* Improvement */) state2 = "special_cause_improving" /* SpecialCauseImproving */;
+      else if (rawIcon === "concern" /* Concern */) state2 = "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
+      else if (rawIcon === "neither" /* Neither */) state2 = "common_cause" /* CommonCause */;
+      else state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
+    } else {
+      switch (eng.variationIcon) {
+        case "ImprovementHigh" /* ImprovementHigh */:
+        case "ImprovementLow" /* ImprovementLow */:
+          state2 = "special_cause_improving" /* SpecialCauseImproving */;
+          break;
+        case "ConcernHigh" /* ConcernHigh */:
+        case "ConcernLow" /* ConcernLow */:
+          state2 = "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
+          break;
+        case "NeitherHigh" /* NeitherHigh */:
+        case "NeitherLow" /* NeitherLow */:
+          state2 = eng.specialCauseNeutral ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
+          break;
+        case "CommonCause" /* CommonCause */:
+          state2 = "common_cause" /* CommonCause */;
+          break;
+        default:
+          state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
+          break;
+      }
     }
     let direction2 = eng.trend;
     if (!direction2) {

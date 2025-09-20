@@ -5371,35 +5371,53 @@ var LineScalesProvider = ({
   yTickCount = 5,
   yDomain,
   xPadding,
-  yPadding
+  yPadding,
+  yBottomGapPx
 }) => {
   var _a2, _b2;
   const chartDims = useChartContext();
   const innerWidth = (_a2 = innerWidthProp != null ? innerWidthProp : chartDims == null ? void 0 : chartDims.innerWidth) != null ? _a2 : 0;
   const innerHeight = (_b2 = innerHeightProp != null ? innerHeightProp : chartDims == null ? void 0 : chartDims.innerHeight) != null ? _b2 : 0;
   const allData = React3.useMemo(() => series.flatMap((s) => s.data), [series]);
-  const parseX = React3.useCallback((d) => {
-    if (parseXProp) return parseXProp(d);
-    const raw = d.x;
-    return raw instanceof Date ? raw : new Date(raw);
-  }, [parseXProp]);
+  const parseX = React3.useCallback(
+    (d) => {
+      if (parseXProp) return parseXProp(d);
+      const raw = d.x;
+      return raw instanceof Date ? raw : new Date(raw);
+    },
+    [parseXProp]
+  );
   const xPad = xPadding != null ? xPadding : 6;
   const yPad = yPadding != null ? yPadding : 6;
-  const xScale = React3.useMemo(() => createXTimeScale(allData, parseX, [xPad, Math.max(0, innerWidth - xPad)]), [allData, parseX, innerWidth, xPad]);
+  const xScale = React3.useMemo(
+    () => createXTimeScale(allData, parseX, [
+      xPad,
+      Math.max(0, innerWidth - xPad)
+    ]),
+    [allData, parseX, innerWidth, xPad]
+  );
   const yScale = React3.useMemo(() => {
+    const extraBottom = Math.max(0, yBottomGapPx != null ? yBottomGapPx : 0);
+    const bottomPixel = Math.max(0, innerHeight - (yPad + extraBottom));
     if (yDomain) {
-      const scale = createYLinearScale([], (d) => d.y, [Math.max(0, innerHeight - yPad), yPad]);
+      const scale = createYLinearScale([], (d) => d.y, [
+        bottomPixel,
+        yPad
+      ]);
       scale.domain(yDomain);
       return scale;
     }
-    return createYLinearScale(allData, (d) => d.y, [Math.max(0, innerHeight - yPad), yPad]);
-  }, [allData, innerHeight, yDomain]);
-  const value = React3.useMemo(() => ({
-    xScale,
-    yScale,
-    getXTicks: (count = xTickCount) => xScale.ticks(count),
-    getYTicks: (count = yTickCount) => yScale.ticks(count)
-  }), [xScale, yScale, xTickCount, yTickCount]);
+    return createYLinearScale(allData, (d) => d.y, [bottomPixel, yPad]);
+  }, [allData, innerHeight, yDomain, yPad, yBottomGapPx]);
+  const value = React3.useMemo(
+    () => ({
+      xScale,
+      yScale,
+      getXTicks: (count = xTickCount) => xScale.ticks(count),
+      getYTicks: (count = yTickCount) => yScale.ticks(count)
+    }),
+    [xScale, yScale, xTickCount, yTickCount]
+  );
   return /* @__PURE__ */ jsx2(ScaleContext.Provider, { value, children });
 };
 
@@ -5667,7 +5685,10 @@ var Axis = ({
   autoMinLabelSpacing = type === "x" ? true : false,
   labelAngle = 0,
   allowLabelWrap = true,
-  tickFormatPreset
+  tickFormatPreset,
+  showZeroAxisBreak = false,
+  zeroAxisBreakGapPx = 32,
+  zeroAxisBreakTickBufferPx = 12
 }) => {
   const scaleCtx = useScaleContext();
   const dims = useChartContext();
@@ -5714,7 +5735,8 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
   const ticks2 = React6.useMemo(() => {
     if (tickValues && Array.isArray(tickValues)) return tickValues;
     if (!resolvedScale) return [];
-    if (typeof resolvedScale.ticks === "function") return resolvedScale.ticks(defaultCount);
+    if (typeof resolvedScale.ticks === "function")
+      return resolvedScale.ticks(defaultCount);
     return resolvedScale.domain ? resolvedScale.domain() : [];
   }, [resolvedScale, defaultCount, tickValues]);
   if (type === "x" && !hasUserFormatter && !tickFormatPreset && ticks2.length && ticks2.every((t) => t instanceof Date)) {
@@ -5726,7 +5748,10 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
     const sameYear = first.getFullYear() === last.getFullYear();
     const dtfMonth = new Intl.DateTimeFormat(void 0, { month: "short" });
     if (spanMs < 2 * oneDay) {
-      const dtfTime = new Intl.DateTimeFormat(void 0, { hour: "2-digit", minute: "2-digit" });
+      const dtfTime = new Intl.DateTimeFormat(void 0, {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
       effectiveFormatTick = (v) => dtfTime.format(v);
     } else if (spanMs < 32 * oneDay) {
       effectiveFormatTick = (v) => {
@@ -5760,7 +5785,9 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
     };
     let resolvedMinSpacing = minLabelSpacing != null ? minLabelSpacing : 0;
     if (autoMinLabelSpacing && (minLabelSpacing === void 0 || minLabelSpacing === null)) {
-      const labels = ticks2.map((t) => effectiveFormatTick(t).replace(/\n.*/g, ""));
+      const labels = ticks2.map(
+        (t) => effectiveFormatTick(t).replace(/\n.*/g, "")
+      );
       const avgLen = labels.length ? labels.reduce((a, b) => a + b.length, 0) / labels.length : 0;
       resolvedMinSpacing = Math.max(12, Math.round(avgLen * 6 + 4));
     }
@@ -5777,41 +5804,146 @@ ${dtf({ month: "short" }).format(d)} ${d.getFullYear()}`;
         }
       }
       return accepted;
-    }, [ticks2, resolvedScale, resolvedMinSpacing, tickValues, isBandScale, bandwidth]);
-    return /* @__PURE__ */ jsxs("g", { className: ["fdp-axis", "fdp-axis--x", className].filter(Boolean).join(" "), transform: `translate(0,${y2})`, fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))", children: [
-      /* @__PURE__ */ jsx5("line", { x1: 0, x2: dims.innerWidth, y1: 0, y2: 0, stroke: "currentColor" }),
-      filteredTicks.map((t, i) => {
-        var _a2;
-        const rawLabel = effectiveFormatTick(t);
-        const displayLabel = maxTickLabelLength && rawLabel.length > maxTickLabelLength ? rawLabel.slice(0, Math.max(1, maxTickLabelLength - 1)) + "\u2026" : rawLabel;
-        const lines = allowLabelWrap ? displayLabel.split(/\n/) : [displayLabel.replace(/\n/g, " ")];
-        const anchor = labelAngle < 0 ? "end" : labelAngle > 0 ? "start" : "middle";
-        return /* @__PURE__ */ jsxs("g", { transform: `translate(${tickPos(t)},0)`, children: [
-          /* @__PURE__ */ jsx5("line", { y2: 6, stroke: "currentColor" }),
-          /* @__PURE__ */ jsxs("text", { y: 9, textAnchor: anchor, className: "fdp-axis__tick", dominantBaseline: "hanging", transform: labelAngle ? `rotate(${labelAngle})` : void 0, fontFamily: "inherit", children: [
-            lines.map((ln, li) => /* @__PURE__ */ jsx5("tspan", { x: 0, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
-            displayLabel !== rawLabel && /* @__PURE__ */ jsx5("title", { children: rawLabel })
-          ] })
-        ] }, ((_a2 = t == null ? void 0 : t.toString) == null ? void 0 : _a2.call(t)) || i);
-      })
-    ] });
+    }, [
+      ticks2,
+      resolvedScale,
+      resolvedMinSpacing,
+      tickValues,
+      isBandScale,
+      bandwidth
+    ]);
+    return /* @__PURE__ */ jsxs(
+      "g",
+      {
+        className: ["fdp-axis", "fdp-axis--x", className].filter(Boolean).join(" "),
+        transform: `translate(0,${y2})`,
+        fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))",
+        children: [
+          /* @__PURE__ */ jsx5("line", { x1: 0, x2: dims.innerWidth, y1: 0, y2: 0, stroke: "currentColor" }),
+          filteredTicks.map((t, i) => {
+            var _a2;
+            const rawLabel = effectiveFormatTick(t);
+            const displayLabel = maxTickLabelLength && rawLabel.length > maxTickLabelLength ? rawLabel.slice(0, Math.max(1, maxTickLabelLength - 1)) + "\u2026" : rawLabel;
+            const lines = allowLabelWrap ? displayLabel.split(/\n/) : [displayLabel.replace(/\n/g, " ")];
+            const anchor = labelAngle < 0 ? "end" : labelAngle > 0 ? "start" : "middle";
+            return /* @__PURE__ */ jsxs(
+              "g",
+              {
+                transform: `translate(${tickPos(t)},0)`,
+                children: [
+                  /* @__PURE__ */ jsx5("line", { y2: 6, stroke: "currentColor" }),
+                  /* @__PURE__ */ jsxs(
+                    "text",
+                    {
+                      y: 9,
+                      textAnchor: anchor,
+                      className: "fdp-axis__tick",
+                      dominantBaseline: "hanging",
+                      transform: labelAngle ? `rotate(${labelAngle})` : void 0,
+                      fontFamily: "inherit",
+                      children: [
+                        lines.map((ln, li) => /* @__PURE__ */ jsx5("tspan", { x: 0, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
+                        displayLabel !== rawLabel && /* @__PURE__ */ jsx5("title", { children: rawLabel })
+                      ]
+                    }
+                  )
+                ]
+              },
+              ((_a2 = t == null ? void 0 : t.toString) == null ? void 0 : _a2.call(t)) || i
+            );
+          })
+        ]
+      }
+    );
   }
-  return /* @__PURE__ */ jsxs("g", { className: ["fdp-axis", "fdp-axis--y", className].filter(Boolean).join(" "), fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))", children: [
-    ticks2.map((t, i) => {
-      var _a2;
-      const rawLabel = effectiveFormatTick(t);
-      const displayLabel = maxTickLabelLength && rawLabel.length > maxTickLabelLength ? rawLabel.slice(0, Math.max(1, maxTickLabelLength - 1)) + "\u2026" : rawLabel;
-      const lines = allowLabelWrap ? displayLabel.split(/\n/) : [displayLabel.replace(/\n/g, " ")];
-      return /* @__PURE__ */ jsxs("g", { transform: `translate(0,${resolvedScale(t)})`, children: [
-        /* @__PURE__ */ jsx5("line", { x2: -6, stroke: "currentColor" }),
-        /* @__PURE__ */ jsxs("text", { x: -9, dy: "0.32em", textAnchor: "end", className: "fdp-axis__tick", fontFamily: "inherit", children: [
-          lines.map((ln, li) => /* @__PURE__ */ jsx5("tspan", { x: -9, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
-          displayLabel !== rawLabel && /* @__PURE__ */ jsx5("title", { children: rawLabel })
-        ] })
-      ] }, ((_a2 = t == null ? void 0 : t.toString) == null ? void 0 : _a2.call(t)) || i);
-    }),
-    label && /* @__PURE__ */ jsx5("text", { transform: "rotate(-90)", x: -dims.innerHeight / 2, y: -dims.margin.left + 12, textAnchor: "middle", className: "fdp-axis__label", fontFamily: "inherit", children: label })
-  ] });
+  return /* @__PURE__ */ jsxs(
+    "g",
+    {
+      className: ["fdp-axis", "fdp-axis--y", className].filter(Boolean).join(" "),
+      fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))",
+      children: [
+        (() => {
+          if (!showZeroAxisBreak) {
+            return /* @__PURE__ */ jsx5("line", { x1: 0, x2: 0, y1: 0, y2: dims.innerHeight, stroke: "currentColor" });
+          }
+          const gap = Math.max(6, zeroAxisBreakGapPx);
+          const topSolidEnd = Math.max(0, dims.innerHeight - gap);
+          return /* @__PURE__ */ jsx5("line", { x1: 0, x2: 0, y1: 0, y2: topSolidEnd, stroke: "currentColor" });
+        })(),
+        ticks2.map((t, i) => {
+          var _a2;
+          const rawLabel = effectiveFormatTick(t);
+          const displayLabel = maxTickLabelLength && rawLabel.length > maxTickLabelLength ? rawLabel.slice(0, Math.max(1, maxTickLabelLength - 1)) + "\u2026" : rawLabel;
+          const lines = allowLabelWrap ? displayLabel.split(/\n/) : [displayLabel.replace(/\n/g, " ")];
+          if (showZeroAxisBreak) {
+            const gap = Math.max(6, zeroAxisBreakGapPx);
+            const topSolidEnd = Math.max(0, dims.innerHeight - gap);
+            const yPx = resolvedScale(t);
+            const buffer = Math.max(0, zeroAxisBreakTickBufferPx);
+            if (yPx > topSolidEnd - buffer) return null;
+          }
+          return /* @__PURE__ */ jsxs(
+            "g",
+            {
+              transform: `translate(0,${resolvedScale(t)})`,
+              children: [
+                /* @__PURE__ */ jsx5("line", { x2: -6, stroke: "currentColor" }),
+                /* @__PURE__ */ jsxs(
+                  "text",
+                  {
+                    x: -9,
+                    dy: "0.32em",
+                    textAnchor: "end",
+                    className: "fdp-axis__tick",
+                    fontFamily: "inherit",
+                    children: [
+                      lines.map((ln, li) => /* @__PURE__ */ jsx5("tspan", { x: -9, dy: li === 0 ? 0 : "1.1em", children: ln }, li)),
+                      displayLabel !== rawLabel && /* @__PURE__ */ jsx5("title", { children: rawLabel })
+                    ]
+                  }
+                )
+              ]
+            },
+            ((_a2 = t == null ? void 0 : t.toString) == null ? void 0 : _a2.call(t)) || i
+          );
+        }),
+        showZeroAxisBreak && (() => {
+          const gap = Math.max(6, zeroAxisBreakGapPx);
+          const bottom = dims.innerHeight;
+          const top = 0;
+          const topSolidEnd = Math.max(top, bottom - gap);
+          const center = topSolidEnd + gap / 2;
+          const amp = Math.max(3, Math.min(8, Math.round(gap * 0.18)));
+          const maxCycles = Math.max(3, Math.min(6, Math.floor(gap / (2 * amp)) || 3));
+          const startY = -amp * maxCycles;
+          let d = `M0,${startY}`;
+          for (let i = 0; i < maxCycles; i++) {
+            d += ` l-4,${amp} l4,${amp}`;
+          }
+          const upperGuideEnd = center + startY - 2;
+          const lowerGuideStart = center - startY + 2;
+          return /* @__PURE__ */ jsxs("g", { children: [
+            /* @__PURE__ */ jsx5("line", { x1: 0, x2: 0, y1: topSolidEnd, y2: upperGuideEnd, stroke: "currentColor", strokeDasharray: "2 2" }),
+            /* @__PURE__ */ jsx5("g", { transform: `translate(0,${center})`, "aria-hidden": "true", children: /* @__PURE__ */ jsx5("path", { d, stroke: "currentColor", strokeLinecap: "square", fill: "none" }) }),
+            /* @__PURE__ */ jsx5("line", { x1: 0, x2: 0, y1: lowerGuideStart, y2: bottom, stroke: "currentColor", strokeDasharray: "2 2" }),
+            /* @__PURE__ */ jsx5("g", { transform: `translate(0,${bottom})`, children: /* @__PURE__ */ jsx5("text", { x: -9, dy: "0.32em", textAnchor: "end", className: "fdp-axis__tick", fontFamily: "inherit", children: "0" }) })
+          ] });
+        })(),
+        label && /* @__PURE__ */ jsx5(
+          "text",
+          {
+            transform: "rotate(-90)",
+            x: -dims.innerHeight / 2,
+            y: -dims.margin.left + 12,
+            textAnchor: "middle",
+            className: "fdp-axis__label",
+            fontFamily: "inherit",
+            children: label
+          }
+        )
+      ]
+    }
+  );
 };
 var Axis_default = Axis;
 
@@ -5822,15 +5954,49 @@ var GridLines = ({
   tickCount,
   stroke = "var(--fdp-chart-grid,#e5e5e5)",
   dasharray = "2 4",
-  className
+  className,
+  showZeroAxisBreak = false,
+  zeroAxisBreakGapPx = 32,
+  zeroAxisBreakTickBufferPx = 12
 }) => {
   const scaleCtx = useScaleContext();
   const dims = useChartContext();
   if (!scaleCtx || !dims) return null;
   const ticks2 = axis === "y" ? scaleCtx.getYTicks(tickCount) : scaleCtx.getXTicks(tickCount);
   return /* @__PURE__ */ jsxs2("g", { className: ["fdp-grid", className].filter(Boolean).join(" "), children: [
-    axis === "y" && ticks2.map((t, i) => /* @__PURE__ */ jsx6("line", { x1: 0, x2: dims.innerWidth, y1: scaleCtx.yScale(t), y2: scaleCtx.yScale(t), stroke, strokeDasharray: dasharray }, i)),
-    axis === "x" && ticks2.map((t, i) => /* @__PURE__ */ jsx6("line", { y1: 0, y2: dims.innerHeight, x1: scaleCtx.xScale(t), x2: scaleCtx.xScale(t), stroke, strokeDasharray: dasharray }, i))
+    axis === "y" && ticks2.map((t, i) => {
+      const y2 = scaleCtx.yScale(t);
+      if (showZeroAxisBreak) {
+        const gap = Math.max(6, zeroAxisBreakGapPx);
+        const topSolidEnd = Math.max(0, dims.innerHeight - gap);
+        const buffer = Math.max(0, zeroAxisBreakTickBufferPx);
+        if (y2 > topSolidEnd - buffer) return null;
+      }
+      return /* @__PURE__ */ jsx6(
+        "line",
+        {
+          x1: 0,
+          x2: dims.innerWidth,
+          y1: y2,
+          y2,
+          stroke,
+          strokeDasharray: dasharray
+        },
+        i
+      );
+    }),
+    axis === "x" && ticks2.map((t, i) => /* @__PURE__ */ jsx6(
+      "line",
+      {
+        y1: 0,
+        y2: dims.innerHeight,
+        x1: scaleCtx.xScale(t),
+        x2: scaleCtx.xScale(t),
+        stroke,
+        strokeDasharray: dasharray
+      },
+      i
+    ))
   ] });
 };
 var GridLines_default = GridLines;
@@ -8604,25 +8770,33 @@ var resolveStateAndLayout = (input) => {
       polarity = eng.polarity;
     }
     let state2;
-    switch (eng.variationIcon) {
-      case "ImprovementHigh" /* ImprovementHigh */:
-      case "ImprovementLow" /* ImprovementLow */:
-        state2 = "special_cause_improving" /* SpecialCauseImproving */;
-        break;
-      case "ConcernHigh" /* ConcernHigh */:
-      case "ConcernLow" /* ConcernLow */:
-        state2 = "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
-        break;
-      case "NeitherHigh" /* NeitherHigh */:
-      case "NeitherLow" /* NeitherLow */:
-        state2 = eng.specialCauseNeutral ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
-        break;
-      case "CommonCause" /* CommonCause */:
-        state2 = "common_cause" /* CommonCause */;
-        break;
-      default:
-        state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
-        break;
+    const rawIcon = eng.variationIcon;
+    if (rawIcon === "improvement" /* Improvement */ || rawIcon === "concern" /* Concern */ || rawIcon === "neither" /* Neither */ || rawIcon === "suppressed" /* Suppressed */) {
+      if (rawIcon === "improvement" /* Improvement */) state2 = "special_cause_improving" /* SpecialCauseImproving */;
+      else if (rawIcon === "concern" /* Concern */) state2 = "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
+      else if (rawIcon === "neither" /* Neither */) state2 = "common_cause" /* CommonCause */;
+      else state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
+    } else {
+      switch (eng.variationIcon) {
+        case "ImprovementHigh" /* ImprovementHigh */:
+        case "ImprovementLow" /* ImprovementLow */:
+          state2 = "special_cause_improving" /* SpecialCauseImproving */;
+          break;
+        case "ConcernHigh" /* ConcernHigh */:
+        case "ConcernLow" /* ConcernLow */:
+          state2 = "special_cause_deteriorating" /* SpecialCauseDeteriorating */;
+          break;
+        case "NeitherHigh" /* NeitherHigh */:
+        case "NeitherLow" /* NeitherLow */:
+          state2 = eng.specialCauseNeutral ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
+          break;
+        case "CommonCause" /* CommonCause */:
+          state2 = "common_cause" /* CommonCause */;
+          break;
+        default:
+          state2 = "special_cause_no_judgement" /* SpecialCauseNoJudgement */;
+          break;
+      }
     }
     let direction2 = eng.trend;
     if (!direction2) {
@@ -11608,6 +11782,7 @@ function normalizeSpcProps(props) {
   const effChartTypeCore = (_h = (_g = engine == null ? void 0 : engine.chartType) != null ? _g : chartType) != null ? _h : "XmR" /* XmR */;
   const effMetricImprovementCore = (_j = (_i = engine == null ? void 0 : engine.metricImprovement) != null ? _i : metricImprovement) != null ? _j : "Neither" /* Neither */;
   const effEngineSettings = (_k = engine == null ? void 0 : engine.settings) != null ? _k : settings;
+  const effEngineAutoRecalc = engine == null ? void 0 : engine.autoRecalc;
   const effAlwaysShowZeroY = (_n = (_m = (_l = ui == null ? void 0 : ui.axes) == null ? void 0 : _l.alwaysShowZeroY) != null ? _m : alwaysShowZeroY) != null ? _n : true;
   const effAlwaysShowHundredY = (_q = (_p = (_o = ui == null ? void 0 : ui.axes) == null ? void 0 : _o.alwaysShowHundredY) != null ? _p : alwaysShowHundredY) != null ? _q : false;
   const effPercentScale = (_t = (_s = (_r = ui == null ? void 0 : ui.axes) == null ? void 0 : _r.percentScale) != null ? _s : percentScale) != null ? _t : false;
@@ -11650,6 +11825,7 @@ function normalizeSpcProps(props) {
     effChartTypeCore,
     effMetricImprovementCore,
     effEngineSettings,
+    effEngineAutoRecalc,
     effHeight,
     effClassName,
     effAriaLabel,
@@ -11685,6 +11861,90 @@ function normalizeSpcProps(props) {
     effEmbeddedIconRunLength,
     effShowFocusIndicator
   };
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils/autoRecalc.ts
+function findAutoRecalcBaselineIndexV2(rows, args) {
+  var _a2, _b2;
+  if (!(rows == null ? void 0 : rows.length)) return null;
+  if (args.chartType !== "XmR" /* XmR */) return null;
+  const shiftN = Math.max(2, Math.floor((_a2 = args.shiftLength) != null ? _a2 : 6));
+  const numeric = [];
+  for (let i = 0; i < rows.length; i++) {
+    const r = rows[i];
+    const v = r.value;
+    if (r == null ? void 0 : r.ghost) continue;
+    if (typeof v === "number" && Number.isFinite(v)) numeric.push({ idx: i, value: v });
+  }
+  if (numeric.length < shiftN * 2) return null;
+  let mrSum = 0;
+  let mrCount = 0;
+  for (let i = 1; i < numeric.length; i++) {
+    mrSum += Math.abs(numeric[i].value - numeric[i - 1].value);
+    mrCount++;
+  }
+  if (mrCount === 0) return null;
+  const mrBar = mrSum / mrCount;
+  const sigmaProxy = mrBar * (2.66 / 3);
+  if (!Number.isFinite(sigmaProxy) || sigmaProxy <= 0) return null;
+  const deltaThreshold = Math.max(0, (_b2 = args.deltaSigma) != null ? _b2 : 0.5);
+  const favourUp = args.metricImprovement === "Up" /* Up */;
+  const favourDown = args.metricImprovement === "Down" /* Down */;
+  const lastBaselineIdx = (() => {
+    var _a3;
+    for (let i = rows.length - 1; i >= 0; i--) if ((_a3 = rows[i]) == null ? void 0 : _a3.baseline) return i;
+    return -1;
+  })();
+  function windowMean(fromIncl, toExcl) {
+    let s = 0;
+    let c = 0;
+    for (let i = fromIncl; i < toExcl; i++) {
+      s += numeric[i].value;
+      c++;
+    }
+    return c ? s / c : NaN;
+  }
+  for (let start = shiftN; start <= numeric.length - shiftN; start++) {
+    const preMean = windowMean(start - shiftN, start);
+    const postMean = windowMean(start, start + shiftN);
+    if (!Number.isFinite(preMean) || !Number.isFinite(postMean)) continue;
+    const delta = postMean - preMean;
+    const deltaSigma = delta / sigmaProxy;
+    let favourable = false;
+    let directionUp = false;
+    if (favourUp) {
+      favourable = deltaSigma >= deltaThreshold;
+      directionUp = true;
+    } else if (favourDown) {
+      favourable = -deltaSigma >= deltaThreshold;
+      directionUp = false;
+    } else {
+      favourable = Math.abs(deltaSigma) >= deltaThreshold;
+      directionUp = delta > 0;
+    }
+    if (!favourable) continue;
+    const onSide = (v) => directionUp ? v > preMean : v < preMean;
+    let ok = true;
+    for (let j = start; j < start + shiftN; j++) {
+      if (!onSide(numeric[j].value)) {
+        ok = false;
+        break;
+      }
+    }
+    if (!ok) continue;
+    const candidateIdx = numeric[start].idx;
+    if (args.minGap && lastBaselineIdx >= 0) {
+      const pointsSince = candidateIdx - lastBaselineIdx;
+      if (pointsSince < args.minGap) continue;
+    }
+    return candidateIdx;
+  }
+  return null;
+}
+function autoInsertBaselinesV2(rows, args) {
+  const idx = findAutoRecalcBaselineIndexV2(rows, args);
+  if (idx == null) return rows.slice();
+  return rows.map((r, i) => i === idx ? { ...r, baseline: true } : r);
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
@@ -11803,7 +12063,8 @@ var SPCChart = ({
     effHighlightOutOfControl,
     effVisualsScenario,
     effVisualsEngineSettings,
-    effSource
+    effSource,
+    effEngineAutoRecalc
   } = normalizeSpcProps({
     data,
     targets: targetsProp,
@@ -11867,6 +12128,21 @@ var SPCChart = ({
       };
     });
   }, [effData, effTargets, effBaselines, effGhosts]);
+  const rowsInputMaybeAuto = React13.useMemo(() => {
+    try {
+      const cfg = effEngineAutoRecalc;
+      if (!(cfg == null ? void 0 : cfg.enabled)) return rowsInput;
+      return autoInsertBaselinesV2(rowsInput, {
+        chartType: effChartTypeCore,
+        metricImprovement: effMetricImprovementCore,
+        shiftLength: cfg.shiftLength,
+        deltaSigma: cfg.deltaSigma,
+        minGap: cfg.minGap
+      });
+    } catch {
+      return rowsInput;
+    }
+  }, [rowsInput, effEngineAutoRecalc, effChartTypeCore, effMetricImprovementCore]);
   const v2Visuals = React13.useMemo(() => {
     var _a3;
     try {
@@ -11874,7 +12150,7 @@ var SPCChart = ({
       const v2Settings = {};
       if (typeof minPts === "number" && !isNaN(minPts)) {
         v2Settings.minimumPoints = minPts;
-        const eligibleCount = rowsInput.filter(
+        const eligibleCount = rowsInputMaybeAuto.filter(
           (r) => !r.ghost && typeof r.value === "number"
         ).length;
         if (eligibleCount >= minPts) v2Settings.chartLevelEligibility = true;
@@ -11908,7 +12184,7 @@ var SPCChart = ({
       const v2Args = {
         chartType: mapChartTypeToV2(effChartTypeCore),
         metricImprovement: mapImprovementToV2(effMetricImprovementCore),
-        data: rowsInput,
+        data: rowsInputMaybeAuto,
         settings: Object.keys(v2Settings).length ? v2Settings : void 0
       };
       const { visuals } = buildVisualsForScenario(v2Args, visualsScenario, {
@@ -11920,7 +12196,7 @@ var SPCChart = ({
       return [];
     }
   }, [
-    rowsInput,
+    rowsInputMaybeAuto,
     effChartTypeCore,
     effMetricImprovementCore,
     effTrendVisualMode,
@@ -11936,7 +12212,7 @@ var SPCChart = ({
       const v2Settings = {};
       if (typeof minPts === "number" && !isNaN(minPts)) {
         v2Settings.minimumPoints = minPts;
-        const eligibleCount = rowsInput.filter(
+        const eligibleCount = rowsInputMaybeAuto.filter(
           (r) => !r.ghost && typeof r.value === "number"
         ).length;
         if (eligibleCount >= minPts) v2Settings.chartLevelEligibility = true;
@@ -11970,7 +12246,7 @@ var SPCChart = ({
       const v2Args = {
         chartType: mapChartTypeToV2(effChartTypeCore),
         metricImprovement: mapImprovementToV2(effMetricImprovementCore),
-        data: rowsInput,
+        data: rowsInputMaybeAuto,
         settings: Object.keys(v2Settings).length ? v2Settings : void 0
       };
       const { rows } = buildWithVisuals(v2Args);
@@ -12018,14 +12294,14 @@ var SPCChart = ({
               neutralSpecialCauseValue: r.variationIcon === "NeitherHigh" /* NeitherHigh */ || r.variationIcon === "NeitherLow" /* NeitherLow */ ? (_b3 = (_a4 = r.specialCauseImprovementValue) != null ? _a4 : r.specialCauseConcernValue) != null ? _b3 : 1 : null,
               assurance: void 0
             },
-            target: (_d2 = (_c2 = rowsInput[i]) == null ? void 0 : _c2.target) != null ? _d2 : null
+            target: (_d2 = (_c2 = rowsInputMaybeAuto[i]) == null ? void 0 : _c2.target) != null ? _d2 : null
           };
         }
       );
     } catch {
       return null;
     }
-  }, [rowsInput, effChartTypeCore, effMetricImprovementCore, effEngineSettings, visualsEngineSettings]);
+  }, [rowsInputMaybeAuto, effChartTypeCore, effMetricImprovementCore, effEngineSettings, visualsEngineSettings]);
   const rowsForUi = v2RowsForUi || null;
   const engineRepresentative = (rowsForUi || []).slice().reverse().find((r) => r.limits.mean != null);
   const mean3 = (_a2 = engineRepresentative == null ? void 0 : engineRepresentative.limits.mean) != null ? _a2 : null;
@@ -12183,6 +12459,19 @@ var SPCChart = ({
     effAlwaysShowHundredY,
     effPercentScale
   ]);
+  const showZeroBreakOuter = React13.useMemo(() => {
+    try {
+      if (!yDomain || yDomain.length < 2) return false;
+      const min = Math.min(yDomain[0], yDomain[1]);
+      const max = Math.max(yDomain[0], yDomain[1]);
+      return !(0 >= min && 0 <= max);
+    } catch {
+      return false;
+    }
+  }, [yDomain]);
+  const breakGapPx = 128;
+  const breakTickBufferPx = 40;
+  const yScaleBottomGapPx = showZeroBreakOuter ? breakGapPx + breakTickBufferPx : 0;
   const uniformTarget = React13.useMemo(() => {
     const collectUniform = (arr) => {
       const nums = arr.filter(
@@ -12380,7 +12669,7 @@ var SPCChart = ({
             ariaLabel,
             margin: { bottom: 48, left: 56, right: 16, top: 12 },
             className: void 0,
-            children: /* @__PURE__ */ jsx17(LineScalesProvider, { series, yDomain, children: /* @__PURE__ */ jsx17(
+            children: /* @__PURE__ */ jsx17(LineScalesProvider, { series, yDomain, yBottomGapPx: yScaleBottomGapPx, children: /* @__PURE__ */ jsx17(
               InternalSPC,
               {
                 series,
@@ -13025,6 +13314,17 @@ var InternalSPC = ({
     },
     [engineRows, formatLive]
   );
+  const showZeroBreak = React13.useMemo(() => {
+    try {
+      const dom = typeof (yScale == null ? void 0 : yScale.domain) === "function" ? yScale.domain() : void 0;
+      if (!dom || !Array.isArray(dom) || dom.length < 2) return false;
+      const min = Math.min(dom[0], dom[1]);
+      const max = Math.max(dom[0], dom[1]);
+      return !(0 >= min && 0 <= max);
+    } catch {
+      return false;
+    }
+  }, [yScale]);
   return /* @__PURE__ */ jsx17(TooltipProvider, { children: /* @__PURE__ */ jsxs11(
     "div",
     {
@@ -13041,8 +13341,8 @@ var InternalSPC = ({
             role: "img",
             children: /* @__PURE__ */ jsxs11("g", { transform: `translate(56,12)`, children: [
               /* @__PURE__ */ jsx17(Axis_default, { type: "x" }),
-              /* @__PURE__ */ jsx17(Axis_default, { type: "y" }),
-              /* @__PURE__ */ jsx17(GridLines_default, { axis: "y" }),
+              /* @__PURE__ */ jsx17(Axis_default, { type: "y", showZeroAxisBreak: showZeroBreak, zeroAxisBreakGapPx: 32, zeroAxisBreakTickBufferPx: 40 }),
+              /* @__PURE__ */ jsx17(GridLines_default, { axis: "y", showZeroAxisBreak: showZeroBreak, zeroAxisBreakGapPx: 32, zeroAxisBreakTickBufferPx: 40 }),
               sequenceDefs,
               sequenceAreas,
               partitionMarkers.map((idx, i) => {

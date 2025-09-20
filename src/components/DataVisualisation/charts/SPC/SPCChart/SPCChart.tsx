@@ -66,6 +66,11 @@ import { buildWithVisuals as buildWithVisualsV2 } from "./logic_v2/adapter";
 // Centralised SPC props/types and normalisation helper
 import type { SPCDatum, SPCChartProps } from "./SPCChart.props";
 import { normalizeSpcProps, TrendVisualMode, SequenceTransition } from "./SPCChart.props";
+import {
+	AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX,
+	AXIS_Y_ZERO_BREAK_DEFAULT_EXTRA_CLEARANCE_PX,
+	AXIS_Y_ZERO_BREAK_MIN_GAP_PX,
+} from "../../Axis/Axis.tokens";
 import { autoInsertBaselinesV2 } from "./logic_v2/utils/autoRecalc";
 import { Side } from "../engine";
 
@@ -717,6 +722,25 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 		return null;
 	}, [rowsForUi, effTargets]);
 
+	// Reserve extra bottom gap (range-only) when zero is not in the y-domain to visually accommodate the axis break
+	const DEFAULT_SLOT = AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX; // visual break slot height
+	const DEFAULT_EXTRA = AXIS_Y_ZERO_BREAK_DEFAULT_EXTRA_CLEARANCE_PX; // clearance above break for first tick/grid
+	const showZeroBreakOuter = React.useMemo(() => {
+		if (!yDomain || yDomain.length < 2) return false;
+		const min = Math.min(yDomain[0], yDomain[1]);
+		const max = Math.max(yDomain[0], yDomain[1]);
+		return !(0 >= min && 0 <= max);
+	}, [yDomain]);
+	// Clamp the reserved space so the break never overwhelms the plotting area on shorter charts
+	const innerHeightApprox = (height ?? 260) - (12 + 48); // ChartRoot margins: top 12, bottom 48
+	const requestedSlot = DEFAULT_SLOT;
+	const requestedExtra = DEFAULT_EXTRA;
+	const requestedTotal = requestedSlot + requestedExtra;
+	const maxTotal = Math.max(AXIS_Y_ZERO_BREAK_MIN_GAP_PX, Math.floor(innerHeightApprox * 0.35));
+	const totalReserved = Math.min(requestedTotal, maxTotal);
+	const slotGapPx = Math.min(requestedSlot, totalReserved);
+	const yBottomGapPx = showZeroBreakOuter ? totalReserved : 0;
+
 	// Use shared auto metrics helper to infer unit consistently with SPCMetricCard
 	const autoFromHelper = React.useMemo(() => {
 		// SPCDatum.x is already Date | string | number; pass through directly for auto metrics
@@ -967,7 +991,7 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 				margin={{ bottom: 48, left: 56, right: 16, top: 12 }}
 				className={undefined /* avoid duplicating outer class */}
 			>
-				<LineScalesProvider<SPCDatum> series={series} yDomain={yDomain}>
+				<LineScalesProvider<SPCDatum> series={series} yDomain={yDomain} yBottomGapPx={yBottomGapPx}>
 					<InternalSPC
 						series={series}
 						showPoints={showPoints}
@@ -983,7 +1007,8 @@ export const SPCChart: React.FC<SPCChartProps> = ({
 						narrationContext={effectiveNarrationContext}
 						gradientSequences={effGradientSequences}
 						sequenceTransition={effSequenceTransition}
-						processLineWidth={effProcessLineWidth}
+							processLineWidth={effProcessLineWidth}
+							zeroBreakSlotGapPx={slotGapPx}
 						effectiveUnit={effectiveUnit}
 						partitionMarkers={effShowPartitionMarkers ? partitionMarkers : []}
 						ariaLabel={ariaLabel}
@@ -1147,6 +1172,8 @@ interface InternalProps {
 	effectiveUnit?: string;
 	partitionMarkers: number[];
 	ariaLabel?: string;
+	/** Visual slot height (px) for the y-axis zero break zig-zag; used to keep Axis gap consistent with reserved range offset. */
+	zeroBreakSlotGapPx?: number;
 	// Feature flags to control neutral purple and gating explanation behaviour
 	enableNeutralNoJudgement?: boolean;
 	showTrendGatingExplanation?: boolean;
@@ -1193,6 +1220,7 @@ const InternalSPC: React.FC<InternalProps> = ({
 	visualCategories,
 	uniformTarget,
 	showFocusIndicator = false,
+	zeroBreakSlotGapPx,
 }) => {
 	const scaleCtx = useScaleContext();
 	const chartCtx = useChartContext();
@@ -1783,6 +1811,19 @@ const InternalSPC: React.FC<InternalProps> = ({
 		[engineRows, formatLive]
 	);
 
+	// Show an axis-break indicator on Y when zero is not included in the y-scale domain
+	const showZeroBreak = React.useMemo(() => {
+		try {
+			const dom = typeof yScale?.domain === "function" ? yScale.domain() : undefined;
+			if (!dom || !Array.isArray(dom) || dom.length < 2) return false;
+			const min = Math.min(dom[0], dom[1]);
+			const max = Math.max(dom[0], dom[1]);
+			return !(0 >= min && 0 <= max);
+		} catch {
+			return false;
+		}
+	}, [yScale]);
+
 	return (
 		<TooltipProvider>
 			<div
@@ -1793,12 +1834,19 @@ const InternalSPC: React.FC<InternalProps> = ({
 			>
 				<svg
 					width={scaleCtx.xScale.range()[1] + 56 + 16}
-					height={scaleCtx.yScale.range()[0] + 12 + 48}
+					height={(chartCtx?.innerHeight ?? scaleCtx.yScale.range()[0]) + 12 + 48}
 					role="img"
 				>
 					<g transform={`translate(56,12)`}>
-						<Axis type="x" />
-						<Axis type="y" />
+							<Axis type="x" />
+							<Axis
+								type="y"
+									yZeroBreak={{
+										enabled: showZeroBreak,
+										gapPx: zeroBreakSlotGapPx,
+										zigZag: { heightPx: 96, amplitudePx: 4, cycles: 6, stepXPx: 3 },
+									}}
+							/>
 						<GridLines axis="y" />
 						{sequenceDefs}
 						{sequenceAreas}

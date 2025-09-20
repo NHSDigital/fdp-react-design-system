@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 export interface AxisProps {
-    type: 'x' | 'y';
+    type: "x" | "y";
     scale?: any;
     tickCount?: number;
     /** Explicit tick values; if provided overrides tickCount/ticks() generation */
@@ -20,7 +20,13 @@ export interface AxisProps {
     /** If true, split labels containing \n into multiple tspans (multi-line). */
     allowLabelWrap?: boolean;
     /** Preset date/time formatting helper (applies only if formatTick not provided). */
-    tickFormatPreset?: 'dayShortMonth' | 'dayShortMonthYear' | 'shortMonth' | 'shortMonthYear' | 'hourMinute';
+    tickFormatPreset?: "dayShortMonth" | "dayShortMonthYear" | "shortMonth" | "shortMonthYear" | "hourMinute";
+    /** y-axis only: show a small zig-zag break at the bottom and a fixed "0" label to indicate the axis is condensed and does not include zero. */
+    showZeroAxisBreak?: boolean;
+    /** y-axis only: visual gap in pixels below the plotting area used for the break indicator (does not affect scale). Default 32. */
+    zeroAxisBreakGapPx?: number;
+    /** y-axis only: extra buffer above the break gap where ticks are suppressed (px). Default 12. */
+    zeroAxisBreakTickBufferPx?: number;
 }
 export declare const Axis: React.FC<AxisProps>;
 export default Axis;

@@ -32,7 +32,22 @@ export {
 	LineScalesProvider,
 	type ScaleContextValue,
 } from "./core/ScaleContext";
-export { default as Axis, type AxisProps } from "./charts/Axis/Axis.tsx";
+export { default as Axis } from "./charts/Axis/Axis.tsx";
+export type {
+	AxisProps,
+	AxisTickFormatPreset,
+	AxisYZeroBreakConfig,
+	AxisZigZagConfig,
+} from "./charts/Axis/Axis.types";
+export {
+	AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX,
+	AXIS_Y_ZERO_BREAK_MIN_GAP_PX,
+		AXIS_Y_ZERO_BREAK_DEFAULT_EXTRA_CLEARANCE_PX,
+	AXIS_ZIGZAG_DEFAULT_AMPLITUDE_PX,
+	AXIS_ZIGZAG_DEFAULT_CYCLES,
+	AXIS_ZIGZAG_DEFAULT_STEP_X_PX,
+	AXIS_ZIGZAG_DEFAULT_HEIGHT_PX,
+} from "./charts/Axis/Axis.tokens";
 export {
 	default as GridLines,
 	type GridLinesProps,

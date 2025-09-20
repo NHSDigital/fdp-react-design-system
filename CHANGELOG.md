@@ -6,7 +6,18 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ## Unreleased
 
-_No unreleased changes yet._
+### Added (Unreleased – SPC Docs & Demos)
+
+- Auto‑recalc (XmR UI pre‑processor) documentation and demos
+  - New Storybook guide: “Automatic baseline insertion (UI pre‑processor)” detailing scope, parameters (`engine.autoRecalc`), and flow (Mermaid), with embedded examples (Basic, Tuned, MinGap) and an interactive append‑points demo.
+  - Stories added under `Data Visualisation/SPC/v2` for auto‑recalc examples (Basic, Tuned, MinGap).
+
+### Changed (Unreleased – SPC Docs & Demos)
+
+- Auto‑recalc interactive demo controls refactor
+  - Replaced native buttons with design‑system `Button` components; added a `Select` control to switch `ImprovementDirection` (Up/Down/Neither).
+  - Migrated layout to design‑system `Grid` / `Row` / `Column` with a labelled `Select` for accessibility.
+  - Partition markers enabled and warnings/diagnostics panel shown by default to make baseline insertions and reasoning visible.
 
 ## 0.0.34-alpha.9 - 2025-09-17
 

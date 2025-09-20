@@ -186,6 +186,9 @@ export type {
   SPCDatum,
   ChartRootProps,
   AxisProps,
+  AxisTickFormatPreset,
+  AxisYZeroBreakConfig,
+  AxisZigZagConfig,
   LineSeries,
   LineDatum,
   LineSeriesPrimitiveProps,
@@ -198,6 +201,15 @@ export type {
   LegendProps,
   LegendItem,
   SPCMetricCardProps
+} from './DataVisualisation';
+export {
+  AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX,
+  AXIS_Y_ZERO_BREAK_MIN_GAP_PX,
+  AXIS_Y_ZERO_BREAK_DEFAULT_EXTRA_CLEARANCE_PX,
+  AXIS_ZIGZAG_DEFAULT_AMPLITUDE_PX,
+  AXIS_ZIGZAG_DEFAULT_CYCLES,
+  AXIS_ZIGZAG_DEFAULT_STEP_X_PX,
+  AXIS_ZIGZAG_DEFAULT_HEIGHT_PX,
 } from './DataVisualisation';
 export { SPC as SPC } from './DataVisualisation';
 export { useSpc } from './DataVisualisation';

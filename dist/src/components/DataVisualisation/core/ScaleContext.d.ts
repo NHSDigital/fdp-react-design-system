@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 export interface ScaleContextValue {
     xScale: any;
     yScale: any;
@@ -27,9 +27,11 @@ export interface LineScalesProviderProps<Datum extends {
     /** Inner padding (px) to leave between axis and plotted points — improves hover targets near edges. Default: 6px */
     xPadding?: number;
     yPadding?: number;
+    /** Optional extra bottom gap in pixels to reserve below plotted data (e.g., for y-axis break zig-zag). */
+    yBottomGapPx?: number;
 }
 export declare const LineScalesProvider: <Datum extends {
     x: any;
     y: number;
-}>({ series, innerWidth: innerWidthProp, innerHeight: innerHeightProp, parseX: parseXProp, children, xTickCount, yTickCount, yDomain, xPadding, yPadding }: LineScalesProviderProps<Datum>) => import("react/jsx-runtime").JSX.Element;
+}>({ series, innerWidth: innerWidthProp, innerHeight: innerHeightProp, parseX: parseXProp, children, xTickCount, yTickCount, yDomain, xPadding, yPadding, yBottomGapPx, }: LineScalesProviderProps<Datum>) => import("react/jsx-runtime").JSX.Element;
 export default ScaleContext;

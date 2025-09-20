@@ -17,77 +17,90 @@ All are exported from the DataVisualisation barrel so you can import them togeth
 
 ```ts
 import {
-  ChartRoot,
-  useChartContext,
-  LineScalesProvider,
-  BandScalesProvider,
-  Axis,
-  GridLines,
-  Legend,
-  TooltipProvider,
-  TooltipOverlay,
-  LineSeriesPrimitive,
-  AreaSeriesPrimitive,
-  BarSeriesPrimitive,
-  VisibilityProvider,
-  useVisibility,
-  SPCChart,
-  SPC,              // namespace (engine, descriptors, icons)
-  ChartNoScript,
-  ChartEnhancer,
-  MetricCard
-} from '@fergusbisset/nhs-fdp-design-system';
+	ChartRoot,
+	useChartContext,
+	LineScalesProvider,
+	BandScalesProvider,
+	Axis,
+	GridLines,
+	Legend,
+	TooltipProvider,
+	TooltipOverlay,
+	LineSeriesPrimitive,
+	AreaSeriesPrimitive,
+	BarSeriesPrimitive,
+	VisibilityProvider,
+	useVisibility,
+	SPCChart,
+	SPC, // namespace (engine, descriptors, icons)
+	ChartNoScript,
+	ChartEnhancer,
+	MetricCard,
+} from "@fergusbisset/nhs-fdp-design-system";
 ```
 
 > Tree‑shaking: Only the primitives you import are pulled into your bundle when using a modern bundler (ESM build).
 
 ---
- 
+
 ## Quick Start (High‑Level)
 
 ```tsx
-<ChartContainer title="Daily admissions" description="14 day rolling" source="Example data">
-  <LineChart series={[{ id: 'admissions', data }]} yLabel="Count" />
+<ChartContainer
+	title="Daily admissions"
+	description="14 day rolling"
+	source="Example data"
+>
+	<LineChart series={[{ id: "admissions", data }]} yLabel="Count" />
 </ChartContainer>
 ```
 
 ---
- 
+
 ## Composing Your Own Chart
 
 Below is a minimal **custom line chart** using primitives (no `LineChart` wrapper):
 
 ```tsx
 const series = [
-  { id: 'a', data: dataA },
-  { id: 'b', data: dataB }
+	{ id: "a", data: dataA },
+	{ id: "b", data: dataB },
 ];
 
 <VisibilityProvider>
-  <ChartRoot height={320} margin={{ left: 56, bottom: 48, right: 16, top: 12 }} ariaLabel="Admissions over time">
-    <LineScalesProvider series={series}>
-      <svg width="100%" height="100%">
-        <g transform={`translate(56,12)`}>
-          <Axis type="x" autoMinLabelSpacing tickFormatPreset="dayShortMonth" labelAngle={-35} />
-          <Axis type="y" label="Admissions" />
-          <GridLines axis="y" />
-          {series.map((s, i) => (
-            <LineSeriesPrimitive
-              key={s.id}
-              series={s}
-              seriesIndex={i}
-              palette="categorical"
-              showPoints
-              focusablePoints
-              parseX={d => d.x instanceof Date ? d.x : new Date(d.x)}
-            />
-          ))}
-        </g>
-      </svg>
-    </LineScalesProvider>
-  </ChartRoot>
-  <Legend items={series.map(s => ({ id: s.id, label: s.id }))} />
-</VisibilityProvider>
+	<ChartRoot
+		height={320}
+		margin={{ left: 56, bottom: 48, right: 16, top: 12 }}
+		ariaLabel="Admissions over time"
+	>
+		<LineScalesProvider series={series}>
+			<svg width="100%" height="100%">
+				<g transform={`translate(56,12)`}>
+					<Axis
+						type="x"
+						autoMinLabelSpacing
+						tickFormatPreset="dayShortMonth"
+						labelAngle={-35}
+					/>
+					<Axis type="y" label="Admissions" />
+					<GridLines axis="y" />
+					{series.map((s, i) => (
+						<LineSeriesPrimitive
+							key={s.id}
+							series={s}
+							seriesIndex={i}
+							palette="categorical"
+							showPoints
+							focusablePoints
+							parseX={(d) => (d.x instanceof Date ? d.x : new Date(d.x))}
+						/>
+					))}
+				</g>
+			</svg>
+		</LineScalesProvider>
+	</ChartRoot>
+	<Legend items={series.map((s) => ({ id: s.id, label: s.id }))} />
+</VisibilityProvider>;
 ```
 
 ### Stacked Bars (Absolute)
@@ -130,25 +143,23 @@ const stacked = stackSeries(raw as any); // helper provided in utils/stack
 </ChartRoot>
 ```
 
- 
- 
 ### Scrollable Continuous Bars
 
 See `BarChart.stories.tsx` (export `ContinuousManyBarsScrollable`) for a wide time‑series bar configuration using `LineScalesProvider` and `computeContinuousBarChartTotalWidth`.
 
 ---
- 
+
 ## Hook & Context Reference
 
-| Hook | Purpose |
-|------|---------|
-| `useChartContext` | Layout dimensions (inner width/height, margins) prepared by `ChartRoot` |
-| `useScaleContext` | Access x/y scales & ticks from scales providers |
-| `useVisibility` | Read / toggle hidden series state |
-| `useTooltipContext` | Access current tooltip datum (when using `TooltipProvider`) |
+| Hook                | Purpose                                                                 |
+| ------------------- | ----------------------------------------------------------------------- |
+| `useChartContext`   | Layout dimensions (inner width/height, margins) prepared by `ChartRoot` |
+| `useScaleContext`   | Access x/y scales & ticks from scales providers                         |
+| `useVisibility`     | Read / toggle hidden series state                                       |
+| `useTooltipContext` | Access current tooltip datum (when using `TooltipProvider`)             |
 
 ---
- 
+
 ## Visibility Model
 
 Provided by `VisibilityProvider` and automatically consumed by primitives & `Legend`.
@@ -156,7 +167,7 @@ Provided by `VisibilityProvider` and automatically consumed by primitives & `Leg
 Hidden IDs are stored internally (uncontrolled) unless you supply `hiddenIds` and `onChange` for a controlled pattern.
 
 Legend behaviour:
- 
+
 1. `interactive` prop forces interactive mode.
 2. If a provider is present and no explicit visibility props are passed, it becomes interactive automatically.
 3. Otherwise it renders static labels.
@@ -164,11 +175,11 @@ Legend behaviour:
 Hidden series are currently removed from the DOM. (Future enhancement: optional faded rendering.)
 
 ---
- 
+
 ## Axis Overlap Strategies
 
 Combine these props as needed:
- 
+
 - `autoMinLabelSpacing`
 - `labelAngle`
 - `allowLabelWrap`
@@ -176,7 +187,7 @@ Combine these props as needed:
 - `tickFormatPreset`
 
 ---
- 
+
 ## Accessibility
 
 - Always set an informative `ariaLabel` on `ChartRoot`.
@@ -185,7 +196,7 @@ Combine these props as needed:
 - `ChartNoScript` can be co‑located to provide a static fallback representation.
 
 ---
- 
+
 ## Components vs Data Shape
 
 - Components: the “what” you’re visualising — e.g., people (patients, staff), events (attendances, harms), organisations (trust/site/PCN), services/pathways, geographies, time periods, or categorical reasons. This is the unit of analysis.
@@ -195,46 +206,46 @@ Combine these props as needed:
 The wizard captures components → shape → measure → cardinality early to steer recommendations (e.g., funnel plots when comparing unit rates with varying denominators; run/SPC for time series; Pareto for contributor prioritisation).
 
 ---
- 
+
 ## API Snapshot (Selected Props)
 
-| Component | Key Props | Notes |
-|-----------|-----------|-------|
-| `ChartRoot` | `height`, `margin`, `width`, `ariaLabel` | Provides layout and context |
-| `LineScalesProvider` | `series`, `parseX?`, `yDomain?` | Time/continuous / numeric domains |
-| `BandScalesProvider` | `series`, `bandPadding?` | Categorical / grouped bars |
-| `LineSeriesPrimitive` | `series`, `palette`, `showPoints`, `focusablePoints`, `parseX`, `colors?` | Low‑level line rendering (custom palette via `colors`) |
-| `BarSeriesPrimitive` | `series`, `seriesIndex`, `seriesCount`, `stacked?`, `groupGap?`, `opacity?`, `fadedOpacity?`, `flatFillOpacity?`, `colors?` | Grouped / stacked bars with configurable opacity & palette override |
-| `AreaSeriesPrimitive` | Same as line plus `baseline?`, `colors?` | Area under line (custom palette) |
-| `Axis` | `type`, `formatTick?`, `tickValues?`, `autoMinLabelSpacing?` | Shared x/y axis component |
-| `GridLines` | `axis` | Horizontal or vertical grid lines |
-| `Legend` | `items`, visibility props | Integrates with `VisibilityProvider` |
-| `VisibilityProvider` | `hiddenIds?`, `onChange?`, `initialHiddenIds?` | Series visibility state |
-| `TooltipProvider` | children | Context for future pointer/focus tooltips |
-| `TooltipOverlay` | (no props) | Absolute overlay inside `ChartRoot` |
+| Component             | Key Props                                                                                                                   | Notes                                                               |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `ChartRoot`           | `height`, `margin`, `width`, `ariaLabel`                                                                                    | Provides layout and context                                         |
+| `LineScalesProvider`  | `series`, `parseX?`, `yDomain?`                                                                                             | Time/continuous / numeric domains                                   |
+| `BandScalesProvider`  | `series`, `bandPadding?`                                                                                                    | Categorical / grouped bars                                          |
+| `LineSeriesPrimitive` | `series`, `palette`, `showPoints`, `focusablePoints`, `parseX`, `colors?`                                                   | Low‑level line rendering (custom palette via `colors`)              |
+| `BarSeriesPrimitive`  | `series`, `seriesIndex`, `seriesCount`, `stacked?`, `groupGap?`, `opacity?`, `fadedOpacity?`, `flatFillOpacity?`, `colors?` | Grouped / stacked bars with configurable opacity & palette override |
+| `AreaSeriesPrimitive` | Same as line plus `baseline?`, `colors?`                                                                                    | Area under line (custom palette)                                    |
+| `Axis`                | `type`, `formatTick?`, `tickValues?`, `autoMinLabelSpacing?`                                                                | Shared x/y axis component                                           |
+| `GridLines`           | `axis`                                                                                                                      | Horizontal or vertical grid lines                                   |
+| `Legend`              | `items`, visibility props                                                                                                   | Integrates with `VisibilityProvider`                                |
+| `VisibilityProvider`  | `hiddenIds?`, `onChange?`, `initialHiddenIds?`                                                                              | Series visibility state                                             |
+| `TooltipProvider`     | children                                                                                                                    | Context for future pointer/focus tooltips                           |
+| `TooltipOverlay`      | (no props)                                                                                                                  | Absolute overlay inside `ChartRoot`                                 |
 
 ---
- 
+
 ## Migration Notes
 
 If you rolled your own visibility toggling previously:
- 
+
 1. Wrap chart and legend with `VisibilityProvider`.
 2. Remove manual filtering; pass full series list to scales provider.
 3. (Optional) implement controlled mode via `hiddenIds` and `onChange`.
 
 ---
- 
+
 ## Examples in Repo
 
-| File | Demonstrates |
-|------|--------------|
-| `CompositionalLineChart.stories.tsx` | Multi‑series line composition |
-| `BarChart.stories.tsx` | Stacked, percent, grouped & scrollable bars |
-| `SPCChart` and `SPC` namespace | Statistical process control primitives |
+| File                                 | Demonstrates                                |
+| ------------------------------------ | ------------------------------------------- |
+| `CompositionalLineChart.stories.tsx` | Multi‑series line composition               |
+| `BarChart.stories.tsx`               | Stacked, percent, grouped & scrollable bars |
+| `SPCChart` and `SPC` namespace       | Statistical process control primitives      |
 
 ---
- 
+
 ## Roadmap (Next Iterations)
 
 - Shared tooltip interactions (pointer and keyboard parity)
@@ -244,6 +255,7 @@ If you rolled your own visibility toggling previously:
 - Pattern fills & high‑contrast accessibility themes
 
 ---
+
 Have a composition requirement not covered here? Raise an issue or PR with the desired primitive behaviour.
 
 ---
@@ -261,53 +273,61 @@ Example applying an 8‑colour Viridis palette (user supplied constant):
 
 ```tsx
 const VIRIDIS_8 = [
-  '#440154','#482677','#3E4989','#31688E',
-  '#26828E','#1F9E89','#35B779','#73D055'
+	"#440154",
+	"#482677",
+	"#3E4989",
+	"#31688E",
+	"#26828E",
+	"#1F9E89",
+	"#35B779",
+	"#73D055",
 ];
 
 <ChartRoot height={300} ariaLabel="Custom palette bars">
-  <BandScalesProvider series={series}> {/* series: BarSeries[] */}
-    <svg width="100%" height="100%">
-      <g transform={`translate(56,12)`}>
-        {series.map((s,i) => (
-          <BarSeriesPrimitive
-            key={s.id}
-            series={s}
-            seriesIndex={i}
-            seriesCount={series.length}
-            palette="categorical"
-            parseX={d => d.x as string}
-            colors={VIRIDIS_8}
-          />
-        ))}
-        <Axis type="y" />
-        <Axis type="x" />
-      </g>
-    </svg>
-  </BandScalesProvider>
-</ChartRoot>
+	<BandScalesProvider series={series}>
+		{" "}
+		{/* series: BarSeries[] */}
+		<svg width="100%" height="100%">
+			<g transform={`translate(56,12)`}>
+				{series.map((s, i) => (
+					<BarSeriesPrimitive
+						key={s.id}
+						series={s}
+						seriesIndex={i}
+						seriesCount={series.length}
+						palette="categorical"
+						parseX={(d) => d.x as string}
+						colors={VIRIDIS_8}
+					/>
+				))}
+				<Axis type="y" />
+				<Axis type="x" />
+			</g>
+		</svg>
+	</BandScalesProvider>
+</ChartRoot>;
 ```
 
 For a multi‑line chart:
 
 ```tsx
 <LineScalesProvider series={lineSeries}>
-  <svg width="100%" height="100%">
-    <g transform={`translate(56,12)`}>
-      {lineSeries.map((s,i) => (
-        <LineSeriesPrimitive
-          key={s.id}
-          series={s}
-          seriesIndex={i}
-          palette="categorical"
-          showPoints
-          focusablePoints
-          parseX={d => d.x as Date}
-          colors={VIRIDIS_8}
-        />
-      ))}
-    </g>
-  </svg>
+	<svg width="100%" height="100%">
+		<g transform={`translate(56,12)`}>
+			{lineSeries.map((s, i) => (
+				<LineSeriesPrimitive
+					key={s.id}
+					series={s}
+					seriesIndex={i}
+					palette="categorical"
+					showPoints
+					focusablePoints
+					parseX={(d) => d.x as Date}
+					colors={VIRIDIS_8}
+				/>
+			))}
+		</g>
+	</svg>
 </LineScalesProvider>
 ```
 
@@ -315,13 +335,13 @@ Category mode bars (different colour per datum within a single series):
 
 ```tsx
 <BarSeriesPrimitive
-  series={singleSeries}
-  seriesIndex={0}
-  seriesCount={1}
-  palette="categorical"
-  parseX={d => d.x as string}
-  colorMode="category"
-  colors={VIRIDIS_8}
+	series={singleSeries}
+	seriesIndex={0}
+	seriesCount={1}
+	palette="categorical"
+	parseX={(d) => d.x as string}
+	colorMode="category"
+	colors={VIRIDIS_8}
 />
 ```
 

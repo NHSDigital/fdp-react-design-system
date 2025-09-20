@@ -2,6 +2,7 @@ import type { Preview } from "@storybook/react";
 import { NHSThemeProvider } from "../src/components/NHSThemeProvider";
 import { BrandThemeProvider } from "../src/themes/BrandThemeProvider";
 import "../src/styles/fonts.css";
+import "../src/styles/_source-sans-pro.scss";
 import "../src/styles/font-debug.css";
 import "../src/styles/utilities.scss";
 import './mdx-docs-styles.scss';
@@ -35,21 +36,7 @@ if (typeof document !== "undefined") {
 	});
 }
 
-export const globalTypes = {
-	brand: {
-		name: 'Brand',
-		description: 'Select visual brand',
-		defaultValue: 'nhs',
-		toolbar: {
-			icon: 'paintbrush',
-			items: [
-				{ value: 'nhs', title: 'NHS' },
-				{ value: 'fdp', title: 'FDP' },
-			],
-			dynamicTitle: true,
-		},
-	},
-};
+// No global brand toolbar. Brand switching for docs should be scoped within pages (e.g., data-brand="fdp").
 
 const preview: Preview = {
 	parameters: {
@@ -91,10 +78,10 @@ const preview: Preview = {
         }
 	},
 	decorators: [
-		(Story, ctx) => (
-			<BrandThemeProvider brand={(ctx?.globals as any)?.brand === 'fdp' ? 'fdp' : 'nhs'}>
+		(Story) => (
+			<BrandThemeProvider brand="nhs">
 				<NHSThemeProvider>
-					<Story {...ctx} />
+					<Story />
 				</NHSThemeProvider>
 			</BrandThemeProvider>
 		),

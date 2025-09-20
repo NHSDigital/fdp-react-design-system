@@ -1,4 +1,34 @@
 /* src/styles/fonts.css */
+:root {
+  --nhs-font-family-base:
+    "Frutiger W01",
+    Arial,
+    Helvetica,
+    sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+  --nhs-font-family-mono:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
+}
+[data-brand=fdp] {
+  --nhs-font-family-base:
+    "Source Sans Pro",
+    "Source Sans 3",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    Helvetica,
+    sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+}
 @font-face {
   font-display: swap;
   font-family: "Frutiger W01";
@@ -29,5 +59,10 @@
   .nhs-typography {
     font-family: sans-serif !important;
   }
+}
+html,
+body,
+.nhs-typography-root {
+  font-family: var(--nhs-font-family-base);
 }
 /*# sourceMappingURL=index.css.map */

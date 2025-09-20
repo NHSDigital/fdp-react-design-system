@@ -1,0 +1,58 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { BrandThemeProvider } from '../../src/themes/BrandThemeProvider';
+
+<Meta title="Roadmaps/FDP Sub-Brand/Typography" />
+
+<BrandThemeProvider brand="fdp" scope="local">
+
+# Typography strategy
+
+This design system ships NHS defaults (Frutiger) and enables sub-brands like FDP to switch to their own typefaces (Source Sans Pro/3) without breaking components.
+
+> This page is rendered in FDP brand scope, so examples below use Source Sans Pro.
+
+## Architecture
+
+- Token layer (Sass): still defines NHS font names and sizes (see `packages/nhs-fdp/tokens/typography.json`).
+- Runtime CSS variables: `--nhs-font-family-*` control the actual stacks used by components.
+- Brand override: set `[data-brand="fdp"]` on a wrapper to switch the base/heading stacks to Source Sans.
+- Components reference `var(--nhs-font-family-base)` so the brand choice propagates automatically.
+
+## How to self-host Source Sans
+
+1. Place your font files (preferably variable `SourceSans3VF.woff2`) under `src/styles/fonts/source-sans-pro/`.
+2. Uncomment the `@font-face` blocks in `src/styles/_source-sans-pro.scss` and ensure the URLs match your files.
+3. Import the stylesheet once in your app shell (or in Storybook preview):
+
+```scss
+@use '../src/styles/_source-sans-pro.scss';
+```
+
+4. Wrap your app with the FDP brand attribute so the CSS variable overrides apply:
+
+```tsx
+<div data-brand="fdp">{children}</div>
+```
+
+This sets:
+
+```css
+[data-brand="fdp"] {
+  --nhs-font-family-base: "Source Sans Pro", "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, Arial, Helvetica, sans-serif;
+}
+```
+
+## Performance and accessibility
+
+- Use `font-display: swap` (already configured) to prevent invisible text.
+- Prefer a single variable font file over many static cuts.
+- Preload the `.woff2` with `<link rel="preload" as="font" crossorigin>` if the brand font is core to the experience.
+- Keep robust fallbacks in the stack; components remain readable even if the brand font fails to load.
+
+## Roadmap
+
+- Add semantic typography tokens for headings, body, code, and UI labels.
+- Provide helpers to inject/preload brand font assets at runtime.
+- Optional: expose a `BrandThemeProvider` to set `data-brand` automatically.
+ 
+</BrandThemeProvider>

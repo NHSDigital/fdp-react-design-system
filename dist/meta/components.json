@@ -1,6 +1,6 @@
 {
   "version": "0.0.34-alpha.9",
-  "generatedAt": "2025-09-20T15:18:17.862Z",
+  "generatedAt": "2025-09-20T16:18:45.601Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -449,6 +449,33 @@
       ],
       "source": "src/components/InsetText/InsetText.schema.ts"
     },
+    "Hint": {
+      "name": "Hint",
+      "category": "typography",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Provides supporting contextual help text associated with a form field or section."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Hint content"
+        }
+      ],
+      "source": "src/components/Hint/Hint.schema.ts"
+    },
     "Input": {
       "name": "Input",
       "category": "form",
@@ -591,33 +618,6 @@
       ],
       "source": "src/components/Input/Input.schema.ts"
     },
-    "Hint": {
-      "name": "Hint",
-      "category": "typography",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Provides supporting contextual help text associated with a form field or section."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Hint content"
-        }
-      ],
-      "source": "src/components/Hint/Hint.schema.ts"
-    },
     "Heading": {
       "name": "Heading",
       "category": "typography",
@@ -746,39 +746,6 @@
       ],
       "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
     },
-    "ErrorMessage": {
-      "name": "ErrorMessage",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "visuallyHiddenText",
-          "type": "string",
-          "defaultValue": "Error:",
-          "description": "Prefix announced to screen readers"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Error message content"
-        }
-      ],
-      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
-    },
     "Details": {
       "name": "Details",
       "category": "content",
@@ -826,6 +793,39 @@
         }
       ],
       "source": "src/components/Details/Details.schema.ts"
+    },
+    "ErrorMessage": {
+      "name": "ErrorMessage",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "visuallyHiddenText",
+          "type": "string",
+          "defaultValue": "Error:",
+          "description": "Prefix announced to screen readers"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Error message content"
+        }
+      ],
+      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
     },
     "DateInput": {
       "name": "DateInput",
@@ -879,64 +879,6 @@
         }
       ],
       "source": "src/components/DateInput/DateInput.schema.ts"
-    },
-    "Checkboxes": {
-      "name": "Checkboxes",
-      "props": [
-        {
-          "name": "items",
-          "type": "CheckboxItem[]",
-          "required": true,
-          "description": "Array of checkbox items"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "description": "Shared name attribute"
-        },
-        {
-          "name": "idPrefix",
-          "type": "string",
-          "description": "ID prefix for fieldset and inputs"
-        },
-        {
-          "name": "legend",
-          "type": "string",
-          "description": "Legend text"
-        },
-        {
-          "name": "isPageHeading",
-          "type": "boolean",
-          "description": "Legend rendered as page heading"
-        },
-        {
-          "name": "legendSize",
-          "type": "\"xl\"|\"l\"|\"m\"|\"s\"",
-          "description": "Legend size"
-        },
-        {
-          "name": "hint",
-          "type": "string",
-          "description": "Group hint text"
-        },
-        {
-          "name": "errorMessage",
-          "type": "string",
-          "description": "Group error message"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Extra wrapper classes"
-        },
-        {
-          "name": "small",
-          "type": "boolean",
-          "description": "Small variant"
-        }
-      ],
-      "source": "src/components/Checkboxes/Checkboxes.schema.ts"
     },
     "CharacterCount": {
       "name": "CharacterCount",
@@ -1111,6 +1053,64 @@
         }
       ],
       "source": "src/components/Button/Button.schema.ts"
+    },
+    "Checkboxes": {
+      "name": "Checkboxes",
+      "props": [
+        {
+          "name": "items",
+          "type": "CheckboxItem[]",
+          "required": true,
+          "description": "Array of checkbox items"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Shared name attribute"
+        },
+        {
+          "name": "idPrefix",
+          "type": "string",
+          "description": "ID prefix for fieldset and inputs"
+        },
+        {
+          "name": "legend",
+          "type": "string",
+          "description": "Legend text"
+        },
+        {
+          "name": "isPageHeading",
+          "type": "boolean",
+          "description": "Legend rendered as page heading"
+        },
+        {
+          "name": "legendSize",
+          "type": "\"xl\"|\"l\"|\"m\"|\"s\"",
+          "description": "Legend size"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "description": "Group hint text"
+        },
+        {
+          "name": "errorMessage",
+          "type": "string",
+          "description": "Group error message"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra wrapper classes"
+        },
+        {
+          "name": "small",
+          "type": "boolean",
+          "description": "Small variant"
+        }
+      ],
+      "source": "src/components/Checkboxes/Checkboxes.schema.ts"
     }
   },
   "categories": {
@@ -1139,8 +1139,8 @@
       "Heading"
     ],
     "uncategorised": [
-      "Checkboxes",
-      "CharacterCount"
+      "CharacterCount",
+      "Checkboxes"
     ]
   }
 }

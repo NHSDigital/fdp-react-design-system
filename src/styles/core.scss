@@ -31,7 +31,7 @@
 // Typography - Paragraph styles
 // Based on NHS Service Manual typography guidelines
 .nhsuk-body {
-  font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
+  font-family: var(--nhs-font-family-base);
   font-size: tokens.$nhs-fdp-font-size-19-desktop;
   line-height: 1.5;
   margin-top: 0;
@@ -44,7 +44,7 @@
 }
 
 .nhsuk-body-l {
-  font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
+  font-family: var(--nhs-font-family-base);
   font-size: tokens.$nhs-fdp-font-size-26-desktop;
   line-height: 1.44;
   margin-top: 0;
@@ -57,7 +57,7 @@
 }
 
 .nhsuk-body-s {
-  font-family: #{tokens.$nhs-fdp-font-family-base}, #{tokens.$nhs-fdp-font-family-fallback};
+  font-family: var(--nhs-font-family-base);
   font-size: tokens.$nhs-fdp-font-size-14-desktop;
   line-height: 1.57;
   margin-top: 0;

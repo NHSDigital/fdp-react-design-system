@@ -3,9 +3,9 @@
 @use "../packages/nhs-fdp/dist/scss/tokens" as tokens;
 
 // Shared variables / maps
-$ds-font-stack:
-	"#{tokens.$nhs-fdp-font-family-base}",
-	#{tokens.$nhs-fdp-font-family-fallback};
+// Use CSS variable so brand scopes (e.g., [data-brand="fdp"]) can swap the typeface at runtime.
+// Fall back to token-defined stack if the variable is not present.
+$ds-font-stack: var(--nhs-font-family-base), #{tokens.$nhs-fdp-font-family-fallback};
 $heading-sizes: (
 	// Map semantic heading levels to DS heading variant tokens (approximate mapping)
 	h1: (

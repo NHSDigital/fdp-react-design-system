@@ -1,8 +1,11 @@
 import { Meta } from '@storybook/addon-docs/blocks';
+import { BrandThemeProvider } from '../../src/themes/BrandThemeProvider';
 import { SwatchGrid } from './components/SwatchGrid';
 import gradients from '../../packages/nhs-fdp/dist/js/gradients.json';
 
 <Meta title="Roadmaps/FDP Sub-brand/Overview" />
+
+<BrandThemeProvider brand="fdp" scope="local">
 
 # FDP Sub-brand Design System
 
@@ -232,8 +235,9 @@ SCSS fallback pattern (when authoring CSS):
 
 ## Storybook support
 
-- A toolbar toggle sets the brand for stories via our `BrandThemeProvider`.
-- You can preview both NHS and FDP look-and-feel without restarting Storybook.
+- The global brand toolbar has been removed to reduce noise.
+- FDP pages (like this one) are locally wrapped with the brand provider so you will see Source Sans Pro and FDP tokens in context.
+- To compare NHS vs FDP in any story, wrap that story’s content in a container with `data-brand="fdp"` or use the `BrandThemeProvider` with `scope="local"`.
 
 ---
 
@@ -253,4 +257,6 @@ SCSS fallback pattern (when authoring CSS):
 - Generated outputs: `packages/nhs-fdp/dist/*` (CSS, SCSS, JS/JSON)
 - Brand provider: `src/themes/BrandThemeProvider.tsx`
 
-This page will evolve as we add more FDP-specific tokens and patterns (e.g., data viz palettes, chart helpers, component examples). If you need a specific token or example, open an issue or ping in the design system channel.
+This page is rendered in FDP scope, so typography uses Source Sans Pro. It will evolve as we add more FDP-specific tokens and patterns (e.g., data viz palettes, chart helpers, component examples). If you need a specific token or example, open an issue or ping in the design system channel.
+
+</BrandThemeProvider>

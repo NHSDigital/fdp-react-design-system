@@ -2892,6 +2892,25 @@ span .nhsuk-u-visually-hidden {
  * For development purposes, we provide fallback fonts that closely match Frutiger.
  * Production deployments should use the official NHS Frutiger fonts.
  */
+/*
+  Font family CSS variables
+  - Default to NHS Frutiger stack
+  - Allow sub-brands to override via [data-brand] attribute
+*/
+:root {
+  /* Base and heading stacks include sensible system fallbacks */
+  --nhs-font-family-base: "Frutiger W01", Arial, Helvetica, sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+  --nhs-font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* FDP sub-brand: switch base/heading to Source Sans when enabled */
+[data-brand=fdp] {
+  /* If Source Sans is self-hosted, this will take effect automatically */
+  --nhs-font-family-base: "Source Sans Pro", "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, Arial, Helvetica, sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+}
+
 /* Frutiger W01 Normal Weight (400) */
 @font-face {
   font-display: swap;
@@ -2918,8 +2937,13 @@ span .nhsuk-u-visually-hidden {
     font-family: sans-serif !important;
   }
 }
+/* Set a sane global default using variables so brands can override at runtime */
+html, body, .nhs-typography-root {
+  font-family: var(--nhs-font-family-base);
+}
+
 .nhsuk-body {
-  font-family: Frutiger W01, Arial, sans-serif;
+  font-family: var(--nhs-font-family-base);
   font-size: 19px;
   line-height: 1.5;
   margin-top: 0;
@@ -2933,7 +2957,7 @@ span .nhsuk-u-visually-hidden {
 }
 
 .nhsuk-body-l {
-  font-family: Frutiger W01, Arial, sans-serif;
+  font-family: var(--nhs-font-family-base);
   font-size: 26px;
   line-height: 1.44;
   margin-top: 0;
@@ -2947,7 +2971,7 @@ span .nhsuk-u-visually-hidden {
 }
 
 .nhsuk-body-s {
-  font-family: Frutiger W01, Arial, sans-serif;
+  font-family: var(--nhs-font-family-base);
   font-size: 14px;
   line-height: 1.57;
   margin-top: 0;

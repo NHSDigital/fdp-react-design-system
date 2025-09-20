@@ -16,7 +16,8 @@
 		border-color 0.2s ease-in-out;
 	min-width: 0; // prevent overflow in flex/grid
 	display: block;
-	font-family: "Frutiger W01", "Frutiger", Arial, sans-serif;
+	// Use design system font tokens so brands (e.g. FDP) can override via CSS variables
+	font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
 
 	// Accent bar (variant colour) implemented with ::before to avoid extra markup
 	&::before {

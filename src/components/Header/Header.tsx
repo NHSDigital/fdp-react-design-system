@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { HeaderProps } from "./Header.types";
 import { renderHeaderMarkup } from "./Header.render";
+import { useBrand } from "../../themes/BrandThemeProvider";
 import { HeaderSearch } from "../HeaderSearch";
 
 /**
@@ -173,7 +174,13 @@ export const Header: React.FC<HeaderProps> = ({
 
 	// NHS Logo SVG - exact copy from NHS.UK
 	// Markup helpers removed; now handled in shared renderer
-
+	const brandCtx = (() => {
+		try {
+			return useBrand();
+		} catch {
+			return undefined;
+		}
+	})();
 	return renderHeaderMarkup(
 		{
 			className,
@@ -200,6 +207,7 @@ export const Header: React.FC<HeaderProps> = ({
 			navListRef,
 			// Provide interactive search node for client build only
 			searchNode: search ? <HeaderSearch {...search} /> : null,
+			brand: brandCtx?.brand,
 		}
 	);
 };

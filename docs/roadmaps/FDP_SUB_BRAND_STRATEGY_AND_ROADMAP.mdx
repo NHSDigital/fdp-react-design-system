@@ -6,13 +6,21 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 This document proposes a pragmatic, low‑risk architecture to add the FDP sub‑brand alongside current NHS styles. It enables smooth migration, runtime brand switching, and strong fallbacks so existing users aren’t broken.
 
+> Status update (2025-09-20)
+>
+> - Brand infrastructure in place: CSS variable tokens at :root (NHS) with FDP overlays via `[data-brand="fdp"]`.
+> - `BrandThemeProvider` implemented with document/local scope and controlled updates (brand prop sync fix).
+> - Typography foundations complete: Source Sans Pro self-hosted, brand-aware font stacks, increased fluid clamps for legibility (NHS baselines), unitless line-heights, and letter-spacing presets.
+> - Storybook updated: no global brand toggle; docs and playgrounds use local brand scope; font-debug CSS now respects brand variables.
+> - Demos/docs: Typography docs, migration checklist, gradient swatches (including white→color variants), and an interactive Typography Playground with computed-style readout.
+
 ## Goals
 
 - Preserve backward compatibility: NHS remains default with zero breaking changes.
 - Introduce brand‑agnostic semantic tokens and CSS variables as the primary styling contract.
 - Provide FDP brand overlays that can be enabled at app, page, or subtree scope.
 - Enable incremental migration of components; no big‑bang refactor.
-- Keep SSR compatibility and a11y standards.
+- Keep SSR first, clear progressive enhancement compatibility, and a11y standards.
 - Support charts/data‑viz and future brands (including dark/high‑contrast) without reworking components.
 
 ## Design Principles
@@ -103,14 +111,15 @@ Suggested outputs under `packages/nhs-fdp/dist/`:
 }
 ```
 
-## Runtime Theming: ThemeProvider
+## Runtime Theming: BrandThemeProvider
 
-Introduce a minimal React provider that sets the brand attribute on the document or a wrapper element.
+A minimal React provider sets the brand attribute on the document or on a local wrapper element.
 
-- API: `<ThemeProvider brand="nhs" | "fdp" scope="document|local">{children}</ThemeProvider>`
+- API: `<BrandThemeProvider brand="nhs" | "fdp" scope="document|local">{children}</BrandThemeProvider>`
 - Default: `brand="nhs"`, `scope="document"` (sets `document.documentElement.dataset.brand`).
 - Local scope: renders a wrapper `<div data-brand="fdp">…</div>` to isolate the brand.
-- Hook: `useTheme()` returns `{ brand, setBrand }` when components must branch in TS (avoid where possible).
+- Hook: `useBrand()` returns `{ brand, setBrand }` when components must branch in TS (avoid where possible).
+- Controlled updates: internal state stays in sync with the `brand` prop so toggles update immediately.
 
 SSR: Render the data attribute server-side to avoid FOUC.
 
@@ -160,14 +169,14 @@ SSR: Render the data attribute server-side to avoid FOUC.
 ## Storybook & Testing
 
 - Storybook
-  - Add a toolbar toggle for brand; decorator sets `data-brand` on the preview root.
-  - Duplicate key stories with brand parameters to spotlight differences.
+  - No global toolbar toggle. Brand switching is scoped per doc/page using a local `BrandThemeProvider` wrapper to avoid cross-story bleed.
+  - Dedicated examples (e.g., Typography Playground) expose a brand toggle and show computed styles to verify the switch.
   - Use the accessibility addon to validate contrast and keyboard flows.
 
 - Testing
-  - Unit/Component: parameterize brand (NHS/FDP) for smoke tests; verify roles/semantics remain correct.
+  - Unit/Component: where relevant, add brand-parameterized smoke tests; verify roles/semantics remain correct across brands.
   - SSR: ensure correct data attribute during server render; no client-only refs in render.
-  - Visual: run per-brand snapshots for core set (Buttons, Inputs, Tables, Cards, Charts).
+  - Visual: optional per-brand snapshots for core set (Buttons, Inputs, Tables, Cards, Charts).
 
 ## Backward Compatibility and Risks
 
@@ -182,7 +191,7 @@ SSR: Render the data attribute server-side to avoid FOUC.
 
 The roadmap is split into small, independently shippable steps. Each step includes acceptance criteria and validation commands aligned with our scripts.
 
-## Phase 0 – Scaffolding (PR1)
+## Phase 0 – Scaffolding (PR1) ✅ Completed
 
 1) Token Source Structure
 - Add `tokens/semantics/` and `tokens/brands/{nhs,fdp}/`.
@@ -198,23 +207,23 @@ The roadmap is split into small, independently shippable steps. Each step includ
 - Ensure `npm run build:fast` and `npm run build:parity` complete locally.
 
 Acceptance
-- `npm run build:parity` succeeds.
-- `dist/css/tokens/semantics.css` and `brand-fdp.css` exist and contain variables.
+- `npm run build:parity` succeeds. ✅
+- `dist/css/semantics.css` and `dist/css/brand-fdp.css` exist and contain variables. ✅
 
-## Phase 1 – Theme infrastructure (PR2)
+## Phase 1 – Theme infrastructure (PR2) ✅ Completed
 
-1) ThemeProvider
-- Export `<ThemeProvider brand="nhs|fdp" scope="document|local">` and `useTheme()`.
-- SSR-safe: can set attribute server-side via prop.
+1) BrandThemeProvider
+- Export `<BrandThemeProvider brand="nhs|fdp" scope="document|local">` and `useBrand()`.
+- SSR-safe: can set attribute server-side via prop. Controlled updates sync brand prop to state.
 
-2) Storybook Toggle
-- Global toolbar to switch brand; decorator applies `data-brand`.
+2) Storybook Brand Usage
+- Local brand scope within docs/playgrounds; no global toolbar to keep isolation and predictability.
 
 Acceptance
-- Storybook launches and toggles brand at runtime without reload.
-- Basic sample page shows clear brand switch (e.g., typography colors).
+- Storybook launches and brand can be toggled locally within pages. ✅
+- Sample pages show clear brand switch (e.g., typography font family and sizes). ✅
 
-## Phase 2 – Pilot component conversions (PR3–PR5)
+## Phase 2 – Pilot component conversions (PR3–PR5) – In Progress
 
 Targets
 - Button, Link, Heading, Card, Table (+ form control base) to use semantic variables with NHS fallbacks.

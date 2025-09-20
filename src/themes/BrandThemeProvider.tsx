@@ -22,6 +22,11 @@ export interface BrandThemeProviderProps {
 export function BrandThemeProvider({ brand = 'nhs', scope = 'document', children }: BrandThemeProviderProps) {
   const [current, setCurrent] = useState<Brand>(brand)
 
+  // Keep internal state in sync when the `brand` prop changes (controlled updates)
+  useEffect(() => {
+    setCurrent(brand)
+  }, [brand])
+
   // Apply to document on mount and when brand changes
   useEffect(() => {
     if (scope === 'document') {

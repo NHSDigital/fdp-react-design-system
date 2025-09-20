@@ -16,6 +16,7 @@ public enum StyleDictionaryEnum {
     public static let animationEasingEaseIn = cubic-bezier(0.4, 0, 1, 1) /** Ease in timing function */
     public static let animationEasingEaseInOut = cubic-bezier(0.4, 0, 0.2, 1) /** Ease in-out timing function */
     public static let animationEasingEaseOut = cubic-bezier(0, 0, 0.2, 1) /** Ease out timing function */
+    public static let body = clamp(1rem, 0.6vw + 0.9rem, 1.1875rem) /** 16px → 19px */
     public static let borderColorCard = UIColor(red: 0.847, green: 0.867, blue: 0.878, alpha: 1) /** Border color for cards */
     public static let borderColorCardHover = UIColor(red: 0.682, green: 0.718, blue: 0.741, alpha: 1) /** Border color for cards on hover */
     public static let borderColorDefault = UIColor(red: 0.847, green: 0.867, blue: 0.878, alpha: 1) /** Default border color */
@@ -289,6 +290,7 @@ public enum StyleDictionaryEnum {
     public static let diagramMermaidClassWarningFill = UIColor(red: 1.000, green: 0.922, blue: 0.933, alpha: 1) /** Mermaid class warning fill alias */
     public static let diagramMermaidClassWarningStroke = UIColor(red: 0.827, green: 0.184, blue: 0.184, alpha: 1) /** Mermaid class warning stroke alias */
     public static let diagramMermaidClassWarningText = UIColor(red: 0.718, green: 0.110, blue: 0.110, alpha: 1) /** Mermaid class warning text alias */
+    public static let display = clamp(1.5rem, 1.8vw + 1.1rem, 2.25rem) /** 24px → 36px */
     public static let elevationHigh = 0 4px 12px rgba(0, 0, 0, 0.20) /** High elevation shadow */
     public static let elevationLow = 0 1px 3px rgba(0, 0, 0, 0.12) /** Low elevation shadow */
     public static let elevationMedium = 0 2px 6px rgba(0, 0, 0, 0.16) /** Medium elevation shadow */
@@ -303,6 +305,10 @@ public enum StyleDictionaryEnum {
     public static let fontFamilyBase = Frutiger W01 /** Primary NHS font family */
     public static let fontFamilyFallback = Arial, sans-serif /** Fallback fonts if Frutiger fails to load */
     public static let fontFamilyPrint = sans-serif /** Font family for print styles */
+    public static let fontLetterSpacingCaps = +0.06em /** All-caps labels */
+    public static let fontLetterSpacingNormal = 0 /** Default tracking */
+    public static let fontLetterSpacingTight = -0.005em /** Slightly tighter for large headings */
+    public static let fontLetterSpacingWide = +0.02em /** For UI labels or meta text */
     public static let fontLineHeight14Desktop = 24px
     public static let fontLineHeight14Mobile = 20px
     public static let fontLineHeight14Print = 1.3
@@ -332,6 +338,11 @@ public enum StyleDictionaryEnum {
     public static let fontLineHeight48Print = 1.15
     public static let fontLineHeight48Tablet = 54px
     public static let fontLineHeightBase = 24px /** Base line height */
+    public static let fontLineHeightUnitlessBody = 1.5
+    public static let fontLineHeightUnitlessDisplay = 1.2
+    public static let fontLineHeightUnitlessHero = 1.15
+    public static let fontLineHeightUnitlessLead = 1.45
+    public static let fontLineHeightUnitlessSmall = 1.45
     public static let fontSize14Desktop = CGFloat(224.00)
     public static let fontSize14Mobile = CGFloat(192.00)
     public static let fontSize14Print = CGFloat(192.00)
@@ -434,14 +445,15 @@ public enum StyleDictionaryEnum {
     public static let gradientPalettePurpleFromTopLeft = linear-gradient(to bottom right, #ac98cb, #d6cce3) /** Purple gradient from top-left corner */
     public static let gradientPalettePurpleFromTopRight = linear-gradient(to bottom left, #ac98cb, #d6cce3) /** Purple gradient from top-right corner */
     public static let gradientPalettePurpleVertical = linear-gradient(180deg, #ac98cb, #d6cce3) /** Purple gradient vertical (top→bottom) */
-    public static let gradientPaletteWhiteToDarkBlue = linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,48,135,0.20) 88%, rgba(0,48,135,0.60) 96%, rgba(0,48,135,1) 100%) /** Predominantly white wash fading into NHS Dark Blue (smooth vertical) */
+    public static let gradientPaletteWhiteToDarkBlue = linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,48,135,0.10) 88%, rgba(0,48,135,0.60) 96%, rgba(0,48,135,1) 100%) /** Predominantly white wash fading into NHS Dark Blue (smooth vertical) */
     public static let gradientPaletteWhiteToGreen = linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,127,59,0.20) 88%, rgba(0,127,59,0.60) 96%, rgba(0,127,59,1) 100%) /** Predominantly white wash fading into NHS Green (smooth vertical) */
     public static let gradientPaletteWhiteToGrey = linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(76,98,114,0.20) 88%, rgba(76,98,114,0.60) 96%, rgba(76,98,114,1) 100%) /** Predominantly white wash fading into NHS Dark Grey (smooth vertical) */
-    public static let gradientPaletteWhiteToLightBlue = linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,94,184,0.20) 88%, rgba(0,94,184,0.60) 96%, rgba(0,94,184,1) 100%) /** Predominantly white wash fading into NHS Blue (smooth vertical) */
+    public static let gradientPaletteWhiteToLightBlue = linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,94,184,0.10) 88%, rgba(0,94,184,0.60) 96%, rgba(0,94,184,1) 100%) /** Predominantly white wash fading into NHS Blue (smooth vertical) */
     public static let gradientPaletteWhiteToPurple = linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(172,152,203,0.22) 88%, rgba(172,152,203,0.60) 96%, rgba(172,152,203,1) 100%) /** Predominantly white wash fading into Purple (smooth vertical) */
     public static let gridGutter = CGFloat(512.00) /** Grid gutter width */
     public static let gridGutterHalf = CGFloat(256.00) /** Half grid gutter width */
     public static let gridPageWidth = CGFloat(15360.00) /** Maximum page width */
+    public static let hero = clamp(2rem, 2.4vw + 1.2rem, 3rem) /** 32px → 48px */
     public static let layoutColumnActions = 20% /** Actions column width in summary lists */
     public static let layoutColumnFull = 100% /** Full width column */
     public static let layoutColumnHalf = 50% /** Half width column */
@@ -452,6 +464,7 @@ public enum StyleDictionaryEnum {
     public static let layoutGapSmall = 6px /** Small gap for tight layouts */
     public static let layoutMarginNegativeStandard = -2px /** Standard negative margin for visual alignment */
     public static let layoutMarginNegativeThin = -1px /** Negative margin for border compensation */
+    public static let lead = clamp(1.0625rem, 0.9vw + 0.9rem, 1.375rem) /** ~17px → 22px */
     public static let semanticColorActiveHeaderLink = UIColor(red: 0.000, green: 0.173, blue: 0.361, alpha: 1) /** Header link active color (darker than NHS Blue) */
     public static let semanticColorBorderDefault = UIColor(red: 0.847, green: 0.867, blue: 0.878, alpha: 1) /** Default border color */
     public static let semanticColorBorderSecondary = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 0.2) /** Secondary border color */
@@ -644,6 +657,7 @@ public enum StyleDictionaryEnum {
     public static let sizeIconMedium = CGFloat(288.00) /** Medium icon size (breadcrumb chevrons) */
     public static let sizeIconNhsDefault = CGFloat(544.00) /** Default NHS icon size */
     public static let sizeIconSmall = CGFloat(256.00) /** Small icon size */
+    public static let small = clamp(0.8125rem, 0.25vw + 0.75rem, 0.9rem) /** ~13px → ~14.4px */
     public static let spacing0 = 0 /** No spacing */
     public static let spacing1 = 4px /** Extra small spacing */
     public static let spacing2 = 8px /** Small spacing */

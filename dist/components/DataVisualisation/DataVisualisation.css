@@ -127,16 +127,20 @@ span .nhsuk-u-visually-hidden {
 }
 
 .fdp-chart__title {
-  font-size: var(--fdp-chart-font-size-title);
+  /* Use fluid clamp for titles */
+  font-size: clamp(1.5rem, 1.8vw + 1.1rem, 2.25rem);
   margin: 0;
   font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.2;
   font-family: var(--fdp-chart-font-family);
 }
 
 .fdp-chart__description {
   margin: 0 0 8px;
-  font-size: var(--fdp-chart-font-size-desc);
+  font-size: clamp(1rem, 0.6vw + 0.9rem, 1.1875rem);
   color: var(--fdp-chart-color-subtle);
+  line-height: 1.5;
   font-family: var(--fdp-chart-font-family);
 }
 
@@ -150,11 +154,12 @@ span .nhsuk-u-visually-hidden {
 
 .fdp-chart__caption {
   margin-top: 8px;
-  font-size: var(--fdp-chart-font-size-caption);
+  font-size: clamp(0.8125rem, 0.25vw + 0.75rem, 0.9rem);
   color: var(--fdp-chart-color-subtle-2);
   display: flex;
   flex-direction: column;
   gap: 4px;
+  line-height: 1.45;
   font-family: var(--fdp-chart-font-family);
 }
 

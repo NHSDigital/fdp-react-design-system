@@ -380,7 +380,11 @@
   --gradient-metric-card-success: linear-gradient(135deg, rgba(0,164,153,0.10), #ffffff); /** Success metric card subtle wash (Aqua Green 10% → White) */
   --gradient-metric-card-warning: linear-gradient(135deg, rgba(237,79,0,0.10), #ffffff); /** Warning metric card subtle wash (Tangerine 10% → White) */
   --gradient-metric-card-error: linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff); /** Error metric card subtle wash (NHS Red 10% → White) */
-  --gradient-palette-white-to-light-blue: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,94,184,0.20) 88%, rgba(0,94,184,0.60) 96%, rgba(0,94,184,1) 100%); /** Predominantly white wash fading into NHS Blue (smooth vertical) */
+  --gradient-palette-white-to-light-blue: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,94,184,0.10) 88%, rgba(0,94,184,0.60) 96%, rgba(0,94,184,1) 100%); /** Predominantly white wash fading into NHS Blue (smooth vertical) */
+  --gradient-palette-white-to-dark-blue: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,48,135,0.10) 88%, rgba(0,48,135,0.60) 96%, rgba(0,48,135,1) 100%); /** Predominantly white wash fading into NHS Dark Blue (smooth vertical) */
+  --gradient-palette-white-to-purple: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(172,152,203,0.22) 88%, rgba(172,152,203,0.60) 96%, rgba(172,152,203,1) 100%); /** Predominantly white wash fading into Purple (smooth vertical) */
+  --gradient-palette-white-to-green: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,127,59,0.20) 88%, rgba(0,127,59,0.60) 96%, rgba(0,127,59,1) 100%); /** Predominantly white wash fading into NHS Green (smooth vertical) */
+  --gradient-palette-white-to-grey: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(76,98,114,0.20) 88%, rgba(76,98,114,0.60) 96%, rgba(76,98,114,1) 100%); /** Predominantly white wash fading into NHS Dark Grey (smooth vertical) */
   --gradient-palette-light-blue: linear-gradient(90deg, #005eb8, #60b2e2); /** Light Blue gradient (NHS Blue → #60b2e2) */
   --gradient-palette-light-blue-vertical: linear-gradient(180deg, #005eb8, #60b2e2); /** Light Blue gradient vertical (top→bottom) */
   --gradient-palette-light-blue-diagonal: linear-gradient(135deg, #005eb8, #60b2e2); /** Light Blue gradient diagonal */
@@ -389,7 +393,6 @@
   --gradient-palette-light-blue-from-top-right: linear-gradient(to bottom left, #005eb8, #60b2e2); /** Light Blue gradient from top-right corner */
   --gradient-palette-light-blue-from-bottom-left: linear-gradient(to top right, #005eb8, #60b2e2); /** Light Blue gradient from bottom-left corner */
   --gradient-palette-light-blue-from-bottom-right: linear-gradient(to top left, #005eb8, #60b2e2); /** Light Blue gradient from bottom-right corner */
-  --gradient-palette-white-to-dark-blue: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,48,135,0.20) 88%, rgba(0,48,135,0.60) 96%, rgba(0,48,135,1) 100%); /** Predominantly white wash fading into NHS Dark Blue (smooth vertical) */
   --gradient-palette-dark-blue: linear-gradient(90deg, #005eb8, #003087); /** Dark Blue gradient (NHS Blue → NHS Dark Blue) */
   --gradient-palette-dark-blue-vertical: linear-gradient(180deg, #005eb8, #003087); /** Dark Blue gradient vertical (top→bottom) */
   --gradient-palette-dark-blue-diagonal: linear-gradient(135deg, #005eb8, #003087); /** Dark Blue gradient diagonal */
@@ -398,7 +401,6 @@
   --gradient-palette-dark-blue-from-top-right: linear-gradient(to bottom left, #005eb8, #003087); /** Dark Blue gradient from top-right corner */
   --gradient-palette-dark-blue-from-bottom-left: linear-gradient(to top right, #005eb8, #003087); /** Dark Blue gradient from bottom-left corner */
   --gradient-palette-dark-blue-from-bottom-right: linear-gradient(to top left, #005eb8, #003087); /** Dark Blue gradient from bottom-right corner */
-  --gradient-palette-white-to-purple: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(172,152,203,0.22) 88%, rgba(172,152,203,0.60) 96%, rgba(172,152,203,1) 100%); /** Predominantly white wash fading into Purple (smooth vertical) */
   --gradient-palette-purple: linear-gradient(90deg, #ac98cb, #d6cce3); /** Purple gradient (#ac98cb → NHS Purple 20% tint) */
   --gradient-palette-purple-vertical: linear-gradient(180deg, #ac98cb, #d6cce3); /** Purple gradient vertical (top→bottom) */
   --gradient-palette-purple-diagonal: linear-gradient(135deg, #ac98cb, #d6cce3); /** Purple gradient diagonal */
@@ -407,7 +409,6 @@
   --gradient-palette-purple-from-top-right: linear-gradient(to bottom left, #ac98cb, #d6cce3); /** Purple gradient from top-right corner */
   --gradient-palette-purple-from-bottom-left: linear-gradient(to top right, #ac98cb, #d6cce3); /** Purple gradient from bottom-left corner */
   --gradient-palette-purple-from-bottom-right: linear-gradient(to top left, #ac98cb, #d6cce3); /** Purple gradient from bottom-right corner */
-  --gradient-palette-white-to-green: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,127,59,0.20) 88%, rgba(0,127,59,0.60) 96%, rgba(0,127,59,1) 100%); /** Predominantly white wash fading into NHS Green (smooth vertical) */
   --gradient-palette-green: linear-gradient(90deg, #007f3b, #63a691); /** Green gradient (NHS Green → NHS Dark Green 60% tint) */
   --gradient-palette-green-vertical: linear-gradient(180deg, #007f3b, #63a691); /** Green gradient vertical (top→bottom) */
   --gradient-palette-green-diagonal: linear-gradient(135deg, #007f3b, #63a691); /** Green gradient diagonal */
@@ -416,7 +417,6 @@
   --gradient-palette-green-from-top-right: linear-gradient(to bottom left, #007f3b, #63a691); /** Green gradient from top-right corner */
   --gradient-palette-green-from-bottom-left: linear-gradient(to top right, #007f3b, #63a691); /** Green gradient from bottom-left corner */
   --gradient-palette-green-from-bottom-right: linear-gradient(to top left, #007f3b, #63a691); /** Green gradient from bottom-right corner */
-  --gradient-palette-white-to-grey: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(76,98,114,0.20) 88%, rgba(76,98,114,0.60) 96%, rgba(76,98,114,1) 100%); /** Predominantly white wash fading into NHS Dark Grey (smooth vertical) */
   --gradient-palette-grey: linear-gradient(90deg, #4c6272, #768692); /** Grey gradient (NHS Dark Grey → NHS Mid Grey) */
   --gradient-palette-grey-vertical: linear-gradient(180deg, #4c6272, #768692); /** Grey gradient vertical (top→bottom) */
   --gradient-palette-grey-diagonal: linear-gradient(135deg, #4c6272, #768692); /** Grey gradient diagonal */
@@ -738,4 +738,18 @@
   --font-line-height-48-tablet: 54px;
   --font-line-height-48-print: 1.15;
   --font-line-height-base: 24px; /** Base line height */
+  --font-size-clamp-small: clamp(0.8125rem, 0.25vw + 0.75rem, 0.9rem); /** ~13px → ~14.4px */
+  --font-size-clamp-body: clamp(1rem, 0.6vw + 0.9rem, 1.1875rem); /** 16px → 19px */
+  --font-size-clamp-lead: clamp(1.0625rem, 0.9vw + 0.9rem, 1.375rem); /** ~17px → 22px */
+  --font-size-clamp-display: clamp(1.5rem, 1.8vw + 1.1rem, 2.25rem); /** 24px → 36px */
+  --font-size-clamp-hero: clamp(2rem, 2.4vw + 1.2rem, 3rem); /** 32px → 48px */
+  --font-letter-spacing-tight: -0.005em; /** Slightly tighter for large headings */
+  --font-letter-spacing-normal: 0; /** Default tracking */
+  --font-letter-spacing-wide: +0.02em; /** For UI labels or meta text */
+  --font-letter-spacing-caps: +0.06em; /** All-caps labels */
+  --font-line-height-unitless-small: 1.45;
+  --font-line-height-unitless-body: 1.5;
+  --font-line-height-unitless-lead: 1.45;
+  --font-line-height-unitless-display: 1.2;
+  --font-line-height-unitless-hero: 1.15;
 }

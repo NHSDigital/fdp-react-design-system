@@ -390,7 +390,15 @@ export const GradientMetricCardWarning =
 export const GradientMetricCardError =
   "linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff)"; // Error metric card subtle wash (NHS Red 10% → White)
 export const GradientPaletteWhiteToLightBlue =
-  "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,94,184,0.20) 88%, rgba(0,94,184,0.60) 96%, rgba(0,94,184,1) 100%)"; // Predominantly white wash fading into NHS Blue (smooth vertical)
+  "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,94,184,0.10) 88%, rgba(0,94,184,0.60) 96%, rgba(0,94,184,1) 100%)"; // Predominantly white wash fading into NHS Blue (smooth vertical)
+export const GradientPaletteWhiteToDarkBlue =
+  "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,48,135,0.10) 88%, rgba(0,48,135,0.60) 96%, rgba(0,48,135,1) 100%)"; // Predominantly white wash fading into NHS Dark Blue (smooth vertical)
+export const GradientPaletteWhiteToPurple =
+  "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(172,152,203,0.22) 88%, rgba(172,152,203,0.60) 96%, rgba(172,152,203,1) 100%)"; // Predominantly white wash fading into Purple (smooth vertical)
+export const GradientPaletteWhiteToGreen =
+  "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,127,59,0.20) 88%, rgba(0,127,59,0.60) 96%, rgba(0,127,59,1) 100%)"; // Predominantly white wash fading into NHS Green (smooth vertical)
+export const GradientPaletteWhiteToGrey =
+  "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(76,98,114,0.20) 88%, rgba(76,98,114,0.60) 96%, rgba(76,98,114,1) 100%)"; // Predominantly white wash fading into NHS Dark Grey (smooth vertical)
 export const GradientPaletteLightBlue =
   "linear-gradient(90deg, #005eb8, #60b2e2)"; // Light Blue gradient (NHS Blue → #60b2e2)
 export const GradientPaletteLightBlueVertical =
@@ -407,8 +415,6 @@ export const GradientPaletteLightBlueFromBottomLeft =
   "linear-gradient(to top right, #005eb8, #60b2e2)"; // Light Blue gradient from bottom-left corner
 export const GradientPaletteLightBlueFromBottomRight =
   "linear-gradient(to top left, #005eb8, #60b2e2)"; // Light Blue gradient from bottom-right corner
-export const GradientPaletteWhiteToDarkBlue =
-  "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,48,135,0.20) 88%, rgba(0,48,135,0.60) 96%, rgba(0,48,135,1) 100%)"; // Predominantly white wash fading into NHS Dark Blue (smooth vertical)
 export const GradientPaletteDarkBlue =
   "linear-gradient(90deg, #005eb8, #003087)"; // Dark Blue gradient (NHS Blue → NHS Dark Blue)
 export const GradientPaletteDarkBlueVertical =
@@ -425,8 +431,6 @@ export const GradientPaletteDarkBlueFromBottomLeft =
   "linear-gradient(to top right, #005eb8, #003087)"; // Dark Blue gradient from bottom-left corner
 export const GradientPaletteDarkBlueFromBottomRight =
   "linear-gradient(to top left, #005eb8, #003087)"; // Dark Blue gradient from bottom-right corner
-export const GradientPaletteWhiteToPurple =
-  "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(172,152,203,0.22) 88%, rgba(172,152,203,0.60) 96%, rgba(172,152,203,1) 100%)"; // Predominantly white wash fading into Purple (smooth vertical)
 export const GradientPalettePurple = "linear-gradient(90deg, #ac98cb, #d6cce3)"; // Purple gradient (#ac98cb → NHS Purple 20% tint)
 export const GradientPalettePurpleVertical =
   "linear-gradient(180deg, #ac98cb, #d6cce3)"; // Purple gradient vertical (top→bottom)
@@ -442,8 +446,6 @@ export const GradientPalettePurpleFromBottomLeft =
   "linear-gradient(to top right, #ac98cb, #d6cce3)"; // Purple gradient from bottom-left corner
 export const GradientPalettePurpleFromBottomRight =
   "linear-gradient(to top left, #ac98cb, #d6cce3)"; // Purple gradient from bottom-right corner
-export const GradientPaletteWhiteToGreen =
-  "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,127,59,0.20) 88%, rgba(0,127,59,0.60) 96%, rgba(0,127,59,1) 100%)"; // Predominantly white wash fading into NHS Green (smooth vertical)
 export const GradientPaletteGreen = "linear-gradient(90deg, #007f3b, #63a691)"; // Green gradient (NHS Green → NHS Dark Green 60% tint)
 export const GradientPaletteGreenVertical =
   "linear-gradient(180deg, #007f3b, #63a691)"; // Green gradient vertical (top→bottom)
@@ -459,8 +461,6 @@ export const GradientPaletteGreenFromBottomLeft =
   "linear-gradient(to top right, #007f3b, #63a691)"; // Green gradient from bottom-left corner
 export const GradientPaletteGreenFromBottomRight =
   "linear-gradient(to top left, #007f3b, #63a691)"; // Green gradient from bottom-right corner
-export const GradientPaletteWhiteToGrey =
-  "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(76,98,114,0.20) 88%, rgba(76,98,114,0.60) 96%, rgba(76,98,114,1) 100%)"; // Predominantly white wash fading into NHS Dark Grey (smooth vertical)
 export const GradientPaletteGrey = "linear-gradient(90deg, #4c6272, #768692)"; // Grey gradient (NHS Dark Grey → NHS Mid Grey)
 export const GradientPaletteGreyVertical =
   "linear-gradient(180deg, #4c6272, #768692)"; // Grey gradient vertical (top→bottom)
@@ -806,3 +806,17 @@ export const FontLineHeight48Mobile = "38px";
 export const FontLineHeight48Tablet = "54px";
 export const FontLineHeight48Print = "1.15";
 export const FontLineHeightBase = "24px"; // Base line height
+export const FontSizeClampSmall = "clamp(0.8125rem, 0.25vw + 0.75rem, 0.9rem)"; // ~13px → ~14.4px
+export const FontSizeClampBody = "clamp(1rem, 0.6vw + 0.9rem, 1.1875rem)"; // 16px → 19px
+export const FontSizeClampLead = "clamp(1.0625rem, 0.9vw + 0.9rem, 1.375rem)"; // ~17px → 22px
+export const FontSizeClampDisplay = "clamp(1.5rem, 1.8vw + 1.1rem, 2.25rem)"; // 24px → 36px
+export const FontSizeClampHero = "clamp(2rem, 2.4vw + 1.2rem, 3rem)"; // 32px → 48px
+export const FontLetterSpacingTight = "-0.005em"; // Slightly tighter for large headings
+export const FontLetterSpacingNormal = "0"; // Default tracking
+export const FontLetterSpacingWide = "+0.02em"; // For UI labels or meta text
+export const FontLetterSpacingCaps = "+0.06em"; // All-caps labels
+export const FontLineHeightUnitlessSmall = "1.45";
+export const FontLineHeightUnitlessBody = "1.5";
+export const FontLineHeightUnitlessLead = "1.45";
+export const FontLineHeightUnitlessDisplay = "1.2";
+export const FontLineHeightUnitlessHero = "1.15";

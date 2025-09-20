@@ -2,6 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { HeaderProps, NavigationItem } from "./Header.types";
 import { Account } from "../Account";
+import { getBrandLogo, BrandKey, LogoVariant as LogoVariantEnum } from "../../assets/brand";
 import "./Header.scss";
 import "./Header.ssr.scss";
 
@@ -20,6 +21,8 @@ export interface RenderHeaderOptions {
      * interactive HeaderSearch without importing it in this SSR-shared module.
      */
     searchNode?: React.ReactNode;
+    /** Optional brand provided by the caller (supports local scope). */
+	brand?: 'nhs' | 'fdp';
 }
 
 export function renderHeaderMarkup(
@@ -35,6 +38,7 @@ export function renderHeaderMarkup(
 		navContainerRef,
 		navListRef,
 		searchNode,
+		brand: providedBrand,
 	}: RenderHeaderOptions
 ) {
 	const {
@@ -50,7 +54,8 @@ export function renderHeaderMarkup(
 		variant: headerVariant = "default",
 		attributes = {},
 		maxVisibleItems, // deprecated (ignored)
-		responsiveNavigation = true,
+			responsiveNavigation = true,
+			logoVariant = LogoVariantEnum.Full,
 		...rest
 	} = props;
 
@@ -92,6 +97,14 @@ export function renderHeaderMarkup(
 		navigation?.className
 	);
 
+	// Infer brand from document attribute (client only). Defaults to 'nhs' when absent/SSR.
+	const inferBrand = (): 'nhs' | 'fdp' => {
+		if (typeof document === 'undefined') return 'nhs';
+		const attr = document.documentElement.getAttribute('data-brand');
+		return attr === 'fdp' ? 'fdp' : 'nhs';
+	};
+	const brand = providedBrand ?? inferBrand();
+
 	const renderNHSLogo = () => (
 		<svg
 			className="nhsuk-header__logo"
@@ -111,17 +124,37 @@ export function renderHeaderMarkup(
 		</svg>
 	);
 
-	const renderServiceLogo = () =>
-		logo.src ? (
-			<img
-				className="nhsuk-header__organisation-logo"
-				src={logo.src}
-				width="280"
-				alt={logo.ariaLabel || "NHS"}
-			/>
-		) : (
-			renderNHSLogo()
-		);
+	const renderServiceLogo = () => {
+		// Prefer explicit logo.src when provided
+		if (logo.src) {
+			return (
+				<img
+					className="nhsuk-header__organisation-logo"
+					src={logo.src}
+					width="280"
+					alt={logo.ariaLabel || (brand === 'fdp' ? 'FDP' : 'NHS')}
+				/>
+			);
+		}
+
+		// Brand-aware default: show FDP logo in FDP brand scope; otherwise NHS logo SVG
+				if (brand === 'fdp') {
+					const fdpLogo = getBrandLogo(BrandKey.FDP, logoVariant);
+			if (fdpLogo?.src) {
+				return (
+					<img
+						className="nhsuk-header__organisation-logo"
+						src={fdpLogo.src}
+						data-logo-variant={logoVariant}
+						width="280"
+						alt={fdpLogo.ariaLabel || 'FDP'}
+					/>
+				);
+			}
+		}
+
+		return renderNHSLogo();
+	};
 	const renderOrganisationName = () =>
 		organisation ? (
 			<>

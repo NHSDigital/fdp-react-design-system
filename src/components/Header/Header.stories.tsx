@@ -1,6 +1,8 @@
 // PRUNE: KEEP_ALL (Expanded Header stories for variant coverage & documentation)
 import type { Meta, StoryObj } from "@storybook/react";
 import { Header } from "./Header";
+import { LogoVariant } from "../../assets/brand";
+import { BrandThemeProvider } from "../../themes/BrandThemeProvider";
 import { Heading } from "../..";
 
 const meta: Meta<typeof Header> = {
@@ -48,6 +50,28 @@ The Header component provides navigation and branding for NHS services. It inclu
 		className: {
 			control: "text",
 			description: "Additional CSS classes",
+		},
+		logoVariant: {
+			control: {
+				type: 'select',
+				labels: {
+					[LogoVariant.Full]: 'Full',
+					[LogoVariant.Compact]: 'Compact',
+					[LogoVariant.TwoLine]: 'Two line',
+					[LogoVariant.Graphic]: 'Graphic device',
+					[LogoVariant.Inverse]: 'Inverse',
+					[LogoVariant.CompactInverted]: 'Compact (inverted)',
+				},
+			},
+			options: [
+				LogoVariant.Full,
+				LogoVariant.Compact,
+				LogoVariant.TwoLine,
+				LogoVariant.Graphic,
+				LogoVariant.Inverse,
+				LogoVariant.CompactInverted,
+			],
+			description: 'Brand logo variant (FDP only). Use with BrandThemeProvider brand="fdp".',
 		},
 	},
 };
@@ -205,6 +229,160 @@ export const Gallery: Story = {
 				<Heading level={3}>Everything</Heading>
 				<Header {...(WithEverything.args as any)} />
 			</div>
+			<div>
+				<Heading level={3}>FDP (local brand scope)</Heading>
+				<BrandThemeProvider brand="fdp" scope="local">
+					<Header {...(Default.args as any)} />
+				</BrandThemeProvider>
+			</div>
 		</div>
 	),
+};
+
+export const FDPBrandScoped: Story = {
+	args: { ...baseArgs, logoVariant: LogoVariant.Full },
+	render: (args) => (
+		<BrandThemeProvider brand="fdp" scope="local">
+			<Header {...(args as any)} />
+		</BrandThemeProvider>
+	),
+	parameters: {
+		docs: { description: { story: "Header rendered within a local FDP brand scope using BrandThemeProvider." } },
+	},
+};
+
+export const FDPLogoDynamic: Story = {
+	args: { ...baseArgs, logoVariant: LogoVariant.Full },
+	render: (args) => {
+		const needsDark = args.logoVariant === LogoVariant.Inverse || args.logoVariant === LogoVariant.CompactInverted;
+		return (
+			<div style={{ background: needsDark ? '#003087' : 'transparent', padding: needsDark ? 8 : 0 }}>
+				<BrandThemeProvider brand="fdp" scope="local">
+					<Header {...(args as any)} variant={needsDark ? 'white' : args.variant} />
+				</BrandThemeProvider>
+			</div>
+		);
+	},
+	parameters: {
+		docs: { description: { story: 'Interactively switch FDP logo variants with the Controls panel.' } },
+	},
+};
+
+export const FDPOnNHSDarkBlue: Story = {
+	args: { ...baseArgs, logoVariant: LogoVariant.Inverse },
+	render: (args) => (
+		<div style={{ background: '#003087', padding: 0 }}>
+			<BrandThemeProvider brand="fdp" scope="local">
+				<Header {...(args as any)} className="nhsuk-header--dark-blue" />
+			</BrandThemeProvider>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'FDP brand-scoped Header on NHS blue background; uses the inverse logo by default.',
+			},
+		},
+	},
+};
+
+export const FDPOnNHSPaleGrey: Story = {
+	args: { ...baseArgs, logoVariant: LogoVariant.Full },
+	render: (args) => (
+		<div style={{ background: '#E8EDF1', padding: 0 }}>
+			<BrandThemeProvider brand="fdp" scope="local">
+				<Header {...(args as any)} className="nhsuk-header--pale-grey" />
+			</BrandThemeProvider>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'FDP brand-scoped Header on NHS pale grey background; uses the inverse logo by default.',
+			},
+		},
+	},
+};
+
+export const FDPOnNHSDarkGrey: Story = {
+	args: { ...baseArgs, logoVariant: LogoVariant.Inverse },
+	render: (args) => (
+		<div style={{ background: '#425563', padding: 0 }}>
+			<BrandThemeProvider brand="fdp" scope="local">
+				<Header {...(args as any)} className="nhsuk-header--dark-grey" />
+			</BrandThemeProvider>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'FDP brand-scoped Header on NHS dark grey background; uses the inverse logo by default.',
+			},
+		},
+	},
+};
+
+export const FDPOnNHSDarkGreyGradient: Story = {
+	args: { ...baseArgs, logoVariant: LogoVariant.Inverse },
+	render: (args) => (
+		<div style={{ background: 'linear-gradient(180deg, #4C4C4C 0%, #2F2F2F 100%)', padding: 0 }}>
+			<BrandThemeProvider brand="fdp" scope="local">
+				<Header {...(args as any)} className="nhsuk-header--dark-grey-gradient" />
+			</BrandThemeProvider>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'FDP brand-scoped Header with a dark grey gradient background; uses the inverse logo by default.',
+			},
+		},
+	},
+};
+
+export const FDPOnNHSMidGrey: Story = {
+	args: { ...baseArgs, logoVariant: LogoVariant.Inverse },
+	render: (args) => (
+		<div style={{ background: '#6F777B', padding: 0 }}>
+			<BrandThemeProvider brand="fdp" scope="local">
+				<Header {...(args as any)} className="nhsuk-header--mid-grey" />
+			</BrandThemeProvider>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'FDP brand-scoped Header on NHS mid grey background; uses the inverse logo by default.',
+			},
+		},
+	},
+};
+
+export const FDPLogoVariants: Story = {
+	args: { ...baseArgs },
+	render: (args) => (
+		<div style={{ display: 'grid', gap: 16 }}>
+			<BrandThemeProvider brand="fdp" scope="local">
+				<div>
+					<strong>Full (default)</strong>
+					<Header {...(args as any)} logoVariant={LogoVariant.Full} />
+				</div>
+			</BrandThemeProvider>
+			<BrandThemeProvider brand="fdp" scope="local">
+				<div>
+					<strong>Compact (two-line)</strong>
+					<Header {...(args as any)} logoVariant={LogoVariant.Compact} />
+				</div>
+			</BrandThemeProvider>
+			<BrandThemeProvider brand="fdp" scope="local">
+				<div style={{ background: '#003087', padding: 8 }}>
+					<strong style={{ color: 'white' }}>Inverse (on dark)</strong>
+					<Header {...(args as any)} variant="white" logoVariant={LogoVariant.Inverse} />
+				</div>
+			</BrandThemeProvider>
+		</div>
+	),
+	parameters: {
+		docs: { description: { story: "Showcases FDP brand logo variants: full, compact (two-line), and inverse for dark backgrounds." } },
+	},
 };

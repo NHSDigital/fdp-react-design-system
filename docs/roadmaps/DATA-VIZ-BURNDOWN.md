@@ -1,5 +1,7 @@
 # Data Visualisation v2 Burndown & Risk Register (Aug 30 2025)
 
+Update (Sep 20 2025): Brand/typography foundation complete across docs and tokens (FDP local scoping, Source Sans Pro, increased fluid clamps, computed readout). No change to DV story point totals; this enables DV per-brand visuals without rework. Remaining DV scope unchanged; next enablers are MetricCard and FilterBar.
+
 Companion to:
 
 - [DATA-VIZ-ROADMAP](./DATA-VIZ-ROADMAP.md) (capability & adoption view)

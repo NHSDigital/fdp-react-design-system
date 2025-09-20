@@ -99,7 +99,7 @@ span .nhsuk-u-visually-hidden {
   transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
   min-width: 0;
   display: block;
-  font-family: "Frutiger W01", "Frutiger", Arial, sans-serif;
+  font-family: Frutiger W01, Arial, sans-serif;
   /* Variants */
   /* Loading / error state cursors */
   /* Status driven delta colouring overrides */

@@ -67,10 +67,8 @@ $desktop: 769px;
 	margin: 0 auto;
 	padding: 0 nhs.$nhs-fdp-spacing-2; // 16px on mobile
 
-	// Typography defaults
-	font-family:
-		#{nhs.$nhs-fdp-font-family-base},
-		#{nhs.$nhs-fdp-font-family-fallback};
+	// Typography defaults (brand-aware)
+	font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
 
 	@include nhs.nhs-fdp-font(19);
 
@@ -84,10 +82,8 @@ $desktop: 769px;
 	margin: 0 auto;
 	padding: 0 nhs.$nhs-fdp-spacing-2; // 16px on mobile
 
-	// Typography defaults
-	font-family:
-		#{nhs.$nhs-fdp-font-family-base},
-		#{nhs.$nhs-fdp-font-family-fallback};
+	// Typography defaults (brand-aware)
+	font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
 
 	@include nhs.nhs-fdp-font(19);
 

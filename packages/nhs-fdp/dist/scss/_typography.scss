@@ -65,3 +65,17 @@ $nhs-fdp-font-line-height-48-mobile: 38px;
 $nhs-fdp-font-line-height-48-tablet: 54px;
 $nhs-fdp-font-line-height-48-print: 1.15;
 $nhs-fdp-font-line-height-base: 24px; // Base line height
+$nhs-fdp-font-size-clamp-small: clamp(0.8125rem, 0.25vw + 0.75rem, 0.9rem); // ~13px → ~14.4px
+$nhs-fdp-font-size-clamp-body: clamp(1rem, 0.6vw + 0.9rem, 1.1875rem); // 16px → 19px
+$nhs-fdp-font-size-clamp-lead: clamp(1.0625rem, 0.9vw + 0.9rem, 1.375rem); // ~17px → 22px
+$nhs-fdp-font-size-clamp-display: clamp(1.5rem, 1.8vw + 1.1rem, 2.25rem); // 24px → 36px
+$nhs-fdp-font-size-clamp-hero: clamp(2rem, 2.4vw + 1.2rem, 3rem); // 32px → 48px
+$nhs-fdp-font-letter-spacing-tight: -0.005em; // Slightly tighter for large headings
+$nhs-fdp-font-letter-spacing-normal: 0; // Default tracking
+$nhs-fdp-font-letter-spacing-wide: +0.02em; // For UI labels or meta text
+$nhs-fdp-font-letter-spacing-caps: +0.06em; // All-caps labels
+$nhs-fdp-font-line-height-unitless-small: 1.45;
+$nhs-fdp-font-line-height-unitless-body: 1.5;
+$nhs-fdp-font-line-height-unitless-lead: 1.45;
+$nhs-fdp-font-line-height-unitless-display: 1.2;
+$nhs-fdp-font-line-height-unitless-hero: 1.15;

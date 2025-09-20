@@ -98,7 +98,8 @@
   padding: 8px 12px;
   margin-bottom: 12px;
   background: var(--nhs-fdp-color-surface-muted, #f8f8f8);
-  font-family: var(--nhs-fdp-font-family, "Frutiger W01", "Frutiger", Arial, sans-serif);
+  /* Inherit brand-aware font via CSS variables; fall back to chart font variable */
+  font-family: var(--nhs-font-family-base, var(--fdp-chart-font-family));
 }
 
 .fdp-spc-chart__warnings-heading {
@@ -118,7 +119,8 @@
   transform: translateY(-2px);
   transition: opacity 120ms ease-out, transform 120ms ease-out;
   border-radius: 6px;
-  font-family: var(--nhs-fdp-font-family, "Frutiger W01", "Frutiger", Arial, sans-serif);
+  /* Tooltip should use the same brand-aware stack as charts */
+  font-family: var(--nhs-font-family-base, var(--fdp-chart-font-family));
   font-size: 16px;
   line-height: 1.4;
   padding: 12px 16px 16px;

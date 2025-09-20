@@ -2317,7 +2317,11 @@ var require_tokens = __commonJS({
           error: "linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff)"
         },
         palette: {
-          "white-to-light-blue": "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,94,184,0.20) 88%, rgba(0,94,184,0.60) 96%, rgba(0,94,184,1) 100%)",
+          "white-to-light-blue": "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,94,184,0.10) 88%, rgba(0,94,184,0.60) 96%, rgba(0,94,184,1) 100%)",
+          "white-to-dark-blue": "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,48,135,0.10) 88%, rgba(0,48,135,0.60) 96%, rgba(0,48,135,1) 100%)",
+          "white-to-purple": "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(172,152,203,0.22) 88%, rgba(172,152,203,0.60) 96%, rgba(172,152,203,1) 100%)",
+          "white-to-green": "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,127,59,0.20) 88%, rgba(0,127,59,0.60) 96%, rgba(0,127,59,1) 100%)",
+          "white-to-grey": "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(76,98,114,0.20) 88%, rgba(76,98,114,0.60) 96%, rgba(76,98,114,1) 100%)",
           "light-blue": "linear-gradient(90deg, #005eb8, #60b2e2)",
           "light-blue-vertical": "linear-gradient(180deg, #005eb8, #60b2e2)",
           "light-blue-diagonal": "linear-gradient(135deg, #005eb8, #60b2e2)",
@@ -2326,7 +2330,6 @@ var require_tokens = __commonJS({
           "light-blue-from-top-right": "linear-gradient(to bottom left, #005eb8, #60b2e2)",
           "light-blue-from-bottom-left": "linear-gradient(to top right, #005eb8, #60b2e2)",
           "light-blue-from-bottom-right": "linear-gradient(to top left, #005eb8, #60b2e2)",
-          "white-to-dark-blue": "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,48,135,0.20) 88%, rgba(0,48,135,0.60) 96%, rgba(0,48,135,1) 100%)",
           "dark-blue": "linear-gradient(90deg, #005eb8, #003087)",
           "dark-blue-vertical": "linear-gradient(180deg, #005eb8, #003087)",
           "dark-blue-diagonal": "linear-gradient(135deg, #005eb8, #003087)",
@@ -2335,7 +2338,6 @@ var require_tokens = __commonJS({
           "dark-blue-from-top-right": "linear-gradient(to bottom left, #005eb8, #003087)",
           "dark-blue-from-bottom-left": "linear-gradient(to top right, #005eb8, #003087)",
           "dark-blue-from-bottom-right": "linear-gradient(to top left, #005eb8, #003087)",
-          "white-to-purple": "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(172,152,203,0.22) 88%, rgba(172,152,203,0.60) 96%, rgba(172,152,203,1) 100%)",
           purple: "linear-gradient(90deg, #ac98cb, #d6cce3)",
           "purple-vertical": "linear-gradient(180deg, #ac98cb, #d6cce3)",
           "purple-diagonal": "linear-gradient(135deg, #ac98cb, #d6cce3)",
@@ -2344,7 +2346,6 @@ var require_tokens = __commonJS({
           "purple-from-top-right": "linear-gradient(to bottom left, #ac98cb, #d6cce3)",
           "purple-from-bottom-left": "linear-gradient(to top right, #ac98cb, #d6cce3)",
           "purple-from-bottom-right": "linear-gradient(to top left, #ac98cb, #d6cce3)",
-          "white-to-green": "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,127,59,0.20) 88%, rgba(0,127,59,0.60) 96%, rgba(0,127,59,1) 100%)",
           green: "linear-gradient(90deg, #007f3b, #63a691)",
           "green-vertical": "linear-gradient(180deg, #007f3b, #63a691)",
           "green-diagonal": "linear-gradient(135deg, #007f3b, #63a691)",
@@ -2353,7 +2354,6 @@ var require_tokens = __commonJS({
           "green-from-top-right": "linear-gradient(to bottom left, #007f3b, #63a691)",
           "green-from-bottom-left": "linear-gradient(to top right, #007f3b, #63a691)",
           "green-from-bottom-right": "linear-gradient(to top left, #007f3b, #63a691)",
-          "white-to-grey": "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(76,98,114,0.20) 88%, rgba(76,98,114,0.60) 96%, rgba(76,98,114,1) 100%)",
           grey: "linear-gradient(90deg, #4c6272, #768692)",
           "grey-vertical": "linear-gradient(180deg, #4c6272, #768692)",
           "grey-diagonal": "linear-gradient(135deg, #4c6272, #768692)",
@@ -2895,6 +2895,26 @@ var require_tokens = __commonJS({
             print: "1.15"
           },
           base: "24px"
+        },
+        "size-clamp": {
+          small: "clamp(0.8125rem, 0.25vw + 0.75rem, 0.9rem)",
+          body: "clamp(1rem, 0.6vw + 0.9rem, 1.1875rem)",
+          lead: "clamp(1.0625rem, 0.9vw + 0.9rem, 1.375rem)",
+          display: "clamp(1.5rem, 1.8vw + 1.1rem, 2.25rem)",
+          hero: "clamp(2rem, 2.4vw + 1.2rem, 3rem)"
+        },
+        "letter-spacing": {
+          tight: "-0.005em",
+          normal: "0",
+          wide: "+0.02em",
+          caps: "+0.06em"
+        },
+        "line-height-unitless": {
+          small: "1.45",
+          body: "1.5",
+          lead: "1.45",
+          display: "1.2",
+          hero: "1.15"
         }
       }
     };
